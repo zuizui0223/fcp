@@ -6,11 +6,11 @@ on:
       start_chunk:
         description: "Zero-based chunk index"
         required: true
-        default: "15"
+        default: "0"
       chunk_count:
         description: "Number of chunks in this wave"
         required: true
-        default: "10"
+        default: "1"
       chunk_size:
         description: "Species per chunk"
         required: true
@@ -28,6 +28,7 @@ on:
     paths:
       - ".github/workflows/mass-screen-wave.yml"
       - "merge_mass_screen_batches.py"
+      - "build_angiosperm_census.py"
 
 permissions:
   contents: write
@@ -56,12 +57,12 @@ jobs:
             QUERIES='${{ inputs.queries_per_species }}'
             PARALLEL='${{ inputs.max_parallel }}'
           else
-            # Continue after successful chunks 0-4.
-            START=5
-            COUNT=10
+            # Census repair smoke test: rerun chunk 0 only before larger waves.
+            START=0
+            COUNT=1
             SIZE=1000
             QUERIES=6
-            PARALLEL=2
+            PARALLEL=1
           fi
           END=$((START + COUNT - 1))
           echo "start=$START" >> "$GITHUB_OUTPUT"
@@ -94,10 +95,24 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Ensure census exists
+      - name: Build and validate angiosperm census
+        shell: bash
         run: |
-          if [[ ! -s data/angiosperm_census.csv ]]; then
-            python build_angiosperm_census.py --out data/angiosperm_census.csv
+          ROWS=0
+          if [[ -f data/angiosperm_census.csv ]]; then
+            ROWS=$(( $(wc -l < data/angiosperm_census.csv) - 1 ))
+          fi
+          if (( ROWS < 10000 )); then
+            rm -f data/angiosperm_census.csv
+            python build_angiosperm_census.py \
+              --out data/angiosperm_census.csv \
+              --min-records 10000
+          fi
+          ROWS=$(( $(wc -l < data/angiosperm_census.csv) - 1 ))
+          echo "Census data rows: $ROWS"
+          if (( ROWS < 10000 )); then
+            echo "Census validation failed: expected at least 10000 rows" >&2
+            exit 1
           fi
       - id: chunkmeta
         name: Define chunk paths
@@ -119,6 +134,8 @@ jobs:
             --limit "${{ needs.prepare.outputs.chunk_size }}" \
             --queries-per-species "${{ needs.prepare.outputs.queries_per_species }}" \
             --sleep 0.05
+          ROWS=$(( $(wc -l < "${{ steps.chunkmeta.outputs.file }}") - 1 ))
+          echo "Screen hit rows: $ROWS"
       - name: Upload chunk
         uses: actions/upload-artifact@v4
         with:
