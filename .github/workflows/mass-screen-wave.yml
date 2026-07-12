@@ -6,7 +6,7 @@ on:
       start_chunk:
         description: "Zero-based chunk index"
         required: true
-        default: "1"
+        default: "15"
       chunk_count:
         description: "Number of chunks in this wave"
         required: true
@@ -56,9 +56,9 @@ jobs:
             QUERIES='${{ inputs.queries_per_species }}'
             PARALLEL='${{ inputs.max_parallel }}'
           else
-            # Automatic smoke wave after workflow changes. Chunk 0 was already run.
-            START=1
-            COUNT=4
+            # Continue after successful chunks 0-4.
+            START=5
+            COUNT=10
             SIZE=1000
             QUERIES=6
             PARALLEL=2
