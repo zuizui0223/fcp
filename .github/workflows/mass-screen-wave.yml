@@ -74,7 +74,7 @@ jobs:
         shell: bash
         run: |
           python - <<'PY' >> "$GITHUB_OUTPUT"
-          import json, os
+          import json
           start = int('${{ steps.params.outputs.start }}')
           count = int('${{ steps.params.outputs.count }}')
           print('chunks=' + json.dumps(list(range(start, start + count)), separators=(',', ':')))
@@ -99,25 +99,31 @@ jobs:
           if [[ ! -s data/angiosperm_census.csv ]]; then
             python build_angiosperm_census.py --out data/angiosperm_census.csv
           fi
-      - name: Screen chunk
+      - id: chunkmeta
+        name: Define chunk paths
         shell: bash
         run: |
           CHUNK=${{ matrix.chunk }}
           SIZE=${{ needs.prepare.outputs.chunk_size }}
           START=$((CHUNK * SIZE))
           printf -v ID '%06d' "$CHUNK"
+          echo "start=$START" >> "$GITHUB_OUTPUT"
+          echo "file=data/mass_screen_hits_chunk_${ID}.csv" >> "$GITHUB_OUTPUT"
+      - name: Screen chunk
+        shell: bash
+        run: |
           python mass_literature_screen.py \
             --census data/angiosperm_census.csv \
-            --out "data/mass_screen_hits_batch_${ID}.csv" \
-            --start "$START" \
-            --limit "$SIZE" \
+            --out "${{ steps.chunkmeta.outputs.file }}" \
+            --start "${{ steps.chunkmeta.outputs.start }}" \
+            --limit "${{ needs.prepare.outputs.chunk_size }}" \
             --queries-per-species "${{ needs.prepare.outputs.queries_per_species }}" \
             --sleep 0.05
       - name: Upload chunk
         uses: actions/upload-artifact@v4
         with:
           name: mass-screen-chunk-${{ matrix.chunk }}
-          path: data/mass_screen_hits_batch_*.csv
+          path: ${{ steps.chunkmeta.outputs.file }}
           if-no-files-found: error
           retention-days: 30
 
@@ -140,6 +146,7 @@ jobs:
           LABEL='${{ needs.prepare.outputs.wave_label }}'
           python merge_mass_screen_batches.py \
             --input-dir artifacts \
+            --glob '**/mass_screen_hits_chunk_*.csv' \
             --out "data/mass_screen_hits_${LABEL}.csv"
           python rank_mass_screen_hits.py \
             --hits "data/mass_screen_hits_${LABEL}.csv" \
