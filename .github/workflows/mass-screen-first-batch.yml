@@ -1,0 +1,58 @@
+name: Mass screen first 1000 angiosperms
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "build_angiosperm_census.py"
+      - "mass_literature_screen.py"
+      - "rank_mass_screen_hits.py"
+      - ".github/workflows/mass-screen-first-batch.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build angiosperm census
+        run: |
+          python build_angiosperm_census.py --out data/angiosperm_census.csv
+
+      - name: Screen first 1000 species
+        run: |
+          python mass_literature_screen.py \
+            --census data/angiosperm_census.csv \
+            --out data/mass_screen_hits_batch_000.csv \
+            --start 0 \
+            --limit 1000 \
+            --queries-per-species 6 \
+            --sleep 0.05
+
+      - name: Rank candidate species
+        run: |
+          python rank_mass_screen_hits.py \
+            --hits data/mass_screen_hits_batch_000.csv \
+            --out data/mass_screen_species_ranked_batch_000.csv \
+            --top 1000
+
+      - name: Commit generated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/angiosperm_census.csv data/mass_screen_hits_batch_000.csv data/mass_screen_species_ranked_batch_000.csv
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit"
+          else
+            git commit -m "generate first 1000-species mass screening batch"
+            git push
+          fi
