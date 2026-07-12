@@ -33,7 +33,7 @@ See [`THEORY.md`](THEORY.md).
 
 ## Stage 2 — spatial heterogeneity plus gene flow
 
-For two equal patches with opposite local selection contrasts `+h` and `-h`, coupled by symmetric migration `m`, the dominant rare-invasion exponents yield the exact condition
+For two equal patches with opposite local selection contrasts `+h` and `-h`, coupled by symmetric migration `m`, the exact condition is
 
 \[
 \boxed{
@@ -49,13 +49,45 @@ or
 H_{\mathrm{eff}}=\sqrt{h^2+m^2}-m.
 \]
 
-This gives a compact theoretical result:
+This yields the comparative prediction that environmental heterogeneity should be associated with more floral-colour polymorphism, but that association should weaken as effective gene flow or connectivity increases.
 
-> Spatial heterogeneity promotes polymorphism, but its contribution is attenuated by gene flow.
+See [`THEORY_2PATCH.md`](THEORY_2PATCH.md).
 
-The immediate comparative prediction is therefore an interaction: environmental heterogeneity should be associated with more floral-colour polymorphism, but that association should weaken as connectivity or gene flow increases.
+## Stage 3 — arbitrary landscape networks
 
-See [`THEORY_2PATCH.md`](THEORY_2PATCH.md) and [`META_ANALYSIS_PLAN.md`](META_ANALYSIS_PLAN.md).
+For `n` patches connected by an undirected weighted migration network with graph Laplacian `L`, let `h` be the vector of patch-specific directional selection deviations. Define
+
+\[
+H_A=\lambda_{\max}[\operatorname{diag}(h)-mL],
+\]
+
+\[
+H_B=\lambda_{\max}[\operatorname{diag}(-h)-mL].
+\]
+
+Compress these into
+
+\[
+H_{\mathrm{bal}}=\frac{H_A+H_B}{2},
+\qquad
+D_{\mathrm{asym}}=\frac{H_A-H_B}{2}.
+\]
+
+Then protected polymorphism exists exactly when
+
+\[
+\boxed{
+ b+H_{\mathrm{bal}}
+ >
+ \left|d+D_{\mathrm{asym}}\right|
+}.
+\]
+
+This is the current general phase boundary.
+
+The result shows that environmental variance alone is not sufficient: the same set of selective environments can have different evolutionary effects depending on how they are arranged on the connectivity network.
+
+See [`THEORY_MULTIPATCH.md`](THEORY_MULTIPATCH.md) and [`META_ANALYSIS_PLAN.md`](META_ANALYSIS_PLAN.md).
 
 ## Run
 
@@ -70,12 +102,15 @@ python scan_phase_grid.py --n 101 --out results/phase_grid.csv
 
 ```text
 model.py                    # one-population analytical classifier and simulation
-two_patch.py                # spatial heterogeneity + gene-flow extension
+two_patch.py                # exact two-patch spatial extension
+multi_patch.py              # arbitrary network spectral phase boundary
 scan_phase_grid.py          # one-population parameter-grid generator
 tests/test_model.py         # stage-1 analytical/numerical tests
 tests/test_two_patch.py     # stage-2 spatial phase-boundary tests
+tests/test_multi_patch.py   # stage-3 spectral-reduction tests
 THEORY.md                   # minimal derivation
 THEORY_2PATCH.md            # exact two-patch invasion analysis
+THEORY_MULTIPATCH.md        # arbitrary landscape network derivation
 META_ANALYSIS_PLAN.md       # theory-guided comparative design
 ```
 
@@ -88,9 +123,8 @@ META_ANALYSIS_PLAN.md       # theory-guided comparative design
 
 ## Next theoretical targets
 
+- temporal environmental switching and a space-time phase boundary;
 - unequal patch sizes and asymmetric migration;
-- many-patch / network formulation and a spectral phase boundary;
-- temporal environmental switching;
 - finite-population origin, invasion, persistence, and loss;
 - imperfect observation of polymorphism.
 
