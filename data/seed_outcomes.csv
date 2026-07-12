@@ -1,0 +1,5 @@
+species,outcome_class,within_population_coexistence,among_population_differentiation,evidence_scope,source_year,source_doi,confidence,notes
+Dactylorhiza sambucina,local_coexistence,yes,not_coded,primary_population_study,2001,10.1073/pnas.111162598,high,"Yellow and purple floral morphs coexist within natural populations; study tests frequency-dependent reproductive success."
+Silene littorea,local_coexistence,yes,not_coded,primary_species_study,2016,10.3389/fpls.2016.00204,high,"Light-pink, dark-pink and white floral morphs are documented within populations used for biochemical and transcriptomic comparison."
+Gymnadenia rhellicani,local_coexistence,yes,not_coded,primary_population_genetic_study,2019,10.1038/s41467-018-07936-x,high,"Multiple floral colour phenotypes segregate in natural populations and are analysed as an emerging polymorphism."
+Linanthus parryae,mixed,yes,yes,primary_spatial_population_study,2007,10.1111/j.1558-5646.2007.00219.x,high,"Species contains strongly differentiated populations, including predominantly single-colour populations and populations with both blue and white morphs at intermediate frequencies."
