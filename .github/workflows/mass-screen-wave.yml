@@ -1,0 +1,161 @@
+name: Mass screen angiosperm wave
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_chunk:
+        description: "Zero-based chunk index"
+        required: true
+        default: "1"
+      chunk_count:
+        description: "Number of chunks in this wave"
+        required: true
+        default: "10"
+      chunk_size:
+        description: "Species per chunk"
+        required: true
+        default: "1000"
+      queries_per_species:
+        description: "Search phrases per species"
+        required: true
+        default: "6"
+      max_parallel:
+        description: "Maximum concurrent chunk jobs"
+        required: true
+        default: "2"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/mass-screen-wave.yml"
+      - "merge_mass_screen_batches.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mass-screen-wave
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      chunks: ${{ steps.matrix.outputs.chunks }}
+      chunk_size: ${{ steps.params.outputs.chunk_size }}
+      queries_per_species: ${{ steps.params.outputs.queries_per_species }}
+      wave_label: ${{ steps.params.outputs.wave_label }}
+      max_parallel: ${{ steps.params.outputs.max_parallel }}
+    steps:
+      - id: params
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            START='${{ inputs.start_chunk }}'
+            COUNT='${{ inputs.chunk_count }}'
+            SIZE='${{ inputs.chunk_size }}'
+            QUERIES='${{ inputs.queries_per_species }}'
+            PARALLEL='${{ inputs.max_parallel }}'
+          else
+            # Automatic smoke wave after workflow changes. Chunk 0 was already run.
+            START=1
+            COUNT=4
+            SIZE=1000
+            QUERIES=6
+            PARALLEL=2
+          fi
+          END=$((START + COUNT - 1))
+          echo "start=$START" >> "$GITHUB_OUTPUT"
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+          echo "chunk_size=$SIZE" >> "$GITHUB_OUTPUT"
+          echo "queries_per_species=$QUERIES" >> "$GITHUB_OUTPUT"
+          echo "max_parallel=$PARALLEL" >> "$GITHUB_OUTPUT"
+          printf 'wave_label=chunks_%06d_%06d\n' "$START" "$END" >> "$GITHUB_OUTPUT"
+      - id: matrix
+        shell: bash
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          start = int('${{ steps.params.outputs.start }}')
+          count = int('${{ steps.params.outputs.count }}')
+          print('chunks=' + json.dumps(list(range(start, start + count)), separators=(',', ':')))
+          PY
+
+  screen:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      max-parallel: ${{ fromJSON(needs.prepare.outputs.max_parallel) }}
+      matrix:
+        chunk: ${{ fromJSON(needs.prepare.outputs.chunks) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Ensure census exists
+        run: |
+          if [[ ! -s data/angiosperm_census.csv ]]; then
+            python build_angiosperm_census.py --out data/angiosperm_census.csv
+          fi
+      - name: Screen chunk
+        shell: bash
+        run: |
+          CHUNK=${{ matrix.chunk }}
+          SIZE=${{ needs.prepare.outputs.chunk_size }}
+          START=$((CHUNK * SIZE))
+          printf -v ID '%06d' "$CHUNK"
+          python mass_literature_screen.py \
+            --census data/angiosperm_census.csv \
+            --out "data/mass_screen_hits_batch_${ID}.csv" \
+            --start "$START" \
+            --limit "$SIZE" \
+            --queries-per-species "${{ needs.prepare.outputs.queries_per_species }}" \
+            --sleep 0.05
+      - name: Upload chunk
+        uses: actions/upload-artifact@v4
+        with:
+          name: mass-screen-chunk-${{ matrix.chunk }}
+          path: data/mass_screen_hits_batch_*.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    needs: [prepare, screen]
+    if: ${{ always() && needs.screen.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: mass-screen-chunk-*
+          path: artifacts
+      - name: Merge and rank wave
+        shell: bash
+        run: |
+          LABEL='${{ needs.prepare.outputs.wave_label }}'
+          python merge_mass_screen_batches.py \
+            --input-dir artifacts \
+            --out "data/mass_screen_hits_${LABEL}.csv"
+          python rank_mass_screen_hits.py \
+            --hits "data/mass_screen_hits_${LABEL}.csv" \
+            --out "data/mass_screen_species_ranked_${LABEL}.csv" \
+            --top 100000
+      - name: Commit wave outputs
+        shell: bash
+        run: |
+          LABEL='${{ needs.prepare.outputs.wave_label }}'
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "data/mass_screen_hits_${LABEL}.csv" "data/mass_screen_species_ranked_${LABEL}.csv"
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit"
+          else
+            git commit -m "[skip ci] add mass-screen ${LABEL}"
+            git pull --rebase origin main
+            git push
+          fi
