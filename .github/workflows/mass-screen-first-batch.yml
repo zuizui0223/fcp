@@ -4,14 +4,13 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths:
-      - "build_angiosperm_census.py"
-      - "mass_literature_screen.py"
-      - "rank_mass_screen_hits.py"
-      - ".github/workflows/mass-screen-first-batch.yml"
 
 permissions:
   contents: write
+
+concurrency:
+  group: mass-screen-first-batch
+  cancel-in-progress: false
 
 jobs:
   screen:
@@ -53,6 +52,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated changes to commit"
           else
-            git commit -m "generate first 1000-species mass screening batch"
+            git commit -m "generate first 1000-species mass screening batch [skip ci]"
             git push
           fi
