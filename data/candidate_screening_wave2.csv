@@ -1,0 +1,105 @@
+species,family,broad_clade,candidate_reason,evidence_status,priority,pollination_mode_to_verify,outcome_to_verify,source_hint
+Campanula punctata,Campanulaceae,eudicot,natural flower-colour variation candidate,screening,high,biotic_mixed,unknown,screen population-level literature
+Campanula rotundifolia,Campanulaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen blue-white morph literature
+Campanula glomerata,Campanulaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen population studies
+Campanula persicifolia,Campanulaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,exclude cultivar-only variation
+Lobelia siphilitica,Campanulaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen natural morph frequencies
+Lobelia cardinalis,Campanulaceae,eudicot,natural flower-colour variation candidate,screening,medium,bird_or_mixed,unknown,screen intraspecific colour variation
+Lobelia inflata,Campanulaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen discrete morph evidence
+Gentiana pneumonanthe,Gentianaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen blue-white variants
+Gentiana verna,Gentianaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen natural colour morphs
+Gentiana asclepiadea,Gentianaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen population evidence
+Swertia perennis,Gentianaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen discrete morphs
+Eustoma exaltatum,Gentianaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,exclude cultivar-only variation
+Ipomopsis aggregata,Polemoniaceae,eudicot,natural flower-colour variation candidate,screening,medium,bird_or_mixed,unknown,screen intraspecific colour variation
+Ipomopsis tenuituba,Polemoniaceae,eudicot,natural flower-colour variation candidate,screening,medium,moth_or_mixed,unknown,screen population-level morphs
+Polemonium viscosum,Polemoniaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen pollinator-mediated colour variation
+Polemonium caeruleum,Polemoniaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,exclude horticultural variants
+Penstemon speciosus,Plantaginaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen discrete morphs
+Penstemon strictus,Plantaginaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen population evidence
+Penstemon hartwegii,Plantaginaceae,eudicot,natural flower-colour variation candidate,screening,low,bird_or_mixed,unknown,exclude cultivated colour forms
+Digitalis lanata,Plantaginaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen natural morphs
+Veronica chamaedrys,Plantaginaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen blue-white variants
+Veronica officinalis,Plantaginaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen discrete colour morphs
+Salvia nemorosa,Lamiaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen wild morphs
+Salvia officinalis,Lamiaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,exclude cultivar-only variation
+Salvia coccinea,Lamiaceae,eudicot,natural flower-colour variation candidate,screening,medium,bird_or_insect,unknown,screen natural colour morphs
+Salvia greggii,Lamiaceae,eudicot,natural flower-colour variation candidate,screening,medium,bird_or_insect,unknown,screen wild populations
+Lamium purpureum,Lamiaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen discrete morphs
+Ajuga reptans,Lamiaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen blue-pink-white variation
+Monarda fistulosa,Lamiaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen population structure
+Aquilegia canadensis,Ranunculaceae,eudicot,natural flower-colour variation candidate,screening,medium,bird_or_mixed,unknown,screen intraspecific morphs
+Aquilegia vulgaris,Ranunculaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,exclude cultivated forms
+Delphinium barbeyi,Ranunculaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen discrete natural morphs
+Delphinium glaucum,Ranunculaceae,eudicot,natural flower-colour variation candidate,screening,low,biotic_mixed,unknown,screen population-level variation
+Anemone patens,Ranunculaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen white-purple variation
+Anemone nemorosa,Ranunculaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen natural colour variants
+Pulsatilla vulgaris,Ranunculaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,exclude horticultural variants
+Clematis pitcheri,Ranunculaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen population evidence
+Hibiscus trionum,Malvaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen natural morphs
+Hibiscus arnottianus,Malvaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen geographic colour variation
+Hibiscus kokio,Malvaceae,eudicot,natural flower-colour variation candidate,screening,medium,bird_or_mixed,unknown,screen intraspecific morphs
+Sidalcea malviflora,Malvaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen population studies
+Abutilon theophrasti,Malvaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen discrete morph evidence
+Rosa gallica,Rosaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,restrict to wild populations
+Rosa rugosa,Rosaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen wild white-pink morphs
+Rosa spinosissima,Rosaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen natural variants
+Potentilla fruticosa,Rosaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,exclude horticultural forms
+Geum rivale,Rosaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen intraspecific floral colour variation
+Prunus spinosa,Rosaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen recurrent colour morphs
+Kalmia latifolia,Ericaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen wild colour morphs
+Rhododendron ferrugineum,Ericaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen natural colour variation
+Rhododendron groenlandicum,Ericaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen population evidence
+Vaccinium vitis-idaea,Ericaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen discrete colour morphs
+Erica cinerea,Ericaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen natural flower-colour variation
+Erica tetralix,Ericaceae,eudicot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen population-level evidence
+Catharanthus roseus,Apocynaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,restrict to wild populations
+Nerium oleander,Apocynaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,exclude cultivar-only colour diversity
+Asclepias tuberosa,Apocynaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen natural colour morphs
+Asclepias syriaca,Apocynaceae,eudicot,natural flower-colour variation candidate,screening,low,biotic_mixed,unknown,screen discrete variation
+Asclepias curassavica,Apocynaceae,eudicot,natural flower-colour variation candidate,screening,low,biotic_mixed,unknown,exclude horticultural forms
+Hoya carnosa,Apocynaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,screen wild variation
+Campsis radicans,Bignoniaceae,eudicot,natural flower-colour variation candidate,screening,medium,bird_or_insect,unknown,screen wild colour morphs
+Jacaranda mimosifolia,Bignoniaceae,eudicot,natural flower-colour variation candidate,screening,low,insect,unknown,exclude cultivar-only variation
+Tabebuia rosea,Bignoniaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen natural morphs
+Handroanthus impetiginosus,Bignoniaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen population-level variation
+Passiflora caerulea,Passifloraceae,eudicot,natural flower-colour variation candidate,screening,low,biotic_mixed,unknown,screen natural discrete morphs
+Passiflora incarnata,Passifloraceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen population evidence
+Passiflora foetida,Passifloraceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen intraspecific variation
+Opuntia humifusa,Cactaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen yellow-orange-red variation
+Opuntia engelmannii,Cactaceae,eudicot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen natural morphs
+Echinocereus triglochidiatus,Cactaceae,eudicot,natural flower-colour variation candidate,screening,medium,bird_or_insect,unknown,screen intraspecific morphs
+Selenicereus grandiflorus,Cactaceae,eudicot,natural flower-colour variation candidate,screening,low,moth_or_bat,unknown,screen discrete colour variants
+Tillandsia stricta,Bromeliaceae,monocot,natural flower-colour variation candidate,screening,medium,bird_or_insect,unknown,screen wild morphs
+Tillandsia cyanea,Bromeliaceae,monocot,natural flower-colour variation candidate,screening,low,bird_or_insect,unknown,exclude cultivated forms
+Puya alpestris,Bromeliaceae,monocot,natural flower-colour variation candidate,screening,medium,bird_or_insect,unknown,screen population variation
+Aechmea fasciata,Bromeliaceae,monocot,natural flower-colour variation candidate,screening,low,bird_or_insect,unknown,exclude cultivar-only variation
+Heliconia bihai,Heliconiaceae,monocot,natural floral display colour variation candidate,screening,medium,bird,unknown,screen bract versus flower colour coding
+Heliconia rostrata,Heliconiaceae,monocot,natural floral display colour variation candidate,screening,medium,bird,unknown,screen bract colour polymorphism separately
+Alpinia purpurata,Zingiberaceae,monocot,natural floral display colour variation candidate,screening,low,bird_or_insect,unknown,exclude cultivated forms
+Hedychium coronarium,Zingiberaceae,monocot,natural flower-colour variation candidate,screening,low,moth_or_insect,unknown,screen natural discrete morphs
+Costus woodsonii,Costaceae,monocot,natural floral display colour variation candidate,screening,medium,bird_or_insect,unknown,screen bract versus corolla colour
+Gladiolus dalenii,Iridaceae,monocot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen wild morphs
+Gladiolus tristis,Iridaceae,monocot,natural flower-colour variation candidate,screening,medium,moth,unknown,screen natural colour variants
+Moraea villosa,Iridaceae,monocot,natural flower-colour variation candidate,screening,high,insect,unknown,screen discrete natural morphs
+Moraea sisyrinchium,Iridaceae,monocot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen population variation
+Crocus vernus,Iridaceae,monocot,natural flower-colour variation candidate,screening,high,insect,unknown,screen white-purple morph structure
+Crocus sieberi,Iridaceae,monocot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen natural colour forms
+Narcissus triandrus,Amaryllidaceae,monocot,natural flower-colour variation candidate,screening,medium,biotic_mixed,unknown,screen discrete morphs
+Narcissus tazetta,Amaryllidaceae,monocot,natural flower-colour variation candidate,screening,low,biotic_mixed,unknown,screen wild variation
+Narcissus bulbocodium,Amaryllidaceae,monocot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen population colour variation
+Allium schoenoprasum,Amaryllidaceae,monocot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen pink-white morphs
+Allium ursinum,Amaryllidaceae,monocot,natural flower-colour variation candidate,screening,low,insect,unknown,screen recurrent colour variants
+Pontederia cordata,Pontederiaceae,monocot,natural flower-colour variation candidate,screening,medium,insect,unknown,screen population-level morphs
+Eichhornia crassipes,Pontederiaceae,monocot,natural flower-colour variation candidate,screening,low,insect,unknown,exclude environmental and cultivated variation
+Nymphaea odorata,Nymphaeaceae,basal_angiosperm,natural flower-colour variation candidate,screening,medium,biotic_or_mixed,unknown,screen white-pink natural morphs
+Nymphaea ampla,Nymphaeaceae,basal_angiosperm,natural flower-colour variation candidate,screening,medium,biotic_or_mixed,unknown,screen population evidence
+Nymphaea caerulea,Nymphaeaceae,basal_angiosperm,natural flower-colour variation candidate,screening,low,biotic_or_mixed,unknown,exclude cultivated forms
+Magnolia kobus,Magnoliaceae,magnoliid,natural flower-colour variation candidate,screening,low,beetle_or_insect,unknown,screen recurrent colour morphs
+Magnolia liliiflora,Magnoliaceae,magnoliid,natural flower-colour variation candidate,screening,low,beetle_or_insect,unknown,exclude cultivated forms
+Aristolochia littoralis,Aristolochiaceae,magnoliid,natural floral colour variation candidate,screening,low,fly,unknown,screen wild variation
+Aristolochia grandiflora,Aristolochiaceae,magnoliid,natural floral colour variation candidate,screening,medium,fly,unknown,screen population-level morphs
+Protea cynaroides,Proteaceae,eudicot,natural floral display colour variation candidate,screening,medium,bird_or_insect,unknown,screen wild colour forms
+Protea repens,Proteaceae,eudicot,natural floral display colour variation candidate,screening,medium,bird_or_insect,unknown,screen geographic and local morphs
+Banksia spinulosa,Proteaceae,eudicot,natural floral display colour variation candidate,screening,medium,bird_or_insect,unknown,screen natural inflorescence colour variation
+Grevillea robusta,Proteaceae,eudicot,natural flower-colour variation candidate,screening,low,bird_or_insect,unknown,screen discrete wild morphs
