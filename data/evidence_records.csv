@@ -1,0 +1,5 @@
+gbif_key,canonical_name,pollination_mode,display_opportunity,outcome_class,evidence_status,sampling_effort,source_doi,source_url,notes
+,Dactylorhiza sambucina,insect,showy_perianth,local_coexistence,verified,primary_population_study,10.1073/pnas.111162598,,Yellow and purple morphs coexist within natural populations.
+,Gymnadenia rhellicani,insect,showy_perianth,local_coexistence,verified,primary_population_genetic_study,10.1038/s41467-018-07936-x,,Multiple floral colour phenotypes segregate in natural populations.
+,Silene littorea,insect,showy_perianth,local_coexistence,verified,primary_species_study,10.3389/fpls.2016.00204,,Multiple colour morphs are documented within natural populations.
+,Linanthus parryae,insect,showy_perianth,mixed,verified,primary_spatial_population_study,10.1111/j.1558-5646.2007.00219.x,,Strongly differentiated populations coexist with populations containing both morphs.
