@@ -103,6 +103,41 @@ This makes sampling effort and ascertainment part of the model rather than nuisa
 
 See [`finite_population.py`](finite_population.py), [`THEORY_SYNTHESIS.md`](THEORY_SYNTHESIS.md), and [`META_ANALYSIS_PROTOCOL.md`](META_ANALYSIS_PROTOCOL.md).
 
+## Stage 6 — opportunity is not maintenance; persistence is not local coexistence
+
+Two interpretation rules are now explicit.
+
+### Range size is an opportunity axis
+
+Large geographic range can increase environmental heterogeneity, mutation supply, population number, persistence, and sampling effort. But range size is not itself a balancing term in the phase boundary. It should therefore be decomposed through mediating variables rather than interpreted as a direct maintenance mechanism.
+
+### Species-wide persistence is not local coexistence
+
+Mutual invasibility guarantees persistence at the modeled population or metapopulation scale. It does **not** guarantee that both morphs are mixed within each local population.
+
+Realized spatial outcomes are separated into:
+
+- `monomorphic`
+- `geographic_mosaic`
+- `mixed_spatial_polymorphism`
+- `local_coexistence`
+
+This distinction is implemented in [`outcome_structure.py`](outcome_structure.py). See [`THEORY_ROBUSTNESS.md`](THEORY_ROBUSTNESS.md).
+
+The full conceptual chain is therefore
+
+\[
+\text{opportunity}
+\rightarrow
+\text{origin}
+\rightarrow
+\text{invasion/persistence}
+\rightarrow
+\text{spatial organization}
+\rightarrow
+\text{detection}.
+\]
+
 ## Comparative predictions
 
 The theory-guided meta-analysis should test, rather than freely search for, the following broad patterns:
@@ -110,8 +145,9 @@ The theory-guided meta-analysis should test, rather than freely search for, the 
 1. spatial environmental heterogeneity is associated with more floral-colour polymorphism after observation effort is controlled;
 2. that association depends on connectivity/dispersal structure;
 3. temporal variability alone has no universal positive effect and should matter most when coupled to buffering, storage-like life histories, or spatial structure;
-4. range size mixes ecological heterogeneity, origin opportunity, and detection opportunity and should be decomposed rather than interpreted as a single mechanism;
-5. sampling effort must predict recorded polymorphism and should be modeled explicitly.
+4. range size mixes ecological heterogeneity, origin opportunity, persistence, and detection opportunity and should be decomposed rather than interpreted as a single mechanism;
+5. species-wide colour variation and within-population coexistence should be analyzed as distinct outcomes;
+6. sampling effort must predict recorded polymorphism and should be modeled explicitly.
 
 ## Run
 
@@ -126,11 +162,12 @@ python scan_phase_grid.py --n 101 --out results/phase_grid.csv
 
 ```text
 model.py                              # one-population analytical classifier
- two_patch.py                         # exact two-patch spatial extension
+two_patch.py                          # exact two-patch spatial extension
 multi_patch.py                        # arbitrary-network spectral boundary
 temporal.py                           # temporal forcing result
 spatiotemporal.py                     # Lyapunov/Floquet numerical framework
 finite_population.py                  # origin, establishment, and detection bridge
+outcome_structure.py                  # mosaic versus local coexistence decomposition
 scan_phase_grid.py                    # phase-grid generator
 tests/                                # analytical and numerical consistency tests
 THEORY.md                             # one-population derivation
@@ -138,6 +175,7 @@ THEORY_2PATCH.md                      # two-patch derivation
 THEORY_MULTIPATCH.md                  # arbitrary network derivation
 THEORY_TEMPORAL.md                    # temporal/spatiotemporal derivation
 THEORY_SYNTHESIS.md                   # recovered claims and limits
+THEORY_ROBUSTNESS.md                  # range opportunity and spatial outcome distinctions
 META_ANALYSIS_PLAN.md                 # initial comparative design
 META_ANALYSIS_PROTOCOL.md             # operational coding and model protocol
 ```
@@ -146,4 +184,4 @@ META_ANALYSIS_PROTOCOL.md             # operational coding and model protocol
 
 The broad theoretical scaffold is now recovered far enough to constrain the empirical synthesis. The next research step is not to add mechanisms indefinitely. It is to build the comparative dataset, test the preregistered pattern, and return to theory only where the data expose a specific failure or non-identifiability.
 
-The main novelty should not be claimed as a new universal theory of polymorphism; general spatiotemporal polymorphism theory already exists. The safer contribution is a flower-colour-specific phase framework that connects reciprocal invasibility to cross-species occurrence while explicitly separating origin, persistence, and observation.
+The main novelty should not be claimed as a new universal theory of polymorphism; general spatiotemporal polymorphism theory already exists. The safer contribution is a flower-colour-specific phase framework that connects reciprocal invasibility to cross-species occurrence while explicitly separating opportunity, origin, persistence, spatial organization, and observation.
