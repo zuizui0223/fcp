@@ -2,8 +2,6 @@ name: Mass screen first 1000 angiosperms
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
 
 permissions:
   contents: write
@@ -53,5 +51,6 @@ jobs:
             echo "No generated changes to commit"
           else
             git commit -m "generate first 1000-species mass screening batch [skip ci]"
+            git pull --rebase origin main
             git push
           fi
