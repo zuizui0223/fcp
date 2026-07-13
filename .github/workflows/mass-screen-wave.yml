@@ -57,7 +57,7 @@ jobs:
             QUERIES='${{ inputs.queries_per_species }}'
             PARALLEL='${{ inputs.max_parallel }}'
           else
-            # Census repair smoke test: rerun chunk 0 only before larger waves.
+            # Architecture smoke test: one chunk only.
             START=0
             COUNT=1
             SIZE=1000
@@ -81,8 +81,38 @@ jobs:
           print('chunks=' + json.dumps(list(range(start, start + count)), separators=(',', ':')))
           PY
 
-  screen:
+  census:
     needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build and validate angiosperm census once
+        shell: bash
+        run: |
+          rm -f data/angiosperm_census.csv
+          python build_angiosperm_census.py \
+            --out data/angiosperm_census.csv \
+            --min-records 10000
+          ROWS=$(( $(wc -l < data/angiosperm_census.csv) - 1 ))
+          echo "Census data rows: $ROWS"
+          if (( ROWS < 10000 )); then
+            echo "Census validation failed: expected at least 10000 rows" >&2
+            exit 1
+          fi
+      - name: Upload shared census
+        uses: actions/upload-artifact@v4
+        with:
+          name: angiosperm-census
+          path: data/angiosperm_census.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  screen:
+    needs: [prepare, census]
     runs-on: ubuntu-latest
     timeout-minutes: 330
     strategy:
@@ -95,23 +125,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Build and validate angiosperm census
+      - name: Download shared census
+        uses: actions/download-artifact@v4
+        with:
+          name: angiosperm-census
+          path: data
+      - name: Validate downloaded census
         shell: bash
         run: |
-          ROWS=0
-          if [[ -f data/angiosperm_census.csv ]]; then
-            ROWS=$(( $(wc -l < data/angiosperm_census.csv) - 1 ))
-          fi
-          if (( ROWS < 10000 )); then
-            rm -f data/angiosperm_census.csv
-            python build_angiosperm_census.py \
-              --out data/angiosperm_census.csv \
-              --min-records 10000
-          fi
           ROWS=$(( $(wc -l < data/angiosperm_census.csv) - 1 ))
-          echo "Census data rows: $ROWS"
+          echo "Downloaded census rows: $ROWS"
           if (( ROWS < 10000 )); then
-            echo "Census validation failed: expected at least 10000 rows" >&2
+            echo "Downloaded census is invalid" >&2
             exit 1
           fi
       - id: chunkmeta
@@ -145,8 +170,8 @@ jobs:
           retention-days: 30
 
   aggregate:
-    needs: [prepare, screen]
-    if: ${{ always() && needs.screen.result == 'success' }}
+    needs: [prepare, census, screen]
+    if: ${{ always() && needs.census.result == 'success' && needs.screen.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
