@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build a maximal angiosperm species census from the GBIF backbone.
 
-The builder deliberately keeps all empirical fields unknown.  Taxonomy retrieval is
-separate from later flower-colour screening.  Network access is required.
+The builder deliberately keeps all empirical fields unknown. Taxonomy retrieval is
+separate from later flower-colour screening. Network access is required.
 """
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
-from typing import Dict, Iterable, Iterator, List, Optional, Sequence, Tuple
+from typing import Dict, Iterable, Iterator, List, Optional, Sequence
 
 API = "https://api.gbif.org/v1"
 FIELDS = [
@@ -40,7 +40,7 @@ def get_json(path: str, params: Optional[Dict[str, object]] = None,
         try:
             req = urllib.request.Request(
                 url,
-                headers={"User-Agent": "fcp-angiosperm-census/2.0 (GitHub: zuizui0223/fcp)"},
+                headers={"User-Agent": "fcp-angiosperm-census/2.1 (GitHub: zuizui0223/fcp)"},
             )
             with urllib.request.urlopen(req, timeout=timeout) as response:
                 payload = json.load(response)
@@ -70,17 +70,27 @@ def candidate_keys(match: Dict[str, object]) -> List[int]:
 
 
 def search_page(root_key: int, limit: int, offset: int) -> Dict[str, object]:
-    """Query descendants using the GBIF Species Search parameter spelling."""
-    return get_json(
+    """Query accepted descendant species from GBIF Species Search.
+
+    GBIF's Species Search API uses the camelCase parameter ``highertaxonKey``.
+    The previous underscore spelling silently produced empty result sets.
+    """
+    data = get_json(
         "/species/search",
         {
-            "highertaxon_key": root_key,
+            "highertaxonKey": root_key,
             "rank": "SPECIES",
             "status": "ACCEPTED",
             "limit": limit,
             "offset": offset,
         },
     )
+    if "results" not in data:
+        raise RuntimeError(
+            f"GBIF species/search response missing results for root={root_key}, "
+            f"offset={offset}: {json.dumps(data, ensure_ascii=False)[:1000]}"
+        )
+    return data
 
 
 def probe_root(root_key: int) -> int:
@@ -96,25 +106,27 @@ def probe_root(root_key: int) -> int:
 
 
 def resolve_angiosperm_roots() -> List[Dict[str, object]]:
-    """Resolve one or more GBIF taxa whose union covers flowering plants.
-
-    GBIF may resolve names such as Magnoliophyta to a synonym.  We therefore prefer
-    acceptedUsageKey, probe every key for actual accepted-species descendants, and
-    retain all productive roots.  Overlap is removed later by GBIF species key.
-    """
+    """Resolve one or more productive GBIF taxa covering flowering plants."""
     roots: List[Dict[str, object]] = []
     seen_keys = set()
     diagnostics: List[Dict[str, object]] = []
     for name in ROOT_NAMES:
         match = get_json("/species/match", {"name": name, "verbose": "true"})
         if str(match.get("matchType", "")).upper() == "NONE":
-            diagnostics.append({"name": name, "match": "NONE"})
+            diagnostics.append({"name": name, "match": "NONE", "raw": match})
             continue
         for key in candidate_keys(match):
             if key in seen_keys:
                 continue
             count = probe_root(key)
-            diagnostics.append({"name": name, "key": key, "descendant_count": count})
+            diagnostics.append({
+                "name": name,
+                "key": key,
+                "descendant_count": count,
+                "matchType": match.get("matchType"),
+                "rank": match.get("rank"),
+                "scientificName": match.get("scientificName"),
+            })
             if count > 0:
                 seen_keys.add(key)
                 roots.append({"query_name": name, "key": key, "count": count, "match": match})
@@ -123,6 +135,7 @@ def resolve_angiosperm_roots() -> List[Dict[str, object]]:
             "Could not resolve any productive angiosperm root in GBIF; diagnostics="
             + json.dumps(diagnostics, ensure_ascii=False)
         )
+    print(json.dumps({"root_diagnostics": diagnostics}, ensure_ascii=False))
     return roots
 
 
