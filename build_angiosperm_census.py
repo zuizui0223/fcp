@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Build a maximal angiosperm species census from the GBIF backbone.
 
-The builder deliberately keeps all empirical fields unknown. Taxonomy retrieval is
-separate from later flower-colour screening. Network access is required.
+This version avoids GBIF Species Search deep paging.  The Species Search API can
+fail around very large offsets, so accepted species are collected by traversing
+GBIF's taxonomic hierarchy through the immediate-children endpoint.
 """
 from __future__ import annotations
 
@@ -12,6 +13,7 @@ import json
 import time
 import urllib.parse
 import urllib.request
+from collections import deque
 from pathlib import Path
 from typing import Dict, Iterable, Iterator, List, Optional, Sequence
 
@@ -32,7 +34,7 @@ ROOT_NAMES = (
 
 
 def get_json(path: str, params: Optional[Dict[str, object]] = None,
-             retries: int = 5, timeout: int = 60) -> Dict[str, object]:
+             retries: int = 5, timeout: int = 60):
     query = "?" + urllib.parse.urlencode(params or {}, doseq=True) if params else ""
     url = API + path + query
     last_error: Optional[Exception] = None
@@ -40,13 +42,10 @@ def get_json(path: str, params: Optional[Dict[str, object]] = None,
         try:
             req = urllib.request.Request(
                 url,
-                headers={"User-Agent": "fcp-angiosperm-census/2.1 (GitHub: zuizui0223/fcp)"},
+                headers={"User-Agent": "fcp-angiosperm-census/3.0 (GitHub: zuizui0223/fcp)"},
             )
             with urllib.request.urlopen(req, timeout=timeout) as response:
-                payload = json.load(response)
-                if not isinstance(payload, dict):
-                    raise RuntimeError(f"Unexpected non-object response from {url}")
-                return payload
+                return json.load(response)
         except Exception as exc:  # noqa: BLE001
             last_error = exc
             time.sleep(min(2 ** attempt, 20))
@@ -54,7 +53,6 @@ def get_json(path: str, params: Optional[Dict[str, object]] = None,
 
 
 def candidate_keys(match: Dict[str, object]) -> List[int]:
-    """Return accepted and usage keys, accepted first, without duplicates."""
     keys: List[int] = []
     for field in ("acceptedUsageKey", "usageKey"):
         value = match.get(field)
@@ -70,12 +68,7 @@ def candidate_keys(match: Dict[str, object]) -> List[int]:
 
 
 def search_page(root_key: int, limit: int, offset: int) -> Dict[str, object]:
-    """Query accepted descendant species from GBIF Species Search.
-
-    GBIF's Species Search API uses the camelCase parameter ``highertaxonKey``.
-    The previous underscore spelling silently produced empty result sets.
-    """
-    data = get_json(
+    payload = get_json(
         "/species/search",
         {
             "highertaxonKey": root_key,
@@ -85,16 +78,12 @@ def search_page(root_key: int, limit: int, offset: int) -> Dict[str, object]:
             "offset": offset,
         },
     )
-    if "results" not in data:
-        raise RuntimeError(
-            f"GBIF species/search response missing results for root={root_key}, "
-            f"offset={offset}: {json.dumps(data, ensure_ascii=False)[:1000]}"
-        )
-    return data
+    if not isinstance(payload, dict):
+        raise RuntimeError(f"Unexpected Species Search response type: {type(payload)!r}")
+    return payload
 
 
 def probe_root(root_key: int) -> int:
-    """Return the reported descendant count, or zero when the root is unusable."""
     data = search_page(root_key, limit=1, offset=0)
     results = data.get("results", [])
     if not isinstance(results, list) or not results:
@@ -106,27 +95,22 @@ def probe_root(root_key: int) -> int:
 
 
 def resolve_angiosperm_roots() -> List[Dict[str, object]]:
-    """Resolve one or more productive GBIF taxa covering flowering plants."""
     roots: List[Dict[str, object]] = []
     seen_keys = set()
     diagnostics: List[Dict[str, object]] = []
     for name in ROOT_NAMES:
         match = get_json("/species/match", {"name": name, "verbose": "true"})
+        if not isinstance(match, dict):
+            diagnostics.append({"name": name, "match": "invalid_response"})
+            continue
         if str(match.get("matchType", "")).upper() == "NONE":
-            diagnostics.append({"name": name, "match": "NONE", "raw": match})
+            diagnostics.append({"name": name, "match": "NONE"})
             continue
         for key in candidate_keys(match):
             if key in seen_keys:
                 continue
             count = probe_root(key)
-            diagnostics.append({
-                "name": name,
-                "key": key,
-                "descendant_count": count,
-                "matchType": match.get("matchType"),
-                "rank": match.get("rank"),
-                "scientificName": match.get("scientificName"),
-            })
+            diagnostics.append({"name": name, "key": key, "descendant_count": count})
             if count > 0:
                 seen_keys.add(key)
                 roots.append({"query_name": name, "key": key, "count": count, "match": match})
@@ -135,36 +119,78 @@ def resolve_angiosperm_roots() -> List[Dict[str, object]]:
             "Could not resolve any productive angiosperm root in GBIF; diagnostics="
             + json.dumps(diagnostics, ensure_ascii=False)
         )
-    print(json.dumps({"root_diagnostics": diagnostics}, ensure_ascii=False))
     return roots
+
+
+def iter_children(parent_key: int, page_size: int = 1000) -> Iterator[Dict[str, object]]:
+    """Yield all immediate GBIF children of one taxon.
+
+    Each parent normally has far fewer than 100,000 immediate children, so this
+    avoids the global deep-offset failure seen with Species Search.
+    """
+    offset = 0
+    while True:
+        payload = get_json(
+            f"/species/{parent_key}/children",
+            {"limit": page_size, "offset": offset},
+        )
+        if isinstance(payload, dict):
+            results = payload.get("results", [])
+            end = bool(payload.get("endOfRecords", False))
+        elif isinstance(payload, list):
+            results = payload
+            end = len(results) < page_size
+        else:
+            raise RuntimeError(
+                f"Unexpected children response for parent {parent_key}: {type(payload)!r}"
+            )
+        if not isinstance(results, list) or not results:
+            break
+        for row in results:
+            if isinstance(row, dict):
+                yield row
+        if end or len(results) < page_size:
+            break
+        offset += len(results)
+
+
+def is_accepted(row: Dict[str, object]) -> bool:
+    status = str(row.get("taxonomicStatus", row.get("status", ""))).upper()
+    return status in {"", "ACCEPTED"}
 
 
 def iter_species(root_keys: Sequence[int], page_size: int = 1000,
                  max_records: Optional[int] = None) -> Iterator[Dict[str, object]]:
-    """Page through accepted species below all roots, deduplicating by GBIF key."""
+    """Traverse immediate taxonomic children breadth-first and yield species."""
+    queue = deque(int(key) for key in root_keys)
+    visited_taxa = set()
+    yielded_species = set()
     yielded = 0
-    seen = set()
-    for root_key in root_keys:
-        offset = 0
-        while True:
-            data = search_page(root_key, limit=page_size, offset=offset)
-            results = data.get("results", [])
-            if not isinstance(results, list) or not results:
-                break
-            for row in results:
-                if not isinstance(row, dict):
+
+    while queue:
+        parent_key = queue.popleft()
+        if parent_key in visited_taxa:
+            continue
+        visited_taxa.add(parent_key)
+
+        for row in iter_children(parent_key, page_size=page_size):
+            raw_key = row.get("key", row.get("usageKey"))
+            try:
+                key = int(raw_key)
+            except (TypeError, ValueError):
+                continue
+
+            rank = str(row.get("rank", "")).upper()
+            if rank == "SPECIES":
+                if not is_accepted(row) or key in yielded_species:
                     continue
-                key = row.get("key") or row.get("usageKey") or row.get("scientificName")
-                if key in seen:
-                    continue
-                seen.add(key)
+                yielded_species.add(key)
                 yield row
                 yielded += 1
                 if max_records is not None and yielded >= max_records:
                     return
-            if bool(data.get("endOfRecords", False)):
-                break
-            offset += len(results)
+            else:
+                queue.append(key)
 
 
 def normalize(row: Dict[str, object]) -> Dict[str, object]:
@@ -216,16 +242,16 @@ def main() -> None:
         iter_species(root_keys, page_size=args.page_size, max_records=args.max_records),
         Path(args.out),
     )
-    required = args.min_records
-    if args.max_records is not None:
-        required = min(required, args.max_records)
+    required = min(args.min_records, args.max_records) if args.max_records is not None else args.min_records
     if count < required:
         Path(args.out).unlink(missing_ok=True)
         raise RuntimeError(
             f"Angiosperm census too small: wrote {count}, required at least {required}; "
             f"roots={[(r['query_name'], r['key'], r['count']) for r in roots]}"
         )
+
     print(json.dumps({
+        "retrieval_mode": "hierarchical_children_traversal",
         "roots": [{"query_name": r["query_name"], "key": r["key"], "count": r["count"]} for r in roots],
         "records_written": count,
         "out": args.out,
