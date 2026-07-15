@@ -15,10 +15,6 @@ on:
         description: "Species per chunk"
         required: true
         default: "1000"
-      queries_per_species:
-        description: "Search phrases per species"
-        required: true
-        default: "6"
       max_parallel:
         description: "Maximum concurrent chunk jobs"
         required: true
@@ -29,6 +25,7 @@ on:
       - ".github/workflows/mass-screen-wave.yml"
       - "merge_mass_screen_batches.py"
       - "build_angiosperm_census.py"
+      - "mass_literature_screen.py"
 
 permissions:
   contents: write
@@ -43,7 +40,6 @@ jobs:
     outputs:
       chunks: ${{ steps.matrix.outputs.chunks }}
       chunk_size: ${{ steps.params.outputs.chunk_size }}
-      queries_per_species: ${{ steps.params.outputs.queries_per_species }}
       wave_label: ${{ steps.params.outputs.wave_label }}
       max_parallel: ${{ steps.params.outputs.max_parallel }}
     steps:
@@ -54,21 +50,17 @@ jobs:
             START='${{ inputs.start_chunk }}'
             COUNT='${{ inputs.chunk_count }}'
             SIZE='${{ inputs.chunk_size }}'
-            QUERIES='${{ inputs.queries_per_species }}'
             PARALLEL='${{ inputs.max_parallel }}'
           else
-            # Architecture smoke test: one chunk only.
             START=0
             COUNT=1
             SIZE=1000
-            QUERIES=6
             PARALLEL=1
           fi
           END=$((START + COUNT - 1))
           echo "start=$START" >> "$GITHUB_OUTPUT"
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "chunk_size=$SIZE" >> "$GITHUB_OUTPUT"
-          echo "queries_per_species=$QUERIES" >> "$GITHUB_OUTPUT"
           echo "max_parallel=$PARALLEL" >> "$GITHUB_OUTPUT"
           printf 'wave_label=chunks_%06d_%06d\n' "$START" "$END" >> "$GITHUB_OUTPUT"
       - id: matrix
@@ -84,7 +76,7 @@ jobs:
   census:
     needs: prepare
     runs-on: ubuntu-latest
-    timeout-minutes: 330
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -114,7 +106,7 @@ jobs:
   screen:
     needs: [prepare, census]
     runs-on: ubuntu-latest
-    timeout-minutes: 330
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       max-parallel: ${{ fromJSON(needs.prepare.outputs.max_parallel) }}
@@ -149,7 +141,7 @@ jobs:
           printf -v ID '%06d' "$CHUNK"
           echo "start=$START" >> "$GITHUB_OUTPUT"
           echo "file=data/mass_screen_hits_chunk_${ID}.csv" >> "$GITHUB_OUTPUT"
-      - name: Screen chunk
+      - name: Screen chunk with bounded concurrency
         shell: bash
         run: |
           python mass_literature_screen.py \
@@ -157,8 +149,12 @@ jobs:
             --out "${{ steps.chunkmeta.outputs.file }}" \
             --start "${{ steps.chunkmeta.outputs.start }}" \
             --limit "${{ needs.prepare.outputs.chunk_size }}" \
-            --queries-per-species "${{ needs.prepare.outputs.queries_per_species }}" \
-            --sleep 0.05
+            --workers 8 \
+            --requests-per-second 8 \
+            --timeout 20 \
+            --retries 2 \
+            --per-page 10 \
+            --max-failure-rate 0.20
           ROWS=$(( $(wc -l < "${{ steps.chunkmeta.outputs.file }}") - 1 ))
           echo "Screen hit rows: $ROWS"
       - name: Upload chunk
