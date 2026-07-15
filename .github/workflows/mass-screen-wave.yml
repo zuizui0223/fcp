@@ -12,13 +12,13 @@ on:
         required: true
         default: "1"
       chunk_size:
-        description: "Species per chunk"
+        description: "Species per chunk; keep <=900 with a free OpenAlex key"
         required: true
-        default: "1000"
+        default: "900"
       max_parallel:
         description: "Maximum concurrent chunk jobs"
         required: true
-        default: "2"
+        default: "1"
   push:
     branches: [main]
     paths:
@@ -52,9 +52,10 @@ jobs:
             SIZE='${{ inputs.chunk_size }}'
             PARALLEL='${{ inputs.max_parallel }}'
           else
+            # No-key smoke test stays below OpenAlex's 100-search daily allowance.
             START=0
             COUNT=1
-            SIZE=1000
+            SIZE=80
             PARALLEL=1
           fi
           END=$((START + COUNT - 1))
@@ -106,12 +107,14 @@ jobs:
   screen:
     needs: [prepare, census]
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       max-parallel: ${{ fromJSON(needs.prepare.outputs.max_parallel) }}
       matrix:
         chunk: ${{ fromJSON(needs.prepare.outputs.chunks) }}
+    env:
+      OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -141,6 +144,14 @@ jobs:
           printf -v ID '%06d' "$CHUNK"
           echo "start=$START" >> "$GITHUB_OUTPUT"
           echo "file=data/mass_screen_hits_chunk_${ID}.csv" >> "$GITHUB_OUTPUT"
+      - name: Report OpenAlex authentication mode
+        shell: bash
+        run: |
+          if [[ -n "$OPENALEX_API_KEY" ]]; then
+            echo "OpenAlex API key detected; authenticated search enabled."
+          else
+            echo "No OpenAlex API key detected; only <=90-species smoke runs are permitted."
+          fi
       - name: Screen chunk with bounded concurrency
         shell: bash
         run: |
@@ -149,12 +160,13 @@ jobs:
             --out "${{ steps.chunkmeta.outputs.file }}" \
             --start "${{ steps.chunkmeta.outputs.start }}" \
             --limit "${{ needs.prepare.outputs.chunk_size }}" \
-            --workers 8 \
-            --requests-per-second 8 \
+            --workers 4 \
+            --requests-per-second 4 \
             --timeout 20 \
             --retries 2 \
             --per-page 10 \
-            --max-failure-rate 0.20
+            --max-failure-rate 0.20 \
+            --api-key-env OPENALEX_API_KEY
           ROWS=$(( $(wc -l < "${{ steps.chunkmeta.outputs.file }}") - 1 ))
           echo "Screen hit rows: $ROWS"
       - name: Upload chunk
