@@ -1,57 +1,40 @@
 #!/usr/bin/env python3
-"""Mass-screen angiosperm species for flower-colour polymorphism literature.
+"""Fast first-pass discovery of flower-colour polymorphism literature.
 
-This is a discovery pipeline, not an outcome classifier. It searches OpenAlex and
-Crossref for every species in a census and writes a ranked candidate table.
-No search hit is promoted to polymorphic without manual/primary-source review.
-
-Example:
-    python mass_literature_screen.py \
-      --census data/angiosperm_census.csv \
-      --out data/mass_screen_hits.csv \
-      --start 0 --limit 5000
-
-Network access is required.
+The previous implementation issued 12,000 sequential HTTP requests for a
+1,000-species chunk (6 queries x OpenAlex + Crossref).  A single slow request
+could consume 45 s x 4 retries, while failures were silently discarded.  This
+version uses one combined query per species, bounded concurrency, short retries,
+and explicit progress/failure accounting.  Crossref is intentionally reserved
+for a later candidate-validation pass rather than duplicated across the entire
+angiosperm census.
 """
 from __future__ import annotations
 
 import argparse
 import csv
 import json
+import threading
 import time
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Sequence
+from typing import Dict, Iterable, List, Sequence, Tuple
 
 OPENALEX = "https://api.openalex.org/works"
-CROSSREF = "https://api.crossref.org/works"
-
-QUERY_TEMPLATES = (
-    '"{name}" "flower color polymorphism"',
-    '"{name}" "flower colour polymorphism"',
-    '"{name}" "floral color polymorphism"',
-    '"{name}" "floral colour polymorphism"',
-    '"{name}" "color morph" flower',
-    '"{name}" "colour morph" flower',
-    '"{name}" "petal color variant"',
-    '"{name}" "petal colour variant"',
-    '"{name}" "geographic flower color variation"',
-    '"{name}" "geographic flower colour variation"',
-)
 
 HIGH_TERMS = (
     "flower color polymorphism", "flower colour polymorphism",
     "floral color polymorphism", "floral colour polymorphism",
-    "color morph", "colour morph", "petal color variant", "petal colour variant",
+    "color morph", "colour morph", "petal color", "petal colour",
 )
 MEDIUM_TERMS = (
     "flower color variation", "flower colour variation",
     "floral color variation", "floral colour variation",
     "geographic variation", "frequency-dependent", "pollinator preference",
 )
-
 FIELDS = [
     "canonical_name", "family", "query", "source", "title", "year", "doi",
     "landing_url", "candidate_score", "evidence_status", "notes",
@@ -68,27 +51,81 @@ class Hit:
     query: str
 
 
-def _get_json(url: str, retries: int = 4, timeout: int = 45) -> Dict[str, object]:
-    last = None
+class RequestThrottle:
+    """Thread-safe minimum spacing between outbound requests."""
+
+    def __init__(self, requests_per_second: float) -> None:
+        self.interval = 0.0 if requests_per_second <= 0 else 1.0 / requests_per_second
+        self.lock = threading.Lock()
+        self.next_at = 0.0
+
+    def wait(self) -> None:
+        if self.interval <= 0:
+            return
+        with self.lock:
+            now = time.monotonic()
+            delay = max(0.0, self.next_at - now)
+            self.next_at = max(now, self.next_at) + self.interval
+        if delay:
+            time.sleep(delay)
+
+
+def get_json(
+    url: str,
+    *,
+    throttle: RequestThrottle,
+    retries: int,
+    timeout: int,
+) -> Dict[str, object]:
+    last: Exception | None = None
     for attempt in range(retries):
+        throttle.wait()
         try:
             req = urllib.request.Request(
                 url,
-                headers={"User-Agent": "fcp-mass-screen/1.0 (research synthesis)"},
+                headers={
+                    "User-Agent": "fcp-mass-screen/2.0 (GitHub: zuizui0223/fcp)",
+                    "Accept": "application/json",
+                },
             )
             with urllib.request.urlopen(req, timeout=timeout) as response:
-                return json.load(response)
+                payload = json.load(response)
+            if not isinstance(payload, dict):
+                raise RuntimeError(f"Unexpected response type: {type(payload)!r}")
+            return payload
         except Exception as exc:  # noqa: BLE001
             last = exc
-            time.sleep(min(2 ** attempt, 10))
-    raise RuntimeError(f"Failed after {retries} attempts: {url}") from last
+            if attempt + 1 < retries:
+                time.sleep(1.5 * (attempt + 1))
+    raise RuntimeError(f"request failed after {retries} attempts: {url}") from last
 
 
-def search_openalex(query: str, per_page: int = 5) -> List[Hit]:
+def combined_query(name: str) -> str:
+    # OpenAlex `search` is relevance ranked. One species-specific query replaces
+    # six nearly duplicate phrase searches in the census-scale discovery pass.
+    return f'"{name}" flower floral color colour polymorphism morph variation petal'
+
+
+def search_openalex(
+    query: str,
+    *,
+    per_page: int,
+    throttle: RequestThrottle,
+    retries: int,
+    timeout: int,
+) -> List[Hit]:
     params = urllib.parse.urlencode({"search": query, "per-page": per_page})
-    data = _get_json(f"{OPENALEX}?{params}")
+    data = get_json(
+        f"{OPENALEX}?{params}",
+        throttle=throttle,
+        retries=retries,
+        timeout=timeout,
+    )
     hits: List[Hit] = []
-    for item in data.get("results", []):
+    results = data.get("results", [])
+    if not isinstance(results, list):
+        return hits
+    for item in results:
         if not isinstance(item, dict):
             continue
         title = str(item.get("title") or "")
@@ -102,34 +139,11 @@ def search_openalex(query: str, per_page: int = 5) -> List[Hit]:
     return hits
 
 
-def search_crossref(query: str, rows: int = 5) -> List[Hit]:
-    params = urllib.parse.urlencode({"query.bibliographic": query, "rows": rows})
-    data = _get_json(f"{CROSSREF}?{params}")
-    message = data.get("message", {})
-    items = message.get("items", []) if isinstance(message, dict) else []
-    hits: List[Hit] = []
-    for item in items:
-        if not isinstance(item, dict):
-            continue
-        titles = item.get("title") or []
-        title = str(titles[0]) if isinstance(titles, list) and titles else ""
-        year = ""
-        issued = item.get("issued") or {}
-        if isinstance(issued, dict):
-            parts = issued.get("date-parts") or []
-            if parts and isinstance(parts[0], list) and parts[0]:
-                year = str(parts[0][0])
-        doi = str(item.get("DOI") or "")
-        url = str(item.get("URL") or "")
-        hits.append(Hit(title, year, doi, url, "crossref", query))
-    return hits
-
-
-def score_hit(species: str, title: str, query: str) -> int:
-    text = f"{title} {query}".lower()
+def score_hit(species: str, title: str) -> int:
+    text = title.lower()
     score = 0
     if species.lower() in text:
-        score += 4
+        score += 5
     score += 5 * sum(term in text for term in HIGH_TERMS)
     score += 2 * sum(term in text for term in MEDIUM_TERMS)
     if "cultivar" in text or "horticultur" in text:
@@ -162,69 +176,126 @@ def dedupe_hits(hits: Sequence[Hit]) -> List[Hit]:
     return out
 
 
+def screen_species(
+    row: Dict[str, str],
+    *,
+    per_page: int,
+    throttle: RequestThrottle,
+    retries: int,
+    timeout: int,
+) -> Tuple[Dict[str, str], str, List[Hit], str | None]:
+    name = (row.get("canonical_name") or row.get("scientific_name") or "").strip()
+    if not name:
+        return row, "", [], "missing_name"
+    query = combined_query(name)
+    try:
+        hits = search_openalex(
+            query,
+            per_page=per_page,
+            throttle=throttle,
+            retries=retries,
+            timeout=timeout,
+        )
+        return row, query, hits, None
+    except Exception as exc:  # noqa: BLE001
+        return row, query, [], f"{type(exc).__name__}: {exc}"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--census", default="data/angiosperm_census.csv")
     parser.add_argument("--out", default="data/mass_screen_hits.csv")
     parser.add_argument("--start", type=int, default=0)
     parser.add_argument("--limit", type=int, default=None)
-    parser.add_argument("--queries-per-species", type=int, default=len(QUERY_TEMPLATES))
-    parser.add_argument("--sleep", type=float, default=0.15)
+    # Kept for workflow compatibility; census-scale first pass is deliberately one query.
+    parser.add_argument("--queries-per-species", type=int, default=1)
+    parser.add_argument("--sleep", type=float, default=0.0)
+    parser.add_argument("--workers", type=int, default=8)
+    parser.add_argument("--requests-per-second", type=float, default=8.0)
+    parser.add_argument("--timeout", type=int, default=20)
+    parser.add_argument("--retries", type=int, default=2)
+    parser.add_argument("--per-page", type=int, default=10)
+    parser.add_argument("--max-failure-rate", type=float, default=0.20)
     args = parser.parse_args()
+
+    rows = list(iter_census(Path(args.census), args.start, args.limit))
+    if not rows:
+        raise RuntimeError("No census rows selected; refusing to write an empty successful batch")
 
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    mode = "a" if out_path.exists() else "w"
-    write_header = mode == "w"
+    throttle = RequestThrottle(args.requests_per_second)
+    processed = emitted = failures = 0
+    started = time.monotonic()
 
-    processed = 0
-    emitted = 0
-    with out_path.open(mode, newline="", encoding="utf-8") as out_handle:
+    with out_path.open("w", newline="", encoding="utf-8") as out_handle:
         writer = csv.DictWriter(out_handle, fieldnames=FIELDS)
-        if write_header:
-            writer.writeheader()
+        writer.writeheader()
 
-        for row in iter_census(Path(args.census), args.start, args.limit):
-            name = (row.get("canonical_name") or row.get("scientific_name") or "").strip()
-            if not name:
-                continue
-            family = (row.get("family") or "").strip()
-            all_hits: List[Hit] = []
-            for template in QUERY_TEMPLATES[: max(1, args.queries_per_species)]:
-                query = template.format(name=name)
-                try:
-                    all_hits.extend(search_openalex(query))
-                except Exception:
-                    pass
-                try:
-                    all_hits.extend(search_crossref(query))
-                except Exception:
-                    pass
-                time.sleep(max(0.0, args.sleep))
+        with ThreadPoolExecutor(max_workers=max(1, args.workers)) as pool:
+            futures = [
+                pool.submit(
+                    screen_species,
+                    row,
+                    per_page=args.per_page,
+                    throttle=throttle,
+                    retries=args.retries,
+                    timeout=args.timeout,
+                )
+                for row in rows
+            ]
+            for future in as_completed(futures):
+                row, query, hits, error = future.result()
+                processed += 1
+                if error:
+                    failures += 1
+                else:
+                    name = (row.get("canonical_name") or row.get("scientific_name") or "").strip()
+                    family = (row.get("family") or "").strip()
+                    for hit in dedupe_hits(hits):
+                        score = score_hit(name, hit.title)
+                        if score <= 0:
+                            continue
+                        writer.writerow({
+                            "canonical_name": name,
+                            "family": family,
+                            "query": query,
+                            "source": hit.source,
+                            "title": hit.title,
+                            "year": hit.year,
+                            "doi": hit.doi,
+                            "landing_url": hit.landing_url,
+                            "candidate_score": score,
+                            "evidence_status": "machine_candidate",
+                            "notes": "First-pass OpenAlex candidate; requires primary-source review.",
+                        })
+                        emitted += 1
+                if processed % 25 == 0 or processed == len(rows):
+                    out_handle.flush()
+                    print(json.dumps({
+                        "processed_species": processed,
+                        "total_species": len(rows),
+                        "emitted_hits": emitted,
+                        "request_failures": failures,
+                        "elapsed_seconds": round(time.monotonic() - started, 1),
+                    }), flush=True)
 
-            for hit in dedupe_hits(all_hits):
-                score = score_hit(name, hit.title, hit.query)
-                if score <= 0:
-                    continue
-                writer.writerow({
-                    "canonical_name": name,
-                    "family": family,
-                    "query": hit.query,
-                    "source": hit.source,
-                    "title": hit.title,
-                    "year": hit.year,
-                    "doi": hit.doi,
-                    "landing_url": hit.landing_url,
-                    "candidate_score": score,
-                    "evidence_status": "machine_candidate",
-                    "notes": "Requires manual primary-source review before outcome coding.",
-                })
-                emitted += 1
-            processed += 1
-            if processed % 100 == 0:
-                print(json.dumps({"processed_species": processed, "emitted_hits": emitted}))
-
-    print(json.dumps({"processed_species": processed, "emitted_hits": emitted, "out": str(out_path)}))
+    failure_rate = failures / processed if processed else 1.0
+    summary = {
+        "processed_species": processed,
+        "emitted_hits": emitted,
+        "request_failures": failures,
+        "failure_rate": round(failure_rate, 4),
+        "elapsed_seconds": round(time.monotonic() - started, 1),
+        "out": str(out_path),
+        "mode": "one_openalex_query_per_species_concurrent",
+    }
+    print(json.dumps(summary), flush=True)
+    if failure_rate > args.max_failure_rate:
+        raise RuntimeError(
+            f"OpenAlex failure rate {failure_rate:.1%} exceeded allowed "
+            f"{args.max_failure_rate:.1%}; batch is not trustworthy"
+        )
 
 
 if __name__ == "__main__":
