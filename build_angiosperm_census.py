@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Build a maximal angiosperm species census from the GBIF backbone.
 
-This version avoids GBIF Species Search deep paging.  The Species Search API can
-fail around very large offsets, so accepted species are collected by traversing
-GBIF's taxonomic hierarchy through the immediate-children endpoint.
+GBIF Species Search becomes unreliable at very deep offsets.  This builder avoids
+that by traversing the hierarchy only until FAMILY rank, then paging accepted
+species separately within each family.  No angiosperm family is expected to
+approach the global 100,000-offset failure seen for the whole clade.
 """
 from __future__ import annotations
 
@@ -34,7 +35,7 @@ ROOT_NAMES = (
 
 
 def get_json(path: str, params: Optional[Dict[str, object]] = None,
-             retries: int = 5, timeout: int = 60):
+             retries: int = 6, timeout: int = 90):
     query = "?" + urllib.parse.urlencode(params or {}, doseq=True) if params else ""
     url = API + path + query
     last_error: Optional[Exception] = None
@@ -42,13 +43,13 @@ def get_json(path: str, params: Optional[Dict[str, object]] = None,
         try:
             req = urllib.request.Request(
                 url,
-                headers={"User-Agent": "fcp-angiosperm-census/3.0 (GitHub: zuizui0223/fcp)"},
+                headers={"User-Agent": "fcp-angiosperm-census/4.0 (GitHub: zuizui0223/fcp)"},
             )
             with urllib.request.urlopen(req, timeout=timeout) as response:
                 return json.load(response)
         except Exception as exc:  # noqa: BLE001
             last_error = exc
-            time.sleep(min(2 ** attempt, 20))
+            time.sleep(min(2 ** attempt, 30))
     raise RuntimeError(f"Failed after {retries} attempts: {url}") from last_error
 
 
@@ -123,11 +124,6 @@ def resolve_angiosperm_roots() -> List[Dict[str, object]]:
 
 
 def iter_children(parent_key: int, page_size: int = 1000) -> Iterator[Dict[str, object]]:
-    """Yield all immediate GBIF children of one taxon.
-
-    Each parent normally has far fewer than 100,000 immediate children, so this
-    avoids the global deep-offset failure seen with Species Search.
-    """
     offset = 0
     while True:
         payload = get_json(
@@ -154,24 +150,17 @@ def iter_children(parent_key: int, page_size: int = 1000) -> Iterator[Dict[str, 
         offset += len(results)
 
 
-def is_accepted(row: Dict[str, object]) -> bool:
-    status = str(row.get("taxonomicStatus", row.get("status", ""))).upper()
-    return status in {"", "ACCEPTED"}
-
-
-def iter_species(root_keys: Sequence[int], page_size: int = 1000,
-                 max_records: Optional[int] = None) -> Iterator[Dict[str, object]]:
-    """Traverse immediate taxonomic children breadth-first and yield species."""
+def collect_family_keys(root_keys: Sequence[int], page_size: int = 1000) -> List[int]:
+    """Traverse only high taxonomy and return unique angiosperm family keys."""
     queue = deque(int(key) for key in root_keys)
-    visited_taxa = set()
-    yielded_species = set()
-    yielded = 0
+    visited = set()
+    families = set()
 
     while queue:
         parent_key = queue.popleft()
-        if parent_key in visited_taxa:
+        if parent_key in visited:
             continue
-        visited_taxa.add(parent_key)
+        visited.add(parent_key)
 
         for row in iter_children(parent_key, page_size=page_size):
             raw_key = row.get("key", row.get("usageKey"))
@@ -179,18 +168,66 @@ def iter_species(root_keys: Sequence[int], page_size: int = 1000,
                 key = int(raw_key)
             except (TypeError, ValueError):
                 continue
-
             rank = str(row.get("rank", "")).upper()
-            if rank == "SPECIES":
-                if not is_accepted(row) or key in yielded_species:
-                    continue
-                yielded_species.add(key)
-                yield row
-                yielded += 1
-                if max_records is not None and yielded >= max_records:
-                    return
-            else:
+            if rank == "FAMILY":
+                families.add(key)
+            elif rank not in {"GENUS", "SPECIES", "SUBSPECIES", "VARIETY", "FORM"}:
                 queue.append(key)
+
+    if not families:
+        raise RuntimeError("No angiosperm family keys were discovered from resolved roots")
+    return sorted(families)
+
+
+def iter_species_in_family(family_key: int, page_size: int = 1000) -> Iterator[Dict[str, object]]:
+    offset = 0
+    while True:
+        data = search_page(family_key, limit=page_size, offset=offset)
+        results = data.get("results", [])
+        if not isinstance(results, list) or not results:
+            break
+        for row in results:
+            if isinstance(row, dict):
+                yield row
+        if bool(data.get("endOfRecords", False)) or len(results) < page_size:
+            break
+        offset += len(results)
+        if offset >= 100000:
+            raise RuntimeError(
+                f"Family {family_key} exceeded safe GBIF paging depth at offset {offset}"
+            )
+
+
+def iter_species(root_keys: Sequence[int], page_size: int = 1000,
+                 max_records: Optional[int] = None) -> Iterator[Dict[str, object]]:
+    family_keys = collect_family_keys(root_keys, page_size=page_size)
+    seen_species = set()
+    yielded = 0
+
+    print(json.dumps({"families_discovered": len(family_keys)}, ensure_ascii=False), flush=True)
+
+    for index, family_key in enumerate(family_keys, start=1):
+        for row in iter_species_in_family(family_key, page_size=page_size):
+            raw_key = row.get("key", row.get("usageKey"))
+            try:
+                key = int(raw_key)
+            except (TypeError, ValueError):
+                continue
+            if key in seen_species:
+                continue
+            seen_species.add(key)
+            yield row
+            yielded += 1
+            if max_records is not None and yielded >= max_records:
+                return
+        if index % 25 == 0:
+            print(
+                json.dumps(
+                    {"families_processed": index, "families_total": len(family_keys), "species_yielded": yielded},
+                    ensure_ascii=False,
+                ),
+                flush=True,
+            )
 
 
 def normalize(row: Dict[str, object]) -> Dict[str, object]:
@@ -251,11 +288,11 @@ def main() -> None:
         )
 
     print(json.dumps({
-        "retrieval_mode": "hierarchical_children_traversal",
+        "retrieval_mode": "family_partitioned_species_search",
         "roots": [{"query_name": r["query_name"], "key": r["key"], "count": r["count"]} for r in roots],
         "records_written": count,
         "out": args.out,
-    }, ensure_ascii=False))
+    }, ensure_ascii=False), flush=True)
 
 
 if __name__ == "__main__":
