@@ -1,19 +1,19 @@
 {
-  "input_candidate_species": 316,
-  "review_queue_rows": 61,
-  "deferred_rows": 255,
+  "input_candidate_species": 664,
+  "review_queue_rows": 72,
+  "deferred_rows": 592,
   "evidence_class_counts": {
-    "artificial_or_horticultural": 53,
-    "insufficient_direct_evidence": 171,
-    "natural_polymorphism": 76,
-    "ontogenetic_colour_change": 1,
-    "possible_polymorphism": 15
+    "artificial_or_horticultural": 89,
+    "insufficient_direct_evidence": 464,
+    "natural_polymorphism": 86,
+    "ontogenetic_colour_change": 2,
+    "possible_polymorphism": 23
   },
   "priority_counts": {
-    "DEFER": 255,
+    "DEFER": 592,
     "P0": 4,
-    "P1": 53,
-    "P2": 2,
+    "P1": 65,
+    "P2": 1,
     "P3": 2
   },
   "known_positive_controls_in_review_queue": [

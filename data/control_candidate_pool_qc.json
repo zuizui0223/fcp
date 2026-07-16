@@ -1,11 +1,11 @@
 {
-  "focal_species": 61,
-  "focal_species_with_controls": 61,
-  "control_candidate_rows": 302,
-  "unique_control_candidates": 267,
+  "focal_species": 72,
+  "focal_species_with_controls": 72,
+  "control_candidate_rows": 357,
+  "unique_control_candidates": 312,
   "match_level_counts": {
     "same_family": 13,
-    "same_genus": 289
+    "same_genus": 344
   },
   "per_focal_target": 5,
   "semantic_guard": "unknown_is_not_monomorphic",

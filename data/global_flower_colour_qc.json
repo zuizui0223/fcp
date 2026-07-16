@@ -1,96 +1,96 @@
 {
-  "retained_works": 509,
-  "candidate_species": 316,
-  "unique_families": 88,
+  "retained_works": 1075,
+  "candidate_species": 664,
+  "unique_families": 140,
   "priority_tiers": {
-    "A": 142,
-    "B": 96,
-    "C": 78
+    "A": 236,
+    "B": 308,
+    "C": 120
   },
-  "title_supported_species": 230,
-  "context_supported_species": 237,
-  "works_with_more_than_5_raw_species_mentions": 0,
-  "max_raw_species_mentions_in_retained_work": 5,
+  "title_supported_species": 532,
+  "context_supported_species": 423,
+  "works_with_more_than_5_raw_species_mentions": 1,
+  "max_raw_species_mentions_in_retained_work": 9,
   "top_families": [
     [
       "Orchidaceae",
-      34
-    ],
-    [
-      "Brassicaceae",
-      17
-    ],
-    [
-      "Asteraceae",
-      16
+      64
     ],
     [
       "Fabaceae",
-      15
+      40
     ],
     [
-      "Ranunculaceae",
-      14
+      "Asteraceae",
+      36
     ],
     [
-      "Solanaceae",
-      11
-    ],
-    [
-      "Convolvulaceae",
-      9
-    ],
-    [
-      "Iridaceae",
-      9
+      "Brassicaceae",
+      25
     ],
     [
       "Ericaceae",
-      9
+      24
     ],
     [
-      "Polemoniaceae",
-      7
-    ],
-    [
-      "Balsaminaceae",
-      7
-    ],
-    [
-      "Malvaceae",
-      7
-    ],
-    [
-      "Primulaceae",
-      6
-    ],
-    [
-      "Liliaceae",
-      6
+      "Ranunculaceae",
+      22
     ],
     [
       "Rosaceae",
-      6
+      20
     ],
     [
-      "Campanulaceae",
-      5
+      "Iridaceae",
+      17
     ],
     [
-      "Geraniaceae",
-      5
+      "Solanaceae",
+      17
     ],
     [
       "Lamiaceae",
-      5
+      13
     ],
     [
-      "Gentianaceae",
-      4
+      "Primulaceae",
+      12
+    ],
+    [
+      "Liliaceae",
+      12
+    ],
+    [
+      "Amaryllidaceae",
+      12
+    ],
+    [
+      "Convolvulaceae",
+      10
+    ],
+    [
+      "Polemoniaceae",
+      10
+    ],
+    [
+      "Malvaceae",
+      10
+    ],
+    [
+      "Campanulaceae",
+      9
+    ],
+    [
+      "Poaceae",
+      9
     ],
     [
       "Plantaginaceae",
-      4
+      8
+    ],
+    [
+      "Balsaminaceae",
+      8
     ]
   ],
   "duplicate_work_ids": 0,
@@ -102,6 +102,6 @@
     "Silene littorea"
   ],
   "known_positive_controls_recovered_count": 4,
-  "shortlist_rows": 250,
+  "shortlist_rows": 500,
   "ranking_mode": "species_specific_context_v2"
 }

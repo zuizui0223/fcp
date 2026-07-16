@@ -1,0 +1,26 @@
+{
+  "ledger_species": 72,
+  "species_with_abstract_prefill": 57,
+  "species_still_requiring_primary_review": 68,
+  "prefilled_field_counts": {
+    "abiotic_selection": 8,
+    "bumblebee_status": 2,
+    "colour_morphs": 36,
+    "dominant_pollinator_group": 4,
+    "environmental_basis": 5,
+    "frequency_dependent_selection": 1,
+    "genetic_basis": 3,
+    "geographic_mosaic": 5,
+    "herbivory_selection": 4,
+    "island_status": 1,
+    "morph_frequency_reported": 5,
+    "n_colour_morphs": 31,
+    "native_or_introduced": 8,
+    "pollination_mode": 36,
+    "spatially_varying_selection": 2,
+    "temporally_varying_selection": 2,
+    "within_population_polymorphism": 5
+  },
+  "verification_upgrades": 0,
+  "mode": "conservative_title_abstract_prefill_v1"
+}
