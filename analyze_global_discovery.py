@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and prioritize global flower-colour discovery outputs offline."""
+"""Validate and prioritize context-filtered flower-colour discovery outputs offline."""
 from __future__ import annotations
 
 import argparse
@@ -17,8 +17,9 @@ KNOWN_POSITIVES = {
 }
 SHORTLIST_FIELDS = [
     "priority_tier", "rank", "canonical_name", "family", "n_works",
-    "max_score", "total_score", "best_title", "best_doi",
-    "best_openalex_id", "review_status",
+    "max_score", "total_score", "n_title_matches", "n_context_matches",
+    "best_title", "best_doi", "best_openalex_id", "best_match_evidence",
+    "review_status",
 ]
 
 
@@ -39,10 +40,11 @@ def to_int(value: str) -> int:
 def priority_tier(row: Dict[str, str]) -> str:
     n_works = to_int(row.get("n_works", "0"))
     max_score = to_int(row.get("max_score", "0"))
-    total_score = to_int(row.get("total_score", "0"))
-    if n_works >= 2 or max_score >= 14 or total_score >= 20:
+    title_matches = to_int(row.get("n_title_matches", "0"))
+    context_matches = to_int(row.get("n_context_matches", "0"))
+    if title_matches >= 1 and max_score >= 18:
         return "A"
-    if max_score >= 10 or total_score >= 12:
+    if title_matches >= 1 or context_matches >= 2 or (n_works >= 2 and max_score >= 14):
         return "B"
     return "C"
 
@@ -75,7 +77,9 @@ def main() -> None:
         enriched.append({"priority_tier": priority_tier(row), **row})
     enriched.sort(key=lambda row: (
         {"A": 0, "B": 1, "C": 2}[row["priority_tier"]],
-        to_int(row.get("rank", "0")) or 10**9,
+        -to_int(row.get("n_title_matches", "0")),
+        -to_int(row.get("max_score", "0")),
+        -to_int(row.get("total_score", "0")),
         row.get("canonical_name", ""),
     ))
     shortlist = enriched[: max(1, args.top)]
@@ -90,21 +94,33 @@ def main() -> None:
     families = Counter(row.get("family", "").strip() or "unknown" for row in species)
     tiers = Counter(row["priority_tier"] for row in enriched)
     positive_controls = sorted(KNOWN_POSITIVES.intersection(species_names))
+    raw_mentions = [to_int(row.get("raw_species_mentions", "0")) for row in works]
+    title_supported_species = sum(to_int(row.get("n_title_matches", "0")) > 0 for row in species)
+    context_supported_species = sum(to_int(row.get("n_context_matches", "0")) > 0 for row in species)
     qc = {
-        "mapped_works": len(works),
+        "retained_works": len(works),
         "candidate_species": len(species),
         "unique_families": len(families),
         "priority_tiers": dict(sorted(tiers.items())),
+        "title_supported_species": title_supported_species,
+        "context_supported_species": context_supported_species,
+        "works_with_more_than_5_raw_species_mentions": sum(value > 5 for value in raw_mentions),
+        "max_raw_species_mentions_in_retained_work": max(raw_mentions, default=0),
         "top_families": families.most_common(20),
         "duplicate_work_ids": duplicate_work_ids,
         "duplicate_species": duplicate_species,
         "known_positive_controls_recovered": positive_controls,
         "known_positive_controls_recovered_count": len(positive_controls),
         "shortlist_rows": len(shortlist),
+        "ranking_mode": "species_specific_context_v2",
     }
     qc_path = Path(args.qc_out)
     qc_path.write_text(json.dumps(qc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(qc, ensure_ascii=False), flush=True)
+    if len(positive_controls) < 3:
+        raise RuntimeError(
+            f"Context filtering recovered only {len(positive_controls)}/4 positive controls; thresholds need review"
+        )
 
 
 if __name__ == "__main__":
