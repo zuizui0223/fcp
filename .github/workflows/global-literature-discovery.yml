@@ -97,23 +97,26 @@ jobs:
             --qc-out data/global_flower_colour_qc.json \
             --top 250
 
-      - name: Build evidence review queue
+      - name: Build natural-polymorphism evidence review queue
         shell: bash
         run: |
           set -euo pipefail
           python build_evidence_review_queue.py \
             --species data/global_flower_colour_species_ranked.csv \
             --out data/global_flower_colour_review_queue.csv \
+            --deferred-out data/global_flower_colour_deferred.csv \
             --qc-out data/global_flower_colour_review_queue_qc.json \
             --max-review 150
           WORKS=$(( $(wc -l < data/global_flower_colour_works.csv) - 1 ))
           SPECIES=$(( $(wc -l < data/global_flower_colour_species_ranked.csv) - 1 ))
           SHORTLIST=$(( $(wc -l < data/global_flower_colour_shortlist.csv) - 1 ))
           REVIEW=$(( $(wc -l < data/global_flower_colour_review_queue.csv) - 1 ))
+          DEFERRED=$(( $(wc -l < data/global_flower_colour_deferred.csv) - 1 ))
           echo "Retained works: $WORKS"
           echo "Candidate species: $SPECIES"
           echo "Shortlist rows: $SHORTLIST"
-          echo "Review queue rows: $REVIEW"
+          echo "Natural-polymorphism review rows: $REVIEW"
+          echo "Deferred/classified rows: $DEFERRED"
           test "$WORKS" -gt 0
           test "$SPECIES" -gt 0
           test "$SHORTLIST" -gt 0
@@ -132,6 +135,7 @@ jobs:
               "data/global_flower_colour_shortlist.csv",
               "data/global_flower_colour_qc.json",
               "data/global_flower_colour_review_queue.csv",
+              "data/global_flower_colour_deferred.csv",
               "data/global_flower_colour_review_queue_qc.json",
           }
           lines = subprocess.check_output(["git", "status", "--porcelain"], text=True).splitlines()
@@ -152,6 +156,7 @@ jobs:
             data/global_flower_colour_shortlist.csv
             data/global_flower_colour_qc.json
             data/global_flower_colour_review_queue.csv
+            data/global_flower_colour_deferred.csv
             data/global_flower_colour_review_queue_qc.json
           if-no-files-found: error
           retention-days: 30
@@ -168,11 +173,12 @@ jobs:
             data/global_flower_colour_shortlist.csv \
             data/global_flower_colour_qc.json \
             data/global_flower_colour_review_queue.csv \
+            data/global_flower_colour_deferred.csv \
             data/global_flower_colour_review_queue_qc.json
           if git diff --cached --quiet; then
             echo "No discovery changes to commit"
           else
-            git commit -m "[skip ci] add global flower-colour discovery review queue"
+            git commit -m "[skip ci] classify natural flower-colour polymorphism evidence"
             git pull --rebase origin main
             git push origin HEAD:main
           fi
