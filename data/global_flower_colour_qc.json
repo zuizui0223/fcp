@@ -1,83 +1,55 @@
 {
-  "mapped_works": 631,
-  "candidate_species": 430,
-  "unique_families": 96,
+  "mapped_works": 509,
+  "candidate_species": 316,
+  "unique_families": 88,
   "priority_tiers": {
-    "A": 239,
-    "B": 119,
-    "C": 72
+    "A": 213,
+    "B": 85,
+    "C": 18
   },
   "top_families": [
     [
       "Orchidaceae",
-      48
-    ],
-    [
-      "Fabaceae",
-      31
-    ],
-    [
-      "Asteraceae",
-      22
-    ],
-    [
-      "Solanaceae",
-      19
+      34
     ],
     [
       "Brassicaceae",
-      18
+      17
     ],
     [
-      "Ranunculaceae",
+      "Asteraceae",
+      16
+    ],
+    [
+      "Fabaceae",
       15
     ],
     [
-      "Convolvulaceae",
-      12
+      "Ranunculaceae",
+      14
     ],
     [
-      "Ericaceae",
-      12
-    ],
-    [
-      "Iridaceae",
+      "Solanaceae",
       11
     ],
     [
-      "Lamiaceae",
+      "Convolvulaceae",
       9
     ],
     [
-      "Cactaceae",
+      "Iridaceae",
       9
     ],
     [
-      "Plantaginaceae",
-      8
-    ],
-    [
-      "Campanulaceae",
-      8
-    ],
-    [
-      "Rosaceae",
-      8
-    ],
-    [
-      "Balsaminaceae",
-      7
-    ],
-    [
-      "Papaveraceae",
-      7
-    ],
-    [
-      "Onagraceae",
-      7
+      "Ericaceae",
+      9
     ],
     [
       "Polemoniaceae",
+      7
+    ],
+    [
+      "Balsaminaceae",
       7
     ],
     [
@@ -85,8 +57,36 @@
       7
     ],
     [
-      "Caryophyllaceae",
-      7
+      "Primulaceae",
+      6
+    ],
+    [
+      "Liliaceae",
+      6
+    ],
+    [
+      "Rosaceae",
+      6
+    ],
+    [
+      "Campanulaceae",
+      5
+    ],
+    [
+      "Geraniaceae",
+      5
+    ],
+    [
+      "Lamiaceae",
+      5
+    ],
+    [
+      "Gentianaceae",
+      4
+    ],
+    [
+      "Plantaginaceae",
+      4
     ]
   ],
   "duplicate_work_ids": 0,
