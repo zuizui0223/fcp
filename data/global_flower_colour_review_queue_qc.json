@@ -1,0 +1,19 @@
+{
+  "input_candidate_species": 316,
+  "review_queue_rows": 150,
+  "classification_counts": {
+    "DEFER": 135,
+    "P0": 4,
+    "P1": 172,
+    "P2": 1,
+    "P3": 4
+  },
+  "known_positive_controls_in_review_queue": [
+    "Dactylorhiza sambucina",
+    "Gymnadenia rhellicani",
+    "Linanthus parryae",
+    "Silene littorea"
+  ],
+  "known_positive_controls_in_review_queue_count": 4,
+  "review_mode": "direct_title_and_replicated_context_v1"
+}
