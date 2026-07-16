@@ -7,70 +7,76 @@ on:
         description: "OpenAlex cursor pages per broad query"
         required: true
         default: "2"
+      census_artifact_id:
+        description: "Existing validated angiosperm census artifact ID"
+        required: true
+        default: "8347738258"
   push:
     branches: [main]
     paths:
       - ".github/workflows/global-literature-discovery.yml"
       - "global_literature_discovery.py"
-      - "build_angiosperm_census.py"
+      - "analyze_global_discovery.py"
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
   group: global-flower-colour-literature-discovery
   cancel-in-progress: false
 
 jobs:
-  census:
-    runs-on: ubuntu-latest
-    timeout-minutes: 180
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Build and validate angiosperm census
-        run: |
-          rm -f data/angiosperm_census.csv
-          python build_angiosperm_census.py \
-            --out data/angiosperm_census.csv \
-            --min-records 10000
-          ROWS=$(( $(wc -l < data/angiosperm_census.csv) - 1 ))
-          echo "Census data rows: $ROWS"
-          test "$ROWS" -ge 10000
-      - uses: actions/upload-artifact@v4
-        with:
-          name: global-discovery-census
-          path: data/angiosperm_census.csv
-          if-no-files-found: error
-          retention-days: 30
-
   discover:
-    needs: census
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
       OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+      DEFAULT_CENSUS_ARTIFACT_ID: "8347738258"
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: actions/download-artifact@v4
-        with:
-          name: global-discovery-census
-          path: data
+
+      - name: Reuse validated census artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            ARTIFACT_ID='${{ inputs.census_artifact_id }}'
+          else
+            ARTIFACT_ID="$DEFAULT_CENSUS_ARTIFACT_ID"
+          fi
+          CENSUS_DIR="$RUNNER_TEMP/fcp-census"
+          mkdir -p "$CENSUS_DIR"
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/actions/artifacts/${ARTIFACT_ID}/zip" \
+            > "$RUNNER_TEMP/fcp-census.zip"
+          unzip -q "$RUNNER_TEMP/fcp-census.zip" -d "$CENSUS_DIR"
+          CENSUS_FILE="$CENSUS_DIR/angiosperm_census.csv"
+          test -s "$CENSUS_FILE"
+          ROWS=$(( $(wc -l < "$CENSUS_FILE") - 1 ))
+          echo "Reused census rows: $ROWS"
+          test "$ROWS" -ge 10000
+          echo "CENSUS_FILE=$CENSUS_FILE" >> "$GITHUB_ENV"
+
       - name: Discover and map global literature
         shell: bash
         run: |
+          set -euo pipefail
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             PAGES='${{ inputs.pages_per_query }}'
           else
             PAGES=2
           fi
           python global_literature_discovery.py \
-            --census data/angiosperm_census.csv \
+            --census "$CENSUS_FILE" \
             --works-out data/global_flower_colour_works.csv \
             --species-out data/global_flower_colour_species_ranked.csv \
             --pages-per-query "$PAGES" \
@@ -78,12 +84,48 @@ jobs:
             --timeout 30 \
             --retries 3 \
             --api-key-env OPENALEX_API_KEY
+
+      - name: Offline QC and prioritization
+        shell: bash
+        run: |
+          set -euo pipefail
+          python analyze_global_discovery.py \
+            --works data/global_flower_colour_works.csv \
+            --species data/global_flower_colour_species_ranked.csv \
+            --shortlist-out data/global_flower_colour_shortlist.csv \
+            --qc-out data/global_flower_colour_qc.json \
+            --top 250
           WORKS=$(( $(wc -l < data/global_flower_colour_works.csv) - 1 ))
           SPECIES=$(( $(wc -l < data/global_flower_colour_species_ranked.csv) - 1 ))
+          SHORTLIST=$(( $(wc -l < data/global_flower_colour_shortlist.csv) - 1 ))
           echo "Mapped works: $WORKS"
           echo "Candidate species: $SPECIES"
+          echo "Shortlist rows: $SHORTLIST"
           test "$WORKS" -gt 0
           test "$SPECIES" -gt 0
+          test "$SHORTLIST" -gt 0
+
+      - name: Verify repository changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git status --short
+          python - <<'PY'
+          import subprocess
+          allowed = {
+              "data/global_flower_colour_works.csv",
+              "data/global_flower_colour_species_ranked.csv",
+              "data/global_flower_colour_shortlist.csv",
+              "data/global_flower_colour_qc.json",
+          }
+          lines = subprocess.check_output(["git", "status", "--porcelain"], text=True).splitlines()
+          changed = {line[3:] for line in lines if len(line) >= 4}
+          unexpected = sorted(changed - allowed)
+          if unexpected:
+              raise SystemExit(f"Unexpected working-tree changes: {unexpected}")
+          print(f"Verified output-only changes: {sorted(changed)}")
+          PY
+
       - name: Upload discovery outputs
         uses: actions/upload-artifact@v4
         with:
@@ -91,18 +133,26 @@ jobs:
           path: |
             data/global_flower_colour_works.csv
             data/global_flower_colour_species_ranked.csv
+            data/global_flower_colour_shortlist.csv
+            data/global_flower_colour_qc.json
           if-no-files-found: error
           retention-days: 30
+
       - name: Commit discovery outputs
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/global_flower_colour_works.csv data/global_flower_colour_species_ranked.csv
+          git add \
+            data/global_flower_colour_works.csv \
+            data/global_flower_colour_species_ranked.csv \
+            data/global_flower_colour_shortlist.csv \
+            data/global_flower_colour_qc.json
           if git diff --cached --quiet; then
             echo "No discovery changes to commit"
           else
-            git commit -m "[skip ci] add global flower-colour literature discovery"
+            git commit -m "[skip ci] add global flower-colour discovery and QC"
             git pull --rebase origin main
-            git push
+            git push origin HEAD:main
           fi
