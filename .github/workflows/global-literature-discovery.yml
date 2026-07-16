@@ -6,7 +6,7 @@ on:
       pages_per_query:
         description: "OpenAlex cursor pages per broad query"
         required: true
-        default: "2"
+        default: "5"
       census_artifact_id:
         description: "Existing validated angiosperm census artifact ID"
         required: true
@@ -16,10 +16,12 @@ on:
     paths:
       - ".github/workflows/global-literature-discovery.yml"
       - "global_literature_discovery.py"
+      - "expanded_global_literature_discovery.py"
       - "analyze_global_discovery.py"
       - "build_evidence_review_queue.py"
       - "build_primary_evidence_ledger.py"
       - "build_control_candidate_pool.py"
+      - "prefill_primary_evidence_from_abstracts.py"
 
 permissions:
   contents: write
@@ -32,7 +34,7 @@ concurrency:
 jobs:
   discover:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
       DEFAULT_CENSUS_ARTIFACT_ID: "8347738258"
@@ -69,16 +71,16 @@ jobs:
           test "$ROWS" -ge 10000
           echo "CENSUS_FILE=$CENSUS_FILE" >> "$GITHUB_ENV"
 
-      - name: Discover and map global literature
+      - name: Discover and map expanded global literature
         shell: bash
         run: |
           set -euo pipefail
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             PAGES='${{ inputs.pages_per_query }}'
           else
-            PAGES=2
+            PAGES=5
           fi
-          python global_literature_discovery.py \
+          python expanded_global_literature_discovery.py \
             --census "$CENSUS_FILE" \
             --works-out data/global_flower_colour_works.csv \
             --species-out data/global_flower_colour_species_ranked.csv \
@@ -97,9 +99,9 @@ jobs:
             --species data/global_flower_colour_species_ranked.csv \
             --shortlist-out data/global_flower_colour_shortlist.csv \
             --qc-out data/global_flower_colour_qc.json \
-            --top 250
+            --top 500
 
-      - name: Build natural-polymorphism evidence review queue
+      - name: Build enlarged natural-polymorphism review queue
         shell: bash
         run: |
           set -euo pipefail
@@ -108,7 +110,7 @@ jobs:
             --out data/global_flower_colour_review_queue.csv \
             --deferred-out data/global_flower_colour_deferred.csv \
             --qc-out data/global_flower_colour_review_queue_qc.json \
-            --max-review 150
+            --max-review 300
 
       - name: Build primary evidence ledger
         shell: bash
@@ -118,6 +120,10 @@ jobs:
             --queue data/global_flower_colour_review_queue.csv \
             --out data/primary_evidence_ledger.csv \
             --qc-out data/primary_evidence_ledger_qc.json
+          python prefill_primary_evidence_from_abstracts.py \
+            --ledger data/primary_evidence_ledger.csv \
+            --out data/primary_evidence_ledger_prefilled.csv \
+            --qc-out data/primary_evidence_prefill_qc.json
 
       - name: Build matched control candidate pool
         shell: bash
@@ -134,16 +140,19 @@ jobs:
           SPECIES=$(( $(wc -l < data/global_flower_colour_species_ranked.csv) - 1 ))
           REVIEW=$(( $(wc -l < data/global_flower_colour_review_queue.csv) - 1 ))
           LEDGER=$(( $(wc -l < data/primary_evidence_ledger.csv) - 1 ))
+          PREFILLED=$(( $(wc -l < data/primary_evidence_ledger_prefilled.csv) - 1 ))
           CONTROLS=$(( $(wc -l < data/control_candidate_pool.csv) - 1 ))
           echo "Retained works: $WORKS"
           echo "Candidate species: $SPECIES"
           echo "Natural-polymorphism review rows: $REVIEW"
           echo "Primary evidence ledger rows: $LEDGER"
+          echo "Prefilled evidence ledger rows: $PREFILLED"
           echo "Control candidate rows: $CONTROLS"
           test "$WORKS" -gt 0
           test "$SPECIES" -gt 0
-          test "$REVIEW" -ge 10
+          test "$REVIEW" -ge 50
           test "$LEDGER" -eq "$REVIEW"
+          test "$PREFILLED" -eq "$REVIEW"
           test "$CONTROLS" -ge "$REVIEW"
 
       - name: Verify repository changes
@@ -163,6 +172,8 @@ jobs:
               "data/global_flower_colour_review_queue_qc.json",
               "data/primary_evidence_ledger.csv",
               "data/primary_evidence_ledger_qc.json",
+              "data/primary_evidence_ledger_prefilled.csv",
+              "data/primary_evidence_prefill_qc.json",
               "data/control_candidate_pool.csv",
               "data/control_candidate_pool_qc.json",
           }
@@ -188,6 +199,8 @@ jobs:
             data/global_flower_colour_review_queue_qc.json
             data/primary_evidence_ledger.csv
             data/primary_evidence_ledger_qc.json
+            data/primary_evidence_ledger_prefilled.csv
+            data/primary_evidence_prefill_qc.json
             data/control_candidate_pool.csv
             data/control_candidate_pool_qc.json
           if-no-files-found: error
@@ -209,12 +222,14 @@ jobs:
             data/global_flower_colour_review_queue_qc.json \
             data/primary_evidence_ledger.csv \
             data/primary_evidence_ledger_qc.json \
+            data/primary_evidence_ledger_prefilled.csv \
+            data/primary_evidence_prefill_qc.json \
             data/control_candidate_pool.csv \
             data/control_candidate_pool_qc.json
           if git diff --cached --quiet; then
             echo "No discovery changes to commit"
           else
-            git commit -m "[skip ci] update flower-colour evidence and control pools"
+            git commit -m "[skip ci] expand global flower-colour evidence dataset"
             git pull --rebase origin main
             git push origin HEAD:main
           fi
