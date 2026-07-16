@@ -1,0 +1,19 @@
+{
+  "ledger_species": 61,
+  "verified_seed_species": 4,
+  "pending_primary_review": 57,
+  "verification_status_counts": {
+    "pending_primary_review": 57,
+    "seed_verified": 4
+  },
+  "full_text_status_counts": {
+    "needed": 61
+  },
+  "core_fields_per_species": 30,
+  "estimated_review_minutes_per_species": {
+    "minimum": 8,
+    "likely": 15,
+    "complex": 25
+  },
+  "ledger_mode": "species_primary_evidence_v1"
+}
