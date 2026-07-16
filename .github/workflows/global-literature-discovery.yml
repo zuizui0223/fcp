@@ -38,6 +38,7 @@ jobs:
     env:
       OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
       DEFAULT_CENSUS_ARTIFACT_ID: "8347738258"
+      PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -159,6 +160,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          find . -type d -name __pycache__ -prune -exec rm -rf {} +
+          find . -type f \( -name '*.pyc' -o -name '*.pyo' \) -delete
           git status --short
           python - <<'PY'
           import subprocess
