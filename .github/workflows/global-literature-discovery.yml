@@ -1,0 +1,108 @@
+name: Global flower-colour literature discovery
+
+on:
+  workflow_dispatch:
+    inputs:
+      pages_per_query:
+        description: "OpenAlex cursor pages per broad query"
+        required: true
+        default: "2"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/global-literature-discovery.yml"
+      - "global_literature_discovery.py"
+      - "build_angiosperm_census.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-flower-colour-literature-discovery
+  cancel-in-progress: false
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build and validate angiosperm census
+        run: |
+          rm -f data/angiosperm_census.csv
+          python build_angiosperm_census.py \
+            --out data/angiosperm_census.csv \
+            --min-records 10000
+          ROWS=$(( $(wc -l < data/angiosperm_census.csv) - 1 ))
+          echo "Census data rows: $ROWS"
+          test "$ROWS" -ge 10000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-discovery-census
+          path: data/angiosperm_census.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  discover:
+    needs: census
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-discovery-census
+          path: data
+      - name: Discover and map global literature
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            PAGES='${{ inputs.pages_per_query }}'
+          else
+            PAGES=2
+          fi
+          python global_literature_discovery.py \
+            --census data/angiosperm_census.csv \
+            --works-out data/global_flower_colour_works.csv \
+            --species-out data/global_flower_colour_species_ranked.csv \
+            --pages-per-query "$PAGES" \
+            --per-page 200 \
+            --timeout 30 \
+            --retries 3 \
+            --api-key-env OPENALEX_API_KEY
+          WORKS=$(( $(wc -l < data/global_flower_colour_works.csv) - 1 ))
+          SPECIES=$(( $(wc -l < data/global_flower_colour_species_ranked.csv) - 1 ))
+          echo "Mapped works: $WORKS"
+          echo "Candidate species: $SPECIES"
+          test "$WORKS" -gt 0
+          test "$SPECIES" -gt 0
+      - name: Upload discovery outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-flower-colour-discovery
+          path: |
+            data/global_flower_colour_works.csv
+            data/global_flower_colour_species_ranked.csv
+          if-no-files-found: error
+          retention-days: 30
+      - name: Commit discovery outputs
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/global_flower_colour_works.csv data/global_flower_colour_species_ranked.csv
+          if git diff --cached --quiet; then
+            echo "No discovery changes to commit"
+          else
+            git commit -m "[skip ci] add global flower-colour literature discovery"
+            git pull --rebase origin main
+            git push
+          fi
