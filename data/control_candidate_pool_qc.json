@@ -1,0 +1,13 @@
+{
+  "focal_species": 61,
+  "focal_species_with_controls": 61,
+  "control_candidate_rows": 302,
+  "unique_control_candidates": 267,
+  "match_level_counts": {
+    "same_family": 13,
+    "same_genus": 289
+  },
+  "per_focal_target": 5,
+  "semantic_guard": "unknown_is_not_monomorphic",
+  "pool_mode": "taxonomically_matched_screening_candidates_v1"
+}
