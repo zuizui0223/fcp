@@ -17,6 +17,7 @@ on:
       - ".github/workflows/global-literature-discovery.yml"
       - "global_literature_discovery.py"
       - "expanded_global_literature_discovery.py"
+      - "targeted_deferred_followup.py"
       - "analyze_global_discovery.py"
       - "build_evidence_review_queue.py"
       - "build_primary_evidence_ledger.py"
@@ -102,10 +103,42 @@ jobs:
             --qc-out data/global_flower_colour_qc.json \
             --top 500
 
-      - name: Build enlarged natural-polymorphism review queue
+      - name: Build initial natural-polymorphism review queue
         shell: bash
         run: |
           set -euo pipefail
+          python build_evidence_review_queue.py \
+            --species data/global_flower_colour_species_ranked.csv \
+            --out data/global_flower_colour_review_queue.csv \
+            --deferred-out data/global_flower_colour_deferred.csv \
+            --qc-out data/global_flower_colour_review_queue_qc.json \
+            --max-review 300
+
+      - name: Target strong deferred candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_deferred_followup.py \
+            --deferred data/global_flower_colour_deferred.csv \
+            --species data/global_flower_colour_species_ranked.csv \
+            --works-out data/targeted_followup_works.csv \
+            --qc-out data/targeted_followup_qc.json \
+            --max-targets 80 \
+            --per-page 25 \
+            --timeout 30 \
+            --retries 3 \
+            --api-key-env OPENALEX_API_KEY
+
+      - name: Rebuild prioritization after targeted follow-up
+        shell: bash
+        run: |
+          set -euo pipefail
+          python analyze_global_discovery.py \
+            --works data/global_flower_colour_works.csv \
+            --species data/global_flower_colour_species_ranked.csv \
+            --shortlist-out data/global_flower_colour_shortlist.csv \
+            --qc-out data/global_flower_colour_qc.json \
+            --top 500
           python build_evidence_review_queue.py \
             --species data/global_flower_colour_species_ranked.csv \
             --out data/global_flower_colour_review_queue.csv \
@@ -173,6 +206,8 @@ jobs:
               "data/global_flower_colour_review_queue.csv",
               "data/global_flower_colour_deferred.csv",
               "data/global_flower_colour_review_queue_qc.json",
+              "data/targeted_followup_works.csv",
+              "data/targeted_followup_qc.json",
               "data/primary_evidence_ledger.csv",
               "data/primary_evidence_ledger_qc.json",
               "data/primary_evidence_ledger_prefilled.csv",
@@ -200,6 +235,8 @@ jobs:
             data/global_flower_colour_review_queue.csv
             data/global_flower_colour_deferred.csv
             data/global_flower_colour_review_queue_qc.json
+            data/targeted_followup_works.csv
+            data/targeted_followup_qc.json
             data/primary_evidence_ledger.csv
             data/primary_evidence_ledger_qc.json
             data/primary_evidence_ledger_prefilled.csv
@@ -223,6 +260,8 @@ jobs:
             data/global_flower_colour_review_queue.csv \
             data/global_flower_colour_deferred.csv \
             data/global_flower_colour_review_queue_qc.json \
+            data/targeted_followup_works.csv \
+            data/targeted_followup_qc.json \
             data/primary_evidence_ledger.csv \
             data/primary_evidence_ledger_qc.json \
             data/primary_evidence_ledger_prefilled.csv \
@@ -232,7 +271,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No discovery changes to commit"
           else
-            git commit -m "[skip ci] expand global flower-colour evidence dataset"
+            git commit -m "[skip ci] expand deferred flower-colour evidence"
             git pull --rebase origin main
             git push origin HEAD:main
           fi
