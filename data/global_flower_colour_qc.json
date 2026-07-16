@@ -1,0 +1,102 @@
+{
+  "mapped_works": 631,
+  "candidate_species": 430,
+  "unique_families": 96,
+  "priority_tiers": {
+    "A": 239,
+    "B": 119,
+    "C": 72
+  },
+  "top_families": [
+    [
+      "Orchidaceae",
+      48
+    ],
+    [
+      "Fabaceae",
+      31
+    ],
+    [
+      "Asteraceae",
+      22
+    ],
+    [
+      "Solanaceae",
+      19
+    ],
+    [
+      "Brassicaceae",
+      18
+    ],
+    [
+      "Ranunculaceae",
+      15
+    ],
+    [
+      "Convolvulaceae",
+      12
+    ],
+    [
+      "Ericaceae",
+      12
+    ],
+    [
+      "Iridaceae",
+      11
+    ],
+    [
+      "Lamiaceae",
+      9
+    ],
+    [
+      "Cactaceae",
+      9
+    ],
+    [
+      "Plantaginaceae",
+      8
+    ],
+    [
+      "Campanulaceae",
+      8
+    ],
+    [
+      "Rosaceae",
+      8
+    ],
+    [
+      "Balsaminaceae",
+      7
+    ],
+    [
+      "Papaveraceae",
+      7
+    ],
+    [
+      "Onagraceae",
+      7
+    ],
+    [
+      "Polemoniaceae",
+      7
+    ],
+    [
+      "Malvaceae",
+      7
+    ],
+    [
+      "Caryophyllaceae",
+      7
+    ]
+  ],
+  "duplicate_work_ids": 0,
+  "duplicate_species": 0,
+  "known_positive_controls_recovered": [
+    "Dactylorhiza sambucina",
+    "Gymnadenia rhellicani",
+    "Linanthus parryae",
+    "Silene littorea"
+  ],
+  "known_positive_controls_recovered_count": 4,
+  "shortlist_rows": 250
+}
