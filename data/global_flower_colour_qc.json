@@ -1,12 +1,16 @@
 {
-  "mapped_works": 509,
+  "retained_works": 509,
   "candidate_species": 316,
   "unique_families": 88,
   "priority_tiers": {
-    "A": 213,
-    "B": 85,
-    "C": 18
+    "A": 142,
+    "B": 96,
+    "C": 78
   },
+  "title_supported_species": 230,
+  "context_supported_species": 237,
+  "works_with_more_than_5_raw_species_mentions": 0,
+  "max_raw_species_mentions_in_retained_work": 5,
   "top_families": [
     [
       "Orchidaceae",
@@ -98,5 +102,6 @@
     "Silene littorea"
   ],
   "known_positive_controls_recovered_count": 4,
-  "shortlist_rows": 250
+  "shortlist_rows": 250,
+  "ranking_mode": "species_specific_context_v2"
 }
