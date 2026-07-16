@@ -19,6 +19,7 @@ on:
       - "analyze_global_discovery.py"
       - "build_evidence_review_queue.py"
       - "build_primary_evidence_ledger.py"
+      - "build_control_candidate_pool.py"
 
 permissions:
   contents: write
@@ -117,23 +118,33 @@ jobs:
             --queue data/global_flower_colour_review_queue.csv \
             --out data/primary_evidence_ledger.csv \
             --qc-out data/primary_evidence_ledger_qc.json
+
+      - name: Build matched control candidate pool
+        shell: bash
+        run: |
+          set -euo pipefail
+          python build_control_candidate_pool.py \
+            --census "$CENSUS_FILE" \
+            --focals data/global_flower_colour_review_queue.csv \
+            --deferred data/global_flower_colour_deferred.csv \
+            --out data/control_candidate_pool.csv \
+            --qc-out data/control_candidate_pool_qc.json \
+            --per-focal 5
           WORKS=$(( $(wc -l < data/global_flower_colour_works.csv) - 1 ))
           SPECIES=$(( $(wc -l < data/global_flower_colour_species_ranked.csv) - 1 ))
-          SHORTLIST=$(( $(wc -l < data/global_flower_colour_shortlist.csv) - 1 ))
           REVIEW=$(( $(wc -l < data/global_flower_colour_review_queue.csv) - 1 ))
-          DEFERRED=$(( $(wc -l < data/global_flower_colour_deferred.csv) - 1 ))
           LEDGER=$(( $(wc -l < data/primary_evidence_ledger.csv) - 1 ))
+          CONTROLS=$(( $(wc -l < data/control_candidate_pool.csv) - 1 ))
           echo "Retained works: $WORKS"
           echo "Candidate species: $SPECIES"
-          echo "Shortlist rows: $SHORTLIST"
           echo "Natural-polymorphism review rows: $REVIEW"
-          echo "Deferred/classified rows: $DEFERRED"
           echo "Primary evidence ledger rows: $LEDGER"
+          echo "Control candidate rows: $CONTROLS"
           test "$WORKS" -gt 0
           test "$SPECIES" -gt 0
-          test "$SHORTLIST" -gt 0
           test "$REVIEW" -ge 10
           test "$LEDGER" -eq "$REVIEW"
+          test "$CONTROLS" -ge "$REVIEW"
 
       - name: Verify repository changes
         shell: bash
@@ -152,6 +163,8 @@ jobs:
               "data/global_flower_colour_review_queue_qc.json",
               "data/primary_evidence_ledger.csv",
               "data/primary_evidence_ledger_qc.json",
+              "data/control_candidate_pool.csv",
+              "data/control_candidate_pool_qc.json",
           }
           lines = subprocess.check_output(["git", "status", "--porcelain"], text=True).splitlines()
           changed = {line[3:] for line in lines if len(line) >= 4}
@@ -175,6 +188,8 @@ jobs:
             data/global_flower_colour_review_queue_qc.json
             data/primary_evidence_ledger.csv
             data/primary_evidence_ledger_qc.json
+            data/control_candidate_pool.csv
+            data/control_candidate_pool_qc.json
           if-no-files-found: error
           retention-days: 30
 
@@ -193,11 +208,13 @@ jobs:
             data/global_flower_colour_deferred.csv \
             data/global_flower_colour_review_queue_qc.json \
             data/primary_evidence_ledger.csv \
-            data/primary_evidence_ledger_qc.json
+            data/primary_evidence_ledger_qc.json \
+            data/control_candidate_pool.csv \
+            data/control_candidate_pool_qc.json
           if git diff --cached --quiet; then
             echo "No discovery changes to commit"
           else
-            git commit -m "[skip ci] update flower-colour evidence ledger"
+            git commit -m "[skip ci] update flower-colour evidence and control pools"
             git pull --rebase origin main
             git push origin HEAD:main
           fi
