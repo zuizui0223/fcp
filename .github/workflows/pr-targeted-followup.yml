@@ -1,0 +1,79 @@
+name: PR targeted follow-up acquisition
+
+on:
+  pull_request:
+    paths:
+      - "targeted_deferred_followup.py"
+      - ".github/workflows/pr-targeted-followup.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  targeted-followup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate committed inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s data/global_flower_colour_deferred.csv
+          test -s data/global_flower_colour_species_ranked.csv
+          echo "Deferred rows: $(( $(wc -l < data/global_flower_colour_deferred.csv) - 1 ))"
+          echo "Species rows: $(( $(wc -l < data/global_flower_colour_species_ranked.csv) - 1 ))"
+
+      - name: Run resilient targeted acquisition
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_deferred_followup.py \
+            --deferred data/global_flower_colour_deferred.csv \
+            --species data/global_flower_colour_species_ranked.csv \
+            --works-out data/targeted_followup_works.csv \
+            --qc-out data/targeted_followup_qc.json \
+            --max-targets 80 \
+            --per-page 25 \
+            --timeout 30 \
+            --retries 3 \
+            --api-key-env OPENALEX_API_KEY
+
+      - name: Report acquisition results
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat data/targeted_followup_qc.json
+          ROWS=$(( $(wc -l < data/targeted_followup_works.csv) - 1 ))
+          echo "Retained follow-up works: $ROWS"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          qc = json.loads(Path('data/targeted_followup_qc.json').read_text())
+          required = {'eligible_targets', 'requests_used', 'targets_with_new_evidence', 'retained_followup_works', 'failed_batches'}
+          missing = sorted(required - set(qc))
+          if missing:
+              raise SystemExit(f'Missing QC fields: {missing}')
+          if qc['eligible_targets'] < 1:
+              raise SystemExit('No eligible targets selected')
+          print('Targeted acquisition QC is structurally valid')
+          PY
+
+      - name: Upload targeted acquisition outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-targeted-followup-results
+          path: |
+            data/targeted_followup_works.csv
+            data/targeted_followup_qc.json
+            data/global_flower_colour_species_ranked.csv
+          if-no-files-found: error
+          retention-days: 14
