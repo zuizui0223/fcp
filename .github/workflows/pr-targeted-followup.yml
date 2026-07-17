@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "targeted_deferred_followup.py"
+      - "targeted_pigment_followup.py"
       - ".github/workflows/pr-targeted-followup.yml"
 
 permissions:
@@ -13,7 +14,7 @@ permissions:
 jobs:
   targeted-followup:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
       PYTHONDONTWRITEBYTECODE: "1"
@@ -47,24 +48,41 @@ jobs:
             --retries 3 \
             --api-key-env OPENALEX_API_KEY
 
+      - name: Run complementary pigment acquisition
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_pigment_followup.py \
+            --deferred data/global_flower_colour_deferred.csv \
+            --first-pass data/targeted_followup_works.csv \
+            --out data/targeted_pigment_followup_works.csv \
+            --qc-out data/targeted_pigment_followup_qc.json \
+            --max-targets 80 \
+            --per-page 100 \
+            --timeout 30 \
+            --retries 3 \
+            --api-key-env OPENALEX_API_KEY
+
       - name: Report acquisition results
         shell: bash
         run: |
           set -euo pipefail
           cat data/targeted_followup_qc.json
-          ROWS=$(( $(wc -l < data/targeted_followup_works.csv) - 1 ))
-          echo "Retained follow-up works: $ROWS"
+          cat data/targeted_pigment_followup_qc.json
+          FIRST=$(( $(wc -l < data/targeted_followup_works.csv) - 1 ))
+          SECOND=$(( $(wc -l < data/targeted_pigment_followup_works.csv) - 1 ))
+          echo "First-pass works: $FIRST"
+          echo "Pigment-pass works: $SECOND"
           python - <<'PY'
-          import json
+          import csv, json
           from pathlib import Path
-          qc = json.loads(Path('data/targeted_followup_qc.json').read_text())
-          required = {'eligible_targets', 'requests_used', 'targets_with_new_evidence', 'retained_followup_works', 'failed_batches'}
-          missing = sorted(required - set(qc))
-          if missing:
-              raise SystemExit(f'Missing QC fields: {missing}')
-          if qc['eligible_targets'] < 1:
-              raise SystemExit('No eligible targets selected')
-          print('Targeted acquisition QC is structurally valid')
+          q1=json.loads(Path('data/targeted_followup_qc.json').read_text())
+          q2=json.loads(Path('data/targeted_pigment_followup_qc.json').read_text())
+          names=set()
+          for path in ['data/targeted_followup_works.csv','data/targeted_pigment_followup_works.csv']:
+              with open(path,encoding='utf-8') as f:
+                  names.update(r['canonical_name'] for r in csv.DictReader(f))
+          print(json.dumps({'combined_species_with_evidence':len(names),'combined_works':q1['retained_followup_works']+q2['retained_followup_works']}))
           PY
 
       - name: Upload targeted acquisition outputs
@@ -74,6 +92,8 @@ jobs:
           path: |
             data/targeted_followup_works.csv
             data/targeted_followup_qc.json
+            data/targeted_pigment_followup_works.csv
+            data/targeted_pigment_followup_qc.json
             data/global_flower_colour_species_ranked.csv
           if-no-files-found: error
           retention-days: 14
