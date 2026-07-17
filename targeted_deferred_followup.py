@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Batch-target strong deferred flower-colour candidates in OpenAlex.
+"""Targeted OpenAlex follow-up for strong deferred flower-colour candidates.
 
-Up to N candidate species are grouped into batches so the follow-up stage uses a
-small, predictable number of requests. Evidence is scored per species locally and
-merged into the existing ranking. `unknown != monomorphic` is preserved.
+The follow-up is deliberately best-effort: external API failures are recorded in
+QC and do not abort the full discovery workflow. Candidate evidence remains
+unverified until primary review.
 """
 from __future__ import annotations
 
@@ -14,7 +14,6 @@ import json
 import os
 import re
 import time
-import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -51,12 +50,13 @@ def clean(value: object) -> str:
 def abstract_text(inverted: object) -> str:
     if not isinstance(inverted, dict):
         return ""
-    positions = []
-    for word, indexes in inverted.items():
-        if isinstance(indexes, list):
-            for idx in indexes:
-                if isinstance(idx, int):
-                    positions.append((idx, str(word)))
+    positions = [
+        (idx, str(word))
+        for word, indexes in inverted.items()
+        if isinstance(indexes, list)
+        for idx in indexes
+        if isinstance(idx, int)
+    ]
     positions.sort()
     return clean(" ".join(word for _, word in positions))
 
@@ -73,7 +73,7 @@ def request_json(url: str, timeout: int, retries: int) -> Dict[str, object]:
             req = urllib.request.Request(
                 url,
                 headers={
-                    "User-Agent": "fcp-targeted-followup/2.0 (GitHub: zuizui0223/fcp)",
+                    "User-Agent": "fcp-targeted-followup/3.0 (GitHub: zuizui0223/fcp)",
                     "Accept": "application/json",
                 },
             )
@@ -82,16 +82,11 @@ def request_json(url: str, timeout: int, retries: int) -> Dict[str, object]:
             if not isinstance(payload, dict):
                 raise RuntimeError("OpenAlex response was not an object")
             return payload
-        except urllib.error.HTTPError as exc:
-            last = exc
-            if exc.code in {401, 402, 403, 429}:
-                body = exc.read().decode("utf-8", errors="replace")[:500]
-                raise RuntimeError(f"OpenAlex HTTP {exc.code}: {body}") from exc
         except Exception as exc:  # noqa: BLE001
             last = exc
-        if attempt + 1 < retries:
-            time.sleep(2 ** attempt)
-    raise RuntimeError(f"OpenAlex request failed: {url}") from last
+            if attempt + 1 < retries:
+                time.sleep(2 ** attempt)
+    raise RuntimeError(str(last) if last else "OpenAlex request failed")
 
 
 def choose_targets(rows: List[Dict[str, str]], limit: int) -> List[Dict[str, str]]:
@@ -139,16 +134,14 @@ def score_work(name: str, title: str, abstract: str) -> tuple[int, str, str] | N
         basis.append("artificial_penalty")
     match = re.search(re.escape(name), abstract, re.I)
     if match:
-        lo = max(0, match.start() - 240)
-        hi = min(len(abstract), match.end() + 240)
-        snippet = abstract[lo:hi]
+        snippet = abstract[max(0, match.start() - 240):min(len(abstract), match.end() + 240)]
     if score < 14:
         return None
     return score, "+".join(basis), clean(snippet)[:500]
 
 
-def batches(items: List[Dict[str, str]], size: int) -> List[List[Dict[str, str]]]:
-    return [items[i:i + size] for i in range(0, len(items), size)]
+def grouped_targets(targets: List[Dict[str, str]], size: int) -> List[List[Dict[str, str]]]:
+    return [targets[i:i + size] for i in range(0, len(targets), size)]
 
 
 def main() -> None:
@@ -158,7 +151,7 @@ def main() -> None:
     parser.add_argument("--works-out", default="data/targeted_followup_works.csv")
     parser.add_argument("--qc-out", default="data/targeted_followup_qc.json")
     parser.add_argument("--max-targets", type=int, default=80)
-    parser.add_argument("--batch-size", type=int, default=10)
+    parser.add_argument("--batch-size", type=int, default=8)
     parser.add_argument("--per-page", type=int, default=100)
     parser.add_argument("--timeout", type=int, default=30)
     parser.add_argument("--retries", type=int, default=3)
@@ -168,35 +161,45 @@ def main() -> None:
     deferred = read_rows(Path(args.deferred))
     species_rows = read_rows(Path(args.species))
     targets = choose_targets(deferred, args.max_targets)
-    if not targets:
-        raise RuntimeError("No eligible deferred targets")
-
     api_key = os.environ.get(args.api_key_env, "").strip()
     by_name = {row["canonical_name"]: row for row in species_rows}
     target_by_name = {row["canonical_name"]: row for row in targets}
+
     works: List[Dict[str, object]] = []
     targets_with_evidence: set[str] = set()
     seen_pairs: set[tuple[str, str]] = set()
+    errors: List[Dict[str, object]] = []
     request_count = 0
+    batches = grouped_targets(targets, max(1, args.batch_size))
 
-    target_batches = batches(targets, max(1, args.batch_size))
-    for batch_index, batch in enumerate(target_batches, 1):
-        names = [row["canonical_name"] for row in batch]
-        name_clause = " OR ".join(f'"{name}"' for name in names)
-        query = f'({name_clause}) ("flower color" OR "flower colour" OR "floral color" OR "floral colour" OR "color morph" OR "colour morph")'
+    for batch_index, batch in enumerate(batches, 1):
+        genera = sorted({row["canonical_name"].split()[0] for row in batch})
+        query = " OR ".join(f'"{genus}"' for genus in genera)
+        query = f'({query}) "flower color"'
         params: Dict[str, object] = {
             "search": query,
             "per-page": min(max(args.per_page, 1), 200),
         }
         if api_key:
             params["api_key"] = api_key
-        payload = request_json(OPENALEX + "?" + urllib.parse.urlencode(params), args.timeout, args.retries)
         request_count += 1
+        try:
+            payload = request_json(
+                OPENALEX + "?" + urllib.parse.urlencode(params),
+                args.timeout,
+                args.retries,
+            )
+        except RuntimeError as exc:
+            errors.append({"batch": batch_index, "genera": genera, "error": str(exc)[:500]})
+            continue
+
         results = payload.get("results", [])
         if not isinstance(results, list):
-            raise RuntimeError(f"OpenAlex results was not a list for batch {batch_index}")
+            errors.append({"batch": batch_index, "genera": genera, "error": "results_not_list"})
+            continue
 
         best_by_name: Dict[str, Dict[str, object]] = {}
+        names = [row["canonical_name"] for row in batch]
         for item in results:
             if not isinstance(item, dict):
                 continue
@@ -215,9 +218,7 @@ def main() -> None:
                 seen_pairs.add((name, openalex_id))
                 score, basis, snippet = evidence
                 primary = item.get("primary_location") or {}
-                landing = openalex_id
-                if isinstance(primary, dict):
-                    landing = str(primary.get("landing_page_url") or landing)
+                landing = str(primary.get("landing_page_url") or openalex_id) if isinstance(primary, dict) else openalex_id
                 row = {
                     "canonical_name": name,
                     "family": target_by_name[name].get("family", ""),
@@ -232,7 +233,7 @@ def main() -> None:
                 }
                 works.append(row)
                 targets_with_evidence.add(name)
-                if name not in best_by_name or int(row["score"]) > int(best_by_name[name]["score"]):
+                if name not in best_by_name or score > int(best_by_name[name]["score"]):
                     best_by_name[name] = row
 
         for name, best in best_by_name.items():
@@ -247,15 +248,6 @@ def main() -> None:
                 row["best_doi"] = str(best["doi"])
                 row["best_openalex_id"] = str(best["openalex_id"])
                 row["best_match_evidence"] = str(best["evidence_snippet"])
-
-        print(json.dumps({
-            "processed_batches": batch_index,
-            "total_batches": len(target_batches),
-            "processed_targets": min(batch_index * args.batch_size, len(targets)),
-            "targets_with_evidence": len(targets_with_evidence),
-            "retained_works": len(works),
-            "requests_used": request_count,
-        }), flush=True)
 
     species_rows.sort(key=lambda row: (
         -int(row.get("n_title_matches") or 0), -int(row.get("max_score") or 0),
@@ -277,13 +269,14 @@ def main() -> None:
 
     qc = {
         "eligible_targets": len(targets),
-        "target_batches": len(target_batches),
+        "target_batches": len(batches),
         "requests_used": request_count,
+        "failed_batches": len(errors),
+        "errors": errors,
         "targets_with_new_evidence": len(targets_with_evidence),
         "retained_followup_works": len(works),
         "api_key_present": bool(api_key),
-        "batch_size": args.batch_size,
-        "mode": "targeted_deferred_followup_batched_v2",
+        "mode": "targeted_deferred_followup_resilient_v3",
     }
     Path(args.qc_out).write_text(json.dumps(qc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(qc), flush=True)
