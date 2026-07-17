@@ -6,6 +6,7 @@ on:
       - "targeted_deferred_followup.py"
       - "targeted_pigment_followup.py"
       - "targeted_ecology_followup.py"
+      - "targeted_classic_variation_followup.py"
       - ".github/workflows/pr-targeted-followup.yml"
 
 permissions:
@@ -15,7 +16,7 @@ permissions:
 jobs:
   targeted-followup:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     env:
       OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
       PYTHONDONTWRITEBYTECODE: "1"
@@ -80,6 +81,23 @@ jobs:
             --retries 3 \
             --api-key-env OPENALEX_API_KEY
 
+      - name: Run classic variation acquisition
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_classic_variation_followup.py \
+            --deferred data/global_flower_colour_deferred.csv \
+            --prior data/targeted_followup_works.csv \
+            --prior data/targeted_pigment_followup_works.csv \
+            --prior data/targeted_ecology_followup_works.csv \
+            --out data/targeted_classic_variation_followup_works.csv \
+            --qc-out data/targeted_classic_variation_followup_qc.json \
+            --max-targets 100 \
+            --per-page 100 \
+            --timeout 30 \
+            --retries 3 \
+            --api-key-env OPENALEX_API_KEY
+
       - name: Report acquisition results
         shell: bash
         run: |
@@ -87,11 +105,23 @@ jobs:
           cat data/targeted_followup_qc.json
           cat data/targeted_pigment_followup_qc.json
           cat data/targeted_ecology_followup_qc.json
+          cat data/targeted_classic_variation_followup_qc.json
           python - <<'PY'
           import csv, json
           from pathlib import Path
-          paths=['data/targeted_followup_works.csv','data/targeted_pigment_followup_works.csv','data/targeted_ecology_followup_works.csv']
-          qcs=[json.loads(Path(p).read_text()) for p in ['data/targeted_followup_qc.json','data/targeted_pigment_followup_qc.json','data/targeted_ecology_followup_qc.json']]
+          paths=[
+              'data/targeted_followup_works.csv',
+              'data/targeted_pigment_followup_works.csv',
+              'data/targeted_ecology_followup_works.csv',
+              'data/targeted_classic_variation_followup_works.csv',
+          ]
+          qc_paths=[
+              'data/targeted_followup_qc.json',
+              'data/targeted_pigment_followup_qc.json',
+              'data/targeted_ecology_followup_qc.json',
+              'data/targeted_classic_variation_followup_qc.json',
+          ]
+          qcs=[json.loads(Path(p).read_text()) for p in qc_paths]
           names=set(); works=set()
           for path in paths:
               with open(path,encoding='utf-8') as f:
@@ -111,6 +141,8 @@ jobs:
             data/targeted_pigment_followup_qc.json
             data/targeted_ecology_followup_works.csv
             data/targeted_ecology_followup_qc.json
+            data/targeted_classic_variation_followup_works.csv
+            data/targeted_classic_variation_followup_qc.json
             data/global_flower_colour_species_ranked.csv
           if-no-files-found: error
           retention-days: 14
