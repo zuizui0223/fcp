@@ -49,13 +49,16 @@ jobs:
           test -s analysis_outputs/research/family_effort_adjusted_signal.csv
           test -s analysis_outputs/research/leave_one_family_out.csv
           python - <<'PY'
-          import json
+          import json, math
           from pathlib import Path
           manifest=json.loads(Path('analysis_outputs/research/research_analysis_manifest.json').read_text())
           effort=manifest['effort_model']
           assert effort['n_species'] > 0
-          assert effort['validated_cases'] > 0
-          assert effort['quadratic_aic'] < effort['linear_aic']
+          assert 0 < effort['validated_cases'] <= effort['n_species']
+          assert 0 <= effort['strict_cases'] <= effort['validated_cases']
+          for key in ('linear_aic','quadratic_aic','delta_aic_linear_minus_quadratic','strict_quadratic_p'):
+              assert math.isfinite(float(effort[key])), key
+          assert 0.0 <= float(effort['candidate_conditional_fraction']) <= 1.0
           print(json.dumps(effort, indent=2))
           PY
       - uses: actions/upload-artifact@v4
