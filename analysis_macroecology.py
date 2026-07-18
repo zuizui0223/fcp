@@ -13,7 +13,9 @@ def zscore(s):
     x=pd.to_numeric(s,errors='coerce'); sd=x.std(ddof=0)
     return (x-x.mean())/sd if sd and np.isfinite(sd) else x*0
 
+
 def load(path): return pd.read_csv(Path(path))
+
 
 def build_labels(species,review):
     d=species.copy(); accepted=set(review.loc[review.review_priority.isin(['P0','P1','P2','P3']),'canonical_name'])
@@ -25,12 +27,19 @@ def build_labels(species,review):
     d['log_works']=np.log1p(d.n_works); d['family']=d.family.fillna('Unknown').astype(str)
     return d
 
+
+def coefficient_table(model):
+    ci=model.conf_int()
+    return pd.DataFrame({'term':model.params.index,'estimate':model.params.values,'std_error':model.bse.values,
+                         'odds_ratio':np.exp(model.params.values),'ci_low':np.exp(ci[0].values),
+                         'ci_high':np.exp(ci[1].values),'p_value':model.pvalues.values})
+
+
 def fit_effort(d,out):
     linear=smf.glm('validated_case ~ log_works',d,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':d.family})
     quad=smf.glm('validated_case ~ log_works + I(log_works**2)',d,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':d.family})
     strict=smf.glm('strict_case ~ log_works + I(log_works**2)',d,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':d.family})
-    ci=quad.conf_int()
-    pd.DataFrame({'term':quad.params.index,'estimate':quad.params.values,'std_error':quad.bse.values,'p_value':quad.pvalues.values,'odds_ratio':np.exp(quad.params.values),'ci_low':np.exp(ci[0].values),'ci_high':np.exp(ci[1].values)}).to_csv(out/'discovery_effort_nonlinear_model.csv',index=False)
+    coefficient_table(quad).to_csv(out/'discovery_effort_nonlinear_model.csv',index=False)
     pred=[]
     for n in [1,2,3,5,10,20]:
         lw=np.log1p(n); pred.append({'n_works':n,'predicted_validation_probability':float(quad.predict(pd.DataFrame({'log_works':[lw]}))[0])})
@@ -47,22 +56,58 @@ def fit_effort(d,out):
     pd.DataFrame(loo).to_csv(out/'leave_one_family_out.csv',index=False)
     return {'n_species':int(len(d)),'validated_cases':int(d.validated_case.sum()),'strict_cases':int(d.strict_case.sum()),'candidate_conditional_fraction':float(d.validated_case.mean()),'linear_aic':float(linear.aic),'quadratic_aic':float(quad.aic),'delta_aic_linear_minus_quadratic':float(linear.aic-quad.aic),'strict_quadratic_p':float(strict.pvalues['I(log_works ** 2)'])}
 
-def fit_macro(d,covariates,out):
+
+def fit_geography(d,covariates,out):
     p=Path(covariates)
-    if not p.exists(): return {'status':'not_run','reason':'covariate table absent'}
+    if not p.exists(): return {'status':'not_run','reason':'GBIF geography covariate table absent'}
+    cov=pd.read_csv(p)
+    required=['canonical_name','absolute_latitude','latitudinal_range','gbif_occurrences']
+    missing=[c for c in required if c not in cov]
+    if missing: return {'status':'not_run','reason':'missing GBIF geography columns','missing':missing}
+    x=d.merge(cov,on='canonical_name',how='inner',suffixes=('','_cov'))
+    for c in ['absolute_latitude','latitudinal_range','gbif_occurrences']:
+        x[c]=pd.to_numeric(x[c],errors='coerce')
+    x=x.dropna(subset=['validated_case','absolute_latitude','latitudinal_range','gbif_occurrences','log_works','family']).copy()
+    if len(x)<100 or x.validated_case.sum()<15:
+        return {'status':'not_run','reason':'insufficient matched geography data','matched_species':int(len(x)),'validated_cases':int(x.validated_case.sum())}
+    x['absolute_latitude_z']=zscore(x.absolute_latitude)
+    x['latitudinal_range_z']=zscore(np.log1p(x.latitudinal_range.clip(lower=0)))
+    x['log_gbif_occurrences_z']=zscore(np.log1p(x.gbif_occurrences.clip(lower=0)))
+    x['log_works_z']=zscore(x.log_works)
+    formula='validated_case ~ absolute_latitude_z + latitudinal_range_z + log_gbif_occurrences_z + log_works_z + I(log_works_z**2)'
+    model=smf.glm(formula,x,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':x.family})
+    coefficient_table(model).to_csv(out/'geography_macroecology_model.csv',index=False)
+    strict=smf.glm(formula.replace('validated_case','strict_case'),x,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':x.family})
+    coefficient_table(strict).to_csv(out/'geography_macroecology_strict_model.csv',index=False)
+    coverage=pd.DataFrame([{
+        'candidate_species_total':len(d),'matched_species':len(x),'matched_fraction':len(x)/len(d),
+        'validated_cases_matched':int(x.validated_case.sum()),'strict_cases_matched':int(x.strict_case.sum()),
+        'families_matched':int(x.family.nunique()),'median_gbif_occurrences':float(x.gbif_occurrences.median()),
+        'median_coordinate_sample':float(pd.to_numeric(x.get('gbif_coordinate_records_sampled'),errors='coerce').median()) if 'gbif_coordinate_records_sampled' in x else np.nan
+    }])
+    coverage.to_csv(out/'geography_covariate_coverage.csv',index=False)
+    return {'status':'complete','matched_species':int(len(x)),'matched_fraction':float(len(x)/len(d)),
+            'validated_cases':int(x.validated_case.sum()),'families':int(x.family.nunique()),
+            'formula':formula,'aic':float(model.aic),'strict_aic':float(strict.aic)}
+
+
+def fit_full_macro(d,covariates,out):
+    p=Path(covariates)
+    if not p.exists(): return {'status':'not_run','reason':'full ecological covariate table absent'}
     cov=pd.read_csv(p); x=d.merge(cov,on='canonical_name',how='inner',validate='one_to_one')
     req=['island','absolute_latitude','life_history','pollination_system']; missing=[c for c in req if c not in x]
     if missing:return {'status':'not_run','missing':missing,'matched_species':int(len(x))}
     x['absolute_latitude_z']=zscore(x.absolute_latitude); x['log_works_z']=zscore(x.log_works); x['island']=pd.to_numeric(x.island,errors='coerce')
     x=x.dropna(subset=['validated_case','island','absolute_latitude_z','life_history','pollination_system','log_works_z'])
     formula='validated_case ~ island + absolute_latitude_z + C(life_history) + C(pollination_system) + log_works_z'
-    m=smf.glm(formula,x,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':x.family}); ci=m.conf_int()
-    pd.DataFrame({'term':m.params.index,'estimate':m.params.values,'odds_ratio':np.exp(m.params.values),'ci_low':np.exp(ci[0].values),'ci_high':np.exp(ci[1].values),'p_value':m.pvalues.values}).to_csv(out/'macroecology_model.csv',index=False)
+    m=smf.glm(formula,x,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':x.family})
+    coefficient_table(m).to_csv(out/'macroecology_model.csv',index=False)
     return {'status':'complete','matched_species':int(len(x)),'formula':formula,'aic':float(m.aic)}
 
+
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--species',default='data/global_flower_colour_species_ranked.csv'); ap.add_argument('--review',default='data/global_flower_colour_review_queue.csv'); ap.add_argument('--covariates',default='data/species_macroecology_covariates.csv'); ap.add_argument('--outdir',default='analysis_outputs/research'); a=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument('--species',default='data/global_flower_colour_species_ranked.csv'); ap.add_argument('--review',default='data/global_flower_colour_review_queue.csv'); ap.add_argument('--covariates',default='data/species_macroecology_covariates.csv'); ap.add_argument('--geography-covariates',default='data/species_gbif_geography_covariates.csv'); ap.add_argument('--outdir',default='analysis_outputs/research'); a=ap.parse_args()
     out=Path(a.outdir); out.mkdir(parents=True,exist_ok=True); d=build_labels(load(a.species),load(a.review))
-    manifest={'research_question':'Which ecological and geographic conditions predict documented natural flower-colour polymorphism after controlling for ascertainment?','estimand_current':'Validation probability conditional on candidature','effort_model':fit_effort(d,out),'macroecology_model':fit_macro(d,a.covariates,out),'guardrail':'Candidate-only data cannot estimate global prevalence.'}
+    manifest={'research_question':'Which ecological and geographic conditions predict documented natural flower-colour polymorphism after controlling for ascertainment?','estimand_current':'Validation probability conditional on candidature','effort_model':fit_effort(d,out),'geography_model':fit_geography(d,a.geography_covariates,out),'full_macroecology_model':fit_full_macro(d,a.covariates,out),'guardrail':'Candidate-only data cannot estimate global prevalence; GBIF coordinate summaries describe documented distributions and are observation-effort sensitive.'}
     (out/'research_analysis_manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n'); print(json.dumps(manifest,ensure_ascii=False))
 if __name__=='__main__': main()
