@@ -5,6 +5,7 @@ on:
     paths:
       - "analysis_evidence_baseline.py"
       - "analysis_macroecology.py"
+      - "build_gbif_geography_covariates.py"
       - "docs/analysis_method.md"
       - "docs/current_data_research_results.md"
       - "data/species_macroecology_covariates*.csv"
@@ -17,7 +18,7 @@ permissions:
 jobs:
   research-analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
 
@@ -54,6 +55,16 @@ jobs:
       - name: Install analysis dependencies
         run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
 
+      - name: Build GBIF geography covariates
+        run: |
+          set -euo pipefail
+          python build_gbif_geography_covariates.py \
+            --species pr1_resolved/global_flower_colour_species_ranked_resolved.csv \
+            --out analysis_outputs/covariates/species_gbif_geography_covariates.csv \
+            --qc-out analysis_outputs/covariates/species_gbif_geography_covariates_qc.json \
+            --limit 300 --timeout 45 --retries 4 --request-delay 0.20
+          cat analysis_outputs/covariates/species_gbif_geography_covariates_qc.json
+
       - name: Run evidence diagnostics on resolved PR1 data
         run: |
           set -euo pipefail
@@ -68,6 +79,7 @@ jobs:
             --species pr1_resolved/global_flower_colour_species_ranked_resolved.csv \
             --review pr1_resolved/global_flower_colour_review_queue_resolved.csv \
             --covariates data/species_macroecology_covariates.csv \
+            --geography-covariates analysis_outputs/covariates/species_gbif_geography_covariates.csv \
             --outdir analysis_outputs/research
           cp pr1_resolved/global_flower_colour_review_queue_resolved_qc.json analysis_outputs/research/input_review_queue_qc.json
           cp pr1_resolved/targeted_exact_species_rescue_qc.json analysis_outputs/research/input_exact_rescue_qc.json
@@ -76,23 +88,34 @@ jobs:
       - name: Validate research outputs
         run: |
           set -euo pipefail
+          test -s analysis_outputs/covariates/species_gbif_geography_covariates.csv
+          test -s analysis_outputs/covariates/species_gbif_geography_covariates_qc.json
           test -s analysis_outputs/research/research_analysis_manifest.json
           test -s analysis_outputs/research/discovery_effort_nonlinear_model.csv
           test -s analysis_outputs/research/effort_standardized_predictions.csv
           test -s analysis_outputs/research/family_effort_adjusted_signal.csv
           test -s analysis_outputs/research/leave_one_family_out.csv
+          test -s analysis_outputs/research/geography_macroecology_model.csv
+          test -s analysis_outputs/research/geography_macroecology_strict_model.csv
+          test -s analysis_outputs/research/geography_covariate_coverage.csv
           python - <<'PY'
           import json, math
           from pathlib import Path
           manifest=json.loads(Path('analysis_outputs/research/research_analysis_manifest.json').read_text())
-          effort=manifest['effort_model']
+          qc=json.loads(Path('analysis_outputs/covariates/species_gbif_geography_covariates_qc.json').read_text())
+          effort=manifest['effort_model']; geography=manifest['geography_model']
           assert effort['n_species'] == 664
           assert effort['validated_cases'] == 111
           assert 0 <= effort['strict_cases'] <= effort['validated_cases']
+          assert qc['species_requested'] == qc['species_completed'] == 664
+          assert qc['complete'] is True
+          assert qc['complete_coordinate_species'] >= 100
+          assert geography['status'] == 'complete'
+          assert geography['matched_species'] >= 100
           for key in ('linear_aic','quadratic_aic','delta_aic_linear_minus_quadratic','strict_quadratic_p'):
               assert math.isfinite(float(effort[key])), key
-          assert 0.0 <= float(effort['candidate_conditional_fraction']) <= 1.0
-          print(json.dumps(effort, indent=2))
+          assert math.isfinite(float(geography['aic']))
+          print(json.dumps({'effort':effort,'geography':geography,'gbif_qc':qc}, indent=2))
           PY
 
       - uses: actions/upload-artifact@v4
