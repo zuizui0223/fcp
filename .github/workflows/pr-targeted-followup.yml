@@ -1,0 +1,135 @@
+name: PR targeted follow-up acquisition
+
+on:
+  pull_request:
+    paths:
+      - "targeted_deferred_followup.py"
+      - "targeted_pigment_followup.py"
+      - "targeted_ecology_followup.py"
+      - "targeted_classic_variation_followup.py"
+      - "targeted_exact_species_rescue.py"
+      - "merge_followup_evidence.py"
+      - "build_evidence_review_queue.py"
+      - ".github/workflows/pr-targeted-followup.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  targeted-followup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate and preserve run1 inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s data/global_flower_colour_deferred.csv
+          test -s data/global_flower_colour_species_ranked.csv
+          cp data/global_flower_colour_species_ranked.csv "$RUNNER_TEMP/species_ranked_run1.csv"
+          echo "Deferred rows before follow-up: $(( $(wc -l < data/global_flower_colour_deferred.csv) - 1 ))"
+          echo "Species rows: $(( $(wc -l < data/global_flower_colour_species_ranked.csv) - 1 ))"
+
+      - name: Pass 1 broad flower-colour retrieval
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_deferred_followup.py --deferred data/global_flower_colour_deferred.csv --species data/global_flower_colour_species_ranked.csv --works-out data/targeted_followup_works.csv --qc-out data/targeted_followup_qc.json --max-targets 160 --per-page 50 --timeout 30 --retries 3 --api-key-env OPENALEX_API_KEY
+
+      - name: Pass 2 pigment and white-flower retrieval
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_pigment_followup.py --deferred data/global_flower_colour_deferred.csv --first-pass data/targeted_followup_works.csv --out data/targeted_pigment_followup_works.csv --qc-out data/targeted_pigment_followup_qc.json --max-targets 160 --per-page 100 --timeout 30 --retries 3 --api-key-env OPENALEX_API_KEY
+
+      - name: Pass 3 ecological polymorphism retrieval
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_ecology_followup.py --deferred data/global_flower_colour_deferred.csv --prior data/targeted_followup_works.csv --prior data/targeted_pigment_followup_works.csv --out data/targeted_ecology_followup_works.csv --qc-out data/targeted_ecology_followup_qc.json --max-targets 160 --per-page 100 --timeout 30 --retries 3 --api-key-env OPENALEX_API_KEY
+
+      - name: Pass 4 classic variation retrieval
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_classic_variation_followup.py --deferred data/global_flower_colour_deferred.csv --prior data/targeted_followup_works.csv --prior data/targeted_pigment_followup_works.csv --prior data/targeted_ecology_followup_works.csv --out data/targeted_classic_variation_followup_works.csv --qc-out data/targeted_classic_variation_followup_qc.json --max-targets 200 --per-page 100 --timeout 30 --retries 3 --api-key-env OPENALEX_API_KEY
+
+      - name: Merge first four passes and rebuild interim queue
+        shell: bash
+        run: |
+          set -euo pipefail
+          python merge_followup_evidence.py --species "$RUNNER_TEMP/species_ranked_run1.csv" --followup data/targeted_followup_works.csv --followup data/targeted_pigment_followup_works.csv --followup data/targeted_ecology_followup_works.csv --followup data/targeted_classic_variation_followup_works.csv --out data/global_flower_colour_species_ranked_interim.csv --qc-out data/followup_merge_interim_qc.json
+          python build_evidence_review_queue.py --species data/global_flower_colour_species_ranked_interim.csv --out data/global_flower_colour_review_queue_interim.csv --deferred-out data/global_flower_colour_deferred_interim.csv --qc-out data/global_flower_colour_review_queue_interim_qc.json --max-review 664
+
+      - name: Pass 5 exact-species rescue retrieval
+        timeout-minutes: 75
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_exact_species_rescue.py --deferred data/global_flower_colour_deferred_interim.csv --prior data/targeted_followup_works.csv --prior data/targeted_pigment_followup_works.csv --prior data/targeted_ecology_followup_works.csv --prior data/targeted_classic_variation_followup_works.csv --out data/targeted_exact_species_rescue_works.csv --qc-out data/targeted_exact_species_rescue_qc.json --max-targets 240 --batch-size 4 --per-page 100 --timeout 30 --retries 4 --request-delay 1.5 --backoff-base 3 --api-key-env OPENALEX_API_KEY
+
+      - name: Ensure rescue checkpoint exists
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s data/targeted_exact_species_rescue_works.csv
+          test -s data/targeted_exact_species_rescue_qc.json
+          cat data/targeted_exact_species_rescue_qc.json
+
+      - name: Merge all evidence and rebuild final review queue
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python merge_followup_evidence.py --species "$RUNNER_TEMP/species_ranked_run1.csv" --followup data/targeted_followup_works.csv --followup data/targeted_pigment_followup_works.csv --followup data/targeted_ecology_followup_works.csv --followup data/targeted_classic_variation_followup_works.csv --followup data/targeted_exact_species_rescue_works.csv --out data/global_flower_colour_species_ranked_resolved.csv --qc-out data/followup_merge_qc.json
+          python build_evidence_review_queue.py --species data/global_flower_colour_species_ranked_resolved.csv --out data/global_flower_colour_review_queue_resolved.csv --deferred-out data/global_flower_colour_deferred_resolved.csv --qc-out data/global_flower_colour_review_queue_resolved_qc.json --max-review 664
+
+      - name: Report deferred resolution
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          work_paths=['data/targeted_followup_works.csv','data/targeted_pigment_followup_works.csv','data/targeted_ecology_followup_works.csv','data/targeted_classic_variation_followup_works.csv','data/targeted_exact_species_rescue_works.csv']
+          names=set(); works=set()
+          for path in work_paths:
+              with open(path,encoding='utf-8') as f:
+                  for r in csv.DictReader(f): names.add(r['canonical_name']); works.add((r['canonical_name'],r['openalex_id']))
+          before=sum(1 for _ in csv.DictReader(open('data/global_flower_colour_deferred.csv',encoding='utf-8')))
+          interim=sum(1 for _ in csv.DictReader(open('data/global_flower_colour_deferred_interim.csv',encoding='utf-8')))
+          after=sum(1 for _ in csv.DictReader(open('data/global_flower_colour_deferred_resolved.csv',encoding='utf-8')))
+          review=sum(1 for _ in csv.DictReader(open('data/global_flower_colour_review_queue_resolved.csv',encoding='utf-8')))
+          rescue=json.loads(Path('data/targeted_exact_species_rescue_qc.json').read_text())
+          print(json.dumps({'followup_species_with_evidence':len(names),'followup_unique_works':len(works),'deferred_before':before,'deferred_after_four_passes':interim,'deferred_after_exact_rescue':after,'deferred_resolved_total':before-after,'exact_rescue_species':rescue['targets_with_new_evidence'],'exact_rescue_works':rescue['retained_followup_works'],'exact_rescue_complete':rescue.get('complete',False),'exact_rescue_completed_batches':rescue.get('completed_batches'),'exact_rescue_total_batches':rescue.get('total_batches'),'resolved_review_queue_rows':review}))
+          PY
+
+      - name: Upload acquisition and resolved outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-targeted-followup-results
+          path: |
+            data/targeted_*followup*.csv
+            data/targeted_*followup*.json
+            data/targeted_exact_species_rescue_works.csv
+            data/targeted_exact_species_rescue_qc.json
+            data/followup_merge*.json
+            data/global_flower_colour_species_ranked_resolved.csv
+            data/global_flower_colour_review_queue_resolved.csv
+            data/global_flower_colour_deferred_resolved.csv
+            data/global_flower_colour_review_queue_resolved_qc.json
+          if-no-files-found: error
+          retention-days: 14
