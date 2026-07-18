@@ -1,0 +1,43 @@
+name: PR evidence baseline analysis
+
+on:
+  pull_request:
+    paths:
+      - "analysis_evidence_baseline.py"
+      - "docs/analysis_method.md"
+      - "data/global_flower_colour_species_ranked.csv"
+      - ".github/workflows/pr-analysis-baseline.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  baseline-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run baseline analysis
+        run: |
+          set -euo pipefail
+          python analysis_evidence_baseline.py \
+            --species data/global_flower_colour_species_ranked.csv \
+            --outdir analysis_outputs
+          cat analysis_outputs/baseline_qc.json
+      - name: Validate outputs
+        run: |
+          set -euo pipefail
+          test -s analysis_outputs/baseline_qc.json
+          test -s analysis_outputs/family_evidence_summary.csv
+          test -s analysis_outputs/threshold_sensitivity.csv
+          test -s analysis_outputs/family_concentration.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evidence-baseline-analysis
+          path: analysis_outputs/
+          if-no-files-found: error
+          retention-days: 14
