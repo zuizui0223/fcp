@@ -57,6 +57,27 @@ def fit_effort(d,out):
     return {'n_species':int(len(d)),'validated_cases':int(d.validated_case.sum()),'strict_cases':int(d.strict_case.sum()),'candidate_conditional_fraction':float(d.validated_case.mean()),'linear_aic':float(linear.aic),'quadratic_aic':float(quad.aic),'delta_aic_linear_minus_quadratic':float(linear.aic-quad.aic),'strict_quadratic_p':float(strict.pvalues['I(log_works ** 2)'])}
 
 
+def prepare_geography(d,cov):
+    x=d.merge(cov,on='canonical_name',how='inner',suffixes=('','_cov'))
+    for c in ['absolute_latitude','latitudinal_range','gbif_occurrences','gbif_coordinate_records_sampled']:
+        if c in x: x[c]=pd.to_numeric(x[c],errors='coerce')
+    x=x.dropna(subset=['validated_case','absolute_latitude','latitudinal_range','gbif_occurrences','log_works','family']).copy()
+    x['absolute_latitude_z']=zscore(x.absolute_latitude)
+    x['latitudinal_range_z']=zscore(np.log1p(x.latitudinal_range.clip(lower=0)))
+    x['latitudinal_range_raw_z']=zscore(x.latitudinal_range.clip(lower=0))
+    x['latitudinal_range_sqrt_z']=zscore(np.sqrt(x.latitudinal_range.clip(lower=0)))
+    x['log_gbif_occurrences_z']=zscore(np.log1p(x.gbif_occurrences.clip(lower=0)))
+    x['log_works_z']=zscore(x.log_works)
+    return x
+
+
+def fit_geo_model(x,response='validated_case',range_term='latitudinal_range_z',cluster=True):
+    formula=f'{response} ~ absolute_latitude_z + {range_term} + log_gbif_occurrences_z + log_works_z + I(log_works_z**2)'
+    kwargs={}
+    if cluster: kwargs={'cov_type':'cluster','cov_kwds':{'groups':x.family}}
+    return smf.glm(formula,x,family=sm.families.Binomial()).fit(**kwargs),formula
+
+
 def fit_geography(d,covariates,out):
     p=Path(covariates)
     if not p.exists(): return {'status':'not_run','reason':'GBIF geography covariate table absent'}
@@ -64,31 +85,60 @@ def fit_geography(d,covariates,out):
     required=['canonical_name','absolute_latitude','latitudinal_range','gbif_occurrences']
     missing=[c for c in required if c not in cov]
     if missing: return {'status':'not_run','reason':'missing GBIF geography columns','missing':missing}
-    x=d.merge(cov,on='canonical_name',how='inner',suffixes=('','_cov'))
-    for c in ['absolute_latitude','latitudinal_range','gbif_occurrences']:
-        x[c]=pd.to_numeric(x[c],errors='coerce')
-    x=x.dropna(subset=['validated_case','absolute_latitude','latitudinal_range','gbif_occurrences','log_works','family']).copy()
+    x=prepare_geography(d,cov)
     if len(x)<100 or x.validated_case.sum()<15:
         return {'status':'not_run','reason':'insufficient matched geography data','matched_species':int(len(x)),'validated_cases':int(x.validated_case.sum())}
-    x['absolute_latitude_z']=zscore(x.absolute_latitude)
-    x['latitudinal_range_z']=zscore(np.log1p(x.latitudinal_range.clip(lower=0)))
-    x['log_gbif_occurrences_z']=zscore(np.log1p(x.gbif_occurrences.clip(lower=0)))
-    x['log_works_z']=zscore(x.log_works)
-    formula='validated_case ~ absolute_latitude_z + latitudinal_range_z + log_gbif_occurrences_z + log_works_z + I(log_works_z**2)'
-    model=smf.glm(formula,x,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':x.family})
+    model,formula=fit_geo_model(x)
     coefficient_table(model).to_csv(out/'geography_macroecology_model.csv',index=False)
-    strict=smf.glm(formula.replace('validated_case','strict_case'),x,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':x.family})
+    strict,_=fit_geo_model(x,response='strict_case')
     coefficient_table(strict).to_csv(out/'geography_macroecology_strict_model.csv',index=False)
     coverage=pd.DataFrame([{
         'candidate_species_total':len(d),'matched_species':len(x),'matched_fraction':len(x)/len(d),
         'validated_cases_matched':int(x.validated_case.sum()),'strict_cases_matched':int(x.strict_case.sum()),
         'families_matched':int(x.family.nunique()),'median_gbif_occurrences':float(x.gbif_occurrences.median()),
-        'median_coordinate_sample':float(pd.to_numeric(x.get('gbif_coordinate_records_sampled'),errors='coerce').median()) if 'gbif_coordinate_records_sampled' in x else np.nan
+        'median_coordinate_sample':float(x.gbif_coordinate_records_sampled.median()) if 'gbif_coordinate_records_sampled' in x else np.nan
     }])
     coverage.to_csv(out/'geography_covariate_coverage.csv',index=False)
+
+    robust=[]
+    specs=[('log_range_all',x,'latitudinal_range_z'),('raw_range_all',x,'latitudinal_range_raw_z'),('sqrt_range_all',x,'latitudinal_range_sqrt_z')]
+    if 'gbif_coordinate_records_sampled' in x:
+        for threshold in [20,50,100,300]:
+            sub=x[x.gbif_coordinate_records_sampled>=threshold].copy()
+            if len(sub)>=100 and sub.validated_case.sum()>=15:
+                for term in ['latitudinal_range_z','latitudinal_range_raw_z','latitudinal_range_sqrt_z']:
+                    specs.append((f'{term}_mincoord_{threshold}',sub,term))
+    for label,sub,term in specs:
+        fit,_=fit_geo_model(sub,range_term=term)
+        robust.append({'specification':label,'n_species':len(sub),'validated_cases':int(sub.validated_case.sum()),
+                       'range_term':term,'estimate':float(fit.params[term]),'odds_ratio':float(np.exp(fit.params[term])),
+                       'std_error':float(fit.bse[term]),'p_value':float(fit.pvalues[term]),'aic':float(fit.aic)})
+    robustness=pd.DataFrame(robust)
+    robustness.to_csv(out/'geography_range_robustness.csv',index=False)
+
+    loo=[]
+    for family,n in x.family.value_counts().items():
+        if n<10: continue
+        sub=x[x.family!=family]
+        fit,_=fit_geo_model(sub,cluster=False)
+        term='latitudinal_range_z'
+        loo.append({'held_out_family':family,'n_held_out':int(n),'n_remaining':int(len(sub)),
+                    'range_estimate':float(fit.params[term]),'range_odds_ratio':float(np.exp(fit.params[term])),
+                    'range_p_value':float(fit.pvalues[term])})
+    loo_df=pd.DataFrame(loo)
+    loo_df.to_csv(out/'geography_range_leave_one_family_out.csv',index=False)
+
+    range_or=float(np.exp(model.params['latitudinal_range_z']))
     return {'status':'complete','matched_species':int(len(x)),'matched_fraction':float(len(x)/len(d)),
             'validated_cases':int(x.validated_case.sum()),'families':int(x.family.nunique()),
-            'formula':formula,'aic':float(model.aic),'strict_aic':float(strict.aic)}
+            'formula':formula,'aic':float(model.aic),'strict_aic':float(strict.aic),
+            'range_odds_ratio':range_or,'range_p_value':float(model.pvalues['latitudinal_range_z']),
+            'strict_range_odds_ratio':float(np.exp(strict.params['latitudinal_range_z'])),
+            'strict_range_p_value':float(strict.pvalues['latitudinal_range_z']),
+            'robustness_specifications':int(len(robustness)),
+            'negative_range_estimate_fraction':float((robustness.estimate<0).mean()),
+            'loo_families':int(len(loo_df)),
+            'loo_negative_fraction':float((loo_df.range_estimate<0).mean()) if len(loo_df) else None}
 
 
 def fit_full_macro(d,covariates,out):
