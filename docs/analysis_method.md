@@ -1,41 +1,32 @@
-# Evidence analysis method
+# Research analysis protocol
 
-## Scope
+## Central question
+Which ecological and geographic conditions predict natural flower-colour polymorphism after controlling for literature and observation effort?
 
-The first analysis stage describes the evidence dataset as an ascertainment-biased literature sample. It does **not** estimate the global biological prevalence of flower-colour polymorphism.
+## Two-stage design
 
-## Analysis units
+### Stage 1: ascertainment model
+The present repository contains literature-derived candidates rather than a random sample of angiosperms. We first model whether a candidate is validated as a natural polymorphism as a function of discovery effort, using log1p(n_works). Family-level standardized residuals identify clades with more or fewer validated cases than expected at equal effort. Leave-one-family-out refits test whether the effort effect is driven by a single large family.
 
-- Primary unit: canonical species.
-- Secondary aggregation: plant family.
-- Evidence variables: number of retained works, title matches, context matches, maximum evidence score and total evidence score.
+This stage estimates validation conditional on candidature. It does not estimate biological prevalence.
 
-## Operational evidence tiers
+### Stage 2: biological macroecology model
+When data/species_macroecology_covariates.csv is present, the pipeline fits a binomial model with island status, absolute latitude, life history, pollination system and publication effort as predictors, using family-clustered robust standard errors.
 
-- **A — strong:** at least two title matches, two context matches, two works and maximum score at least 24.
-- **B — moderate:** at least one title match, one context match and maximum score at least 18.
-- **C — weak:** at least one title match or two context matches.
-- **D — minimal:** all remaining candidates.
+The covariate contract also reserves growth form, breeding system, range size, GBIF occurrences, accepted names, taxon keys and phylogeny tip labels for later models.
 
-These are review-prioritisation tiers, not confirmed biological states.
+## Required extension for prevalence inference
+A defensible global prevalence model requires a sampled background of species that were eligible for detection, not only positive or ambiguous candidates. The target background should be stratified by family and region. Candidate or validated status can then be modelled jointly with publication effort and occurrence availability.
 
-## Required diagnostics
+## Final model hierarchy
+1. Detection model for entry into the literature candidate set.
+2. State model for natural flower-colour polymorphism as a function of ecology and geography.
+3. Strict, moderate and inclusive evidence sensitivity analyses.
+4. Family- and phylogeny-aware random effects.
+5. Interaction models only after main effects are stable.
 
-1. Evidence-tier counts.
-2. Family representation and Wilson intervals for the fraction of candidates with strong or moderate evidence.
-3. Family concentration to expose taxonomic sampling imbalance.
-4. Threshold sensitivity across title, context and score cutoffs.
-5. Explicit reporting of literature ascertainment and taxonomic coverage limitations.
-
-## Later inferential stage
-
-Biological comparisons should begin only after manual validation produces a defensible species-level response variable. The preferred sequence is:
-
-1. Freeze inclusion and exclusion criteria.
-2. Blind or duplicate-review a validation subset and calculate agreement.
-3. Resolve synonyms and accepted names.
-4. Add sampling-effort covariates, including publication count and database coverage.
-5. Fit family- or phylogeny-aware models, with sensitivity analyses across evidence thresholds.
-6. Separate natural polymorphism, ontogenetic colour change and artificial or horticultural variation.
-
-The baseline script establishes the reproducible descriptive layer required before those models are attempted.
+## Interpretation rules
+- Never call the candidate fraction a global prevalence estimate.
+- Report effort-adjusted effects alongside raw patterns.
+- Treat family residuals as hypothesis-generating until phylogenetic modelling is available.
+- Keep acquisition code in PR1 and biological analysis code in PR2.
