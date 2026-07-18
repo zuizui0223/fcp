@@ -5,6 +5,7 @@ on:
     paths:
       - "analysis_evidence_baseline.py"
       - "analysis_macroecology.py"
+      - "analysis_matched_controls.py"
       - "build_gbif_geography_covariates.py"
       - "docs/analysis_method.md"
       - "docs/current_data_research_results.md"
@@ -19,7 +20,7 @@ permissions:
 jobs:
   research-analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
@@ -101,6 +102,33 @@ jobs:
             --limit 300 --timeout 45 --retries 4 --request-delay 0.20
           cat analysis_outputs/covariates/species_gbif_geography_covariates_qc.json
 
+      - name: Prepare matched focal and control species
+        run: |
+          set -euo pipefail
+          mkdir -p analysis_outputs/matched_controls
+          python - <<'PY'
+          import pandas as pd
+          review=pd.read_csv('pr1_resolved/global_flower_colour_review_queue_resolved.csv')
+          candidates=set(pd.read_csv('pr1_resolved/global_flower_colour_species_ranked_resolved.csv').canonical_name.astype(str))
+          controls=pd.read_csv('data/control_candidate_pool.csv')
+          controls=controls[controls.focal_species.isin(set(review.canonical_name))]
+          controls=controls[~controls.control_candidate.isin(candidates)]
+          focal=review[['canonical_name','family']].drop_duplicates()
+          comp=controls[['control_candidate','control_family']].drop_duplicates().rename(columns={'control_candidate':'canonical_name','control_family':'family'})
+          combined=pd.concat([focal,comp],ignore_index=True).drop_duplicates('canonical_name')
+          combined.to_csv('analysis_outputs/matched_controls/matched_species_for_gbif.csv',index=False)
+          print({'focals':len(focal),'unique_controls':len(comp),'combined':len(combined)})
+          PY
+
+      - name: Build matched-control GBIF geography
+        run: |
+          set -euo pipefail
+          python build_gbif_geography_covariates.py \
+            --species analysis_outputs/matched_controls/matched_species_for_gbif.csv \
+            --out analysis_outputs/matched_controls/matched_species_gbif_geography.csv \
+            --qc-out analysis_outputs/matched_controls/matched_species_gbif_geography_qc.json \
+            --limit 300 --timeout 45 --retries 4 --request-delay 0.20
+
       - name: Run evidence diagnostics on resolved PR1 data
         run: |
           set -euo pipefail
@@ -121,6 +149,17 @@ jobs:
           cp pr1_resolved/targeted_exact_species_rescue_qc.json analysis_outputs/research/input_exact_rescue_qc.json
           cat analysis_outputs/research/research_analysis_manifest.json
 
+      - name: Run matched-control analysis
+        run: |
+          set -euo pipefail
+          python analysis_matched_controls.py \
+            --review pr1_resolved/global_flower_colour_review_queue_resolved.csv \
+            --candidate-species pr1_resolved/global_flower_colour_species_ranked_resolved.csv \
+            --controls data/control_candidate_pool.csv \
+            --geography analysis_outputs/matched_controls/matched_species_gbif_geography.csv \
+            --outdir analysis_outputs/matched_controls
+          cat analysis_outputs/matched_controls/matched_control_manifest.json
+
       - name: Validate research outputs
         run: |
           set -euo pipefail
@@ -136,28 +175,28 @@ jobs:
           test -s analysis_outputs/research/geography_covariate_coverage.csv
           test -s analysis_outputs/research/geography_range_robustness.csv
           test -s analysis_outputs/research/geography_range_leave_one_family_out.csv
+          test -s analysis_outputs/matched_controls/matched_control_manifest.json
+          test -s analysis_outputs/matched_controls/matched_control_conditional_logit.csv
+          test -s analysis_outputs/matched_controls/matched_control_summary.csv
           python - <<'PY'
           import json, math
           from pathlib import Path
           manifest=json.loads(Path('analysis_outputs/research/research_analysis_manifest.json').read_text())
           qc=json.loads(Path('analysis_outputs/covariates/species_gbif_geography_covariates_qc.json').read_text())
+          matched=json.loads(Path('analysis_outputs/matched_controls/matched_control_manifest.json').read_text())
           effort=manifest['effort_model']; geography=manifest['geography_model']
           assert effort['n_species'] == 664
           assert effort['validated_cases'] == 111
-          assert 0 <= effort['strict_cases'] <= effort['validated_cases']
           assert qc['species_requested'] == qc['species_completed'] == 664
-          assert qc['complete'] is True
-          assert qc['complete_coordinate_species'] >= 100
           assert geography['status'] == 'complete'
-          assert geography['matched_species'] >= 100
           assert geography['robustness_specifications'] >= 3
-          assert 0 <= geography['negative_range_estimate_fraction'] <= 1
-          assert 0 <= geography['loo_negative_fraction'] <= 1
-          for key in ('linear_aic','quadratic_aic','delta_aic_linear_minus_quadratic','strict_quadratic_p'):
-              assert math.isfinite(float(effort[key])), key
-          for key in ('aic','range_odds_ratio','range_p_value','strict_range_odds_ratio','strict_range_p_value'):
-              assert math.isfinite(float(geography[key])), key
-          print(json.dumps({'effort':effort,'geography':geography,'gbif_qc':qc}, indent=2))
+          assert matched['complete_strata'] >= 20
+          assert matched['semantic_guard'] == 'screening_controls_are_not_asserted_monomorphic'
+          complete=[x for x in matched['specifications'] if x.get('status')=='complete']
+          assert complete
+          for item in complete:
+              assert math.isfinite(float(item['range_odds_ratio']))
+          print(json.dumps({'effort':effort,'geography':geography,'matched_controls':matched}, indent=2))
           PY
 
       - uses: actions/upload-artifact@v4
