@@ -7,6 +7,7 @@ on:
       - "targeted_pigment_followup.py"
       - "targeted_ecology_followup.py"
       - "targeted_classic_variation_followup.py"
+      - "targeted_exact_species_rescue.py"
       - "merge_followup_evidence.py"
       - "build_evidence_review_queue.py"
       - ".github/workflows/pr-targeted-followup.yml"
@@ -18,7 +19,7 @@ permissions:
 jobs:
   targeted-followup:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     env:
       OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
       PYTHONDONTWRITEBYTECODE: "1"
@@ -89,7 +90,7 @@ jobs:
             --max-targets 200 --per-page 100 --timeout 30 --retries 3 \
             --api-key-env OPENALEX_API_KEY
 
-      - name: Merge evidence and rebuild review queue
+      - name: Merge first four passes and rebuild interim queue
         shell: bash
         run: |
           set -euo pipefail
@@ -99,6 +100,41 @@ jobs:
             --followup data/targeted_pigment_followup_works.csv \
             --followup data/targeted_ecology_followup_works.csv \
             --followup data/targeted_classic_variation_followup_works.csv \
+            --out data/global_flower_colour_species_ranked_interim.csv \
+            --qc-out data/followup_merge_interim_qc.json
+          python build_evidence_review_queue.py \
+            --species data/global_flower_colour_species_ranked_interim.csv \
+            --out data/global_flower_colour_review_queue_interim.csv \
+            --deferred-out data/global_flower_colour_deferred_interim.csv \
+            --qc-out data/global_flower_colour_review_queue_interim_qc.json \
+            --max-review 664
+
+      - name: Pass 5 exact-species rescue retrieval
+        shell: bash
+        run: |
+          set -euo pipefail
+          python targeted_exact_species_rescue.py \
+            --deferred data/global_flower_colour_deferred_interim.csv \
+            --prior data/targeted_followup_works.csv \
+            --prior data/targeted_pigment_followup_works.csv \
+            --prior data/targeted_ecology_followup_works.csv \
+            --prior data/targeted_classic_variation_followup_works.csv \
+            --out data/targeted_exact_species_rescue_works.csv \
+            --qc-out data/targeted_exact_species_rescue_qc.json \
+            --max-targets 240 --batch-size 4 --per-page 100 --timeout 30 --retries 3 \
+            --api-key-env OPENALEX_API_KEY
+
+      - name: Merge all evidence and rebuild final review queue
+        shell: bash
+        run: |
+          set -euo pipefail
+          python merge_followup_evidence.py \
+            --species "$RUNNER_TEMP/species_ranked_run1.csv" \
+            --followup data/targeted_followup_works.csv \
+            --followup data/targeted_pigment_followup_works.csv \
+            --followup data/targeted_ecology_followup_works.csv \
+            --followup data/targeted_classic_variation_followup_works.csv \
+            --followup data/targeted_exact_species_rescue_works.csv \
             --out data/global_flower_colour_species_ranked_resolved.csv \
             --qc-out data/followup_merge_qc.json
           python build_evidence_review_queue.py \
@@ -120,6 +156,7 @@ jobs:
             'data/targeted_pigment_followup_works.csv',
             'data/targeted_ecology_followup_works.csv',
             'data/targeted_classic_variation_followup_works.csv',
+            'data/targeted_exact_species_rescue_works.csv',
           ]
           names=set(); works=set()
           for path in work_paths:
@@ -127,17 +164,20 @@ jobs:
               for r in csv.DictReader(f):
                 names.add(r['canonical_name']); works.add((r['canonical_name'],r['openalex_id']))
           before=sum(1 for _ in csv.DictReader(open('data/global_flower_colour_deferred.csv',encoding='utf-8')))
+          interim=sum(1 for _ in csv.DictReader(open('data/global_flower_colour_deferred_interim.csv',encoding='utf-8')))
           after=sum(1 for _ in csv.DictReader(open('data/global_flower_colour_deferred_resolved.csv',encoding='utf-8')))
           review=sum(1 for _ in csv.DictReader(open('data/global_flower_colour_review_queue_resolved.csv',encoding='utf-8')))
-          merge=json.loads(Path('data/followup_merge_qc.json').read_text())
+          rescue=json.loads(Path('data/targeted_exact_species_rescue_qc.json').read_text())
           print(json.dumps({
             'followup_species_with_evidence':len(names),
             'followup_unique_works':len(works),
             'deferred_before':before,
-            'deferred_after':after,
-            'deferred_resolved':before-after,
+            'deferred_after_four_passes':interim,
+            'deferred_after_exact_rescue':after,
+            'deferred_resolved_total':before-after,
+            'exact_rescue_species':rescue['targets_with_new_evidence'],
+            'exact_rescue_works':rescue['retained_followup_works'],
             'resolved_review_queue_rows':review,
-            'merged_rows':merge['merged_rows'],
           }))
           PY
 
@@ -148,7 +188,9 @@ jobs:
           path: |
             data/targeted_*followup*.csv
             data/targeted_*followup*.json
-            data/followup_merge_qc.json
+            data/targeted_exact_species_rescue_works.csv
+            data/targeted_exact_species_rescue_qc.json
+            data/followup_merge*.json
             data/global_flower_colour_species_ranked_resolved.csv
             data/global_flower_colour_review_queue_resolved.csv
             data/global_flower_colour_deferred_resolved.csv
