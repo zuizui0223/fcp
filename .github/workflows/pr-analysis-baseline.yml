@@ -98,6 +98,8 @@ jobs:
           test -s analysis_outputs/research/geography_macroecology_model.csv
           test -s analysis_outputs/research/geography_macroecology_strict_model.csv
           test -s analysis_outputs/research/geography_covariate_coverage.csv
+          test -s analysis_outputs/research/geography_range_robustness.csv
+          test -s analysis_outputs/research/geography_range_leave_one_family_out.csv
           python - <<'PY'
           import json, math
           from pathlib import Path
@@ -112,9 +114,13 @@ jobs:
           assert qc['complete_coordinate_species'] >= 100
           assert geography['status'] == 'complete'
           assert geography['matched_species'] >= 100
+          assert geography['robustness_specifications'] >= 3
+          assert 0 <= geography['negative_range_estimate_fraction'] <= 1
+          assert 0 <= geography['loo_negative_fraction'] <= 1
           for key in ('linear_aic','quadratic_aic','delta_aic_linear_minus_quadratic','strict_quadratic_p'):
               assert math.isfinite(float(effort[key])), key
-          assert math.isfinite(float(geography['aic']))
+          for key in ('aic','range_odds_ratio','range_p_value','strict_range_odds_ratio','strict_range_p_value'):
+              assert math.isfinite(float(geography[key])), key
           print(json.dumps({'effort':effort,'geography':geography,'gbif_qc':qc}, indent=2))
           PY
 
