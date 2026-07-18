@@ -6,6 +6,7 @@ on:
       - "analysis_evidence_baseline.py"
       - "analysis_macroecology.py"
       - "docs/analysis_method.md"
+      - "docs/current_data_research_results.md"
       - "data/species_macroecology_covariates*.csv"
       - "data/global_flower_colour_species_ranked.csv"
       - "data/global_flower_colour_review_queue.csv"
@@ -39,13 +40,24 @@ jobs:
             --covariates data/species_macroecology_covariates.csv \
             --outdir analysis_outputs/research
           cat analysis_outputs/research/research_analysis_manifest.json
-      - name: Validate outputs
+      - name: Validate research outputs
         run: |
           set -euo pipefail
           test -s analysis_outputs/research/research_analysis_manifest.json
-          test -s analysis_outputs/research/discovery_effort_model.csv
+          test -s analysis_outputs/research/discovery_effort_nonlinear_model.csv
+          test -s analysis_outputs/research/effort_standardized_predictions.csv
           test -s analysis_outputs/research/family_effort_adjusted_signal.csv
           test -s analysis_outputs/research/leave_one_family_out.csv
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest=json.loads(Path('analysis_outputs/research/research_analysis_manifest.json').read_text())
+          effort=manifest['effort_model']
+          assert effort['n_species'] > 0
+          assert effort['validated_cases'] > 0
+          assert effort['quadratic_aic'] < effort['linear_aic']
+          print(json.dumps(effort, indent=2))
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: research-macroecology-analysis
