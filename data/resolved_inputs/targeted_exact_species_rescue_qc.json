@@ -1,0 +1,16 @@
+{
+  "eligible_unresolved_targets": 328,
+  "targets_searched": 240,
+  "prior_species_excluded": 154,
+  "requests_used": 15,
+  "failed_requests": 0,
+  "errors": [],
+  "completed_batches": 15,
+  "total_batches": 60,
+  "complete": false,
+  "targets_with_new_evidence": 18,
+  "retained_followup_works": 25,
+  "api_key_present": false,
+  "request_delay_seconds": 1.5,
+  "mode": "targeted_exact_species_rescue_checkpointed_v3"
+}
