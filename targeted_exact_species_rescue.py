@@ -22,7 +22,7 @@ def request(url,timeout,retries,base_delay):
     last=None
     for n in range(retries):
         try:
-            q=urllib.request.Request(url,headers={'User-Agent':'fcp-exact-species-rescue/1.1 (mailto:openalex@users.invalid)','Accept':'application/json'})
+            q=urllib.request.Request(url,headers={'User-Agent':'fcp-exact-species-rescue/1.2 (mailto:openalex@users.invalid)','Accept':'application/json'})
             with urllib.request.urlopen(q,timeout=timeout) as r: return json.load(r)
         except urllib.error.HTTPError as e:
             last=e
@@ -36,6 +36,14 @@ def request(url,timeout,retries,base_delay):
         if n+1<retries: time.sleep(wait)
     raise RuntimeError(str(last))
 
+def write_checkpoint(out_path,qc_path,out,errors,eligible,targets,prior,requests,completed_batches,total_batches,api,delay,complete=False):
+    Path(out_path).parent.mkdir(parents=True,exist_ok=True)
+    with Path(out_path).open('w',newline='',encoding='utf-8') as f:
+        w=csv.DictWriter(f,fieldnames=FIELDS); w.writeheader(); w.writerows(sorted(out,key=lambda r:(-int(r['score']),r['canonical_name'])))
+    qc={'eligible_unresolved_targets':len(eligible),'targets_searched':len(targets),'prior_species_excluded':len(prior),'requests_used':requests,'failed_requests':len(errors),'errors':errors,'completed_batches':completed_batches,'total_batches':total_batches,'complete':complete,'targets_with_new_evidence':len({r['canonical_name'] for r in out}),'retained_followup_works':len(out),'api_key_present':bool(api),'request_delay_seconds':delay,'mode':'targeted_exact_species_rescue_checkpointed_v3'}
+    Path(qc_path).write_text(json.dumps(qc,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    return qc
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument('--deferred',default='data/global_flower_colour_deferred_resolved.csv')
@@ -46,9 +54,9 @@ def main():
     ap.add_argument('--batch-size',type=int,default=4)
     ap.add_argument('--per-page',type=int,default=100)
     ap.add_argument('--timeout',type=int,default=30)
-    ap.add_argument('--retries',type=int,default=6)
-    ap.add_argument('--request-delay',type=float,default=1.2)
-    ap.add_argument('--backoff-base',type=float,default=5.0)
+    ap.add_argument('--retries',type=int,default=4)
+    ap.add_argument('--request-delay',type=float,default=1.5)
+    ap.add_argument('--backoff-base',type=float,default=3.0)
     ap.add_argument('--api-key-env',default='OPENALEX_API_KEY')
     a=ap.parse_args()
     prior=set()
@@ -58,6 +66,9 @@ def main():
     eligible.sort(key=lambda r:(0 if r.get('evidence_class')=='possible_polymorphism' else 1,-int(r.get('n_title_matches') or 0),-int(r.get('n_context_matches') or 0),r.get('canonical_name','')))
     targets=eligible[:a.max_targets]
     api=os.environ.get(a.api_key_env,'').strip(); out=[]; errors=[]; seen=set(); requests=0
+    total_batches=(len(targets)+max(1,a.batch_size)-1)//max(1,a.batch_size)
+    write_checkpoint(a.out,a.qc_out,out,errors,eligible,targets,prior,requests,0,total_batches,api,a.request_delay,False)
+    completed=0
     for i in range(0,len(targets),max(1,a.batch_size)):
         if requests: time.sleep(max(0,a.request_delay))
         batch=targets[i:i+a.batch_size]; names=[r['canonical_name'] for r in batch]
@@ -67,26 +78,28 @@ def main():
         requests+=1
         try: payload=request(OPENALEX+'?'+urllib.parse.urlencode(params),a.timeout,a.retries,a.backoff_base)
         except RuntimeError as e:
-            errors.append({'batch':i//a.batch_size+1,'names':names,'error':str(e)[:500]}); continue
+            errors.append({'batch':i//a.batch_size+1,'names':names,'error':str(e)[:500]})
+            completed+=1
+            write_checkpoint(a.out,a.qc_out,out,errors,eligible,targets,prior,requests,completed,total_batches,api,a.request_delay,False)
+            continue
         results=payload.get('results',[])
-        if not isinstance(results,list): continue
-        for item in results:
-            if not isinstance(item,dict): continue
-            oid=str(item.get('id') or ''); title=clean(item.get('title')); abs_=abstract(item.get('abstract_inverted_index')); text=f'{title} {abs_}'; low=text.lower()
-            for t in batch:
-                name=t['canonical_name']
-                if name.lower() not in low or (name,oid) in seen: continue
-                direct=bool(DIRECT.search(text)); natural=bool(NATURAL.search(text)); negative=bool(NEGATIVE.search(text))
-                if not direct: continue
-                score=18+(10 if name.lower() in title.lower() else 0)+(10 if natural else 0)-(10 if negative else 0)
-                if score<18: continue
-                seen.add((name,oid)); primary=item.get('primary_location') or {}; landing=str(primary.get('landing_page_url') or oid) if isinstance(primary,dict) else oid
-                m=re.search(re.escape(name),abs_,re.I); snippet=abs_[max(0,m.start()-260):min(len(abs_),m.end()+260)] if m else title
-                basis='exact_species+direct_colour_polymorphism'+('+natural_population_signal' if natural else '')+('+artificial_penalty' if negative else '')
-                out.append({'canonical_name':name,'family':t.get('family',''),'openalex_id':oid,'title':title,'year':item.get('publication_year') or '','doi':str(item.get('doi') or '').replace('https://doi.org/',''),'landing_url':landing,'score':score,'evidence_basis':basis,'evidence_snippet':clean(snippet)[:600],'query_mode':'exact_species_rescue'})
-    Path(a.out).parent.mkdir(parents=True,exist_ok=True)
-    with Path(a.out).open('w',newline='',encoding='utf-8') as f:
-        w=csv.DictWriter(f,fieldnames=FIELDS); w.writeheader(); w.writerows(sorted(out,key=lambda r:(-int(r['score']),r['canonical_name'])))
-    qc={'eligible_unresolved_targets':len(eligible),'targets_searched':len(targets),'prior_species_excluded':len(prior),'requests_used':requests,'failed_requests':len(errors),'errors':errors,'targets_with_new_evidence':len({r['canonical_name'] for r in out}),'retained_followup_works':len(out),'api_key_present':bool(api),'request_delay_seconds':a.request_delay,'mode':'targeted_exact_species_rescue_throttled_v2'}
-    Path(a.qc_out).write_text(json.dumps(qc,ensure_ascii=False,indent=2)+'\n',encoding='utf-8'); print(json.dumps(qc,ensure_ascii=False))
+        if isinstance(results,list):
+            for item in results:
+                if not isinstance(item,dict): continue
+                oid=str(item.get('id') or ''); title=clean(item.get('title')); abs_=abstract(item.get('abstract_inverted_index')); text=f'{title} {abs_}'; low=text.lower()
+                for t in batch:
+                    name=t['canonical_name']
+                    if name.lower() not in low or (name,oid) in seen: continue
+                    direct=bool(DIRECT.search(text)); natural=bool(NATURAL.search(text)); negative=bool(NEGATIVE.search(text))
+                    if not direct: continue
+                    score=18+(10 if name.lower() in title.lower() else 0)+(10 if natural else 0)-(10 if negative else 0)
+                    if score<18: continue
+                    seen.add((name,oid)); primary=item.get('primary_location') or {}; landing=str(primary.get('landing_page_url') or oid) if isinstance(primary,dict) else oid
+                    m=re.search(re.escape(name),abs_,re.I); snippet=abs_[max(0,m.start()-260):min(len(abs_),m.end()+260)] if m else title
+                    basis='exact_species+direct_colour_polymorphism'+('+natural_population_signal' if natural else '')+('+artificial_penalty' if negative else '')
+                    out.append({'canonical_name':name,'family':t.get('family',''),'openalex_id':oid,'title':title,'year':item.get('publication_year') or '','doi':str(item.get('doi') or '').replace('https://doi.org/',''),'landing_url':landing,'score':score,'evidence_basis':basis,'evidence_snippet':clean(snippet)[:600],'query_mode':'exact_species_rescue'})
+        completed+=1
+        write_checkpoint(a.out,a.qc_out,out,errors,eligible,targets,prior,requests,completed,total_batches,api,a.request_delay,False)
+    qc=write_checkpoint(a.out,a.qc_out,out,errors,eligible,targets,prior,requests,completed,total_batches,api,a.request_delay,True)
+    print(json.dumps(qc,ensure_ascii=False))
 if __name__=='__main__': main()
