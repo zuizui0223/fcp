@@ -9,10 +9,11 @@ on:
       - "docs/analysis_method.md"
       - "docs/current_data_research_results.md"
       - "data/species_macroecology_covariates*.csv"
+      - "data/resolved_inputs/**"
       - ".github/workflows/pr-analysis-baseline.yml"
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 jobs:
@@ -21,8 +22,24 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Resolve acquisition inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p pr1_resolved
+          if test -s data/resolved_inputs/global_flower_colour_species_ranked_resolved.csv && \
+             test -s data/resolved_inputs/global_flower_colour_review_queue_resolved.csv; then
+            cp data/resolved_inputs/* pr1_resolved/
+            echo "Using versioned resolved inputs"
+          else
+            echo "Resolved snapshot absent; artifact download follows"
+          fi
 
       - name: Download resolved acquisition data from PR1
+        if: ${{ hashFiles('pr1_resolved/global_flower_colour_species_ranked_resolved.csv') == '' }}
         uses: actions/download-artifact@v4
         with:
           name: pr-targeted-followup-results
@@ -47,6 +64,25 @@ jobs:
           assert review == qc['review_queue_rows'] == 111
           print({'species':species,'review':review,'deferred':qc['deferred_rows']})
           PY
+
+      - name: Freeze resolved inputs on the analysis branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data/resolved_inputs
+          cp pr1_resolved/global_flower_colour_species_ranked_resolved.csv data/resolved_inputs/
+          cp pr1_resolved/global_flower_colour_review_queue_resolved.csv data/resolved_inputs/
+          cp pr1_resolved/global_flower_colour_review_queue_resolved_qc.json data/resolved_inputs/
+          cp pr1_resolved/targeted_exact_species_rescue_qc.json data/resolved_inputs/
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add data/resolved_inputs
+          if git diff --cached --quiet; then
+            echo "Resolved inputs already frozen"
+          else
+            git commit -m "[skip ci] freeze resolved acquisition inputs"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
 
       - uses: actions/setup-python@v5
         with:
