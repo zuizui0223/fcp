@@ -8,8 +8,6 @@ on:
       - "docs/analysis_method.md"
       - "docs/current_data_research_results.md"
       - "data/species_macroecology_covariates*.csv"
-      - "data/global_flower_colour_species_ranked.csv"
-      - "data/global_flower_colour_review_queue.csv"
       - ".github/workflows/pr-analysis-baseline.yml"
 
 permissions:
@@ -19,27 +17,62 @@ permissions:
 jobs:
   research-analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+
+      - name: Download resolved acquisition data from PR1
+        uses: actions/download-artifact@v4
+        with:
+          name: pr-targeted-followup-results
+          path: pr1_resolved
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: 29637383042
+
+      - name: Validate transferred PR1 inputs
+        run: |
+          set -euo pipefail
+          test -s pr1_resolved/global_flower_colour_species_ranked_resolved.csv
+          test -s pr1_resolved/global_flower_colour_review_queue_resolved.csv
+          test -s pr1_resolved/global_flower_colour_review_queue_resolved_qc.json
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          species=sum(1 for _ in csv.DictReader(open('pr1_resolved/global_flower_colour_species_ranked_resolved.csv',encoding='utf-8')))
+          review=sum(1 for _ in csv.DictReader(open('pr1_resolved/global_flower_colour_review_queue_resolved.csv',encoding='utf-8')))
+          qc=json.loads(Path('pr1_resolved/global_flower_colour_review_queue_resolved_qc.json').read_text())
+          assert species == qc['input_candidate_species'] == 664
+          assert review == qc['review_queue_rows'] == 111
+          print({'species':species,'review':review,'deferred':qc['deferred_rows']})
+          PY
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
       - name: Install analysis dependencies
         run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
-      - name: Run evidence diagnostics
+
+      - name: Run evidence diagnostics on resolved PR1 data
         run: |
           set -euo pipefail
-          python analysis_evidence_baseline.py --species data/global_flower_colour_species_ranked.csv --outdir analysis_outputs/evidence
-      - name: Run research analysis
+          python analysis_evidence_baseline.py \
+            --species pr1_resolved/global_flower_colour_species_ranked_resolved.csv \
+            --outdir analysis_outputs/evidence
+
+      - name: Run research analysis on resolved PR1 data
         run: |
           set -euo pipefail
           python analysis_macroecology.py \
-            --species data/global_flower_colour_species_ranked.csv \
-            --review data/global_flower_colour_review_queue.csv \
+            --species pr1_resolved/global_flower_colour_species_ranked_resolved.csv \
+            --review pr1_resolved/global_flower_colour_review_queue_resolved.csv \
             --covariates data/species_macroecology_covariates.csv \
             --outdir analysis_outputs/research
+          cp pr1_resolved/global_flower_colour_review_queue_resolved_qc.json analysis_outputs/research/input_review_queue_qc.json
+          cp pr1_resolved/targeted_exact_species_rescue_qc.json analysis_outputs/research/input_exact_rescue_qc.json
           cat analysis_outputs/research/research_analysis_manifest.json
+
       - name: Validate research outputs
         run: |
           set -euo pipefail
@@ -53,17 +86,18 @@ jobs:
           from pathlib import Path
           manifest=json.loads(Path('analysis_outputs/research/research_analysis_manifest.json').read_text())
           effort=manifest['effort_model']
-          assert effort['n_species'] > 0
-          assert 0 < effort['validated_cases'] <= effort['n_species']
+          assert effort['n_species'] == 664
+          assert effort['validated_cases'] == 111
           assert 0 <= effort['strict_cases'] <= effort['validated_cases']
           for key in ('linear_aic','quadratic_aic','delta_aic_linear_minus_quadratic','strict_quadratic_p'):
               assert math.isfinite(float(effort[key])), key
           assert 0.0 <= float(effort['candidate_conditional_fraction']) <= 1.0
           print(json.dumps(effort, indent=2))
           PY
+
       - uses: actions/upload-artifact@v4
         with:
-          name: research-macroecology-analysis
+          name: research-macroecology-analysis-resolved-pr1
           path: analysis_outputs/
           if-no-files-found: error
           retention-days: 14
