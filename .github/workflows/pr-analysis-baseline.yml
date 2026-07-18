@@ -1,11 +1,14 @@
-name: PR evidence baseline analysis
+name: PR research macroecology analysis
 
 on:
   pull_request:
     paths:
       - "analysis_evidence_baseline.py"
+      - "analysis_macroecology.py"
       - "docs/analysis_method.md"
+      - "data/species_macroecology_covariates*.csv"
       - "data/global_flower_colour_species_ranked.csv"
+      - "data/global_flower_colour_review_queue.csv"
       - ".github/workflows/pr-analysis-baseline.yml"
 
 permissions:
@@ -13,31 +16,39 @@ permissions:
   actions: read
 
 jobs:
-  baseline-analysis:
+  research-analysis:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Run baseline analysis
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
+      - name: Run evidence diagnostics
         run: |
           set -euo pipefail
-          python analysis_evidence_baseline.py \
+          python analysis_evidence_baseline.py --species data/global_flower_colour_species_ranked.csv --outdir analysis_outputs/evidence
+      - name: Run research analysis
+        run: |
+          set -euo pipefail
+          python analysis_macroecology.py \
             --species data/global_flower_colour_species_ranked.csv \
-            --outdir analysis_outputs
-          cat analysis_outputs/baseline_qc.json
+            --review data/global_flower_colour_review_queue.csv \
+            --covariates data/species_macroecology_covariates.csv \
+            --outdir analysis_outputs/research
+          cat analysis_outputs/research/research_analysis_manifest.json
       - name: Validate outputs
         run: |
           set -euo pipefail
-          test -s analysis_outputs/baseline_qc.json
-          test -s analysis_outputs/family_evidence_summary.csv
-          test -s analysis_outputs/threshold_sensitivity.csv
-          test -s analysis_outputs/family_concentration.csv
+          test -s analysis_outputs/research/research_analysis_manifest.json
+          test -s analysis_outputs/research/discovery_effort_model.csv
+          test -s analysis_outputs/research/family_effort_adjusted_signal.csv
+          test -s analysis_outputs/research/leave_one_family_out.csv
       - uses: actions/upload-artifact@v4
         with:
-          name: evidence-baseline-analysis
+          name: research-macroecology-analysis
           path: analysis_outputs/
           if-no-files-found: error
           retention-days: 14
