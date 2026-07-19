@@ -50,7 +50,8 @@ def main() -> None:
     d.loc[d.manual_review_required, keep].to_csv(out/'evidence_spatial_scale_manual_review.csv', index=False)
 
     geo=pd.read_csv(a.geography)
-    x=d.merge(geo,on='canonical_name',how='left')
+    x=d.merge(geo,on='canonical_name',how='left',suffixes=('_review','_geo'))
+    family_col='family_review' if 'family_review' in x.columns else 'family'
     x=x[x.evidence_spatial_scale.isin(['within_population','among_population'])].dropna(subset=['latitudinal_range','absolute_latitude','gbif_occurrences']).copy()
     result={'status':'not_run','reason':'fewer than 15 unambiguous rows per class'}
     counts=x.evidence_spatial_scale.value_counts().to_dict()
@@ -59,11 +60,11 @@ def main() -> None:
         x['range_z']=zscore(np.log1p(pd.to_numeric(x.latitudinal_range,errors='coerce').clip(lower=0)))
         x['latitude_z']=zscore(pd.to_numeric(x.absolute_latitude,errors='coerce'))
         x['gbif_z']=zscore(np.log1p(pd.to_numeric(x.gbif_occurrences,errors='coerce').clip(lower=0)))
-        model=smf.glm('is_within ~ range_z + latitude_z + gbif_z',x,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':x.family})
+        model=smf.glm('is_within ~ range_z + latitude_z + gbif_z',x,family=sm.families.Binomial()).fit(cov_type='cluster',cov_kwds={'groups':x[family_col]})
         ci=model.conf_int()
         tab=pd.DataFrame({'term':model.params.index,'estimate':model.params.values,'std_error':model.bse.values,'odds_ratio':np.exp(model.params.values),'ci_low':np.exp(ci[0].values),'ci_high':np.exp(ci[1].values),'p_value':model.pvalues.values})
         tab.to_csv(out/'within_vs_among_population_model.csv',index=False)
-        result={'status':'complete','n_rows':int(len(x)),'class_counts':counts,'formula':'is_within ~ range_z + latitude_z + gbif_z'}
+        result={'status':'complete','n_rows':int(len(x)),'class_counts':counts,'formula':'is_within ~ range_z + latitude_z + gbif_z','cluster_column':family_col}
     summary={
         'n_confirmed':int(len(d)),
         'scale_counts':d.evidence_spatial_scale.value_counts().to_dict(),
