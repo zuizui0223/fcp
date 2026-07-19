@@ -7,6 +7,7 @@ on:
       - "compute_climatic_niche_metrics.py"
       - "analysis_climatic_niche_matched_controls.py"
       - "analysis_climatic_niche_spatial_scale.py"
+      - "analysis_climatic_niche_spatial_scale_robustness.py"
       - "analysis_evidence_spatial_scale_enriched.py"
       - "enrich_spatial_scale_evidence.py"
       - "build_gbif_geography_covariates.py"
@@ -102,6 +103,13 @@ jobs:
             --metrics analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv \
             --outdir analysis_outputs/climatic_niche
           cat analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json
+      - name: Test spatial-scale robustness
+        run: |
+          python analysis_climatic_niche_spatial_scale_robustness.py \
+            --dataset analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv \
+            --outdir analysis_outputs/climatic_niche \
+            --permutations 9999
+          cat analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json
       - name: Validate outputs
         run: |
           set -euo pipefail
@@ -111,19 +119,25 @@ jobs:
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_models.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_leave_one_family_out.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json
           python - <<'PY'
           import json
           from pathlib import Path
           q=json.loads(Path('analysis_outputs/climatic_niche/species_climatic_niche_metrics_qc.json').read_text())
           m=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_manifest.json').read_text())
           s=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json').read_text())
+          r=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json').read_text())
           assert q['species_complete']>=50
           assert m['specifications']>0
           assert m['semantic_guard'].startswith('associations concern verified FCP')
           assert s['classified_species_with_metrics']>=20
           assert s['complete_specifications']>0
           assert s['semantic_guard'].startswith('This compares evidence-classified')
-          print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s},indent=2))
+          assert len(r['results'])==2
+          assert all(x['permutations_valid']>=9000 for x in r['results'])
+          print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'robustness':r},indent=2))
           PY
       - uses: actions/upload-artifact@v4
         with:
