@@ -49,6 +49,7 @@ jobs:
           cat analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json
       - name: Validate outputs
         run: |
+          set -euo pipefail
           test -s analysis_outputs/evidence_scale_enriched/high_confidence_enriched_classification.csv
           test -s analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json
           python - <<'PY'
@@ -57,7 +58,11 @@ jobs:
           x=json.loads(Path('analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json').read_text())
           assert x['n_confirmed']==111
           assert x['eligible_natural_direct_works']>0
-          assert x['semantic_guard'].endswith('score >=20')
+          guard=x['semantic_guard']
+          assert 'supplements rather than replaces baseline evidence' in guard
+          assert 'direct colour evidence' in guard
+          assert 'no artificial signal' in guard
+          assert 'score >=20' in guard
           print(json.dumps(x,indent=2))
           PY
       - uses: actions/upload-artifact@v4
