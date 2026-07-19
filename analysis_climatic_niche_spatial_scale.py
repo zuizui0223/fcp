@@ -29,7 +29,7 @@ def zscore(series: pd.Series) -> pd.Series:
 
 def fit_one(data: pd.DataFrame, metric: str, min_cells: int) -> dict:
     d = data.loc[data["n_climate_cells"] >= min_cells].copy()
-    d["among"] = (d["current_scale"] == "among_population").astype(int)
+    d["among"] = (d["spatial_scale"] == "among_population").astype(int)
     d["metric_z"] = zscore(d[metric])
     d["effort_z"] = zscore(np.log1p(d["n_climate_cells"]))
     d = d.dropna(subset=["among", "metric_z", "effort_z", "family"])
@@ -60,7 +60,7 @@ def fit_one(data: pd.DataFrame, metric: str, min_cells: int) -> dict:
             "effort_odds_ratio": float(np.exp(fit.params["effort_z"])),
         })
     except Exception as exc:
-        result.update({"status": "failed", "error": str(exc)})
+        result.update({"status": "failed", "error": f"{type(exc).__name__}: {exc}"})
     return result
 
 
@@ -75,6 +75,17 @@ def resolve_family_column(dataset: pd.DataFrame) -> pd.Series:
     return family
 
 
+def resolve_scale_column(classification: pd.DataFrame) -> str:
+    """Return the integrated spatial-scale column emitted by supported classifiers."""
+    for column in ("enriched_scale", "current_scale", "spatial_scale"):
+        if column in classification.columns:
+            return column
+    raise ValueError(
+        "Classification input has no supported spatial-scale column; expected one of "
+        "enriched_scale, current_scale, or spatial_scale"
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--classification", required=True)
@@ -87,19 +98,22 @@ def main() -> None:
     classification = pd.read_csv(args.classification)
     metrics = pd.read_csv(args.metrics)
 
-    required_class = {"canonical_name", "family", "current_scale"}
+    scale_column = resolve_scale_column(classification)
+    required_class = {"canonical_name", "family", scale_column}
     required_metrics = {"canonical_name", "role", "n_climate_cells", *METRICS}
     missing = sorted((required_class - set(classification.columns)) | (required_metrics - set(metrics.columns)))
     if missing:
         raise ValueError(f"Missing required columns: {missing}")
 
-    class_columns = ["canonical_name", "family", "current_scale"]
+    class_columns = ["canonical_name", "family", scale_column]
     if "classification_source" in classification.columns:
         class_columns.append("classification_source")
     classified = classification.loc[
-        classification["current_scale"].isin(["within_population", "among_population"]),
+        classification[scale_column].isin(["within_population", "among_population"]),
         class_columns,
     ].drop_duplicates("canonical_name")
+    classified = classified.rename(columns={scale_column: "spatial_scale"})
+
     focal_metrics = metrics.loc[metrics["role"] == "focal"].drop_duplicates("canonical_name")
     dataset = classified.merge(focal_metrics, on="canonical_name", how="inner", suffixes=("_class", "_metric"))
     dataset["family"] = resolve_family_column(dataset)
@@ -111,17 +125,20 @@ def main() -> None:
 
     primary = results.loc[(results["min_cells"] == 20) & (results["status"] == "complete")].to_dict("records")
     manifest = {
+        "classification_scale_column": scale_column,
         "classified_species": int(len(classified)),
         "classified_species_with_metrics": int(len(dataset)),
-        "within_with_metrics": int((dataset["current_scale"] == "within_population").sum()),
-        "among_with_metrics": int((dataset["current_scale"] == "among_population").sum()),
+        "within_with_metrics": int((dataset["spatial_scale"] == "within_population").sum()),
+        "among_with_metrics": int((dataset["spatial_scale"] == "among_population").sum()),
         "specifications": int(len(results)),
         "complete_specifications": int((results["status"] == "complete").sum()),
         "primary_results": primary,
         "interpretation_rule": "Odds ratios above one indicate that broader occupied climatic niche is associated with among-population rather than within-population colour variation.",
         "semantic_guard": "This compares evidence-classified spatial scales among verified FCP species; mixed and unclear cases are excluded, occupied niche is not physiological tolerance, and associations are not causal.",
     }
-    (outdir / "climatic_niche_spatial_scale_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    (outdir / "climatic_niche_spatial_scale_manifest.json").write_text(
+        json.dumps(manifest, indent=2), encoding="utf-8"
+    )
     print(json.dumps(manifest, indent=2))
 
 
