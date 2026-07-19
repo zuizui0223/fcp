@@ -1,0 +1,92 @@
+name: PR climatic niche breadth
+
+on:
+  pull_request:
+    paths:
+      - "build_gbif_occurrence_sample.py"
+      - "compute_climatic_niche_metrics.py"
+      - "analysis_climatic_niche_matched_controls.py"
+      - ".github/workflows/pr-climatic-niche-breadth.yml"
+      - "data/control_candidate_pool.csv"
+      - "data/resolved_inputs/**"
+
+permissions:
+  contents: read
+
+jobs:
+  climatic-niche:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn rasterio statsmodels
+      - name: Prepare matched control table
+        run: |
+          set -euo pipefail
+          mkdir -p analysis_outputs/climatic_niche
+          python - <<'PY'
+          import pandas as pd
+          review=pd.read_csv('data/resolved_inputs/global_flower_colour_review_queue_resolved.csv')
+          candidates=set(pd.read_csv('data/resolved_inputs/global_flower_colour_species_ranked_resolved.csv').canonical_name.astype(str))
+          controls=pd.read_csv('data/control_candidate_pool.csv')
+          controls=controls[controls.focal_species.isin(set(review.canonical_name))]
+          controls=controls[~controls.control_candidate.isin(candidates)]
+          controls.to_csv('analysis_outputs/climatic_niche/eligible_controls.csv',index=False)
+          print({'focals':review.canonical_name.nunique(),'control_rows':len(controls),'controls':controls.control_candidate.nunique()})
+          PY
+      - name: Download occurrence samples
+        run: |
+          python build_gbif_occurrence_sample.py \
+            --focals data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --controls analysis_outputs/climatic_niche/eligible_controls.csv \
+            --out analysis_outputs/climatic_niche/gbif_occurrence_sample.csv \
+            --qc-out analysis_outputs/climatic_niche/gbif_occurrence_sample_qc.json \
+            --limit 300 --timeout 45 --retries 4 --delay 0.20
+      - name: Download WorldClim 2.1 bioclim
+        run: |
+          mkdir -p analysis_outputs/climatic_niche/worldclim
+          curl -L --retry 4 --fail -o /tmp/wc.zip https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+          unzip -q /tmp/wc.zip -d analysis_outputs/climatic_niche/worldclim
+      - name: Compute climatic niche metrics
+        run: |
+          python compute_climatic_niche_metrics.py \
+            --occurrences analysis_outputs/climatic_niche/gbif_occurrence_sample.csv \
+            --worldclim-dir analysis_outputs/climatic_niche/worldclim \
+            --out analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv \
+            --qc-out analysis_outputs/climatic_niche/species_climatic_niche_metrics_qc.json \
+            --min-cells 10
+      - name: Run matched niche models
+        run: |
+          python analysis_climatic_niche_matched_controls.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --candidate-species data/resolved_inputs/global_flower_colour_species_ranked_resolved.csv \
+            --controls analysis_outputs/climatic_niche/eligible_controls.csv \
+            --metrics analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv \
+            --outdir analysis_outputs/climatic_niche
+          cat analysis_outputs/climatic_niche/climatic_niche_manifest.json
+      - name: Validate outputs
+        run: |
+          set -euo pipefail
+          test -s analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_conditional_logit.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_manifest.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path('analysis_outputs/climatic_niche/species_climatic_niche_metrics_qc.json').read_text())
+          m=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_manifest.json').read_text())
+          assert q['species_complete']>=50
+          assert m['specifications']>0
+          assert m['semantic_guard'].startswith('associations concern verified FCP')
+          print(json.dumps({'metrics_qc':q,'model':m},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: climatic-niche-breadth-analysis
+          path: analysis_outputs/climatic_niche/
+          if-no-files-found: error
+          retention-days: 14
