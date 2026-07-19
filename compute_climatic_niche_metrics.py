@@ -19,21 +19,20 @@ def main():
         with rasterio.open(candidates[0]) as src: vals.append([x[0] if x and x[0]!=src.nodata else np.nan for x in src.sample(coords)])
     for b,v in zip(SELECT,vals):d[f'bio{b}']=v
     climate=[f'bio{x}' for x in SELECT]; d=d.dropna(subset=climate).copy()
-    # deduplicate occupied climate cells; identical raster values are adequate at 10 arc-minute resolution
     d=d.drop_duplicates(['canonical_name']+climate)
-    z=StandardScaler().fit_transform(d[climate]); pca=PCA(n_components=3).fit(z); pcs=pca.transform(z)
+    scaler=StandardScaler(); z=scaler.fit_transform(d[climate]); pca=PCA(n_components=3).fit(z); pcs=pca.transform(z)
+    for j,c in enumerate(climate):d[f'z_{c}']=z[:,j]
     for i in range(3):d[f'pc{i+1}']=pcs[:,i]
     result=[]
     for keys,g in d.groupby(['canonical_name','family','role','focal_species','match_level'],dropna=False):
         n=len(g); row=dict(zip(['canonical_name','family','role','focal_species','match_level'],keys));row['n_climate_cells']=n
         if n<a.min_cells:
             row['metric_status']='insufficient_cells';result.append(row);continue
-        q=g[climate].quantile([.05,.95]); s=g[climate].std(ddof=0)
+        q=g[climate].quantile([.05,.95])
         row.update({f'{c}_q95q05':float(q.loc[.95,c]-q.loc[.05,c]) for c in climate})
         row['temperature_breadth']=float(np.mean([row[f'bio{x}_q95q05'] for x in [1,5,6,7]]))
         row['moisture_breadth']=float(np.mean([row[f'bio{x}_q95q05'] for x in [12,14,15,17]]))
-        gz=StandardScaler().fit_transform(g[climate]) if n>1 else np.zeros((n,len(climate)))
-        row['climatic_heterogeneity']=float(np.mean(np.std(gz,axis=0)))
+        row['climatic_heterogeneity']=float(np.mean([g[f'z_{c}'].std(ddof=0) for c in climate]))
         p=g[['pc1','pc2','pc3']].to_numpy(); ctr=p.mean(axis=0)
         row['pca_dispersion']=float(np.mean(np.linalg.norm(p-ctr,axis=1)))
         row['pc1_q95q05']=float(g.pc1.quantile(.95)-g.pc1.quantile(.05));row['pc2_q95q05']=float(g.pc2.quantile(.95)-g.pc2.quantile(.05))
