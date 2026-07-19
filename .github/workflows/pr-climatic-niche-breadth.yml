@@ -6,6 +6,10 @@ on:
       - "build_gbif_occurrence_sample.py"
       - "compute_climatic_niche_metrics.py"
       - "analysis_climatic_niche_matched_controls.py"
+      - "analysis_climatic_niche_spatial_scale.py"
+      - "analysis_evidence_spatial_scale_enriched.py"
+      - "enrich_spatial_scale_evidence.py"
+      - "build_gbif_geography_covariates.py"
       - ".github/workflows/pr-climatic-niche-breadth.yml"
       - "data/control_candidate_pool.csv"
       - "data/resolved_inputs/**"
@@ -16,7 +20,7 @@ permissions:
 jobs:
   climatic-niche:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -68,21 +72,58 @@ jobs:
             --metrics analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv \
             --outdir analysis_outputs/climatic_niche
           cat analysis_outputs/climatic_niche/climatic_niche_manifest.json
+      - name: Enrich spatial-scale evidence
+        run: |
+          mkdir -p analysis_outputs/climatic_niche/spatial_scale_inputs
+          python enrich_spatial_scale_evidence.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --out analysis_outputs/climatic_niche/spatial_scale_inputs/enriched_openalex_works.csv \
+            --species-summary analysis_outputs/climatic_niche/spatial_scale_inputs/enriched_species_summary.csv \
+            --qc-out analysis_outputs/climatic_niche/spatial_scale_inputs/enriched_openalex_qc.json \
+            --per-page 50 --timeout 40 --retries 4 --request-delay 0.25
+      - name: Build confirmed-species geography
+        run: |
+          python build_gbif_geography_covariates.py \
+            --species data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --out analysis_outputs/climatic_niche/spatial_scale_inputs/confirmed_species_gbif_geography.csv \
+            --qc-out analysis_outputs/climatic_niche/spatial_scale_inputs/confirmed_species_gbif_geography_qc.json \
+            --limit 300 --timeout 45 --retries 4 --request-delay 0.20
+      - name: Build integrated spatial-scale classification
+        run: |
+          python analysis_evidence_spatial_scale_enriched.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --works analysis_outputs/climatic_niche/spatial_scale_inputs/enriched_openalex_works.csv \
+            --geography analysis_outputs/climatic_niche/spatial_scale_inputs/confirmed_species_gbif_geography.csv \
+            --outdir analysis_outputs/climatic_niche/spatial_scale_inputs
+      - name: Compare niche breadth between spatial scales
+        run: |
+          python analysis_climatic_niche_spatial_scale.py \
+            --classification analysis_outputs/climatic_niche/spatial_scale_inputs/high_confidence_enriched_classification.csv \
+            --metrics analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv \
+            --outdir analysis_outputs/climatic_niche
+          cat analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json
       - name: Validate outputs
         run: |
           set -euo pipefail
           test -s analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_conditional_logit.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_manifest.json
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_models.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json
           python - <<'PY'
           import json
           from pathlib import Path
           q=json.loads(Path('analysis_outputs/climatic_niche/species_climatic_niche_metrics_qc.json').read_text())
           m=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_manifest.json').read_text())
+          s=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json').read_text())
           assert q['species_complete']>=50
           assert m['specifications']>0
           assert m['semantic_guard'].startswith('associations concern verified FCP')
-          print(json.dumps({'metrics_qc':q,'model':m},indent=2))
+          assert s['classified_species_with_metrics']>=20
+          assert s['complete_specifications']>0
+          assert s['semantic_guard'].startswith('This compares evidence-classified')
+          print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s},indent=2))
           PY
       - uses: actions/upload-artifact@v4
         with:
