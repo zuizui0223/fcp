@@ -64,6 +64,17 @@ def fit_one(data: pd.DataFrame, metric: str, min_cells: int) -> dict:
     return result
 
 
+def resolve_family_column(dataset: pd.DataFrame) -> pd.Series:
+    """Resolve family robustly regardless of whether merge suffixes were applied."""
+    candidates = [c for c in ("family_class", "family", "family_metric") if c in dataset.columns]
+    if not candidates:
+        raise ValueError("No family column remained after merging classification and niche metrics")
+    family = dataset[candidates[0]].copy()
+    for column in candidates[1:]:
+        family = family.fillna(dataset[column])
+    return family
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--classification", required=True)
@@ -77,18 +88,21 @@ def main() -> None:
     metrics = pd.read_csv(args.metrics)
 
     required_class = {"canonical_name", "family", "current_scale"}
-    required_metrics = {"canonical_name", "n_climate_cells", *METRICS}
+    required_metrics = {"canonical_name", "role", "n_climate_cells", *METRICS}
     missing = sorted((required_class - set(classification.columns)) | (required_metrics - set(metrics.columns)))
     if missing:
         raise ValueError(f"Missing required columns: {missing}")
 
+    class_columns = ["canonical_name", "family", "current_scale"]
+    if "classification_source" in classification.columns:
+        class_columns.append("classification_source")
     classified = classification.loc[
         classification["current_scale"].isin(["within_population", "among_population"]),
-        ["canonical_name", "family", "current_scale", "classification_source"],
+        class_columns,
     ].drop_duplicates("canonical_name")
     focal_metrics = metrics.loc[metrics["role"] == "focal"].drop_duplicates("canonical_name")
     dataset = classified.merge(focal_metrics, on="canonical_name", how="inner", suffixes=("_class", "_metric"))
-    dataset["family"] = dataset["family_class"].fillna(dataset.get("family_metric"))
+    dataset["family"] = resolve_family_column(dataset)
     dataset.to_csv(outdir / "climatic_niche_spatial_scale_dataset.csv", index=False)
 
     rows = [fit_one(dataset, metric, threshold) for threshold in (10, 20, 30, 50) for metric in METRICS]
