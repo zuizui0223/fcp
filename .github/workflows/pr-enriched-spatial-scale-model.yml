@@ -1,0 +1,68 @@
+name: PR high-confidence enriched spatial-scale model
+
+on:
+  pull_request:
+    paths:
+      - "analysis_enriched_spatial_scale.py"
+      - "enrich_spatial_scale_evidence.py"
+      - ".github/workflows/pr-enriched-spatial-scale-model.yml"
+      - "data/resolved_inputs/**"
+
+permissions:
+  contents: read
+
+jobs:
+  enriched-scale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
+      - name: Enrich ambiguous evidence
+        run: |
+          set -euo pipefail
+          mkdir -p analysis_outputs/evidence_scale analysis_outputs/evidence_scale_enriched
+          python enrich_spatial_scale_evidence.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --out analysis_outputs/evidence_scale/enriched_openalex_works.csv \
+            --species-summary analysis_outputs/evidence_scale/enriched_species_summary.csv \
+            --qc-out analysis_outputs/evidence_scale/enriched_openalex_qc.json \
+            --per-page 50 --timeout 40 --retries 4 --request-delay 0.25
+      - name: Build GBIF covariates
+        run: |
+          python build_gbif_geography_covariates.py \
+            --species data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --out analysis_outputs/evidence_scale_enriched/confirmed_species_gbif_geography.csv \
+            --qc-out analysis_outputs/evidence_scale_enriched/confirmed_species_gbif_geography_qc.json \
+            --limit 300 --timeout 45 --retries 4 --request-delay 0.20
+      - name: Run high-confidence model
+        run: |
+          python analysis_enriched_spatial_scale.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --works analysis_outputs/evidence_scale/enriched_openalex_works.csv \
+            --geography analysis_outputs/evidence_scale_enriched/confirmed_species_gbif_geography.csv \
+            --outdir analysis_outputs/evidence_scale_enriched
+          cat analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json
+      - name: Validate outputs
+        run: |
+          test -s analysis_outputs/evidence_scale_enriched/high_confidence_enriched_classification.csv
+          test -s analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json').read_text())
+          assert x['n_confirmed']==111
+          assert x['eligible_natural_direct_works']>0
+          assert x['semantic_guard'].endswith('score >=20')
+          print(json.dumps(x,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: high-confidence-enriched-spatial-scale
+          path: analysis_outputs/evidence_scale_enriched/
+          if-no-files-found: error
+          retention-days: 14
