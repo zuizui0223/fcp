@@ -8,6 +8,7 @@ on:
       - "analysis_climatic_niche_matched_controls.py"
       - "analysis_climatic_niche_spatial_scale.py"
       - "analysis_climatic_niche_spatial_scale_robustness.py"
+      - "analysis_spatial_fragmentation_scale.py"
       - "analysis_evidence_spatial_scale_enriched.py"
       - "enrich_spatial_scale_evidence.py"
       - "build_gbif_geography_covariates.py"
@@ -103,6 +104,14 @@ jobs:
             --metrics analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv \
             --outdir analysis_outputs/climatic_niche
           cat analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json
+      - name: Test spatial fragmentation between scales
+        run: |
+          python analysis_spatial_fragmentation_scale.py \
+            --scale-dataset analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv \
+            --geography analysis_outputs/climatic_niche/spatial_scale_inputs/confirmed_species_gbif_geography.csv \
+            --outdir analysis_outputs/climatic_niche \
+            --min-records 20
+          cat analysis_outputs/climatic_niche/spatial_fragmentation_scale_manifest.json
       - name: Test spatial-scale robustness
         run: |
           python analysis_climatic_niche_spatial_scale_robustness.py \
@@ -119,6 +128,9 @@ jobs:
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_models.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json
+          test -s analysis_outputs/climatic_niche/spatial_fragmentation_scale_dataset.csv
+          test -s analysis_outputs/climatic_niche/spatial_fragmentation_scale_models.csv
+          test -s analysis_outputs/climatic_niche/spatial_fragmentation_scale_manifest.json
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_leave_one_family_out.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json
@@ -128,6 +140,7 @@ jobs:
           q=json.loads(Path('analysis_outputs/climatic_niche/species_climatic_niche_metrics_qc.json').read_text())
           m=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_manifest.json').read_text())
           s=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json').read_text())
+          f=json.loads(Path('analysis_outputs/climatic_niche/spatial_fragmentation_scale_manifest.json').read_text())
           r=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json').read_text())
           assert q['species_complete']>=50
           assert m['specifications']>0
@@ -135,9 +148,12 @@ jobs:
           assert s['classified_species_with_metrics']>=20
           assert s['complete_specifications']>0
           assert s['semantic_guard'].startswith('This compares evidence-classified')
+          assert f['species_available']>=20
+          assert f['models_complete']>=4
+          assert f['semantic_guard'].startswith('GBIF connected components')
           assert len(r['results'])==4
           assert all(x['permutations_valid']>=9000 for x in r['results'])
-          print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'robustness':r},indent=2))
+          print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'fragmentation_model':f,'robustness':r},indent=2))
           PY
       - uses: actions/upload-artifact@v4
         with:
