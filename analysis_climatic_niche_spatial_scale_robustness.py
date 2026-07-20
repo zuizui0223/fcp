@@ -128,7 +128,40 @@ def main() -> None:
         "baseline_unambiguous_only": eligible.loc[
             eligible["classification_source"] == "baseline_unambiguous"
         ].copy(),
+        "high_confidence_enrichment_only": eligible.loc[
+            eligible["classification_source"] == "high_confidence_enrichment"
+        ].copy(),
     }
+
+    enrichment_audit = analysis_sets["high_confidence_enrichment_only"].copy()
+    enrichment_audit["scale_priority"] = enrichment_audit["spatial_scale"].map(
+        {"among_population": 0, "within_population": 1}
+    ).fillna(2)
+    enrichment_audit = enrichment_audit.sort_values(
+        ["scale_priority", "n_climate_cells", "canonical_name"],
+        ascending=[True, False, True],
+        kind="stable",
+    ).reset_index(drop=True)
+    enrichment_audit["audit_priority_rank"] = range(1, len(enrichment_audit) + 1)
+    enrichment_audit["audit_reason"] = (
+        "Classification derives from high-confidence enrichment and materially attenuates the "
+        "baseline-unambiguous moisture-breadth association; verify explicit within- versus "
+        "among-population evidence in the retained source."
+    )
+    audit_columns = [
+        "audit_priority_rank",
+        "canonical_name",
+        "family",
+        "spatial_scale",
+        "classification_source",
+        "n_climate_cells",
+        "pca_hull_area",
+        "moisture_breadth",
+        "audit_reason",
+    ]
+    enrichment_audit[audit_columns].to_csv(
+        outdir / "climatic_niche_spatial_scale_enrichment_audit.csv", index=False
+    )
 
     rng = np.random.default_rng(args.seed)
     rows: list[dict] = []
@@ -154,12 +187,14 @@ def main() -> None:
             }
             for name, frame in analysis_sets.items()
         },
+        "enrichment_audit_rows": int(len(enrichment_audit)),
         "permutations": args.permutations,
         "results": summary.to_dict("records"),
         "interpretation_guard": (
             "Exploratory robustness analysis of two preselected near-threshold metrics; "
-            "the strict subset retains only baseline-unambiguous classifications; permutation "
-            "p-values and leave-one-family-out stability do not establish causation or physiological niche breadth."
+            "source-stratified estimates diagnose classification sensitivity rather than establish "
+            "effect heterogeneity. Permutation p-values and leave-one-family-out stability do not "
+            "establish causation or physiological niche breadth."
         ),
     }
     (outdir / "climatic_niche_spatial_scale_robustness_manifest.json").write_text(
