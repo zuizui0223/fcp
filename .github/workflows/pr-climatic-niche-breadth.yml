@@ -161,6 +161,7 @@ jobs:
           test -s analysis_outputs/climatic_niche/environmental_turnover_robustness_manifest.json
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_leave_one_family_out.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_enrichment_audit.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json
           python - <<'PY'
           import json
@@ -192,9 +193,12 @@ jobs:
               ('all_evidence_classified','moisture_breadth'),
               ('baseline_unambiguous_only','pca_hull_area'),
               ('baseline_unambiguous_only','moisture_breadth'),
+              ('high_confidence_enrichment_only','pca_hull_area'),
+              ('high_confidence_enrichment_only','moisture_breadth'),
           }
           observed={(x['analysis_set'],x['metric']) for x in r['results']}
           assert observed==expected, {'expected':sorted(expected),'observed':sorted(observed)}
+          assert r['enrichment_audit_rows']>=20
           assert all(x['permutations_valid']>=9000 for x in r['results'])
           print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'fragmentation_model':f,'turnover_model':t,'turnover_robustness':tr,'robustness':r},indent=2))
           PY
