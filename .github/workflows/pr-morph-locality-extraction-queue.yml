@@ -1,0 +1,90 @@
+name: PR morph-locality extraction queue
+
+on:
+  pull_request:
+    paths:
+      - "build_morph_locality_extraction_queue.py"
+      - "enrich_spatial_scale_evidence.py"
+      - "analysis_evidence_spatial_scale_enriched.py"
+      - "build_gbif_geography_covariates.py"
+      - ".github/workflows/pr-morph-locality-extraction-queue.yml"
+      - "data/resolved_inputs/**"
+
+permissions:
+  contents: read
+
+jobs:
+  morph-locality-queue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
+      - name: Enrich spatial-scale evidence
+        run: |
+          mkdir -p analysis_outputs/morph_locality
+          python enrich_spatial_scale_evidence.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --out analysis_outputs/morph_locality/enriched_openalex_works.csv \
+            --species-summary analysis_outputs/morph_locality/enriched_species_summary.csv \
+            --qc-out analysis_outputs/morph_locality/enriched_openalex_qc.json \
+            --per-page 50 --timeout 40 --retries 4 --request-delay 0.25
+      - name: Build confirmed-species geography
+        run: |
+          python build_gbif_geography_covariates.py \
+            --species data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --out analysis_outputs/morph_locality/confirmed_species_gbif_geography.csv \
+            --qc-out analysis_outputs/morph_locality/confirmed_species_gbif_geography_qc.json \
+            --limit 300 --timeout 45 --retries 4 --request-delay 0.20
+      - name: Build integrated spatial-scale classification
+        run: |
+          python analysis_evidence_spatial_scale_enriched.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --works analysis_outputs/morph_locality/enriched_openalex_works.csv \
+            --geography analysis_outputs/morph_locality/confirmed_species_gbif_geography.csv \
+            --outdir analysis_outputs/morph_locality
+      - name: Build morph-locality extraction queue
+        run: |
+          python build_morph_locality_extraction_queue.py \
+            --classification analysis_outputs/morph_locality/high_confidence_enriched_classification.csv \
+            --works analysis_outputs/morph_locality/enriched_openalex_works.csv \
+            --out analysis_outputs/morph_locality/morph_locality_extraction_queue.csv \
+            --manifest analysis_outputs/morph_locality/morph_locality_extraction_queue_manifest.json
+          cat analysis_outputs/morph_locality/morph_locality_extraction_queue_manifest.json
+      - name: Validate queue
+        run: |
+          set -euo pipefail
+          test -s analysis_outputs/morph_locality/morph_locality_extraction_queue.csv
+          test -s analysis_outputs/morph_locality/morph_locality_extraction_queue_manifest.json
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+
+          queue = pd.read_csv('analysis_outputs/morph_locality/morph_locality_extraction_queue.csv')
+          manifest = json.loads(Path('analysis_outputs/morph_locality/morph_locality_extraction_queue_manifest.json').read_text())
+          required = {
+              'priority_rank', 'canonical_name', 'spatial_scale', 'openalex_id',
+              'locality_name', 'latitude', 'longitude', 'population_label',
+              'colour_state', 'locality_evidence_quote', 'extraction_status'
+          }
+          assert required.issubset(queue.columns)
+          assert manifest['classified_species'] >= 20
+          assert manifest['queue_rows'] >= manifest['classified_species']
+          assert manifest['among_population_species'] >= 10
+          assert queue['priority_rank'].tolist() == list(range(1, len(queue) + 1))
+          assert set(queue['extraction_status'].fillna('')) == {'not_started'}
+          assert manifest['semantic_guard'].startswith('The queue requests explicit morph-labelled locality evidence')
+          assert 'generic GBIF occurrences must not be assigned colour states' in manifest['semantic_guard']
+          print(json.dumps(manifest, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: morph-locality-extraction-queue
+          path: analysis_outputs/morph_locality/
+          if-no-files-found: error
+          retention-days: 14
