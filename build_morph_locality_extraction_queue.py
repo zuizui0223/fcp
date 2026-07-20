@@ -2,7 +2,8 @@
 """Build a reproducible manual extraction queue for morph-labelled locality evidence.
 
 The queue combines each species' retained baseline evidence with eligible enrichment works.
-It never infers morph localities from generic GBIF records.
+It never infers morph localities from generic GBIF records. Classified species lacking a
+retained bibliographic record are preserved and explicitly flagged for targeted literature search.
 """
 from __future__ import annotations
 
@@ -14,10 +15,10 @@ import pandas as pd
 
 OUTPUT_COLUMNS = [
     "priority_rank", "canonical_name", "family", "spatial_scale",
-    "classification_source", "evidence_origin", "openalex_id", "title", "year",
-    "doi", "landing_url", "evidence_score", "evidence_snippet",
-    "extraction_status", "country_or_region", "locality_name", "latitude",
-    "longitude", "coordinate_source", "population_label", "colour_state",
+    "classification_source", "evidence_origin", "evidence_availability",
+    "openalex_id", "title", "year", "doi", "landing_url", "evidence_score",
+    "evidence_snippet", "extraction_status", "country_or_region", "locality_name",
+    "latitude", "longitude", "coordinate_source", "population_label", "colour_state",
     "colour_state_verbatim", "sample_size", "locality_evidence_quote",
     "page_or_table", "extractor_notes",
 ]
@@ -86,10 +87,8 @@ def main() -> None:
         [baseline[evidence_columns], eligible[evidence_columns]],
         ignore_index=True,
     )
-    evidence["openalex_id"] = evidence["openalex_id"].fillna("").astype(str)
-    evidence["doi"] = evidence["doi"].fillna("").astype(str)
-    evidence["title"] = evidence["title"].fillna("").astype(str)
-    evidence["evidence_snippet"] = evidence["evidence_snippet"].fillna("").astype(str)
+    for column in ("openalex_id", "doi", "title", "evidence_snippet", "landing_url"):
+        evidence[column] = evidence[column].fillna("").astype(str)
     evidence["evidence_score"] = pd.to_numeric(evidence["evidence_score"], errors="coerce").fillna(0)
     evidence["dedupe_key"] = evidence["openalex_id"].where(
         evidence["openalex_id"].str.len() > 0,
@@ -102,6 +101,17 @@ def main() -> None:
     ).drop_duplicates(["canonical_name", "dedupe_key"])
 
     queue = classified.merge(evidence.drop(columns="dedupe_key"), on="canonical_name", how="left")
+    for column in ("openalex_id", "doi", "title", "evidence_snippet", "landing_url"):
+        queue[column] = queue[column].fillna("").astype(str)
+    queue["evidence_origin"] = queue["evidence_origin"].fillna("baseline_review_record")
+    has_bibliography = (
+        queue["openalex_id"].str.len().gt(0)
+        | queue["doi"].str.len().gt(0)
+        | queue["title"].str.len().gt(0)
+    )
+    queue["evidence_availability"] = has_bibliography.map(
+        {True: "retained_bibliography", False: "literature_search_required"}
+    )
     queue["spatial_scale"] = queue["enriched_scale"]
     queue["scale_priority"] = queue["spatial_scale"].map(
         {"among_population": 0, "within_population": 1}
@@ -110,8 +120,8 @@ def main() -> None:
         {"baseline_unambiguous": 0, "high_confidence_enrichment": 1}
     ).fillna(2)
     queue["origin_priority"] = queue["evidence_origin"].map(
-        {"baseline_best_evidence": 0, "openalex_enrichment": 1}
-    ).fillna(2)
+        {"baseline_best_evidence": 0, "openalex_enrichment": 1, "baseline_review_record": 2}
+    ).fillna(3)
     queue = queue.sort_values(
         ["scale_priority", "source_priority", "origin_priority", "evidence_score", "canonical_name"],
         ascending=[True, True, True, False, True],
@@ -119,12 +129,15 @@ def main() -> None:
     ).reset_index(drop=True)
     queue["priority_rank"] = range(1, len(queue) + 1)
 
+    queue["extraction_status"] = queue["evidence_availability"].map({
+        "retained_bibliography": "not_started",
+        "literature_search_required": "literature_search_required",
+    })
     defaults = {
-        "extraction_status": "not_started", "country_or_region": "", "locality_name": "",
-        "latitude": "", "longitude": "", "coordinate_source": "",
-        "population_label": "", "colour_state": "", "colour_state_verbatim": "",
-        "sample_size": "", "locality_evidence_quote": "", "page_or_table": "",
-        "extractor_notes": "",
+        "country_or_region": "", "locality_name": "", "latitude": "",
+        "longitude": "", "coordinate_source": "", "population_label": "",
+        "colour_state": "", "colour_state_verbatim": "", "sample_size": "",
+        "locality_evidence_quote": "", "page_or_table": "", "extractor_notes": "",
     }
     for column, value in defaults.items():
         queue[column] = value
@@ -137,13 +150,7 @@ def main() -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out.to_csv(out_path, index=False)
 
-    rows_without = int(
-        (
-            out["openalex_id"].fillna("").astype(str).str.len().eq(0)
-            & out["doi"].fillna("").astype(str).str.len().eq(0)
-            & out["title"].fillna("").astype(str).str.len().eq(0)
-        ).sum()
-    )
+    missing_bibliography = out["evidence_availability"].eq("literature_search_required")
     manifest = {
         "classified_species": int(classified["canonical_name"].nunique()),
         "queue_rows": int(len(out)),
@@ -153,14 +160,16 @@ def main() -> None:
         "among_population_queue_rows": int((out["spatial_scale"] == "among_population").sum()),
         "baseline_evidence_rows": int((out["evidence_origin"] == "baseline_best_evidence").sum()),
         "enrichment_evidence_rows": int((out["evidence_origin"] == "openalex_enrichment").sum()),
-        "rows_without_retained_work": rows_without,
+        "rows_without_retained_bibliography": int(missing_bibliography.sum()),
+        "species_requiring_literature_search": int(out.loc[missing_bibliography, "canonical_name"].nunique()),
         "required_manual_fields": [
             "locality_name", "latitude", "longitude", "population_label",
             "colour_state", "locality_evidence_quote",
         ],
         "semantic_guard": (
             "The queue requests explicit morph-labelled locality evidence from literature; generic "
-            "GBIF occurrences must not be assigned colour states by proximity or clustering."
+            "GBIF occurrences must not be assigned colour states by proximity or clustering. Missing "
+            "bibliography is flagged for targeted search and is never replaced with invented evidence."
         ),
     }
     Path(args.manifest).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
