@@ -27,8 +27,76 @@ def fit_beta(d: pd.DataFrame, metric: str) -> float:
     x = x.dropna(subset=["among", "metric_z", "effort_z"])
     if len(x) < 20 or x["among"].nunique() < 2:
         return np.nan
-    model = sm.GLM(x["among"], sm.add_constant(x[["metric_z", "effort_z"]], has_constant="add"), family=sm.families.Binomial())
+    model = sm.GLM(
+        x["among"],
+        sm.add_constant(x[["metric_z", "effort_z"]], has_constant="add"),
+        family=sm.families.Binomial(),
+    )
     return float(model.fit().params["metric_z"])
+
+
+def analyse_set(
+    data: pd.DataFrame,
+    analysis_set: str,
+    metrics: list[str],
+    permutations: int,
+    rng: np.random.Generator,
+) -> tuple[list[dict], list[dict]]:
+    rows: list[dict] = []
+    loo_rows: list[dict] = []
+
+    for metric in metrics:
+        observed = fit_beta(data, metric)
+        permuted = []
+        for _ in range(permutations):
+            xp = data.copy()
+            xp["spatial_scale"] = rng.permutation(xp["spatial_scale"].to_numpy())
+            permuted.append(fit_beta(xp, metric))
+        permuted = np.asarray(permuted, dtype=float)
+        valid = permuted[np.isfinite(permuted)]
+        p_two = (
+            float((1 + np.sum(np.abs(valid) >= abs(observed))) / (1 + len(valid)))
+            if np.isfinite(observed)
+            else np.nan
+        )
+
+        families = sorted(data["family"].dropna().astype(str).unique())
+        loo = []
+        for fam in families:
+            beta = fit_beta(data.loc[data["family"].astype(str) != fam], metric)
+            loo.append(beta)
+            loo_rows.append(
+                {
+                    "analysis_set": analysis_set,
+                    "metric": metric,
+                    "omitted_family": fam,
+                    "estimate": beta,
+                    "odds_ratio": float(np.exp(beta)) if np.isfinite(beta) else np.nan,
+                }
+            )
+        loo_arr = np.asarray(loo, dtype=float)
+        valid_loo = loo_arr[np.isfinite(loo_arr)]
+        rows.append(
+            {
+                "analysis_set": analysis_set,
+                "metric": metric,
+                "n_species": int(len(data)),
+                "n_within": int((data["spatial_scale"] == "within_population").sum()),
+                "n_among": int((data["spatial_scale"] == "among_population").sum()),
+                "estimate": observed,
+                "odds_ratio": float(np.exp(observed)) if np.isfinite(observed) else np.nan,
+                "permutation_p_two_sided": p_two,
+                "permutations_valid": int(len(valid)),
+                "loo_min_odds_ratio": float(np.exp(np.nanmin(valid_loo))) if len(valid_loo) else np.nan,
+                "loo_max_odds_ratio": float(np.exp(np.nanmax(valid_loo))) if len(valid_loo) else np.nan,
+                "loo_same_direction_fraction": (
+                    float(np.mean(np.sign(valid_loo) == np.sign(observed)))
+                    if len(valid_loo) and np.isfinite(observed)
+                    else np.nan
+                ),
+            }
+        )
+    return rows, loo_rows
 
 
 def main() -> None:
@@ -42,61 +110,61 @@ def main() -> None:
     outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
     data = pd.read_csv(args.dataset)
-    required = {"canonical_name", "family", "spatial_scale", "n_climate_cells", *METRICS}
+    required = {
+        "canonical_name",
+        "family",
+        "spatial_scale",
+        "classification_source",
+        "n_climate_cells",
+        *METRICS,
+    }
     missing = sorted(required - set(data.columns))
     if missing:
         raise ValueError(f"Missing required columns: {missing}")
 
-    d = data.loc[data["n_climate_cells"] >= 20].copy()
+    eligible = data.loc[data["n_climate_cells"] >= 20].copy()
+    analysis_sets = {
+        "all_evidence_classified": eligible,
+        "baseline_unambiguous_only": eligible.loc[
+            eligible["classification_source"] == "baseline_unambiguous"
+        ].copy(),
+    }
+
     rng = np.random.default_rng(args.seed)
-    rows = []
-    loo_rows = []
-
-    for metric in METRICS:
-        observed = fit_beta(d, metric)
-        permuted = []
-        for _ in range(args.permutations):
-            xp = d.copy()
-            xp["spatial_scale"] = rng.permutation(xp["spatial_scale"].to_numpy())
-            permuted.append(fit_beta(xp, metric))
-        permuted = np.asarray(permuted, dtype=float)
-        valid = permuted[np.isfinite(permuted)]
-        p_two = float((1 + np.sum(np.abs(valid) >= abs(observed))) / (1 + len(valid))) if np.isfinite(observed) else np.nan
-
-        families = sorted(d["family"].dropna().astype(str).unique())
-        loo = []
-        for fam in families:
-            beta = fit_beta(d.loc[d["family"].astype(str) != fam], metric)
-            loo.append(beta)
-            loo_rows.append({"metric": metric, "omitted_family": fam, "estimate": beta, "odds_ratio": float(np.exp(beta)) if np.isfinite(beta) else np.nan})
-        loo_arr = np.asarray(loo, dtype=float)
-        valid_loo = loo_arr[np.isfinite(loo_arr)]
-        rows.append({
-            "metric": metric,
-            "n_species": int(len(d)),
-            "n_within": int((d["spatial_scale"] == "within_population").sum()),
-            "n_among": int((d["spatial_scale"] == "among_population").sum()),
-            "estimate": observed,
-            "odds_ratio": float(np.exp(observed)),
-            "permutation_p_two_sided": p_two,
-            "permutations_valid": int(len(valid)),
-            "loo_min_odds_ratio": float(np.exp(np.nanmin(valid_loo))) if len(valid_loo) else np.nan,
-            "loo_max_odds_ratio": float(np.exp(np.nanmax(valid_loo))) if len(valid_loo) else np.nan,
-            "loo_same_direction_fraction": float(np.mean(np.sign(valid_loo) == np.sign(observed))) if len(valid_loo) else np.nan,
-        })
+    rows: list[dict] = []
+    loo_rows: list[dict] = []
+    for name, frame in analysis_sets.items():
+        set_rows, set_loo = analyse_set(frame, name, METRICS, args.permutations, rng)
+        rows.extend(set_rows)
+        loo_rows.extend(set_loo)
 
     summary = pd.DataFrame(rows)
     loo_table = pd.DataFrame(loo_rows)
     summary.to_csv(outdir / "climatic_niche_spatial_scale_robustness.csv", index=False)
     loo_table.to_csv(outdir / "climatic_niche_spatial_scale_leave_one_family_out.csv", index=False)
+
     manifest = {
         "min_cells": 20,
         "metrics": METRICS,
+        "analysis_sets": {
+            name: {
+                "n_species": int(len(frame)),
+                "n_within": int((frame["spatial_scale"] == "within_population").sum()),
+                "n_among": int((frame["spatial_scale"] == "among_population").sum()),
+            }
+            for name, frame in analysis_sets.items()
+        },
         "permutations": args.permutations,
         "results": summary.to_dict("records"),
-        "interpretation_guard": "Exploratory robustness analysis of two preselected near-threshold metrics; permutation p-values and leave-one-family-out stability do not establish causation or physiological niche breadth.",
+        "interpretation_guard": (
+            "Exploratory robustness analysis of two preselected near-threshold metrics; "
+            "the strict subset retains only baseline-unambiguous classifications; permutation "
+            "p-values and leave-one-family-out stability do not establish causation or physiological niche breadth."
+        ),
     }
-    (outdir / "climatic_niche_spatial_scale_robustness_manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    (outdir / "climatic_niche_spatial_scale_robustness_manifest.json").write_text(
+        json.dumps(manifest, indent=2), encoding="utf-8"
+    )
     print(json.dumps(manifest, indent=2))
 
 
