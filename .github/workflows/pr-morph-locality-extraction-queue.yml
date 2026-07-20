@@ -70,20 +70,31 @@ jobs:
           manifest = json.loads(Path('analysis_outputs/morph_locality/morph_locality_extraction_queue_manifest.json').read_text())
           required = {
               'priority_rank', 'canonical_name', 'spatial_scale', 'evidence_origin',
-              'openalex_id', 'locality_name', 'latitude', 'longitude',
-              'population_label', 'colour_state', 'locality_evidence_quote',
+              'evidence_availability', 'openalex_id', 'locality_name', 'latitude',
+              'longitude', 'population_label', 'colour_state', 'locality_evidence_quote',
               'extraction_status'
           }
           assert required.issubset(queue.columns)
           assert manifest['classified_species'] >= 20
           assert manifest['queue_rows'] >= manifest['classified_species']
+          assert manifest['species_with_queue_rows'] == manifest['classified_species']
           assert manifest['among_population_species'] >= 10
           assert manifest['baseline_evidence_rows'] == manifest['classified_species']
-          assert manifest['rows_without_retained_work'] == 0
           assert queue['priority_rank'].tolist() == list(range(1, len(queue) + 1))
-          assert set(queue['extraction_status'].fillna('')) == {'not_started'}
+          assert set(queue['evidence_availability']) <= {
+              'retained_bibliography', 'literature_search_required'
+          }
+          assert set(queue['extraction_status']) <= {
+              'not_started', 'literature_search_required'
+          }
+          missing = queue['evidence_availability'].eq('literature_search_required')
+          assert int(missing.sum()) == manifest['rows_without_retained_bibliography']
+          assert int(queue.loc[missing, 'canonical_name'].nunique()) == manifest['species_requiring_literature_search']
+          assert (queue.loc[missing, 'extraction_status'] == 'literature_search_required').all()
+          assert (queue.loc[~missing, 'extraction_status'] == 'not_started').all()
           assert manifest['semantic_guard'].startswith('The queue requests explicit morph-labelled locality evidence')
           assert 'generic GBIF occurrences must not be assigned colour states' in manifest['semantic_guard']
+          assert 'never replaced with invented evidence' in manifest['semantic_guard']
           print(json.dumps(manifest, indent=2))
           PY
       - uses: actions/upload-artifact@v4
