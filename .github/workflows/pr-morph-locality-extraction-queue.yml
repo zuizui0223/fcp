@@ -74,30 +74,40 @@ jobs:
               'longitude', 'population_label', 'colour_state', 'locality_evidence_quote',
               'extraction_status'
           }
-          assert required.issubset(queue.columns)
-          assert manifest['classified_species'] >= 20
-          assert manifest['queue_rows'] >= manifest['classified_species']
-          assert manifest['species_with_queue_rows'] == manifest['classified_species']
-          assert manifest['among_population_species'] >= 10
-          assert manifest['baseline_evidence_rows'] == manifest['classified_species']
-          assert queue['priority_rank'].tolist() == list(range(1, len(queue) + 1))
+          missing_columns = sorted(required - set(queue.columns))
+          assert not missing_columns, f'missing queue columns: {missing_columns}'
+          assert manifest['classified_species'] >= 20, manifest
+          assert manifest['queue_rows'] >= manifest['classified_species'], manifest
+          assert manifest['species_with_queue_rows'] == manifest['classified_species'], manifest
+          assert manifest['among_population_species'] >= 10, manifest
+          assert manifest['baseline_evidence_rows'] == manifest['classified_species'], (
+              'one baseline row must be retained per classified species', manifest
+          )
+          assert queue['priority_rank'].tolist() == list(range(1, len(queue) + 1)), (
+              'priority ranks are not contiguous', queue['priority_rank'].tolist()
+          )
           assert set(queue['evidence_availability']) <= {
               'retained_bibliography', 'literature_search_required'
-          }
+          }, sorted(set(queue['evidence_availability']))
           assert set(queue['extraction_status']) <= {
               'not_started', 'literature_search_required'
-          }
+          }, sorted(set(queue['extraction_status']))
           missing = queue['evidence_availability'].eq('literature_search_required')
-          assert int(missing.sum()) == manifest['rows_without_retained_bibliography']
-          assert int(queue.loc[missing, 'canonical_name'].nunique()) == manifest['species_requiring_literature_search']
-          assert (queue.loc[missing, 'extraction_status'] == 'literature_search_required').all()
-          assert (queue.loc[~missing, 'extraction_status'] == 'not_started').all()
+          assert int(missing.sum()) == manifest['rows_without_retained_bibliography'], manifest
+          assert int(queue.loc[missing, 'canonical_name'].nunique()) == manifest['species_requiring_literature_search'], manifest
+          assert (queue.loc[missing, 'extraction_status'] == 'literature_search_required').all(), (
+              'missing-bibliography rows have wrong extraction status'
+          )
+          assert (queue.loc[~missing, 'extraction_status'] == 'not_started').all(), (
+              'retained-bibliography rows have wrong extraction status'
+          )
           assert manifest['semantic_guard'].startswith('The queue requests explicit morph-labelled locality evidence')
           assert 'generic GBIF occurrences must not be assigned colour states' in manifest['semantic_guard']
           assert 'never replaced with invented evidence' in manifest['semantic_guard']
           print(json.dumps(manifest, indent=2))
           PY
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: morph-locality-extraction-queue
           path: analysis_outputs/morph_locality/
