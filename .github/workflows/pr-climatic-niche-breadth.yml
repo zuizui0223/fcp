@@ -187,7 +187,14 @@ jobs:
           assert tr['specifications']==6
           assert tr['complete_specifications']>=4
           assert tr['semantic_guard'].startswith('Sensitivity specifications')
-          assert len(r['results'])==4
+          expected={
+              ('all_evidence_classified','pca_hull_area'),
+              ('all_evidence_classified','moisture_breadth'),
+              ('baseline_unambiguous_only','pca_hull_area'),
+              ('baseline_unambiguous_only','moisture_breadth'),
+          }
+          observed={(x['analysis_set'],x['metric']) for x in r['results']}
+          assert observed==expected, {'expected':sorted(expected),'observed':sorted(observed)}
           assert all(x['permutations_valid']>=9000 for x in r['results'])
           print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'fragmentation_model':f,'turnover_model':t,'turnover_robustness':tr,'robustness':r},indent=2))
           PY
