@@ -135,7 +135,7 @@ jobs:
           assert s['classified_species_with_metrics']>=20
           assert s['complete_specifications']>0
           assert s['semantic_guard'].startswith('This compares evidence-classified')
-          assert len(r['results'])==2
+          assert len(r['results'])==4
           assert all(x['permutations_valid']>=9000 for x in r['results'])
           print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'robustness':r},indent=2))
           PY
