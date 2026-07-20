@@ -97,10 +97,31 @@ These full-classification results are suggestive rather than conventionally sign
 
 Thus, within the strict evidence subset, species whose colour variation is partitioned among populations occupied narrower moisture niches than species maintaining colour polymorphism within populations. This result is compatible with stronger geographic environmental sorting or local differentiation in among-population systems, but it does not establish causation, physiological tolerance, or niche expansion.
 
+## Observed spatial fragmentation
+
+The spatial-fragmentation extension retained 59 classified species with at least 20 coordinate-bearing GBIF records: 37 within-population and 22 among-population cases from 33 families. All eight pre-specified models completed successfully.
+
+No sampled-distribution fragmentation metric showed a clear independent association with among-population variation after controlling for moisture breadth and sampling effort:
+
+| Added GBIF point-cloud metric | Odds ratio | 95% CI | p | Model AIC |
+|---|---:|---:|---:|---:|
+| Median nearest-neighbour distance | 0.936 | 0.444–1.969 | 0.861 | 80.67 |
+| 95% spatial extent | 0.886 | 0.343–2.289 | 0.802 | 80.61 |
+| Number of 50 km components | 1.444 | 0.509–4.096 | 0.490 | 80.29 |
+| Number of 100 km components | 1.145 | 0.422–3.104 | 0.791 | 80.61 |
+| Largest-component fraction at 100 km | 0.642 | 0.293–1.407 | 0.269 | 79.43 |
+| Occupied 1-degree grid cells | 1.375 | 0.393–4.806 | 0.618 | 80.48 |
+
+The baseline moisture model had AIC 78.70, lower than every fragmentation-augmented model. The integrated 100 km connectivity model had AIC 81.08. Therefore the available GBIF point-cloud fragmentation summaries did not improve model fit.
+
+The moisture-breadth association remained negative after adding every fragmentation metric. It was strongest in the model containing largest-component fraction at 100 km (odds ratio 0.490, 95% CI 0.261–0.920, p = 0.0264) and in the integrated 100 km model (odds ratio 0.503, 95% CI 0.266–0.951, p = 0.0346). These are model-dependent estimates rather than multiplicity-adjusted confirmatory tests, but they show that the moisture result is not removed by simple observed-distribution connectivity controls.
+
+This analysis does **not** support the claim that among-population colour variation is explained merely by more fragmented GBIF occurrence clouds. Connected components here are sampling-derived summaries, not biological populations, dispersal barriers, gene flow estimates, or causal mechanisms.
+
 ## Scientific interpretation
 
 The first substantive result is that discovery effort is a major, nonlinear component of the observed evidence pattern. Any ecological model that ignores publication effort will be biased. Family differences remain after effort standardisation and identify candidate clades for the macroecological and phylogenetic model.
 
-The climatic analysis does not support a simple claim that FCP species universally occupy broad climatic niches. Instead, it points to a more specific and biologically useful hypothesis: the spatial organization of colour variation may differ with moisture-niche breadth. This distinction should guide the next analysis toward explicit geographic structure, population separation, and environmental turnover rather than another undifferentiated FCP-versus-control comparison.
+The climatic analysis does not support a simple claim that FCP species universally occupy broad climatic niches. Instead, it points to a more specific and biologically useful hypothesis: the spatial organization of colour variation may differ with moisture-niche breadth. The spatial-fragmentation analysis further indicates that this pattern is not explained by coarse GBIF point-cloud connectivity metrics alone.
 
-The next inferential step is therefore to model spatially explicit environmental turnover and population separation for the evidence-classified species, while retaining literature effort and classification uncertainty. Island status, latitude, life history, pollination system, breeding system, range size, GBIF occurrence structure and phylogenetic identifiers remain required covariates for the broader macroecological model.
+The next inferential step should therefore target **environmental turnover among geographically coherent occurrence clusters**, rather than adding more generic fragmentation summaries. A useful analysis must compare within-cluster and between-cluster climatic differences, quantify whether colour states correspond to those environmental contrasts where state-specific locality evidence is available, and retain classification uncertainty. Island status, latitude, life history, pollination system, breeding system, range size, GBIF occurrence structure and phylogenetic identifiers remain required covariates for the broader macroecological model.
