@@ -118,10 +118,35 @@ The moisture-breadth association remained negative after adding every fragmentat
 
 This analysis does **not** support the claim that among-population colour variation is explained merely by more fragmented GBIF occurrence clouds. Connected components here are sampling-derived summaries, not biological populations, dispersal barriers, gene flow estimates, or causal mechanisms.
 
+## Environmental turnover among occurrence components
+
+The environmental-turnover analysis measured WorldClim-standardized climatic separation among distance-threshold components of each species' GBIF occurrence cloud. The primary 100 km, minimum-three-record specification retained 51 species with at least two components: 34 within-population and 17 among-population cases.
+
+The primary turnover association was null:
+
+- environmental-turnover odds ratio: 1.007
+- 95% CI: 0.367–2.760
+- p = 0.989
+
+A pre-specified sensitivity analysis varied both the distance threshold and the minimum component size:
+
+| Threshold | Minimum records per component | Species | Turnover OR | 95% CI | p | Moisture OR | Moisture p |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 50 km | 3 | 53 | 1.273 | 0.504–3.215 | 0.610 | 0.471 | 0.0759 |
+| 50 km | 5 | 51 | 1.135 | 0.502–2.568 | 0.761 | 0.511 | 0.0799 |
+| 100 km | 3 | 51 | 1.011 | 0.369–2.769 | 0.983 | 0.552 | 0.153 |
+| 100 km | 5 | 47 | 0.900 | 0.379–2.142 | 0.812 | 0.589 | 0.129 |
+| 200 km | 3 | 46 | 1.030 | 0.425–2.499 | 0.948 | 0.555 | 0.111 |
+| 200 km | 5 | 38 | 0.966 | 0.371–2.514 | 0.943 | 0.589 | 0.149 |
+
+All six specifications completed, none had p < 0.05, and the turnover odds-ratio range was 0.900–1.273. Four estimates were above one and two below one. The conclusion is therefore not sensitive to the chosen 50–200 km threshold or to requiring three versus five records per component.
+
+This is a robust null for **generic climate separation among unsupervised GBIF occurrence clusters**. It does not test whether documented colour states occupy different environments, because the occurrence records are not labelled by colour morph or population state.
+
 ## Scientific interpretation
 
 The first substantive result is that discovery effort is a major, nonlinear component of the observed evidence pattern. Any ecological model that ignores publication effort will be biased. Family differences remain after effort standardisation and identify candidate clades for the macroecological and phylogenetic model.
 
-The climatic analysis does not support a simple claim that FCP species universally occupy broad climatic niches. Instead, it points to a more specific and biologically useful hypothesis: the spatial organization of colour variation may differ with moisture-niche breadth. The spatial-fragmentation analysis further indicates that this pattern is not explained by coarse GBIF point-cloud connectivity metrics alone.
+The climatic analysis does not support a simple claim that FCP species universally occupy broad climatic niches. Instead, it points to a more specific and biologically useful pattern: among-population colour variation is associated with narrower occupied moisture breadth in the strict evidence subset. Coarse GBIF fragmentation and generic climate turnover among unsupervised occurrence clusters do not explain that pattern.
 
-The next inferential step should therefore target **environmental turnover among geographically coherent occurrence clusters**, rather than adding more generic fragmentation summaries. A useful analysis must compare within-cluster and between-cluster climatic differences, quantify whether colour states correspond to those environmental contrasts where state-specific locality evidence is available, and retain classification uncertainty. Island status, latitude, life history, pollination system, breeding system, range size, GBIF occurrence structure and phylogenetic identifiers remain required covariates for the broader macroecological model.
+Further threshold expansion of the same unlabelled occurrence-cluster analysis is not justified. The next inferential step must connect **documented colour states or named populations to localities**, then test whether those state-labelled localities differ in moisture conditions. Without morph-labelled locality evidence, additional clustering of generic GBIF records cannot adjudicate environmental sorting of flower-colour states. Island status, latitude, life history, pollination system, breeding system, range size, phylogeny identifiers and literature effort remain required covariates for the broader macroecological model.
