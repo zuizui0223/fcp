@@ -19,9 +19,9 @@ import statsmodels.api as sm
 
 FRAGMENTATION_METRICS = [
     "median_nearest_neighbor_km",
-    "spatial_radius_q95_km",
-    "connected_components_50km",
-    "connected_components_100km",
+    "spatial_extent_q95_km",
+    "components_50km",
+    "components_100km",
     "largest_component_fraction_100km",
     "occupied_grid_cells_1deg",
 ]
@@ -123,7 +123,7 @@ def main() -> None:
 
     integrated = [
         *base,
-        transformed["connected_components_100km"],
+        transformed["components_100km"],
         transformed["largest_component_fraction_100km"],
     ]
     models.append(fit_model(dataset, "integrated_100km_connectivity", integrated))
