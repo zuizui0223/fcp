@@ -52,6 +52,7 @@ jobs:
           python build_morph_locality_extraction_queue.py \
             --classification analysis_outputs/morph_locality/high_confidence_enriched_classification.csv \
             --works analysis_outputs/morph_locality/enriched_openalex_works.csv \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
             --out analysis_outputs/morph_locality/morph_locality_extraction_queue.csv \
             --manifest analysis_outputs/morph_locality/morph_locality_extraction_queue_manifest.json
           cat analysis_outputs/morph_locality/morph_locality_extraction_queue_manifest.json
@@ -68,14 +69,17 @@ jobs:
           queue = pd.read_csv('analysis_outputs/morph_locality/morph_locality_extraction_queue.csv')
           manifest = json.loads(Path('analysis_outputs/morph_locality/morph_locality_extraction_queue_manifest.json').read_text())
           required = {
-              'priority_rank', 'canonical_name', 'spatial_scale', 'openalex_id',
-              'locality_name', 'latitude', 'longitude', 'population_label',
-              'colour_state', 'locality_evidence_quote', 'extraction_status'
+              'priority_rank', 'canonical_name', 'spatial_scale', 'evidence_origin',
+              'openalex_id', 'locality_name', 'latitude', 'longitude',
+              'population_label', 'colour_state', 'locality_evidence_quote',
+              'extraction_status'
           }
           assert required.issubset(queue.columns)
           assert manifest['classified_species'] >= 20
           assert manifest['queue_rows'] >= manifest['classified_species']
           assert manifest['among_population_species'] >= 10
+          assert manifest['baseline_evidence_rows'] == manifest['classified_species']
+          assert manifest['rows_without_retained_work'] == 0
           assert queue['priority_rank'].tolist() == list(range(1, len(queue) + 1))
           assert set(queue['extraction_status'].fillna('')) == {'not_started'}
           assert manifest['semantic_guard'].startswith('The queue requests explicit morph-labelled locality evidence')
