@@ -10,6 +10,7 @@ on:
       - "analysis_climatic_niche_spatial_scale_robustness.py"
       - "analysis_spatial_fragmentation_scale.py"
       - "analysis_environmental_turnover_scale.py"
+      - "analysis_environmental_turnover_robustness.py"
       - "analysis_evidence_spatial_scale_enriched.py"
       - "enrich_spatial_scale_evidence.py"
       - "build_gbif_geography_covariates.py"
@@ -123,6 +124,15 @@ jobs:
             --threshold-km 100 \
             --min-component-records 3
           cat analysis_outputs/climatic_niche/environmental_turnover_scale_manifest.json
+      - name: Test environmental turnover robustness
+        run: |
+          python analysis_environmental_turnover_robustness.py \
+            --climate-cells analysis_outputs/climatic_niche/occurrence_climate_cells.csv \
+            --scale-dataset analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv \
+            --outdir analysis_outputs/climatic_niche \
+            --thresholds-km 50,100,200 \
+            --min-component-records 3,5
+          cat analysis_outputs/climatic_niche/environmental_turnover_robustness_manifest.json
       - name: Test spatial-scale robustness
         run: |
           python analysis_climatic_niche_spatial_scale_robustness.py \
@@ -146,6 +156,9 @@ jobs:
           test -s analysis_outputs/climatic_niche/environmental_turnover_species.csv
           test -s analysis_outputs/climatic_niche/environmental_turnover_scale_dataset.csv
           test -s analysis_outputs/climatic_niche/environmental_turnover_scale_manifest.json
+          test -s analysis_outputs/climatic_niche/environmental_turnover_robustness_models.csv
+          test -s analysis_outputs/climatic_niche/environmental_turnover_robustness_species.csv
+          test -s analysis_outputs/climatic_niche/environmental_turnover_robustness_manifest.json
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_leave_one_family_out.csv
           test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json
@@ -157,6 +170,7 @@ jobs:
           s=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json').read_text())
           f=json.loads(Path('analysis_outputs/climatic_niche/spatial_fragmentation_scale_manifest.json').read_text())
           t=json.loads(Path('analysis_outputs/climatic_niche/environmental_turnover_scale_manifest.json').read_text())
+          tr=json.loads(Path('analysis_outputs/climatic_niche/environmental_turnover_robustness_manifest.json').read_text())
           r=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json').read_text())
           assert q['species_complete']>=50
           assert q['cell_output_written'] is True
@@ -170,9 +184,12 @@ jobs:
           assert f['semantic_guard'].startswith('GBIF connected components')
           assert t['species_summarized']>=20
           assert t['semantic_guard'].startswith('Occurrence components')
+          assert tr['specifications']==6
+          assert tr['complete_specifications']>=4
+          assert tr['semantic_guard'].startswith('Sensitivity specifications')
           assert len(r['results'])==4
           assert all(x['permutations_valid']>=9000 for x in r['results'])
-          print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'fragmentation_model':f,'turnover_model':t,'robustness':r},indent=2))
+          print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'fragmentation_model':f,'turnover_model':t,'turnover_robustness':tr,'robustness':r},indent=2))
           PY
       - uses: actions/upload-artifact@v4
         with:
