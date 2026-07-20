@@ -76,8 +76,31 @@ Using only P0/P1 cases gave 97 strict cases. The nonlinear effort pattern remain
 
 Therefore the ascertainment result is not driven only by weaker P2/P3 cases.
 
+## Occupied climatic niche breadth
+
+The matched candidate-versus-control analysis included 70 focal FCP species and 243 taxonomically matched control species. Across five occupied-niche metrics and multiple occurrence thresholds, there was no clear evidence that verified FCP species generally occupy broader climatic niches than matched species outside the candidate set. At the primary same-genus, 20-cell specification, all confidence intervals included an odds ratio of one.
+
+The more informative result concerned the **spatial scale of colour variation among verified FCP species**. The evidence-enriched classification contained 61 species with climatic metrics: 39 classified as within-population variation and 22 as among-population variation. In the primary 20-cell models, among-population variation tended to be associated with narrower occupied climatic space:
+
+| Metric | Species | Odds ratio for among-population variation | 95% CI | p |
+|---|---:|---:|---:|---:|
+| PCA hull area | 55 | 0.698 | 0.450–1.081 | 0.107 |
+| Moisture breadth | 55 | 0.599 | 0.347–1.032 | 0.0648 |
+
+These full-classification results are suggestive rather than conventionally significant. However, the pre-specified strict sensitivity subset retaining only baseline-unambiguous classifications produced a stronger moisture-breadth result:
+
+- 35 species: 20 within-population and 15 among-population
+- moisture-breadth odds ratio: 0.368
+- two-sided permutation p = 0.0226 using 9,999 valid permutations
+- leave-one-family-out odds-ratio range: 0.258–0.416
+- direction retained after omitting every represented family
+
+Thus, within the strict evidence subset, species whose colour variation is partitioned among populations occupied narrower moisture niches than species maintaining colour polymorphism within populations. This result is compatible with stronger geographic environmental sorting or local differentiation in among-population systems, but it does not establish causation, physiological tolerance, or niche expansion.
+
 ## Scientific interpretation
 
 The first substantive result is that discovery effort is a major, nonlinear component of the observed evidence pattern. Any ecological model that ignores publication effort will be biased. Family differences remain after effort standardisation and identify candidate clades for the macroecological and phylogenetic model.
 
-The next inferential step is to populate the species covariate table with island status, latitude, life history, pollination system, breeding system, range size, GBIF occurrences and phylogeny identifiers. The implemented model will then estimate ecological associations while retaining the effort term.
+The climatic analysis does not support a simple claim that FCP species universally occupy broad climatic niches. Instead, it points to a more specific and biologically useful hypothesis: the spatial organization of colour variation may differ with moisture-niche breadth. This distinction should guide the next analysis toward explicit geographic structure, population separation, and environmental turnover rather than another undifferentiated FCP-versus-control comparison.
+
+The next inferential step is therefore to model spatially explicit environmental turnover and population separation for the evidence-classified species, while retaining literature effort and classification uncertainty. Island status, latitude, life history, pollination system, breeding system, range size, GBIF occurrence structure and phylogenetic identifiers remain required covariates for the broader macroecological model.
