@@ -90,17 +90,20 @@ def main() -> None:
     for column in ("openalex_id", "doi", "title", "evidence_snippet", "landing_url"):
         evidence[column] = evidence[column].fillna("").astype(str)
     evidence["evidence_score"] = pd.to_numeric(evidence["evidence_score"], errors="coerce").fillna(0)
-    evidence["dedupe_key"] = evidence["openalex_id"].where(
+    evidence["bibliographic_key"] = evidence["openalex_id"].where(
         evidence["openalex_id"].str.len() > 0,
         evidence["doi"].where(evidence["doi"].str.len() > 0, evidence["title"].str.lower()),
     )
+    # Baseline and enrichment records serve different audit roles. Deduplicate only
+    # within each origin so an enrichment record sharing the baseline OpenAlex ID
+    # cannot remove the required baseline row.
     evidence = evidence.sort_values(
-        ["canonical_name", "evidence_score", "evidence_origin"],
-        ascending=[True, False, True],
+        ["canonical_name", "evidence_origin", "evidence_score"],
+        ascending=[True, True, False],
         kind="stable",
-    ).drop_duplicates(["canonical_name", "dedupe_key"])
+    ).drop_duplicates(["canonical_name", "evidence_origin", "bibliographic_key"])
 
-    queue = classified.merge(evidence.drop(columns="dedupe_key"), on="canonical_name", how="left")
+    queue = classified.merge(evidence.drop(columns="bibliographic_key"), on="canonical_name", how="left")
     for column in ("openalex_id", "doi", "title", "evidence_snippet", "landing_url"):
         queue[column] = queue[column].fillna("").astype(str)
     queue["evidence_origin"] = queue["evidence_origin"].fillna("baseline_review_record")
