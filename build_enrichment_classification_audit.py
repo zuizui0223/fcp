@@ -82,15 +82,24 @@ def main() -> None:
         (audit["enriched_scale"].eq("within_population") & audit["within_signal"].eq(1))
         | (audit["enriched_scale"].eq("among_population") & audit["among_signal"].eq(1))
     )
-    audit["audit_status"] = audit["signal_matches_classification"].map(
-        {True: "matching_source_present", False: "manual_source_review_required"}
+
+    matching_species = set(
+        audit.loc[audit["signal_matches_classification"].fillna(False), "canonical_name"]
+        .dropna().astype(str)
+    )
+    target_species_names = sorted(targets["canonical_name"].dropna().astype(str).unique())
+    unmatched_species = sorted(set(target_species_names) - matching_species)
+
+    audit["manual_review_required"] = audit["canonical_name"].astype(str).isin(unmatched_species)
+    audit["audit_status"] = audit["manual_review_required"].map(
+        {False: "matching_source_present", True: "manual_source_review_required"}
     )
     audit["scale_priority"] = audit["enriched_scale"].map(
         {"among_population": 0, "within_population": 1}
     ).fillna(2)
     audit = audit.sort_values(
-        ["scale_priority", "audit_status", "n_climate_cells", "canonical_name", "score"],
-        ascending=[True, False, False, True, False],
+        ["manual_review_required", "scale_priority", "n_climate_cells", "canonical_name", "score"],
+        ascending=[False, True, False, True, False],
         kind="stable",
         na_position="last",
     ).reset_index(drop=True)
@@ -98,24 +107,26 @@ def main() -> None:
 
     columns = [
         "audit_priority_rank", "canonical_name", "family", "enriched_scale",
-        "classification_source", "n_climate_cells", "claimed_signal",
-        "signal_matches_classification", "audit_status", "openalex_id", "title", "year", "doi",
-        "landing_url", "score", "within_signal", "among_signal",
-        "evidence_snippet",
+        "classification_source", "manual_review_required", "audit_status",
+        "n_climate_cells", "claimed_signal", "signal_matches_classification",
+        "openalex_id", "title", "year", "doi", "landing_url", "score",
+        "within_signal", "among_signal", "evidence_snippet",
     ]
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     audit[columns].to_csv(out_path, index=False)
 
-    matched_species = audit.loc[
-        audit["signal_matches_classification"].fillna(False), "canonical_name"
-    ].nunique()
-    target_species = int(targets["canonical_name"].nunique())
+    target_species = len(target_species_names)
+    matched_species = len(matching_species)
     manifest = {
-        "target_species": target_species,
+        "target_species": int(target_species),
         "audit_rows": int(len(audit)),
         "species_with_matching_source": int(matched_species),
-        "species_requiring_manual_source_review": int(target_species - matched_species),
+        "species_requiring_manual_source_review": int(len(unmatched_species)),
+        "matching_source_fraction": (
+            float(matched_species / target_species) if target_species else None
+        ),
+        "unmatched_species": unmatched_species,
         "among_population_targets": int(targets["enriched_scale"].eq("among_population").sum()),
         "within_population_targets": int(targets["enriched_scale"].eq("within_population").sum()),
         "climate_priority_available": bool(args.scale_dataset),
