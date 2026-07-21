@@ -5,6 +5,7 @@ on:
     paths:
       - "analysis_enriched_spatial_scale.py"
       - "enrich_spatial_scale_evidence.py"
+      - "build_enrichment_classification_audit.py"
       - ".github/workflows/pr-enriched-spatial-scale-model.yml"
       - "data/resolved_inputs/**"
 
@@ -47,15 +48,26 @@ jobs:
             --geography analysis_outputs/evidence_scale_enriched/confirmed_species_gbif_geography.csv \
             --outdir analysis_outputs/evidence_scale_enriched
           cat analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json
+      - name: Build source-level classification audit
+        run: |
+          python build_enrichment_classification_audit.py \
+            --classification analysis_outputs/evidence_scale_enriched/high_confidence_enriched_classification.csv \
+            --works analysis_outputs/evidence_scale/enriched_openalex_works.csv \
+            --out analysis_outputs/evidence_scale_enriched/enrichment_classification_source_audit.csv \
+            --manifest analysis_outputs/evidence_scale_enriched/enrichment_classification_source_audit_manifest.json
+          cat analysis_outputs/evidence_scale_enriched/enrichment_classification_source_audit_manifest.json
       - name: Validate outputs
         run: |
           set -euo pipefail
           test -s analysis_outputs/evidence_scale_enriched/high_confidence_enriched_classification.csv
           test -s analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json
+          test -s analysis_outputs/evidence_scale_enriched/enrichment_classification_source_audit.csv
+          test -s analysis_outputs/evidence_scale_enriched/enrichment_classification_source_audit_manifest.json
           python - <<'PY'
           import json
           from pathlib import Path
           x=json.loads(Path('analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json').read_text())
+          a=json.loads(Path('analysis_outputs/evidence_scale_enriched/enrichment_classification_source_audit_manifest.json').read_text())
           assert x['n_confirmed']==111
           assert x['eligible_natural_direct_works']>0
           guard=x['semantic_guard']
@@ -63,11 +75,19 @@ jobs:
           assert 'direct colour evidence' in guard
           assert 'no artificial signal' in guard
           assert 'score >=20' in guard
-          print(json.dumps(x,indent=2))
+          assert a['target_species']>0
+          assert a['species_with_matching_source']==a['target_species'], a
+          assert a['among_population_targets']>=1
+          assert a['climate_priority_available'] is False
+          assert a['semantic_guard'].startswith('This table exposes retained source-level evidence')
+          print(json.dumps({'model':x,'source_audit':a},indent=2))
           PY
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: high-confidence-enriched-spatial-scale
-          path: analysis_outputs/evidence_scale_enriched/
+          path: |
+            analysis_outputs/evidence_scale_enriched/
+            analysis_outputs/evidence_scale/enriched_openalex_works.csv
           if-no-files-found: error
           retention-days: 14
