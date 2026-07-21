@@ -18,14 +18,13 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--classification", required=True)
     parser.add_argument("--works", required=True)
-    parser.add_argument("--scale-dataset", required=True)
+    parser.add_argument("--scale-dataset")
     parser.add_argument("--out", required=True)
     parser.add_argument("--manifest", required=True)
     args = parser.parse_args()
 
     classification = pd.read_csv(args.classification)
     works = pd.read_csv(args.works)
-    scale = pd.read_csv(args.scale_dataset)
 
     required_class = {
         "canonical_name", "family", "enriched_scale", "classification_source"
@@ -35,11 +34,9 @@ def main() -> None:
         "score", "evidence_snippet", "within_signal", "among_signal",
         "direct_colour_signal", "artificial_signal",
     }
-    required_scale = {"canonical_name", "n_climate_cells"}
     missing = sorted(
         (required_class - set(classification.columns))
         | (required_works - set(works.columns))
-        | (required_scale - set(scale.columns))
     )
     if missing:
         raise ValueError(f"Missing required columns: {missing}")
@@ -48,11 +45,20 @@ def main() -> None:
         classification["classification_source"].eq("high_confidence_enrichment"),
         ["canonical_name", "family", "enriched_scale", "classification_source"],
     ].drop_duplicates("canonical_name")
-    targets = targets.merge(
-        scale[["canonical_name", "n_climate_cells"]].drop_duplicates("canonical_name"),
-        on="canonical_name",
-        how="left",
-    )
+
+    if args.scale_dataset:
+        scale = pd.read_csv(args.scale_dataset)
+        required_scale = {"canonical_name", "n_climate_cells"}
+        missing_scale = sorted(required_scale - set(scale.columns))
+        if missing_scale:
+            raise ValueError(f"Missing scale columns: {missing_scale}")
+        targets = targets.merge(
+            scale[["canonical_name", "n_climate_cells"]].drop_duplicates("canonical_name"),
+            on="canonical_name",
+            how="left",
+        )
+    else:
+        targets["n_climate_cells"] = pd.NA
 
     for column in (
         "score", "within_signal", "among_signal", "direct_colour_signal", "artificial_signal"
@@ -83,6 +89,7 @@ def main() -> None:
         ["scale_priority", "n_climate_cells", "canonical_name", "score"],
         ascending=[True, False, True, False],
         kind="stable",
+        na_position="last",
     ).reset_index(drop=True)
     audit["audit_priority_rank"] = range(1, len(audit) + 1)
 
@@ -106,6 +113,7 @@ def main() -> None:
         "species_with_matching_source": int(matched_species),
         "among_population_targets": int(targets["enriched_scale"].eq("among_population").sum()),
         "within_population_targets": int(targets["enriched_scale"].eq("within_population").sum()),
+        "climate_priority_available": bool(args.scale_dataset),
         "semantic_guard": (
             "This table exposes retained source-level evidence for manual verification; "
             "a regex signal is not treated as a substitute for reading the source."
