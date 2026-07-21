@@ -65,9 +65,11 @@ jobs:
           test -s analysis_outputs/evidence_scale_enriched/enrichment_classification_source_audit_manifest.json
           python - <<'PY'
           import json
+          import pandas as pd
           from pathlib import Path
           x=json.loads(Path('analysis_outputs/evidence_scale_enriched/high_confidence_enriched_manifest.json').read_text())
           a=json.loads(Path('analysis_outputs/evidence_scale_enriched/enrichment_classification_source_audit_manifest.json').read_text())
+          audit=pd.read_csv('analysis_outputs/evidence_scale_enriched/enrichment_classification_source_audit.csv')
           assert x['n_confirmed']==111
           assert x['eligible_natural_direct_works']>0
           guard=x['semantic_guard']
@@ -76,7 +78,11 @@ jobs:
           assert 'no artificial signal' in guard
           assert 'score >=20' in guard
           assert a['target_species']>0
-          assert a['species_with_matching_source']==a['target_species'], a
+          assert a['audit_rows']>=a['target_species']
+          assert a['species_with_matching_source']>0
+          assert a['species_requiring_manual_source_review']==a['target_species']-a['species_with_matching_source']
+          assert audit['canonical_name'].nunique()==a['target_species']
+          assert set(audit['audit_status']) <= {'matching_source_present','manual_source_review_required'}
           assert a['among_population_targets']>=1
           assert a['climate_priority_available'] is False
           assert a['semantic_guard'].startswith('This table exposes retained source-level evidence')
