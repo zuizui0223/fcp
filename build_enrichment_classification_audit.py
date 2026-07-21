@@ -82,12 +82,15 @@ def main() -> None:
         (audit["enriched_scale"].eq("within_population") & audit["within_signal"].eq(1))
         | (audit["enriched_scale"].eq("among_population") & audit["among_signal"].eq(1))
     )
+    audit["audit_status"] = audit["signal_matches_classification"].map(
+        {True: "matching_source_present", False: "manual_source_review_required"}
+    )
     audit["scale_priority"] = audit["enriched_scale"].map(
         {"among_population": 0, "within_population": 1}
     ).fillna(2)
     audit = audit.sort_values(
-        ["scale_priority", "n_climate_cells", "canonical_name", "score"],
-        ascending=[True, False, True, False],
+        ["scale_priority", "audit_status", "n_climate_cells", "canonical_name", "score"],
+        ascending=[True, False, False, True, False],
         kind="stable",
         na_position="last",
     ).reset_index(drop=True)
@@ -96,7 +99,7 @@ def main() -> None:
     columns = [
         "audit_priority_rank", "canonical_name", "family", "enriched_scale",
         "classification_source", "n_climate_cells", "claimed_signal",
-        "signal_matches_classification", "openalex_id", "title", "year", "doi",
+        "signal_matches_classification", "audit_status", "openalex_id", "title", "year", "doi",
         "landing_url", "score", "within_signal", "among_signal",
         "evidence_snippet",
     ]
@@ -107,16 +110,19 @@ def main() -> None:
     matched_species = audit.loc[
         audit["signal_matches_classification"].fillna(False), "canonical_name"
     ].nunique()
+    target_species = int(targets["canonical_name"].nunique())
     manifest = {
-        "target_species": int(targets["canonical_name"].nunique()),
+        "target_species": target_species,
         "audit_rows": int(len(audit)),
         "species_with_matching_source": int(matched_species),
+        "species_requiring_manual_source_review": int(target_species - matched_species),
         "among_population_targets": int(targets["enriched_scale"].eq("among_population").sum()),
         "within_population_targets": int(targets["enriched_scale"].eq("within_population").sum()),
         "climate_priority_available": bool(args.scale_dataset),
         "semantic_guard": (
             "This table exposes retained source-level evidence for manual verification; "
-            "a regex signal is not treated as a substitute for reading the source."
+            "a regex signal is not treated as a substitute for reading the source, and "
+            "missing matching sources are retained as explicit manual-review targets."
         ),
     }
     Path(args.manifest).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
