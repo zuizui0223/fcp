@@ -13,17 +13,39 @@ import html
 import json
 import re
 import time
-import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
 
-WITHIN = re.compile(r"\b(within[- ]population|same population|coexist|co-occurr|morph frequenc|frequency[- ]dependent|polymorphic population|multiple (?:colou?r|flower) morphs|colour morphs|color morphs)\b", re.I)
-GEOGRAPHIC = re.compile(r"\b(geographic|spatial variation|among populations|between populations|population differentiation|cline|hybrid zone|range edge|local adaptation|regional variation)\b", re.I)
-DIRECT = re.compile(r"(?:flower|floral|petal|corolla|bract).{0,100}(?:colou?r).{0,100}(?:polymorph|morph|variation|dimorph)|(?:polymorph|dimorph|morph).{0,100}(?:flower|floral|petal|corolla|bract).{0,100}(?:colou?r)", re.I)
+WITHIN = re.compile(
+    r"\b(within[- ]population|same population|coexist|co-occurr|morph frequenc|"
+    r"frequency[- ]dependent|polymorphic population|multiple (?:colou?r|flower) morphs|"
+    r"colour morphs|color morphs)\b",
+    re.I,
+)
+GEOGRAPHIC = re.compile(
+    r"\b(geographic(?:al)?|spatial variation|among populations|between populations|"
+    r"population differentiation|population divergence|cline|hybrid zone|range edge|"
+    r"local adaptation|regional variation|native and non[- ]native ranges?)\b",
+    re.I,
+)
+COLOUR = re.compile(
+    r"\b(flower|floral|petal|corolla|bract).{0,80}\b(colou?r|pigment|anthocyanin)\b|"
+    r"\b(colou?r|pigment|anthocyanin).{0,80}\b(flower|floral|petal|corolla|bract)\b",
+    re.I,
+)
+DIRECT = re.compile(
+    r"(?:flower|floral|petal|corolla|bract).{0,100}(?:colou?r).{0,100}(?:polymorph|morph|variation|dimorph)|"
+    r"(?:polymorph|dimorph|morph).{0,100}(?:flower|floral|petal|corolla|bract).{0,100}(?:colou?r)",
+    re.I,
+)
 NEGATIVE = re.compile(r"\b(cultivar|breeding|ornamental|transgenic|mutagenesis|horticultur|floricultur)\b", re.I)
 TERMS = '("flower color" OR "flower colour" OR "floral polymorphism" OR "color morph" OR "colour morph" OR "morph frequency" OR "geographic variation" OR "population differentiation" OR "local adaptation")'
-FIELDS = ["canonical_name","family","openalex_id","title","year","doi","landing_url","query_mode","within_signal","among_signal","direct_colour_signal","artificial_signal","score","evidence_snippet"]
+FIELDS = [
+    "canonical_name", "family", "openalex_id", "title", "year", "doi", "landing_url",
+    "query_mode", "within_signal", "among_signal", "direct_colour_signal",
+    "artificial_signal", "score", "evidence_snippet",
+]
 
 
 def clean(v: object) -> str:
@@ -33,7 +55,13 @@ def clean(v: object) -> str:
 def abstract(inv: object) -> str:
     if not isinstance(inv, dict):
         return ""
-    pairs = [(i, str(word)) for word, idxs in inv.items() if isinstance(idxs, list) for i in idxs if isinstance(i, int)]
+    pairs = [
+        (i, str(word))
+        for word, idxs in inv.items()
+        if isinstance(idxs, list)
+        for i in idxs
+        if isinstance(i, int)
+    ]
     return clean(" ".join(word for _, word in sorted(pairs)))
 
 
@@ -46,7 +74,10 @@ def request_json(url: str, timeout: int, retries: int, backoff: float) -> dict:
     last: Exception | None = None
     for attempt in range(retries):
         try:
-            req = urllib.request.Request(url, headers={"User-Agent":"fcp-spatial-scale-enrichment/1.0","Accept":"application/json"})
+            req = urllib.request.Request(
+                url,
+                headers={"User-Agent": "fcp-spatial-scale-enrichment/1.0", "Accept": "application/json"},
+            )
             with urllib.request.urlopen(req, timeout=timeout) as response:
                 return json.load(response)
         except Exception as exc:
@@ -57,12 +88,33 @@ def request_json(url: str, timeout: int, retries: int, backoff: float) -> dict:
 
 
 def baseline_scale(row: dict[str, str]) -> str:
-    text = " ".join([row.get("best_title", ""), row.get("best_match_evidence", ""), row.get("review_reason", "")])
-    w = bool(WITHIN.search(text)); g = bool(GEOGRAPHIC.search(text))
-    if w and not g: return "within_population"
-    if g and not w: return "among_population"
-    if w and g: return "mixed"
+    text = " ".join(
+        [row.get("best_title", ""), row.get("best_match_evidence", ""), row.get("review_reason", "")]
+    )
+    w = bool(WITHIN.search(text))
+    g = bool(GEOGRAPHIC.search(text))
+    if w and not g:
+        return "within_population"
+    if g and not w:
+        return "among_population"
+    if w and g:
+        return "mixed"
     return "unclear"
+
+
+def colour_linked_geographic_signal(text: str, window: int = 180) -> bool:
+    """Require colour and geographic language to occur in the same local context.
+
+    Generic mentions of local adaptation, hybrid zones, or population divergence elsewhere
+    in a paper must not by themselves classify flower-colour variation as among-population.
+    """
+    colour_hits = list(COLOUR.finditer(text))
+    geographic_hits = list(GEOGRAPHIC.finditer(text))
+    return any(
+        max(c.start(), g.start()) - min(c.end(), g.end()) <= window
+        for c in colour_hits
+        for g in geographic_hits
+    )
 
 
 def main() -> None:
@@ -104,10 +156,19 @@ def main() -> None:
             text = f"{title} {abs_text}"
             if name.lower() not in text.lower() or (name, oid) in seen:
                 continue
-            direct = bool(DIRECT.search(text)); within = bool(WITHIN.search(text)); among = bool(GEOGRAPHIC.search(text)); artificial = bool(NEGATIVE.search(text))
+            direct = bool(DIRECT.search(text))
+            within = bool(WITHIN.search(text))
+            among = colour_linked_geographic_signal(text)
+            artificial = bool(NEGATIVE.search(text))
             if not direct and not within and not among:
                 continue
-            score = (12 if name.lower() in title.lower() else 5) + (10 if direct else 0) + (8 if within else 0) + (8 if among else 0) - (10 if artificial else 0)
+            score = (
+                (12 if name.lower() in title.lower() else 5)
+                + (10 if direct else 0)
+                + (8 if within else 0)
+                + (8 if among else 0)
+                - (10 if artificial else 0)
+            )
             if score < 10:
                 continue
             seen.add((name, oid))
@@ -115,47 +176,55 @@ def main() -> None:
             landing = str(primary.get("landing_page_url") or oid) if isinstance(primary, dict) else oid
             doi = str(item.get("doi") or "").replace("https://doi.org/", "")
             snippet = abs_text[:1000] if abs_text else title
-            out_rows.append({
-                "canonical_name": name,
-                "family": row.get("family", ""),
-                "openalex_id": oid,
-                "title": title,
-                "year": item.get("publication_year") or "",
-                "doi": doi,
-                "landing_url": landing,
-                "query_mode": "exact_species_spatial_scale_enrichment",
-                "within_signal": int(within),
-                "among_signal": int(among),
-                "direct_colour_signal": int(direct),
-                "artificial_signal": int(artificial),
-                "score": score,
-                "evidence_snippet": clean(snippet),
-            })
+            out_rows.append(
+                {
+                    "canonical_name": name,
+                    "family": row.get("family", ""),
+                    "openalex_id": oid,
+                    "title": title,
+                    "year": item.get("publication_year") or "",
+                    "doi": doi,
+                    "landing_url": landing,
+                    "query_mode": "exact_species_spatial_scale_enrichment",
+                    "within_signal": int(within),
+                    "among_signal": int(among),
+                    "direct_colour_signal": int(direct),
+                    "artificial_signal": int(artificial),
+                    "score": score,
+                    "evidence_snippet": clean(snippet),
+                }
+            )
 
-    out_path = Path(args.out); out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path = Path(args.out)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=FIELDS); writer.writeheader(); writer.writerows(sorted(out_rows, key=lambda r: (str(r["canonical_name"]), -int(r["score"]))))
+        writer = csv.DictWriter(handle, fieldnames=FIELDS)
+        writer.writeheader()
+        writer.writerows(sorted(out_rows, key=lambda r: (str(r["canonical_name"]), -int(r["score"]))))
 
     by_species: dict[str, dict[str, object]] = {}
     for target in targets:
         name = target.get("canonical_name", "")
-        works = [r for r in out_rows if r["canonical_name"] == name]
-        w = any(int(r["within_signal"]) for r in works); g = any(int(r["among_signal"]) for r in works)
+        species_works = [r for r in out_rows if r["canonical_name"] == name]
+        w = any(int(r["within_signal"]) for r in species_works)
+        g = any(int(r["among_signal"]) for r in species_works)
         enriched = "mixed" if w and g else "within_population" if w else "among_population" if g else baseline_scale(target)
         by_species[name] = {
             "canonical_name": name,
             "family": target.get("family", ""),
             "baseline_scale": baseline_scale(target),
             "enriched_scale": enriched,
-            "n_enrichment_works": len(works),
-            "n_within_signal_works": sum(int(r["within_signal"]) for r in works),
-            "n_among_signal_works": sum(int(r["among_signal"]) for r in works),
-            "best_enrichment_score": max([int(r["score"]) for r in works], default=0),
+            "n_enrichment_works": len(species_works),
+            "n_within_signal_works": sum(int(r["within_signal"]) for r in species_works),
+            "n_among_signal_works": sum(int(r["among_signal"]) for r in species_works),
+            "best_enrichment_score": max([int(r["score"]) for r in species_works], default=0),
             "manual_review_required": enriched in {"mixed", "unclear"},
         }
     summary_fields = list(next(iter(by_species.values())).keys()) if by_species else []
     with Path(args.species_summary).open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=summary_fields); writer.writeheader(); writer.writerows(by_species.values())
+        writer = csv.DictWriter(handle, fieldnames=summary_fields)
+        writer.writeheader()
+        writer.writerows(by_species.values())
 
     qc = {
         "confirmed_species": len(review),
@@ -166,7 +235,10 @@ def main() -> None:
         "enriched_target_counts": dict(__import__("collections").Counter(str(r["enriched_scale"]) for r in by_species.values())),
         "failed_requests": len(errors),
         "errors": errors,
-        "semantic_guard": "enrichment applies only to already-confirmed species and does not create new FCP cases",
+        "semantic_guard": (
+            "enrichment applies only to already-confirmed species; among-population signals require "
+            "flower-colour and geographic language in the same local context"
+        ),
         "complete": len(errors) == 0,
     }
     Path(args.qc_out).write_text(json.dumps(qc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
