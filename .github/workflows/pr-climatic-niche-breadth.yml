@@ -198,11 +198,16 @@ jobs:
           }
           observed={(x['analysis_set'],x['metric']) for x in r['results']}
           assert observed==expected, {'expected':sorted(expected),'observed':sorted(observed)}
-          assert r['enrichment_audit_rows']>=20
-          assert all(x['permutations_valid']>=9000 for x in r['results'])
+          assert r['enrichment_audit_rows']==r['analysis_sets']['high_confidence_enrichment_only']['n_species']
+          complete=[x for x in r['results'] if x['analysis_status']=='complete']
+          not_estimable=[x for x in r['results'] if x['analysis_status']=='not_estimable']
+          assert all(x['permutations_valid']>=9000 for x in complete)
+          assert all(x['permutations_valid']==0 for x in not_estimable)
+          assert all(x['n_species']<r['minimum_model_species'] for x in not_estimable)
           print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'fragmentation_model':f,'turnover_model':t,'turnover_robustness':tr,'robustness':r},indent=2))
           PY
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: climatic-niche-breadth-analysis
           path: analysis_outputs/climatic_niche/
