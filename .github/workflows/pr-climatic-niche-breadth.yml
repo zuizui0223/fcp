@@ -1,0 +1,215 @@
+name: PR climatic niche breadth
+
+on:
+  pull_request:
+    paths:
+      - "build_gbif_occurrence_sample.py"
+      - "compute_climatic_niche_metrics.py"
+      - "analysis_climatic_niche_matched_controls.py"
+      - "analysis_climatic_niche_spatial_scale.py"
+      - "analysis_climatic_niche_spatial_scale_robustness.py"
+      - "analysis_spatial_fragmentation_scale.py"
+      - "analysis_environmental_turnover_scale.py"
+      - "analysis_environmental_turnover_robustness.py"
+      - "analysis_evidence_spatial_scale_enriched.py"
+      - "enrich_spatial_scale_evidence.py"
+      - "build_gbif_geography_covariates.py"
+      - ".github/workflows/pr-climatic-niche-breadth.yml"
+      - "data/control_candidate_pool.csv"
+      - "data/resolved_inputs/**"
+
+permissions:
+  contents: read
+
+jobs:
+  climatic-niche:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn rasterio statsmodels
+      - name: Prepare matched control table
+        run: |
+          set -euo pipefail
+          mkdir -p analysis_outputs/climatic_niche
+          python - <<'PY'
+          import pandas as pd
+          review=pd.read_csv('data/resolved_inputs/global_flower_colour_review_queue_resolved.csv')
+          candidates=set(pd.read_csv('data/resolved_inputs/global_flower_colour_species_ranked_resolved.csv').canonical_name.astype(str))
+          controls=pd.read_csv('data/control_candidate_pool.csv')
+          controls=controls[controls.focal_species.isin(set(review.canonical_name))]
+          controls=controls[~controls.control_candidate.isin(candidates)]
+          controls.to_csv('analysis_outputs/climatic_niche/eligible_controls.csv',index=False)
+          print({'focals':review.canonical_name.nunique(),'control_rows':len(controls),'controls':controls.control_candidate.nunique()})
+          PY
+      - name: Download occurrence samples
+        run: |
+          python build_gbif_occurrence_sample.py \
+            --focals data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --controls analysis_outputs/climatic_niche/eligible_controls.csv \
+            --out analysis_outputs/climatic_niche/gbif_occurrence_sample.csv \
+            --qc-out analysis_outputs/climatic_niche/gbif_occurrence_sample_qc.json \
+            --limit 300 --timeout 45 --retries 4 --delay 0.20
+      - name: Download WorldClim 2.1 bioclim
+        run: |
+          mkdir -p analysis_outputs/climatic_niche/worldclim
+          curl -L --retry 4 --fail -o /tmp/wc.zip https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+          unzip -q /tmp/wc.zip -d analysis_outputs/climatic_niche/worldclim
+      - name: Compute climatic niche metrics
+        run: |
+          python compute_climatic_niche_metrics.py \
+            --occurrences analysis_outputs/climatic_niche/gbif_occurrence_sample.csv \
+            --worldclim-dir analysis_outputs/climatic_niche/worldclim \
+            --out analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv \
+            --cell-out analysis_outputs/climatic_niche/occurrence_climate_cells.csv \
+            --qc-out analysis_outputs/climatic_niche/species_climatic_niche_metrics_qc.json \
+            --min-cells 10
+      - name: Run matched niche models
+        run: |
+          python analysis_climatic_niche_matched_controls.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --candidate-species data/resolved_inputs/global_flower_colour_species_ranked_resolved.csv \
+            --controls analysis_outputs/climatic_niche/eligible_controls.csv \
+            --metrics analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv \
+            --outdir analysis_outputs/climatic_niche
+          cat analysis_outputs/climatic_niche/climatic_niche_manifest.json
+      - name: Enrich spatial-scale evidence
+        run: |
+          mkdir -p analysis_outputs/climatic_niche/spatial_scale_inputs
+          python enrich_spatial_scale_evidence.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --out analysis_outputs/climatic_niche/spatial_scale_inputs/enriched_openalex_works.csv \
+            --species-summary analysis_outputs/climatic_niche/spatial_scale_inputs/enriched_species_summary.csv \
+            --qc-out analysis_outputs/climatic_niche/spatial_scale_inputs/enriched_openalex_qc.json \
+            --per-page 50 --timeout 40 --retries 4 --request-delay 0.25
+      - name: Build confirmed-species geography
+        run: |
+          python build_gbif_geography_covariates.py \
+            --species data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --out analysis_outputs/climatic_niche/spatial_scale_inputs/confirmed_species_gbif_geography.csv \
+            --qc-out analysis_outputs/climatic_niche/spatial_scale_inputs/confirmed_species_gbif_geography_qc.json \
+            --limit 300 --timeout 45 --retries 4 --request-delay 0.20
+      - name: Build integrated spatial-scale classification
+        run: |
+          python analysis_evidence_spatial_scale_enriched.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --works analysis_outputs/climatic_niche/spatial_scale_inputs/enriched_openalex_works.csv \
+            --geography analysis_outputs/climatic_niche/spatial_scale_inputs/confirmed_species_gbif_geography.csv \
+            --outdir analysis_outputs/climatic_niche/spatial_scale_inputs
+      - name: Compare niche breadth between spatial scales
+        run: |
+          python analysis_climatic_niche_spatial_scale.py \
+            --classification analysis_outputs/climatic_niche/spatial_scale_inputs/high_confidence_enriched_classification.csv \
+            --metrics analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv \
+            --outdir analysis_outputs/climatic_niche
+          cat analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json
+      - name: Test spatial fragmentation between scales
+        run: |
+          python analysis_spatial_fragmentation_scale.py \
+            --scale-dataset analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv \
+            --geography analysis_outputs/climatic_niche/spatial_scale_inputs/confirmed_species_gbif_geography.csv \
+            --outdir analysis_outputs/climatic_niche \
+            --min-records 20
+          cat analysis_outputs/climatic_niche/spatial_fragmentation_scale_manifest.json
+      - name: Test environmental turnover between scales
+        run: |
+          python analysis_environmental_turnover_scale.py \
+            --climate-cells analysis_outputs/climatic_niche/occurrence_climate_cells.csv \
+            --scale-dataset analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv \
+            --outdir analysis_outputs/climatic_niche \
+            --threshold-km 100 \
+            --min-component-records 3
+          cat analysis_outputs/climatic_niche/environmental_turnover_scale_manifest.json
+      - name: Test environmental turnover robustness
+        run: |
+          python analysis_environmental_turnover_robustness.py \
+            --climate-cells analysis_outputs/climatic_niche/occurrence_climate_cells.csv \
+            --scale-dataset analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv \
+            --outdir analysis_outputs/climatic_niche \
+            --thresholds-km 50,100,200 \
+            --min-component-records 3,5
+          cat analysis_outputs/climatic_niche/environmental_turnover_robustness_manifest.json
+      - name: Test spatial-scale robustness
+        run: |
+          python analysis_climatic_niche_spatial_scale_robustness.py \
+            --dataset analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv \
+            --outdir analysis_outputs/climatic_niche \
+            --permutations 9999
+          cat analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json
+      - name: Validate outputs
+        run: |
+          set -euo pipefail
+          test -s analysis_outputs/climatic_niche/species_climatic_niche_metrics.csv
+          test -s analysis_outputs/climatic_niche/occurrence_climate_cells.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_conditional_logit.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_manifest.json
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_dataset.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_models.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json
+          test -s analysis_outputs/climatic_niche/spatial_fragmentation_scale_dataset.csv
+          test -s analysis_outputs/climatic_niche/spatial_fragmentation_scale_models.csv
+          test -s analysis_outputs/climatic_niche/spatial_fragmentation_scale_manifest.json
+          test -s analysis_outputs/climatic_niche/environmental_turnover_species.csv
+          test -s analysis_outputs/climatic_niche/environmental_turnover_scale_dataset.csv
+          test -s analysis_outputs/climatic_niche/environmental_turnover_scale_manifest.json
+          test -s analysis_outputs/climatic_niche/environmental_turnover_robustness_models.csv
+          test -s analysis_outputs/climatic_niche/environmental_turnover_robustness_species.csv
+          test -s analysis_outputs/climatic_niche/environmental_turnover_robustness_manifest.json
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_leave_one_family_out.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_enrichment_audit.csv
+          test -s analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path('analysis_outputs/climatic_niche/species_climatic_niche_metrics_qc.json').read_text())
+          m=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_manifest.json').read_text())
+          s=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_spatial_scale_manifest.json').read_text())
+          f=json.loads(Path('analysis_outputs/climatic_niche/spatial_fragmentation_scale_manifest.json').read_text())
+          t=json.loads(Path('analysis_outputs/climatic_niche/environmental_turnover_scale_manifest.json').read_text())
+          tr=json.loads(Path('analysis_outputs/climatic_niche/environmental_turnover_robustness_manifest.json').read_text())
+          r=json.loads(Path('analysis_outputs/climatic_niche/climatic_niche_spatial_scale_robustness_manifest.json').read_text())
+          assert q['species_complete']>=50
+          assert q['cell_output_written'] is True
+          assert m['specifications']>0
+          assert m['semantic_guard'].startswith('associations concern verified FCP')
+          assert s['classified_species_with_metrics']>=20
+          assert s['complete_specifications']>0
+          assert s['semantic_guard'].startswith('This compares evidence-classified')
+          assert f['species_available']>=20
+          assert f['models_complete']>=4
+          assert f['semantic_guard'].startswith('GBIF connected components')
+          assert t['species_summarized']>=20
+          assert t['semantic_guard'].startswith('Occurrence components')
+          assert tr['specifications']==6
+          assert tr['complete_specifications']>=4
+          assert tr['semantic_guard'].startswith('Sensitivity specifications')
+          expected={
+              ('all_evidence_classified','pca_hull_area'),
+              ('all_evidence_classified','moisture_breadth'),
+              ('baseline_unambiguous_only','pca_hull_area'),
+              ('baseline_unambiguous_only','moisture_breadth'),
+              ('high_confidence_enrichment_only','pca_hull_area'),
+              ('high_confidence_enrichment_only','moisture_breadth'),
+          }
+          observed={(x['analysis_set'],x['metric']) for x in r['results']}
+          assert observed==expected, {'expected':sorted(expected),'observed':sorted(observed)}
+          assert r['enrichment_audit_rows']==r['analysis_sets']['high_confidence_enrichment_only']['n_species']
+          complete=[x for x in r['results'] if x['analysis_status']=='complete']
+          not_estimable=[x for x in r['results'] if x['analysis_status']=='not_estimable']
+          assert all(x['permutations_valid']>=9000 for x in complete)
+          assert all(x['permutations_valid']==0 for x in not_estimable)
+          assert all(x['n_species']<r['minimum_model_species'] for x in not_estimable)
+          print(json.dumps({'metrics_qc':q,'matched_model':m,'spatial_scale_model':s,'fragmentation_model':f,'turnover_model':t,'turnover_robustness':tr,'robustness':r},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: climatic-niche-breadth-analysis
+          path: analysis_outputs/climatic_niche/
+          if-no-files-found: error
+          retention-days: 14

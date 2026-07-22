@@ -1,0 +1,207 @@
+name: PR research macroecology analysis
+
+on:
+  pull_request:
+    paths:
+      - "analysis_evidence_baseline.py"
+      - "analysis_macroecology.py"
+      - "analysis_matched_controls.py"
+      - "build_gbif_geography_covariates.py"
+      - "docs/analysis_method.md"
+      - "docs/current_data_research_results.md"
+      - "data/species_macroecology_covariates*.csv"
+      - "data/resolved_inputs/**"
+      - ".github/workflows/pr-analysis-baseline.yml"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  research-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Resolve acquisition inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p pr1_resolved
+          if test -s data/resolved_inputs/global_flower_colour_species_ranked_resolved.csv && \
+             test -s data/resolved_inputs/global_flower_colour_review_queue_resolved.csv; then
+            cp data/resolved_inputs/* pr1_resolved/
+            echo "Using versioned resolved inputs"
+          else
+            echo "Resolved snapshot absent; artifact download follows"
+          fi
+
+      - name: Download resolved acquisition data from PR1
+        if: ${{ hashFiles('pr1_resolved/global_flower_colour_species_ranked_resolved.csv') == '' }}
+        uses: actions/download-artifact@v4
+        with:
+          name: pr-targeted-followup-results
+          path: pr1_resolved
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: 29637383042
+
+      - name: Validate transferred PR1 inputs
+        run: |
+          set -euo pipefail
+          test -s pr1_resolved/global_flower_colour_species_ranked_resolved.csv
+          test -s pr1_resolved/global_flower_colour_review_queue_resolved.csv
+          test -s pr1_resolved/global_flower_colour_review_queue_resolved_qc.json
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          species=sum(1 for _ in csv.DictReader(open('pr1_resolved/global_flower_colour_species_ranked_resolved.csv',encoding='utf-8')))
+          review=sum(1 for _ in csv.DictReader(open('pr1_resolved/global_flower_colour_review_queue_resolved.csv',encoding='utf-8')))
+          qc=json.loads(Path('pr1_resolved/global_flower_colour_review_queue_resolved_qc.json').read_text())
+          assert species == qc['input_candidate_species'] == 664
+          assert review == qc['review_queue_rows'] == 111
+          print({'species':species,'review':review,'deferred':qc['deferred_rows']})
+          PY
+
+      - name: Freeze resolved inputs on the analysis branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p data/resolved_inputs
+          cp pr1_resolved/global_flower_colour_species_ranked_resolved.csv data/resolved_inputs/
+          cp pr1_resolved/global_flower_colour_review_queue_resolved.csv data/resolved_inputs/
+          cp pr1_resolved/global_flower_colour_review_queue_resolved_qc.json data/resolved_inputs/
+          cp pr1_resolved/targeted_exact_species_rescue_qc.json data/resolved_inputs/
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add data/resolved_inputs
+          if git diff --cached --quiet; then
+            echo "Resolved inputs already frozen"
+          else
+            git commit -m "[skip ci] freeze resolved acquisition inputs"
+            git push origin HEAD:${{ github.head_ref }}
+          fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
+
+      - name: Build GBIF geography covariates
+        run: |
+          set -euo pipefail
+          python build_gbif_geography_covariates.py \
+            --species pr1_resolved/global_flower_colour_species_ranked_resolved.csv \
+            --out analysis_outputs/covariates/species_gbif_geography_covariates.csv \
+            --qc-out analysis_outputs/covariates/species_gbif_geography_covariates_qc.json \
+            --limit 300 --timeout 45 --retries 4 --request-delay 0.20
+          cat analysis_outputs/covariates/species_gbif_geography_covariates_qc.json
+
+      - name: Prepare matched focal and control species
+        run: |
+          set -euo pipefail
+          mkdir -p analysis_outputs/matched_controls
+          python - <<'PY'
+          import pandas as pd
+          review=pd.read_csv('pr1_resolved/global_flower_colour_review_queue_resolved.csv')
+          candidates=set(pd.read_csv('pr1_resolved/global_flower_colour_species_ranked_resolved.csv').canonical_name.astype(str))
+          controls=pd.read_csv('data/control_candidate_pool.csv')
+          controls=controls[controls.focal_species.isin(set(review.canonical_name))]
+          controls=controls[~controls.control_candidate.isin(candidates)]
+          focal=review[['canonical_name','family']].drop_duplicates()
+          comp=controls[['control_candidate','control_family']].drop_duplicates().rename(columns={'control_candidate':'canonical_name','control_family':'family'})
+          combined=pd.concat([focal,comp],ignore_index=True).drop_duplicates('canonical_name')
+          combined.to_csv('analysis_outputs/matched_controls/matched_species_for_gbif.csv',index=False)
+          print({'focals':len(focal),'unique_controls':len(comp),'combined':len(combined)})
+          PY
+
+      - name: Build matched-control GBIF geography
+        run: |
+          set -euo pipefail
+          python build_gbif_geography_covariates.py \
+            --species analysis_outputs/matched_controls/matched_species_for_gbif.csv \
+            --out analysis_outputs/matched_controls/matched_species_gbif_geography.csv \
+            --qc-out analysis_outputs/matched_controls/matched_species_gbif_geography_qc.json \
+            --limit 300 --timeout 45 --retries 4 --request-delay 0.20
+
+      - name: Run evidence diagnostics on resolved PR1 data
+        run: |
+          set -euo pipefail
+          python analysis_evidence_baseline.py \
+            --species pr1_resolved/global_flower_colour_species_ranked_resolved.csv \
+            --outdir analysis_outputs/evidence
+
+      - name: Run research analysis on resolved PR1 data
+        run: |
+          set -euo pipefail
+          python analysis_macroecology.py \
+            --species pr1_resolved/global_flower_colour_species_ranked_resolved.csv \
+            --review pr1_resolved/global_flower_colour_review_queue_resolved.csv \
+            --covariates data/species_macroecology_covariates.csv \
+            --geography-covariates analysis_outputs/covariates/species_gbif_geography_covariates.csv \
+            --outdir analysis_outputs/research
+          cp pr1_resolved/global_flower_colour_review_queue_resolved_qc.json analysis_outputs/research/input_review_queue_qc.json
+          cp pr1_resolved/targeted_exact_species_rescue_qc.json analysis_outputs/research/input_exact_rescue_qc.json
+          cat analysis_outputs/research/research_analysis_manifest.json
+
+      - name: Run matched-control analysis
+        run: |
+          set -euo pipefail
+          python analysis_matched_controls.py \
+            --review pr1_resolved/global_flower_colour_review_queue_resolved.csv \
+            --candidate-species pr1_resolved/global_flower_colour_species_ranked_resolved.csv \
+            --controls data/control_candidate_pool.csv \
+            --geography analysis_outputs/matched_controls/matched_species_gbif_geography.csv \
+            --outdir analysis_outputs/matched_controls
+          cat analysis_outputs/matched_controls/matched_control_manifest.json
+
+      - name: Validate research outputs
+        run: |
+          set -euo pipefail
+          test -s analysis_outputs/covariates/species_gbif_geography_covariates.csv
+          test -s analysis_outputs/covariates/species_gbif_geography_covariates_qc.json
+          test -s analysis_outputs/research/research_analysis_manifest.json
+          test -s analysis_outputs/research/discovery_effort_nonlinear_model.csv
+          test -s analysis_outputs/research/effort_standardized_predictions.csv
+          test -s analysis_outputs/research/family_effort_adjusted_signal.csv
+          test -s analysis_outputs/research/leave_one_family_out.csv
+          test -s analysis_outputs/research/geography_macroecology_model.csv
+          test -s analysis_outputs/research/geography_macroecology_strict_model.csv
+          test -s analysis_outputs/research/geography_covariate_coverage.csv
+          test -s analysis_outputs/research/geography_range_robustness.csv
+          test -s analysis_outputs/research/geography_range_leave_one_family_out.csv
+          test -s analysis_outputs/matched_controls/matched_control_manifest.json
+          test -s analysis_outputs/matched_controls/matched_control_conditional_logit.csv
+          test -s analysis_outputs/matched_controls/matched_control_summary.csv
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          manifest=json.loads(Path('analysis_outputs/research/research_analysis_manifest.json').read_text())
+          qc=json.loads(Path('analysis_outputs/covariates/species_gbif_geography_covariates_qc.json').read_text())
+          matched=json.loads(Path('analysis_outputs/matched_controls/matched_control_manifest.json').read_text())
+          effort=manifest['effort_model']; geography=manifest['geography_model']
+          assert effort['n_species'] == 664
+          assert effort['validated_cases'] == 111
+          assert qc['species_requested'] == qc['species_completed'] == 664
+          assert geography['status'] == 'complete'
+          assert geography['robustness_specifications'] >= 3
+          assert matched['complete_strata'] >= 20
+          assert matched['semantic_guard'] == 'screening_controls_are_not_asserted_monomorphic'
+          complete=[x for x in matched['specifications'] if x.get('status')=='complete']
+          assert complete
+          for item in complete:
+              assert math.isfinite(float(item['range_odds_ratio']))
+          print(json.dumps({'effort':effort,'geography':geography,'matched_controls':matched}, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: research-macroecology-analysis-resolved-pr1
+          path: analysis_outputs/
+          if-no-files-found: error
+          retention-days: 14

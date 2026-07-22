@@ -1,0 +1,28 @@
+{
+  "input_candidate_species": 664,
+  "review_queue_rows": 111,
+  "deferred_rows": 553,
+  "evidence_class_counts": {
+    "artificial_or_horticultural": 106,
+    "insufficient_direct_evidence": 418,
+    "natural_polymorphism": 126,
+    "ontogenetic_colour_change": 2,
+    "possible_polymorphism": 12
+  },
+  "priority_counts": {
+    "DEFER": 553,
+    "P0": 4,
+    "P1": 93,
+    "P2": 6,
+    "P3": 8
+  },
+  "aggregated_followup_review_rows": 6,
+  "known_positive_controls_in_review_queue": [
+    "Dactylorhiza sambucina",
+    "Gymnadenia rhellicani",
+    "Linanthus parryae",
+    "Silene littorea"
+  ],
+  "known_positive_controls_in_review_queue_count": 4,
+  "review_mode": "natural_population_polymorphism_aggregated_v3"
+}

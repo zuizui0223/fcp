@@ -1,0 +1,80 @@
+name: PR effort-balanced matched controls
+
+on:
+  pull_request:
+    paths:
+      - "analysis_matched_controls_effort_balanced.py"
+      - ".github/workflows/pr-effort-balanced-controls.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  effort-balanced-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
+      - name: Prepare focal and control species
+        run: |
+          set -euo pipefail
+          mkdir -p analysis_outputs/matched_controls
+          python - <<'PY'
+          import pandas as pd
+          review=pd.read_csv('data/resolved_inputs/global_flower_colour_review_queue_resolved.csv')
+          candidates=set(pd.read_csv('data/resolved_inputs/global_flower_colour_species_ranked_resolved.csv').canonical_name.astype(str))
+          controls=pd.read_csv('data/control_candidate_pool.csv')
+          controls=controls[controls.focal_species.isin(set(review.canonical_name))]
+          controls=controls[~controls.control_candidate.isin(candidates)]
+          focal=review[['canonical_name','family']].drop_duplicates()
+          comp=controls[['control_candidate','control_family']].drop_duplicates().rename(columns={'control_candidate':'canonical_name','control_family':'family'})
+          pd.concat([focal,comp],ignore_index=True).drop_duplicates('canonical_name').to_csv('analysis_outputs/matched_controls/matched_species_for_gbif.csv',index=False)
+          PY
+      - name: Build matched geography
+        run: |
+          python build_gbif_geography_covariates.py \
+            --species analysis_outputs/matched_controls/matched_species_for_gbif.csv \
+            --out analysis_outputs/matched_controls/matched_species_gbif_geography.csv \
+            --qc-out analysis_outputs/matched_controls/matched_species_gbif_geography_qc.json \
+            --limit 300 --timeout 45 --retries 4 --request-delay 0.20
+      - name: Build base matched dataset
+        run: |
+          python analysis_matched_controls.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --candidate-species data/resolved_inputs/global_flower_colour_species_ranked_resolved.csv \
+            --controls data/control_candidate_pool.csv \
+            --geography analysis_outputs/matched_controls/matched_species_gbif_geography.csv \
+            --outdir analysis_outputs/matched_controls
+      - name: Run effort-balanced sensitivity
+        run: |
+          python analysis_matched_controls_effort_balanced.py \
+            --dataset analysis_outputs/matched_controls/matched_control_dataset.csv \
+            --outdir analysis_outputs/effort_balanced
+          cat analysis_outputs/effort_balanced/effort_balanced_manifest.json
+      - name: Validate outputs
+        run: |
+          set -euo pipefail
+          test -s analysis_outputs/effort_balanced/effort_balanced_summary.csv
+          test -s analysis_outputs/effort_balanced/effort_balanced_conditional_logit.csv
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          m=json.loads(Path('analysis_outputs/effort_balanced/effort_balanced_manifest.json').read_text())
+          assert m['semantic_guard']=='screening_controls_are_not_asserted_monomorphic'
+          assert m['specifications']
+          for s in m['specifications']:
+              assert s['n_strata']>=20
+              assert math.isfinite(float(s['range_odds_ratio']))
+          print(json.dumps(m,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: effort-balanced-matched-controls
+          path: analysis_outputs/
+          if-no-files-found: error
+          retention-days: 14

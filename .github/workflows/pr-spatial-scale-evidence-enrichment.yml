@@ -1,0 +1,56 @@
+name: PR spatial-scale evidence enrichment
+
+on:
+  pull_request:
+    paths:
+      - "enrich_spatial_scale_evidence.py"
+      - ".github/workflows/pr-spatial-scale-evidence-enrichment.yml"
+      - "data/resolved_inputs/**"
+
+permissions:
+  contents: read
+
+jobs:
+  enrich-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate frozen inputs
+        run: test -s data/resolved_inputs/global_flower_colour_review_queue_resolved.csv
+      - name: Enrich ambiguous spatial-scale evidence
+        run: |
+          set -euo pipefail
+          mkdir -p analysis_outputs/evidence_scale
+          python enrich_spatial_scale_evidence.py \
+            --review data/resolved_inputs/global_flower_colour_review_queue_resolved.csv \
+            --out analysis_outputs/evidence_scale/enriched_openalex_works.csv \
+            --species-summary analysis_outputs/evidence_scale/enriched_species_summary.csv \
+            --qc-out analysis_outputs/evidence_scale/enriched_openalex_qc.json \
+            --per-page 50 --timeout 40 --retries 4 --request-delay 0.25
+          cat analysis_outputs/evidence_scale/enriched_openalex_qc.json
+      - name: Validate enrichment outputs
+        run: |
+          set -euo pipefail
+          test -s analysis_outputs/evidence_scale/enriched_openalex_works.csv
+          test -s analysis_outputs/evidence_scale/enriched_species_summary.csv
+          test -s analysis_outputs/evidence_scale/enriched_openalex_qc.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path('analysis_outputs/evidence_scale/enriched_openalex_qc.json').read_text())
+          assert q['confirmed_species']==111
+          assert q['ambiguous_targets']>=50
+          assert q['semantic_guard'].startswith('enrichment applies only')
+          assert q['failed_requests'] < q['ambiguous_targets']
+          print(json.dumps(q,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spatial-scale-evidence-enrichment
+          path: analysis_outputs/evidence_scale/
+          if-no-files-found: error
+          retention-days: 14
