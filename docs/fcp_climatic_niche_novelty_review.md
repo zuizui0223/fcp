@@ -1,124 +1,108 @@
-# Flower-colour polymorphism and climatic niche breadth
+# Intraspecific flower-colour variation and climatic niche breadth
 
-## Literature-based novelty assessment
+## Journal of Biogeography novelty assessment
 
-### What is already known
+## What is already known
 
-1. Flower-colour polymorphism (FCP) is conventionally defined as two or more discrete flower-colour variants co-occurring within a population. Reviews emphasize pollinator selection, abiotic selection, gene flow, drift, mating system and clonal reproduction, but do not provide a global comparative test of climatic niche breadth across flowering plants (Gómez et al. 2017, doi:10.1111/plb.12575).
-2. Macroecological flower-colour studies have related species-level colour traits to biotic and abiotic environments, but they analyze mean or dominant colour traits rather than verified within-population discrete polymorphism (Dalrymple et al. 2020, doi:10.1111/nph.16737).
-3. Within Protea, polymorphic species span broader elevational gradients than monomorphic species, suggesting environmental heterogeneity can predict polymorphism at a genus-wide scale (Carlson et al. 2015, doi:10.1098/rspb.2015.0583).
-4. Individual FCP systems show morph-environment associations and distinct climatic niches, especially in anthocyanin polymorphisms (Arista et al. 2013, doi:10.1111/1365-2745.12151; Warren & Mackenzie 2001, doi:10.1046/j.1469-8137.2001.00159.x; Jiménez-López et al. 2024, doi:10.1186/s12870-024-05481-y).
-5. Across animal clades, colour-polymorphic species have sometimes shown broader climatic niches and lower extinction risk (Takahashi & Noriyuki 2019, doi:10.1098/rsbl.2019.0228), but a phylogenetically controlled review of web-building spiders found no association with niche breadth or range size (Oxford et al. 2024, Journal of Evolutionary Biology 37:1345-1358). This establishes a comparative hypothesis, not a universal law.
-6. In plants more generally, climatic niche breadth is associated with geographic range size and can differ between sister species with different reproductive systems, demonstrating that occurrence-derived niche breadth is a meaningful comparative response (Sheth et al. 2014, doi:10.1111/evo.12494; Grant & Kalisz 2020, doi:10.1111/evo.13870).
+1. Flower-colour polymorphism is conventionally defined as two or more discrete flower-colour variants co-occurring within a population. Reviews emphasize pollinator selection, abiotic selection, gene flow, drift, mating system and clonal reproduction.
+2. Macroecological flower-colour studies have related species-level colour traits to climate, but generally analyse mean, dominant or continuous interspecific colour rather than the spatial organization of discrete intraspecific variants.
+3. Individual species and genera show associations between colour morphs, elevation, climate, soil or pollinator environments.
+4. Geographic variation in morph frequency is well documented, and colour-polymorphism studies in animal clades already link colour states to climatic niches and geographic structure.
+5. Occurrence-derived climatic niche breadth is therefore an established comparative quantity. Neither flower colour–climate association nor geographic colour differentiation alone is novel.
 
-### Novelty claim supported by the search
+## Defensible novelty
 
-We found no global, taxonomically matched comparative analysis testing whether verified natural within-population FCP in flowering plants is associated with broader or more heterogeneous climatic niches. Existing studies are predominantly single species, single genera, regional reviews, or analyses of average interspecific flower colour.
+The novel contribution is not the claim that climate affects flower colour. It is the comparative biogeographic question:
 
-The defensible novelty is therefore:
+> Do species differ in occupied climatic niche according to whether documented intraspecific flower-colour variation is maintained as within-population polymorphism or expressed as geographic differentiation among populations?
 
-> The first global screening analysis of the association between verified natural flower-colour polymorphism and occupied climatic niche breadth and heterogeneity in flowering plants, with taxonomically matched candidate controls and explicit correction for occurrence and research effort.
+The analysis combines:
 
-This is a pattern-and-association claim. It is not a demonstration that FCP causes niche expansion.
+- a global literature-derived sample of documented intraspecific flower-colour variation;
+- an explicit distinction between local coexistence and geographic differentiation;
+- source-level evidence auditing and evidence-quality sensitivity;
+- occurrence-derived occupied climatic niche metrics;
+- controls for occurrence effort and taxonomic concentration;
+- explicit negative results for coarse GBIF fragmentation and generic climate turnover.
 
-## Ecological question
+A defensible novelty statement is:
 
-**Are species with verified within-population flower-colour polymorphism associated with broader and more environmentally heterogeneous occupied climatic niches than taxonomically matched species without documented FCP?**
+> This study provides a global literature-derived comparative test of whether the spatial organization of intraspecific flower-colour variation is associated with species-level occupied climatic niches, while explicitly evaluating sensitivity to classification evidence and sampling effort.
 
-Because absence of evidence is not evidence of monomorphism, controls remain `species outside the verified candidate set`, not asserted monomorphic species.
+This is a pattern-and-association claim. It is not the first study of flower colour and climate, not a global census of all flowering plants and not evidence that colour polymorphism causes niche expansion.
 
-## Competing hypotheses
+## Primary ecological question
 
-### H1. Polymorphism–niche breadth association
+**Is geographically structured flower-colour variation more likely than within-population polymorphism in species occupying narrower realised moisture niches?**
 
-Verified FCP species occupy broader climatic niches than matched controls.
+The principal comparison is among documented cases of intraspecific flower-colour variation. Candidate-versus-control analyses address a different question and are retained as background evidence rather than the manuscript's central result.
+
+## Hypotheses
+
+### H1. Spatial-organization association
+
+Species with geographically structured flower-colour variation differ in occupied climatic niche from species with locally coexisting colour morphs.
+
+Primary directional prediction:
+
+- among-population cases have narrower moisture niche breadth than within-population cases.
+
+This prediction is motivated by the possibility that geographic environmental sorting or restricted environmental occupancy accompanies colour differentiation. The analysis does not identify the mechanism.
+
+### H2. Broad-niche polymorphism hypothesis
+
+Within-population polymorphism may be more frequent in species spanning broader moisture conditions, consistent with local coexistence persisting across a wider set of realised environments.
+
+This remains an interpretation of the observed association, not evidence that polymorphism expands a species' niche.
+
+### H0. Evidence and sampling explanation
+
+The apparent difference is generated by classification quality, literature effort, GBIF sampling, geographic range or taxonomic concentration.
 
 Predictions:
 
-- greater robust multivariate climatic dispersion;
-- larger occupied PCA-space area;
-- larger temperature and precipitation breadth;
-- association persists after adjusting for GBIF record count and taxonomic matching.
+- the effect attenuates when evidence-enriched classifications are included;
+- the direction changes after leaving out individual families;
+- simple fragmentation or occurrence count explains the moisture association.
 
-### H2. Environmental heterogeneity association
+## Current evidential result
 
-Verified FCP species occur across more heterogeneous climates than matched controls.
+The baseline-unambiguous subset shows a negative association between moisture niche breadth and among-population classification, with permutation support and a stable direction under leave-one-family-out analysis.
 
-Predictions:
+The broader evidence-enriched set retains the direction but weakens the effect. This means the main conclusion is best described as:
 
-- larger within-species climatic variance and interquantile ranges;
-- strongest association for variables representing moisture, temperature extremes and seasonality;
-- potentially stronger for anthocyanin-based FCP, when pigment information becomes available.
+> a robust but evidence-sensitive comparative signal concentrated in moisture niche breadth.
 
-### H0. Detection and geography explanation
-
-The apparent association is explained by observation effort, geographic range, taxonomy, or research culture.
-
-Predictions:
-
-- effects attenuate after matching on GBIF effort;
-- results are sensitive to minimum occurrence thresholds;
-- effects disappear in same-genus comparisons or leave-one-family-out analyses.
+Coarse GBIF fragmentation and generic environmental turnover among unsupervised occurrence clusters do not explain the pattern. These null analyses cannot test morph-specific environmental sorting because GBIF records are not labelled by colour state.
 
 ## Interpretation boundary
 
-A positive association is compatible with two causal directions:
+The study may conclude that:
 
-1. **ecological expansion:** polymorphism increases population-level response diversity and permits occupation of more climates;
-2. **heterogeneity-generated polymorphism:** exposure to diverse climates produces spatially varying selection and maintains or generates colour variants.
+- documented spatial organization of flower-colour variation is associated with species-level realised moisture niche breadth in the strict evidence set;
+- this association is sensitive to evidence quality;
+- simple sampled-distribution fragmentation does not account for the result.
 
-Cross-sectional occurrence data cannot distinguish these directions. The paper should report the macroecological association and present these as competing explanations.
+The study may not conclude that:
 
-## Primary analysis design
+- moisture niche breadth causes geographic differentiation;
+- among-population cases are locally adapted;
+- within-population polymorphism expands climatic tolerance;
+- GBIF clusters correspond to populations;
+- the sampled species represent all angiosperms.
 
-### Units
+## Reviewer-facing limitations
 
-- focal: species with high-confidence natural FCP;
-- controls: taxonomically matched species outside the candidate set;
-- strict sensitivity: high-confidence `within_population` FCP only;
-- secondary comparison: `among_population` colour differentiation analyzed separately.
+1. The sample is literature-derived and geographically and taxonomically non-random.
+2. Family-clustered errors and leave-one-family-out checks are not full phylogenetic correction.
+3. Climatic niches are species-level realised niches, not morph-specific or fundamental niches.
+4. Spatial classification depends on what retained sources document, so incomplete local sampling can misclassify true coexistence as geographic separation.
+5. The strongest result is based on a modest strict-evidence sample and should be presented through effect size, uncertainty, permutation support and sensitivity rather than a binary significance claim.
 
-### Climate source
+## Journal positioning
 
-Use WorldClim 2.1 bioclimatic variables at 10 arc-minute resolution for the first reproducible CI analysis. It provides 19 standard temperature and precipitation variables for 1970-2000. A CHELSA 2.1 sensitivity analysis can follow because CHELSA provides terrain-informed approximately 1-km climate surfaces for 1981-2010.
+For Journal of Biogeography, the paper should be framed around the geography of phenotypic variation:
 
-### Occurrence cleaning
+> Why is intraspecific flower-colour variation organized as local coexistence in some species but geographic differentiation in others, and is this spatial organization associated with occupied climate?
 
-- accepted species name where possible;
-- coordinate-bearing present records;
-- remove invalid coordinates and obvious zeros;
-- deduplicate rounded coordinates;
-- cap records per species using reproducible spatial thinning or deterministic sampling;
-- require at least 20 unique occupied climate cells for the primary analysis;
-- sensitivity thresholds at 10, 30 and 50 cells.
-
-### Niche metrics
-
-Primary:
-
-- robust multivariate dispersion in globally standardized BIO space;
-- mean Euclidean distance to species centroid in global climate PCA (PC1-PC3);
-- 95% range on PC1 and PC2;
-- convex-hull area in PC1-PC2 where sample size permits.
-
-Secondary:
-
-- temperature breadth: robust ranges for BIO1, BIO5, BIO6 and BIO7;
-- moisture breadth: robust ranges for BIO12, BIO14, BIO15 and BIO17;
-- climatic heterogeneity: mean standardized within-species SD across selected variables.
-
-### Models
-
-1. Conditional logistic regression for verified FCP versus taxonomically matched controls.
-2. Predictors entered separately first to avoid circularity and collinearity:
-   - multivariate niche breadth;
-   - climatic heterogeneity;
-   - geographic range;
-   - log GBIF occurrence count.
-3. Combined model only after variance-inflation and correlation checks.
-4. Same-genus-only, effort-balanced, minimum-record, leave-one-family-out and within-FCP-only sensitivities.
-5. Report effect sizes and uncertainty; do not convert unknown controls into confirmed monomorphic species.
-
-## Decision rule
-
-The niche hypothesis becomes the paper's main macroecological result only if the direction is stable across taxonomic and effort-balanced sensitivities. If the signal is weak or absent, the null result remains informative because analogous colour-polymorphism studies disagree across animal clades, and no global plant test currently exists.
+The automated literature and CI workflow belongs in Methods and Supplement. The biological result, its evidence sensitivity and the limits of inference belong in the main text.
