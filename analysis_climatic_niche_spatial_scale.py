@@ -107,6 +107,15 @@ def resolve_scale_column(classification: pd.DataFrame) -> str:
     )
 
 
+def coalesce_text(frame: pd.DataFrame, columns: tuple[str, ...]) -> pd.Series:
+    result = pd.Series("", index=frame.index, dtype="object")
+    for column in columns:
+        if column in frame.columns:
+            values = frame[column].fillna("").astype(str).str.strip()
+            result = result.mask(result.eq(""), values)
+    return result
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--classification", required=True)
@@ -154,6 +163,9 @@ def main() -> None:
     focal_metrics = metrics.loc[metrics["role"] == "focal"].drop_duplicates("canonical_name")
     dataset = classified.merge(focal_metrics, on="canonical_name", how="inner", suffixes=("_class", "_metric"))
     dataset["family"] = resolve_family_column(dataset)
+    dataset["evidence_source"] = coalesce_text(dataset, ("evidence_source", "best_title"))
+    dataset["source_id"] = coalesce_text(dataset, ("source_id", "best_doi", "best_openalex_id"))
+    dataset["decision_note"] = coalesce_text(dataset, ("decision_note", "best_match_evidence", "review_reason"))
     dataset.to_csv(outdir / "climatic_niche_spatial_scale_dataset.csv", index=False)
 
     rows = [fit_one(dataset, metric, threshold) for threshold in (10, 20, 30, 50) for metric in METRICS]
@@ -169,6 +181,7 @@ def main() -> None:
         "within_with_metrics": int((dataset["spatial_scale"] == "within_population").sum()),
         "among_with_metrics": int((dataset["spatial_scale"] == "among_population").sum()),
         "evidence_columns_preserved": passthrough_columns,
+        "normalized_evidence_columns": ["evidence_source", "source_id", "decision_note"],
         "model_formula": MODEL_FORMULA,
         "estimator": "statsmodels GLM Binomial(logit)",
         "covariance": "family-clustered sandwich",
