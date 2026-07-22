@@ -6,53 +6,55 @@
 
 - Reframed moisture niche breadth as the focal reported association unless prospective documentation proves preregistration.
 - Added explicit baseline-unambiguous inclusion and freeze rules.
-- Replaced ambiguous `family-adjusted` wording with the exact model and covariance specification.
+- Replaced ambiguous `family-adjusted` wording with explicit reporting requirements.
 - Added multiplicity reporting requirements for all evaluated climatic niche metrics and thresholds.
-- Restricted interpretation of fragmentation and turnover non-significance.
+- Restricted interpretation of fragmentation and turnover nulls.
 - Added a reviewer-preemption checklist and submission blockers.
 
 ### Implemented analytical outputs
 
-- Exported the exact formula `among ~ metric_z + effort_z`, estimator, covariance method and `statsmodels` version.
-- Exported species count, family count and within/among class counts.
-- Exported coefficient, family-clustered SE, odds ratio and family-clustered 95% CI.
-- Exported convergence, iteration and fitted-probability diagnostics.
-- Retained 9,999 two-sided label permutations and leave-one-family-out refits.
-- Generated a manuscript-facing model table from the same run as the robustness analysis.
-- Generated the complete five-metric by four-threshold result matrix.
-- Generated a deterministically ordered frozen baseline manifest with SHA-256 digest.
-- Generated an explicit correction-log template.
+- Added exact model formula, estimator, covariance method and `statsmodels` version to spatial-scale outputs.
+- Added number of species, number of families and within/among class counts.
+- Added the log-odds coefficient, family-clustered standard error, odds ratio and 95% confidence interval.
+- Added convergence, iteration and fitted-probability diagnostics.
+- Retained two-sided permutation inference and leave-one-family-out estimates.
+- Added a manuscript-facing model table generated from the same run as the robustness analysis.
+- Added a complete metric-by-threshold table covering five metrics and four occurrence thresholds.
+- Added a frozen baseline-unambiguous manifest with deterministic ordering and a SHA-256 digest.
+- Added an explicit empty correction-log template so later changes cannot be made silently.
+- Preserved source title, DOI/OpenAlex identifier, evidence snippet and review note into the spatial-scale dataset.
+- Normalized those fields to `evidence_source`, `source_id` and `decision_note` for the frozen audit.
 
-### Real-pipeline validation
+### Verified numerical result
 
-GitHub Actions run `29915531122` completed successfully on the literature, GBIF and WorldClim pipeline. The companion macroecology workflow run `29915531047` also completed successfully.
+- Baseline-unambiguous set: 34 species, 25 families, 19 within-population and 15 among-population.
+- Moisture-breadth OR 0.403, family-clustered 95% CI 0.165–0.985.
+- Clustered Wald p = 0.0463; permutation p = 0.0439 from 9,999 valid permutations.
+- Leave-one-family-out OR range 0.284–0.456, with the negative direction retained for every family omission.
+- Broader evidence estimate: OR 0.566, 95% CI 0.293–1.093; permutation p = 0.0886.
 
-The verified baseline-unambiguous moisture result is:
+### Manuscript progress
 
-- 34 species from 25 families;
-- 19 within-population and 15 among-population cases;
-- OR 0.403;
-- family-clustered 95% CI 0.165–0.985;
-- clustered Wald p 0.0463;
-- two-sided permutation p 0.0439 from 9,999 valid permutations;
-- leave-one-family-out OR range 0.284–0.456, all in the same direction;
-- converged in four iterations.
+- Added `docs/jbi_manuscript_draft.md` with a complete first-pass Abstract, Introduction, Methods, Results and Discussion.
+- Inserted the validated model values and explicit exploratory-status language.
+- Marked unresolved citation, climate-resolution and journal-format details rather than inventing them.
+- Added strict-versus-enriched and leave-one-family-out SVG figures.
 
-These values now replace the older provisional 35-species / OR 0.368 result in `docs/current_data_research_results.md`.
+## Validation in progress
 
-### Figures
+The full climatic-niche workflow has been re-triggered after preserving source-level evidence. Completion requires confirming that all 34 strict-set rows in `baseline_unambiguous_frozen_manifest.csv` contain traceable source fields and that model outputs remain numerically unchanged.
 
-- Added `docs/figures/moisture_effect_strict_vs_enriched.svg`.
-- Added `docs/figures/moisture_leave_one_family_out.svg`.
+## Remaining tasks in this PR
 
-## Remaining tasks
-
-1. Extend the frozen classification manifest so each strict species retains traceable source identifiers and an explicit decision note. The current digest freezes membership and classification, but the model dataset does not yet preserve the complete source-level audit trail.
-2. Convert the manuscript outline into complete Introduction, Methods, Results and Discussion prose.
-3. Add the final source-audit table and figure captions to the supplement structure.
+1. Read the new successful workflow artifact and verify source-field completeness for all strict-set rows.
+2. Add workflow assertions for non-empty `evidence_source`, `source_id` and `decision_note` once completeness is confirmed.
+3. Add literature citations and exact WorldClim variable/resolution details to the manuscript draft.
+4. Add final figure captions and supplement cross-references.
+5. Perform journal-format and language editing.
 
 ## Submission blockers
 
-- The frozen manifest must contain traceable source-level evidence before it is treated as the final supplementary classification audit.
-- Complete manuscript text remains required before submission.
-- Any correction to the frozen set must be recorded in the correction log and must trigger regeneration of the reported values and figures.
+- The source-audit workflow must pass and the frozen manifest must be traceable row by row.
+- Complete citations and exact climate-data documentation must be inserted.
+- The manuscript draft must undergo final scientific and journal-format review.
+- A permanent archived release and DOI are required before submission.
