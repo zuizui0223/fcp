@@ -128,7 +128,20 @@ def main() -> None:
 
     class_columns = ["canonical_name", "family", scale_column]
     passthrough_columns = [
-        c for c in ("classification_source", "evidence_source", "source_id", "decision_note")
+        c
+        for c in (
+            "classification_source",
+            "baseline_scale",
+            "best_title",
+            "best_doi",
+            "best_openalex_id",
+            "best_match_evidence",
+            "review_reason",
+            "review_status",
+            "evidence_source",
+            "source_id",
+            "decision_note",
+        )
         if c in classification.columns
     ]
     class_columns.extend(passthrough_columns)
@@ -155,6 +168,7 @@ def main() -> None:
         "classified_species_with_metrics": int(len(dataset)),
         "within_with_metrics": int((dataset["spatial_scale"] == "within_population").sum()),
         "among_with_metrics": int((dataset["spatial_scale"] == "among_population").sum()),
+        "evidence_columns_preserved": passthrough_columns,
         "model_formula": MODEL_FORMULA,
         "estimator": "statsmodels GLM Binomial(logit)",
         "covariance": "family-clustered sandwich",
