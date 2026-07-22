@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test whether occupied climatic niche breadth differs between within- and among-population FCP."""
+"""Compare occupied climatic niches across documented spatial organizations of flower-colour variation."""
 from __future__ import annotations
 
 import argparse
@@ -8,6 +8,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import statsmodels
 import statsmodels.api as sm
 
 METRICS = [
@@ -17,6 +18,8 @@ METRICS = [
     "temperature_breadth",
     "moisture_breadth",
 ]
+MODEL_FORMULA = "among ~ metric_z + effort_z"
+CI_METHOD = "Wald 95% CI from family-clustered sandwich standard errors"
 
 
 def zscore(series: pd.Series) -> pd.Series:
@@ -36,12 +39,20 @@ def fit_one(data: pd.DataFrame, metric: str, min_cells: int) -> dict:
     result = {
         "min_cells": min_cells,
         "metric": metric,
+        "model_formula": MODEL_FORMULA,
+        "estimator": "statsmodels GLM Binomial(logit)",
+        "covariance": "family-clustered sandwich",
+        "ci_method": CI_METHOD,
+        "statsmodels_version": statsmodels.__version__,
         "n_species": int(len(d)),
+        "n_families": int(d["family"].nunique()),
         "n_within": int((d["among"] == 0).sum()),
         "n_among": int((d["among"] == 1).sum()),
         "status": "insufficient",
+        "analysis_reason": "",
     }
     if len(d) < 20 or d["among"].nunique() < 2 or d["family"].nunique() < 2:
+        result["analysis_reason"] = "fewer than 20 species, fewer than two families, or only one response class"
         return result
     try:
         X = sm.add_constant(d[["metric_z", "effort_z"]], has_constant="add")
@@ -49,18 +60,28 @@ def fit_one(data: pd.DataFrame, metric: str, min_cells: int) -> dict:
         fit = model.fit(cov_type="cluster", cov_kwds={"groups": d["family"]})
         beta = float(fit.params["metric_z"])
         se = float(fit.bse["metric_z"])
+        ci_low_beta = beta - 1.96 * se
+        ci_high_beta = beta + 1.96 * se
+        fit_history = getattr(fit, "fit_history", {})
         result.update({
             "status": "complete",
             "estimate": beta,
-            "std_error": se,
+            "std_error_clustered": se,
+            "estimate_ci_low": ci_low_beta,
+            "estimate_ci_high": ci_high_beta,
             "odds_ratio": float(np.exp(beta)),
-            "ci_low": float(np.exp(beta - 1.96 * se)),
-            "ci_high": float(np.exp(beta + 1.96 * se)),
-            "p_value": float(fit.pvalues["metric_z"]),
+            "odds_ratio_ci_low": float(np.exp(ci_low_beta)),
+            "odds_ratio_ci_high": float(np.exp(ci_high_beta)),
+            "p_value_clustered": float(fit.pvalues["metric_z"]),
+            "effort_estimate": float(fit.params["effort_z"]),
             "effort_odds_ratio": float(np.exp(fit.params["effort_z"])),
+            "converged": bool(getattr(fit, "converged", False)),
+            "iterations": int(fit_history.get("iteration", -1)),
+            "predicted_probability_min": float(np.min(fit.fittedvalues)),
+            "predicted_probability_max": float(np.max(fit.fittedvalues)),
         })
     except Exception as exc:
-        result.update({"status": "failed", "error": f"{type(exc).__name__}: {exc}"})
+        result.update({"status": "failed", "analysis_reason": f"{type(exc).__name__}: {exc}"})
     return result
 
 
@@ -106,8 +127,11 @@ def main() -> None:
         raise ValueError(f"Missing required columns: {missing}")
 
     class_columns = ["canonical_name", "family", scale_column]
-    if "classification_source" in classification.columns:
-        class_columns.append("classification_source")
+    passthrough_columns = [
+        c for c in ("classification_source", "evidence_source", "source_id", "decision_note")
+        if c in classification.columns
+    ]
+    class_columns.extend(passthrough_columns)
     classified = classification.loc[
         classification[scale_column].isin(["within_population", "among_population"]),
         class_columns,
@@ -122,6 +146,7 @@ def main() -> None:
     rows = [fit_one(dataset, metric, threshold) for threshold in (10, 20, 30, 50) for metric in METRICS]
     results = pd.DataFrame(rows)
     results.to_csv(outdir / "climatic_niche_spatial_scale_models.csv", index=False)
+    results.to_csv(outdir / "climatic_niche_metric_by_threshold_table.csv", index=False)
 
     primary = results.loc[(results["min_cells"] == 20) & (results["status"] == "complete")].to_dict("records")
     manifest = {
@@ -130,11 +155,18 @@ def main() -> None:
         "classified_species_with_metrics": int(len(dataset)),
         "within_with_metrics": int((dataset["spatial_scale"] == "within_population").sum()),
         "among_with_metrics": int((dataset["spatial_scale"] == "among_population").sum()),
+        "model_formula": MODEL_FORMULA,
+        "estimator": "statsmodels GLM Binomial(logit)",
+        "covariance": "family-clustered sandwich",
+        "confidence_interval_method": CI_METHOD,
+        "statsmodels_version": statsmodels.__version__,
+        "metrics_evaluated": METRICS,
+        "thresholds_evaluated": [10, 20, 30, 50],
         "specifications": int(len(results)),
         "complete_specifications": int((results["status"] == "complete").sum()),
         "primary_results": primary,
         "interpretation_rule": "Odds ratios above one indicate that broader occupied climatic niche is associated with among-population rather than within-population colour variation.",
-        "semantic_guard": "This compares evidence-classified spatial scales among verified FCP species; mixed and unclear cases are excluded, occupied niche is not physiological tolerance, and associations are not causal.",
+        "semantic_guard": "This compares evidence-classified spatial organizations among documented cases; mixed and unclear cases are excluded, occupied niche is not physiological tolerance, multiple metrics were evaluated, and associations are not causal.",
     }
     (outdir / "climatic_niche_spatial_scale_manifest.json").write_text(
         json.dumps(manifest, indent=2), encoding="utf-8"
