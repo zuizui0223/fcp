@@ -1,10 +1,10 @@
-# Moisture niche breadth is associated with the documented spatial organization of intraspecific flower-colour variation
+# Evidence-sensitive association between moisture niche breadth and the documented spatial organization of intraspecific flower-colour variation
 
 ## Abstract
 
 ### Aim
 
-Intraspecific phenotypic variation may be maintained through local coexistence or partitioned geographically among populations. These spatial expressions are often collapsed into a single category, although they imply different ecological and evolutionary contexts. We asked whether documented within-population flower-colour polymorphism and geographically structured flower-colour variation differ in species-level occupied climatic niche breadth.
+Intraspecific phenotypic variation may be maintained through local coexistence or partitioned geographically among populations. These spatial expressions are often collapsed into one category despite representing different ecological contexts. We asked whether documented within-population flower-colour polymorphism and geographically structured flower-colour variation differ in species-level occupied climatic niche breadth.
 
 ### Location
 
@@ -16,119 +16,107 @@ Angiosperms with documented natural intraspecific flower-colour variation.
 
 ### Methods
 
-We assembled a literature-derived evidence base and classified documented flower-colour variation as within-population or among-population. Classifications supported directly by baseline evidence formed a frozen baseline-unambiguous set; less direct literature enrichment formed a broader sensitivity set. We combined these classifications with cleaned GBIF occurrences and WorldClim-derived occupied climatic niche metrics. Logistic models predicted among-population rather than within-population organization from standardized niche metrics while controlling for the number of occupied climate cells. Uncertainty was estimated using family-clustered sandwich standard errors, 9,999 label permutations, and leave-one-family-out analyses. Multiple climatic metrics and occurrence thresholds were retained in the multiplicity record.
+We classified documented flower-colour variation as within-population, among-population, mixed or unclear using retained source text. A frozen baseline-unambiguous set was audited with source titles, DOI or OpenAlex identifiers and evidence snippets. We combined binary classifications with cleaned GBIF occurrences and WorldClim-derived occupied-climate metrics. Binomial generalized linear models predicted among-population organization from standardized niche metrics while controlling for occupied-cell count. We used family-clustered sandwich uncertainty, 9,999 label permutations and leave-one-family-out refits. Five climatic metrics and four occurrence thresholds were retained in the multiplicity record.
 
 ### Results
 
-The baseline-unambiguous moisture model included 34 species from 25 families, comprising 19 within-population and 15 among-population cases. Geographically structured variation was associated with narrower species-level realised moisture niche breadth (odds ratio 0.403, family-clustered 95% confidence interval 0.165–0.985; clustered Wald p = 0.0463; two-sided permutation p = 0.0439). The direction was retained after omission of each represented family, with leave-one-family-out odds ratios ranging from 0.284 to 0.456. The estimate attenuated in the broader evidence set (odds ratio 0.566, 95% confidence interval 0.293–1.093; permutation p = 0.0886). Coarse GBIF occurrence-cloud fragmentation and generic climatic turnover among unlabelled occurrence components did not account for the focal association.
+The audited baseline-unambiguous moisture model included 34 species from 25 families: 20 within-population and 14 among-population cases. Geographically structured variation showed a negative association with realised moisture niche breadth (odds ratio 0.426, family-clustered 95% confidence interval 0.184–0.985; clustered Wald p = 0.0460). Permutation support was borderline (two-sided p = 0.0556). The direction remained negative after omission of each represented family, with leave-one-family-out odds ratios of 0.317–0.481. The estimate attenuated in the broader evidence set (odds ratio 0.563, 95% confidence interval 0.292–1.085; permutation p = 0.0944).
 
 ### Main conclusions
 
-The documented spatial organization of intraspecific flower-colour variation carries an evidence-sensitive comparative climatic signal. The result is not a test of morph-specific physiological tolerance, local adaptation, or causal climatic effects. Mechanistic inference requires colour-state-labelled localities or named populations linked directly to environmental conditions.
+The documented spatial organization of flower-colour variation carries an evidence-sensitive climatic signal, but support depends on uncertainty method and classification quality. The result is exploratory and does not test morph-specific tolerance, local adaptation or causal climatic effects.
 
 **Keywords:** climatic niche breadth; flower-colour variation; geographic differentiation; intraspecific polymorphism; evidence synthesis; GBIF; macroecology
 
 ## Introduction
 
-Intraspecific phenotypic variation can be expressed at more than one spatial scale. Distinct phenotypes may coexist within the same population, be partitioned among populations or regions, or occur in a mixture of local and geographic configurations. These alternatives are not interchangeable. Local coexistence requires that multiple forms persist under at least partly shared demographic and environmental conditions, whereas geographic differentiation can arise under spatially separated environments, restricted dispersal, demographic history, or other forms of regional structure. Treating both situations as a single binary state risks obscuring the spatial scale at which variation is actually maintained or documented.
+Intraspecific phenotypic variation can coexist locally, be partitioned among populations or occur in mixed configurations. These alternatives are not interchangeable. Local coexistence requires multiple forms to persist under partly shared conditions, whereas geographic differentiation can arise under spatially separated environments, dispersal limitation, demographic history or regional structure.
 
-Flower colour provides an unusually rich system for studying this distinction. Natural flower-colour variation has been associated with pollinator behaviour, abiotic stress, pleiotropic effects, drift, mating systems, and demographic processes [CITATIONS REQUIRED]. Most comparative syntheses, however, focus on whether colour variation is present, which mechanisms maintain polymorphism, or how average floral traits vary with climate. Individual case studies also document geographic colour clines and regional differentiation, but these studies do not establish whether the spatial organization of flower-colour variation shows a broader comparative association with species-level occupied climate.
+Flower colour is a well-documented system in which variation has been linked to pollinators, abiotic stress, pleiotropy, drift, mating systems and demography [CITATIONS REQUIRED]. Comparative syntheses usually ask whether colour variation is present or how mean floral traits correlate with climate. They rarely treat the spatial organization of variation as a comparative property.
 
-A central conceptual problem is terminology. We use **intraspecific flower-colour variation** as the umbrella term. **Within-population flower-colour polymorphism** refers to discrete colour variants documented as coexisting within at least one natural population. **Geographically structured flower-colour variation** refers to colour variants documented among populations or regions without demonstrated local coexistence. The latter category should not automatically be called flower-colour polymorphism because coexistence at the population scale has not been established.
+We use **intraspecific flower-colour variation** as the umbrella term. **Within-population flower-colour polymorphism** requires documented coexistence of discrete variants within at least one natural population. **Geographically structured flower-colour variation** refers to variants differentiated among populations or regions without demonstrated local coexistence. Cases with evidence for both are classified as mixed.
 
-Here, we test whether these two documented spatial expressions differ in occupied climatic niche across a global literature-derived sample. The broad comparison between local coexistence and geographic differentiation was theory-led. Several occupied-climate metrics were evaluated, and moisture niche breadth is therefore treated as the focal reported association rather than as a prospectively preregistered endpoint. We explicitly retain the full metric-by-threshold result matrix to avoid presenting the focal association without its multiplicity context.
-
-We also address four alternative explanations and inferential risks. First, the association may depend on classification evidence quality. Second, it may be concentrated in one or a few taxonomic families. Third, occurrence sampling effort may influence niche estimates. Fourth, coarse fragmentation or climatic turnover in unlabelled GBIF occurrence clouds may correlate with the documented spatial category. Our aim is not to infer causation or local adaptation, but to test whether the documented spatial organization of flower-colour variation covaries with species-level realised climatic niche breadth while making evidence quality and ascertainment explicit.
+We tested whether these documented spatial expressions differ in occupied climatic niche across a literature-derived sample. Several climatic metrics were evaluated, so moisture niche breadth is treated as the focal reported association rather than a prospectively preregistered endpoint. We also assessed classification sensitivity, family concentration, occurrence effort and coarse occurrence-cloud alternatives.
 
 ## Methods
 
 ### Literature-derived study population
 
-The study population consisted of species identified through the repository's literature acquisition and validation pipeline as documented natural cases of intraspecific flower-colour variation. The candidate pool is not a random sample of angiosperms. Consequently, the inferential population is the assembled set of documented cases rather than all flowering plants, and the analysis does not estimate worldwide prevalence.
-
-The latest resolved evidence base contained 664 candidate species, of which 111 were retained as validated natural cases and 553 remained deferred. Literature effort strongly predicted validation probability in a separate ascertainment analysis. This relationship is reported to establish that the evidence base is shaped by research effort, not as a biological prevalence model.
+The evidence base consisted of species identified by the repository pipeline as documented natural cases of intraspecific flower-colour variation. The candidate pool is not a random sample of angiosperms, and inference is limited to the assembled documented cases.
 
 ### Spatial-organization classification
 
-Each retained case was classified using source text as `within_population`, `among_population`, `mixed`, or `unclear`. Within-population cases required explicit evidence that multiple discrete colour variants coexisted within at least one natural population. Among-population cases required evidence of colour differentiation among populations or regions without demonstrated local coexistence. Mixed and unclear cases were excluded from binary spatial-scale models.
+Each case was classified as `within_population`, `among_population`, `mixed` or `unclear`. Within-population classification required explicit local coexistence. Among-population classification required geographic differentiation without retained evidence of coexistence. Text indicating both within- and among-population structure produced a mixed classification and exclusion from binary models.
 
-The baseline-unambiguous set retained cases whose classification was directly supported by the baseline source record. The pipeline preserves species name, family, assigned spatial category, classification source, source title, DOI or OpenAlex identifier, evidence snippet, and review note. The strict list is sorted deterministically and written with a SHA-256 digest. Any later change must be recorded in a correction log. Classifications were frozen independently of the climatic model output.
-
-A broader evidence set incorporated high-confidence literature enrichment for cases unresolved by baseline evidence. This set was analysed as a generalization sensitivity analysis rather than as a replacement for the baseline-unambiguous set.
+The classifier was audited after source identifiers and evidence snippets were propagated into the analysis dataset. This audit revealed that plural `within populations` had not been recognized. The rule was corrected before the final rerun. The frozen manifest preserves species, family, category, source title, identifier, evidence text and decision note, together with a SHA-256 digest and correction log.
 
 ### Occurrence data and climatic niche metrics
 
-Species occurrences were obtained from GBIF and cleaned through the repository workflow. Records without valid coordinates were removed, duplicate and unsuitable records were filtered according to the pipeline rules, and occurrences were summarized by occupied climate cells. WorldClim 2.1 bioclimatic layers supplied climatic values [RESOLUTION AND VARIABLES TO BE INSERTED FROM PIPELINE DOCUMENTATION]. Species-level metrics included PCA dispersion, climatic heterogeneity, PCA hull area, temperature breadth, and moisture breadth.
-
-These metrics describe realised occupied climatic space represented by cleaned occurrence records. They do not estimate fundamental physiological tolerance and are not assigned to individual colour morphs.
+Species occurrences were obtained from GBIF and cleaned through the repository workflow. Records were summarized by occupied climate cells and linked to WorldClim 2.1 bioclimatic data [RESOLUTION AND VARIABLES TO BE INSERTED]. Metrics included PCA dispersion, climatic heterogeneity, PCA hull area, temperature breadth and moisture breadth. These represent realised occupied climate, not physiological tolerance or morph-specific climate.
 
 ### Comparative models
 
-For each climatic metric and minimum occupied-cell threshold of 10, 20, 30, or 50 cells, we fitted a binomial generalized linear model with logit link:
+For each metric and minimum occupied-cell threshold of 10, 20, 30 or 50 cells, we fitted:
 
 `among ~ metric_z + effort_z`
 
-where `among` equalled one for geographically structured variation and zero for within-population polymorphism, `metric_z` was the standardized climatic niche metric, and `effort_z` was the standardized log-transformed number of occupied climate cells. Models were fitted in `statsmodels` using a binomial GLM. Sandwich covariance was clustered by plant family. We report the log-odds coefficient, clustered standard error, odds ratio, Wald 95% confidence interval, clustered Wald p-value, species and family counts, class counts, convergence status, iteration count, and fitted-probability range.
+where `among` equalled one for geographically structured variation, `metric_z` was the standardized niche metric and `effort_z` was standardized `log1p(n_climate_cells)`. Models used `statsmodels` binomial GLMs with logit link and family-clustered sandwich covariance.
 
-For the focal moisture-breadth comparison, we additionally used 9,999 permutations of spatial-category labels to obtain a two-sided permutation p-value. Leave-one-family-out models quantified whether the direction depended on any represented family. These analyses reduce sensitivity to individual families but do not constitute a phylogenetic comparative analysis.
+For focal moisture comparisons, we additionally used 9,999 label permutations and leave-one-family-out refits. These analyses reduce dependence on individual families but are not phylogenetic comparative models.
 
 ### Coarse spatial negative controls
 
-We evaluated GBIF point-cloud fragmentation metrics and generic climatic turnover among unsupervised occurrence components. These tests address whether coarse properties of the sampled occurrence cloud account for the focal association. The components are not interpreted as biological populations, barriers, gene-flow units, or morph distributions.
+GBIF point-cloud fragmentation and generic climatic turnover among unsupervised occurrence components were examined as coarse alternative explanations. Components were not interpreted as populations, barriers or morph distributions.
 
 ## Results
 
 ### Evidence base and ascertainment
 
-The resolved acquisition artifact contained 664 candidates and 111 validated natural cases. Validation probability increased strongly with retained literature effort and showed nonlinear saturation. This confirms that the documented evidence base is research-effort dependent and should not be interpreted as a representative census of angiosperms.
+The resolved dataset contained 664 candidates and 111 validated natural cases. Validation probability increased strongly with retained literature effort, confirming that the evidence base is research-effort dependent.
 
-### Candidate-versus-control climatic niche comparison
+### Candidate-versus-control comparison
 
-The matched comparison included 70 focal species and 243 taxonomically matched control species. Across five occupied-climate metrics and multiple occurrence thresholds, there was no clear evidence that documented colour-variable species generally occupied broader climatic niches than matched controls. At the same-genus, 20-cell specification, all confidence intervals included an odds ratio of one.
+The matched comparison included 70 focal species and 243 taxonomically matched controls. Across five metrics and four thresholds, there was no clear evidence that documented colour-variable species generally occupied broader climatic niches.
 
-### Spatial organization and moisture niche breadth
+### Audited spatial organization and moisture breadth
 
-The validated baseline-unambiguous moisture model contained 34 species from 25 families: 19 within-population and 15 among-population cases. The coefficient for standardized moisture breadth was negative, corresponding to an odds ratio of 0.403 for geographically structured rather than within-population variation. The family-clustered 95% confidence interval was 0.165–0.985, and the clustered Wald p-value was 0.0463. The model converged in four iterations.
+The final baseline-unambiguous model contained 34 species from 25 families: 20 within-population and 14 among-population cases. The standardized moisture-breadth coefficient was -0.854, corresponding to an odds ratio of 0.426. The family-clustered 95% confidence interval was 0.184–0.985 and the clustered Wald p-value was 0.0460. The model converged in four iterations.
 
-Permutation inference gave a two-sided p-value of 0.0439 from 9,999 valid permutations. After omitting each represented family in turn, odds ratios ranged from 0.284 to 0.456 and remained below one in every refit. Thus, the negative direction was not produced by any single represented family.
+The two-sided permutation p-value was 0.0556 from 9,999 valid permutations. Leave-one-family-out odds ratios ranged from 0.317 to 0.481 and remained below one in every refit. Thus, the negative direction was not attributable to one represented family, although permutation support was borderline.
 
-The broader evidence set produced a weaker estimate. Its moisture-breadth odds ratio was 0.566, with a 95% confidence interval of 0.293–1.093 and a permutation p-value of 0.0886. The attenuation indicates that the inferred association depends on classification evidence quality.
+The broader evidence set contained 51 species from 29 families and produced a weaker estimate: odds ratio 0.563, 95% confidence interval 0.292–1.085 and permutation p = 0.0944. This attenuation demonstrates sensitivity to classification evidence.
 
 ### Multiplicity context
 
-All five climatic metrics were evaluated at four minimum occupied-cell thresholds, yielding a complete 20-specification matrix. The moisture-breadth result is presented as the focal reported association because it produced the clearest evidence-sensitive pattern, not because it was the only climatic metric evaluated. The complete matrix is retained in the supplementary outputs.
+All five metrics were evaluated at four thresholds, yielding 20 specifications. Moisture breadth is presented as the focal association because it produced the clearest evidence-sensitive pattern, not because it was the sole metric examined.
 
 ### Coarse occurrence-cloud alternatives
 
-No examined point-cloud fragmentation metric showed a clear independent association with documented spatial organization after accounting for moisture breadth and sampling effort. Adding fragmentation metrics did not improve model fit relative to the baseline moisture model, and the moisture coefficient remained negative.
-
-Generic climatic turnover among unsupervised occurrence components was also not associated with documented spatial organization. At the primary 100-km, minimum-three-record specification, the turnover odds ratio was 1.007, with a 95% confidence interval of 0.367–2.760 and p = 0.989. These results do not show that fragmentation or environmental differentiation is absent. They show only that the examined coarse, unlabelled occurrence-cloud summaries did not account for the focal association.
+No examined fragmentation or generic turnover metric clearly accounted for the moisture association. These analyses do not demonstrate absence of morph-specific environmental sorting because occurrence records lack colour-state labels.
 
 ## Discussion
 
-Our analysis identifies an evidence-sensitive association between species-level realised moisture niche breadth and the documented spatial organization of intraspecific flower-colour variation. In the baseline-unambiguous set, geographically structured cases were associated with narrower moisture niche breadth than cases with documented within-population coexistence. The direction persisted after removing every represented family, but the estimate weakened when less certain classifications were included.
+The audited analysis identifies a negative, evidence-sensitive association between realised moisture niche breadth and the documented spatial organization of flower-colour variation. The clustered interval narrowly excluded one, family-deletion direction was stable and permutation support was borderline. This combination warrants interpretation as suggestive comparative evidence rather than binary confirmation.
 
-Several biological interpretations are compatible with this pattern. Geographic differentiation may be more readily documented in species occupying comparatively restricted moisture contexts, or local coexistence may persist across a wider range of realised moisture conditions. Dispersal, demographic structure, range geometry, or research practices may also covary with occupied niche breadth. The present data cannot distinguish among these explanations. In particular, species-level GBIF occurrences lack colour-state labels, so the analysis does not test whether individual morphs occupy different climates or whether local adaptation maintains geographic colour differences.
+Several explanations remain compatible with the pattern. Geographic differentiation may be more frequently documented in species occupying restricted moisture contexts, local coexistence may persist across broader realised conditions, or dispersal, demography, range geometry and research practice may covary with both variables. The present data cannot distinguish these mechanisms.
 
-The evidence-set contrast is itself a major result. Comparative trait syntheses often treat categorical classifications as fixed observations, but literature-derived categories differ in directness and source quality. Here, the focal odds ratio shifted from 0.403 in the baseline-unambiguous set to 0.566 in the broader evidence set. This attenuation demonstrates that conclusions about spatial organization are sensitive to how confidently coexistence or geographic differentiation is documented. Publishing the frozen strict-set audit and the broader sensitivity analysis makes this uncertainty visible rather than absorbing it into a single pooled category.
+The classification audit materially changed the analysis. Recognizing plural within-population language moved a species with evidence at both scales out of the binary strict set. This illustrates why literature-derived categories should not be treated as error-free observations and why source-level manifests and correction logs are central analytical outputs.
 
-The family sensitivity results reduce concern that one well-studied lineage generated the association. Nevertheless, family-clustered uncertainty and leave-one-family-out refits are not substitutes for a species-level phylogeny. The result should therefore be interpreted as a cross-species association robust to represented-family deletion, not as a fully phylogenetically independent evolutionary relationship.
+The broader-set attenuation reinforces this point. The strict odds ratio was 0.426, whereas the broader estimate was 0.563 and its interval included one. Classification quality is therefore part of the substantive inference, not merely a data-cleaning concern.
 
-The coarse spatial analyses also require restraint. GBIF point-cloud components summarize sampled records rather than biological populations. Their failure to account for the moisture association does not reject morph-specific environmental sorting or geographic differentiation. A decisive mechanistic test would require documented colour states or named populations linked to localities, followed by direct comparison of environments among morph-labelled sites.
+Family-clustered uncertainty and family-deletion refits reduce sensitivity to single lineages but do not establish phylogenetic independence. Similarly, GBIF components are sampled point-cloud summaries rather than populations. Mechanistic tests require morph-labelled localities or named populations linked to environmental data.
 
-The study has additional limitations. The literature-derived sample is non-random and strongly influenced by publication effort. The strict analysis contains only 34 species. Multiple climatic metrics and thresholds were evaluated, and moisture breadth was selected as the focal reported association after comparative inspection. Species-level realised niches are imperfect proxies for the environments experienced by colour morphs. Local coexistence may also be under-documented relative to conspicuous geographic differences. These limitations restrict generality but do not erase the comparative signal observed in the strict evidence set.
-
-The broader contribution is conceptual and methodological. The spatial organization of intraspecific variation should be treated as a comparative property in its own right rather than collapsed into a polymorphic-versus-monomorphic label. Distinguishing local coexistence from geographic differentiation, while preserving source-level evidence and classification uncertainty, provides a more defensible basis for testing how phenotypic variation is distributed across species and environments.
+Limitations include the non-random literature sample, publication-effort dependence, modest strict-set size, multiple evaluated metrics, post-analysis focal selection, incomplete phylogenetic control and lack of morph-labelled occurrences. These limitations restrict generality but do not remove the value of treating spatial organization as a comparative trait.
 
 ## Data accessibility and reproducibility
 
-All analysis scripts, model specifications, evidence manifests, correction logs, complete metric-by-threshold results, and robustness outputs are maintained in the project repository. The final submission should provide a permanent archived release and DOI.
+Analysis scripts, source-level manifests, correction logs, model tables, complete metric-by-threshold outputs and robustness analyses are maintained in the repository. The final submission should archive a permanent release with a DOI.
 
 ## Items still required before submission
 
-- insert literature citations throughout the Introduction and Discussion;
-- insert exact WorldClim variables and spatial resolution;
-- verify author list, affiliations, acknowledgements, and funding;
-- add figure captions and supplementary table references;
-- archive a release and replace repository-only references with a permanent DOI;
-- perform final language and journal-format editing.
+- insert literature citations;
+- insert exact WorldClim variables and resolution;
+- verify authorship, affiliations, acknowledgements and funding;
+- finalize figure captions and supplementary cross-references;
+- archive a release and add a permanent DOI;
+- complete journal-format and language editing.
