@@ -18,8 +18,8 @@ import statsmodels.api as sm
 import statsmodels.formula.api as smf
 
 WITHIN = re.compile(
-    r"\b(within[- ]population|same population|coexist|co-occurr|morph frequenc|"
-    r"frequency[- ]dependent|polymorphic population|multiple (?:colou?r|flower) morphs|"
+    r"\b(within[- ]populations?|same populations?|coexist|co-occurr|morph frequenc|"
+    r"frequency[- ]dependent|polymorphic populations?|multiple (?:colou?r|flower) morphs|"
     r"colour morphs|color morphs)\b",
     re.I,
 )
@@ -95,6 +95,12 @@ def main() -> None:
 
     review = review.drop_duplicates("canonical_name").copy()
     review["baseline_scale"] = review.apply(baseline_scale, axis=1)
+    review["evidence_source"] = review.get("best_title", pd.Series("", index=review.index)).fillna("")
+    doi = review.get("best_doi", pd.Series("", index=review.index)).fillna("").astype(str).str.strip()
+    openalex = review.get("best_openalex_id", pd.Series("", index=review.index)).fillna("").astype(str).str.strip()
+    review["source_id"] = doi.where(doi.ne(""), openalex)
+    review["decision_note"] = review.get("best_match_evidence", pd.Series("", index=review.index)).fillna("")
+    review["review_note"] = review.get("review_reason", pd.Series("", index=review.index)).fillna("")
 
     for column in ("direct_colour_signal", "artificial_signal", "score", "within_signal", "among_signal"):
         works[column] = pd.to_numeric(works[column], errors="coerce").fillna(0)
