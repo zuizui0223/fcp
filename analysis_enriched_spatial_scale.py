@@ -7,7 +7,7 @@ import pandas as pd
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
 
-WITHIN = re.compile(r"\b(within[- ]population|same population|coexist|co-occurr|morph frequenc|frequency[- ]dependent|polymorphic population|multiple (?:colou?r|flower) morphs|colour morphs|color morphs)\b", re.I)
+WITHIN = re.compile(r"\b(within[- ]populations?|same populations?|coexist|co-occurr|morph frequenc|frequency[- ]dependent|polymorphic populations?|multiple (?:colou?r|flower) morphs|colour morphs|color morphs)\b", re.I)
 GEOGRAPHIC = re.compile(r"\b(geographic|spatial variation|among populations|between populations|population differentiation|cline|hybrid zone|range edge|local adaptation|translocation|regional variation)\b", re.I)
 
 
