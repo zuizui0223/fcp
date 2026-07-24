@@ -1,0 +1,47 @@
+name: Apply JBI classification transparency patch
+
+on:
+  pull_request:
+    paths:
+      - "tools/apply_jbi_classification_transparency_patch.py"
+      - ".github/workflows/apply-jbi-classification-transparency.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply-patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/jbi-final-editorial-revision
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply and validate classification transparency patch
+        run: |
+          python tools/apply_jbi_classification_transparency_patch.py
+          grep -q "source-traceable, rule-derived literature classifications" docs/jbi_manuscript_editorial_revision.md
+          grep -q "review_status = unreviewed" docs/jbi_manuscript_editorial_revision.md
+          grep -q "screening labels rather than final biological annotations" docs/jbi_manuscript_editorial_revision.md
+          ! grep -qi "audited" docs/jbi_manuscript_editorial_revision.md
+
+      - name: Commit manuscript transparency update
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/jbi_manuscript_editorial_revision.md
+          if git diff --cached --quiet; then
+            echo "No manuscript change"
+            exit 0
+          fi
+          git commit -m "Clarify rule-derived literature classifications"
+          git push origin HEAD:agent/jbi-final-editorial-revision
