@@ -1,0 +1,18 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import re,shutil,json,hashlib
+import pandas as pd
+R=Path(__file__).resolve().parents[1]; D=R/'docs'; S=D/'supporting'; O=R/'analysis_outputs'/'jbi_round3_integration'
+def sec(t,a,b,x):
+ p=re.compile(rf'(?ms)^{re.escape(a)}\n.*?(?=^{re.escape(b)}\n)'); assert len(p.findall(t))==1,(a,b); return p.sub(x.rstrip()+'\n\n',t,1)
+def one(t,a,b): assert t.count(a)==1,(a,t.count(a)); return t.replace(a,b,1)
+def cp():
+ S.mkdir(parents=True,exist_ok=True); q=O/'paginated_robustness'; a=O/'phylogenetic_original'; b=O/'phylogenetic_paginated'
+ shutil.copy(q/'climatic_niche_spatial_scale_robustness.csv',S/'jbi_table_s11_paginated_robustness.csv'); shutil.copy(q/'climatic_niche_spatial_scale_leave_one_family_out.csv',S/'jbi_table_s12_paginated_leave_one_family_out.csv')
+ pd.concat([pd.read_csv(a/'phylogenetic_logistic_summary.csv'),pd.read_csv(b/'phylogenetic_logistic_summary.csv')]).to_csv(S/'jbi_table_s13_phylogenetic_sensitivity_summary.csv',index=False)
+ n1=pd.read_csv(a/'phylogenetic_name_resolution.csv'); n2=pd.read_csv(b/'phylogenetic_name_resolution.csv'); assert n1.equals(n2); n1.to_csv(S/'jbi_table_s14_opentree_name_resolution.csv',index=False)
+ pd.concat([pd.read_csv(a/'phylogenetic_logistic_replicates.csv'),pd.read_csv(b/'phylogenetic_logistic_replicates.csv')]).to_csv(S/'jbi_table_s15_phylogenetic_replicates.csv',index=False)
+ tr=(a/'opentree_induced_topology.tre').read_text(); assert tr==(b/'opentree_induced_topology.tre').read_text(); (S/'jbi_opentree_induced_topology.tre').write_text(tr)
+ m={'run':30067762848,'artifact':8586932030,'digest':'sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f','original':json.loads((a/'phylogenetic_logistic_manifest.json').read_text()),'paginated':json.loads((b/'phylogenetic_logistic_manifest.json').read_text())}; (S/'jbi_phylogenetic_sensitivity_manifest.json').write_text(json.dumps(m,indent=2)+'\n')
+A='''## Abstract
+
