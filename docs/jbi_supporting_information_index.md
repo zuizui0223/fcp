@@ -29,7 +29,6 @@ Additional source-backed files:
 - `docs/jbi_classification_review_protocol.md`: blinded review instructions, operational labels and adjudication requirements; SHA-256 `fc6843828e43978086afc45e4168f1d09149d0edb45178f7a5f1d6bc0f298ee6`.
 - `docs/jbi_classification_rule_audit.md`: plural-expression code-parity audit documenting zero frozen-label changes; SHA-256 `771139b38a92efc5e2708bbe3702e06606efdef8196b612a1a68500d5f1849dc`.
 
-
 - **Appendix S1:** `docs/jbi_literature_search_provenance.md`, reconstructing automated discovery and follow-up/enrichment activity from 16–19 July 2026 and distinguishing it from unrecorded human-review metadata; SHA-256 `c8d347ebc48452d05bf77fe611a09e597310a05e9a259876a69ca6cc5f9e53cd`.
 - `docs/supporting/jbi_gbif_paginated_qc.json`: GBIF retrieval and filtering audit.
 - `docs/supporting/jbi_gbif_paginated_metrics_qc.json`: climate extraction and PCA audit.
