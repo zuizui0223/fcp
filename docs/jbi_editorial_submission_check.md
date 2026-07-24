@@ -6,7 +6,8 @@
 - Primary analysis: workflow run `29972327794`, artifact digest `sha256:87d8c9ba89f27685e362abeffa0e077330adb1923652f7a7df73572c5e274ac8`.
 - GBIF and Open Tree sensitivity: workflow run `30067762848`, artifact digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`.
 - Fixed-seed dated-megaphylogeny sensitivity: workflow run `30076757379`, artifact `8590190840`, digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`.
-- No author detail, funding statement, archive DOI, GBIF DOI, search date, declaration or molecular-phylogeny result has been invented.
+- Automated literature chronology: repository commits document global discovery and recorded follow-up/enrichment activity from 16 to 19 July 2026; the reconstruction is preserved in `docs/jbi_literature_search_provenance.md`.
+- No author detail, funding statement, archive DOI, GBIF DOI, human-screener identity, declaration or molecular-phylogeny result has been invented.
 
 ## Journal-format check
 
@@ -17,7 +18,8 @@
 | Structured abstract | ✓ Pass | Uses Aim, Location, Taxon, Methods, Results and Main conclusions and remains below 300 words. |
 | Keywords | ✓ Pass | Seven alphabetized keywords. |
 | Introduction | ✓ Pass | Defines the spatial-organization question and separates polymorphism from geographic differentiation. |
-| Literature discovery | △ Needs revision | Automated queries and filters are documented; original dates, manual screeners and adjudication remain `Not verified`. |
+| Automated literature chronology | ✓ Pass | Initial global output, deferred follow-up, evidence aggregation and ambiguous-case enrichment are dated from 16–19 July 2026 by repository commits. |
+| Manual screening documentation | △ Needs author confirmation | The repository does not identify human screener names or number, independent duplicate screening, agreement statistics or a formal disagreement-resolution procedure. |
 | Classification | ✓ Pass | Four classes, source audit, freeze rule and strict manifest are documented. |
 | GBIF methods | ✓ Pass analytically | Primary and paginated sensitivity workflows are described exactly. A citable GBIF derived-dataset DOI is missing. |
 | Climate and metrics | ✓ Pass | WorldClim variables, resolution, PCA and five metrics are reproducible. |
@@ -28,7 +30,7 @@
 | Discussion | ✓ Pass | Causal overstatement is removed; agreement in direction and uncertainty in inference are both explicit. |
 | References | ✓ Pass for cited text | Fifteen references support the current text. The GBIF data citation awaits a DOI. |
 | Tables and figures | ✓ Pass | Four main tables, two figure legends and Tables S1–S17 are cross-referenced. |
-| Supporting provenance | ✓ Pass | Analysis tables, placement audit, Open Tree topology, three dated trees and manifests are indexed with SHA-256 values. |
+| Supporting provenance | ✓ Pass | Analysis tables, literature chronology, placement audit, Open Tree topology, three dated trees and manifests are indexed or directly referenced. |
 | Data Accessibility | △ Needs revision | Permanent code/data DOI and GBIF DOI remain `Not verified`. |
 | Title page and declarations | ✗ Missing author confirmation | Authors, affiliations, ORCIDs, funding, CRediT, conflicts, acknowledgements and biosketch remain `Not verified`. |
 | Taxon image | ✗ Missing | Image, rights and caption remain `Not verified`. |
@@ -69,23 +71,22 @@ The defensible synthesis is:
 
 Do not describe the result as confirmed, phylogenetically robust, independent of ancestry or causal.
 
-## Round-four change history
+## Round-five change history
 
 | Before | After | Reason |
 |---|---|---|
-| Open Tree topology and Grafen branch lengths only | Added fixed-seed V.PhyloMaker2 S1–S3 models using a time-scaled vascular-plant backbone | Tested whether the result depended on the absence of dated branch lengths. |
-| Open Tree model retained 30 species | Dated-megaphylogeny models retained all 34 species | Removed sample loss as the sole explanation for broad phylogenetic intervals. |
-| One phylogenetic construction | Compared topology-based and time-scaled treatments | Separated directional consistency from inferential certainty. |
-| “A dated species phylogeny is needed” | Replaced with a limitation concerning six inserted taxa and the value of a species-specific molecular phylogeny | Removed an obsolete blocker without overstating the megaphylogeny. |
-| Tables S1–S15 | Added Table S16, Table S17, three fixed-seed dated trees and a provenance manifest | Made the dated analysis auditable and reproducible. |
+| Automated search execution dates marked `Not verified` | Reconstructed global discovery and follow-up/enrichment activity from repository commits dated 16–19 July 2026 | Replaced a broad uncertainty statement with auditable provenance. |
+| Search and human review treated as one unresolved block | Separated verified automated chronology from unrecorded human screening arrangements | Prevented commit timestamps from being misrepresented as reviewer metadata. |
+| No durable search-history supplement | Added Appendix S1 with commit SHA, timestamp, stage and epistemic boundary | Made the evidence-assembly chronology reviewable. |
+| Manual-review uncertainty described generically | Specified missing screener identities, duplicate screening, agreement and disagreement resolution | Defines exactly what authors must confirm. |
 
 ## Editor Check
 
 ### Provisional decision: **Major revision before submission**
 
-The manuscript now addresses occurrence-sampling sensitivity and phylogenetic non-independence using two distinct phylogenetic constructions. Directional consistency is stronger than before: the estimated moisture-breadth coefficient remained negative in every family-deletion refit, every Open Tree replicate and every dated-megaphylogeny scenario. Inferential certainty remains limited because all phylogenetic confidence intervals include one, moisture breadth was selected from a 20-specification matrix and the literature-derived response can contain classification error.
+The manuscript now addresses occurrence-sampling sensitivity and phylogenetic non-independence using two distinct phylogenetic constructions, and it documents the automated evidence-search chronology. Directional consistency is strong: the moisture-breadth estimate remained negative in every family-deletion refit, every Open Tree replicate and every dated-megaphylogeny scenario. Inferential certainty remains limited because all phylogenetic confidence intervals include one, moisture breadth was selected from a 20-specification matrix and the literature-derived response can contain classification error.
 
-The remaining `Major revision` label no longer reflects a missing phylogenetic analysis. It reflects a combination of exploratory focal selection, observational scale mismatch, non-random evidence assembly, unresolved author-controlled declarations and missing permanent data citations.
+The remaining `Major revision` label no longer reflects missing search dates or a missing phylogenetic analysis. It reflects exploratory focal selection, observational scale mismatch, non-random evidence assembly, incomplete documentation of human review, unresolved author-controlled declarations and missing permanent data citations.
 
 ### Likely reviewer concerns, in priority order
 
@@ -94,18 +95,18 @@ The remaining `Major revision` label no longer reflects a missing phylogenetic a
 3. **Scale mismatch.** Species-level realised niches cannot identify morph-specific climatic sorting.
 4. **Phylogenetic residual uncertainty.** Both phylogenetic treatments preserve the negative direction, but every interval includes one; six taxa were inserted into the dated backbone.
 5. **Non-random literature sampling.** Research effort, English queries and metadata availability shape inclusion.
-6. **Occurrence-data limits.** The paginated sample remains capped and lacks a citable GBIF download DOI.
-7. **Small comparative sample.** The strict comparison contains 34 species.
-8. **Manual review documentation.** Search dates, screeners and disagreement resolution remain missing.
+6. **Human review documentation.** The repository does not establish whether screening was single-reviewer, duplicated or formally adjudicated.
+7. **Occurrence-data limits.** The paginated sample remains capped and lacks a citable GBIF download DOI.
+8. **Small comparative sample.** The strict comparison contains 34 species.
 9. **Mechanistic non-identifiability.** Occurrences are not labelled by flower-colour morph.
 
 ## Remaining submission blockers
 
-- Record the original search dates, manual screeners and adjudication procedure.
+- Confirm the people who performed human screening/classification, the number of screeners and how disagreements were handled; state explicitly when duplicate screening or agreement assessment was not performed.
 - Archive the exact submission release and add its permanent DOI.
 - Create and cite a GBIF derived-dataset DOI.
 - Verify authors, affiliations, corresponding author, ORCIDs, funding and CRediT roles.
 - Obtain conflict-of-interest confirmations.
 - Complete Acknowledgements and the biosketch.
 - Select and clear the required taxon image.
-- Confirm whether the current time-scaled megaphylogeny sensitivity is adequate for submission or whether a bespoke species-level molecular tree is feasible; this is now an editorial-strengthening choice rather than an unaddressed analytical omission.
+- Confirm whether the current time-scaled megaphylogeny sensitivity is adequate for submission or whether a bespoke species-level molecular tree is feasible; this is an editorial-strengthening choice rather than an unaddressed analytical omission.
