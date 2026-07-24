@@ -32,8 +32,7 @@ Sincerely,
 
 Division of Forest and Biomaterials Science  
 Graduate School of Agriculture, Kyoto University  
-Kitashirakawa Oiwake-cho, Sakyo-ku  
-Kyoto 606-8502, Japan
+Kitashirakawa Oiwake-cho, Sakyo-ku, Kyoto 606-8502, Japan
 
 zhang.ruiqi.77h@st.kyoto-u.ac.jp
 
