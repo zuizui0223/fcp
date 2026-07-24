@@ -31,6 +31,7 @@ EXPLICIT_FILES = [
     "docs/jbi_cover_letter_template.md",
     "docs/jbi_supporting_information_index.md",
     "docs/jbi_literature_search_provenance.md",
+    "docs/jbi_author_metadata_provenance.md",
     "docs/jbi_taxon_image_candidate.md",
     "docs/jbi_gbif_doi_protocol.md",
     "docs/jbi_editorial_submission_check.md",
