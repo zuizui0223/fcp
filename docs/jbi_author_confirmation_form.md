@@ -2,6 +2,16 @@
 
 Complete this form using actual records and author agreement. Do not infer or retrospectively invent missing procedures. Replace each bracketed field or explicitly select `not performed` / `none` where that is the truth.
 
+## Verified prefill boundary
+
+The following details are already supported by a current author-provided record:
+
+- full name: **ZHANG RUIQI**;
+- institutional affiliation: **Graduate School of Agriculture, Kyoto University**;
+- current status in the source record: **research student**.
+
+The official English institutional name is confirmed by Kyoto University's website. Research-student status is recorded here for audit but is not automatically part of the journal affiliation line. Final author order, coauthors, division or laboratory, postal address, email, ORCID and corresponding-author status remain unverified.
+
 ## 1. Human evidence screening and classification
 
 ### People and roles
@@ -34,18 +44,26 @@ Choose wording that is factually correct:
 
 | Order | Full name | Affiliation number(s) | ORCID | Email | Author approval |
 |---:|---|---|---|---|---|
-| 1 | [Name] | [1] | [0000-0000-0000-0000] | [email] | [Yes/No] |
+| [Confirm order] | **ZHANG RUIQI** | 1 | Not verified | Not verified | Not verified |
+| [Add if applicable] | [Additional author] | [ ] | [ ] | [ ] | [Yes/No] |
 
 Corresponding author:
 
-- Name: [Name]
+- Name: [ZHANG RUIQI / another verified author]
 - Postal address: [Address]
 - Email: [Email]
 - Telephone, only if required by the submission system: [Number]
 
 ## 3. Affiliations
 
-1. [Department, institution, city, postal code, country]
+1. **Graduate School of Agriculture, Kyoto University, Kyoto, Japan.**
+
+Items still requiring confirmation before this becomes the final journal affiliation:
+
+- division, department or laboratory, when applicable;
+- Yoshida or Uji campus, when applicable;
+- postal address and postal code;
+- whether the submission system requires current status (`research student`).
 
 ## 4. CRediT author contributions
 
