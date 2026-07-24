@@ -30,16 +30,21 @@ jobs:
           r-version: "release"
           use-public-rspm: true
 
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::phylolm
+            any::rotl
+          cache-version: 1
+
       - name: Prepare output directory
         run: mkdir -p analysis_outputs/jbi_phylogenetic_sensitivity
 
       - name: Install Python dependencies
         run: |
           python -m pip install --disable-pip-version-check numpy pandas statsmodels
-
-      - name: Install R dependencies
-        run: |
-          Rscript -e 'install.packages(c("ape","jsonlite","phylolm","rotl"), repos="https://cloud.r-project.org")'
 
       - name: Validate R script and package loading
         run: |
