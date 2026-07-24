@@ -45,6 +45,7 @@ EXPLICIT_FILES = [
     "analysis_enriched_spatial_scale.py",
     "data/resolved_inputs/global_flower_colour_review_queue_resolved.csv",
     "build_jbi_blinded_classification_review.py",
+    "evaluate_jbi_completed_classification_review.py",
     "update_jbi_review_supporting_index.py",
     "analysis_phylogenetic_spatial_scale.R",
     "analysis_vphylomaker2_dated_spatial_scale.R",
