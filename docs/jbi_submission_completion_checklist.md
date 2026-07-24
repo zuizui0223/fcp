@@ -36,7 +36,7 @@ This checklist contains only fields that still require verified author input, au
 | Primary-analysis artifact | ✓ Verified | Workflow run `29972327794`; digest `sha256:87d8c9ba89f27685e362abeffa0e077330adb1923652f7a7df73572c5e274ac8`. |
 | GBIF/Open Tree sensitivity artifact | ✓ Verified | Workflow run `30067762848`; artifact `8586932030`; digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`. |
 | Dated-megaphylogeny artifact | ✓ Verified | Fixed-seed workflow run `30076757379`; artifact `8590190840`; digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`. |
-| Integrated submission and GBIF validation | ✓ Verified | CI run `30083219726` passed; artifact `8592633639`, digest `sha256:7ca9c18500ca5adc7d62c68c193f9d6113ceea2f31f24605146d2a8c893ceb24`. |
+| Integrated submission and GBIF validation | ✓ Verified | `PR JBI submission package validation` checks journal structure, numerical guardrails, S1–S17 hashes and the exact GBIF bundle on every relevant change. |
 | Exact GBIF occurrence subset | ✓ Frozen and validated | 58,455 rows, 34 species, 58,455 unique occurrence keys and 389 parent datasets; archive SHA-256 `f25ae0cf2c84c45ae461a932d6c6063edda64591913a2495e4a3da82d573f094`. |
 | Broad GBIF download request | ✓ Prepared | Replace the account email and submit with `submit_jbi_gbif_download.py` using authenticated GBIF credentials. |
 | GBIF Derived Dataset registration bundle | ✓ Prepared | Parent-dataset counts, exact archive and metadata template are in `docs/supporting/jbi_gbif_doi_bundle/`. |
@@ -45,8 +45,8 @@ This checklist contains only fields that still require verified author input, au
 | GBIF Derived Dataset DOI | △ Authenticated registration required | Register the exact subset using the prepared 389-dataset contribution table. |
 | Permanent repository release DOI | △ External archive required | Freeze the final commit and archive the exact release through Zenodo or another approved service. |
 | Archive protocol and Zenodo metadata | ✓ Prepared | See `docs/jbi_archive_release_protocol.md` and `docs/jbi_zenodo_metadata_template.json`. |
-| Deterministic release preview | ✓ Verified | Run `30083219794` built a 52-file preview from head `2a51e0ef5627d4e2eb8d91c6716b18e396f9ff2a`; artifact `8592636214`, digest `sha256:1f90ec783982e44bc83e4259920d2105d78dfa5f0dc5191af0b14ed418c946e7`. |
-| Preview submission ZIP | ✓ Verified | ZIP SHA-256 `358b0c4ced2da80307b8e219ba3dcd9fb7d8c23396bdc6f5b965bc582451b736`; strict mode remains blocked only by explicit author/DOI placeholders. |
+| Deterministic release preview | ✓ Verified | `PR JBI release dry run` validates both packages and builds a manifest with source commit, file sizes, SHA-256 values and the deterministic journal-facing ZIP. |
+| Release-integrity boundary | ✓ Verified | Known generated reports are ignored; any substantive dirty working-tree change fails strict mode. |
 | Data Accessibility Statement | △ Ready for identifier insertion | Exact subset, citation boundary and protocol are documented; insert final release, broad-download and Derived Dataset DOI citations. |
 
 ## 4. Phylogenetic evidence
@@ -79,14 +79,14 @@ This checklist contains only fields that still require verified author input, au
 
 ## 6. Strict release blockers detected by CI
 
-The current preview reports four unresolved placeholder groups:
+The current preview is expected to report exactly four unresolved placeholder files:
 
-1. cover-letter author declarations and contact details;
-2. manuscript `Not verified` statements for human review and final DOI citations;
-3. title-page author/declaration fields;
-4. Zenodo `REPLACE_...` metadata.
+1. `docs/jbi_cover_letter_template.md` — author declarations and contact details;
+2. `docs/jbi_manuscript_editorial_revision.md` — human-review wording and final DOI citations;
+3. `docs/jbi_title_page_template.md` — authorship and declarations;
+4. `docs/jbi_zenodo_metadata_template.json` — creator, licence, version and identifiers.
 
-These are deliberate guardrails. Do not remove them until verified values are available.
+Any additional placeholder file fails the release-preview workflow. Do not remove the four expected guards until verified values are available.
 
 ## 7. Final release gate
 
