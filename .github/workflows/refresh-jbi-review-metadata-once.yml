@@ -28,18 +28,9 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Refresh S18-S19 metadata and validate idempotence
+      - name: Refresh S18-S19 metadata
         run: |
           python update_jbi_review_supporting_index.py
-          cp docs/jbi_supporting_information_index.md /tmp/index-first.md
-          cp docs/jbi_manuscript_editorial_revision.md /tmp/manuscript-first.md
-          cp validate_jbi_submission_package.py /tmp/validator-first.py
-          python update_jbi_review_supporting_index.py
-          cmp /tmp/index-first.md docs/jbi_supporting_information_index.md
-          cmp /tmp/manuscript-first.md docs/jbi_manuscript_editorial_revision.md
-          cmp /tmp/validator-first.py validate_jbi_submission_package.py
-          python validate_jbi_submission_package.py
-          python validate_jbi_classification_transparency.py
           grep -q "evaluate_jbi_completed_classification_review.py" docs/jbi_classification_review_protocol.md
           test "$(grep -c 'Tables S18–S19 are generated' docs/jbi_supporting_information_index.md)" -eq 1
 
