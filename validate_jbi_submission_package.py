@@ -2,9 +2,9 @@
 """Validate the Journal of Biogeography manuscript package without changing it.
 
 The validator checks journal-facing structure, numerical guardrails, supporting-file
-provenance and unresolved submission fields. It is intentionally strict: failures
-identify inconsistent or unsafe claims, whereas unresolved author-controlled fields
-are reported as blockers rather than invented.
+provenance, DOI-preparation documentation and unresolved submission fields. It is
+intentionally strict: failures identify inconsistent or unsafe claims, whereas
+unresolved author-controlled fields are reported as blockers rather than invented.
 """
 from __future__ import annotations
 
@@ -20,8 +20,16 @@ INDEX = DOCS / "jbi_supporting_information_index.md"
 EDITORIAL = DOCS / "jbi_editorial_submission_check.md"
 CHECKLIST = DOCS / "jbi_submission_completion_checklist.md"
 TITLE_PAGE = DOCS / "jbi_title_page_template.md"
+COVER_LETTER = DOCS / "jbi_cover_letter_template.md"
+AUTHOR_FORM = DOCS / "jbi_author_confirmation_form.md"
 SEARCH_PROVENANCE = DOCS / "jbi_literature_search_provenance.md"
+TAXON_IMAGE = DOCS / "jbi_taxon_image_candidate.md"
+GBIF_PROTOCOL = DOCS / "jbi_gbif_doi_protocol.md"
+ARCHIVE_PROTOCOL = DOCS / "jbi_archive_release_protocol.md"
+ZENODO_TEMPLATE = DOCS / "jbi_zenodo_metadata_template.json"
 REPORT = DOCS / "jbi_submission_validation_report.json"
+GBIF_BUNDLE = DOCS / "supporting/jbi_gbif_doi_bundle"
+EXACT_GBIF_SHA = "f25ae0cf2c84c45ae461a932d6c6063edda64591913a2495e4a3da82d573f094"
 
 
 def sha256(path: Path) -> str:
@@ -80,7 +88,13 @@ def main() -> None:
         EDITORIAL,
         CHECKLIST,
         TITLE_PAGE,
+        COVER_LETTER,
+        AUTHOR_FORM,
         SEARCH_PROVENANCE,
+        TAXON_IMAGE,
+        GBIF_PROTOCOL,
+        ARCHIVE_PROTOCOL,
+        ZENODO_TEMPLATE,
         DOCS / "figures/moisture_effect_strict_vs_enriched.svg",
         DOCS / "figures/moisture_leave_one_family_out.svg",
         DOCS / "supporting/jbi_opentree_induced_topology.tre",
@@ -89,6 +103,14 @@ def main() -> None:
         DOCS / "supporting/jbi_dated_phylogeny_s3.tre",
         DOCS / "supporting/jbi_phylogenetic_sensitivity_manifest.json",
         DOCS / "supporting/jbi_dated_phylogeny_manifest.json",
+        GBIF_BUNDLE / "jbi_gbif_exact_occurrence_subset.csv.gz",
+        GBIF_BUNDLE / "jbi_gbif_parent_dataset_counts.csv",
+        GBIF_BUNDLE / "jbi_gbif_exact_species_counts.csv",
+        GBIF_BUNDLE / "jbi_gbif_broad_download_request.json",
+        GBIF_BUNDLE / "jbi_gbif_derived_dataset_metadata_template.json",
+        GBIF_BUNDLE / "jbi_gbif_doi_bundle_manifest.json",
+        ROOT / "prepare_jbi_submission_release.py",
+        ROOT / "validate_jbi_gbif_doi_bundle.py",
     ]
     for path in required_files:
         require(path.is_file() and path.stat().st_size > 0, f"Missing or empty file: {path}", failures)
@@ -98,7 +120,13 @@ def main() -> None:
     editorial = EDITORIAL.read_text(encoding="utf-8")
     checklist = CHECKLIST.read_text(encoding="utf-8")
     title_page = TITLE_PAGE.read_text(encoding="utf-8")
+    cover_letter = COVER_LETTER.read_text(encoding="utf-8")
+    author_form = AUTHOR_FORM.read_text(encoding="utf-8")
     provenance = SEARCH_PROVENANCE.read_text(encoding="utf-8")
+    taxon_image = TAXON_IMAGE.read_text(encoding="utf-8")
+    gbif_protocol = GBIF_PROTOCOL.read_text(encoding="utf-8")
+    archive_protocol = ARCHIVE_PROTOCOL.read_text(encoding="utf-8")
+    zenodo_template = ZENODO_TEMPLATE.read_text(encoding="utf-8")
 
     title_match = re.search(r"^# (.+)$", manuscript, re.MULTILINE)
     running_match = re.search(r"^\*\*Running title:\*\* (.+)$", manuscript, re.MULTILINE)
@@ -153,6 +181,9 @@ def main() -> None:
         "from 16 to 19 July 2026",
         "Tables S16–S17",
         "Appendix S1",
+        "58,455-row occurrence subset",
+        "389 parent GBIF datasets",
+        EXACT_GBIF_SHA,
     ]
     for phrase in numerical_guardrails:
         require(phrase in manuscript, f"Required manuscript guardrail missing: {phrase}", failures)
@@ -206,21 +237,34 @@ def main() -> None:
         supporting_checks.append({**row, "exists": exists, "actual_rows": actual_rows, "actual_sha256": actual_sha})
 
     require("Appendix S1" in index_text and "jbi_literature_search_provenance.md" in index_text, "Appendix S1 missing from Supporting index", failures)
+    require("jbi_gbif_exact_occurrence_subset.csv.gz" in index_text, "Exact GBIF archive missing from Supporting index", failures)
+    require(EXACT_GBIF_SHA in index_text, "Exact GBIF archive SHA missing from Supporting index", failures)
     require("16 to 19 July 2026" in provenance, "Search-date range missing from provenance appendix", failures)
     require("must not be reconstructed retrospectively" in provenance, "Human-review boundary missing from provenance appendix", failures)
 
+    require(re.search(r"GBIF\s+derived[- ]dataset\s+DOI", checklist, flags=re.IGNORECASE) is not None, "GBIF Derived Dataset DOI blocker missing from submission checklist", failures)
+    require("human screening/classification" in checklist.lower(), "Human-review blocker missing from submission checklist", failures)
+    require("prepare_jbi_submission_release.py --strict" in checklist, "Strict release gate missing from submission checklist", failures)
+    require("Human evidence screening and classification" in author_form, "Human-review section missing from author confirmation form", failures)
+    require("CRediT author contributions" in author_form, "CRediT section missing from author confirmation form", failures)
+    require("Final submission sign-off" in author_form, "Final sign-off missing from author confirmation form", failures)
+    require("Why two GBIF citation records are needed" in gbif_protocol, "GBIF citation boundary missing from protocol", failures)
+    require(EXACT_GBIF_SHA in gbif_protocol, "Exact GBIF archive SHA missing from protocol", failures)
+    require("python prepare_jbi_submission_release.py --strict" in archive_protocol, "Strict release command missing from archive protocol", failures)
+    require("REPLACE_WITH_COMMIT_SHA" in zenodo_template, "Zenodo commit placeholder missing", failures)
+    require("CC0" in taxon_image and "Ipomoea purpurea" in taxon_image, "Verified taxon-image candidate missing", failures)
+    require("AUTHOR CONFIRMATION REQUIRED" in cover_letter, "Cover-letter author guardrails missing", failures)
+
     unresolved_counts = {
-        "manuscript_not_verified": manuscript.count("Not verified"),
-        "editorial_not_verified": editorial.count("Not verified"),
-        "checklist_not_verified": checklist.count("Not verified"),
-        "title_page_not_verified": title_page.count("Not verified"),
+        "manuscript_not_verified": manuscript.lower().count("not verified"),
+        "editorial_not_verified": editorial.lower().count("not verified"),
+        "checklist_not_verified": checklist.lower().count("not verified"),
+        "title_page_not_verified": title_page.lower().count("not verified"),
+        "cover_letter_confirmation_markers": cover_letter.count("AUTHOR CONFIRMATION REQUIRED"),
+        "zenodo_replace_markers": zenodo_template.count("REPLACE_"),
     }
     if unresolved_counts["manuscript_not_verified"]:
         warnings.append(f"Anonymized manuscript still contains {unresolved_counts['manuscript_not_verified']} `Not verified` markers")
-    if "GBIF derived-dataset DOI" not in checklist:
-        failures.append("GBIF DOI blocker missing from submission checklist")
-    if "human screening/classification" not in checklist:
-        failures.append("Human-review blocker missing from submission checklist")
 
     manuscript_body = section(manuscript, "## Introduction", "## References")
     manuscript_words = word_count(manuscript_body)
@@ -235,6 +279,7 @@ def main() -> None:
         "keywords": keywords,
         "introduction_through_discussion_words": manuscript_words,
         "supporting_tables": supporting_checks,
+        "exact_gbif_archive_sha256": EXACT_GBIF_SHA,
         "unresolved_counts": unresolved_counts,
         "warnings": warnings,
         "failures": failures,
