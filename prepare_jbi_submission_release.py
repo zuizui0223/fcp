@@ -3,9 +3,9 @@
 
 Preview mode permits explicit author-controlled placeholders and reports them.
 Strict mode fails if journal-facing files retain unresolved placeholders or if the
-working tree is dirty. The repository release itself should still be archived
-through a permanent service such as Zenodo; this script builds the journal-facing
-bundle and an auditable manifest from the frozen source commit.
+working tree has substantive uncommitted changes. Known generated validation and
+release outputs are excluded from that dirty-tree decision. The repository release
+itself should still be archived through a permanent service such as Zenodo.
 """
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
+GENERATED_REPORTS = {"docs/jbi_submission_validation_report.json"}
 
 EXPLICIT_FILES = [
     "docs/jbi_manuscript_editorial_revision.md",
@@ -53,10 +54,6 @@ STRICT_TEXT_FILES = {
     "docs/jbi_cover_letter_template.md": [r"REPLACE_", r"\[[^\]]+\]"],
     "docs/jbi_zenodo_metadata_template.json": [r"REPLACE_"],
 }
-
-
-def sha256_bytes(data: bytes) -> str:
-    return hashlib.sha256(data).hexdigest()
 
 
 def sha256_file(path: Path) -> str:
@@ -111,6 +108,26 @@ def validate_required_files(files: list[Path]) -> None:
         raise SystemExit(f"Missing or empty release files: {missing}")
 
 
+def porcelain_path(line: str) -> str:
+    value = line[3:].strip() if len(line) >= 4 else line.strip()
+    if " -> " in value:
+        value = value.rsplit(" -> ", 1)[1]
+    return value.strip('"')
+
+
+def substantive_status(lines: list[str], output_dir_relative: str) -> list[str]:
+    output_prefix = output_dir_relative.rstrip("/") + "/"
+    retained: list[str] = []
+    for line in lines:
+        path = porcelain_path(line)
+        if path in GENERATED_REPORTS:
+            continue
+        if path == output_dir_relative.rstrip("/") or path.startswith(output_prefix):
+            continue
+        retained.append(line)
+    return retained
+
+
 def write_deterministic_zip(files: list[Path], destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(destination, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
@@ -134,11 +151,12 @@ def main() -> None:
     validate_required_files(files)
 
     commit_sha = git_text("rev-parse", "HEAD")
-    status_lines = [line for line in git_text("status", "--porcelain").splitlines() if line]
+    raw_status = [line for line in git_text("status", "--porcelain").splitlines() if line]
+    effective_status = substantive_status(raw_status, Path(args.output_dir).as_posix())
     findings = placeholder_findings(files)
 
-    if args.strict and status_lines:
-        raise SystemExit(f"Strict release requires a clean working tree: {status_lines}")
+    if args.strict and effective_status:
+        raise SystemExit(f"Strict release requires no substantive uncommitted changes: {effective_status}")
     if args.strict and findings:
         raise SystemExit(f"Strict release blocked by unresolved placeholders: {findings}")
 
@@ -160,8 +178,10 @@ def main() -> None:
     manifest = {
         "status": "strict-pass" if args.strict else "preview",
         "source_commit": commit_sha,
-        "working_tree_clean": not status_lines,
-        "working_tree_status": status_lines,
+        "working_tree_clean_for_release": not effective_status,
+        "raw_working_tree_status": raw_status,
+        "substantive_working_tree_status": effective_status,
+        "ignored_generated_paths": sorted(GENERATED_REPORTS | {Path(args.output_dir).as_posix()}),
         "file_count": len(file_records),
         "files": file_records,
         "placeholder_findings": findings,
