@@ -10,11 +10,17 @@ Flower-colour variation and climate
 
 ## Authors and affiliations
 
-**Not verified.** Insert the final author list, institutional affiliations and ORCID identifiers exactly as approved by all authors.
+The following identity and institutional affiliation are verified from a current author-provided record and the institution's official English naming:
+
+- **ZHANG RUIQI** — Graduate School of Agriculture, Kyoto University, Kyoto, Japan.
+
+The source record describes ZHANG RUIQI as a research student. Academic status is recorded for confirmation but should not be inserted into the affiliation line unless required by the submission system.
+
+**Not verified:** final author order, any additional authors, division or laboratory, campus and postal address, ORCID identifiers, email addresses and approval of the final author list.
 
 ## Corresponding author
 
-**Not verified.** Journal of Biogeography permits one corresponding author. Insert the verified name, postal address and email address.
+**Not verified.** Journal of Biogeography permits one corresponding author. Confirm whether ZHANG RUIQI or another author will serve in this role, then insert the verified name, postal address and email address.
 
 ## Acknowledgements
 
@@ -51,7 +57,7 @@ Flower-colour variation and climate
 
 Analysis code and current outputs are maintained in the public GitHub repository `zuizui0223/fcp`.
 
-**Not verified:** insert the DOI for the archived, exact submission release and the GBIF derived-dataset DOI.
+**Not verified:** insert the DOI for the archived, exact submission release, the broad GBIF occurrence download DOI and the GBIF Derived Dataset DOI.
 
 ## Biosketch
 
