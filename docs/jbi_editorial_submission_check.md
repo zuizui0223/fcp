@@ -21,13 +21,13 @@
 |---|---|---|
 | Title | ✓ Pass | 74 characters and non-causal. |
 | Running title | ✓ Pass | 35 characters. |
-| Structured abstract | ✓ Pass | Uses Aim, Location, Taxon, Methods, Results and Main conclusions; validated length is 244 words. |
+| Structured abstract | ✓ Pass | Uses Aim, Location, Taxon, Methods, Results and Main conclusions; validated length is 245 words. |
 | Keywords | ✓ Pass | Seven alphabetized keywords. |
-| Main-text length | ✓ Pass | Introduction–Discussion contains 4,424 words in the validated branch state. |
+| Main-text length | ✓ Pass | Introduction–Discussion contains 4,537 words in the validated branch state. |
 | Introduction | ✓ Pass | Defines the spatial-organization question and separates polymorphism from geographic differentiation. |
 | Automated literature chronology | ✓ Pass | Initial global output, deferred follow-up, evidence aggregation and ambiguous-case enrichment are dated from 16–19 July 2026 by repository commits. |
-| Manual screening documentation | △ Needs author confirmation | The repository does not identify human screener names or number, independent duplicate screening, agreement statistics or a formal disagreement-resolution procedure. |
-| Classification | ✓ Pass | Four classes, source audit, freeze rule and strict manifest are documented. |
+| Classification review state | △ Rule-derived; human review pending | Labels are source-traceable and rule-derived; the resolved queue remains `unreviewed`. S18 is a blank blinded 34-species review sheet, S19 is the separate key, and the evaluator computes agreement without changing analysis inputs. |
+| Classification transparency | ✓ Pass | Four operational classes, deterministic rules, the frozen manifest, 34/34 rule reproduction, source matching, plural-expression audit and the human-review boundary are documented. |
 | GBIF methods | ✓ Pass analytically | Primary and paginated sensitivity workflows are described exactly. |
 | Exact GBIF citation bundle | ✓ Prepared and validated | The exact subset, parent-dataset counts, species counts, broad request, Derived Dataset metadata and manifest are fixed and cross-validated. |
 | GBIF DOI issuance | △ Authenticated action required | A broad download DOI and exact-subset Derived Dataset DOI have not yet been issued. |
@@ -38,9 +38,9 @@
 | Results | ✓ Pass | Primary, broader, matched-control, occurrence-sampling and both phylogenetic treatments are reported with uncertainty. |
 | Discussion | ✓ Pass | Causal overstatement is removed; agreement in direction and uncertainty in inference are both explicit. |
 | References | ✓ Pass for cited text | Fifteen references support the current text. Final GBIF data citations await issued identifiers. |
-| Tables and figures | ✓ Pass | Four main tables, two figure legends and Tables S1–S17 are cross-referenced. |
-| Supporting provenance | ✓ Pass | Analysis tables, literature chronology, placement audit, Open Tree topology, three dated trees, exact GBIF bundle and manifests are indexed or directly referenced. |
-| Automated package QA | ✓ Pass | File presence, figure links, required estimates, forbidden claims, S1–S17 row counts, all indexed SHA-256 values, exact GBIF counts and author-prefill boundaries are checked in CI. |
+| Tables and figures | ✓ Pass | Four main tables, two figure legends and Tables S1–S19 are cross-referenced. |
+| Supporting provenance | ✓ Pass | Analysis tables, literature chronology, S18/S19 review packet, classification protocol and rule audit, placement audit, phylogenies, exact GBIF bundle and manifests are indexed or directly referenced. |
+| Automated package QA | ✓ Pass | File presence, figure links, required estimates, forbidden claims, S1–S19 row counts, all indexed SHA-256 values, exact GBIF counts and author-prefill boundaries are checked in CI. |
 | Data Accessibility | △ Ready for DOI insertion | The exact citation boundary and archive files are documented; final repository, broad-download and Derived Dataset DOI citations remain. |
 | Deterministic release package | ✓ Preview passes | The preview records its source commit and deterministic ZIP hash in the external workflow artifact, avoiding self-reference inside packaged documents. |
 | Strict release package | △ Deliberately blocked | Four placeholder groups remain: cover letter, manuscript DOI/human-review wording, title page and Zenodo metadata. |
@@ -116,7 +116,7 @@ The remaining `Major revision` label no longer reflects missing search dates, a 
 3. **Scale mismatch.** Species-level realised niches cannot identify morph-specific climatic sorting.
 4. **Phylogenetic residual uncertainty.** Both phylogenetic treatments preserve the negative direction, but every interval includes one; six taxa were inserted into the dated backbone.
 5. **Non-random literature sampling.** Research effort, English queries and metadata availability shape inclusion.
-6. **Human review documentation.** The repository does not establish whether screening was single-reviewer, duplicated or formally adjudicated.
+6. **Human review documentation.** The repository establishes that the current labels are deterministic screening labels and that the resolved queue remains unreviewed; independent human verification must still be completed or explicitly reported as not performed.
 7. **Occurrence-data limits.** The paginated sample remains capped even though its exact contents and citation contributions are now frozen.
 8. **Small comparative sample.** The strict comparison contains 34 species.
 9. **Mechanistic non-identifiability.** Occurrences are not labelled by flower-colour morph.

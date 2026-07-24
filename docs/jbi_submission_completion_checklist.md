@@ -8,9 +8,9 @@ This checklist contains only fields that still require verified author input, au
 |---|---|---|
 | Automated OpenAlex queries and filtering rules | ✓ Verified | Documented in the anonymized manuscript. |
 | Automated search and follow-up dates | ✓ Verified | Repository commits record evidence-pipeline activity from 16 to 19 July 2026; see `docs/jbi_literature_search_provenance.md`. |
-| Human screener names and number of screeners | ✗ Author confirmation required | Complete Section 1 of `docs/jbi_author_confirmation_form.md`. |
-| Independent duplicate screening or agreement assessment | ✗ Author confirmation required | State what was actually done; explicitly say when it was not performed. |
-| Disagreement-resolution procedure | ✗ Author confirmation required | Describe the actual procedure; do not create a retrospective protocol. |
+| Repository-supported classification state | ✓ Verified | Current labels are deterministic, source-traceable screening labels; the resolved queue remains `unreviewed`. |
+| Blinded classification review packet | ✓ Prepared | S18 hides the current label; S19 is the separate key. `evaluate_jbi_completed_classification_review.py` computes agreement and Cohen's kappa without changing analysis inputs. |
+| Completed human verification and adjudication | ✗ Author action required | Complete one or preferably two independent S18 copies, freeze them before opening S19, evaluate agreement and document adjudication. |
 | Language and database-coverage limitations | ✓ Verified | Already stated in Methods and Discussion. |
 
 ## 2. Authorship and declarations
@@ -37,7 +37,7 @@ This checklist contains only fields that still require verified author input, au
 
 | Field | Status | Required action |
 |---|---|---|
-| Submission branch and manuscript files | ✓ Verified | Draft PR #5 contains the edited manuscript, Appendix S1 and Supporting Tables S1–S17. |
+| Submission branch and manuscript files | ✓ Verified | Draft PR #5 contains the edited manuscript, Appendix S1 and Supporting Tables S1–S19. |
 | Primary-analysis artifact | ✓ Verified | Workflow run `29972327794`; digest `sha256:87d8c9ba89f27685e362abeffa0e077330adb1923652f7a7df73572c5e274ac8`. |
 | GBIF/Open Tree sensitivity artifact | ✓ Verified | Workflow run `30067762848`; artifact `8586932030`; digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`. |
 | Dated-megaphylogeny artifact | ✓ Verified | Fixed-seed workflow run `30076757379`; artifact `8590190840`; digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`. |
@@ -73,7 +73,8 @@ This checklist contains only fields that still require verified author input, au
 | Author confirmation form | ✓ Partially prefilled | ZHANG RUIQI, division, institution, postal address and email are entered without assuming author order or correspondence. |
 | Literature-search provenance | ✓ Prepared: `docs/jbi_literature_search_provenance.md` |
 | Supporting Information index | ✓ Prepared and SHA-256 checked |
-| Tables S1–S17 | ✓ Prepared |
+| Tables S1–S19 | ✓ Prepared |
+| S18/S19 classification-review packet | ✓ Prepared; not completed | S18 is blank and blinded; S19 reproduces 34/34 frozen labels from the retained queue text and all 34 classification sources match the queue best source. |
 | Open Tree topology and dated S1–S3 trees | ✓ Prepared |
 | Main tables and figure legends | ✓ Included in manuscript |
 | Taxon image rights and caption candidate | ✓ Verified candidate | *Ipomoea purpurea* image is CC0; source, credit, caption and interpretation boundary are recorded in `docs/jbi_taxon_image_candidate.md`. |

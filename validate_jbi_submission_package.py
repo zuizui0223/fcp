@@ -278,6 +278,27 @@ def main() -> None:
     if manuscript_words > 6000:
         warnings.append(f"Introduction–Discussion word count exceeds 6,000: {manuscript_words}")
 
+    require(
+        f"Structured abstract: **{abstract_words} words**" in title_page,
+        f"Title-page abstract count is stale; expected {abstract_words}",
+        failures,
+    )
+    require(
+        f"Main text from Introduction through Discussion: **{manuscript_words:,} words**" in title_page,
+        f"Title-page main-text count is stale; expected {manuscript_words:,}",
+        failures,
+    )
+    require(
+        f"validated length is {abstract_words} words" in editorial,
+        f"Editorial abstract count is stale; expected {abstract_words}",
+        failures,
+    )
+    require(
+        f"Introduction–Discussion contains {manuscript_words:,} words" in editorial,
+        f"Editorial main-text count is stale; expected {manuscript_words:,}",
+        failures,
+    )
+
     report = {
         "status": "pass" if not failures else "fail",
         "title_characters": len(title),
