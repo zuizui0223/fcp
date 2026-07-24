@@ -18,6 +18,13 @@
 | S14 | `docs/supporting/jbi_table_s14_opentree_name_resolution.csv` | 34 | `47c28ec5f6ac5f3f9780424fbc0a76ae986a86bd31e1b3f2b7268deb93b15f5c` |
 | S15 | `docs/supporting/jbi_table_s15_phylogenetic_replicates.csv` | 200 | `f1702d60f0493c6e657ab87d1eb55c42da6092b011ee40251e2d2760221f7a15` |
 
-Tables S1–S7 derive from workflow run `29972327794`; Tables S8–S15 derive from successful phylogenetic-sensitivity run `30067762848` (artifact digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`).
+Tables S1–S7 derive from workflow run `29972327794`. Tables S8–S15 derive from successful phylogenetic-sensitivity run `30067762848`, artifact `8586932030`, digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`.
 
-The paginated sample is capped and the Open Tree models use a synthetic topology with Grafen branch lengths. Permanent repository and GBIF DOIs remain `Not verified`.
+Additional source-backed files:
+
+- `docs/supporting/jbi_gbif_paginated_qc.json`: GBIF retrieval and filtering audit.
+- `docs/supporting/jbi_gbif_paginated_metrics_qc.json`: climate extraction and PCA audit.
+- `docs/supporting/jbi_opentree_induced_topology.tre`: induced Open Tree topology used for both phylogenetic sensitivity datasets.
+- `docs/supporting/jbi_phylogenetic_sensitivity_manifest.json`: model settings, seeds, package versions and artifact provenance.
+
+The paginated sample remains capped, and the Open Tree models use a synthetic topology with Grafen branch lengths rather than a dated species phylogeny. Permanent repository and GBIF DOIs remain `Not verified`.
