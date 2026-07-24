@@ -59,10 +59,22 @@ Analysis code and current outputs are maintained in the public GitHub repository
 
 ## Word counts
 
-- Structured abstract: 280 words excluding headings and keywords.
-- Main text from Introduction through Discussion: **Not verified after final author edits.**
+Validated by `validate_jbi_submission_package.py` on the current PR branch:
+
+- Structured abstract: **244 words** excluding headings and keywords.
+- Main text from Introduction through Discussion: **4,424 words**.
 - References, tables and figure legends: excluded from the main-text count unless the submission system specifies otherwise.
+
+Re-run the validator after final author edits and update these values if the manuscript changes.
 
 ## Taxon image
 
-**Not verified.** Select a publication-quality taxon image for the submission system and verify ownership, permission and caption.
+A rights-verified candidate is documented in `docs/jbi_taxon_image_candidate.md`:
+
+- taxon: *Ipomoea purpurea*, included in the audited baseline dataset;
+- image: “Ipomoea purpurea in three colors, 2024-09-16.jpg”;
+- author: Father Pitt;
+- rights: public domain under CC0, as stated on the Wikimedia Commons file page;
+- recommended credit: “Image: Father Pitt, public domain (CC0), via Wikimedia Commons.”
+
+**Author action required:** approve the candidate, download the original-resolution file, retain the licence record and insert the final filename and caption in the submission system. The photograph is representative artwork and must not be presented as analytical evidence of natural-population polymorphism.
