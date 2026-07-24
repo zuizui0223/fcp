@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Build a blinded human-review sheet and a separate rule-label key.
 
-The blinded sheet does not expose the current rule-derived spatial label. Human
-reviewers should fill it before opening the key. This script does not overwrite
+The blinded sheet does not expose the current frozen spatial label. Human reviewers
+should fill it before opening the key. Queue excerpts are navigation aids and may
+come from a different source than the frozen classification source; such differences
+are diagnosed rather than treated as fatal. This script does not overwrite
 classifications or analysis inputs.
 """
 from __future__ import annotations
@@ -33,9 +35,11 @@ BLINDED_FIELDS = [
 KEY_FIELDS = [
     "review_id",
     "canonical_name",
-    "rule_label",
-    "within_signal",
-    "geographic_signal",
+    "frozen_rule_label",
+    "queue_recomputed_label",
+    "queue_rule_comparison",
+    "within_signal_in_queue_text",
+    "geographic_signal_in_queue_text",
     "classification_source_id",
     "queue_best_doi",
     "queue_best_openalex_id",
@@ -72,6 +76,18 @@ def source_match(source_id: str, doi: str, openalex_id: str) -> str:
     if source.rstrip("/").lower() == str(openalex_id or "").strip().rstrip("/").lower():
         return "matches_queue_best_openalex"
     return "classification_source_differs_from_queue_best"
+
+
+def rule_label(text: str) -> tuple[str, int, int]:
+    within = int(bool(WITHIN.search(text)))
+    geographic = int(bool(GEOGRAPHIC.search(text)))
+    label = (
+        "within_population" if within and not geographic else
+        "among_population" if geographic and not within else
+        "mixed" if within and geographic else
+        "unclear"
+    )
+    return label, within, geographic
 
 
 def main() -> None:
@@ -111,26 +127,14 @@ def main() -> None:
         q = queue_by_name.get(name)
         if q is None:
             raise SystemExit(f"Baseline species absent from resolved queue: {name}")
-        label = row["spatial_scale"].strip()
-        if label not in ALLOWED_LABELS:
-            raise SystemExit(f"Unexpected baseline label for {name}: {label}")
+        frozen_label = row["spatial_scale"].strip()
+        if frozen_label not in ALLOWED_LABELS:
+            raise SystemExit(f"Unexpected baseline label for {name}: {frozen_label}")
 
         title = q.get("best_title", "")
         evidence = q.get("best_match_evidence", "")
         reason = q.get("review_reason", "")
-        rule_text = " ".join((title, evidence, reason))
-        within = int(bool(WITHIN.search(rule_text)))
-        geographic = int(bool(GEOGRAPHIC.search(rule_text)))
-        recomputed = (
-            "within_population" if within and not geographic else
-            "among_population" if geographic and not within else
-            "mixed" if within and geographic else
-            "unclear"
-        )
-        if recomputed != label:
-            raise SystemExit(
-                f"Frozen label does not match current rule for {name}: {label} != {recomputed}"
-            )
+        queue_label, within, geographic = rule_label(" ".join((title, evidence, reason)))
 
         review_id = f"JBI-{index:03d}"
         match = source_match(
@@ -138,6 +142,8 @@ def main() -> None:
             q.get("best_doi", ""),
             q.get("best_openalex_id", ""),
         )
+        comparison = "matches_frozen_label" if queue_label == frozen_label else "differs_from_frozen_label"
+
         blinded.append(
             {
                 "review_id": review_id,
@@ -159,9 +165,11 @@ def main() -> None:
             {
                 "review_id": review_id,
                 "canonical_name": name,
-                "rule_label": label,
-                "within_signal": str(within),
-                "geographic_signal": str(geographic),
+                "frozen_rule_label": frozen_label,
+                "queue_recomputed_label": queue_label,
+                "queue_rule_comparison": comparison,
+                "within_signal_in_queue_text": str(within),
+                "geographic_signal_in_queue_text": str(geographic),
                 "classification_source_id": row.get("source_id", ""),
                 "queue_best_doi": q.get("best_doi", ""),
                 "queue_best_openalex_id": q.get("best_openalex_id", ""),
@@ -190,6 +198,10 @@ def main() -> None:
             "source_match_counts": {
                 status: sum(row["source_match_status"] == status for row in blinded)
                 for status in sorted({row["source_match_status"] for row in blinded})
+            },
+            "queue_rule_comparison_counts": {
+                status: sum(row["queue_rule_comparison"] == status for row in key)
+                for status in sorted({row["queue_rule_comparison"] for row in key})
             },
         }
     )
