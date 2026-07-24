@@ -16,6 +16,15 @@ PROTOCOL = ROOT / "docs/jbi_classification_review_protocol.md"
 AUDIT = ROOT / "docs/jbi_classification_rule_audit.md"
 BUILDER = ROOT / "build_jbi_blinded_classification_review.py"
 
+BASE_PROVENANCE = (
+    "Tables S1–S7 derive from workflow run `29972327794`. Tables S8–S15 derive from successful Open Tree phylogenetic-sensitivity run `30067762848`, artifact `8586932030`, digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`. Tables S16–S17 derive from the fixed-seed dated-megaphylogeny run `30076757379`, artifact `8590190840`, digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`."
+)
+REVIEW_PROVENANCE = (
+    " Tables S18–S19 are generated from the frozen S6 manifest and the resolved evidence queue by "
+    "`build_jbi_blinded_classification_review.py`; S18 hides the rule label and remains blank for "
+    "independent review, whereas S19 is the post-review comparison key."
+)
+
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -35,11 +44,7 @@ def main() -> None:
         raise SystemExit(f"S18/S19 must each contain 34 data rows: {data_rows(S18)}, {data_rows(S19)}")
 
     index = INDEX.read_text(encoding="utf-8")
-    index = re.sub(
-        r"(?m)^\| S18 \|.*\n|^\| S19 \|.*\n",
-        "",
-        index,
-    )
+    index = re.sub(r"(?m)^\| S18 \|.*\n|^\| S19 \|.*\n", "", index)
     s17_pattern = re.compile(r"(?m)^(\| S17 \|[^\n]+\n)")
     if len(s17_pattern.findall(index)) != 1:
         raise SystemExit("Expected exactly one S17 row in Supporting Information index")
@@ -49,38 +54,27 @@ def main() -> None:
     )
     index = s17_pattern.sub(r"\1" + additions, index, count=1)
 
-    old_provenance = (
-        "Tables S1–S7 derive from workflow run `29972327794`. Tables S8–S15 derive from successful Open Tree phylogenetic-sensitivity run `30067762848`, artifact `8586932030`, digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`. Tables S16–S17 derive from the fixed-seed dated-megaphylogeny run `30076757379`, artifact `8590190840`, digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`."
+    provenance_pattern = re.compile(
+        r"(?ms)^Tables S1–S7 derive from workflow run `29972327794`\..*?(?=\n\nAdditional source-backed files:)"
     )
-    new_provenance = old_provenance + (
-        " Tables S18–S19 are generated from the frozen S6 manifest and the resolved evidence queue by "
-        "`build_jbi_blinded_classification_review.py`; S18 hides the rule label and remains blank for "
-        "independent review, whereas S19 is the post-review comparison key."
-    )
-    if old_provenance not in index:
-        if "Tables S18–S19 are generated" not in index:
-            raise SystemExit("Supporting provenance paragraph changed unexpectedly")
-    else:
-        index = index.replace(old_provenance, new_provenance, 1)
+    matches = provenance_pattern.findall(index)
+    if len(matches) != 1:
+        raise SystemExit(f"Expected one Supporting provenance block; found {len(matches)}")
+    index = provenance_pattern.sub(BASE_PROVENANCE + REVIEW_PROVENANCE, index, count=1)
 
     additional_anchor = "Additional source-backed files:\n"
     if index.count(additional_anchor) != 1:
         raise SystemExit("Additional source-backed files anchor missing")
+    index = re.sub(r"\n- `docs/jbi_classification_review_protocol\.md`:[^\n]*\n", "\n", index)
+    index = re.sub(r"\n- `docs/jbi_classification_rule_audit\.md`:[^\n]*\n", "\n", index)
     review_lines = (
         f"\n- `docs/jbi_classification_review_protocol.md`: blinded review instructions, operational labels and adjudication requirements; SHA-256 `{sha256(PROTOCOL)}`.\n"
         f"- `docs/jbi_classification_rule_audit.md`: plural-expression code-parity audit documenting zero frozen-label changes; SHA-256 `{sha256(AUDIT)}`.\n"
     )
-    index = re.sub(
-        r"\n- `docs/jbi_classification_review_protocol\.md`:[^\n]*\n",
-        "\n",
-        index,
-    )
-    index = re.sub(
-        r"\n- `docs/jbi_classification_rule_audit\.md`:[^\n]*\n",
-        "\n",
-        index,
-    )
     index = index.replace(additional_anchor, additional_anchor + review_lines, 1)
+    index = re.sub(r"\n{4,}", "\n\n", index)
+    if index.count("Tables S18–S19 are generated") != 1:
+        raise SystemExit("S18–S19 provenance must occur exactly once")
     INDEX.write_text(index, encoding="utf-8")
 
     manuscript = MANUSCRIPT.read_text(encoding="utf-8")
@@ -127,11 +121,23 @@ Tables S1–S7 contain the original model matrices and audits. **Table S8** is t
         '"Classification review protocol missing from Supporting index", failures)\n'
         '    require("jbi_classification_rule_audit.md" in index_text, '
         '"Classification rule audit missing from Supporting index", failures)\n'
+        '    require(index_text.count("Tables S18–S19 are generated") == 1, '
+        '"S18–S19 provenance must occur exactly once", failures)\n'
     )
     if old_index_guard in validator and "S18 missing from Supporting index" not in validator:
         validator = validator.replace(old_index_guard, new_index_guard, 1)
     elif "S18 missing from Supporting index" not in validator:
         raise SystemExit("Supporting-index guard insertion point changed unexpectedly")
+    elif "S18–S19 provenance must occur exactly once" not in validator:
+        marker = (
+            '    require("jbi_classification_rule_audit.md" in index_text, '
+            '"Classification rule audit missing from Supporting index", failures)\n'
+        )
+        validator = validator.replace(
+            marker,
+            marker + '    require(index_text.count("Tables S18–S19 are generated") == 1, "S18–S19 provenance must occur exactly once", failures)\n',
+            1,
+        )
 
     PACKAGE_VALIDATOR.write_text(validator, encoding="utf-8")
 
@@ -145,6 +151,7 @@ Tables S1–S7 contain the original model matrices and audits. **Table S8** is t
             "review_protocol_sha256": sha256(PROTOCOL),
             "rule_audit_sha256": sha256(AUDIT),
             "supporting_sequence": "S1-S19",
+            "provenance_occurrences": index.count("Tables S18–S19 are generated"),
         }
     )
 
