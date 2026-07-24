@@ -20,7 +20,8 @@ parse_args <- function(args) {
     dataset = NULL,
     outdir = NULL,
     analysis_label = NULL,
-    min_cells = 20L
+    min_cells = 20L,
+    seed = 20260724L
   )
   i <- 1L
   while (i <= length(args)) {
@@ -28,7 +29,7 @@ parse_args <- function(args) {
     if (i == length(args)) stop("Missing value for argument: ", args[[i]])
     if (!key %in% names(out)) stop("Unknown argument: --", key)
     value <- args[[i + 1L]]
-    if (key == "min_cells") value <- as.integer(value)
+    if (key %in% c("min_cells", "seed")) value <- as.integer(value)
     out[[key]] <- value
     i <- i + 2L
   }
@@ -157,13 +158,16 @@ sp_list <- data.frame(
 )
 write.csv(sp_list, file.path(args$outdir, "vphylomaker2_input_species.csv"), row.names = FALSE)
 
-# Explicitly load the LCVP time-scaled backbone and its node information.
 data("GBOTB.extended.LCVP", package = "V.PhyloMaker2", envir = environment())
 data("nodes.info.1.LCVP", package = "V.PhyloMaker2", envir = environment())
 if (!exists("GBOTB.extended.LCVP") || !exists("nodes.info.1.LCVP")) {
   stop("V.PhyloMaker2 LCVP backbone objects were not loaded")
 }
 
+# Scenario S2 can use random placement when a species is absent from the
+# backbone. A fixed seed is therefore mandatory and is shared between the
+# primary and paginated runs so that both are evaluated on identical trees.
+set.seed(args$seed)
 made <- phylo.maker(
   sp.list = sp_list,
   tree = GBOTB.extended.LCVP,
@@ -212,6 +216,7 @@ manifest <- list(
   analysis_label = args$analysis_label,
   dataset = args$dataset,
   min_cells = args$min_cells,
+  seed = args$seed,
   n_input_species = nrow(data),
   spatial_scale_counts = as.list(table(data$spatial_scale)),
   backbone = "GBOTB.extended.LCVP",
