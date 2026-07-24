@@ -243,6 +243,7 @@ def main() -> None:
     require("jbi_table_s19_rule_classification_key.csv" in index_text, "S19 missing from Supporting index", failures)
     require("jbi_classification_review_protocol.md" in index_text, "Classification review protocol missing from Supporting index", failures)
     require("jbi_classification_rule_audit.md" in index_text, "Classification rule audit missing from Supporting index", failures)
+    require(index_text.count("Tables S18–S19 are generated") == 1, "S18–S19 provenance must occur exactly once", failures)
     require("jbi_gbif_exact_occurrence_subset.csv.gz" in index_text, "Exact GBIF archive missing from Supporting index", failures)
     require(EXACT_GBIF_SHA in index_text, "Exact GBIF archive SHA missing from Supporting index", failures)
     require("16 to 19 July 2026" in provenance, "Search-date range missing from provenance appendix", failures)
