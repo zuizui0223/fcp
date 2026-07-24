@@ -30,9 +30,10 @@ Sincerely,
 
 **ZHANG RUIQI**
 
-Graduate School of Agriculture, Kyoto University
-
-[VERIFIED POSTAL ADDRESS]
+Division of Forest and Biomaterials Science  
+Graduate School of Agriculture, Kyoto University  
+Kitashirakawa Oiwake-cho, Sakyo-ku  
+Kyoto 606-8502, Japan
 
 zhang.ruiqi.77h@st.kyoto-u.ac.jp
 
@@ -41,6 +42,7 @@ zhang.ruiqi.77h@st.kyoto-u.ac.jp
 - remove this heading and checklist from the submitted letter;
 - confirm that ZHANG RUIQI is the corresponding author or replace the signature with the verified corresponding author;
 - replace every remaining bracketed field;
+- add a laboratory or room only when separately verified and required;
 - confirm the journal name and article type;
 - confirm the final manuscript title and numerical values against the validated submission commit;
 - add no statement of novelty, authorship, exclusivity, conflict or data availability that has not been verified;
