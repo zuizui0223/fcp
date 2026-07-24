@@ -6,6 +6,7 @@ on:
       - "prepare_jbi_submission_release.py"
       - "validate_jbi_submission_package.py"
       - "validate_jbi_gbif_doi_bundle.py"
+      - "validate_jbi_author_prefill.py"
       - "docs/jbi_*.md"
       - "docs/jbi_*.json"
       - "docs/figures/**"
@@ -41,6 +42,9 @@ jobs:
 
       - name: Validate exact GBIF DOI bundle
         run: python validate_jbi_gbif_doi_bundle.py
+
+      - name: Validate source-backed author prefill
+        run: python validate_jbi_author_prefill.py
 
       - name: Build deterministic release preview
         run: |
