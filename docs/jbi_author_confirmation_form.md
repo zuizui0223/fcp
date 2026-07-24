@@ -4,13 +4,14 @@ Complete this form using actual records and author agreement. Do not infer or re
 
 ## Verified prefill boundary
 
-The following details are already supported by a current author-provided record:
+The following details are already supported by current author-provided or university-linked records:
 
 - full name: **ZHANG RUIQI**;
 - institutional affiliation: **Graduate School of Agriculture, Kyoto University**;
+- institutional email: **zhang.ruiqi.77h@st.kyoto-u.ac.jp**;
 - current status in the source record: **research student**.
 
-The official English institutional name is confirmed by Kyoto University's website. Research-student status is recorded here for audit but is not automatically part of the journal affiliation line. Final author order, coauthors, division or laboratory, postal address, email, ORCID and corresponding-author status remain unverified.
+The official English institutional name is confirmed by Kyoto University's website. Research-student status is recorded here for audit but is not automatically part of the journal affiliation line. Final author order, coauthors, division or laboratory, postal address, ORCID and corresponding-author status remain unverified. No ORCID linked to the institutional email was found in the searched mailbox records.
 
 ## 1. Human evidence screening and classification
 
@@ -44,14 +45,14 @@ Choose wording that is factually correct:
 
 | Order | Full name | Affiliation number(s) | ORCID | Email | Author approval |
 |---:|---|---|---|---|---|
-| [Confirm order] | **ZHANG RUIQI** | 1 | Not verified | Not verified | Not verified |
+| [Confirm order] | **ZHANG RUIQI** | 1 | Not verified | **zhang.ruiqi.77h@st.kyoto-u.ac.jp** | Not verified |
 | [Add if applicable] | [Additional author] | [ ] | [ ] | [ ] | [Yes/No] |
 
 Corresponding author:
 
 - Name: [ZHANG RUIQI / another verified author]
 - Postal address: [Address]
-- Email: [Email]
+- Email: [If ZHANG RUIQI is confirmed, use zhang.ruiqi.77h@st.kyoto-u.ac.jp / otherwise enter the verified corresponding-author email]
 - Telephone, only if required by the submission system: [Number]
 
 ## 3. Affiliations
