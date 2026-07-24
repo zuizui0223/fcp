@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Validate the limited, source-backed author metadata prefill.
 
-This validator protects the verified name, institution and institutional email while
-ensuring that the prefill is not silently converted into an unverified final author
-order, corresponding-author designation or ORCID.
+This validator protects the verified name, division, institution, general postal
+address and institutional email while ensuring that the prefill is not silently
+converted into an unverified final author order, corresponding-author designation,
+laboratory assignment or ORCID.
 """
 from __future__ import annotations
 
@@ -18,7 +19,9 @@ COVER_LETTER = DOCS / "jbi_cover_letter_template.md"
 CHECKLIST = DOCS / "jbi_submission_completion_checklist.md"
 
 VERIFIED_NAME = "ZHANG RUIQI"
+VERIFIED_DIVISION = "Division of Forest and Biomaterials Science"
 VERIFIED_AFFILIATION = "Graduate School of Agriculture, Kyoto University"
+VERIFIED_POSTAL = "Kitashirakawa Oiwake-cho, Sakyo-ku, Kyoto 606-8502"
 VERIFIED_EMAIL = "zhang.ruiqi.77h@st.kyoto-u.ac.jp"
 
 
@@ -49,11 +52,14 @@ def main() -> None:
         ("completion checklist", checklist),
     ):
         require_text(text, VERIFIED_NAME, label)
+        require_text(text, VERIFIED_DIVISION, label)
         require_text(text, VERIFIED_AFFILIATION, label)
+        require_text(text, VERIFIED_POSTAL, label)
         require_text(text, VERIFIED_EMAIL, label)
 
     require_text(title_page, "final author order", "title page")
     require_text(title_page, "any additional authors", "title page")
+    require_text(title_page, "laboratory", "title page")
     require_text(title_page, "Corresponding author", "title page")
     require_text(author_form, "[Confirm order]", "author form")
     require_text(author_form, "Not verified", "author form")
@@ -61,6 +67,8 @@ def main() -> None:
     require_text(author_form, "No ORCID linked to the institutional email was found", "author form")
     require_text(cover_letter, "CONFIRM THAT THE FOLLOWING VERIFIED PERSON IS THE CORRESPONDING AUTHOR", "cover letter")
     require_text(checklist, "Verified identity prefill", "completion checklist")
+    require_text(checklist, "Verified division and affiliation prefill", "completion checklist")
+    require_text(checklist, "Verified institutional postal address", "completion checklist")
     require_text(checklist, "Verified institutional email prefill", "completion checklist")
     require_text(checklist, "Final author order and any additional authors", "completion checklist")
 
@@ -79,8 +87,11 @@ def main() -> None:
         {
             "status": "pass",
             "verified_name": VERIFIED_NAME,
+            "verified_division": VERIFIED_DIVISION,
             "verified_affiliation": VERIFIED_AFFILIATION,
+            "verified_postal": VERIFIED_POSTAL,
             "verified_email": VERIFIED_EMAIL,
+            "laboratory_confirmed": False,
             "final_author_order_confirmed": False,
             "corresponding_author_confirmed": False,
             "email_prefilled": True,
