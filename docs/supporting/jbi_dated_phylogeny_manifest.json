@@ -1,0 +1,38 @@
+{
+  "workflow_run_id": 30076253110,
+  "artifact_id": 8589998604,
+  "artifact_digest": "sha256:b8fa3ecab6fb5aedfc9974865280748f255a4f27918c04c2bcb488b5f36b1694",
+  "analysis_script": "analysis_vphylomaker2_dated_spatial_scale.R",
+  "backbone": "GBOTB.extended.LCVP",
+  "node_table": "nodes.info.1.LCVP",
+  "scenarios": ["S1", "S2", "S3"],
+  "input_species": 34,
+  "species_present_in_backbone": 28,
+  "species_bound_to_backbone": 6,
+  "species_failed_to_bind": 0,
+  "model_formula": "among ~ moisture_z + effort_z",
+  "estimator": "phylolm::phyloglm(method = logistic_MPLE)",
+  "confidence_interval": "Wald 95% interval: coefficient +/- 1.96 standard errors",
+  "branch_lengths_replaced": 0,
+  "root_age_backbone_units": 137.6941230003,
+  "package_versions": {
+    "R": "4.6.1",
+    "ape": "5.8-1",
+    "phylolm": "2.6.5",
+    "V.PhyloMaker2": "0.1.0",
+    "V.PhyloMaker2_remote_sha": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9"
+  },
+  "primary_scenario_range": {
+    "odds_ratio": [0.4639922886, 0.4649564190],
+    "odds_ratio_ci_low": [0.1756275086, 0.1762387715],
+    "odds_ratio_ci_high": [1.2258264415, 1.2266567095],
+    "p_value": [0.1213318296, 0.1218036181]
+  },
+  "paginated_scenario_range": {
+    "odds_ratio": [0.3658214628, 0.3725274144],
+    "odds_ratio_ci_low": [0.1237642612, 0.1284677978],
+    "odds_ratio_ci_high": [1.0802448306, 1.0812923002],
+    "p_value": [0.0689644347, 0.0690799430]
+  },
+  "interpretation_guard": "The trees inherit time scaling from GBOTB.extended.LCVP, but six species were inserted under V.PhyloMaker2 placement assumptions. Scenario S1-S3 sensitivity does not establish causation or eliminate phylogenetic uncertainty."
+}
