@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 INDEX = ROOT / "docs/jbi_supporting_information_index.md"
 MANUSCRIPT = ROOT / "docs/jbi_manuscript_editorial_revision.md"
+PACKAGE_VALIDATOR = ROOT / "validate_jbi_submission_package.py"
 S18 = ROOT / "docs/supporting/jbi_table_s18_blinded_classification_review.csv"
 S19 = ROOT / "docs/supporting/jbi_table_s19_rule_classification_key.csv"
 PROTOCOL = ROOT / "docs/jbi_classification_review_protocol.md"
@@ -25,7 +26,8 @@ def data_rows(path: Path) -> int:
 
 
 def main() -> None:
-    for path in (INDEX, MANUSCRIPT, S18, S19, PROTOCOL, AUDIT, BUILDER):
+    required = (INDEX, MANUSCRIPT, PACKAGE_VALIDATOR, S18, S19, PROTOCOL, AUDIT, BUILDER)
+    for path in required:
         if not path.is_file() or path.stat().st_size == 0:
             raise SystemExit(f"Missing or empty review-supporting file: {path}")
 
@@ -91,6 +93,48 @@ Tables S1–S7 contain the original model matrices and audits. **Table S8** is t
     manuscript = manuscript[: current.start()] + replacement
     MANUSCRIPT.write_text(manuscript, encoding="utf-8")
 
+    validator = PACKAGE_VALIDATOR.read_text(encoding="utf-8")
+    old_sequence = (
+        'require([row["id"] for row in supporting_rows] == list(range(1, 18)), '
+        '"Supporting index must contain S1–S17 in order", failures)'
+    )
+    new_sequence = (
+        'require([row["id"] for row in supporting_rows] == list(range(1, 20)), '
+        '"Supporting index must contain S1–S19 in order", failures)'
+    )
+    if old_sequence in validator:
+        validator = validator.replace(old_sequence, new_sequence, 1)
+    elif new_sequence not in validator:
+        raise SystemExit("Supporting-index sequence check changed unexpectedly")
+
+    old_guard = '        "Tables S16–S17",\n        "Appendix S1",'
+    new_guard = '        "Tables S16–S17",\n        "Table S18",\n        "Table S19",\n        "Appendix S1",'
+    if old_guard in validator:
+        validator = validator.replace(old_guard, new_guard, 1)
+    elif '        "Table S18",\n        "Table S19",' not in validator:
+        raise SystemExit("Manuscript S18/S19 guard insertion point changed unexpectedly")
+
+    old_index_guard = (
+        '    require("Appendix S1" in index_text and "jbi_literature_search_provenance.md" in index_text, '
+        '"Appendix S1 missing from Supporting index", failures)\n'
+    )
+    new_index_guard = old_index_guard + (
+        '    require("jbi_table_s18_blinded_classification_review.csv" in index_text, '
+        '"S18 missing from Supporting index", failures)\n'
+        '    require("jbi_table_s19_rule_classification_key.csv" in index_text, '
+        '"S19 missing from Supporting index", failures)\n'
+        '    require("jbi_classification_review_protocol.md" in index_text, '
+        '"Classification review protocol missing from Supporting index", failures)\n'
+        '    require("jbi_classification_rule_audit.md" in index_text, '
+        '"Classification rule audit missing from Supporting index", failures)\n'
+    )
+    if old_index_guard in validator and "S18 missing from Supporting index" not in validator:
+        validator = validator.replace(old_index_guard, new_index_guard, 1)
+    elif "S18 missing from Supporting index" not in validator:
+        raise SystemExit("Supporting-index guard insertion point changed unexpectedly")
+
+    PACKAGE_VALIDATOR.write_text(validator, encoding="utf-8")
+
     print(
         {
             "status": "pass",
@@ -100,6 +144,7 @@ Tables S1–S7 contain the original model matrices and audits. **Table S8** is t
             "s19_sha256": sha256(S19),
             "review_protocol_sha256": sha256(PROTOCOL),
             "rule_audit_sha256": sha256(AUDIT),
+            "supporting_sequence": "S1-S19",
         }
     )
 
