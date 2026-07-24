@@ -17,14 +17,18 @@
 | S13 | `docs/supporting/jbi_table_s13_phylogenetic_sensitivity_summary.csv` | 2 | `a00fc52f80bbc23657debea20ef2d670ed7203d4f2897ce98493e69f4d1ce86c` |
 | S14 | `docs/supporting/jbi_table_s14_opentree_name_resolution.csv` | 34 | `47c28ec5f6ac5f3f9780424fbc0a76ae986a86bd31e1b3f2b7268deb93b15f5c` |
 | S15 | `docs/supporting/jbi_table_s15_phylogenetic_replicates.csv` | 200 | `f1702d60f0493c6e657ab87d1eb55c42da6092b011ee40251e2d2760221f7a15` |
+| S16 | `docs/supporting/jbi_table_s16_dated_phylogeny_sensitivity_summary.csv` | 6 | `23c6392e5f7b8da9003174c2b5e7c350fc1aa91c1d48cfb9f83df67dfc237d84` |
+| S17 | `docs/supporting/jbi_table_s17_vphylomaker2_species_placement.csv` | 34 | `cc1083e97ed0586fb97d749882286ffd4fd3795f753568378cf0963fd151042d` |
 
-Tables S1–S7 derive from workflow run `29972327794`. Tables S8–S15 derive from successful phylogenetic-sensitivity run `30067762848`, artifact `8586932030`, digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`.
+Tables S1–S7 derive from workflow run `29972327794`. Tables S8–S15 derive from successful Open Tree phylogenetic-sensitivity run `30067762848`, artifact `8586932030`, digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`. Tables S16–S17 derive from the fixed-seed dated-megaphylogeny run `30076757379`, artifact `8590190840`, digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`.
 
 Additional source-backed files:
 
 - `docs/supporting/jbi_gbif_paginated_qc.json`: GBIF retrieval and filtering audit.
 - `docs/supporting/jbi_gbif_paginated_metrics_qc.json`: climate extraction and PCA audit.
-- `docs/supporting/jbi_opentree_induced_topology.tre`: induced Open Tree topology used for both phylogenetic sensitivity datasets.
-- `docs/supporting/jbi_phylogenetic_sensitivity_manifest.json`: model settings, seeds, package versions and artifact provenance.
+- `docs/supporting/jbi_opentree_induced_topology.tre`: induced Open Tree topology used for the topology-based sensitivity models.
+- `docs/supporting/jbi_phylogenetic_sensitivity_manifest.json`: Open Tree model settings, seeds, package versions and artifact provenance.
+- `docs/supporting/jbi_dated_phylogeny_s1.tre`, `jbi_dated_phylogeny_s2.tre` and `jbi_dated_phylogeny_s3.tre`: fixed-seed, time-scaled V.PhyloMaker2 trees; SHA-256 values are `d21d02d7ffa7c44fa5c9606b8c3e72427618dd96946cad8bc3ef5a76df74b5cc`, `b58a3d2b0f5c9f9290c04ee4aff0d4cea24d047e6f295854d94f94613766e086` and `44cd8e6d1b63150f75c94d0496afefec5e3bf4be8b1fdb1ed0d697ae7804a2f6`, respectively.
+- `docs/supporting/jbi_dated_phylogeny_manifest.json`: fixed seed, backbone, placement audit, package commit and dated-model artifact provenance; SHA-256 `99e2843874ebb3f06fd3039c4a523c2e92334e15913e2c1322cc9fda05616d5a`.
 
-The paginated sample remains capped, and the Open Tree models use a synthetic topology with Grafen branch lengths rather than a dated species phylogeny. Permanent repository and GBIF DOIs remain `Not verified`.
+The paginated sample remains capped. The Open Tree models use a synthetic topology with Grafen branch lengths, whereas the V.PhyloMaker2 models inherit time scaling from `GBOTB.extended.LCVP`; six species were inserted under placement assumptions. Permanent repository and GBIF DOIs remain `Not verified`.
