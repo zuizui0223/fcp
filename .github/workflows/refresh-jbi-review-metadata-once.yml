@@ -6,6 +6,7 @@ on:
       - "update_jbi_review_supporting_index.py"
       - "docs/jbi_classification_review_protocol.md"
       - "docs/jbi_classification_rule_audit.md"
+      - "evaluate_jbi_completed_classification_review.py"
       - ".github/workflows/refresh-jbi-review-metadata-once.yml"
   workflow_dispatch:
 
@@ -37,6 +38,8 @@ jobs:
           cmp /tmp/index-first.md docs/jbi_supporting_information_index.md
           cmp /tmp/manuscript-first.md docs/jbi_manuscript_editorial_revision.md
           cmp /tmp/validator-first.py validate_jbi_submission_package.py
+          python validate_jbi_submission_package.py
+          python validate_jbi_classification_transparency.py
           grep -q "evaluate_jbi_completed_classification_review.py" docs/jbi_classification_review_protocol.md
           test "$(grep -c 'Tables S18–S19 are generated' docs/jbi_supporting_information_index.md)" -eq 1
 
