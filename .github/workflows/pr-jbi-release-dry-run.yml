@@ -64,13 +64,24 @@ jobs:
           assert manifest["submission_archive_bytes"] > 0, manifest
           assert len(manifest["submission_archive_sha256"]) == 64, manifest
           assert len(manifest["source_commit"]) == 40, manifest
+          expected_placeholder_paths = {
+              "docs/jbi_cover_letter_template.md",
+              "docs/jbi_manuscript_editorial_revision.md",
+              "docs/jbi_title_page_template.md",
+              "docs/jbi_zenodo_metadata_template.json",
+          }
+          actual_placeholder_paths = {item["path"] for item in manifest["placeholder_findings"]}
+          assert actual_placeholder_paths == expected_placeholder_paths, {
+              "expected": sorted(expected_placeholder_paths),
+              "actual": sorted(actual_placeholder_paths),
+          }
           print(json.dumps({
               "status": manifest["status"],
               "source_commit": manifest["source_commit"],
               "file_count": manifest["file_count"],
               "archive_bytes": manifest["submission_archive_bytes"],
               "archive_sha256": manifest["submission_archive_sha256"],
-              "placeholder_groups": len(manifest["placeholder_findings"]),
+              "placeholder_paths": sorted(actual_placeholder_paths),
               "ignored_generated_paths": manifest["ignored_generated_paths"],
           }, indent=2))
           PY
