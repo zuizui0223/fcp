@@ -18,7 +18,7 @@ We believe the manuscript is suited to *Journal of Biogeography* because its cen
 
 [AUTHOR CONFIRMATION REQUIRED: Insert the conflict-of-interest declaration agreed by all authors.]
 
-[AUTHOR CONFIRMATION REQUIRED: Insert the permanent code/data archive DOI and the citable GBIF derived-dataset DOI, or state the exact reviewer-access arrangement permitted by the journal.]
+[AUTHOR CONFIRMATION REQUIRED: Insert the permanent code/data archive DOI, broad GBIF occurrence download DOI and GBIF Derived Dataset DOI, or state the exact reviewer-access arrangement permitted by the journal.]
 
 [OPTIONAL: Identify related preprints, conference abstracts or manuscripts and explain the relationship without implying identity when the materials differ.]
 
@@ -26,9 +26,11 @@ Thank you for considering the manuscript.
 
 Sincerely,
 
-[VERIFIED CORRESPONDING AUTHOR NAME]
+[CONFIRM THAT THE FOLLOWING VERIFIED PERSON IS THE CORRESPONDING AUTHOR]
 
-[VERIFIED AFFILIATION]
+**ZHANG RUIQI**
+
+Graduate School of Agriculture, Kyoto University
 
 [VERIFIED POSTAL ADDRESS]
 
@@ -37,7 +39,8 @@ Sincerely,
 ## Before sending
 
 - remove this heading and checklist from the submitted letter;
-- replace every bracketed field;
+- confirm that ZHANG RUIQI is the corresponding author or replace the signature with the verified corresponding author;
+- replace every remaining bracketed field;
 - confirm the journal name and article type;
 - confirm the final manuscript title and numerical values against the validated submission commit;
 - add no statement of novelty, authorship, exclusivity, conflict or data availability that has not been verified;
