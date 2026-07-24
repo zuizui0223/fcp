@@ -1,0 +1,51 @@
+name: Update JBI review Supporting Information
+
+on:
+  pull_request:
+    paths:
+      - "update_jbi_review_supporting_index.py"
+      - "docs/supporting/jbi_table_s18_blinded_classification_review.csv"
+      - "docs/supporting/jbi_table_s19_rule_classification_key.csv"
+      - "docs/jbi_classification_review_protocol.md"
+      - "docs/jbi_classification_rule_audit.md"
+      - ".github/workflows/update-jbi-review-supporting-index.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/jbi-final-editorial-revision
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Update and validate index and manuscript cross-references
+        run: |
+          python update_jbi_review_supporting_index.py
+          grep -q "| S18 |" docs/jbi_supporting_information_index.md
+          grep -q "| S19 |" docs/jbi_supporting_information_index.md
+          grep -q "Table S18" docs/jbi_manuscript_editorial_revision.md
+          grep -q "Table S19" docs/jbi_manuscript_editorial_revision.md
+
+      - name: Commit Supporting Information integration
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/jbi_supporting_information_index.md docs/jbi_manuscript_editorial_revision.md
+          if git diff --cached --quiet; then
+            echo "No review Supporting Information changes"
+            exit 0
+          fi
+          git commit -m "Index blinded classification review tables"
+          git push origin HEAD:agent/jbi-final-editorial-revision
