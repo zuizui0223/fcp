@@ -1,0 +1,17 @@
+### Topology-based phylogenetic sensitivity
+
+Open Tree matching retained 30 species, and all 100 fits completed for each occurrence dataset. The primary-data model gave an odds ratio of 0.592 (95% confidence interval = 0.244–1.434; p = 0.246); the paginated-data model gave 0.472 (0.175–1.272; p = 0.138). Every replicate was negative, but both intervals included one (Table 4; Tables S13–S15).'''
+NEWP='''The paginated sensitivity analysis reduced concern that deterministic first-page sampling created the focal direction: it increased record coverage and applied explicit taxonomic, basis-of-record, geospatial-issue and uncertainty filters. It nevertheless remained capped and API-based and did not apply all possible geographic-outlier filters. It should therefore be treated as sampling sensitivity rather than a definitive reconstruction of realised niches.
+
+The topology-based analysis changed the evidential balance. Negative coefficients persisted under both occurrence designs, but confidence intervals were broad. This may reflect shared evolutionary structure, reduced sample size or uncertainty from a synthetic topology and assumed Grafen branch lengths. The analysis is stronger than family clustering alone but is not equivalent to a dated species phylogeny; it does not establish that ancestry either explains or fails to explain the association.'''
+T4='''### Table 4. Occurrence-sampling and topology-based phylogenetic sensitivity
+
+| Occurrence dataset | Model | Species | Odds ratio | 95% CI | Wald p | Permutation p |
+|---|---|---:|---:|---:|---:|---:|
+| Primary | Family-clustered GLM | 34 | 0.426 | 0.184–0.985 | 0.0460 | 0.0556 |
+| Paginated quality-filtered | Family-clustered GLM | 34 | 0.300 | 0.133–0.675 | 0.00361 | 0.0164 |
+| Primary | Open Tree phylogenetic logistic | 30 | 0.592 | 0.244–1.434 | 0.246 | — |
+| Paginated quality-filtered | Open Tree phylogenetic logistic | 30 | 0.472 | 0.175–1.272 | 0.138 | — |
+
+*Note.* Phylogenetic values summarize 100 completed polytomy resolutions of an Open Tree induced topology with Grafen branch lengths; this is not a dated species phylogeny.'''
+SUP='''## Supporting Information
