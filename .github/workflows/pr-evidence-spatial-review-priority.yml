@@ -56,8 +56,8 @@ jobs:
           from pathlib import Path
           x=json.loads(Path('analysis_outputs/evidence_scale_review/evidence_spatial_scale_review_manifest.json').read_text())
           assert x['manual_review_rows']==73
-          assert x['mixed_rows']==3
-          assert x['unclear_rows']==70
+          assert x['mixed_rows']==4
+          assert x['unclear_rows']==69
           assert x['semantic_guard'].startswith('ranking only')
           print(json.dumps(x,indent=2))
           PY
