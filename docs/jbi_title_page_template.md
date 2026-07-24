@@ -68,8 +68,8 @@ Analysis code and current outputs are maintained in the public GitHub repository
 
 Validated by `validate_jbi_submission_package.py` on the current PR branch:
 
-- Structured abstract: **244 words** excluding headings and keywords.
-- Main text from Introduction through Discussion: **4,424 words**.
+- Structured abstract: **245 words** excluding headings and keywords.
+- Main text from Introduction through Discussion: **4,537 words**.
 - References, tables and figure legends: excluded from the main-text count unless the submission system specifies otherwise.
 
 Re-run the validator after final author edits and update these values if the manuscript changes.
@@ -78,7 +78,7 @@ Re-run the validator after final author edits and update these values if the man
 
 A rights-verified candidate is documented in `docs/jbi_taxon_image_candidate.md`:
 
-- taxon: *Ipomoea purpurea*, included in the audited baseline dataset;
+- taxon: *Ipomoea purpurea*, included in the baseline-unambiguous dataset;
 - image: “Ipomoea purpurea in three colors, 2024-09-16.jpg”;
 - author: Father Pitt;
 - rights: public domain under CC0, as stated on the Wikimedia Commons file page;
