@@ -1,0 +1,161 @@
+name: PR JBI reviewer sensitivity
+
+on:
+  pull_request:
+    paths:
+      - "build_gbif_occurrence_sample_paginated.py"
+      - "analysis_phylogenetic_spatial_scale.R"
+      - "compute_climatic_niche_metrics.py"
+      - "analysis_climatic_niche_spatial_scale.py"
+      - "analysis_climatic_niche_spatial_scale_robustness.py"
+      - "docs/supporting/jbi_table_s6_frozen_classification_manifest.csv"
+      - "docs/supporting/jbi_table_s8_baseline_model_dataset.csv"
+      - ".github/workflows/pr-jbi-reviewer-sensitivity.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reviewer-sensitivity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            numpy pandas scipy scikit-learn rasterio statsmodels
+
+      - name: Install R dependencies
+        run: |
+          Rscript -e 'install.packages(c("ape","jsonlite","phylolm","rotl"), repos="https://cloud.r-project.org")'
+
+      - name: Build paginated quality-filtered GBIF sample
+        run: |
+          set -euo pipefail
+          mkdir -p analysis_outputs/jbi_reviewer_sensitivity
+          python build_gbif_occurrence_sample_paginated.py \
+            --species docs/supporting/jbi_table_s6_frozen_classification_manifest.csv \
+            --out analysis_outputs/jbi_reviewer_sensitivity/gbif_occurrence_sample_paginated.csv \
+            --qc-out analysis_outputs/jbi_reviewer_sensitivity/gbif_occurrence_sample_paginated_qc.json \
+            --taxon-audit-out analysis_outputs/jbi_reviewer_sensitivity/gbif_taxon_resolution_audit.csv \
+            --max-records 3000 \
+            --page-size 300 \
+            --dedup-decimals 3 \
+            --max-coordinate-uncertainty-m 20000 \
+            --timeout 45 \
+            --retries 4 \
+            --delay 0.10
+
+      - name: Download WorldClim 2.1 bioclim
+        run: |
+          set -euo pipefail
+          mkdir -p analysis_outputs/jbi_reviewer_sensitivity/worldclim
+          curl -L --retry 4 --fail \
+            -o /tmp/wc2.1_10m_bio.zip \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+          unzip -q /tmp/wc2.1_10m_bio.zip \
+            -d analysis_outputs/jbi_reviewer_sensitivity/worldclim
+
+      - name: Compute paginated-sample climatic metrics
+        run: |
+          python compute_climatic_niche_metrics.py \
+            --occurrences analysis_outputs/jbi_reviewer_sensitivity/gbif_occurrence_sample_paginated.csv \
+            --worldclim-dir analysis_outputs/jbi_reviewer_sensitivity/worldclim \
+            --out analysis_outputs/jbi_reviewer_sensitivity/species_climatic_niche_metrics_paginated.csv \
+            --cell-out analysis_outputs/jbi_reviewer_sensitivity/occurrence_climate_cells_paginated.csv \
+            --qc-out analysis_outputs/jbi_reviewer_sensitivity/species_climatic_niche_metrics_paginated_qc.json \
+            --min-cells 10
+
+      - name: Fit paginated-sample spatial-scale models
+        run: |
+          python analysis_climatic_niche_spatial_scale.py \
+            --classification docs/supporting/jbi_table_s6_frozen_classification_manifest.csv \
+            --metrics analysis_outputs/jbi_reviewer_sensitivity/species_climatic_niche_metrics_paginated.csv \
+            --outdir analysis_outputs/jbi_reviewer_sensitivity/paginated_models
+          python analysis_climatic_niche_spatial_scale_robustness.py \
+            --dataset analysis_outputs/jbi_reviewer_sensitivity/paginated_models/climatic_niche_spatial_scale_dataset.csv \
+            --outdir analysis_outputs/jbi_reviewer_sensitivity/paginated_models \
+            --permutations 9999 \
+            --seed 20260719
+
+      - name: Fit topology-based phylogenetic model to original focal dataset
+        run: |
+          Rscript analysis_phylogenetic_spatial_scale.R \
+            --dataset docs/supporting/jbi_table_s8_baseline_model_dataset.csv \
+            --outdir analysis_outputs/jbi_reviewer_sensitivity/phylogenetic_original \
+            --analysis_label baseline_original_occurrences \
+            --replicates 100 \
+            --seed 20260724 \
+            --min_cells 20
+
+      - name: Fit topology-based phylogenetic model to paginated sample
+        run: |
+          Rscript analysis_phylogenetic_spatial_scale.R \
+            --dataset analysis_outputs/jbi_reviewer_sensitivity/paginated_models/climatic_niche_spatial_scale_dataset.csv \
+            --outdir analysis_outputs/jbi_reviewer_sensitivity/phylogenetic_paginated \
+            --analysis_label baseline_paginated_quality_filtered \
+            --replicates 100 \
+            --seed 20260824 \
+            --min_cells 20
+
+      - name: Validate reviewer-sensitivity outputs
+        run: |
+          set -euo pipefail
+          test -s analysis_outputs/jbi_reviewer_sensitivity/gbif_occurrence_sample_paginated.csv
+          test -s analysis_outputs/jbi_reviewer_sensitivity/gbif_occurrence_sample_paginated_qc.json
+          test -s analysis_outputs/jbi_reviewer_sensitivity/gbif_taxon_resolution_audit.csv
+          test -s analysis_outputs/jbi_reviewer_sensitivity/species_climatic_niche_metrics_paginated.csv
+          test -s analysis_outputs/jbi_reviewer_sensitivity/paginated_models/climatic_niche_spatial_scale_models.csv
+          test -s analysis_outputs/jbi_reviewer_sensitivity/paginated_models/climatic_niche_spatial_scale_robustness.csv
+          test -s analysis_outputs/jbi_reviewer_sensitivity/phylogenetic_original/phylogenetic_logistic_summary.csv
+          test -s analysis_outputs/jbi_reviewer_sensitivity/phylogenetic_paginated/phylogenetic_logistic_summary.csv
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          root = Path("analysis_outputs/jbi_reviewer_sensitivity")
+          qc = json.loads((root / "gbif_occurrence_sample_paginated_qc.json").read_text())
+          metrics_qc = json.loads((root / "species_climatic_niche_metrics_paginated_qc.json").read_text())
+          models = pd.read_csv(root / "paginated_models/climatic_niche_spatial_scale_models.csv")
+          robust = pd.read_csv(root / "paginated_models/climatic_niche_spatial_scale_robustness.csv")
+          phy_original = pd.read_csv(root / "phylogenetic_original/phylogenetic_logistic_summary.csv")
+          phy_paginated = pd.read_csv(root / "phylogenetic_paginated/phylogenetic_logistic_summary.csv")
+
+          assert qc["species_requested"] == 34, qc
+          assert qc["species_with_retained_records"] >= 30, qc
+          assert metrics_qc["species_complete"] >= 25, metrics_qc
+          assert len(models) == 20, len(models)
+          assert (models["status"] == "complete").sum() >= 10, models["status"].value_counts().to_dict()
+          complete_robust = robust[robust["analysis_status"] == "complete"]
+          assert len(complete_robust) >= 2, complete_robust
+          assert int(phy_original.loc[0, "n_replicates_complete"]) >= 90, phy_original.to_dict("records")
+          assert int(phy_paginated.loc[0, "n_replicates_complete"]) >= 90, phy_paginated.to_dict("records")
+          print({
+              "gbif_qc": qc,
+              "metrics_qc": metrics_qc,
+              "phylogenetic_original": phy_original.to_dict("records"),
+              "phylogenetic_paginated": phy_paginated.to_dict("records"),
+          })
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jbi-reviewer-sensitivity
+          path: analysis_outputs/jbi_reviewer_sensitivity/
+          if-no-files-found: error
+          retention-days: 14
