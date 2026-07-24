@@ -18,9 +18,12 @@ This checklist contains only fields that still require verified author input, au
 | Field | Status | Verified value or action |
 |---|---|---|
 | Consolidated author-input form | ✓ Prepared | `docs/jbi_author_confirmation_form.md` collects all author-controlled decisions and sign-offs. |
-| Final author order | ✗ Author confirmation required | Obtain approval from all authors. |
-| Affiliations | ✗ Author confirmation required | Enter official institution and department names. |
-| Corresponding author | ✗ Author confirmation required | Confirm name, postal address and email. |
+| Verified identity prefill | ✓ Partial | `ZHANG RUIQI` is verified from a current author-provided record. |
+| Verified institutional affiliation prefill | ✓ Partial | `Graduate School of Agriculture, Kyoto University, Kyoto, Japan` is entered using the institution's official English name. |
+| Current academic status | ✓ Recorded for confirmation | The source record states `research student`; include this in submission metadata only when required. |
+| Final author order and any additional authors | ✗ Author confirmation required | Obtain approval from all authors. |
+| Division, laboratory, campus and postal address | ✗ Author confirmation required | Add only the exact currently applicable details. |
+| Corresponding author | ✗ Author confirmation required | Confirm whether ZHANG RUIQI or another author will serve, then enter postal address and email. |
 | ORCID identifiers | ✗ Author confirmation required | Enter only verified ORCIDs. |
 | CRediT roles | ✗ Author confirmation required | Agree roles for every author. |
 | Funding and grant numbers | ✗ Author confirmation required | Copy exactly from award records. |
@@ -64,8 +67,8 @@ This checklist contains only fields that still require verified author input, au
 | File or field | Status |
 |---|---|
 | Anonymized manuscript | ✓ Prepared: `docs/jbi_manuscript_editorial_revision.md` |
-| Separate title page | △ Template prepared; author-controlled fields remain blank |
-| Author confirmation form | ✓ Prepared: `docs/jbi_author_confirmation_form.md` |
+| Separate title page | △ Partially prefilled | Verified name and institutional affiliation are entered; final order, coauthors, contact details, declarations and approvals remain. |
+| Author confirmation form | ✓ Partially prefilled | ZHANG RUIQI and the verified institutional affiliation are entered without assuming author order or correspondence. |
 | Literature-search provenance | ✓ Prepared: `docs/jbi_literature_search_provenance.md` |
 | Supporting Information index | ✓ Prepared and SHA-256 checked |
 | Tables S1–S17 | ✓ Prepared |
@@ -73,7 +76,7 @@ This checklist contains only fields that still require verified author input, au
 | Main tables and figure legends | ✓ Included in manuscript |
 | Taxon image rights and caption candidate | ✓ Verified candidate | *Ipomoea purpurea* image is CC0; source, credit, caption and interpretation boundary are recorded in `docs/jbi_taxon_image_candidate.md`. |
 | Final taxon image approval and upload | △ Author action required | Approve the candidate, download the original file, retain the licence page and upload the final image. |
-| Cover letter | △ Template prepared | `docs/jbi_cover_letter_template.md` contains only verified novelty and result statements; author approval, exclusivity, conflict and DOI declarations remain bracketed. |
+| Cover letter | △ Partially prefilled | Scientific content, ZHANG RUIQI and the institutional affiliation are entered; corresponding-author designation, contact details, declarations and DOI statements remain. |
 | Archive/release protocol | ✓ Prepared | Includes preview and strict release commands and Zenodo metadata workflow. |
 | Suggested or opposed reviewers | ✗ Author confirmation required | Enter conflict-checked candidates in the author confirmation form. |
 
@@ -81,9 +84,9 @@ This checklist contains only fields that still require verified author input, au
 
 The current preview is expected to report exactly four unresolved placeholder files:
 
-1. `docs/jbi_cover_letter_template.md` — author declarations and contact details;
+1. `docs/jbi_cover_letter_template.md` — corresponding-author designation, contact details and declarations;
 2. `docs/jbi_manuscript_editorial_revision.md` — human-review wording and final DOI citations;
-3. `docs/jbi_title_page_template.md` — authorship and declarations;
+3. `docs/jbi_title_page_template.md` — final authorship, contact details and declarations;
 4. `docs/jbi_zenodo_metadata_template.json` — creator, licence, version and identifiers.
 
 Any additional placeholder file fails the release-preview workflow. Do not remove the four expected guards until verified values are available.
