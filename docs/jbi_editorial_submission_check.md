@@ -7,9 +7,9 @@
 - GBIF and Open Tree sensitivity: workflow run `30067762848`, artifact digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`.
 - Fixed-seed dated-megaphylogeny sensitivity: workflow run `30076757379`, artifact `8590190840`, digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`.
 - Automated literature chronology: repository commits document global discovery and recorded follow-up/enrichment activity from 16 to 19 July 2026; the reconstruction is preserved in `docs/jbi_literature_search_provenance.md`.
-- Integrated submission and exact-GBIF validation: workflow run `30083219726` passed; artifact `8592633639`, digest `sha256:7ca9c18500ca5adc7d62c68c193f9d6113ceea2f31f24605146d2a8c893ceb24`.
+- Integrated submission and exact-GBIF validation: the persistent `PR JBI submission package validation` workflow checks journal structure, numerical guardrails, S1–S17 and the exact occurrence bundle on every relevant change.
 - Exact GBIF DOI-preparation bundle: 58,455 records, 34 species, 58,455 unique occurrence keys and 389 parent datasets; exact archive SHA-256 `f25ae0cf2c84c45ae461a932d6c6063edda64591913a2495e4a3da82d573f094`.
-- Deterministic release preview: workflow run `30083219794` built a 52-file package from PR head `2a51e0ef5627d4e2eb8d91c6716b18e396f9ff2a`; artifact `8592636214`, digest `sha256:1f90ec783982e44bc83e4259920d2105d78dfa5f0dc5191af0b14ed418c946e7`.
+- Deterministic release preview: the persistent `PR JBI release dry run` workflow records the PR head, package files, SHA-256 values, dirty-tree boundary and expected placeholder paths in its artifact manifest.
 - Taxon-image candidate: the *Ipomoea purpurea* three-colour photograph is documented as CC0 on Wikimedia Commons; source, author, caption and interpretation boundary are recorded in `docs/jbi_taxon_image_candidate.md`.
 - No author detail, funding statement, archive DOI, GBIF DOI, human-screener identity, declaration or molecular-phylogeny result has been invented.
 
@@ -40,7 +40,7 @@
 | Supporting provenance | ✓ Pass | Analysis tables, literature chronology, placement audit, Open Tree topology, three dated trees, exact GBIF bundle and manifests are indexed or directly referenced. |
 | Automated package QA | ✓ Pass | File presence, figure links, required estimates, forbidden claims, S1–S17 row counts, all indexed SHA-256 values and exact GBIF counts passed CI. |
 | Data Accessibility | △ Ready for DOI insertion | The exact citation boundary and archive files are documented; final repository, broad-download and Derived Dataset DOI citations remain. |
-| Deterministic release package | ✓ Preview passes | The preview has no substantive dirty-tree changes; ZIP SHA-256 `358b0c4ced2da80307b8e219ba3dcd9fb7d8c23396bdc6f5b965bc582451b736`. |
+| Deterministic release package | ✓ Preview passes | The preview records its source commit and deterministic ZIP hash in the external workflow artifact, avoiding self-reference inside packaged documents. |
 | Strict release package | △ Deliberately blocked | Four placeholder groups remain: cover letter, manuscript DOI/human-review wording, title page and Zenodo metadata. |
 | Title page and declarations | ✗ Missing author confirmation | Authors, affiliations, ORCIDs, funding, CRediT, conflicts, acknowledgements and biosketch remain `Not verified`. |
 | Author confirmation workflow | ✓ Prepared | All author-controlled fields and sign-offs are consolidated in `docs/jbi_author_confirmation_form.md`. |
@@ -94,6 +94,7 @@ Do not describe the result as confirmed, phylogenetically robust, independent of
 | Author-controlled tasks distributed across several templates | Added one author confirmation and sign-off form | Reduces ambiguity and prevents silent assumptions. |
 | Permanent archive task described generically | Added a Zenodo metadata template and explicit archive/release protocol | Converts the remaining archive step into a documented external workflow. |
 | Any uncommitted validator report blocked strict release | Exempted only known generated outputs while retaining failure for substantive dirty files | Makes strict mode usable without weakening source-integrity checks. |
+| Preview identifiers embedded in packaged documents | Moved current head, artifact and ZIP hashes to the PR/workflow record | Avoids self-referential package hashes. |
 
 ## Editor Check
 
