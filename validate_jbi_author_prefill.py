@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Validate the limited, source-backed author metadata prefill.
 
-This validator protects the verified name and institution while ensuring that the
-prefill is not silently converted into an unverified final author order,
-corresponding-author designation, email address or ORCID.
+This validator protects the verified name, institution and institutional email while
+ensuring that the prefill is not silently converted into an unverified final author
+order, corresponding-author designation or ORCID.
 """
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ CHECKLIST = DOCS / "jbi_submission_completion_checklist.md"
 
 VERIFIED_NAME = "ZHANG RUIQI"
 VERIFIED_AFFILIATION = "Graduate School of Agriculture, Kyoto University"
+VERIFIED_EMAIL = "zhang.ruiqi.77h@st.kyoto-u.ac.jp"
 
 
 def fail(message: str) -> None:
@@ -49,6 +50,7 @@ def main() -> None:
     ):
         require_text(text, VERIFIED_NAME, label)
         require_text(text, VERIFIED_AFFILIATION, label)
+        require_text(text, VERIFIED_EMAIL, label)
 
     require_text(title_page, "final author order", "title page")
     require_text(title_page, "any additional authors", "title page")
@@ -56,26 +58,32 @@ def main() -> None:
     require_text(author_form, "[Confirm order]", "author form")
     require_text(author_form, "Not verified", "author form")
     require_text(author_form, "research student", "author form")
+    require_text(author_form, "No ORCID linked to the institutional email was found", "author form")
     require_text(cover_letter, "CONFIRM THAT THE FOLLOWING VERIFIED PERSON IS THE CORRESPONDING AUTHOR", "cover letter")
     require_text(checklist, "Verified identity prefill", "completion checklist")
+    require_text(checklist, "Verified institutional email prefill", "completion checklist")
     require_text(checklist, "Final author order and any additional authors", "completion checklist")
 
     combined = "\n".join((title_page, author_form, cover_letter))
     orcids = re.findall(r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", combined)
     emails = re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", combined)
+    unexpected_emails = sorted({email for email in emails if email.lower() != VERIFIED_EMAIL.lower()})
     if orcids:
         fail(f"Unverified ORCID-like value found in author-prefill files: {orcids}")
-    if emails:
-        fail(f"Unverified email-like value found in author-prefill files: {emails}")
+    if unexpected_emails:
+        fail(f"Unexpected email-like value found in author-prefill files: {unexpected_emails}")
+    if not emails:
+        fail("Verified institutional email is absent from author-prefill files")
 
     print(
         {
             "status": "pass",
             "verified_name": VERIFIED_NAME,
             "verified_affiliation": VERIFIED_AFFILIATION,
+            "verified_email": VERIFIED_EMAIL,
             "final_author_order_confirmed": False,
             "corresponding_author_confirmed": False,
-            "email_prefilled": False,
+            "email_prefilled": True,
             "orcid_prefilled": False,
         }
     )
