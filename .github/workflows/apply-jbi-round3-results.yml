@@ -1,0 +1,71 @@
+name: Apply JBI round-three results
+
+on:
+  push:
+    branches:
+      - agent/jbi-final-editorial-revision
+    paths:
+      - "tools/apply_jbi_round3_patch.py"
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  apply-results:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/jbi-final-editorial-revision
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install patch dependencies
+        run: python -m pip install --disable-pip-version-check pandas
+
+      - name: Download verified sensitivity artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p analysis_outputs/jbi_round3_integration
+          gh run download 30067762848 \
+            --repo zuizui0223/fcp \
+            --name jbi-phylogenetic-sensitivity \
+            --dir analysis_outputs/jbi_round3_integration
+
+      - name: Apply manuscript and supporting-information patch
+        run: python tools/apply_jbi_round3_patch.py
+
+      - name: Validate integrated manuscript
+        run: |
+          set -euo pipefail
+          grep -q "odds ratio = 0.300" docs/jbi_manuscript_editorial_revision.md
+          grep -q "odds ratio = 0.472" docs/jbi_manuscript_editorial_revision.md
+          grep -q "Table S15" docs/jbi_manuscript_editorial_revision.md
+          test -s docs/supporting/jbi_table_s11_paginated_robustness.csv
+          test -s docs/supporting/jbi_table_s13_phylogenetic_sensitivity_summary.csv
+          test -s docs/supporting/jbi_table_s15_phylogenetic_replicates.csv
+          test -s docs/supporting/jbi_opentree_induced_topology.tre
+          test -s docs/supporting/jbi_phylogenetic_sensitivity_manifest.json
+
+      - name: Commit integrated results
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/jbi_manuscript_editorial_revision.md \
+            docs/jbi_editorial_submission_check.md \
+            docs/jbi_supporting_information_index.md \
+            docs/supporting/
+          if git diff --cached --quiet; then
+            echo "No document changes to commit"
+            exit 0
+          fi
+          git commit -m "Integrate phylogenetic and GBIF sensitivity results"
+          git push origin HEAD:agent/jbi-final-editorial-revision
