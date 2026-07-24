@@ -1,0 +1,18 @@
+### Aim
+
+Intraspecific phenotypic variation may occur through local coexistence or geographic differentiation, but comparative studies rarely treat spatial organization as a distinct property. We tested whether documented within-population flower-colour polymorphism and geographically structured flower-colour variation differ in occupied climatic niche breadth.
+
+### Location
+
+Global, literature-derived sample.
+
+### Taxon
+
+Angiosperms with documented natural intraspecific flower-colour variation.
+
+### Methods
+
+We combined audited literature classifications with GBIF occurrences and WorldClim 2.1 data. Binomial models used family-clustered uncertainty, label permutations and family deletion. We repeated the focal model with a paginated, quality-filtered GBIF sample and fitted topology-based phylogenetic logistic models using the Open Tree of Life.
+
+### Results
+
