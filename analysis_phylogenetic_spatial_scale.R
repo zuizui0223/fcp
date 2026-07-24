@@ -1,10 +1,9 @@
 #!/usr/bin/env Rscript
 
 # Topology-based phylogenetic logistic sensitivity analysis for the JBI manuscript.
-# The analysis uses exact Open Tree of Life name matches, an induced synthetic-tree
-# topology, random resolutions of polytomies, Grafen branch lengths, and phyloglm
-# with the logistic_MPLE method. It is a sensitivity analysis, not a time-calibrated
-# species phylogeny.
+# Exact, unique Open Tree Taxonomy matches are used to induce a synthetic-tree
+# topology. Polytomies are resolved repeatedly and assigned Grafen branch lengths.
+# This is a topology sensitivity analysis, not a time-calibrated species phylogeny.
 
 suppressPackageStartupMessages({
   library(ape)
@@ -26,8 +25,8 @@ parse_args <- function(args) {
   while (i <= length(args)) {
     key <- sub("^--", "", args[[i]])
     if (i == length(args)) stop("Missing value for argument: ", args[[i]])
-    value <- args[[i + 1L]]
     if (!key %in% names(out)) stop("Unknown argument: --", key)
+    value <- args[[i + 1L]]
     if (key %in% c("replicates", "seed", "min_cells")) value <- as.integer(value)
     out[[key]] <- value
     i <- i + 2L
@@ -38,6 +37,17 @@ parse_args <- function(args) {
   out
 }
 
+retry_call <- function(fun, attempts = 4L, label = "API call") {
+  last <- NULL
+  for (i in seq_len(attempts)) {
+    result <- try(fun(), silent = TRUE)
+    if (!inherits(result, "try-error")) return(result)
+    last <- result
+    if (i < attempts) Sys.sleep(2^(i - 1L))
+  }
+  stop(label, " failed after ", attempts, " attempts: ", as.character(last))
+}
+
 zscore <- function(x) {
   x <- as.numeric(x)
   s <- sd(x, na.rm = TRUE)
@@ -45,60 +55,49 @@ zscore <- function(x) {
   (x - mean(x, na.rm = TRUE)) / s
 }
 
-safe_name_resolution <- function(names) {
-  result <- try(
-    tnrs_match_names(
-      names,
-      context_name = "Land plants",
-      do_approximate_matching = FALSE,
-      include_suppressed = FALSE
-    ),
-    silent = TRUE
-  )
-  if (inherits(result, "try-error")) {
-    result <- tnrs_match_names(
-      names,
-      context_name = "All life",
-      do_approximate_matching = FALSE,
-      include_suppressed = FALSE
-    )
-  }
-  result
-}
-
 prepare_tree <- function(tree, seed) {
   set.seed(seed)
-  resolved <- if (is.binary.tree(tree)) tree else multi2di(tree, random = TRUE)
+  resolved <- if (is.binary(tree)) tree else multi2di(tree, random = TRUE)
   resolved$edge.length <- NULL
   resolved <- compute.brlen(resolved, method = "Grafen", power = 1)
-  positive <- resolved$edge.length[is.finite(resolved$edge.length) & resolved$edge.length > 0]
+  positive <- resolved$edge.length[
+    is.finite(resolved$edge.length) & resolved$edge.length > 0
+  ]
   if (!length(positive)) stop("Could not assign positive branch lengths")
-  resolved$edge.length[!is.finite(resolved$edge.length) | resolved$edge.length <= 0] <-
-    min(positive) * 1e-6
+  resolved$edge.length[
+    !is.finite(resolved$edge.length) | resolved$edge.length <= 0
+  ] <- min(positive) * 1e-6
   resolved
+}
+
+failed_fit_row <- function(label, replicate_id, seed, status, n_species) {
+  data.frame(
+    analysis_label = label,
+    replicate = replicate_id,
+    seed = seed,
+    status = status,
+    n_species = n_species,
+    estimate = NA_real_,
+    std_error = NA_real_,
+    odds_ratio = NA_real_,
+    odds_ratio_ci_low = NA_real_,
+    odds_ratio_ci_high = NA_real_,
+    p_value = NA_real_,
+    alpha = NA_real_,
+    log_likelihood = NA_real_,
+    stringsAsFactors = FALSE
+  )
 }
 
 fit_one <- function(data, tree, replicate_id, seed, analysis_label) {
   tr <- prepare_tree(tree, seed)
   kept <- intersect(tr$tip.label, rownames(data))
-  tr <- drop.tip(tr, setdiff(tr$tip.label, kept))
+  to_drop <- setdiff(tr$tip.label, kept)
+  if (length(to_drop)) tr <- drop.tip(tr, to_drop)
   d <- data[tr$tip.label, , drop = FALSE]
   if (nrow(d) < 20L || length(unique(d$among)) < 2L) {
-    return(data.frame(
-      analysis_label = analysis_label,
-      replicate = replicate_id,
-      seed = seed,
-      status = "not_estimable",
-      n_species = nrow(d),
-      estimate = NA_real_,
-      std_error = NA_real_,
-      odds_ratio = NA_real_,
-      odds_ratio_ci_low = NA_real_,
-      odds_ratio_ci_high = NA_real_,
-      p_value = NA_real_,
-      alpha = NA_real_,
-      log_likelihood = NA_real_,
-      stringsAsFactors = FALSE
+    return(failed_fit_row(
+      analysis_label, replicate_id, seed, "not_estimable", nrow(d)
     ))
   }
 
@@ -113,21 +112,12 @@ fit_one <- function(data, tree, replicate_id, seed, analysis_label) {
     silent = TRUE
   )
   if (inherits(fit, "try-error")) {
-    return(data.frame(
-      analysis_label = analysis_label,
-      replicate = replicate_id,
-      seed = seed,
-      status = paste0("failed: ", substr(as.character(fit), 1, 200)),
-      n_species = nrow(d),
-      estimate = NA_real_,
-      std_error = NA_real_,
-      odds_ratio = NA_real_,
-      odds_ratio_ci_low = NA_real_,
-      odds_ratio_ci_high = NA_real_,
-      p_value = NA_real_,
-      alpha = NA_real_,
-      log_likelihood = NA_real_,
-      stringsAsFactors = FALSE
+    return(failed_fit_row(
+      analysis_label,
+      replicate_id,
+      seed,
+      paste0("failed: ", substr(as.character(fit), 1, 300)),
+      nrow(d)
     ))
   }
 
@@ -164,6 +154,17 @@ fit_one <- function(data, tree, replicate_id, seed, analysis_label) {
 
 args <- parse_args(commandArgs(trailingOnly = TRUE))
 dir.create(args$outdir, recursive = TRUE, showWarnings = FALSE)
+error_log <- file.path(args$outdir, "phylogenetic_error.log")
+options(error = function() {
+  lines <- c(
+    paste0("ERROR: ", geterrmessage()),
+    "TRACEBACK:",
+    capture.output(traceback(20))
+  )
+  writeLines(lines, error_log)
+  message(paste(lines, collapse = "\n"))
+  quit(save = "no", status = 1, runLast = FALSE)
+})
 
 raw <- read.csv(args$dataset, stringsAsFactors = FALSE, check.names = FALSE)
 required <- c(
@@ -185,32 +186,63 @@ data$among <- as.integer(data$spatial_scale == "among_population")
 data$moisture_z <- zscore(data$moisture_breadth)
 data$effort_z <- zscore(log1p(data$n_climate_cells))
 data <- data[complete.cases(data[, c("among", "moisture_z", "effort_z")]), , drop = FALSE]
+if (nrow(data) < 20L) stop("Fewer than 20 complete species before tree matching")
 
-resolved <- safe_name_resolution(data$canonical_name)
+resolved <- retry_call(
+  function() tnrs_match_names(
+    data$canonical_name,
+    context_name = "Land plants",
+    do_approximate_matching = FALSE,
+    include_suppressed = FALSE
+  ),
+  label = "Open Tree TNRS"
+)
+if (!nrow(resolved)) stop("Open Tree TNRS returned no rows")
+
 resolved$query_name <- data$canonical_name[
   match(tolower(resolved$search_string), tolower(data$canonical_name))
 ]
-resolved$exact_eligible <- (
+resolved$exact_unique_match <- (
   !is.na(resolved$query_name) &
     !is.na(resolved$ott_id) &
+    !is.na(resolved$approximate_match) &
     !resolved$approximate_match &
-    resolved$score == 1
+    is.finite(resolved$score) &
+    resolved$score == 1 &
+    !is.na(resolved$number_matches) &
+    resolved$number_matches == 1
 )
+resolved$in_synthetic_tree <- FALSE
 
-tree_membership <- rep(FALSE, nrow(resolved))
-if (any(resolved$exact_eligible)) {
-  eligible_ids <- resolved$ott_id[resolved$exact_eligible]
-  in_tree <- is_in_tree(eligible_ids)
-  tree_membership[resolved$exact_eligible] <- as.logical(in_tree)
+eligible_index <- which(resolved$exact_unique_match)
+if (length(eligible_index)) {
+  ids <- as.integer(resolved$ott_id[eligible_index])
+  membership <- retry_call(
+    function() is_in_tree(ids),
+    label = "Open Tree synthetic-tree membership"
+  )
+  if (length(membership) != length(ids)) {
+    stop("Open Tree membership result length did not match the requested OTT ids")
+  }
+  resolved$in_synthetic_tree[eligible_index] <- as.logical(unname(membership))
 }
-resolved$in_synthetic_tree <- tree_membership
-resolved$duplicate_ott_id <- duplicated(resolved$ott_id) | duplicated(resolved$ott_id, fromLast = TRUE)
-resolved$model_eligible <- resolved$exact_eligible & resolved$in_synthetic_tree & !resolved$duplicate_ott_id
+
+resolved$duplicate_ott_id <- FALSE
+non_missing_ids <- which(!is.na(resolved$ott_id))
+resolved$duplicate_ott_id[non_missing_ids] <- (
+  duplicated(resolved$ott_id[non_missing_ids]) |
+    duplicated(resolved$ott_id[non_missing_ids], fromLast = TRUE)
+)
+resolved$model_eligible <- (
+  resolved$exact_unique_match &
+    resolved$in_synthetic_tree &
+    !resolved$duplicate_ott_id
+)
 
 audit_columns <- intersect(
   c(
     "query_name", "search_string", "unique_name", "approximate_match", "score",
-    "ott_id", "is_synonym", "flags", "number_matches", "exact_eligible",
+    "ott_id", "is_synonym", "flags", "number_matches", "exact_unique_match",
     "in_synthetic_tree", "duplicate_ott_id", "model_eligible"
   ),
   names(resolved)
@@ -223,20 +255,26 @@ write.csv(
 
 eligible <- resolved[resolved$model_eligible, , drop = FALSE]
 if (nrow(eligible) < 20L) {
-  stop("Fewer than 20 species had exact, unique Open Tree matches in the synthetic tree")
+  stop(
+    "Fewer than 20 species had exact, unique Open Tree matches in the synthetic tree: ",
+    nrow(eligible)
+  )
 }
 
-ott_ids <- eligible$ott_id
-names(ott_ids) <- eligible$query_name
-tree <- tol_induced_subtree(ott_ids = ott_ids, label_format = "id")
+ott_ids <- as.integer(eligible$ott_id)
+tree <- retry_call(
+  function() tol_induced_subtree(ott_ids = ott_ids, label_format = "id"),
+  label = "Open Tree induced subtree"
+)
 
-tip_ids <- suppressWarnings(as.numeric(gsub("[^0-9]", "", tree$tip.label)))
-tip_names <- eligible$query_name[match(tip_ids, eligible$ott_id)]
+tip_ids <- suppressWarnings(as.integer(gsub("[^0-9]", "", tree$tip.label)))
+tip_names <- eligible$query_name[match(tip_ids, as.integer(eligible$ott_id))]
 if (anyNA(tip_names)) {
   stop("Could not map all induced-subtree tip labels back to input species")
 }
 tree$tip.label <- tip_names
-tree <- drop.tip(tree, setdiff(tree$tip.label, eligible$query_name))
+tips_to_drop <- setdiff(tree$tip.label, eligible$query_name)
+if (length(tips_to_drop)) tree <- drop.tip(tree, tips_to_drop)
 
 data <- data[data$canonical_name %in% tree$tip.label, , drop = FALSE]
 rownames(data) <- data$canonical_name
@@ -273,8 +311,8 @@ if (nrow(complete)) {
     median_odds_ratio = median(complete$odds_ratio),
     min_odds_ratio = min(complete$odds_ratio),
     max_odds_ratio = max(complete$odds_ratio),
-    median_ci_low = median(complete$odds_ratio_ci_low),
-    median_ci_high = median(complete$odds_ratio_ci_high),
+    median_ci_low = median(complete$odds_ratio_ci_low, na.rm = TRUE),
+    median_ci_high = median(complete$odds_ratio_ci_high, na.rm = TRUE),
     median_p_value = median(complete$p_value, na.rm = TRUE),
     fraction_negative = mean(complete$estimate < 0),
     median_alpha = median(complete$alpha, na.rm = TRUE),
@@ -314,8 +352,8 @@ manifest <- list(
   formula = "among ~ moisture_z + effort_z",
   method = "phylolm::phyloglm(method='logistic_MPLE')",
   phylogeny = paste(
-    "Open Tree of Life induced synthetic-tree topology; exact non-approximate",
-    "name matches only; duplicate OTT IDs excluded"
+    "Open Tree of Life induced synthetic-tree topology; exact, unique,",
+    "non-approximate name matches only; duplicate OTT IDs excluded"
   ),
   polytomy_treatment = paste(
     args$replicates,
