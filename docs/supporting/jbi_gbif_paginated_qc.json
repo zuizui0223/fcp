@@ -1,0 +1,28 @@
+{
+  "species_requested": 34,
+  "species_resolved": 34,
+  "species_with_retained_records": 34,
+  "species_ge20_retained_records": 34,
+  "retained_coordinate_rows": 58455,
+  "gbif_requests_including_name_resolution": 315,
+  "sum_gbif_reported_occurrence_counts": 3044971,
+  "max_records_retrieved_per_species": 3000,
+  "page_size": 300,
+  "hasGeospatialIssue_query_value": false,
+  "accepted_basis_of_record": [
+    "HUMAN_OBSERVATION",
+    "MACHINE_OBSERVATION",
+    "MATERIAL_SAMPLE",
+    "OBSERVATION",
+    "PRESERVED_SPECIMEN"
+  ],
+  "maximum_coordinate_uncertainty_m": 20000.0,
+  "coordinate_deduplication": "one record per rounded latitude/longitude cell at 3 decimals",
+  "exclusions": {
+    "basis_of_record": 130,
+    "coordinate_uncertainty": 2618,
+    "spatial_duplicate": 21803
+  },
+  "failed_species": [],
+  "method_guard": "Paginated GBIF occurrence-search sensitivity sample; not a DOI-bearing GBIF download and not a complete census when a taxon exceeds the configured record cap."
+}

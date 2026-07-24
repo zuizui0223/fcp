@@ -1,0 +1,60 @@
+name: Prepare JBI GBIF DOI bundle
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  prepare-bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/jbi-final-editorial-revision
+          fetch-depth: 0
+
+      - name: Download verified occurrence artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p analysis_outputs/jbi_gbif_doi_source
+          gh run download 30065308023 \
+            --repo zuizui0223/fcp \
+            --name jbi-reviewer-sensitivity \
+            --dir analysis_outputs/jbi_gbif_doi_source
+
+      - name: Prepare exact subset and citation files
+        run: |
+          python prepare_jbi_gbif_doi_bundle.py \
+            --artifact analysis_outputs/jbi_gbif_doi_source \
+            --taxon-audit docs/supporting/jbi_table_s10_gbif_taxon_resolution_audit.csv \
+            --outdir docs/supporting/jbi_gbif_doi_bundle
+
+      - name: Validate DOI bundle
+        run: python validate_jbi_gbif_doi_bundle.py
+
+      - name: Commit verified DOI bundle
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/jbi_gbif_doi_bundle/
+          if git diff --cached --quiet; then
+            echo "No DOI bundle changes to commit"
+            exit 0
+          fi
+          git commit -m "Prepare exact GBIF citation bundle"
+          git push origin HEAD:agent/jbi-final-editorial-revision
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jbi-gbif-doi-bundle
+          path: docs/supporting/jbi_gbif_doi_bundle/
+          if-no-files-found: error
+          retention-days: 14
