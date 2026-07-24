@@ -3,9 +3,11 @@
 
 Preview mode permits explicit author-controlled placeholders and reports them.
 Strict mode fails if journal-facing files retain unresolved placeholders or if the
-working tree has substantive uncommitted changes. Known generated validation and
-release outputs are excluded from that dirty-tree decision. The repository release
-itself should still be archived through a permanent service such as Zenodo.
+working tree contains substantive changes. Known validator-generated reports are
+ignored for cleanliness because they are deterministic build products, not source.
+The repository release itself should still be archived through a permanent service
+such as Zenodo; this script builds the journal-facing bundle and an auditable
+manifest from the frozen source commit.
 """
 from __future__ import annotations
 
@@ -19,7 +21,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
-GENERATED_REPORTS = {"docs/jbi_submission_validation_report.json"}
+GENERATED_STATUS_PATHS = {
+    "docs/jbi_submission_validation_report.json",
+}
 
 EXPLICIT_FILES = [
     "docs/jbi_manuscript_editorial_revision.md",
@@ -41,6 +45,7 @@ EXPLICIT_FILES = [
     "submit_jbi_gbif_download.py",
     "validate_jbi_submission_package.py",
     "validate_jbi_gbif_doi_bundle.py",
+    "validate_jbi_author_prefill.py",
 ]
 
 GLOB_PATTERNS = [
@@ -54,6 +59,10 @@ STRICT_TEXT_FILES = {
     "docs/jbi_cover_letter_template.md": [r"REPLACE_", r"\[[^\]]+\]"],
     "docs/jbi_zenodo_metadata_template.json": [r"REPLACE_"],
 }
+
+
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
 
 
 def sha256_file(path: Path) -> str:
@@ -108,24 +117,11 @@ def validate_required_files(files: list[Path]) -> None:
         raise SystemExit(f"Missing or empty release files: {missing}")
 
 
-def porcelain_path(line: str) -> str:
-    value = line[3:].strip() if len(line) >= 4 else line.strip()
-    if " -> " in value:
-        value = value.rsplit(" -> ", 1)[1]
-    return value.strip('"')
-
-
-def substantive_status(lines: list[str], output_dir_relative: str) -> list[str]:
-    output_prefix = output_dir_relative.rstrip("/") + "/"
-    retained: list[str] = []
-    for line in lines:
-        path = porcelain_path(line)
-        if path in GENERATED_REPORTS:
-            continue
-        if path == output_dir_relative.rstrip("/") or path.startswith(output_prefix):
-            continue
-        retained.append(line)
-    return retained
+def status_path(line: str) -> str:
+    payload = line[3:].strip()
+    if " -> " in payload:
+        payload = payload.split(" -> ", 1)[1]
+    return payload.strip('"')
 
 
 def write_deterministic_zip(files: list[Path], destination: Path) -> None:
@@ -151,12 +147,13 @@ def main() -> None:
     validate_required_files(files)
 
     commit_sha = git_text("rev-parse", "HEAD")
-    raw_status = [line for line in git_text("status", "--porcelain").splitlines() if line]
-    effective_status = substantive_status(raw_status, Path(args.output_dir).as_posix())
+    raw_status_lines = [line for line in git_text("status", "--porcelain").splitlines() if line]
+    ignored_status_lines = [line for line in raw_status_lines if status_path(line) in GENERATED_STATUS_PATHS]
+    substantive_status_lines = [line for line in raw_status_lines if status_path(line) not in GENERATED_STATUS_PATHS]
     findings = placeholder_findings(files)
 
-    if args.strict and effective_status:
-        raise SystemExit(f"Strict release requires no substantive uncommitted changes: {effective_status}")
+    if args.strict and substantive_status_lines:
+        raise SystemExit(f"Strict release requires no substantive working-tree changes: {substantive_status_lines}")
     if args.strict and findings:
         raise SystemExit(f"Strict release blocked by unresolved placeholders: {findings}")
 
@@ -178,10 +175,10 @@ def main() -> None:
     manifest = {
         "status": "strict-pass" if args.strict else "preview",
         "source_commit": commit_sha,
-        "working_tree_clean_for_release": not effective_status,
-        "raw_working_tree_status": raw_status,
-        "substantive_working_tree_status": effective_status,
-        "ignored_generated_paths": sorted(GENERATED_REPORTS | {Path(args.output_dir).as_posix()}),
+        "working_tree_clean_for_release": not substantive_status_lines,
+        "substantive_working_tree_status": substantive_status_lines,
+        "ignored_generated_working_tree_status": ignored_status_lines,
+        "ignored_generated_paths": sorted(GENERATED_STATUS_PATHS),
         "file_count": len(file_records),
         "files": file_records,
         "placeholder_findings": findings,
