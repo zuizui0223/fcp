@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "validate_jbi_submission_package.py"
+      - "validate_jbi_gbif_doi_bundle.py"
       - "docs/jbi_*.md"
       - "docs/figures/**"
       - "docs/supporting/**"
@@ -27,6 +28,9 @@ jobs:
 
       - name: Validate manuscript and supporting package
         run: python validate_jbi_submission_package.py
+
+      - name: Validate exact GBIF DOI bundle
+        run: python validate_jbi_gbif_doi_bundle.py
 
       - uses: actions/upload-artifact@v4
         if: always()
