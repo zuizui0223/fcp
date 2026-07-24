@@ -6,10 +6,11 @@ This checklist contains only fields that still require verified author input or 
 
 | Field | Status | Required action |
 |---|---|---|
-| Automated OpenAlex queries and filtering rules | ✓ Verified | Already documented in the anonymized manuscript. |
-| Original execution date for each discovery and follow-up search | ✗ Not verified | Recover from workflow metadata, logs or dated records and enter exact dates. |
-| Manual screener names and number of screeners | ✗ Not verified | Record the people who actually screened or adjudicated evidence. |
-| Disagreement-resolution procedure | ✗ Not verified | Describe the procedure actually used; do not create a retrospective protocol. |
+| Automated OpenAlex queries and filtering rules | ✓ Verified | Documented in the anonymized manuscript. |
+| Automated search and follow-up dates | ✓ Verified | Repository commits record evidence-pipeline activity from 16 to 19 July 2026; see `docs/jbi_literature_search_provenance.md`. |
+| Human screener names and number of screeners | ✗ Not verified | Record the people who actually screened or classified evidence. |
+| Independent duplicate screening or agreement assessment | ✗ Not verified | State what was actually done; explicitly say when it was not performed. |
+| Disagreement-resolution procedure | ✗ Not verified | Describe the actual procedure; do not create a retrospective protocol. |
 | Language and database-coverage limitations | ✓ Verified | Already stated in Methods and Discussion. |
 
 ## 2. Authorship and declarations
@@ -30,7 +31,7 @@ This checklist contains only fields that still require verified author input or 
 
 | Field | Status | Required action |
 |---|---|---|
-| Submission branch and manuscript files | ✓ Verified | Draft PR #5 contains the edited manuscript and Supporting Tables S1–S17. |
+| Submission branch and manuscript files | ✓ Verified | Draft PR #5 contains the edited manuscript, Appendix S1 and Supporting Tables S1–S17. |
 | Primary-analysis artifact | ✓ Verified | Workflow run `29972327794`; digest `sha256:87d8c9ba89f27685e362abeffa0e077330adb1923652f7a7df73572c5e274ac8`. |
 | GBIF/Open Tree sensitivity artifact | ✓ Verified | Workflow run `30067762848`; artifact `8586932030`; digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`. |
 | Dated-megaphylogeny artifact | ✓ Verified | Fixed-seed workflow run `30076757379`; artifact `8590190840`; digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`. |
@@ -54,6 +55,7 @@ This checklist contains only fields that still require verified author input or 
 |---|---|
 | Anonymized manuscript | ✓ Prepared: `docs/jbi_manuscript_editorial_revision.md` |
 | Separate title page | △ Template prepared; author-controlled fields remain blank |
+| Literature-search provenance | ✓ Prepared: `docs/jbi_literature_search_provenance.md` |
 | Supporting Information index | ✓ Prepared and SHA-256 checked |
 | Tables S1–S17 | ✓ Prepared |
 | Open Tree topology and dated S1–S3 trees | ✓ Prepared |
@@ -67,7 +69,7 @@ This checklist contains only fields that still require verified author input or 
 Do not mark the manuscript submission-ready until all of the following are true:
 
 - final author list and declarations are approved;
-- literature-search dates and manual review procedure are documented;
+- the actual human screening/classification arrangement is documented;
 - the permanent archive DOI and GBIF DOI are inserted;
 - the taxon image and rights are confirmed;
 - all manuscript, table, figure and Supporting Information cross-references are checked against the frozen submission commit.
