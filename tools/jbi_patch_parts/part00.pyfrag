@@ -4,7 +4,7 @@ import re,shutil,json,hashlib
 import pandas as pd
 R=Path(__file__).resolve().parents[1]; D=R/'docs'; S=D/'supporting'; O=R/'analysis_outputs'/'jbi_round3_integration'
 def sec(t,a,b,x):
- p=re.compile(rf'(?ms)^{re.escape(a)}\n.*?(?=^{re.escape(b)}\n)'); assert len(p.findall(t))==1,(a,b); return p.sub(x.rstrip()+'\n\n',t,1)
+ p=re.compile(rf'(?ms)^{re.escape(a)}\n.*?(?=^{re.escape(b)})'); assert len(p.findall(t))==1,(a,b); return p.sub(x.rstrip()+'\n\n',t,1)
 def one(t,a,b): assert t.count(a)==1,(a,t.count(a)); return t.replace(a,b,1)
 def cp():
  S.mkdir(parents=True,exist_ok=True); q=O/'paginated_robustness'; a=O/'phylogenetic_original'; b=O/'phylogenetic_paginated'
@@ -15,4 +15,3 @@ def cp():
  tr=(a/'opentree_induced_topology.tre').read_text(); assert tr==(b/'opentree_induced_topology.tre').read_text(); (S/'jbi_opentree_induced_topology.tre').write_text(tr)
  m={'run':30067762848,'artifact':8586932030,'digest':'sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f','original':json.loads((a/'phylogenetic_logistic_manifest.json').read_text()),'paginated':json.loads((b/'phylogenetic_logistic_manifest.json').read_text())}; (S/'jbi_phylogenetic_sensitivity_manifest.json').write_text(json.dumps(m,indent=2)+'\n')
 A='''## Abstract
-
