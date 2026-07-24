@@ -75,6 +75,7 @@ This checklist contains only fields that still require verified author input, au
 | Supporting Information index | ✓ Prepared and SHA-256 checked |
 | Tables S1–S19 | ✓ Prepared |
 | S18/S19 classification-review packet | ✓ Prepared; not completed | S18 is blank and blinded; S19 reproduces 34/34 frozen labels from the retained queue text and all 34 classification sources match the queue best source. |
+| S18/S19 classification-review packet | ✓ Prepared; not completed | S18 is blank and blinded; S19 reproduces 34/34 frozen labels from the retained queue text and all 34 classification sources match the queue best source. |
 | Open Tree topology and dated S1–S3 trees | ✓ Prepared |
 | Main tables and figure legends | ✓ Included in manuscript |
 | Taxon image rights and caption candidate | ✓ Verified candidate | *Ipomoea purpurea* image is CC0; source, credit, caption and interpretation boundary are recorded in `docs/jbi_taxon_image_candidate.md`. |
