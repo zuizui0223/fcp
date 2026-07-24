@@ -1,11 +1,12 @@
 name: Apply JBI round-three results
 
 on:
-  push:
-    branches:
-      - agent/jbi-final-editorial-revision
+  pull_request:
     paths:
       - "tools/apply_jbi_round3_patch.py"
+      - "tools/jbi_patch_parts/**"
+      - ".github/workflows/apply-jbi-round3-results.yml"
+  workflow_dispatch:
 
 permissions:
   actions: read
@@ -60,7 +61,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/jbi_manuscript_editorial_revision.md \
-            docs/jbi_editorial_submission_check.md \
             docs/jbi_supporting_information_index.md \
             docs/supporting/
           if git diff --cached --quiet; then
