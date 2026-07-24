@@ -13,7 +13,7 @@ SUMMARY = ROOT / "docs/supporting/jbi_table_s16_dated_phylogeny_sensitivity_summ
 
 def replace_section(text: str, start: str, end: str, replacement: str) -> str:
     pattern = re.compile(
-        rf"(?ms)^{re.escape(start)}\n.*?(?=^{re.escape(end)}\n)"
+        rf"(?ms)^{re.escape(start)}\n.*?(?=^{re.escape(end)})"
     )
     matches = pattern.findall(text)
     if len(matches) != 1:
