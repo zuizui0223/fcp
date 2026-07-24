@@ -36,6 +36,7 @@ jobs:
           grep -q "0.366–0.369" docs/jbi_manuscript_editorial_revision.md
           grep -q "Tables S16–S17" docs/jbi_manuscript_editorial_revision.md
           grep -q "Jin, Y., & Qian, H. (2022)" docs/jbi_manuscript_editorial_revision.md
+          grep -q "species-specific molecular phylogeny would refine" docs/jbi_manuscript_editorial_revision.md
 
       - name: Commit manuscript integration
         run: |
