@@ -34,7 +34,7 @@ Graduate School of Agriculture, Kyoto University
 
 [VERIFIED POSTAL ADDRESS]
 
-[VERIFIED EMAIL]
+zhang.ruiqi.77h@st.kyoto-u.ac.jp
 
 ## Before sending
 
