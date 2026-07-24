@@ -17,6 +17,7 @@ TITLE_PAGE = DOCS / "jbi_title_page_template.md"
 AUTHOR_FORM = DOCS / "jbi_author_confirmation_form.md"
 COVER_LETTER = DOCS / "jbi_cover_letter_template.md"
 CHECKLIST = DOCS / "jbi_submission_completion_checklist.md"
+PROVENANCE = DOCS / "jbi_author_metadata_provenance.md"
 
 VERIFIED_NAME = "ZHANG RUIQI"
 VERIFIED_DIVISION = "Division of Forest and Biomaterials Science"
@@ -35,7 +36,7 @@ def require_text(text: str, phrase: str, label: str) -> None:
 
 
 def main() -> None:
-    paths = (TITLE_PAGE, AUTHOR_FORM, COVER_LETTER, CHECKLIST)
+    paths = (TITLE_PAGE, AUTHOR_FORM, COVER_LETTER, CHECKLIST, PROVENANCE)
     for path in paths:
         if not path.is_file() or path.stat().st_size == 0:
             fail(f"Missing or empty author-prefill file: {path}")
@@ -44,12 +45,14 @@ def main() -> None:
     author_form = AUTHOR_FORM.read_text(encoding="utf-8")
     cover_letter = COVER_LETTER.read_text(encoding="utf-8")
     checklist = CHECKLIST.read_text(encoding="utf-8")
+    provenance = PROVENANCE.read_text(encoding="utf-8")
 
     for label, text in (
         ("title page", title_page),
         ("author form", author_form),
         ("cover letter", cover_letter),
         ("completion checklist", checklist),
+        ("author metadata provenance", provenance),
     ):
         require_text(text, VERIFIED_NAME, label)
         require_text(text, VERIFIED_DIVISION, label)
@@ -71,6 +74,11 @@ def main() -> None:
     require_text(checklist, "Verified institutional postal address", "completion checklist")
     require_text(checklist, "Verified institutional email prefill", "completion checklist")
     require_text(checklist, "Final author order and any additional authors", "completion checklist")
+    require_text(provenance, "Fields intentionally not inferred", "author metadata provenance")
+    require_text(provenance, "Private email bodies", "author metadata provenance")
+    require_text(provenance, "A Web of Science ResearcherID found in mailbox records is not an ORCID", "author metadata provenance")
+    require_text(provenance, "https://www.forest.kais.kyoto-u.ac.jp/en/division/", "author metadata provenance")
+    require_text(provenance, "https://www.kais.kyoto-u.ac.jp/english/graduate/", "author metadata provenance")
 
     combined = "\n".join((title_page, author_form, cover_letter))
     orcids = re.findall(r"\b\d{4}-\d{4}-\d{4}-\d{3}[\dX]\b", combined)
@@ -91,6 +99,7 @@ def main() -> None:
             "verified_affiliation": VERIFIED_AFFILIATION,
             "verified_postal": VERIFIED_POSTAL,
             "verified_email": VERIFIED_EMAIL,
+            "provenance_file": PROVENANCE.relative_to(ROOT).as_posix(),
             "laboratory_confirmed": False,
             "final_author_order_confirmed": False,
             "corresponding_author_confirmed": False,
