@@ -31,7 +31,13 @@ jobs:
 
       - name: Apply and validate manuscript patch
         run: |
-          python tools/apply_jbi_dated_phylogeny_manuscript_patch.py
+          mkdir -p analysis_outputs/jbi_dated_manuscript_patch
+          set +e
+          python tools/apply_jbi_dated_phylogeny_manuscript_patch.py \
+            > analysis_outputs/jbi_dated_manuscript_patch/patch.log 2>&1
+          status=$?
+          cat analysis_outputs/jbi_dated_manuscript_patch/patch.log
+          if [ "$status" -ne 0 ]; then exit "$status"; fi
           grep -q "Dated-megaphylogeny sensitivity" docs/jbi_manuscript_editorial_revision.md
           grep -q "0.366–0.369" docs/jbi_manuscript_editorial_revision.md
           grep -q "Tables S16–S17" docs/jbi_manuscript_editorial_revision.md
@@ -50,3 +56,11 @@ jobs:
           fi
           git commit -m "Integrate dated phylogeny sensitivity into JBI manuscript"
           git push origin HEAD:agent/jbi-final-editorial-revision
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jbi-dated-manuscript-patch-diagnostic
+          path: analysis_outputs/jbi_dated_manuscript_patch/
+          if-no-files-found: warn
+          retention-days: 7
