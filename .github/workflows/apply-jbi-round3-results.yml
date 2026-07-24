@@ -54,7 +54,7 @@ jobs:
           set -euo pipefail
           grep -q "odds ratio = 0.300" docs/jbi_manuscript_editorial_revision.md
           grep -q "odds ratio = 0.472" docs/jbi_manuscript_editorial_revision.md
-          grep -q "Table S15" docs/jbi_manuscript_editorial_revision.md
+          grep -q "Tables S13–S15" docs/jbi_manuscript_editorial_revision.md
           test -s docs/supporting/jbi_table_s11_paginated_robustness.csv
           test -s docs/supporting/jbi_table_s13_phylogenetic_sensitivity_summary.csv
           test -s docs/supporting/jbi_table_s15_phylogenetic_replicates.csv
