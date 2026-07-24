@@ -30,6 +30,9 @@ jobs:
           r-version: "release"
           use-public-rspm: true
 
+      - name: Prepare output directory
+        run: mkdir -p analysis_outputs/jbi_phylogenetic_sensitivity
+
       - name: Install Python dependencies
         run: |
           python -m pip install --disable-pip-version-check numpy pandas statsmodels
@@ -37,6 +40,21 @@ jobs:
       - name: Install R dependencies
         run: |
           Rscript -e 'install.packages(c("ape","jsonlite","phylolm","rotl"), repos="https://cloud.r-project.org")'
+
+      - name: Validate R script and package loading
+        run: |
+          set +e
+          Rscript -e '
+            parse(file="analysis_phylogenetic_spatial_scale.R")
+            library(ape)
+            library(jsonlite)
+            library(phylolm)
+            library(rotl)
+            print(sessionInfo())
+          ' > analysis_outputs/jbi_phylogenetic_sensitivity/r_diagnostic.log 2>&1
+          status=$?
+          cat analysis_outputs/jbi_phylogenetic_sensitivity/r_diagnostic.log
+          exit $status
 
       - name: Reproduce paginated-sample robustness statistics
         run: |
@@ -49,23 +67,35 @@ jobs:
 
       - name: Fit topology-based phylogenetic model to original sample
         run: |
+          set +e
+          mkdir -p analysis_outputs/jbi_phylogenetic_sensitivity/phylogenetic_original
           Rscript analysis_phylogenetic_spatial_scale.R \
             --dataset docs/supporting/jbi_table_s8_baseline_model_dataset.csv \
             --outdir analysis_outputs/jbi_phylogenetic_sensitivity/phylogenetic_original \
             --analysis_label baseline_original_occurrences \
             --replicates 100 \
             --seed 20260724 \
-            --min_cells 20
+            --min_cells 20 \
+            > analysis_outputs/jbi_phylogenetic_sensitivity/phylogenetic_original/run.log 2>&1
+          status=$?
+          cat analysis_outputs/jbi_phylogenetic_sensitivity/phylogenetic_original/run.log
+          exit $status
 
       - name: Fit topology-based phylogenetic model to paginated sample
         run: |
+          set +e
+          mkdir -p analysis_outputs/jbi_phylogenetic_sensitivity/phylogenetic_paginated
           Rscript analysis_phylogenetic_spatial_scale.R \
             --dataset docs/supporting/jbi_table_s9_paginated_quality_filtered_model_dataset.csv \
             --outdir analysis_outputs/jbi_phylogenetic_sensitivity/phylogenetic_paginated \
             --analysis_label baseline_paginated_quality_filtered \
             --replicates 100 \
             --seed 20260824 \
-            --min_cells 20
+            --min_cells 20 \
+            > analysis_outputs/jbi_phylogenetic_sensitivity/phylogenetic_paginated/run.log 2>&1
+          status=$?
+          cat analysis_outputs/jbi_phylogenetic_sensitivity/phylogenetic_paginated/run.log
+          exit $status
 
       - name: Validate outputs
         run: |
