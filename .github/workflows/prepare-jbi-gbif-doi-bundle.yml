@@ -1,10 +1,6 @@
 name: Prepare JBI GBIF DOI bundle
 
 on:
-  pull_request:
-    paths:
-      - "prepare_jbi_gbif_doi_bundle.py"
-      - ".github/workflows/prepare-jbi-gbif-doi-bundle.yml"
   workflow_dispatch:
 
 permissions:
@@ -40,40 +36,7 @@ jobs:
             --outdir docs/supporting/jbi_gbif_doi_bundle
 
       - name: Validate DOI bundle
-        run: |
-          set -euo pipefail
-          test -s docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz
-          test -s docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_parent_dataset_counts.csv
-          test -s docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_species_counts.csv
-          test -s docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_broad_download_request.json
-          test -s docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_derived_dataset_metadata_template.json
-          test -s docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_doi_bundle_manifest.json
-          python - <<'PY'
-          import csv, gzip, hashlib, json
-          from pathlib import Path
-          root = Path("docs/supporting/jbi_gbif_doi_bundle")
-          manifest = json.loads((root / "jbi_gbif_doi_bundle_manifest.json").read_text())
-          assert manifest["rows"] == 58455, manifest
-          assert manifest["species"] == 34, manifest
-          assert manifest["parent_datasets"] == 389, manifest
-          assert manifest["unique_occurrence_keys"] == 58455, manifest
-          assert manifest["source_csv_sha256"] == "b0614a729acde5a1daab599d52c39ac4018583e1f73d83e5304ac0afa6f6e7ad", manifest
-          assert manifest["exact_archive_sha256"] == "f25ae0cf2c84c45ae461a932d6c6063edda64591913a2495e4a3da82d573f094", manifest
-          with (root / "jbi_gbif_parent_dataset_counts.csv").open(newline="") as handle:
-              rows = list(csv.DictReader(handle))
-          assert len(rows) == 389, len(rows)
-          assert sum(int(row["record_count"]) for row in rows) == 58455
-          assert len({row["datasetKey"] for row in rows}) == 389
-          with gzip.open(root / "jbi_gbif_exact_occurrence_subset.csv.gz", "rt", newline="") as handle:
-              count = sum(1 for _ in handle) - 1
-          assert count == 58455, count
-          request = json.loads((root / "jbi_gbif_broad_download_request.json").read_text())
-          assert request["notificationAddresses"] == ["REPLACE_WITH_GBIF_ACCOUNT_EMAIL"]
-          taxon_predicate = request["predicate"]["predicates"][0]
-          assert taxon_predicate["key"] == "TAXON_KEY"
-          assert len(taxon_predicate["values"]) == 34
-          print(manifest)
-          PY
+        run: python validate_jbi_gbif_doi_bundle.py
 
       - name: Commit verified DOI bundle
         run: |
