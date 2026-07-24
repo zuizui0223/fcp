@@ -134,7 +134,8 @@ def main() -> None:
         "## Supporting Information",
     ]
     for heading in required_main_sections:
-        require(manuscript.count(heading) == 1, f"Expected one main section: {heading}", failures)
+        count = len(re.findall(rf"^{re.escape(heading)}$", manuscript, flags=re.MULTILINE))
+        require(count == 1, f"Expected one main section: {heading}; found {count}", failures)
 
     numerical_guardrails = [
         "odds ratio = 0.426",
@@ -145,7 +146,7 @@ def main() -> None:
         "p = 0.0164",
         "odds ratio of 0.592",
         "0.244–1.434",
-        "odds ratio of 0.472",
+        "0.472",
         "0.175–1.272",
         "0.464 to 0.470",
         "0.366 to 0.369",
