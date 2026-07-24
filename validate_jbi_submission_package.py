@@ -180,6 +180,8 @@ def main() -> None:
         "0.366 to 0.369",
         "from 16 to 19 July 2026",
         "Tables S16–S17",
+        "Table S18",
+        "Table S19",
         "Appendix S1",
         "58,455-row occurrence subset",
         "389 parent GBIF datasets",
@@ -223,7 +225,7 @@ def main() -> None:
         require(reference in references, f"Expected reference missing: {reference}", failures)
 
     supporting_rows = parse_supporting_index(index_text)
-    require([row["id"] for row in supporting_rows] == list(range(1, 18)), "Supporting index must contain S1–S17 in order", failures)
+    require([row["id"] for row in supporting_rows] == list(range(1, 20)), "Supporting index must contain S1–S19 in order", failures)
     supporting_checks: list[dict[str, object]] = []
     for row in supporting_rows:
         path = ROOT / str(row["path"])
@@ -237,6 +239,10 @@ def main() -> None:
         supporting_checks.append({**row, "exists": exists, "actual_rows": actual_rows, "actual_sha256": actual_sha})
 
     require("Appendix S1" in index_text and "jbi_literature_search_provenance.md" in index_text, "Appendix S1 missing from Supporting index", failures)
+    require("jbi_table_s18_blinded_classification_review.csv" in index_text, "S18 missing from Supporting index", failures)
+    require("jbi_table_s19_rule_classification_key.csv" in index_text, "S19 missing from Supporting index", failures)
+    require("jbi_classification_review_protocol.md" in index_text, "Classification review protocol missing from Supporting index", failures)
+    require("jbi_classification_rule_audit.md" in index_text, "Classification rule audit missing from Supporting index", failures)
     require("jbi_gbif_exact_occurrence_subset.csv.gz" in index_text, "Exact GBIF archive missing from Supporting index", failures)
     require(EXACT_GBIF_SHA in index_text, "Exact GBIF archive SHA missing from Supporting index", failures)
     require("16 to 19 July 2026" in provenance, "Search-date range missing from provenance appendix", failures)
