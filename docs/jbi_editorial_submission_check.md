@@ -7,11 +7,13 @@
 - GBIF and Open Tree sensitivity: workflow run `30067762848`, artifact digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`.
 - Fixed-seed dated-megaphylogeny sensitivity: workflow run `30076757379`, artifact `8590190840`, digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`.
 - Automated literature chronology: repository commits document global discovery and recorded follow-up/enrichment activity from 16 to 19 July 2026; the reconstruction is preserved in `docs/jbi_literature_search_provenance.md`.
-- Submission-package validation: workflow run `30079894645` passed; artifact `8591349630`, digest `sha256:3158e1f58dc8eaec9aa623fffbcb0574b37411eba6f8c814f8e4f57b85b96335`.
+- Integrated submission and exact-GBIF validation: workflow run `30083219726` passed; artifact `8592633639`, digest `sha256:7ca9c18500ca5adc7d62c68c193f9d6113ceea2f31f24605146d2a8c893ceb24`.
+- Exact GBIF DOI-preparation bundle: 58,455 records, 34 species, 58,455 unique occurrence keys and 389 parent datasets; exact archive SHA-256 `f25ae0cf2c84c45ae461a932d6c6063edda64591913a2495e4a3da82d573f094`.
+- Deterministic release preview: workflow run `30083219794` built a 52-file package from PR head `2a51e0ef5627d4e2eb8d91c6716b18e396f9ff2a`; artifact `8592636214`, digest `sha256:1f90ec783982e44bc83e4259920d2105d78dfa5f0dc5191af0b14ed418c946e7`.
 - Taxon-image candidate: the *Ipomoea purpurea* three-colour photograph is documented as CC0 on Wikimedia Commons; source, author, caption and interpretation boundary are recorded in `docs/jbi_taxon_image_candidate.md`.
 - No author detail, funding statement, archive DOI, GBIF DOI, human-screener identity, declaration or molecular-phylogeny result has been invented.
 
-## Journal-format check
+## Journal-format and package check
 
 | Item | Status | Verified finding |
 |---|---|---|
@@ -24,20 +26,27 @@
 | Automated literature chronology | ✓ Pass | Initial global output, deferred follow-up, evidence aggregation and ambiguous-case enrichment are dated from 16–19 July 2026 by repository commits. |
 | Manual screening documentation | △ Needs author confirmation | The repository does not identify human screener names or number, independent duplicate screening, agreement statistics or a formal disagreement-resolution procedure. |
 | Classification | ✓ Pass | Four classes, source audit, freeze rule and strict manifest are documented. |
-| GBIF methods | ✓ Pass analytically | Primary and paginated sensitivity workflows are described exactly. A citable GBIF derived-dataset DOI is missing. |
+| GBIF methods | ✓ Pass analytically | Primary and paginated sensitivity workflows are described exactly. |
+| Exact GBIF citation bundle | ✓ Prepared and validated | The exact subset, parent-dataset counts, species counts, broad request, Derived Dataset metadata and manifest are fixed and cross-validated. |
+| GBIF DOI issuance | △ Authenticated action required | A broad download DOI and exact-subset Derived Dataset DOI have not yet been issued. |
 | Climate and metrics | ✓ Pass | WorldClim variables, resolution, PCA and five metrics are reproducible. |
 | Statistical methods | ✓ Pass | Formula, covariance, confidence intervals, seeds, permutations, family deletion and diagnostics are reported. |
 | Open Tree sensitivity | ✓ Pass with limitation | Two 100-replicate topology-based analyses completed; the model retained 30 species and used Grafen branch lengths. |
 | Dated-megaphylogeny sensitivity | ✓ Pass with limitation | Six fixed-seed V.PhyloMaker2 models completed on time-scaled `GBOTB.extended.LCVP` trees; all retained 34 species, but six species were inserted. |
 | Results | ✓ Pass | Primary, broader, matched-control, occurrence-sampling and both phylogenetic treatments are reported with uncertainty. |
 | Discussion | ✓ Pass | Causal overstatement is removed; agreement in direction and uncertainty in inference are both explicit. |
-| References | ✓ Pass for cited text | Fifteen references support the current text. The GBIF data citation awaits a DOI. |
+| References | ✓ Pass for cited text | Fifteen references support the current text. Final GBIF data citations await issued identifiers. |
 | Tables and figures | ✓ Pass | Four main tables, two figure legends and Tables S1–S17 are cross-referenced. |
-| Supporting provenance | ✓ Pass | Analysis tables, literature chronology, placement audit, Open Tree topology, three dated trees and manifests are indexed or directly referenced. |
-| Automated package QA | ✓ Pass | File presence, figure links, required estimates, forbidden claims, S1–S17 row counts and all indexed SHA-256 values passed CI. |
-| Data Accessibility | △ Needs revision | Permanent code/data DOI and GBIF DOI remain `Not verified`. |
+| Supporting provenance | ✓ Pass | Analysis tables, literature chronology, placement audit, Open Tree topology, three dated trees, exact GBIF bundle and manifests are indexed or directly referenced. |
+| Automated package QA | ✓ Pass | File presence, figure links, required estimates, forbidden claims, S1–S17 row counts, all indexed SHA-256 values and exact GBIF counts passed CI. |
+| Data Accessibility | △ Ready for DOI insertion | The exact citation boundary and archive files are documented; final repository, broad-download and Derived Dataset DOI citations remain. |
+| Deterministic release package | ✓ Preview passes | The preview has no substantive dirty-tree changes; ZIP SHA-256 `358b0c4ced2da80307b8e219ba3dcd9fb7d8c23396bdc6f5b965bc582451b736`. |
+| Strict release package | △ Deliberately blocked | Four placeholder groups remain: cover letter, manuscript DOI/human-review wording, title page and Zenodo metadata. |
 | Title page and declarations | ✗ Missing author confirmation | Authors, affiliations, ORCIDs, funding, CRediT, conflicts, acknowledgements and biosketch remain `Not verified`. |
+| Author confirmation workflow | ✓ Prepared | All author-controlled fields and sign-offs are consolidated in `docs/jbi_author_confirmation_form.md`. |
+| Cover letter | △ Template prepared | Scientific claims are verified; author, exclusivity, conflict and DOI declarations require approval. |
 | Taxon image | △ Candidate verified | A high-resolution CC0 image and caption are identified; final author approval, download and submission upload remain. |
+| Archive metadata | ✓ Template prepared | Release protocol and Zenodo metadata template are present; creator, licence, version and identifiers require approval. |
 
 ## Current statistical interpretation
 
@@ -75,24 +84,24 @@ The defensible synthesis is:
 
 Do not describe the result as confirmed, phylogenetically robust, independent of ancestry or causal.
 
-## Round-six change history
+## Round-seven change history
 
 | Before | After | Reason |
 |---|---|---|
-| Automated search execution dates marked `Not verified` | Reconstructed global discovery and follow-up/enrichment activity from repository commits dated 16–19 July 2026 | Replaced a broad uncertainty statement with auditable provenance. |
-| Search and human review treated as one unresolved block | Separated verified automated chronology from unrecorded human screening arrangements | Prevented commit timestamps from being misrepresented as reviewer metadata. |
-| No durable search-history supplement | Added Appendix S1 with commit SHA, timestamp, stage and epistemic boundary | Made the evidence-assembly chronology reviewable. |
-| No package-level automated audit | Added CI validation for journal structure, numerical guardrails, reference presence, causal wording, files, row counts and SHA values | Prevents silent drift during final author edits. |
-| Taxon image entirely unresolved | Identified a high-resolution *I. purpurea* image released under CC0 and drafted the credit, caption and interpretation boundary | Reduced the image task to final author approval and upload. |
-| Title-page word counts stale | Replaced with validated values: Abstract 244 words and Introduction–Discussion 4,424 words | Synchronized submission metadata with the current manuscript. |
+| GBIF DOI listed only as a missing item | Frozen and validated the exact 58,455-record subset, 389 parent-dataset contributions, broad request and Derived Dataset metadata | Reduced DOI work to authenticated submission and permanent hosting rather than data reconstruction. |
+| Manuscript validator did not deeply inspect the GBIF archive | Integrated archive decompression, occurrence-key uniqueness, parent/species recounting, hashes and predicate checks into CI | Prevents citation drift or corruption of the exact analyzed subset. |
+| No deterministic final package | Added a 52-file release builder with fixed ZIP metadata, file hashes and source-commit manifest | Makes the journal-facing package reproducible from a frozen commit. |
+| Author-controlled tasks distributed across several templates | Added one author confirmation and sign-off form | Reduces ambiguity and prevents silent assumptions. |
+| Permanent archive task described generically | Added a Zenodo metadata template and explicit archive/release protocol | Converts the remaining archive step into a documented external workflow. |
+| Any uncommitted validator report blocked strict release | Exempted only known generated outputs while retaining failure for substantive dirty files | Makes strict mode usable without weakening source-integrity checks. |
 
 ## Editor Check
 
 ### Provisional decision: **Major revision before submission**
 
-The manuscript now addresses occurrence-sampling sensitivity and phylogenetic non-independence using two distinct phylogenetic constructions, documents the automated evidence-search chronology and passes an automated package audit. Directional consistency is strong: the moisture-breadth estimate remained negative in every family-deletion refit, every Open Tree replicate and every dated-megaphylogeny scenario. Inferential certainty remains limited because all phylogenetic confidence intervals include one, moisture breadth was selected from a 20-specification matrix and the literature-derived response can contain classification error.
+The manuscript now addresses occurrence-sampling sensitivity and phylogenetic non-independence using two distinct phylogenetic constructions, documents the automated evidence-search chronology, freezes the exact GBIF occurrence subset and passes integrated package, citation and release-preview audits. Directional consistency is strong: the moisture-breadth estimate remained negative in every family-deletion refit, every Open Tree replicate and every dated-megaphylogeny scenario. Inferential certainty remains limited because all phylogenetic confidence intervals include one, moisture breadth was selected from a 20-specification matrix and the literature-derived response can contain classification error.
 
-The remaining `Major revision` label no longer reflects missing search dates, a missing phylogenetic analysis, an unlocated image or an internally inconsistent submission package. It reflects exploratory focal selection, observational scale mismatch, non-random evidence assembly, incomplete documentation of human review, unresolved author-controlled declarations and missing permanent data citations.
+The remaining `Major revision` label no longer reflects missing search dates, a missing phylogenetic analysis, an unlocated image, an unreconstructed occurrence subset or an internally inconsistent submission package. It reflects exploratory focal selection, observational scale mismatch, non-random evidence assembly, incomplete documentation of human review, unresolved author-controlled declarations and DOI issuance that requires external accounts.
 
 ### Likely reviewer concerns, in priority order
 
@@ -102,17 +111,17 @@ The remaining `Major revision` label no longer reflects missing search dates, a 
 4. **Phylogenetic residual uncertainty.** Both phylogenetic treatments preserve the negative direction, but every interval includes one; six taxa were inserted into the dated backbone.
 5. **Non-random literature sampling.** Research effort, English queries and metadata availability shape inclusion.
 6. **Human review documentation.** The repository does not establish whether screening was single-reviewer, duplicated or formally adjudicated.
-7. **Occurrence-data limits.** The paginated sample remains capped and lacks a citable GBIF download DOI.
+7. **Occurrence-data limits.** The paginated sample remains capped even though its exact contents and citation contributions are now frozen.
 8. **Small comparative sample.** The strict comparison contains 34 species.
 9. **Mechanistic non-identifiability.** Occurrences are not labelled by flower-colour morph.
 
 ## Remaining submission blockers
 
-- Confirm the people who performed human screening/classification, the number of screeners and how disagreements were handled; state explicitly when duplicate screening or agreement assessment was not performed.
-- Archive the exact submission release and add its permanent DOI.
-- Create and cite a GBIF derived-dataset DOI.
-- Verify authors, affiliations, corresponding author, ORCIDs, funding and CRediT roles.
-- Obtain conflict-of-interest confirmations.
-- Complete Acknowledgements and the biosketch.
+- Complete `docs/jbi_author_confirmation_form.md` with the actual human screening arrangement and all author-controlled metadata.
+- Submit the prepared broad GBIF request through an authenticated account.
+- Publish the exact gzip at a permanent URL and register the GBIF Derived Dataset.
+- Freeze and archive the final repository release, then insert its DOI.
+- Complete and approve the title page, CRediT, funding, conflicts, acknowledgements, biosketch and cover letter.
 - Approve the CC0 *I. purpurea* image candidate, download the original-resolution file, retain the licence record and upload the final image.
-- Confirm whether the current time-scaled megaphylogeny sensitivity is adequate for submission or whether a bespoke species-level molecular tree is feasible; this is an editorial-strengthening choice rather than an unaddressed analytical omission.
+- Run the release builder in strict mode and require `strict-pass` on the frozen submission commit.
+- A bespoke species-level molecular tree remains optional editorial strengthening rather than an unaddressed analytical omission.
