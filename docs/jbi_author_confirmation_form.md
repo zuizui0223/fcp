@@ -4,14 +4,16 @@ Complete this form using actual records and author agreement. Do not infer or re
 
 ## Verified prefill boundary
 
-The following details are already supported by current author-provided or university-linked records:
+The following details are already supported by current author-provided, university-linked or official institutional records:
 
 - full name: **ZHANG RUIQI**;
+- division: **Division of Forest and Biomaterials Science**;
 - institutional affiliation: **Graduate School of Agriculture, Kyoto University**;
+- institutional postal address: **Kitashirakawa Oiwake-cho, Sakyo-ku, Kyoto 606-8502, Japan**;
 - institutional email: **zhang.ruiqi.77h@st.kyoto-u.ac.jp**;
 - current status in the source record: **research student**.
 
-The official English institutional name is confirmed by Kyoto University's website. Research-student status is recorded here for audit but is not automatically part of the journal affiliation line. Final author order, coauthors, division or laboratory, postal address, ORCID and corresponding-author status remain unverified. No ORCID linked to the institutional email was found in the searched mailbox records.
+The official English division, institution and general postal address are confirmed by Kyoto University's websites. Research-student status is recorded here for audit but is not automatically part of the journal affiliation line. Final author order, coauthors, laboratory or room, ORCID and corresponding-author status remain unverified. No ORCID linked to the institutional email was found in the searched mailbox records.
 
 ## 1. Human evidence screening and classification
 
@@ -51,19 +53,18 @@ Choose wording that is factually correct:
 Corresponding author:
 
 - Name: [ZHANG RUIQI / another verified author]
-- Postal address: [Address]
+- Postal address: [If ZHANG RUIQI is confirmed, use the verified address below and add a laboratory or room only when required and verified]
 - Email: [If ZHANG RUIQI is confirmed, use zhang.ruiqi.77h@st.kyoto-u.ac.jp / otherwise enter the verified corresponding-author email]
 - Telephone, only if required by the submission system: [Number]
 
 ## 3. Affiliations
 
-1. **Graduate School of Agriculture, Kyoto University, Kyoto, Japan.**
+1. **Division of Forest and Biomaterials Science, Graduate School of Agriculture, Kyoto University, Kitashirakawa Oiwake-cho, Sakyo-ku, Kyoto 606-8502, Japan.**
 
 Items still requiring confirmation before this becomes the final journal affiliation:
 
-- division, department or laboratory, when applicable;
-- Yoshida or Uji campus, when applicable;
-- postal address and postal code;
+- laboratory, when the journal or submission system requests it;
+- room number, when required for correspondence;
 - whether the submission system requires current status (`research student`).
 
 ## 4. CRediT author contributions
