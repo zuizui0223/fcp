@@ -7,11 +7,12 @@
 - GBIF and Open Tree sensitivity: workflow run `30067762848`, artifact digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`.
 - Fixed-seed dated-megaphylogeny sensitivity: workflow run `30076757379`, artifact `8590190840`, digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`.
 - Automated literature chronology: repository commits document global discovery and recorded follow-up/enrichment activity from 16 to 19 July 2026; the reconstruction is preserved in `docs/jbi_literature_search_provenance.md`.
-- Integrated submission and exact-GBIF validation: the persistent `PR JBI submission package validation` workflow checks journal structure, numerical guardrails, S1–S17 and the exact occurrence bundle on every relevant change.
+- Integrated submission and exact-GBIF validation: the persistent `PR JBI submission package validation` workflow checks journal structure, numerical guardrails, S1–S17, the exact occurrence bundle and the source-backed author prefill on every relevant change.
 - Exact GBIF DOI-preparation bundle: 58,455 records, 34 species, 58,455 unique occurrence keys and 389 parent datasets; exact archive SHA-256 `f25ae0cf2c84c45ae461a932d6c6063edda64591913a2495e4a3da82d573f094`.
 - Deterministic release preview: the persistent `PR JBI release dry run` workflow records the PR head, package files, SHA-256 values, dirty-tree boundary and expected placeholder paths in its artifact manifest.
 - Taxon-image candidate: the *Ipomoea purpurea* three-colour photograph is documented as CC0 on Wikimedia Commons; source, author, caption and interpretation boundary are recorded in `docs/jbi_taxon_image_candidate.md`.
-- No author detail, funding statement, archive DOI, GBIF DOI, human-screener identity, declaration or molecular-phylogeny result has been invented.
+- Author metadata prefill: the current author-provided record supports **ZHANG RUIQI** and **Graduate School of Agriculture, Kyoto University**; the record also describes current status as research student. Final author order, any coauthors, division, postal address, email, ORCID and corresponding-author status remain unverified.
+- No funding statement, archive DOI, GBIF DOI, human-screener identity, declaration, coauthor identity, contact detail or molecular-phylogeny result has been invented.
 
 ## Journal-format and package check
 
@@ -38,15 +39,17 @@
 | References | ✓ Pass for cited text | Fifteen references support the current text. Final GBIF data citations await issued identifiers. |
 | Tables and figures | ✓ Pass | Four main tables, two figure legends and Tables S1–S17 are cross-referenced. |
 | Supporting provenance | ✓ Pass | Analysis tables, literature chronology, placement audit, Open Tree topology, three dated trees, exact GBIF bundle and manifests are indexed or directly referenced. |
-| Automated package QA | ✓ Pass | File presence, figure links, required estimates, forbidden claims, S1–S17 row counts, all indexed SHA-256 values and exact GBIF counts passed CI. |
+| Automated package QA | ✓ Pass | File presence, figure links, required estimates, forbidden claims, S1–S17 row counts, all indexed SHA-256 values, exact GBIF counts and author-prefill boundaries are checked in CI. |
 | Data Accessibility | △ Ready for DOI insertion | The exact citation boundary and archive files are documented; final repository, broad-download and Derived Dataset DOI citations remain. |
 | Deterministic release package | ✓ Preview passes | The preview records its source commit and deterministic ZIP hash in the external workflow artifact, avoiding self-reference inside packaged documents. |
 | Strict release package | △ Deliberately blocked | Four placeholder groups remain: cover letter, manuscript DOI/human-review wording, title page and Zenodo metadata. |
-| Title page and declarations | ✗ Missing author confirmation | Authors, affiliations, ORCIDs, funding, CRediT, conflicts, acknowledgements and biosketch remain `Not verified`. |
-| Author confirmation workflow | ✓ Prepared | All author-controlled fields and sign-offs are consolidated in `docs/jbi_author_confirmation_form.md`. |
-| Cover letter | △ Template prepared | Scientific claims are verified; author, exclusivity, conflict and DOI declarations require approval. |
+| Verified author identity | ✓ Partial | ZHANG RUIQI is prefilled from a current author-provided record. |
+| Verified institutional affiliation | ✓ Partial | Graduate School of Agriculture, Kyoto University is prefilled using the official English institutional name. |
+| Final authorship and declarations | ✗ Missing author confirmation | Author order, coauthors, division, contact details, ORCIDs, funding, CRediT, conflicts, acknowledgements and biosketch remain unverified. |
+| Author confirmation workflow | ✓ Partially prefilled | Verified identity and affiliation are entered; all remaining author-controlled fields and sign-offs are consolidated in `docs/jbi_author_confirmation_form.md`. |
+| Cover letter | △ Partially prefilled | Scientific claims, ZHANG RUIQI and the institutional affiliation are entered; corresponding-author designation, contact details, exclusivity, conflict and DOI declarations require approval. |
 | Taxon image | △ Candidate verified | A high-resolution CC0 image and caption are identified; final author approval, download and submission upload remain. |
-| Archive metadata | ✓ Template prepared | Release protocol and Zenodo metadata template are present; creator, licence, version and identifiers require approval. |
+| Archive metadata | ✓ Template prepared | Release protocol and Zenodo metadata template are present; final creator list, licence, version and identifiers require approval. |
 
 ## Current statistical interpretation
 
@@ -84,25 +87,24 @@ The defensible synthesis is:
 
 Do not describe the result as confirmed, phylogenetically robust, independent of ancestry or causal.
 
-## Round-seven change history
+## Round-eight change history
 
 | Before | After | Reason |
 |---|---|---|
+| All author metadata treated as one unresolved block | Prefilled ZHANG RUIQI and Graduate School of Agriculture, Kyoto University from a current source record | Reduced avoidable author-entry work without inferring author order or contact details. |
+| Cover-letter signature entirely blank | Added the verified person and affiliation behind an explicit corresponding-author confirmation guard | Preserved the distinction between identity verification and role designation. |
+| Author form contained only generic placeholders | Added the verified identity, affiliation and research-student status while retaining all approval fields | Makes the remaining questions concrete and auditable. |
+| Author prefill protected only by prose | Added `validate_jbi_author_prefill.py` to both persistent workflows | Prevents spelling drift, affiliation loss, invented email/ORCID values or silent role assignment. |
 | GBIF DOI listed only as a missing item | Frozen and validated the exact 58,455-record subset, 389 parent-dataset contributions, broad request and Derived Dataset metadata | Reduced DOI work to authenticated submission and permanent hosting rather than data reconstruction. |
-| Manuscript validator did not deeply inspect the GBIF archive | Integrated archive decompression, occurrence-key uniqueness, parent/species recounting, hashes and predicate checks into CI | Prevents citation drift or corruption of the exact analyzed subset. |
-| No deterministic final package | Added a 52-file release builder with fixed ZIP metadata, file hashes and source-commit manifest | Makes the journal-facing package reproducible from a frozen commit. |
-| Author-controlled tasks distributed across several templates | Added one author confirmation and sign-off form | Reduces ambiguity and prevents silent assumptions. |
-| Permanent archive task described generically | Added a Zenodo metadata template and explicit archive/release protocol | Converts the remaining archive step into a documented external workflow. |
-| Any uncommitted validator report blocked strict release | Exempted only known generated outputs while retaining failure for substantive dirty files | Makes strict mode usable without weakening source-integrity checks. |
-| Preview identifiers embedded in packaged documents | Moved current head, artifact and ZIP hashes to the PR/workflow record | Avoids self-referential package hashes. |
+| No deterministic final package | Added a release builder with fixed ZIP metadata, file hashes and source-commit manifest | Makes the journal-facing package reproducible from a frozen commit. |
 
 ## Editor Check
 
 ### Provisional decision: **Major revision before submission**
 
-The manuscript now addresses occurrence-sampling sensitivity and phylogenetic non-independence using two distinct phylogenetic constructions, documents the automated evidence-search chronology, freezes the exact GBIF occurrence subset and passes integrated package, citation and release-preview audits. Directional consistency is strong: the moisture-breadth estimate remained negative in every family-deletion refit, every Open Tree replicate and every dated-megaphylogeny scenario. Inferential certainty remains limited because all phylogenetic confidence intervals include one, moisture breadth was selected from a 20-specification matrix and the literature-derived response can contain classification error.
+The manuscript now addresses occurrence-sampling sensitivity and phylogenetic non-independence using two distinct phylogenetic constructions, documents the automated evidence-search chronology, freezes the exact GBIF occurrence subset and passes integrated package, citation, author-prefill and release-preview audits. Directional consistency is strong: the moisture-breadth estimate remained negative in every family-deletion refit, every Open Tree replicate and every dated-megaphylogeny scenario. Inferential certainty remains limited because all phylogenetic confidence intervals include one, moisture breadth was selected from a 20-specification matrix and the literature-derived response can contain classification error.
 
-The remaining `Major revision` label no longer reflects missing search dates, a missing phylogenetic analysis, an unlocated image, an unreconstructed occurrence subset or an internally inconsistent submission package. It reflects exploratory focal selection, observational scale mismatch, non-random evidence assembly, incomplete documentation of human review, unresolved author-controlled declarations and DOI issuance that requires external accounts.
+The remaining `Major revision` label no longer reflects missing search dates, a missing phylogenetic analysis, an unlocated image, an unreconstructed occurrence subset, an unknown primary author identity or an internally inconsistent submission package. It reflects exploratory focal selection, observational scale mismatch, non-random evidence assembly, incomplete documentation of human review, unresolved final authorship and declarations, and DOI issuance that requires external accounts.
 
 ### Likely reviewer concerns, in priority order
 
@@ -118,11 +120,12 @@ The remaining `Major revision` label no longer reflects missing search dates, a 
 
 ## Remaining submission blockers
 
-- Complete `docs/jbi_author_confirmation_form.md` with the actual human screening arrangement and all author-controlled metadata.
+- Confirm final author order, any additional authors, division or laboratory, corresponding author, postal address, email and ORCID in `docs/jbi_author_confirmation_form.md`.
+- Record the actual human screening arrangement and approve the resulting manuscript wording.
 - Submit the prepared broad GBIF request through an authenticated account.
 - Publish the exact gzip at a permanent URL and register the GBIF Derived Dataset.
 - Freeze and archive the final repository release, then insert its DOI.
-- Complete and approve the title page, CRediT, funding, conflicts, acknowledgements, biosketch and cover letter.
+- Complete and approve CRediT, funding, conflicts, acknowledgements, biosketch and cover-letter declarations.
 - Approve the CC0 *I. purpurea* image candidate, download the original-resolution file, retain the licence record and upload the final image.
 - Run the release builder in strict mode and require `strict-pass` on the frozen submission commit.
 - A bespoke species-level molecular tree remains optional editorial strengthening rather than an unaddressed analytical omission.
