@@ -8,6 +8,7 @@ on:
       - "docs/supporting/jbi_table_s19_rule_classification_key.csv"
       - "docs/jbi_classification_review_protocol.md"
       - "docs/jbi_classification_rule_audit.md"
+      - "validate_jbi_submission_package.py"
       - ".github/workflows/update-jbi-review-supporting-index.yml"
   workflow_dispatch:
 
@@ -36,16 +37,20 @@ jobs:
           grep -q "| S19 |" docs/jbi_supporting_information_index.md
           grep -q "Table S18" docs/jbi_manuscript_editorial_revision.md
           grep -q "Table S19" docs/jbi_manuscript_editorial_revision.md
+          grep -q "S1–S19" validate_jbi_submission_package.py
 
       - name: Commit Supporting Information integration
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/jbi_supporting_information_index.md docs/jbi_manuscript_editorial_revision.md
+          git add \
+            docs/jbi_supporting_information_index.md \
+            docs/jbi_manuscript_editorial_revision.md \
+            validate_jbi_submission_package.py
           if git diff --cached --quiet; then
             echo "No review Supporting Information changes"
             exit 0
           fi
-          git commit -m "Index blinded classification review tables"
+          git commit -m "Index and validate blinded classification review tables"
           git push origin HEAD:agent/jbi-final-editorial-revision
