@@ -19,12 +19,13 @@ This checklist contains only fields that still require verified author input, au
 |---|---|---|
 | Consolidated author-input form | ✓ Prepared | `docs/jbi_author_confirmation_form.md` collects all author-controlled decisions and sign-offs. |
 | Verified identity prefill | ✓ Partial | `ZHANG RUIQI` is verified from a current author-provided record. |
-| Verified institutional affiliation prefill | ✓ Partial | `Graduate School of Agriculture, Kyoto University, Kyoto, Japan` is entered using the institution's official English name. |
+| Verified division and affiliation prefill | ✓ Partial | `Division of Forest and Biomaterials Science, Graduate School of Agriculture, Kyoto University` is entered using official English names. |
+| Verified institutional postal address | ✓ Partial | `Kitashirakawa Oiwake-cho, Sakyo-ku, Kyoto 606-8502, Japan` is confirmed by departmental and official institutional records. |
 | Verified institutional email prefill | ✓ Partial | `zhang.ruiqi.77h@st.kyoto-u.ac.jp` is supported by multiple university-linked mailbox records. |
 | Current academic status | ✓ Recorded for confirmation | The source record states `research student`; include this in submission metadata only when required. |
 | Final author order and any additional authors | ✗ Author confirmation required | Obtain approval from all authors. |
-| Division, laboratory, campus and postal address | ✗ Author confirmation required | Add only the exact currently applicable details. |
-| Corresponding author | ✗ Author confirmation required | Confirm whether ZHANG RUIQI or another author will serve. The verified institutional email may be used only when ZHANG RUIQI is confirmed. |
+| Laboratory or room number | ✗ Author confirmation required | Add only when currently applicable and requested by the journal or submission system. |
+| Corresponding author | ✗ Author confirmation required | Confirm whether ZHANG RUIQI or another author will serve. The verified institutional address and email may be used only when ZHANG RUIQI is confirmed. |
 | ORCID identifiers | ✗ Author confirmation required | No ORCID linked to the institutional email was found in the searched mailbox records; enter only a separately verified ORCID. |
 | CRediT roles | ✗ Author confirmation required | Agree roles for every author. |
 | Funding and grant numbers | ✗ Author confirmation required | Copy exactly from award records. |
@@ -68,8 +69,8 @@ This checklist contains only fields that still require verified author input, au
 | File or field | Status |
 |---|---|
 | Anonymized manuscript | ✓ Prepared: `docs/jbi_manuscript_editorial_revision.md` |
-| Separate title page | △ Partially prefilled | Verified name, institutional affiliation and institutional email are entered; final order, coauthors, postal details, declarations and approvals remain. |
-| Author confirmation form | ✓ Partially prefilled | ZHANG RUIQI, affiliation and institutional email are entered without assuming author order or correspondence. |
+| Separate title page | △ Partially prefilled | Verified name, division, institution, postal address and institutional email are entered; final order, coauthors, laboratory/room, declarations and approvals remain. |
+| Author confirmation form | ✓ Partially prefilled | ZHANG RUIQI, division, institution, postal address and email are entered without assuming author order or correspondence. |
 | Literature-search provenance | ✓ Prepared: `docs/jbi_literature_search_provenance.md` |
 | Supporting Information index | ✓ Prepared and SHA-256 checked |
 | Tables S1–S17 | ✓ Prepared |
@@ -77,7 +78,7 @@ This checklist contains only fields that still require verified author input, au
 | Main tables and figure legends | ✓ Included in manuscript |
 | Taxon image rights and caption candidate | ✓ Verified candidate | *Ipomoea purpurea* image is CC0; source, credit, caption and interpretation boundary are recorded in `docs/jbi_taxon_image_candidate.md`. |
 | Final taxon image approval and upload | △ Author action required | Approve the candidate, download the original file, retain the licence page and upload the final image. |
-| Cover letter | △ Partially prefilled | Scientific content, ZHANG RUIQI, institutional affiliation and email are entered; corresponding-author designation, postal address, declarations and DOI statements remain. |
+| Cover letter | △ Partially prefilled | Scientific content and the verified identity, division, institution, postal address and email are entered; corresponding-author designation, declarations and DOI statements remain. |
 | Archive/release protocol | ✓ Prepared | Includes preview and strict release commands and Zenodo metadata workflow. |
 | Suggested or opposed reviewers | ✗ Author confirmation required | Enter conflict-checked candidates in the author confirmation form. |
 
@@ -85,9 +86,9 @@ This checklist contains only fields that still require verified author input, au
 
 The current preview is expected to report exactly four unresolved placeholder files:
 
-1. `docs/jbi_cover_letter_template.md` — corresponding-author designation, postal address and declarations;
+1. `docs/jbi_cover_letter_template.md` — corresponding-author designation and declarations;
 2. `docs/jbi_manuscript_editorial_revision.md` — human-review wording and final DOI citations;
-3. `docs/jbi_title_page_template.md` — final authorship, postal details and declarations;
+3. `docs/jbi_title_page_template.md` — final authorship, laboratory/room when required, and declarations;
 4. `docs/jbi_zenodo_metadata_template.json` — creator, licence, version and identifiers.
 
 Any additional placeholder file fails the release-preview workflow. Do not remove the four expected guards until verified values are available.
