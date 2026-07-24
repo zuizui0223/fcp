@@ -53,6 +53,7 @@ replacements = {
     "### Audited baseline association": "### Baseline-unambiguous association",
     "The audited comparison identified a negative association": "The source-traceable baseline comparison identified a negative association",
     "The audited evidence suggests": "The source-traceable evidence suggests",
+    "The audited baseline-unambiguous set": "The baseline-unambiguous set",
     "the audited baseline-unambiguous set": "the baseline-unambiguous set",
     "the audited baseline moisture-breadth estimate": "the baseline-unambiguous moisture-breadth estimate",
     "the audited baseline estimate": "the baseline-unambiguous estimate",
