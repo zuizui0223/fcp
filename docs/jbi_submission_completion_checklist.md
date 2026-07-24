@@ -63,7 +63,7 @@ This checklist contains only fields that still require verified author input or 
 | Main tables and figure legends | ✓ Included in manuscript |
 | Taxon image rights and caption candidate | ✓ Verified candidate | *Ipomoea purpurea* image is CC0; source, credit, caption and interpretation boundary are recorded in `docs/jbi_taxon_image_candidate.md`. |
 | Final taxon image approval and upload | △ Author action required | Approve the candidate, download the original file, retain the licence page and upload the final image. |
-| Cover letter | ✗ Not drafted from verified final author and archive details |
+| Cover letter | △ Template prepared | `docs/jbi_cover_letter_template.md` contains only verified novelty and result statements; author approval, exclusivity, conflict and DOI declarations remain bracketed. |
 | Suggested or opposed reviewers | ✗ Not verified |
 
 ## 6. Final release gate
@@ -73,5 +73,6 @@ Do not mark the manuscript submission-ready until all of the following are true:
 - final author list and declarations are approved;
 - the actual human screening/classification arrangement is documented;
 - the permanent archive DOI and GBIF DOI are inserted;
+- the cover letter's author-controlled declarations are completed and approved;
 - the taxon image candidate is approved and the final original-resolution file and licence record are retained;
 - all manuscript, table, figure and Supporting Information cross-references pass the validator against the frozen submission commit.
