@@ -51,7 +51,8 @@ jobs:
             --dataset docs/supporting/jbi_table_s8_baseline_model_dataset.csv \
             --outdir analysis_outputs/jbi_dated_phylogeny/primary \
             --analysis_label baseline_primary_occurrences \
-            --min_cells 20
+            --min_cells 20 \
+            --seed 20260724
 
       - name: Fit dated phylogenetic models to paginated data
         run: |
@@ -59,7 +60,8 @@ jobs:
             --dataset docs/supporting/jbi_table_s9_paginated_quality_filtered_model_dataset.csv \
             --outdir analysis_outputs/jbi_dated_phylogeny/paginated \
             --analysis_label baseline_paginated_quality_filtered \
-            --min_cells 20
+            --min_cells 20 \
+            --seed 20260724
 
       - name: Validate dated phylogeny outputs
         run: |
@@ -71,6 +73,11 @@ jobs:
             test -s analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_s2.tre
             test -s analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_s3.tre
             test -s analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_dated_phyloglm_manifest.json
+            grep -q '"seed": 20260724' analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_dated_phyloglm_manifest.json
+          done
+          for s in s1 s2 s3; do
+            cmp analysis_outputs/jbi_dated_phylogeny/primary/vphylomaker2_${s}.tre \
+                analysis_outputs/jbi_dated_phylogeny/paginated/vphylomaker2_${s}.tre
           done
           Rscript - <<'RS'
           primary <- read.csv("analysis_outputs/jbi_dated_phylogeny/primary/vphylomaker2_dated_phyloglm_summary.csv")
@@ -78,7 +85,7 @@ jobs:
           x <- rbind(primary, paginated)
           stopifnot(nrow(x) == 6L)
           stopifnot(all(x$status == "complete"))
-          stopifnot(all(x$n_species >= 30L))
+          stopifnot(all(x$n_species == 34L))
           stopifnot(all(is.finite(x$odds_ratio)))
           stopifnot(all(is.finite(x$odds_ratio_ci_low)))
           stopifnot(all(is.finite(x$odds_ratio_ci_high)))
