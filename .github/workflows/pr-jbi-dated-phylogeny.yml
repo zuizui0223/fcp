@@ -1,0 +1,95 @@
+name: PR JBI dated phylogeny sensitivity
+
+on:
+  pull_request:
+    paths:
+      - "analysis_vphylomaker2_dated_spatial_scale.R"
+      - "docs/supporting/jbi_table_s8_baseline_model_dataset.csv"
+      - "docs/supporting/jbi_table_s9_paginated_quality_filtered_model_dataset.csv"
+      - ".github/workflows/pr-jbi-dated-phylogeny.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dated-phylogeny:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::ape
+            any::jsonlite
+            any::phylolm
+            github::jinyizju/V.PhyloMaker2
+          cache-version: 1
+
+      - name: Validate package installation
+        run: |
+          mkdir -p analysis_outputs/jbi_dated_phylogeny
+          Rscript -e '
+            library(V.PhyloMaker2)
+            library(phylolm)
+            x <- packageDescription("V.PhyloMaker2")
+            print(list(version=x$Version, remote_sha=x$RemoteSha, remote_repo=x$RemoteRepo))
+            print(sessionInfo())
+          ' | tee analysis_outputs/jbi_dated_phylogeny/session_info.log
+
+      - name: Fit dated phylogenetic models to primary data
+        run: |
+          Rscript analysis_vphylomaker2_dated_spatial_scale.R \
+            --dataset docs/supporting/jbi_table_s8_baseline_model_dataset.csv \
+            --outdir analysis_outputs/jbi_dated_phylogeny/primary \
+            --analysis_label baseline_primary_occurrences \
+            --min_cells 20
+
+      - name: Fit dated phylogenetic models to paginated data
+        run: |
+          Rscript analysis_vphylomaker2_dated_spatial_scale.R \
+            --dataset docs/supporting/jbi_table_s9_paginated_quality_filtered_model_dataset.csv \
+            --outdir analysis_outputs/jbi_dated_phylogeny/paginated \
+            --analysis_label baseline_paginated_quality_filtered \
+            --min_cells 20
+
+      - name: Validate dated phylogeny outputs
+        run: |
+          set -euo pipefail
+          for d in primary paginated; do
+            test -s analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_dated_phyloglm_summary.csv
+            test -s analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_species_placement.csv
+            test -s analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_s1.tre
+            test -s analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_s2.tre
+            test -s analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_s3.tre
+            test -s analysis_outputs/jbi_dated_phylogeny/$d/vphylomaker2_dated_phyloglm_manifest.json
+          done
+          Rscript - <<'RS'
+          primary <- read.csv("analysis_outputs/jbi_dated_phylogeny/primary/vphylomaker2_dated_phyloglm_summary.csv")
+          paginated <- read.csv("analysis_outputs/jbi_dated_phylogeny/paginated/vphylomaker2_dated_phyloglm_summary.csv")
+          x <- rbind(primary, paginated)
+          stopifnot(nrow(x) == 6L)
+          stopifnot(all(x$status == "complete"))
+          stopifnot(all(x$n_species >= 30L))
+          stopifnot(all(is.finite(x$odds_ratio)))
+          stopifnot(all(is.finite(x$odds_ratio_ci_low)))
+          stopifnot(all(is.finite(x$odds_ratio_ci_high)))
+          stopifnot(all(is.finite(x$p_value)))
+          print(x)
+          RS
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jbi-dated-phylogeny-sensitivity
+          path: analysis_outputs/jbi_dated_phylogeny/
+          if-no-files-found: error
+          retention-days: 14
