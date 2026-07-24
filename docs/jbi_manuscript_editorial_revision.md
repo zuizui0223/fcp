@@ -3,7 +3,6 @@
 **Running title:** Flower-colour variation and climate
 
 ## Abstract
-
 ### Aim
 
 Intraspecific phenotypic variation may occur through local coexistence or geographic differentiation, but comparative studies rarely treat spatial organization as a distinct property. We tested whether documented within-population flower-colour polymorphism and geographically structured flower-colour variation differ in occupied climatic niche breadth.
@@ -18,15 +17,15 @@ Angiosperms with documented natural intraspecific flower-colour variation.
 
 ### Methods
 
-We classified documented flower-colour variation as within-population, among-population, mixed or unclear from retained source text. The audited baseline-unambiguous set preserved source identifiers, evidence snippets and classification decisions. We combined binary classifications with GBIF occurrences and WorldClim 2.1 data at 10 arc-min resolution. Binomial generalized linear models related among-population organization to standardised niche metrics while controlling for occupied-cell count. We used family-clustered sandwich covariance, 9,999 label permutations and leave-one-family-out refits. Five metrics were evaluated at four occurrence thresholds.
+We combined audited literature classifications with GBIF occurrences and WorldClim 2.1 data. Binomial models used family-clustered uncertainty, label permutations and family deletion. We repeated the focal model with a paginated, quality-filtered GBIF sample and fitted topology-based phylogenetic logistic models using the Open Tree of Life.
 
 ### Results
 
-The baseline-unambiguous moisture model included 34 species from 25 families: 20 within-population and 14 among-population cases. Geographically structured variation was negatively associated with realised moisture niche breadth (odds ratio = 0.426, family-clustered 95% confidence interval = 0.184–0.985; clustered Wald p = 0.0460). Permutation support was borderline (two-sided p = 0.0556). The association remained negative after each represented family was omitted, with leave-one-family-out odds ratios of 0.317–0.481. The estimate was weaker in the broader evidence set (odds ratio = 0.563, 95% confidence interval = 0.292–1.085; permutation p = 0.0944).
+The baseline model included 34 species from 25 families. Geographically structured variation was negatively associated with realised moisture niche breadth (odds ratio = 0.426, 95% confidence interval = 0.184–0.985; Wald p = 0.0460), although permutation support was borderline (p = 0.0556). With paginated sampling, the estimate strengthened (odds ratio = 0.300, 95% confidence interval = 0.133–0.675; permutation p = 0.0164). Phylogenetic models retained the negative direction but were imprecise for the original data (odds ratio = 0.592, 95% confidence interval = 0.244–1.434; p = 0.246) and paginated data (odds ratio = 0.472, 95% confidence interval = 0.175–1.272; p = 0.138).
 
 ### Main conclusions
 
-The spatial organization of flower-colour variation showed an evidence-sensitive association with occupied moisture niche breadth. Because support differed between uncertainty procedures and weakened with less certain classifications, the result is exploratory. The analysis does not test morph-specific tolerance, local adaptation or climatic causation.
+The association was stable to stronger occurrence sampling but remained statistically unresolved after topology-based phylogenetic correction. The evidence is exploratory and does not test morph-specific tolerance, local adaptation or climatic causation.
 
 **Keywords:** climatic niche breadth, evidence synthesis, flower-colour variation, GBIF, geographic differentiation, intraspecific polymorphism, macroecology
 
@@ -66,15 +65,13 @@ Source identifiers and evidence snippets were propagated into the analysis datas
 
 A broader evidence set combined baseline-unambiguous classifications with high-confidence literature enrichment. At the minimum 20-cell threshold, this set contained 51 species from 29 families: 33 within-population and 18 among-population cases. The 17 enrichment-only species comprised 13 within-population and four among-population cases; this subset was below the prespecified minimum of 20 species and was not fitted as an independent model.
 
-### Occurrence data
+### Occurrence data and sampling sensitivity
 
-Occurrence records were requested from the GBIF occurrence-search API. For each focal or matched-control taxon, the workflow submitted the canonical scientific name with `hasCoordinate=true` and `occurrenceStatus=present` and retrieved a deterministic first-page sample of no more than 300 records. Requests used four retries with exponential backoff. No basis-of-record restriction was applied.
+The primary GBIF workflow retrieved a deterministic first-page sample of at most 300 records per taxon using `hasCoordinate=true` and `occurrenceStatus=present`. It removed invalid coordinates, the coordinate origin and duplicated coordinate pairs rounded to 0.001°, yielding 53,366 records for 356 of 468 requested focal and control taxa.
 
-Records were removed when latitude or longitude was missing, non-finite, outside valid geographic bounds or equal to the coordinate origin (0°, 0°). Coordinates were rounded to three decimal places, and duplicate rounded coordinate pairs were removed within each taxon. No additional country-coordinate consistency check, cultivated-record filter or automated geographic-outlier filter was implemented. This limited cleaning should be considered when interpreting species-level occupied ranges.
+For the 34 baseline species, a paginated sensitivity workflow resolved strict GBIF backbone matches and queried accepted taxon keys with `hasCoordinate=true`, `hasGeospatialIssue=false` and `occurrenceStatus=present`, using pages of 300 and a cap of 3,000 records per species. Human and machine observations, observations, material samples and preserved specimens were retained. Records were excluded for invalid coordinates, reported uncertainty above 20 km or duplicated 0.001° coordinate pairs; missing uncertainty values were retained. All 34 species were exact matches and retained at least 20 records. The workflow retained 58,455 coordinates; after climate extraction and climate-vector deduplication, 20,859 records and all 34 species remained. This is a capped sensitivity sample, not a complete occurrence census.
 
-The workflow requested 468 focal and control taxa. Coordinate data were obtained for 356 taxa, yielding 53,366 deduplicated coordinate records; no API request failed. Of these taxa, 264 had at least 20 coordinate records.
-
-**Not verified:** the final submission requires a citable GBIF derived-dataset DOI for the exact occurrence download. The workflow currently uses the occurrence-search API and does not provide a permanent GBIF download DOI.
+**Not verified:** a citable GBIF derived-dataset DOI is required before submission.
 
 ### Climatic variables and occupied-climate summaries
 
@@ -107,6 +104,10 @@ For the focal analyses at the 20-cell threshold, we evaluated moisture breadth a
 `(1 + number of |permuted coefficients| ≥ |observed coefficient|) / (1 + number of valid permutations)`.
 
 All 9,999 requested permutations were valid for every estimable model. To assess concentration in individual plant families, we also refitted the unclustered model after omitting each represented family in turn. These analyses evaluate label-exchangeability and family concentration, respectively; neither is a phylogenetic comparative analysis.
+
+### Occurrence-sampling and phylogenetic sensitivity models
+
+The paginated dataset was analysed with the same binomial model, 9,999 label permutations and family-deletion procedure as the primary baseline dataset (Tables S9–S12). For phylogenetic sensitivity, names were matched to Open Tree Taxonomy without approximate matching; unique score-one matches represented in the synthetic tree were retained. Thirty of 34 species were eligible. We induced the Open Tree topology (Hinchliff et al., 2015), randomly resolved polytomies 100 times, assigned Grafen branch lengths and fitted `phyloglm` logistic MPLE models (Ho & Ané, 2014) with standardised moisture breadth and occurrence effort. These are topology-based models, not analyses of a dated species phylogeny (Tables S13–S15).
 
 ### Candidate-versus-control comparison
 
@@ -148,6 +149,13 @@ The broader 20-cell moisture model contained 51 species from 29 families: 33 wit
 
 The enrichment-only subset contained 17 species and therefore was not estimated independently under the prespecified 20-species minimum. The strict-versus-broad comparison diagnoses sensitivity to the evidence set; it does not establish biological effect heterogeneity between evidence sources.
 
+### Occurrence-sampling sensitivity
+
+The paginated moisture model strengthened to an odds ratio of 0.300 (family-clustered 95% confidence interval = 0.133–0.675; Wald p = 0.00361; permutation p = 0.0164; Table 4; Table S11). Leave-one-family-out odds ratios ranged from 0.247 to 0.359 and remained below one (Table S12). This result reduces concern that the primary direction was generated by the 300-record cap, although the sensitivity sample was itself capped.
+### Topology-based phylogenetic sensitivity
+
+Open Tree matching retained 30 species, and all 100 fits completed for each occurrence dataset. The primary-data model gave an odds ratio of 0.592 (95% confidence interval = 0.244–1.434; p = 0.246); the paginated-data model gave 0.472 (0.175–1.272; p = 0.138). Every replicate was negative, but both intervals included one (Table 4; Tables S13–S15).
+
 ### Coarse occurrence-cloud alternatives
 
 The fragmentation dataset contained 55 model-complete species from 31 families. Added fragmentation and connectivity terms had odds ratios from 0.574 to 1.061; every 95% confidence interval included one and the smallest p-value among these added terms was 0.280 (Table S5). The moisture-breadth odds ratio remained below one across these models, ranging from 0.480 to 0.597, although its intervals generally included one.
@@ -170,7 +178,9 @@ The candidate-versus-control analysis helps delimit the scope of the result. Doc
 
 The coarse occurrence-cloud analyses also provide a limited negative check. Neither fragmentation summaries nor generic environmental turnover among unsupervised GBIF components clearly explained the focal association. These results should not be read as evidence that spatial structure is absent. The components are products of record density and distance thresholds, and the records do not identify populations or colour morphs. A direct mechanistic test would require georeferenced colour-state observations, named populations and environmental measurements linked to those states.
 
-Family-clustered covariance and family-deletion refits reduce sensitivity to individual represented families, but they do not establish phylogenetic independence. Flower pigmentation, life history, range size and climatic occupancy may all show phylogenetic structure. A phylogenetic logistic model would therefore be a stronger comparative test. **Not verified:** no dated species-level phylogeny matched to the final analysis set is included in the repository, so a phylogenetic correction has not been performed.
+The paginated sensitivity analysis reduced concern that deterministic first-page sampling created the focal direction: it increased record coverage and applied explicit taxonomic, basis-of-record, geospatial-issue and uncertainty filters. It nevertheless remained capped and API-based and did not apply all possible geographic-outlier filters. It should therefore be treated as sampling sensitivity rather than a definitive reconstruction of realised niches.
+
+The topology-based analysis changed the evidential balance. Negative coefficients persisted under both occurrence designs, but confidence intervals were broad. This may reflect shared evolutionary structure, reduced sample size or uncertainty from a synthetic topology and assumed Grafen branch lengths. The analysis is stronger than family clustering alone but is not equivalent to a dated species phylogeny; it does not establish that ancestry either explains or fails to explain the association.
 
 Further limitations arise from the evidence and occurrence data. The sample is non-random and strongly dependent on literature effort. English search phrases, uneven abstract availability and targeted follow-up may favour well-studied taxa and regions. Local coexistence may be under-documented when papers emphasize regional differentiation without exhaustive within-population sampling. GBIF records were limited to a deterministic first page, lacked a basis-of-record filter and received only coordinate validity and 0.001° deduplication checks. Occupied-climate metrics consequently reflect sampled realised distributions and observation processes, not physiological tolerance.
 
@@ -181,6 +191,10 @@ Despite these constraints, the study establishes a reproducible framework for co
 Dalrymple, R. L., Kemp, D. J., Flores-Moreno, H., Laffan, S. W., White, T. E., Hemmings, F. A., & Moles, A. T. (2020). Macroecological patterns in flower colour are shaped by both biotic and abiotic factors. *New Phytologist, 228*(6), 1972–1985. https://doi.org/10.1111/nph.16737
 
 Fick, S. E., & Hijmans, R. J. (2017). WorldClim 2: New 1-km spatial resolution climate surfaces for global land areas. *International Journal of Climatology, 37*, 4302–4315. https://doi.org/10.1002/joc.5086
+
+Hinchliff, C. E., et al. (2015). Synthesis of phylogeny and taxonomy into a comprehensive tree of life. *Proceedings of the National Academy of Sciences of the United States of America, 112*(41), 12764–12769. https://doi.org/10.1073/pnas.1423041112
+
+Ho, L. S. T., & Ané, C. (2014). A linear-time algorithm for Gaussian and non-Gaussian trait evolution models. *Systematic Biology, 63*(3), 397–408. https://doi.org/10.1093/sysbio/syu005
 
 Koski, M. H., & Ashman, T.-L. (2016). Macroevolutionary patterns of ultraviolet floral pigmentation explained by geography and associated bioclimatic factors. *New Phytologist, 211*(2), 708–718. https://doi.org/10.1111/nph.13921
 
@@ -236,6 +250,17 @@ Analysis code, source-level evidence fields, frozen classification manifests, co
 
 *Note.* Conditional logistic models compared documented colour-variable focal species with same-genus controls within focal-species strata and included standardised `log1p(n_climate_cells)`. Controls were outside the candidate list but were not verified as monomorphic.
 
+### Table 4. Occurrence-sampling and topology-based phylogenetic sensitivity
+
+| Occurrence dataset | Model | Species | Odds ratio | 95% CI | Wald p | Permutation p |
+|---|---|---:|---:|---:|---:|---:|
+| Primary | Family-clustered GLM | 34 | 0.426 | 0.184–0.985 | 0.0460 | 0.0556 |
+| Paginated quality-filtered | Family-clustered GLM | 34 | 0.300 | 0.133–0.675 | 0.00361 | 0.0164 |
+| Primary | Open Tree phylogenetic logistic | 30 | 0.592 | 0.244–1.434 | 0.246 | — |
+| Paginated quality-filtered | Open Tree phylogenetic logistic | 30 | 0.472 | 0.175–1.272 | 0.138 | — |
+
+*Note.* Phylogenetic values summarize 100 completed polytomy resolutions of an Open Tree induced topology with Grafen branch lengths; this is not a dated species phylogeny.
+
 ## Figure legends and embedded figures
 
 ### Figure 1. Evidence-set sensitivity of the moisture-breadth association
@@ -251,13 +276,4 @@ Odds ratios from 25 unclustered binomial generalized linear models, each fitted 
 ![Figure 2](figures/moisture_leave_one_family_out.svg)
 
 ## Supporting Information
-
-The following files are assigned stable manuscript identifiers and indexed in `docs/jbi_supporting_information_index.md`.
-
-- **Table S1.** Complete 20-specification spatial-organization model matrix.
-- **Table S2.** Complete candidate-versus-control conditional-logit model matrix.
-- **Table S3.** Source-stratified robustness models, including Wald and permutation inference.
-- **Table S4.** Leave-one-family-out model estimates.
-- **Table S5.** Coarse occurrence-cloud fragmentation and environmental-turnover models.
-- **Table S6.** Frozen baseline-unambiguous classification manifest.
-- **Table S7.** Post-freeze classification correction log.
+Tables S1–S7 contain the original model matrices and audits. **Table S8** is the primary baseline model dataset; **Table S9** is the paginated model dataset; **Table S10** is the GBIF taxonomic and retention audit; **Tables S11–S12** report paginated robustness and family deletion; **Tables S13–S15** report phylogenetic summaries, Open Tree name resolution and all 200 replicate fits. The Supporting Information index also identifies the GBIF QC manifests, induced topology and phylogenetic manifest.
