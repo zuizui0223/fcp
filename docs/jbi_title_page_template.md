@@ -10,18 +10,18 @@ Flower-colour variation and climate
 
 ## Authors and affiliations
 
-The following identity, institutional affiliation and institutional email are verified from current author-provided or university-linked records and the institution's official English naming:
+The following identity, division, institutional affiliation, institutional email and general institutional postal address are verified from current author-provided or university-linked records and the institution's official English naming:
 
-- **ZHANG RUIQI** — Graduate School of Agriculture, Kyoto University, Kyoto, Japan.
+- **ZHANG RUIQI** — Division of Forest and Biomaterials Science, Graduate School of Agriculture, Kyoto University, Kitashirakawa Oiwake-cho, Sakyo-ku, Kyoto 606-8502, Japan.
 - **Verified institutional email:** `zhang.ruiqi.77h@st.kyoto-u.ac.jp`
 
 The source record describes ZHANG RUIQI as a research student. Academic status is recorded for confirmation but should not be inserted into the affiliation line unless required by the submission system.
 
-**Not verified:** final author order, any additional authors, division or laboratory, campus and postal address, ORCID identifiers and approval of the final author list.
+**Not verified:** final author order, any additional authors, laboratory, room number, ORCID identifiers and approval of the final author list.
 
 ## Corresponding author
 
-**Not verified.** Journal of Biogeography permits one corresponding author. Confirm whether ZHANG RUIQI or another author will serve in this role. If ZHANG RUIQI is confirmed, the verified institutional email above may be used; the postal address still requires confirmation.
+**Not verified.** Journal of Biogeography permits one corresponding author. Confirm whether ZHANG RUIQI or another author will serve in this role. If ZHANG RUIQI is confirmed, the verified institutional email and general institutional postal address above may be used; add a laboratory or room only when separately confirmed.
 
 ## Acknowledgements
 
