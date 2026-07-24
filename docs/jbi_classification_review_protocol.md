@@ -9,6 +9,7 @@ The current within- and among-population states are source-traceable, rule-deriv
 - `docs/supporting/jbi_table_s18_blinded_classification_review.csv` — reviewer-facing sheet; current rule labels are hidden.
 - `docs/supporting/jbi_table_s19_rule_classification_key.csv` — rule-derived labels and signal diagnostics; keep closed until the blinded review is complete.
 - `docs/supporting/jbi_table_s6_frozen_classification_manifest.csv` — current frozen analysis manifest.
+- `evaluate_jbi_completed_classification_review.py` — validates completed review copies and computes agreement, Cohen's kappa and rule-label discrepancies without changing analysis inputs.
 
 ## Operational labels
 
@@ -33,6 +34,30 @@ Do not infer local coexistence from the word `polymorphism` alone. Do not infer 
 8. Resolve disagreements by a documented consensus meeting or a named adjudicator who inspects the source without reference to climatic results.
 9. Record every accepted change in the classification correction log; never silently overwrite the frozen manifest.
 10. Rerun the complete analysis and submission validators after any classification change.
+
+## Evaluate completed sheets
+
+For one completed reviewer sheet:
+
+```bash
+python evaluate_jbi_completed_classification_review.py \
+  --review path/to/reviewer_1_completed.csv
+```
+
+For two independent reviewers:
+
+```bash
+python evaluate_jbi_completed_classification_review.py \
+  --review path/to/reviewer_1_completed.csv \
+  --review path/to/reviewer_2_completed.csv
+```
+
+Outputs are written by default to `analysis_outputs/jbi_classification_review/`:
+
+- `jbi_classification_review_comparison.csv`
+- `jbi_classification_review_summary.json`
+
+The evaluator requires all 34 labels, reviewer identity or initials and review dates. For two or more reviewers it reports raw agreement and Cohen's kappa. It surfaces reviewer disagreements and consensus disagreements with the frozen rule label. It never changes S6, S8, model data or manuscript results automatically.
 
 ## Minimum acceptable review designs
 
