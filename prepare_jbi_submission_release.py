@@ -39,6 +39,9 @@ EXPLICIT_FILES = [
     "docs/jbi_author_confirmation_form.md",
     "docs/jbi_archive_release_protocol.md",
     "docs/jbi_zenodo_metadata_template.json",
+    "analysis_evidence_spatial_scale.py",
+    "analysis_enriched_spatial_scale.py",
+    "data/resolved_inputs/global_flower_colour_review_queue_resolved.csv",
     "analysis_phylogenetic_spatial_scale.R",
     "analysis_vphylomaker2_dated_spatial_scale.R",
     "build_gbif_occurrence_sample_paginated.py",
@@ -47,6 +50,7 @@ EXPLICIT_FILES = [
     "validate_jbi_submission_package.py",
     "validate_jbi_gbif_doi_bundle.py",
     "validate_jbi_author_prefill.py",
+    "validate_jbi_classification_transparency.py",
 ]
 
 GLOB_PATTERNS = [
