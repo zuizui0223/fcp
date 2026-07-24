@@ -20,11 +20,12 @@ This checklist contains only fields that still require verified author input, au
 | Consolidated author-input form | ✓ Prepared | `docs/jbi_author_confirmation_form.md` collects all author-controlled decisions and sign-offs. |
 | Verified identity prefill | ✓ Partial | `ZHANG RUIQI` is verified from a current author-provided record. |
 | Verified institutional affiliation prefill | ✓ Partial | `Graduate School of Agriculture, Kyoto University, Kyoto, Japan` is entered using the institution's official English name. |
+| Verified institutional email prefill | ✓ Partial | `zhang.ruiqi.77h@st.kyoto-u.ac.jp` is supported by multiple university-linked mailbox records. |
 | Current academic status | ✓ Recorded for confirmation | The source record states `research student`; include this in submission metadata only when required. |
 | Final author order and any additional authors | ✗ Author confirmation required | Obtain approval from all authors. |
 | Division, laboratory, campus and postal address | ✗ Author confirmation required | Add only the exact currently applicable details. |
-| Corresponding author | ✗ Author confirmation required | Confirm whether ZHANG RUIQI or another author will serve, then enter postal address and email. |
-| ORCID identifiers | ✗ Author confirmation required | Enter only verified ORCIDs. |
+| Corresponding author | ✗ Author confirmation required | Confirm whether ZHANG RUIQI or another author will serve. The verified institutional email may be used only when ZHANG RUIQI is confirmed. |
+| ORCID identifiers | ✗ Author confirmation required | No ORCID linked to the institutional email was found in the searched mailbox records; enter only a separately verified ORCID. |
 | CRediT roles | ✗ Author confirmation required | Agree roles for every author. |
 | Funding and grant numbers | ✗ Author confirmation required | Copy exactly from award records. |
 | Conflict of interest | ✗ Author confirmation required | Obtain a declaration from every author. |
@@ -39,7 +40,7 @@ This checklist contains only fields that still require verified author input, au
 | Primary-analysis artifact | ✓ Verified | Workflow run `29972327794`; digest `sha256:87d8c9ba89f27685e362abeffa0e077330adb1923652f7a7df73572c5e274ac8`. |
 | GBIF/Open Tree sensitivity artifact | ✓ Verified | Workflow run `30067762848`; artifact `8586932030`; digest `sha256:a3ce368fa0dc42bcc26edfca7f09286a8bfe8b609d1b9e58fc75b6f096baf16f`. |
 | Dated-megaphylogeny artifact | ✓ Verified | Fixed-seed workflow run `30076757379`; artifact `8590190840`; digest `sha256:8f11f59a12758f67124647f719fcc79532651c0512f9e0c199a6afa80d178a68`. |
-| Integrated submission and GBIF validation | ✓ Verified | `PR JBI submission package validation` checks journal structure, numerical guardrails, S1–S17 hashes and the exact GBIF bundle on every relevant change. |
+| Integrated submission and GBIF validation | ✓ Verified | `PR JBI submission package validation` checks journal structure, numerical guardrails, S1–S17 hashes, the exact GBIF bundle and source-backed author prefill on every relevant change. |
 | Exact GBIF occurrence subset | ✓ Frozen and validated | 58,455 rows, 34 species, 58,455 unique occurrence keys and 389 parent datasets; archive SHA-256 `f25ae0cf2c84c45ae461a932d6c6063edda64591913a2495e4a3da82d573f094`. |
 | Broad GBIF download request | ✓ Prepared | Replace the account email and submit with `submit_jbi_gbif_download.py` using authenticated GBIF credentials. |
 | GBIF Derived Dataset registration bundle | ✓ Prepared | Parent-dataset counts, exact archive and metadata template are in `docs/supporting/jbi_gbif_doi_bundle/`. |
@@ -48,7 +49,7 @@ This checklist contains only fields that still require verified author input, au
 | GBIF Derived Dataset DOI | △ Authenticated registration required | Register the exact subset using the prepared 389-dataset contribution table. |
 | Permanent repository release DOI | △ External archive required | Freeze the final commit and archive the exact release through Zenodo or another approved service. |
 | Archive protocol and Zenodo metadata | ✓ Prepared | See `docs/jbi_archive_release_protocol.md` and `docs/jbi_zenodo_metadata_template.json`. |
-| Deterministic release preview | ✓ Verified | `PR JBI release dry run` validates both packages and builds a manifest with source commit, file sizes, SHA-256 values and the deterministic journal-facing ZIP. |
+| Deterministic release preview | ✓ Verified | `PR JBI release dry run` validates all packages and builds a manifest with source commit, file sizes, SHA-256 values and the deterministic journal-facing ZIP. |
 | Release-integrity boundary | ✓ Verified | Known generated reports are ignored; any substantive dirty working-tree change fails strict mode. |
 | Data Accessibility Statement | △ Ready for identifier insertion | Exact subset, citation boundary and protocol are documented; insert final release, broad-download and Derived Dataset DOI citations. |
 
@@ -67,8 +68,8 @@ This checklist contains only fields that still require verified author input, au
 | File or field | Status |
 |---|---|
 | Anonymized manuscript | ✓ Prepared: `docs/jbi_manuscript_editorial_revision.md` |
-| Separate title page | △ Partially prefilled | Verified name and institutional affiliation are entered; final order, coauthors, contact details, declarations and approvals remain. |
-| Author confirmation form | ✓ Partially prefilled | ZHANG RUIQI and the verified institutional affiliation are entered without assuming author order or correspondence. |
+| Separate title page | △ Partially prefilled | Verified name, institutional affiliation and institutional email are entered; final order, coauthors, postal details, declarations and approvals remain. |
+| Author confirmation form | ✓ Partially prefilled | ZHANG RUIQI, affiliation and institutional email are entered without assuming author order or correspondence. |
 | Literature-search provenance | ✓ Prepared: `docs/jbi_literature_search_provenance.md` |
 | Supporting Information index | ✓ Prepared and SHA-256 checked |
 | Tables S1–S17 | ✓ Prepared |
@@ -76,7 +77,7 @@ This checklist contains only fields that still require verified author input, au
 | Main tables and figure legends | ✓ Included in manuscript |
 | Taxon image rights and caption candidate | ✓ Verified candidate | *Ipomoea purpurea* image is CC0; source, credit, caption and interpretation boundary are recorded in `docs/jbi_taxon_image_candidate.md`. |
 | Final taxon image approval and upload | △ Author action required | Approve the candidate, download the original file, retain the licence page and upload the final image. |
-| Cover letter | △ Partially prefilled | Scientific content, ZHANG RUIQI and the institutional affiliation are entered; corresponding-author designation, contact details, declarations and DOI statements remain. |
+| Cover letter | △ Partially prefilled | Scientific content, ZHANG RUIQI, institutional affiliation and email are entered; corresponding-author designation, postal address, declarations and DOI statements remain. |
 | Archive/release protocol | ✓ Prepared | Includes preview and strict release commands and Zenodo metadata workflow. |
 | Suggested or opposed reviewers | ✗ Author confirmation required | Enter conflict-checked candidates in the author confirmation form. |
 
@@ -84,9 +85,9 @@ This checklist contains only fields that still require verified author input, au
 
 The current preview is expected to report exactly four unresolved placeholder files:
 
-1. `docs/jbi_cover_letter_template.md` — corresponding-author designation, contact details and declarations;
+1. `docs/jbi_cover_letter_template.md` — corresponding-author designation, postal address and declarations;
 2. `docs/jbi_manuscript_editorial_revision.md` — human-review wording and final DOI citations;
-3. `docs/jbi_title_page_template.md` — final authorship, contact details and declarations;
+3. `docs/jbi_title_page_template.md` — final authorship, postal details and declarations;
 4. `docs/jbi_zenodo_metadata_template.json` — creator, licence, version and identifiers.
 
 Any additional placeholder file fails the release-preview workflow. Do not remove the four expected guards until verified values are available.
