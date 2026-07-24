@@ -17,15 +17,15 @@ Angiosperms with documented natural intraspecific flower-colour variation.
 
 ### Methods
 
-We combined audited literature classifications with GBIF occurrences and WorldClim 2.1 data. Binomial models used family-clustered uncertainty, label permutations and family deletion. We repeated the focal model with a paginated, quality-filtered GBIF sample and fitted topology-based phylogenetic logistic models using the Open Tree of Life.
+We combined audited literature classifications with GBIF occurrences and WorldClim 2.1 data. Binomial models used family-clustered uncertainty, label permutations and family deletion. We repeated the focal model with a paginated, quality-filtered GBIF sample and fitted phylogenetic logistic models using both an Open Tree topology and a time-scaled vascular-plant megaphylogeny.
 
 ### Results
 
-The baseline model included 34 species from 25 families. Geographically structured variation was negatively associated with realised moisture niche breadth (odds ratio = 0.426, 95% confidence interval = 0.184–0.985; Wald p = 0.0460), although permutation support was borderline (p = 0.0556). With paginated sampling, the estimate strengthened (odds ratio = 0.300, 95% confidence interval = 0.133–0.675; permutation p = 0.0164). Phylogenetic models retained the negative direction but were imprecise for the original data (odds ratio = 0.592, 95% confidence interval = 0.244–1.434; p = 0.246) and paginated data (odds ratio = 0.472, 95% confidence interval = 0.175–1.272; p = 0.138).
+The baseline model included 34 species from 25 families. The primary association was negative (odds ratio = 0.426, 95% confidence interval = 0.184–0.985; Wald p = 0.0460), although permutation support was borderline (p = 0.0556). Paginated sampling strengthened the estimate (odds ratio = 0.300, 95% confidence interval = 0.133–0.675; permutation p = 0.0164). Open Tree models retained the negative direction but were imprecise. Time-scaled megaphylogeny models retained all 34 species and were nearly invariant among three placement scenarios: odds ratios were 0.464–0.470 for the primary data and 0.366–0.369 for the paginated data; all phylogenetic confidence intervals included one.
 
 ### Main conclusions
 
-The association was stable to stronger occurrence sampling but remained statistically unresolved after topology-based phylogenetic correction. The evidence is exploratory and does not test morph-specific tolerance, local adaptation or climatic causation.
+The association was stable to stronger occurrence sampling and remained negative under two phylogenetic treatments, but phylogenetic uncertainty intervals included one. The evidence is exploratory and does not test morph-specific tolerance, local adaptation or climatic causation.
 
 **Keywords:** climatic niche breadth, evidence synthesis, flower-colour variation, GBIF, geographic differentiation, intraspecific polymorphism, macroecology
 
@@ -107,7 +107,9 @@ All 9,999 requested permutations were valid for every estimable model. To assess
 
 ### Occurrence-sampling and phylogenetic sensitivity models
 
-The paginated dataset was analysed with the same binomial model, 9,999 label permutations and family-deletion procedure as the primary baseline dataset (Tables S9–S12). For phylogenetic sensitivity, names were matched to Open Tree Taxonomy without approximate matching; unique score-one matches represented in the synthetic tree were retained. Thirty of 34 species were eligible. We induced the Open Tree topology (Hinchliff et al., 2015), randomly resolved polytomies 100 times, assigned Grafen branch lengths and fitted `phyloglm` logistic MPLE models (Ho & Ané, 2014) with standardised moisture breadth and occurrence effort. These are topology-based models, not analyses of a dated species phylogeny (Tables S13–S15).
+The paginated dataset was analysed with the same binomial model, 9,999 label permutations and family-deletion procedure as the primary baseline dataset (Tables S9–S12). For topology-based phylogenetic sensitivity, names were matched to Open Tree Taxonomy without approximate matching; unique score-one matches represented in the synthetic tree were retained. Thirty of 34 species were eligible. We induced the Open Tree topology (Hinchliff et al., 2015), randomly resolved polytomies 100 times, assigned Grafen branch lengths and fitted `phyloglm` logistic MPLE models (Ho & Ané, 2014) with standardised moisture breadth and occurrence effort (Tables S13–S15).
+
+We then fitted a dated-megaphylogeny sensitivity analysis using V.PhyloMaker2 (Jin & Qian, 2019, 2022) and the time-scaled `GBOTB.extended.LCVP` backbone, which incorporates the broad seed-plant phylogeny of Smith and Brown (2018) and earlier time-calibrated plant-tree information (Zanne et al., 2014). Twenty-eight focal species were already represented in the backbone and six were bound to it; no species failed to bind. Using the fixed seed 20260724, we generated placement scenarios S1, S2 and S3 and fitted the same `phyloglm` logistic MPLE formula to each tree for both occurrence datasets. All trees retained 34 species, had finite positive branch lengths and required no branch-length replacement. These models inherit time scaling from the backbone, but the six inserted taxa remain subject to V.PhyloMaker2 placement assumptions (Tables S16–S17).
 
 ### Candidate-versus-control comparison
 
@@ -157,6 +159,10 @@ The paginated moisture model strengthened to an odds ratio of 0.300 (family-clus
 
 Open Tree matching retained 30 species, and all 100 fits completed for each occurrence dataset. The primary-data model gave an odds ratio of 0.592 (95% confidence interval = 0.244–1.434; p = 0.246); the paginated-data model gave 0.472 (0.175–1.272; p = 0.138). Every replicate was negative, but both intervals included one (Table 4; Tables S13–S15).
 
+### Dated-megaphylogeny sensitivity
+
+V.PhyloMaker2 retained all 34 species: 28 were already present in the time-scaled backbone and six were inserted. Results were nearly invariant among scenarios S1–S3. For the primary occurrence data, odds ratios ranged from 0.464 to 0.470, confidence-interval lower limits from 0.176 to 0.180, upper limits from 1.226 to 1.231 and p-values from 0.121 to 0.124. For the paginated data, odds ratios ranged from 0.366 to 0.369, lower limits from 0.124 to 0.127, upper limits from 1.075 to 1.081 and p-values from 0.0677 to 0.0691 (Table 4; Tables S16–S17). Thus, time-scaled branch lengths and retention of all species did not reverse the negative direction, but every interval still included one.
+
 ### Coarse occurrence-cloud alternatives
 
 The fragmentation dataset contained 55 model-complete species from 31 families. Added fragmentation and connectivity terms had odds ratios from 0.574 to 1.061; every 95% confidence interval included one and the smallest p-value among these added terms was 0.280 (Table S5). The moisture-breadth odds ratio remained below one across these models, ranging from 0.480 to 0.597, although its intervals generally included one.
@@ -181,11 +187,11 @@ The coarse occurrence-cloud analyses also provide a limited negative check. Neit
 
 The paginated sensitivity analysis reduced concern that deterministic first-page sampling created the focal direction: it increased record coverage and applied explicit taxonomic, basis-of-record, geospatial-issue and uncertainty filters. It nevertheless remained capped and API-based and did not apply all possible geographic-outlier filters. It should therefore be treated as sampling sensitivity rather than a definitive reconstruction of realised niches.
 
-The topology-based analysis changed the evidential balance. Negative coefficients persisted under both occurrence designs, but confidence intervals were broad. This may reflect shared evolutionary structure, reduced sample size or uncertainty from a synthetic topology and assumed Grafen branch lengths. The analysis is stronger than family clustering alone but is not equivalent to a dated species phylogeny; it does not establish that ancestry either explains or fails to explain the association.
+The two phylogenetic analyses changed the evidential balance without reversing the estimated direction. Open Tree models used 30 matched species and broad confidence intervals, potentially reflecting reduced sample size, shared evolutionary structure and uncertainty from a synthetic topology with Grafen branch lengths. The dated-megaphylogeny models retained all 34 species and produced nearly identical estimates under placement scenarios S1–S3. Their paginated-data intervals approached but did not exclude an odds ratio of one. Six species were inserted rather than directly represented in the backbone, so this agreement does not remove phylogenetic uncertainty. Together, the topology-based and time-scaled analyses show that phylogenetic treatment attenuates certainty more than direction; neither supports describing the association as phylogenetically confirmed.
 
 Further limitations arise from the evidence and occurrence data. The sample is non-random and strongly dependent on literature effort. English search phrases, uneven abstract availability and targeted follow-up may favour well-studied taxa and regions. Local coexistence may be under-documented when papers emphasize regional differentiation without exhaustive within-population sampling. The primary GBIF analysis used a deterministic first-page sample. The paginated sensitivity analysis applied stronger filters and increased coverage, but it remained capped at 3,000 records per species, retained records with missing coordinate uncertainty and did not provide a citable GBIF download DOI. Occupied-climate metrics consequently reflect sampled realised distributions and observation processes, not physiological tolerance.
 
-Despite these constraints, the study establishes a reproducible framework for comparing the spatial organization of intraspecific phenotypic variation. The audited evidence suggests that documented geographic differentiation may be associated with narrower occupied moisture breadth than documented local coexistence, while simultaneously showing that the strength of this inference depends on classification quality, occurrence sampling and phylogenetic treatment. Morph-labelled locality data and a dated species phylogeny are needed to determine whether the association generalizes and which ecological or historical processes generate it.
+Despite these constraints, the study establishes a reproducible framework for comparing the spatial organization of intraspecific phenotypic variation. The audited evidence suggests that documented geographic differentiation may be associated with narrower occupied moisture breadth than documented local coexistence, while simultaneously showing that the strength of this inference depends on classification quality, occurrence sampling and phylogenetic treatment. Morph-labelled locality data and a species-specific molecular phylogeny would refine the estimate and help identify the ecological or historical processes that generate the pattern.
 
 ## References
 
@@ -197,6 +203,10 @@ Hinchliff, C. E., Smith, S. A., Allman, J. F., Burleigh, J. G., Chaudhary, R., C
 
 Ho, L. S. T., & Ané, C. (2014). A linear-time algorithm for Gaussian and non-Gaussian trait evolution models. *Systematic Biology, 63*(3), 397–408. https://doi.org/10.1093/sysbio/syu005
 
+Jin, Y., & Qian, H. (2019). V.PhyloMaker: An R package that can generate very large phylogenies for vascular plants. *Ecography, 42*(8), 1353–1359. https://doi.org/10.1111/ecog.04434
+
+Jin, Y., & Qian, H. (2022). V.PhyloMaker2: An updated and enlarged R package that can generate very large phylogenies for vascular plants. *Plant Diversity, 44*(4), 335–339. https://doi.org/10.1016/j.pld.2022.05.005
+
 Koski, M. H., & Ashman, T.-L. (2016). Macroevolutionary patterns of ultraviolet floral pigmentation explained by geography and associated bioclimatic factors. *New Phytologist, 211*(2), 708–718. https://doi.org/10.1111/nph.13921
 
 Narbona, E., Wang, H., Ortiz, P. L., Arista, M., & Imbert, E. (2018). Flower colour polymorphism in the Mediterranean Basin: Occurrence, maintenance and implications for speciation. *Plant Biology, 20*(S1), 8–20. https://doi.org/10.1111/plb.12575
@@ -207,9 +217,13 @@ Rausher, M. D. (2008). Evolutionary transitions in floral color. *International 
 
 Seabold, S., & Perktold, J. (2010). Statsmodels: Econometric and statistical modeling with Python. In *Proceedings of the 9th Python in Science Conference* (pp. 92–96).
 
+Smith, S. A., & Brown, J. W. (2018). Constructing a broadly inclusive seed plant phylogeny. *American Journal of Botany, 105*(3), 302–314. https://doi.org/10.1002/ajb2.1019
+
 Trunschke, J., Lunau, K., Pyke, G. H., Ren, Z.-X., & Wang, H. (2021). Flower color evolution and the evidence of pollinator-mediated selection. *Frontiers in Plant Science, 12*, 617851. https://doi.org/10.3389/fpls.2021.617851
 
 Wessinger, C. A., & Rausher, M. D. (2012). Lessons from flower colour evolution on targets of selection. *Journal of Experimental Botany, 63*(16), 5741–5749. https://doi.org/10.1093/jxb/ers267
+
+Zanne, A. E., Tank, D. C., Cornwell, W. K., Eastman, J. M., Smith, S. A., FitzJohn, R. G., McGlinn, D. J., O'Meara, B. C., Moles, A. T., Reich, P. B., Royer, D. L., Soltis, D. E., Stevens, P. F., Westoby, M., Wright, I. J., Aarssen, L., Bertin, R. I., Calaminus, A., Govaerts, R., . . . Beaulieu, J. M. (2014). Three keys to the radiation of angiosperms into freezing environments. *Nature, 506*(7486), 89–92. https://doi.org/10.1038/nature12872
 
 ## Data Accessibility Statement
 
@@ -251,16 +265,18 @@ Analysis code, source-level evidence fields, frozen classification manifests, co
 
 *Note.* Conditional logistic models compared documented colour-variable focal species with same-genus controls within focal-species strata and included standardised `log1p(n_climate_cells)`. Controls were outside the candidate list but were not verified as monomorphic.
 
-### Table 4. Occurrence-sampling and topology-based phylogenetic sensitivity
+### Table 4. Occurrence-sampling and phylogenetic sensitivity
 
 | Occurrence dataset | Model | Species | Odds ratio | 95% CI | Wald p | Permutation p |
 |---|---|---:|---:|---:|---:|---:|
 | Primary | Family-clustered GLM | 34 | 0.426 | 0.184–0.985 | 0.0460 | 0.0556 |
 | Paginated quality-filtered | Family-clustered GLM | 34 | 0.300 | 0.133–0.675 | 0.00361 | 0.0164 |
-| Primary | Open Tree phylogenetic logistic | 30 | 0.592 | 0.244–1.434 | 0.246 | — |
-| Paginated quality-filtered | Open Tree phylogenetic logistic | 30 | 0.472 | 0.175–1.272 | 0.138 | — |
+| Primary | Open Tree topology-based phylogenetic logistic | 30 | 0.592 | 0.244–1.434 | 0.246 | — |
+| Paginated quality-filtered | Open Tree topology-based phylogenetic logistic | 30 | 0.472 | 0.175–1.272 | 0.138 | — |
+| Primary | V.PhyloMaker2 dated megaphylogeny, S1–S3 | 34 | 0.464–0.470 | 0.176–1.231 | 0.121–0.124 | — |
+| Paginated quality-filtered | V.PhyloMaker2 dated megaphylogeny, S1–S3 | 34 | 0.366–0.369 | 0.124–1.081 | 0.0677–0.0691 | — |
 
-*Note.* Phylogenetic values summarize 100 completed polytomy resolutions of an Open Tree induced topology with Grafen branch lengths; this is not a dated species phylogeny.
+*Note.* Open Tree values summarize 100 completed polytomy resolutions of an induced topology with Grafen branch lengths. Dated-megaphylogeny values show the range across V.PhyloMaker2 placement scenarios S1–S3; the confidence interval is the envelope across scenario-specific Wald intervals. Six species were inserted into the time-scaled backbone.
 
 ## Figure legends and embedded figures
 
@@ -277,4 +293,4 @@ Odds ratios from 25 unclustered binomial generalized linear models, each fitted 
 ![Figure 2](figures/moisture_leave_one_family_out.svg)
 
 ## Supporting Information
-Tables S1–S7 contain the original model matrices and audits. **Table S8** is the primary baseline model dataset; **Table S9** is the paginated model dataset; **Table S10** is the GBIF taxonomic and retention audit; **Tables S11–S12** report paginated robustness and family deletion; **Tables S13–S15** report phylogenetic summaries, Open Tree name resolution and all 200 replicate fits. The Supporting Information index also identifies the GBIF QC manifests, induced topology and phylogenetic manifest.
+Tables S1–S7 contain the original model matrices and audits. **Table S8** is the primary baseline model dataset; **Table S9** is the paginated model dataset; **Table S10** is the GBIF taxonomic and retention audit; **Tables S11–S12** report paginated robustness and family deletion; **Tables S13–S15** report Open Tree phylogenetic summaries, name resolution and all 200 replicate fits; **Table S16** reports the six fixed-seed dated-megaphylogeny models; and **Table S17** records V.PhyloMaker2 species placement. The Supporting Information index also identifies the GBIF QC manifests, Open Tree topology, dated S1–S3 trees and both phylogenetic provenance manifests.
