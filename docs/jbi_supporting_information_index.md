@@ -24,6 +24,7 @@ Tables S1–S7 derive from workflow run `29972327794`. Tables S8–S15 derive fr
 
 Additional source-backed files:
 
+- **Appendix S1:** `docs/jbi_literature_search_provenance.md`, reconstructing automated discovery and follow-up/enrichment activity from 16–19 July 2026 and distinguishing it from unrecorded human-review metadata; SHA-256 `c8d347ebc48452d05bf77fe611a09e597310a05e9a259876a69ca6cc5f9e53cd`.
 - `docs/supporting/jbi_gbif_paginated_qc.json`: GBIF retrieval and filtering audit.
 - `docs/supporting/jbi_gbif_paginated_metrics_qc.json`: climate extraction and PCA audit.
 - `docs/supporting/jbi_opentree_induced_topology.tre`: induced Open Tree topology used for the topology-based sensitivity models.
