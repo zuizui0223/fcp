@@ -55,6 +55,7 @@ replacements = {
     "The audited evidence suggests": "The source-traceable evidence suggests",
     "the audited baseline-unambiguous set": "the baseline-unambiguous set",
     "the audited baseline moisture-breadth estimate": "the baseline-unambiguous moisture-breadth estimate",
+    "the audited baseline estimate": "the baseline-unambiguous estimate",
 }
 for old, new in replacements.items():
     text = text.replace(old, new)
