@@ -1,0 +1,92 @@
+{
+  "notificationAddresses": [
+    "REPLACE_WITH_GBIF_ACCOUNT_EMAIL"
+  ],
+  "sendNotification": true,
+  "format": "SIMPLE_CSV",
+  "predicate": {
+    "type": "and",
+    "predicates": [
+      {
+        "type": "in",
+        "key": "TAXON_KEY",
+        "values": [
+          "2766505",
+          "3924291",
+          "3172001",
+          "3033188",
+          "2808791",
+          "3741009",
+          "7639571",
+          "2928390",
+          "5530881",
+          "8231647",
+          "2783701",
+          "3118746",
+          "2888380",
+          "2760834",
+          "3042291",
+          "2928576",
+          "2927979",
+          "5298190",
+          "7604003",
+          "2925303",
+          "7741234",
+          "5357013",
+          "2964435",
+          "2964355",
+          "8076173",
+          "6070732",
+          "3086240",
+          "7283335",
+          "8180842",
+          "7678610",
+          "7328114",
+          "7267702",
+          "2932011",
+          "7311593"
+        ]
+      },
+      {
+        "type": "equals",
+        "key": "HAS_COORDINATE",
+        "value": "true"
+      },
+      {
+        "type": "equals",
+        "key": "HAS_GEOSPATIAL_ISSUE",
+        "value": "false"
+      },
+      {
+        "type": "equals",
+        "key": "OCCURRENCE_STATUS",
+        "value": "PRESENT"
+      },
+      {
+        "type": "in",
+        "key": "BASIS_OF_RECORD",
+        "values": [
+          "PRESERVED_SPECIMEN",
+          "MATERIAL_SAMPLE",
+          "HUMAN_OBSERVATION",
+          "MACHINE_OBSERVATION",
+          "OBSERVATION"
+        ]
+      },
+      {
+        "type": "or",
+        "predicates": [
+          {
+            "type": "lessThanOrEquals",
+            "key": "COORDINATE_UNCERTAINTY_IN_METERS",
+            "value": "20000"
+          },
+          {
+            "type": "isNull",
+            "parameter": "COORDINATE_UNCERTAINTY_IN_METERS"
+          }
+        ]
+      }
+    ]
+  }
+}

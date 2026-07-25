@@ -1,0 +1,24 @@
+{
+  "occurrence_rows_with_climate": 20859,
+  "species_total": 34,
+  "species_complete": 34,
+  "min_cells": 10,
+  "worldclim_bio_variables": [
+    1,
+    4,
+    5,
+    6,
+    7,
+    12,
+    14,
+    15,
+    17
+  ],
+  "global_pca_variance_explained": [
+    0.3917827162248679,
+    0.33565787491603,
+    0.17262854657981666
+  ],
+  "cell_output_written": true,
+  "semantic_guard": "metrics describe occupied climatic breadth and heterogeneity, not physiological tolerance or causal niche expansion"
+}

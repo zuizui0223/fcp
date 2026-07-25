@@ -1,0 +1,13 @@
+{
+  "title": "Quality-filtered GBIF occurrence subset for spatial organization of flower-colour variation",
+  "source_url": "REPLACE_WITH_PERMANENT_ARCHIVE_URL",
+  "description": "Exact 58,455-record GBIF-mediated occurrence subset used for the paginated sensitivity analysis in the Journal of Biogeography manuscript. Records were retrieved for 34 audited plant species, capped at 3,000 records per species, restricted to accepted basis-of-record categories, filtered for geospatial issues and coordinate uncertainty, and deduplicated at 0.001-degree coordinate precision. The accompanying parent-dataset count file credits 389 contributing GBIF datasets.",
+  "record_count": 58455,
+  "parent_dataset_count": 389,
+  "parent_dataset_counts_file": "jbi_gbif_parent_dataset_counts.csv",
+  "exact_archive_file": "jbi_gbif_exact_occurrence_subset.csv.gz",
+  "exact_archive_sha256": "f25ae0cf2c84c45ae461a932d6c6063edda64591913a2495e4a3da82d573f094",
+  "source_csv_sha256": "b0614a729acde5a1daab599d52c39ac4018583e1f73d83e5304ac0afa6f6e7ad",
+  "optional_original_download_doi": null,
+  "registration_date": null
+}

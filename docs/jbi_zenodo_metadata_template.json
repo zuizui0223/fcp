@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "title": "Moisture niche breadth and spatial organization of flower-colour variation",
+    "upload_type": "publication",
+    "publication_type": "article",
+    "description": "Code, analytical data, evidence provenance and supporting outputs for a comparative analysis of whether documented within-population flower-colour polymorphism and geographically structured flower-colour variation differ in realised climatic niche breadth. The archive reports exploratory, non-causal associations and includes occurrence-sampling and phylogenetic sensitivity analyses.",
+    "creators": [
+      {
+        "name": "REPLACE_WITH_FAMILY_NAME, REPLACE_WITH_GIVEN_NAMES",
+        "affiliation": "REPLACE_WITH_APPROVED_AFFILIATION",
+        "orcid": "REPLACE_WITH_VERIFIED_ORCID"
+      }
+    ],
+    "keywords": [
+      "climatic niche breadth",
+      "evidence synthesis",
+      "flower-colour variation",
+      "GBIF",
+      "geographic differentiation",
+      "intraspecific polymorphism",
+      "macroecology"
+    ],
+    "license": "REPLACE_WITH_APPROVED_LICENSE",
+    "access_right": "open",
+    "version": "REPLACE_WITH_RELEASE_VERSION",
+    "notes": "Archived from frozen Git commit REPLACE_WITH_COMMIT_SHA. Broad GBIF download DOI: REPLACE_WITH_GBIF_DOWNLOAD_DOI. Exact-subset GBIF Derived Dataset DOI: REPLACE_WITH_GBIF_DERIVED_DATASET_DOI.",
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/zuizui0223/fcp",
+        "relation": "isSupplementTo",
+        "resource_type": "software"
+      }
+    ],
+    "communities": [],
+    "grants": []
+  }
+}

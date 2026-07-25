@@ -1,0 +1,106 @@
+name: PR JBI release dry run
+
+on:
+  pull_request:
+    paths:
+      - "prepare_jbi_submission_release.py"
+      - "validate_jbi_submission_package.py"
+      - "validate_jbi_gbif_doi_bundle.py"
+      - "validate_jbi_author_prefill.py"
+      - "validate_jbi_classification_transparency.py"
+      - "analysis_evidence_spatial_scale.py"
+      - "analysis_enriched_spatial_scale.py"
+      - "data/resolved_inputs/global_flower_colour_review_queue_resolved.csv"
+      - "docs/jbi_*.md"
+      - "docs/jbi_*.json"
+      - "docs/figures/**"
+      - "docs/supporting/**"
+      - "analysis_phylogenetic_spatial_scale.R"
+      - "analysis_vphylomaker2_dated_spatial_scale.R"
+      - "build_gbif_occurrence_sample_paginated.py"
+      - "prepare_jbi_gbif_doi_bundle.py"
+      - "submit_jbi_gbif_download.py"
+      - ".github/workflows/pr-jbi-release-dry-run.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate manuscript package
+        run: python validate_jbi_submission_package.py
+
+      - name: Validate exact GBIF DOI bundle
+        run: python validate_jbi_gbif_doi_bundle.py
+
+      - name: Validate source-backed author prefill
+        run: python validate_jbi_author_prefill.py
+
+      - name: Validate rule-derived classification transparency
+        run: python validate_jbi_classification_transparency.py
+
+      - name: Build deterministic release preview
+        run: |
+          python prepare_jbi_submission_release.py \
+            --allow-placeholders \
+            --output-dir analysis_outputs/jbi_release
+
+      - name: Validate release preview
+        run: |
+          set -euo pipefail
+          test -s analysis_outputs/jbi_release/jbi_submission_files.zip
+          test -s analysis_outputs/jbi_release/jbi_release_manifest.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("analysis_outputs/jbi_release/jbi_release_manifest.json").read_text())
+          assert manifest["status"] == "preview", manifest
+          assert manifest["working_tree_clean_for_release"] is True, manifest
+          assert manifest["substantive_working_tree_status"] == [], manifest
+          assert manifest["file_count"] >= 40, manifest
+          assert manifest["submission_archive_bytes"] > 0, manifest
+          assert len(manifest["submission_archive_sha256"]) == 64, manifest
+          assert len(manifest["source_commit"]) == 40, manifest
+          expected_placeholder_paths = {
+              "docs/jbi_cover_letter_template.md",
+              "docs/jbi_manuscript_editorial_revision.md",
+              "docs/jbi_title_page_template.md",
+              "docs/jbi_zenodo_metadata_template.json",
+          }
+          actual_placeholder_paths = {item["path"] for item in manifest["placeholder_findings"]}
+          assert actual_placeholder_paths == expected_placeholder_paths, {
+              "expected": sorted(expected_placeholder_paths),
+              "actual": sorted(actual_placeholder_paths),
+          }
+          print(json.dumps({
+              "status": manifest["status"],
+              "source_commit": manifest["source_commit"],
+              "file_count": manifest["file_count"],
+              "archive_bytes": manifest["submission_archive_bytes"],
+              "archive_sha256": manifest["submission_archive_sha256"],
+              "placeholder_paths": sorted(actual_placeholder_paths),
+              "ignored_generated_paths": manifest["ignored_generated_paths"],
+          }, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jbi-release-preview
+          path: analysis_outputs/jbi_release/
+          if-no-files-found: error
+          retention-days: 14

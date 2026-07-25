@@ -1,0 +1,52 @@
+name: PR JBI submission package validation
+
+on:
+  pull_request:
+    paths:
+      - "validate_jbi_submission_package.py"
+      - "validate_jbi_gbif_doi_bundle.py"
+      - "validate_jbi_author_prefill.py"
+      - "validate_jbi_classification_transparency.py"
+      - "analysis_evidence_spatial_scale.py"
+      - "analysis_enriched_spatial_scale.py"
+      - "data/resolved_inputs/global_flower_colour_review_queue_resolved.csv"
+      - "docs/jbi_*.md"
+      - "docs/figures/**"
+      - "docs/supporting/**"
+      - ".github/workflows/pr-jbi-submission-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-submission:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate manuscript and supporting package
+        run: python validate_jbi_submission_package.py
+
+      - name: Validate exact GBIF DOI bundle
+        run: python validate_jbi_gbif_doi_bundle.py
+
+      - name: Validate source-backed author prefill
+        run: python validate_jbi_author_prefill.py
+
+      - name: Validate rule-derived classification transparency
+        run: python validate_jbi_classification_transparency.py
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jbi-submission-validation-report
+          path: docs/jbi_submission_validation_report.json
+          if-no-files-found: error
+          retention-days: 14
