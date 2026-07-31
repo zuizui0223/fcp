@@ -6,11 +6,13 @@ on:
       - analysis/precipitation-components
     paths:
       - "analysis_temperature_component_breadth.py"
+      - "run_temperature_component_breadth.py"
       - "analysis_temperature_component_phylogeny.R"
       - ".github/workflows/pr-temperature-component-breadth.yml"
   pull_request:
     paths:
       - "analysis_temperature_component_breadth.py"
+      - "run_temperature_component_breadth.py"
       - "analysis_temperature_component_phylogeny.R"
       - ".github/workflows/pr-temperature-component-breadth.yml"
       - "compute_climatic_niche_metrics.py"
@@ -74,7 +76,7 @@ jobs:
 
       - name: Fit separate BIO1, BIO5, BIO6 and BIO7 models
         run: |
-          python analysis_temperature_component_breadth.py \
+          python run_temperature_component_breadth.py \
             --primary-model docs/supporting/jbi_table_s8_baseline_model_dataset.csv \
             --primary-metrics analysis_outputs/temperature_components/primary_artifact/species_climatic_niche_metrics.csv \
             --paginated-model docs/supporting/jbi_table_s9_paginated_quality_filtered_model_dataset.csv \
