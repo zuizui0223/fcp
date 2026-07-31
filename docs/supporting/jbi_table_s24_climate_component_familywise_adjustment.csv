@@ -1,0 +1,17 @@
+occurrence_dataset,domain,metric,metric_label,wald_p_value_clustered,permutation_p_two_sided,wald_p_holm_within_domain_four,permutation_p_holm_within_domain_four,wald_p_holm_eight_climate_components,permutation_p_holm_eight_climate_components
+paginated_quality_filtered,precipitation,bio12_q95q05,BIO12 annual precipitation breadth,0.0028906131053193,0.0055,0.0115624524212774,0.022,0.0231249048425544,0.044
+paginated_quality_filtered,precipitation,bio14_q95q05,BIO14 driest-month precipitation breadth,0.3183565988809959,0.3639,0.808470917647082,0.9942,1.0,1.0
+paginated_quality_filtered,precipitation,bio15_q95q05,BIO15 precipitation-seasonality breadth,0.4209692815757671,0.4864,0.808470917647082,0.9942,1.0,1.0
+paginated_quality_filtered,precipitation,bio17_q95q05,BIO17 driest-quarter precipitation breadth,0.2694903058823606,0.3314,0.808470917647082,0.9942,1.0,1.0
+paginated_quality_filtered,temperature,bio1_q95q05,BIO1 annual mean temperature breadth,0.5048636893470537,0.5956,1.0,1.0,1.0,1.0
+paginated_quality_filtered,temperature,bio5_q95q05,BIO5 warmest-month maximum-temperature breadth,0.8013637466912278,0.7795,1.0,1.0,1.0,1.0
+paginated_quality_filtered,temperature,bio6_q95q05,BIO6 coldest-month minimum-temperature breadth,0.06982765797889472,0.1873,0.27931063191557887,0.7492,0.488793605852263,1.0
+paginated_quality_filtered,temperature,bio7_q95q05,BIO7 annual temperature-range breadth,0.5133790775789887,0.5583,1.0,1.0,1.0,1.0
+primary,precipitation,bio12_q95q05,BIO12 annual precipitation breadth,0.0288920250332291,0.02,0.1155681001329167,0.08,0.2311362002658328,0.16
+primary,precipitation,bio14_q95q05,BIO14 driest-month precipitation breadth,0.5361698515729866,0.5824,1.0,1.0,1.0,1.0
+primary,precipitation,bio15_q95q05,BIO15 precipitation-seasonality breadth,0.5482289051616968,0.5338,1.0,1.0,1.0,1.0
+primary,precipitation,bio17_q95q05,BIO17 driest-quarter precipitation breadth,0.4593568566206492,0.5146,1.0,1.0,1.0,1.0
+primary,temperature,bio1_q95q05,BIO1 annual mean temperature breadth,0.6287314351493669,0.5938,1.0,1.0,1.0,1.0
+primary,temperature,bio5_q95q05,BIO5 warmest-month maximum-temperature breadth,0.983640419205079,0.9831,1.0,1.0,1.0,1.0
+primary,temperature,bio6_q95q05,BIO6 coldest-month minimum-temperature breadth,0.4637177485728299,0.5352,1.0,1.0,1.0,1.0
+primary,temperature,bio7_q95q05,BIO7 annual temperature-range breadth,0.4361098350903372,0.4243,1.0,1.0,1.0,1.0
