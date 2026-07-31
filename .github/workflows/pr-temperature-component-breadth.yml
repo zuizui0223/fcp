@@ -1,0 +1,157 @@
+name: PR temperature component breadth
+
+on:
+  push:
+    branches:
+      - analysis/precipitation-components
+    paths:
+      - "analysis_temperature_component_breadth.py"
+      - "analysis_temperature_component_phylogeny.R"
+      - ".github/workflows/pr-temperature-component-breadth.yml"
+  pull_request:
+    paths:
+      - "analysis_temperature_component_breadth.py"
+      - "analysis_temperature_component_phylogeny.R"
+      - ".github/workflows/pr-temperature-component-breadth.yml"
+      - "compute_climatic_niche_metrics.py"
+      - "docs/supporting/jbi_table_s8_baseline_model_dataset.csv"
+      - "docs/supporting/jbi_table_s9_paginated_quality_filtered_model_dataset.csv"
+      - "docs/supporting/jbi_table_s20_precipitation_component_models.csv"
+      - "docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz"
+      - "docs/supporting/jbi_opentree_induced_topology.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s*.tre"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  component-breadth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn rasterio statsmodels
+
+      - name: Download frozen primary-analysis artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p analysis_outputs/temperature_components/primary_artifact
+          gh run download 29972327794 \
+            --repo "${{ github.repository }}" \
+            --name climatic-niche-breadth-analysis \
+            --dir analysis_outputs/temperature_components/primary_artifact
+          test -s analysis_outputs/temperature_components/primary_artifact/species_climatic_niche_metrics.csv
+
+      - name: Download WorldClim 2.1 bioclimatic rasters
+        run: |
+          mkdir -p analysis_outputs/temperature_components/worldclim
+          curl -L --retry 4 --fail \
+            -o /tmp/wc2.1_10m_bio.zip \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+          unzip -q /tmp/wc2.1_10m_bio.zip -d analysis_outputs/temperature_components/worldclim
+
+      - name: Recompute paginated component breadths
+        run: |
+          python compute_climatic_niche_metrics.py \
+            --occurrences docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz \
+            --worldclim-dir analysis_outputs/temperature_components/worldclim \
+            --out analysis_outputs/temperature_components/paginated_species_climatic_niche_metrics.csv \
+            --cell-out analysis_outputs/temperature_components/paginated_occurrence_climate_cells.csv \
+            --qc-out analysis_outputs/temperature_components/paginated_species_climatic_niche_metrics_qc.json \
+            --min-cells 10
+
+      - name: Fit separate BIO1, BIO5, BIO6 and BIO7 models
+        run: |
+          python analysis_temperature_component_breadth.py \
+            --primary-model docs/supporting/jbi_table_s8_baseline_model_dataset.csv \
+            --primary-metrics analysis_outputs/temperature_components/primary_artifact/species_climatic_niche_metrics.csv \
+            --paginated-model docs/supporting/jbi_table_s9_paginated_quality_filtered_model_dataset.csv \
+            --paginated-metrics analysis_outputs/temperature_components/paginated_species_climatic_niche_metrics.csv \
+            --precipitation-table docs/supporting/jbi_table_s20_precipitation_component_models.csv \
+            --outdir analysis_outputs/temperature_components \
+            --permutations 9999 \
+            --seed 20260803
+
+      - uses: r-lib/actions/setup-r@v2
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::phylolm
+
+      - name: Fit temperature-component phylogenetic sensitivity models
+        run: |
+          Rscript analysis_temperature_component_phylogeny.R \
+            --primary analysis_outputs/temperature_components/temperature_component_model_dataset_primary.csv \
+            --paginated analysis_outputs/temperature_components/temperature_component_model_dataset_paginated_quality_filtered.csv \
+            --opentree docs/supporting/jbi_opentree_induced_topology.tre \
+            --dated_s1 docs/supporting/jbi_dated_phylogeny_s1.tre \
+            --dated_s2 docs/supporting/jbi_dated_phylogeny_s2.tre \
+            --dated_s3 docs/supporting/jbi_dated_phylogeny_s3.tre \
+            --outdir analysis_outputs/temperature_components \
+            --replicates 100 \
+            --seed 20260803
+
+      - name: Validate component results
+        run: |
+          set -euo pipefail
+          root=analysis_outputs/temperature_components
+          test -s "$root/temperature_component_breadth_models.csv"
+          test -s "$root/temperature_component_breadth_correlations.csv"
+          test -s "$root/temperature_component_breadth_leave_one_family_out.csv"
+          test -s "$root/climate_component_familywise_adjustment.csv"
+          test -s "$root/temperature_component_breadth_manifest.json"
+          test -s "$root/temperature_component_phylogenetic_fits.csv"
+          test -s "$root/temperature_component_phylogenetic_summary.csv"
+          test -s "$root/temperature_component_phylogenetic_manifest.json"
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          root=Path('analysis_outputs/temperature_components')
+          models=pd.read_csv(root/'temperature_component_breadth_models.csv')
+          family=pd.read_csv(root/'climate_component_familywise_adjustment.csv')
+          cor=pd.read_csv(root/'temperature_component_breadth_correlations.csv')
+          phy=pd.read_csv(root/'temperature_component_phylogenetic_summary.csv')
+          assert len(models)==10
+          assert set(models.metric)=={'bio1_q95q05','bio5_q95q05','bio6_q95q05','bio7_q95q05','temperature_breadth'}
+          assert set(models.occurrence_dataset)=={'primary','paginated_quality_filtered'}
+          assert (models.permutations_valid==9999).all()
+          assert len(family)==16
+          assert set(family.domain)=={'temperature','precipitation'}
+          assert family.groupby('occurrence_dataset').size().to_dict()=={'paginated_quality_filtered':8,'primary':8}
+          assert len(phy)==16
+          assert set(phy.model_type)=={'OpenTree_Grafen','dated_megaphylogeny'}
+          pag_bio6=models[(models.occurrence_dataset=='paginated_quality_filtered')&(models.metric=='bio6_q95q05')].iloc[0]
+          assert 0.54 < pag_bio6.odds_ratio < 0.56, pag_bio6.to_dict()
+          r=cor[(cor.occurrence_dataset=='paginated_quality_filtered')&(cor.metric_1=='bio6_q95q05')&(cor.metric_2=='temperature_breadth')].iloc[0].pearson_r
+          assert r > 0.92, r
+          manifest=json.loads((root/'temperature_component_breadth_manifest.json').read_text())
+          assert manifest['status']=='complete'
+          assert 'not a plant taxonomic family' in manifest['family_definition_note']
+          print(models.to_string(index=False))
+          print(family.to_string(index=False))
+          print(phy.to_string(index=False))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: temperature-component-breadth-analysis
+          path: analysis_outputs/temperature_components/
+          if-no-files-found: error
+          retention-days: 30
