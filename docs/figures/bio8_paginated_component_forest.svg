@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="606" viewBox="0 0 1000 606">
+<style>text{font-family:Arial,sans-serif;fill:#222}.title{font-size:20px;font-weight:bold}.label{font-size:14px}.axis{font-size:13px}.ci{stroke:#333;stroke-width:2}.point{fill:#333}.ref{stroke:#777;stroke-width:1.5;stroke-dasharray:6,5}.grid{stroke:#ddd;stroke-width:1}</style>
+<text x="500.0" y="30" text-anchor="middle" class="title">Paginated quality-filtered climate-breadth screen</text>
+<line x1="391.7" y1="55" x2="391.7" y2="471" class="grid"/>
+<text x="391.7" y="498" text-anchor="middle" class="axis">0.1</text>
+<line x1="483.4" y1="55" x2="483.4" y2="471" class="grid"/>
+<text x="483.4" y="498" text-anchor="middle" class="axis">0.2</text>
+<line x1="604.6" y1="55" x2="604.6" y2="471" class="grid"/>
+<text x="604.6" y="498" text-anchor="middle" class="axis">0.5</text>
+<line x1="696.3" y1="55" x2="696.3" y2="471" class="grid"/>
+<text x="696.3" y="498" text-anchor="middle" class="axis">1</text>
+<line x1="788.0" y1="55" x2="788.0" y2="471" class="grid"/>
+<text x="788.0" y="498" text-anchor="middle" class="axis">2</text>
+<line x1="696.3" y1="55" x2="696.3" y2="471" class="ref"/>
+<text x="285" y="75" text-anchor="end" class="label" >BIO1 annual mean temperature</text>
+<line x1="586.2" y1="70" x2="750.5" y2="70" class="ci"/>
+<line x1="586.2" y1="65" x2="586.2" y2="75" class="ci"/>
+<line x1="750.5" y1="65" x2="750.5" y2="75" class="ci"/>
+<circle cx="668.2" cy="70" r="5" fill="#555"/>
+<text x="955" y="75" class="axis">0.809 (0.435–1.507)</text>
+<text x="285" y="127" text-anchor="end" class="label" >BIO5 warmest-month maximum</text>
+<line x1="568.6" y1="122" x2="795.1" y2="122" class="ci"/>
+<line x1="568.6" y1="117" x2="568.6" y2="127" class="ci"/>
+<line x1="795.1" y1="117" x2="795.1" y2="127" class="ci"/>
+<circle cx="681.7" cy="122" r="5" fill="#555"/>
+<text x="955" y="127" class="axis">0.896 (0.380–2.113)</text>
+<text x="285" y="179" text-anchor="end" class="label" >BIO6 coldest-month minimum</text>
+<line x1="532.4" y1="174" x2="702.8" y2="174" class="ci"/>
+<line x1="532.4" y1="169" x2="532.4" y2="179" class="ci"/>
+<line x1="702.8" y1="169" x2="702.8" y2="179" class="ci"/>
+<circle cx="617.8" cy="174" r="5" fill="#555"/>
+<text x="955" y="179" class="axis">0.551 (0.289–1.050)</text>
+<text x="285" y="231" text-anchor="end" class="label" >BIO7 annual temperature range</text>
+<line x1="560.4" y1="226" x2="764.1" y2="226" class="ci"/>
+<line x1="560.4" y1="221" x2="560.4" y2="231" class="ci"/>
+<line x1="764.1" y1="221" x2="764.1" y2="231" class="ci"/>
+<circle cx="662.2" cy="226" r="5" fill="#555"/>
+<text x="955" y="231" class="axis">0.773 (0.358–1.671)</text>
+<text x="285" y="283" text-anchor="end" class="label" font-weight="bold">BIO12 annual precipitation</text>
+<line x1="362.2" y1="278" x2="627.6" y2="278" class="ci"/>
+<line x1="362.2" y1="273" x2="362.2" y2="283" class="ci"/>
+<line x1="627.6" y1="273" x2="627.6" y2="283" class="ci"/>
+<circle cx="495.0" cy="278" r="6" fill="#000"/>
+<text x="955" y="283" class="axis">0.218 (0.080–0.593)</text>
+<text x="285" y="335" text-anchor="end" class="label" >BIO14 driest-month precipitation</text>
+<line x1="554.1" y1="330" x2="743.0" y2="330" class="ci"/>
+<line x1="554.1" y1="325" x2="554.1" y2="335" class="ci"/>
+<line x1="743.0" y1="325" x2="743.0" y2="335" class="ci"/>
+<circle cx="648.6" cy="330" r="5" fill="#555"/>
+<text x="955" y="335" class="axis">0.695 (0.341–1.419)</text>
+<text x="285" y="387" text-anchor="end" class="label" >BIO15 precipitation seasonality</text>
+<line x1="573.4" y1="382" x2="755.2" y2="382" class="ci"/>
+<line x1="573.4" y1="377" x2="573.4" y2="387" class="ci"/>
+<line x1="755.2" y1="377" x2="755.2" y2="387" class="ci"/>
+<circle cx="664.2" cy="382" r="5" fill="#555"/>
+<text x="955" y="387" class="axis">0.763 (0.395–1.475)</text>
+<text x="285" y="439" text-anchor="end" class="label" >BIO17 driest-quarter precipitation</text>
+<line x1="552.8" y1="434" x2="736.3" y2="434" class="ci"/>
+<line x1="552.8" y1="429" x2="552.8" y2="439" class="ci"/>
+<line x1="736.3" y1="429" x2="736.3" y2="439" class="ci"/>
+<circle cx="644.5" cy="434" r="5" fill="#555"/>
+<text x="955" y="439" class="axis">0.676 (0.338–1.354)</text>
+<text x="625.0" y="588" text-anchor="middle" class="axis">Odds ratio for among-population organization per +1 SD breadth</text>
+</svg>
