@@ -2,11 +2,11 @@
 
 ## Manuscript title
 
-Moisture niche breadth and spatial organization of flower-colour variation
+Annual-precipitation breadth and spatial organization of flower-colour variation
 
 ## Running title
 
-Flower-colour variation and climate
+Flower-colour variation and precipitation
 
 ## Authors and affiliations
 
@@ -66,13 +66,13 @@ Analysis code and current outputs are maintained in the public GitHub repository
 
 ## Word counts
 
-Validated by `validate_jbi_submission_package.py` on the current PR branch:
+Current component-focused manuscript draft:
 
-- Structured abstract: **245 words** excluding headings and keywords.
-- Main text from Introduction through Discussion: **4,537 words**.
+- Structured abstract: **278 words** excluding headings and keywords.
+- Main text from Introduction through Discussion: **3,935 words**.
 - References, tables and figure legends: excluded from the main-text count unless the submission system specifies otherwise.
 
-Re-run the validator after final author edits and update these values if the manuscript changes.
+Re-run the submission validator after its expected title, table and Supporting Information values are updated for the component-focused manuscript.
 
 ## Taxon image
 
