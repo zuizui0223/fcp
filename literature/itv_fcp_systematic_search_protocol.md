@@ -226,3 +226,4 @@ The resulting sample represents documented natural cases recoverable through the
 ## Execution log
 
 - 2026-08-02: triggered the first full sharded retrieval after the pull-request smoke test passed.
+- 2026-08-02: retriggered the branch push explicitly to start the 15-query, seven-seed full retrieval; verify the push-event run separately from the PR smoke run.
