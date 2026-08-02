@@ -222,3 +222,7 @@ Search amendments require a new protocol version and a change log. The biologica
 ## 14. Interpretation boundary
 
 The resulting sample represents documented natural cases recoverable through the declared literature-search and screening process. It is not a random sample of angiosperms and cannot estimate the global prevalence of floral-colour ITV or FCP without a separate denominator design.
+
+## Execution log
+
+- 2026-08-02: triggered the first full sharded retrieval after the pull-request smoke test passed.
