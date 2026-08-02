@@ -1,0 +1,102 @@
+name: Systematic ITV and FCP literature search
+
+on:
+  push:
+    branches:
+      - literature/systematic-itv-fcp-search
+    paths:
+      - "systematic_itv_fcp_search.py"
+      - "validate_itv_fcp_search_protocol.py"
+      - "literature/itv_fcp_search_config.json"
+      - "literature/itv_fcp_systematic_search_protocol.md"
+      - ".github/workflows/systematic-itv-fcp-search.yml"
+  workflow_dispatch:
+    inputs:
+      max_records_per_query:
+        description: Maximum records retrieved per database-query pair
+        required: false
+        default: "10000"
+      databases:
+        description: Comma-separated databases
+        required: false
+        default: "openalex,crossref,europe_pmc"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+  LITERATURE_SEARCH_CONTACT_EMAIL: ${{ secrets.LITERATURE_SEARCH_CONTACT_EMAIL }}
+
+jobs:
+  systematic-search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate protocol and configuration
+        run: |
+          python -m json.tool literature/itv_fcp_search_config.json >/dev/null
+          python -m py_compile systematic_itv_fcp_search.py validate_itv_fcp_search_protocol.py
+          python validate_itv_fcp_search_protocol.py \
+            --config literature/itv_fcp_search_config.json \
+            --protocol literature/itv_fcp_systematic_search_protocol.md \
+            --script systematic_itv_fcp_search.py
+
+      - name: Run multi-database retrieval and citation chasing
+        env:
+          MAX_RECORDS: ${{ github.event.inputs.max_records_per_query || '10000' }}
+          DATABASES: ${{ github.event.inputs.databases || 'openalex,crossref,europe_pmc' }}
+        run: |
+          test -n "$OPENALEX_API_KEY"
+          python systematic_itv_fcp_search.py \
+            --config literature/itv_fcp_search_config.json \
+            --census data/angiosperm_census.csv \
+            --outdir analysis_outputs/systematic_itv_fcp_search \
+            --max-records-per-query "$MAX_RECORDS" \
+            --max-citations-per-seed 5000 \
+            --databases "$DATABASES" \
+            --timeout 45 \
+            --retries 4
+
+      - name: Validate retrieval outputs
+        run: |
+          set -euo pipefail
+          root=analysis_outputs/systematic_itv_fcp_search
+          test -s "$root/itv_fcp_search_raw_records.csv"
+          test -s "$root/itv_fcp_search_log.csv"
+          test -s "$root/itv_fcp_search_deduplicated_records.csv"
+          test -s "$root/itv_fcp_human_screening_queue.csv"
+          test -s "$root/itv_fcp_search_manifest.json"
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('analysis_outputs/systematic_itv_fcp_search')
+          manifest=json.loads((root/'itv_fcp_search_manifest.json').read_text())
+          queue=list(csv.DictReader((root/'itv_fcp_human_screening_queue.csv').open(encoding='utf-8')))
+          assert manifest['status']=='complete'
+          assert manifest['query_count']>=12
+          assert manifest['seed_review_count']>=5
+          assert manifest['raw_records']>=manifest['deduplicated_records']>0
+          assert len(queue)==manifest['deduplicated_records']
+          assert manifest['human_review_required'] is True
+          assert all(row['review_status']=='unreviewed' for row in queue)
+          priorities={row['screen_priority'] for row in queue}
+          assert 'P1_high_natural_itv' in priorities or 'P1_high_population_itv' in priorities
+          print(json.dumps(manifest, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: systematic-itv-fcp-literature-search
+          path: analysis_outputs/systematic_itv_fcp_search/
+          if-no-files-found: error
+          retention-days: 30
