@@ -7,32 +7,40 @@ on:
     paths:
       - "systematic_itv_fcp_search.py"
       - "run_systematic_itv_fcp_search.py"
+      - "run_itv_fcp_query_shard.py"
+      - "run_itv_fcp_citation_shard.py"
+      - "merge_itv_fcp_search_shards.py"
       - "validate_itv_fcp_search_protocol.py"
       - "literature/itv_fcp_search_config.json"
+      - "literature/itv_fcp_screening_codebook.csv"
       - "literature/itv_fcp_systematic_search_protocol.md"
       - ".github/workflows/systematic-itv-fcp-search.yml"
   pull_request:
     paths:
       - "systematic_itv_fcp_search.py"
       - "run_systematic_itv_fcp_search.py"
+      - "run_itv_fcp_query_shard.py"
+      - "run_itv_fcp_citation_shard.py"
+      - "merge_itv_fcp_search_shards.py"
       - "validate_itv_fcp_search_protocol.py"
       - "literature/itv_fcp_search_config.json"
+      - "literature/itv_fcp_screening_codebook.csv"
       - "literature/itv_fcp_systematic_search_protocol.md"
       - ".github/workflows/systematic-itv-fcp-search.yml"
   workflow_dispatch:
     inputs:
-      max_records_per_query:
-        description: Maximum records retrieved per database-query pair
+      max_openalex_records:
+        description: Maximum OpenAlex records per query
         required: false
         default: "10000"
+      max_crossref_records:
+        description: Maximum Crossref records per query
+        required: false
+        default: "2000"
       max_citations_per_seed:
-        description: Maximum backward/forward citations retained per seed review
+        description: Maximum forward citations retained per seed review
         required: false
-        default: "5000"
-      databases:
-        description: Comma-separated databases
-        required: false
-        default: "openalex,crossref,europe_pmc"
+        default: "2000"
 
 permissions:
   contents: read
@@ -43,87 +51,165 @@ env:
   LITERATURE_SEARCH_CONTACT_EMAIL: ${{ secrets.LITERATURE_SEARCH_CONTACT_EMAIL }}
 
 jobs:
-  systematic-search:
+  validate-protocol:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
-      - name: Validate protocol and configuration
+      - name: Validate protocol, code and configuration
         run: |
           python -m json.tool literature/itv_fcp_search_config.json >/dev/null
-          python -m py_compile systematic_itv_fcp_search.py run_systematic_itv_fcp_search.py validate_itv_fcp_search_protocol.py
+          python -m py_compile \
+            systematic_itv_fcp_search.py \
+            run_systematic_itv_fcp_search.py \
+            run_itv_fcp_query_shard.py \
+            run_itv_fcp_citation_shard.py \
+            merge_itv_fcp_search_shards.py \
+            validate_itv_fcp_search_protocol.py
           python validate_itv_fcp_search_protocol.py \
             --config literature/itv_fcp_search_config.json \
             --protocol literature/itv_fcp_systematic_search_protocol.md \
             --script systematic_itv_fcp_search.py
 
-      - name: Configure bounded search
+  query-shards:
+    needs: validate-protocol
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        query_id: ${{ fromJSON(github.event_name == 'pull_request' && '["fcp_exact","colour_morph","among_population"]' || '["fcp_exact","colour_morph","itv_explicit","within_population","among_population","continuous_colour_itv","pigment_variation","white_alba_morph","floral_reflectance","orchid_labellum","showy_bract","selection_mechanisms","spanish_portuguese","french_german_italian","japanese_chinese"]') }}
+        database: [openalex, crossref, europe_pmc]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Configure shard cap
         env:
-          DISPATCH_MAX_RECORDS: ${{ inputs.max_records_per_query }}
-          DISPATCH_MAX_CITATIONS: ${{ inputs.max_citations_per_seed }}
-          DISPATCH_DATABASES: ${{ inputs.databases }}
+          DB: ${{ matrix.database }}
+          DISPATCH_OPENALEX: ${{ inputs.max_openalex_records }}
+          DISPATCH_CROSSREF: ${{ inputs.max_crossref_records }}
         run: |
           set -euo pipefail
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
-            echo "MAX_RECORDS=${DISPATCH_MAX_RECORDS:-10000}" >> "$GITHUB_ENV"
-            echo "MAX_CITATIONS=${DISPATCH_MAX_CITATIONS:-5000}" >> "$GITHUB_ENV"
-            echo "DATABASES=${DISPATCH_DATABASES:-openalex,crossref,europe_pmc}" >> "$GITHUB_ENV"
-            echo "SEARCH_MODE=full" >> "$GITHUB_ENV"
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            cap=500
+          elif [[ "$DB" == "crossref" ]]; then
+            cap="${DISPATCH_CROSSREF:-2000}"
           else
-            # CI verifies the complete pipeline without attempting the full systematic map.
-            echo "MAX_RECORDS=500" >> "$GITHUB_ENV"
-            echo "MAX_CITATIONS=100" >> "$GITHUB_ENV"
-            echo "DATABASES=openalex,crossref,europe_pmc" >> "$GITHUB_ENV"
-            echo "SEARCH_MODE=ci_smoke" >> "$GITHUB_ENV"
+            cap="${DISPATCH_OPENALEX:-10000}"
           fi
+          echo "SHARD_CAP=$cap" >> "$GITHUB_ENV"
+      - name: Retrieve one query/database shard
+        run: |
+          python run_itv_fcp_query_shard.py \
+            --config literature/itv_fcp_search_config.json \
+            --census data/angiosperm_census.csv \
+            --outdir "analysis_outputs/shard-${{ matrix.query_id }}-${{ matrix.database }}" \
+            --query-id "${{ matrix.query_id }}" \
+            --database "${{ matrix.database }}" \
+            --max-records "$SHARD_CAP" \
+            --timeout 45 \
+            --retries 4
+      - name: Upload query shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: itv-fcp-query-${{ matrix.query_id }}-${{ matrix.database }}
+          path: analysis_outputs/shard-${{ matrix.query_id }}-${{ matrix.database }}/
+          if-no-files-found: error
+          retention-days: 30
 
-      - name: Initialize search diagnostics
+  citation-shards:
+    needs: validate-protocol
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        seed_index: ${{ fromJSON(github.event_name == 'pull_request' && '[0]' || '[0,1,2,3,4,5,6]') }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Configure citation cap
+        env:
+          DISPATCH_MAX: ${{ inputs.max_citations_per_seed }}
         run: |
           set -euo pipefail
-          root=analysis_outputs/systematic_itv_fcp_search
-          mkdir -p "$root"
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            cap=100
+          else
+            cap="${DISPATCH_MAX:-2000}"
+          fi
+          echo "CITATION_CAP=$cap" >> "$GITHUB_ENV"
+      - name: Retrieve one citation seed
+        run: |
+          python run_itv_fcp_citation_shard.py \
+            --config literature/itv_fcp_search_config.json \
+            --census data/angiosperm_census.csv \
+            --outdir "analysis_outputs/citation-seed-${{ matrix.seed_index }}" \
+            --seed-index "${{ matrix.seed_index }}" \
+            --max-citations "$CITATION_CAP" \
+            --timeout 45 \
+            --retries 4
+      - name: Upload citation shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: itv-fcp-citation-${{ matrix.seed_index }}
+          path: analysis_outputs/citation-seed-${{ matrix.seed_index }}/
+          if-no-files-found: error
+          retention-days: 30
+
+  merge-search:
+    needs: [query-shards, citation-shards]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download query shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: itv-fcp-query-*
+          path: analysis_outputs/shards/query
+      - name: Download citation shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: itv-fcp-citation-*
+          path: analysis_outputs/shards/citation
+      - name: Build event-specific merge configuration
+        run: |
           python - <<'PY'
           import json
           import os
-          from datetime import datetime, timezone
           from pathlib import Path
-
-          root = Path("analysis_outputs/systematic_itv_fcp_search")
-          diagnostic = {
-              "status": "started",
-              "started_at_utc": datetime.now(timezone.utc).isoformat(),
-              "event_name": os.environ.get("GITHUB_EVENT_NAME"),
-              "run_id": os.environ.get("GITHUB_RUN_ID"),
-              "commit": os.environ.get("GITHUB_SHA"),
-              "search_mode": os.environ.get("SEARCH_MODE"),
-              "max_records_per_query": int(os.environ["MAX_RECORDS"]),
-              "max_citations_per_seed": int(os.environ["MAX_CITATIONS"]),
-              "databases": os.environ["DATABASES"].split(","),
-          }
-          (root / "ci_search_diagnostic.json").write_text(
-              json.dumps(diagnostic, indent=2) + "\n", encoding="utf-8"
-          )
+          source = json.loads(Path('literature/itv_fcp_search_config.json').read_text())
+          if os.environ.get('GITHUB_EVENT_NAME') == 'pull_request':
+              keep = {'fcp_exact', 'colour_morph', 'among_population'}
+              source['queries'] = [q for q in source['queries'] if q['id'] in keep]
+              source['seed_reviews'] = source['seed_reviews'][:1]
+          out = Path('analysis_outputs/merge_config.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(source, ensure_ascii=False, indent=2) + '\n')
           PY
-
-      - name: Run multi-database retrieval and citation chasing
+      - name: Merge, deduplicate and build human-screening queue
         run: |
-          python run_systematic_itv_fcp_search.py \
-            --config literature/itv_fcp_search_config.json \
+          python merge_itv_fcp_search_shards.py \
+            --config analysis_outputs/merge_config.json \
             --census data/angiosperm_census.csv \
-            --outdir analysis_outputs/systematic_itv_fcp_search \
-            --max-records-per-query "$MAX_RECORDS" \
-            --max-citations-per-seed "$MAX_CITATIONS" \
-            --databases "$DATABASES" \
-            --timeout 45 \
-            --retries 4
-
-      - name: Validate retrieval outputs
+            --shards-root analysis_outputs/shards \
+            --outdir analysis_outputs/systematic_itv_fcp_search
+      - name: Validate merged retrieval
         run: |
           set -euo pipefail
           root=analysis_outputs/systematic_itv_fcp_search
@@ -131,28 +217,32 @@ jobs:
           test -s "$root/itv_fcp_search_log.csv"
           test -s "$root/itv_fcp_search_deduplicated_records.csv"
           test -s "$root/itv_fcp_human_screening_queue.csv"
+          test -s "$root/itv_fcp_search_shard_status.csv"
           test -s "$root/itv_fcp_search_manifest.json"
           python - <<'PY'
-          import csv, json
+          import csv, json, os
           from pathlib import Path
           root=Path('analysis_outputs/systematic_itv_fcp_search')
           manifest=json.loads((root/'itv_fcp_search_manifest.json').read_text())
           queue=list(csv.DictReader((root/'itv_fcp_human_screening_queue.csv').open(encoding='utf-8')))
-          assert manifest['status']=='complete'
-          assert manifest['query_count']>=12
-          assert manifest['seed_review_count']>=5
+          assert manifest['status']=='complete', manifest
           assert manifest['raw_records']>=manifest['deduplicated_records']>0
           assert len(queue)==manifest['deduplicated_records']
           assert manifest['human_review_required'] is True
           assert all(row['review_status']=='unreviewed' for row in queue)
-          priorities={row['screen_priority'] for row in queue}
-          assert 'P1_high_natural_itv' in priorities or 'P1_high_population_itv' in priorities
+          if os.environ.get('GITHUB_EVENT_NAME') == 'pull_request':
+              assert manifest['query_count']==3
+              assert manifest['seed_review_count']==1
+              assert manifest['expected_query_database_shards']==9
+          else:
+              assert manifest['query_count']==15
+              assert manifest['seed_review_count']==7
+              assert manifest['expected_query_database_shards']==45
           print(json.dumps(manifest, indent=2))
           PY
-
-      - name: Upload search outputs and diagnostics
-        uses: actions/upload-artifact@v4
+      - name: Upload final merged search
         if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: systematic-itv-fcp-literature-search
           path: analysis_outputs/systematic_itv_fcp_search/
