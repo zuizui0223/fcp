@@ -4,7 +4,7 @@ review_status,reviewer_1_complete,First independent review complete,hold
 review_status,reviewer_2_complete,Second independent review complete,hold
 review_status,adjudicated,Consensus or third-review decision recorded,eligible_for_freeze
 adjudicated_decision,include_natural_itv,Natural floral-display colour ITV is supported,include
-aadjudicated_decision,exclude_no_intraspecific_variation,Only interspecific differences or no actual within-species variation,exclude
+adjudicated_decision,exclude_no_intraspecific_variation,Only interspecific differences or no actual within-species variation,exclude
 adjudicated_decision,exclude_cultivated_only,Only cultivars breeding lines commercial varieties or horticultural collections without independent wild evidence,exclude
 adjudicated_decision,exclude_induced,Variation created by mutagenesis transgenics gene editing tissue culture or experimental treatment,exclude
 adjudicated_decision,exclude_ontogenetic_change,Colour change occurs within the same flower through development pollination or senescence,exclude
