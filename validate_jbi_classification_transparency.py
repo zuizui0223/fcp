@@ -53,14 +53,16 @@ def main() -> None:
     protocol = REVIEW_PROTOCOL.read_text(encoding="utf-8")
     audit = RULE_AUDIT.read_text(encoding="utf-8")
 
+    # Require the substantive transparency statements actually used by the current
+    # BIO12-focused manuscript, rather than one brittle legacy wording.
     for phrase in (
-        "source-traceable, rule-derived literature classifications",
+        "source-traceable and frozen",
         "rule-based screening of retained source text",
         "screening labels rather than final biological annotations",
         "review_status = unreviewed",
         "no field documenting completed independent human screening",
         "direct colour signal, no artificial signal and an evidence score of at least 20",
-        "### Baseline-unambiguous association",
+        "### Paginated climate-breadth screen",
     ):
         require(manuscript, phrase, "manuscript")
 
