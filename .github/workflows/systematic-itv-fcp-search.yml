@@ -4,17 +4,6 @@ on:
   push:
     branches:
       - literature/systematic-itv-fcp-search
-    paths:
-      - "systematic_itv_fcp_search.py"
-      - "run_systematic_itv_fcp_search.py"
-      - "run_itv_fcp_query_shard.py"
-      - "run_itv_fcp_citation_shard.py"
-      - "merge_itv_fcp_search_shards.py"
-      - "validate_itv_fcp_search_protocol.py"
-      - "literature/itv_fcp_search_config.json"
-      - "literature/itv_fcp_screening_codebook.csv"
-      - "literature/itv_fcp_systematic_search_protocol.md"
-      - ".github/workflows/systematic-itv-fcp-search.yml"
   pull_request:
     paths:
       - "systematic_itv_fcp_search.py"
@@ -30,7 +19,7 @@ on:
   workflow_dispatch:
     inputs:
       max_openalex_records:
-        description: Maximum OpenAlex records per query
+        description: Maximum OpenAlex and Europe PMC records per query
         required: false
         default: "10000"
       max_crossref_records:
@@ -81,23 +70,36 @@ jobs:
       fail-fast: false
       max-parallel: 6
       matrix:
-        query_id: ${{ fromJSON(github.event_name == 'pull_request' && '["fcp_exact","colour_morph","among_population"]' || '["fcp_exact","colour_morph","itv_explicit","within_population","among_population","continuous_colour_itv","pigment_variation","white_alba_morph","floral_reflectance","orchid_labellum","showy_bract","selection_mechanisms","spanish_portuguese","french_german_italian","japanese_chinese"]') }}
+        query_id:
+          - fcp_exact
+          - colour_morph
+          - itv_explicit
+          - within_population
+          - among_population
+          - continuous_colour_itv
+          - pigment_variation
+          - white_alba_morph
+          - floral_reflectance
+          - orchid_labellum
+          - showy_bract
+          - selection_mechanisms
+          - spanish_portuguese
+          - french_german_italian
+          - japanese_chinese
         database: [openalex, crossref, europe_pmc]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Configure shard cap
+      - name: Configure full-search shard cap
         env:
           DB: ${{ matrix.database }}
           DISPATCH_OPENALEX: ${{ inputs.max_openalex_records }}
           DISPATCH_CROSSREF: ${{ inputs.max_crossref_records }}
         run: |
           set -euo pipefail
-          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-            cap=500
-          elif [[ "$DB" == "crossref" ]]; then
+          if [[ "$DB" == "crossref" ]]; then
             cap="${DISPATCH_CROSSREF:-2000}"
           else
             cap="${DISPATCH_OPENALEX:-10000}"
@@ -131,23 +133,18 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        seed_index: ${{ fromJSON(github.event_name == 'pull_request' && '[0]' || '[0,1,2,3,4,5,6]') }}
+        seed_index: [0, 1, 2, 3, 4, 5, 6]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Configure citation cap
+      - name: Configure full-search citation cap
         env:
           DISPATCH_MAX: ${{ inputs.max_citations_per_seed }}
         run: |
           set -euo pipefail
-          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
-            cap=100
-          else
-            cap="${DISPATCH_MAX:-2000}"
-          fi
-          echo "CITATION_CAP=$cap" >> "$GITHUB_ENV"
+          echo "CITATION_CAP=${DISPATCH_MAX:-2000}" >> "$GITHUB_ENV"
       - name: Retrieve one citation seed
         run: |
           python run_itv_fcp_citation_shard.py \
@@ -187,21 +184,10 @@ jobs:
         with:
           pattern: itv-fcp-citation-*
           path: analysis_outputs/shards/citation
-      - name: Build event-specific merge configuration
+      - name: Copy full merge configuration
         run: |
-          python - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-          source = json.loads(Path('literature/itv_fcp_search_config.json').read_text())
-          if os.environ.get('GITHUB_EVENT_NAME') == 'pull_request':
-              keep = {'fcp_exact', 'colour_morph', 'among_population'}
-              source['queries'] = [q for q in source['queries'] if q['id'] in keep]
-              source['seed_reviews'] = source['seed_reviews'][:1]
-          out = Path('analysis_outputs/merge_config.json')
-          out.parent.mkdir(parents=True, exist_ok=True)
-          out.write_text(json.dumps(source, ensure_ascii=False, indent=2) + '\n')
-          PY
+          mkdir -p analysis_outputs
+          cp literature/itv_fcp_search_config.json analysis_outputs/merge_config.json
       - name: Merge, deduplicate and build human-screening queue
         run: |
           python merge_itv_fcp_search_shards.py \
@@ -209,7 +195,7 @@ jobs:
             --census data/angiosperm_census.csv \
             --shards-root analysis_outputs/shards \
             --outdir analysis_outputs/systematic_itv_fcp_search
-      - name: Validate merged retrieval
+      - name: Validate full merged retrieval
         run: |
           set -euo pipefail
           root=analysis_outputs/systematic_itv_fcp_search
@@ -220,31 +206,27 @@ jobs:
           test -s "$root/itv_fcp_search_shard_status.csv"
           test -s "$root/itv_fcp_search_manifest.json"
           python - <<'PY'
-          import csv, json, os
+          import csv, json
           from pathlib import Path
-          root=Path('analysis_outputs/systematic_itv_fcp_search')
-          manifest=json.loads((root/'itv_fcp_search_manifest.json').read_text())
-          queue=list(csv.DictReader((root/'itv_fcp_human_screening_queue.csv').open(encoding='utf-8')))
-          assert manifest['status']=='complete', manifest
-          assert manifest['raw_records']>=manifest['deduplicated_records']>0
-          assert len(queue)==manifest['deduplicated_records']
-          assert manifest['human_review_required'] is True
-          assert all(row['review_status']=='unreviewed' for row in queue)
-          if os.environ.get('GITHUB_EVENT_NAME') == 'pull_request':
-              assert manifest['query_count']==3
-              assert manifest['seed_review_count']==1
-              assert manifest['expected_query_database_shards']==9
-          else:
-              assert manifest['query_count']==15
-              assert manifest['seed_review_count']==7
-              assert manifest['expected_query_database_shards']==45
+          root = Path('analysis_outputs/systematic_itv_fcp_search')
+          manifest = json.loads((root / 'itv_fcp_search_manifest.json').read_text())
+          queue = list(csv.DictReader((root / 'itv_fcp_human_screening_queue.csv').open(encoding='utf-8')))
+          assert manifest['status'] == 'complete', manifest
+          assert manifest['query_count'] == 15, manifest
+          assert manifest['seed_review_count'] == 7, manifest
+          assert manifest['expected_query_database_shards'] == 45, manifest
+          assert manifest['expected_citation_shards'] == 7, manifest
+          assert manifest['successful_shards'] == 52, manifest
+          assert manifest['failed_or_incomplete_shards'] == 0, manifest
+          assert len(queue) == manifest['deduplicated_records']
+          assert all(row['review_status'] == 'unreviewed' for row in queue)
           print(json.dumps(manifest, indent=2))
           PY
       - name: Upload final merged search
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: systematic-itv-fcp-literature-search
+          name: systematic-itv-fcp-literature-search-full
           path: analysis_outputs/systematic_itv_fcp_search/
           if-no-files-found: error
           retention-days: 30
