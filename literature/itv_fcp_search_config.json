@@ -1,0 +1,137 @@
+{
+  "protocol_version": "1.0.0",
+  "review_type": "systematic_map",
+  "search_scope": "Natural intraspecific variation in floral display colour, including strict flower-colour polymorphism and continuous or geographically structured ITV",
+  "no_date_restriction": true,
+  "no_language_restriction": true,
+  "max_records_per_query": 10000,
+  "queries": [
+    {
+      "id": "fcp_exact",
+      "concept": "strict FCP terminology",
+      "openalex": "\"flower color polymorphism\" OR \"flower colour polymorphism\" OR \"floral color polymorphism\" OR \"floral colour polymorphism\"",
+      "crossref": "flower colour polymorphism flower color polymorphism",
+      "europe_pmc": "TITLE_ABS:(\"flower color polymorphism\" OR \"flower colour polymorphism\" OR \"floral color polymorphism\" OR \"floral colour polymorphism\")"
+    },
+    {
+      "id": "colour_morph",
+      "concept": "colour morph and dimorphism terminology",
+      "openalex": "(flower OR floral OR petal OR corolla OR tepal OR labellum OR bract) AND (\"color morph\" OR \"colour morph\" OR \"color dimorphism\" OR \"colour dimorphism\" OR \"color polymorphism\" OR \"colour polymorphism\")",
+      "crossref": "flower colour morph dimorphism polymorphism",
+      "europe_pmc": "TITLE_ABS:((flower OR floral OR petal OR corolla OR tepal OR labellum OR bract) AND (\"color morph\" OR \"colour morph\" OR \"color dimorphism\" OR \"colour dimorphism\"))"
+    },
+    {
+      "id": "itv_explicit",
+      "concept": "explicit intraspecific trait variation terminology",
+      "openalex": "(flower OR floral OR petal OR corolla OR tepal OR labellum) AND (color OR colour OR pigmentation OR reflectance) AND (\"intraspecific variation\" OR \"intraspecific trait variation\" OR \"within-species variation\" OR \"conspecific variation\")",
+      "crossref": "intraspecific flower colour variation",
+      "europe_pmc": "TITLE_ABS:((flower OR floral OR petal OR corolla OR tepal OR labellum) AND (color OR colour OR pigmentation OR reflectance) AND (\"intraspecific variation\" OR \"within-species variation\" OR \"conspecific variation\"))"
+    },
+    {
+      "id": "within_population",
+      "concept": "within-population variation",
+      "openalex": "(\"flower color\" OR \"flower colour\" OR \"floral color\" OR \"floral colour\" OR \"petal color\" OR \"petal colour\") AND (\"within population\" OR \"within-population\" OR intrapopulation OR coexistence OR \"polymorphic population\" OR \"morph frequency\")",
+      "crossref": "within population flower colour variation morph frequency",
+      "europe_pmc": "TITLE_ABS:((\"flower color\" OR \"flower colour\" OR \"floral color\" OR \"floral colour\" OR \"petal color\" OR \"petal colour\") AND (\"within population\" OR \"within-population\" OR intrapopulation OR coexistence OR \"morph frequency\"))"
+    },
+    {
+      "id": "among_population",
+      "concept": "among-population and geographic variation",
+      "openalex": "(\"flower color\" OR \"flower colour\" OR \"floral color\" OR \"floral colour\" OR \"petal color\" OR \"petal colour\" OR \"corolla color\" OR \"corolla colour\") AND (\"among populations\" OR \"between populations\" OR interpopulation OR \"geographic variation\" OR \"geographical variation\" OR cline OR \"population differentiation\" OR \"regional variation\")",
+      "crossref": "geographic variation flower colour populations",
+      "europe_pmc": "TITLE_ABS:((\"flower color\" OR \"flower colour\" OR \"floral color\" OR \"floral colour\" OR \"petal color\" OR \"petal colour\") AND (\"among populations\" OR \"between populations\" OR interpopulation OR \"geographic variation\" OR \"geographical variation\" OR cline OR \"population differentiation\"))"
+    },
+    {
+      "id": "continuous_colour_itv",
+      "concept": "continuous colour ITV",
+      "openalex": "(flower OR floral OR petal OR corolla OR tepal OR labellum) AND (\"continuous color variation\" OR \"continuous colour variation\" OR \"color gradient\" OR \"colour gradient\" OR \"hue variation\" OR \"chroma variation\" OR \"reflectance variation\") AND (population OR intraspecific OR conspecific)",
+      "crossref": "continuous flower colour variation population reflectance",
+      "europe_pmc": "TITLE_ABS:((flower OR floral OR petal OR corolla OR tepal OR labellum) AND (\"continuous color variation\" OR \"continuous colour variation\" OR \"hue variation\" OR \"reflectance variation\") AND (population OR intraspecific OR conspecific))"
+    },
+    {
+      "id": "pigment_variation",
+      "concept": "pigmentation and pigment-loss variants",
+      "openalex": "(flower OR floral OR petal OR corolla OR tepal OR labellum) AND (anthocyanin OR carotenoid OR pigment OR pigmentation) AND (polymorphism OR morph OR dimorphism OR intraspecific OR population OR variation) NOT (cultivar OR breeding)",
+      "crossref": "floral pigmentation polymorphism population anthocyanin",
+      "europe_pmc": "TITLE_ABS:((flower OR floral OR petal OR corolla OR tepal OR labellum) AND (anthocyanin OR carotenoid OR pigment OR pigmentation) AND (polymorphism OR morph OR dimorphism OR intraspecific OR population OR variation))"
+    },
+    {
+      "id": "white_alba_morph",
+      "concept": "white, alba and acyanic natural morphs",
+      "openalex": "(flower OR floral OR petal OR corolla OR tepal OR labellum) AND (\"white-flowered\" OR \"white flowered\" OR \"white morph\" OR \"alba morph\" OR albiflora OR acyanic OR anthocyaninless OR \"anthocyanin-free\") AND (population OR natural OR wild OR polymorphism OR variation)",
+      "crossref": "white flowered morph natural population alba anthocyaninless",
+      "europe_pmc": "TITLE_ABS:((flower OR floral OR petal OR corolla OR tepal OR labellum) AND (\"white-flowered\" OR \"white morph\" OR \"alba morph\" OR albiflora OR acyanic OR anthocyaninless) AND (population OR natural OR wild OR polymorphism OR variation))"
+    },
+    {
+      "id": "floral_reflectance",
+      "concept": "spectral and reflectance ITV",
+      "openalex": "(flower OR floral OR petal OR corolla OR tepal OR labellum) AND (reflectance OR spectral OR spectrophotometry OR hue OR chroma) AND (intraspecific OR population OR geographic OR morph OR variation)",
+      "crossref": "floral reflectance intraspecific population variation",
+      "europe_pmc": "TITLE_ABS:((flower OR floral OR petal OR corolla OR tepal OR labellum) AND (reflectance OR spectral OR spectrophotometry OR hue OR chroma) AND (intraspecific OR population OR geographic OR morph OR variation))"
+    },
+    {
+      "id": "orchid_labellum",
+      "concept": "orchid labellum and deceptive-flower variation",
+      "openalex": "(orchid OR Orchidaceae OR labellum) AND (color OR colour OR pigmentation) AND (polymorphism OR morph OR intraspecific OR population OR variation)",
+      "crossref": "orchid labellum colour polymorphism variation",
+      "europe_pmc": "TITLE_ABS:((orchid OR Orchidaceae OR labellum) AND (color OR colour OR pigmentation) AND (polymorphism OR morph OR intraspecific OR population OR variation))"
+    },
+    {
+      "id": "showy_bract",
+      "concept": "showy floral bract colour variation",
+      "openalex": "(\"bract color\" OR \"bract colour\" OR \"floral bract\") AND (polymorphism OR morph OR intraspecific OR population OR geographic OR variation)",
+      "crossref": "bract colour polymorphism population",
+      "europe_pmc": "TITLE_ABS:((\"bract color\" OR \"bract colour\" OR \"floral bract\") AND (polymorphism OR morph OR intraspecific OR population OR geographic OR variation))"
+    },
+    {
+      "id": "selection_mechanisms",
+      "concept": "mechanism terms that often identify FCP systems",
+      "openalex": "(\"flower color\" OR \"flower colour\" OR \"floral color\" OR \"floral colour\") AND (\"frequency-dependent selection\" OR \"balancing selection\" OR \"pollinator-mediated selection\" OR florivory OR herbivory OR pleiotropy) AND (morph OR polymorphism OR population OR variation)",
+      "crossref": "flower colour polymorphism balancing selection pollinator",
+      "europe_pmc": "TITLE_ABS:((\"flower color\" OR \"flower colour\" OR \"floral color\" OR \"floral colour\") AND (\"frequency-dependent selection\" OR \"balancing selection\" OR \"pollinator-mediated selection\" OR florivory OR herbivory OR pleiotropy))"
+    },
+    {
+      "id": "spanish_portuguese",
+      "concept": "Spanish and Portuguese terminology",
+      "openalex": "\"polimorfismo de color floral\" OR \"polimorfismo del color floral\" OR \"variación intraespecífica del color floral\" OR \"variación geográfica del color floral\" OR \"polimorfismo da cor floral\" OR \"variação intraespecífica da cor da flor\"",
+      "crossref": "polimorfismo color floral variación intraespecífica",
+      "europe_pmc": "\"polimorfismo de color floral\" OR \"variación intraespecífica del color floral\" OR \"polimorfismo da cor floral\""
+    },
+    {
+      "id": "french_german_italian",
+      "concept": "French, German and Italian terminology",
+      "openalex": "\"polymorphisme de couleur florale\" OR \"variation intraspécifique de la couleur des fleurs\" OR Blütenfarbpolymorphismus OR \"innerartliche Variation der Blütenfarbe\" OR \"polimorfismo del colore dei fiori\"",
+      "crossref": "polymorphisme couleur florale Blütenfarbpolymorphismus",
+      "europe_pmc": "\"polymorphisme de couleur florale\" OR Blütenfarbpolymorphismus OR \"polimorfismo del colore dei fiori\""
+    },
+    {
+      "id": "japanese_chinese",
+      "concept": "Japanese and Chinese terminology",
+      "openalex": "花色多型 OR 花色多態 OR 花色変異 OR 種内花色変異 OR 花色多态 OR 花色变异 OR 种内花色变异 OR 花色地理变异",
+      "crossref": "花色多型 花色変異 花色多态 花色变异",
+      "europe_pmc": "花色多型 OR 花色変異 OR 花色多态 OR 花色变异"
+    }
+  ],
+  "seed_reviews": [
+    {"doi": "10.1111/plb.12575", "reason": "Mediterranean FCP review"},
+    {"doi": "10.1016/j.tree.2021.01.011", "reason": "within-population flower-colour variation review"},
+    {"doi": "10.1086/705589", "reason": "orchid floral colour and scent ITV review"},
+    {"doi": "10.3389/fpls.2021.617851", "reason": "continuous flower-colour selection review"},
+    {"doi": "10.1073/pnas.97.13.7016", "reason": "classic flower-colour variation review"},
+    {"doi": "10.1046/j.1469-8137.2001.00159.x", "reason": "comparative FCP review"},
+    {"doi": "10.7818/ECOS.2014.23-3.06", "reason": "Spanish-language FCP review"}
+  ],
+  "screening_terms": {
+    "display_colour": ["flower color", "flower colour", "floral color", "floral colour", "petal color", "petal colour", "corolla color", "corolla colour", "tepal color", "tepal colour", "labellum color", "labellum colour", "bract color", "bract colour", "floral pigmentation", "petal pigmentation", "floral reflectance", "petal reflectance", "anthocyanin", "carotenoid"],
+    "variation": ["polymorph", "dimorph", "morph", "intraspecific", "within-species", "conspecific", "variation", "variant", "cline", "morph frequency", "population differentiation", "geographic variation", "geographical variation", "regional variation", "continuous color", "continuous colour"],
+    "within": ["within population", "within-population", "intrapopulation", "coexist", "co-occurr", "polymorphic population", "morph frequency", "frequency-dependent"],
+    "among": ["among populations", "between populations", "interpopulation", "geographic variation", "geographical variation", "spatial variation", "population differentiation", "cline", "regional variation", "local adaptation"],
+    "natural": ["natural population", "wild population", "wild populations", "in the wild", "field population", "field populations", "native population", "naturalized population", "population survey", "field study", "field sites", "localities"],
+    "cultivated": ["cultivar", "cultivars", "breeding line", "breeding lines", "ornamental variety", "ornamental varieties", "horticultural variety", "horticultural varieties", "crop improvement", "market value", "floriculture"],
+    "induced": ["mutagenesis", "induced mutation", "transgenic", "gene editing", "gene-edited", "tissue culture", "irradiation mutant", "chemical mutant"],
+    "ontogenetic": ["ontogenetic color change", "ontogenetic colour change", "flower color change", "flower colour change", "changes color after", "changes colour after", "senescence", "developmental stage", "different flowering stages", "bud stage"],
+    "non_display_floral": ["pollen color", "pollen colour", "anther color", "anther colour", "stigma color", "stigma colour"],
+    "continuous": ["continuous variation", "color gradient", "colour gradient", "hue variation", "chroma variation", "reflectance variation", "quantitative color", "quantitative colour"],
+    "discrete": ["polymorph", "dimorph", "color morph", "colour morph", "white morph", "alba morph", "discrete variant", "discrete morph"]
+  }
+}
