@@ -10,6 +10,13 @@ on:
       - "literature/itv_fcp_search_config.json"
       - "literature/itv_fcp_systematic_search_protocol.md"
       - ".github/workflows/systematic-itv-fcp-search.yml"
+  pull_request:
+    paths:
+      - "systematic_itv_fcp_search.py"
+      - "validate_itv_fcp_search_protocol.py"
+      - "literature/itv_fcp_search_config.json"
+      - "literature/itv_fcp_systematic_search_protocol.md"
+      - ".github/workflows/systematic-itv-fcp-search.yml"
   workflow_dispatch:
     inputs:
       max_records_per_query:
