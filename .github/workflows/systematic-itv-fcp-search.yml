@@ -6,6 +6,7 @@ on:
       - literature/systematic-itv-fcp-search
     paths:
       - "systematic_itv_fcp_search.py"
+      - "run_systematic_itv_fcp_search.py"
       - "validate_itv_fcp_search_protocol.py"
       - "literature/itv_fcp_search_config.json"
       - "literature/itv_fcp_systematic_search_protocol.md"
@@ -13,6 +14,7 @@ on:
   pull_request:
     paths:
       - "systematic_itv_fcp_search.py"
+      - "run_systematic_itv_fcp_search.py"
       - "validate_itv_fcp_search_protocol.py"
       - "literature/itv_fcp_search_config.json"
       - "literature/itv_fcp_systematic_search_protocol.md"
@@ -51,7 +53,7 @@ jobs:
       - name: Validate protocol and configuration
         run: |
           python -m json.tool literature/itv_fcp_search_config.json >/dev/null
-          python -m py_compile systematic_itv_fcp_search.py validate_itv_fcp_search_protocol.py
+          python -m py_compile systematic_itv_fcp_search.py run_systematic_itv_fcp_search.py validate_itv_fcp_search_protocol.py
           python validate_itv_fcp_search_protocol.py \
             --config literature/itv_fcp_search_config.json \
             --protocol literature/itv_fcp_systematic_search_protocol.md \
@@ -62,8 +64,7 @@ jobs:
           MAX_RECORDS: ${{ github.event.inputs.max_records_per_query || '10000' }}
           DATABASES: ${{ github.event.inputs.databases || 'openalex,crossref,europe_pmc' }}
         run: |
-          test -n "$OPENALEX_API_KEY"
-          python systematic_itv_fcp_search.py \
+          python run_systematic_itv_fcp_search.py \
             --config literature/itv_fcp_search_config.json \
             --census data/angiosperm_census.csv \
             --outdir analysis_outputs/systematic_itv_fcp_search \
