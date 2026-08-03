@@ -96,14 +96,34 @@ jobs:
       - name: Prepare component model input
         run: |
           python - <<'PY'
-          import os,pandas as pd
-          root=os.environ['OUTDIR']; cls=pd.read_csv(f'{root}/provisional_spatial_classification.csv'); met=pd.read_csv(f'{root}/species_climatic_niche_metrics.csv')
-          d=cls.merge(met,on='canonical_name',how='inner',suffixes=('_class','_metric'))
-          family=d['family_class'] if 'family_class' in d else d.get('family',pd.Series('',index=d.index))
-          if 'family_metric' in d: family=family.replace('',pd.NA).fillna(d['family_metric'])
-          d['family']=family; d['classification_source']='baseline_unambiguous'; d.to_csv(f'{root}/exploratory_component_model_dataset.csv',index=False)
-          print({'classified':len(cls),'metrics':len(met),'model_complete':len(d),'within':int((d.spatial_scale=='within_population').sum()),'among':int((d.spatial_scale=='among_population').sum()),'families':d.family.nunique()})
-          if len(d)<20 or d.spatial_scale.nunique()<2: raise SystemExit('Insufficient GBIF/WorldClim-complete species for two-class model')
+          import os
+          import pandas as pd
+          root = os.environ['OUTDIR']
+          cls = pd.read_csv(f'{root}/provisional_spatial_classification.csv')
+          met = pd.read_csv(f'{root}/species_climatic_niche_metrics.csv')
+          merged = cls.merge(met, on='canonical_name', how='inner', suffixes=('_class', '_metric'))
+          family = merged['family_class'] if 'family_class' in merged else merged.get('family', pd.Series('', index=merged.index))
+          if 'family_metric' in merged:
+              family = family.replace('', pd.NA).fillna(merged['family_metric'])
+          merged['family'] = family
+          merged['classification_source'] = 'baseline_unambiguous'
+          required = [
+              'canonical_name', 'family', 'spatial_scale', 'classification_source',
+              'n_climate_cells', 'moisture_breadth', 'temperature_breadth'
+          ]
+          missing = [column for column in required if column not in merged.columns]
+          if missing:
+              raise SystemExit(f'Missing component-model columns: {missing}; available={list(merged.columns)}')
+          model = merged[required].copy()
+          model.to_csv(f'{root}/exploratory_component_model_dataset.csv', index=False)
+          print({
+              'classified': len(cls), 'metrics': len(met), 'model_complete': len(model),
+              'within': int((model.spatial_scale == 'within_population').sum()),
+              'among': int((model.spatial_scale == 'among_population').sum()),
+              'families': int(model.family.nunique()), 'model_columns': list(model.columns)
+          })
+          if len(model) < 20 or model.spatial_scale.nunique() < 2:
+              raise SystemExit('Insufficient GBIF/WorldClim-complete species for two-class model')
           PY
       - name: Fit same eight BIO breadth models, permutations and family deletion
         run: |
