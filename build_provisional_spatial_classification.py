@@ -5,6 +5,8 @@ Candidate binomials are accepted when their genus occurs in the angiosperm censu
 Exact census species matches are preferred; species absent from the census can still
 proceed when the genus maps unambiguously to a family. The downstream GBIF backbone
 step provides strict taxonomic validation.
+
+This implementation is the v2 trigger for the corrected candidate climate rerun.
 """
 from __future__ import annotations
 
@@ -70,8 +72,6 @@ def main() -> None:
                 continue
             diagnostics["records_p1"] += 1
 
-            # Keep P1 records unless they are explicitly artificial/induced or
-            # ontogenetic. P1 already encodes flower-colour variation relevance.
             if any(
                 truthy(row.get(column))
                 for column in ("cultivated_signal", "induced_signal", "ontogenetic_signal")
