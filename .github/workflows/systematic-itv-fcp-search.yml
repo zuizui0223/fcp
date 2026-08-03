@@ -1,4 +1,4 @@
-name: Systematic ITV and FCP literature search
+name: Corrected systematic candidates through 34-species climate pipeline
 
 on:
   push:
@@ -6,227 +6,172 @@ on:
       - literature/systematic-itv-fcp-search
   pull_request:
     paths:
-      - "systematic_itv_fcp_search.py"
-      - "run_systematic_itv_fcp_search.py"
-      - "run_itv_fcp_query_shard.py"
-      - "run_itv_fcp_citation_shard.py"
-      - "merge_itv_fcp_search_shards.py"
-      - "validate_itv_fcp_search_protocol.py"
-      - "literature/itv_fcp_search_config.json"
-      - "literature/itv_fcp_screening_codebook.csv"
-      - "literature/itv_fcp_systematic_search_protocol.md"
       - ".github/workflows/systematic-itv-fcp-search.yml"
+      - "build_provisional_spatial_classification.py"
   workflow_dispatch:
-    inputs:
-      max_openalex_records:
-        description: Maximum OpenAlex and Europe PMC records per query
-        required: false
-        default: "10000"
-      max_crossref_records:
-        description: Maximum Crossref records per query
-        required: false
-        default: "2000"
-      max_citations_per_seed:
-        description: Maximum forward citations retained per seed review
-        required: false
-        default: "2000"
 
 permissions:
   contents: read
+  actions: read
 
 env:
   PYTHONDONTWRITEBYTECODE: "1"
-  OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
-  LITERATURE_SEARCH_CONTACT_EMAIL: ${{ secrets.LITERATURE_SEARCH_CONTACT_EMAIL }}
+  SOURCE_RUN_ID: "30753748463"
+  SOURCE_ARTIFACT: "systematic-itv-fcp-literature-search-full"
+  OUTDIR: "analysis_outputs/systematic_34species_trial_v3"
 
 jobs:
-  validate-protocol:
+  exploratory-reanalysis:
     runs-on: ubuntu-latest
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Validate protocol, code and configuration
-        run: |
-          python -m json.tool literature/itv_fcp_search_config.json >/dev/null
-          python -m py_compile \
-            systematic_itv_fcp_search.py \
-            run_systematic_itv_fcp_search.py \
-            run_itv_fcp_query_shard.py \
-            run_itv_fcp_citation_shard.py \
-            merge_itv_fcp_search_shards.py \
-            validate_itv_fcp_search_protocol.py
-          python validate_itv_fcp_search_protocol.py \
-            --config literature/itv_fcp_search_config.json \
-            --protocol literature/itv_fcp_systematic_search_protocol.md \
-            --script systematic_itv_fcp_search.py
 
-  query-shards:
-    needs: validate-protocol
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    strategy:
-      fail-fast: false
-      max-parallel: 6
-      matrix:
-        query_id:
-          - fcp_exact
-          - colour_morph
-          - itv_explicit
-          - within_population
-          - among_population
-          - continuous_colour_itv
-          - pigment_variation
-          - white_alba_morph
-          - floral_reflectance
-          - orchid_labellum
-          - showy_bract
-          - selection_mechanisms
-          - spanish_portuguese
-          - french_german_italian
-          - japanese_chinese
-        database: [openalex, crossref, europe_pmc]
-    steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Configure full-search shard cap
-        env:
-          DB: ${{ matrix.database }}
-          DISPATCH_OPENALEX: ${{ inputs.max_openalex_records }}
-          DISPATCH_CROSSREF: ${{ inputs.max_crossref_records }}
-        run: |
-          set -euo pipefail
-          if [[ "$DB" == "crossref" ]]; then
-            cap="${DISPATCH_CROSSREF:-2000}"
-          else
-            cap="${DISPATCH_OPENALEX:-10000}"
-          fi
-          echo "SHARD_CAP=$cap" >> "$GITHUB_ENV"
-      - name: Retrieve one query/database shard
-        run: |
-          python run_itv_fcp_query_shard.py \
-            --config literature/itv_fcp_search_config.json \
-            --census data/angiosperm_census.csv \
-            --outdir "analysis_outputs/shard-${{ matrix.query_id }}-${{ matrix.database }}" \
-            --query-id "${{ matrix.query_id }}" \
-            --database "${{ matrix.database }}" \
-            --max-records "$SHARD_CAP" \
-            --timeout 45 \
-            --retries 4
-      - name: Upload query shard
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: itv-fcp-query-${{ matrix.query_id }}-${{ matrix.database }}
-          path: analysis_outputs/shard-${{ matrix.query_id }}-${{ matrix.database }}/
-          if-no-files-found: error
-          retention-days: 30
 
-  citation-shards:
-    needs: validate-protocol
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        seed_index: [0, 1, 2, 3, 4, 5, 6]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Configure full-search citation cap
-        env:
-          DISPATCH_MAX: ${{ inputs.max_citations_per_seed }}
-        run: |
-          set -euo pipefail
-          echo "CITATION_CAP=${DISPATCH_MAX:-2000}" >> "$GITHUB_ENV"
-      - name: Retrieve one citation seed
-        run: |
-          python run_itv_fcp_citation_shard.py \
-            --config literature/itv_fcp_search_config.json \
-            --census data/angiosperm_census.csv \
-            --outdir "analysis_outputs/citation-seed-${{ matrix.seed_index }}" \
-            --seed-index "${{ matrix.seed_index }}" \
-            --max-citations "$CITATION_CAP" \
-            --timeout 45 \
-            --retries 4
-      - name: Upload citation shard
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: itv-fcp-citation-${{ matrix.seed_index }}
-          path: analysis_outputs/citation-seed-${{ matrix.seed_index }}/
-          if-no-files-found: error
-          retention-days: 30
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn rasterio statsmodels
 
-  merge-search:
-    needs: [query-shards, citation-shards]
-    if: always()
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Download query shards
+      - name: Download frozen complete systematic-search artifact
         uses: actions/download-artifact@v4
         with:
-          pattern: itv-fcp-query-*
-          path: analysis_outputs/shards/query
-      - name: Download citation shards
-        uses: actions/download-artifact@v4
-        with:
-          pattern: itv-fcp-citation-*
-          path: analysis_outputs/shards/citation
-      - name: Copy full merge configuration
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: systematic_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Build plant-genus validated provisional within/among table
         run: |
-          mkdir -p analysis_outputs
-          cp literature/itv_fcp_search_config.json analysis_outputs/merge_config.json
-      - name: Merge, deduplicate and build human-screening queue
-        run: |
-          python merge_itv_fcp_search_shards.py \
-            --config analysis_outputs/merge_config.json \
+          mkdir -p "$OUTDIR"
+          python build_provisional_spatial_classification.py \
+            --queue systematic_input/itv_fcp_human_screening_queue.csv \
             --census data/angiosperm_census.csv \
-            --shards-root analysis_outputs/shards \
-            --outdir analysis_outputs/systematic_itv_fcp_search
-      - name: Validate full merged retrieval
+            --out "$OUTDIR/provisional_spatial_classification.csv" \
+            --qc-out "$OUTDIR/provisional_classification_qc.json"
+
+      - name: Retrieve paginated quality-filtered GBIF occurrences
         run: |
-          set -euo pipefail
-          root=analysis_outputs/systematic_itv_fcp_search
-          test -s "$root/itv_fcp_search_raw_records.csv"
-          test -s "$root/itv_fcp_search_log.csv"
-          test -s "$root/itv_fcp_search_deduplicated_records.csv"
-          test -s "$root/itv_fcp_human_screening_queue.csv"
-          test -s "$root/itv_fcp_search_shard_status.csv"
-          test -s "$root/itv_fcp_search_manifest.json"
+          python build_gbif_occurrence_sample_paginated.py \
+            --species "$OUTDIR/provisional_spatial_classification.csv" \
+            --out "$OUTDIR/gbif_occurrences_paginated.csv" \
+            --qc-out "$OUTDIR/gbif_occurrences_paginated_qc.json" \
+            --taxon-audit-out "$OUTDIR/gbif_taxon_audit.csv" \
+            --max-records 3000 --page-size 300 --dedup-decimals 3 \
+            --max-coordinate-uncertainty-m 20000 --timeout 45 --retries 4 --delay 0.10
+
+      - name: Download WorldClim 2.1 bioclimatic rasters
+        run: |
+          mkdir -p "$OUTDIR/worldclim"
+          curl -L --retry 4 --fail -o /tmp/wc.zip https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+          unzip -q /tmp/wc.zip -d "$OUTDIR/worldclim"
+
+      - name: Compute occupied-climate breadth metrics
+        run: |
+          python compute_climatic_niche_metrics.py \
+            --occurrences "$OUTDIR/gbif_occurrences_paginated.csv" \
+            --worldclim-dir "$OUTDIR/worldclim" \
+            --out "$OUTDIR/species_climatic_niche_metrics.csv" \
+            --cell-out "$OUTDIR/occurrence_climate_cells.csv" \
+            --qc-out "$OUTDIR/species_climatic_niche_metrics_qc.json" \
+            --min-cells 10
+
+      - name: Build legacy five-metric models
+        run: |
+          python analysis_climatic_niche_spatial_scale.py \
+            --classification "$OUTDIR/provisional_spatial_classification.csv" \
+            --metrics "$OUTDIR/species_climatic_niche_metrics.csv" \
+            --outdir "$OUTDIR/legacy_five_metric"
+          python analysis_climatic_niche_spatial_scale_robustness.py \
+            --dataset "$OUTDIR/legacy_five_metric/climatic_niche_spatial_scale_dataset.csv" \
+            --outdir "$OUTDIR/legacy_five_metric" \
+            --permutations 9999
+
+      - name: Fetch current eight-component analysis code
+        run: |
+          curl -L --fail -o /tmp/precip.py https://raw.githubusercontent.com/zuizui0223/fcp/analysis/precipitation-components/analysis_precipitation_component_breadth.py
+          curl -L --fail -o /tmp/temp.py https://raw.githubusercontent.com/zuizui0223/fcp/analysis/precipitation-components/analysis_temperature_component_breadth.py
+          curl -L --fail -o /tmp/run_temp.py https://raw.githubusercontent.com/zuizui0223/fcp/analysis/precipitation-components/run_temperature_component_breadth.py
+          sed -i "s/if len(data) != 34:/if len(data) < 20:/" /tmp/precip.py /tmp/temp.py
+          sed -i "s/expected 34 baseline species/expected at least 20 exploratory species/" /tmp/precip.py /tmp/temp.py
+
+      - name: Prepare component model input
+        run: |
           python - <<'PY'
-          import csv, json
-          from pathlib import Path
-          root = Path('analysis_outputs/systematic_itv_fcp_search')
-          manifest = json.loads((root / 'itv_fcp_search_manifest.json').read_text())
-          queue = list(csv.DictReader((root / 'itv_fcp_human_screening_queue.csv').open(encoding='utf-8')))
-          assert manifest['status'] == 'complete', manifest
-          assert manifest['query_count'] == 15, manifest
-          assert manifest['seed_review_count'] == 7, manifest
-          assert manifest['expected_query_database_shards'] == 45, manifest
-          assert manifest['expected_citation_shards'] == 7, manifest
-          assert manifest['successful_shards'] == 52, manifest
-          assert manifest['failed_or_incomplete_shards'] == 0, manifest
-          assert len(queue) == manifest['deduplicated_records']
-          assert all(row['review_status'] == 'unreviewed' for row in queue)
-          print(json.dumps(manifest, indent=2))
+          import os
+          import pandas as pd
+          root = os.environ['OUTDIR']
+          cls = pd.read_csv(f'{root}/provisional_spatial_classification.csv')
+          met = pd.read_csv(f'{root}/species_climatic_niche_metrics.csv')
+          d = cls.merge(met, on='canonical_name', how='inner', suffixes=('_class', '_metric'))
+          family = d['family_class'] if 'family_class' in d else d.get('family', pd.Series('', index=d.index))
+          if 'family_metric' in d:
+              family = family.replace('', pd.NA).fillna(d['family_metric'])
+          d['family'] = family
+          d['classification_source'] = 'baseline_unambiguous'
+          d.to_csv(f'{root}/exploratory_component_model_dataset.csv', index=False)
+          print({'classified': len(cls), 'metrics': len(met), 'model_complete': len(d), 'within': int((d.spatial_scale == 'within_population').sum()), 'among': int((d.spatial_scale == 'among_population').sum())})
+          if len(d) < 20 or d.spatial_scale.nunique() < 2:
+              raise SystemExit('Insufficient GBIF/WorldClim-complete species for two-class model')
           PY
-      - name: Upload final merged search
+
+      - name: Fit same eight BIO breadth models, permutations and family deletion
+        run: |
+          mkdir -p "$OUTDIR/eight_component"
+          PYTHONPATH=/tmp:$PYTHONPATH python /tmp/precip.py \
+            --primary-model "$OUTDIR/exploratory_component_model_dataset.csv" \
+            --primary-metrics "$OUTDIR/species_climatic_niche_metrics.csv" \
+            --paginated-model "$OUTDIR/exploratory_component_model_dataset.csv" \
+            --paginated-metrics "$OUTDIR/species_climatic_niche_metrics.csv" \
+            --outdir "$OUTDIR/eight_component" \
+            --permutations 9999 --seed 20260803
+          cp /tmp/temp.py /tmp/analysis_temperature_component_breadth.py
+          PYTHONPATH=/tmp:$PYTHONPATH python /tmp/run_temp.py \
+            --primary-model "$OUTDIR/exploratory_component_model_dataset.csv" \
+            --primary-metrics "$OUTDIR/species_climatic_niche_metrics.csv" \
+            --paginated-model "$OUTDIR/exploratory_component_model_dataset.csv" \
+            --paginated-metrics "$OUTDIR/species_climatic_niche_metrics.csv" \
+            --precipitation-table "$OUTDIR/eight_component/precipitation_component_breadth_models.csv" \
+            --outdir "$OUTDIR/eight_component" \
+            --permutations 9999 --seed 20260803
+
+      - name: Validate and summarize exploratory rerun
+        run: |
+          python - <<'PY'
+          import json, os
+          import pandas as pd
+          from pathlib import Path
+          root = Path(os.environ['OUTDIR'])
+          qc = json.loads((root / 'provisional_classification_qc.json').read_text())
+          models = pd.read_csv(root / 'eight_component/climate_component_familywise_adjustment.csv')
+          precip = pd.read_csv(root / 'eight_component/precipitation_component_breadth_models.csv')
+          pag = models[models.occurrence_dataset == 'paginated_quality_filtered'].copy()
+          model_species = int(precip[precip.occurrence_dataset == 'paginated_quality_filtered'].n_species.max())
+          summary = {
+              'status': 'complete',
+              'source_search_run_id': 30753748463,
+              'output_namespace': 'systematic_34species_trial_v3',
+              'baseline_34_species_outputs_modified': False,
+              'input_provisional_species': qc['eligible_species_before_gbif_validation'],
+              'within_species_before_gbif': qc['within_species'],
+              'among_species_before_gbif': qc['among_species'],
+              'model_species': model_species,
+              'eight_component_results': pag.to_dict('records'),
+              'semantic_guard': 'Exploratory replication using plant-genus-screened, GBIF-validated automated P1 labels; original 34-species outputs are unchanged.'
+          }
+          (root / 'exploratory_34species_pipeline_manifest.json').write_text(json.dumps(summary, indent=2) + '\n')
+          print(json.dumps(summary, indent=2))
+          assert model_species >= 20
+          assert len(pag) == 8
+          PY
+
+      - name: Upload corrected exploratory analysis
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: systematic-itv-fcp-literature-search-full
-          path: analysis_outputs/systematic_itv_fcp_search/
+          name: systematic-candidates-34species-pipeline-trial-v3
+          path: analysis_outputs/systematic_34species_trial_v3/
           if-no-files-found: error
           retention-days: 30
