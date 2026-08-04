@@ -6,6 +6,10 @@ on:
     paths:
       - ".github/workflows/systematic-107-phylogenetic-sensitivity.yml"
       - "analysis_phylogenetic_logistic_range_adjusted.R"
+  pull_request:
+    paths:
+      - ".github/workflows/systematic-107-phylogenetic-sensitivity.yml"
+      - "analysis_phylogenetic_logistic_range_adjusted.R"
   workflow_dispatch:
 
 permissions:
