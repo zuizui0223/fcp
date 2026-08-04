@@ -1,5 +1,7 @@
 #!/usr/bin/env Rscript
 
+# Dedicated topology-aware sensitivity analysis; outputs never replace the 34-species baseline.
+
 suppressPackageStartupMessages({
   library(ape)
   library(jsonlite)
@@ -37,7 +39,6 @@ if (length(missing)) stop(sprintf("Missing columns: %s", paste(missing, collapse
 d <- d[d$spatial_scale %in% c("within_population", "among_population"), , drop = FALSE]
 d$among <- as.integer(d$spatial_scale == "among_population")
 
-# OpenTree taxonomic matching is stored in full so exclusions are auditable.
 tnrs <- tnrs_match_names(unique(d$canonical_name), context_name = "Land plants")
 write.csv(tnrs, file.path(outdir, "opentree_tnrs_audit.csv"), row.names = FALSE)
 matched <- tnrs[!is.na(tnrs$ott_id) & tnrs$is_synonym %in% c(TRUE, FALSE), , drop = FALSE]
@@ -59,8 +60,6 @@ tip_ott <- suppressWarnings(as.numeric(vapply(raw_tree$tip.label, extract_ott, c
 raw_tree$tip.label <- map$search_string[match(tip_ott, map$ott_id)]
 raw_tree <- drop.tip(raw_tree, raw_tree$tip.label[duplicated(raw_tree$tip.label)])
 
-# OpenTree supplies topology but not calibrated branch lengths. Grafen lengths are used
-# only for a topology-aware sensitivity analysis; this limitation is explicit in outputs.
 set.seed(20260804)
 resolved_tree <- multi2di(raw_tree, random = FALSE)
 resolved_tree <- compute.brlen(resolved_tree, method = "Grafen", power = 1)
