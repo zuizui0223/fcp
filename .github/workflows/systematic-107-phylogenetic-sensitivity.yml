@@ -32,6 +32,14 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Install R system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libcurl4-openssl-dev \
+            libssl-dev \
+            libxml2-dev
+
       - name: Install minimal phylogenetic dependencies
         run: |
           Rscript - <<'RS'
@@ -39,7 +47,10 @@ jobs:
           required <- c("ape", "jsonlite", "phylolm", "rotl")
           missing <- required[!vapply(required, requireNamespace, logical(1), quietly = TRUE)]
           if (length(missing)) install.packages(missing, dependencies = c("Depends", "Imports", "LinkingTo"))
-          stopifnot(all(vapply(required, requireNamespace, logical(1), quietly = TRUE)))
+          unavailable <- required[!vapply(required, requireNamespace, logical(1), quietly = TRUE)]
+          if (length(unavailable)) {
+            stop(sprintf("required R packages unavailable after installation: %s", paste(unavailable, collapse = ", ")))
+          }
           print(sessionInfo())
           RS
 
