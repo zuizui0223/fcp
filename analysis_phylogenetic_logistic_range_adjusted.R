@@ -1,6 +1,7 @@
 #!/usr/bin/env Rscript
 
-# Dedicated topology-aware sensitivity analysis; outputs never replace the 34-species baseline.
+# Topology-aware sensitivity analysis for the automated 107-species dataset.
+# Outputs are separate from the historical 34-species baseline.
 
 suppressPackageStartupMessages({
   library(ape)
@@ -38,45 +39,65 @@ missing <- setdiff(required, names(d))
 if (length(missing)) stop(sprintf("Missing columns: %s", paste(missing, collapse = ", ")))
 d <- d[d$spatial_scale %in% c("within_population", "among_population"), , drop = FALSE]
 d$among <- as.integer(d$spatial_scale == "among_population")
+if (nrow(d) < 20 || length(unique(d$among)) < 2) stop("Insufficient binary-response data")
 
+message(sprintf("Matching %d species against Open Tree of Life", length(unique(d$canonical_name))))
 tnrs <- tnrs_match_names(unique(d$canonical_name), context_name = "Land plants")
 write.csv(tnrs, file.path(outdir, "opentree_tnrs_audit.csv"), row.names = FALSE)
-matched <- tnrs[!is.na(tnrs$ott_id) & tnrs$is_synonym %in% c(TRUE, FALSE), , drop = FALSE]
+if (!all(c("search_string", "ott_id") %in% names(tnrs))) {
+  stop(sprintf("Unexpected TNRS columns: %s", paste(names(tnrs), collapse = ", ")))
+}
+matched <- tnrs[!is.na(tnrs$ott_id), , drop = FALSE]
 matched <- matched[!duplicated(matched$search_string), , drop = FALSE]
 if (nrow(matched) < 20) stop(sprintf("Only %d species matched OpenTree", nrow(matched)))
 
-subtree <- tol_induced_subtree(ott_ids = matched$ott_id)
-raw_tree <- subtree$phylo
+message(sprintf("Requesting induced subtree for %d unique OTT ids", length(unique(matched$ott_id))))
+subtree <- tol_induced_subtree(ott_ids = unique(matched$ott_id), label_format = "name_and_id")
+# rotl currently returns a phylo object directly; retain compatibility with
+# older wrappers that nested it under $phylo.
+raw_tree <- if (inherits(subtree, "phylo")) subtree else subtree$phylo
+if (is.null(raw_tree) || !inherits(raw_tree, "phylo")) {
+  stop(sprintf("tol_induced_subtree returned unsupported class: %s", paste(class(subtree), collapse = ", ")))
+}
+if (length(raw_tree$tip.label) < 20) stop("OpenTree induced subtree contains fewer than 20 tips")
 write.tree(raw_tree, file.path(outdir, "opentree_induced_raw.newick"))
 
-extract_ott <- function(x) sub(".*_ott([0-9]+)$", "\\1", x)
-tip_ott <- suppressWarnings(as.numeric(vapply(raw_tree$tip.label, extract_ott, character(1))))
-map <- matched[, c("search_string", "unique_name", "ott_id", "is_synonym", "flags"), drop = FALSE]
+extract_ott <- function(x) {
+  out <- sub(".*_ott([0-9]+)$", "\\1", x)
+  suppressWarnings(as.numeric(out))
+}
+tip_ott <- vapply(raw_tree$tip.label, extract_ott, numeric(1))
+map_cols <- intersect(c("search_string", "unique_name", "ott_id", "is_synonym", "flags"), names(matched))
+map <- matched[, map_cols, drop = FALSE]
 map$ott_id <- as.numeric(map$ott_id)
 tip_names <- map$search_string[match(tip_ott, map$ott_id)]
 valid_tip <- !is.na(tip_names) & nzchar(tip_names)
 if (any(!valid_tip)) raw_tree <- drop.tip(raw_tree, raw_tree$tip.label[!valid_tip])
-tip_ott <- suppressWarnings(as.numeric(vapply(raw_tree$tip.label, extract_ott, character(1))))
-raw_tree$tip.label <- map$search_string[match(tip_ott, map$ott_id)]
-raw_tree <- drop.tip(raw_tree, raw_tree$tip.label[duplicated(raw_tree$tip.label)])
 
-set.seed(20260804)
+tip_ott <- vapply(raw_tree$tip.label, extract_ott, numeric(1))
+raw_tree$tip.label <- map$search_string[match(tip_ott, map$ott_id)]
+if (anyDuplicated(raw_tree$tip.label)) {
+  raw_tree <- drop.tip(raw_tree, raw_tree$tip.label[duplicated(raw_tree$tip.label)])
+}
+if (length(raw_tree$tip.label) < 20) stop("Fewer than 20 uniquely mapped tree tips remain")
+
 resolved_tree <- multi2di(raw_tree, random = FALSE)
 resolved_tree <- compute.brlen(resolved_tree, method = "Grafen", power = 1)
 resolved_tree <- ladderize(resolved_tree)
 write.tree(resolved_tree, file.path(outdir, "opentree_grafen_resolved.newick"))
 
 model_data <- d[d$canonical_name %in% resolved_tree$tip.label, , drop = FALSE]
+model_data <- model_data[!duplicated(model_data$canonical_name), , drop = FALSE]
 model_data <- model_data[match(resolved_tree$tip.label, model_data$canonical_name), , drop = FALSE]
 rownames(model_data) <- model_data$canonical_name
 
-z <- function(x) {
+z_log <- function(x) {
   y <- log1p(pmax(as.numeric(x), 0))
   s <- sd(y, na.rm = TRUE)
   if (!is.finite(s) || s == 0) return(rep(NA_real_, length(y)))
   as.numeric((y - mean(y, na.rm = TRUE)) / s)
 }
-for (v in c(components, base_covariates)) model_data[[paste0(v, "_z")]] <- z(model_data[[v]])
+for (v in c(components, base_covariates)) model_data[[paste0(v, "_z")]] <- z_log(model_data[[v]])
 
 results <- list()
 coefficients <- list()
@@ -84,12 +105,16 @@ comparison <- list()
 for (metric in components) {
   vars <- c("among", paste0(metric, "_z"), paste0(base_covariates, "_z"))
   dd <- model_data[complete.cases(model_data[, vars, drop = FALSE]), , drop = FALSE]
+  if (nrow(dd) < 20 || length(unique(dd$among)) < 2) {
+    stop(sprintf("Insufficient complete data for %s: n=%d", metric, nrow(dd)))
+  }
   tr <- keep.tip(resolved_tree, rownames(dd))
   dd <- dd[match(tr$tip.label, rownames(dd)), , drop = FALSE]
   rownames(dd) <- tr$tip.label
-  if (nrow(dd) < 20 || length(unique(dd$among)) < 2) next
+
   formula_text <- paste("among ~", paste(c(paste0(metric, "_z"), paste0(base_covariates, "_z")), collapse = " + "))
   form <- as.formula(formula_text)
+  message(sprintf("Fitting %s with %d species", metric, nrow(dd)))
   fit <- phyloglm(form, data = dd, phy = tr, method = "logistic_MPLE", btol = 50)
   sm <- summary(fit)
   cf <- as.data.frame(sm$coefficients)
@@ -99,6 +124,10 @@ for (metric in components) {
   cf$metric <- metric
   coefficients[[metric]] <- cf
   focal <- cf[cf$term == paste0(metric, "_z"), , drop = FALSE]
+  if (nrow(focal) != 1 || !is.finite(focal$estimate) || !is.finite(focal$std_error)) {
+    stop(sprintf("Invalid focal coefficient for %s", metric))
+  }
+
   nonphy <- glm(form, data = dd, family = binomial())
   nonphy_cf <- summary(nonphy)$coefficients[paste0(metric, "_z"), ]
   results[[metric]] <- data.frame(
@@ -113,7 +142,6 @@ for (metric in components) {
     odds_ratio_ci_high = exp(focal$estimate + 1.96 * focal$std_error),
     p_value = focal$p_value,
     phylogenetic_alpha = fit$alpha,
-    logLik = as.numeric(logLik(fit)),
     method = "phyloglm_logistic_MPLE_OpenTree_Grafen",
     stringsAsFactors = FALSE
   )
@@ -151,7 +179,7 @@ manifest <- list(
   estimator = "phylolm::phyloglm(method='logistic_MPLE')",
   covariates = base_covariates,
   results = result,
-  interpretation_guard = "Automated spatial labels remain exploratory. The phylogenetic model tests whether climate-breadth associations persist after topology-based dependence and the same range/effort covariates; it is not a causal or time-calibrated evolutionary model."
+  interpretation_guard = "Automated spatial labels remain exploratory. This model tests whether climate-breadth associations persist after topology-based dependence and the same range/effort covariates; it is not a causal or time-calibrated evolutionary model."
 )
 write_json(manifest, file.path(outdir, "phylogenetic_analysis_manifest.json"), pretty = TRUE, auto_unbox = TRUE, na = "null")
 print(toJSON(manifest, pretty = TRUE, auto_unbox = TRUE, na = "null"))
