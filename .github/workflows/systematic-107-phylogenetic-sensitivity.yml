@@ -71,22 +71,32 @@ jobs:
           find range_input -maxdepth 4 -type f | sort
           test -s range_input/range_adjusted_main/range_adjusted_model_dataset.csv
           python - <<'PY'
-          import pandas as pd
+          import csv
+          from collections import Counter
+
           p = "range_input/range_adjusted_main/range_adjusted_model_dataset.csv"
-          d = pd.read_csv(p)
           required = {
               "canonical_name", "spatial_scale", "geographic_hull_area_km2",
               "n_occurrence_records", "n_supporting_p1_records",
               "bio1_q95q05", "bio5_q95q05", "bio6_q95q05", "bio7_q95q05",
               "bio12_q95q05", "bio14_q95q05", "bio15_q95q05", "bio17_q95q05",
           }
-          missing = sorted(required - set(d.columns))
-          if missing:
-              raise SystemExit(f"missing columns: {missing}")
-          d = d[d.spatial_scale.isin(["within_population", "among_population"])]
-          if len(d) < 20 or d.spatial_scale.nunique() != 2:
-              raise SystemExit("insufficient binary dataset")
-          print({"rows": len(d), "classes": d.spatial_scale.value_counts().to_dict()})
+          counts = Counter()
+          rows = 0
+          with open(p, newline="", encoding="utf-8-sig") as handle:
+              reader = csv.DictReader(handle)
+              fields = set(reader.fieldnames or [])
+              missing = sorted(required - fields)
+              if missing:
+                  raise SystemExit(f"missing columns: {missing}")
+              for record in reader:
+                  scale = record.get("spatial_scale", "")
+                  if scale in {"within_population", "among_population"}:
+                      rows += 1
+                      counts[scale] += 1
+          if rows < 20 or len(counts) != 2:
+              raise SystemExit(f"insufficient binary dataset: rows={rows}, classes={dict(counts)}")
+          print({"rows": rows, "classes": dict(counts)})
           PY
 
       - name: Fit OpenTree phylogenetic logistic models
