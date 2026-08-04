@@ -6,10 +6,12 @@ on:
     paths:
       - ".github/workflows/systematic-107-phylogenetic-sensitivity.yml"
       - "analysis_phylogenetic_logistic_range_adjusted.R"
+      - "analysis_multicollinearity_diagnostics.R"
   pull_request:
     paths:
       - ".github/workflows/systematic-107-phylogenetic-sensitivity.yml"
       - "analysis_phylogenetic_logistic_range_adjusted.R"
+      - "analysis_multicollinearity_diagnostics.R"
   workflow_dispatch:
 
 permissions:
@@ -54,8 +56,10 @@ jobs:
           print(sessionInfo())
           RS
 
-      - name: Parse phylogenetic analysis script
-        run: Rscript -e 'parse(file="analysis_phylogenetic_logistic_range_adjusted.R")'
+      - name: Parse analysis scripts
+        run: |
+          Rscript -e 'parse(file="analysis_multicollinearity_diagnostics.R")'
+          Rscript -e 'parse(file="analysis_phylogenetic_logistic_range_adjusted.R")'
 
       - name: Download frozen range-adjusted analysis
         uses: actions/download-artifact@v4
@@ -99,9 +103,40 @@ jobs:
           print({"rows": rows, "classes": dict(counts)})
           PY
 
-      - name: Fit OpenTree phylogenetic logistic models
+      - name: Diagnose multicollinearity
         run: |
           mkdir -p "$OUTDIR"
+          Rscript analysis_multicollinearity_diagnostics.R \
+            --dataset range_input/range_adjusted_main/range_adjusted_model_dataset.csv \
+            --outdir "$OUTDIR"
+
+      - name: Validate multicollinearity outputs
+        run: |
+          Rscript - <<'RS'
+          root <- Sys.getenv("OUTDIR")
+          required <- c(
+            "climate_components_pearson_correlations.csv",
+            "climate_components_spearman_correlations.csv",
+            "all_predictors_pearson_correlations.csv",
+            "all_predictors_spearman_correlations.csv",
+            "actual_component_models_vif.csv",
+            "actual_component_models_condition_numbers.csv",
+            "diagnostic_all_eight_components_joint_vif.csv",
+            "diagnostic_all_eight_components_joint_condition_number.csv",
+            "multicollinearity_diagnostic_summary.csv"
+          )
+          stopifnot(all(file.exists(file.path(root, required))))
+          vif <- read.csv(file.path(root, "actual_component_models_vif.csv"))
+          cond <- read.csv(file.path(root, "actual_component_models_condition_numbers.csv"))
+          stopifnot(length(unique(vif$model_id)) == 8)
+          stopifnot(nrow(cond) == 8)
+          stopifnot(all(is.finite(vif$vif)))
+          stopifnot(all(is.finite(cond$condition_number)))
+          print(read.csv(file.path(root, "multicollinearity_diagnostic_summary.csv")))
+          RS
+
+      - name: Fit OpenTree phylogenetic logistic models
+        run: |
           Rscript analysis_phylogenetic_logistic_range_adjusted.R \
             --dataset range_input/range_adjusted_main/range_adjusted_model_dataset.csv \
             --outdir "$OUTDIR"
@@ -116,6 +151,7 @@ jobs:
           stopifnot(all(is.finite(x$p_value)))
           stopifnot(all(x$n_species >= 20))
           stopifnot(file.exists(file.path(root, "opentree_tnrs_audit.csv")))
+          stopifnot(file.exists(file.path(root, "opentree_tip_mapping_audit.csv")))
           stopifnot(file.exists(file.path(root, "opentree_grafen_resolved.newick")))
           cat(sprintf("validated %d phylogenetic models across %d-%d species\n", nrow(x), min(x$n_species), max(x$n_species)))
           print(x[, c("metric", "n_species", "odds_ratio", "p_value", "p_holm_eight_components")])
