@@ -2,7 +2,7 @@ name: Phylogenetic sensitivity for automated FCP ecology
 
 on:
   push:
-    branches: [literature/systematic-itv-fcp-search]
+    branches: [analysis/107-species-phylogenetic-sensitivity]
     paths:
       - ".github/workflows/systematic-107-phylogenetic-sensitivity.yml"
       - "analysis_phylogenetic_logistic_range_adjusted.R"
@@ -39,6 +39,9 @@ jobs:
             any::jsonlite
             any::phylolm
             any::rotl
+
+      - name: Parse phylogenetic analysis script
+        run: Rscript -e 'parse(file="analysis_phylogenetic_logistic_range_adjusted.R")'
 
       - name: Download completed range-adjusted analysis
         uses: actions/download-artifact@v4
