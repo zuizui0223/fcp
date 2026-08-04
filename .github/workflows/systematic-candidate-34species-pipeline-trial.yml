@@ -1,0 +1,263 @@
+name: Systematic candidates through 34-species climate pipeline
+
+on:
+  push:
+    branches:
+      - literature/systematic-itv-fcp-search
+    paths:
+      - ".github/workflows/systematic-candidate-34species-pipeline-trial.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  SOURCE_RUN_ID: "30753748463"
+  SOURCE_ARTIFACT: "systematic-itv-fcp-literature-search-full"
+
+jobs:
+  exploratory-reanalysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn rasterio statsmodels
+
+      - name: Download complete systematic-search artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: systematic_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Build provisional within/among species table
+        run: |
+          mkdir -p analysis_outputs/systematic_34species_trial
+          python - <<'PY'
+          import csv, json
+          from collections import Counter, defaultdict
+          from pathlib import Path
+
+          queue = Path('systematic_input/itv_fcp_human_screening_queue.csv')
+          census = Path('data/angiosperm_census.csv')
+          out = Path('analysis_outputs/systematic_34species_trial')
+          fam = {
+              r['canonical_name'].strip(): r.get('family', '').strip()
+              for r in csv.DictReader(census.open(encoding='utf-8'))
+              if r.get('canonical_name')
+          }
+
+          def truthy(value):
+              return str(value or '').strip().lower() in {'1', 'true', 'yes'}
+
+          evidence = defaultdict(list)
+          diagnostic = Counter()
+          for r in csv.DictReader(queue.open(encoding='utf-8')):
+              diagnostic['records_total'] += 1
+              priority = r.get('screen_priority', '')
+              if priority not in {'P1_high_natural_itv', 'P1_high_population_itv'}:
+                  continue
+              diagnostic['records_p1'] += 1
+              # P1 already requires flower-colour variation plus either natural or
+              # explicit population-scale wording. Avoid applying the same signal twice.
+              if truthy(r.get('cultivated_signal')) or truthy(r.get('induced_signal')) or truthy(r.get('ontogenetic_signal')):
+                  diagnostic['records_artificial_or_ontogenetic_excluded'] += 1
+                  continue
+              within = truthy(r.get('within_signal'))
+              among = truthy(r.get('among_signal'))
+              if not within and not among:
+                  diagnostic['records_without_direction'] += 1
+                  continue
+              names = [x.strip() for x in (r.get('candidate_species') or '').split(';') if x.strip()]
+              valid_names = [name for name in names if name in fam]
+              if not valid_names:
+                  diagnostic['records_without_census_species'] += 1
+                  continue
+              diagnostic['records_eligible_for_species_aggregation'] += 1
+              for name in valid_names:
+                  evidence[name].append(r)
+
+          rows = []
+          excluded = Counter()
+          for name, rs in evidence.items():
+              within_records = [r for r in rs if truthy(r.get('within_signal'))]
+              among_records = [r for r in rs if truthy(r.get('among_signal'))]
+              if within_records and among_records:
+                  excluded['mixed_species'] += 1
+                  continue
+              if not within_records and not among_records:
+                  excluded['no_direction_species'] += 1
+                  continue
+              scale = 'within_population' if within_records else 'among_population'
+              directional = within_records if within_records else among_records
+              best = max(
+                  directional,
+                  key=lambda r: (int(float(r.get('cited_by_count') or 0)), len(r.get('abstract') or '')),
+              )
+              rows.append({
+                  'canonical_name': name,
+                  'family': fam[name],
+                  'spatial_scale': scale,
+                  'classification_source': 'baseline_unambiguous',
+                  'automated_classification_source': 'systematic_P1_one_direction_no_hard_exclusion',
+                  'n_supporting_p1_records': len(rs),
+                  'within_signal_records': len(within_records),
+                  'among_signal_records': len(among_records),
+                  'natural_signal_records': sum(truthy(r.get('natural_signal')) for r in rs),
+                  'discrete_signal_records': sum(r.get('provisional_variation_form') == 'discrete_signal' for r in rs),
+                  'best_title': best.get('title', ''),
+                  'best_doi': best.get('doi', ''),
+                  'best_openalex_id': best.get('record_id', ''),
+                  'best_match_evidence': (best.get('abstract') or '')[:1200],
+                  'review_status': 'unreviewed',
+                  'role': 'focal',
+              })
+
+          rows.sort(key=lambda r: (r['spatial_scale'], -r['n_supporting_p1_records'], r['canonical_name']))
+          qc = {
+              'status': 'complete' if len(rows) >= 20 and len({r['spatial_scale'] for r in rows}) == 2 else 'insufficient',
+              'eligible_species': len(rows),
+              'families': len({r['family'] for r in rows}),
+              'within_species': sum(r['spatial_scale'] == 'within_population' for r in rows),
+              'among_species': sum(r['spatial_scale'] == 'among_population' for r in rows),
+              'record_diagnostics': dict(diagnostic),
+              'excluded_species': dict(excluded),
+              'semantic_guard': 'Exploratory automated P1 one-direction labels with hard-exclusion flags removed; not adjudicated biological classifications.',
+          }
+          (out / 'provisional_classification_qc.json').write_text(json.dumps(qc, indent=2) + '\n')
+          if rows:
+              with (out / 'provisional_spatial_classification.csv').open('w', newline='', encoding='utf-8') as f:
+                  w = csv.DictWriter(f, fieldnames=list(rows[0]))
+                  w.writeheader()
+                  w.writerows(rows)
+          print(json.dumps(qc, indent=2))
+          if qc['status'] != 'complete':
+              raise SystemExit(qc)
+          PY
+
+      - name: Retrieve paginated quality-filtered GBIF occurrences
+        run: |
+          python build_gbif_occurrence_sample_paginated.py \
+            --species analysis_outputs/systematic_34species_trial/provisional_spatial_classification.csv \
+            --out analysis_outputs/systematic_34species_trial/gbif_occurrences_paginated.csv \
+            --qc-out analysis_outputs/systematic_34species_trial/gbif_occurrences_paginated_qc.json \
+            --taxon-audit-out analysis_outputs/systematic_34species_trial/gbif_taxon_audit.csv \
+            --max-records 3000 --page-size 300 --dedup-decimals 3 \
+            --max-coordinate-uncertainty-m 20000 --timeout 45 --retries 4 --delay 0.10
+
+      - name: Download WorldClim 2.1 bioclimatic rasters
+        run: |
+          mkdir -p analysis_outputs/systematic_34species_trial/worldclim
+          curl -L --retry 4 --fail -o /tmp/wc.zip https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+          unzip -q /tmp/wc.zip -d analysis_outputs/systematic_34species_trial/worldclim
+
+      - name: Compute occupied-climate breadth metrics
+        run: |
+          python compute_climatic_niche_metrics.py \
+            --occurrences analysis_outputs/systematic_34species_trial/gbif_occurrences_paginated.csv \
+            --worldclim-dir analysis_outputs/systematic_34species_trial/worldclim \
+            --out analysis_outputs/systematic_34species_trial/species_climatic_niche_metrics.csv \
+            --cell-out analysis_outputs/systematic_34species_trial/occurrence_climate_cells.csv \
+            --qc-out analysis_outputs/systematic_34species_trial/species_climatic_niche_metrics_qc.json \
+            --min-cells 10
+
+      - name: Build model table and legacy five-metric models
+        run: |
+          python analysis_climatic_niche_spatial_scale.py \
+            --classification analysis_outputs/systematic_34species_trial/provisional_spatial_classification.csv \
+            --metrics analysis_outputs/systematic_34species_trial/species_climatic_niche_metrics.csv \
+            --outdir analysis_outputs/systematic_34species_trial/legacy_five_metric
+          python analysis_climatic_niche_spatial_scale_robustness.py \
+            --dataset analysis_outputs/systematic_34species_trial/legacy_five_metric/climatic_niche_spatial_scale_dataset.csv \
+            --outdir analysis_outputs/systematic_34species_trial/legacy_five_metric \
+            --permutations 9999
+
+      - name: Fetch current eight-component analysis code
+        run: |
+          curl -L --fail -o /tmp/precip.py https://raw.githubusercontent.com/zuizui0223/fcp/analysis/precipitation-components/analysis_precipitation_component_breadth.py
+          curl -L --fail -o /tmp/temp.py https://raw.githubusercontent.com/zuizui0223/fcp/analysis/precipitation-components/analysis_temperature_component_breadth.py
+          curl -L --fail -o /tmp/run_temp.py https://raw.githubusercontent.com/zuizui0223/fcp/analysis/precipitation-components/run_temperature_component_breadth.py
+          sed -i "s/if len(data) != 34:/if len(data) < 20:/" /tmp/precip.py /tmp/temp.py
+          sed -i "s/expected 34 baseline species/expected at least 20 exploratory species/" /tmp/precip.py /tmp/temp.py
+
+      - name: Prepare component model input
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          root = 'analysis_outputs/systematic_34species_trial'
+          cls = pd.read_csv(f'{root}/provisional_spatial_classification.csv')
+          met = pd.read_csv(f'{root}/species_climatic_niche_metrics.csv')
+          d = cls.merge(met, on='canonical_name', how='inner', suffixes=('_class', '_metric'))
+          family = d['family_class'] if 'family_class' in d else d.get('family', pd.Series('', index=d.index))
+          if 'family_metric' in d:
+              family = family.fillna(d['family_metric']).replace('', pd.NA).fillna(d['family_metric'])
+          d['family'] = family
+          d['classification_source'] = 'baseline_unambiguous'
+          d.to_csv(f'{root}/exploratory_component_model_dataset.csv', index=False)
+          print({'classified': len(cls), 'metrics': len(met), 'model_complete': len(d), 'within': int((d.spatial_scale == 'within_population').sum()), 'among': int((d.spatial_scale == 'among_population').sum())})
+          PY
+
+      - name: Fit same eight BIO breadth models, permutations and family deletion
+        run: |
+          mkdir -p analysis_outputs/systematic_34species_trial/eight_component
+          PYTHONPATH=/tmp:$PYTHONPATH python /tmp/precip.py \
+            --primary-model analysis_outputs/systematic_34species_trial/exploratory_component_model_dataset.csv \
+            --primary-metrics analysis_outputs/systematic_34species_trial/species_climatic_niche_metrics.csv \
+            --paginated-model analysis_outputs/systematic_34species_trial/exploratory_component_model_dataset.csv \
+            --paginated-metrics analysis_outputs/systematic_34species_trial/species_climatic_niche_metrics.csv \
+            --outdir analysis_outputs/systematic_34species_trial/eight_component \
+            --permutations 9999 --seed 20260803
+          cp /tmp/temp.py /tmp/analysis_temperature_component_breadth.py
+          PYTHONPATH=/tmp:$PYTHONPATH python /tmp/run_temp.py \
+            --primary-model analysis_outputs/systematic_34species_trial/exploratory_component_model_dataset.csv \
+            --primary-metrics analysis_outputs/systematic_34species_trial/species_climatic_niche_metrics.csv \
+            --paginated-model analysis_outputs/systematic_34species_trial/exploratory_component_model_dataset.csv \
+            --paginated-metrics analysis_outputs/systematic_34species_trial/species_climatic_niche_metrics.csv \
+            --precipitation-table analysis_outputs/systematic_34species_trial/eight_component/precipitation_component_breadth_models.csv \
+            --outdir analysis_outputs/systematic_34species_trial/eight_component \
+            --permutations 9999 --seed 20260803
+
+      - name: Validate and summarize exploratory rerun
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          root = Path('analysis_outputs/systematic_34species_trial')
+          qc = json.loads((root / 'provisional_classification_qc.json').read_text())
+          models = pd.read_csv(root / 'eight_component/climate_component_familywise_adjustment.csv')
+          precip = pd.read_csv(root / 'eight_component/precipitation_component_breadth_models.csv')
+          pag = models[models.occurrence_dataset == 'paginated_quality_filtered'].copy()
+          summary = {
+              'status': 'complete',
+              'input_provisional_species': qc['eligible_species'],
+              'within_species': qc['within_species'],
+              'among_species': qc['among_species'],
+              'model_species': int(precip[precip.occurrence_dataset == 'paginated_quality_filtered'].n_species.max()),
+              'eight_component_results': pag.to_dict('records'),
+              'semantic_guard': 'Exploratory replication using automated P1 one-direction labels after excluding hard artificial/ontogenetic signals. Results are not a replacement for source-level adjudication.',
+          }
+          (root / 'exploratory_34species_pipeline_manifest.json').write_text(json.dumps(summary, indent=2) + '\n')
+          print(json.dumps(summary, indent=2))
+          assert summary['model_species'] >= 20
+          assert len(pag) == 8
+          PY
+
+      - name: Upload exploratory same-pipeline analysis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: systematic-candidates-34species-pipeline-trial
+          path: analysis_outputs/systematic_34species_trial/
+          if-no-files-found: warn
+          retention-days: 30

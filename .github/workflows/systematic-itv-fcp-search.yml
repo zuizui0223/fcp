@@ -1,0 +1,156 @@
+name: Reviewer-oriented automated FCP ecological analysis
+
+on:
+  push:
+    branches: [literature/systematic-itv-fcp-search]
+  pull_request:
+    paths:
+      - ".github/workflows/systematic-itv-fcp-search.yml"
+      - "build_provisional_spatial_classification.py"
+      - "resolve_provisional_taxa_gbif.py"
+      - "build_gbif_occurrence_sample_paginated.py"
+      - "compute_climatic_niche_metrics.py"
+      - "compute_geographic_extent_metrics.py"
+      - "analysis_climate_components_range_adjusted.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  SOURCE_RUN_ID: "30753748463"
+  SOURCE_ARTIFACT: "systematic-itv-fcp-literature-search-full"
+  OUTDIR: "analysis_outputs/systematic_34species_trial_v4_range_adjusted"
+
+jobs:
+  reviewer-oriented-ecological-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn rasterio statsmodels
+
+      - name: Download frozen complete systematic-search artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: systematic_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Build provisional automated spatial classifications
+        run: |
+          mkdir -p "$OUTDIR"
+          python build_provisional_spatial_classification.py \
+            --queue systematic_input/itv_fcp_human_screening_queue.csv \
+            --census data/angiosperm_census.csv \
+            --out "$OUTDIR/provisional_candidates_unvalidated.csv" \
+            --qc-out "$OUTDIR/provisional_classification_qc.json"
+
+      - name: Resolve taxa and reaggregate labels after synonym resolution
+        run: |
+          python resolve_provisional_taxa_gbif.py \
+            --input "$OUTDIR/provisional_candidates_unvalidated.csv" \
+            --out "$OUTDIR/provisional_spatial_classification.csv" \
+            --audit "$OUTDIR/gbif_candidate_taxon_audit.csv" \
+            --timeout 45 --retries 4
+
+      - name: Retrieve quality-filtered GBIF occurrences
+        run: |
+          python build_gbif_occurrence_sample_paginated.py \
+            --species "$OUTDIR/provisional_spatial_classification.csv" \
+            --out "$OUTDIR/gbif_occurrences_paginated.csv" \
+            --qc-out "$OUTDIR/gbif_occurrences_paginated_qc.json" \
+            --taxon-audit-out "$OUTDIR/gbif_occurrence_taxon_audit.csv" \
+            --max-records 3000 --page-size 300 --dedup-decimals 3 \
+            --max-coordinate-uncertainty-m 20000 --timeout 45 --retries 4 --delay 0.10
+
+      - name: Compute geographic extent covariates
+        run: |
+          python compute_geographic_extent_metrics.py \
+            --occurrences "$OUTDIR/gbif_occurrences_paginated.csv" \
+            --out "$OUTDIR/species_geographic_extent_metrics.csv" \
+            --qc-out "$OUTDIR/species_geographic_extent_metrics_qc.json" \
+            --grid-degrees 1.0
+
+      - name: Download WorldClim 2.1 bioclimatic rasters
+        run: |
+          mkdir -p "$OUTDIR/worldclim"
+          curl -L --retry 4 --fail -o /tmp/wc.zip https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+          unzip -q /tmp/wc.zip -d "$OUTDIR/worldclim"
+
+      - name: Compute occupied-climate breadth metrics
+        run: |
+          python compute_climatic_niche_metrics.py \
+            --occurrences "$OUTDIR/gbif_occurrences_paginated.csv" \
+            --worldclim-dir "$OUTDIR/worldclim" \
+            --out "$OUTDIR/species_climatic_niche_metrics.csv" \
+            --cell-out "$OUTDIR/occurrence_climate_cells.csv" \
+            --qc-out "$OUTDIR/species_climatic_niche_metrics_qc.json" \
+            --min-cells 10
+
+      - name: Run legacy five-metric sensitivity models
+        run: |
+          python analysis_climatic_niche_spatial_scale.py \
+            --classification "$OUTDIR/provisional_spatial_classification.csv" \
+            --metrics "$OUTDIR/species_climatic_niche_metrics.csv" \
+            --outdir "$OUTDIR/legacy_five_metric_sensitivity"
+          python analysis_climatic_niche_spatial_scale_robustness.py \
+            --dataset "$OUTDIR/legacy_five_metric_sensitivity/climatic_niche_spatial_scale_dataset.csv" \
+            --outdir "$OUTDIR/legacy_five_metric_sensitivity" --permutations 9999
+
+      - name: Fit range and effort adjusted eight-component models
+        run: |
+          python analysis_climate_components_range_adjusted.py \
+            --classification "$OUTDIR/provisional_spatial_classification.csv" \
+            --metrics "$OUTDIR/species_climatic_niche_metrics.csv" \
+            --extent "$OUTDIR/species_geographic_extent_metrics.csv" \
+            --outdir "$OUTDIR/range_adjusted_main" \
+            --min-cells 20 --permutations 9999 --seed 20260804
+
+      - name: Validate provenance and summarize
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          import pandas as pd
+          root = Path(os.environ['OUTDIR'])
+          cls = pd.read_csv(root / 'provisional_spatial_classification.csv')
+          models = pd.read_csv(root / 'range_adjusted_main/range_adjusted_climate_component_models.csv')
+          if set(cls['classification_source']) != {'exploratory_automated'}:
+              raise SystemExit('Automated classification provenance was altered')
+          if len(models) != 8:
+              raise SystemExit(f'Expected eight range-adjusted component models, found {len(models)}')
+          summary = {
+              'status': 'complete',
+              'source_search_run_id': 30753748463,
+              'output_namespace': 'systematic_34species_trial_v4_range_adjusted',
+              'baseline_34_species_outputs_modified': False,
+              'automated_classification_provenance_preserved': True,
+              'gbif_validated_unambiguous_species': int(len(cls)),
+              'within': int((cls.spatial_scale == 'within_population').sum()),
+              'among': int((cls.spatial_scale == 'among_population').sum()),
+              'range_adjusted_model_species': int(models.n_species.max()),
+              'main_results': models.to_dict('records'),
+              'primary_inference': 'Climate-component association conditional on sampled geographic extent, occurrence effort and literature effort.',
+              'semantic_guard': 'Automated labels remain exploratory; ecological associations are conditional and non-causal.'
+          }
+          (root / 'reviewer_oriented_manifest.json').write_text(json.dumps(summary, indent=2) + '\n')
+          print(json.dumps(summary, indent=2))
+          PY
+
+      - name: Upload reviewer-oriented ecological analysis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: systematic-candidates-ecological-range-adjusted-v4
+          path: analysis_outputs/systematic_34species_trial_v4_range_adjusted/
+          if-no-files-found: error
+          retention-days: 30

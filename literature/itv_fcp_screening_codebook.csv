@@ -1,0 +1,49 @@
+field,allowed_value,definition,main_dataset_action
+review_status,unreviewed,No human source-level decision recorded,hold
+review_status,reviewer_1_complete,First independent review complete,hold
+review_status,reviewer_2_complete,Second independent review complete,hold
+review_status,adjudicated,Consensus or third-review decision recorded,eligible_for_freeze
+adjudicated_decision,include_natural_itv,Natural floral-display colour ITV is supported,include
+adjudicated_decision,exclude_no_intraspecific_variation,Only interspecific differences or no actual within-species variation,exclude
+adjudicated_decision,exclude_cultivated_only,Only cultivars breeding lines commercial varieties or horticultural collections without independent wild evidence,exclude
+adjudicated_decision,exclude_induced,Variation created by mutagenesis transgenics gene editing tissue culture or experimental treatment,exclude
+adjudicated_decision,exclude_ontogenetic_change,Colour change occurs within the same flower through development pollination or senescence,exclude
+adjudicated_decision,exclude_non_display_organ,Only pollen anther stigma fruit seed leaf or stem colour,exclude
+adjudicated_decision,exclude_not_angiosperm,Not an angiosperm taxon,exclude
+adjudicated_decision,exclude_unresolvable_taxon,Focal taxon cannot be resolved reproducibly,exclude
+adjudicated_decision,exclude_duplicate_evidence,No independent biological evidence beyond a retained source,exclude
+adjudicated_decision,exclude_insufficient_source,Available source does not establish eligibility,exclude
+natural_status,wild_field,Variation directly observed or sampled in wild native populations,include
+natural_status,naturalized_field,Variation directly observed in self-sustaining naturalized populations,include_with_flag
+natural_status,wild_origin_common_garden,Common-garden or experimental individuals originate from documented wild variation,include_with_flag
+natural_status,cultivated_with_independent_wild_evidence,Cultivated experiment is linked to an independent source demonstrating the same variation in nature,include_with_flag
+natural_status,cultivated_only_exclude,No evidence outside cultivation,exclude
+natural_status,induced_exclude,Phenotype is experimentally induced,exclude
+natural_status,unclear,Natural status cannot yet be established,hold
+variation_form,discrete_morphs,Two or more qualitatively discrete stable display-colour classes,include
+variation_form,continuous,Quantitative hue chroma reflectance or pigmentation varies continuously,include_itv_not_strict_fcp
+variation_form,mixed_discrete_continuous,Both named classes and continuous variation are reported,include_with_flag
+variation_form,rare_form_only,A rare colour form is documented but population persistence or polymorphism is not established,include_map_not_strict_fcp
+variation_form,unspecified,Variation is reported without sufficient form information,hold
+strict_fcp,yes,At least two discrete floral-display colour morphs coexist in at least one natural population,strict_fcp
+strict_fcp,no,Eligible ITV does not meet strict within-population discrete-morph criterion,itv_only
+strict_fcp,unclear,Source does not permit a strict-FCP decision,hold
+spatial_scale,within_population,Variation or multiple morphs are directly documented within at least one natural population,include
+spatial_scale,among_population,Colour states or trait distributions differ among populations or regions without direct within-population coexistence evidence,include
+spatial_scale,mixed_within_among,Both within-population coexistence and among-population structure are documented,include_separate_category
+spatial_scale,unclear,Spatial scale cannot be established from the retained evidence,hold
+display_organ,petal_corolla_tepal,Petal corolla or tepal display colour,main
+display_organ,labellum,Orchid or comparable labellum display colour,main
+display_organ,showy_bract,Bract functions as floral display,main_with_flag
+display_organ,multiple_display_organs,More than one display organ contributes to colour phenotype,main_with_flag
+display_organ,non_display_floral_secondary,Pollen anther or stigma colour only,secondary_not_main
+population_evidence,direct_frequency,Morph counts or frequencies are reported for named populations,strong
+population_evidence,direct_coexistence,Text or data explicitly report coexistence in the same population,strong
+population_evidence,individual_level_data,Multiple individuals are measured within populations,strong
+population_evidence,population_means_only,Population summaries or means are compared,among_only
+population_evidence,geographic_description_only,Regional or clinal pattern is described without population-level data,weak_among
+population_evidence,none,No usable population evidence,hold
+source_role,primary_original_data,Publication reports original observations experiments or measurements,primary
+source_role,review_discovery_seed,Review is used to identify primary studies,discovery_only
+source_role,secondary_synthesis,Secondary source summarizes evidence but is not the original study,discovery_only
+source_role,dataset_or_supplement,Data resource may contain original evidence,inspect
