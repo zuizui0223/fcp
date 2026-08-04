@@ -19,7 +19,7 @@ permissions:
 env:
   SOURCE_RUN_ID: "30858993199"
   SOURCE_ARTIFACT: "systematic-candidates-ecological-range-adjusted-v4"
-  OUTDIR: "analysis_outputs/systematic_107_phylogenetic_v1"
+  OUTDIR: "analysis_outputs/systematic_107_phylogenetic_v2"
 
 jobs:
   phylogenetic-logistic-sensitivity:
@@ -32,18 +32,21 @@ jobs:
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          packages: |
-            any::ape
-            any::jsonlite
-            any::phylolm
-            any::rotl
+      - name: Install minimal phylogenetic dependencies
+        run: |
+          Rscript - <<'RS'
+          options(repos = c(CRAN = "https://cloud.r-project.org"))
+          required <- c("ape", "jsonlite", "phylolm", "rotl")
+          missing <- required[!vapply(required, requireNamespace, logical(1), quietly = TRUE)]
+          if (length(missing)) install.packages(missing, dependencies = c("Depends", "Imports", "LinkingTo"))
+          stopifnot(all(vapply(required, requireNamespace, logical(1), quietly = TRUE)))
+          print(sessionInfo())
+          RS
 
       - name: Parse phylogenetic analysis script
         run: Rscript -e 'parse(file="analysis_phylogenetic_logistic_range_adjusted.R")'
 
-      - name: Download completed range-adjusted analysis
+      - name: Download frozen range-adjusted analysis
         uses: actions/download-artifact@v4
         with:
           name: ${{ env.SOURCE_ARTIFACT }}
@@ -52,10 +55,28 @@ jobs:
           repository: zuizui0223/fcp
           run-id: ${{ env.SOURCE_RUN_ID }}
 
-      - name: Locate frozen model dataset
+      - name: Validate frozen model dataset
         run: |
           find range_input -maxdepth 4 -type f | sort
-          test -f range_input/range_adjusted_main/range_adjusted_model_dataset.csv
+          test -s range_input/range_adjusted_main/range_adjusted_model_dataset.csv
+          python - <<'PY'
+          import pandas as pd
+          p = "range_input/range_adjusted_main/range_adjusted_model_dataset.csv"
+          d = pd.read_csv(p)
+          required = {
+              "canonical_name", "spatial_scale", "geographic_hull_area_km2",
+              "n_occurrence_records", "n_supporting_p1_records",
+              "bio1_q95q05", "bio5_q95q05", "bio6_q95q05", "bio7_q95q05",
+              "bio12_q95q05", "bio14_q95q05", "bio15_q95q05", "bio17_q95q05",
+          }
+          missing = sorted(required - set(d.columns))
+          if missing:
+              raise SystemExit(f"missing columns: {missing}")
+          d = d[d.spatial_scale.isin(["within_population", "among_population"])]
+          if len(d) < 20 or d.spatial_scale.nunique() != 2:
+              raise SystemExit("insufficient binary dataset")
+          print({"rows": len(d), "classes": d.spatial_scale.value_counts().to_dict()})
+          PY
 
       - name: Fit OpenTree phylogenetic logistic models
         run: |
@@ -71,15 +92,19 @@ jobs:
           x <- read.csv(file.path(root, "phylogenetic_logistic_component_models.csv"))
           stopifnot(nrow(x) == 8)
           stopifnot(all(is.finite(x$estimate)))
+          stopifnot(all(is.finite(x$p_value)))
           stopifnot(all(x$n_species >= 20))
+          stopifnot(file.exists(file.path(root, "opentree_tnrs_audit.csv")))
+          stopifnot(file.exists(file.path(root, "opentree_grafen_resolved.newick")))
           cat(sprintf("validated %d phylogenetic models across %d-%d species\n", nrow(x), min(x$n_species), max(x$n_species)))
+          print(x[, c("metric", "n_species", "odds_ratio", "p_value", "p_holm_eight_components")])
           RS
 
       - name: Upload phylogenetic sensitivity analysis
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: systematic-107-phylogenetic-sensitivity-v1
-          path: analysis_outputs/systematic_107_phylogenetic_v1/
-          if-no-files-found: error
+          name: systematic-107-phylogenetic-sensitivity-v2
+          path: analysis_outputs/systematic_107_phylogenetic_v2/
+          if-no-files-found: warn
           retention-days: 30
