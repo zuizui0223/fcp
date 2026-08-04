@@ -66,19 +66,44 @@ extract_ott <- function(x) {
   out <- sub(".*_ott([0-9]+)$", "\\1", x)
   suppressWarnings(as.numeric(out))
 }
-tip_ott <- vapply(raw_tree$tip.label, extract_ott, numeric(1))
 map_cols <- intersect(c("search_string", "unique_name", "ott_id", "is_synonym", "flags"), names(matched))
 map <- matched[, map_cols, drop = FALSE]
 map$ott_id <- as.numeric(map$ott_id)
-tip_names <- map$search_string[match(tip_ott, map$ott_id)]
-valid_tip <- !is.na(tip_names) & nzchar(tip_names)
-if (any(!valid_tip)) raw_tree <- drop.tip(raw_tree, raw_tree$tip.label[!valid_tip])
 
-tip_ott <- vapply(raw_tree$tip.label, extract_ott, numeric(1))
-raw_tree$tip.label <- map$search_string[match(tip_ott, map$ott_id)]
-if (anyDuplicated(raw_tree$tip.label)) {
-  raw_tree <- drop.tip(raw_tree, raw_tree$tip.label[duplicated(raw_tree$tip.label)])
+# Build and audit the mapping while original OpenTree labels are still intact.
+# Invalid or duplicate canonical mappings must be removed by original tip label;
+# dropping after renaming can make duplicated/blank names ambiguous to ape.
+original_tip_labels <- raw_tree$tip.label
+tip_ott <- vapply(original_tip_labels, extract_ott, numeric(1))
+tip_map <- data.frame(
+  original_tip_label = original_tip_labels,
+  ott_id = tip_ott,
+  canonical_name = map$search_string[match(tip_ott, map$ott_id)],
+  stringsAsFactors = FALSE
+)
+tip_map$canonical_name <- trimws(tip_map$canonical_name)
+valid_tip <- (
+  is.finite(tip_map$ott_id) &
+  !is.na(tip_map$canonical_name) &
+  nzchar(tip_map$canonical_name)
+)
+valid_tip <- valid_tip & !duplicated(tip_map$canonical_name)
+tip_map$keep_for_analysis <- valid_tip
+write.csv(tip_map, file.path(outdir, "opentree_tip_mapping_audit.csv"), row.names = FALSE)
+
+if (any(!valid_tip)) {
+  raw_tree <- drop.tip(raw_tree, tip_map$original_tip_label[!valid_tip])
 }
+kept <- match(raw_tree$tip.label, tip_map$original_tip_label)
+mapped_names <- tip_map$canonical_name[kept]
+if (
+  anyNA(mapped_names) ||
+  any(!nzchar(trimws(mapped_names))) ||
+  anyDuplicated(mapped_names)
+) {
+  stop("OpenTree tip labels could not be mapped uniquely to canonical names")
+}
+raw_tree$tip.label <- mapped_names
 if (length(raw_tree$tip.label) < 20) stop("Fewer than 20 uniquely mapped tree tips remain")
 
 resolved_tree <- multi2di(raw_tree, random = FALSE)
@@ -89,6 +114,14 @@ write.tree(resolved_tree, file.path(outdir, "opentree_grafen_resolved.newick"))
 model_data <- d[d$canonical_name %in% resolved_tree$tip.label, , drop = FALSE]
 model_data <- model_data[!duplicated(model_data$canonical_name), , drop = FALSE]
 model_data <- model_data[match(resolved_tree$tip.label, model_data$canonical_name), , drop = FALSE]
+if (
+  nrow(model_data) != length(resolved_tree$tip.label) ||
+  anyNA(model_data$canonical_name) ||
+  any(!nzchar(trimws(model_data$canonical_name))) ||
+  anyDuplicated(model_data$canonical_name)
+) {
+  stop("Model dataset does not map one-to-one onto the resolved tree")
+}
 rownames(model_data) <- model_data$canonical_name
 
 z_log <- function(x) {
