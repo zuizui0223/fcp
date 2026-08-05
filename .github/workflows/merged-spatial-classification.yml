@@ -340,6 +340,59 @@ jobs:
               print(name, base[name]["spatial_scale"], "->", audit[name]["spatial_scale"])
           PY
 
+      # Everything above interleaves with verbose per-run manifests. Re-read the QC files
+      # at the end so the yield numbers land in one block, and in the job summary.
+      - name: Consolidated yield report
+        run: |
+          python - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import csv, json, os
+          from collections import Counter
+          from pathlib import Path
+
+          root = Path(os.environ["OUTDIR"])
+          out = ["```", "INTAKE x VOCABULARY (dilution cap 3)",
+                 f"{'intake':>7} {'vocab':>6} {'records':>8} {'species':>8} {'eligible':>9} "
+                 f"{'within':>7} {'among':>6} {'within%':>8} {'unclear':>8}"]
+          for p in ("p1", "p1p2"):
+              for s in ("plain", "supp"):
+                  f = root / f"yield_{p}_{s}" / "merged_classification_qc.json"
+                  if not f.exists():
+                      out.append(f"{p:>7} {s:>6}   (missing)")
+                      continue
+                  qc = json.loads(f.read_text())
+                  n, w, a = (qc["model_eligible_species"], qc["model_eligible_within"],
+                             qc["model_eligible_among"])
+                  out.append(f"{p:>7} {s:>6} {qc['record_diagnostics']['records_read']:>8} "
+                             f"{qc['species_total']:>8} {n:>9} {w:>7} {a:>6} "
+                             f"{(f'{w/n:.0%}' if n else 'n/a'):>8} "
+                             f"{qc['spatial_scale_all'].get('unclear', 0):>8}")
+
+          out += ["", "GBIF-VALIDATED YIELD",
+                  f"{'configuration':>16} {'submitted':>10} {'validated':>10} "
+                  f"{'within':>7} {'among':>6} {'families':>9}"]
+          for conf in ("p1_plain", "p1p2_supp"):
+              tax = root / f"yield_{conf}" / "taxonomy"
+              sub = tax / "binary_candidates.csv"
+              val = tax / "gbif_validated.csv"
+              n_sub = sum(1 for _ in csv.DictReader(sub.open(encoding="utf-8"))) if sub.exists() else 0
+              if not val.exists():
+                  out.append(f"{conf:>16} {n_sub:>10} {'failed':>10}")
+                  continue
+              rows = list(csv.DictReader(val.open(encoding="utf-8")))
+              c = Counter(r["spatial_scale"] for r in rows)
+              fam = len({r.get("family", "") for r in rows if r.get("family")})
+              out.append(f"{conf:>16} {n_sub:>10} {len(rows):>10} "
+                         f"{c.get('within_population', 0):>7} {c.get('among_population', 0):>6} {fam:>9}")
+
+          audited = root / "audited_k3" / "taxonomy" / "gbif_taxonomy_validation_summary.json"
+          if audited.exists():
+              a = json.loads(audited.read_text())
+              out += ["", f"audited K=3 GBIF-validated: {a['strict_binary_species_after_synonym_reaggregation']} "
+                          f"({a['within']} within / {a['among']} among)"]
+          out += ["", "baselines: A = 34 (20 within / 14 among, 25 families); B = 107 (26 within / 81 among)", "```"]
+          print("\n".join(out))
+          PY
+
       - name: Upload merged classification
         if: always()
         uses: actions/upload-artifact@v4
