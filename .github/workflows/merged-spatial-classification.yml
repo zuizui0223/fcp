@@ -5,7 +5,7 @@ name: Merged spatial-scale extraction over the systematic corpus
 
 on:
   push:
-    branches: [claude/fix-failed-cl-jzvddy]
+    branches: [claude/merged-spatial-extraction]
     paths:
       - "build_merged_spatial_classification.py"
       - ".github/workflows/merged-spatial-classification.yml"
