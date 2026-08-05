@@ -40,16 +40,38 @@ missing <- setdiff(required, names(d))
 if (length(missing)) stop(sprintf("Missing columns: %s", paste(missing, collapse = ", ")))
 d <- d[d$spatial_scale %in% c("within_population", "among_population"), , drop = FALSE]
 d$among <- as.integer(d$spatial_scale == "among_population")
+
+# Open Tree's TNRS echoes the query back lower-cased in `search_string`, so every
+# join between TNRS output and the model dataset has to go through a normalised
+# key rather than through the raw strings.
+name_key <- function(x) tolower(trimws(as.character(x)))
+d$canonical_name <- trimws(d$canonical_name)
+d <- d[!is.na(d$canonical_name) & nzchar(d$canonical_name), , drop = FALSE]
+d$name_key <- name_key(d$canonical_name)
+d <- d[!duplicated(d$name_key), , drop = FALSE]
 if (nrow(d) < 20 || length(unique(d$among)) < 2) stop("Insufficient binary-response data")
 
-message(sprintf("Matching %d species against Open Tree of Life", length(unique(d$canonical_name))))
-tnrs <- tnrs_match_names(unique(d$canonical_name), context_name = "Land plants")
-write.csv(tnrs, file.path(outdir, "opentree_tnrs_audit.csv"), row.names = FALSE)
+message(sprintf("Matching %d species against Open Tree of Life", nrow(d)))
+tnrs <- tnrs_match_names(d$canonical_name, context_name = "Land plants")
 if (!all(c("search_string", "ott_id") %in% names(tnrs))) {
   stop(sprintf("Unexpected TNRS columns: %s", paste(names(tnrs), collapse = ", ")))
 }
+tnrs$query_name <- d$canonical_name[match(name_key(tnrs$search_string), d$name_key)]
+write.csv(tnrs, file.path(outdir, "opentree_tnrs_audit.csv"), row.names = FALSE)
 matched <- tnrs[!is.na(tnrs$ott_id), , drop = FALSE]
-matched <- matched[!duplicated(matched$search_string), , drop = FALSE]
+matched <- matched[!duplicated(name_key(matched$search_string)), , drop = FALSE]
+# Recover the dataset spelling of each match; `search_string` is lower-cased and
+# cannot be compared against `canonical_name` directly.
+matched$canonical_name <- matched$query_name
+unresolved <- matched$search_string[is.na(matched$canonical_name)]
+if (length(unresolved)) {
+  message(sprintf(
+    "Dropping %d TNRS rows that do not map back to a dataset species (e.g. %s)",
+    length(unresolved), paste(utils::head(unresolved, 5), collapse = ", ")
+  ))
+}
+matched <- matched[!is.na(matched$canonical_name), , drop = FALSE]
+matched <- matched[!duplicated(matched$ott_id), , drop = FALSE]
 if (nrow(matched) < 20) stop(sprintf("Only %d species matched OpenTree", nrow(matched)))
 
 message(sprintf("Requesting induced subtree for %d unique OTT ids", length(unique(matched$ott_id))))
@@ -65,23 +87,32 @@ extract_ott <- function(x) {
   out <- sub(".*_ott([0-9]+)$", "\\1", x)
   suppressWarnings(as.numeric(out))
 }
-map_cols <- intersect(c("search_string", "unique_name", "ott_id", "is_synonym", "flags"), names(matched))
+map_cols <- intersect(
+  c("canonical_name", "search_string", "unique_name", "ott_id", "is_synonym", "flags"),
+  names(matched)
+)
 map <- matched[, map_cols, drop = FALSE]
 map$ott_id <- as.numeric(map$ott_id)
 
 original_tip_labels <- raw_tree$tip.label
-tip_ott <- vapply(original_tip_labels, extract_ott, numeric(1))
+tip_ott <- vapply(original_tip_labels, extract_ott, numeric(1), USE.NAMES = FALSE)
 tip_map <- data.frame(
   original_tip_label = original_tip_labels,
   ott_id = tip_ott,
-  canonical_name = map$search_string[match(tip_ott, map$ott_id)],
+  canonical_name = trimws(map$canonical_name[match(tip_ott, map$ott_id)]),
   stringsAsFactors = FALSE
 )
-tip_map$canonical_name <- trimws(tip_map$canonical_name)
 valid_tip <- is.finite(tip_map$ott_id) & !is.na(tip_map$canonical_name) & nzchar(tip_map$canonical_name)
 valid_tip <- valid_tip & !duplicated(tip_map$canonical_name)
 tip_map$keep_for_analysis <- valid_tip
 write.csv(tip_map, file.path(outdir, "opentree_tip_mapping_audit.csv"), row.names = FALSE)
+if (sum(valid_tip) < 20) {
+  stop(sprintf(
+    "Only %d of %d OpenTree tips mapped back to a dataset species; see opentree_tip_mapping_audit.csv (unmapped examples: %s)",
+    sum(valid_tip), nrow(tip_map),
+    paste(utils::head(tip_map$original_tip_label[!valid_tip], 5), collapse = ", ")
+  ))
+}
 if (any(!valid_tip)) raw_tree <- drop.tip(raw_tree, tip_map$original_tip_label[!valid_tip])
 
 kept <- match(raw_tree$tip.label, tip_map$original_tip_label)
@@ -97,15 +128,19 @@ resolved_tree <- compute.brlen(resolved_tree, method = "Grafen", power = 1)
 resolved_tree <- ladderize(resolved_tree)
 write.tree(resolved_tree, file.path(outdir, "opentree_grafen_resolved.newick"))
 
-model_data <- d[d$canonical_name %in% resolved_tree$tip.label, , drop = FALSE]
-model_data <- model_data[!duplicated(model_data$canonical_name), , drop = FALSE]
-model_data <- model_data[match(resolved_tree$tip.label, model_data$canonical_name), , drop = FALSE]
-if (
-  nrow(model_data) != length(resolved_tree$tip.label) ||
-  anyNA(model_data$canonical_name) ||
-  any(!nzchar(trimws(model_data$canonical_name))) ||
-  anyDuplicated(model_data$canonical_name)
-) stop("Model dataset does not map one-to-one onto the resolved tree")
+tip_index <- match(name_key(resolved_tree$tip.label), d$name_key)
+if (anyNA(tip_index) || anyDuplicated(tip_index)) {
+  unmatched <- resolved_tree$tip.label[is.na(tip_index)]
+  stop(sprintf(
+    paste0(
+      "Model dataset does not map one-to-one onto the resolved tree: ",
+      "%d of %d tips unmatched, %d duplicated. Unmatched examples: %s"
+    ),
+    length(unmatched), length(tip_index), sum(duplicated(tip_index[!is.na(tip_index)])),
+    if (length(unmatched)) paste(utils::head(unmatched, 5), collapse = ", ") else "none"
+  ))
+}
+model_data <- d[tip_index, , drop = FALSE]
 rownames(model_data) <- model_data$canonical_name
 
 z_log <- function(x) {
@@ -163,7 +198,9 @@ extract_coef_table <- function(fit_summary, metric) {
   x <- as.data.frame(fit_summary$coefficients, stringsAsFactors = FALSE)
   x$term <- rownames(x)
   rownames(x) <- NULL
-  norm <- tolower(gsub("[^a-z0-9]", "", names(x)))
+  # Lower-case first: normalising the other way round strips the capitals out of
+  # phylolm's own column names (Estimate -> "stimate", StdErr -> "tdrr").
+  norm <- gsub("[^a-z0-9]", "", tolower(names(x)))
   find_col <- function(candidates) {
     hit <- match(candidates, norm, nomatch = 0)
     hit <- hit[hit > 0]
@@ -172,7 +209,7 @@ extract_coef_table <- function(fit_summary, metric) {
   i_est <- find_col(c("estimate", "coef", "coefficient"))
   i_se <- find_col(c("stderr", "stderror", "se"))
   i_z <- find_col(c("zvalue", "z", "tvalue"))
-  i_p <- find_col(c("prz", "pvalue", "p"))
+  i_p <- find_col(c("pvalue", "przz", "prz", "prt", "p"))
   if (anyNA(c(i_est, i_se, i_p))) {
     stop(sprintf("Unsupported phyloglm coefficient columns for %s: %s", metric, paste(names(x), collapse = ", ")))
   }
