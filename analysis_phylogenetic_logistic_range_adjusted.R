@@ -1,7 +1,8 @@
 #!/usr/bin/env Rscript
 
 # Topology-aware sensitivity analysis for the automated 107-species dataset.
-# Outputs are separate from the historical 34-species baseline.
+# Each climate component is fitted independently so one numerical failure does
+# not erase successful models or diagnostic artifacts.
 
 suppressPackageStartupMessages({
   library(ape)
@@ -53,8 +54,6 @@ if (nrow(matched) < 20) stop(sprintf("Only %d species matched OpenTree", nrow(ma
 
 message(sprintf("Requesting induced subtree for %d unique OTT ids", length(unique(matched$ott_id))))
 subtree <- tol_induced_subtree(ott_ids = unique(matched$ott_id), label_format = "name_and_id")
-# rotl currently returns a phylo object directly; retain compatibility with
-# older wrappers that nested it under $phylo.
 raw_tree <- if (inherits(subtree, "phylo")) subtree else subtree$phylo
 if (is.null(raw_tree) || !inherits(raw_tree, "phylo")) {
   stop(sprintf("tol_induced_subtree returned unsupported class: %s", paste(class(subtree), collapse = ", ")))
@@ -70,9 +69,6 @@ map_cols <- intersect(c("search_string", "unique_name", "ott_id", "is_synonym", 
 map <- matched[, map_cols, drop = FALSE]
 map$ott_id <- as.numeric(map$ott_id)
 
-# Build and audit the mapping while original OpenTree labels are still intact.
-# Invalid or duplicate canonical mappings must be removed by original tip label;
-# dropping after renaming can make duplicated/blank names ambiguous to ape.
 original_tip_labels <- raw_tree$tip.label
 tip_ott <- vapply(original_tip_labels, extract_ott, numeric(1))
 tip_map <- data.frame(
@@ -82,25 +78,15 @@ tip_map <- data.frame(
   stringsAsFactors = FALSE
 )
 tip_map$canonical_name <- trimws(tip_map$canonical_name)
-valid_tip <- (
-  is.finite(tip_map$ott_id) &
-  !is.na(tip_map$canonical_name) &
-  nzchar(tip_map$canonical_name)
-)
+valid_tip <- is.finite(tip_map$ott_id) & !is.na(tip_map$canonical_name) & nzchar(tip_map$canonical_name)
 valid_tip <- valid_tip & !duplicated(tip_map$canonical_name)
 tip_map$keep_for_analysis <- valid_tip
 write.csv(tip_map, file.path(outdir, "opentree_tip_mapping_audit.csv"), row.names = FALSE)
+if (any(!valid_tip)) raw_tree <- drop.tip(raw_tree, tip_map$original_tip_label[!valid_tip])
 
-if (any(!valid_tip)) {
-  raw_tree <- drop.tip(raw_tree, tip_map$original_tip_label[!valid_tip])
-}
 kept <- match(raw_tree$tip.label, tip_map$original_tip_label)
 mapped_names <- tip_map$canonical_name[kept]
-if (
-  anyNA(mapped_names) ||
-  any(!nzchar(trimws(mapped_names))) ||
-  anyDuplicated(mapped_names)
-) {
+if (anyNA(mapped_names) || any(!nzchar(trimws(mapped_names))) || anyDuplicated(mapped_names)) {
   stop("OpenTree tip labels could not be mapped uniquely to canonical names")
 }
 raw_tree$tip.label <- mapped_names
@@ -119,9 +105,7 @@ if (
   anyNA(model_data$canonical_name) ||
   any(!nzchar(trimws(model_data$canonical_name))) ||
   anyDuplicated(model_data$canonical_name)
-) {
-  stop("Model dataset does not map one-to-one onto the resolved tree")
-}
+) stop("Model dataset does not map one-to-one onto the resolved tree")
 rownames(model_data) <- model_data$canonical_name
 
 z_log <- function(x) {
@@ -131,88 +115,183 @@ z_log <- function(x) {
   as.numeric((y - mean(y, na.rm = TRUE)) / s)
 }
 for (v in c(components, base_covariates)) model_data[[paste0(v, "_z")]] <- z_log(model_data[[v]])
+write.csv(model_data, file.path(outdir, "phylogenetic_model_dataset.csv"), row.names = FALSE)
 
-results <- list()
-coefficients <- list()
-comparison <- list()
-for (metric in components) {
-  vars <- c("among", paste0(metric, "_z"), paste0(base_covariates, "_z"))
-  dd <- model_data[complete.cases(model_data[, vars, drop = FALSE]), , drop = FALSE]
-  if (nrow(dd) < 20 || length(unique(dd$among)) < 2) {
-    stop(sprintf("Insufficient complete data for %s: n=%d", metric, nrow(dd)))
+empty_results <- function() data.frame(
+  metric = character(), n_species = integer(), n_within = integer(), n_among = integer(),
+  estimate = numeric(), std_error = numeric(), odds_ratio = numeric(),
+  odds_ratio_ci_low = numeric(), odds_ratio_ci_high = numeric(), p_value = numeric(),
+  phylogenetic_alpha = numeric(), method = character(), stringsAsFactors = FALSE
+)
+empty_comparison <- function() data.frame(
+  metric = character(), n_species = integer(), phylogenetic_estimate = numeric(),
+  phylogenetic_p = numeric(), nonphylogenetic_same_subset_estimate = numeric(),
+  nonphylogenetic_same_subset_p = numeric(), stringsAsFactors = FALSE
+)
+empty_coefficients <- function() data.frame(
+  estimate = numeric(), std_error = numeric(), z_value = numeric(), p_value = numeric(),
+  term = character(), metric = character(), stringsAsFactors = FALSE
+)
+
+result <- empty_results()
+comparison_table <- empty_comparison()
+coef_table <- empty_coefficients()
+fit_audit <- data.frame(
+  metric = components,
+  status = "pending",
+  stage = NA_character_,
+  n_species = NA_integer_,
+  n_within = NA_integer_,
+  n_among = NA_integer_,
+  formula = NA_character_,
+  warning = NA_character_,
+  error = NA_character_,
+  stringsAsFactors = FALSE
+)
+
+safe_write <- function() {
+  out_result <- result
+  if (nrow(out_result)) out_result$p_holm_eight_components <- p.adjust(out_result$p_value, method = "holm")
+  write.csv(out_result, file.path(outdir, "phylogenetic_logistic_component_models.csv"), row.names = FALSE)
+  write.csv(coef_table, file.path(outdir, "phylogenetic_logistic_all_coefficients.csv"), row.names = FALSE)
+  write.csv(comparison_table, file.path(outdir, "phylogenetic_vs_nonphylogenetic_same_subset.csv"), row.names = FALSE)
+  write.csv(fit_audit, file.path(outdir, "phylogenetic_model_fit_audit.csv"), row.names = FALSE)
+}
+safe_write()
+
+extract_coef_table <- function(fit_summary, metric) {
+  x <- as.data.frame(fit_summary$coefficients, stringsAsFactors = FALSE)
+  x$term <- rownames(x)
+  rownames(x) <- NULL
+  norm <- tolower(gsub("[^a-z0-9]", "", names(x)))
+  find_col <- function(candidates) {
+    hit <- match(candidates, norm, nomatch = 0)
+    hit <- hit[hit > 0]
+    if (!length(hit)) NA_integer_ else hit[[1]]
   }
-  tr <- keep.tip(resolved_tree, rownames(dd))
-  dd <- dd[match(tr$tip.label, rownames(dd)), , drop = FALSE]
-  rownames(dd) <- tr$tip.label
-
-  formula_text <- paste("among ~", paste(c(paste0(metric, "_z"), paste0(base_covariates, "_z")), collapse = " + "))
-  form <- as.formula(formula_text)
-  message(sprintf("Fitting %s with %d species", metric, nrow(dd)))
-  fit <- phyloglm(form, data = dd, phy = tr, method = "logistic_MPLE", btol = 50)
-  sm <- summary(fit)
-  cf <- as.data.frame(sm$coefficients)
-  cf$term <- rownames(cf)
-  rownames(cf) <- NULL
-  names(cf)[1:4] <- c("estimate", "std_error", "z_value", "p_value")
-  cf$metric <- metric
-  coefficients[[metric]] <- cf
-  focal <- cf[cf$term == paste0(metric, "_z"), , drop = FALSE]
-  if (nrow(focal) != 1 || !is.finite(focal$estimate) || !is.finite(focal$std_error)) {
-    stop(sprintf("Invalid focal coefficient for %s", metric))
+  i_est <- find_col(c("estimate", "coef", "coefficient"))
+  i_se <- find_col(c("stderr", "stderror", "se"))
+  i_z <- find_col(c("zvalue", "z", "tvalue"))
+  i_p <- find_col(c("prz", "pvalue", "p"))
+  if (anyNA(c(i_est, i_se, i_p))) {
+    stop(sprintf("Unsupported phyloglm coefficient columns for %s: %s", metric, paste(names(x), collapse = ", ")))
   }
-
-  nonphy <- glm(form, data = dd, family = binomial())
-  nonphy_cf <- summary(nonphy)$coefficients[paste0(metric, "_z"), ]
-  results[[metric]] <- data.frame(
+  z <- if (is.na(i_z)) as.numeric(x[[i_est]]) / as.numeric(x[[i_se]]) else as.numeric(x[[i_z]])
+  data.frame(
+    estimate = as.numeric(x[[i_est]]),
+    std_error = as.numeric(x[[i_se]]),
+    z_value = z,
+    p_value = as.numeric(x[[i_p]]),
+    term = x$term,
     metric = metric,
-    n_species = nrow(dd),
-    n_within = sum(dd$among == 0),
-    n_among = sum(dd$among == 1),
-    estimate = focal$estimate,
-    std_error = focal$std_error,
-    odds_ratio = exp(focal$estimate),
-    odds_ratio_ci_low = exp(focal$estimate - 1.96 * focal$std_error),
-    odds_ratio_ci_high = exp(focal$estimate + 1.96 * focal$std_error),
-    p_value = focal$p_value,
-    phylogenetic_alpha = fit$alpha,
-    method = "phyloglm_logistic_MPLE_OpenTree_Grafen",
-    stringsAsFactors = FALSE
-  )
-  comparison[[metric]] <- data.frame(
-    metric = metric,
-    n_species = nrow(dd),
-    phylogenetic_estimate = focal$estimate,
-    phylogenetic_p = focal$p_value,
-    nonphylogenetic_same_subset_estimate = nonphy_cf[[1]],
-    nonphylogenetic_same_subset_p = nonphy_cf[[4]],
     stringsAsFactors = FALSE
   )
 }
 
-result <- do.call(rbind, results)
-if (is.null(result) || nrow(result) != length(components)) stop("Not all eight phylogenetic models were estimable")
-result$p_holm_eight_components <- p.adjust(result$p_value, method = "holm")
-coef_table <- do.call(rbind, coefficients)
-comparison_table <- do.call(rbind, comparison)
-write.csv(model_data, file.path(outdir, "phylogenetic_model_dataset.csv"), row.names = FALSE)
-write.csv(result, file.path(outdir, "phylogenetic_logistic_component_models.csv"), row.names = FALSE)
-write.csv(coef_table, file.path(outdir, "phylogenetic_logistic_all_coefficients.csv"), row.names = FALSE)
-write.csv(comparison_table, file.path(outdir, "phylogenetic_vs_nonphylogenetic_same_subset.csv"), row.names = FALSE)
+for (metric in components) {
+  idx <- match(metric, fit_audit$metric)
+  warning_messages <- character()
+  fit_audit$stage[idx] <- "prepare_data"
+  vars <- c("among", paste0(metric, "_z"), paste0(base_covariates, "_z"))
+  dd <- model_data[complete.cases(model_data[, vars, drop = FALSE]), , drop = FALSE]
+  fit_audit$n_species[idx] <- nrow(dd)
+  fit_audit$n_within[idx] <- sum(dd$among == 0)
+  fit_audit$n_among[idx] <- sum(dd$among == 1)
+
+  tryCatch({
+    if (nrow(dd) < 20 || length(unique(dd$among)) < 2) {
+      stop(sprintf("Insufficient complete data: n=%d, classes=%d", nrow(dd), length(unique(dd$among))))
+    }
+    tr <- keep.tip(resolved_tree, rownames(dd))
+    dd <- dd[match(tr$tip.label, rownames(dd)), , drop = FALSE]
+    rownames(dd) <- tr$tip.label
+
+    formula_text <- paste("among ~", paste(c(paste0(metric, "_z"), paste0(base_covariates, "_z")), collapse = " + "))
+    fit_audit$formula[idx] <- formula_text
+    form <- as.formula(formula_text)
+    fit_audit$stage[idx] <- "phyloglm"
+    message(sprintf("Fitting %s with %d species", metric, nrow(dd)))
+    fit <- withCallingHandlers(
+      phyloglm(form, data = dd, phy = tr, method = "logistic_MPLE", btol = 50),
+      warning = function(w) {
+        warning_messages <<- c(warning_messages, conditionMessage(w))
+        invokeRestart("muffleWarning")
+      }
+    )
+
+    fit_audit$stage[idx] <- "extract_coefficients"
+    cf <- extract_coef_table(summary(fit), metric)
+    focal <- cf[cf$term == paste0(metric, "_z"), , drop = FALSE]
+    if (nrow(focal) != 1 || !is.finite(focal$estimate) || !is.finite(focal$std_error) || !is.finite(focal$p_value)) {
+      stop("Focal coefficient is missing or non-finite")
+    }
+
+    fit_audit$stage[idx] <- "nonphylogenetic_comparison"
+    nonphy <- glm(form, data = dd, family = binomial())
+    nonphy_summary <- summary(nonphy)$coefficients
+    focal_name <- paste0(metric, "_z")
+    if (!(focal_name %in% rownames(nonphy_summary))) stop("Focal coefficient absent from same-subset GLM")
+    nonphy_cf <- nonphy_summary[focal_name, ]
+
+    result <- rbind(result, data.frame(
+      metric = metric,
+      n_species = nrow(dd),
+      n_within = sum(dd$among == 0),
+      n_among = sum(dd$among == 1),
+      estimate = focal$estimate,
+      std_error = focal$std_error,
+      odds_ratio = exp(focal$estimate),
+      odds_ratio_ci_low = exp(focal$estimate - 1.96 * focal$std_error),
+      odds_ratio_ci_high = exp(focal$estimate + 1.96 * focal$std_error),
+      p_value = focal$p_value,
+      phylogenetic_alpha = fit$alpha,
+      method = "phyloglm_logistic_MPLE_OpenTree_Grafen",
+      stringsAsFactors = FALSE
+    ))
+    coef_table <- rbind(coef_table, cf)
+    comparison_table <- rbind(comparison_table, data.frame(
+      metric = metric,
+      n_species = nrow(dd),
+      phylogenetic_estimate = focal$estimate,
+      phylogenetic_p = focal$p_value,
+      nonphylogenetic_same_subset_estimate = unname(nonphy_cf[[1]]),
+      nonphylogenetic_same_subset_p = unname(nonphy_cf[[4]]),
+      stringsAsFactors = FALSE
+    ))
+    fit_audit$status[idx] <- "success"
+    fit_audit$stage[idx] <- "complete"
+    fit_audit$warning[idx] <- if (length(warning_messages)) paste(unique(warning_messages), collapse = " | ") else NA_character_
+  }, error = function(e) {
+    fit_audit$status[idx] <<- "failed"
+    fit_audit$error[idx] <<- conditionMessage(e)
+    fit_audit$warning[idx] <<- if (length(warning_messages)) paste(unique(warning_messages), collapse = " | ") else NA_character_
+    message(sprintf("FAILED %s at %s: %s", metric, fit_audit$stage[idx], conditionMessage(e)))
+  })
+  safe_write()
+}
+
+n_success <- sum(fit_audit$status == "success")
+n_failed <- sum(fit_audit$status == "failed")
+final_status <- if (n_success == length(components)) "complete" else if (n_success > 0) "partial" else "failed"
 
 manifest <- list(
-  status = "complete",
+  status = final_status,
   input_species = nrow(d),
   opentree_matched_species = nrow(matched),
   tree_tip_species = length(resolved_tree$tip.label),
-  model_species_min = min(result$n_species),
-  model_species_max = max(result$n_species),
+  models_requested = length(components),
+  models_successful = n_success,
+  models_failed = n_failed,
+  successful_metrics = fit_audit$metric[fit_audit$status == "success"],
+  failed_metrics = fit_audit$metric[fit_audit$status == "failed"],
   tree_source = "Open Tree of Life induced synthetic subtree",
   branch_length_method = "Grafen power=1; topology-aware sensitivity, not divergence-time calibration",
   polytomy_resolution = "ape::multi2di(random=FALSE)",
   estimator = "phylolm::phyloglm(method='logistic_MPLE')",
   covariates = base_covariates,
-  results = result,
-  interpretation_guard = "Automated spatial labels remain exploratory. This model tests whether climate-breadth associations persist after topology-based dependence and the same range/effort covariates; it is not a causal or time-calibrated evolutionary model."
+  interpretation_guard = "Automated spatial labels remain exploratory. Collinearity diagnostics and pre-specified range/effort covariates must be considered when interpreting component coefficients; this is not a causal or time-calibrated evolutionary model."
 )
 write_json(manifest, file.path(outdir, "phylogenetic_analysis_manifest.json"), pretty = TRUE, auto_unbox = TRUE, na = "null")
 print(toJSON(manifest, pretty = TRUE, auto_unbox = TRUE, na = "null"))
+
+if (n_success == 0) stop("All eight phylogenetic component models failed; inspect phylogenetic_model_fit_audit.csv")
