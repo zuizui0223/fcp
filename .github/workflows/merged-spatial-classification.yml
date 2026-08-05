@@ -1,0 +1,152 @@
+name: Merged spatial-scale extraction over the systematic corpus
+
+# The systematic retrieval only exists as a workflow artifact, so the merged decision
+# layer has to be calibrated here rather than locally.
+
+on:
+  push:
+    branches: [claude/fix-failed-cl-jzvddy]
+    paths:
+      - "build_merged_spatial_classification.py"
+      - ".github/workflows/merged-spatial-classification.yml"
+  pull_request:
+    paths:
+      - "build_merged_spatial_classification.py"
+      - ".github/workflows/merged-spatial-classification.yml"
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Completed systematic-search workflow run ID
+        required: true
+        default: "30753748463"
+      source_artifact:
+        description: Merged systematic-search artifact name
+        required: true
+        default: "systematic-itv-fcp-literature-search-full"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  SOURCE_RUN_ID: ${{ inputs.source_run_id || '30753748463' }}
+  SOURCE_ARTIFACT: ${{ inputs.source_artifact || 'systematic-itv-fcp-literature-search-full' }}
+  OUTDIR: analysis_outputs/merged_spatial_classification
+
+jobs:
+  merged-extraction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download systematic retrieval
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: systematic_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Locate and describe the screening queue
+        run: |
+          set -euo pipefail
+          find systematic_input -maxdepth 3 -name 'itv_fcp_human_screening_queue.csv' | sort
+          QUEUE=$(find systematic_input -maxdepth 3 -name 'itv_fcp_human_screening_queue.csv' | head -1)
+          test -s "$QUEUE"
+          echo "QUEUE=$QUEUE" >> "$GITHUB_ENV"
+          python - <<'PY'
+          import csv, os
+          from collections import Counter
+          path = os.environ["QUEUE"]
+          with open(path, newline="", encoding="utf-8-sig") as handle:
+              reader = csv.DictReader(handle)
+              print("columns:", sorted(reader.fieldnames or []))
+              rows = 0
+              priority = Counter()
+              has_abstract = 0
+              for record in reader:
+                  rows += 1
+                  priority[record.get("screen_priority", "")] += 1
+                  if (record.get("abstract") or "").strip():
+                      has_abstract += 1
+          print({"rows": rows, "with_abstract": has_abstract})
+          print({k: v for k, v in priority.most_common()})
+          PY
+
+      - name: Self-test the generalised proximity rule
+        run: |
+          python build_merged_spatial_classification.py \
+            --corpus "$QUEUE" --corpus-format screening_queue \
+            --outdir "$OUTDIR/selftest" --self-test
+
+      - name: Run the merged extraction with a dilution-cap sweep
+        run: |
+          set -euo pipefail
+          for K in 2 3 5 99; do
+            python build_merged_spatial_classification.py \
+              --corpus "$QUEUE" --corpus-format screening_queue \
+              --dilution-cap "$K" \
+              --outdir "$OUTDIR/k$K"
+          done
+
+      - name: Summarise counts and compare against both baselines
+        run: |
+          python - <<'PY'
+          import csv, json, os
+          from pathlib import Path
+
+          root = Path(os.environ["OUTDIR"])
+          print(f"{'K':>3} {'species':>8} {'eligible':>9} {'within':>7} {'among':>6} {'within%':>8} {'suppressed':>11}")
+          summaries = {}
+          for k in (2, 3, 5, 99):
+              qc = json.loads((root / f"k{k}" / "merged_classification_qc.json").read_text())
+              summaries[k] = qc
+              n, w, a = qc["model_eligible_species"], qc["model_eligible_within"], qc["model_eligible_among"]
+              pct = f"{w / n:.0%}" if n else "n/a"
+              print(f"{k:>3} {qc['species_total']:>8} {n:>9} {w:>7} {a:>6} {pct:>8} "
+                    f"{qc['record_diagnostics'].get('attributions_context_suppressed', 0):>11}")
+
+          print("\nbaselines: path A 34 (20 within / 14 among); path B 107 (26 within / 81 among)")
+
+          frozen = {
+              row["canonical_name"]: row["spatial_scale"]
+              for row in csv.DictReader(open("docs/supporting/jbi_table_s6_frozen_classification_manifest.csv"))
+          }
+          rows = {
+              row["canonical_name"]: row
+              for row in csv.DictReader(open(root / "k3" / "merged_spatial_classification.csv"))
+          }
+          eligible = {
+              name: row for name, row in rows.items()
+              if row["review_priority"] in {"P0", "P1", "P2"}
+              and row["evidence_class"] == "natural_polymorphism"
+              and row["spatial_scale"] in {"within_population", "among_population"}
+          }
+          recovered = [n for n in frozen if n in eligible]
+          disagree = [n for n in recovered if eligible[n]["spatial_scale"] != frozen[n]]
+          print(f"\nfrozen 34: recovered {len(recovered)}/34, disagreements {len(disagree)}")
+          for name in disagree:
+              print(f"  {name}: frozen={frozen[name]} merged={eligible[name]['spatial_scale']}")
+
+          known = ["Dactylorhiza sambucina", "Gymnadenia rhellicani", "Linanthus parryae", "Silene littorea"]
+          print("\nverified systems:", {n: rows[n]["spatial_scale"] if n in rows else "absent" for n in known})
+
+          if summaries[3]["model_eligible_species"] < 20:
+              raise SystemExit("merged extraction produced fewer than 20 model-eligible species")
+          PY
+
+      - name: Upload merged classification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged-spatial-classification
+          path: analysis_outputs/merged_spatial_classification/
+          if-no-files-found: warn
+          retention-days: 30

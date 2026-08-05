@@ -150,11 +150,25 @@ def read_global_works(path: Path) -> list[dict]:
     return records
 
 
+SCREENING_QUEUE_REQUIRED = {"screen_priority", "title", "abstract", "candidate_species"}
+
+
 def read_screening_queue(path: Path) -> list[dict]:
-    """Path-B systematic screening queue (itv_fcp_human_screening_queue.csv)."""
+    """Path-B systematic screening queue (itv_fcp_human_screening_queue.csv).
+
+    `abstract` is load-bearing: the proximity test needs more than a title, and a queue
+    without it would silently classify everything from headline words alone.
+    """
     records = []
     with path.open(newline="", encoding="utf-8-sig") as handle:
-        for row in csv.DictReader(handle):
+        reader = csv.DictReader(handle)
+        missing = sorted(SCREENING_QUEUE_REQUIRED - set(reader.fieldnames or []))
+        if missing:
+            raise SystemExit(
+                f"screening queue is missing required columns: {missing}; "
+                f"present columns: {sorted(reader.fieldnames or [])}"
+            )
+        for row in reader:
             if row.get("screen_priority") not in {"P1_high_natural_itv", "P1_high_population_itv"}:
                 continue
             title = norm(row.get("title"))
