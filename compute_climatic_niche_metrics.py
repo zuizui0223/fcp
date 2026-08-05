@@ -95,6 +95,34 @@ def main() -> None:
         result.append(row)
 
     output = pd.DataFrame(result)
+
+    # `temperature_breadth` and `moisture_breadth` above average raw q95-q05 spans. The four
+    # temperature variables share a unit, so their mean is interpretable. The moisture set
+    # does not: bio12, bio14 and bio17 are millimetres spanning hundreds to thousands, while
+    # bio15 is a unitless coefficient of variation. An unweighted mean of those is dominated
+    # by bio12 and is not a composite of the four. Standardise each component across species
+    # first, then average, and publish the result alongside rather than in place of the
+    # original columns so existing outputs stay comparable.
+    TEMPERATURE_COMPONENTS = [1, 5, 6, 7]
+    MOISTURE_COMPONENTS = [12, 14, 15, 17]
+
+    def standardised_composite(frame: pd.DataFrame, bios: list[int]) -> pd.Series:
+        columns = [f"bio{b}_q95q05" for b in bios]
+        present = [c for c in columns if c in frame]
+        if not present:
+            return pd.Series(np.nan, index=frame.index)
+        block = frame[present].apply(pd.to_numeric, errors="coerce")
+        sd = block.std(ddof=0)
+        z = (block - block.mean()) / sd.where(sd > 0)
+        return z.mean(axis=1, skipna=True)
+
+    complete = output["metric_status"] == "complete" if "metric_status" in output else output.index == output.index
+    for label, bios in (("temperature", TEMPERATURE_COMPONENTS), ("moisture", MOISTURE_COMPONENTS)):
+        column = f"{label}_breadth_z"
+        output[column] = np.nan
+        if complete.any():
+            output.loc[complete, column] = standardised_composite(output.loc[complete], bios)
+
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     output.to_csv(args.out, index=False)
     qc = {

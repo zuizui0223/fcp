@@ -1,0 +1,269 @@
+name: Downstream ecology for the whitelist-filtered systematic set
+
+# Takes the merged extraction through the same downstream chain the 107-species run used --
+# occurrences, geography, WorldClim, climate breadth, models -- but on species whose names
+# were resolved before attribution, with unit-coherent composites, collinearity diagnostics
+# and a phylogenetic fit in one pass.
+
+on:
+  push:
+    branches: [claude/merged-spatial-extraction]
+    paths:
+      - "build_merged_spatial_classification.py"
+      - "compute_climatic_niche_metrics.py"
+      - "analysis_multicollinearity_diagnostics.R"
+      - "analysis_phylogenetic_logistic_range_adjusted.R"
+      - ".github/workflows/merged-87-downstream-analysis.yml"
+  workflow_dispatch:
+    inputs:
+      priorities:
+        description: Intake breadth (p1 or p1p2)
+        required: true
+        default: "p1p2"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  SOURCE_RUN_ID: "30753748463"
+  SOURCE_ARTIFACT: "systematic-itv-fcp-literature-search-full"
+  PRIORITIES: ${{ inputs.priorities || 'p1p2' }}
+  OUTDIR: analysis_outputs/merged_87_downstream
+
+jobs:
+  downstream:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --disable-pip-version-check numpy pandas scipy statsmodels rasterio
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libcurl4-openssl-dev libssl-dev libxml2-dev
+          Rscript -e 'options(repos=c(CRAN="https://cloud.r-project.org")); p<-c("ape","jsonlite","phylolm","rotl"); m<-p[!vapply(p,requireNamespace,logical(1),quietly=TRUE)]; if(length(m)) install.packages(m, dependencies=c("Depends","Imports","LinkingTo")); stopifnot(all(vapply(p,requireNamespace,logical(1),quietly=TRUE)))'
+
+      - name: Download systematic retrieval
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: systematic_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Locate the screening queue
+        run: |
+          set -euo pipefail
+          QUEUE=$(find systematic_input -maxdepth 3 -name 'itv_fcp_human_screening_queue.csv' | head -1)
+          test -s "$QUEUE"
+          echo "QUEUE=$QUEUE" >> "$GITHUB_ENV"
+
+      # 8,360 candidate binomials resolve in ~39 minutes and 86% are title fragments. The
+      # answer is fixed for a fixed corpus, so cache it on the source run id.
+      - name: Restore taxonomic whitelist
+        id: wl
+        uses: actions/cache@v4
+        with:
+          path: whitelist_cache
+          key: taxon-whitelist-${{ env.SOURCE_RUN_ID }}-v1
+
+      - name: Build taxonomic whitelist
+        if: steps.wl.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p whitelist_cache
+          python build_merged_spatial_classification.py \
+            --corpus "$QUEUE" --corpus-format screening_queue --priorities p1p2 \
+            --dump-candidate-names whitelist_cache/candidate_names.csv \
+            --outdir whitelist_cache
+          python resolve_provisional_taxa_gbif.py \
+            --input whitelist_cache/candidate_names.csv \
+            --out whitelist_cache/accepted.csv \
+            --audit whitelist_cache/audit.csv \
+            --timeout 45 --retries 2 || echo "resolver exit non-zero; the audit is the product"
+
+      - name: Classify behind the whitelist
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR"
+          python build_merged_spatial_classification.py \
+            --corpus "$QUEUE" --corpus-format screening_queue \
+            --priorities "$PRIORITIES" --dilution-cap 3 \
+            --taxon-whitelist whitelist_cache/audit.csv \
+            --outdir "$OUTDIR/classification"
+          python - <<'PY'
+          import csv, os
+          from pathlib import Path
+          root = Path(os.environ["OUTDIR"])
+          rows = [r for r in csv.DictReader((root / "classification" / "merged_spatial_classification.csv").open(encoding="utf-8"))
+                  if r["review_priority"] in {"P0", "P1", "P2"}
+                  and r["evidence_class"] == "natural_polymorphism"
+                  and r["spatial_scale"] in {"within_population", "among_population"}]
+          out = root / "binary_candidates.csv"
+          with out.open("w", newline="", encoding="utf-8") as h:
+              # n_supporting_p1_records is a downstream covariate; if it were constant the
+              # z-score would be undefined and every model row would drop out. Carry the
+              # per-species record count through as that covariate.
+              w = csv.DictWriter(h, fieldnames=["canonical_name", "family", "spatial_scale",
+                                                "n_supporting_p1_records"])
+              w.writeheader()
+              for r in rows:
+                  w.writerow({"canonical_name": r.get("canonical_name", ""),
+                              "family": r.get("family", ""),
+                              "spatial_scale": r.get("spatial_scale", ""),
+                              "n_supporting_p1_records": r.get("n_works", "") or r.get("followup_evidence_count", "")})
+          counts = sorted({int(r.get("n_works") or 0) for r in rows})
+          print(f"binary candidates: {len(rows)}; n_works spread {counts[:3]}..{counts[-3:]}")
+          PY
+
+      - name: Resolve taxa and reaggregate after synonyms
+        run: |
+          python resolve_provisional_taxa_gbif.py \
+            --input "$OUTDIR/binary_candidates.csv" \
+            --out "$OUTDIR/validated_species.csv" \
+            --audit "$OUTDIR/taxon_audit.csv" \
+            --timeout 45 --retries 4
+
+      - name: Retrieve quality-filtered GBIF occurrences
+        run: |
+          python build_gbif_occurrence_sample_paginated.py \
+            --species "$OUTDIR/validated_species.csv" \
+            --out "$OUTDIR/gbif_occurrences.csv" \
+            --qc-out "$OUTDIR/gbif_occurrences_qc.json" \
+            --taxon-audit-out "$OUTDIR/gbif_occurrence_taxon_audit.csv"
+
+      - name: Compute geographic extent covariates
+        run: |
+          python compute_geographic_extent_metrics.py \
+            --occurrences "$OUTDIR/gbif_occurrences.csv" \
+            --out "$OUTDIR/geographic_extent_metrics.csv" \
+            --qc-out "$OUTDIR/geographic_extent_metrics_qc.json"
+
+      - name: Download WorldClim 2.1 rasters
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR/worldclim"
+          curl -L --retry 4 --fail -o /tmp/wc.zip https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+          unzip -q /tmp/wc.zip -d "$OUTDIR/worldclim"
+
+      - name: Compute occupied-climate breadth with unit-coherent composites
+        run: |
+          python compute_climatic_niche_metrics.py \
+            --occurrences "$OUTDIR/gbif_occurrences.csv" \
+            --worldclim-dir "$OUTDIR/worldclim" \
+            --out "$OUTDIR/climatic_niche_metrics.csv" \
+            --qc-out "$OUTDIR/climatic_niche_metrics_qc.json" \
+            --cell-out "$OUTDIR/occurrence_climate_cells.csv"
+          python - <<'PY'
+          import os
+          import pandas as pd
+          d = pd.read_csv(os.environ["OUTDIR"] + "/climatic_niche_metrics.csv")
+          d = d[d.metric_status == "complete"] if "metric_status" in d else d
+          for label in ("temperature", "moisture"):
+              raw, z = f"{label}_breadth", f"{label}_breadth_z"
+              if raw in d and z in d and d[z].notna().sum() > 2:
+                  print(f"{label}: raw-vs-standardised r = {d[raw].corr(d[z]):.3f}")
+          for bio, label in ((12, "moisture"), (1, "temperature")):
+              c = f"bio{bio}_q95q05"
+              if c in d:
+                  print(f"  {label} raw composite vs bio{bio} alone: r = {d[f'{label}_breadth'].corr(d[c]):.3f}")
+                  print(f"  {label}   z composite vs bio{bio} alone: r = {d[f'{label}_breadth_z'].corr(d[c]):.3f}")
+          PY
+
+      - name: Fit range and effort adjusted eight-component models
+        run: |
+          python analysis_climate_components_range_adjusted.py \
+            --classification "$OUTDIR/validated_species.csv" \
+            --metrics "$OUTDIR/climatic_niche_metrics.csv" \
+            --extent "$OUTDIR/geographic_extent_metrics.csv" \
+            --outdir "$OUTDIR/range_adjusted" \
+            --permutations 9999
+
+      - name: Diagnose multicollinearity
+        run: |
+          Rscript analysis_multicollinearity_diagnostics.R \
+            --dataset "$OUTDIR/range_adjusted/range_adjusted_model_dataset.csv" \
+            --outdir "$OUTDIR/collinearity"
+
+      - name: Fit phylogenetic sensitivity models
+        run: |
+          Rscript analysis_phylogenetic_logistic_range_adjusted.R \
+            --dataset "$OUTDIR/range_adjusted/range_adjusted_model_dataset.csv" \
+            --outdir "$OUTDIR/phylogenetic" || echo "phylogenetic stage failed; audit retained"
+
+      - name: Consolidated downstream report
+        if: always()
+        run: |
+          python - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import csv, json, os
+          from collections import Counter
+          from pathlib import Path
+          root = Path(os.environ["OUTDIR"])
+          out = ["```", f"intake = {os.environ.get('PRIORITIES')}"]
+
+          v = root / "validated_species.csv"
+          if v.exists():
+              rows = list(csv.DictReader(v.open(encoding="utf-8")))
+              c = Counter(r["spatial_scale"] for r in rows)
+              fam = len({r.get("family", "") for r in rows if r.get("family")})
+              w, a = c.get("within_population", 0), c.get("among_population", 0)
+              out.append(f"validated species {len(rows)}  within {w}  among {a}  "
+                         f"within% {w/(w+a):.0%}  families {fam}" if w + a else "validated: none")
+
+          m = root / "range_adjusted" / "range_adjusted_climate_component_models.csv"
+          if m.exists():
+              out += ["", "EIGHT-COMPONENT MODELS (range and effort adjusted)",
+                      f"{'metric':>16} {'n':>4} {'OR':>7} {'p':>8} {'p_holm':>8}"]
+              for r in csv.DictReader(m.open(encoding="utf-8")):
+                  g = lambda k: (float(r[k]) if r.get(k) not in (None, "", "NA") else float("nan"))
+                  out.append(f"{r.get('metric',''):>16} {r.get('n_species',''):>4} "
+                             f"{g('odds_ratio'):>7.3f} {g('p_value'):>8.4f} "
+                             f"{g('p_holm_eight_components') if 'p_holm_eight_components' in r else float('nan'):>8.4f}")
+
+          s = root / "collinearity" / "multicollinearity_diagnostic_summary.csv"
+          if s.exists():
+              out += ["", "COLLINEARITY"]
+              for r in csv.DictReader(s.open(encoding="utf-8")):
+                  out.append(f"  {r['diagnostic']:<58} {float(r['value']):>10.3f}")
+
+          p = root / "phylogenetic" / "phylogenetic_analysis_manifest.json"
+          if p.exists():
+              j = json.loads(p.read_text())
+              out += ["", f"PHYLOGENETIC  status={j.get('status')}  "
+                          f"tips={j.get('tree_tip_species')}  "
+                          f"ok={j.get('models_successful')}/{j.get('models_requested')}"]
+              f = root / "phylogenetic" / "phylogenetic_logistic_component_models.csv"
+              if f.exists():
+                  out.append(f"{'metric':>16} {'n':>4} {'OR':>7} {'p':>8}")
+                  for r in csv.DictReader(f.open(encoding="utf-8")):
+                      out.append(f"{r.get('metric',''):>16} {r.get('n_species',''):>4} "
+                                 f"{float(r['odds_ratio']):>7.3f} {float(r['p_value']):>8.4f}")
+
+          out += ["", "baselines: A = 34 (20 within / 14 among, 25 families); "
+                      "B = 107 (26 within / 81 among)",
+                  "labels remain review_status=unreviewed; codebook requires adjudicated "
+                  "before any set is eligible_for_freeze", "```"]
+          print("\n".join(out))
+          PY
+
+      - name: Upload downstream analysis
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged-87-downstream-analysis
+          path: |
+            analysis_outputs/merged_87_downstream/
+            !analysis_outputs/merged_87_downstream/worldclim
+          if-no-files-found: warn
+          retention-days: 30
