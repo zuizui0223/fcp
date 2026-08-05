@@ -48,10 +48,27 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --disable-pip-version-check numpy pandas scipy statsmodels rasterio
+          python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn rasterio statsmodels
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libcurl4-openssl-dev libssl-dev libxml2-dev
           Rscript -e 'options(repos=c(CRAN="https://cloud.r-project.org")); p<-c("ape","jsonlite","phylolm","rotl"); m<-p[!vapply(p,requireNamespace,logical(1),quietly=TRUE)]; if(length(m)) install.packages(m, dependencies=c("Depends","Imports","LinkingTo")); stopifnot(all(vapply(p,requireNamespace,logical(1),quietly=TRUE)))'
+
+      # Every module the chain imports, checked before the run spends an hour on GBIF.
+      - name: Verify the analysis chain imports
+        run: |
+          python - <<'PY'
+          import importlib
+          missing = [m for m in ("numpy", "pandas", "scipy", "sklearn", "rasterio", "statsmodels")
+                     if not importlib.util.find_spec(m)]
+          if missing:
+              raise SystemExit(f"missing python modules: {missing}")
+          for script in ("build_merged_spatial_classification", "resolve_provisional_taxa_gbif",
+                         "build_gbif_occurrence_sample_paginated", "compute_geographic_extent_metrics",
+                         "compute_climatic_niche_metrics", "analysis_climate_components_range_adjusted"):
+              importlib.import_module(script)
+          print("all analysis modules import cleanly")
+          PY
+          Rscript -e 'invisible(lapply(c("ape","jsonlite","phylolm","rotl"), function(p) stopifnot(requireNamespace(p, quietly=TRUE)))); cat("R packages present\n")'
 
       - name: Download systematic retrieval
         uses: actions/download-artifact@v4
