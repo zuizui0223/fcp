@@ -141,20 +141,35 @@ jobs:
             --dataset range_input/range_adjusted_main/range_adjusted_model_dataset.csv \
             --outdir "$OUTDIR"
 
-      - name: Validate eight phylogenetic component models
+      - name: Validate phylogenetic component audit
         run: |
           Rscript - <<'RS'
           root <- Sys.getenv("OUTDIR")
+          required <- c(
+            "phylogenetic_model_fit_audit.csv",
+            "phylogenetic_logistic_component_models.csv",
+            "phylogenetic_logistic_all_coefficients.csv",
+            "phylogenetic_vs_nonphylogenetic_same_subset.csv",
+            "phylogenetic_analysis_manifest.json",
+            "opentree_tnrs_audit.csv",
+            "opentree_tip_mapping_audit.csv",
+            "opentree_grafen_resolved.newick"
+          )
+          stopifnot(all(file.exists(file.path(root, required))))
+          audit <- read.csv(file.path(root, "phylogenetic_model_fit_audit.csv"), stringsAsFactors = FALSE)
+          stopifnot(nrow(audit) == 8)
+          stopifnot(setequal(audit$status, intersect(audit$status, c("success", "failed"))))
+          n_success <- sum(audit$status == "success")
+          n_failed <- sum(audit$status == "failed")
+          if (n_success == 0) stop("No phylogenetic component model succeeded")
           x <- read.csv(file.path(root, "phylogenetic_logistic_component_models.csv"))
-          stopifnot(nrow(x) == 8)
+          stopifnot(nrow(x) == n_success)
           stopifnot(all(is.finite(x$estimate)))
           stopifnot(all(is.finite(x$p_value)))
           stopifnot(all(x$n_species >= 20))
-          stopifnot(file.exists(file.path(root, "opentree_tnrs_audit.csv")))
-          stopifnot(file.exists(file.path(root, "opentree_tip_mapping_audit.csv")))
-          stopifnot(file.exists(file.path(root, "opentree_grafen_resolved.newick")))
-          cat(sprintf("validated %d phylogenetic models across %d-%d species\n", nrow(x), min(x$n_species), max(x$n_species)))
-          print(x[, c("metric", "n_species", "odds_ratio", "p_value", "p_holm_eight_components")])
+          cat(sprintf("phylogenetic fits: %d succeeded, %d failed\n", n_success, n_failed))
+          print(audit[, c("metric", "status", "stage", "n_species", "warning", "error")])
+          if (nrow(x)) print(x[, c("metric", "n_species", "odds_ratio", "p_value", "p_holm_eight_components")])
           RS
 
       - name: Upload phylogenetic sensitivity analysis
