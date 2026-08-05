@@ -60,6 +60,8 @@ jobs:
           find systematic_input -maxdepth 3 -name 'itv_fcp_human_screening_queue.csv' | sort
           QUEUE=$(find systematic_input -maxdepth 3 -name 'itv_fcp_human_screening_queue.csv' | head -1)
           test -s "$QUEUE"
+          # GITHUB_ENV only reaches later steps; export so this step's python sees it too.
+          export QUEUE
           echo "QUEUE=$QUEUE" >> "$GITHUB_ENV"
           python - <<'PY'
           import csv, os
