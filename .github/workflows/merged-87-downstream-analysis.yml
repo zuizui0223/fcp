@@ -57,7 +57,7 @@ jobs:
       - name: Verify the analysis chain imports
         run: |
           python - <<'PY'
-          import importlib
+          import importlib, importlib.util
           missing = [m for m in ("numpy", "pandas", "scipy", "sklearn", "rasterio", "statsmodels")
                      if not importlib.util.find_spec(m)]
           if missing:
