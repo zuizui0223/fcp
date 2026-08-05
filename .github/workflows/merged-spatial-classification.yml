@@ -6,11 +6,13 @@ on:
     paths:
       - "build_merged_spatial_classification.py"
       - "build_audited_spatial_classification.py"
+      - "resolve_provisional_taxa_gbif.py"
       - ".github/workflows/merged-spatial-classification.yml"
   pull_request:
     paths:
       - "build_merged_spatial_classification.py"
       - "build_audited_spatial_classification.py"
+      - "resolve_provisional_taxa_gbif.py"
       - ".github/workflows/merged-spatial-classification.yml"
   workflow_dispatch:
     inputs:
@@ -48,6 +50,7 @@ jobs:
         run: |
           python -m py_compile build_merged_spatial_classification.py
           python -m py_compile build_audited_spatial_classification.py
+          python -m py_compile resolve_provisional_taxa_gbif.py
 
       - name: Download systematic retrieval
         uses: actions/download-artifact@v4
@@ -157,6 +160,73 @@ jobs:
                      (r["within_vote"] == "1" or r["among_vote"] == "1")]
               if bad:
                   raise SystemExit(f"discovery-only records emitted directional votes: {len(bad)}")
+          PY
+
+      - name: Resolve K=3 candidates against GBIF backbone
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR/audited_k3/taxonomy"
+          python resolve_provisional_taxa_gbif.py \
+            --input "$OUTDIR/audited_k3/audited_spatial_classification_unreviewed.csv" \
+            --out "$OUTDIR/audited_k3/taxonomy/gbif_validated_binary_candidates.csv" \
+            --audit "$OUTDIR/audited_k3/taxonomy/gbif_taxon_resolution_audit.csv" \
+            --timeout 45 --retries 4
+
+      - name: Summarise taxonomic validation and create review queues
+        run: |
+          python - <<'PY'
+          import csv, json, os
+          from collections import Counter
+          from pathlib import Path
+
+          root = Path(os.environ["OUTDIR"]) / "audited_k3" / "taxonomy"
+          audit_path = root / "gbif_taxon_resolution_audit.csv"
+          validated_path = root / "gbif_validated_binary_candidates.csv"
+          audit = list(csv.DictReader(audit_path.open(encoding="utf-8")))
+          validated = list(csv.DictReader(validated_path.open(encoding="utf-8")))
+          status = Counter(r.get("post_resolution_status", "") for r in audit)
+          match_type = Counter(r.get("match_type", "") for r in audit)
+          print({
+              "input_names": len(audit),
+              "accepted_binary_species": len(validated),
+              "within": sum(r.get("spatial_scale") == "within_population" for r in validated),
+              "among": sum(r.get("spatial_scale") == "among_population" for r in validated),
+              "status": dict(status),
+              "match_type": dict(match_type),
+          })
+
+          rejected = [r for r in audit if r.get("post_resolution_status") in {"rejected_taxon", "resolution_error"}]
+          unresolved_path = root / "taxon_resolution_manual_review_queue.csv"
+          fields = sorted({k for r in rejected for k in r} | {"reviewer_decision", "accepted_name_override", "reason"})
+          with unresolved_path.open("w", newline="", encoding="utf-8") as handle:
+              writer = csv.DictWriter(handle, fieldnames=fields)
+              writer.writeheader()
+              for row in rejected:
+                  row = dict(row)
+                  row.update({"reviewer_decision": "", "accepted_name_override": "", "reason": ""})
+                  writer.writerow(row)
+
+          suspicious = [r for r in audit if r.get("accepted") != "True"]
+          if not rejected:
+              print("No unresolved or rejected taxon names")
+          else:
+              print("Rejected/unresolved examples:")
+              for row in rejected[:40]:
+                  print(row.get("input_name"), row.get("match_type"), row.get("rank"), row.get("kingdom"))
+
+          summary = {
+              "input_names": len(audit),
+              "strict_binary_species_after_synonym_reaggregation": len(validated),
+              "within": sum(r.get("spatial_scale") == "within_population" for r in validated),
+              "among": sum(r.get("spatial_scale") == "among_population" for r in validated),
+              "post_resolution_status": dict(status),
+              "manual_taxon_review_required": len(rejected),
+              "eligible_for_freeze": False,
+              "reason": "Taxonomy validation completed, but evidence labels remain unreviewed and require dual adjudication.",
+          }
+          (root / "gbif_taxonomy_validation_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+          if len(validated) < 20 or len({r.get("spatial_scale") for r in validated}) < 2:
+              raise SystemExit("GBIF validation left insufficient binary candidates")
           PY
 
       - name: Compare PR12 and audited K=3 classifications
