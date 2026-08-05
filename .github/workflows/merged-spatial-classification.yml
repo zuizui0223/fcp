@@ -1,17 +1,16 @@
 name: Merged spatial-scale extraction over the systematic corpus
 
-# The systematic retrieval only exists as a workflow artifact, so the merged decision
-# layer has to be calibrated here rather than locally.
-
 on:
   push:
     branches: [claude/merged-spatial-extraction]
     paths:
       - "build_merged_spatial_classification.py"
+      - "build_audited_spatial_classification.py"
       - ".github/workflows/merged-spatial-classification.yml"
   pull_request:
     paths:
       - "build_merged_spatial_classification.py"
+      - "build_audited_spatial_classification.py"
       - ".github/workflows/merged-spatial-classification.yml"
   workflow_dispatch:
     inputs:
@@ -45,6 +44,11 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Parse extraction scripts
+        run: |
+          python -m py_compile build_merged_spatial_classification.py
+          python -m py_compile build_audited_spatial_classification.py
+
       - name: Download systematic retrieval
         uses: actions/download-artifact@v4
         with:
@@ -60,7 +64,6 @@ jobs:
           find systematic_input -maxdepth 3 -name 'itv_fcp_human_screening_queue.csv' | sort
           QUEUE=$(find systematic_input -maxdepth 3 -name 'itv_fcp_human_screening_queue.csv' | head -1)
           test -s "$QUEUE"
-          # GITHUB_ENV only reaches later steps; export so this step's python sees it too.
           export QUEUE
           echo "QUEUE=$QUEUE" >> "$GITHUB_ENV"
           python - <<'PY'
@@ -69,17 +72,24 @@ jobs:
           path = os.environ["QUEUE"]
           with open(path, newline="", encoding="utf-8-sig") as handle:
               reader = csv.DictReader(handle)
-              print("columns:", sorted(reader.fieldnames or []))
+              fields = list(reader.fieldnames or [])
+              print("columns:", sorted(fields))
               rows = 0
               priority = Counter()
-              has_abstract = 0
+              roles = Counter()
+              work_types = Counter()
+              with_abstract = 0
               for record in reader:
                   rows += 1
                   priority[record.get("screen_priority", "")] += 1
+                  roles[record.get("source_role", "")] += 1
+                  work_types[record.get("work_type", "")] += 1
                   if (record.get("abstract") or "").strip():
-                      has_abstract += 1
-          print({"rows": rows, "with_abstract": has_abstract})
-          print({k: v for k, v in priority.most_common()})
+                      with_abstract += 1
+          print({"rows": rows, "with_abstract": with_abstract, "has_source_role": "source_role" in fields})
+          print("priority:", dict(priority.most_common()))
+          print("source_role:", dict(roles.most_common()))
+          print("work_type:", dict(work_types.most_common()))
           PY
 
       - name: Self-test the generalised proximity rule
@@ -88,67 +98,95 @@ jobs:
             --corpus "$QUEUE" --corpus-format screening_queue \
             --outdir "$OUTDIR/selftest" --self-test
 
-      - name: Run the merged extraction with a dilution-cap sweep
+      - name: Run PR12 merged extraction with dilution-cap sweep
         run: |
           set -euo pipefail
           for K in 2 3 5 99; do
             python build_merged_spatial_classification.py \
               --corpus "$QUEUE" --corpus-format screening_queue \
               --dilution-cap "$K" \
-              --outdir "$OUTDIR/k$K"
+              --outdir "$OUTDIR/pr12_k$K"
           done
 
-      - name: Summarise counts and compare against both baselines
+      - name: Run adjudication-ready audited extraction
+        run: |
+          set -euo pipefail
+          for K in 2 3 5; do
+            python build_audited_spatial_classification.py \
+              --corpus "$QUEUE" \
+              --dilution-cap "$K" \
+              --proximity-window 180 \
+              --outdir "$OUTDIR/audited_k$K"
+          done
+
+      - name: Validate audited outputs and freeze guard
         run: |
           python - <<'PY'
           import csv, json, os
           from pathlib import Path
 
           root = Path(os.environ["OUTDIR"])
-          print(f"{'K':>3} {'species':>8} {'eligible':>9} {'within':>7} {'among':>6} {'within%':>8} {'suppressed':>11}")
-          summaries = {}
-          for k in (2, 3, 5, 99):
-              qc = json.loads((root / f"k{k}" / "merged_classification_qc.json").read_text())
-              summaries[k] = qc
-              n, w, a = qc["model_eligible_species"], qc["model_eligible_within"], qc["model_eligible_among"]
-              pct = f"{w / n:.0%}" if n else "n/a"
-              print(f"{k:>3} {qc['species_total']:>8} {n:>9} {w:>7} {a:>6} {pct:>8} "
-                    f"{qc['record_diagnostics'].get('attributions_context_suppressed', 0):>11}")
+          print(f"{'K':>3} {'species':>8} {'within':>7} {'among':>7} {'mixed':>7} {'unclear':>8} {'disc-only':>10}")
+          for k in (2, 3, 5):
+              d = root / f"audited_k{k}"
+              required = [
+                  "audited_spatial_classification_unreviewed.csv",
+                  "record_species_evidence_ledger.csv",
+                  "double_review_adjudication_template.csv",
+                  "correction_log_template.csv",
+                  "prefreeze_manifest.json",
+              ]
+              for name in required:
+                  p = d / name
+                  if not p.exists() or p.stat().st_size == 0:
+                      raise SystemExit(f"missing audited output: {p}")
+              manifest = json.loads((d / "prefreeze_manifest.json").read_text())
+              if manifest["eligible_for_freeze"] is not False or manifest["status"] != "prefreeze_only":
+                  raise SystemExit("unreviewed extraction was incorrectly marked freeze-eligible")
+              rows = list(csv.DictReader(open(d / "audited_spatial_classification_unreviewed.csv")))
+              if any(r["review_status"] != "unreviewed" or r["eligible_for_freeze"] != "false" for r in rows):
+                  raise SystemExit("review-state guard failed")
+              scales = manifest["counts"]["spatial_scale"]
+              source_roles = manifest["counts"]["source_role"]
+              print(f"{k:>3} {len(rows):>8} {scales.get('within_population',0):>7} "
+                    f"{scales.get('among_population',0):>7} {scales.get('mixed',0):>7} "
+                    f"{scales.get('unclear',0):>8} {source_roles.get('discovery_only',0):>10}")
 
-          print("\nbaselines: path A 34 (20 within / 14 among); path B 107 (26 within / 81 among)")
+              ledger = list(csv.DictReader(open(d / "record_species_evidence_ledger.csv")))
+              bad = [r for r in ledger if r["source_role"] == "discovery_only" and
+                     (r["within_vote"] == "1" or r["among_vote"] == "1")]
+              if bad:
+                  raise SystemExit(f"discovery-only records emitted directional votes: {len(bad)}")
+          PY
 
-          frozen = {
-              row["canonical_name"]: row["spatial_scale"]
-              for row in csv.DictReader(open("docs/supporting/jbi_table_s6_frozen_classification_manifest.csv"))
-          }
-          rows = {
-              row["canonical_name"]: row
-              for row in csv.DictReader(open(root / "k3" / "merged_spatial_classification.csv"))
-          }
-          eligible = {
-              name: row for name, row in rows.items()
-              if row["review_priority"] in {"P0", "P1", "P2"}
-              and row["evidence_class"] == "natural_polymorphism"
-              and row["spatial_scale"] in {"within_population", "among_population"}
-          }
-          recovered = [n for n in frozen if n in eligible]
-          disagree = [n for n in recovered if eligible[n]["spatial_scale"] != frozen[n]]
-          print(f"\nfrozen 34: recovered {len(recovered)}/34, disagreements {len(disagree)}")
-          for name in disagree:
-              print(f"  {name}: frozen={frozen[name]} merged={eligible[name]['spatial_scale']}")
+      - name: Compare PR12 and audited K=3 classifications
+        run: |
+          python - <<'PY'
+          import csv, os
+          from collections import Counter
+          from pathlib import Path
 
-          known = ["Dactylorhiza sambucina", "Gymnadenia rhellicani", "Linanthus parryae", "Silene littorea"]
-          print("\nverified systems:", {n: rows[n]["spatial_scale"] if n in rows else "absent" for n in known})
-
-          if summaries[3]["model_eligible_species"] < 20:
-              raise SystemExit("merged extraction produced fewer than 20 model-eligible species")
+          root = Path(os.environ["OUTDIR"])
+          base = {r["canonical_name"]: r for r in csv.DictReader(open(root / "pr12_k3" / "merged_spatial_classification.csv"))}
+          audit = {r["canonical_name"]: r for r in csv.DictReader(open(root / "audited_k3" / "audited_spatial_classification_unreviewed.csv"))}
+          shared = sorted(set(base) & set(audit))
+          changed = [n for n in shared if base[n]["spatial_scale"] != audit[n]["spatial_scale"]]
+          print({
+              "pr12_species": len(base),
+              "audited_species": len(audit),
+              "shared": len(shared),
+              "class_changes": len(changed),
+              "audited_balance": dict(Counter(r["spatial_scale"] for r in audit.values())),
+          })
+          for name in changed[:50]:
+              print(name, base[name]["spatial_scale"], "->", audit[name]["spatial_scale"])
           PY
 
       - name: Upload merged classification
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: merged-spatial-classification
+          name: merged-spatial-classification-adjudication-ready
           path: analysis_outputs/merged_spatial_classification/
           if-no-files-found: warn
           retention-days: 30
