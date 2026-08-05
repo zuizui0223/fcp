@@ -111,6 +111,94 @@ jobs:
               --outdir "$OUTDIR/pr12_k$K"
           done
 
+      # Intake and vocabulary are the two levers on yield. P1-only intake reads 543 of the
+      # corpus's 79,242 records, and the baseline vocabulary leaves the verified systems in
+      # `unclear`. Sweep both so the recall/precision cost of each is visible.
+      - name: Sweep intake breadth and vocabulary supplement
+        run: |
+          set -euo pipefail
+          for P in p1 p1p2; do
+            for S in plain supp; do
+              FLAG=""
+              if [ "$S" = "supp" ]; then FLAG="--supplement-vocabulary"; fi
+              python build_merged_spatial_classification.py \
+                --corpus "$QUEUE" --corpus-format screening_queue \
+                --priorities "$P" --dilution-cap 3 $FLAG \
+                --outdir "$OUTDIR/yield_${P}_${S}" > /dev/null
+            done
+          done
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ["OUTDIR"])
+          print(f"{'intake':>7} {'vocab':>6} {'records':>8} {'species':>8} {'eligible':>9} "
+                f"{'within':>7} {'among':>6} {'within%':>8} {'unclear':>8}")
+          for p in ("p1", "p1p2"):
+              for s in ("plain", "supp"):
+                  qc = json.loads((root / f"yield_{p}_{s}" / "merged_classification_qc.json").read_text())
+                  n, w, a = qc["model_eligible_species"], qc["model_eligible_within"], qc["model_eligible_among"]
+                  print(f"{p:>7} {s:>6} {qc['record_diagnostics']['records_read']:>8} "
+                        f"{qc['species_total']:>8} {n:>9} {w:>7} {a:>6} "
+                        f"{(f'{w/n:.0%}' if n else 'n/a'):>8} "
+                        f"{qc['spatial_scale_all'].get('unclear', 0):>8}")
+          PY
+
+      # Only a GBIF-validated count is comparable with the 34- and 107-species baselines;
+      # everything upstream still contains title fragments that match the binomial pattern.
+      - name: Resolve the widest yield configuration against GBIF backbone
+        run: |
+          set -euo pipefail
+          for CONF in p1_plain p1p2_supp; do
+            mkdir -p "$OUTDIR/yield_$CONF/taxonomy"
+            python - "$OUTDIR/yield_$CONF" <<'PY'
+          import csv, sys
+          from pathlib import Path
+          src = Path(sys.argv[1]) / "merged_spatial_classification.csv"
+          dst = Path(sys.argv[1]) / "taxonomy" / "binary_candidates.csv"
+          rows = [
+              r for r in csv.DictReader(src.open(encoding="utf-8"))
+              if r["review_priority"] in {"P0", "P1", "P2"}
+              and r["evidence_class"] == "natural_polymorphism"
+              and r["spatial_scale"] in {"within_population", "among_population"}
+          ]
+          with dst.open("w", newline="", encoding="utf-8") as handle:
+              writer = csv.DictWriter(handle, fieldnames=["canonical_name", "family", "spatial_scale"])
+              writer.writeheader()
+              for r in rows:
+                  writer.writerow({k: r.get(k, "") for k in ("canonical_name", "family", "spatial_scale")})
+          print(f"{sys.argv[1]}: {len(rows)} binary candidates submitted to GBIF")
+          PY
+            python resolve_provisional_taxa_gbif.py \
+              --input "$OUTDIR/yield_$CONF/taxonomy/binary_candidates.csv" \
+              --out "$OUTDIR/yield_$CONF/taxonomy/gbif_validated.csv" \
+              --audit "$OUTDIR/yield_$CONF/taxonomy/gbif_audit.csv" \
+              --timeout 45 --retries 4 || echo "GBIF validation failed for $CONF"
+          done
+
+      - name: Report GBIF-validated species counts against both baselines
+        run: |
+          python - <<'PY'
+          import csv, os
+          from collections import Counter
+          from pathlib import Path
+          root = Path(os.environ["OUTDIR"])
+          print(f"{'configuration':>16} {'submitted':>10} {'validated':>10} {'within':>7} {'among':>6} {'families':>9}")
+          for conf in ("p1_plain", "p1p2_supp"):
+              tax = root / f"yield_{conf}" / "taxonomy"
+              submitted = sum(1 for _ in csv.DictReader((tax / "binary_candidates.csv").open(encoding="utf-8")))
+              path = tax / "gbif_validated.csv"
+              if not path.exists():
+                  print(f"{conf:>16} {submitted:>10} {'failed':>10}")
+                  continue
+              rows = list(csv.DictReader(path.open(encoding="utf-8")))
+              counts = Counter(r["spatial_scale"] for r in rows)
+              families = len({r.get("family", "") for r in rows if r.get("family")})
+              print(f"{conf:>16} {submitted:>10} {len(rows):>10} "
+                    f"{counts.get('within_population', 0):>7} {counts.get('among_population', 0):>6} {families:>9}")
+          print("\nbaselines: A = 34 species (20 within / 14 among, 25 families); "
+                "B = 107 species (26 within / 81 among)")
+          PY
+
       - name: Run adjudication-ready audited extraction
         run: |
           set -euo pipefail

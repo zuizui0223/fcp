@@ -67,15 +67,20 @@ def union_pattern(base: re.Pattern[str], extra_terms: list[str]) -> re.Pattern[s
     return re.compile("|".join(p for p in parts if p), re.I)
 
 
-def load_vocabulary(config_path: Path | None) -> tuple[re.Pattern[str], re.Pattern[str]]:
-    if config_path is None or not config_path.exists():
-        return WITHIN, GEOGRAPHIC
-    config = json.loads(config_path.read_text(encoding="utf-8"))
-    terms = config.get("screening_terms") or config.get("terms") or {}
-    return (
-        union_pattern(WITHIN, list(terms.get("within") or [])),
-        union_pattern(GEOGRAPHIC, list(terms.get("among") or [])),
-    )
+def load_vocabulary(
+    config_path: Path | None, supplement: bool = False
+) -> tuple[re.Pattern[str], re.Pattern[str]]:
+    within_terms: list[str] = []
+    among_terms: list[str] = []
+    if config_path is not None and config_path.exists():
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+        terms = config.get("screening_terms") or config.get("terms") or {}
+        within_terms += list(terms.get("within") or [])
+        among_terms += list(terms.get("among") or [])
+    if supplement:
+        within_terms += WITHIN_SUPPLEMENT
+        among_terms += AMONG_SUPPLEMENT
+    return union_pattern(WITHIN, within_terms), union_pattern(GEOGRAPHIC, among_terms)
 
 
 # --- 3. symmetric proximity -----------------------------------------------------------
@@ -152,8 +157,37 @@ def read_global_works(path: Path) -> list[dict]:
 
 SCREENING_QUEUE_REQUIRED = {"screen_priority", "title", "abstract", "candidate_species"}
 
+# The screening priorities all sit above `core_relevance` (display colour AND variation).
+# P1 is where a record also tripped the `natural` or directional vocabulary at screening
+# time; P2 is the same relevance bar without that extra keyword hit. Restricting intake to
+# P1 discards P2 records whose direction this pipeline is equipped to judge for itself,
+# through the proximity, tiering and conflict gates downstream.
+PRIORITY_SETS = {
+    "p1": {"P1_high_natural_itv", "P1_high_population_itv"},
+    "p1p2": {"P1_high_natural_itv", "P1_high_population_itv", "P2_possible_itv"},
+}
+DEFAULT_PRIORITY_SET = "p1"
 
-def read_screening_queue(path: Path) -> list[dict]:
+# Gaps found by running the baseline vocabulary against the verified systems: `Linanthus
+# parryae` is titled "spatial differentiation for flower color", and `Gymnadenia
+# rhellicani` "a floral colour polymorphism" -- neither phrasing was recognised, so two
+# textbook cases resolved to `unclear`.
+WITHIN_SUPPLEMENT = [
+    "colour polymorphism", "color polymorphism", "flower colour polymorphism",
+    "flower color polymorphism", "floral colour polymorphism", "floral color polymorphism",
+    "colour dimorphism", "color dimorphism", "morph ratio", "morph ratios",
+    "rare morph", "white morph", "alba morph", "overdominance", "heterozygote advantage",
+    "balancing selection", "coexisting morphs", "co-occurring morphs",
+]
+AMONG_SUPPLEMENT = [
+    "spatial differentiation", "geographic differentiation", "geographical differentiation",
+    "colour cline", "color cline", "latitudinal variation", "altitudinal variation",
+    "elevational variation", "elevational divergence", "range-wide variation",
+    "phylogeographic", "isolation by distance", "isolation by environment",
+]
+
+
+def read_screening_queue(path: Path, priorities: set[str] | None = None) -> list[dict]:
     """Path-B systematic screening queue (itv_fcp_human_screening_queue.csv).
 
     `abstract` is load-bearing: the proximity test needs more than a title, and a queue
@@ -169,7 +203,7 @@ def read_screening_queue(path: Path) -> list[dict]:
                 f"present columns: {sorted(reader.fieldnames or [])}"
             )
         for row in reader:
-            if row.get("screen_priority") not in {"P1_high_natural_itv", "P1_high_population_itv"}:
+            if row.get("screen_priority") not in (priorities or PRIORITY_SETS[DEFAULT_PRIORITY_SET]):
                 continue
             title = norm(row.get("title"))
             abstract = norm(row.get("abstract"))[:1200]
@@ -357,6 +391,8 @@ def main() -> None:
     parser.add_argument("--corpus-format", choices=sorted(CORPUS_READERS), default="global_works")
     parser.add_argument("--search-config", default="literature/itv_fcp_search_config.json")
     parser.add_argument("--dilution-cap", type=int, default=DEFAULT_SPECIES_DILUTION_CAP)
+    parser.add_argument("--priorities", choices=sorted(PRIORITY_SETS), default=DEFAULT_PRIORITY_SET)
+    parser.add_argument("--supplement-vocabulary", action="store_true")
     parser.add_argument("--outdir", required=True)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
@@ -364,8 +400,11 @@ def main() -> None:
     outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
 
-    within_re, among_re = load_vocabulary(Path(args.search_config))
-    records = CORPUS_READERS[args.corpus_format](Path(args.corpus))
+    within_re, among_re = load_vocabulary(Path(args.search_config), args.supplement_vocabulary)
+    if args.corpus_format == "screening_queue":
+        records = read_screening_queue(Path(args.corpus), PRIORITY_SETS[args.priorities])
+    else:
+        records = CORPUS_READERS[args.corpus_format](Path(args.corpus))
     if args.self_test:
         self_test([r["text"] for r in records])
     per_species, diag = attribute(records, within_re, among_re, args.dilution_cap)
@@ -412,6 +451,8 @@ def main() -> None:
         "corpus": args.corpus,
         "corpus_format": args.corpus_format,
         "dilution_cap": args.dilution_cap,
+        "priorities": args.priorities,
+        "supplement_vocabulary": args.supplement_vocabulary,
         "record_diagnostics": dict(diag),
         "species_total": len(rows),
         "review_priority": dict(Counter(r["review_priority"] for r in rows)),
