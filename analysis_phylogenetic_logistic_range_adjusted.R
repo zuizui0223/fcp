@@ -34,13 +34,29 @@ base_covariates <- c(
   "n_supporting_p1_records"
 )
 
+normalize_taxon <- function(x) {
+  x <- trimws(as.character(x))
+  x <- gsub("\\s+", " ", x)
+  tolower(x)
+}
+
 d <- read.csv(input, stringsAsFactors = FALSE, check.names = FALSE)
 required <- c("canonical_name", "spatial_scale", components, base_covariates)
 missing <- setdiff(required, names(d))
 if (length(missing)) stop(sprintf("Missing columns: %s", paste(missing, collapse = ", ")))
 d <- d[d$spatial_scale %in% c("within_population", "among_population"), , drop = FALSE]
+d$canonical_name <- trimws(d$canonical_name)
+d$canonical_key <- normalize_taxon(d$canonical_name)
 d$among <- as.integer(d$spatial_scale == "among_population")
 if (nrow(d) < 20 || length(unique(d$among)) < 2) stop("Insufficient binary-response data")
+if (anyNA(d$canonical_key) || any(!nzchar(d$canonical_key))) stop("Blank canonical taxon names in model dataset")
+if (anyDuplicated(d$canonical_key)) {
+  duplicated_names <- unique(d$canonical_name[duplicated(d$canonical_key) | duplicated(d$canonical_key, fromLast = TRUE)])
+  stop(sprintf("Canonical taxon names are not unique after case normalization: %s", paste(duplicated_names, collapse = ", ")))
+}
+
+canonical_lookup <- d[, c("canonical_key", "canonical_name"), drop = FALSE]
+canonical_lookup <- canonical_lookup[!duplicated(canonical_lookup$canonical_key), , drop = FALSE]
 
 message(sprintf("Matching %d species against Open Tree of Life", length(unique(d$canonical_name))))
 tnrs <- tnrs_match_names(unique(d$canonical_name), context_name = "Land plants")
@@ -48,8 +64,9 @@ write.csv(tnrs, file.path(outdir, "opentree_tnrs_audit.csv"), row.names = FALSE)
 if (!all(c("search_string", "ott_id") %in% names(tnrs))) {
   stop(sprintf("Unexpected TNRS columns: %s", paste(names(tnrs), collapse = ", ")))
 }
-matched <- tnrs[!is.na(tnrs$ott_id), , drop = FALSE]
-matched <- matched[!duplicated(matched$search_string), , drop = FALSE]
+tnrs$search_key <- normalize_taxon(tnrs$search_string)
+matched <- tnrs[!is.na(tnrs$ott_id) & nzchar(tnrs$search_key), , drop = FALSE]
+matched <- matched[!duplicated(matched$search_key), , drop = FALSE]
 if (nrow(matched) < 20) stop(sprintf("Only %d species matched OpenTree", nrow(matched)))
 
 message(sprintf("Requesting induced subtree for %d unique OTT ids", length(unique(matched$ott_id))))
@@ -65,29 +82,42 @@ extract_ott <- function(x) {
   out <- sub(".*_ott([0-9]+)$", "\\1", x)
   suppressWarnings(as.numeric(out))
 }
-map_cols <- intersect(c("search_string", "unique_name", "ott_id", "is_synonym", "flags"), names(matched))
+map_cols <- intersect(c("search_string", "search_key", "unique_name", "ott_id", "is_synonym", "flags"), names(matched))
 map <- matched[, map_cols, drop = FALSE]
 map$ott_id <- as.numeric(map$ott_id)
 
 original_tip_labels <- raw_tree$tip.label
 tip_ott <- vapply(original_tip_labels, extract_ott, numeric(1))
+tnrs_index <- match(tip_ott, map$ott_id)
+tip_search_string <- map$search_string[tnrs_index]
+tip_search_key <- normalize_taxon(tip_search_string)
+lookup_index <- match(tip_search_key, canonical_lookup$canonical_key)
+
 tip_map <- data.frame(
   original_tip_label = original_tip_labels,
   ott_id = tip_ott,
-  canonical_name = map$search_string[match(tip_ott, map$ott_id)],
+  tnrs_search_string = tip_search_string,
+  normalized_key = tip_search_key,
+  canonical_name = canonical_lookup$canonical_name[lookup_index],
   stringsAsFactors = FALSE
 )
 tip_map$canonical_name <- trimws(tip_map$canonical_name)
-valid_tip <- is.finite(tip_map$ott_id) & !is.na(tip_map$canonical_name) & nzchar(tip_map$canonical_name)
-valid_tip <- valid_tip & !duplicated(tip_map$canonical_name)
+valid_tip <- (
+  is.finite(tip_map$ott_id) &
+  !is.na(tip_map$normalized_key) &
+  nzchar(tip_map$normalized_key) &
+  !is.na(tip_map$canonical_name) &
+  nzchar(tip_map$canonical_name)
+)
+valid_tip <- valid_tip & !duplicated(tip_map$normalized_key)
 tip_map$keep_for_analysis <- valid_tip
 write.csv(tip_map, file.path(outdir, "opentree_tip_mapping_audit.csv"), row.names = FALSE)
 if (any(!valid_tip)) raw_tree <- drop.tip(raw_tree, tip_map$original_tip_label[!valid_tip])
 
 kept <- match(raw_tree$tip.label, tip_map$original_tip_label)
 mapped_names <- tip_map$canonical_name[kept]
-if (anyNA(mapped_names) || any(!nzchar(trimws(mapped_names))) || anyDuplicated(mapped_names)) {
-  stop("OpenTree tip labels could not be mapped uniquely to canonical names")
+if (anyNA(mapped_names) || any(!nzchar(trimws(mapped_names))) || anyDuplicated(normalize_taxon(mapped_names))) {
+  stop("OpenTree tip labels could not be mapped uniquely to dataset canonical names")
 }
 raw_tree$tip.label <- mapped_names
 if (length(raw_tree$tip.label) < 20) stop("Fewer than 20 uniquely mapped tree tips remain")
@@ -97,16 +127,45 @@ resolved_tree <- compute.brlen(resolved_tree, method = "Grafen", power = 1)
 resolved_tree <- ladderize(resolved_tree)
 write.tree(resolved_tree, file.path(outdir, "opentree_grafen_resolved.newick"))
 
-model_data <- d[d$canonical_name %in% resolved_tree$tip.label, , drop = FALSE]
-model_data <- model_data[!duplicated(model_data$canonical_name), , drop = FALSE]
-model_data <- model_data[match(resolved_tree$tip.label, model_data$canonical_name), , drop = FALSE]
+# Join tree tips to the dataset with a normalized key, while preserving the
+# original canonical spelling in both the tree and model data.
+tree_keys <- normalize_taxon(resolved_tree$tip.label)
+data_keys <- d$canonical_key
+data_index <- match(tree_keys, data_keys)
+name_match_audit <- data.frame(
+  tree_tip = resolved_tree$tip.label,
+  normalized_key = tree_keys,
+  dataset_row = data_index,
+  dataset_canonical_name = ifelse(is.na(data_index), NA_character_, d$canonical_name[data_index]),
+  matched = !is.na(data_index),
+  stringsAsFactors = FALSE
+)
+write.csv(name_match_audit, file.path(outdir, "tree_dataset_name_match_audit.csv"), row.names = FALSE)
+
+n_name_matches <- sum(!is.na(data_index))
+message(sprintf("Matched %d/%d resolved tree tips to dataset canonical names", n_name_matches, length(tree_keys)))
+if (n_name_matches < 20) {
+  stop(sprintf("Only %d/%d tree tips matched the dataset after case-insensitive normalization", n_name_matches, length(tree_keys)))
+}
+if (anyNA(data_index)) {
+  resolved_tree <- drop.tip(resolved_tree, resolved_tree$tip.label[is.na(data_index)])
+  tree_keys <- normalize_taxon(resolved_tree$tip.label)
+  data_index <- match(tree_keys, data_keys)
+}
+if (anyNA(data_index) || anyDuplicated(data_index)) {
+  stop("Tree-to-dataset mapping is not complete and one-to-one after normalization")
+}
+
+model_data <- d[data_index, , drop = FALSE]
+model_data$canonical_name <- resolved_tree$tip.label
+model_data$canonical_key <- tree_keys
 if (
   nrow(model_data) != length(resolved_tree$tip.label) ||
   anyNA(model_data$canonical_name) ||
   any(!nzchar(trimws(model_data$canonical_name))) ||
-  anyDuplicated(model_data$canonical_name)
+  anyDuplicated(model_data$canonical_key)
 ) stop("Model dataset does not map one-to-one onto the resolved tree")
-rownames(model_data) <- model_data$canonical_name
+rownames(model_data) <- resolved_tree$tip.label
 
 z_log <- function(x) {
   y <- log1p(pmax(as.numeric(x), 0))
@@ -163,7 +222,9 @@ extract_coef_table <- function(fit_summary, metric) {
   x <- as.data.frame(fit_summary$coefficients, stringsAsFactors = FALSE)
   x$term <- rownames(x)
   rownames(x) <- NULL
-  norm <- tolower(gsub("[^a-z0-9]", "", names(x)))
+  # Lowercase first; otherwise the character class removes uppercase letters
+  # (e.g. Estimate -> stimate and StdErr -> tdrr).
+  norm <- gsub("[^a-z0-9]", "", tolower(names(x)))
   find_col <- function(candidates) {
     hit <- match(candidates, norm, nomatch = 0)
     hit <- hit[hit > 0]
@@ -174,7 +235,12 @@ extract_coef_table <- function(fit_summary, metric) {
   i_z <- find_col(c("zvalue", "z", "tvalue"))
   i_p <- find_col(c("prz", "pvalue", "p"))
   if (anyNA(c(i_est, i_se, i_p))) {
-    stop(sprintf("Unsupported phyloglm coefficient columns for %s: %s", metric, paste(names(x), collapse = ", ")))
+    stop(sprintf(
+      "Unsupported phyloglm coefficient columns for %s: raw=[%s], normalized=[%s]",
+      metric,
+      paste(names(x), collapse = ", "),
+      paste(norm, collapse = ", ")
+    ))
   }
   z <- if (is.na(i_z)) as.numeric(x[[i_est]]) / as.numeric(x[[i_se]]) else as.numeric(x[[i_z]])
   data.frame(
@@ -279,6 +345,7 @@ manifest <- list(
   input_species = nrow(d),
   opentree_matched_species = nrow(matched),
   tree_tip_species = length(resolved_tree$tip.label),
+  tree_dataset_name_matches = n_name_matches,
   models_requested = length(components),
   models_successful = n_success,
   models_failed = n_failed,
@@ -289,6 +356,7 @@ manifest <- list(
   polytomy_resolution = "ape::multi2di(random=FALSE)",
   estimator = "phylolm::phyloglm(method='logistic_MPLE')",
   covariates = base_covariates,
+  taxon_matching = "trim whitespace, collapse internal whitespace, and match case-insensitively; retain dataset canonical spelling in tree tips",
   interpretation_guard = "Automated spatial labels remain exploratory. Collinearity diagnostics and pre-specified range/effort covariates must be considered when interpreting component coefficients; this is not a causal or time-calibrated evolutionary model."
 )
 write_json(manifest, file.path(outdir, "phylogenetic_analysis_manifest.json"), pretty = TRUE, auto_unbox = TRUE, na = "null")
