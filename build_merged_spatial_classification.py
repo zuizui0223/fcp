@@ -53,6 +53,11 @@ PROXIMITY_WINDOW = 180
 DEFAULT_SPECIES_DILUTION_CAP = 3
 
 
+def name_key(value: str) -> str:
+    """Case- and whitespace-insensitive key for comparing taxon names."""
+    return norm(value).lower()
+
+
 # --- 2. directional vocabulary: A's regexes unioned with B's configured terms ----------
 
 def union_pattern(base: re.Pattern[str], extra_terms: list[str]) -> re.Pattern[str]:
@@ -268,7 +273,48 @@ def score_attribution(in_title: bool, signals: dict) -> int:
     )
 
 
-def attribute(records: list[dict], within_re, among_re, dilution_cap: int) -> tuple[dict, Counter]:
+def candidate_names(records: list[dict]) -> list[str]:
+    """Every distinct binomial-shaped string the corpus offers, for taxonomic pre-screening."""
+    names: set[str] = set()
+    for record in records:
+        names.update(record["title_species"])
+        names.update(record["context_species"])
+    return sorted(names)
+
+
+def load_whitelist(path: Path | None) -> set[str] | None:
+    """Accepted plant species names, keyed for case-insensitive comparison.
+
+    Reads either a plain name list or the audit emitted by resolve_provisional_taxa_gbif,
+    in which case only exact or fuzzy species-rank matches in Plantae are kept.
+    """
+    if path is None:
+        return None
+    accepted: set[str] = set()
+    with path.open(newline="", encoding="utf-8-sig") as handle:
+        reader = csv.DictReader(handle)
+        fields = set(reader.fieldnames or [])
+        for row in reader:
+            if "match_type" in fields:
+                if str(row.get("match_type", "")).upper() not in {"EXACT", "FUZZY"}:
+                    continue
+                if str(row.get("rank", "")).upper() not in {"SPECIES", ""}:
+                    continue
+                if str(row.get("kingdom", "")) not in {"Plantae", ""}:
+                    continue
+            for key in ("input_name", "canonical_name", "name"):
+                if row.get(key):
+                    accepted.add(name_key(row[key]))
+    return accepted
+
+
+def attribute(
+    records: list[dict],
+    within_re,
+    among_re,
+    dilution_cap: int,
+    whitelist: set[str] | None = None,
+) -> tuple[dict, Counter]:
     """Assign each record's evidence to species, capping multi-species abstracts.
 
     Path B hands a record's directional signal to every binomial in the title or the first
@@ -276,9 +322,24 @@ def attribute(records: list[dict], within_re, among_re, dilution_cap: int) -> tu
     Title attributions are kept unconditionally; abstract-only attributions are dropped
     once a record mentions more species than the cap, which is where comparative reviews
     and congener asides live.
+
+    The binomial pattern also matches ordinary English phrases -- `Flower colour`,
+    `Geographic variation`, `The role` -- so roughly six in ten extracted names are title
+    fragments. Left in, they occupy the pipeline's slots and, worse, absorb signal that
+    belonged to the real species named in the same record. A taxonomic whitelist drops them
+    before attribution rather than after, without touching any decision rule.
     """
     per_species: dict[str, list[dict]] = defaultdict(list)
     diag: Counter = Counter()
+
+    def accepts(name: str) -> bool:
+        if whitelist is None:
+            return True
+        if name_key(name) in whitelist:
+            return True
+        diag["attributions_rejected_non_taxon"] += 1
+        return False
+
     for record in records:
         diag["records_read"] += 1
         signals = record_signals(record, within_re, among_re)
@@ -288,16 +349,22 @@ def attribute(records: list[dict], within_re, among_re, dilution_cap: int) -> tu
             diag["records_without_usable_signal"] += 1
             continue
         diag["records_retained"] += 1
-        diluted = record["n_species_mentioned"] > dilution_cap
+        title_species = [n for n in record["title_species"] if accepts(n)]
+        context_species = [n for n in record["context_species"] if accepts(n)]
+        # Dilution is judged on accepted taxa: a record naming one species alongside four
+        # title fragments is not a comparative review.
+        n_taxa = len(set(title_species) | set(context_species)) if whitelist is not None \
+            else record["n_species_mentioned"]
+        diluted = n_taxa > dilution_cap
         if diluted:
             diag["records_over_dilution_cap"] += 1
-        for name in record["title_species"]:
+        for name in title_species:
             per_species[name].append({"record": record, "signals": signals, "in_title": True})
             diag["attributions_title"] += 1
         if diluted:
-            diag["attributions_context_suppressed"] += len(record["context_species"])
+            diag["attributions_context_suppressed"] += len(context_species)
             continue
-        for name in record["context_species"]:
+        for name in context_species:
             per_species[name].append({"record": record, "signals": signals, "in_title": False})
             diag["attributions_context"] += 1
     return per_species, diag
@@ -393,6 +460,8 @@ def main() -> None:
     parser.add_argument("--dilution-cap", type=int, default=DEFAULT_SPECIES_DILUTION_CAP)
     parser.add_argument("--priorities", choices=sorted(PRIORITY_SETS), default=DEFAULT_PRIORITY_SET)
     parser.add_argument("--supplement-vocabulary", action="store_true")
+    parser.add_argument("--taxon-whitelist", help="accepted-name list or GBIF resolution audit")
+    parser.add_argument("--dump-candidate-names", help="write distinct binomials and exit")
     parser.add_argument("--outdir", required=True)
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
@@ -407,7 +476,20 @@ def main() -> None:
         records = CORPUS_READERS[args.corpus_format](Path(args.corpus))
     if args.self_test:
         self_test([r["text"] for r in records])
-    per_species, diag = attribute(records, within_re, among_re, args.dilution_cap)
+    if args.dump_candidate_names:
+        names = candidate_names(records)
+        out = Path(args.dump_candidate_names)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        with out.open("w", newline="", encoding="utf-8") as handle:
+            writer = csv.DictWriter(handle, fieldnames=["canonical_name", "family", "spatial_scale"])
+            writer.writeheader()
+            for n in names:
+                writer.writerow({"canonical_name": n, "family": "", "spatial_scale": "within_population"})
+        print(json.dumps({"records": len(records), "distinct_candidate_names": len(names)}, indent=2))
+        return
+
+    whitelist = load_whitelist(Path(args.taxon_whitelist) if args.taxon_whitelist else None)
+    per_species, diag = attribute(records, within_re, among_re, args.dilution_cap, whitelist)
 
     rows = []
     for name, hits in per_species.items():
@@ -453,6 +535,8 @@ def main() -> None:
         "dilution_cap": args.dilution_cap,
         "priorities": args.priorities,
         "supplement_vocabulary": args.supplement_vocabulary,
+        "taxon_whitelist": args.taxon_whitelist,
+        "taxon_whitelist_size": len(whitelist) if whitelist is not None else None,
         "record_diagnostics": dict(diag),
         "species_total": len(rows),
         "review_priority": dict(Counter(r["review_priority"] for r in rows)),

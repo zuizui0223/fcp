@@ -143,6 +143,69 @@ jobs:
                         f"{qc['spatial_scale_all'].get('unclear', 0):>8}")
           PY
 
+      # Six in ten extracted binomials are title fragments. Resolving names BEFORE
+      # attribution stops them occupying slots and absorbing signal that belonged to the
+      # real species named in the same record. No decision rule changes.
+      - name: Build a taxonomic whitelist from the corpus
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR/whitelist"
+          python build_merged_spatial_classification.py \
+            --corpus "$QUEUE" --corpus-format screening_queue --priorities p1p2 \
+            --dump-candidate-names "$OUTDIR/whitelist/candidate_names.csv" \
+            --outdir "$OUTDIR/whitelist"
+          python resolve_provisional_taxa_gbif.py \
+            --input "$OUTDIR/whitelist/candidate_names.csv" \
+            --out "$OUTDIR/whitelist/accepted.csv" \
+            --audit "$OUTDIR/whitelist/audit.csv" \
+            --timeout 45 --retries 4 || echo "resolver exited non-zero; audit is what matters"
+          python - <<'PY'
+          import csv, os
+          from collections import Counter
+          from pathlib import Path
+          audit = Path(os.environ["OUTDIR"]) / "whitelist" / "audit.csv"
+          rows = list(csv.DictReader(audit.open(encoding="utf-8")))
+          mt = Counter(r.get("match_type", "") for r in rows)
+          kept = [r for r in rows if str(r.get("match_type", "")).upper() in {"EXACT", "FUZZY"}
+                  and str(r.get("rank", "")).upper() in {"SPECIES", ""}
+                  and str(r.get("kingdom", "")) in {"Plantae", ""}]
+          print({"candidate_names": len(rows), "accepted_taxa": len(kept),
+                 "match_type": dict(mt.most_common())})
+          PY
+
+      - name: Re-run the same rules behind the whitelist
+        run: |
+          set -euo pipefail
+          for P in p1 p1p2; do
+            python build_merged_spatial_classification.py \
+              --corpus "$QUEUE" --corpus-format screening_queue \
+              --priorities "$P" --dilution-cap 3 \
+              --taxon-whitelist "$OUTDIR/whitelist/audit.csv" \
+              --outdir "$OUTDIR/wl_${P}" > /dev/null
+            mkdir -p "$OUTDIR/wl_${P}/taxonomy"
+            python - "$OUTDIR/wl_${P}" <<'PY'
+          import csv, sys
+          from pathlib import Path
+          src = Path(sys.argv[1]) / "merged_spatial_classification.csv"
+          dst = Path(sys.argv[1]) / "taxonomy" / "binary_candidates.csv"
+          rows = [r for r in csv.DictReader(src.open(encoding="utf-8"))
+                  if r["review_priority"] in {"P0", "P1", "P2"}
+                  and r["evidence_class"] == "natural_polymorphism"
+                  and r["spatial_scale"] in {"within_population", "among_population"}]
+          with dst.open("w", newline="", encoding="utf-8") as h:
+              w = csv.DictWriter(h, fieldnames=["canonical_name", "family", "spatial_scale"])
+              w.writeheader()
+              for r in rows:
+                  w.writerow({k: r.get(k, "") for k in ("canonical_name", "family", "spatial_scale")})
+          print(f"{sys.argv[1]}: {len(rows)} binary candidates")
+          PY
+            python resolve_provisional_taxa_gbif.py \
+              --input "$OUTDIR/wl_${P}/taxonomy/binary_candidates.csv" \
+              --out "$OUTDIR/wl_${P}/taxonomy/gbif_validated.csv" \
+              --audit "$OUTDIR/wl_${P}/taxonomy/gbif_audit.csv" \
+              --timeout 45 --retries 4 || echo "GBIF validation failed for wl_$P"
+          done
+
       # Only a GBIF-validated count is comparable with the 34- and 107-species baselines;
       # everything upstream still contains title fragments that match the binomial pattern.
       - name: Resolve the widest yield configuration against GBIF backbone
