@@ -1,0 +1,88 @@
+name: JBI model collinearity diagnostics
+
+on:
+  push:
+    branches: [analysis/jbi-collinearity-range-sensitivity]
+    paths:
+      - "analysis_jbi_model_collinearity.py"
+      - ".github/workflows/jbi-model-collinearity.yml"
+      - "docs/jbi_manuscript_editorial_revision.md"
+  pull_request:
+    paths:
+      - "analysis_jbi_model_collinearity.py"
+      - ".github/workflows/jbi-model-collinearity.yml"
+      - "docs/jbi_manuscript_editorial_revision.md"
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Successful climatic-niche workflow run containing the frozen model datasets
+        required: true
+        default: "31025314423"
+      source_artifact:
+        description: Artifact name
+        required: true
+        default: "climatic-niche-breadth-analysis"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE_RUN_ID: ${{ inputs.source_run_id || '31025314423' }}
+  SOURCE_ARTIFACT: ${{ inputs.source_artifact || 'climatic-niche-breadth-analysis' }}
+  OUTDIR: analysis_outputs/jbi_model_collinearity
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
+      - name: Download frozen climatic-niche artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: source_analysis
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+      - name: Locate model datasets
+        run: |
+          set -euo pipefail
+          SCALE=$(find source_analysis -name climatic_niche_spatial_scale_dataset.csv | head -1)
+          FRAG=$(find source_analysis -name spatial_fragmentation_scale_dataset.csv | head -1)
+          test -s "$SCALE"
+          test -s "$FRAG"
+          echo "SCALE=$SCALE" >> "$GITHUB_ENV"
+          echo "FRAG=$FRAG" >> "$GITHUB_ENV"
+      - name: Run explicit VIF and condition diagnostics
+        run: |
+          python analysis_jbi_model_collinearity.py \
+            --scale-dataset "$SCALE" \
+            --fragmentation-dataset "$FRAG" \
+            --outdir "$OUTDIR"
+      - name: Validate diagnostics
+        run: |
+          set -euo pipefail
+          test -s "$OUTDIR/jbi_model_vif_diagnostics.csv"
+          test -s "$OUTDIR/jbi_model_condition_diagnostics.csv"
+          test -s "$OUTDIR/jbi_model_collinearity_manifest.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          m=json.loads((Path(os.environ['OUTDIR'])/'jbi_model_collinearity_manifest.json').read_text())
+          assert m['baseline34']['n_species']==34
+          assert m['baseline34']['max_vif'] < 3
+          assert m['baseline34']['condition_number'] < 10
+          print(json.dumps(m,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-model-collinearity-diagnostics
+          path: analysis_outputs/jbi_model_collinearity/
+          if-no-files-found: error
+          retention-days: 30
