@@ -1,0 +1,10 @@
+model_id,n_species,n_predictors,condition_number,max_vif,predictors
+baseline34_moisture,34,2,1.3597741442139373,1.0974556954724828,moisture_z + effort_z
+baseline_moisture,54,3,2.0616782157413636,1.512000613183524,moisture_z + climate_effort_z + gbif_effort_z
+add_log1p_median_nearest_neighbor_km_z,54,4,3.2981352676817792,2.8082978797813123,moisture_z + climate_effort_z + gbif_effort_z + log1p_median_nearest_neighbor_km_z
+add_log1p_spatial_extent_q95_km_z,54,4,2.8100219441794367,2.022432412498959,moisture_z + climate_effort_z + gbif_effort_z + log1p_spatial_extent_q95_km_z
+add_log1p_components_50km_z,54,4,4.390351667305817,4.1471773386629796,moisture_z + climate_effort_z + gbif_effort_z + log1p_components_50km_z
+add_log1p_components_100km_z,54,4,3.7357441537004625,3.010315044080785,moisture_z + climate_effort_z + gbif_effort_z + log1p_components_100km_z
+add_largest_component_fraction_100km_z,54,4,2.907428114369186,2.0354262575386253,moisture_z + climate_effort_z + gbif_effort_z + largest_component_fraction_100km_z
+add_log1p_occupied_grid_cells_1deg_z,54,4,5.234882257027586,5.471587109472866,moisture_z + climate_effort_z + gbif_effort_z + log1p_occupied_grid_cells_1deg_z
+integrated_100km_connectivity,54,5,4.788692892929508,5.024846333572462,moisture_z + climate_effort_z + gbif_effort_z + log1p_components_100km_z + largest_component_fraction_100km_z
