@@ -1,6 +1,11 @@
 name: Exact 34-species model on the expanded systematic set
 
 on:
+  push:
+    branches: [claude/merged-spatial-extraction]
+    paths:
+      - "analysis_expanded_set_baseline_comparable.py"
+      - ".github/workflows/expanded-exact-34species-comparison.yml"
   workflow_run:
     workflows: ["Downstream ecology for the whitelist-filtered systematic set"]
     types: [completed]
@@ -9,6 +14,7 @@ on:
       source_run_id:
         description: Completed downstream workflow run ID
         required: true
+        default: "31025311060"
 
 permissions:
   contents: read
@@ -16,10 +22,12 @@ permissions:
 
 env:
   OUTDIR: analysis_outputs/expanded_exact_34species_comparison
+  FALLBACK_SOURCE_RUN_ID: "31025311060"
 
 jobs:
   compare:
     if: >-
+      github.event_name == 'push' ||
       github.event_name == 'workflow_dispatch' ||
       (github.event.workflow_run.conclusion == 'success' &&
        github.event.workflow_run.head_branch == 'claude/merged-spatial-extraction')
@@ -41,8 +49,10 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_run" ]; then
             echo "SOURCE_RUN_ID=${{ github.event.workflow_run.id }}" >> "$GITHUB_ENV"
-          else
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "SOURCE_RUN_ID=${{ inputs.source_run_id }}" >> "$GITHUB_ENV"
+          else
+            echo "SOURCE_RUN_ID=$FALLBACK_SOURCE_RUN_ID" >> "$GITHUB_ENV"
           fi
 
       - name: Download expanded-set downstream artifact
