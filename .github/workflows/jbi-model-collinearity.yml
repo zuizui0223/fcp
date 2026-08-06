@@ -5,11 +5,13 @@ on:
     branches: [analysis/jbi-collinearity-range-sensitivity]
     paths:
       - "analysis_jbi_model_collinearity.py"
+      - "tools/update_jbi_manuscript_collinearity.py"
       - ".github/workflows/jbi-model-collinearity.yml"
       - "docs/jbi_manuscript_editorial_revision.md"
   pull_request:
     paths:
       - "analysis_jbi_model_collinearity.py"
+      - "tools/update_jbi_manuscript_collinearity.py"
       - ".github/workflows/jbi-model-collinearity.yml"
       - "docs/jbi_manuscript_editorial_revision.md"
   workflow_dispatch:
@@ -24,7 +26,7 @@ on:
         default: "climatic-niche-breadth-analysis"
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 env:
@@ -37,6 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -78,8 +82,23 @@ jobs:
           assert m['baseline34']['n_species']==34
           assert m['baseline34']['max_vif'] < 3
           assert m['baseline34']['condition_number'] < 10
+          assert set(m['sensitivity_models']['models_with_max_vif_gt_5']) == {
+              'add_occupied_grid_cells_1deg', 'integrated_100km_connectivity'
+          }
           print(json.dumps(m,indent=2))
           PY
+      - name: Update manuscript from verified diagnostics
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        run: |
+          python tools/update_jbi_manuscript_collinearity.py
+          git diff --check
+          if ! git diff --quiet -- docs/jbi_manuscript_editorial_revision.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/jbi_manuscript_editorial_revision.md
+            git commit -m "Document JBI collinearity and range-sensitivity diagnostics"
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: jbi-model-collinearity-diagnostics
