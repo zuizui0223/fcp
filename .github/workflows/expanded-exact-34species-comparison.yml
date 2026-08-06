@@ -1,0 +1,108 @@
+name: Exact 34-species model on the expanded systematic set
+
+on:
+  workflow_run:
+    workflows: ["Downstream ecology for the whitelist-filtered systematic set"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Completed downstream workflow run ID
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  OUTDIR: analysis_outputs/expanded_exact_34species_comparison
+
+jobs:
+  compare:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'claude/merged-spatial-extraction')
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/merged-spatial-extraction
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
+
+      - name: Resolve source run
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            echo "SOURCE_RUN_ID=${{ github.event.workflow_run.id }}" >> "$GITHUB_ENV"
+          else
+            echo "SOURCE_RUN_ID=${{ inputs.source_run_id }}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Download expanded-set downstream artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: merged-87-downstream-analysis
+          path: expanded_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Locate comparison inputs
+        run: |
+          set -euo pipefail
+          CLASSIFICATION=$(find expanded_input -name validated_species.csv | head -1)
+          METRICS=$(find expanded_input -name climatic_niche_metrics.csv | head -1)
+          test -s "$CLASSIFICATION"
+          test -s "$METRICS"
+          echo "CLASSIFICATION=$CLASSIFICATION" >> "$GITHUB_ENV"
+          echo "METRICS=$METRICS" >> "$GITHUB_ENV"
+
+      - name: Fit the exact frozen-34 model specification
+        run: |
+          python analysis_expanded_set_baseline_comparable.py \
+            --classification "$CLASSIFICATION" \
+            --metrics "$METRICS" \
+            --outdir "$OUTDIR" \
+            --permutations 9999 \
+            --seed 20260719
+
+      - name: Report direct comparison
+        run: |
+          python - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import csv, os
+          from pathlib import Path
+          root = Path(os.environ["OUTDIR"])
+          rows = list(csv.DictReader((root / "expanded_exact_34species_model_results.csv").open()))
+          print("## Expanded set under the exact 34-species model specification")
+          print()
+          print("| metric | n | within | among | OR | 95% CI | clustered p | permutation p | LOFO OR range | same direction |")
+          print("|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
+          for r in rows:
+              print(
+                  f"| {r['metric']} | {r['n_species']} | {r['n_within']} | {r['n_among']} | "
+                  f"{float(r['odds_ratio']):.3f} | "
+                  f"{float(r['odds_ratio_ci_low']):.3f}–{float(r['odds_ratio_ci_high']):.3f} | "
+                  f"{float(r['wald_p_value_clustered']):.4f} | "
+                  f"{float(r['permutation_p_two_sided']):.4f} | "
+                  f"{float(r['loo_min_odds_ratio']):.3f}–{float(r['loo_max_odds_ratio']):.3f} | "
+                  f"{float(r['loo_same_direction_fraction']):.2f} |"
+              )
+          print()
+          print("Frozen 34-species reference: moisture breadth OR 0.426; 20 within / 14 among.")
+          print("Expanded labels remain unreviewed and are not eligible for freeze.")
+          PY
+
+      - name: Upload exact-comparison results
+        uses: actions/upload-artifact@v4
+        with:
+          name: expanded-exact-34species-model-comparison
+          path: analysis_outputs/expanded_exact_34species_comparison/
+          if-no-files-found: error
+          retention-days: 30
