@@ -99,6 +99,8 @@ The response equalled one for geographically structured variation and zero for w
 
 Models were fitted in Python 3.12 using `statsmodels` 0.14.6 (Seabold & Perktold, 2010). Wald standard errors were estimated with family-clustered sandwich covariance. Reported 95% confidence intervals were calculated on the log-odds scale as the coefficient ±1.96 clustered standard errors and exponentiated for odds-ratio intervals. All 20 broader-set models converged in four iterations. The complete model matrix, including sample composition, coefficients, intervals, p-values, effort terms, convergence and fitted-probability ranges, is provided in Table S1.
 
+Because standardisation does not remove collinearity, we explicitly diagnosed the design matrices used for the focal baseline model and the coarse occurrence-cloud sensitivity models. We calculated variance inflation factors for each non-intercept predictor and the condition number of the intercept-inclusive design matrix. We did not use VIF-based stepwise selection: the climatic metric and effort covariates were retained a priori, and range or connectivity summaries were added one at a time except in the explicitly labelled integrated 100-km connectivity model. Diagnostic values and the exact predictor sets are archived in `docs/supporting/jbi_model_condition_diagnostics.csv`.
+
 ### Permutation and family-deletion analyses
 
 For the focal analyses at the 20-cell threshold, we evaluated moisture breadth and PCA hull area in the baseline-unambiguous and broader evidence sets. We used a fixed random-number seed of 20260719. For each of 9,999 permutations, spatial-category labels were shuffled among model-eligible species while metrics, effort and family labels remained fixed. The permuted coefficient was estimated from the same binomial model without clustered covariance. The two-sided p-value was calculated as
@@ -119,7 +121,7 @@ We also tested whether documented colour-variable species generally occupied bro
 
 ### Coarse occurrence-cloud alternatives
 
-We evaluated two sets of coarse alternatives to the focal relationship. First, models added sampled-range extent and fragmentation summaries derived from GBIF coordinates, including median nearest-neighbour distance, 95% spatial extent, numbers of components at 50- and 100-km thresholds, the fraction in the largest 100-km component, occupied 1° grid cells and an integrated 100-km connectivity model. These models included climate-cell effort and GBIF-record effort.
+We evaluated two sets of coarse alternatives to the focal relationship. First, models added sampled-range extent and fragmentation summaries derived from GBIF coordinates, including median nearest-neighbour distance, 95% spatial extent, numbers of components at 50- and 100-km thresholds, the fraction in the largest 100-km component and occupied 1° grid cells. Each summary was added in a separate model containing moisture breadth, climate-cell effort and GBIF-record effort; the range summaries were not entered together. An additional, explicitly labelled integrated 100-km connectivity sensitivity model jointly included the 100-km component count and largest-component fraction. This one-at-a-time structure was used to limit redundancy and overfitting in the small comparative sample.
 
 Second, we formed distance-threshold components from sampled occurrences and calculated climatic separation among retained components. Environmental-turnover sensitivity analyses crossed component thresholds of 50, 100 and 200 km with minimum component sizes of three and five records. These components are unsupervised summaries of GBIF point clouds, not verified biological populations, barriers, gene-flow units or morph distributions. Full results are provided in Table S5.
 
@@ -142,6 +144,8 @@ Across the 20 specifications, every climatic-metric odds-ratio estimate was belo
 ### Baseline-unambiguous association
 
 The baseline-unambiguous moisture model included 34 species from 25 families: 20 within-population and 14 among-population cases (Table 2). The standardised moisture-breadth coefficient was −0.854, corresponding to an odds ratio of 0.426. The family-clustered 95% confidence interval was 0.184–0.985, and the clustered Wald p-value was 0.0460. The model converged in four iterations, with fitted probabilities from 0.050 to 0.701.
+
+The two-predictor focal design showed little collinearity: both moisture breadth and climate-cell effort had VIF = 1.10, and the design-matrix condition number was 1.36. Thus, the focal coefficient was not made unstable by linear redundancy between the climatic metric and the effort covariate.
 
 The two-sided permutation p-value was 0.0556 from 9,999 valid permutations. After each represented family was omitted, moisture-breadth odds ratios ranged from 0.317 to 0.481 and remained below one in all 25 refits (Figure 2; Table S4). Thus, the negative estimated direction was not attributable to a single represented family, although permutation support was borderline.
 
@@ -168,6 +172,8 @@ V.PhyloMaker2 retained all 34 species: 28 were already present in the time-scale
 ### Coarse occurrence-cloud alternatives
 
 The fragmentation dataset contained 55 model-complete species from 31 families. Added fragmentation and connectivity terms had odds ratios from 0.574 to 1.061; every 95% confidence interval included one and the smallest p-value among these added terms was 0.280 (Table S5). The moisture-breadth odds ratio remained below one across these models, ranging from 0.480 to 0.597, although its intervals generally included one.
+
+Collinearity was modest in most one-at-a-time occurrence-cloud models (maximum VIF 1.51–4.15; condition numbers 2.06–4.39). The occupied-1°-grid model exceeded the prespecified diagnostic threshold of five (maximum VIF 5.47), as did the integrated 100-km model marginally (maximum VIF 5.02). We therefore treat those two estimates as descriptive sensitivity checks rather than separable independent effects; neither is used to select or redefine the focal model.
 
 At the 100-km threshold with a minimum component size of three records, 48 species had at least two retained components. The environmental-turnover estimate was imprecise (odds ratio = 0.852, 95% confidence interval = 0.296–2.449; p = 0.766). Across all six turnover specifications, turnover odds ratios ranged from 0.724 to 1.139, with three estimates in each direction and no p-value below 0.05. The examined coarse point-cloud metrics therefore did not clearly account for the focal association. They cannot exclude environmental sorting among colour morphs because occurrence records were not labelled by flower-colour state.
 
