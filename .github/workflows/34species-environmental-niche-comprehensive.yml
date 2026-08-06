@@ -1,0 +1,90 @@
+name: Comprehensive environmental niche analysis for frozen 34 species
+
+on:
+  push:
+    branches: [analysis/34species-environmental-niche-comprehensive]
+    paths:
+      - "analysis_34species_environmental_niche_comprehensive.py"
+      - ".github/workflows/34species-environmental-niche-comprehensive.yml"
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: Successful PR climatic niche breadth run ID
+        required: false
+        default: "31100106980"
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  SOURCE_RUN_ID: ${{ inputs.source_run_id || '31100106980' }}
+  OUTDIR: analysis_outputs/34species_environmental_niche_comprehensive
+
+jobs:
+  comprehensive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
+      - name: Download validated climatic-niche artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: climatic-niche-breadth-analysis
+          path: source_analysis
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+      - name: Locate frozen analysis dataset
+        run: |
+          set -euo pipefail
+          DATASET=$(find source_analysis -name climatic_niche_spatial_scale_dataset.csv | head -1)
+          test -s "$DATASET"
+          echo "DATASET=$DATASET" >> "$GITHUB_ENV"
+      - name: Fit all five niche metrics under the frozen baseline design
+        run: |
+          python analysis_34species_environmental_niche_comprehensive.py \
+            --dataset "$DATASET" \
+            --outdir "$OUTDIR" \
+            --permutations 9999 \
+            --seed 20260719
+      - name: Report results
+        run: |
+          python - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import csv, os
+          from pathlib import Path
+          p=Path(os.environ['OUTDIR'])/'environmental_niche_five_metric_models.csv'
+          rows=list(csv.DictReader(p.open()))
+          print('## Frozen 34-species comprehensive environmental niche analysis')
+          print()
+          print('| metric | OR | 95% CI | clustered p | permutation p | Holm clustered | Holm permutation | LOFO OR range |')
+          print('|---|---:|---:|---:|---:|---:|---:|---:|')
+          for r in rows:
+              print(f"| {r['metric']} | {float(r['odds_ratio']):.3f} | {float(r['odds_ratio_ci_low']):.3f}–{float(r['odds_ratio_ci_high']):.3f} | {float(r['wald_p_value_clustered']):.4f} | {float(r['permutation_p_two_sided']):.4f} | {float(r['wald_p_holm_five_metrics']):.4f} | {float(r['permutation_p_holm_five_metrics']):.4f} | {float(r['loo_min_odds_ratio']):.3f}–{float(r['loo_max_odds_ratio']):.3f} |")
+          PY
+      - name: Validate frozen scope
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          m=json.loads((Path(os.environ['OUTDIR'])/'environmental_niche_five_metric_manifest.json').read_text())
+          assert m['status']=='complete'
+          assert m['dataset_role']=='frozen_34_species_baseline_only'
+          assert m['n_species']==34
+          assert m['n_within']==20 and m['n_among']==14
+          assert len(m['metrics'])==5 and len(m['results'])==5
+          assert all(x['analysis_status']=='complete' for x in m['results'])
+          assert all(x['permutations_valid']==9999 for x in m['results'])
+          print(json.dumps(m, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 34species-environmental-niche-comprehensive
+          path: analysis_outputs/34species_environmental_niche_comprehensive/
+          if-no-files-found: error
+          retention-days: 30
