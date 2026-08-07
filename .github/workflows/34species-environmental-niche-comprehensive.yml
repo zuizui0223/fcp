@@ -5,7 +5,12 @@ on:
     branches: [analysis/34species-environmental-niche-comprehensive]
     paths:
       - "analysis_34species_environmental_niche_comprehensive.py"
+      - "analysis_34species_environmental_niche_phylogenetic.R"
       - ".github/workflows/34species-environmental-niche-comprehensive.yml"
+      - "docs/supporting/jbi_opentree_induced_topology.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s1.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s2.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s3.tre"
   workflow_dispatch:
     inputs:
       source_run_id:
@@ -24,14 +29,20 @@ env:
 jobs:
   comprehensive:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: python -m pip install --disable-pip-version-check numpy pandas statsmodels
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install R phylogenetic dependencies
+        run: Rscript -e 'install.packages(c("ape","jsonlite","phylolm"), repos="https://cloud.r-project.org")'
       - name: Download validated climatic-niche artifact
         uses: actions/download-artifact@v4
         with:
@@ -53,7 +64,15 @@ jobs:
             --outdir "$OUTDIR" \
             --permutations 9999 \
             --seed 20260719
-      - name: Report results
+      - name: Diagnose collinearity and fit five-metric phylogenetic sensitivities
+        run: |
+          Rscript analysis_34species_environmental_niche_phylogenetic.R \
+            --dataset "$DATASET" \
+            --outdir "$OUTDIR" \
+            --min_cells 20 \
+            --replicates 100 \
+            --seed 20260724
+      - name: Report non-phylogenetic results
         run: |
           python - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
           import csv, os
@@ -67,20 +86,54 @@ jobs:
           for r in rows:
               print(f"| {r['metric']} | {float(r['odds_ratio']):.3f} | {float(r['odds_ratio_ci_low']):.3f}–{float(r['odds_ratio_ci_high']):.3f} | {float(r['wald_p_value_clustered']):.4f} | {float(r['permutation_p_two_sided']):.4f} | {float(r['wald_p_holm_five_metrics']):.4f} | {float(r['permutation_p_holm_five_metrics']):.4f} | {float(r['loo_min_odds_ratio']):.3f}–{float(r['loo_max_odds_ratio']):.3f} |")
           PY
-      - name: Validate frozen scope
+      - name: Report collinearity and phylogenetic results
+        run: |
+          python - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import csv, os
+          from pathlib import Path
+          root=Path(os.environ['OUTDIR'])
+          coll=list(csv.DictReader((root/'environmental_niche_collinearity.csv').open()))
+          op=list(csv.DictReader((root/'environmental_niche_opentree_summary.csv').open()))
+          dated=list(csv.DictReader((root/'environmental_niche_dated_phyloglm.csv').open()))
+          print('\n## Collinearity diagnostics')
+          print('| metric | predictor r | max VIF | condition number |')
+          print('|---|---:|---:|---:|')
+          for r in coll:
+              print(f"| {r['metric']} | {float(r['predictor_correlation']):.3f} | {float(r['max_vif']):.3f} | {float(r['condition_number']):.3f} |")
+          print('\n## OpenTree + Grafen phyloglm')
+          print('| metric | n | median OR | OR range | median 95% CI | median p | Holm median p | negative fraction |')
+          print('|---|---:|---:|---:|---:|---:|---:|---:|')
+          for r in op:
+              print(f"| {r['metric']} | {float(r['n_species']):.0f} | {float(r['median_odds_ratio']):.3f} | {float(r['min_odds_ratio']):.3f}–{float(r['max_odds_ratio']):.3f} | {float(r['median_ci_low']):.3f}–{float(r['median_ci_high']):.3f} | {float(r['median_p_value']):.4f} | {float(r['holm_median_p_five_metrics']):.4f} | {float(r['fraction_negative']):.2f} |")
+          print('\n## Dated V.PhyloMaker2 trees')
+          print('| scenario | metric | n | OR | 95% CI | p | Holm p |')
+          print('|---|---|---:|---:|---:|---:|---:|')
+          for r in dated:
+              print(f"| {r['scenario']} | {r['metric']} | {int(float(r['n_species']))} | {float(r['odds_ratio']):.3f} | {float(r['ci_low']):.3f}–{float(r['ci_high']):.3f} | {float(r['p_value']):.4f} | {float(r['holm_p_five_metrics']):.4f} |")
+          PY
+      - name: Validate frozen scope and diagnostics
         run: |
           python - <<'PY'
-          import json, os
+          import csv, json, os
           from pathlib import Path
-          m=json.loads((Path(os.environ['OUTDIR'])/'environmental_niche_five_metric_manifest.json').read_text())
+          root=Path(os.environ['OUTDIR'])
+          m=json.loads((root/'environmental_niche_five_metric_manifest.json').read_text())
+          p=json.loads((root/'environmental_niche_phylogenetic_manifest.json').read_text())
+          coll=list(csv.DictReader((root/'environmental_niche_collinearity.csv').open()))
+          op=list(csv.DictReader((root/'environmental_niche_opentree_summary.csv').open()))
+          dated=list(csv.DictReader((root/'environmental_niche_dated_phyloglm.csv').open()))
           assert m['status']=='complete'
           assert m['dataset_role']=='frozen_34_species_baseline_only'
-          assert m['n_species']==34
-          assert m['n_within']==20 and m['n_among']==14
+          assert m['n_species']==34 and m['n_within']==20 and m['n_among']==14
           assert len(m['metrics'])==5 and len(m['results'])==5
           assert all(x['analysis_status']=='complete' for x in m['results'])
           assert all(x['permutations_valid']==9999 for x in m['results'])
-          print(json.dumps(m, indent=2))
+          assert p['status']=='complete' and p['dataset_role']=='frozen_34_species_baseline_only'
+          assert len(coll)==5 and len(op)==5 and len(dated)==15
+          assert all(float(x['max_vif']) < 10 for x in coll)
+          assert all(int(float(x['n_replicates_complete']))==100 for x in op)
+          assert all(x['status']=='complete' for x in dated)
+          print(json.dumps({'nonphylogenetic':m,'phylogenetic':p}, indent=2))
           PY
       - uses: actions/upload-artifact@v4
         with:
