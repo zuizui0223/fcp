@@ -1,9 +1,14 @@
 """Hard validation gates for the frozen 34-species manuscript pipeline."""
 from __future__ import annotations
 
+import hashlib
+from pathlib import Path
+
 import pandas as pd
 
 from .constants import EXPECTED_COUNTS, METRICS
+
+FROZEN_DATASET_SHA256 = "bdc06dd671f41ce062ebf4ba687437909d9617b268657504c1c6c5e991d417ed"
 
 REQUIRED_COLUMNS = {
     "canonical_name",
@@ -35,6 +40,19 @@ def validate_frozen_dataset(data: pd.DataFrame) -> pd.DataFrame:
     if (pd.to_numeric(data["n_climate_cells"], errors="coerce") < 20).any():
         raise ValueError("Frozen paper dataset contains a species below the 20-cell threshold")
     return data.copy()
+
+
+def validate_frozen_file(path: str | Path) -> pd.DataFrame:
+    """Validate both exact bytes and biological/statistical invariants of the production freeze."""
+    path = Path(path)
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    if digest != FROZEN_DATASET_SHA256:
+        raise ValueError(f"Frozen dataset SHA-256 changed: {digest} != {FROZEN_DATASET_SHA256}")
+    data = validate_frozen_dataset(pd.read_csv(path))
+    names = data["canonical_name"].astype(str).tolist()
+    if names != sorted(names):
+        raise ValueError("Production frozen dataset must remain in canonical_name ascending order")
+    return data
 
 
 def validate_model_results(results: pd.DataFrame) -> None:
