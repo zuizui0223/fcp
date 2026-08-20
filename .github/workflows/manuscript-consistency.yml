@@ -26,6 +26,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: manuscript-consistency-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   manuscript-consistency:
     runs-on: ubuntu-latest
