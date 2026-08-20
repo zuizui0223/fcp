@@ -60,10 +60,12 @@ The repository still contains historical paginated-retrieval QC files for proven
 
 A permanent citable GBIF identifier remains **Not verified** until authenticated external registration is completed.
 
-## 5. Current analysis documentation and generated outputs
+## 5. Analysis documentation and submission-facing summaries
 
 - `docs/supporting/jbi_environmental_niche_comprehensive_34species.md`
   - human-readable record of the five symmetric models, collinearity diagnostics and phylogenetic sensitivities.
+- `docs/supporting/cr2_satterthwaite_summary.csv`
+  - verified five-metric CR2/Satterthwaite summary copied from the canonical workflow output; retains exact odds ratios, confidence intervals, Satterthwaite degrees of freedom and p-values.
 - `.github/workflows/34species-paper.yml`
   - canonical executable workflow.
 - `scripts/run_34species_models.py`
@@ -75,15 +77,7 @@ A permanent citable GBIF identifier remains **Not verified** until authenticated
 - `scripts/run_34species_power_precision.py`
   - design-based power/precision diagnostics.
 
-Latest verified end-to-end CI for the durable freeze:
-
-- workflow run: `32372441503`;
-- job: `reproduce-paper` (`96435883070`);
-- conclusion: **success**;
-- uploaded artifact: `frozen-34species-paper-pipeline` (artifact ID `9408354572`);
-- artifact ZIP SHA-256: `4b947a1deaabc6798ee59d4cdb6ed32bad6f48b37dabad4fd9f98b2fdb0c7bf7`.
-
-The workflow validates the frozen-data checksum, 34/25/20/14 counts, five metrics, 9,999 valid permutations for every main model, numerical regression of the published effect estimates, phylogenetic outputs, CR2/Satterthwaite outputs and power/precision diagnostics.
+The workflow validates the frozen-data checksum, 34/25/20/14 counts, five metrics, 9,999 valid permutations for every main model, numerical regression of the primary effect estimates, phylogenetic outputs, CR2/Satterthwaite outputs and power/precision diagnostics. Workflow-run and artifact identifiers are intentionally **not** treated as durable Supporting Information metadata because they change across valid reruns and artifacts expire.
 
 ## Submission boundary
 
