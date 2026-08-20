@@ -1,213 +1,104 @@
-# FCP — Floral Colour Polymorphism phase theory
+# FCP — spatial organization of intraspecific flower-colour variation
 
-A mathematical and comparative framework for the question:
+This repository supports a comparative Journal of Biogeography paper asking:
 
-> Why are some plant species polymorphic in floral colour while others are monomorphic?
+> **Does occupied climatic niche differ according to whether intraspecific flower-colour variation is maintained as local within-population coexistence or expressed as geographic differentiation among populations?**
 
-The project starts from phase boundaries rather than from a single candidate mechanism, then uses the recovered theory to generate explicit comparative predictions for meta-analysis.
+The active paper is a **34-species frozen comparative analysis**, not a universal meta-analysis of all angiosperms and not the older mathematical phase-theory project that originally occupied this repository.
 
-## Current empirical paper
+## Final paper dataset
 
-The current submission-oriented analysis uses **intraspecific flower-colour variation** as its umbrella concept. This is broader than strict flower-colour polymorphism and separates two spatial expressions:
+- **34 species**
+- **25 plant families**
+- **20** within-population flower-colour polymorphism cases
+- **14** geographically structured flower-colour variation cases
+- minimum **20 occupied climate cells** per species
+- five symmetric climatic-niche metrics
 
-- **within-population flower-colour polymorphism**: discrete colour morphs coexist within at least one population;
-- **geographically structured flower-colour variation**: colour states are differentiated primarily among populations or regions.
+The labels are currently **source-traceable, rule-derived classifications**. Completed independent blinded human review is not claimed unless reviewer sheets are actually added.
 
-This distinction is essential. Species-wide persistence of multiple colour states does not imply local coexistence, and geographically structured variation should not be labelled simply as FCP without qualification.
+## How the 34 species were reached
 
-The empirical paper asks:
-
-> Do species differ in occupied climatic niche according to whether documented intraspecific flower-colour variation occurs as within-population polymorphism or as geographic differentiation?
-
-The dataset is a global literature-derived comparative sample of documented cases. It is not a random sample of angiosperms and does not estimate worldwide prevalence.
-
-The current result hierarchy is:
-
-1. no clear evidence that documented colour-variable species generally occupy broader climatic niches than matched controls;
-2. a negative association between geographically structured colour variation and species-level realised moisture-niche breadth in the baseline-unambiguous subset;
-3. weaker evidence after less certain enriched classifications are added;
-4. no clear explanation of that association from coarse GBIF fragmentation or generic climatic turnover among unlabelled occurrence clusters.
-
-These results identify a comparative signal, not a demonstrated causal mechanism. Morph-labelled locality data would be required to test environmental sorting, local adaptation, or physiological differentiation directly.
-
-See [`docs/current_data_research_results.md`](docs/current_data_research_results.md) and [`docs/jbi_revision_plan.md`](docs/jbi_revision_plan.md).
-
-## Recovered theoretical core
-
-For reciprocal rare-morph invasion exponents \(\gamma_A\) and \(\gamma_B\), define
-
-\[
-B_{\rm eff}=\frac{\gamma_A+\gamma_B}{2},\qquad
-D_{\rm eff}=\frac{\gamma_A-\gamma_B}{2}.
-\]
-
-Protected polymorphism exists exactly when
-
-\[
-\boxed{B_{\rm eff}>|D_{\rm eff}|}.
-\]
-
-This identity is the general phase-boundary compression. Its biological content comes from deriving the two invasion exponents from explicit ecological mechanisms.
-
-## Stage 1 — one population
-
-For
-
-\[
-\Delta(p)=d+b(1-2p),\qquad
-\dot p=p(1-p)\Delta(p),
-\]
-
-protected polymorphism exists when
-
-\[
-\boxed{b>|d|}.
-\]
-
-See [`THEORY.md`](THEORY.md).
-
-## Stage 2 — two patches
-
-For opposite local selection contrasts \(+h\) and \(-h\) coupled by symmetric migration \(m\),
-
-\[
-\boxed{b+\sqrt{h^2+m^2}-m>|d|}.
-\]
-
-Thus spatial heterogeneity can promote reciprocal invasibility while migration attenuates that contribution.
-
-See [`THEORY_2PATCH.md`](THEORY_2PATCH.md).
-
-## Stage 3 — arbitrary landscape networks
-
-For a weighted migration network with graph Laplacian \(L\), local selection deviations enter the rare-growth operators through principal eigenvalues. The exact phase boundary can be compressed to
-
-\[
-\boxed{b+H_{\rm bal}>|d+D_{\rm asym}|}.
-\]
-
-Environmental variance alone is therefore insufficient: the placement of selective environments relative to the connectivity network matters.
-
-See [`THEORY_MULTIPATCH.md`](THEORY_MULTIPATCH.md).
-
-## Stage 4 — temporal and spatiotemporal environments
-
-In a well-mixed population with additive temporal forcing \(d(t)\),
-
-\[
-\gamma_{A|B}=b+\overline d,\qquad
-\gamma_{B|A}=b-\overline d.
-\]
-
-Hence temporal variance alone does **not** generate a universal balancing contribution in the minimal model; only the temporal mean appears.
-
-For a general time-varying landscape,
-
-\[
-\dot x=A(t)x,
-\]
-
-and invasion is governed by the top Lyapunov exponent, or by a Floquet exponent under periodic forcing. Temporal order, autocorrelation, synchrony, and covariance with movement can therefore matter even when marginal means and variances are identical.
-
-See [`THEORY_TEMPORAL.md`](THEORY_TEMPORAL.md).
-
-## Stage 5 — origin, persistence, and observation
-
-The observed cross-species pattern is filtered through
-
-\[
-\text{origin}\rightarrow\text{invasion}\rightarrow\text{persistence}\rightarrow\text{observation}.
-\]
-
-Observed monomorphism is not automatically evolutionary monomorphism. If a true morph has frequency \(p\), the probability of observing both morphs in a sample of size \(n\) is
-
-\[
-1-p^n-(1-p)^n.
-\]
-
-This makes sampling effort and ascertainment part of the model rather than nuisance afterthoughts.
-
-See [`finite_population.py`](finite_population.py), [`THEORY_SYNTHESIS.md`](THEORY_SYNTHESIS.md), and [`META_ANALYSIS_PROTOCOL.md`](META_ANALYSIS_PROTOCOL.md).
-
-## Stage 6 — opportunity is not maintenance; persistence is not local coexistence
-
-Two interpretation rules are now explicit.
-
-### Range size is an opportunity axis
-
-Large geographic range can increase environmental heterogeneity, mutation supply, population number, persistence, and sampling effort. But range size is not itself a balancing term in the phase boundary. It should therefore be decomposed through mediating variables rather than interpreted as a direct maintenance mechanism.
-
-### Species-wide persistence is not local coexistence
-
-Mutual invasibility guarantees persistence at the modeled population or metapopulation scale. It does **not** guarantee that both morphs are mixed within each local population.
-
-Realized spatial outcomes are separated into:
-
-- `monomorphic`
-- `geographic_mosaic`
-- `mixed_spatial_polymorphism`
-- `local_coexistence`
-
-This distinction is implemented in [`outcome_structure.py`](outcome_structure.py). See [`THEORY_ROBUSTNESS.md`](THEORY_ROBUSTNESS.md).
-
-The full conceptual chain is therefore
-
-\[
-\text{opportunity}
-\rightarrow
-\text{origin}
-\rightarrow
-\text{invasion/persistence}
-\rightarrow
-\text{spatial organization}
-\rightarrow
-\text{detection}.
-\]
-
-## Comparative predictions
-
-The theory-guided meta-analysis should test, rather than freely search for, the following broad patterns:
-
-1. spatial environmental heterogeneity is associated with more within-population floral-colour polymorphism after observation effort is controlled;
-2. that association depends on connectivity and dispersal structure;
-3. temporal variability alone has no universal positive effect and should matter most when coupled to buffering, storage-like life histories, or spatial structure;
-4. range size mixes ecological heterogeneity, origin opportunity, persistence, and detection opportunity and should be decomposed rather than interpreted as a single mechanism;
-5. geographically structured colour variation and within-population coexistence should be analysed as distinct outcomes;
-6. sampling effort must predict recorded variation and should be modelled explicitly.
-
-## Run
-
-No third-party dependencies are required for the core code.
-
-```bash
-python -m unittest discover -s tests -v
-python scan_phase_grid.py --n 101 --out results/phase_grid.csv
-```
-
-## Repository structure
+The exact preserved evidence chain is:
 
 ```text
-model.py                              # one-population analytical classifier
-two_patch.py                          # exact two-patch spatial extension
-multi_patch.py                        # arbitrary-network spectral boundary
-temporal.py                           # temporal forcing result
-spatiotemporal.py                     # Lyapunov/Floquet numerical framework
-finite_population.py                  # origin, establishment, and detection bridge
-outcome_structure.py                  # mosaic versus local coexistence decomposition
-scan_phase_grid.py                    # phase-grid generator
-tests/                                # analytical and numerical consistency tests
-THEORY.md                             # one-population derivation
-THEORY_2PATCH.md                      # two-patch derivation
-THEORY_MULTIPATCH.md                  # arbitrary network derivation
-THEORY_TEMPORAL.md                    # temporal/spatiotemporal derivation
-THEORY_SYNTHESIS.md                   # recovered claims and limits
-THEORY_ROBUSTNESS.md                  # range opportunity and spatial outcome distinctions
-META_ANALYSIS_PLAN.md                 # initial comparative design
-META_ANALYSIS_PROTOCOL.md             # operational coding and model protocol
+1,075 retained literature works
+        ↓ species mapping + high-recall screening
+664 candidate species (140 families)
+        ↓ direct evidence screening
+72-species initial review queue
+        ↓ targeted follow-up + evidence aggregation
+111-species resolved review queue
+        ↓ unambiguous spatial classification + climate eligibility
+34 frozen binary species
+   ├─ 20 within-population
+   └─ 14 among-population
 ```
 
-## Current status
+This is the reproducible chain supported by repository QC. A remembered historical “~180” working stage is **not used as a manuscript count** because the active repository does not preserve it as a uniquely defined final screening unit.
 
-The theoretical scaffold now constrains the empirical synthesis. The immediate priority is not to add mechanisms indefinitely, but to finish the comparative paper, preserve evidence-quality sensitivity, and add only analyses that resolve a specific reviewer-facing weakness.
+A later systematic-map search (15 query blocks, 52 shards, 79,242 deduplicated records) is retained as broader search-completeness infrastructure. It was developed after the original 34-species evidence path and does not replace the frozen manuscript dataset with its unreviewed expanded sets.
 
-The main novelty should not be claimed as a new universal theory of polymorphism. The defensible contribution is a flower-colour-specific framework connecting reciprocal invasibility to cross-species evidence while explicitly separating opportunity, origin, persistence, spatial organisation, and observation.
+Full details: [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md).
+
+## Active analysis pipeline
+
+```text
+literature discovery / provenance
+        ↓
+evidence screening + spatial classification
+        ↓
+GBIF occurrences + WorldClim occupied climates
+        ↓
+34-species frozen dataset
+        ↓
+five climatic-niche GLMs
+        ↓
+permutation + LOFO + collinearity
+        ↓
+OpenTree + dated phylogenetic sensitivity
+        ↓
+CR2/Satterthwaite + power/precision diagnostics
+        ↓
+main manuscript + Supporting Information
+```
+
+### Shared code
+
+- `fcp_pipeline/constants.py` — frozen metrics/counts/model specification
+- `fcp_pipeline/models.py` — standardized model preparation, GLM, permutation and LOFO helpers
+- `fcp_pipeline/validation.py` — hard dataset/model invariants
+
+### Executable entry points
+
+- `scripts/run_34species_models.py`
+- `analysis_34species_environmental_niche_phylogenetic.R`
+- `scripts/run_34species_power_precision.py`
+- `analysis_34species_cluster_small_sample.R`
+
+The canonical CI entry point is `.github/workflows/34species-paper.yml`.
+
+## Statistical design
+
+Every main metric uses the same formula:
+
+```text
+among ~ metric_z + effort_z
+```
+
+with family-clustered sandwich uncertainty, 9,999 label permutations and leave-one-family-out refits. Holm-adjusted p-values across five metrics are reported as multiplicity context. VIF/condition-number diagnostics, OpenTree and time-scaled phylogenetic models, CR2/Satterthwaite small-cluster inference and design-based power/precision simulation are sensitivity analyses.
+
+## Current result
+
+All five climatic-niche point estimates are negative. Moisture breadth shows the largest contrast (non-phylogenetic OR ≈ 0.41), but multiplicity-adjusted and phylogenetic intervals do not support claiming a unique moisture mechanism. The paper therefore emphasizes **directional consistency and effect sizes**: geographically structured colour variation tends to occur in species with narrower sampled occupied climatic niches than within-population coexistence.
+
+## Repository boundary
+
+Active root-level material should answer one of four questions:
+
+1. How were candidate flower-colour cases found and screened?
+2. Why do the 34 frozen classifications enter the paper?
+3. How are climatic niches and statistical models reproduced?
+4. How are submission-facing outputs validated?
+
+Older phase-theory experiments, alternative sample expansions and abandoned modelling branches are preserved in Git history or explicitly archived when scientifically useful; they are not part of the active paper pipeline.
