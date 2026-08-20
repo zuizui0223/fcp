@@ -1,34 +1,32 @@
-# Empirical seed dataset
+# Data layers for the frozen 34-species paper
 
-`seed_outcomes.csv` is the first literature-verified empirical layer for the FCP framework. It is intentionally small and conservative.
+The active empirical paper uses a layered evidence pipeline. Files in this directory should be interpreted by **stage and unit**, not as interchangeable candidate lists.
 
-## Outcome classes
+## Canonical evidence counts
 
-- `monomorphic`: only one floral colour morph is documented at the target biological scale.
-- `geographic_mosaic`: multiple colour morphs occur across the species, but sampled local populations are effectively single-morph or strongly segregated.
-- `mixed`: both among-population differentiation and at least some within-population coexistence are documented.
-- `local_coexistence`: multiple colour morphs coexist within local populations; strong geographic segregation is not required for this code.
+| file / stage | unit | count | role |
+|---|---|---:|---|
+| `global_flower_colour_works.csv` + `global_flower_colour_qc.json` | retained works | 1,075 | original broad literature-discovery pool |
+| `global_flower_colour_species_ranked.csv` | candidate species | 664 | high-recall species candidate layer |
+| `global_flower_colour_review_queue.csv` | species | 72 | initial direct-evidence review queue |
+| `resolved_inputs/global_flower_colour_review_queue_resolved.csv` | species | 111 | resolved queue after targeted follow-up/evidence aggregation |
+| final manuscript dataset | species | 34 | frozen binary analysis: 20 within / 14 among, 25 families |
 
-These classes describe **spatial organization of observed colour variation**, not the evolutionary mechanism maintaining it.
+The final 34-species five-metric model dataset is generated/frozen by the manuscript analysis workflow. Supporting classification manifests and source audits are under `docs/supporting/`.
 
-## Coding principles
+## Spatial states
 
-1. `protected_polymorphism` from the mathematical model is not automatically equivalent to `local_coexistence` in field data.
-2. Range size is not coded as a balancing mechanism. It will be analysed as an opportunity axis that can affect environmental heterogeneity, mutation/origin opportunity, persistence, and detection effort.
-3. A species is not coded `monomorphic` merely because one source reports one colour. Negative states require adequate sampling evidence.
-4. The seed table contains only positive polymorphism cases whose spatial organization can be inferred from primary studies.
-5. `not_coded` means the source used for the current row was not sufficient to make that claim; it does not mean absence.
+- `within_population`: explicit evidence that multiple discrete natural flower-colour variants coexist within at least one population.
+- `among_population`: geographic/among-population differentiation without retained evidence of local coexistence.
+- `mixed`: both signals.
+- `unclear`: evidence does not resolve the spatial state.
 
-## Next empirical expansion
+Mixed and unclear states are not forced into the binary manuscript response.
 
-The next table should add literature-matched controls and explicit covariates:
+## Active versus historical data
 
-- range size / occupied area;
-- number of sampled populations and individuals;
-- environmental heterogeneity across the occupied range;
-- connectivity or dispersal proxies;
-- life-history buffering / seed-bank traits;
-- pollination system;
-- publication and observation effort.
+The active manuscript evidence chain is the one documented above and in `docs/PIPELINE_34SPECIES.md`.
 
-Any control species should be matched phylogenetically and by study effort before it is treated as a meaningful negative comparison.
+Files with names such as `candidate_screening_*`, `background_sampling_strata*`, `mass_screen_*`, and old seed/control templates record earlier development or exploratory screening. They are not final analysis inputs and are candidates for archive/removal once their scientifically necessary provenance has been captured in the canonical pipeline documentation.
+
+A later, broader systematic-map search is documented under `literature/`. Its unreviewed expanded species sets are not primary manuscript data.
