@@ -8,8 +8,8 @@ on:
       - "fcp_pipeline/**"
       - "scripts/run_34species_models.py"
       - "scripts/run_34species_power_precision.py"
-      - "analysis_34species_environmental_niche_phylogenetic.R"
-      - "analysis_34species_cluster_small_sample.R"
+      - "scripts/run_34species_phylogenetic.R"
+      - "scripts/run_34species_cr2.R"
       - "docs/supporting/jbi_opentree_induced_topology.tre"
       - "docs/supporting/jbi_dated_phylogeny_s1.tre"
       - "docs/supporting/jbi_dated_phylogeny_s2.tre"
@@ -20,8 +20,8 @@ on:
       - "fcp_pipeline/**"
       - "scripts/run_34species_models.py"
       - "scripts/run_34species_power_precision.py"
-      - "analysis_34species_environmental_niche_phylogenetic.R"
-      - "analysis_34species_cluster_small_sample.R"
+      - "scripts/run_34species_phylogenetic.R"
+      - "scripts/run_34species_cr2.R"
       - ".github/workflows/34species-paper.yml"
   workflow_dispatch:
 
@@ -80,11 +80,11 @@ jobs:
       - name: Run five symmetric niche models
         run: python scripts/run_34species_models.py --dataset "$DATASET" --outdir "$OUTDIR/models" --permutations 9999 --seed 20260719
       - name: Run collinearity and phylogenetic sensitivities
-        run: Rscript analysis_34species_environmental_niche_phylogenetic.R --dataset "$DATASET" --outdir "$OUTDIR/phylogeny" --min_cells 20 --replicates 100 --seed 20260724
+        run: Rscript scripts/run_34species_phylogenetic.R --dataset "$DATASET" --outdir "$OUTDIR/phylogeny" --min_cells 20 --replicates 100 --seed 20260724
       - name: Run design-based power and precision
         run: python scripts/run_34species_power_precision.py --dataset "$DATASET" --outdir "$OUTDIR/finite_sample/power_precision" --reps 3000 --seed 20260812
       - name: Run CR2/Satterthwaite sensitivity
-        run: Rscript analysis_34species_cluster_small_sample.R --dataset "$DATASET" --outdir "$OUTDIR/finite_sample/cr2"
+        run: Rscript scripts/run_34species_cr2.R --dataset "$DATASET" --outdir "$OUTDIR/finite_sample/cr2"
       - name: Validate frozen scope and outputs
         run: |
           python - <<'PY'
@@ -93,7 +93,7 @@ jobs:
           from fcp_pipeline.constants import METRICS
           from fcp_pipeline.validation import validate_frozen_dataset, validate_model_results
           root=Path(os.environ['OUTDIR'])
-          d=validate_frozen_dataset(pd.read_csv(root/'input'/'frozen_34species_five_metric_dataset.csv'))
+          validate_frozen_dataset(pd.read_csv(root/'input'/'frozen_34species_five_metric_dataset.csv'))
           models=pd.read_csv(root/'models'/'environmental_niche_five_metric_models.csv')
           validate_model_results(models)
           coll=pd.read_csv(root/'phylogeny'/'environmental_niche_collinearity.csv')
