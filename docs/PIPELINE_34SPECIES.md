@@ -25,7 +25,7 @@ The repository does **not** support an active, reproducible `180 -> 34` stage. H
 | resolved review queue after targeted follow-up and evidence aggregation | species | 111 | evidence-supported cases carried forward after deferred-candidate rescue |
 | final frozen binary climatic model set | species | 34 | 20 within-population + 14 among-population species from 25 families, each with >=20 occupied climate cells |
 
-The initial 72-species queue is **not** a separate inferential sample. Follow-up searches rescued/clarified deferred candidates, producing the resolved 111-species evidence queue. Mixed, unclear, conflicting or otherwise non-binary cases were not forced into the final response variable. The final 34 were frozen independently of the final climate-model results.
+The initial 72-species queue is **not** a separate inferential sample. Follow-up searches rescued or clarified deferred candidates, producing the resolved 111-species evidence queue. Mixed, unclear, conflicting or otherwise non-binary cases were not forced into the final response variable. The final 34 were frozen independently of the final climate-model results.
 
 ### Later systematic-search expansion
 
@@ -37,7 +37,7 @@ Exploratory expanded sets generated downstream of that newer corpus remained unr
 
 The resolved evidence pipeline preserves source identifiers, titles and evidence passages. Spatial labels are rule-derived and source-traceable. A label is not assigned merely because the word `polymorphism` appears or because a study sampled multiple sites.
 
-Binary inclusion requires an unambiguous retained spatial signal. If both within- and among-population evidence occur, the species is `mixed`; if neither can be established, it is `unclear`. Mixed and unclear cases are excluded from the binary manuscript analysis rather than coerced into one class.
+The active evidence rules and normalization helpers live in `fcp_pipeline/evidence.py`. Binary inclusion requires an unambiguous retained spatial signal. If both within- and among-population evidence occur, the species is `mixed`; if neither can be established, it is `unclear`. Mixed and unclear cases are excluded from the binary manuscript analysis rather than coerced into one class.
 
 The current repository does **not** document completed independent blinded human review for all 34 species. Until completed reviewer sheets exist, the manuscript must say `source-traceable, rule-derived classifications`.
 
@@ -93,11 +93,11 @@ The five non-phylogenetic point estimates are all negative. Moisture breadth is 
 
 Active paper code is organized by purpose:
 
-- `fcp_pipeline/` — shared constants, model functions and hard validation gates;
+- `fcp_pipeline/` — shared constants, evidence rules, model functions and hard validation gates;
 - `scripts/run_34species_models.py` — five symmetric GLMs, permutations, LOFO and multiplicity;
-- `analysis_34species_environmental_niche_phylogenetic.R` — collinearity + phylogenetic sensitivities;
+- `scripts/run_34species_phylogenetic.R` — collinearity + OpenTree + dated phylogenetic sensitivities;
 - `scripts/run_34species_power_precision.py` — design-based finite-sample simulation;
-- `analysis_34species_cluster_small_sample.R` — CR2/Satterthwaite sensitivity;
+- `scripts/run_34species_cr2.R` — CR2/Satterthwaite sensitivity;
 - `.github/workflows/34species-paper.yml` — canonical paper workflow.
 
 Literature acquisition/search provenance is retained separately under `literature/` and the relevant source-data/QC files under `data/`. Historical theory and exploratory expanded-set analyses are not part of the active paper pipeline.
