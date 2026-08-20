@@ -186,7 +186,7 @@ Zanne, A. E., Tank, D. C., Cornwell, W. K., Eastman, J. M., Smith, S. A., FitzJo
 
 The canonical downstream dataset is committed as `data/frozen/frozen_34species_five_metric_dataset.csv` (SHA-256 `bdc06dd671f41ce062ebf4ba687437909d9617b268657504c1c6c5e991d417ed`) with its freeze metadata in `data/frozen/freeze_manifest.json`. Analysis code, evidence provenance, classification manifests, phylogenetic inputs and submission-facing audits are maintained in the public GitHub repository `zuizui0223/fcp`. The canonical executable entry point is `.github/workflows/34species-paper.yml`.
 
-The latest verified end-to-end run of the durable freeze is workflow run `32372441503`, which completed successfully and produced artifact `frozen-34species-paper-pipeline` (artifact ID `9408354572`). The artifact is a convenience copy of generated outputs; reproducibility of the main downstream analysis does not depend on its continued availability because the analytical input is committed in the repository.
+Generated workflow artifacts are convenience copies of analysis outputs rather than durable citation metadata: workflow-run identifiers change across valid reruns and artifacts expire. Reproduction of the downstream paper analysis instead depends on the committed checksum-locked dataset, versioned code and fixed model seeds recorded in the repository.
 
 **Not verified before submission:** archive the exact final repository release at a permanent DOI and obtain the required citable GBIF occurrence identifier / Derived Dataset registration for the occurrence data underlying the climatic summaries.
 
@@ -241,8 +241,8 @@ The latest verified end-to-end run of the durable freeze is workflow run `323724
 |---|---:|---:|---:|---:|
 | Temperature breadth | 0.814 | 0.317–2.090 | 0.6245 | 7.29 |
 | Moisture breadth | 0.407 | 0.156–1.060 | 0.0632 | 11.48 |
-| Climatic heterogeneity | 0.677 | 0.255–1.797 | 0.3962 | — |
-| PCA dispersion | 0.708 | 0.266–1.886 | 0.4550 | — |
-| PCA hull area | 0.572 | 0.276–1.188 | 0.1174 | — |
+| Climatic heterogeneity | 0.677 | 0.255–1.797 | 0.3962 | 10.46 |
+| PCA dispersion | 0.708 | 0.266–1.886 | 0.4550 | 11.09 |
+| PCA hull area | 0.572 | 0.276–1.188 | 0.1174 | 8.78 |
 
-*Note.* Exact Satterthwaite degrees of freedom for all five metrics are retained in the workflow output. Only values explicitly verified in the current manuscript audit are printed here; dashes are not zero or missing model fits.
+*Note.* Exact machine-readable CR2/Satterthwaite estimates are mirrored in `docs/supporting/cr2_satterthwaite_summary.csv` and checked by manuscript consistency CI.
