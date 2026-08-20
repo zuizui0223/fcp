@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Build the blinded 34-species classification-review sheet and separate rule key.
 
-This submission-facing utility never changes frozen classifications. It exposes source
-provenance and evidence excerpts for human review while keeping the current rule label
-hidden until the first-pass review is complete.
+This utility never changes frozen classifications. It exposes source provenance and
+evidence excerpts for human review while keeping the current rule label separate.
 """
 from __future__ import annotations
 
@@ -47,10 +46,10 @@ def write_csv(path: Path, fields: list[str], rows: list[dict[str, str]]) -> None
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--manifest", default="docs/supporting/jbi_table_s6_frozen_classification_manifest.csv")
+    ap.add_argument("--manifest", default="docs/supporting/frozen_classification_manifest.csv")
     ap.add_argument("--resolved-queue", default="data/resolved_inputs/global_flower_colour_review_queue_resolved.csv")
-    ap.add_argument("--blinded-out", default="docs/supporting/jbi_table_s18_blinded_classification_review.csv")
-    ap.add_argument("--key-out", default="docs/supporting/jbi_table_s19_rule_classification_key.csv")
+    ap.add_argument("--blinded-out", default="docs/supporting/blinded_classification_review.csv")
+    ap.add_argument("--key-out", default="docs/supporting/rule_classification_key.csv")
     args = ap.parse_args()
 
     manifest = read_csv(Path(args.manifest))
