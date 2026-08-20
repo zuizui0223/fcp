@@ -1,51 +1,52 @@
 # Frozen 34-species paper pipeline
 
-This document is the canonical map from literature discovery to the Journal of Biogeography analyses. It records **units at every reduction step** so that works, candidate species and final model species are not conflated.
+This is the canonical map from literature discovery to the Journal of Biogeography analysis. Every reduction step names its **unit** so works, candidate species, review queues and final model species are not conflated.
 
 ## 1. Scientific question
 
-The paper asks whether species-level occupied climatic niche differs according to the documented spatial organization of natural intraspecific flower-colour variation:
+Does species-level occupied climatic niche differ according to the documented spatial organization of natural intraspecific flower-colour variation?
 
 - `within_population`: at least two discrete natural colour variants are explicitly documented as coexisting within a population;
-- `among_population`: geographic or among-population colour differentiation is documented without retained evidence of local coexistence;
-- `mixed`: both spatial signals are documented;
-- `unclear`: retained evidence does not resolve the spatial organization.
+- `among_population`: geographic/among-population colour differentiation is documented without retained evidence of local coexistence;
+- `mixed`: both signals are documented;
+- `unclear`: retained evidence does not resolve spatial organization.
 
-Only the first two states enter the frozen binary comparison.
+Only the first two enter the frozen binary comparison.
 
-## 2. Verified data-reduction flow that produced the manuscript sample
+## 2. Verified reduction from literature to 34 species
 
-The repository does **not** support an active, reproducible `180 -> 34` stage. Historical working lists existed, but the preserved QC records support the following exact chain and this is the chain that should be reported.
+The repository does **not** preserve an unambiguous reproducible `~180 -> 34` stage. The source-backed chain is:
 
 | Stage | Unit | Verified count | Role |
 |---|---|---:|---|
-| broad OpenAlex discovery retained after mapping/deduplication | works | 1,075 | literature-discovery pool used by the original evidence pipeline |
-| species-level candidates linked to retained literature | species | 664 | high-recall candidate pool across 140 families |
+| broad OpenAlex discovery retained after mapping/deduplication | works | 1,075 | original literature-discovery pool |
+| species linked to retained literature | species | 664 | high-recall candidate pool across 140 families |
 | initial review queue | species | 72 | direct/high-priority evidence before follow-up |
-| resolved review queue after targeted follow-up and evidence aggregation | species | 111 | evidence-supported cases carried forward after deferred-candidate rescue |
-| final frozen binary climatic model set | species | 34 | 20 within-population + 14 among-population species from 25 families, each with >=20 occupied climate cells |
+| resolved review queue after targeted follow-up/evidence aggregation | species | 111 | resolved evidence queue |
+| frozen binary climatic model set | species | 34 | 20 within + 14 among; 25 families; >=20 occupied climate cells |
 
-The initial 72-species queue is **not** a separate inferential sample. Follow-up searches rescued or clarified deferred candidates, producing the resolved 111-species evidence queue. Mixed, unclear, conflicting or otherwise non-binary cases were not forced into the final response variable. The final 34 were frozen independently of the final climate-model results.
+The 72- and 111-species stages are screening/evidence layers, not separate inferential datasets. Mixed, unclear, conflicting and non-binary cases were not coerced into the final response. Climate-model results were not used to assign the frozen spatial label.
 
 ### Later systematic-search expansion
 
-A later systematic-map infrastructure (15 query blocks, 52 shards; PR #8) retrieved 79,242 deduplicated bibliographic records. This substantially broadens search coverage and is preserved as **search-completeness/provenance infrastructure**, but it was developed after the original 34-species evidence path. It must not be described as if the final 34 were literally selected by a single `79,242 -> ... -> 34` deterministic chain.
-
-Exploratory expanded sets generated downstream of that newer corpus remained unreviewed and are not part of the current paper.
+PR #8 added a broader systematic-map infrastructure: 15 query blocks, 52 shards and 79,242 deduplicated bibliographic records. It strengthens search-completeness provenance but was developed after the original 34-species evidence path. It must not be described as a literal `79,242 -> ... -> 34` deterministic chain. Unreviewed expanded species sets generated from it are not current primary data.
 
 ## 3. Evidence classification
 
-The resolved evidence pipeline preserves source identifiers, titles and evidence passages. Spatial labels are rule-derived and source-traceable. A label is not assigned merely because the word `polymorphism` appears or because a study sampled multiple sites.
+The resolved evidence layer preserves source identifiers and evidence passages. Active rule definitions and normalization live in `fcp_pipeline/evidence.py`.
 
-The active evidence rules and normalization helpers live in `fcp_pipeline/evidence.py`. Binary inclusion requires an unambiguous retained spatial signal. If both within- and among-population evidence occur, the species is `mixed`; if neither can be established, it is `unclear`. Mixed and unclear cases are excluded from the binary manuscript analysis rather than coerced into one class.
+- evidence supporting local coexistence only -> `within_population`;
+- evidence supporting geographic differentiation only -> `among_population`;
+- both -> `mixed`;
+- neither resolved -> `unclear`.
 
-The current repository does **not** document completed independent blinded human review for all 34 species. Until completed reviewer sheets exist, the manuscript must say `source-traceable, rule-derived classifications`.
+The current labels are **source-traceable, rule-derived classifications**. The repository contains review scaffolding, but completed independent blinded human review must not be claimed unless completed reviewer files actually exist.
 
 ## 4. Occurrence and climate construction
 
-For the frozen species, coordinate-bearing GBIF records are linked to WorldClim 2.1 bioclimatic variables. Records with identical nine-variable climate vectors within a species are deduplicated to occupied climate cells. The primary frozen paper comparison requires at least 20 occupied climate cells per species.
+Coordinate-bearing GBIF records were linked to WorldClim 2.1 bioclimatic variables. Within species, repeated identical nine-variable climate vectors were deduplicated to occupied climate cells. At least 20 occupied climate cells are required.
 
-The five symmetric species-level niche summaries are:
+Five species-level summaries are evaluated symmetrically:
 
 1. temperature breadth;
 2. moisture breadth;
@@ -53,62 +54,94 @@ The five symmetric species-level niche summaries are:
 4. PCA dispersion;
 5. PCA hull area.
 
-These are realised occupied-climate summaries. They are not morph-specific climatic tolerance or physiological niche estimates.
+They are realised occupied-climate summaries, not morph-specific physiological tolerance.
 
-## 5. Primary statistical analysis
+## 5. Durable production freeze
 
-Each climatic metric is fitted separately with the same frozen 34 species:
+The production statistical input is committed at:
+
+`data/frozen/frozen_34species_five_metric_dataset.csv`
+
+SHA-256:
+
+`bdc06dd671f41ce062ebf4ba687437909d9617b268657504c1c6c5e991d417ed`
+
+`data/frozen/freeze_manifest.json` records its recovery provenance. The file contains only the columns required to reproduce the current comparative analysis: species, family, binary spatial label, classification source, climate-cell effort and all five climatic-niche metrics. Source passages remain in the evidence/classification provenance tables instead of being duplicated in the model matrix.
+
+The canonical row order is `canonical_name` ascending. `fcp_pipeline/validation.py` locks both the SHA-256 and biological counts. The analysis helper also canonicalizes species order before finite Monte Carlo permutations, so results no longer depend on caller row ordering.
+
+The freeze was recovered while the historical Actions artifact was still available and then committed durably. The historical short-retention artifact has since expired and is **not a runtime dependency**.
+
+## 6. Primary statistical analysis
+
+Each metric is fitted separately to the same 34 species:
 
 `among ~ metric_z + effort_z`
 
-where `among = 1` for geographically structured cases and `0` for within-population cases, `metric_z` is the standardized climatic metric, and `effort_z` is standardized `log1p(n_climate_cells)`.
+where `among = 1` for geographically structured cases, `metric_z` is the standardized climatic metric and `effort_z = z(log1p(n_climate_cells))`.
 
-Primary uncertainty and robustness:
+Primary uncertainty/robustness:
 
 - family-clustered sandwich covariance;
-- 9,999 label permutations;
+- 9,999 label permutations, seed `20260719`;
 - leave-one-family-out refits;
-- Holm multiplicity context across the five metrics;
-- predictor-correlation, VIF and condition-number diagnostics.
+- Holm multiplicity context across five metrics;
+- predictor correlation, VIF and condition number.
 
-## 6. Phylogenetic and finite-sample sensitivity
+The durable canonical permutation p-values are:
 
-Phylogenetic sensitivity is reported in two complementary ways:
+| metric | permutation p |
+|---|---:|
+| temperature breadth | 0.6131 |
+| moisture breadth | 0.0423 |
+| climatic heterogeneity | 0.3567 |
+| PCA dispersion | 0.3859 |
+| PCA hull area | 0.2372 |
 
-- Open Tree induced topology, 30 uniquely matched species, 100 polytomy resolutions, Grafen branch lengths, `phyloglm(logistic_MPLE)`;
-- time-scaled `GBOTB.extended.LCVP` / V.PhyloMaker2 trees, all 34 species, placement scenarios S1-S3.
+The corresponding moisture Holm-adjusted permutation p-value is 0.2115. The shift from earlier finite-draw Monte Carlo values reflects explicit canonicalization of row order; coefficient estimates, clustered uncertainty, LOFO and biological interpretation are unchanged.
 
-Finite-sample diagnostics include:
+## 7. Phylogenetic and finite-sample sensitivity
+
+Phylogenetic sensitivity uses:
+
+- Open Tree induced topology, 30 uniquely matched species, 100 random polytomy resolutions, Grafen branch lengths, `phyloglm(logistic_MPLE)`;
+- time-scaled `GBOTB.extended.LCVP` / V.PhyloMaker2 trees, all 34 species, scenarios S1-S3.
+
+Finite-sample diagnostics use:
 
 - CR2 family-cluster correction with Satterthwaite degrees of freedom;
-- design-based power/precision simulation using the observed 34-species predictor and effort distributions.
+- design-based power/precision simulation retaining the observed 34-species predictor and effort distributions.
 
-These diagnostics quantify uncertainty at n=34; they are not used to declare the sample adequate post hoc.
+These quantify uncertainty at n=34; they are not post-hoc criteria for declaring sample adequacy.
 
-## 7. Final result hierarchy
+## 8. Result hierarchy
 
-The five non-phylogenetic point estimates are all negative. Moisture breadth is the strongest observed contrast (OR about 0.41), but its Holm-adjusted and phylogenetic uncertainty does not support a unique moisture mechanism. The defensible conclusion is a directionally coherent comparative pattern: geographically structured flower-colour variation tends to occur toward the narrower end of sampled occupied climatic niche breadth, with the largest observed contrast along the moisture axis.
+All five non-phylogenetic point estimates are negative. Moisture breadth has the largest observed contrast (OR about 0.41), but Holm-adjusted and phylogenetic uncertainty does not justify a unique moisture mechanism. The defensible result is a directionally coherent comparative pattern: geographically structured flower-colour variation tends to occur toward the narrower end of sampled occupied climatic niche breadth, with the largest observed contrast along moisture.
 
-## 8. Canonical active code
+## 9. Active code by methodological layer
 
-Active paper code is organized by purpose:
-
-- `fcp_pipeline/` — shared constants, evidence rules, model functions and hard validation gates;
-- `scripts/run_34species_models.py` — five symmetric GLMs, permutations, LOFO and multiplicity;
-- `scripts/run_34species_phylogenetic.R` — collinearity + OpenTree + dated phylogenetic sensitivities;
+- `fcp_pipeline/` — shared constants, evidence rules, model functions and hard validation;
+- `scripts/literature/` — literature acquisition/follow-up provenance;
+- `scripts/occurrence/` — GBIF/WorldClim construction utilities;
+- `scripts/run_34species_models.py` — five symmetric GLMs, permutation, LOFO and multiplicity;
+- `scripts/run_34species_phylogenetic.R` — collinearity + phylogenetic sensitivities;
 - `scripts/run_34species_power_precision.py` — design-based finite-sample simulation;
 - `scripts/run_34species_cr2.R` — CR2/Satterthwaite sensitivity;
+- `scripts/submission/` — retained provenance/citation utilities;
 - `.github/workflows/34species-paper.yml` — canonical paper workflow.
 
-Literature acquisition/search provenance is retained separately under `literature/` and the relevant source-data/QC files under `data/`. Historical theory and exploratory expanded-set analyses are not part of the active paper pipeline.
+Historical phase theory, matched controls, fragmentation/turnover experiments and unreviewed expanded-set ecology are not part of the active pipeline.
 
-## 9. Hard invariants
+## 10. Hard invariants
 
-The final workflow must fail if any of the following change without an explicit new freeze:
+The production workflow fails if any of the following change without an explicit new freeze:
 
+- dataset SHA-256 changes;
 - species != 34;
 - families != 25;
 - within/among != 20/14;
-- any of the five niche metrics is absent;
-- fewer than 9,999 valid permutations are produced for a main model;
-- an unreviewed expanded-set classification enters the primary dataset.
+- `classification_source` differs from `baseline_unambiguous`;
+- any of the five metrics is absent;
+- any species has <20 climate cells;
+- fewer than 9,999 valid permutations are produced;
+- numerical regression of the five ORs or canonical Monte Carlo p-values drifts.
