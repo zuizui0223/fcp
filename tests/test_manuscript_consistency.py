@@ -4,6 +4,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+README = ROOT / "README.md"
 MANUSCRIPT = ROOT / "docs" / "jbi_manuscript.md"
 OLD_MANUSCRIPT = ROOT / "docs" / "jbi_manuscript_editorial_revision_v2.md"
 SI_INDEX = ROOT / "docs" / "jbi_supporting_information_index.md"
@@ -14,8 +15,20 @@ DATA_SHA = "bdc06dd671f41ce062ebf4ba687437909d9617b268657504c1c6c5e991d417ed"
 class ManuscriptConsistencyTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        cls.readme = README.read_text(encoding="utf-8")
         cls.text = MANUSCRIPT.read_text(encoding="utf-8")
         cls.si = SI_INDEX.read_text(encoding="utf-8")
+
+    def test_readme_points_to_canonical_paper_files(self):
+        for token in (
+            "docs/jbi_manuscript.md",
+            "docs/PIPELINE_34SPECIES.md",
+            "docs/jbi_supporting_information_index.md",
+            "docs/jbi_submission_completion_checklist.md",
+            "data/frozen/frozen_34species_five_metric_dataset.csv",
+            ".github/workflows/34species-paper.yml",
+        ):
+            self.assertIn(token, self.readme)
 
     def test_canonical_frozen_scope_is_explicit(self):
         for token in (
@@ -68,6 +81,7 @@ class ManuscriptConsistencyTests(unittest.TestCase):
         self.assertIn("data/frozen/frozen_34species_five_metric_dataset.csv", self.si)
         self.assertIn(DATA_SHA, self.si)
         self.assertIn("Historical S1–S19 numbering", self.si)
+        self.assertIn("cr2_satterthwaite_summary.csv", self.si)
         self.assertIn("not part of the active submission analysis", self.si)
 
     def test_verified_cr2_summary_is_frozen(self):
