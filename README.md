@@ -6,6 +6,15 @@ This repository supports a comparative Journal of Biogeography paper asking:
 
 The active paper is a **frozen 34-species comparative analysis**. Historical mathematical phase-theory work and unreviewed expanded-set experiments are no longer part of the active analysis path.
 
+## Start here
+
+- **Manuscript:** [`docs/jbi_manuscript.md`](docs/jbi_manuscript.md)
+- **Pipeline and evidence reduction:** [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md)
+- **Supporting Information map:** [`docs/jbi_supporting_information_index.md`](docs/jbi_supporting_information_index.md)
+- **Remaining submission gates:** [`docs/jbi_submission_completion_checklist.md`](docs/jbi_submission_completion_checklist.md)
+- **Canonical frozen input:** [`data/frozen/frozen_34species_five_metric_dataset.csv`](data/frozen/frozen_34species_five_metric_dataset.csv)
+- **Reproduction workflow:** [`.github/workflows/34species-paper.yml`](.github/workflows/34species-paper.yml)
+
 ## Final paper dataset
 
 The canonical statistical input is committed at:
