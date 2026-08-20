@@ -1,9 +1,10 @@
 import unittest
+from pathlib import Path
 
 import pandas as pd
 
 from fcp_pipeline.constants import METRICS
-from fcp_pipeline.validation import validate_frozen_dataset, validate_model_results
+from fcp_pipeline.validation import validate_frozen_dataset, validate_frozen_file, validate_model_results
 
 
 class FrozenPipelineTests(unittest.TestCase):
@@ -12,7 +13,7 @@ class FrozenPipelineTests(unittest.TestCase):
         rows = []
         for i in range(34):
             row = {
-                "canonical_name": f"Genus{i} species{i}",
+                "canonical_name": f"Genus{i:02d} species{i:02d}",
                 "family": families[i % 25],
                 "spatial_scale": "within_population" if i < 20 else "among_population",
                 "classification_source": "baseline_unambiguous",
@@ -25,6 +26,12 @@ class FrozenPipelineTests(unittest.TestCase):
 
     def test_valid_frozen_dataset(self):
         out = validate_frozen_dataset(self.make_dataset())
+        self.assertEqual(len(out), 34)
+        self.assertEqual(out.family.nunique(), 25)
+
+    def test_committed_production_freeze(self):
+        path = Path("data/frozen/frozen_34species_five_metric_dataset.csv")
+        out = validate_frozen_file(path)
         self.assertEqual(len(out), 34)
         self.assertEqual(out.family.nunique(), 25)
 
