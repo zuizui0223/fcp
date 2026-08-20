@@ -26,6 +26,10 @@ def zscore(x: pd.Series) -> pd.Series:
 
 def prepare_model_data(data: pd.DataFrame, metric: str) -> pd.DataFrame:
     d = data.copy()
+    # Canonical ordering makes finite Monte Carlo permutation draws reproducible even
+    # when callers supply the same frozen species in a different row order.
+    if "canonical_name" in d.columns:
+        d = d.sort_values("canonical_name", kind="stable").reset_index(drop=True)
     d["among"] = (d["spatial_scale"] == "among_population").astype(int)
     d["metric_z"] = zscore(d[metric])
     d["effort_z"] = zscore(np.log1p(pd.to_numeric(d["n_climate_cells"], errors="coerce")))
@@ -124,14 +128,11 @@ def analyse_metrics(
             "permutations_requested": int(permutations),
             "permutations_valid": int(len(valid)),
             "converged": bool(getattr(fit, "converged", False)) if estimable else False,
-            "iterations": int(fit_history.get("iteration", -1)) if estimable else -1,
-            "predicted_probability_min": float(np.min(fit.fittedvalues)) if estimable else np.nan,
-            "predicted_probability_max": float(np.max(fit.fittedvalues)) if estimable else np.nan,
-            "loo_min_odds_ratio": float(np.exp(np.nanmin(valid_loo))) if len(valid_loo) else np.nan,
-            "loo_max_odds_ratio": float(np.exp(np.nanmax(valid_loo))) if len(valid_loo) else np.nan,
-            "loo_same_direction_fraction": (
-                float(np.mean(np.sign(valid_loo) == np.sign(observed)))
-                if len(valid_loo) and np.isfinite(observed) else np.nan
-            ),
+            "iterations": int(fit_history.get("iteration", 0) or 0) if estimable else 0,
+            "predicted_probability_min": float(np.min(fit.predict())) if estimable else np.nan,
+            "predicted_probability_max": float(np.max(fit.predict())) if estimable else np.nan,
+            "loo_min_odds_ratio": float(np.exp(np.min(valid_loo))) if len(valid_loo) else np.nan,
+            "loo_max_odds_ratio": float(np.exp(np.max(valid_loo))) if len(valid_loo) else np.nan,
+            "loo_same_direction_fraction": float(np.mean(np.sign(valid_loo) == np.sign(observed))) if len(valid_loo) else np.nan,
         })
     return rows, loo_rows
