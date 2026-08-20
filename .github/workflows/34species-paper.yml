@@ -42,6 +42,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: frozen-34species-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   DATASET: data/frozen/frozen_34species_five_metric_dataset.csv
   OUTDIR: analysis_outputs/34species_paper
