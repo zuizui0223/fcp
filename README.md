@@ -66,15 +66,16 @@ main manuscript + Supporting Information
 ### Shared code
 
 - `fcp_pipeline/constants.py` — frozen metrics/counts/model specification
+- `fcp_pipeline/evidence.py` — source-traceable spatial-evidence rules and normalization
 - `fcp_pipeline/models.py` — standardized model preparation, GLM, permutation and LOFO helpers
 - `fcp_pipeline/validation.py` — hard dataset/model invariants
 
 ### Executable entry points
 
 - `scripts/run_34species_models.py`
-- `analysis_34species_environmental_niche_phylogenetic.R`
+- `scripts/run_34species_phylogenetic.R`
 - `scripts/run_34species_power_precision.py`
-- `analysis_34species_cluster_small_sample.R`
+- `scripts/run_34species_cr2.R`
 
 The canonical CI entry point is `.github/workflows/34species-paper.yml`.
 
@@ -94,7 +95,7 @@ All five climatic-niche point estimates are negative. Moisture breadth shows the
 
 ## Repository boundary
 
-Active root-level material should answer one of four questions:
+Active material should answer one of four questions:
 
 1. How were candidate flower-colour cases found and screened?
 2. Why do the 34 frozen classifications enter the paper?
