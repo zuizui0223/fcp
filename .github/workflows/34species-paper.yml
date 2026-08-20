@@ -79,7 +79,9 @@ jobs:
           d=d[(d['classification_source']=='baseline_unambiguous') & (pd.to_numeric(d['n_climate_cells'],errors='coerce')>=20)].copy()
           d=validate_frozen_dataset(d)
           out=Path(os.environ['OUTDIR'])/'input'/'frozen_34species_five_metric_dataset.csv'
-          d.sort_values('canonical_name').to_csv(out,index=False)
+          # Preserve the validated upstream row order. The manuscript permutation run
+          # used this order; re-sorting changes only the finite Monte Carlo draw sequence.
+          d.to_csv(out,index=False)
           print(out)
           PY
           echo "DATASET=$OUTDIR/input/frozen_34species_five_metric_dataset.csv" >> "$GITHUB_ENV"
@@ -113,7 +115,28 @@ jobs:
           assert len(cr2)==5
           assert power['n_species']==34 and power['n_families']==25
           assert all(models.odds_ratio < 1), 'Expected current five point estimates to remain negative'
-          print('PASS: frozen 34-species paper pipeline')
+          expected_perm = {
+              'temperature_breadth': 0.6029,
+              'moisture_breadth': 0.0475,
+              'climatic_heterogeneity': 0.3574,
+              'pca_dispersion': 0.3820,
+              'pca_hull_area': 0.2382,
+          }
+          observed_perm = dict(zip(models.metric, models.permutation_p_two_sided))
+          for metric, expected in expected_perm.items():
+              actual = round(float(observed_perm[metric]), 4)
+              assert actual == expected, f'{metric}: manuscript permutation p drifted: {actual} != {expected}'
+          expected_or = {
+              'temperature_breadth': 0.8169211307,
+              'moisture_breadth': 0.4124623604,
+              'climatic_heterogeneity': 0.681017,
+              'pca_dispersion': 0.712125,
+              'pca_hull_area': 0.576950,
+          }
+          observed_or = dict(zip(models.metric, models.odds_ratio))
+          for metric, expected in expected_or.items():
+              assert abs(float(observed_or[metric]) - expected) < 5e-6, f'{metric}: OR drifted'
+          print('PASS: frozen 34-species paper pipeline and manuscript permutation regression')
           PY
       - uses: actions/upload-artifact@v4
         with:
