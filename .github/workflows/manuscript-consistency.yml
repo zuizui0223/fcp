@@ -1,0 +1,38 @@
+name: Manuscript consistency
+
+on:
+  push:
+    branches:
+      - cleanup/34species-paper-pipeline-final
+    paths:
+      - "README.md"
+      - "docs/jbi_manuscript.md"
+      - "docs/jbi_supporting_information_index.md"
+      - "docs/jbi_submission_completion_checklist.md"
+      - "docs/supporting/cr2_satterthwaite_summary.csv"
+      - "tests/test_manuscript_consistency.py"
+      - ".github/workflows/manuscript-consistency.yml"
+  pull_request:
+    paths:
+      - "README.md"
+      - "docs/jbi_manuscript.md"
+      - "docs/jbi_supporting_information_index.md"
+      - "docs/jbi_submission_completion_checklist.md"
+      - "docs/supporting/cr2_satterthwaite_summary.csv"
+      - "tests/test_manuscript_consistency.py"
+      - ".github/workflows/manuscript-consistency.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  manuscript-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check canonical manuscript, SI and frozen result guards
+        run: python tests/test_manuscript_consistency.py
