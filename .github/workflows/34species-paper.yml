@@ -1,0 +1,146 @@
+name: Frozen 34-species paper pipeline
+
+on:
+  push:
+    branches:
+      - cleanup/34species-paper-pipeline-final
+    paths:
+      - "data/frozen/**"
+      - "fcp_pipeline/**"
+      - "scripts/run_34species_models.py"
+      - "scripts/run_34species_power_precision.py"
+      - "scripts/run_34species_phylogenetic.R"
+      - "scripts/run_34species_cr2.R"
+      - "tests/test_evidence_rules.py"
+      - "tests/test_frozen_pipeline.py"
+      - "tests/test_models.py"
+      - "pyproject.toml"
+      - "docs/supporting/jbi_opentree_induced_topology.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s1.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s2.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s3.tre"
+      - ".github/workflows/34species-paper.yml"
+  pull_request:
+    paths:
+      - "data/frozen/**"
+      - "fcp_pipeline/**"
+      - "scripts/run_34species_models.py"
+      - "scripts/run_34species_power_precision.py"
+      - "scripts/run_34species_phylogenetic.R"
+      - "scripts/run_34species_cr2.R"
+      - "tests/test_evidence_rules.py"
+      - "tests/test_frozen_pipeline.py"
+      - "tests/test_models.py"
+      - "pyproject.toml"
+      - "docs/supporting/jbi_opentree_induced_topology.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s1.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s2.tre"
+      - "docs/supporting/jbi_dated_phylogeny_s3.tre"
+      - ".github/workflows/34species-paper.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frozen-34species-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DATASET: data/frozen/frozen_34species_five_metric_dataset.csv
+  OUTDIR: analysis_outputs/34species_paper
+
+jobs:
+  reproduce-paper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python package
+        run: python -m pip install --disable-pip-version-check -e .
+      - name: Run production-unit tests
+        run: python -m unittest discover -s tests -v
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+      - name: Install R dependencies
+        run: Rscript -e 'install.packages(c("ape","jsonlite","phylolm","clubSandwich"), repos="https://cloud.r-project.org")'
+      - name: Validate durable frozen input
+        run: |
+          set -euo pipefail
+          test -s "$DATASET"
+          mkdir -p "$OUTDIR/input" "$OUTDIR/models" "$OUTDIR/phylogeny" "$OUTDIR/finite_sample"
+          python - <<'PY'
+          import json, os, shutil
+          from pathlib import Path
+          from fcp_pipeline.validation import FROZEN_DATASET_SHA256, validate_frozen_file
+          source=Path(os.environ['DATASET'])
+          d=validate_frozen_file(source)
+          manifest=json.loads(Path('data/frozen/freeze_manifest.json').read_text())
+          assert manifest['dataset_sha256'] == FROZEN_DATASET_SHA256
+          assert manifest['n_species'] == 34 and manifest['n_families'] == 25
+          target=Path(os.environ['OUTDIR'])/'input'/source.name
+          shutil.copy2(source, target)
+          print({'status':'pass','dataset':str(source),'sha256':FROZEN_DATASET_SHA256,'rows':len(d)})
+          PY
+      - name: Run five symmetric niche models
+        run: python scripts/run_34species_models.py --dataset "$DATASET" --outdir "$OUTDIR/models" --permutations 9999 --seed 20260719
+      - name: Run collinearity and phylogenetic sensitivities
+        run: Rscript scripts/run_34species_phylogenetic.R --dataset "$DATASET" --outdir "$OUTDIR/phylogeny" --min_cells 20 --replicates 100 --seed 20260724
+      - name: Run design-based power and precision
+        run: python scripts/run_34species_power_precision.py --dataset "$DATASET" --outdir "$OUTDIR/finite_sample/power_precision" --reps 3000 --seed 20260812
+      - name: Run CR2/Satterthwaite sensitivity
+        run: Rscript scripts/run_34species_cr2.R --dataset "$DATASET" --outdir "$OUTDIR/finite_sample/cr2"
+      - name: Validate frozen scope and numerical regression
+        run: |
+          python - <<'PY'
+          import json, os, pandas as pd
+          from pathlib import Path
+          from fcp_pipeline.constants import METRICS
+          from fcp_pipeline.validation import validate_frozen_file, validate_model_results
+          root=Path(os.environ['OUTDIR'])
+          validate_frozen_file(os.environ['DATASET'])
+          models=pd.read_csv(root/'models'/'environmental_niche_five_metric_models.csv')
+          validate_model_results(models)
+          coll=pd.read_csv(root/'phylogeny'/'environmental_niche_collinearity.csv')
+          op=pd.read_csv(root/'phylogeny'/'environmental_niche_opentree_summary.csv')
+          dated=pd.read_csv(root/'phylogeny'/'environmental_niche_dated_phyloglm.csv')
+          cr2=pd.read_csv(root/'finite_sample'/'cr2'/'jbi_34species_cr2_satterthwaite_summary.csv')
+          power=json.loads((root/'finite_sample'/'power_precision'/'jbi_34species_power_precision_manifest.json').read_text())
+          assert len(coll)==5 and set(coll.metric)==set(METRICS)
+          assert len(op)==5 and set(op.metric)==set(METRICS)
+          assert len(dated)==15
+          assert len(cr2)==5
+          assert power['n_species']==34 and power['n_families']==25
+          expected_perm = {
+              'temperature_breadth': 0.6131,
+              'moisture_breadth': 0.0423,
+              'climatic_heterogeneity': 0.3567,
+              'pca_dispersion': 0.3859,
+              'pca_hull_area': 0.2372,
+          }
+          expected_or = {
+              'temperature_breadth': 0.816921392619184,
+              'moisture_breadth': 0.41246195097801636,
+              'climatic_heterogeneity': 0.681016845066184,
+              'pca_dispersion': 0.7121253932170017,
+              'pca_hull_area': 0.5769502991461611,
+          }
+          observed_perm=dict(zip(models.metric, models.permutation_p_two_sided))
+          observed_or=dict(zip(models.metric, models.odds_ratio))
+          for metric in METRICS:
+              assert round(float(observed_perm[metric]),4) == expected_perm[metric], f'{metric}: permutation regression drift'
+              assert abs(float(observed_or[metric]) - expected_or[metric]) < 1e-10, f'{metric}: OR regression drift'
+          assert all(models.odds_ratio < 1)
+          print('PASS: durable frozen 34-species paper pipeline')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: frozen-34species-paper-pipeline
+          path: analysis_outputs/34species_paper/
+          if-no-files-found: error
+          retention-days: 30

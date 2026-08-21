@@ -1,34 +1,43 @@
-# Empirical seed dataset
+# Data layers for the frozen 34-species paper
 
-`seed_outcomes.csv` is the first literature-verified empirical layer for the FCP framework. It is intentionally small and conservative.
+The active paper uses three data layers. They are separated by **unit and purpose** so literature records, candidate species and final statistical rows are never conflated.
 
-## Outcome classes
+## 1. Durable statistical freeze
 
-- `monomorphic`: only one floral colour morph is documented at the target biological scale.
-- `geographic_mosaic`: multiple colour morphs occur across the species, but sampled local populations are effectively single-morph or strongly segregated.
-- `mixed`: both among-population differentiation and at least some within-population coexistence are documented.
-- `local_coexistence`: multiple colour morphs coexist within local populations; strong geographic segregation is not required for this code.
+The only production input to the current 34-species climatic analysis is:
 
-These classes describe **spatial organization of observed colour variation**, not the evolutionary mechanism maintaining it.
+- `frozen/frozen_34species_five_metric_dataset.csv`
+- SHA-256: `bdc06dd671f41ce062ebf4ba687437909d9617b268657504c1c6c5e991d417ed`
+- 34 species, 25 families
+- 20 `within_population`, 14 `among_population`
+- all rows `baseline_unambiguous`
+- >=20 occupied climate cells per species
+- five climatic-niche metrics
+- canonical row order: `canonical_name` ascending
 
-## Coding principles
+`frozen/freeze_manifest.json` records the recovery history and checksum. The production workflow reads this committed file directly; it no longer depends on a short-lived GitHub Actions artifact.
 
-1. `protected_polymorphism` from the mathematical model is not automatically equivalent to `local_coexistence` in field data.
-2. Range size is not coded as a balancing mechanism. It will be analysed as an opportunity axis that can affect environmental heterogeneity, mutation/origin opportunity, persistence, and detection effort.
-3. A species is not coded `monomorphic` merely because one source reports one colour. Negative states require adequate sampling evidence.
-4. The seed table contains only positive polymorphism cases whose spatial organization can be inferred from primary studies.
-5. `not_coded` means the source used for the current row was not sufficient to make that claim; it does not mean absence.
+## 2. Original literature-evidence provenance
 
-## Next empirical expansion
+| file / stage | unit | verified count | role |
+|---|---|---:|---|
+| `global_flower_colour_works.csv` + `global_flower_colour_qc.json` | retained works | 1,075 | original broad literature-discovery pool |
+| `global_flower_colour_species_ranked.csv` | candidate species | 664 | high-recall species candidate layer across 140 families |
+| `global_flower_colour_review_queue.csv` | species | 72 | initial direct-evidence review queue |
+| `resolved_inputs/global_flower_colour_review_queue_resolved.csv` | species | 111 | resolved queue after targeted follow-up/evidence aggregation |
+| durable freeze above | species | 34 | final binary comparative analysis |
 
-The next table should add literature-matched controls and explicit covariates:
+The 72- and 111-species files are evidence-screening stages, not inferential samples. Mixed, unclear or otherwise non-binary cases were not forced into the final response.
 
-- range size / occupied area;
-- number of sampled populations and individuals;
-- environmental heterogeneity across the occupied range;
-- connectivity or dispersal proxies;
-- life-history buffering / seed-bank traits;
-- pollination system;
-- publication and observation effort.
+## 3. Broader search-completeness infrastructure
 
-Any control species should be matched phylogenetically and by study effort before it is treated as a meaningful negative comparison.
+A later systematic-map search is documented under `literature/` and its acquisition code under `scripts/literature/`. It used 15 query blocks and 52 shards and produced 79,242 deduplicated bibliographic records. That later corpus is retained as search-completeness/provenance infrastructure; its unreviewed expanded species sets are not the current statistical dataset.
+
+## Spatial states
+
+- `within_population`: explicit evidence that multiple discrete natural flower-colour variants coexist within at least one population.
+- `among_population`: geographic/among-population differentiation without retained evidence of local coexistence.
+- `mixed`: both signals.
+- `unclear`: evidence does not resolve the spatial state.
+
+The current labels are source-traceable and rule-derived. Completed independent blinded human review is not claimed unless completed reviewer sheets are actually supplied.

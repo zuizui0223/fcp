@@ -1,0 +1,31 @@
+{
+  "dataset": "data/frozen/frozen_34species_five_metric_dataset.csv",
+  "dataset_sha256": "bdc06dd671f41ce062ebf4ba687437909d9617b268657504c1c6c5e991d417ed",
+  "canonical_row_order": "canonical_name ascending",
+  "n_species": 34,
+  "n_families": 25,
+  "n_within_population": 20,
+  "n_among_population": 14,
+  "classification_source_required": "baseline_unambiguous",
+  "minimum_climate_cells": 20,
+  "metrics": [
+    "temperature_breadth",
+    "moisture_breadth",
+    "climatic_heterogeneity",
+    "pca_dispersion",
+    "pca_hull_area"
+  ],
+  "model_formula": "among ~ metric_z + effort_z",
+  "source_recovery": {
+    "successful_cleanup_workflow_run": 32352128990,
+    "successful_cleanup_artifact_id": 9401252059,
+    "recovered_full_input_sha256": "ef306a62958b5c37f78a63914ffbf6f4c9360e33388fcbf76ce2215dc526a3c9",
+    "historical_upstream_workflow_run": 31100106980,
+    "historical_upstream_artifact_id": 8967719408,
+    "historical_upstream_artifact_digest": "sha256:248a15d385b197b7e713bb6fae8f7352377edc409770f9b28729cf01b6b18d27",
+    "historical_artifact_status": "expired; no longer a runtime dependency"
+  },
+  "derivation": "The durable file retains the exact 34 frozen species, family, binary spatial classification, climate-cell effort, and all five final climatic-niche metrics from the recovered full analysis input. Evidence passages and intermediate search fields remain in the provenance/classification tables rather than being duplicated in the statistical input.",
+  "permutation_reproducibility": "The canonical species order is explicit. Finite 9,999-draw Monte Carlo permutation p-values are regenerated from this durable ordering and seed 20260719; effect estimates, clustered uncertainty, LOFO and phylogenetic conclusions are unchanged by row ordering.",
+  "interpretation_guard": "This is a frozen literature-derived comparative sample, not a random sample of angiosperms. Occupied climatic metrics are species-level realised-climate summaries, not morph-specific physiological tolerance."
+}

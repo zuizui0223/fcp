@@ -1,277 +1,121 @@
-name: Global flower-colour literature discovery
+name: Literature evidence refresh
 
 on:
   workflow_dispatch:
     inputs:
       pages_per_query:
-        description: "OpenAlex cursor pages per broad query"
+        description: "OpenAlex cursor pages per original broad query"
         required: true
-        default: "5"
+        default: "2"
       census_artifact_id:
-        description: "Existing validated angiosperm census artifact ID"
+        description: "Validated angiosperm census artifact ID"
         required: true
         default: "8347738258"
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/global-literature-discovery.yml"
-      - "global_literature_discovery.py"
-      - "expanded_global_literature_discovery.py"
-      - "targeted_deferred_followup.py"
-      - "analyze_global_discovery.py"
-      - "build_evidence_review_queue.py"
-      - "build_primary_evidence_ledger.py"
-      - "build_control_candidate_pool.py"
-      - "prefill_primary_evidence_from_abstracts.py"
 
 permissions:
-  contents: write
+  contents: read
   actions: read
 
 concurrency:
-  group: global-flower-colour-literature-discovery
+  group: fcp-literature-evidence-refresh
   cancel-in-progress: false
 
 jobs:
-  discover:
+  refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     env:
       OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
-      DEFAULT_CENSUS_ARTIFACT_ID: "8347738258"
       PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Reuse validated census artifact
-        shell: bash
+      - name: Reuse validated angiosperm census
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            ARTIFACT_ID='${{ inputs.census_artifact_id }}'
-          else
-            ARTIFACT_ID="$DEFAULT_CENSUS_ARTIFACT_ID"
-          fi
           CENSUS_DIR="$RUNNER_TEMP/fcp-census"
           mkdir -p "$CENSUS_DIR"
-          gh api \
-            -H "Accept: application/vnd.github+json" \
-            "/repos/${{ github.repository }}/actions/artifacts/${ARTIFACT_ID}/zip" \
+          gh api -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/actions/artifacts/${{ inputs.census_artifact_id }}/zip" \
             > "$RUNNER_TEMP/fcp-census.zip"
           unzip -q "$RUNNER_TEMP/fcp-census.zip" -d "$CENSUS_DIR"
           CENSUS_FILE="$CENSUS_DIR/angiosperm_census.csv"
           test -s "$CENSUS_FILE"
-          ROWS=$(( $(wc -l < "$CENSUS_FILE") - 1 ))
-          echo "Reused census rows: $ROWS"
-          test "$ROWS" -ge 10000
+          test $(( $(wc -l < "$CENSUS_FILE") - 1 )) -ge 10000
           echo "CENSUS_FILE=$CENSUS_FILE" >> "$GITHUB_ENV"
 
-      - name: Discover and map expanded global literature
-        shell: bash
+      - name: Run original broad discovery and species mapping
         run: |
-          set -euo pipefail
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            PAGES='${{ inputs.pages_per_query }}'
-          else
-            PAGES=5
-          fi
-          python expanded_global_literature_discovery.py \
+          mkdir -p analysis_outputs/literature_refresh
+          python scripts/literature/global_literature_discovery.py \
             --census "$CENSUS_FILE" \
-            --works-out data/global_flower_colour_works.csv \
-            --species-out data/global_flower_colour_species_ranked.csv \
-            --pages-per-query "$PAGES" \
-            --per-page 200 \
-            --timeout 30 \
-            --retries 3 \
-            --api-key-env OPENALEX_API_KEY
+            --works-out analysis_outputs/literature_refresh/global_flower_colour_works.csv \
+            --species-out analysis_outputs/literature_refresh/global_flower_colour_species_ranked.csv \
+            --pages-per-query "${{ inputs.pages_per_query }}" \
+            --per-page 200 --timeout 30 --retries 3 --api-key-env OPENALEX_API_KEY
 
-      - name: Offline QC and prioritization
-        shell: bash
+      - name: Build QC and initial evidence queue
         run: |
-          set -euo pipefail
-          python analyze_global_discovery.py \
-            --works data/global_flower_colour_works.csv \
-            --species data/global_flower_colour_species_ranked.csv \
-            --shortlist-out data/global_flower_colour_shortlist.csv \
-            --qc-out data/global_flower_colour_qc.json \
-            --top 500
-
-      - name: Build initial natural-polymorphism review queue
-        shell: bash
-        run: |
-          set -euo pipefail
-          python build_evidence_review_queue.py \
-            --species data/global_flower_colour_species_ranked.csv \
-            --out data/global_flower_colour_review_queue.csv \
-            --deferred-out data/global_flower_colour_deferred.csv \
-            --qc-out data/global_flower_colour_review_queue_qc.json \
+          python scripts/literature/analyze_global_discovery.py \
+            --works analysis_outputs/literature_refresh/global_flower_colour_works.csv \
+            --species analysis_outputs/literature_refresh/global_flower_colour_species_ranked.csv \
+            --shortlist-out analysis_outputs/literature_refresh/global_flower_colour_shortlist.csv \
+            --qc-out analysis_outputs/literature_refresh/global_flower_colour_qc.json --top 500
+          python scripts/literature/build_evidence_review_queue.py \
+            --species analysis_outputs/literature_refresh/global_flower_colour_species_ranked.csv \
+            --out analysis_outputs/literature_refresh/global_flower_colour_review_queue.csv \
+            --deferred-out analysis_outputs/literature_refresh/global_flower_colour_deferred.csv \
+            --qc-out analysis_outputs/literature_refresh/global_flower_colour_review_queue_qc.json \
             --max-review 300
 
-      - name: Target strong deferred candidates
-        shell: bash
+      - name: Target strong deferred candidates and rebuild queue
         run: |
-          set -euo pipefail
-          python targeted_deferred_followup.py \
-            --deferred data/global_flower_colour_deferred.csv \
-            --species data/global_flower_colour_species_ranked.csv \
-            --works-out data/targeted_followup_works.csv \
-            --qc-out data/targeted_followup_qc.json \
-            --max-targets 80 \
-            --per-page 25 \
-            --timeout 30 \
-            --retries 3 \
-            --api-key-env OPENALEX_API_KEY
-
-      - name: Rebuild prioritization after targeted follow-up
-        shell: bash
-        run: |
-          set -euo pipefail
-          python analyze_global_discovery.py \
-            --works data/global_flower_colour_works.csv \
-            --species data/global_flower_colour_species_ranked.csv \
-            --shortlist-out data/global_flower_colour_shortlist.csv \
-            --qc-out data/global_flower_colour_qc.json \
-            --top 500
-          python build_evidence_review_queue.py \
-            --species data/global_flower_colour_species_ranked.csv \
-            --out data/global_flower_colour_review_queue.csv \
-            --deferred-out data/global_flower_colour_deferred.csv \
-            --qc-out data/global_flower_colour_review_queue_qc.json \
+          python scripts/literature/targeted_deferred_followup.py \
+            --deferred analysis_outputs/literature_refresh/global_flower_colour_deferred.csv \
+            --species analysis_outputs/literature_refresh/global_flower_colour_species_ranked.csv \
+            --works-out analysis_outputs/literature_refresh/targeted_followup_works.csv \
+            --qc-out analysis_outputs/literature_refresh/targeted_followup_qc.json \
+            --max-targets 80 --per-page 25 --timeout 30 --retries 3 --api-key-env OPENALEX_API_KEY
+          python scripts/literature/analyze_global_discovery.py \
+            --works analysis_outputs/literature_refresh/global_flower_colour_works.csv \
+            --species analysis_outputs/literature_refresh/global_flower_colour_species_ranked.csv \
+            --shortlist-out analysis_outputs/literature_refresh/global_flower_colour_shortlist.csv \
+            --qc-out analysis_outputs/literature_refresh/global_flower_colour_qc.json --top 500
+          python scripts/literature/build_evidence_review_queue.py \
+            --species analysis_outputs/literature_refresh/global_flower_colour_species_ranked.csv \
+            --out analysis_outputs/literature_refresh/global_flower_colour_review_queue.csv \
+            --deferred-out analysis_outputs/literature_refresh/global_flower_colour_deferred.csv \
+            --qc-out analysis_outputs/literature_refresh/global_flower_colour_review_queue_qc.json \
             --max-review 300
 
-      - name: Build primary evidence ledger
-        shell: bash
+      - name: Record refresh boundary
         run: |
-          set -euo pipefail
-          python build_primary_evidence_ledger.py \
-            --queue data/global_flower_colour_review_queue.csv \
-            --out data/primary_evidence_ledger.csv \
-            --qc-out data/primary_evidence_ledger_qc.json
-          python prefill_primary_evidence_from_abstracts.py \
-            --ledger data/primary_evidence_ledger.csv \
-            --out data/primary_evidence_ledger_prefilled.csv \
-            --qc-out data/primary_evidence_prefill_qc.json
-
-      - name: Build matched control candidate pool
-        shell: bash
-        run: |
-          set -euo pipefail
-          python build_control_candidate_pool.py \
-            --census "$CENSUS_FILE" \
-            --focals data/global_flower_colour_review_queue.csv \
-            --deferred data/global_flower_colour_deferred.csv \
-            --out data/control_candidate_pool.csv \
-            --qc-out data/control_candidate_pool_qc.json \
-            --per-focal 5
-          WORKS=$(( $(wc -l < data/global_flower_colour_works.csv) - 1 ))
-          SPECIES=$(( $(wc -l < data/global_flower_colour_species_ranked.csv) - 1 ))
-          REVIEW=$(( $(wc -l < data/global_flower_colour_review_queue.csv) - 1 ))
-          LEDGER=$(( $(wc -l < data/primary_evidence_ledger.csv) - 1 ))
-          PREFILLED=$(( $(wc -l < data/primary_evidence_ledger_prefilled.csv) - 1 ))
-          CONTROLS=$(( $(wc -l < data/control_candidate_pool.csv) - 1 ))
-          echo "Retained works: $WORKS"
-          echo "Candidate species: $SPECIES"
-          echo "Natural-polymorphism review rows: $REVIEW"
-          echo "Primary evidence ledger rows: $LEDGER"
-          echo "Prefilled evidence ledger rows: $PREFILLED"
-          echo "Control candidate rows: $CONTROLS"
-          test "$WORKS" -gt 0
-          test "$SPECIES" -gt 0
-          test "$REVIEW" -ge 50
-          test "$LEDGER" -eq "$REVIEW"
-          test "$PREFILLED" -eq "$REVIEW"
-          test "$CONTROLS" -ge "$REVIEW"
-
-      - name: Verify repository changes
-        shell: bash
-        run: |
-          set -euo pipefail
-          find . -type d -name __pycache__ -prune -exec rm -rf {} +
-          find . -type f \( -name '*.pyc' -o -name '*.pyo' \) -delete
-          git status --short
           python - <<'PY'
-          import subprocess
-          allowed = {
-              "data/global_flower_colour_works.csv",
-              "data/global_flower_colour_species_ranked.csv",
-              "data/global_flower_colour_shortlist.csv",
-              "data/global_flower_colour_qc.json",
-              "data/global_flower_colour_review_queue.csv",
-              "data/global_flower_colour_deferred.csv",
-              "data/global_flower_colour_review_queue_qc.json",
-              "data/targeted_followup_works.csv",
-              "data/targeted_followup_qc.json",
-              "data/primary_evidence_ledger.csv",
-              "data/primary_evidence_ledger_qc.json",
-              "data/primary_evidence_ledger_prefilled.csv",
-              "data/primary_evidence_prefill_qc.json",
-              "data/control_candidate_pool.csv",
-              "data/control_candidate_pool_qc.json",
+          import json
+          from pathlib import Path
+          root=Path('analysis_outputs/literature_refresh')
+          qc=json.loads((root/'global_flower_colour_qc.json').read_text())
+          queue=json.loads((root/'global_flower_colour_review_queue_qc.json').read_text())
+          manifest={
+            'status':'complete',
+            'role':'current literature-index refresh, not the frozen manuscript evidence set',
+            'historical_frozen_chain':'1075 retained works -> 664 candidates -> 72 initial queue -> 111 resolved queue -> 34 frozen species',
+            'current_discovery_qc':qc,
+            'current_queue_qc':queue,
+            'guard':'Search-index changes do not overwrite the frozen 34-species manuscript sample.'
           }
-          lines = subprocess.check_output(["git", "status", "--porcelain"], text=True).splitlines()
-          changed = {line[3:] for line in lines if len(line) >= 4}
-          unexpected = sorted(changed - allowed)
-          if unexpected:
-              raise SystemExit(f"Unexpected working-tree changes: {unexpected}")
-          print(f"Verified output-only changes: {sorted(changed)}")
+          (root/'refresh_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          print(json.dumps(manifest,indent=2))
           PY
 
-      - name: Upload discovery outputs
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: global-flower-colour-discovery
-          path: |
-            data/global_flower_colour_works.csv
-            data/global_flower_colour_species_ranked.csv
-            data/global_flower_colour_shortlist.csv
-            data/global_flower_colour_qc.json
-            data/global_flower_colour_review_queue.csv
-            data/global_flower_colour_deferred.csv
-            data/global_flower_colour_review_queue_qc.json
-            data/targeted_followup_works.csv
-            data/targeted_followup_qc.json
-            data/primary_evidence_ledger.csv
-            data/primary_evidence_ledger_qc.json
-            data/primary_evidence_ledger_prefilled.csv
-            data/primary_evidence_prefill_qc.json
-            data/control_candidate_pool.csv
-            data/control_candidate_pool_qc.json
+          name: literature-evidence-refresh
+          path: analysis_outputs/literature_refresh/
           if-no-files-found: error
           retention-days: 30
-
-      - name: Commit discovery outputs
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            data/global_flower_colour_works.csv \
-            data/global_flower_colour_species_ranked.csv \
-            data/global_flower_colour_shortlist.csv \
-            data/global_flower_colour_qc.json \
-            data/global_flower_colour_review_queue.csv \
-            data/global_flower_colour_deferred.csv \
-            data/global_flower_colour_review_queue_qc.json \
-            data/targeted_followup_works.csv \
-            data/targeted_followup_qc.json \
-            data/primary_evidence_ledger.csv \
-            data/primary_evidence_ledger_qc.json \
-            data/primary_evidence_ledger_prefilled.csv \
-            data/primary_evidence_prefill_qc.json \
-            data/control_candidate_pool.csv \
-            data/control_candidate_pool_qc.json
-          if git diff --cached --quiet; then
-            echo "No discovery changes to commit"
-          else
-            git commit -m "[skip ci] expand deferred flower-colour evidence"
-            git pull --rebase origin main
-            git push origin HEAD:main
-          fi
