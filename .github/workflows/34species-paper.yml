@@ -198,8 +198,8 @@ jobs:
           done
           grep -q "## Figure captions" docs/jbi_manuscript.md
           grep -q "Figure 5" docs/jbi_manuscript.md
-          grep -q "Supporting Figure S1" docs/jbi_supporting_information_index.md
-          grep -q "Supporting Figure S2" docs/jbi_supporting_information_index.md
+          grep -q "figureS1_34_species_distribution_context" docs/jbi_supporting_information_index.md
+          grep -q "figureS2_power_precision_design" docs/jbi_supporting_information_index.md
       - name: Commit generated figures and manuscript integration to PR branch
         run: |
           set -euo pipefail
