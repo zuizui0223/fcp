@@ -9,10 +9,15 @@ on:
       - "docs/jbi_manuscript.md"
       - "docs/jbi_cover_letter_template.md"
       - "docs/JBI_POSITIONING_AND_HYPOTHESES.md"
+      - "docs/FIGURE_PLAN.md"
+      - "docs/figures/**"
       - "docs/jbi_supporting_information_index.md"
       - "docs/jbi_submission_completion_checklist.md"
       - "docs/supporting/cr2_satterthwaite_summary.csv"
+      - "scripts/make_paper_figures.py"
+      - "scripts/update_manuscript_figure_calls.py"
       - "tests/test_manuscript_consistency.py"
+      - "tests/test_figures.py"
       - ".github/workflows/manuscript-consistency.yml"
   pull_request:
     paths:
@@ -20,10 +25,15 @@ on:
       - "docs/jbi_manuscript.md"
       - "docs/jbi_cover_letter_template.md"
       - "docs/JBI_POSITIONING_AND_HYPOTHESES.md"
+      - "docs/FIGURE_PLAN.md"
+      - "docs/figures/**"
       - "docs/jbi_supporting_information_index.md"
       - "docs/jbi_submission_completion_checklist.md"
       - "docs/supporting/cr2_satterthwaite_summary.csv"
+      - "scripts/make_paper_figures.py"
+      - "scripts/update_manuscript_figure_calls.py"
       - "tests/test_manuscript_consistency.py"
+      - "tests/test_figures.py"
       - ".github/workflows/manuscript-consistency.yml"
   workflow_dispatch:
 
@@ -42,5 +52,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Check canonical manuscript, cover letter, SI and frozen result guards
-        run: python tests/test_manuscript_consistency.py
+      - name: Check canonical manuscript, figures, cover letter, SI and frozen result guards
+        run: |
+          python tests/test_manuscript_consistency.py
+          python tests/test_figures.py
