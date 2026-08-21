@@ -108,6 +108,8 @@ Because the primary comparison contains 34 species clustered in 25 families, we 
 
 The retained evidence path contained 664 candidate species from 140 families and a resolved 111-species review queue. After the binary spatial-state and climatic-eligibility requirements were applied, the final comparison contained 34 species from 25 families: 20 within-population and 14 geographically structured cases. Because discovery effort was literature-dependent and the candidates were not a random sample of angiosperms, these counts should not be interpreted as prevalence estimates.
 
+The geographic context of the 34 focal species is shown in Figure 1, and species-specific occurrence maps are provided as Supporting Figure S1. Those maps use the broader exact GBIF occurrence subset retained for citation and distribution-context auditing; they are not presented as the exact occurrence sample that generated the checksum-locked climatic metrics, nor are the records labelled by flower-colour morph.
+
 ### Five climatic-niche metrics
 
 All five climatic-metric odds ratios were below one (Table 2). Temperature breadth had an odds ratio of 0.817 (95% CI 0.384–1.739; clustered Wald p = 0.6000; permutation p = 0.6131). Moisture breadth showed the largest negative estimate, with an odds ratio of 0.412 (0.180–0.947; clustered p = 0.0368; permutation p = 0.0423). Climatic heterogeneity had an odds ratio of 0.681 (0.294–1.577; p = 0.3700; permutation p = 0.3567), PCA dispersion 0.712 (0.306–1.660; p = 0.4317; permutation p = 0.3859), and PCA hull area 0.577 (0.312–1.067; p = 0.0797; permutation p = 0.2372).
@@ -115,6 +117,8 @@ All five climatic-metric odds ratios were below one (Table 2). Temperature bread
 Every leave-one-family-out estimate remained below one for every metric. Odds-ratio ranges were 0.636–0.973 for temperature breadth, 0.306–0.465 for moisture breadth, 0.492–0.782 for climatic heterogeneity, 0.525–0.813 for PCA dispersion and 0.489–0.671 for PCA hull area. Thus, no single represented family generated the shared negative direction.
 
 After Holm adjustment across five metrics, the moisture-breadth clustered Wald p-value was 0.184 and the permutation p-value was 0.212. No metric retained conventional statistical support after this correction. Moisture breadth is therefore the strongest observed association within a broader directional pattern, not a uniquely established climatic driver.
+
+The common direction of the five effect estimates is summarized in Figure 2. Figure 3 shows the 34 species themselves across the five standardized climatic metrics, so the overlap, extreme observations and modest sample size remain visible rather than being represented only by model coefficients.
 
 ### Collinearity diagnostics
 
@@ -270,3 +274,13 @@ Generated workflow artifacts are convenience copies of analysis outputs rather t
 | PCA hull area | 0.572 | 0.276–1.188 | 0.1174 | 8.78 |
 
 *Note.* Exact machine-readable CR2/Satterthwaite estimates are mirrored in `docs/supporting/cr2_satterthwaite_summary.csv` and checked by manuscript consistency CI.
+
+## Figure captions
+
+**Figure 1. Geographic context of the 34 focal species.** The world map shows the broader exact GBIF occurrence subset retained for the same 34 focal taxa, with symbols distinguishing species classified as within-population coexistence or geographic differentiation. The species strip reports the number of occupied climate cells used in the checksum-locked primary climatic analysis. The mapped occurrence archive is used for geographic context and auditability; it is not represented as the exact occurrence sample that created the frozen climatic metrics and is not morph-labelled.
+
+**Figure 2. Five climatic-niche metrics show the same direction of association with spatial organization.** Points are odds ratios from the production binomial models (`among ~ metric_z + effort_z`) and horizontal intervals are 95% Wald confidence intervals from family-clustered sandwich standard errors. Odds ratios below one indicate lower odds of geographically structured rather than within-population flower-colour variation as occupied climatic breadth increases. The figure is selected as the central result because it displays all five prespecified climatic summaries symmetrically rather than privileging the strongest unadjusted p-value.
+
+**Figure 3. Species-level climatic metrics underlying the comparative models.** Each point represents one of the 34 focal species (20 within-population, 14 geographically structured). Climatic metrics are standardized for visualization only so that all five dimensions can be displayed on a common scale; horizontal bars mark category medians. This is a visualization of the frozen observations, not an additional inferential analysis.
+
+**Supporting Figure S1. Geographic occurrence context for each of the 34 focal species.** Species-specific maps show the broader exact GBIF occurrence subset retained for citation and distribution-context quality control, with panel labels indicating the spatial-organization class and occurrence count. These maps provide an auditable view of sampled geographic ranges but do not represent morph-specific ranges or the exact primary occurrence sample used to construct the frozen climatic metrics.

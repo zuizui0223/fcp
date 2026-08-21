@@ -79,6 +79,24 @@ A permanent citable GBIF identifier remains **Not verified** until authenticated
 
 The workflow validates the frozen-data checksum, 34/25/20/14 counts, five metrics, 9,999 valid permutations for every main model, numerical regression of the primary effect estimates, phylogenetic outputs, CR2/Satterthwaite outputs and power/precision diagnostics. Workflow-run and artifact identifiers are intentionally **not** treated as durable Supporting Information metadata because they change across valid reruns and artifacts expire.
 
+
+## 6. Canonical figures
+
+- `docs/figures/figure1_geographic_context.png` / `.pdf`
+  - main-text geographic context for the 34 focal species; broader exact GBIF occurrence subset is shown only as context/QC.
+- `docs/figures/figure2_five_metric_forest.png` / `.pdf`
+  - central five-metric family-clustered effect-size figure generated directly from the frozen 34-species dataset.
+- `docs/figures/figure3_raw_species_metrics.png` / `.pdf`
+  - all 34 species shown across standardized versions of the five frozen climatic metrics; visualization only.
+- `docs/figures/figureS1_34_species_distribution_context.png` / `.pdf`
+  - species-specific geographic occurrence maps using the broader exact GBIF subset as supporting distribution context/QC.
+- `scripts/make_paper_figures.py`
+  - canonical figure generator.
+- `docs/FIGURE_PLAN.md`
+  - explains why these figures were selected from the pipeline and why robustness diagnostics remain supporting material.
+
+Figure 1 and Supporting Figure S1 must retain the distinction between the broader exact GBIF citation subset and the exact occurrence sampling path that produced the frozen primary climatic summaries.
+
 ## Submission boundary
 
 Material from matched-control, unreviewed expanded-set, range-fragmentation and environmental-turnover experiments is recoverable from Git history and closed development PRs but is not part of the active submission analysis. The Supporting Information for the paper should be generated from the durable frozen dataset and the canonical workflow above, so historical exploratory outputs are not mixed with the final 34-species inference.
