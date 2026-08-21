@@ -11,6 +11,7 @@ on:
       - "scripts/run_34species_power_precision.py"
       - "scripts/run_34species_phylogenetic.R"
       - "scripts/run_34species_cr2.R"
+      - "scripts/make_paper_figures.py"
       - "tests/test_evidence_rules.py"
       - "tests/test_frozen_pipeline.py"
       - "tests/test_models.py"
@@ -19,6 +20,7 @@ on:
       - "docs/supporting/jbi_dated_phylogeny_s1.tre"
       - "docs/supporting/jbi_dated_phylogeny_s2.tre"
       - "docs/supporting/jbi_dated_phylogeny_s3.tre"
+      - "docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz"
       - ".github/workflows/34species-paper.yml"
   pull_request:
     paths:
@@ -28,6 +30,7 @@ on:
       - "scripts/run_34species_power_precision.py"
       - "scripts/run_34species_phylogenetic.R"
       - "scripts/run_34species_cr2.R"
+      - "scripts/make_paper_figures.py"
       - "tests/test_evidence_rules.py"
       - "tests/test_frozen_pipeline.py"
       - "tests/test_models.py"
@@ -36,11 +39,12 @@ on:
       - "docs/supporting/jbi_dated_phylogeny_s1.tre"
       - "docs/supporting/jbi_dated_phylogeny_s2.tre"
       - "docs/supporting/jbi_dated_phylogeny_s3.tre"
+      - "docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz"
       - ".github/workflows/34species-paper.yml"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: frozen-34species-${{ github.workflow }}-${{ github.ref }}
@@ -144,3 +148,49 @@ jobs:
           path: analysis_outputs/34species_paper/
           if-no-files-found: error
           retention-days: 30
+
+  generate-figures:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install figure dependencies
+        run: |
+          python -m pip install --disable-pip-version-check -e .
+          python -m pip install --disable-pip-version-check matplotlib cartopy
+      - name: Generate canonical figures
+        run: |
+          python scripts/make_paper_figures.py \
+            --dataset data/frozen/frozen_34species_five_metric_dataset.csv \
+            --occurrences docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz \
+            --outdir docs/figures
+      - name: Validate figure outputs
+        run: |
+          set -euo pipefail
+          for stem in \
+            figure1_geographic_context \
+            figure2_five_metric_forest \
+            figure3_raw_species_metrics \
+            figureS1_34_species_distribution_context; do
+            test -s "docs/figures/${stem}.png"
+            test -s "docs/figures/${stem}.pdf"
+          done
+      - name: Commit generated figures to PR branch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/figures/*.png docs/figures/*.pdf
+          if git diff --cached --quiet; then
+            echo "Figures unchanged"
+            exit 0
+          fi
+          git commit -m "Generate canonical JBI paper figures"
+          git push origin HEAD:${{ github.head_ref }}
