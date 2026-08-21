@@ -30,7 +30,7 @@ Diagnostics that do not change the biological interpretation remain in Supportin
 
 **Purpose:** show the main result in one glance. All five odds ratios lie below one. The figure therefore emphasizes the cross-metric direction rather than elevating the moisture p-value alone.
 
-This remains the central result figure.
+This is the central result figure.
 
 ## Figure 3 — Raw 34-species climatic metrics
 
