@@ -12,6 +12,7 @@ on:
       - "scripts/run_34species_phylogenetic.R"
       - "scripts/run_34species_cr2.R"
       - "scripts/make_paper_figures.py"
+      - "scripts/update_manuscript_figure_calls.py"
       - "tests/test_evidence_rules.py"
       - "tests/test_frozen_pipeline.py"
       - "tests/test_models.py"
@@ -31,6 +32,7 @@ on:
       - "scripts/run_34species_phylogenetic.R"
       - "scripts/run_34species_cr2.R"
       - "scripts/make_paper_figures.py"
+      - "scripts/update_manuscript_figure_calls.py"
       - "tests/test_evidence_rules.py"
       - "tests/test_frozen_pipeline.py"
       - "tests/test_models.py"
@@ -171,7 +173,9 @@ jobs:
             --dataset data/frozen/frozen_34species_five_metric_dataset.csv \
             --occurrences docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz \
             --outdir docs/figures
-      - name: Validate figure outputs
+      - name: Integrate figures into manuscript and SI index
+        run: python scripts/update_manuscript_figure_calls.py
+      - name: Validate figure outputs and manuscript calls
         run: |
           set -euo pipefail
           for stem in \
@@ -182,15 +186,18 @@ jobs:
             test -s "docs/figures/${stem}.png"
             test -s "docs/figures/${stem}.pdf"
           done
-      - name: Commit generated figures to PR branch
+          grep -q "## Figure captions" docs/jbi_manuscript.md
+          grep -q "Figure 2" docs/jbi_manuscript.md
+          grep -q "Supporting Figure S1" docs/jbi_supporting_information_index.md
+      - name: Commit generated figures and manuscript integration to PR branch
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/figures/*.png docs/figures/*.pdf
+          git add docs/figures/*.png docs/figures/*.pdf docs/jbi_manuscript.md docs/jbi_supporting_information_index.md
           if git diff --cached --quiet; then
-            echo "Figures unchanged"
+            echo "Figures and manuscript integration unchanged"
             exit 0
           fi
-          git commit -m "Generate canonical JBI paper figures"
+          git commit -m "Integrate canonical JBI figures into manuscript"
           git push origin HEAD:${{ github.head_ref }}
