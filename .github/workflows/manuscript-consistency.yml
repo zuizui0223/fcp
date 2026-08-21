@@ -3,10 +3,12 @@ name: Manuscript consistency
 on:
   push:
     branches:
-      - cleanup/34species-paper-pipeline-final
+      - main
     paths:
       - "README.md"
       - "docs/jbi_manuscript.md"
+      - "docs/jbi_cover_letter_template.md"
+      - "docs/JBI_POSITIONING_AND_HYPOTHESES.md"
       - "docs/jbi_supporting_information_index.md"
       - "docs/jbi_submission_completion_checklist.md"
       - "docs/supporting/cr2_satterthwaite_summary.csv"
@@ -16,6 +18,8 @@ on:
     paths:
       - "README.md"
       - "docs/jbi_manuscript.md"
+      - "docs/jbi_cover_letter_template.md"
+      - "docs/JBI_POSITIONING_AND_HYPOTHESES.md"
       - "docs/jbi_supporting_information_index.md"
       - "docs/jbi_submission_completion_checklist.md"
       - "docs/supporting/cr2_satterthwaite_summary.csv"
@@ -38,5 +42,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Check canonical manuscript, SI and frozen result guards
+      - name: Check canonical manuscript, cover letter, SI and frozen result guards
         run: python tests/test_manuscript_consistency.py
