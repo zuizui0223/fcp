@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
 MANUSCRIPT = ROOT / "docs" / "jbi_manuscript.md"
+COVER_LETTER = ROOT / "docs" / "jbi_cover_letter_template.md"
 OLD_MANUSCRIPT = ROOT / "docs" / "jbi_manuscript_editorial_revision_v2.md"
 OLD_NOVELTY_NOTE = ROOT / "docs" / "fcp_climatic_niche_novelty_review.md"
 POSITIONING = ROOT / "docs" / "JBI_POSITIONING_AND_HYPOTHESES.md"
@@ -19,6 +20,7 @@ class ManuscriptConsistencyTests(unittest.TestCase):
     def setUpClass(cls):
         cls.readme = README.read_text(encoding="utf-8")
         cls.text = MANUSCRIPT.read_text(encoding="utf-8")
+        cls.cover = COVER_LETTER.read_text(encoding="utf-8")
         cls.si = SI_INDEX.read_text(encoding="utf-8")
         cls.positioning = POSITIONING.read_text(encoding="utf-8")
 
@@ -69,6 +71,8 @@ class ManuscriptConsistencyTests(unittest.TestCase):
         )
         for token in stale:
             self.assertNotIn(token, self.text)
+        for stale in ("odds ratio = 0.426", "permutation support was borderline", "paginated, quality-filtered GBIF"):
+            self.assertNotIn(stale, self.cover)
         self.assertFalse(OLD_MANUSCRIPT.exists(), "Superseded manuscript must not remain in the active tree")
         self.assertFalse(OLD_NOVELTY_NOTE.exists(), "Superseded moisture-centered novelty note must not remain active")
 
@@ -86,6 +90,16 @@ class ManuscriptConsistencyTests(unittest.TestCase):
             "H2. Broad-niche coexistence / niche-variation expectation",
         ):
             self.assertIn(token, self.positioning)
+        for token in (
+            "Climatic niche breadth and spatial organization of flower-colour variation",
+            "spatial organization of intraspecific phenotypic diversity",
+            "odds ratio = 0.412",
+            "permutation p = 0.0423",
+            "Wald p = 0.184",
+            "permutation p = 0.212",
+            "source-traceable and rule-derived",
+        ):
+            self.assertIn(token, self.cover)
 
     def test_uncertainty_boundary_is_retained(self):
         for token in (
