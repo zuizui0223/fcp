@@ -2,6 +2,8 @@
 
 The figures are selected from the paper question backward, not by choosing the most significant analysis output.
 
+**Generation status:** all four canonical figure products are currently generated from versioned inputs and committed in both PNG and PDF form under `docs/figures/`.
+
 ## Selection rule
 
 A main-text figure must answer one of three reader questions:
