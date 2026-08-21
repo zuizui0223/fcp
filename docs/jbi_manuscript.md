@@ -116,6 +116,8 @@ All five climatic-metric odds ratios were below one (Table 2). Temperature bread
 
 Every leave-one-family-out estimate remained below one for every metric. Odds-ratio ranges were 0.636–0.973 for temperature breadth, 0.306–0.465 for moisture breadth, 0.492–0.782 for climatic heterogeneity, 0.525–0.813 for PCA dispersion and 0.489–0.671 for PCA hull area. Thus, no single represented family generated the shared negative direction.
 
+Figure 4 displays all 125 leave-one-family-out refits across the five climatic metrics. The figure makes the directional stability visible while retaining the important distinction that family deletion diagnoses concentration in individual families and is not a phylogenetic correction.
+
 After Holm adjustment across five metrics, the moisture-breadth clustered Wald p-value was 0.184 and the permutation p-value was 0.212. No metric retained conventional statistical support after this correction. Moisture breadth is therefore the strongest observed association within a broader directional pattern, not a uniquely established climatic driver.
 
 The common direction of the five effect estimates is summarized in Figure 2. Figure 3 shows the 34 species themselves across the five standardized climatic metrics, so the overlap, extreme observations and modest sample size remain visible rather than being represented only by model coefficients.
@@ -134,7 +136,11 @@ V.PhyloMaker2 retained all 34 species under S1–S3. The five estimates remained
 
 CR2/Satterthwaite estimates retained the negative direction for all five metrics. For moisture breadth, the odds ratio was 0.407 (95% CI 0.156–1.060; p = 0.0632; Satterthwaite df = 11.48). The corresponding CR2 p-values were 0.6245 for temperature breadth, 0.3962 for climatic heterogeneity, 0.4550 for PCA dispersion and 0.1174 for PCA hull area.
 
+Figure 5 compares the primary family-clustered estimates with CR2/Satterthwaite, Open Tree/Grafen and dated-phylogeny treatments for all five metrics. Point estimates remain below one across treatments, whereas confidence intervals broaden under the phylogenetic and finite-cluster analyses.
+
 In 3,000 design-based simulations under the observed moisture-breadth effect, the estimated coefficient was negative in 98.5% of simulations, whereas p < 0.05 occurred in 46.2%. Nominal Wald 95% coverage was 94.6%. This diagnostic indicates that directional recovery under an effect of the observed magnitude can be substantially more stable than conventional significance in a 34-species design.
+
+Supporting Figure S2 expands this design diagnostic across the prespecified odds-ratio grid for all five metrics. It is presented only as a precision diagnostic and not as evidence for the ecological hypothesis.
 
 ## Discussion
 
@@ -283,4 +289,10 @@ Generated workflow artifacts are convenience copies of analysis outputs rather t
 
 **Figure 3. Species-level climatic metrics underlying the comparative models.** Each point represents one of the 34 focal species (20 within-population, 14 geographically structured). Climatic metrics are standardized for visualization only so that all five dimensions can be displayed on a common scale; horizontal bars mark category medians. This is a visualization of the frozen observations, not an additional inferential analysis.
 
+**Figure 4. Leave-one-family-out stability across all five climatic-niche metrics.** Grey points are odds ratios from 25 unclustered refits per metric, each omitting one represented plant family; diamonds show the full 34-species point estimates and horizontal grey segments span the deletion range. All 125 deletion estimates remain below one. Family deletion tests whether the shared direction is concentrated in an individual represented family; it does not establish phylogenetic independence.
+
+**Figure 5. Effect direction and uncertainty across inferential treatments.** For each climatic metric, the primary family-clustered estimate is shown alongside CR2/Satterthwaite finite-cluster inference, the median of 100 Open Tree/Grafen polytomy resolutions, and the median dated-phylogeny estimate across V.PhyloMaker2 scenarios S1-S3. Horizontal intervals are the corresponding 95% intervals; for the dated phylogeny the plotted interval is the envelope across the three scenario-specific intervals. All point estimates remain below one, while stricter treatments broaden uncertainty. These treatments are sensitivity analyses of the same data, not independent tests.
+
 **Supporting Figure S1. Geographic occurrence context for each of the 34 focal species.** Species-specific maps show the broader exact GBIF occurrence subset retained for citation and distribution-context quality control, with panel labels indicating the spatial-organization class and occurrence count. These maps provide an auditable view of sampled geographic ranges but do not represent morph-specific ranges or the exact primary occurrence sample used to construct the frozen climatic metrics.
+
+**Supporting Figure S2. Finite-sample design diagnostic across specified effect sizes.** The two panels show, for each climatic metric and simulated true odds ratio, the probability that the fitted coefficient is negative and the probability that the family-clustered Wald test yields p < 0.05 across 3,000 simulations. Simulations retain the observed 34-species predictor, effort and family structure. The figure describes expected precision under specified effects and is not evidence for the ecological hypothesis or a post-hoc adequacy criterion.

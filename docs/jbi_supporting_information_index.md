@@ -90,6 +90,12 @@ The workflow validates the frozen-data checksum, 34/25/20/14 counts, five metric
   - all 34 species shown across standardized versions of the five frozen climatic metrics; visualization only.
 - `docs/figures/figureS1_34_species_distribution_context.png` / `.pdf`
   - species-specific geographic occurrence maps using the broader exact GBIF subset as supporting distribution context/QC.
+- `docs/figures/figure4_leave_one_family_out.png` / `.pdf`
+  - 25 leave-one-family-out refits for each of the five metrics; tests concentration in individual families.
+- `docs/figures/figure5_inference_method_sensitivity.png` / `.pdf`
+  - primary, CR2/Satterthwaite, Open Tree/Grafen and dated-phylogeny estimates compared across all five metrics.
+- `docs/figures/figureS2_power_precision_design.png` / `.pdf`
+  - design-based sign-recovery and p < 0.05 probabilities across specified effect sizes; diagnostic only.
 - `scripts/make_paper_figures.py`
   - canonical figure generator.
 - `docs/FIGURE_PLAN.md`
