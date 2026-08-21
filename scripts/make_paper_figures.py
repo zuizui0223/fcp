@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Generate canonical JBI figures from frozen 34-species inputs.
+"""Generate canonical JBI figures from frozen 34-species inputs and analysis outputs.
 
-Primary figures 2 and 3 are generated directly from the checksum-locked
-34-species statistical freeze. Figure 1 and Supporting Figure S1 use the
+Figures 2--4 are generated directly from the checksum-locked 34-species
+statistical freeze. Figure 5 and Supporting Figure S2 use outputs produced by
+the canonical 34-species workflow. Figure 1 and Supporting Figure S1 use the
 broader exact GBIF occurrence subset only as geographic context; those
 occurrence points are not represented as the exact occurrence sample that
 created the frozen climatic metrics.
@@ -10,7 +11,6 @@ created the frozen climatic metrics.
 from __future__ import annotations
 
 import argparse
-import gzip
 from pathlib import Path
 
 import numpy as np
@@ -53,6 +53,13 @@ METRIC_LABELS = {
     "pca_dispersion": "PCA dispersion",
     "pca_hull_area": "PCA hull area",
 }
+SENSITIVITY_METHODS = [
+    "Primary family-clustered",
+    "CR2 / Satterthwaite",
+    "Open Tree / Grafen",
+    "Dated phylogeny S1-S3",
+]
+SENSITIVITY_MARKERS = ["o", "s", "D", "^"]
 
 
 def parse_args() -> argparse.Namespace:
@@ -62,6 +69,7 @@ def parse_args() -> argparse.Namespace:
         "--occurrences",
         default="docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz",
     )
+    p.add_argument("--analysis-dir", default="analysis_outputs/34species_paper")
     p.add_argument("--outdir", default="docs/figures")
     return p.parse_args()
 
@@ -71,6 +79,16 @@ def save_figure(fig: plt.Figure, outbase: Path) -> None:
     fig.savefig(outbase.with_suffix(".png"), dpi=450, bbox_inches="tight")
     fig.savefig(outbase.with_suffix(".pdf"), bbox_inches="tight")
     plt.close(fig)
+
+
+def read_required_csv(path: Path, required: set[str]) -> pd.DataFrame:
+    if not path.exists():
+        raise FileNotFoundError(path)
+    d = pd.read_csv(path)
+    missing = required - set(d.columns)
+    if missing:
+        raise RuntimeError(f"{path} missing columns: {sorted(missing)}")
+    return d
 
 
 def load_occurrences(path: Path, frozen: pd.DataFrame) -> pd.DataFrame:
@@ -291,10 +309,218 @@ def figure3_raw_species(frozen: pd.DataFrame, outdir: Path) -> None:
     save_figure(fig, outdir / "figure3_raw_species_metrics")
 
 
+def figure4_family_deletion(frozen: pd.DataFrame, outdir: Path) -> None:
+    rows: list[dict] = []
+    for metric in METRICS:
+        full_fit, model_data = fit_model(frozen, metric, clustered=False)
+        if full_fit is None:
+            raise RuntimeError(f"Could not fit full model for {metric}")
+        full_or = float(np.exp(full_fit.params["metric_z"]))
+        families = sorted(model_data["family"].dropna().astype(str).unique())
+        for family in families:
+            subset = frozen.loc[frozen["family"].astype(str) != family].copy()
+            fit, _ = fit_model(subset, metric, clustered=False)
+            if fit is None:
+                raise RuntimeError(f"Leave-one-family-out fit failed for {metric}: {family}")
+            rows.append({
+                "metric": metric,
+                "omitted_family": family,
+                "odds_ratio": float(np.exp(fit.params["metric_z"])),
+                "full_odds_ratio": full_or,
+            })
+
+    d = pd.DataFrame(rows)
+    metric_order = list(reversed(METRICS))
+    fig, ax = plt.subplots(figsize=(8.0, 5.1))
+    y_base = np.arange(len(metric_order))
+    for yi, metric in enumerate(metric_order):
+        x = d.loc[d["metric"] == metric, "odds_ratio"].to_numpy()
+        full_or = float(d.loc[d["metric"] == metric, "full_odds_ratio"].iloc[0])
+        jitter = np.linspace(-0.13, 0.13, len(x))
+        ax.hlines(yi, float(np.min(x)), float(np.max(x)), linewidth=2.2, color="0.72", zorder=1)
+        ax.scatter(x, np.full(len(x), yi) + jitter, s=17, alpha=0.58, color="0.45", zorder=2)
+        ax.scatter([full_or], [yi], s=54, marker="D", color="black", zorder=3)
+
+    ax.axvline(1.0, linestyle="--", linewidth=1, color="0.45")
+    ax.set_xscale("log")
+    ax.set_yticks(y_base)
+    ax.set_yticklabels([METRIC_LABELS[m] for m in metric_order])
+    ax.set_xlabel("Odds ratio after omitting one plant family")
+    ax.set_title("The shared effect direction is not concentrated in one family")
+    ax.grid(axis="x", which="both", linewidth=0.35, alpha=0.3)
+    ax.spines[["top", "right"]].set_visible(False)
+    handles = [
+        Line2D([0], [0], marker="o", linestyle="none", markerfacecolor="0.45",
+               markeredgecolor="none", alpha=0.7, label="One family omitted"),
+        Line2D([0], [0], marker="D", linestyle="none", markerfacecolor="black",
+               markeredgecolor="black", label="Full 34-species estimate"),
+    ]
+    ax.legend(handles=handles, loc="lower right", fontsize=8, frameon=True)
+    fig.text(
+        0.5, 0.01,
+        "Each grey point is one unclustered leave-one-family-out refit. All 125 refits remain below OR = 1; "
+        "family deletion tests concentration, not phylogenetic independence.",
+        ha="center", fontsize=7.5,
+    )
+    save_figure(fig, outdir / "figure4_leave_one_family_out")
+
+
+def build_method_sensitivity_table(analysis_dir: Path) -> pd.DataFrame:
+    primary = read_required_csv(
+        analysis_dir / "models" / "environmental_niche_five_metric_models.csv",
+        {"metric", "odds_ratio", "odds_ratio_ci_low", "odds_ratio_ci_high"},
+    )
+    opentree = read_required_csv(
+        analysis_dir / "phylogeny" / "environmental_niche_opentree_summary.csv",
+        {"metric", "median_odds_ratio", "median_ci_low", "median_ci_high"},
+    )
+    dated = read_required_csv(
+        analysis_dir / "phylogeny" / "environmental_niche_dated_phyloglm.csv",
+        {"metric", "scenario", "odds_ratio", "ci_low", "ci_high", "status"},
+    )
+    cr2 = read_required_csv(
+        analysis_dir / "finite_sample" / "cr2" / "jbi_34species_cr2_satterthwaite_summary.csv",
+        {"metric", "odds_ratio", "cr2_ci_low", "cr2_ci_high"},
+    )
+
+    rows: list[dict] = []
+    for metric in METRICS:
+        p = primary.loc[primary["metric"].eq(metric)].iloc[0]
+        rows.append({
+            "metric": metric,
+            "method": "Primary family-clustered",
+            "or": float(p["odds_ratio"]),
+            "low": float(p["odds_ratio_ci_low"]),
+            "high": float(p["odds_ratio_ci_high"]),
+        })
+
+        c = cr2.loc[cr2["metric"].eq(metric)].iloc[0]
+        rows.append({
+            "metric": metric,
+            "method": "CR2 / Satterthwaite",
+            "or": float(c["odds_ratio"]),
+            "low": float(c["cr2_ci_low"]),
+            "high": float(c["cr2_ci_high"]),
+        })
+
+        o = opentree.loc[opentree["metric"].eq(metric)].iloc[0]
+        rows.append({
+            "metric": metric,
+            "method": "Open Tree / Grafen",
+            "or": float(o["median_odds_ratio"]),
+            "low": float(o["median_ci_low"]),
+            "high": float(o["median_ci_high"]),
+        })
+
+        q = dated.loc[dated["metric"].eq(metric) & dated["status"].eq("complete")].copy()
+        if q.empty:
+            raise RuntimeError(f"No complete dated-phylogeny results for {metric}")
+        rows.append({
+            "metric": metric,
+            "method": "Dated phylogeny S1-S3",
+            "or": float(q["odds_ratio"].median()),
+            "low": float(q["ci_low"].min()),
+            "high": float(q["ci_high"].max()),
+        })
+    return pd.DataFrame(rows)
+
+
+def figure5_method_sensitivity(analysis_dir: Path, outdir: Path) -> None:
+    d = build_method_sensitivity_table(analysis_dir)
+    metric_order = list(reversed(METRICS))
+    fig, ax = plt.subplots(figsize=(9.2, 6.1))
+    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    offsets = np.linspace(-0.27, 0.27, len(SENSITIVITY_METHODS))
+    y_base = np.arange(len(metric_order))
+
+    for mi, method in enumerate(SENSITIVITY_METHODS):
+        xs, ys, lows, highs = [], [], [], []
+        for yi, metric in enumerate(metric_order):
+            row = d.loc[d["metric"].eq(metric) & d["method"].eq(method)].iloc[0]
+            xs.append(float(row["or"]))
+            lows.append(float(row["low"]))
+            highs.append(float(row["high"]))
+            ys.append(float(yi + offsets[mi]))
+        xs = np.asarray(xs)
+        lows = np.asarray(lows)
+        highs = np.asarray(highs)
+        xerr = np.vstack([xs - lows, highs - xs])
+        ax.errorbar(
+            xs, ys, xerr=xerr,
+            fmt=SENSITIVITY_MARKERS[mi],
+            color=colors[mi % len(colors)],
+            capsize=2.5,
+            linewidth=1.1,
+            markersize=4.8,
+            label=method,
+        )
+
+    ax.axvline(1.0, linestyle="--", linewidth=1, color="0.45")
+    ax.set_xscale("log")
+    ax.set_yticks(y_base)
+    ax.set_yticklabels([METRIC_LABELS[m] for m in metric_order])
+    ax.set_xlabel("Odds ratio for geographic differentiation per 1 SD increase")
+    ax.set_title("Direction persists while uncertainty expands under stricter treatments")
+    ax.grid(axis="x", which="both", linewidth=0.35, alpha=0.3)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.legend(loc="lower right", fontsize=7.6, frameon=True)
+    fig.text(
+        0.5, 0.01,
+        "Open Tree points are medians across 100 polytomy resolutions; dated-phylogeny points are medians across "
+        "S1-S3 with the interval envelope shown. These are sensitivity analyses, not four independent tests.",
+        ha="center", fontsize=7.2,
+    )
+    save_figure(fig, outdir / "figure5_inference_method_sensitivity")
+
+
+def figure_s2_power_precision(analysis_dir: Path, outdir: Path) -> None:
+    sim = read_required_csv(
+        analysis_dir / "finite_sample" / "power_precision" / "jbi_34species_power_precision_simulation.csv",
+        {"metric", "scenario", "odds_ratio_true", "prob_estimate_negative", "prob_p_lt_0_05"},
+    )
+    grid = sim.loc[sim["scenario"].astype(str).str.startswith("OR_")].copy()
+    grid["odds_ratio_true"] = pd.to_numeric(grid["odds_ratio_true"], errors="coerce")
+    grid = grid.dropna(subset=["odds_ratio_true"]).sort_values("odds_ratio_true")
+
+    fig, axes = plt.subplots(1, 2, figsize=(10.6, 4.8), sharex=True, sharey=True)
+    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    for mi, metric in enumerate(METRICS):
+        d = grid.loc[grid["metric"].eq(metric)].sort_values("odds_ratio_true")
+        axes[0].plot(
+            d["odds_ratio_true"], d["prob_estimate_negative"],
+            marker="o", markersize=3.5, linewidth=1.1,
+            color=colors[mi % len(colors)], label=METRIC_LABELS[metric],
+        )
+        axes[1].plot(
+            d["odds_ratio_true"], d["prob_p_lt_0_05"],
+            marker="o", markersize=3.5, linewidth=1.1,
+            color=colors[mi % len(colors)],
+        )
+    for ax in axes:
+        ax.axhline(0.05, linestyle=":", linewidth=0.8, color="0.55")
+        ax.set_ylim(0, 1.02)
+        ax.set_xlabel("Simulated true odds ratio")
+        ax.grid(linewidth=0.3, alpha=0.25)
+        ax.spines[["top", "right"]].set_visible(False)
+    axes[0].set_ylabel("Probability across 3,000 simulations")
+    axes[0].set_title("Estimated coefficient is negative")
+    axes[1].set_title("Family-clustered Wald p < 0.05")
+    axes[0].legend(fontsize=7.2, frameon=True, loc="lower left")
+    fig.suptitle("Supporting Figure S2. Finite-sample design diagnostic", fontsize=12)
+    fig.text(
+        0.5, 0.01,
+        "Simulations retain the observed 34-species predictor, effort and family structure. They describe design "
+        "precision under specified effects and are not evidence for the ecological hypothesis.",
+        ha="center", fontsize=7.2,
+    )
+    save_figure(fig, outdir / "figureS2_power_precision_design")
+
+
 def main() -> None:
     args = parse_args()
     dataset = Path(args.dataset)
     occ_path = Path(args.occurrences)
+    analysis_dir = Path(args.analysis_dir)
     outdir = Path(args.outdir)
     frozen = validate_frozen_file(dataset)
     if len(frozen) != 34:
@@ -304,6 +530,9 @@ def main() -> None:
     figure_s1_species_maps(frozen, occ, outdir)
     figure2_forest(frozen, outdir)
     figure3_raw_species(frozen, outdir)
+    figure4_family_deletion(frozen, outdir)
+    figure5_method_sensitivity(analysis_dir, outdir)
+    figure_s2_power_precision(analysis_dir, outdir)
     print(f"Wrote canonical paper figures to {outdir}")
 
 
