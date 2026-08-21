@@ -2,17 +2,19 @@
 
 The figures are selected from the paper question backward, not by choosing the most significant analysis output.
 
-**Generation status:** all four canonical figure products are currently generated from versioned inputs and committed in both PNG and PDF form under `docs/figures/`.
+**Canonical target set:** five main-text figures plus two Supporting Figures. The PR workflow regenerates PNG and PDF products from versioned inputs and the canonical analysis artifact.
 
 ## Selection rule
 
-A main-text figure must answer one of three reader questions:
+A main-text figure must answer one of five reader questions:
 
 1. **What is the geographic scope of the comparison?**
 2. **What is the primary cross-metric result?**
 3. **Can the reader see the 34 species underlying that result?**
+4. **Is the common direction concentrated in one represented plant family?**
+5. **Does the direction persist when family clustering, finite-cluster correction and phylogenetic structure are handled differently?**
 
-Robustness diagnostics that primarily answer reviewer/statistical questions remain in tables or Supporting Information.
+Diagnostics that do not change the biological interpretation remain in Supporting Information.
 
 ## Figure 1 — Geographic context of the 34 focal species
 
@@ -26,9 +28,9 @@ Robustness diagnostics that primarily answer reviewer/statistical questions rema
 
 **Input:** checksum-locked 34-species frozen dataset; exact production model `among ~ metric_z + effort_z` with family-clustered sandwich uncertainty.
 
-**Purpose:** show the main result in one glance. All five odds ratios lie below one. The figure therefore emphasizes the cross-metric direction, rather than elevating the moisture p-value alone.
+**Purpose:** show the main result in one glance. All five odds ratios lie below one. The figure therefore emphasizes the cross-metric direction rather than elevating the moisture p-value alone.
 
-This is the central result figure.
+This remains the central result figure.
 
 ## Figure 3 — Raw 34-species climatic metrics
 
@@ -38,19 +40,42 @@ This is the central result figure.
 
 This figure lets readers judge overlap, extreme species and the limited sample size directly instead of seeing only model coefficients.
 
+## Figure 4 — Leave-one-family-out stability
+
+**Input:** checksum-locked 34-species frozen dataset; 25 family-deletion refits for each of the five metrics.
+
+**Purpose:** show the full leave-one-family-out result instead of reducing it to min–max numbers in Table 2. All 125 deletion estimates remain below OR = 1, making it visually clear that no single represented family creates the shared direction.
+
+**Interpretive boundary:** this is a concentration/influence diagnostic. It is not a substitute for phylogenetic comparative analysis.
+
+## Figure 5 — Inference-method sensitivity
+
+**Input:** canonical workflow outputs for the primary family-clustered models, CR2/Satterthwaite analysis, Open Tree/Grafen models and dated V.PhyloMaker2 S1–S3 analyses.
+
+**Purpose:** make the paper's central uncertainty visible rather than leaving it scattered across Tables 4–5. Point estimates remain below one under every treatment, while confidence intervals broaden under phylogenetic and finite-cluster analyses.
+
+Open Tree values are medians across 100 polytomy resolutions. The dated-phylogeny point is the median across S1–S3 and the plotted interval is the envelope of the three scenario-specific intervals. These are sensitivity treatments of the same data, not independent tests.
+
 ## Supporting Figure S1 — Per-species geographic occurrence context
 
 **Input:** broader exact GBIF occurrence subset for the same 34 species.
 
 **Purpose:** distribution/QC audit. One species is shown per map. These maps are supporting geographic context rather than a morph-specific range analysis.
 
-## What is deliberately not promoted to a main figure
+## Supporting Figure S2 — Finite-sample power/precision design diagnostic
 
-- Open Tree and V.PhyloMaker2 results: important robustness evidence, already summarized numerically; best retained in Supporting Information or a sensitivity forest if requested.
-- CR2/Satterthwaite: finite-cluster robustness, not a separate biological result.
-- power/precision simulation: design diagnostic, not evidence for the ecological hypothesis.
-- collinearity: model diagnostic.
-- historical control, fragmentation, paginated-sensitivity and expanded-set analyses: retired from the active paper pipeline.
+**Input:** the canonical 3,000-replicate design simulations across specified odds-ratio scenarios.
+
+**Purpose:** show why effect-direction recovery and crossing a conventional p < 0.05 threshold can behave differently in a 34-species, 25-family design. Both sign-recovery probability and p < 0.05 probability are shown across the same effect-size grid for all five metrics.
+
+**Interpretive boundary:** this is a design/precision diagnostic only. It is not evidence for the ecological hypothesis and is not used as a post-hoc adequacy criterion.
+
+## What is deliberately not promoted to another figure
+
+- collinearity diagnostics: compact and already unproblematic (VIF 1.095–1.415), so Table 3 is sufficient;
+- historical control, fragmentation, paginated-sensitivity and expanded-set analyses: retired from the active paper pipeline;
+- any morph-specific climate map: unavailable because GBIF records are not flower-colour-morph labelled;
+- a causal mechanism schematic implying moisture selection: not justified by the species-level occupied-climate analysis.
 
 ## Narrative order
 
@@ -60,6 +85,12 @@ This figure lets readers judge overlap, extreme species and the limited sample s
 
 → `Figure 3: what do the 34 species themselves look like?`
 
+→ `Figure 4: could one plant family be creating the common direction?`
+
+→ `Figure 5: what survives when the inferential structure is changed?`
+
 → `Supporting Figure S1: can each species' occurrence context be audited individually?`
 
-This ordering makes the paper readable as a biogeographic result rather than as a sequence of statistical robustness checks.
+→ `Supporting Figure S2: what does the finite-sample design imply about sign recovery versus threshold crossing?`
+
+This ordering keeps the biological result first, then exposes the observations, then addresses the two reviewer-level robustness questions most likely to affect interpretation.
