@@ -70,7 +70,7 @@ Open Tree values are medians across 100 polytomy resolutions. The dated-phylogen
 
 **Interpretive boundary:** this is a design/precision diagnostic only. It is not evidence for the ecological hypothesis and is not used as a post-hoc adequacy criterion.
 
-## What is deliberately not promoted to another figure
+## What is deliberately not promoted to a main figure
 
 - collinearity diagnostics: compact and already unproblematic (VIF 1.095–1.415), so Table 3 is sufficient;
 - historical control, fragmentation, paginated-sensitivity and expanded-set analyses: retired from the active paper pipeline;
