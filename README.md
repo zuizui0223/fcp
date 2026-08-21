@@ -10,6 +10,8 @@ The active paper is a **frozen 34-species comparative analysis**. Historical mat
 
 - **Manuscript:** [`docs/jbi_manuscript.md`](docs/jbi_manuscript.md)
 - **Pipeline and evidence reduction:** [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md)
+- **Figure plan:** [`docs/FIGURE_PLAN.md`](docs/FIGURE_PLAN.md)
+- **Canonical figures:** [`docs/figures/`](docs/figures/)
 - **Supporting Information map:** [`docs/jbi_supporting_information_index.md`](docs/jbi_supporting_information_index.md)
 - **Remaining submission gates:** [`docs/jbi_submission_completion_checklist.md`](docs/jbi_submission_completion_checklist.md)
 - **Canonical frozen input:** [`data/frozen/frozen_34species_five_metric_dataset.csv`](data/frozen/frozen_34species_five_metric_dataset.csv)
@@ -75,7 +77,7 @@ OpenTree + dated phylogenetic sensitivity
         ↓
 CR2/Satterthwaite + power/precision diagnostics
         ↓
-manuscript + Supporting Information
+canonical figures + manuscript + Supporting Information
 ```
 
 ### Shared package
@@ -97,6 +99,7 @@ python -m pip install -e .
 - `scripts/run_34species_phylogenetic.R`
 - `scripts/run_34species_power_precision.py`
 - `scripts/run_34species_cr2.R`
+- `scripts/make_paper_figures.py`
 
 The canonical CI/reproduction entry is `.github/workflows/34species-paper.yml`. It reads the committed freeze directly and therefore does not depend on expiring Actions artifacts.
 
@@ -114,13 +117,24 @@ with family-clustered sandwich uncertainty, 9,999 label permutations and leave-o
 
 All five climatic-niche point estimates are negative. Moisture breadth shows the largest contrast (non-phylogenetic OR ≈ 0.41), but multiplicity-adjusted and phylogenetic intervals do not support claiming a unique moisture mechanism. The paper therefore emphasizes **effect sizes and directional consistency**: geographically structured colour variation tends to occur toward the narrower end of sampled occupied climatic niche breadth than within-population coexistence.
 
+## Canonical paper figures
+
+The main figures are selected from the biological question backward, not from whichever test gives the smallest p-value:
+
+1. `figure1_geographic_context` — geographic scope of the 34 focal species; broader exact GBIF records are context/QC, not the exact primary climate-metric sample.
+2. `figure2_five_metric_forest` — central result: all five production-model odds ratios on one common effect-size display.
+3. `figure3_raw_species_metrics` — the 34 species themselves across all five standardized climatic metrics.
+4. `figureS1_34_species_distribution_context` — supporting species-by-species geographic occurrence audit.
+
+See [`docs/FIGURE_PLAN.md`](docs/FIGURE_PLAN.md) for the selection logic and interpretation boundary.
+
 ## Repository boundary
 
 Active material should answer one of four questions:
 
-1. How were candidate flower-colour cases found and screened?
-2. Why do the 34 frozen classifications enter the paper?
-3. How are occupied climatic niches and statistical models reproduced?
-4. How are submission-facing provenance and citation outputs validated?
+1. How were documented flower-colour cases found and classified?
+2. How were the frozen 34 species and their occupied climates constructed?
+3. What do the five symmetric comparative models and required robustness checks show?
+4. What is needed to reproduce, audit or submit that paper?
 
-Older theory, alternative sample expansions and abandoned model families remain recoverable from Git history/closed PRs; they are not active production code.
+Exploratory analyses that do not answer one of these questions should remain outside the active path or be recoverable from Git history rather than duplicated in the submission tree.
