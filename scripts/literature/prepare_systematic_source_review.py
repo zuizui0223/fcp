@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-"""Prepare a source-level blinded review queue for the upstream FCP re-audit.
+"""Prepare source-level blinded review materials for the upstream FCP re-audit.
 
-The unit of human review is species × source, not species × best-source. Automated
-signals are retained only as navigation aids. No climatic variables are read here.
+The human-review unit is species × source. Reviewer-facing output contains only
+bibliographic/source context and empty review fields. Automated screening signals,
+priority labels and other navigation metadata are written to a separate coordinator-only
+key and must not be shown to reviewers before independent coding is complete.
+
+No climatic variables or ecological model outputs are read here.
 """
 from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -20,6 +25,9 @@ PRIORITY_ORDER = {
     "P4_flower_colour_context_only": 4,
     "P5_low_relevance": 5,
 }
+
+FORBIDDEN_REVIEW_PREFIXES = ("automated_", "historical_", "systematic_screen_")
+FORBIDDEN_REVIEW_COLUMNS = {"screen_priority", "spatial_scale", "automated_evidence_state"}
 
 
 def clean(value: Any) -> str:
@@ -46,37 +54,8 @@ def source_key(row: dict[str, str]) -> str:
     return clean(row.get("doi") or row.get("record_id") or row.get("title"))
 
 
-def merge_group(accepted_name: str, family: str, rows: list[dict[str, str]]) -> dict[str, Any]:
-    best = min(
-        rows,
-        key=lambda row: (
-            PRIORITY_ORDER.get(clean(row.get("screen_priority")), 99),
-            -len(clean(row.get("evidence_excerpt"))),
-        ),
-    )
-    excerpts = sorted(
-        {clean(row.get("evidence_excerpt")) for row in rows if clean(row.get("evidence_excerpt"))},
-        key=len,
-        reverse=True,
-    )
+def review_fields() -> dict[str, str]:
     return {
-        "canonical_name": accepted_name,
-        "family": family,
-        "input_names": ";".join(sorted({clean(row.get("input_name")) for row in rows if clean(row.get("input_name"))})),
-        "source_id": source_key(best),
-        "doi": clean(best.get("doi")),
-        "record_id": clean(best.get("record_id")),
-        "title": clean(best.get("title")),
-        "screen_priority": clean(best.get("screen_priority")),
-        "automated_within_signal": max(integer(row.get("within_signal")) for row in rows),
-        "automated_among_signal": max(integer(row.get("among_signal")) for row in rows),
-        "automated_natural_signal": max(integer(row.get("natural_signal")) for row in rows),
-        "automated_cultivated_signal": max(integer(row.get("cultivated_signal")) for row in rows),
-        "automated_induced_signal": max(integer(row.get("induced_signal")) for row in rows),
-        "automated_ontogenetic_signal": max(integer(row.get("ontogenetic_signal")) for row in rows),
-        "automated_non_display_floral_signal": max(integer(row.get("non_display_floral_signal")) for row in rows),
-        "automated_variation_form": ";".join(sorted({clean(row.get("provisional_variation_form")) for row in rows if clean(row.get("provisional_variation_form"))})),
-        "navigation_excerpt": excerpts[0][:2000] if excerpts else "",
         "review_status": "unreviewed",
         "reviewer_1_initials": "",
         "reviewer_1_date": "",
@@ -111,11 +90,66 @@ def merge_group(accepted_name: str, family: str, rows: list[dict[str, str]]) -> 
     }
 
 
+def merge_group(accepted_name: str, family: str, rows: list[dict[str, str]]) -> tuple[dict[str, Any], dict[str, Any]]:
+    best = min(
+        rows,
+        key=lambda row: (
+            PRIORITY_ORDER.get(clean(row.get("screen_priority")), 99),
+            -len(clean(row.get("evidence_excerpt"))),
+        ),
+    )
+    excerpts = sorted(
+        {clean(row.get("evidence_excerpt")) for row in rows if clean(row.get("evidence_excerpt"))},
+        key=len,
+        reverse=True,
+    )
+    source = source_key(best)
+    review = {
+        "canonical_name": accepted_name,
+        "family": family,
+        "source_id": source,
+        "doi": clean(best.get("doi")),
+        "record_id": clean(best.get("record_id")),
+        "title": clean(best.get("title")),
+        "navigation_excerpt": excerpts[0][:2000] if excerpts else "",
+        **review_fields(),
+    }
+    key = {
+        "canonical_name": accepted_name,
+        "family": family,
+        "source_id": source,
+        "input_names": ";".join(sorted({clean(row.get("input_name")) for row in rows if clean(row.get("input_name"))})),
+        "screen_priority": clean(best.get("screen_priority")),
+        "automated_within_signal": max(integer(row.get("within_signal")) for row in rows),
+        "automated_among_signal": max(integer(row.get("among_signal")) for row in rows),
+        "automated_natural_signal": max(integer(row.get("natural_signal")) for row in rows),
+        "automated_cultivated_signal": max(integer(row.get("cultivated_signal")) for row in rows),
+        "automated_induced_signal": max(integer(row.get("induced_signal")) for row in rows),
+        "automated_ontogenetic_signal": max(integer(row.get("ontogenetic_signal")) for row in rows),
+        "automated_non_display_floral_signal": max(integer(row.get("non_display_floral_signal")) for row in rows),
+        "automated_variation_form": ";".join(sorted({clean(row.get("provisional_variation_form")) for row in rows if clean(row.get("provisional_variation_form"))})),
+        "n_merged_candidate_links": len(rows),
+    }
+    return review, key
+
+
+def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+    if not rows:
+        raise SystemExit(f"No rows to write: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fields = list(rows[0].keys())
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--record-links", required=True)
     parser.add_argument("--resolution-audit", required=True)
-    parser.add_argument("--out", required=True)
+    parser.add_argument("--review-out", required=True)
+    parser.add_argument("--key-out", required=True)
     args = parser.parse_args()
 
     links = read_csv(Path(args.record_links))
@@ -141,37 +175,52 @@ def main() -> None:
         family_by_species[accepted_name] = family
         grouped[(accepted_name, key)].append(row)
 
-    rows: list[dict[str, Any]] = []
-    for index, ((accepted_name, _), source_rows) in enumerate(sorted(grouped.items()), start=1):
-        merged = merge_group(accepted_name, family_by_species.get(accepted_name, ""), source_rows)
-        merged["source_review_id"] = f"JSRC-{index:05d}"
-        rows.append(merged)
+    pairs: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    for accepted_name, source in sorted(grouped):
+        review, key = merge_group(
+            accepted_name,
+            family_by_species.get(accepted_name, ""),
+            grouped[(accepted_name, source)],
+        )
+        stable = hashlib.sha256(f"{accepted_name}|{source}".encode("utf-8")).hexdigest()[:12]
+        review_id = f"JSRC-{stable}"
+        review["source_review_id"] = review_id
+        key["source_review_id"] = review_id
+        pairs.append((review, key))
 
-    out = Path(args.out)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    if not rows:
-        raise SystemExit("No source-level review rows were produced")
-    fields = list(rows[0].keys())
-    with out.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
-        writer.writeheader()
-        writer.writerows(rows)
+    # Stable pseudo-random order prevents grouping by automated state or family while
+    # preserving exactly the same review IDs across reruns.
+    pairs.sort(key=lambda pair: pair[0]["source_review_id"])
+    review_rows = [pair[0] for pair in pairs]
+    key_rows = [pair[1] for pair in pairs]
+
+    review_columns = set(review_rows[0])
+    leaked = sorted(
+        column for column in review_columns
+        if column in FORBIDDEN_REVIEW_COLUMNS or column.startswith(FORBIDDEN_REVIEW_PREFIXES)
+    )
+    if leaked:
+        raise SystemExit(f"Blinding failure: reviewer-facing columns leak navigation labels: {leaked}")
+
+    write_csv(Path(args.review_out), review_rows)
+    write_csv(Path(args.key_out), key_rows)
 
     mixed_navigation_species = {
         row["canonical_name"]
-        for row in rows
+        for row in key_rows
         if row["automated_within_signal"] and row["automated_among_signal"]
     }
-    species_with_within = {row["canonical_name"] for row in rows if row["automated_within_signal"]}
-    species_with_among = {row["canonical_name"] for row in rows if row["automated_among_signal"]}
+    species_with_within = {row["canonical_name"] for row in key_rows if row["automated_within_signal"]}
+    species_with_among = {row["canonical_name"] for row in key_rows if row["automated_among_signal"]}
     print({
         "status": "complete",
-        "source_review_rows": len(rows),
-        "species": len({row['canonical_name'] for row in rows}),
-        "species_with_automated_within_signal": len(species_with_within),
-        "species_with_automated_among_signal": len(species_with_among),
-        "species_with_same_source_mixed_signal": len(mixed_navigation_species),
-        "semantic_guard": "All automated flags are navigation aids; source-level human adjudication is required.",
+        "source_review_rows": len(review_rows),
+        "species": len({row['canonical_name'] for row in review_rows}),
+        "species_with_automated_within_signal_hidden": len(species_with_within),
+        "species_with_automated_among_signal_hidden": len(species_with_among),
+        "species_with_same_source_mixed_signal_hidden": len(mixed_navigation_species),
+        "reviewer_facing_automated_columns": 0,
+        "semantic_guard": "Automated flags are coordinator-only and absent from the reviewer-facing sheet.",
     })
 
 
