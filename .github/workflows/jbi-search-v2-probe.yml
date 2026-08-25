@@ -9,13 +9,6 @@ on:
       - 'scripts/systematic_search/probe_openalex_oql_v2.py'
       - 'scripts/systematic_search/run_openalex_oql_v2.py'
       - 'scripts/systematic_search/audit_v2_citation_benchmark_recovery.py'
-  pull_request:
-    paths:
-      - '.github/workflows/jbi-search-v2-probe.yml'
-      - 'literature/itv_fcp_search_config_v2.json'
-      - 'scripts/systematic_search/probe_openalex_oql_v2.py'
-      - 'scripts/systematic_search/run_openalex_oql_v2.py'
-      - 'scripts/systematic_search/audit_v2_citation_benchmark_recovery.py'
   workflow_dispatch:
 
 permissions:
