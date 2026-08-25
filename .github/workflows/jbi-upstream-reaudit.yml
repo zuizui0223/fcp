@@ -3,11 +3,8 @@ name: JBI upstream spatial evidence re-audit
 on:
   push:
     branches: [audit/upstream-spatial-reaudit]
-  pull_request:
     paths:
       - '.github/workflows/jbi-upstream-reaudit.yml'
-      - 'docs/JBI_UPSTREAM_REAUDIT_PROTOCOL.md'
-      - 'docs/JBI_UPSTREAM_REAUDIT_STATUS.md'
       - 'scripts/literature/build_gbif_resolution_cache.py'
       - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
       - 'scripts/literature/prepare_systematic_source_review.py'
@@ -104,9 +101,9 @@ jobs:
               'priority_counts': {str(k): int(v) for k, v in priority_counts.items()},
               'canonical_replacement_freeze_allowed': False,
               'blockers': [
-                  'stage-1 source-level duplicate human review and adjudication incomplete',
-                  'stage-2 P2/P3 records remain pending review rather than silently excluded',
-                  '19 truncated search shards require repair or explicit sensitivity bounding',
+                  'legacy P1/P2/P3 screening path is diagnostic only and is not the canonical inclusion path',
+                  'canonical v2.2 duplicate blind record review and adjudication remain incomplete',
+                  'use the v2.2 all-record workflow for replacement inference; legacy truncation is provenance only',
               ],
           }
           assert boundary['truncated_shards'] == 19, boundary
