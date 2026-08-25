@@ -6,10 +6,6 @@ on:
     paths:
       - '.github/workflows/jbi-v22-record-screening.yml'
       - 'scripts/literature/build_v22_record_screening_universe.py'
-  pull_request:
-    paths:
-      - '.github/workflows/jbi-v22-record-screening.yml'
-      - 'scripts/literature/build_v22_record_screening_universe.py'
   workflow_dispatch:
 
 permissions:
