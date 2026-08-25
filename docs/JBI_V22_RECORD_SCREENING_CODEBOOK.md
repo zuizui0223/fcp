@@ -99,7 +99,21 @@ Before the full 12,064-record screen, the codebook is calibrated on a blinded **
 
 These strata are mutually exclusive in the calibration sample. Stratum identity, query membership, historical status, and automatic taxon hints are coordinator-only.
 
-The codebook is revised if disagreements reveal a systematic interpretation problem. A second calibration wave should be used after a material rule change rather than silently changing rules during the full screen.
+### Prespecified pass criteria
+
+These criteria are fixed **before either completed reviewer sheet is inspected**:
+
+1. all four gated fields must be independently double-coded for **384/384** records;
+2. raw agreement must be at least **0.90** for `record_relevance`, `natural_intraspecific_variation`, and `floral_display_colour`;
+3. raw agreement must be at least **0.85** for `full_text_required`;
+4. Cohen's kappa must be at least **0.60** for each gated field when kappa is estimable;
+5. if both reviewer marginals collapse to a single category so that kappa is mathematically undefined, the raw-agreement criterion still applies and the undefined kappa is reported rather than replaced by an arbitrary value.
+
+Normalized exact agreement on `focal_taxon_text` is reported as a diagnostic but is **not** a formal Wave 0 gate because spelling, abbreviation, and multi-taxon formatting are resolved only in the later taxonomic stage.
+
+The five hidden calibration strata are examined after overall scoring to diagnose concentrated disagreement, but stratum identity is not revealed to reviewers and no post-hoc stratum threshold is used to rescue an overall failed gate.
+
+If any formal criterion fails, the full B01–B13 screen does not start. Disagreement patterns are inspected, any material rule change is versioned in this codebook, and a **new blinded calibration wave** is required. The failed Wave 0 is retained for provenance and is not rescored under a newly relaxed threshold.
 
 ## Transition to source-level spatial review
 
