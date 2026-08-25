@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Audit historical benchmark recovery after one-generation OpenAlex citation chasing.
+"""Audit historical benchmark recovery through one-generation seed citation chasing.
 
-Starts from the seven prespecified review seeds used by the systematic-map protocol,
-collects each seed, its OpenAlex references, and all direct citers, then tests exact
-DOI/OpenAlex recovery of the historical 34 classification sources. This is a search
-completeness diagnostic only; it does not classify biological eligibility or spatial state.
+Instead of enumerating every citer of every seed, resolve only the seven prespecified
+seed reviews and the 34 historical benchmark sources. A historical source is reachable
+by one-generation chasing if it is a seed, is referenced by a seed (backward), or cites
+a seed (forward). This is exactly the benchmark-recovery question and avoids huge citer
+enumeration. No biological classification is performed.
 """
 from __future__ import annotations
 
@@ -19,7 +20,7 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
-USER_AGENT = "fcp-jbi-v2-citation-audit/1.0 (https://github.com/zuizui0223/fcp)"
+USER_AGENT = "fcp-jbi-v2-citation-audit/2.0 (https://github.com/zuizui0223/fcp)"
 SEEDS = [
     "10.1111/plb.12575",
     "10.1016/j.tree.2021.01.011",
@@ -68,45 +69,32 @@ def request(url: str, timeout: int, retries: int) -> dict[str, Any]:
     raise RuntimeError(url) from last
 
 
-def works_by_ids(ids: list[str], api_key: str, timeout: int, retries: int) -> list[dict[str, Any]]:
-    out: list[dict[str, Any]] = []
-    for i in range(0, len(ids), 50):
-        batch = [norm_oa(x) for x in ids[i:i+50] if norm_oa(x)]
-        if not batch:
-            continue
-        params = {"filter": "openalex:" + "|".join(batch), "per-page": 100, "select": "id,doi,title"}
-        if api_key: params["api_key"] = api_key
-        data = request("https://api.openalex.org/works?" + urllib.parse.urlencode(params), timeout, retries)
-        results = data.get("results")
-        if isinstance(results, list): out.extend(x for x in results if isinstance(x, dict))
-    return out
-
-
-def resolve_seed(doi: str, api_key: str, timeout: int, retries: int) -> dict[str, Any] | None:
+def resolve_by_doi(doi: str, api_key: str, timeout: int, retries: int) -> dict[str, Any] | None:
     params = {"filter": "doi:" + doi, "per-page": 1, "select": "id,doi,title,referenced_works"}
-    if api_key: params["api_key"] = api_key
+    if api_key:
+        params["api_key"] = api_key
     data = request("https://api.openalex.org/works?" + urllib.parse.urlencode(params), timeout, retries)
     results = data.get("results")
     return results[0] if isinstance(results, list) and results and isinstance(results[0], dict) else None
 
 
-def citers(seed_id: str, api_key: str, timeout: int, retries: int) -> list[dict[str, Any]]:
-    short = norm_oa(seed_id)
-    cursor = "*"
-    out: list[dict[str, Any]] = []
-    while True:
-        params = {"filter": f"cites:{short},is_retracted:false", "per-page": 100, "cursor": cursor, "select": "id,doi,title"}
-        if api_key: params["api_key"] = api_key
-        data = request("https://api.openalex.org/works?" + urllib.parse.urlencode(params), timeout, retries)
-        results = data.get("results")
-        if not isinstance(results, list) or not results: break
-        out.extend(x for x in results if isinstance(x, dict))
-        meta = data.get("meta") if isinstance(data.get("meta"), dict) else {}
-        nxt = meta.get("next_cursor")
-        if not nxt or str(nxt) == cursor: break
-        cursor = str(nxt)
-        time.sleep(0.03)
-    return out
+def resolve_by_oa(oa: str, api_key: str, timeout: int, retries: int) -> dict[str, Any] | None:
+    params = {"filter": "openalex:" + oa, "per-page": 1, "select": "id,doi,title,referenced_works"}
+    if api_key:
+        params["api_key"] = api_key
+    data = request("https://api.openalex.org/works?" + urllib.parse.urlencode(params), timeout, retries)
+    results = data.get("results")
+    return results[0] if isinstance(results, list) and results and isinstance(results[0], dict) else None
+
+
+def resolve_source(source_id: str, api_key: str, timeout: int, retries: int) -> dict[str, Any] | None:
+    doi = norm_doi(source_id)
+    if doi.startswith("10."):
+        return resolve_by_doi(doi, api_key, timeout, retries)
+    oa = norm_oa(source_id)
+    if oa:
+        return resolve_by_oa(oa, api_key, timeout, retries)
+    return None
 
 
 def main() -> None:
@@ -125,57 +113,75 @@ def main() -> None:
         hist = list(csv.DictReader(h))
     with Path(a.direct_recovery).open(newline="", encoding="utf-8") as h:
         direct = list(csv.DictReader(h))
+    if len(hist) != 34:
+        raise SystemExit("Historical manifest must have 34 rows")
     direct_by_name = {r["canonical_name"]: int(r["recovered_in_openalex_v2_direct_queries"]) for r in direct}
 
-    neighborhood: dict[str, dict[str, Any]] = {}
+    seed_works: dict[str, dict[str, Any]] = {}
     seed_logs = []
     for doi in SEEDS:
-        seed = resolve_seed(doi, api_key, a.timeout, a.retries)
-        if not seed:
-            seed_logs.append({"seed_doi": doi, "resolved": False, "backward": 0, "forward": 0})
-            continue
-        refs = [str(x) for x in (seed.get("referenced_works") or [])]
-        back = works_by_ids(refs, api_key, a.timeout, a.retries)
-        forward = citers(str(seed.get("id") or ""), api_key, a.timeout, a.retries)
-        all_items = [seed] + back + forward
-        for item in all_items:
-            oid = norm_oa(item.get("id"))
-            doi2 = norm_doi(item.get("doi"))
-            key = oid or ("DOI:" + doi2 if doi2 else "")
-            if key: neighborhood[key] = item
-        seed_logs.append({"seed_doi": doi, "resolved": True, "backward": len(back), "forward": len(forward)})
+        work = resolve_by_doi(doi, api_key, a.timeout, a.retries)
+        if work:
+            seed_works[norm_oa(work.get("id"))] = work
+            seed_logs.append({"seed_doi": doi, "resolved": True, "openalex_id": norm_oa(work.get("id")), "references": len(work.get("referenced_works") or [])})
+        else:
+            seed_logs.append({"seed_doi": doi, "resolved": False, "openalex_id": "", "references": 0})
         print(seed_logs[-1], flush=True)
 
-    neighborhood_dois = {norm_doi(x.get("doi")) for x in neighborhood.values() if norm_doi(x.get("doi"))}
-    neighborhood_oa = {norm_oa(x.get("id")) for x in neighborhood.values() if norm_oa(x.get("id"))}
+    seed_ids = set(seed_works)
+    seed_reference_ids = {norm_oa(ref) for work in seed_works.values() for ref in (work.get("referenced_works") or []) if norm_oa(ref)}
+
     rows = []
+    unresolved_targets = []
     for r in hist:
         name = clean(r.get("canonical_name"))
         sid = clean(r.get("source_id"))
-        doi = norm_doi(sid)
-        oa = norm_oa(sid)
-        cited = (doi.startswith("10.") and doi in neighborhood_dois) or (bool(oa) and oa in neighborhood_oa)
+        target = resolve_source(sid, api_key, a.timeout, a.retries)
         direct_hit = direct_by_name.get(name, 0)
+        if target:
+            target_id = norm_oa(target.get("id"))
+            target_refs = {norm_oa(x) for x in (target.get("referenced_works") or []) if norm_oa(x)}
+            is_seed = target_id in seed_ids
+            backward = target_id in seed_reference_ids
+            forward = bool(target_refs.intersection(seed_ids))
+            citation_hit = bool(is_seed or backward or forward)
+            relation = "seed" if is_seed else "backward_from_seed" if backward else "forward_cites_seed" if forward else "none"
+        else:
+            target_id = ""
+            citation_hit = False
+            relation = "target_unresolved"
+            unresolved_targets.append(name)
         rows.append({
             "canonical_name": name,
             "historical_source_id": sid,
+            "target_openalex_id": target_id,
             "direct_v2_recovered": direct_hit,
-            "citation_chase_recovered": int(cited),
-            "direct_or_citation_recovered": int(bool(direct_hit or cited)),
+            "citation_chase_recovered": int(citation_hit),
+            "citation_relation": relation,
+            "direct_or_citation_recovered": int(bool(direct_hit or citation_hit)),
         })
+        time.sleep(0.02)
 
-    out = Path(a.out); out.parent.mkdir(parents=True, exist_ok=True)
+    out = Path(a.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
     with out.open("w", newline="", encoding="utf-8") as h:
-        w = csv.DictWriter(h, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+        w = csv.DictWriter(h, fieldnames=list(rows[0]))
+        w.writeheader(); w.writerows(rows)
+
     total_direct = sum(r["direct_v2_recovered"] for r in rows)
     total_cited = sum(r["citation_chase_recovered"] for r in rows)
     total_union = sum(r["direct_or_citation_recovered"] for r in rows)
+    relation_counts: dict[str, int] = {}
+    for row in rows:
+        relation_counts[row["citation_relation"]] = relation_counts.get(row["citation_relation"], 0) + 1
     summary = {
         "status": "complete",
         "seed_reviews": len(SEEDS),
         "resolved_seeds": sum(bool(x["resolved"]) for x in seed_logs),
         "seed_logs": seed_logs,
-        "unique_citation_neighborhood_works": len(neighborhood),
+        "historical_targets_resolved_in_openalex": 34 - len(unresolved_targets),
+        "unresolved_historical_targets": unresolved_targets,
+        "citation_relation_counts": relation_counts,
         "historical_direct_recovered": total_direct,
         "historical_citation_recovered": total_cited,
         "historical_direct_or_citation_recovered": total_union,
@@ -185,4 +191,6 @@ def main() -> None:
     Path(a.summary_out).write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(summary, indent=2), flush=True)
 
-if __name__ == "__main__": main()
+
+if __name__ == "__main__":
+    main()
