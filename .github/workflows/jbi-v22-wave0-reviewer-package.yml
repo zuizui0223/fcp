@@ -77,7 +77,15 @@ jobs:
           assert {r['record_review_id'] for r in r1} == {r['record_review_id'] for r in r2}
           assert not any(k.startswith('reviewer_2_') for k in r1[0])
           assert not any(k.startswith('reviewer_1_') for k in r2[0])
-          assert not any(k.startswith('adjudicated_') for k in r1[0] | r2[0]) if False else True
+          assert not any(k.startswith('adjudicated_') for k in r1[0])
+          assert not any(k.startswith('adjudicated_') for k in r2[0])
+          forbidden={
+              'calibration_stratum','query_ids','representative_query_id',
+              'historical_34_exact_source_match','detected_binomial_strings',
+              'screen_priority','automated_within_signal','automated_among_signal',
+          }
+          assert not forbidden.intersection(r1[0])
+          assert not forbidden.intersection(r2[0])
           summary=json.loads((root/'reviewer_package_summary.json').read_text())
           assert summary['coordinator_key_included'] is False
           print(summary)
