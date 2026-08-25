@@ -1,0 +1,64 @@
+name: JBI search v2 scope probe
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-search-v2-probe.yml'
+      - 'literature/itv_fcp_search_config_v2.json'
+      - 'scripts/systematic_search/probe_openalex_oql_v2.py'
+  pull_request:
+    paths:
+      - '.github/workflows/jbi-search-v2-probe.yml'
+      - 'literature/itv_fcp_search_config_v2.json'
+      - 'scripts/systematic_search/probe_openalex_oql_v2.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jbi-search-v2-probe
+  cancel-in-progress: true
+
+jobs:
+  probe:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Probe all 15 OpenAlex title-abstract OQL blocks
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: |
+          mkdir -p analysis_outputs/jbi_search_v2_probe
+          python scripts/systematic_search/probe_openalex_oql_v2.py \
+            --config literature/itv_fcp_search_config_v2.json \
+            --out analysis_outputs/jbi_search_v2_probe/openalex_oql_v2_counts.csv \
+            --summary-out analysis_outputs/jbi_search_v2_probe/openalex_oql_v2_summary.json \
+            --api-key-env OPENALEX_API_KEY --timeout 30 --retries 3
+
+      - name: Validate probe coverage
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          summary = json.loads(Path('analysis_outputs/jbi_search_v2_probe/openalex_oql_v2_summary.json').read_text())
+          assert summary['query_blocks'] == 15, summary
+          assert summary['legacy_truncated_openalex_blocks'] == 4, summary
+          expected = {'floral_reflectance', 'japanese_chinese', 'orchid_labellum', 'pigment_variation'}
+          assert set(summary['v2_counts_for_legacy_truncated_openalex']) == expected, summary
+          assert all(int(v) >= 0 for v in summary['all_v2_counts'].values())
+          print(summary)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-search-v2-probe
+          path: analysis_outputs/jbi_search_v2_probe/
+          if-no-files-found: error
+          retention-days: 30
