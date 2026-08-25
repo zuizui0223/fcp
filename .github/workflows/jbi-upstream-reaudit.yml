@@ -57,6 +57,7 @@ jobs:
           set -euo pipefail
           test -s systematic_input/itv_fcp_human_screening_queue.csv
           test -s systematic_input/itv_fcp_search_manifest.json
+          test -s systematic_input/itv_fcp_search_log.csv
           mkdir -p "$OUTDIR"
           python - <<'PY'
           import json
@@ -67,7 +68,19 @@ jobs:
           assert manifest['deduplicated_records'] == 79242, manifest
           assert manifest['raw_records'] == 105249, manifest
           assert manifest['human_review_required'] is True, manifest
-          truncated = manifest.get('truncated_query_database_pairs', [])
+
+          log = pd.read_csv('systematic_input/itv_fcp_search_log.csv')
+          trunc_mask = log['truncated'].astype(str).str.lower().isin({'true', '1', 'yes'})
+          trunc = log.loc[trunc_mask].copy()
+          truncated_pairs = []
+          for _, row in trunc.iterrows():
+              truncated_pairs.append({
+                  'database': str(row.get('database', '')),
+                  'query_id': str(row.get('query_id', '')),
+                  'reported_count': None if pd.isna(row.get('reported_count')) else int(row.get('reported_count')),
+                  'retrieved_count': None if pd.isna(row.get('retrieved_count')) else int(row.get('retrieved_count')),
+                  'pages': None if pd.isna(row.get('pages')) else int(row.get('pages')),
+              })
 
           queue = pd.read_csv('systematic_input/itv_fcp_human_screening_queue.csv', low_memory=False)
           priority_counts = queue['screen_priority'].value_counts().to_dict()
@@ -79,8 +92,11 @@ jobs:
               'source_artifact': 'systematic-itv-fcp-literature-search-full',
               'raw_records': manifest['raw_records'],
               'deduplicated_records': manifest['deduplicated_records'],
-              'truncated_shards': len(truncated),
-              'truncated_query_database_pairs': truncated,
+              'truncated_shards': len(truncated_pairs),
+              'truncated_by_database': {
+                  str(k): int(v) for k, v in trunc['database'].value_counts().to_dict().items()
+              },
+              'truncated_query_database_pairs': truncated_pairs,
               'human_review_required': True,
               'stage_1_primary_records': primary,
               'stage_2_extended_records_pending': extended,
@@ -89,9 +105,10 @@ jobs:
               'blockers': [
                   'stage-1 source-level duplicate human review and adjudication incomplete',
                   'stage-2 P2/P3 records remain pending review rather than silently excluded',
-                  'truncated search shards require repair or explicit sensitivity bounding',
+                  '19 truncated search shards require repair or explicit sensitivity bounding',
               ],
           }
+          assert boundary['truncated_shards'] == 19, boundary
           Path('analysis_outputs/jbi_upstream_reaudit/search_completeness_boundary.json').write_text(
               json.dumps(boundary, indent=2) + '\n'
           )
@@ -122,7 +139,7 @@ jobs:
         run: |
           set -euo pipefail
           python scripts/literature/prepare_systematic_source_review.py \
-            --record-links "$OUTDIR/systematic_record_candidate_links.csv" \
+            --record-links "$OUTDIR/systematic_record_evidence_links.csv" \
             --resolution-audit "$OUTDIR/gbif_candidate_resolution_audit.csv" \
             --out "$OUTDIR/systematic_source_review_queue.csv"
 
@@ -179,10 +196,10 @@ jobs:
           assert set(source_queue['review_status']) == {'unreviewed'}
           assert set(source_queue['canonical_name']).issubset(set(queue['canonical_name']))
 
-          assert taxon_qc['unique_contextual_input_names'] >= taxon_qc['gbif_accepted_input_names']
+          assert taxon_qc['unique_primary_source_candidates'] == taxon_qc['gbif_queries_sent']
           assert boundary['canonical_replacement_freeze_allowed'] is False
-          assert boundary['truncated_shards'] > 0
-          assert boundary['stage_2_extended_records_pending'] > 0
+          assert boundary['truncated_shards'] == 19
+          assert boundary['stage_2_extended_records_pending'] == 1996
 
           summary = {
               'stage_1_p1_records': int(boundary['stage_1_primary_records']),
@@ -191,7 +208,8 @@ jobs:
               'automated_state_counts': queue['automated_evidence_state'].value_counts().to_dict(),
               'source_review_rows': len(source_queue),
               'historical_34_recovered': int(recovery['recovered_in_systematic_candidate_queue'].sum()),
-              'input_candidate_names_checked': int(taxon_qc['unique_contextual_input_names']),
+              'primary_input_candidate_names_checked': int(taxon_qc['unique_primary_source_candidates']),
+              'contextual_names_deferred_as_nonprimary': int(taxon_qc['contextual_names_deferred_as_nonprimary']),
               'gbif_accepted_input_names': int(taxon_qc['gbif_accepted_input_names']),
               'gbif_resolution_errors': int(taxon_qc['gbif_resolution_errors']),
               'truncated_shards': int(boundary['truncated_shards']),
