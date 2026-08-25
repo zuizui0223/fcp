@@ -111,6 +111,8 @@ The hidden strata are:
 
 The strata are mutually exclusive in Wave 0 and their identities are hidden from reviewers. Review order is deterministic but independent of stratum.
 
+Use separate reviewer copies. Reviewer 1 fills only `reviewer_1_*` fields; Reviewer 2 fills only `reviewer_2_*` fields. Neither reviewer sees the other's sheet before both copies are locked. The coordinator key is not distributed to either reviewer.
+
 After duplicate coding, calculate raw agreement and Cohen's kappa for:
 
 - record relevance;
@@ -122,7 +124,7 @@ Also report normalized exact agreement for `focal_taxon_text`.
 
 If disagreement reveals a material ambiguity in the codebook, revise the rule **before** full screening and run another calibration wave. Do not silently change rules during the 12,064-record screen.
 
-The same person/agent cannot count as two independent reviewers.
+The same person or AI agent cannot count as two independent reviewers.
 
 ## Stage 2. Record-level adjudication and full-text escalation
 
@@ -181,37 +183,17 @@ Continuous colour ITV remains scientifically relevant but is not silently conver
 
 Code `local_coexistence_documented` only when the source directly establishes at least two discrete natural floral-display colour variants in the **same population**.
 
-Sufficient evidence includes:
+Sufficient evidence includes explicit co-occurrence statements, same-population counts containing multiple morphs, or morph-frequency tables with >1 morph in at least one population.
 
-- explicit co-occurrence/coexistence statements;
-- population/site-level counts containing multiple colour morphs;
-- morph-frequency tables with >1 morph in at least one population.
-
-Insufficient alone:
-
-- “multiple colour morphs exist”;
-- pooled observations from multiple sites;
-- two morphs collected from different localities;
-- a common garden without independent natural same-population evidence;
-- a species described generally as polymorphic.
+Generic polymorphism, pooled multi-site observations, different-locality samples, or common-garden coexistence without natural same-population evidence are insufficient alone.
 
 ### Geographic structure positive criterion
 
 Code `geographic_structure_documented` only when the source directly demonstrates spatial differentiation among populations, sites, regions, islands, or geographic/elevational units.
 
-Sufficient evidence includes:
+Sufficient evidence includes morph-frequency differences among geographic units, spatial clines, regional replacement/restriction, or statistical population-level spatial differentiation in colour.
 
-- morph-frequency differences among named populations/sites;
-- geographic, latitudinal, island, or population-level elevational clines;
-- regional replacement/restriction of colour forms;
-- statistical spatial differentiation in colour phenotype among populations.
-
-Insufficient alone:
-
-- sampling many locations without reporting colour differentiation;
-- broad species range;
-- an environmental association without spatially resolved colour contrast;
-- differentiation in a non-colour trait only.
+Sampling many locations, broad range, environmental association without spatially resolved colour contrast, or non-colour differentiation are insufficient alone.
 
 ## Stage 6. Species-level multiscale aggregation
 
@@ -237,34 +219,17 @@ These variables are assessed as potential detection/documentation covariates. Do
 
 ## Stage 8. Ecological inference with mixed retained
 
-### Primary analysis
+Primary analysis fits parallel models for probability that local coexistence is documented and probability that geographic structuring is documented. A true mixed species contributes positive evidence to both outcomes.
 
-Fit parallel models for:
+If all three informative states have adequate sample size and stable estimation, a secondary **non-ordinal** multinomial analysis models within-only / among-only / mixed. Regularisation or weakly informative priors are used when required by sparse cells.
 
-- probability that local coexistence is documented;
-- probability that geographic structuring is documented.
-
-A true mixed species contributes positive evidence to both outcomes.
-
-### Secondary analysis
-
-If all three informative states have adequate sample size and stable estimation, fit a **non-ordinal** multinomial model:
-
-`within_evidence_only` / `among_evidence_only` / `mixed_evidence`.
-
-Use regularisation or weakly informative priors if sparse cells require it.
-
-### Legacy analysis
-
-The historical binary within-vs-among analysis becomes a sensitivity analysis restricted to adjudicated non-mixed, non-unresolved cases.
-
-Family/phylogenetic dependence and finite-sample uncertainty must be addressed at least as rigorously as in the historical analysis.
+The historical binary within-vs-among analysis becomes a sensitivity analysis restricted to adjudicated non-mixed, non-unresolved cases. Family/phylogenetic dependence and finite-sample uncertainty must be addressed at least as rigorously as in the historical analysis.
 
 ## Stage 9. Replacement freeze and rerun gate
 
 A new statistical freeze is created only after:
 
-- the v2.2 retrieval artifact is fixed;
+- v2.2 retrieval is fixed;
 - all-record screening and required full-text escalation are adjudicated;
 - focal taxa are resolved;
 - source-level natural eligibility, variation form, and both spatial axes are independently reviewed and adjudicated;
@@ -280,10 +245,10 @@ The historical 34-species checksum and outputs are never overwritten silently.
 
 The archived P1/P2/P3 workflow remains useful for diagnosing screening-path effects, but it is not the canonical inclusion route.
 
-Current diagnostics show:
+Current diagnostics:
 
-- P1: 209 GBIF-valid candidate species and 41 automated mixed-navigation candidates;
-- P2/P3: 522 GBIF-valid candidate species, but all are navigation-`unresolved` because the legacy P2/P3 screen did not carry directional within/among signals;
-- P1–P3 union: 656 candidate species, 447 more than P1 alone, but mixed remains 41 for the same legacy-signal reason.
+- P1: **209** GBIF-valid candidate species and **41** automated mixed-navigation candidates;
+- P2/P3: **522** GBIF-valid candidate species, all navigation-`unresolved` because the legacy P2/P3 screen did not carry directional within/among signals;
+- P1–P3 union: **656** candidate species, **447** more than P1 alone, with **41** mixed-navigation cases because only legacy directional signals can generate that automated state.
 
-These numbers demonstrate why legacy priority and automated state signals cannot define the replacement biological dataset.
+These counts demonstrate why legacy priority and automated state signals cannot define the replacement biological dataset.
