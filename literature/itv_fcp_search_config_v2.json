@@ -1,5 +1,5 @@
 {
-  "protocol_version": "2.1.0-draft",
+  "protocol_version": "2.2.0-draft",
   "role": "search-completeness repair for the JBI upstream re-audit",
   "primary_database": "OpenAlex",
   "primary_search_field": "title/abstract",
@@ -9,10 +9,10 @@
   "no_language_restriction": true,
   "queries": [
     {"id":"fcp_exact","oql":"works where title/abstract has (\"flower color polymorphism\" or \"flower colour polymorphism\" or \"floral color polymorphism\" or \"floral colour polymorphism\")"},
-    {"id":"colour_morph","oql":"works where title/abstract has ((flower or floral or petal or corolla or tepal or labellum or bract) and (\"color morph\" or \"colour morph\" or \"color dimorphism\" or \"colour dimorphism\" or \"color polymorphism\" or \"colour polymorphism\"))"},
+    {"id":"colour_morph","oql":"works where title/abstract has ((flower or floral or petal or corolla or tepal or labellum or bract) and (\"color morph\" or \"color morphs\" or \"colour morph\" or \"colour morphs\" or \"color dimorphism\" or \"colour dimorphism\" or \"color polymorphism\" or \"colour polymorphism\"))"},
     {"id":"itv_explicit","oql":"works where title/abstract has ((flower or floral or petal or corolla or tepal or labellum) and (color or colour or pigmentation or reflectance) and (\"intraspecific variation\" or \"intraspecific trait variation\" or \"within-species variation\" or \"conspecific variation\"))"},
     {"id":"within_population","oql":"works where title/abstract has ((\"flower color\" or \"flower colour\" or \"floral color\" or \"floral colour\" or \"petal color\" or \"petal colour\") and (\"within population\" or \"within-population\" or intrapopulation or coexistence or \"polymorphic population\" or \"morph frequency\"))"},
-    {"id":"among_population","oql":"works where title/abstract has ((\"flower color\" or \"flower colour\" or \"floral color\" or \"floral colour\" or \"petal color\" or \"petal colour\" or \"corolla color\" or \"corolla colour\") and (\"among populations\" or \"between populations\" or interpopulation or \"geographic variation\" or \"geographical variation\" or cline or \"population differentiation\" or \"regional variation\"))"},
+    {"id":"among_population","oql":"works where title/abstract has ((\"flower color\" or \"flower colour\" or \"floral color\" or \"floral colour\" or \"petal color\" or \"petal colour\" or \"corolla color\" or \"corolla colour\") and (\"among populations\" or \"between populations\" or interpopulation or \"geographic variation\" or \"geographical variation\" or geography or \"geographic structure\" or \"geographical structure\" or \"geographic structuring\" or cline or \"population differentiation\" or \"regional variation\"))"},
     {"id":"continuous_colour_itv","oql":"works where title/abstract has ((flower or floral or petal or corolla or tepal or labellum) and (\"continuous color variation\" or \"continuous colour variation\" or \"color gradient\" or \"colour gradient\" or \"hue variation\" or \"chroma variation\" or \"reflectance variation\") and (population or intraspecific or conspecific))"},
     {"id":"pigment_variation","oql":"works where title/abstract has ((flower or floral or petal or corolla or tepal or labellum) and (anthocyanin or carotenoid or pigment or pigmentation) and (polymorphism or morph or dimorphism or intraspecific or population or variation))"},
     {"id":"white_alba_morph","oql":"works where title/abstract has ((flower or floral or petal or corolla or tepal or labellum) and (\"white-flowered\" or \"white flowered\" or \"white morph\" or \"alba morph\" or albiflora or acyanic or anthocyaninless or \"anthocyanin-free\") and (population or natural or wild or polymorphism or variation))"},
@@ -27,6 +27,10 @@
   "language_block_amendment": {
     "reason": "Exact non-English phrases recovered only 2 Spanish/Portuguese and 0 French/German/Italian records. Broader language-specific organ × colour × variation/population probes returned bounded scopes (Spanish 399, Portuguese 106, French 299, German 9, Italian 5) and were therefore promoted into v2.1.",
     "guard": "Broader non-English query membership is retrieval evidence only, never biological inclusion evidence."
+  },
+  "lexical_recall_amendment": {
+    "reason": "Benchmark inspection showed general lexical omissions rather than species-specific failures: plural color/colour morphs were absent from the colour-morph block, and geography/geographic structure variants were absent from the among-population block. V2.2 adds these generic variants before any biological adjudication.",
+    "guard": "The amendment is vocabulary-level and benchmark-informed; no species name is added to any query."
   },
   "interpretation_guard": "This config repairs the search surface only. Query hits are not biological inclusions, and no spatial state is inferred from query membership."
 }
