@@ -2,162 +2,170 @@
 
 ## Current stage
 
-The historical 34-species freeze remains unchanged. A separate upstream re-audit is running from the archived systematic-search corpus. Stage-1 P1 taxon validation, mixed-preserving evidence aggregation, truly blinded source-material generation, historical-source rescue, and the replacement search-surface audit have all completed successfully.
+The historical 34-species freeze remains unchanged. The re-audit has now moved **upstream of automatic taxon extraction**.
 
-Latest successful upstream review workflow: `32825713465` (`JBI upstream spatial evidence re-audit`).
+The canonical path is:
 
-Latest successful replacement-search workflow: `32825713331` (`JBI search v2 scope and retrieval`).
+**v2.2 retrieval → all-record duplicate blind screening → record adjudication/full-text escalation → focal taxon validation → source-level natural/spatial evidence review → species-level two-axis aggregation → new freeze → climatic analysis.**
 
-## Established facts
+No new climatic model has been fit and no historical manuscript conclusion has been overwritten.
 
-### Legacy archived search corpus
+## Completed: replacement search surface
 
-- archived systematic search: **105,249 raw records** and **79,242 deduplicated records**;
-- Stage 1 contains **543 P1 records** (`P1_high_natural_itv` + `P1_high_population_itv`);
-- Stage 2 contains **1,996 P2/P3 records** that remain explicitly pending rather than silently excluded;
-- the legacy search log contains **19 truncated query/database shards**: **15 Crossref** and **4 OpenAlex**;
-- those 19 legacy truncations are retained as provenance but are no longer the active completeness boundary because the search surface has been replaced by v2.2 below;
-- final natural eligibility and spatial classification were never human-adjudicated in the archived corpus.
-
-### Replacement search v2.2
-
-The broad legacy search was not repaired by increasing caps. The search surface itself was corrected:
-
-1. OpenAlex is the completeness-defining retrieval source;
-2. retrieval is restricted to **title/abstract OQL**, rather than ordinary search that can include full text;
-3. Crossref is retained for bibliographic metadata / DOI resolution, not as a completeness-defining high-recall source;
-4. non-English exact phrases were replaced by bounded language-specific organ × colour × variation/population blocks after scope probes;
-5. generic lexical omissions found during benchmark inspection were repaired without adding any focal species name: singular/plural `color/colour morph(s)` and `geography/geographic structure` variants were added.
-
-Successful v2.2 retrieval:
+OpenAlex title/abstract OQL v2.2 is now the completeness-defining search layer.
 
 - query blocks: **15**;
 - raw query memberships: **13,911**;
 - deduplicated works: **12,064**;
 - duplicate memberships removed: **1,847**;
 - truncated v2.2 query blocks: **0**;
-- historical 34 exact classification sources recovered directly by the v2.2 queries: **34/34**;
-- historical 34 recovered by exact identifier or conservative same-title/version matching: **34/34**;
-- prespecified seven review seeds resolved: **7/7**;
-- historical benchmark sources recovered by direct v2.2 query or one-generation prespecified citation chasing: **34/34**.
+- historical exact source recovery: **34/34**;
+- historical exact-or-version recovery: **34/34**;
+- direct/citation benchmark recovery: **34/34**;
+- seven prespecified review seeds resolved: **7/7**.
 
-The old 19 truncated shards are therefore treated as a **resolved legacy-search defect**, not a blocker for the replacement search. Search-query membership remains retrieval evidence only and never determines biological inclusion or spatial state.
+The legacy 19 truncated shards (15 Crossref + 4 OpenAlex) remain archived for provenance but are no longer an active blocker.
 
-### Stage-1 taxon validation
+## Completed: diagnosis of the automatic-taxon bottleneck
 
-The P1 corpus contained many permissive two-word candidate strings. Source attribution is therefore separated from taxon validation before any species-level evidence aggregation.
+A diagnostic priority-independent taxon/source pass was attempted directly on the 12,064 v2.2 works.
 
-- contextual candidate strings in P1 records: **4,613**;
-- primary source candidates (name in the title or first 2,000 abstract characters): **874**;
-- contextual strings deferred as non-primary rather than treated as taxa: **3,739**;
-- GBIF queries sent: **874**;
-- strict GBIF-valid candidate species: **209**;
-- GBIF resolution errors: **0**.
+Its build step produced approximately:
 
-These 209 rows are **taxonomically valid review candidates**, not adjudicated biological inclusions.
+- **1,684** GBIF-valid candidate species;
+- **3,358** species×source rows;
+- historical benchmark species represented: **31/34**.
 
-### Automated navigation states after taxon validation
+The missing benchmark taxa were *Convolvulus arvensis*, *Disa porrecta*, and *Lupinus perennis* even though the v2.2 search contains all 34 exact source papers.
 
-The 209 Stage-1 candidate species currently have the following automated evidence states:
+Therefore automatic title/abstract binomial extraction itself can create **silent false-negative source-to-taxon attribution**. This diagnostic universe is not canonical.
 
-- `among_evidence_only`: **109**;
-- `mixed_evidence`: **41**;
-- `within_evidence_only`: **26**;
-- `unresolved`: **33**.
+## Completed: canonical all-record blind screening universe
 
-These are navigation states only. `mixed_evidence` means that the archived record set contains at least one automated within signal and at least one automated among signal after taxon validation and source aggregation. It does **not** mean that human review has already established a true multiscale biological state.
+Workflow: `JBI v2.2 canonical record screening universe`.
 
-### Source-level review workload and blinding
+Successful canonical record-screen output:
 
-- Stage-1 species-by-source review rows: **383**;
-- species with any automated within signal: **67**;
-- species with any automated among signal: **150**;
-- species with both signals in the same source: **30**;
-- historical 34-species cases recovered in the Stage-1 P1 candidate queue: **22/34**.
+- input v2.2 records: **12,064**;
+- reviewer-facing blind rows: **12,064**;
+- coordinator-key rows: **12,064**;
+- records with a hidden automatically detected binomial hint: **9,071**;
+- records with **no** detected binomial but retained for human review: **2,993**;
+- historical exact source records retained: **34/34**;
+- review batches: **13** (target 1,000 records; final batch 64);
+- reviewer-facing query-membership columns: **0**;
+- reviewer-facing historical-status columns: **0**;
+- reviewer-facing automatic-taxon-hint columns: **0**.
 
-The source-review materials are split into two files:
+Additional audit of the blind artifact found **1,259 records without abstracts**. These records are retained; missing abstract is a reason for conservative/full-text handling, not automatic exclusion.
 
-1. `systematic_source_review_blind.csv` — reviewer-facing bibliographic information, evidence excerpt, and blank reviewer/adjudication fields only;
-2. `systematic_source_review_coordinator_key.csv` — automated within/among/natural/cultivated/induced signals, screen priority, and source-link metadata.
+This closes the major upstream failure mode in which absent/abbreviated taxon names could silently remove relevant source papers before review.
 
-The workflow asserts that the reviewer-facing sheet contains **zero automated-signal columns**. The coordinator key must not be supplied to independent reviewers before coding is complete.
+## Completed: Wave 0 calibration infrastructure
 
-### Historical 34-species direct source rescue
+Workflow: `JBI v2.2 record-screening Wave 0 calibration`.
 
-The historical sample is no longer dependent on P1 recovery. Every frozen source identifier is looked up directly against the full archived systematic corpus, independently of search priority.
+Successful run: `32835886607`.
 
-- historical species retained for rescue review: **34/34**;
-- exact historical classification sources recovered in the archived systematic corpus: **34/34**;
-- exact historical sources that fall outside Stage-1 P1: **15**;
-- historical sources missing from the archived systematic corpus: **0**.
+The calibration workflow builds **384 unique blind records** with hidden mutually exclusive strata:
 
-This establishes that the earlier 22/34 P1 recovery was a **priority/screening-path issue, not literature absence**.
+- historical benchmark sources: **34**;
+- no automatically detected binomial: **100**;
+- detected binomial: **100**;
+- non-English: **100**;
+- missing abstract: **50**.
 
-Historical rescue materials are also split:
+Review order is deterministic but independent of stratum. Reviewer-facing material contains no stratum, query membership, historical status, or automatic taxon hints.
 
-1. `historical_34_source_review_blind.csv` — reviewer-facing source material with no old spatial label;
-2. `historical_34_source_review_coordinator_key.csv` — old frozen label, source recovery state, archived screen priority, and automated signals.
+`score_v22_record_calibration.py` was smoke-tested on the blank 384-row sheet and correctly reports zero double-coded rows with null agreement coefficients. Once two independent reviewers complete Wave 0, it will calculate raw agreement and Cohen's kappa for record relevance, natural intraspecific variation, floral-display colour, and full-text requirement, plus normalized exact agreement for focal taxon text.
 
-The workflow asserts that the reviewer-facing historical sheet contains **zero historical-label columns**.
+The coding rules are fixed in `docs/JBI_V22_RECORD_SCREENING_CODEBOOK.md`.
 
-## Why the old and new states diverge
+## Legacy priority diagnostics — sensitivity only
 
-The historical 34-species analysis and the later systematic map were built through different evidence paths. The old paper freeze came from the earlier 1,075-work discovery chain, whereas the systematic map was acquired later and contains 79,242 deduplicated records. In addition, the old automated classification logic could infer a within-population state from generic morph terminology and the exploratory systematic-analysis code explicitly removed mixed within/among candidates before ecological modelling.
+These results are retained to quantify how strongly the old screening path shaped the candidate universe. They no longer define canonical inclusion.
 
-The direct source rescue adds a stronger diagnosis: **15/34 historical source papers are outside P1 despite being the exact papers used for the frozen labels**. Therefore P1 recall cannot be used as a biological inclusion criterion. Search priority is now only review triage.
+### P1 diagnostic
 
-The v2.2 benchmark additionally shows that several apparent search misses were lexical/indexing artifacts rather than biological evidence gaps. Generic vocabulary repair restored **34/34 exact historical source recovery** without species-specific query terms.
+- P1 records: **543**;
+- primary taxon strings checked against GBIF: **874**;
+- GBIF-valid species: **209**;
+- automated navigation states: 109 among-only / **41 mixed** / 26 within-only / 33 unresolved;
+- blind species×source rows: **383**;
+- historical species recovered through the P1 candidate path: **22/34**.
 
-The new audit does not treat disagreement with the historical label as evidence that either label is automatically correct. It returns to source-level evidence before climatic data are inspected.
+Direct historical-source rescue showed that all **34/34** source papers existed in the archived corpus and **15/34** were outside P1. Thus P1 cannot be an inclusion criterion.
 
-## Spatial representation retained for adjudication
+### P2/P3 diagnostic
 
-The re-audit stores two evidence axes separately:
+The 1,996 legacy P2/P3 records were processed through the corrected source-attribution and GBIF path.
 
-1. `local_coexistence_documented` — direct source evidence that discrete natural floral-colour variants coexist in at least one population;
-2. `geographic_structure_documented` — direct source evidence for geographic/among-population differentiation in colour or morph frequency.
+- primary taxon names checked: **2,978**;
+- GBIF-valid species: **522**;
+- blind source-review rows: **1,196**;
+- navigation state: all **522 unresolved**.
 
-After source adjudication:
+The unresolved-only state is expected: legacy P2/P3 records did not carry the directional within/among signals used by the old navigation classifier. It is not evidence that these species lack spatial structure.
 
-- local = 1, geographic = 0 → within-only evidence;
-- local = 0, geographic = 1 → among-only evidence;
-- local = 1, geographic = 1 → mixed/multiscale evidence;
-- unresolved evidence remains outside the primary inferential freeze.
+### P1–P3 union diagnostic
 
-A zero is interpreted as **not documented in the reviewed evidence**, not as proof of biological absence.
+- GBIF-valid species: **656**;
+- species added beyond P1: **447**;
+- automated navigation states: **124 among-only / 41 mixed / 30 within-only / 461 unresolved**;
+- blind source-review rows: **1,625**;
+- new mixed-navigation species from P2/P3: **0**;
+- P1 species promoted to mixed by P2/P3: **0**.
 
-## Review priority now fixed
+The unchanged mixed count is an artifact of legacy directional-signal semantics, not a biological conclusion. The large +447 species expansion is further evidence that legacy priority strata cannot define the replacement dataset.
 
-### Priority A — mixed and historical cases
+## Why the old result and the re-audit diverged
 
-- all **41 automated mixed candidates**;
-- all **34 historical species** via direct historical-source rescue;
-- overlap between these sets is retained rather than collapsed at the species level because the review unit is species × source;
-- coordinator batch plan currently contains **195 source-review units**.
+The divergence is now traceable to multiple upstream mechanisms rather than one bad species label:
 
-The automated mixed list and historical labels are used only by the coordinator to assemble the batch; reviewers receive the blind source sheets without the priority reason.
+1. the historical 34-species freeze and later 79,242-record map followed different discovery chains;
+2. the old within regex accepted generic morph terminology as local coexistence evidence;
+3. geographic evidence vocabulary was comparatively narrow;
+4. mixed candidates were removed before exploratory ecological modelling;
+5. P1 priority missed exact papers already known to be relevant;
+6. automatic binomial extraction can miss relevant source papers even after search retrieval is complete.
 
-### Priority B — directional candidates with multiple independent sources
+The replacement pipeline therefore removes **all of those automated steps as irreversible biological filters**.
 
-Within-only or among-only species supported by more than one source.
+## Spatial representation to be adjudicated
 
-### Priority C — eligibility conflicts and unresolved cases
+For every eligible taxonomically resolved species:
 
-Cultivated/induced/ontogenetic conflicts, non-display floral traits, or unresolved spatial evidence.
+1. `local_coexistence_documented` — direct evidence of discrete natural floral-display colour variants within at least one same population;
+2. `geographic_structure_documented` — direct evidence of spatial differentiation among populations/regions/sites/islands or other geographic units.
 
-### Stage 2 — P2/P3 expansion
+Species aggregation:
 
-**1,996 records**, processed after Stage-1 review infrastructure is stable. P2/P3 records remain pending, not excluded.
+- local only → within-only evidence;
+- geographic only → among-only evidence;
+- both → mixed/multiscale evidence;
+- unresolved → outside the primary state analysis until resolved.
 
-Priority is a workload triage variable only. It cannot determine inclusion or spatial state.
+A zero means **not documented in reviewed evidence**, not proof of biological absence.
 
-## Remaining gates before a replacement climatic analysis
+## Current blocker and next scientific action
 
-1. complete duplicate blind source-level review and adjudication for Priority A, then B/C;
-2. process Stage-2 P2/P3 records through the corrected taxon/source-review path and document what they add;
-3. freeze the adjudicated natural/display-colour dataset with separate local and geographic evidence axes;
-4. only then calculate the climatic variables and fit the new two-axis / mixed-preserving models.
+The computational/search infrastructure is no longer the limiting step. The next irreducible scientific gate is **genuinely independent duplicate review**.
 
-The legacy 19-shard truncation problem is no longer a remaining gate: it has been replaced by the v2.2 title/abstract search with zero truncation and 34/34 benchmark recovery.
+1. Two independent reviewers code the 384-record Wave 0 using the fixed codebook.
+2. Agreement and disagreements are scored before any rule change.
+3. Material ambiguities trigger codebook revision plus a new calibration wave.
+4. After calibration passes, screen all 12,064 records in the 13 preassigned blind batches.
+5. Adjudicate record relevance and full-text needs.
+6. Only retained/uncertain records proceed to taxon validation and source-level spatial evidence coding.
+7. Only after source adjudication is complete is a new species freeze created and climatic inference rerun.
 
-Until the review/adjudication gates pass, the historical 34-species analysis remains a reproducible historical/sensitivity result, not the final canonical inference.
+The same person or AI agent is **not** counted as two independent reviewers. Automated triage may assist coordinators but cannot populate independent reviewer fields or adjudicated biological states.
+
+## Manuscript boundary
+
+Until the new record/source review and adjudication are complete:
+
+- the historical 34-species results remain reproducible **historical/sensitivity** results;
+- the current Main/SI statistical conclusions are not promoted to final canonical inference;
+- no new figures/DOCX should be presented as final results from the replacement pipeline;
+- the new mixed-preserving models remain preregistered/planned inference, not completed biological results.
