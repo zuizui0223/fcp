@@ -8,12 +8,14 @@ on:
       - 'literature/itv_fcp_search_config_v2.json'
       - 'scripts/systematic_search/probe_openalex_oql_v2.py'
       - 'scripts/systematic_search/run_openalex_oql_v2.py'
+      - 'scripts/systematic_search/audit_v2_citation_benchmark_recovery.py'
   pull_request:
     paths:
       - '.github/workflows/jbi-search-v2-probe.yml'
       - 'literature/itv_fcp_search_config_v2.json'
       - 'scripts/systematic_search/probe_openalex_oql_v2.py'
       - 'scripts/systematic_search/run_openalex_oql_v2.py'
+      - 'scripts/systematic_search/audit_v2_citation_benchmark_recovery.py'
   workflow_dispatch:
 
 permissions:
@@ -26,7 +28,7 @@ concurrency:
 jobs:
   probe-and-retrieve:
     runs-on: ubuntu-22.04
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -54,6 +56,17 @@ jobs:
             --outdir analysis_outputs/jbi_search_v2 \
             --api-key-env OPENALEX_API_KEY --timeout 45 --retries 3
 
+      - name: Audit benchmark recovery through prespecified citation chasing
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: |
+          python scripts/systematic_search/audit_v2_citation_benchmark_recovery.py \
+            --historical-manifest docs/supporting/frozen_classification_manifest.csv \
+            --direct-recovery analysis_outputs/jbi_search_v2/openalex_oql_v2_historical34_recovery.csv \
+            --out analysis_outputs/jbi_search_v2/openalex_oql_v2_citation_benchmark_recovery.csv \
+            --summary-out analysis_outputs/jbi_search_v2/openalex_oql_v2_citation_benchmark_summary.json \
+            --api-key-env OPENALEX_API_KEY --timeout 45 --retries 3
+
       - name: Validate v2 retrieval boundary
         run: |
           python - <<'PY'
@@ -61,13 +74,17 @@ jobs:
           from pathlib import Path
           probe = json.loads(Path('analysis_outputs/jbi_search_v2/openalex_oql_v2_probe_summary.json').read_text())
           full = json.loads(Path('analysis_outputs/jbi_search_v2/openalex_oql_v2_retrieval_summary.json').read_text())
+          cite = json.loads(Path('analysis_outputs/jbi_search_v2/openalex_oql_v2_citation_benchmark_summary.json').read_text())
           assert probe['query_blocks'] == 15, probe
           assert probe['legacy_truncated_openalex_blocks'] == 4, probe
           assert full['query_blocks'] == 15, full
           assert full['truncated_v2_query_blocks'] == 0, full
           assert full['raw_query_memberships'] >= full['deduplicated_works'] > 0, full
-          assert 0 <= full['historical_34_exact_sources_recovered_by_direct_v2_queries'] <= 34, full
-          print({'probe': probe, 'retrieval': full})
+          assert full['historical_34_exact_sources_recovered_by_direct_v2_queries'] == 27, full
+          assert cite['seed_reviews'] == 7, cite
+          assert cite['historical_direct_recovered'] == 27, cite
+          assert 27 <= cite['historical_direct_or_citation_recovered'] <= 34, cite
+          print({'probe': probe, 'retrieval': full, 'citation_benchmark': cite})
           PY
 
       - uses: actions/upload-artifact@v4
