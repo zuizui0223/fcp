@@ -1,0 +1,103 @@
+name: JBI v2.2 priority-independent review universe
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-priority-independent-universe.yml'
+      - 'scripts/literature/build_v22_priority_independent_review_universe.py'
+  pull_request:
+    paths:
+      - '.github/workflows/jbi-v22-priority-independent-universe.yml'
+      - 'scripts/literature/build_v22_priority_independent_review_universe.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-v22-priority-independent-universe
+  cancel-in-progress: true
+
+env:
+  V22_RUN_ID: '32825713331'
+  V22_ARTIFACT: 'jbi-search-v2'
+  OUTDIR: 'analysis_outputs/jbi_v22_priority_independent_universe'
+
+jobs:
+  build-universe:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download successful v2.2 search artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.V22_ARTIFACT }}
+          path: v22_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.V22_RUN_ID }}
+
+      - name: Verify v2.2 retrieval boundary
+        run: |
+          set -euo pipefail
+          test -s v22_input/openalex_oql_v2_deduplicated.csv
+          test -s v22_input/openalex_oql_v2_retrieval_summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          summary=json.loads(Path('v22_input/openalex_oql_v2_retrieval_summary.json').read_text())
+          assert summary['protocol_version'] == '2.2.0-draft', summary
+          assert summary['deduplicated_works'] == 12064, summary
+          assert summary['truncated_v2_query_blocks'] == 0, summary
+          assert summary['historical_34_exact_sources_recovered_by_direct_v2_queries'] == 34, summary
+          print(summary)
+          PY
+
+      - name: Build priority-independent taxon/source universe
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR"
+          python scripts/literature/build_v22_priority_independent_review_universe.py \
+            --works v22_input/openalex_oql_v2_deduplicated.csv \
+            --historical-manifest docs/supporting/frozen_classification_manifest.csv \
+            --blind-out "$OUTDIR/v22_source_review_blind.csv" \
+            --key-out "$OUTDIR/v22_source_review_coordinator_key.csv" \
+            --taxon-audit-out "$OUTDIR/v22_gbif_taxon_audit.csv" \
+            --summary-out "$OUTDIR/v22_priority_independent_summary.json" \
+            --workers 24 --timeout 25 --retries 3
+
+      - name: Validate no legacy priority or query-membership leakage
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('analysis_outputs/jbi_v22_priority_independent_universe')
+          blind=pd.read_csv(root/'v22_source_review_blind.csv')
+          key=pd.read_csv(root/'v22_source_review_coordinator_key.csv')
+          summary=json.loads((root/'v22_priority_independent_summary.json').read_text())
+          forbidden={'query_ids','screen_priority','automated_within_signal','automated_among_signal','historical_spatial_scale'}
+          assert not forbidden.intersection(blind.columns), sorted(forbidden.intersection(blind.columns))
+          assert 'query_ids' in key.columns
+          assert blind['source_review_id'].is_unique
+          assert set(blind['source_review_id']) == set(key['source_review_id'])
+          assert set(blind['review_status']) == {'unreviewed'}
+          assert summary['input_v22_deduplicated_works'] == 12064
+          assert summary['reviewer_facing_query_membership_columns'] == 0
+          assert summary['reviewer_facing_legacy_priority_columns'] == 0
+          print(summary)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-v22-priority-independent-universe
+          path: "$OUTDIR/"
+          if-no-files-found: error
+          retention-days: 30
