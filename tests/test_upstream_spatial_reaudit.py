@@ -6,6 +6,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "docs" / "JBI_UPSTREAM_REAUDIT_PROTOCOL.md"
 SCRIPT = ROOT / "scripts" / "literature" / "build_systematic_spatial_evidence_axes.py"
+SOURCE_REVIEW = ROOT / "scripts" / "literature" / "prepare_systematic_source_review.py"
+HISTORICAL_RESCUE = ROOT / "scripts" / "literature" / "prepare_historical_34_source_rescue.py"
 WORKFLOW = ROOT / ".github" / "workflows" / "jbi-upstream-reaudit.yml"
 
 
@@ -32,9 +34,30 @@ class UpstreamSpatialReauditTests(unittest.TestCase):
         self.assertIn("species_records", text)
         self.assertLess(text.index("accepted_by_input"), text.index("species_records"))
 
-    def test_workflow_stops_before_climate_modeling(self):
+    def test_source_review_separates_blind_sheet_and_coordinator_key(self):
+        text = SOURCE_REVIEW.read_text(encoding="utf-8")
+        self.assertIn("--review-out", text)
+        self.assertIn("--key-out", text)
+        self.assertIn("FORBIDDEN_REVIEW_COLUMNS", text)
+        self.assertIn("automated_within_signal", text)
+        self.assertIn("reviewer-facing sheet", text)
+
+    def test_historical_rescue_hides_old_label_from_reviewer_sheet(self):
+        text = HISTORICAL_RESCUE.read_text(encoding="utf-8")
+        self.assertIn("--review-out", text)
+        self.assertIn("--key-out", text)
+        self.assertIn("historical_spatial_scale", text)
+        self.assertIn("reviewer_facing_historical_label_columns", text)
+        self.assertIn("coordinator-only", text.lower())
+
+    def test_workflow_enforces_blinding_and_stops_before_climate_modeling(self):
         text = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("build_systematic_spatial_evidence_axes.py", text)
+        self.assertIn("systematic_source_review_blind.csv", text)
+        self.assertIn("systematic_source_review_coordinator_key.csv", text)
+        self.assertIn("historical_34_source_review_blind.csv", text)
+        self.assertIn("historical_34_source_review_coordinator_key.csv", text)
+        self.assertIn("reviewer_facing_automated_signal_columns", text)
         self.assertNotIn("run_34species_models.py", text)
         self.assertNotIn("compute_climatic_niche_metrics.py", text)
         self.assertNotIn("WorldClim", text)
