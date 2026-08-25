@@ -98,12 +98,32 @@ jobs:
       - name: Build Stage-2 taxon-validated evidence queue
         run: |
           set -euo pipefail
+          set +e
           python scripts/literature/build_systematic_spatial_evidence_axes.py \
             --queue systematic_input/itv_fcp_human_screening_queue.csv \
             --outdir "$STAGE2_OUT" \
             --priorities "$P2_PRIORITIES" \
             --gbif-cache "$STAGE2_OUT/gbif_resolution_cache.json" \
             --timeout 25 --retries 3 --delay 0
+          builder_status=$?
+          set -e
+
+          # P2/P3 were defined by the legacy screen without directional spatial signals.
+          # Therefore an unresolved-only Stage-2 slice is expected and must not be mistaken
+          # for loss of mixed evidence. The P1-P3 union below is where mixed retention is gated.
+          if [ "$builder_status" -ne 0 ]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          qc = json.loads(Path('analysis_outputs/jbi_upstream_stage2/upstream_reaudit_qc.json').read_text())
+          states = qc['automated_state_counts']
+          n = int(qc['diagnostics']['gbif_accepted_species'])
+          assert states == {'unresolved': n}, (states, n)
+          assert n > 0
+          print({'accepted_expected_unresolved_only_stage2_slice': n})
+          PY
+          fi
+
           python scripts/literature/prepare_systematic_source_review.py \
             --record-links "$STAGE2_OUT/systematic_record_evidence_links.csv" \
             --resolution-audit "$STAGE2_OUT/gbif_candidate_resolution_audit.csv" \
@@ -197,6 +217,7 @@ jobs:
           assert p1_names.issubset(union_names)
           assert p2_names.issubset(union_names)
           assert p1_mixed.issubset(union_mixed)
+          assert len(p1_mixed) == 41
 
           summary = {
               'status': 'complete',
@@ -227,6 +248,7 @@ jobs:
           PY
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: jbi-upstream-stage2-and-union
           path: |
