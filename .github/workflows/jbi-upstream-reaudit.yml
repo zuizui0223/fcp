@@ -26,12 +26,13 @@ env:
   SOURCE_RUN_ID: '30753748463'
   SOURCE_ARTIFACT: 'systematic-itv-fcp-literature-search-full'
   OUTDIR: 'analysis_outputs/jbi_upstream_reaudit'
-  PRIORITIES: 'P1_high_natural_itv,P1_high_population_itv,P2_possible_itv,P3_likely_exclusion_review'
+  PRIMARY_PRIORITIES: 'P1_high_natural_itv,P1_high_population_itv'
+  EXTENDED_PRIORITIES: 'P2_possible_itv,P3_likely_exclusion_review'
 
 jobs:
   build-review-queue:
     runs-on: ubuntu-22.04
-    timeout-minutes: 90
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -60,11 +61,19 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+          import pandas as pd
+
           manifest = json.loads(Path('systematic_input/itv_fcp_search_manifest.json').read_text())
           assert manifest['deduplicated_records'] == 79242, manifest
           assert manifest['raw_records'] == 105249, manifest
           assert manifest['human_review_required'] is True, manifest
           truncated = manifest.get('truncated_query_database_pairs', [])
+
+          queue = pd.read_csv('systematic_input/itv_fcp_human_screening_queue.csv', low_memory=False)
+          priority_counts = queue['screen_priority'].value_counts().to_dict()
+          primary = int(priority_counts.get('P1_high_natural_itv', 0) + priority_counts.get('P1_high_population_itv', 0))
+          extended = int(priority_counts.get('P2_possible_itv', 0) + priority_counts.get('P3_likely_exclusion_review', 0))
+
           boundary = {
               'source_search_run_id': 30753748463,
               'source_artifact': 'systematic-itv-fcp-literature-search-full',
@@ -73,9 +82,13 @@ jobs:
               'truncated_shards': len(truncated),
               'truncated_query_database_pairs': truncated,
               'human_review_required': True,
+              'stage_1_primary_records': primary,
+              'stage_2_extended_records_pending': extended,
+              'priority_counts': {str(k): int(v) for k, v in priority_counts.items()},
               'canonical_replacement_freeze_allowed': False,
               'blockers': [
-                  'source-level duplicate human review and adjudication incomplete',
+                  'stage-1 source-level duplicate human review and adjudication incomplete',
+                  'stage-2 P2/P3 records remain pending review rather than silently excluded',
                   'truncated search shards require repair or explicit sensitivity bounding',
               ],
           }
@@ -85,23 +98,23 @@ jobs:
           print(boundary)
           PY
 
-      - name: Build concurrent GBIF taxon cache
+      - name: Build concurrent GBIF taxon cache for stage-1 P1 records
         run: |
           set -euo pipefail
           python scripts/literature/build_gbif_resolution_cache.py \
             --queue systematic_input/itv_fcp_human_screening_queue.csv \
             --out "$OUTDIR/gbif_resolution_cache.json" \
             --qc-out "$OUTDIR/gbif_resolution_cache_qc.json" \
-            --priorities "$PRIORITIES" \
+            --priorities "$PRIMARY_PRIORITIES" \
             --workers 24 --timeout 25 --retries 3
 
-      - name: Build taxon-validated mixed-preserving species review queue
+      - name: Build stage-1 taxon-validated mixed-preserving species review queue
         run: |
           set -euo pipefail
           python scripts/literature/build_systematic_spatial_evidence_axes.py \
             --queue systematic_input/itv_fcp_human_screening_queue.csv \
             --outdir "$OUTDIR" \
-            --priorities "$PRIORITIES" \
+            --priorities "$PRIMARY_PRIORITIES" \
             --gbif-cache "$OUTDIR/gbif_resolution_cache.json" \
             --timeout 25 --retries 3 --delay 0
 
@@ -145,8 +158,7 @@ jobs:
               'adjudicated_geographic_structure',
               'adjudicated_state',
           }
-          missing = sorted(required.difference(queue.columns))
-          assert not missing, missing
+          assert required.issubset(queue.columns), sorted(required.difference(queue.columns))
           assert queue['canonical_name'].is_unique
           assert set(queue['review_status']) == {'unreviewed'}
           assert (queue['automated_evidence_state'] == 'mixed_evidence').sum() > 0
@@ -170,8 +182,11 @@ jobs:
           assert taxon_qc['unique_contextual_input_names'] >= taxon_qc['gbif_accepted_input_names']
           assert boundary['canonical_replacement_freeze_allowed'] is False
           assert boundary['truncated_shards'] > 0
+          assert boundary['stage_2_extended_records_pending'] > 0
 
           summary = {
+              'stage_1_p1_records': int(boundary['stage_1_primary_records']),
+              'stage_2_p2_p3_records_pending': int(boundary['stage_2_extended_records_pending']),
               'gbif_validated_candidate_species': len(queue),
               'automated_state_counts': queue['automated_evidence_state'].value_counts().to_dict(),
               'source_review_rows': len(source_queue),
