@@ -2,7 +2,7 @@
 
 ## Current stage
 
-The historical 34-species freeze remains unchanged. The re-audit has moved **upstream of automatic taxon extraction** and all computationally resolvable upstream gates are now in place.
+The historical 34-species freeze remains unchanged. The re-audit has moved **upstream of automatic taxon extraction** and all computationally resolvable gates before independent human review are now in place.
 
 Canonical path:
 
@@ -45,9 +45,9 @@ Therefore automatic title/abstract binomial extraction is not a canonical inclus
 
 Thus absent/abbreviated taxon names can no longer silently remove a source before review.
 
-## Completed: Wave 0 calibration infrastructure
+## Completed: Wave 0 calibration infrastructure and prespecified gate
 
-Successful workflow: `JBI v2.2 record-screening Wave 0 calibration`, run **`32835886607`**.
+Successful calibration workflow: `JBI v2.2 record-screening Wave 0 calibration`, run **`32835886607`**.
 
 Wave 0 contains **384 unique blind records** with hidden, mutually exclusive strata:
 
@@ -57,9 +57,47 @@ Wave 0 contains **384 unique blind records** with hidden, mutually exclusive str
 - non-English: **100**;
 - missing abstract: **50**.
 
-All CI checks passed, including stratum/blinding validation and the agreement-scorer smoke test.
+Reviewer 1 and Reviewer 2 receive separate copies of the same blind sheet. Reviewer 1 fills only `reviewer_1_*`; Reviewer 2 fills only `reviewer_2_*`. Neither receives the coordinator key or the other's completed sheet.
 
-Reviewer 1 and Reviewer 2 receive separate copies of the same blind sheet. Reviewer 1 fills only `reviewer_1_*`; Reviewer 2 fills only `reviewer_2_*`. Neither receives the coordinator key or the other's completed sheet. Adjudication remains blank until both independent copies are locked.
+The calibration gate is fixed before reviewer results are inspected:
+
+- **384/384** double-coded records on all four gated fields;
+- raw agreement ≥ **0.90** for record relevance, natural intraspecific variation, and floral display colour;
+- raw agreement ≥ **0.85** for full-text requirement;
+- Cohen's κ ≥ **0.60** for each gated field when estimable;
+- mathematically undefined κ caused by a single-category marginal is reported rather than replaced, while the raw-agreement gate still applies;
+- focal-taxon exact agreement is diagnostic, not a formal gate.
+
+A failed Wave 0 cannot be rescued by post-hoc threshold relaxation. A material codebook revision requires a new blinded calibration wave before B01.
+
+## Completed: full 12,064-record reviewer packaging
+
+Successful workflow: `JBI v2.2 full duplicate review packages`, latest validated run **`32847528983`**.
+
+The canonical blind universe is split deterministically into:
+
+- B01–B12: **1,000 records each**;
+- B13: **64 records**;
+- Reviewer 1 files: **13**;
+- Reviewer 2 files: **13**;
+- total records per reviewer: **12,064**.
+
+Reviewer-specific files contain no other-reviewer columns and no adjudication columns. The package includes the current codebook with the prespecified Wave 0 gate. **B01 must not start until Wave 0 passes.**
+
+## Completed: review-return and adjudication safeguards
+
+The post-review pipeline now contains explicit scripts for:
+
+1. merging Reviewer 1/2 files by `record_review_id` while rejecting immutable-metadata drift and reviewer-column cross-contamination;
+2. calculating raw agreement and Cohen's κ;
+3. applying the prespecified Wave 0 gate;
+4. generating a disagreement-only adjudication queue;
+5. finalizing consensus fields automatically only where both independent reviewers agree;
+6. requiring explicit adjudication for disagreements;
+7. separating retained, full-text-required, and excluded records;
+8. blocking the taxon stage while any required adjudication is incomplete.
+
+`JBI v2.2 review-return pipeline smoke test` passes end-to-end on the blank Wave 0 fixture. The expected blank state is correctly `not_ready`, with **384/384** records blocked from taxon progression.
 
 ## Legacy priority diagnostics — sensitivity only
 
@@ -124,15 +162,15 @@ The computational/search side has reached its honest stopping point. The next re
 
 **two independently completed copies of the 384-record Wave 0 blind sheet.**
 
-After both are returned, the pipeline can resume automatically:
+After both are returned, the implemented pipeline can immediately:
 
-1. merge reviewer columns by `record_review_id`;
-2. calculate raw agreement and Cohen's kappa;
-3. identify disagreements;
-4. inspect hidden strata only after coding is locked;
-5. revise the codebook only if systematic ambiguity is demonstrated;
-6. run a second calibration wave if a material rule changes, otherwise start the 13-batch full screen;
-7. after record adjudication, proceed to taxon resolution and source-level spatial evidence review.
+1. validate and merge reviewer files;
+2. calculate agreement and κ;
+3. apply the prespecified gate;
+4. generate disagreement adjudication material;
+5. if the gate passes, release B01–B13 sequentially;
+6. finalize record decisions and build the full-text queue;
+7. only after record adjudication, proceed to taxon resolution and source-level spatial evidence review.
 
 The same person or AI agent is **not** counted as two independent reviewers.
 
