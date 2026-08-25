@@ -8,12 +8,6 @@ on:
       - 'scripts/literature/build_gbif_resolution_cache.py'
       - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
       - 'scripts/literature/prepare_systematic_source_review.py'
-  pull_request:
-    paths:
-      - '.github/workflows/jbi-upstream-stage2.yml'
-      - 'scripts/literature/build_gbif_resolution_cache.py'
-      - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
-      - 'scripts/literature/prepare_systematic_source_review.py'
   workflow_dispatch:
 
 permissions:
