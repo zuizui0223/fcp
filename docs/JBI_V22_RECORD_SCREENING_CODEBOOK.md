@@ -72,7 +72,11 @@ When evidence is incomplete, choose **uncertain/full-text-required**, not exclus
 
 ## Duplicate independent review
 
-Reviewer 1 and reviewer 2 code the same records independently. Neither sees the other's decisions before completion. Disagreements are adjudicated after raw agreement and Cohen's kappa are calculated for:
+Reviewer 1 and reviewer 2 code the same records independently. Neither sees the other's decisions before completion. Use separate copies of the blind sheet: Reviewer 1 fills only `reviewer_1_*` fields and Reviewer 2 fills only `reviewer_2_*` fields. Adjudication fields remain blank until both copies are locked.
+
+The coordinator key must not be distributed to either reviewer before independent coding is complete.
+
+Disagreements are adjudicated after raw agreement and Cohen's kappa are calculated for:
 
 1. record relevance;
 2. natural intraspecific variation;
@@ -80,6 +84,8 @@ Reviewer 1 and reviewer 2 code the same records independently. Neither sees the 
 4. full-text requirement.
 
 `focal_taxon_text` is additionally checked by normalized exact agreement, but taxonomy is not silently normalized during record screening.
+
+The same person or AI agent cannot count as two independent reviewers.
 
 ## Wave 0 calibration gate
 
