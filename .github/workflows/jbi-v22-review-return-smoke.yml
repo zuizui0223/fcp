@@ -9,6 +9,7 @@ on:
       - 'scripts/literature/score_v22_record_calibration.py'
       - 'scripts/literature/evaluate_v22_calibration_gate.py'
       - 'scripts/literature/build_v22_record_adjudication_queue.py'
+      - 'scripts/literature/finalize_v22_record_screen.py'
   workflow_dispatch:
 
 permissions:
@@ -77,6 +78,18 @@ jobs:
             --out "$OUTDIR/adjudication_blank.csv" \
             --summary-out "$OUTDIR/adjudication_blank_summary.json"
 
+      - name: Finalize blank screen and verify taxon stage stays closed
+        run: |
+          set -euo pipefail
+          python scripts/literature/finalize_v22_record_screen.py \
+            --reviewed "$OUTDIR/merged_blank.csv" \
+            --adjudication "$OUTDIR/adjudication_blank.csv" \
+            --out "$OUTDIR/finalized_blank.csv" \
+            --retained-out "$OUTDIR/retained_blank.csv" \
+            --fulltext-out "$OUTDIR/fulltext_blank.csv" \
+            --excluded-out "$OUTDIR/excluded_blank.csv" \
+            --summary-out "$OUTDIR/finalize_blank_summary.json"
+
       - name: Validate expected not-ready state
         run: |
           set -euo pipefail
@@ -88,12 +101,16 @@ jobs:
           agree=json.loads((root/'agreement_blank.json').read_text())
           gate=json.loads((root/'gate_blank.json').read_text())
           adj=json.loads((root/'adjudication_blank_summary.json').read_text())
+          final=json.loads((root/'finalize_blank_summary.json').read_text())
           assert merge['records'] == 384
           assert merge['fully_double_reviewed_records'] == 0
           assert all(v['n_double_coded'] == 0 for v in agree['agreement'].values())
           assert gate['status'] == 'not_ready', gate
           assert adj['records_requiring_adjudication'] == 0
-          print({'merge':merge,'gate':gate,'adjudication':adj})
+          assert final['status'] == 'not_ready', final
+          assert final['ready_for_taxon_stage'] is False
+          assert final['adjudication_incomplete_records'] == 384
+          print({'merge':merge,'gate':gate,'adjudication':adj,'final':final})
           PY
 
       - uses: actions/upload-artifact@v4
