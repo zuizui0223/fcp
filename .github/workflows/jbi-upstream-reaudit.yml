@@ -11,6 +11,7 @@ on:
       - 'scripts/literature/build_gbif_resolution_cache.py'
       - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
       - 'scripts/literature/prepare_systematic_source_review.py'
+      - 'scripts/literature/prepare_historical_34_source_rescue.py'
       - 'tests/test_upstream_spatial_reaudit.py'
   workflow_dispatch:
 
@@ -135,15 +136,75 @@ jobs:
             --gbif-cache "$OUTDIR/gbif_resolution_cache.json" \
             --timeout 25 --retries 3 --delay 0
 
-      - name: Build species-by-source blinded review queue
+      - name: Build truly blinded species-by-source review materials
         run: |
           set -euo pipefail
           python scripts/literature/prepare_systematic_source_review.py \
             --record-links "$OUTDIR/systematic_record_evidence_links.csv" \
             --resolution-audit "$OUTDIR/gbif_candidate_resolution_audit.csv" \
-            --out "$OUTDIR/systematic_source_review_queue.csv"
+            --review-out "$OUTDIR/systematic_source_review_blind.csv" \
+            --key-out "$OUTDIR/systematic_source_review_coordinator_key.csv"
 
-      - name: Validate review queue semantics
+      - name: Rescue all historical 34 sources independent of search priority
+        run: |
+          set -euo pipefail
+          python scripts/literature/prepare_historical_34_source_rescue.py \
+            --manifest docs/supporting/frozen_classification_manifest.csv \
+            --systematic-queue systematic_input/itv_fcp_human_screening_queue.csv \
+            --review-out "$OUTDIR/historical_34_source_review_blind.csv" \
+            --key-out "$OUTDIR/historical_34_source_review_coordinator_key.csv" \
+            --summary-out "$OUTDIR/historical_34_source_rescue_summary.json"
+
+      - name: Build coordinator-only first review batch plan
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import pandas as pd
+
+          root = Path('analysis_outputs/jbi_upstream_reaudit')
+          species = pd.read_csv(root / 'systematic_species_review_queue.csv')
+          src_key = pd.read_csv(root / 'systematic_source_review_coordinator_key.csv')
+          hist_key = pd.read_csv(root / 'historical_34_source_review_coordinator_key.csv')
+
+          mixed = set(species.loc[species['automated_evidence_state'].eq('mixed_evidence'), 'canonical_name'])
+          historical = set(hist_key['canonical_name'])
+
+          rows = []
+          for _, row in src_key.iterrows():
+              name = row['canonical_name']
+              if name not in mixed and name not in historical:
+                  continue
+              reasons = []
+              if name in mixed:
+                  reasons.append('mixed_navigation_priority')
+              if name in historical:
+                  reasons.append('historical_freeze_reaudit')
+              rows.append({
+                  'review_material': 'systematic_source_review_blind.csv',
+                  'review_id': row['source_review_id'],
+                  'canonical_name': name,
+                  'priority_reason': ';'.join(reasons),
+              })
+          for _, row in hist_key.iterrows():
+              rows.append({
+                  'review_material': 'historical_34_source_review_blind.csv',
+                  'review_id': row['historical_review_id'],
+                  'canonical_name': row['canonical_name'],
+                  'priority_reason': 'historical_direct_source_rescue',
+              })
+
+          plan = pd.DataFrame(rows).drop_duplicates(['review_material', 'review_id'])
+          plan = plan.sort_values(['priority_reason', 'canonical_name', 'review_id'])
+          plan.to_csv(root / 'review_batch1_coordinator_plan.csv', index=False)
+          print({
+              'mixed_species_priority': len(mixed),
+              'historical_species_priority': len(historical),
+              'batch1_review_units': len(plan),
+          })
+          PY
+
+      - name: Validate blinding and review queue semantics
         run: |
           set -euo pipefail
           python - <<'PY'
@@ -153,37 +214,35 @@ jobs:
 
           root = Path('analysis_outputs/jbi_upstream_reaudit')
           queue = pd.read_csv(root / 'systematic_species_review_queue.csv')
-          source_queue = pd.read_csv(root / 'systematic_source_review_queue.csv')
+          blind = pd.read_csv(root / 'systematic_source_review_blind.csv')
+          hidden = pd.read_csv(root / 'systematic_source_review_coordinator_key.csv')
+          hist_blind = pd.read_csv(root / 'historical_34_source_review_blind.csv')
+          hist_hidden = pd.read_csv(root / 'historical_34_source_review_coordinator_key.csv')
+          batch1 = pd.read_csv(root / 'review_batch1_coordinator_plan.csv')
           audit = pd.read_csv(root / 'gbif_candidate_resolution_audit.csv')
           recovery = pd.read_csv(root / 'historical_34_recovery_diagnostic.csv')
           qc = json.loads((root / 'upstream_reaudit_qc.json').read_text())
           taxon_qc = json.loads((root / 'gbif_resolution_cache_qc.json').read_text())
           boundary = json.loads((root / 'search_completeness_boundary.json').read_text())
+          rescue = json.loads((root / 'historical_34_source_rescue_summary.json').read_text())
 
-          required = {
-              'canonical_name', 'family',
-              'within_signal_records', 'among_signal_records',
+          required_species = {
+              'canonical_name', 'family', 'within_signal_records', 'among_signal_records',
               'automated_evidence_state', 'review_status',
-              'reviewer_1_natural_eligibility',
-              'reviewer_1_local_coexistence',
-              'reviewer_1_geographic_structure',
-              'reviewer_2_natural_eligibility',
-              'reviewer_2_local_coexistence',
-              'reviewer_2_geographic_structure',
-              'adjudicated_natural_eligibility',
-              'adjudicated_local_coexistence',
-              'adjudicated_geographic_structure',
-              'adjudicated_state',
+              'reviewer_1_natural_eligibility', 'reviewer_1_local_coexistence',
+              'reviewer_1_geographic_structure', 'reviewer_2_natural_eligibility',
+              'reviewer_2_local_coexistence', 'reviewer_2_geographic_structure',
+              'adjudicated_natural_eligibility', 'adjudicated_local_coexistence',
+              'adjudicated_geographic_structure', 'adjudicated_state',
           }
-          assert required.issubset(queue.columns), sorted(required.difference(queue.columns))
+          assert required_species.issubset(queue.columns), sorted(required_species.difference(queue.columns))
           assert queue['canonical_name'].is_unique
-          assert set(queue['review_status']) == {'unreviewed'}
-          assert (queue['automated_evidence_state'] == 'mixed_evidence').sum() > 0
+          assert (queue['automated_evidence_state'] == 'mixed_evidence').sum() == 41
           assert len(recovery) == 34
           assert {'accepted', 'accepted_name', 'reason'}.issubset(audit.columns)
           assert 'semantic_guard' in qc
 
-          source_required = {
+          review_required = {
               'source_review_id', 'canonical_name', 'source_id', 'review_status',
               'reviewer_1_natural_eligibility', 'reviewer_1_local_coexistence',
               'reviewer_1_geographic_structure', 'reviewer_2_natural_eligibility',
@@ -191,28 +250,53 @@ jobs:
               'adjudicated_natural_eligibility', 'adjudicated_local_coexistence',
               'adjudicated_geographic_structure',
           }
-          assert source_required.issubset(source_queue.columns)
-          assert source_queue['source_review_id'].is_unique
-          assert set(source_queue['review_status']) == {'unreviewed'}
-          assert set(source_queue['canonical_name']).issubset(set(queue['canonical_name']))
+          assert review_required.issubset(blind.columns)
+          assert len(blind) == len(hidden) == 383
+          assert blind['source_review_id'].is_unique
+          assert set(blind['review_status']) == {'unreviewed'}
+          assert set(blind['source_review_id']) == set(hidden['source_review_id'])
+
+          forbidden_blind = {
+              'screen_priority', 'automated_within_signal', 'automated_among_signal',
+              'automated_natural_signal', 'automated_cultivated_signal',
+              'automated_induced_signal', 'automated_ontogenetic_signal',
+              'automated_variation_form', 'historical_spatial_scale',
+          }
+          assert not forbidden_blind.intersection(blind.columns), sorted(forbidden_blind.intersection(blind.columns))
+          assert {'automated_within_signal', 'automated_among_signal', 'screen_priority'}.issubset(hidden.columns)
+
+          assert len(hist_blind) == len(hist_hidden) == 34
+          assert hist_blind['historical_review_id'].is_unique
+          assert set(hist_blind['historical_review_id']) == set(hist_hidden['historical_review_id'])
+          assert not forbidden_blind.intersection(hist_blind.columns), sorted(forbidden_blind.intersection(hist_blind.columns))
+          assert {'historical_spatial_scale', 'historical_source_id', 'systematic_screen_priority'}.issubset(hist_hidden.columns)
+          assert rescue['historical_species'] == 34
+          assert rescue['reviewer_facing_historical_label_columns'] == 0
 
           assert taxon_qc['unique_primary_source_candidates'] == taxon_qc['gbif_queries_sent']
           assert boundary['canonical_replacement_freeze_allowed'] is False
           assert boundary['truncated_shards'] == 19
           assert boundary['stage_2_extended_records_pending'] == 1996
+          assert batch1['review_id'].is_unique
 
           summary = {
               'stage_1_p1_records': int(boundary['stage_1_primary_records']),
               'stage_2_p2_p3_records_pending': int(boundary['stage_2_extended_records_pending']),
               'gbif_validated_candidate_species': len(queue),
-              'automated_state_counts': queue['automated_evidence_state'].value_counts().to_dict(),
-              'source_review_rows': len(source_queue),
-              'historical_34_recovered': int(recovery['recovered_in_systematic_candidate_queue'].sum()),
+              'automated_state_counts_navigation_only': queue['automated_evidence_state'].value_counts().to_dict(),
+              'systematic_blind_source_review_rows': len(blind),
+              'historical_blind_review_rows': len(hist_blind),
+              'batch1_coordinator_review_units': len(batch1),
+              'historical_34_recovered_in_p1_species_queue': int(recovery['recovered_in_systematic_candidate_queue'].sum()),
+              'historical_exact_sources_recovered_any_priority': int(rescue['exact_historical_sources_recovered_in_systematic_corpus']),
+              'historical_exact_sources_outside_p1': int(rescue['exact_historical_sources_outside_p1']),
+              'historical_sources_missing_from_archived_corpus': int(rescue['historical_sources_not_in_archived_systematic_corpus']),
               'primary_input_candidate_names_checked': int(taxon_qc['unique_primary_source_candidates']),
               'contextual_names_deferred_as_nonprimary': int(taxon_qc['contextual_names_deferred_as_nonprimary']),
               'gbif_accepted_input_names': int(taxon_qc['gbif_accepted_input_names']),
               'gbif_resolution_errors': int(taxon_qc['gbif_resolution_errors']),
               'truncated_shards': int(boundary['truncated_shards']),
+              'reviewer_facing_automated_signal_columns': 0,
           }
           (root / 'ci_summary.json').write_text(json.dumps(summary, indent=2) + '\n')
           print(summary)
