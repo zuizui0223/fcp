@@ -2,250 +2,288 @@
 
 ## Status and purpose
 
-This protocol starts **upstream of the historical 34-species dataset**. It does not edit, relabel, or overwrite the historical freeze. Its purpose is to construct a new source-reviewed evidence layer before any climatic response is inspected.
+This protocol starts **upstream of the historical 34-species dataset and upstream of automatic taxon extraction**. The historical freeze is never silently relabelled or overwritten. A replacement dataset is created only after literature retrieval, record relevance, focal taxon, natural eligibility, and spatial evidence have been independently reviewed before climatic responses are inspected.
 
 The historical 34-species result remains a provenance-preserving sensitivity benchmark until a new adjudicated freeze exists.
 
 ## Why the re-audit is necessary
 
-The repository contained two different discovery paths:
+Audit identified several distinct selection/error mechanisms in the previous evidence path:
 
-1. historical manuscript chain: 1,075 retained works → 664 candidate species → 72 initial review rows → 111 resolved rows → 34 frozen binary species;
-2. later systematic-map chain: 105,249 raw records → 79,242 deduplicated records.
+- generic `color/colour morph` terminology could be converted into a within-population label without direct same-population coexistence evidence;
+- geographic evidence vocabulary was narrower than within-population vocabulary;
+- mixed within/among candidates were explicitly removed before exploratory ecological modelling;
+- legacy P1/P2/P3 screening priority affected entry into candidate analyses even though **15/34** exact historical source papers were outside P1;
+- permissive two-word candidate extraction admitted non-taxa before taxonomic validation;
+- conversely, requiring an automatically detected binomial can silently lose true source papers when a species is absent or abbreviated in title/abstract;
+- cultivated, induced, ontogenetic, continuous, or non-display cases could be excluded before direct source adjudication;
+- automated abstract-level signals were allowed to stand in for final biological evidence.
 
-Audit showed that neither path was an adequate final biological classification. Important weaknesses included:
+The replacement workflow therefore treats search-query membership, legacy priority, automatic taxon hints, historical labels, and automated within/among signals as **coordinator-only diagnostics**, never biological inclusion criteria.
 
-- generic morph terminology could trigger a within-population label without direct evidence of coexistence in the same population;
-- geographic evidence vocabularies were narrower than within-population vocabularies;
-- provisional two-word species extraction admitted non-taxa before taxonomic validation;
-- automated screening priority could affect entry into the ecological candidate set;
-- cultivated/induced/ontogenetic conflicts could be discarded too early;
-- species carrying both within- and among-population signals were explicitly removed as `mixed` before ecological modelling;
-- automated abstract-level signals were allowed to stand in for final source-level adjudication.
+## Core biological representation: two evidence axes
 
-The re-audit therefore treats all automated labels and priorities as navigation/diagnostic variables only.
-
-## Core conceptual correction: two evidence axes, not a forced binary state
-
-For every eligible species, spatial organization is recorded on two independent source-supported axes:
+For every adjudicated eligible species, spatial organization is represented by two independent source-supported axes:
 
 - `local_coexistence_documented`: at least one reviewed source explicitly documents two or more discrete natural floral-display colour variants coexisting within the same population;
-- `geographic_structure_documented`: at least one reviewed source explicitly documents among-population, regional, clinal, elevational-spatial, or other geographic differentiation in floral colour or colour-morph frequency.
+- `geographic_structure_documented`: at least one reviewed source explicitly documents among-population, regional, clinal, island, elevational-spatial, or other geographic differentiation in floral colour or colour-morph frequency.
 
-After all retained sources for a species are reviewed, these axes generate three informative documented states:
+After all retained sources are adjudicated:
 
-- `within_evidence_only`: local coexistence documented, geographic structuring not documented in the reviewed evidence;
-- `among_evidence_only`: geographic structuring documented, local coexistence not documented in the reviewed evidence;
-- `mixed_evidence`: both are documented.
+- local documented, geographic not documented → `within_evidence_only`;
+- geographic documented, local not documented → `among_evidence_only`;
+- both documented → `mixed_evidence`;
+- insufficiently resolved evidence → `unresolved`.
 
-`unresolved` is retained when eligibility or either spatial axis cannot be adjudicated adequately.
+`mixed_evidence` is not intermediate or ordinal. The two positive axes may be documented in the same source or in different sources for the same taxonomically resolved species.
 
-The words **not documented** are intentional. A zero on an evidence axis means that the reviewed source set contains no adjudicated positive documentation for that axis; it is not interpreted as proof that the biological process is absent.
-
-`mixed_evidence` is not an intermediate or ordinal category. Local coexistence and geographic structure may be documented in the same paper or in different independent sources for the same taxonomically resolved species.
+A zero means **not documented in the reviewed evidence**, not biological absence.
 
 ## Stage 0. Replacement search-completeness gate — passed
 
-The legacy 79,242-record search remains archived unchanged for provenance, including its 19 truncated query/database shards (15 Crossref, 4 OpenAlex). Those truncations are no longer repaired by increasing legacy caps.
+The archived 79,242-record systematic map is retained unchanged for provenance, including its 19 truncated query/database shards. It is no longer the canonical completeness boundary.
 
-A replacement search surface, OpenAlex title/abstract OQL v2.2, is now the completeness-defining retrieval layer:
+The replacement retrieval is OpenAlex title/abstract OQL **v2.2**:
 
-- 15 prespecified conceptual query blocks;
-- title/abstract search rather than ordinary OpenAlex search that may include full text;
-- Crossref retained for bibliographic metadata and DOI resolution, not as the completeness-defining retrieval source;
-- non-English blocks expanded only after bounded scope probes;
-- generic lexical omissions repaired without species-specific query terms;
-- 13,911 query memberships;
-- 12,064 deduplicated works;
-- zero truncated v2.2 query blocks;
-- 34/34 historical classification sources recovered by exact identifier in direct v2.2 queries;
-- all seven prespecified review seeds resolved and 34/34 historical benchmark sources recovered by direct or prespecified citation pathways.
+- 15 conceptual query blocks;
+- no date restriction and no language restriction;
+- Crossref used for metadata/identifier resolution rather than completeness-defining retrieval;
+- non-English blocks broadened only after bounded scope probes;
+- lexical omissions repaired generically, including singular/plural `color/colour morph(s)` and geography/geographic-structure wording;
+- **13,911** query memberships;
+- **12,064** deduplicated works;
+- **0** truncated v2.2 query blocks;
+- exact recovery of **34/34** historical classification sources;
+- all seven prespecified review seeds resolved; benchmark recovery is 34/34 by the direct/citation audit.
 
-Search terms were repaired from search-surface diagnostics and benchmark lexical failures only. Climatic values, effect directions, and model outcomes were not used to tune the search.
+No species-specific search term, climatic value, effect direction, or model result was used to tune v2.2.
 
-Passing the search gate does **not** mean that all 12,064 works are biological inclusions.
+Passing Stage 0 establishes the retrieval surface only. It does not make any of the 12,064 records biologically eligible.
 
-## Stage 1. Priority-independent source-to-taxon universe
+## Stage 1. Canonical all-record blind screening — before taxon validation
 
-The canonical candidate universe is built from **all 12,064 deduplicated v2.2 works**, not from legacy P1/P2/P3/P4/P5 priority strata.
+**All 12,064 deduplicated v2.2 records enter record-level screening.**
 
-For each retrieved work:
+No record can be excluded because an automatic binomial extractor fails. This correction is essential because the diagnostic automatic taxon universe recovered only 31/34 historical species despite v2.2 containing all 34 exact source papers.
 
-1. extract candidate binomials from the title; if none occur there, inspect the first 2,000 abstract characters for focal binomials;
-2. limit source attribution to a bounded number of focal names so review papers do not become artificial species censuses;
-3. validate attributed names against a taxonomic authority before species-level aggregation;
-4. keep query membership and all legacy priorities in coordinator-only material;
-5. provide reviewers only bibliographic/source material and blank coding fields.
+Reviewer-facing material contains:
 
-Legacy P1/P2/P3 analyses are retained as **screening-path sensitivity diagnostics**, not as the canonical inclusion path.
+- record ID;
+- title and abstract when available;
+- year, journal, work type, language, source URL/identifier;
+- blank coding fields.
 
-## Stage 2. Taxon validation before spatial classification
+Reviewer-facing material does **not** contain:
 
-Candidate names are validated before evidence is aggregated into biological states.
+- query membership;
+- legacy P1–P5 priority;
+- historical-34 benchmark status;
+- old within/among label;
+- automatic binomial/taxon hints;
+- automated natural/cultivated/within/among signals;
+- climatic variables or manuscript model results.
 
-Current requirements:
+For each record, two independent reviewers code:
 
-1. strict GBIF species matching in Plantae;
-2. accepted-name resolution for synonyms;
-3. species rank and resolved family required;
-4. rejected candidate phrases retained in an audit table;
-5. all original input names and stable source identifiers preserved;
-6. evidence from synonyms merged only after accepted-name resolution.
+1. `record_relevance`: `include` / `exclude` / `uncertain`;
+2. `natural_intraspecific_variation`: `yes` / `no` / `uncertain`;
+3. `floral_display_colour`: `yes` / `no` / `uncertain`;
+4. `focal_taxon_text`: taxon text exactly as presented by the source;
+5. `full_text_required`: `yes` / `no`;
+6. a controlled exclusion reason when exclusion is clear;
+7. notes where necessary.
 
-No species is assigned `within`, `among`, or `mixed` from the taxonomic step.
+If title/abstract evidence is incomplete, the conservative action is `uncertain` and/or `full_text_required = yes`, not exclusion.
 
-## Stage 3. Source-level natural-variation eligibility
+The detailed coding rules are fixed in `docs/JBI_V22_RECORD_SCREENING_CODEBOOK.md`.
 
-A species-source record is eligible as biological evidence only when the source supports naturally occurring intraspecific floral-display colour variation, or wild-origin experimental material whose natural variation is independently documented.
+## Stage 1a. Wave 0 calibration gate
 
-Exclude as biological evidence when support is limited to:
+Before screening all 12,064 records, both reviewers independently code a **384-record blinded calibration sample**.
+
+The hidden strata are:
+
+- all **34** historical benchmark sources;
+- **100** records without an automatically detected binomial;
+- **100** records with an automatically detected binomial;
+- **100** non-English records;
+- **50** records with missing abstracts.
+
+The strata are mutually exclusive in Wave 0 and their identities are hidden from reviewers. Review order is deterministic but independent of stratum.
+
+After duplicate coding, calculate raw agreement and Cohen's kappa for:
+
+- record relevance;
+- natural intraspecific variation;
+- floral display colour;
+- full-text requirement.
+
+Also report normalized exact agreement for `focal_taxon_text`.
+
+If disagreement reveals a material ambiguity in the codebook, revise the rule **before** full screening and run another calibration wave. Do not silently change rules during the 12,064-record screen.
+
+The same person/agent cannot count as two independent reviewers.
+
+## Stage 2. Record-level adjudication and full-text escalation
+
+After independent coding is locked:
+
+1. calculate agreement statistics;
+2. list all field-level disagreements;
+3. adjudicate disagreements by consensus or a named adjudicator;
+4. retrieve full text where `full_text_required = yes` or where adjudication cannot be completed from bibliographic material;
+5. preserve an adjudication/correction log;
+6. retain `uncertain` records until the evidence gap is explicitly resolved.
+
+Only after this step can a record be excluded from the canonical evidence universe.
+
+## Stage 3. Focal taxon extraction and validation
+
+Taxon validation occurs **after** record screening, using reviewer/adjudicator focal-taxonomy text plus source/full-text information.
+
+Requirements:
+
+1. preserve the taxon spelling/text originally used by the source;
+2. resolve candidate names against a taxonomic authority, currently GBIF species matching plus accepted-name resolution;
+3. require Plantae and species rank for species-level aggregation;
+4. preserve rejected/ambiguous names in an audit table rather than dropping them silently;
+5. resolve abbreviated or historical nomenclature using source context where needed;
+6. merge synonym-derived evidence only after accepted-name resolution;
+7. keep original input names and source identifiers alongside accepted names.
+
+Automatic title/abstract binomial extraction may assist coordinators but cannot define inclusion.
+
+## Stage 4. Source-level biological eligibility
+
+A species-source record is eligible as biological evidence only when it supports naturally occurring intraspecific **floral-display colour** variation, or wild-origin material whose natural colour variation is independently documented.
+
+Exclude when support is limited to:
 
 - cultivars, horticultural lines, breeding collections, or commercial varieties without independent natural-population evidence;
-- induced mutations, transgenic manipulation, gene editing, irradiation, mutagenesis, or tissue culture;
-- ontogenetic colour change within an individual flower rather than stable variation among individuals/populations;
-- non-display floral organs only;
-- interspecific variation only;
-- experimental colour treatments without naturally occurring corresponding variants.
+- induced mutation, transgenics, gene editing, irradiation, mutagenesis, or tissue culture;
+- ontogenetic colour change within a flower with no stable among-individual/population variation;
+- interspecific differences only;
+- non-floral colour only;
+- non-display floral structures without a display-colour question;
+- experimental colour treatments without corresponding natural variants.
 
-A source can be coded `eligible`, `ineligible`, or `unclear`. Automated natural/cultivated flags do not determine this decision.
+Eligibility may remain `unclear` when the source is insufficient. Automated flags do not make the final decision.
 
-## Stage 4. Source-level coding of variation form and spatial evidence
+## Stage 5. Source-level variation form and spatial evidence
 
-### 4.1 Variation form
+### Variation form
 
-Record whether natural variation is:
+Code natural variation as `discrete`, `continuous`, `both`, or `unclear`.
 
-- `discrete`;
-- `continuous`;
-- `both`;
-- `unclear`.
+Continuous colour ITV remains scientifically relevant but is not silently converted into discrete polymorphism. The present local-coexistence state requires discrete variants.
 
-The current spatial-state analysis requires discrete floral-colour variants for `local_coexistence_documented`. Continuous variation remains part of the broader ITV evidence map but is not silently converted into discrete polymorphism.
+### Local coexistence positive criterion
 
-### 4.2 Local coexistence: positive evidence criterion
+Code `local_coexistence_documented` only when the source directly establishes at least two discrete natural floral-display colour variants in the **same population**.
 
-Code positive local coexistence only when the source directly supports at least two discrete natural floral-display colour variants **within the same population**.
+Sufficient evidence includes:
 
-Sufficient examples include:
+- explicit co-occurrence/coexistence statements;
+- population/site-level counts containing multiple colour morphs;
+- morph-frequency tables with >1 morph in at least one population.
 
-- explicit statements such as “co-occur/coexist within populations”;
-- population-level counts showing multiple colour morphs in the same named population/site;
-- morph-frequency tables where more than one morph occurs within at least one population.
+Insufficient alone:
 
-Insufficient by itself:
-
-- “multiple colour morphs exist” with no population resolution;
-- pooled observations from several sites;
+- “multiple colour morphs exist”;
+- pooled observations from multiple sites;
 - two morphs collected from different localities;
-- common-garden coexistence without independent natural same-population evidence;
+- a common garden without independent natural same-population evidence;
 - a species described generally as polymorphic.
 
-### 4.3 Geographic structure: positive evidence criterion
+### Geographic structure positive criterion
 
-Code positive geographic structure only when the source directly supports spatial differentiation among populations, regions, sites, islands, elevations represented by distinct populations, or other geographic units.
+Code `geographic_structure_documented` only when the source directly demonstrates spatial differentiation among populations, sites, regions, islands, or geographic/elevational units.
 
-Sufficient examples include:
+Sufficient evidence includes:
 
-- morph frequencies differing among named populations/sites;
-- geographic or latitudinal/elevational clines in colour or morph frequency;
+- morph-frequency differences among named populations/sites;
+- geographic, latitudinal, island, or population-level elevational clines;
 - regional replacement/restriction of colour forms;
 - statistical spatial differentiation in colour phenotype among populations.
 
-Insufficient by itself:
+Insufficient alone:
 
-- sampling many localities without reporting colour differentiation among them;
-- an environmental association with no spatially resolved colour contrast;
-- a statement that a species has a broad geographic range;
-- population differentiation in a non-colour trait only.
+- sampling many locations without reporting colour differentiation;
+- broad species range;
+- an environmental association without spatially resolved colour contrast;
+- differentiation in a non-colour trait only.
 
-### 4.4 Mixed/multiscale aggregation
+## Stage 6. Species-level multiscale aggregation
 
-After source-level adjudication, a species is `mixed_evidence` whenever both axes have at least one positive source-supported observation after synonym resolution.
+After source adjudication and synonym resolution:
 
-The two positive observations:
+- aggregate positive local evidence across all retained sources;
+- aggregate positive geographic evidence across all retained sources;
+- assign within-only / among-only / mixed / unresolved from the two evidence axes.
 
-- need not come from the same paper;
-- need not occur in the same part of the range;
-- may describe local coexistence in some populations and geographic restriction or frequency gradients across the wider range.
+Evidence for the two axes need not come from the same paper or same portion of the range. This is precisely why `mixed` is retained as a biological multiscale state rather than treated as a classification error.
 
-This rule is essential because multiscale spatial organization is the biological object of interest rather than a classification error to be discarded.
+## Stage 7. Observation-process audit
 
-## Stage 5. Duplicate blind review and adjudication
+Because the outcomes are literature-derived documented-evidence states, define observation-process variables before climatic modelling, including where feasible:
 
-For every species-source unit considered for the replacement freeze:
+- number of retained sources per species;
+- years/temporal span of evidence;
+- whether full-text evidence was available;
+- geographic sampling breadth described by sources;
+- occurrence/range support used for climatic calculations.
 
-1. reviewer 1 codes display-colour relevance, natural eligibility, variation form, local coexistence, geographic structure, and evidence passage;
-2. reviewer 2 independently codes the same fields;
-3. reviewers do not receive climatic values, historical binary labels, automated within/among signals, query membership, or coordinator priority reasons;
-4. disagreements are resolved by consensus or a named adjudicator after independent coding is locked;
-5. raw agreement and Cohen's kappa are reported separately for eligibility and both spatial axes;
-6. all adjudications are written to a correction/adjudication log;
-7. only adjudicated species enter the new statistical freeze.
+These variables are assessed as potential detection/documentation covariates. Documentation is not assumed to be perfect observation of biology.
 
-Reviewer-facing values for a spatial axis should distinguish `documented`, `not_documented_in_source`, and `unclear`; `not_documented_in_source` must never be described as evidence of biological absence.
+## Stage 8. Ecological inference with mixed retained
 
-The same agent/person should not be counted as two independent reviewers.
+### Primary analysis
 
-## Stage 6. Review ordering without inclusion bias
-
-Coordinator-only triage may determine review order, never inclusion.
-
-Priority A:
-- historical 34 sources;
-- species flagged by automated diagnostics as potentially multiscale/mixed.
-
-Priority B:
-- candidates supported by multiple independent sources.
-
-Priority C:
-- eligibility conflicts, unresolved spatial evidence, cultivated/induced/ontogenetic conflicts.
-
-All remaining v2.2 source-taxonomy units stay in the review universe. Legacy P1/P2/P3 priority membership is a sensitivity descriptor only.
-
-## Stage 7. Ecological analysis with mixed retained
-
-### Primary analysis: two parallel documented-evidence outcomes
-
-For each climatic metric, fit parallel models for:
+Fit parallel models for:
 
 - probability that local coexistence is documented;
 - probability that geographic structuring is documented.
 
-A mixed species contributes positive evidence to both outcomes.
+A true mixed species contributes positive evidence to both outcomes.
 
-Because these are literature-derived documented-evidence outcomes, models must evaluate/report literature effort and source availability as potential observation-process covariates rather than silently treating documentation as perfect biological detection.
+### Secondary analysis
 
-Family/phylogenetic dependence and finite-sample uncertainty should be addressed at least as rigorously as in the historical analysis.
-
-### Secondary analysis: three non-ordinal documented states
-
-If the adjudicated sample contains sufficient information in all three states and estimation is stable, fit a multinomial model for:
+If all three informative states have adequate sample size and stable estimation, fit a **non-ordinal** multinomial model:
 
 `within_evidence_only` / `among_evidence_only` / `mixed_evidence`.
 
-Use regularisation or weakly informative priors if sparse cells make ordinary maximum-likelihood estimates unstable. Do not treat the states as ordinal.
+Use regularisation or weakly informative priors if sparse cells require it.
 
-### Legacy binary analysis
+### Legacy analysis
 
-The historical `within` versus `among` model becomes a sensitivity analysis restricted to adjudicated evidence-only cases after excluding mixed and unresolved species.
+The historical binary within-vs-among analysis becomes a sensitivity analysis restricted to adjudicated non-mixed, non-unresolved cases.
 
-## Stage 8. Replacement freeze and rerun gate
+Family/phylogenetic dependence and finite-sample uncertainty must be addressed at least as rigorously as in the historical analysis.
 
-A replacement statistical freeze is created only after:
+## Stage 9. Replacement freeze and rerun gate
 
-- v2.2 retrieval provenance is fixed;
-- candidate taxa are validated;
-- source-level natural eligibility and both spatial axes are independently reviewed and adjudicated;
+A new statistical freeze is created only after:
+
+- the v2.2 retrieval artifact is fixed;
+- all-record screening and required full-text escalation are adjudicated;
+- focal taxa are resolved;
+- source-level natural eligibility, variation form, and both spatial axes are independently reviewed and adjudicated;
 - mixed cases are retained;
-- reviewer agreement is documented;
-- observation-process/literature-effort variables needed for inference are defined before outcome modelling;
+- reviewer agreement is reported;
+- observation-process covariates are defined before outcome modelling;
 - climatic metrics are recomputed for the adjudicated species set;
-- the complete model, robustness, figure, manuscript, SI, reference/data-source appendix, and DOCX pipeline is rerun.
+- all models, robustness checks, figures, manuscript text, SI, references/data-source appendix, and DOCX files are regenerated.
 
-The historical 34-species checksum and outputs are never silently overwritten.
+The historical 34-species checksum and outputs are never overwritten silently.
 
-## Historical and automated diagnostics retained for sensitivity only
+## Legacy-priority diagnostics retained only for sensitivity
 
-The archived 2026-08-02 systematic search and exploratory ecological artifacts remain useful for diagnosing screening-path effects. They showed, among other things, that mixed candidates had been dropped and that legacy P1 priority recovered only 22/34 historical species even though all 34 historical source papers existed in the archived corpus.
+The archived P1/P2/P3 workflow remains useful for diagnosing screening-path effects, but it is not the canonical inclusion route.
 
-These diagnostics motivate the new workflow but do not adjudicate any species.
+Current diagnostics show:
+
+- P1: 209 GBIF-valid candidate species and 41 automated mixed-navigation candidates;
+- P2/P3: 522 GBIF-valid candidate species, but all are navigation-`unresolved` because the legacy P2/P3 screen did not carry directional within/among signals;
+- P1–P3 union: 656 candidate species, 447 more than P1 alone, but mixed remains 41 for the same legacy-signal reason.
+
+These numbers demonstrate why legacy priority and automated state signals cannot define the replacement biological dataset.
