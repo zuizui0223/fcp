@@ -1,0 +1,236 @@
+name: JBI upstream Stage-2 expansion
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-upstream-stage2.yml'
+      - 'scripts/literature/build_gbif_resolution_cache.py'
+      - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
+      - 'scripts/literature/prepare_systematic_source_review.py'
+  pull_request:
+    paths:
+      - '.github/workflows/jbi-upstream-stage2.yml'
+      - 'scripts/literature/build_gbif_resolution_cache.py'
+      - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
+      - 'scripts/literature/prepare_systematic_source_review.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-upstream-stage2
+  cancel-in-progress: true
+
+env:
+  SOURCE_RUN_ID: '30753748463'
+  SOURCE_ARTIFACT: 'systematic-itv-fcp-literature-search-full'
+  STAGE1_RUN_ID: '32825713465'
+  STAGE1_ARTIFACT: 'jbi-upstream-spatial-reaudit'
+  STAGE2_OUT: 'analysis_outputs/jbi_upstream_stage2'
+  UNION_OUT: 'analysis_outputs/jbi_upstream_p1_p3_union'
+  P1_PRIORITIES: 'P1_high_natural_itv,P1_high_population_itv'
+  P2_PRIORITIES: 'P2_possible_itv,P3_likely_exclusion_review'
+  UNION_PRIORITIES: 'P1_high_natural_itv,P1_high_population_itv,P2_possible_itv,P3_likely_exclusion_review'
+
+jobs:
+  expand-and-merge:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validation dependency
+        run: python -m pip install --disable-pip-version-check pandas
+
+      - name: Download archived systematic-search corpus
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: systematic_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download successful Stage-1 P1 audit
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.STAGE1_ARTIFACT }}
+          path: stage1_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.STAGE1_RUN_ID }}
+
+      - name: Verify inputs
+        run: |
+          set -euo pipefail
+          test -s systematic_input/itv_fcp_human_screening_queue.csv
+          test -s stage1_input/systematic_species_review_queue.csv
+          test -s stage1_input/gbif_resolution_cache.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          p1 = pd.read_csv('stage1_input/systematic_species_review_queue.csv')
+          assert len(p1) == 209, len(p1)
+          assert (p1['automated_evidence_state'] == 'mixed_evidence').sum() == 41
+          cache = json.loads(Path('stage1_input/gbif_resolution_cache.json').read_text())
+          assert cache
+          print({'stage1_species': len(p1), 'stage1_mixed_navigation': 41, 'stage1_cache_rows': len(cache)})
+          PY
+
+      - name: Build bounded GBIF cache for Stage-2 P2/P3 records
+        run: |
+          set -euo pipefail
+          mkdir -p "$STAGE2_OUT" "$UNION_OUT"
+          python scripts/literature/build_gbif_resolution_cache.py \
+            --queue systematic_input/itv_fcp_human_screening_queue.csv \
+            --out "$STAGE2_OUT/gbif_resolution_cache.json" \
+            --qc-out "$STAGE2_OUT/gbif_resolution_cache_qc.json" \
+            --priorities "$P2_PRIORITIES" \
+            --workers 24 --timeout 25 --retries 3
+
+      - name: Build Stage-2 taxon-validated evidence queue
+        run: |
+          set -euo pipefail
+          python scripts/literature/build_systematic_spatial_evidence_axes.py \
+            --queue systematic_input/itv_fcp_human_screening_queue.csv \
+            --outdir "$STAGE2_OUT" \
+            --priorities "$P2_PRIORITIES" \
+            --gbif-cache "$STAGE2_OUT/gbif_resolution_cache.json" \
+            --timeout 25 --retries 3 --delay 0
+          python scripts/literature/prepare_systematic_source_review.py \
+            --record-links "$STAGE2_OUT/systematic_record_evidence_links.csv" \
+            --resolution-audit "$STAGE2_OUT/gbif_candidate_resolution_audit.csv" \
+            --review-out "$STAGE2_OUT/systematic_source_review_blind.csv" \
+            --key-out "$STAGE2_OUT/systematic_source_review_coordinator_key.csv"
+
+      - name: Merge P1 and P2/P3 taxon caches without downgrading accepted resolutions
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p1 = json.loads(Path('stage1_input/gbif_resolution_cache.json').read_text())
+          p2 = json.loads(Path('analysis_outputs/jbi_upstream_stage2/gbif_resolution_cache.json').read_text())
+
+          def rank(row):
+              if bool(row.get('accepted')):
+                  return 3
+              reason = str(row.get('reason') or '')
+              if reason.startswith('resolution_error:'):
+                  return 1
+              if reason == 'deferred_nonprimary_source_candidate':
+                  return 0
+              return 2
+
+          merged = dict(p1)
+          for name, row in p2.items():
+              if name not in merged or rank(row) > rank(merged[name]):
+                  merged[name] = row
+          out = Path('analysis_outputs/jbi_upstream_p1_p3_union/gbif_resolution_cache.json')
+          out.write_text(json.dumps(merged, ensure_ascii=False, indent=2) + '\n')
+          print({'p1_cache': len(p1), 'p2_p3_cache': len(p2), 'union_cache': len(merged)})
+          PY
+
+      - name: Re-aggregate all P1-P3 evidence with mixed retained
+        run: |
+          set -euo pipefail
+          python scripts/literature/build_systematic_spatial_evidence_axes.py \
+            --queue systematic_input/itv_fcp_human_screening_queue.csv \
+            --outdir "$UNION_OUT" \
+            --priorities "$UNION_PRIORITIES" \
+            --gbif-cache "$UNION_OUT/gbif_resolution_cache.json" \
+            --timeout 25 --retries 3 --delay 0
+          python scripts/literature/prepare_systematic_source_review.py \
+            --record-links "$UNION_OUT/systematic_record_evidence_links.csv" \
+            --resolution-audit "$UNION_OUT/gbif_candidate_resolution_audit.csv" \
+            --review-out "$UNION_OUT/systematic_source_review_blind.csv" \
+            --key-out "$UNION_OUT/systematic_source_review_coordinator_key.csv"
+
+      - name: Quantify Stage-2 contribution to species and mixed evidence
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          p1 = pd.read_csv('stage1_input/systematic_species_review_queue.csv')
+          p2 = pd.read_csv('analysis_outputs/jbi_upstream_stage2/systematic_species_review_queue.csv')
+          union = pd.read_csv('analysis_outputs/jbi_upstream_p1_p3_union/systematic_species_review_queue.csv')
+          p2_blind = pd.read_csv('analysis_outputs/jbi_upstream_stage2/systematic_source_review_blind.csv')
+          union_blind = pd.read_csv('analysis_outputs/jbi_upstream_p1_p3_union/systematic_source_review_blind.csv')
+          p2_qc = json.loads(Path('analysis_outputs/jbi_upstream_stage2/gbif_resolution_cache_qc.json').read_text())
+
+          p1_names = set(p1['canonical_name'])
+          p2_names = set(p2['canonical_name'])
+          union_names = set(union['canonical_name'])
+          p1_state = dict(zip(p1['canonical_name'], p1['automated_evidence_state']))
+          p2_state = dict(zip(p2['canonical_name'], p2['automated_evidence_state']))
+          union_state = dict(zip(union['canonical_name'], union['automated_evidence_state']))
+
+          p1_mixed = {n for n,s in p1_state.items() if s == 'mixed_evidence'}
+          p2_mixed = {n for n,s in p2_state.items() if s == 'mixed_evidence'}
+          union_mixed = {n for n,s in union_state.items() if s == 'mixed_evidence'}
+          new_species = sorted(union_names - p1_names)
+          new_mixed_species = sorted(union_mixed - p1_names)
+          existing_promoted_to_mixed = sorted(
+              n for n in union_mixed.intersection(p1_names)
+              if p1_state.get(n) != 'mixed_evidence'
+          )
+
+          forbidden = {
+              'screen_priority','automated_within_signal','automated_among_signal',
+              'automated_natural_signal','automated_cultivated_signal',
+              'automated_induced_signal','automated_ontogenetic_signal',
+              'automated_variation_form','historical_spatial_scale'
+          }
+          assert not forbidden.intersection(p2_blind.columns)
+          assert not forbidden.intersection(union_blind.columns)
+          assert p1_names.issubset(union_names)
+          assert p2_names.issubset(union_names)
+          assert p1_mixed.issubset(union_mixed)
+
+          summary = {
+              'status': 'complete',
+              'stage1_p1_species': len(p1_names),
+              'stage2_p2_p3_records': 1996,
+              'stage2_gbif_primary_names_checked': int(p2_qc['unique_primary_source_candidates']),
+              'stage2_gbif_valid_species': len(p2_names),
+              'stage2_navigation_state_counts': p2['automated_evidence_state'].value_counts().to_dict(),
+              'stage2_blind_source_review_rows': len(p2_blind),
+              'p1_p3_union_species': len(union_names),
+              'new_species_added_beyond_p1': len(new_species),
+              'new_species_names': new_species,
+              'stage1_mixed_navigation_species': len(p1_mixed),
+              'stage2_slice_mixed_navigation_species': len(p2_mixed),
+              'p1_p3_union_mixed_navigation_species': len(union_mixed),
+              'new_mixed_species_added_beyond_p1': len(new_mixed_species),
+              'new_mixed_species_names': new_mixed_species,
+              'existing_p1_species_promoted_to_mixed_by_p2_p3_evidence': len(existing_promoted_to_mixed),
+              'existing_p1_promoted_to_mixed_names': existing_promoted_to_mixed,
+              'p1_p3_union_blind_source_review_rows': len(union_blind),
+              'reviewer_facing_automated_signal_columns': 0,
+              'semantic_guard': 'All Stage-2 and union states are navigation aids only; biological eligibility and both spatial axes still require blind source review.'
+          }
+          Path('analysis_outputs/jbi_upstream_p1_p3_union/stage2_contribution_summary.json').write_text(
+              json.dumps(summary, indent=2) + '\n'
+          )
+          print(json.dumps(summary, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-upstream-stage2-and-union
+          path: |
+            analysis_outputs/jbi_upstream_stage2/
+            analysis_outputs/jbi_upstream_p1_p3_union/
+          if-no-files-found: error
+          retention-days: 30
