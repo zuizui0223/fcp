@@ -19,11 +19,13 @@ def read_rows(path):
 
 
 def write(path: Path, rows, fields):
+    """Write only the explicitly allowed reviewer-facing columns."""
     path.parent.mkdir(parents=True, exist_ok=True)
+    projected = [{field: row.get(field, "") for field in fields} for row in rows]
     with path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
-        writer.writerows(rows)
+        writer.writerows(projected)
 
 
 def main():
@@ -64,7 +66,8 @@ def main():
 
     for batch in expected:
         subset = [r for r in rows if r.get("batch_id") == batch]
-        # Reviewer-specific sheets deliberately omit the other reviewer's columns.
+        # Reviewer-specific sheets deliberately omit the other reviewer's columns
+        # and all adjudication fields.
         write(outdir / "Reviewer1" / f"FCP_{batch}_Reviewer1.csv", subset, r1_fields)
         write(outdir / "Reviewer2" / f"FCP_{batch}_Reviewer2.csv", subset, r2_fields)
 
