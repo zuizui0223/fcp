@@ -1,0 +1,106 @@
+name: JBI v2.2 canonical record screening universe
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-record-screening.yml'
+      - 'scripts/literature/build_v22_record_screening_universe.py'
+  pull_request:
+    paths:
+      - '.github/workflows/jbi-v22-record-screening.yml'
+      - 'scripts/literature/build_v22_record_screening_universe.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-v22-record-screening
+  cancel-in-progress: true
+
+env:
+  V22_RUN_ID: '32825713331'
+  V22_ARTIFACT: 'jbi-search-v2'
+  OUTDIR: 'analysis_outputs/jbi_v22_record_screening'
+
+jobs:
+  build-record-screen:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download successful v2.2 search artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.V22_ARTIFACT }}
+          path: v22_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.V22_RUN_ID }}
+
+      - name: Verify v2.2 search boundary
+        run: |
+          set -euo pipefail
+          test -s v22_input/openalex_oql_v2_deduplicated.csv
+          test -s v22_input/openalex_oql_v2_retrieval_summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('v22_input/openalex_oql_v2_retrieval_summary.json').read_text())
+          assert x['protocol_version'] == '2.2.0-draft', x
+          assert x['deduplicated_works'] == 12064, x
+          assert x['truncated_v2_query_blocks'] == 0, x
+          assert x['historical_34_exact_sources_recovered_by_direct_v2_queries'] == 34, x
+          print(x)
+          PY
+
+      - name: Build all-record blind screening universe
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR"
+          python scripts/literature/build_v22_record_screening_universe.py \
+            --works v22_input/openalex_oql_v2_deduplicated.csv \
+            --historical-manifest docs/supporting/frozen_classification_manifest.csv \
+            --blind-out "$OUTDIR/v22_record_screening_blind.csv" \
+            --key-out "$OUTDIR/v22_record_screening_coordinator_key.csv" \
+            --summary-out "$OUTDIR/v22_record_screening_summary.json" \
+            --batch-size 1000
+
+      - name: Validate blinding and no silent binomial exclusion
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_v22_record_screening')
+          with (root/'v22_record_screening_blind.csv').open(newline='',encoding='utf-8') as h:
+              blind=list(csv.DictReader(h))
+          with (root/'v22_record_screening_coordinator_key.csv').open(newline='',encoding='utf-8') as h:
+              key=list(csv.DictReader(h))
+          summary=json.loads((root/'v22_record_screening_summary.json').read_text())
+          assert len(blind) == len(key) == 12064
+          assert len({r['record_review_id'] for r in blind}) == 12064
+          assert {r['record_review_id'] for r in blind} == {r['record_review_id'] for r in key}
+          forbidden={'query_ids','representative_query_id','historical_34_exact_source_match','detected_binomial_strings','screen_priority','automated_within_signal','automated_among_signal'}
+          assert not forbidden.intersection(blind[0]), sorted(forbidden.intersection(blind[0]))
+          assert {'query_ids','historical_34_exact_source_match','detected_binomial_strings'}.issubset(key[0])
+          assert summary['historical_34_exact_source_rows_present'] == 34
+          assert summary['blind_record_screening_rows'] == 12064
+          assert summary['records_without_detected_binomial_retained_for_review'] > 0
+          assert set(r['review_status'] for r in blind) == {'unreviewed'}
+          print(summary)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jbi-v22-canonical-record-screening
+          path: analysis_outputs/jbi_v22_record_screening/
+          if-no-files-found: error
+          retention-days: 30
