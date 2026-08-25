@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""Prepare direct source-review rows for the historical 34-species freeze.
+"""Prepare direct blinded source-review rows for the historical 34-species freeze.
 
-This lane deliberately ignores the systematic-search priority assigned to a record.
-Each historical species is looked up by the classification `source_id` stored in the
-frozen manifest. Exact DOI/OpenAlex matches are preferred. If the historical source is
-not present in the archived systematic corpus, the row is retained as
-`source_not_in_archived_systematic_corpus` so it can be fetched directly during human
-review rather than being silently lost.
+This rescue lane ignores archived systematic-search priority. Each historical species is
+looked up by its frozen classification source_id. Reviewer-facing output hides the old
+spatial label, automated signals, search priority and recovery status. Those fields are
+written only to a coordinator key.
 
-No historical spatial label is changed by this script.
+No historical label is validated or changed by this script.
 """
 from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
+import json
 import re
 from pathlib import Path
 from typing import Any
@@ -101,11 +101,23 @@ def review_fields() -> dict[str, str]:
     }
 
 
+def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+    if not rows:
+        raise SystemExit(f"No rows to write: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fields = list(rows[0].keys())
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", default="docs/supporting/frozen_classification_manifest.csv")
     parser.add_argument("--systematic-queue", required=True)
-    parser.add_argument("--out", required=True)
+    parser.add_argument("--review-out", required=True)
+    parser.add_argument("--key-out", required=True)
     parser.add_argument("--summary-out", required=True)
     args = parser.parse_args()
 
@@ -119,28 +131,28 @@ def main() -> None:
         for key in source_key_variants(row):
             by_key.setdefault(key, []).append(row)
 
-    output: list[dict[str, Any]] = []
+    review_rows: list[dict[str, Any]] = []
+    key_rows: list[dict[str, Any]] = []
     exact_matches = 0
     missing_sources: list[str] = []
     non_p1_exact = 0
 
-    for index, row in enumerate(sorted(manifest, key=lambda x: clean(x.get("canonical_name"))), start=1):
+    priority_rank = {
+        "P1_high_natural_itv": 0,
+        "P1_high_population_itv": 1,
+        "P2_possible_itv": 2,
+        "P3_likely_exclusion_review": 3,
+        "P4_flower_colour_context_only": 4,
+        "P5_low_relevance": 5,
+    }
+
+    for row in sorted(manifest, key=lambda x: clean(x.get("canonical_name"))):
         species = clean(row.get("canonical_name"))
         source_id = clean(row.get("source_id"))
         key = historical_key(source_id)
         matches = by_key.get(key, [])
         if matches:
             exact_matches += 1
-            # Same DOI can occur as multiple database records. Keep the record with
-            # the longest abstract, then the stronger archived screen priority.
-            priority_rank = {
-                "P1_high_natural_itv": 0,
-                "P1_high_population_itv": 1,
-                "P2_possible_itv": 2,
-                "P3_likely_exclusion_review": 3,
-                "P4_flower_colour_context_only": 4,
-                "P5_low_relevance": 5,
-            }
             best = min(
                 matches,
                 key=lambda x: (
@@ -151,43 +163,61 @@ def main() -> None:
             priority = clean(best.get("screen_priority"))
             if not priority.startswith("P1_"):
                 non_p1_exact += 1
-            status = "exact_source_recovered"
+            recovery = "exact_source_recovered"
         else:
             best = {}
             priority = ""
-            status = "source_not_in_archived_systematic_corpus"
+            recovery = "source_not_in_archived_systematic_corpus"
             missing_sources.append(species)
 
-        output.append({
-            "historical_review_id": f"JHIST-{index:03d}",
+        stable = hashlib.sha256(f"{species}|{source_id}".encode("utf-8")).hexdigest()[:12]
+        review_id = f"JHIST-{stable}"
+        reviewer_source_id = clean(best.get("doi") or best.get("record_id") or source_id)
+        review_rows.append({
+            "historical_review_id": review_id,
+            "canonical_name": species,
+            "family": clean(row.get("family")),
+            "source_id": reviewer_source_id,
+            "doi": clean(best.get("doi")),
+            "record_id": clean(best.get("record_id")),
+            "title": clean(best.get("title")),
+            "navigation_excerpt": clean(best.get("abstract"))[:2400],
+            **review_fields(),
+        })
+        key_rows.append({
+            "historical_review_id": review_id,
             "canonical_name": species,
             "family": clean(row.get("family")),
             "historical_spatial_scale": clean(row.get("spatial_scale")),
             "historical_source_id": source_id,
             "historical_source_key": key,
-            "systematic_source_recovery": status,
+            "systematic_source_recovery": recovery,
             "systematic_screen_priority": priority,
             "systematic_record_id": clean(best.get("record_id")),
             "systematic_doi": clean(best.get("doi")),
             "systematic_title": clean(best.get("title")),
-            "systematic_navigation_excerpt": clean(best.get("abstract"))[:2400],
             "automated_within_signal": clean(best.get("within_signal")),
             "automated_among_signal": clean(best.get("among_signal")),
             "automated_natural_signal": clean(best.get("natural_signal")),
             "automated_cultivated_signal": clean(best.get("cultivated_signal")),
             "automated_induced_signal": clean(best.get("induced_signal")),
             "automated_ontogenetic_signal": clean(best.get("ontogenetic_signal")),
-            "audit_guard": "Historical label hidden from biological adjudication; climate/model results must not be consulted.",
-            **review_fields(),
+            "audit_guard": "Coordinator-only key; historical labels and automated signals must not be shown during independent review.",
         })
 
-    out = Path(args.out)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    fields = list(output[0].keys())
-    with out.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
-        writer.writeheader()
-        writer.writerows(output)
+    review_rows.sort(key=lambda row: row["historical_review_id"])
+    key_rows.sort(key=lambda row: row["historical_review_id"])
+
+    forbidden = {
+        "historical_spatial_scale", "historical_source_id", "systematic_screen_priority",
+        "automated_within_signal", "automated_among_signal", "automated_natural_signal",
+    }
+    leaked = sorted(forbidden.intersection(review_rows[0].keys()))
+    if leaked:
+        raise SystemExit(f"Historical blinding failure: {leaked}")
+
+    write_csv(Path(args.review_out), review_rows)
+    write_csv(Path(args.key_out), key_rows)
 
     summary = {
         "status": "complete",
@@ -196,14 +226,14 @@ def main() -> None:
         "exact_historical_sources_outside_p1": non_p1_exact,
         "historical_sources_not_in_archived_systematic_corpus": len(missing_sources),
         "missing_source_species": missing_sources,
-        "semantic_guard": "Source rescue is independent of archived screen priority and does not validate the historical spatial label.",
+        "reviewer_facing_historical_label_columns": 0,
+        "semantic_guard": "Historical source rescue is priority-independent; old labels and automated signals are coordinator-only.",
     }
-    import json
     Path(args.summary_out).write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(summary, indent=2), flush=True)
 
-    if len(output) != 34:
-        raise SystemExit("Historical source review queue did not retain all 34 species")
+    if len(review_rows) != 34 or len(key_rows) != 34:
+        raise SystemExit("Historical source review materials did not retain all 34 species")
 
 
 if __name__ == "__main__":
