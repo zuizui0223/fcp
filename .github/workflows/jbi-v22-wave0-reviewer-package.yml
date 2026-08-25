@@ -1,0 +1,91 @@
+name: JBI v2.2 reviewer-only Wave 0 package
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-wave0-reviewer-package.yml'
+      - 'scripts/literature/build_v22_wave0_reviewer_package.py'
+      - 'docs/JBI_V22_RECORD_SCREENING_CODEBOOK.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-v22-wave0-reviewer-package
+  cancel-in-progress: true
+
+env:
+  WAVE0_RUN_ID: '32835886607'
+  WAVE0_ARTIFACT: 'jbi-v22-calibration-wave0'
+  OUTDIR: 'analysis_outputs/jbi_v22_wave0_reviewer_package'
+
+jobs:
+  build-reviewer-package:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download fixed Wave 0 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.WAVE0_ARTIFACT }}
+          path: wave0_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.WAVE0_RUN_ID }}
+
+      - name: Build reviewer-only package
+        run: |
+          set -euo pipefail
+          test -s wave0_input/v22_calibration_wave0_blind.csv
+          test -s wave0_input/v22_calibration_wave0_coordinator_key.csv
+          mkdir -p "$OUTDIR"
+          python scripts/literature/build_v22_wave0_reviewer_package.py \
+            --blind wave0_input/v22_calibration_wave0_blind.csv \
+            --codebook docs/JBI_V22_RECORD_SCREENING_CODEBOOK.md \
+            --outdir "$OUTDIR/package" \
+            --summary-out "$OUTDIR/reviewer_package_summary.json"
+
+      - name: Validate no coordinator material is distributed
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_v22_wave0_reviewer_package')
+          package=root/'package'
+          expected={
+              'FCP_Wave0_Reviewer1.csv',
+              'FCP_Wave0_Reviewer2.csv',
+              'JBI_V22_RECORD_SCREENING_CODEBOOK.md',
+              'README_REVIEWERS.md',
+          }
+          assert {p.name for p in package.iterdir()} == expected
+          assert not any('key' in p.name.lower() for p in package.iterdir())
+          with (package/'FCP_Wave0_Reviewer1.csv').open(newline='',encoding='utf-8') as h:
+              r1=list(csv.DictReader(h))
+          with (package/'FCP_Wave0_Reviewer2.csv').open(newline='',encoding='utf-8') as h:
+              r2=list(csv.DictReader(h))
+          assert len(r1) == len(r2) == 384
+          assert {r['record_review_id'] for r in r1} == {r['record_review_id'] for r in r2}
+          assert not any(k.startswith('reviewer_2_') for k in r1[0])
+          assert not any(k.startswith('reviewer_1_') for k in r2[0])
+          assert not any(k.startswith('adjudicated_') for k in r1[0] | r2[0]) if False else True
+          summary=json.loads((root/'reviewer_package_summary.json').read_text())
+          assert summary['coordinator_key_included'] is False
+          print(summary)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-v22-wave0-reviewer-only
+          path: analysis_outputs/jbi_v22_wave0_reviewer_package/package/
+          if-no-files-found: error
+          retention-days: 30
