@@ -1,0 +1,122 @@
+name: JBI v2.2 record-screening Wave 0 calibration
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-calibration-wave0.yml'
+      - 'scripts/literature/build_v22_calibration_wave0.py'
+      - 'scripts/literature/score_v22_record_calibration.py'
+      - 'docs/JBI_V22_RECORD_SCREENING_CODEBOOK.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-v22-calibration-wave0
+  cancel-in-progress: true
+
+env:
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  OUTDIR: 'analysis_outputs/jbi_v22_calibration_wave0'
+
+jobs:
+  build-calibration-wave:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download canonical all-record screen
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+
+      - name: Verify canonical record-screen boundary
+        run: |
+          set -euo pipefail
+          test -s record_screen_input/v22_record_screening_blind.csv
+          test -s record_screen_input/v22_record_screening_coordinator_key.csv
+          test -s record_screen_input/v22_record_screening_summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('record_screen_input/v22_record_screening_summary.json').read_text())
+          assert x['blind_record_screening_rows'] == 12064, x
+          assert x['historical_34_exact_source_rows_present'] == 34, x
+          assert x['records_without_detected_binomial_retained_for_review'] == 2993, x
+          print(x)
+          PY
+
+      - name: Build blinded 384-record Wave 0
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR"
+          python scripts/literature/build_v22_calibration_wave0.py \
+            --blind record_screen_input/v22_record_screening_blind.csv \
+            --key record_screen_input/v22_record_screening_coordinator_key.csv \
+            --blind-out "$OUTDIR/v22_calibration_wave0_blind.csv" \
+            --key-out "$OUTDIR/v22_calibration_wave0_coordinator_key.csv" \
+            --summary-out "$OUTDIR/v22_calibration_wave0_summary.json"
+
+      - name: Validate calibration blinding and strata
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_v22_calibration_wave0')
+          with (root/'v22_calibration_wave0_blind.csv').open(newline='',encoding='utf-8') as h:
+              blind=list(csv.DictReader(h))
+          with (root/'v22_calibration_wave0_coordinator_key.csv').open(newline='',encoding='utf-8') as h:
+              key=list(csv.DictReader(h))
+          x=json.loads((root/'v22_calibration_wave0_summary.json').read_text())
+          assert len(blind) == len(key) == 384
+          assert len({r['record_review_id'] for r in blind}) == 384
+          assert set(r['record_review_id'] for r in blind) == set(r['record_review_id'] for r in key)
+          assert x['strata'] == {
+              'historical_benchmark_blinded': 34,
+              'no_detected_binomial': 100,
+              'detected_binomial': 100,
+              'non_english': 100,
+              'missing_abstract': 50,
+          }, x
+          forbidden={'calibration_stratum','query_ids','historical_34_exact_source_match','detected_binomial_strings'}
+          assert not forbidden.intersection(blind[0]), sorted(forbidden.intersection(blind[0]))
+          assert {'calibration_stratum','query_ids','historical_34_exact_source_match','detected_binomial_strings'}.issubset(key[0])
+          assert set(r['review_status'] for r in blind) == {'unreviewed'}
+          print(x)
+          PY
+
+      - name: Smoke-test agreement scorer on blank Wave 0
+        run: |
+          set -euo pipefail
+          python scripts/literature/score_v22_record_calibration.py \
+            --reviewed "$OUTDIR/v22_calibration_wave0_blind.csv" \
+            --summary-out "$OUTDIR/v22_calibration_wave0_blank_agreement.json" \
+            --disagreements-out "$OUTDIR/v22_calibration_wave0_blank_disagreements.csv"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('analysis_outputs/jbi_v22_calibration_wave0/v22_calibration_wave0_blank_agreement.json').read_text())
+          assert x['records'] == 384
+          assert all(v['n_double_coded'] == 0 for v in x['agreement'].values()), x
+          print(x)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-v22-calibration-wave0
+          path: analysis_outputs/jbi_v22_calibration_wave0/
+          if-no-files-found: error
+          retention-days: 30
