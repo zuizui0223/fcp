@@ -7,7 +7,11 @@ on:
     paths:
       - '.github/workflows/jbi-upstream-reaudit.yml'
       - 'docs/JBI_UPSTREAM_REAUDIT_PROTOCOL.md'
+      - 'docs/JBI_UPSTREAM_REAUDIT_STATUS.md'
+      - 'scripts/literature/build_gbif_resolution_cache.py'
       - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
+      - 'scripts/literature/prepare_systematic_source_review.py'
+      - 'tests/test_upstream_spatial_reaudit.py'
   workflow_dispatch:
 
 permissions:
@@ -16,23 +20,27 @@ permissions:
 
 concurrency:
   group: jbi-upstream-spatial-reaudit
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 env:
   SOURCE_RUN_ID: '30753748463'
   SOURCE_ARTIFACT: 'systematic-itv-fcp-literature-search-full'
   OUTDIR: 'analysis_outputs/jbi_upstream_reaudit'
+  PRIORITIES: 'P1_high_natural_itv,P1_high_population_itv,P2_possible_itv,P3_likely_exclusion_review'
 
 jobs:
   build-review-queue:
     runs-on: ubuntu-22.04
-    timeout-minutes: 180
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Install validation dependency
+        run: python -m pip install --disable-pip-version-check pandas
 
       - name: Download frozen systematic-search corpus
         uses: actions/download-artifact@v4
@@ -43,11 +51,12 @@ jobs:
           repository: zuizui0223/fcp
           run-id: ${{ env.SOURCE_RUN_ID }}
 
-      - name: Verify source corpus boundary
+      - name: Verify source corpus and freeze completeness boundary
         run: |
           set -euo pipefail
           test -s systematic_input/itv_fcp_human_screening_queue.csv
           test -s systematic_input/itv_fcp_search_manifest.json
+          mkdir -p "$OUTDIR"
           python - <<'PY'
           import json
           from pathlib import Path
@@ -55,22 +64,54 @@ jobs:
           assert manifest['deduplicated_records'] == 79242, manifest
           assert manifest['raw_records'] == 105249, manifest
           assert manifest['human_review_required'] is True, manifest
-          print({
-              'deduplicated_records': manifest['deduplicated_records'],
+          truncated = manifest.get('truncated_query_database_pairs', [])
+          boundary = {
+              'source_search_run_id': 30753748463,
+              'source_artifact': 'systematic-itv-fcp-literature-search-full',
               'raw_records': manifest['raw_records'],
-              'truncated_shards': len(manifest.get('truncated_query_database_pairs', [])),
-              'human_review_required': manifest['human_review_required'],
-          })
+              'deduplicated_records': manifest['deduplicated_records'],
+              'truncated_shards': len(truncated),
+              'truncated_query_database_pairs': truncated,
+              'human_review_required': True,
+              'canonical_replacement_freeze_allowed': False,
+              'blockers': [
+                  'source-level duplicate human review and adjudication incomplete',
+                  'truncated search shards require repair or explicit sensitivity bounding',
+              ],
+          }
+          Path('analysis_outputs/jbi_upstream_reaudit/search_completeness_boundary.json').write_text(
+              json.dumps(boundary, indent=2) + '\n'
+          )
+          print(boundary)
           PY
 
-      - name: Build taxon-validated mixed-preserving review queue
+      - name: Build concurrent GBIF taxon cache
+        run: |
+          set -euo pipefail
+          python scripts/literature/build_gbif_resolution_cache.py \
+            --queue systematic_input/itv_fcp_human_screening_queue.csv \
+            --out "$OUTDIR/gbif_resolution_cache.json" \
+            --qc-out "$OUTDIR/gbif_resolution_cache_qc.json" \
+            --priorities "$PRIORITIES" \
+            --workers 24 --timeout 25 --retries 3
+
+      - name: Build taxon-validated mixed-preserving species review queue
         run: |
           set -euo pipefail
           python scripts/literature/build_systematic_spatial_evidence_axes.py \
             --queue systematic_input/itv_fcp_human_screening_queue.csv \
             --outdir "$OUTDIR" \
-            --priorities P1_high_natural_itv,P1_high_population_itv,P2_possible_itv,P3_likely_exclusion_review \
-            --timeout 45 --retries 4 --delay 0.03
+            --priorities "$PRIORITIES" \
+            --gbif-cache "$OUTDIR/gbif_resolution_cache.json" \
+            --timeout 25 --retries 3 --delay 0
+
+      - name: Build species-by-source blinded review queue
+        run: |
+          set -euo pipefail
+          python scripts/literature/prepare_systematic_source_review.py \
+            --record-links "$OUTDIR/systematic_record_candidate_links.csv" \
+            --resolution-audit "$OUTDIR/gbif_candidate_resolution_audit.csv" \
+            --out "$OUTDIR/systematic_source_review_queue.csv"
 
       - name: Validate review queue semantics
         run: |
@@ -82,9 +123,12 @@ jobs:
 
           root = Path('analysis_outputs/jbi_upstream_reaudit')
           queue = pd.read_csv(root / 'systematic_species_review_queue.csv')
+          source_queue = pd.read_csv(root / 'systematic_source_review_queue.csv')
           audit = pd.read_csv(root / 'gbif_candidate_resolution_audit.csv')
           recovery = pd.read_csv(root / 'historical_34_recovery_diagnostic.csv')
           qc = json.loads((root / 'upstream_reaudit_qc.json').read_text())
+          taxon_qc = json.loads((root / 'gbif_resolution_cache_qc.json').read_text())
+          boundary = json.loads((root / 'search_completeness_boundary.json').read_text())
 
           required = {
               'canonical_name', 'family',
@@ -110,13 +154,39 @@ jobs:
           assert {'accepted', 'accepted_name', 'reason'}.issubset(audit.columns)
           assert 'semantic_guard' in qc
 
-          print({
+          source_required = {
+              'source_review_id', 'canonical_name', 'source_id', 'review_status',
+              'reviewer_1_natural_eligibility', 'reviewer_1_local_coexistence',
+              'reviewer_1_geographic_structure', 'reviewer_2_natural_eligibility',
+              'reviewer_2_local_coexistence', 'reviewer_2_geographic_structure',
+              'adjudicated_natural_eligibility', 'adjudicated_local_coexistence',
+              'adjudicated_geographic_structure',
+          }
+          assert source_required.issubset(source_queue.columns)
+          assert source_queue['source_review_id'].is_unique
+          assert set(source_queue['review_status']) == {'unreviewed'}
+          assert set(source_queue['canonical_name']).issubset(set(queue['canonical_name']))
+
+          assert taxon_qc['unique_contextual_input_names'] >= taxon_qc['gbif_accepted_input_names']
+          assert boundary['canonical_replacement_freeze_allowed'] is False
+          assert boundary['truncated_shards'] > 0
+
+          summary = {
               'gbif_validated_candidate_species': len(queue),
               'automated_state_counts': queue['automated_evidence_state'].value_counts().to_dict(),
+              'source_review_rows': len(source_queue),
               'historical_34_recovered': int(recovery['recovered_in_systematic_candidate_queue'].sum()),
-              'gbif_resolution_rows': len(audit),
-          })
+              'input_candidate_names_checked': int(taxon_qc['unique_contextual_input_names']),
+              'gbif_accepted_input_names': int(taxon_qc['gbif_accepted_input_names']),
+              'gbif_resolution_errors': int(taxon_qc['gbif_resolution_errors']),
+              'truncated_shards': int(boundary['truncated_shards']),
+          }
+          (root / 'ci_summary.json').write_text(json.dumps(summary, indent=2) + '\n')
+          print(summary)
           PY
+
+      - name: Run implementation guards
+        run: python -m unittest tests.test_upstream_spatial_reaudit
 
       - uses: actions/upload-artifact@v4
         if: always()
