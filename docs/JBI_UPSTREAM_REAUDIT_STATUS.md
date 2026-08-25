@@ -65,7 +65,7 @@ This closes the major upstream failure mode in which absent/abbreviated taxon na
 
 Workflow: `JBI v2.2 record-screening Wave 0 calibration`.
 
-Successful run: `32835886607`.
+Successful run: **`32835886607`**. Every workflow step passed, including calibration construction, blinding validation, blank-sheet agreement-scoring smoke test, and artifact upload.
 
 The calibration workflow builds **384 unique blind records** with hidden mutually exclusive strata:
 
