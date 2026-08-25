@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
-"""Build a concurrent GBIF resolution cache for upstream spatial re-audit.
+"""Build a bounded GBIF resolution cache for the upstream spatial re-audit.
 
-This helper only validates candidate taxon names. It does not classify biological
-eligibility or spatial organization. Candidate names are extracted from the frozen
-systematic-screening queue using the exact contextual-name function used by the
-mixed-preserving review builder, then resolved concurrently against GBIF.
+The systematic-search artifact contains permissive two-word candidate strings. This
+helper therefore separates *source attribution* from taxon validation before any
+biological classification is attempted:
+
+1. collect every contextual two-word candidate seen by the mixed-preserving builder;
+2. designate a primary source candidate only when the name occurs in the title or in
+   the first 2,000 abstract characters (the source-attribution window);
+3. query GBIF concurrently only for those primary candidates;
+4. write explicit non-primary rejection rows for the remaining candidate strings so
+   downstream code never silently falls back to thousands of sequential GBIF calls.
+
+No natural-status or spatial-state decision is made here.
 """
 from __future__ import annotations
 
@@ -22,12 +30,40 @@ from build_systematic_spatial_evidence_axes import (
 )
 
 
-def collect_names(queue: Path, priorities: set[str]) -> tuple[set[str], dict[str, int]]:
-    names: set[str] = set()
+def clean(value: Any) -> str:
+    return " ".join(str(value or "").split())
+
+
+def primary_source_candidates(row: dict[str, str], abstract_chars: int = 2000) -> list[str]:
+    """Return candidates plausibly attributable to the focal publication.
+
+    Title occurrence is preferred. If none of the candidates is in the title, retain
+    names occurring near the beginning of the abstract. This is only a record-to-taxon
+    attribution rule; full-source review later decides biological relevance and spatial
+    evidence.
+    """
+    candidates = contextual_candidate_names(row)
+    if not candidates:
+        return []
+    title = clean(row.get("title")).lower()
+    title_hits = [name for name in candidates if name.lower() in title]
+    if title_hits:
+        return title_hits[:5]
+    abstract = clean(row.get("abstract"))[:abstract_chars].lower()
+    return [name for name in candidates if name.lower() in abstract][:5]
+
+
+def collect_names(
+    queue: Path,
+    priorities: set[str],
+) -> tuple[set[str], set[str], dict[str, int]]:
+    all_contextual: set[str] = set()
+    primary: set[str] = set()
     diagnostics = {
         "records_total": 0,
         "records_selected": 0,
         "records_with_contextual_candidate": 0,
+        "records_with_primary_source_candidate": 0,
     }
     with queue.open(newline="", encoding="utf-8") as handle:
         for row in csv.DictReader(handle):
@@ -38,9 +74,15 @@ def collect_names(queue: Path, priorities: set[str]) -> tuple[set[str], dict[str
             contextual = contextual_candidate_names(row)
             if contextual:
                 diagnostics["records_with_contextual_candidate"] += 1
-                names.update(contextual)
-    diagnostics["unique_contextual_input_names"] = len(names)
-    return names, diagnostics
+                all_contextual.update(contextual)
+            focal = primary_source_candidates(row)
+            if focal:
+                diagnostics["records_with_primary_source_candidate"] += 1
+                primary.update(focal)
+    diagnostics["unique_contextual_input_names"] = len(all_contextual)
+    diagnostics["unique_primary_source_candidates"] = len(primary)
+    diagnostics["contextual_names_deferred_as_nonprimary"] = len(all_contextual - primary)
+    return all_contextual, primary, diagnostics
 
 
 def resolve_one(name: str, timeout: int, retries: int) -> tuple[str, dict[str, Any]]:
@@ -62,6 +104,21 @@ def resolve_one(name: str, timeout: int, retries: int) -> tuple[str, dict[str, A
     return name, resolved
 
 
+def nonprimary_row(name: str) -> dict[str, Any]:
+    return {
+        "input_name": name,
+        "accepted": False,
+        "match_type": "",
+        "rank": "",
+        "kingdom": "",
+        "confidence": 0,
+        "accepted_name": "",
+        "family": "",
+        "usage_key": "",
+        "reason": "deferred_nonprimary_source_candidate",
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--queue", required=True)
@@ -74,34 +131,41 @@ def main() -> None:
     args = parser.parse_args()
 
     priorities = {x.strip() for x in args.priorities.split(",") if x.strip()}
-    names, diagnostics = collect_names(Path(args.queue), priorities)
-    if not names:
-        raise SystemExit("No contextual candidate names found")
+    all_names, primary_names, diagnostics = collect_names(Path(args.queue), priorities)
+    if not primary_names:
+        raise SystemExit("No primary source candidate names found")
 
-    cache: dict[str, dict[str, Any]] = {}
+    # Populate the complete downstream cache up front. Names outside the focal
+    # source-attribution window remain visible as deferred, not silently discarded.
+    cache: dict[str, dict[str, Any]] = {
+        name: nonprimary_row(name) for name in sorted(all_names - primary_names)
+    }
+
     workers = max(1, min(args.workers, 48))
     with ThreadPoolExecutor(max_workers=workers) as executor:
         futures = {
             executor.submit(resolve_one, name, args.timeout, args.retries): name
-            for name in sorted(names)
+            for name in sorted(primary_names)
         }
         for index, future in enumerate(as_completed(futures), start=1):
             name, resolved = future.result()
             cache[name] = resolved
-            if index % 1000 == 0:
-                print({"resolved": index, "total": len(names)}, flush=True)
+            if index % 250 == 0:
+                print({"gbif_resolved": index, "gbif_total": len(primary_names)}, flush=True)
 
-    accepted = [row for row in cache.values() if bool(row.get("accepted"))]
-    errors = [row for row in cache.values() if str(row.get("reason", "")).startswith("resolution_error:")]
+    primary_rows = [cache[name] for name in primary_names]
+    accepted = [row for row in primary_rows if bool(row.get("accepted"))]
+    errors = [row for row in primary_rows if str(row.get("reason", "")).startswith("resolution_error:")]
     qc = {
         "status": "complete",
         **diagnostics,
         "workers": workers,
+        "gbif_queries_sent": len(primary_names),
         "gbif_accepted_input_names": len(accepted),
-        "gbif_rejected_input_names": len(cache) - len(accepted),
+        "gbif_rejected_primary_input_names": len(primary_names) - len(accepted),
         "gbif_resolution_errors": len(errors),
         "accepted_species_after_synonym_collapse": len({str(row.get("accepted_name")) for row in accepted if row.get("accepted_name")}),
-        "semantic_guard": "Taxon validation only; no biological eligibility or spatial classification is inferred here.",
+        "semantic_guard": "Source attribution and taxon validation only; no biological eligibility or spatial classification is inferred here.",
     }
 
     out = Path(args.out)
@@ -110,11 +174,9 @@ def main() -> None:
     Path(args.qc_out).write_text(json.dumps(qc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(qc, indent=2), flush=True)
 
-    # A few network failures are tolerable because the re-audit is a review queue,
-    # but a broad outage should fail loudly rather than silently shrink the sample.
-    if len(errors) > max(25, int(0.02 * len(cache))):
-        raise SystemExit(f"Too many GBIF resolution errors: {len(errors)}/{len(cache)}")
-    if len(accepted) < 50:
+    if len(errors) > max(10, int(0.03 * len(primary_names))):
+        raise SystemExit(f"Too many GBIF resolution errors: {len(errors)}/{len(primary_names)}")
+    if len(accepted) < 40:
         raise SystemExit(f"Unexpectedly few accepted plant species: {len(accepted)}")
 
 
