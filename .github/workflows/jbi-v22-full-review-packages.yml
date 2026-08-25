@@ -1,0 +1,88 @@
+name: JBI v2.2 full duplicate review packages
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-full-review-packages.yml'
+      - 'scripts/literature/build_v22_full_review_packages.py'
+      - 'docs/JBI_V22_RECORD_SCREENING_CODEBOOK.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-v22-full-review-packages
+  cancel-in-progress: true
+
+env:
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  OUTDIR: 'analysis_outputs/jbi_v22_full_review_packages'
+
+jobs:
+  build-packages:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download canonical all-record screen
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+
+      - name: Build 13 reviewer-specific batches
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR"
+          python scripts/literature/build_v22_full_review_packages.py \
+            --blind record_screen_input/v22_record_screening_blind.csv \
+            --codebook docs/JBI_V22_RECORD_SCREENING_CODEBOOK.md \
+            --outdir "$OUTDIR/packages" \
+            --summary-out "$OUTDIR/full_review_package_summary.json"
+
+      - name: Validate package boundary
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_v22_full_review_packages')
+          x=json.loads((root/'full_review_package_summary.json').read_text())
+          assert x['records'] == 12064, x
+          assert x['review_batches'] == 13, x
+          assert x['reviewer1_files'] == x['reviewer2_files'] == 13, x
+          assert sum(x['batch_counts'].values()) == 12064, x
+          assert max(x['batch_counts'].values()) <= 1000, x
+          for reviewer in (1,2):
+              for batch in range(1,14):
+                  p=root/'packages'/f'Reviewer{reviewer}'/f'FCP_B{batch:02d}_Reviewer{reviewer}.csv'
+                  assert p.exists(), p
+                  with p.open(newline='',encoding='utf-8') as h:
+                      rows=list(csv.DictReader(h))
+                  assert rows, p
+                  cols=set(rows[0])
+                  if reviewer == 1:
+                      assert not any(c.startswith('reviewer_2_') for c in cols), p
+                  else:
+                      assert not any(c.startswith('reviewer_1_') for c in cols), p
+                  assert not any(c.startswith('adjudicated_') for c in cols), p
+          print(x)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-v22-full-review-packages
+          path: analysis_outputs/jbi_v22_full_review_packages/
+          if-no-files-found: error
+          retention-days: 30
