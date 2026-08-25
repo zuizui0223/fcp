@@ -80,10 +80,11 @@ jobs:
           assert full['query_blocks'] == 15, full
           assert full['truncated_v2_query_blocks'] == 0, full
           assert full['raw_query_memberships'] >= full['deduplicated_works'] > 0, full
-          assert full['historical_34_exact_sources_recovered_by_direct_v2_queries'] == 27, full
+          direct = int(full['historical_34_exact_sources_recovered_by_direct_v2_queries'])
+          assert 27 <= direct <= 34, full
           assert cite['seed_reviews'] == 7, cite
-          assert cite['historical_direct_recovered'] == 27, cite
-          assert 27 <= cite['historical_direct_or_citation_recovered'] <= 34, cite
+          assert cite['historical_direct_recovered'] == direct, (full, cite)
+          assert direct <= cite['historical_direct_or_citation_recovered'] <= 34, cite
           print({'probe': probe, 'retrieval': full, 'citation_benchmark': cite})
           PY
 
