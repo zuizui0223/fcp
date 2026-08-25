@@ -7,11 +7,6 @@ on:
       - '.github/workflows/jbi-nonenglish-v2-probe.yml'
       - 'literature/itv_fcp_nonenglish_expansion_probe_v2.json'
       - 'scripts/systematic_search/probe_nonenglish_oql_v2.py'
-  pull_request:
-    paths:
-      - '.github/workflows/jbi-nonenglish-v2-probe.yml'
-      - 'literature/itv_fcp_nonenglish_expansion_probe_v2.json'
-      - 'scripts/systematic_search/probe_nonenglish_oql_v2.py'
   workflow_dispatch:
 
 permissions:
