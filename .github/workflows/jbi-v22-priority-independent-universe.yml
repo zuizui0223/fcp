@@ -6,10 +6,6 @@ on:
     paths:
       - '.github/workflows/jbi-v22-priority-independent-universe.yml'
       - 'scripts/literature/build_v22_priority_independent_review_universe.py'
-  pull_request:
-    paths:
-      - '.github/workflows/jbi-v22-priority-independent-universe.yml'
-      - 'scripts/literature/build_v22_priority_independent_review_universe.py'
   workflow_dispatch:
 
 permissions:
@@ -76,19 +72,21 @@ jobs:
       - name: Validate no legacy priority or query-membership leakage
         run: |
           python - <<'PY'
-          import json
+          import csv, json
           from pathlib import Path
-          import pandas as pd
           root=Path('analysis_outputs/jbi_v22_priority_independent_universe')
-          blind=pd.read_csv(root/'v22_source_review_blind.csv')
-          key=pd.read_csv(root/'v22_source_review_coordinator_key.csv')
+          with (root/'v22_source_review_blind.csv').open(newline='',encoding='utf-8') as h:
+              blind=list(csv.DictReader(h))
+          with (root/'v22_source_review_coordinator_key.csv').open(newline='',encoding='utf-8') as h:
+              key=list(csv.DictReader(h))
           summary=json.loads((root/'v22_priority_independent_summary.json').read_text())
           forbidden={'query_ids','screen_priority','automated_within_signal','automated_among_signal','historical_spatial_scale'}
-          assert not forbidden.intersection(blind.columns), sorted(forbidden.intersection(blind.columns))
-          assert 'query_ids' in key.columns
-          assert blind['source_review_id'].is_unique
-          assert set(blind['source_review_id']) == set(key['source_review_id'])
-          assert set(blind['review_status']) == {'unreviewed'}
+          assert blind and key
+          assert not forbidden.intersection(blind[0]), sorted(forbidden.intersection(blind[0]))
+          assert 'query_ids' in key[0]
+          assert len({r['source_review_id'] for r in blind}) == len(blind)
+          assert {r['source_review_id'] for r in blind} == {r['source_review_id'] for r in key}
+          assert set(r['review_status'] for r in blind) == {'unreviewed'}
           assert summary['input_v22_deduplicated_works'] == 12064
           assert summary['reviewer_facing_query_membership_columns'] == 0
           assert summary['reviewer_facing_legacy_priority_columns'] == 0
