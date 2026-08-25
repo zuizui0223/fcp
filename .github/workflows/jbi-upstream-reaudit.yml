@@ -1,0 +1,127 @@
+name: JBI upstream spatial evidence re-audit
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+  pull_request:
+    paths:
+      - '.github/workflows/jbi-upstream-reaudit.yml'
+      - 'docs/JBI_UPSTREAM_REAUDIT_PROTOCOL.md'
+      - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-upstream-spatial-reaudit
+  cancel-in-progress: false
+
+env:
+  SOURCE_RUN_ID: '30753748463'
+  SOURCE_ARTIFACT: 'systematic-itv-fcp-literature-search-full'
+  OUTDIR: 'analysis_outputs/jbi_upstream_reaudit'
+
+jobs:
+  build-review-queue:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download frozen systematic-search corpus
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT }}
+          path: systematic_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Verify source corpus boundary
+        run: |
+          set -euo pipefail
+          test -s systematic_input/itv_fcp_human_screening_queue.csv
+          test -s systematic_input/itv_fcp_search_manifest.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path('systematic_input/itv_fcp_search_manifest.json').read_text())
+          assert manifest['deduplicated_records'] == 79242, manifest
+          assert manifest['raw_records'] == 105249, manifest
+          assert manifest['human_review_required'] is True, manifest
+          print({
+              'deduplicated_records': manifest['deduplicated_records'],
+              'raw_records': manifest['raw_records'],
+              'truncated_shards': len(manifest.get('truncated_query_database_pairs', [])),
+              'human_review_required': manifest['human_review_required'],
+          })
+          PY
+
+      - name: Build taxon-validated mixed-preserving review queue
+        run: |
+          set -euo pipefail
+          python scripts/literature/build_systematic_spatial_evidence_axes.py \
+            --queue systematic_input/itv_fcp_human_screening_queue.csv \
+            --outdir "$OUTDIR" \
+            --priorities P1_high_natural_itv,P1_high_population_itv,P2_possible_itv,P3_likely_exclusion_review \
+            --timeout 45 --retries 4 --delay 0.03
+
+      - name: Validate review queue semantics
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          root = Path('analysis_outputs/jbi_upstream_reaudit')
+          queue = pd.read_csv(root / 'systematic_species_review_queue.csv')
+          audit = pd.read_csv(root / 'gbif_candidate_resolution_audit.csv')
+          recovery = pd.read_csv(root / 'historical_34_recovery_diagnostic.csv')
+          qc = json.loads((root / 'upstream_reaudit_qc.json').read_text())
+
+          required = {
+              'canonical_name', 'family',
+              'within_signal_records', 'among_signal_records',
+              'automated_evidence_state', 'review_status',
+              'reviewer_1_natural_eligibility',
+              'reviewer_1_local_coexistence',
+              'reviewer_1_geographic_structure',
+              'reviewer_2_natural_eligibility',
+              'reviewer_2_local_coexistence',
+              'reviewer_2_geographic_structure',
+              'adjudicated_natural_eligibility',
+              'adjudicated_local_coexistence',
+              'adjudicated_geographic_structure',
+              'adjudicated_state',
+          }
+          missing = sorted(required.difference(queue.columns))
+          assert not missing, missing
+          assert queue['canonical_name'].is_unique
+          assert set(queue['review_status']) == {'unreviewed'}
+          assert (queue['automated_evidence_state'] == 'mixed_evidence').sum() > 0
+          assert len(recovery) == 34
+          assert {'accepted', 'accepted_name', 'reason'}.issubset(audit.columns)
+          assert 'semantic_guard' in qc
+
+          print({
+              'gbif_validated_candidate_species': len(queue),
+              'automated_state_counts': queue['automated_evidence_state'].value_counts().to_dict(),
+              'historical_34_recovered': int(recovery['recovered_in_systematic_candidate_queue'].sum()),
+              'gbif_resolution_rows': len(audit),
+          })
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jbi-upstream-spatial-reaudit
+          path: analysis_outputs/jbi_upstream_reaudit/
+          if-no-files-found: error
+          retention-days: 30
