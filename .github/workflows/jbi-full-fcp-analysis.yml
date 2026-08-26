@@ -1,0 +1,160 @@
+name: JBI full FCP all-species analysis
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-full-fcp-analysis.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  CLIMATE_RUN_ID: '32932477834'
+  CLIMATE_ARTIFACT: 'jbi-full-fcp-climate-rebuild'
+  CORE_RUN_ID: '32932053739'
+  CORE_ARTIFACT: 'jbi-v22-core-fcp-universe'
+  EXPANDED_RUN_ID: '32930987729'
+  EXPANDED_ARTIFACT: 'jbi-v22-full-fcp-universe'
+  ATTENTION_RUN_ID: '32932116967'
+  ATTENTION_ARTIFACT: 'jbi-full-fcp-literature-attention'
+
+jobs:
+  analyze:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy statsmodels scikit-learn
+
+      - name: Wait for fixed 78-species climate/geography rebuild
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 120); do
+            json=$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/zuizui0223/fcp/actions/runs/$CLIMATE_RUN_ID")
+            status=$(python -c 'import json,sys; print(json.load(sys.stdin)["status"])' <<<"$json")
+            conclusion=$(python -c 'import json,sys; print(json.load(sys.stdin).get("conclusion") or "")' <<<"$json")
+            echo "climate run status=$status conclusion=$conclusion attempt=$i"
+            if [ "$status" = completed ]; then
+              test "$conclusion" = success
+              exit 0
+            fi
+            sleep 30
+          done
+          echo 'Timed out waiting for climate rebuild' >&2
+          exit 1
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CLIMATE_ARTIFACT }}
+          path: climate
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CLIMATE_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CORE_ARTIFACT }}
+          path: core
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CORE_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPANDED_ARTIFACT }}
+          path: expanded
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.EXPANDED_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ATTENTION_ARTIFACT }}
+          path: attention
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.ATTENTION_RUN_ID }}
+
+      - name: Validate fixed analysis inputs
+        run: |
+          python - <<'PY'
+          import pandas as pd, json
+          climate=pd.read_csv('climate/full_fcp_climate_analysis_dataset.csv')
+          core=pd.read_csv('core/v22_core_fcp_species_universe.csv')
+          expanded=pd.read_csv('expanded/v22_full_fcp_species_universe.csv')
+          att=pd.read_csv('attention/full_fcp_literature_attention.csv')
+          assert len(expanded)==78
+          assert len(core)==74
+          assert set(core.canonical_name)<=set(expanded.canonical_name)
+          assert set(climate.canonical_name)<=set(expanded.canonical_name)
+          assert len(att)==78
+          assert {'geographic_radius_95_km','temperature_breadth','moisture_breadth','climatic_heterogeneity','pca_dispersion','pca_hull_area'}<=set(climate.columns)
+          print({'expanded':len(expanded),'core':len(core),'climate_eligible':len(climate),'attention':len(att)})
+          PY
+
+      - name: Run two-stage documentation/organization analysis
+        run: |
+          mkdir -p analysis_outputs/jbi_full_fcp_hurdle
+          python scripts/run_full_fcp_hurdle_models.py \
+            --analysis climate/full_fcp_climate_analysis_dataset.csv \
+            --core-species core/v22_core_fcp_species_universe.csv \
+            --attention attention/full_fcp_literature_attention.csv \
+            --outdir analysis_outputs/jbi_full_fcp_hurdle \
+            --family-bootstraps 499 --seed 20260826
+
+      - name: Validate hurdle outputs
+        run: |
+          python - <<'PY'
+          import pandas as pd,json
+          d=pd.read_csv('analysis_outputs/jbi_full_fcp_hurdle/full_fcp_documentation_models.csv')
+          m=pd.read_csv('analysis_outputs/jbi_full_fcp_hurdle/full_fcp_conditional_multinomial.csv')
+          p=pd.read_csv('analysis_outputs/jbi_full_fcp_hurdle/full_fcp_documentation_propensity.csv')
+          assert len(d)==10 and len(m)==10
+          assert set(d.scope)=={'core','expanded'} and set(m.scope)=={'core','expanded'}
+          assert set(p.scope)=={'core','expanded'}
+          assert set(d.status)<={'complete','fit_failed'}
+          assert set(m.status)<={'complete','missing_class'}
+          assert (m.loc[m.status.eq('complete'),'family_bootstraps_valid']>0).all()
+          print(d[['scope','metric','status','n_species','climate_or','climate_p']].to_string(index=False))
+          print(m[['scope','metric','status','n_species','S_vs_C_OR','mixed_vs_C_OR','mixed_vs_S_OR','family_bootstraps_valid']].to_string(index=False))
+          PY
+
+      - name: Run detection-aware latent diagnostic sensitivity
+        run: |
+          mkdir -p analysis_outputs/jbi_full_fcp_latent_diag
+          PYTHONPATH=scripts python scripts/run_full_fcp_latent_models_v2.py \
+            --analysis climate/full_fcp_climate_analysis_dataset.csv \
+            --source-audit expanded/v22_full_fcp_source_audit.csv \
+            --core-source-audit core/v22_core_fcp_membership_sources.csv \
+            --core-species core/v22_core_fcp_species_universe.csv \
+            --outdir analysis_outputs/jbi_full_fcp_latent_diag \
+            --epsilon 0.0 --parametric-bootstraps 99 --family-bootstraps 99 --seed 20260826
+
+      - name: Validate latent diagnostic outputs
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          d=pd.read_csv('analysis_outputs/jbi_full_fcp_latent_diag/full_fcp_latent_cs_models.csv')
+          assert len(d)==20
+          assert set(d.scope)=={'core','expanded'} and set(d.axis)=={'C','S'}
+          complete=d.analysis_status.eq('complete')
+          assert complete.sum()>=10, d.analysis_status.value_counts().to_dict()
+          assert (d.loc[complete,'parametric_bootstraps_valid']>0).all()
+          print(d[['scope','axis','metric','analysis_status','n_species','n_sources','odds_ratio','estimated_source_detection_probability','parametric_bootstrap_p']].to_string(index=False))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-full-fcp-analysis
+          path: |
+            analysis_outputs/jbi_full_fcp_hurdle/
+            analysis_outputs/jbi_full_fcp_latent_diag/
+          if-no-files-found: error
+          retention-days: 30
