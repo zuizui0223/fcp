@@ -2,8 +2,9 @@
 """Tighten the primary display-colour FCP core without using C/S outcomes.
 
 This wrapper removes `population` as a sufficient display context for generic colour-morph
-wording and broadens the sexual-organ-only exclusion. Expanded-universe membership is
-unchanged; this only sharpens the primary display-colour core.
+wording and prevents sexual-organ-target studies from re-entering via generic background
+phrases such as `flower color polymorphism` in the abstract. Expanded-universe membership
+is unchanged; this only sharpens the primary display-colour core.
 """
 from __future__ import annotations
 
@@ -35,6 +36,25 @@ base.DISPLAY_STRUCTURE_RE = re.compile(
     r"(?is)\b(?:petal|corolla|perianth|tepal|labellum|bract|inflorescence)\s+colou?r\b|"
     r"\b(?:flower|floral)[- ]?colou?r\s+(?:morphs?|forms?|variants?|polymorph\w*)\b"
 )
+TARGET_NONDISPLAY_TITLE_RE = re.compile(
+    r"(?is)\b(?:stigma|stigmatic|gynoecium|gynoecial|anther|androecium|androecial|pollen)\b.{0,50}\bcolou?r\b"
+    r"|\bcolou?r\b.{0,50}\b(?:stigma|stigmatic|gynoecium|gynoecial|anther|androecium|androecial|pollen)\b"
+)
+TITLE_DISPLAY_RE = re.compile(
+    r"(?is)\b(?:petal|corolla|perianth|tepal|labellum|bract|inflorescence|flower|floral)\b.{0,35}\bcolou?r\b"
+    r"|\bcolou?r\b.{0,35}\b(?:petal|corolla|perianth|tepal|labellum|bract|inflorescence|flower|floral)\b"
+)
+
+_original_direct_reason = base.direct_reason
+
+def direct_reason(text: str, title: str) -> str:
+    # If the paper title explicitly defines the target as a sexual-organ colour trait,
+    # generic background language in the abstract cannot turn it into a display-colour study.
+    if TARGET_NONDISPLAY_TITLE_RE.search(title or "") and not TITLE_DISPLAY_RE.search(title or ""):
+        return ""
+    return _original_direct_reason(text, title)
+
+base.direct_reason = direct_reason
 
 if __name__ == "__main__":
     base.main()
