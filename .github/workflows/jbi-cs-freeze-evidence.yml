@@ -1,0 +1,83 @@
+name: Freeze JBI C/S evidence artifact durably
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-cs-freeze-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: jbi-cs-freeze-evidence
+  cancel-in-progress: true
+
+env:
+  EVIDENCE_RUN_ID: '32926071541'
+  EVIDENCE_ARTIFACT: 'jbi-v22-coexistence-segregation-refined'
+  EXPECTED_SHA256: 'be03ea91e7e1a1aa9e9dc8850be7d0b24fbf2f488c440086063e854de1db5836'
+
+jobs:
+  freeze:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/upstream-spatial-reaudit
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EVIDENCE_ARTIFACT }}
+          path: evidence_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.EVIDENCE_RUN_ID }}
+      - name: Copy exact evidence freeze and build manifest
+        run: |
+          set -euo pipefail
+          test -s evidence_input/v22_cs_strict_freeze.csv
+          actual=$(sha256sum evidence_input/v22_cs_strict_freeze.csv | cut -d' ' -f1)
+          test "$actual" = "$EXPECTED_SHA256"
+          cp evidence_input/v22_cs_strict_freeze.csv data/frozen/jbi_cs_evidence_freeze_v22.csv
+          python - <<'PY'
+          import csv, hashlib, json, os
+          from pathlib import Path
+          p=Path('data/frozen/jbi_cs_evidence_freeze_v22.csv')
+          rows=list(csv.DictReader(p.open(newline='',encoding='utf-8')))
+          counts={s:sum(r['organization_state']==s for r in rows) for s in ['local_coexistence_only','spatial_segregation_only','coexistence_and_segregation']}
+          manifest={
+            'status':'frozen',
+            'dataset':str(p),
+            'dataset_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
+            'source_workflow_run_id':32926071541,
+            'source_artifact':'jbi-v22-coexistence-segregation-refined',
+            'source_artifact_digest':'sha256:0a2b7c7f20e6093daedb6b4b317fd8e7b8a89b818c2df042866ddb6bcf660951',
+            'n_species':len(rows),
+            'state_counts':counts,
+            'C_positive':sum(int(r['C_local_coexistence_documented']) for r in rows),
+            'S_positive':sum(int(r['S_spatial_segregation_documented']) for r in rows),
+            'classification':'single-pass conservative documented-evidence audit',
+            'zero_semantics':'not documented by the strict pass; not biological absence',
+            'historical_binary_freeze_overwritten':False,
+          }
+          assert manifest['dataset_sha256']==os.environ['EXPECTED_SHA256']
+          assert manifest['n_species']==34 and counts=={'local_coexistence_only':11,'spatial_segregation_only':8,'coexistence_and_segregation':15}
+          assert manifest['C_positive']==26 and manifest['S_positive']==23
+          Path('data/frozen/jbi_cs_evidence_freeze_v22_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+          print(manifest)
+          PY
+      - name: Commit durable freeze to branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/frozen/jbi_cs_evidence_freeze_v22.csv data/frozen/jbi_cs_evidence_freeze_v22_manifest.json
+          if git diff --cached --quiet; then
+            echo 'Durable C/S evidence freeze already current'
+            exit 0
+          fi
+          git commit -m 'Freeze final C/S evidence dataset durably'
+          git push origin HEAD:audit/upstream-spatial-reaudit
