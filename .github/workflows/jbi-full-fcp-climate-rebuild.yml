@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  UNIVERSE_RUN_ID: '32930239671'
+  UNIVERSE_RUN_ID: '32930987729'
   UNIVERSE_ARTIFACT: 'jbi-v22-full-fcp-universe'
   OUTDIR: 'analysis_outputs/jbi_full_fcp_climate_rebuild'
   WORLDCLIM_URL: 'https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip'
@@ -57,7 +57,9 @@ jobs:
           s=json.loads(Path('universe_input/v22_full_fcp_universe_summary.json').read_text())
           with Path('universe_input/v22_full_fcp_species_universe.csv').open(newline='',encoding='utf-8') as h:
               rows=list(csv.DictReader(h))
-          assert len(rows)==s['FCP_species_universe'] and len(rows)>34
+          assert s.get('protocol_version')=='full-fcp-universe-v3-post-gbif-hierarchical-taxon'
+          assert len(rows)==s['FCP_species_universe']==78
+          assert s['organization_unresolved_species']==46
           assert any(r['organization_state']=='organization_unresolved' for r in rows)
           assert s['universe_definition'].startswith('Species enter because')
           print({'species':len(rows),'states':s['species_state_counts']})
@@ -121,12 +123,11 @@ jobs:
           s=json.loads((root/'full_fcp_climate_rebuild_summary.json').read_text())
           d=pd.read_csv(root/'full_fcp_climate_analysis_dataset.csv')
           u=pd.read_csv('universe_input/v22_full_fcp_species_universe.csv')
-          assert s['universe_species']==len(u)>34
+          assert s['universe_species']==len(u)==78
           assert len(d)==s['analysis_species']
           assert (d.n_climate_cells>=20).all()
           assert d.geographic_radius_95_km.notna().all()
           assert set(d.organization_state)<= {'local_coexistence_only','spatial_segregation_only','coexistence_and_segregation','organization_unresolved'}
-          # unresolved outcome rows must be retained whenever climate eligible
           unresolved_eligible=set(u.loc[u.organization_state.eq('organization_unresolved'),'canonical_name']).intersection(set(d.canonical_name))
           assert unresolved_eligible, 'Outcome-unresolved species were lost from climate analysis'
           print(s)
