@@ -74,7 +74,7 @@ jobs:
             cp "$src" "${copies[$src]}"
           done
           python - <<'PY'
-          import hashlib, json
+          import csv, hashlib, json
           from pathlib import Path
           files=[
             'docs/supporting/jbi_cs_five_metric_models.csv',
@@ -104,18 +104,20 @@ jobs:
             'semantic_guard':'C and S are positive documented-evidence outcomes; null statistical support is not proof of biological absence.',
           }
           Path('docs/supporting/jbi_cs_analysis_freeze_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
-          print(json.dumps(manifest,indent=2))
-          PY
-          python - <<'PY'
-          import pandas as pd, json
-          m=pd.read_csv('docs/supporting/jbi_cs_five_metric_models.csv')
-          cr2=pd.read_csv('docs/supporting/jbi_cs_cr2_satterthwaite_summary.csv')
-          multi=pd.read_csv('docs/supporting/jbi_cs_three_state_multinomial.csv')
+
+          def rows(path):
+              with Path(path).open(newline='',encoding='utf-8') as h:
+                  return list(csv.DictReader(h))
+          m=rows('docs/supporting/jbi_cs_five_metric_models.csv')
+          cr2=rows('docs/supporting/jbi_cs_cr2_satterthwaite_summary.csv')
+          multi=rows('docs/supporting/jbi_cs_three_state_multinomial.csv')
           assert len(m)==10 and len(cr2)==10 and len(multi)==10
-          assert set(m.outcome_short)=={'C','S'} and (m.permutations_valid==9999).all()
-          assert (m.permutation_p_holm_within_outcome==1.0).all()
-          assert (cr2.cr2_satterthwaite_p>0.35).all()
-          assert multi.converged.all()
+          assert {r['outcome_short'] for r in m}=={'C','S'}
+          assert all(int(float(r['permutations_valid']))==9999 for r in m)
+          assert all(abs(float(r['permutation_p_holm_within_outcome'])-1.0)<1e-12 for r in m)
+          assert all(float(r['cr2_satterthwaite_p'])>0.35 for r in cr2)
+          assert all(str(r['converged']).lower() in {'true','1'} for r in multi)
+          print(json.dumps(manifest,indent=2))
           print('PASS durable C/S analysis outputs')
           PY
       - name: Commit supporting outputs to branch
