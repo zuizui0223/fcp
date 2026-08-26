@@ -1,0 +1,56 @@
+name: JBI full FCP hurdle model smoke test
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-full-fcp-hurdle-smoke.yml'
+      - 'scripts/run_full_fcp_hurdle_models.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check numpy pandas statsmodels scikit-learn
+      - name: Synthetic two-stage smoke test
+        run: |
+          PYTHONPATH=scripts python - <<'PY'
+          import numpy as np, pandas as pd
+          import run_full_fcp_hurdle_models as m
+          rng=np.random.default_rng(20260826)
+          n=90
+          climate=pd.DataFrame({
+            'canonical_name':[f'sp{i}' for i in range(n)],
+            'family':[f'fam{i%25}' for i in range(n)],
+            'temperature_breadth':rng.normal(size=n),
+            'moisture_breadth':rng.normal(size=n),
+            'climatic_heterogeneity':rng.normal(size=n),
+            'pca_dispersion':rng.normal(size=n),
+            'pca_hull_area':rng.normal(size=n),
+            'geographic_radius_95_km':np.exp(rng.normal(5,1,size=n)),
+            'n_FCP_eligible_sources':rng.integers(1,5,size=n),
+          })
+          attention=pd.DataFrame({'canonical_name':climate.canonical_name,'n_v22_exact_name_records':rng.integers(0,15,size=n)})
+          # Ensure all three documented organization classes plus unresolved are present.
+          states=np.array(['organization_unresolved']*n,dtype=object)
+          states[:18]='local_coexistence_only'; states[18:36]='spatial_segregation_only'; states[36:54]='coexistence_and_segregation'
+          climate['organization_state']=states
+          climate['C_local_coexistence_documented']=np.isin(states,['local_coexistence_only','coexistence_and_segregation']).astype(int)
+          climate['S_spatial_segregation_documented']=np.isin(states,['spatial_segregation_only','coexistence_and_segregation']).astype(int)
+          core=climate.iloc[:80][['canonical_name','organization_state','C_local_coexistence_documented','S_spatial_segregation_documented','n_FCP_eligible_sources']].copy()
+          d=m.scope_data(climate,core,attention,'expanded')
+          prop=m.propensity_weights(d); d=d.merge(prop[['canonical_name','documentation_probability','stabilized_ipw']],on='canonical_name',how='left')
+          doc=m.fit_documentation(d,'temperature_breadth'); assert doc['status']=='complete',doc
+          out,boots=m.fit_multinomial(d,'temperature_breadth',rng,30); assert out['status']=='complete',out
+          assert out['family_bootstraps_valid']>0,out
+          print({'documentation_n':doc['n_species'],'conditional_n':out['n_species'],'valid_bootstraps':out['family_bootstraps_valid']})
+          PY
