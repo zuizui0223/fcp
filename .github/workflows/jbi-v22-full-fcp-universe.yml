@@ -77,7 +77,6 @@ jobs:
           assert all(int(r['n_FCP_eligible_sources'])>=1 for r in spp)
           assert set(r['organization_state'] for r in spp)<= {
               'local_coexistence_only','spatial_segregation_only','coexistence_and_segregation','organization_unresolved'}
-          # Critical guard: membership must not require either outcome to be positive.
           unresolved=[r for r in spp if int(r['C_local_coexistence_documented'])==0 and int(r['S_spatial_segregation_documented'])==0]
           assert unresolved, 'C/S-positive-only selection leaked back into universe'
           forbidden={'spatial_scale','old_label','n_climate_cells','temperature_breadth','moisture_breadth'}
@@ -88,6 +87,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: jbi-v22-full-fcp-universe
-          path: "$OUTDIR/"
+          path: analysis_outputs/jbi_v22_full_fcp_universe/
           if-no-files-found: error
           retention-days: 30
