@@ -1,0 +1,39 @@
+{
+  "freeze_name": "frozen_34species_coexistence_segregation_v22",
+  "created_from_workflow_run": 32926071541,
+  "workflow_artifact_id": 9591546337,
+  "workflow_artifact_sha256": "0a2b7c7f20e6093daedb6b4b317fd8e7b8a89b818c2df042866ddb6bcf660951",
+  "source_record_universe_run": 32835034885,
+  "source_record_universe_artifact_sha256": "d2c2ccd196043ddff41c7a4794453ac5a311db49d34ca8e94a2b3f334e150dbb",
+  "source_record_universe_records": 12064,
+  "freeze_species": 34,
+  "state_counts": {
+    "local_coexistence_only": 11,
+    "spatial_segregation_only": 8,
+    "coexistence_and_segregation": 15
+  },
+  "positive_source_records_total": 50,
+  "positive_source_records_contributing_to_freeze": 49,
+  "positive_sources_taxonomically_unresolved": 1,
+  "C_positive_source_records": 37,
+  "S_positive_source_records": 29,
+  "historical_exact_sources_seen": 34,
+  "freeze_csv_sha256": "be03ea91e7e1a1aa9e9dc8850be7d0b24fbf2f488c440086063e854de1db5836",
+  "positive_source_index_sha256": "ded50ab9ade76af643b6bce704152b3ccbf8d0a5b81b4408d72396892f0a8f42",
+  "definitions": {
+    "C": "explicit local coexistence of discrete natural floral-colour variants in the same population/site",
+    "S": "explicit spatial segregation/structuring of discrete floral-colour variants or morph frequencies among geographic units",
+    "zero_semantics": "not documented by the strict pass; not biological absence",
+    "mixed_semantics": "C and S both documented; local coexistence and broader spatial structuring can coexist at different scales"
+  },
+  "review_model": "single-pass conservative documented-evidence audit",
+  "independent_duplicate_review": false,
+  "historical_34_binary_freeze_overwritten": false,
+  "climatic_variables_used_during_evidence_classification": false,
+  "historical_spatial_labels_used_during_evidence_classification": false,
+  "notes": [
+    "The historical 34-species binary freeze remains intact as a provenance/sensitivity dataset.",
+    "Sexual-organ-only colour polymorphism (androecium/anther/pollen colour) is excluded from the floral-display freeze.",
+    "C and S are independent positive-evidence axes; absence of a positive match is not interpreted as biological absence."
+  ]
+}
