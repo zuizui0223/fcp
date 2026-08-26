@@ -13,7 +13,7 @@ permissions:
   actions: read
 
 env:
-  EXPANDED_RUN_ID: '32930239671'
+  EXPANDED_RUN_ID: '32930987729'
   EXPANDED_ARTIFACT: 'jbi-v22-full-fcp-universe'
   RECORD_SCREEN_RUN_ID: '32835034885'
   RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
@@ -59,6 +59,8 @@ jobs:
           assert set(r['canonical_name'] for r in core)<=set(r['canonical_name'] for r in exp)
           assert any(r['organization_state']=='organization_unresolved' for r in core)
           assert s['core_FCP_species_universe']==len(core)
+          assert s['core_protocol_version']=='display-core-v2'
+          assert s['expanded_species_excluded_from_core']>0
           print(s)
           PY
       - uses: actions/upload-artifact@v4
