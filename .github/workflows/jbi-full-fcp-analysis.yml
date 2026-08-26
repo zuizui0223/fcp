@@ -14,7 +14,7 @@ permissions:
 env:
   CLIMATE_RUN_ID: '32932477834'
   CLIMATE_ARTIFACT: 'jbi-full-fcp-climate-rebuild'
-  CORE_RUN_ID: '32950630719'
+  CORE_RUN_ID: '32951713497'
   CORE_ARTIFACT: 'jbi-v22-core-fcp-universe'
   EXPANDED_RUN_ID: '32930987729'
   EXPANDED_ARTIFACT: 'jbi-v22-full-fcp-universe'
@@ -70,14 +70,14 @@ jobs:
           att=pd.read_csv('attention/full_fcp_literature_attention.csv')
           cs=json.load(open('core/v22_core_fcp_universe_summary.json'))
           assert len(expanded)==78
-          assert len(core)==72
-          assert cs['core_protocol_version']=='display-core-v4-final', cs
-          assert cs['core_FCP_species_universe']==72
+          assert len(core)==75
+          assert cs['core_protocol_version']=='display-core-v5-final', cs
+          assert cs['core_FCP_species_universe']==75
           assert set(core.canonical_name)<=set(expanded.canonical_name)
           assert set(climate.canonical_name)<=set(expanded.canonical_name)
           assert len(climate)==70
           assert len(att)==78
-          assert {'Acer pictum','Butomus umbellatus'}.isdisjoint(set(core.canonical_name))
+          assert {'Acer pictum','Butomus umbellatus','Salvia hispanica'}.isdisjoint(set(core.canonical_name))
           assert {'geographic_radius_95_km','temperature_breadth','moisture_breadth','climatic_heterogeneity','pca_dispersion','pca_hull_area'}<=set(climate.columns)
           print({'expanded':len(expanded),'core':len(core),'climate_eligible':len(climate),'attention':len(att)})
           PY
@@ -130,7 +130,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: jbi-full-fcp-analysis-v4core
+          name: jbi-full-fcp-analysis-v5core
           path: |
             analysis_outputs/jbi_full_fcp_hurdle/
             analysis_outputs/jbi_full_fcp_latent_diag/
