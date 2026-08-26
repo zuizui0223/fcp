@@ -1,0 +1,38 @@
+{
+  "status": "frozen",
+  "climate_dataset": "data/frozen/jbi_cs_climate_analysis_v22.csv",
+  "climate_dataset_sha256": "161adbe80ee3b38a60b17cd0ad1e048eb9d454ae1cfea5825192995ef39a9a42",
+  "source_artifacts": {
+    "primary": {
+      "run_id": 32928682762,
+      "name": "jbi-cs-primary-models-v2",
+      "digest": "sha256:5ac2a0c800d160386c2350e2f4f4893bb0247cfa279fb5394fccafbdee381ce4"
+    },
+    "robustness": {
+      "run_id": 32928482940,
+      "name": "jbi-cs-robustness",
+      "digest": "sha256:db284b34b98d3aecf74a0e1d463b012514873bdb103e04610dc7db35c1653062"
+    },
+    "cr2": {
+      "run_id": 32929049461,
+      "name": "jbi-cs-cr2",
+      "digest": "sha256:c64a2aaf80cff5a418299a79e78c5706c9d13e0210050b7c0e47c31d1c290883"
+    }
+  },
+  "files": {
+    "docs/supporting/jbi_cs_five_metric_models.csv": "09d12fafd0f199ef30b4da039877099c546366d5cd47365124b32c9f52910778",
+    "docs/supporting/jbi_cs_leave_one_family_out.csv": "70e542e444f965ef35216d28cdd9e0a5bbf272ffe708e9f55a65e9c2b2e2fb60",
+    "docs/supporting/jbi_cs_model_manifest.json": "c5b0ad035febeb5a50ddf8c052446343158c4107fe0d93590bf9aa4967713a7e",
+    "docs/supporting/jbi_cs_literature_attention.csv": "ca9263aeea88e90094805c8dab3bba43a00264f3e7ff134ae75bdffc50bd2092",
+    "docs/supporting/jbi_cs_literature_attention_qc.json": "c340c4538dc9f33fe532654509eae0da9206c7b9f062597eada30b3d65f49c23",
+    "docs/supporting/jbi_cs_literature_attention_adjusted.csv": "45596f3f1dc7e7f64989e4048da22458e3d7018bea9dca48247a463fae7d4719",
+    "docs/supporting/jbi_cs_one_source_stratum.csv": "251729adb0ff7c4030c15a620e73803c5ed19fe35cb42fba5c84e24f4375ec84",
+    "docs/supporting/jbi_cs_three_state_multinomial.csv": "e3ad6c544d1404860ad94eb986d9d1686785230348082076be387902c99318c2",
+    "docs/supporting/jbi_cs_robustness_manifest.json": "4639df3872b0fffefc9dc3793eb0aa55520e40103f9b19e737669933db5a2175",
+    "docs/supporting/jbi_cs_cr2_satterthwaite_summary.csv": "73310c758188c50fb6852f70c01c9bdf8050ca91c9d1b5501583122278389ceb",
+    "docs/supporting/jbi_cs_cr2_coef_test_raw.csv": "7173f37d95aa05b7ac0f84f5d501a8f503eec2bc269c46587726b14608096508",
+    "docs/supporting/jbi_cs_cr2_manifest.json": "dd8ec9d28cf5fa5cbda6c31bd5faa4f5bab18d5c7f59f5a0c25703a319144f1b"
+  },
+  "result_boundary": "No threshold-supported climate association for either C or S across five metrics; C point estimates are consistently OR<1 but uncertain; S is near null.",
+  "semantic_guard": "C and S are positive documented-evidence outcomes; null statistical support is not proof of biological absence."
+}

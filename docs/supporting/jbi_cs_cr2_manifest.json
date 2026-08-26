@@ -1,0 +1,13 @@
+{
+  "status": "complete",
+  "n_species": 34,
+  "n_families": 23,
+  "C_positive": 26,
+  "S_positive": 23,
+  "estimator": "binomial GLM with clubSandwich CR2 cluster-robust variance",
+  "test": "Satterthwaite small-sample t test",
+  "cluster": "plant family",
+  "formulae": ["C ~ metric_z + effort_z", "S ~ metric_z + effort_z"],
+  "semantic_guard": "C and S are positive documented-evidence outcomes; CR2 quantifies small-cluster uncertainty and does not convert zero into biological absence."
+}
+

@@ -1,0 +1,24 @@
+{
+  "dataset": "climate_input/jbi_cs_climate_analysis_dataset.csv",
+  "dataset_sha256": "161adbe80ee3b38a60b17cd0ad1e048eb9d454ae1cfea5825192995ef39a9a42",
+  "n_species": 34,
+  "n_families": 23,
+  "C_positive": 26,
+  "S_positive": 23,
+  "C_and_S_positive": 15,
+  "metrics": [
+    "temperature_breadth",
+    "moisture_breadth",
+    "climatic_heterogeneity",
+    "pca_dispersion",
+    "pca_hull_area"
+  ],
+  "permutations": 9999,
+  "seed": 20260826,
+  "primary_formulae": [
+    "C ~ metric_z + effort_z",
+    "S ~ metric_z + effort_z"
+  ],
+  "observation_process_guard": "n_resolved_sources is outcome-path-derived and is not used as an effort covariate. Independent literature-attention sensitivity is run separately.",
+  "semantic_guard": "C and S are separate positive documented-evidence outcomes; neither is the complement of the other."
+}
