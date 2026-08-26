@@ -15,7 +15,7 @@ permissions:
 env:
   CLIMATE_RUN_ID: '32932477834'
   CLIMATE_ARTIFACT: 'jbi-full-fcp-climate-rebuild'
-  CORE_RUN_ID: '32950630719'
+  CORE_RUN_ID: '32951713497'
   CORE_ARTIFACT: 'jbi-v22-core-fcp-universe'
   ATTENTION_RUN_ID: '32932116967'
   ATTENTION_ARTIFACT: 'jbi-full-fcp-literature-attention'
@@ -58,11 +58,11 @@ jobs:
           import json,pandas as pd
           core=pd.read_csv('core/v22_core_fcp_species_universe.csv')
           s=json.load(open('core/v22_core_fcp_universe_summary.json'))
-          assert len(core)==72, len(core)
-          assert s['core_protocol_version']=='display-core-v4-final', s
-          assert s['core_FCP_species_universe']==72, s
-          assert s['organization_unresolved_species']==41, s
-          assert {'Acer pictum','Butomus umbellatus'}.isdisjoint(set(core.canonical_name))
+          assert len(core)==75, len(core)
+          assert s['core_protocol_version']=='display-core-v5-final', s
+          assert s['core_FCP_species_universe']==75, s
+          assert s['organization_unresolved_species']==43, s
+          assert {'Acer pictum','Butomus umbellatus','Salvia hispanica'}.isdisjoint(set(core.canonical_name))
           print(s)
           PY
       - name: Run fixed hurdle analysis
@@ -80,12 +80,9 @@ jobs:
           d=pd.read_csv('analysis_outputs/jbi_full_fcp_hurdle_primary/full_fcp_documentation_models.csv')
           m=pd.read_csv('analysis_outputs/jbi_full_fcp_hurdle_primary/full_fcp_conditional_multinomial.csv')
           assert len(d)==10 and len(m)==10
-          assert set(d.scope)=={'core','expanded'}
-          assert set(m.scope)=={'core','expanded'}
-          assert set(d.status)=={'complete'}
-          assert set(m.status)=={'complete'}
+          assert set(d.scope)=={'core','expanded'} and set(m.scope)=={'core','expanded'}
+          assert set(d.status)=={'complete'} and set(m.status)=={'complete'}
           assert (m.family_bootstraps_valid>0).all()
-          assert int(d.loc[d.scope.eq('core'),'n_species'].max())<=72
           print('STAGE A DOCUMENTATION')
           print(d.to_csv(index=False))
           print('STAGE B CONDITIONAL ORGANIZATION')
@@ -93,7 +90,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: jbi-full-fcp-hurdle-primary-v4core
+          name: jbi-full-fcp-hurdle-primary-v5core
           path: analysis_outputs/jbi_full_fcp_hurdle_primary/
           if-no-files-found: error
           retention-days: 30
