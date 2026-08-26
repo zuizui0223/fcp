@@ -9,6 +9,7 @@ on:
       - 'scripts/literature/build_v22_coexistence_segregation_refined_v2.py'
       - 'scripts/literature/build_v22_coexistence_segregation_refined_v3.py'
       - 'scripts/literature/build_v22_coexistence_segregation_refined_v4.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v5.py'
       - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
       - 'docs/supporting/frozen_classification_manifest.csv'
   workflow_dispatch:
@@ -51,7 +52,7 @@ jobs:
           test -s record_screen_input/v22_record_screening_blind.csv
           test -s record_screen_input/v22_record_screening_coordinator_key.csv
           mkdir -p "$OUTDIR"
-          python scripts/literature/build_v22_coexistence_segregation_refined_v4.py \
+          python scripts/literature/build_v22_coexistence_segregation_refined_v5.py \
             --blind record_screen_input/v22_record_screening_blind.csv \
             --key record_screen_input/v22_record_screening_coordinator_key.csv \
             --historical-manifest docs/supporting/frozen_classification_manifest.csv \
@@ -80,6 +81,7 @@ jobs:
           assert all(r['organization_state'] in {'local_coexistence_only','spatial_segregation_only','coexistence_and_segregation','unresolved'} for r in spp)
           assert all(r['organization_state'] != 'unresolved' for r in freeze)
           assert all(int(r['C_local_coexistence_documented']) or int(r['S_spatial_segregation_documented']) for r in freeze)
+          assert not any(r['canonical_name'] == 'Epimedium pubescens' for r in freeze), 'non-display androecium colour leaked into freeze'
           forbidden={'spatial_scale','within_population','among_population','n_climate_cells','climate','old_label'}
           assert not forbidden.intersection(src[0])
           assert not forbidden.intersection(spp[0])
