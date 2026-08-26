@@ -20,7 +20,9 @@ opportunities rather than as an outcome-derived regression covariate.
 Primary uncertainty is calibrated by a parametric bootstrap of the climate likelihood-
 ratio statistic under beta_climate=0. Family-cluster bootstrap intervals and leave-one-
 family-out fits assess taxonomic dependence. Core and expanded universes are fit with the
-same climate/geography dataset and source-evidence rules.
+same climate/geography dataset, but their source replicates are kept distinct: the core
+uses only display-core-eligible source rows, whereas expanded uses all expanded-eligible
+source rows.
 """
 from __future__ import annotations
 
@@ -87,8 +89,12 @@ def build_species_obs(
     d = d.dropna(subset=["canonical_name", "family", "metric_z", "geo_z"])
 
     s = sources.copy()
-    s = s.loc[pd.to_numeric(s["FCP_eligible_source"], errors="coerce").fillna(0).eq(1)]
-    s = s.loc[s.taxon_resolution_status.astype(str).eq("resolved_unique")]
+    # Core membership-source artifacts and expanded source audits both retain these
+    # columns. Filtering again is harmless and protects against accidental extra rows.
+    if "FCP_eligible_source" in s.columns:
+        s = s.loc[pd.to_numeric(s["FCP_eligible_source"], errors="coerce").fillna(0).eq(1)]
+    if "taxon_resolution_status" in s.columns:
+        s = s.loc[s.taxon_resolution_status.astype(str).eq("resolved_unique")]
     s = s.loc[s.accepted_name.astype(str).isin(set(d.canonical_name.astype(str)))]
     s["y"] = pd.to_numeric(s[axis_col], errors="coerce").fillna(0).astype(int)
 
@@ -137,8 +143,6 @@ def neg_log_posterior(
                               math.log(max(1.0 - psi, 1e-15)) + log_l0]))
         w = 1.0 if weights is None else float(weights.get(item.family, 0.0))
         total -= w * ll
-    # weak regularization prevents numerical boundary solutions; bootstrap calibration
-    # uses the same objective, so no asymptotic chi-square assumption is required.
     total += 0.5 * float(np.sum((theta / PRIOR_SD) ** 2))
     return total
 
@@ -151,6 +155,9 @@ def fit_model(
     start: np.ndarray | None = None,
     weights: dict[str, float] | None = None,
 ) -> Any:
+    # Kept here for backward provenance; execution workflows use
+    # run_full_fcp_latent_models_v2.py, which replaces this optimizer call with an
+    # equivalent closure because scipy.optimize.minimize has no kwargs= parameter.
     k = 3 if beta_fixed_zero else 4
     if start is None or len(start) != k:
         start = np.zeros(k, dtype=float)
@@ -159,7 +166,6 @@ def fit_model(
         neg_log_posterior,
         np.asarray(start, dtype=float),
         args=(obs,),
-        kwargs={"epsilon": epsilon, "beta_fixed_zero": beta_fixed_zero, "weights": weights},
         method="L-BFGS-B",
         bounds=[(-12, 12)] * k,
         options={"maxiter": 600, "ftol": 1e-10},
@@ -197,199 +203,63 @@ def fit_one(
     alt = fit_model(obs, epsilon=epsilon, beta_fixed_zero=False)
     null = fit_model(obs, epsilon=epsilon, beta_fixed_zero=True)
     if not alt.success or not null.success:
-        return {
-            "analysis_status": "fit_failed",
-            "n_species": len(obs),
-            "alt_message": str(alt.message),
-            "null_message": str(null.message),
-        }, [], []
-
-    beta = float(alt.x[1])
-    beta_geo = float(alt.x[2])
-    detection = float(expit(alt.x[3]))
-    lr_obs = max(0.0, 2.0 * (float(null.fun) - float(alt.fun)))
-
-    lr_boot: list[float] = []
+        return {"analysis_status":"fit_failed","n_species":len(obs),"alt_message":str(alt.message),"null_message":str(null.message)}, [], []
+    beta=float(alt.x[1]); beta_geo=float(alt.x[2]); detection=float(expit(alt.x[3])); lr_obs=max(0.0,2.0*(float(null.fun)-float(alt.fun)))
+    lr_boot=[]
     for _ in range(parametric_bootstraps):
-        sim = simulate_under_null(obs, null.x, epsilon=epsilon, rng=rng)
-        a = fit_model(sim, epsilon=epsilon, beta_fixed_zero=False, start=alt.x)
-        n = fit_model(sim, epsilon=epsilon, beta_fixed_zero=True, start=null.x)
-        if a.success and n.success and np.isfinite(a.fun) and np.isfinite(n.fun):
-            lr_boot.append(max(0.0, 2.0 * (float(n.fun) - float(a.fun))))
-    lr_arr = np.asarray(lr_boot, dtype=float)
-    p_boot = float((1 + np.sum(lr_arr >= lr_obs)) / (1 + len(lr_arr))) if len(lr_arr) else np.nan
-
-    families = sorted({o.family for o in obs})
-    fam_beta: list[float] = []
+        sim=simulate_under_null(obs,null.x,epsilon=epsilon,rng=rng)
+        a=fit_model(sim,epsilon=epsilon,beta_fixed_zero=False,start=alt.x); n=fit_model(sim,epsilon=epsilon,beta_fixed_zero=True,start=null.x)
+        if a.success and n.success and np.isfinite(a.fun) and np.isfinite(n.fun): lr_boot.append(max(0.0,2.0*(float(n.fun)-float(a.fun))))
+    lr_arr=np.asarray(lr_boot,float); p_boot=float((1+np.sum(lr_arr>=lr_obs))/(1+len(lr_arr))) if len(lr_arr) else np.nan
+    families=sorted({o.family for o in obs}); fam_beta=[]
     for _ in range(family_bootstraps):
-        draws = rng.choice(families, size=len(families), replace=True)
-        counts: dict[str, float] = {}
-        for f in draws:
-            counts[str(f)] = counts.get(str(f), 0.0) + 1.0
-        f = fit_model(obs, epsilon=epsilon, beta_fixed_zero=False, start=alt.x, weights=counts)
-        if f.success and np.isfinite(f.x[1]):
-            fam_beta.append(float(f.x[1]))
-    fb = np.asarray(fam_beta, dtype=float)
-    if len(fb):
-        ci_low, ci_high = np.quantile(fb, [0.025, 0.975])
-        sign_fraction = float(np.mean(np.sign(fb) == np.sign(beta)))
-    else:
-        ci_low = ci_high = sign_fraction = np.nan
-
-    loo_rows: list[dict[str, Any]] = []
-    loo_beta: list[float] = []
+        draws=rng.choice(families,size=len(families),replace=True); counts={}
+        for f in draws: counts[str(f)]=counts.get(str(f),0.0)+1.0
+        f=fit_model(obs,epsilon=epsilon,beta_fixed_zero=False,start=alt.x,weights=counts)
+        if f.success and np.isfinite(f.x[1]): fam_beta.append(float(f.x[1]))
+    fb=np.asarray(fam_beta,float)
+    if len(fb): ci_low,ci_high=np.quantile(fb,[.025,.975]); sign_fraction=float(np.mean(np.sign(fb)==np.sign(beta)))
+    else: ci_low=ci_high=sign_fraction=np.nan
+    loo_rows=[]; loo_beta=[]
     for family in families:
-        sub = [o for o in obs if o.family != family]
-        f = fit_model(sub, epsilon=epsilon, beta_fixed_zero=False, start=alt.x)
-        b = float(f.x[1]) if f.success else np.nan
-        if np.isfinite(b):
-            loo_beta.append(b)
-        loo_rows.append({
-            "omitted_family": family,
-            "estimate": b,
-            "odds_ratio": float(np.exp(b)) if np.isfinite(b) else np.nan,
-            "fit_success": bool(f.success),
-        })
-    loo_arr = np.asarray(loo_beta, dtype=float)
-
-    posterior_rows: list[dict[str, Any]] = []
-    alpha = float(alt.x[0])
-    p_det = detection
+        sub=[o for o in obs if o.family!=family]; f=fit_model(sub,epsilon=epsilon,beta_fixed_zero=False,start=alt.x); b=float(f.x[1]) if f.success else np.nan
+        if np.isfinite(b): loo_beta.append(b)
+        loo_rows.append({'omitted_family':family,'estimate':b,'odds_ratio':float(np.exp(b)) if np.isfinite(b) else np.nan,'fit_success':bool(f.success)})
+    loo_arr=np.asarray(loo_beta,float); posterior_rows=[]; alpha=float(alt.x[0]); p_det=detection
     for item in obs:
-        psi = float(expit(alpha + beta * item.x_metric + beta_geo * item.x_geo))
-        l1 = math.log(max(psi, 1e-15)) + safe_log_bern(item.y, p_det)
-        l0 = math.log(max(1.0 - psi, 1e-15)) + safe_log_bern(item.y, epsilon)
-        denom = float(logsumexp([l1, l0]))
-        posterior = float(math.exp(l1 - denom))
-        posterior_rows.append({
-            "canonical_name": item.name,
-            "family": item.family,
-            "n_eligible_sources": int(len(item.y)),
-            "n_positive_sources": int(np.sum(item.y)),
-            "latent_state_prior_probability": psi,
-            "latent_state_posterior_probability": posterior,
-        })
-
-    row = {
-        "analysis_status": "complete",
-        "n_species": int(len(obs)),
-        "n_families": int(len(families)),
-        "n_sources": int(sum(len(o.y) for o in obs)),
-        "n_species_with_positive_source": int(sum(np.any(o.y == 1) for o in obs)),
-        "estimate": beta,
-        "odds_ratio": float(np.exp(beta)),
-        "geographic_extent_estimate": beta_geo,
-        "geographic_extent_odds_ratio": float(np.exp(beta_geo)),
-        "estimated_source_detection_probability": detection,
-        "fixed_false_positive_probability": float(epsilon),
-        "penalized_lr_statistic": lr_obs,
-        "parametric_bootstrap_p": p_boot,
-        "parametric_bootstraps_requested": int(parametric_bootstraps),
-        "parametric_bootstraps_valid": int(len(lr_arr)),
-        "family_bootstrap_ci_low": float(np.exp(ci_low)) if np.isfinite(ci_low) else np.nan,
-        "family_bootstrap_ci_high": float(np.exp(ci_high)) if np.isfinite(ci_high) else np.nan,
-        "family_bootstraps_requested": int(family_bootstraps),
-        "family_bootstraps_valid": int(len(fb)),
-        "family_bootstrap_same_direction_fraction": sign_fraction,
-        "loo_min_odds_ratio": float(np.exp(np.min(loo_arr))) if len(loo_arr) else np.nan,
-        "loo_max_odds_ratio": float(np.exp(np.max(loo_arr))) if len(loo_arr) else np.nan,
-        "loo_same_direction_fraction": float(np.mean(np.sign(loo_arr) == np.sign(beta))) if len(loo_arr) else np.nan,
-    }
-    return row, loo_rows, posterior_rows
+        psi=float(expit(alpha+beta*item.x_metric+beta_geo*item.x_geo)); l1=math.log(max(psi,1e-15))+safe_log_bern(item.y,p_det); l0=math.log(max(1-psi,1e-15))+safe_log_bern(item.y,epsilon); denom=float(logsumexp([l1,l0])); posterior=float(math.exp(l1-denom))
+        posterior_rows.append({'canonical_name':item.name,'family':item.family,'n_eligible_sources':int(len(item.y)),'n_positive_sources':int(np.sum(item.y)),'latent_state_prior_probability':psi,'latent_state_posterior_probability':posterior})
+    row={'analysis_status':'complete','n_species':int(len(obs)),'n_families':int(len(families)),'n_sources':int(sum(len(o.y) for o in obs)),'n_species_with_positive_source':int(sum(np.any(o.y==1) for o in obs)),'estimate':beta,'odds_ratio':float(np.exp(beta)),'geographic_extent_estimate':beta_geo,'geographic_extent_odds_ratio':float(np.exp(beta_geo)),'estimated_source_detection_probability':detection,'fixed_false_positive_probability':float(epsilon),'penalized_lr_statistic':lr_obs,'parametric_bootstrap_p':p_boot,'parametric_bootstraps_requested':int(parametric_bootstraps),'parametric_bootstraps_valid':int(len(lr_arr)),'family_bootstrap_ci_low':float(np.exp(ci_low)) if np.isfinite(ci_low) else np.nan,'family_bootstrap_ci_high':float(np.exp(ci_high)) if np.isfinite(ci_high) else np.nan,'family_bootstraps_requested':int(family_bootstraps),'family_bootstraps_valid':int(len(fb)),'family_bootstrap_same_direction_fraction':sign_fraction,'loo_min_odds_ratio':float(np.exp(np.min(loo_arr))) if len(loo_arr) else np.nan,'loo_max_odds_ratio':float(np.exp(np.max(loo_arr))) if len(loo_arr) else np.nan,'loo_same_direction_fraction':float(np.mean(np.sign(loo_arr)==np.sign(beta))) if len(loo_arr) else np.nan}
+    return row,loo_rows,posterior_rows
 
 
 def main() -> None:
-    p = argparse.ArgumentParser()
-    p.add_argument("--analysis", required=True)
-    p.add_argument("--source-audit", required=True)
-    p.add_argument("--core-species", required=True)
-    p.add_argument("--outdir", required=True)
-    p.add_argument("--epsilon", type=float, default=0.0)
-    p.add_argument("--parametric-bootstraps", type=int, default=999)
-    p.add_argument("--family-bootstraps", type=int, default=499)
-    p.add_argument("--seed", type=int, default=20260826)
-    args = p.parse_args()
-
-    climate = pd.read_csv(args.analysis)
-    sources = pd.read_csv(args.source_audit)
-    core = pd.read_csv(args.core_species)
-    core_names = set(core.canonical_name.astype(str))
-    expanded_names = set(climate.canonical_name.astype(str))
-    rng = np.random.default_rng(args.seed)
-
-    required_climate = {"canonical_name", "family", "geographic_radius_95_km", *METRICS}
-    missing = required_climate - set(climate.columns)
-    if missing:
-        raise SystemExit(f"Analysis dataset missing columns: {sorted(missing)}")
-    required_sources = {"accepted_name", "family", "FCP_eligible_source", "taxon_resolution_status", *AXES.values()}
-    missing_s = required_sources - set(sources.columns)
-    if missing_s:
-        raise SystemExit(f"Source audit missing columns: {sorted(missing_s)}")
-
-    outdir = Path(args.outdir)
-    outdir.mkdir(parents=True, exist_ok=True)
-    rows: list[dict[str, Any]] = []
-    loo_all: list[dict[str, Any]] = []
-    post_all: list[dict[str, Any]] = []
-
-    scopes = {"core": core_names, "expanded": expanded_names}
-    for scope, names in scopes.items():
-        for axis_short, axis_col in AXES.items():
+    p=argparse.ArgumentParser(); p.add_argument('--analysis',required=True); p.add_argument('--source-audit',required=True); p.add_argument('--core-source-audit',required=True); p.add_argument('--core-species',required=True); p.add_argument('--outdir',required=True); p.add_argument('--epsilon',type=float,default=0.0); p.add_argument('--parametric-bootstraps',type=int,default=999); p.add_argument('--family-bootstraps',type=int,default=499); p.add_argument('--seed',type=int,default=20260826); args=p.parse_args()
+    climate=pd.read_csv(args.analysis); expanded_sources=pd.read_csv(args.source_audit); core_sources=pd.read_csv(args.core_source_audit); core=pd.read_csv(args.core_species); core_names=set(core.canonical_name.astype(str)); expanded_names=set(climate.canonical_name.astype(str)); rng=np.random.default_rng(args.seed)
+    required_climate={'canonical_name','family','geographic_radius_95_km',*METRICS}; missing=required_climate-set(climate.columns)
+    if missing: raise SystemExit(f'Analysis dataset missing columns: {sorted(missing)}')
+    required_sources={'accepted_name','family',*AXES.values()}
+    for label,sdf in [('expanded',expanded_sources),('core',core_sources)]:
+        m=required_sources-set(sdf.columns)
+        if m: raise SystemExit(f'{label} source audit missing columns: {sorted(m)}')
+    outdir=Path(args.outdir); outdir.mkdir(parents=True,exist_ok=True); rows=[]; loo_all=[]; post_all=[]
+    scopes={'core':(core_names,core_sources),'expanded':(expanded_names,expanded_sources)}
+    for scope,(names,source_df) in scopes.items():
+        for axis_short,axis_col in AXES.items():
             for metric in METRICS:
-                obs = build_species_obs(climate, sources, names, axis_col, metric)
-                row, loo, posterior = fit_one(
-                    obs,
-                    epsilon=args.epsilon,
-                    parametric_bootstraps=args.parametric_bootstraps,
-                    family_bootstraps=args.family_bootstraps,
-                    rng=rng,
-                )
-                row.update({"scope": scope, "axis": axis_short, "axis_column": axis_col, "metric": metric})
-                rows.append(row)
-                for x in loo:
-                    x.update({"scope": scope, "axis": axis_short, "metric": metric})
-                    loo_all.append(x)
-                for x in posterior:
-                    x.update({"scope": scope, "axis": axis_short, "metric": metric})
-                    post_all.append(x)
-                print({k: row.get(k) for k in ["scope","axis","metric","n_species","odds_ratio","estimated_source_detection_probability","parametric_bootstrap_p"]}, flush=True)
+                obs=build_species_obs(climate,source_df,names,axis_col,metric)
+                row,loo,posterior=fit_one(obs,epsilon=args.epsilon,parametric_bootstraps=args.parametric_bootstraps,family_bootstraps=args.family_bootstraps,rng=rng); row.update({'scope':scope,'axis':axis_short,'axis_column':axis_col,'metric':metric}); rows.append(row)
+                for x in loo: x.update({'scope':scope,'axis':axis_short,'metric':metric}); loo_all.extend(loo)
+                for x in posterior: x.update({'scope':scope,'axis':axis_short,'metric':metric}); post_all.extend(posterior)
+                print({k:row.get(k) for k in ['scope','axis','metric','n_species','n_sources','odds_ratio','estimated_source_detection_probability','parametric_bootstrap_p']},flush=True)
+    results=pd.DataFrame(rows); results['parametric_bootstrap_p_holm_within_scope_axis']=np.nan
+    for (scope,axis),idx in results.groupby(['scope','axis']).groups.items():
+        idx=list(idx); vals=pd.to_numeric(results.loc[idx,'parametric_bootstrap_p'],errors='coerce'); mask=vals.notna()
+        if mask.any(): results.loc[np.asarray(idx)[mask.to_numpy()],'parametric_bootstrap_p_holm_within_scope_axis']=multipletests(vals[mask],method='holm')[1]
+    results.to_csv(outdir/'full_fcp_latent_cs_models.csv',index=False); pd.DataFrame(loo_all).to_csv(outdir/'full_fcp_latent_cs_leave_one_family_out.csv',index=False); pd.DataFrame(post_all).to_csv(outdir/'full_fcp_latent_cs_species_posteriors.csv',index=False)
+    manifest={'status':'complete','model':'marginalized latent-state repeated-source detection model','scopes':['core','expanded'],'axes':AXES,'metrics':METRICS,'occupancy_formula':'latent C or S ~ metric_z + z(log1p(geographic_radius_95_km))','detection_model':'constant source-level detection probability within each axis/metric/scope fit','core_source_boundary':'core uses only display-core membership sources; expanded uses all expanded FCP-eligible sources','false_positive_probability':float(args.epsilon),'weak_regularization_sd':PRIOR_SD,'parametric_bootstraps':int(args.parametric_bootstraps),'family_cluster_bootstraps':int(args.family_bootstraps),'seed':int(args.seed),'zero_semantics':'source-level zero is a non-detection; species-level biological absence is latent and never assigned directly','historical_34_role':'none in model fitting'}
+    (outdir/'full_fcp_latent_cs_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+    if len(results)!=20: raise SystemExit(f'Expected 20 model rows, found {len(results)}')
+    if not set(results.analysis_status).issubset({'complete','fit_failed'}): raise SystemExit('Unexpected latent model status')
 
-    results = pd.DataFrame(rows)
-    results["parametric_bootstrap_p_holm_within_scope_axis"] = np.nan
-    for (scope, axis), idx in results.groupby(["scope", "axis"]).groups.items():
-        idx = list(idx)
-        vals = pd.to_numeric(results.loc[idx, "parametric_bootstrap_p"], errors="coerce")
-        mask = vals.notna()
-        if mask.any():
-            adjusted = multipletests(vals[mask], method="holm")[1]
-            results.loc[np.asarray(idx)[mask.to_numpy()], "parametric_bootstrap_p_holm_within_scope_axis"] = adjusted
-
-    results.to_csv(outdir / "full_fcp_latent_cs_models.csv", index=False)
-    pd.DataFrame(loo_all).to_csv(outdir / "full_fcp_latent_cs_leave_one_family_out.csv", index=False)
-    pd.DataFrame(post_all).to_csv(outdir / "full_fcp_latent_cs_species_posteriors.csv", index=False)
-    manifest = {
-        "status": "complete",
-        "model": "marginalized latent-state repeated-source detection model",
-        "scopes": ["core", "expanded"],
-        "axes": AXES,
-        "metrics": METRICS,
-        "occupancy_formula": "latent C or S ~ metric_z + z(log1p(geographic_radius_95_km))",
-        "detection_model": "constant source-level detection probability within each axis/metric/scope fit",
-        "false_positive_probability": float(args.epsilon),
-        "weak_regularization_sd": PRIOR_SD,
-        "parametric_bootstraps": int(args.parametric_bootstraps),
-        "family_cluster_bootstraps": int(args.family_bootstraps),
-        "seed": int(args.seed),
-        "zero_semantics": "source-level zero is a non-detection; species-level biological absence is latent and never assigned directly",
-        "historical_34_role": "none in model fitting",
-    }
-    (outdir / "full_fcp_latent_cs_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-
-    if len(results) != 20:
-        raise SystemExit(f"Expected 20 model rows, found {len(results)}")
-    if not set(results.analysis_status).issubset({"complete", "fit_failed"}):
-        raise SystemExit("Unexpected latent model status")
-
-
-if __name__ == "__main__":
-    main()
+if __name__=='__main__': main()
