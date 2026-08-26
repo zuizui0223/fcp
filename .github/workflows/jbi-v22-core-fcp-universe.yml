@@ -61,6 +61,8 @@ jobs:
           core_names={r['canonical_name'] for r in core}; exp_names={r['canonical_name'] for r in exp}
           assert len(exp)==78
           assert len(core)==74, (len(core),s)
+          assert len(core_names)==len(core), 'duplicate canonical names in core'
+          assert core_names<=exp_names, 'core must be a strict subset of expanded universe'
           assert s['core_FCP_species_universe']==74
           assert s['core_protocol_version']=='display-core-v6-focal-consistent', s
           assert any(r['organization_state']=='organization_unresolved' for r in core)
