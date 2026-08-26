@@ -1,0 +1,69 @@
+name: JBI v2.2 high-specificity core FCP universe
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-core-fcp-universe.yml'
+      - 'scripts/literature/derive_v22_core_fcp_universe.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  EXPANDED_RUN_ID: '32930239671'
+  EXPANDED_ARTIFACT: 'jbi-v22-full-fcp-universe'
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  OUTDIR: 'analysis_outputs/jbi_v22_core_fcp_universe'
+
+jobs:
+  core:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPANDED_ARTIFACT }}
+          path: expanded
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.EXPANDED_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+      - name: Derive core universe independently of C/S outcomes
+        run: |
+          mkdir -p "$OUTDIR"
+          python scripts/literature/derive_v22_core_fcp_universe.py \
+            --source-audit expanded/v22_full_fcp_source_audit.csv \
+            --record-screen record_screen/v22_record_screening_blind.csv \
+            --outdir "$OUTDIR"
+      - name: Validate core is nested but outcome-independent
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_v22_core_fcp_universe')
+          s=json.loads((root/'v22_core_fcp_universe_summary.json').read_text())
+          with (root/'v22_core_fcp_species_universe.csv').open(newline='',encoding='utf-8') as h: core=list(csv.DictReader(h))
+          with Path('expanded/v22_full_fcp_species_universe.csv').open(newline='',encoding='utf-8') as h: exp=list(csv.DictReader(h))
+          assert 20<=len(core)<len(exp)
+          assert set(r['canonical_name'] for r in core)<=set(r['canonical_name'] for r in exp)
+          assert any(r['organization_state']=='organization_unresolved' for r in core)
+          assert s['core_FCP_species_universe']==len(core)
+          print(s)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-v22-core-fcp-universe
+          path: analysis_outputs/jbi_v22_core_fcp_universe/
+          if-no-files-found: error
+          retention-days: 30
