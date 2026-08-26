@@ -7,7 +7,7 @@ on:
       - '.github/workflows/jbi-v22-core-fcp-universe.yml'
       - 'scripts/literature/derive_v22_core_fcp_universe.py'
       - 'scripts/literature/derive_v22_core_fcp_universe_v3.py'
-      - 'scripts/literature/derive_v22_core_fcp_universe_v4.py'
+      - 'scripts/literature/derive_v22_core_fcp_universe_v5.py'
   workflow_dispatch:
 
 permissions:
@@ -44,11 +44,11 @@ jobs:
       - name: Derive core universe independently of C/S outcomes
         run: |
           mkdir -p "$OUTDIR"
-          python scripts/literature/derive_v22_core_fcp_universe_v4.py \
+          python scripts/literature/derive_v22_core_fcp_universe_v5.py \
             --source-audit expanded/v22_full_fcp_source_audit.csv \
             --record-screen record_screen/v22_record_screening_blind.csv \
             --outdir "$OUTDIR"
-      - name: Validate core is nested but outcome-independent
+      - name: Validate corrected primary display core
         run: |
           python - <<'PY'
           import csv,json
@@ -58,15 +58,16 @@ jobs:
           with (root/'v22_core_fcp_species_universe.csv').open(newline='',encoding='utf-8') as h: core=list(csv.DictReader(h))
           with Path('expanded/v22_full_fcp_species_universe.csv').open(newline='',encoding='utf-8') as h: exp=list(csv.DictReader(h))
           core_names={r['canonical_name'] for r in core}; exp_names={r['canonical_name'] for r in exp}
-          assert 20<=len(core)<len(exp)
+          assert len(exp)==78
+          assert len(core)==75, (len(core),s)
           assert core_names<=exp_names
           assert any(r['organization_state']=='organization_unresolved' for r in core)
-          assert s['core_FCP_species_universe']==len(core)
-          assert s['expanded_species_excluded_from_core']>0
-          assert s['core_protocol_version']=='display-core-v4-final', s
-          # Known non-display sexual-organ cases must not enter the primary display core.
-          for name in {'Acer pictum','Butomus umbellatus'} & exp_names:
-              assert name not in core_names, name
+          assert s['core_FCP_species_universe']==75
+          assert s['core_protocol_version']=='display-core-v5-final', s
+          # Focal sexual-organ studies and review-only Salvia remain outside primary core.
+          assert {'Acer pictum','Butomus umbellatus','Salvia hispanica'}.isdisjoint(core_names)
+          # These are direct natural floral-display colour studies and must be retained.
+          assert {'Aquilegia coerulea','Cosmos bipinnatus','Eruca sativa'}<=core_names
           print(s)
           PY
       - uses: actions/upload-artifact@v4
