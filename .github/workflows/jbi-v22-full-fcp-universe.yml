@@ -7,6 +7,7 @@ on:
       - '.github/workflows/jbi-v22-full-fcp-universe.yml'
       - 'scripts/literature/build_v22_full_fcp_universe.py'
       - 'scripts/literature/build_v22_full_fcp_universe_v2.py'
+      - 'scripts/literature/build_v22_full_fcp_universe_v3.py'
       - 'scripts/literature/build_v22_coexistence_segregation_refined.py'
       - 'scripts/literature/build_v22_coexistence_segregation_refined_v2.py'
       - 'scripts/literature/build_v22_coexistence_segregation_refined_v3.py'
@@ -53,7 +54,7 @@ jobs:
           test -s record_screen_input/v22_record_screening_blind.csv
           test -s record_screen_input/v22_record_screening_coordinator_key.csv
           mkdir -p "$OUTDIR"
-          python scripts/literature/build_v22_full_fcp_universe_v2.py \
+          python scripts/literature/build_v22_full_fcp_universe_v3.py \
             --blind record_screen_input/v22_record_screening_blind.csv \
             --key record_screen_input/v22_record_screening_coordinator_key.csv \
             --historical-manifest docs/supporting/frozen_classification_manifest.csv \
@@ -72,6 +73,7 @@ jobs:
           assert summary['historical_exact_sources_seen_for_taxon_rescue_only']==34, summary
           assert summary['FCP_species_universe']>34, summary
           assert summary['organization_unresolved_species']>0, summary
+          assert summary.get('protocol_version')=='full-fcp-universe-v3-post-gbif-hierarchical-taxon', summary
           with (root/'v22_full_fcp_species_universe.csv').open(newline='',encoding='utf-8') as h:
               spp=list(csv.DictReader(h))
           assert len(spp)==summary['FCP_species_universe']
