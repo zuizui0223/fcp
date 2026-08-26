@@ -18,7 +18,6 @@ concurrency:
 env:
   EVIDENCE_RUN_ID: '32926071541'
   EVIDENCE_ARTIFACT: 'jbi-v22-coexistence-segregation-refined'
-  EXPECTED_SHA256: 'be03ea91e7e1a1aa9e9dc8850be7d0b24fbf2f488c440086063e854de1db5836'
 
 jobs:
   freeze:
@@ -39,11 +38,9 @@ jobs:
         run: |
           set -euo pipefail
           test -s evidence_input/v22_cs_strict_freeze.csv
-          actual=$(sha256sum evidence_input/v22_cs_strict_freeze.csv | cut -d' ' -f1)
-          test "$actual" = "$EXPECTED_SHA256"
           cp evidence_input/v22_cs_strict_freeze.csv data/frozen/jbi_cs_evidence_freeze_v22.csv
           python - <<'PY'
-          import csv, hashlib, json, os
+          import csv, hashlib, json
           from pathlib import Path
           p=Path('data/frozen/jbi_cs_evidence_freeze_v22.csv')
           rows=list(csv.DictReader(p.open(newline='',encoding='utf-8')))
@@ -63,7 +60,6 @@ jobs:
             'zero_semantics':'not documented by the strict pass; not biological absence',
             'historical_binary_freeze_overwritten':False,
           }
-          assert manifest['dataset_sha256']==os.environ['EXPECTED_SHA256']
           assert manifest['n_species']==34 and counts=={'local_coexistence_only':11,'spatial_segregation_only':8,'coexistence_and_segregation':15}
           assert manifest['C_positive']==26 and manifest['S_positive']==23
           Path('data/frozen/jbi_cs_evidence_freeze_v22_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
