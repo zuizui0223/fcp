@@ -1,0 +1,65 @@
+name: JBI C/S CR2 small-sample sensitivity
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-cs-cr2.yml'
+      - 'scripts/run_cs_cr2.R'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-cs-cr2
+  cancel-in-progress: true
+
+env:
+  CLIMATE_RUN_ID: '32926741272'
+  CLIMATE_ARTIFACT: 'jbi-cs-climate-rebuild'
+  OUTDIR: 'analysis_outputs/jbi_cs_cr2'
+
+jobs:
+  cr2:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - name: Install clubSandwich
+        run: Rscript -e 'install.packages("clubSandwich", repos="https://cloud.r-project.org")'
+      - name: Download fixed C/S climate rebuild
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CLIMATE_ARTIFACT }}
+          path: climate_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CLIMATE_RUN_ID }}
+      - name: Run C/S CR2 sensitivity
+        run: |
+          mkdir -p "$OUTDIR"
+          Rscript scripts/run_cs_cr2.R \
+            --dataset climate_input/jbi_cs_climate_analysis_dataset.csv \
+            --outdir "$OUTDIR"
+      - name: Validate CR2 outputs
+        run: |
+          Rscript - <<'RS'
+          d <- read.csv('analysis_outputs/jbi_cs_cr2/jbi_cs_cr2_satterthwaite_summary.csv')
+          stopifnot(nrow(d)==10)
+          stopifnot(setequal(unique(d$outcome_short),c('C','S')))
+          stopifnot(all(d$n_species==34), all(d$n_families==23))
+          stopifnot(all(d$cr2_satterthwaite_p>=0 & d$cr2_satterthwaite_p<=1))
+          print(d[,c('outcome_short','metric','odds_ratio','cr2_ci_low','cr2_ci_high','satterthwaite_df','cr2_satterthwaite_p')])
+          RS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-cs-cr2
+          path: analysis_outputs/jbi_cs_cr2/
+          if-no-files-found: error
+          retention-days: 30
