@@ -57,7 +57,6 @@ def choose_traits(meta: pd.DataFrame) -> dict[str, dict[str, str]]:
                 hits.append(row)
         if not hits:
             raise RuntimeError(f"No GIFT trait metadata match for {key}")
-        # Prefer the largest-coverage metadata row if aliases exist.
         hits.sort(key=lambda r: float(getattr(r, "count", 0) or 0), reverse=True)
         row = hits[0]
         chosen[key] = {
@@ -78,7 +77,6 @@ def resolve_name(name: str) -> dict[str, Any]:
     if not rows:
         return {"canonical_name": name, "status": "not_found"}
     q = pd.DataFrame(rows)
-    # Exact standardized name first; otherwise exact original genus+epithet with best score.
     if "work_species" in q.columns:
         exact = q.loc[q.work_species.astype(str).str.casefold().eq(name.casefold())]
         if len(exact):
@@ -106,8 +104,6 @@ def resolve_name(name: str) -> dict[str, Any]:
 def fetch_trait(trait_id: str, expected_count: int) -> pd.DataFrame:
     pages = []
     start = 0
-    # GIFT defaults to chunks of 10,000. Use metadata count as a stop guard, but
-    # also stop on empty/short pages so API changes cannot create an infinite loop.
     max_pages = max(1, int(math.ceil(max(expected_count, 1) / 10000)) + 2)
     for _ in range(max_pages):
         rows = get_json({"query": "traits", "traitid": trait_id, "biasref": 0, "biasderiv": 0, "startat": start})
@@ -128,20 +124,24 @@ def main() -> None:
     p.add_argument("--core-species", required=True)
     p.add_argument("--outdir", required=True)
     a = p.parse_args()
-    out = Path(a.outdir); out.mkdir(parents=True, exist_ok=True)
+    out = Path(a.outdir)
+    out.mkdir(parents=True, exist_ok=True)
     core = pd.read_csv(a.core_species)
     if len(core) != 74:
         raise SystemExit(f"Expected 74 v6 core species, got {len(core)}")
 
-    meta_raw = get_json({"query": "traits_meta"})
-    meta = pd.DataFrame(meta_raw)
+    meta = pd.DataFrame(get_json({"query": "traits_meta"}))
     meta["count"] = pd.to_numeric(meta.get("count"), errors="coerce")
     chosen = choose_traits(meta)
     (out / "gift_target_trait_metadata.json").write_text(json.dumps(chosen, indent=2) + "\n")
 
     resolved = pd.DataFrame([resolve_name(str(x)) for x in core.canonical_name])
     resolved.to_csv(out / "gift_core_name_resolution.csv", index=False)
-    work_to_name = {int(r.work_ID): r.canonical_name for r in resolved.itertuples(index=False) if getattr(r, "status") == "resolved" and pd.notna(getattr(r, "work_ID", None))}
+    work_to_name = {
+        int(r.work_ID): r.canonical_name
+        for r in resolved.itertuples(index=False)
+        if getattr(r, "status") == "resolved" and pd.notna(getattr(r, "work_ID", None))
+    }
 
     joined = core[["canonical_name", "family", "organization_state"]].copy()
     raw_rows = []
@@ -155,13 +155,11 @@ def main() -> None:
         q["work_ID"] = pd.to_numeric(q["work_ID"], errors="coerce")
         q = q.loc[q.work_ID.isin(work_to_name)].copy()
         q["canonical_name"] = q.work_ID.astype(int).map(work_to_name)
-        # Match GIFT::GIFT_traits default agreement threshold of 0.66 for categorical traits.
         if "agreement" in q.columns:
             ag = pd.to_numeric(q.agreement, errors="coerce")
             q = q.loc[ag.isna() | ag.ge(0.66)].copy()
         q["target_trait"] = key
         raw_rows.append(q)
-        # One aggregated GIFT row per work_ID/trait is expected. If duplicates occur, retain first deterministically and flag via QC.
         qq = q.sort_values(["canonical_name"]).drop_duplicates("canonical_name", keep="first")
         mapping = dict(zip(qq.canonical_name.astype(str), qq.trait_value))
         joined[key] = joined.canonical_name.map(mapping)
