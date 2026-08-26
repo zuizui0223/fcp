@@ -1,16 +1,36 @@
-# JBI v2.2 strict single-pass documented-evidence protocol
+# JBI v2.2 strict coexistence–segregation protocol
 
 ## Status
 
-This protocol supersedes the duplicate-independent-review path for the replacement analysis. Independent Reviewer 1/Reviewer 2 calibration was intentionally waived on 2026-08-26. The old review infrastructure remains archived as optional sensitivity/provenance material.
+This protocol supersedes the forced `within_population` / `among_population` classification for the replacement analysis. Independent duplicate review was intentionally waived on 2026-08-26; the old reviewer infrastructure remains archived as optional sensitivity/provenance material.
 
-The replacement analysis must therefore be described as a **single-pass conservative documented-evidence audit**, not as a double-reviewed systematic review.
+The replacement analysis is a **single-pass conservative documented-evidence audit**. The historical 34-species binary freeze is never overwritten and is retained as a historical sensitivity dataset.
 
-The historical 34-species freeze is never silently overwritten.
+## Central biological question
+
+The object of interest is not whether intraspecific floral-colour variation is generically “within” or “among” populations. It is whether discrete colour polymorphism is documented to:
+
+- **C — coexist locally**: two or more natural floral-display colour variants occur in the same population/site;
+- **S — segregate spatially**: morph occurrence or morph frequency is spatially structured among populations/sites/regions/islands or along an explicit geographic gradient.
+
+C and S are **independent positive-evidence axes**.
+
+Therefore:
+
+| C | S | documented organization state |
+|---:|---:|---|
+| 1 | 0 | `local_coexistence_only` |
+| 0 | 1 | `spatial_segregation_only` |
+| 1 | 1 | `coexistence_and_segregation` |
+| 0 | 0 | `unresolved` |
+
+`C=0` does **not** mean that morphs biologically fail to coexist. `S=0` does **not** mean spatial homogeneity. A zero means only **not documented by the strict pass**.
+
+The C=1,S=1 state is biologically important: morphs can coexist in local populations while their frequencies or occurrence remain structured across the wider range.
 
 ## Retrieval boundary
 
-The fixed retrieval surface is OpenAlex title/abstract OQL v2.2:
+The fixed search surface is OpenAlex title/abstract OQL v2.2:
 
 - 15 query blocks;
 - 13,911 query memberships;
@@ -18,111 +38,111 @@ The fixed retrieval surface is OpenAlex title/abstract OQL v2.2:
 - zero truncated v2.2 blocks;
 - 34/34 historical classification source records recovered.
 
-All 12,064 records remain in the audit universe. Automatic taxon extraction cannot exclude a record.
+All 12,064 records remain in the audit universe. Automatic taxon extraction cannot exclude a record from that universe.
 
-## Evidence philosophy
+## Positive-evidence philosophy
 
-The replacement path uses **positive evidence only**.
+A C or S axis may be set to 1 only when explicit source wording satisfies its positive criterion. Missing wording, generic polymorphism terminology, or an abstract that does not resolve spatial organization is never converted into the opposite biological state.
 
-A spatial axis may be set to 1 only when explicit source wording satisfies a strict positive criterion. Failure to match a criterion is interpreted as **not documented by this pass**, never as biological absence.
+Ambiguous eligibility, conflicting source context, continuous-only colour variation, non-primary evidence, community-level comparisons without an intraspecific signal, or ambiguous taxon attribution remain unresolved.
 
-Ambiguous eligibility, conflicting source context, or ambiguous taxon attribution remains `unresolved`.
+## Source eligibility before C/S coding
 
-## Natural/display eligibility
+A source can contribute a C/S positive only when all of the following hold:
 
-A source is `eligible_high_confidence` only when title/abstract material contains:
+1. primary empirical source type (`article`, `dissertation`, `preprint`, or `report`);
+2. explicit floral-display colour context;
+3. explicit discrete colour-polymorphism/morph context;
+4. no hard artificial/cultivated/induced/ontogenetic conflict in the same record;
+5. not a community-level/inter-specific colour summary unless the record also contains an explicit intraspecific polymorphism signal.
 
-1. floral-display colour/reflectance/pigmentation context;
-2. natural/field/population/geographic context;
-3. a colour-variation signal relevant to the spatial audit;
-4. no explicit hard conflict such as cultivar-only, horticultural-line-only, induced mutation/transgenic/editing/tissue-culture, or ontogenetic colour-change framing.
+Hard conflicts include cultivar/horticultural-line studies, breeding/mapping populations, transgenic or induced variation, tissue culture, artificial-flower arrays, experimental populations, and ontogenetic colour change.
 
-A hard conflict does not automatically become an exclusion when other evidence may exist; it is stored as `conflict_unresolved`.
+Reviews, meta-analyses, summaries, definitions of FCP, and background statements do not establish C or S for a focal species.
 
-Sources with display relevance but insufficient natural-variation evidence remain `display_relevant_unresolved`.
+## C — local coexistence positive criterion
 
-## Variation form
+`C_local_coexistence_documented = 1` only when the source explicitly establishes discrete floral-colour variants at the same local unit.
 
-The pass records `discrete`, `continuous`, `both`, or `unclear` signals.
+Sufficient examples include:
 
-Local coexistence requires discrete variation. Continuous variation is retained in the audit table but is not silently converted to a discrete colour-morph state.
-
-## Local coexistence positive criterion
-
-`local_coexistence_documented = 1` only when floral-display/discrete context is accompanied by explicit wording equivalent to one of the following:
-
-- colour variants/morphs co-occur or coexist within a population/site;
-- the same population/site explicitly contains multiple colour morphs/forms;
-- an equivalent same-population statement with direct morph evidence.
+- colour morphs `co-occur` or `coexist` in a population/site;
+- named colour forms are found in the `same population`;
+- a study population explicitly contains two or more colour phenotypes;
+- multiple morphs are reported in each of several natural populations;
+- morphs are explicitly stated to vary `within` populations;
+- populations are explicitly described as colour-mixed.
 
 Insufficient by itself:
 
-- `color/colour morph(s)`;
-- `polymorphic` or `polymorphism`;
-- multiple colour forms with no population resolution;
-- sampling many sites;
-- common-garden coexistence without natural same-population evidence.
+- `colour morph(s)`;
+- `polymorphic` / `polymorphism`;
+- a definition saying that FCP means morphs occur within populations;
+- common-garden or artificial-array coexistence;
+- multiple colours without a population/site unit;
+- a general statement that selection can maintain polymorphism within populations.
 
-## Geographic structure positive criterion
+Negated coexistence statements are not positive C evidence.
 
-`geographic_structure_documented = 1` only when floral-display colour context is accompanied by explicit spatial differentiation such as:
+## S — spatial segregation positive criterion
 
-- differences among/between populations, sites, localities, regions, or islands;
-- geographic/geographical/spatial/latitudinal/altitudinal/elevational variation, differentiation, structure, cline, pattern, or gradient;
-- colour/morph-frequency variation explicitly among geographic units;
-- explicit regional/geographic restriction, replacement, or segregation of colour forms.
+`S_spatial_segregation_documented = 1` only when the source explicitly establishes spatial structuring of discrete colour morphs or their frequencies.
+
+Sufficient examples include:
+
+- flower-colour or morph-frequency variation explicitly `among`, `between`, or `across` populations/sites/regions/islands;
+- explicit geographic/spatial/altitudinal/latitudinal variation or distribution **of flower colour or colour polymorphism**;
+- morph frequencies that vary among geographic units;
+- colour morphs that are regionally restricted or replaced;
+- polytypism among populations;
+- a documented mixture of monomorphic and polymorphic populations across the range;
+- colour polymorphism explicitly documented both within and among populations.
 
 Insufficient by itself:
 
-- broad species range;
-- many sampling localities with no reported colour contrast;
-- environmental association without spatially resolved colour differentiation;
-- generic colour polymorphism.
+- broad range size;
+- many sampling sites;
+- spatial variation in a different response such as reproductive success, climate, or pollinator abundance;
+- `consistent` morph ratios among populations;
+- comparisons to fixed differences in other species;
+- generic geographic terminology with no spatially resolved colour contrast.
+
+Negated spatial-difference statements are not positive S evidence.
 
 ## Taxon resolution
 
-Automatic title/abstract binomial hints are used only for potentially informative records.
+Taxon resolution is attempted only for C/S-positive sources and for the 34 exact historical source records retained for provenance.
 
-Names are checked against GBIF and accepted-name resolution. A source is assigned to a species only when the source resolves unambiguously to one accepted plant species.
+Candidate names are ranked from title occurrences first, then the first 2,500 abstract characters. Names are checked against GBIF and accepted-name resolution. A source contributes to species-level aggregation only when it resolves unambiguously to one accepted plant species.
 
-If multiple accepted taxa are plausible, the source remains taxonomically unresolved.
-
-The historical manifest may be used only as an exact **source -> canonical taxon rescue map** for its 34 known source records. Historical spatial labels, climate-cell counts, model results, and effect directions are not supplied to the strict evidence builder.
+The historical manifest may be used only as an exact **source → canonical taxon rescue map**. Historical spatial labels, climate-cell counts, and model results are not supplied to the C/S evidence builder.
 
 ## Species aggregation
 
-Across high-confidence eligible, taxonomically resolved sources:
+Across taxonomically resolved positive sources:
 
-- any local positive source -> `local_coexistence_documented = 1`;
-- any geographic positive source -> `geographic_structure_documented = 1`.
+- any valid C-positive source → `C=1`;
+- any valid S-positive source → `S=1`.
 
-Then:
+Evidence for C and S may come from different papers and different parts of the species range.
 
-- local=1, geographic=0 -> `within_evidence_only`;
-- local=0, geographic=1 -> `among_evidence_only`;
-- local=1, geographic=1 -> `mixed_evidence`;
-- neither axis documented -> `unresolved`.
+The replacement strict freeze contains only species with at least one positive axis. Unresolved records and unresolved taxa are retained separately rather than force-classified.
 
-`mixed_evidence` is non-ordinal. Its two axes may come from different papers and different parts of the species range.
+## Ecological inference
 
-## Freeze rule
+The primary analysis fits the two documented-evidence outcomes separately:
 
-The first replacement freeze is a **strict high-confidence documented-evidence freeze**.
+- probability that local coexistence is documented, `P(C=1)`;
+- probability that spatial segregation is documented, `P(S=1)`.
 
-Primary state analyses use only species with at least one positive documented spatial axis and no unresolved taxonomic assignment for the contributing positive source(s).
+A `coexistence_and_segregation` species is positive in both models.
 
-Species/sources with conflicts or insufficient evidence remain in explicit unresolved tables and are used for sensitivity/bounds analyses rather than force-classified.
+If cell sizes are adequate, a secondary non-ordinal model compares:
 
-The historical 34-species binary freeze remains a separate historical sensitivity dataset.
+`local_coexistence_only` / `spatial_segregation_only` / `coexistence_and_segregation`.
 
-## Inference rule
-
-Primary ecological models fit the two positive documented-evidence axes separately. A mixed species is positive on both axes.
-
-A secondary non-ordinal multinomial model may compare within-only / among-only / mixed when all states have adequate sample size.
-
-Observation-process variables such as number of sources per species and source availability should be retained because these are documented-evidence outcomes rather than perfect biological detection.
+The historical within-vs-among binary analysis is retained only as a sensitivity analysis.
 
 ## Reporting limitation
 
-Methods and Discussion must explicitly state that the replacement evidence audit is single-pass and rule-conservative rather than independently duplicate-reviewed. The tradeoff is deliberate: higher reproducibility and explicit positive-evidence thresholds, but potentially lower recall and no inter-reviewer agreement estimate.
+The replacement evidence audit is single-pass and rule-conservative rather than independently duplicate-reviewed. It prioritizes explicit reproducible positive evidence over recall. Consequently, unresolved and zero-coded axes must never be described as demonstrated biological absence.
