@@ -42,9 +42,11 @@ S_ADDITIONS = [
 base.S_PATTERNS = S_ADDITIONS + [pattern for index, pattern in enumerate(base.S_PATTERNS) if index != 1]
 
 # Articles labelled as perspectives are not primary evidence even when OpenAlex calls
-# them `article`.
+# them `article`. Recompile explicitly instead of concatenating an inline-flag pattern.
 base.NONPRIMARY_TEXT_RE = re.compile(
-    base.NONPRIMARY_TEXT_RE.pattern + r"|(?is)\bPERSPECTIVE\b"
+    r"\b(?:systematic\s+review|meta[- ]analysis|review\s+article|we\s+review|we\s+also\s+review|"
+    r"here\s+we\s+summari[sz]e|this\s+review|review\s+the\s+incidence|PERSPECTIVE)\b",
+    re.IGNORECASE | re.DOTALL,
 )
 
 # Fresh source-text binomials are used for C/S-positive records because the archived
