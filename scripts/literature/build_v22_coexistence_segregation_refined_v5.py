@@ -19,11 +19,15 @@ SEXUAL_ORGAN_COLOUR_ONLY = (
     r"|(?:androecium|anther|pollen)\s+colou?r\s+polymorph\w*"
 )
 
-# Treat explicit sexual-organ colour targets as non-display conflicts. The base builder
-# still requires display/discrete context for C/S, but this guard prevents incidental
-# mentions of corolla/floral traits from admitting anther/pollen colour studies.
+# The inherited pattern starts with inline (?is) flags. Remove only that leading flag
+# token before combining it with the new alternative, then compile with equivalent
+# explicit flags. The biological rule itself is unchanged.
+_inherited_conflict = base.HARD_CONFLICT_RE.pattern
+if _inherited_conflict.startswith("(?is)"):
+    _inherited_conflict = _inherited_conflict[5:]
+
 base.HARD_CONFLICT_RE = re.compile(
-    rf"(?:{base.HARD_CONFLICT_RE.pattern})|(?:{SEXUAL_ORGAN_COLOUR_ONLY})",
+    rf"(?:{_inherited_conflict})|(?:{SEXUAL_ORGAN_COLOUR_ONLY})",
     flags=re.IGNORECASE | re.DOTALL,
 )
 
