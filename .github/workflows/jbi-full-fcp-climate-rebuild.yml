@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/jbi-full-fcp-climate-rebuild.yml'
       - 'scripts/data/build_gbif_occurrence_sample_paginated.py'
+      - 'scripts/data/build_gbif_occurrence_sample_paginated_parallel.py'
       - 'scripts/data/compute_climatic_niche_metrics.py'
       - 'scripts/data/compute_geographic_extent_metrics.py'
       - 'scripts/data/build_full_fcp_climate_analysis_dataset.py'
@@ -69,13 +70,14 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "$OUTDIR"
-          python scripts/data/build_gbif_occurrence_sample_paginated.py \
+          python scripts/data/build_gbif_occurrence_sample_paginated_parallel.py \
             --species universe_input/v22_full_fcp_species_universe.csv \
             --out "$OUTDIR/full_fcp_gbif_occurrences.csv" \
             --qc-out "$OUTDIR/full_fcp_gbif_occurrence_qc.json" \
             --taxon-audit-out "$OUTDIR/full_fcp_gbif_taxon_audit.csv" \
             --max-records 3000 --page-size 300 --dedup-decimals 3 \
-            --max-coordinate-uncertainty-m 20000 --timeout 45 --retries 4 --delay 0.10
+            --max-coordinate-uncertainty-m 20000 --timeout 45 --retries 4 --delay 0.10 \
+            --species-workers 6
 
       - name: Compute geographic extent covariates
         run: |
@@ -123,7 +125,9 @@ jobs:
           s=json.loads((root/'full_fcp_climate_rebuild_summary.json').read_text())
           d=pd.read_csv(root/'full_fcp_climate_analysis_dataset.csv')
           u=pd.read_csv('universe_input/v22_full_fcp_species_universe.csv')
+          q=json.loads((root/'full_fcp_gbif_occurrence_qc.json').read_text())
           assert s['universe_species']==len(u)==78
+          assert q['species_requested']==78 and q['species_workers']==6
           assert len(d)==s['analysis_species']
           assert (d.n_climate_cells>=20).all()
           assert d.geographic_radius_95_km.notna().all()
