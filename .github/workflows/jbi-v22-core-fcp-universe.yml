@@ -7,6 +7,7 @@ on:
       - '.github/workflows/jbi-v22-core-fcp-universe.yml'
       - 'scripts/literature/derive_v22_core_fcp_universe.py'
       - 'scripts/literature/derive_v22_core_fcp_universe_v3.py'
+      - 'scripts/literature/derive_v22_core_fcp_universe_v4.py'
   workflow_dispatch:
 
 permissions:
@@ -43,7 +44,7 @@ jobs:
       - name: Derive core universe independently of C/S outcomes
         run: |
           mkdir -p "$OUTDIR"
-          python scripts/literature/derive_v22_core_fcp_universe_v3.py \
+          python scripts/literature/derive_v22_core_fcp_universe_v4.py \
             --source-audit expanded/v22_full_fcp_source_audit.csv \
             --record-screen record_screen/v22_record_screening_blind.csv \
             --outdir "$OUTDIR"
@@ -62,6 +63,7 @@ jobs:
           assert any(r['organization_state']=='organization_unresolved' for r in core)
           assert s['core_FCP_species_universe']==len(core)
           assert s['expanded_species_excluded_from_core']>0
+          assert s['core_protocol_version']=='display-core-v4-final', s
           # Known non-display sexual-organ cases must not enter the primary display core.
           for name in {'Acer pictum','Butomus umbellatus'} & exp_names:
               assert name not in core_names, name
