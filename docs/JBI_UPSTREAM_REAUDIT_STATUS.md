@@ -2,183 +2,124 @@
 
 ## Current stage
 
-The historical 34-species freeze remains unchanged. The re-audit has moved **upstream of automatic taxon extraction** and all computationally resolvable gates before independent human review are now in place.
+The historical 34-species freeze remains unchanged. Independent duplicate reviewer screening was intentionally waived on **2026-08-26** and is no longer a blocking gate.
 
-Canonical path:
+The canonical replacement path is now:
 
-**v2.2 retrieval → all-record duplicate blind screening → record adjudication/full-text escalation → focal taxon validation → source-level natural/spatial evidence review → species-level two-axis aggregation → new freeze → climatic analysis.**
+**v2.2 retrieval → all 12,064 records retained → strict positive-evidence single pass → conservative GBIF taxon resolution → source-level local/geographic positive axes → species-level mixed-preserving aggregation → versioned replacement freeze → climatic analysis.**
 
-No replacement climatic model has been fit and no historical manuscript conclusion has been overwritten.
+The replacement analysis must be described as a **single-pass conservative documented-evidence audit**, not as an independently double-reviewed systematic review.
 
-## Completed: replacement search surface
+Detailed current protocol: `docs/JBI_SINGLE_PASS_STRICT_PROTOCOL.md`.
 
-OpenAlex title/abstract OQL v2.2 is the completeness-defining search layer.
+## Completed retrieval boundary
 
-- query blocks: **15**;
-- raw query memberships: **13,911**;
-- deduplicated works: **12,064**;
-- duplicate memberships removed: **1,847**;
-- truncated v2.2 query blocks: **0**;
-- historical exact source recovery: **34/34**;
-- historical exact-or-version recovery: **34/34**;
-- direct/citation benchmark recovery: **34/34**;
-- seven prespecified review seeds resolved: **7/7**.
+OpenAlex title/abstract OQL v2.2 remains fixed:
 
-The legacy 19 truncated shards remain archived for provenance but are no longer an active blocker.
+- 15 query blocks;
+- 13,911 query memberships;
+- 12,064 deduplicated works;
+- 0 truncated v2.2 blocks;
+- historical exact source recovery 34/34;
+- benchmark recovery 34/34 by exact/version/direct-citation diagnostics.
 
-## Completed: automatic-taxon failure diagnosis
+All 12,064 records remain visible in the audit universe. Automatic taxon extraction cannot silently remove a record.
 
-A diagnostic automatic source-to-taxon pass produced about **1,684** GBIF-valid candidate species and **3,358** species×source rows but represented only **31/34** historical benchmark species, even though all 34 source papers are in v2.2.
+## Duplicate-review infrastructure — archived, not required
 
-Therefore automatic title/abstract binomial extraction is not a canonical inclusion step.
+The repository still contains:
 
-## Completed: canonical all-record blind screening universe
+- 384-record Wave 0 calibration materials;
+- independent Reviewer 1/Reviewer 2 packages;
+- agreement/kappa gate code and boundary tests;
+- full B01–B13 duplicate-review packages;
+- merge/adjudication safeguards.
 
-- reviewer-facing records: **12,064/12,064**;
-- coordinator-key rows: **12,064**;
-- hidden detected-binomial hints: **9,071** records;
-- no detected binomial but retained: **2,993** records;
-- historical exact source records retained: **34/34**;
-- records without abstracts retained: **1,259**;
-- preassigned blind batches: **13**;
-- reviewer-facing query membership, historical status, and automatic taxon hints: **0 columns**.
+These are retained for provenance or optional sensitivity work only. Issue #18 was closed as `not_planned` after the project decision to proceed without independent duplicate review.
 
-Thus absent/abbreviated taxon names can no longer silently remove a source before review.
+## Strict positive-evidence rule
 
-## Completed: Wave 0 calibration infrastructure and prespecified gate
+A spatial axis can be positive only from explicit source wording.
 
-Successful calibration workflow: `JBI v2.2 record-screening Wave 0 calibration`, run **`32835886607`**.
+### Local coexistence
 
-Wave 0 contains **384 unique blind records** with hidden, mutually exclusive strata:
+`local_coexistence_documented = 1` requires discrete floral-display colour variation plus explicit same-population/site coexistence or equivalent direct wording.
 
-- historical benchmark sources: **34**;
-- no detected binomial: **100**;
-- detected binomial: **100**;
-- non-English: **100**;
-- missing abstract: **50**.
+Generic `color/colour morph`, `polymorphic`, multiple colour forms, or multiple sampling locations cannot by themselves create a local positive.
 
-Reviewer 1 and Reviewer 2 receive separate copies of the same blind sheet. Reviewer 1 fills only `reviewer_1_*`; Reviewer 2 fills only `reviewer_2_*`. Neither receives the coordinator key or the other's completed sheet.
+### Geographic structure
 
-The calibration gate is fixed before reviewer results are inspected:
+`geographic_structure_documented = 1` requires explicit among-population/site/region/island differentiation or explicit geographic/spatial/clinal/latitudinal/altitudinal/elevational colour structure.
 
-- **384/384** double-coded records on all four gated fields;
-- raw agreement ≥ **0.90** for record relevance, natural intraspecific variation, and floral display colour;
-- raw agreement ≥ **0.85** for full-text requirement;
-- Cohen's κ ≥ **0.60** for each gated field when estimable;
-- mathematically undefined κ caused by a single-category marginal is reported rather than replaced, while the raw-agreement gate still applies;
-- focal-taxon exact agreement is diagnostic, not a formal gate.
+A broad range or many sampled localities without reported colour differentiation is insufficient.
 
-A failed Wave 0 cannot be rescued by post-hoc threshold relaxation. A material codebook revision requires a new blinded calibration wave before B01.
+### Absence is never inferred
 
-## Completed: full 12,064-record reviewer packaging
+Failure to detect a positive phrase means **not documented by the strict pass**, not biological absence. Ambiguous cases remain `unresolved`.
 
-Successful workflow: `JBI v2.2 full duplicate review packages`, latest validated run **`32847528983`**.
+## Eligibility boundary
 
-The canonical blind universe is split deterministically into:
+The strict pass stores explicit conflicts rather than force-classifying them. Cultivar/horticultural-line, induced mutation/transgenic/editing/tissue-culture, and ontogenetic colour-change wording creates `conflict_unresolved` unless independent natural evidence is available elsewhere.
 
-- B01–B12: **1,000 records each**;
-- B13: **64 records**;
-- Reviewer 1 files: **13**;
-- Reviewer 2 files: **13**;
-- total records per reviewer: **12,064**.
+Only sources with floral-display colour context, natural/field/population/geographic context, and relevant variation evidence enter `eligible_high_confidence`.
 
-Reviewer-specific files contain no other-reviewer columns and no adjudication columns. The package includes the current codebook with the prespecified Wave 0 gate. **B01 must not start until Wave 0 passes.**
+## Taxon-resolution boundary
 
-## Completed: review-return and adjudication safeguards
+Automatic binomial hints are used only for potentially informative records and are resolved against GBIF.
 
-The post-review pipeline now contains explicit scripts for:
+A source contributes to a species state only when it maps unambiguously to one accepted plant species.
 
-1. merging Reviewer 1/2 files by `record_review_id` while rejecting immutable-metadata drift and reviewer-column cross-contamination;
-2. calculating raw agreement and Cohen's κ;
-3. applying the prespecified Wave 0 gate;
-4. generating a disagreement-only adjudication queue;
-5. finalizing consensus fields automatically only where both independent reviewers agree;
-6. requiring explicit adjudication for disagreements;
-7. separating retained, full-text-required, and excluded records;
-8. blocking the taxon stage while any required adjudication is incomplete.
+The historical manifest is allowed only as an exact **source → taxon rescue map** for the 34 known benchmark papers. Historical spatial labels, climate-cell counts, model results, and effect directions are not supplied to the strict evidence builder.
 
-`JBI v2.2 review-return pipeline smoke test` passes end-to-end on the blank Wave 0 fixture. The expected blank state is correctly `not_ready`, with **384/384** records blocked from taxon progression.
+## Mixed retained
 
-## Legacy priority diagnostics — sensitivity only
+Species-level documented states are generated from independent positive axes:
 
-### P1
+- local=1, geographic=0 → `within_evidence_only`;
+- local=0, geographic=1 → `among_evidence_only`;
+- local=1, geographic=1 → `mixed_evidence`;
+- insufficient evidence → `unresolved`.
 
-- **543** records;
-- **209** GBIF-valid species;
-- automated navigation states: 109 among-only / **41 mixed** / 26 within-only / 33 unresolved;
-- **383** blind source rows;
-- historical species recovered through P1 candidate path: **22/34**;
-- exact historical source papers outside P1: **15/34**.
+The two mixed axes may come from different papers and different parts of the range.
 
-### P2/P3
+## Running now
 
-- **1,996** records;
-- **2,978** primary names checked;
-- **522** GBIF-valid species;
-- **1,196** blind source rows;
-- all **522 unresolved** under the old navigation signal system.
+Workflow: **`JBI v2.2 strict single-pass evidence audit`**.
 
-### P1–P3 union
+Input is the fixed 12,064-record canonical artifact. The workflow is currently generating:
 
-- **656** GBIF-valid candidate species;
-- **+447** species beyond P1;
-- automated states: **124 among-only / 41 mixed / 30 within-only / 461 unresolved**;
-- **1,625** blind source rows.
+- `v22_single_pass_source_evidence.csv`;
+- `v22_single_pass_species_states.csv`;
+- `v22_single_pass_gbif_cache.json`;
+- `v22_single_pass_summary.json`.
 
-The old mixed count does not increase because P2/P3 did not carry directional within/among flags. These are screening-path diagnostics, not biological results.
+The first run is being treated as a diagnostic freeze candidate, not yet as a manuscript result. After it completes, the immediate checks are:
 
-## Why the old result diverged
+1. number of high-confidence positive sources;
+2. within-only / among-only / mixed / unresolved species counts;
+3. historical-34 source taxon rescue = 34/34;
+4. conflict/unresolved burden;
+5. whether strict wording is so conservative that one state becomes too sparse for stable modelling.
 
-The mismatch is a stack of upstream filters:
+## Legacy diagnostics remain sensitivity only
 
-1. different discovery chains;
-2. generic morph language interpreted as local coexistence;
-3. narrower geographic-evidence vocabulary;
-4. mixed candidates removed before modelling;
-5. priority-dependent entry into candidate analysis;
-6. automatic taxon extraction missing relevant source papers.
+Previous P1/P2/P3 outputs remain useful for explaining the original discrepancy but do not define the replacement state:
 
-The replacement path removes all six as irreversible biological filters.
+- P1: 209 GBIF-valid species; automated 109 among / 41 mixed / 26 within / 33 unresolved;
+- P2/P3: 522 GBIF-valid species, all unresolved under the old directional flag system;
+- P1–P3 union: 656 candidate species.
 
-## Biological state to be adjudicated later
-
-For every eligible resolved species:
-
-- `local_coexistence_documented`: discrete natural floral-display colour variants documented within at least one same population;
-- `geographic_structure_documented`: colour or morph-frequency differentiation documented among geographic units.
-
-Aggregation:
-
-- local only → within-only evidence;
-- geographic only → among-only evidence;
-- both → mixed/multiscale evidence;
-- unresolved → not entered into primary state analysis until resolved.
-
-A zero means **not documented in reviewed evidence**, not biological absence.
-
-## Current blocker — exactly one external input
-
-The computational/search side has reached its honest stopping point. The next required input is:
-
-**two independently completed copies of the 384-record Wave 0 blind sheet.**
-
-After both are returned, the implemented pipeline can immediately:
-
-1. validate and merge reviewer files;
-2. calculate agreement and κ;
-3. apply the prespecified gate;
-4. generate disagreement adjudication material;
-5. if the gate passes, release B01–B13 sequentially;
-6. finalize record decisions and build the full-text queue;
-7. only after record adjudication, proceed to taxon resolution and source-level spatial evidence review.
-
-The same person or AI agent is **not** counted as two independent reviewers.
+These numbers are not the new biological result.
 
 ## Manuscript boundary
 
-Until the new record/source review and adjudication are complete:
+No historical manuscript conclusion, figure, DOCX, or frozen climatic dataset is overwritten yet.
 
-- historical 34-species results remain reproducible **historical/sensitivity** results;
-- current Main/SI statistical conclusions are not replacement canonical inference;
-- replacement figures/DOCX are not final;
-- mixed-preserving climatic models remain planned inference.
+After the strict single-pass freeze is built and QC passes, the next steps are:
+
+1. freeze the new source/species evidence tables with checksums;
+2. compute literature-effort/observation-process variables;
+3. recompute climatic metrics for the resolved replacement species set;
+4. fit two parallel positive-evidence models and, if estimable, a non-ordinal within/among/mixed model;
+5. rerun robustness checks, figures, Main/SI, references/data-source appendix, and DOCX;
+6. retain the historical 34-species binary model as a provenance-preserving sensitivity analysis.
