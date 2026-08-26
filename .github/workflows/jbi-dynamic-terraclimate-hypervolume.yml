@@ -10,6 +10,8 @@ on:
       - 'scripts/run_jbi_dynamic_climate_hypervolume.py'
       - 'scripts/literature/derive_v22_core_fcp_universe_v6.py'
       - 'docs/JBI_SPACE_TIME_HYPOTHESES.md'
+  pull_request:
+    types: [edited]
   workflow_dispatch:
 
 permissions:
@@ -30,6 +32,7 @@ env:
 
 jobs:
   dynamic-climate:
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.number == 17 && contains(github.event.pull_request.body, '[run-dynamic-terraclimate-v1]')) }}
     runs-on: ubuntu-22.04
     timeout-minutes: 360
     steps:
