@@ -8,6 +8,7 @@ on:
       - 'scripts/data/build_fixed_terraclimate_points.py'
       - 'scripts/data/extract_terraclimate_fixed_points.py'
       - 'scripts/run_jbi_dynamic_climate_hypervolume.py'
+      - 'scripts/data/probe_gift_trait_coverage.py'
       - 'scripts/literature/derive_v22_core_fcp_universe_v6.py'
       - 'docs/JBI_SPACE_TIME_HYPOTHESES.md'
   pull_request:
@@ -153,5 +154,63 @@ jobs:
             analysis_outputs/jbi_dynamic_terraclimate_v1/jbi_fixed_terraclimate_1958_2025.csv.gz
             analysis_outputs/jbi_dynamic_terraclimate_v1/jbi_fixed_terraclimate_1958_2025_qc.json
             analysis_outputs/jbi_dynamic_terraclimate_v1/results/
+          if-no-files-found: error
+          retention-days: 30
+
+  gift-coverage:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 17 && contains(github.event.pull_request.body, '[run-gift-traits-v1]') }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check pandas
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPANDED_ARTIFACT }}
+          path: expanded
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.EXPANDED_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+      - name: Derive focal-consistent v6 core
+        run: |
+          mkdir -p core
+          python scripts/literature/derive_v22_core_fcp_universe_v6.py \
+            --source-audit expanded/v22_full_fcp_source_audit.csv \
+            --record-screen record_screen/v22_record_screening_blind.csv \
+            --outdir core
+      - name: Audit hypothesis-driven GIFT trait coverage
+        run: |
+          mkdir -p analysis_outputs/jbi_gift_trait_coverage_v1
+          python scripts/data/probe_gift_trait_coverage.py \
+            --core-species core/v22_core_fcp_species_universe.csv \
+            --outdir analysis_outputs/jbi_gift_trait_coverage_v1
+      - name: Validate and print GIFT coverage
+        run: |
+          python - <<'PY'
+          import json,pandas as pd
+          root='analysis_outputs/jbi_gift_trait_coverage_v1'
+          q=json.load(open(root+'/gift_core_trait_coverage_qc.json'))
+          s=pd.read_csv(root+'/gift_core_trait_coverage_summary.csv')
+          d=pd.read_csv(root+'/gift_core_trait_coverage.csv')
+          assert q['status']=='complete' and q['gift_version']=='3.2'
+          assert len(d)==74 and len(s)==5
+          print(s.to_csv(index=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-gift-trait-coverage-v1
+          path: |
+            core/
+            analysis_outputs/jbi_gift_trait_coverage_v1/
           if-no-files-found: error
           retention-days: 30
