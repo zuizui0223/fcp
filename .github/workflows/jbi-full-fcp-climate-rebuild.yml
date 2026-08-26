@@ -1,0 +1,152 @@
+name: JBI full FCP universe climate and geography rebuild
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-full-fcp-climate-rebuild.yml'
+      - 'scripts/data/build_gbif_occurrence_sample_paginated.py'
+      - 'scripts/data/compute_climatic_niche_metrics.py'
+      - 'scripts/data/compute_geographic_extent_metrics.py'
+      - 'scripts/data/build_full_fcp_climate_analysis_dataset.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-full-fcp-climate-rebuild
+  cancel-in-progress: true
+
+env:
+  UNIVERSE_RUN_ID: '32930239671'
+  UNIVERSE_ARTIFACT: 'jbi-v22-full-fcp-universe'
+  OUTDIR: 'analysis_outputs/jbi_full_fcp_climate_rebuild'
+  WORLDCLIM_URL: 'https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip'
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check pandas numpy scipy scikit-learn rasterio
+
+      - name: Download independent all-species FCP universe
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.UNIVERSE_ARTIFACT }}
+          path: universe_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.UNIVERSE_RUN_ID }}
+
+      - name: Validate universe boundary
+        run: |
+          set -euo pipefail
+          test -s universe_input/v22_full_fcp_species_universe.csv
+          test -s universe_input/v22_full_fcp_universe_summary.json
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          s=json.loads(Path('universe_input/v22_full_fcp_universe_summary.json').read_text())
+          with Path('universe_input/v22_full_fcp_species_universe.csv').open(newline='',encoding='utf-8') as h:
+              rows=list(csv.DictReader(h))
+          assert len(rows)==s['FCP_species_universe'] and len(rows)>34
+          assert any(r['organization_state']=='organization_unresolved' for r in rows)
+          assert s['universe_definition'].startswith('Species enter because')
+          print({'species':len(rows),'states':s['species_state_counts']})
+          PY
+
+      - name: Rebuild paginated GBIF occurrence sample for entire universe
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR"
+          python scripts/data/build_gbif_occurrence_sample_paginated.py \
+            --species universe_input/v22_full_fcp_species_universe.csv \
+            --out "$OUTDIR/full_fcp_gbif_occurrences.csv" \
+            --qc-out "$OUTDIR/full_fcp_gbif_occurrence_qc.json" \
+            --taxon-audit-out "$OUTDIR/full_fcp_gbif_taxon_audit.csv" \
+            --max-records 3000 --page-size 300 --dedup-decimals 3 \
+            --max-coordinate-uncertainty-m 20000 --timeout 45 --retries 4 --delay 0.10
+
+      - name: Compute geographic extent covariates
+        run: |
+          python scripts/data/compute_geographic_extent_metrics.py \
+            --occurrences "$OUTDIR/full_fcp_gbif_occurrences.csv" \
+            --out "$OUTDIR/full_fcp_geographic_extent.csv" \
+            --qc-out "$OUTDIR/full_fcp_geographic_extent_qc.json"
+
+      - name: Download WorldClim 2.1 10 arc-minute BIO rasters
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR/worldclim"
+          curl -fL --retry 4 --retry-delay 3 "$WORLDCLIM_URL" -o "$OUTDIR/worldclim/wc2.1_10m_bio.zip"
+          unzip -q "$OUTDIR/worldclim/wc2.1_10m_bio.zip" -d "$OUTDIR/worldclim"
+          for b in 1 4 5 6 7 12 14 15 17; do test -s "$OUTDIR/worldclim/wc2.1_10m_bio_${b}.tif"; done
+          sha256sum "$OUTDIR/worldclim/wc2.1_10m_bio.zip" > "$OUTDIR/worldclim_archive_sha256.txt"
+
+      - name: Compute five occupied-climate metrics
+        run: |
+          python scripts/data/compute_climatic_niche_metrics.py \
+            --occurrences "$OUTDIR/full_fcp_gbif_occurrences.csv" \
+            --worldclim-dir "$OUTDIR/worldclim" \
+            --out "$OUTDIR/full_fcp_climate_metrics.csv" \
+            --qc-out "$OUTDIR/full_fcp_climate_metrics_qc.json" \
+            --cell-out "$OUTDIR/full_fcp_occupied_climate_cells.csv" \
+            --min-cells 20
+
+      - name: Build all-species analysis dataset
+        run: |
+          python scripts/data/build_full_fcp_climate_analysis_dataset.py \
+            --universe universe_input/v22_full_fcp_species_universe.csv \
+            --metrics "$OUTDIR/full_fcp_climate_metrics.csv" \
+            --geography "$OUTDIR/full_fcp_geographic_extent.csv" \
+            --out-full "$OUTDIR/full_fcp_climate_full_join.csv" \
+            --out-analysis "$OUTDIR/full_fcp_climate_analysis_dataset.csv" \
+            --summary-out "$OUTDIR/full_fcp_climate_rebuild_summary.json" \
+            --min-cells 20 --worldclim-resolution '10 arc-minute' --worldclim-url "$WORLDCLIM_URL"
+
+      - name: Validate no outcome-based post-selection
+        run: |
+          python - <<'PY'
+          import json,pandas as pd
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_full_fcp_climate_rebuild')
+          s=json.loads((root/'full_fcp_climate_rebuild_summary.json').read_text())
+          d=pd.read_csv(root/'full_fcp_climate_analysis_dataset.csv')
+          u=pd.read_csv('universe_input/v22_full_fcp_species_universe.csv')
+          assert s['universe_species']==len(u)>34
+          assert len(d)==s['analysis_species']
+          assert (d.n_climate_cells>=20).all()
+          assert d.geographic_radius_95_km.notna().all()
+          assert set(d.organization_state)<= {'local_coexistence_only','spatial_segregation_only','coexistence_and_segregation','organization_unresolved'}
+          # unresolved outcome rows must be retained whenever climate eligible
+          unresolved_eligible=set(u.loc[u.organization_state.eq('organization_unresolved'),'canonical_name']).intersection(set(d.canonical_name))
+          assert unresolved_eligible, 'Outcome-unresolved species were lost from climate analysis'
+          print(s)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-full-fcp-climate-rebuild
+          path: |
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_gbif_occurrences.csv
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_gbif_occurrence_qc.json
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_gbif_taxon_audit.csv
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_geographic_extent.csv
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_geographic_extent_qc.json
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_climate_metrics.csv
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_climate_metrics_qc.json
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_occupied_climate_cells.csv
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_climate_full_join.csv
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_climate_analysis_dataset.csv
+            analysis_outputs/jbi_full_fcp_climate_rebuild/full_fcp_climate_rebuild_summary.json
+            analysis_outputs/jbi_full_fcp_climate_rebuild/worldclim_archive_sha256.txt
+          if-no-files-found: error
+          retention-days: 30
