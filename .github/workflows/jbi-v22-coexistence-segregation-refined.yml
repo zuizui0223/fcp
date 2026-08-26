@@ -7,6 +7,7 @@ on:
       - '.github/workflows/jbi-v22-coexistence-segregation-refined.yml'
       - 'scripts/literature/build_v22_coexistence_segregation_refined.py'
       - 'scripts/literature/build_v22_coexistence_segregation_refined_v2.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v3.py'
       - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
       - 'docs/supporting/frozen_classification_manifest.csv'
   workflow_dispatch:
@@ -49,7 +50,7 @@ jobs:
           test -s record_screen_input/v22_record_screening_blind.csv
           test -s record_screen_input/v22_record_screening_coordinator_key.csv
           mkdir -p "$OUTDIR"
-          python scripts/literature/build_v22_coexistence_segregation_refined_v2.py \
+          python scripts/literature/build_v22_coexistence_segregation_refined_v3.py \
             --blind record_screen_input/v22_record_screening_blind.csv \
             --key record_screen_input/v22_record_screening_coordinator_key.csv \
             --historical-manifest docs/supporting/frozen_classification_manifest.csv \
