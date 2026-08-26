@@ -127,7 +127,9 @@ def main():
         for metric in METRICS:
             r=fit_documentation(d,metric); r.update({'scope':scope,'metric':metric}); doc_rows.append(r)
             m,b=fit_multinomial(d,metric,rng,a.family_bootstraps); m.update({'scope':scope,'metric':metric}); multi_rows.append(m)
-            for x in b: x.update({'scope':scope,'metric':metric}); boot_rows.extend(b)
+            for x in b:
+                x.update({'scope':scope,'metric':metric})
+            boot_rows.extend(b)
     pd.DataFrame(doc_rows).to_csv(out/'full_fcp_documentation_models.csv',index=False)
     pd.DataFrame(multi_rows).to_csv(out/'full_fcp_conditional_multinomial.csv',index=False)
     pd.DataFrame(boot_rows).to_csv(out/'full_fcp_conditional_multinomial_bootstrap.csv',index=False)
