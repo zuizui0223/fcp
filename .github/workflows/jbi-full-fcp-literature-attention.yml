@@ -1,0 +1,70 @@
+name: JBI full FCP literature attention
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-full-fcp-literature-attention.yml'
+      - 'scripts/build_cs_literature_attention.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  UNIVERSE_RUN_ID: '32930987729'
+  UNIVERSE_ARTIFACT: 'jbi-v22-full-fcp-universe'
+  RECORD_RUN_ID: '32835034885'
+  RECORD_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  OUTDIR: 'analysis_outputs/jbi_full_fcp_literature_attention'
+
+jobs:
+  attention:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check pandas
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.UNIVERSE_ARTIFACT }}
+          path: universe
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.UNIVERSE_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_ARTIFACT }}
+          path: records
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_RUN_ID }}
+      - name: Build outcome-independent attention covariate
+        run: |
+          mkdir -p "$OUTDIR"
+          python scripts/build_cs_literature_attention.py \
+            --dataset universe/v22_full_fcp_species_universe.csv \
+            --records records/v22_record_screening_blind.csv \
+            --out "$OUTDIR/full_fcp_literature_attention.csv" \
+            --qc-out "$OUTDIR/full_fcp_literature_attention_qc.json"
+      - name: Validate full-universe coverage
+        run: |
+          python - <<'PY'
+          import pandas as pd,json
+          d=pd.read_csv('analysis_outputs/jbi_full_fcp_literature_attention/full_fcp_literature_attention.csv')
+          q=json.load(open('analysis_outputs/jbi_full_fcp_literature_attention/full_fcp_literature_attention_qc.json'))
+          assert len(d)==78, len(d)
+          assert q['records_scanned']==12064
+          assert (d.n_v22_exact_name_records>=0).all()
+          print(q)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-full-fcp-literature-attention
+          path: analysis_outputs/jbi_full_fcp_literature_attention/
+          if-no-files-found: error
+          retention-days: 30
