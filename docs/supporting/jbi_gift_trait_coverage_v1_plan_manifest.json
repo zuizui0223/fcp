@@ -15,5 +15,14 @@
     "H6": "breeding system modifies effective gene flow and the persistence of local versus geographic colour variation",
     "H7": "dispersal ability modifies the effect of geographic fragmentation on spatial segregation",
     "H9": "flowering duration modifies exposure to temporal environmental heterogeneity and may favor local coexistence"
-  }
+  },
+  "execution_gate_history": [
+    {
+      "run_id": 32994158631,
+      "workflow": "JBI GIFT mechanism trait coverage sync",
+      "outcome": "action_required_before_job_creation",
+      "jobs_created": 0,
+      "diagnosis": "The synchronize event was emitted from a github-actions[bot]-authored head commit; no GIFT request or analysis step executed. This is an execution-provenance gate, not a scientific or model failure."
+    }
+  ]
 }
