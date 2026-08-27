@@ -1,5 +1,7 @@
 # FCP — spatial organization of intraspecific flower-colour variation
 
+This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. `fcp` asks how intraspecific colour diversity is maintained or sorted across space; the complementary [`chun`](https://github.com/zuizui0223/chun) project asks how similar flower-colour states are repeatedly generated through evolutionary time. See [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md).
+
 This repository supports a comparative Journal of Biogeography paper asking:
 
 > **Does occupied climatic niche differ according to whether intraspecific flower-colour variation occurs as local within-population coexistence or as geographic differentiation among populations?**
@@ -8,6 +10,7 @@ The active paper is a **frozen 34-species comparative analysis**. Historical mat
 
 ## Start here
 
+- **Programme position:** [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md)
 - **Manuscript:** [`docs/jbi_manuscript.md`](docs/jbi_manuscript.md)
 - **Pipeline and evidence reduction:** [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md)
 - **Figure plan:** [`docs/FIGURE_PLAN.md`](docs/FIGURE_PLAN.md)
