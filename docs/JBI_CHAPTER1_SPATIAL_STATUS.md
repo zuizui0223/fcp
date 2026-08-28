@@ -28,7 +28,11 @@ The previous C/S-to-climate comparison is retained as secondary/provenance conte
 - split assignment basis: species + stable photo ID only;
 - row-order/geography/observer/date invariance: tested;
 - post-outcome source manifests: rejected for recognized colour/visibility/segmentation fields;
-- source/split/freeze-manifest all-or-none CI contract: implemented.
+- source/split/freeze-manifest all-or-none CI contract: implemented;
+- interrupted-worktree recovery scanner: implemented;
+- recovery scanner accepts only an exact 6 x 200 pre-measurement manifest with globally unique photo IDs;
+- equivalent duplicate copies are tolerated when their species/photo-ID hash is identical;
+- conflicting eligible ID sets fail closed instead of choosing one silently.
 
 ## Empirical state
 
@@ -44,13 +48,34 @@ The previous C/S-to-climate comparison is retained as secondary/provenance conte
 
 ## Current blocking input
 
-The acquired 1,200-photo source manifest is not present in the remote repository. The repository therefore cannot yet materialize the exact 480/720 photograph IDs.
+The acquired 1,200-photo source manifest is not present in the remote repository or in the available GitHub Actions artifacts inspected for PR #17. The current execution environment also does not mount the original Windows worktree at `C:/Users/zuizui/.codex/worktrees/fcp-spacetime-recovery`.
 
-Canonical import target:
+The canonical import target remains:
 
 `data/frozen/jbi_ch1_photo_source_manifest.csv`
 
-Once that single file is present, the implemented command deterministically materializes:
+The local worktree no longer requires the original filename to be known. From the root of `fcp-spacetime-recovery`, run:
+
+```bash
+python scripts/data/recover_jbi_ch1_photo_source_manifest.py --root .
+```
+
+The scanner recursively inspects CSV/TSV acquisition tables and writes the canonical source only when the candidate is unambiguous under the frozen contract. It also writes:
+
+`docs/supporting/jbi_ch1_photo_source_recovery_report.json`
+
+The report records every inspected table, rejection reason, eligible candidate, canonical species/photo-ID hash, and any equivalent duplicate paths.
+
+After source recovery, materialize the frozen split with:
+
+```bash
+python scripts/data/freeze_jbi_ch1_photo_split.py \
+  data/frozen/jbi_ch1_photo_source_manifest.csv \
+  data/frozen/jbi_ch1_photo_split_v1.csv \
+  data/frozen/jbi_ch1_photo_split_v1_manifest.json
+```
+
+This deterministically materializes:
 
 - `data/frozen/jbi_ch1_photo_split_v1.csv`;
 - `data/frozen/jbi_ch1_photo_split_v1_manifest.json`.
