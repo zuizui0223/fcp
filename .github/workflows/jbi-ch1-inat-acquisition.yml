@@ -9,6 +9,7 @@ on:
       - ".github/workflows/jbi-ch1-inat-acquisition.yml"
       - "docs/supporting/jbi_ch1_inat_acquisition_v1.json"
       - "scripts/data/acquire_jbi_ch1_inat_photos.py"
+      - "scripts/data/acquire_jbi_ch1_inat_photos_v2.py"
       - "scripts/data/freeze_jbi_ch1_photo_split.py"
       - "scripts/data/build_jbi_ch1_calibration_package.py"
       - "fcp_pipeline/photo_split.py"
@@ -61,16 +62,16 @@ jobs:
         run: |
           set -euo pipefail
           ok=0
-          for attempt in 1 2 3; do
-            echo "Acquisition attempt $attempt/3"
-            if python scripts/data/acquire_jbi_ch1_inat_photos.py; then
+          for attempt in 1 2; do
+            echo "Acquisition attempt $attempt/2"
+            if python scripts/data/acquire_jbi_ch1_inat_photos_v2.py; then
               ok=1
               break
             fi
-            sleep $((attempt * 20))
+            sleep $((attempt * 15))
           done
           if [[ "$ok" -ne 1 ]]; then
-            echo "iNaturalist acquisition failed after three attempts" >&2
+            echo "iNaturalist acquisition failed after two attempts" >&2
             exit 1
           fi
 
