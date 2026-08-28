@@ -1,0 +1,54 @@
+{
+  "protocol": "jbi-ch1-inat-acquisition-v1",
+  "purpose": "GitHub Actions reacquisition of the interrupted 6 x 200 Chapter 1 development photograph sample",
+  "target_selection": {
+    "basis": "top six species in data/global_flower_colour_species_ranked.csv on repository main commit 289f87e3b1aad1043cf4ab607339fc698f4efcf4",
+    "note": "The original unpushed Windows acquisition manifest is unavailable remotely; this version uses the repository-visible deterministic target rule rather than claiming recovery of lost historical photo IDs.",
+    "species": [
+      "Ipomoea purpurea",
+      "Raphanus sativus",
+      "Gentiana lutea",
+      "Dactylorhiza sambucina",
+      "Antirrhinum majus",
+      "Lysimachia arvensis"
+    ]
+  },
+  "inat_api": {
+    "base_url": "https://api.inaturalist.org/v1",
+    "quality_grade": "research",
+    "photos": true,
+    "geo": true,
+    "captive": false,
+    "created_d2": "2026-08-28T23:59:59Z",
+    "per_page": 200,
+    "maximum_candidates_per_species": 3000,
+    "one_photo_per_observation": true,
+    "maximum_positional_accuracy_m": 20000,
+    "request_pause_seconds": 1.0
+  },
+  "selection": {
+    "target_photographs_per_species": 200,
+    "stable_hash_salt": "fcp-jbi-ch1-inat-acquisition-v1",
+    "spatial_cell_degrees": 1.0,
+    "hard_caps": {
+      "maximum_per_observer": 20,
+      "maximum_per_spatial_cell": 50,
+      "maximum_per_calendar_month": 100
+    },
+    "qc_gates": {
+      "minimum_unique_observers": 10,
+      "minimum_unique_spatial_cells": 3,
+      "minimum_unique_calendar_months": 2,
+      "maximum_observer_fraction": 0.25
+    }
+  },
+  "outputs": {
+    "source_manifest": "data/frozen/jbi_ch1_photo_source_manifest.csv",
+    "acquisition_qc": "docs/supporting/jbi_ch1_inat_acquisition_qc_v1.json",
+    "split_csv": "data/frozen/jbi_ch1_photo_split_v1.csv",
+    "split_manifest": "data/frozen/jbi_ch1_photo_split_v1_manifest.json",
+    "calibration_review": "data/calibration/jbi_ch1_calibration_review_v1.csv",
+    "calibration_codebook": "data/calibration/jbi_ch1_species_colour_codebook_v1.json",
+    "calibration_manifest": "data/calibration/jbi_ch1_calibration_package_manifest_v1.json"
+  }
+}
