@@ -3,17 +3,25 @@
 
 from __future__ import annotations
 
+import importlib.util
 import json
 from pathlib import Path
 import sys
 
-import scripts.data.acquire_jbi_ch1_inat_photos as core
+
+CORE_PATH = Path(__file__).with_name("acquire_jbi_ch1_inat_photos.py")
+_spec = importlib.util.spec_from_file_location("jbi_ch1_inat_core", CORE_PATH)
+if _spec is None or _spec.loader is None:
+    raise RuntimeError(f"could not load acquisition core from {CORE_PATH}")
+core = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(core)
 
 
 def config_path_from_argv() -> Path:
-    for index, arg in enumerate(sys.argv[1:], start=1):
-        if arg == "--config" and index + 1 < len(sys.argv):
-            return Path(sys.argv[index + 1])
+    args = sys.argv[1:]
+    for index, arg in enumerate(args):
+        if arg == "--config" and index + 1 < len(args):
+            return Path(args[index + 1])
         if arg.startswith("--config="):
             return Path(arg.split("=", 1)[1])
     return Path("docs/supporting/jbi_ch1_inat_acquisition_v1.json")
@@ -32,7 +40,8 @@ def exact_taxon_with_override(base_url: str, name: str, *, pause: float):
         if missing:
             raise RuntimeError(f"taxon override for {name!r} missing {sorted(missing)}")
         print(
-            f"Taxon override: {name} -> {override['name']} (iNat {override['id']}, {override['rank']})",
+            f"Taxon override: {name} -> {override['name']} "
+            f"(iNat {override['id']}, {override['rank']})",
             flush=True,
         )
         return {
