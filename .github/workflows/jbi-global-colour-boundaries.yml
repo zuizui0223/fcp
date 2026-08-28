@@ -4,18 +4,32 @@ on:
   pull_request:
     paths:
       - "fcp_pipeline/spatial_boundaries.py"
+      - "fcp_pipeline/photo_split.py"
+      - "scripts/data/freeze_jbi_ch1_photo_split.py"
       - "tests/test_spatial_boundaries.py"
+      - "tests/test_photo_split.py"
       - "docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md"
       - "docs/JBI_INATURALIST_PHOTO_FEASIBILITY.md"
+      - "docs/supporting/jbi_ch1_photo_split_spec_v1.json"
+      - "data/frozen/jbi_ch1_photo_source_manifest.csv"
+      - "data/frozen/jbi_ch1_photo_split_v1.csv"
+      - "data/frozen/jbi_ch1_photo_split_v1_manifest.json"
       - ".github/workflows/jbi-global-colour-boundaries.yml"
   push:
     branches:
       - analysis/jbi-global-colour-boundaries
     paths:
       - "fcp_pipeline/spatial_boundaries.py"
+      - "fcp_pipeline/photo_split.py"
+      - "scripts/data/freeze_jbi_ch1_photo_split.py"
       - "tests/test_spatial_boundaries.py"
+      - "tests/test_photo_split.py"
       - "docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md"
       - "docs/JBI_INATURALIST_PHOTO_FEASIBILITY.md"
+      - "docs/supporting/jbi_ch1_photo_split_spec_v1.json"
+      - "data/frozen/jbi_ch1_photo_source_manifest.csv"
+      - "data/frozen/jbi_ch1_photo_split_v1.csv"
+      - "data/frozen/jbi_ch1_photo_split_v1_manifest.json"
       - ".github/workflows/jbi-global-colour-boundaries.yml"
 
 jobs:
@@ -31,5 +45,69 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e . pytest
-      - name: Run shared-boundary core tests
-        run: python -m pytest -q tests/test_spatial_boundaries.py
+      - name: Run shared-boundary and photo-freeze tests
+        run: |
+          python -m pytest -q \
+            tests/test_spatial_boundaries.py \
+            tests/test_photo_split.py
+      - name: Validate committed photo freeze when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE=data/frozen/jbi_ch1_photo_source_manifest.csv
+          SPLIT=data/frozen/jbi_ch1_photo_split_v1.csv
+          MANIFEST=data/frozen/jbi_ch1_photo_split_v1_manifest.json
+          present=0
+          for f in "$SOURCE" "$SPLIT" "$MANIFEST"; do
+            if [[ -f "$f" ]]; then present=$((present + 1)); fi
+          done
+          if [[ "$present" -eq 0 ]]; then
+            echo "Photo acquisition manifest not yet committed; core freeze tests only."
+            exit 0
+          fi
+          if [[ "$present" -ne 3 ]]; then
+            echo "Partial photo freeze detected: source, split, and manifest must be committed together." >&2
+            exit 1
+          fi
+          tmp_split=$(mktemp)
+          tmp_manifest=$(mktemp)
+          python scripts/data/freeze_jbi_ch1_photo_split.py \
+            "$SOURCE" "$tmp_split" "$tmp_manifest"
+          python - "$SPLIT" "$MANIFEST" "$tmp_split" "$tmp_manifest" <<'PY'
+          import hashlib
+          import json
+          import sys
+          from pathlib import Path
+
+          committed_split, committed_manifest, rebuilt_split, rebuilt_manifest = map(Path, sys.argv[1:])
+          def sha(path):
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          if sha(committed_split) != sha(rebuilt_split):
+              raise SystemExit("committed split does not reproduce from frozen source manifest")
+          committed = json.loads(committed_manifest.read_text(encoding="utf-8"))
+          rebuilt = json.loads(rebuilt_manifest.read_text(encoding="utf-8"))
+          stable_keys = {
+              "protocol",
+              "source_raw_sha256",
+              "source_species_photo_id_sha256",
+              "assignment_sha256",
+              "output_csv_sha256",
+              "species_column",
+              "photo_id_column",
+              "split_basis",
+              "salt",
+              "expected_species",
+              "photographs_per_species",
+              "calibration_per_species",
+              "evaluation_per_species",
+              "total_rows",
+              "per_species_split_counts",
+              "outcome_blind",
+              "evaluation_opened_for_rule_tuning",
+          }
+          for key in stable_keys:
+              if committed.get(key) != rebuilt.get(key):
+                  raise SystemExit(f"photo freeze manifest mismatch for {key}")
+          print("Committed 480/720 photo freeze reproduces exactly.")
+          PY
