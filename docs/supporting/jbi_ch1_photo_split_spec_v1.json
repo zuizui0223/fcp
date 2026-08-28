@@ -1,0 +1,75 @@
+{
+  "status": "awaiting_source_manifest",
+  "protocol": "jbi-ch1-photo-split-v1",
+  "source_manifest_expected_path": "data/frozen/jbi_ch1_photo_source_manifest.csv",
+  "frozen_split_expected_path": "data/frozen/jbi_ch1_photo_split_v1.csv",
+  "freeze_manifest_expected_path": "data/frozen/jbi_ch1_photo_split_v1_manifest.json",
+  "development_design": {
+    "expected_species": 6,
+    "photographs_per_species": 200,
+    "total_photographs": 1200,
+    "calibration_per_species": 80,
+    "calibration_total": 480,
+    "evaluation_per_species": 120,
+    "evaluation_total": 720
+  },
+  "assignment_rule": {
+    "method": "sort SHA256(salt, species, photo_id) within species",
+    "salt": "fcp-jbi-ch1-photo-split-v1",
+    "calibration_rule": "first 80 hashes within each species",
+    "evaluation_rule": "remaining 120 hashes within each species",
+    "metadata_used_for_assignment": [
+      "species",
+      "photo_id"
+    ],
+    "metadata_explicitly_not_used_for_assignment": [
+      "flower colour",
+      "flower visibility",
+      "segmentation result",
+      "geographic coordinates",
+      "observer",
+      "observation date",
+      "environmental layers",
+      "boundary results"
+    ]
+  },
+  "source_manifest_contract": {
+    "required_semantics": [
+      "species identity",
+      "globally unique stable photograph identifier"
+    ],
+    "species_column_auto_candidates": [
+      "species",
+      "taxon_name",
+      "scientific_name",
+      "accepted_species"
+    ],
+    "photo_id_column_auto_candidates": [
+      "photo_id",
+      "image_id",
+      "media_id"
+    ],
+    "forbidden_pre_split_outcomes": [
+      "flower_colour",
+      "flower_color",
+      "flower_colour_state",
+      "flower_color_state",
+      "colour_state",
+      "color_state",
+      "visibility",
+      "flower_visibility",
+      "segmentation",
+      "segmentation_status",
+      "evaluable",
+      "not_evaluable",
+      "unresolved"
+    ]
+  },
+  "current_empirical_state": {
+    "acquired_photographs": 1200,
+    "flower_colour_classifications": 0,
+    "split_materialized_in_repository": false,
+    "random_vs_nonrandom_colour_placement": "not_evaluated",
+    "shared_boundaries": "not_evaluated"
+  }
+}
