@@ -71,8 +71,6 @@ jobs:
               raise SystemExit('could not load vision pilot runner')
           mod = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(mod)
-          # Model availability is account/token dependent. `auto` is the CLI-supported
-          # way to select among models actually available to this Actions identity.
           mod.MODEL = 'auto'
           sys.argv = [str(path),
               '--pilot-manifest', 'artifacts/jbi_ch1_vision_pilot_v1/pilot_manifest.csv',
@@ -107,7 +105,7 @@ jobs:
             data/calibration/jbi_ch1_vision_pilot_v1.jsonl
             docs/supporting/jbi_ch1_vision_pilot_manifest_v1.json
 
-      - name: Commit pilot results only
+      - name: Commit pilot results on latest branch head
         shell: bash
         run: |
           set -euo pipefail
@@ -116,4 +114,6 @@ jobs:
           git add data/calibration/jbi_ch1_vision_pilot_v1.jsonl docs/supporting/jbi_ch1_vision_pilot_manifest_v1.json
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Record six-image calibration vision pilot [skip-vision-pilot]"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
           git push origin HEAD:analysis/jbi-global-colour-boundaries
