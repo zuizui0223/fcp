@@ -1,0 +1,20 @@
+{
+  "calibration_only": true,
+  "evaluation_rows_opened": false,
+  "model": "auto",
+  "n_images": 6,
+  "output_jsonl": "data/calibration/jbi_ch1_vision_pilot_v1.jsonl",
+  "pilot_only": true,
+  "protocol": "jbi-ch1-vision-pilot-v1",
+  "results": [
+    {"apparent_petals_colour_terms":["pink","magenta","hot-pink"],"blind_id":"0176537d5144f894","colour_pattern":"approximately_uniform","confidence":0.92,"flower_region":"multiple_flowers_clear","flower_visibility":"evaluable","model":"auto","notes":"Multiple pink snapdragons, good lighting, clear petal visibility","pilot_only":true,"primary_petals_visible":true,"protocol":"jbi-ch1-vision-pilot-v1","segmentation_feasibility":"feasible","species":"Antirrhinum majus","target_flower_bbox_pct":[33,12,57,50],"used_for_final_calibration_rule":false,"visibility_failure_code":""},
+    {"apparent_petals_colour_terms":["pale yellow","cream","brown spots"],"blind_id":"023f910bff4aa8c6","colour_pattern":"multi_colour_pattern","confidence":0.87,"flower_region":"multiple_flowers_clear","flower_visibility":"evaluable","model":"auto","notes":"Single inflorescence, multiple florets clearly visible. Pale-yellow petals with brown spotted markings.","pilot_only":true,"primary_petals_visible":true,"protocol":"jbi-ch1-vision-pilot-v1","segmentation_feasibility":"feasible","species":"Dactylorhiza sambucina","target_flower_bbox_pct":[32,22,68,58],"used_for_final_calibration_rule":false,"visibility_failure_code":""},
+    {"apparent_petals_colour_terms":["golden-yellow","tan","ochre"],"blind_id":"00b0caa6aa902f40","colour_pattern":"approximately_uniform","confidence":0.8,"flower_region":"multiple_flowers_clear","flower_visibility":"evaluable","model":"auto","notes":"Three flowers visible; senescent/dried state; golden-tan coloration uniform.","pilot_only":true,"primary_petals_visible":true,"protocol":"jbi-ch1-vision-pilot-v1","segmentation_feasibility":"feasible","species":"Gentiana lutea","target_flower_bbox_pct":[20,5,65,45],"used_for_final_calibration_rule":false,"visibility_failure_code":""},
+    {"apparent_petals_colour_terms":["violet","purple","magenta","pink"],"blind_id":"02db3a10e0f396cf","colour_pattern":"multi_colour_pattern","confidence":0.95,"flower_region":"single_target_clear","flower_visibility":"evaluable","model":"auto","notes":"Deep violet petals with prominent magenta-pink radiating star pattern from pale center","pilot_only":true,"primary_petals_visible":true,"protocol":"jbi-ch1-vision-pilot-v1","segmentation_feasibility":"feasible","species":"Ipomoea purpurea","target_flower_bbox_pct":[15,10,90,90],"used_for_final_calibration_rule":false,"visibility_failure_code":""},
+    {"apparent_petals_colour_terms":["orange","reddish-orange"],"blind_id":"0741878b1083634e","colour_pattern":"approximately_uniform","confidence":0.85,"flower_region":"multiple_flowers_clear","flower_visibility":"evaluable","model":"auto","notes":"Multiple small orange flowers with dark centers; petals uniformly orange.","pilot_only":true,"primary_petals_visible":true,"protocol":"jbi-ch1-vision-pilot-v1","segmentation_feasibility":"feasible","species":"Lysimachia arvensis","target_flower_bbox_pct":[42,38,54,56],"used_for_final_calibration_rule":false,"visibility_failure_code":""},
+    {"apparent_petals_colour_terms":["pink","pale purple","white"],"blind_id":"005afd4f58b202db","colour_pattern":"multi_colour_pattern","confidence":0.7,"flower_region":"multiple_flowers_clear","flower_visibility":"evaluable","model":"auto","notes":"Multiple clear flowers; pale pink to pale purple petals with white areas; grasses nearby.","pilot_only":true,"primary_petals_visible":true,"protocol":"jbi-ch1-vision-pilot-v1","segmentation_feasibility":"feasible","species":"Raphanus sativus","target_flower_bbox_pct":[30,8,66,86],"used_for_final_calibration_rule":false,"visibility_failure_code":""}
+  ],
+  "species_count": 6,
+  "status": "pass",
+  "used_for_final_calibration_rule": false
+}
