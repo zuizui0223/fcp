@@ -1,0 +1,216 @@
+name: JBI dynamic TerraClimate space-time hypervolume
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-dynamic-terraclimate-hypervolume.yml'
+      - 'scripts/data/build_fixed_terraclimate_points.py'
+      - 'scripts/data/extract_terraclimate_fixed_points.py'
+      - 'scripts/run_jbi_dynamic_climate_hypervolume.py'
+      - 'scripts/data/probe_gift_trait_coverage.py'
+      - 'scripts/literature/derive_v22_core_fcp_universe_v6.py'
+      - 'docs/JBI_SPACE_TIME_HYPOTHESES.md'
+  pull_request:
+    types: [edited]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  CLIMATE_RUN_ID: '32932477834'
+  CLIMATE_ARTIFACT: 'jbi-full-fcp-climate-rebuild'
+  EXPANDED_RUN_ID: '32930987729'
+  EXPANDED_ARTIFACT: 'jbi-v22-full-fcp-universe'
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  ATTENTION_RUN_ID: '32932116967'
+  ATTENTION_ARTIFACT: 'jbi-full-fcp-literature-attention'
+  OUTDIR: 'analysis_outputs/jbi_dynamic_terraclimate_v1'
+  FIXED_POINT_KEY_SHA256: 'f538d563a667f16b7707060ce53962c7e37c7f6b70cd6d8ecc94aca6a267c279'
+
+jobs:
+  dynamic-climate:
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.number == 17 && contains(github.event.pull_request.body, '[run-dynamic-terraclimate-v1]')) }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn statsmodels requests
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CLIMATE_ARTIFACT }}
+          path: climate
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CLIMATE_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPANDED_ARTIFACT }}
+          path: expanded
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.EXPANDED_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ATTENTION_ARTIFACT }}
+          path: attention
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.ATTENTION_RUN_ID }}
+
+      - name: Derive focal-consistent v6 core
+        run: |
+          mkdir -p core
+          python scripts/literature/derive_v22_core_fcp_universe_v6.py \
+            --source-audit expanded/v22_full_fcp_source_audit.csv \
+            --record-screen record_screen/v22_record_screening_blind.csv \
+            --outdir core
+          python - <<'PY'
+          import json,pandas as pd
+          d=pd.read_csv('core/v22_core_fcp_species_universe.csv'); s=json.load(open('core/v22_core_fcp_universe_summary.json'))
+          assert len(d)==74 and s['core_protocol_version']=='display-core-v6-focal-consistent'
+          assert s['organization_unresolved_species']==42
+          PY
+
+      - name: Freeze 20 geographically balanced fixed points per climate-eligible core species
+        run: |
+          mkdir -p "$OUTDIR"
+          python scripts/data/build_fixed_terraclimate_points.py \
+            --occurrences climate/full_fcp_gbif_occurrences.csv \
+            --core-species core/v22_core_fcp_species_universe.csv \
+            --analysis climate/full_fcp_climate_analysis_dataset.csv \
+            --out "$OUTDIR/jbi_fixed_spatial_points_v1.csv" \
+            --qc-out "$OUTDIR/jbi_fixed_spatial_points_v1_qc.json" \
+            --species-qc-out "$OUTDIR/jbi_fixed_spatial_points_v1_species_qc.csv" \
+            --points-per-species 20 --radial-quantile 0.95
+          python - <<'PY'
+          import hashlib,pandas as pd,os
+          p=pd.read_csv(os.environ['OUTDIR']+'/jbi_fixed_spatial_points_v1.csv')
+          assert len(p)==1320 and p.canonical_name.nunique()==66 and p.groupby('canonical_name').size().eq(20).all()
+          key='\n'.join(f'{r.canonical_name}\t{int(r.selection_rank)}\t{int(r.tc_lat_idx)}\t{int(r.tc_lon_idx)}' for r in p.itertuples(index=False))+'\n'
+          h=hashlib.sha256(key.encode()).hexdigest(); print({'fixed_point_key_sha256':h})
+          assert h==os.environ['FIXED_POINT_KEY_SHA256'], (h,os.environ['FIXED_POINT_KEY_SHA256'])
+          PY
+
+      - name: Extract 1958-2025 monthly TerraClimate histories at the fixed locations
+        run: |
+          mkdir -p "$RUNNER_TEMP/terraclimate-cache"
+          python scripts/data/extract_terraclimate_fixed_points.py \
+            --points "$OUTDIR/jbi_fixed_spatial_points_v1.csv" \
+            --out "$OUTDIR/jbi_fixed_terraclimate_1958_2025.csv.gz" \
+            --qc-out "$OUTDIR/jbi_fixed_terraclimate_1958_2025_qc.json" \
+            --cache-dir "$RUNNER_TEMP/terraclimate-cache" \
+            --start-year 1958 --end-year 2025 \
+            --variables tmin tmax ppt def vpd --workers 12 --timeout 120 --retries 4
+
+      - name: Run prospective dynamic climate geometry tests
+        run: |
+          python scripts/run_jbi_dynamic_climate_hypervolume.py \
+            --timeseries "$OUTDIR/jbi_fixed_terraclimate_1958_2025.csv.gz" \
+            --core-species core/v22_core_fcp_species_universe.csv \
+            --analysis climate/full_fcp_climate_analysis_dataset.csv \
+            --attention attention/full_fcp_literature_attention.csv \
+            --outdir "$OUTDIR/results" \
+            --baseline-start 1991 --baseline-end 2020 --min-points 18 \
+            --family-bootstraps 499 --seed 20260827
+
+      - name: Validate dynamic analysis boundary
+        run: |
+          python - <<'PY'
+          import json,os,pandas as pd
+          root=os.environ['OUTDIR']
+          q=json.load(open(root+'/jbi_fixed_terraclimate_1958_2025_qc.json'))
+          m=pd.read_csv(root+'/results/jbi_dynamic_climate_models.csv')
+          s=pd.read_csv(root+'/results/jbi_dynamic_climate_species_metrics.csv')
+          assert q['status']=='complete' and q['fixed_points']==1320 and q['start_year']==1958 and q['end_year']==2025
+          assert q['min_months_per_point']>=800
+          assert len(s)==66
+          assert len(m)==7 and set(m.status)=={'complete'} and set(m.n_species)=={32}
+          assert (m.family_bootstraps_valid>0).all()
+          print(m.to_csv(index=False))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-dynamic-terraclimate-hypervolume-v1
+          path: |
+            analysis_outputs/jbi_dynamic_terraclimate_v1/jbi_fixed_spatial_points_v1.csv
+            analysis_outputs/jbi_dynamic_terraclimate_v1/jbi_fixed_spatial_points_v1_qc.json
+            analysis_outputs/jbi_dynamic_terraclimate_v1/jbi_fixed_spatial_points_v1_species_qc.csv
+            analysis_outputs/jbi_dynamic_terraclimate_v1/jbi_fixed_terraclimate_1958_2025.csv.gz
+            analysis_outputs/jbi_dynamic_terraclimate_v1/jbi_fixed_terraclimate_1958_2025_qc.json
+            analysis_outputs/jbi_dynamic_terraclimate_v1/results/
+          if-no-files-found: error
+          retention-days: 30
+
+  gift-coverage:
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.number == 17 && contains(github.event.pull_request.body, '[run-gift-traits-v1]') }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check pandas
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPANDED_ARTIFACT }}
+          path: expanded
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.EXPANDED_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+      - name: Derive focal-consistent v6 core
+        run: |
+          mkdir -p core
+          python scripts/literature/derive_v22_core_fcp_universe_v6.py \
+            --source-audit expanded/v22_full_fcp_source_audit.csv \
+            --record-screen record_screen/v22_record_screening_blind.csv \
+            --outdir core
+      - name: Audit hypothesis-driven GIFT trait coverage
+        run: |
+          mkdir -p analysis_outputs/jbi_gift_trait_coverage_v1
+          python scripts/data/probe_gift_trait_coverage.py \
+            --core-species core/v22_core_fcp_species_universe.csv \
+            --outdir analysis_outputs/jbi_gift_trait_coverage_v1
+      - name: Validate and print GIFT coverage
+        run: |
+          python - <<'PY'
+          import json,pandas as pd
+          root='analysis_outputs/jbi_gift_trait_coverage_v1'
+          q=json.load(open(root+'/gift_core_trait_coverage_qc.json'))
+          s=pd.read_csv(root+'/gift_core_trait_coverage_summary.csv')
+          d=pd.read_csv(root+'/gift_core_trait_coverage.csv')
+          assert q['status']=='complete' and q['gift_version']=='3.2'
+          assert len(d)==74 and len(s)==5
+          print(s.to_csv(index=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-gift-trait-coverage-v1
+          path: |
+            core/
+            analysis_outputs/jbi_gift_trait_coverage_v1/
+          if-no-files-found: error
+          retention-days: 30

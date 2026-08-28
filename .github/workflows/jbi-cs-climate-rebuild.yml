@@ -1,0 +1,158 @@
+name: JBI C/S occurrence and climate rebuild
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-cs-climate-rebuild.yml'
+      - 'data/frozen/frozen_34species_coexistence_segregation_v22.csv'
+      - 'data/frozen/frozen_34species_coexistence_segregation_v22_manifest.json'
+      - 'scripts/data/build_gbif_occurrence_sample_paginated.py'
+      - 'scripts/data/compute_climatic_niche_metrics.py'
+      - 'scripts/data/build_cs_climate_analysis_dataset.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jbi-cs-climate-rebuild
+  cancel-in-progress: true
+
+env:
+  EVIDENCE: data/frozen/frozen_34species_coexistence_segregation_v22.csv
+  OUTDIR: analysis_outputs/jbi_cs_climate_rebuild
+  WORLDCLIM_URL: https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+
+jobs:
+  rebuild-climate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install climate dependencies
+        run: |
+          python -m pip install --disable-pip-version-check \
+            pandas numpy scipy scikit-learn rasterio
+
+      - name: Validate fixed C/S evidence input
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR"
+          python - <<'PY'
+          import csv, json, hashlib
+          from pathlib import Path
+          p=Path('data/frozen/frozen_34species_coexistence_segregation_v22.csv')
+          rows=list(csv.DictReader(p.open(newline='',encoding='utf-8')))
+          assert len(rows)==34, len(rows)
+          counts={s:sum(r['organization_state']==s for r in rows) for s in {
+              'local_coexistence_only','spatial_segregation_only','coexistence_and_segregation'}}
+          assert counts=={
+              'local_coexistence_only':11,
+              'spatial_segregation_only':8,
+              'coexistence_and_segregation':15,
+          }, counts
+          h=hashlib.sha256(p.read_bytes()).hexdigest()
+          manifest=json.loads(Path('data/frozen/frozen_34species_coexistence_segregation_v22_manifest.json').read_text())
+          assert manifest['freeze_species']==34
+          assert manifest['freeze_csv_sha256']==h, (manifest['freeze_csv_sha256'],h)
+          print({'species':len(rows),'states':counts,'sha256':h})
+          PY
+
+      - name: Rebuild paginated GBIF occurrence sample
+        run: |
+          set -euo pipefail
+          python scripts/data/build_gbif_occurrence_sample_paginated.py \
+            --species "$EVIDENCE" \
+            --out "$OUTDIR/jbi_cs_gbif_occurrences.csv" \
+            --qc-out "$OUTDIR/jbi_cs_gbif_occurrence_qc.json" \
+            --taxon-audit-out "$OUTDIR/jbi_cs_gbif_taxon_audit.csv" \
+            --max-records 3000 \
+            --page-size 300 \
+            --dedup-decimals 3 \
+            --max-coordinate-uncertainty-m 20000 \
+            --timeout 45 \
+            --retries 4 \
+            --delay 0.10
+
+      - name: Download WorldClim 2.1 10 arc-minute BIO rasters
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR/worldclim"
+          curl -fL --retry 4 --retry-delay 3 \
+            "$WORLDCLIM_URL" -o "$OUTDIR/worldclim/wc2.1_10m_bio.zip"
+          unzip -q "$OUTDIR/worldclim/wc2.1_10m_bio.zip" -d "$OUTDIR/worldclim"
+          for b in 1 4 5 6 7 12 14 15 17; do
+            test -s "$OUTDIR/worldclim/wc2.1_10m_bio_${b}.tif"
+          done
+          sha256sum "$OUTDIR/worldclim/wc2.1_10m_bio.zip" > "$OUTDIR/worldclim_archive_sha256.txt"
+
+      - name: Compute five occupied-climate metrics
+        run: |
+          set -euo pipefail
+          python scripts/data/compute_climatic_niche_metrics.py \
+            --occurrences "$OUTDIR/jbi_cs_gbif_occurrences.csv" \
+            --worldclim-dir "$OUTDIR/worldclim" \
+            --out "$OUTDIR/jbi_cs_climate_metrics.csv" \
+            --qc-out "$OUTDIR/jbi_cs_climate_metrics_qc.json" \
+            --cell-out "$OUTDIR/jbi_cs_occupied_climate_cells.csv" \
+            --min-cells 20
+
+      - name: Build primary C/S climate analysis dataset
+        run: |
+          set -euo pipefail
+          python scripts/data/build_cs_climate_analysis_dataset.py \
+            --evidence-freeze "$EVIDENCE" \
+            --metrics "$OUTDIR/jbi_cs_climate_metrics.csv" \
+            --out-full "$OUTDIR/jbi_cs_climate_full_join.csv" \
+            --out-analysis "$OUTDIR/jbi_cs_climate_analysis_dataset.csv" \
+            --summary-out "$OUTDIR/jbi_cs_climate_rebuild_summary.json" \
+            --min-cells 20 \
+            --worldclim-resolution '10 arc-minute' \
+            --worldclim-url "$WORLDCLIM_URL"
+
+      - name: Validate rebuild boundary
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, pandas as pd
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_cs_climate_rebuild')
+          oq=json.loads((root/'jbi_cs_gbif_occurrence_qc.json').read_text())
+          cq=json.loads((root/'jbi_cs_climate_metrics_qc.json').read_text())
+          s=json.loads((root/'jbi_cs_climate_rebuild_summary.json').read_text())
+          d=pd.read_csv(root/'jbi_cs_climate_analysis_dataset.csv')
+          assert oq['species_requested']==34, oq
+          assert oq['max_records_retrieved_per_species']==3000, oq
+          assert oq['maximum_coordinate_uncertainty_m']==20000.0, oq
+          assert cq['min_cells']==20, cq
+          assert cq['worldclim_bio_variables']==[1,4,5,6,7,12,14,15,17], cq
+          assert s['evidence_species']==34, s
+          assert s['worldclim_resolution']=='10 arc-minute', s
+          assert len(d)==s['analysis_species']
+          assert all(d.n_climate_cells>=20)
+          assert set(d.organization_state)<= {
+              'local_coexistence_only','spatial_segregation_only','coexistence_and_segregation'}
+          print({'occurrence_qc':oq,'climate_qc':cq,'analysis_summary':s})
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-cs-climate-rebuild
+          path: |
+            analysis_outputs/jbi_cs_climate_rebuild/jbi_cs_gbif_occurrences.csv
+            analysis_outputs/jbi_cs_climate_rebuild/jbi_cs_gbif_occurrence_qc.json
+            analysis_outputs/jbi_cs_climate_rebuild/jbi_cs_gbif_taxon_audit.csv
+            analysis_outputs/jbi_cs_climate_rebuild/jbi_cs_climate_metrics.csv
+            analysis_outputs/jbi_cs_climate_rebuild/jbi_cs_climate_metrics_qc.json
+            analysis_outputs/jbi_cs_climate_rebuild/jbi_cs_occupied_climate_cells.csv
+            analysis_outputs/jbi_cs_climate_rebuild/jbi_cs_climate_full_join.csv
+            analysis_outputs/jbi_cs_climate_rebuild/jbi_cs_climate_analysis_dataset.csv
+            analysis_outputs/jbi_cs_climate_rebuild/jbi_cs_climate_rebuild_summary.json
+            analysis_outputs/jbi_cs_climate_rebuild/worldclim_archive_sha256.txt
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,134 @@
+name: Freeze JBI C/S analysis outputs durably
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-cs-freeze-analysis-outputs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: jbi-cs-freeze-analysis-outputs
+  cancel-in-progress: true
+
+env:
+  PRIMARY_RUN_ID: '32928682762'
+  PRIMARY_ARTIFACT: 'jbi-cs-primary-models-v2'
+  ROBUSTNESS_RUN_ID: '32928482940'
+  ROBUSTNESS_ARTIFACT: 'jbi-cs-robustness'
+  CR2_RUN_ID: '32929049461'
+  CR2_ARTIFACT: 'jbi-cs-cr2'
+
+jobs:
+  freeze:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/upstream-spatial-reaudit
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PRIMARY_ARTIFACT }}
+          path: primary
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.PRIMARY_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ROBUSTNESS_ARTIFACT }}
+          path: robustness
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.ROBUSTNESS_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CR2_ARTIFACT }}
+          path: cr2
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CR2_RUN_ID }}
+      - name: Copy exact outputs and build combined manifest
+        run: |
+          set -euo pipefail
+          declare -A copies=(
+            [primary/cs_five_metric_models.csv]=docs/supporting/jbi_cs_five_metric_models.csv
+            [primary/cs_leave_one_family_out.csv]=docs/supporting/jbi_cs_leave_one_family_out.csv
+            [primary/cs_model_manifest.json]=docs/supporting/jbi_cs_model_manifest.json
+            [robustness/cs_literature_attention.csv]=docs/supporting/jbi_cs_literature_attention.csv
+            [robustness/cs_literature_attention_qc.json]=docs/supporting/jbi_cs_literature_attention_qc.json
+            [robustness/cs_literature_attention_adjusted.csv]=docs/supporting/jbi_cs_literature_attention_adjusted.csv
+            [robustness/cs_one_source_stratum.csv]=docs/supporting/jbi_cs_one_source_stratum.csv
+            [robustness/cs_three_state_multinomial.csv]=docs/supporting/jbi_cs_three_state_multinomial.csv
+            [robustness/cs_robustness_manifest.json]=docs/supporting/jbi_cs_robustness_manifest.json
+            [cr2/jbi_cs_cr2_satterthwaite_summary.csv]=docs/supporting/jbi_cs_cr2_satterthwaite_summary.csv
+            [cr2/jbi_cs_cr2_coef_test_raw.csv]=docs/supporting/jbi_cs_cr2_coef_test_raw.csv
+            [cr2/jbi_cs_cr2_manifest.json]=docs/supporting/jbi_cs_cr2_manifest.json
+          )
+          for src in "${!copies[@]}"; do
+            test -s "$src"
+            cp "$src" "${copies[$src]}"
+          done
+          python - <<'PY'
+          import csv, hashlib, json
+          from pathlib import Path
+          files=[
+            'docs/supporting/jbi_cs_five_metric_models.csv',
+            'docs/supporting/jbi_cs_leave_one_family_out.csv',
+            'docs/supporting/jbi_cs_model_manifest.json',
+            'docs/supporting/jbi_cs_literature_attention.csv',
+            'docs/supporting/jbi_cs_literature_attention_qc.json',
+            'docs/supporting/jbi_cs_literature_attention_adjusted.csv',
+            'docs/supporting/jbi_cs_one_source_stratum.csv',
+            'docs/supporting/jbi_cs_three_state_multinomial.csv',
+            'docs/supporting/jbi_cs_robustness_manifest.json',
+            'docs/supporting/jbi_cs_cr2_satterthwaite_summary.csv',
+            'docs/supporting/jbi_cs_cr2_coef_test_raw.csv',
+            'docs/supporting/jbi_cs_cr2_manifest.json',
+          ]
+          manifest={
+            'status':'frozen',
+            'climate_dataset':'data/frozen/jbi_cs_climate_analysis_v22.csv',
+            'climate_dataset_sha256':'161adbe80ee3b38a60b17cd0ad1e048eb9d454ae1cfea5825192995ef39a9a42',
+            'source_artifacts':{
+              'primary':{'run_id':32928682762,'name':'jbi-cs-primary-models-v2','digest':'sha256:5ac2a0c800d160386c2350e2f4f4893bb0247cfa279fb5394fccafbdee381ce4'},
+              'robustness':{'run_id':32928482940,'name':'jbi-cs-robustness','digest':'sha256:db284b34b98d3aecf74a0e1d463b012514873bdb103e04610dc7db35c1653062'},
+              'cr2':{'run_id':32929049461,'name':'jbi-cs-cr2','digest':'sha256:c64a2aaf80cff5a418299a79e78c5706c9d13e0210050b7c0e47c31d1c290883'},
+            },
+            'files':{p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in files},
+            'result_boundary':'No threshold-supported climate association for either C or S across five metrics; C point estimates are consistently OR<1 but uncertain; S is near null.',
+            'semantic_guard':'C and S are positive documented-evidence outcomes; null statistical support is not proof of biological absence.',
+          }
+          Path('docs/supporting/jbi_cs_analysis_freeze_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n',encoding='utf-8')
+
+          def rows(path):
+              with Path(path).open(newline='',encoding='utf-8') as h:
+                  return list(csv.DictReader(h))
+          m=rows('docs/supporting/jbi_cs_five_metric_models.csv')
+          cr2=rows('docs/supporting/jbi_cs_cr2_satterthwaite_summary.csv')
+          multi=rows('docs/supporting/jbi_cs_three_state_multinomial.csv')
+          assert len(m)==10 and len(cr2)==10 and len(multi)==10
+          assert {r['outcome_short'] for r in m}=={'C','S'}
+          assert all(int(float(r['permutations_valid']))==9999 for r in m)
+          assert all(abs(float(r['permutation_p_holm_within_outcome'])-1.0)<1e-12 for r in m)
+          assert all(float(r['cr2_satterthwaite_p'])>0.35 for r in cr2)
+          assert all(str(r['converged']).lower() in {'true','1'} for r in multi)
+          print(json.dumps(manifest,indent=2))
+          print('PASS durable C/S analysis outputs')
+          PY
+      - name: Commit supporting outputs to branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/supporting/jbi_cs_*.csv docs/supporting/jbi_cs_*.json
+          if git diff --cached --quiet; then
+            echo 'C/S supporting outputs already current'
+            exit 0
+          fi
+          git commit -m 'Freeze C/S analysis outputs durably'
+          git push origin HEAD:audit/upstream-spatial-reaudit

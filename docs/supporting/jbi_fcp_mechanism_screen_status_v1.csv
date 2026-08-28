@@ -1,0 +1,14 @@
+test_id,independence_class,sample,predictor_or_evidence,status,result
+static_climatic_breadth,independent,74-core/66 climate eligible,five breadth/heterogeneity metrics,unsupported,All primary v6 hurdle effects non-threshold; latent v5 also bootstrap-null
+mean_temperature_seasonality_BIO4,independent,32 C/S-informative,mean BIO4,candidate_only,Direction favours C; weak after latitude/mean-temperature controls; not interannual variability
+spatial_climate_structure,independent,32,regional climate turnover/separation/overlap,unsupported,No consistent C/S discrimination
+GBIF_fragmentation,independent_proxy,32,multi-scale connectivity proxy,unsupported,No robust C/S discrimination; not gene flow
+SC_vs_SI,independent_trait_plus_manual,complete cases,self-compatible vs self-incompatible,unsupported,Fisher p≈1.0; compatibility is not reproductive assurance
+autonomous_selfing,manual_cross-literature,C 7 / S 6 assessed broad,autonomous/reproductive-assurance evidence,candidate_weak,C 4/7 vs S 0/6 p=0.0699; strict direct C 3/6 vs S 0/6 p=0.1818
+clonality_CLOPLA,independent_trait,4/18 pure-state species,binary clonal,not_testable,C 1/2 vs S 1/2 p=1.0; coverage far too low
+growthform_woodiness,independent_trait,6 informative pure-state values in current lookup,woodiness,not_testable,Observed values are strongly state-imbalanced because missingness is nonrandom; no inferential use
+direct_spatial_local_adaptation,same_FCP_literature,18 pure-state species,reciprocal transplant/translocation/ecotypic differentiation,exploratory_signal_only,"S 3/7 vs C 0/11, Fisher p=0.042892; ascertainment is coupled to state-defining literature"
+direct_pollinator_geographic_mosaic,same_FCP_literature,18 pure-state species,geographically divergent pollinator preference,insufficient,"S 2/7 vs C 0/11, Fisher p=0.137255"
+temporal_pollinator_variation,same_FCP_literature,18 pure-state species,seasonally changing pollinator preference/guild,insufficient,"C 2/11 vs S 0/7, Fisher p=0.496732"
+direct_herbivory,same_FCP_literature,18 pure-state species,morph-differential herbivory/florivory,insufficient,"C 2/11 vs S 0/7, Fisher p=0.496732"
+dynamic_TerraClimate,independent,66 climate eligible; 32 C/S informative,1958-2025 fixed-location temporal geometry,planned_not_executed,"Protocol, 1320 fixed points and scripts validated; real extraction/result unavailable because current environment cannot access remote service and connector-authored events did not trigger Actions"

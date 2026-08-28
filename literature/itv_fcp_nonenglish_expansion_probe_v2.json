@@ -1,0 +1,31 @@
+{
+  "role": "non-English recall probe for search v2; counts only, not final search blocks",
+  "queries": [
+    {
+      "id": "spanish_broad",
+      "language": "Spanish",
+      "oql": "works where title/abstract has ((flor or flores or floral or pétalo or pétalos) and (color or pigmentación) and (polimorfismo or morfo or morfos or variación or población or poblaciones))"
+    },
+    {
+      "id": "portuguese_broad",
+      "language": "Portuguese",
+      "oql": "works where title/abstract has ((flor or flores or floral or pétala or pétalas) and (cor or pigmentação) and (polimorfismo or morfo or morfos or variação or população or populações))"
+    },
+    {
+      "id": "french_broad",
+      "language": "French",
+      "oql": "works where title/abstract has ((fleur or fleurs or floral or pétale or pétales) and (couleur or pigmentation) and (polymorphisme or morphe or morphes or variation or population))"
+    },
+    {
+      "id": "german_broad",
+      "language": "German",
+      "oql": "works where title/abstract has ((Blüte or Blüten or Blütenfarbe or Blütenfarben) and (Farbe or Farben or Pigmentierung) and (Polymorphismus or Morphe or Morphen or Variation or Population))"
+    },
+    {
+      "id": "italian_broad",
+      "language": "Italian",
+      "oql": "works where title/abstract has ((fiore or fiori or floreale or petalo or petali) and (colore or pigmentazione) and (polimorfismo or morfo or morfi or variazione or popolazione or popolazioni))"
+    }
+  ],
+  "guard": "These are scope probes. A nonzero count does not establish relevance or inclusion."
+}

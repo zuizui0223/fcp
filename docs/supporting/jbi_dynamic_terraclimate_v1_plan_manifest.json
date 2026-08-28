@@ -1,0 +1,50 @@
+{
+  "status": "analysis-plan-frozen-before-dynamic-result-extraction",
+  "date": "2026-08-27",
+  "protocol": "dynamic-climate-hypervolume-v1",
+  "core_protocol": "display-core-v6-focal-consistent",
+  "core_species": 74,
+  "climate_eligible_core_species": 66,
+  "documented_organization_species": 32,
+  "fixed_points_per_species": 20,
+  "fixed_point_rows": 1320,
+  "fixed_point_key_sha256": "f538d563a667f16b7707060ce53962c7e37c7f6b70cd6d8ecc94aca6a267c279",
+  "fixed_point_key_definition": "canonical_name + tab + selection_rank + tab + TerraClimate latitude-grid index + tab + TerraClimate longitude-grid index, canonical-name/selection-rank order",
+  "fixed_point_source": {
+    "workflow_run": 32932477834,
+    "artifact": "jbi-full-fcp-climate-rebuild",
+    "occurrence_file": "full_fcp_gbif_occurrences.csv",
+    "guard": "The source occurrence sample is capped and QC-filtered and is not a complete census of each geographic range. Dynamic inference therefore concerns the sampled occupied distribution."
+  },
+  "fixed_point_selection": {
+    "radial_core_quantile": 0.95,
+    "terraclimate_grid_resolution_degrees": 0.041666666666666664,
+    "algorithm": "Within each species, remove the outer 5% of spherical distances from the sample spherical centroid, deduplicate TerraClimate grid cells, then use deterministic spherical maximin traversal starting at the retained cell nearest the centroid.",
+    "minimum_unique_cells_after_trim": 20
+  },
+  "dynamic_climate": {
+    "dataset": "TerraClimate current v1.1 aggregated service",
+    "years": [1958, 2025],
+    "monthly_variables_downloaded": ["tmin", "tmax", "ppt", "def", "vpd"],
+    "analysis_dimensions": ["tmean", "ppt", "def", "vpd"],
+    "baseline": [1991, 2020],
+    "method_guard": "Fixed locations are followed through climate time. GBIF occurrence year is not used as the temporal sampling process. Do not interpret TerraClimate-derived long-term trends independently of the parent reanalysis. Do not mix TerraClimate v1.0 and v1.1."
+  },
+  "prospective_metrics": [
+    {"metric": "seasonal_centroid_cycle_mean", "prediction": "higher in C"},
+    {"metric": "interannual_centroid_drift_mean", "prediction": "higher in C"},
+    {"metric": "interannual_overlap_loss_mean", "prediction": "higher in C"},
+    {"metric": "annual_hypervolume_log_sd", "prediction": "higher in C"},
+    {"metric": "temporal_variance_component", "prediction": "higher in C"},
+    {"metric": "spatial_variance_component", "prediction": "higher in S"},
+    {"metric": "space_time_variance_ratio", "prediction": "higher in S"}
+  ],
+  "geometry": {
+    "annual_hypervolume": "95% shrinkage-Gaussian ellipsoid in four globally standardized annual climate dimensions",
+    "turnover": "Bhattacharyya overlap loss between consecutive annual Gaussian hypervolumes",
+    "space_time_decomposition": "variance among fixed-location means versus mean within-location variance across years in the same standardized annual climate coordinates"
+  },
+  "model": "Existing conditional organization design: documentation propensity weighting, L2 multinomial metric + geographic extent, C-only/S-only/C+S, 499 family bootstraps; pure C/S family-clustered GLM retained as sensitivity with Holm correction.",
+  "seed": 20260827,
+  "inference_status": "Prospectively specified before the TerraClimate dynamic outcome is observed, but not externally preregistered."
+}

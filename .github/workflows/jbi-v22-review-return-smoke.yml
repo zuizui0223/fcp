@@ -1,0 +1,121 @@
+name: JBI v2.2 review-return pipeline smoke test
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-review-return-smoke.yml'
+      - 'scripts/literature/merge_v22_record_reviews.py'
+      - 'scripts/literature/score_v22_record_calibration.py'
+      - 'scripts/literature/evaluate_v22_calibration_gate.py'
+      - 'scripts/literature/build_v22_record_adjudication_queue.py'
+      - 'scripts/literature/finalize_v22_record_screen.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-v22-review-return-smoke
+  cancel-in-progress: true
+
+env:
+  WAVE0_RUN_ID: '32835886607'
+  WAVE0_ARTIFACT: 'jbi-v22-calibration-wave0'
+  OUTDIR: 'analysis_outputs/jbi_v22_review_return_smoke'
+
+jobs:
+  smoke:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download blank Wave 0 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.WAVE0_ARTIFACT }}
+          path: wave0_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.WAVE0_RUN_ID }}
+
+      - name: Merge blank duplicate sheets
+        run: |
+          set -euo pipefail
+          mkdir -p "$OUTDIR"
+          # Passing the same blank blind sheet to both sides is a structural smoke test only.
+          python scripts/literature/merge_v22_record_reviews.py \
+            --reviewer1 wave0_input/v22_calibration_wave0_blind.csv \
+            --reviewer2 wave0_input/v22_calibration_wave0_blind.csv \
+            --out "$OUTDIR/merged_blank.csv" \
+            --summary-out "$OUTDIR/merge_blank_summary.json"
+
+      - name: Score blank duplicate sheet
+        run: |
+          set -euo pipefail
+          python scripts/literature/score_v22_record_calibration.py \
+            --reviewed "$OUTDIR/merged_blank.csv" \
+            --summary-out "$OUTDIR/agreement_blank.json" \
+            --disagreements-out "$OUTDIR/disagreements_blank.csv"
+
+      - name: Evaluate prespecified gate on blank data
+        run: |
+          set -euo pipefail
+          python scripts/literature/evaluate_v22_calibration_gate.py \
+            --agreement "$OUTDIR/agreement_blank.json" \
+            --out "$OUTDIR/gate_blank.json"
+
+      - name: Build blank adjudication queue
+        run: |
+          set -euo pipefail
+          python scripts/literature/build_v22_record_adjudication_queue.py \
+            --reviewed "$OUTDIR/merged_blank.csv" \
+            --out "$OUTDIR/adjudication_blank.csv" \
+            --summary-out "$OUTDIR/adjudication_blank_summary.json"
+
+      - name: Finalize blank screen and verify taxon stage stays closed
+        run: |
+          set -euo pipefail
+          python scripts/literature/finalize_v22_record_screen.py \
+            --reviewed "$OUTDIR/merged_blank.csv" \
+            --adjudication "$OUTDIR/adjudication_blank.csv" \
+            --out "$OUTDIR/finalized_blank.csv" \
+            --retained-out "$OUTDIR/retained_blank.csv" \
+            --fulltext-out "$OUTDIR/fulltext_blank.csv" \
+            --excluded-out "$OUTDIR/excluded_blank.csv" \
+            --summary-out "$OUTDIR/finalize_blank_summary.json"
+
+      - name: Validate expected not-ready state
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_v22_review_return_smoke')
+          merge=json.loads((root/'merge_blank_summary.json').read_text())
+          agree=json.loads((root/'agreement_blank.json').read_text())
+          gate=json.loads((root/'gate_blank.json').read_text())
+          adj=json.loads((root/'adjudication_blank_summary.json').read_text())
+          final=json.loads((root/'finalize_blank_summary.json').read_text())
+          assert merge['records'] == 384
+          assert merge['fully_double_reviewed_records'] == 0
+          assert all(v['n_double_coded'] == 0 for v in agree['agreement'].values())
+          assert gate['status'] == 'not_ready', gate
+          assert adj['records_requiring_adjudication'] == 0
+          assert final['status'] == 'not_ready', final
+          assert final['ready_for_taxon_stage'] is False
+          assert final['adjudication_incomplete_records'] == 384
+          print({'merge':merge,'gate':gate,'adjudication':adj,'final':final})
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-v22-review-return-smoke
+          path: analysis_outputs/jbi_v22_review_return_smoke/
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,111 @@
+name: JBI GIFT mechanism trait coverage
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [edited]
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  EXPANDED_RUN_ID: '32930987729'
+  EXPANDED_ARTIFACT: 'jbi-v22-full-fcp-universe'
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  OUTDIR: 'analysis_outputs/jbi_gift_mechanism_v1'
+
+jobs:
+  gift-coverage:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.head.ref == 'audit/upstream-spatial-reaudit' &&
+       contains(github.event.pull_request.body, '[run-gift-mechanism-v1]'))
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/upstream-spatial-reaudit
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install R trait dependencies
+        run: |
+          Rscript -e 'install.packages(c("remotes","readr","dplyr","tidyr")); remotes::install_github("gcol33/taxify")'
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPANDED_ARTIFACT }}
+          path: expanded
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.EXPANDED_RUN_ID }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+
+      - name: Derive focal-consistent v6 core
+        run: |
+          mkdir -p core
+          python scripts/literature/derive_v22_core_fcp_universe_v6.py \
+            --source-audit expanded/v22_full_fcp_source_audit.csv \
+            --record-screen record_screen/v22_record_screening_blind.csv \
+            --outdir core
+          python - <<'PY'
+          import json,pandas as pd
+          d=pd.read_csv('core/v22_core_fcp_species_universe.csv')
+          s=json.load(open('core/v22_core_fcp_universe_summary.json'))
+          assert len(d)==74 and d.canonical_name.nunique()==74
+          assert s['core_protocol_version']=='display-core-v6-focal-consistent'
+          assert s['organization_unresolved_species']==42
+          PY
+
+      - name: Extract frozen GIFT mechanism traits and coverage
+        run: |
+          mkdir -p "$OUTDIR"
+          Rscript scripts/data/extract_gift_mechanism_traits.R \
+            --core-species core/v22_core_fcp_species_universe.csv \
+            --out "$OUTDIR/jbi_gift_mechanism_traits_v1.csv" \
+            --coverage-out "$OUTDIR/jbi_gift_mechanism_coverage_v1.csv"
+
+      - name: Validate and print coverage gate
+        run: |
+          python - <<'PY'
+          import pandas as pd, os
+          root=os.environ['OUTDIR']
+          d=pd.read_csv(root+'/jbi_gift_mechanism_traits_v1.csv')
+          c=pd.read_csv(root+'/jbi_gift_mechanism_coverage_v1.csv')
+          assert len(d)==74 and d.canonical_name.nunique()==74
+          assert len(c)==6
+          assert set(c.trait)=={
+            'gift_self_fertilization_1','gift_lifecycle_1','gift_dispersal_syndrome_1',
+            'gift_flowering_start','gift_flowering_end','gift_seed_mass_mean'}
+          # Analysis eligibility is fixed before results: at least 18 informative
+          # species and at least 4 observed species in each pure state. Anything
+          # below this remains descriptive and is not promoted to a C/S test.
+          c['analysis_eligible']=(c.n_informative_nonmissing>=18)&(c.n_C_only_nonmissing>=4)&(c.n_S_only_nonmissing>=4)
+          c.to_csv(root+'/jbi_gift_mechanism_coverage_v1.csv',index=False)
+          print(c.to_csv(index=False))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-gift-mechanism-traits-v1
+          path: |
+            core/
+            analysis_outputs/jbi_gift_mechanism_v1/
+          if-no-files-found: error
+          retention-days: 30

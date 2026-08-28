@@ -1,0 +1,95 @@
+name: JBI v2.2 full all-species FCP universe
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-full-fcp-universe.yml'
+      - 'scripts/literature/build_v22_full_fcp_universe.py'
+      - 'scripts/literature/build_v22_full_fcp_universe_v2.py'
+      - 'scripts/literature/build_v22_full_fcp_universe_v3.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v2.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v3.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v4.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v5.py'
+      - 'docs/supporting/frozen_classification_manifest.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-v22-full-fcp-universe
+  cancel-in-progress: true
+
+env:
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  OUTDIR: 'analysis_outputs/jbi_v22_full_fcp_universe'
+
+jobs:
+  build-universe:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download fixed canonical 12,064-record screen
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+
+      - name: Build FCP species universe before C/S outcomes
+        run: |
+          set -euo pipefail
+          test -s record_screen_input/v22_record_screening_blind.csv
+          test -s record_screen_input/v22_record_screening_coordinator_key.csv
+          mkdir -p "$OUTDIR"
+          python scripts/literature/build_v22_full_fcp_universe_v3.py \
+            --blind record_screen_input/v22_record_screening_blind.csv \
+            --key record_screen_input/v22_record_screening_coordinator_key.csv \
+            --historical-manifest docs/supporting/frozen_classification_manifest.csv \
+            --outdir "$OUTDIR" \
+            --workers 32 --timeout 20 --retries 2
+
+      - name: Validate independent universe semantics
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_v22_full_fcp_universe')
+          summary=json.loads((root/'v22_full_fcp_universe_summary.json').read_text())
+          assert summary['input_records']==12064, summary
+          assert summary['historical_exact_sources_seen_for_taxon_rescue_only']==34, summary
+          assert summary['FCP_species_universe']>34, summary
+          assert summary['organization_unresolved_species']>0, summary
+          assert summary.get('protocol_version')=='full-fcp-universe-v3-post-gbif-hierarchical-taxon', summary
+          with (root/'v22_full_fcp_species_universe.csv').open(newline='',encoding='utf-8') as h:
+              spp=list(csv.DictReader(h))
+          assert len(spp)==summary['FCP_species_universe']
+          assert all(int(r['n_FCP_eligible_sources'])>=1 for r in spp)
+          assert set(r['organization_state'] for r in spp)<= {
+              'local_coexistence_only','spatial_segregation_only','coexistence_and_segregation','organization_unresolved'}
+          unresolved=[r for r in spp if int(r['C_local_coexistence_documented'])==0 and int(r['S_spatial_segregation_documented'])==0]
+          assert unresolved, 'C/S-positive-only selection leaked back into universe'
+          forbidden={'spatial_scale','old_label','n_climate_cells','temperature_breadth','moisture_breadth'}
+          assert not forbidden.intersection(spp[0]), forbidden.intersection(spp[0])
+          print(summary)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-v22-full-fcp-universe
+          path: analysis_outputs/jbi_v22_full_fcp_universe/
+          if-no-files-found: error
+          retention-days: 30

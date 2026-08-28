@@ -1,0 +1,53 @@
+name: JBI full FCP latent model smoke test
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-full-fcp-latent-smoke.yml'
+      - 'scripts/run_full_fcp_latent_models.py'
+      - 'scripts/run_full_fcp_latent_models_v2.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install model dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy statsmodels
+      - name: Synthetic identifiability smoke test
+        run: |
+          PYTHONPATH=scripts python - <<'PY'
+          import numpy as np
+          from scipy.special import expit
+          import run_full_fcp_latent_models_v2 as fixed
+          base=fixed.base
+          rng=np.random.default_rng(20260826)
+          obs=[]
+          # 80 species, 4 source replicates each; true climate effect positive.
+          for i in range(80):
+              x=float(rng.normal())
+              g=float(rng.normal())
+              psi=float(expit(-0.2 + 0.9*x + 0.3*g))
+              z=int(rng.random()<psi)
+              y=(rng.random(4) < (0.72 if z else 1e-12)).astype(int)
+              obs.append(base.SpeciesObs(f'sp{i}',f'fam{i%20}',x,g,y))
+          fit=fixed.fit_model(obs,epsilon=0.0,beta_fixed_zero=False)
+          assert fit.success, fit.message
+          assert np.isfinite(fit.x).all(), fit.x
+          assert fit.x[1] > 0, fit.x
+          p=float(expit(fit.x[3]))
+          assert 0.05 < p < 0.99, p
+          # Null fit must also execute; this guards the exact code path used in bootstrap.
+          null=fixed.fit_model(obs,epsilon=0.0,beta_fixed_zero=True)
+          assert null.success, null.message
+          print({'beta_hat':float(fit.x[1]),'p_detect_hat':p,'null_ok':bool(null.success)})
+          PY

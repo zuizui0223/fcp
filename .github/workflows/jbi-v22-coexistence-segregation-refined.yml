@@ -1,0 +1,96 @@
+name: JBI v2.2 refined coexistence-segregation audit
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-coexistence-segregation-refined.yml'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v2.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v3.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v4.py'
+      - 'scripts/literature/build_v22_coexistence_segregation_refined_v5.py'
+      - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
+      - 'docs/supporting/frozen_classification_manifest.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-v22-coexistence-segregation-refined
+  cancel-in-progress: true
+
+env:
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  OUTDIR: 'analysis_outputs/jbi_v22_coexistence_segregation_refined'
+
+jobs:
+  build-refined-cs-evidence:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download fixed canonical all-record screen
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+
+      - name: Build refined C/S positive-evidence tables
+        run: |
+          set -euo pipefail
+          test -s record_screen_input/v22_record_screening_blind.csv
+          test -s record_screen_input/v22_record_screening_coordinator_key.csv
+          mkdir -p "$OUTDIR"
+          python scripts/literature/build_v22_coexistence_segregation_refined_v5.py \
+            --blind record_screen_input/v22_record_screening_blind.csv \
+            --key record_screen_input/v22_record_screening_coordinator_key.csv \
+            --historical-manifest docs/supporting/frozen_classification_manifest.csv \
+            --outdir "$OUTDIR" \
+            --workers 32 --timeout 20 --retries 2
+
+      - name: Validate semantic boundary and freeze structure
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_v22_coexistence_segregation_refined')
+          summary=json.loads((root/'v22_cs_summary.json').read_text())
+          assert summary['input_records'] == 12064, summary
+          assert summary['historical_exact_sources_seen'] == 34, summary
+          assert summary['strict_freeze_species'] > 0, summary
+          assert summary['definition']['zero_semantics'].startswith('not documented'), summary
+          with (root/'v22_cs_source_evidence.csv').open(newline='',encoding='utf-8') as h:
+              src=list(csv.DictReader(h))
+          with (root/'v22_cs_species_states.csv').open(newline='',encoding='utf-8') as h:
+              spp=list(csv.DictReader(h))
+          with (root/'v22_cs_strict_freeze.csv').open(newline='',encoding='utf-8') as h:
+              freeze=list(csv.DictReader(h))
+          assert len(src) == 12064
+          assert all(r['organization_state'] in {'local_coexistence_only','spatial_segregation_only','coexistence_and_segregation','unresolved'} for r in spp)
+          assert all(r['organization_state'] != 'unresolved' for r in freeze)
+          assert all(int(r['C_local_coexistence_documented']) or int(r['S_spatial_segregation_documented']) for r in freeze)
+          assert not any(r['canonical_name'] == 'Epimedium pubescens' for r in freeze), 'non-display androecium colour leaked into freeze'
+          forbidden={'spatial_scale','within_population','among_population','n_climate_cells','climate','old_label'}
+          assert not forbidden.intersection(src[0])
+          assert not forbidden.intersection(spp[0])
+          print(summary)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-v22-coexistence-segregation-refined
+          path: analysis_outputs/jbi_v22_coexistence_segregation_refined/
+          if-no-files-found: error
+          retention-days: 30

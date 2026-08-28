@@ -1,0 +1,8 @@
+{
+  "species": 34,
+  "records_scanned": 12064,
+  "species_with_zero_exact_name_records": 1,
+  "median_exact_name_records": 3.0,
+  "max_exact_name_records": 31,
+  "semantic_guard": "Outcome-independent exact-name attention diagnostic; synonym-heavy taxa may be undercounted and zero is not absence of literature."
+}

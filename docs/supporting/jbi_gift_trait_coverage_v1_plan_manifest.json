@@ -1,0 +1,28 @@
+{
+  "status": "planned_before_GIFT_trait_results",
+  "date": "2026-08-27",
+  "core_protocol": "display-core-v6-focal-consistent",
+  "core_species": 74,
+  "response_states": ["local_coexistence_only", "spatial_segregation_only", "coexistence_and_segregation"],
+  "gift_version": "3.2",
+  "target_traits": ["self_fertilization", "lifecycle", "dispersal_syndrome", "flowering_start", "flowering_end"],
+  "coverage_gate": "traits are not modeled unless informative-state coverage is sufficient and all three C/S classes retain observations",
+  "missing_semantics": "no GIFT record is missing documentation, never biological absence",
+  "categorical_agreement_threshold": 0.66,
+  "bias_ref": false,
+  "bias_deriv": false,
+  "hypotheses": {
+    "H6": "breeding system modifies effective gene flow and the persistence of local versus geographic colour variation",
+    "H7": "dispersal ability modifies the effect of geographic fragmentation on spatial segregation",
+    "H9": "flowering duration modifies exposure to temporal environmental heterogeneity and may favor local coexistence"
+  },
+  "execution_gate_history": [
+    {
+      "run_id": 32994158631,
+      "workflow": "JBI GIFT mechanism trait coverage sync",
+      "outcome": "action_required_before_job_creation",
+      "jobs_created": 0,
+      "diagnosis": "The synchronize event was emitted from a github-actions[bot]-authored head commit; no GIFT request or analysis step executed. This is an execution-provenance gate, not a scientific or model failure."
+    }
+  ]
+}

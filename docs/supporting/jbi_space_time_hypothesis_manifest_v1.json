@@ -1,0 +1,62 @@
+{
+  "status": "complete",
+  "protocol": "space-time-hypothesis-screen-v1",
+  "date": "2026-08-27",
+  "inference_boundary": "exploratory literature-driven screen; not preregistered confirmatory inference",
+  "core": {
+    "protocol": "display-core-v6-focal-consistent",
+    "n_species": 74,
+    "n_climate_eligible": 66,
+    "n_cs_informative": 32,
+    "state_counts": {
+      "organization_unresolved": 42,
+      "coexistence_and_segregation": 14,
+      "local_coexistence_only": 11,
+      "spatial_segregation_only": 7
+    }
+  },
+  "fixed_upstream": {
+    "full_climate": {
+      "run_id": 32932477834,
+      "artifact_id": 9593744810,
+      "artifact_name": "jbi-full-fcp-climate-rebuild",
+      "sha256": "80945258..."
+    },
+    "literature_attention": {
+      "run_id": 32932116967,
+      "artifact_id": 9593574789,
+      "artifact_name": "jbi-full-fcp-literature-attention",
+      "sha256": "719927..."
+    },
+    "v5_core_provenance": {
+      "run_id": 32951713497,
+      "artifact_id": 9600384876,
+      "artifact_name": "jbi-v22-core-fcp-universe",
+      "sha256": "0e2b6d..."
+    },
+    "v6_core_derivation": "scripts/literature/derive_v22_core_fcp_universe_v6.py; focal-taxon guard removes Viola sieheana leakage and yields 74 species"
+  },
+  "screen": {
+    "seed": 20260827,
+    "family_bootstraps": 499,
+    "conditional_model": "documentation-IPW L2 multinomial; metric + geographic_radius_95; family bootstrap",
+    "total_hypervolume": "PC1-PC3 convex-hull volume rarefied to 20 occupied climate cells; 99 draws",
+    "regional_hypervolume_diagnostics": "two spherical-KMeans geographic sectors; normalized PC1-PC3 centroid separation and Gaussian Bhattacharyya overlap",
+    "fragmentation": "mean of 1-largest-component-fraction across 100, 250 and 500 km DBSCAN connectivity thresholds",
+    "spatial_niche_turnover": "normalized difference in PC1-PC3 environmental distance between upper and lower quartiles of within-species geographic distance"
+  },
+  "results": {
+    "H1a_mean_BIO4": "candidate only: S_vs_C OR 0.349, family-bootstrap CI 0.085-0.909; interval crosses 1 after mean-temperature or absolute-latitude controls",
+    "H1b_mean_BIO15": "unsupported",
+    "H2_fragmentation": "directionally positive for S/mixed but unsupported",
+    "H3_spatial_niche_structure": "unsupported across pairwise turnover, regional centroid separation and regional Gaussian overlap",
+    "H0_total_hypervolume": "does not cleanly discriminate C/S organization"
+  },
+  "next_decisive_test": "dynamic year-specific/flowering-season climate and temporal hypervolume turnover; BIO4 is climatological seasonality, not observed interannual temporal exposure",
+  "committed_outputs": {
+    "docs/supporting/jbi_space_time_hypothesis_screen_v1.csv": "sha256 378a2ee58fad94a535d1b58965aa1b5342afe96a0fe5517d6b4d36bfbf8530d9",
+    "docs/supporting/jbi_bio4_robustness_v1.csv": "sha256 bf5339f1bd3ad0bff596506f0c2a1949defb583a1fce95487fe41965fdc485a8",
+    "docs/JBI_SPACE_TIME_HYPOTHESES.md": "literature synthesis and hypothesis registry",
+    "scripts/run_jbi_space_time_hypothesis_screen.py": "reproducible metric/model builder"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "status": "validated-locally-without-real-terraclimate-extraction",
+  "date": "2026-08-27",
+  "protocol": "dynamic-climate-hypervolume-v1",
+  "verified": {
+    "display_core_v6_species": 74,
+    "climate_eligible_core_species": 66,
+    "fixed_points_per_species": 20,
+    "fixed_point_rows": 1320,
+    "fixed_point_key_sha256": "f538d563a667f16b7707060ce53962c7e37c7f6b70cd6d8ecc94aca6a267c279",
+    "minimum_unique_terraclimate_cells_after_95pct_radial_trim": 20,
+    "fixed_point_sampler": "reproduced on archived full-climate occurrence artifact",
+    "fixed_point_script": "syntax checked and output reproduced locally",
+    "terraclimate_extractor": "syntax checked locally",
+    "dynamic_model_script": "syntax checked and synthetic end-to-end smoke completed with all seven prospective metrics"
+  },
+  "not_verified": {
+    "real_terraclimate_point_extraction": "not executed in the local container because outbound DNS/network access is unavailable",
+    "real_dynamic_model_results": "not available and no ecological result is claimed",
+    "github_actions_run": "connector-authored branch commits did not trigger the new workflow; no completed dynamic artifact exists"
+  },
+  "execution_boundary": "The next real-data result requires an actual workflow_dispatch/user-origin GitHub event or another environment with outbound access to the official TerraClimate THREDDS service.",
+  "interpretation_guard": "Do not promote the exploratory BIO4 association to a dynamic temporal-heterogeneity result. The dynamic seven-metric plan remains frozen and unseen."
+}

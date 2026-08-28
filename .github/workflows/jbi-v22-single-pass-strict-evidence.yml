@@ -1,0 +1,96 @@
+name: JBI v2.2 strict single-pass evidence audit
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-v22-single-pass-strict-evidence.yml'
+      - 'scripts/literature/build_v22_single_pass_strict_evidence.py'
+      - 'scripts/literature/mask_v22_taxon_hints_for_strict_positive.py'
+      - 'scripts/literature/build_systematic_spatial_evidence_axes.py'
+      - 'docs/supporting/frozen_classification_manifest.csv'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-v22-single-pass-strict-evidence
+  cancel-in-progress: true
+
+env:
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  OUTDIR: 'analysis_outputs/jbi_v22_single_pass_strict_evidence'
+
+jobs:
+  build-strict-evidence:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download fixed canonical all-record screen
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+
+      - name: Mask automatic taxon hints outside strict spatial positives
+        run: |
+          set -euo pipefail
+          test -s record_screen_input/v22_record_screening_blind.csv
+          test -s record_screen_input/v22_record_screening_coordinator_key.csv
+          mkdir -p "$OUTDIR"
+          python scripts/literature/mask_v22_taxon_hints_for_strict_positive.py \
+            --blind record_screen_input/v22_record_screening_blind.csv \
+            --key record_screen_input/v22_record_screening_coordinator_key.csv \
+            --out "$OUTDIR/v22_strict_positive_masked_key.csv"
+
+      - name: Build strict positive-evidence source and species tables
+        run: |
+          set -euo pipefail
+          python scripts/literature/build_v22_single_pass_strict_evidence.py \
+            --blind record_screen_input/v22_record_screening_blind.csv \
+            --key "$OUTDIR/v22_strict_positive_masked_key.csv" \
+            --historical-manifest docs/supporting/frozen_classification_manifest.csv \
+            --outdir "$OUTDIR" \
+            --workers 32 --timeout 25 --retries 3
+
+      - name: Validate semantic boundary and output structure
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_v22_single_pass_strict_evidence')
+          s=json.loads((root/'v22_single_pass_summary.json').read_text())
+          assert s['input_records'] == 12064, s
+          assert s['historical_exact_sources_seen'] == 34, s
+          assert s['resolved_species_with_any_source'] > 0, s
+          with (root/'v22_single_pass_source_evidence.csv').open(newline='',encoding='utf-8') as h:
+              src=list(csv.DictReader(h))
+          with (root/'v22_single_pass_species_states.csv').open(newline='',encoding='utf-8') as h:
+              spp=list(csv.DictReader(h))
+          assert len(src) == 12064
+          assert all(r['eligibility_status'] for r in src)
+          assert all(r['documented_state'] in {'within_evidence_only','among_evidence_only','mixed_evidence','unresolved'} for r in spp)
+          forbidden={'spatial_scale','historical_spatial_scale','old_label','climate','n_climate_cells'}
+          assert not forbidden.intersection(src[0])
+          assert not forbidden.intersection(spp[0])
+          print(s)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-v22-single-pass-strict-evidence
+          path: analysis_outputs/jbi_v22_single_pass_strict_evidence/
+          if-no-files-found: error
+          retention-days: 30

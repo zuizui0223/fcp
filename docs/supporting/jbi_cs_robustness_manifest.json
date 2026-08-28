@@ -1,0 +1,16 @@
+{
+  "n_species": 34,
+  "n_families": 23,
+  "state_counts": {
+    "coexistence_and_segregation": 15,
+    "local_coexistence_only": 11,
+    "spatial_segregation_only": 8
+  },
+  "one_source_stratum_n": 23,
+  "one_source_C_positive": 15,
+  "one_source_S_positive": 17,
+  "literature_attention_definition": "exact accepted canonical binomial mentions in all 12,064 v2.2 title/abstract records; independent of C/S labels but conservative for synonyms",
+  "n_resolved_sources_guard": "n_resolved_sources is outcome-path-derived and is NOT treated as an independent documentation-effort covariate; it is used only to define an equal-positive-source-count stratum.",
+  "multinomial_reference": "local_coexistence_only",
+  "semantic_guard": "All analyses concern documented evidence states, not demonstrated biological absence."
+}

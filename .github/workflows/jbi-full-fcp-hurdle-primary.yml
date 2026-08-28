@@ -1,0 +1,125 @@
+name: JBI full FCP hurdle primary analysis
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-full-fcp-hurdle-primary.yml'
+      - 'scripts/run_full_fcp_hurdle_models.py'
+      - 'scripts/literature/derive_v22_core_fcp_universe.py'
+      - 'scripts/literature/derive_v22_core_fcp_universe_v3.py'
+      - 'scripts/literature/derive_v22_core_fcp_universe_v5.py'
+      - 'scripts/literature/derive_v22_core_fcp_universe_v6.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  CLIMATE_RUN_ID: '32932477834'
+  CLIMATE_ARTIFACT: 'jbi-full-fcp-climate-rebuild'
+  EXPANDED_RUN_ID: '32930987729'
+  EXPANDED_ARTIFACT: 'jbi-v22-full-fcp-universe'
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  ATTENTION_RUN_ID: '32932116967'
+  ATTENTION_ARTIFACT: 'jbi-full-fcp-literature-attention'
+  OUTDIR: 'analysis_outputs/jbi_full_fcp_hurdle_primary'
+
+jobs:
+  primary:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check numpy pandas statsmodels scikit-learn
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CLIMATE_ARTIFACT }}
+          path: climate
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CLIMATE_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPANDED_ARTIFACT }}
+          path: expanded
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.EXPANDED_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ATTENTION_ARTIFACT }}
+          path: attention
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.ATTENTION_RUN_ID }}
+      - name: Derive focal-consistent v6 core from fixed upstream artifacts
+        run: |
+          mkdir -p core
+          python scripts/literature/derive_v22_core_fcp_universe_v6.py \
+            --source-audit expanded/v22_full_fcp_source_audit.csv \
+            --record-screen record_screen/v22_record_screening_blind.csv \
+            --outdir core
+      - name: Validate focal-consistent primary core input
+        run: |
+          python - <<'PY'
+          import json,pandas as pd
+          core=pd.read_csv('core/v22_core_fcp_species_universe.csv')
+          s=json.load(open('core/v22_core_fcp_universe_summary.json'))
+          names=set(core.canonical_name)
+          assert len(core)==74, len(core)
+          assert len(names)==74
+          assert s['core_protocol_version']=='display-core-v6-focal-consistent', s
+          assert s['core_FCP_species_universe']==74, s
+          assert s['organization_unresolved_species']==42, s
+          assert {'Acer pictum','Butomus umbellatus','Salvia hispanica','Viola sieheana'}.isdisjoint(names)
+          assert {'Aquilegia coerulea','Cosmos bipinnatus','Eruca sativa'}<=names
+          print(s)
+          PY
+      - name: Run fixed hurdle analysis
+        run: |
+          mkdir -p "$OUTDIR"
+          python scripts/run_full_fcp_hurdle_models.py \
+            --analysis climate/full_fcp_climate_analysis_dataset.csv \
+            --core-species core/v22_core_fcp_species_universe.csv \
+            --attention attention/full_fcp_literature_attention.csv \
+            --outdir "$OUTDIR" --family-bootstraps 499 --seed 20260826
+      - name: Validate and print primary results
+        run: |
+          python - <<'PY'
+          import pandas as pd
+          d=pd.read_csv('analysis_outputs/jbi_full_fcp_hurdle_primary/full_fcp_documentation_models.csv')
+          m=pd.read_csv('analysis_outputs/jbi_full_fcp_hurdle_primary/full_fcp_conditional_multinomial.csv')
+          b=pd.read_csv('analysis_outputs/jbi_full_fcp_hurdle_primary/full_fcp_conditional_multinomial_bootstrap.csv')
+          assert len(d)==10 and len(m)==10
+          assert set(d.scope)=={'core','expanded'} and set(m.scope)=={'core','expanded'}
+          assert set(d.status)=={'complete'} and set(m.status)=={'complete'}
+          assert (m.family_bootstraps_valid>0).all()
+          assert len(b)<=4990, len(b)
+          assert set(d.loc[d.scope.eq('core'),'n_species'])=={66}
+          assert set(m.loc[m.scope.eq('core'),'n_species'])=={32}
+          print('STAGE A DOCUMENTATION')
+          print(d.to_csv(index=False))
+          print('STAGE B CONDITIONAL ORGANIZATION')
+          print(m.to_csv(index=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-full-fcp-hurdle-primary-v6core
+          path: |
+            core/
+            analysis_outputs/jbi_full_fcp_hurdle_primary/
+          if-no-files-found: error
+          retention-days: 30

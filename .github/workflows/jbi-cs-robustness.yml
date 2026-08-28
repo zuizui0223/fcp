@@ -1,0 +1,95 @@
+name: JBI C/S observation-process robustness
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-cs-robustness.yml'
+      - 'scripts/build_cs_literature_attention.py'
+      - 'scripts/run_cs_robustness.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-cs-robustness
+  cancel-in-progress: true
+
+env:
+  CLIMATE_RUN_ID: '32926741272'
+  CLIMATE_ARTIFACT: 'jbi-cs-climate-rebuild'
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  OUTDIR: 'analysis_outputs/jbi_cs_robustness'
+
+jobs:
+  robustness:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy statsmodels
+      - name: Download fixed C/S climate dataset
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CLIMATE_ARTIFACT }}
+          path: climate_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CLIMATE_RUN_ID }}
+      - name: Download fixed v2.2 record universe
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+      - name: Build outcome-independent literature attention
+        run: |
+          mkdir -p "$OUTDIR"
+          python scripts/build_cs_literature_attention.py \
+            --dataset climate_input/jbi_cs_climate_analysis_dataset.csv \
+            --records record_input/v22_record_screening_blind.csv \
+            --out "$OUTDIR/cs_literature_attention.csv" \
+            --qc-out "$OUTDIR/cs_literature_attention_qc.json"
+      - name: Run robustness analyses
+        run: |
+          python scripts/run_cs_robustness.py \
+            --dataset climate_input/jbi_cs_climate_analysis_dataset.csv \
+            --attention "$OUTDIR/cs_literature_attention.csv" \
+            --outdir "$OUTDIR"
+      - name: Validate outputs
+        run: |
+          python - <<'PY'
+          import json, pandas as pd
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_cs_robustness')
+          a=pd.read_csv(root/'cs_literature_attention_adjusted.csv')
+          o=pd.read_csv(root/'cs_one_source_stratum.csv')
+          m=pd.read_csv(root/'cs_three_state_multinomial.csv')
+          att=pd.read_csv(root/'cs_literature_attention.csv')
+          manifest=json.loads((root/'cs_robustness_manifest.json').read_text())
+          assert len(att)==34 and len(a)==10 and len(o)==10 and len(m)==10
+          assert set(a.status)=={'complete'} and set(o.status)=={'complete'}
+          assert m.converged.all()
+          assert manifest['one_source_stratum_n']>=20
+          print('\nLiterature-attention adjusted:')
+          print(a[['outcome','metric','odds_ratio','odds_ratio_ci_low','odds_ratio_ci_high','wald_p_clustered','literature_attention_estimate','literature_attention_p']].to_string(index=False))
+          print('\nOne-source stratum:')
+          print(o[['outcome','metric','odds_ratio','odds_ratio_ci_low','odds_ratio_ci_high','wald_p_clustered']].to_string(index=False))
+          print('\nThree-state multinomial:')
+          print(m[['metric','numerator_state','reference_state','relative_odds_ratio','relative_odds_ratio_ci_low','relative_odds_ratio_ci_high','wald_p_clustered']].to_string(index=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-cs-robustness
+          path: analysis_outputs/jbi_cs_robustness/
+          if-no-files-found: error
+          retention-days: 30

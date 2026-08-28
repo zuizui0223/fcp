@@ -1,0 +1,19 @@
+{
+  "status": "frozen",
+  "dataset": "data/frozen/jbi_cs_evidence_freeze_v22.csv",
+  "dataset_sha256": "fa4cd099b875531256964b101a8db7fbbe8a2598ad3dfdb1a83145af98c4a2bd",
+  "source_workflow_run_id": 32926071541,
+  "source_artifact": "jbi-v22-coexistence-segregation-refined",
+  "source_artifact_digest": "sha256:0a2b7c7f20e6093daedb6b4b317fd8e7b8a89b818c2df042866ddb6bcf660951",
+  "n_species": 34,
+  "state_counts": {
+    "local_coexistence_only": 11,
+    "spatial_segregation_only": 8,
+    "coexistence_and_segregation": 15
+  },
+  "C_positive": 26,
+  "S_positive": 23,
+  "classification": "single-pass conservative documented-evidence audit",
+  "zero_semantics": "not documented by the strict pass; not biological absence",
+  "historical_binary_freeze_overwritten": false
+}

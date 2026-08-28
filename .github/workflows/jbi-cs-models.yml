@@ -1,0 +1,89 @@
+name: JBI C/S primary climate models
+
+on:
+  push:
+    branches: [audit/upstream-spatial-reaudit]
+    paths:
+      - '.github/workflows/jbi-cs-models.yml'
+      - 'scripts/run_cs_models_v2.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-cs-primary-models
+  cancel-in-progress: true
+
+env:
+  CLIMATE_RUN_ID: '32926741272'
+  CLIMATE_ARTIFACT: 'jbi-cs-climate-rebuild'
+  OUTDIR: 'analysis_outputs/jbi_cs_models'
+
+jobs:
+  run-models:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install model dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas scipy statsmodels
+      - name: Download fixed C/S climate rebuild
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CLIMATE_ARTIFACT }}
+          path: climate_input
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CLIMATE_RUN_ID }}
+      - name: Validate fixed input
+        run: |
+          set -euo pipefail
+          test -s climate_input/jbi_cs_climate_analysis_dataset.csv
+          python - <<'PY'
+          import hashlib, pandas as pd
+          p='climate_input/jbi_cs_climate_analysis_dataset.csv'
+          d=pd.read_csv(p)
+          assert len(d)==34, len(d)
+          assert int(d.C_local_coexistence_documented.sum())==26
+          assert int(d.S_spatial_segregation_documented.sum())==23
+          assert int(((d.C_local_coexistence_documented==1)&(d.S_spatial_segregation_documented==1)).sum())==15
+          assert (d.n_climate_cells>=20).all()
+          assert hashlib.sha256(open(p,'rb').read()).hexdigest()=='161adbe80ee3b38a60b17cd0ad1e048eb9d454ae1cfea5825192995ef39a9a42'
+          print({'rows':len(d),'C':int(d.C_local_coexistence_documented.sum()),'S':int(d.S_spatial_segregation_documented.sum())})
+          PY
+      - name: Run canonical primary C/S models
+        run: |
+          mkdir -p "$OUTDIR"
+          python scripts/run_cs_models_v2.py \
+            --dataset climate_input/jbi_cs_climate_analysis_dataset.csv \
+            --outdir "$OUTDIR" \
+            --permutations 9999 \
+            --seed 20260826
+      - name: Validate model outputs
+        run: |
+          python - <<'PY'
+          import json, pandas as pd
+          from pathlib import Path
+          root=Path('analysis_outputs/jbi_cs_models')
+          m=pd.read_csv(root/'cs_five_metric_models.csv')
+          manifest=json.loads((root/'cs_model_manifest.json').read_text())
+          assert len(m)==10, len(m)
+          assert set(m.outcome_short)=={'C','S'}
+          assert set(m.analysis_status)=={'complete'}
+          assert (m.permutations_valid==9999).all()
+          assert manifest['dataset_sha256']=='161adbe80ee3b38a60b17cd0ad1e048eb9d454ae1cfea5825192995ef39a9a42'
+          assert manifest['n_species']==34 and manifest['C_positive']==26 and manifest['S_positive']==23 and manifest['C_and_S_positive']==15
+          assert not any(c.startswith('source_effort') for c in m.columns)
+          print(m[['outcome_short','metric','odds_ratio','wald_p_value_clustered','permutation_p_two_sided','permutation_p_holm_within_outcome','loo_same_direction_fraction']].to_string(index=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-cs-primary-models-v2
+          path: analysis_outputs/jbi_cs_models/
+          if-no-files-found: error
+          retention-days: 30
