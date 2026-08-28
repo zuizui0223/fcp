@@ -1,0 +1,114 @@
+name: JBI Chapter 1 vision repeatability
+
+on:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-vision-repeatability.yml"
+      - "scripts/data/run_jbi_ch1_vision_repeatability.py"
+      - "tests/test_vision_repeatability.py"
+      - "docs/supporting/jbi_ch1_calibration_semantic_schema_v2.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  copilot-requests: write
+
+concurrency:
+  group: jbi-ch1-vision-repeatability-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  three-pass-six-image-repeatability:
+    if: ${{ !contains(github.event.head_commit.message || '', '[skip-vision-repeatability]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install package, tests, and Copilot CLI
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+          npm install -g @github/copilot
+          copilot --version | tee artifacts_copilot_version.txt
+
+      - name: Validate repeatability aggregation logic
+        run: python -m pytest -q tests/test_vision_repeatability.py tests/test_photo_split.py
+
+      - name: Materialize the same six frozen calibration images
+        run: |
+          python scripts/data/materialize_jbi_ch1_vision_pilot.py \
+            --split data/frozen/jbi_ch1_photo_split_v1.csv \
+            --output-root artifacts/jbi_ch1_vision_repeatability_v2/images \
+            --manifest-csv artifacts/jbi_ch1_vision_repeatability_v2/pilot_manifest.csv
+          python - <<'PY'
+          import pandas as pd
+          p = pd.read_csv('artifacts/jbi_ch1_vision_repeatability_v2/pilot_manifest.csv')
+          assert len(p) == 6 and p['species'].nunique() == 6
+          assert not p['evaluation_row'].astype(bool).any()
+          print('Repeatability input firewall: six calibration images, zero evaluation images.')
+          PY
+
+      - name: Run three independent passes per image
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/data/run_jbi_ch1_vision_repeatability.py \
+            --pilot-manifest artifacts/jbi_ch1_vision_repeatability_v2/pilot_manifest.csv \
+            --output-jsonl data/calibration/jbi_ch1_vision_repeatability_v2.jsonl \
+            --summary-json docs/supporting/jbi_ch1_vision_repeatability_v2.json
+
+      - name: Validate repeatability output firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows = [json.loads(x) for x in Path('data/calibration/jbi_ch1_vision_repeatability_v2.jsonl').read_text().splitlines() if x.strip()]
+          s = json.loads(Path('docs/supporting/jbi_ch1_vision_repeatability_v2.json').read_text())
+          assert len(rows) == 18
+          assert len({r['blind_id'] for r in rows}) == 6
+          assert sorted({r['pass_index'] for r in rows}) == [1,2,3]
+          assert s['calibration_only'] is True
+          assert s['evaluation_rows_opened'] is False
+          assert s['used_for_final_calibration_rule'] is False
+          assert s['status'] == 'measured_not_yet_accepted_for_scaleup'
+          print(json.dumps(s['field_repeatability'], indent=2))
+          PY
+
+      - name: Upload repeatability evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-vision-repeatability-v2
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            artifacts/jbi_ch1_vision_repeatability_v2/pilot_manifest.csv
+            artifacts_copilot_version.txt
+            data/calibration/jbi_ch1_vision_repeatability_v2.jsonl
+            docs/supporting/jbi_ch1_vision_repeatability_v2.json
+            docs/supporting/jbi_ch1_calibration_semantic_schema_v2.json
+
+      - name: Commit repeatability evidence on latest branch head
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/calibration/jbi_ch1_vision_repeatability_v2.jsonl docs/supporting/jbi_ch1_vision_repeatability_v2.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Measure calibration vision repeatability [skip-vision-repeatability]"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
