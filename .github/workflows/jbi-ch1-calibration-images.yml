@@ -33,7 +33,6 @@ jobs:
         with:
           ref: analysis/jbi-global-colour-boundaries
           fetch-depth: 0
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -66,7 +65,6 @@ jobs:
           import json
           from pathlib import Path
           import pandas as pd
-
           split = pd.read_csv('data/frozen/jbi_ch1_photo_split_v1.csv')
           qc = pd.read_csv('data/calibration/jbi_ch1_calibration_image_qc_v1.csv')
           manifest = json.loads(Path('docs/supporting/jbi_ch1_calibration_image_manifest_v1.json').read_text())
@@ -77,10 +75,8 @@ jobs:
           assert qc_ids == calibration_ids
           assert qc_ids.isdisjoint(evaluation_ids)
           assert manifest['status'] == 'pass'
-          assert manifest['n_expected'] == 480
-          assert manifest['n_materialized'] == 480
-          assert manifest['n_failed'] == 0
-          assert manifest['evaluation_rows_opened'] is False
+          assert manifest['n_expected'] == 480 and manifest['n_materialized'] == 480
+          assert manifest['n_failed'] == 0 and manifest['evaluation_rows_opened'] is False
           assert manifest['technical_metrics_used_for_colour_assignment'] is False
           assert manifest['technical_flags_are_exclusion_rules'] is False
           print('Calibration firewall passed: 480 calibration images, 0 evaluation images.')
@@ -96,18 +92,15 @@ jobs:
             data/calibration/jbi_ch1_calibration_image_qc_v1.csv
             docs/supporting/jbi_ch1_calibration_image_manifest_v1.json
 
-      - name: Commit technical audit records only
+      - name: Commit technical audit records on latest branch head
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            data/calibration/jbi_ch1_calibration_image_qc_v1.csv \
-            docs/supporting/jbi_ch1_calibration_image_manifest_v1.json
-          if git diff --cached --quiet; then
-            echo "Technical calibration audit already matches repository state."
-            exit 0
-          fi
+          git add data/calibration/jbi_ch1_calibration_image_qc_v1.csv docs/supporting/jbi_ch1_calibration_image_manifest_v1.json
+          if git diff --cached --quiet; then exit 0; fi
           git commit -m "Audit frozen 480 calibration images [skip-calibration-materialize]"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
           git push origin HEAD:analysis/jbi-global-colour-boundaries
