@@ -1,0 +1,430 @@
+{
+  "calibration_only": true,
+  "evaluation_rows_opened": false,
+  "field_repeatability": {
+    "colour_pattern": {
+      "n_images": 6,
+      "n_unanimous": 5,
+      "unanimous_fraction": 0.8333333333333334
+    },
+    "diagnostic_colour_scope": {
+      "n_images": 6,
+      "n_unanimous": 4,
+      "unanimous_fraction": 0.6666666666666666
+    },
+    "flower_condition": {
+      "n_images": 6,
+      "n_unanimous": 6,
+      "unanimous_fraction": 1.0
+    },
+    "flower_region": {
+      "n_images": 6,
+      "n_unanimous": 6,
+      "unanimous_fraction": 1.0
+    },
+    "flower_visibility": {
+      "n_images": 6,
+      "n_unanimous": 6,
+      "unanimous_fraction": 1.0
+    },
+    "segmentation_feasibility": {
+      "n_images": 6,
+      "n_unanimous": 6,
+      "unanimous_fraction": 1.0
+    },
+    "within_photo_flower_consistency": {
+      "n_images": 6,
+      "n_unanimous": 5,
+      "unanimous_fraction": 0.8333333333333334
+    }
+  },
+  "independent_sessions": true,
+  "model_requested": "auto",
+  "n_images": 6,
+  "n_valid_responses": 18,
+  "passes_per_image": 3,
+  "per_image": [
+    {
+      "blind_id": "005afd4f58b202db",
+      "colour_pattern_mode": "multi_colour_pattern",
+      "colour_pattern_mode_fraction": 0.6666666666666666,
+      "colour_pattern_unanimous": false,
+      "colour_pattern_values": [
+        "multi_colour_pattern",
+        "multi_colour_pattern",
+        "approximately_uniform"
+      ],
+      "colour_terms_pairwise_jaccard": 0.3333333333333333,
+      "confidence_mean": 0.8466666666666667,
+      "diagnostic_colour_scope_mode": "both",
+      "diagnostic_colour_scope_mode_fraction": 0.6666666666666666,
+      "diagnostic_colour_scope_unanimous": false,
+      "diagnostic_colour_scope_values": [
+        "both",
+        "both",
+        "petal_background"
+      ],
+      "flower_condition_mode": "fresh",
+      "flower_condition_mode_fraction": 1.0,
+      "flower_condition_unanimous": true,
+      "flower_condition_values": [
+        "fresh",
+        "fresh",
+        "fresh"
+      ],
+      "flower_region_mode": "multiple_flowers_clear",
+      "flower_region_mode_fraction": 1.0,
+      "flower_region_unanimous": true,
+      "flower_region_values": [
+        "multiple_flowers_clear",
+        "multiple_flowers_clear",
+        "multiple_flowers_clear"
+      ],
+      "flower_visibility_mode": "evaluable",
+      "flower_visibility_mode_fraction": 1.0,
+      "flower_visibility_unanimous": true,
+      "flower_visibility_values": [
+        "evaluable",
+        "evaluable",
+        "evaluable"
+      ],
+      "n_passes": 3,
+      "segmentation_feasibility_mode": "feasible",
+      "segmentation_feasibility_mode_fraction": 1.0,
+      "segmentation_feasibility_unanimous": true,
+      "segmentation_feasibility_values": [
+        "feasible",
+        "feasible",
+        "feasible"
+      ],
+      "species": "Raphanus sativus",
+      "within_photo_flower_consistency_mode": "consistent",
+      "within_photo_flower_consistency_mode_fraction": 1.0,
+      "within_photo_flower_consistency_unanimous": true,
+      "within_photo_flower_consistency_values": [
+        "consistent",
+        "consistent",
+        "consistent"
+      ]
+    },
+    {
+      "blind_id": "00b0caa6aa902f40",
+      "colour_pattern_mode": "approximately_uniform",
+      "colour_pattern_mode_fraction": 1.0,
+      "colour_pattern_unanimous": true,
+      "colour_pattern_values": [
+        "approximately_uniform",
+        "approximately_uniform",
+        "approximately_uniform"
+      ],
+      "colour_terms_pairwise_jaccard": 0.31428571428571433,
+      "confidence_mean": 0.68,
+      "diagnostic_colour_scope_mode": "petal_background",
+      "diagnostic_colour_scope_mode_fraction": 0.6666666666666666,
+      "diagnostic_colour_scope_unanimous": false,
+      "diagnostic_colour_scope_values": [
+        "unresolved",
+        "petal_background",
+        "petal_background"
+      ],
+      "flower_condition_mode": "senescent",
+      "flower_condition_mode_fraction": 1.0,
+      "flower_condition_unanimous": true,
+      "flower_condition_values": [
+        "senescent",
+        "senescent",
+        "senescent"
+      ],
+      "flower_region_mode": "multiple_flowers_clear",
+      "flower_region_mode_fraction": 1.0,
+      "flower_region_unanimous": true,
+      "flower_region_values": [
+        "multiple_flowers_clear",
+        "multiple_flowers_clear",
+        "multiple_flowers_clear"
+      ],
+      "flower_visibility_mode": "evaluable",
+      "flower_visibility_mode_fraction": 1.0,
+      "flower_visibility_unanimous": true,
+      "flower_visibility_values": [
+        "evaluable",
+        "evaluable",
+        "evaluable"
+      ],
+      "n_passes": 3,
+      "segmentation_feasibility_mode": "feasible",
+      "segmentation_feasibility_mode_fraction": 1.0,
+      "segmentation_feasibility_unanimous": true,
+      "segmentation_feasibility_values": [
+        "feasible",
+        "feasible",
+        "feasible"
+      ],
+      "species": "Gentiana lutea",
+      "within_photo_flower_consistency_mode": "consistent",
+      "within_photo_flower_consistency_mode_fraction": 0.6666666666666666,
+      "within_photo_flower_consistency_unanimous": false,
+      "within_photo_flower_consistency_values": [
+        "consistent",
+        "variable_between_flowers",
+        "consistent"
+      ]
+    },
+    {
+      "blind_id": "0176537d5144f894",
+      "colour_pattern_mode": "multi_colour_pattern",
+      "colour_pattern_mode_fraction": 1.0,
+      "colour_pattern_unanimous": true,
+      "colour_pattern_values": [
+        "multi_colour_pattern",
+        "multi_colour_pattern",
+        "multi_colour_pattern"
+      ],
+      "colour_terms_pairwise_jaccard": 0.8666666666666667,
+      "confidence_mean": 0.8733333333333334,
+      "diagnostic_colour_scope_mode": "both",
+      "diagnostic_colour_scope_mode_fraction": 1.0,
+      "diagnostic_colour_scope_unanimous": true,
+      "diagnostic_colour_scope_values": [
+        "both",
+        "both",
+        "both"
+      ],
+      "flower_condition_mode": "fresh",
+      "flower_condition_mode_fraction": 1.0,
+      "flower_condition_unanimous": true,
+      "flower_condition_values": [
+        "fresh",
+        "fresh",
+        "fresh"
+      ],
+      "flower_region_mode": "multiple_flowers_clear",
+      "flower_region_mode_fraction": 1.0,
+      "flower_region_unanimous": true,
+      "flower_region_values": [
+        "multiple_flowers_clear",
+        "multiple_flowers_clear",
+        "multiple_flowers_clear"
+      ],
+      "flower_visibility_mode": "evaluable",
+      "flower_visibility_mode_fraction": 1.0,
+      "flower_visibility_unanimous": true,
+      "flower_visibility_values": [
+        "evaluable",
+        "evaluable",
+        "evaluable"
+      ],
+      "n_passes": 3,
+      "segmentation_feasibility_mode": "feasible",
+      "segmentation_feasibility_mode_fraction": 1.0,
+      "segmentation_feasibility_unanimous": true,
+      "segmentation_feasibility_values": [
+        "feasible",
+        "feasible",
+        "feasible"
+      ],
+      "species": "Antirrhinum majus",
+      "within_photo_flower_consistency_mode": "consistent",
+      "within_photo_flower_consistency_mode_fraction": 1.0,
+      "within_photo_flower_consistency_unanimous": true,
+      "within_photo_flower_consistency_values": [
+        "consistent",
+        "consistent",
+        "consistent"
+      ]
+    },
+    {
+      "blind_id": "023f910bff4aa8c6",
+      "colour_pattern_mode": "multi_colour_pattern",
+      "colour_pattern_mode_fraction": 1.0,
+      "colour_pattern_unanimous": true,
+      "colour_pattern_values": [
+        "multi_colour_pattern",
+        "multi_colour_pattern",
+        "multi_colour_pattern"
+      ],
+      "colour_terms_pairwise_jaccard": 0.37777777777777777,
+      "confidence_mean": 0.9,
+      "diagnostic_colour_scope_mode": "both",
+      "diagnostic_colour_scope_mode_fraction": 1.0,
+      "diagnostic_colour_scope_unanimous": true,
+      "diagnostic_colour_scope_values": [
+        "both",
+        "both",
+        "both"
+      ],
+      "flower_condition_mode": "fresh",
+      "flower_condition_mode_fraction": 1.0,
+      "flower_condition_unanimous": true,
+      "flower_condition_values": [
+        "fresh",
+        "fresh",
+        "fresh"
+      ],
+      "flower_region_mode": "multiple_flowers_clear",
+      "flower_region_mode_fraction": 1.0,
+      "flower_region_unanimous": true,
+      "flower_region_values": [
+        "multiple_flowers_clear",
+        "multiple_flowers_clear",
+        "multiple_flowers_clear"
+      ],
+      "flower_visibility_mode": "evaluable",
+      "flower_visibility_mode_fraction": 1.0,
+      "flower_visibility_unanimous": true,
+      "flower_visibility_values": [
+        "evaluable",
+        "evaluable",
+        "evaluable"
+      ],
+      "n_passes": 3,
+      "segmentation_feasibility_mode": "feasible",
+      "segmentation_feasibility_mode_fraction": 1.0,
+      "segmentation_feasibility_unanimous": true,
+      "segmentation_feasibility_values": [
+        "feasible",
+        "feasible",
+        "feasible"
+      ],
+      "species": "Dactylorhiza sambucina",
+      "within_photo_flower_consistency_mode": "consistent",
+      "within_photo_flower_consistency_mode_fraction": 1.0,
+      "within_photo_flower_consistency_unanimous": true,
+      "within_photo_flower_consistency_values": [
+        "consistent",
+        "consistent",
+        "consistent"
+      ]
+    },
+    {
+      "blind_id": "02db3a10e0f396cf",
+      "colour_pattern_mode": "multi_colour_pattern",
+      "colour_pattern_mode_fraction": 1.0,
+      "colour_pattern_unanimous": true,
+      "colour_pattern_values": [
+        "multi_colour_pattern",
+        "multi_colour_pattern",
+        "multi_colour_pattern"
+      ],
+      "colour_terms_pairwise_jaccard": 0.4666666666666666,
+      "confidence_mean": 0.94,
+      "diagnostic_colour_scope_mode": "both",
+      "diagnostic_colour_scope_mode_fraction": 1.0,
+      "diagnostic_colour_scope_unanimous": true,
+      "diagnostic_colour_scope_values": [
+        "both",
+        "both",
+        "both"
+      ],
+      "flower_condition_mode": "fresh",
+      "flower_condition_mode_fraction": 1.0,
+      "flower_condition_unanimous": true,
+      "flower_condition_values": [
+        "fresh",
+        "fresh",
+        "fresh"
+      ],
+      "flower_region_mode": "single_target_clear",
+      "flower_region_mode_fraction": 1.0,
+      "flower_region_unanimous": true,
+      "flower_region_values": [
+        "single_target_clear",
+        "single_target_clear",
+        "single_target_clear"
+      ],
+      "flower_visibility_mode": "evaluable",
+      "flower_visibility_mode_fraction": 1.0,
+      "flower_visibility_unanimous": true,
+      "flower_visibility_values": [
+        "evaluable",
+        "evaluable",
+        "evaluable"
+      ],
+      "n_passes": 3,
+      "segmentation_feasibility_mode": "feasible",
+      "segmentation_feasibility_mode_fraction": 1.0,
+      "segmentation_feasibility_unanimous": true,
+      "segmentation_feasibility_values": [
+        "feasible",
+        "feasible",
+        "feasible"
+      ],
+      "species": "Ipomoea purpurea",
+      "within_photo_flower_consistency_mode": "single_flower",
+      "within_photo_flower_consistency_mode_fraction": 1.0,
+      "within_photo_flower_consistency_unanimous": true,
+      "within_photo_flower_consistency_values": [
+        "single_flower",
+        "single_flower",
+        "single_flower"
+      ]
+    },
+    {
+      "blind_id": "0741878b1083634e",
+      "colour_pattern_mode": "multi_colour_pattern",
+      "colour_pattern_mode_fraction": 1.0,
+      "colour_pattern_unanimous": true,
+      "colour_pattern_values": [
+        "multi_colour_pattern",
+        "multi_colour_pattern",
+        "multi_colour_pattern"
+      ],
+      "colour_terms_pairwise_jaccard": 0.2833333333333334,
+      "confidence_mean": 0.8433333333333334,
+      "diagnostic_colour_scope_mode": "both",
+      "diagnostic_colour_scope_mode_fraction": 1.0,
+      "diagnostic_colour_scope_unanimous": true,
+      "diagnostic_colour_scope_values": [
+        "both",
+        "both",
+        "both"
+      ],
+      "flower_condition_mode": "fresh",
+      "flower_condition_mode_fraction": 1.0,
+      "flower_condition_unanimous": true,
+      "flower_condition_values": [
+        "fresh",
+        "fresh",
+        "fresh"
+      ],
+      "flower_region_mode": "multiple_flowers_clear",
+      "flower_region_mode_fraction": 1.0,
+      "flower_region_unanimous": true,
+      "flower_region_values": [
+        "multiple_flowers_clear",
+        "multiple_flowers_clear",
+        "multiple_flowers_clear"
+      ],
+      "flower_visibility_mode": "evaluable",
+      "flower_visibility_mode_fraction": 1.0,
+      "flower_visibility_unanimous": true,
+      "flower_visibility_values": [
+        "evaluable",
+        "evaluable",
+        "evaluable"
+      ],
+      "n_passes": 3,
+      "segmentation_feasibility_mode": "feasible",
+      "segmentation_feasibility_mode_fraction": 1.0,
+      "segmentation_feasibility_unanimous": true,
+      "segmentation_feasibility_values": [
+        "feasible",
+        "feasible",
+        "feasible"
+      ],
+      "species": "Lysimachia arvensis",
+      "within_photo_flower_consistency_mode": "consistent",
+      "within_photo_flower_consistency_mode_fraction": 1.0,
+      "within_photo_flower_consistency_unanimous": true,
+      "within_photo_flower_consistency_values": [
+        "consistent",
+        "consistent",
+        "consistent"
+      ]
+    }
+  ],
+  "protocol": "jbi-ch1-vision-repeatability-v2",
+  "scaleup_decision": "requires_review_of_measured_repeatability; no numeric acceptance threshold was invented post hoc",
+  "status": "measured_not_yet_accepted_for_scaleup",
+  "used_for_final_calibration_rule": false
+}
