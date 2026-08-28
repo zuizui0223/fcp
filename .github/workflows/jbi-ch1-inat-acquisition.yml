@@ -2,32 +2,82 @@ name: JBI Chapter 1 iNaturalist acquisition
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - analysis/jbi-global-colour-boundaries
-    paths:
-      - ".github/workflows/jbi-ch1-inat-acquisition.yml"
-      - "docs/supporting/jbi_ch1_inat_acquisition_v1.json"
-      - "scripts/data/acquire_jbi_ch1_inat_photos.py"
-      - "scripts/data/acquire_jbi_ch1_inat_photos_v2.py"
-      - "scripts/data/freeze_jbi_ch1_photo_split.py"
-      - "scripts/data/build_jbi_ch1_calibration_package.py"
-      - "fcp_pipeline/photo_split.py"
-      - "fcp_pipeline/photo_calibration.py"
-      - "tests/test_inat_photo_acquisition.py"
-      - "tests/test_photo_split.py"
-      - "tests/test_photo_calibration.py"
+    inputs:
+      confirm_reacquire:
+        description: "Leave blank to validate the frozen sample. Type REACQUIRE only for an intentional version-bumped replacement."
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: write
 
-concurrency:
-  group: jbi-ch1-inat-acquisition-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  acquire-freeze-package:
-    if: ${{ !contains(github.event.head_commit.message || '', '[skip-inat-acquisition]') }}
+  validate-frozen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install validation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Validate committed acquisition freeze
+        run: |
+          python -m pytest -q \
+            tests/test_inat_photo_acquisition.py \
+            tests/test_photo_split.py \
+            tests/test_photo_source_recovery.py \
+            tests/test_spatial_boundaries.py
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import pandas as pd
+          from fcp_pipeline.photo_split import validate_frozen_split
+          from fcp_pipeline.photo_calibration import validate_calibration_sheet
+
+          source = Path('data/frozen/jbi_ch1_photo_source_manifest.csv')
+          split = Path('data/frozen/jbi_ch1_photo_split_v1.csv')
+          split_manifest = Path('data/frozen/jbi_ch1_photo_split_v1_manifest.json')
+          review = Path('data/calibration/jbi_ch1_calibration_review_v1.csv')
+          calibration_manifest = Path('data/calibration/jbi_ch1_calibration_package_manifest_v1.json')
+          qc_path = Path('docs/supporting/jbi_ch1_inat_acquisition_qc_v1.json')
+          for p in (source, split, split_manifest, review, calibration_manifest, qc_path):
+              if not p.exists():
+                  raise SystemExit(f'missing frozen artifact: {p}')
+
+          source_df = pd.read_csv(source)
+          split_df = pd.read_csv(split)
+          review_df = pd.read_csv(review, keep_default_na=False)
+          sm = json.loads(split_manifest.read_text())
+          cm = json.loads(calibration_manifest.read_text())
+          qc = json.loads(qc_path.read_text())
+
+          def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+          assert len(source_df) == 1200
+          assert source_df['species'].nunique() == 6
+          assert (source_df.groupby('species').size() == 200).all()
+          assert source_df['photo_id'].astype(str).is_unique
+          assert sha(source) == sm['source_raw_sha256'] == qc['source_manifest_sha256']
+          assert sha(split) == sm['output_csv_sha256'] == cm['source_split_sha256']
+          assert qc['all_species_gate_pass'] is True
+          assert qc['total_selected'] == 1200
+          validate_frozen_split(split_df, species_col='species', photo_id_col='photo_id')
+          validate_calibration_sheet(review_df, require_complete=False)
+          assert (split_df['split'] == 'calibration').sum() == 480
+          assert (split_df['split'] == 'evaluation').sum() == 720
+          assert len(review_df) == 480
+          assert cm['contains_evaluation_rows'] is False
+          assert cm['evaluation_opened_for_rule_tuning'] is False
+          print('Frozen sample validated without reacquisition.')
+          PY
+
+  reacquire:
+    if: ${{ inputs.confirm_reacquire == 'REACQUIRE' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -35,117 +85,16 @@ jobs:
         with:
           ref: analysis/jbi-global-colour-boundaries
           fetch-depth: 0
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
-
       - name: Install package and test dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e . pytest
-
-      - name: Validate deterministic acquisition and split logic
+      - name: Require explicit version bump before replacement
         run: |
-          python -m pytest -q \
-            tests/test_inat_photo_acquisition.py \
-            tests/test_photo_split.py \
-            tests/test_photo_source_recovery.py \
-            tests/test_spatial_boundaries.py
-          if [[ -f tests/test_photo_calibration.py ]]; then
-            python -m pytest -q tests/test_photo_calibration.py
-          fi
-
-      - name: Acquire 6 x 200 iNaturalist photo manifest
-        shell: bash
-        run: |
-          set -euo pipefail
-          ok=0
-          for attempt in 1 2; do
-            echo "Acquisition attempt $attempt/2"
-            if python scripts/data/acquire_jbi_ch1_inat_photos_v2.py; then
-              ok=1
-              break
-            fi
-            sleep $((attempt * 15))
-          done
-          if [[ "$ok" -ne 1 ]]; then
-            echo "iNaturalist acquisition failed after two attempts" >&2
-            exit 1
-          fi
-
-      - name: Freeze 480 calibration and 720 evaluation IDs
-        run: |
-          python scripts/data/freeze_jbi_ch1_photo_split.py \
-            data/frozen/jbi_ch1_photo_source_manifest.csv \
-            data/frozen/jbi_ch1_photo_split_v1.csv \
-            data/frozen/jbi_ch1_photo_split_v1_manifest.json
-
-      - name: Build blinded 480-photo calibration package
-        run: python scripts/data/build_jbi_ch1_calibration_package.py
-
-      - name: Validate generated acquisition package
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          import pandas as pd
-          from fcp_pipeline.photo_split import validate_frozen_split
-          from fcp_pipeline.photo_calibration import validate_calibration_sheet
-
-          source = pd.read_csv('data/frozen/jbi_ch1_photo_source_manifest.csv')
-          split = pd.read_csv('data/frozen/jbi_ch1_photo_split_v1.csv')
-          review = pd.read_csv('data/calibration/jbi_ch1_calibration_review_v1.csv', keep_default_na=False)
-          qc = json.loads(Path('docs/supporting/jbi_ch1_inat_acquisition_qc_v1.json').read_text())
-
-          assert len(source) == 1200
-          assert source['species'].nunique() == 6
-          assert (source.groupby('species').size() == 200).all()
-          assert source['photo_id'].astype(str).is_unique
-          assert qc['status'] == 'pass'
-          assert qc['all_species_gate_pass'] is True
-          assert qc['total_selected'] == 1200
-          validate_frozen_split(split, species_col='species', photo_id_col='photo_id')
-          validate_calibration_sheet(review, require_complete=False)
-          assert (split['split'] == 'calibration').sum() == 480
-          assert (split['split'] == 'evaluation').sum() == 720
-          assert len(review) == 480
-          print('Acquisition package validated: 1200 source / 480 calibration / 720 evaluation')
-          PY
-
-      - name: Upload CSV/JSON acquisition package
-        uses: actions/upload-artifact@v4
-        with:
-          name: jbi-ch1-inat-acquisition-v1
-          if-no-files-found: error
-          retention-days: 90
-          path: |
-            data/frozen/jbi_ch1_photo_source_manifest.csv
-            data/frozen/jbi_ch1_photo_split_v1.csv
-            data/frozen/jbi_ch1_photo_split_v1_manifest.json
-            data/calibration/jbi_ch1_calibration_review_v1.csv
-            data/calibration/jbi_ch1_species_colour_codebook_v1.json
-            data/calibration/jbi_ch1_calibration_package_manifest_v1.json
-            docs/supporting/jbi_ch1_inat_acquisition_qc_v1.json
-
-      - name: Commit frozen acquisition metadata to PR branch
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            data/frozen/jbi_ch1_photo_source_manifest.csv \
-            data/frozen/jbi_ch1_photo_split_v1.csv \
-            data/frozen/jbi_ch1_photo_split_v1_manifest.json \
-            data/calibration/jbi_ch1_calibration_review_v1.csv \
-            data/calibration/jbi_ch1_species_colour_codebook_v1.json \
-            data/calibration/jbi_ch1_calibration_package_manifest_v1.json \
-            docs/supporting/jbi_ch1_inat_acquisition_qc_v1.json
-          if git diff --cached --quiet; then
-            echo "Frozen acquisition package already matches repository state."
-            exit 0
-          fi
-          git commit -m "Freeze Chapter 1 iNaturalist development sample [skip-inat-acquisition]"
-          git push origin HEAD:analysis/jbi-global-colour-boundaries
+          echo "The current v1 sample is frozen."
+          echo "Do not overwrite v1 in place. Create a v2 acquisition config/output set before enabling this job."
+          exit 1
