@@ -13,6 +13,14 @@
       "Lysimachia arvensis"
     ]
   },
+  "taxon_overrides": {
+    "Raphanus sativus": {
+      "id": 995125,
+      "name": "Raphanus raphanistrum sativus",
+      "rank": "subspecies",
+      "reason": "iNaturalist active taxon after 2024 taxonomic merge; repository analysis name remains Raphanus sativus"
+    }
+  },
   "inat_api": {
     "base_url": "https://api.inaturalist.org/v1",
     "quality_grade": "research",
@@ -21,10 +29,10 @@
     "captive": false,
     "created_d2": "2026-08-28T23:59:59Z",
     "per_page": 200,
-    "maximum_candidates_per_species": 3000,
+    "maximum_candidates_per_species": 1200,
     "one_photo_per_observation": true,
     "maximum_positional_accuracy_m": 20000,
-    "request_pause_seconds": 1.0
+    "request_pause_seconds": 0.5
   },
   "selection": {
     "target_photographs_per_species": 200,
