@@ -20,6 +20,44 @@ Totals:
 
 The split must be deterministic, frozen, and hash-manifested before any flower-colour rule is tuned.
 
+### Executable split rule
+
+The repository implements the split in `fcp_pipeline/photo_split.py` and `scripts/data/freeze_jbi_ch1_photo_split.py`.
+
+Within each species, assignment is determined only from a stable photograph identifier:
+
+`SHA256("fcp-jbi-ch1-photo-split-v1", species, photo_id)`.
+
+Photographs are sorted by this digest within species. The first 80 enter calibration and the remaining 120 enter held-out evaluation. Row order, coordinates, observer identity, observation date, environmental metadata, and all later flower-colour measurements are ignored by construction.
+
+The source acquisition manifest is required at:
+
+`data/frozen/jbi_ch1_photo_source_manifest.csv`
+
+The frozen outputs are:
+
+- `data/frozen/jbi_ch1_photo_split_v1.csv`;
+- `data/frozen/jbi_ch1_photo_split_v1_manifest.json`.
+
+The machine-readable split contract is:
+
+`docs/supporting/jbi_ch1_photo_split_spec_v1.json`.
+
+The CLI auto-detects common species columns (`species`, `taxon_name`, `scientific_name`, `accepted_species`) and photograph-ID columns (`photo_id`, `image_id`, `media_id`). Explicit column names can also be supplied.
+
+Before any measurement outcome exists, the split is materialized with:
+
+```bash
+python scripts/data/freeze_jbi_ch1_photo_split.py \
+  data/frozen/jbi_ch1_photo_source_manifest.csv \
+  data/frozen/jbi_ch1_photo_split_v1.csv \
+  data/frozen/jbi_ch1_photo_split_v1_manifest.json
+```
+
+The command fails unless there are exactly six species, exactly 200 globally unique photograph IDs per species, and no downstream colour/visibility/segmentation outcome columns in the source manifest.
+
+CI reconstructs the split from the committed source and requires byte-identical split output plus matching stable hashes. A partial freeze in which only one or two of source/split/manifest are committed fails CI.
+
 ## Calibration sequence
 
 Each calibration photograph passes through the following ordered decisions.
@@ -51,23 +89,31 @@ During calibration, the operator or algorithm used to establish visibility, segm
 
 The 720-image evaluation set must remain unopened for rule tuning. Any rule changed in response to evaluation-set performance starts a new development version and the affected evaluation set is no longer confirmatory.
 
+The split-generation code rejects a source manifest that already contains recognized downstream outcome columns such as flower-colour state, visibility, segmentation status, evaluability, or unresolved status. This does not prove that a file was never viewed, but it prevents a post-outcome manifest from being silently presented as the original pre-measurement split source.
+
 ## Freeze artifact
 
-Before evaluating the 720 photographs, freeze a manifest containing at least:
+The split is frozen before calibration starts. After the 480-image calibration is complete, the measurement-rule freeze additionally records:
 
 - species list;
 - photograph identifiers assigned to calibration/evaluation;
-- split-generation rule and seed if stochastic;
+- split-generation rule and salt;
 - visibility codebook version;
 - segmentation procedure/version;
 - species-specific colour-state codebook version;
 - unresolved/not-evaluable rules;
 - software commit SHA;
-- content hashes of the calibration assignments and codebooks.
+- content hashes of the split and codebooks.
+
+The held-out evaluation set is not opened until this second measurement-rule freeze is complete.
 
 ## Gate decision
 
 The calibration gate passes only when the six species have a documented measurement rule that is stable enough to apply unchanged to the held-out photographs. A species that cannot support reliable flower visibility, segmentation, or colour-state coding is retained in the audit and marked `not_evaluable` for the relevant downstream analysis rather than being silently removed.
+
+## Current repository boundary
+
+As of 2026-08-28, the split specification, generator, hashes, tests, and CI contract are implemented on the shared-boundary branch. The acquired 1,200-photo source manifest itself is not present in the remote repository, so the 480/720 assignment has not yet been materialized. No flower-colour labels have been generated, and the evaluation set therefore remains unopened with respect to the new colour-measurement protocol.
 
 ## Downstream constraint
 
