@@ -60,8 +60,7 @@ def calibration_rows(split: pd.DataFrame) -> pd.DataFrame:
         raise ValueError("expected six species with exactly 80 calibration rows each")
     if rows["photo_id"].astype(str).duplicated().any():
         raise ValueError("calibration rows contain duplicate photo IDs")
-    url_cols = [c for c in ("photo_url", "photo_url_api") if c in rows.columns]
-    if not url_cols:
+    if not any(c in rows.columns for c in ("photo_url", "photo_url_api")):
         raise ValueError("calibration rows contain no photo URL column")
     return rows
 
@@ -80,7 +79,9 @@ def candidate_urls(row: pd.Series) -> list[str]:
     return urls
 
 
-def download_bytes(urls: Iterable[str], *, retries: int = 3, pause_seconds: float = 0.5) -> tuple[bytes, str]:
+def download_bytes(
+    urls: Iterable[str], *, retries: int = 3, pause_seconds: float = 0.5
+) -> tuple[bytes, str]:
     errors: list[str] = []
     for url in urls:
         for attempt in range(1, retries + 1):
@@ -91,7 +92,7 @@ def download_bytes(urls: Iterable[str], *, retries: int = 3, pause_seconds: floa
                 if len(payload) < 1024:
                     raise RuntimeError(f"response too small: {len(payload)} bytes")
                 return payload, url
-            except Exception as exc:  # network failures are recorded and retried
+            except Exception as exc:
                 errors.append(f"{url} attempt={attempt}: {type(exc).__name__}: {exc}")
                 if pause_seconds > 0:
                     time.sleep(pause_seconds * attempt)
@@ -172,7 +173,7 @@ def fit_thumbnail(image: Image.Image, size: tuple[int, int]) -> Image.Image:
 
 
 def make_contact_sheet(
-    entries: list[tuple[str, Image.Image]],
+    entries: list[tuple[str, Path]],
     output: Path,
     *,
     columns: int = 5,
@@ -190,11 +191,13 @@ def make_contact_sheet(
     )
     draw = ImageDraw.Draw(canvas)
     font = ImageFont.load_default()
-    for index, (label, image) in enumerate(entries):
+    for index, (label, image_path) in enumerate(entries):
         r, c = divmod(index, columns)
         x = c * tile_size[0]
         y = r * (tile_size[1] + label_height)
-        tile = fit_thumbnail(image, tile_size)
+        with Image.open(image_path) as source:
+            source = ImageOps.exif_transpose(source).convert("RGB")
+            tile = fit_thumbnail(source, tile_size)
         canvas.paste(tile, (x, y))
         draw.rectangle(
             [x, y + tile_size[1], x + tile_size[0] - 1, y + tile_size[1] + label_height - 1],
@@ -222,7 +225,7 @@ def materialize(
     contact_root.mkdir(parents=True, exist_ok=True)
 
     qc_rows: list[dict[str, object]] = []
-    contact_entries: dict[str, list[tuple[str, Image.Image]]] = defaultdict(list)
+    contact_entries: dict[str, list[tuple[str, Path]]] = defaultdict(list)
     failures: list[dict[str, str]] = []
 
     for index, (_, row) in enumerate(rows.iterrows(), start=1):
@@ -257,7 +260,8 @@ def materialize(
                     "artifact_path": str(out_path),
                 }
             )
-            contact_entries[species].append((bid, image.copy()))
+            contact_entries[species].append((bid, out_path))
+            image.close()
         except Exception as exc:
             record["error"] = f"{type(exc).__name__}: {exc}"
             failures.append({"species": species, "blind_id": bid, "error": record["error"]})
@@ -321,11 +325,7 @@ def materialize(
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--split",
-        type=Path,
-        default=Path("data/frozen/jbi_ch1_photo_split_v1.csv"),
-    )
+    parser.add_argument("--split", type=Path, default=Path("data/frozen/jbi_ch1_photo_split_v1.csv"))
     parser.add_argument(
         "--image-root",
         type=Path,
