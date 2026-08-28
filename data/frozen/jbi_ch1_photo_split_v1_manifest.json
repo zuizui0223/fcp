@@ -1,0 +1,53 @@
+{
+  "assignment_sha256": "d718ad1e0788befb5e605ef482634958c26e339e0537807a47633819a43bd138",
+  "calibration_per_species": 80,
+  "evaluation_opened_for_rule_tuning": false,
+  "evaluation_per_species": 120,
+  "expected_species": 6,
+  "outcome_blind": true,
+  "output_csv_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "per_species_split_counts": [
+    {
+      "calibration": 80,
+      "evaluation": 120,
+      "species": "Antirrhinum majus"
+    },
+    {
+      "calibration": 80,
+      "evaluation": 120,
+      "species": "Dactylorhiza sambucina"
+    },
+    {
+      "calibration": 80,
+      "evaluation": 120,
+      "species": "Gentiana lutea"
+    },
+    {
+      "calibration": 80,
+      "evaluation": 120,
+      "species": "Ipomoea purpurea"
+    },
+    {
+      "calibration": 80,
+      "evaluation": 120,
+      "species": "Lysimachia arvensis"
+    },
+    {
+      "calibration": 80,
+      "evaluation": 120,
+      "species": "Raphanus sativus"
+    }
+  ],
+  "photo_id_column": "photo_id",
+  "photographs_per_species": 200,
+  "protocol": "jbi-ch1-photo-split-v1",
+  "salt": "fcp-jbi-ch1-photo-split-v1",
+  "software_commit_sha": "2268bcfe4c75eaf6c5bfb9b11f814342a801efdf",
+  "source_file": "jbi_ch1_photo_source_manifest.csv",
+  "source_raw_sha256": "53097d86f51759b7c5a92d2b5d5fbed15bafddda64270f8053247be797f6b8f1",
+  "source_species_photo_id_sha256": "104cfb5a15d64bb2df01af8937b7bb54097d7cca5d7cf0061264d4fd3c1cf33b",
+  "species_column": "species",
+  "split_basis": "SHA256(salt, species, photo_id) only; all other metadata ignored",
+  "status": "frozen",
+  "total_rows": 1200
+}

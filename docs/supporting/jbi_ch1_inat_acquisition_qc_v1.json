@@ -1,0 +1,647 @@
+{
+  "all_species_gate_pass": true,
+  "config_sha256": "4a2de6c317784e79742c743c6dddbe5ef0198bf13d9924c12e5276f8295f1158",
+  "inat_api": {
+    "base_url": "https://api.inaturalist.org/v1",
+    "captive": false,
+    "created_d2": "2026-08-28T23:59:59Z",
+    "geo": true,
+    "maximum_candidates_per_species": 1200,
+    "maximum_positional_accuracy_m": 20000,
+    "one_photo_per_observation": true,
+    "per_page": 200,
+    "photos": true,
+    "quality_grade": "research",
+    "request_pause_seconds": 0.5
+  },
+  "protocol": "jbi-ch1-inat-acquisition-v1",
+  "selection": {
+    "hard_caps": {
+      "maximum_per_calendar_month": 100,
+      "maximum_per_observer": 20,
+      "maximum_per_spatial_cell": 50
+    },
+    "qc_gates": {
+      "maximum_observer_fraction": 0.25,
+      "minimum_unique_calendar_months": 2,
+      "minimum_unique_observers": 10,
+      "minimum_unique_spatial_cells": 3
+    },
+    "spatial_cell_degrees": 1.0,
+    "stable_hash_salt": "fcp-jbi-ch1-inat-acquisition-v1",
+    "target_photographs_per_species": 200
+  },
+  "source_manifest_sha256": "53097d86f51759b7c5a92d2b5d5fbed15bafddda64270f8053247be797f6b8f1",
+  "species_qc": [
+    {
+      "candidate_count": 1188,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 52344,
+      "maximum_month_fraction": 0.185,
+      "maximum_observer_fraction": 0.025,
+      "maximum_spatial_cell_fraction": 0.005,
+      "month_counts": [
+        [
+          "1",
+          5
+        ],
+        [
+          "10",
+          37
+        ],
+        [
+          "11",
+          14
+        ],
+        [
+          "12",
+          5
+        ],
+        [
+          "2",
+          4
+        ],
+        [
+          "3",
+          7
+        ],
+        [
+          "4",
+          12
+        ],
+        [
+          "5",
+          4
+        ],
+        [
+          "6",
+          12
+        ],
+        [
+          "7",
+          31
+        ],
+        [
+          "8",
+          32
+        ],
+        [
+          "9",
+          37
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "ripleyrm",
+          5
+        ],
+        [
+          "marioantonio",
+          2
+        ],
+        [
+          "silversea_starsong",
+          2
+        ],
+        [
+          "tkirk304",
+          2
+        ],
+        [
+          "elliotgreiner",
+          2
+        ],
+        [
+          "ozcar",
+          2
+        ],
+        [
+          "najera_tutor",
+          2
+        ],
+        [
+          "guille",
+          2
+        ],
+        [
+          "anaysbco",
+          2
+        ],
+        [
+          "pintail",
+          2
+        ]
+      ],
+      "selected_count": 200,
+      "species": "Ipomoea purpurea",
+      "unique_calendar_months": 12,
+      "unique_observers": 187,
+      "unique_spatial_cells": 200
+    },
+    {
+      "candidate_count": 1198,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 995125,
+      "maximum_month_fraction": 0.245,
+      "maximum_observer_fraction": 0.04,
+      "maximum_spatial_cell_fraction": 0.05,
+      "month_counts": [
+        [
+          "1",
+          4
+        ],
+        [
+          "10",
+          5
+        ],
+        [
+          "11",
+          1
+        ],
+        [
+          "12",
+          3
+        ],
+        [
+          "2",
+          13
+        ],
+        [
+          "3",
+          27
+        ],
+        [
+          "4",
+          49
+        ],
+        [
+          "5",
+          40
+        ],
+        [
+          "6",
+          32
+        ],
+        [
+          "7",
+          12
+        ],
+        [
+          "8",
+          6
+        ],
+        [
+          "9",
+          8
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "finatic",
+          8
+        ],
+        [
+          "glmory",
+          6
+        ],
+        [
+          "cwwood",
+          3
+        ],
+        [
+          "jaykeller",
+          3
+        ],
+        [
+          "jiahongsun",
+          3
+        ],
+        [
+          "harumkoh",
+          2
+        ],
+        [
+          "rhjackso",
+          2
+        ],
+        [
+          "tedbarone",
+          2
+        ],
+        [
+          "rosala",
+          2
+        ],
+        [
+          "speedy",
+          2
+        ]
+      ],
+      "selected_count": 200,
+      "species": "Raphanus sativus",
+      "unique_calendar_months": 12,
+      "unique_observers": 168,
+      "unique_spatial_cells": 51
+    },
+    {
+      "candidate_count": 1191,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 142299,
+      "maximum_month_fraction": 0.46,
+      "maximum_observer_fraction": 0.025,
+      "maximum_spatial_cell_fraction": 0.015,
+      "month_counts": [
+        [
+          "10",
+          3
+        ],
+        [
+          "11",
+          1
+        ],
+        [
+          "3",
+          1
+        ],
+        [
+          "4",
+          3
+        ],
+        [
+          "5",
+          13
+        ],
+        [
+          "6",
+          43
+        ],
+        [
+          "7",
+          92
+        ],
+        [
+          "8",
+          37
+        ],
+        [
+          "9",
+          7
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "jasonrgrant",
+          5
+        ],
+        [
+          "markod",
+          3
+        ],
+        [
+          "jeremybarker",
+          3
+        ],
+        [
+          "cesarpollo5",
+          3
+        ],
+        [
+          "kasandra19",
+          2
+        ],
+        [
+          "jakob",
+          2
+        ],
+        [
+          "lucaboscain",
+          2
+        ],
+        [
+          "lefebvremax",
+          2
+        ],
+        [
+          "silviakarina",
+          2
+        ],
+        [
+          "george_wildlife",
+          2
+        ]
+      ],
+      "selected_count": 200,
+      "species": "Gentiana lutea",
+      "unique_calendar_months": 9,
+      "unique_observers": 175,
+      "unique_spatial_cells": 87
+    },
+    {
+      "candidate_count": 1190,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 60885,
+      "maximum_month_fraction": 0.5,
+      "maximum_observer_fraction": 0.025,
+      "maximum_spatial_cell_fraction": 0.015,
+      "month_counts": [
+        [
+          "4",
+          42
+        ],
+        [
+          "5",
+          100
+        ],
+        [
+          "6",
+          55
+        ],
+        [
+          "7",
+          1
+        ],
+        [
+          "8",
+          2
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "lucaboscain",
+          5
+        ],
+        [
+          "mperille",
+          3
+        ],
+        [
+          "andim",
+          3
+        ],
+        [
+          "alessiobecucci",
+          3
+        ],
+        [
+          "darbinos",
+          2
+        ],
+        [
+          "fero",
+          2
+        ],
+        [
+          "mrfirg",
+          2
+        ],
+        [
+          "vlastimilmotlicek",
+          2
+        ],
+        [
+          "franciscojavierlatorrearnedo",
+          2
+        ],
+        [
+          "morton1905",
+          2
+        ]
+      ],
+      "selected_count": 200,
+      "species": "Dactylorhiza sambucina",
+      "unique_calendar_months": 5,
+      "unique_observers": 169,
+      "unique_spatial_cells": 118
+    },
+    {
+      "candidate_count": 1196,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 48969,
+      "maximum_month_fraction": 0.17,
+      "maximum_observer_fraction": 0.01,
+      "maximum_spatial_cell_fraction": 0.005,
+      "month_counts": [
+        [
+          "1",
+          4
+        ],
+        [
+          "10",
+          16
+        ],
+        [
+          "11",
+          6
+        ],
+        [
+          "12",
+          2
+        ],
+        [
+          "2",
+          7
+        ],
+        [
+          "3",
+          9
+        ],
+        [
+          "4",
+          23
+        ],
+        [
+          "5",
+          34
+        ],
+        [
+          "6",
+          34
+        ],
+        [
+          "7",
+          26
+        ],
+        [
+          "8",
+          20
+        ],
+        [
+          "9",
+          19
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "ahospers",
+          2
+        ],
+        [
+          "vsheenie",
+          1
+        ],
+        [
+          "kael2",
+          1
+        ],
+        [
+          "alex1143",
+          1
+        ],
+        [
+          "brindley",
+          1
+        ],
+        [
+          "georges3",
+          1
+        ],
+        [
+          "reddave14",
+          1
+        ],
+        [
+          "giovanni1980",
+          1
+        ],
+        [
+          "bamm321",
+          1
+        ],
+        [
+          "janvangold",
+          1
+        ]
+      ],
+      "selected_count": 200,
+      "species": "Antirrhinum majus",
+      "unique_calendar_months": 12,
+      "unique_observers": 199,
+      "unique_spatial_cells": 200
+    },
+    {
+      "candidate_count": 1195,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 791928,
+      "maximum_month_fraction": 0.19,
+      "maximum_observer_fraction": 0.025,
+      "maximum_spatial_cell_fraction": 0.01,
+      "month_counts": [
+        [
+          "1",
+          2
+        ],
+        [
+          "10",
+          11
+        ],
+        [
+          "11",
+          7
+        ],
+        [
+          "12",
+          7
+        ],
+        [
+          "2",
+          7
+        ],
+        [
+          "3",
+          29
+        ],
+        [
+          "4",
+          33
+        ],
+        [
+          "5",
+          38
+        ],
+        [
+          "6",
+          27
+        ],
+        [
+          "7",
+          18
+        ],
+        [
+          "8",
+          11
+        ],
+        [
+          "9",
+          10
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "annemirdl",
+          5
+        ],
+        [
+          "silversea_starsong",
+          3
+        ],
+        [
+          "sea-kangaroo",
+          3
+        ],
+        [
+          "tiggrx",
+          2
+        ],
+        [
+          "lauraelviauribelara",
+          2
+        ],
+        [
+          "lazza",
+          2
+        ],
+        [
+          "savvy",
+          2
+        ],
+        [
+          "cedric_lee",
+          2
+        ],
+        [
+          "juancarloslopezdominguez",
+          2
+        ],
+        [
+          "mattiamenchetti",
+          2
+        ]
+      ],
+      "selected_count": 200,
+      "species": "Lysimachia arvensis",
+      "unique_calendar_months": 12,
+      "unique_observers": 178,
+      "unique_spatial_cells": 195
+    }
+  ],
+  "status": "pass",
+  "target_selection": {
+    "basis": "top six species in data/global_flower_colour_species_ranked.csv on repository main commit 289f87e3b1aad1043cf4ab607339fc698f4efcf4",
+    "note": "The original unpushed Windows acquisition manifest is unavailable remotely; this version uses the repository-visible deterministic target rule rather than claiming recovery of lost historical photo IDs.",
+    "species": [
+      "Ipomoea purpurea",
+      "Raphanus sativus",
+      "Gentiana lutea",
+      "Dactylorhiza sambucina",
+      "Antirrhinum majus",
+      "Lysimachia arvensis"
+    ]
+  },
+  "total_selected": 1200
+}

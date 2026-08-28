@@ -1,0 +1,84 @@
+{
+  "codebook_json": "data/calibration/jbi_ch1_species_colour_codebook_v1.json",
+  "codebook_json_sha256": "c99db9aeaaf1f0c704f424962a08cd249aa4928b626902a30050ce7e728a19e9",
+  "contains_evaluation_rows": false,
+  "evaluation_opened_for_rule_tuning": false,
+  "geography_observer_date_hidden_by_default": true,
+  "n_rows": 480,
+  "per_species": [
+    {
+      "n_colour_resolved": 0,
+      "n_colour_unresolved": 0,
+      "n_evaluable": 0,
+      "n_not_evaluable": 0,
+      "n_segmentation_failed": 0,
+      "n_segmentation_ok": 0,
+      "n_total": 80,
+      "n_visibility_completed": 0,
+      "species": "Antirrhinum majus"
+    },
+    {
+      "n_colour_resolved": 0,
+      "n_colour_unresolved": 0,
+      "n_evaluable": 0,
+      "n_not_evaluable": 0,
+      "n_segmentation_failed": 0,
+      "n_segmentation_ok": 0,
+      "n_total": 80,
+      "n_visibility_completed": 0,
+      "species": "Dactylorhiza sambucina"
+    },
+    {
+      "n_colour_resolved": 0,
+      "n_colour_unresolved": 0,
+      "n_evaluable": 0,
+      "n_not_evaluable": 0,
+      "n_segmentation_failed": 0,
+      "n_segmentation_ok": 0,
+      "n_total": 80,
+      "n_visibility_completed": 0,
+      "species": "Gentiana lutea"
+    },
+    {
+      "n_colour_resolved": 0,
+      "n_colour_unresolved": 0,
+      "n_evaluable": 0,
+      "n_not_evaluable": 0,
+      "n_segmentation_failed": 0,
+      "n_segmentation_ok": 0,
+      "n_total": 80,
+      "n_visibility_completed": 0,
+      "species": "Ipomoea purpurea"
+    },
+    {
+      "n_colour_resolved": 0,
+      "n_colour_unresolved": 0,
+      "n_evaluable": 0,
+      "n_not_evaluable": 0,
+      "n_segmentation_failed": 0,
+      "n_segmentation_ok": 0,
+      "n_total": 80,
+      "n_visibility_completed": 0,
+      "species": "Lysimachia arvensis"
+    },
+    {
+      "n_colour_resolved": 0,
+      "n_colour_unresolved": 0,
+      "n_evaluable": 0,
+      "n_not_evaluable": 0,
+      "n_segmentation_failed": 0,
+      "n_segmentation_ok": 0,
+      "n_total": 80,
+      "n_visibility_completed": 0,
+      "species": "Raphanus sativus"
+    }
+  ],
+  "protocol": "jbi-ch1-photo-calibration-v1",
+  "review_csv": "data/calibration/jbi_ch1_calibration_review_v1.csv",
+  "review_csv_sha256": "88078b34ad6d16beb0be066a8637a89f4a915caf61935c2664bf574b7c4b803a",
+  "software_commit_sha": "2268bcfe4c75eaf6c5bfb9b11f814342a801efdf",
+  "source_split": "data/frozen/jbi_ch1_photo_split_v1.csv",
+  "source_split_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "species_count": 6,
+  "status": "generated_unmeasured"
+}

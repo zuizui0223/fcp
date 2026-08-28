@@ -1,0 +1,66 @@
+{
+  "protocol": "jbi-ch1-photo-calibration-v1",
+  "species": {
+    "Antirrhinum majus": {
+      "allowed_colour_states": [],
+      "colour_code_version": "draft-v1",
+      "measurement_status": "draft",
+      "not_evaluable_rule": "retain as measurement failure; never coerce to a colour state",
+      "notes": "",
+      "segmentation_rule_version": "draft-v1",
+      "unresolved_rule": "assign unresolved when no frozen state can be supported reliably",
+      "visibility_rule_version": "draft-v1"
+    },
+    "Dactylorhiza sambucina": {
+      "allowed_colour_states": [],
+      "colour_code_version": "draft-v1",
+      "measurement_status": "draft",
+      "not_evaluable_rule": "retain as measurement failure; never coerce to a colour state",
+      "notes": "",
+      "segmentation_rule_version": "draft-v1",
+      "unresolved_rule": "assign unresolved when no frozen state can be supported reliably",
+      "visibility_rule_version": "draft-v1"
+    },
+    "Gentiana lutea": {
+      "allowed_colour_states": [],
+      "colour_code_version": "draft-v1",
+      "measurement_status": "draft",
+      "not_evaluable_rule": "retain as measurement failure; never coerce to a colour state",
+      "notes": "",
+      "segmentation_rule_version": "draft-v1",
+      "unresolved_rule": "assign unresolved when no frozen state can be supported reliably",
+      "visibility_rule_version": "draft-v1"
+    },
+    "Ipomoea purpurea": {
+      "allowed_colour_states": [],
+      "colour_code_version": "draft-v1",
+      "measurement_status": "draft",
+      "not_evaluable_rule": "retain as measurement failure; never coerce to a colour state",
+      "notes": "",
+      "segmentation_rule_version": "draft-v1",
+      "unresolved_rule": "assign unresolved when no frozen state can be supported reliably",
+      "visibility_rule_version": "draft-v1"
+    },
+    "Lysimachia arvensis": {
+      "allowed_colour_states": [],
+      "colour_code_version": "draft-v1",
+      "measurement_status": "draft",
+      "not_evaluable_rule": "retain as measurement failure; never coerce to a colour state",
+      "notes": "",
+      "segmentation_rule_version": "draft-v1",
+      "unresolved_rule": "assign unresolved when no frozen state can be supported reliably",
+      "visibility_rule_version": "draft-v1"
+    },
+    "Raphanus sativus": {
+      "allowed_colour_states": [],
+      "colour_code_version": "draft-v1",
+      "measurement_status": "draft",
+      "not_evaluable_rule": "retain as measurement failure; never coerce to a colour state",
+      "notes": "",
+      "segmentation_rule_version": "draft-v1",
+      "unresolved_rule": "assign unresolved when no frozen state can be supported reliably",
+      "visibility_rule_version": "draft-v1"
+    }
+  },
+  "status": "draft_calibration"
+}
