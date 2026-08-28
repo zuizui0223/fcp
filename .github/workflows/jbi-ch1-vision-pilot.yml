@@ -28,12 +28,10 @@ jobs:
         with:
           ref: analysis/jbi-global-colour-boundaries
           fetch-depth: 0
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
-
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -45,7 +43,7 @@ jobs:
           npm install -g @github/copilot
           copilot --version
 
-      - name: Materialize exactly one frozen calibration image per species
+      - name: Materialize one frozen calibration image per species
         run: |
           python scripts/data/materialize_jbi_ch1_vision_pilot.py \
             --split data/frozen/jbi_ch1_photo_split_v1.csv \
@@ -54,33 +52,44 @@ jobs:
           python - <<'PY'
           import pandas as pd
           p = pd.read_csv('artifacts/jbi_ch1_vision_pilot_v1/pilot_manifest.csv')
-          assert len(p) == 6
-          assert p['species'].nunique() == 6
-          assert p['blind_id'].nunique() == 6
+          assert len(p) == 6 and p['species'].nunique() == 6 and p['blind_id'].nunique() == 6
           assert not p['evaluation_row'].astype(bool).any()
           print(p[['species','blind_id','width_px','height_px']].to_string(index=False))
           PY
 
-      - name: Run six-image vision schema pilot with GPT-5 mini
+      - name: Run six-image vision schema pilot with available Copilot model
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
-          python scripts/data/run_jbi_ch1_vision_pilot.py \
-            --pilot-manifest artifacts/jbi_ch1_vision_pilot_v1/pilot_manifest.csv \
-            --output-jsonl data/calibration/jbi_ch1_vision_pilot_v1.jsonl \
-            --manifest-json docs/supporting/jbi_ch1_vision_pilot_manifest_v1.json
+          python - <<'PY'
+          import importlib.util
+          import sys
+          from pathlib import Path
+          path = Path('scripts/data/run_jbi_ch1_vision_pilot.py')
+          spec = importlib.util.spec_from_file_location('jbi_vision_pilot', path)
+          if spec is None or spec.loader is None:
+              raise SystemExit('could not load vision pilot runner')
+          mod = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(mod)
+          # Model availability is account/token dependent. `auto` is the CLI-supported
+          # way to select among models actually available to this Actions identity.
+          mod.MODEL = 'auto'
+          sys.argv = [str(path),
+              '--pilot-manifest', 'artifacts/jbi_ch1_vision_pilot_v1/pilot_manifest.csv',
+              '--output-jsonl', 'data/calibration/jbi_ch1_vision_pilot_v1.jsonl',
+              '--manifest-json', 'docs/supporting/jbi_ch1_vision_pilot_manifest_v1.json']
+          raise SystemExit(mod.main())
+          PY
 
       - name: Validate pilot remains non-confirmatory
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          rows = [json.loads(line) for line in Path('data/calibration/jbi_ch1_vision_pilot_v1.jsonl').read_text().splitlines() if line.strip()]
+          rows = [json.loads(x) for x in Path('data/calibration/jbi_ch1_vision_pilot_v1.jsonl').read_text().splitlines() if x.strip()]
           manifest = json.loads(Path('docs/supporting/jbi_ch1_vision_pilot_manifest_v1.json').read_text())
-          assert len(rows) == 6
-          assert len({r['species'] for r in rows}) == 6
-          assert all(r['pilot_only'] is True for r in rows)
-          assert all(r['used_for_final_calibration_rule'] is False for r in rows)
+          assert len(rows) == 6 and len({r['species'] for r in rows}) == 6
+          assert all(r['pilot_only'] is True and r['used_for_final_calibration_rule'] is False for r in rows)
           assert manifest['calibration_only'] is True
           assert manifest['evaluation_rows_opened'] is False
           assert manifest['used_for_final_calibration_rule'] is False
@@ -104,12 +113,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            data/calibration/jbi_ch1_vision_pilot_v1.jsonl \
-            docs/supporting/jbi_ch1_vision_pilot_manifest_v1.json
-          if git diff --cached --quiet; then
-            echo "Vision pilot results already match repository state."
-            exit 0
-          fi
+          git add data/calibration/jbi_ch1_vision_pilot_v1.jsonl docs/supporting/jbi_ch1_vision_pilot_manifest_v1.json
+          if git diff --cached --quiet; then exit 0; fi
           git commit -m "Record six-image calibration vision pilot [skip-vision-pilot]"
           git push origin HEAD:analysis/jbi-global-colour-boundaries
