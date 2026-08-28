@@ -1,0 +1,87 @@
+{
+  "contact_sheet_root": "artifacts/jbi_ch1_calibration_images_v1/contact_sheets",
+  "contact_sheets": [
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Antirrhinum_majus_page_01.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Antirrhinum_majus_page_02.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Antirrhinum_majus_page_03.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Antirrhinum_majus_page_04.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Dactylorhiza_sambucina_page_01.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Dactylorhiza_sambucina_page_02.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Dactylorhiza_sambucina_page_03.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Dactylorhiza_sambucina_page_04.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Gentiana_lutea_page_01.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Gentiana_lutea_page_02.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Gentiana_lutea_page_03.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Gentiana_lutea_page_04.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Ipomoea_purpurea_page_01.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Ipomoea_purpurea_page_02.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Ipomoea_purpurea_page_03.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Ipomoea_purpurea_page_04.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Lysimachia_arvensis_page_01.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Lysimachia_arvensis_page_02.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Lysimachia_arvensis_page_03.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Lysimachia_arvensis_page_04.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Raphanus_sativus_page_01.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Raphanus_sativus_page_02.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Raphanus_sativus_page_03.jpg",
+    "artifacts/jbi_ch1_calibration_images_v1/contact_sheets/Raphanus_sativus_page_04.jpg"
+  ],
+  "evaluation_rows_opened": false,
+  "failures": [],
+  "image_root": "artifacts/jbi_ch1_calibration_images_v1/images",
+  "n_expected": 480,
+  "n_failed": 0,
+  "n_materialized": 480,
+  "per_species": [
+    {
+      "n_expected": 80,
+      "n_failed": 0,
+      "n_materialized": 80,
+      "n_technical_flagged": 0,
+      "species": "Antirrhinum majus"
+    },
+    {
+      "n_expected": 80,
+      "n_failed": 0,
+      "n_materialized": 80,
+      "n_technical_flagged": 0,
+      "species": "Dactylorhiza sambucina"
+    },
+    {
+      "n_expected": 80,
+      "n_failed": 0,
+      "n_materialized": 80,
+      "n_technical_flagged": 0,
+      "species": "Gentiana lutea"
+    },
+    {
+      "n_expected": 80,
+      "n_failed": 0,
+      "n_materialized": 80,
+      "n_technical_flagged": 0,
+      "species": "Ipomoea purpurea"
+    },
+    {
+      "n_expected": 80,
+      "n_failed": 0,
+      "n_materialized": 80,
+      "n_technical_flagged": 0,
+      "species": "Lysimachia arvensis"
+    },
+    {
+      "n_expected": 80,
+      "n_failed": 0,
+      "n_materialized": 80,
+      "n_technical_flagged": 0,
+      "species": "Raphanus sativus"
+    }
+  ],
+  "protocol": "jbi-ch1-calibration-images-v1",
+  "qc_csv": "data/calibration/jbi_ch1_calibration_image_qc_v1.csv",
+  "qc_csv_sha256": "e06127eea7e725ebf59b30a7d3c91e9bec528c29d1f7abdf0540a4fe5f7f5be9",
+  "source_split": "data/frozen/jbi_ch1_photo_split_v1.csv",
+  "source_split_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "status": "pass",
+  "technical_flags_are_exclusion_rules": false,
+  "technical_metrics_used_for_colour_assignment": false
+}
