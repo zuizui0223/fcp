@@ -1,0 +1,73 @@
+{
+  "protocol": "jbi-ch1-calibration-semantic-v2",
+  "status": "pilot_only_not_frozen_for_evaluation",
+  "purpose": "Separate technical visibility from biological flower-condition and species-specific colour-state evidence before opening the 720-image evaluation set.",
+  "derivation": {
+    "trigger": "six-image calibration vision pilot v1",
+    "key_observations": [
+      "a flower can be technically visible but senescent/dried, altering apparent colour",
+      "within-flower markings can produce multiple colour terms without representing multiple flower-colour morphs",
+      "multiple flowers in one photograph may be visually coherent or discordant and require an explicit rule"
+    ]
+  },
+  "fields": {
+    "flower_visibility": {
+      "values": ["evaluable", "not_evaluable"],
+      "meaning": "Can the target flower/petals be visually assessed at all?"
+    },
+    "visibility_failure_code": {
+      "values": ["", "occlusion", "distance", "blur", "overexposure", "underexposure", "non_target_organ", "insufficient_flower_area", "other"]
+    },
+    "flower_condition": {
+      "values": ["fresh", "senescent", "damaged", "mixed_or_ambiguous", "not_applicable"],
+      "rule": "Only fresh flowers are eligible to define a species colour-state codebook. Senescent, damaged, and mixed_or_ambiguous flowers remain visible observations but are unresolved/not_evaluable for colour-state calibration unless a later version explicitly validates them."
+    },
+    "flower_region": {
+      "values": ["single_target_clear", "multiple_flowers_clear", "ambiguous", "not_applicable"]
+    },
+    "within_photo_flower_consistency": {
+      "values": ["consistent", "variable_between_flowers", "single_flower", "unresolved", "not_applicable"],
+      "rule": "If multiple flowers are visible, decide whether the diagnostic colour state is consistent between flowers. Do not collapse discordant flowers to a majority state during calibration."
+    },
+    "segmentation_feasibility": {
+      "values": ["feasible", "uncertain", "not_feasible", "not_applicable"]
+    },
+    "target_flower_bbox_pct": {
+      "type": "four percentage coordinates or null",
+      "rule": "For multiple consistent flowers, select one representative well-exposed flower for quantitative colour extraction; do not combine background or different flowers into one colour region."
+    },
+    "colour_pattern": {
+      "values": ["approximately_uniform", "multi_colour_pattern", "unresolved", "not_applicable"],
+      "rule": "A multi-colour pattern describes within-flower pigmentation and is not itself evidence of multiple morph states."
+    },
+    "diagnostic_colour_scope": {
+      "values": ["petal_background", "pattern_markings", "both", "unresolved", "not_applicable"],
+      "rule": "Species-specific codebooks must declare which floral region distinguishes biological colour states before held-out evaluation."
+    },
+    "apparent_petals_colour_terms": {
+      "type": "list of descriptive visible colour terms",
+      "role": "exploratory calibration vocabulary only; never a cross-species absolute colour metric"
+    },
+    "confidence": {
+      "type": "number 0 to 1",
+      "role": "review priority only; confidence alone cannot convert unresolved to resolved"
+    }
+  },
+  "colour_state_gate": {
+    "eligible_only_if": [
+      "flower_visibility == evaluable",
+      "flower_condition == fresh",
+      "segmentation_feasibility == feasible",
+      "within_photo_flower_consistency in {single_flower, consistent}"
+    ],
+    "otherwise": "unresolved or not_evaluable according to the recorded failure reason",
+    "species_specific": true,
+    "global_generic_colour_names_are_not_final_states": true
+  },
+  "holdout_firewall": {
+    "calibration_rows": 480,
+    "evaluation_rows": 720,
+    "evaluation_rows_opened": false,
+    "evaluation_rows_must_remain_unopened_until_schema_and_species_codebooks_are_frozen": true
+  }
+}
