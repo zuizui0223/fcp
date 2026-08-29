@@ -42,7 +42,11 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e .
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
-          python -m pip install "transformers>=5,<6" accelerate
+          python -m pip install "transformers>=5,<6" accelerate sentencepiece
+          python - <<'PY'
+          import sentencepiece
+          print('sentencepiece', sentencepiece.__version__)
+          PY
       - name: Materialize the same six frozen calibration images
         run: |
           python scripts/data/materialize_jbi_ch1_vision_pilot.py \
