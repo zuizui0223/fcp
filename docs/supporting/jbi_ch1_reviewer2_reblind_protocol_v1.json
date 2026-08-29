@@ -1,0 +1,35 @@
+{
+  "protocol": "jbi-ch1-reviewer2-reblind-review-protocol-v1",
+  "status": "frozen_before_reviewer2_decisions",
+  "scope": "all 480 frozen calibration crops",
+  "calibration_only": true,
+  "evaluation_rows_opened": false,
+  "final_colour_label": false,
+  "reviewer2_must_not_consult_before_submission": [
+    "reviewer2 mapping file",
+    "species identity",
+    "original blind_id",
+    "reviewer1 ROI decision",
+    "reviewer1 condition decision",
+    "colour candidate scores",
+    "geography",
+    "observer",
+    "date"
+  ],
+  "target_roi_validity_values": ["usable", "rescue_segment", "invalid", "ambiguous"],
+  "condition_values": ["fresh", "senescent", "damaged", "mixed_or_ambiguous", "not_evaluable"],
+  "decision_order": [
+    "judge target ROI validity from the crop alone",
+    "if a biologically relevant target flower is evaluable, judge flower condition",
+    "do not assign any colour morph/state during this review"
+  ],
+  "direct_colour_calibration_gate": "A record enters the direct fresh calibration set only when reviewer1 and reviewer2 both independently classify target ROI as usable and condition as fresh.",
+  "disagreement_rule": "Any reviewer1/reviewer2 disagreement in ROI usability or fresh condition is withheld from direct calibration and routed to a separate third adjudication; no majority or confidence threshold is applied automatically.",
+  "reviewer1_excluded_record_rule": "A reviewer2 usable+fresh decision cannot by itself restore a reviewer1-excluded record; restoration requires third adjudication.",
+  "reviewer1_included_record_rule": "A reviewer2 non-usable or non-fresh decision removes a reviewer1-included record from the direct set pending third adjudication.",
+  "agreement_threshold_for_accepting_entire_reviewer1_set": null,
+  "reason_no_global_threshold": "The reconciliation is record-level and deterministic, avoiding a post-hoc pooled agreement threshold.",
+  "mapping_opened_only_after_reviewer2_queue_is_frozen": true,
+  "next_gate": "reconcile r1/r2 at record level, adjudicate disagreements, then rerun geometry on the consensus fresh/evaluable calibration subset before freezing colour rules",
+  "evaluation_holdout_remains_closed": true
+}
