@@ -1,0 +1,27 @@
+{
+  "calibration_only": true,
+  "contact_sheets": [
+    "artifacts/jbi_ch1_sam2_rescue_pilot_v1/contact_sheets/sam2_rescue_pilot_page_01.jpg",
+    "artifacts/jbi_ch1_sam2_rescue_pilot_v1/contact_sheets/sam2_rescue_pilot_page_02.jpg"
+  ],
+  "evaluation_rows_opened": false,
+  "failures": [],
+  "final_label": false,
+  "frozen_protocol_sha256": "0cc58796886be47008845431d4b87c98d058a8792fd3f2091a3f81bcac65a814",
+  "model": "facebook/sam2.1-hiera-tiny",
+  "n_control": 5,
+  "n_failures": 0,
+  "n_rescue": 5,
+  "n_rows": 10,
+  "output_jsonl": "data/calibration/jbi_ch1_sam2_rescue_pilot_v1.jsonl",
+  "protocol": "jbi-ch1-sam2-roi-rescue-pilot-v1",
+  "scaleup_rule": "A species advances from one pilot rescue to its remaining reviewer-1 rescue_segment records only if that species' pilot rescue is judged rescued and its matched usable-fresh control is judged preserved. No cross-species pooled threshold is estimated from the pilot.",
+  "sheet_exposes_colour_scores": false,
+  "sheet_exposes_pilot_arm": false,
+  "sheet_exposes_species": false,
+  "source_feature_sha256": "968648b4d9a4516daa6fb938eaaa0000d665ed18b52801a2f4c6e639b68e7bed",
+  "source_review_sha256": "a301442c63892dd03676a91a08fa129c78fee971b1430cf45b07123407efabdd",
+  "status": "pilot_images_generated_pending_blind_visual_decision",
+  "transformers_version": "5.16.1",
+  "visual_decisions_completed": false
+}
