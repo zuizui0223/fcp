@@ -4,6 +4,10 @@
 This worker processes only frozen calibration rows. It reuses the exact Florence model,
 fixed palette, species score mapping, and geometry-only ROI selector from the validated
 six-image v2 pilot. It never opens evaluation rows and never emits a final label.
+
+For Raphanus, the direct palette argmax is explicitly diagnostic only: literature shows
+two independent pigment systems and highly variable anthocyanin intensity/distribution,
+so continuous anthocyanin/carotenoid visual-evidence axes are retained for calibration.
 """
 from __future__ import annotations
 
@@ -18,7 +22,6 @@ from urllib.request import Request, urlopen
 
 import pandas as pd
 from PIL import Image, ImageOps
-import torch
 from transformers import AutoModelForMultimodalLM, AutoProcessor
 
 from fcp_pipeline.florence_roi import box_area_fraction, choose_flower_box
@@ -70,6 +73,30 @@ def download_image(row: pd.Series, output: Path) -> str:
     raise RuntimeError("; ".join(errors[-8:]))
 
 
+def biological_axis_features(species: str, fractions: dict[str, float]) -> dict[str, float | bool | str]:
+    """Return explicit continuous axes when the literature implies multi-pigment structure.
+
+    These are descriptive calibration features only. No presence/absence threshold is
+    defined here from the six-image pilot.
+    """
+    if species != "Raphanus sativus":
+        return {}
+    anthocyanin = sum(
+        fractions.get(name, 0.0)
+        for name in ("pink", "magenta", "purple", "red", "bronze")
+    )
+    carotenoid = sum(
+        fractions.get(name, 0.0)
+        for name in ("yellow", "orange", "bronze")
+    )
+    return {
+        "raphanus_anthocyanin_visual_evidence": round(float(anthocyanin), 6),
+        "raphanus_carotenoid_visual_evidence": round(float(carotenoid), 6),
+        "raphanus_direct_palette_argmax_validated_as_morph_classifier": False,
+        "raphanus_morph_mapping_status": "requires_full_80_photo_axis_calibration",
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--species", required=True)
@@ -118,11 +145,7 @@ def main() -> int:
             image = Image.open(image_path).convert("RGB")
 
             detection = pilot.run_task(
-                model,
-                processor,
-                image,
-                "<OPEN_VOCABULARY_DETECTION>",
-                "flower",
+                model, processor, image, "<OPEN_VOCABULARY_DETECTION>", "flower"
             )
             boxes = pilot.extract_boxes(detection, "<OPEN_VOCABULARY_DETECTION>")
             prompt_used = "flower"
@@ -152,6 +175,7 @@ def main() -> int:
                     "n_detected_boxes": len(boxes),
                     "detection_prompt": prompt_used,
                     "candidate_state_numeric": "unresolved",
+                    "direct_palette_candidate_is_final_state": False,
                     "feature_status": "localization_failed",
                     "downloaded_from": used_url,
                 }
@@ -186,8 +210,10 @@ def main() -> int:
                         k: round(float(v), 6) for k, v in scores.items()
                     },
                     "candidate_state_numeric": candidate,
+                    "direct_palette_candidate_is_final_state": False,
                     "feature_status": "ok",
                     "downloaded_from": used_url,
+                    **biological_axis_features(args.species, fractions),
                 }
             records.append(record)
             if index % 10 == 0:
