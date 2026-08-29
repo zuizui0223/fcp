@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Quota-independent six-image flower ROI pilot using Florence-2 + numeric colour features.
 
-This pilot is calibration-only and diagnostic. Florence-2 is used only to localize the
-visible flower region. Biological colour-state suggestions are then derived from pixels
-inside the localized ROI using a fixed reference palette declared in this file. No
-candidate state produced here is a final label.
+Pilot v2 changes only the geometry-only selection among Florence-proposed flower boxes.
+The fixed reference palette and species candidate mapping are unchanged from v1.
+No candidate state produced here is a final label.
 """
 from __future__ import annotations
 
@@ -21,11 +20,12 @@ from PIL import Image, ImageDraw
 import torch
 from transformers import AutoModelForMultimodalLM, AutoProcessor
 
-MODEL_ID = "florence-community/Florence-2-base-ft"
-PROTOCOL = "jbi-ch1-florence-colour-pilot-v1"
+from fcp_pipeline.florence_roi import box_area_fraction, choose_flower_box
 
-# Fixed before running this pilot. These are generic sRGB visual anchors, not fitted to
-# the six pilot images. Green/brown/black are nuisance/background anchors.
+MODEL_ID = "florence-community/Florence-2-base-ft"
+PROTOCOL = "jbi-ch1-florence-colour-pilot-v2"
+
+# Frozen from v1: generic sRGB anchors, not fitted to pilot images.
 REFERENCE_RGB = {
     "white": (245, 245, 245),
     "yellow": (245, 210, 45),
@@ -98,15 +98,30 @@ def flower_only_fractions(counts: dict[str, int]) -> dict[str, float]:
 def deterministic_candidate(species: str, fractions: dict[str, float]) -> tuple[str, dict[str, float]]:
     f = lambda *names: sum(fractions.get(name, 0.0) for name in names)
     if species == "Ipomoea purpurea":
-        scores = {"white": f("white"), "pink": f("pink", "magenta"), "blue_purple": f("blue", "purple")}
+        scores = {
+            "white": f("white"),
+            "pink": f("pink", "magenta"),
+            "blue_purple": f("blue", "purple"),
+        }
     elif species == "Raphanus sativus":
-        scores = {"white": f("white"), "yellow": f("yellow"), "pink": f("pink", "magenta", "purple"), "bronze": f("bronze", "orange")}
+        scores = {
+            "white": f("white"),
+            "yellow": f("yellow"),
+            "pink": f("pink", "magenta", "purple"),
+            "bronze": f("bronze", "orange"),
+        }
     elif species == "Gentiana lutea":
         scores = {"yellow": f("yellow"), "orange": f("orange", "bronze")}
     elif species == "Dactylorhiza sambucina":
-        scores = {"yellow": f("yellow", "white"), "purple": f("purple", "magenta", "pink")}
+        scores = {
+            "yellow": f("yellow", "white"),
+            "purple": f("purple", "magenta", "pink"),
+        }
     elif species == "Lysimachia arvensis":
-        scores = {"blue": f("blue", "purple"), "red": f("red", "orange", "magenta", "pink")}
+        scores = {
+            "blue": f("blue", "purple"),
+            "red": f("red", "orange", "magenta", "pink"),
+        }
     elif species == "Antirrhinum majus":
         magenta = f("magenta", "pink", "purple", "red")
         yellow = f("yellow", "orange")
@@ -135,23 +150,6 @@ def extract_boxes(parsed: Any, task: str) -> list[list[float]]:
             if vals[2] > vals[0] and vals[3] > vals[1]:
                 out.append(vals)
     return out
-
-
-def choose_box(boxes: list[list[float]], image_size: tuple[int, int]) -> list[float] | None:
-    if not boxes:
-        return None
-    w, h = image_size
-    cx, cy = w / 2, h / 2
-    def key(box):
-        x0, y0, x1, y1 = box
-        area = (x1 - x0) * (y1 - y0)
-        bx, by = (x0 + x1) / 2, (y0 + y1) / 2
-        center_penalty = ((bx - cx) / max(w, 1)) ** 2 + ((by - cy) / max(h, 1)) ** 2
-        # Prefer substantial, centrally located localized flowers while avoiding a
-        # full-frame box if a more specific flower is available.
-        return area / (1.0 + 3.0 * center_penalty)
-    candidates = [b for b in boxes if ((b[2]-b[0])*(b[3]-b[1])) < 0.95*w*h] or boxes
-    return max(candidates, key=key)
 
 
 def run_task(model, processor, image: Image.Image, task: str, text_input: str = "") -> Any:
@@ -190,17 +188,20 @@ def main() -> int:
     results = []
     for _, row in frame.sort_values("species", kind="mergesort").iterrows():
         image = Image.open(str(row["image_path"])).convert("RGB")
-        detection = run_task(model, processor, image, "<OPEN_VOCABULARY_DETECTION>", "flower")
+        detection = run_task(
+            model, processor, image, "<OPEN_VOCABULARY_DETECTION>", "flower"
+        )
         boxes = extract_boxes(detection, "<OPEN_VOCABULARY_DETECTION>")
         if not boxes:
-            detection = run_task(model, processor, image, "<OPEN_VOCABULARY_DETECTION>", "flower petals")
+            detection = run_task(
+                model, processor, image, "<OPEN_VOCABULARY_DETECTION>", "flower petals"
+            )
             boxes = extract_boxes(detection, "<OPEN_VOCABULARY_DETECTION>")
-        box = choose_box(boxes, image.size)
+
+        box = choose_flower_box(boxes, image.size)
         if box is None:
-            # Diagnostic fallback only. The pilot records this explicitly; it is not a
-            # valid segmentation result for later inference.
             w, h = image.size
-            box = [0.15*w, 0.15*h, 0.85*w, 0.85*h]
+            box = [0.15 * w, 0.15 * h, 0.85 * w, 0.85 * h]
             localization_status = "fallback_central_crop"
         else:
             localization_status = "florence_open_vocab_box"
@@ -211,10 +212,11 @@ def main() -> int:
 
         overlay = image.copy()
         draw = ImageDraw.Draw(overlay)
-        draw.rectangle(box, outline="red", width=max(2, min(image.size)//250))
+        draw.rectangle(box, outline="red", width=max(2, min(image.size) // 250))
         overlay_path = args.overlay_dir / f"{row['blind_id']}.jpg"
         overlay.save(overlay_path, quality=90)
 
+        area_fractions = [box_area_fraction(b, image.size) for b in boxes]
         results.append({
             "protocol": PROTOCOL,
             "model": MODEL_ID,
@@ -225,9 +227,16 @@ def main() -> int:
             "final_label": False,
             "localization_status": localization_status,
             "n_detected_boxes": len(boxes),
+            "detected_boxes": [[round(float(x), 2) for x in b] for b in boxes],
+            "detected_box_area_fractions": [round(float(x), 6) for x in area_fractions],
             "selected_bbox": [round(float(x), 2) for x in box],
+            "selected_bbox_area_fraction": round(
+                float(box_area_fraction(box, image.size)), 6
+            ),
             "palette_counts": counts,
-            "flower_only_fractions": {k: round(float(v), 6) for k, v in fractions.items()},
+            "flower_only_fractions": {
+                k: round(float(v), 6) for k, v in fractions.items()
+            },
             "deterministic_candidate_state": candidate,
             "candidate_scores": {k: round(float(v), 6) for k, v in scores.items()},
             "overlay_path": str(overlay_path),
@@ -243,10 +252,16 @@ def main() -> int:
         "evaluation_rows_opened": False,
         "final_label": False,
         "reference_palette_fitted_to_pilot": False,
+        "palette_changed_from_v1": False,
+        "candidate_mapping_changed_from_v1": False,
+        "roi_selection_changed_from_v1": True,
         "results": results,
     }
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
-    args.output_json.write_text(json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
+    args.output_json.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
     return 0
 
 
