@@ -7,6 +7,9 @@ on:
       - analysis/jbi-global-colour-boundaries
     paths:
       - "docs/supporting/jbi_ch1_florence_colour_pilot_v2.json"
+      - ".github/workflows/jbi-ch1-siglip-condition-pilot.yml"
+      - "scripts/data/run_jbi_ch1_siglip_condition_pilot.py"
+      - "docs/supporting/jbi_ch1_condition_pilot_expected_v1.json"
 
 permissions:
   contents: write
