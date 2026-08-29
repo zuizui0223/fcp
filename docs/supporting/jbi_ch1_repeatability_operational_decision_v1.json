@@ -1,0 +1,36 @@
+{
+  "protocol": "jbi-ch1-repeatability-operational-decision-v1",
+  "basis": "jbi-ch1-vision-repeatability-v2",
+  "decision_scope": "automation for calibration screening only; not final flower-colour labels",
+  "observed_design": {
+    "images": 6,
+    "species": 6,
+    "independent_passes_per_image": 3,
+    "valid_responses": 18
+  },
+  "accepted_for_automatic_screening": {
+    "flower_visibility": {"unanimous_images": "6/6", "use": "screening gate"},
+    "flower_condition": {"unanimous_images": "6/6", "use": "exclude senescent/damaged from colour-state calibration"},
+    "flower_region": {"unanimous_images": "6/6", "use": "screening descriptor"},
+    "segmentation_feasibility": {"unanimous_images": "6/6", "use": "screening gate"}
+  },
+  "not_accepted_as_automatic_final_decisions": {
+    "colour_pattern": {"unanimous_images": "5/6", "reason": "one Raphanus image changed between multi-colour and approximately-uniform"},
+    "within_photo_flower_consistency": {"unanimous_images": "5/6", "reason": "one senescent Gentiana image changed between consistent and variable-between-flowers"},
+    "diagnostic_colour_scope": {"unanimous_images": "4/6", "reason": "scope assignment varied in Raphanus and senescent Gentiana"},
+    "free_text_colour_terms": {"reason": "lexical overlap was variable even when categorical gates were stable"}
+  },
+  "candidate_colour_state_policy": {
+    "source": "predeclared literature-constrained species codebook",
+    "status": "screening suggestion only",
+    "new_state_invention": false,
+    "senescent_or_damaged": "unresolved",
+    "discordant_multiple_flowers": "unresolved",
+    "final_label_requires_independent_review": true
+  },
+  "holdout_policy": {
+    "evaluation_images_opened": false,
+    "evaluation_images_may_be_opened_before_species_codebooks_freeze": false
+  },
+  "note": "No numeric acceptance threshold was estimated from these six images. The only automated fields carried forward are those that happened to be completely repeatable in this diagnostic pilot, and even those are used only as calibration screening gates."
+}
