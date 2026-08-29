@@ -7,6 +7,7 @@ on:
     paths:
       - "data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl"
       - "scripts/data/build_jbi_ch1_condition_review_sheets.py"
+      - ".github/workflows/jbi-ch1-condition-review-sheets.yml"
   workflow_dispatch:
 
 permissions:
