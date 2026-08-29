@@ -1,0 +1,127 @@
+{
+  "calibration_only": true,
+  "candidate_condition_prompts": {
+    "damaged": "a damaged flower with visibly injured torn or severely degraded petals",
+    "fresh": "a fresh healthy flower with intact non-wilted petals",
+    "senescent": "a wilted dried senescent old flower with drying petals"
+  },
+  "evaluation_rows_opened": false,
+  "final_label": false,
+  "model": "google/siglip-base-patch16-224",
+  "n_images": 6,
+  "n_matches": 3,
+  "n_predeclared_checks": 6,
+  "numeric_threshold_used": false,
+  "protocol": "jbi-ch1-siglip-condition-pilot-v1",
+  "results": [
+    {
+      "blind_id": "0176537d5144f894",
+      "evaluation_row": false,
+      "expected_condition": "fresh",
+      "final_label": false,
+      "match": true,
+      "model": "google/siglip-base-patch16-224",
+      "numeric_threshold_used": false,
+      "observed_condition": "fresh",
+      "pilot_only": true,
+      "protocol": "jbi-ch1-siglip-condition-pilot-v1",
+      "scores": {
+        "damaged": 0.005546,
+        "fresh": 0.006429,
+        "senescent": 7.1e-05
+      },
+      "species": "Antirrhinum majus"
+    },
+    {
+      "blind_id": "023f910bff4aa8c6",
+      "evaluation_row": false,
+      "expected_condition": "fresh",
+      "final_label": false,
+      "match": true,
+      "model": "google/siglip-base-patch16-224",
+      "numeric_threshold_used": false,
+      "observed_condition": "fresh",
+      "pilot_only": true,
+      "protocol": "jbi-ch1-siglip-condition-pilot-v1",
+      "scores": {
+        "damaged": 0.003582,
+        "fresh": 0.005035,
+        "senescent": 0.000155
+      },
+      "species": "Dactylorhiza sambucina"
+    },
+    {
+      "blind_id": "00b0caa6aa902f40",
+      "evaluation_row": false,
+      "expected_condition": "senescent",
+      "final_label": false,
+      "match": false,
+      "model": "google/siglip-base-patch16-224",
+      "numeric_threshold_used": false,
+      "observed_condition": "damaged",
+      "pilot_only": true,
+      "protocol": "jbi-ch1-siglip-condition-pilot-v1",
+      "scores": {
+        "damaged": 0.086114,
+        "fresh": 0.008755,
+        "senescent": 0.004517
+      },
+      "species": "Gentiana lutea"
+    },
+    {
+      "blind_id": "02db3a10e0f396cf",
+      "evaluation_row": false,
+      "expected_condition": "fresh",
+      "final_label": false,
+      "match": true,
+      "model": "google/siglip-base-patch16-224",
+      "numeric_threshold_used": false,
+      "observed_condition": "fresh",
+      "pilot_only": true,
+      "protocol": "jbi-ch1-siglip-condition-pilot-v1",
+      "scores": {
+        "damaged": 0.003775,
+        "fresh": 0.040389,
+        "senescent": 4.1e-05
+      },
+      "species": "Ipomoea purpurea"
+    },
+    {
+      "blind_id": "0741878b1083634e",
+      "evaluation_row": false,
+      "expected_condition": "fresh",
+      "final_label": false,
+      "match": false,
+      "model": "google/siglip-base-patch16-224",
+      "numeric_threshold_used": false,
+      "observed_condition": "damaged",
+      "pilot_only": true,
+      "protocol": "jbi-ch1-siglip-condition-pilot-v1",
+      "scores": {
+        "damaged": 0.239588,
+        "fresh": 0.159504,
+        "senescent": 0.000462
+      },
+      "species": "Lysimachia arvensis"
+    },
+    {
+      "blind_id": "005afd4f58b202db",
+      "evaluation_row": false,
+      "expected_condition": "fresh",
+      "final_label": false,
+      "match": false,
+      "model": "google/siglip-base-patch16-224",
+      "numeric_threshold_used": false,
+      "observed_condition": "damaged",
+      "pilot_only": true,
+      "protocol": "jbi-ch1-siglip-condition-pilot-v1",
+      "scores": {
+        "damaged": 0.009697,
+        "fresh": 0.003043,
+        "senescent": 0.001693
+      },
+      "species": "Raphanus sativus"
+    }
+  ],
+  "status": "pilot_complete_not_final"
+}
