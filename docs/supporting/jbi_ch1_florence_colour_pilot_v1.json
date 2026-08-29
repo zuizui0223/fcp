@@ -1,0 +1,362 @@
+{
+  "calibration_only": true,
+  "diagnostic_comparison": [
+    {
+      "blind_id": "0176537d5144f894",
+      "expected": "magenta_pseudomajus_like",
+      "localization_status": "florence_open_vocab_box",
+      "match": true,
+      "n_detected_boxes": 5,
+      "observed": "magenta_pseudomajus_like",
+      "species": "Antirrhinum majus"
+    },
+    {
+      "blind_id": "023f910bff4aa8c6",
+      "expected": "yellow",
+      "localization_status": "florence_open_vocab_box",
+      "match": true,
+      "n_detected_boxes": 1,
+      "observed": "yellow",
+      "species": "Dactylorhiza sambucina"
+    },
+    {
+      "blind_id": "00b0caa6aa902f40",
+      "expected": null,
+      "localization_status": "florence_open_vocab_box",
+      "match": null,
+      "n_detected_boxes": 1,
+      "observed": "orange",
+      "species": "Gentiana lutea"
+    },
+    {
+      "blind_id": "02db3a10e0f396cf",
+      "expected": "blue_purple",
+      "localization_status": "florence_open_vocab_box",
+      "match": true,
+      "n_detected_boxes": 1,
+      "observed": "blue_purple",
+      "species": "Ipomoea purpurea"
+    },
+    {
+      "blind_id": "0741878b1083634e",
+      "expected": "red",
+      "localization_status": "florence_open_vocab_box",
+      "match": true,
+      "n_detected_boxes": 3,
+      "observed": "red",
+      "species": "Lysimachia arvensis"
+    },
+    {
+      "blind_id": "005afd4f58b202db",
+      "expected": "pink",
+      "localization_status": "florence_open_vocab_box",
+      "match": false,
+      "n_detected_boxes": 40,
+      "observed": "white",
+      "species": "Raphanus sativus"
+    }
+  ],
+  "evaluation_rows_opened": false,
+  "final_label": false,
+  "model": "florence-community/Florence-2-base-ft",
+  "n_images": 6,
+  "n_predeclared_state_checks": 5,
+  "n_predeclared_state_matches": 4,
+  "protocol": "jbi-ch1-florence-colour-pilot-v1",
+  "reference_palette_fitted_to_pilot": false,
+  "results": [
+    {
+      "blind_id": "0176537d5144f894",
+      "candidate_scores": {
+        "intermediate_or_other": 0.002865,
+        "magenta_pseudomajus_like": 0.842825,
+        "yellow_striatum_like": 0.002865
+      },
+      "deterministic_candidate_state": "magenta_pseudomajus_like",
+      "evaluation_row": false,
+      "final_label": false,
+      "flower_only_fractions": {
+        "blue": 0.0,
+        "bronze": 0.055584,
+        "magenta": 0.0,
+        "orange": 0.002865,
+        "pink": 0.741748,
+        "purple": 0.0,
+        "red": 0.101077,
+        "white": 0.098726,
+        "yellow": 0.0
+      },
+      "localization_status": "florence_open_vocab_box",
+      "model": "florence-community/Florence-2-base-ft",
+      "n_detected_boxes": 5,
+      "overlay_path": "artifacts/jbi_ch1_florence_colour_pilot_v1/overlays/0176537d5144f894.jpg",
+      "palette_counts": {
+        "black": 9289,
+        "blue": 0,
+        "bronze": 1300,
+        "brown": 24183,
+        "green": 228,
+        "magenta": 0,
+        "orange": 67,
+        "pink": 17348,
+        "purple": 0,
+        "red": 2364,
+        "white": 2309,
+        "yellow": 0
+      },
+      "pilot_only": true,
+      "protocol": "jbi-ch1-florence-colour-pilot-v1",
+      "selected_bbox": [
+        411.0,
+        51.0,
+        642.0,
+        316.0
+      ],
+      "species": "Antirrhinum majus"
+    },
+    {
+      "blind_id": "023f910bff4aa8c6",
+      "candidate_scores": {
+        "purple": 0.0,
+        "yellow": 0.88131
+      },
+      "deterministic_candidate_state": "yellow",
+      "evaluation_row": false,
+      "final_label": false,
+      "flower_only_fractions": {
+        "blue": 0.0,
+        "bronze": 0.11869,
+        "magenta": 0.0,
+        "orange": 0.0,
+        "pink": 0.0,
+        "purple": 0.0,
+        "red": 0.0,
+        "white": 0.695173,
+        "yellow": 0.186137
+      },
+      "localization_status": "florence_open_vocab_box",
+      "model": "florence-community/Florence-2-base-ft",
+      "n_detected_boxes": 1,
+      "overlay_path": "artifacts/jbi_ch1_florence_colour_pilot_v1/overlays/023f910bff4aa8c6.jpg",
+      "palette_counts": {
+        "black": 694,
+        "blue": 0,
+        "bronze": 3435,
+        "brown": 3706,
+        "green": 20163,
+        "magenta": 0,
+        "orange": 0,
+        "pink": 0,
+        "purple": 0,
+        "red": 0,
+        "white": 20119,
+        "yellow": 5387
+      },
+      "pilot_only": true,
+      "protocol": "jbi-ch1-florence-colour-pilot-v1",
+      "selected_bbox": [
+        280.0,
+        227.0,
+        527.0,
+        530.0
+      ],
+      "species": "Dactylorhiza sambucina"
+    },
+    {
+      "blind_id": "00b0caa6aa902f40",
+      "candidate_scores": {
+        "orange": 0.431698,
+        "yellow": 0.033901
+      },
+      "deterministic_candidate_state": "orange",
+      "evaluation_row": false,
+      "final_label": false,
+      "flower_only_fractions": {
+        "blue": 0.0,
+        "bronze": 0.404806,
+        "magenta": 0.0,
+        "orange": 0.026892,
+        "pink": 0.0,
+        "purple": 0.0,
+        "red": 0.0,
+        "white": 0.534401,
+        "yellow": 0.033901
+      },
+      "localization_status": "florence_open_vocab_box",
+      "model": "florence-community/Florence-2-base-ft",
+      "n_detected_boxes": 1,
+      "overlay_path": "artifacts/jbi_ch1_florence_colour_pilot_v1/overlays/00b0caa6aa902f40.jpg",
+      "palette_counts": {
+        "black": 1385,
+        "blue": 0,
+        "bronze": 2830,
+        "brown": 8336,
+        "green": 52,
+        "magenta": 0,
+        "orange": 188,
+        "pink": 0,
+        "purple": 0,
+        "red": 0,
+        "white": 3736,
+        "yellow": 237
+      },
+      "pilot_only": true,
+      "protocol": "jbi-ch1-florence-colour-pilot-v1",
+      "selected_bbox": [
+        475.0,
+        84.0,
+        541.0,
+        338.0
+      ],
+      "species": "Gentiana lutea"
+    },
+    {
+      "blind_id": "02db3a10e0f396cf",
+      "candidate_scores": {
+        "blue_purple": 0.886937,
+        "pink": 0.098118,
+        "white": 0.001525
+      },
+      "deterministic_candidate_state": "blue_purple",
+      "evaluation_row": false,
+      "final_label": false,
+      "flower_only_fractions": {
+        "blue": 0.007997,
+        "bronze": 0.010622,
+        "magenta": 0.084398,
+        "orange": 0.0,
+        "pink": 0.013721,
+        "purple": 0.878939,
+        "red": 0.00055,
+        "white": 0.001525,
+        "yellow": 0.002249
+      },
+      "localization_status": "florence_open_vocab_box",
+      "model": "florence-community/Florence-2-base-ft",
+      "n_detected_boxes": 1,
+      "overlay_path": "artifacts/jbi_ch1_florence_colour_pilot_v1/overlays/02db3a10e0f396cf.jpg",
+      "palette_counts": {
+        "black": 7047,
+        "blue": 320,
+        "bronze": 425,
+        "brown": 3084,
+        "green": 10784,
+        "magenta": 3377,
+        "orange": 0,
+        "pink": 549,
+        "purple": 35169,
+        "red": 22,
+        "white": 61,
+        "yellow": 90
+      },
+      "pilot_only": true,
+      "protocol": "jbi-ch1-florence-colour-pilot-v1",
+      "selected_bbox": [
+        55.0,
+        53.0,
+        823.0,
+        766.0
+      ],
+      "species": "Ipomoea purpurea"
+    },
+    {
+      "blind_id": "0741878b1083634e",
+      "candidate_scores": {
+        "blue": 0.011856,
+        "red": 0.662887
+      },
+      "deterministic_candidate_state": "red",
+      "evaluation_row": false,
+      "final_label": false,
+      "flower_only_fractions": {
+        "blue": 0.0,
+        "bronze": 0.243814,
+        "magenta": 0.04433,
+        "orange": 0.047938,
+        "pink": 0.038144,
+        "purple": 0.011856,
+        "red": 0.532474,
+        "white": 0.081443,
+        "yellow": 0.0
+      },
+      "localization_status": "florence_open_vocab_box",
+      "model": "florence-community/Florence-2-base-ft",
+      "n_detected_boxes": 3,
+      "overlay_path": "artifacts/jbi_ch1_florence_colour_pilot_v1/overlays/0741878b1083634e.jpg",
+      "palette_counts": {
+        "black": 349,
+        "blue": 0,
+        "bronze": 473,
+        "brown": 253,
+        "green": 821,
+        "magenta": 86,
+        "orange": 93,
+        "pink": 74,
+        "purple": 23,
+        "red": 1033,
+        "white": 158,
+        "yellow": 0
+      },
+      "pilot_only": true,
+      "protocol": "jbi-ch1-florence-colour-pilot-v1",
+      "selected_bbox": [
+        493.0,
+        509.0,
+        550.0,
+        568.0
+      ],
+      "species": "Lysimachia arvensis"
+    },
+    {
+      "blind_id": "005afd4f58b202db",
+      "candidate_scores": {
+        "bronze": 0.260283,
+        "pink": 0.06824,
+        "white": 0.613621,
+        "yellow": 0.057721
+      },
+      "deterministic_candidate_state": "white",
+      "evaluation_row": false,
+      "final_label": false,
+      "flower_only_fractions": {
+        "blue": 0.000135,
+        "bronze": 0.260283,
+        "magenta": 0.005934,
+        "orange": 0.0,
+        "pink": 0.061632,
+        "purple": 0.000674,
+        "red": 0.0,
+        "white": 0.613621,
+        "yellow": 0.057721
+      },
+      "localization_status": "florence_open_vocab_box",
+      "model": "florence-community/Florence-2-base-ft",
+      "n_detected_boxes": 40,
+      "overlay_path": "artifacts/jbi_ch1_florence_colour_pilot_v1/overlays/005afd4f58b202db.jpg",
+      "palette_counts": {
+        "black": 91,
+        "blue": 1,
+        "bronze": 1930,
+        "brown": 983,
+        "green": 30679,
+        "magenta": 44,
+        "orange": 0,
+        "pink": 457,
+        "purple": 5,
+        "red": 0,
+        "white": 4550,
+        "yellow": 428
+      },
+      "pilot_only": true,
+      "protocol": "jbi-ch1-florence-colour-pilot-v1",
+      "selected_bbox": [
+        0.0,
+        34.0,
+        766.0,
+        493.0
+      ],
+      "species": "Raphanus sativus"
+    }
+  ],
+  "status": "pilot_complete_not_final"
+}
