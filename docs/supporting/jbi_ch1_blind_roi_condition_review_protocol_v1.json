@@ -1,0 +1,34 @@
+{
+  "protocol": "jbi-ch1-blind-roi-condition-review-v1",
+  "status": "frozen_before_full_480_review",
+  "scope": "480 calibration crops only",
+  "calibration_only": true,
+  "evaluation_rows_opened": false,
+  "review_order": [
+    "target_roi_validity",
+    "flower_condition"
+  ],
+  "target_roi_validity_values": {
+    "usable": "Target-species flower is clearly present and the crop is sufficiently flower-dominant for direct colour-feature use.",
+    "rescue_segment": "Target-species flower is clearly present and condition can be judged, but the crop is too broad/background-dominant for direct colour-feature use; retain for a later mask/refined-crop rescue.",
+    "invalid": "No evaluable target-species flower is present, or the crop is clearly non-target/non-floral.",
+    "ambiguous": "Target identity or crop suitability cannot be judged confidently from the blinded sheet."
+  },
+  "flower_condition_values": [
+    "fresh",
+    "senescent",
+    "damaged",
+    "mixed_or_ambiguous",
+    "not_evaluable"
+  ],
+  "rules": [
+    "ROI validity is judged before flower condition.",
+    "Colour candidate scores, geography, observer and date must not be used during review.",
+    "No colour-state label is assigned during this review.",
+    "A rescue_segment crop is retained rather than excluded and is sent to segmentation/refined-crop recovery.",
+    "Condition is not_evaluable when no target flower can be judged.",
+    "No numeric area threshold is estimated from the current 480 images."
+  ],
+  "downstream_use": "Only usable fresh records may enter the first direct-colour-rule recalibration. rescue_segment records require independent crop/mask recovery first. invalid and ambiguous records cannot define colour rules.",
+  "final_label": false
+}
