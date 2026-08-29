@@ -1,0 +1,237 @@
+{
+  "calibration_only": true,
+  "candidate_state_numeric_is_final_label": false,
+  "compute_schedule": "4 deterministic shards per species; schedule does not change per-photo inference",
+  "confidence_threshold_used": false,
+  "evaluation_rows_opened": false,
+  "feature_jsonl_sha256": "968648b4d9a4516daa6fb938eaaa0000d665ed18b52801a2f4c6e639b68e7bed",
+  "final_label": false,
+  "model": "florence-community/Florence-2-base-ft",
+  "n_records": 480,
+  "next_gate": "analyze calibration-only within-species feature separability and blinded fresh/senescent condition adjudication; freeze rules before any evaluation image access",
+  "per_species": {
+    "Antirrhinum majus": {
+      "candidate_state_numeric_diagnostic_only": {
+        "magenta_pseudomajus_like": 53,
+        "yellow_striatum_like": 27
+      },
+      "n_detected_boxes_median": 5,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "selected_bbox_area_fraction_max": 0.343959,
+      "selected_bbox_area_fraction_median": 0.089104,
+      "selected_bbox_area_fraction_min": 0.002518,
+      "visual_axis_distribution": {
+        "anthocyanin_like_signal": {
+          "max": 0.979419,
+          "median": 0.587687,
+          "min": 0.0
+        },
+        "blue_purple_signal": {
+          "max": 0.662312,
+          "median": 0.0,
+          "min": 0.0
+        },
+        "carotenoid_like_signal": {
+          "max": 0.996386,
+          "median": 0.078959,
+          "min": 0.0
+        },
+        "white_signal": {
+          "max": 1.0,
+          "median": 0.259614,
+          "min": 0.003614
+        }
+      }
+    },
+    "Dactylorhiza sambucina": {
+      "candidate_state_numeric_diagnostic_only": {
+        "purple": 36,
+        "yellow": 44
+      },
+      "n_detected_boxes_median": 1,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "selected_bbox_area_fraction_max": 0.995448,
+      "selected_bbox_area_fraction_median": 0.126173,
+      "selected_bbox_area_fraction_min": 0.004555,
+      "visual_axis_distribution": {
+        "anthocyanin_like_signal": {
+          "max": 0.998271,
+          "median": 0.488021,
+          "min": 5.8e-05
+        },
+        "blue_purple_signal": {
+          "max": 1.0,
+          "median": 0.00125,
+          "min": 0.0
+        },
+        "carotenoid_like_signal": {
+          "max": 0.999753,
+          "median": 0.215973,
+          "min": 0.0
+        },
+        "white_signal": {
+          "max": 0.971761,
+          "median": 0.2482,
+          "min": 0.0
+        }
+      }
+    },
+    "Gentiana lutea": {
+      "candidate_state_numeric_diagnostic_only": {
+        "orange": 33,
+        "yellow": 47
+      },
+      "n_detected_boxes_median": 6,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "selected_bbox_area_fraction_max": 0.99632,
+      "selected_bbox_area_fraction_median": 0.074615,
+      "selected_bbox_area_fraction_min": 0.000191,
+      "visual_axis_distribution": {
+        "anthocyanin_like_signal": {
+          "max": 0.988683,
+          "median": 0.216588,
+          "min": 0.0
+        },
+        "blue_purple_signal": {
+          "max": 0.192308,
+          "median": 0.0,
+          "min": 0.0
+        },
+        "carotenoid_like_signal": {
+          "max": 1.0,
+          "median": 0.8118,
+          "min": 0.0
+        },
+        "white_signal": {
+          "max": 1.0,
+          "median": 0.1882,
+          "min": 0.0
+        }
+      }
+    },
+    "Ipomoea purpurea": {
+      "candidate_state_numeric_diagnostic_only": {
+        "blue_purple": 45,
+        "pink": 23,
+        "white": 12
+      },
+      "n_detected_boxes_median": 1,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "selected_bbox_area_fraction_max": 0.995448,
+      "selected_bbox_area_fraction_median": 0.080525,
+      "selected_bbox_area_fraction_min": 0.003445,
+      "visual_axis_distribution": {
+        "anthocyanin_like_signal": {
+          "max": 0.987544,
+          "median": 0.8534,
+          "min": 0.003066
+        },
+        "blue_purple_signal": {
+          "max": 0.976165,
+          "median": 0.528912,
+          "min": 0.0
+        },
+        "carotenoid_like_signal": {
+          "max": 0.983308,
+          "median": 0.008107,
+          "min": 0.0
+        },
+        "white_signal": {
+          "max": 0.995762,
+          "median": 0.097582,
+          "min": 0.001699
+        }
+      }
+    },
+    "Lysimachia arvensis": {
+      "candidate_state_numeric_diagnostic_only": {
+        "blue": 9,
+        "red": 71
+      },
+      "n_detected_boxes_median": 3,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "selected_bbox_area_fraction_max": 0.85968,
+      "selected_bbox_area_fraction_median": 0.012081,
+      "selected_bbox_area_fraction_min": 0.000286,
+      "visual_axis_distribution": {
+        "anthocyanin_like_signal": {
+          "max": 0.994152,
+          "median": 0.505207,
+          "min": 0.169484
+        },
+        "blue_purple_signal": {
+          "max": 0.922217,
+          "median": 0.0,
+          "min": 0.0
+        },
+        "carotenoid_like_signal": {
+          "max": 0.984833,
+          "median": 0.675862,
+          "min": 0.0
+        },
+        "white_signal": {
+          "max": 0.811892,
+          "median": 0.074213,
+          "min": 0.0
+        }
+      }
+    },
+    "Raphanus sativus": {
+      "candidate_state_numeric_diagnostic_only": {
+        "bronze": 4,
+        "pink": 8,
+        "white": 66,
+        "yellow": 2
+      },
+      "n_detected_boxes_median": 9,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "selected_bbox_area_fraction_max": 0.995896,
+      "selected_bbox_area_fraction_median": 0.04813,
+      "selected_bbox_area_fraction_min": 0.001599,
+      "visual_axis_distribution": {
+        "anthocyanin_like_signal": {
+          "max": 0.940909,
+          "median": 0.183291,
+          "min": 0.0
+        },
+        "blue_purple_signal": {
+          "max": 0.863802,
+          "median": 0.009276,
+          "min": 0.0
+        },
+        "carotenoid_like_signal": {
+          "max": 0.714792,
+          "median": 0.114454,
+          "min": 0.0
+        },
+        "white_signal": {
+          "max": 0.988012,
+          "median": 0.716776,
+          "min": 0.05
+        }
+      }
+    }
+  },
+  "pilot_direct_state_match": "4/5",
+  "pilot_direct_state_match_used_as_scaleup_gate": false,
+  "pilot_v2_sha256": "982ac7865491000844ea26030742e5d1e8703e64082ce8307512f6e83d4c3d40",
+  "protocol": "jbi-ch1-florence-calibration-features-v1",
+  "roi_selector": "geometry-only individual-flower selector validated in pilot v2",
+  "scaleup_gate": "6/6 pilot images localized with Florence open-vocabulary flower boxes",
+  "source_split_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "species_count": 6,
+  "status": "numeric_features_complete_not_final_labels",
+  "visual_colour_axes_are_biochemical_measurements": false
+}
