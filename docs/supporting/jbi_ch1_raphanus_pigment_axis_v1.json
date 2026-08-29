@@ -1,0 +1,45 @@
+{
+  "protocol": "jbi-ch1-raphanus-pigment-axis-v1",
+  "status": "methodological_correction_before_480_feature_analysis",
+  "species": "Raphanus sativus",
+  "literature_structure": {
+    "carotenoid_axis": "carotenoids produce yellow petal colour; absence contributes the white/pink side",
+    "anthocyanin_axis": "anthocyanins produce pink pigmentation whose intensity and distribution across the petal lamina may vary greatly",
+    "four_morph_interpretation": {
+      "white": "anthocyanin absent; carotenoid absent",
+      "yellow": "anthocyanin absent; carotenoid present",
+      "pink": "anthocyanin present; carotenoid absent",
+      "bronze": "anthocyanin present; carotenoid present"
+    },
+    "critical_observation_rule": "the source literature treats flowers displaying any pink pigment as pink or bronze despite variation in anthocyanin intensity/distribution"
+  },
+  "sources": [
+    {
+      "citation": "Stanton 1987, American Journal of Botany 74:178-187",
+      "doi": "10.1002/j.1537-2197.1987.tb08595.x"
+    },
+    {
+      "citation": "Strauss et al. 2004, Journal of Ecology",
+      "doi": "10.1111/j.1365-2745.2004.00843.x"
+    }
+  ],
+  "consequence_for_image_pipeline": {
+    "rejected_rule": "assign Raphanus morph from whichever fixed palette colour occupies the largest fraction of the ROI",
+    "reason": "a pale pink flower may contain large near-white petal area while still being anthocyanin-positive; dominant white pixel area therefore does not imply the white morph",
+    "continuous_features_to_retain": {
+      "anthocyanin_visual_evidence": "pink + magenta + purple + red + bronze palette fractions",
+      "carotenoid_visual_evidence": "yellow + orange + bronze palette fractions"
+    },
+    "thresholds": "not set from the six-image pilot",
+    "calibration_plan": "estimate whether the two visual pigment axes show separable groups using the full 80-photo calibration set; only then freeze a mapping to white/yellow/pink/bronze for held-out evaluation"
+  },
+  "pilot_v2_interpretation": {
+    "blind_id": "005afd4f58b202db",
+    "roi_localization": "pass",
+    "direct_palette_argmax": "white",
+    "preexisting_calibration_expectation": "pink",
+    "resolution": "do not tune a threshold to this image; reject direct palette argmax as the biological classifier and retain its continuous pigment-axis features for calibration"
+  },
+  "evaluation_images_opened": false,
+  "final_label_created": false
+}
