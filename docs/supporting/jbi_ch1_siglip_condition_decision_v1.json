@@ -1,0 +1,30 @@
+{
+  "protocol": "jbi-ch1-siglip-condition-decision-v1",
+  "status": "automatic_condition_gate_rejected",
+  "basis": "Predeclared six-image calibration-only condition diagnostic using Florence v2 flower crops and fixed SigLIP prompts.",
+  "pilot_result": {
+    "source": "docs/supporting/jbi_ch1_siglip_condition_pilot_v1.json",
+    "n_checks": 6,
+    "n_matches": 3,
+    "matched": [
+      "Antirrhinum majus:fresh",
+      "Dactylorhiza sambucina:fresh",
+      "Ipomoea purpurea:fresh"
+    ],
+    "mismatched": [
+      "Gentiana lutea: expected senescent, observed damaged",
+      "Lysimachia arvensis: expected fresh, observed damaged",
+      "Raphanus sativus: expected fresh, observed damaged"
+    ]
+  },
+  "decision": {
+    "siglip_used_for_480_condition_labels": false,
+    "post_hoc_prompt_tuning_on_six_pilot_images": false,
+    "post_hoc_numeric_threshold": false,
+    "condition_filter_removed_from_scientific_design": false,
+    "replacement": "blinded calibration-only condition adjudication using Florence-localized flower crops",
+    "colour_feature_extraction_may_continue_before_condition_adjudication": true,
+    "pre_condition_colour_features_are_baseline_only": true,
+    "evaluation_set_access_allowed": false
+  }
+}
