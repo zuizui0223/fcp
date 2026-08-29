@@ -12,6 +12,14 @@
   "blind_review_was_completed_before_mapping_opened": true,
   "blind_slots_usable_after_sam2": [2, 5, 6, 7, 8, 10],
   "blind_slots_not_usable_after_sam2": [1, 3, 4, 9],
+  "source_reviewer1_rescue_counts": {
+    "Antirrhinum majus": 5,
+    "Dactylorhiza sambucina": 2,
+    "Gentiana lutea": 15,
+    "Ipomoea purpurea": 1,
+    "Lysimachia arvensis": 0,
+    "Raphanus sativus": 17
+  },
   "mapped_results": {
     "Antirrhinum majus": {
       "rescue_slot": 4,
@@ -36,7 +44,7 @@
       "control_slot": 10,
       "control_decision": "preserved",
       "advance_remaining_rescue_records": false,
-      "remaining_rescue_records_after_pilot": 24
+      "remaining_rescue_records_after_pilot": 14
     },
     "Ipomoea purpurea": {
       "rescue_slot": 6,
@@ -54,9 +62,10 @@
       "control_slot": 5,
       "control_decision": "preserved",
       "advance_remaining_rescue_records": false,
-      "remaining_rescue_records_after_pilot": 6
+      "remaining_rescue_records_after_pilot": 16
     }
   },
+  "remaining_rescue_records_after_five_pilot_rescues": 35,
   "frozen_scaleup_rule_applied": "A species advances only if its rescue pilot is rescued and its matched usable-fresh control is preserved.",
   "remaining_rescue_records_eligible_for_sam2_scaleup": 0,
   "sam2_scaleup_action": "do_not_scale_up",
