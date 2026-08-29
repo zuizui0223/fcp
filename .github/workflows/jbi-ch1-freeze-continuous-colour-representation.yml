@@ -1,0 +1,73 @@
+name: JBI Chapter 1 freeze continuous colour representation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-freeze-continuous-colour-representation.yml"
+      - "scripts/data/freeze_jbi_ch1_continuous_colour_representation.py"
+      - "docs/supporting/jbi_ch1_evaluation_opening_contract_v1.json"
+      - "docs/supporting/jbi_ch1_blind_roi_condition_review_r1_v1.json"
+      - "data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-freeze-continuous-colour-representation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Freeze calibration-derived axes and scaler
+        run: |
+          python scripts/data/freeze_jbi_ch1_continuous_colour_representation.py
+      - name: Validate no-evaluation freeze contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('docs/supporting/jbi_ch1_continuous_colour_representation_v1.json')
+          x = json.loads(p.read_text())
+          assert x['status'] == 'frozen_before_evaluation_values_inspected'
+          assert x['calibration_only_scaler_fit'] is True
+          assert x['evaluation_values_used_to_define_axes'] is False
+          assert x['evaluation_values_used_to_fit_scaling'] is False
+          assert x['n_scaler_rows_total'] == 326
+          assert len(x['per_species']) == 6
+          assert all(v['n_scaler_rows'] > 0 for v in x['per_species'].values())
+          print('continuous representation freeze passed: 326 calibration rows, 0 evaluation values')
+          PY
+      - name: Commit frozen representation with retry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/jbi_ch1_continuous_colour_representation_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Freeze calibration-derived continuous colour representation"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/jbi-global-colour-boundaries
+            git rebase origin/analysis/jbi-global-colour-boundaries
+            if git push origin HEAD:analysis/jbi-global-colour-boundaries; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
