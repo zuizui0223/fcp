@@ -1,0 +1,64 @@
+name: JBI Chapter 1 calibration feature geometry
+
+on:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - "data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  feature-geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest scikit-learn
+      - name: Validate feature geometry implementation
+        run: python -m pytest -q tests/test_calibration_feature_geometry.py
+      - name: Diagnose calibration-only feature geometry
+        run: |
+          python scripts/data/analyze_jbi_ch1_calibration_feature_geometry.py \
+            --input data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl \
+            --output docs/supporting/jbi_ch1_calibration_feature_geometry_v1.json
+      - name: Enforce no-label/no-holdout interpretation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/jbi_ch1_calibration_feature_geometry_v1.json').read_text())
+          assert r['calibration_only'] is True
+          assert r['evaluation_rows_opened'] is False
+          assert r['final_label'] is False
+          assert r['candidate_argmax_used_as_training_label'] is False
+          assert r['condition_filter_applied'] is False
+          assert r['gmm_components_are_biological_morph_labels'] is False
+          assert len(r['species']) == 6
+          print('feature geometry diagnostic complete for six species; no final morph labels emitted')
+          PY
+      - name: Commit feature geometry diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/jbi_ch1_calibration_feature_geometry_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Diagnose calibration-only flower colour feature geometry"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
