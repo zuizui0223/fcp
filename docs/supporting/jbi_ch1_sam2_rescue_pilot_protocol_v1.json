@@ -1,0 +1,49 @@
+{
+  "protocol": "jbi-ch1-sam2-roi-rescue-pilot-v1",
+  "status": "frozen_before_pilot_execution",
+  "scope": "calibration-only ROI rescue diagnostic",
+  "calibration_only": true,
+  "evaluation_rows_opened": false,
+  "final_label": false,
+  "colour_state_used_for_selection": false,
+  "geography_used_for_selection": false,
+  "observer_used_for_selection": false,
+  "date_used_for_selection": false,
+  "source_review": "docs/supporting/jbi_ch1_blind_roi_condition_review_r1_v1.json",
+  "source_features": "data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl",
+  "model": "facebook/sam2.1-hiera-tiny",
+  "transformers_version": "5.16.1",
+  "prompt_type": "Florence-selected bounding box only",
+  "sam2_mask_choice": "highest predicted IoU among default multimask outputs",
+  "pilot_selection": {
+    "species_scope": "each species with at least one reviewer-1 rescue_segment record",
+    "rescue_per_species": 1,
+    "control_per_species": 1,
+    "rescue_rule": "lowest review_order_within_species marked rescue_segment",
+    "control_rule": "lowest review_order_within_species marked usable and fresh",
+    "expected_species": [
+      "Antirrhinum majus",
+      "Dactylorhiza sambucina",
+      "Gentiana lutea",
+      "Ipomoea purpurea",
+      "Raphanus sativus"
+    ],
+    "expected_rows": 10
+  },
+  "blind_visual_review": {
+    "sheet_exposes": ["pilot_slot", "blind_id", "before_crop", "sam2_masked_crop"],
+    "sheet_hides": ["species", "rescue_or_control_arm", "colour_candidate_scores", "geography", "observer", "date"],
+    "allowed_rescue_decisions": ["rescued", "not_rescued", "ambiguous"],
+    "allowed_control_decisions": ["preserved", "degraded", "ambiguous"]
+  },
+  "decision_definitions": {
+    "rescued": "SAM2 isolates the target flower sufficiently for colour measurement while retaining the biologically relevant corolla/petal region.",
+    "not_rescued": "The mask remains non-target/background-dominant, loses the relevant flower region, or the target flower is still not suitable for colour measurement.",
+    "preserved": "A reviewer-1 usable fresh control remains represented without material loss of the relevant flower region.",
+    "degraded": "SAM2 materially removes the relevant flower region or shifts the mask to non-target content in a usable fresh control.",
+    "ambiguous": "The blinded pair is insufficient to decide confidently."
+  },
+  "scaleup_rule": "A species advances from one pilot rescue to its remaining reviewer-1 rescue_segment records only if that species' pilot rescue is judged rescued and its matched usable-fresh control is judged preserved. No cross-species pooled threshold is estimated from the pilot.",
+  "downstream_rule": "SAM2 output remains a technical ROI recovery product, never a colour-state label. Recovered records require condition validity and later colour-rule freeze before evaluation access.",
+  "evaluation_holdout_remains_closed": true
+}
