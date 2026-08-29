@@ -1,0 +1,52 @@
+{
+  "protocol": "jbi-ch1-stage-a-continuous-graph-v1",
+  "status": "frozen_before_any_evaluation_spatial_colour_result",
+  "purpose": "Test whether nearby observations within species are more similar in frozen continuous flower-colour space than expected under species-conditioned random labelling.",
+  "input": {
+    "evaluation_feature_protocol": "jbi-ch1-florence-evaluation-features-v1",
+    "primary_vector": "continuous_colour_vector_z",
+    "scaling_source": "calibration-only frozen means and population SDs from jbi-ch1-continuous-colour-representation-v1",
+    "measurement_evaluable_rule": "feature_status == ok and continuous_colour_vector_z is non-null and finite",
+    "failed_measurements": "not_evaluable; never imputed as zero colour distance",
+    "minimum_evaluable_rows_per_species": 30
+  },
+  "geometry": {
+    "coordinate_source": "frozen jbi_ch1_photo_split_v1.csv latitude/longitude joined by photo_id",
+    "graph": "symmetrized spherical k-nearest-neighbour graph within each species",
+    "primary_k": 5,
+    "primary_max_edge_km": null,
+    "primary_edge_weights": "uniform",
+    "reason_no_primary_distance_truncation": "Stage A is a random-labelling/local-autocorrelation test; the identical colour-blind graph is retained for observed and all null replicates, avoiding post-hoc distance filtering by colour outcome.",
+    "predeclared_sensitivity_k": [3, 8],
+    "graph_uses_colour_values": false
+  },
+  "statistic": {
+    "species_Q": "mean RMS Euclidean colour-vector distance across graph edges",
+    "global": "arithmetic mean of species_Q across all six species after within-species normalization",
+    "species_weighting": "exactly equal; one vote per species regardless of row count or graph edge count",
+    "binary_compatibility": "for a one-dimensional 0/1 colour vector, edge RMS distance equals the original mismatch indicator exactly",
+    "direction": "smaller Q means stronger local colour similarity/spatial segregation"
+  },
+  "null": {
+    "permutations": 9999,
+    "random_seed": 20260830,
+    "locations_fixed": true,
+    "graph_fixed": true,
+    "complete_vectors_permuted_as_indivisible_rows": true,
+    "permutation_scope": "strictly within species",
+    "primary_p_value": "Monte Carlo lower-tail: (1 + count(null_global_Q <= observed_global_Q)) / (B + 1)",
+    "secondary_two_sided_p_value": "absolute deviation from the null mean, reported descriptively",
+    "per_species_p_values": "same lower-tail and two-sided definitions, secondary to global result"
+  },
+  "interpretation": {
+    "stage_a_rejects_random_labelling": "evidence that flower-colour vectors are locally spatially organized within species",
+    "stage_a_does_not_yet_establish": [
+      "shared geographic boundaries across species",
+      "environmental causes",
+      "historical causes"
+    ],
+    "next_if_supported": "construct species-specific transition-intensity surfaces and test cross-species shared-boundary concentration under the full within-species permutation pipeline"
+  },
+  "environment_used": false,
+  "geographic_reference_library_used": false
+}
