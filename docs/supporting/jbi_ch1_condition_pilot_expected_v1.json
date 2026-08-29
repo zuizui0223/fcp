@@ -1,0 +1,14 @@
+{
+  "protocol": "jbi-ch1-condition-pilot-expected-v1",
+  "status": "frozen_from_preexisting_three-pass_repeatability_before_siglip_condition_pilot",
+  "basis": "jbi-ch1-vision-repeatability-v2: flower_condition was unanimous in 6/6 pilot images across three independent passes",
+  "expectations": {
+    "0176537d5144f894": {"species": "Antirrhinum majus", "expected_condition": "fresh"},
+    "023f910bff4aa8c6": {"species": "Dactylorhiza sambucina", "expected_condition": "fresh"},
+    "00b0caa6aa902f40": {"species": "Gentiana lutea", "expected_condition": "senescent"},
+    "02db3a10e0f396cf": {"species": "Ipomoea purpurea", "expected_condition": "fresh"},
+    "0741878b1083634e": {"species": "Lysimachia arvensis", "expected_condition": "fresh"},
+    "005afd4f58b202db": {"species": "Raphanus sativus", "expected_condition": "fresh"}
+  },
+  "note": "These six expectations were not derived from SigLIP output. The pilot is diagnostic only and does not define final calibration labels or a numeric confidence threshold."
+}
