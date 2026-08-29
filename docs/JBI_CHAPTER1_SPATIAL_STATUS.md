@@ -30,14 +30,14 @@ The previous C/S-to-climate comparison is retained as secondary/provenance conte
 - 480 calibration images: 480/480 materialized and decoded successfully;
 - conservative technical image flags: 0/480;
 - evaluation images opened during technical audit: 0/720;
-- six-image calibration-only vision pilot: completed;
-- six images x three independent passes = 18 valid repeatability responses;
+- six-image calibration-only Copilot vision pilot: completed;
+- six images x three independent Copilot passes = 18 valid repeatability responses;
 - repeatability: flower visibility, flower condition, flower region, and segmentation feasibility were unanimous in 6/6 images;
 - colour pattern and within-photo consistency were unanimous in 5/6 images;
 - diagnostic colour scope was unanimous in 4/6 images;
-- operational decision: only the 6/6-repeatable fields are accepted for automatic calibration screening; less-repeatable fields remain advisory and cannot establish final colour states;
-- literature-constrained candidate colour codebook: frozen before 480-image semantic screening;
-- 480-image semantic screening workflow: implemented and running calibration-only; candidate states remain screening suggestions, not final labels.
+- operational decision: only the 6/6-repeatable fields were accepted for automatic calibration screening; less-repeatable fields cannot establish final colour states;
+- literature-constrained candidate colour codebook: frozen before 480-image screening;
+- independent two-pass calibration-consensus workflow: implemented but not allowed to run until a complete first-pass calibration screen exists.
 
 ## Current empirical state
 
@@ -45,7 +45,8 @@ The previous C/S-to-climate comparison is retained as secondary/provenance conte
 - calibration IDs: 480 frozen;
 - evaluation IDs: 720 frozen and unopened for rule tuning;
 - calibration technical materialization: 480/480 passed;
-- calibration semantic repeatability diagnostic: 18/18 valid responses on six pilot images;
+- six-image semantic repeatability diagnostic: 18/18 valid responses;
+- complete 480-image semantic screen: **not completed**;
 - final flower-colour classifications: 0/1,200;
 - final species codebooks: not yet frozen;
 - random versus non-random spatial placement: `not_evaluated`;
@@ -53,15 +54,49 @@ The previous C/S-to-climate comparison is retained as secondary/provenance conte
 - shared-boundary surface: `not_evaluated`;
 - geographic correspondence: `not_evaluated`.
 
+## Copilot quota stop
+
+The first 480-image Copilot screening attempt failed before image processing because of a malformed candidate-codebook JSON; the JSON was corrected and a parse test was added.
+
+The corrected screening then entered real image processing and produced valid records for the first several images in each shard. It subsequently stopped because the GitHub Actions identity reached its **monthly Copilot request quota**. A representative Raphanus shard processed eight calibration photographs successfully and then received `You have exceeded your monthly quota` on three consecutive retry attempts.
+
+Consequences:
+
+- this is a service/quota stop, not a biological or schema failure;
+- partial records from aborted shards are **diagnostic only and are not promoted into the calibration dataset**;
+- the 480-image dataset will not be assembled by mixing pre-quota Copilot records with a different later method;
+- repeatedly rerunning the same Copilot workflow is not a valid recovery path while the monthly quota remains exhausted;
+- the 720-image evaluation set remains unopened.
+
+GitHub Models cannot provide a separate fallback because GitHub retired that service on 2026-07-30. The active fallback therefore removes paid/request-quota model inference from the main pipeline.
+
+## Quota-independent image route — active
+
+A six-image calibration-only pilot is running with **Florence-2-base-ft** plus deterministic pixel-colour extraction:
+
+1. Florence-2 open-vocabulary detection localizes a flower ROI;
+2. a fixed sRGB reference palette, declared before the pilot result, quantifies colours inside that ROI;
+3. species-specific candidate-state scores are computed deterministically from the frozen literature codebook;
+4. the result is compared with five predeclared diagnostic expectations from the already-completed six-image pilot;
+5. the known senescent `Gentiana lutea` image is retained as a negative control: colour extraction may succeed but cannot validate a fresh-flower state.
+
+Files:
+
+- `scripts/data/run_jbi_ch1_florence_colour_pilot.py`;
+- `docs/supporting/jbi_ch1_florence_pilot_expected_v1.json`;
+- `.github/workflows/jbi-ch1-florence-colour-pilot.yml`.
+
+The Florence model is used to localize the flower; the named colour suggestion is produced from explicit numeric pixel features rather than unconstrained language generation. This pilot remains `final_label=false`.
+
 ## Repeatability decision
 
-No numerical acceptance threshold was estimated after seeing the six-image diagnostic. Instead, only fields that were completely stable across all three independent passes for all six pilot images are carried forward for automatic **screening**, not final labelling.
+No numerical acceptance threshold was estimated after seeing the six-image diagnostic. The prior Copilot diagnostic established only which semantic fields were repeatable enough to use as **screening descriptors**, not final labels.
 
-Accepted for automatic screening:
+Previously stable semantic descriptors:
 
 - flower visibility;
 - flower condition (`fresh`, `senescent`, `damaged`, `mixed_or_ambiguous`);
-- flower region (`single_target_clear`, `multiple_flowers_clear`, etc.);
+- flower region;
 - segmentation feasibility.
 
 Not accepted as automatic final decisions:
@@ -72,11 +107,9 @@ Not accepted as automatic final decisions:
 - multiple-flower colour consistency;
 - candidate biological colour state.
 
-The latter fields may be recorded conservatively, but discordance forces `unresolved` rather than a biological state.
-
 ## Literature-constrained candidate states
 
-Candidate states are declared before the 480-image semantic screen in:
+Candidate states were declared before the 480-image screening in:
 
 `docs/supporting/jbi_ch1_species_colour_candidate_codebook_v1.json`
 
@@ -89,29 +122,14 @@ Current candidate contrasts:
 - `Antirrhinum majus`: magenta-pseudomajus-like / yellow-striatum-like / intermediate-or-other, based on whole-corolla pigment distribution rather than hue alone;
 - `Lysimachia arvensis`: blue / red.
 
-Every species also has `unresolved`. The screening model is not allowed to invent a new state.
+Every species also has `unresolved`. New states cannot be invented by the image model.
 
-## Current active gate
+## Next valid gate
 
-The active task is **480-photo semantic calibration screening**, not holdout evaluation and not spatial inference.
-
-For each frozen calibration image the workflow records:
-
-1. flower visibility;
-2. flower condition;
-3. flower-region/segmentation feasibility;
-4. within-photo consistency as a conservative unresolved gate;
-5. one literature-predeclared candidate state or `unresolved`.
-
-All records are explicitly marked `screening_only=true` and `final_label=false`.
-
-The first semantic-screen attempt failed before opening any image because the candidate-codebook JSON contained a syntax error. The codebook was corrected and a JSON-parse test was added before re-running the workflow. Therefore that failure did not generate or contaminate image labels.
-
-## Next gate after screening
-
-1. aggregate all 480 screening records and quantify usable vs unresolved yield by species;
-2. inspect unresolved causes and candidate-state support;
-3. independently re-score state-bearing calibration records before final codebook freeze;
-4. freeze species-specific final measurement rules and hashes;
-5. only after that freeze open the 720-image evaluation set;
-6. only after held-out colour states exist run the species-conditioned spatial random-labelling analysis.
+1. finish the six-image Florence localization/colour pilot;
+2. inspect localization success and the five predeclared diagnostic state checks;
+3. if the open-model route is supported, rerun all 480 calibration images under one uniform quota-independent implementation;
+4. quantify state separability and unresolved/localization-failure rates by species;
+5. independently verify candidate state-bearing calibration records and freeze final species-specific measurement rules;
+6. only after that freeze open the 720-image evaluation set;
+7. only after held-out colour states exist run the species-conditioned spatial random-labelling analysis.
