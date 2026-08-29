@@ -50,7 +50,6 @@ jobs:
               raise SystemExit('wrong Florence pilot protocol')
           if result.get('evaluation_rows_opened') is not False or result.get('final_label') is not False:
               raise SystemExit('pilot firewall violated')
-
           rows = result.get('results', [])
           if len(rows) != 6 or len({r.get('species') for r in rows}) != 6:
               raise SystemExit(f'expected six species-localization diagnostics, found {len(rows)}')
@@ -72,14 +71,8 @@ jobs:
                   })
           if bad:
               raise SystemExit(f'Florence ROI preflight failed: {bad}')
-
-          # Pilot colour-state agreement is diagnostic only. Raphanus showed why a
-          # single-image pixel argmax must not gate scale-up: its ROI was valid while
-          # the genetically two-pigment morph structure was not represented by argmax.
-          checks = result.get('n_predeclared_state_checks')
-          matches = result.get('n_predeclared_state_matches')
-          print(f'ROI gate passed 6/6; pilot direct-state diagnostic={matches}/{checks} (not a scale-up criterion).')
-          print('480 extraction will emit numeric ROI features only; direct candidate argmax is not a final state.')
+          print(f"ROI gate passed 6/6; pilot direct-state diagnostic={result.get('n_predeclared_state_matches')}/{result.get('n_predeclared_state_checks')} (not a scale-up criterion).")
+          print('Extraction is deterministic-sharded compute only; inference logic is identical to pilot v2.')
           with open(os.environ['GITHUB_OUTPUT'], 'a') as handle:
               handle.write('supported=true\n')
           PY
@@ -88,24 +81,36 @@ jobs:
     needs: preflight
     if: ${{ needs.preflight.outputs.supported == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 45
     strategy:
       fail-fast: false
-      max-parallel: 6
+      max-parallel: 12
       matrix:
         include:
-          - species: "Ipomoea purpurea"
-            slug: ipomoea_purpurea
-          - species: "Raphanus sativus"
-            slug: raphanus_sativus
-          - species: "Gentiana lutea"
-            slug: gentiana_lutea
-          - species: "Dactylorhiza sambucina"
-            slug: dactylorhiza_sambucina
-          - species: "Antirrhinum majus"
-            slug: antirrhinum_majus
-          - species: "Lysimachia arvensis"
-            slug: lysimachia_arvensis
+          - {species: "Ipomoea purpurea", slug: ipomoea_purpurea, shard: 0}
+          - {species: "Ipomoea purpurea", slug: ipomoea_purpurea, shard: 1}
+          - {species: "Ipomoea purpurea", slug: ipomoea_purpurea, shard: 2}
+          - {species: "Ipomoea purpurea", slug: ipomoea_purpurea, shard: 3}
+          - {species: "Raphanus sativus", slug: raphanus_sativus, shard: 0}
+          - {species: "Raphanus sativus", slug: raphanus_sativus, shard: 1}
+          - {species: "Raphanus sativus", slug: raphanus_sativus, shard: 2}
+          - {species: "Raphanus sativus", slug: raphanus_sativus, shard: 3}
+          - {species: "Gentiana lutea", slug: gentiana_lutea, shard: 0}
+          - {species: "Gentiana lutea", slug: gentiana_lutea, shard: 1}
+          - {species: "Gentiana lutea", slug: gentiana_lutea, shard: 2}
+          - {species: "Gentiana lutea", slug: gentiana_lutea, shard: 3}
+          - {species: "Dactylorhiza sambucina", slug: dactylorhiza_sambucina, shard: 0}
+          - {species: "Dactylorhiza sambucina", slug: dactylorhiza_sambucina, shard: 1}
+          - {species: "Dactylorhiza sambucina", slug: dactylorhiza_sambucina, shard: 2}
+          - {species: "Dactylorhiza sambucina", slug: dactylorhiza_sambucina, shard: 3}
+          - {species: "Antirrhinum majus", slug: antirrhinum_majus, shard: 0}
+          - {species: "Antirrhinum majus", slug: antirrhinum_majus, shard: 1}
+          - {species: "Antirrhinum majus", slug: antirrhinum_majus, shard: 2}
+          - {species: "Antirrhinum majus", slug: antirrhinum_majus, shard: 3}
+          - {species: "Lysimachia arvensis", slug: lysimachia_arvensis, shard: 0}
+          - {species: "Lysimachia arvensis", slug: lysimachia_arvensis, shard: 1}
+          - {species: "Lysimachia arvensis", slug: lysimachia_arvensis, shard: 2}
+          - {species: "Lysimachia arvensis", slug: lysimachia_arvensis, shard: 3}
     env:
       HF_HOME: ${{ github.workspace }}/.hf-cache
     steps:
@@ -127,34 +132,38 @@ jobs:
           python -m pip install -e .
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
           python -m pip install "transformers>=5,<6" accelerate
-      - name: Extract all 80 frozen calibration records for one species
+      - name: Extract deterministic 20-photo calibration shard
         run: |
           mkdir -p artifacts/jbi_ch1_florence_calibration_features_v1
           python scripts/data/extract_jbi_ch1_florence_calibration_features.py \
             --species "${{ matrix.species }}" \
-            --output "artifacts/jbi_ch1_florence_calibration_features_v1/${{ matrix.slug }}.jsonl"
-      - name: Validate species feature firewall
+            --shard-index "${{ matrix.shard }}" \
+            --shard-count 4 \
+            --output "artifacts/jbi_ch1_florence_calibration_features_v1/${{ matrix.slug }}_${{ matrix.shard }}.jsonl"
+      - name: Validate shard feature firewall
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          path = Path('artifacts/jbi_ch1_florence_calibration_features_v1/${{ matrix.slug }}.jsonl')
+          path = Path('artifacts/jbi_ch1_florence_calibration_features_v1/${{ matrix.slug }}_${{ matrix.shard }}.jsonl')
           rows = [json.loads(x) for x in path.read_text().splitlines() if x.strip()]
-          assert len(rows) == 80
-          assert len({r['photo_id'] for r in rows}) == 80
-          assert len({r['blind_id'] for r in rows}) == 80
+          assert len(rows) == 20
+          assert len({r['photo_id'] for r in rows}) == 20
+          assert len({r['blind_id'] for r in rows}) == 20
           assert all(r['species'] == '${{ matrix.species }}' for r in rows)
           assert all(r['evaluation_row'] is False for r in rows)
           assert all(r['calibration_only'] is True for r in rows)
           assert all(r['final_label'] is False for r in rows)
+          assert all(r['compute_shard_index'] == ${{ matrix.shard }} for r in rows)
+          assert all(r['compute_shard_count'] == 4 for r in rows)
           print('validated', path, 'ok=', sum(r['feature_status']=='ok' for r in rows), 'localization_failed=', sum(r['feature_status']!='ok' for r in rows))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: jbi-ch1-florence-features-${{ matrix.slug }}
+          name: jbi-ch1-florence-features-${{ matrix.slug }}-${{ matrix.shard }}
           if-no-files-found: error
           retention-days: 90
-          path: artifacts/jbi_ch1_florence_calibration_features_v1/${{ matrix.slug }}.jsonl
+          path: artifacts/jbi_ch1_florence_calibration_features_v1/${{ matrix.slug }}_${{ matrix.shard }}.jsonl
 
   aggregate:
     needs: extract
@@ -177,12 +186,11 @@ jobs:
           from collections import Counter
           import hashlib
           import json
-          import math
           from pathlib import Path
 
           paths = sorted(Path('artifacts/jbi_ch1_florence_calibration_features_v1').glob('*.jsonl'))
-          if len(paths) != 6:
-              raise SystemExit(f'expected six species files, found {len(paths)}')
+          if len(paths) != 24:
+              raise SystemExit(f'expected 24 shard files, found {len(paths)}')
           rows = []
           for path in paths:
               rows.extend(json.loads(x) for x in path.read_text().splitlines() if x.strip())
@@ -194,8 +202,6 @@ jobs:
               raise SystemExit('evaluation/final-label firewall violation')
           rows = sorted(rows, key=lambda r: (r['species'], r['blind_id']))
 
-          # Add continuous visual proxies without thresholding. They are image-feature
-          # summaries, not biochemical measurements and not final morph labels.
           for r in rows:
               f = r.get('flower_only_fractions', {}) if r.get('feature_status') == 'ok' else {}
               r['visual_colour_axes'] = {
@@ -213,11 +219,7 @@ jobs:
               values = sorted(float(x) for x in values)
               if not values:
                   return {'min': None, 'median': None, 'max': None}
-              return {
-                  'min': values[0],
-                  'median': values[len(values)//2],
-                  'max': values[-1],
-              }
+              return {'min': values[0], 'median': values[len(values)//2], 'max': values[-1]}
 
           by_species = {}
           for species in sorted({r['species'] for r in rows}):
@@ -252,6 +254,7 @@ jobs:
               'final_label': False,
               'model': 'florence-community/Florence-2-base-ft',
               'roi_selector': 'geometry-only individual-flower selector validated in pilot v2',
+              'compute_schedule': '4 deterministic shards per species; schedule does not change per-photo inference',
               'scaleup_gate': '6/6 pilot images localized with Florence open-vocabulary flower boxes',
               'pilot_direct_state_match': f"{pilot.get('n_predeclared_state_matches')}/{pilot.get('n_predeclared_state_checks')}",
               'pilot_direct_state_match_used_as_scaleup_gate': False,
@@ -262,7 +265,7 @@ jobs:
               'pilot_v2_sha256': sha('docs/supporting/jbi_ch1_florence_colour_pilot_v2.json'),
               'feature_jsonl_sha256': sha(out),
               'per_species': by_species,
-              'next_gate': 'analyze calibration-only within-species feature separability and independent fresh/senescent condition gate; freeze rules before any evaluation image access'
+              'next_gate': 'analyze calibration-only within-species feature separability and blinded fresh/senescent condition adjudication; freeze rules before any evaluation image access'
           }
           summary_path = Path('docs/supporting/jbi_ch1_florence_calibration_features_v1.json')
           summary_path.parent.mkdir(parents=True, exist_ok=True)
