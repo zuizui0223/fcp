@@ -1,0 +1,86 @@
+name: JBI Chapter 1 SigLIP condition pilot
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - "docs/supporting/jbi_ch1_florence_colour_pilot_v2.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-siglip-condition-pilot-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  six-image-condition-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      HF_HOME: ${{ github.workspace }}/.hf-cache
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: actions/cache@v4
+        with:
+          path: .hf-cache
+          key: siglip-base-patch16-224-v1
+      - name: Install CPU-only SigLIP dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install "transformers>=5,<6" accelerate
+      - name: Materialize the same six frozen calibration images
+        run: |
+          python scripts/data/materialize_jbi_ch1_vision_pilot.py \
+            --split data/frozen/jbi_ch1_photo_split_v1.csv \
+            --output-root artifacts/jbi_ch1_siglip_condition_pilot_v1/images \
+            --manifest-csv artifacts/jbi_ch1_siglip_condition_pilot_v1/pilot_manifest.csv
+      - name: Run six-image condition pilot
+        run: |
+          python scripts/data/run_jbi_ch1_siglip_condition_pilot.py \
+            --pilot-manifest artifacts/jbi_ch1_siglip_condition_pilot_v1/pilot_manifest.csv \
+            --florence-v2 docs/supporting/jbi_ch1_florence_colour_pilot_v2.json \
+            --expected docs/supporting/jbi_ch1_condition_pilot_expected_v1.json \
+            --output docs/supporting/jbi_ch1_siglip_condition_pilot_v1.json
+      - name: Validate calibration-only diagnostic
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/jbi_ch1_siglip_condition_pilot_v1.json').read_text())
+          assert r['n_images'] == 6 and r['n_predeclared_checks'] == 6
+          assert r['calibration_only'] is True
+          assert r['evaluation_rows_opened'] is False
+          assert r['final_label'] is False
+          assert r['numeric_threshold_used'] is False
+          print('condition diagnostic matches:', r['n_matches'], '/ 6')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-siglip-condition-pilot-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: docs/supporting/jbi_ch1_siglip_condition_pilot_v1.json
+      - name: Commit condition pilot result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/jbi_ch1_siglip_condition_pilot_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Record quota-independent flower condition pilot"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
