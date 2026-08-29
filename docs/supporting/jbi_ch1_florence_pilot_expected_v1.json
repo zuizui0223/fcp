@@ -1,0 +1,38 @@
+{
+  "protocol": "jbi-ch1-florence-pilot-expected-v1",
+  "status": "frozen_before_florence_pilot_run",
+  "purpose": "Diagnostic agreement check against the already-completed six-image calibration pilot. These expectations do not define final labels.",
+  "expectations": {
+    "0176537d5144f894": {
+      "species": "Antirrhinum majus",
+      "expected_candidate_state": "magenta_pseudomajus_like",
+      "basis": "prior calibration-only vision pilot described predominantly pink/magenta snapdragon flowers"
+    },
+    "023f910bff4aa8c6": {
+      "species": "Dactylorhiza sambucina",
+      "expected_candidate_state": "yellow",
+      "basis": "prior calibration-only vision pilot described pale-yellow/cream flowers with brown spotting"
+    },
+    "00b0caa6aa902f40": {
+      "species": "Gentiana lutea",
+      "expected_candidate_state": null,
+      "basis": "prior pilot consistently identified this flower as senescent; numeric colour extraction may run but must not validate a fresh-flower state"
+    },
+    "02db3a10e0f396cf": {
+      "species": "Ipomoea purpurea",
+      "expected_candidate_state": "blue_purple",
+      "basis": "prior calibration-only vision pilot described violet/purple corolla with magenta pattern"
+    },
+    "0741878b1083634e": {
+      "species": "Lysimachia arvensis",
+      "expected_candidate_state": "red",
+      "basis": "prior calibration-only vision pilot described orange/reddish-orange flowers, corresponding to the literature red morph contrast rather than blue"
+    },
+    "005afd4f58b202db": {
+      "species": "Raphanus sativus",
+      "expected_candidate_state": "pink",
+      "basis": "prior calibration pilot and first semantic-screen record both placed the fresh image on the pink side of the white/yellow/pink/bronze codebook"
+    }
+  },
+  "acceptance_interpretation": "This is a diagnostic concordance check only. No numeric threshold, model fitting, or final biological state decision is derived from these six images."
+}
