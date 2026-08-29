@@ -22,70 +22,96 @@ The previous C/S-to-climate comparison is retained as secondary/provenance conte
 - `A(x)=0` / insufficient support: treated as not evaluable rather than biological zero;
 - detectability invariance under colour-label permutation: guarded;
 - Chapter 1 protocol: frozen;
-- iNaturalist measurement-gate protocol: frozen;
-- deterministic 6 x 200 photo split contract: implemented;
-- calibration/evaluation allocation: 80/120 per species, 480/720 total;
-- split assignment basis: species + stable photo ID only;
-- row-order/geography/observer/date invariance: tested;
-- post-outcome source manifests: rejected for recognized colour/visibility/segmentation fields;
-- source/split/freeze-manifest all-or-none CI contract: implemented;
-- interrupted-worktree recovery scanner: implemented;
-- recovery scanner accepts only an exact 6 x 200 pre-measurement manifest with globally unique photo IDs;
-- equivalent duplicate copies are tolerated when their species/photo-ID hash is identical;
-- conflicting eligible ID sets fail closed instead of choosing one silently.
+- deterministic 6 x 200 iNaturalist development-photo acquisition: completed through GitHub Actions;
+- acquisition QC: all six species passed observer/spatial/season coverage gates;
+- 480/720 calibration/evaluation split: hash-frozen before colour measurement;
+- split assignment uses species + stable photo ID only;
+- frozen acquisition re-run is locked unless explicit replacement is requested;
+- 480 calibration images: 480/480 materialized and decoded successfully;
+- conservative technical image flags: 0/480;
+- evaluation images opened during technical audit: 0/720;
+- six-image calibration-only vision pilot: completed;
+- six images x three independent passes = 18 valid repeatability responses;
+- repeatability: flower visibility, flower condition, flower region, and segmentation feasibility were unanimous in 6/6 images;
+- colour pattern and within-photo consistency were unanimous in 5/6 images;
+- diagnostic colour scope was unanimous in 4/6 images;
+- operational decision: only the 6/6-repeatable fields are accepted for automatic calibration screening; less-repeatable fields remain advisory and cannot establish final colour states;
+- literature-constrained candidate colour codebook: frozen before 480-image semantic screening;
+- 480-image semantic screening workflow: implemented and running calibration-only; candidate states remain screening suggestions, not final labels.
 
-## Empirical state
+## Current empirical state
 
-- acquired development photographs: 1,200 (6 species x 200);
-- spatial/observer/season overlap acquisition controls: passed before this branch;
-- flower-colour classifications: 0;
-- calibration photographs measured: 0/480;
-- held-out photographs measured: 0/720;
+- development photographs: 1,200 (6 species x 200);
+- calibration IDs: 480 frozen;
+- evaluation IDs: 720 frozen and unopened for rule tuning;
+- calibration technical materialization: 480/480 passed;
+- calibration semantic repeatability diagnostic: 18/18 valid responses on six pilot images;
+- final flower-colour classifications: 0/1,200;
+- final species codebooks: not yet frozen;
 - random versus non-random spatial placement: `not_evaluated`;
 - species-level colour boundaries: `not_evaluated`;
 - shared-boundary surface: `not_evaluated`;
 - geographic correspondence: `not_evaluated`.
 
-## Current blocking input
+## Repeatability decision
 
-The acquired 1,200-photo source manifest is not present in the remote repository or in the available GitHub Actions artifacts inspected for PR #17. The current execution environment also does not mount the original Windows worktree at `C:/Users/zuizui/.codex/worktrees/fcp-spacetime-recovery`.
+No numerical acceptance threshold was estimated after seeing the six-image diagnostic. Instead, only fields that were completely stable across all three independent passes for all six pilot images are carried forward for automatic **screening**, not final labelling.
 
-The canonical import target remains:
+Accepted for automatic screening:
 
-`data/frozen/jbi_ch1_photo_source_manifest.csv`
+- flower visibility;
+- flower condition (`fresh`, `senescent`, `damaged`, `mixed_or_ambiguous`);
+- flower region (`single_target_clear`, `multiple_flowers_clear`, etc.);
+- segmentation feasibility.
 
-The local worktree no longer requires the original filename to be known. From the root of `fcp-spacetime-recovery`, run:
+Not accepted as automatic final decisions:
 
-```bash
-python scripts/data/recover_jbi_ch1_photo_source_manifest.py --root .
-```
+- free-text colour terms;
+- colour pattern;
+- diagnostic colour scope;
+- multiple-flower colour consistency;
+- candidate biological colour state.
 
-The scanner recursively inspects CSV/TSV acquisition tables and writes the canonical source only when the candidate is unambiguous under the frozen contract. It also writes:
+The latter fields may be recorded conservatively, but discordance forces `unresolved` rather than a biological state.
 
-`docs/supporting/jbi_ch1_photo_source_recovery_report.json`
+## Literature-constrained candidate states
 
-The report records every inspected table, rejection reason, eligible candidate, canonical species/photo-ID hash, and any equivalent duplicate paths.
+Candidate states are declared before the 480-image semantic screen in:
 
-After source recovery, materialize the frozen split with:
+`docs/supporting/jbi_ch1_species_colour_candidate_codebook_v1.json`
 
-```bash
-python scripts/data/freeze_jbi_ch1_photo_split.py \
-  data/frozen/jbi_ch1_photo_source_manifest.csv \
-  data/frozen/jbi_ch1_photo_split_v1.csv \
-  data/frozen/jbi_ch1_photo_split_v1_manifest.json
-```
+Current candidate contrasts:
 
-This deterministically materializes:
+- `Ipomoea purpurea`: white / pink / blue-purple, with explicit acknowledgement of its multi-locus flower-colour genetics;
+- `Raphanus sativus`: white / yellow / pink / bronze;
+- `Gentiana lutea`: yellow / orange;
+- `Dactylorhiza sambucina`: yellow / purple;
+- `Antirrhinum majus`: magenta-pseudomajus-like / yellow-striatum-like / intermediate-or-other, based on whole-corolla pigment distribution rather than hue alone;
+- `Lysimachia arvensis`: blue / red.
 
-- `data/frozen/jbi_ch1_photo_split_v1.csv`;
-- `data/frozen/jbi_ch1_photo_split_v1_manifest.json`.
+Every species also has `unresolved`. The screening model is not allowed to invent a new state.
 
-No colour labels, geographic predictors, observer information, or dates participate in assignment.
+## Current active gate
 
-## Next gate
+The active task is **480-photo semantic calibration screening**, not holdout evaluation and not spatial inference.
 
-1. recover/import the original 1,200-photo acquisition manifest without adding measurement outcomes;
-2. materialize and commit the deterministic 480/720 split plus hashes;
-3. run the 480-photo blinded visibility/segmentation/colour-code calibration;
-4. freeze the measurement codebooks and failure rules;
-5. only then open the 720-photo evaluation set.
+For each frozen calibration image the workflow records:
+
+1. flower visibility;
+2. flower condition;
+3. flower-region/segmentation feasibility;
+4. within-photo consistency as a conservative unresolved gate;
+5. one literature-predeclared candidate state or `unresolved`.
+
+All records are explicitly marked `screening_only=true` and `final_label=false`.
+
+The first semantic-screen attempt failed before opening any image because the candidate-codebook JSON contained a syntax error. The codebook was corrected and a JSON-parse test was added before re-running the workflow. Therefore that failure did not generate or contaminate image labels.
+
+## Next gate after screening
+
+1. aggregate all 480 screening records and quantify usable vs unresolved yield by species;
+2. inspect unresolved causes and candidate-state support;
+3. independently re-score state-bearing calibration records before final codebook freeze;
+4. freeze species-specific final measurement rules and hashes;
+5. only after that freeze open the 720-image evaluation set;
+6. only after held-out colour states exist run the species-conditioned spatial random-labelling analysis.
