@@ -1,0 +1,370 @@
+{
+  "bootstrap_replicates": 200,
+  "calibration_only": true,
+  "candidate_argmax_used_as_training_label": false,
+  "condition_filter_applied": false,
+  "date_used": false,
+  "environment_used": false,
+  "evaluation_rows_opened": false,
+  "final_label": false,
+  "geography_used": false,
+  "gmm_components_are_biological_morph_labels": false,
+  "next_gate": "repeat feature-geometry diagnosis after an independently validated fresh/senescent calibration condition filter; only then freeze species-specific measurement rules",
+  "observer_used": false,
+  "protocol": "jbi-ch1-calibration-feature-geometry-v1",
+  "species": [
+    {
+      "bic_grid": [
+        {
+          "aic": 449.8043447069334,
+          "bic": 461.7144778803028,
+          "components": 1,
+          "converged": true
+        },
+        {
+          "aic": 127.8555672682296,
+          "bic": 154.05786024964232,
+          "components": 2,
+          "converged": true
+        },
+        {
+          "aic": 94.27541754739289,
+          "bic": 134.76987033684887,
+          "components": 3,
+          "converged": true
+        }
+      ],
+      "bic_selected_components": 3,
+      "bootstrap_bic_selected_component_frequency": {
+        "1": 0.0,
+        "2": 0.07,
+        "3": 0.93
+      },
+      "components_evaluated": [
+        1,
+        2,
+        3
+      ],
+      "feature_source": "candidate_scores",
+      "features": [
+        "magenta_pseudomajus_like",
+        "yellow_striatum_like"
+      ],
+      "literature_candidate_component_cap": 3,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "raw_feature_quantiles": {
+        "magenta_pseudomajus_like": {
+          "p05": 0.0,
+          "p25": 0.0,
+          "p50": 0.17698049999999999,
+          "p75": 0.7254572499999999,
+          "p95": 0.9257406
+        },
+        "yellow_striatum_like": {
+          "p05": 0.0,
+          "p25": 0.00018825,
+          "p50": 0.008479,
+          "p75": 0.0592235,
+          "p95": 0.6780334999999997
+        }
+      },
+      "species": "Antirrhinum majus",
+      "status": "feature_geometry_measured_not_interpreted_as_morph_labels"
+    },
+    {
+      "bic_grid": [
+        {
+          "aic": 370.2870096849766,
+          "bic": 382.197142858346,
+          "components": 1,
+          "converged": true
+        },
+        {
+          "aic": 144.7790361695495,
+          "bic": 170.9813291509622,
+          "components": 2,
+          "converged": true
+        }
+      ],
+      "bic_selected_components": 2,
+      "bootstrap_bic_selected_component_frequency": {
+        "1": 0.0,
+        "2": 1.0
+      },
+      "components_evaluated": [
+        1,
+        2
+      ],
+      "feature_source": "candidate_scores",
+      "features": [
+        "yellow",
+        "purple"
+      ],
+      "literature_candidate_component_cap": 2,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "raw_feature_quantiles": {
+        "purple": {
+          "p05": 0.0,
+          "p25": 0.0,
+          "p50": 0.0029695,
+          "p75": 0.66046975,
+          "p95": 0.8653461499999999
+        },
+        "yellow": {
+          "p05": 0.04378845,
+          "p25": 0.14224925,
+          "p50": 0.4676325,
+          "p75": 0.81211,
+          "p95": 0.97567205
+        }
+      },
+      "species": "Dactylorhiza sambucina",
+      "status": "feature_geometry_measured_not_interpreted_as_morph_labels"
+    },
+    {
+      "bic_grid": [
+        {
+          "aic": 447.03865279107276,
+          "bic": 458.94878596444215,
+          "components": 1,
+          "converged": true
+        },
+        {
+          "aic": 379.55083355014153,
+          "bic": 405.75312653155424,
+          "components": 2,
+          "converged": true
+        }
+      ],
+      "bic_selected_components": 2,
+      "bootstrap_bic_selected_component_frequency": {
+        "1": 0.0,
+        "2": 1.0
+      },
+      "components_evaluated": [
+        1,
+        2
+      ],
+      "feature_source": "candidate_scores",
+      "features": [
+        "yellow",
+        "orange"
+      ],
+      "literature_candidate_component_cap": 2,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "raw_feature_quantiles": {
+        "orange": {
+          "p05": 0.0014592000000000003,
+          "p25": 0.0664935,
+          "p50": 0.20102799999999998,
+          "p75": 0.43281075,
+          "p95": 0.75321365
+        },
+        "yellow": {
+          "p05": 0.0,
+          "p25": 0.0532095,
+          "p50": 0.405753,
+          "p75": 0.73145775,
+          "p95": 0.95883765
+        }
+      },
+      "species": "Gentiana lutea",
+      "status": "feature_geometry_measured_not_interpreted_as_morph_labels"
+    },
+    {
+      "bic_grid": [
+        {
+          "aic": 581.31002196146,
+          "bic": 602.748261673525,
+          "components": 1,
+          "converged": true
+        },
+        {
+          "aic": 292.63258702070794,
+          "bic": 337.8910930795117,
+          "components": 2,
+          "converged": true
+        },
+        {
+          "aic": 203.43593936278515,
+          "bic": 272.5147117683277,
+          "components": 3,
+          "converged": true
+        }
+      ],
+      "bic_selected_components": 3,
+      "bootstrap_bic_selected_component_frequency": {
+        "1": 0.0,
+        "2": 0.11,
+        "3": 0.89
+      },
+      "components_evaluated": [
+        1,
+        2,
+        3
+      ],
+      "feature_source": "candidate_scores",
+      "features": [
+        "white",
+        "pink",
+        "blue_purple"
+      ],
+      "literature_candidate_component_cap": 3,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "raw_feature_quantiles": {
+        "blue_purple": {
+          "p05": 0.0,
+          "p25": 0.05026525,
+          "p50": 0.5052935000000001,
+          "p75": 0.85748,
+          "p95": 0.92406265
+        },
+        "pink": {
+          "p05": 0.0011457000000000004,
+          "p25": 0.0368145,
+          "p50": 0.1191815,
+          "p75": 0.5373395,
+          "p95": 0.85525385
+        },
+        "white": {
+          "p05": 0.013858,
+          "p25": 0.056919500000000005,
+          "p50": 0.09752150000000001,
+          "p75": 0.21326575,
+          "p95": 0.5969878
+        }
+      },
+      "species": "Ipomoea purpurea",
+      "status": "feature_geometry_measured_not_interpreted_as_morph_labels"
+    },
+    {
+      "bic_grid": [
+        {
+          "aic": 448.2162328608762,
+          "bic": 460.12636603424556,
+          "components": 1,
+          "converged": true
+        },
+        {
+          "aic": -268.0182577804935,
+          "bic": -241.8159647990808,
+          "components": 2,
+          "converged": true
+        }
+      ],
+      "bic_selected_components": 2,
+      "bootstrap_bic_selected_component_frequency": {
+        "1": 0.0,
+        "2": 1.0
+      },
+      "components_evaluated": [
+        1,
+        2
+      ],
+      "feature_source": "candidate_scores",
+      "features": [
+        "blue",
+        "red"
+      ],
+      "literature_candidate_component_cap": 2,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "raw_feature_quantiles": {
+        "blue": {
+          "p05": 0.0,
+          "p25": 0.0,
+          "p50": 0.0,
+          "p75": 0.00039275,
+          "p95": 0.8204241999999999
+        },
+        "red": {
+          "p05": 0.007986650000000001,
+          "p25": 0.200079,
+          "p50": 0.48242,
+          "p75": 0.71557125,
+          "p95": 0.8650247499999999
+        }
+      },
+      "species": "Lysimachia arvensis",
+      "status": "feature_geometry_measured_not_interpreted_as_morph_labels"
+    },
+    {
+      "bic_grid": [
+        {
+          "aic": 449.2953502970115,
+          "bic": 461.2054834703809,
+          "components": 1,
+          "converged": true
+        },
+        {
+          "aic": 353.3584168064674,
+          "bic": 379.5607097878801,
+          "components": 2,
+          "converged": true
+        },
+        {
+          "aic": 341.88679025647485,
+          "bic": 382.38124304593083,
+          "components": 3,
+          "converged": true
+        },
+        {
+          "aic": 328.04674121699105,
+          "bic": 382.83335381449035,
+          "components": 4,
+          "converged": true
+        }
+      ],
+      "bic_selected_components": 2,
+      "bootstrap_bic_selected_component_frequency": {
+        "1": 0.0,
+        "2": 0.035,
+        "3": 0.18,
+        "4": 0.785
+      },
+      "components_evaluated": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "feature_source": "visual_colour_axes",
+      "features": [
+        "anthocyanin_like_signal",
+        "carotenoid_like_signal"
+      ],
+      "literature_candidate_component_cap": 4,
+      "n_feature_ok": 80,
+      "n_localization_failed": 0,
+      "n_total": 80,
+      "raw_feature_quantiles": {
+        "anthocyanin_like_signal": {
+          "p05": 0.00798625,
+          "p25": 0.07842350000000001,
+          "p50": 0.182821,
+          "p75": 0.35561624999999997,
+          "p95": 0.7450640499999999
+        },
+        "carotenoid_like_signal": {
+          "p05": 0.011453900000000001,
+          "p25": 0.0510325,
+          "p50": 0.113682,
+          "p75": 0.253642,
+          "p95": 0.5347795999999999
+        }
+      },
+      "species": "Raphanus sativus",
+      "status": "feature_geometry_measured_not_interpreted_as_morph_labels"
+    }
+  ],
+  "status": "pre_condition_feature_geometry_complete_not_final_labels"
+}
