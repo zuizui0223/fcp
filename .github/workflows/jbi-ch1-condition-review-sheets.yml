@@ -1,0 +1,84 @@
+name: JBI Chapter 1 condition review sheets
+
+on:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - "data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl"
+      - "scripts/data/build_jbi_ch1_condition_review_sheets.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  condition-review-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Build blinded condition review package
+        run: |
+          python scripts/data/build_jbi_ch1_condition_review_sheets.py \
+            --features data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl \
+            --split data/frozen/jbi_ch1_photo_split_v1.csv \
+            --sheets-dir artifacts/jbi_ch1_condition_review_v1/contact_sheets \
+            --review-csv data/calibration/jbi_ch1_condition_review_queue_v1.csv \
+            --manifest docs/supporting/jbi_ch1_condition_review_manifest_v1.json
+      - name: Enforce review firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          q = pd.read_csv('data/calibration/jbi_ch1_condition_review_queue_v1.csv', keep_default_na=False)
+          m = json.loads(Path('docs/supporting/jbi_ch1_condition_review_manifest_v1.json').read_text())
+          assert len(q) == 480 and q['blind_id'].nunique() == 480
+          assert not q['evaluation_row'].astype(bool).any()
+          assert not q['final_condition_label'].astype(bool).any()
+          assert (q['condition_review'] == '').all()
+          assert m['calibration_only'] is True
+          assert m['evaluation_rows_opened'] is False
+          assert m['geography_exposed_to_reviewer'] is False
+          assert m['observer_exposed_to_reviewer'] is False
+          assert m['date_exposed_to_reviewer'] is False
+          assert m['colour_candidate_scores_exposed_to_reviewer'] is False
+          assert m['condition_labels_created_by_script'] is False
+          assert m['n_sheets'] == 24
+          print('condition review package validated: 480 blinded rows, 24 sheets, 0 evaluation rows')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-condition-review-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            artifacts/jbi_ch1_condition_review_v1/contact_sheets/*.jpg
+            data/calibration/jbi_ch1_condition_review_queue_v1.csv
+            docs/supporting/jbi_ch1_condition_review_manifest_v1.json
+      - name: Commit review queue and manifest only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/calibration/jbi_ch1_condition_review_queue_v1.csv \
+            docs/supporting/jbi_ch1_condition_review_manifest_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Prepare blinded calibration flower condition review"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
