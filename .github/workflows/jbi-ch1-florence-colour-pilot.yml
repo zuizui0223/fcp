@@ -8,6 +8,8 @@ on:
     paths:
       - ".github/workflows/jbi-ch1-florence-colour-pilot.yml"
       - "scripts/data/run_jbi_ch1_florence_colour_pilot.py"
+      - "fcp_pipeline/florence_roi.py"
+      - "tests/test_florence_roi.py"
       - "docs/supporting/jbi_ch1_florence_pilot_expected_v1.json"
 
 permissions:
@@ -43,7 +45,7 @@ jobs:
       - name: Install open-model dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e .
+          python -m pip install -e . pytest
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
           python -m pip install "transformers>=5,<6" accelerate
           python - <<'PY'
@@ -54,30 +56,38 @@ jobs:
           print('AutoModelForMultimodalLM available')
           PY
 
+      - name: Validate geometry-only ROI selection
+        run: python -m pytest -q tests/test_florence_roi.py
+
       - name: Materialize the same six frozen calibration images
         run: |
           python scripts/data/materialize_jbi_ch1_vision_pilot.py \
             --split data/frozen/jbi_ch1_photo_split_v1.csv \
-            --output-root artifacts/jbi_ch1_florence_colour_pilot_v1/images \
-            --manifest-csv artifacts/jbi_ch1_florence_colour_pilot_v1/pilot_manifest.csv
+            --output-root artifacts/jbi_ch1_florence_colour_pilot_v2/images \
+            --manifest-csv artifacts/jbi_ch1_florence_colour_pilot_v2/pilot_manifest.csv
 
-      - name: Run Florence-2 localization and numeric colour pilot
+      - name: Run Florence-2 localization and numeric colour pilot v2
         run: |
           python scripts/data/run_jbi_ch1_florence_colour_pilot.py \
-            --pilot-manifest artifacts/jbi_ch1_florence_colour_pilot_v1/pilot_manifest.csv \
-            --output-json docs/supporting/jbi_ch1_florence_colour_pilot_v1.json \
-            --overlay-dir artifacts/jbi_ch1_florence_colour_pilot_v1/overlays
+            --pilot-manifest artifacts/jbi_ch1_florence_colour_pilot_v2/pilot_manifest.csv \
+            --output-json docs/supporting/jbi_ch1_florence_colour_pilot_v2.json \
+            --overlay-dir artifacts/jbi_ch1_florence_colour_pilot_v2/overlays
 
       - name: Compare against frozen diagnostic expectations
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          result = json.loads(Path('docs/supporting/jbi_ch1_florence_colour_pilot_v1.json').read_text())
+          result_path = Path('docs/supporting/jbi_ch1_florence_colour_pilot_v2.json')
+          result = json.loads(result_path.read_text())
           expected = json.loads(Path('docs/supporting/jbi_ch1_florence_pilot_expected_v1.json').read_text())['expectations']
+          assert result['protocol'] == 'jbi-ch1-florence-colour-pilot-v2'
           assert result['calibration_only'] is True
           assert result['evaluation_rows_opened'] is False
           assert result['final_label'] is False
+          assert result['palette_changed_from_v1'] is False
+          assert result['candidate_mapping_changed_from_v1'] is False
+          assert result['roi_selection_changed_from_v1'] is True
           assert len(result['results']) == 6
           comparisons = []
           for row in result['results']:
@@ -91,36 +101,35 @@ jobs:
                   'match': match,
                   'localization_status': row['localization_status'],
                   'n_detected_boxes': row['n_detected_boxes'],
+                  'selected_bbox_area_fraction': row['selected_bbox_area_fraction'],
               })
           result['diagnostic_comparison'] = comparisons
           result['n_predeclared_state_checks'] = sum(c['expected'] is not None for c in comparisons)
           result['n_predeclared_state_matches'] = sum(c['match'] is True for c in comparisons)
-          Path('docs/supporting/jbi_ch1_florence_colour_pilot_v1.json').write_text(
-              json.dumps(result, indent=2, ensure_ascii=False, sort_keys=True) + '\n'
-          )
+          result_path.write_text(json.dumps(result, indent=2, ensure_ascii=False, sort_keys=True) + '\n')
           print(json.dumps(comparisons, indent=2, ensure_ascii=False))
           PY
 
-      - name: Upload pilot overlays and result
+      - name: Upload pilot v2 overlays and result
         uses: actions/upload-artifact@v4
         with:
-          name: jbi-ch1-florence-colour-pilot-v1
+          name: jbi-ch1-florence-colour-pilot-v2
           if-no-files-found: error
           retention-days: 90
           path: |
-            artifacts/jbi_ch1_florence_colour_pilot_v1/overlays/*.jpg
-            artifacts/jbi_ch1_florence_colour_pilot_v1/pilot_manifest.csv
-            docs/supporting/jbi_ch1_florence_colour_pilot_v1.json
+            artifacts/jbi_ch1_florence_colour_pilot_v2/overlays/*.jpg
+            artifacts/jbi_ch1_florence_colour_pilot_v2/pilot_manifest.csv
+            docs/supporting/jbi_ch1_florence_colour_pilot_v2.json
 
-      - name: Commit text result on latest branch head
+      - name: Commit v2 text result on latest branch head
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/supporting/jbi_ch1_florence_colour_pilot_v1.json
+          git add docs/supporting/jbi_ch1_florence_colour_pilot_v2.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "Record quota-independent Florence colour pilot [skip-florence-pilot]"
+          git commit -m "Record Florence individual-flower ROI pilot v2 [skip-florence-pilot]"
           git fetch origin analysis/jbi-global-colour-boundaries
           git rebase origin/analysis/jbi-global-colour-boundaries
           git push origin HEAD:analysis/jbi-global-colour-boundaries
