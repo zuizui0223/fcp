@@ -1,0 +1,125 @@
+name: JBI Chapter 1 SAM2 ROI rescue pilot
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-sam2-roi-rescue-pilot.yml"
+      - "scripts/data/run_jbi_ch1_sam2_roi_rescue_pilot.py"
+      - "tests/test_sam2_roi_rescue_pilot.py"
+      - "docs/supporting/jbi_ch1_sam2_rescue_pilot_protocol_v1.json"
+      - "docs/supporting/jbi_ch1_blind_roi_condition_review_r1_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-sam2-roi-rescue-pilot-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sam2-rescue-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      HF_HOME: ${{ github.workspace }}/.hf-cache-sam2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - uses: actions/cache@v4
+        with:
+          path: .hf-cache-sam2
+          key: sam2-1-hiera-tiny-transformers-5.16.1-v1
+
+      - name: Install package and validate selection logic
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+          python -m pytest -q tests/test_sam2_roi_rescue_pilot.py
+
+      - name: Install pinned CPU SAM2 stack
+        run: |
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install "transformers==5.16.1" accelerate
+          python - <<'PY'
+          import transformers
+          from transformers import Sam2Model, Sam2Processor
+          assert transformers.__version__ == '5.16.1'
+          print('Pinned SAM2 stack:', transformers.__version__, Sam2Model.__name__, Sam2Processor.__name__)
+          PY
+
+      - name: Run 5 rescue plus 5 usable-fresh controls
+        run: |
+          python scripts/data/run_jbi_ch1_sam2_roi_rescue_pilot.py \
+            --features data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl \
+            --review docs/supporting/jbi_ch1_blind_roi_condition_review_r1_v1.json \
+            --protocol docs/supporting/jbi_ch1_sam2_rescue_pilot_protocol_v1.json \
+            --output-jsonl data/calibration/jbi_ch1_sam2_rescue_pilot_v1.jsonl \
+            --manifest docs/supporting/jbi_ch1_sam2_rescue_pilot_manifest_v1.json \
+            --sheets-dir artifacts/jbi_ch1_sam2_rescue_pilot_v1/contact_sheets
+
+      - name: Enforce calibration and no-label firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          rows = [json.loads(x) for x in Path('data/calibration/jbi_ch1_sam2_rescue_pilot_v1.jsonl').read_text().splitlines() if x.strip()]
+          manifest = json.loads(Path('docs/supporting/jbi_ch1_sam2_rescue_pilot_manifest_v1.json').read_text())
+          split = pd.read_csv('data/frozen/jbi_ch1_photo_split_v1.csv')
+          calibration_ids = set(split.loc[split['split'].astype(str).eq('calibration'), 'photo_id'].astype(str))
+          evaluation_ids = set(split.loc[split['split'].astype(str).eq('evaluation'), 'photo_id'].astype(str))
+          ids = {str(r['photo_id']) for r in rows}
+
+          assert len(rows) == 10 and len(ids) == 10 and len({r['blind_id'] for r in rows}) == 10
+          assert ids <= calibration_ids and ids.isdisjoint(evaluation_ids)
+          assert sum(r['pilot_arm'] == 'rescue' for r in rows) == 5
+          assert sum(r['pilot_arm'] == 'control' for r in rows) == 5
+          assert all(r['calibration_only'] is True for r in rows)
+          assert all(r['evaluation_row'] is False and r['final_label'] is False for r in rows)
+          assert all(r['colour_state_label'] is None for r in rows)
+          assert manifest['calibration_only'] is True
+          assert manifest['evaluation_rows_opened'] is False
+          assert manifest['final_label'] is False
+          assert manifest['sheet_exposes_species'] is False
+          assert manifest['sheet_exposes_pilot_arm'] is False
+          assert manifest['sheet_exposes_colour_scores'] is False
+          assert manifest['visual_decisions_completed'] is False
+          print('SAM2 pilot firewall passed: 10 calibration rows, 0 evaluation rows, 0 colour labels.')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-sam2-roi-rescue-pilot-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            artifacts/jbi_ch1_sam2_rescue_pilot_v1/contact_sheets/*.jpg
+            data/calibration/jbi_ch1_sam2_rescue_pilot_v1.jsonl
+            docs/supporting/jbi_ch1_sam2_rescue_pilot_manifest_v1.json
+
+      - name: Commit text-only pilot records
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/calibration/jbi_ch1_sam2_rescue_pilot_v1.jsonl \
+            docs/supporting/jbi_ch1_sam2_rescue_pilot_manifest_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Record blinded SAM2 ROI rescue pilot"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
