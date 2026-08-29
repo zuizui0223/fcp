@@ -1,0 +1,238 @@
+name: JBI Chapter 1 semantic calibration screening
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-semantic-screening.yml"
+      - "scripts/data/screen_jbi_ch1_calibration_species.py"
+      - "docs/supporting/jbi_ch1_species_colour_candidate_codebook_v1.json"
+      - "tests/test_semantic_screening.py"
+      - "data/frozen/jbi_ch1_photo_split_v1.csv"
+      - "data/frozen/jbi_ch1_photo_split_v1_manifest.json"
+
+permissions:
+  contents: write
+  copilot-requests: write
+
+concurrency:
+  group: jbi-ch1-semantic-screening-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  screen:
+    if: ${{ !contains(github.event.head_commit.message || '', '[skip-semantic-screen]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        include:
+          - species: "Ipomoea purpurea"
+            slug: ipomoea_purpurea
+            shard: 0
+          - species: "Ipomoea purpurea"
+            slug: ipomoea_purpurea
+            shard: 1
+          - species: "Raphanus sativus"
+            slug: raphanus_sativus
+            shard: 0
+          - species: "Raphanus sativus"
+            slug: raphanus_sativus
+            shard: 1
+          - species: "Gentiana lutea"
+            slug: gentiana_lutea
+            shard: 0
+          - species: "Gentiana lutea"
+            slug: gentiana_lutea
+            shard: 1
+          - species: "Dactylorhiza sambucina"
+            slug: dactylorhiza_sambucina
+            shard: 0
+          - species: "Dactylorhiza sambucina"
+            slug: dactylorhiza_sambucina
+            shard: 1
+          - species: "Antirrhinum majus"
+            slug: antirrhinum_majus
+            shard: 0
+          - species: "Antirrhinum majus"
+            slug: antirrhinum_majus
+            shard: 1
+          - species: "Lysimachia arvensis"
+            slug: lysimachia_arvensis
+            shard: 0
+          - species: "Lysimachia arvensis"
+            slug: lysimachia_arvensis
+            shard: 1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install screening dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+          npm install -g @github/copilot
+          copilot --version
+
+      - name: Validate frozen screening rules
+        run: python -m pytest -q tests/test_semantic_screening.py
+
+      - name: Screen one 40-photo calibration shard
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/jbi_ch1_semantic_screening_v1/shards
+          python scripts/data/screen_jbi_ch1_calibration_species.py \
+            --species "${{ matrix.species }}" \
+            --shard-index "${{ matrix.shard }}" \
+            --shard-count 2 \
+            --output "artifacts/jbi_ch1_semantic_screening_v1/shards/${{ matrix.slug }}_${{ matrix.shard }}.jsonl"
+
+      - name: Validate shard firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('artifacts/jbi_ch1_semantic_screening_v1/shards/${{ matrix.slug }}_${{ matrix.shard }}.jsonl')
+          rows = [json.loads(x) for x in path.read_text().splitlines() if x.strip()]
+          assert len(rows) == 40
+          assert len({r['blind_id'] for r in rows}) == 40
+          assert len({r['photo_id'] for r in rows}) == 40
+          assert all(r['species'] == '${{ matrix.species }}' for r in rows)
+          assert all(r['evaluation_row'] is False for r in rows)
+          assert all(r['screening_only'] is True for r in rows)
+          assert all(r['final_label'] is False for r in rows)
+          print('Shard firewall passed:', path, len(rows))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-screen-${{ matrix.slug }}-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 90
+          path: artifacts/jbi_ch1_semantic_screening_v1/shards/${{ matrix.slug }}_${{ matrix.shard }}.jsonl
+
+  aggregate:
+    needs: screen
+    if: ${{ needs.screen.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-ch1-screen-*
+          path: artifacts/jbi_ch1_semantic_screening_v1/shards
+          merge-multiple: true
+
+      - name: Aggregate and validate all 480 screening records
+        run: |
+          python - <<'PY'
+          from collections import Counter
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path('artifacts/jbi_ch1_semantic_screening_v1/shards')
+          paths = sorted(root.glob('*.jsonl'))
+          if len(paths) != 12:
+              raise SystemExit(f'expected 12 shard files, found {len(paths)}')
+          rows = []
+          for path in paths:
+              rows.extend(json.loads(x) for x in path.read_text().splitlines() if x.strip())
+          if len(rows) != 480:
+              raise SystemExit(f'expected 480 records, found {len(rows)}')
+          if len({r['blind_id'] for r in rows}) != 480 or len({r['photo_id'] for r in rows}) != 480:
+              raise SystemExit('duplicate blind/photo IDs in aggregate')
+          if any(r['evaluation_row'] is not False or r['screening_only'] is not True or r['final_label'] is not False for r in rows):
+              raise SystemExit('screening/evaluation firewall violation')
+
+          by_species = {}
+          species_names = sorted({r['species'] for r in rows})
+          if len(species_names) != 6:
+              raise SystemExit(f'expected six species, found {species_names}')
+          for species in species_names:
+              group = [r for r in rows if r['species'] == species]
+              if len(group) != 80:
+                  raise SystemExit(f'{species}: expected 80 records, found {len(group)}')
+              by_species[species] = {
+                  'n_total': len(group),
+                  'n_evaluable': sum(r['flower_visibility'] == 'evaluable' for r in group),
+                  'flower_condition': dict(sorted(Counter(r['flower_condition'] for r in group).items())),
+                  'segmentation_feasibility': dict(sorted(Counter(r['segmentation_feasibility'] for r in group).items())),
+                  'within_photo_flower_consistency': dict(sorted(Counter(r['within_photo_flower_consistency'] for r in group).items())),
+                  'candidate_state': dict(sorted(Counter(r['candidate_state'] for r in group).items())),
+                  'n_state_usable_for_calibration': sum(bool(r['state_usable_for_calibration']) for r in group),
+                  'n_unresolved': sum(r['candidate_state'] == 'unresolved' for r in group),
+              }
+
+          rows = sorted(rows, key=lambda r: (r['species'], r['blind_id']))
+          out = Path('data/calibration/jbi_ch1_semantic_screening_v1.jsonl')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(''.join(json.dumps(r, ensure_ascii=False, sort_keys=True) + '\n' for r in rows), encoding='utf-8')
+
+          def sha(path):
+              return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+          summary = {
+              'protocol': 'jbi-ch1-semantic-screening-v1',
+              'status': 'screening_complete_not_final',
+              'n_records': 480,
+              'species_count': 6,
+              'passes_per_image': 1,
+              'model_requested': 'auto',
+              'calibration_only': True,
+              'evaluation_rows_opened': False,
+              'candidate_state_is_final_label': False,
+              'stable_repeatability_fields_used_for_screening': [
+                  'flower_visibility', 'flower_condition', 'flower_region', 'segmentation_feasibility'
+              ],
+              'conservative_unresolved_gate_also_uses_within_photo_flower_consistency': True,
+              'repeatability_basis': 'jbi-ch1-vision-repeatability-v2: 18/18 valid; visibility, condition, region, segmentation each 6/6 unanimous images',
+              'source_split_sha256': sha('data/frozen/jbi_ch1_photo_split_v1.csv'),
+              'candidate_codebook_sha256': sha('docs/supporting/jbi_ch1_species_colour_candidate_codebook_v1.json'),
+              'screening_jsonl_sha256': sha(out),
+              'per_species': by_species,
+              'next_gate': 'review candidate-state yield and unresolved causes; independently re-score state-bearing calibration records before freezing final species codebooks; do not open evaluation set'
+          }
+          summary_path = Path('docs/supporting/jbi_ch1_semantic_screening_v1.json')
+          summary_path.parent.mkdir(parents=True, exist_ok=True)
+          summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False, sort_keys=True) + '\n', encoding='utf-8')
+          print(json.dumps(summary, indent=2, ensure_ascii=False))
+          PY
+
+      - name: Commit screening evidence on latest branch head
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/calibration/jbi_ch1_semantic_screening_v1.jsonl \
+            docs/supporting/jbi_ch1_semantic_screening_v1.json
+          if git diff --cached --quiet; then
+            echo "Semantic screening evidence already matches repository state."
+            exit 0
+          fi
+          git commit -m "Record 480-photo semantic calibration screening [skip-semantic-screen]"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
