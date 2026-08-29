@@ -1,0 +1,65 @@
+{
+  "protocol": "jbi-ch1-sam2-roi-rescue-pilot-decision-v1",
+  "status": "blind_visual_review_complete_scaleup_decided",
+  "calibration_only": true,
+  "evaluation_rows_opened": false,
+  "final_label": false,
+  "colour_state_used_for_visual_decision": false,
+  "source_pilot_jsonl_sha256": "371682002a78f6eba5024d346ab4e9effcf6f8d61c39ebe6fdb8a915a4519377",
+  "source_pilot_manifest_sha256": "05d4d5663f178ccf95f64ca464b620da79432b4c106a3db958e40a100fee51ea",
+  "blind_visual_review_sha256": "18788470cfc34469e15881322c169a867951036867776effbfb18a394fe35b80",
+  "blind_review_was_completed_before_mapping_opened": true,
+  "blind_slots_usable_after_sam2": [2, 5, 6, 7, 8, 10],
+  "blind_slots_not_usable_after_sam2": [1, 3, 4, 9],
+  "mapped_results": {
+    "Antirrhinum majus": {
+      "rescue_slot": 4,
+      "rescue_decision": "not_rescued",
+      "control_slot": 2,
+      "control_decision": "preserved",
+      "advance_remaining_rescue_records": false,
+      "remaining_rescue_records_after_pilot": 4
+    },
+    "Dactylorhiza sambucina": {
+      "rescue_slot": 3,
+      "rescue_decision": "not_rescued",
+      "control_slot": 7,
+      "control_decision": "preserved",
+      "pilot_rescue_condition": "mixed_or_ambiguous",
+      "advance_remaining_rescue_records": false,
+      "remaining_rescue_records_after_pilot": 1
+    },
+    "Gentiana lutea": {
+      "rescue_slot": 1,
+      "rescue_decision": "not_rescued",
+      "control_slot": 10,
+      "control_decision": "preserved",
+      "advance_remaining_rescue_records": false,
+      "remaining_rescue_records_after_pilot": 24
+    },
+    "Ipomoea purpurea": {
+      "rescue_slot": 6,
+      "rescue_decision": "rescued",
+      "control_slot": 8,
+      "control_decision": "preserved",
+      "pilot_rescue_condition": "mixed_or_ambiguous",
+      "advance_remaining_rescue_records": true,
+      "remaining_rescue_records_after_pilot": 0,
+      "adds_fresh_colour_calibration_record": false
+    },
+    "Raphanus sativus": {
+      "rescue_slot": 9,
+      "rescue_decision": "not_rescued",
+      "control_slot": 5,
+      "control_decision": "preserved",
+      "advance_remaining_rescue_records": false,
+      "remaining_rescue_records_after_pilot": 6
+    }
+  },
+  "frozen_scaleup_rule_applied": "A species advances only if its rescue pilot is rescued and its matched usable-fresh control is preserved.",
+  "remaining_rescue_records_eligible_for_sam2_scaleup": 0,
+  "sam2_scaleup_action": "do_not_scale_up",
+  "reason": "Only Ipomoea passed the paired technical pilot, but it has no remaining rescue records and the pilot rescue itself was reviewer-1 mixed_or_ambiguous rather than fresh. All species with remaining rescue records failed the rescue half of the frozen paired gate.",
+  "next_gate": "Use the reviewer-1 usable+fresh calibration subset as the primary colour-calibration candidate set, obtain an independent ROI/condition validation, then rerun feature geometry on the validated fresh/evaluable subset before freezing species-specific colour rules.",
+  "evaluation_holdout_remains_closed": true
+}
