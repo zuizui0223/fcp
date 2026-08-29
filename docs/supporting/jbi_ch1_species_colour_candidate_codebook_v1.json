@@ -1,0 +1,65 @@
+{
+  "protocol": "jbi-ch1-species-colour-candidate-codebook-v1",
+  "status": "predeclared_before_480_semantic_screening",
+  "purpose": "Constrain calibration-image colour screening to literature-supported within-species morph contrasts. These are candidate states for calibration, not final labels.",
+  "global_rules": {
+    "fresh_flowers_only_for_state_calibration": true,
+    "senescent_or_damaged": "unresolved_for_colour_state",
+    "within_flower_pattern_is_not_a_separate_morph_unless_species_codebook_defines_the_pattern_as_diagnostic",
+    "discordant_multiple_flowers": "unresolved",
+    "evaluation_set_access_allowed": false,
+    "free_text_new_colour_state_creation_allowed": false
+  },
+  "species": {
+    "Ipomoea purpurea": {
+      "candidate_states": ["white", "pink", "blue_purple", "unresolved"],
+      "diagnostic_scope": "corolla background pigmentation; treat throat/rays/spots as secondary unless they prevent assignment",
+      "structure_note": "Flower colour is genetically multi-locus. White versus pigmented and pink versus blue/purple are distinct axes; this flat image code is a pragmatic phenotype screen and must not be treated as a single allelic series.",
+      "sources": [
+        {"citation": "Epperson & Clegg 1986, American Naturalist", "doi": "10.1086/284609", "support": "pink versus blue P/p morph axis and spatial clustering"},
+        {"citation": "Schoen & Clegg 1985, Evolution", "doi": "10.1111/j.1558-5646.1985.tb05690.x", "support": "white versus pigmented flower-colour morph contrast"},
+        {"citation": "Brown & Clegg 1984, Evolution", "doi": "10.2307/2408391", "support": "natural corolla colours range from white through blue and pink"}
+      ]
+    },
+    "Raphanus sativus": {
+      "candidate_states": ["white", "yellow", "pink", "bronze", "unresolved"],
+      "diagnostic_scope": "petal background colour; visible venation or local markings do not independently define a morph",
+      "sources": [
+        {"citation": "Stanton et al. 1987, American Journal of Botany", "doi": "10.1002/j.1537-2197.1987.tb08595.x", "support": "white, yellow, pink, and bronze petal-colour forms"}
+      ]
+    },
+    "Gentiana lutea": {
+      "candidate_states": ["yellow", "orange", "unresolved"],
+      "diagnostic_scope": "fresh corolla lobe background colour",
+      "sources": [
+        {"citation": "Sobral et al. 2017, PeerJ", "doi": "10.7717/peerj.2882", "support": "yellow var. lutea and orange var. aurantiaca phenotypes"}
+      ]
+    },
+    "Dactylorhiza sambucina": {
+      "candidate_states": ["yellow", "purple", "unresolved"],
+      "diagnostic_scope": "overall fresh flower/inflorescence background morph; spots and markings are not separate morphs",
+      "sources": [
+        {"citation": "Gigord et al. 2001, PNAS", "support": "stable yellow- and purple-flowered morphs in natural populations"}
+      ]
+    },
+    "Antirrhinum majus": {
+      "candidate_states": ["magenta_pseudomajus_like", "yellow_striatum_like", "intermediate_or_other", "unresolved"],
+      "diagnostic_scope": "whole-corolla pigment distribution pattern, not background hue alone",
+      "state_definitions": {
+        "magenta_pseudomajus_like": "predominantly magenta corolla with restricted yellow patch near the flower face/entry region",
+        "yellow_striatum_like": "predominantly yellow corolla with restricted magenta veins/markings",
+        "intermediate_or_other": "fresh and visible but does not cleanly match either canonical pattern"
+      },
+      "sources": [
+        {"citation": "Antirrhinum majus hybrid-zone literature", "support": "pseudomajus is magenta with a small yellow patch; striatum is yellow with restricted magenta veins"}
+      ]
+    },
+    "Lysimachia arvensis": {
+      "candidate_states": ["blue", "red", "unresolved"],
+      "diagnostic_scope": "overall fresh corolla background; central dark structures are not a separate morph",
+      "sources": [
+        {"citation": "Ortiz et al. 2015, Perspectives in Plant Ecology Evolution and Systematics", "doi": "10.1016/j.ppees.2015.01.004", "support": "red and blue flower-colour morphs"}
+      ]
+    }
+  }
+}
