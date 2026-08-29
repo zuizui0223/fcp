@@ -4,10 +4,12 @@ on:
   pull_request:
     paths:
       - "fcp_pipeline/spatial_boundaries.py"
+      - "fcp_pipeline/continuous_colour_boundaries.py"
       - "fcp_pipeline/photo_split.py"
       - "scripts/data/freeze_jbi_ch1_photo_split.py"
       - "scripts/data/recover_jbi_ch1_photo_source_manifest.py"
       - "tests/test_spatial_boundaries.py"
+      - "tests/test_continuous_colour_boundaries.py"
       - "tests/test_photo_split.py"
       - "tests/test_photo_source_recovery.py"
       - "docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md"
@@ -23,10 +25,12 @@ on:
       - analysis/jbi-global-colour-boundaries
     paths:
       - "fcp_pipeline/spatial_boundaries.py"
+      - "fcp_pipeline/continuous_colour_boundaries.py"
       - "fcp_pipeline/photo_split.py"
       - "scripts/data/freeze_jbi_ch1_photo_split.py"
       - "scripts/data/recover_jbi_ch1_photo_source_manifest.py"
       - "tests/test_spatial_boundaries.py"
+      - "tests/test_continuous_colour_boundaries.py"
       - "tests/test_photo_split.py"
       - "tests/test_photo_source_recovery.py"
       - "docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md"
@@ -51,10 +55,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e . pytest
-      - name: Run shared-boundary, photo-freeze, and recovery tests
+      - name: Run discrete/continuous boundary, photo-freeze, and recovery tests
         run: |
           python -m pytest -q \
             tests/test_spatial_boundaries.py \
+            tests/test_continuous_colour_boundaries.py \
             tests/test_photo_split.py \
             tests/test_photo_source_recovery.py
       - name: Validate committed photo freeze when present
