@@ -1,0 +1,85 @@
+{
+  "calibration_only": true,
+  "colour_candidate_scores_used": false,
+  "date_used": false,
+  "default_decision": {"condition_review": "fresh", "target_roi_validity": "usable"},
+  "evaluation_rows_opened": false,
+  "final_label": false,
+  "geography_used": false,
+  "independent_second_review_completed": false,
+  "n_rows_reviewed": 480,
+  "observer_used": false,
+  "overall": {
+    "condition": {"damaged": 8, "fresh": 353, "mixed_or_ambiguous": 22, "not_evaluable": 70, "senescent": 27},
+    "roi_validity": {"ambiguous": 31, "invalid": 39, "rescue_segment": 40, "usable": 370},
+    "usable_fresh_n": 326
+  },
+  "protocol": "jbi-ch1-blind-roi-condition-review-r1-v1",
+  "review_source": "blinded_contact_sheet_only",
+  "reviewer_id": "gpt-5.6-sol-visual-r1",
+  "source_artifact_id": 9710738745,
+  "source_artifact_sha256": "efb98776519ac7152552d8c3ab24ffbb0855be2224a273dfec6bc9112234c707",
+  "species": {
+    "Antirrhinum majus": {
+      "ambiguous": [25, 73, 74],
+      "damaged": [22, 50, 56, 66],
+      "invalid": [24, 29, 65],
+      "mixed_or_ambiguous": [30, 67, 72],
+      "not_evaluable": [24, 25, 29, 65, 73, 74],
+      "rescue_segment": [7, 31, 43, 63, 75],
+      "senescent": [53, 77],
+      "usable_fresh_n": 60
+    },
+    "Dactylorhiza sambucina": {
+      "ambiguous": [22, 33, 42, 57],
+      "damaged": [],
+      "invalid": [49],
+      "mixed_or_ambiguous": [9, 18, 20, 24, 47, 55],
+      "not_evaluable": [22, 33, 42, 49, 57],
+      "rescue_segment": [24, 47],
+      "senescent": [31, 48],
+      "usable_fresh_n": 67
+    },
+    "Gentiana lutea": {
+      "ambiguous": [5, 12, 18, 26, 60, 66, 68],
+      "damaged": [],
+      "invalid": [3, 4, 6, 16, 23, 28, 31, 34, 38, 40, 45, 54, 55, 58, 59, 61, 63, 69, 76],
+      "mixed_or_ambiguous": [30, 44, 46, 47, 51, 62, 77],
+      "not_evaluable": [3, 4, 5, 6, 12, 16, 18, 23, 26, 28, 31, 34, 38, 40, 45, 54, 55, 58, 59, 60, 61, 63, 66, 68, 69, 76],
+      "rescue_segment": [7, 13, 17, 27, 29, 37, 47, 50, 53, 57, 62, 70, 74, 77, 79],
+      "senescent": [1, 13, 17, 19, 20, 21, 25, 33, 35, 37, 49, 65, 67, 70, 73, 78, 79],
+      "usable_fresh_n": 23
+    },
+    "Ipomoea purpurea": {
+      "ambiguous": [62, 64],
+      "damaged": [5, 45, 50, 67],
+      "invalid": [2, 12, 35, 43, 80],
+      "mixed_or_ambiguous": [70],
+      "not_evaluable": [2, 12, 35, 43, 62, 64, 80],
+      "rescue_segment": [70],
+      "senescent": [28, 33, 40, 56, 57, 78],
+      "usable_fresh_n": 62
+    },
+    "Lysimachia arvensis": {
+      "ambiguous": [30, 35, 47, 51, 56, 63, 66, 78],
+      "damaged": [],
+      "invalid": [9, 52, 59, 61, 65, 75],
+      "mixed_or_ambiguous": [],
+      "not_evaluable": [9, 30, 35, 47, 51, 52, 56, 59, 61, 63, 65, 66, 75, 78],
+      "rescue_segment": [],
+      "senescent": [],
+      "usable_fresh_n": 66
+    },
+    "Raphanus sativus": {
+      "ambiguous": [17, 31, 43, 52, 61, 65, 80],
+      "damaged": [],
+      "invalid": [2, 4, 25, 35, 38],
+      "mixed_or_ambiguous": [8, 12, 21, 30, 46],
+      "not_evaluable": [2, 4, 17, 25, 31, 35, 38, 43, 52, 61, 65, 80],
+      "rescue_segment": [10, 15, 19, 28, 30, 33, 36, 46, 58, 59, 63, 64, 68, 69, 74, 78, 79],
+      "senescent": [],
+      "usable_fresh_n": 48
+    }
+  },
+  "status": "reviewer1_complete_not_final"
+}
