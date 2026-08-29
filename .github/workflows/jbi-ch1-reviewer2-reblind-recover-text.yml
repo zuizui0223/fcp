@@ -1,0 +1,139 @@
+name: JBI Chapter 1 reviewer2 reblind text recovery
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-reviewer2-reblind-recover-text.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  recover-text-records:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Regenerate deterministic queue and mapping only
+        run: |
+          python - <<'PY'
+          import hashlib
+          import importlib.util
+          import json
+          from pathlib import Path
+
+          root = Path('.')
+          script = root / 'scripts/data/build_jbi_ch1_reviewer2_reblind_package.py'
+          spec = importlib.util.spec_from_file_location('r2builder', script)
+          module = importlib.util.module_from_spec(spec)
+          assert spec.loader is not None
+          spec.loader.exec_module(module)
+
+          feature_path = root / 'data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl'
+          review_path = root / 'data/calibration/jbi_ch1_reviewer2_reblind_queue_v1.csv'
+          mapping_path = root / 'data/calibration/jbi_ch1_reviewer2_reblind_mapping_v1.csv'
+          manifest_path = root / 'docs/supporting/jbi_ch1_reviewer2_reblind_manifest_v1.json'
+
+          features = module.load_features(feature_path)
+          assignments = module.build_assignments(features)
+          review_rows = [{
+              'review_order': row['review_order'],
+              'r2_id': row['r2_id'],
+              'target_roi_validity': '',
+              'condition_review': '',
+              'reviewer2_notes': '',
+          } for row in assignments]
+          mapping_rows = [{
+              'review_order': row['review_order'],
+              'r2_id': row['r2_id'],
+              'blind_id': row['blind_id'],
+              'photo_id': row['photo_id'],
+              'species': row['species'],
+              'evaluation_row': False,
+              'final_label': False,
+          } for row in assignments]
+          module.write_csv(review_path, review_rows, ['review_order','r2_id','target_roi_validity','condition_review','reviewer2_notes'])
+          module.write_csv(mapping_path, mapping_rows, ['review_order','r2_id','blind_id','photo_id','species','evaluation_row','final_label'])
+
+          digest = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          review_sha = digest(review_path)
+          mapping_sha = digest(mapping_path)
+          assert review_sha == 'bb5df202ced26fe8fbb67f751067da49443adc8a7524226171d2ba9afe65140c', review_sha
+          assert mapping_sha == 'e8108abafe1f46fb414e5648a979ece6b9f0684a438b08d153799542a610c809', mapping_sha
+          source_sha = digest(feature_path)
+          assert source_sha == '968648b4d9a4516daa6fb938eaaa0000d665ed18b52801a2f4c6e639b68e7bed'
+
+          pages = [f'artifacts/jbi_ch1_reviewer2_reblind_v1/contact_sheets/reviewer2_reblind_page_{i:02d}.jpg' for i in range(1,25)]
+          manifest = {
+              'protocol': 'jbi-ch1-reviewer2-reblind-package-v1',
+              'status': 'reviewer2_reblind_package_generated_pending_independent_review',
+              'calibration_only': True,
+              'evaluation_rows_opened': False,
+              'final_label': False,
+              'n_rows': 480,
+              'n_sheets': 24,
+              'n_failures': 0,
+              'failures': [],
+              'reblind_salt': module.SALT,
+              'source_feature_sha256': source_sha,
+              'review_csv_sha256': review_sha,
+              'mapping_csv_sha256': mapping_sha,
+              'reviewer_facing_artifact_includes_mapping': False,
+              'reviewer_facing_columns': ['review_order','r2_id','target_roi_validity','condition_review','reviewer2_notes'],
+              'reviewer_facing_sheet_exposes_species': False,
+              'reviewer_facing_sheet_exposes_original_blind_id': False,
+              'reviewer_facing_sheet_exposes_reviewer1_decision': False,
+              'reviewer_facing_sheet_exposes_colour_scores': False,
+              'geography_exposed': False,
+              'observer_exposed': False,
+              'date_exposed': False,
+              'allowed_target_roi_validity': module.ALLOWED_ROI,
+              'allowed_condition_review': module.ALLOWED_CONDITION,
+              'reviewer2_labels_created_by_script': False,
+              'independent_second_review_completed': False,
+              'contact_sheets': pages,
+              'source_completed_run_id': 33280339579,
+              'source_reviewer_facing_artifact_id': 9722823556,
+              'source_reviewer_facing_artifact_zip_sha256': '1f045cbd174a88935c0ca23c0195ef00e5fb8f77606e4b0b98c9cda29321281e',
+              'recovery_note': 'Text records regenerated deterministically after the original run completed image generation, firewall validation and artifact upload but lost a final git push race.',
+              'next_gate': 'complete reviewer2 decisions without opening mapping or reviewer1 decisions, then reconcile agreement and disagreements before any colour-rule freeze',
+          }
+          manifest_path.parent.mkdir(parents=True, exist_ok=True)
+          manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False, sort_keys=True) + '\n', encoding='utf-8')
+          print(json.dumps({'review_sha': review_sha, 'mapping_sha': mapping_sha, 'artifact_id': 9722823556}, indent=2))
+          PY
+
+      - name: Commit recovered text records with retry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/calibration/jbi_ch1_reviewer2_reblind_queue_v1.csv \
+            data/calibration/jbi_ch1_reviewer2_reblind_mapping_v1.csv \
+            docs/supporting/jbi_ch1_reviewer2_reblind_manifest_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Recover reviewer2 reblind text records after push race"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/jbi-global-colour-boundaries
+            git rebase origin/analysis/jbi-global-colour-boundaries
+            if git push origin HEAD:analysis/jbi-global-colour-boundaries; then
+              exit 0
+            fi
+            echo "push race on attempt ${attempt}; retrying" >&2
+            sleep $((attempt * 2))
+          done
+          echo "failed to push recovered reviewer2 text records after retries" >&2
+          exit 1
