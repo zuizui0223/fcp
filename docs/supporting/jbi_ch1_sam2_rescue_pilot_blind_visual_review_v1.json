@@ -1,0 +1,20 @@
+{
+  "protocol": "jbi-ch1-sam2-roi-rescue-pilot-blind-visual-review-v1",
+  "mapping_opened": false,
+  "species_seen": false,
+  "pilot_arm_seen": false,
+  "colour_scores_seen": false,
+  "decision_definition": "usable_after_sam2 means the masked result isolates a biologically relevant flower/corolla region sufficiently for a single-record colour measurement; multiple distinct target flowers or persistent non-floral dominance are not usable.",
+  "slots": {
+    "1": {"usable_after_sam2": false, "reason": "mask follows non-target meadow vegetation and misses the salient flowering structures"},
+    "2": {"usable_after_sam2": true, "reason": "flower cluster retained with most non-floral background removed"},
+    "3": {"usable_after_sam2": false, "reason": "mask retains multiple distinct flower individuals together, unsuitable for a single biological colour-state record"},
+    "4": {"usable_after_sam2": false, "reason": "mask remains plant-level with substantial foliage rather than isolating the flowers"},
+    "5": {"usable_after_sam2": true, "reason": "petal/flower cluster retained and most grassy background removed"},
+    "6": {"usable_after_sam2": true, "reason": "relevant corolla/petal colour region retained despite shallow focus"},
+    "7": {"usable_after_sam2": true, "reason": "inflorescence retained cleanly with background removed"},
+    "8": {"usable_after_sam2": true, "reason": "single corolla retained cleanly"},
+    "9": {"usable_after_sam2": false, "reason": "mask still contains substantial non-floral stems/vegetation and fragmented flower regions"},
+    "10": {"usable_after_sam2": true, "reason": "flowering structure retained cleanly with surrounding background removed"}
+  }
+}
