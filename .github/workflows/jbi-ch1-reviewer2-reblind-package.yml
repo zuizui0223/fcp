@@ -1,0 +1,109 @@
+name: JBI Chapter 1 reviewer2 reblind package
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-reviewer2-reblind-package.yml"
+      - "scripts/data/build_jbi_ch1_reviewer2_reblind_package.py"
+      - "tests/test_reviewer2_reblind_package.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-reviewer2-reblind-package-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reviewer2-reblind-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install and validate reblind logic
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+          python -m pytest -q tests/test_reviewer2_reblind_package.py
+
+      - name: Build globally reshuffled reviewer2 package
+        run: |
+          python scripts/data/build_jbi_ch1_reviewer2_reblind_package.py \
+            --features data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl \
+            --review-csv data/calibration/jbi_ch1_reviewer2_reblind_queue_v1.csv \
+            --mapping-csv data/calibration/jbi_ch1_reviewer2_reblind_mapping_v1.csv \
+            --sheets-dir artifacts/jbi_ch1_reviewer2_reblind_v1/contact_sheets \
+            --manifest docs/supporting/jbi_ch1_reviewer2_reblind_manifest_v1.json
+
+      - name: Enforce reviewer2 and evaluation firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          review = pd.read_csv('data/calibration/jbi_ch1_reviewer2_reblind_queue_v1.csv', keep_default_na=False)
+          mapping = pd.read_csv('data/calibration/jbi_ch1_reviewer2_reblind_mapping_v1.csv', keep_default_na=False)
+          split = pd.read_csv('data/frozen/jbi_ch1_photo_split_v1.csv')
+          manifest = json.loads(Path('docs/supporting/jbi_ch1_reviewer2_reblind_manifest_v1.json').read_text())
+
+          assert len(review) == 480 and review['r2_id'].nunique() == 480
+          assert list(review.columns) == ['review_order', 'r2_id', 'target_roi_validity', 'condition_review', 'reviewer2_notes']
+          assert (review['target_roi_validity'] == '').all()
+          assert (review['condition_review'] == '').all()
+          assert len(mapping) == 480 and mapping['r2_id'].nunique() == 480 and mapping['blind_id'].nunique() == 480
+          calibration_ids = set(split.loc[split['split'].astype(str).eq('calibration'), 'photo_id'].astype(str))
+          evaluation_ids = set(split.loc[split['split'].astype(str).eq('evaluation'), 'photo_id'].astype(str))
+          mapped_ids = set(mapping['photo_id'].astype(str))
+          assert mapped_ids == calibration_ids and mapped_ids.isdisjoint(evaluation_ids)
+          assert not mapping['evaluation_row'].astype(bool).any()
+          assert not mapping['final_label'].astype(bool).any()
+          assert manifest['n_rows'] == 480 and manifest['n_sheets'] == 24 and manifest['n_failures'] == 0
+          assert manifest['calibration_only'] is True and manifest['evaluation_rows_opened'] is False
+          assert manifest['reviewer_facing_artifact_includes_mapping'] is False
+          assert manifest['reviewer_facing_sheet_exposes_species'] is False
+          assert manifest['reviewer_facing_sheet_exposes_original_blind_id'] is False
+          assert manifest['reviewer_facing_sheet_exposes_reviewer1_decision'] is False
+          assert manifest['reviewer_facing_sheet_exposes_colour_scores'] is False
+          assert manifest['reviewer2_labels_created_by_script'] is False
+          assert manifest['independent_second_review_completed'] is False
+          print('Reviewer2 firewall passed: 480 reblinded calibration crops, 0 evaluation rows, 0 reviewer2 labels.')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-reviewer2-reblind-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            artifacts/jbi_ch1_reviewer2_reblind_v1/contact_sheets/*.jpg
+            data/calibration/jbi_ch1_reviewer2_reblind_queue_v1.csv
+            docs/supporting/jbi_ch1_reviewer2_reblind_manifest_v1.json
+
+      - name: Commit reblind mapping, blank queue, and manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/calibration/jbi_ch1_reviewer2_reblind_queue_v1.csv \
+            data/calibration/jbi_ch1_reviewer2_reblind_mapping_v1.csv \
+            docs/supporting/jbi_ch1_reviewer2_reblind_manifest_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Prepare independently reblinded reviewer2 calibration package"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
