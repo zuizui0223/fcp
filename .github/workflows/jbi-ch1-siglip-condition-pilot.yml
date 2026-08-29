@@ -42,10 +42,12 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e .
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
-          python -m pip install "transformers>=5,<6" accelerate sentencepiece
+          python -m pip install "transformers>=5,<6" accelerate sentencepiece protobuf
           python - <<'PY'
           import sentencepiece
+          import google.protobuf
           print('sentencepiece', sentencepiece.__version__)
+          print('protobuf', google.protobuf.__version__)
           PY
       - name: Materialize the same six frozen calibration images
         run: |
