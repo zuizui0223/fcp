@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Extract quota-independent flower ROI colour features for one calibration species.
+"""Extract quota-independent flower ROI colour features for calibration rows.
 
 This worker processes only frozen calibration rows. It reuses the exact Florence model,
 fixed palette, species score mapping, and geometry-only ROI selector from the validated
 six-image v2 pilot. It never opens evaluation rows and never emits a final label.
+
+Optional deterministic sharding partitions the sorted 80-row species calibration set by
+row position only. Sharding changes compute scheduling, never the inference performed on
+a photograph.
 
 For Raphanus, the direct palette argmax is explicitly diagnostic only: literature shows
 two independent pigment systems and highly variable anthocyanin intensity/distribution,
@@ -74,11 +78,7 @@ def download_image(row: pd.Series, output: Path) -> str:
 
 
 def biological_axis_features(species: str, fractions: dict[str, float]) -> dict[str, float | bool | str]:
-    """Return explicit continuous axes when the literature implies multi-pigment structure.
-
-    These are descriptive calibration features only. No presence/absence threshold is
-    defined here from the six-image pilot.
-    """
+    """Return explicit continuous axes when the literature implies multi-pigment structure."""
     if species != "Raphanus sativus":
         return {}
     anthocyanin = sum(
@@ -97,6 +97,15 @@ def biological_axis_features(species: str, fractions: dict[str, float]) -> dict[
     }
 
 
+def select_shard(rows: pd.DataFrame, shard_index: int, shard_count: int) -> pd.DataFrame:
+    if shard_count < 1:
+        raise ValueError("shard_count must be >=1")
+    if not 0 <= shard_index < shard_count:
+        raise ValueError("shard_index must satisfy 0 <= index < count")
+    ordered = rows.sort_values("split_rank_hash", kind="mergesort").reset_index(drop=True)
+    return ordered.iloc[shard_index::shard_count].copy()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--species", required=True)
@@ -106,11 +115,13 @@ def main() -> int:
         default=Path("data/frozen/jbi_ch1_photo_split_v1.csv"),
     )
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--shard-index", type=int, default=0)
+    parser.add_argument("--shard-count", type=int, default=1)
     args = parser.parse_args()
 
     pilot = load_pilot_module()
     split = pd.read_csv(args.split)
-    required = {"species", "photo_id", "split", "photo_url"}
+    required = {"species", "photo_id", "split", "photo_url", "split_rank_hash"}
     missing = required - set(split.columns)
     if missing:
         raise RuntimeError(f"split missing required columns: {sorted(missing)}")
@@ -118,14 +129,19 @@ def main() -> int:
     evaluation_ids = set(
         split.loc[split["split"].astype(str).eq("evaluation"), "photo_id"].astype(str)
     )
-    rows = split.loc[
+    all_rows = split.loc[
         split["split"].astype(str).eq("calibration")
         & split["species"].astype(str).eq(args.species)
     ].copy()
-    if len(rows) != 80:
-        raise RuntimeError(f"{args.species}: expected 80 calibration rows, found {len(rows)}")
-    if set(rows["photo_id"].astype(str)) & evaluation_ids:
+    if len(all_rows) != 80:
+        raise RuntimeError(f"{args.species}: expected 80 calibration rows, found {len(all_rows)}")
+    if set(all_rows["photo_id"].astype(str)) & evaluation_ids:
         raise RuntimeError("evaluation photo leaked into calibration worker")
+
+    rows = select_shard(all_rows, args.shard_index, args.shard_count)
+    expected = len(range(args.shard_index, 80, args.shard_count))
+    if len(rows) != expected:
+        raise RuntimeError(f"shard row count mismatch: expected {expected}, found {len(rows)}")
 
     processor = AutoProcessor.from_pretrained(pilot.MODEL_ID)
     model = AutoModelForMultimodalLM.from_pretrained(pilot.MODEL_ID)
@@ -134,7 +150,6 @@ def main() -> int:
     records = []
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir = Path(tmpdir)
-        rows = rows.sort_values("split_rank_hash", kind="mergesort")
         for index, (_, row) in enumerate(rows.iterrows(), start=1):
             photo_id = str(row["photo_id"])
             blind = __import__("hashlib").sha256(
@@ -178,6 +193,8 @@ def main() -> int:
                     "direct_palette_candidate_is_final_state": False,
                     "feature_status": "localization_failed",
                     "downloaded_from": used_url,
+                    "compute_shard_index": args.shard_index,
+                    "compute_shard_count": args.shard_count,
                 }
             else:
                 counts = pilot.nearest_palette_counts(image, box)
@@ -197,34 +214,30 @@ def main() -> int:
                     "n_detected_boxes": len(boxes),
                     "detection_prompt": prompt_used,
                     "selected_bbox": [round(float(x), 2) for x in box],
-                    "selected_bbox_area_fraction": round(
-                        float(box_area_fraction(box, image.size)), 6
-                    ),
+                    "selected_bbox_area_fraction": round(float(box_area_fraction(box, image.size)), 6),
                     "detected_box_area_fraction_min": round(min(area_fractions), 6),
                     "detected_box_area_fraction_max": round(max(area_fractions), 6),
                     "palette_counts": counts,
-                    "flower_only_fractions": {
-                        k: round(float(v), 6) for k, v in fractions.items()
-                    },
-                    "candidate_scores": {
-                        k: round(float(v), 6) for k, v in scores.items()
-                    },
+                    "flower_only_fractions": {k: round(float(v), 6) for k, v in fractions.items()},
+                    "candidate_scores": {k: round(float(v), 6) for k, v in scores.items()},
                     "candidate_state_numeric": candidate,
                     "direct_palette_candidate_is_final_state": False,
                     "feature_status": "ok",
                     "downloaded_from": used_url,
+                    "compute_shard_index": args.shard_index,
+                    "compute_shard_count": args.shard_count,
                     **biological_axis_features(args.species, fractions),
                 }
             records.append(record)
-            if index % 10 == 0:
+            if index % 5 == 0 or index == len(rows):
                 print(
-                    f"{args.species}: {index}/80 "
-                    f"{record['localization_status']} {record['candidate_state_numeric']}",
+                    f"{args.species} shard {args.shard_index}/{args.shard_count}: "
+                    f"{index}/{len(rows)} {record['localization_status']} {record['candidate_state_numeric']}",
                     flush=True,
                 )
 
-    if len(records) != 80 or any(r["evaluation_row"] for r in records):
-        raise RuntimeError("calibration feature output violated frozen row contract")
+    if len(records) != expected or any(r["evaluation_row"] for r in records):
+        raise RuntimeError("calibration feature output violated frozen shard contract")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         "".join(json.dumps(r, ensure_ascii=False, sort_keys=True) + "\n" for r in records),
