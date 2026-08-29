@@ -1,135 +1,94 @@
 # JBI Chapter 1 spatial execution status
 
-## Active branch and PR
+## Current state
 
-- branch: `analysis/jbi-global-colour-boundaries`
-- stacked base: `audit/upstream-spatial-reaudit` (PR #17)
-- active PR: #20
+Branch: `analysis/jbi-global-colour-boundaries`  
+PR: #20, stacked on `audit/upstream-spatial-reaudit` / PR #17.
 
-## Primary question
-
-The primary Chapter 1 inference is now:
+Primary inference remains:
 
 **global flower-colour map → species-conditioned random-labelling test → species-level transition boundaries → shared-boundary strength → post-discovery geographic correspondence**.
 
-The previous C/S-to-climate comparison is retained as secondary/provenance context and is not the primary spatial discovery analysis.
+Species may disappear from the display, but never from the null model: locations stay fixed and colour labels are permuted strictly within species.
 
-## Completed on this branch
+## Frozen empirical sample
 
-- species-conditioned permutation core: implemented;
-- no between-species colour-label exchange: guarded by tests;
-- label-independent boundary detectability denominator `A(x)`: implemented;
-- `A(x)=0` / insufficient support: treated as not evaluable rather than biological zero;
-- detectability invariance under colour-label permutation: guarded;
-- Chapter 1 protocol: frozen;
-- deterministic 6 x 200 iNaturalist development-photo acquisition: completed through GitHub Actions;
-- acquisition QC: all six species passed observer/spatial/season coverage gates;
-- 480/720 calibration/evaluation split: hash-frozen before colour measurement;
-- split assignment uses species + stable photo ID only;
-- frozen acquisition re-run is locked unless explicit replacement is requested;
-- 480 calibration images: 480/480 materialized and decoded successfully;
-- conservative technical image flags: 0/480;
-- evaluation images opened during technical audit: 0/720;
-- six-image calibration-only Copilot vision pilot: completed;
-- six images x three independent Copilot passes = 18 valid repeatability responses;
-- repeatability: flower visibility, flower condition, flower region, and segmentation feasibility were unanimous in 6/6 images;
-- colour pattern and within-photo consistency were unanimous in 5/6 images;
-- diagnostic colour scope was unanimous in 4/6 images;
-- operational decision: only the 6/6-repeatable fields were accepted for automatic calibration screening; less-repeatable fields cannot establish final colour states;
-- literature-constrained candidate colour codebook: frozen before 480-image screening;
-- independent two-pass calibration-consensus workflow: implemented but not allowed to run until a complete first-pass calibration screen exists.
+- iNaturalist development sample: **1,200 photographs = 6 species × 200**;
+- calibration split: **480 = 80/species**;
+- evaluation split: **720 = 120/species**;
+- split is outcome-blind and hash-frozen;
+- **720 evaluation photographs remain unopened for rule tuning**.
 
-## Current empirical state
+## 480-photo Florence calibration features — complete
 
-- development photographs: 1,200 (6 species x 200);
-- calibration IDs: 480 frozen;
-- evaluation IDs: 720 frozen and unopened for rule tuning;
-- calibration technical materialization: 480/480 passed;
-- six-image semantic repeatability diagnostic: 18/18 valid responses;
-- complete 480-image semantic screen: **not completed**;
-- final flower-colour classifications: 0/1,200;
-- final species codebooks: not yet frozen;
-- random versus non-random spatial placement: `not_evaluated`;
+GitHub Actions run `33237848644` completed 24/24 deterministic 20-photo shards and the aggregate job successfully.
+
+- 480/480 calibration records extracted;
+- 80/80 per species;
+- 0 records from the evaluation split;
+- 0 final biological labels emitted;
+- Florence box returned for 480/480 records;
+- feature JSONL: `data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl`;
+- feature JSONL SHA256: `968648b4d9a4516daa6fb938eaaa0000d665ed18b52801a2f4c6e639b68e7bed`;
+- aggregate commit: `f31e53b08f7a0bdd006e43b24e2bdc01e250223c`.
+
+Direct palette argmax values are diagnostic only. In particular, `Raphanus sativus` is represented by continuous anthocyanin-like and carotenoid-like visual axes rather than treating a single palette argmax as a validated morph classifier.
+
+Important correction: **`feature_ok` means that a Florence box was obtained; it does not prove that the crop is a biologically valid target-flower ROI.** Blinded contact-sheet inspection has already exposed some overly broad/non-target crops, so formal ROI target-validity review is required before any state rule is frozen.
+
+## Pre-condition feature geometry — complete, not morph labels
+
+Run `33238769109` completed GMM/BIC diagnostics with 200 bootstraps while enforcing:
+
+- calibration only;
+- evaluation rows opened = false;
+- final label = false;
+- no geography/date/observer/environment input;
+- candidate argmax not used as a training label;
+- GMM components are **not** biological morph labels.
+
+Pre-condition feature-space support:
+
+- `Antirrhinum majus`: 3 components selected; bootstrap frequency 0.93;
+- `Dactylorhiza sambucina`: 2 components; 1.00;
+- `Gentiana lutea`: 2 components; 1.00;
+- `Ipomoea purpurea`: 3 components; 0.89;
+- `Lysimachia arvensis`: 2 components; 1.00;
+- `Raphanus sativus`: observed BIC selects 2, but bootstrap selects 4 in 0.785, 3 in 0.18, and 2 in 0.035 — therefore the pre-condition structure is not stable enough to collapse into a simple morph rule.
+
+These diagnostics must be repeated after independent ROI/flower-condition validation.
+
+## Flower condition — automatic gate rejected; blind package ready
+
+The quota-independent SigLIP pilot reproduced only **3/6** predeclared condition checks. It is therefore rejected as the automatic `fresh/senescent/damaged` gate; prompts and thresholds were not tuned post hoc.
+
+A separate blinded review package is complete:
+
+- workflow run `33238779685`: success;
+- **480 blind rows, 24 contact sheets, 4 sheets/species**;
+- artifact ID `9710738745`;
+- failures: 0;
+- geography, observer, date and colour candidate scores hidden from reviewer;
+- labels created automatically: 0;
+- evaluation rows opened: 0.
+
+Allowed review outcomes are `fresh`, `senescent`, `damaged`, `mixed_or_ambiguous`, and `not_evaluable`.
+
+## Active gate
+
+1. review all 480 blinded crops for **target-ROI validity first**;
+2. assign flower condition only when the target flower is evaluable;
+3. exclude/mark non-target, overly broad and ambiguous ROIs without using colour state to make that decision;
+4. repeat within-species feature-geometry diagnosis on the independently validated fresh/evaluable calibration subset;
+5. freeze species-specific colour measurement/state/unresolved rules and hashes;
+6. only then open the 720 evaluation photographs;
+7. only after held-out colour states exist run the species-conditioned spatial random-labelling and shared-boundary analyses.
+
+## Not yet evaluated
+
+- final flower-colour states: 0/1,200;
+- held-out evaluation measurements: 0/720;
+- random vs non-random spatial placement: `not_evaluated`;
 - species-level colour boundaries: `not_evaluated`;
 - shared-boundary surface: `not_evaluated`;
-- geographic correspondence: `not_evaluated`.
-
-## Copilot quota stop
-
-The first 480-image Copilot screening attempt failed before image processing because of a malformed candidate-codebook JSON; the JSON was corrected and a parse test was added.
-
-The corrected screening then entered real image processing and produced valid records for the first several images in each shard. It subsequently stopped because the GitHub Actions identity reached its **monthly Copilot request quota**. A representative Raphanus shard processed eight calibration photographs successfully and then received `You have exceeded your monthly quota` on three consecutive retry attempts.
-
-Consequences:
-
-- this is a service/quota stop, not a biological or schema failure;
-- partial records from aborted shards are **diagnostic only and are not promoted into the calibration dataset**;
-- the 480-image dataset will not be assembled by mixing pre-quota Copilot records with a different later method;
-- repeatedly rerunning the same Copilot workflow is not a valid recovery path while the monthly quota remains exhausted;
-- the 720-image evaluation set remains unopened.
-
-GitHub Models cannot provide a separate fallback because GitHub retired that service on 2026-07-30. The active fallback therefore removes paid/request-quota model inference from the main pipeline.
-
-## Quota-independent image route — active
-
-A six-image calibration-only pilot is running with **Florence-2-base-ft** plus deterministic pixel-colour extraction:
-
-1. Florence-2 open-vocabulary detection localizes a flower ROI;
-2. a fixed sRGB reference palette, declared before the pilot result, quantifies colours inside that ROI;
-3. species-specific candidate-state scores are computed deterministically from the frozen literature codebook;
-4. the result is compared with five predeclared diagnostic expectations from the already-completed six-image pilot;
-5. the known senescent `Gentiana lutea` image is retained as a negative control: colour extraction may succeed but cannot validate a fresh-flower state.
-
-Files:
-
-- `scripts/data/run_jbi_ch1_florence_colour_pilot.py`;
-- `docs/supporting/jbi_ch1_florence_pilot_expected_v1.json`;
-- `.github/workflows/jbi-ch1-florence-colour-pilot.yml`.
-
-The Florence model is used to localize the flower; the named colour suggestion is produced from explicit numeric pixel features rather than unconstrained language generation. This pilot remains `final_label=false`.
-
-## Repeatability decision
-
-No numerical acceptance threshold was estimated after seeing the six-image diagnostic. The prior Copilot diagnostic established only which semantic fields were repeatable enough to use as **screening descriptors**, not final labels.
-
-Previously stable semantic descriptors:
-
-- flower visibility;
-- flower condition (`fresh`, `senescent`, `damaged`, `mixed_or_ambiguous`);
-- flower region;
-- segmentation feasibility.
-
-Not accepted as automatic final decisions:
-
-- free-text colour terms;
-- colour pattern;
-- diagnostic colour scope;
-- multiple-flower colour consistency;
-- candidate biological colour state.
-
-## Literature-constrained candidate states
-
-Candidate states were declared before the 480-image screening in:
-
-`docs/supporting/jbi_ch1_species_colour_candidate_codebook_v1.json`
-
-Current candidate contrasts:
-
-- `Ipomoea purpurea`: white / pink / blue-purple, with explicit acknowledgement of its multi-locus flower-colour genetics;
-- `Raphanus sativus`: white / yellow / pink / bronze;
-- `Gentiana lutea`: yellow / orange;
-- `Dactylorhiza sambucina`: yellow / purple;
-- `Antirrhinum majus`: magenta-pseudomajus-like / yellow-striatum-like / intermediate-or-other, based on whole-corolla pigment distribution rather than hue alone;
-- `Lysimachia arvensis`: blue / red.
-
-Every species also has `unresolved`. New states cannot be invented by the image model.
-
-## Next valid gate
-
-1. finish the six-image Florence localization/colour pilot;
-2. inspect localization success and the five predeclared diagnostic state checks;
-3. if the open-model route is supported, rerun all 480 calibration images under one uniform quota-independent implementation;
-4. quantify state separability and unresolved/localization-failure rates by species;
-5. independently verify candidate state-bearing calibration records and freeze final species-specific measurement rules;
-6. only after that freeze open the 720-image evaluation set;
-7. only after held-out colour states exist run the species-conditioned spatial random-labelling analysis.
+- post-discovery geographic correspondence: `not_evaluated`.
