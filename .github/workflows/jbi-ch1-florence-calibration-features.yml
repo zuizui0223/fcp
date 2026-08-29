@@ -1,0 +1,226 @@
+name: JBI Chapter 1 Florence calibration features
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - "docs/supporting/jbi_ch1_florence_colour_pilot_v2.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-florence-calibration-features-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      supported: ${{ steps.gate.outputs.supported }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate v2 diagnostic gate
+        id: gate
+        run: |
+          python -m pip install -e . pytest
+          python -m pytest -q tests/test_florence_roi.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('docs/supporting/jbi_ch1_florence_colour_pilot_v2.json')
+          if not path.exists():
+              raise SystemExit('Florence v2 pilot result is absent; 480-image extraction is blocked')
+          result = json.loads(path.read_text())
+          if result.get('protocol') != 'jbi-ch1-florence-colour-pilot-v2':
+              raise SystemExit('wrong Florence pilot protocol')
+          if result.get('evaluation_rows_opened') is not False or result.get('final_label') is not False:
+              raise SystemExit('pilot firewall violated')
+          checks = result.get('n_predeclared_state_checks')
+          matches = result.get('n_predeclared_state_matches')
+          if checks != 5 or matches != 5:
+              raise SystemExit(f'v2 diagnostic checks not fully recovered: {matches}/{checks}; do not scale to 480')
+          comps = result.get('diagnostic_comparison', [])
+          failed = [c for c in comps if c.get('expected') is not None and c.get('match') is not True]
+          if failed:
+              raise SystemExit(f'v2 has unresolved predeclared diagnostic mismatches: {failed}')
+          print('Florence v2 pilot recovered all five predeclared non-senescent diagnostics.')
+          with open(__import__('os').environ['GITHUB_OUTPUT'], 'a') as handle:
+              handle.write('supported=true\n')
+          PY
+
+  extract:
+    needs: preflight
+    if: ${{ needs.preflight.outputs.supported == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        include:
+          - species: "Ipomoea purpurea"
+            slug: ipomoea_purpurea
+          - species: "Raphanus sativus"
+            slug: raphanus_sativus
+          - species: "Gentiana lutea"
+            slug: gentiana_lutea
+          - species: "Dactylorhiza sambucina"
+            slug: dactylorhiza_sambucina
+          - species: "Antirrhinum majus"
+            slug: antirrhinum_majus
+          - species: "Lysimachia arvensis"
+            slug: lysimachia_arvensis
+    env:
+      HF_HOME: ${{ github.workspace }}/.hf-cache
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: actions/cache@v4
+        with:
+          path: .hf-cache
+          key: florence-community-florence2-base-ft-v1
+      - name: Install CPU-only Florence dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install "transformers>=5,<6" accelerate
+      - name: Extract all 80 frozen calibration records for one species
+        run: |
+          mkdir -p artifacts/jbi_ch1_florence_calibration_features_v1
+          python scripts/data/extract_jbi_ch1_florence_calibration_features.py \
+            --species "${{ matrix.species }}" \
+            --output "artifacts/jbi_ch1_florence_calibration_features_v1/${{ matrix.slug }}.jsonl"
+      - name: Validate species feature firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('artifacts/jbi_ch1_florence_calibration_features_v1/${{ matrix.slug }}.jsonl')
+          rows = [json.loads(x) for x in path.read_text().splitlines() if x.strip()]
+          assert len(rows) == 80
+          assert len({r['photo_id'] for r in rows}) == 80
+          assert len({r['blind_id'] for r in rows}) == 80
+          assert all(r['species'] == '${{ matrix.species }}' for r in rows)
+          assert all(r['evaluation_row'] is False for r in rows)
+          assert all(r['calibration_only'] is True for r in rows)
+          assert all(r['final_label'] is False for r in rows)
+          print('validated', path, 'ok=', sum(r['feature_status']=='ok' for r in rows), 'localization_failed=', sum(r['feature_status']!='ok' for r in rows))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-florence-features-${{ matrix.slug }}
+          if-no-files-found: error
+          retention-days: 90
+          path: artifacts/jbi_ch1_florence_calibration_features_v1/${{ matrix.slug }}.jsonl
+
+  aggregate:
+    needs: extract
+    if: ${{ needs.extract.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-ch1-florence-features-*
+          path: artifacts/jbi_ch1_florence_calibration_features_v1
+          merge-multiple: true
+      - name: Aggregate numeric calibration features
+        run: |
+          python - <<'PY'
+          from collections import Counter
+          import hashlib
+          import json
+          from pathlib import Path
+
+          paths = sorted(Path('artifacts/jbi_ch1_florence_calibration_features_v1').glob('*.jsonl'))
+          if len(paths) != 6:
+              raise SystemExit(f'expected six species files, found {len(paths)}')
+          rows = []
+          for path in paths:
+              rows.extend(json.loads(x) for x in path.read_text().splitlines() if x.strip())
+          if len(rows) != 480:
+              raise SystemExit(f'expected 480 records, found {len(rows)}')
+          if len({r['photo_id'] for r in rows}) != 480 or len({r['blind_id'] for r in rows}) != 480:
+              raise SystemExit('duplicate frozen calibration IDs')
+          if any(r['evaluation_row'] is not False or r['final_label'] is not False for r in rows):
+              raise SystemExit('evaluation/final-label firewall violation')
+          rows = sorted(rows, key=lambda r: (r['species'], r['blind_id']))
+          out = Path('data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(''.join(json.dumps(r, ensure_ascii=False, sort_keys=True) + '\n' for r in rows), encoding='utf-8')
+
+          by_species = {}
+          for species in sorted({r['species'] for r in rows}):
+              group = [r for r in rows if r['species'] == species]
+              states = Counter(r['candidate_state_numeric'] for r in group)
+              n_ok = sum(r['feature_status'] == 'ok' for r in group)
+              box_counts = [int(r.get('n_detected_boxes', 0)) for r in group]
+              area = [float(r['selected_bbox_area_fraction']) for r in group if r['feature_status'] == 'ok']
+              by_species[species] = {
+                  'n_total': len(group),
+                  'n_feature_ok': n_ok,
+                  'n_localization_failed': len(group) - n_ok,
+                  'candidate_state_numeric': dict(sorted(states.items())),
+                  'n_detected_boxes_median': sorted(box_counts)[len(box_counts)//2],
+                  'selected_bbox_area_fraction_min': min(area) if area else None,
+                  'selected_bbox_area_fraction_median': sorted(area)[len(area)//2] if area else None,
+                  'selected_bbox_area_fraction_max': max(area) if area else None,
+              }
+          sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          summary = {
+              'protocol': 'jbi-ch1-florence-calibration-features-v1',
+              'status': 'numeric_features_complete_not_final_labels',
+              'n_records': 480,
+              'species_count': 6,
+              'calibration_only': True,
+              'evaluation_rows_opened': False,
+              'final_label': False,
+              'model': 'florence-community/Florence-2-base-ft',
+              'roi_selector': 'geometry-only individual-flower selector validated in pilot v2',
+              'candidate_state_numeric_is_final_label': False,
+              'confidence_threshold_used': False,
+              'source_split_sha256': sha('data/frozen/jbi_ch1_photo_split_v1.csv'),
+              'pilot_v2_sha256': sha('docs/supporting/jbi_ch1_florence_colour_pilot_v2.json'),
+              'feature_jsonl_sha256': sha(out),
+              'per_species': by_species,
+              'next_gate': 'analyze within-species feature separability and condition/senescence gate on calibration only; do not open evaluation images'
+          }
+          summary_path = Path('docs/supporting/jbi_ch1_florence_calibration_features_v1.json')
+          summary_path.parent.mkdir(parents=True, exist_ok=True)
+          summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False, sort_keys=True) + '\n', encoding='utf-8')
+          print(json.dumps(summary, indent=2, ensure_ascii=False))
+          PY
+      - name: Commit quota-independent calibration features
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl \
+            docs/supporting/jbi_ch1_florence_calibration_features_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Record quota-independent 480 calibration colour features"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
