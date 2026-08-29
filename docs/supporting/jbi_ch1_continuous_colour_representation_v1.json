@@ -1,0 +1,124 @@
+{
+  "binary_special_case": "one-dimensional 0/1 vector reduces exactly to discrete mismatch indicator",
+  "calibration_only_scaler_fit": true,
+  "candidate_argmax_is_primary": false,
+  "discrete_states_required_for_primary_analysis": false,
+  "evaluation_values_used_to_define_axes": false,
+  "evaluation_values_used_to_fit_scaling": false,
+  "n_scaler_rows_total": 326,
+  "per_species": {
+    "Antirrhinum majus": {
+      "feature_names": [
+        "magenta_pseudomajus_like",
+        "yellow_striatum_like"
+      ],
+      "feature_source": "candidate_scores",
+      "mean": [
+        0.41051150000000003,
+        0.12339603333333332
+      ],
+      "n_scaler_rows": 60,
+      "reviewer1_usable_fresh_ordinals_sha256": "eed827c554d1bef761b2674112ff811bc86980eae9d85e430a212f0fd8beb5d1",
+      "scale_population_sd": [
+        0.3784718272193893,
+        0.24231732441628176
+      ]
+    },
+    "Dactylorhiza sambucina": {
+      "feature_names": [
+        "yellow",
+        "purple"
+      ],
+      "feature_source": "candidate_scores",
+      "mean": [
+        0.5031524328358209,
+        0.3014348059701492
+      ],
+      "n_scaler_rows": 67,
+      "reviewer1_usable_fresh_ordinals_sha256": "7a3002f3af27cd369d07c36c81e8bb1dabf22f93976460c77a2c18af0b69a4a2",
+      "scale_population_sd": [
+        0.3460619698571912,
+        0.35890064052513243
+      ]
+    },
+    "Gentiana lutea": {
+      "feature_names": [
+        "yellow",
+        "orange"
+      ],
+      "feature_source": "candidate_scores",
+      "mean": [
+        0.7426507826086955,
+        0.1780174347826087
+      ],
+      "n_scaler_rows": 23,
+      "reviewer1_usable_fresh_ordinals_sha256": "0e7f7d66bb3271ff57e05379db94bb35cab5c810ef8f3c4483a359f41c95e48f",
+      "scale_population_sd": [
+        0.15115308406436878,
+        0.13465019612211493
+      ]
+    },
+    "Ipomoea purpurea": {
+      "feature_names": [
+        "white",
+        "pink",
+        "blue_purple"
+      ],
+      "feature_source": "candidate_scores",
+      "mean": [
+        0.13004725806451609,
+        0.2813391774193548,
+        0.5509037580645159
+      ],
+      "n_scaler_rows": 62,
+      "reviewer1_usable_fresh_ordinals_sha256": "7b44e5866e3c62b4bbc18e34288abfd957b97884c55a7487ba73e6faa92bc86d",
+      "scale_population_sd": [
+        0.16324656584254696,
+        0.31286810380221103,
+        0.34493062120106294
+      ]
+    },
+    "Lysimachia arvensis": {
+      "feature_names": [
+        "blue",
+        "red"
+      ],
+      "feature_source": "candidate_scores",
+      "mean": [
+        0.07156301515151517,
+        0.5178944090909089
+      ],
+      "n_scaler_rows": 66,
+      "reviewer1_usable_fresh_ordinals_sha256": "f5aef3ab5d441c2dce1df14343291d58fc61970be63e641904c387d957761a5e",
+      "scale_population_sd": [
+        0.2273966673486164,
+        0.2713877558713885
+      ]
+    },
+    "Raphanus sativus": {
+      "feature_names": [
+        "anthocyanin_like_signal",
+        "carotenoid_like_signal"
+      ],
+      "feature_source": "visual_colour_axes",
+      "mean": [
+        0.2566423958333333,
+        0.12595333333333333
+      ],
+      "n_scaler_rows": 48,
+      "reviewer1_usable_fresh_ordinals_sha256": "e566d4cecfa597e7e906c926944239b09f17b13c6326f862994e2b8eef6d23ad",
+      "scale_population_sd": [
+        0.2336863394013918,
+        0.11954532340572992
+      ]
+    }
+  },
+  "primary_representation": "species-specific continuous colour vector",
+  "protocol": "jbi-ch1-continuous-colour-representation-v1",
+  "source_calibration_feature_sha256": "968648b4d9a4516daa6fb938eaaa0000d665ed18b52801a2f4c6e639b68e7bed",
+  "source_evaluation_opening_contract_sha256": "4ed9a58c27a24a66c21cad9d900ba186d182dda4a941c081546986e96b444835",
+  "source_reviewer1_manifest_sha256": "a301442c63892dd03676a91a08fa129c78fee971b1430cf45b07123407efabdd",
+  "spatial_edge_metric": "RMS Euclidean difference across standardized features",
+  "standardization": "z=(raw-calibration_mean)/calibration_population_sd; parameters remain fixed for evaluation",
+  "status": "frozen_before_evaluation_values_inspected"
+}
