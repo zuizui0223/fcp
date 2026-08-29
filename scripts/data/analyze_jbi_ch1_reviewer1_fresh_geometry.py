@@ -62,6 +62,9 @@ def select_rows(features: list[dict], review: dict) -> list[dict]:
 
     selected = []
     review_species = review.get("species", {})
+    if set(review_species) != set(EXPECTED_COUNTS):
+        raise ValueError(f"reviewer-1 species set mismatch: {sorted(review_species)}")
+
     for species in sorted(EXPECTED_COUNTS):
         group = sorted(
             [row for row in features if str(row.get("species")) == species],
@@ -82,8 +85,11 @@ def select_rows(features: list[dict], review: dict) -> list[dict]:
             row["reviewer1_order_within_species"] = ordinal
             selected.append(row)
 
-    if len(selected) != sum(EXPECTED_COUNTS.values()) != 326:
+    expected_total = sum(EXPECTED_COUNTS.values())
+    if expected_total != 326 or len(selected) != expected_total:
         raise ValueError(f"expected 326 reviewer-1 usable+fresh rows, found {len(selected)}")
+    if int(review.get("overall", {}).get("usable_fresh_n", -1)) != expected_total:
+        raise ValueError("reviewer-1 overall usable+fresh count does not equal 326")
     if len({str(row["blind_id"]) for row in selected}) != len(selected):
         raise ValueError("duplicate blind IDs in reviewer-1 filtered subset")
     if any(row.get("evaluation_row") is not False or row.get("final_label") is not False for row in selected):
