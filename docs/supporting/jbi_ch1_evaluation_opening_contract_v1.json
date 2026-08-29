@@ -1,0 +1,51 @@
+{
+  "protocol": "jbi-ch1-evaluation-opening-contract-v1",
+  "status": "frozen_before_evaluation_image_feature_extraction",
+  "user_authorized_evaluation_opening": true,
+  "independent_reviewer2_required_before_evaluation": false,
+  "reviewer2_status": "deferred_by_user_not_used_for_this_opening",
+  "frozen_split": {
+    "total": 1200,
+    "calibration": 480,
+    "evaluation": 720,
+    "per_species_evaluation": 120,
+    "split_csv_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5"
+  },
+  "measurement": {
+    "model": "florence-community/Florence-2-base-ft",
+    "detection_task": "<OPEN_VOCABULARY_DETECTION>",
+    "primary_prompt": "flower",
+    "fallback_prompt": "flower petals",
+    "roi_selector": "geometry-only choose_flower_box from fcp_pipeline/florence_roi.py",
+    "calibration_extractor_blob_sha": "9dc99f2e9c24bdb6ae2e344ee0a482b3586476f5",
+    "pilot_implementation_blob_sha": "95a2a33c82e343b15e58d2c6909c288e8cd39397",
+    "roi_selector_blob_sha": "98a04fa0d807773e0d28d41bd873f10a81444a93",
+    "palette_and_species_scores": "identical to validated Florence pilot v2/calibration extractor",
+    "candidate_argmax_is_final_label": false,
+    "final_labels_emitted_during_feature_extraction": false
+  },
+  "primary_colour_representation": {
+    "type": "species-specific continuous colour vector",
+    "reason": "preserves continuous/multimodal colour structure and is backward-compatible with discrete 0/1 mismatch statistics",
+    "species_features": {
+      "Antirrhinum majus": ["magenta_pseudomajus_like", "yellow_striatum_like"],
+      "Dactylorhiza sambucina": ["yellow", "purple"],
+      "Gentiana lutea": ["yellow", "orange"],
+      "Ipomoea purpurea": ["white", "pink", "blue_purple"],
+      "Lysimachia arvensis": ["blue", "red"],
+      "Raphanus sativus": ["anthocyanin_like_signal", "carotenoid_like_signal"]
+    },
+    "feature_scaling": "species-specific mean and standard deviation frozen from reviewer-1 usable+fresh calibration rows before evaluation values are inspected",
+    "evaluation_values_may_tune_feature_axes_or_scaling": false,
+    "discrete_morph_states": "secondary/sensitivity only; not required for primary continuous spatial null"
+  },
+  "spatial_null": {
+    "locations_fixed": true,
+    "complete_colour_vectors_permuted_strictly_within_species": true,
+    "graph_and_detectability_are_colour_blind": true,
+    "global_stage_a_species_weighting": "equal species weight after within-species graph normalization",
+    "continuous_binary_compatibility": "for a scalar 0/1 colour state, RMS edge distance equals the original mismatch indicator exactly"
+  },
+  "opening_scope": "evaluation image pixels may now be downloaded and converted to frozen Florence numeric features; no reviewer2 decision is required for this stage",
+  "post_opening_rule": "do not alter feature axes, scaling, ROI selector, palette/scoring, or within-species permutation rule in response to evaluation colour outcomes without versioning the analysis as a new development cycle"
+}
