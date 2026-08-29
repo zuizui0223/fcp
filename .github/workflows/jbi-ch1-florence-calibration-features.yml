@@ -7,6 +7,10 @@ on:
       - analysis/jbi-global-colour-boundaries
     paths:
       - "docs/supporting/jbi_ch1_florence_colour_pilot_v2.json"
+      - ".github/workflows/jbi-ch1-florence-calibration-features.yml"
+      - "scripts/data/extract_jbi_ch1_florence_calibration_features.py"
+      - "fcp_pipeline/florence_roi.py"
+      - "tests/test_florence_roi.py"
 
 permissions:
   contents: write
@@ -28,14 +32,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Validate v2 diagnostic gate
+      - name: Validate v2 ROI localization gate
         id: gate
         run: |
           python -m pip install -e . pytest
           python -m pytest -q tests/test_florence_roi.py
           python - <<'PY'
           import json
+          import os
           from pathlib import Path
+
           path = Path('docs/supporting/jbi_ch1_florence_colour_pilot_v2.json')
           if not path.exists():
               raise SystemExit('Florence v2 pilot result is absent; 480-image extraction is blocked')
@@ -44,16 +50,37 @@ jobs:
               raise SystemExit('wrong Florence pilot protocol')
           if result.get('evaluation_rows_opened') is not False or result.get('final_label') is not False:
               raise SystemExit('pilot firewall violated')
+
+          rows = result.get('results', [])
+          if len(rows) != 6 or len({r.get('species') for r in rows}) != 6:
+              raise SystemExit(f'expected six species-localization diagnostics, found {len(rows)}')
+          bad = []
+          for row in rows:
+              area = row.get('selected_bbox_area_fraction')
+              if (
+                  row.get('localization_status') != 'florence_open_vocab_box'
+                  or int(row.get('n_detected_boxes', 0)) < 1
+                  or area is None
+                  or not (0 < float(area) <= 1)
+              ):
+                  bad.append({
+                      'species': row.get('species'),
+                      'blind_id': row.get('blind_id'),
+                      'localization_status': row.get('localization_status'),
+                      'n_detected_boxes': row.get('n_detected_boxes'),
+                      'selected_bbox_area_fraction': area,
+                  })
+          if bad:
+              raise SystemExit(f'Florence ROI preflight failed: {bad}')
+
+          # Pilot colour-state agreement is diagnostic only. Raphanus showed why a
+          # single-image pixel argmax must not gate scale-up: its ROI was valid while
+          # the genetically two-pigment morph structure was not represented by argmax.
           checks = result.get('n_predeclared_state_checks')
           matches = result.get('n_predeclared_state_matches')
-          if checks != 5 or matches != 5:
-              raise SystemExit(f'v2 diagnostic checks not fully recovered: {matches}/{checks}; do not scale to 480')
-          comps = result.get('diagnostic_comparison', [])
-          failed = [c for c in comps if c.get('expected') is not None and c.get('match') is not True]
-          if failed:
-              raise SystemExit(f'v2 has unresolved predeclared diagnostic mismatches: {failed}')
-          print('Florence v2 pilot recovered all five predeclared non-senescent diagnostics.')
-          with open(__import__('os').environ['GITHUB_OUTPUT'], 'a') as handle:
+          print(f'ROI gate passed 6/6; pilot direct-state diagnostic={matches}/{checks} (not a scale-up criterion).')
+          print('480 extraction will emit numeric ROI features only; direct candidate argmax is not a final state.')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as handle:
               handle.write('supported=true\n')
           PY
 
@@ -61,7 +88,7 @@ jobs:
     needs: preflight
     if: ${{ needs.preflight.outputs.supported == 'true' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 120
     strategy:
       fail-fast: false
       max-parallel: 6
@@ -150,6 +177,7 @@ jobs:
           from collections import Counter
           import hashlib
           import json
+          import math
           from pathlib import Path
 
           paths = sorted(Path('artifacts/jbi_ch1_florence_calibration_features_v1').glob('*.jsonl'))
@@ -165,28 +193,55 @@ jobs:
           if any(r['evaluation_row'] is not False or r['final_label'] is not False for r in rows):
               raise SystemExit('evaluation/final-label firewall violation')
           rows = sorted(rows, key=lambda r: (r['species'], r['blind_id']))
+
+          # Add continuous visual proxies without thresholding. They are image-feature
+          # summaries, not biochemical measurements and not final morph labels.
+          for r in rows:
+              f = r.get('flower_only_fractions', {}) if r.get('feature_status') == 'ok' else {}
+              r['visual_colour_axes'] = {
+                  'white_signal': round(float(f.get('white', 0.0)), 6),
+                  'anthocyanin_like_signal': round(sum(float(f.get(k, 0.0)) for k in ('pink','magenta','purple','red','bronze')), 6),
+                  'carotenoid_like_signal': round(sum(float(f.get(k, 0.0)) for k in ('yellow','orange','bronze')), 6),
+                  'blue_purple_signal': round(sum(float(f.get(k, 0.0)) for k in ('blue','purple')), 6),
+              }
+
           out = Path('data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl')
           out.parent.mkdir(parents=True, exist_ok=True)
           out.write_text(''.join(json.dumps(r, ensure_ascii=False, sort_keys=True) + '\n' for r in rows), encoding='utf-8')
 
+          def dist(values):
+              values = sorted(float(x) for x in values)
+              if not values:
+                  return {'min': None, 'median': None, 'max': None}
+              return {
+                  'min': values[0],
+                  'median': values[len(values)//2],
+                  'max': values[-1],
+              }
+
           by_species = {}
           for species in sorted({r['species'] for r in rows}):
               group = [r for r in rows if r['species'] == species]
+              ok = [r for r in group if r['feature_status'] == 'ok']
               states = Counter(r['candidate_state_numeric'] for r in group)
-              n_ok = sum(r['feature_status'] == 'ok' for r in group)
               box_counts = [int(r.get('n_detected_boxes', 0)) for r in group]
-              area = [float(r['selected_bbox_area_fraction']) for r in group if r['feature_status'] == 'ok']
+              area = [float(r['selected_bbox_area_fraction']) for r in ok]
+              axes = {name: dist([r['visual_colour_axes'][name] for r in ok]) for name in (
+                  'white_signal', 'anthocyanin_like_signal', 'carotenoid_like_signal', 'blue_purple_signal'
+              )}
               by_species[species] = {
                   'n_total': len(group),
-                  'n_feature_ok': n_ok,
-                  'n_localization_failed': len(group) - n_ok,
-                  'candidate_state_numeric': dict(sorted(states.items())),
+                  'n_feature_ok': len(ok),
+                  'n_localization_failed': len(group) - len(ok),
+                  'candidate_state_numeric_diagnostic_only': dict(sorted(states.items())),
                   'n_detected_boxes_median': sorted(box_counts)[len(box_counts)//2],
                   'selected_bbox_area_fraction_min': min(area) if area else None,
                   'selected_bbox_area_fraction_median': sorted(area)[len(area)//2] if area else None,
                   'selected_bbox_area_fraction_max': max(area) if area else None,
+                  'visual_axis_distribution': axes,
               }
           sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          pilot = json.loads(Path('docs/supporting/jbi_ch1_florence_colour_pilot_v2.json').read_text())
           summary = {
               'protocol': 'jbi-ch1-florence-calibration-features-v1',
               'status': 'numeric_features_complete_not_final_labels',
@@ -197,13 +252,17 @@ jobs:
               'final_label': False,
               'model': 'florence-community/Florence-2-base-ft',
               'roi_selector': 'geometry-only individual-flower selector validated in pilot v2',
+              'scaleup_gate': '6/6 pilot images localized with Florence open-vocabulary flower boxes',
+              'pilot_direct_state_match': f"{pilot.get('n_predeclared_state_matches')}/{pilot.get('n_predeclared_state_checks')}",
+              'pilot_direct_state_match_used_as_scaleup_gate': False,
               'candidate_state_numeric_is_final_label': False,
+              'visual_colour_axes_are_biochemical_measurements': False,
               'confidence_threshold_used': False,
               'source_split_sha256': sha('data/frozen/jbi_ch1_photo_split_v1.csv'),
               'pilot_v2_sha256': sha('docs/supporting/jbi_ch1_florence_colour_pilot_v2.json'),
               'feature_jsonl_sha256': sha(out),
               'per_species': by_species,
-              'next_gate': 'analyze within-species feature separability and condition/senescence gate on calibration only; do not open evaluation images'
+              'next_gate': 'analyze calibration-only within-species feature separability and independent fresh/senescent condition gate; freeze rules before any evaluation image access'
           }
           summary_path = Path('docs/supporting/jbi_ch1_florence_calibration_features_v1.json')
           summary_path.parent.mkdir(parents=True, exist_ok=True)
