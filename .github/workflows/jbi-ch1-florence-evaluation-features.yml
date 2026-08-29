@@ -1,0 +1,258 @@
+name: JBI Chapter 1 Florence evaluation features
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-florence-evaluation-features.yml"
+      - "scripts/data/extract_jbi_ch1_florence_evaluation_features.py"
+      - "docs/supporting/jbi_ch1_evaluation_opening_contract_v1.json"
+      - "docs/supporting/jbi_ch1_continuous_colour_representation_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-florence-evaluation-features-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.gate.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate frozen evaluation-opening contract
+        id: gate
+        run: |
+          python -m pip install pandas
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          import pandas as pd
+
+          opening = json.loads(Path('docs/supporting/jbi_ch1_evaluation_opening_contract_v1.json').read_text())
+          rep = json.loads(Path('docs/supporting/jbi_ch1_continuous_colour_representation_v1.json').read_text())
+          split = pd.read_csv('data/frozen/jbi_ch1_photo_split_v1.csv')
+          assert opening['status'] == 'frozen_before_evaluation_image_feature_extraction'
+          assert opening['user_authorized_evaluation_opening'] is True
+          assert rep['status'] == 'frozen_before_evaluation_values_inspected'
+          assert rep['evaluation_values_used_to_define_axes'] is False
+          assert rep['evaluation_values_used_to_fit_scaling'] is False
+          assert rep['n_scaler_rows_total'] == 326
+          counts = split.groupby(['species','split']).size().unstack(fill_value=0)
+          assert counts.shape[0] == 6
+          assert (counts['calibration'] == 80).all()
+          assert (counts['evaluation'] == 120).all()
+          assert int(counts['evaluation'].sum()) == 720
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as handle:
+              handle.write('ready=true\n')
+          print('Evaluation opening gate passed: frozen axes/scalers; 720 evaluation rows authorized.')
+          PY
+
+  extract:
+    needs: preflight
+    if: ${{ needs.preflight.outputs.ready == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        species:
+          - {name: "Ipomoea purpurea", slug: ipomoea_purpurea}
+          - {name: "Raphanus sativus", slug: raphanus_sativus}
+          - {name: "Gentiana lutea", slug: gentiana_lutea}
+          - {name: "Dactylorhiza sambucina", slug: dactylorhiza_sambucina}
+          - {name: "Antirrhinum majus", slug: antirrhinum_majus}
+          - {name: "Lysimachia arvensis", slug: lysimachia_arvensis}
+        shard: [0, 1, 2, 3, 4, 5]
+    env:
+      HF_HOME: ${{ github.workspace }}/.hf-cache
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: actions/cache@v4
+        with:
+          path: .hf-cache
+          key: florence-community-florence2-base-ft-v1
+      - name: Install CPU-only Florence dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install "transformers>=5,<6" accelerate
+      - name: Extract deterministic 20-photo evaluation shard
+        run: |
+          mkdir -p artifacts/jbi_ch1_florence_evaluation_features_v1
+          python scripts/data/extract_jbi_ch1_florence_evaluation_features.py \
+            --species "${{ matrix.species.name }}" \
+            --shard-index "${{ matrix.shard }}" \
+            --shard-count 6 \
+            --output "artifacts/jbi_ch1_florence_evaluation_features_v1/${{ matrix.species.slug }}_${{ matrix.shard }}.jsonl"
+      - name: Validate evaluation shard contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('artifacts/jbi_ch1_florence_evaluation_features_v1/${{ matrix.species.slug }}_${{ matrix.shard }}.jsonl')
+          rows = [json.loads(x) for x in path.read_text().splitlines() if x.strip()]
+          assert len(rows) == 20
+          assert len({r['photo_id'] for r in rows}) == 20
+          assert len({r['blind_id'] for r in rows}) == 20
+          assert all(r['species'] == '${{ matrix.species.name }}' for r in rows)
+          assert all(r['evaluation_row'] is True for r in rows)
+          assert all(r['calibration_only'] is False for r in rows)
+          assert all(r['final_label'] is False for r in rows)
+          assert all(r['evaluation_feature_measurement'] is True for r in rows)
+          assert all(r['compute_shard_index'] == ${{ matrix.shard }} for r in rows)
+          assert all(r['compute_shard_count'] == 6 for r in rows)
+          print('validated', path, 'ok=', sum(r['feature_status']=='ok' for r in rows), 'failed=', sum(r['feature_status']!='ok' for r in rows))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-florence-eval-${{ matrix.species.slug }}-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 90
+          path: artifacts/jbi_ch1_florence_evaluation_features_v1/${{ matrix.species.slug }}_${{ matrix.shard }}.jsonl
+
+  aggregate:
+    needs: extract
+    if: ${{ needs.extract.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-ch1-florence-eval-*
+          path: artifacts/jbi_ch1_florence_evaluation_features_v1
+          merge-multiple: true
+      - name: Aggregate 720 evaluation features and apply frozen scaling
+        run: |
+          python -m pip install pandas
+          python - <<'PY'
+          from collections import Counter
+          import hashlib, json
+          from pathlib import Path
+          import pandas as pd
+
+          paths = sorted(Path('artifacts/jbi_ch1_florence_evaluation_features_v1').glob('*.jsonl'))
+          if len(paths) != 36:
+              raise SystemExit(f'expected 36 shard files, found {len(paths)}')
+          rows = []
+          for path in paths:
+              rows.extend(json.loads(x) for x in path.read_text().splitlines() if x.strip())
+          if len(rows) != 720:
+              raise SystemExit(f'expected 720 evaluation records, found {len(rows)}')
+          if len({r['photo_id'] for r in rows}) != 720 or len({r['blind_id'] for r in rows}) != 720:
+              raise SystemExit('duplicate evaluation IDs')
+          if any(r['evaluation_row'] is not True or r['calibration_only'] is not False or r['final_label'] is not False for r in rows):
+              raise SystemExit('evaluation measurement contract violation')
+
+          split = pd.read_csv('data/frozen/jbi_ch1_photo_split_v1.csv')
+          expected = set(split.loc[split['split'].astype(str).eq('evaluation'), 'photo_id'].astype(str))
+          calibration = set(split.loc[split['split'].astype(str).eq('calibration'), 'photo_id'].astype(str))
+          actual = {str(r['photo_id']) for r in rows}
+          if actual != expected or actual & calibration:
+              raise SystemExit('evaluation IDs do not exactly equal the frozen 720 holdout')
+
+          rep_path = Path('docs/supporting/jbi_ch1_continuous_colour_representation_v1.json')
+          rep = json.loads(rep_path.read_text())
+          for r in rows:
+              f = r.get('flower_only_fractions', {}) if r.get('feature_status') == 'ok' else {}
+              r['visual_colour_axes'] = {
+                  'white_signal': round(float(f.get('white', 0.0)), 6),
+                  'anthocyanin_like_signal': round(sum(float(f.get(k, 0.0)) for k in ('pink','magenta','purple','red','bronze')), 6),
+                  'carotenoid_like_signal': round(sum(float(f.get(k, 0.0)) for k in ('yellow','orange','bronze')), 6),
+                  'blue_purple_signal': round(sum(float(f.get(k, 0.0)) for k in ('blue','purple')), 6),
+              }
+              if r.get('feature_status') != 'ok':
+                  r['continuous_colour_vector_raw'] = None
+                  r['continuous_colour_vector_z'] = None
+                  continue
+              spec = rep['per_species'][r['species']]
+              payload = r[spec['feature_source']]
+              raw = [float(payload[name]) for name in spec['feature_names']]
+              mean = [float(v) for v in spec['mean']]
+              scale = [float(v) for v in spec['scale_population_sd']]
+              z = [(x-m)/s for x,m,s in zip(raw, mean, scale, strict=True)]
+              r['continuous_colour_vector_raw'] = raw
+              r['continuous_colour_vector_z'] = z
+
+          rows = sorted(rows, key=lambda r: (r['species'], r['blind_id']))
+          out = Path('data/evaluation/jbi_ch1_florence_evaluation_features_v1.jsonl')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(''.join(json.dumps(r, ensure_ascii=False, sort_keys=True) + '\n' for r in rows), encoding='utf-8')
+          sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
+
+          by_species = {}
+          for species in sorted({r['species'] for r in rows}):
+              group = [r for r in rows if r['species'] == species]
+              ok = [r for r in group if r['feature_status'] == 'ok']
+              by_species[species] = {
+                  'n_total': len(group),
+                  'n_feature_ok': len(ok),
+                  'n_localization_failed': len(group)-len(ok),
+                  'candidate_state_numeric_diagnostic_only': dict(sorted(Counter(r['candidate_state_numeric'] for r in group).items())),
+                  'selected_bbox_area_fraction_median': sorted(float(r['selected_bbox_area_fraction']) for r in ok)[len(ok)//2] if ok else None,
+              }
+          summary = {
+              'protocol': 'jbi-ch1-florence-evaluation-features-v1',
+              'status': '720_evaluation_numeric_features_complete_no_final_labels',
+              'n_records': 720,
+              'species_count': 6,
+              'evaluation_rows_opened': 720,
+              'evaluation_feature_measurement_complete': True,
+              'final_label': False,
+              'model': 'florence-community/Florence-2-base-ft',
+              'primary_representation': rep['primary_representation'],
+              'feature_axes_and_scaling_frozen_before_opening': True,
+              'continuous_representation_sha256': sha(rep_path),
+              'source_split_sha256': sha('data/frozen/jbi_ch1_photo_split_v1.csv'),
+              'evaluation_feature_jsonl_sha256': sha(out),
+              'per_species': by_species,
+              'next_gate': 'join frozen coordinates by photo_id and run species-conditioned continuous graph permutation analysis using fixed calibration-derived scaling'
+          }
+          summary_path = Path('docs/supporting/jbi_ch1_florence_evaluation_features_v1.json')
+          summary_path.parent.mkdir(parents=True, exist_ok=True)
+          summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False, sort_keys=True) + '\n', encoding='utf-8')
+          print(json.dumps(summary, indent=2, ensure_ascii=False))
+          PY
+      - name: Commit 720 evaluation features with retry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/evaluation/jbi_ch1_florence_evaluation_features_v1.jsonl docs/supporting/jbi_ch1_florence_evaluation_features_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Measure frozen 720-photo Florence evaluation features"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/jbi-global-colour-boundaries
+            git rebase origin/analysis/jbi-global-colour-boundaries
+            if git push origin HEAD:analysis/jbi-global-colour-boundaries; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
