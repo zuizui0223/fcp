@@ -1,0 +1,81 @@
+name: JBI Chapter 1 reviewer1 fresh feature geometry
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-reviewer1-fresh-geometry.yml"
+      - "scripts/data/analyze_jbi_ch1_reviewer1_fresh_geometry.py"
+      - "tests/test_reviewer1_fresh_geometry.py"
+      - "docs/supporting/jbi_ch1_blind_roi_condition_review_r1_v1.json"
+      - "data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-reviewer1-fresh-geometry-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reviewer1-fresh-geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install and validate filter contract
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest scikit-learn
+          python -m pytest -q tests/test_reviewer1_fresh_geometry.py tests/test_calibration_feature_geometry.py
+
+      - name: Re-run provisional geometry on reviewer1 usable-fresh rows
+        run: |
+          python scripts/data/analyze_jbi_ch1_reviewer1_fresh_geometry.py \
+            --features data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl \
+            --review docs/supporting/jbi_ch1_blind_roi_condition_review_r1_v1.json \
+            --pre-filter-geometry docs/supporting/jbi_ch1_calibration_feature_geometry_v1.json \
+            --output docs/supporting/jbi_ch1_reviewer1_fresh_feature_geometry_v1.json
+
+      - name: Enforce provisional no-label no-holdout interpretation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/jbi_ch1_reviewer1_fresh_feature_geometry_v1.json').read_text())
+          assert r['calibration_only'] is True
+          assert r['evaluation_rows_opened'] is False
+          assert r['final_label'] is False
+          assert r['n_source_rows'] == 480
+          assert r['n_reviewer1_usable_fresh_rows'] == 326
+          assert r['reviewer1_filter_applied'] is True
+          assert r['independent_second_review_completed'] is False
+          assert r['reviewer1_decisions_are_final'] is False
+          assert r['gmm_components_are_biological_morph_labels'] is False
+          assert len(r['species']) == 6
+          print('Reviewer1 provisional geometry firewall passed: 326 calibration rows, 0 evaluation rows, 0 biological morph labels.')
+          PY
+
+      - name: Commit provisional geometry diagnostic
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/jbi_ch1_reviewer1_fresh_feature_geometry_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Diagnose reviewer1-filtered calibration feature geometry"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
