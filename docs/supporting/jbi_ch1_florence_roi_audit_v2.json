@@ -1,0 +1,42 @@
+{
+  "protocol": "jbi-ch1-florence-roi-audit-v2",
+  "status": "six_image_calibration_roi_audit_complete",
+  "source": "docs/supporting/jbi_ch1_florence_colour_pilot_v2.json plus its GitHub Actions overlay artifact",
+  "scope": "visual localization audit only; no final flower-colour labels",
+  "evaluation_images_opened": false,
+  "results": {
+    "0176537d5144f894": {
+      "species": "Antirrhinum majus",
+      "roi_audit": "pass",
+      "note": "selected box contains the target pink/magenta snapdragon flowers"
+    },
+    "023f910bff4aa8c6": {
+      "species": "Dactylorhiza sambucina",
+      "roi_audit": "pass",
+      "note": "selected box contains the pale-yellow target inflorescence"
+    },
+    "00b0caa6aa902f40": {
+      "species": "Gentiana lutea",
+      "roi_audit": "pass_localization_only",
+      "note": "selected box contains the target dried/senescent inflorescence; this does not make it valid for fresh-colour state calibration"
+    },
+    "02db3a10e0f396cf": {
+      "species": "Ipomoea purpurea",
+      "roi_audit": "pass",
+      "note": "single Florence box covers the close-up target corolla"
+    },
+    "0741878b1083634e": {
+      "species": "Lysimachia arvensis",
+      "roi_audit": "pass",
+      "note": "selected small box contains a target orange/red-morph flower"
+    },
+    "005afd4f58b202db": {
+      "species": "Raphanus sativus",
+      "roi_audit": "pass",
+      "note": "v2 rejects the scene-sized group box and selects a compact region on the central Raphanus stalk containing pale pink flowers; remaining state mismatch is a colour-model issue, not a localization failure"
+    }
+  },
+  "all_six_localizations_acceptable_for_numeric_feature_extraction": true,
+  "state_mapping_validated_by_this_audit": false,
+  "next_gate": "scale the geometry-validated ROI extractor to 480 calibration photos for numeric features only; calibrate species-specific state rules from those features before opening evaluation images"
+}
