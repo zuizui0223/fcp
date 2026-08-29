@@ -6,6 +6,7 @@ on:
       - analysis/jbi-global-colour-boundaries
     paths:
       - "data/calibration/jbi_ch1_florence_calibration_features_v1.jsonl"
+      - ".github/workflows/jbi-ch1-calibration-feature-geometry.yml"
   workflow_dispatch:
 
 permissions:
