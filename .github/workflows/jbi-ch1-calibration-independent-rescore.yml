@@ -1,0 +1,240 @@
+name: JBI Chapter 1 independent calibration rescore
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - "data/calibration/jbi_ch1_semantic_screening_v1.jsonl"
+
+permissions:
+  contents: write
+  copilot-requests: write
+
+concurrency:
+  group: jbi-ch1-independent-rescore-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rescore:
+    if: ${{ !contains(github.event.head_commit.message || '', '[skip-independent-rescore]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        include:
+          - species: "Ipomoea purpurea"
+            slug: ipomoea_purpurea
+            shard: 0
+          - species: "Ipomoea purpurea"
+            slug: ipomoea_purpurea
+            shard: 1
+          - species: "Raphanus sativus"
+            slug: raphanus_sativus
+            shard: 0
+          - species: "Raphanus sativus"
+            slug: raphanus_sativus
+            shard: 1
+          - species: "Gentiana lutea"
+            slug: gentiana_lutea
+            shard: 0
+          - species: "Gentiana lutea"
+            slug: gentiana_lutea
+            shard: 1
+          - species: "Dactylorhiza sambucina"
+            slug: dactylorhiza_sambucina
+            shard: 0
+          - species: "Dactylorhiza sambucina"
+            slug: dactylorhiza_sambucina
+            shard: 1
+          - species: "Antirrhinum majus"
+            slug: antirrhinum_majus
+            shard: 0
+          - species: "Antirrhinum majus"
+            slug: antirrhinum_majus
+            shard: 1
+          - species: "Lysimachia arvensis"
+            slug: lysimachia_arvensis
+            shard: 0
+          - species: "Lysimachia arvensis"
+            slug: lysimachia_arvensis
+            shard: 1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install independent-review dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+          npm install -g @github/copilot
+          copilot --version
+      - name: Validate independent review code
+        run: python -m pytest -q tests/test_calibration_independent_rescore.py tests/test_semantic_screening.py
+      - name: Independently re-score state-bearing calibration records
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p artifacts/jbi_ch1_independent_rescore_v1/shards
+          python scripts/data/rescore_jbi_ch1_calibration_states.py \
+            --species "${{ matrix.species }}" \
+            --shard-index "${{ matrix.shard }}" \
+            --shard-count 2 \
+            --output "artifacts/jbi_ch1_independent_rescore_v1/shards/${{ matrix.slug }}_${{ matrix.shard }}.jsonl"
+      - name: Validate rescore firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('artifacts/jbi_ch1_independent_rescore_v1/shards/${{ matrix.slug }}_${{ matrix.shard }}.jsonl')
+          rows = [json.loads(x) for x in path.read_text().splitlines() if x.strip()]
+          assert all(r['species'] == '${{ matrix.species }}' for r in rows)
+          assert all(r['evaluation_row'] is False for r in rows)
+          assert all(r['final_label'] is False for r in rows)
+          assert all(r['independent_of_first_candidate_state'] is True for r in rows)
+          assert all(r['first_candidate_state_not_supplied_to_reviewer'] is True for r in rows)
+          assert len({r['blind_id'] for r in rows}) == len(rows)
+          print('Independent rescore shard validated:', len(rows))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-rescore-${{ matrix.slug }}-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 90
+          path: artifacts/jbi_ch1_independent_rescore_v1/shards/${{ matrix.slug }}_${{ matrix.shard }}.jsonl
+
+  consensus:
+    needs: rescore
+    if: ${{ needs.rescore.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-ch1-rescore-*
+          path: artifacts/jbi_ch1_independent_rescore_v1/shards
+          merge-multiple: true
+      - name: Build conservative two-pass calibration consensus
+        run: |
+          python - <<'PY'
+          from collections import Counter
+          import hashlib
+          import json
+          from pathlib import Path
+
+          first_path = Path('data/calibration/jbi_ch1_semantic_screening_v1.jsonl')
+          first = [json.loads(x) for x in first_path.read_text().splitlines() if x.strip()]
+          second = []
+          for path in sorted(Path('artifacts/jbi_ch1_independent_rescore_v1/shards').glob('*.jsonl')):
+              second.extend(json.loads(x) for x in path.read_text().splitlines() if x.strip())
+          second_by_id = {r['blind_id']: r for r in second}
+          expected_ids = {
+              r['blind_id'] for r in first
+              if bool(r.get('state_usable_for_calibration')) and r.get('candidate_state') != 'unresolved'
+          }
+          if set(second_by_id) != expected_ids:
+              missing = sorted(expected_ids - set(second_by_id))
+              extra = sorted(set(second_by_id) - expected_ids)
+              raise SystemExit(f'independent rescore coverage mismatch missing={missing[:10]} extra={extra[:10]}')
+
+          gate_fields = ['flower_visibility', 'flower_condition', 'flower_region', 'segmentation_feasibility']
+          output = []
+          for r1 in first:
+              row = {
+                  'species': r1['species'], 'photo_id': r1['photo_id'], 'blind_id': r1['blind_id'],
+                  'first_candidate_state': r1['candidate_state'],
+                  'first_state_usable_for_calibration': bool(r1.get('state_usable_for_calibration')),
+                  'independently_rescored': r1['blind_id'] in second_by_id,
+                  'consensus_candidate_state': 'unresolved',
+                  'consensus_reason': 'first_pass_unresolved_or_gate_failed',
+                  'final_label': False,
+                  'evaluation_row': False,
+              }
+              r2 = second_by_id.get(r1['blind_id'])
+              if r2 is not None:
+                  gate_agreement = all(r1.get(f) == r2.get(f) for f in gate_fields)
+                  second_gate_ok = (
+                      r2['flower_visibility'] == 'evaluable'
+                      and r2['flower_condition'] == 'fresh'
+                      and r2['segmentation_feasibility'] == 'feasible'
+                      and r2['within_photo_flower_consistency'] in {'consistent', 'single_flower'}
+                  )
+                  state_agreement = (
+                      r1['candidate_state'] == r2['candidate_state']
+                      and r1['candidate_state'] != 'unresolved'
+                  )
+                  row['second_candidate_state'] = r2['candidate_state']
+                  row['gate_agreement'] = gate_agreement
+                  row['state_agreement'] = state_agreement
+                  if gate_agreement and second_gate_ok and state_agreement:
+                      row['consensus_candidate_state'] = r1['candidate_state']
+                      row['consensus_reason'] = 'independent_exact_state_and_gate_agreement'
+                  elif not gate_agreement:
+                      row['consensus_reason'] = 'independent_gate_disagreement'
+                  elif not second_gate_ok:
+                      row['consensus_reason'] = 'independent_second_gate_failed'
+                  else:
+                      row['consensus_reason'] = 'independent_state_disagreement'
+              output.append(row)
+
+          out = Path('data/calibration/jbi_ch1_calibration_consensus_v1.jsonl')
+          output = sorted(output, key=lambda r: (r['species'], r['blind_id']))
+          out.write_text(''.join(json.dumps(r, ensure_ascii=False, sort_keys=True) + '\n' for r in output), encoding='utf-8')
+
+          by_species = {}
+          for species in sorted({r['species'] for r in output}):
+              group = [r for r in output if r['species'] == species]
+              states = Counter(r['consensus_candidate_state'] for r in group)
+              non_unresolved_states = sorted(s for s in states if s != 'unresolved' and states[s] > 0)
+              by_species[species] = {
+                  'n_total_calibration': len(group),
+                  'n_independently_rescored': sum(r['independently_rescored'] for r in group),
+                  'n_consensus_non_unresolved': sum(r['consensus_candidate_state'] != 'unresolved' for r in group),
+                  'consensus_candidate_state': dict(sorted(states.items())),
+                  'observed_non_unresolved_states': non_unresolved_states,
+                  'state_contrast_demonstrated_in_calibration': len(non_unresolved_states) >= 2,
+                  'note': 'structural gate only: at least two independently reproduced candidate states; no post-hoc minimum count threshold imposed'
+              }
+          summary = {
+              'protocol': 'jbi-ch1-calibration-consensus-v1',
+              'status': 'calibration_consensus_not_final_evaluation_labels',
+              'n_calibration_records': len(output),
+              'n_independent_rescores': len(second),
+              'evaluation_rows_opened': False,
+              'final_label': False,
+              'confidence_threshold_used': False,
+              'consensus_rule': 'exact agreement on candidate state and repeatability-stable gates across independent reviews; otherwise unresolved',
+              'per_species': by_species,
+              'next_gate': 'freeze species-specific final measurement codebooks only for contrasts demonstrated in calibration; keep unsupported species/state contrasts not_evaluable; then and only then open evaluation set'
+          }
+          summary_path = Path('docs/supporting/jbi_ch1_calibration_consensus_v1.json')
+          summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False, sort_keys=True) + '\n', encoding='utf-8')
+          print(json.dumps(summary, indent=2, ensure_ascii=False))
+          PY
+      - name: Commit consensus evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/calibration/jbi_ch1_calibration_consensus_v1.jsonl docs/supporting/jbi_ch1_calibration_consensus_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Record independent calibration consensus [skip-independent-rescore]"
+          git fetch origin analysis/jbi-global-colour-boundaries
+          git rebase origin/analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
