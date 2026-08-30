@@ -3,6 +3,7 @@ name: JBI global colour boundaries
 on:
   pull_request:
     paths:
+      - "README.md"
       - "fcp_pipeline/spatial_boundaries.py"
       - "fcp_pipeline/continuous_colour_boundaries.py"
       - "fcp_pipeline/spatial_graph.py"
@@ -20,12 +21,18 @@ on:
       - "tests/test_stage_b_shared_transition.py"
       - "tests/test_photo_split.py"
       - "tests/test_photo_source_recovery.py"
+      - "tests/test_jbi_chapter1_manuscript.py"
+      - "docs/JBI_CHAPTER1_MANUSCRIPT.md"
       - "docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md"
       - "docs/JBI_INATURALIST_PHOTO_FEASIBILITY.md"
       - "docs/JBI_CHAPTER1_SPATIAL_STATUS.md"
       - "docs/JBI_CHAPTER1_RESULTS.md"
+      - "docs/JBI_CHAPTER1_FIGURE_PLAN.md"
       - "docs/supporting/jbi_ch1_stage_a_continuous_graph_contract_v1.json"
+      - "docs/supporting/jbi_ch1_stage_a_continuous_graph_v1.json"
       - "docs/supporting/jbi_ch1_stage_b_shared_transition_contract_v1.json"
+      - "docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json"
+      - "docs/supporting/jbi_ch1_figure_manifest_v1.json"
       - "docs/supporting/jbi_ch1_photo_split_spec_v1.json"
       - "data/frozen/jbi_ch1_photo_source_manifest.csv"
       - "data/frozen/jbi_ch1_photo_split_v1.csv"
@@ -35,6 +42,7 @@ on:
     branches:
       - analysis/jbi-global-colour-boundaries
     paths:
+      - "README.md"
       - "fcp_pipeline/spatial_boundaries.py"
       - "fcp_pipeline/continuous_colour_boundaries.py"
       - "fcp_pipeline/spatial_graph.py"
@@ -52,12 +60,18 @@ on:
       - "tests/test_stage_b_shared_transition.py"
       - "tests/test_photo_split.py"
       - "tests/test_photo_source_recovery.py"
+      - "tests/test_jbi_chapter1_manuscript.py"
+      - "docs/JBI_CHAPTER1_MANUSCRIPT.md"
       - "docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md"
       - "docs/JBI_INATURALIST_PHOTO_FEASIBILITY.md"
       - "docs/JBI_CHAPTER1_SPATIAL_STATUS.md"
       - "docs/JBI_CHAPTER1_RESULTS.md"
+      - "docs/JBI_CHAPTER1_FIGURE_PLAN.md"
       - "docs/supporting/jbi_ch1_stage_a_continuous_graph_contract_v1.json"
+      - "docs/supporting/jbi_ch1_stage_a_continuous_graph_v1.json"
       - "docs/supporting/jbi_ch1_stage_b_shared_transition_contract_v1.json"
+      - "docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json"
+      - "docs/supporting/jbi_ch1_figure_manifest_v1.json"
       - "docs/supporting/jbi_ch1_photo_split_spec_v1.json"
       - "data/frozen/jbi_ch1_photo_source_manifest.csv"
       - "data/frozen/jbi_ch1_photo_split_v1.csv"
@@ -77,7 +91,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e . pytest
-      - name: Run boundary, heterogeneous graph-null, shared-transition, photo-freeze, and recovery tests
+      - name: Run boundary, graph-null, shared-transition, manuscript, photo-freeze, and recovery tests
         run: |
           python -m pytest -q \
             tests/test_spatial_boundaries.py \
@@ -87,7 +101,8 @@ jobs:
             tests/test_shared_transition_surface.py \
             tests/test_stage_b_shared_transition.py \
             tests/test_photo_split.py \
-            tests/test_photo_source_recovery.py
+            tests/test_photo_source_recovery.py \
+            tests/test_jbi_chapter1_manuscript.py
       - name: Validate committed photo freeze when present
         shell: bash
         run: |
