@@ -1,0 +1,56 @@
+{
+  "protocol": "jbi-ch1-scaleup-cohort-v1",
+  "status": "prospective_before_scaleup_photo_acquisition",
+  "parent_result": {
+    "branch": "analysis/jbi-global-colour-boundaries",
+    "commit": "9a68a57d5d00026c0601c8cad6f0a01cd7d26e34",
+    "development_species": [
+      "Antirrhinum majus",
+      "Dactylorhiza sambucina",
+      "Gentiana lutea",
+      "Ipomoea purpurea",
+      "Lysimachia arvensis",
+      "Raphanus sativus"
+    ],
+    "stage_a_primary_p_lower": 0.0113,
+    "stage_b_primary_p_upper": 0.0906,
+    "immutable_in_scaleup": true
+  },
+  "candidate_source": "data/global_flower_colour_species_ranked.csv",
+  "evidence_ledger": "docs/supporting/jbi_ch1_scaleup_species_ledger_v1.csv",
+  "target_new_species": 12,
+  "maximum_species_per_family": 2,
+  "photographs_per_species": 200,
+  "calibration_per_species": 80,
+  "evaluation_per_species": 120,
+  "new_cohort_totals": {
+    "photographs": 2400,
+    "calibration": 960,
+    "evaluation": 1440
+  },
+  "allowed_decisions": [
+    "eligible",
+    "exclude_taxonomic_overlap",
+    "exclude_breeding_only",
+    "exclude_ontogenetic_transition",
+    "exclude_irrelevant_match",
+    "hold_requires_review"
+  ],
+  "eligible_evidence_classes": [
+    "natural_discrete_polymorphism",
+    "natural_continuous_variation"
+  ],
+  "eligible_photo_state_risk": "low",
+  "selection_order": "ascending frozen literature rank, subject only to the family cap",
+  "selection_used_candidate_images": false,
+  "selection_used_flower_colour_measurements": false,
+  "selection_used_stage_a_effects": false,
+  "selection_used_stage_b_surfaces": false,
+  "selection_used_environmental_layers": false,
+  "replacement_rule": "next eligible ranked ledger record under the same frozen contract; versioned before colour measurement",
+  "confirmatory_roles": {
+    "new_12_species": "prospective confirmatory cohort",
+    "original_6_species": "closed development cohort",
+    "combined_18_species": "cumulative integrated estimate after the new-cohort result is frozen"
+  }
+}
