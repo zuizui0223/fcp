@@ -1,0 +1,146 @@
+name: JBI Chapter 1 scale-up iNaturalist feasibility
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - ".github/workflows/jbi-ch1-scaleup-inat-feasibility.yml"
+      - "docs/supporting/jbi_ch1_scaleup_inat_feasibility_contract_v1.json"
+      - "docs/supporting/jbi_ch1_scaleup_cohort_v1.csv"
+      - "docs/supporting/jbi_ch1_scaleup_cohort_manifest_v1.json"
+      - "scripts/data/audit_jbi_ch1_scaleup_inat_feasibility.py"
+      - "scripts/data/acquire_jbi_ch1_inat_photos.py"
+      - "tests/test_jbi_ch1_scaleup_inat_feasibility.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-scaleup-inat-feasibility-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit-metadata:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries-scaleup
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Test metadata-only feasibility logic
+        run: python -m unittest tests/test_jbi_ch1_scaleup_inat_feasibility.py -v
+
+      - name: Audit frozen 12-species cohort against iNaturalist metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          ok=0
+          for attempt in 1 2 3; do
+            echo "metadata audit attempt ${attempt}/3"
+            if python scripts/data/audit_jbi_ch1_scaleup_inat_feasibility.py; then
+              ok=1
+              break
+            fi
+            sleep $((attempt * 20))
+          done
+          if [[ "$ok" -ne 1 ]]; then
+            echo "metadata audit could not complete after three attempts" >&2
+            exit 1
+          fi
+
+      - name: Validate audit integrity
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from collections import Counter
+          from pathlib import Path
+
+          report = json.loads(
+              Path('docs/supporting/jbi_ch1_scaleup_inat_feasibility_v1.json').read_text(encoding='utf-8')
+          )
+          with Path('data/scaleup/jbi_ch1_scaleup_inat_candidate_manifest_v1.csv').open(
+              encoding='utf-8', newline=''
+          ) as handle:
+              rows = list(csv.DictReader(handle))
+
+          assert report['protocol'] == 'jbi-ch1-scaleup-inat-feasibility-v1'
+          assert report['species_audited'] == 12
+          assert len(report['species_results']) == 12
+          assert report['candidate_images_downloaded'] is False
+          assert report['flower_colour_pixels_inspected'] is False
+          assert report['stage_a_effects_used'] is False
+          assert report['stage_b_surfaces_used'] is False
+          assert report['environmental_layers_used'] is False
+          assert report['candidate_manifest_rows'] == len(rows)
+          counts = Counter(row['species'] for row in rows)
+          assert len(rows) == 200 * report['species_passed']
+          assert all(value == 200 for value in counts.values())
+          assert len({row['photo_id'] for row in rows}) == len(rows)
+          if report['status'] == 'pass_all_12':
+              assert report['species_passed'] == 12
+              assert report['failed_species'] == []
+              assert report['candidate_manifest_valid_for_final_freeze'] is True
+              assert len(rows) == 2400
+          else:
+              assert report['status'] == 'audit_complete_replacement_required'
+              assert report['failed_species']
+              assert report['candidate_manifest_valid_for_final_freeze'] is False
+          print(json.dumps({
+              'status': report['status'],
+              'species_passed': report['species_passed'],
+              'failed_species': report['failed_species'],
+              'candidate_manifest_rows': len(rows),
+              'next_gate': report['next_gate'],
+          }, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-scaleup-inat-feasibility-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/scaleup/jbi_ch1_scaleup_inat_candidate_manifest_v1.csv
+            docs/supporting/jbi_ch1_scaleup_inat_feasibility_v1.json
+            docs/supporting/jbi_ch1_scaleup_inat_feasibility_contract_v1.json
+            docs/supporting/jbi_ch1_scaleup_cohort_v1.csv
+            docs/supporting/jbi_ch1_scaleup_cohort_manifest_v1.json
+
+      - name: Commit metadata-only feasibility products
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/scaleup/jbi_ch1_scaleup_inat_candidate_manifest_v1.csv \
+            docs/supporting/jbi_ch1_scaleup_inat_feasibility_v1.json
+          if git diff --cached --quiet; then
+            echo "Feasibility products already match the frozen API snapshot."
+            exit 0
+          fi
+          git commit -m "Audit scale-up cohort iNaturalist metadata feasibility"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/jbi-global-colour-boundaries-scaleup
+            git rebase origin/analysis/jbi-global-colour-boundaries-scaleup
+            if git push origin HEAD:analysis/jbi-global-colour-boundaries-scaleup; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1
