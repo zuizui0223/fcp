@@ -35,6 +35,7 @@
       {"n_lon": 18, "n_sinlat": 9}
     ],
     "priority_rule": "choose the first passing configuration by ascending max_edge_km, then by the listed finest-to-coarsest grid order",
+    "minimum_retained_edges_per_species_cell": 2,
     "species_cell_detectable_rule": "at least 2 retained geometry edges in that species/cell",
     "shared_cell_evaluable_rule": "A(x) >= 2 detectable species",
     "passing_criteria": {
