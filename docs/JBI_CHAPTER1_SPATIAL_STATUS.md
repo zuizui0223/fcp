@@ -75,9 +75,9 @@ Workflow run: `33283136767`.
 
 | k | observed equal-species Q | null mean | standardized clustering deficit | lower-tail p |
 |---:|---:|---:|---:|---:|
-| 3 | — | — | 2.5523 | 0.0066 |
+| 3 | 1.37661 | 1.42967 | 2.5523 | 0.0066 |
 | **5 primary** | **1.39114** | **1.42943** | **2.3113** | **0.0113** |
-| 8 | — | — | 2.6133 | 0.0065 |
+| 8 | 1.39556 | 1.42978 | 2.6133 | 0.0065 |
 
 The lower observed discontinuity means geographically neighbouring photographs are more similar in continuous flower colour than expected after conditioning on each species' locations and colour-vector distribution.
 
@@ -119,12 +119,12 @@ All nine candidate configurations passed the frozen geometry-support criteria. T
 
 Primary support:
 
-- retained edges by species: 396, 416, 396, 387, 397 and 368;
-- detectable cells by species: 40, 38, 37, 49, 34 and 2;
-- cells with `A ≥ 2`: 24;
-- cells with `A ≥ 3`: 10;
-- cells with `A ≥ 4`: 5;
-- maximum opportunity `A`: 5 species.
+- retained edges by species: **246, 363, 372, 241, 300 and 329**;
+- detectable cells by species: **15, 8, 7, 17, 22 and 6**;
+- cells with `A ≥ 2`: **24**;
+- cells with `A ≥ 3`: **9**;
+- cells with `A ≥ 4`: **4**;
+- maximum opportunity `A`: **6 species**.
 
 ### Frozen concentration test
 
@@ -136,12 +136,12 @@ Workflow run: `33284194283`.
 
 ### Primary result
 
-- observed concentration: **0.0060573**;
-- null mean: **0.0045443**;
-- null SD: **0.0011504**;
-- standardized concentration excess: **1.3153**;
+- observed concentration: **0.0082315**;
+- null mean: **0.0056757**;
+- null SD: **0.0017763**;
+- standardized concentration excess: **1.4389**;
 - Monte Carlo upper-tail p: **0.0906**;
-- descriptive two-sided p: **0.1708**;
+- descriptive two-sided p: **0.1372**;
 - reject shared-concentration null at 0.05: **no**.
 
 ### Predeclared sensitivity configurations
