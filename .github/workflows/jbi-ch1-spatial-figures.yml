@@ -8,6 +8,7 @@ on:
     paths:
       - ".github/workflows/jbi-ch1-spatial-figures.yml"
       - "scripts/analysis/make_jbi_ch1_spatial_figures.py"
+      - "scripts/analysis/make_jbi_ch1_spatial_figures_qa.py"
       - "docs/JBI_CHAPTER1_FIGURE_PLAN.md"
       - "docs/supporting/jbi_ch1_stage_a_continuous_graph_v1.json"
       - "data/evaluation/jbi_ch1_stage_a_primary_null_v1.csv"
@@ -40,9 +41,9 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e .
           python -m pip install "pandas>=2,<3" "matplotlib>=3.8,<4" "geopandas==0.14.4"
-      - name: Generate canonical Chapter 1 figures
+      - name: Generate canonical Chapter 1 figures after visual QA
         run: |
-          python scripts/analysis/make_jbi_ch1_spatial_figures.py
+          python scripts/analysis/make_jbi_ch1_spatial_figures_qa.py
       - name: Validate figure products and frozen-result correspondence
         run: |
           python - <<'PY'
@@ -125,7 +126,7 @@ jobs:
             docs/figures/jbi_ch1_figure_cs2_detectability.pdf \
             docs/supporting/jbi_ch1_figure_manifest_v1.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "Render canonical Chapter 1 spatial figures"
+          git commit -m "Render canonical Chapter 1 spatial figures after visual QA"
           for attempt in 1 2 3 4; do
             git fetch origin analysis/jbi-global-colour-boundaries
             git rebase origin/analysis/jbi-global-colour-boundaries
