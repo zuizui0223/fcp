@@ -1,0 +1,81 @@
+{
+  "continuous_representation_sha256": "1c61e931ee5ae592d66877d4926994dbb001bef9f96d1b20dd9816ae30f638f4",
+  "evaluation_feature_jsonl_sha256": "402c446e3238d71a29e359f275cbf2208bf273c1d6ec4f809788d792524f3cd3",
+  "evaluation_feature_measurement_complete": true,
+  "evaluation_rows_opened": 720,
+  "feature_axes_and_scaling_frozen_before_opening": true,
+  "final_label": false,
+  "model": "florence-community/Florence-2-base-ft",
+  "n_records": 720,
+  "next_gate": "join frozen coordinates by photo_id and run species-conditioned continuous graph permutation analysis using fixed calibration-derived scaling",
+  "per_species": {
+    "Antirrhinum majus": {
+      "candidate_state_numeric_diagnostic_only": {
+        "magenta_pseudomajus_like": 92,
+        "yellow_striatum_like": 28
+      },
+      "n_feature_ok": 120,
+      "n_localization_failed": 0,
+      "n_total": 120,
+      "selected_bbox_area_fraction_median": 0.094632
+    },
+    "Dactylorhiza sambucina": {
+      "candidate_state_numeric_diagnostic_only": {
+        "purple": 50,
+        "yellow": 70
+      },
+      "n_feature_ok": 120,
+      "n_localization_failed": 0,
+      "n_total": 120,
+      "selected_bbox_area_fraction_median": 0.117874
+    },
+    "Gentiana lutea": {
+      "candidate_state_numeric_diagnostic_only": {
+        "orange": 69,
+        "yellow": 51
+      },
+      "n_feature_ok": 120,
+      "n_localization_failed": 0,
+      "n_total": 120,
+      "selected_bbox_area_fraction_median": 0.061434
+    },
+    "Ipomoea purpurea": {
+      "candidate_state_numeric_diagnostic_only": {
+        "blue_purple": 71,
+        "pink": 34,
+        "white": 15
+      },
+      "n_feature_ok": 120,
+      "n_localization_failed": 0,
+      "n_total": 120,
+      "selected_bbox_area_fraction_median": 0.096512
+    },
+    "Lysimachia arvensis": {
+      "candidate_state_numeric_diagnostic_only": {
+        "blue": 19,
+        "red": 101
+      },
+      "n_feature_ok": 120,
+      "n_localization_failed": 0,
+      "n_total": 120,
+      "selected_bbox_area_fraction_median": 0.013102
+    },
+    "Raphanus sativus": {
+      "candidate_state_numeric_diagnostic_only": {
+        "bronze": 6,
+        "pink": 26,
+        "white": 87,
+        "yellow": 1
+      },
+      "n_feature_ok": 120,
+      "n_localization_failed": 0,
+      "n_total": 120,
+      "selected_bbox_area_fraction_median": 0.081517
+    }
+  },
+  "primary_representation": "species-specific continuous colour vector",
+  "protocol": "jbi-ch1-florence-evaluation-features-v1",
+  "source_split_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "species_count": 6,
+  "status": "720_evaluation_numeric_features_complete_no_final_labels"
+}
