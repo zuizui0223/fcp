@@ -1,0 +1,388 @@
+name: JBI Chapter 1 symmetric direct colour and Stage A
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-direct-florence-colour-stage-a.yml"
+      - "scripts/data/extract_jbi_ch1_direct_florence_colour.py"
+      - "scripts/data/extract_jbi_ch1_direct_florence_colour_v2.py"
+      - "scripts/data/extract_jbi_ch1_roi_colour_features.py"
+      - "scripts/data/finalize_jbi_ch1_continuous_colour_features.py"
+      - "scripts/analysis/run_jbi_ch1_stage_a_v1.py"
+      - "tests/test_jbi_ch1_direct_florence_colour.py"
+      - "tests/test_jbi_ch1_roi_colour_recovery.py"
+
+permissions:
+  actions: read
+  contents: write
+
+# Shared with the artifact-recovery workflow.  The direct symmetric path waits for that
+# path to terminate, then skips automatically when a verified Stage-A result exists.
+concurrency:
+  group: jbi-ch1-stage-a-roi-colour-recovery-v1
+  cancel-in-progress: false
+
+env:
+  ANALYSIS_BRANCH: analysis/jbi-global-colour-boundaries
+  CONTINUOUS_DIR: data/derived/jbi_ch1_continuous_colour_v1
+  STAGE_A_DIR: results/jbi_ch1_stage_a_v1
+  HF_HOME: ${{ github.workspace }}/.hf-cache
+  FLORENCE_MODEL_ID: florence-community/Florence-2-base-ft
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.plan.outputs.skip }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install deterministic CPU stack and run contract tests
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install "transformers==5.16.1" "accelerate==1.14.0"
+          python -m py_compile \
+            scripts/data/extract_jbi_ch1_direct_florence_colour.py \
+            scripts/data/extract_jbi_ch1_direct_florence_colour_v2.py \
+            scripts/data/extract_jbi_ch1_roi_colour_features.py \
+            scripts/data/finalize_jbi_ch1_continuous_colour_features.py \
+            scripts/analysis/run_jbi_ch1_stage_a_v1.py
+          python -m pytest -q \
+            tests/test_jbi_ch1_direct_florence_colour.py \
+            tests/test_jbi_ch1_roi_colour_recovery.py \
+            tests/test_spatial_graph.py \
+            tests/test_continuous_colour_boundaries.py
+      - name: Build the fixed 480/720 matrix and check for existing success
+        id: plan
+        run: |
+          set -euo pipefail
+          python - "$GITHUB_OUTPUT" <<'PY'
+          import csv
+          import json
+          import re
+          import sys
+          from pathlib import Path
+
+          with Path('data/frozen/jbi_ch1_photo_split_v1.csv').open(newline='', encoding='utf-8') as handle:
+              rows = list(csv.DictReader(handle))
+          species = sorted({row['species'].strip() for row in rows})
+          if len(species) != 6:
+              raise SystemExit(f'expected six species, found {len(species)}')
+          counts = {}
+          for name in species:
+              counts[name] = {
+                  split: sum(row['species'].strip() == name and row['split'].strip().lower() == split for row in rows)
+                  for split in ('calibration', 'evaluation')
+              }
+              if counts[name] != {'calibration': 80, 'evaluation': 120}:
+                  raise SystemExit(f'{name}: frozen counts are {counts[name]}')
+
+          def slug(value):
+              return re.sub(r'[^a-z0-9]+', '_', value.lower()).strip('_')
+
+          include = []
+          for name in species:
+              for split, shard_count in (('calibration', 4), ('evaluation', 6)):
+                  for shard in range(shard_count):
+                      include.append({
+                          'species': name,
+                          'slug': slug(name),
+                          'split': split,
+                          'shard': shard,
+                          'shard_count': shard_count,
+                      })
+
+          skip = False
+          stage_path = Path('results/jbi_ch1_stage_a_v1/stage_a_manifest.json')
+          colour_path = Path('data/derived/jbi_ch1_continuous_colour_v1/continuous_colour_manifest.json')
+          if stage_path.exists() and colour_path.exists():
+              try:
+                  stage = json.loads(stage_path.read_text(encoding='utf-8'))
+                  colour = json.loads(colour_path.read_text(encoding='utf-8'))
+                  skip = (
+                      colour.get('validation_status') == 'success'
+                      and colour.get('calibration_rows') == 480
+                      and colour.get('evaluation_rows') == 720
+                      and colour.get('standardization_uses_evaluation_rows') is False
+                      and stage.get('protocol') == 'jbi_ch1_stage_a_spatial_colour_test_v1'
+                      and stage.get('n_evaluation') == 720
+                      and stage.get('n_permutations') == 9999
+                      and stage.get('primary_k') == 5
+                      and stage.get('sensitivity_k') == [3, 8]
+                      and stage.get('dropped_rows') == 0
+                  )
+              except Exception:
+                  skip = False
+          with open(sys.argv[1], 'a', encoding='utf-8') as handle:
+              handle.write(f"skip={'true' if skip else 'false'}\n")
+              handle.write('matrix=' + json.dumps({'include': include}, separators=(',', ':')) + '\n')
+          print(f'skip={skip}; matrix jobs={len(include)}; counts={counts}')
+          PY
+      - name: Record verified no-op
+        if: steps.plan.outputs.skip == 'true'
+        run: echo "Verified continuous colour and Stage A already exist; direct rerun skipped." >> "$GITHUB_STEP_SUMMARY"
+
+  direct-colour:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: ${{ fromJSON(needs.preflight.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Restore Florence model cache
+        uses: actions/cache@v4
+        with:
+          path: .hf-cache
+          key: florence-community-florence2-base-ft-v1
+      - name: Install frozen CPU measurement stack
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install "transformers==5.16.1" "accelerate==1.14.0"
+      - name: Detect the frozen flower ROI and measure continuous CIELAB
+        id: measure
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifact
+          stem="${{ matrix.slug }}_${{ matrix.split }}_${{ matrix.shard }}"
+          output="artifact/${stem}.jsonl"
+          log="artifact/${stem}.log"
+          set +e
+          python scripts/data/extract_jbi_ch1_direct_florence_colour_v2.py \
+            --frozen-split data/frozen/jbi_ch1_photo_split_v1.csv \
+            --species "${{ matrix.species }}" \
+            --split "${{ matrix.split }}" \
+            --shard-index "${{ matrix.shard }}" \
+            --shard-count "${{ matrix.shard_count }}" \
+            --output-jsonl "$output" \
+            --model-id "$FLORENCE_MODEL_ID" \
+            2>&1 | tee "$log"
+          status=${PIPESTATUS[0]}
+          set -e
+          python - "$output" "artifact/${stem}_status.json" "$status" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          source, target, status = Path(sys.argv[1]), Path(sys.argv[2]), int(sys.argv[3])
+          rows = []
+          if source.exists():
+              rows = [json.loads(line) for line in source.read_text(encoding='utf-8').splitlines() if line.strip()]
+          target.write_text(json.dumps({
+              'exit_code': status,
+              'jsonl_exists': source.exists(),
+              'rows': len(rows),
+              'ok_rows': sum(row.get('colour_feature_status') == 'ok' for row in rows),
+              'failed_rows': sum(row.get('colour_feature_status') != 'ok' for row in rows),
+              'failures': [
+                  {'photo_id': row.get('photo_id'), 'error': row.get('colour_feature_error')}
+                  for row in rows if row.get('colour_feature_status') != 'ok'
+              ],
+          }, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          PY
+          exit "$status"
+      - name: Upload complete rows and diagnostics even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-direct-${{ matrix.split }}-${{ matrix.slug }}-${{ matrix.shard }}
+          path: artifact
+          if-no-files-found: error
+          retention-days: 90
+
+  finalize-stage-a:
+    needs: [preflight, direct-colour]
+    if: always() && needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Download calibration artifacts
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-ch1-direct-calibration-*
+          path: calibration_colour_artifacts
+          merge-multiple: true
+      - name: Download evaluation artifacts
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-ch1-direct-evaluation-*
+          path: evaluation_colour_artifacts
+          merge-multiple: true
+      - name: Finalize calibration-only standardization
+        id: colour
+        shell: bash
+        run: |
+          set -o pipefail
+          rm -rf "$CONTINUOUS_DIR"
+          mkdir -p "$CONTINUOUS_DIR" "$STAGE_A_DIR"
+          set +e
+          python scripts/data/finalize_jbi_ch1_continuous_colour_features.py \
+            --calibration-artifacts calibration_colour_artifacts \
+            --evaluation-artifacts evaluation_colour_artifacts \
+            --frozen-split data/frozen/jbi_ch1_photo_split_v1.csv \
+            --output-calibration-jsonl "$CONTINUOUS_DIR/calibration_continuous_colour.jsonl" \
+            --output-evaluation-jsonl "$CONTINUOUS_DIR/evaluation_continuous_colour.jsonl" \
+            --manifest-json "$CONTINUOUS_DIR/continuous_colour_manifest.json" \
+            2>&1 | tee "$CONTINUOUS_DIR/finalize_continuous_colour.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Run primary k=5 and fixed k=3/8 sensitivities
+        id: stage
+        if: steps.colour.outputs.status == '0'
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p "$STAGE_A_DIR/history"
+          for failure in "$STAGE_A_DIR/stage_a_failure.json" "$STAGE_A_DIR/stage_a_failure_pre_roi_recovery.json"; do
+            if [[ -f "$failure" ]]; then
+              cp "$failure" "$STAGE_A_DIR/history/$(basename "$failure" .json)_before_direct_colour.json"
+            fi
+          done
+          find "$STAGE_A_DIR" -maxdepth 1 -type f -delete
+          set +e
+          python scripts/analysis/run_jbi_ch1_stage_a_v1.py \
+            --evaluation-jsonl "$CONTINUOUS_DIR/evaluation_continuous_colour.jsonl" \
+            --calibration-root . \
+            --output-dir "$STAGE_A_DIR" \
+            --permutations 9999 \
+            --seed 20260830 \
+            2>&1 | tee "$STAGE_A_DIR/stage_a.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          if [[ "$status" -ne 0 ]]; then
+            python - "$status" "$STAGE_A_DIR/stage_a_failure.json" <<'PY'
+          import json
+          import sys
+          from datetime import datetime, timezone
+          from pathlib import Path
+          status, path = int(sys.argv[1]), Path(sys.argv[2])
+          path.write_text(json.dumps({
+              'protocol': 'jbi_ch1_stage_a_spatial_colour_test_v1',
+              'status': 'failed_after_symmetric_direct_colour',
+              'exit_code': status,
+              'failure_log': 'stage_a.log',
+              'created_at_utc': datetime.now(timezone.utc).isoformat(),
+          }, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          PY
+          fi
+          exit 0
+      - name: Commit result or exact failure state
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$CONTINUOUS_DIR" "$STAGE_A_DIR"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f "$CONTINUOUS_DIR" "$STAGE_A_DIR"
+          if ! git diff --cached --quiet; then
+            git commit -m "Measure symmetric continuous colour and run Stage A"
+            for attempt in 1 2 3; do
+              git pull --rebase origin "$ANALYSIS_BRANCH"
+              if git push origin "HEAD:$ANALYSIS_BRANCH"; then break; fi
+              if [[ "$attempt" == "3" ]]; then exit 1; fi
+              sleep 5
+            done
+          fi
+      - name: Upload final direct-colour bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-direct-continuous-colour-stage-a-v1
+          path: |
+            ${{ env.CONTINUOUS_DIR }}
+            ${{ env.STAGE_A_DIR }}
+          if-no-files-found: error
+          retention-days: 90
+      - name: Verify and publish Stage A summary
+        if: steps.colour.outputs.status == '0' && steps.stage.outputs.status == '0'
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+          colour = json.loads(Path('data/derived/jbi_ch1_continuous_colour_v1/continuous_colour_manifest.json').read_text())
+          stage = json.loads(Path('results/jbi_ch1_stage_a_v1/stage_a_manifest.json').read_text())
+          rows = list(csv.DictReader(Path('results/jbi_ch1_stage_a_v1/stage_a_global_summary.csv').open()))
+          assert colour['validation_status'] == 'success'
+          assert colour['calibration_rows'] == 480
+          assert colour['evaluation_rows'] == 720
+          assert colour['standardization_uses_evaluation_rows'] is False
+          assert set(colour['per_species_calibration'].values()) == {80}
+          assert set(colour['per_species_evaluation'].values()) == {120}
+          assert stage['n_evaluation'] == 720
+          assert stage['n_permutations'] == 9999
+          assert stage['primary_k'] == 5
+          assert stage['sensitivity_k'] == [3, 8]
+          assert stage['dropped_rows'] == 0
+          assert {int(row['k']) for row in rows} == {3, 5, 8}
+          print('Direct symmetric continuous-colour Stage A contract verified.')
+          PY
+          {
+            echo "## Symmetric direct Florence colour — Stage A"
+            echo
+            python - <<'PY'
+          import csv
+          from pathlib import Path
+          rows = list(csv.DictReader(Path('results/jbi_ch1_stage_a_v1/stage_a_global_summary.csv').open()))
+          print('| analysis | k | observed | null mean | z | p upper | direction |')
+          print('|---|---:|---:|---:|---:|---:|---|')
+          for row in sorted(rows, key=lambda value: int(value['k'])):
+              print(f"| {row['analysis']} | {row['k']} | {float(row['observed']):.6g} | {float(row['null_mean']):.6g} | {float(row['effect_z']):.3f} | {float(row['p_upper']):.5f} | {row['direction']} |")
+          PY
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Require complete 480/720 colour measurement
+        if: steps.colour.outputs.status != '0'
+        run: |
+          echo "Direct colour measurement/finalization failed closed; no row was dropped." >&2
+          exit 1
+      - name: Require Stage A success
+        if: steps.colour.outputs.status == '0' && steps.stage.outputs.status != '0'
+        run: |
+          echo "Stage A failed after valid direct colour measurement; diagnostics were committed." >&2
+          exit 1
