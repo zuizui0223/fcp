@@ -1,0 +1,1854 @@
+{
+  "base_graph_k": 5,
+  "completed_stage_a_sha256": "e4648c71ecb23e541ebd2243ff35f95cad2f0f0006fb957d940ce34b4dd3c7b6",
+  "environment_used": false,
+  "evaluation_feature_sha256": "402c446e3238d71a29e359f275cbf2208bf273c1d6ec4f809788d792524f3cd3",
+  "frozen_contract_sha256": "01a04e14097ef4c12252620ffa1a16f7d4b264ae6a126e79e21438cfc98e6a3f",
+  "frozen_representation_sha256": "1c61e931ee5ae592d66877d4926994dbb001bef9f96d1b20dd9816ae30f638f4",
+  "frozen_split_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "geographic_reference_library_used": false,
+  "geometry_audit_sha256": "85dcb0ee2184dbb587eaa8c7e71508db56998889e8bf917d22bbcf54384e13ff",
+  "geometry_selection_used_colour_values": false,
+  "interpretation_limit": "Stage B tests cross-species geographic concentration of relative continuous transition intensity; it does not identify environmental, historical, or mechanistic causes.",
+  "n_evaluation_records": 720,
+  "next_gate": "retain Stage A local organization and report no confirmatory evidence for shared-boundary concentration at the frozen Stage B supports",
+  "primary_null_csv_sha256": "9634a60771849dc7cdec29d2e77369888a290c7b4f3b3aa3b303f0e7f28f99c6",
+  "primary_permutations": 9999,
+  "primary_rejects_shared_concentration_null_at_0_05": false,
+  "primary_representation": "species-specific continuous colour vector standardized from frozen calibration parameters",
+  "primary_result": {
+    "global_concentration": {
+      "concentration_excess": 0.0025558120650704917,
+      "null_mean": 0.005675688788581615,
+      "null_quantiles": {
+        "p005": 0.002192911146415689,
+        "p025": 0.002800653510534786,
+        "p05": 0.0031596676805766663,
+        "p50": 0.005459440454821335,
+        "p95": 0.008912697459024786,
+        "p975": 0.009725457136210867,
+        "p995": 0.011136915372740256
+      },
+      "null_sd": 0.0017762872326095801,
+      "observed": 0.008231500853652107,
+      "p_two_sided_descriptive": 0.1372,
+      "p_upper_tail": 0.0906,
+      "standardized_concentration_excess": 1.438850664549165
+    },
+    "n_permutations": 9999,
+    "random_seed": 20260830,
+    "species": {
+      "Antirrhinum majus": {
+        "detectable_cells": 15,
+        "maximum_cell_intensity": 0.8535714285714285,
+        "mean_intensity_over_detectable_cells": 0.500756241661902,
+        "retained_edges": 246
+      },
+      "Dactylorhiza sambucina": {
+        "detectable_cells": 8,
+        "maximum_cell_intensity": 0.5737448955080471,
+        "mean_intensity_over_detectable_cells": 0.4951614185654447,
+        "retained_edges": 363
+      },
+      "Gentiana lutea": {
+        "detectable_cells": 7,
+        "maximum_cell_intensity": 0.5876010781671159,
+        "mean_intensity_over_detectable_cells": 0.47952823273285705,
+        "retained_edges": 372
+      },
+      "Ipomoea purpurea": {
+        "detectable_cells": 17,
+        "maximum_cell_intensity": 0.7888888888888889,
+        "mean_intensity_over_detectable_cells": 0.5477229178896253,
+        "retained_edges": 241
+      },
+      "Lysimachia arvensis": {
+        "detectable_cells": 22,
+        "maximum_cell_intensity": 0.9442586399108138,
+        "mean_intensity_over_detectable_cells": 0.4890346750081406,
+        "retained_edges": 300
+      },
+      "Raphanus sativus": {
+        "detectable_cells": 6,
+        "maximum_cell_intensity": 0.6256097560975611,
+        "mean_intensity_over_detectable_cells": 0.44099348072562355,
+        "retained_edges": 329
+      }
+    },
+    "surface": {
+      "maximum_A": 6,
+      "n_cells_A_ge_2": 24,
+      "n_cells_A_ge_3": 9,
+      "n_cells_A_ge_4": 4,
+      "n_cells_evaluable_A_ge_minimum": 24,
+      "n_cells_total": 648,
+      "shared_intensity_mean": 0.5047092222699308,
+      "shared_intensity_sd": 0.0949258994467388,
+      "top_observed_cells": [
+        {
+          "A": 3,
+          "cell_id": 550,
+          "latitude": 46.23825730732019,
+          "longitude": -75.0,
+          "shared_transition_intensity": 0.6982428199819504
+        },
+        {
+          "A": 3,
+          "cell_id": 524,
+          "latitude": 37.66988696432962,
+          "longitude": 25.0,
+          "shared_transition_intensity": 0.6906270288130897
+        },
+        {
+          "A": 2,
+          "cell_id": 549,
+          "latitude": 46.23825730732019,
+          "longitude": -85.0,
+          "shared_transition_intensity": 0.6834064938684504
+        },
+        {
+          "A": 2,
+          "cell_id": 545,
+          "latitude": 46.23825730732019,
+          "longitude": -125.0,
+          "shared_transition_intensity": 0.6134851501576241
+        },
+        {
+          "A": 2,
+          "cell_id": 107,
+          "latitude": -46.238257307320204,
+          "longitude": 175.0,
+          "shared_transition_intensity": 0.5945839874411303
+        },
+        {
+          "A": 2,
+          "cell_id": 404,
+          "latitude": 16.127620213160753,
+          "longitude": -95.0,
+          "shared_transition_intensity": 0.5818533368805109
+        },
+        {
+          "A": 2,
+          "cell_id": 521,
+          "latitude": 37.66988696432962,
+          "longitude": -5.0,
+          "shared_transition_intensity": 0.5455738956149129
+        },
+        {
+          "A": 5,
+          "cell_id": 559,
+          "latitude": 46.23825730732019,
+          "longitude": 15.0,
+          "shared_transition_intensity": 0.521530690319962
+        },
+        {
+          "A": 2,
+          "cell_id": 513,
+          "latitude": 37.66988696432962,
+          "longitude": -85.0,
+          "shared_transition_intensity": 0.5108286794556277
+        },
+        {
+          "A": 2,
+          "cell_id": 476,
+          "latitude": 30.000000000000004,
+          "longitude": -95.0,
+          "shared_transition_intensity": 0.5098751791686573
+        },
+        {
+          "A": 3,
+          "cell_id": 514,
+          "latitude": 37.66988696432962,
+          "longitude": -75.0,
+          "shared_transition_intensity": 0.4880272074371454
+        },
+        {
+          "A": 2,
+          "cell_id": 474,
+          "latitude": 30.000000000000004,
+          "longitude": -115.0,
+          "shared_transition_intensity": 0.4862569732191759
+        },
+        {
+          "A": 2,
+          "cell_id": 509,
+          "latitude": 37.66988696432962,
+          "longitude": -125.0,
+          "shared_transition_intensity": 0.48473035117056856
+        },
+        {
+          "A": 3,
+          "cell_id": 595,
+          "latitude": 56.44269023807928,
+          "longitude": 15.0,
+          "shared_transition_intensity": 0.47447079113100465
+        },
+        {
+          "A": 4,
+          "cell_id": 523,
+          "latitude": 37.66988696432962,
+          "longitude": 15.0,
+          "shared_transition_intensity": 0.4630646183445496
+        },
+        {
+          "A": 6,
+          "cell_id": 558,
+          "latitude": 46.23825730732019,
+          "longitude": 5.0,
+          "shared_transition_intensity": 0.4449374053783924
+        },
+        {
+          "A": 3,
+          "cell_id": 560,
+          "latitude": 46.23825730732019,
+          "longitude": 25.0,
+          "shared_transition_intensity": 0.4389222299990568
+        },
+        {
+          "A": 2,
+          "cell_id": 439,
+          "latitude": 22.885380476158566,
+          "longitude": -105.0,
+          "shared_transition_intensity": 0.4385285367549836
+        },
+        {
+          "A": 2,
+          "cell_id": 510,
+          "latitude": 37.66988696432962,
+          "longitude": -115.0,
+          "shared_transition_intensity": 0.4336852856404818
+        },
+        {
+          "A": 2,
+          "cell_id": 440,
+          "latitude": 22.885380476158566,
+          "longitude": -95.0,
+          "shared_transition_intensity": 0.41764910813823863
+        }
+      ]
+    }
+  },
+  "protocol": "jbi-ch1-stage-b-shared-transition-concentration-v1",
+  "selected_primary_configuration": {
+    "configuration": "cap_500km_grid_36x18",
+    "criteria_checks": {
+      "minimum_cells_A_ge_2": true,
+      "minimum_cells_A_ge_3": true,
+      "minimum_retained_edges_per_species": true,
+      "minimum_species_with_any_A_ge_2_opportunity": true
+    },
+    "detectable_cells_by_species": {
+      "Antirrhinum majus": 15,
+      "Dactylorhiza sambucina": 8,
+      "Gentiana lutea": 7,
+      "Ipomoea purpurea": 17,
+      "Lysimachia arvensis": 22,
+      "Raphanus sativus": 6
+    },
+    "failure": null,
+    "geometry_summary": {
+      "max_A": 6,
+      "n_cells": 648,
+      "n_cells_A_ge_1": 35,
+      "n_cells_A_ge_2": 24,
+      "n_cells_A_ge_3": 9,
+      "n_cells_A_ge_4": 4,
+      "species_with_any_shared_opportunity": 6
+    },
+    "grid": {
+      "cell_area_km2": 787138.705205049,
+      "n_cells": 648,
+      "n_lon": 36,
+      "n_sinlat": 18
+    },
+    "max_edge_km": 500.0,
+    "min_edges_per_species_cell": 2,
+    "minimum_detectable_species_for_shared_cell": 2,
+    "passes_geometry_only_criteria": true,
+    "retained_edges_by_species": {
+      "Antirrhinum majus": 246,
+      "Dactylorhiza sambucina": 363,
+      "Gentiana lutea": 372,
+      "Ipomoea purpurea": 241,
+      "Lysimachia arvensis": 300,
+      "Raphanus sativus": 329
+    },
+    "selection_rank": 1
+  },
+  "sensitivity_permutations_per_configuration": 1999,
+  "sensitivity_results": {
+    "cap_1000km_grid_18x9": {
+      "global_concentration": {
+        "concentration_excess": 0.0011579659098523566,
+        "null_mean": 0.003671045362748275,
+        "null_quantiles": {
+          "p005": 0.0009175816730858057,
+          "p025": 0.0012771919090660193,
+          "p05": 0.0015616943905192187,
+          "p50": 0.0034558455686574375,
+          "p95": 0.006557409095444506,
+          "p975": 0.007278177855568616,
+          "p995": 0.009052031750773057
+        },
+        "null_sd": 0.001544427641660143,
+        "observed": 0.0048290112726006315,
+        "p_two_sided_descriptive": 0.4285,
+        "p_upper_tail": 0.192,
+        "standardized_concentration_excess": 0.7497702570303849
+      },
+      "n_permutations": 1999,
+      "random_seed": 20260830,
+      "species": {
+        "Antirrhinum majus": {
+          "detectable_cells": 13,
+          "maximum_cell_intensity": 0.7517006802721088,
+          "mean_intensity_over_detectable_cells": 0.5058322360430089,
+          "retained_edges": 295
+        },
+        "Dactylorhiza sambucina": {
+          "detectable_cells": 5,
+          "maximum_cell_intensity": 0.5194571222675956,
+          "mean_intensity_over_detectable_cells": 0.49937622736040066,
+          "retained_edges": 363
+        },
+        "Gentiana lutea": {
+          "detectable_cells": 4,
+          "maximum_cell_intensity": 0.5553763440860215,
+          "mean_intensity_over_detectable_cells": 0.45054332400499114,
+          "retained_edges": 373
+        },
+        "Ipomoea purpurea": {
+          "detectable_cells": 13,
+          "maximum_cell_intensity": 0.7311827956989246,
+          "mean_intensity_over_detectable_cells": 0.5369289550064639,
+          "retained_edges": 311
+        },
+        "Lysimachia arvensis": {
+          "detectable_cells": 15,
+          "maximum_cell_intensity": 0.8732590529247911,
+          "mean_intensity_over_detectable_cells": 0.5222035221191965,
+          "retained_edges": 360
+        },
+        "Raphanus sativus": {
+          "detectable_cells": 6,
+          "maximum_cell_intensity": 0.6004329004329003,
+          "mean_intensity_over_detectable_cells": 0.3940856180856181,
+          "retained_edges": 331
+        }
+      },
+      "surface": {
+        "maximum_A": 6,
+        "n_cells_A_ge_2": 14,
+        "n_cells_A_ge_3": 11,
+        "n_cells_A_ge_4": 6,
+        "n_cells_evaluable_A_ge_minimum": 14,
+        "n_cells_total": 162,
+        "shared_intensity_mean": 0.4981376205982775,
+        "shared_intensity_sd": 0.07631134769099963,
+        "top_observed_cells": [
+          {
+            "A": 2,
+            "cell_id": 77,
+            "latitude": 0.0,
+            "longitude": -70.0,
+            "shared_transition_intensity": 0.6231641630259142
+          },
+          {
+            "A": 2,
+            "cell_id": 94,
+            "latitude": 12.839588406904143,
+            "longitude": -90.0,
+            "shared_transition_intensity": 0.6120722089049535
+          },
+          {
+            "A": 3,
+            "cell_id": 112,
+            "latitude": 26.387799961242997,
+            "longitude": -90.0,
+            "shared_transition_intensity": 0.5715487985674955
+          },
+          {
+            "A": 4,
+            "cell_id": 136,
+            "latitude": 41.81031489577858,
+            "longitude": 30.0,
+            "shared_transition_intensity": 0.5642855315308485
+          },
+          {
+            "A": 3,
+            "cell_id": 131,
+            "latitude": 41.81031489577858,
+            "longitude": -70.0,
+            "shared_transition_intensity": 0.533503064695762
+          },
+          {
+            "A": 3,
+            "cell_id": 128,
+            "latitude": 41.81031489577858,
+            "longitude": -130.0,
+            "shared_transition_intensity": 0.5246090620260935
+          },
+          {
+            "A": 4,
+            "cell_id": 130,
+            "latitude": 41.81031489577858,
+            "longitude": -90.0,
+            "shared_transition_intensity": 0.5233879175992076
+          },
+          {
+            "A": 4,
+            "cell_id": 134,
+            "latitude": 41.81031489577858,
+            "longitude": -10.0,
+            "shared_transition_intensity": 0.4632622883110233
+          },
+          {
+            "A": 3,
+            "cell_id": 111,
+            "latitude": 26.387799961242997,
+            "longitude": -110.0,
+            "shared_transition_intensity": 0.4583518456020244
+          },
+          {
+            "A": 2,
+            "cell_id": 152,
+            "latitude": 62.73395554926718,
+            "longitude": -10.0,
+            "shared_transition_intensity": 0.43750936687665704
+          },
+          {
+            "A": 6,
+            "cell_id": 135,
+            "latitude": 41.81031489577858,
+            "longitude": 10.0,
+            "shared_transition_intensity": 0.4305298514707359
+          },
+          {
+            "A": 4,
+            "cell_id": 153,
+            "latitude": 62.73395554926718,
+            "longitude": 10.0,
+            "shared_transition_intensity": 0.4215777075231659
+          },
+          {
+            "A": 3,
+            "cell_id": 35,
+            "latitude": -41.8103148957786,
+            "longitude": 170.0,
+            "shared_transition_intensity": 0.4209493749386308
+          },
+          {
+            "A": 4,
+            "cell_id": 129,
+            "latitude": 41.81031489577858,
+            "longitude": -110.0,
+            "shared_transition_intensity": 0.38917550730337147
+          }
+        ]
+      }
+    },
+    "cap_1000km_grid_24x12": {
+      "global_concentration": {
+        "concentration_excess": -0.00018861728882875635,
+        "null_mean": 0.005414727763498939,
+        "null_quantiles": {
+          "p005": 0.0019440405303707618,
+          "p025": 0.0024698895182785102,
+          "p05": 0.0028219384517835563,
+          "p50": 0.005202275179538036,
+          "p95": 0.00863343113419778,
+          "p975": 0.009555896925604221,
+          "p995": 0.01141009654826544
+        },
+        "null_sd": 0.0017810325280003185,
+        "observed": 0.0052261104746701825,
+        "p_two_sided_descriptive": 0.9165,
+        "p_upper_tail": 0.4945,
+        "standardized_concentration_excess": -0.10590333745365633
+      },
+      "n_permutations": 1999,
+      "random_seed": 20260830,
+      "species": {
+        "Antirrhinum majus": {
+          "detectable_cells": 18,
+          "maximum_cell_intensity": 0.7727891156462585,
+          "mean_intensity_over_detectable_cells": 0.47687019394229835,
+          "retained_edges": 295
+        },
+        "Dactylorhiza sambucina": {
+          "detectable_cells": 6,
+          "maximum_cell_intensity": 0.5372928176795579,
+          "mean_intensity_over_detectable_cells": 0.5001667063106189,
+          "retained_edges": 363
+        },
+        "Gentiana lutea": {
+          "detectable_cells": 6,
+          "maximum_cell_intensity": 0.6658986175115207,
+          "mean_intensity_over_detectable_cells": 0.5086130990575806,
+          "retained_edges": 373
+        },
+        "Ipomoea purpurea": {
+          "detectable_cells": 20,
+          "maximum_cell_intensity": 0.9919354838709677,
+          "mean_intensity_over_detectable_cells": 0.5583332853655717,
+          "retained_edges": 311
+        },
+        "Lysimachia arvensis": {
+          "detectable_cells": 20,
+          "maximum_cell_intensity": 0.7761142061281336,
+          "mean_intensity_over_detectable_cells": 0.5232829601408502,
+          "retained_edges": 360
+        },
+        "Raphanus sativus": {
+          "detectable_cells": 6,
+          "maximum_cell_intensity": 0.6263636363636363,
+          "mean_intensity_over_detectable_cells": 0.40595666141537706,
+          "retained_edges": 331
+        }
+      },
+      "surface": {
+        "maximum_A": 6,
+        "n_cells_A_ge_2": 21,
+        "n_cells_A_ge_3": 13,
+        "n_cells_A_ge_4": 6,
+        "n_cells_evaluable_A_ge_minimum": 21,
+        "n_cells_total": 288,
+        "shared_intensity_mean": 0.5110696168564924,
+        "shared_intensity_sd": 0.0758229568360312,
+        "top_observed_cells": [
+          {
+            "A": 3,
+            "cell_id": 246,
+            "latitude": 48.590377890729144,
+            "longitude": -82.5,
+            "shared_transition_intensity": 0.6918836693331899
+          },
+          {
+            "A": 2,
+            "cell_id": 173,
+            "latitude": 14.477512185929925,
+            "longitude": -97.5,
+            "shared_transition_intensity": 0.6152362310316755
+          },
+          {
+            "A": 2,
+            "cell_id": 277,
+            "latitude": 66.44353569089876,
+            "longitude": 22.5,
+            "shared_transition_intensity": 0.5955608125102996
+          },
+          {
+            "A": 3,
+            "cell_id": 247,
+            "latitude": 48.590377890729144,
+            "longitude": -67.5,
+            "shared_transition_intensity": 0.5814625086264177
+          },
+          {
+            "A": 2,
+            "cell_id": 150,
+            "latitude": 4.780191847199155,
+            "longitude": -82.5,
+            "shared_transition_intensity": 0.5704040487162607
+          },
+          {
+            "A": 4,
+            "cell_id": 229,
+            "latitude": 35.68533471265205,
+            "longitude": 22.5,
+            "shared_transition_intensity": 0.5617063313708744
+          },
+          {
+            "A": 2,
+            "cell_id": 227,
+            "latitude": 35.68533471265205,
+            "longitude": -7.5,
+            "shared_transition_intensity": 0.543210231527241
+          },
+          {
+            "A": 3,
+            "cell_id": 243,
+            "latitude": 48.590377890729144,
+            "longitude": -127.5,
+            "shared_transition_intensity": 0.5391779381586669
+          },
+          {
+            "A": 3,
+            "cell_id": 223,
+            "latitude": 35.68533471265205,
+            "longitude": -67.5,
+            "shared_transition_intensity": 0.516152807913624
+          },
+          {
+            "A": 3,
+            "cell_id": 219,
+            "latitude": 35.68533471265205,
+            "longitude": -127.5,
+            "shared_transition_intensity": 0.5084585538704122
+          },
+          {
+            "A": 3,
+            "cell_id": 222,
+            "latitude": 35.68533471265205,
+            "longitude": -82.5,
+            "shared_transition_intensity": 0.5052970026597904
+          },
+          {
+            "A": 4,
+            "cell_id": 228,
+            "latitude": 35.68533471265205,
+            "longitude": 7.5,
+            "shared_transition_intensity": 0.5034790357253652
+          },
+          {
+            "A": 2,
+            "cell_id": 47,
+            "latitude": -48.590377890729144,
+            "longitude": 172.5,
+            "shared_transition_intensity": 0.4884742197714741
+          },
+          {
+            "A": 4,
+            "cell_id": 253,
+            "latitude": 48.590377890729144,
+            "longitude": 22.5,
+            "shared_transition_intensity": 0.48274434951908185
+          },
+          {
+            "A": 3,
+            "cell_id": 221,
+            "latitude": 35.68533471265205,
+            "longitude": -97.5,
+            "shared_transition_intensity": 0.4614697483904062
+          },
+          {
+            "A": 2,
+            "cell_id": 197,
+            "latitude": 24.624318352164067,
+            "longitude": -97.5,
+            "shared_transition_intensity": 0.4598204961858914
+          },
+          {
+            "A": 4,
+            "cell_id": 251,
+            "latitude": 48.590377890729144,
+            "longitude": -7.5,
+            "shared_transition_intensity": 0.4562379768381222
+          },
+          {
+            "A": 2,
+            "cell_id": 230,
+            "latitude": 35.68533471265205,
+            "longitude": 37.5,
+            "shared_transition_intensity": 0.4433359230414543
+          },
+          {
+            "A": 6,
+            "cell_id": 252,
+            "latitude": 48.590377890729144,
+            "longitude": 7.5,
+            "shared_transition_intensity": 0.43843773687840754
+          },
+          {
+            "A": 4,
+            "cell_id": 220,
+            "latitude": 35.68533471265205,
+            "longitude": -112.5,
+            "shared_transition_intensity": 0.3957796400969704
+          }
+        ]
+      }
+    },
+    "cap_1000km_grid_36x18": {
+      "global_concentration": {
+        "concentration_excess": 0.0012183082382548433,
+        "null_mean": 0.005917819106287666,
+        "null_quantiles": {
+          "p005": 0.002339817434489705,
+          "p025": 0.0029956683215829473,
+          "p05": 0.0033790850598365858,
+          "p50": 0.005796320016589509,
+          "p95": 0.008927718150519612,
+          "p975": 0.009783538214021064,
+          "p995": 0.01087565201420489
+        },
+        "null_sd": 0.001742633580544352,
+        "observed": 0.007136127344542509,
+        "p_two_sided_descriptive": 0.4795,
+        "p_upper_tail": 0.2235,
+        "standardized_concentration_excess": 0.6991189954426774
+      },
+      "n_permutations": 1999,
+      "random_seed": 20260830,
+      "species": {
+        "Antirrhinum majus": {
+          "detectable_cells": 23,
+          "maximum_cell_intensity": 0.8265306122448979,
+          "mean_intensity_over_detectable_cells": 0.498156219346849,
+          "retained_edges": 295
+        },
+        "Dactylorhiza sambucina": {
+          "detectable_cells": 8,
+          "maximum_cell_intensity": 0.5737448955080471,
+          "mean_intensity_over_detectable_cells": 0.4951614185654447,
+          "retained_edges": 363
+        },
+        "Gentiana lutea": {
+          "detectable_cells": 7,
+          "maximum_cell_intensity": 0.5887096774193548,
+          "mean_intensity_over_detectable_cells": 0.48018499090324757,
+          "retained_edges": 373
+        },
+        "Ipomoea purpurea": {
+          "detectable_cells": 24,
+          "maximum_cell_intensity": 0.7145161290322581,
+          "mean_intensity_over_detectable_cells": 0.5281444054064806,
+          "retained_edges": 311
+        },
+        "Lysimachia arvensis": {
+          "detectable_cells": 25,
+          "maximum_cell_intensity": 0.8732590529247911,
+          "mean_intensity_over_detectable_cells": 0.5018446659199293,
+          "retained_edges": 360
+        },
+        "Raphanus sativus": {
+          "detectable_cells": 7,
+          "maximum_cell_intensity": 0.6263636363636363,
+          "mean_intensity_over_detectable_cells": 0.4255668934240363,
+          "retained_edges": 331
+        }
+      },
+      "surface": {
+        "maximum_A": 6,
+        "n_cells_A_ge_2": 27,
+        "n_cells_A_ge_3": 16,
+        "n_cells_A_ge_4": 4,
+        "n_cells_evaluable_A_ge_minimum": 27,
+        "n_cells_total": 648,
+        "shared_intensity_mean": 0.5083675835797369,
+        "shared_intensity_sd": 0.08869052302842963,
+        "top_observed_cells": [
+          {
+            "A": 3,
+            "cell_id": 549,
+            "latitude": 46.23825730732019,
+            "longitude": -85.0,
+            "shared_transition_intensity": 0.6807603533820753
+          },
+          {
+            "A": 3,
+            "cell_id": 524,
+            "latitude": 37.66988696432962,
+            "longitude": 25.0,
+            "shared_transition_intensity": 0.6730917676407908
+          },
+          {
+            "A": 2,
+            "cell_id": 477,
+            "latitude": 30.000000000000004,
+            "longitude": -85.0,
+            "shared_transition_intensity": 0.6600669299978056
+          },
+          {
+            "A": 3,
+            "cell_id": 550,
+            "latitude": 46.23825730732019,
+            "longitude": -75.0,
+            "shared_transition_intensity": 0.6193234538651274
+          },
+          {
+            "A": 3,
+            "cell_id": 476,
+            "latitude": 30.000000000000004,
+            "longitude": -95.0,
+            "shared_transition_intensity": 0.6134705772425457
+          },
+          {
+            "A": 2,
+            "cell_id": 404,
+            "latitude": 16.127620213160753,
+            "longitude": -95.0,
+            "shared_transition_intensity": 0.6120722089049535
+          },
+          {
+            "A": 2,
+            "cell_id": 334,
+            "latitude": 3.1847385367204106,
+            "longitude": -75.0,
+            "shared_transition_intensity": 0.561734693877551
+          },
+          {
+            "A": 3,
+            "cell_id": 513,
+            "latitude": 37.66988696432962,
+            "longitude": -85.0,
+            "shared_transition_intensity": 0.5574277392371688
+          },
+          {
+            "A": 2,
+            "cell_id": 521,
+            "latitude": 37.66988696432962,
+            "longitude": -5.0,
+            "shared_transition_intensity": 0.543210231527241
+          },
+          {
+            "A": 3,
+            "cell_id": 545,
+            "latitude": 46.23825730732019,
+            "longitude": -125.0,
+            "shared_transition_intensity": 0.5391779381586669
+          },
+          {
+            "A": 5,
+            "cell_id": 559,
+            "latitude": 46.23825730732019,
+            "longitude": 15.0,
+            "shared_transition_intensity": 0.5123205977334475
+          },
+          {
+            "A": 3,
+            "cell_id": 509,
+            "latitude": 37.66988696432962,
+            "longitude": -125.0,
+            "shared_transition_intensity": 0.5084585538704122
+          },
+          {
+            "A": 2,
+            "cell_id": 512,
+            "latitude": 37.66988696432962,
+            "longitude": -95.0,
+            "shared_transition_intensity": 0.5066471163245356
+          },
+          {
+            "A": 4,
+            "cell_id": 523,
+            "latitude": 37.66988696432962,
+            "longitude": 15.0,
+            "shared_transition_intensity": 0.4919910097712296
+          },
+          {
+            "A": 2,
+            "cell_id": 107,
+            "latitude": -46.238257307320204,
+            "longitude": 175.0,
+            "shared_transition_intensity": 0.4884742197714741
+          },
+          {
+            "A": 3,
+            "cell_id": 514,
+            "latitude": 37.66988696432962,
+            "longitude": -75.0,
+            "shared_transition_intensity": 0.4802002307515574
+          },
+          {
+            "A": 3,
+            "cell_id": 595,
+            "latitude": 56.44269023807928,
+            "longitude": 15.0,
+            "shared_transition_intensity": 0.46529075203617554
+          },
+          {
+            "A": 4,
+            "cell_id": 557,
+            "latitude": 46.23825730732019,
+            "longitude": -5.0,
+            "shared_transition_intensity": 0.4387497623536997
+          },
+          {
+            "A": 2,
+            "cell_id": 593,
+            "latitude": 56.44269023807928,
+            "longitude": -5.0,
+            "shared_transition_intensity": 0.43750936687665704
+          },
+          {
+            "A": 6,
+            "cell_id": 558,
+            "latitude": 46.23825730732019,
+            "longitude": 5.0,
+            "shared_transition_intensity": 0.43645068624206185
+          }
+        ]
+      }
+    },
+    "cap_2000km_grid_18x9": {
+      "global_concentration": {
+        "concentration_excess": 0.00048234776748927715,
+        "null_mean": 0.00444799929426314,
+        "null_quantiles": {
+          "p005": 0.0013248913849611002,
+          "p025": 0.0017880578341900844,
+          "p05": 0.00205142500818903,
+          "p50": 0.004242432426352065,
+          "p95": 0.007557208820838042,
+          "p975": 0.00849336551121308,
+          "p995": 0.010191420260805042
+        },
+        "null_sd": 0.0017198187120417146,
+        "observed": 0.004930347061752417,
+        "p_two_sided_descriptive": 0.7805,
+        "p_upper_tail": 0.3495,
+        "standardized_concentration_excess": 0.2804643094716937
+      },
+      "n_permutations": 1999,
+      "random_seed": 20260830,
+      "species": {
+        "Antirrhinum majus": {
+          "detectable_cells": 15,
+          "maximum_cell_intensity": 0.9056047197640118,
+          "mean_intensity_over_detectable_cells": 0.5284292703497718,
+          "retained_edges": 340
+        },
+        "Dactylorhiza sambucina": {
+          "detectable_cells": 5,
+          "maximum_cell_intensity": 0.5194571222675956,
+          "mean_intensity_over_detectable_cells": 0.49937622736040066,
+          "retained_edges": 363
+        },
+        "Gentiana lutea": {
+          "detectable_cells": 4,
+          "maximum_cell_intensity": 0.5553763440860215,
+          "mean_intensity_over_detectable_cells": 0.45054332400499114,
+          "retained_edges": 373
+        },
+        "Ipomoea purpurea": {
+          "detectable_cells": 18,
+          "maximum_cell_intensity": 0.7476722532588455,
+          "mean_intensity_over_detectable_cells": 0.507522968882218,
+          "retained_edges": 359
+        },
+        "Lysimachia arvensis": {
+          "detectable_cells": 15,
+          "maximum_cell_intensity": 0.8699731903485255,
+          "mean_intensity_over_detectable_cells": 0.5227619528342969,
+          "retained_edges": 374
+        },
+        "Raphanus sativus": {
+          "detectable_cells": 7,
+          "maximum_cell_intensity": 0.6202064896755162,
+          "mean_intensity_over_detectable_cells": 0.4343544008416683,
+          "retained_edges": 340
+        }
+      },
+      "surface": {
+        "maximum_A": 6,
+        "n_cells_A_ge_2": 16,
+        "n_cells_A_ge_3": 11,
+        "n_cells_A_ge_4": 8,
+        "n_cells_evaluable_A_ge_minimum": 16,
+        "n_cells_total": 162,
+        "shared_intensity_mean": 0.4880985185858063,
+        "shared_intensity_sd": 0.07489194947881303,
+        "top_observed_cells": [
+          {
+            "A": 2,
+            "cell_id": 94,
+            "latitude": 12.839588406904143,
+            "longitude": -90.0,
+            "shared_transition_intensity": 0.6128179106573639
+          },
+          {
+            "A": 2,
+            "cell_id": 77,
+            "latitude": 0.0,
+            "longitude": -70.0,
+            "shared_transition_intensity": 0.5933276464178359
+          },
+          {
+            "A": 5,
+            "cell_id": 136,
+            "latitude": 41.81031489577858,
+            "longitude": 30.0,
+            "shared_transition_intensity": 0.579713066811755
+          },
+          {
+            "A": 4,
+            "cell_id": 112,
+            "latitude": 26.387799961242997,
+            "longitude": -90.0,
+            "shared_transition_intensity": 0.5594193005082523
+          },
+          {
+            "A": 2,
+            "cell_id": 41,
+            "latitude": -26.387799961242997,
+            "longitude": -70.0,
+            "shared_transition_intensity": 0.55897535197728
+          },
+          {
+            "A": 3,
+            "cell_id": 131,
+            "latitude": 41.81031489577858,
+            "longitude": -70.0,
+            "shared_transition_intensity": 0.531608135441138
+          },
+          {
+            "A": 4,
+            "cell_id": 130,
+            "latitude": 41.81031489577858,
+            "longitude": -90.0,
+            "shared_transition_intensity": 0.5198716446175939
+          },
+          {
+            "A": 4,
+            "cell_id": 134,
+            "latitude": 41.81031489577858,
+            "longitude": -10.0,
+            "shared_transition_intensity": 0.4600717521332094
+          },
+          {
+            "A": 3,
+            "cell_id": 111,
+            "latitude": 26.387799961242997,
+            "longitude": -110.0,
+            "shared_transition_intensity": 0.455560927249357
+          },
+          {
+            "A": 2,
+            "cell_id": 154,
+            "latitude": 62.73395554926718,
+            "longitude": 30.0,
+            "shared_transition_intensity": 0.44243070773789317
+          },
+          {
+            "A": 2,
+            "cell_id": 152,
+            "latitude": 62.73395554926718,
+            "longitude": -10.0,
+            "shared_transition_intensity": 0.43088218573995224
+          },
+          {
+            "A": 6,
+            "cell_id": 135,
+            "latitude": 41.81031489577858,
+            "longitude": 10.0,
+            "shared_transition_intensity": 0.4305654106083043
+          },
+          {
+            "A": 4,
+            "cell_id": 153,
+            "latitude": 62.73395554926718,
+            "longitude": 10.0,
+            "shared_transition_intensity": 0.4201429754368775
+          },
+          {
+            "A": 3,
+            "cell_id": 35,
+            "latitude": -41.8103148957786,
+            "longitude": 170.0,
+            "shared_transition_intensity": 0.41047169497429287
+          },
+          {
+            "A": 4,
+            "cell_id": 129,
+            "latitude": 41.81031489577858,
+            "longitude": -110.0,
+            "shared_transition_intensity": 0.4076021166980418
+          },
+          {
+            "A": 4,
+            "cell_id": 128,
+            "latitude": 41.81031489577858,
+            "longitude": -130.0,
+            "shared_transition_intensity": 0.3961154703637523
+          }
+        ]
+      }
+    },
+    "cap_2000km_grid_24x12": {
+      "global_concentration": {
+        "concentration_excess": -0.0004424695828093503,
+        "null_mean": 0.006095815427072402,
+        "null_quantiles": {
+          "p005": 0.0024591583706090377,
+          "p025": 0.0029387549319466436,
+          "p05": 0.003311380962710609,
+          "p50": 0.005858389601313002,
+          "p95": 0.009662256648313808,
+          "p975": 0.01076887432334451,
+          "p995": 0.01291489803266517
+        },
+        "null_sd": 0.0019742032704501058,
+        "observed": 0.0056533458442630516,
+        "p_two_sided_descriptive": 0.816,
+        "p_upper_tail": 0.55,
+        "standardized_concentration_excess": -0.2241256457388352
+      },
+      "n_permutations": 1999,
+      "random_seed": 20260830,
+      "species": {
+        "Antirrhinum majus": {
+          "detectable_cells": 25,
+          "maximum_cell_intensity": 0.8977384464110129,
+          "mean_intensity_over_detectable_cells": 0.519287591742264,
+          "retained_edges": 340
+        },
+        "Dactylorhiza sambucina": {
+          "detectable_cells": 6,
+          "maximum_cell_intensity": 0.5372928176795579,
+          "mean_intensity_over_detectable_cells": 0.5001667063106189,
+          "retained_edges": 363
+        },
+        "Gentiana lutea": {
+          "detectable_cells": 6,
+          "maximum_cell_intensity": 0.6658986175115207,
+          "mean_intensity_over_detectable_cells": 0.5086130990575806,
+          "retained_edges": 373
+        },
+        "Ipomoea purpurea": {
+          "detectable_cells": 26,
+          "maximum_cell_intensity": 0.988826815642458,
+          "mean_intensity_over_detectable_cells": 0.5475250042592014,
+          "retained_edges": 359
+        },
+        "Lysimachia arvensis": {
+          "detectable_cells": 21,
+          "maximum_cell_intensity": 0.8108700950524006,
+          "mean_intensity_over_detectable_cells": 0.5241965884095335,
+          "retained_edges": 374
+        },
+        "Raphanus sativus": {
+          "detectable_cells": 7,
+          "maximum_cell_intensity": 0.6230088495575221,
+          "mean_intensity_over_detectable_cells": 0.4438456110074315,
+          "retained_edges": 340
+        }
+      },
+      "surface": {
+        "maximum_A": 6,
+        "n_cells_A_ge_2": 24,
+        "n_cells_A_ge_3": 14,
+        "n_cells_A_ge_4": 9,
+        "n_cells_evaluable_A_ge_minimum": 24,
+        "n_cells_total": 288,
+        "shared_intensity_mean": 0.5225447428073551,
+        "shared_intensity_sd": 0.07988243009310136,
+        "top_observed_cells": [
+          {
+            "A": 2,
+            "cell_id": 55,
+            "latitude": -35.68533471265206,
+            "longitude": -67.5,
+            "shared_transition_intensity": 0.7091113088665865
+          },
+          {
+            "A": 3,
+            "cell_id": 246,
+            "latitude": 48.590377890729144,
+            "longitude": -82.5,
+            "shared_transition_intensity": 0.6627632114047625
+          },
+          {
+            "A": 2,
+            "cell_id": 173,
+            "latitude": 14.477512185929925,
+            "longitude": -97.5,
+            "shared_transition_intensity": 0.6157305981770163
+          },
+          {
+            "A": 2,
+            "cell_id": 277,
+            "latitude": 66.44353569089876,
+            "longitude": 22.5,
+            "shared_transition_intensity": 0.5883141085189685
+          },
+          {
+            "A": 4,
+            "cell_id": 221,
+            "latitude": 35.68533471265205,
+            "longitude": -97.5,
+            "shared_transition_intensity": 0.579396649606898
+          },
+          {
+            "A": 3,
+            "cell_id": 247,
+            "latitude": 48.590377890729144,
+            "longitude": -67.5,
+            "shared_transition_intensity": 0.5757422707880686
+          },
+          {
+            "A": 4,
+            "cell_id": 229,
+            "latitude": 35.68533471265205,
+            "longitude": 22.5,
+            "shared_transition_intensity": 0.5680469601347607
+          },
+          {
+            "A": 2,
+            "cell_id": 150,
+            "latitude": 4.780191847199155,
+            "longitude": -82.5,
+            "shared_transition_intensity": 0.5665148481402745
+          },
+          {
+            "A": 2,
+            "cell_id": 227,
+            "latitude": 35.68533471265205,
+            "longitude": -7.5,
+            "shared_transition_intensity": 0.5420473348900228
+          },
+          {
+            "A": 2,
+            "cell_id": 230,
+            "latitude": 35.68533471265205,
+            "longitude": 37.5,
+            "shared_transition_intensity": 0.5370731271938892
+          },
+          {
+            "A": 2,
+            "cell_id": 198,
+            "latitude": 24.624318352164067,
+            "longitude": -82.5,
+            "shared_transition_intensity": 0.5257397977400944
+          },
+          {
+            "A": 4,
+            "cell_id": 197,
+            "latitude": 24.624318352164067,
+            "longitude": -97.5,
+            "shared_transition_intensity": 0.5210533397613355
+          },
+          {
+            "A": 3,
+            "cell_id": 223,
+            "latitude": 35.68533471265205,
+            "longitude": -67.5,
+            "shared_transition_intensity": 0.5136038308851278
+          },
+          {
+            "A": 3,
+            "cell_id": 222,
+            "latitude": 35.68533471265205,
+            "longitude": -82.5,
+            "shared_transition_intensity": 0.5119364220667699
+          },
+          {
+            "A": 4,
+            "cell_id": 228,
+            "latitude": 35.68533471265205,
+            "longitude": 7.5,
+            "shared_transition_intensity": 0.500193758999887
+          },
+          {
+            "A": 3,
+            "cell_id": 243,
+            "latitude": 48.590377890729144,
+            "longitude": -127.5,
+            "shared_transition_intensity": 0.4914213508865814
+          },
+          {
+            "A": 5,
+            "cell_id": 253,
+            "latitude": 48.590377890729144,
+            "longitude": 22.5,
+            "shared_transition_intensity": 0.4893523958517535
+          },
+          {
+            "A": 2,
+            "cell_id": 79,
+            "latitude": -24.62431835216408,
+            "longitude": -67.5,
+            "shared_transition_intensity": 0.48774740033948016
+          },
+          {
+            "A": 2,
+            "cell_id": 47,
+            "latitude": -48.590377890729144,
+            "longitude": 172.5,
+            "shared_transition_intensity": 0.4821121177440426
+          },
+          {
+            "A": 4,
+            "cell_id": 251,
+            "latitude": 48.590377890729144,
+            "longitude": -7.5,
+            "shared_transition_intensity": 0.4528711362479402
+          }
+        ]
+      }
+    },
+    "cap_2000km_grid_36x18": {
+      "global_concentration": {
+        "concentration_excess": -6.539993724790673e-06,
+        "null_mean": 0.00642444979590856,
+        "null_quantiles": {
+          "p005": 0.002854973615997467,
+          "p025": 0.0034200933906997494,
+          "p05": 0.0037331339235166096,
+          "p50": 0.006299123252902527,
+          "p95": 0.009719856226127947,
+          "p975": 0.010347065402162403,
+          "p995": 0.011853959960170617
+        },
+        "null_sd": 0.0017957559472742636,
+        "observed": 0.006417909802183769,
+        "p_two_sided_descriptive": 0.9975,
+        "p_upper_tail": 0.469,
+        "standardized_concentration_excess": -0.0036419167842476467
+      },
+      "n_permutations": 1999,
+      "random_seed": 20260830,
+      "species": {
+        "Antirrhinum majus": {
+          "detectable_cells": 29,
+          "maximum_cell_intensity": 0.9056047197640118,
+          "mean_intensity_over_detectable_cells": 0.5088017951511774,
+          "retained_edges": 340
+        },
+        "Dactylorhiza sambucina": {
+          "detectable_cells": 8,
+          "maximum_cell_intensity": 0.5737448955080471,
+          "mean_intensity_over_detectable_cells": 0.4951614185654447,
+          "retained_edges": 363
+        },
+        "Gentiana lutea": {
+          "detectable_cells": 7,
+          "maximum_cell_intensity": 0.5887096774193548,
+          "mean_intensity_over_detectable_cells": 0.48018499090324757,
+          "retained_edges": 373
+        },
+        "Ipomoea purpurea": {
+          "detectable_cells": 32,
+          "maximum_cell_intensity": 0.731145251396648,
+          "mean_intensity_over_detectable_cells": 0.5070244828053434,
+          "retained_edges": 359
+        },
+        "Lysimachia arvensis": {
+          "detectable_cells": 29,
+          "maximum_cell_intensity": 0.8820375335120643,
+          "mean_intensity_over_detectable_cells": 0.5057815705505454,
+          "retained_edges": 374
+        },
+        "Raphanus sativus": {
+          "detectable_cells": 10,
+          "maximum_cell_intensity": 0.6445427728613569,
+          "mean_intensity_over_detectable_cells": 0.4900909705081638,
+          "retained_edges": 340
+        }
+      },
+      "surface": {
+        "maximum_A": 6,
+        "n_cells_A_ge_2": 31,
+        "n_cells_A_ge_3": 18,
+        "n_cells_A_ge_4": 10,
+        "n_cells_evaluable_A_ge_minimum": 31,
+        "n_cells_total": 648,
+        "shared_intensity_mean": 0.5070073671369653,
+        "shared_intensity_sd": 0.084762774781471,
+        "top_observed_cells": [
+          {
+            "A": 3,
+            "cell_id": 524,
+            "latitude": 37.66988696432962,
+            "longitude": 25.0,
+            "shared_transition_intensity": 0.6742386623680373
+          },
+          {
+            "A": 2,
+            "cell_id": 441,
+            "latitude": 22.885380476158566,
+            "longitude": -85.0,
+            "shared_transition_intensity": 0.6567919392670962
+          },
+          {
+            "A": 3,
+            "cell_id": 512,
+            "latitude": 37.66988696432962,
+            "longitude": -95.0,
+            "shared_transition_intensity": 0.6271421220993575
+          },
+          {
+            "A": 3,
+            "cell_id": 550,
+            "latitude": 46.23825730732019,
+            "longitude": -75.0,
+            "shared_transition_intensity": 0.6148992536144607
+          },
+          {
+            "A": 2,
+            "cell_id": 404,
+            "latitude": 16.127620213160753,
+            "longitude": -95.0,
+            "shared_transition_intensity": 0.6128179106573639
+          },
+          {
+            "A": 3,
+            "cell_id": 549,
+            "latitude": 46.23825730732019,
+            "longitude": -85.0,
+            "shared_transition_intensity": 0.5960647717073709
+          },
+          {
+            "A": 2,
+            "cell_id": 477,
+            "latitude": 30.000000000000004,
+            "longitude": -85.0,
+            "shared_transition_intensity": 0.5876621182907336
+          },
+          {
+            "A": 2,
+            "cell_id": 525,
+            "latitude": 37.66988696432962,
+            "longitude": 35.0,
+            "shared_transition_intensity": 0.5784412968806429
+          },
+          {
+            "A": 4,
+            "cell_id": 476,
+            "latitude": 30.000000000000004,
+            "longitude": -95.0,
+            "shared_transition_intensity": 0.5774503628288808
+          },
+          {
+            "A": 3,
+            "cell_id": 513,
+            "latitude": 37.66988696432962,
+            "longitude": -85.0,
+            "shared_transition_intensity": 0.561850301615011
+          },
+          {
+            "A": 2,
+            "cell_id": 334,
+            "latitude": 3.1847385367204106,
+            "longitude": -75.0,
+            "shared_transition_intensity": 0.5583444570788221
+          },
+          {
+            "A": 2,
+            "cell_id": 521,
+            "latitude": 37.66988696432962,
+            "longitude": -5.0,
+            "shared_transition_intensity": 0.5420473348900228
+          },
+          {
+            "A": 5,
+            "cell_id": 559,
+            "latitude": 46.23825730732019,
+            "longitude": 15.0,
+            "shared_transition_intensity": 0.5138910658336282
+          },
+          {
+            "A": 5,
+            "cell_id": 560,
+            "latitude": 46.23825730732019,
+            "longitude": 25.0,
+            "shared_transition_intensity": 0.5103775045901697
+          },
+          {
+            "A": 3,
+            "cell_id": 545,
+            "latitude": 46.23825730732019,
+            "longitude": -125.0,
+            "shared_transition_intensity": 0.4914213508865814
+          },
+          {
+            "A": 4,
+            "cell_id": 523,
+            "latitude": 37.66988696432962,
+            "longitude": 15.0,
+            "shared_transition_intensity": 0.48846228688849014
+          },
+          {
+            "A": 3,
+            "cell_id": 514,
+            "latitude": 37.66988696432962,
+            "longitude": -75.0,
+            "shared_transition_intensity": 0.4852781309389098
+          },
+          {
+            "A": 2,
+            "cell_id": 107,
+            "latitude": -46.238257307320204,
+            "longitude": 175.0,
+            "shared_transition_intensity": 0.4821121177440426
+          },
+          {
+            "A": 4,
+            "cell_id": 440,
+            "latitude": 22.885380476158566,
+            "longitude": -95.0,
+            "shared_transition_intensity": 0.4782963675916894
+          },
+          {
+            "A": 2,
+            "cell_id": 511,
+            "latitude": 37.66988696432962,
+            "longitude": -105.0,
+            "shared_transition_intensity": 0.47780194789143227
+          }
+        ]
+      }
+    },
+    "cap_500km_grid_18x9": {
+      "global_concentration": {
+        "concentration_excess": 0.00043625777539427766,
+        "null_mean": 0.003799812777795315,
+        "null_quantiles": {
+          "p005": 0.0008922897793802949,
+          "p025": 0.0012668957761038093,
+          "p05": 0.0015210381470506028,
+          "p50": 0.0035174645834851114,
+          "p95": 0.006975769764161363,
+          "p975": 0.0077039956878707065,
+          "p995": 0.009268109536422564
+        },
+        "null_sd": 0.001674561711078459,
+        "observed": 0.004236070553189593,
+        "p_two_sided_descriptive": 0.7885,
+        "p_upper_tail": 0.3415,
+        "standardized_concentration_excess": 0.26052057234326526
+      },
+      "n_permutations": 1999,
+      "random_seed": 20260830,
+      "species": {
+        "Antirrhinum majus": {
+          "detectable_cells": 10,
+          "maximum_cell_intensity": 0.7183673469387756,
+          "mean_intensity_over_detectable_cells": 0.51496181944871,
+          "retained_edges": 246
+        },
+        "Dactylorhiza sambucina": {
+          "detectable_cells": 5,
+          "maximum_cell_intensity": 0.5194571222675956,
+          "mean_intensity_over_detectable_cells": 0.49937622736040066,
+          "retained_edges": 363
+        },
+        "Gentiana lutea": {
+          "detectable_cells": 4,
+          "maximum_cell_intensity": 0.554177897574124,
+          "mean_intensity_over_detectable_cells": 0.44967408247438834,
+          "retained_edges": 372
+        },
+        "Ipomoea purpurea": {
+          "detectable_cells": 11,
+          "maximum_cell_intensity": 0.8069444444444445,
+          "mean_intensity_over_detectable_cells": 0.5500054326658451,
+          "retained_edges": 241
+        },
+        "Lysimachia arvensis": {
+          "detectable_cells": 13,
+          "maximum_cell_intensity": 0.754180602006689,
+          "mean_intensity_over_detectable_cells": 0.49817537445113236,
+          "retained_edges": 300
+        },
+        "Raphanus sativus": {
+          "detectable_cells": 5,
+          "maximum_cell_intensity": 0.5993653558984569,
+          "mean_intensity_over_detectable_cells": 0.4064574207731873,
+          "retained_edges": 329
+        }
+      },
+      "surface": {
+        "maximum_A": 6,
+        "n_cells_A_ge_2": 13,
+        "n_cells_A_ge_3": 10,
+        "n_cells_A_ge_4": 4,
+        "n_cells_evaluable_A_ge_minimum": 13,
+        "n_cells_total": 162,
+        "shared_intensity_mean": 0.4915579512207807,
+        "shared_intensity_sd": 0.0695954658138436,
+        "top_observed_cells": [
+          {
+            "A": 2,
+            "cell_id": 94,
+            "latitude": 12.839588406904143,
+            "longitude": -90.0,
+            "shared_transition_intensity": 0.5818533368805109
+          },
+          {
+            "A": 4,
+            "cell_id": 136,
+            "latitude": 41.81031489577858,
+            "longitude": 30.0,
+            "shared_transition_intensity": 0.5754257841269561
+          },
+          {
+            "A": 3,
+            "cell_id": 112,
+            "latitude": 26.387799961242997,
+            "longitude": -90.0,
+            "shared_transition_intensity": 0.5612785247878416
+          },
+          {
+            "A": 3,
+            "cell_id": 131,
+            "latitude": 41.81031489577858,
+            "longitude": -70.0,
+            "shared_transition_intensity": 0.554277547824074
+          },
+          {
+            "A": 2,
+            "cell_id": 130,
+            "latitude": 41.81031489577858,
+            "longitude": -90.0,
+            "shared_transition_intensity": 0.5300587606837607
+          },
+          {
+            "A": 3,
+            "cell_id": 128,
+            "latitude": 41.81031489577858,
+            "longitude": -130.0,
+            "shared_transition_intensity": 0.528518446979435
+          },
+          {
+            "A": 3,
+            "cell_id": 35,
+            "latitude": -41.8103148957786,
+            "longitude": 170.0,
+            "shared_transition_intensity": 0.4933784175224866
+          },
+          {
+            "A": 3,
+            "cell_id": 111,
+            "latitude": 26.387799961242997,
+            "longitude": -110.0,
+            "shared_transition_intensity": 0.4785158701958589
+          },
+          {
+            "A": 4,
+            "cell_id": 134,
+            "latitude": 41.81031489577858,
+            "longitude": -10.0,
+            "shared_transition_intensity": 0.4549910634701894
+          },
+          {
+            "A": 6,
+            "cell_id": 135,
+            "latitude": 41.81031489577858,
+            "longitude": 10.0,
+            "shared_transition_intensity": 0.43692946913911435
+          },
+          {
+            "A": 4,
+            "cell_id": 153,
+            "latitude": 62.73395554926718,
+            "longitude": 10.0,
+            "shared_transition_intensity": 0.41686126219803726
+          },
+          {
+            "A": 2,
+            "cell_id": 152,
+            "latitude": 62.73395554926718,
+            "longitude": -10.0,
+            "shared_transition_intensity": 0.3994580249682291
+          },
+          {
+            "A": 3,
+            "cell_id": 129,
+            "latitude": 41.81031489577858,
+            "longitude": -110.0,
+            "shared_transition_intensity": 0.37870685709365454
+          }
+        ]
+      }
+    },
+    "cap_500km_grid_24x12": {
+      "global_concentration": {
+        "concentration_excess": 0.003910166819326839,
+        "null_mean": 0.005056251567218775,
+        "null_quantiles": {
+          "p005": 0.0015831779632751342,
+          "p025": 0.0020344192046975835,
+          "p05": 0.0023823143557403334,
+          "p50": 0.004788000102300585,
+          "p95": 0.008792883719973433,
+          "p975": 0.00956963732523716,
+          "p995": 0.011831432554171422
+        },
+        "null_sd": 0.0019800136751576334,
+        "observed": 0.008966418386545614,
+        "p_two_sided_descriptive": 0.0445,
+        "p_upper_tail": 0.0445,
+        "standardized_concentration_excess": 1.9748180875647443
+      },
+      "n_permutations": 1999,
+      "random_seed": 20260830,
+      "species": {
+        "Antirrhinum majus": {
+          "detectable_cells": 12,
+          "maximum_cell_intensity": 0.9663265306122448,
+          "mean_intensity_over_detectable_cells": 0.5281363484301556,
+          "retained_edges": 246
+        },
+        "Dactylorhiza sambucina": {
+          "detectable_cells": 6,
+          "maximum_cell_intensity": 0.5372928176795579,
+          "mean_intensity_over_detectable_cells": 0.5001667063106189,
+          "retained_edges": 363
+        },
+        "Gentiana lutea": {
+          "detectable_cells": 6,
+          "maximum_cell_intensity": 0.6649980747015787,
+          "mean_intensity_over_detectable_cells": 0.5103902963787393,
+          "retained_edges": 372
+        },
+        "Ipomoea purpurea": {
+          "detectable_cells": 15,
+          "maximum_cell_intensity": 0.8645833333333334,
+          "mean_intensity_over_detectable_cells": 0.5618050468050467,
+          "retained_edges": 241
+        },
+        "Lysimachia arvensis": {
+          "detectable_cells": 16,
+          "maximum_cell_intensity": 0.7993311036789298,
+          "mean_intensity_over_detectable_cells": 0.5169992803857816,
+          "retained_edges": 300
+        },
+        "Raphanus sativus": {
+          "detectable_cells": 5,
+          "maximum_cell_intensity": 0.6256097560975611,
+          "mean_intensity_over_detectable_cells": 0.42076555157753415,
+          "retained_edges": 329
+        }
+      },
+      "surface": {
+        "maximum_A": 6,
+        "n_cells_A_ge_2": 18,
+        "n_cells_A_ge_3": 10,
+        "n_cells_A_ge_4": 4,
+        "n_cells_evaluable_A_ge_minimum": 18,
+        "n_cells_total": 288,
+        "shared_intensity_mean": 0.5269266700599878,
+        "shared_intensity_sd": 0.0984831251566797,
+        "top_observed_cells": [
+          {
+            "A": 3,
+            "cell_id": 246,
+            "latitude": 48.590377890729144,
+            "longitude": -82.5,
+            "shared_transition_intensity": 0.7765356365511645
+          },
+          {
+            "A": 2,
+            "cell_id": 221,
+            "latitude": 35.68533471265205,
+            "longitude": -97.5,
+            "shared_transition_intensity": 0.6246655518394648
+          },
+          {
+            "A": 3,
+            "cell_id": 247,
+            "latitude": 48.590377890729144,
+            "longitude": -67.5,
+            "shared_transition_intensity": 0.6154332942764619
+          },
+          {
+            "A": 2,
+            "cell_id": 243,
+            "latitude": 48.590377890729144,
+            "longitude": -127.5,
+            "shared_transition_intensity": 0.6134851501576241
+          },
+          {
+            "A": 2,
+            "cell_id": 47,
+            "latitude": -48.590377890729144,
+            "longitude": 172.5,
+            "shared_transition_intensity": 0.5945839874411303
+          },
+          {
+            "A": 2,
+            "cell_id": 173,
+            "latitude": 14.477512185929925,
+            "longitude": -97.5,
+            "shared_transition_intensity": 0.586204594017094
+          },
+          {
+            "A": 4,
+            "cell_id": 229,
+            "latitude": 35.68533471265205,
+            "longitude": 22.5,
+            "shared_transition_intensity": 0.5622647320808818
+          },
+          {
+            "A": 2,
+            "cell_id": 227,
+            "latitude": 35.68533471265205,
+            "longitude": -7.5,
+            "shared_transition_intensity": 0.5455738956149129
+          },
+          {
+            "A": 3,
+            "cell_id": 223,
+            "latitude": 35.68533471265205,
+            "longitude": -67.5,
+            "shared_transition_intensity": 0.5301807233484251
+          },
+          {
+            "A": 3,
+            "cell_id": 222,
+            "latitude": 35.68533471265205,
+            "longitude": -82.5,
+            "shared_transition_intensity": 0.49603762230673354
+          },
+          {
+            "A": 2,
+            "cell_id": 219,
+            "latitude": 35.68533471265205,
+            "longitude": -127.5,
+            "shared_transition_intensity": 0.48473035117056856
+          },
+          {
+            "A": 4,
+            "cell_id": 228,
+            "latitude": 35.68533471265205,
+            "longitude": 7.5,
+            "shared_transition_intensity": 0.4678528697454397
+          },
+          {
+            "A": 2,
+            "cell_id": 197,
+            "latitude": 24.624318352164067,
+            "longitude": -97.5,
+            "shared_transition_intensity": 0.4643508137394006
+          },
+          {
+            "A": 3,
+            "cell_id": 253,
+            "latitude": 48.590377890729144,
+            "longitude": 22.5,
+            "shared_transition_intensity": 0.4609646276940882
+          },
+          {
+            "A": 6,
+            "cell_id": 252,
+            "latitude": 48.590377890729144,
+            "longitude": 7.5,
+            "shared_transition_intensity": 0.45051214638760245
+          },
+          {
+            "A": 4,
+            "cell_id": 251,
+            "latitude": 48.590377890729144,
+            "longitude": -7.5,
+            "shared_transition_intensity": 0.42914090743860994
+          },
+          {
+            "A": 3,
+            "cell_id": 220,
+            "latitude": 35.68533471265205,
+            "longitude": -112.5,
+            "shared_transition_intensity": 0.4155747777576206
+          },
+          {
+            "A": 2,
+            "cell_id": 71,
+            "latitude": -35.68533471265206,
+            "longitude": 172.5,
+            "shared_transition_intensity": 0.3665883795125576
+          }
+        ]
+      }
+    }
+  },
+  "species": [
+    "Antirrhinum majus",
+    "Dactylorhiza sambucina",
+    "Gentiana lutea",
+    "Ipomoea purpurea",
+    "Lysimachia arvensis",
+    "Raphanus sativus"
+  ],
+  "status": "stage_b_evaluation_complete",
+  "surface_csv_sha256": "562ae7e40ef2e34877a72bf4bde1a142f1f7846f53c7d72ac4322781fbb18a91"
+}

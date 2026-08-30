@@ -1,0 +1,433 @@
+{
+  "base_graph_k": 5,
+  "candidate_configurations": [
+    {
+      "configuration": "cap_500km_grid_36x18",
+      "criteria_checks": {
+        "minimum_cells_A_ge_2": true,
+        "minimum_cells_A_ge_3": true,
+        "minimum_retained_edges_per_species": true,
+        "minimum_species_with_any_A_ge_2_opportunity": true
+      },
+      "detectable_cells_by_species": {
+        "Antirrhinum majus": 15,
+        "Dactylorhiza sambucina": 8,
+        "Gentiana lutea": 7,
+        "Ipomoea purpurea": 17,
+        "Lysimachia arvensis": 22,
+        "Raphanus sativus": 6
+      },
+      "failure": null,
+      "geometry_summary": {
+        "max_A": 6,
+        "n_cells": 648,
+        "n_cells_A_ge_1": 35,
+        "n_cells_A_ge_2": 24,
+        "n_cells_A_ge_3": 9,
+        "n_cells_A_ge_4": 4,
+        "species_with_any_shared_opportunity": 6
+      },
+      "grid": {
+        "cell_area_km2": 787138.705205049,
+        "n_cells": 648,
+        "n_lon": 36,
+        "n_sinlat": 18
+      },
+      "max_edge_km": 500.0,
+      "min_edges_per_species_cell": 2,
+      "minimum_detectable_species_for_shared_cell": 2,
+      "passes_geometry_only_criteria": true,
+      "retained_edges_by_species": {
+        "Antirrhinum majus": 246,
+        "Dactylorhiza sambucina": 363,
+        "Gentiana lutea": 372,
+        "Ipomoea purpurea": 241,
+        "Lysimachia arvensis": 300,
+        "Raphanus sativus": 329
+      },
+      "selection_rank": 1
+    },
+    {
+      "configuration": "cap_500km_grid_24x12",
+      "criteria_checks": {
+        "minimum_cells_A_ge_2": true,
+        "minimum_cells_A_ge_3": true,
+        "minimum_retained_edges_per_species": true,
+        "minimum_species_with_any_A_ge_2_opportunity": true
+      },
+      "detectable_cells_by_species": {
+        "Antirrhinum majus": 12,
+        "Dactylorhiza sambucina": 6,
+        "Gentiana lutea": 6,
+        "Ipomoea purpurea": 15,
+        "Lysimachia arvensis": 16,
+        "Raphanus sativus": 5
+      },
+      "failure": null,
+      "geometry_summary": {
+        "max_A": 6,
+        "n_cells": 288,
+        "n_cells_A_ge_1": 26,
+        "n_cells_A_ge_2": 18,
+        "n_cells_A_ge_3": 10,
+        "n_cells_A_ge_4": 4,
+        "species_with_any_shared_opportunity": 6
+      },
+      "grid": {
+        "cell_area_km2": 1771062.0867113604,
+        "n_cells": 288,
+        "n_lon": 24,
+        "n_sinlat": 12
+      },
+      "max_edge_km": 500.0,
+      "min_edges_per_species_cell": 2,
+      "minimum_detectable_species_for_shared_cell": 2,
+      "passes_geometry_only_criteria": true,
+      "retained_edges_by_species": {
+        "Antirrhinum majus": 246,
+        "Dactylorhiza sambucina": 363,
+        "Gentiana lutea": 372,
+        "Ipomoea purpurea": 241,
+        "Lysimachia arvensis": 300,
+        "Raphanus sativus": 329
+      },
+      "selection_rank": 2
+    },
+    {
+      "configuration": "cap_500km_grid_18x9",
+      "criteria_checks": {
+        "minimum_cells_A_ge_2": true,
+        "minimum_cells_A_ge_3": true,
+        "minimum_retained_edges_per_species": true,
+        "minimum_species_with_any_A_ge_2_opportunity": true
+      },
+      "detectable_cells_by_species": {
+        "Antirrhinum majus": 10,
+        "Dactylorhiza sambucina": 5,
+        "Gentiana lutea": 4,
+        "Ipomoea purpurea": 11,
+        "Lysimachia arvensis": 13,
+        "Raphanus sativus": 5
+      },
+      "failure": null,
+      "geometry_summary": {
+        "max_A": 6,
+        "n_cells": 162,
+        "n_cells_A_ge_1": 19,
+        "n_cells_A_ge_2": 13,
+        "n_cells_A_ge_3": 10,
+        "n_cells_A_ge_4": 4,
+        "species_with_any_shared_opportunity": 6
+      },
+      "grid": {
+        "cell_area_km2": 3148554.820820196,
+        "n_cells": 162,
+        "n_lon": 18,
+        "n_sinlat": 9
+      },
+      "max_edge_km": 500.0,
+      "min_edges_per_species_cell": 2,
+      "minimum_detectable_species_for_shared_cell": 2,
+      "passes_geometry_only_criteria": true,
+      "retained_edges_by_species": {
+        "Antirrhinum majus": 246,
+        "Dactylorhiza sambucina": 363,
+        "Gentiana lutea": 372,
+        "Ipomoea purpurea": 241,
+        "Lysimachia arvensis": 300,
+        "Raphanus sativus": 329
+      },
+      "selection_rank": 3
+    },
+    {
+      "configuration": "cap_1000km_grid_36x18",
+      "criteria_checks": {
+        "minimum_cells_A_ge_2": true,
+        "minimum_cells_A_ge_3": true,
+        "minimum_retained_edges_per_species": true,
+        "minimum_species_with_any_A_ge_2_opportunity": true
+      },
+      "detectable_cells_by_species": {
+        "Antirrhinum majus": 23,
+        "Dactylorhiza sambucina": 8,
+        "Gentiana lutea": 7,
+        "Ipomoea purpurea": 24,
+        "Lysimachia arvensis": 25,
+        "Raphanus sativus": 7
+      },
+      "failure": null,
+      "geometry_summary": {
+        "max_A": 6,
+        "n_cells": 648,
+        "n_cells_A_ge_1": 44,
+        "n_cells_A_ge_2": 27,
+        "n_cells_A_ge_3": 16,
+        "n_cells_A_ge_4": 4,
+        "species_with_any_shared_opportunity": 6
+      },
+      "grid": {
+        "cell_area_km2": 787138.705205049,
+        "n_cells": 648,
+        "n_lon": 36,
+        "n_sinlat": 18
+      },
+      "max_edge_km": 1000.0,
+      "min_edges_per_species_cell": 2,
+      "minimum_detectable_species_for_shared_cell": 2,
+      "passes_geometry_only_criteria": true,
+      "retained_edges_by_species": {
+        "Antirrhinum majus": 295,
+        "Dactylorhiza sambucina": 363,
+        "Gentiana lutea": 373,
+        "Ipomoea purpurea": 311,
+        "Lysimachia arvensis": 360,
+        "Raphanus sativus": 331
+      },
+      "selection_rank": 4
+    },
+    {
+      "configuration": "cap_1000km_grid_24x12",
+      "criteria_checks": {
+        "minimum_cells_A_ge_2": true,
+        "minimum_cells_A_ge_3": true,
+        "minimum_retained_edges_per_species": true,
+        "minimum_species_with_any_A_ge_2_opportunity": true
+      },
+      "detectable_cells_by_species": {
+        "Antirrhinum majus": 18,
+        "Dactylorhiza sambucina": 6,
+        "Gentiana lutea": 6,
+        "Ipomoea purpurea": 20,
+        "Lysimachia arvensis": 20,
+        "Raphanus sativus": 6
+      },
+      "failure": null,
+      "geometry_summary": {
+        "max_A": 6,
+        "n_cells": 288,
+        "n_cells_A_ge_1": 34,
+        "n_cells_A_ge_2": 21,
+        "n_cells_A_ge_3": 13,
+        "n_cells_A_ge_4": 6,
+        "species_with_any_shared_opportunity": 6
+      },
+      "grid": {
+        "cell_area_km2": 1771062.0867113604,
+        "n_cells": 288,
+        "n_lon": 24,
+        "n_sinlat": 12
+      },
+      "max_edge_km": 1000.0,
+      "min_edges_per_species_cell": 2,
+      "minimum_detectable_species_for_shared_cell": 2,
+      "passes_geometry_only_criteria": true,
+      "retained_edges_by_species": {
+        "Antirrhinum majus": 295,
+        "Dactylorhiza sambucina": 363,
+        "Gentiana lutea": 373,
+        "Ipomoea purpurea": 311,
+        "Lysimachia arvensis": 360,
+        "Raphanus sativus": 331
+      },
+      "selection_rank": 5
+    },
+    {
+      "configuration": "cap_1000km_grid_18x9",
+      "criteria_checks": {
+        "minimum_cells_A_ge_2": true,
+        "minimum_cells_A_ge_3": true,
+        "minimum_retained_edges_per_species": true,
+        "minimum_species_with_any_A_ge_2_opportunity": true
+      },
+      "detectable_cells_by_species": {
+        "Antirrhinum majus": 13,
+        "Dactylorhiza sambucina": 5,
+        "Gentiana lutea": 4,
+        "Ipomoea purpurea": 13,
+        "Lysimachia arvensis": 15,
+        "Raphanus sativus": 6
+      },
+      "failure": null,
+      "geometry_summary": {
+        "max_A": 6,
+        "n_cells": 162,
+        "n_cells_A_ge_1": 23,
+        "n_cells_A_ge_2": 14,
+        "n_cells_A_ge_3": 11,
+        "n_cells_A_ge_4": 6,
+        "species_with_any_shared_opportunity": 6
+      },
+      "grid": {
+        "cell_area_km2": 3148554.820820196,
+        "n_cells": 162,
+        "n_lon": 18,
+        "n_sinlat": 9
+      },
+      "max_edge_km": 1000.0,
+      "min_edges_per_species_cell": 2,
+      "minimum_detectable_species_for_shared_cell": 2,
+      "passes_geometry_only_criteria": true,
+      "retained_edges_by_species": {
+        "Antirrhinum majus": 295,
+        "Dactylorhiza sambucina": 363,
+        "Gentiana lutea": 373,
+        "Ipomoea purpurea": 311,
+        "Lysimachia arvensis": 360,
+        "Raphanus sativus": 331
+      },
+      "selection_rank": 6
+    },
+    {
+      "configuration": "cap_2000km_grid_36x18",
+      "criteria_checks": {
+        "minimum_cells_A_ge_2": true,
+        "minimum_cells_A_ge_3": true,
+        "minimum_retained_edges_per_species": true,
+        "minimum_species_with_any_A_ge_2_opportunity": true
+      },
+      "detectable_cells_by_species": {
+        "Antirrhinum majus": 29,
+        "Dactylorhiza sambucina": 8,
+        "Gentiana lutea": 7,
+        "Ipomoea purpurea": 32,
+        "Lysimachia arvensis": 29,
+        "Raphanus sativus": 10
+      },
+      "failure": null,
+      "geometry_summary": {
+        "max_A": 6,
+        "n_cells": 648,
+        "n_cells_A_ge_1": 52,
+        "n_cells_A_ge_2": 31,
+        "n_cells_A_ge_3": 18,
+        "n_cells_A_ge_4": 10,
+        "species_with_any_shared_opportunity": 6
+      },
+      "grid": {
+        "cell_area_km2": 787138.705205049,
+        "n_cells": 648,
+        "n_lon": 36,
+        "n_sinlat": 18
+      },
+      "max_edge_km": 2000.0,
+      "min_edges_per_species_cell": 2,
+      "minimum_detectable_species_for_shared_cell": 2,
+      "passes_geometry_only_criteria": true,
+      "retained_edges_by_species": {
+        "Antirrhinum majus": 340,
+        "Dactylorhiza sambucina": 363,
+        "Gentiana lutea": 373,
+        "Ipomoea purpurea": 359,
+        "Lysimachia arvensis": 374,
+        "Raphanus sativus": 340
+      },
+      "selection_rank": 7
+    },
+    {
+      "configuration": "cap_2000km_grid_24x12",
+      "criteria_checks": {
+        "minimum_cells_A_ge_2": true,
+        "minimum_cells_A_ge_3": true,
+        "minimum_retained_edges_per_species": true,
+        "minimum_species_with_any_A_ge_2_opportunity": true
+      },
+      "detectable_cells_by_species": {
+        "Antirrhinum majus": 25,
+        "Dactylorhiza sambucina": 6,
+        "Gentiana lutea": 6,
+        "Ipomoea purpurea": 26,
+        "Lysimachia arvensis": 21,
+        "Raphanus sativus": 7
+      },
+      "failure": null,
+      "geometry_summary": {
+        "max_A": 6,
+        "n_cells": 288,
+        "n_cells_A_ge_1": 41,
+        "n_cells_A_ge_2": 24,
+        "n_cells_A_ge_3": 14,
+        "n_cells_A_ge_4": 9,
+        "species_with_any_shared_opportunity": 6
+      },
+      "grid": {
+        "cell_area_km2": 1771062.0867113604,
+        "n_cells": 288,
+        "n_lon": 24,
+        "n_sinlat": 12
+      },
+      "max_edge_km": 2000.0,
+      "min_edges_per_species_cell": 2,
+      "minimum_detectable_species_for_shared_cell": 2,
+      "passes_geometry_only_criteria": true,
+      "retained_edges_by_species": {
+        "Antirrhinum majus": 340,
+        "Dactylorhiza sambucina": 363,
+        "Gentiana lutea": 373,
+        "Ipomoea purpurea": 359,
+        "Lysimachia arvensis": 374,
+        "Raphanus sativus": 340
+      },
+      "selection_rank": 8
+    },
+    {
+      "configuration": "cap_2000km_grid_18x9",
+      "criteria_checks": {
+        "minimum_cells_A_ge_2": true,
+        "minimum_cells_A_ge_3": true,
+        "minimum_retained_edges_per_species": true,
+        "minimum_species_with_any_A_ge_2_opportunity": true
+      },
+      "detectable_cells_by_species": {
+        "Antirrhinum majus": 15,
+        "Dactylorhiza sambucina": 5,
+        "Gentiana lutea": 4,
+        "Ipomoea purpurea": 18,
+        "Lysimachia arvensis": 15,
+        "Raphanus sativus": 7
+      },
+      "failure": null,
+      "geometry_summary": {
+        "max_A": 6,
+        "n_cells": 162,
+        "n_cells_A_ge_1": 26,
+        "n_cells_A_ge_2": 16,
+        "n_cells_A_ge_3": 11,
+        "n_cells_A_ge_4": 8,
+        "species_with_any_shared_opportunity": 6
+      },
+      "grid": {
+        "cell_area_km2": 3148554.820820196,
+        "n_cells": 162,
+        "n_lon": 18,
+        "n_sinlat": 9
+      },
+      "max_edge_km": 2000.0,
+      "min_edges_per_species_cell": 2,
+      "minimum_detectable_species_for_shared_cell": 2,
+      "passes_geometry_only_criteria": true,
+      "retained_edges_by_species": {
+        "Antirrhinum majus": 340,
+        "Dactylorhiza sambucina": 363,
+        "Gentiana lutea": 373,
+        "Ipomoea purpurea": 359,
+        "Lysimachia arvensis": 374,
+        "Raphanus sativus": 340
+      },
+      "selection_rank": 9
+    }
+  ],
+  "evaluation_feature_sha256": "402c446e3238d71a29e359f275cbf2208bf273c1d6ec4f809788d792524f3cd3",
+  "frozen_contract_sha256": "01a04e14097ef4c12252620ffa1a16f7d4b264ae6a126e79e21438cfc98e6a3f",
+  "frozen_split_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "passing_criteria": {
+    "minimum_cells_A_ge_2": 8,
+    "minimum_cells_A_ge_3": 2,
+    "minimum_retained_edges_per_species": 30,
+    "minimum_species_with_any_A_ge_2_opportunity": 4
+  },
+  "protocol": "jbi-ch1-stage-b-shared-transition-concentration-v1",
+  "selected_primary_configuration": "cap_500km_grid_36x18",
+  "selection_rule": "choose the first passing configuration by ascending max_edge_km, then by the listed finest-to-coarsest grid order",
+  "selection_used_colour_values": false,
+  "status": "geometry_selection_complete_before_observed_colour_scoring"
+}
