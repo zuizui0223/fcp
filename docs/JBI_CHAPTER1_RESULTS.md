@@ -31,7 +31,7 @@ The result was stable to graph scale:
 |---:|---:|---:|---:|---:|
 | 3 | 1.37661 | 1.42967 | 2.552 | 0.0066 |
 | **5, primary** | **1.39114** | **1.42943** | **2.311** | **0.0113** |
-| 8 | — | — | 2.613 | 0.0065 |
+| 8 | 1.39556 | 1.42978 | 2.613 | 0.0065 |
 
 The primary species-specific tests were heterogeneous:
 
@@ -58,11 +58,11 @@ The primary statistic was the `A(x)`-weighted variance of `S(x)`. The complete n
 
 ### Geometry support
 
-The primary configuration retained 396, 416, 396, 387, 397 and 368 edges across the six species. Detectable-cell counts were 40, 38, 37, 49, 34 and 2. Across the global grid, 24 cells had opportunity `A ≥ 2`, 10 had `A ≥ 3`, five had `A ≥ 4`, and the maximum opportunity was five species.
+The primary configuration retained **246, 363, 372, 241, 300 and 329** edges for *Antirrhinum*, *Dactylorhiza*, *Gentiana*, *Ipomoea*, *Lysimachia* and *Raphanus*, respectively. Detectable-cell counts were **15, 8, 7, 17, 22 and 6**. Across the global grid, 24 cells had opportunity `A ≥ 2`, nine had `A ≥ 3`, four had `A ≥ 4`, and the maximum opportunity was all six species.
 
 ### Result
 
-Observed opportunity-weighted concentration was **0.006057**, compared with a null mean of **0.004544** and null SD of **0.001150**. The standardized concentration excess was **1.315**. The Monte Carlo upper-tail p-value was **0.0906**; the descriptive two-sided p-value was **0.1708**.
+Observed opportunity-weighted concentration was **0.0082315**, compared with a null mean of **0.0056757** and null SD of **0.0017763**. The standardized concentration excess was **1.4389**. The Monte Carlo upper-tail p-value was **0.0906**; the descriptive two-sided p-value was **0.1372**.
 
 The frozen primary shared-concentration null was therefore **not rejected**.
 
@@ -93,7 +93,7 @@ Continuous flower colour was more locally organized within species than expected
 
 ### Results paragraph 3 — Stage B
 
-The subsequent shared-transition test did not reject its frozen primary null. Geometry-only selection chose a 500-km edge cap and 36×18 equal-area grid, yielding 24 globally evaluable cells with at least two detectable species. Opportunity-weighted concentration of shared transition intensity was 0.00606, compared with a null mean of 0.00454 (standardized excess = 1.32; 9,999-permutation upper-tail `p = 0.0906`). One coarser 500-km sensitivity grid was nominally supported (`p = 0.0445`), whereas the other seven sensitivity configurations were not, indicating scale-dependent exploratory overlap rather than a confirmatory universal boundary.
+The subsequent shared-transition test did not reject its frozen primary null. Geometry-only selection chose a 500-km edge cap and 36×18 equal-area grid, yielding 24 globally evaluable cells with at least two detectable species. Opportunity-weighted concentration of shared transition intensity was 0.00823, compared with a null mean of 0.00568 (standardized excess = 1.44; 9,999-permutation upper-tail `p = 0.0906`). One coarser 500-km sensitivity grid was nominally supported (`p = 0.0445`), whereas the other seven sensitivity configurations were not, indicating scale-dependent exploratory overlap rather than a confirmatory universal boundary.
 
 ## Discussion-ready interpretation
 
