@@ -1,0 +1,165 @@
+name: JBI Chapter 1 evaluation feature harvest
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-evaluation-harvest.yml"
+      - "scripts/data/harvest_jbi_ch1_evaluation_features.py"
+      - "tests/test_jbi_ch1_evaluation_harvest.py"
+      - "docs/supporting/JBI_CHAPTER1_RESUME_MARKER_2026-08-30.md"
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: jbi-ch1-evaluation-harvest-v1
+  cancel-in-progress: false
+
+jobs:
+  harvest:
+    if: ${{ github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, '[skip-eval-harvest]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      SOURCE_RUN_ID: "33281907575"
+      SOURCE_HEAD_SHA: "23260eb8a39c692c98cfc7717f10019978e9dd18"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package and tests
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+
+      - name: Validate harvest contract before opening artifacts
+        run: python -m pytest -q tests/test_jbi_ch1_evaluation_harvest.py
+
+      - name: Require successful completion of the frozen evaluation run
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import time
+          import urllib.request
+
+          run_id = os.environ["SOURCE_RUN_ID"]
+          expected_sha = os.environ["SOURCE_HEAD_SHA"]
+          token = os.environ["GH_TOKEN"]
+          url = f"https://api.github.com/repos/zuizui0223/fcp/actions/runs/{run_id}"
+
+          for attempt in range(360):
+              request = urllib.request.Request(
+                  url,
+                  headers={
+                      "Accept": "application/vnd.github+json",
+                      "Authorization": f"Bearer {token}",
+                      "X-GitHub-Api-Version": "2022-11-28",
+                      "User-Agent": "fcp-jbi-ch1-evaluation-harvest",
+                  },
+              )
+              with urllib.request.urlopen(request, timeout=60) as response:
+                  run = json.load(response)
+              if run.get("head_sha") != expected_sha:
+                  raise SystemExit(
+                      f"source run head SHA changed: {run.get('head_sha')} != {expected_sha}"
+                  )
+              status = run.get("status")
+              conclusion = run.get("conclusion")
+              print(f"source evaluation run status={status} conclusion={conclusion}", flush=True)
+              if status == "completed":
+                  if conclusion != "success":
+                      raise SystemExit(
+                          f"frozen evaluation run completed with conclusion={conclusion}"
+                      )
+                  break
+              time.sleep(30)
+          else:
+              raise SystemExit("frozen evaluation run did not complete within harvest timeout")
+          PY
+
+      - name: Download all 36 frozen evaluation shards
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 33281907575
+          pattern: jbi-ch1-florence-eval-*
+          merge-multiple: true
+          path: artifacts/jbi_ch1_evaluation_shards
+
+      - name: Harvest exact 720-row evaluation feature table
+        run: |
+          python scripts/data/harvest_jbi_ch1_evaluation_features.py \
+            artifacts/jbi_ch1_evaluation_shards
+
+      - name: Revalidate frozen outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          manifest = json.loads(
+              Path("docs/supporting/jbi_ch1_evaluation_feature_harvest_v1.json")
+              .read_text(encoding="utf-8")
+          )
+          frame = pd.read_csv(
+              "data/evaluation/jbi_ch1_evaluation_features_v1.csv",
+              dtype={"photo_id": str},
+          )
+          assert manifest["status"] == "pass"
+          assert manifest["artifact_file_count"] == 36
+          assert manifest["validation"]["total_rows"] == 720
+          assert manifest["validation"]["shard_cells"] == 36
+          assert manifest["validation"]["frozen_evaluation_id_match"] is True
+          assert manifest["validation"]["calibration_overlap_count"] == 0
+          assert manifest["measurement_rules_changed_after_evaluation_opening"] is False
+          assert manifest["spatial_outcome_used_for_row_or_feature_selection"] is False
+          assert len(frame) == 720
+          assert frame["photo_id"].is_unique
+          assert frame["species"].nunique() == 6
+          assert (frame.groupby("species").size() == 120).all()
+          print("verified exact 720-row evaluation feature harvest")
+          PY
+
+      - name: Upload frozen evaluation harvest
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-evaluation-feature-harvest-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/evaluation/jbi_ch1_evaluation_features_v1.jsonl
+            data/evaluation/jbi_ch1_evaluation_features_v1.csv
+            docs/supporting/jbi_ch1_evaluation_feature_harvest_v1.json
+
+      - name: Commit frozen evaluation feature harvest to PR branch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/evaluation/jbi_ch1_evaluation_features_v1.jsonl \
+            data/evaluation/jbi_ch1_evaluation_features_v1.csv \
+            docs/supporting/jbi_ch1_evaluation_feature_harvest_v1.json
+          if git diff --cached --quiet; then
+            echo "Frozen evaluation harvest already matches repository state."
+            exit 0
+          fi
+          git commit -m "Freeze exact 720 evaluation features [skip-eval-harvest]"
+          git pull --rebase origin analysis/jbi-global-colour-boundaries
+          git push origin HEAD:analysis/jbi-global-colour-boundaries
