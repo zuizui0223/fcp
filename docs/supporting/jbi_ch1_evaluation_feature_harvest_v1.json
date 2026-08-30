@@ -1,0 +1,219 @@
+{
+  "artifact_file_count": 36,
+  "artifact_files": [
+    {
+      "path": "antirrhinum_majus_0.jsonl",
+      "rows": 20,
+      "sha256": "4d97e3bd72208198218c783bb8c0f1a009719cf94411998dd88553d5101123b3"
+    },
+    {
+      "path": "antirrhinum_majus_1.jsonl",
+      "rows": 20,
+      "sha256": "3cdf421a514abd50845cfca2f676455e363e5608a31dcd54439bcdbe4dc06452"
+    },
+    {
+      "path": "antirrhinum_majus_2.jsonl",
+      "rows": 20,
+      "sha256": "e28fadfd47e8ae09ea82bce313cbd5b6dd649f194f6f03397162a8bf0cc1e3eb"
+    },
+    {
+      "path": "antirrhinum_majus_3.jsonl",
+      "rows": 20,
+      "sha256": "beb3c07278c971dec3b29b4a18023966fe0d21ae91e5383befe1fc2702b48c87"
+    },
+    {
+      "path": "antirrhinum_majus_4.jsonl",
+      "rows": 20,
+      "sha256": "4e723232548c1e307bb1e9560403683cc4b49590d0fa0a11cbeea441f99fd018"
+    },
+    {
+      "path": "antirrhinum_majus_5.jsonl",
+      "rows": 20,
+      "sha256": "408a822b8f1f57bdfa7f02ff254f14b78ed4c06059307232ce2ad5f3af995bd2"
+    },
+    {
+      "path": "dactylorhiza_sambucina_0.jsonl",
+      "rows": 20,
+      "sha256": "461160eafa646dffa08cb56dd01434328736bb0d6c9ba6186f63d9946995353e"
+    },
+    {
+      "path": "dactylorhiza_sambucina_1.jsonl",
+      "rows": 20,
+      "sha256": "84c05d5b5615ec3facd0694e4c3accbdeb502a094acd9e2058d625aa9323a043"
+    },
+    {
+      "path": "dactylorhiza_sambucina_2.jsonl",
+      "rows": 20,
+      "sha256": "66565cf9ec3c05b3959b8090d1e0a10aae0c95f26fb3c59724b89bdae1d259f1"
+    },
+    {
+      "path": "dactylorhiza_sambucina_3.jsonl",
+      "rows": 20,
+      "sha256": "7277e5da3d33319144d7397e988223e8bda518d16181188cdf5d3681a81363bb"
+    },
+    {
+      "path": "dactylorhiza_sambucina_4.jsonl",
+      "rows": 20,
+      "sha256": "30792fa84d3b9ccdff51d992f3d500c5b08ee5db071e5dd4543adf7382742acd"
+    },
+    {
+      "path": "dactylorhiza_sambucina_5.jsonl",
+      "rows": 20,
+      "sha256": "b63a7b50d868910fcd94ecc4d32f734c3056491e7640ff80320b7737d07c7670"
+    },
+    {
+      "path": "gentiana_lutea_0.jsonl",
+      "rows": 20,
+      "sha256": "7963a188b29a598955a68e224ed767f675bf95d4d95863d564da8b8acfa1ebb4"
+    },
+    {
+      "path": "gentiana_lutea_1.jsonl",
+      "rows": 20,
+      "sha256": "d4251fdfdd3041ce9fc539af0d869c95e5bf519f3081df874408af7bcf98128f"
+    },
+    {
+      "path": "gentiana_lutea_2.jsonl",
+      "rows": 20,
+      "sha256": "4a77e8d64c71a44bc0de62d20ee1246b57f576ff1837230172b21305b4c1cebf"
+    },
+    {
+      "path": "gentiana_lutea_3.jsonl",
+      "rows": 20,
+      "sha256": "4b2206416a1d8de4eecb91bf4375b422a744b0060e36f1491335dc5ee15f0418"
+    },
+    {
+      "path": "gentiana_lutea_4.jsonl",
+      "rows": 20,
+      "sha256": "0fc11cacd5c451263ae49b0cb7253b73bb4cd0bcb5411285d92c3bf2d6414e07"
+    },
+    {
+      "path": "gentiana_lutea_5.jsonl",
+      "rows": 20,
+      "sha256": "bba05517d18e215ae773da2c4f3ae7bab7318b0b9930b6ea0cb9adc8eace5b2c"
+    },
+    {
+      "path": "ipomoea_purpurea_0.jsonl",
+      "rows": 20,
+      "sha256": "3851c17d042fe16cc7534f1c188bc1878b9f44306824a4e61f482039bd8e3992"
+    },
+    {
+      "path": "ipomoea_purpurea_1.jsonl",
+      "rows": 20,
+      "sha256": "b961faad63926971c26c7c68acdde8dea6d4c0d0b00d87f6407d0fb79c8d58ae"
+    },
+    {
+      "path": "ipomoea_purpurea_2.jsonl",
+      "rows": 20,
+      "sha256": "b1afb4e0990c58bd27caffb761cc87144c4b9945cbbd81b9a442fed19ed7f4e9"
+    },
+    {
+      "path": "ipomoea_purpurea_3.jsonl",
+      "rows": 20,
+      "sha256": "10e7d2c09f68f115e14b6a0174d1f8ab3a655e8e29c29abc3c29abbe580c3e76"
+    },
+    {
+      "path": "ipomoea_purpurea_4.jsonl",
+      "rows": 20,
+      "sha256": "e673d02516b1ad81e82a6189f7c0f6d8eb199c5f31988ded3a73c564f3b7509a"
+    },
+    {
+      "path": "ipomoea_purpurea_5.jsonl",
+      "rows": 20,
+      "sha256": "6ea44076b47043e38be37b20b4eb7c4529ff91ecad2090973525cb0076242df5"
+    },
+    {
+      "path": "lysimachia_arvensis_0.jsonl",
+      "rows": 20,
+      "sha256": "bf4763c5b0c24111710b81b6980ba27cbf9b0a2d1ce9d434bdd7b1f8e08639eb"
+    },
+    {
+      "path": "lysimachia_arvensis_1.jsonl",
+      "rows": 20,
+      "sha256": "6035be50819e0a0224aba5ddedd644290ae15890e4bf3bfc24b0a97d7b9390b5"
+    },
+    {
+      "path": "lysimachia_arvensis_2.jsonl",
+      "rows": 20,
+      "sha256": "a77e47f6e8cb51b6248c886644bf84c82c40c2dd7a395a09a15df3fb915e42ab"
+    },
+    {
+      "path": "lysimachia_arvensis_3.jsonl",
+      "rows": 20,
+      "sha256": "f10c8eb1893438cb5492efa6d5d92c1cbdcb2fba32334288ba37097230e31cef"
+    },
+    {
+      "path": "lysimachia_arvensis_4.jsonl",
+      "rows": 20,
+      "sha256": "c71f8ff9c22d5ce50a4b3538dde395e89a6cdfd739070fadf68c89bde1105d7a"
+    },
+    {
+      "path": "lysimachia_arvensis_5.jsonl",
+      "rows": 20,
+      "sha256": "67f21c0ca8f53788751acd4ed70f11e1974ff3a1012f288a0eb56d5ff4ce13a2"
+    },
+    {
+      "path": "raphanus_sativus_0.jsonl",
+      "rows": 20,
+      "sha256": "12bdeef89546bdb46929e1dafdf63a7e56a28b68872c709cbcacef214584cd3e"
+    },
+    {
+      "path": "raphanus_sativus_1.jsonl",
+      "rows": 20,
+      "sha256": "3d221bcc9c4bb8741a61fd4fec768e32a9aeff1981366026af075af5b00edf02"
+    },
+    {
+      "path": "raphanus_sativus_2.jsonl",
+      "rows": 20,
+      "sha256": "bc14a6b394a2b5081048ade63b472f7cc78b13cc4d145d4ef7bb4c9c677a9f83"
+    },
+    {
+      "path": "raphanus_sativus_3.jsonl",
+      "rows": 20,
+      "sha256": "738ada9a68c2d3443509447a3a64ebc9612a338120544b807cf53e363cc5f9a9"
+    },
+    {
+      "path": "raphanus_sativus_4.jsonl",
+      "rows": 20,
+      "sha256": "4cce8f101c3fead8ee2a682662908a83d7f84604909cade956ad8aec673550be"
+    },
+    {
+      "path": "raphanus_sativus_5.jsonl",
+      "rows": 20,
+      "sha256": "8ce9eaccbd3c7d1862d6270ab81b00d77c53c8888fd32c108ef7ea654d575b04"
+    }
+  ],
+  "canonical_row_sha256": "5accd6e196a2a5195b9604127c392cbc8e7e817302e04d5d5813ddd960730490",
+  "measurement_rules_changed_after_evaluation_opening": false,
+  "output_csv_sha256": "2d509fd4b7b0f285a1e50323f5fe96aef104241f3df405df3f5b922d02f65fa9",
+  "output_jsonl_sha256": "c23289a1da42df076de60688a87e0a2424fd006f35aa61fca86bebda22f887cd",
+  "protocol": "jbi-ch1-evaluation-feature-harvest-v1",
+  "source_workflow_head_sha": "23260eb8a39c692c98cfc7717f10019978e9dd18",
+  "source_workflow_run_id": 33281907575,
+  "spatial_outcome_used_for_row_or_feature_selection": false,
+  "split_path": "data/frozen/jbi_ch1_photo_split_v1.csv",
+  "split_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "status": "pass",
+  "validation": {
+    "calibration_overlap_count": 0,
+    "feature_method_counts": {
+      "missing": 720
+    },
+    "feature_status_counts": {
+      "ok": 720
+    },
+    "frozen_evaluation_id_match": true,
+    "rows_per_shard_values": [
+      20
+    ],
+    "shard_cells": 36,
+    "species_counts": {
+      "Antirrhinum majus": 120,
+      "Dactylorhiza sambucina": 120,
+      "Gentiana lutea": 120,
+      "Ipomoea purpurea": 120,
+      "Lysimachia arvensis": 120,
+      "Raphanus sativus": 120
+    },
+    "total_rows": 720
+  }
+}
