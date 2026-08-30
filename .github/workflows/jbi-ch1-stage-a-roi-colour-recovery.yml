@@ -1,0 +1,696 @@
+name: JBI Chapter 1 ROI colour recovery and Stage A
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-stage-a-roi-colour-recovery.yml"
+      - "scripts/data/build_jbi_ch1_calibration_pseudosplit.py"
+      - "scripts/data/prepare_jbi_ch1_florence_box_rows.py"
+      - "scripts/data/extract_jbi_ch1_roi_colour_features.py"
+      - "scripts/data/finalize_jbi_ch1_continuous_colour_features.py"
+      - "scripts/analysis/run_jbi_ch1_stage_a_v1.py"
+      - "tests/test_jbi_ch1_roi_colour_recovery.py"
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: jbi-ch1-stage-a-roi-colour-recovery-v1
+  cancel-in-progress: false
+
+env:
+  SOURCE_EVALUATION_RUN_ID: "33281907575"
+  ANALYSIS_BRANCH: analysis/jbi-global-colour-boundaries
+  BOX_PREP_DIR: data/derived/jbi_ch1_roi_colour_recovery_v1/box_preparation
+  CONTINUOUS_DIR: data/derived/jbi_ch1_continuous_colour_v1
+  STAGE_A_DIR: results/jbi_ch1_stage_a_v1
+  HF_HOME: ${{ github.workspace }}/.hf-cache
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.plan.outputs.skip }}
+      calibration_box_matrix: ${{ steps.plan.outputs.calibration_box_matrix }}
+      calibration_colour_matrix: ${{ steps.plan.outputs.calibration_colour_matrix }}
+      evaluation_colour_matrix: ${{ steps.plan.outputs.evaluation_colour_matrix }}
+    steps:
+      - name: Check out the analysis branch
+        uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install and test the complete recovery path
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+          python -m py_compile \
+            scripts/data/build_jbi_ch1_calibration_pseudosplit.py \
+            scripts/data/prepare_jbi_ch1_florence_box_rows.py \
+            scripts/data/extract_jbi_ch1_roi_colour_features.py \
+            scripts/data/finalize_jbi_ch1_continuous_colour_features.py \
+            scripts/analysis/run_jbi_ch1_stage_a_v1.py
+          python -m pytest -q \
+            tests/test_jbi_ch1_roi_colour_recovery.py \
+            tests/test_spatial_graph.py \
+            tests/test_continuous_colour_boundaries.py
+
+      - name: Plan matrices and detect a verified existing Stage A result
+        id: plan
+        run: |
+          set -euo pipefail
+          python - "$GITHUB_OUTPUT" <<'PY'
+          import csv
+          import json
+          import re
+          import sys
+          from pathlib import Path
+
+          output = Path(sys.argv[1])
+          split_path = Path('data/frozen/jbi_ch1_photo_split_v1.csv')
+          with split_path.open(newline='', encoding='utf-8') as handle:
+              species = sorted({row['species'].strip() for row in csv.DictReader(handle)})
+          if len(species) != 6:
+              raise SystemExit(f'expected six species, found {len(species)}: {species}')
+
+          def slug(value: str) -> str:
+              return re.sub(r'[^a-z0-9]+', '_', value.lower()).strip('_')
+
+          calibration_box = {
+              'include': [
+                  {'species': name, 'slug': slug(name), 'shard': shard}
+                  for name in species for shard in range(6)
+              ]
+          }
+          calibration_colour = {
+              'include': [
+                  {'species': name, 'slug': slug(name), 'shard': shard}
+                  for name in species for shard in range(4)
+              ]
+          }
+          evaluation_colour = {
+              'include': [
+                  {'species': name, 'slug': slug(name), 'shard': shard}
+                  for name in species for shard in range(6)
+              ]
+          }
+
+          skip = False
+          manifest_path = Path('results/jbi_ch1_stage_a_v1/stage_a_manifest.json')
+          if manifest_path.exists():
+              try:
+                  manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+                  skip = (
+                      manifest.get('protocol') == 'jbi_ch1_stage_a_spatial_colour_test_v1'
+                      and manifest.get('n_evaluation') == 720
+                      and manifest.get('n_permutations') == 9999
+                      and manifest.get('primary_k') == 5
+                      and manifest.get('sensitivity_k') == [3, 8]
+                      and manifest.get('dropped_rows') == 0
+                      and isinstance(manifest.get('primary_result'), dict)
+                  )
+              except Exception:
+                  skip = False
+
+          with output.open('a', encoding='utf-8') as handle:
+              handle.write(f"skip={'true' if skip else 'false'}\n")
+              handle.write('calibration_box_matrix=' + json.dumps(calibration_box, separators=(',', ':')) + '\n')
+              handle.write('calibration_colour_matrix=' + json.dumps(calibration_colour, separators=(',', ':')) + '\n')
+              handle.write('evaluation_colour_matrix=' + json.dumps(evaluation_colour, separators=(',', ':')) + '\n')
+          print(f'existing verified Stage A result: {skip}')
+          print(f'species: {species}')
+          PY
+
+      - name: Build workspace-only calibration pseudo-split
+        if: steps.plan.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          mkdir -p calibration_pseudosplit
+          python scripts/data/build_jbi_ch1_calibration_pseudosplit.py \
+            --source-split data/frozen/jbi_ch1_photo_split_v1.csv \
+            --source-manifest data/frozen/jbi_ch1_photo_split_v1_manifest.json \
+            --output-split calibration_pseudosplit/jbi_ch1_photo_split_v1.csv \
+            --output-manifest calibration_pseudosplit/jbi_ch1_photo_split_v1_manifest.json
+
+      - name: Upload temporary pseudo-split
+        if: steps.plan.outputs.skip != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-calibration-pseudosplit-v1
+          path: calibration_pseudosplit
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Record no-op when Stage A is already complete
+        if: steps.plan.outputs.skip == 'true'
+        run: |
+          echo "A verified 720-photo Stage A result already exists; recovery compute is skipped." \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
+  calibration-boxes:
+    needs: preflight
+    if: needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: ${{ fromJSON(needs.preflight.outputs.calibration_box_matrix) }}
+    steps:
+      - name: Check out frozen extraction code
+        uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Restore Florence model cache
+        uses: actions/cache@v4
+        with:
+          path: .hf-cache
+          key: florence-community-florence2-base-ft-v1
+
+      - name: Install CPU-only Florence dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install "transformers>=5,<6" accelerate
+
+      - name: Download workspace-only pseudo-split
+        uses: actions/download-artifact@v4
+        with:
+          name: jbi-ch1-calibration-pseudosplit-v1
+          path: calibration_pseudosplit
+
+      - name: Substitute only the workspace split view
+        run: |
+          set -euo pipefail
+          cp calibration_pseudosplit/jbi_ch1_photo_split_v1.csv \
+            data/frozen/jbi_ch1_photo_split_v1.csv
+          cp calibration_pseudosplit/jbi_ch1_photo_split_v1_manifest.json \
+            data/frozen/jbi_ch1_photo_split_v1_manifest.json
+
+      - name: Apply the unchanged Florence extractor to calibration target rows
+        id: extract
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifact
+          output="artifact/${{ matrix.slug }}_${{ matrix.shard }}.jsonl"
+          log="artifact/${{ matrix.slug }}_${{ matrix.shard }}.log"
+          set +e
+          python scripts/data/extract_jbi_ch1_florence_evaluation_features.py \
+            --species "${{ matrix.species }}" \
+            --shard-index "${{ matrix.shard }}" \
+            --shard-count 6 \
+            --output "$output" \
+            2>&1 | tee "$log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          python - "$output" "artifact/${{ matrix.slug }}_${{ matrix.shard }}_status.json" "$status" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          source, target, status = Path(sys.argv[1]), Path(sys.argv[2]), int(sys.argv[3])
+          rows = []
+          if source.exists():
+              rows = [json.loads(line) for line in source.read_text(encoding='utf-8').splitlines() if line.strip()]
+          target.write_text(json.dumps({
+              'exit_code': status,
+              'jsonl_exists': source.exists(),
+              'rows': len(rows),
+              'ok_rows': sum(str(row.get('feature_status', '')).lower() == 'ok' for row in rows),
+              'failed_rows': sum(str(row.get('feature_status', '')).lower() != 'ok' for row in rows),
+          }, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          PY
+          exit "$status"
+
+      - name: Upload calibration Florence shard and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-calibration-box-${{ matrix.slug }}-${{ matrix.shard }}
+          path: artifact
+          if-no-files-found: error
+          retention-days: 90
+
+  prepare-boxes:
+    needs: [preflight, calibration-boxes]
+    if: always() && needs.preflight.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      ok: ${{ steps.prepare.outputs.ok }}
+    steps:
+      - name: Check out latest analysis branch
+        uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Download calibration Florence artifacts
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-ch1-calibration-box-*
+          path: calibration_pseudo_artifacts
+          merge-multiple: true
+
+      - name: Wait for and download the immutable evaluation Florence run
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 160); do
+            status=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_EVALUATION_RUN_ID}" --jq '.status')
+            conclusion=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_EVALUATION_RUN_ID}" --jq '.conclusion // ""')
+            echo "source attempt=${attempt} status=${status} conclusion=${conclusion}"
+            if [[ "$status" == "completed" ]]; then
+              if [[ "$conclusion" != "success" ]]; then
+                echo "Frozen evaluation source run ended with ${conclusion}." >&2
+                exit 1
+              fi
+              break
+            fi
+            if [[ "$attempt" == "160" ]]; then
+              echo "Frozen evaluation source run did not finish in the bounded wait." >&2
+              exit 1
+            fi
+            sleep 15
+          done
+          rm -rf original_evaluation_artifacts
+          mkdir -p original_evaluation_artifacts
+          gh run download "$SOURCE_EVALUATION_RUN_ID" \
+            --repo "$GITHUB_REPOSITORY" \
+            --dir original_evaluation_artifacts
+          source_sha=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_EVALUATION_RUN_ID}" --jq '.head_sha')
+          echo "source_sha=${source_sha}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate and prepare 480 calibration plus 720 evaluation box rows
+        id: prepare
+        shell: bash
+        run: |
+          set -o pipefail
+          rm -rf "$BOX_PREP_DIR"
+          mkdir -p "$BOX_PREP_DIR"
+          set +e
+          python scripts/data/prepare_jbi_ch1_florence_box_rows.py \
+            --evaluation-artifacts original_evaluation_artifacts \
+            --calibration-pseudo-artifacts calibration_pseudo_artifacts \
+            --frozen-split data/frozen/jbi_ch1_photo_split_v1.csv \
+            --output-dir "$BOX_PREP_DIR" \
+            --evaluation-run-id "$SOURCE_EVALUATION_RUN_ID" \
+            --calibration-run-id "$GITHUB_RUN_ID" \
+            2>&1 | tee "$BOX_PREP_DIR/prepare_boxes.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          if [[ "$status" -eq 0 ]]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            python - "$status" "$BOX_PREP_DIR/prepare_boxes_failure.json" <<'PY'
+          import json
+          import sys
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          status, path = int(sys.argv[1]), Path(sys.argv[2])
+          path.write_text(json.dumps({
+              'protocol': 'jbi_ch1_prepare_frozen_florence_box_rows_v1',
+              'validation_status': 'failed',
+              'exit_code': status,
+              'failure_log': 'prepare_boxes.log',
+              'created_at_utc': datetime.now(timezone.utc).isoformat(),
+          }, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          PY
+          fi
+          exit 0
+
+      - name: Upload prepared boxes or exact diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-prepared-florence-boxes-v1
+          path: ${{ env.BOX_PREP_DIR }}
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Commit box preparation provenance or failure diagnostics
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f "$BOX_PREP_DIR"
+          if ! git diff --cached --quiet; then
+            git commit -m "Prepare frozen Florence boxes for continuous colour recovery"
+            for attempt in 1 2 3; do
+              git pull --rebase origin "$ANALYSIS_BRANCH"
+              if git push origin "HEAD:$ANALYSIS_BRANCH"; then break; fi
+              if [[ "$attempt" == "3" ]]; then exit 1; fi
+              sleep 5
+            done
+          fi
+
+      - name: Require complete box preparation
+        if: steps.prepare.outputs.ok != 'true'
+        run: |
+          echo "Calibration/evaluation box preparation failed closed; diagnostics were preserved." >&2
+          exit 1
+
+  colour-calibration:
+    needs: [preflight, prepare-boxes]
+    if: always() && needs.preflight.outputs.skip != 'true' && needs.prepare-boxes.outputs.ok == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: ${{ fromJSON(needs.preflight.outputs.calibration_colour_matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install measurement dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Download prepared Florence boxes
+        uses: actions/download-artifact@v4
+        with:
+          name: jbi-ch1-prepared-florence-boxes-v1
+          path: prepared_boxes
+      - name: Measure fixed-ROI calibration CIELAB shard
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifact
+          boxes=$(find prepared_boxes -type f -name calibration_florence_boxes.jsonl -print -quit)
+          if [[ -z "$boxes" ]]; then echo "prepared calibration box file is missing" >&2; exit 1; fi
+          output="artifact/${{ matrix.slug }}_${{ matrix.shard }}.jsonl"
+          log="artifact/${{ matrix.slug }}_${{ matrix.shard }}.log"
+          set +e
+          python scripts/data/extract_jbi_ch1_roi_colour_features.py \
+            --boxes-jsonl "$boxes" \
+            --species "${{ matrix.species }}" \
+            --split calibration \
+            --shard-index "${{ matrix.shard }}" \
+            --shard-count 4 \
+            --output-jsonl "$output" \
+            2>&1 | tee "$log"
+          status=${PIPESTATUS[0]}
+          set -e
+          exit "$status"
+      - name: Upload calibration colour shard and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-calibration-colour-${{ matrix.slug }}-${{ matrix.shard }}
+          path: artifact
+          if-no-files-found: error
+          retention-days: 90
+
+  colour-evaluation:
+    needs: [preflight, prepare-boxes]
+    if: always() && needs.preflight.outputs.skip != 'true' && needs.prepare-boxes.outputs.ok == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: ${{ fromJSON(needs.preflight.outputs.evaluation_colour_matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install measurement dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Download prepared Florence boxes
+        uses: actions/download-artifact@v4
+        with:
+          name: jbi-ch1-prepared-florence-boxes-v1
+          path: prepared_boxes
+      - name: Measure fixed-ROI evaluation CIELAB shard
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifact
+          boxes=$(find prepared_boxes -type f -name evaluation_florence_boxes.jsonl -print -quit)
+          if [[ -z "$boxes" ]]; then echo "prepared evaluation box file is missing" >&2; exit 1; fi
+          output="artifact/${{ matrix.slug }}_${{ matrix.shard }}.jsonl"
+          log="artifact/${{ matrix.slug }}_${{ matrix.shard }}.log"
+          set +e
+          python scripts/data/extract_jbi_ch1_roi_colour_features.py \
+            --boxes-jsonl "$boxes" \
+            --species "${{ matrix.species }}" \
+            --split evaluation \
+            --shard-index "${{ matrix.shard }}" \
+            --shard-count 6 \
+            --output-jsonl "$output" \
+            2>&1 | tee "$log"
+          status=${PIPESTATUS[0]}
+          set -e
+          exit "$status"
+      - name: Upload evaluation colour shard and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-evaluation-colour-${{ matrix.slug }}-${{ matrix.shard }}
+          path: artifact
+          if-no-files-found: error
+          retention-days: 90
+
+  finalize-stage-a:
+    needs: [preflight, prepare-boxes, colour-calibration, colour-evaluation]
+    if: always() && needs.preflight.outputs.skip != 'true' && needs.prepare-boxes.outputs.ok == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out latest analysis branch
+        uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Download all calibration colour shards
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-ch1-calibration-colour-*
+          path: calibration_colour_artifacts
+          merge-multiple: true
+
+      - name: Download all evaluation colour shards
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-ch1-evaluation-colour-*
+          path: evaluation_colour_artifacts
+          merge-multiple: true
+
+      - name: Finalize 480/720 continuous colour features using calibration-only scalers
+        id: colour
+        shell: bash
+        run: |
+          set -o pipefail
+          rm -rf "$CONTINUOUS_DIR"
+          mkdir -p "$CONTINUOUS_DIR"
+          set +e
+          python scripts/data/finalize_jbi_ch1_continuous_colour_features.py \
+            --calibration-artifacts calibration_colour_artifacts \
+            --evaluation-artifacts evaluation_colour_artifacts \
+            --frozen-split data/frozen/jbi_ch1_photo_split_v1.csv \
+            --output-calibration-jsonl "$CONTINUOUS_DIR/calibration_continuous_colour.jsonl" \
+            --output-evaluation-jsonl "$CONTINUOUS_DIR/evaluation_continuous_colour.jsonl" \
+            --manifest-json "$CONTINUOUS_DIR/continuous_colour_manifest.json" \
+            2>&1 | tee "$CONTINUOUS_DIR/finalize_continuous_colour.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Run preregistered Stage A when continuous features are complete
+        id: stage
+        if: steps.colour.outputs.status == '0'
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p "$STAGE_A_DIR/history"
+          if [[ -f "$STAGE_A_DIR/stage_a_failure.json" ]]; then
+            cp "$STAGE_A_DIR/stage_a_failure.json" \
+              "$STAGE_A_DIR/history/stage_a_failure_before_roi_colour_recovery.json"
+          fi
+          find "$STAGE_A_DIR" -maxdepth 1 -type f -delete
+          set +e
+          python scripts/analysis/run_jbi_ch1_stage_a_v1.py \
+            --evaluation-jsonl "$CONTINUOUS_DIR/evaluation_continuous_colour.jsonl" \
+            --calibration-root . \
+            --output-dir "$STAGE_A_DIR" \
+            --permutations 9999 \
+            --seed 20260830 \
+            2>&1 | tee "$STAGE_A_DIR/stage_a.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          if [[ "$status" -ne 0 ]]; then
+            python - "$status" "$STAGE_A_DIR/stage_a_failure.json" <<'PY'
+          import json
+          import sys
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          status, path = int(sys.argv[1]), Path(sys.argv[2])
+          path.write_text(json.dumps({
+              'protocol': 'jbi_ch1_stage_a_spatial_colour_test_v1',
+              'status': 'failed_after_roi_colour_recovery',
+              'exit_code': status,
+              'failure_log': 'stage_a.log',
+              'continuous_colour_manifest': 'data/derived/jbi_ch1_continuous_colour_v1/continuous_colour_manifest.json',
+              'created_at_utc': datetime.now(timezone.utc).isoformat(),
+          }, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+          PY
+          fi
+          exit 0
+
+      - name: Commit continuous features and Stage A result or exact diagnostics
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f "$CONTINUOUS_DIR" "$STAGE_A_DIR"
+          if ! git diff --cached --quiet; then
+            git commit -m "Recover continuous ROI colour and run frozen Stage A"
+            for attempt in 1 2 3; do
+              git pull --rebase origin "$ANALYSIS_BRANCH"
+              if git push origin "HEAD:$ANALYSIS_BRANCH"; then break; fi
+              if [[ "$attempt" == "3" ]]; then exit 1; fi
+              sleep 5
+            done
+          fi
+
+      - name: Upload final result bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-continuous-colour-stage-a-v1
+          path: |
+            ${{ env.CONTINUOUS_DIR }}
+            ${{ env.STAGE_A_DIR }}
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Verify final complete-case result contract
+        if: steps.colour.outputs.status == '0' && steps.stage.outputs.status == '0'
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          colour = json.loads(Path('data/derived/jbi_ch1_continuous_colour_v1/continuous_colour_manifest.json').read_text())
+          stage = json.loads(Path('results/jbi_ch1_stage_a_v1/stage_a_manifest.json').read_text())
+          global_rows = list(csv.DictReader(Path('results/jbi_ch1_stage_a_v1/stage_a_global_summary.csv').open()))
+          assert colour['validation_status'] == 'success'
+          assert colour['calibration_rows'] == 480
+          assert colour['evaluation_rows'] == 720
+          assert colour['standardization_uses_evaluation_rows'] is False
+          assert set(colour['per_species_calibration'].values()) == {80}
+          assert set(colour['per_species_evaluation'].values()) == {120}
+          assert stage['n_evaluation'] == 720
+          assert stage['n_permutations'] == 9999
+          assert stage['primary_k'] == 5
+          assert stage['sensitivity_k'] == [3, 8]
+          assert stage['dropped_rows'] == 0
+          assert {int(row['k']) for row in global_rows} == {3, 5, 8}
+          print('Verified: 480 calibration + 720 evaluation, no dropped rows, Stage A complete.')
+          PY
+          {
+            echo "## Chapter 1 continuous-colour Stage A complete"
+            echo
+            python - <<'PY'
+          import csv
+          from pathlib import Path
+          rows = list(csv.DictReader(Path('results/jbi_ch1_stage_a_v1/stage_a_global_summary.csv').open()))
+          print('| analysis | k | observed | null mean | effect z | p upper | direction |')
+          print('|---|---:|---:|---:|---:|---:|---|')
+          for row in sorted(rows, key=lambda value: int(value['k'])):
+              print(
+                  f"| {row['analysis']} | {row['k']} | {float(row['observed']):.6g} | "
+                  f"{float(row['null_mean']):.6g} | {float(row['effect_z']):.3f} | "
+                  f"{float(row['p_upper']):.5f} | {row['direction']} |"
+              )
+          PY
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Require successful continuous feature recovery
+        if: steps.colour.outputs.status != '0'
+        run: |
+          echo "Continuous colour recovery failed closed; diagnostics and all available rows were committed." >&2
+          exit 1
+
+      - name: Require successful Stage A
+        if: steps.colour.outputs.status == '0' && steps.stage.outputs.status != '0'
+        run: |
+          echo "Stage A failed after valid continuous colour recovery; exact logs were committed." >&2
+          exit 1
