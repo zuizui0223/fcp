@@ -1,0 +1,46 @@
+{
+  "protocol": "jbi-ch1-scaleup-photo-split-v1",
+  "status": "frozen_before_scaleup_colour_measurement",
+  "feasibility_report": "docs/supporting/jbi_ch1_scaleup_inat_feasibility_v1.json",
+  "candidate_manifest": "data/scaleup/jbi_ch1_scaleup_inat_candidate_manifest_v1.csv",
+  "frozen_source_manifest": "data/scaleup/frozen/jbi_ch1_scaleup_photo_source_manifest_v1.csv",
+  "frozen_split": "data/scaleup/frozen/jbi_ch1_scaleup_photo_split_v1.csv",
+  "split_manifest": "data/scaleup/frozen/jbi_ch1_scaleup_photo_split_manifest_v1.json",
+  "expected_species": 12,
+  "photographs_per_species": 200,
+  "calibration_per_species": 80,
+  "evaluation_per_species": 120,
+  "total_photographs": 2400,
+  "total_calibration": 960,
+  "total_evaluation": 1440,
+  "assignment_rule": {
+    "salt": "fcp-jbi-ch1-scaleup-photo-split-v1",
+    "method": "sort SHA256(salt, species, photo_id) within species",
+    "calibration": "first 80 hashes within species",
+    "evaluation": "remaining 120 hashes within species"
+  },
+  "assignment_uses_only": [
+    "species",
+    "photo_id"
+  ],
+  "assignment_does_not_use": [
+    "image pixels",
+    "flower visibility",
+    "flower colour",
+    "segmentation result",
+    "observer",
+    "date",
+    "coordinates",
+    "environment",
+    "Stage A effect",
+    "Stage B transition surface"
+  ],
+  "preconditions": {
+    "feasibility_status": "pass_all_12",
+    "candidate_manifest_valid_for_final_freeze": true,
+    "candidate_manifest_rows": 2400,
+    "species_passed": 12,
+    "failed_species": []
+  },
+  "evaluation_opened_for_rule_tuning": false
+}
