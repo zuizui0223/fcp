@@ -1,0 +1,135 @@
+name: JBI Chapter 1 spatial figures
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-spatial-figures.yml"
+      - "scripts/analysis/make_jbi_ch1_spatial_figures.py"
+      - "docs/JBI_CHAPTER1_FIGURE_PLAN.md"
+      - "docs/supporting/jbi_ch1_stage_a_continuous_graph_v1.json"
+      - "data/evaluation/jbi_ch1_stage_a_primary_null_v1.csv"
+      - "docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json"
+      - "data/evaluation/jbi_ch1_stage_b_shared_transition_surface_v1.csv"
+      - "data/frozen/jbi_ch1_photo_split_v1.csv"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-spatial-figures-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  figures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and figure dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install "pandas>=2,<3" "matplotlib>=3.8,<4" "geopandas==0.14.4"
+      - name: Generate canonical Chapter 1 figures
+        run: |
+          python scripts/analysis/make_jbi_ch1_spatial_figures.py
+      - name: Validate figure products and frozen-result correspondence
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          manifest_path = Path('docs/supporting/jbi_ch1_figure_manifest_v1.json')
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          assert manifest['protocol'] == 'jbi-ch1-spatial-figure-manifest-v1'
+          assert manifest['status'] == 'canonical_figures_generated_from_frozen_stage_a_and_stage_b'
+          assert manifest['results']['stage_a_primary_lower_tail_p'] == 0.0113
+          assert manifest['results']['stage_a_primary_rejects_random_labelling_at_0_05'] is True
+          assert manifest['results']['stage_b_primary_upper_tail_p'] == 0.0906
+          assert manifest['results']['stage_b_primary_rejects_shared_concentration_at_0_05'] is False
+          assert manifest['environment_used_for_inference'] is False
+          assert manifest['geographic_reference_library_used_for_inference'] is False
+
+          expected_stems = [
+              'jbi_ch1_figure_c1_stage_a_global',
+              'jbi_ch1_figure_c2_stage_a_species',
+              'jbi_ch1_figure_c3_stage_b_surface',
+              'jbi_ch1_figure_c4_stage_b_sensitivity',
+              'jbi_ch1_figure_cs1_workflow',
+              'jbi_ch1_figure_cs2_detectability',
+          ]
+          expected = {
+              f'docs/figures/{stem}.{suffix}'
+              for stem in expected_stems
+              for suffix in ('png', 'pdf')
+          }
+          outputs = {row['path']: row for row in manifest['outputs']}
+          assert set(outputs) == expected
+          for path_string in sorted(expected):
+              path = Path(path_string)
+              assert path.is_file()
+              assert path.stat().st_size >= 1_000
+              digest = hashlib.sha256(path.read_bytes()).hexdigest()
+              assert digest == outputs[path_string]['sha256']
+              assert path.stat().st_size == outputs[path_string]['bytes']
+          print(json.dumps({
+              'figures': len(expected_stems),
+              'files': len(expected),
+              'basemap_source': manifest['basemap_source'],
+              'stage_a_p': manifest['results']['stage_a_primary_lower_tail_p'],
+              'stage_b_p': manifest['results']['stage_b_primary_upper_tail_p'],
+          }, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-spatial-figures
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            docs/figures/jbi_ch1_figure_c1_stage_a_global.*
+            docs/figures/jbi_ch1_figure_c2_stage_a_species.*
+            docs/figures/jbi_ch1_figure_c3_stage_b_surface.*
+            docs/figures/jbi_ch1_figure_c4_stage_b_sensitivity.*
+            docs/figures/jbi_ch1_figure_cs1_workflow.*
+            docs/figures/jbi_ch1_figure_cs2_detectability.*
+            docs/supporting/jbi_ch1_figure_manifest_v1.json
+      - name: Commit canonical figure products with retry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            docs/figures/jbi_ch1_figure_c1_stage_a_global.png \
+            docs/figures/jbi_ch1_figure_c1_stage_a_global.pdf \
+            docs/figures/jbi_ch1_figure_c2_stage_a_species.png \
+            docs/figures/jbi_ch1_figure_c2_stage_a_species.pdf \
+            docs/figures/jbi_ch1_figure_c3_stage_b_surface.png \
+            docs/figures/jbi_ch1_figure_c3_stage_b_surface.pdf \
+            docs/figures/jbi_ch1_figure_c4_stage_b_sensitivity.png \
+            docs/figures/jbi_ch1_figure_c4_stage_b_sensitivity.pdf \
+            docs/figures/jbi_ch1_figure_cs1_workflow.png \
+            docs/figures/jbi_ch1_figure_cs1_workflow.pdf \
+            docs/figures/jbi_ch1_figure_cs2_detectability.png \
+            docs/figures/jbi_ch1_figure_cs2_detectability.pdf \
+            docs/supporting/jbi_ch1_figure_manifest_v1.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Render canonical Chapter 1 spatial figures"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/jbi-global-colour-boundaries
+            git rebase origin/analysis/jbi-global-colour-boundaries
+            if git push origin HEAD:analysis/jbi-global-colour-boundaries; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
