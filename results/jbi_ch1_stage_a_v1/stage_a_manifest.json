@@ -1,0 +1,60 @@
+{
+  "calibration_files": [],
+  "complete_case_rows": 720,
+  "continuous_colour_representation": "vector:standardized_colour_vector",
+  "created_at_utc": "2026-08-30T02:37:40.467322+00:00",
+  "dropped_rows": 0,
+  "edge_statistic": "continuous_vector_colour_discontinuity",
+  "evaluation_jsonl": "data/derived/jbi_ch1_continuous_colour_v1/evaluation_continuous_colour.jsonl",
+  "evaluation_jsonl_sha256": "edb73ffacd6ed36235fd3061e7e911888e202f8118b480c71ddbd438c57edbb7",
+  "final_colour_classes_created": false,
+  "global_weighting": "equal_species_mean",
+  "graph_construction": "colour_blind_within_species_spherical_knn",
+  "input_was_prestandardized": true,
+  "n_evaluation": 720,
+  "n_permutations": 9999,
+  "output_sha256": {
+    "stage_a_global_summary.csv": "832b13ed1211acca068b0d5b2962636af1e267c729be0af3d6e560190f7e971f",
+    "stage_a_null_distributions.npz": "1ed9d2cb5e915b753e6aeb358074590dc8ec8271e0a276c4115af24958558e56",
+    "stage_a_species_summary.csv": "1548c48574a0cf7bc3ebb793ae149c34e184464de5e7d43aeed5fe84ab16e0a1"
+  },
+  "permutation_unit": "complete_colour_vector_within_species",
+  "primary_k": 5,
+  "primary_result": {
+    "analysis": "primary",
+    "direction": "more_spatially_clustered",
+    "effect_z": -2.159998922781654,
+    "k": 5,
+    "n_edges": 2280,
+    "n_observations": 720,
+    "n_permutations": 9999,
+    "n_species": 6,
+    "null_mean": 1.330571694895971,
+    "null_q025": 1.3077159164846008,
+    "null_q500": 1.3307946488219722,
+    "null_q975": 1.3524717408732552,
+    "null_sd": 0.011446544302068557,
+    "observed": 1.3058471715339304,
+    "p_upper": 0.9822
+  },
+  "protocol": "jbi_ch1_stage_a_spatial_colour_test_v1",
+  "representation_dimension": 3,
+  "scaler_provenance": "row_level_frozen_standardized_features",
+  "seed": 20260830,
+  "sensitivity_k": [
+    3,
+    8
+  ],
+  "sensitivity_same_0_05_decision": true,
+  "sensitivity_same_direction": true,
+  "species_counts": {
+    "Antirrhinum majus": 120,
+    "Dactylorhiza sambucina": 120,
+    "Gentiana lutea": 120,
+    "Ipomoea purpurea": 120,
+    "Lysimachia arvensis": 120,
+    "Raphanus sativus": 120
+  },
+  "species_scalers": null,
+  "threshold_tuning": false
+}
