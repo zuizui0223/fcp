@@ -1,0 +1,450 @@
+{
+  "fields": {
+    "_source_shard_file": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "attribution": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "blind_id": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "calibration_only": {
+      "present_rows": 720,
+      "types": {
+        "boolean": 720
+      }
+    },
+    "candidate_scores.blue": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "candidate_scores.blue_purple": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "candidate_scores.bronze": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "candidate_scores.intermediate_or_other": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "candidate_scores.magenta_pseudomajus_like": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "candidate_scores.orange": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "candidate_scores.pink": {
+      "present_rows": 240,
+      "types": {
+        "number": 240
+      }
+    },
+    "candidate_scores.purple": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "candidate_scores.red": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "candidate_scores.white": {
+      "present_rows": 240,
+      "types": {
+        "number": 240
+      }
+    },
+    "candidate_scores.yellow": {
+      "present_rows": 360,
+      "types": {
+        "number": 360
+      }
+    },
+    "candidate_scores.yellow_striatum_like": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "candidate_state_numeric": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "compute_shard_count": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "compute_shard_index": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "detected_box_area_fraction_max": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "detected_box_area_fraction_min": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "detection_prompt": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "direct_palette_candidate_is_final_state": {
+      "present_rows": 720,
+      "types": {
+        "boolean": 720
+      }
+    },
+    "downloaded_from": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "evaluation_feature_measurement": {
+      "present_rows": 720,
+      "types": {
+        "boolean": 720
+      }
+    },
+    "evaluation_row": {
+      "present_rows": 720,
+      "types": {
+        "boolean": 720
+      }
+    },
+    "feature_status": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "final_label": {
+      "present_rows": 720,
+      "types": {
+        "boolean": 720
+      }
+    },
+    "flower_only_fractions.blue": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "flower_only_fractions.bronze": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "flower_only_fractions.magenta": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "flower_only_fractions.orange": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "flower_only_fractions.pink": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "flower_only_fractions.purple": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "flower_only_fractions.red": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "flower_only_fractions.white": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "flower_only_fractions.yellow": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "frozen_representation_protocol": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "latitude": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "localization_status": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "longitude": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "model": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "n_detected_boxes": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "observation_id": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "observed_month": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "observed_on": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "palette_counts.black": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.blue": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.bronze": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.brown": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.green": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.magenta": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.orange": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.pink": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.purple": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.red": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.white": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "palette_counts.yellow": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "photo_id": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "photo_license": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "photo_url": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "protocol": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "raphanus_anthocyanin_visual_evidence": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "raphanus_carotenoid_visual_evidence": {
+      "present_rows": 120,
+      "types": {
+        "number": 120
+      }
+    },
+    "raphanus_direct_palette_argmax_validated_as_morph_classifier": {
+      "present_rows": 120,
+      "types": {
+        "boolean": 120
+      }
+    },
+    "raphanus_morph_mapping_status": {
+      "present_rows": 120,
+      "types": {
+        "string": 120
+      }
+    },
+    "selected_bbox": {
+      "present_rows": 720,
+      "types": {
+        "array": 720
+      }
+    },
+    "selected_bbox[]": {
+      "present_rows": 720,
+      "types": {
+        "number": 2880
+      }
+    },
+    "selected_bbox_area_fraction": {
+      "present_rows": 720,
+      "types": {
+        "number": 720
+      }
+    },
+    "selection_hash": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "spatial_cell": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "species": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "split": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    },
+    "split_rank_hash": {
+      "present_rows": 720,
+      "types": {
+        "string": 720
+      }
+    }
+  },
+  "protocol": "jbi_ch1_frozen_evaluation_schema_v1",
+  "rows": 720
+}
