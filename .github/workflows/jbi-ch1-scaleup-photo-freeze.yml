@@ -1,0 +1,168 @@
+name: JBI Chapter 1 scale-up photo freeze
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - ".github/workflows/jbi-ch1-scaleup-photo-freeze.yml"
+      - "docs/supporting/jbi_ch1_scaleup_photo_split_contract_v1.json"
+      - "docs/supporting/jbi_ch1_scaleup_inat_feasibility_v1.json"
+      - "data/scaleup/jbi_ch1_scaleup_inat_candidate_manifest_v1.csv"
+      - "scripts/data/freeze_jbi_ch1_scaleup_photo_split.py"
+      - "fcp_pipeline/photo_split.py"
+      - "tests/test_jbi_ch1_scaleup_photo_split.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-scaleup-photo-freeze-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  freeze-source-and-split:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries-scaleup
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Test fail-closed scale-up split logic
+        run: python -m unittest tests/test_jbi_ch1_scaleup_photo_split.py -v
+
+      - name: Determine whether all 12 species passed feasibility
+        id: gate
+        shell: bash
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+
+          report_path = Path('docs/supporting/jbi_ch1_scaleup_inat_feasibility_v1.json')
+          candidate_path = Path('data/scaleup/jbi_ch1_scaleup_inat_candidate_manifest_v1.csv')
+          if not report_path.is_file() or not candidate_path.is_file():
+              print('ready=false')
+              print('reason=feasibility_products_not_committed')
+              raise SystemExit(0)
+          report = json.loads(report_path.read_text(encoding='utf-8'))
+          ready = (
+              report.get('status') == 'pass_all_12'
+              and report.get('candidate_manifest_valid_for_final_freeze') is True
+              and report.get('species_passed') == 12
+              and report.get('candidate_manifest_rows') == 2400
+              and report.get('failed_species') == []
+          )
+          print(f"ready={'true' if ready else 'false'}")
+          if ready:
+              print('reason=all_12_passed')
+          else:
+              failed = ','.join(report.get('failed_species') or [])
+              print(f'reason=replacement_required:{failed}')
+          PY
+
+      - name: Record blocked freeze without weakening the gate
+        if: steps.gate.outputs.ready != 'true'
+        run: |
+          echo "Scale-up source/split not frozen: ${{ steps.gate.outputs.reason }}"
+          echo "No evaluation IDs have been opened or assigned from an incomplete cohort."
+
+      - name: Freeze 2,400 source rows and 960/1,440 split
+        if: steps.gate.outputs.ready == 'true'
+        run: python scripts/data/freeze_jbi_ch1_scaleup_photo_split.py
+
+      - name: Validate frozen source and split
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          source = pd.read_csv(
+              'data/scaleup/frozen/jbi_ch1_scaleup_photo_source_manifest_v1.csv',
+              dtype={'photo_id': str},
+          )
+          split = pd.read_csv(
+              'data/scaleup/frozen/jbi_ch1_scaleup_photo_split_v1.csv',
+              dtype={'photo_id': str},
+          )
+          manifest = json.loads(
+              Path('data/scaleup/frozen/jbi_ch1_scaleup_photo_split_manifest_v1.json').read_text(
+                  encoding='utf-8'
+              )
+          )
+          assert manifest['status'] == 'scaleup_photo_source_and_split_frozen'
+          assert len(source) == 2400 and source['photo_id'].nunique() == 2400
+          assert len(split) == 2400 and split['photo_id'].nunique() == 2400
+          assert source['species'].nunique() == 12
+          assert split['species'].nunique() == 12
+          assert (source.groupby('species').size() == 200).all()
+          counts = split.groupby(['species', 'split']).size().unstack()
+          assert (counts['calibration'] == 80).all()
+          assert (counts['evaluation'] == 120).all()
+          assert manifest['total_calibration'] == 960
+          assert manifest['total_evaluation'] == 1440
+          assert manifest['outcome_blind'] is True
+          assert manifest['image_pixels_read'] is False
+          assert manifest['evaluation_opened_for_rule_tuning'] is False
+          print(json.dumps({
+              'source_rows': len(source),
+              'species': source['species'].nunique(),
+              'calibration': int((split['split'] == 'calibration').sum()),
+              'evaluation': int((split['split'] == 'evaluation').sum()),
+              'assignment_sha256': manifest['assignment_sha256'],
+          }, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: steps.gate.outputs.ready == 'true'
+        with:
+          name: jbi-ch1-scaleup-photo-freeze-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/scaleup/frozen/jbi_ch1_scaleup_photo_source_manifest_v1.csv
+            data/scaleup/frozen/jbi_ch1_scaleup_photo_split_v1.csv
+            data/scaleup/frozen/jbi_ch1_scaleup_photo_split_manifest_v1.json
+            docs/supporting/jbi_ch1_scaleup_photo_split_contract_v1.json
+            docs/supporting/jbi_ch1_scaleup_inat_feasibility_v1.json
+
+      - name: Commit frozen source and split
+        if: steps.gate.outputs.ready == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/scaleup/frozen/jbi_ch1_scaleup_photo_source_manifest_v1.csv \
+            data/scaleup/frozen/jbi_ch1_scaleup_photo_split_v1.csv \
+            data/scaleup/frozen/jbi_ch1_scaleup_photo_split_manifest_v1.json
+          if git diff --cached --quiet; then
+            echo "Frozen scale-up source and split already match the accepted feasibility products."
+            exit 0
+          fi
+          git commit -m "Freeze scale-up source and 960/1440 photo split"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/jbi-global-colour-boundaries-scaleup
+            git rebase origin/analysis/jbi-global-colour-boundaries-scaleup
+            if git push origin HEAD:analysis/jbi-global-colour-boundaries-scaleup; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1
