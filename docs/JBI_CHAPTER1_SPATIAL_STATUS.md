@@ -1,146 +1,194 @@
 # JBI Chapter 1 spatial execution status
 
-## Current state
+## Current decision
 
 Branch: `analysis/jbi-global-colour-boundaries`  
 PR: #20, stacked on `audit/upstream-spatial-reaudit` / PR #17.
 
-Primary inference remains:
+As of **2026-08-30**, the frozen 720-photograph evaluation has been completed and the two confirmatory spatial stages have been run.
 
-**global flower-colour map → species-conditioned random-labelling test → species-level transition boundaries → shared-boundary strength → post-discovery geographic correspondence**.
+The result is asymmetric:
 
-Species may disappear from the display, but never from the null model: locations stay fixed and flower-colour observations are permuted strictly within species.
+1. **Stage A is supported.** Continuous flower-colour observations are more locally organized within species than expected under species-conditioned random labelling.
+2. **Stage B is not supported by the frozen primary analysis.** The six species do not show confirmatory evidence that their strongest continuous colour transitions concentrate in the same global cells.
+
+The chapter should therefore be framed around **repeated within-species spatial organization without a demonstrated universal shared boundary**, not around a single global transition line.
 
 ## Frozen empirical sample
 
-- GitHub Actions reacquisition: **1,200 photographs = 6 species × 200**;
+- acquired photographs: **1,200 = 6 species × 200**;
 - calibration split: **480 = 80/species**;
-- evaluation split: **720 = 120/species**;
-- split is outcome-blind and hash-frozen;
-- **720 evaluation photographs remain unopened for rule tuning**.
+- held-out evaluation split: **720 = 120/species**;
+- split basis: deterministic, outcome-blind and hash-frozen;
+- evaluation records are joined to the frozen coordinates by `photo_id`;
+- no colour vector is ever permuted between species.
 
-## Uniform Florence calibration features — complete
+## Frozen colour representation
 
-Run `33237848644` completed 24/24 deterministic calibration shards plus aggregation.
+The discrete-morph route was not forced where calibration geometry did not support it. Before the evaluation set was opened, the operational representation was frozen as a **species-specific continuous colour vector** derived from Florence-localized flower regions and standardized using calibration-only means and population standard deviations.
 
-- 480/480 calibration feature records;
-- 80/80 per species;
-- evaluation rows opened: 0;
-- final biological labels emitted: 0;
-- feature JSONL SHA256: `968648b4d9a4516daa6fb938eaaa0000d665ed18b52801a2f4c6e639b68e7bed`.
+The representation is stored in:
 
-`feature_ok` means Florence returned a box; it does **not** establish target-flower ROI validity.
+- `docs/supporting/jbi_ch1_continuous_colour_representation_v1.json`;
+- `docs/supporting/jbi_ch1_evaluation_opening_contract_v1.json`.
 
-## Reviewer-1 blind ROI/condition audit — complete, not final
+Reviewer-2 scoring is no longer a gate for this analysis. It remains optional calibration-QC infrastructure and is not allowed to retroactively change the completed confirmatory representation or evaluation set.
 
-Reviewer-1 rules were frozen before decisions. All 480 calibration crops were reviewed without geography, observer, date or colour candidate scores.
+## 720-photo evaluation — complete
 
-Overall ROI validity:
+Workflow run: `33281907575`.
 
-- usable: 370;
-- rescue-segmentation candidate: 40;
-- invalid: 39;
-- ambiguous: 31.
+- deterministic extraction shards: **36/36 successful**;
+- evaluation feature records: **720/720**;
+- unique `photo_id`: **720/720**;
+- per species: **120/120**;
+- `feature_status = ok`: **720/720**;
+- localization failures: **0**;
+- `final_label = false`: **720/720**;
+- post-opening rule tuning: **none**.
 
-Overall condition:
+Committed products:
 
-- fresh: 353;
-- senescent: 27;
-- damaged: 8;
-- mixed/ambiguous: 22;
-- not evaluable: 70.
+- `data/evaluation/jbi_ch1_florence_evaluation_features_v1.jsonl`;
+- `docs/supporting/jbi_ch1_florence_evaluation_features_v1.json`.
 
-The provisional **usable + fresh** set is **326/480**:
+## Stage A — within-species local organization
 
-- `Antirrhinum majus`: 60;
-- `Dactylorhiza sambucina`: 67;
-- `Gentiana lutea`: 23;
-- `Ipomoea purpurea`: 62;
-- `Lysimachia arvensis`: 66;
-- `Raphanus sativus`: 48.
+### Frozen test
 
-Reviewer-1 is explicitly not an independent final adjudication.
+For each species:
 
-## SAM2 rescue pilot — complete; scale-up rejected
+1. construct a colour-blind spherical k-nearest-neighbour graph from observation coordinates;
+2. calculate RMS Euclidean discontinuity between complete standardized colour vectors on every retained edge;
+3. keep graph geometry fixed;
+4. permute complete colour vectors strictly within species;
+5. recompute species-specific discontinuity `Q_i`;
+6. average the six `Q_i` values with equal species weight.
 
-A frozen paired pilot tested one reviewer-1 `rescue_segment` record plus one usable-fresh control for each rescue-bearing species using `facebook/sam2.1-hiera-tiny` with the existing Florence box as the only prompt.
+Primary geometry: `k = 5`.  
+Predeclared sensitivities: `k = 3` and `k = 8`.  
+Permutations: **9,999** for each analysis.
 
-Successful run: `33280003197`.
+Workflow run: `33283136767`.
 
-The before/after mask sheet was judged **before** species/arm mapping was opened. The frozen species-level scale-up gate required both rescue success and control preservation.
+### Global result
 
-Result:
+| k | observed equal-species Q | null mean | standardized clustering deficit | lower-tail p |
+|---:|---:|---:|---:|---:|
+| 3 | — | — | 2.5523 | 0.0066 |
+| **5 primary** | **1.39114** | **1.42943** | **2.3113** | **0.0113** |
+| 8 | — | — | 2.6133 | 0.0065 |
 
-- controls preserved for all five tested species;
-- rescue failed for `Antirrhinum`, `Dactylorhiza`, `Gentiana`, and `Raphanus`;
-- `Ipomoea` rescue passed technically, but that record was reviewer-1 `mixed_or_ambiguous` condition and there were no remaining Ipomoea rescue records;
-- remaining rescue records eligible for SAM2 scale-up: **0**.
+The lower observed discontinuity means geographically neighbouring photographs are more similar in continuous flower colour than expected after conditioning on each species' locations and colour-vector distribution.
 
-Therefore the remaining 35 rescue candidates are **not** batch-rescued with SAM2 and are not silently promoted into the direct colour-calibration set.
+### Species-specific primary results
 
-## Feature geometry after reviewer-1 filtering — complete, provisional
+| Species | lower-tail p | interpretation at species level |
+|---|---:|---|
+| *Antirrhinum majus* | 0.2635 | not individually resolved |
+| *Dactylorhiza sambucina* | 0.2560 | not individually resolved |
+| *Gentiana lutea* | 0.7865 | not individually resolved |
+| *Ipomoea purpurea* | 0.2923 | not individually resolved |
+| *Lysimachia arvensis* | 0.0023 | strong local organization |
+| *Raphanus sativus* | 0.0080 | strong local organization |
 
-Run `33280280728` repeated the 200-bootstrap GMM/BIC diagnostic on only the reviewer-1 usable-fresh 326 records. These components remain diagnostic feature-space structure, **not biological morph labels**.
+The confirmatory claim is the equal-species global result. The species table identifies heterogeneous contributors; it does not redefine the global test after inspection.
 
-Pre-filter → reviewer-1-filtered support:
+Committed products:
 
-- `Antirrhinum majus`: 3 components, bootstrap 0.93 → **0.805**;
-- `Dactylorhiza sambucina`: 2 components, 1.00 → **1.00**;
-- `Gentiana lutea`: 2 components, 1.00 → **0.995**;
-- `Ipomoea purpurea`: 3 components, 0.89 → **0.955**;
-- `Lysimachia arvensis`: 2 components, 1.00 → **1.00**;
-- `Raphanus sativus`: observed BIC changes 2 → **3**, while bootstrap support for 4 components rises 0.785 → **0.815**.
+- `docs/supporting/jbi_ch1_stage_a_continuous_graph_contract_v1.json`;
+- `docs/supporting/jbi_ch1_stage_a_continuous_graph_v1.json`;
+- `data/evaluation/jbi_ch1_stage_a_primary_null_v1.csv`.
 
-Thus Raphanus complexity is **not** explained away by obvious reviewer-1 ROI/condition failures. A simple universal discrete-morph representation should not be forced at this stage.
+## Stage B — cross-species shared-transition concentration
 
-## Reviewer-2 independent reblind package — complete and frozen for review
+### Frozen geometry selection
 
-A second package was constructed from **all 480 calibration rows**, globally reshuffled using a new deterministic hash order and new `r2_id` values.
+Before observed colour discontinuities were scored, the primary spatial support was selected using species identities, coordinates and graph distances only.
 
-Generation run `33280339579` completed:
+Candidate priority:
 
-- 480/480 crops;
-- 24 contact sheets;
-- failures: 0;
-- evaluation rows: 0;
-- reviewer-2 labels created by script: 0;
-- reviewer-facing artifact ID: `9722823556`;
-- artifact ZIP SHA256: `1f045cbd174a88935c0ca23c0195ef00e5fb8f77606e4b0b98c9cda29321281e`.
+- edge caps: 500, 1,000, 2,000 km;
+- equal-area longitude–sin(latitude) grids: 36×18, 24×12, 18×9;
+- species/cell detectable only with at least two retained geometry edges;
+- shared cell evaluable only when at least two species are detectable.
 
-The original run lost only its final git push race. Text records were regenerated without re-downloading images and matched the original run exactly:
+All nine candidate configurations passed the frozen geometry-support criteria. The first passing configuration was therefore the primary:
 
-- blank reviewer queue SHA256: `bb5df202ced26fe8fbb67f751067da49443adc8a7524226171d2ba9afe65140c`;
-- hidden mapping SHA256: `e8108abafe1f46fb414e5648a979ece6b9f0684a438b08d153799542a610c809`;
-- recovery run `33280626760`: success;
-- recovery commit: `07b3d239f70d5715554be3fb0b466d8f98a78e3c`.
+**500-km edge cap + 36×18 equal-area grid**.
 
-Reviewer-facing sheets expose only review order, `r2_id`, and crop. They hide species, original blind ID, reviewer-1 decisions, colour scores, geography, observer and date. The hidden mapping has **not been opened for reviewer-2 scoring**.
+Primary support:
 
-## Reconciliation rule — frozen before reviewer-2 decisions
+- retained edges by species: 396, 416, 396, 387, 397 and 368;
+- detectable cells by species: 40, 38, 37, 49, 34 and 2;
+- cells with `A ≥ 2`: 24;
+- cells with `A ≥ 3`: 10;
+- cells with `A ≥ 4`: 5;
+- maximum opportunity `A`: 5 species.
 
-Direct fresh colour calibration requires record-level agreement:
+### Frozen concentration test
 
-**reviewer-1 usable + fresh AND reviewer-2 usable + fresh**.
+Within each species and configuration, edge discontinuities were average-rank transformed to transition intensities in `[0,1]`. Species-cell intensities were averaged only across detectable species. Cells with insufficient opportunity were `NaN`, never zero.
 
-Any disagreement in ROI usability or fresh condition is withheld for third adjudication. A global post-hoc agreement threshold or majority rule will not be introduced after seeing reviewer-2 results.
+The primary statistic was the opportunity-weighted variance of shared transition intensity across cells with `A ≥ 2`. Its complete null pipeline used 9,999 within-species vector permutations and recomputed edge scores, ranks, cell intensities, the shared surface and the concentration statistic each time.
 
-Reconciliation implementation and tests are prepared but cannot be run until reviewer-2 decisions exist.
+Workflow run: `33284194283`.
 
-## Active gate
+### Primary result
 
-1. obtain a genuinely independent reviewer-2 scoring of artifact `9722823556` without exposing the hidden mapping or reviewer-1 decisions;
-2. freeze the completed reviewer-2 queue before opening the mapping;
-3. reconcile reviewer-1/reviewer-2 record by record and third-adjudicate disagreements;
-4. rerun feature geometry on the final consensus fresh/evaluable calibration set;
-5. freeze the colour representation and boundary rule — allowing a continuous within-species colour-vector representation where discrete morphs are not defensible;
-6. only then open the 720 evaluation photographs;
-7. only after held-out measurements exist run the species-conditioned spatial random-labelling and shared-boundary analyses.
+- observed concentration: **0.0060573**;
+- null mean: **0.0045443**;
+- null SD: **0.0011504**;
+- standardized concentration excess: **1.3153**;
+- Monte Carlo upper-tail p: **0.0906**;
+- descriptive two-sided p: **0.1708**;
+- reject shared-concentration null at 0.05: **no**.
 
-## Not yet evaluated
+### Predeclared sensitivity configurations
 
-- final flower-colour labels/states: 0/1,200;
-- held-out evaluation measurements: 0/720;
-- random vs non-random spatial placement: `not_evaluated`;
-- species-level colour boundaries: `not_evaluated`;
-- shared-boundary surface: `not_evaluated`;
-- post-discovery geographic correspondence: `not_evaluated`.
+| Edge cap | Grid | upper-tail p |
+|---:|---:|---:|
+| 500 km | 24×12 | 0.0445 |
+| 500 km | 18×9 | 0.3415 |
+| 1,000 km | 36×18 | 0.2235 |
+| 1,000 km | 24×12 | 0.4945 |
+| 1,000 km | 18×9 | 0.1920 |
+| 2,000 km | 36×18 | 0.4690 |
+| 2,000 km | 24×12 | 0.5500 |
+| 2,000 km | 18×9 | 0.3495 |
+
+The nominal `p = 0.0445` result for the coarser 500-km/24×12 grid is exploratory sensitivity evidence only. It does not replace the prospectively selected primary configuration, and the sensitivity set is not uniformly supportive.
+
+Committed products:
+
+- `docs/supporting/jbi_ch1_stage_b_shared_transition_contract_v1.json`;
+- `docs/supporting/jbi_ch1_stage_b_geometry_audit_v1.json`;
+- `docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json`;
+- `data/evaluation/jbi_ch1_stage_b_shared_transition_surface_v1.csv`;
+- `data/evaluation/jbi_ch1_stage_b_primary_null_v1.csv`.
+
+## Claim boundary
+
+Supported:
+
+> Across six independently sampled species, continuous flower colour is spatially organized within species more strongly than expected under species-conditioned random labelling.
+
+Not supported as a confirmatory claim:
+
+> Independent species repeatedly place their strongest flower-colour transitions along one common global geographic boundary.
+
+Not tested by the completed stages:
+
+- a climatic cause;
+- a historical cause;
+- identical biological mechanisms among species;
+- morph-specific fitness or adaptation.
+
+Because Stage B did not pass its primary gate, a post-discovery geographic-reference correspondence analysis is **not promoted to the confirmatory main line**. Running such a correspondence now would be explicitly exploratory and cannot rescue the Stage B hypothesis.
+
+## Active next work
+
+1. generate the Chapter 1 result figures and manuscript-ready tables from the committed Stage A/B outputs;
+2. revise the chapter narrative from “shared global boundary” to “repeated local organization with scale-dependent but non-confirmatory cross-species overlap”;
+3. retain the full Stage B surface and sensitivity audit in Supporting Information;
+4. keep reviewer-2 and geographic-cause development separated as optional later QC/exploration rather than reopening the frozen evaluation.
