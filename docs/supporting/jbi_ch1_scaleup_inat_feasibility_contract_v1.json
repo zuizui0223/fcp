@@ -1,0 +1,48 @@
+{
+  "protocol": "jbi-ch1-scaleup-inat-feasibility-v1",
+  "status": "frozen_before_candidate_api_queries",
+  "cohort_csv": "docs/supporting/jbi_ch1_scaleup_cohort_v1.csv",
+  "cohort_manifest": "docs/supporting/jbi_ch1_scaleup_cohort_manifest_v1.json",
+  "inat_api": {
+    "base_url": "https://api.inaturalist.org/v1",
+    "quality_grade": "research",
+    "photos": true,
+    "geo": true,
+    "captive": false,
+    "created_d2": "2026-08-30T12:40:00Z",
+    "per_page": 200,
+    "maximum_candidates_per_species": 3000,
+    "one_photo_per_observation": true,
+    "maximum_positional_accuracy_m": 20000,
+    "request_pause_seconds": 0.4
+  },
+  "selection": {
+    "target_photographs_per_species": 200,
+    "stable_hash_salt": "fcp-jbi-ch1-scaleup-inat-v1",
+    "spatial_cell_degrees": 1.0,
+    "hard_caps": {
+      "maximum_per_observer": 20,
+      "maximum_per_spatial_cell": 50,
+      "maximum_per_calendar_month": 100
+    },
+    "qc_gates": {
+      "minimum_unique_observers": 10,
+      "minimum_unique_spatial_cells": 3,
+      "minimum_unique_calendar_months": 2,
+      "maximum_observer_fraction": 0.25
+    }
+  },
+  "audit_rules": {
+    "candidate_images_downloaded": false,
+    "flower_colour_pixels_inspected": false,
+    "stage_a_effects_used": false,
+    "stage_b_surfaces_used": false,
+    "environmental_layers_used": false,
+    "all_species_must_pass_before_final_source_freeze": true,
+    "failed_species_replaced_automatically": false
+  },
+  "outputs": {
+    "candidate_manifest": "data/scaleup/jbi_ch1_scaleup_inat_candidate_manifest_v1.csv",
+    "feasibility_report": "docs/supporting/jbi_ch1_scaleup_inat_feasibility_v1.json"
+  }
+}
