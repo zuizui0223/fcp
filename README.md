@@ -1,12 +1,26 @@
 # FCP — spatial organization of intraspecific flower-colour variation
 
-This repository supports a comparative Journal of Biogeography paper asking:
+This repository now contains **two frozen inferential lanes that answer different questions and must not be pooled**.
 
-> **Does occupied climatic niche differ according to whether intraspecific flower-colour variation occurs as local within-population coexistence or as geographic differentiation among populations?**
+1. **Chapter 1 spatial-photograph lane:** Do present-day continuous flower-colour observations show non-random spatial organization within species, and do independent species share the same strongest transition geography?
+2. **34-species comparative lane:** Does occupied climatic niche breadth differ according to whether literature-documented intraspecific flower-colour variation occurs as local within-population coexistence or geographic differentiation among populations?
 
-The active paper is a **frozen 34-species comparative analysis**. Historical mathematical phase-theory work and unreviewed expanded-set experiments are no longer part of the active analysis path.
+The first lane uses 1,200 community photographs from six species with a frozen 480/720 calibration–evaluation split. The second uses a checksum-locked literature-derived dataset of 34 species from 25 families. Their samples, response variables, null models and claims are distinct.
 
 ## Start here
+
+### Chapter 1 — held-out spatial analysis
+
+- **Manuscript draft:** [`docs/JBI_CHAPTER1_MANUSCRIPT.md`](docs/JBI_CHAPTER1_MANUSCRIPT.md)
+- **Current decision and execution status:** [`docs/JBI_CHAPTER1_SPATIAL_STATUS.md`](docs/JBI_CHAPTER1_SPATIAL_STATUS.md)
+- **Frozen protocol:** [`docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md`](docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md)
+- **Numerical results:** [`docs/JBI_CHAPTER1_RESULTS.md`](docs/JBI_CHAPTER1_RESULTS.md)
+- **Figure plan and legends:** [`docs/JBI_CHAPTER1_FIGURE_PLAN.md`](docs/JBI_CHAPTER1_FIGURE_PLAN.md)
+- **Canonical figure products:** [`docs/figures/jbi_ch1_figure_c1_stage_a_global.png`](docs/figures/jbi_ch1_figure_c1_stage_a_global.png) through the C4 and C-S2 products
+- **Figure manifest:** [`docs/supporting/jbi_ch1_figure_manifest_v1.json`](docs/supporting/jbi_ch1_figure_manifest_v1.json)
+- **Boundary CI:** [`.github/workflows/jbi-global-colour-boundaries.yml`](.github/workflows/jbi-global-colour-boundaries.yml)
+
+### Frozen 34-species comparative paper
 
 - **Manuscript:** [`docs/jbi_manuscript.md`](docs/jbi_manuscript.md)
 - **Pipeline and evidence reduction:** [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md)
@@ -17,7 +31,79 @@ The active paper is a **frozen 34-species comparative analysis**. Historical mat
 - **Canonical frozen input:** [`data/frozen/frozen_34species_five_metric_dataset.csv`](data/frozen/frozen_34species_five_metric_dataset.csv)
 - **Reproduction workflow:** [`.github/workflows/34species-paper.yml`](.github/workflows/34species-paper.yml)
 
-## Final paper dataset
+## Chapter 1: frozen photograph analysis
+
+### Design
+
+The frozen development set contains six species:
+
+- *Antirrhinum majus*;
+- *Dactylorhiza sambucina*;
+- *Gentiana lutea*;
+- *Ipomoea purpurea*;
+- *Lysimachia arvensis*;
+- *Raphanus sativus*.
+
+For every species, 200 georeferenced photographs were acquired and assigned outcome-blind to 80 calibration and 120 evaluation observations. The complete design is therefore:
+
+```text
+1,200 photographs
+   ├─ 480 calibration = 80/species
+   └─ 720 held-out evaluation = 120/species
+```
+
+Calibration geometry did not justify forcing one universal discrete-morph scheme. The primary representation was frozen before evaluation as a **species-specific continuous colour vector**, standardized with calibration-only parameters. All 720 held-out photographs were processed successfully, with no localization failure, no final discrete biological label and no post-opening rule change.
+
+### Ordered inference
+
+```text
+frozen continuous representation
+        ↓
+Stage A: within-species spatial organization
+        ↓ prospective gate passed
+Stage B: cross-species shared-transition concentration
+        ↓ primary gate not passed
+no confirmatory geographic-cause overlay
+```
+
+Stage A constructs a colour-blind spherical nearest-neighbour graph within each species and permutes complete vectors strictly within species. The primary equal-species result is:
+
+- `k = 5`;
+- observed Q = 1.39114;
+- null mean = 1.42943;
+- standardized clustering deficit = 2.3113;
+- lower-tail `p = 0.0113`.
+
+The direction is retained at `k = 3` (`p = 0.0066`) and `k = 8` (`p = 0.0065`).
+
+Stage B uses label-blind geometry to define where transitions were detectable, ranks transition intensity within species and tests concentration of the shared surface under a complete species-conditioned permutation pipeline. The primary 500-km/36×18 analysis gives:
+
+- observed concentration = 0.0082315;
+- null mean = 0.0056757;
+- standardized excess = 1.4389;
+- upper-tail `p = 0.0906`.
+
+The supported conclusion is therefore:
+
+> Continuous flower colour is spatially organized within species, but the present six-species sample does not establish one universal global geography of the strongest transitions.
+
+One coarser sensitivity configuration is nominally below 0.05, but the remaining supports are not; it is retained as exploratory scale sensitivity rather than substituted for the prospectively selected primary analysis.
+
+### Chapter-1 production entry points
+
+- `scripts/data/extract_jbi_ch1_florence_evaluation_features.py`
+- `scripts/analysis/run_jbi_ch1_stage_a_continuous_graph.py`
+- `scripts/analysis/run_jbi_ch1_stage_b_shared_transition.py`
+- `scripts/analysis/make_jbi_ch1_spatial_figures.py`
+- `scripts/analysis/make_jbi_ch1_spatial_figures_qa.py`
+
+The governing rule is:
+
+> Species may disappear from the map display, but species must never disappear from the null model.
+
+## Frozen 34-species comparative paper
+
+### Final paper dataset
 
 The canonical statistical input is committed at:
 
@@ -25,18 +111,16 @@ The canonical statistical input is committed at:
 
 It is checksum-locked and contains:
 
-- **34 species**
-- **25 plant families**
-- **20** within-population flower-colour polymorphism cases
-- **14** geographically structured flower-colour variation cases
-- minimum **20 occupied climate cells** per species
-- five symmetric climatic-niche metrics
+- **34 species**;
+- **25 plant families**;
+- **20** within-population flower-colour polymorphism cases;
+- **14** geographically structured flower-colour variation cases;
+- minimum **20 occupied climate cells** per species;
+- five symmetric climatic-niche metrics.
 
-The labels are currently **source-traceable, rule-derived classifications**. Completed independent blinded human review is not claimed unless completed reviewer sheets are actually supplied.
+The labels are currently **source-traceable, rule-derived classifications**. Completed independent blinded human review is not claimed unless completed reviewer sheets are supplied.
 
-## How the 34 species were reached
-
-The exact preserved evidence chain is:
+### Evidence chain
 
 ```text
 1,075 retained literature works
@@ -54,11 +138,11 @@ The exact preserved evidence chain is:
 
 The remembered historical “~180” stage is not used as a formal manuscript count because the repository does not preserve a unique screening unit corresponding to that number.
 
-A later systematic-map search used 15 query blocks and 52 shards and recovered 79,242 deduplicated bibliographic records. It is retained as broader search-completeness infrastructure; it is not presented as a direct deterministic parent of the original 34-species freeze, and its unreviewed expanded sets are not primary manuscript data.
+A later systematic-map search used 15 query blocks and 52 shards and recovered 79,242 deduplicated bibliographic records. It is retained as broader search-completeness infrastructure; it is not presented as a deterministic parent of the original 34-species freeze, and its unreviewed expanded sets are not primary manuscript data.
 
 Full provenance: [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md).
 
-## Active analysis pipeline
+### Comparative pipeline
 
 ```text
 literature discovery / provenance
@@ -71,7 +155,7 @@ durable 34-species five-metric freeze
         ↓
 five climatic-niche GLMs
         ↓
-9,999 permutations + LOFO + collinearity
+9,999 permutations + leave-one-family-out + collinearity
         ↓
 OpenTree + dated phylogenetic sensitivity
         ↓
@@ -80,12 +164,27 @@ CR2/Satterthwaite + power/precision diagnostics
 canonical figures + manuscript + Supporting Information
 ```
 
-### Shared package
+Every primary metric uses:
 
-- `fcp_pipeline/constants.py` — frozen metrics/counts/model specification
-- `fcp_pipeline/evidence.py` — source-traceable spatial-evidence rules and normalization
-- `fcp_pipeline/models.py` — standardized GLM, permutation and LOFO helpers
+```text
+among ~ metric_z + effort_z
+```
+
+with family-clustered sandwich uncertainty, 9,999 label permutations and leave-one-family-out refits. Holm-adjusted probabilities across the five metrics are multiplicity context. VIF/condition-number diagnostics, OpenTree and time-scaled phylogenetic models, CR2/Satterthwaite inference and design-based power/precision simulation are sensitivity analyses.
+
+All five climatic-niche point estimates are below one. Moisture breadth shows the largest contrast, but multiplicity-adjusted and phylogenetic intervals do not support a unique moisture mechanism. The paper emphasizes effect sizes and directional consistency: geographically structured colour variation tends to occur toward the narrower end of sampled occupied climatic niche breadth than within-population coexistence.
+
+### Shared package and production entry points
+
+- `fcp_pipeline/constants.py` — frozen metrics, counts and model specification
+- `fcp_pipeline/evidence.py` — source-traceable spatial-evidence rules
+- `fcp_pipeline/models.py` — standardized GLM, permutation and family-deletion helpers
 - `fcp_pipeline/validation.py` — dataset, checksum and output invariants
+- `scripts/run_34species_models.py`
+- `scripts/run_34species_phylogenetic.R`
+- `scripts/run_34species_power_precision.py`
+- `scripts/run_34species_cr2.R`
+- `scripts/make_paper_figures.py`
 
 Install locally with:
 
@@ -93,48 +192,26 @@ Install locally with:
 python -m pip install -e .
 ```
 
-### Production entry points
-
-- `scripts/run_34species_models.py`
-- `scripts/run_34species_phylogenetic.R`
-- `scripts/run_34species_power_precision.py`
-- `scripts/run_34species_cr2.R`
-- `scripts/make_paper_figures.py`
-
-The canonical CI/reproduction entry is `.github/workflows/34species-paper.yml`. It reads the committed freeze directly and therefore does not depend on expiring Actions artifacts.
-
-## Statistical design
-
-Every main metric uses the same formula:
-
-```text
-among ~ metric_z + effort_z
-```
-
-with family-clustered sandwich uncertainty, 9,999 label permutations and leave-one-family-out refits. The permutation implementation first canonicalizes species order so finite Monte Carlo p-values are invariant to input row ordering. Holm-adjusted p-values across five metrics are reported as multiplicity context. VIF/condition-number diagnostics, OpenTree and time-scaled phylogenetic models, CR2/Satterthwaite inference and design-based power/precision simulation are sensitivity analyses.
-
-## Current result
-
-All five climatic-niche point estimates are negative. Moisture breadth shows the largest contrast (non-phylogenetic OR ≈ 0.41), but multiplicity-adjusted and phylogenetic intervals do not support claiming a unique moisture mechanism. The paper therefore emphasizes **effect sizes and directional consistency**: geographically structured colour variation tends to occur toward the narrower end of sampled occupied climatic niche breadth than within-population coexistence.
-
-## Canonical paper figures
-
-The main figures are selected from the biological question backward, not from whichever test gives the smallest p-value:
-
-1. `figure1_geographic_context` — geographic scope of the 34 focal species; broader exact GBIF records are context/QC, not the exact primary climate-metric sample.
-2. `figure2_five_metric_forest` — central result: all five production-model odds ratios on one common effect-size display.
-3. `figure3_raw_species_metrics` — the 34 species themselves across all five standardized climatic metrics.
-4. `figureS1_34_species_distribution_context` — supporting species-by-species geographic occurrence audit.
-
-See [`docs/FIGURE_PLAN.md`](docs/FIGURE_PLAN.md) for the selection logic and interpretation boundary.
-
 ## Repository boundary
 
-Active material should answer one of four questions:
+Active material must be assigned to one of the two lanes before it is interpreted.
 
-1. How were documented flower-colour cases found and classified?
-2. How were the frozen 34 species and their occupied climates constructed?
-3. What do the five symmetric comparative models and required robustness checks show?
-4. What is needed to reproduce, audit or submit that paper?
+### Chapter 1 spatial lane
 
-Exploratory analyses that do not answer one of these questions should remain outside the active path or be recoverable from Git history rather than duplicated in the submission tree.
+A file belongs here only if it supports:
+
+1. frozen photograph acquisition, calibration or evaluation;
+2. species-conditioned local colour organization;
+3. label-blind transition detectability and shared concentration;
+4. audit, figures or manuscript reporting for those analyses.
+
+### 34-species comparative lane
+
+A file belongs here only if it supports:
+
+1. discovery and classification of documented flower-colour cases;
+2. construction of the frozen 34-species occupied-climate dataset;
+3. the five comparative niche models and required robustness analyses;
+4. reproduction, audit or submission of that paper.
+
+Historical phase-theory work, unreviewed expanded-set experiments and exploratory geographic-cause overlays are not promoted into either confirmatory main line merely because they remain recoverable in repository history.
