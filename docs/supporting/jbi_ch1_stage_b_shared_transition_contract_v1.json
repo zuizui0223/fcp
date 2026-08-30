@@ -1,0 +1,97 @@
+{
+  "protocol": "jbi-ch1-stage-b-shared-transition-concentration-v1",
+  "status": "frozen_after_stage_a_before_any_shared_boundary_result",
+  "purpose": "Test whether strong within-species continuous flower-colour transitions from independent species are geographically concentrated in the same evaluable equal-area cells more than expected under the complete species-conditioned random-labelling pipeline.",
+  "gate": {
+    "required_stage_a_protocol": "jbi-ch1-stage-a-continuous-graph-v1",
+    "required_stage_a_status": "stage_a_evaluation_complete",
+    "required_stage_a_rejects_random_labelling_at_0_05": true,
+    "required_evaluation_records": 720,
+    "required_species": 6
+  },
+  "input": {
+    "primary_vector": "continuous_colour_vector_z",
+    "scaling_source": "calibration-only frozen means and population SDs from jbi-ch1-continuous-colour-representation-v1",
+    "measurement_evaluable_rule": "feature_status == ok and continuous_colour_vector_z is non-null and finite",
+    "minimum_evaluable_rows_per_species": 30,
+    "coordinates": "frozen jbi_ch1_photo_split_v1.csv latitude/longitude joined by photo_id"
+  },
+  "species_transition_intensity": {
+    "base_graph": "symmetrized spherical k-nearest-neighbour graph within each species",
+    "base_graph_k": 5,
+    "base_graph_uses_colour_values": false,
+    "local_edge_filter": "retain base-graph edges with great-circle distance <= the configuration max_edge_km",
+    "edge_score": "RMS Euclidean distance between frozen species-standardized continuous colour vectors",
+    "edge_intensity": "within-species average-rank transform of retained edge scores to [0,1] separately for each configuration and permutation",
+    "edge_location": "great-circle midpoint assigned to a fixed equal-area longitude-sin(latitude) cell",
+    "species_cell_intensity": "arithmetic mean of retained edge intensities whose midpoints fall in the cell"
+  },
+  "geometry_only_primary_selection": {
+    "selection_must_finish_before_any_observed_colour_edge_score_is_computed": true,
+    "candidate_max_edge_km_in_priority_order": [500, 1000, 2000],
+    "candidate_equal_area_grids_in_priority_order_within_edge_cap": [
+      {"n_lon": 36, "n_sinlat": 18},
+      {"n_lon": 24, "n_sinlat": 12},
+      {"n_lon": 18, "n_sinlat": 9}
+    ],
+    "priority_rule": "choose the first passing configuration by ascending max_edge_km, then by the listed finest-to-coarsest grid order",
+    "species_cell_detectable_rule": "at least 2 retained geometry edges in that species/cell",
+    "shared_cell_evaluable_rule": "A(x) >= 2 detectable species",
+    "passing_criteria": {
+      "minimum_retained_edges_per_species": 30,
+      "minimum_cells_A_ge_2": 8,
+      "minimum_cells_A_ge_3": 2,
+      "minimum_species_with_any_A_ge_2_opportunity": 4
+    },
+    "failure_rule": "if no configuration passes using coordinates and graph distances alone, report Stage B as not estimable and do not inspect colour-derived concentration statistics"
+  },
+  "shared_surface": {
+    "detectability_denominator": "A(x) = number of species with at least 2 retained geometry edges in cell x",
+    "shared_intensity": "S(x) = arithmetic mean of species-cell transition intensities among detectable species",
+    "minimum_detectable_species": 2,
+    "not_evaluable": "cells with A(x) < 2 are NaN, never zero"
+  },
+  "primary_statistic": {
+    "name": "opportunity-weighted shared-transition concentration",
+    "definition": "weighted variance of S(x) over cells with A(x)>=2 using A(x) as the cell weight",
+    "direction": "larger values indicate stronger geographic concentration of shared transition intensity",
+    "cellwise_p_values_are_primary": false
+  },
+  "null": {
+    "primary_permutations": 9999,
+    "sensitivity_permutations": 1999,
+    "random_seed": 20260830,
+    "locations_fixed": true,
+    "base_graph_fixed": true,
+    "local_edge_filter_fixed": true,
+    "grid_fixed": true,
+    "detectability_fixed_and_label_independent": true,
+    "complete_vectors_permuted_as_indivisible_rows": true,
+    "permutation_scope": "strictly within species",
+    "full_downstream_recomputation_each_replicate": [
+      "edge RMS discontinuities",
+      "within-species average-rank edge intensities",
+      "species-cell mean transition intensities",
+      "shared S(x) surface",
+      "opportunity-weighted concentration statistic"
+    ],
+    "primary_p_value": "Monte Carlo upper-tail: (1 + count(null_concentration >= observed_concentration)) / (B + 1)",
+    "secondary_two_sided_p_value": "absolute deviation from the null mean, reported descriptively"
+  },
+  "sensitivity": {
+    "configurations": "all non-primary candidate configurations that independently pass the same geometry-only criteria",
+    "role": "predeclared descriptive robustness only; the selected primary configuration remains the sole confirmatory Stage B test"
+  },
+  "interpretation": {
+    "stage_b_rejects_shared_concentration_null": "evidence that independent species place relatively strong continuous flower-colour transitions in the same evaluable geographic cells more often than expected under species-conditioned random labelling",
+    "stage_b_does_not_yet_establish": [
+      "a particular environmental cause",
+      "a particular historical cause",
+      "identical biological mechanisms among species"
+    ],
+    "next_if_supported": "freeze a geographic reference library and test post-discovery correspondence without changing the discovered transition surface",
+    "next_if_not_supported": "retain Stage A local organization as the supported result and report no confirmatory evidence for cross-species shared-boundary concentration at the frozen spatial supports"
+  },
+  "environment_used": false,
+  "geographic_reference_library_used": false
+}
