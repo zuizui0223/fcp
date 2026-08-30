@@ -1,0 +1,13 @@
+cohort_order,rank,canonical_name,family,best_doi,evidence_class,photo_state_risk,decision_basis
+1,10,Anemone coronaria,Ranunculaceae,10.1002/njb.05105,natural_discrete_polymorphism,low,"The ranked evidence explicitly describes red, purple and white flowers with a geographic pattern along an aridity gradient."
+2,11,Hesperis matronalis,Brassicaceae,10.1093/aob/mcn181,natural_discrete_polymorphism,low,The ranked evidence explicitly describes purple and white colour-polymorphic wild populations.
+3,12,Digitalis purpurea,Plantaginaceae,10.6084/m9.figshare.29095451.v1,natural_continuous_variation,low,The ranked evidence explicitly evaluates flower-colour variation across native and introduced populations.
+4,15,Phlox drummondii,Polemoniaceae,10.1111/j.1558-5646.2011.01452.x,natural_discrete_polymorphism,low,The ranked evidence identifies natural flower-colour variation associated with reproductive character displacement across the species range.
+5,16,Iris lutescens,Iridaceae,10.1093/aob/mcw036,natural_discrete_polymorphism,low,The ranked evidence explicitly describes a stable purple-yellow flower-colour polymorphism across the northern Mediterranean range.
+6,17,Silene littorea,Caryophyllaceae,10.1111/plb.13209,natural_discrete_polymorphism,low,The ranked evidence explicitly describes pink- and white-flowered plants in a natural polymorphic population.
+7,19,Lotus corniculatus,Fabaceae,10.1111/j.1469-8137.1981.tb04098.x,natural_discrete_polymorphism,low,The ranked evidence reports a geographic survey of dark and light keel-petal morph frequencies across coastal and inland Scotland.
+8,22,Lobelia siphilitica,Campanulaceae,10.1086/656511,natural_continuous_variation,low,"The ranked evidence estimates natural selection on floral brightness, chroma and hue in wild plants."
+9,23,Ipomopsis aggregata,Polemoniaceae,10.1002/j.1537-2197.1988.tb14186.x,natural_discrete_polymorphism,low,"The ranked evidence explicitly evaluates red, pink and white colour morphs."
+10,27,Anemone pavonina,Ranunculaceae,10.6084/m9.figshare.31301656,natural_discrete_polymorphism,low,The ranked evidence explicitly describes flower-colour polymorphism associated with spatiotemporal pollinator abundance.
+11,33,Platystemon californicus,Papaveraceae,10.1002/j.1537-2197.1981.tb12383.x,natural_discrete_polymorphism,low,The ranked evidence explicitly describes five genetically controlled flower-colour morphs occupying distinct geographic regions.
+12,34,Castilleja coccinea,Orobanchaceae,,natural_discrete_polymorphism,low,The ranked evidence explicitly describes naturally occurring scarlet and yellow floral-bract colour forms and tests their reproductive consequences.

@@ -1,0 +1,54 @@
+{
+  "cohort_csv_sha256": "960e030d5b552178ddceea1080494334482686f67b3296cb7658036c346542c7",
+  "contract_sha256": "018b134cfba2cd97aa203e216b322c89ea1a913c3bef180bd47025907567420e",
+  "ledger_decision_counts": {
+    "eligible": 13,
+    "exclude_breeding_only": 5,
+    "exclude_irrelevant_match": 5,
+    "exclude_ontogenetic_transition": 1,
+    "exclude_taxonomic_overlap": 1,
+    "hold_requires_review": 3
+  },
+  "ledger_sha256": "1fcac233d13d625bf02de5359ef94206352e4a7894ad141ca9b4ea65963a8c24",
+  "maximum_selected_rank": 34,
+  "next_gate": "iNaturalist metadata-only feasibility and deterministic 200-photo acquisition per selected species",
+  "protocol": "jbi-ch1-scaleup-cohort-v1",
+  "ranking_sha256": "f45012ec3956924b0f6abe5d9ab8ebf49895ba59187884c3267d812c95652b6d",
+  "selected_families": {
+    "Brassicaceae": 1,
+    "Campanulaceae": 1,
+    "Caryophyllaceae": 1,
+    "Fabaceae": 1,
+    "Iridaceae": 1,
+    "Orobanchaceae": 1,
+    "Papaveraceae": 1,
+    "Plantaginaceae": 1,
+    "Polemoniaceae": 2,
+    "Ranunculaceae": 2
+  },
+  "selected_new_species": 12,
+  "selected_species": [
+    "Anemone coronaria",
+    "Hesperis matronalis",
+    "Digitalis purpurea",
+    "Phlox drummondii",
+    "Iris lutescens",
+    "Silene littorea",
+    "Lotus corniculatus",
+    "Lobelia siphilitica",
+    "Ipomopsis aggregata",
+    "Anemone pavonina",
+    "Platystemon californicus",
+    "Castilleja coccinea"
+  ],
+  "selection_used_candidate_images": false,
+  "selection_used_environmental_layers": false,
+  "selection_used_flower_colour_measurements": false,
+  "selection_used_stage_a_effects": false,
+  "selection_used_stage_b_surfaces": false,
+  "skipped_for_family_cap": [
+    "Linanthus parryae"
+  ],
+  "status": "scaleup_cohort_selected_before_photo_acquisition",
+  "target_new_species": 12
+}
