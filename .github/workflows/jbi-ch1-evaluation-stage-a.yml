@@ -1,0 +1,255 @@
+name: JBI Chapter 1 aggregate 720 evaluation and Stage A
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - ".github/workflows/jbi-ch1-evaluation-stage-a.yml"
+      - "scripts/data/aggregate_jbi_ch1_evaluation_features_v1.py"
+      - "scripts/analysis/run_jbi_ch1_stage_a_v1.py"
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: jbi-ch1-evaluation-stage-a-v1
+  cancel-in-progress: false
+
+env:
+  SOURCE_RUN_ID: "33281907575"
+  SOURCE_BRANCH: analysis/jbi-global-colour-boundaries
+  AGGREGATE_DIR: data/derived/jbi_ch1_evaluation_720_v1
+  STAGE_A_DIR: results/jbi_ch1_stage_a_v1
+
+jobs:
+  aggregate-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Check out the analysis branch
+        uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package and validate runner syntax
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m py_compile \
+            scripts/data/aggregate_jbi_ch1_evaluation_features_v1.py \
+            scripts/analysis/run_jbi_ch1_stage_a_v1.py
+          python - <<'PY'
+          import numpy as np
+          from fcp_pipeline.spatial_graph import (
+              species_conditioned_graph_permutation_null,
+              species_conditioned_knn_graph,
+          )
+
+          # A deterministic smoke test for the exact graph/permutation machinery used below.
+          species = np.repeat(np.array(["a", "b"]), 12)
+          latitude = np.r_[np.linspace(35, 36, 12), np.linspace(45, 46, 12)]
+          longitude = np.r_[np.linspace(135, 136, 12), np.linspace(5, 6, 12)]
+          values = np.column_stack((np.linspace(-1, 1, 24), np.sin(np.arange(24))))
+          graph = species_conditioned_knn_graph(latitude, longitude, species, k=3)
+          result = species_conditioned_graph_permutation_null(
+              values,
+              species,
+              graph,
+              n_permutations=19,
+              rng=np.random.default_rng(17),
+          )
+          assert np.asarray(result["null_global_equal_species_mean"]).shape == (19,)
+          assert np.asarray(result["null_species_q"]).shape == (19, 2)
+          print("Stage A graph/permutation smoke test passed.")
+          PY
+
+      - name: Wait for the frozen Florence evaluation run to finish
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          completed=false
+          for attempt in $(seq 1 120); do
+            status=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}" --jq '.status')
+            conclusion=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}" --jq '.conclusion // ""')
+            echo "source run attempt=${attempt} status=${status} conclusion=${conclusion}"
+            if [[ "$status" == "completed" ]]; then
+              completed=true
+              if [[ "$conclusion" != "success" ]]; then
+                echo "Source evaluation run completed with conclusion=${conclusion}" >&2
+                gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/jobs?per_page=100" \
+                  --jq '.jobs[] | select(.conclusion != "success") | [.id,.name,.status,.conclusion] | @tsv' || true
+                exit 1
+              fi
+              break
+            fi
+            sleep 15
+          done
+          if [[ "$completed" != "true" ]]; then
+            echo "Source evaluation run did not complete inside the bounded polling window." >&2
+            exit 1
+          fi
+          source_head_sha=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}" --jq '.head_sha')
+          artifact_count=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts?per_page=100" --jq '.total_count')
+          echo "source_head_sha=${source_head_sha}" >> "$GITHUB_OUTPUT"
+          echo "artifact_count=${artifact_count}" >> "$GITHUB_OUTPUT"
+          echo "Frozen source run has ${artifact_count} artifacts at ${source_head_sha}."
+
+      - name: Download all 36 evaluation shards
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf source_shards
+          mkdir -p source_shards
+          gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --dir source_shards
+          mapfile -t jsonl_files < <(find source_shards -type f -name '*.jsonl' -print | sort)
+          printf '%s\n' "${jsonl_files[@]}"
+          if [[ "${#jsonl_files[@]}" -ne 36 ]]; then
+            echo "Expected 36 JSONL shards, found ${#jsonl_files[@]}." >&2
+            exit 1
+          fi
+
+      - name: Aggregate and validate all 720 evaluation measurements
+        id: aggregate
+        shell: bash
+        run: |
+          set -o pipefail
+          rm -rf "$AGGREGATE_DIR"
+          mkdir -p "$AGGREGATE_DIR"
+          set +e
+          python scripts/data/aggregate_jbi_ch1_evaluation_features_v1.py \
+            --input-dir source_shards \
+            --split-csv data/frozen/jbi_ch1_photo_split_v1.csv \
+            --output-jsonl "$AGGREGATE_DIR/evaluation_features.jsonl" \
+            --manifest-json "$AGGREGATE_DIR/aggregate_manifest.json" \
+            --schema-json "$AGGREGATE_DIR/evaluation_schema.json" \
+            --source-run-id "$SOURCE_RUN_ID" \
+            --source-head-sha "${{ steps.source.outputs.source_head_sha }}" \
+            2>&1 | tee "$AGGREGATE_DIR/aggregate.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Commit the immutable 720-row aggregate and diagnostics
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f "$AGGREGATE_DIR"
+          if ! git diff --cached --quiet; then
+            git commit -m "Aggregate frozen 720-photo evaluation features"
+            for attempt in 1 2 3; do
+              git pull --rebase origin "$SOURCE_BRANCH"
+              if git push origin "HEAD:$SOURCE_BRANCH"; then
+                break
+              fi
+              if [[ "$attempt" == "3" ]]; then exit 1; fi
+              sleep 5
+            done
+          fi
+
+      - name: Stop on an invalid or incomplete aggregate
+        if: steps.aggregate.outputs.status != '0'
+        run: |
+          echo "The aggregate contract failed; diagnostics were committed before stopping." >&2
+          exit 1
+
+      - name: Execute primary k=5 and sensitivity k=3,8 Stage A tests
+        id: stage_a
+        shell: bash
+        run: |
+          set -o pipefail
+          rm -rf "$STAGE_A_DIR"
+          mkdir -p "$STAGE_A_DIR"
+          set +e
+          python scripts/analysis/run_jbi_ch1_stage_a_v1.py \
+            --evaluation-jsonl "$AGGREGATE_DIR/evaluation_features.jsonl" \
+            --calibration-root . \
+            --output-dir "$STAGE_A_DIR" \
+            --permutations 9999 \
+            --seed 20260830 \
+            2>&1 | tee "$STAGE_A_DIR/stage_a.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          if [[ "$status" -ne 0 ]]; then
+            python - "$status" "$STAGE_A_DIR/stage_a_failure.json" <<'PY'
+          import json
+          import sys
+          from datetime import datetime, timezone
+          from pathlib import Path
+          status, path = sys.argv[1:]
+          Path(path).write_text(json.dumps({
+              "protocol": "jbi_ch1_stage_a_spatial_colour_test_v1",
+              "status": "failed",
+              "exit_code": int(status),
+              "failure_log": "stage_a.log",
+              "created_at_utc": datetime.now(timezone.utc).isoformat(),
+          }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+          fi
+          exit 0
+
+      - name: Commit Stage A results or explicit failure diagnostics
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f "$STAGE_A_DIR"
+          if ! git diff --cached --quiet; then
+            git commit -m "Run preregistered Stage A on 720 evaluation photos"
+            for attempt in 1 2 3; do
+              git pull --rebase origin "$SOURCE_BRANCH"
+              if git push origin "HEAD:$SOURCE_BRANCH"; then
+                break
+              fi
+              if [[ "$attempt" == "3" ]]; then exit 1; fi
+              sleep 5
+            done
+          fi
+
+      - name: Require a completed Stage A analysis
+        if: steps.stage_a.outputs.status != '0'
+        run: |
+          echo "Stage A could not run under the frozen representation/scaler contract; failure diagnostics were committed." >&2
+          exit 1
+
+      - name: Verify committed result contract
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          aggregate = json.loads(Path('data/derived/jbi_ch1_evaluation_720_v1/aggregate_manifest.json').read_text())
+          stage = json.loads(Path('results/jbi_ch1_stage_a_v1/stage_a_manifest.json').read_text())
+          global_rows = list(csv.DictReader(Path('results/jbi_ch1_stage_a_v1/stage_a_global_summary.csv').open()))
+          assert aggregate['validation_status'] == 'success'
+          assert aggregate['aggregate_rows'] == 720
+          assert aggregate['feature_failure_count'] == 0
+          assert stage['n_evaluation'] == 720
+          assert stage['n_permutations'] == 9999
+          assert stage['primary_k'] == 5
+          assert stage['sensitivity_k'] == [3, 8]
+          assert {int(row['k']) for row in global_rows} == {3, 5, 8}
+          print('Committed 720-row aggregate and Stage A result contract verified.')
+          PY
