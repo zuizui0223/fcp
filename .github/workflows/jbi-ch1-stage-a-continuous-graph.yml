@@ -6,6 +6,7 @@ on:
     branches:
       - analysis/jbi-global-colour-boundaries
     paths:
+      - ".github/workflows/jbi-ch1-stage-a-continuous-graph.yml"
       - "data/evaluation/jbi_ch1_florence_evaluation_features_v1.jsonl"
       - "scripts/analysis/run_jbi_ch1_stage_a_continuous_graph.py"
       - "docs/supporting/jbi_ch1_stage_a_continuous_graph_contract_v1.json"
