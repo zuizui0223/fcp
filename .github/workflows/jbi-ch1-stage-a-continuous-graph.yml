@@ -1,0 +1,133 @@
+name: JBI Chapter 1 Stage A continuous graph
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries
+    paths:
+      - "data/evaluation/jbi_ch1_florence_evaluation_features_v1.jsonl"
+      - "scripts/analysis/run_jbi_ch1_stage_a_continuous_graph.py"
+      - "docs/supporting/jbi_ch1_stage_a_continuous_graph_contract_v1.json"
+      - "docs/supporting/jbi_ch1_continuous_colour_representation_v1.json"
+      - "data/frozen/jbi_ch1_photo_split_v1.csv"
+      - "fcp_pipeline/continuous_colour_boundaries.py"
+      - "fcp_pipeline/spatial_graph.py"
+      - "tests/test_continuous_colour_boundaries.py"
+      - "tests/test_spatial_graph.py"
+      - "tests/test_stage_a_continuous_graph.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-stage-a-continuous-graph-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stage-a:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Verify frozen Stage A implementation
+        run: |
+          python -m pytest -q \
+            tests/test_continuous_colour_boundaries.py \
+            tests/test_spatial_graph.py \
+            tests/test_stage_a_continuous_graph.py
+      - name: Validate 720-photo analysis gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          features = Path('data/evaluation/jbi_ch1_florence_evaluation_features_v1.jsonl')
+          contract = Path('docs/supporting/jbi_ch1_stage_a_continuous_graph_contract_v1.json')
+          if not features.is_file():
+              raise SystemExit('720-photo evaluation aggregate is not committed')
+          rows = [json.loads(line) for line in features.read_text(encoding='utf-8').splitlines() if line.strip()]
+          if len(rows) != 720 or len({str(r['photo_id']) for r in rows}) != 720:
+              raise SystemExit('Stage A requires exactly 720 unique evaluation rows')
+          frozen = json.loads(contract.read_text(encoding='utf-8'))
+          assert frozen['status'] == 'frozen_before_any_evaluation_spatial_colour_result'
+          assert frozen['geometry']['primary_k'] == 5
+          assert frozen['geometry']['predeclared_sensitivity_k'] == [3, 8]
+          assert frozen['null']['permutations'] == 9999
+          assert frozen['null']['permutation_scope'] == 'strictly within species'
+          print('Stage A gate passed: 720 rows; k=5 primary; k=3,8 sensitivity; 9,999 permutations.')
+          PY
+      - name: Run frozen Stage A continuous graph analysis
+        run: |
+          python scripts/analysis/run_jbi_ch1_stage_a_continuous_graph.py
+      - name: Validate Stage A outputs
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          result_path = Path('docs/supporting/jbi_ch1_stage_a_continuous_graph_v1.json')
+          null_path = Path('data/evaluation/jbi_ch1_stage_a_primary_null_v1.csv')
+          result = json.loads(result_path.read_text(encoding='utf-8'))
+          assert result['status'] == 'stage_a_evaluation_complete'
+          assert result['n_evaluation_records'] == 720
+          assert result['n_permutations'] == 9999
+          assert result['primary_k'] == 5
+          assert result['sensitivity_k'] == [3, 8]
+          assert set(result['analyses_by_k']) == {'3', '5', '8'}
+          assert all(len(result['analyses_by_k'][k]['species']) == 6 for k in ('3', '5', '8'))
+          primary = result['primary_global_result']
+          assert 0.0001 <= primary['p_lower_tail'] <= 1.0
+          assert result['environment_used'] is False
+          assert result['geographic_reference_library_used'] is False
+          with null_path.open(newline='', encoding='utf-8') as handle:
+              rows = list(csv.reader(handle))
+          assert len(rows) == 10000
+          assert len(rows[0]) == 8
+          assert rows[0][0] == 'permutation'
+          print(json.dumps({
+              'observed_global_q': primary['observed'],
+              'null_mean': primary['null_mean'],
+              'standardized_clustering_deficit': primary['standardized_clustering_deficit'],
+              'p_lower_tail': primary['p_lower_tail'],
+              'rejects_random_labelling_at_0_05': result['primary_rejects_random_labelling_at_0_05'],
+          }, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-stage-a-continuous-graph-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            docs/supporting/jbi_ch1_stage_a_continuous_graph_v1.json
+            data/evaluation/jbi_ch1_stage_a_primary_null_v1.csv
+      - name: Commit Stage A results with retry
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            docs/supporting/jbi_ch1_stage_a_continuous_graph_v1.json \
+            data/evaluation/jbi_ch1_stage_a_primary_null_v1.csv
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Run frozen Stage A continuous colour graph analysis"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/jbi-global-colour-boundaries
+            git rebase origin/analysis/jbi-global-colour-boundaries
+            if git push origin HEAD:analysis/jbi-global-colour-boundaries; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
