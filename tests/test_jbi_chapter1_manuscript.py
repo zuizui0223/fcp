@@ -82,15 +82,12 @@ def test_manuscript_preserves_ordered_gates_and_claim_boundary() -> None:
         "the primary shared-concentration null was therefore not rejected",
         "did not show that independent species concentrated their strongest transitions",
         "not a universal boundary or common mechanism",
+        "environmental and historical reference layers were not used",
+        "environmental or historical layers can then be introduced",
         "exploratory and cannot rescue the common-boundary hypothesis",
         "not spectrophotometric measurements",
     ):
         assert token in text
-
-    assert (
-        "environmental or historical reference layers" in text
-        or "environmental or historical overlays" in text
-    )
 
     for forbidden in (
         "the shared-concentration null was rejected",
