@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/runner/work/fcp/fcp/scripts/analysis/run_jbi_ch1_stage_a_v1.py", line 521, in <module>
+    main()
+  File "/home/runner/work/fcp/fcp/scripts/analysis/run_jbi_ch1_stage_a_v1.py", line 391, in main
+    representation = discover_representation(rows)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/fcp/fcp/scripts/analysis/run_jbi_ch1_stage_a_v1.py", line 208, in discover_representation
+    raise ValueError(
+ValueError: no preregistered continuous-colour representation was found; top-level fields were: _source_shard_file, attribution, blind_id, calibration_only, candidate_scores, candidate_state_numeric, compute_shard_count, compute_shard_index, detected_box_area_fraction_max, detected_box_area_fraction_min, detection_prompt, direct_palette_candidate_is_final_state, downloaded_from, evaluation_feature_measurement, evaluation_row, feature_status, final_label, flower_only_fractions, frozen_representation_protocol, latitude, localization_status, longitude, model, n_detected_boxes, observation_id, observed_month, observed_on, palette_counts, photo_id, photo_license, photo_url, protocol, selected_bbox, selected_bbox_area_fraction, selection_hash, spatial_cell, species, split, split_rank_hash
