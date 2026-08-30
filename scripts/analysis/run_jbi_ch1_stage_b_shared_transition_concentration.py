@@ -147,7 +147,7 @@ def freeze_geometry_candidates(
     """Evaluate and select geometry configurations without reading any colour values."""
 
     selection = contract["geometry_only_primary_selection"]
-    min_edges_per_cell = int(selection["species_cell_detectable_rule"].split("at least ")[1].split()[0])
+    min_edges_per_cell = int(selection["minimum_retained_edges_per_species_cell"])
     min_detectable_species = int(contract["shared_surface"]["minimum_detectable_species"])
     criteria = selection["passing_criteria"]
 
@@ -346,15 +346,19 @@ def run_configuration(
         }
         for cell in top_order[:20]
     ]
-    species_summary = {
-        species: {
+    species_summary: dict[str, object] = {}
+    for index, species in enumerate(EXPECTED_SPECIES):
+        supported_values = intensity[index, detectable[index]]
+        species_summary[species] = {
             "retained_edges": int(len(geometries[index].retained_edges)),
             "detectable_cells": int(np.count_nonzero(detectable[index])),
-            "mean_intensity_over_detectable_cells": float(np.nanmean(intensity[index, detectable[index]])),
-            "maximum_cell_intensity": float(np.nanmax(intensity[index, detectable[index]])),
+            "mean_intensity_over_detectable_cells": (
+                float(supported_values.mean()) if len(supported_values) else None
+            ),
+            "maximum_cell_intensity": (
+                float(supported_values.max()) if len(supported_values) else None
+            ),
         }
-        for index, species in enumerate(EXPECTED_SPECIES)
-    }
     result: dict[str, object] = {
         "n_permutations": int(n_permutations),
         "random_seed": int(seed),
@@ -457,9 +461,11 @@ def main() -> int:
     if contract.get("protocol") != PROTOCOL or contract.get("status") != "frozen_after_stage_a_before_any_shared_boundary_result":
         raise ValueError("Stage B contract is not frozen")
     gate = contract["gate"]
+    if int(gate["required_species"]) != len(EXPECTED_SPECIES):
+        raise ValueError("frozen Stage B species count does not match implementation")
     if stage_a.get("protocol") != gate["required_stage_a_protocol"] or stage_a.get("status") != gate["required_stage_a_status"]:
         raise ValueError("Stage A gate is not complete")
-    if bool(stage_a.get("primary_rejects_random_labelling_at_0_05")) is not bool(gate["required_stage_a_rejects_random_labelling_at_0_05"]):
+    if bool(stage_a.get("primary_rejects_random_labelling_at_0_05")) != bool(gate["required_stage_a_rejects_random_labelling_at_0_05"]):
         raise ValueError("Stage A gate decision does not match the frozen Stage B requirement")
     if representation.get("status") != "frozen_before_evaluation_values_inspected":
         raise ValueError("continuous representation is not frozen")
@@ -496,7 +502,7 @@ def main() -> int:
     )
 
     # This entire selection block uses only species, coordinates, graph edges and edge
-    # distances.  No observed colour score is computed before selected_key is fixed.
+    # distances. No observed colour score is computed before selected_key is fixed.
     geometry_audit, geometry_cache, selected_key = freeze_geometry_candidates(species_inputs, contract)
     geometry_audit.update(
         {
