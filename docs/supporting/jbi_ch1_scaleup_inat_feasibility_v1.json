@@ -1,0 +1,1251 @@
+{
+  "candidate_images_downloaded": false,
+  "candidate_manifest_rows": 2400,
+  "candidate_manifest_sha256": "7ca37d16217298394a8482643f0beaa223231076d6f6d470fccc1fbd49b18b39",
+  "candidate_manifest_valid_for_final_freeze": true,
+  "cohort_csv_sha256": "960e030d5b552178ddceea1080494334482686f67b3296cb7658036c346542c7",
+  "cohort_manifest_sha256": "50fddc719cbe8d4985cd4970f875ad297f7b11a9524d4cdbcb2d0f584ac0b0c0",
+  "contract_sha256": "bba7b3e18257ebe09561a05fba54b15079bb52b4c3c1bba2d1ac791e4c1ac57b",
+  "environmental_layers_used": false,
+  "failed_species": [],
+  "flower_colour_pixels_inspected": false,
+  "next_gate": "freeze the 2400-row source and deterministic 960/1440 split",
+  "passing_species": [
+    "Anemone coronaria",
+    "Hesperis matronalis",
+    "Digitalis purpurea",
+    "Phlox drummondii",
+    "Iris lutescens",
+    "Silene littorea",
+    "Lotus corniculatus",
+    "Lobelia siphilitica",
+    "Ipomopsis aggregata",
+    "Anemone pavonina",
+    "Platystemon californicus",
+    "Castilleja coccinea"
+  ],
+  "protocol": "jbi-ch1-scaleup-inat-feasibility-v1",
+  "species_audited": 12,
+  "species_passed": 12,
+  "species_results": [
+    {
+      "candidate_count": 2964,
+      "candidate_images_downloaded": false,
+      "cohort_order": 1,
+      "family": "Ranunculaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 244745,
+      "inat_taxon_name": "Anemone coronaria",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.32,
+      "maximum_observer_fraction": 0.01,
+      "maximum_spatial_cell_fraction": 0.005,
+      "month_counts": [
+        [
+          "1",
+          8
+        ],
+        [
+          "10",
+          1
+        ],
+        [
+          "11",
+          1
+        ],
+        [
+          "12",
+          4
+        ],
+        [
+          "2",
+          38
+        ],
+        [
+          "3",
+          64
+        ],
+        [
+          "4",
+          54
+        ],
+        [
+          "5",
+          12
+        ],
+        [
+          "6",
+          11
+        ],
+        [
+          "7",
+          4
+        ],
+        [
+          "8",
+          2
+        ],
+        [
+          "9",
+          1
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "aryathesage",
+          2
+        ],
+        [
+          "luigitorino",
+          2
+        ],
+        [
+          "nickpapag",
+          2
+        ],
+        [
+          "ibrahim_hirory",
+          2
+        ],
+        [
+          "hamron",
+          1
+        ],
+        [
+          "karenwilliams4",
+          1
+        ],
+        [
+          "piergiorgio_valzano",
+          1
+        ],
+        [
+          "slobirder",
+          1
+        ],
+        [
+          "adrinou",
+          1
+        ],
+        [
+          "mariedekroon",
+          1
+        ]
+      ],
+      "rank": 10,
+      "selected_count": 200,
+      "species": "Anemone coronaria",
+      "status": "pass",
+      "unique_calendar_months": 12,
+      "unique_observers": 196,
+      "unique_spatial_cells": 200
+    },
+    {
+      "candidate_count": 2979,
+      "candidate_images_downloaded": false,
+      "cohort_order": 2,
+      "family": "Brassicaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 47697,
+      "inat_taxon_name": "Hesperis matronalis",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.405,
+      "maximum_observer_fraction": 0.01,
+      "maximum_spatial_cell_fraction": 0.005,
+      "month_counts": [
+        [
+          "10",
+          1
+        ],
+        [
+          "11",
+          2
+        ],
+        [
+          "12",
+          3
+        ],
+        [
+          "3",
+          2
+        ],
+        [
+          "4",
+          6
+        ],
+        [
+          "5",
+          78
+        ],
+        [
+          "6",
+          81
+        ],
+        [
+          "7",
+          18
+        ],
+        [
+          "8",
+          7
+        ],
+        [
+          "9",
+          2
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "aarongunnar",
+          2
+        ],
+        [
+          "eduard_garin",
+          2
+        ],
+        [
+          "jasonrgrant",
+          2
+        ],
+        [
+          "curiousbynature",
+          2
+        ],
+        [
+          "jeremybarker",
+          2
+        ],
+        [
+          "sanguinaria33",
+          2
+        ],
+        [
+          "ctracey",
+          2
+        ],
+        [
+          "cjchurch",
+          2
+        ],
+        [
+          "birdizlife",
+          2
+        ],
+        [
+          "murielbendel",
+          2
+        ]
+      ],
+      "rank": 11,
+      "selected_count": 200,
+      "species": "Hesperis matronalis",
+      "status": "pass",
+      "unique_calendar_months": 10,
+      "unique_observers": 187,
+      "unique_spatial_cells": 200
+    },
+    {
+      "candidate_count": 2960,
+      "candidate_images_downloaded": false,
+      "cohort_order": 3,
+      "family": "Plantaginaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 53983,
+      "inat_taxon_name": "Digitalis purpurea",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.31,
+      "maximum_observer_fraction": 0.015,
+      "maximum_spatial_cell_fraction": 0.005,
+      "month_counts": [
+        [
+          "1",
+          6
+        ],
+        [
+          "10",
+          7
+        ],
+        [
+          "11",
+          7
+        ],
+        [
+          "12",
+          3
+        ],
+        [
+          "2",
+          4
+        ],
+        [
+          "3",
+          4
+        ],
+        [
+          "4",
+          8
+        ],
+        [
+          "5",
+          32
+        ],
+        [
+          "6",
+          62
+        ],
+        [
+          "7",
+          41
+        ],
+        [
+          "8",
+          18
+        ],
+        [
+          "9",
+          8
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "francisco100",
+          3
+        ],
+        [
+          "grzegorz_grzejszczak",
+          2
+        ],
+        [
+          "bstarzomski",
+          2
+        ],
+        [
+          "thomasschreiter",
+          2
+        ],
+        [
+          "rappman",
+          1
+        ],
+        [
+          "jperalta",
+          1
+        ],
+        [
+          "gijs",
+          1
+        ],
+        [
+          "reddad",
+          1
+        ],
+        [
+          "rballard",
+          1
+        ],
+        [
+          "jrockhill",
+          1
+        ]
+      ],
+      "rank": 12,
+      "selected_count": 200,
+      "species": "Digitalis purpurea",
+      "status": "pass",
+      "unique_calendar_months": 12,
+      "unique_observers": 195,
+      "unique_spatial_cells": 200
+    },
+    {
+      "candidate_count": 2971,
+      "candidate_images_downloaded": false,
+      "cohort_order": 4,
+      "family": "Polemoniaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 126177,
+      "inat_taxon_name": "Phlox drummondii",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.28,
+      "maximum_observer_fraction": 0.01,
+      "maximum_spatial_cell_fraction": 0.01,
+      "month_counts": [
+        [
+          "1",
+          2
+        ],
+        [
+          "10",
+          3
+        ],
+        [
+          "11",
+          1
+        ],
+        [
+          "2",
+          9
+        ],
+        [
+          "3",
+          28
+        ],
+        [
+          "4",
+          56
+        ],
+        [
+          "5",
+          53
+        ],
+        [
+          "6",
+          25
+        ],
+        [
+          "7",
+          10
+        ],
+        [
+          "8",
+          7
+        ],
+        [
+          "9",
+          6
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "bzl",
+          2
+        ],
+        [
+          "strgzzr",
+          2
+        ],
+        [
+          "jim_keesling",
+          2
+        ],
+        [
+          "shardintx",
+          2
+        ],
+        [
+          "crcrogers",
+          2
+        ],
+        [
+          "hemmigirl2282",
+          2
+        ],
+        [
+          "aztekium",
+          2
+        ],
+        [
+          "gillydilly",
+          2
+        ],
+        [
+          "hippydippyredneck",
+          2
+        ],
+        [
+          "connlindajo",
+          2
+        ]
+      ],
+      "rank": 15,
+      "selected_count": 200,
+      "species": "Phlox drummondii",
+      "status": "pass",
+      "unique_calendar_months": 11,
+      "unique_observers": 190,
+      "unique_spatial_cells": 147
+    },
+    {
+      "candidate_count": 2733,
+      "candidate_images_downloaded": false,
+      "cohort_order": 5,
+      "family": "Iridaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 358135,
+      "inat_taxon_name": "Iris lutescens",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.415,
+      "maximum_observer_fraction": 0.025,
+      "maximum_spatial_cell_fraction": 0.03,
+      "month_counts": [
+        [
+          "1",
+          4
+        ],
+        [
+          "12",
+          2
+        ],
+        [
+          "2",
+          18
+        ],
+        [
+          "3",
+          66
+        ],
+        [
+          "4",
+          83
+        ],
+        [
+          "5",
+          23
+        ],
+        [
+          "6",
+          1
+        ],
+        [
+          "7",
+          2
+        ],
+        [
+          "9",
+          1
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "jmvanel",
+          5
+        ],
+        [
+          "pvalverde",
+          5
+        ],
+        [
+          "jltasset",
+          5
+        ],
+        [
+          "eanmb",
+          4
+        ],
+        [
+          "pitimys",
+          4
+        ],
+        [
+          "montsec",
+          3
+        ],
+        [
+          "alainc",
+          3
+        ],
+        [
+          "basvanhulst-kuiper",
+          3
+        ],
+        [
+          "bertogcliment",
+          2
+        ],
+        [
+          "demetriovidal",
+          2
+        ]
+      ],
+      "rank": 16,
+      "selected_count": 200,
+      "species": "Iris lutescens",
+      "status": "pass",
+      "unique_calendar_months": 9,
+      "unique_observers": 159,
+      "unique_spatial_cells": 50
+    },
+    {
+      "candidate_count": 1044,
+      "candidate_images_downloaded": false,
+      "cohort_order": 6,
+      "family": "Caryophyllaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 123907,
+      "inat_taxon_name": "Silene littorea",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.295,
+      "maximum_observer_fraction": 0.08,
+      "maximum_spatial_cell_fraction": 0.065,
+      "month_counts": [
+        [
+          "1",
+          12
+        ],
+        [
+          "12",
+          2
+        ],
+        [
+          "2",
+          37
+        ],
+        [
+          "3",
+          59
+        ],
+        [
+          "4",
+          54
+        ],
+        [
+          "5",
+          28
+        ],
+        [
+          "6",
+          7
+        ],
+        [
+          "7",
+          1
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "faluke",
+          16
+        ],
+        [
+          "martinho-fiz",
+          5
+        ],
+        [
+          "ahparadis",
+          5
+        ],
+        [
+          "f_clamote",
+          4
+        ],
+        [
+          "lorena_pardo",
+          4
+        ],
+        [
+          "juan_linares",
+          3
+        ],
+        [
+          "katrin_simon",
+          3
+        ],
+        [
+          "franck_le_driant",
+          3
+        ],
+        [
+          "pedroramalho",
+          3
+        ],
+        [
+          "silvia_polygala",
+          3
+        ]
+      ],
+      "rank": 17,
+      "selected_count": 200,
+      "species": "Silene littorea",
+      "status": "pass",
+      "unique_calendar_months": 8,
+      "unique_observers": 146,
+      "unique_spatial_cells": 19
+    },
+    {
+      "candidate_count": 2978,
+      "candidate_images_downloaded": false,
+      "cohort_order": 7,
+      "family": "Fabaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 47435,
+      "inat_taxon_name": "Lotus corniculatus",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.33,
+      "maximum_observer_fraction": 0.015,
+      "maximum_spatial_cell_fraction": 0.005,
+      "month_counts": [
+        [
+          "10",
+          2
+        ],
+        [
+          "2",
+          1
+        ],
+        [
+          "3",
+          2
+        ],
+        [
+          "4",
+          5
+        ],
+        [
+          "5",
+          47
+        ],
+        [
+          "6",
+          66
+        ],
+        [
+          "7",
+          38
+        ],
+        [
+          "8",
+          26
+        ],
+        [
+          "9",
+          13
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "silversea_starsong",
+          3
+        ],
+        [
+          "anro",
+          3
+        ],
+        [
+          "thunefeld",
+          3
+        ],
+        [
+          "jmcalpin",
+          2
+        ],
+        [
+          "danielcahen",
+          2
+        ],
+        [
+          "lazza",
+          2
+        ],
+        [
+          "jeremybarker",
+          2
+        ],
+        [
+          "tiggrx",
+          2
+        ],
+        [
+          "johndreynolds",
+          2
+        ],
+        [
+          "fero",
+          2
+        ]
+      ],
+      "rank": 19,
+      "selected_count": 200,
+      "species": "Lotus corniculatus",
+      "status": "pass",
+      "unique_calendar_months": 9,
+      "unique_observers": 183,
+      "unique_spatial_cells": 200
+    },
+    {
+      "candidate_count": 2978,
+      "candidate_images_downloaded": false,
+      "cohort_order": 8,
+      "family": "Campanulaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 119806,
+      "inat_taxon_name": "Lobelia siphilitica",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.495,
+      "maximum_observer_fraction": 0.015,
+      "maximum_spatial_cell_fraction": 0.005,
+      "month_counts": [
+        [
+          "10",
+          11
+        ],
+        [
+          "6",
+          1
+        ],
+        [
+          "7",
+          8
+        ],
+        [
+          "8",
+          99
+        ],
+        [
+          "9",
+          81
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "alexgraeff",
+          3
+        ],
+        [
+          "eric_hunt",
+          3
+        ],
+        [
+          "omcelroy",
+          2
+        ],
+        [
+          "bobcc",
+          2
+        ],
+        [
+          "conniecowan",
+          2
+        ],
+        [
+          "aarongunnar",
+          2
+        ],
+        [
+          "yakfur",
+          2
+        ],
+        [
+          "milopyne",
+          2
+        ],
+        [
+          "annagypsy",
+          2
+        ],
+        [
+          "user5283",
+          1
+        ]
+      ],
+      "rank": 22,
+      "selected_count": 200,
+      "species": "Lobelia siphilitica",
+      "status": "pass",
+      "unique_calendar_months": 5,
+      "unique_observers": 189,
+      "unique_spatial_cells": 200
+    },
+    {
+      "candidate_count": 2943,
+      "candidate_images_downloaded": false,
+      "cohort_order": 9,
+      "family": "Polemoniaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 52136,
+      "inat_taxon_name": "Ipomopsis aggregata",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.305,
+      "maximum_observer_fraction": 0.015,
+      "maximum_spatial_cell_fraction": 0.01,
+      "month_counts": [
+        [
+          "10",
+          9
+        ],
+        [
+          "11",
+          3
+        ],
+        [
+          "2",
+          3
+        ],
+        [
+          "3",
+          1
+        ],
+        [
+          "4",
+          3
+        ],
+        [
+          "5",
+          24
+        ],
+        [
+          "6",
+          61
+        ],
+        [
+          "7",
+          58
+        ],
+        [
+          "8",
+          26
+        ],
+        [
+          "9",
+          12
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "elinpierce",
+          3
+        ],
+        [
+          "rhjackso",
+          2
+        ],
+        [
+          "craigmartin",
+          2
+        ],
+        [
+          "mhays",
+          2
+        ],
+        [
+          "robatk",
+          2
+        ],
+        [
+          "ramblinghemlock",
+          2
+        ],
+        [
+          "gcwarbler",
+          2
+        ],
+        [
+          "ck2az",
+          2
+        ],
+        [
+          "sonoranaturalist",
+          2
+        ],
+        [
+          "hikerd",
+          2
+        ]
+      ],
+      "rank": 23,
+      "selected_count": 200,
+      "species": "Ipomopsis aggregata",
+      "status": "pass",
+      "unique_calendar_months": 10,
+      "unique_observers": 186,
+      "unique_spatial_cells": 162
+    },
+    {
+      "candidate_count": 1618,
+      "candidate_images_downloaded": false,
+      "cohort_order": 10,
+      "family": "Ranunculaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 1318569,
+      "inat_taxon_name": "Anemone pavonina",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.4,
+      "maximum_observer_fraction": 0.03,
+      "maximum_spatial_cell_fraction": 0.02,
+      "month_counts": [
+        [
+          "1",
+          8
+        ],
+        [
+          "12",
+          3
+        ],
+        [
+          "2",
+          21
+        ],
+        [
+          "3",
+          80
+        ],
+        [
+          "4",
+          72
+        ],
+        [
+          "5",
+          16
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "surfelife",
+          6
+        ],
+        [
+          "josefwirth",
+          4
+        ],
+        [
+          "vasileiasef",
+          3
+        ],
+        [
+          "give_peace_a_chance",
+          3
+        ],
+        [
+          "kocoleoptera",
+          3
+        ],
+        [
+          "katya",
+          3
+        ],
+        [
+          "platonkleanthidis",
+          3
+        ],
+        [
+          "aristotelis_skiadaresis",
+          3
+        ],
+        [
+          "nickpapag",
+          3
+        ],
+        [
+          "chriskazil",
+          2
+        ]
+      ],
+      "rank": 27,
+      "selected_count": 200,
+      "species": "Anemone pavonina",
+      "status": "pass",
+      "unique_calendar_months": 6,
+      "unique_observers": 165,
+      "unique_spatial_cells": 65
+    },
+    {
+      "candidate_count": 2984,
+      "candidate_images_downloaded": false,
+      "cohort_order": 11,
+      "family": "Papaveraceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 51288,
+      "inat_taxon_name": "Platystemon californicus",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.5,
+      "maximum_observer_fraction": 0.03,
+      "maximum_spatial_cell_fraction": 0.025,
+      "month_counts": [
+        [
+          "2",
+          2
+        ],
+        [
+          "3",
+          60
+        ],
+        [
+          "4",
+          100
+        ],
+        [
+          "5",
+          34
+        ],
+        [
+          "6",
+          3
+        ],
+        [
+          "7",
+          1
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "serpophaga",
+          6
+        ],
+        [
+          "littlegrove",
+          3
+        ],
+        [
+          "efmer",
+          3
+        ],
+        [
+          "annyperalta",
+          3
+        ],
+        [
+          "mccreedy",
+          2
+        ],
+        [
+          "euproserpinus",
+          2
+        ],
+        [
+          "zapius",
+          2
+        ],
+        [
+          "e-albright",
+          2
+        ],
+        [
+          "jeanavila",
+          2
+        ],
+        [
+          "conorflynn",
+          2
+        ]
+      ],
+      "rank": 33,
+      "selected_count": 200,
+      "species": "Platystemon californicus",
+      "status": "pass",
+      "unique_calendar_months": 6,
+      "unique_observers": 174,
+      "unique_spatial_cells": 51
+    },
+    {
+      "candidate_count": 2955,
+      "candidate_images_downloaded": false,
+      "cohort_order": 12,
+      "family": "Orobanchaceae",
+      "flower_colour_pixels_inspected": false,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_taxon_id": 49342,
+      "inat_taxon_name": "Castilleja coccinea",
+      "inat_taxon_rank": "species",
+      "maximum_month_fraction": 0.355,
+      "maximum_observer_fraction": 0.015,
+      "maximum_spatial_cell_fraction": 0.01,
+      "month_counts": [
+        [
+          "10",
+          2
+        ],
+        [
+          "3",
+          1
+        ],
+        [
+          "4",
+          30
+        ],
+        [
+          "5",
+          70
+        ],
+        [
+          "6",
+          71
+        ],
+        [
+          "7",
+          20
+        ],
+        [
+          "8",
+          5
+        ],
+        [
+          "9",
+          1
+        ]
+      ],
+      "observer_counts_top10": [
+        [
+          "wetlandfan",
+          3
+        ],
+        [
+          "theo_witsell",
+          3
+        ],
+        [
+          "annmcpete",
+          2
+        ],
+        [
+          "mlgabrielson",
+          2
+        ],
+        [
+          "rtschmitz",
+          2
+        ],
+        [
+          "cadecampbell",
+          2
+        ],
+        [
+          "makielb",
+          2
+        ],
+        [
+          "becky221",
+          2
+        ],
+        [
+          "cjchurch",
+          2
+        ],
+        [
+          "stevendaniel",
+          2
+        ]
+      ],
+      "rank": 34,
+      "selected_count": 200,
+      "species": "Castilleja coccinea",
+      "status": "pass",
+      "unique_calendar_months": 8,
+      "unique_observers": 183,
+      "unique_spatial_cells": 143
+    }
+  ],
+  "stage_a_effects_used": false,
+  "stage_b_surfaces_used": false,
+  "status": "pass_all_12"
+}
