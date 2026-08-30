@@ -26,8 +26,8 @@ EXPECTED_SPECIES = [
     "Lobelia siphilitica",
     "Ipomopsis aggregata",
     "Anemone pavonina",
-    "Linanthus parryae",
     "Platystemon californicus",
+    "Castilleja coccinea",
 ]
 
 
@@ -53,7 +53,7 @@ class ScaleupSelectionTests(unittest.TestCase):
             [row["canonical_name"] for row in selected], EXPECTED_SPECIES
         )
         self.assertEqual([row["cohort_order"] for row in selected], list(range(1, 13)))
-        self.assertEqual(max(row["rank"] for row in selected), 33)
+        self.assertEqual(max(row["rank"] for row in selected), 34)
         self.assertEqual(len({row["canonical_name"] for row in selected}), 12)
         self.assertLessEqual(
             max(
@@ -62,7 +62,9 @@ class ScaleupSelectionTests(unittest.TestCase):
             ),
             2,
         )
-        self.assertEqual(skipped, [])
+        self.assertEqual(
+            [row["canonical_name"] for row in skipped], ["Linanthus parryae"]
+        )
 
     def test_completed_development_species_cannot_reenter(self):
         ledger = copy.deepcopy(self.ledger)
