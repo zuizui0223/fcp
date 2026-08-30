@@ -1,0 +1,45 @@
+{
+  "calibration_boxes_sha256": "27de0eeefde74ebea011e53d6a121f512e13f4e1e43c2b4476066568723fd713",
+  "calibration_pseudo_artifact_files": 36,
+  "calibration_pseudo_run_id": "33287083828",
+  "calibration_rows": 480,
+  "created_at_utc": "2026-08-30T02:34:29.871074+00:00",
+  "evaluation_artifact_files": 36,
+  "evaluation_boxes_sha256": "748a1e6055df1ee15bddee6d09ba3e72adb24dd775565dff0b8b3d13483d8aad",
+  "evaluation_rows": 720,
+  "evaluation_run_id": "33281907575",
+  "final_labels_created": false,
+  "frozen_split_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "ignored_padding_rows": 240,
+  "per_species_calibration": {
+    "Antirrhinum majus": 80,
+    "Dactylorhiza sambucina": 80,
+    "Gentiana lutea": 80,
+    "Ipomoea purpurea": 80,
+    "Lysimachia arvensis": 80,
+    "Raphanus sativus": 80
+  },
+  "per_species_evaluation": {
+    "Antirrhinum majus": 120,
+    "Dactylorhiza sambucina": 120,
+    "Gentiana lutea": 120,
+    "Ipomoea purpurea": 120,
+    "Lysimachia arvensis": 120,
+    "Raphanus sativus": 120
+  },
+  "protocol": "jbi_ch1_prepare_frozen_florence_box_rows_v1",
+  "selection_of_calibration_rows": "frozen_original_split_membership_by_photo_id",
+  "species": [
+    "Antirrhinum majus",
+    "Dactylorhiza sambucina",
+    "Gentiana lutea",
+    "Ipomoea purpurea",
+    "Lysimachia arvensis",
+    "Raphanus sativus"
+  ],
+  "uses_colour_to_select_rows": false,
+  "uses_coordinates_to_select_rows": false,
+  "uses_florence_output_to_select_rows": false,
+  "uses_outcomes_to_select_rows": false,
+  "validation_status": "success"
+}
