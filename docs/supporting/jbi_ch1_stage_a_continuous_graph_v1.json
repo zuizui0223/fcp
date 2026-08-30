@@ -1,0 +1,680 @@
+{
+  "analyses_by_k": {
+    "3": {
+      "edge_weights": "uniform",
+      "global_equal_species_mean_q": {
+        "clustering_deficit": 0.053061856488371584,
+        "null_mean": 1.4296693244743324,
+        "null_quantiles": {
+          "p005": 1.3748871752521212,
+          "p025": 1.389187591489978,
+          "p05": 1.3946933513021733,
+          "p50": 1.429978578140127,
+          "p95": 1.4637339302055234,
+          "p975": 1.470331260740053,
+          "p995": 1.4833646017712638
+        },
+        "null_sd": 0.020789959883360416,
+        "observed": 1.3766074679859608,
+        "p_lower_tail": 0.0066,
+        "p_two_sided_descriptive": 0.0119,
+        "standardized_clustering_deficit": 2.5522827742847407
+      },
+      "k": 3,
+      "max_edge_km": null,
+      "species": {
+        "Antirrhinum majus": {
+          "edge_distance_km": {
+            "max": 7550.954654155624,
+            "median": 236.3255944678192,
+            "min": 22.44467968422503,
+            "p95": 2134.3962819079647
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 230,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.06830810682395594,
+            "null_mean": 0.9767085009075154,
+            "null_quantiles": {
+              "p005": 0.87968515274405,
+              "p025": 0.9032172159264015,
+              "p05": 0.9141892599291713,
+              "p50": 0.9774037206383782,
+              "p95": 1.035044366917213,
+              "p975": 1.0459050599128592,
+              "p995": 1.0655459328660182
+            },
+            "null_sd": 0.03661795384109868,
+            "observed": 0.9084003940835594,
+            "p_lower_tail": 0.0345,
+            "p_two_sided_descriptive": 0.0613,
+            "standardized_clustering_deficit": 1.8654266461849478
+          }
+        },
+        "Dactylorhiza sambucina": {
+          "edge_distance_km": {
+            "max": 341.0006990576809,
+            "median": 81.10473747626598,
+            "min": 0.0,
+            "p95": 246.6346641325203
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 229,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.1059582913742263,
+            "null_mean": 1.1399412094240782,
+            "null_quantiles": {
+              "p005": 1.0065858406166113,
+              "p025": 1.0434004652061808,
+              "p05": 1.0603069376767296,
+              "p50": 1.142041647486032,
+              "p95": 1.2140835882876737,
+              "p975": 1.2268582304635791,
+              "p995": 1.2533383229155872
+            },
+            "null_sd": 0.04706686386413786,
+            "observed": 1.0339829180498519,
+            "p_lower_tail": 0.0168,
+            "p_two_sided_descriptive": 0.024,
+            "standardized_clustering_deficit": 2.2512290532057353
+          }
+        },
+        "Gentiana lutea": {
+          "edge_distance_km": {
+            "max": 7542.121017802551,
+            "median": 65.41690979013433,
+            "min": 0.003916589863319655,
+            "p95": 296.8492796254282
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 234,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": -0.09700985777209459,
+            "null_mean": 2.3880350425027044,
+            "null_quantiles": {
+              "p005": 2.19205071254346,
+              "p025": 2.2399866194604603,
+              "p05": 2.2656183244357657,
+              "p50": 2.3890837724680742,
+              "p95": 2.5044857996552614,
+              "p975": 2.5260902813971136,
+              "p995": 2.560242899038678
+            },
+            "null_sd": 0.07274780871793844,
+            "observed": 2.485044900274799,
+            "p_lower_tail": 0.9119,
+            "p_two_sided_descriptive": 0.1813,
+            "standardized_clustering_deficit": -1.3335090016006697
+          }
+        },
+        "Ipomoea purpurea": {
+          "edge_distance_km": {
+            "max": 4672.524978461384,
+            "median": 245.7368011701811,
+            "min": 18.063948832612557,
+            "p95": 1683.0868580173312
+          },
+          "feature_dimension": 3,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 233,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.05095100001995512,
+            "null_mean": 1.4140890948921112,
+            "null_quantiles": {
+              "p005": 1.284621316562697,
+              "p025": 1.3154558697913947,
+              "p05": 1.3320344055725,
+              "p50": 1.41464716357018,
+              "p95": 1.4941358908543338,
+              "p975": 1.507329705845548,
+              "p995": 1.5339928866683552
+            },
+            "null_sd": 0.04889864186700619,
+            "observed": 1.363138094872156,
+            "p_lower_tail": 0.1453,
+            "p_two_sided_descriptive": 0.2941,
+            "standardized_clustering_deficit": 1.0419716800832812
+          }
+        },
+        "Lysimachia arvensis": {
+          "edge_distance_km": {
+            "max": 3780.674129468346,
+            "median": 233.586964963269,
+            "min": 15.826132653979235,
+            "p95": 815.2125450215756
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 235,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.08977243885191788,
+            "null_mean": 1.1524359148639476,
+            "null_quantiles": {
+              "p005": 1.0340489049797574,
+              "p025": 1.0642326977277832,
+              "p05": 1.078147233376907,
+              "p50": 1.1531637875928344,
+              "p95": 1.2233815240700177,
+              "p975": 1.2384734934626667,
+              "p995": 1.2668958607861869
+            },
+            "null_sd": 0.0443152161885761,
+            "observed": 1.0626634760120297,
+            "p_lower_tail": 0.0235,
+            "p_two_sided_descriptive": 0.0436,
+            "standardized_clustering_deficit": 2.0257700756757244
+          }
+        },
+        "Raphanus sativus": {
+          "edge_distance_km": {
+            "max": 9281.706493860249,
+            "median": 23.78274517702368,
+            "min": 0.007953073564751742,
+            "p95": 2733.828925448418
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 238,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.10039115963226908,
+            "null_mean": 1.5068061842556375,
+            "null_quantiles": {
+              "p005": 1.3798757800637944,
+              "p025": 1.4087870719526825,
+              "p05": 1.426371114790964,
+              "p50": 1.5082202352081864,
+              "p95": 1.5837363659823909,
+              "p975": 1.598702169514055,
+              "p995": 1.6267114404759198
+            },
+            "null_sd": 0.04817874135396993,
+            "observed": 1.4064150246233684,
+            "p_lower_tail": 0.0218,
+            "p_two_sided_descriptive": 0.0374,
+            "standardized_clustering_deficit": 2.0837231694097973
+          }
+        }
+      },
+      "species_weighting": "equal arithmetic mean after within-species normalization"
+    },
+    "5": {
+      "edge_weights": "uniform",
+      "global_equal_species_mean_q": {
+        "clustering_deficit": 0.03828788982089737,
+        "null_mean": 1.4294293327808507,
+        "null_quantiles": {
+          "p005": 1.3854917160123343,
+          "p025": 1.3966333511807063,
+          "p05": 1.4020109232057332,
+          "p50": 1.4297605773114332,
+          "p95": 1.4560792597340402,
+          "p975": 1.4610525097946028,
+          "p995": 1.470058394021064
+        },
+        "null_sd": 0.01656534732508437,
+        "observed": 1.3911414429599533,
+        "p_lower_tail": 0.0113,
+        "p_two_sided_descriptive": 0.0194,
+        "standardized_clustering_deficit": 2.3113243006332413
+      },
+      "k": 5,
+      "max_edge_km": null,
+      "species": {
+        "Antirrhinum majus": {
+          "edge_distance_km": {
+            "max": 9595.356420676082,
+            "median": 326.83728422583437,
+            "min": 22.44467968422503,
+            "p95": 4063.510196639088
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 389,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.01764329335127779,
+            "null_mean": 0.9767838184901273,
+            "null_quantiles": {
+              "p005": 0.896566154471141,
+              "p025": 0.9178821487858113,
+              "p05": 0.9288654985916638,
+              "p50": 0.9774347626678573,
+              "p95": 1.0227084762238727,
+              "p975": 1.0317967859819652,
+              "p995": 1.0479115861372859
+            },
+            "null_sd": 0.02906037124580909,
+            "observed": 0.9591405251388495,
+            "p_lower_tail": 0.2635,
+            "p_two_sided_descriptive": 0.5405,
+            "standardized_clustering_deficit": 0.6071255319500503
+          }
+        },
+        "Dactylorhiza sambucina": {
+          "edge_distance_km": {
+            "max": 405.15456127356714,
+            "median": 111.59534108170723,
+            "min": 0.0,
+            "p95": 306.7996998670194
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 363,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.02354840108731171,
+            "null_mean": 1.1398024117850187,
+            "null_quantiles": {
+              "p005": 1.0257561140959275,
+              "p025": 1.05875845447367,
+              "p05": 1.0740042484132586,
+              "p50": 1.1416768940499817,
+              "p95": 1.1980553631448847,
+              "p975": 1.2079832421435133,
+              "p995": 1.226468340191934
+            },
+            "null_sd": 0.03816581438873906,
+            "observed": 1.116254010697707,
+            "p_lower_tail": 0.256,
+            "p_two_sided_descriptive": 0.5366,
+            "standardized_clustering_deficit": 0.6170024527043693
+          }
+        },
+        "Gentiana lutea": {
+          "edge_distance_km": {
+            "max": 7567.466951217554,
+            "median": 88.81437685732598,
+            "min": 0.003916589863319655,
+            "p95": 347.8396053640584
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 378,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": -0.04645640161860509,
+            "null_mean": 2.3874784127913435,
+            "null_quantiles": {
+              "p005": 2.217638487144187,
+              "p025": 2.2672808463505025,
+              "p05": 2.2899334086054743,
+              "p50": 2.3897270696130644,
+              "p95": 2.4780382519513147,
+              "p975": 2.493465662874958,
+              "p995": 2.5200430547236894
+            },
+            "null_sd": 0.05756695112596219,
+            "observed": 2.4339348144099486,
+            "p_lower_tail": 0.7865,
+            "p_two_sided_descriptive": 0.4172,
+            "standardized_clustering_deficit": -0.8069977775434708
+          }
+        },
+        "Ipomoea purpurea": {
+          "edge_distance_km": {
+            "max": 7800.304609068567,
+            "median": 329.9403163545686,
+            "min": 18.063948832612557,
+            "p95": 2855.530571170318
+          },
+          "feature_dimension": 3,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 387,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.019467114208683967,
+            "null_mean": 1.4143059064156347,
+            "null_quantiles": {
+              "p005": 1.3087290196143246,
+              "p025": 1.337024992641374,
+              "p05": 1.3517653547571058,
+              "p50": 1.415308330124429,
+              "p95": 1.4742677435988358,
+              "p975": 1.483898945714303,
+              "p995": 1.5023356091746312
+            },
+            "null_sd": 0.03732796942282798,
+            "observed": 1.3948387922069507,
+            "p_lower_tail": 0.2923,
+            "p_two_sided_descriptive": 0.5997,
+            "standardized_clustering_deficit": 0.5215154885113794
+          }
+        },
+        "Lysimachia arvensis": {
+          "edge_distance_km": {
+            "max": 3835.028698907073,
+            "median": 297.70289739281196,
+            "min": 15.826132653979235,
+            "p95": 1190.440556935622
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 383,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.11380558110158212,
+            "null_mean": 1.1527723962896486,
+            "null_quantiles": {
+              "p005": 1.0533009628030652,
+              "p025": 1.0805521756581586,
+              "p05": 1.091964536548592,
+              "p50": 1.1538703069394372,
+              "p95": 1.2079131129139005,
+              "p975": 1.2169375940558769,
+              "p995": 1.2374955932731422
+            },
+            "null_sd": 0.03504066864448484,
+            "observed": 1.0389668151880664,
+            "p_lower_tail": 0.0023,
+            "p_two_sided_descriptive": 0.0025,
+            "standardized_clustering_deficit": 3.2478141971612846
+          }
+        },
+        "Raphanus sativus": {
+          "edge_distance_km": {
+            "max": 9637.84032191273,
+            "median": 33.35317190091003,
+            "min": 0.007953073564751742,
+            "p95": 7470.069409759444
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 380,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.10171935079513328,
+            "null_mean": 1.5054330509133316,
+            "null_quantiles": {
+              "p005": 1.3959223390229056,
+              "p025": 1.4258424196358566,
+              "p05": 1.4385548180095868,
+              "p50": 1.5059384267809846,
+              "p95": 1.5687319421986057,
+              "p975": 1.5817176509906161,
+              "p995": 1.60288057563628
+            },
+            "null_sd": 0.039421577104162206,
+            "observed": 1.4037137001181983,
+            "p_lower_tail": 0.008,
+            "p_two_sided_descriptive": 0.0115,
+            "standardized_clustering_deficit": 2.580296331787131
+          }
+        }
+      },
+      "species_weighting": "equal arithmetic mean after within-species normalization"
+    },
+    "8": {
+      "edge_weights": "uniform",
+      "global_equal_species_mean_q": {
+        "clustering_deficit": 0.03422204723416278,
+        "null_mean": 1.4297814841505685,
+        "null_quantiles": {
+          "p005": 1.3937820197412467,
+          "p025": 1.4039199558206756,
+          "p05": 1.4077406280223608,
+          "p50": 1.4301284592381929,
+          "p95": 1.4508337686702975,
+          "p975": 1.454506523686418,
+          "p995": 1.462555696022736
+        },
+        "null_sd": 0.013095142272512251,
+        "observed": 1.3955594369164057,
+        "p_lower_tail": 0.0065,
+        "p_two_sided_descriptive": 0.01,
+        "standardized_clustering_deficit": 2.613339093382558
+      },
+      "k": 8,
+      "max_edge_km": null,
+      "species": {
+        "Antirrhinum majus": {
+          "edge_distance_km": {
+            "max": 11346.495682128592,
+            "median": 439.18179391131997,
+            "min": 22.44467968422503,
+            "p95": 6355.694721413625
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 615,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.012917819714185153,
+            "null_mean": 0.9769907361443994,
+            "null_quantiles": {
+              "p005": 0.911135369015025,
+              "p025": 0.929233711584335,
+              "p05": 0.9384308850256946,
+              "p50": 0.9781189615054198,
+              "p95": 1.0132215915676954,
+              "p975": 1.0193401488786582,
+              "p995": 1.0320664922578138
+            },
+            "null_sd": 0.02297008995446028,
+            "observed": 0.9640729164302142,
+            "p_lower_tail": 0.2775,
+            "p_two_sided_descriptive": 0.5722,
+            "standardized_clustering_deficit": 0.5623756693942246
+          }
+        },
+        "Dactylorhiza sambucina": {
+          "edge_distance_km": {
+            "max": 632.7949931970098,
+            "median": 153.68647546761463,
+            "min": 0.0,
+            "p95": 387.0018708031285
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 586,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.030753146924709762,
+            "null_mean": 1.140302643243502,
+            "null_quantiles": {
+              "p005": 1.0524530492302973,
+              "p025": 1.0760299370906008,
+              "p05": 1.0881991630340102,
+              "p50": 1.1422090050078626,
+              "p95": 1.1848496691014103,
+              "p975": 1.1918478542841016,
+              "p995": 1.2055121572794658
+            },
+            "null_sd": 0.02943009330589766,
+            "observed": 1.1095494963187922,
+            "p_lower_tail": 0.1435,
+            "p_two_sided_descriptive": 0.2862,
+            "standardized_clustering_deficit": 1.0449558078209344
+          }
+        },
+        "Gentiana lutea": {
+          "edge_distance_km": {
+            "max": 7594.108008362794,
+            "median": 120.4111727670711,
+            "min": 0.003916589863319655,
+            "p95": 371.8687690437116
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 603,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": -0.009927712523508436,
+            "null_mean": 2.388464743640954,
+            "null_quantiles": {
+              "p005": 2.260550155946351,
+              "p025": 2.294535160340559,
+              "p05": 2.313044487505663,
+              "p50": 2.3911872742651448,
+              "p95": 2.455651418051992,
+              "p975": 2.4677778215809663,
+              "p995": 2.4896491437697335
+            },
+            "null_sd": 0.043887355615000005,
+            "observed": 2.3983924561644625,
+            "p_lower_tail": 0.5662,
+            "p_two_sided_descriptive": 0.8246,
+            "standardized_clustering_deficit": -0.22620894752918996
+          }
+        },
+        "Ipomoea purpurea": {
+          "edge_distance_km": {
+            "max": 8903.129290332174,
+            "median": 457.93659157774863,
+            "min": 18.063948832612557,
+            "p95": 4973.394237112369
+          },
+          "feature_dimension": 3,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 615,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.04691181400959965,
+            "null_mean": 1.4141366607762957,
+            "null_quantiles": {
+              "p005": 1.3284535521766623,
+              "p025": 1.351146332822443,
+              "p05": 1.3623151871876973,
+              "p50": 1.4152427593670638,
+              "p95": 1.4630438542205237,
+              "p975": 1.4722969186156496,
+              "p995": 1.4880253409596722
+            },
+            "null_sd": 0.030893399114855585,
+            "observed": 1.367224846766696,
+            "p_lower_tail": 0.0668,
+            "p_two_sided_descriptive": 0.1252,
+            "standardized_clustering_deficit": 1.5185060677587063
+          }
+        },
+        "Lysimachia arvensis": {
+          "edge_distance_km": {
+            "max": 4703.4311798498475,
+            "median": 396.07205651947345,
+            "min": 15.826132653979235,
+            "p95": 1751.307214316866
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 598,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.09068290863960349,
+            "null_mean": 1.1526874005666439,
+            "null_quantiles": {
+              "p005": 1.0714677083804225,
+              "p025": 1.092374481890232,
+              "p05": 1.102712534920619,
+              "p50": 1.1536897399263386,
+              "p95": 1.1991822834492198,
+              "p975": 1.2080132857321522,
+              "p995": 1.225957343247423
+            },
+            "null_sd": 0.02925001896917799,
+            "observed": 1.0620044919270404,
+            "p_lower_tail": 0.0025,
+            "p_two_sided_descriptive": 0.0029,
+            "standardized_clustering_deficit": 3.1002683702584943
+          }
+        },
+        "Raphanus sativus": {
+          "edge_distance_km": {
+            "max": 10722.483142712577,
+            "median": 48.481209549006245,
+            "min": 0.007953073564751742,
+            "p95": 7806.785879534345
+          },
+          "feature_dimension": 2,
+          "n_evaluation_total": 120,
+          "n_graph_edges": 615,
+          "n_measurement_evaluable": 120,
+          "n_measurement_not_evaluable": 0,
+          "q": {
+            "clustering_deficit": 0.03399430664038783,
+            "null_mean": 1.5061067205316159,
+            "null_quantiles": {
+              "p005": 1.4177532989384403,
+              "p025": 1.439320468532697,
+              "p05": 1.451589415450504,
+              "p50": 1.5061533955367092,
+              "p95": 1.5601981490792665,
+              "p975": 1.5700530737681686,
+              "p995": 1.588403850766951
+            },
+            "null_sd": 0.033164250812274795,
+            "observed": 1.472112413891228,
+            "p_lower_tail": 0.1521,
+            "p_two_sided_descriptive": 0.3053,
+            "standardized_clustering_deficit": 1.0250286319691506
+          }
+        }
+      },
+      "species_weighting": "equal arithmetic mean after within-species normalization"
+    }
+  },
+  "environment_used": false,
+  "evaluation_feature_sha256": "402c446e3238d71a29e359f275cbf2208bf273c1d6ec4f809788d792524f3cd3",
+  "frozen_contract_sha256": "961eed6d32b0fb9bdedf0212e460cdc70d6863557fc8b8bec27c6ae4a470990f",
+  "frozen_representation_sha256": "1c61e931ee5ae592d66877d4926994dbb001bef9f96d1b20dd9816ae30f638f4",
+  "frozen_split_sha256": "fa72f10ed0ef4ff4b8fbe94d8d06dde319677a2d4eaca20aedb69f73aa8dd5f5",
+  "geographic_reference_library_used": false,
+  "interpretation_limit": "Stage A tests within-species local colour organization only; it does not establish cross-species shared boundaries or causes.",
+  "n_evaluation_records": 720,
+  "n_permutations": 9999,
+  "next_gate": "if spatial organization is supported, construct species-specific transition-intensity surfaces and test shared-boundary concentration under the complete within-species permutation pipeline",
+  "primary_direction": "lower Q indicates greater local colour similarity than species-conditioned random labelling",
+  "primary_global_result": {
+    "clustering_deficit": 0.03828788982089737,
+    "null_mean": 1.4294293327808507,
+    "null_quantiles": {
+      "p005": 1.3854917160123343,
+      "p025": 1.3966333511807063,
+      "p05": 1.4020109232057332,
+      "p50": 1.4297605773114332,
+      "p95": 1.4560792597340402,
+      "p975": 1.4610525097946028,
+      "p995": 1.470058394021064
+    },
+    "null_sd": 0.01656534732508437,
+    "observed": 1.3911414429599533,
+    "p_lower_tail": 0.0113,
+    "p_two_sided_descriptive": 0.0194,
+    "standardized_clustering_deficit": 2.3113243006332413
+  },
+  "primary_k": 5,
+  "primary_null_csv_sha256": "4b3d4b3182d8e90c996426d3d5eaa0a52a5085494eb7fcd2bb37dcd51e05fd64",
+  "primary_rejects_random_labelling_at_0_05": true,
+  "primary_representation": "species-specific continuous colour vector standardized from frozen calibration parameters",
+  "protocol": "jbi-ch1-stage-a-continuous-graph-v1",
+  "random_seed": 20260830,
+  "sensitivity_k": [
+    3,
+    8
+  ],
+  "status": "stage_a_evaluation_complete"
+}
