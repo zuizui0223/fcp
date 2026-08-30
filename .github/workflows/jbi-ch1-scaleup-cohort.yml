@@ -1,0 +1,129 @@
+name: JBI Chapter 1 scale-up cohort
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - ".github/workflows/jbi-ch1-scaleup-cohort.yml"
+      - "data/global_flower_colour_species_ranked.csv"
+      - "docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md"
+      - "docs/supporting/jbi_ch1_scaleup_contract_v1.json"
+      - "docs/supporting/jbi_ch1_scaleup_species_ledger_v1.csv"
+      - "scripts/data/select_jbi_ch1_scaleup_cohort.py"
+      - "tests/test_jbi_ch1_scaleup_selection.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jbi-ch1-scaleup-cohort-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  freeze-cohort:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/jbi-global-colour-boundaries-scaleup
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Test prospective colour-blind selection
+        run: python -m unittest tests/test_jbi_ch1_scaleup_selection.py -v
+
+      - name: Generate frozen 12-species cohort
+        run: python scripts/data/select_jbi_ch1_scaleup_cohort.py
+
+      - name: Validate cohort and manifest
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          from collections import Counter
+          from pathlib import Path
+
+          cohort_path = Path('docs/supporting/jbi_ch1_scaleup_cohort_v1.csv')
+          manifest_path = Path('docs/supporting/jbi_ch1_scaleup_cohort_manifest_v1.json')
+          with cohort_path.open(encoding='utf-8', newline='') as handle:
+              rows = list(csv.DictReader(handle))
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+
+          expected = [
+              'Anemone coronaria',
+              'Hesperis matronalis',
+              'Digitalis purpurea',
+              'Phlox drummondii',
+              'Iris lutescens',
+              'Silene littorea',
+              'Lotus corniculatus',
+              'Lobelia siphilitica',
+              'Ipomopsis aggregata',
+              'Anemone pavonina',
+              'Linanthus parryae',
+              'Platystemon californicus',
+          ]
+          assert len(rows) == 12
+          assert [row['canonical_name'] for row in rows] == expected
+          assert [int(row['cohort_order']) for row in rows] == list(range(1, 13))
+          assert max(Counter(row['family'] for row in rows).values()) <= 2
+          assert manifest['status'] == 'scaleup_cohort_selected_before_photo_acquisition'
+          assert manifest['selected_species'] == expected
+          assert manifest['selected_new_species'] == 12
+          for key in (
+              'selection_used_candidate_images',
+              'selection_used_flower_colour_measurements',
+              'selection_used_stage_a_effects',
+              'selection_used_stage_b_surfaces',
+              'selection_used_environmental_layers',
+          ):
+              assert manifest[key] is False
+          print(json.dumps({
+              'selected_species': len(rows),
+              'families': len(set(row['family'] for row in rows)),
+              'maximum_rank': max(int(row['rank']) for row in rows),
+              'next_gate': manifest['next_gate'],
+          }, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-ch1-scaleup-cohort-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md
+            docs/supporting/jbi_ch1_scaleup_contract_v1.json
+            docs/supporting/jbi_ch1_scaleup_species_ledger_v1.csv
+            docs/supporting/jbi_ch1_scaleup_cohort_v1.csv
+            docs/supporting/jbi_ch1_scaleup_cohort_manifest_v1.json
+
+      - name: Commit frozen cohort products
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            docs/supporting/jbi_ch1_scaleup_cohort_v1.csv \
+            docs/supporting/jbi_ch1_scaleup_cohort_manifest_v1.json
+          if git diff --cached --quiet; then
+            echo "Scale-up cohort already matches frozen inputs."
+            exit 0
+          fi
+          git commit -m "Freeze prospective 12-species scale-up cohort"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/jbi-global-colour-boundaries-scaleup
+            git rebase origin/analysis/jbi-global-colour-boundaries-scaleup
+            if git push origin HEAD:analysis/jbi-global-colour-boundaries-scaleup; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1
