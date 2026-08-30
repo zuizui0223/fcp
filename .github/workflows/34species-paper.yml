@@ -55,6 +55,9 @@ concurrency:
 env:
   DATASET: data/frozen/frozen_34species_five_metric_dataset.csv
   OUTDIR: analysis_outputs/34species_paper
+  # Matplotlib's PDF backend otherwise embeds the wall-clock creation time,
+  # making numerically identical figure PDFs change on every CI regeneration.
+  SOURCE_DATE_EPOCH: "0"
 
 jobs:
   reproduce-paper:
@@ -186,6 +189,33 @@ jobs:
             --occurrences docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz \
             --analysis-dir analysis_outputs/34species_paper \
             --outdir docs/figures
+      - name: Verify bit-reproducible PNG and PDF figures
+        shell: bash
+        run: |
+          set -euo pipefail
+          stems=(
+            figure1_geographic_context
+            figure2_five_metric_forest
+            figure3_raw_species_metrics
+            figure4_leave_one_family_out
+            figure5_inference_method_sensitivity
+            figureS1_34_species_distribution_context
+            figureS2_power_precision_design
+          )
+          : > /tmp/figure_hashes_first.txt
+          for stem in "${stems[@]}"; do
+            sha256sum "docs/figures/${stem}.png" "docs/figures/${stem}.pdf" >> /tmp/figure_hashes_first.txt
+          done
+          python scripts/make_paper_figures.py \
+            --dataset data/frozen/frozen_34species_five_metric_dataset.csv \
+            --occurrences docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz \
+            --analysis-dir analysis_outputs/34species_paper \
+            --outdir docs/figures
+          : > /tmp/figure_hashes_second.txt
+          for stem in "${stems[@]}"; do
+            sha256sum "docs/figures/${stem}.png" "docs/figures/${stem}.pdf" >> /tmp/figure_hashes_second.txt
+          done
+          diff -u /tmp/figure_hashes_first.txt /tmp/figure_hashes_second.txt
       - name: Integrate figures into manuscript and SI index
         run: python scripts/update_manuscript_figure_calls.py
       - name: Validate figure outputs and manuscript calls
