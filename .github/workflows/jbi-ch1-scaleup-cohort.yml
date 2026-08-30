@@ -66,8 +66,8 @@ jobs:
               'Lobelia siphilitica',
               'Ipomopsis aggregata',
               'Anemone pavonina',
-              'Linanthus parryae',
               'Platystemon californicus',
+              'Castilleja coccinea',
           ]
           assert len(rows) == 12
           assert [row['canonical_name'] for row in rows] == expected
@@ -76,6 +76,7 @@ jobs:
           assert manifest['status'] == 'scaleup_cohort_selected_before_photo_acquisition'
           assert manifest['selected_species'] == expected
           assert manifest['selected_new_species'] == 12
+          assert manifest['skipped_for_family_cap'] == ['Linanthus parryae']
           for key in (
               'selection_used_candidate_images',
               'selection_used_flower_colour_measurements',
@@ -88,6 +89,7 @@ jobs:
               'selected_species': len(rows),
               'families': len(set(row['family'] for row in rows)),
               'maximum_rank': max(int(row['rank']) for row in rows),
+              'family_cap_skip': manifest['skipped_for_family_cap'],
               'next_gate': manifest['next_gate'],
           }, indent=2))
           PY
