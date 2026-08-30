@@ -21,14 +21,14 @@
       "sha256": "9cc5b92cdc791e630b9f8150b0f3553603f6b72600a03aaffb89461ffd684f76"
     },
     {
-      "bytes": 33073,
+      "bytes": 33716,
       "path": "docs/figures/jbi_ch1_figure_c2_stage_a_species.pdf",
-      "sha256": "90a658bc3541217279ff7f43c6420756295c62f3947eaf437dd5708596111010"
+      "sha256": "612ca11a09e3f73a57d2a3801a26b3606dfc31d4c9f197799ab24eba91e99de4"
     },
     {
-      "bytes": 143472,
+      "bytes": 146501,
       "path": "docs/figures/jbi_ch1_figure_c2_stage_a_species.png",
-      "sha256": "f43ea6a79f6b3531dd9e584ba1798216c60797388a94a00d7c2338a23ae43d39"
+      "sha256": "ad43b004dda5d284bcf0d20e1d887c89315947d7d4b58f1d9a7f3733d3285abe"
     },
     {
       "bytes": 153256,
@@ -41,14 +41,14 @@
       "sha256": "cdd5f6ce5a1e2b27f15c9beccca5d851555565c697bd2a643209ca95fd79d7a9"
     },
     {
-      "bytes": 24060,
+      "bytes": 24093,
       "path": "docs/figures/jbi_ch1_figure_c4_stage_b_sensitivity.pdf",
-      "sha256": "e0e43ee90365a1edcb0c3056b421c60ec821cd96903491ee68e7f0ea62bcefba"
+      "sha256": "eec1a6991930db5f957d12b383deda22ccef9b5c5a89c315d79b6611675ae0ef"
     },
     {
-      "bytes": 343176,
+      "bytes": 323694,
       "path": "docs/figures/jbi_ch1_figure_c4_stage_b_sensitivity.png",
-      "sha256": "ca93021e8b54a25f88344bbbc51f35a4d6ee2eccbd0bce77c1c487c77f4f350f"
+      "sha256": "c322de49ec7d7731cfd21bb87035ab3176439d95e2d866b659b1495e1fbaac0b"
     },
     {
       "bytes": 34208,
@@ -61,14 +61,14 @@
       "sha256": "a688caa9556b752012cdfefa7a7490dfb6396bd5ba9f9135f6906a53d323e6e7"
     },
     {
-      "bytes": 34778,
+      "bytes": 34763,
       "path": "docs/figures/jbi_ch1_figure_cs2_detectability.pdf",
-      "sha256": "2e54df66ff46c2e38dc32f84d574de258954862dc3ff6c753eeef85d23f444df"
+      "sha256": "9642ff2a7cbb05e68c2c70674c66ea2627d40154933140f3a24755a763ee0b1a"
     },
     {
-      "bytes": 294429,
+      "bytes": 296927,
       "path": "docs/figures/jbi_ch1_figure_cs2_detectability.png",
-      "sha256": "95b49e03c71e8b0a99521d2888204da70bdffcfc3acb7b5b6540808452db8599"
+      "sha256": "0336ef64fe0f9290052bcab4451950fd271dd2c91a78d92c1b6f2c1867c0b27c"
     }
   ],
   "protocol": "jbi-ch1-spatial-figure-manifest-v1",
