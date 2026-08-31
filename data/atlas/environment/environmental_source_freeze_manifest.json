@@ -18,11 +18,11 @@
   "not_evaluable_primary_families": [
     "terrain"
   ],
-  "parent_sha256": {
-    "data/atlas/environment/climate_ecoregion_source_manifest.json": "9f17a8a7b7a3be70235fbfccdb828fbaea41dfb2b5d062ae2cbd1c3f8a1b0fd5",
-    "data/atlas/environment/worldcover_composition_manifest.json": "f2e273569b329670a78fc596331342134d4ffc8036ac0e205f884beaac6375ee",
+  "parent_sha256_lf_canonical_v1": {
+    "data/atlas/environment/climate_ecoregion_source_manifest.json": "f6ca3fb6e9c33c387cd65385c0e8fa1ad9c95f32eedb7b7c0cef277feb51ed45",
+    "data/atlas/environment/worldcover_composition_manifest.json": "a633487c14e896d38e4f476db7b2623697ffb053aef02f7d14ae6aa69e057896",
     "docs/supporting/jbi_atlas_terrain_access_result_v1.json": "08623a89e248366d56f679c552387153d450f26371b1bd9d959fd37ae6d87489",
-    "docs/supporting/jbi_atlas_worldcover_qualification_result_v1.json": "0d9c422eab84c248ac746b237e127f80b90fd6feaf69c80fec1653b2891a9455"
+    "docs/supporting/jbi_atlas_worldcover_qualification_result_v1.json": "c4dff9639f31720ecb27bd699b361a657acf0a14320f50860559aaba70964003"
   },
   "protocol": "jbi-atlas-environmental-overlay-freeze-v1",
   "scaleout_colour_opened": false,

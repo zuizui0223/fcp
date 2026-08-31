@@ -44,6 +44,11 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def canonical_sha256(path: Path) -> str:
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def grid_argument(value: str) -> tuple[int, Path]:
     try:
         scale, path = value.split("=", 1)
@@ -203,7 +208,7 @@ def main() -> None:
         "protocol": environment["protocol"],
         "scaleout_colour_opened": False,
         "environment_colour_join_performed": False,
-        "source_manifest_sha256": sha256(args.source_manifest),
+        "source_manifest_sha256_lf_canonical_v1": canonical_sha256(args.source_manifest),
         "input_grid_sha256": {
             "climate_ecoregion": {
                 f"{scale}km": sha256(path)

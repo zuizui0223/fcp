@@ -42,6 +42,11 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def canonical_sha256(path: Path) -> str:
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def read_csv(path: Path) -> list[dict[str, str]]:
     with path.open(encoding="utf-8", newline="") as handle:
         return list(csv.DictReader(handle))
@@ -58,7 +63,8 @@ def main() -> None:
         or source.get("available_primary_families")
         != ["macroclimate", "land_cover", "ecoregion"]
         or source.get("not_evaluable_primary_families") != ["terrain"]
-        or manifest.get("source_manifest_sha256") != sha256(SOURCE_MANIFEST)
+        or manifest.get("source_manifest_sha256_lf_canonical_v1")
+        != canonical_sha256(SOURCE_MANIFEST)
         or manifest.get("output_sha256") != EXPECTED_HASHES
     ):
         raise RuntimeError("environmental boundary freeze identity changed")

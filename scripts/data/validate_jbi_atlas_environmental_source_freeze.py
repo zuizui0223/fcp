@@ -29,6 +29,11 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def canonical_sha256(path: Path) -> str:
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def load(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -83,10 +88,10 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
     if terrain.get("status") != "terrain_not_evaluable_before_colour_join":
         raise RuntimeError("terrain access result changed")
     parents = {
-        str(args.climate_manifest).replace("\\", "/"): sha256(args.climate_manifest),
-        str(args.worldcover_manifest).replace("\\", "/"): sha256(args.worldcover_manifest),
-        str(args.worldcover_result).replace("\\", "/"): sha256(args.worldcover_result),
-        str(args.terrain_result).replace("\\", "/"): sha256(args.terrain_result),
+        str(args.climate_manifest).replace("\\", "/"): canonical_sha256(args.climate_manifest),
+        str(args.worldcover_manifest).replace("\\", "/"): canonical_sha256(args.worldcover_manifest),
+        str(args.worldcover_result).replace("\\", "/"): canonical_sha256(args.worldcover_result),
+        str(args.terrain_result).replace("\\", "/"): canonical_sha256(args.terrain_result),
     }
     inputs = {}
     for scale in contract["grid"]["scales_km"]:
@@ -101,7 +106,7 @@ def evaluate(args: argparse.Namespace) -> dict[str, Any]:
         "available_primary_families": ["macroclimate", "land_cover", "ecoregion"],
         "not_evaluable_primary_families": ["terrain"],
         "terrain_decision": terrain["decision"],
-        "parent_sha256": parents,
+        "parent_sha256_lf_canonical_v1": parents,
         "input_grid_sha256": inputs,
         "scales_km": contract["grid"]["scales_km"],
         "coverage_against_final_atlas_opportunity_pending": True,

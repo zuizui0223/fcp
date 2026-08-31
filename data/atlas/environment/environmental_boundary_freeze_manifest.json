@@ -115,6 +115,6 @@
     }
   ],
   "scaleout_colour_opened": false,
-  "source_manifest_sha256": "7c39f505ead8a00ab0256fed4752e43c056b2d0f24a3c2577eab06f36bf43c28",
+  "source_manifest_sha256_lf_canonical_v1": "71db2a4dd922557081b2e9f060c95f200b9d478830ca28e277a361ac0c77630d",
   "status": "pass_precolour_environmental_boundary_freeze"
 }
