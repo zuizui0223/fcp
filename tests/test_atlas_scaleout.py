@@ -6,7 +6,11 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from fcp_pipeline.atlas_scaleout import freeze_scaleout_panels, qualify_scaleout_geometry
+from fcp_pipeline.atlas_scaleout import (
+    exclude_reserved_scaleout_rows,
+    freeze_scaleout_panels,
+    qualify_scaleout_geometry,
+)
 
 
 CONTRACT = Path("docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json")
@@ -111,3 +115,15 @@ def test_scaleout_geometry_precedes_cohort_draw() -> None:
         freeze_scaleout_panels(
             eligible_rows(), observations, contract(), source_role="unit-test metadata"
         )
+
+
+def test_global_identity_reconciliation_is_deterministic() -> None:
+    rows = [
+        {"observation_id": "1", "photo_id": "10"},
+        {"observation_id": "2", "photo_id": "20"},
+        {"observation_id": "3", "photo_id": "10"},
+        {"observation_id": "1", "photo_id": "40"},
+    ]
+    retained, removed = exclude_reserved_scaleout_rows(rows, {"1"}, {"10"})
+    assert retained == [{"observation_id": "2", "photo_id": "20"}]
+    assert removed == 3

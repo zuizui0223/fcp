@@ -1,0 +1,38 @@
+{
+  "protocol": "jbi-atlas-scaleout-global-id-amendment-v1",
+  "status": "frozen_after_metadata_only_duplicate_identity_stop_and_before_any_retry_or_candidate_image_pixel",
+  "date": "2026-08-31",
+  "trigger": {
+    "github_actions_run": "https://github.com/zuizui0223/fcp/actions/runs/33368204061",
+    "head": "e5f2862817fec0883b510911f1427f3c2f17bc9c",
+    "failure": "scale-out observation and photo IDs must be globally unique",
+    "failure_stage": "after all bounded live metadata requests and geometry checks, during final panel materialization",
+    "artifact_uploaded": false,
+    "candidate_image_pixels_opened": false,
+    "continuous_colour_used": false
+  },
+  "parent_geometry_amendment": {
+    "path": "docs/supporting/jbi_atlas_scaleout_geometry_admission_amendment_v1.json",
+    "sha256_lf_canonical_v1": "f77d9a95b537b0da1c9a002dbbf83fb219393c56e2a72173198da49aa478a455"
+  },
+  "frozen_reconciliation": {
+    "candidate_order": "unchanged abundance-descending, species-name, taxon-id order",
+    "within_species_order": "unchanged stable metadata-only balanced selection",
+    "ownership": "a candidate may claim an observation ID and photo ID only after it passes both the metadata and primary 100-km geometry gates",
+    "collision_rule": "before selection, remove every candidate row whose observation ID or photo ID is already claimed by an earlier geometry-eligible candidate",
+    "failed_candidate_rule": "a metadata- or geometry-failed candidate claims no identities",
+    "panel_rule": "draw the unchanged stable eight disjoint cohorts only after every candidate has been audited and reconciled",
+    "shortfall_rule": "if fewer than the frozen 200 species remain, return not_evaluable with the full audit; never reuse a claimed photo, relax a gate or inspect colour",
+    "diagnostics": "record pre-reconciliation candidates, removed global collisions and retained candidates for every species"
+  },
+  "failure_artifact_rule": "write a machine-readable technical failure receipt before propagating any unexpected exception so CI always preserves the metadata-only outcome",
+  "unchanged": [
+    "500 candidate species and at most 1000 metadata records per species",
+    "all positional accuracy, licence, observer, cell, month and season rules",
+    "100-km primary and 250/500-km sensitivity geometry",
+    "eight cohorts, 25 species per cohort and 300 observations per species",
+    "one species per genus, stable hash salts and no early stopping",
+    "all image pixels, flower ROI, colour, environment and pollinator data remain unopened"
+  ],
+  "claim_ceiling": "Metadata identity reconciliation only; neither a biological result nor evidence for atlas feasibility until the complete retry finishes."
+}

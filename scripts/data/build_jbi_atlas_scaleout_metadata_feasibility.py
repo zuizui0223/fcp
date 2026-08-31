@@ -19,6 +19,7 @@ if str(ROOT) not in sys.path:
 from fcp_pipeline.atlas_scaleout import (
     live_api_scaleout_feasibility,
     validate_geometry_admission_amendment,
+    validate_global_id_amendment,
 )
 from scripts.data.build_jbi_image_first_atlas_metadata import InaturalistMetadataAdapter
 
@@ -54,6 +55,11 @@ def parse_args() -> argparse.Namespace:
         default=Path("docs/supporting/jbi_image_first_atlas_contract_v1.json"),
     )
     parser.add_argument(
+        "--global-id-amendment",
+        type=Path,
+        default=Path("docs/supporting/jbi_atlas_scaleout_global_id_amendment_v1.json"),
+    )
+    parser.add_argument(
         "--expansion-contract",
         type=Path,
         default=Path("docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json"),
@@ -76,19 +82,38 @@ def main() -> None:
     atlas = json.loads(args.atlas_contract.read_text(encoding="utf-8"))
     expansion = json.loads(args.expansion_contract.read_text(encoding="utf-8"))
     geometry_amendment = json.loads(args.geometry_amendment.read_text(encoding="utf-8"))
+    global_id_amendment = json.loads(
+        args.global_id_amendment.read_text(encoding="utf-8")
+    )
     validate_geometry_admission_amendment(geometry_amendment)
+    validate_global_id_amendment(global_id_amendment)
     adapter = InaturalistMetadataAdapter(
         base_url=str(atlas["metadata_source"]["base_url"]),
         pause_seconds=float(atlas["metadata_source"]["request_pause_seconds"]),
     )
-    frozen = live_api_scaleout_feasibility(
-        atlas,
-        expansion,
-        geometry_amendment,
-        adapter,
-        candidate_species_pool_size=args.candidate_species,
-        maximum_candidates_per_species=args.maximum_candidates_per_species,
-    )
+    try:
+        frozen = live_api_scaleout_feasibility(
+            atlas,
+            expansion,
+            geometry_amendment,
+            global_id_amendment,
+            adapter,
+            candidate_species_pool_size=args.candidate_species,
+            maximum_candidates_per_species=args.maximum_candidates_per_species,
+        )
+    except Exception as exc:
+        write_json(
+            args.output_dir / "scaleout_metadata_technical_failure.json",
+            {
+                "protocol": expansion["protocol"],
+                "status": "technical_failure_not_scientific_result",
+                "exception_type": type(exc).__name__,
+                "message": str(exc),
+                "candidate_image_pixels_opened": False,
+                "continuous_colour_used": False,
+            },
+        )
+        raise
     audit_path = args.output_dir / "scaleout_metadata_feasibility.json"
     write_json(audit_path, frozen.audit)
     files: dict[str, str] = {audit_path.name: file_sha256(audit_path)}
@@ -107,6 +132,10 @@ def main() -> None:
         "geometry_admission_contract": {
             "path": args.geometry_amendment.as_posix(),
             "sha256": file_sha256(args.geometry_amendment),
+        },
+        "global_id_reconciliation_contract": {
+            "path": args.global_id_amendment.as_posix(),
+            "sha256": file_sha256(args.global_id_amendment),
         },
         "files": files,
     }

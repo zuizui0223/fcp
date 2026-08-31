@@ -35,6 +35,7 @@ class AtlasScaleoutFreeze:
 
 
 GEOMETRY_AMENDMENT_PROTOCOL = "jbi-atlas-scaleout-geometry-admission-amendment-v1"
+GLOBAL_ID_AMENDMENT_PROTOCOL = "jbi-atlas-scaleout-global-id-amendment-v1"
 
 
 def validate_geometry_admission_amendment(amendment: Mapping[str, Any]) -> None:
@@ -58,6 +59,43 @@ def validate_geometry_admission_amendment(amendment: Mapping[str, Any]) -> None:
         or inherited.get("minimum_detectable_cells_per_species") != 10
     ):
         raise ValueError("inherited scale-out geometry thresholds changed")
+
+
+def validate_global_id_amendment(amendment: Mapping[str, Any]) -> None:
+    if amendment.get("protocol") != GLOBAL_ID_AMENDMENT_PROTOCOL:
+        raise ValueError("unexpected scale-out global-ID amendment")
+    trigger = amendment.get("trigger", {})
+    rules = amendment.get("frozen_reconciliation", {})
+    if (
+        trigger.get("candidate_image_pixels_opened") is not False
+        or trigger.get("continuous_colour_used") is not False
+        or rules.get("ownership")
+        != "a candidate may claim an observation ID and photo ID only after it passes both the metadata and primary 100-km geometry gates"
+        or not str(rules.get("collision_rule", "")).startswith("before selection")
+        or not str(rules.get("shortfall_rule", "")).startswith("if fewer than")
+    ):
+        raise ValueError("scale-out global-ID reconciliation changed")
+
+
+def exclude_reserved_scaleout_rows(
+    rows: Sequence[Mapping[str, Any]],
+    reserved_observations: set[str],
+    reserved_photos: set[str],
+) -> tuple[list[dict[str, Any]], int]:
+    """Deterministically remove metadata rows already claimed by earlier species."""
+
+    retained: list[dict[str, Any]] = []
+    removed = 0
+    for raw in rows:
+        observation_id = str(raw.get("observation_id", "")).strip()
+        photo_id = str(raw.get("photo_id", "")).strip()
+        if not observation_id or not photo_id:
+            raise ValueError("scale-out candidates require observation and photo IDs")
+        if observation_id in reserved_observations or photo_id in reserved_photos:
+            removed += 1
+            continue
+        retained.append(dict(raw))
+    return retained, removed
 
 
 _OUTCOME_TOKENS = (
@@ -246,6 +284,7 @@ def live_api_scaleout_feasibility(
     atlas_contract: Mapping[str, Any],
     expansion_contract: Mapping[str, Any],
     geometry_amendment: Mapping[str, Any],
+    global_id_amendment: Mapping[str, Any],
     adapter: AtlasMetadataAdapter,
     *,
     candidate_species_pool_size: int = 500,
@@ -261,6 +300,7 @@ def live_api_scaleout_feasibility(
     validate_atlas_contract(atlas_contract)
     validate_expansion_contract(expansion_contract)
     validate_geometry_admission_amendment(geometry_amendment)
+    validate_global_id_amendment(global_id_amendment)
     if candidate_species_pool_size < 200:
         raise ValueError("live feasibility needs at least 200 candidate species")
     working = deepcopy(dict(atlas_contract))
@@ -317,56 +357,73 @@ def live_api_scaleout_feasibility(
     eligible: list[dict[str, Any]] = []
     observations_by_taxon: dict[str, list[dict[str, Any]]] = {}
     species_audit: list[dict[str, Any]] = []
+    reserved_observations: set[str] = set()
+    reserved_photos: set[str] = set()
+    metadata_eligible_species = 0
     for rank, record in enumerate(candidates, start=1):
         taxon = record["taxon"]
         raw_observations = adapter.observations(
             int(taxon["id"]), _observation_query(working)
         )
-        prepared = [
+        prepared_before_reconciliation = [
             row
             for observation in raw_observations
             if (row := _prepare_observation(observation, taxon, working)) is not None
         ]
+        prepared, collisions_removed = exclude_reserved_scaleout_rows(
+            prepared_before_reconciliation,
+            reserved_observations,
+            reserved_photos,
+        )
         selected = _balanced_selection(prepared, working)
         qc = _selection_qc(selected, len(prepared), working)
         taxon_id = str(taxon["id"])
-        species_audit.append(
-            {
-                "metadata_rank": rank,
-                "taxon_id": taxon_id,
-                "species": str(taxon["name"]),
-                "genus": f"inat-genus-{taxon['parent_id']}",
-                "flowering_annotated_observation_count": int(record["count"]),
-                "status": "eligible" if qc["gate_pass"] else "metadata_gate_failed",
-                **qc,
-            }
-        )
+        audit_row = {
+            "metadata_rank": rank,
+            "taxon_id": taxon_id,
+            "species": str(taxon["name"]),
+            "genus": f"inat-genus-{taxon['parent_id']}",
+            "flowering_annotated_observation_count": int(record["count"]),
+            "pre_reconciliation_candidate_count": len(prepared_before_reconciliation),
+            "global_identity_collisions_removed": collisions_removed,
+            "post_reconciliation_candidate_count": len(prepared),
+            "status": "metadata_eligible" if qc["gate_pass"] else "metadata_gate_failed",
+            **qc,
+        }
         if not qc["gate_pass"]:
+            species_audit.append(audit_row)
             continue
-        eligible.append(
-            {
-                "taxon_id": taxon_id,
-                "species": str(taxon["name"]),
-                "genus": f"inat-genus-{taxon['parent_id']}",
-            }
+        metadata_eligible_species += 1
+        candidate = {
+            "taxon_id": taxon_id,
+            "species": str(taxon["name"]),
+            "genus": f"inat-genus-{taxon['parent_id']}",
+        }
+        geometry_eligible, geometry_audit = qualify_scaleout_geometry(
+            [candidate],
+            {taxon_id: selected},
+            working,
+            primary_scale_km=int(expansion_contract["spatial_design"]["primary_scale_km"]),
         )
+        geometry = geometry_audit[0]
+        audit_row["geometry_status"] = geometry["status"]
+        audit_row["geometry_scale_results"] = geometry["scale_results"]
+        audit_row["status"] = geometry["status"]
+        species_audit.append(audit_row)
+        if not geometry_eligible:
+            continue
+        eligible.append(candidate)
         observations_by_taxon[taxon_id] = selected
-
-    geometry_eligible, geometry_audit = qualify_scaleout_geometry(
-        eligible,
-        observations_by_taxon,
-        working,
-        primary_scale_km=int(expansion_contract["spatial_design"]["primary_scale_km"]),
-    )
-    geometry_by_taxon = {row["taxon_id"]: row for row in geometry_audit}
-    for row in species_audit:
-        geometry = geometry_by_taxon.get(row["taxon_id"])
-        if geometry is not None:
-            row["geometry_status"] = geometry["status"]
-            row["geometry_scale_results"] = geometry["scale_results"]
+        for row in selected:
+            observation_id = str(row["observation_id"])
+            photo_id = str(row["photo_id"])
+            if observation_id in reserved_observations or photo_id in reserved_photos:
+                raise ValueError("global-ID reconciliation failed before panel draw")
+            reserved_observations.add(observation_id)
+            reserved_photos.add(photo_id)
     try:
         frozen = freeze_scaleout_panels(
-            geometry_eligible,
+            eligible,
             observations_by_taxon,
             expansion_contract,
             source_role="live iNaturalist API metadata feasibility only",
@@ -387,8 +444,11 @@ def live_api_scaleout_feasibility(
                 "continuous_colour_used": False,
                 "species_count_records_received": len(raw_counts),
                 "species_candidates_after_static_filters": len(candidates),
-                "eligible_species": len(eligible),
-                "geometry_eligible_species": len(geometry_eligible),
+                "eligible_species": metadata_eligible_species,
+                "geometry_eligible_species": len(eligible),
+                "globally_reserved_observations": len(reserved_observations),
+                "globally_reserved_photos": len(reserved_photos),
+                "global_id_reconciliation_protocol": global_id_amendment["protocol"],
                 "species_results": species_audit,
             },
         )
@@ -399,8 +459,11 @@ def live_api_scaleout_feasibility(
         "species_count_records_received": len(raw_counts),
         "species_candidates_after_static_filters": len(candidates),
         "species_results": species_audit,
-        "metadata_eligible_species": len(eligible),
-        "geometry_eligible_species": len(geometry_eligible),
+        "metadata_eligible_species": metadata_eligible_species,
+        "geometry_eligible_species": len(eligible),
+        "globally_reserved_observations": len(reserved_observations),
+        "globally_reserved_photos": len(reserved_photos),
+        "global_id_reconciliation_protocol": global_id_amendment["protocol"],
         "geometry_admission_preceded_cohort_permutation": True,
         "geometry_admission_protocol": geometry_amendment["protocol"],
         "final_source_still_required": True,
