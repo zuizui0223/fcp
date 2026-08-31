@@ -1,0 +1,40 @@
+{
+  "protocol": "jbi-atlas-roi-v3-jrc-box-edge-amendment-v2",
+  "status": "prospectively_frozen_after_second_annotation_structure_stop_and_before_any_completed_development_result_or_locked_test_pixel",
+  "date": "2026-08-31",
+  "parent_amendment": {
+    "path": "docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v1.json",
+    "sha256_lf_canonical_v1": "828540c36969386822c7656bcaa3534a820da520670d379e50304192ec66f484",
+    "git_blob_sha1": "689c4288274c99e5f4370a4f345e3f6599100a89"
+  },
+  "stop_evidence": {
+    "failure": "the restarted development run stopped near image 350 before writing any row or aggregate result because one official training box has zero intersection with its image after clipping",
+    "partial_access": "at most the first 350 official JRC train images were decoded and predicted before the exception; no result file or aggregate metric was produced",
+    "locked_jrc_test_images_decoded_or_scored": false,
+    "scaleout_candidate_pixels_opened": false
+  },
+  "annotation_only_audit": {
+    "train_boxes": 6992,
+    "train_boxes_with_positive_clipped_area": 6991,
+    "train_boxes_with_zero_clipped_area": 1,
+    "zero_area_train_annotation": {
+      "annotation_id": 5998,
+      "image_id": 350,
+      "bbox": [1110.0, -1.0, 63.0, 1.0],
+      "image_width": 1280,
+      "image_height": 960
+    },
+    "test_boxes": 2524,
+    "test_boxes_with_zero_clipped_area": 0
+  },
+  "frozen_correction": "retain the original source-box denominator and record a zero-intersection box as source_box_not_evaluable; exclude only that box from evaluable object-recall denominators, never the image or any model prediction",
+  "unchanged": [
+    "all v1 clipping rules",
+    "model and ROI rules",
+    "every aggregate acceptance threshold",
+    "all 400 train and 100 test images",
+    "all 6992 train and 2524 test source annotation rows in the audit",
+    "test evaluable denominator because test has zero such boxes"
+  ],
+  "restart_rule": "restart all 400 train images from the beginning; report source boxes, evaluable boxes and not-evaluable boxes separately"
+}

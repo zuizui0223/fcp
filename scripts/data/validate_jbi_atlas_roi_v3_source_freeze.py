@@ -17,12 +17,14 @@ if str(ROOT) not in sys.path:
 
 from fcp_pipeline.segformer_roi import (
     validate_jrc_box_edge_amendment,
+    validate_jrc_box_edge_amendment_v2,
     validate_roi_v3_contract,
 )
 
 
 CONTRACT = Path("docs/supporting/jbi_atlas_roi_estimator_contract_v3.json")
 AMENDMENT = Path("docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v1.json")
+AMENDMENT_V2 = Path("docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v2.json")
 SOURCE_ROOT = Path("data/atlas/qualification/roi_v3_sources")
 MANIFEST = SOURCE_ROOT / "roi_v3_source_inventory_manifest.json"
 EXPECTED = {
@@ -58,6 +60,12 @@ def main() -> None:
         CONTRACT
     ):
         raise RuntimeError("JRC box-edge amendment parent identity changed")
+    amendment_v2 = json.loads(AMENDMENT_V2.read_text(encoding="utf-8"))
+    validate_jrc_box_edge_amendment_v2(amendment_v2)
+    if amendment_v2.get("parent_amendment", {}).get(
+        "sha256_lf_canonical_v1"
+    ) != canonical_sha256(AMENDMENT):
+        raise RuntimeError("JRC box-edge v2 amendment parent identity changed")
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     if (
         manifest.get("status") != "pass_roi_v3_source_inventory_freeze"

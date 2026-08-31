@@ -29,6 +29,7 @@ from fcp_pipeline.segformer_roi import (
     score_jrc_boxes,
     summarize_jrc_gate,
     validate_jrc_box_edge_amendment,
+    validate_jrc_box_edge_amendment_v2,
     validate_roi_v3_contract,
 )
 
@@ -134,7 +135,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--box-edge-amendment",
         type=Path,
-        default=Path("docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v1.json"),
+        default=Path("docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v2.json"),
     )
     parser.add_argument("--phase", choices=("smoke", "development", "locked_test"), required=True)
     parser.add_argument("--jrc-root", type=Path, required=True)
@@ -151,7 +152,7 @@ def main() -> None:
     contract = json.loads(args.contract.read_text(encoding="utf-8"))
     validate_roi_v3_contract(contract)
     amendment = json.loads(args.box_edge_amendment.read_text(encoding="utf-8"))
-    validate_jrc_box_edge_amendment(amendment)
+    validate_jrc_box_edge_amendment_v2(amendment)
     contract_hash = canonical_sha256(args.contract)
     amendment_hash = canonical_sha256(args.box_edge_amendment)
     if args.phase == "locked_test":

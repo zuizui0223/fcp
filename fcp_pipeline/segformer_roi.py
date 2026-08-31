@@ -12,6 +12,7 @@ from skimage.color import rgb2lab
 
 PROTOCOL = "jbi-atlas-roi-estimator-v3"
 BOX_EDGE_AMENDMENT_PROTOCOL = "jbi-atlas-roi-v3-jrc-box-edge-amendment-v1"
+BOX_EDGE_AMENDMENT_V2_PROTOCOL = "jbi-atlas-roi-v3-jrc-box-edge-amendment-v2"
 CANVAS_SIZE = 512
 
 
@@ -104,6 +105,31 @@ def validate_jrc_box_edge_amendment(amendment: Mapping[str, Any]) -> None:
         raise ValueError("JRC box clipping rule changed")
 
 
+def validate_jrc_box_edge_amendment_v2(amendment: Mapping[str, Any]) -> None:
+    if amendment.get("protocol") != BOX_EDGE_AMENDMENT_V2_PROTOCOL:
+        raise ValueError("unexpected JRC box-edge v2 amendment")
+    evidence = amendment.get("stop_evidence", {})
+    audit = amendment.get("annotation_only_audit", {})
+    zero = audit.get("zero_area_train_annotation", {})
+    if (
+        evidence.get("locked_jrc_test_images_decoded_or_scored") is not False
+        or evidence.get("scaleout_candidate_pixels_opened") is not False
+        or audit.get("train_boxes") != 6992
+        or audit.get("train_boxes_with_positive_clipped_area") != 6991
+        or audit.get("train_boxes_with_zero_clipped_area") != 1
+        or audit.get("test_boxes") != 2524
+        or audit.get("test_boxes_with_zero_clipped_area") != 0
+        or zero.get("annotation_id") != 5998
+        or zero.get("image_id") != 350
+        or zero.get("bbox") != [1110.0, -1.0, 63.0, 1.0]
+    ):
+        raise ValueError("JRC zero-area annotation evidence changed")
+    if not str(amendment.get("frozen_correction", "")).startswith(
+        "retain the original source-box denominator"
+    ):
+        raise ValueError("JRC zero-area annotation rule changed")
+
+
 def class_masks_from_labels(
     labels: np.ndarray, *, flower_label: int = 66, plant_label: int = 17
 ) -> tuple[np.ndarray, np.ndarray]:
@@ -175,7 +201,7 @@ def evaluate_flip_stable_admission(
 
 def _scaled_box(
     bbox: Sequence[float], *, source_width: int, source_height: int
-) -> tuple[int, int, int, int, float]:
+) -> tuple[int, int, int, int, float] | None:
     if len(bbox) != 4 or source_width < 1 or source_height < 1:
         raise ValueError("invalid COCO box or source dimensions")
     x, y, width, height = (float(value) for value in bbox)
@@ -188,7 +214,7 @@ def _scaled_box(
     clipped_x1 = max(0.0, min(float(source_width), x + width))
     clipped_y1 = max(0.0, min(float(source_height), y + height))
     if clipped_x1 <= clipped_x0 or clipped_y1 <= clipped_y0:
-        raise ValueError("COCO box is outside the source image after clipping")
+        return None
     x0 = max(0, min(CANVAS_SIZE, math.floor(clipped_x0 * CANVAS_SIZE / source_width)))
     y0 = max(0, min(CANVAS_SIZE, math.floor(clipped_y0 * CANVAS_SIZE / source_height)))
     x1 = max(0, min(CANVAS_SIZE, math.ceil(clipped_x1 * CANVAS_SIZE / source_width)))
@@ -216,10 +242,15 @@ def score_jrc_boxes(
     union = np.zeros_like(flower)
     hits = {"small": 0, "medium": 0, "large": 0}
     totals = {"small": 0, "medium": 0, "large": 0}
+    source_not_evaluable = 0
     for bbox in boxes:
-        x0, y0, x1, y1, area = _scaled_box(
+        scaled = _scaled_box(
             bbox, source_width=source_width, source_height=source_height
         )
+        if scaled is None:
+            source_not_evaluable += 1
+            continue
+        x0, y0, x1, y1, area = scaled
         union[y0:y1, x0:x1] = True
         size_bin = "small" if area < 1024 else "medium" if area < 9216 else "large"
         totals[size_bin] += 1
@@ -235,6 +266,8 @@ def score_jrc_boxes(
             inside / predicted if predicted else 0.0
         ),
         "reference_boxes": sum(totals.values()),
+        "source_annotation_boxes": len(boxes),
+        "source_not_evaluable_boxes": source_not_evaluable,
         "hit_boxes": sum(hits.values()),
         **{f"{name}_reference_boxes": totals[name] for name in totals},
         **{f"{name}_hit_boxes": hits[name] for name in hits},
@@ -280,6 +313,10 @@ def summarize_jrc_gate(
         "medium_object_recall": recalls["medium"],
         "large_object_recall": recalls["large"],
         "reference_boxes": reference,
+        "source_annotation_boxes": sum(int(row["source_annotation_boxes"]) for row in rows),
+        "source_not_evaluable_boxes": sum(
+            int(row["source_not_evaluable_boxes"]) for row in rows
+        ),
     }
     checks = {
         "minimum_images": metrics["images"] >= int(acceptance["minimum_images"]),

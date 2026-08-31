@@ -12,6 +12,7 @@ from fcp_pipeline.segformer_roi import (
     score_jrc_boxes,
     summarize_jrc_gate,
     validate_jrc_box_edge_amendment,
+    validate_jrc_box_edge_amendment_v2,
     validate_roi_v3_contract,
 )
 
@@ -35,6 +36,13 @@ def test_roi_v3_contract_and_no_plant_fallback() -> None:
     validate_jrc_box_edge_amendment(
         json.loads(
             Path("docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v1.json").read_text(
+                encoding="utf-8"
+            )
+        )
+    )
+    validate_jrc_box_edge_amendment_v2(
+        json.loads(
+            Path("docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v2.json").read_text(
                 encoding="utf-8"
             )
         )
@@ -88,3 +96,12 @@ def test_jrc_edge_boxes_are_clipped_before_scaling() -> None:
     )
     assert scored["reference_boxes"] == 1
     assert scored["hit_boxes"] == 1
+    zero = score_jrc_boxes(
+        mask,
+        [[1110, -1, 63, 1]],
+        source_width=1280,
+        source_height=960,
+    )
+    assert zero["source_annotation_boxes"] == 1
+    assert zero["reference_boxes"] == 0
+    assert zero["source_not_evaluable_boxes"] == 1
