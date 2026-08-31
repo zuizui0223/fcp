@@ -5,7 +5,9 @@ on:
     paths:
       - "fcp_pipeline/atlas_expansion.py"
       - "fcp_pipeline/atlas_signal_recovery.py"
+      - "fcp_pipeline/atlas_scaleout.py"
       - "fcp_pipeline/roi_benchmark.py"
+      - "scripts/data/build_jbi_atlas_scaleout_metadata_feasibility.py"
       - "scripts/data/benchmark_jbi_atlas_flower_roi.py"
       - "scripts/data/run_jbi_atlas_signal_recovery.py"
       - "scripts/data/validate_jbi_image_first_atlas_expansion.py"
@@ -19,7 +21,9 @@ on:
     paths:
       - "fcp_pipeline/atlas_expansion.py"
       - "fcp_pipeline/atlas_signal_recovery.py"
+      - "fcp_pipeline/atlas_scaleout.py"
       - "fcp_pipeline/roi_benchmark.py"
+      - "scripts/data/build_jbi_atlas_scaleout_metadata_feasibility.py"
       - "scripts/data/benchmark_jbi_atlas_flower_roi.py"
       - "scripts/data/run_jbi_atlas_signal_recovery.py"
       - "scripts/data/validate_jbi_image_first_atlas_expansion.py"
@@ -39,12 +43,17 @@ on:
         required: true
         default: false
         type: boolean
+      run_scaleout_metadata:
+        description: Run the complete 500-candidate, 200-species metadata feasibility audit
+        required: true
+        default: false
+        type: boolean
 
 permissions:
   contents: read
 
 concurrency:
-  group: jbi-atlas-qualification-${{ github.ref }}-${{ github.event_name }}-roi-${{ inputs.run_roi_benchmark }}-signal-${{ inputs.run_signal_recovery }}
+  group: jbi-atlas-qualification-${{ github.ref }}-${{ github.event_name }}-roi-${{ inputs.run_roi_benchmark }}-signal-${{ inputs.run_signal_recovery }}-metadata-${{ inputs.run_scaleout_metadata }}
   cancel-in-progress: false
 
 jobs:
@@ -67,6 +76,7 @@ jobs:
           python -m pytest -q
           tests/test_atlas_expansion.py
           tests/test_atlas_roi_benchmark.py
+          tests/test_atlas_scaleout.py
           tests/test_atlas_signal_recovery.py
 
   roi-benchmark:
@@ -151,4 +161,33 @@ jobs:
         with:
           name: jbi-atlas-signal-recovery
           path: /tmp/atlas-signal-recovery
+          if-no-files-found: error
+
+  scaleout-metadata:
+    if: github.event_name == 'workflow_dispatch' && inputs.run_scaleout_metadata
+    needs: contract-and-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Audit the complete 500-species metadata candidate pool
+        run: >-
+          python scripts/data/build_jbi_atlas_scaleout_metadata_feasibility.py
+          --candidate-species 500
+          --maximum-candidates-per-species 1000
+          --output-dir /tmp/fcp-atlas-scaleout
+      - name: Upload pass, shortfall and failure evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-200-species-metadata-feasibility
+          path: /tmp/fcp-atlas-scaleout
           if-no-files-found: error
