@@ -1,0 +1,120 @@
+{
+  "claim_ceiling": "Independent environmental boundary surfaces only; no flower-colour concordance has been tested.",
+  "environment_colour_join_performed": false,
+  "input_grid_sha256": {
+    "climate_ecoregion": {
+      "100km": "1c57e13ac3b045ac69c270d31d0dd24886844ba4505b46cafcba2d6403cbafdb",
+      "250km": "d51be4ee91a1bc78c316d2441338fe1ff73513c08df426ec2ad683b30ec72b99",
+      "500km": "1503ac8bb0207ad23062c4e34330ad7575a02a4906a62c9314564fe283961f4c"
+    },
+    "land_cover": {
+      "100km": "31c2df0215bd3f0adec1d921e40514bf5faca3fe1943de29d83eab94dee27154",
+      "250km": "e873b93e9694b44728e4901a97f7c33ffe147c2dec4eec4a220b991dfa60333f",
+      "500km": "405e15577ffa7ea34eb251c58536d9e0506cc35f8965b404ba7acb407d39b57c"
+    }
+  },
+  "output_sha256": {
+    "environmental_boundary_cells_100km.csv": "3b9418a5e11d628facc702adfd026bce2221971231aa129012879d35a9e069b1",
+    "environmental_boundary_cells_250km.csv": "0d6715c18003f3945537d4a16ec5bff5f974325a369a551e1916073e707bf50b",
+    "environmental_boundary_cells_500km.csv": "25bdddc98e9db12101729fb152be214778c5ad3b989c191217bcb24b65d6c6cc"
+  },
+  "protocol": "jbi-atlas-environmental-overlay-freeze-v1",
+  "scale_results": [
+    {
+      "continuous_scaling": {
+        "macroclimate": {
+          "mean": [
+            12.578184039942132,
+            692.9286208808097,
+            834.2322736148441,
+            64.82357519430843
+          ],
+          "sd": [
+            13.781147534247028,
+            503.19046965978185,
+            786.4878418148829,
+            33.979771940966444
+          ]
+        }
+      },
+      "finite_cells_by_family": {
+        "biome_sensitivity": 15742,
+        "ecoregion": 15742,
+        "land_cover": 17308,
+        "macroclimate": 15742,
+        "realm_sensitivity": 15742
+      },
+      "scale_km": 100,
+      "source_cells": {
+        "land_cover": 17327,
+        "macroclimate_and_ecoregion": 15833
+      },
+      "union_terrestrial_cells": 17526
+    },
+    {
+      "continuous_scaling": {
+        "macroclimate": {
+          "mean": [
+            12.062744182519143,
+            658.7046330627209,
+            900.2185278164849,
+            62.888170413642136
+          ],
+          "sd": [
+            14.494784861786874,
+            494.8684208055669,
+            825.5016439580036,
+            32.97186717704606
+          ]
+        }
+      },
+      "finite_cells_by_family": {
+        "biome_sensitivity": 3036,
+        "ecoregion": 3036,
+        "land_cover": 3165,
+        "macroclimate": 3036,
+        "realm_sensitivity": 3036
+      },
+      "scale_km": 250,
+      "source_cells": {
+        "land_cover": 3187,
+        "macroclimate_and_ecoregion": 3076
+      },
+      "union_terrestrial_cells": 3250
+    },
+    {
+      "continuous_scaling": {
+        "macroclimate": {
+          "mean": [
+            11.353471795762339,
+            623.2800889194365,
+            955.0855921176843,
+            61.05347680133438
+          ],
+          "sd": [
+            15.284436495493955,
+            485.6051267954463,
+            834.5257774625906,
+            32.03356518133177
+          ]
+        }
+      },
+      "finite_cells_by_family": {
+        "biome_sensitivity": 940,
+        "ecoregion": 940,
+        "land_cover": 877,
+        "macroclimate": 940,
+        "realm_sensitivity": 940
+      },
+      "scale_km": 500,
+      "source_cells": {
+        "land_cover": 891,
+        "macroclimate_and_ecoregion": 956
+      },
+      "union_terrestrial_cells": 961
+    }
+  ],
+  "scaleout_colour_opened": false,
+  "source_manifest_sha256": "7c39f505ead8a00ab0256fed4752e43c056b2d0f24a3c2577eab06f36bf43c28",
+  "status": "pass_precolour_environmental_boundary_freeze"
+}

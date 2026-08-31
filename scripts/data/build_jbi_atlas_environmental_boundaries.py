@@ -70,7 +70,18 @@ def parse_args() -> argparse.Namespace:
         default=Path("docs/supporting/jbi_image_first_atlas_contract_v1.json"),
     )
     parser.add_argument("--source-manifest", type=Path, required=True)
-    parser.add_argument("--grid", action="append", type=grid_argument, required=True)
+    parser.add_argument(
+        "--climate-ecoregion-grid",
+        action="append",
+        type=grid_argument,
+        required=True,
+    )
+    parser.add_argument(
+        "--land-cover-grid",
+        action="append",
+        type=grid_argument,
+        required=True,
+    )
     parser.add_argument("--output-dir", type=Path, required=True)
     return parser.parse_args()
 
@@ -85,10 +96,11 @@ def main() -> None:
     validate_expansion_contract(expansion)
     if source_manifest.get("status") != "pass_environmental_source_freeze":
         raise RuntimeError("environmental source manifest has not passed")
-    grids = dict(args.grid)
+    climate_grids = dict(args.climate_ecoregion_grid)
+    land_cover_grids = dict(args.land_cover_grid)
     expected_scales = environment["grid"]["scales_km"]
-    if sorted(grids) != expected_scales:
-        raise RuntimeError("all and only the frozen 100/250/500-km grids are required")
+    if sorted(climate_grids) != expected_scales or sorted(land_cover_grids) != expected_scales:
+        raise RuntimeError("both source families require all frozen 100/250/500-km grids")
     dimensions = {
         int(row["scale_km"]): (int(row["n_lon"]), int(row["n_sinlat"]))
         for row in atlas["geometry_only_scale_selection"]["candidates"]
@@ -96,48 +108,93 @@ def main() -> None:
 
     output_files: dict[str, str] = {}
     scale_results: list[dict[str, Any]] = []
+    available = tuple(source_manifest["available_primary_families"])
+    if available != ("macroclimate", "land_cover", "ecoregion"):
+        raise RuntimeError("environmental source family set changed")
     for scale in expected_scales:
-        rows = read_csv(grids[scale])
-        cell_ids = [int(row["cell_id"]) for row in rows]
-        if len(cell_ids) != len(set(cell_ids)):
-            raise RuntimeError(f"{scale}-km environment grid has duplicate cells")
         n_lon, n_sinlat = dimensions[scale]
-        adjacency = rook_adjacency_without_repair(
-            cell_ids, n_lon=n_lon, n_sinlat=n_sinlat
+        climate_rows = read_csv(climate_grids[scale])
+        land_cover_rows = read_csv(land_cover_grids[scale])
+        climate_ids = [int(row["cell_id"]) for row in climate_rows]
+        land_cover_ids = [int(row["cell_id"]) for row in land_cover_rows]
+        if (
+            len(climate_ids) != len(set(climate_ids))
+            or len(land_cover_ids) != len(set(land_cover_ids))
+        ):
+            raise RuntimeError(f"{scale}-km environment grid has duplicate cells")
+        climate_adjacency = rook_adjacency_without_repair(
+            climate_ids, n_lon=n_lon, n_sinlat=n_sinlat
         )
-        available = tuple(source_manifest["available_primary_families"])
-        surfaces = environmental_boundary_surfaces(rows, adjacency, families=available)
+        climate_surfaces = environmental_boundary_surfaces(
+            climate_rows,
+            climate_adjacency,
+            families=("macroclimate", "ecoregion"),
+        )
+        del climate_adjacency
+        land_cover_adjacency = rook_adjacency_without_repair(
+            land_cover_ids, n_lon=n_lon, n_sinlat=n_sinlat
+        )
+        land_cover_surfaces = environmental_boundary_surfaces(
+            land_cover_rows,
+            land_cover_adjacency,
+            families=("land_cover",),
+        )
+        del land_cover_adjacency
+        surface_by_family = {
+            family: {
+                cell: float(values[index])
+                for index, cell in enumerate(ids)
+                if math.isfinite(float(values[index]))
+            }
+            for family, values, ids in (
+                ("macroclimate", climate_surfaces["macroclimate"], climate_ids),
+                ("ecoregion", climate_surfaces["ecoregion"], climate_ids),
+                ("realm_sensitivity", climate_surfaces["realm_sensitivity"], climate_ids),
+                ("biome_sensitivity", climate_surfaces["biome_sensitivity"], climate_ids),
+                ("land_cover", land_cover_surfaces["land_cover"], land_cover_ids),
+            )
+        }
+        coordinate_by_cell: dict[int, tuple[float, float]] = {}
+        for row in (*climate_rows, *land_cover_rows):
+            cell = int(row["cell_id"])
+            coordinate = (float(row["latitude"]), float(row["longitude"]))
+            previous = coordinate_by_cell.get(cell)
+            if previous is not None and not all(
+                math.isclose(first, second, rel_tol=0.0, abs_tol=1e-10)
+                for first, second in zip(previous, coordinate, strict=True)
+            ):
+                raise RuntimeError("equal-area source grids disagree on cell centres")
+            coordinate_by_cell[cell] = coordinate
         output_rows: list[dict[str, Any]] = []
-        families = tuple(available) + (
-            ("realm_sensitivity", "biome_sensitivity")
-            if "ecoregion" in available
-            else ()
-        )
-        for index, row in enumerate(rows):
+        families = available + ("realm_sensitivity", "biome_sensitivity")
+        for cell in sorted(coordinate_by_cell):
+            latitude, longitude = coordinate_by_cell[cell]
             output = {
                 "scale_km": scale,
-                "cell_id": cell_ids[index],
-                "latitude": float(row["latitude"]),
-                "longitude": float(row["longitude"]),
+                "cell_id": cell,
+                "latitude": latitude,
+                "longitude": longitude,
             }
             for family in families:
-                value = float(surfaces[family][index])
-                output[f"{family}_boundary"] = value if math.isfinite(value) else ""
-            output_rows.append(output)
+                output[f"{family}_boundary"] = surface_by_family[family].get(cell, "")
+            if any(output[f"{family}_boundary"] != "" for family in families):
+                output_rows.append(output)
         path = args.output_dir / f"environmental_boundary_cells_{scale}km.csv"
         write_csv(path, output_rows)
         output_files[path.name] = sha256(path)
         scale_results.append(
             {
                 "scale_km": scale,
-                "terrestrial_cells": len(rows),
+                "union_terrestrial_cells": len(output_rows),
+                "source_cells": {
+                    "macroclimate_and_ecoregion": len(climate_rows),
+                    "land_cover": len(land_cover_rows),
+                },
                 "finite_cells_by_family": {
-                    family: sum(
-                        math.isfinite(float(value)) for value in surfaces[family]
-                    )
+                    family: len(surface_by_family[family])
                     for family in families
                 },
-                "continuous_scaling": surfaces["scaling"],
+                "continuous_scaling": climate_surfaces["scaling"],
             }
         )
 
@@ -148,7 +205,14 @@ def main() -> None:
         "environment_colour_join_performed": False,
         "source_manifest_sha256": sha256(args.source_manifest),
         "input_grid_sha256": {
-            f"{scale}km": sha256(path) for scale, path in sorted(grids.items())
+            "climate_ecoregion": {
+                f"{scale}km": sha256(path)
+                for scale, path in sorted(climate_grids.items())
+            },
+            "land_cover": {
+                f"{scale}km": sha256(path)
+                for scale, path in sorted(land_cover_grids.items())
+            },
         },
         "output_sha256": output_files,
         "scale_results": scale_results,
