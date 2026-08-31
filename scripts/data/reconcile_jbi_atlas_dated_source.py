@@ -68,14 +68,26 @@ def main() -> int:
         type=Path,
         default=ROOT / "docs/supporting/jbi_atlas_dated_source_amendment_v1.json",
     )
+    parser.add_argument(
+        "--snapshot-receipt",
+        type=Path,
+        default=ROOT
+        / "docs/supporting/jbi_atlas_inaturalist_snapshot_receipt_v1.json",
+    )
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args()
 
     amendment = json.loads(args.amendment.read_text(encoding="utf-8"))
     validate_dated_source_amendment(amendment)
+    snapshot_receipt = json.loads(args.snapshot_receipt.read_text(encoding="utf-8"))
+    if snapshot_receipt.get("status") != "pass_exact_archive_identity_and_tar_integrity":
+        raise RuntimeError("dated snapshot receipt did not pass")
     expected_size = int(amendment["snapshot"]["content_length_bytes"])
     if args.snapshot_archive.stat().st_size != expected_size:
         raise RuntimeError("dated snapshot archive size changed or is incomplete")
+    archive_sha256 = sha256(args.snapshot_archive)
+    if archive_sha256 != snapshot_receipt.get("source", {}).get("sha256"):
+        raise RuntimeError("dated snapshot archive SHA-256 changed")
     feasibility = json.loads(args.metadata_feasibility.read_text(encoding="utf-8"))
     if (
         feasibility.get("status") != "pass_live_api_scaleout_feasibility"
@@ -99,12 +111,13 @@ def main() -> int:
     audit, frozen_rows = reconcile_rows(panels, observations, scanned, amendment)
     audit["snapshot"] = {
         **amendment["snapshot"],
-        "computed_sha256": sha256(args.snapshot_archive),
+        "computed_sha256": archive_sha256,
         "archive_members": scanned["members"],
         "second_pass_for_observations": scanned["second_pass_for_observations"],
     }
     audit["parents"] = {
         "amendment_sha256": sha256(args.amendment),
+        "snapshot_receipt_sha256": sha256(args.snapshot_receipt),
         "metadata_feasibility_sha256": sha256(args.metadata_feasibility),
         "species_panels_sha256": sha256(args.species_panels),
         "selected_observations_sha256": sha256(args.selected_observations),
