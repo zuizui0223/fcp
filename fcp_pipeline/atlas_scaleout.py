@@ -202,9 +202,14 @@ def qualify_scaleout_geometry(
                 )
                 retained_edges = int(len(geometry.retained_edges))
                 detectable_cells = int(np.count_nonzero(geometry.detectable))
+                detectable_cell_ids = sorted(
+                    int(cell)
+                    for cell in np.flatnonzero(np.asarray(geometry.detectable, dtype=bool))
+                )
             except ValueError:
                 retained_edges = 0
                 detectable_cells = 0
+                detectable_cell_ids = []
             evaluable = (
                 retained_edges >= int(criteria["minimum_retained_edges_per_species"])
                 and detectable_cells >= int(criteria["minimum_detectable_cells_per_species"])
@@ -214,6 +219,7 @@ def qualify_scaleout_geometry(
                     "scale_km": scale,
                     "retained_edges": retained_edges,
                     "detectable_cells": detectable_cells,
+                    "detectable_cell_ids": detectable_cell_ids,
                     "geometry_evaluable": evaluable,
                 }
             )

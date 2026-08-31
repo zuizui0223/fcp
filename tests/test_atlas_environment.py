@@ -11,6 +11,7 @@ from fcp_pipeline.atlas_environment import (
     composition_boundary,
     continuous_boundary,
     environmental_boundary_surfaces,
+    evaluate_environmental_coverage_gate,
     rook_adjacency_without_repair,
     spearman_rank_correlation,
     validate_environment_contract,
@@ -130,3 +131,45 @@ def test_spearman_rank_correlation_uses_average_tie_ranks() -> None:
     ) == pytest.approx(-1.0)
     with pytest.raises(ValueError, match="positive rank variation"):
         spearman_rank_correlation(np.ones(3), np.arange(3.0))
+
+
+def test_environmental_coverage_uses_detectable_opportunity_cells() -> None:
+    geometry = [
+        {
+            "taxon_id": "1",
+            "scale_results": [
+                {"scale_km": scale, "detectable_cell_ids": [1, 2, 3, 4]}
+                for scale in (100, 250, 500)
+            ],
+        },
+        {
+            "taxon_id": "2",
+            "scale_results": [
+                {"scale_km": scale, "detectable_cell_ids": [4, 5]}
+                for scale in (100, 250, 500)
+            ],
+        },
+    ]
+    rows = {
+        scale: [
+            {
+                "cell_id": cell,
+                "macroclimate_boundary": 0.1 if cell <= 4 else "",
+                "land_cover_boundary": 0.2,
+                "ecoregion_boundary": 0.0 if cell <= 3 else "",
+            }
+            for cell in range(1, 6)
+        ]
+        for scale in (100, 250, 500)
+    }
+    result = evaluate_environmental_coverage_gate(
+        geometry,
+        ["1", "2"],
+        rows,
+        json.loads(CONTRACT.read_text(encoding="utf-8")),
+    )
+    assert result["status"] == "pass_precolour_environmental_coverage"
+    assert result["evaluable_families"] == ["macroclimate", "land_cover"]
+    assert result["not_evaluable_families"] == ["ecoregion"]
+    assert result["scales"][0]["opportunity_cells"] == 5
+    assert result["scales"][0]["families"]["macroclimate"]["coverage_fraction"] == 0.8

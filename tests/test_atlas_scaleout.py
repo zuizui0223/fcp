@@ -92,6 +92,10 @@ def test_scaleout_geometry_precedes_cohort_draw() -> None:
     assert len(passing) == 1
     assert audit[0]["status"] == "geometry_eligible"
     assert {row["scale_km"] for row in audit[0]["scale_results"]} == {100, 250, 500}
+    assert all(
+        row["detectable_cells"] == len(row["detectable_cell_ids"])
+        for row in audit[0]["scale_results"]
+    )
 
     failing, failed_audit = qualify_scaleout_geometry(
         [{"taxon_id": "2", "species": "Failed species", "genus": "Failed"}],

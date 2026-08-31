@@ -12,6 +12,12 @@ CLIMATE_FIELDS = ("bio1", "bio4", "bio12", "bio15")
 TERRAIN_FIELDS = ("elevation", "slope", "terrain_ruggedness")
 LAND_COVER_CODES = (10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100)
 PRIMARY_FAMILIES = ("macroclimate", "terrain", "land_cover", "ecoregion")
+BOUNDARY_FIELD_BY_FAMILY = {
+    "macroclimate": "macroclimate_boundary",
+    "terrain": "terrain_boundary",
+    "land_cover": "land_cover_boundary",
+    "ecoregion": "ecoregion_boundary",
+}
 
 
 def validate_environment_contract(contract: Mapping[str, Any]) -> None:
@@ -32,6 +38,125 @@ def validate_environment_contract(contract: Mapping[str, Any]) -> None:
         raise ValueError("final environmental randomization count changed")
     if contract.get("worldcover_sampling", {}).get("minimum_boundary_spearman") != 0.9:
         raise ValueError("WorldCover sampling-stability threshold changed")
+
+
+def evaluate_environmental_coverage_gate(
+    geometry_audit: Sequence[Mapping[str, Any]],
+    selected_taxon_ids: Sequence[str | int],
+    boundary_rows_by_scale: Mapping[int, Sequence[Mapping[str, Any]]],
+    contract: Mapping[str, Any],
+    *,
+    families: Sequence[str] = ("macroclimate", "land_cover", "ecoregion"),
+) -> dict[str, Any]:
+    """Evaluate pre-colour environmental coverage on transition-opportunity cells.
+
+    Opportunity is the union of detectable cells for the frozen species at each
+    scale.  Missing environmental cells remain missing and never become zero.
+    """
+
+    validate_environment_contract(contract)
+    selected_values = tuple(str(value) for value in selected_taxon_ids)
+    selected = set(selected_values)
+    if not selected or len(selected) != len(selected_values):
+        raise ValueError("selected taxon IDs must be non-empty and unique")
+    families = tuple(str(value) for value in families)
+    if (
+        not families
+        or len(families) != len(set(families))
+        or not set(families).issubset(BOUNDARY_FIELD_BY_FAMILY)
+    ):
+        raise ValueError("environmental coverage families are invalid")
+    geometry_by_taxon = {str(row.get("taxon_id", "")): row for row in geometry_audit}
+    if len(geometry_by_taxon) != len(geometry_audit) or "" in geometry_by_taxon:
+        raise ValueError("geometry audit contains duplicate taxon IDs")
+    missing_taxa = selected - set(geometry_by_taxon)
+    if missing_taxa:
+        raise ValueError(f"selected taxa lack geometry audit rows: {sorted(missing_taxa)}")
+
+    minimum_fraction = float(
+        contract["coverage_gate"]["minimum_atlas_opportunity_cell_fraction_per_family"]
+    )
+    required_scales = tuple(int(value) for value in contract["grid"]["scales_km"])
+    results_by_scale: list[dict[str, Any]] = []
+    family_pass_by_scale: dict[str, list[bool]] = {family: [] for family in families}
+    for scale in required_scales:
+        opportunity: set[int] = set()
+        for taxon_id in selected:
+            matches = [
+                row
+                for row in geometry_by_taxon[taxon_id].get("scale_results", ())
+                if int(row.get("scale_km", -1)) == scale
+            ]
+            if len(matches) != 1:
+                raise ValueError(f"taxon {taxon_id} lacks one geometry row at {scale} km")
+            cell_ids = [int(value) for value in matches[0].get("detectable_cell_ids", ())]
+            if len(cell_ids) != len(set(cell_ids)):
+                raise ValueError("detectable cell IDs must be unique within a species-scale")
+            opportunity.update(cell_ids)
+        if not opportunity:
+            raise ValueError(f"no transition-opportunity cells at {scale} km")
+
+        rows = list(boundary_rows_by_scale.get(scale, ()))
+        by_cell: dict[int, Mapping[str, Any]] = {}
+        for row in rows:
+            cell = int(row["cell_id"])
+            if cell in by_cell:
+                raise ValueError(f"duplicate environmental cell {cell} at {scale} km")
+            by_cell[cell] = row
+        family_results: dict[str, Any] = {}
+        for family in families:
+            field = BOUNDARY_FIELD_BY_FAMILY[family]
+            finite_cells = 0
+            for cell in opportunity:
+                value = by_cell.get(cell, {}).get(field, "")
+                try:
+                    finite = bool(value != "" and np.isfinite(float(value)))
+                except (TypeError, ValueError):
+                    finite = False
+                finite_cells += int(finite)
+            fraction = finite_cells / len(opportunity)
+            passed = fraction >= minimum_fraction
+            family_pass_by_scale[family].append(passed)
+            family_results[family] = {
+                "finite_opportunity_cells": finite_cells,
+                "coverage_fraction": fraction,
+                "passes": passed,
+            }
+        results_by_scale.append(
+            {
+                "scale_km": scale,
+                "opportunity_cells": len(opportunity),
+                "families": family_results,
+            }
+        )
+
+    evaluable_families = [
+        family for family in families if all(family_pass_by_scale[family])
+    ]
+    minimum_families = int(contract["coverage_gate"]["minimum_evaluable_primary_families"])
+    macroclimate_required = bool(
+        contract["coverage_gate"]["macroclimate_must_be_evaluable"]
+    )
+    passed = (
+        len(evaluable_families) >= minimum_families
+        and (not macroclimate_required or "macroclimate" in evaluable_families)
+    )
+    return {
+        "protocol": ENVIRONMENT_PROTOCOL,
+        "status": (
+            "pass_precolour_environmental_coverage"
+            if passed
+            else "not_evaluable_precolour_environmental_coverage"
+        ),
+        "scaleout_colour_opened": False,
+        "selected_species": len(selected),
+        "minimum_coverage_fraction": minimum_fraction,
+        "evaluable_families": evaluable_families,
+        "not_evaluable_families": [
+            family for family in families if family not in evaluable_families
+        ],
+        "scales": results_by_scale,
+    }
 
 
 def rook_adjacency_without_repair(
