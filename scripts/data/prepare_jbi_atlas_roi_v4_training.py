@@ -118,7 +118,10 @@ def main() -> None:
             }
         )
     (args.output_dir / "data.yaml").write_text(
-        f"path: {args.output_dir.as_posix()}\ntrain: images/train\nnames:\n  0: flower\n",
+        f"path: {args.output_dir.as_posix()}\n"
+        "train: images/train\n"
+        "val: images/train  # schema-only; train script fixes val=False\n"
+        "names:\n  0: flower\n",
         encoding="utf-8",
     )
     rows_path = args.output_dir / "training_images.json"
@@ -130,6 +133,8 @@ def main() -> None:
         "source_annotation_boxes": 6992,
         "evaluable_training_boxes": 6991,
         "source_not_evaluable_boxes": 1,
+        "validation_reference_is_schema_only": True,
+        "training_validation_enabled": False,
         "training_images_sha256": sha256(rows_path),
         "jrc_test_directory_read": False,
         "jrc_test_images_decoded_or_scored": False,

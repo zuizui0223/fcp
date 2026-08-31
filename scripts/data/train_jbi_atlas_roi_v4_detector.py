@@ -51,6 +51,8 @@ def main() -> None:
         or materialization.get("images") != 400
         or materialization.get("evaluable_training_boxes") != 6991
         or materialization.get("jrc_test_directory_read") is not False
+        or materialization.get("validation_reference_is_schema_only") is not True
+        or materialization.get("training_validation_enabled") is not False
     ):
         raise RuntimeError("ROI v4 training materialization changed")
     if sha256(args.upstream_weight) != detector["upstream_weight_sha256"]:
