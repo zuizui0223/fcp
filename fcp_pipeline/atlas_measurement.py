@@ -2,12 +2,23 @@
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import Counter
 import hashlib
 from typing import Any, Mapping, Sequence
 
 
 INFERENCE_PROTOCOL = "jbi-image-first-global-flower-colour-atlas-inference-v3"
+WORKER_MANIFEST_FIELDS = {
+    "measurement_id",
+    "species_blind_id",
+    "image_filename",
+    "photo_license",
+}
+TERMINAL_MEASUREMENT_STATES = {
+    "automated_colour_state_admitted",
+    "automated_colour_state_not_evaluable",
+    "image_acquisition_failed",
+}
 
 
 def validate_inference_contract(contract: Mapping[str, Any]) -> None:
@@ -56,6 +67,85 @@ def validate_inference_contract(contract: Mapping[str, Any]) -> None:
 def _blind(salt: str, label: str, value: object) -> str:
     payload = f"{salt}\x1f{label}\x1f{value}".encode("utf-8")
     return hashlib.sha256(payload).hexdigest().upper()[:20]
+
+
+def measurement_shard(measurement_id: str, shard_count: int) -> int:
+    """Assign one blinded image to a stable zero-based compute shard."""
+
+    if shard_count < 1:
+        raise ValueError("shard_count must be positive")
+    digest = hashlib.sha256(
+        f"fcp-atlas-v3-worker-shard\x1f{measurement_id}".encode("utf-8")
+    ).digest()
+    return int.from_bytes(digest[:8], "big") % shard_count
+
+
+def select_measurement_shard(
+    rows: Sequence[Mapping[str, Any]], *, shard_index: int, shard_count: int
+) -> list[dict[str, Any]]:
+    """Validate the blind interface and return its deterministic shard."""
+
+    if shard_index < 0 or shard_index >= shard_count:
+        raise ValueError("shard_index must lie in [0, shard_count)")
+    selected: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for raw in rows:
+        if set(raw) != WORKER_MANIFEST_FIELDS:
+            raise ValueError("measurement worker manifest fields changed or leaked")
+        measurement_id = str(raw["measurement_id"])
+        if not measurement_id or measurement_id in seen:
+            raise ValueError("measurement worker IDs must be non-empty and unique")
+        seen.add(measurement_id)
+        expected_filename = f"{measurement_id}.jpg"
+        if str(raw["image_filename"]) != expected_filename:
+            raise ValueError("measurement image filename is not the blinded ID")
+        if measurement_shard(measurement_id, shard_count) == shard_index:
+            selected.append(dict(raw))
+    return selected
+
+
+def validate_measurement_result_rows(
+    rows: Sequence[Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    """Validate location-free terminal output before shard aggregation."""
+
+    forbidden_tokens = (
+        "latitude",
+        "longitude",
+        "observed",
+        "observer",
+        "taxon",
+        "species",
+        "attribution",
+        "photo_url",
+        "environment",
+        "pollinator",
+    )
+    validated: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for raw in rows:
+        leaked = [
+            str(key)
+            for key in raw
+            if any(token in str(key).casefold() for token in forbidden_tokens)
+            and str(key) != "species_blind_id"
+        ]
+        if leaked:
+            raise ValueError(f"measurement result leaked protected fields: {leaked}")
+        measurement_id = str(raw.get("measurement_id") or "")
+        if not measurement_id or measurement_id in seen:
+            raise ValueError("measurement result IDs must be non-empty and unique")
+        seen.add(measurement_id)
+        status = str(raw.get("automated_colour_state_status") or "")
+        if status not in TERMINAL_MEASUREMENT_STATES:
+            raise ValueError(f"unknown measurement terminal state: {status!r}")
+        background = raw.get("background_features_available")
+        if not isinstance(background, bool):
+            raise ValueError("background_features_available must be boolean")
+        if status == "image_acquisition_failed" and background:
+            raise ValueError("failed acquisition cannot have background features")
+        validated.append(dict(raw))
+    return validated
 
 
 def build_measurement_firewall(
@@ -176,11 +266,7 @@ def evaluate_scaleout_measurement_gate(
         totals[species_id] += 1
         result = results[measurement_id]
         status = str(result.get("automated_colour_state_status", ""))
-        if status not in {
-            "automated_colour_state_admitted",
-            "automated_colour_state_not_evaluable",
-            "image_acquisition_failed",
-        }:
+        if status not in TERMINAL_MEASUREMENT_STATES:
             raise ValueError(f"unknown measurement terminal state: {status!r}")
         if status == "automated_colour_state_admitted":
             admitted[species_id] += 1

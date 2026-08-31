@@ -8,7 +8,10 @@ import pytest
 from fcp_pipeline.atlas_measurement import (
     build_measurement_firewall,
     evaluate_scaleout_measurement_gate,
+    measurement_shard,
+    select_measurement_shard,
     validate_inference_contract,
+    validate_measurement_result_rows,
 )
 
 
@@ -82,6 +85,56 @@ def test_coordinate_firewall_rejects_precomputed_pixel_outcomes() -> None:
     }
     with pytest.raises(ValueError, match="image outcomes"):
         build_measurement_firewall([row])
+
+
+def test_worker_shards_are_disjoint_complete_and_reject_leaks() -> None:
+    rows = [
+        {
+            "measurement_id": f"FCPM-{index}",
+            "species_blind_id": f"FCPS-{index % 3}",
+            "image_filename": f"FCPM-{index}.jpg",
+            "photo_license": "cc-by",
+        }
+        for index in range(50)
+    ]
+    shards = [
+        select_measurement_shard(rows, shard_index=index, shard_count=7)
+        for index in range(7)
+    ]
+    assigned = [row["measurement_id"] for shard in shards for row in shard]
+    assert sorted(assigned) == sorted(row["measurement_id"] for row in rows)
+    assert len(set(assigned)) == len(rows)
+    assert measurement_shard("FCPM-1", 7) == measurement_shard("FCPM-1", 7)
+
+    leaked = [dict(rows[0], latitude=35.0)]
+    with pytest.raises(ValueError, match="fields changed or leaked"):
+        select_measurement_shard(leaked, shard_index=0, shard_count=1)
+
+
+def test_measurement_results_are_location_free_terminal_rows() -> None:
+    valid = [
+        {
+            "measurement_id": "FCPM-1",
+            "species_blind_id": "FCPS-1",
+            "automated_colour_state_status": "automated_colour_state_admitted",
+            "background_features_available": True,
+            "flower_L_mean": 50.0,
+        }
+    ]
+    assert validate_measurement_result_rows(valid) == valid
+    with pytest.raises(ValueError, match="protected fields"):
+        validate_measurement_result_rows([dict(valid[0], latitude=35.0)])
+    with pytest.raises(ValueError, match="cannot have background"):
+        validate_measurement_result_rows(
+            [
+                {
+                    "measurement_id": "FCPM-1",
+                    "species_blind_id": "FCPS-1",
+                    "automated_colour_state_status": "image_acquisition_failed",
+                    "background_features_available": True,
+                }
+            ]
+        )
 
 
 def test_measurement_gate_passes_only_complete_eight_cohort_denominator() -> None:

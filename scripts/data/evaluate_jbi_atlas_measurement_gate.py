@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
 from fcp_pipeline.atlas_measurement import (
     evaluate_scaleout_measurement_gate,
     validate_inference_contract,
+    validate_measurement_result_rows,
 )
 
 
@@ -36,7 +37,9 @@ def parse_bool(value: str) -> bool:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--measurement-results", type=Path, required=True)
+    inputs = parser.add_mutually_exclusive_group(required=True)
+    inputs.add_argument("--measurement-results", type=Path)
+    inputs.add_argument("--measurement-results-dir", type=Path)
     parser.add_argument("--sealed-species-key", type=Path, required=True)
     parser.add_argument(
         "--inference-contract",
@@ -51,11 +54,19 @@ def main() -> None:
     args = parse_args()
     contract = json.loads(args.inference_contract.read_text(encoding="utf-8"))
     validate_inference_contract(contract)
-    results = read_csv(args.measurement_results)
+    result_paths = (
+        [args.measurement_results]
+        if args.measurement_results is not None
+        else sorted(args.measurement_results_dir.glob("measurement_shard_*.csv"))
+    )
+    if not result_paths:
+        raise RuntimeError("no measurement result tables were found")
+    results = [row for path in result_paths for row in read_csv(path)]
     for row in results:
         row["background_features_available"] = parse_bool(
             row["background_features_available"]
         )
+    validate_measurement_result_rows(results)
     decision = evaluate_scaleout_measurement_gate(
         results,
         read_csv(args.sealed_species_key),
