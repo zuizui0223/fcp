@@ -1,0 +1,44 @@
+{
+  "protocol": "jbi-atlas-roi-v3-development-evidence-v1",
+  "status": "stop_jrc_development_failed",
+  "date": "2026-08-31",
+  "parent_contract": {
+    "path": "docs/supporting/jbi_atlas_roi_estimator_contract_v3.json",
+    "sha256_lf_canonical_v1": "99b66870767462a5d8e2de74b365fffa1b23f2480f4befe3b07f77f51633f9ad"
+  },
+  "annotation_amendments": [
+    {
+      "path": "docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v1.json",
+      "sha256_lf_canonical_v1": "828540c36969386822c7656bcaa3534a820da520670d379e50304192ec66f484"
+    },
+    {
+      "path": "docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v2.json",
+      "sha256_lf_canonical_v1": "2e5cabd3599c8030288909d64f64e9ce46244883dd3f8ae9bfacf033e82413c2"
+    }
+  ],
+  "source_inventory": {
+    "path": "data/atlas/qualification/roi_v3_sources/jrc_flower_detection_source_inventory_v1.csv",
+    "sha256_lf_canonical_v1": "c30d40a5333327c1c6d8ea183d274d8a784a6990bf3cc98e69e158db6a8e9e4c",
+    "source_annotation_sha256": "7e1d7b45b5720fcf8463aab9c8b154bc03870aa7036a350d95fc40b8c36f35ac"
+  },
+  "evidence": {
+    "result_path": "data/atlas/qualification/roi_v3_development/jrc_segformer_development_result_v1.json",
+    "result_sha256_exact": "6be2b006aead4e27b4b8bb86444af5cb1d71652fafeb9b8682ed9902b547674c",
+    "result_sha256_lf_canonical_v1": "c29ec31e105b8054dab4766e252d8295ed4235893dc7d87f4ed402770036662e",
+    "rows_path": "data/atlas/qualification/roi_v3_development/jrc_segformer_development_rows_v1.csv",
+    "rows_sha256_lf_canonical_v1": "40e3ebe75c21c779c8690f3073b7ec4c542b7aaf814860e4a5bcab157ee0dafe",
+    "development_images": 400,
+    "source_annotation_boxes": 6992,
+    "evaluable_reference_boxes": 6991,
+    "source_not_evaluable_boxes": 1
+  },
+  "firewall": {
+    "jrc_locked_test_permitted": false,
+    "jrc_test_images_decoded_or_scored": false,
+    "oxford102_locked_proxy_scored": false,
+    "scaleout_candidate_pixels_opened": false,
+    "atlas_pixels_permitted_by_roi_v3": false
+  },
+  "decision": "reject SegFormer-B0 ADE20K class-66 ROI v3 and preserve the failed development result; do not run the locked JRC test, Oxford-102 locked proxy or scaleout images under v3",
+  "claim_ceiling": "This is estimator-development failure evidence, not evidence about global flower colour, geography, environment or pollinators."
+}

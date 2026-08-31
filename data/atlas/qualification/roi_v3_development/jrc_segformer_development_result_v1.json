@@ -1,0 +1,39 @@
+{
+  "atlas_pixels_permitted_by_roi_v3": false,
+  "box_edge_amendment_sha256_lf_canonical_v1": "2e5cabd3599c8030288909d64f64e9ce46244883dd3f8ae9bfacf033e82413c2",
+  "checks": {
+    "minimum_admitted_fraction": false,
+    "minimum_images": true,
+    "minimum_large_object_recall": true,
+    "minimum_median_image_predicted_pixel_precision_inside_box_union": false,
+    "minimum_medium_object_recall": true,
+    "minimum_pooled_object_recall": false,
+    "minimum_pooled_predicted_pixel_precision_inside_box_union": false
+  },
+  "contract_sha256_lf_canonical_v1": "99b66870767462a5d8e2de74b365fffa1b23f2480f4befe3b07f77f51633f9ad",
+  "jrc_locked_test_permitted": false,
+  "jrc_test_images_decoded_or_scored": false,
+  "metrics": {
+    "admitted_fraction": 0.0425,
+    "admitted_images": 17,
+    "images": 400,
+    "large_object_recall": 0.8076923076923077,
+    "median_image_predicted_pixel_precision_inside_box_union": 0.0,
+    "medium_object_recall": 0.3955119214586255,
+    "pooled_object_recall": 0.12072664854813331,
+    "pooled_predicted_pixel_precision_inside_box_union": 0.41017385323276884,
+    "reference_boxes": 6991,
+    "small_object_recall": 0.08653230966090851,
+    "source_annotation_boxes": 6992,
+    "source_not_evaluable_boxes": 1
+  },
+  "model_id": "nvidia/segformer-b0-finetuned-ade-512-512",
+  "model_revision": "489d5cd81a0b59fab9b7ea758d3548ebe99677da",
+  "model_safetensors_sha256": "6ae39addd01de6b1b8bde2cf677d43a5cd733424b8d186de3f95d1c51fee23f9",
+  "phase": "development",
+  "protocol": "jbi-atlas-roi-estimator-v3",
+  "rows_sha256": "40e3ebe75c21c779c8690f3073b7ec4c542b7aaf814860e4a5bcab157ee0dafe",
+  "scaleout_candidate_pixels_opened": false,
+  "source_annotation_sha256": "7e1d7b45b5720fcf8463aab9c8b154bc03870aa7036a350d95fc40b8c36f35ac",
+  "status": "stop_jrc_development_failed"
+}
