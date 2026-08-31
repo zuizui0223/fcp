@@ -78,6 +78,20 @@
     "ties": "choose the smallest numeric ECO_ID after exact weighted-area ties",
     "source_missingness": "a primary family unavailable before the first colour join is frozen as not_evaluable; it is never replaced after colour"
   },
+  "worldcover_sampling": {
+    "inventory": "freeze every object under the official v200/2021/map prefix with key, byte size, ETag and LastModified before sampling",
+    "primary": "read each 3 by 3 degree COG through its internal overview as a deterministic 60 by 60 nearest-neighbour categorical grid; use output-pixel centres and cos(latitude) area weights",
+    "source_resolution_statement": "the source classification is 10 m, but the frozen global composition estimator is an approximately 5 km systematic overview sample and must not be described as exhaustive 10 m aggregation",
+    "composition": "cos(latitude)-weighted proportions of the 11 official class codes within each equal-area cell",
+    "minimum_valid_samples": {
+      "100_km": 25,
+      "250_km": 100,
+      "500_km": 400
+    },
+    "sampling_sensitivity": "repeat at 30 by 30 points per source tile; require Spearman correlation at least 0.9 between primary and sensitivity land-cover boundary intensity across common cells before the family is evaluable",
+    "minimum_boundary_spearman": 0.9,
+    "tile_rule": "every frozen inventory tile must return a valid COG and only official class codes after retry; an unresolved tile makes the land-cover family not_evaluable"
+  },
   "family_surfaces": {
     "macroclimate": "standardize BIO1, BIO4, BIO12 and BIO15 across finite equal-area terrestrial cells; compute the RMS standardized difference on every terrestrial rook edge; a cell value is the mean of its incident edges",
     "terrain": "apply the same frozen standardization and RMS edge rule to elevation, slope and terrain ruggedness",

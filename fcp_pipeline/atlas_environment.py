@@ -30,6 +30,8 @@ def validate_environment_contract(contract: Mapping[str, Any]) -> None:
         raise ValueError("macroclimate must remain required")
     if contract.get("inference", {}).get("randomizations") != 9999:
         raise ValueError("final environmental randomization count changed")
+    if contract.get("worldcover_sampling", {}).get("minimum_boundary_spearman") != 0.9:
+        raise ValueError("WorldCover sampling-stability threshold changed")
 
 
 def rook_adjacency_without_repair(
@@ -114,7 +116,7 @@ def continuous_boundary(
 
 
 def composition_boundary(composition: np.ndarray, adjacency: np.ndarray) -> np.ndarray:
-    """Hellinger neighbour change for an exhaustive land-cover composition."""
+    """Hellinger neighbour change for a land-cover composition estimate."""
 
     composition = np.asarray(composition, dtype=float)
     if composition.ndim != 2 or composition.shape[0] != adjacency.shape[0]:
@@ -130,6 +132,44 @@ def composition_boundary(composition: np.ndarray, adjacency: np.ndarray) -> np.n
         0.5 * np.sum((np.sqrt(normalized[first]) - np.sqrt(normalized[second])) ** 2, axis=1)
     )
     return cell_mean_edge_values(adjacency, distance)
+
+
+def average_ranks(values: np.ndarray) -> np.ndarray:
+    """Return deterministic one-based average ranks, including exact ties."""
+
+    values = np.asarray(values, dtype=float)
+    if values.ndim != 1 or not values.size or not np.isfinite(values).all():
+        raise ValueError("rank input must be a non-empty finite vector")
+    order = np.argsort(values, kind="mergesort")
+    sorted_values = values[order]
+    ranks = np.empty(values.size, dtype=float)
+    start = 0
+    while start < values.size:
+        stop = start + 1
+        while stop < values.size and sorted_values[stop] == sorted_values[start]:
+            stop += 1
+        ranks[order[start:stop]] = 0.5 * ((start + 1) + stop)
+        start = stop
+    return ranks
+
+
+def spearman_rank_correlation(first: np.ndarray, second: np.ndarray) -> float:
+    """Spearman correlation with deterministic average ranks for ties."""
+
+    first_rank = average_ranks(first)
+    second_rank = average_ranks(second)
+    if first_rank.shape != second_rank.shape:
+        raise ValueError("Spearman inputs must have the same length")
+    first_sd = float(first_rank.std())
+    second_sd = float(second_rank.std())
+    if first_sd <= 0 or second_sd <= 0:
+        raise ValueError("Spearman inputs need positive rank variation")
+    return float(
+        np.mean(
+            ((first_rank - first_rank.mean()) / first_sd)
+            * ((second_rank - second_rank.mean()) / second_sd)
+        )
+    )
 
 
 def categorical_boundary(labels: Sequence[object], adjacency: np.ndarray) -> np.ndarray:
@@ -268,3 +308,43 @@ def weighted_dominant_labels(
             result[cell] = label
             best_weight[cell] = float(weight)
     return result
+
+
+def weighted_class_composition(
+    cell_ids: np.ndarray,
+    weights: np.ndarray,
+    classes: np.ndarray,
+    *,
+    class_codes: Sequence[int],
+    n_cells: int,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Aggregate a systematic categorical sample into cell compositions."""
+
+    cell_ids = np.asarray(cell_ids, dtype=int)
+    weights = np.asarray(weights, dtype=float)
+    classes = np.asarray(classes, dtype=int)
+    codes = tuple(int(code) for code in class_codes)
+    if (
+        not codes
+        or len(set(codes)) != len(codes)
+        or cell_ids.ndim != 1
+        or weights.shape != cell_ids.shape
+        or classes.shape != cell_ids.shape
+        or np.any((cell_ids < 0) | (cell_ids >= n_cells))
+        or np.any(weights <= 0)
+        or not np.isfinite(weights).all()
+        or not set(np.unique(classes)).issubset(codes)
+    ):
+        raise ValueError("invalid categorical samples")
+    weighted = np.zeros((n_cells, len(codes)), dtype=float)
+    counts = np.zeros(n_cells, dtype=int)
+    lookup = {code: index for index, code in enumerate(codes)}
+    np.add.at(counts, cell_ids, 1)
+    for code, column in lookup.items():
+        keep = classes == code
+        np.add.at(weighted[:, column], cell_ids[keep], weights[keep])
+    denominator = weighted.sum(axis=1)
+    composition = np.full_like(weighted, np.nan)
+    present = denominator > 0
+    composition[present] = weighted[present] / denominator[present, None]
+    return composition, counts

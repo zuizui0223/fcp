@@ -1,0 +1,69 @@
+{
+  "claim_ceiling": "Pre-colour systematic WorldCover composition only; not exhaustive 10 m aggregation and no flower concordance.",
+  "formal_complete_inventory": true,
+  "inventory_objects": 2651,
+  "inventory_sha256": "bc6bc85c8c5c92a376036449d2cbaafc1b1febe06ffa94f702461424602d36fe",
+  "output_sha256": {
+    "worldcover_composition_primary_100km.csv": "31c2df0215bd3f0adec1d921e40514bf5faca3fe1943de29d83eab94dee27154",
+    "worldcover_composition_primary_250km.csv": "e873b93e9694b44728e4901a97f7c33ffe147c2dec4eec4a220b991dfa60333f",
+    "worldcover_composition_primary_500km.csv": "405e15577ffa7ea34eb251c58536d9e0506cc35f8965b404ba7acb407d39b57c",
+    "worldcover_composition_sensitivity_100km.csv": "ca14ea4eaa583c33cc388593b15caed5084eb126095614b822ec10b542d6b47f",
+    "worldcover_composition_sensitivity_250km.csv": "044e0ea56aa89d9de88060c2742d4021ef202e3dafff4edf719201a6c03092c2",
+    "worldcover_composition_sensitivity_500km.csv": "a0c84d8e3322a0b06097bd9731d7aba6940f68c8943bbe8ac7647fbe4ca61d59"
+  },
+  "primary_samples_per_tile_axis": 60,
+  "scale_results": [
+    {
+      "cells_passing_minimum_samples": 17327,
+      "minimum_valid_samples": 25,
+      "sample_points_per_source_tile_axis": 60,
+      "sampling": "primary",
+      "scale_km": 100
+    },
+    {
+      "cells_passing_minimum_samples": 16404,
+      "minimum_valid_samples": 25,
+      "sample_points_per_source_tile_axis": 30,
+      "sampling": "sensitivity",
+      "scale_km": 100
+    },
+    {
+      "cells_passing_minimum_samples": 3187,
+      "minimum_valid_samples": 100,
+      "sample_points_per_source_tile_axis": 60,
+      "sampling": "primary",
+      "scale_km": 250
+    },
+    {
+      "cells_passing_minimum_samples": 2902,
+      "minimum_valid_samples": 100,
+      "sample_points_per_source_tile_axis": 30,
+      "sampling": "sensitivity",
+      "scale_km": 250
+    },
+    {
+      "cells_passing_minimum_samples": 891,
+      "minimum_valid_samples": 400,
+      "sample_points_per_source_tile_axis": 60,
+      "sampling": "primary",
+      "scale_km": 500
+    },
+    {
+      "cells_passing_minimum_samples": 771,
+      "minimum_valid_samples": 400,
+      "sample_points_per_source_tile_axis": 30,
+      "sampling": "sensitivity",
+      "scale_km": 500
+    }
+  ],
+  "scaleout_colour_opened": false,
+  "sensitivity_samples_per_tile_axis": 30,
+  "software": {
+    "numpy": "2.2.6",
+    "python": "3.10.11",
+    "rasterio": "1.4.4"
+  },
+  "status": "pass_worldcover_composition_freeze",
+  "tile_failures": 0,
+  "tiles_processed": 2651
+}

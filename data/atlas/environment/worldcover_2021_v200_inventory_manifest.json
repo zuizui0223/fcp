@@ -1,0 +1,11 @@
+{
+  "bucket_url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/",
+  "claim_ceiling": "Source inventory only; no land-cover pixels or flower-colour outcomes were read.",
+  "inventory_sha256": "bc6bc85c8c5c92a376036449d2cbaafc1b1febe06ffa94f702461424602d36fe",
+  "objects": 2651,
+  "prefix": "v200/2021/map/",
+  "scaleout_colour_opened": false,
+  "source": "ESA WorldCover 2021 v200 public AWS COG prefix",
+  "status": "pass_worldcover_inventory_freeze",
+  "total_size_bytes": 124027923380
+}

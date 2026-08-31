@@ -17,6 +17,9 @@ on:
       - "scripts/data/build_jbi_atlas_environmental_boundaries.py"
       - "scripts/data/build_jbi_atlas_climate_ecoregion_grids.py"
       - "scripts/data/validate_jbi_atlas_climate_ecoregion_freeze.py"
+      - "scripts/data/freeze_jbi_atlas_worldcover_inventory.py"
+      - "scripts/data/build_jbi_atlas_worldcover_composition_grids.py"
+      - "scripts/data/validate_jbi_atlas_worldcover_freeze.py"
       - "data/atlas/environment/**"
       - "requirements-atlas-environment.txt"
       - "scripts/data/validate_jbi_atlas_environmental_overlay_contract.py"
@@ -52,6 +55,9 @@ on:
       - "scripts/data/build_jbi_atlas_environmental_boundaries.py"
       - "scripts/data/build_jbi_atlas_climate_ecoregion_grids.py"
       - "scripts/data/validate_jbi_atlas_climate_ecoregion_freeze.py"
+      - "scripts/data/freeze_jbi_atlas_worldcover_inventory.py"
+      - "scripts/data/build_jbi_atlas_worldcover_composition_grids.py"
+      - "scripts/data/validate_jbi_atlas_worldcover_freeze.py"
       - "data/atlas/environment/**"
       - "requirements-atlas-environment.txt"
       - "scripts/data/validate_jbi_atlas_environmental_overlay_contract.py"
@@ -118,6 +124,7 @@ jobs:
           python scripts/data/validate_jbi_atlas_inference_contract_v3.py
           python scripts/data/validate_jbi_atlas_environmental_overlay_contract.py
           python scripts/data/validate_jbi_atlas_climate_ecoregion_freeze.py
+          python scripts/data/validate_jbi_atlas_worldcover_freeze.py
       - name: Test repeated cohorts, joint null, ROI metrics and signal recovery
         run: >-
           python -m pytest -q

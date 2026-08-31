@@ -1,0 +1,42 @@
+{
+  "claim_ceiling": "Sampling stability of pre-colour WorldCover boundary intensity only; not exhaustive 10 m aggregation and no flower-colour concordance.",
+  "environment_colour_join_performed": false,
+  "inventory_objects": 2651,
+  "inventory_sha256": "bc6bc85c8c5c92a376036449d2cbaafc1b1febe06ffa94f702461424602d36fe",
+  "inventory_total_size_bytes": 124027923380,
+  "primary_systematic_sample_approx_km": 5,
+  "protocol": "jbi-atlas-worldcover-sampling-qualification-v1",
+  "scale_results": [
+    {
+      "boundary_spearman": 0.959995954568,
+      "common_finite_boundary_cells": 16338,
+      "minimum_required_spearman": 0.9,
+      "passed": true,
+      "primary_cells": 17327,
+      "scale_km": 100,
+      "sensitivity_cells": 16404
+    },
+    {
+      "boundary_spearman": 0.961410691286,
+      "common_finite_boundary_cells": 2880,
+      "minimum_required_spearman": 0.9,
+      "passed": true,
+      "primary_cells": 3187,
+      "scale_km": 250,
+      "sensitivity_cells": 2902
+    },
+    {
+      "boundary_spearman": 0.94504552786,
+      "common_finite_boundary_cells": 762,
+      "minimum_required_spearman": 0.9,
+      "passed": true,
+      "primary_cells": 891,
+      "scale_km": 500,
+      "sensitivity_cells": 771
+    }
+  ],
+  "scaleout_colour_opened": false,
+  "sensitivity_systematic_sample_approx_km": 10,
+  "source_resolution_m": 10,
+  "status": "pass_land_cover_family_evaluable"
+}

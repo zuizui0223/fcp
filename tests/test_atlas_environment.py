@@ -12,8 +12,10 @@ from fcp_pipeline.atlas_environment import (
     continuous_boundary,
     environmental_boundary_surfaces,
     rook_adjacency_without_repair,
+    spearman_rank_correlation,
     validate_environment_contract,
     weighted_cell_means,
+    weighted_class_composition,
     weighted_dominant_labels,
 )
 
@@ -103,3 +105,28 @@ def test_area_weighted_cell_aggregation_and_deterministic_dominance() -> None:
         np.array([0, 0]), np.ones(2), np.array([2, 1])
     )
     assert tied == {0: 1}
+
+    composition, counts = weighted_class_composition(
+        np.array([0, 0, 1]),
+        np.array([1.0, 3.0, 2.0]),
+        np.array([10, 20, 10]),
+        class_codes=(10, 20),
+        n_cells=3,
+    )
+    assert composition[0].tolist() == [0.25, 0.75]
+    assert composition[1].tolist() == [1.0, 0.0]
+    assert np.isnan(composition[2]).all()
+    assert counts.tolist() == [2, 1, 0]
+
+
+def test_spearman_rank_correlation_uses_average_tie_ranks() -> None:
+    assert spearman_rank_correlation(
+        np.array([3.0, 1.0, 1.0, 2.0]),
+        np.array([30.0, 10.0, 10.0, 20.0]),
+    ) == pytest.approx(1.0)
+    assert spearman_rank_correlation(
+        np.array([1.0, 2.0, 3.0]),
+        np.array([3.0, 2.0, 1.0]),
+    ) == pytest.approx(-1.0)
+    with pytest.raises(ValueError, match="positive rank variation"):
+        spearman_rank_correlation(np.ones(3), np.arange(3.0))
