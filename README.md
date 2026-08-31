@@ -1,5 +1,7 @@
 # FCP — spatial organization of intraspecific flower-colour variation
 
+This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. `fcp` asks how intraspecific colour diversity is maintained or sorted across space; the complementary [`chun`](https://github.com/zuizui0223/chun) project asks how similar flower-colour states are repeatedly generated through evolutionary time. See [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md).
+
 This repository now contains **two frozen inferential lanes that answer different questions and must not be pooled**.
 
 1. **Chapter 1 spatial-photograph lane:** Do present-day continuous flower-colour observations show non-random spatial organization within species, and do independent species share the same strongest transition geography?
@@ -8,6 +10,8 @@ This repository now contains **two frozen inferential lanes that answer differen
 The first lane uses 1,200 community photographs from six species with a frozen 480/720 calibration–evaluation split. The second uses a checksum-locked literature-derived dataset of 34 species from 25 families. Their samples, response variables, null models and claims are distinct.
 
 ## Start here
+
+- **Programme position:** [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md)
 
 ### Chapter 1 — held-out spatial analysis
 
