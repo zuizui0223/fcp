@@ -25,23 +25,23 @@
   "parent_artifacts": {
     "automated_colour_plan": {
       "path": "docs/supporting/jbi_inaturalist_automated_colour_plan_manifest_v2.json",
-      "sha256_exact": "eab445aeb56a12ce65fb8a7814652a12aac985dd71db6dde97830d982351b407"
+      "sha256_lf_canonical_v1": "eab445aeb56a12ce65fb8a7814652a12aac985dd71db6dde97830d982351b407"
     },
     "atlas_freeze_manifest": {
       "path": "docs/supporting/jbi_image_first_atlas_freeze_manifest_v1.json",
-      "sha256_exact": "718075459cf8b39b0d54f925c32eac3de835984ff279729d82c47eba25b5d1f3"
+      "sha256_lf_canonical_v1": "9a38938be8fe67765dd7754f663072363a9acb99e200bba57e779fbc51d933de"
     },
     "atlas_cohort": {
       "path": "data/atlas/jbi_image_first_atlas_cohort_v1.csv",
-      "sha256_exact": "038acbf22db6c6320aec30a5732d60f87ffd5d149335bf845b935ad4be6686ae"
+      "sha256_lf_canonical_v1": "e1423f005e0c5e22d3087b26cd67ed1883211d2d600daf018fa4eac5ff5736c7"
     },
     "atlas_observations": {
       "path": "data/atlas/jbi_image_first_atlas_observation_manifest_v1.csv",
-      "sha256_exact": "5d9ad4f60d5f5bcc0bb427a6318aa8d7207a7b04e4113642bb441e6a99b0d543"
+      "sha256_lf_canonical_v1": "4649bde3208b8766d7e306418056e05af0112a70f2e9d2d09d362c8e20c5a23d"
     },
     "atlas_geometry": {
       "path": "docs/supporting/jbi_image_first_atlas_geometry_freeze_v1.json",
-      "sha256_exact": "63ce27313a3ec9761ccf812853dcfb3eac802a73d427416bc309093e043bef6f"
+      "sha256_lf_canonical_v1": "0410d06fe334f0b088b2558c66647ece4f29b9d3f399de15b2a4c19cf4b4271c"
     }
   },
   "outcome_firewall": {

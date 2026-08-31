@@ -17,7 +17,8 @@ DEFAULT_CONTRACT = Path(
 
 
 def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def parse_args() -> argparse.Namespace:
@@ -37,7 +38,7 @@ def main() -> None:
         if not path.is_file():
             raise RuntimeError(f"missing frozen parent artifact: {path}")
         observed = sha256(path)
-        expected = str(item["sha256_exact"])
+        expected = str(item["sha256_lf_canonical_v1"])
         if observed != expected:
             raise RuntimeError(
                 f"frozen parent hash mismatch for {name}: expected {expected}, observed {observed}"
