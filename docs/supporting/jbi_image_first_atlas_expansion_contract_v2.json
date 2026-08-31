@@ -78,8 +78,15 @@
       "trimaps_sha256": "55928dddca447a129f525ff2c525cd0a62b94e7fe74c62ae0ef956191bd24c77",
       "selection": "all image IDs with an official trimap; no image-dependent subsampling",
       "foreground_label": 1,
-      "background_label": 2,
+      "background_labels": [
+        2,
+        3,
+        4
+      ],
+      "unlabelled_label": 0,
       "other_labels": "unscored",
+      "palette_decoding": "official PNG palette index 1 is rendered red foreground and index 0 black unlabelled; rendered background uses indices 2, 3, or 4 across files, so all three are pooled without inspecting estimator scores",
+      "pre_outcome_correction": "2026-08-31 CI run 33366746036 stopped on image_0002 before aggregate results because the first implementation assumed one invariant background palette index; archive-only palette inspection corrected decoding without changing images, estimator, gates, or selection",
       "minimum_scored_images": 750,
       "minimum_admitted_fraction": 0.8,
       "minimum_median_soft_precision": 0.7,

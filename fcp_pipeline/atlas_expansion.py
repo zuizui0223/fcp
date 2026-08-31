@@ -63,6 +63,12 @@ def validate_expansion_contract(contract: Mapping[str, Any]) -> None:
         "all image IDs with an official trimap; no image-dependent subsampling"
     ):
         raise ValueError("ROI benchmark must score the complete official trimap set")
+    if int(benchmark.get("foreground_label", -1)) != 1:
+        raise ValueError("Oxford ROI foreground palette decoding changed")
+    if list(benchmark.get("background_labels", [])) != [2, 3, 4]:
+        raise ValueError("Oxford ROI background palette decoding changed")
+    if int(benchmark.get("unlabelled_label", -1)) != 0:
+        raise ValueError("Oxford ROI unlabelled palette decoding changed")
     if int(benchmark.get("minimum_scored_images", 0)) < 750:
         raise ValueError("ROI benchmark is too small for the frozen Oxford set")
     if benchmark.get("failure_rule", "").startswith("STOP") is False:

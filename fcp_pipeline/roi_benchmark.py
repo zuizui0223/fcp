@@ -16,13 +16,14 @@ def score_flower_weights(
     trimap: np.ndarray,
     *,
     foreground_label: int = 1,
-    background_label: int = 2,
+    background_labels: Sequence[int] = (2, 3, 4),
 ) -> dict[str, float]:
     """Score soft flower weights against labelled Oxford trimap pixels.
 
-    Labels other than the frozen flower foreground and background labels are excluded
-    from every localization metric.  This follows the benchmark's unlabelled-region
-    convention and prevents ambiguous boundary pixels from being counted as errors.
+    The official archive stores the red foreground as palette index 1 and black
+    unlabelled pixels as index 0.  Its rendered background palette index varies
+    among 2, 3 and 4, so those frozen indices are pooled as background.  All other
+    labels are excluded from every localization metric.
     """
 
     rgb = np.asarray(rgb)
@@ -38,7 +39,12 @@ def score_flower_weights(
         raise ValueError("weights must be finite and lie in [0, 1]")
 
     foreground = trimap == int(foreground_label)
-    background = trimap == int(background_label)
+    frozen_background_labels = tuple(int(label) for label in background_labels)
+    if not frozen_background_labels:
+        raise ValueError("background_labels must not be empty")
+    if int(foreground_label) in frozen_background_labels:
+        raise ValueError("foreground_label must not be a background label")
+    background = np.isin(trimap, frozen_background_labels)
     scored = foreground | background
     n_foreground = int(foreground.sum())
     n_background = int(background.sum())

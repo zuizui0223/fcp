@@ -37,6 +37,13 @@ def test_committed_expansion_contract_is_prospective_and_fail_closed() -> None:
     with pytest.raises(ValueError, match="branches changed"):
         validate_expansion_contract(changed)
 
+    changed = deepcopy(contract())
+    changed["estimator_qualification"]["independent_roi_benchmark"][
+        "background_labels"
+    ] = [2]
+    with pytest.raises(ValueError, match="background palette decoding"):
+        validate_expansion_contract(changed)
+
 
 def test_random_cohorts_are_deterministic_disjoint_and_genus_capped() -> None:
     rows = [

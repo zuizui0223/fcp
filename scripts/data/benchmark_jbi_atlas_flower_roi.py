@@ -129,7 +129,9 @@ def main() -> None:
                 ensemble,
                 trimap,
                 foreground_label=int(benchmark["foreground_label"]),
-                background_label=int(benchmark["background_label"]),
+                background_labels=tuple(
+                    int(label) for label in benchmark["background_labels"]
+                ),
             )
             admission = summarize_photo(
                 rgb,

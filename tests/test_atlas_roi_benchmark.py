@@ -13,7 +13,7 @@ def test_roi_metric_excludes_unlabelled_pixels_and_rewards_flower_weight() -> No
         ],
         dtype=np.uint8,
     )
-    trimap = np.array([[1, 1], [2, 0]], dtype=np.uint8)
+    trimap = np.array([[1, 1], [3, 0]], dtype=np.uint8)
     perfect = score_flower_weights(
         rgb,
         np.array([[1.0, 1.0], [0.0, 1.0]]),
@@ -32,6 +32,21 @@ def test_roi_metric_excludes_unlabelled_pixels_and_rewards_flower_weight() -> No
     assert contaminated["soft_precision"] < perfect["soft_precision"]
     assert contaminated["soft_iou"] < perfect["soft_iou"]
     assert contaminated["colour_delta_e"] > perfect["colour_delta_e"]
+
+
+def test_roi_metric_pools_official_variable_background_palette_indices() -> None:
+    rgb = np.full((2, 3, 3), 127, dtype=np.uint8)
+    trimap = np.array([[1, 0, 2], [3, 4, 9]], dtype=np.uint8)
+    metrics = score_flower_weights(
+        rgb,
+        np.array([[1.0, 1.0, 0.5], [0.5, 0.5, 1.0]]),
+        trimap,
+        background_labels=(2, 3, 4),
+    )
+    assert metrics["foreground_pixels"] == 1.0
+    assert metrics["background_pixels"] == 3.0
+    # Black index 0 and an unknown index are excluded, not counted as background.
+    assert metrics["scored_weight"] == 2.5
 
 
 def test_roi_summary_applies_every_predeclared_gate() -> None:
