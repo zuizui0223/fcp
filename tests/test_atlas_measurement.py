@@ -13,6 +13,7 @@ from fcp_pipeline.atlas_measurement import (
     validate_inference_contract,
     validate_measurement_result_rows,
 )
+from scripts.data.measure_jbi_atlas_blinded_images_v4 import failed_record
 
 
 CONTRACT = Path("docs/supporting/jbi_image_first_atlas_inference_contract_v3.json")
@@ -135,6 +136,17 @@ def test_measurement_results_are_location_free_terminal_rows() -> None:
                 }
             ]
         )
+
+
+def test_roi_v4_failed_worker_record_remains_location_free_and_terminal() -> None:
+    row = {
+        "measurement_id": "FCPM-1",
+        "species_blind_id": "FCPS-1",
+    }
+    record = failed_record(row, "image_file_missing", trained_weight_sha256="abc")
+    assert validate_measurement_result_rows([record]) == [record]
+    assert record["automated_colour_state_status"] == "image_acquisition_failed"
+    assert record["background_features_available"] is False
 
 
 def test_measurement_gate_passes_only_complete_eight_cohort_denominator() -> None:

@@ -15,7 +15,6 @@ from typing import Any
 
 import numpy as np
 from PIL import Image, ImageOps
-from skimage.color import rgb2lab
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -23,15 +22,12 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from fcp_pipeline.flower_roi_v4 import (
-    CANVAS_SIZE,
-    box_to_canvas,
     greedy_detection_matches,
-    letterbox_geometry,
-    select_prompt_mask,
     summarize_composite_gate,
     validate_reference_size_amendment,
     validate_roi_v4_contract,
 )
+from fcp_pipeline.flower_roi_v4_runtime import FrozenFlowerColourEstimator
 
 
 CONTRACT = ROOT / "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json"
@@ -110,195 +106,22 @@ def make_reference_union(
     return union
 
 
-def letterboxed_rgb(image: Image.Image) -> tuple[np.ndarray, dict[str, int | float]]:
-    width, height = image.size
-    geometry = letterbox_geometry(width, height)
-    resized = image.resize(
-        (int(geometry["resized_width"]), int(geometry["resized_height"])),
-        Image.Resampling.BILINEAR,
-    )
-    canvas = Image.new("RGB", (CANVAS_SIZE, CANVAS_SIZE), (114, 114, 114))
-    canvas.paste(resized, (int(geometry["pad_left"]), int(geometry["pad_top"])))
-    return np.asarray(canvas, dtype=np.uint8), geometry
-
-
-def canvas_mask_to_original(
-    mask: np.ndarray,
-    geometry: dict[str, int | float],
-    *,
-    width: int,
-    height: int,
-) -> np.ndarray:
-    left = int(geometry["pad_left"])
-    top = int(geometry["pad_top"])
-    right = left + int(geometry["resized_width"])
-    bottom = top + int(geometry["resized_height"])
-    cropped = Image.fromarray(np.asarray(mask, dtype=np.uint8)[top:bottom, left:right] * 255)
-    restored = cropped.resize((width, height), Image.Resampling.NEAREST)
-    return np.asarray(restored, dtype=np.uint8) > 0
-
-
-def background_annulus(
-    boxes: list[list[float]], flower_mask: np.ndarray, *, width: int, height: int
-) -> np.ndarray:
-    expanded = np.zeros((height, width), dtype=bool)
-    core = np.zeros((height, width), dtype=bool)
-    for raw in boxes:
-        x0, y0, x1, y1 = (float(value) for value in raw)
-        box_width = x1 - x0
-        box_height = y1 - y0
-        ex0 = max(0, min(width, math.floor(x0 - 0.25 * box_width)))
-        ey0 = max(0, min(height, math.floor(y0 - 0.25 * box_height)))
-        ex1 = max(0, min(width, math.ceil(x1 + 0.25 * box_width)))
-        ey1 = max(0, min(height, math.ceil(y1 + 0.25 * box_height)))
-        ix0 = max(0, min(width, math.floor(x0)))
-        iy0 = max(0, min(height, math.floor(y0)))
-        ix1 = max(0, min(width, math.ceil(x1)))
-        iy1 = max(0, min(height, math.ceil(y1)))
-        expanded[ey0:ey1, ex0:ex1] = True
-        core[iy0:iy1, ix0:ix1] = True
-    return expanded & ~core & ~flower_mask
-
-
-def masked_mean_lab(rgb: np.ndarray, mask: np.ndarray) -> np.ndarray | None:
-    pixels = rgb[mask]
-    if not len(pixels):
-        return None
-    lab = rgb2lab(pixels.reshape(-1, 1, 3).astype(np.float32) / 255.0)
-    return np.mean(lab[:, 0, :], axis=0)
-
-
-class CompositeEstimator:
-    def __init__(
-        self,
-        detector_weight: Path,
-        segmenter_dir: Path,
-        contract: dict[str, Any],
-        *,
-        torch_threads: int,
-    ) -> None:
-        import onnxruntime as ort
-        import torch
-        from ultralytics import YOLO
-
-        torch.set_num_threads(torch_threads)
-        self.detector = YOLO(str(detector_weight))
-        options = ort.SessionOptions()
-        options.intra_op_num_threads = torch_threads
-        options.inter_op_num_threads = 1
-        options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
-        self.encoder = ort.InferenceSession(
-            str(segmenter_dir / "efficient_sam_vitt_encoder.onnx"),
-            sess_options=options,
-            providers=["CPUExecutionProvider"],
-        )
-        self.decoder = ort.InferenceSession(
-            str(segmenter_dir / "efficient_sam_vitt_decoder.onnx"),
-            sess_options=options,
-            providers=["CPUExecutionProvider"],
-        )
-        self.contract = contract
-
-    def analyze(self, image: Image.Image) -> dict[str, Any]:
-        inference = self.contract["detector"]["inference"]
-        prediction = self.detector.predict(
-            source=image,
-            imgsz=int(inference["image_size"]),
-            conf=float(inference["confidence_minimum"]),
-            iou=float(inference["nms_iou"]),
-            max_det=int(inference["maximum_detections"]),
-            augment=False,
-            device="cpu",
-            verbose=False,
-        )[0]
-        if prediction.boxes is None:
-            boxes_xyxy = np.empty((0, 4), dtype=float)
-            confidences = np.empty(0, dtype=float)
-        else:
-            boxes_xyxy = prediction.boxes.xyxy.detach().cpu().numpy().astype(float)
-            confidences = prediction.boxes.conf.detach().cpu().numpy().astype(float)
-        width, height = image.size
-        canvas, geometry = letterboxed_rgb(image)
-        image_embeddings = self.encoder.run(
-            None,
-            {"batched_images": canvas.transpose(2, 0, 1)[None].astype(np.float32) / 255.0},
-        )[0]
-        union_canvas = np.zeros((CANVAS_SIZE, CANVAS_SIZE), dtype=bool)
-        retained = 0
-        for box in boxes_xyxy:
-            canvas_box = box_to_canvas(box, width=width, height=height)
-            points = np.array(
-                [[[[canvas_box[0], canvas_box[1]], [canvas_box[2], canvas_box[3]]]]],
-                dtype=np.float32,
-            )
-            labels = np.array([[[2.0, 3.0]]], dtype=np.float32)
-            output_masks, predicted_iou, _ = self.decoder.run(
-                None,
-                {
-                    "image_embeddings": image_embeddings,
-                    "batched_point_coords": points,
-                    "batched_point_labels": labels,
-                    "orig_im_size": np.array([CANVAS_SIZE, CANVAS_SIZE], dtype=np.int64),
-                },
-            )
-            selected = select_prompt_mask(
-                output_masks[0, 0], predicted_iou[0, 0], canvas_box
-            )
-            if selected.any():
-                retained += 1
-                union_canvas |= selected
-        flower_mask = canvas_mask_to_original(
-            union_canvas, geometry, width=width, height=height
-        )
-        boxes = [list(map(float, box)) for box in boxes_xyxy]
-        return {
-            "flower_mask": flower_mask,
-            "background_mask": background_annulus(
-                boxes, flower_mask, width=width, height=height
-            ),
-            "boxes": boxes,
-            "predictions": [
-                {
-                    "prediction_id": index,
-                    "confidence": float(confidences[index]),
-                    "box_xyxy": boxes[index],
-                }
-                for index in range(len(boxes))
-            ],
-            "retained_instances": retained,
-        }
-
-
 def score_image(
     image_path: Path,
     image_metadata: dict[str, Any],
     annotation: dict[str, Any],
-    estimator: CompositeEstimator,
+    estimator: FrozenFlowerColourEstimator,
     contract: dict[str, Any],
 ) -> dict[str, Any]:
     image = ImageOps.exif_transpose(Image.open(image_path)).convert("RGB")
     width, height = image.size
     if (width, height) != (int(image_metadata["width"]), int(image_metadata["height"])):
         raise RuntimeError("JRC image dimensions changed after orientation")
-    original = estimator.analyze(image)
-    flipped = estimator.analyze(image.transpose(Image.Transpose.FLIP_LEFT_RIGHT))
-    flip_flower = np.fliplr(flipped["flower_mask"])
-    flip_background = np.fliplr(flipped["background_mask"])
-    flower = original["flower_mask"]
-    background = original["background_mask"]
-    intersection = int(np.count_nonzero(flower & flip_flower))
-    union = int(np.count_nonzero(flower | flip_flower))
-    flip_iou = intersection / union if union else 0.0
-    rgb = np.asarray(image, dtype=np.uint8)
-    original_lab = masked_mean_lab(rgb, flower)
-    flipped_lab = masked_mean_lab(rgb, flip_flower)
-    delta_e = (
-        float(np.linalg.norm(original_lab - flipped_lab))
-        if original_lab is not None and flipped_lab is not None
-        else math.inf
-    )
+    measurement = estimator.measure(image)
+    flower = measurement["flower_mask"]
+    background = measurement["background_mask"]
     references, source_not_evaluable = clipped_references(annotation, image_metadata)
-    matching = greedy_detection_matches(original["predictions"], references)
+    matching = greedy_detection_matches(measurement["predictions"], references)
     hits = {"small": 0, "medium": 0, "large": 0}
     totals = {"small": 0, "medium": 0, "large": 0}
     for reference in references:
@@ -308,26 +131,14 @@ def score_image(
     reference_union = make_reference_union(references, width=width, height=height)
     mask_pixels = int(flower.sum())
     inside = int(np.count_nonzero(flower & reference_union))
-    measurement = contract["image_measurement"]
-    failures = []
-    if original["retained_instances"] < 1:
-        failures.append("no_retained_flower_instance")
-    if mask_pixels < int(measurement["minimum_union_flower_pixels_on_original"]):
-        failures.append("insufficient_flower_pixels")
-    if int(background.sum()) < int(measurement["minimum_background_pixels_on_original"]):
-        failures.append("insufficient_background_pixels")
-    if flip_iou < float(measurement["horizontal_flip_mask_iou_minimum"]):
-        failures.append("horizontal_flip_mask_instability")
-    if delta_e > float(measurement["horizontal_flip_colour_delta_e_maximum"]):
-        failures.append("horizontal_flip_colour_instability")
     return {
         "image_id": int(image_metadata["id"]),
         "file_name": str(image_metadata["file_name"]),
         "image_sha256": sha256(image_path),
-        "detector_predictions": len(original["predictions"]),
-        "retained_instances": int(original["retained_instances"]),
-        "flip_detector_predictions": len(flipped["predictions"]),
-        "flip_retained_instances": int(flipped["retained_instances"]),
+        "detector_predictions": len(measurement["predictions"]),
+        "retained_instances": int(measurement["retained_instances"]),
+        "flip_detector_predictions": int(measurement["flip_detector_predictions"]),
+        "flip_retained_instances": int(measurement["flip_retained_instances"]),
         "true_positive": int(matching["true_positive"]),
         "false_positive": int(matching["false_positive"]),
         "false_negative": int(matching["false_negative"]),
@@ -335,18 +146,22 @@ def score_image(
         "mask_pixels_inside_reference_box_union": inside,
         "image_mask_pixels_inside_reference_box_union": inside / mask_pixels if mask_pixels else 0.0,
         "background_pixels": int(background.sum()),
-        "flip_background_pixels": int(flip_background.sum()),
-        "horizontal_flip_mask_iou": float(flip_iou),
-        "horizontal_flip_colour_delta_e": None if not math.isfinite(delta_e) else delta_e,
+        "flip_background_pixels": int(measurement["flip_background_pixels"]),
+        "horizontal_flip_mask_iou": float(measurement["horizontal_flip_mask_iou"]),
+        "horizontal_flip_colour_delta_e": measurement[
+            "horizontal_flip_colour_delta_e"
+        ],
         "source_annotation_boxes": len(references) + source_not_evaluable,
         "reference_boxes": len(references),
         "source_not_evaluable_boxes": source_not_evaluable,
         **{f"{size}_reference_boxes": totals[size] for size in totals},
         **{f"{size}_hit_boxes": hits[size] for size in hits},
-        "background_features_available": int(background.sum())
-        >= int(measurement["minimum_background_pixels_on_original"]),
-        "estimator_admitted": not failures,
-        "failure_reasons": ";".join(failures),
+        "background_features_available": bool(
+            measurement["background_features_available"]
+        ),
+        "estimator_admitted": measurement["automated_colour_state_status"]
+        == "automated_colour_state_admitted",
+        "failure_reasons": str(measurement["failure_reasons"]),
     }
 
 
@@ -403,7 +218,7 @@ def main() -> None:
     args.output_dir.mkdir(parents=True, exist_ok=True)
     cache_dir = args.output_dir / "per_image_cache"
     cache_dir.mkdir(parents=True, exist_ok=True)
-    estimator = CompositeEstimator(
+    estimator = FrozenFlowerColourEstimator(
         args.trained_weight,
         args.efficient_sam_weights_dir,
         contract,

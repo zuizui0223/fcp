@@ -15,6 +15,11 @@ from fcp_pipeline.flower_roi_v4 import (
     validate_reference_size_amendment,
     validate_roi_v4_contract,
 )
+from fcp_pipeline.flower_roi_v4_runtime import (
+    hard_mask_lab_summary,
+    summarize_hard_mask_measurement,
+    validate_scaleout_authorization,
+)
 
 
 CONTRACT = json.loads(
@@ -95,3 +100,74 @@ def test_development_gate_fail_closed() -> None:
     assert result["status"] == "stop_roi_v4_development_failed"
     assert result["checks"]["minimum_images"] is False
     assert result["jrc_locked_test_permitted"] is False
+
+
+def test_hard_mask_colour_measurement_uses_the_same_frozen_admission() -> None:
+    rgb = np.zeros((40, 40, 3), dtype=np.uint8)
+    rgb[5:25, 5:25] = [220, 40, 80]
+    flower = np.zeros((40, 40), dtype=bool)
+    flower[5:25, 5:25] = True
+    background = np.zeros((40, 40), dtype=bool)
+    background[25:40, 0:40] = True
+    summary = summarize_hard_mask_measurement(
+        rgb,
+        flower,
+        background,
+        flower.copy(),
+        background.copy(),
+        CONTRACT,
+        retained_instances=1,
+    )
+    assert summary["automated_colour_state_status"] == (
+        "automated_colour_state_admitted"
+    )
+    assert summary["flower_effective_pixels"] == 400
+    assert summary["background_effective_pixels"] == 600
+    assert summary["horizontal_flip_mask_iou"] == 1.0
+    assert summary["horizontal_flip_colour_delta_e"] == 0.0
+    assert summary["flower_L_mean"] > summary["background_L_mean"]
+
+
+def test_hard_mask_measurement_fails_closed_on_reflection_instability() -> None:
+    rgb = np.full((40, 40, 3), 128, dtype=np.uint8)
+    flower = np.zeros((40, 40), dtype=bool)
+    flower[:20, :20] = True
+    displaced = np.zeros_like(flower)
+    displaced[20:, 20:] = True
+    background = ~flower
+    result = summarize_hard_mask_measurement(
+        rgb,
+        flower,
+        background,
+        displaced,
+        ~displaced,
+        CONTRACT,
+        retained_instances=1,
+    )
+    assert result["automated_colour_state_status"] == (
+        "automated_colour_state_not_evaluable"
+    )
+    assert "horizontal_flip_mask_instability" in result["failure_reasons"]
+    assert hard_mask_lab_summary(rgb, np.zeros_like(flower), "empty")[
+        "empty_L_mean"
+    ] is None
+
+
+def test_only_a_matching_locked_v4_pass_authorizes_scaleout() -> None:
+    result = {
+        "protocol": "jbi-atlas-roi-estimator-v4",
+        "phase": "locked_test",
+        "status": "pass_roi_v4_locked_test",
+        "trained_weight_sha256": "abc",
+        "jrc_test_images_decoded_or_scored": True,
+        "scaleout_candidate_pixels_permitted": True,
+        "scaleout_candidate_pixels_opened": False,
+    }
+    assert validate_scaleout_authorization(
+        result, trained_weight_sha256="abc"
+    ) == "abc"
+    with pytest.raises(RuntimeError, match="do not match"):
+        validate_scaleout_authorization(result, trained_weight_sha256="def")
+    stopped = dict(result, status="stop_roi_v4_locked_test_failed")
+    with pytest.raises(RuntimeError, match="not authorized"):
+        validate_scaleout_authorization(stopped)

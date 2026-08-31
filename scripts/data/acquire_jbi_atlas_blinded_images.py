@@ -24,6 +24,7 @@ from fcp_pipeline.atlas_measurement import (
     measurement_shard,
     validate_inference_contract,
 )
+from fcp_pipeline.flower_roi_v4_runtime import validate_scaleout_authorization
 
 
 USER_AGENT = "FCP-image-first-atlas/3.0 (research image acquisition)"
@@ -103,11 +104,7 @@ def main() -> None:
     inference = json.loads(args.inference_contract.read_text(encoding="utf-8"))
     validate_inference_contract(inference)
     roi = json.loads(args.roi_result.read_text(encoding="utf-8"))
-    if (
-        roi.get("status") != "pass_independent_roi_benchmark"
-        or roi.get("atlas_pixels_permitted_by_roi_gate") is not True
-    ):
-        raise RuntimeError("ROI benchmark has not permitted scale-out image acquisition")
+    validate_scaleout_authorization(roi)
 
     rows = read_csv(args.sealed_acquisition_key)
     expected = 60_000
