@@ -6,6 +6,8 @@ The active mainline is a global image-first flower-colour atlas with a species-f
 
 Current gate: **200-species metadata feasibility, exact dated-source reconciliation and ROI v4 independent validity are in progress; every atlas candidate pixel remains closed**.
 
+The fail-closed state is unchanged: bulk atlas image opening is stopped until the exact dated-source, environmental-coverage and locked ROI v4 gates all pass.
+
 The terminal scale-out is eight disjoint cohorts of 25 species x 300 observations: 200 species and 60,000 observations. All eight cohorts are required. They are one experiment, not eight opportunities to stop after a favourable result.
 
 ## Immutable earlier evidence
