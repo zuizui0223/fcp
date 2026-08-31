@@ -11,3 +11,5 @@ docs/supporting/jbi_inaturalist_automated_colour_locked_analysis_input_v2.csv -t
 docs/supporting/jbi_inaturalist_automated_colour_spatial_v2/*.csv -text
 data/atlas/qualification/roi_v3_development/jrc_segformer_development_result_v1.json -text whitespace=-trailing-space
 data/atlas/qualification/roi_v4_training/** -text whitespace=-trailing-space
+data/atlas/qualification/roi_v4_development/** -text whitespace=-trailing-space
+data/atlas/qualification/roi_v4_locked_test/** -text whitespace=-trailing-space

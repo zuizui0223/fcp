@@ -35,10 +35,14 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    gate_run_dir = args.gate_run_dir.resolve()
+    trained_weight = args.trained_weight.resolve()
+    training_evidence_manifest = args.training_evidence_manifest.resolve()
+    output_dir = args.output_dir.resolve()
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    weight_sha = sha256(args.trained_weight)
+    weight_sha = sha256(trained_weight)
     training = json.loads(
-        args.training_evidence_manifest.read_text(encoding="utf-8")
+        training_evidence_manifest.read_text(encoding="utf-8")
     )
     training_weight = training.get("evidence", {}).get("trained_weight", {})
     if (
@@ -49,8 +53,8 @@ def main() -> None:
     ):
         raise RuntimeError("committed training evidence does not authorize a JRC gate")
     prefix = f"jrc_roi_v4_{args.phase}"
-    rows_source = args.gate_run_dir / f"{prefix}_rows.csv"
-    result_source = args.gate_run_dir / f"{prefix}_result.json"
+    rows_source = gate_run_dir / f"{prefix}_rows.csv"
+    result_source = gate_run_dir / f"{prefix}_result.json"
     result = validate_gate_artifacts(
         rows_source,
         result_source,
@@ -58,11 +62,11 @@ def main() -> None:
         phase=args.phase,
         trained_weight_sha256=weight_sha,
     )
-    if args.output_dir.exists():
+    if output_dir.exists():
         raise RuntimeError("refusing to replace frozen ROI v4 gate evidence")
-    args.output_dir.mkdir(parents=True)
-    rows_path = args.output_dir / rows_source.name
-    result_path = args.output_dir / result_source.name
+    output_dir.mkdir(parents=True)
+    rows_path = output_dir / rows_source.name
+    result_path = output_dir / result_source.name
     shutil.copy2(rows_source, rows_path)
     shutil.copy2(result_source, result_path)
     runner_payload = subprocess.run(
@@ -72,7 +76,7 @@ def main() -> None:
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     ).stdout
-    runner_path = args.output_dir / "gate_executable.py"
+    runner_path = output_dir / "gate_executable.py"
     runner_path.write_bytes(runner_payload)
     evidence = {
         "protocol": f"jbi-atlas-roi-v4-{args.phase}-evidence-v1",
@@ -85,10 +89,10 @@ def main() -> None:
             "runner_sha256_exact": sha256(runner_path),
         },
         "training_evidence": {
-            "path": str(args.training_evidence_manifest.relative_to(ROOT)).replace(
+            "path": str(training_evidence_manifest.relative_to(ROOT)).replace(
                 "\\", "/"
             ),
-            "sha256_exact": sha256(args.training_evidence_manifest),
+            "sha256_exact": sha256(training_evidence_manifest),
         },
         "evidence": {
             "rows": {
@@ -119,7 +123,7 @@ def main() -> None:
         ),
         "claim_ceiling": "Estimator gate evidence only; no atlas colour or ecological outcome.",
     }
-    manifest_path = args.output_dir / "gate_evidence_manifest.json"
+    manifest_path = output_dir / "gate_evidence_manifest.json"
     manifest_path.write_text(
         json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
