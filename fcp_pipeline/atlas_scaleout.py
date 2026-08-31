@@ -11,6 +11,8 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
+import numpy as np
+
 from .atlas_expansion import draw_disjoint_species_cohorts, validate_expansion_contract
 from .image_first_atlas import (
     AtlasMetadataAdapter,
@@ -21,6 +23,8 @@ from .image_first_atlas import (
     _species_query,
     validate_atlas_contract,
 )
+from .shared_transition_surface import EqualAreaGrid, build_edge_cell_geometry
+from .spatial_graph import spherical_knn_edges
 
 
 @dataclass(frozen=True)
@@ -28,6 +32,32 @@ class AtlasScaleoutFreeze:
     panels: tuple[dict[str, Any], ...]
     observations: tuple[dict[str, Any], ...]
     audit: dict[str, Any]
+
+
+GEOMETRY_AMENDMENT_PROTOCOL = "jbi-atlas-scaleout-geometry-admission-amendment-v1"
+
+
+def validate_geometry_admission_amendment(amendment: Mapping[str, Any]) -> None:
+    if amendment.get("protocol") != GEOMETRY_AMENDMENT_PROTOCOL:
+        raise ValueError("unexpected scale-out geometry amendment")
+    if (
+        amendment.get("scaleout_colour_opened") is not False
+        or amendment.get("candidate_image_pixels_opened") is not False
+    ):
+        raise ValueError("geometry admission amendment was not frozen pre-image")
+    if amendment.get("primary_geometry_admission_scale_km") != 100:
+        raise ValueError("scale-out primary geometry admission must remain 100 km")
+    if amendment.get("recorded_sensitivity_scales_km") != [250, 500]:
+        raise ValueError("scale-out geometry sensitivities changed")
+    inherited = amendment.get("inherited_geometry_rules", {})
+    if (
+        inherited.get("knn_k") != 5
+        or inherited.get("maximum_edge_km_by_scale") != [100, 250, 500]
+        or inherited.get("minimum_edges_per_species_cell") != 2
+        or inherited.get("minimum_retained_edges_per_species") != 100
+        or inherited.get("minimum_detectable_cells_per_species") != 10
+    ):
+        raise ValueError("inherited scale-out geometry thresholds changed")
 
 
 _OUTCOME_TOKENS = (
@@ -122,9 +152,94 @@ def freeze_scaleout_panels(
     )
 
 
+def qualify_scaleout_geometry(
+    eligible_species: Sequence[Mapping[str, Any]],
+    observations_by_taxon: Mapping[str, Sequence[Mapping[str, Any]]],
+    atlas_contract: Mapping[str, Any],
+    *,
+    primary_scale_km: int = 100,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Apply all frozen geometry rules before the stable cohort permutation."""
+
+    validate_atlas_contract(atlas_contract)
+    geometry_contract = atlas_contract["geometry_only_scale_selection"]
+    criteria = geometry_contract["passing_criteria"]
+    candidates = tuple(geometry_contract["candidates"])
+    if primary_scale_km not in {int(row["scale_km"]) for row in candidates}:
+        raise ValueError("primary scale is absent from the frozen geometry candidates")
+    passing: list[dict[str, Any]] = []
+    audit: list[dict[str, Any]] = []
+    for raw in eligible_species:
+        taxon_id = str(raw["taxon_id"])
+        rows = list(observations_by_taxon.get(taxon_id, ()))
+        if not rows:
+            raise ValueError(f"metadata-eligible taxon {taxon_id} has no observations")
+        latitude = np.asarray([float(row["latitude"]) for row in rows], dtype=float)
+        longitude = np.asarray([float(row["longitude"]) for row in rows], dtype=float)
+        edges, distance = spherical_knn_edges(
+            latitude,
+            longitude,
+            k=int(geometry_contract["knn_k"]),
+        )
+        scale_results = []
+        for candidate in candidates:
+            scale = int(candidate["scale_km"])
+            grid = EqualAreaGrid(
+                n_lon=int(candidate["n_lon"]),
+                n_sinlat=int(candidate["n_sinlat"]),
+            )
+            try:
+                geometry = build_edge_cell_geometry(
+                    latitude,
+                    longitude,
+                    edges,
+                    distance,
+                    grid=grid,
+                    max_edge_km=scale,
+                    min_edges_per_cell=int(
+                        geometry_contract["minimum_edges_per_species_cell"]
+                    ),
+                )
+                retained_edges = int(len(geometry.retained_edges))
+                detectable_cells = int(np.count_nonzero(geometry.detectable))
+            except ValueError:
+                retained_edges = 0
+                detectable_cells = 0
+            evaluable = (
+                retained_edges >= int(criteria["minimum_retained_edges_per_species"])
+                and detectable_cells >= int(criteria["minimum_detectable_cells_per_species"])
+            )
+            scale_results.append(
+                {
+                    "scale_km": scale,
+                    "retained_edges": retained_edges,
+                    "detectable_cells": detectable_cells,
+                    "geometry_evaluable": evaluable,
+                }
+            )
+        primary_pass = next(
+            row["geometry_evaluable"]
+            for row in scale_results
+            if row["scale_km"] == primary_scale_km
+        )
+        audit.append(
+            {
+                "taxon_id": taxon_id,
+                "species": str(raw["species"]),
+                "status": "geometry_eligible" if primary_pass else "primary_geometry_failed",
+                "primary_scale_km": primary_scale_km,
+                "scale_results": scale_results,
+            }
+        )
+        if primary_pass:
+            passing.append(dict(raw))
+    return passing, audit
+
+
 def live_api_scaleout_feasibility(
     atlas_contract: Mapping[str, Any],
     expansion_contract: Mapping[str, Any],
+    geometry_amendment: Mapping[str, Any],
     adapter: AtlasMetadataAdapter,
     *,
     candidate_species_pool_size: int = 500,
@@ -139,6 +254,7 @@ def live_api_scaleout_feasibility(
 
     validate_atlas_contract(atlas_contract)
     validate_expansion_contract(expansion_contract)
+    validate_geometry_admission_amendment(geometry_amendment)
     if candidate_species_pool_size < 200:
         raise ValueError("live feasibility needs at least 200 candidate species")
     working = deepcopy(dict(atlas_contract))
@@ -230,9 +346,21 @@ def live_api_scaleout_feasibility(
         )
         observations_by_taxon[taxon_id] = selected
 
+    geometry_eligible, geometry_audit = qualify_scaleout_geometry(
+        eligible,
+        observations_by_taxon,
+        working,
+        primary_scale_km=int(expansion_contract["spatial_design"]["primary_scale_km"]),
+    )
+    geometry_by_taxon = {row["taxon_id"]: row for row in geometry_audit}
+    for row in species_audit:
+        geometry = geometry_by_taxon.get(row["taxon_id"])
+        if geometry is not None:
+            row["geometry_status"] = geometry["status"]
+            row["geometry_scale_results"] = geometry["scale_results"]
     try:
         frozen = freeze_scaleout_panels(
-            eligible,
+            geometry_eligible,
             observations_by_taxon,
             expansion_contract,
             source_role="live iNaturalist API metadata feasibility only",
@@ -254,6 +382,7 @@ def live_api_scaleout_feasibility(
                 "species_count_records_received": len(raw_counts),
                 "species_candidates_after_static_filters": len(candidates),
                 "eligible_species": len(eligible),
+                "geometry_eligible_species": len(geometry_eligible),
                 "species_results": species_audit,
             },
         )
@@ -264,6 +393,10 @@ def live_api_scaleout_feasibility(
         "species_count_records_received": len(raw_counts),
         "species_candidates_after_static_filters": len(candidates),
         "species_results": species_audit,
+        "metadata_eligible_species": len(eligible),
+        "geometry_eligible_species": len(geometry_eligible),
+        "geometry_admission_preceded_cohort_permutation": True,
+        "geometry_admission_protocol": geometry_amendment["protocol"],
         "final_source_still_required": True,
     }
     return AtlasScaleoutFreeze(frozen.panels, frozen.observations, audit)

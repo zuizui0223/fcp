@@ -16,7 +16,10 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from fcp_pipeline.atlas_scaleout import live_api_scaleout_feasibility
+from fcp_pipeline.atlas_scaleout import (
+    live_api_scaleout_feasibility,
+    validate_geometry_admission_amendment,
+)
 from scripts.data.build_jbi_image_first_atlas_metadata import InaturalistMetadataAdapter
 
 
@@ -58,6 +61,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--candidate-species", type=int, default=500)
     parser.add_argument("--maximum-candidates-per-species", type=int, default=1000)
+    parser.add_argument(
+        "--geometry-amendment",
+        type=Path,
+        default=Path(
+            "docs/supporting/jbi_atlas_scaleout_geometry_admission_amendment_v1.json"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -65,6 +75,8 @@ def main() -> None:
     args = parse_args()
     atlas = json.loads(args.atlas_contract.read_text(encoding="utf-8"))
     expansion = json.loads(args.expansion_contract.read_text(encoding="utf-8"))
+    geometry_amendment = json.loads(args.geometry_amendment.read_text(encoding="utf-8"))
+    validate_geometry_admission_amendment(geometry_amendment)
     adapter = InaturalistMetadataAdapter(
         base_url=str(atlas["metadata_source"]["base_url"]),
         pause_seconds=float(atlas["metadata_source"]["request_pause_seconds"]),
@@ -72,6 +84,7 @@ def main() -> None:
     frozen = live_api_scaleout_feasibility(
         atlas,
         expansion,
+        geometry_amendment,
         adapter,
         candidate_species_pool_size=args.candidate_species,
         maximum_candidates_per_species=args.maximum_candidates_per_species,
@@ -91,6 +104,10 @@ def main() -> None:
         "status": frozen.audit["status"],
         "source_role": "live API feasibility; final dated export remains required",
         "candidate_image_pixels_opened": False,
+        "geometry_admission_contract": {
+            "path": args.geometry_amendment.as_posix(),
+            "sha256": file_sha256(args.geometry_amendment),
+        },
         "files": files,
     }
     write_json(args.output_dir / "scaleout_metadata_manifest.json", manifest)

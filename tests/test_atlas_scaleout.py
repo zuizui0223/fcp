@@ -3,9 +3,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import numpy as np
 import pytest
 
-from fcp_pipeline.atlas_scaleout import freeze_scaleout_panels
+from fcp_pipeline.atlas_scaleout import freeze_scaleout_panels, qualify_scaleout_geometry
 
 
 CONTRACT = Path("docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json")
@@ -66,6 +67,39 @@ def test_scaleout_rejects_short_species_and_outcome_leakage() -> None:
         freeze_scaleout_panels(
             eligible_rows(), observations, contract(), source_role="unit-test metadata"
         )
+
+
+def test_scaleout_geometry_precedes_cohort_draw() -> None:
+    atlas = json.loads(
+        Path("docs/supporting/jbi_image_first_atlas_contract_v1.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    clustered = []
+    for cluster in range(15):
+        for within in range(20):
+            clustered.append(
+                {
+                    "latitude": 20.0 + cluster * 1.2 + (within % 5) * 0.005,
+                    "longitude": -120.0 + (within // 5) * 0.005,
+                }
+            )
+    passing, audit = qualify_scaleout_geometry(
+        [{"taxon_id": "1", "species": "Passing species", "genus": "Passing"}],
+        {"1": clustered},
+        atlas,
+    )
+    assert len(passing) == 1
+    assert audit[0]["status"] == "geometry_eligible"
+    assert {row["scale_km"] for row in audit[0]["scale_results"]} == {100, 250, 500}
+
+    failing, failed_audit = qualify_scaleout_geometry(
+        [{"taxon_id": "2", "species": "Failed species", "genus": "Failed"}],
+        {"2": [{"latitude": 0.0, "longitude": 0.0} for _ in range(300)]},
+        atlas,
+    )
+    assert failing == []
+    assert failed_audit[0]["status"] == "primary_geometry_failed"
 
     observations = observation_rows()
     observations["0"][0]["colour_L"] = 50.0
