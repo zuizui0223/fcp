@@ -77,6 +77,7 @@ on:
       - "data/atlas/qualification/roi_v3_development/**"
       - "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json"
       - "docs/supporting/jbi_atlas_roi_v4_reference_size_amendment_v1.json"
+      - "data/atlas/qualification/roi_v4_training/**"
       - "docs/supporting/jbi_atlas_colour_surface_contract_v1.json"
       - "requirements-atlas-roi-v4.txt"
       - "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json"
@@ -165,6 +166,7 @@ on:
       - "data/atlas/qualification/roi_v3_development/**"
       - "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json"
       - "docs/supporting/jbi_atlas_roi_v4_reference_size_amendment_v1.json"
+      - "data/atlas/qualification/roi_v4_training/**"
       - "docs/supporting/jbi_atlas_colour_surface_contract_v1.json"
       - "requirements-atlas-roi-v4.txt"
       - "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json"
@@ -230,6 +232,7 @@ jobs:
           python scripts/data/validate_jbi_atlas_roi_v3_source_freeze.py
           python scripts/data/validate_jbi_atlas_roi_v3_development_result.py
           python scripts/data/validate_jbi_atlas_roi_v4_contract.py
+          python scripts/data/validate_jbi_atlas_roi_v4_training_evidence.py
           python scripts/data/validate_jbi_atlas_colour_surface_contract.py
           python scripts/data/validate_jbi_atlas_environmental_overlay_contract.py
           python scripts/data/validate_jbi_atlas_climate_ecoregion_freeze.py
@@ -251,6 +254,7 @@ jobs:
           tests/test_atlas_signal_recovery.py
           tests/test_segformer_roi.py
           tests/test_flower_roi_v4.py
+          tests/test_atlas_roi_v4_training_evidence.py
 
   roi-benchmark:
     if: github.event_name == 'workflow_dispatch' && inputs.run_roi_benchmark

@@ -1,0 +1,83 @@
+{
+  "automatic_post_training_summary": {
+    "automatic_post_training_training_set_summary_emitted": true,
+    "best_pt_frozen_or_used": false,
+    "interpretation": "Training-domain diagnostic only; not independent performance evidence and not an authorization gate.",
+    "schema_only_validation_alias": "the same 400-image training directory",
+    "selected_weight": "exact last.pt copied before any JRC prediction",
+    "summary_epoch": 50,
+    "summary_metrics_used_for_weight_selection": false,
+    "trainer_argument_val": false
+  },
+  "claim_ceiling": "Training completion is provenance, not estimator validity or flower-colour evidence.",
+  "denominators": {
+    "evaluable_training_boxes": 6991,
+    "source_annotation_boxes": 6992,
+    "source_not_evaluable_boxes": 1,
+    "training_images": 400
+  },
+  "evidence": {
+    "materialization": {
+      "bytes": 546,
+      "path": "data/atlas/qualification/roi_v4_training/training_materialization_manifest.json",
+      "sha256_exact": "090b8baa542e17e226a699899624d2fa74c8ba4d6ea2bc97d5772edc8d426582"
+    },
+    "trained_weight": {
+      "bytes": 5520666,
+      "path": "data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt",
+      "sha256_exact": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5"
+    },
+    "trainer": {
+      "bytes": 5627,
+      "path": "data/atlas/qualification/roi_v4_training/training_executable.py",
+      "sha256_exact": "e0ee6c1d0c06408bfbc876220f2529e91ff991c1cf7da12c3cd189366ace0360"
+    },
+    "training_arguments": {
+      "bytes": 1998,
+      "path": "data/atlas/qualification/roi_v4_training/training_args.yaml",
+      "sha256_exact": "865ddbe0815e0b9f5ba5dcfcad1369a704a8c80c820ea8a0f55bb67bf3ea59a7"
+    },
+    "training_data": {
+      "bytes": 175,
+      "path": "data/atlas/qualification/roi_v4_training/training_data.yaml",
+      "sha256_exact": "5bb3fc31e51bc08fc06ec29193d4d55265c3ad59e49bc602df0538f97ec52468"
+    },
+    "training_result": {
+      "bytes": 708,
+      "path": "data/atlas/qualification/roi_v4_training/training_result_manifest.json",
+      "sha256_exact": "df61b9eac58a3da87a2f8c0d8fd8a644e1453370815ccf9478a7c6a3033b5f1a"
+    },
+    "training_results": {
+      "bytes": 4164,
+      "path": "data/atlas/qualification/roi_v4_training/training_results.csv",
+      "sha256_exact": "65bb40377e8dbce180cfba0ff9ec49087e01da93ab8a841c583233f3527d6464"
+    }
+  },
+  "firewall": {
+    "jrc_test_directory_read": false,
+    "jrc_test_images_decoded_or_scored": false,
+    "oxford102_locked_proxy_scored_by_v4": false,
+    "scaleout_candidate_pixels_opened": false,
+    "validation_during_training": false
+  },
+  "next_gate": "run all 400 JRC development images once with this exact trained weight",
+  "parent_contract": {
+    "path": "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json",
+    "sha256_lf_canonical_v1": "e3ffefdcd4aa6719a10b45c57886ee895f10f424a0d0b174a46541d92dd2f7a1"
+  },
+  "protocol": "jbi-atlas-roi-v4-training-evidence-v1",
+  "status": "complete_roi_v4_training_frozen_before_prediction",
+  "training_execution": {
+    "environment": {
+      "device": "cpu",
+      "python": "3.10.11",
+      "torch": "2.11.0+cpu",
+      "ultralytics": "8.4.112"
+    },
+    "epochs": 50,
+    "git_commit": "04e831f45faa840ab577bc7dd176d9750fa9ec55",
+    "trainer_path": "scripts/data/train_jbi_atlas_roi_v4_detector.py",
+    "trainer_sha256_exact": "e0ee6c1d0c06408bfbc876220f2529e91ff991c1cf7da12c3cd189366ace0360",
+    "weight_selection": "last epoch only; never best epoch"
+  }
+}

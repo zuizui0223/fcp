@@ -1,0 +1,5 @@
+path: C:/Users/zuizui/.codex/temp/fcp-atlas-roi-v4/training-data-v2
+train: images/train
+val: images/train  # schema-only; train script fixes val=False
+names:
+  0: flower

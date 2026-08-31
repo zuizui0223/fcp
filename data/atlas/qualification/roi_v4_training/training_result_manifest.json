@@ -1,0 +1,18 @@
+{
+  "elapsed_seconds": 14204.358263969421,
+  "environment": {
+    "device": "cpu",
+    "python": "3.10.11",
+    "torch": "2.11.0+cpu",
+    "ultralytics": "8.4.112"
+  },
+  "epochs": 50,
+  "jrc_test_images_decoded_or_scored": false,
+  "protocol": "jbi-atlas-roi-estimator-v4",
+  "scaleout_candidate_pixels_opened": false,
+  "status": "complete_roi_v4_detector_training_not_yet_qualified",
+  "trained_weight_path": "jrc_yolo11n_last_v4.pt",
+  "trained_weight_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+  "training_results_sha256": "65bb40377e8dbce180cfba0ff9ec49087e01da93ab8a841c583233f3527d6464",
+  "weight_selection": "last epoch only; never best epoch"
+}

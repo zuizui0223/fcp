@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 from pathlib import Path
@@ -25,6 +26,7 @@ FROZEN_FILENAMES = {
     "trained_weight": "jrc_yolo11n_last_v4.pt",
     "training_results": "training_results.csv",
     "training_arguments": "training_args.yaml",
+    "training_data": "training_data.yaml",
     "training_result": "training_result_manifest.json",
     "materialization": "training_materialization_manifest.json",
     "trainer": "training_executable.py",
@@ -71,6 +73,7 @@ def validate_source_run(
         "trained_weight": run_dir / "jrc_yolo11n_last_v4.pt",
         "training_results": run_dir / "frozen_train/results.csv",
         "training_arguments": run_dir / "frozen_train/args.yaml",
+        "training_data": materialization_path.parent / "data.yaml",
         "training_result": run_dir / "training_result_manifest.json",
         "materialization": materialization_path,
     }
@@ -106,28 +109,77 @@ def validate_source_run(
         or materialization.get("scaleout_candidate_pixels_opened") is not False
     ):
         raise RuntimeError("ROI v4 training materialization changed")
+    arguments = paths["training_arguments"].read_text(encoding="utf-8")
+    training_data = paths["training_data"].read_text(encoding="utf-8")
+    if (
+        "\nval: false\n" not in f"\n{arguments}"
+        or "\ntrain: images/train\n" not in f"\n{training_data}"
+        or "\nval: images/train  # schema-only; train script fixes val=False\n"
+        not in f"\n{training_data}"
+    ):
+        raise RuntimeError("ROI v4 validation firewall settings changed")
+    source_last = run_dir / "frozen_train/weights/last.pt"
+    if not source_last.is_file() or sha256(source_last) != sha256(paths["trained_weight"]):
+        raise RuntimeError("frozen ROI v4 weight is not the exact last epoch")
     return result, materialization, paths
+
+
+def post_training_summary(results_path: Path) -> dict[str, object]:
+    """Record Ultralytics' unavoidable final summary without using its outcome."""
+
+    with results_path.open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    metric_fields = (
+        "metrics/precision(B)",
+        "metrics/recall(B)",
+        "metrics/mAP50(B)",
+        "metrics/mAP50-95(B)",
+    )
+    if len(rows) != 50 or int(rows[-1]["epoch"]) != 50:
+        raise RuntimeError("ROI v4 training results do not contain 50 epochs")
+    evaluated = [
+        int(row["epoch"])
+        for row in rows
+        if any(float(row[field]) != 0.0 for field in metric_fields)
+    ]
+    if evaluated != [50]:
+        raise RuntimeError("unexpected ROI v4 validation timing")
+    return {
+        "trainer_argument_val": False,
+        "schema_only_validation_alias": "the same 400-image training directory",
+        "automatic_post_training_training_set_summary_emitted": True,
+        "summary_epoch": 50,
+        "summary_metrics_used_for_weight_selection": False,
+        "best_pt_frozen_or_used": False,
+        "selected_weight": "exact last.pt copied before any JRC prediction",
+        "interpretation": (
+            "Training-domain diagnostic only; not independent performance evidence "
+            "and not an authorization gate."
+        ),
+    }
 
 
 def main() -> None:
     args = parse_args()
+    output_dir = args.output_dir.resolve()
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
     validate_roi_v4_contract(contract)
     result, materialization, source_paths = validate_source_run(
         args.training_run_dir, args.materialization_manifest, contract
     )
+    automatic_summary = post_training_summary(source_paths["training_results"])
     trainer_payload = git_blob(args.training_code_commit, TRAINER_PATH)
     if not trainer_payload.startswith(b"#!/usr/bin/env python3"):
         raise RuntimeError("training executable identity could not be resolved")
-    if args.output_dir.exists():
+    if output_dir.exists():
         raise RuntimeError("refusing to replace frozen ROI v4 training evidence")
-    args.output_dir.mkdir(parents=True)
+    output_dir.mkdir(parents=True)
     frozen_paths: dict[str, Path] = {}
     for key, source in source_paths.items():
-        destination = args.output_dir / FROZEN_FILENAMES[key]
+        destination = output_dir / FROZEN_FILENAMES[key]
         shutil.copy2(source, destination)
         frozen_paths[key] = destination
-    trainer_path = args.output_dir / FROZEN_FILENAMES["trainer"]
+    trainer_path = output_dir / FROZEN_FILENAMES["trainer"]
     trainer_path.write_bytes(trainer_payload)
     frozen_paths["trainer"] = trainer_path
     evidence = {
@@ -145,6 +197,7 @@ def main() -> None:
             "epochs": result["epochs"],
             "environment": result["environment"],
         },
+        "automatic_post_training_summary": automatic_summary,
         "evidence": {
             key: {
                 "path": str(path.relative_to(ROOT)).replace("\\", "/"),
@@ -173,7 +226,7 @@ def main() -> None:
         "next_gate": "run all 400 JRC development images once with this exact trained weight",
         "claim_ceiling": "Training completion is provenance, not estimator validity or flower-colour evidence.",
     }
-    evidence_path = args.output_dir / "training_evidence_manifest.json"
+    evidence_path = output_dir / "training_evidence_manifest.json"
     evidence_path.write_text(
         json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )

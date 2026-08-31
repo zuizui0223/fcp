@@ -1,0 +1,14 @@
+{
+  "evaluable_training_boxes": 6991,
+  "images": 400,
+  "jrc_test_directory_read": false,
+  "jrc_test_images_decoded_or_scored": false,
+  "protocol": "jbi-atlas-roi-estimator-v4",
+  "scaleout_candidate_pixels_opened": false,
+  "source_annotation_boxes": 6992,
+  "source_not_evaluable_boxes": 1,
+  "status": "pass_roi_v4_training_materialization",
+  "training_images_sha256": "ff583d22618f2fd36b0e2cd1810c8f7e7d97d74dea5f6f1f2206de62e9fa0b3e",
+  "training_validation_enabled": false,
+  "validation_reference_is_schema_only": true
+}

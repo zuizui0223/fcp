@@ -48,6 +48,16 @@ def main() -> None:
     ):
         raise RuntimeError("ROI v4 training evidence manifest changed")
     execution = manifest["training_execution"]
+    automatic_summary = manifest.get("automatic_post_training_summary", {})
+    if (
+        automatic_summary.get("trainer_argument_val") is not False
+        or automatic_summary.get("automatic_post_training_training_set_summary_emitted")
+        is not True
+        or automatic_summary.get("summary_epoch") != 50
+        or automatic_summary.get("summary_metrics_used_for_weight_selection") is not False
+        or automatic_summary.get("best_pt_frozen_or_used") is not False
+    ):
+        raise RuntimeError("ROI v4 post-training summary provenance changed")
     evidence = manifest["evidence"]
     for item in evidence.values():
         path = ROOT / item["path"]
