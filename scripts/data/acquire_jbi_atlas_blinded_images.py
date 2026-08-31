@@ -82,6 +82,7 @@ def acquire(url: str, destination: Path, *, retries: int, timeout: float) -> str
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--sealed-acquisition-key", type=Path, required=True)
+    parser.add_argument("--firewall-manifest", type=Path, required=True)
     parser.add_argument("--roi-result", type=Path, required=True)
     parser.add_argument(
         "--inference-contract",
@@ -97,6 +98,20 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def validate_firewall_for_acquisition(
+    firewall: dict[str, Any], *, key_name: str, key_sha256: str
+) -> None:
+    if (
+        firewall.get("status") != "pass_scaleout_measurement_firewall"
+        or firewall.get("candidate_image_pixels_opened") is not False
+        or firewall.get("coordinate_key_opened_by_measurement_worker") is not False
+        or firewall.get("sealed_keys", {}).get(key_name) != key_sha256
+        or not firewall.get("dated_source_gate_sha256")
+        or not firewall.get("environmental_coverage_gate_sha256")
+    ):
+        raise RuntimeError("measurement firewall does not authorize this acquisition key")
+
+
 def main() -> None:
     args = parse_args()
     if args.shard_index < 0 or args.shard_index >= args.shard_count:
@@ -105,6 +120,12 @@ def main() -> None:
     validate_inference_contract(inference)
     roi = json.loads(args.roi_result.read_text(encoding="utf-8"))
     validate_scaleout_authorization(roi)
+    firewall = json.loads(args.firewall_manifest.read_text(encoding="utf-8"))
+    validate_firewall_for_acquisition(
+        firewall,
+        key_name=args.sealed_acquisition_key.name,
+        key_sha256=sha256(args.sealed_acquisition_key),
+    )
 
     rows = read_csv(args.sealed_acquisition_key)
     expected = 60_000

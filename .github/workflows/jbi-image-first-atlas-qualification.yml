@@ -237,6 +237,7 @@ jobs:
           tests/test_atlas_expansion.py
           tests/test_atlas_measurement.py
           tests/test_atlas_environment.py
+          tests/test_atlas_acquisition_authorization.py
           tests/test_atlas_dated_source.py
           tests/test_atlas_precolour_environmental_coverage.py
           tests/test_atlas_overlay_null.py

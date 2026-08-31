@@ -49,6 +49,8 @@ def sha256(path: Path) -> str:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--observation-manifest", type=Path, required=True)
+    parser.add_argument("--dated-source-manifest", type=Path, required=True)
+    parser.add_argument("--environmental-coverage-result", type=Path, required=True)
     parser.add_argument(
         "--expansion-contract",
         type=Path,
@@ -63,12 +65,50 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def validate_preimage_firewall_gates(
+    dated_source: Mapping[str, Any],
+    environmental_coverage: Mapping[str, Any],
+    *,
+    observation_manifest_name: str,
+    observation_manifest_sha256: str,
+) -> None:
+    if (
+        dated_source.get("status") != "pass_dated_source_scaleout_freeze"
+        or dated_source.get("candidate_image_pixels_opened") is not False
+        or dated_source.get("files", {}).get(observation_manifest_name)
+        != observation_manifest_sha256
+    ):
+        raise RuntimeError("dated-source reconciliation does not match firewall input")
+    if (
+        environmental_coverage.get("status")
+        != "pass_precolour_environmental_coverage"
+        or environmental_coverage.get("coverage_gate_status")
+        != "pass_precolour_environmental_coverage"
+        or environmental_coverage.get("source_stage") != "final-dated-source"
+        or environmental_coverage.get("final_dated_source_required") is not False
+        or environmental_coverage.get("scaleout_colour_opened") is not False
+        or environmental_coverage.get("image_acquisition_authorized") is not False
+    ):
+        raise RuntimeError("final pre-colour environmental coverage did not pass")
+
+
 def main() -> None:
     args = parse_args()
     contract = json.loads(args.expansion_contract.read_text(encoding="utf-8"))
     validate_expansion_contract(contract)
     inference = json.loads(args.inference_contract.read_text(encoding="utf-8"))
     validate_inference_contract(inference)
+    observation_hash = sha256(args.observation_manifest)
+    dated_source = json.loads(args.dated_source_manifest.read_text(encoding="utf-8"))
+    environmental_coverage = json.loads(
+        args.environmental_coverage_result.read_text(encoding="utf-8")
+    )
+    validate_preimage_firewall_gates(
+        dated_source,
+        environmental_coverage,
+        observation_manifest_name=args.observation_manifest.name,
+        observation_manifest_sha256=observation_hash,
+    )
     rows = read_csv(args.observation_manifest)
     expected = int(contract["random_cohort_scaleout"]["total_observations"])
     if len(rows) != expected:
@@ -89,6 +129,10 @@ def main() -> None:
         "protocol": inference["protocol"],
         "frozen_measurements": len(rows),
         "candidate_image_pixels_opened": False,
+        "dated_source_gate_sha256": sha256(args.dated_source_manifest),
+        "environmental_coverage_gate_sha256": sha256(
+            args.environmental_coverage_result
+        ),
         "coordinate_key_opened_by_measurement_worker": False,
         "worker_packet": {
             "path": worker_path.relative_to(args.output_dir).as_posix(),
@@ -99,7 +143,7 @@ def main() -> None:
             species_path.name: sha256(species_path),
             coordinate_path.name: sha256(coordinate_path),
         },
-        "source_observation_manifest_sha256": sha256(args.observation_manifest),
+        "source_observation_manifest_sha256": observation_hash,
         "claim_ceiling": (
             "Pre-measurement blinding and denominator evidence only; no image, colour, "
             "spatial, environmental or pollinator conclusion is allowed."
