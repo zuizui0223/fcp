@@ -1,0 +1,57 @@
+{
+  "claim_ceiling": "Locked image-measurement completeness and coordinate firewall only. A pass permits the predeclared random-mark test; it is not spatial, botanical-morph or mechanism evidence.",
+  "coordinate_joined_species": [
+    "Erythranthe lewisii",
+    "Hesperis matronalis",
+    "Orchis mascula"
+  ],
+  "coordinate_withheld_species": [],
+  "fixed_gates": {
+    "expected_encounters_per_species": 120,
+    "min_admitted_encounter_share": 0.7,
+    "min_background_control_share": 0.7
+  },
+  "locked_spatial_input_sha256": "a57f15eb24a72d251f71595b93b986d67eb75f19bf6c6504260abb8a84d40ea6",
+  "private_report_sha256": "f76bff71f937d2b90d3c7b5970e78ac14d752bb1fc05ccc927bde8ba4786c97f",
+  "protocol": "fcp-inaturalist-automated-colour-state-v2",
+  "source_sha256": {
+    "development_gate": "68237596c811c83701e91e08527b020f5250fcdba310b6dca944d9a19384148b",
+    "finalizer": "4c347440073be55769e768f467cfb6f8fa7a43f04bec0a17bc050fb6b5c5c01b",
+    "locked_extraction_manifest": "6aa153d5ac6879db86754be927abd83e399104d4997ca59a1fdad04b7470de15",
+    "locked_packet_manifest": "38d9793b91649a97d2e965982c3d781dde0d43cac8f9c8840b22c81e3ba03d9d"
+  },
+  "species_passing_locked_gate": 3,
+  "species_results": [
+    {
+      "admitted_encounter_share": 0.8416666666666667,
+      "admitted_encounters": 101,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 101,
+      "canonical_name": "Erythranthe lewisii",
+      "coordinates_joined": true,
+      "locked_encounters": 120,
+      "locked_gate_status": "pass"
+    },
+    {
+      "admitted_encounter_share": 0.8083333333333333,
+      "admitted_encounters": 97,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 97,
+      "canonical_name": "Hesperis matronalis",
+      "coordinates_joined": true,
+      "locked_encounters": 120,
+      "locked_gate_status": "pass"
+    },
+    {
+      "admitted_encounter_share": 0.9,
+      "admitted_encounters": 108,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 108,
+      "canonical_name": "Orchis mascula",
+      "coordinates_joined": true,
+      "locked_encounters": 120,
+      "locked_gate_status": "pass"
+    }
+  ],
+  "status": "complete_locked_automatic_colour_gate_and_coordinate_firewall"
+}

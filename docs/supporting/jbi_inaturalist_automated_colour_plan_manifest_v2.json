@@ -1,0 +1,103 @@
+{
+  "analysis_id": "jbi_inaturalist_automated_colour_v2",
+  "status": "frozen_before_complete_development_outcome_and_before_any_spatial_colour_outcome",
+  "date": "2026-08-28",
+  "protocol": "fcp-inaturalist-automated-colour-state-v2",
+  "contract_sha256": "b698286ca785358aff32d3944251b55caa8ab545b3ec07549a6647a528a8f3e0",
+  "human_judgement_used": false,
+  "development_spatial_fields_opened": false,
+  "locked_partition_opened": false,
+  "spatial_colour_outcome_opened": false,
+  "pre_freeze_visibility": {
+    "location_free_smoke_test_completed": true,
+    "smoke_test_encounters": 12,
+    "smoke_test_used_for_biology": false,
+    "partial_cache_integrity_counts_seen": true,
+    "partial_admission_counts_used_for_retuning": false,
+    "complete_development_gate_seen": false
+  },
+  "model": {
+    "id": "CIDAS/clipseg-rd64-refined",
+    "revision": "999e0328d9e10b484360c477313983f9afdd7050",
+    "model_safetensors_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+    "weights_redistributed": false,
+    "model_input_pixels": [
+      352,
+      352
+    ],
+    "positive_prompts": [
+      "flower",
+      "petals",
+      "blossom"
+    ],
+    "negative_prompts": [
+      "leaves",
+      "background"
+    ]
+  },
+  "photo_gate": {
+    "min_effective_pixels": 100.0,
+    "min_valid_positive_prompts": 2,
+    "max_positive_prompt_mean_lab_delta_e": 10.0,
+    "max_original_reflection_mean_lab_delta_e": 5.0,
+    "min_original_reflection_soft_iou": 0.5,
+    "background_required_for_photo_admission": false,
+    "encounter_aggregation": "componentwise median across all admitted attached photos"
+  },
+  "development_gate": {
+    "species": 6,
+    "encounters_per_species": 80,
+    "total_encounters": 480,
+    "total_attached_photos": 886,
+    "min_admitted_encounter_share": 0.7,
+    "min_multi_photo_encounters": 10,
+    "repeatability_permutations": 9999,
+    "repeatability_one_sided_alpha": 0.05,
+    "technical_folds": 5,
+    "technical_ridge_alpha": 1.0,
+    "max_multivariate_technical_cv_r2": 0.8,
+    "min_background_control_share_among_admitted": 0.7,
+    "all_conditions_required": true
+  },
+  "locked_gate": {
+    "encounters_per_species": 120,
+    "min_admitted_encounters": 84,
+    "min_admitted_encounter_share": 0.7,
+    "min_background_control_share_among_admitted": 0.7,
+    "development_and_locked_pooled": false
+  },
+  "spatial_test": {
+    "primary_statistic": "Spearman correlation of all pairwise great-circle distances and all pairwise Euclidean robust-standardized encounter mean-Lab distances",
+    "alternative": "greater",
+    "whole_vector_permutations_within_species": 9999,
+    "multiple_testing": "Benjamini-Hochberg across evaluable species",
+    "fdr_q": 0.05,
+    "top_observer_requirement": "primary sign remains positive after excluding the single most-contributing observer",
+    "negative_control": "flower-minus-background rho contrast under joint paired-vector permutations",
+    "negative_control_fdr_q": 0.05,
+    "descriptive_equal_pair_count_distance_bins": 5,
+    "non_rejection_interpretation": "spatial organization not detected, not proof of randomness",
+    "universality_claim_allowed": false,
+    "mechanism_claim_allowed": false
+  },
+  "software": {
+    "python": "3.10.11",
+    "torch": "2.11.0+cpu",
+    "torchvision": "0.26.0+cpu",
+    "transformers": "4.57.6",
+    "huggingface_hub": "0.36.0",
+    "safetensors": "0.6.2",
+    "numpy": "2.2.6",
+    "Pillow": "12.2.0",
+    "scikit_image": "0.25.2"
+  },
+  "source_sha256": {
+    "docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md": "e04bbfae1426bd0be94c70d72d4a7c6a991a689659a22ac9d819a9c1ca031d59",
+    "requirements-inaturalist-auto-colour.txt": "d9a585da38d43afb50538ab9eb4e9acfba32a166058787fcbeb9c6c6d8340a0f",
+    "scripts/data/extract_inaturalist_automated_colour_states.py": "969defe35224c06b422fa1b9e20b53e9f352a399461bba489305e8c774f559a7",
+    "scripts/data/audit_inaturalist_automated_colour_cache.py": "bf6c6f4928ee399f849d8e5451993032d817adc77a5a7374adfd565d68d4f301",
+    "scripts/data/evaluate_inaturalist_automated_colour_development_gate.py": "701ca1faa97f4ad8e3f02ce6f19f27116b744233082532d7474ca90e670bf69f",
+    "scripts/data/run_inaturalist_automated_colour_spatial_marks.py": "07bdb123cfebc1e3ab9e277cb9ad41de5b86fa41006feb2742fd28db515eef07"
+  },
+  "claim_ceiling": "The development gate can establish only location-free feasibility of a reproducible model-consensus candidate-colour measurement. A later locked test can state whether selected species reject the fixed random-mark null. Neither stage verifies flower tissue, botanical morphs, named colours, population frequencies, adaptation, mechanism or universality."
+}

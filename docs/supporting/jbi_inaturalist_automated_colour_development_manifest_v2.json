@@ -1,0 +1,117 @@
+{
+  "claim_ceiling": "Image-only automated measurement feasibility. No coordinates were read; this run cannot estimate spatial randomness, morph frequencies, botanical morph identity, boundaries or universality.",
+  "contract_sha256": "b698286ca785358aff32d3944251b55caa8ab545b3ec07549a6647a528a8f3e0",
+  "elapsed_seconds_new_inference": 1.0732498168945312,
+  "environment": {
+    "batch_size": 4,
+    "device": "cpu",
+    "platform": "Windows-10-10.0.22621-SP0",
+    "python": "3.10.11",
+    "torch": "2.11.0+cpu",
+    "torch_threads": 8,
+    "transformers": "4.57.6"
+  },
+  "extractor_source_sha256": "969defe35224c06b422fa1b9e20b53e9f352a399461bba489305e8c774f559a7",
+  "gates": {
+    "background_required_for_photo_admission": false,
+    "max_flip_delta_e": 5.0,
+    "max_prompt_delta_e": 10.0,
+    "min_effective_pixels": 100.0,
+    "min_flip_soft_iou": 0.5,
+    "min_valid_positive_prompts": 2
+  },
+  "limit_encounters_per_species": 0,
+  "model_file_sha256": {
+    "README.md": "c1e26ac022542015a04d804460bdc1159d753c4349b628e086f127475d2fcf25",
+    "config.json": "c023375966d31b3b1392764f7bd91df47098ce19f62f11b0263d8eedcf708bcd",
+    "merges.txt": "9fd691f7c8039210e0fced15865466c65820d09b63988b0174bfe25de299051a",
+    "model.safetensors": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+    "preprocessor_config.json": "4fb09ebcfd7651205ca8299b993c30088e5535ef350a72d46c5c4580eeac0440",
+    "special_tokens_map.json": "c4864a9376a8401918425bed71fc14fc0e81f9b59ec45c1cf96cccb2df508eac",
+    "tokenizer_config.json": "4c75d57fd9bd0be8478ad2d6f8b9cebdd4a45338eb108547329c2b6333476ca6",
+    "vocab.json": "e089ad92ba36837a0d31433e555c8f45fe601ab5c221d4f607ded32d9f7a4349"
+  },
+  "model_id": "CIDAS/clipseg-rd64-refined",
+  "model_revision": "999e0328d9e10b484360c477313983f9afdd7050",
+  "prompts": {
+    "negative": [
+      "leaves",
+      "background"
+    ],
+    "positive": [
+      "flower",
+      "petals",
+      "blossom"
+    ]
+  },
+  "protocol": "fcp-inaturalist-automated-colour-state-v2",
+  "run_manifest_sha256": "70bfebb5b865d22c95fffac10cb6122164c05b4e88271ec7b1c3150e38757096",
+  "seed": "fcp-inaturalist-automated-colour-state-v2",
+  "selected_encounters": 480,
+  "selected_photos": 886,
+  "selection": "all development encounters",
+  "source_artifact_reference": "private location-free development review packet",
+  "species_summary": [
+    {
+      "admitted_encounter_share": 0.6125,
+      "admitted_encounters": 49,
+      "admitted_photos": 70,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 49,
+      "canonical_name": "Digitalis purpurea",
+      "selected_encounters": 80,
+      "selected_photos": 135
+    },
+    {
+      "admitted_encounter_share": 0.9125,
+      "admitted_encounters": 73,
+      "admitted_photos": 116,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 73,
+      "canonical_name": "Erythranthe lewisii",
+      "selected_encounters": 80,
+      "selected_photos": 156
+    },
+    {
+      "admitted_encounter_share": 0.625,
+      "admitted_encounters": 50,
+      "admitted_photos": 62,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 50,
+      "canonical_name": "Hepatica nobilis",
+      "selected_encounters": 80,
+      "selected_photos": 106
+    },
+    {
+      "admitted_encounter_share": 0.85,
+      "admitted_encounters": 68,
+      "admitted_photos": 106,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 68,
+      "canonical_name": "Hesperis matronalis",
+      "selected_encounters": 80,
+      "selected_photos": 157
+    },
+    {
+      "admitted_encounter_share": 0.9625,
+      "admitted_encounters": 77,
+      "admitted_photos": 132,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 77,
+      "canonical_name": "Orchis mascula",
+      "selected_encounters": 80,
+      "selected_photos": 169
+    },
+    {
+      "admitted_encounter_share": 0.6,
+      "admitted_encounters": 48,
+      "admitted_photos": 83,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 48,
+      "canonical_name": "Protea repens",
+      "selected_encounters": 80,
+      "selected_photos": 163
+    }
+  ],
+  "status": "complete_automated_colour_state_development_feasibility_not_spatial"
+}

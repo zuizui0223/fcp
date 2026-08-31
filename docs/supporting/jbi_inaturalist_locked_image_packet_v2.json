@@ -1,0 +1,58 @@
+{
+  "annotation_partition": "locked_60_only",
+  "artifact_manifest_sha256": "38d9793b91649a97d2e965982c3d781dde0d43cac8f9c8840b22c81e3ba03d9d",
+  "automated_colour_protocol": "fcp-inaturalist-automated-colour-state-v2",
+  "claim_ceiling": "Locked image acquisition and integrity only. No candidate colour, spatial organization, botanical morph, population frequency, mechanism or universality is established.",
+  "coordinates_joined": false,
+  "created_at_utc": "2026-08-28T08:35:18.021987+00:00",
+  "development_gate_sha256": "68237596c811c83701e91e08527b020f5250fcdba310b6dca944d9a19384148b",
+  "human_judgement_used": false,
+  "input_sheet_role": "location-free extractor compatibility only; blank human fields are ignored",
+  "locked_encounters": 360,
+  "locked_photos": 717,
+  "multi_photo_encounters": 179,
+  "passed_species": [
+    "Erythranthe lewisii",
+    "Hesperis matronalis",
+    "Orchis mascula"
+  ],
+  "protocol": "fcp-inaturalist-automated-colour-locked-packet-v2",
+  "source_artifact_manifest_sha256": "e1d652f178a7a6268fff0ecc45a54dec1fe8100c4bada141213a70b8b48d4d64",
+  "source_artifact_reference": "private moving-API development sample",
+  "species_summary": [
+    {
+      "canonical_name": "Erythranthe lewisii",
+      "image_height_min": 281,
+      "image_width_min": 237,
+      "locked_encounters": 120,
+      "luminance_p01_median": 17.0,
+      "luminance_p99_median": 226.0,
+      "multi_photo_encounters": 66,
+      "photos_per_encounter_mean": 2.1,
+      "reusable_photos": 252
+    },
+    {
+      "canonical_name": "Hesperis matronalis",
+      "image_height_min": 228,
+      "image_width_min": 225,
+      "locked_encounters": 120,
+      "luminance_p01_median": 20.0,
+      "luminance_p99_median": 225.0,
+      "multi_photo_encounters": 59,
+      "photos_per_encounter_mean": 1.8833333333333333,
+      "reusable_photos": 226
+    },
+    {
+      "canonical_name": "Orchis mascula",
+      "image_height_min": 332,
+      "image_width_min": 225,
+      "locked_encounters": 120,
+      "luminance_p01_median": 20.0,
+      "luminance_p99_median": 225.0,
+      "multi_photo_encounters": 54,
+      "photos_per_encounter_mean": 1.9916666666666667,
+      "reusable_photos": 239
+    }
+  ],
+  "status": "complete_location_free_locked_image_packet_pending_automated_measurement"
+}

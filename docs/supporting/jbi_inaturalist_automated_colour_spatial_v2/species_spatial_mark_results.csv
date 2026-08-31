@@ -1,0 +1,4 @@
+canonical_name,locked_encounters,admitted_encounters,admitted_encounter_share,background_control_encounters,background_control_encounter_share,primary_rho,primary_p_greater,primary_bh_q,leave_top_observer_rho,flower_minus_background_rho,contrast_p_greater,contrast_bh_q,spatial_claim_status,leave_top_observer_n,background_rho
+Erythranthe lewisii,120,101,0.8416666666666667,101,1.0,0.007735753532729214,0.3979,0.59685,0.0014930650288366625,0.04356050348766461,0.1702,0.5105999999999999,spatial_organization_not_detected,7,-0.0358247499549354
+Hesperis matronalis,120,97,0.8083333333333333,97,1.0,-0.0582161511391038,0.9637,0.9636999999999999,-0.05650768065062535,-0.10022023377470603,0.9664,0.9664,spatial_organization_not_detected,2,0.04200408263560223
+Orchis mascula,120,108,0.9,108,1.0,0.01995986362441413,0.3364,0.59685,0.012062237701727888,-0.08759430241419748,0.9212,0.9664,spatial_organization_not_detected,3,0.1075541660386116

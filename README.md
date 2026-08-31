@@ -30,10 +30,15 @@ Their samples, response variables, null models and claims are distinct. Neither 
 
 - **Prospective protocol:** [`docs/JBI_IMAGE_FIRST_ATLAS_PROTOCOL.md`](docs/JBI_IMAGE_FIRST_ATLAS_PROTOCOL.md)
 - **Current gate and execution status:** [`docs/JBI_IMAGE_FIRST_ATLAS_STATUS.md`](docs/JBI_IMAGE_FIRST_ATLAS_STATUS.md)
+- **Locked automated-colour pilot manuscript:** [`docs/JBI_INATURALIST_AUTOMATED_COLOUR_PILOT_MANUSCRIPT.md`](docs/JBI_INATURALIST_AUTOMATED_COLOUR_PILOT_MANUSCRIPT.md)
+- **Frozen pilot result:** [`docs/JBI_INATURALIST_AUTOMATED_COLOUR_PILOT_RESULTS.md`](docs/JBI_INATURALIST_AUTOMATED_COLOUR_PILOT_RESULTS.md)
+- **Automated measurement protocol:** [`docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md`](docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md)
 - **Pre-image contract:** [`docs/supporting/jbi_image_first_atlas_contract_v1.json`](docs/supporting/jbi_image_first_atlas_contract_v1.json)
 - **Metadata/geometry module:** [`fcp_pipeline/image_first_atlas.py`](fcp_pipeline/image_first_atlas.py)
 - **Metadata freeze workflow:** [`.github/workflows/jbi-image-first-atlas-metadata.yml`](.github/workflows/jbi-image-first-atlas-metadata.yml)
 - **12-species precursor retained for audit:** [`docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md`](docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md)
+
+The first independent image-measurement admissibility study is complete. Three of six development species passed location-free image gates; all three passed the locked completeness gate, but none rejected the frozen species-conditioned random-mark null. This is retained as a publishable negative validation and explicit STOP. The 20,200 images in the 50-species atlas freeze remain unopened pending an independent flower-tissue localization and signal-recovery benchmark.
 
 ### Frozen Chapter 1 — held-out spatial analysis
 

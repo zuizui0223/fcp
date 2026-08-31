@@ -1,0 +1,9 @@
+# Validated isolated development environment; model weights are cached separately.
+torch==2.11.0
+torchvision==0.26.0
+transformers==4.57.6
+huggingface_hub==0.36.0
+safetensors==0.6.2
+numpy==2.2.6
+Pillow==12.2.0
+scikit-image==0.25.2

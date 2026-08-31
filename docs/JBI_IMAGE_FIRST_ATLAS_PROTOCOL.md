@@ -75,6 +75,10 @@ Every photo must resolve to one of:
 
 There is no manual biological morph label and no post-hoc threshold rescue. ROI completeness and background-contamination gates are evaluated before coordinates and colour fields are joined for inference.
 
+The first admissibility implementation, `fcp-inaturalist-automated-colour-state-v2`, is frozen separately in `docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md`. It uses a pinned CLIPSeg revision to produce soft **flower-candidate** weights, not verified flower-tissue masks. In its independent locked test, three development-passing species all passed completeness but none rejected the fixed spatial random-mark null. Consequently, that implementation is not automatically promoted to the 50-species cohort.
+
+Before bulk atlas pixels can be opened, a new estimator-qualification subgate must freeze and pass (i) an independent flower-tissue localization benchmark and (ii) signal-recovery simulations for the exact downstream transition statistic. This is a measurement-validity gate, not an opportunity to retune against the observed three-species spatial results.
+
 ## Gate 4 — continuous colour and within-species spatial fields
 
 Flower ROI pixels are converted to continuous perceptual-colour features. Calibration-only transformations may be species-specific; held-out colour values cannot tune representation or admission.
@@ -119,6 +123,7 @@ Sparse strata follow only the frozen adjacent cyclic merge rule or become `not_e
 - A failed scale, species or ROI gate is retained as failure or `not_evaluable`.
 - No colour-dependent retuning, silent data repair or literature-led replacement is allowed.
 - Environmental and historical overlays remain post-discovery and cannot rescue the primary shared-concentration gate.
+- The completed three-species non-detection stops bulk atlas pixel opening until the independent estimator-qualification subgate passes; it cannot be bypassed by adding species or relaxing image gates.
 
 ## Implemented interfaces
 

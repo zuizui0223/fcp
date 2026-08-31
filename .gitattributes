@@ -1,0 +1,11 @@
+# Frozen automated-colour artefacts use byte-exact hashes across operating systems.
+docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md -text whitespace=-trailing-space
+requirements-inaturalist-auto-colour.txt -text
+scripts/data/extract_inaturalist_automated_colour_states.py -text
+scripts/data/audit_inaturalist_automated_colour_cache.py -text
+scripts/data/evaluate_inaturalist_automated_colour_development_gate.py -text
+scripts/data/run_inaturalist_automated_colour_spatial_marks.py -text
+scripts/analysis/make_jbi_inaturalist_automated_colour_pilot_figures.py -text
+docs/supporting/jbi_inaturalist_automated_colour_development_gate_v2.json -text whitespace=-trailing-space
+docs/supporting/jbi_inaturalist_automated_colour_locked_analysis_input_v2.csv -text
+docs/supporting/jbi_inaturalist_automated_colour_spatial_v2/*.csv -text

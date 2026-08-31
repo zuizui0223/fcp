@@ -4,9 +4,9 @@
 
 The active mainline is the image-first global flower-colour atlas. The former PR #21 target of 12 literature-selected species × 200 photographs is retained as a completed metadata-method precursor, not as the terminal cohort or confirmatory design.
 
-Current gate: **metadata and geometry frozen before image pixels; flower-ROI measurement contract is next**.
+Current gate: **metadata and geometry remain frozen; bulk atlas image opening is stopped pending estimator validation**.
 
-No atlas candidate image pixel, flower ROI or continuous colour value has been opened. Therefore no atlas colour field, transition boundary or shared-boundary result exists yet.
+A separate, preregistered location-blind image-measurement admissibility study is now complete. It used six development species and an independent locked partition for the three species that passed every image gate. All three locked spatial tests were non-significant under the frozen combined rule. The atlas candidate pixels themselves remain unopened, so no 50-species colour field, transition boundary or shared-boundary result exists.
 
 ## Completed and immutable
 
@@ -46,8 +46,21 @@ Focused local validation: `tests/test_image_first_atlas.py` — **8 passed**. At
 
 The repository-wide pytest collection additionally requires the pre-existing optional Florence stack (`transformers==5.16.1`); it is validated in its dedicated workflow and is not imported by the metadata gate.
 
+## Completed automated-colour admissibility study
+
+The frozen `fcp-inaturalist-automated-colour-state-v2` workflow used a pinned CLIPSeg revision, three positive and two negative prompts, continuous CIELAB features, prompt/reflection stability gates and a coordinate firewall.
+
+- Development: 480 encounters and 886 photographs across six species; three species passed and three became `not_evaluable`.
+- Locked: 360 encounters and 717 photographs across the three passing species.
+- Cache audit: 717/717 valid records, with zero missing, partial or unexpected records.
+- Locked admission: 101, 97 and 108 encounters for *Erythranthe lewisii*, *Hesperis matronalis* and *Orchis mascula*, respectively.
+- Spatial confirmation: no species rejected the 9,999-permutation species-conditioned random-mark null after BH correction; primary q values were 0.59685, 0.9637 and 0.59685.
+- Observer-removal and flower-minus-background requirements did not rescue any species.
+
+The frozen decision is `spatial_organization_not_detected` for all three species. This does not prove spatial randomness and does not revise the six-species Chapter 1 result, which used different species, image measurement and statistic.
+
 ## Next allowed gate
 
-Write and freeze the flower-ROI measurement contract: model revision, input image derivative, ROI acceptance/completeness rules, colour calibration and failure states. Do not open the 20,200 candidate image pixels until that contract and its validator pass.
+Freeze and pass an independent flower-tissue localization benchmark and signal-recovery simulation for the exact atlas estimator. The benchmark must be scored without coordinates and must quantify localization completeness, contamination and attenuation under the already declared 100/250/500-km analysis scales. Its pass/fail rule must be committed before the atlas benchmark images are scored.
 
-The present freeze establishes metadata and geometry feasibility only. It is not evidence for a flower-colour field, a transition boundary or cross-species shared-boundary concentration.
+Until that gate passes, do not open the 20,200 atlas candidate images, reconstruct atlas colour fields or run shared-boundary concentration. The metadata freeze and the negative three-species validation are publishable results; neither is evidence for a 50-species colour boundary.

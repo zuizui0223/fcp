@@ -1,0 +1,213 @@
+{
+  "claim_ceiling": "Species-free display and frozen three-species result summary; the map is not inferential evidence and crops are model-consensus flower candidates, not verified flower tissue.",
+  "display_species_labels_removed": true,
+  "displayed_photo_audit": [
+    {
+      "encounter_blind_id": "FCP-76F827D1D7E3BE39",
+      "image_sha256": "74f18b868b6db8c6a7eb3a1b3c20ccc4392d9324164b0d38ae7274811cb30e58",
+      "longitude": -132.8631896973,
+      "photo_attribution": "(c) Eric Castro, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-76F827D1D7E3BE39-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-67A9AEEA222A53DA",
+      "image_sha256": "3682476c56a71ca11303416e649d5198fc26de8f00d7844c292f24fbb8befe35",
+      "longitude": -122.6653594971,
+      "photo_attribution": "no rights reserved",
+      "photo_blind_id": "FCP-67A9AEEA222A53DA-P01",
+      "photo_license": "cc0"
+    },
+    {
+      "encounter_blind_id": "FCP-991B2316EACEBFF4",
+      "image_sha256": "8b7af4f26bd41fa776b7e9dff936d606ca12da25e5ec81dfbbc625ac68c46348",
+      "longitude": -121.6779166667,
+      "photo_attribution": "(c) Todd Huang, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-991B2316EACEBFF4-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-A48ADE3C7D9D88B3",
+      "image_sha256": "4b25d628f0281a45c2277c30a61e5f9388f62708887f462c6b251c6eb86bf68c",
+      "longitude": -121.1494445,
+      "photo_attribution": "(c) Matt Berger, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-A48ADE3C7D9D88B3-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-7CA8FB9CB6C4B49E",
+      "image_sha256": "2927a3e04dd5c1fec4320087436220067ed71a60d45c55e72a8376a828e6c4f4",
+      "longitude": -118.241195,
+      "photo_attribution": "no rights reserved",
+      "photo_blind_id": "FCP-7CA8FB9CB6C4B49E-P03",
+      "photo_license": "cc0"
+    },
+    {
+      "encounter_blind_id": "FCP-BDBF481B053CD4EA",
+      "image_sha256": "250014b9c8c0f702c4fde2e24c7bb5ddc19483920e0d057732bdd057f4ae31f2",
+      "longitude": -115.8197333333,
+      "photo_attribution": "(c) Daniel Kennedy, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-BDBF481B053CD4EA-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-B4F88AD977758CA7",
+      "image_sha256": "8712bd71c4328e679f9837f979077adaae07a13e693f0de4c7f6ed3830a254f3",
+      "longitude": -114.27787763,
+      "photo_attribution": "(c) J Straka, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-B4F88AD977758CA7-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-9DB9184975DCD8CB",
+      "image_sha256": "b328c7403ce12147ed2b3a3ed938aad2bcb410ec1710882d9e1c7f19532a39ed",
+      "longitude": -112.619705,
+      "photo_attribution": "(c) Kenzie Anderson-Bell, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-9DB9184975DCD8CB-P02",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-BB872537AB208725",
+      "image_sha256": "49eaf372d46eb33912c99538365c66d08be604c9635cc6313404292d5f27978b",
+      "longitude": -109.5160533333,
+      "photo_attribution": "(c) Whitney Brook Matson, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-BB872537AB208725-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-75564D33709FBA9F",
+      "image_sha256": "ca5e59479f9011c889774bab1189c11a96206bb02237d0c73c7c54b2d8b93d7c",
+      "longitude": -93.7397833333,
+      "photo_attribution": "no rights reserved",
+      "photo_blind_id": "FCP-75564D33709FBA9F-P03",
+      "photo_license": "cc0"
+    },
+    {
+      "encounter_blind_id": "FCP-1B1C2C35E06072E5",
+      "image_sha256": "98449dac640709c6e3da9bba056de1793717e27785c30a3fc086899a872268f3",
+      "longitude": -83.9066467285,
+      "photo_attribution": "no rights reserved",
+      "photo_blind_id": "FCP-1B1C2C35E06072E5-P01",
+      "photo_license": "cc0"
+    },
+    {
+      "encounter_blind_id": "FCP-1D449F79EA7F30BE",
+      "image_sha256": "8df670e36ede51fbabefefc08a245fe71495a355f6534f33463c5b0b7a0d6d1b",
+      "longitude": -78.431053591,
+      "photo_attribution": "(c) Matthew Gerke, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-1D449F79EA7F30BE-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-511101E1362F26CF",
+      "image_sha256": "d4380fc52bb9e098ebe1c2a9d464b870a5634744d9efcfcfa79d1cda2a172cd8",
+      "longitude": -71.6329333333,
+      "photo_attribution": "(c) Lythronax246, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-511101E1362F26CF-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-A9E46AFC58DD3964",
+      "image_sha256": "45016cdb3f167040534c6f644cb43f84e4324a6ee66a211ce55dd0d780f66934",
+      "longitude": -6.9333208737,
+      "photo_attribution": "(c) \u00d3scar Sampedro, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-A9E46AFC58DD3964-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-48CCBB946A408768",
+      "image_sha256": "c52150c65cbe3ab00d7fee422def4bd0e48b858039e1820f519229a283306859",
+      "longitude": -4.24725544,
+      "photo_attribution": "(c) Y. Liu, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-48CCBB946A408768-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-D5471E96CE664131",
+      "image_sha256": "d5ef3c060c1c5c7c1dc0ebfae771531236e87ed9afedf006643600db855b0eff",
+      "longitude": -2.8537832201,
+      "photo_attribution": "no rights reserved",
+      "photo_blind_id": "FCP-D5471E96CE664131-P02",
+      "photo_license": "cc0"
+    },
+    {
+      "encounter_blind_id": "FCP-B39CDC3C45233EDA",
+      "image_sha256": "dc880b2e0a211950dd6686e95c6fba9d8edca80c378ee0a2c3f469d07f50dad4",
+      "longitude": -0.6157947866,
+      "photo_attribution": "no rights reserved",
+      "photo_blind_id": "FCP-B39CDC3C45233EDA-P01",
+      "photo_license": "cc0"
+    },
+    {
+      "encounter_blind_id": "FCP-B1D44C5B4BC29C59",
+      "image_sha256": "76860f181da7b88abd2f9c0aaac2d493dd401fbdaecb957d3b16bd66e5ed3885",
+      "longitude": 3.0562272072,
+      "photo_attribution": "(c) Marie-Lan Ta\u00ff Pamart, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-B1D44C5B4BC29C59-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-247789135B33A5AD",
+      "image_sha256": "70bb68e6921377a29a938709bcc71789204b170c5bb77eb5268fd0adb201edab",
+      "longitude": 6.1278998946,
+      "photo_attribution": "(c) MichellePrice_CJBG, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-247789135B33A5AD-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-B9535CC45C35C9DF",
+      "image_sha256": "b2abb553079b6e9d6ee468fa7997b35142a4ef89cfb90a9ba1ae387139b0e2e6",
+      "longitude": 9.18488003,
+      "photo_attribution": "no rights reserved",
+      "photo_blind_id": "FCP-B9535CC45C35C9DF-P01",
+      "photo_license": "cc0"
+    },
+    {
+      "encounter_blind_id": "FCP-022B169A9510EB19",
+      "image_sha256": "031362053dba4e6302d638b9680520d655b30af3e89133fb6b5d8ad72c2a6927",
+      "longitude": 10.6088367105,
+      "photo_attribution": "(c) Stefan Ehl, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-022B169A9510EB19-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-BDFAA5726F511540",
+      "image_sha256": "822b5f7e2751ad63084f5de393ea7f43436a0cba988899c17210179943e14664",
+      "longitude": 14.9179077521,
+      "photo_attribution": "no rights reserved",
+      "photo_blind_id": "FCP-BDFAA5726F511540-P01",
+      "photo_license": "cc0"
+    },
+    {
+      "encounter_blind_id": "FCP-7105DBFD5AE76885",
+      "image_sha256": "366cbc3a5fcb6d584ab9841e2d0fb2712fafd54d30bb88f7559accbeedb6d1f4",
+      "longitude": 37.911255,
+      "photo_attribution": "(c) \u0418\u043b\u044c\u044f \u0420\u0443\u0434\u0435\u043d\u043a\u043e, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-7105DBFD5AE76885-P01",
+      "photo_license": "cc-by"
+    },
+    {
+      "encounter_blind_id": "FCP-4B859EF7B33C1BE4",
+      "image_sha256": "0085d8fe8578c8e0b5b81771ab11c6e05b5f8e6437fdb0260fb495193b419eef",
+      "longitude": 50.2022510022,
+      "photo_attribution": "(c) \u0410\u043d\u043d\u0430 \u041c\u0438\u0442\u0440\u043e\u0448\u0435\u043d\u043a\u043e\u0432\u0430, some rights reserved (CC BY)",
+      "photo_blind_id": "FCP-4B859EF7B33C1BE4-P01",
+      "photo_license": "cc-by"
+    }
+  ],
+  "inference_species_conditioned": true,
+  "output_sha256": {
+    "jbi_inaturalist_automated_colour_pilot_figure1_atlas.png": "bffd28ffb428d7cd8b6b013f582be3dde1ab293221a794002bed14ade7ad9ffa",
+    "jbi_inaturalist_automated_colour_pilot_figure2_results.png": "4f47d61a078eb817accbf96869f1815a7ac5b7ef64c1ba714e83b962b2a972b0"
+  },
+  "photo_bar_crop": "central 90% CLIPSeg flower-candidate soft-mask mass plus 12% padding; display only",
+  "photo_bar_selection": "24 equally spaced positions after sorting admitted encounters by longitude; first admitted photo blind ID per encounter",
+  "source_sha256": {
+    "analysis_table": "0ab6e9a5afd78d5e6c74c8a49365004bcc8de570bbaf0ee18c2c3dd29df1cb7f",
+    "development_gate": "68237596c811c83701e91e08527b020f5250fcdba310b6dca944d9a19384148b",
+    "figure_script": "fcdad1262befc6b4b45a3228a9dbaaa414d30ee5d10ce0361019fbddaf595284",
+    "photo_features": "2c8da79090ebc3ee0f2eb1a61761e11a927bd862a960db5520630d0baea74ad8",
+    "spatial_results": "072d8c8fb54088488a355b60f144d1f1e8a66842736cd5ab143c7a7888fd6c55"
+  },
+  "status": "complete_automated_colour_pilot_figures"
+}

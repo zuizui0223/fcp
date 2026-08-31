@@ -1,0 +1,25 @@
+{
+  "biological_conclusion_allowed": false,
+  "cache_files_present": 717,
+  "claim_ceiling": "Cache integrity/progress only; partial admission counts are not biological or spatial results.",
+  "contract_sha256": "b698286ca785358aff32d3944251b55caa8ab545b3ec07549a6647a528a8f3e0",
+  "errors": [],
+  "expected_photos": 717,
+  "missing_cache_records": 0,
+  "partial_files": 0,
+  "partition": "locked_60_development_passing_species_only",
+  "protocol": "fcp-inaturalist-automated-colour-state-v2",
+  "spatial_fields_opened": false,
+  "status": "complete_validated_cache",
+  "status_counts": {
+    "automated_colour_state_admitted": 508,
+    "automated_colour_state_not_evaluable": 209
+  },
+  "unexpected_cache_records": 0,
+  "valid_cache_records": 717,
+  "valid_records_by_species": {
+    "Erythranthe lewisii": 252,
+    "Hesperis matronalis": 226,
+    "Orchis mascula": 239
+  }
+}

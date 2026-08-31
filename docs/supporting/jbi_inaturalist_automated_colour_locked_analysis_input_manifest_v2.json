@@ -1,0 +1,20 @@
+{
+  "admitted_rows": 306,
+  "claim_ceiling": "Reproducible input for the frozen three-species random-mark test only. Rows are model-consensus flower-candidate colour measurements, not verified flower tissue, botanical morphs or population frequencies.",
+  "exporter_sha256": "8d806b216b8175ab9f0d0ab7a3c6dad382007d754168749426a42dd72273f563",
+  "privacy_transform": {
+    "non_admitted_coordinates_removed": true,
+    "observation_and_photo_identifiers_present": false,
+    "observer_id": "species-scoped rank-preserving pseudonym with an 8-hex protocol-scoped SHA-256 suffix"
+  },
+  "protocol": "fcp-inaturalist-automated-colour-state-v2",
+  "public_table_sha256": "0ab6e9a5afd78d5e6c74c8a49365004bcc8de570bbaf0ee18c2c3dd29df1cb7f",
+  "rows": 360,
+  "source_private_sha256": "a57f15eb24a72d251f71595b93b986d67eb75f19bf6c6504260abb8a84d40ea6",
+  "species": [
+    "Erythranthe lewisii",
+    "Hesperis matronalis",
+    "Orchis mascula"
+  ],
+  "status": "complete_public_locked_analysis_table"
+}

@@ -1,0 +1,22 @@
+{
+  "artifact_manifest_sha256": "38d9793b91649a97d2e965982c3d781dde0d43cac8f9c8840b22c81e3ba03d9d",
+  "bad_image_decodes": 0,
+  "bad_image_hashes": 0,
+  "biological_conclusion_allowed": false,
+  "claim_ceiling": "Locked packet integrity only; no colour or spatial result.",
+  "coordinates_joined": false,
+  "errors": [],
+  "human_outcome_cells_nonblank": 0,
+  "locked_encounters": 360,
+  "locked_photos": 717,
+  "missing_images": 0,
+  "partial_files": 0,
+  "prohibited_input_columns": [],
+  "protocol": "fcp-inaturalist-automated-colour-locked-packet-validation-v2",
+  "species": [
+    "Erythranthe lewisii",
+    "Hesperis matronalis",
+    "Orchis mascula"
+  ],
+  "status": "pass"
+}

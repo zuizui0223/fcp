@@ -1,0 +1,75 @@
+{
+  "claim_ceiling": "Within selected development-passing species, model-consensus flower-candidate colour states did or did not reject a frozen locked species-conditioned random-mark null. The result does not verify flower tissue, botanical morphs, mechanisms or universality.",
+  "fdr_q": 0.05,
+  "mechanism_claim_allowed": false,
+  "output_sha256": {
+    "descriptive_equal_pair_variogram.csv": "3746aa8defb5686321b57301fdaba95c237e808dbbb47c14b8226597bee54e2a",
+    "species_spatial_mark_results.csv": "072d8c8fb54088488a355b60f144d1f1e8a66842736cd5ab143c7a7888fd6c55"
+  },
+  "permutations": 9999,
+  "protocol": "fcp-inaturalist-automated-colour-state-v2",
+  "seed": "fcp-inaturalist-automated-colour-state-v2",
+  "source_sha256": {
+    "development_gate": "68237596c811c83701e91e08527b020f5250fcdba310b6dca944d9a19384148b",
+    "locked_table": "0ab6e9a5afd78d5e6c74c8a49365004bcc8de570bbaf0ee18c2c3dd29df1cb7f",
+    "runner": "07bdb123cfebc1e3ab9e277cb9ad41de5b86fa41006feb2742fd28db515eef07"
+  },
+  "species_results": [
+    {
+      "admitted_encounter_share": 0.8416666666666667,
+      "admitted_encounters": 101,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 101,
+      "background_rho": -0.0358247499549354,
+      "canonical_name": "Erythranthe lewisii",
+      "contrast_bh_q": 0.5105999999999999,
+      "contrast_p_greater": 0.1702,
+      "flower_minus_background_rho": 0.04356050348766461,
+      "leave_top_observer_n": 7,
+      "leave_top_observer_rho": 0.0014930650288366625,
+      "locked_encounters": 120,
+      "primary_bh_q": 0.59685,
+      "primary_p_greater": 0.3979,
+      "primary_rho": 0.007735753532729214,
+      "spatial_claim_status": "spatial_organization_not_detected"
+    },
+    {
+      "admitted_encounter_share": 0.8083333333333333,
+      "admitted_encounters": 97,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 97,
+      "background_rho": 0.04200408263560223,
+      "canonical_name": "Hesperis matronalis",
+      "contrast_bh_q": 0.9664,
+      "contrast_p_greater": 0.9664,
+      "flower_minus_background_rho": -0.10022023377470603,
+      "leave_top_observer_n": 2,
+      "leave_top_observer_rho": -0.05650768065062535,
+      "locked_encounters": 120,
+      "primary_bh_q": 0.9636999999999999,
+      "primary_p_greater": 0.9637,
+      "primary_rho": -0.0582161511391038,
+      "spatial_claim_status": "spatial_organization_not_detected"
+    },
+    {
+      "admitted_encounter_share": 0.9,
+      "admitted_encounters": 108,
+      "background_control_encounter_share": 1.0,
+      "background_control_encounters": 108,
+      "background_rho": 0.1075541660386116,
+      "canonical_name": "Orchis mascula",
+      "contrast_bh_q": 0.9664,
+      "contrast_p_greater": 0.9212,
+      "flower_minus_background_rho": -0.08759430241419748,
+      "leave_top_observer_n": 3,
+      "leave_top_observer_rho": 0.012062237701727888,
+      "locked_encounters": 120,
+      "primary_bh_q": 0.59685,
+      "primary_p_greater": 0.3364,
+      "primary_rho": 0.01995986362441413,
+      "spatial_claim_status": "spatial_organization_not_detected"
+    }
+  ],
+  "status": "complete_locked_species_conditioned_random_mark_test",
+  "universality_claim_allowed": false
+}
