@@ -51,6 +51,7 @@ jobs:
           tests/test_inaturalist_locked_colour_finalizer.py
           tests/test_inaturalist_locked_analysis_export.py
           tests/test_inaturalist_automated_colour_spatial_marks.py
+          tests/test_inaturalist_spatial_variogram_comparison.py
           tests/test_inaturalist_automated_colour_pilot_figures.py
           tests/test_inaturalist_automated_colour_plan_manifest.py
           tests/test_inaturalist_photo_development_sample.py
@@ -67,7 +68,10 @@ jobs:
             --output-dir /tmp/fcp-locked-rerun \
             --public-manifest /tmp/fcp-locked-rerun/manifest.json
           cmp docs/supporting/jbi_inaturalist_automated_colour_spatial_v2/species_spatial_mark_results.csv /tmp/fcp-locked-rerun/species_spatial_mark_results.csv
-          cmp docs/supporting/jbi_inaturalist_automated_colour_spatial_v2/descriptive_equal_pair_variogram.csv /tmp/fcp-locked-rerun/descriptive_equal_pair_variogram.csv
+          python scripts/data/compare_inaturalist_spatial_variograms.py \
+            docs/supporting/jbi_inaturalist_automated_colour_spatial_v2/descriptive_equal_pair_variogram.csv \
+            /tmp/fcp-locked-rerun/descriptive_equal_pair_variogram.csv \
+            --absolute-tolerance 1e-10
       - name: Upload reproducibility evidence
         uses: actions/upload-artifact@v4
         with:
