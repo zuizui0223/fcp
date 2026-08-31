@@ -12,6 +12,7 @@ from fcp_pipeline.flower_roi_v4 import (
     letterbox_geometry,
     select_prompt_mask,
     summarize_composite_gate,
+    validate_reference_size_amendment,
     validate_roi_v4_contract,
 )
 
@@ -29,6 +30,12 @@ def test_contract_is_prospective_and_pinned() -> None:
     changed["detector"]["inference"]["confidence_minimum"] = 0.24
     with pytest.raises(ValueError):
         validate_roi_v4_contract(changed)
+    amendment = json.loads(
+        Path("docs/supporting/jbi_atlas_roi_v4_reference_size_amendment_v1.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    validate_reference_size_amendment(amendment)
 
 
 def test_letterbox_and_box_mapping() -> None:

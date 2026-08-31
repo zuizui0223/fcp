@@ -10,6 +10,7 @@ import numpy as np
 
 
 PROTOCOL = "jbi-atlas-roi-estimator-v4"
+REFERENCE_SIZE_AMENDMENT_PROTOCOL = "jbi-atlas-roi-v4-reference-size-amendment-v1"
 CANVAS_SIZE = 1024
 
 
@@ -82,6 +83,25 @@ def validate_roi_v4_contract(contract: Mapping[str, Any]) -> None:
         or measurement.get("horizontal_flip_colour_delta_e_maximum") != 5.0
     ):
         raise ValueError("ROI v4 admission changed")
+
+
+def validate_reference_size_amendment(amendment: Mapping[str, Any]) -> None:
+    if amendment.get("protocol") != REFERENCE_SIZE_AMENDMENT_PROTOCOL:
+        raise ValueError("unexpected ROI v4 reference-size amendment")
+    firewall = amendment.get("outcome_firewall", {})
+    bins = amendment.get("frozen_reference_size_bins_on_512_equivalent_canvas", {})
+    if (
+        firewall.get("v4_jrc_development_prediction_run") is not False
+        or firewall.get("jrc_locked_test_images_decoded_or_scored") is not False
+        or firewall.get("scaleout_candidate_pixels_opened") is not False
+        or bins
+        != {
+            "small": "clipped reference-box area < 1024 pixels",
+            "medium": "1024 <= clipped reference-box area < 9216 pixels",
+            "large": "clipped reference-box area >= 9216 pixels",
+        }
+    ):
+        raise ValueError("ROI v4 reference-size amendment changed")
 
 
 def letterbox_geometry(width: int, height: int) -> dict[str, int | float]:
