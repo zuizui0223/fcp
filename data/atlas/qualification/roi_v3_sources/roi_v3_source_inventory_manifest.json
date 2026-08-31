@@ -1,0 +1,52 @@
+{
+  "contract_path": "docs/supporting/jbi_atlas_roi_estimator_contract_v3.json",
+  "contract_sha256_lf_canonical_v1": "99b66870767462a5d8e2de74b365fffa1b23f2480f4befe3b07f77f51633f9ad",
+  "cross_source_exact_duplicates": 0,
+  "estimator_predictions_run": false,
+  "files": {
+    "jrc_flower_detection_source_inventory_v1.csv": "c30d40a5333327c1c6d8ea183d274d8a784a6990bf3cc98e69e158db6a8e9e4c",
+    "oxford102_roi_proxy_source_inventory_v1.csv": "032a5a79ddee53aad15a7f1b88f848f480706bf4aacb135917ff1324fba3b6cf"
+  },
+  "jrc": {
+    "boxes": 9516,
+    "exact_internal_duplicates": 0,
+    "image_bytes": 335373825,
+    "images": 500,
+    "split_images": {
+      "test": 100,
+      "train": 400
+    }
+  },
+  "locked_images_decoded": false,
+  "oxford102": {
+    "classes": 102,
+    "full_oxford17_exact_overlap_ids": [
+      3448,
+      3456,
+      4657,
+      4691,
+      6241
+    ],
+    "images": 8189,
+    "internal_exact_duplicate_ids": [
+      7307,
+      7309,
+      7323,
+      7328,
+      7885,
+      7886,
+      8067,
+      8077
+    ],
+    "roles": {
+      "development": 2036,
+      "excluded_exact_duplicate": 13,
+      "locked_proxy": 2040,
+      "quarantine": 4100
+    },
+    "unique_image_hashes": 8185
+  },
+  "protocol": "jbi-atlas-roi-estimator-v3",
+  "scaleout_candidate_pixels_opened": false,
+  "status": "pass_roi_v3_source_inventory_freeze"
+}

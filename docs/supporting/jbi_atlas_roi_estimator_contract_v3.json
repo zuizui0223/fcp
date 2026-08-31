@@ -1,0 +1,155 @@
+{
+  "protocol": "jbi-atlas-roi-estimator-v3",
+  "status": "prospectively_frozen_before_any_estimator_prediction_on_jrc_or_oxford102_and_before_any_scaleout_candidate_pixels",
+  "date": "2026-08-31",
+  "objective": "qualify one prompt-free flower-candidate ROI estimator without weakening the immutable v2 STOP",
+  "parent_inference_contract": {
+    "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json",
+    "sha256_lf_canonical_v1": "598b34bd0c996f2744e7dd9444d10673bdbe39092ba7a3625ce1f9fc003c604d",
+    "git_blob_sha1": "1f5487b727e31b4655eccabc432d58c9a03ad9c4"
+  },
+  "immutable_v2_stop": {
+    "result_path": "docs/supporting/jbi_atlas_oxford17_roi_benchmark_result_v2.json",
+    "result_sha256_lf_canonical_v1": "7db59dd8936f2b72bf95630be59cac90141049c6678ddb0117d011f0c460940a",
+    "rows_path": "data/atlas/qualification/oxford17_roi_benchmark_rows_v2.csv",
+    "rows_sha256_lf_canonical_v1": "ed043d92428fe3a282eca5a291ae75c212f6bb48e6531203275b8dbd1796ab3b",
+    "status": "stop_roi_benchmark_failed",
+    "admitted_fraction": 0.7971698113207547,
+    "minimum_admitted_fraction": 0.8,
+    "rule": "do not rerun, round, retune or reinterpret CLIPSeg v2"
+  },
+  "outcome_firewall": {
+    "scaleout_candidate_pixels_opened": false,
+    "jrc_estimator_predictions_run": false,
+    "oxford102_estimator_predictions_run": false,
+    "jrc_test_images_decoded_or_scored": false,
+    "oxford102_locked_proxy_scored": false,
+    "source_only_inspection_already_performed": "archive hashes, official split metadata, exact duplicate hashes, and the RGB encoding summary of Oxford-102 development proxy image 6765; no estimator output was computed"
+  },
+  "estimator": {
+    "family": "SegFormer-B0 ADE20K semantic segmentation",
+    "model_id": "nvidia/segformer-b0-finetuned-ade-512-512",
+    "revision": "489d5cd81a0b59fab9b7ea758d3548ebe99677da",
+    "model_safetensors_bytes": 15036944,
+    "model_safetensors_sha256": "6ae39addd01de6b1b8bde2cf677d43a5cd733424b8d186de3f95d1c51fee23f9",
+    "config_sha256": "209caa9091e4632f7c8883c11170cd08ad29af68b23c09590aa4a5befb1a2a7f",
+    "preprocessor_config_sha256": "8039d1d210abaa7117ad78e58cdfd6141a2ec72c03dae891b3cd76737e422c6c",
+    "flower_label": 66,
+    "plant_background_control_label": 17,
+    "plant_fallback_permitted": false,
+    "weights_redistributed_in_repository": false,
+    "training_sources_declared_upstream": [
+      "ImageNet-1K encoder pretraining",
+      "ADE20K semantic-segmentation fine-tuning"
+    ],
+    "benchmark_training_overlap": "not_documented",
+    "license": "NVIDIA Source Code License for SegFormer; non-commercial research and evaluation only"
+  },
+  "runtime": {
+    "python": "3.11",
+    "torch": "2.11.0",
+    "transformers": "4.57.6",
+    "huggingface_hub": "0.36.0",
+    "safetensors": "0.6.2",
+    "numpy": "2.2.6",
+    "pillow": "12.2.0",
+    "scikit_image": "0.25.2",
+    "device": "cpu",
+    "deterministic_repeated_mask_required": true,
+    "timing_smoke_must_finish_before_development": true
+  },
+  "preprocessing_and_roi": {
+    "orientation": "apply EXIF orientation then convert once to RGB",
+    "analysis_canvas": "pinned processor resize to 512 by 512 using bilinear resampling; colour and annotations are evaluated on that same canvas",
+    "normalization_mean": [0.485, 0.456, 0.406],
+    "normalization_sd": [0.229, 0.224, 0.225],
+    "logit_rule": "bilinearly upsample the 150-channel logits to 512 by 512 with align_corners=false, then hard argmax",
+    "flower_roi": "every hard class-66 pixel; retain every component",
+    "prohibited": [
+      "probability threshold search",
+      "largest-component selection",
+      "dilation, erosion or hole filling",
+      "centre or colour prior",
+      "class-17 plant fallback",
+      "manual crop or failed-image replacement"
+    ],
+    "minimum_flower_pixels": 100,
+    "minimum_plant_background_control_pixels": 100,
+    "horizontal_flip_mask_iou_minimum": 0.5,
+    "horizontal_flip_colour_delta_e_maximum": 5.0,
+    "recorded_colour_mask": "original-orientation class-66 hard mask only"
+  },
+  "jrc_field_gate": {
+    "source": "European Commission JRC Flower Detection dataset from the 2018 LUCAS grassland module",
+    "doi": "10.2905/JRC.2XJ67GR",
+    "official_base_url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/DRLL/flower_detection/",
+    "annotation_format": "COCO bounding boxes, category_id 1 flower",
+    "licence": "CC BY 4.0",
+    "train_images": 400,
+    "train_boxes": 6992,
+    "test_images": 100,
+    "test_boxes": 2524,
+    "train_annotation_sha256": "7e1d7b45b5720fcf8463aab9c8b154bc03870aa7036a350d95fc40b8c36f35ac",
+    "test_annotation_sha256": "9f81a7a8ff370fac269a5a5132345adac0352343f29296b82d6612e1d5285f99",
+    "readme_sha256": "2b2d0bcc909605a78d2cc9f0be0458610a4b3b4810e7c4d378b280b12d8569e4",
+    "copyright_sha256": "f20723519a580fb35b3499870f0b1baea54f483195105416e547f0014f1610d2",
+    "development_rule": "run all 400 official train images; if the frozen test criteria are not met on train, stop before test",
+    "locked_rule": "after a development pass is committed, run all 100 official test images exactly once",
+    "box_hit_rule": "after scaling a reference box to the 512 canvas, require at least max(9, ceiling(0.05 times box area)) class-66 pixels inside the box",
+    "box_size_bins_on_512_canvas": {
+      "small": "area < 1024",
+      "medium": "1024 <= area < 9216",
+      "large": "area >= 9216"
+    },
+    "acceptance": {
+      "minimum_images": 100,
+      "minimum_admitted_fraction": 0.8,
+      "minimum_pooled_predicted_pixel_precision_inside_box_union": 0.7,
+      "minimum_median_image_predicted_pixel_precision_inside_box_union": 0.7,
+      "minimum_pooled_object_recall": 0.35,
+      "minimum_medium_object_recall": 0.35,
+      "minimum_large_object_recall": 0.5,
+      "small_object_recall": "reported_without_gate"
+    },
+    "failure_rule": "save every row and STOP before atlas image acquisition; never change the test denominator or thresholds"
+  },
+  "oxford102_proxy": {
+    "role": "automatic-segmentation algorithm-agreement sensitivity; never human ground truth and never sufficient alone",
+    "images_url": "https://www.robots.ox.ac.uk/~vgg/data/flowers/102/102flowers.tgz",
+    "images_sha256": "2d01ecc807db462958cfe3d92f57a8c252b4abd240eb955770201e45f783b246",
+    "segmentations_url": "https://www.robots.ox.ac.uk/~vgg/data/flowers/102/102segmentations.tgz",
+    "segmentations_sha256": "6808f69f3cdb4cd38cb54b9fdbcb126856cff40c50d519ce811ffd31936ef8c6",
+    "labels_sha256": "4903e94206bac23bf772aadf06451916df56b58fc483a62db32a97b82656651d",
+    "setid_sha256": "46b8678f91fd95d3c8f4feab80d271a6c834a1dd896fe29fd3e6ad9ce5c8dccd",
+    "official_counts": {
+      "images": 8189,
+      "classes": 102,
+      "train": 1020,
+      "validation": 1020,
+      "test": 6149
+    },
+    "drop_exact_duplicates_against_full_oxford17_ids": [3448, 3456, 4657, 4691, 6241],
+    "drop_all_members_of_internal_duplicate_groups": true,
+    "development": "official train plus validation after exact-duplicate exclusion",
+    "locked_selection": "20 per class from official test by ascending SHA-256 of salt, class, image SHA-256 and image ID after exclusions",
+    "locked_selection_salt": "fcp-atlas-roi-v3-oxford102-balanced-proxy",
+    "locked_images": 2040,
+    "source_mask_limit": "official masks were generated by an automatic iterative MRF and shape procedure and may be empty or erroneous",
+    "failure_rule": "record not_supported algorithm agreement; do not alter the independent JRC decision"
+  },
+  "pixel_gate": {
+    "independent_natural_photo_human_masks": "not_available_from_a_reproducibly_downloadable_complete_archive_at_freeze",
+    "decision": "the paired JRC manual-box field gate and balanced Oxford-102 automatic-mask sensitivity are sufficient only for automated flower-candidate colour claims, not pixel-perfect petal claims",
+    "future_source": "FlowerMaskDataset v1 DOI 10.17632/3pw57gdcj2.1 may supersede this ceiling only after a complete archive is independently acquired and frozen before scoring"
+  },
+  "ordered_execution": [
+    "freeze and validate source inventories without decoding locked images",
+    "run deterministic CPU smoke",
+    "run JRC train development and stop before test unless its locked thresholds pass",
+    "commit the development result and executable identity",
+    "run all 100 JRC test images once",
+    "run the balanced Oxford-102 proxy sensitivity once",
+    "open scaleout images only if the JRC field gate passes and every other inference-v3 dependency passes"
+  ],
+  "claim_ceiling": "automated flower-candidate localization suitable for non-commercial research under the pinned model, with field box localization and automatic-mask agreement quantified; not pixel-perfect petals, taxon-uniform error, calibrated camera colour, pollinator vision, causation or commercial-use permission"
+}
