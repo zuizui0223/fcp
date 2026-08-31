@@ -5,6 +5,7 @@ import numpy as np
 from fcp_pipeline.atlas_signal_recovery import (
     AtlasSpeciesGeometry,
     atlas_shared_concentration,
+    batched_permutation_p_value,
     permutation_p_value,
     synthetic_colour_vectors,
 )
@@ -76,3 +77,14 @@ def test_signal_recovery_permutation_p_value_is_nonzero() -> None:
     )
     assert observed > 0
     assert 0.05 <= p_value <= 1.0
+
+    batched_observed, batched_p = batched_permutation_p_value(
+        signal,
+        items,
+        min_detectable_species=3,
+        permutations=19,
+        rng=np.random.default_rng(11),
+        batch_size=7,
+    )
+    assert batched_observed == observed
+    assert 0.05 <= batched_p <= 1.0

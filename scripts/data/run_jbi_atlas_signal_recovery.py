@@ -15,7 +15,7 @@ import numpy as np
 from fcp_pipeline.atlas_expansion import validate_expansion_contract
 from fcp_pipeline.atlas_signal_recovery import (
     AtlasSpeciesGeometry,
-    permutation_p_value,
+    batched_permutation_p_value,
     synthetic_colour_vectors,
 )
 from fcp_pipeline.shared_transition_surface import (
@@ -165,7 +165,7 @@ def main() -> None:
                 shared_anchor_longitude=anchor_lon,
                 rng=generator,
             )
-            statistic, p_value = permutation_p_value(
+            statistic, p_value = batched_permutation_p_value(
                 vectors,
                 geometries,
                 min_detectable_species=min_species,
