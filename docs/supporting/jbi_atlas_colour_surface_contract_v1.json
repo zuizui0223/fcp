@@ -2,23 +2,24 @@
   "protocol": "jbi-atlas-colour-surface-and-environment-inference-v1",
   "status": "prospectively_frozen_before_any_scaleout_candidate_pixel_or_colour_environment_join",
   "date": "2026-08-31",
+  "technical_correction": "Before any scaleout pixel was opened, the first Linux validation showed that the ROI-v4 parent used platform-dependent exact working-tree bytes. Parent identities are therefore declared as LF-canonical text hashes; no data, feature, cohort, scale, gate, statistic or outcome rule changed.",
   "objective": "convert the complete location-blind ROI-v4 measurements into species-conditioned transition surfaces and test their concordance with independently frozen environmental boundaries across eight random species cohorts",
   "parents": {
     "inference_v3": {
       "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json",
-      "sha256_exact": "598b34bd0c996f2744e7dd9444d10673bdbe39092ba7a3625ce1f9fc003c604d"
+      "sha256_lf_canonical_v1": "598b34bd0c996f2744e7dd9444d10673bdbe39092ba7a3625ce1f9fc003c604d"
     },
     "environment_v1": {
       "path": "docs/supporting/jbi_atlas_environmental_overlay_contract_v1.json",
-      "sha256_exact": "a0d131a7ea3b396f74e33d3ac544814f31c025987c04674533b2a4acb0d3a6c7"
+      "sha256_lf_canonical_v1": "a0d131a7ea3b396f74e33d3ac544814f31c025987c04674533b2a4acb0d3a6c7"
     },
     "roi_v4": {
       "path": "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json",
-      "sha256_exact": "4ad2f34abdec71eac24781d4525e1b14ab9ab04555550a38c74681a207ffc39e"
+      "sha256_lf_canonical_v1": "e3ffefdcd4aa6719a10b45c57886ee895f10f424a0d0b174a46541d92dd2f7a1"
     },
     "qualified_overlay_null": {
       "path": "docs/supporting/jbi_atlas_overlay_null_qualification_result_v2.json",
-      "sha256_exact": "ec3e84b4fca38ae9fd6f438134b725791cb5f878026a0cfcbfbd71803633c7cb",
+      "sha256_lf_canonical_v1": "ec3e84b4fca38ae9fd6f438134b725791cb5f878026a0cfcbfbd71803633c7cb",
       "status": "pass_spatially_constrained_overlay_null"
     }
   },

@@ -22,8 +22,9 @@ from fcp_pipeline.flower_roi_v4 import validate_roi_v4_contract
 CONTRACT = ROOT / "docs/supporting/jbi_atlas_colour_surface_contract_v1.json"
 
 
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def canonical_sha256(path: Path) -> str:
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def main() -> None:
@@ -32,7 +33,7 @@ def main() -> None:
     parents = contract["parents"]
     for parent in parents.values():
         path = ROOT / parent["path"]
-        if sha256(path) != parent["sha256_exact"]:
+        if canonical_sha256(path) != parent["sha256_lf_canonical_v1"]:
             raise RuntimeError(f"atlas colour-inference parent changed: {path.name}")
     inference = json.loads(
         (ROOT / parents["inference_v3"]["path"]).read_text(encoding="utf-8")
