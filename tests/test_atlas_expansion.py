@@ -62,6 +62,21 @@ def test_random_cohorts_are_deterministic_disjoint_and_genus_capped() -> None:
     assert all(row["target_observations"] == 300 for row in first)
 
 
+def test_random_cohort_genus_cap_is_independent_of_source_row_order() -> None:
+    rows = [
+        {
+            "taxon_id": index,
+            "species": f"Species {index}",
+            "genus": "SharedGenus" if index in (0, 1) else f"Genus{index}",
+        }
+        for index in range(202)
+    ]
+    first = draw_disjoint_species_cohorts(rows, contract())
+    reversed_rows = draw_disjoint_species_cohorts(list(reversed(rows)), contract())
+    assert first == reversed_rows
+    assert sum(row["genus"] == "SharedGenus" for row in first) <= 1
+
+
 def test_random_cohort_builder_rejects_outcome_leakage_and_shortfall() -> None:
     rows = [
         {"taxon_id": index, "species": f"Species {index}", "genus": f"Genus{index}"}

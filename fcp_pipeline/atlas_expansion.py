@@ -151,7 +151,6 @@ def draw_disjoint_species_cohorts(
     forbidden_tokens = ("colour", "color", "pixel", "roi", "transition", "effect", "p_value")
     normalized: list[dict[str, Any]] = []
     seen_taxa: set[str] = set()
-    seen_genera: set[str] = set()
     for raw in eligible_species:
         lowered = {str(key).casefold() for key in raw}
         leaked = sorted(
@@ -167,9 +166,6 @@ def draw_disjoint_species_cohorts(
         if taxon_id in seen_taxa:
             raise ValueError(f"duplicate eligible taxon_id: {taxon_id}")
         seen_taxa.add(taxon_id)
-        if genus.casefold() in seen_genera:
-            continue
-        seen_genera.add(genus.casefold())
         normalized.append(
             {
                 "taxon_id": taxon_id,
@@ -180,6 +176,17 @@ def draw_disjoint_species_cohorts(
         )
 
     normalized.sort(key=lambda row: (row["selection_hash"], row["taxon_id"]))
+    # Apply the genus cap after the stable permutation.  Culling in adapter or API
+    # order would make cohort membership depend on source row order.
+    genus_distinct: list[dict[str, Any]] = []
+    seen_genera: set[str] = set()
+    for row in normalized:
+        genus_key = str(row["genus"]).casefold()
+        if genus_key in seen_genera:
+            continue
+        seen_genera.add(genus_key)
+        genus_distinct.append(row)
+    normalized = genus_distinct
     if len(normalized) < needed:
         raise ValueError(
             f"not_evaluable: need {needed} genus-distinct eligible species, found {len(normalized)}"
