@@ -1,0 +1,26 @@
+{
+  "protocol": "jbi-atlas-bombus-source-gate-v1",
+  "status": "pollinator_biogeographic_concordance_not_evaluable_precolour_source_gate",
+  "checked_at_utc": "2026-08-31T08:59:07Z",
+  "requested_source": "one complete citable GBIF occurrence download DOI",
+  "gbif_taxon": {
+    "usage_key": 1340278,
+    "scientific_name": "Bombus Latreille, 1802",
+    "rank": "GENUS",
+    "status": "ACCEPTED",
+    "match_confidence": 95
+  },
+  "public_occurrence_count_at_check": 5007876,
+  "public_search_api_hard_record_ceiling": 100000,
+  "complete_download_requires_registered_user_authentication": true,
+  "gbif_credential_available_in_execution_environment": false,
+  "gbif_browser_session_authenticated": false,
+  "download_requested": false,
+  "download_doi_available": false,
+  "truncated_search_subset_used": false,
+  "candidate_image_pixels_opened": false,
+  "scaleout_colour_opened": false,
+  "environment_colour_join_performed": false,
+  "decision": "retain the pollinator branch as not_evaluable; do not use the 100000-record search ceiling as a global layer and do not substitute a different pollinator source after colour",
+  "claim_ceiling": "Pre-colour source-access failure only; no conclusion about Bombus biogeography, flower colour, visitation, selection or causation."
+}
