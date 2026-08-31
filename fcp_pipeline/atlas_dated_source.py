@@ -289,6 +289,7 @@ def reconcile_rows(
         row["observation_uuid"] for row in photos.values()
     }
     missing["observations"] = sorted(expected_observation_uuids - set(observations))
+    duplicate_observation_links = len(photos) - len(expected_observation_uuids)
 
     rules = amendment["exact_reconciliation"]
     tolerance = float(rules["coordinate_tolerance_degrees"])
@@ -297,8 +298,11 @@ def reconcile_rows(
         str(value).casefold() for value in rules["allowed_photo_licenses"]
     }
     mismatches: list[dict[str, str]] = []
+    mismatch_total = 0
 
     def mismatch(photo_id: str, field: str, expected: object, observed: object) -> None:
+        nonlocal mismatch_total
+        mismatch_total += 1
         if len(mismatches) < 100:
             mismatches.append(
                 {
@@ -394,7 +398,12 @@ def reconcile_rows(
         )
 
     missing_counts = {key: len(value) for key, value in missing.items()}
-    passed = not any(missing_counts.values()) and not mismatches and len(output) == 60000
+    passed = (
+        not any(missing_counts.values())
+        and duplicate_observation_links == 0
+        and mismatch_total == 0
+        and len(output) == 60000
+    )
     audit = {
         "protocol": PROTOCOL,
         "status": (
@@ -412,7 +421,8 @@ def reconcile_rows(
         "resolved_taxa_and_genera": len(taxa),
         "missing_counts": missing_counts,
         "missing_examples": {key: value[:20] for key, value in missing.items()},
-        "mismatch_count_capped_at_100": len(mismatches),
+        "duplicate_selected_photo_links_to_same_observation": duplicate_observation_links,
+        "mismatch_count": mismatch_total,
         "mismatch_examples": mismatches,
         "frozen_observations": len(output) if passed else 0,
         "replacement_permitted": False,
