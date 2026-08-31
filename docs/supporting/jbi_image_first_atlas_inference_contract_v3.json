@@ -1,0 +1,123 @@
+{
+  "protocol": "jbi-image-first-global-flower-colour-atlas-inference-v3",
+  "status": "prospectively_frozen_after_v2_simulation_stop_and_before_any_scaleout_candidate_pixels",
+  "date": "2026-08-31",
+  "objective": "measure eight disjoint random flower-image cohorts and obtain a publication-ready environmental or pollinator concordance result after retaining the underpowered geographic branch as not_evaluable",
+  "frozen_before_scaleout_candidate_pixels": true,
+  "parent_expansion_contract": {
+    "path": "docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json",
+    "sha256_lf_canonical_v1": "5412ae6846322437be3711be36b98c5c88a61f86de004ba1c12be03aa911c958",
+    "git_blob_sha1": "93d8ae1e34078889518a06dd346b5bae84d2d64a"
+  },
+  "qualification_evidence": {
+    "geographic_shared_boundary": {
+      "committed_summary": "docs/supporting/jbi_atlas_signal_recovery_result_v2.json",
+      "committed_summary_sha256": "1953987aabe727d9e0d7b82dcde1bf39757ffcfd750899cd416cd555b9879769",
+      "github_actions_run": "https://github.com/zuizui0223/fcp/actions/runs/33366483482",
+      "full_repetitions_artifact": "jbi-atlas-signal-recovery/signal_recovery_repetitions.csv",
+      "full_repetitions_sha256": "aabd7db91d14b480ab7376202c96042a887a6e6ee49ca2a03ecbea7348f2f053",
+      "decision": "not_evaluable_failed_preimage_signal_recovery",
+      "reason": "null false-positive rate passed at 0.04, but effect-2 shared-boundary power was 0.21 and heterogeneous-boundary false sharing was 0.16"
+    },
+    "environmental_pollinator_overlay_null": {
+      "committed_summary": "docs/supporting/jbi_atlas_overlay_null_qualification_result_v2.json",
+      "committed_summary_sha256": "ec3e84b4fca38ae9fd6f438134b725791cb5f878026a0cfcbfbd71803633c7cb",
+      "github_actions_run": "https://github.com/zuizui0223/fcp/actions/runs/33368716203",
+      "full_repetitions_artifact": "jbi-atlas-overlay-null-qualification/overlay_null_repetitions.csv",
+      "full_repetitions_sha256": "094b1fc46b91163e02063a57f53b378a3dd5c66b1bdafa41d48457317ebccf85",
+      "decision": "pass_spatially_constrained_overlay_null"
+    }
+  },
+  "dependency_correction": {
+    "scope": "prospective v3 only; v2 and its STOP result remain immutable",
+    "reason": "the v2 signal-recovery gate qualifies the shared-geographic-concentration statistic, whereas the independently qualified overlay null governs environmental and pollinator concordance",
+    "scaleout_pixel_opening_requires": [
+      "independent Oxford-17 ROI benchmark passes without retuning",
+      "metadata feasibility supplies the complete frozen eight-cohort denominator",
+      "measurement firewall is built before acquisition"
+    ],
+    "scaleout_pixel_opening_does_not_require": [
+      "the failed v2 shared-geographic-concentration statistic"
+    ],
+    "environmental_colour_join_requires": [
+      "ROI benchmark pass",
+      "measurement completeness pass",
+      "spatially constrained overlay-null pass",
+      "all environmental layers frozen before the sealed coordinate-colour join"
+    ],
+    "pollinator_colour_join_requires": [
+      "all environmental branch outcomes already fixed and reported",
+      "ROI benchmark pass",
+      "measurement completeness pass",
+      "spatially constrained overlay-null pass",
+      "the frozen Bombus coverage and stability gates pass before colour join"
+    ]
+  },
+  "scaleout_measurement_gate": {
+    "coordinate_firewall": "an acquisition broker uses the sealed ledger to save every licensed image as measurement_id.jpg; measurement workers receive measurement_id, species_blind_id, the renamed image object and licence only, with no source URL, photo or observation ID, attribution, coordinates, dates, observers, environments or taxon names",
+    "blinding_salt": "fcp-atlas-v3-coordinate-firewall",
+    "minimum_admitted_fraction_per_species": 0.7,
+    "minimum_admitted_observations_per_species": 210,
+    "minimum_background_control_fraction_among_admitted": 0.7,
+    "minimum_evaluable_species_per_cohort": 20,
+    "minimum_evaluable_species_total": 160,
+    "all_eight_cohorts_must_finish": true,
+    "failed_species_rule": "retain as not_evaluable with its frozen observation denominator; never replace it",
+    "failed_cohort_rule": "retain the completed cohort and make atlas-wide overlay inference not_evaluable; never stop early or select passing cohorts"
+  },
+  "ordered_inference_v3": {
+    "branches": [
+      {
+        "branch": "shared_geographic_concentration",
+        "fixed_outcome": "not_evaluable",
+        "reason": "preimage signal-recovery STOP",
+        "real_colour_test_permitted": false
+      },
+      {
+        "branch": "environmental_concordance",
+        "allowed_outcomes": [
+          "supported",
+          "not_supported",
+          "not_evaluable"
+        ],
+        "real_colour_test_permitted_after_dependencies": true
+      },
+      {
+        "branch": "pollinator_biogeographic_concordance",
+        "allowed_outcomes": [
+          "supported",
+          "not_supported",
+          "not_evaluable"
+        ],
+        "real_colour_test_permitted_after_dependencies": true
+      }
+    ],
+    "cohorts": "all eight disjoint cohorts analyzed with equal cohort weight; no early stopping or selection",
+    "multiplicity": "one nested spatially constrained null with a joint maximum statistic across every evaluable cohort, resolution and predeclared overlay family",
+    "minimum_final_null_replicates": 9999,
+    "season_sensitivities": [
+      "species_by_calendar_month",
+      "species_by_hemisphere_adjusted_local_solar_quarter"
+    ],
+    "publication_rule": "publish the complete supported, not_supported and not_evaluable decision tree without replacing failed species, cohorts or overlays"
+  },
+  "inherited_without_change_from_v2": [
+    "immutable 6-species Stage A and B results",
+    "34-species literature comparison as method and supplementary evidence",
+    "three-species automated negative validation",
+    "metadata admission and thinning",
+    "eight disjoint random cohorts of 25 species and 300 observations",
+    "100-km primary and 250/500-km sensitivity geometry",
+    "continuous flower and background colour vector",
+    "environmental overlay families and claim ceilings",
+    "Bombus coverage and stability gates",
+    "species-free map and photo bar with species-conditioned inference"
+  ],
+  "prohibitions": [
+    "do not rerun or reinterpret the stopped v2 geographic statistic on real atlas colour",
+    "do not tune ROI, admission, cohort, scale, environmental or pollinator rules after scaleout pixels open",
+    "do not replace failed species, cohorts or geographic realms",
+    "do not promote significance from one cohort, scale, season or overlay outside the joint null",
+    "do not interpret concordance as adaptation, pollinator perception, visitation, selection or causation"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "checks": {
+    "false_positive_100|independent_smooth_fields|0": true,
+    "false_positive_100|shared_broad_geographic_trend_only|0": true,
+    "false_positive_250|independent_smooth_fields|0": true,
+    "false_positive_250|shared_broad_geographic_trend_only|0": true,
+    "false_positive_500|independent_smooth_fields|0": true,
+    "false_positive_500|shared_broad_geographic_trend_only|0": true,
+    "monotone_power_100": true,
+    "monotone_power_250": true,
+    "monotone_power_500": true,
+    "power_effect_2_100": true,
+    "power_effect_2_250": true,
+    "power_effect_2_500": true
+  },
+  "detection_rates": {
+    "100|independent_smooth_fields|0": 0.05,
+    "100|injected_local_boundary_alignment|0.5": 1.0,
+    "100|injected_local_boundary_alignment|1": 1.0,
+    "100|injected_local_boundary_alignment|2": 1.0,
+    "100|shared_broad_geographic_trend_only|0": 0.05,
+    "250|independent_smooth_fields|0": 0.07,
+    "250|injected_local_boundary_alignment|0.5": 1.0,
+    "250|injected_local_boundary_alignment|1": 1.0,
+    "250|injected_local_boundary_alignment|2": 1.0,
+    "250|shared_broad_geographic_trend_only|0": 0.04,
+    "500|independent_smooth_fields|0": 0.03,
+    "500|injected_local_boundary_alignment|0.5": 0.91,
+    "500|injected_local_boundary_alignment|1": 1.0,
+    "500|injected_local_boundary_alignment|2": 1.0,
+    "500|shared_broad_geographic_trend_only|0": 0.05
+  },
+  "environmental_and_pollinator_colour_join_permitted": true,
+  "formal_contract_counts": true,
+  "randomizations_per_repetition": 999,
+  "repetitions": 100,
+  "status": "pass_spatially_constrained_overlay_null"
+}

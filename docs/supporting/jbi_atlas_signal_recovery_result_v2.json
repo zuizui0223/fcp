@@ -1,0 +1,25 @@
+{
+  "anchor_cell_id": 42334,
+  "anchor_latitude": 41.01449966573052,
+  "anchor_longitude": -73.6875,
+  "atlas_pixels_permitted_by_signal_gate": false,
+  "checks": {
+    "maximum_heterogeneous_false_shared_rate": false,
+    "maximum_null_false_positive_rate": true,
+    "minimum_shared_boundary_power_at_effect_2": false,
+    "monotone_power_required": true
+  },
+  "detection_rates": {
+    "null_stationary|0": 0.04,
+    "shared_geographic_boundary|0.5": 0.05,
+    "shared_geographic_boundary|1": 0.08,
+    "shared_geographic_boundary|2": 0.21,
+    "within_species_heterogeneous_boundaries|2": 0.16
+  },
+  "formal_contract_counts": true,
+  "permutations_per_repetition": 999,
+  "repetitions": 100,
+  "scale_km": 100,
+  "species": 50,
+  "status": "stop_signal_recovery_failed"
+}
