@@ -36,6 +36,7 @@ on:
       - "scripts/data/freeze_jbi_atlas_roi_v4_training_evidence.py"
       - "scripts/data/freeze_jbi_atlas_roi_v4_gate_evidence.py"
       - "scripts/data/validate_jbi_atlas_roi_v4_training_evidence.py"
+      - "scripts/data/validate_jbi_atlas_roi_v4_gate_evidence.py"
       - "scripts/data/run_jbi_atlas_roi_v4_jrc_gate.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall.py"
       - "scripts/data/acquire_jbi_atlas_blinded_images.py"
@@ -125,6 +126,7 @@ on:
       - "scripts/data/freeze_jbi_atlas_roi_v4_training_evidence.py"
       - "scripts/data/freeze_jbi_atlas_roi_v4_gate_evidence.py"
       - "scripts/data/validate_jbi_atlas_roi_v4_training_evidence.py"
+      - "scripts/data/validate_jbi_atlas_roi_v4_gate_evidence.py"
       - "scripts/data/run_jbi_atlas_roi_v4_jrc_gate.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall.py"
       - "scripts/data/acquire_jbi_atlas_blinded_images.py"
@@ -233,6 +235,12 @@ jobs:
           python scripts/data/validate_jbi_atlas_roi_v3_development_result.py
           python scripts/data/validate_jbi_atlas_roi_v4_contract.py
           python scripts/data/validate_jbi_atlas_roi_v4_training_evidence.py
+          if [[ -f data/atlas/qualification/roi_v4_development/gate_evidence_manifest.json ]]; then
+            python scripts/data/validate_jbi_atlas_roi_v4_gate_evidence.py --phase development --evidence-dir data/atlas/qualification/roi_v4_development
+          fi
+          if [[ -f data/atlas/qualification/roi_v4_locked_test/gate_evidence_manifest.json ]]; then
+            python scripts/data/validate_jbi_atlas_roi_v4_gate_evidence.py --phase locked_test --evidence-dir data/atlas/qualification/roi_v4_locked_test
+          fi
           python scripts/data/validate_jbi_atlas_colour_surface_contract.py
           python scripts/data/validate_jbi_atlas_environmental_overlay_contract.py
           python scripts/data/validate_jbi_atlas_climate_ecoregion_freeze.py
