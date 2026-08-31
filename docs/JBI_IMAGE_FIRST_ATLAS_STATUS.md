@@ -2,79 +2,74 @@
 
 ## Current decision
 
-The active mainline is the image-first global flower-colour atlas. The former PR #21 target of 12 literature-selected species × 200 photographs is retained as a completed metadata-method precursor, not as the terminal cohort or confirmatory design.
+The active mainline is a global image-first flower-colour atlas with a species-free public map and photo bar, but species-conditioned measurement, spatial fields and null inference.
 
-Current gate: **metadata and geometry remain frozen; bulk atlas image opening is stopped pending estimator validation**.
+Current gate: **200-species metadata feasibility, exact dated-source reconciliation and ROI v4 independent validity are in progress; every atlas candidate pixel remains closed**.
 
-A separate, preregistered location-blind image-measurement admissibility study is now complete. It used six development species and an independent locked partition for the three species that passed every image gate. All three locked spatial tests were non-significant under the frozen combined rule. The atlas candidate pixels themselves remain unopened, so no 50-species colour field, transition boundary or shared-boundary result exists.
+The terminal scale-out is eight disjoint cohorts of 25 species x 300 observations: 200 species and 60,000 observations. All eight cohorts are required. They are one experiment, not eight opportunities to stop after a favourable result.
 
-## Completed and immutable
+## Immutable earlier evidence
 
-The six-species Chapter 1 result is closed:
+- Six-species Chapter 1: 1,200 photographs, Stage A `p = 0.0113`, Stage B `p = 0.0906`. No atlas change retunes it.
+- Literature comparison: 34 species from 25 families. It remains method and supplementary evidence, never the atlas admission frame.
+- Automated three-species validation: 717 locked photographs, 306 admitted encounters, zero supported species. This is a frozen negative measurement/spatial validation, not proof of spatial randomness.
+- Fifty-species sentinel geometry: 20,200 observations frozen before pixels. Its images remain unopened and it is not silently promoted into the 200-species experiment.
 
-- 1,200 photographs, 480 calibration and 720 held-out evaluation;
-- Stage A primary lower-tail `p = 0.0113`;
-- Stage B primary upper-tail `p = 0.0906`;
-- no retuning or reinterpretation in the atlas pilot.
+## Frozen branch outcomes before atlas colour
 
-The 34-species comparative paper is also retained intact. Its literature extraction and spatial classification remain useful method/evidence infrastructure, but those labels do not select the atlas cohort.
+### Geographic shared-boundary concentration — `not_evaluable`
 
-## Implemented for the atlas pilot
+The exact-geometry qualification used 100 repetitions per scenario and 999 within-species permutations. The proposed geographic statistic failed the predeclared signal-recovery gate (`effect = 2` power 0.21; heterogeneous-boundary false sharing 0.16). This is a method failure, not evidence that a common geographic boundary is absent. The statistic is prohibited from reading real scale-out colour.
 
-1. 50-species metadata-only cohort interface with 300/400/500-photo tiers.
-2. Positional accuracy `<= 5 km`, public coordinates and licensed-photo admission.
-3. 0.25° primary and 0.5° sensitivity thinning.
-4. Observer, cell, month, spatial-coverage and seasonal-coverage gates.
-5. Geometry-only 100/250/500-km scale selection, finest passing scale first.
-6. Species-free display-table interface with species-conditioned inference retained.
-7. GitHub Actions contract tests, live feasibility, artifact upload, validation and passing-freeze commit.
+### Environmental concordance — next evaluable branch
 
-## Completed live metadata gate
+The environmental null recovered its intended calibration before colour. Three independent primary families are frozen on the same 100, 250 and 500 km equal-area grids:
 
-GitHub Actions run `33355972418` completed successfully on 2026-08-31. Under the unchanged pre-image rules it:
+1. WorldClim 2.1 macroclimate;
+2. ESA WorldCover 2021 land-cover composition;
+3. RESOLVE Ecoregions 2017.
 
-- received 200 species-count records, retained 199 after static filters and audited 61 species;
-- admitted exactly 50 species and selected 20,200 observations;
-- assigned 19 species to the 500-photo tier, 14 to the 400-photo tier and 17 to the 300-photo tier;
-- passed the geometry criteria at 100, 250 and 500 km and selected the finest passing scale, 100 km, as primary;
-- retained 250 and 500 km as mandatory sensitivities;
-- kept candidate image pixels, flower ROI and continuous colour closed throughout.
+Copernicus terrain access did not complete under the frozen source route and terrain is permanently `not_evaluable`; no replacement DEM may be chosen after colour. Final inference uses within-species continuous Lab transition fields, equal-species surfaces, equal-cohort aggregation and one 9,999-randomization joint maximum across all frozen scales, date sensitivities, flower/background roles and environmental overlays. Only the predeclared 100 km, all-dates, equal-eight-cohort flower tests can promote a primary claim.
 
-At 100 km, all 50 species were geometry-evaluable, all 50 had shared-opportunity support, and 418 cells had opportunity from at least three species. The frozen outputs are the 50-species cohort, the 20,200-observation manifest, the feasibility audit, all-scale geometry diagnostics and their manifest. Text hashes use the declared `sha256_lf_canonical_v1` mode so the same freeze verifies on Linux and Windows without changing scientific content.
+### *Bombus* biogeography — `not_evaluable`
 
-Focused local validation: `tests/test_image_first_atlas.py` — **8 passed**. Atlas plus retained scale-up/manuscript regression selection — **40 passed**. The committed complete freeze also passes its independent validator on Windows.
+The frozen colour-blind source gate required a citable GBIF download with its own realm, opportunity, balance and stability checks. The required authenticated download could not be frozen, so the branch remains `not_evaluable`. It cannot be replaced by a convenient post-colour occurrence source.
 
-The repository-wide pytest collection additionally requires the pre-existing optional Florence stack (`transformers==5.16.1`); it is validated in its dedicated workflow and is not imported by the metadata gate.
+## ROI evidence
 
-## Completed automated-colour admissibility study
+- ROI v3 (SegFormer) failed its independent JRC development gate: 400 development images, 17 admitted, recall 0.1207. The locked 100-image test remains sealed forever.
+- ROI v4 is a prospectively frozen YOLO11n flower detector followed by EfficientSAM using one shared runtime for JRC qualification and all 60,000 atlas measurements.
+- The final training executable, materialization receipt, terminal epoch weight and training curves must be committed before any development prediction.
+- Development must pass before the locked 100-image test is opened. A locked failure stops all atlas pixel acquisition.
 
-The frozen `fcp-inaturalist-automated-colour-state-v2` workflow used a pinned CLIPSeg revision, three positive and two negative prompts, continuous CIELAB features, prompt/reflection stability gates and a coordinate firewall.
+## 200-species metadata and dated-source gate
 
-- Development: 480 encounters and 886 photographs across six species; three species passed and three became `not_evaluable`.
-- Locked: 360 encounters and 717 photographs across the three passing species.
-- Cache audit: 717/717 valid records, with zero missing, partial or unexpected records.
-- Locked admission: 101, 97 and 108 encounters for *Erythranthe lewisii*, *Hesperis matronalis* and *Orchis mascula*, respectively.
-- Spatial confirmation: no species rejected the 9,999-permutation species-conditioned random-mark null after BH correction; primary q values were 0.59685, 0.9637 and 0.59685.
-- Observer-removal and flower-minus-background requirements did not rescue any species.
+GitHub Actions run `33388714675` is auditing the complete predeclared 500-species candidate pool. It must finish the full pool even after 200 eligible species exist. The live API result is feasibility and exact selection evidence only; it cannot authorize images.
 
-The frozen decision is `spatial_organization_not_detected` for all three species. This does not prove spatial randomness and does not revise the six-species Chapter 1 result, which used different species, image measurement and statistic.
+The official fixed resolver is the 2026-08-27 iNaturalist Open Data snapshot:
 
-## Next allowed gate
+- object size: 35,093,052,336 bytes;
+- computed SHA-256: `c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d`;
+- moving `latest` is prohibited.
 
-The estimator-qualification and scale-out rules are now frozen in `jbi_image_first_atlas_expansion_contract_v2.json`, before any atlas candidate pixel was opened.
+The official snapshot has observations, observers, photos and taxa but no flowering-annotation table. The pre-image amendment therefore fixes a two-stage source contract: one complete API audit selects the exact 60,000 rows, then every photo, observation, observer and taxon must reconcile to the dated snapshot. One missing, duplicate or mismatched row yields `not_evaluable_dated_source_reconciliation`; no replacement or resampling is allowed.
 
-1. Score every officially segmented Oxford-17 image with the unchanged pinned CLIPSeg estimator. The frozen gate checks admitted share, soft localization precision/recall/IoU and CIELAB attenuation; it permits no benchmark retuning.
-2. Run 100 synthetic repetitions per declared scenario with 999 complete within-species permutations on the exact frozen 50-species geometry. The null, heterogeneous-boundary and shared-boundary scenarios jointly check false positives, specificity and power of the downstream statistic.
-3. Permit atlas pixel opening only if both independent qualification subgates pass.
+## Image-access authorization
 
-Until that gate passes, do not open the 20,200 atlas candidate images, reconstruct atlas colour fields or run shared-boundary concentration. The metadata freeze and the negative three-species validation are publishable results; neither is evidence for a 50-species colour boundary.
+The measurement firewall cannot be built unless all of these pass independently:
 
-If qualification passes, scale-out is fixed as eight disjoint random cohorts of 25 species × 300 observations from one dated iNaturalist Open Data snapshot: 200 species and 60,000 observations in total, in addition to the separately frozen 50-species sentinel cohort. All eight cohorts must finish and enter one nested null; no result-dependent stopping or cohort selection is allowed.
+1. exact dated-source reconciliation for 200 species and 60,000 photos;
+2. opportunity-cell environmental coverage at 100, 250 and 500 km, with macroclimate plus at least one other primary family;
+3. ROI v4 locked JRC test.
 
-The predeclared conclusion tree is:
+The acquisition worker additionally checks the exact sealed-key hash and the firewall receipt. Passing metadata, a visually plausible map, or a development model alone cannot open images.
 
-1. species-conditioned cross-species geographic concentration;
-2. independently frozen WorldClim, terrain, WorldCover and RESOLVE boundary concordance;
-3. *Bombus* assemblage-region concordance only if a colour-blind GBIF coverage and stability gate passes.
+## Remaining route to a submission result
 
-The full family uses one joint maximum-statistic null. A branch ending `not_supported` or `not_evaluable` is retained as a result, not replaced by a new overlay.
+1. Complete the metadata audit, dated-source reconciliation and pre-colour environmental coverage.
+2. Complete ROI v4 training evidence, development and locked JRC gates.
+3. If all gates pass, acquire and measure all 60,000 images location-blind; incomplete measurement stops the coordinate join.
+4. Run the frozen environmental joint null once, preserving `supported`, `not_supported` and `not_evaluable` outcomes.
+5. Generate the species-free map/photo bar, species-conditioned tables, manuscript, reproduction bundle and CI-complete PR.
+
+No colour-dependent retuning, early stopping, silent row repair or new environmental/pollinator overlay is permitted.

@@ -1,0 +1,37 @@
+{
+  "protocol": "jbi-atlas-inaturalist-snapshot-receipt-v1",
+  "status": "pass_exact_archive_identity_and_tar_integrity",
+  "date_verified": "2026-08-31",
+  "candidate_image_pixels_opened": false,
+  "continuous_colour_used": false,
+  "source": {
+    "provider": "iNaturalist Open Data",
+    "snapshot_date": "2026-08-27",
+    "official_url": "https://inaturalist-open-data.s3.amazonaws.com/metadata/inaturalist-open-data-20260827.tar.gz",
+    "object_key": "metadata/inaturalist-open-data-20260827.tar.gz",
+    "content_length_bytes": 35093052336,
+    "etag": "60cdb6b29b3d510bbe204b4bda1c558a-67",
+    "last_modified_utc": "2026-08-27T17:04:06Z",
+    "sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d"
+  },
+  "archive_integrity": {
+    "full_tar_gzip_listing_exit_code": 0,
+    "members": [
+      "inaturalist-open-data-20260827/observations.csv",
+      "inaturalist-open-data-20260827/observations_projects.csv",
+      "inaturalist-open-data-20260827/observers.csv",
+      "inaturalist-open-data-20260827/photos.csv",
+      "inaturalist-open-data-20260827/projects.csv",
+      "inaturalist-open-data-20260827/taxa.csv"
+    ],
+    "required_reconciliation_tables": [
+      "observations.csv",
+      "observers.csv",
+      "photos.csv",
+      "taxa.csv"
+    ]
+  },
+  "parent_amendment": "docs/supporting/jbi_atlas_dated_source_amendment_v1.json",
+  "moving_latest_used": false,
+  "claim_ceiling": "Archive identity and structural integrity only; no selected-row reconciliation, image access, colour measurement or biological result."
+}

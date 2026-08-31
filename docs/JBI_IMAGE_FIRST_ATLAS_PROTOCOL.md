@@ -48,7 +48,7 @@ Within species, metadata rows are balanced without opening photographs:
 
 The largest passing tier is retained in the fixed order 500, 400, then 300 photographs. A failure is recorded and the selector continues through the already ranked metadata pool. If 50 species cannot be admitted, the workflow stops. It does not weaken gates or use colour to choose replacements.
 
-The pilot uses the read-only API for bounded feasibility. Subsequent bulk image acquisition should resolve the frozen photo IDs through the monthly iNaturalist Open Data snapshot rather than scrape the public API.
+The read-only API supplies flowering-annotation eligibility and the exact bounded pre-colour selection. The official monthly Open Data schema does not include annotation term/value records, so it cannot independently reconstruct that eligible universe. Under `jbi_atlas_dated_source_amendment_v1.json`, every exact selected photo, observation, observer and taxon must therefore reconcile to the fixed 2026-08-27 Open Data snapshot before acquisition. The API audit and dated resolver are separate frozen parents. Any missing, duplicate or mismatched row makes the scale-out `not_evaluable`; replacement and resampling are prohibited.
 
 ## Gate 2 — geometry-only scale freeze
 
@@ -64,9 +64,9 @@ The first scale satisfying the frozen retained-edge, detectable-cell and cross-s
 
 Species failing geometry at a candidate scale remain `not_evaluable` at that scale. Cells lacking the required species opportunity are `not_evaluable`, not zero.
 
-## Gate 3 — image and flower ROI
+## Gate 3 — dated source, environmental coverage and flower ROI
 
-Image pixels may be opened only after the cohort, observation manifest and geometry scale are hash-frozen. The freeze manifest declares `sha256_lf_canonical_v1`, which canonicalizes text newlines to LF before hashing so validation is identical on Linux and Windows. Acquisition retains the photo licence and attribution. Flower localization is automated and uses a separately frozen model revision and thresholds.
+Image pixels may be opened only after the cohort, exact 60,000-row dated-source manifest, geometry and environmental opportunity coverage are hash-frozen. The measurement firewall requires the dated-source pass and macroclimate plus at least one other primary environmental family at all 100/250/500 km scales. Acquisition also requires the exact firewall-key hash and a passing locked ROI result. The freeze manifest declares `sha256_lf_canonical_v1` for applicable text parents, so validation is identical on Linux and Windows. Acquisition retains the snapshot photo licence and attribution inputs.
 
 Every photo must resolve to one of:
 
@@ -77,7 +77,7 @@ There is no manual biological morph label and no post-hoc threshold rescue. ROI 
 
 The first admissibility implementation, `fcp-inaturalist-automated-colour-state-v2`, is frozen separately in `docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md`. It uses a pinned CLIPSeg revision to produce soft **flower-candidate** weights, not verified flower-tissue masks. In its independent locked test, three development-passing species all passed completeness but none rejected the fixed spatial random-mark null. Consequently, that implementation is not automatically promoted to the 50-species cohort.
 
-Before bulk atlas pixels can be opened, a new estimator-qualification subgate must freeze and pass (i) an independent flower-tissue localization benchmark and (ii) signal-recovery simulations for the exact downstream transition statistic. This is a measurement-validity gate, not an opportunity to retune against the observed three-species spatial results.
+The proposed geographic transition statistic failed its prospective exact-geometry signal-recovery gate and is frozen `not_evaluable`; it is never applied to real atlas colour. ROI v3 also failed its independent JRC development gate and its locked test remains sealed. ROI v4 prospectively fixes a YOLO11n flower detector, EfficientSAM mask selection and one shared runtime used by both JRC qualification and scale-out. Its final training evidence must be committed before development prediction; development must pass before the locked 100-image test is opened. This is a measurement-validity gate, not an opportunity to retune against the observed three-species spatial results.
 
 ## Gate 4 — continuous colour and within-species spatial fields
 
@@ -89,11 +89,11 @@ Primary spatial fields and local transition scores are reconstructed within spec
 
 Within each species and frozen scale, edge discontinuities are rank-transformed to continuous transition intensity. Geometry fixes which edges and cells are detectable before colour is scored. The boundary object is therefore a species-specific continuous surface, not a universal categorical line.
 
-## Gate 6 — cross-species shared-boundary concentration
+## Gate 6 — cross-species environmental-boundary concordance
 
-The shared surface averages transition intensity only across species detectable in a cell and retains the opportunity denominator. The complete null pipeline permutes colour within species, then recomputes edges scores, species-cell intensities, the shared surface and concentration.
+Within each cohort the surface averages ranked transition intensity equally across detectable species and retains the opportunity denominator; the eight cohort surfaces then receive equal weight. Flower and multiplicity-protected background surfaces are tested against independently frozen macroclimate, land-cover and ecoregion boundary intensity. The complete null moves each three-component colour vector as one row within species, rebuilds every eligible species surface and uses 9,999 weighted Moran eigenvector sign randomizations under one joint maximum statistic.
 
-Support can establish repeated geographic concentration among the sampled species under the frozen scale. It cannot by itself establish a universal biological boundary, a shared mechanism, climatic cause or adaptation.
+Support can establish spatial concordance between automated flower-candidate colour transitions and a predeclared environmental boundary family among the sampled species. It cannot establish a universal biological boundary, causation, adaptation or a pollinator mechanism.
 
 ## Gate 7 — species-free display
 
@@ -127,13 +127,15 @@ Sparse strata follow only the frozen adjacent cyclic merge rule or become `not_e
 
 ## Prospective repeated-cohort expansion and ordered branches
 
-The v2 expansion contract was frozen after the three-species negative validation and before any atlas candidate pixel was opened. It adds eight disjoint metadata-random panels of 25 species × 300 observations from one dated iNaturalist Open Data snapshot. The 200 species, 60,000 observations, seed rule, genus cap, no-overlap rule and no-early-stop rule are one experiment, not eight chances to select a favourable result.
+The v2 expansion contract was frozen after the three-species negative validation and before any atlas candidate pixel was opened. It adds eight disjoint metadata-random panels of 25 species × 300 observations. The exact API selection must fully reconcile to one dated iNaturalist Open Data snapshot. The 200 species, 60,000 observations, seed rule, genus cap, no-overlap rule and no-early-stop rule are one experiment, not eight chances to select a favourable result.
 
-All evaluable geographic, environmental and pollinator branch statistics enter one complete nested maximum-statistic null. WorldClim 2.1, Copernicus DEM GLO-30, ESA WorldCover 2021 and RESOLVE Ecoregions 2017 are frozen before colour joins. A *Bombus* layer must be derived without flower colour from one citable GBIF occurrence download and pass its own realm, opportunity-cell, source-balance and stability gates; otherwise that branch is `not_evaluable`.
+The geographic branch is already `not_evaluable` from pre-colour method qualification. WorldClim 2.1, ESA WorldCover 2021 and RESOLVE Ecoregions 2017 are the evaluable frozen environmental family. Copernicus terrain is `not_evaluable` because its registered-source route did not complete. The *Bombus* branch is also `not_evaluable` because a citable authenticated GBIF download could not be frozen. Neither failed branch may be replaced after colour.
 
 The expansion contract, independent-source audit, validator, simulations and CI are:
 
 - `docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json`;
+- `docs/supporting/jbi_atlas_dated_source_amendment_v1.json`;
+- `docs/supporting/jbi_atlas_colour_surface_contract_v1.json`;
 - `docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md`;
 - `scripts/data/validate_jbi_image_first_atlas_expansion.py`;
 - `scripts/data/benchmark_jbi_atlas_flower_roi.py`;

@@ -1,6 +1,6 @@
 # FCP — image-first global flower-colour atlas
 
-The active FCP mainline asks whether continuous flower-colour transitions reconstructed directly from georeferenced iNaturalist images concentrate along shared geography across species.
+The active FCP mainline reconstructs continuous flower-colour transitions directly from georeferenced iNaturalist images and asks whether the resulting species-conditioned fields align repeatedly with independently frozen global environmental boundaries. A universal geographic boundary remains the motivating hypothesis, but its proposed statistic failed prospective signal-recovery qualification and is therefore retained as `not_evaluable`, not run on atlas colour.
 
 ```text
 iNaturalist image
@@ -8,7 +8,7 @@ iNaturalist image
     -> continuous colour
     -> within-species spatial field
     -> species-conditioned transition boundary
-    -> cross-species shared-boundary concentration
+    -> cross-species environmental-boundary concordance
 ```
 
 The public atlas display is species-free; inference is not. Species may disappear from the map and photo bar, but species never disappear from standardization, graph construction or the permutation null.
@@ -35,15 +35,17 @@ Their samples, response variables, null models and claims are distinct. Neither 
 - **Automated measurement protocol:** [`docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md`](docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md)
 - **Pre-image contract:** [`docs/supporting/jbi_image_first_atlas_contract_v1.json`](docs/supporting/jbi_image_first_atlas_contract_v1.json)
 - **Repeated-cohort and ordered-pivot freeze:** [`docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json`](docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json)
+- **Dated-source reconciliation freeze:** [`docs/supporting/jbi_atlas_dated_source_amendment_v1.json`](docs/supporting/jbi_atlas_dated_source_amendment_v1.json)
+- **Final colour/environment inference freeze:** [`docs/supporting/jbi_atlas_colour_surface_contract_v1.json`](docs/supporting/jbi_atlas_colour_surface_contract_v1.json)
 - **Global boundary source audit:** [`docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md`](docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md)
 - **Metadata/geometry module:** [`fcp_pipeline/image_first_atlas.py`](fcp_pipeline/image_first_atlas.py)
 - **Metadata freeze workflow:** [`.github/workflows/jbi-image-first-atlas-metadata.yml`](.github/workflows/jbi-image-first-atlas-metadata.yml)
 - **Estimator qualification workflow:** [`.github/workflows/jbi-image-first-atlas-qualification.yml`](.github/workflows/jbi-image-first-atlas-qualification.yml)
 - **12-species precursor retained for audit:** [`docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md`](docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md)
 
-The first independent image-measurement admissibility study is complete. Three of six development species passed location-free image gates; all three passed the locked completeness gate, but none rejected the frozen species-conditioned random-mark null. This is retained as a publishable negative validation and explicit STOP. The 20,200 images in the 50-species atlas freeze remain unopened while the now-frozen independent flower-tissue localization and exact-geometry signal-recovery benchmarks are run.
+The first independent image-measurement admissibility study is complete. Three of six development species passed location-free image gates; all three passed the locked completeness gate, but none rejected the frozen species-conditioned random-mark null. This is retained as a publishable negative validation. The 50-species sentinel cohort and its 20,200 images remain unopened. The proposed cross-species geographic concentration statistic subsequently failed its prospective exact-geometry signal-recovery gate and is frozen `not_evaluable`; atlas colour will never be tested with it. ROI v3 likewise failed its independent development benchmark and its locked test remains sealed. A prospectively frozen ROI v4 detector-plus-segmenter is now undergoing independent validation before any scale-out image access.
 
-Scale-out is no longer an open-ended search. If estimator qualification passes, one dated iNaturalist Open Data snapshot will supply eight disjoint random cohorts of 25 species × 300 observations (200 species and 60,000 observations in total). Every cohort is required and enters one nested null; there is no stopping after a favourable replicate. The ordered inference then reports geographic shared concentration, independently frozen environmental concordance, and a colour-blind *Bombus* regionalization only if its own coverage gate passes. Every branch terminates as `supported`, `not_supported`, or `not_evaluable`.
+Scale-out is no longer an open-ended search. One complete metadata audit selects eight disjoint random cohorts of 25 species × 300 observations (200 species and 60,000 observations in total), and every selected row must reconcile exactly to the official 2026-08-27 iNaturalist Open Data snapshot. The Open Data schema does not contain flowering annotations, so the API selection and dated-source resolution are separate frozen stages; any missing or mismatched row stops acquisition without replacement. Every cohort is required and enters one nested 9,999-randomization maximum-statistic null. The first evaluable inference is concordance with macroclimate, land-cover and ecoregion boundaries frozen before colour. Terrain and *Bombus* remain `not_evaluable` under their source gates. Every branch terminates as `supported`, `not_supported`, or `not_evaluable`.
 
 ### Frozen Chapter 1 — held-out spatial analysis
 
