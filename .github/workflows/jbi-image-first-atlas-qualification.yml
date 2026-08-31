@@ -340,7 +340,9 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && inputs.run_scaleout_metadata
     needs: contract-and-tests
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    # A complete 500-species audit can require up to 2,500 deliberately
+    # throttled API pages.  Runtime is not a stopping rule.
+    timeout-minutes: 480
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
