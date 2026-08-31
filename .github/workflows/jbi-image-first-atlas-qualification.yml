@@ -13,6 +13,7 @@ on:
       - "scripts/data/build_jbi_atlas_scaleout_metadata_feasibility.py"
       - "scripts/data/validate_jbi_atlas_scaleout_geometry_amendment.py"
       - "scripts/data/validate_jbi_atlas_bombus_source_gate.py"
+      - "scripts/data/validate_jbi_atlas_roi_benchmark_result_v2.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall.py"
       - "scripts/data/acquire_jbi_atlas_blinded_images.py"
       - "scripts/data/measure_jbi_atlas_blinded_images.py"
@@ -39,6 +40,9 @@ on:
       - "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json"
       - "docs/supporting/jbi_atlas_scaleout_geometry_admission_amendment_v1.json"
       - "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json"
+      - "docs/supporting/jbi_atlas_roi_benchmark_evidence_manifest_v2.json"
+      - "docs/supporting/jbi_atlas_oxford17_roi_benchmark_result_v2.json"
+      - "data/atlas/qualification/oxford17_roi_benchmark_rows_v2.csv"
       - "docs/supporting/jbi_atlas_signal_recovery_result_v2.json"
       - "docs/supporting/jbi_atlas_overlay_null_qualification_result_v2.json"
       - "docs/supporting/jbi_atlas_environmental_overlay_contract_v1.json"
@@ -57,6 +61,7 @@ on:
       - "scripts/data/build_jbi_atlas_scaleout_metadata_feasibility.py"
       - "scripts/data/validate_jbi_atlas_scaleout_geometry_amendment.py"
       - "scripts/data/validate_jbi_atlas_bombus_source_gate.py"
+      - "scripts/data/validate_jbi_atlas_roi_benchmark_result_v2.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall.py"
       - "scripts/data/acquire_jbi_atlas_blinded_images.py"
       - "scripts/data/measure_jbi_atlas_blinded_images.py"
@@ -83,6 +88,9 @@ on:
       - "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json"
       - "docs/supporting/jbi_atlas_scaleout_geometry_admission_amendment_v1.json"
       - "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json"
+      - "docs/supporting/jbi_atlas_roi_benchmark_evidence_manifest_v2.json"
+      - "docs/supporting/jbi_atlas_oxford17_roi_benchmark_result_v2.json"
+      - "data/atlas/qualification/oxford17_roi_benchmark_rows_v2.csv"
       - "docs/supporting/jbi_atlas_signal_recovery_result_v2.json"
       - "docs/supporting/jbi_atlas_overlay_null_qualification_result_v2.json"
       - "docs/supporting/jbi_atlas_environmental_overlay_contract_v1.json"
@@ -136,6 +144,7 @@ jobs:
           python scripts/data/validate_jbi_atlas_inference_contract_v3.py
           python scripts/data/validate_jbi_atlas_scaleout_geometry_amendment.py
           python scripts/data/validate_jbi_atlas_bombus_source_gate.py
+          python scripts/data/validate_jbi_atlas_roi_benchmark_result_v2.py
           python scripts/data/validate_jbi_atlas_environmental_overlay_contract.py
           python scripts/data/validate_jbi_atlas_climate_ecoregion_freeze.py
           python scripts/data/validate_jbi_atlas_worldcover_freeze.py

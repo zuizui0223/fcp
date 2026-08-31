@@ -1,0 +1,16 @@
+{
+  "protocol": "jbi-atlas-oxford17-roi-benchmark-evidence-v2",
+  "status": "stop_roi_benchmark_failed",
+  "github_actions_run": "https://github.com/zuizui0223/fcp/actions/runs/33367465043",
+  "files_sha256_lf_canonical_v1": {
+    "data/atlas/qualification/oxford17_roi_benchmark_rows_v2.csv": "ed043d92428fe3a282eca5a291ae75c212f6bb48e6531203275b8dbd1796ab3b",
+    "docs/supporting/jbi_atlas_oxford17_roi_benchmark_result_v2.json": "7db59dd8936f2b72bf95630be59cac90141049c6678ddb0117d011f0c460940a"
+  },
+  "failed_check": "minimum_admitted_fraction",
+  "observed_admitted_fraction": 0.7971698113207547,
+  "frozen_minimum_admitted_fraction": 0.8,
+  "all_segmentation_and_colour_error_checks_passed": true,
+  "candidate_image_pixels_opened": false,
+  "decision": "the v2 estimator remains stopped; do not lower the gate or retune on Oxford-17",
+  "claim_ceiling": "Independent estimator validation result only; no atlas flower colour was measured."
+}
