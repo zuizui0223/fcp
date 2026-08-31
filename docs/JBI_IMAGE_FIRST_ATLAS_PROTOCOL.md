@@ -66,7 +66,7 @@ Species failing geometry at a candidate scale remain `not_evaluable` at that sca
 
 ## Gate 3 — image and flower ROI
 
-Image pixels may be opened only after the cohort, observation manifest and geometry scale are hash-frozen. Acquisition retains the photo licence and attribution. Flower localization is automated and uses a separately frozen model revision and thresholds.
+Image pixels may be opened only after the cohort, observation manifest and geometry scale are hash-frozen. The freeze manifest declares `sha256_lf_canonical_v1`, which canonicalizes text newlines to LF before hashing so validation is identical on Linux and Windows. Acquisition retains the photo licence and attribution. Flower localization is automated and uses a separately frozen model revision and thresholds.
 
 Every photo must resolve to one of:
 

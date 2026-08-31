@@ -4,7 +4,7 @@
 
 The active mainline is the image-first global flower-colour atlas. The former PR #21 target of 12 literature-selected species × 200 photographs is retained as a completed metadata-method precursor, not as the terminal cohort or confirmatory design.
 
-Current gate: **pre-image contract implemented; live 50-species metadata feasibility pending GitHub Actions**.
+Current gate: **metadata and geometry frozen before image pixels; flower-ROI measurement contract is next**.
 
 No atlas candidate image pixel, flower ROI or continuous colour value has been opened. Therefore no atlas colour field, transition boundary or shared-boundary result exists yet.
 
@@ -29,15 +29,25 @@ The 34-species comparative paper is also retained intact. Its literature extract
 6. Species-free display-table interface with species-conditioned inference retained.
 7. GitHub Actions contract tests, live feasibility, artifact upload, validation and passing-freeze commit.
 
-Focused local validation: `tests/test_image_first_atlas.py` — **7 passed**. Atlas plus retained scale-up/manuscript regression selection — **39 passed**.
+## Completed live metadata gate
+
+GitHub Actions run `33355972418` completed successfully on 2026-08-31. Under the unchanged pre-image rules it:
+
+- received 200 species-count records, retained 199 after static filters and audited 61 species;
+- admitted exactly 50 species and selected 20,200 observations;
+- assigned 19 species to the 500-photo tier, 14 to the 400-photo tier and 17 to the 300-photo tier;
+- passed the geometry criteria at 100, 250 and 500 km and selected the finest passing scale, 100 km, as primary;
+- retained 250 and 500 km as mandatory sensitivities;
+- kept candidate image pixels, flower ROI and continuous colour closed throughout.
+
+At 100 km, all 50 species were geometry-evaluable, all 50 had shared-opportunity support, and 418 cells had opportunity from at least three species. The frozen outputs are the 50-species cohort, the 20,200-observation manifest, the feasibility audit, all-scale geometry diagnostics and their manifest. Text hashes use the declared `sha256_lf_canonical_v1` mode so the same freeze verifies on Linux and Windows without changing scientific content.
+
+Focused local validation: `tests/test_image_first_atlas.py` — **8 passed**. Atlas plus retained scale-up/manuscript regression selection — **40 passed**. The committed complete freeze also passes its independent validator on Windows.
 
 The repository-wide pytest collection additionally requires the pre-existing optional Florence stack (`transformers==5.16.1`); it is validated in its dedicated workflow and is not imported by the metadata gate.
 
 ## Next allowed gate
 
-Run `.github/workflows/jbi-image-first-atlas-metadata.yml` on the PR #21 head. The workflow must either:
+Write and freeze the flower-ROI measurement contract: model revision, input image derivative, ROI acceptance/completeness rules, colour calibration and failure states. Do not open the 20,200 candidate image pixels until that contract and its validator pass.
 
-- freeze exactly 50 admitted species, 300–500 observations per species and one geometry-selected primary scale; or
-- stop as `not_evaluable` without downloading images or changing the rules.
-
-Only a passing, hash-validated metadata and geometry freeze authorizes a separately frozen flower-ROI measurement phase.
+The present freeze establishes metadata and geometry feasibility only. It is not evidence for a flower-colour field, a transition boundary or cross-species shared-boundary concentration.

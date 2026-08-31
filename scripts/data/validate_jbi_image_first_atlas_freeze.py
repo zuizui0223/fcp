@@ -6,7 +6,6 @@ from __future__ import annotations
 import argparse
 from collections import Counter
 import csv
-import hashlib
 import json
 from pathlib import Path
 import sys
@@ -15,11 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from fcp_pipeline.image_first_atlas import validate_atlas_contract
-
-
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+from fcp_pipeline.image_first_atlas import sha256_lf_canonical, validate_atlas_contract
 
 
 def read_csv(path: Path) -> list[dict[str, str]]:
@@ -112,6 +107,9 @@ def main() -> int:
         if manifest.get(key) is not False:
             raise SystemExit(f"freeze manifest outcome firewall is open for {key}")
 
+    if manifest.get("file_hash_mode") != "sha256_lf_canonical_v1":
+        raise SystemExit("freeze manifest does not declare the cross-platform LF hash mode")
+
     expected_files = {
         args.contract: manifest["files"].get(str(args.contract).replace("\\", "/")),
         args.cohort: manifest["files"].get(str(args.cohort).replace("\\", "/")),
@@ -120,7 +118,7 @@ def main() -> int:
         args.geometry: manifest["files"].get(str(args.geometry).replace("\\", "/")),
     }
     for path, expected in expected_files.items():
-        if expected != sha256(path):
+        if expected != sha256_lf_canonical(path):
             raise SystemExit(f"freeze hash mismatch: {path}")
 
     print(

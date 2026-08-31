@@ -9,6 +9,7 @@ import pytest
 from fcp_pipeline.image_first_atlas import (
     freeze_atlas_geometry,
     freeze_atlas_metadata,
+    sha256_lf_canonical,
     species_free_display_rows,
     validate_atlas_contract,
 )
@@ -181,3 +182,11 @@ def test_species_free_display_strips_taxonomy_but_keeps_roi_and_colour():
     assert displayed[0]["roi_thumbnail_path"] == "roi/123.webp"
     assert "species" not in displayed[0]
     assert "inat_taxon_id" not in displayed[0]
+
+
+def test_freeze_hash_is_identical_across_lf_and_crlf(tmp_path):
+    lf_path = tmp_path / "lf.txt"
+    crlf_path = tmp_path / "crlf.txt"
+    lf_path.write_bytes(b"header\nvalue\n")
+    crlf_path.write_bytes(b"header\r\nvalue\r\n")
+    assert sha256_lf_canonical(lf_path) == sha256_lf_canonical(crlf_path)

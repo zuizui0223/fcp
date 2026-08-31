@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
 import json
 import math
 from pathlib import Path
@@ -24,14 +23,11 @@ from fcp_pipeline.image_first_atlas import (
     AtlasMetadataAdapter,
     freeze_atlas_geometry,
     freeze_atlas_metadata,
+    sha256_lf_canonical,
 )
 
 
 USER_AGENT = "zuizui0223-fcp-image-first-atlas/1.0 (metadata feasibility; research reproducibility)"
-
-
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def get_json(url: str, *, pause: float, attempts: int = 4) -> dict[str, Any]:
@@ -231,12 +227,13 @@ def main() -> int:
         "flower_roi_used": False,
         "continuous_colour_used": False,
         "literature_classification_used_for_admission": False,
+        "file_hash_mode": "sha256_lf_canonical_v1",
         "files": {
-            str(args.contract).replace("\\", "/"): sha256(args.contract),
-            str(args.cohort).replace("\\", "/"): sha256(args.cohort),
-            str(args.observations).replace("\\", "/"): sha256(args.observations),
-            str(args.feasibility).replace("\\", "/"): sha256(args.feasibility),
-            str(args.geometry).replace("\\", "/"): sha256(args.geometry),
+            str(args.contract).replace("\\", "/"): sha256_lf_canonical(args.contract),
+            str(args.cohort).replace("\\", "/"): sha256_lf_canonical(args.cohort),
+            str(args.observations).replace("\\", "/"): sha256_lf_canonical(args.observations),
+            str(args.feasibility).replace("\\", "/"): sha256_lf_canonical(args.feasibility),
+            str(args.geometry).replace("\\", "/"): sha256_lf_canonical(args.geometry),
         },
         "species_admitted": freeze.audit["species_admitted"],
         "selected_observations": freeze.audit["selected_observations"],

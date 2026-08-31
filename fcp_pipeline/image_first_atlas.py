@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from datetime import date
 import hashlib
 import math
+from pathlib import Path
 from typing import Any, Iterable, Mapping, Protocol, Sequence
 
 import numpy as np
@@ -61,6 +62,13 @@ class AtlasMetadataFreeze:
 
 def sha256_text(*parts: object) -> str:
     payload = "\x1f".join(str(part) for part in parts).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def sha256_lf_canonical(path: Path) -> str:
+    """Hash a frozen text artifact after canonicalising platform newlines to LF."""
+
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
     return hashlib.sha256(payload).hexdigest()
 
 

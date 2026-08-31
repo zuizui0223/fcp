@@ -1,6 +1,7 @@
 {
   "candidate_image_pixels_opened": false,
   "continuous_colour_used": false,
+  "file_hash_mode": "sha256_lf_canonical_v1",
   "files": {
     "data/atlas/jbi_image_first_atlas_cohort_v1.csv": "e1423f005e0c5e22d3087b26cd67ed1883211d2d600daf018fa4eac5ff5736c7",
     "data/atlas/jbi_image_first_atlas_observation_manifest_v1.csv": "4649bde3208b8766d7e306418056e05af0112a70f2e9d2d09d362c8e20c5a23d",
