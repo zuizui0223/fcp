@@ -1,0 +1,1292 @@
+{
+  "candidate_scales": [
+    {
+      "approximate_cell_area_km2": 9962.224237751401,
+      "evaluable_species": 50,
+      "grid": {
+        "n_cells": 51200,
+        "n_lon": 320,
+        "n_sinlat": 160
+      },
+      "opportunity": {
+        "detectable_cells_per_species": [
+          92,
+          77,
+          78,
+          72,
+          106,
+          79,
+          99,
+          90,
+          92,
+          82,
+          82,
+          82,
+          80,
+          93,
+          113,
+          127,
+          39,
+          66,
+          60,
+          64,
+          94,
+          84,
+          87,
+          61,
+          72,
+          70,
+          91,
+          89,
+          69,
+          58,
+          91,
+          75,
+          92,
+          70,
+          54,
+          100,
+          78,
+          134,
+          80,
+          68,
+          120,
+          98,
+          91,
+          99,
+          91,
+          46,
+          56,
+          67,
+          110,
+          94
+        ],
+        "max_A": 35,
+        "n_cells": 51200,
+        "n_cells_A_ge_1": 968,
+        "n_cells_A_ge_2": 561,
+        "n_cells_A_ge_3": 418,
+        "n_cells_A_ge_4": 327,
+        "retained_edges_per_species": [
+          845,
+          538,
+          629,
+          793,
+          1064,
+          559,
+          684,
+          920,
+          813,
+          689,
+          849,
+          700,
+          686,
+          949,
+          1054,
+          979,
+          1225,
+          1160,
+          1025,
+          494,
+          843,
+          1262,
+          737,
+          489,
+          826,
+          589,
+          882,
+          778,
+          499,
+          363,
+          564,
+          583,
+          751,
+          502,
+          456,
+          985,
+          1209,
+          1390,
+          607,
+          659,
+          1174,
+          920,
+          727,
+          880,
+          828,
+          896,
+          482,
+          391,
+          867,
+          849
+        ],
+        "species_with_any_shared_opportunity": 50
+      },
+      "passes_geometry_only_criteria": true,
+      "scale_km": 100,
+      "species_geometry": [
+        {
+          "detectable_cells": 92,
+          "geometry_evaluable": true,
+          "retained_edges": 845,
+          "species": "Achillea millefolium"
+        },
+        {
+          "detectable_cells": 77,
+          "geometry_evaluable": true,
+          "retained_edges": 538,
+          "species": "Anaphalis margaritacea"
+        },
+        {
+          "detectable_cells": 78,
+          "geometry_evaluable": true,
+          "retained_edges": 629,
+          "species": "Aquilegia canadensis"
+        },
+        {
+          "detectable_cells": 72,
+          "geometry_evaluable": true,
+          "retained_edges": 793,
+          "species": "Arisaema triphyllum"
+        },
+        {
+          "detectable_cells": 106,
+          "geometry_evaluable": true,
+          "retained_edges": 1064,
+          "species": "Bellis perennis"
+        },
+        {
+          "detectable_cells": 79,
+          "geometry_evaluable": true,
+          "retained_edges": 559,
+          "species": "Caltha palustris"
+        },
+        {
+          "detectable_cells": 99,
+          "geometry_evaluable": true,
+          "retained_edges": 684,
+          "species": "Chelidonium majus"
+        },
+        {
+          "detectable_cells": 90,
+          "geometry_evaluable": true,
+          "retained_edges": 920,
+          "species": "Cichorium intybus"
+        },
+        {
+          "detectable_cells": 92,
+          "geometry_evaluable": true,
+          "retained_edges": 813,
+          "species": "Cirsium vulgare"
+        },
+        {
+          "detectable_cells": 82,
+          "geometry_evaluable": true,
+          "retained_edges": 689,
+          "species": "Claytonia virginica"
+        },
+        {
+          "detectable_cells": 82,
+          "geometry_evaluable": true,
+          "retained_edges": 849,
+          "species": "Commelina erecta"
+        },
+        {
+          "detectable_cells": 82,
+          "geometry_evaluable": true,
+          "retained_edges": 700,
+          "species": "Convolvulus arvensis"
+        },
+        {
+          "detectable_cells": 80,
+          "geometry_evaluable": true,
+          "retained_edges": 686,
+          "species": "Cypripedium acaule"
+        },
+        {
+          "detectable_cells": 93,
+          "geometry_evaluable": true,
+          "retained_edges": 949,
+          "species": "Daucus carota"
+        },
+        {
+          "detectable_cells": 113,
+          "geometry_evaluable": true,
+          "retained_edges": 1054,
+          "species": "Digitalis purpurea"
+        },
+        {
+          "detectable_cells": 127,
+          "geometry_evaluable": true,
+          "retained_edges": 979,
+          "species": "Echium vulgare"
+        },
+        {
+          "detectable_cells": 39,
+          "geometry_evaluable": true,
+          "retained_edges": 1225,
+          "species": "Epilobium canum"
+        },
+        {
+          "detectable_cells": 66,
+          "geometry_evaluable": true,
+          "retained_edges": 1160,
+          "species": "Erodium cicutarium"
+        },
+        {
+          "detectable_cells": 60,
+          "geometry_evaluable": true,
+          "retained_edges": 1025,
+          "species": "Eschscholzia californica"
+        },
+        {
+          "detectable_cells": 64,
+          "geometry_evaluable": true,
+          "retained_edges": 494,
+          "species": "Ficaria verna"
+        },
+        {
+          "detectable_cells": 94,
+          "geometry_evaluable": true,
+          "retained_edges": 843,
+          "species": "Galanthus nivalis"
+        },
+        {
+          "detectable_cells": 84,
+          "geometry_evaluable": true,
+          "retained_edges": 1262,
+          "species": "Geranium robertianum"
+        },
+        {
+          "detectable_cells": 87,
+          "geometry_evaluable": true,
+          "retained_edges": 737,
+          "species": "Glechoma hederacea"
+        },
+        {
+          "detectable_cells": 61,
+          "geometry_evaluable": true,
+          "retained_edges": 489,
+          "species": "Hesperis matronalis"
+        },
+        {
+          "detectable_cells": 72,
+          "geometry_evaluable": true,
+          "retained_edges": 826,
+          "species": "Houstonia caerulea"
+        },
+        {
+          "detectable_cells": 70,
+          "geometry_evaluable": true,
+          "retained_edges": 589,
+          "species": "Impatiens capensis"
+        },
+        {
+          "detectable_cells": 91,
+          "geometry_evaluable": true,
+          "retained_edges": 882,
+          "species": "Lamium album"
+        },
+        {
+          "detectable_cells": 89,
+          "geometry_evaluable": true,
+          "retained_edges": 778,
+          "species": "Lamium amplexicaule"
+        },
+        {
+          "detectable_cells": 69,
+          "geometry_evaluable": true,
+          "retained_edges": 499,
+          "species": "Lamium purpureum"
+        },
+        {
+          "detectable_cells": 58,
+          "geometry_evaluable": true,
+          "retained_edges": 363,
+          "species": "Lathyrus tuberosus"
+        },
+        {
+          "detectable_cells": 91,
+          "geometry_evaluable": true,
+          "retained_edges": 564,
+          "species": "Leucanthemum vulgare"
+        },
+        {
+          "detectable_cells": 75,
+          "geometry_evaluable": true,
+          "retained_edges": 583,
+          "species": "Linaria vulgaris"
+        },
+        {
+          "detectable_cells": 92,
+          "geometry_evaluable": true,
+          "retained_edges": 751,
+          "species": "Lotus corniculatus"
+        },
+        {
+          "detectable_cells": 70,
+          "geometry_evaluable": true,
+          "retained_edges": 502,
+          "species": "Lunaria annua"
+        },
+        {
+          "detectable_cells": 54,
+          "geometry_evaluable": true,
+          "retained_edges": 456,
+          "species": "Lythrum salicaria"
+        },
+        {
+          "detectable_cells": 100,
+          "geometry_evaluable": true,
+          "retained_edges": 985,
+          "species": "Mitchella repens"
+        },
+        {
+          "detectable_cells": 78,
+          "geometry_evaluable": true,
+          "retained_edges": 1209,
+          "species": "Oxalis pes-caprae"
+        },
+        {
+          "detectable_cells": 134,
+          "geometry_evaluable": true,
+          "retained_edges": 1390,
+          "species": "Passiflora incarnata"
+        },
+        {
+          "detectable_cells": 80,
+          "geometry_evaluable": true,
+          "retained_edges": 607,
+          "species": "Prunella vulgaris"
+        },
+        {
+          "detectable_cells": 68,
+          "geometry_evaluable": true,
+          "retained_edges": 659,
+          "species": "Pulsatilla nuttalliana"
+        },
+        {
+          "detectable_cells": 120,
+          "geometry_evaluable": true,
+          "retained_edges": 1174,
+          "species": "Rudbeckia hirta"
+        },
+        {
+          "detectable_cells": 98,
+          "geometry_evaluable": true,
+          "retained_edges": 920,
+          "species": "Silybum marianum"
+        },
+        {
+          "detectable_cells": 91,
+          "geometry_evaluable": true,
+          "retained_edges": 727,
+          "species": "Taraxacum officinale"
+        },
+        {
+          "detectable_cells": 99,
+          "geometry_evaluable": true,
+          "retained_edges": 880,
+          "species": "Trifolium pratense"
+        },
+        {
+          "detectable_cells": 91,
+          "geometry_evaluable": true,
+          "retained_edges": 828,
+          "species": "Trifolium repens"
+        },
+        {
+          "detectable_cells": 46,
+          "geometry_evaluable": true,
+          "retained_edges": 896,
+          "species": "Trillium ovatum"
+        },
+        {
+          "detectable_cells": 56,
+          "geometry_evaluable": true,
+          "retained_edges": 482,
+          "species": "Tussilago farfara"
+        },
+        {
+          "detectable_cells": 67,
+          "geometry_evaluable": true,
+          "retained_edges": 391,
+          "species": "Veronica chamaedrys"
+        },
+        {
+          "detectable_cells": 110,
+          "geometry_evaluable": true,
+          "retained_edges": 867,
+          "species": "Veronica persica"
+        },
+        {
+          "detectable_cells": 94,
+          "geometry_evaluable": true,
+          "retained_edges": 849,
+          "species": "Vinca minor"
+        }
+      ]
+    },
+    {
+      "approximate_cell_area_km2": 62263.90148594626,
+      "evaluable_species": 50,
+      "grid": {
+        "n_cells": 8192,
+        "n_lon": 128,
+        "n_sinlat": 64
+      },
+      "opportunity": {
+        "detectable_cells_per_species": [
+          93,
+          52,
+          42,
+          33,
+          77,
+          78,
+          76,
+          79,
+          96,
+          48,
+          84,
+          103,
+          44,
+          83,
+          73,
+          87,
+          19,
+          52,
+          36,
+          54,
+          59,
+          55,
+          68,
+          50,
+          25,
+          47,
+          54,
+          61,
+          60,
+          73,
+          80,
+          76,
+          66,
+          55,
+          55,
+          44,
+          69,
+          44,
+          77,
+          47,
+          62,
+          91,
+          98,
+          82,
+          86,
+          19,
+          57,
+          70,
+          88,
+          56
+        ],
+        "max_A": 39,
+        "n_cells": 8192,
+        "n_cells_A_ge_1": 486,
+        "n_cells_A_ge_2": 311,
+        "n_cells_A_ge_3": 252,
+        "n_cells_A_ge_4": 209,
+        "retained_edges_per_species": [
+          1298,
+          828,
+          891,
+          960,
+          1437,
+          971,
+          1105,
+          1336,
+          1309,
+          937,
+          1228,
+          1250,
+          931,
+          1401,
+          1388,
+          1407,
+          1263,
+          1409,
+          1141,
+          797,
+          1153,
+          1467,
+          1098,
+          781,
+          924,
+          885,
+          1188,
+          1128,
+          829,
+          800,
+          979,
+          1017,
+          1095,
+          835,
+          733,
+          1224,
+          1472,
+          1565,
+          1026,
+          901,
+          1506,
+          1338,
+          1204,
+          1333,
+          1281,
+          940,
+          783,
+          760,
+          1371,
+          1186
+        ],
+        "species_with_any_shared_opportunity": 50
+      },
+      "passes_geometry_only_criteria": true,
+      "scale_km": 250,
+      "species_geometry": [
+        {
+          "detectable_cells": 93,
+          "geometry_evaluable": true,
+          "retained_edges": 1298,
+          "species": "Achillea millefolium"
+        },
+        {
+          "detectable_cells": 52,
+          "geometry_evaluable": true,
+          "retained_edges": 828,
+          "species": "Anaphalis margaritacea"
+        },
+        {
+          "detectable_cells": 42,
+          "geometry_evaluable": true,
+          "retained_edges": 891,
+          "species": "Aquilegia canadensis"
+        },
+        {
+          "detectable_cells": 33,
+          "geometry_evaluable": true,
+          "retained_edges": 960,
+          "species": "Arisaema triphyllum"
+        },
+        {
+          "detectable_cells": 77,
+          "geometry_evaluable": true,
+          "retained_edges": 1437,
+          "species": "Bellis perennis"
+        },
+        {
+          "detectable_cells": 78,
+          "geometry_evaluable": true,
+          "retained_edges": 971,
+          "species": "Caltha palustris"
+        },
+        {
+          "detectable_cells": 76,
+          "geometry_evaluable": true,
+          "retained_edges": 1105,
+          "species": "Chelidonium majus"
+        },
+        {
+          "detectable_cells": 79,
+          "geometry_evaluable": true,
+          "retained_edges": 1336,
+          "species": "Cichorium intybus"
+        },
+        {
+          "detectable_cells": 96,
+          "geometry_evaluable": true,
+          "retained_edges": 1309,
+          "species": "Cirsium vulgare"
+        },
+        {
+          "detectable_cells": 48,
+          "geometry_evaluable": true,
+          "retained_edges": 937,
+          "species": "Claytonia virginica"
+        },
+        {
+          "detectable_cells": 84,
+          "geometry_evaluable": true,
+          "retained_edges": 1228,
+          "species": "Commelina erecta"
+        },
+        {
+          "detectable_cells": 103,
+          "geometry_evaluable": true,
+          "retained_edges": 1250,
+          "species": "Convolvulus arvensis"
+        },
+        {
+          "detectable_cells": 44,
+          "geometry_evaluable": true,
+          "retained_edges": 931,
+          "species": "Cypripedium acaule"
+        },
+        {
+          "detectable_cells": 83,
+          "geometry_evaluable": true,
+          "retained_edges": 1401,
+          "species": "Daucus carota"
+        },
+        {
+          "detectable_cells": 73,
+          "geometry_evaluable": true,
+          "retained_edges": 1388,
+          "species": "Digitalis purpurea"
+        },
+        {
+          "detectable_cells": 87,
+          "geometry_evaluable": true,
+          "retained_edges": 1407,
+          "species": "Echium vulgare"
+        },
+        {
+          "detectable_cells": 19,
+          "geometry_evaluable": true,
+          "retained_edges": 1263,
+          "species": "Epilobium canum"
+        },
+        {
+          "detectable_cells": 52,
+          "geometry_evaluable": true,
+          "retained_edges": 1409,
+          "species": "Erodium cicutarium"
+        },
+        {
+          "detectable_cells": 36,
+          "geometry_evaluable": true,
+          "retained_edges": 1141,
+          "species": "Eschscholzia californica"
+        },
+        {
+          "detectable_cells": 54,
+          "geometry_evaluable": true,
+          "retained_edges": 797,
+          "species": "Ficaria verna"
+        },
+        {
+          "detectable_cells": 59,
+          "geometry_evaluable": true,
+          "retained_edges": 1153,
+          "species": "Galanthus nivalis"
+        },
+        {
+          "detectable_cells": 55,
+          "geometry_evaluable": true,
+          "retained_edges": 1467,
+          "species": "Geranium robertianum"
+        },
+        {
+          "detectable_cells": 68,
+          "geometry_evaluable": true,
+          "retained_edges": 1098,
+          "species": "Glechoma hederacea"
+        },
+        {
+          "detectable_cells": 50,
+          "geometry_evaluable": true,
+          "retained_edges": 781,
+          "species": "Hesperis matronalis"
+        },
+        {
+          "detectable_cells": 25,
+          "geometry_evaluable": true,
+          "retained_edges": 924,
+          "species": "Houstonia caerulea"
+        },
+        {
+          "detectable_cells": 47,
+          "geometry_evaluable": true,
+          "retained_edges": 885,
+          "species": "Impatiens capensis"
+        },
+        {
+          "detectable_cells": 54,
+          "geometry_evaluable": true,
+          "retained_edges": 1188,
+          "species": "Lamium album"
+        },
+        {
+          "detectable_cells": 61,
+          "geometry_evaluable": true,
+          "retained_edges": 1128,
+          "species": "Lamium amplexicaule"
+        },
+        {
+          "detectable_cells": 60,
+          "geometry_evaluable": true,
+          "retained_edges": 829,
+          "species": "Lamium purpureum"
+        },
+        {
+          "detectable_cells": 73,
+          "geometry_evaluable": true,
+          "retained_edges": 800,
+          "species": "Lathyrus tuberosus"
+        },
+        {
+          "detectable_cells": 80,
+          "geometry_evaluable": true,
+          "retained_edges": 979,
+          "species": "Leucanthemum vulgare"
+        },
+        {
+          "detectable_cells": 76,
+          "geometry_evaluable": true,
+          "retained_edges": 1017,
+          "species": "Linaria vulgaris"
+        },
+        {
+          "detectable_cells": 66,
+          "geometry_evaluable": true,
+          "retained_edges": 1095,
+          "species": "Lotus corniculatus"
+        },
+        {
+          "detectable_cells": 55,
+          "geometry_evaluable": true,
+          "retained_edges": 835,
+          "species": "Lunaria annua"
+        },
+        {
+          "detectable_cells": 55,
+          "geometry_evaluable": true,
+          "retained_edges": 733,
+          "species": "Lythrum salicaria"
+        },
+        {
+          "detectable_cells": 44,
+          "geometry_evaluable": true,
+          "retained_edges": 1224,
+          "species": "Mitchella repens"
+        },
+        {
+          "detectable_cells": 69,
+          "geometry_evaluable": true,
+          "retained_edges": 1472,
+          "species": "Oxalis pes-caprae"
+        },
+        {
+          "detectable_cells": 44,
+          "geometry_evaluable": true,
+          "retained_edges": 1565,
+          "species": "Passiflora incarnata"
+        },
+        {
+          "detectable_cells": 77,
+          "geometry_evaluable": true,
+          "retained_edges": 1026,
+          "species": "Prunella vulgaris"
+        },
+        {
+          "detectable_cells": 47,
+          "geometry_evaluable": true,
+          "retained_edges": 901,
+          "species": "Pulsatilla nuttalliana"
+        },
+        {
+          "detectable_cells": 62,
+          "geometry_evaluable": true,
+          "retained_edges": 1506,
+          "species": "Rudbeckia hirta"
+        },
+        {
+          "detectable_cells": 91,
+          "geometry_evaluable": true,
+          "retained_edges": 1338,
+          "species": "Silybum marianum"
+        },
+        {
+          "detectable_cells": 98,
+          "geometry_evaluable": true,
+          "retained_edges": 1204,
+          "species": "Taraxacum officinale"
+        },
+        {
+          "detectable_cells": 82,
+          "geometry_evaluable": true,
+          "retained_edges": 1333,
+          "species": "Trifolium pratense"
+        },
+        {
+          "detectable_cells": 86,
+          "geometry_evaluable": true,
+          "retained_edges": 1281,
+          "species": "Trifolium repens"
+        },
+        {
+          "detectable_cells": 19,
+          "geometry_evaluable": true,
+          "retained_edges": 940,
+          "species": "Trillium ovatum"
+        },
+        {
+          "detectable_cells": 57,
+          "geometry_evaluable": true,
+          "retained_edges": 783,
+          "species": "Tussilago farfara"
+        },
+        {
+          "detectable_cells": 70,
+          "geometry_evaluable": true,
+          "retained_edges": 760,
+          "species": "Veronica chamaedrys"
+        },
+        {
+          "detectable_cells": 88,
+          "geometry_evaluable": true,
+          "retained_edges": 1371,
+          "species": "Veronica persica"
+        },
+        {
+          "detectable_cells": 56,
+          "geometry_evaluable": true,
+          "retained_edges": 1186,
+          "species": "Vinca minor"
+        }
+      ]
+    },
+    {
+      "approximate_cell_area_km2": 249055.60594378505,
+      "evaluable_species": 48,
+      "grid": {
+        "n_cells": 2048,
+        "n_lon": 64,
+        "n_sinlat": 32
+      },
+      "opportunity": {
+        "detectable_cells_per_species": [
+          63,
+          27,
+          19,
+          14,
+          46,
+          56,
+          46,
+          56,
+          72,
+          18,
+          61,
+          76,
+          21,
+          47,
+          49,
+          53,
+          37,
+          22,
+          36,
+          38,
+          39,
+          36,
+          37,
+          11,
+          24,
+          28,
+          33,
+          35,
+          45,
+          53,
+          52,
+          39,
+          36,
+          44,
+          17,
+          43,
+          17,
+          47,
+          25,
+          25,
+          65,
+          73,
+          53,
+          60,
+          39,
+          45,
+          52,
+          31
+        ],
+        "max_A": 42,
+        "n_cells": 2048,
+        "n_cells_A_ge_1": 235,
+        "n_cells_A_ge_2": 169,
+        "n_cells_A_ge_3": 137,
+        "n_cells_A_ge_4": 120,
+        "retained_edges_per_species": [
+          1458,
+          926,
+          929,
+          983,
+          1556,
+          1133,
+          1214,
+          1527,
+          1501,
+          948,
+          1442,
+          1499,
+          966,
+          1542,
+          1481,
+          1545,
+          1528,
+          1178,
+          889,
+          1240,
+          1574,
+          1210,
+          886,
+          936,
+          956,
+          1251,
+          1223,
+          908,
+          922,
+          1157,
+          1179,
+          1216,
+          930,
+          865,
+          1253,
+          1538,
+          1565,
+          1173,
+          946,
+          1548,
+          1492,
+          1441,
+          1478,
+          1476,
+          912,
+          910,
+          1483,
+          1242
+        ],
+        "species_with_any_shared_opportunity": 48
+      },
+      "passes_geometry_only_criteria": true,
+      "scale_km": 500,
+      "species_geometry": [
+        {
+          "detectable_cells": 63,
+          "geometry_evaluable": true,
+          "retained_edges": 1458,
+          "species": "Achillea millefolium"
+        },
+        {
+          "detectable_cells": 27,
+          "geometry_evaluable": true,
+          "retained_edges": 926,
+          "species": "Anaphalis margaritacea"
+        },
+        {
+          "detectable_cells": 19,
+          "geometry_evaluable": true,
+          "retained_edges": 929,
+          "species": "Aquilegia canadensis"
+        },
+        {
+          "detectable_cells": 14,
+          "geometry_evaluable": true,
+          "retained_edges": 983,
+          "species": "Arisaema triphyllum"
+        },
+        {
+          "detectable_cells": 46,
+          "geometry_evaluable": true,
+          "retained_edges": 1556,
+          "species": "Bellis perennis"
+        },
+        {
+          "detectable_cells": 56,
+          "geometry_evaluable": true,
+          "retained_edges": 1133,
+          "species": "Caltha palustris"
+        },
+        {
+          "detectable_cells": 46,
+          "geometry_evaluable": true,
+          "retained_edges": 1214,
+          "species": "Chelidonium majus"
+        },
+        {
+          "detectable_cells": 56,
+          "geometry_evaluable": true,
+          "retained_edges": 1527,
+          "species": "Cichorium intybus"
+        },
+        {
+          "detectable_cells": 72,
+          "geometry_evaluable": true,
+          "retained_edges": 1501,
+          "species": "Cirsium vulgare"
+        },
+        {
+          "detectable_cells": 18,
+          "geometry_evaluable": true,
+          "retained_edges": 948,
+          "species": "Claytonia virginica"
+        },
+        {
+          "detectable_cells": 61,
+          "geometry_evaluable": true,
+          "retained_edges": 1442,
+          "species": "Commelina erecta"
+        },
+        {
+          "detectable_cells": 76,
+          "geometry_evaluable": true,
+          "retained_edges": 1499,
+          "species": "Convolvulus arvensis"
+        },
+        {
+          "detectable_cells": 21,
+          "geometry_evaluable": true,
+          "retained_edges": 966,
+          "species": "Cypripedium acaule"
+        },
+        {
+          "detectable_cells": 47,
+          "geometry_evaluable": true,
+          "retained_edges": 1542,
+          "species": "Daucus carota"
+        },
+        {
+          "detectable_cells": 49,
+          "geometry_evaluable": true,
+          "retained_edges": 1481,
+          "species": "Digitalis purpurea"
+        },
+        {
+          "detectable_cells": 53,
+          "geometry_evaluable": true,
+          "retained_edges": 1545,
+          "species": "Echium vulgare"
+        },
+        {
+          "detectable_cells": 8,
+          "geometry_evaluable": false,
+          "retained_edges": 1271,
+          "species": "Epilobium canum"
+        },
+        {
+          "detectable_cells": 37,
+          "geometry_evaluable": true,
+          "retained_edges": 1528,
+          "species": "Erodium cicutarium"
+        },
+        {
+          "detectable_cells": 22,
+          "geometry_evaluable": true,
+          "retained_edges": 1178,
+          "species": "Eschscholzia californica"
+        },
+        {
+          "detectable_cells": 36,
+          "geometry_evaluable": true,
+          "retained_edges": 889,
+          "species": "Ficaria verna"
+        },
+        {
+          "detectable_cells": 38,
+          "geometry_evaluable": true,
+          "retained_edges": 1240,
+          "species": "Galanthus nivalis"
+        },
+        {
+          "detectable_cells": 39,
+          "geometry_evaluable": true,
+          "retained_edges": 1574,
+          "species": "Geranium robertianum"
+        },
+        {
+          "detectable_cells": 36,
+          "geometry_evaluable": true,
+          "retained_edges": 1210,
+          "species": "Glechoma hederacea"
+        },
+        {
+          "detectable_cells": 37,
+          "geometry_evaluable": true,
+          "retained_edges": 886,
+          "species": "Hesperis matronalis"
+        },
+        {
+          "detectable_cells": 11,
+          "geometry_evaluable": true,
+          "retained_edges": 936,
+          "species": "Houstonia caerulea"
+        },
+        {
+          "detectable_cells": 24,
+          "geometry_evaluable": true,
+          "retained_edges": 956,
+          "species": "Impatiens capensis"
+        },
+        {
+          "detectable_cells": 28,
+          "geometry_evaluable": true,
+          "retained_edges": 1251,
+          "species": "Lamium album"
+        },
+        {
+          "detectable_cells": 33,
+          "geometry_evaluable": true,
+          "retained_edges": 1223,
+          "species": "Lamium amplexicaule"
+        },
+        {
+          "detectable_cells": 35,
+          "geometry_evaluable": true,
+          "retained_edges": 908,
+          "species": "Lamium purpureum"
+        },
+        {
+          "detectable_cells": 45,
+          "geometry_evaluable": true,
+          "retained_edges": 922,
+          "species": "Lathyrus tuberosus"
+        },
+        {
+          "detectable_cells": 53,
+          "geometry_evaluable": true,
+          "retained_edges": 1157,
+          "species": "Leucanthemum vulgare"
+        },
+        {
+          "detectable_cells": 52,
+          "geometry_evaluable": true,
+          "retained_edges": 1179,
+          "species": "Linaria vulgaris"
+        },
+        {
+          "detectable_cells": 39,
+          "geometry_evaluable": true,
+          "retained_edges": 1216,
+          "species": "Lotus corniculatus"
+        },
+        {
+          "detectable_cells": 36,
+          "geometry_evaluable": true,
+          "retained_edges": 930,
+          "species": "Lunaria annua"
+        },
+        {
+          "detectable_cells": 44,
+          "geometry_evaluable": true,
+          "retained_edges": 865,
+          "species": "Lythrum salicaria"
+        },
+        {
+          "detectable_cells": 17,
+          "geometry_evaluable": true,
+          "retained_edges": 1253,
+          "species": "Mitchella repens"
+        },
+        {
+          "detectable_cells": 43,
+          "geometry_evaluable": true,
+          "retained_edges": 1538,
+          "species": "Oxalis pes-caprae"
+        },
+        {
+          "detectable_cells": 17,
+          "geometry_evaluable": true,
+          "retained_edges": 1565,
+          "species": "Passiflora incarnata"
+        },
+        {
+          "detectable_cells": 47,
+          "geometry_evaluable": true,
+          "retained_edges": 1173,
+          "species": "Prunella vulgaris"
+        },
+        {
+          "detectable_cells": 25,
+          "geometry_evaluable": true,
+          "retained_edges": 946,
+          "species": "Pulsatilla nuttalliana"
+        },
+        {
+          "detectable_cells": 25,
+          "geometry_evaluable": true,
+          "retained_edges": 1548,
+          "species": "Rudbeckia hirta"
+        },
+        {
+          "detectable_cells": 65,
+          "geometry_evaluable": true,
+          "retained_edges": 1492,
+          "species": "Silybum marianum"
+        },
+        {
+          "detectable_cells": 73,
+          "geometry_evaluable": true,
+          "retained_edges": 1441,
+          "species": "Taraxacum officinale"
+        },
+        {
+          "detectable_cells": 53,
+          "geometry_evaluable": true,
+          "retained_edges": 1478,
+          "species": "Trifolium pratense"
+        },
+        {
+          "detectable_cells": 60,
+          "geometry_evaluable": true,
+          "retained_edges": 1476,
+          "species": "Trifolium repens"
+        },
+        {
+          "detectable_cells": 9,
+          "geometry_evaluable": false,
+          "retained_edges": 945,
+          "species": "Trillium ovatum"
+        },
+        {
+          "detectable_cells": 39,
+          "geometry_evaluable": true,
+          "retained_edges": 912,
+          "species": "Tussilago farfara"
+        },
+        {
+          "detectable_cells": 45,
+          "geometry_evaluable": true,
+          "retained_edges": 910,
+          "species": "Veronica chamaedrys"
+        },
+        {
+          "detectable_cells": 52,
+          "geometry_evaluable": true,
+          "retained_edges": 1483,
+          "species": "Veronica persica"
+        },
+        {
+          "detectable_cells": 31,
+          "geometry_evaluable": true,
+          "retained_edges": 1242,
+          "species": "Vinca minor"
+        }
+      ]
+    }
+  ],
+  "next_gate": "lock cohort, admission and scale hashes; only then permit flower ROI extraction",
+  "priority_rule": "finest_passing_scale_before_colour_measurement",
+  "protocol": "jbi-image-first-global-flower-colour-atlas-v1",
+  "selected_primary_scale_km": 100,
+  "selection_used_continuous_colour": false,
+  "selection_used_coordinates": true,
+  "selection_used_flower_roi": false,
+  "selection_used_image_pixels": false,
+  "selection_used_species_identity": true,
+  "sensitivity_scales_km": [
+    250,
+    500
+  ],
+  "status": "geometry_scale_frozen"
+}

@@ -1,0 +1,4472 @@
+{
+  "candidate_image_pixels_opened": false,
+  "continuous_colour_used": false,
+  "environmental_layers_used": false,
+  "flower_roi_used": false,
+  "literature_classification_used_for_admission": false,
+  "next_gate": "freeze geometry-only 100/250/500-km scale before flower ROI or colour",
+  "protocol": "jbi-image-first-global-flower-colour-atlas-v1",
+  "sample_size_tier_counts": {
+    "300": 17,
+    "400": 14,
+    "500": 19
+  },
+  "selected_observations": 20200,
+  "species_admitted": 50,
+  "species_audited": 61,
+  "species_candidates_after_static_filters": 199,
+  "species_count_records_received": 200,
+  "species_results": [
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          34
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          27
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          8,
+          12
+        ],
+        [
+          9,
+          8
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 31982,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1619104,
+      "inat_taxon_id": 204321,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          164
+        ],
+        [
+          2,
+          130
+        ],
+        [
+          4,
+          6
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.016666666666666666,
+      "maximum_sensitivity_cell_fraction": 0.03,
+      "metadata_rank": 1,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 252,
+      "minimum_sensitivity_spatial_cells": 215,
+      "minimum_unique_observers": 262,
+      "selected_count": 300,
+      "species": "Ficaria verna",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          5,
+          1
+        ],
+        [
+          6,
+          62
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          37
+        ]
+      ],
+      "candidate_count": 999,
+      "flowering_annotated_observation_count": 18393,
+      "gate_failures": [
+        "minimum_local_solar_quarters"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 1653861,
+      "inat_taxon_id": 564969,
+      "local_solar_quarter_counts": [
+        [
+          2,
+          63
+        ],
+        [
+          3,
+          237
+        ]
+      ],
+      "maximum_observer_fraction": 0.013333333333333334,
+      "maximum_primary_cell_fraction": 0.0033333333333333335,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 2,
+      "minimum_calendar_months": 5,
+      "minimum_local_solar_quarters": 2,
+      "minimum_primary_spatial_cells": 300,
+      "minimum_sensitivity_spatial_cells": 280,
+      "minimum_unique_observers": 275,
+      "selected_count": 300,
+      "species": "Chamaenerion angustifolium",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          46
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          25
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          4
+        ],
+        [
+          10,
+          7
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          12,
+          3
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 17691,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1538105,
+      "inat_taxon_id": 55851,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          158
+        ],
+        [
+          2,
+          131
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          8
+        ]
+      ],
+      "maximum_observer_fraction": 0.013333333333333334,
+      "maximum_primary_cell_fraction": 0.006666666666666667,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 3,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 291,
+      "minimum_sensitivity_spatial_cells": 234,
+      "minimum_unique_observers": 280,
+      "selected_count": 300,
+      "species": "Lamium purpureum",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          56
+        ],
+        [
+          2,
+          100
+        ],
+        [
+          3,
+          50
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          87
+        ],
+        [
+          6,
+          18
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          9,
+          11
+        ],
+        [
+          10,
+          9
+        ],
+        [
+          11,
+          13
+        ],
+        [
+          12,
+          38
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 17182,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 55564,
+      "inat_taxon_id": 55563,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          188
+        ],
+        [
+          2,
+          220
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          45
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.014,
+      "metadata_rank": 4,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 437,
+      "minimum_sensitivity_spatial_cells": 348,
+      "minimum_unique_observers": 390,
+      "selected_count": 500,
+      "species": "Bellis perennis",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          96
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          97
+        ]
+      ],
+      "candidate_count": 989,
+      "flowering_annotated_observation_count": 17126,
+      "gate_failures": [
+        "minimum_local_solar_quarters"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 51045,
+      "inat_taxon_id": 51044,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          103
+        ],
+        [
+          2,
+          197
+        ]
+      ],
+      "maximum_observer_fraction": 0.013333333333333334,
+      "maximum_primary_cell_fraction": 0.006666666666666667,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 5,
+      "minimum_calendar_months": 4,
+      "minimum_local_solar_quarters": 2,
+      "minimum_primary_spatial_cells": 298,
+      "minimum_sensitivity_spatial_cells": 216,
+      "minimum_unique_observers": 266,
+      "selected_count": 300,
+      "species": "Sanguinaria canadensis",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          13
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          22
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          90
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          8,
+          36
+        ],
+        [
+          9,
+          30
+        ],
+        [
+          10,
+          20
+        ],
+        [
+          11,
+          25
+        ],
+        [
+          12,
+          14
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 15745,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 964908,
+      "inat_taxon_id": 55925,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          37
+        ],
+        [
+          2,
+          297
+        ],
+        [
+          3,
+          114
+        ],
+        [
+          4,
+          52
+        ]
+      ],
+      "maximum_observer_fraction": 0.012,
+      "maximum_primary_cell_fraction": 0.008,
+      "maximum_sensitivity_cell_fraction": 0.018,
+      "metadata_rank": 6,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 391,
+      "minimum_sensitivity_spatial_cells": 281,
+      "minimum_unique_observers": 397,
+      "selected_count": 500,
+      "species": "Geranium robertianum",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [],
+      "candidate_count": 993,
+      "flowering_annotated_observation_count": 14166,
+      "gate_failures": [
+        "minimum_unique_observers",
+        "minimum_primary_spatial_cells",
+        "minimum_sensitivity_spatial_cells",
+        "minimum_calendar_months",
+        "minimum_local_solar_quarters",
+        "maximum_observer_fraction",
+        "maximum_primary_cell_fraction",
+        "maximum_sensitivity_cell_fraction"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 1413207,
+      "inat_taxon_id": 55402,
+      "local_solar_quarter_counts": [],
+      "maximum_observer_fraction": 1.0,
+      "maximum_primary_cell_fraction": 1.0,
+      "maximum_sensitivity_cell_fraction": 1.0,
+      "metadata_rank": 7,
+      "minimum_calendar_months": 0,
+      "minimum_local_solar_quarters": 0,
+      "minimum_primary_spatial_cells": 0,
+      "minimum_sensitivity_spatial_cells": 0,
+      "minimum_unique_observers": 0,
+      "selected_count": 0,
+      "species": "Trillium grandiflorum",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          16
+        ],
+        [
+          2,
+          20
+        ],
+        [
+          3,
+          39
+        ],
+        [
+          4,
+          94
+        ],
+        [
+          5,
+          99
+        ],
+        [
+          6,
+          81
+        ],
+        [
+          7,
+          55
+        ],
+        [
+          8,
+          32
+        ],
+        [
+          9,
+          20
+        ],
+        [
+          10,
+          15
+        ],
+        [
+          11,
+          19
+        ],
+        [
+          12,
+          10
+        ]
+      ],
+      "candidate_count": 999,
+      "flowering_annotated_observation_count": 13391,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1582396,
+      "inat_taxon_id": 55745,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          56
+        ],
+        [
+          2,
+          291
+        ],
+        [
+          3,
+          126
+        ],
+        [
+          4,
+          27
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 8,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 476,
+      "minimum_sensitivity_spatial_cells": 377,
+      "minimum_unique_observers": 404,
+      "selected_count": 500,
+      "species": "Trifolium repens",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          11
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          33
+        ],
+        [
+          5,
+          98
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          62
+        ],
+        [
+          9,
+          45
+        ],
+        [
+          10,
+          21
+        ],
+        [
+          11,
+          14
+        ],
+        [
+          12,
+          8
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 12319,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1582389,
+      "inat_taxon_id": 51875,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          235
+        ],
+        [
+          3,
+          221
+        ],
+        [
+          4,
+          39
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 9,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 476,
+      "minimum_sensitivity_spatial_cells": 383,
+      "minimum_unique_observers": 404,
+      "selected_count": 500,
+      "species": "Trifolium pratense",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          15
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          4,
+          35
+        ],
+        [
+          5,
+          75
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          83
+        ],
+        [
+          9,
+          30
+        ],
+        [
+          10,
+          25
+        ],
+        [
+          11,
+          17
+        ],
+        [
+          12,
+          9
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 11947,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1105043,
+      "inat_taxon_id": 52821,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          11
+        ],
+        [
+          2,
+          209
+        ],
+        [
+          3,
+          228
+        ],
+        [
+          4,
+          52
+        ]
+      ],
+      "maximum_observer_fraction": 0.014,
+      "maximum_primary_cell_fraction": 0.006,
+      "maximum_sensitivity_cell_fraction": 0.02,
+      "metadata_rank": 10,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 422,
+      "minimum_sensitivity_spatial_cells": 361,
+      "minimum_unique_observers": 396,
+      "selected_count": 500,
+      "species": "Achillea millefolium",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          29
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          25
+        ],
+        [
+          8,
+          16
+        ],
+        [
+          9,
+          14
+        ],
+        [
+          10,
+          8
+        ],
+        [
+          11,
+          3
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 11637,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1045281,
+      "inat_taxon_id": 56224,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          34
+        ],
+        [
+          2,
+          300
+        ],
+        [
+          3,
+          55
+        ],
+        [
+          4,
+          11
+        ]
+      ],
+      "maximum_observer_fraction": 0.0225,
+      "maximum_primary_cell_fraction": 0.0025,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 11,
+      "minimum_calendar_months": 11,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 400,
+      "minimum_sensitivity_spatial_cells": 348,
+      "minimum_unique_observers": 343,
+      "selected_count": 400,
+      "species": "Caltha palustris",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          21
+        ],
+        [
+          2,
+          94
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          22
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          8,
+          19
+        ],
+        [
+          9,
+          6
+        ],
+        [
+          10,
+          15
+        ],
+        [
+          11,
+          6
+        ],
+        [
+          12,
+          8
+        ]
+      ],
+      "candidate_count": 999,
+      "flowering_annotated_observation_count": 11436,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1438094,
+      "inat_taxon_id": 47687,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          220
+        ],
+        [
+          2,
+          232
+        ],
+        [
+          3,
+          29
+        ],
+        [
+          4,
+          19
+        ]
+      ],
+      "maximum_observer_fraction": 0.016,
+      "maximum_primary_cell_fraction": 0.01,
+      "maximum_sensitivity_cell_fraction": 0.02,
+      "metadata_rank": 12,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 351,
+      "minimum_sensitivity_spatial_cells": 247,
+      "minimum_unique_observers": 383,
+      "selected_count": 500,
+      "species": "Erodium cicutarium",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          4,
+          35
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          90
+        ],
+        [
+          9,
+          37
+        ],
+        [
+          10,
+          13
+        ],
+        [
+          11,
+          5
+        ],
+        [
+          12,
+          5
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 11115,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 53022,
+      "inat_taxon_id": 53021,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          10
+        ],
+        [
+          2,
+          245
+        ],
+        [
+          3,
+          232
+        ],
+        [
+          4,
+          13
+        ]
+      ],
+      "maximum_observer_fraction": 0.008,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.012,
+      "metadata_rank": 13,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 463,
+      "minimum_sensitivity_spatial_cells": 396,
+      "minimum_unique_observers": 457,
+      "selected_count": 500,
+      "species": "Convolvulus arvensis",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          10
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          5,
+          11
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          100
+        ],
+        [
+          10,
+          42
+        ],
+        [
+          11,
+          12
+        ],
+        [
+          12,
+          5
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 10401,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 52914,
+      "inat_taxon_id": 52913,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          120
+        ],
+        [
+          3,
+          320
+        ],
+        [
+          4,
+          57
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.006,
+      "maximum_sensitivity_cell_fraction": 0.012,
+      "metadata_rank": 14,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 448,
+      "minimum_sensitivity_spatial_cells": 365,
+      "minimum_unique_observers": 418,
+      "selected_count": 500,
+      "species": "Cichorium intybus",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 10271,
+      "gate_failures": [
+        "minimum_unique_observers",
+        "minimum_primary_spatial_cells",
+        "minimum_sensitivity_spatial_cells",
+        "minimum_calendar_months",
+        "minimum_local_solar_quarters",
+        "maximum_observer_fraction",
+        "maximum_primary_cell_fraction",
+        "maximum_sensitivity_cell_fraction"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 56062,
+      "inat_taxon_id": 56061,
+      "local_solar_quarter_counts": [],
+      "maximum_observer_fraction": 1.0,
+      "maximum_primary_cell_fraction": 1.0,
+      "maximum_sensitivity_cell_fraction": 1.0,
+      "metadata_rank": 15,
+      "minimum_calendar_months": 0,
+      "minimum_local_solar_quarters": 0,
+      "minimum_primary_spatial_cells": 0,
+      "minimum_sensitivity_spatial_cells": 0,
+      "minimum_unique_observers": 0,
+      "selected_count": 0,
+      "species": "Alliaria petiolata",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [],
+      "candidate_count": 976,
+      "flowering_annotated_observation_count": 10239,
+      "gate_failures": [
+        "minimum_unique_observers",
+        "minimum_primary_spatial_cells",
+        "minimum_sensitivity_spatial_cells",
+        "minimum_calendar_months",
+        "minimum_local_solar_quarters",
+        "maximum_observer_fraction",
+        "maximum_primary_cell_fraction",
+        "maximum_sensitivity_cell_fraction"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 51051,
+      "inat_taxon_id": 51053,
+      "local_solar_quarter_counts": [],
+      "maximum_observer_fraction": 1.0,
+      "maximum_primary_cell_fraction": 1.0,
+      "maximum_sensitivity_cell_fraction": 1.0,
+      "metadata_rank": 16,
+      "minimum_calendar_months": 0,
+      "minimum_local_solar_quarters": 0,
+      "minimum_primary_spatial_cells": 0,
+      "minimum_sensitivity_spatial_cells": 0,
+      "minimum_unique_observers": 0,
+      "selected_count": 0,
+      "species": "Dicentra cucullaria",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          19
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          74
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          8,
+          1
+        ]
+      ],
+      "candidate_count": 993,
+      "flowering_annotated_observation_count": 9651,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 779780,
+      "inat_taxon_id": 117434,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          124
+        ],
+        [
+          2,
+          175
+        ],
+        [
+          3,
+          1
+        ]
+      ],
+      "maximum_observer_fraction": 0.016666666666666666,
+      "maximum_primary_cell_fraction": 0.006666666666666667,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 17,
+      "minimum_calendar_months": 7,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 299,
+      "minimum_sensitivity_spatial_cells": 227,
+      "minimum_unique_observers": 263,
+      "selected_count": 300,
+      "species": "Claytonia virginica",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          73
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          16
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 995,
+      "flowering_annotated_observation_count": 9562,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 48245,
+      "inat_taxon_id": 49868,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          273
+        ],
+        [
+          3,
+          17
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "maximum_observer_fraction": 0.023333333333333334,
+      "maximum_primary_cell_fraction": 0.0033333333333333335,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 18,
+      "minimum_calendar_months": 7,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 300,
+      "minimum_sensitivity_spatial_cells": 225,
+      "minimum_unique_observers": 281,
+      "selected_count": 300,
+      "species": "Aquilegia canadensis",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          82
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          11,
+          3
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 9462,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 55831,
+      "inat_taxon_id": 55830,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          110
+        ],
+        [
+          2,
+          285
+        ],
+        [
+          3,
+          5
+        ]
+      ],
+      "maximum_observer_fraction": 0.015,
+      "maximum_primary_cell_fraction": 0.005,
+      "maximum_sensitivity_cell_fraction": 0.0175,
+      "metadata_rank": 19,
+      "minimum_calendar_months": 10,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 367,
+      "minimum_sensitivity_spatial_cells": 306,
+      "minimum_unique_observers": 353,
+      "selected_count": 400,
+      "species": "Glechoma hederacea",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          11
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          16
+        ],
+        [
+          5,
+          18
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          86
+        ],
+        [
+          9,
+          31
+        ],
+        [
+          10,
+          17
+        ],
+        [
+          11,
+          4
+        ],
+        [
+          12,
+          6
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 9320,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 52765,
+      "inat_taxon_id": 52764,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          8
+        ],
+        [
+          2,
+          139
+        ],
+        [
+          3,
+          231
+        ],
+        [
+          4,
+          22
+        ]
+      ],
+      "maximum_observer_fraction": 0.015,
+      "maximum_primary_cell_fraction": 0.0025,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 20,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 400,
+      "minimum_sensitivity_spatial_cells": 332,
+      "minimum_unique_observers": 343,
+      "selected_count": 400,
+      "species": "Prunella vulgaris",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          22
+        ],
+        [
+          5,
+          54
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          76
+        ],
+        [
+          10,
+          36
+        ],
+        [
+          11,
+          6
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 9288,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 888920,
+      "inat_taxon_id": 62741,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          5
+        ],
+        [
+          2,
+          175
+        ],
+        [
+          3,
+          276
+        ],
+        [
+          4,
+          44
+        ]
+      ],
+      "maximum_observer_fraction": 0.01,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.012,
+      "metadata_rank": 21,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 445,
+      "minimum_sensitivity_spatial_cells": 336,
+      "minimum_unique_observers": 432,
+      "selected_count": 500,
+      "species": "Rudbeckia hirta",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          4,
+          63
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          34
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          1
+        ]
+      ],
+      "candidate_count": 953,
+      "flowering_annotated_observation_count": 9261,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 904149,
+      "inat_taxon_id": 47588,
+      "local_solar_quarter_counts": [
+        [
+          2,
+          263
+        ],
+        [
+          3,
+          36
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "maximum_observer_fraction": 0.01,
+      "maximum_primary_cell_fraction": 0.006666666666666667,
+      "maximum_sensitivity_cell_fraction": 0.02,
+      "metadata_rank": 22,
+      "minimum_calendar_months": 7,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 285,
+      "minimum_sensitivity_spatial_cells": 222,
+      "minimum_unique_observers": 273,
+      "selected_count": 300,
+      "species": "Cypripedium acaule",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          6,
+          16
+        ],
+        [
+          7,
+          80
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          100
+        ],
+        [
+          10,
+          4
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 8819,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1431931,
+      "inat_taxon_id": 47888,
+      "local_solar_quarter_counts": [
+        [
+          2,
+          16
+        ],
+        [
+          3,
+          280
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "maximum_observer_fraction": 0.02666666666666667,
+      "maximum_primary_cell_fraction": 0.0033333333333333335,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 23,
+      "minimum_calendar_months": 5,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 300,
+      "minimum_sensitivity_spatial_cells": 242,
+      "minimum_unique_observers": 269,
+      "selected_count": 300,
+      "species": "Impatiens capensis",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          84
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          15
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 8797,
+      "gate_failures": [
+        "minimum_local_solar_quarters"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 48241,
+      "inat_taxon_id": 48240,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          85
+        ],
+        [
+          2,
+          215
+        ]
+      ],
+      "maximum_observer_fraction": 0.016666666666666666,
+      "maximum_primary_cell_fraction": 0.006666666666666667,
+      "maximum_sensitivity_cell_fraction": 0.016666666666666666,
+      "metadata_rank": 24,
+      "minimum_calendar_months": 5,
+      "minimum_local_solar_quarters": 2,
+      "minimum_primary_spatial_cells": 279,
+      "minimum_sensitivity_spatial_cells": 208,
+      "minimum_unique_observers": 265,
+      "selected_count": 300,
+      "species": "Erythronium americanum",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [],
+      "candidate_count": 987,
+      "flowering_annotated_observation_count": 8479,
+      "gate_failures": [
+        "minimum_unique_observers",
+        "minimum_primary_spatial_cells",
+        "minimum_sensitivity_spatial_cells",
+        "minimum_calendar_months",
+        "minimum_local_solar_quarters",
+        "maximum_observer_fraction",
+        "maximum_primary_cell_fraction",
+        "maximum_sensitivity_cell_fraction"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 1413203,
+      "inat_taxon_id": 50855,
+      "local_solar_quarter_counts": [],
+      "maximum_observer_fraction": 1.0,
+      "maximum_primary_cell_fraction": 1.0,
+      "maximum_sensitivity_cell_fraction": 1.0,
+      "metadata_rank": 25,
+      "minimum_calendar_months": 0,
+      "minimum_local_solar_quarters": 0,
+      "minimum_primary_spatial_cells": 0,
+      "minimum_sensitivity_spatial_cells": 0,
+      "minimum_unique_observers": 0,
+      "selected_count": 0,
+      "species": "Trillium erectum",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          14
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          15
+        ],
+        [
+          5,
+          23
+        ],
+        [
+          6,
+          85
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          71
+        ],
+        [
+          10,
+          53
+        ],
+        [
+          11,
+          19
+        ],
+        [
+          12,
+          11
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 8340,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 56727,
+      "inat_taxon_id": 76610,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          141
+        ],
+        [
+          3,
+          291
+        ],
+        [
+          4,
+          65
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 26,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 450,
+      "minimum_sensitivity_spatial_cells": 350,
+      "minimum_unique_observers": 410,
+      "selected_count": 500,
+      "species": "Daucus carota",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          6,
+          26
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          62
+        ],
+        [
+          10,
+          6
+        ],
+        [
+          12,
+          2
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 8192,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 58937,
+      "inat_taxon_id": 61321,
+      "local_solar_quarter_counts": [
+        [
+          2,
+          27
+        ],
+        [
+          3,
+          266
+        ],
+        [
+          4,
+          7
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.0033333333333333335,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 27,
+      "minimum_calendar_months": 8,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 300,
+      "minimum_sensitivity_spatial_cells": 252,
+      "minimum_unique_observers": 268,
+      "selected_count": 300,
+      "species": "Lythrum salicaria",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [],
+      "candidate_count": 999,
+      "flowering_annotated_observation_count": 7734,
+      "gate_failures": [
+        "minimum_unique_observers",
+        "minimum_primary_spatial_cells",
+        "minimum_sensitivity_spatial_cells",
+        "minimum_calendar_months",
+        "minimum_local_solar_quarters",
+        "maximum_observer_fraction",
+        "maximum_primary_cell_fraction",
+        "maximum_sensitivity_cell_fraction"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 59772,
+      "inat_taxon_id": 59771,
+      "local_solar_quarter_counts": [],
+      "maximum_observer_fraction": 1.0,
+      "maximum_primary_cell_fraction": 1.0,
+      "maximum_sensitivity_cell_fraction": 1.0,
+      "metadata_rank": 28,
+      "minimum_calendar_months": 0,
+      "minimum_local_solar_quarters": 0,
+      "minimum_primary_spatial_cells": 0,
+      "minimum_sensitivity_spatial_cells": 0,
+      "minimum_unique_observers": 0,
+      "selected_count": 0,
+      "species": "Mertensia virginica",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          63
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          13
+        ],
+        [
+          8,
+          6
+        ],
+        [
+          9,
+          4
+        ],
+        [
+          10,
+          6
+        ],
+        [
+          11,
+          5
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 7678,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 738332,
+      "inat_taxon_id": 51610,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          264
+        ],
+        [
+          3,
+          23
+        ],
+        [
+          4,
+          10
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.0033333333333333335,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 29,
+      "minimum_calendar_months": 10,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 300,
+      "minimum_sensitivity_spatial_cells": 259,
+      "minimum_unique_observers": 271,
+      "selected_count": 300,
+      "species": "Veronica chamaedrys",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          26
+        ],
+        [
+          3,
+          78
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          82
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 7656,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 56223,
+      "inat_taxon_id": 56222,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          105
+        ],
+        [
+          2,
+          189
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          3
+        ]
+      ],
+      "maximum_observer_fraction": 0.02666666666666667,
+      "maximum_primary_cell_fraction": 0.0033333333333333335,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 30,
+      "minimum_calendar_months": 11,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 300,
+      "minimum_sensitivity_spatial_cells": 252,
+      "minimum_unique_observers": 260,
+      "selected_count": 300,
+      "species": "Tussilago farfara",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          69
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          98
+        ],
+        [
+          6,
+          24
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          8,
+          1
+        ]
+      ],
+      "candidate_count": 996,
+      "flowering_annotated_observation_count": 7635,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1413207,
+      "inat_taxon_id": 49463,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          72
+        ],
+        [
+          2,
+          222
+        ],
+        [
+          3,
+          6
+        ]
+      ],
+      "maximum_observer_fraction": 0.016666666666666666,
+      "maximum_primary_cell_fraction": 0.006666666666666667,
+      "maximum_sensitivity_cell_fraction": 0.02,
+      "metadata_rank": 31,
+      "minimum_calendar_months": 7,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 247,
+      "minimum_sensitivity_spatial_cells": 135,
+      "minimum_unique_observers": 250,
+      "selected_count": 300,
+      "species": "Trillium ovatum",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          24
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          37
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          9,
+          8
+        ],
+        [
+          10,
+          6
+        ],
+        [
+          11,
+          8
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 7381,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 53327,
+      "inat_taxon_id": 55844,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          129
+        ],
+        [
+          2,
+          238
+        ],
+        [
+          3,
+          19
+        ],
+        [
+          4,
+          14
+        ]
+      ],
+      "maximum_observer_fraction": 0.0075,
+      "maximum_primary_cell_fraction": 0.01,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 32,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 374,
+      "minimum_sensitivity_spatial_cells": 288,
+      "minimum_unique_observers": 367,
+      "selected_count": 400,
+      "species": "Vinca minor",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          98
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          77
+        ],
+        [
+          6,
+          13
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          4
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 7325,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 55326,
+      "inat_taxon_id": 55886,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          104
+        ],
+        [
+          2,
+          194
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "maximum_observer_fraction": 0.006666666666666667,
+      "maximum_primary_cell_fraction": 0.006666666666666667,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 33,
+      "minimum_calendar_months": 9,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 286,
+      "minimum_sensitivity_spatial_cells": 243,
+      "minimum_unique_observers": 293,
+      "selected_count": 300,
+      "species": "Lunaria annua",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          5,
+          48
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          38
+        ],
+        [
+          10,
+          4
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 7279,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1453363,
+      "inat_taxon_id": 47435,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          156
+        ],
+        [
+          3,
+          238
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.0025,
+      "maximum_sensitivity_cell_fraction": 0.0075,
+      "metadata_rank": 34,
+      "minimum_calendar_months": 9,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 400,
+      "minimum_sensitivity_spatial_cells": 320,
+      "minimum_unique_observers": 344,
+      "selected_count": 400,
+      "species": "Lotus corniculatus",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          22
+        ],
+        [
+          2,
+          100
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          88
+        ],
+        [
+          6,
+          27
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          8,
+          15
+        ],
+        [
+          9,
+          11
+        ],
+        [
+          10,
+          13
+        ],
+        [
+          11,
+          6
+        ],
+        [
+          12,
+          10
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 7202,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1450375,
+      "inat_taxon_id": 55666,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          233
+        ],
+        [
+          2,
+          220
+        ],
+        [
+          3,
+          23
+        ],
+        [
+          4,
+          24
+        ]
+      ],
+      "maximum_observer_fraction": 0.014,
+      "maximum_primary_cell_fraction": 0.006,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 35,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 447,
+      "minimum_sensitivity_spatial_cells": 375,
+      "minimum_unique_observers": 407,
+      "selected_count": 500,
+      "species": "Veronica persica",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          28
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          54
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 7099,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 69749,
+      "inat_taxon_id": 69752,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          31
+        ],
+        [
+          2,
+          254
+        ],
+        [
+          3,
+          13
+        ],
+        [
+          4,
+          2
+        ]
+      ],
+      "maximum_observer_fraction": 0.023333333333333334,
+      "maximum_primary_cell_fraction": 0.0033333333333333335,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 36,
+      "minimum_calendar_months": 9,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 300,
+      "minimum_sensitivity_spatial_cells": 191,
+      "minimum_unique_observers": 270,
+      "selected_count": 300,
+      "species": "Houstonia caerulea",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          24
+        ],
+        [
+          2,
+          25
+        ],
+        [
+          3,
+          48
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          65
+        ],
+        [
+          7,
+          25
+        ],
+        [
+          8,
+          22
+        ],
+        [
+          9,
+          28
+        ],
+        [
+          10,
+          28
+        ],
+        [
+          11,
+          22
+        ],
+        [
+          12,
+          13
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 6849,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 967514,
+      "inat_taxon_id": 47602,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          101
+        ],
+        [
+          2,
+          271
+        ],
+        [
+          3,
+          71
+        ],
+        [
+          4,
+          57
+        ]
+      ],
+      "maximum_observer_fraction": 0.016,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.008,
+      "metadata_rank": 37,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 472,
+      "minimum_sensitivity_spatial_cells": 398,
+      "minimum_unique_observers": 404,
+      "selected_count": 500,
+      "species": "Taraxacum officinale",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          52
+        ],
+        [
+          2,
+          88
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          82
+        ],
+        [
+          5,
+          22
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          7,
+          16
+        ],
+        [
+          8,
+          42
+        ],
+        [
+          9,
+          30
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          11,
+          10
+        ],
+        [
+          12,
+          38
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 6831,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1701120,
+      "inat_taxon_id": 53169,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          327
+        ],
+        [
+          2,
+          107
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          65
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.008,
+      "maximum_sensitivity_cell_fraction": 0.02,
+      "metadata_rank": 38,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 323,
+      "minimum_sensitivity_spatial_cells": 231,
+      "minimum_unique_observers": 374,
+      "selected_count": 500,
+      "species": "Oxalis pes-caprae",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          36
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          3,
+          23
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          42
+        ],
+        [
+          7,
+          16
+        ],
+        [
+          8,
+          17
+        ],
+        [
+          9,
+          20
+        ],
+        [
+          10,
+          16
+        ],
+        [
+          11,
+          18
+        ],
+        [
+          12,
+          9
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 6825,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1538107,
+      "inat_taxon_id": 55876,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          62
+        ],
+        [
+          2,
+          242
+        ],
+        [
+          3,
+          53
+        ],
+        [
+          4,
+          43
+        ]
+      ],
+      "maximum_observer_fraction": 0.025,
+      "maximum_primary_cell_fraction": 0.005,
+      "maximum_sensitivity_cell_fraction": 0.0125,
+      "metadata_rank": 39,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 387,
+      "minimum_sensitivity_spatial_cells": 302,
+      "minimum_unique_observers": 341,
+      "selected_count": 400,
+      "species": "Lamium album",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          8
+        ],
+        [
+          4,
+          88
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          87
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          9,
+          3
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 996,
+      "flowering_annotated_observation_count": 6608,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 83800,
+      "inat_taxon_id": 83799,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          12
+        ],
+        [
+          2,
+          288
+        ],
+        [
+          3,
+          94
+        ],
+        [
+          4,
+          6
+        ]
+      ],
+      "maximum_observer_fraction": 0.0125,
+      "maximum_primary_cell_fraction": 0.005,
+      "maximum_sensitivity_cell_fraction": 0.0175,
+      "metadata_rank": 40,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 346,
+      "minimum_sensitivity_spatial_cells": 262,
+      "minimum_unique_observers": 352,
+      "selected_count": 400,
+      "species": "Mitchella repens",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          12
+        ],
+        [
+          2,
+          26
+        ],
+        [
+          3,
+          87
+        ],
+        [
+          4,
+          99
+        ],
+        [
+          5,
+          77
+        ],
+        [
+          6,
+          32
+        ],
+        [
+          7,
+          16
+        ],
+        [
+          8,
+          10
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          10,
+          16
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          12,
+          5
+        ]
+      ],
+      "candidate_count": 997,
+      "flowering_annotated_observation_count": 6535,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 48226,
+      "inat_taxon_id": 48225,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          115
+        ],
+        [
+          2,
+          222
+        ],
+        [
+          3,
+          45
+        ],
+        [
+          4,
+          18
+        ]
+      ],
+      "maximum_observer_fraction": 0.0225,
+      "maximum_primary_cell_fraction": 0.0075,
+      "maximum_sensitivity_cell_fraction": 0.0225,
+      "metadata_rank": 41,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 270,
+      "minimum_sensitivity_spatial_cells": 184,
+      "minimum_unique_observers": 319,
+      "selected_count": 400,
+      "species": "Eschscholzia californica",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          5,
+          10
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          71
+        ],
+        [
+          9,
+          18
+        ],
+        [
+          10,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 6354,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1393772,
+      "inat_taxon_id": 55729,
+      "local_solar_quarter_counts": [
+        [
+          2,
+          110
+        ],
+        [
+          3,
+          189
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "maximum_observer_fraction": 0.013333333333333334,
+      "maximum_primary_cell_fraction": 0.0033333333333333335,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 42,
+      "minimum_calendar_months": 6,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 300,
+      "minimum_sensitivity_spatial_cells": 265,
+      "minimum_unique_observers": 268,
+      "selected_count": 300,
+      "species": "Lathyrus tuberosus",
+      "status": "admitted"
+    },
+    {
+      "flowering_annotated_observation_count": 6241,
+      "gate_pass": false,
+      "inat_genus_id": 48245,
+      "inat_taxon_id": 48244,
+      "metadata_rank": 43,
+      "species": "Aquilegia formosa",
+      "status": "taxonomic_cap_skip"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          11
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          28
+        ],
+        [
+          9,
+          15
+        ],
+        [
+          10,
+          10
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          12,
+          7
+        ]
+      ],
+      "candidate_count": 998,
+      "flowering_annotated_observation_count": 6062,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1404861,
+      "inat_taxon_id": 56057,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          220
+        ],
+        [
+          3,
+          159
+        ],
+        [
+          4,
+          19
+        ]
+      ],
+      "maximum_observer_fraction": 0.025,
+      "maximum_primary_cell_fraction": 0.0025,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 44,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 400,
+      "minimum_sensitivity_spatial_cells": 341,
+      "minimum_unique_observers": 332,
+      "selected_count": 400,
+      "species": "Leucanthemum vulgare",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          47
+        ],
+        [
+          2,
+          100
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          3
+        ],
+        [
+          10,
+          7
+        ],
+        [
+          11,
+          10
+        ],
+        [
+          12,
+          23
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 6026,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1538106,
+      "inat_taxon_id": 55459,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          247
+        ],
+        [
+          2,
+          108
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          4,
+          38
+        ]
+      ],
+      "maximum_observer_fraction": 0.025,
+      "maximum_primary_cell_fraction": 0.005,
+      "maximum_sensitivity_cell_fraction": 0.015,
+      "metadata_rank": 45,
+      "minimum_calendar_months": 11,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 386,
+      "minimum_sensitivity_spatial_cells": 306,
+      "minimum_unique_observers": 350,
+      "selected_count": 400,
+      "species": "Lamium amplexicaule",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          46
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          29
+        ],
+        [
+          8,
+          14
+        ],
+        [
+          9,
+          5
+        ],
+        [
+          10,
+          4
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "candidate_count": 995,
+      "flowering_annotated_observation_count": 5786,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 47698,
+      "inat_taxon_id": 47697,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          246
+        ],
+        [
+          3,
+          48
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.006666666666666667,
+      "maximum_sensitivity_cell_fraction": 0.016666666666666666,
+      "metadata_rank": 46,
+      "minimum_calendar_months": 9,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 290,
+      "minimum_sensitivity_spatial_cells": 237,
+      "minimum_unique_observers": 282,
+      "selected_count": 300,
+      "species": "Hesperis matronalis",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          2,
+          1
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          79
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          95
+        ],
+        [
+          10,
+          18
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5778,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 52834,
+      "inat_taxon_id": 52833,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          274
+        ],
+        [
+          4,
+          20
+        ]
+      ],
+      "maximum_observer_fraction": 0.013333333333333334,
+      "maximum_primary_cell_fraction": 0.0033333333333333335,
+      "maximum_sensitivity_cell_fraction": 0.013333333333333334,
+      "metadata_rank": 47,
+      "minimum_calendar_months": 8,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 300,
+      "minimum_sensitivity_spatial_cells": 247,
+      "minimum_unique_observers": 275,
+      "selected_count": 300,
+      "species": "Anaphalis margaritacea",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          36
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          90
+        ],
+        [
+          7,
+          93
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          58
+        ],
+        [
+          10,
+          19
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 970,
+      "flowering_annotated_observation_count": 5761,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1255740,
+      "inat_taxon_id": 51453,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          226
+        ],
+        [
+          3,
+          251
+        ],
+        [
+          4,
+          21
+        ]
+      ],
+      "maximum_observer_fraction": 0.016,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.012,
+      "metadata_rank": 48,
+      "minimum_calendar_months": 11,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 450,
+      "minimum_sensitivity_spatial_cells": 317,
+      "minimum_unique_observers": 453,
+      "selected_count": 500,
+      "species": "Passiflora incarnata",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          48
+        ],
+        [
+          2,
+          34
+        ],
+        [
+          3,
+          15
+        ],
+        [
+          4,
+          12
+        ],
+        [
+          5,
+          18
+        ],
+        [
+          6,
+          48
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          69
+        ],
+        [
+          10,
+          19
+        ],
+        [
+          11,
+          13
+        ],
+        [
+          12,
+          24
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5727,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 48561,
+      "inat_taxon_id": 52989,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          17
+        ],
+        [
+          2,
+          95
+        ],
+        [
+          3,
+          349
+        ],
+        [
+          4,
+          39
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.008,
+      "maximum_sensitivity_cell_fraction": 0.016,
+      "metadata_rank": 49,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 434,
+      "minimum_sensitivity_spatial_cells": 368,
+      "minimum_unique_observers": 400,
+      "selected_count": 500,
+      "species": "Cirsium vulgare",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          90
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          3
+        ],
+        [
+          10,
+          1
+        ]
+      ],
+      "candidate_count": 999,
+      "flowering_annotated_observation_count": 5694,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1441600,
+      "inat_taxon_id": 50310,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          290
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "maximum_observer_fraction": 0.023333333333333334,
+      "maximum_primary_cell_fraction": 0.006666666666666667,
+      "maximum_sensitivity_cell_fraction": 0.02,
+      "metadata_rank": 50,
+      "minimum_calendar_months": 8,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 273,
+      "minimum_sensitivity_spatial_cells": 195,
+      "minimum_unique_observers": 261,
+      "selected_count": 300,
+      "species": "Arisaema triphyllum",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [],
+      "candidate_count": 997,
+      "flowering_annotated_observation_count": 5679,
+      "gate_failures": [
+        "minimum_unique_observers",
+        "minimum_primary_spatial_cells",
+        "minimum_sensitivity_spatial_cells",
+        "minimum_calendar_months",
+        "minimum_local_solar_quarters",
+        "maximum_observer_fraction",
+        "maximum_primary_cell_fraction",
+        "maximum_sensitivity_cell_fraction"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 1196648,
+      "inat_taxon_id": 204174,
+      "local_solar_quarter_counts": [],
+      "maximum_observer_fraction": 1.0,
+      "maximum_primary_cell_fraction": 1.0,
+      "maximum_sensitivity_cell_fraction": 1.0,
+      "metadata_rank": 51,
+      "minimum_calendar_months": 0,
+      "minimum_local_solar_quarters": 0,
+      "minimum_primary_spatial_cells": 0,
+      "minimum_sensitivity_spatial_cells": 0,
+      "minimum_unique_observers": 0,
+      "selected_count": 0,
+      "species": "Lysimachia borealis",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          30
+        ],
+        [
+          4,
+          96
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          36
+        ],
+        [
+          8,
+          14
+        ],
+        [
+          9,
+          22
+        ],
+        [
+          10,
+          31
+        ],
+        [
+          11,
+          28
+        ],
+        [
+          12,
+          30
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5605,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 52587,
+      "inat_taxon_id": 52586,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          50
+        ],
+        [
+          2,
+          361
+        ],
+        [
+          3,
+          65
+        ],
+        [
+          4,
+          24
+        ]
+      ],
+      "maximum_observer_fraction": 0.008,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.016,
+      "metadata_rank": 52,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 412,
+      "minimum_sensitivity_spatial_cells": 322,
+      "minimum_unique_observers": 456,
+      "selected_count": 500,
+      "species": "Silybum marianum",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          3,
+          1
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          48
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          100
+        ],
+        [
+          9,
+          100
+        ],
+        [
+          10,
+          41
+        ],
+        [
+          11,
+          5
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5601,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1441528,
+      "inat_taxon_id": 50790,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          52
+        ],
+        [
+          3,
+          300
+        ],
+        [
+          4,
+          47
+        ]
+      ],
+      "maximum_observer_fraction": 0.015,
+      "maximum_primary_cell_fraction": 0.0025,
+      "maximum_sensitivity_cell_fraction": 0.0075,
+      "metadata_rank": 53,
+      "minimum_calendar_months": 9,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 400,
+      "minimum_sensitivity_spatial_cells": 349,
+      "minimum_unique_observers": 359,
+      "selected_count": 400,
+      "species": "Linaria vulgaris",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          12
+        ],
+        [
+          4,
+          95
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          8,
+          22
+        ],
+        [
+          9,
+          11
+        ],
+        [
+          10,
+          6
+        ],
+        [
+          11,
+          1
+        ],
+        [
+          12,
+          2
+        ]
+      ],
+      "candidate_count": 998,
+      "flowering_annotated_observation_count": 5594,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 55758,
+      "inat_taxon_id": 55757,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          14
+        ],
+        [
+          2,
+          295
+        ],
+        [
+          3,
+          82
+        ],
+        [
+          4,
+          9
+        ]
+      ],
+      "maximum_observer_fraction": 0.0175,
+      "maximum_primary_cell_fraction": 0.0025,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 54,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 400,
+      "minimum_sensitivity_spatial_cells": 338,
+      "minimum_unique_observers": 360,
+      "selected_count": 400,
+      "species": "Chelidonium majus",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [],
+      "candidate_count": 989,
+      "flowering_annotated_observation_count": 5551,
+      "gate_failures": [
+        "minimum_unique_observers",
+        "minimum_primary_spatial_cells",
+        "minimum_sensitivity_spatial_cells",
+        "minimum_calendar_months",
+        "minimum_local_solar_quarters",
+        "maximum_observer_fraction",
+        "maximum_primary_cell_fraction",
+        "maximum_sensitivity_cell_fraction"
+      ],
+      "gate_pass": false,
+      "inat_genus_id": 47701,
+      "inat_taxon_id": 47699,
+      "local_solar_quarter_counts": [],
+      "maximum_observer_fraction": 1.0,
+      "maximum_primary_cell_fraction": 1.0,
+      "maximum_sensitivity_cell_fraction": 1.0,
+      "metadata_rank": 55,
+      "minimum_calendar_months": 0,
+      "minimum_local_solar_quarters": 0,
+      "minimum_primary_spatial_cells": 0,
+      "minimum_sensitivity_spatial_cells": 0,
+      "minimum_unique_observers": 0,
+      "selected_count": 0,
+      "species": "Geranium maculatum",
+      "status": "metadata_gate_failed"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          34
+        ],
+        [
+          2,
+          12
+        ],
+        [
+          3,
+          12
+        ],
+        [
+          4,
+          21
+        ],
+        [
+          5,
+          90
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          71
+        ],
+        [
+          8,
+          39
+        ],
+        [
+          9,
+          5
+        ],
+        [
+          10,
+          17
+        ],
+        [
+          11,
+          54
+        ],
+        [
+          12,
+          45
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5438,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 743344,
+      "inat_taxon_id": 53983,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          11
+        ],
+        [
+          2,
+          307
+        ],
+        [
+          3,
+          162
+        ],
+        [
+          4,
+          20
+        ]
+      ],
+      "maximum_observer_fraction": 0.016,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 56,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 473,
+      "minimum_sensitivity_spatial_cells": 364,
+      "minimum_unique_observers": 429,
+      "selected_count": 500,
+      "species": "Digitalis purpurea",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          88
+        ],
+        [
+          2,
+          100
+        ],
+        [
+          3,
+          100
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          6,
+          1
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          12,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5423,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 51607,
+      "inat_taxon_id": 51606,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          289
+        ],
+        [
+          2,
+          109
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "maximum_observer_fraction": 0.01,
+      "maximum_primary_cell_fraction": 0.0025,
+      "maximum_sensitivity_cell_fraction": 0.01,
+      "metadata_rank": 57,
+      "minimum_calendar_months": 9,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 400,
+      "minimum_sensitivity_spatial_cells": 317,
+      "minimum_unique_observers": 375,
+      "selected_count": 400,
+      "species": "Galanthus nivalis",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          32
+        ],
+        [
+          2,
+          19
+        ],
+        [
+          3,
+          19
+        ],
+        [
+          4,
+          36
+        ],
+        [
+          5,
+          67
+        ],
+        [
+          6,
+          66
+        ],
+        [
+          7,
+          77
+        ],
+        [
+          8,
+          54
+        ],
+        [
+          9,
+          59
+        ],
+        [
+          10,
+          40
+        ],
+        [
+          11,
+          20
+        ],
+        [
+          12,
+          11
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5421,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 52893,
+      "inat_taxon_id": 53478,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          25
+        ],
+        [
+          2,
+          177
+        ],
+        [
+          3,
+          235
+        ],
+        [
+          4,
+          63
+        ]
+      ],
+      "maximum_observer_fraction": 0.008,
+      "maximum_primary_cell_fraction": 0.002,
+      "maximum_sensitivity_cell_fraction": 0.008,
+      "metadata_rank": 58,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 500,
+      "minimum_sensitivity_spatial_cells": 387,
+      "minimum_unique_observers": 456,
+      "selected_count": 500,
+      "species": "Commelina erecta",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          3,
+          31
+        ],
+        [
+          4,
+          100
+        ],
+        [
+          5,
+          100
+        ],
+        [
+          6,
+          33
+        ],
+        [
+          7,
+          20
+        ],
+        [
+          8,
+          6
+        ],
+        [
+          9,
+          6
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          11,
+          1
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5385,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1616928,
+      "inat_taxon_id": 881504,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          31
+        ],
+        [
+          2,
+          233
+        ],
+        [
+          3,
+          32
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.01,
+      "maximum_sensitivity_cell_fraction": 0.023333333333333334,
+      "metadata_rank": 59,
+      "minimum_calendar_months": 9,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 254,
+      "minimum_sensitivity_spatial_cells": 199,
+      "minimum_unique_observers": 246,
+      "selected_count": 300,
+      "species": "Pulsatilla nuttalliana",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          22
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          10
+        ],
+        [
+          5,
+          55
+        ],
+        [
+          6,
+          100
+        ],
+        [
+          7,
+          100
+        ],
+        [
+          8,
+          96
+        ],
+        [
+          9,
+          61
+        ],
+        [
+          10,
+          35
+        ],
+        [
+          11,
+          3
+        ],
+        [
+          12,
+          7
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5236,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 56175,
+      "inat_taxon_id": 56174,
+      "local_solar_quarter_counts": [
+        [
+          2,
+          166
+        ],
+        [
+          3,
+          290
+        ],
+        [
+          4,
+          44
+        ]
+      ],
+      "maximum_observer_fraction": 0.02,
+      "maximum_primary_cell_fraction": 0.004,
+      "maximum_sensitivity_cell_fraction": 0.008,
+      "metadata_rank": 60,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 3,
+      "minimum_primary_spatial_cells": 443,
+      "minimum_sensitivity_spatial_cells": 371,
+      "minimum_unique_observers": 404,
+      "selected_count": 500,
+      "species": "Echium vulgare",
+      "status": "admitted"
+    },
+    {
+      "calendar_month_counts": [
+        [
+          1,
+          19
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          6,
+          13
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          8,
+          75
+        ],
+        [
+          9,
+          81
+        ],
+        [
+          10,
+          76
+        ],
+        [
+          11,
+          40
+        ],
+        [
+          12,
+          30
+        ]
+      ],
+      "candidate_count": 1000,
+      "flowering_annotated_observation_count": 5231,
+      "gate_failures": [],
+      "gate_pass": true,
+      "inat_genus_id": 1655120,
+      "inat_taxon_id": 53051,
+      "local_solar_quarter_counts": [
+        [
+          1,
+          30
+        ],
+        [
+          2,
+          17
+        ],
+        [
+          3,
+          206
+        ],
+        [
+          4,
+          147
+        ]
+      ],
+      "maximum_observer_fraction": 0.0125,
+      "maximum_primary_cell_fraction": 0.01,
+      "maximum_sensitivity_cell_fraction": 0.025,
+      "metadata_rank": 61,
+      "minimum_calendar_months": 12,
+      "minimum_local_solar_quarters": 4,
+      "minimum_primary_spatial_cells": 183,
+      "minimum_sensitivity_spatial_cells": 94,
+      "minimum_unique_observers": 317,
+      "selected_count": 400,
+      "species": "Epilobium canum",
+      "status": "admitted"
+    }
+  ],
+  "stage_a_effects_used": false,
+  "stage_b_surfaces_used": false,
+  "status": "pass_50_species_metadata_only"
+}

@@ -1,0 +1,19 @@
+{
+  "candidate_image_pixels_opened": false,
+  "continuous_colour_used": false,
+  "files": {
+    "data/atlas/jbi_image_first_atlas_cohort_v1.csv": "e1423f005e0c5e22d3087b26cd67ed1883211d2d600daf018fa4eac5ff5736c7",
+    "data/atlas/jbi_image_first_atlas_observation_manifest_v1.csv": "4649bde3208b8766d7e306418056e05af0112a70f2e9d2d09d362c8e20c5a23d",
+    "docs/supporting/jbi_image_first_atlas_contract_v1.json": "a773dbd86d0a70dae44f6c550e214269160e325741be90d4ad6ab713c386728d",
+    "docs/supporting/jbi_image_first_atlas_geometry_freeze_v1.json": "0410d06fe334f0b088b2558c66647ece4f29b9d3f399de15b2a4c19cf4b4271c",
+    "docs/supporting/jbi_image_first_atlas_metadata_feasibility_v1.json": "7177e473499b3eb16e9dca7c6e511b76b9a998cc9aa8b224c00270e3bf1e0660"
+  },
+  "flower_roi_used": false,
+  "literature_classification_used_for_admission": false,
+  "next_gate": "flower ROI extraction under the separately frozen measurement contract",
+  "protocol": "jbi-image-first-global-flower-colour-atlas-v1",
+  "selected_observations": 20200,
+  "selected_primary_scale_km": 100,
+  "species_admitted": 50,
+  "status": "metadata_and_geometry_frozen_before_image_pixels"
+}
