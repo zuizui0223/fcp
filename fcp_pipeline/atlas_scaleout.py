@@ -402,7 +402,7 @@ def live_api_scaleout_feasibility(
         geometry_eligible, geometry_audit = qualify_scaleout_geometry(
             [candidate],
             {taxon_id: selected},
-            working,
+            atlas_contract,
             primary_scale_km=int(expansion_contract["spatial_design"]["primary_scale_km"]),
         )
         geometry = geometry_audit[0]
