@@ -1,0 +1,79 @@
+{
+  "protocol": "jbi-atlas-dated-source-amendment-v1",
+  "status": "frozen_during_live_feasibility_and_before_its_result_or_any_scaleout_pixels",
+  "date": "2026-08-31",
+  "trigger": {
+    "candidate_image_pixels_opened": false,
+    "continuous_colour_used": false,
+    "live_feasibility_run": 33388714675,
+    "live_feasibility_head": "04e831f45faa840ab577bc7dd176d9750fa9ec55",
+    "result_available_when_frozen": false,
+    "technical_discovery": "The official monthly Open Data schema contains observations, observers, photos and taxa, but not the flowering annotation term/value used for outcome-blind admission."
+  },
+  "two_stage_source": {
+    "selection": "One complete, bounded iNaturalist v1 API audit supplies flowering-annotation eligibility and the exact pre-colour 8 x 25 x 300 selection. The complete audit and exact selected rows are immutable parents.",
+    "dated_resolution": "Every selected photo and its observation, observer and taxon must be found and reconciled against the official dated Open Data snapshot. Image URLs, extensions, licences and attribution inputs are resolved only from that snapshot.",
+    "claim": "The dated snapshot verifies and supplies the exact frozen cohort; it does not reconstruct the annotation-filtered candidate universe because the official snapshot does not contain annotations."
+  },
+  "snapshot": {
+    "provider": "iNaturalist Open Data",
+    "snapshot_date": "2026-08-27",
+    "object_key": "metadata/inaturalist-open-data-20260827.tar.gz",
+    "official_url": "https://inaturalist-open-data.s3.amazonaws.com/metadata/inaturalist-open-data-20260827.tar.gz",
+    "content_length_bytes": 35093052336,
+    "etag": "60cdb6b29b3d510bbe204b4bda1c558a-67",
+    "last_modified_utc": "2026-08-27T17:04:06Z",
+    "final_bundle_must_record_computed_sha256": true,
+    "moving_latest_pointer_permitted": false
+  },
+  "exact_reconciliation": {
+    "selected_species": 200,
+    "selected_photos": 60000,
+    "photo_id_unique": true,
+    "one_photo_per_observation": true,
+    "required_photo_fields": [
+      "photo_id",
+      "observation_uuid",
+      "observer_id",
+      "extension",
+      "license",
+      "width",
+      "height",
+      "position"
+    ],
+    "required_observation_fields": [
+      "observation_uuid",
+      "observer_id",
+      "latitude",
+      "longitude",
+      "positional_accuracy",
+      "taxon_id",
+      "quality_grade",
+      "observed_on"
+    ],
+    "coordinate_tolerance_degrees": 1e-07,
+    "positional_accuracy_tolerance_m": 0.0,
+    "quality_grade": "research",
+    "taxon_rank": "species",
+    "taxon_active": true,
+    "required_ancestor_taxon_id": 47125,
+    "allowed_photo_licenses": [
+      "cc0",
+      "cc-by",
+      "cc-by-sa",
+      "cc-by-nc",
+      "cc-by-nc-sa"
+    ]
+  },
+  "failure_rule": "Any missing or duplicate selected photo, observation, observer or taxon; any identity, coordinate, date, accuracy, quality, licence, rank, active-status or ancestry mismatch; or any archive identity failure yields not_evaluable_dated_source_reconciliation and STOP. No replacement, resampling, gate relaxation or live-object substitution is permitted.",
+  "authorization": {
+    "live_feasibility_can_authorize_images": false,
+    "dated_source_reconciliation_can_authorize_images_alone": false,
+    "all_independent_gates_required": [
+      "pass_dated_source_scaleout_freeze",
+      "pass_precolour_environmental_coverage",
+      "pass_locked_roi_v4_jrc_gate"
+    ]
+  },
+  "claim_ceiling": "Exact dated-source reconciliation and acquisition provenance only; no flower detection, colour, spatial transition, environmental concordance or biological conclusion."
+}
