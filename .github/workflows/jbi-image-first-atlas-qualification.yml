@@ -11,6 +11,7 @@ on:
       - "fcp_pipeline/atlas_overlay_null.py"
       - "fcp_pipeline/roi_benchmark.py"
       - "fcp_pipeline/segformer_roi.py"
+      - "fcp_pipeline/flower_roi_v4.py"
       - "scripts/data/build_jbi_atlas_scaleout_metadata_feasibility.py"
       - "scripts/data/validate_jbi_atlas_scaleout_geometry_amendment.py"
       - "scripts/data/validate_jbi_atlas_bombus_source_gate.py"
@@ -19,6 +20,9 @@ on:
       - "scripts/data/run_jbi_atlas_segformer_jrc_gate.py"
       - "scripts/data/validate_jbi_atlas_roi_v3_source_freeze.py"
       - "scripts/data/validate_jbi_atlas_roi_v3_development_result.py"
+      - "scripts/data/validate_jbi_atlas_roi_v4_contract.py"
+      - "scripts/data/prepare_jbi_atlas_roi_v4_training.py"
+      - "scripts/data/train_jbi_atlas_roi_v4_detector.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall.py"
       - "scripts/data/acquire_jbi_atlas_blinded_images.py"
       - "scripts/data/measure_jbi_atlas_blinded_images.py"
@@ -41,6 +45,7 @@ on:
       - "scripts/data/validate_jbi_image_first_atlas_expansion.py"
       - "tests/test_atlas_*.py"
       - "tests/test_segformer_roi.py"
+      - "tests/test_flower_roi_v4.py"
       - "docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md"
       - "docs/research/FCP_ATLAS_ROI_V3_CANDIDATES.md"
       - "docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json"
@@ -52,6 +57,8 @@ on:
       - "data/atlas/qualification/roi_v3_sources/**"
       - "docs/supporting/jbi_atlas_roi_v3_development_evidence_manifest.json"
       - "data/atlas/qualification/roi_v3_development/**"
+      - "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json"
+      - "requirements-atlas-roi-v4.txt"
       - "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json"
       - "docs/supporting/jbi_atlas_roi_benchmark_evidence_manifest_v2.json"
       - "docs/supporting/jbi_atlas_oxford17_roi_benchmark_result_v2.json"
@@ -72,6 +79,7 @@ on:
       - "fcp_pipeline/atlas_overlay_null.py"
       - "fcp_pipeline/roi_benchmark.py"
       - "fcp_pipeline/segformer_roi.py"
+      - "fcp_pipeline/flower_roi_v4.py"
       - "scripts/data/build_jbi_atlas_scaleout_metadata_feasibility.py"
       - "scripts/data/validate_jbi_atlas_scaleout_geometry_amendment.py"
       - "scripts/data/validate_jbi_atlas_bombus_source_gate.py"
@@ -80,6 +88,9 @@ on:
       - "scripts/data/run_jbi_atlas_segformer_jrc_gate.py"
       - "scripts/data/validate_jbi_atlas_roi_v3_source_freeze.py"
       - "scripts/data/validate_jbi_atlas_roi_v3_development_result.py"
+      - "scripts/data/validate_jbi_atlas_roi_v4_contract.py"
+      - "scripts/data/prepare_jbi_atlas_roi_v4_training.py"
+      - "scripts/data/train_jbi_atlas_roi_v4_detector.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall.py"
       - "scripts/data/acquire_jbi_atlas_blinded_images.py"
       - "scripts/data/measure_jbi_atlas_blinded_images.py"
@@ -102,6 +113,7 @@ on:
       - "scripts/data/validate_jbi_image_first_atlas_expansion.py"
       - "tests/test_atlas_*.py"
       - "tests/test_segformer_roi.py"
+      - "tests/test_flower_roi_v4.py"
       - "docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md"
       - "docs/research/FCP_ATLAS_ROI_V3_CANDIDATES.md"
       - "docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json"
@@ -113,6 +125,8 @@ on:
       - "data/atlas/qualification/roi_v3_sources/**"
       - "docs/supporting/jbi_atlas_roi_v3_development_evidence_manifest.json"
       - "data/atlas/qualification/roi_v3_development/**"
+      - "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json"
+      - "requirements-atlas-roi-v4.txt"
       - "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json"
       - "docs/supporting/jbi_atlas_roi_benchmark_evidence_manifest_v2.json"
       - "docs/supporting/jbi_atlas_oxford17_roi_benchmark_result_v2.json"
@@ -173,6 +187,7 @@ jobs:
           python scripts/data/validate_jbi_atlas_roi_benchmark_result_v2.py
           python scripts/data/validate_jbi_atlas_roi_v3_source_freeze.py
           python scripts/data/validate_jbi_atlas_roi_v3_development_result.py
+          python scripts/data/validate_jbi_atlas_roi_v4_contract.py
           python scripts/data/validate_jbi_atlas_environmental_overlay_contract.py
           python scripts/data/validate_jbi_atlas_climate_ecoregion_freeze.py
           python scripts/data/validate_jbi_atlas_worldcover_freeze.py
@@ -189,6 +204,7 @@ jobs:
           tests/test_atlas_scaleout.py
           tests/test_atlas_signal_recovery.py
           tests/test_segformer_roi.py
+          tests/test_flower_roi_v4.py
 
   roi-benchmark:
     if: github.event_name == 'workflow_dispatch' && inputs.run_roi_benchmark

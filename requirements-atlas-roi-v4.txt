@@ -1,0 +1,2 @@
+ultralytics==8.4.112
+onnxruntime==1.23.2
