@@ -1,0 +1,143 @@
+{
+  "protocol": "jbi-atlas-colour-surface-and-environment-inference-v1",
+  "status": "prospectively_frozen_before_any_scaleout_candidate_pixel_or_colour_environment_join",
+  "date": "2026-08-31",
+  "objective": "convert the complete location-blind ROI-v4 measurements into species-conditioned transition surfaces and test their concordance with independently frozen environmental boundaries across eight random species cohorts",
+  "parents": {
+    "inference_v3": {
+      "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json",
+      "sha256_exact": "598b34bd0c996f2744e7dd9444d10673bdbe39092ba7a3625ce1f9fc003c604d"
+    },
+    "environment_v1": {
+      "path": "docs/supporting/jbi_atlas_environmental_overlay_contract_v1.json",
+      "sha256_exact": "a0d131a7ea3b396f74e33d3ac544814f31c025987c04674533b2a4acb0d3a6c7"
+    },
+    "roi_v4": {
+      "path": "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json",
+      "sha256_exact": "4ad2f34abdec71eac24781d4525e1b14ab9ab04555550a38c74681a207ffc39e"
+    },
+    "qualified_overlay_null": {
+      "path": "docs/supporting/jbi_atlas_overlay_null_qualification_result_v2.json",
+      "sha256_exact": "ec3e84b4fca38ae9fd6f438134b725791cb5f878026a0cfcbfbd71803633c7cb",
+      "status": "pass_spatially_constrained_overlay_null"
+    }
+  },
+  "outcome_firewall": {
+    "scaleout_candidate_pixels_opened": false,
+    "scaleout_colour_measured": false,
+    "coordinate_colour_key_joined": false,
+    "flower_environment_joined": false,
+    "cohort_or_scale_selected_from_colour": false
+  },
+  "input_gate": {
+    "roi_requirement": "exact committed pass_roi_v4_locked_test result and matching trained-weight SHA-256",
+    "measurement_requirement": "pass_scaleout_measurement_completeness over all 60000 frozen measurement IDs",
+    "coordinate_opening_rule": "join the sealed coordinate key only after measurement completeness passes; never expose coordinates to a measurement worker",
+    "failed_rule": "return not_evaluable and keep coordinates sealed"
+  },
+  "colour_vectors": {
+    "primary": [
+      "flower_L_mean",
+      "flower_a_mean",
+      "flower_b_mean"
+    ],
+    "background_diagnostic": [
+      "background_L_mean",
+      "background_a_mean",
+      "background_b_mean"
+    ],
+    "standardization": "within each species and surface role, subtract the component median and divide by the component interquartile range over the complete admitted analysis subset",
+    "zero_iqr_rule": "set a zero-IQR component to zero after centering; if all three components have zero IQR, that species-configuration is not_evaluable",
+    "no_component_selection": true,
+    "complete_vector_moves_together": true,
+    "primary_subset": "every automated_colour_state_admitted observation",
+    "background_subset": "the admitted observations with background_features_available=true and all three finite background means",
+    "background_role": "a multiplicity-protected camera-and-scene diagnostic that conditions wording but cannot create or erase the primary flower outcome"
+  },
+  "transition_surface": {
+    "species_conditioning": "construct every graph, transform and edge rank separately within species",
+    "knn_k": 5,
+    "scales_km": [
+      100,
+      250,
+      500
+    ],
+    "grids": {
+      "100": [
+        320,
+        160
+      ],
+      "250": [
+        128,
+        64
+      ],
+      "500": [
+        64,
+        32
+      ]
+    },
+    "edge_score": "RMS Euclidean distance across the three robust-standardized Lab components",
+    "edge_intensity": "within-species zero-to-one average rank with exact ties and 0.5 for a single retained edge",
+    "cell_value": "mean intensity of retained edge midpoints in the equal-area cell",
+    "minimum_edges_per_species_cell": 2,
+    "minimum_retained_edges_per_species_configuration": 100,
+    "minimum_detectable_cells_per_species_configuration": 10,
+    "cohort_surface": "equal-species mean across every detectable species in a cell",
+    "opportunity_weight": "number of detectable species in that cohort and cell",
+    "minimum_evaluable_species_per_primary_cohort": 20,
+    "failed_species_rule": "retain not_evaluable without replacement",
+    "failed_primary_cohort_rule": "the environmental branch is not_evaluable; never select the remaining cohorts",
+    "failed_sensitivity_rule": "retain that sensitivity as not_evaluable without closing an otherwise evaluable primary analysis"
+  },
+  "season_configurations": {
+    "primary": "all_dates",
+    "sensitivities": [
+      "same_calendar_month_edges",
+      "same_local_solar_quarter_edges"
+    ],
+    "rule": "build the same geometry-only k-nearest-neighbour candidates, then retain only edges whose endpoints share the declared metadata season label before applying the distance cap",
+    "use_in_promotion": false
+  },
+  "environmental_families": {
+    "primary": [
+      "macroclimate_boundary",
+      "land_cover_boundary",
+      "ecoregion_boundary"
+    ],
+    "not_evaluable_precolour": [
+      "terrain_boundary"
+    ],
+    "ecoregion_sensitivities": [
+      "realm_sensitivity_boundary",
+      "biome_sensitivity_boundary"
+    ],
+    "missing_cells": "use only finite flower-opportunity and finite overlay cells for that exact test; never convert missing values to zero or repair them from distant environmental cells",
+    "minimum_test_cells": 20
+  },
+  "joint_inference": {
+    "method": "weighted Moran eigenvector coefficient-sign randomization after the frozen seven-column broad geographic detrending",
+    "randomizations": 9999,
+    "seed": 20260831,
+    "alternative": "greater positive concordance",
+    "cohort_combination": "for each role, environmental surface, scale and season configuration, average the eight cohort residual correlations with equal cohort weight",
+    "familywise_null": "on each randomization independently sign-randomize the flower or background coefficients within every cohort-test basis, then take one maximum over every cohort statistic and every equal-cohort statistic across both surface roles, all three scales, all season configurations and every primary or sensitivity environmental surface",
+    "primary_promotion_tests": "only equal-eight-cohort flower statistics at 100 km, all_dates, and the three primary environmental surfaces",
+    "alpha": 0.05,
+    "monte_carlo_p": "(b+1)/(9999+1)",
+    "supported": "at least one primary promotion test has familywise adjusted p<=0.05",
+    "not_supported": "all three primary promotion tests are evaluable and have familywise adjusted p>0.05",
+    "not_evaluable": "an input gate, primary cohort, macroclimate coverage or two-family environmental coverage requirement fails",
+    "reporting": "report every cohort correlation, equal-cohort correlation, adjusted p-value, sensitivity, failure and terminal branch outcome"
+  },
+  "background_wording": {
+    "background_primary_supported": "describe a scene-nonspecific camera-space concordance and do not call it flower-specific",
+    "background_primary_not_supported": "describe flower-candidate concordance without a detected background counterpart, while retaining the camera-space and noncausal ceiling",
+    "background_not_evaluable": "state that background confounding could not be evaluated"
+  },
+  "visualization": {
+    "map": "species-free points rendered from unstandardized admitted flower mean Lab colour after the sealed join",
+    "photo_bar": "species-free licensed flower-candidate crops or full images ordered only by a frozen spatial axis; taxon labels remain absent from the display",
+    "inference_table": "species-conditioned and cohort-labelled; never pool observations across taxa before transition construction"
+  },
+  "claim_ceiling": "A supported result is spatial concordance between automated camera-space flower-candidate colour transitions and independently frozen environmental transitions across random species cohorts. It is not a universal boundary, calibrated reflectance, pollinator vision, visitation, adaptation, selection or causation."
+}
