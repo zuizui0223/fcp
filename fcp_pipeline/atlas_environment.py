@@ -1,0 +1,174 @@
+"""Colour-blind environmental boundary surfaces for the FCP atlas."""
+
+from __future__ import annotations
+
+from typing import Any, Mapping, Sequence
+
+import numpy as np
+
+
+ENVIRONMENT_PROTOCOL = "jbi-atlas-environmental-overlay-freeze-v1"
+CLIMATE_FIELDS = ("bio1", "bio4", "bio12", "bio15")
+TERRAIN_FIELDS = ("elevation", "slope", "terrain_ruggedness")
+LAND_COVER_CODES = (10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100)
+
+
+def validate_environment_contract(contract: Mapping[str, Any]) -> None:
+    if contract.get("protocol") != ENVIRONMENT_PROTOCOL:
+        raise ValueError("unexpected environmental overlay protocol")
+    if contract.get("scaleout_colour_opened") is not False:
+        raise ValueError("environmental overlay was not frozen before colour")
+    if contract.get("grid", {}).get("scales_km") != [100, 250, 500]:
+        raise ValueError("environmental overlay scales changed")
+    coverage = contract.get("coverage_gate", {})
+    if coverage.get("minimum_atlas_opportunity_cell_fraction_per_family") != 0.7:
+        raise ValueError("environmental family coverage changed")
+    if coverage.get("minimum_evaluable_primary_families") != 2:
+        raise ValueError("environmental family minimum changed")
+    if coverage.get("macroclimate_must_be_evaluable") is not True:
+        raise ValueError("macroclimate must remain required")
+    if contract.get("inference", {}).get("randomizations") != 9999:
+        raise ValueError("final environmental randomization count changed")
+
+
+def rook_adjacency_without_repair(
+    cell_ids: Sequence[int] | np.ndarray, *, n_lon: int, n_sinlat: int
+) -> np.ndarray:
+    """Return global-grid rook adjacency without joining distant islands."""
+
+    ids = np.asarray(cell_ids, dtype=int)
+    if ids.ndim != 1 or not ids.size or len(np.unique(ids)) != ids.size:
+        raise ValueError("cell_ids must be non-empty and unique")
+    if n_lon < 2 or n_sinlat < 2 or np.any((ids < 0) | (ids >= n_lon * n_sinlat)):
+        raise ValueError("cell IDs or grid dimensions are invalid")
+    lookup = {int(cell): index for index, cell in enumerate(ids)}
+    adjacency = np.zeros((ids.size, ids.size), dtype=bool)
+    for index, cell in enumerate(ids):
+        row, column = divmod(int(cell), n_lon)
+        neighbours = [
+            row * n_lon + (column - 1) % n_lon,
+            row * n_lon + (column + 1) % n_lon,
+        ]
+        if row > 0:
+            neighbours.append((row - 1) * n_lon + column)
+        if row + 1 < n_sinlat:
+            neighbours.append((row + 1) * n_lon + column)
+        for neighbour in neighbours:
+            other = lookup.get(neighbour)
+            if other is not None:
+                adjacency[index, other] = True
+                adjacency[other, index] = True
+    return adjacency
+
+
+def _edges(adjacency: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    adjacency = np.asarray(adjacency, dtype=bool)
+    if adjacency.ndim != 2 or adjacency.shape[0] != adjacency.shape[1]:
+        raise ValueError("adjacency must be square")
+    if not np.array_equal(adjacency, adjacency.T) or np.any(np.diag(adjacency)):
+        raise ValueError("adjacency must be symmetric without self edges")
+    return np.nonzero(np.triu(adjacency, k=1))
+
+
+def cell_mean_edge_values(adjacency: np.ndarray, edge_values: np.ndarray) -> np.ndarray:
+    """Average undirected edge changes at each incident cell."""
+
+    first, second = _edges(adjacency)
+    edge_values = np.asarray(edge_values, dtype=float)
+    if edge_values.shape != first.shape or not np.isfinite(edge_values).all():
+        raise ValueError("edge values must be finite and match adjacency edges")
+    total = np.zeros(adjacency.shape[0], dtype=float)
+    count = np.zeros(adjacency.shape[0], dtype=int)
+    np.add.at(total, first, edge_values)
+    np.add.at(total, second, edge_values)
+    np.add.at(count, first, 1)
+    np.add.at(count, second, 1)
+    output = np.full(adjacency.shape[0], np.nan, dtype=float)
+    valid = count > 0
+    output[valid] = total[valid] / count[valid]
+    return output
+
+
+def continuous_boundary(
+    values: np.ndarray, adjacency: np.ndarray
+) -> tuple[np.ndarray, dict[str, list[float]]]:
+    """Standardized RMS neighbour change and its frozen land-cell scaling."""
+
+    values = np.asarray(values, dtype=float)
+    if values.ndim != 2 or values.shape[0] != adjacency.shape[0]:
+        raise ValueError("continuous values must have one row per cell")
+    if not np.isfinite(values).all():
+        raise ValueError("continuous environmental values must be complete and finite")
+    mean = values.mean(axis=0)
+    sd = values.std(axis=0)
+    if np.any(sd <= 0):
+        raise ValueError("continuous environmental variables need positive variation")
+    standardized = (values - mean) / sd
+    first, second = _edges(adjacency)
+    distance = np.sqrt(np.mean((standardized[first] - standardized[second]) ** 2, axis=1))
+    return cell_mean_edge_values(adjacency, distance), {
+        "mean": mean.tolist(),
+        "sd": sd.tolist(),
+    }
+
+
+def composition_boundary(composition: np.ndarray, adjacency: np.ndarray) -> np.ndarray:
+    """Hellinger neighbour change for an exhaustive land-cover composition."""
+
+    composition = np.asarray(composition, dtype=float)
+    if composition.ndim != 2 or composition.shape[0] != adjacency.shape[0]:
+        raise ValueError("composition must have one row per cell")
+    if not np.isfinite(composition).all() or np.any(composition < 0):
+        raise ValueError("land-cover composition must be finite and non-negative")
+    totals = composition.sum(axis=1)
+    if np.any(totals <= 0):
+        raise ValueError("land-cover composition contains an empty cell")
+    normalized = composition / totals[:, None]
+    first, second = _edges(adjacency)
+    distance = np.sqrt(
+        0.5 * np.sum((np.sqrt(normalized[first]) - np.sqrt(normalized[second])) ** 2, axis=1)
+    )
+    return cell_mean_edge_values(adjacency, distance)
+
+
+def categorical_boundary(labels: Sequence[object], adjacency: np.ndarray) -> np.ndarray:
+    """Mean fraction of incident neighbours assigned to another category."""
+
+    labels = np.asarray([str(value) for value in labels], dtype=object)
+    if labels.shape != (adjacency.shape[0],) or np.any(labels == ""):
+        raise ValueError("categorical labels must be non-empty and match cells")
+    first, second = _edges(adjacency)
+    return cell_mean_edge_values(adjacency, (labels[first] != labels[second]).astype(float))
+
+
+def environmental_boundary_surfaces(
+    rows: Sequence[Mapping[str, Any]], adjacency: np.ndarray
+) -> dict[str, Any]:
+    """Build four primary boundary surfaces without any flower-colour input."""
+
+    forbidden = ("colour", "color", "flower", "transition")
+    if not rows or any(
+        any(token in str(key).casefold() for token in forbidden)
+        for row in rows
+        for key in row
+    ):
+        raise ValueError("environment table is empty or contains flower-colour outcomes")
+    climate = np.asarray([[float(row[key]) for key in CLIMATE_FIELDS] for row in rows])
+    terrain = np.asarray([[float(row[key]) for key in TERRAIN_FIELDS] for row in rows])
+    land_cover = np.asarray(
+        [[float(row[f"worldcover_{code}"]) for code in LAND_COVER_CODES] for row in rows]
+    )
+    climate_surface, climate_scaling = continuous_boundary(climate, adjacency)
+    terrain_surface, terrain_scaling = continuous_boundary(terrain, adjacency)
+    return {
+        "macroclimate": climate_surface,
+        "terrain": terrain_surface,
+        "land_cover": composition_boundary(land_cover, adjacency),
+        "ecoregion": categorical_boundary([row["ecoregion"] for row in rows], adjacency),
+        "realm_sensitivity": categorical_boundary([row["realm"] for row in rows], adjacency),
+        "biome_sensitivity": categorical_boundary([row["biome"] for row in rows], adjacency),
+        "scaling": {
+            "macroclimate": climate_scaling,
+            "terrain": terrain_scaling,
+        },
+    }

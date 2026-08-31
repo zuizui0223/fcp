@@ -1,0 +1,96 @@
+{
+  "protocol": "jbi-atlas-environmental-overlay-freeze-v1",
+  "status": "frozen_before_any_scaleout_colour_or_environment_colour_join",
+  "date": "2026-08-31",
+  "parent_inference_contract": "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json",
+  "scaleout_colour_opened": false,
+  "sources": {
+    "macroclimate": {
+      "product": "WorldClim 2.1 bioclimatic variables, 1970-2000",
+      "resolution": "10 minutes",
+      "official_url": "https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip",
+      "variables": [
+        "BIO1",
+        "BIO4",
+        "BIO12",
+        "BIO15"
+      ]
+    },
+    "terrain": {
+      "product": "Copernicus DEM GLO-30 DGED COG",
+      "collection": "cop-dem-glo-30-dged-cog",
+      "official_stac": "https://stac.dataspace.copernicus.eu/v1/",
+      "doi": "10.5270/ESA-c5d3d65",
+      "variables": [
+        "elevation",
+        "slope",
+        "terrain_ruggedness"
+      ],
+      "access_rule": "if the frozen registered-user acquisition cannot be completed before colour join, retain terrain as not_evaluable; never substitute another DEM after colour"
+    },
+    "land_cover": {
+      "product": "ESA WorldCover 2021 v200",
+      "official_prefix": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/",
+      "doi": "10.5281/zenodo.7254221",
+      "class_codes": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        95,
+        100
+      ]
+    },
+    "ecoregion": {
+      "product": "RESOLVE Ecoregions 2017",
+      "official_url": "https://storage.googleapis.com/teow2016/Ecoregions2017.zip",
+      "doi": "10.1093/biosci/bix014",
+      "license": "CC-BY 4.0",
+      "levels": [
+        "realm",
+        "biome",
+        "ecoregion"
+      ]
+    }
+  },
+  "grid": {
+    "scales_km": [
+      100,
+      250,
+      500
+    ],
+    "cell_identity": "the frozen equal-area longitude by sin(latitude) grid from the atlas geometry",
+    "neighbourhood": "rook adjacency with longitude wrap; no distant nearest-cell repair when deriving an environmental boundary",
+    "island_rule": "a cell without a terrestrial rook neighbour is not_evaluable for that family"
+  },
+  "family_surfaces": {
+    "macroclimate": "standardize BIO1, BIO4, BIO12 and BIO15 across finite equal-area terrestrial cells; compute the RMS standardized difference on every terrestrial rook edge; a cell value is the mean of its incident edges",
+    "terrain": "apply the same frozen standardization and RMS edge rule to elevation, slope and terrain ruggedness",
+    "land_cover": "derive the 11-class composition in each equal-area cell; edge change is Hellinger distance and a cell value is the mean of incident edges",
+    "ecoregion": "primary edge change is one when dominant ecoregion differs and zero otherwise; realm and biome are frozen sensitivities"
+  },
+  "coverage_gate": {
+    "minimum_atlas_opportunity_cell_fraction_per_family": 0.7,
+    "minimum_evaluable_primary_families": 2,
+    "macroclimate_must_be_evaluable": true,
+    "failed_family_rule": "retain not_evaluable and preserve its frozen denominator",
+    "failed_branch_rule": "if macroclimate or the two-family minimum fails, environmental concordance is not_evaluable"
+  },
+  "inference": {
+    "flower_surface": "opportunity-preserving equal-species mean of within-species ranked transition intensity",
+    "method": "the qualified weighted Moran eigenvector coefficient-sign randomization after frozen broad geographic detrending",
+    "randomizations": 9999,
+    "joint_maximum": "one maximum statistic across all evaluable cohorts, scales, season sensitivities and primary environmental families",
+    "outcomes": [
+      "supported",
+      "not_supported",
+      "not_evaluable"
+    ]
+  },
+  "claim_ceiling": "spatial concordance between automated flower-candidate colour transition intensity and independently frozen environmental transition intensity; not causation, adaptation or a universal boundary"
+}
