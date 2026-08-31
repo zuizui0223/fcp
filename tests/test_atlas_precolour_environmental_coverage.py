@@ -61,6 +61,19 @@ def inputs() -> tuple[dict, list[dict], dict[int, list[dict]]]:
     return feasibility, panels, boundaries
 
 
+def dated_source_pass() -> dict:
+    return {
+        "status": "pass_dated_source_scaleout_freeze",
+        "candidate_image_pixels_opened": False,
+        "continuous_colour_used": False,
+        "selected_species": 200,
+        "selected_photos": 60000,
+        "frozen_observations": 60000,
+        "replacement_permitted": False,
+        "image_acquisition_authorized": False,
+    }
+
+
 def test_live_feasibility_cannot_masquerade_as_final_coverage() -> None:
     feasibility, panels, boundaries = inputs()
     result = build_evidence(
@@ -78,16 +91,53 @@ def test_live_feasibility_cannot_masquerade_as_final_coverage() -> None:
 
 def test_final_dated_source_emits_the_protected_join_status() -> None:
     feasibility, panels, boundaries = inputs()
-    feasibility["status"] = "pass_dated_source_scaleout_freeze"
     result = build_evidence(
         feasibility=feasibility,
         panels=panels,
         boundary_rows_by_scale=boundaries,
         environment_contract=CONTRACT,
         source_stage="final-dated-source",
+        dated_source_reconciliation=dated_source_pass(),
     )
     assert result["status"] == "pass_precolour_environmental_coverage"
     assert result["final_dated_source_required"] is False
+
+
+def test_final_coverage_requires_a_separate_complete_dated_source_gate() -> None:
+    feasibility, panels, boundaries = inputs()
+    with pytest.raises(ValueError, match="requires dated-source"):
+        build_evidence(
+            feasibility=feasibility,
+            panels=panels,
+            boundary_rows_by_scale=boundaries,
+            environment_contract=CONTRACT,
+            source_stage="final-dated-source",
+        )
+
+    dated = dated_source_pass()
+    dated["frozen_observations"] = 59999
+    with pytest.raises(ValueError, match="did not pass unchanged"):
+        build_evidence(
+            feasibility=feasibility,
+            panels=panels,
+            boundary_rows_by_scale=boundaries,
+            environment_contract=CONTRACT,
+            source_stage="final-dated-source",
+            dated_source_reconciliation=dated,
+        )
+
+
+def test_live_coverage_rejects_dated_source_outcomes() -> None:
+    feasibility, panels, boundaries = inputs()
+    with pytest.raises(ValueError, match="must not consume"):
+        build_evidence(
+            feasibility=feasibility,
+            panels=panels,
+            boundary_rows_by_scale=boundaries,
+            environment_contract=CONTRACT,
+            source_stage="live-feasibility",
+            dated_source_reconciliation=dated_source_pass(),
+        )
 
 
 def test_panel_or_geometry_drift_fails_closed() -> None:

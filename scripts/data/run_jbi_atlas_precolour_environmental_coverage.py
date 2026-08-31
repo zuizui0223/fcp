@@ -48,10 +48,7 @@ def selected_geometry(
 ) -> tuple[list[str], list[dict[str, Any]]]:
     """Validate the 8 x 25 panel denominator and return its geometry rows."""
 
-    if feasibility.get("status") not in {
-        "pass_live_api_scaleout_feasibility",
-        "pass_dated_source_scaleout_freeze",
-    }:
+    if feasibility.get("status") != "pass_live_api_scaleout_feasibility":
         raise ValueError("metadata scale-out did not pass its frozen source gate")
     parse_false(
         feasibility.get("candidate_image_pixels_opened"),
@@ -133,9 +130,28 @@ def build_evidence(
     boundary_rows_by_scale: Mapping[int, Sequence[Mapping[str, Any]]],
     environment_contract: Mapping[str, Any],
     source_stage: str,
+    dated_source_reconciliation: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     if source_stage not in SOURCE_STAGES:
         raise ValueError("unknown source stage")
+    if source_stage == "live-feasibility":
+        if dated_source_reconciliation is not None:
+            raise ValueError("live feasibility must not consume dated-source outcomes")
+    else:
+        dated = dated_source_reconciliation
+        if not isinstance(dated, Mapping):
+            raise ValueError("final coverage requires dated-source reconciliation")
+        if (
+            dated.get("status") != "pass_dated_source_scaleout_freeze"
+            or dated.get("candidate_image_pixels_opened") is not False
+            or dated.get("continuous_colour_used") is not False
+            or dated.get("selected_species") != 200
+            or dated.get("selected_photos") != 60000
+            or dated.get("frozen_observations") != 60000
+            or dated.get("replacement_permitted") is not False
+            or dated.get("image_acquisition_authorized") is not False
+        ):
+            raise ValueError("dated-source reconciliation did not pass unchanged")
     taxa, geometry = selected_geometry(feasibility, panels)
     gate = evaluate_environmental_coverage_gate(
         geometry,
@@ -185,6 +201,7 @@ def parse_args() -> argparse.Namespace:
         default=ROOT / "data/atlas/environment/environmental_boundary_freeze_manifest.json",
     )
     parser.add_argument("--source-stage", choices=SOURCE_STAGES, required=True)
+    parser.add_argument("--dated-source-reconciliation", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     return parser.parse_args()
 
@@ -195,6 +212,11 @@ def main() -> int:
     panels = read_csv(args.species_panels)
     contract = json.loads(args.environment_contract.read_text(encoding="utf-8"))
     boundary_manifest = json.loads(args.boundary_manifest.read_text(encoding="utf-8"))
+    dated_source_reconciliation = None
+    if args.dated_source_reconciliation is not None:
+        dated_source_reconciliation = json.loads(
+            args.dated_source_reconciliation.read_text(encoding="utf-8")
+        )
     rows, boundary_hashes = load_frozen_boundaries(
         args.environment_dir, boundary_manifest
     )
@@ -204,6 +226,7 @@ def main() -> int:
         boundary_rows_by_scale=rows,
         environment_contract=contract,
         source_stage=args.source_stage,
+        dated_source_reconciliation=dated_source_reconciliation,
     )
     result["parents"] = {
         "metadata_feasibility_sha256": file_sha256(args.metadata_feasibility),
@@ -212,6 +235,10 @@ def main() -> int:
         "boundary_manifest_sha256": file_sha256(args.boundary_manifest),
         "boundary_files_sha256": boundary_hashes,
     }
+    if args.dated_source_reconciliation is not None:
+        result["parents"]["dated_source_reconciliation_sha256"] = file_sha256(
+            args.dated_source_reconciliation
+        )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(result, indent=2, ensure_ascii=False, sort_keys=True) + "\n",
