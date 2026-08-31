@@ -11,6 +11,7 @@ from fcp_pipeline.segformer_roi import (
     evaluate_flip_stable_admission,
     score_jrc_boxes,
     summarize_jrc_gate,
+    validate_jrc_box_edge_amendment,
     validate_roi_v3_contract,
 )
 
@@ -31,6 +32,13 @@ def test_roi_v3_contract_and_no_plant_fallback() -> None:
     flower, plant = class_masks_from_labels(labels)
     assert int(flower.sum()) == 400
     assert int(plant.sum()) == 400
+    validate_jrc_box_edge_amendment(
+        json.loads(
+            Path("docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v1.json").read_text(
+                encoding="utf-8"
+            )
+        )
+    )
 
 
 def test_flip_admission_is_fail_closed() -> None:
@@ -67,3 +75,16 @@ def test_jrc_box_scoring_and_summary() -> None:
     result = summarize_jrc_gate([row] * 100, value, phase="locked_test")
     assert result["status"] == "pass_jrc_locked_test"
     assert result["atlas_pixels_permitted_by_roi_v3"] is True
+
+
+def test_jrc_edge_boxes_are_clipped_before_scaling() -> None:
+    mask = np.zeros((CANVAS_SIZE, CANVAS_SIZE), dtype=bool)
+    mask[0:16, 0:16] = True
+    scored = score_jrc_boxes(
+        mask,
+        [[-1, -1, 17, 17]],
+        source_width=CANVAS_SIZE,
+        source_height=CANVAS_SIZE,
+    )
+    assert scored["reference_boxes"] == 1
+    assert scored["hit_boxes"] == 1

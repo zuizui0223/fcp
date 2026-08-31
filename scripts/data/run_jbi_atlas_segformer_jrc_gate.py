@@ -28,6 +28,7 @@ from fcp_pipeline.segformer_roi import (
     evaluate_flip_stable_admission,
     score_jrc_boxes,
     summarize_jrc_gate,
+    validate_jrc_box_edge_amendment,
     validate_roi_v3_contract,
 )
 
@@ -130,6 +131,11 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("docs/supporting/jbi_atlas_roi_estimator_contract_v3.json"),
     )
+    parser.add_argument(
+        "--box-edge-amendment",
+        type=Path,
+        default=Path("docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v1.json"),
+    )
     parser.add_argument("--phase", choices=("smoke", "development", "locked_test"), required=True)
     parser.add_argument("--jrc-root", type=Path, required=True)
     parser.add_argument("--model-dir", type=Path, required=True)
@@ -144,7 +150,10 @@ def main() -> None:
     args = parse_args()
     contract = json.loads(args.contract.read_text(encoding="utf-8"))
     validate_roi_v3_contract(contract)
+    amendment = json.loads(args.box_edge_amendment.read_text(encoding="utf-8"))
+    validate_jrc_box_edge_amendment(amendment)
     contract_hash = canonical_sha256(args.contract)
+    amendment_hash = canonical_sha256(args.box_edge_amendment)
     if args.phase == "locked_test":
         if args.limit is not None:
             raise RuntimeError("locked JRC test cannot be limited")
@@ -154,6 +163,8 @@ def main() -> None:
         if (
             development.get("status") != "pass_jrc_development"
             or development.get("contract_sha256_lf_canonical_v1") != contract_hash
+            or development.get("box_edge_amendment_sha256_lf_canonical_v1")
+            != amendment_hash
         ):
             raise RuntimeError("JRC development gate is not passed for this contract")
 
@@ -193,6 +204,7 @@ def main() -> None:
             "phase": "smoke",
             "status": "pass_deterministic_cpu_smoke" if np.array_equal(first, second) else "stop_nondeterministic_cpu_smoke",
             "contract_sha256_lf_canonical_v1": contract_hash,
+            "box_edge_amendment_sha256_lf_canonical_v1": amendment_hash,
             "image_id": int(metadata["id"]),
             "image_sha256": sha256(image_path),
             "first_seconds": first_seconds,
@@ -270,6 +282,7 @@ def main() -> None:
     result = {
         **summary,
         "contract_sha256_lf_canonical_v1": contract_hash,
+        "box_edge_amendment_sha256_lf_canonical_v1": amendment_hash,
         "model_id": contract["estimator"]["model_id"],
         "model_revision": contract["estimator"]["revision"],
         "model_safetensors_sha256": contract["estimator"]["model_safetensors_sha256"],

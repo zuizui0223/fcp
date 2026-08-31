@@ -11,6 +11,7 @@ from skimage.color import rgb2lab
 
 
 PROTOCOL = "jbi-atlas-roi-estimator-v3"
+BOX_EDGE_AMENDMENT_PROTOCOL = "jbi-atlas-roi-v3-jrc-box-edge-amendment-v1"
 CANVAS_SIZE = 512
 
 
@@ -81,6 +82,26 @@ def validate_roi_v3_contract(contract: Mapping[str, Any]) -> None:
         != [3448, 3456, 4657, 4691, 6241]
     ):
         raise ValueError("Oxford-102 proxy selection changed")
+
+
+def validate_jrc_box_edge_amendment(amendment: Mapping[str, Any]) -> None:
+    if amendment.get("protocol") != BOX_EDGE_AMENDMENT_PROTOCOL:
+        raise ValueError("unexpected JRC box-edge amendment")
+    evidence = amendment.get("stop_evidence", {})
+    audit = amendment.get("annotation_only_audit", {})
+    if (
+        evidence.get("locked_jrc_test_images_decoded_or_scored") is not False
+        or evidence.get("scaleout_candidate_pixels_opened") is not False
+        or audit.get("train_boxes") != 6992
+        or audit.get("train_boxes_crossing_image_edge") != 206
+        or audit.get("test_boxes") != 2524
+        or audit.get("test_boxes_crossing_image_edge") != 0
+    ):
+        raise ValueError("JRC box-edge stop evidence changed")
+    if not str(amendment.get("frozen_correction", "")).startswith(
+        "intersect every official COCO box with the closed image extent"
+    ):
+        raise ValueError("JRC box clipping rule changed")
 
 
 def class_masks_from_labels(
@@ -160,15 +181,23 @@ def _scaled_box(
     x, y, width, height = (float(value) for value in bbox)
     if not all(math.isfinite(value) for value in (x, y, width, height)):
         raise ValueError("COCO box contains a non-finite value")
-    if x < 0 or y < 0 or width <= 0 or height <= 0:
-        raise ValueError("COCO box is outside the source image")
-    x0 = max(0, min(CANVAS_SIZE, math.floor(x * CANVAS_SIZE / source_width)))
-    y0 = max(0, min(CANVAS_SIZE, math.floor(y * CANVAS_SIZE / source_height)))
-    x1 = max(0, min(CANVAS_SIZE, math.ceil((x + width) * CANVAS_SIZE / source_width)))
-    y1 = max(0, min(CANVAS_SIZE, math.ceil((y + height) * CANVAS_SIZE / source_height)))
+    if width <= 0 or height <= 0:
+        raise ValueError("COCO box has non-positive area")
+    clipped_x0 = max(0.0, min(float(source_width), x))
+    clipped_y0 = max(0.0, min(float(source_height), y))
+    clipped_x1 = max(0.0, min(float(source_width), x + width))
+    clipped_y1 = max(0.0, min(float(source_height), y + height))
+    if clipped_x1 <= clipped_x0 or clipped_y1 <= clipped_y0:
+        raise ValueError("COCO box is outside the source image after clipping")
+    x0 = max(0, min(CANVAS_SIZE, math.floor(clipped_x0 * CANVAS_SIZE / source_width)))
+    y0 = max(0, min(CANVAS_SIZE, math.floor(clipped_y0 * CANVAS_SIZE / source_height)))
+    x1 = max(0, min(CANVAS_SIZE, math.ceil(clipped_x1 * CANVAS_SIZE / source_width)))
+    y1 = max(0, min(CANVAS_SIZE, math.ceil(clipped_y1 * CANVAS_SIZE / source_height)))
     if x1 <= x0 or y1 <= y0:
         raise ValueError("COCO box vanishes on the frozen canvas")
-    area = (width * CANVAS_SIZE / source_width) * (height * CANVAS_SIZE / source_height)
+    area = ((clipped_x1 - clipped_x0) * CANVAS_SIZE / source_width) * (
+        (clipped_y1 - clipped_y0) * CANVAS_SIZE / source_height
+    )
     return x0, y0, x1, y1, float(area)
 
 

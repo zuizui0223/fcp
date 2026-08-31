@@ -15,10 +15,14 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from fcp_pipeline.segformer_roi import validate_roi_v3_contract
+from fcp_pipeline.segformer_roi import (
+    validate_jrc_box_edge_amendment,
+    validate_roi_v3_contract,
+)
 
 
 CONTRACT = Path("docs/supporting/jbi_atlas_roi_estimator_contract_v3.json")
+AMENDMENT = Path("docs/supporting/jbi_atlas_roi_v3_jrc_box_edge_amendment_v1.json")
 SOURCE_ROOT = Path("data/atlas/qualification/roi_v3_sources")
 MANIFEST = SOURCE_ROOT / "roi_v3_source_inventory_manifest.json"
 EXPECTED = {
@@ -48,6 +52,12 @@ def rows(path: Path) -> list[dict[str, str]]:
 def main() -> None:
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
     validate_roi_v3_contract(contract)
+    amendment = json.loads(AMENDMENT.read_text(encoding="utf-8"))
+    validate_jrc_box_edge_amendment(amendment)
+    if amendment.get("parent_contract", {}).get("sha256_lf_canonical_v1") != canonical_sha256(
+        CONTRACT
+    ):
+        raise RuntimeError("JRC box-edge amendment parent identity changed")
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     if (
         manifest.get("status") != "pass_roi_v3_source_inventory_freeze"
@@ -56,11 +66,11 @@ def main() -> None:
         or manifest.get("estimator_predictions_run") is not False
         or manifest.get("locked_images_decoded") is not False
         or manifest.get("cross_source_exact_duplicates") != 0
-        or manifest.get("files") != EXPECTED
+        or manifest.get("files_sha256_lf_canonical_v1") != EXPECTED
     ):
         raise RuntimeError("ROI v3 source manifest identity changed")
     for name, expected in EXPECTED.items():
-        if sha256(SOURCE_ROOT / name) != expected:
+        if canonical_sha256(SOURCE_ROOT / name) != expected:
             raise RuntimeError(f"ROI v3 source inventory hash changed: {name}")
 
     jrc = rows(SOURCE_ROOT / "jrc_flower_detection_source_inventory_v1.csv")

@@ -3,7 +3,7 @@
   "contract_sha256_lf_canonical_v1": "99b66870767462a5d8e2de74b365fffa1b23f2480f4befe3b07f77f51633f9ad",
   "cross_source_exact_duplicates": 0,
   "estimator_predictions_run": false,
-  "files": {
+  "files_sha256_lf_canonical_v1": {
     "jrc_flower_detection_source_inventory_v1.csv": "c30d40a5333327c1c6d8ea183d274d8a784a6990bf3cc98e69e158db6a8e9e4c",
     "oxford102_roi_proxy_source_inventory_v1.csv": "032a5a79ddee53aad15a7f1b88f848f480706bf4aacb135917ff1324fba3b6cf"
   },

@@ -273,9 +273,9 @@ def main() -> None:
         "jrc": jrc_summary,
         "oxford102": oxford_summary,
         "cross_source_exact_duplicates": 0,
-        "files": {
-            jrc_path.name: sha256(jrc_path),
-            oxford_path.name: sha256(oxford_path),
+        "files_sha256_lf_canonical_v1": {
+            jrc_path.name: canonical_sha256(jrc_path),
+            oxford_path.name: canonical_sha256(oxford_path),
         },
     }
     manifest_path = args.output_dir / "roi_v3_source_inventory_manifest.json"
