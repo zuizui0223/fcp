@@ -9,10 +9,17 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sys
 from typing import Any
 
 import numpy as np
 from PIL import Image
+
+# Direct execution sets sys.path[0] to scripts/data rather than the repository root.
+# Keep the CLI behaviour identical on local Windows and GitHub's Linux runner.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from fcp_pipeline.atlas_expansion import validate_expansion_contract
 from fcp_pipeline.roi_benchmark import score_flower_weights, summarize_roi_benchmark
