@@ -9,6 +9,7 @@
       "product": "WorldClim 2.1 bioclimatic variables, 1970-2000",
       "resolution": "10 minutes",
       "official_url": "https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip",
+      "archive_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
       "variables": [
         "BIO1",
         "BIO4",
@@ -49,6 +50,7 @@
     "ecoregion": {
       "product": "RESOLVE Ecoregions 2017",
       "official_url": "https://storage.googleapis.com/teow2016/Ecoregions2017.zip",
+      "archive_sha256": "be36d6209e443038d02e309f0447c6e7f2a62f5fe60c605ffe90d064952f2a60",
       "doi": "10.1093/biosci/bix014",
       "license": "CC-BY 4.0",
       "levels": [
@@ -67,6 +69,14 @@
     "cell_identity": "the frozen equal-area longitude by sin(latitude) grid from the atlas geometry",
     "neighbourhood": "rook adjacency with longitude wrap; no distant nearest-cell repair when deriving an environmental boundary",
     "island_rule": "a cell without a terrestrial rook neighbour is not_evaluable for that family"
+  },
+  "source_aggregation": {
+    "macroclimate": "area-weighted mean of every finite 10-minute WorldClim pixel whose centre lies in the equal-area cell; pixel area weight is cos(latitude)",
+    "ecoregion": "rasterize the official polygon ECO_ID to the WorldClim 10-minute grid by pixel centre, then take the cos(latitude)-weighted dominant ECO_ID within each equal-area cell; realm and biome follow that same dominant ECO_ID",
+    "ecoregion_dbf_encoding": "Windows-1252; the official archive has no .cpg, UTF-8 decoding stops before any grid output, and all 847 records decode under this fixed source-level setting",
+    "coastal_rule": "a cell is terrestrial for the climate-ecoregion freeze only when at least one pixel has both finite WorldClim values and a RESOLVE ECO_ID",
+    "ties": "choose the smallest numeric ECO_ID after exact weighted-area ties",
+    "source_missingness": "a primary family unavailable before the first colour join is frozen as not_evaluable; it is never replaced after colour"
   },
   "family_surfaces": {
     "macroclimate": "standardize BIO1, BIO4, BIO12 and BIO15 across finite equal-area terrestrial cells; compute the RMS standardized difference on every terrestrial rook edge; a cell value is the mean of its incident edges",

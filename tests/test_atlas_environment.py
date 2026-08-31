@@ -13,6 +13,8 @@ from fcp_pipeline.atlas_environment import (
     environmental_boundary_surfaces,
     rook_adjacency_without_repair,
     validate_environment_contract,
+    weighted_cell_means,
+    weighted_dominant_labels,
 )
 
 
@@ -79,3 +81,25 @@ def test_full_environment_builder_rejects_colour_and_builds_four_families() -> N
     assert {"macroclimate", "terrain", "land_cover", "ecoregion"}.issubset(result)
     with pytest.raises(ValueError, match="flower-colour"):
         environmental_boundary_surfaces([dict(rows[0], flower_colour=1)], np.zeros((1, 1)))
+
+
+def test_area_weighted_cell_aggregation_and_deterministic_dominance() -> None:
+    means = weighted_cell_means(
+        np.array([0, 0, 1]),
+        np.array([1.0, 3.0, 2.0]),
+        np.array([[0.0, 2.0], [4.0, 6.0], [9.0, 10.0]]),
+        n_cells=3,
+    )
+    assert means[0].tolist() == [3.0, 5.0]
+    assert means[1].tolist() == [9.0, 10.0]
+    assert np.isnan(means[2]).all()
+    dominant = weighted_dominant_labels(
+        np.array([0, 0, 0, 1]),
+        np.ones(4),
+        np.array([2, 1, 2, 5]),
+    )
+    assert dominant == {0: 2, 1: 5}
+    tied = weighted_dominant_labels(
+        np.array([0, 0]), np.ones(2), np.array([2, 1])
+    )
+    assert tied == {0: 1}

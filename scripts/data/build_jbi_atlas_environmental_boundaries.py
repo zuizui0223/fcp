@@ -105,15 +105,13 @@ def main() -> None:
         adjacency = rook_adjacency_without_repair(
             cell_ids, n_lon=n_lon, n_sinlat=n_sinlat
         )
-        surfaces = environmental_boundary_surfaces(rows, adjacency)
+        available = tuple(source_manifest["available_primary_families"])
+        surfaces = environmental_boundary_surfaces(rows, adjacency, families=available)
         output_rows: list[dict[str, Any]] = []
-        families = (
-            "macroclimate",
-            "terrain",
-            "land_cover",
-            "ecoregion",
-            "realm_sensitivity",
-            "biome_sensitivity",
+        families = tuple(available) + (
+            ("realm_sensitivity", "biome_sensitivity")
+            if "ecoregion" in available
+            else ()
         )
         for index, row in enumerate(rows):
             output = {

@@ -11,6 +11,7 @@ ENVIRONMENT_PROTOCOL = "jbi-atlas-environmental-overlay-freeze-v1"
 CLIMATE_FIELDS = ("bio1", "bio4", "bio12", "bio15")
 TERRAIN_FIELDS = ("elevation", "slope", "terrain_ruggedness")
 LAND_COVER_CODES = (10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100)
+PRIMARY_FAMILIES = ("macroclimate", "terrain", "land_cover", "ecoregion")
 
 
 def validate_environment_contract(contract: Mapping[str, Any]) -> None:
@@ -142,7 +143,10 @@ def categorical_boundary(labels: Sequence[object], adjacency: np.ndarray) -> np.
 
 
 def environmental_boundary_surfaces(
-    rows: Sequence[Mapping[str, Any]], adjacency: np.ndarray
+    rows: Sequence[Mapping[str, Any]],
+    adjacency: np.ndarray,
+    *,
+    families: Sequence[str] = PRIMARY_FAMILIES,
 ) -> dict[str, Any]:
     """Build four primary boundary surfaces without any flower-colour input."""
 
@@ -153,22 +157,114 @@ def environmental_boundary_surfaces(
         for key in row
     ):
         raise ValueError("environment table is empty or contains flower-colour outcomes")
-    climate = np.asarray([[float(row[key]) for key in CLIMATE_FIELDS] for row in rows])
-    terrain = np.asarray([[float(row[key]) for key in TERRAIN_FIELDS] for row in rows])
-    land_cover = np.asarray(
-        [[float(row[f"worldcover_{code}"]) for code in LAND_COVER_CODES] for row in rows]
-    )
-    climate_surface, climate_scaling = continuous_boundary(climate, adjacency)
-    terrain_surface, terrain_scaling = continuous_boundary(terrain, adjacency)
-    return {
-        "macroclimate": climate_surface,
-        "terrain": terrain_surface,
-        "land_cover": composition_boundary(land_cover, adjacency),
-        "ecoregion": categorical_boundary([row["ecoregion"] for row in rows], adjacency),
-        "realm_sensitivity": categorical_boundary([row["realm"] for row in rows], adjacency),
-        "biome_sensitivity": categorical_boundary([row["biome"] for row in rows], adjacency),
-        "scaling": {
-            "macroclimate": climate_scaling,
-            "terrain": terrain_scaling,
-        },
-    }
+    families = tuple(families)
+    if len(set(families)) != len(families) or not set(families).issubset(PRIMARY_FAMILIES):
+        raise ValueError("unknown or duplicate environmental family")
+    output: dict[str, Any] = {"scaling": {}}
+    if "macroclimate" in families:
+        climate = np.asarray([[float(row[key]) for key in CLIMATE_FIELDS] for row in rows])
+        surface, scaling = continuous_boundary(climate, adjacency)
+        output["macroclimate"] = surface
+        output["scaling"]["macroclimate"] = scaling
+    if "terrain" in families:
+        terrain = np.asarray([[float(row[key]) for key in TERRAIN_FIELDS] for row in rows])
+        surface, scaling = continuous_boundary(terrain, adjacency)
+        output["terrain"] = surface
+        output["scaling"]["terrain"] = scaling
+    if "land_cover" in families:
+        land_cover = np.asarray(
+            [[float(row[f"worldcover_{code}"]) for code in LAND_COVER_CODES] for row in rows]
+        )
+        output["land_cover"] = composition_boundary(land_cover, adjacency)
+    if "ecoregion" in families:
+        output["ecoregion"] = categorical_boundary(
+            [row["ecoregion"] for row in rows], adjacency
+        )
+        output["realm_sensitivity"] = categorical_boundary(
+            [row["realm"] for row in rows], adjacency
+        )
+        output["biome_sensitivity"] = categorical_boundary(
+            [row["biome"] for row in rows], adjacency
+        )
+    return output
+
+
+def weighted_cell_means(
+    cell_ids: np.ndarray,
+    weights: np.ndarray,
+    values: np.ndarray,
+    *,
+    n_cells: int,
+) -> np.ndarray:
+    """Area-weight finite source pixels into equal-area grid cells."""
+
+    cell_ids = np.asarray(cell_ids, dtype=int)
+    weights = np.asarray(weights, dtype=float)
+    values = np.asarray(values, dtype=float)
+    if values.ndim == 1:
+        values = values[:, None]
+    if (
+        cell_ids.ndim != 1
+        or weights.shape != cell_ids.shape
+        or values.shape[0] != cell_ids.size
+        or n_cells < 1
+        or np.any((cell_ids < 0) | (cell_ids >= n_cells))
+        or np.any(weights <= 0)
+        or not np.isfinite(weights).all()
+        or not np.isfinite(values).all()
+    ):
+        raise ValueError("invalid weighted source pixels")
+    denominator = np.bincount(cell_ids, weights=weights, minlength=n_cells)
+    result = np.full((n_cells, values.shape[1]), np.nan, dtype=float)
+    present = denominator > 0
+    for column in range(values.shape[1]):
+        numerator = np.bincount(
+            cell_ids, weights=weights * values[:, column], minlength=n_cells
+        )
+        result[present, column] = numerator[present] / denominator[present]
+    return result
+
+
+def weighted_dominant_labels(
+    cell_ids: np.ndarray,
+    weights: np.ndarray,
+    labels: np.ndarray,
+) -> dict[int, int]:
+    """Choose maximum weighted label per cell, breaking exact ties numerically."""
+
+    cell_ids = np.asarray(cell_ids, dtype=int)
+    weights = np.asarray(weights, dtype=float)
+    labels = np.asarray(labels, dtype=int)
+    if (
+        cell_ids.ndim != 1
+        or weights.shape != cell_ids.shape
+        or labels.shape != cell_ids.shape
+        or np.any(cell_ids < 0)
+        or np.any(labels <= 0)
+        or np.any(weights <= 0)
+        or not np.isfinite(weights).all()
+    ):
+        raise ValueError("invalid weighted categorical source pixels")
+    order = np.lexsort((labels, cell_ids))
+    ordered_cells = cell_ids[order]
+    ordered_labels = labels[order]
+    ordered_weights = weights[order]
+    starts = np.r_[
+        0,
+        np.flatnonzero(
+            (np.diff(ordered_cells) != 0) | (np.diff(ordered_labels) != 0)
+        )
+        + 1,
+    ]
+    pair_weight = np.add.reduceat(ordered_weights, starts)
+    pair_cell = ordered_cells[starts]
+    pair_label = ordered_labels[starts]
+    result: dict[int, int] = {}
+    best_weight: dict[int, float] = {}
+    for cell, label, weight in zip(pair_cell, pair_label, pair_weight, strict=True):
+        cell = int(cell)
+        label = int(label)
+        if cell not in result or weight > best_weight[cell]:
+            result[cell] = label
+            best_weight[cell] = float(weight)
+    return result
