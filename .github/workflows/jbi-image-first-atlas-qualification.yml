@@ -44,7 +44,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: jbi-atlas-qualification-${{ github.ref }}
+  group: jbi-atlas-qualification-${{ github.ref }}-${{ github.event_name }}-roi-${{ inputs.run_roi_benchmark }}-signal-${{ inputs.run_signal_recovery }}
   cancel-in-progress: false
 
 jobs:
