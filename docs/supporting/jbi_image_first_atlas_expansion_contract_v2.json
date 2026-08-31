@@ -216,6 +216,48 @@
     "spatial_null": "must pass exact-geometry calibration simulations before use; unrestricted field permutation is prohibited",
     "claim_ceiling": "spatial concordance with an independent environmental boundary, not causation or adaptation"
   },
+  "overlay_null_qualification": {
+    "must_pass_before_any_environmental_or_pollinator_colour_join": true,
+    "method": "weighted Moran eigenvector coefficient-sign randomization after frozen broad geographic detrending",
+    "cell_graph": "equal-area rook adjacency on opportunity cells with a deterministic great-circle nearest-cell link only for isolated subset cells",
+    "preserved_exactly": [
+      "weighted residual variance",
+      "Moran quadratic form",
+      "orthogonality to the frozen geographic design"
+    ],
+    "geographic_design": [
+      "intercept",
+      "sin(latitude)",
+      "sin(latitude)^2",
+      "sin(longitude)",
+      "cos(longitude)",
+      "sin(2 longitude)",
+      "cos(2 longitude)"
+    ],
+    "scales_km": [
+      100,
+      250,
+      500
+    ],
+    "scenarios": [
+      "independent_smooth_fields",
+      "shared_broad_geographic_trend_only",
+      "injected_local_boundary_alignment"
+    ],
+    "effect_sizes": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "simulation_repetitions": 100,
+    "randomizations_per_repetition": 999,
+    "overlay_family_size": 4,
+    "alpha": 0.05,
+    "maximum_false_positive_rate": 0.1,
+    "minimum_alignment_power_at_effect_2": 0.8,
+    "monotone_power_required": true,
+    "failure_rule": "environmental and pollinator branches become not_evaluable; geographic inference remains eligible if its own gates pass"
+  },
   "pollinator_overlay": {
     "primary_candidate": "colour-blind Bombus assemblage regionalization from one frozen GBIF occurrence download DOI",
     "ready_made_global_layer_available": false,

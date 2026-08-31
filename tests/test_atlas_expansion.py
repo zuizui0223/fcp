@@ -44,6 +44,11 @@ def test_committed_expansion_contract_is_prospective_and_fail_closed() -> None:
     with pytest.raises(ValueError, match="background palette decoding"):
         validate_expansion_contract(changed)
 
+    changed = deepcopy(contract())
+    changed["overlay_null_qualification"]["scales_km"] = [100]
+    with pytest.raises(ValueError, match="overlay-null scales"):
+        validate_expansion_contract(changed)
+
 
 def test_random_cohorts_are_deterministic_disjoint_and_genus_capped() -> None:
     rows = [

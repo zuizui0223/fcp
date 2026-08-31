@@ -128,6 +128,24 @@ def validate_expansion_contract(contract: Mapping[str, Any]) -> None:
     if pollinator.get("freeze_before_colour_join") is not True:
         raise ValueError("pollinator regionalization must be colour-blind")
 
+    overlay_null = contract.get("overlay_null_qualification", {})
+    if overlay_null.get("must_pass_before_any_environmental_or_pollinator_colour_join") is not True:
+        raise ValueError("overlay null must qualify before colour joins")
+    if list(overlay_null.get("scales_km", [])) != [100, 250, 500]:
+        raise ValueError("overlay-null scales changed")
+    if int(overlay_null.get("simulation_repetitions", 0)) != 100:
+        raise ValueError("overlay-null qualification must use 100 repetitions")
+    if int(overlay_null.get("randomizations_per_repetition", 0)) != 999:
+        raise ValueError("overlay-null qualification must use 999 randomizations")
+    if int(overlay_null.get("overlay_family_size", 0)) != 4:
+        raise ValueError("overlay-null family size changed")
+    if list(overlay_null.get("effect_sizes", [])) != [0.5, 1.0, 2.0]:
+        raise ValueError("overlay-null effect sizes changed")
+    if not str(overlay_null.get("failure_rule", "")).startswith(
+        "environmental and pollinator branches become not_evaluable"
+    ):
+        raise ValueError("failed overlay null must close overlay inference")
+
     publication = contract.get("publication_stop", {})
     if tuple(publication.get("terminal_states", [])) != TERMINAL_STATES:
         raise ValueError("publication must retain every terminal state")
