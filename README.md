@@ -1,19 +1,41 @@
-# FCP — spatial organization of intraspecific flower-colour variation
+# FCP — image-first global flower-colour atlas
 
-This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. `fcp` asks how intraspecific colour diversity is maintained or sorted across space; the complementary [`chun`](https://github.com/zuizui0223/chun) project asks how similar flower-colour states are repeatedly generated through evolutionary time. See [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md).
+The active FCP mainline asks whether continuous flower-colour transitions reconstructed directly from georeferenced iNaturalist images concentrate along shared geography across species.
 
-This repository now contains **two frozen inferential lanes that answer different questions and must not be pooled**.
+```text
+iNaturalist image
+    -> automated flower ROI
+    -> continuous colour
+    -> within-species spatial field
+    -> species-conditioned transition boundary
+    -> cross-species shared-boundary concentration
+```
 
-1. **Chapter 1 spatial-photograph lane:** Do present-day continuous flower-colour observations show non-random spatial organization within species, and do independent species share the same strongest transition geography?
-2. **34-species comparative lane:** Does occupied climatic niche breadth differ according to whether literature-documented intraspecific flower-colour variation occurs as local within-population coexistence or geographic differentiation among populations?
+The public atlas display is species-free; inference is not. Species may disappear from the map and photo bar, but species never disappear from standardization, graph construction or the permutation null.
 
-The first lane uses 1,200 community photographs from six species with a frozen 480/720 calibration–evaluation split. The second uses a checksum-locked literature-derived dataset of 34 species from 25 families. Their samples, response variables, null models and claims are distinct.
+This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. The complementary [`chun`](https://github.com/zuizui0223/chun) project asks how similar flower-colour states are repeatedly generated through evolutionary time. See [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md).
+
+The repository keeps **two frozen inferential lanes** as evidence and method foundations that answer different questions and must not be pooled:
+
+1. **Six-species Chapter 1 development result:** 1,200 photographs with a frozen 480/720 calibration–evaluation split; Stage A `p = 0.0113`, Stage B `p = 0.0906`.
+2. **34-species comparative result:** a checksum-locked literature-derived dataset of 34 species from 25 families.
+
+Their samples, response variables, null models and claims are distinct. Neither frozen lane is retuned by the atlas, and the 34-species classifications are no longer the atlas cohort selector.
 
 ## Start here
 
 - **Programme position:** [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md)
 
-### Chapter 1 — held-out spatial analysis
+### Active mainline — image-first atlas pilot
+
+- **Prospective protocol:** [`docs/JBI_IMAGE_FIRST_ATLAS_PROTOCOL.md`](docs/JBI_IMAGE_FIRST_ATLAS_PROTOCOL.md)
+- **Current gate and execution status:** [`docs/JBI_IMAGE_FIRST_ATLAS_STATUS.md`](docs/JBI_IMAGE_FIRST_ATLAS_STATUS.md)
+- **Pre-image contract:** [`docs/supporting/jbi_image_first_atlas_contract_v1.json`](docs/supporting/jbi_image_first_atlas_contract_v1.json)
+- **Metadata/geometry module:** [`fcp_pipeline/image_first_atlas.py`](fcp_pipeline/image_first_atlas.py)
+- **Metadata freeze workflow:** [`.github/workflows/jbi-image-first-atlas-metadata.yml`](.github/workflows/jbi-image-first-atlas-metadata.yml)
+- **12-species precursor retained for audit:** [`docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md`](docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md)
+
+### Frozen Chapter 1 — held-out spatial analysis
 
 - **Manuscript draft:** [`docs/JBI_CHAPTER1_MANUSCRIPT.md`](docs/JBI_CHAPTER1_MANUSCRIPT.md)
 - **Current decision and execution status:** [`docs/JBI_CHAPTER1_SPATIAL_STATUS.md`](docs/JBI_CHAPTER1_SPATIAL_STATUS.md)
@@ -24,7 +46,7 @@ The first lane uses 1,200 community photographs from six species with a frozen 4
 - **Figure manifest:** [`docs/supporting/jbi_ch1_figure_manifest_v1.json`](docs/supporting/jbi_ch1_figure_manifest_v1.json)
 - **Boundary CI:** [`.github/workflows/jbi-global-colour-boundaries.yml`](.github/workflows/jbi-global-colour-boundaries.yml)
 
-### Frozen 34-species comparative paper
+### Supporting frozen 34-species comparative paper
 
 - **Manuscript:** [`docs/jbi_manuscript.md`](docs/jbi_manuscript.md)
 - **Pipeline and evidence reduction:** [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md)
@@ -35,7 +57,7 @@ The first lane uses 1,200 community photographs from six species with a frozen 4
 - **Canonical frozen input:** [`data/frozen/frozen_34species_five_metric_dataset.csv`](data/frozen/frozen_34species_five_metric_dataset.csv)
 - **Reproduction workflow:** [`.github/workflows/34species-paper.yml`](.github/workflows/34species-paper.yml)
 
-## Chapter 1: frozen photograph analysis
+## Frozen six-species development result
 
 ### Design
 
@@ -105,7 +127,7 @@ The governing rule is:
 
 > Species may disappear from the map display, but species must never disappear from the null model.
 
-## Frozen 34-species comparative paper
+## Supporting 34-species comparative method and result
 
 ### Final paper dataset
 
@@ -198,9 +220,18 @@ python -m pip install -e .
 
 ## Repository boundary
 
-Active material must be assigned to one of the two lanes before it is interpreted.
+Active material must be assigned to the atlas mainline or to one of the two frozen supporting lanes before it is interpreted.
 
-### Chapter 1 spatial lane
+### Image-first atlas mainline
+
+A file belongs here only if it supports:
+
+1. outcome-blind iNaturalist metadata admission and the frozen 50-species cohort;
+2. automated flower ROI and continuous-colour measurement;
+3. within-species spatial fields and species-conditioned transition boundaries;
+4. cross-species shared-boundary concentration or the species-free map/photo-bar display.
+
+### Frozen Chapter 1 development lane
 
 A file belongs here only if it supports:
 
@@ -209,7 +240,7 @@ A file belongs here only if it supports:
 3. label-blind transition detectability and shared concentration;
 4. audit, figures or manuscript reporting for those analyses.
 
-### 34-species comparative lane
+### Supporting 34-species comparative lane
 
 A file belongs here only if it supports:
 
@@ -218,4 +249,4 @@ A file belongs here only if it supports:
 3. the five comparative niche models and required robustness analyses;
 4. reproduction, audit or submission of that paper.
 
-Historical phase-theory work, unreviewed expanded-set experiments and exploratory geographic-cause overlays are not promoted into either confirmatory main line merely because they remain recoverable in repository history.
+Historical phase-theory work, unreviewed expanded-set experiments and exploratory geographic-cause overlays are not promoted into the atlas mainline merely because they remain recoverable in repository history.

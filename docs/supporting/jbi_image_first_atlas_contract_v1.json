@@ -1,0 +1,176 @@
+{
+  "protocol": "jbi-image-first-global-flower-colour-atlas-v1",
+  "status": "frozen_before_metadata_queries_and_image_pixels",
+  "scientific_roles": {
+    "active_mainline": "image-first global flower-colour atlas",
+    "frozen_six_species": "immutable completed development result and calibration benchmark",
+    "frozen_34_species": "literature-classification method and supplementary comparative analysis; never the atlas admission frame"
+  },
+  "parent_freeze": {
+    "main_commit": "8144856db9525ec40a6f910db22037ce24300a5d",
+    "species": 6,
+    "photographs": 1200,
+    "stage_a_primary_p_lower": 0.0113,
+    "stage_b_primary_p_upper": 0.0906,
+    "immutable": true
+  },
+  "outcome_firewall": {
+    "candidate_image_pixels_opened": false,
+    "flower_roi_used": false,
+    "continuous_colour_used": false,
+    "literature_classification_used_for_admission": false,
+    "stage_a_effects_used": false,
+    "stage_b_surfaces_used": false,
+    "environmental_layers_used": false
+  },
+  "metadata_source": {
+    "provider": "iNaturalist v1 metadata for pilot; monthly iNaturalist Open Data metadata for later bulk scale-out",
+    "base_url": "https://api.inaturalist.org/v1",
+    "angiosperm_taxon_id": 47125,
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "quality_grade": "research",
+    "requires_photos": true,
+    "requires_public_coordinates": true,
+    "excludes_captive": true,
+    "maximum_positional_accuracy_m": 5000,
+    "allowed_photo_licenses": [
+      "cc0",
+      "cc-by",
+      "cc-by-sa",
+      "cc-by-nc",
+      "cc-by-nc-sa"
+    ],
+    "created_d2": "2026-08-30T23:59:59Z",
+    "candidate_species_pool_size": 200,
+    "request_pause_seconds": 1.0,
+    "one_photo_per_observation": true
+  },
+  "admission": {
+    "basis": "flowering-annotated iNaturalist metadata abundance followed by deterministic geometry and balance gates",
+    "target_species": 50,
+    "sample_size_tiers_descending": [
+      500,
+      400,
+      300
+    ],
+    "maximum_candidates_per_species": 1000,
+    "maximum_species_per_genus": 1,
+    "stable_hash_salt": "fcp-image-first-atlas-v1-precolour",
+    "excluded_frozen_species": [
+      "Antirrhinum majus",
+      "Dactylorhiza sambucina",
+      "Gentiana lutea",
+      "Ipomoea purpurea",
+      "Lysimachia arvensis",
+      "Raphanus sativus",
+      "Raphanus raphanistrum sativus"
+    ],
+    "failed_species_rule": "retain the failure in the audit and continue through the predeclared metadata ranking; never inspect images or colour to replace it",
+    "shortfall_rule": "STOP and version a prospective metadata-only amendment; do not relax gates after image pixels are opened"
+  },
+  "thinning": {
+    "primary_cell_degrees": 0.25,
+    "sensitivity_cell_degrees": 0.5,
+    "hard_caps": {
+      "maximum_per_observer": 10,
+      "maximum_per_primary_cell": 5,
+      "maximum_per_sensitivity_cell": 10,
+      "maximum_per_calendar_month": 100
+    },
+    "admission_gates": {
+      "minimum_unique_observers": 50,
+      "minimum_primary_spatial_cells": 60,
+      "minimum_sensitivity_spatial_cells": 40,
+      "minimum_calendar_months": 4,
+      "minimum_local_solar_quarters": 3,
+      "maximum_observer_fraction": 0.04,
+      "maximum_primary_cell_fraction": 0.02,
+      "maximum_sensitivity_cell_fraction": 0.04
+    }
+  },
+  "geometry_only_scale_selection": {
+    "knn_k": 5,
+    "minimum_edges_per_species_cell": 2,
+    "priority_rule": "finest_passing_scale_before_colour_measurement",
+    "candidates": [
+      {
+        "scale_km": 100,
+        "n_lon": 320,
+        "n_sinlat": 160
+      },
+      {
+        "scale_km": 250,
+        "n_lon": 128,
+        "n_sinlat": 64
+      },
+      {
+        "scale_km": 500,
+        "n_lon": 64,
+        "n_sinlat": 32
+      }
+    ],
+    "passing_criteria": {
+      "minimum_retained_edges_per_species": 100,
+      "minimum_detectable_cells_per_species": 10,
+      "minimum_evaluable_species": 45,
+      "minimum_detectable_species_per_shared_cell": 3,
+      "minimum_cells_A_ge_3": 20,
+      "minimum_species_with_shared_opportunity": 40
+    },
+    "nonpassing_species_rule": "retain as not_evaluable at that scale; never replace after colour inspection",
+    "sensitivity_rule": "report all 100, 250 and 500 km candidates; the first passing scale is primary and cannot be replaced by a stronger colour result"
+  },
+  "measurement_and_inference": {
+    "ordered_pipeline": [
+      "licensed iNaturalist image",
+      "automated flower ROI with explicit not_evaluable state",
+      "continuous colour vector",
+      "within-species spatial field",
+      "species-conditioned transition boundaries",
+      "cross-species shared-boundary concentration"
+    ],
+    "species_conditioned_null": true,
+    "complete_colour_vectors_permuted_only_within_species": true,
+    "not_evaluable_is_never_zero": true,
+    "environmental_overlays_are_post_discovery_only": true
+  },
+  "season_phenology_sensitivity": {
+    "primary": "all admitted dates with species-conditioned permutation",
+    "sensitivity_1": "permute within species and observed calendar month where strata are sufficient",
+    "sensitivity_2": "permute within species and hemisphere-adjusted local-solar quarter",
+    "sparse_stratum_rule": "merge only by the predeclared adjacent cyclic rule or retain the species-scale result as not_evaluable; never optimize on colour",
+    "claim_ceiling": "seasonal sensitivity can diagnose photographic phenology confounding but cannot establish a phenological mechanism"
+  },
+  "display": {
+    "products": [
+      "species-free global map coloured by continuous flower ROI colour",
+      "species-free photo bar of automated flower ROI thumbnails"
+    ],
+    "species_labels_visible": false,
+    "inference_remains_species_conditioned": true,
+    "display_order_uses_species": false,
+    "display_order_candidates": [
+      "longitude",
+      "latitude",
+      "species-blind spatial principal curve"
+    ],
+    "forbidden_display_fields": [
+      "species",
+      "taxon_id",
+      "genus",
+      "family"
+    ]
+  },
+  "claim_ceiling": {
+    "metadata_gate": "sampling feasibility only; no colour or spatial biological result",
+    "geometry_gate": "detectability and scale support only; no shared boundary result",
+    "future_primary": "species-conditioned cross-species concentration of continuous flower-colour transitions",
+    "forbidden": [
+      "universal biological boundary from a display",
+      "taxon-free inference",
+      "mechanism or adaptation from photographic association",
+      "repair of failed gates by post-colour retuning"
+    ]
+  }
+}

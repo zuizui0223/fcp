@@ -1,4 +1,10 @@
-# JBI Chapter 1 — prospective multi-species scale-up protocol
+# JBI Chapter 1 — 12-species scale-up precursor (superseded as the terminal design)
+
+## Status after the image-first atlas redesign
+
+This document preserves PR #21's first prospective scale-up design for auditability. Its 12 literature-selected species × 200 photographs are a validated metadata-method precursor, **not** the final FCP cohort or active mainline.
+
+The active prospective protocol is [`JBI_IMAGE_FIRST_ATLAS_PROTOCOL.md`](JBI_IMAGE_FIRST_ATLAS_PROTOCOL.md): a metadata-admitted 50-species image-first atlas with 300–500 photographs per species. The literature ledger and frozen 12-species outputs below remain unchanged and may be used to test acquisition machinery, but they cannot select or substitute atlas species.
 
 ## Current boundary
 

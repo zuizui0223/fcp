@@ -1,5 +1,11 @@
 # Flower-colour variation across geographic space
 
+## Active-mainline update — 2026-08-31
+
+FCP now leads with the image-first global flower-colour atlas: iNaturalist image → automated flower ROI → continuous colour → within-species spatial field → species-conditioned transition boundary → cross-species shared-boundary concentration. The atlas display is species-free, but its inference remains species-conditioned.
+
+The literature-derived local-coexistence versus geographic-differentiation comparison described below remains a frozen 34-species method and supplementary result. It no longer supplies the atlas cohort or defines the active FCP mainline. The prospective atlas contract and current gate are in `JBI_IMAGE_FIRST_ATLAS_PROTOCOL.md` and `JBI_IMAGE_FIRST_ATLAS_STATUS.md`.
+
 ## Program-level position
 
 `fcp` is the **geographic-space arm** of a broader research programme on the spatiotemporal organization of flower-colour variation.
