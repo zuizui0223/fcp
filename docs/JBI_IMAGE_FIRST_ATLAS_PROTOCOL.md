@@ -122,8 +122,23 @@ Sparse strata follow only the frozen adjacent cyclic merge rule or become `not_e
 - A visible species-free band on the map is not inferential evidence.
 - A failed scale, species or ROI gate is retained as failure or `not_evaluable`.
 - No colour-dependent retuning, silent data repair or literature-led replacement is allowed.
-- Environmental and historical overlays remain post-discovery and cannot rescue the primary shared-concentration gate.
+- Environmental and pollinator overlays cannot rescue or replace the geographic test. Under the separately frozen v2 expansion contract they are ordered, multiplicity-adjusted concordance branches evaluated from the same locked colour fields; no new overlay may be selected after colour is opened.
 - The completed three-species non-detection stops bulk atlas pixel opening until the independent estimator-qualification subgate passes; it cannot be bypassed by adding species or relaxing image gates.
+
+## Prospective repeated-cohort expansion and ordered branches
+
+The v2 expansion contract was frozen after the three-species negative validation and before any atlas candidate pixel was opened. It adds eight disjoint metadata-random panels of 25 species × 300 observations from one dated iNaturalist Open Data snapshot. The 200 species, 60,000 observations, seed rule, genus cap, no-overlap rule and no-early-stop rule are one experiment, not eight chances to select a favourable result.
+
+All evaluable geographic, environmental and pollinator branch statistics enter one complete nested maximum-statistic null. WorldClim 2.1, Copernicus DEM GLO-30, ESA WorldCover 2021 and RESOLVE Ecoregions 2017 are frozen before colour joins. A *Bombus* layer must be derived without flower colour from one citable GBIF occurrence download and pass its own realm, opportunity-cell, source-balance and stability gates; otherwise that branch is `not_evaluable`.
+
+The expansion contract, independent-source audit, validator, simulations and CI are:
+
+- `docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json`;
+- `docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md`;
+- `scripts/data/validate_jbi_image_first_atlas_expansion.py`;
+- `scripts/data/benchmark_jbi_atlas_flower_roi.py`;
+- `scripts/data/run_jbi_atlas_signal_recovery.py`;
+- `.github/workflows/jbi-image-first-atlas-qualification.yml`.
 
 ## Implemented interfaces
 

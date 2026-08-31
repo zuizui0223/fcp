@@ -1,0 +1,154 @@
+name: JBI image-first atlas estimator qualification
+
+on:
+  pull_request:
+    paths:
+      - "fcp_pipeline/atlas_expansion.py"
+      - "fcp_pipeline/atlas_signal_recovery.py"
+      - "fcp_pipeline/roi_benchmark.py"
+      - "scripts/data/benchmark_jbi_atlas_flower_roi.py"
+      - "scripts/data/run_jbi_atlas_signal_recovery.py"
+      - "scripts/data/validate_jbi_image_first_atlas_expansion.py"
+      - "tests/test_atlas_*.py"
+      - "docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md"
+      - "docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json"
+      - ".github/workflows/jbi-image-first-atlas-qualification.yml"
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "fcp_pipeline/atlas_expansion.py"
+      - "fcp_pipeline/atlas_signal_recovery.py"
+      - "fcp_pipeline/roi_benchmark.py"
+      - "scripts/data/benchmark_jbi_atlas_flower_roi.py"
+      - "scripts/data/run_jbi_atlas_signal_recovery.py"
+      - "scripts/data/validate_jbi_image_first_atlas_expansion.py"
+      - "tests/test_atlas_*.py"
+      - "docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md"
+      - "docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json"
+      - ".github/workflows/jbi-image-first-atlas-qualification.yml"
+  workflow_dispatch:
+    inputs:
+      run_roi_benchmark:
+        description: Run the locked Oxford-17 flower-tissue benchmark
+        required: true
+        default: true
+        type: boolean
+      run_signal_recovery:
+        description: Run the formal 100 x 999 exact-geometry simulations
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jbi-atlas-qualification-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  contract-and-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and tests
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest scikit-image
+      - name: Validate the pre-image expansion contract and immutable parents
+        run: python scripts/data/validate_jbi_image_first_atlas_expansion.py
+      - name: Test repeated cohorts, joint null, ROI metrics and signal recovery
+        run: >-
+          python -m pytest -q
+          tests/test_atlas_expansion.py
+          tests/test_atlas_roi_benchmark.py
+          tests/test_atlas_signal_recovery.py
+
+  roi-benchmark:
+    if: github.event_name == 'workflow_dispatch' && inputs.run_roi_benchmark
+    needs: contract-and-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install the frozen estimator environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . -r requirements-inaturalist-auto-colour.txt
+      - name: Download and verify the pinned CLIPSeg revision
+        run: |
+          python - <<'PY'
+          from huggingface_hub import snapshot_download
+          snapshot_download(
+              repo_id="CIDAS/clipseg-rd64-refined",
+              revision="999e0328d9e10b484360c477313983f9afdd7050",
+              local_dir="/tmp/clipseg",
+          )
+          PY
+          echo "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55  /tmp/clipseg/model.safetensors" | sha256sum -c -
+      - name: Download and verify the official Oxford-17 benchmark
+        run: |
+          mkdir -p /tmp/oxford17 /tmp/atlas-roi-result
+          curl --fail --location --retry 3 \
+            https://www.robots.ox.ac.uk/~vgg/data/flowers/17/17flowers.tgz \
+            --output /tmp/oxford17/17flowers.tgz
+          curl --fail --location --retry 3 \
+            https://www.robots.ox.ac.uk/~vgg/data/flowers/17/trimaps.tgz \
+            --output /tmp/oxford17/trimaps.tgz
+          echo "fe38a60f8b4a95e657551247d3e7d799a3fafcdbc595be504b12839967823d70  /tmp/oxford17/17flowers.tgz" | sha256sum -c -
+          echo "55928dddca447a129f525ff2c525cd0a62b94e7fe74c62ae0ef956191bd24c77  /tmp/oxford17/trimaps.tgz" | sha256sum -c -
+          tar -xzf /tmp/oxford17/17flowers.tgz -C /tmp/oxford17
+          tar -xzf /tmp/oxford17/trimaps.tgz -C /tmp/oxford17
+      - name: Run the no-retuning independent ROI gate
+        run: |
+          python scripts/data/benchmark_jbi_atlas_flower_roi.py \
+            --images-dir /tmp/oxford17/jpg \
+            --trimaps-dir /tmp/oxford17/trimaps \
+            --images-archive /tmp/oxford17/17flowers.tgz \
+            --trimaps-archive /tmp/oxford17/trimaps.tgz \
+            --model-dir /tmp/clipseg \
+            --output-dir /tmp/atlas-roi-result
+      - name: Upload the immutable ROI benchmark evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-oxford17-roi-benchmark
+          path: /tmp/atlas-roi-result
+          if-no-files-found: error
+
+  signal-recovery:
+    if: github.event_name == 'workflow_dispatch' && inputs.run_signal_recovery
+    needs: contract-and-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install the analysis environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Run the frozen exact-geometry signal-recovery suite
+        run: |
+          mkdir -p /tmp/atlas-signal-recovery
+          python scripts/data/run_jbi_atlas_signal_recovery.py \
+            --output-dir /tmp/atlas-signal-recovery
+      - name: Upload the immutable signal-recovery evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-signal-recovery
+          path: /tmp/atlas-signal-recovery
+          if-no-files-found: error

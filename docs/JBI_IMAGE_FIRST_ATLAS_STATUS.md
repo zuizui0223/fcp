@@ -61,6 +61,20 @@ The frozen decision is `spatial_organization_not_detected` for all three species
 
 ## Next allowed gate
 
-Freeze and pass an independent flower-tissue localization benchmark and signal-recovery simulation for the exact atlas estimator. The benchmark must be scored without coordinates and must quantify localization completeness, contamination and attenuation under the already declared 100/250/500-km analysis scales. Its pass/fail rule must be committed before the atlas benchmark images are scored.
+The estimator-qualification and scale-out rules are now frozen in `jbi_image_first_atlas_expansion_contract_v2.json`, before any atlas candidate pixel was opened.
+
+1. Score every officially segmented Oxford-17 image with the unchanged pinned CLIPSeg estimator. The frozen gate checks admitted share, soft localization precision/recall/IoU and CIELAB attenuation; it permits no benchmark retuning.
+2. Run 100 synthetic repetitions per declared scenario with 999 complete within-species permutations on the exact frozen 50-species geometry. The null, heterogeneous-boundary and shared-boundary scenarios jointly check false positives, specificity and power of the downstream statistic.
+3. Permit atlas pixel opening only if both independent qualification subgates pass.
 
 Until that gate passes, do not open the 20,200 atlas candidate images, reconstruct atlas colour fields or run shared-boundary concentration. The metadata freeze and the negative three-species validation are publishable results; neither is evidence for a 50-species colour boundary.
+
+If qualification passes, scale-out is fixed as eight disjoint random cohorts of 25 species × 300 observations from one dated iNaturalist Open Data snapshot: 200 species and 60,000 observations in total, in addition to the separately frozen 50-species sentinel cohort. All eight cohorts must finish and enter one nested null; no result-dependent stopping or cohort selection is allowed.
+
+The predeclared conclusion tree is:
+
+1. species-conditioned cross-species geographic concentration;
+2. independently frozen WorldClim, terrain, WorldCover and RESOLVE boundary concordance;
+3. *Bombus* assemblage-region concordance only if a colour-blind GBIF coverage and stability gate passes.
+
+The full family uses one joint maximum-statistic null. A branch ending `not_supported` or `not_evaluable` is retained as a result, not replaced by a new overlay.

@@ -34,11 +34,16 @@ Their samples, response variables, null models and claims are distinct. Neither 
 - **Frozen pilot result:** [`docs/JBI_INATURALIST_AUTOMATED_COLOUR_PILOT_RESULTS.md`](docs/JBI_INATURALIST_AUTOMATED_COLOUR_PILOT_RESULTS.md)
 - **Automated measurement protocol:** [`docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md`](docs/JBI_INATURALIST_AUTOMATED_COLOUR_STATE_PROTOCOL.md)
 - **Pre-image contract:** [`docs/supporting/jbi_image_first_atlas_contract_v1.json`](docs/supporting/jbi_image_first_atlas_contract_v1.json)
+- **Repeated-cohort and ordered-pivot freeze:** [`docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json`](docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json)
+- **Global boundary source audit:** [`docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md`](docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md)
 - **Metadata/geometry module:** [`fcp_pipeline/image_first_atlas.py`](fcp_pipeline/image_first_atlas.py)
 - **Metadata freeze workflow:** [`.github/workflows/jbi-image-first-atlas-metadata.yml`](.github/workflows/jbi-image-first-atlas-metadata.yml)
+- **Estimator qualification workflow:** [`.github/workflows/jbi-image-first-atlas-qualification.yml`](.github/workflows/jbi-image-first-atlas-qualification.yml)
 - **12-species precursor retained for audit:** [`docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md`](docs/JBI_CHAPTER1_SCALEUP_PROTOCOL.md)
 
-The first independent image-measurement admissibility study is complete. Three of six development species passed location-free image gates; all three passed the locked completeness gate, but none rejected the frozen species-conditioned random-mark null. This is retained as a publishable negative validation and explicit STOP. The 20,200 images in the 50-species atlas freeze remain unopened pending an independent flower-tissue localization and signal-recovery benchmark.
+The first independent image-measurement admissibility study is complete. Three of six development species passed location-free image gates; all three passed the locked completeness gate, but none rejected the frozen species-conditioned random-mark null. This is retained as a publishable negative validation and explicit STOP. The 20,200 images in the 50-species atlas freeze remain unopened while the now-frozen independent flower-tissue localization and exact-geometry signal-recovery benchmarks are run.
+
+Scale-out is no longer an open-ended search. If estimator qualification passes, one dated iNaturalist Open Data snapshot will supply eight disjoint random cohorts of 25 species × 300 observations (200 species and 60,000 observations in total). Every cohort is required and enters one nested null; there is no stopping after a favourable replicate. The ordered inference then reports geographic shared concentration, independently frozen environmental concordance, and a colour-blind *Bombus* regionalization only if its own coverage gate passes. Every branch terminates as `supported`, `not_supported`, or `not_evaluable`.
 
 ### Frozen Chapter 1 — held-out spatial analysis
 
@@ -234,7 +239,8 @@ A file belongs here only if it supports:
 1. outcome-blind iNaturalist metadata admission and the frozen 50-species cohort;
 2. automated flower ROI and continuous-colour measurement;
 3. within-species spatial fields and species-conditioned transition boundaries;
-4. cross-species shared-boundary concentration or the species-free map/photo-bar display.
+4. cross-species shared-boundary concentration or the species-free map/photo-bar display;
+5. pre-image estimator qualification, repeated random cohorts, independent environmental boundaries, or coverage-gated pollinator biogeography under the frozen ordered decision tree.
 
 ### Frozen Chapter 1 development lane
 

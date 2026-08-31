@@ -1,0 +1,250 @@
+{
+  "protocol": "jbi-image-first-global-flower-colour-atlas-expansion-v2",
+  "status": "frozen_after_three_species_negative_validation_and_before_any_atlas_candidate_pixels",
+  "date": "2026-08-31",
+  "objective": "obtain a publication-ready supported, not_supported, or not_evaluable conclusion from one predeclared image-first atlas decision tree",
+  "immutable_parent_results": {
+    "six_species_chapter1": {
+      "photographs": 1200,
+      "stage_a_p": 0.0113,
+      "stage_b_p": 0.0906,
+      "immutable": true
+    },
+    "literature_34_species": {
+      "role": "method and supplementary comparison only",
+      "immutable": true
+    },
+    "automated_colour_three_species": {
+      "locked_photographs": 717,
+      "admitted_encounters": 306,
+      "supported_species": 0,
+      "decision": "not_detected_under_frozen_random_mark_null",
+      "immutable": true
+    }
+  },
+  "parent_artifacts": {
+    "automated_colour_plan": {
+      "path": "docs/supporting/jbi_inaturalist_automated_colour_plan_manifest_v2.json",
+      "sha256_exact": "eab445aeb56a12ce65fb8a7814652a12aac985dd71db6dde97830d982351b407"
+    },
+    "atlas_freeze_manifest": {
+      "path": "docs/supporting/jbi_image_first_atlas_freeze_manifest_v1.json",
+      "sha256_exact": "718075459cf8b39b0d54f925c32eac3de835984ff279729d82c47eba25b5d1f3"
+    },
+    "atlas_cohort": {
+      "path": "data/atlas/jbi_image_first_atlas_cohort_v1.csv",
+      "sha256_exact": "038acbf22db6c6320aec30a5732d60f87ffd5d149335bf845b935ad4be6686ae"
+    },
+    "atlas_observations": {
+      "path": "data/atlas/jbi_image_first_atlas_observation_manifest_v1.csv",
+      "sha256_exact": "5d9ad4f60d5f5bcc0bb427a6318aa8d7207a7b04e4113642bb441e6a99b0d543"
+    },
+    "atlas_geometry": {
+      "path": "docs/supporting/jbi_image_first_atlas_geometry_freeze_v1.json",
+      "sha256_exact": "63ce27313a3ec9761ccf812853dcfb3eac802a73d427416bc309093e043bef6f"
+    }
+  },
+  "outcome_firewall": {
+    "atlas_candidate_pixels_opened": false,
+    "atlas_colour_fields_opened": false,
+    "environmental_layers_joined_to_colour": false,
+    "pollinator_layers_joined_to_colour": false,
+    "cohort_count_selected_from_colour": false,
+    "early_stopping_permitted": false
+  },
+  "estimator_qualification": {
+    "must_pass_before_atlas_pixels": true,
+    "estimator": {
+      "protocol": "fcp-inaturalist-automated-colour-state-v2",
+      "model_id": "CIDAS/clipseg-rd64-refined",
+      "model_revision": "999e0328d9e10b484360c477313983f9afdd7050",
+      "model_safetensors_sha256": "d00ca85d6b859f9d07b7cfb8ef26fe9771cb275b34c9368f2ecf603139307f55",
+      "positive_prompts": [
+        "flower",
+        "petals",
+        "blossom"
+      ],
+      "negative_prompts": [
+        "leaves",
+        "background"
+      ],
+      "retuning_on_benchmark": false
+    },
+    "independent_roi_benchmark": {
+      "dataset": "Oxford Visual Geometry Group 17 Category Flower Dataset segmentation ground truth",
+      "images_url": "https://www.robots.ox.ac.uk/~vgg/data/flowers/17/17flowers.tgz",
+      "images_sha256": "fe38a60f8b4a95e657551247d3e7d799a3fafcdbc595be504b12839967823d70",
+      "trimaps_url": "https://www.robots.ox.ac.uk/~vgg/data/flowers/17/trimaps.tgz",
+      "trimaps_sha256": "55928dddca447a129f525ff2c525cd0a62b94e7fe74c62ae0ef956191bd24c77",
+      "selection": "all image IDs with an official trimap; no image-dependent subsampling",
+      "foreground_label": 1,
+      "background_label": 2,
+      "other_labels": "unscored",
+      "minimum_scored_images": 750,
+      "minimum_admitted_fraction": 0.8,
+      "minimum_median_soft_precision": 0.7,
+      "minimum_median_soft_recall": 0.35,
+      "minimum_median_soft_iou": 0.3,
+      "maximum_median_colour_delta_e": 10.0,
+      "maximum_p90_colour_delta_e": 20.0,
+      "failure_rule": "STOP atlas pixel opening; version a new estimator prospectively without retuning this benchmark"
+    },
+    "signal_recovery": {
+      "geometry": "exact frozen 50-species observation geometry and 100/250/500-km grids",
+      "scenarios": [
+        "null_stationary",
+        "within_species_heterogeneous_boundaries",
+        "shared_geographic_boundary"
+      ],
+      "effect_sizes": [
+        0.0,
+        0.5,
+        1.0,
+        2.0
+      ],
+      "simulation_repetitions": 100,
+      "permutations_per_repetition": 999,
+      "alpha": 0.05,
+      "maximum_null_false_positive_rate": 0.1,
+      "minimum_shared_boundary_power_at_effect_2": 0.8,
+      "maximum_heterogeneous_false_shared_rate": 0.1,
+      "monotone_power_required": true,
+      "failure_rule": "STOP atlas pixel opening; do not change scale or statistic using real colour"
+    }
+  },
+  "random_cohort_scaleout": {
+    "metadata_source": "dated iNaturalist Open Data monthly snapshot; never a moving latest pointer in the final bundle",
+    "snapshot_selection_rule": "first complete official monthly snapshot frozen after this contract commit",
+    "eligible_frame": "all metadata-passing flowering-annotated Angiospermae species under the v1 positional accuracy, licence, observer, cell, month, season, and geometry rules",
+    "minimum_eligible_species": 200,
+    "cohorts": 8,
+    "species_per_cohort": 25,
+    "observations_per_species": 300,
+    "total_species": 200,
+    "total_observations": 60000,
+    "species_overlap": "none",
+    "maximum_species_per_genus_across_all_cohorts": 1,
+    "sampling": "stable SHA-256 permutation of the complete eligible frame followed by eight consecutive disjoint panels",
+    "stable_hash_salt": "fcp-atlas-expansion-v2-random-cohorts",
+    "all_cohorts_required": true,
+    "early_stopping": false,
+    "single_nested_null": true,
+    "cohort_weight": "equal",
+    "species_weight_within_cohort": "equal",
+    "shortfall_rule": "STOP and publish metadata not_evaluable; no overlap, gate relaxation, or colour-informed replacement"
+  },
+  "spatial_design": {
+    "primary_scale_km": 100,
+    "mandatory_sensitivity_scales_km": [
+      250,
+      500
+    ],
+    "primary_thinning_degrees": 0.25,
+    "sensitivity_thinning_degrees": 0.5,
+    "maximum_positional_accuracy_m": 5000,
+    "season_sensitivities": [
+      "species_by_calendar_month",
+      "species_by_hemisphere_adjusted_local_solar_quarter"
+    ],
+    "not_evaluable_is_never_zero": true
+  },
+  "ordered_inference": {
+    "branches": [
+      "shared_geographic_concentration",
+      "environmental_concordance",
+      "pollinator_biogeographic_concordance"
+    ],
+    "branch_outcomes": [
+      "supported",
+      "not_supported",
+      "not_evaluable"
+    ],
+    "promotion_rule": "report every branch; promote the first supported branch in order, otherwise the complete negative/not_evaluable decision tree",
+    "multiplicity": "one complete nested null with a joint maximum statistic across all evaluable branches and predeclared overlay families",
+    "monte_carlo_p": "(b + 1) / (B + 1)",
+    "minimum_final_null_replicates": 9999,
+    "colour_vectors_permuted_only_within_species": true,
+    "complete_colour_vector_moves_as_one_row": true
+  },
+  "environmental_overlays": {
+    "freeze_before_colour_join": true,
+    "primary_families": [
+      {
+        "family": "macroclimate",
+        "source": "WorldClim 2.1",
+        "variables": [
+          "BIO1 annual mean temperature",
+          "BIO4 temperature seasonality",
+          "BIO12 annual precipitation",
+          "BIO15 precipitation seasonality"
+        ]
+      },
+      {
+        "family": "terrain",
+        "source": "Copernicus DEM GLO-30",
+        "variables": [
+          "elevation",
+          "slope",
+          "terrain ruggedness"
+        ]
+      },
+      {
+        "family": "land_cover",
+        "source": "ESA WorldCover 2021 v200",
+        "variables": [
+          "frozen 11-class composition"
+        ]
+      },
+      {
+        "family": "ecoregion",
+        "source": "RESOLVE Ecoregions 2017",
+        "variables": [
+          "realm",
+          "biome",
+          "ecoregion"
+        ]
+      }
+    ],
+    "climate_sensitivity": "CHELSA 2.1 exact four-variable replication",
+    "spatial_null": "must pass exact-geometry calibration simulations before use; unrestricted field permutation is prohibited",
+    "claim_ceiling": "spatial concordance with an independent environmental boundary, not causation or adaptation"
+  },
+  "pollinator_overlay": {
+    "primary_candidate": "colour-blind Bombus assemblage regionalization from one frozen GBIF occurrence download DOI",
+    "ready_made_global_layer_available": false,
+    "freeze_before_colour_join": true,
+    "minimum_coverage": {
+      "realms_represented": 6,
+      "atlas_opportunity_cell_fraction": 0.7,
+      "minimum_retained_species": 100,
+      "minimum_occupied_cells": 500,
+      "maximum_single_dataset_fraction": 0.25,
+      "maximum_single_country_fraction": 0.25
+    },
+    "stability_checks": [
+      "spatial_block_bootstrap",
+      "dataset_leave_one_out",
+      "specimen_vs_observation",
+      "predeclared_date_windows"
+    ],
+    "failure_rule": "retain pollinator branch as not_evaluable; never interpolate missing realms or substitute another pollinator after colour",
+    "claim_ceiling": "concordance with occurrence-derived Bombus assemblage turnover, not visitation, perception, selection, or causation"
+  },
+  "publication_stop": {
+    "terminal_states": [
+      "supported",
+      "not_supported",
+      "not_evaluable"
+    ],
+    "required_outputs": [
+      "species-free global map",
+      "species-free photo bar",
+      "species-conditioned inference tables",
+      "all cohort effects and heterogeneity",
+      "joint-null adjusted decisions",
+      "frozen failures and not_evaluable branches",
+      "reproducible manuscript figures and bundle"
+    ],
+    "no_significance_chasing": true
+  }
+}
