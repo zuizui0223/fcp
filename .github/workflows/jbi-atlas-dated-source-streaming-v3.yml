@@ -1,0 +1,107 @@
+name: JBI atlas dated-source v3 streaming reconciliation
+
+on:
+  pull_request:
+    paths:
+      - "fcp_pipeline/atlas_dated_source_m2m.py"
+      - "fcp_pipeline/atlas_dated_source_streaming.py"
+      - "scripts/data/reconcile_jbi_atlas_dated_source_m2m_v2.py"
+      - "scripts/data/reconcile_jbi_atlas_dated_source_streaming_v3.py"
+      - "tests/test_atlas_dated_source.py"
+      - "tests/test_atlas_dated_source_streaming.py"
+      - "docs/supporting/jbi_atlas_dated_source_m2m_amendment_v2.json"
+      - "docs/supporting/jbi_atlas_dated_source_streaming_amendment_v3.json"
+      - "docs/supporting/jbi_atlas_inaturalist_snapshot_receipt_v1.json"
+      - ".github/workflows/jbi-atlas-dated-source-streaming-v3.yml"
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "fcp_pipeline/atlas_dated_source_m2m.py"
+      - "fcp_pipeline/atlas_dated_source_streaming.py"
+      - "scripts/data/reconcile_jbi_atlas_dated_source_m2m_v2.py"
+      - "scripts/data/reconcile_jbi_atlas_dated_source_streaming_v3.py"
+      - "tests/test_atlas_dated_source.py"
+      - "tests/test_atlas_dated_source_streaming.py"
+      - "docs/supporting/jbi_atlas_dated_source_m2m_amendment_v2.json"
+      - "docs/supporting/jbi_atlas_dated_source_streaming_amendment_v3.json"
+      - "docs/supporting/jbi_atlas_inaturalist_snapshot_receipt_v1.json"
+      - ".github/workflows/jbi-atlas-dated-source-streaming-v3.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-atlas-dated-source-v3-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  validate-streaming-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Test v2 resolver and one-pass equivalence
+        run: |
+          python -m pytest -q \
+            tests/test_atlas_dated_source.py \
+            tests/test_atlas_dated_source_streaming.py
+
+  reconcile-exact-snapshot:
+    needs: validate-streaming-code
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: "33405153936"
+      SOURCE_ARTIFACT_ID: "9769165047"
+      SOURCE_ARTIFACT_NAME: "jbi-atlas-200-species-metadata-feasibility"
+      SOURCE_ARTIFACT_DIGEST: "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Verify exact terminal metadata artifact
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .id)" = "${SOURCE_ARTIFACT_ID}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .name)" = "${SOURCE_ARTIFACT_NAME}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .digest)" = "${SOURCE_ARTIFACT_DIGEST}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .expired)" = "false"
+      - name: Download terminal metadata only
+        run: |
+          rm -rf /tmp/fcp-atlas-scaleout
+          mkdir -p /tmp/fcp-atlas-scaleout
+          gh run download "${SOURCE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SOURCE_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-atlas-scaleout
+          df -h /tmp
+      - name: Stream exact snapshot and reconcile frozen 60k
+        run: |
+          rm -rf /tmp/fcp-dated-source-v3
+          mkdir -p /tmp/fcp-dated-source-v3
+          python scripts/data/reconcile_jbi_atlas_dated_source_streaming_v3.py \
+            --metadata-dir /tmp/fcp-atlas-scaleout \
+            --output-dir /tmp/fcp-dated-source-v3
+      - name: Upload dated-source reconciliation receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-dated-source-streaming-v3
+          path: /tmp/fcp-dated-source-v3/
+          if-no-files-found: warn
