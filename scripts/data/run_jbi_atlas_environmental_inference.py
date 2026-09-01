@@ -122,10 +122,23 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def load_location_free_results(directory: Path) -> list[dict[str, Any]]:
+def load_location_free_results(
+    directory: Path, measurement_gate: Mapping[str, Any]
+) -> list[dict[str, Any]]:
     paths = sorted(directory.glob("measurement_shard_*.csv"))
     if not paths:
         raise RuntimeError("no location-free measurement shards were found")
+    manifests = sorted(directory.glob("measurement_shard_*.json"))
+    expected = measurement_gate.get("measurement_bundle", {})
+    expected_files = expected.get("files", {})
+    observed_paths = {path.name: path for path in (*paths, *manifests)}
+    if (
+        expected.get("status")
+        != "pass_complete_location_blind_roi_v4_measurement_bundle"
+        or set(observed_paths) != set(expected_files)
+        or any(sha256(path) != expected_files[name] for name, path in observed_paths.items())
+    ):
+        raise RuntimeError("measurement files do not match the completeness evidence")
     rows: list[dict[str, Any]] = []
     for path in paths:
         for row in read_csv(path):
@@ -213,7 +226,9 @@ def main() -> None:
         or len(coverage.get("evaluable_families", [])) < 2
     ):
         raise RuntimeError("pre-colour environmental coverage did not pass")
-    measurements = load_location_free_results(args.measurement_results_dir)
+    measurements = load_location_free_results(
+        args.measurement_results_dir, measurement_gate
+    )
     measurement_by_id = {str(row["measurement_id"]): row for row in measurements}
     if len(measurements) != 60_000 or len(measurement_by_id) != 60_000:
         raise RuntimeError("location-free measurement denominator changed")

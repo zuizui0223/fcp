@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import csv
 
 import pytest
 
@@ -14,6 +15,10 @@ from fcp_pipeline.atlas_measurement import (
     validate_measurement_result_rows,
 )
 from scripts.data.measure_jbi_atlas_blinded_images_v4 import failed_record
+from scripts.data.evaluate_jbi_atlas_measurement_gate import (
+    load_complete_measurement_bundle,
+    sha256,
+)
 
 
 CONTRACT = Path("docs/supporting/jbi_image_first_atlas_inference_contract_v3.json")
@@ -147,6 +152,43 @@ def test_roi_v4_failed_worker_record_remains_location_free_and_terminal() -> Non
     assert validate_measurement_result_rows([record]) == [record]
     assert record["automated_colour_state_status"] == "image_acquisition_failed"
     assert record["background_features_available"] is False
+
+
+def test_measurement_bundle_requires_every_self_hashed_shard(tmp_path: Path) -> None:
+    for index in range(2):
+        csv_path = tmp_path / f"measurement_shard_{index:04d}.csv"
+        row = {
+            "measurement_id": f"FCPM-{index}",
+            "species_blind_id": "FCPS-1",
+            "automated_colour_state_status": "automated_colour_state_admitted",
+            "background_features_available": "True",
+        }
+        with csv_path.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=list(row), lineterminator="\n")
+            writer.writeheader()
+            writer.writerow(row)
+        manifest = {
+            "status": "complete_location_blind_roi_v4_measurement_shard",
+            "shard_index": index,
+            "shard_count": 2,
+            "frozen_shard_denominator": 1,
+            "terminal_records": 1,
+            "coordinates_opened": False,
+            "taxon_names_opened": False,
+            "result_sha256": sha256(csv_path),
+            "model_id": "jbi-atlas-roi-estimator-v4",
+            "trained_weight_sha256": "weight",
+            "roi_contract_sha256_lf_canonical_v1": "contract",
+        }
+        csv_path.with_suffix(".json").write_text(
+            json.dumps(manifest) + "\n", encoding="utf-8"
+        )
+    rows, evidence = load_complete_measurement_bundle(tmp_path)
+    assert len(rows) == 2
+    assert evidence["shard_count"] == 2
+    (tmp_path / "measurement_shard_0001.json").unlink()
+    with pytest.raises(RuntimeError, match="manifest is missing"):
+        load_complete_measurement_bundle(tmp_path)
 
 
 def test_measurement_gate_passes_only_complete_eight_cohort_denominator() -> None:
