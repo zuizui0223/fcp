@@ -1,0 +1,36 @@
+{
+  "claim_ceiling": "Estimator gate evidence only; no atlas colour or ecological outcome.",
+  "evidence": {
+    "result": {
+      "path": "data/atlas/qualification/roi_v4_development/jrc_roi_v4_development_result.json",
+      "sha256_exact": "341be7c8a5b5f33174b86f86a2dcc0efe89592b3dfd2c3506f84325ed3f147e1"
+    },
+    "rows": {
+      "path": "data/atlas/qualification/roi_v4_development/jrc_roi_v4_development_rows.csv",
+      "rows": 400,
+      "sha256_exact": "ebb2721fbb4e35541611880a4f3e639a339cb9a46d7558f693b990de6f486e3e"
+    },
+    "runner": {
+      "path": "data/atlas/qualification/roi_v4_development/gate_executable.py",
+      "sha256_exact": "f43048839f5dde8ec1acd56c1163d988a8a7cddb024a289a6a2ba96b76c84074"
+    }
+  },
+  "execution": {
+    "git_commit": "5d1c033f84b00a2bbc4276a33c4f4f4b82ec5b3d",
+    "runner_path": "scripts/data/run_jbi_atlas_roi_v4_jrc_gate.py",
+    "runner_sha256_exact": "f43048839f5dde8ec1acd56c1163d988a8a7cddb024a289a6a2ba96b76c84074"
+  },
+  "firewall": {
+    "jrc_locked_test_images_decoded_or_scored": false,
+    "scaleout_candidate_pixels_opened": false
+  },
+  "next_gate": "run the locked JRC test exactly once",
+  "phase": "development",
+  "protocol": "jbi-atlas-roi-v4-development-evidence-v1",
+  "status": "pass_roi_v4_development",
+  "trained_weight_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+  "training_evidence": {
+    "path": "data/atlas/qualification/roi_v4_training/training_evidence_manifest.json",
+    "sha256_exact": "4bf192b79d073044d47f6df7fecd14897ab0011321dc50d038eb5fdf63de3a9d"
+  }
+}

@@ -4,7 +4,7 @@
 
 The active mainline is a global image-first flower-colour atlas with a species-free public map and photo bar, but species-conditioned measurement, spatial fields and null inference.
 
-Current gate: **the 200-species live metadata audit and live-geometry environmental coverage have passed; the versioned many-to-many dated-source resolver and ROI v4 independent validity are in progress; every atlas candidate pixel remains closed**.
+Current gate: **the 200-species live metadata audit, live-geometry environmental coverage and ROI v4 development gate have passed; the versioned many-to-many dated-source resolver and ROI v4 locked test remain; every atlas candidate pixel remains closed**.
 
 The fail-closed state is unchanged: bulk atlas image opening is stopped until the exact dated-source, environmental-coverage and locked ROI v4 gates all pass.
 
@@ -41,8 +41,9 @@ The frozen colour-blind source gate required a citable GBIF download with its ow
 
 - ROI v3 (SegFormer) failed its independent JRC development gate: 400 development images, 17 admitted, recall 0.1207. The locked 100-image test remains sealed forever.
 - ROI v4 is a prospectively frozen YOLO11n flower detector followed by EfficientSAM using one shared runtime for JRC qualification and all 60,000 atlas measurements.
-- The final training executable, materialization receipt, terminal epoch weight and training curves must be committed before any development prediction.
-- Development must pass before the locked 100-image test is opened. A locked failure stops all atlas pixel acquisition.
+- The final training executable, materialization receipt, terminal epoch weight and training curves were committed before any development prediction.
+- The 400-image development gate passed all frozen criteria: 351/400 images admitted (0.8775), detector precision 0.7760, recall 0.8465 and pooled flower-mask pixels inside the reference-box union 0.9064. The result authorizes one locked 100-image JRC test, not scale-out pixels.
+- The locked 100-image test remains unopened until the committed development evidence validates at the PR head. A locked failure stops all atlas pixel acquisition.
 
 ## 200-species metadata and dated-source gate
 
@@ -73,7 +74,7 @@ The acquisition worker additionally checks the exact sealed-key hash and the fir
 ## Remaining route to a submission result
 
 1. Complete the exact v2 many-to-many dated-source reconciliation and repeat pre-colour environmental coverage against that dated source.
-2. Complete ROI v4 development and, only if authorized, the locked JRC gate; final training evidence is already frozen.
+2. Validate the committed ROI v4 development evidence at the PR head, then run the locked JRC gate exactly once.
 3. If all gates pass, acquire and measure all 60,000 images location-blind; incomplete measurement stops the coordinate join.
 4. Run the frozen environmental joint null once, preserving `supported`, `not_supported` and `not_evaluable` outcomes.
 5. Generate the species-free map/photo bar, species-conditioned tables, manuscript, reproduction bundle and CI-complete PR.
