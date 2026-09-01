@@ -1,0 +1,55 @@
+{
+  "protocol": "jbi-image-first-global-flower-colour-atlas-inference-v4",
+  "status": "prospectively_frozen_before_any_scaleout_candidate_pixel",
+  "date": "2026-09-01",
+  "candidate_pixels_opened_at_freeze": false,
+  "immutable_parent_v3": {
+    "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json",
+    "git_blob_sha1": "1f5487b727e31b4655eccabc432d58c9a03ad9c4"
+  },
+  "immutable_legacy_invariants": [
+    {"role":"stage_a_six_species","path":"docs/supporting/jbi_ch1_stage_a_continuous_graph_v1.json","git_blob_sha1":"e715b4ee44c58c91d302844373a666bbdbff4f02"},
+    {"role":"stage_b_six_species","path":"docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json","git_blob_sha1":"1c159e8540aaa7d73e8a7ce2ac3800413b45a4bd"},
+    {"role":"literature_34_species","path":"docs/supporting/jbi_cs_analysis_freeze_manifest.json","git_blob_sha1":"cbbe5dc61e811bcef6d8ef47e432c3dcf0942807"},
+    {"role":"negative_validation_three_species","path":"docs/supporting/jbi_inaturalist_automated_colour_spatial_manifest_v2.json","git_blob_sha1":"94216eff41f14441d6645ec0c9809af8312f090f"}
+  ],
+  "sampling_repetitions": {
+    "cohort_count": 8,
+    "species_per_cohort": 25,
+    "observations_per_species": 300,
+    "total_species": 200,
+    "total_observations": 60000,
+    "species_overlap_between_frozen_cohorts": false,
+    "all_cohorts_required": true,
+    "resample_after_pixels": false
+  },
+  "roi_validity": {
+    "estimator_version": "v4",
+    "independent_development_passed": true,
+    "locked_test_passed": true,
+    "retuning_after_scaleout_pixels": false
+  },
+  "strict_confirmatory_cascade": {
+    "branches": ["species_conditioned_shared_transition","environmental_boundary_concordance","pollinator_biogeographic_concordance"],
+    "outcomes": ["supported","unsupported","not_evaluable"],
+    "advance_only_on": "unsupported",
+    "not_evaluable_advances": false,
+    "supported_advances": false,
+    "same_frozen_colour_field_required": true,
+    "blocked_downstream_results_are": "diagnostic_only",
+    "environmental_family_order": ["macroclimate","terrain","land_cover","ecoregion"]
+  },
+  "current_preimage_state": {
+    "shared_transition_qualification": "not_evaluable",
+    "confirmatory_cascade_can_advance": false,
+    "reason": "preimage signal recovery failed: FPR 0.04, effect-2 power 0.21, heterogeneous false sharing 0.16"
+  },
+  "decision_ledger_schema": {
+    "required_fields": ["sampling_repetition_id","cohort_id","species_blind_id","branch","outcome","reason_code","effective_n","data_version","config_sha256","manifest_sha256","confirmatory_status"]
+  },
+  "publication_rule": {
+    "not_evaluable_stops_confirmatory_cascade": true,
+    "blocked_downstream_is_diagnostic_only": true,
+    "claim_ceiling": "boundary concordance only; no causal or adaptive claim"
+  }
+}
