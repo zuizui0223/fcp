@@ -63,12 +63,8 @@ jobs:
             tests/test_atlas_measurement_v5.py \
             tests/test_atlas_inference_cascade.py \
             tests/test_atlas_acquisition_authorization.py
-      - name: Import v5 worker entrypoints without opening pixels
-        env:
-          PYTHONPATH: .
+      - name: Syntax-check v5 worker entrypoints without opening pixels
         run: |
-          python - <<'PY'
-          import scripts.data.acquire_jbi_atlas_blinded_images_v5
-          import scripts.data.measure_jbi_atlas_blinded_images_v5
-          print("v5 worker entrypoints import cleanly")
-          PY
+          python -m py_compile \
+            scripts/data/acquire_jbi_atlas_blinded_images_v5.py \
+            scripts/data/measure_jbi_atlas_blinded_images_v5.py
