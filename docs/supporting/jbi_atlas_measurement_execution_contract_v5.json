@@ -3,7 +3,7 @@
   "version": 1,
   "freeze_date": "2026-09-01",
   "status": "prospectively_frozen_before_any_terminal_scaleout_candidate_pixel",
-  "purpose": "Carry the already-frozen terminal 200-species atlas from pre-image source/coverage/ROI gates into location-blind acquisition and measurement without reverting to the superseded v3 inference decision tree.",
+  "purpose": "Carry the already-frozen terminal 200-species atlas from pre-image source/coverage/ROI/inference gates into location-blind acquisition and measurement without reverting to the superseded v3 inference decision tree.",
   "outcome_firewall": {
     "terminal_scaleout_candidate_pixels_opened": false,
     "terminal_scaleout_colour_measured": false,
@@ -13,6 +13,11 @@
     "inference_v5": {
       "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json",
       "git_blob_sha": "24909777d7bb774f8af6431c0b0ea1161d8e51de"
+    },
+    "real_colour_inference_v5": {
+      "path": "docs/supporting/jbi_atlas_real_colour_inference_amendment_v5.json",
+      "git_blob_sha": "7ed5e1520deea36796f4ae1f547876bca1e64ea8",
+      "scope": "Exact spatial-organization, shared-transition and environmental statistics, permutation counts, seeds and evaluability rules frozen before pixels."
     },
     "inference_v3_technical_measurement_rules_only": {
       "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json",
@@ -73,6 +78,11 @@
       "method_gate_only": true,
       "biological_support_claimed": false,
       "candidate_image_pixels_opened": false
+    },
+    "real_colour_inference_freeze": {
+      "required_protocol": "jbi-atlas-real-colour-inference-amendment-v5-v1",
+      "required_status": "prospectively_frozen_before_any_terminal_scaleout_candidate_pixel",
+      "pixel_status_at_freeze": "not_revealed"
     }
   },
   "location_blind_measurement": {
@@ -118,6 +128,7 @@
   },
   "v5_inference_firewall": {
     "only_inference_contract": "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json",
+    "exact_real_colour_inference_amendment": "docs/supporting/jbi_atlas_real_colour_inference_amendment_v5.json",
     "superseded_v3_ordered_inference_must_not_authorize_or_classify_terminal_results": true,
     "confirmatory_sequence": [
       "species_conditioned_spatial_organization",
