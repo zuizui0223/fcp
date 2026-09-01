@@ -7,9 +7,12 @@ on:
       - "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json"
       - "docs/supporting/jbi_atlas_shared_transition_v5_signal_recovery_result.json"
       - "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json"
+      - "fcp_pipeline/atlas_acquisition_v5.py"
       - "fcp_pipeline/atlas_measurement_v5.py"
       - "fcp_pipeline/atlas_measurement.py"
       - "fcp_pipeline/atlas_inference_cascade.py"
+      - "scripts/data/acquire_jbi_atlas_blinded_images_v5.py"
+      - "scripts/data/measure_jbi_atlas_blinded_images_v5.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall_v5.py"
       - "scripts/data/validate_jbi_atlas_measurement_v5_contract.py"
       - "tests/test_atlas_measurement_v5.py"
@@ -22,9 +25,12 @@ on:
       - "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json"
       - "docs/supporting/jbi_atlas_shared_transition_v5_signal_recovery_result.json"
       - "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json"
+      - "fcp_pipeline/atlas_acquisition_v5.py"
       - "fcp_pipeline/atlas_measurement_v5.py"
       - "fcp_pipeline/atlas_measurement.py"
       - "fcp_pipeline/atlas_inference_cascade.py"
+      - "scripts/data/acquire_jbi_atlas_blinded_images_v5.py"
+      - "scripts/data/measure_jbi_atlas_blinded_images_v5.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall_v5.py"
       - "scripts/data/validate_jbi_atlas_measurement_v5_contract.py"
       - "tests/test_atlas_measurement_v5.py"
@@ -57,3 +63,12 @@ jobs:
             tests/test_atlas_measurement_v5.py \
             tests/test_atlas_inference_cascade.py \
             tests/test_atlas_acquisition_authorization.py
+      - name: Import v5 worker entrypoints without opening pixels
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          import scripts.data.acquire_jbi_atlas_blinded_images_v5
+          import scripts.data.measure_jbi_atlas_blinded_images_v5
+          print("v5 worker entrypoints import cleanly")
+          PY
