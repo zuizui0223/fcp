@@ -1,0 +1,132 @@
+{
+  "protocol": "jbi-atlas-measurement-execution-v5",
+  "version": 1,
+  "freeze_date": "2026-09-01",
+  "status": "prospectively_frozen_before_any_terminal_scaleout_candidate_pixel",
+  "purpose": "Carry the already-frozen terminal 200-species atlas from pre-image source/coverage/ROI gates into location-blind acquisition and measurement without reverting to the superseded v3 inference decision tree.",
+  "outcome_firewall": {
+    "terminal_scaleout_candidate_pixels_opened": false,
+    "terminal_scaleout_colour_measured": false,
+    "coordinate_colour_key_joined": false
+  },
+  "immutable_parents": {
+    "inference_v5": {
+      "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json",
+      "git_blob_sha": "24909777d7bb774f8af6431c0b0ea1161d8e51de"
+    },
+    "inference_v3_technical_measurement_rules_only": {
+      "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json",
+      "git_blob_sha": "1f5487b727e31b4655eccabc432d58c9a03ad9c4",
+      "scope": "Only the location-blinding salt and completeness thresholds are inherited. The v3 ordered inference tree is explicitly not inherited."
+    },
+    "scaleout_worker_execution_v1": {
+      "path": "docs/supporting/jbi_atlas_scaleout_execution_contract_v1.json",
+      "git_blob_sha": "b7a27a101cc5e449d32ec98742eb8a25c8ec39a9",
+      "scope": "Technical sharding, retry, timeout, cache and no-early-stopping rules only."
+    },
+    "roi_v4_contract": {
+      "path": "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json",
+      "git_blob_sha": "b043bc83d0d69489f38771e8f4bbe524963b70ea"
+    },
+    "roi_v4_locked_result": {
+      "path": "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json",
+      "git_blob_sha": "b25425f1f738bcea75cef5f60980332a9857610b",
+      "required_status": "pass_roi_v4_locked_test",
+      "required_scaleout_candidate_pixels_opened": false,
+      "required_scaleout_candidate_pixels_permitted": true
+    },
+    "shared_transition_preimage_qualification": {
+      "path": "docs/supporting/jbi_atlas_shared_transition_v5_signal_recovery_result.json",
+      "git_blob_sha": "37ca728da2cc4deccb1b225c107708e6f78c4ab1",
+      "required_status": "pass",
+      "required_method_gate_only": true,
+      "required_biological_support_claimed": false
+    },
+    "dated_source_streaming_v3": {
+      "path": "docs/supporting/jbi_atlas_dated_source_streaming_amendment_v3.json",
+      "git_blob_sha": "8b9c3085672fae592a60646e41874e4c34f0cc2f"
+    }
+  },
+  "pixel_opening_gates": {
+    "all_required": true,
+    "dated_source": {
+      "required_status": "pass_dated_source_m2m_scaleout_freeze",
+      "required_species": 200,
+      "required_photo_assets": 60000,
+      "required_frozen_observations": 60000,
+      "candidate_image_pixels_opened": false,
+      "replacement_permitted": false
+    },
+    "environmental_coverage": {
+      "required_status": "pass_precolour_environmental_coverage",
+      "required_source_stage": "final-dated-source",
+      "scaleout_colour_opened": false,
+      "image_acquisition_authorized": false
+    },
+    "roi_v4_locked": {
+      "required_status": "pass_roi_v4_locked_test",
+      "scaleout_candidate_pixels_opened": false,
+      "scaleout_candidate_pixels_permitted": true
+    },
+    "shared_transition_method": {
+      "required_status": "pass",
+      "method_gate_only": true,
+      "biological_support_claimed": false,
+      "candidate_image_pixels_opened": false
+    }
+  },
+  "location_blind_measurement": {
+    "blinding_salt": "fcp-atlas-v3-coordinate-firewall",
+    "salt_inherited_unchanged_from_v3": true,
+    "minimum_admitted_fraction_per_species": 0.7,
+    "minimum_admitted_observations_per_species": 210,
+    "minimum_background_control_fraction_among_admitted": 0.7,
+    "minimum_evaluable_species_per_cohort": 20,
+    "minimum_evaluable_species_total": 160,
+    "all_eight_cohorts_must_finish": true,
+    "failed_species_rule": "retain as not_evaluable with its frozen observation denominator; never replace it",
+    "failed_cohort_rule": "retain the completed cohort and make any branch requiring all eight cohorts not_evaluable; never stop early or select passing cohorts",
+    "measurement_worker_allowed_fields": [
+      "measurement_id",
+      "species_blind_id",
+      "image_filename",
+      "photo_license"
+    ],
+    "measurement_worker_forbidden_context": [
+      "source URL",
+      "photo ID",
+      "observation ID",
+      "taxon name",
+      "coordinates",
+      "date",
+      "observer identity",
+      "environmental variables",
+      "pollinator variables"
+    ]
+  },
+  "technical_execution": {
+    "acquisition_shard_count": 16,
+    "measurement_shard_count": 16,
+    "maximum_concurrent_workers": 8,
+    "acquisition_retries_per_image": 4,
+    "acquisition_timeout_seconds": 60.0,
+    "acquisition_pause_seconds_after_each_terminal_image": 0.05,
+    "measurement_torch_threads_per_worker": 2,
+    "all_shards_required": true,
+    "early_stopping": false,
+    "terminal_failure_rule": "retain every acquisition or measurement failure in the frozen 60,000-record denominator; never replace an image or species"
+  },
+  "v5_inference_firewall": {
+    "only_inference_contract": "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json",
+    "superseded_v3_ordered_inference_must_not_authorize_or_classify_terminal_results": true,
+    "confirmatory_sequence": [
+      "species_conditioned_spatial_organization",
+      "shared_transition",
+      "environmental_concordance",
+      "pollinator_biogeographic_concordance"
+    ],
+    "not_evaluable_never_advances_confirmatory": true,
+    "same_frozen_colour_field_must_be_reused_downstream": true
+  },
+  "claim_ceiling": "Pre-image authorization, blinding, technical execution and completeness only. This contract contains no flower-colour, spatial-boundary, environmental-concordance, pollinator-concordance or biological outcome."
+}
