@@ -274,6 +274,7 @@ jobs:
           tests/test_atlas_roi_benchmark.py
           tests/test_atlas_scaleout.py
           tests/test_atlas_signal_recovery.py
+          tests/test_atlas_species_free_visualization.py
           tests/test_segformer_roi.py
           tests/test_flower_roi_v4.py
           tests/test_atlas_roi_v4_training_evidence.py
