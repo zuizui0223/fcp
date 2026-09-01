@@ -1,0 +1,36 @@
+{
+  "claim_ceiling": "Estimator gate evidence only; no atlas colour or ecological outcome.",
+  "evidence": {
+    "result": {
+      "path": "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json",
+      "sha256_exact": "420ae571e0950bfe252d5f0de34b4e047785c3efb2968d9f14abfc2161c08aea"
+    },
+    "rows": {
+      "path": "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_rows.csv",
+      "rows": 100,
+      "sha256_exact": "9f834de4bcdd530581d7713376cc918aa587e80726bba32021fa2dfa1034b248"
+    },
+    "runner": {
+      "path": "data/atlas/qualification/roi_v4_locked_test/gate_executable.py",
+      "sha256_exact": "f43048839f5dde8ec1acd56c1163d988a8a7cddb024a289a6a2ba96b76c84074"
+    }
+  },
+  "execution": {
+    "git_commit": "5d1c033f84b00a2bbc4276a33c4f4f4b82ec5b3d",
+    "runner_path": "scripts/data/run_jbi_atlas_roi_v4_jrc_gate.py",
+    "runner_sha256_exact": "f43048839f5dde8ec1acd56c1163d988a8a7cddb024a289a6a2ba96b76c84074"
+  },
+  "firewall": {
+    "jrc_locked_test_images_decoded_or_scored": true,
+    "scaleout_candidate_pixels_opened": false
+  },
+  "next_gate": "open the scaleout acquisition gate",
+  "phase": "locked_test",
+  "protocol": "jbi-atlas-roi-v4-locked_test-evidence-v1",
+  "status": "pass_roi_v4_locked_test",
+  "trained_weight_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+  "training_evidence": {
+    "path": "data/atlas/qualification/roi_v4_training/training_evidence_manifest.json",
+    "sha256_exact": "4bf192b79d073044d47f6df7fecd14897ab0011321dc50d038eb5fdf63de3a9d"
+  }
+}
