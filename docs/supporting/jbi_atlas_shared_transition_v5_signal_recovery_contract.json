@@ -1,0 +1,137 @@
+{
+  "contract": "jbi-atlas-shared-transition-v5-preimage-signal-recovery-v1",
+  "version": 1,
+  "freeze_date": "2026-09-01",
+  "pixel_status_at_freeze": "not_revealed",
+  "purpose": "Qualify the cross-species shared-transition scan layer on the exact terminal 200-species geometry before any selected candidate image pixel is opened.",
+  "scope": {
+    "method_gate_only": true,
+    "biological_inference": false,
+    "candidate_image_pixels_must_remain_unopened": true,
+    "failure_consequence": "shared_transition becomes not_evaluable; do not inspect real colour with this statistic",
+    "pass_consequence": "freeze this scan layer for later real-colour inference; pass is not biological support"
+  },
+  "terminal_geometry_artifact": {
+    "workflow_run_id": 33405153936,
+    "artifact_id": 9769165047,
+    "artifact_name": "jbi-atlas-200-species-metadata-feasibility",
+    "artifact_digest": "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375",
+    "files": {
+      "scaleout_metadata_feasibility.json": "32d8f1acc0ba1f4e8266db4aa8298e43988ac70423a11917eaf9165ccc8d819b",
+      "scaleout_observation_manifest.csv": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc",
+      "scaleout_species_panels.csv": "a061ac86311dfb60a6ea1197b1c8da45fdaa7403838f163280680651e948a57a"
+    },
+    "metadata_manifest_required": "scaleout_metadata_manifest.json",
+    "candidate_image_pixels_opened": false,
+    "frozen_species": 200,
+    "frozen_observations": 60000,
+    "cohorts": 8,
+    "species_per_cohort": 25,
+    "observations_per_species": 300
+  },
+  "scan_layer": {
+    "module": "fcp_pipeline.atlas_shared_transition_v5",
+    "primary_scale_km": 100,
+    "equal_area_grid": {
+      "n_lon": 320,
+      "n_sinlat": 160,
+      "n_cells": 51200
+    },
+    "high_transition_quantile": 0.9,
+    "top_tail_rule": "ceil((1-q)*detectable_cells) per species; at least one high cell",
+    "minimum_detectable_species_per_tested_cell": 4,
+    "cell_statistic": "standardized excess cross-species top-tail co-exceedance conditional on frozen opportunity",
+    "global_statistic": "maximum cellwise standardized excess over prospectively valid cells",
+    "species_weighting": "one binary top-tail contribution per species-cell; raw observation and edge counts do not weight the scan"
+  },
+  "exact_geometry_expectations": {
+    "pooled_200_species": {
+      "detectable_cells_at_least": {
+        "1": 1684,
+        "2": 1141,
+        "3": 883,
+        "4": 738,
+        "5": 654,
+        "10": 375,
+        "20": 174
+      },
+      "maximum_detectable_species_in_cell": 92,
+      "minimum_detectable_cells_per_species": 30,
+      "median_detectable_cells_per_species": 63.0
+    },
+    "per_cohort": {
+      "C01": {
+        "cells_at_least_4_species": 122,
+        "maximum_detectable_species_in_cell": 12
+      },
+      "C02": {
+        "cells_at_least_4_species": 131,
+        "maximum_detectable_species_in_cell": 13
+      },
+      "C03": {
+        "cells_at_least_4_species": 82,
+        "maximum_detectable_species_in_cell": 12
+      },
+      "C04": {
+        "cells_at_least_4_species": 102,
+        "maximum_detectable_species_in_cell": 11
+      },
+      "C05": {
+        "cells_at_least_4_species": 101,
+        "maximum_detectable_species_in_cell": 10
+      },
+      "C06": {
+        "cells_at_least_4_species": 122,
+        "maximum_detectable_species_in_cell": 10
+      },
+      "C07": {
+        "cells_at_least_4_species": 123,
+        "maximum_detectable_species_in_cell": 16
+      },
+      "C08": {
+        "cells_at_least_4_species": 122,
+        "maximum_detectable_species_in_cell": 12
+      }
+    }
+  },
+  "preimage_signal_recovery": {
+    "qualification_null": "conditional high-rank placement among each species' frozen detectable cells",
+    "qualification_null_only": true,
+    "seed": 20260901,
+    "repetitions_per_scenario": 100,
+    "null_permutations": 999,
+    "alpha": 0.05,
+    "effect_sizes": [
+      0.0,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "boundary_sigma_radians": 0.1,
+    "scenarios": [
+      "null_stationary",
+      "within_species_heterogeneous_nonshared_boundaries",
+      "shared_geographic_boundary"
+    ],
+    "gates": {
+      "maximum_null_false_positive_rate": 0.1,
+      "maximum_heterogeneous_false_sharing_rate_at_effect_2": 0.1,
+      "minimum_shared_boundary_power_at_effect_2": 0.8,
+      "require_monotone_shared_power_across_effects_0_5_1_2": true
+    }
+  },
+  "real_colour_inference_firewall": {
+    "qualification_null_must_not_be_used_as_real_colour_primary_null": true,
+    "real_colour_primary_null": "complete within-species permutation of the frozen three-component Lab vector",
+    "real_colour_vector_components_move_together": true,
+    "downstream_colour_remeasurement_forbidden": true,
+    "downstream_colour_restandardization_forbidden": true,
+    "shared_transition_confirmatory_support_rule_remains_in_v5_inference_contract": true,
+    "outcomes": [
+      "supported",
+      "unsupported",
+      "not_evaluable"
+    ],
+    "not_evaluable_never_means_unsupported": true
+  }
+}
