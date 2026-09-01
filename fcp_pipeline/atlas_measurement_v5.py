@@ -41,6 +41,8 @@ def validate_measurement_execution_contract(
     if (
         v5_firewall.get("only_inference_contract")
         != "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json"
+        or v5_firewall.get("exact_real_colour_inference_amendment")
+        != "docs/supporting/jbi_atlas_real_colour_inference_amendment_v5.json"
         or v5_firewall.get(
             "superseded_v3_ordered_inference_must_not_authorize_or_classify_terminal_results"
         )
@@ -100,6 +102,14 @@ def validate_measurement_execution_contract(
         raise MeasurementV5ContractError("ROI v4 pass label changed")
     if gates.get("shared_transition_method", {}).get("required_status") != "pass":
         raise MeasurementV5ContractError("shared-transition method gate changed")
+    real = gates.get("real_colour_inference_freeze", {})
+    if (
+        real.get("required_protocol") != "jbi-atlas-real-colour-inference-amendment-v5-v1"
+        or real.get("required_status")
+        != "prospectively_frozen_before_any_terminal_scaleout_candidate_pixel"
+        or real.get("pixel_status_at_freeze") != "not_revealed"
+    ):
+        raise MeasurementV5ContractError("real-colour inference freeze gate changed")
 
 
 def validate_preimage_gates(
