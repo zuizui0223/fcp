@@ -1,0 +1,38 @@
+name: JBI atlas strict v4 decision freeze
+
+on:
+  pull_request:
+    paths:
+      - "fcp_pipeline/atlas_decision_v4.py"
+      - "scripts/data/validate_jbi_atlas_inference_contract_v4.py"
+      - "docs/supporting/jbi_image_first_atlas_inference_contract_v4.json"
+      - "tests/test_atlas_decision_v4.py"
+      - ".github/workflows/jbi-atlas-decision-v4.yml"
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "fcp_pipeline/atlas_decision_v4.py"
+      - "scripts/data/validate_jbi_atlas_inference_contract_v4.py"
+      - "docs/supporting/jbi_image_first_atlas_inference_contract_v4.json"
+      - "tests/test_atlas_decision_v4.py"
+      - ".github/workflows/jbi-atlas-decision-v4.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  strict-preimage-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package and pytest
+        run: python -m pip install -e . pytest
+      - name: Validate strict v4 freeze
+        run: python scripts/data/validate_jbi_atlas_inference_contract_v4.py
+      - name: Test three-state cascade
+        run: python -m pytest -q tests/test_atlas_decision_v4.py
