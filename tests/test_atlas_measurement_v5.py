@@ -144,7 +144,7 @@ def test_v5_worker_packet_is_location_blind_and_uses_unchanged_salt() -> None:
             "latitude": "1.0",
             "longitude": "2.0",
             "observed_month": "6",
-            "local_solar_quarter": "Q2",
+            "local_solar_quarter": "2",
             "observer_id": "301",
         },
         {
@@ -158,7 +158,7 @@ def test_v5_worker_packet_is_location_blind_and_uses_unchanged_salt() -> None:
             "latitude": "3.0",
             "longitude": "4.0",
             "observed_month": "7",
-            "local_solar_quarter": "Q3",
+            "local_solar_quarter": "3",
             "observer_id": "302",
         },
     ]
