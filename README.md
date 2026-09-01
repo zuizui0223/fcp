@@ -39,6 +39,7 @@ Their samples, response variables, null models and claims are distinct. Neither 
 - **Frozen v1 source-schema STOP:** [`docs/supporting/jbi_atlas_dated_source_v1_stop_result.json`](docs/supporting/jbi_atlas_dated_source_v1_stop_result.json)
 - **Pre-colour many-to-many resolver:** [`docs/supporting/jbi_atlas_dated_source_m2m_amendment_v2.json`](docs/supporting/jbi_atlas_dated_source_m2m_amendment_v2.json)
 - **Final colour/environment inference freeze:** [`docs/supporting/jbi_atlas_colour_surface_contract_v1.json`](docs/supporting/jbi_atlas_colour_surface_contract_v1.json)
+- **Species-free map/photo-bar freeze:** [`docs/supporting/jbi_atlas_species_free_visualization_contract_v1.json`](docs/supporting/jbi_atlas_species_free_visualization_contract_v1.json)
 - **Global boundary source audit:** [`docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md`](docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md)
 - **Metadata/geometry module:** [`fcp_pipeline/image_first_atlas.py`](fcp_pipeline/image_first_atlas.py)
 - **Metadata freeze workflow:** [`.github/workflows/jbi-image-first-atlas-metadata.yml`](.github/workflows/jbi-image-first-atlas-metadata.yml)

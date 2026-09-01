@@ -10,6 +10,8 @@ The fail-closed state is unchanged: bulk atlas image opening is stopped until th
 
 The terminal scale-out is eight disjoint cohorts of 25 species x 300 observations: 200 species and 60,000 observations. All eight cohorts are required. They are one experiment, not eight opportunities to stop after a favourable result.
 
+The descriptive display is also fixed before pixels: every admitted finite-colour point enters the species-free Mollweide map, and the 48-image photo bar is selected by evenly spaced longitude ranks with latitude and blinded measurement ID as tie breakers. Colour, species, cohort and inferential outcomes cannot select displayed photographs.
+
 ## Immutable earlier evidence
 
 - Six-species Chapter 1: 1,200 photographs, Stage A `p = 0.0113`, Stage B `p = 0.0906`. No atlas change retunes it.
