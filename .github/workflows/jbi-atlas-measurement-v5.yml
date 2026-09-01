@@ -50,6 +50,8 @@ jobs:
       - name: Validate immutable v5 measurement parents
         run: python scripts/data/validate_jbi_atlas_measurement_v5_contract.py
       - name: Test v5 gate conjunction and location blindness
+        env:
+          PYTHONPATH: .
         run: |
           pytest -q \
             tests/test_atlas_measurement_v5.py \
