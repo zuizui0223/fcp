@@ -16,7 +16,7 @@
     },
     "real_colour_inference_v5": {
       "path": "docs/supporting/jbi_atlas_real_colour_inference_amendment_v5.json",
-      "git_blob_sha": "7ed5e1520deea36796f4ae1f547876bca1e64ea8",
+      "git_blob_sha": "a459c42d854af21b417937e830ed7d6e05821f7d",
       "scope": "Exact spatial-organization, shared-transition and environmental statistics, permutation counts, seeds and evaluability rules frozen before pixels."
     },
     "inference_v3_technical_measurement_rules_only": {
