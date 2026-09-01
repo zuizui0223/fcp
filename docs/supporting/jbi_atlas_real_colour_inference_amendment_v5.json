@@ -1,0 +1,174 @@
+{
+  "protocol": "jbi-atlas-real-colour-inference-amendment-v5-v1",
+  "version": 1,
+  "freeze_date": "2026-09-01",
+  "status": "prospectively_frozen_before_any_terminal_scaleout_candidate_pixel",
+  "pixel_status_at_freeze": "not_revealed",
+  "purpose": "Define the exact numerical statistics, permutation counts, seeds and evaluability rules used by the already-frozen v5 cascade before any terminal 200-species image is opened.",
+  "immutable_parents": {
+    "inference_v5": {
+      "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json",
+      "git_blob_sha": "24909777d7bb774f8af6431c0b0ea1161d8e51de"
+    },
+    "colour_surface_v1": {
+      "path": "docs/supporting/jbi_atlas_colour_surface_contract_v1.json",
+      "git_blob_sha": "cea071ec7e19576b98a843d4844c470c61317b29",
+      "scope": "Reuse its Lab vector, geometry thresholds, season sensitivities and qualified environmental overlay null only; do not inherit the superseded v3 ordered inference tree."
+    },
+    "shared_transition_preimage_result": {
+      "path": "docs/supporting/jbi_atlas_shared_transition_v5_signal_recovery_result.json",
+      "git_blob_sha": "37ca728da2cc4deccb1b225c107708e6f78c4ab1",
+      "required_status": "pass",
+      "scope": "method gate only, not biological support"
+    },
+    "environmental_overlay_contract": {
+      "path": "docs/supporting/jbi_atlas_environmental_overlay_contract_v1.json",
+      "git_blob_sha": "074d69b920b73838a8fbfebadea79ab8f0a7b215"
+    },
+    "pollinator_source_gate": {
+      "path": "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json",
+      "git_blob_sha": "e7a2db0118a1e787bb49b0dd462aa870affdae48",
+      "current_outcome": "not_evaluable"
+    }
+  },
+  "terminal_denominator": {
+    "species": 200,
+    "cohorts": 8,
+    "species_per_cohort": 25,
+    "frozen_observations": 60000,
+    "replacement_or_resampling_after_colour": false,
+    "minimum_evaluable_species_per_cohort": 20,
+    "minimum_evaluable_species_total": 160,
+    "all_eight_cohorts_required": true
+  },
+  "frozen_colour_field": {
+    "primary_components": [
+      "flower_L_mean",
+      "flower_a_mean",
+      "flower_b_mean"
+    ],
+    "admitted_rows_only": true,
+    "standardization": "Within each species, subtract the median and divide by IQR componentwise over the complete admitted terminal analysis subset; zero-IQR components are set to zero after centering; all-zero-IQR species are not_evaluable.",
+    "standardize_once_before_any_branch": true,
+    "same_standardized_vector_table_reused_by_all_reached_branches": true,
+    "complete_three_component_vector_moves_together_under_null": true,
+    "permutation_strictly_within_species": true,
+    "coordinates_graphs_opportunity_and_cohort_membership_fixed_under_null": true,
+    "required_sha256_receipt_for_raw_admitted_table": true,
+    "required_sha256_receipt_for_standardized_colour_field": true,
+    "downstream_remeasurement_or_restandardization_forbidden": true
+  },
+  "geometry": {
+    "knn_k": 5,
+    "primary_scale_km": 100,
+    "sensitivity_scales_km": [
+      250,
+      500
+    ],
+    "equal_area_grids": {
+      "100": [320, 160],
+      "250": [128, 64],
+      "500": [64, 32]
+    },
+    "minimum_edges_per_species_cell": 2,
+    "minimum_retained_edges_per_species_configuration": 100,
+    "minimum_detectable_cells_per_species_configuration": 10,
+    "geometry_is_coordinate_only": true,
+    "colour_must_not_select_edges_cells_or_scales": true
+  },
+  "species_conditioned_spatial_organization": {
+    "prerequisite": "first confirmatory branch",
+    "primary_configuration": "100 km, all_dates",
+    "species_statistic": "negative arithmetic mean of RMS Euclidean Lab discontinuity across retained coordinate-only kNN edges; larger values mean stronger local colour similarity/spatial organization",
+    "species_weight": "one equal vote per evaluable species",
+    "pooled_statistic": "arithmetic mean of species statistics over every evaluable species in all eight frozen cohorts",
+    "cohort_statistic": "arithmetic mean of species statistics within each frozen cohort",
+    "null": "synchronized complete three-component Lab-vector permutations independently within every species, with all graphs and admission fixed",
+    "randomizations": 9999,
+    "seed": 20260901,
+    "alternative": "greater",
+    "monte_carlo_p": "(number of null pooled statistics >= observed pooled statistic + 1) / 10000",
+    "cohort_direction": "observed cohort statistic minus its permutation-null median",
+    "alpha": 0.05,
+    "minimum_directionally_positive_cohorts": 6,
+    "supported": "pooled p<=0.05 and at least 6 of 8 cohort directions are positive",
+    "unsupported": "all eight cohorts and the pooled statistic are evaluable but the supported rule is not met",
+    "not_evaluable": "the terminal measurement completeness gate fails, fewer than 20 species are evaluable in any cohort, fewer than 160 species are evaluable overall, or the pooled statistic/null cannot be computed",
+    "sensitivity_configurations": [
+      "250 km all_dates",
+      "500 km all_dates",
+      "100 km same_calendar_month_edges",
+      "100 km same_local_solar_quarter_edges"
+    ],
+    "sensitivities_can_promote_support": false
+  },
+  "shared_transition": {
+    "prerequisite": "run confirmatorily only if species_conditioned_spatial_organization=supported",
+    "primary_configuration": "100 km, all_dates",
+    "species_cell_score": "mean within-species zero-to-one average-rank edge discontinuity among retained edge midpoints in each detectable cell",
+    "high_transition_quantile": 0.9,
+    "high_cell_rule": "for each species choose exactly ceil(0.1 * detectable_cells) highest-scoring detectable cells, at least one; break exact score ties deterministically by ascending cell_id",
+    "minimum_detectable_species_per_tested_cell": 4,
+    "cell_statistic": "standardized excess number of high-transition species relative to the frozen species-by-cell opportunity expectation",
+    "pooled_statistic": "maximum cell statistic over every prospectively valid pooled 100-km cell",
+    "cohort_statistic": "the same maximum scan computed separately within each frozen C01-C08 species subset using its own frozen opportunity reference",
+    "real_colour_null": "for each replicate, permute complete standardized Lab vectors independently within every species, recompute edge discontinuities, within-species ranks, cell scores, high cells and the maximum scan; the scan is inside the null",
+    "preimage_conditional_rank_placement_null_is_for_qualification_only": true,
+    "preimage_conditional_rank_placement_null_must_not_be_used_for_biological_p_values": true,
+    "randomizations": 9999,
+    "seed": 20260902,
+    "alternative": "greater",
+    "monte_carlo_p": "(number of null pooled scan statistics >= observed pooled scan statistic + 1) / 10000",
+    "cohort_direction": "observed cohort scan statistic minus its real-colour permutation-null median",
+    "alpha": 0.05,
+    "minimum_directionally_positive_cohorts": 6,
+    "supported": "pooled p<=0.05 and at least 6 of 8 cohort directions are positive",
+    "unsupported": "the pooled scan and all eight cohort scans are evaluable but the supported rule is not met",
+    "not_evaluable": "the preimage method gate is not pass, the spatial branch is not supported, any required cohort scan is not evaluable, or the real-colour null cannot be completed",
+    "sensitivity_scales_km": [250, 500],
+    "sensitivities_can_promote_support": false
+  },
+  "environmental_concordance": {
+    "prerequisite": "run confirmatorily after species_conditioned_spatial_organization=unsupported, or after shared_transition=unsupported; never after not_evaluable",
+    "reuse_identical_frozen_colour_field_hash": true,
+    "statistic_contract": "docs/supporting/jbi_atlas_colour_surface_contract_v1.json",
+    "qualified_null": "weighted Moran eigenvector coefficient-sign randomization after frozen broad geographic detrending",
+    "randomizations": 9999,
+    "seed": 20260831,
+    "primary_scale_km": 100,
+    "primary_season": "all_dates",
+    "primary_families_in_fixed_order": [
+      "macroclimate_boundary",
+      "land_cover_boundary",
+      "ecoregion_boundary"
+    ],
+    "terrain_boundary": "not_evaluable_precolour_and_not_substituted",
+    "familywise_control": "one joint maximum null over every declared cohort/equal-cohort, role, scale, season and primary/sensitivity environmental surface from colour_surface_v1",
+    "supported": "at least one of the three 100-km all_dates equal-eight-cohort primary flower tests has familywise-adjusted p<=0.05",
+    "unsupported": "all three primary family tests are evaluable and all familywise-adjusted p-values are >0.05",
+    "not_evaluable": "the existing environmental input/coverage/cohort evaluability rules fail",
+    "outcome_term_mapping": {
+      "legacy_not_supported": "unsupported",
+      "legacy_not_evaluable": "not_evaluable"
+    },
+    "no_environment_driven_colour_redefinition": true
+  },
+  "pollinator_biogeographic_concordance": {
+    "prerequisite": "run confirmatorily only if environmental_concordance=unsupported",
+    "binding_precolour_source_gate": "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json",
+    "current_precolour_state": "not_evaluable",
+    "current_consequence_if_reached": "return not_evaluable and terminate; do not substitute a post-colour pollinator source or derive pollinator regions from flower colour",
+    "post_colour_source_replacement_forbidden": true
+  },
+  "cascade": {
+    "sequence": [
+      "species_conditioned_spatial_organization",
+      "shared_transition",
+      "environmental_concordance",
+      "pollinator_biogeographic_concordance"
+    ],
+    "not_evaluable_never_advances_confirmatory": true,
+    "diagnostic_downstream_after_not_evaluable_may_run_but_cannot_promote_claims": true
+  },
+  "publication_ceiling": "The terminal atlas can support spatial organization, a shared cross-species transition, or concordance with independently frozen environmental boundaries according to the reached v5 branch. None of these camera-space analyses alone establish calibrated reflectance, pollinator perception, visitation, adaptation, selection or causation."
+}
