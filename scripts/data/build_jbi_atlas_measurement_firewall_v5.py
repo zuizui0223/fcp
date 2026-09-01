@@ -74,6 +74,7 @@ def verify_repo_parent_blobs(contract: Mapping[str, Any]) -> None:
     parents = contract["immutable_parents"]
     for key in (
         "inference_v5",
+        "real_colour_inference_v5",
         "inference_v3_technical_measurement_rules_only",
         "scaleout_worker_execution_v1",
         "roi_v4_contract",
@@ -175,6 +176,7 @@ def main() -> int:
         },
         "contract_git_blob_sha": git_blob_sha(args.measurement_contract),
         "inference_v5_git_blob_sha": git_blob_sha(args.inference_v5),
+        "real_colour_inference_v5_git_blob_sha": contract["immutable_parents"]["real_colour_inference_v5"]["git_blob_sha"],
         "source_observation_manifest_sha256": observation_hash,
         "worker_packet": {
             "path": worker_path.relative_to(args.output_dir).as_posix(),
