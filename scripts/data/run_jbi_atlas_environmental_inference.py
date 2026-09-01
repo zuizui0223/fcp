@@ -157,6 +157,24 @@ def finite_lab(row: Mapping[str, Any], role: str) -> np.ndarray | None:
     return values if np.isfinite(values).all() else None
 
 
+def species_free_map_row(
+    row: Mapping[str, Any], lab: Sequence[float] | np.ndarray
+) -> dict[str, Any]:
+    """Expose display geometry and colour while withholding inferential labels."""
+
+    values = np.asarray(lab, dtype=float)
+    if values.shape != (3,) or not np.isfinite(values).all():
+        raise ValueError("species-free map requires one finite Lab vector")
+    return {
+        "measurement_id": str(row["measurement_id"]),
+        "latitude": float(row["latitude"]),
+        "longitude": float(row["longitude"]),
+        "flower_L_mean": float(values[0]),
+        "flower_a_mean": float(values[1]),
+        "flower_b_mean": float(values[2]),
+    }
+
+
 def season_labels(rows: Sequence[Mapping[str, Any]], configuration: str) -> np.ndarray | None:
     if configuration == "all_dates":
         return None
@@ -462,17 +480,7 @@ def main() -> None:
         lab = finite_lab(row, "flower")
         if lab is None:
             continue
-        map_rows.append(
-            {
-                "measurement_id": row["measurement_id"],
-                "cohort_id": row["cohort_id"],
-                "latitude": row["latitude"],
-                "longitude": row["longitude"],
-                "flower_L_mean": float(lab[0]),
-                "flower_a_mean": float(lab[1]),
-                "flower_b_mean": float(lab[2]),
-            }
-        )
+        map_rows.append(species_free_map_row(row, lab))
     write_csv(map_path, map_rows)
     result = {
         "protocol": contract["protocol"],

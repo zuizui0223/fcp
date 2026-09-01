@@ -13,14 +13,8 @@ from pathlib import Path
 import sys
 from typing import Any, Mapping, Sequence
 
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from matplotlib.gridspec import GridSpec
 import numpy as np
 from PIL import Image, ImageOps
-from skimage.color import lab2rgb
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -125,6 +119,8 @@ def crop_from_mask(image: Image.Image, mask: np.ndarray) -> tuple[Image.Image, t
 
 
 def display_rgb(rows: Sequence[Mapping[str, str]]) -> np.ndarray:
+    from skimage.color import lab2rgb
+
     lab = np.asarray(
         [[float(row[field]) for field in LAB_FIELDS] for row in rows], dtype=float
     )
@@ -140,6 +136,12 @@ def make_figure(
     png_path: Path,
     pdf_path: Path,
 ) -> None:
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.gridspec import GridSpec
+
     ordered = sorted(points, key=lambda row: str(row["measurement_id"]))
     colours = display_rgb(ordered)
     longitude = np.radians([float(row["longitude"]) for row in ordered])

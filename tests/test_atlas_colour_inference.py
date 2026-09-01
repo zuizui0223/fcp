@@ -17,6 +17,7 @@ from fcp_pipeline.atlas_colour_inference import (
     validate_colour_inference_contract,
 )
 from fcp_pipeline.shared_transition_surface import EqualAreaGrid
+from scripts.data.run_jbi_atlas_environmental_inference import species_free_map_row
 
 
 CONTRACT = json.loads(
@@ -43,6 +44,27 @@ def test_robust_lab_keeps_zero_iqr_component_as_zero() -> None:
     assert np.all(standardized[:, 1] == 0.0)
     with pytest.raises(ValueError, match="all Lab components"):
         robust_standardize_lab(np.ones((5, 3)))
+
+
+def test_public_atlas_map_withholds_species_and_cohort_labels() -> None:
+    public = species_free_map_row(
+        {
+            "measurement_id": "FCPM-1",
+            "species": "Must stay hidden",
+            "cohort_id": "C01",
+            "latitude": 35.0,
+            "longitude": 135.0,
+        },
+        [50.0, 10.0, -5.0],
+    )
+    assert set(public) == {
+        "measurement_id",
+        "latitude",
+        "longitude",
+        "flower_L_mean",
+        "flower_a_mean",
+        "flower_b_mean",
+    }
 
 
 def test_species_transition_filters_season_edges_before_cell_ranks() -> None:
