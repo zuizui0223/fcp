@@ -107,7 +107,7 @@
     "primary_configuration": "100 km, all_dates",
     "species_cell_score": "mean within-species zero-to-one average-rank edge discontinuity among retained edge midpoints in each detectable cell",
     "high_transition_quantile": 0.9,
-    "high_cell_rule": "for each species choose exactly ceil(0.1 * detectable_cells) highest-scoring detectable cells, at least one; break exact score ties deterministically by ascending cell_id",
+    "high_cell_rule": "for each species choose exactly ceil(0.1 * detectable_cells) highest-scoring detectable cells, at least one; exact ties follow the already-qualified implementation: lexsort by score with cell_id as deterministic secondary key, then take the final top-tail entries",
     "minimum_detectable_species_per_tested_cell": 4,
     "cell_statistic": "standardized excess number of high-transition species relative to the frozen species-by-cell opportunity expectation",
     "pooled_statistic": "maximum cell statistic over every prospectively valid pooled 100-km cell",
