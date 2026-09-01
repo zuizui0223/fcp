@@ -1,0 +1,70 @@
+{
+  "result": "jbi-atlas-shared-transition-v5-preimage-signal-recovery-result-v1",
+  "status": "pass",
+  "recorded_date": "2026-09-01",
+  "scope": {
+    "method_gate_only": true,
+    "biological_support_claimed": false,
+    "candidate_image_pixels_opened": false,
+    "interpretation": "The frozen shared-transition scan layer is qualified for later real-colour inference on the terminal 200-species geometry. This result is not evidence that a shared biological transition exists."
+  },
+  "contract": {
+    "path": "docs/supporting/jbi_atlas_shared_transition_v5_signal_recovery_contract.json",
+    "git_blob_sha": "94bf74f9cab642826d8aef8d491426184c52c073"
+  },
+  "source_geometry": {
+    "workflow_run_id": 33405153936,
+    "artifact_id": 9769165047,
+    "artifact_digest": "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375",
+    "species": 200,
+    "observations": 60000,
+    "cohorts": 8,
+    "primary_scale_km": 100,
+    "cells_with_at_least_4_detectable_species": 738,
+    "maximum_detectable_species_in_cell": 92
+  },
+  "qualification_ci": {
+    "workflow_run_id": 33486218181,
+    "head_sha": "970913b88d8121d74094da3180d3eb26e397368d",
+    "job_id": 99786792704,
+    "job_conclusion": "success",
+    "artifact_id": 9791874331,
+    "artifact_name": "jbi-atlas-shared-transition-v5-signal-recovery",
+    "artifact_digest": "sha256:1d5aa59f484d9ffdb91aca5d9c3794611e780af8b642c3621968037d390c717f"
+  },
+  "frozen_protocol": {
+    "seed": 20260901,
+    "repetitions_per_scenario": 100,
+    "null_permutations": 999,
+    "alpha": 0.05,
+    "high_transition_quantile": 0.9,
+    "minimum_detectable_species_per_tested_cell": 4,
+    "boundary_sigma_radians": 0.1,
+    "qualification_null": "conditional high-rank placement among each species' frozen detectable cells"
+  },
+  "results": {
+    "null_false_positive_rate": 0.03,
+    "heterogeneous_nonshared_false_sharing_rate_effect_2": 0.05,
+    "shared_boundary_power": {
+      "effect_0_5": 0.09,
+      "effect_1": 0.31,
+      "effect_2": 0.81
+    },
+    "null_scan_distribution": {
+      "median": 4.113746726164524,
+      "q95": 5.088775699559024,
+      "q99": 5.800546880943653
+    },
+    "gates": {
+      "null_false_positive_rate_le_0_10": true,
+      "heterogeneous_false_sharing_rate_le_0_10": true,
+      "shared_effect_2_power_ge_0_80": true,
+      "shared_power_monotone": true
+    }
+  },
+  "real_colour_firewall": {
+    "qualification_null_is_not_real_colour_primary_null": true,
+    "real_colour_primary_null": "complete within-species permutation of the frozen three-component Lab vector",
+    "not_evaluable_never_means_unsupported": true
+  }
+}
