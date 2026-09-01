@@ -11,6 +11,7 @@ from fcp_pipeline.atlas_measurement import (
     evaluate_scaleout_measurement_gate,
     measurement_shard,
     select_measurement_shard,
+    validate_execution_contract,
     validate_inference_contract,
     validate_measurement_result_rows,
 )
@@ -30,6 +31,15 @@ def test_inference_contract_keeps_stopped_geographic_branch_closed() -> None:
     contract["ordered_inference_v3"]["branches"][0]["real_colour_test_permitted"] = True
     with pytest.raises(ValueError, match="geographic branch"):
         validate_inference_contract(contract)
+
+
+def test_scaleout_worker_execution_is_fixed_before_pixels() -> None:
+    path = Path("docs/supporting/jbi_atlas_scaleout_execution_contract_v1.json")
+    contract = json.loads(path.read_text(encoding="utf-8"))
+    validate_execution_contract(contract)
+    contract["acquisition"]["retries_per_image"] = 5
+    with pytest.raises(ValueError, match="execution rule changed"):
+        validate_execution_contract(contract)
 
 
 def test_coordinate_firewall_strips_location_taxon_date_and_observer() -> None:
@@ -169,6 +179,7 @@ def test_measurement_bundle_requires_every_self_hashed_shard(tmp_path: Path) -> 
             writer.writerow(row)
         manifest = {
             "status": "complete_location_blind_roi_v4_measurement_shard",
+            "execution_protocol": "jbi-atlas-scaleout-worker-execution-v1",
             "shard_index": index,
             "shard_count": 2,
             "frozen_shard_denominator": 1,

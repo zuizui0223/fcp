@@ -16,6 +16,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from fcp_pipeline.atlas_measurement import (
+    EXECUTION_PROTOCOL,
     evaluate_scaleout_measurement_gate,
     validate_inference_contract,
     validate_measurement_result_rows,
@@ -72,6 +73,7 @@ def load_complete_measurement_bundle(
         if (
             manifest.get("status")
             != "complete_location_blind_roi_v4_measurement_shard"
+            or manifest.get("execution_protocol") != EXECUTION_PROTOCOL
             or manifest.get("shard_index") != index
             or manifest.get("coordinates_opened") is not False
             or manifest.get("taxon_names_opened") is not False

@@ -22,6 +22,7 @@ if str(ROOT) not in sys.path:
 
 from fcp_pipeline.atlas_measurement import (
     measurement_shard,
+    validate_execution_contract,
     validate_inference_contract,
 )
 from fcp_pipeline.flower_roi_v4_runtime import validate_scaleout_authorization
@@ -92,6 +93,11 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("docs/supporting/jbi_image_first_atlas_inference_contract_v3.json"),
     )
+    parser.add_argument(
+        "--execution-contract",
+        type=Path,
+        default=Path("docs/supporting/jbi_atlas_scaleout_execution_contract_v1.json"),
+    )
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--shard-index", type=int, required=True)
     parser.add_argument("--shard-count", type=int, required=True)
@@ -121,6 +127,18 @@ def main() -> None:
         raise ValueError("shard_index must lie in [0, shard_count)")
     inference = json.loads(args.inference_contract.read_text(encoding="utf-8"))
     validate_inference_contract(inference)
+    execution = json.loads(args.execution_contract.read_text(encoding="utf-8"))
+    validate_execution_contract(execution)
+    frozen = execution["acquisition"]
+    if (
+        args.shard_count != frozen["shard_count"]
+        or args.retries != frozen["retries_per_image"]
+        or args.timeout_seconds != frozen["timeout_seconds"]
+        or args.pause_seconds != frozen["pause_seconds_after_each_terminal_image"]
+    ):
+        raise ValueError(
+            "acquisition worker settings differ from the frozen execution contract"
+        )
     roi = load_committed_locked_scaleout_result(args.roi_evidence_dir)
     validate_scaleout_authorization(roi)
     firewall = json.loads(args.firewall_manifest.read_text(encoding="utf-8"))
@@ -182,6 +200,7 @@ def main() -> None:
     manifest = {
         "status": "complete_blinded_acquisition_shard",
         "protocol": inference["protocol"],
+        "execution_protocol": execution["protocol"],
         "shard_index": args.shard_index,
         "shard_count": args.shard_count,
         "frozen_shard_denominator": len(selected),

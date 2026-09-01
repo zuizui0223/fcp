@@ -256,6 +256,7 @@ jobs:
           fi
           python scripts/data/validate_jbi_atlas_colour_surface_contract.py
           python scripts/data/validate_jbi_atlas_species_free_visualization_contract.py
+          python scripts/data/validate_jbi_atlas_scaleout_execution_contract.py
           python scripts/data/validate_jbi_atlas_environmental_overlay_contract.py
           python scripts/data/validate_jbi_atlas_climate_ecoregion_freeze.py
           python scripts/data/validate_jbi_atlas_worldcover_freeze.py

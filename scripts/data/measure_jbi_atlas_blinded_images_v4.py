@@ -22,6 +22,7 @@ if str(ROOT) not in sys.path:
 
 from fcp_pipeline.atlas_measurement import (
     select_measurement_shard,
+    validate_execution_contract,
     validate_inference_contract,
     validate_measurement_result_rows,
 )
@@ -101,9 +102,14 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("docs/supporting/jbi_image_first_atlas_inference_contract_v3.json"),
     )
+    parser.add_argument(
+        "--execution-contract",
+        type=Path,
+        default=Path("docs/supporting/jbi_atlas_scaleout_execution_contract_v1.json"),
+    )
     parser.add_argument("--shard-index", type=int, required=True)
     parser.add_argument("--shard-count", type=int, required=True)
-    parser.add_argument("--torch-threads", type=int, default=8)
+    parser.add_argument("--torch-threads", type=int, default=2)
     return parser.parse_args()
 
 
@@ -111,6 +117,16 @@ def main() -> None:
     args = parse_args()
     inference = json.loads(args.inference_contract.read_text(encoding="utf-8"))
     validate_inference_contract(inference)
+    execution = json.loads(args.execution_contract.read_text(encoding="utf-8"))
+    validate_execution_contract(execution)
+    frozen = execution["measurement"]
+    if (
+        args.shard_count != frozen["shard_count"]
+        or args.torch_threads != frozen["torch_threads_per_worker"]
+    ):
+        raise ValueError(
+            "measurement worker settings differ from the frozen execution contract"
+        )
     contract = json.loads(args.roi_contract.read_text(encoding="utf-8"))
     validate_roi_v4_contract(contract)
     trained_weight_sha = file_sha256(args.trained_weight)
@@ -213,6 +229,7 @@ def main() -> None:
     manifest = {
         "status": "complete_location_blind_roi_v4_measurement_shard",
         "protocol": inference["protocol"],
+        "execution_protocol": execution["protocol"],
         "roi_protocol": contract["protocol"],
         "shard_index": args.shard_index,
         "shard_count": args.shard_count,

@@ -8,6 +8,7 @@ from typing import Any, Mapping, Sequence
 
 
 INFERENCE_PROTOCOL = "jbi-image-first-global-flower-colour-atlas-inference-v3"
+EXECUTION_PROTOCOL = "jbi-atlas-scaleout-worker-execution-v1"
 WORKER_MANIFEST_FIELDS = {
     "measurement_id",
     "species_blind_id",
@@ -62,6 +63,34 @@ def validate_inference_contract(contract: Mapping[str, Any]) -> None:
         or branches[0].get("real_colour_test_permitted") is not False
     ):
         raise ValueError("stopped geographic branch reopened")
+
+
+def validate_execution_contract(contract: Mapping[str, Any]) -> None:
+    """Fail closed if scale-out partitioning or retry rules drift."""
+
+    if (
+        contract.get("protocol") != EXECUTION_PROTOCOL
+        or contract.get("status")
+        != "prospectively_frozen_before_any_scaleout_candidate_pixel"
+        or any(value is not False for value in contract.get("outcome_firewall", {}).values())
+    ):
+        raise ValueError("scale-out execution was not frozen before pixels")
+    acquisition = contract.get("acquisition", {})
+    measurement = contract.get("measurement", {})
+    if (
+        acquisition.get("shard_count") != 16
+        or acquisition.get("maximum_concurrent_workers") != 8
+        or acquisition.get("retries_per_image") != 4
+        or acquisition.get("timeout_seconds") != 60.0
+        or acquisition.get("pause_seconds_after_each_terminal_image") != 0.05
+        or "do not rerun" not in str(acquisition.get("terminal_failure_rule", ""))
+        or measurement.get("shard_count") != 16
+        or measurement.get("maximum_concurrent_workers") != 8
+        or measurement.get("torch_threads_per_worker") != 2
+        or measurement.get("all_shards_required") is not True
+        or measurement.get("early_stopping") is not False
+    ):
+        raise ValueError("scale-out execution rule changed")
 
 
 def _blind(salt: str, label: str, value: object) -> str:

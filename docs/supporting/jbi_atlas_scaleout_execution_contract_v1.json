@@ -1,0 +1,45 @@
+{
+  "protocol": "jbi-atlas-scaleout-worker-execution-v1",
+  "status": "prospectively_frozen_before_any_scaleout_candidate_pixel",
+  "date": "2026-09-01",
+  "parents": {
+    "inference_v3": {
+      "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json",
+      "sha256_lf_canonical_v1": "598b34bd0c996f2744e7dd9444d10673bdbe39092ba7a3625ce1f9fc003c604d"
+    },
+    "roi_v4": {
+      "path": "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json",
+      "sha256_lf_canonical_v1": "e3ffefdcd4aa6719a10b45c57886ee895f10f424a0d0b174a46541d92dd2f7a1"
+    },
+    "visualization_v1": {
+      "path": "docs/supporting/jbi_atlas_species_free_visualization_contract_v1.json",
+      "sha256_lf_canonical_v1": "6edbd7ee1eabe60104c5df1fd45f7b2478f7f27157765a94b544838bd162d360"
+    }
+  },
+  "outcome_firewall": {
+    "scaleout_candidate_pixels_opened": false,
+    "scaleout_colour_measured": false,
+    "coordinate_colour_key_joined": false
+  },
+  "acquisition": {
+    "shard_count": 16,
+    "maximum_concurrent_workers": 8,
+    "retries_per_image": 4,
+    "timeout_seconds": 60.0,
+    "pause_seconds_after_each_terminal_image": 0.05,
+    "existing_file_rule": "reuse only a decodable existing blinded image and recompute its SHA-256",
+    "partial_file_rule": "delete only the exact measurement_id partial object before the next within-run retry",
+    "terminal_failure_rule": "after four failed attempts record image_acquisition_failed; do not rerun a completed shard to rescue terminal failures",
+    "interruption_rule": "a shard without a terminal CSV and JSON receipt may resume; already complete decodable blinded files are reused under the existing-file rule"
+  },
+  "measurement": {
+    "shard_count": 16,
+    "maximum_concurrent_workers": 8,
+    "torch_threads_per_worker": 2,
+    "all_shards_required": true,
+    "cache_rule": "reuse one location-blind photo cache record only when image SHA-256, trained-weight SHA-256 and LF-canonical ROI contract SHA-256 all match",
+    "terminal_failure_rule": "retain every acquisition or measurement failure in the 60000-record denominator; never replace an image or species",
+    "early_stopping": false
+  },
+  "claim_ceiling": "Worker partitioning and technical retry rules only; no image, colour, spatial or environmental outcome."
+}
