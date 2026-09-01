@@ -1,0 +1,185 @@
+{
+  "version": "jbi_image_first_atlas_inference_v5",
+  "created": "2026-09-01",
+  "purpose": "Prospectively freeze the terminal 200-species image-first atlas inference cascade before any terminal-scaleout candidate pixels are opened.",
+  "pixel_status_at_freeze": "not_revealed",
+  "supersedes_for_terminal_scaleout_only": "docs/supporting/jbi_image_first_atlas_inference_contract_v4.json",
+  "legacy_analyses_are_immutable": true,
+  "legacy_scope": {
+    "six_species_stage_a_b": "reference_only_not_reestimated",
+    "thirty_four_species_comparison": "reference_only_not_reestimated",
+    "three_species_negative_validation": "reference_only_not_retuned"
+  },
+  "immutable_git_blobs": {
+    "data/evaluation/jbi_ch1_stage_a_primary_null_v1.csv": "037cb6fa44d02639d25c1f6b51c1765d91636e93",
+    "data/evaluation/jbi_ch1_stage_b_primary_null_v1.csv": "1ba846b8aa6482c4e79e2c6cd537fc0871d2b780",
+    "data/evaluation/jbi_ch1_stage_b_shared_transition_surface_v1.csv": "11e082d08383346d0192fccf5d1acf215376941b",
+    "data/frozen/freeze_manifest.json": "00063d2a46d21dca939a4ef821dff235c1a05998",
+    "data/frozen/frozen_34species_coexistence_segregation_v22.csv": "a49c7dddbf87cac88590606aa2f7aa7525e2018e",
+    "data/frozen/frozen_34species_five_metric_dataset.csv": "c7fd80ccd3a44a096f165546e267b87e27440cd3",
+    "docs/supporting/jbi_inaturalist_automated_colour_spatial_v2/species_spatial_mark_results.csv": "21341093205b91e2cd666d784b73d69f449f8220",
+    "docs/supporting/jbi_image_first_atlas_contract_v1.json": "b2bb4b305e6c432cde62af485b02f3bc5cfdc673",
+    "docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json": "93d8ae1e34078889518a06dd346b5bae84d2d64a",
+    "docs/supporting/jbi_image_first_atlas_inference_contract_v4.json": "922cf44d66cf608a0b581adbf3df28787ac6fe01",
+    "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json": "b043bc83d0d69489f38771e8f4bbe524963b70ea",
+    "docs/supporting/jbi_atlas_scaleout_execution_contract_v1.json": "b7a27a101cc5e449d32ec98742eb8a25c8ec39a9",
+    "docs/supporting/jbi_atlas_environmental_overlay_contract_v1.json": "074d69b920b73838a8fbfebadea79ab8f0a7b215",
+    "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json": "e7a2db0118a1e787bb49b0dd462aa870affdae48"
+  },
+  "terminal_scaleout_sampling": {
+    "species_total": 200,
+    "photos_per_species_target": 300,
+    "photo_target_total": 60000,
+    "cohort_count": 8,
+    "species_per_cohort": 25,
+    "cohorts_are_disjoint": true,
+    "cohorts_exhaust_species_universe": true,
+    "all_cohorts_must_be_reported": true,
+    "favourable_cohort_selection_forbidden": true,
+    "cohort_assignment_rule": "Use the already frozen deterministic randomized panel assignment from the terminal scaleout selection; do not redraw after colour measurement.",
+    "within_species_sampling": "Use the already frozen terminal selection and global-id/geometry admission rules; do not replace observations after colour measurement except for prospectively coded non-colour technical failure rules.",
+    "sampling_repetition_interpretation": "C01-C08 are eight independently randomized, disjoint replication cohorts that partition the frozen 200-species universe."
+  },
+  "roi_freeze": {
+    "estimator_contract": "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json",
+    "development_and_locked_test_separation_required": true,
+    "candidate_image_retuning_forbidden": true,
+    "roi_failure_must_be_recorded_not_silently_replaced": true,
+    "technical_replacement_if_any_must_follow_precolour_rule": true
+  },
+  "colour_field_freeze": {
+    "representation": "continuous CIELAB colour vectors from the frozen ROI pipeline",
+    "species_standardization": "freeze before spatial inference and reuse the identical standardized colour vectors for all downstream branches",
+    "complete_vector_permutation": true,
+    "within_species_only": true,
+    "downstream_remeasurement_or_restandardization_forbidden": true,
+    "required_frozen_field_hash": true
+  },
+  "state_vocabulary": [
+    "supported",
+    "unsupported",
+    "not_evaluable"
+  ],
+  "execution_state_vocabulary": [
+    "run_confirmatory",
+    "not_reached",
+    "stopped_not_evaluable",
+    "stopped_supported",
+    "terminal_complete",
+    "diagnostic_only"
+  ],
+  "not_evaluable_rule": "not_evaluable is not evidence of absence. It never advances a confirmatory branch.",
+  "confirmatory_sequence": [
+    "species_conditioned_spatial_organization",
+    "shared_transition",
+    "environmental_concordance",
+    "pollinator_biogeographic_concordance"
+  ],
+  "transition_table": {
+    "species_conditioned_spatial_organization": {
+      "supported": "shared_transition",
+      "unsupported": "environmental_concordance",
+      "not_evaluable": "STOP_CONFIRMATORY"
+    },
+    "shared_transition": {
+      "supported": "STOP_CONFIRMATORY",
+      "unsupported": "environmental_concordance",
+      "not_evaluable": "STOP_CONFIRMATORY"
+    },
+    "environmental_concordance": {
+      "supported": "STOP_CONFIRMATORY",
+      "unsupported": "pollinator_biogeographic_concordance",
+      "not_evaluable": "STOP_CONFIRMATORY"
+    },
+    "pollinator_biogeographic_concordance": {
+      "supported": "TERMINAL",
+      "unsupported": "TERMINAL",
+      "not_evaluable": "TERMINAL"
+    }
+  },
+  "species_conditioned_spatial_organization": {
+    "graph": "Within each species, spherical k-nearest-neighbour graph constructed from coordinates only; colour never selects neighbours or edges.",
+    "colour_score": "Continuous multivariate CIELAB edge discontinuity using the frozen standardized colour vectors.",
+    "null": "Complete colour-vector permutation strictly within species with graph and sampling fixed.",
+    "species_weighting": "Compute species statistics first, then use equal-species aggregation.",
+    "primary_atlas_test": "One pooled equal-species statistic over all evaluable species, calibrated by synchronized within-species permutations.",
+    "replication_check": "Compute the same equal-species statistic independently for every frozen C01-C08 cohort; report all eight observed-minus-null-center directions.",
+    "alpha": 0.05,
+    "minimum_evaluable_cohorts": 8,
+    "minimum_directionally_concordant_cohorts": 6,
+    "support_rule": "supported iff the primary pooled permutation p-value is <=0.05 and at least 6 of 8 frozen cohorts have observed statistic greater than their null median; unsupported iff all eight cohorts are evaluable and this rule is not met; otherwise not_evaluable.",
+    "multiple_testing": "Species-level results are descriptive and retain multiplicity-adjusted q-values; the confirmatory branch is the single pooled atlas test plus the frozen cohort replication check."
+  },
+  "shared_transition": {
+    "prerequisite": "Run confirmatorily only after species_conditioned_spatial_organization=supported.",
+    "surface": "For each species, map edge-level continuous colour discontinuity to the pre-frozen equal-area spatial geometry, then convert detectable-cell transition scores to within-species ranks.",
+    "high_transition_quantile": 0.9,
+    "cell_statistic": "For each cell with sufficient detectable species, count species whose transition rank is >=0.9 and standardize the excess above the 0.1 null exceedance expectation conditional on detectable species count.",
+    "global_statistic": "Maximum standardized co-exceedance across prospectively valid cells; the spatial scan is calibrated by the same complete within-species vector permutations, so scanning is inside the null.",
+    "species_weighting": "Each species contributes at most one exceedance indicator per cell; no species is weighted by observation or edge count.",
+    "alpha": 0.05,
+    "replication_check": "Repeat the shared-transition scan independently in every frozen C01-C08 cohort and report all eight directions; no cohort may be selected post hoc.",
+    "minimum_evaluable_cohorts": 8,
+    "minimum_directionally_concordant_cohorts": 6,
+    "support_rule": "supported iff the pooled shared-transition permutation p-value is <=0.05 and at least 6 of 8 frozen cohorts have positive observed-minus-null-center direction; unsupported iff the pooled and all eight cohort tests are evaluable and this rule is not met; otherwise not_evaluable.",
+    "preimage_qualification_required": true,
+    "qualification_scenarios": [
+      "null_stationary",
+      "within_species_heterogeneous_nonshared_boundaries",
+      "shared_geographic_boundary"
+    ],
+    "qualification_gates": {
+      "maximum_null_false_positive_rate": 0.1,
+      "maximum_heterogeneous_false_shared_rate": 0.1,
+      "minimum_shared_boundary_power_at_effect_2": 0.8,
+      "monotone_power_across_frozen_effect_sizes": true
+    },
+    "qualification_failure_rule": "If the exact terminal-scaleout geometry fails preimage qualification, shared_transition is not_evaluable; do not tune on candidate colours and do not advance to environment on that basis."
+  },
+  "environmental_concordance": {
+    "prerequisite": "Run confirmatorily only after the preceding spatial branch returns unsupported, never after not_evaluable.",
+    "colour_input": "Reuse the identical frozen colour field and hashes from the spatial branch.",
+    "source_order": [
+      "climate",
+      "terrain",
+      "vegetation_landcover"
+    ],
+    "boundary_contract": "docs/supporting/jbi_atlas_environmental_overlay_contract_v1.json",
+    "no_environment_driven_colour_redefinition": true,
+    "outcome_vocabulary": [
+      "supported",
+      "unsupported",
+      "not_evaluable"
+    ]
+  },
+  "pollinator_biogeographic_concordance": {
+    "prerequisite": "Run confirmatorily only after environmental_concordance=unsupported.",
+    "priority": "Independent Bombus/major-pollinator biogeographic boundaries; pollinator geography must not be derived from the flower-colour field.",
+    "source_gate": "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json",
+    "outcome_vocabulary": [
+      "supported",
+      "unsupported",
+      "not_evaluable"
+    ]
+  },
+  "required_decision_ledger_columns": [
+    "branch",
+    "panel_id",
+    "species_id",
+    "outcome",
+    "execution_state",
+    "advance_reason",
+    "contract_blob",
+    "geometry_hash",
+    "colour_field_hash",
+    "sampling_seed_or_salt",
+    "null_seed",
+    "roi_contract_blob"
+  ],
+  "diagnostic_firewall": {
+    "diagnostics_after_not_evaluable_permitted": true,
+    "required_execution_state": "diagnostic_only",
+    "diagnostic_results_cannot_promote_confirmatory_claims": true
+  },
+  "publication_rule": "The manuscript must preserve supported, unsupported, and not_evaluable separately and must report the frozen branch actually reached rather than choosing the most favourable overlay after seeing results."
+}
