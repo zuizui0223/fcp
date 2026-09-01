@@ -1,0 +1,89 @@
+name: JBI atlas shared-transition v5 pre-image qualification
+
+on:
+  pull_request:
+    paths:
+      - "fcp_pipeline/atlas_shared_transition_v5.py"
+      - "scripts/data/run_jbi_atlas_shared_transition_v5_signal_recovery.py"
+      - "tests/test_atlas_shared_transition_v5.py"
+      - "docs/supporting/jbi_atlas_shared_transition_v5_signal_recovery_contract.json"
+      - ".github/workflows/jbi-atlas-shared-transition-v5-signal-recovery.yml"
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "fcp_pipeline/atlas_shared_transition_v5.py"
+      - "scripts/data/run_jbi_atlas_shared_transition_v5_signal_recovery.py"
+      - "tests/test_atlas_shared_transition_v5.py"
+      - "docs/supporting/jbi_atlas_shared_transition_v5_signal_recovery_contract.json"
+      - ".github/workflows/jbi-atlas-shared-transition-v5-signal-recovery.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-atlas-shared-transition-v5-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  qualify-preimage-shared-transition:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: "33405153936"
+      SOURCE_ARTIFACT_ID: "9769165047"
+      SOURCE_ARTIFACT_NAME: "jbi-atlas-200-species-metadata-feasibility"
+      SOURCE_ARTIFACT_DIGEST: "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install package and pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+
+      - name: Unit-test frozen shared-transition scan
+        run: |
+          python -m pytest -q tests/test_atlas_shared_transition_v5.py
+
+      - name: Verify exact terminal geometry artifact identity
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .id)" = "${SOURCE_ARTIFACT_ID}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .name)" = "${SOURCE_ARTIFACT_NAME}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .digest)" = "${SOURCE_ARTIFACT_DIGEST}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .expired)" = "false"
+
+      - name: Download exact pre-image geometry artifact
+        run: |
+          rm -rf /tmp/fcp-atlas-scaleout
+          mkdir -p /tmp/fcp-atlas-scaleout
+          gh run download "${SOURCE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SOURCE_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-atlas-scaleout
+
+      - name: Run formal 200-species pre-image signal recovery
+        run: |
+          python scripts/data/run_jbi_atlas_shared_transition_v5_signal_recovery.py \
+            --metadata-dir /tmp/fcp-atlas-scaleout \
+            --output-json /tmp/jbi_atlas_shared_transition_v5_signal_recovery.json \
+            --output-csv /tmp/jbi_atlas_shared_transition_v5_signal_recovery_repetitions.csv
+
+      - name: Upload formal qualification receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-shared-transition-v5-signal-recovery
+          path: |
+            /tmp/jbi_atlas_shared_transition_v5_signal_recovery.json
+            /tmp/jbi_atlas_shared_transition_v5_signal_recovery_repetitions.csv
+          if-no-files-found: warn
