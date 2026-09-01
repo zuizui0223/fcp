@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Stream and reconcile the exact 2026-08-27 iNaturalist snapshot once.
 
-No image URL is fetched by this program.  The 35.09 GB metadata tarball is read
+No image URL is fetched by this program. The 35.09 GB metadata tarball is read
 sequentially from its frozen official S3 URL, never persisted, and SHA-256 is
 computed over the exact compressed bytes while the frozen 60k association rows
 are resolved under the v2 many-to-many rules.
@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+from datetime import timezone
 from email.utils import parsedate_to_datetime
 import hashlib
 import json
@@ -115,7 +116,9 @@ def http_identity(url: str, *, method: str) -> tuple[Any, dict[str, Any]]:
         "content_length_bytes": int(content_length) if content_length else None,
         "etag": normalize_etag(response.headers.get("ETag")),
         "last_modified_utc": (
-            parsedate_to_datetime(last_modified).astimezone().astimezone(__import__("datetime").timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+            parsedate_to_datetime(last_modified)
+            .astimezone(timezone.utc)
+            .strftime("%Y-%m-%dT%H:%M:%SZ")
             if last_modified
             else None
         ),
@@ -125,7 +128,10 @@ def http_identity(url: str, *, method: str) -> tuple[Any, dict[str, Any]]:
 
 
 def validate_http_identity(actual: Mapping[str, Any], expected: Mapping[str, Any]) -> None:
-    require(actual.get("status") == 200, f"snapshot HTTP status changed: {actual.get('status')}")
+    require(
+        actual.get("status") == 200,
+        f"snapshot HTTP status changed: {actual.get('status')}",
+    )
     require(
         actual.get("content_length_bytes") == expected.get("content_length_bytes"),
         "snapshot Content-Length changed",
@@ -135,10 +141,9 @@ def validate_http_identity(actual: Mapping[str, Any], expected: Mapping[str, Any
         actual.get("last_modified_utc") == expected.get("last_modified_utc"),
         "snapshot Last-Modified changed",
     )
-    require(
-        actual.get("content_encoding") in (None, "identity"),
-        "snapshot response was transfer-decoded or content-encoded",
-    )
+    # Content-Encoding is recorded, not used as an identity gate. S3 may store
+    # gzip as object metadata even when the wire bytes are the exact tar.gz.
+    # The authoritative protection is the full streamed byte count + SHA-256.
 
 
 def verify_inputs(
@@ -161,7 +166,10 @@ def verify_inputs(
     for filename, expected_sha in geometry["files"].items():
         path = metadata_dir / filename
         require(path.exists(), f"missing terminal geometry file: {filename}")
-        require(sha256_file(path) == expected_sha, f"terminal geometry SHA changed: {filename}")
+        require(
+            sha256_file(path) == expected_sha,
+            f"terminal geometry SHA changed: {filename}",
+        )
 
     manifest_path = metadata_dir / "scaleout_metadata_manifest.json"
     require(manifest_path.exists(), "missing scaleout metadata manifest")
@@ -177,20 +185,44 @@ def verify_inputs(
         )
 
     feasibility = read_json(metadata_dir / "scaleout_metadata_feasibility.json")
-    require(feasibility.get("status") == "pass_live_api_scaleout_feasibility", "live scaleout feasibility did not pass")
-    require(feasibility.get("candidate_image_pixels_opened") is False, "feasibility opened candidate pixels")
-    require(feasibility.get("continuous_colour_used") is False, "feasibility used colour")
-    require(int(feasibility.get("frozen_species", -1)) == 200, "frozen species count changed")
-    require(int(feasibility.get("frozen_observations", -1)) == 60000, "frozen observation count changed")
+    require(
+        feasibility.get("status") == "pass_live_api_scaleout_feasibility",
+        "live scaleout feasibility did not pass",
+    )
+    require(
+        feasibility.get("candidate_image_pixels_opened") is False,
+        "feasibility opened candidate pixels",
+    )
+    require(
+        feasibility.get("continuous_colour_used") is False,
+        "feasibility used colour",
+    )
+    require(
+        int(feasibility.get("frozen_species", -1)) == 200,
+        "frozen species count changed",
+    )
+    require(
+        int(feasibility.get("frozen_observations", -1)) == 60000,
+        "frozen observation count changed",
+    )
 
     panels = read_csv(metadata_dir / "scaleout_species_panels.csv")
     observations = read_csv(metadata_dir / "scaleout_observation_manifest.csv")
     require(len(panels) == 200, "terminal panel must contain 200 species")
     require(len(observations) == 60000, "terminal manifest must contain 60,000 rows")
-    require(len({row["photo_id"] for row in observations}) == 60000, "photo IDs are not unique")
-    require(len({row["observation_id"] for row in observations}) == 60000, "live observation IDs are not unique")
     require(
-        all(str(row.get("candidate_image_pixels_opened", "")).casefold() == "false" for row in observations),
+        len({row["photo_id"] for row in observations}) == 60000,
+        "photo IDs are not unique",
+    )
+    require(
+        len({row["observation_id"] for row in observations}) == 60000,
+        "live observation IDs are not unique",
+    )
+    require(
+        all(
+            str(row.get("candidate_image_pixels_opened", "")).casefold() == "false"
+            for row in observations
+        ),
         "terminal observation manifest contains opened-image rows",
     )
     taxon_ids, photo_ids, observer_ids, genus_ids = _selected_ids(panels, observations)
@@ -238,9 +270,18 @@ def main() -> int:
     validate_m2m_amendment(m2m)
     validate_streaming_amendment(streaming, m2m)
     expected = streaming["exact_snapshot_stream"]
-    require(receipt.get("status") == "pass_exact_archive_identity_and_tar_integrity", "snapshot receipt did not pass")
-    require(receipt.get("source", {}).get("official_url") == expected["official_url"], "snapshot URL changed")
-    require(receipt.get("source", {}).get("sha256") == expected["sha256"], "snapshot receipt SHA changed")
+    require(
+        receipt.get("status") == "pass_exact_archive_identity_and_tar_integrity",
+        "snapshot receipt did not pass",
+    )
+    require(
+        receipt.get("source", {}).get("official_url") == expected["official_url"],
+        "snapshot URL changed",
+    )
+    require(
+        receipt.get("source", {}).get("sha256") == expected["sha256"],
+        "snapshot receipt SHA changed",
+    )
 
     feasibility, panels, observations = verify_inputs(
         args.metadata_dir,
@@ -258,14 +299,19 @@ def main() -> int:
     frozen_rows: list[dict[str, Any]] = []
     audit: dict[str, Any]
     try:
-        head_response, head_identity = http_identity(expected["official_url"], method="HEAD")
+        head_response, head_identity = http_identity(
+            expected["official_url"], method="HEAD"
+        )
+        stream_state["head_identity"] = head_identity
         try:
             validate_http_identity(head_identity, expected)
         finally:
             head_response.close()
-        stream_state["head_identity"] = head_identity
 
-        get_response, get_identity = http_identity(expected["official_url"], method="GET")
+        get_response, get_identity = http_identity(
+            expected["official_url"], method="GET"
+        )
+        stream_state["get_identity"] = get_identity
         reader = HashingCountingReader(get_response)
         try:
             validate_http_identity(get_identity, expected)
@@ -284,7 +330,6 @@ def main() -> int:
 
         stream_state.update(
             {
-                "get_identity": get_identity,
                 "bytes_read": reader.bytes_read,
                 "computed_sha256": reader.hexdigest,
                 "archive_members": scanned["members"],
@@ -300,7 +345,10 @@ def main() -> int:
                 ],
             }
         )
-        require(reader.bytes_read == int(expected["content_length_bytes"]), "stream byte count changed")
+        require(
+            reader.bytes_read == int(expected["content_length_bytes"]),
+            "stream byte count changed",
+        )
         require(reader.hexdigest == expected["sha256"], "stream SHA-256 changed")
 
         audit, frozen_rows = reconcile_rows_m2m(panels, observations, scanned, m2m)
@@ -336,7 +384,9 @@ def main() -> int:
     audit["live_metadata_feasibility_status"] = feasibility["status"]
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    reconciliation_path = args.output_dir / "dated_source_m2m_streaming_reconciliation.json"
+    reconciliation_path = (
+        args.output_dir / "dated_source_m2m_streaming_reconciliation.json"
+    )
     write_json(reconciliation_path, audit)
     frozen_path = args.output_dir / "dated_source_m2m_observation_manifest.csv"
     if frozen_rows:
