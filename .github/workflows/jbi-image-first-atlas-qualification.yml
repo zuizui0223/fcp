@@ -239,6 +239,9 @@ jobs:
           python scripts/data/validate_jbi_atlas_scaleout_geometry_amendment.py
           python scripts/data/validate_jbi_atlas_dated_source_amendment.py
           python scripts/data/validate_jbi_atlas_inaturalist_snapshot_receipt.py
+          if [[ -f data/atlas/scaleout_preimage_v1/preimage_scaleout_evidence_manifest.json ]]; then
+            python scripts/data/validate_jbi_atlas_preimage_scaleout_evidence.py --evidence-dir data/atlas/scaleout_preimage_v1
+          fi
           python scripts/data/validate_jbi_atlas_bombus_source_gate.py
           python scripts/data/validate_jbi_atlas_roi_benchmark_result_v2.py
           python scripts/data/validate_jbi_atlas_roi_v3_source_freeze.py
