@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from fcp_pipeline.atlas_acquisition_v5 import validate_v5_acquisition_firewall
 from fcp_pipeline.atlas_measurement_v5 import (
     build_v5_measurement_firewall,
     validate_measurement_execution_contract,
@@ -170,3 +171,54 @@ def test_v5_worker_packet_is_location_blind_and_uses_unchanged_salt() -> None:
     assert len(split["sealed_coordinate_key"]) == 2
     assert split["measurement_manifest"][0]["measurement_id"].startswith("FCPM-")
     assert split["measurement_manifest"][0]["species_blind_id"].startswith("FCPS-")
+
+
+def test_v5_acquisition_rejects_legacy_firewall_and_requires_all_gate_hashes() -> None:
+    contract, inference = _contracts()
+    firewall = {
+        "status": "pass_scaleout_measurement_firewall_v5",
+        "protocol": contract["protocol"],
+        "inference_version": inference["version"],
+        "frozen_measurements": 60000,
+        "candidate_image_pixels_opened": False,
+        "terminal_scaleout_colour_measured": False,
+        "coordinate_key_opened_by_measurement_worker": False,
+        "superseded_v3_ordered_inference_used": False,
+        "sealed_keys": {"acquisition_coordinate_key.csv": "key-sha"},
+        "preimage_gate_sha256": {
+            "dated_source_manifest": "a",
+            "dated_source_reconciliation": "b",
+            "environmental_coverage": "c",
+            "roi_locked_result": "d",
+            "shared_transition_qualification": "e",
+        },
+    }
+    validate_v5_acquisition_firewall(
+        firewall,
+        key_name="acquisition_coordinate_key.csv",
+        key_sha256="key-sha",
+        contract=contract,
+        inference_v5=inference,
+    )
+
+    legacy = dict(firewall)
+    legacy["status"] = "pass_scaleout_measurement_firewall"
+    with pytest.raises(RuntimeError, match="does not authorize"):
+        validate_v5_acquisition_firewall(
+            legacy,
+            key_name="acquisition_coordinate_key.csv",
+            key_sha256="key-sha",
+            contract=contract,
+            inference_v5=inference,
+        )
+
+    incomplete = json.loads(json.dumps(firewall))
+    del incomplete["preimage_gate_sha256"]["environmental_coverage"]
+    with pytest.raises(RuntimeError, match="gate hashes"):
+        validate_v5_acquisition_firewall(
+            incomplete,
+            key_name="acquisition_coordinate_key.csv",
+            key_sha256="key-sha",
+            contract=contract,
+            inference_v5=inference,
+        )
