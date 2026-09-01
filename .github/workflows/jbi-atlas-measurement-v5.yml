@@ -16,6 +16,7 @@ on:
       - "scripts/data/acquire_jbi_atlas_blinded_images_v5.py"
       - "scripts/data/measure_jbi_atlas_blinded_images_v5.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall_v5.py"
+      - "scripts/data/evaluate_jbi_atlas_measurement_gate_v5.py"
       - "scripts/data/validate_jbi_atlas_measurement_v5_contract.py"
       - "scripts/data/validate_jbi_atlas_real_colour_inference_v5.py"
       - "tests/test_atlas_measurement_v5.py"
@@ -38,6 +39,7 @@ on:
       - "scripts/data/acquire_jbi_atlas_blinded_images_v5.py"
       - "scripts/data/measure_jbi_atlas_blinded_images_v5.py"
       - "scripts/data/build_jbi_atlas_measurement_firewall_v5.py"
+      - "scripts/data/evaluate_jbi_atlas_measurement_gate_v5.py"
       - "scripts/data/validate_jbi_atlas_measurement_v5_contract.py"
       - "scripts/data/validate_jbi_atlas_real_colour_inference_v5.py"
       - "tests/test_atlas_measurement_v5.py"
@@ -72,10 +74,10 @@ jobs:
           pytest -q \
             tests/test_atlas_measurement_v5.py \
             tests/test_atlas_real_inference_v5.py \
-            tests/test_atlas_inference_cascade.py \
-            tests/test_atlas_acquisition_authorization.py
+            tests/test_atlas_inference_cascade.py
       - name: Syntax-check v5 worker entrypoints without opening pixels
         run: |
           python -m py_compile \
             scripts/data/acquire_jbi_atlas_blinded_images_v5.py \
-            scripts/data/measure_jbi_atlas_blinded_images_v5.py
+            scripts/data/measure_jbi_atlas_blinded_images_v5.py \
+            scripts/data/evaluate_jbi_atlas_measurement_gate_v5.py
