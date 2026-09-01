@@ -1,0 +1,71 @@
+{
+  "protocol": "jbi-atlas-species-free-visualization-v1",
+  "status": "prospectively_frozen_before_any_scaleout_candidate_pixel_or_colour",
+  "date": "2026-09-01",
+  "objective": "render one descriptive global atlas map and one reproducible photo bar without using species identity or colour outcomes to select displayed photographs",
+  "parents": {
+    "colour_surface": {
+      "path": "docs/supporting/jbi_atlas_colour_surface_contract_v1.json",
+      "sha256_lf_canonical_v1": "182e5deba7562464443d2286e09d02996fa568a0daabcea3c2f9a80a75c15865"
+    },
+    "inference_v3": {
+      "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v3.json",
+      "sha256_lf_canonical_v1": "598b34bd0c996f2744e7dd9444d10673bdbe39092ba7a3625ce1f9fc003c604d"
+    },
+    "roi_v4": {
+      "path": "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json",
+      "sha256_lf_canonical_v1": "e3ffefdcd4aa6719a10b45c57886ee895f10f424a0d0b174a46541d92dd2f7a1"
+    }
+  },
+  "outcome_firewall": {
+    "scaleout_candidate_pixels_opened": false,
+    "scaleout_colour_measured": false,
+    "coordinate_colour_key_joined": false,
+    "environmental_inference_run": false
+  },
+  "map": {
+    "included_rows": "every automated_colour_state_admitted atlas observation with finite unstandardized flower L, a and b values",
+    "row_order": [
+      "measurement_id ascending"
+    ],
+    "projection": "Mollweide",
+    "point_colour": "CIELAB flower mean converted deterministically to clipped sRGB",
+    "species_labels_visible": false,
+    "cohort_labels_visible": false,
+    "role": "descriptive display only; the inferential result comes from species-conditioned transition surfaces and the frozen joint null"
+  },
+  "photo_bar": {
+    "count": 48,
+    "eligible_rows": "the same admitted finite-colour rows used by the map",
+    "selection_fields": [
+      "longitude",
+      "latitude",
+      "measurement_id"
+    ],
+    "selection_rule": "sort by longitude, then latitude, then measurement_id; choose the 48 ranks nearest i*(n-1)/47 for i=0..47 using floor(x+0.5)",
+    "colour_used_for_selection": false,
+    "species_or_cohort_used_for_selection": false,
+    "environmental_or_inference_outcome_used_for_selection": false,
+    "crop_rule": "rerun the exact committed ROI-v4 estimator on each selected image; crop the box containing the central 90 percent of the original-orientation flower-mask mass with 12 percent padding and square-fit to 320 x 320 pixels",
+    "failure_rule": "if any selected admitted image, image hash or rerun mask cannot be reproduced, stop the photo-bar build without replacement; do not choose a neighbouring image",
+    "display_order": "the frozen longitude rank order",
+    "species_labels_visible": false,
+    "required_audit_fields": [
+      "measurement_id",
+      "image_sha256",
+      "longitude",
+      "latitude",
+      "photo_license",
+      "attribution",
+      "crop_box_xyxy",
+      "crop_sha256"
+    ]
+  },
+  "outputs": {
+    "raster": "300-dpi PNG",
+    "vector": "PDF",
+    "determinism": "both formats are regenerated from the same frozen map table, selected images, crop audit and executable",
+    "manifest": "hash every input table, selected source image, crop, executable and output figure"
+  },
+  "claim_ceiling": "The map and photo bar display automated camera-space flower-candidate colours without species labels. They are not evidence for a universal boundary, calibrated reflectance, pollinator perception, visitation, adaptation, selection or causation."
+}

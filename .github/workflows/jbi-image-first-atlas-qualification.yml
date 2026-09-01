@@ -252,6 +252,7 @@ jobs:
             python scripts/data/validate_jbi_atlas_roi_v4_gate_evidence.py --phase locked_test --evidence-dir data/atlas/qualification/roi_v4_locked_test
           fi
           python scripts/data/validate_jbi_atlas_colour_surface_contract.py
+          python scripts/data/validate_jbi_atlas_species_free_visualization_contract.py
           python scripts/data/validate_jbi_atlas_environmental_overlay_contract.py
           python scripts/data/validate_jbi_atlas_climate_ecoregion_freeze.py
           python scripts/data/validate_jbi_atlas_worldcover_freeze.py

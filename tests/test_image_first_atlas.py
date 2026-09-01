@@ -13,6 +13,9 @@ from fcp_pipeline.image_first_atlas import (
     species_free_display_rows,
     validate_atlas_contract,
 )
+from scripts.data.validate_jbi_atlas_species_free_visualization_contract import (
+    validate_visualization_contract,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -182,6 +185,18 @@ def test_species_free_display_strips_taxonomy_but_keeps_roi_and_colour():
     assert displayed[0]["roi_thumbnail_path"] == "roi/123.webp"
     assert "species" not in displayed[0]
     assert "inat_taxon_id" not in displayed[0]
+
+
+def test_species_free_atlas_photo_bar_is_frozen_without_colour_selection():
+    path = ROOT / "docs/supporting/jbi_atlas_species_free_visualization_contract_v1.json"
+    value = json.loads(path.read_text(encoding="utf-8"))
+    validate_visualization_contract(value)
+    assert value["photo_bar"]["count"] == 48
+    assert value["photo_bar"]["colour_used_for_selection"] is False
+    changed = copy.deepcopy(value)
+    changed["photo_bar"]["colour_used_for_selection"] = True
+    with pytest.raises(RuntimeError, match="visualization rule changed"):
+        validate_visualization_contract(changed)
 
 
 def test_freeze_hash_is_identical_across_lf_and_crlf(tmp_path):
