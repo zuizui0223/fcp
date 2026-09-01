@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "docs/supporting/jbi_atlas_measurement_execution_contract_v5.json"
+      - "docs/supporting/jbi_atlas_real_colour_inference_amendment_v5.json"
       - "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json"
       - "docs/supporting/jbi_atlas_shared_transition_v5_signal_recovery_result.json"
       - "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json"
@@ -22,6 +23,7 @@ on:
       - analysis/jbi-global-colour-boundaries-scaleup
     paths:
       - "docs/supporting/jbi_atlas_measurement_execution_contract_v5.json"
+      - "docs/supporting/jbi_atlas_real_colour_inference_amendment_v5.json"
       - "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json"
       - "docs/supporting/jbi_atlas_shared_transition_v5_signal_recovery_result.json"
       - "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json"
