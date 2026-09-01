@@ -1,0 +1,24 @@
+{
+  "protocol": "jbi-atlas-dated-source-amendment-v1",
+  "status": "not_evaluable_dated_source_reconciliation",
+  "date": "2026-09-01",
+  "failure_stage": "photos_table_selected_key_scan",
+  "failure_type": "selected_photo_id_has_multiple_observation_associations",
+  "first_detected_photo_id": "950871",
+  "exception": "ValueError: dated-source table duplicates selected photo_id: 950871",
+  "candidate_image_pixels_opened": false,
+  "continuous_colour_used": false,
+  "selected_photo_association_rows_inspected": false,
+  "replacement_permitted": false,
+  "v1_retry_permitted": false,
+  "v1_interpretation": "The v1 uniqueness premise is incompatible with the official many-to-many photo-observation schema. This is a source-contract failure, not a biological result and not an absence of flower-colour structure.",
+  "independent_schema_evidence": {
+    "open_data_documentation": "https://github.com/inaturalist/inaturalist-open-data",
+    "many_to_many_clarification": "https://forum.inaturalist.org/t/inaturalist-licensed-observation-images-in-the-amazon-open-data-sponsorship-program/22085",
+    "documented_unique_key": "photo_uuid + observation_uuid"
+  },
+  "parent_amendment_sha256_exact": "4fcff259c1c4874e63a92ae2fab106bae8228a96f71679407e1400c6e2c7ea7f",
+  "snapshot_sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d",
+  "next_gate": "STOP v1; a separately versioned, pre-colour many-to-many resolver may be frozen before association rows are inspected",
+  "claim_ceiling": "Technical source-schema failure only; no image, colour, spatial, environmental or biological conclusion."
+}

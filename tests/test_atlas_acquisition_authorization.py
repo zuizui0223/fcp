@@ -12,7 +12,7 @@ from scripts.data.build_jbi_atlas_measurement_firewall import (
 
 def test_firewall_requires_final_dated_source_and_environmental_coverage() -> None:
     dated = {
-        "status": "pass_dated_source_scaleout_freeze",
+        "status": "pass_dated_source_m2m_scaleout_freeze",
         "candidate_image_pixels_opened": False,
         "files": {"dated_source_observation_manifest.csv": "abc"},
     }

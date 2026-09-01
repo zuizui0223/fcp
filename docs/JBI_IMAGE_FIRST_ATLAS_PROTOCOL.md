@@ -4,7 +4,7 @@
 
 The active FCP mainline is now an **image-first global flower-colour atlas**. The ordered analysis is:
 
-`iNaturalist image -> automated flower ROI -> continuous colour -> within-species spatial field -> species-conditioned transition boundary -> cross-species shared-boundary concentration`
+`iNaturalist image -> automated flower ROI -> continuous colour -> within-species spatial field -> species-conditioned transition boundary -> prequalified cross-species boundary concordance`
 
 Species identity is hidden only in the atlas display. It remains mandatory in every inferential graph, standardization step and permutation null.
 
@@ -15,10 +15,10 @@ Two completed analyses are retained without reopening them:
 
 ## Gate 0 — pre-image contract
 
-The v1 contract is frozen at `docs/supporting/jbi_image_first_atlas_contract_v1.json`. Before any candidate image pixel is opened, it fixes:
+The v1 contract is frozen at `docs/supporting/jbi_image_first_atlas_contract_v1.json`. It governs the unopened 50-species sentinel cohort and, before any candidate image pixel is opened, fixes:
 
 - the iNaturalist metadata root and flowering annotation;
-- the 50-species pilot size;
+- the 50-species sentinel size;
 - 300/400/500-photo sample tiers;
 - licensing and positional-accuracy rules;
 - observer, spatial-cell and month caps;
@@ -30,11 +30,13 @@ The v1 contract is frozen at `docs/supporting/jbi_image_first_atlas_contract_v1.
 
 Literature class, flower colour, Stage A/B effects, environmental layers and candidate image pixels are prohibited admission inputs.
 
+The later v2 expansion contract prospectively supersedes 50 species as the terminal experiment. It fixes eight disjoint cohorts of 25 species x 300 observations: 200 species and 60,000 observations in total. The v1 sentinel remains frozen and unopened; it is not pooled with, substituted into or used to retune v2.
+
 ## Gate 1 — metadata feasibility and cohort admission
 
-The pilot begins from research-grade, flowering-annotated iNaturalist records under the frozen Angiospermae root (`taxon_id = 47125`). Records require a licensed photograph, public coordinates, a numeric positional accuracy no greater than 5 km, a date and a non-captive status.
+Both the sentinel and terminal experiment begin from research-grade, flowering-annotated iNaturalist records under the frozen Angiospermae root (`taxon_id = 47125`). Records require a licensed photograph, public coordinates, a numeric positional accuracy no greater than 5 km, a date and a non-captive status.
 
-Species are ranked by the count returned by that metadata query. The deterministic selector traverses that ranking and admits the first 50 species passing all rules. At most one species per iNaturalist genus is admitted. The completed six development species are excluded so their frozen evaluation is not recycled as a new confirmatory cohort.
+For the v1 sentinel, species were ranked by the count returned by that metadata query and the deterministic selector admitted the first 50 species passing all rules. For terminal v2, the complete 500-species candidate pool is audited before a stable SHA-256 permutation selects eight consecutive, species-disjoint panels. At most one species per iNaturalist genus is admitted. The completed six development species are excluded so their frozen evaluation is not recycled as a new confirmatory cohort.
 
 Within species, metadata rows are balanced without opening photographs:
 
@@ -46,9 +48,11 @@ Within species, metadata rows are balanced without opening photographs:
 - cap of 100 records per calendar month;
 - minimum 50 observers, 60 primary cells, 40 sensitivity cells, four months and three hemisphere-adjusted local-solar quarters.
 
-The largest passing tier is retained in the fixed order 500, 400, then 300 photographs. A failure is recorded and the selector continues through the already ranked metadata pool. If 50 species cannot be admitted, the workflow stops. It does not weaken gates or use colour to choose replacements.
+The v1 sentinel retained the largest passing tier in the fixed order 500, 400, then 300 photographs. Terminal v2 instead requires exactly 300 observations for each of 200 genus-distinct species; all eight panels are required. A failure is recorded without weakening gates or using colour to choose replacements.
 
-The read-only API supplies flowering-annotation eligibility and the exact bounded pre-colour selection. The official monthly Open Data schema does not include annotation term/value records, so it cannot independently reconstruct that eligible universe. Under `jbi_atlas_dated_source_amendment_v1.json`, every exact selected photo, observation, observer and taxon must therefore reconcile to the fixed 2026-08-27 Open Data snapshot before acquisition. The API audit and dated resolver are separate frozen parents. Any missing, duplicate or mismatched row makes the scale-out `not_evaluable`; replacement and resampling are prohibited.
+The completed live feasibility audit in GitHub Actions run `33405153936` examined all 500 predeclared candidates. It found 358 geometry-eligible species and froze 200 genus-distinct species, 60,000 unique observations and 60,000 unique photos across the eight panels. Maximum retained counts were 10 observations per species-observer, 5 per species x 0.25-degree cell and 10 per species x 0.5-degree cell. This is selection and feasibility evidence only; the dated-source and ROI gates still control image access.
+
+The read-only API supplies flowering-annotation eligibility and the exact bounded pre-colour selection. The official monthly Open Data schema does not include annotation term/value records, so it cannot independently reconstruct that eligible universe. Every exact selected photo, observation, observer and taxon must therefore reconcile to the fixed 2026-08-27 Open Data snapshot before acquisition. The first resolver, `jbi_atlas_dated_source_amendment_v1.json`, stopped `not_evaluable` when selected `photo_id = 950871` appeared in multiple association rows. Independent iNaturalist documentation establishes that photos and observations are many-to-many and that `photo_uuid + observation_uuid` is the association key. Before any selected association row or image was inspected, `jbi_atlas_dated_source_m2m_amendment_v2.json` froze a successor rule: retain every link for each selected photo asset and require exactly one association whose observer, taxon, date, quality, licence, coordinates and positional accuracy all match the already frozen API row. Zero matches, multiple matches, duplicate composite keys or conflicting asset fields stop without replacement. The v1 STOP remains part of the evidence chain.
 
 ## Gate 2 — geometry-only scale freeze
 
@@ -66,7 +70,7 @@ Species failing geometry at a candidate scale remain `not_evaluable` at that sca
 
 ## Gate 3 — dated source, environmental coverage and flower ROI
 
-Image pixels may be opened only after the cohort, exact 60,000-row dated-source manifest, geometry and environmental opportunity coverage are hash-frozen. The measurement firewall requires the dated-source pass and macroclimate plus at least one other primary environmental family at all 100/250/500 km scales. Acquisition also requires the exact firewall-key hash and a passing locked ROI result. The freeze manifest declares `sha256_lf_canonical_v1` for applicable text parents, so validation is identical on Linux and Windows. Acquisition retains the snapshot photo licence and attribution inputs.
+Image pixels may be opened only after the cohort, exact 60,000-row v2 dated-source manifest, geometry and environmental opportunity coverage are hash-frozen. The measurement firewall requires the many-to-many dated-source pass and macroclimate plus at least one other primary environmental family at all 100/250/500 km scales. Acquisition also requires the exact firewall-key hash and a passing locked ROI result. The freeze manifest declares `sha256_lf_canonical_v1` for applicable text parents, so validation is identical on Linux and Windows. Acquisition retains the snapshot photo licence and attribution inputs.
 
 Every photo must resolve to one of:
 
@@ -135,6 +139,8 @@ The expansion contract, independent-source audit, validator, simulations and CI 
 
 - `docs/supporting/jbi_image_first_atlas_expansion_contract_v2.json`;
 - `docs/supporting/jbi_atlas_dated_source_amendment_v1.json`;
+- `docs/supporting/jbi_atlas_dated_source_v1_stop_result.json`;
+- `docs/supporting/jbi_atlas_dated_source_m2m_amendment_v2.json`;
 - `docs/supporting/jbi_atlas_colour_surface_contract_v1.json`;
 - `docs/research/FCP_ATLAS_GLOBAL_BOUNDARY_DATA_SOURCES.md`;
 - `scripts/data/validate_jbi_image_first_atlas_expansion.py`;

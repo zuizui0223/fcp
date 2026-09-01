@@ -73,7 +73,7 @@ def validate_preimage_firewall_gates(
     observation_manifest_sha256: str,
 ) -> None:
     if (
-        dated_source.get("status") != "pass_dated_source_scaleout_freeze"
+        dated_source.get("status") != "pass_dated_source_m2m_scaleout_freeze"
         or dated_source.get("candidate_image_pixels_opened") is not False
         or dated_source.get("files", {}).get(observation_manifest_name)
         != observation_manifest_sha256

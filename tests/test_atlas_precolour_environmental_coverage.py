@@ -63,11 +63,11 @@ def inputs() -> tuple[dict, list[dict], dict[int, list[dict]]]:
 
 def dated_source_pass() -> dict:
     return {
-        "status": "pass_dated_source_scaleout_freeze",
+        "status": "pass_dated_source_m2m_scaleout_freeze",
         "candidate_image_pixels_opened": False,
         "continuous_colour_used": False,
         "selected_species": 200,
-        "selected_photos": 60000,
+        "selected_photo_assets": 60000,
         "frozen_observations": 60000,
         "replacement_permitted": False,
         "image_acquisition_authorized": False,

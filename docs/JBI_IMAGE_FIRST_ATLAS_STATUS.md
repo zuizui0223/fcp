@@ -4,7 +4,7 @@
 
 The active mainline is a global image-first flower-colour atlas with a species-free public map and photo bar, but species-conditioned measurement, spatial fields and null inference.
 
-Current gate: **200-species metadata feasibility, exact dated-source reconciliation and ROI v4 independent validity are in progress; every atlas candidate pixel remains closed**.
+Current gate: **the 200-species live metadata audit and live-geometry environmental coverage have passed; the versioned many-to-many dated-source resolver and ROI v4 independent validity are in progress; every atlas candidate pixel remains closed**.
 
 The fail-closed state is unchanged: bulk atlas image opening is stopped until the exact dated-source, environmental-coverage and locked ROI v4 gates all pass.
 
@@ -46,7 +46,9 @@ The frozen colour-blind source gate required a citable GBIF download with its ow
 
 ## 200-species metadata and dated-source gate
 
-GitHub Actions run `33388714675` is auditing the complete predeclared 500-species candidate pool. It must finish the full pool even after 200 eligible species exist. The live API result is feasibility and exact selection evidence only; it cannot authorize images.
+GitHub Actions run `33405153936` completed the full predeclared 500-species candidate-pool audit successfully. It did not stop after reaching the target. Of 500 queried candidates, 358 passed metadata and geometry admission. The frozen terminal selection contains 200 genus-distinct species in eight disjoint 25-species cohorts, with exactly 300 observations per species: 60,000 unique observations and photos. Retained maxima were 10 records per species-observer, 5 per species x 0.25-degree cell and 10 per species x 0.5-degree cell. All selected rows still declare that candidate pixels were unopened.
+
+The same selected geometry passed the live-feasibility environmental opportunity gate at all three scales. Macroclimate and ecoregion coverage was 99.05%, 99.72% and 100% at 100, 250 and 500 km; land-cover coverage was 100%, 100% and 99.12%. This is pre-colour coverage evidence only. The live API result cannot authorize images, and the coverage gate must be repeated against the exact dated-source reconciliation.
 
 The official fixed resolver is the 2026-08-27 iNaturalist Open Data snapshot:
 
@@ -54,13 +56,15 @@ The official fixed resolver is the 2026-08-27 iNaturalist Open Data snapshot:
 - computed SHA-256: `c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d`;
 - moving `latest` is prohibited.
 
-The official snapshot has observations, observers, photos and taxa but no flowering-annotation table. The pre-image amendment therefore fixes a two-stage source contract: one complete API audit selects the exact 60,000 rows, then every photo, observation, observer and taxon must reconcile to the dated snapshot. One missing, duplicate or mismatched row yields `not_evaluable_dated_source_reconciliation`; no replacement or resampling is allowed.
+The official snapshot has observations, observers, photos and taxa but no flowering-annotation table. The pre-image contract therefore has two source stages: one complete API audit selects the exact 60,000 rows, then every photo, observation, observer and taxon must reconcile to the dated snapshot.
+
+The v1 resolver stopped `not_evaluable_dated_source_reconciliation` at selected photo asset `950871`, before any association row or image content was inspected, because it assumed that `photo_id` was a unique table key. iNaturalist documents a many-to-many photo-observation relation and the composite association key `photo_uuid + observation_uuid`. The v1 result is retained as a technical source-schema failure. A separately versioned v2 resolver was frozen before inspecting the association rows. It allows multiple observation links for a photo asset but requires exactly one full-metadata match to the already frozen API observation. Zero matches, multiple matches, duplicate composite association keys or conflicting photo-asset fields yield `not_evaluable_dated_source_m2m_reconciliation`; no replacement or resampling is allowed.
 
 ## Image-access authorization
 
 The measurement firewall cannot be built unless all of these pass independently:
 
-1. exact dated-source reconciliation for 200 species and 60,000 photos;
+1. exact v2 many-to-many dated-source reconciliation for 200 species and 60,000 photo assets;
 2. opportunity-cell environmental coverage at 100, 250 and 500 km, with macroclimate plus at least one other primary family;
 3. ROI v4 locked JRC test.
 
@@ -68,8 +72,8 @@ The acquisition worker additionally checks the exact sealed-key hash and the fir
 
 ## Remaining route to a submission result
 
-1. Complete the metadata audit, dated-source reconciliation and pre-colour environmental coverage.
-2. Complete ROI v4 training evidence, development and locked JRC gates.
+1. Complete the exact v2 many-to-many dated-source reconciliation and repeat pre-colour environmental coverage against that dated source.
+2. Complete ROI v4 development and, only if authorized, the locked JRC gate; final training evidence is already frozen.
 3. If all gates pass, acquire and measure all 60,000 images location-blind; incomplete measurement stops the coordinate join.
 4. Run the frozen environmental joint null once, preserving `supported`, `not_supported` and `not_evaluable` outcomes.
 5. Generate the species-free map/photo bar, species-conditioned tables, manuscript, reproduction bundle and CI-complete PR.

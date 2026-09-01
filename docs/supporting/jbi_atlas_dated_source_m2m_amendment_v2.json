@@ -1,0 +1,98 @@
+{
+  "protocol": "jbi-atlas-dated-source-m2m-amendment-v2",
+  "status": "frozen_after_v1_key_failure_and_before_selected_association_rows_or_any_scaleout_pixels",
+  "date": "2026-09-01",
+  "trigger": {
+    "candidate_image_pixels_opened": false,
+    "continuous_colour_used": false,
+    "selected_association_rows_inspected": false,
+    "v1_stop_result": "docs/supporting/jbi_atlas_dated_source_v1_stop_result.json",
+    "technical_discovery": "The official photos table represents a many-to-many photo-observation relation, so photo_id alone is not an association-row key."
+  },
+  "independent_schema_evidence": {
+    "open_data_documentation": "https://github.com/inaturalist/inaturalist-open-data",
+    "many_to_many_clarification": "https://forum.inaturalist.org/t/inaturalist-licensed-observation-images-in-the-amazon-open-data-sponsorship-program/22085",
+    "documented_unique_key": [
+      "photo_uuid",
+      "observation_uuid"
+    ]
+  },
+  "immutable_parents": {
+    "v1_amendment": {
+      "path": "docs/supporting/jbi_atlas_dated_source_amendment_v1.json",
+      "sha256_exact": "4fcff259c1c4874e63a92ae2fab106bae8228a96f71679407e1400c6e2c7ea7f"
+    },
+    "snapshot": {
+      "snapshot_date": "2026-08-27",
+      "content_length_bytes": 35093052336,
+      "sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d"
+    },
+    "live_selection": {
+      "selected_species": 200,
+      "selected_photos": 60000,
+      "replacement_or_resampling_permitted": false
+    }
+  },
+  "association_resolution": {
+    "photo_asset_lookup_key": "photo_id",
+    "association_row_unique_key": [
+      "photo_uuid",
+      "observation_uuid"
+    ],
+    "multiple_observation_links_per_photo_asset_permitted": true,
+    "asset_fields_required_constant_across_links": [
+      "photo_uuid",
+      "photo_id",
+      "observer_id",
+      "extension",
+      "license",
+      "width",
+      "height"
+    ],
+    "association_specific_fields": [
+      "observation_uuid",
+      "position"
+    ],
+    "candidate_match_fields": [
+      "photo observer_id",
+      "observation observer_id",
+      "observation taxon_id",
+      "observed_on",
+      "quality_grade",
+      "photo licence",
+      "latitude",
+      "longitude",
+      "positional_accuracy"
+    ],
+    "coordinate_tolerance_degrees": 1e-07,
+    "positional_accuracy_tolerance_m": 0.0,
+    "required_exact_matches_per_selected_photo": 1,
+    "zero_match_rule": "not_evaluable and STOP without replacement",
+    "multiple_match_rule": "not_evaluable and STOP as ambiguous without replacement",
+    "duplicate_composite_key_rule": "not_evaluable and STOP",
+    "asset_field_conflict_rule": "not_evaluable and STOP"
+  },
+  "unchanged_source_rules": {
+    "quality_grade": "research",
+    "taxon_rank": "species",
+    "taxon_active": true,
+    "required_ancestor_taxon_id": 47125,
+    "allowed_photo_licenses": [
+      "cc0",
+      "cc-by",
+      "cc-by-sa",
+      "cc-by-nc",
+      "cc-by-nc-sa"
+    ]
+  },
+  "authorization": {
+    "v1_stop_can_authorize_images": false,
+    "v2_reconciliation_can_authorize_images_alone": false,
+    "all_independent_gates_required": [
+      "pass_dated_source_m2m_scaleout_freeze",
+      "pass_precolour_environmental_coverage",
+      "pass_locked_roi_v4_jrc_gate"
+    ]
+  },
+  "claim_ceiling": "Exact many-to-many source resolution and acquisition provenance only; no flower detection, colour, spatial transition, environmental concordance or biological conclusion."
+}

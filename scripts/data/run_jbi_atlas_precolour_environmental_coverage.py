@@ -142,11 +142,11 @@ def build_evidence(
         if not isinstance(dated, Mapping):
             raise ValueError("final coverage requires dated-source reconciliation")
         if (
-            dated.get("status") != "pass_dated_source_scaleout_freeze"
+            dated.get("status") != "pass_dated_source_m2m_scaleout_freeze"
             or dated.get("candidate_image_pixels_opened") is not False
             or dated.get("continuous_colour_used") is not False
             or dated.get("selected_species") != 200
-            or dated.get("selected_photos") != 60000
+            or dated.get("selected_photo_assets") != 60000
             or dated.get("frozen_observations") != 60000
             or dated.get("replacement_permitted") is not False
             or dated.get("image_acquisition_authorized") is not False
