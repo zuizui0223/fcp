@@ -20,7 +20,7 @@
   "immutable_parents": {
     "v1_amendment": {
       "path": "docs/supporting/jbi_atlas_dated_source_amendment_v1.json",
-      "sha256_exact": "4fcff259c1c4874e63a92ae2fab106bae8228a96f71679407e1400c6e2c7ea7f"
+      "sha256_lf_canonical_v1": "e9b81da27890c5cb8aa8afb7e712cb2da725626b1aee7adac6676ddf3844c523"
     },
     "snapshot": {
       "snapshot_date": "2026-08-27",

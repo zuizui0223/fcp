@@ -21,11 +21,16 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def canonical_sha256(path: Path) -> str:
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def main() -> None:
     v1_path = ROOT / "docs/supporting/jbi_atlas_dated_source_amendment_v1.json"
     v1 = json.loads(v1_path.read_text(encoding="utf-8"))
     validate_dated_source_amendment(v1)
-    v1_sha = sha256(v1_path)
+    v1_sha = canonical_sha256(v1_path)
     stop_path = ROOT / "docs/supporting/jbi_atlas_dated_source_v1_stop_result.json"
     stop = json.loads(stop_path.read_text(encoding="utf-8"))
     if (
@@ -35,7 +40,7 @@ def main() -> None:
         or stop.get("selected_photo_association_rows_inspected") is not False
         or stop.get("replacement_permitted") is not False
         or stop.get("v1_retry_permitted") is not False
-        or stop.get("parent_amendment_sha256_exact") != v1_sha
+        or stop.get("parent_amendment_sha256_lf_canonical_v1") != v1_sha
     ):
         raise RuntimeError("dated-source v1 STOP evidence changed")
     v2_path = ROOT / "docs/supporting/jbi_atlas_dated_source_m2m_amendment_v2.json"

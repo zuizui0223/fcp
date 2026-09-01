@@ -17,7 +17,7 @@
     "many_to_many_clarification": "https://forum.inaturalist.org/t/inaturalist-licensed-observation-images-in-the-amazon-open-data-sponsorship-program/22085",
     "documented_unique_key": "photo_uuid + observation_uuid"
   },
-  "parent_amendment_sha256_exact": "4fcff259c1c4874e63a92ae2fab106bae8228a96f71679407e1400c6e2c7ea7f",
+  "parent_amendment_sha256_lf_canonical_v1": "e9b81da27890c5cb8aa8afb7e712cb2da725626b1aee7adac6676ddf3844c523",
   "snapshot_sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d",
   "next_gate": "STOP v1; a separately versioned, pre-colour many-to-many resolver may be frozen before association rows are inspected",
   "claim_ceiling": "Technical source-schema failure only; no image, colour, spatial, environmental or biological conclusion."

@@ -47,8 +47,8 @@ def validate_m2m_amendment(amendment: Mapping[str, Any]) -> None:
     snapshot = parents.get("snapshot", {})
     live = parents.get("live_selection", {})
     if (
-        parents.get("v1_amendment", {}).get("sha256_exact")
-        != "4fcff259c1c4874e63a92ae2fab106bae8228a96f71679407e1400c6e2c7ea7f"
+        parents.get("v1_amendment", {}).get("sha256_lf_canonical_v1")
+        != "e9b81da27890c5cb8aa8afb7e712cb2da725626b1aee7adac6676ddf3844c523"
         or snapshot.get("snapshot_date") != "2026-08-27"
         or snapshot.get("content_length_bytes") != 35093052336
         or snapshot.get("sha256")
