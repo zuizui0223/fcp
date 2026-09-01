@@ -1,0 +1,82 @@
+{
+  "protocol": "jbi-atlas-dated-source-streaming-execution-amendment-v3",
+  "status": "frozen_before_any_selected_snapshot_association_rows_or_candidate_image_pixels",
+  "date": "2026-09-01",
+  "purpose": "Execute the already-frozen v2 many-to-many exact-match rule in bounded storage by reading the exact official snapshot once as a verified byte stream rather than materializing the 35.09 GB archive or downloading it twice.",
+  "trigger": {
+    "candidate_image_pixels_opened": false,
+    "continuous_colour_used": false,
+    "selected_snapshot_association_rows_inspected": false,
+    "reason": "The exact compressed snapshot is 35,093,052,336 bytes while the standard execution environment does not have enough free local disk to materialize it. The archive member order places observations before photos, so the path-based v2 implementation would otherwise require a second full archive pass."
+  },
+  "immutable_parents": {
+    "m2m_v2": {
+      "path": "docs/supporting/jbi_atlas_dated_source_m2m_amendment_v2.json",
+      "git_blob_sha": "85f1b5d7bc3a1a22cc0d3fd70a91488b5b1f5d0c"
+    },
+    "snapshot_receipt": {
+      "path": "docs/supporting/jbi_atlas_inaturalist_snapshot_receipt_v1.json",
+      "git_blob_sha": "225b9e2357ded8b1e1189e7297b1f9f0215b318a"
+    },
+    "terminal_geometry_artifact": {
+      "workflow_run_id": 33405153936,
+      "artifact_id": 9769165047,
+      "artifact_name": "jbi-atlas-200-species-metadata-feasibility",
+      "artifact_digest": "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375",
+      "files": {
+        "scaleout_metadata_feasibility.json": "32d8f1acc0ba1f4e8266db4aa8298e43988ac70423a11917eaf9165ccc8d819b",
+        "scaleout_observation_manifest.csv": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc",
+        "scaleout_species_panels.csv": "a061ac86311dfb60a6ea1197b1c8da45fdaa7403838f163280680651e948a57a"
+      }
+    }
+  },
+  "exact_snapshot_stream": {
+    "official_url": "https://inaturalist-open-data.s3.amazonaws.com/metadata/inaturalist-open-data-20260827.tar.gz",
+    "content_length_bytes": 35093052336,
+    "etag": "60cdb6b29b3d510bbe204b4bda1c558a-67",
+    "last_modified_utc": "2026-08-27T17:04:06Z",
+    "sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d",
+    "stream_must_be_drained_to_eof_for_hash": true,
+    "archive_must_not_be_persisted": true
+  },
+  "one_pass_observation_prefilter": {
+    "role": "I/O optimization only; this does not change which association rows can be exact matches under v2",
+    "necessary_match_fields": [
+      "observer_id",
+      "inat_taxon_id/taxon_id",
+      "observed_on",
+      "quality_grade=research",
+      "latitude within 1e-7 degrees",
+      "longitude within 1e-7 degrees",
+      "positional_accuracy exact"
+    ],
+    "source_of_target_values": "the already frozen 60,000-row live metadata manifest",
+    "photo_fields_are_not_used_for_prefiltering": true,
+    "linked_observation_that_fails_prefilter": "deterministic nonmatch sentinel for final v2 exact-match counting; it is not treated as a missing selected candidate",
+    "proof_obligation": "unit tests must show equality of final exact-match decisions between the original full two-pass v2 resolver and one-pass prefiltering when nonmatching extra links are present, and must preserve ambiguity when multiple links satisfy all frozen observation-side fields"
+  },
+  "unchanged_final_resolution": {
+    "association_row_unique_key": [
+      "photo_uuid",
+      "observation_uuid"
+    ],
+    "all_photo_links_for_each_selected_photo_id_are_retained": true,
+    "asset_field_conflict_rule_unchanged": true,
+    "required_exact_matches_per_selected_photo": 1,
+    "zero_match_rule": "not_evaluable and STOP without replacement",
+    "multiple_match_rule": "not_evaluable and STOP as ambiguous without replacement",
+    "replacement_or_resampling_permitted": false,
+    "selected_species": 200,
+    "selected_photos": 60000
+  },
+  "authorization": {
+    "streaming_v3_can_authorize_images_alone": false,
+    "dated_source_pass_label": "pass_dated_source_m2m_scaleout_freeze",
+    "all_independent_gates_still_required": [
+      "pass_dated_source_m2m_scaleout_freeze",
+      "pass_precolour_environmental_coverage",
+      "pass_locked_roi_v4_jrc_gate"
+    ]
+  },
+  "claim_ceiling": "Exact source/provenance reconciliation only. No image pixels, flower ROI, colour, spatial boundary, environmental concordance, pollinator concordance or biological inference is permitted by this amendment."
+}
