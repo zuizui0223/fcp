@@ -25,6 +25,9 @@ from fcp_pipeline.atlas_measurement import (
     validate_inference_contract,
 )
 from fcp_pipeline.flower_roi_v4_runtime import validate_scaleout_authorization
+from scripts.data.validate_jbi_atlas_roi_v4_gate_evidence import (
+    load_committed_locked_scaleout_result,
+)
 
 
 USER_AGENT = "FCP-image-first-atlas/3.0 (research image acquisition)"
@@ -83,7 +86,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--sealed-acquisition-key", type=Path, required=True)
     parser.add_argument("--firewall-manifest", type=Path, required=True)
-    parser.add_argument("--roi-result", type=Path, required=True)
+    parser.add_argument("--roi-evidence-dir", type=Path, required=True)
     parser.add_argument(
         "--inference-contract",
         type=Path,
@@ -118,7 +121,7 @@ def main() -> None:
         raise ValueError("shard_index must lie in [0, shard_count)")
     inference = json.loads(args.inference_contract.read_text(encoding="utf-8"))
     validate_inference_contract(inference)
-    roi = json.loads(args.roi_result.read_text(encoding="utf-8"))
+    roi = load_committed_locked_scaleout_result(args.roi_evidence_dir)
     validate_scaleout_authorization(roi)
     firewall = json.loads(args.firewall_manifest.read_text(encoding="utf-8"))
     validate_firewall_for_acquisition(

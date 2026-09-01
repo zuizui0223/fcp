@@ -31,6 +31,9 @@ from fcp_pipeline.flower_roi_v4_runtime import (
     file_sha256,
     validate_scaleout_authorization,
 )
+from scripts.data.validate_jbi_atlas_roi_v4_gate_evidence import (
+    load_committed_locked_scaleout_result,
+)
 
 
 MODEL_ID = "jbi-atlas-roi-estimator-v4"
@@ -85,7 +88,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--measurement-manifest", type=Path, required=True)
     parser.add_argument("--images-dir", type=Path, required=True)
     parser.add_argument("--trained-weight", type=Path, required=True)
-    parser.add_argument("--roi-result", type=Path, required=True)
+    parser.add_argument("--roi-evidence-dir", type=Path, required=True)
     parser.add_argument("--efficient-sam-weights-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument(
@@ -111,7 +114,7 @@ def main() -> None:
     contract = json.loads(args.roi_contract.read_text(encoding="utf-8"))
     validate_roi_v4_contract(contract)
     trained_weight_sha = file_sha256(args.trained_weight)
-    locked = json.loads(args.roi_result.read_text(encoding="utf-8"))
+    locked = load_committed_locked_scaleout_result(args.roi_evidence_dir)
     validate_scaleout_authorization(
         locked, trained_weight_sha256=trained_weight_sha
     )

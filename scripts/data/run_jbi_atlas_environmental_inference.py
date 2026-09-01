@@ -35,6 +35,9 @@ from fcp_pipeline.flower_roi_v4_runtime import (
     file_sha256,
     validate_scaleout_authorization,
 )
+from scripts.data.validate_jbi_atlas_roi_v4_gate_evidence import (
+    load_committed_locked_scaleout_result,
+)
 from fcp_pipeline.shared_transition_surface import (
     EqualAreaGrid,
     equal_area_cell_centers,
@@ -103,7 +106,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--sealed-coordinate-key", type=Path, required=True)
     parser.add_argument("--environmental-coverage-result", type=Path, required=True)
     parser.add_argument("--environment-dir", type=Path, required=True)
-    parser.add_argument("--roi-result", type=Path, required=True)
+    parser.add_argument("--roi-evidence-dir", type=Path, required=True)
     parser.add_argument("--trained-weight", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument(
@@ -186,7 +189,7 @@ def main() -> None:
     # All authorization and completeness evidence is checked before the coordinate
     # key is read.  Failure above this line leaves the sealed join unopened.
     trained_weight_sha = file_sha256(args.trained_weight)
-    roi_result = json.loads(args.roi_result.read_text(encoding="utf-8"))
+    roi_result = load_committed_locked_scaleout_result(args.roi_evidence_dir)
     validate_scaleout_authorization(
         roi_result, trained_weight_sha256=trained_weight_sha
     )
@@ -476,7 +479,9 @@ def main() -> None:
             "environmental_coverage_result": sha256(
                 args.environmental_coverage_result
             ),
-            "roi_result": sha256(args.roi_result),
+            "roi_evidence_manifest": sha256(
+                args.roi_evidence_dir / "gate_evidence_manifest.json"
+            ),
             "trained_weight": trained_weight_sha,
             "sealed_coordinate_key": sha256(args.sealed_coordinate_key),
             "contract": sha256(args.contract),

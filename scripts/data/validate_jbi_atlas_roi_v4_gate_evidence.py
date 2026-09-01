@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from fcp_pipeline.flower_roi_v4_evidence import sha256, validate_gate_artifacts
+from fcp_pipeline.flower_roi_v4_runtime import validate_scaleout_authorization
 
 
 CONTRACT = ROOT / "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json"
@@ -109,6 +110,25 @@ def validate_committed_gate(evidence_dir: Path, *, phase: str) -> dict[str, Any]
         "next_gate": expected_next,
         "scaleout_candidate_pixels_opened": False,
     }
+
+
+def load_committed_locked_scaleout_result(evidence_dir: Path) -> dict[str, Any]:
+    """Load the locked result only after its complete committed bundle validates."""
+
+    evidence_dir = evidence_dir.resolve()
+    decision = validate_committed_gate(evidence_dir, phase="locked_test")
+    if (
+        decision.get("decision") != "pass_roi_v4_locked_test"
+        or decision.get("next_gate") != "open the scaleout acquisition gate"
+    ):
+        raise RuntimeError("committed ROI v4 evidence does not authorize scale-out")
+    manifest = json.loads(
+        (evidence_dir / "gate_evidence_manifest.json").read_text(encoding="utf-8")
+    )
+    result_path = ROOT / manifest["evidence"]["result"]["path"]
+    result = json.loads(result_path.read_text(encoding="utf-8"))
+    validate_scaleout_authorization(result)
+    return result
 
 
 def main() -> None:

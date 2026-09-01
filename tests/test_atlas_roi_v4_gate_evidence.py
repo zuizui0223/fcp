@@ -9,6 +9,9 @@ from fcp_pipeline.flower_roi_v4_evidence import (
     sha256,
     validate_gate_artifacts,
 )
+from scripts.data.validate_jbi_atlas_roi_v4_gate_evidence import (
+    load_committed_locked_scaleout_result,
+)
 
 
 CONTRACT = json.loads(
@@ -106,3 +109,11 @@ def test_complete_development_gate_recomputes_from_frozen_rows(tmp_path: Path) -
         trained_weight_sha256="weight",
     )
     assert validated["jrc_locked_test_permitted"] is True
+
+
+def test_committed_locked_gate_is_the_only_scaleout_result() -> None:
+    result = load_committed_locked_scaleout_result(
+        Path("data/atlas/qualification/roi_v4_locked_test")
+    )
+    assert result["status"] == "pass_roi_v4_locked_test"
+    assert result["scaleout_candidate_pixels_permitted"] is True
