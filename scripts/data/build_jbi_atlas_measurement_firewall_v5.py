@@ -80,7 +80,9 @@ def verify_repo_parent_blobs(contract: Mapping[str, Any]) -> None:
         "roi_v4_contract",
         "roi_v4_locked_result",
         "shared_transition_preimage_qualification",
-        "dated_source_streaming_v3",
+        "dated_source_streaming_v3_historical_stop_parent",
+        "dated_source_v3_stop_result",
+        "dated_source_uuid_bucket_v4",
     ):
         row = parents[key]
         path = ROOT / row["path"]
