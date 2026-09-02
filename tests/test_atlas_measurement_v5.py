@@ -226,8 +226,8 @@ def test_v5_acquisition_rejects_legacy_firewall_and_requires_all_gate_hashes() -
         "superseded_v3_ordered_inference_used": False,
         "sealed_keys": {"acquisition_coordinate_key.csv": "key-sha"},
         "preimage_gate_sha256": {
-            "dated_source_manifest": "a",
-            "dated_source_reconciliation": "b",
+            "source_v5_manifest": "a",
+            "source_v5_result": "b",
             "environmental_coverage": "c",
             "roi_locked_result": "d",
             "shared_transition_qualification": "e",
