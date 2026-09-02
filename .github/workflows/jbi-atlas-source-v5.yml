@@ -1,0 +1,78 @@
+name: JBI atlas source role v5
+
+on:
+  pull_request:
+    paths:
+      - "docs/supporting/jbi_atlas_source_role_amendment_v5.json"
+      - "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json"
+      - "docs/supporting/jbi_atlas_dated_source_uuid_v4_stop_result.json"
+      - "fcp_pipeline/atlas_source_v5.py"
+      - "scripts/data/run_jbi_atlas_source_v5_gate.py"
+      - "tests/test_atlas_source_v5.py"
+      - ".github/workflows/jbi-atlas-source-v5.yml"
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "docs/supporting/jbi_atlas_source_role_amendment_v5.json"
+      - "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json"
+      - "docs/supporting/jbi_atlas_dated_source_uuid_v4_stop_result.json"
+      - "fcp_pipeline/atlas_source_v5.py"
+      - "scripts/data/run_jbi_atlas_source_v5_gate.py"
+      - "tests/test_atlas_source_v5.py"
+      - ".github/workflows/jbi-atlas-source-v5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  validate-source-v5:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: "33405153936"
+      SOURCE_ARTIFACT_ID: "9769165047"
+      SOURCE_ARTIFACT_NAME: "jbi-atlas-200-species-metadata-feasibility"
+      SOURCE_ARTIFACT_DIGEST: "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Unit-test source-role separation and preserved STOPs
+        env:
+          PYTHONPATH: .
+        run: pytest -q tests/test_atlas_source_v5.py
+      - name: Verify exact terminal metadata artifact
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .id)" = "${SOURCE_ARTIFACT_ID}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .name)" = "${SOURCE_ARTIFACT_NAME}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .digest)" = "${SOURCE_ARTIFACT_DIGEST}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .expired)" = "false"
+      - name: Download immutable 200-species terminal selection artifact
+        run: |
+          rm -rf /tmp/fcp-atlas-scaleout /tmp/fcp-source-v5
+          mkdir -p /tmp/fcp-atlas-scaleout /tmp/fcp-source-v5
+          gh run download "${SOURCE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SOURCE_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-atlas-scaleout
+      - name: Run source v5 gate without current-live API or another 35GB stream
+        run: |
+          python scripts/data/run_jbi_atlas_source_v5_gate.py \
+            --metadata-dir /tmp/fcp-atlas-scaleout \
+            --output-dir /tmp/fcp-source-v5
+      - name: Upload source v5 pass/STOP receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-source-v5
+          path: /tmp/fcp-source-v5/
+          if-no-files-found: error
