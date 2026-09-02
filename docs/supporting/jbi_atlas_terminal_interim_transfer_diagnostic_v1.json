@@ -1,0 +1,62 @@
+{
+  "protocol": "jbi-atlas-terminal-interim-transfer-diagnostic-v1",
+  "status": "diagnostic_only_not_confirmatory",
+  "terminal_run_id": 33592829701,
+  "terminal_run_head_sha": "aea19a4eff9585f501aa6a833ad44c80080eddcf",
+  "snapshot_time_note": "Computed from the first 11 sealed location-blind compute-partition artifacts available during the still-running terminal v3 measurement. No coordinate key was opened.",
+  "completed_compute_partitions_used": [
+    "s0-p0",
+    "s0-p1",
+    "s0-p2",
+    "s0-p3",
+    "s0-p4",
+    "s0-p5",
+    "s0-p6",
+    "s0-p7",
+    "s0-p8",
+    "s0-p12",
+    "s0-p13"
+  ],
+  "records": 2565,
+  "unique_measurement_ids": 2565,
+  "species_blind_ids_observed": 200,
+  "acquisition_success": 2565,
+  "acquisition_failure": 0,
+  "automated_colour_state_admitted": 1531,
+  "automated_colour_state_not_evaluable": 1034,
+  "admitted_fraction": 0.5968810916179337,
+  "background_features_available_fraction": 0.9099415204678363,
+  "failure_reason_incidence": {
+    "horizontal_flip_colour_instability": 912,
+    "horizontal_flip_mask_instability": 760,
+    "insufficient_flower_pixels": 234,
+    "insufficient_background_pixels": 231,
+    "no_retained_flower_instance": 230
+  },
+  "prospectively_frozen_completeness_thresholds_unchanged": {
+    "minimum_admitted_fraction_per_species": 0.7,
+    "minimum_admitted_observations_per_species": 210,
+    "minimum_background_control_fraction_among_admitted": 0.7,
+    "minimum_evaluable_species_per_cohort": 20,
+    "minimum_evaluable_species_total": 160
+  },
+  "diagnostic_binomial_projection": {
+    "method": "For each of the 200 blinded species, Beta(1,1) plus the available admitted/not-evaluable counts; posterior draws classify latent admission probability >=0.7. This is an operational diagnostic only and is not part of the frozen biological inference.",
+    "posterior_expected_species_with_latent_admission_probability_at_least_0_7": 60.23229977989203,
+    "posterior_count_quantiles": {
+      "q01": 49,
+      "q05": 52,
+      "q50": 60,
+      "q95": 69,
+      "q99": 72
+    },
+    "draws_with_at_least_160_species": 0,
+    "simulation_draws": 200000,
+    "seed": 43
+  },
+  "interpretation": "The terminal computation is technically functioning, but the ROI-v4 JRC-qualified admission rule is transferring to the naturalistic iNaturalist scaleout at substantially below the prospectively required per-species 0.7 admission level. If this pattern persists over the frozen 60000-record denominator, the confirmatory measurement-completeness outcome will be not_evaluable and the v5 confirmatory biological cascade must stop. This diagnostic must not be used to relax thresholds, reselect species, replace images, or promote a biological claim.",
+  "coordinate_key_opened": false,
+  "confirmatory_threshold_changed": false,
+  "replacement_or_resampling_used": false,
+  "early_stopping_permitted": false
+}
