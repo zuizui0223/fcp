@@ -1,0 +1,122 @@
+{
+  "protocol": "jbi-atlas-terminal-scaleout-technical-amendment-v3",
+  "version": 3,
+  "status": "frozen_after_v2_validation_stop_and_before_first_terminal_scaleout_pixel",
+  "freeze_date": "2026-09-02",
+  "purpose": "Resolve the interpreter-contract conflict exposed by v2 without altering the prospective scientific experiment. The terminal runner uses the repository-supported Python 3.11 interpreter, retains full Git history for immutable ROI provenance validation, and pins the estimator numerical runtime to CPU torch 2.11.0 / torchvision 0.26.0 plus the already-frozen ROI dependencies. A matrix-wide pre-pixel smoke gate must construct the exact detector-plus-EfficientSAM estimator before any terminal image request is permitted.",
+  "trigger": {
+    "v2_run_id": 33592164271,
+    "v2_head_sha": "8d532ea97802806046632a119d2cb94631885e18",
+    "v2_validation_job_id": 100128365204,
+    "v2_status": "failure",
+    "v2_failure_step": "Install validation environment",
+    "v2_failure": "Package 'fcp-pipeline' requires Python >=3.11, while v2 attempted Python 3.10.11.",
+    "v2_matrix_started": false,
+    "v2_candidate_image_pixels_opened": false,
+    "diagnosis": {
+      "current_pyproject_path": "pyproject.toml",
+      "current_pyproject_git_blob_sha": "c165d05969efa3e35def316d8ed49d6c0978461b",
+      "current_requires_python": ">=3.11",
+      "historical_roi_evidence_ci_commit": "c910bfad0aabe9e5b4e148f3a75853623831178a",
+      "historical_roi_evidence_ci_rule": "actions/checkout fetch-depth 0 with Python 3.11",
+      "interpretation": "Python 3.10.11 is recorded training provenance, not a valid interpreter requirement for the current terminal pipeline package. Python 3.11 is the repository-supported execution interpreter already used for ROI evidence validation."
+    }
+  },
+  "outcome_firewall": {
+    "candidate_image_pixels_opened": false,
+    "terminal_scaleout_colour_measured": false,
+    "coordinate_colour_join_performed": false,
+    "biological_inference_performed": false,
+    "v1_or_v2_terminal_measurement_artifact_persisted": false
+  },
+  "immutable_parents": {
+    "terminal_execution_v1": {
+      "path": "docs/supporting/jbi_atlas_terminal_scaleout_execution_v1.json",
+      "git_blob_sha": "796db42f3ddd6765da62fa5efa7ae825977068cc"
+    },
+    "technical_amendment_v2": {
+      "path": "docs/supporting/jbi_atlas_terminal_scaleout_technical_amendment_v2.json",
+      "git_blob_sha": "05bdecf957da97d50eb2d71366cff0ee5df04b29"
+    },
+    "preimage_authorization_result": {
+      "path": "docs/supporting/jbi_atlas_preimage_authorization_v5_result.json",
+      "git_blob_sha": "99e35f9a70652c159a9718fcbb531c5f5f087077",
+      "artifact_id": 9831589627,
+      "artifact_digest": "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8"
+    },
+    "measurement_execution_v5": {
+      "path": "docs/supporting/jbi_atlas_measurement_execution_contract_v5.json",
+      "git_blob_sha": "2ddcd9e9559ca1d96cd5aaa70920f407ce4d577d"
+    },
+    "compute_partition_v1": {
+      "path": "docs/supporting/jbi_atlas_compute_partition_amendment_v1.json",
+      "git_blob_sha": "5a5fc0ad1c24630c502bc427523ea5e9845fa664"
+    },
+    "roi_v4_locked_result": {
+      "path": "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json",
+      "git_blob_sha": "b25425f1f738bcea75cef5f60980332a9857610b"
+    },
+    "roi_v4_training_evidence": {
+      "path": "data/atlas/qualification/roi_v4_training/training_evidence_manifest.json",
+      "git_blob_sha": "c31a2ba011ce135e2a0f48f85fa1e22d8a280ec2",
+      "training_provenance": {
+        "device": "cpu",
+        "python": "3.10.11",
+        "torch": "2.11.0+cpu",
+        "ultralytics": "8.4.112"
+      }
+    }
+  },
+  "workflow": {
+    "path": ".github/workflows/jbi-atlas-terminal-scaleout-v3.yml",
+    "git_blob_sha": "c3b7a4f7bae0fa004364f607301b655f24b0e223",
+    "trigger_path": "docs/supporting/jbi_atlas_terminal_scaleout_start_v3.json",
+    "trigger_file_absent_at_this_freeze": true,
+    "same_concurrency_group_as_v1_v2": "jbi-atlas-terminal-scaleout-v1",
+    "cancel_superseded_attempt_when_v3_starts": true
+  },
+  "technical_changes": {
+    "checkout_fetch_depth": 0,
+    "python_major_minor": "3.11",
+    "python_patch_not_used_as_scientific_parameter": true,
+    "torch": "2.11.0+cpu",
+    "torchvision": "0.26.0+cpu",
+    "torch_install_index": "https://download.pytorch.org/whl/cpu",
+    "ultralytics": "8.4.112",
+    "onnxruntime": "1.23.2",
+    "scikit_image": "0.25.2",
+    "cuda_required": false,
+    "prepixel_smoke_gate": [
+      "validate full-history locked ROI provenance",
+      "verify exact detector SHA",
+      "verify exact EfficientSAM encoder/decoder SHA",
+      "construct FrozenFlowerColourEstimator on CPU without reading a terminal image",
+      "verify exact preimage artifact metadata"
+    ],
+    "matrix_start_condition": "all prepixel smoke-gate steps pass"
+  },
+  "unchanged": {
+    "frozen_measurements": 60000,
+    "selected_species": 200,
+    "cohorts": 8,
+    "semantic_shards": 16,
+    "compute_partitions_per_semantic_shard": 16,
+    "total_compute_partitions": 256,
+    "maximum_parallel_partitions": 8,
+    "all_partitions_required": true,
+    "matrix_fail_fast": false,
+    "early_stopping": false,
+    "replacement_or_resampling_permitted": false,
+    "preimage_artifact_id": 9831589627,
+    "preimage_artifact_digest": "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8",
+    "detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_revision": "d525f622e6f640acf5a0fc37c7ca1f243da5bde0",
+    "efficient_sam_encoder_sha256": "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951",
+    "efficient_sam_decoder_sha256": "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11",
+    "roi_thresholds_and_colour_measurement": "unchanged",
+    "measurement_failure_denominator_semantics": "unchanged",
+    "v5_confirmatory_sequence_and_nulls": "unchanged",
+    "not_evaluable_semantics": "unchanged"
+  },
+  "claim_ceiling": "Technical execution repair only. No terminal image has been requested, decoded or measured by v1 or v2. The first terminal pixel may only be opened after the v3 pre-pixel runtime/provenance/model smoke gate passes."
+}
