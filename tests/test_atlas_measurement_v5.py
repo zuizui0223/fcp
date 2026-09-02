@@ -170,9 +170,8 @@ def test_all_preimage_gates_are_jointly_required() -> None:
         )
 
 
-def test_v5_worker_packet_is_location_blind_and_uses_unchanged_salt() -> None:
-    contract, _ = _contracts()
-    rows = [
+def _worker_rows():
+    return [
         {
             "cohort_id": "C01",
             "species": "Plantus alpha",
@@ -186,6 +185,7 @@ def test_v5_worker_packet_is_location_blind_and_uses_unchanged_salt() -> None:
             "observed_month": "6",
             "local_solar_quarter": "2",
             "observer_id": "301",
+            "candidate_image_pixels_opened": "False",
         },
         {
             "cohort_id": "C02",
@@ -200,8 +200,14 @@ def test_v5_worker_packet_is_location_blind_and_uses_unchanged_salt() -> None:
             "observed_month": "7",
             "local_solar_quarter": "3",
             "observer_id": "302",
+            "candidate_image_pixels_opened": "false",
         },
     ]
+
+
+def test_v5_worker_packet_is_location_blind_and_normalizes_only_false_csv_flag() -> None:
+    contract, _ = _contracts()
+    rows = _worker_rows()
     split = build_v5_measurement_firewall(rows, contract)
     allowed = set(contract["location_blind_measurement"]["measurement_worker_allowed_fields"])
     assert len(split["measurement_manifest"]) == 2
@@ -211,6 +217,11 @@ def test_v5_worker_packet_is_location_blind_and_uses_unchanged_salt() -> None:
     assert len(split["sealed_coordinate_key"]) == 2
     assert split["measurement_manifest"][0]["measurement_id"].startswith("FCPM-")
     assert split["measurement_manifest"][0]["species_blind_id"].startswith("FCPS-")
+
+    opened = _worker_rows()
+    opened[0]["candidate_image_pixels_opened"] = "True"
+    with pytest.raises(ValueError, match="candidate_image_pixels_opened=false"):
+        build_v5_measurement_firewall(opened, contract)
 
 
 def test_v5_acquisition_rejects_legacy_firewall_and_requires_all_gate_hashes() -> None:
