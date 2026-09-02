@@ -47,36 +47,43 @@
       "required_method_gate_only": true,
       "required_biological_support_claimed": false
     },
-    "dated_source_streaming_v3_historical_stop_parent": {
-      "path": "docs/supporting/jbi_atlas_dated_source_streaming_amendment_v3.json",
-      "git_blob_sha": "8b9c3085672fae592a60646e41874e4c34f0cc2f",
-      "scope": "Historical stopped resolver only; cannot authorize terminal images."
+    "source_role_v5": {
+      "path": "docs/supporting/jbi_atlas_source_role_amendment_v5.json",
+      "git_blob_sha": "5a0943b92db8f391c79caeea4d882585ca042dfd",
+      "scope": "Binding terminal source-provenance gate: immutable scientific selection plus already-proven exact dated snapshot identity; later current-live state is diagnostic only and cannot reselect the cohort."
     },
-    "dated_source_v3_stop_result": {
+    "source_v3_stop_result": {
       "path": "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json",
       "git_blob_sha": "0742186c425cb506d16b1cda4c274534cd8d5a8d",
       "required_status": "not_evaluable_dated_source_m2m_reconciliation"
     },
-    "dated_source_uuid_bucket_v4": {
+    "source_v4_stop_result": {
+      "path": "docs/supporting/jbi_atlas_dated_source_uuid_v4_stop_result.json",
+      "git_blob_sha": "3f8feb8fa79728606d0a69b4cdbf8719f732eabd",
+      "required_status": "not_evaluable_live_uuid_enrichment"
+    },
+    "dated_source_uuid_v4_historical_parent": {
       "path": "docs/supporting/jbi_atlas_dated_source_uuid_bucket_amendment_v4.json",
       "git_blob_sha": "5ca5aa5eb71c158dabb58e42afd0b4e4a9288be7",
-      "scope": "Binding source-provenance gate: stable observation_uuid plus exact snapshot association or documented bucket HEAD fallback, with no replacement."
+      "scope": "Historical stopped current-live enrichment attempt only; cannot authorize terminal images."
     }
   },
   "pixel_opening_gates": {
     "all_required": true,
     "dated_source": {
-      "required_protocol": "jbi-atlas-dated-source-uuid-bucket-amendment-v4",
-      "required_status": "pass_dated_source_uuid_bucket_scaleout_freeze",
+      "required_protocol": "jbi-atlas-source-role-amendment-v5",
+      "required_status": "pass_frozen_selection_dated_provenance_v5",
       "required_species": 200,
       "required_photo_assets": 60000,
       "required_frozen_observations": 60000,
       "candidate_image_pixels_opened": false,
+      "current_live_state_used_for_authorization": false,
+      "repeat_35gb_stream_used_for_v5_authorization": false,
       "replacement_permitted": false
     },
     "environmental_coverage": {
       "required_status": "pass_precolour_environmental_coverage",
-      "required_source_stage": "final-dated-source",
+      "required_source_stage": "final-source-v5",
       "scaleout_colour_opened": false,
       "image_acquisition_authorized": false
     },
