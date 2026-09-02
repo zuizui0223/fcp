@@ -1,0 +1,39 @@
+{
+  "protocol": "jbi-atlas-terminal-scaleout-start-v1",
+  "status": "authorized_start_after_complete_preimage_freeze",
+  "start_date": "2026-09-02",
+  "branch": "analysis/jbi-global-colour-boundaries-scaleup",
+  "execution_contract": {
+    "path": "docs/supporting/jbi_atlas_terminal_scaleout_execution_v1.json",
+    "git_blob_sha": "796db42f3ddd6765da62fa5efa7ae825977068cc"
+  },
+  "workflow": {
+    "path": ".github/workflows/jbi-atlas-terminal-scaleout-v1.yml",
+    "git_blob_sha": "9ea249fc18c45c4d1129a02649191985c6bcfab2"
+  },
+  "preimage_authorization": {
+    "result_path": "docs/supporting/jbi_atlas_preimage_authorization_v5_result.json",
+    "result_git_blob_sha": "99e35f9a70652c159a9718fcbb531c5f5f087077",
+    "run_id": 33590502331,
+    "artifact_id": 9831589627,
+    "artifact_digest": "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8",
+    "status": "pass_exact_preimage_authorization_v5"
+  },
+  "execution": {
+    "frozen_measurements": 60000,
+    "semantic_shards": 16,
+    "compute_partitions_per_semantic_shard": 16,
+    "total_compute_partitions": 256,
+    "maximum_parallel_partitions": 8,
+    "all_partitions_required": true,
+    "early_stopping": false,
+    "replacement_or_resampling_permitted": false
+  },
+  "state_before_trigger_commit": {
+    "candidate_image_pixels_opened": false,
+    "terminal_scaleout_colour_measured": false,
+    "coordinate_colour_join_performed": false,
+    "biological_inference_performed": false
+  },
+  "consequence": "This file intentionally triggers the frozen terminal scaleout workflow. Candidate image pixels may be opened only after that workflow's validation and model/preimage identity checks pass."
+}
