@@ -1,0 +1,162 @@
+name: JBI atlas preimage authorization v5
+
+on:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "docs/supporting/jbi_atlas_measurement_execution_contract_v5.json"
+      - "docs/supporting/jbi_atlas_source_role_amendment_v5.json"
+      - "fcp_pipeline/atlas_measurement_v5.py"
+      - "fcp_pipeline/atlas_acquisition_v5.py"
+      - "scripts/data/run_jbi_atlas_precolour_environmental_coverage_v5.py"
+      - "scripts/data/build_jbi_atlas_measurement_firewall_v5.py"
+      - "tests/test_atlas_measurement_v5.py"
+      - "tests/test_atlas_precolour_environmental_coverage_v5.py"
+      - ".github/workflows/jbi-atlas-preimage-authorization-v5.yml"
+  pull_request:
+    paths:
+      - "docs/supporting/jbi_atlas_measurement_execution_contract_v5.json"
+      - "docs/supporting/jbi_atlas_source_role_amendment_v5.json"
+      - "fcp_pipeline/atlas_measurement_v5.py"
+      - "fcp_pipeline/atlas_acquisition_v5.py"
+      - "scripts/data/run_jbi_atlas_precolour_environmental_coverage_v5.py"
+      - "scripts/data/build_jbi_atlas_measurement_firewall_v5.py"
+      - "tests/test_atlas_measurement_v5.py"
+      - "tests/test_atlas_precolour_environmental_coverage_v5.py"
+      - ".github/workflows/jbi-atlas-preimage-authorization-v5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-atlas-preimage-authorization-v5-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  validate-preimage-code:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Validate source-v5 measurement authorization semantics
+        env:
+          PYTHONPATH: .
+        run: |
+          python scripts/data/validate_jbi_atlas_measurement_v5_contract.py
+          pytest -q \
+            tests/test_atlas_measurement_v5.py \
+            tests/test_atlas_precolour_environmental_coverage_v5.py
+      - name: Syntax-check authorization runners
+        run: |
+          python -m py_compile \
+            scripts/data/run_jbi_atlas_precolour_environmental_coverage_v5.py \
+            scripts/data/build_jbi_atlas_measurement_firewall_v5.py
+
+  build-exact-preimage-authorization:
+    if: github.event_name != 'pull_request'
+    needs: validate-preimage-code
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SELECTION_RUN_ID: "33405153936"
+      SELECTION_ARTIFACT_ID: "9769165047"
+      SELECTION_ARTIFACT_NAME: "jbi-atlas-200-species-metadata-feasibility"
+      SELECTION_ARTIFACT_DIGEST: "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375"
+      SOURCE_V5_RUN_ID: "33587279241"
+      SOURCE_V5_ARTIFACT_ID: "9830521820"
+      SOURCE_V5_ARTIFACT_NAME: "jbi-atlas-source-v5"
+      SOURCE_V5_ARTIFACT_DIGEST: "sha256:7b936c711368d07f7135b6047cc0c51aaf17a61c531599e952b875204aa60c87"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Verify exact selection and source-v5 artifacts
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SELECTION_ARTIFACT_ID}" --jq .id)" = "${SELECTION_ARTIFACT_ID}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SELECTION_ARTIFACT_ID}" --jq .name)" = "${SELECTION_ARTIFACT_NAME}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SELECTION_ARTIFACT_ID}" --jq .digest)" = "${SELECTION_ARTIFACT_DIGEST}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SELECTION_ARTIFACT_ID}" --jq .expired)" = "false"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_V5_ARTIFACT_ID}" --jq .id)" = "${SOURCE_V5_ARTIFACT_ID}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_V5_ARTIFACT_ID}" --jq .name)" = "${SOURCE_V5_ARTIFACT_NAME}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_V5_ARTIFACT_ID}" --jq .digest)" = "${SOURCE_V5_ARTIFACT_DIGEST}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_V5_ARTIFACT_ID}" --jq .expired)" = "false"
+      - name: Download exact preimage parents only
+        run: |
+          rm -rf /tmp/fcp-atlas-scaleout /tmp/fcp-source-v5 /tmp/fcp-preimage-v5
+          mkdir -p /tmp/fcp-atlas-scaleout /tmp/fcp-source-v5 /tmp/fcp-preimage-v5
+          gh run download "${SELECTION_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SELECTION_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-atlas-scaleout
+          gh run download "${SOURCE_V5_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SOURCE_V5_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-source-v5
+      - name: Re-evaluate final environmental coverage on exact terminal geometry
+        run: |
+          python scripts/data/run_jbi_atlas_precolour_environmental_coverage_v5.py \
+            --metadata-feasibility /tmp/fcp-atlas-scaleout/scaleout_metadata_feasibility.json \
+            --species-panels /tmp/fcp-atlas-scaleout/scaleout_species_panels.csv \
+            --source-v5-result /tmp/fcp-source-v5/source_v5_result.json \
+            --output /tmp/fcp-preimage-v5/precolour_environmental_coverage_v5.json
+      - name: Build exact 60k location-blind firewall
+        run: |
+          python scripts/data/build_jbi_atlas_measurement_firewall_v5.py \
+            --observation-manifest /tmp/fcp-atlas-scaleout/scaleout_observation_manifest.csv \
+            --source-v5-manifest /tmp/fcp-source-v5/source_v5_manifest.json \
+            --source-v5-result /tmp/fcp-source-v5/source_v5_result.json \
+            --environmental-coverage-result /tmp/fcp-preimage-v5/precolour_environmental_coverage_v5.json \
+            --output-dir /tmp/fcp-preimage-v5/measurement_firewall_v5
+      - name: Revalidate firewall and sealed acquisition key without opening pixels
+        env:
+          PYTHONPATH: .
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from fcp_pipeline.atlas_acquisition_v5 import validate_v5_acquisition_firewall
+
+          root = Path('.')
+          out = Path('/tmp/fcp-preimage-v5/measurement_firewall_v5')
+          key = out / 'sealed_keys' / 'acquisition_coordinate_key.csv'
+          firewall = json.loads((out / 'measurement_firewall_v5_manifest.json').read_text())
+          contract = json.loads((root / 'docs/supporting/jbi_atlas_measurement_execution_contract_v5.json').read_text())
+          inference = json.loads((root / 'docs/supporting/jbi_image_first_atlas_inference_contract_v5.json').read_text())
+          key_sha = hashlib.sha256(key.read_bytes()).hexdigest()
+          validate_v5_acquisition_firewall(
+              firewall,
+              key_name=key.name,
+              key_sha256=key_sha,
+              contract=contract,
+              inference_v5=inference,
+          )
+          print(json.dumps({
+              'status': 'pass_exact_preimage_authorization_v5',
+              'candidate_image_pixels_opened': False,
+              'frozen_measurements': firewall['frozen_measurements'],
+              'sealed_acquisition_key_sha256': key_sha,
+          }, indent=2, sort_keys=True))
+          PY
+      - name: Upload exact preimage authorization bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-preimage-authorization-v5
+          path: /tmp/fcp-preimage-v5/
+          if-no-files-found: error
