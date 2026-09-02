@@ -1,0 +1,54 @@
+{
+  "protocol": "jbi-atlas-dated-source-streaming-v3-stop-result",
+  "status": "not_evaluable_dated_source_m2m_reconciliation",
+  "recorded_date": "2026-09-02",
+  "scope": {
+    "candidate_image_pixels_opened": false,
+    "continuous_colour_used": false,
+    "replacement_or_resampling_permitted": false,
+    "biological_inference": false
+  },
+  "workflow": {
+    "run_id": 33487473237,
+    "job_id": 99790962512,
+    "head_sha": "01402b87babf80352a480d679598b2cf9d1b80c4",
+    "artifact_id": 9794049757,
+    "artifact_name": "jbi-atlas-dated-source-streaming-v3",
+    "artifact_digest": "sha256:8d4df866dff63db1d37255093a2e2af1ba4fea9837842f783997f3361a2f5316"
+  },
+  "snapshot_identity": {
+    "bytes_read": 35093052336,
+    "expected_bytes": 35093052336,
+    "computed_sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d",
+    "expected_sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d",
+    "archive_persisted": false,
+    "identity_passed": true
+  },
+  "observed_resolution": {
+    "selected_species": 200,
+    "selected_photo_assets": 60000,
+    "resolved_photo_assets_in_snapshot_metadata": 59349,
+    "missing_photo_assets_in_snapshot_metadata": 651,
+    "resolved_linked_observations": 59457,
+    "resolved_observers": 25320,
+    "missing_observers_in_snapshot_metadata": 593,
+    "resolved_taxa_and_genera": 400,
+    "missing_taxa_and_genera": 0,
+    "selected_photo_assets_with_multiple_observation_links": 102,
+    "maximum_observation_links_per_selected_photo_asset": 4,
+    "association_resolution_failure_count": 29657,
+    "frozen_observations": 0
+  },
+  "diagnosis": {
+    "snapshot_byte_identity_failure": false,
+    "io_failure": false,
+    "schema_role_mismatch": true,
+    "details": [
+      "The frozen live API manifest stores integer observation_id but not observation_uuid, while the Open Data association key is observation_uuid.",
+      "v3 therefore attempted to identify the live observation through mutable proxy fields such as taxon_id, coordinates, observed_on and positional_accuracy.",
+      "The official Open Data documentation states that monthly metadata tables can omit photos that are nevertheless present in the Open Dataset bucket, so requiring every selected bucket photo to have a photos.csv row is not a valid completeness assumption.",
+      "The official taxa documentation specifies backslash-delimited ancestry; the v2 resolver used slash splitting when checking genus/root ancestry."
+    ]
+  },
+  "consequence": "Preserve this STOP result. Do not interpret it as absence of source provenance or as a biological result. A new pre-pixel amendment may correct identifier/schema roles without replacing any of the frozen 60,000 selected rows."
+}
