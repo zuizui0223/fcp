@@ -47,15 +47,27 @@
       "required_method_gate_only": true,
       "required_biological_support_claimed": false
     },
-    "dated_source_streaming_v3": {
+    "dated_source_streaming_v3_historical_stop_parent": {
       "path": "docs/supporting/jbi_atlas_dated_source_streaming_amendment_v3.json",
-      "git_blob_sha": "8b9c3085672fae592a60646e41874e4c34f0cc2f"
+      "git_blob_sha": "8b9c3085672fae592a60646e41874e4c34f0cc2f",
+      "scope": "Historical stopped resolver only; cannot authorize terminal images."
+    },
+    "dated_source_v3_stop_result": {
+      "path": "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json",
+      "git_blob_sha": "0742186c425cb506d16b1cda4c274534cd8d5a8d",
+      "required_status": "not_evaluable_dated_source_m2m_reconciliation"
+    },
+    "dated_source_uuid_bucket_v4": {
+      "path": "docs/supporting/jbi_atlas_dated_source_uuid_bucket_amendment_v4.json",
+      "git_blob_sha": "5ca5aa5eb71c158dabb58e42afd0b4e4a9288be7",
+      "scope": "Binding source-provenance gate: stable observation_uuid plus exact snapshot association or documented bucket HEAD fallback, with no replacement."
     }
   },
   "pixel_opening_gates": {
     "all_required": true,
     "dated_source": {
-      "required_status": "pass_dated_source_m2m_scaleout_freeze",
+      "required_protocol": "jbi-atlas-dated-source-uuid-bucket-amendment-v4",
+      "required_status": "pass_dated_source_uuid_bucket_scaleout_freeze",
       "required_species": 200,
       "required_photo_assets": 60000,
       "required_frozen_observations": 60000,
