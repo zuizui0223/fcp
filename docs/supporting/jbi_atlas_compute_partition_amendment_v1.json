@@ -11,7 +11,7 @@
   },
   "immutable_parent": {
     "path": "docs/supporting/jbi_atlas_measurement_execution_contract_v5.json",
-    "git_blob_sha": "a347ee3cdb2a3e83f033a9b82a40767e6e8869be",
+    "git_blob_sha": "2ddcd9e9559ca1d96cd5aaa70920f407ce4d577d",
     "semantic_acquisition_shards": 16,
     "semantic_measurement_shards": 16,
     "torch_threads_per_measurement_worker": 2,
