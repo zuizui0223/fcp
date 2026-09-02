@@ -58,7 +58,7 @@ jobs:
             scripts/data/build_jbi_atlas_measurement_firewall_v5.py
 
   reconcile-exact-snapshot-v4:
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch'
     needs: validate-uuid-resolver
     runs-on: ubuntu-24.04
     timeout-minutes: 360
