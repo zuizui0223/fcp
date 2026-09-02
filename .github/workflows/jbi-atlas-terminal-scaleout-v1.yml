@@ -1,0 +1,257 @@
+name: JBI atlas terminal scaleout v1
+
+on:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "docs/supporting/jbi_atlas_terminal_scaleout_start_v1.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-atlas-terminal-scaleout-v1
+  cancel-in-progress: false
+
+env:
+  PREIMAGE_RUN_ID: "33590502331"
+  PREIMAGE_ARTIFACT_ID: "9831589627"
+  PREIMAGE_ARTIFACT_NAME: "jbi-atlas-preimage-authorization-v5"
+  PREIMAGE_ARTIFACT_DIGEST: "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8"
+  PREIMAGE_FIREWALL_SHA256: "95c02ed3d73bcdf9a5e1f0fc3d154a896ea9f7c4618815a3862b2581451e67f5"
+  PREIMAGE_WORKER_SHA256: "d76a65b0b2e6440d6910e7a6b0088e0c3caed3ace3c32f92298daac35ae01465"
+  PREIMAGE_SPECIES_KEY_SHA256: "612f34212188089ae636b940181e2822567728d64aee2f2df51f9ccff27b499f"
+  PREIMAGE_ACQUISITION_KEY_SHA256: "c89aeb22936a70954be2ab084e25ea594694573c1dc2f18eeacbb67933ba983f"
+  DETECTOR_SHA256: "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5"
+  EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
+  EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
+  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+
+jobs:
+  validate-terminal-execution-freeze:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install validation environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Validate exact preimage, compute and measurement contracts
+        env:
+          PYTHONPATH: .
+        run: |
+          python scripts/data/validate_jbi_atlas_measurement_v5_contract.py
+          pytest -q tests/test_atlas_compute_partition.py tests/test_atlas_measurement_v5.py
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          p = Path('docs/supporting/jbi_atlas_terminal_scaleout_execution_v1.json')
+          c = json.loads(p.read_text())
+          assert c['status'] == 'frozen_before_first_terminal_scaleout_pixel'
+          assert c['preimage_authorization']['artifact_id'] == 9831589627
+          assert c['preimage_authorization']['artifact_digest'] == 'sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8'
+          assert c['execution']['total_compute_partitions'] == 256
+          assert c['execution']['maximum_parallel_partitions'] == 8
+          assert c['execution']['all_partitions_required'] is True
+          assert c['execution']['early_stopping'] is False
+          for key in ('candidate_image_pixels_opened', 'terminal_scaleout_colour_measured', 'coordinate_colour_join_performed'):
+              assert c['outcome_firewall'][key] is False
+          PY
+      - name: Verify exact committed detector before any image access
+        run: |
+          echo "${DETECTOR_SHA256}  data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt" | sha256sum -c -
+      - name: Verify exact preimage artifact metadata without downloading images
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREIMAGE_ARTIFACT_ID}" --jq .id)" = "${PREIMAGE_ARTIFACT_ID}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREIMAGE_ARTIFACT_ID}" --jq .name)" = "${PREIMAGE_ARTIFACT_NAME}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREIMAGE_ARTIFACT_ID}" --jq .digest)" = "${PREIMAGE_ARTIFACT_DIGEST}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREIMAGE_ARTIFACT_ID}" --jq .expired)" = "false"
+
+  measure-compute-partition:
+    needs: validate-terminal-execution-freeze
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        semantic_shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        compute_partition: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            requirements-atlas-roi-v4.txt
+      - name: Install exact ROI runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . -r requirements-atlas-roi-v4.txt
+      - name: Verify committed detector and download exact EfficientSAM assets before pixels
+        run: |
+          echo "${DETECTOR_SHA256}  data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt" | sha256sum -c -
+          rm -rf /tmp/efficient-sam
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+      - name: Download and verify exact preimage authorization bundle
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREIMAGE_ARTIFACT_ID}" --jq .digest)" = "${PREIMAGE_ARTIFACT_DIGEST}"
+          rm -rf /tmp/fcp-preimage-v5
+          mkdir -p /tmp/fcp-preimage-v5
+          gh run download "${PREIMAGE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${PREIMAGE_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-preimage-v5
+          echo "${PREIMAGE_FIREWALL_SHA256}  /tmp/fcp-preimage-v5/measurement_firewall_v5/measurement_firewall_v5_manifest.json" | sha256sum -c -
+          echo "${PREIMAGE_WORKER_SHA256}  /tmp/fcp-preimage-v5/measurement_firewall_v5/worker_packet/measurement_manifest.csv" | sha256sum -c -
+          echo "${PREIMAGE_ACQUISITION_KEY_SHA256}  /tmp/fcp-preimage-v5/measurement_firewall_v5/sealed_keys/acquisition_coordinate_key.csv" | sha256sum -c -
+      - name: Acquire exact compute partition — first permitted scaleout pixel access
+        env:
+          PYTHONPATH: .
+        run: |
+          rm -rf /tmp/fcp-acquire
+          mkdir -p /tmp/fcp-acquire
+          python scripts/data/acquire_jbi_atlas_compute_partition_v1.py \
+            --sealed-acquisition-key /tmp/fcp-preimage-v5/measurement_firewall_v5/sealed_keys/acquisition_coordinate_key.csv \
+            --measurement-manifest /tmp/fcp-preimage-v5/measurement_firewall_v5/worker_packet/measurement_manifest.csv \
+            --firewall-manifest /tmp/fcp-preimage-v5/measurement_firewall_v5/measurement_firewall_v5_manifest.json \
+            --roi-evidence-dir data/atlas/qualification/roi_v4_locked_test \
+            --output-dir /tmp/fcp-acquire \
+            --semantic-shard-index ${{ matrix.semantic_shard }} \
+            --compute-partition-index ${{ matrix.compute_partition }}
+      - name: Cross the ephemeral firewall before ROI measurement
+        run: |
+          rm -rf /tmp/fcp-measure-input /tmp/fcp-safe-acquisition
+          mkdir -p /tmp/fcp-measure-input/images /tmp/fcp-safe-acquisition
+          cp /tmp/fcp-acquire/worker_packet/measurement_manifest.csv /tmp/fcp-measure-input/measurement_manifest.csv
+          cp -a /tmp/fcp-acquire/ephemeral_images/. /tmp/fcp-measure-input/images/
+          cp /tmp/fcp-acquire/acquisition_receipt.csv /tmp/fcp-safe-acquisition/acquisition_receipt.csv
+          cp /tmp/fcp-acquire/acquisition_manifest.json /tmp/fcp-safe-acquisition/acquisition_manifest.json
+          ! grep -Fq "inaturalist-open-data.s3.amazonaws.com" /tmp/fcp-safe-acquisition/acquisition_receipt.csv
+          rm -rf /tmp/fcp-preimage-v5 /tmp/fcp-acquire
+          test ! -e /tmp/fcp-preimage-v5
+      - name: Run frozen ROI v4 on the location-blind compute partition
+        env:
+          PYTHONPATH: .
+        run: |
+          rm -rf /tmp/fcp-worker-result
+          mkdir -p /tmp/fcp-worker-result
+          python scripts/data/measure_jbi_atlas_blinded_images_v5.py \
+            --measurement-manifest /tmp/fcp-measure-input/measurement_manifest.csv \
+            --images-dir /tmp/fcp-measure-input/images \
+            --trained-weight data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --roi-evidence-dir data/atlas/qualification/roi_v4_locked_test \
+            --efficient-sam-weights-dir /tmp/efficient-sam \
+            --output-dir /tmp/fcp-worker-result \
+            --shard-index ${{ matrix.semantic_shard }} \
+            --shard-count 16 \
+            --torch-threads 2
+      - name: Seal location-blind partition evidence and delete image pixels
+        env:
+          PYTHONPATH: .
+        run: |
+          SEM=$(printf '%04d' ${{ matrix.semantic_shard }})
+          S2=$(printf '%02d' ${{ matrix.semantic_shard }})
+          P2=$(printf '%02d' ${{ matrix.compute_partition }})
+          rm -rf /tmp/fcp-sealed
+          mkdir -p /tmp/fcp-sealed
+          python scripts/data/seal_jbi_atlas_compute_partition_result_v1.py \
+            --worker-result-csv "/tmp/fcp-worker-result/measurement_v5_shard_${SEM}.csv" \
+            --worker-result-manifest "/tmp/fcp-worker-result/measurement_v5_shard_${SEM}.json" \
+            --semantic-shard-index ${{ matrix.semantic_shard }} \
+            --compute-partition-index ${{ matrix.compute_partition }} \
+            --output-dir /tmp/fcp-sealed
+          cp /tmp/fcp-safe-acquisition/acquisition_receipt.csv "/tmp/fcp-sealed/acquisition_receipt_s${S2}_p${P2}.csv"
+          cp /tmp/fcp-safe-acquisition/acquisition_manifest.json "/tmp/fcp-sealed/acquisition_manifest_s${S2}_p${P2}.json"
+          rm -rf /tmp/fcp-measure-input /tmp/fcp-worker-result /tmp/fcp-safe-acquisition /tmp/efficient-sam
+          test -z "$(find /tmp/fcp-sealed -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.webp' \) -print -quit)"
+          ! grep -R -Fq "inaturalist-open-data.s3.amazonaws.com" /tmp/fcp-sealed
+      - name: Upload only sealed location-blind partition evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-measurement-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
+          path: /tmp/fcp-sealed/
+          if-no-files-found: error
+          retention-days: 90
+
+  reassemble-and-evaluate:
+    if: ${{ always() }}
+    needs: [validate-terminal-execution-freeze, measure-compute-partition]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install analysis environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Download all completed location-blind partition artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-atlas-measurement-s*-p*
+          path: /tmp/fcp-partitions
+          merge-multiple: true
+      - name: Download exact preimage worker/species packet for denominator validation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/fcp-preimage-v5
+          mkdir -p /tmp/fcp-preimage-v5
+          gh run download "${PREIMAGE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${PREIMAGE_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-preimage-v5
+          echo "${PREIMAGE_WORKER_SHA256}  /tmp/fcp-preimage-v5/measurement_firewall_v5/worker_packet/measurement_manifest.csv" | sha256sum -c -
+          echo "${PREIMAGE_SPECIES_KEY_SHA256}  /tmp/fcp-preimage-v5/measurement_firewall_v5/sealed_keys/species_key.csv" | sha256sum -c -
+      - name: Reassemble exactly 256 compute partitions into frozen 16 semantic shards
+        env:
+          PYTHONPATH: .
+        run: |
+          rm -rf /tmp/fcp-reassembled
+          mkdir -p /tmp/fcp-reassembled
+          python scripts/data/reassemble_jbi_atlas_compute_partitions_v1.py \
+            --measurement-manifest /tmp/fcp-preimage-v5/measurement_firewall_v5/worker_packet/measurement_manifest.csv \
+            --partition-results-dir /tmp/fcp-partitions \
+            --output-dir /tmp/fcp-reassembled
+      - name: Evaluate unchanged v5 measurement completeness before coordinates open
+        env:
+          PYTHONPATH: .
+        run: |
+          python scripts/data/evaluate_jbi_atlas_measurement_gate_v5.py \
+            --measurement-results-dir /tmp/fcp-reassembled \
+            --sealed-species-key /tmp/fcp-preimage-v5/measurement_firewall_v5/sealed_keys/species_key.csv \
+            --output /tmp/fcp-reassembled/measurement_gate_v5.json
+      - name: Remove sealed preimage packet before persisting measurement bundle
+        if: always()
+        run: rm -rf /tmp/fcp-preimage-v5
+      - name: Upload reassembled location-blind measurement bundle and gate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-terminal-measurement-v5
+          path: /tmp/fcp-reassembled/
+          if-no-files-found: warn
+          retention-days: 90
