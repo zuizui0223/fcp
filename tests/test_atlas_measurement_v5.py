@@ -15,6 +15,9 @@ from fcp_pipeline.atlas_measurement_v5 import (
 
 CONTRACT_PATH = Path("docs/supporting/jbi_atlas_measurement_execution_contract_v5.json")
 INFERENCE_PATH = Path("docs/supporting/jbi_image_first_atlas_inference_contract_v5.json")
+DATED_PROTOCOL = "jbi-atlas-dated-source-uuid-bucket-amendment-v4"
+DATED_PASS = "pass_dated_source_uuid_bucket_scaleout_freeze"
+DATED_ROWS = "dated_source_uuid_bucket_observation_manifest.csv"
 
 
 def _contracts():
@@ -25,7 +28,8 @@ def _contracts():
 
 def _passing_gates():
     dated = {
-        "status": "pass_dated_source_m2m_scaleout_freeze",
+        "protocol": DATED_PROTOCOL,
+        "status": DATED_PASS,
         "candidate_image_pixels_opened": False,
         "selected_species": 200,
         "selected_photo_assets": 60000,
@@ -34,9 +38,10 @@ def _passing_gates():
         "image_acquisition_authorized": False,
     }
     manifest = {
-        "status": "pass_dated_source_m2m_scaleout_freeze",
+        "protocol": DATED_PROTOCOL,
+        "status": DATED_PASS,
         "candidate_image_pixels_opened": False,
-        "files": {"dated_source_m2m_observation_manifest.csv": "rows-sha"},
+        "files": {DATED_ROWS: "rows-sha"},
     }
     environment = {
         "status": "pass_precolour_environmental_coverage",
@@ -68,18 +73,20 @@ def test_v5_measurement_contract_keeps_terminal_inference_on_v5() -> None:
     assert contract["v5_inference_firewall"]["only_inference_contract"].endswith(
         "jbi_image_first_atlas_inference_contract_v5.json"
     )
+    assert contract["pixel_opening_gates"]["dated_source"]["required_protocol"] == DATED_PROTOCOL
+    assert contract["pixel_opening_gates"]["dated_source"]["required_status"] == DATED_PASS
     assert contract["v5_inference_firewall"][
         "superseded_v3_ordered_inference_must_not_authorize_or_classify_terminal_results"
     ] is True
 
 
-def test_all_four_preimage_gates_are_jointly_required() -> None:
+def test_all_preimage_gates_are_jointly_required() -> None:
     contract, _ = _contracts()
     dated, manifest, environment, roi, shared = _passing_gates()
     validate_preimage_gates(
         dated_reconciliation=dated,
         dated_manifest=manifest,
-        observation_manifest_name="dated_source_m2m_observation_manifest.csv",
+        observation_manifest_name=DATED_ROWS,
         observation_manifest_sha256="rows-sha",
         environmental_coverage=environment,
         roi_locked_result=roi,
@@ -88,12 +95,26 @@ def test_all_four_preimage_gates_are_jointly_required() -> None:
     )
 
     broken = dict(dated)
-    broken["status"] = "not_evaluable_dated_source_m2m_streaming_reconciliation"
+    broken["status"] = "not_evaluable_dated_source_uuid_bucket_reconciliation"
     with pytest.raises(RuntimeError, match="dated-source"):
         validate_preimage_gates(
             dated_reconciliation=broken,
             dated_manifest=manifest,
-            observation_manifest_name="dated_source_m2m_observation_manifest.csv",
+            observation_manifest_name=DATED_ROWS,
+            observation_manifest_sha256="rows-sha",
+            environmental_coverage=environment,
+            roi_locked_result=roi,
+            shared_qualification_result=shared,
+            contract=contract,
+        )
+
+    wrong_protocol = dict(dated)
+    wrong_protocol["protocol"] = "jbi-atlas-dated-source-streaming-execution-amendment-v3"
+    with pytest.raises(RuntimeError, match="dated-source"):
+        validate_preimage_gates(
+            dated_reconciliation=wrong_protocol,
+            dated_manifest=manifest,
+            observation_manifest_name=DATED_ROWS,
             observation_manifest_sha256="rows-sha",
             environmental_coverage=environment,
             roi_locked_result=roi,
@@ -107,7 +128,7 @@ def test_all_four_preimage_gates_are_jointly_required() -> None:
         validate_preimage_gates(
             dated_reconciliation=dated,
             dated_manifest=manifest,
-            observation_manifest_name="dated_source_m2m_observation_manifest.csv",
+            observation_manifest_name=DATED_ROWS,
             observation_manifest_sha256="rows-sha",
             environmental_coverage=broken_environment,
             roi_locked_result=roi,
@@ -121,7 +142,7 @@ def test_all_four_preimage_gates_are_jointly_required() -> None:
         validate_preimage_gates(
             dated_reconciliation=dated,
             dated_manifest=manifest,
-            observation_manifest_name="dated_source_m2m_observation_manifest.csv",
+            observation_manifest_name=DATED_ROWS,
             observation_manifest_sha256="rows-sha",
             environmental_coverage=environment,
             roi_locked_result=roi,
