@@ -1,0 +1,128 @@
+{
+  "protocol": "jbi-atlas-dated-source-uuid-bucket-amendment-v4",
+  "version": 1,
+  "status": "frozen_after_v3_stop_and_before_any_terminal_scaleout_candidate_pixel",
+  "date": "2026-09-02",
+  "purpose": "Correct the dated-source provenance gate by using stable observation_uuid rather than mutable proxy fields, while preserving all 60,000 already selected rows and the exact 2026-08-27 snapshot identity.",
+  "trigger": {
+    "candidate_image_pixels_opened": false,
+    "continuous_colour_used": false,
+    "replacement_or_resampling_permitted": false,
+    "v3_stop_result": "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json",
+    "v3_stop_result_git_blob_sha": "0742186c425cb506d16b1cda4c274534cd8d5a8d"
+  },
+  "schema_evidence": {
+    "open_data_repository": "https://github.com/inaturalist/inaturalist-open-data",
+    "open_data_readme_git_blob_sha": "b90afdfff6dd0e150774f32eba8f71bdd6cddc1d",
+    "metadata_readme_git_blob_sha": "89362939543dc4b8bec75997586038c61b7737e7",
+    "documented_observation_key": "observation_uuid",
+    "documented_photo_fields": [
+      "photo_uuid",
+      "photo_id",
+      "observation_uuid",
+      "observer_id",
+      "extension",
+      "license",
+      "width",
+      "height",
+      "position"
+    ],
+    "documented_metadata_limitation": "The official README states that photos can exist in the Open Dataset bucket without a corresponding monthly metadata row, and metadata rows can point to images no longer in the bucket.",
+    "documented_taxon_ancestry_separator": "backslash"
+  },
+  "immutable_parents": {
+    "terminal_geometry_artifact": {
+      "workflow_run_id": 33405153936,
+      "artifact_id": 9769165047,
+      "artifact_name": "jbi-atlas-200-species-metadata-feasibility",
+      "artifact_digest": "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375",
+      "files": {
+        "scaleout_metadata_feasibility.json": "32d8f1acc0ba1f4e8266db4aa8298e43988ac70423a11917eaf9165ccc8d819b",
+        "scaleout_observation_manifest.csv": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc",
+        "scaleout_species_panels.csv": "a061ac86311dfb60a6ea1197b1c8da45fdaa7403838f163280680651e948a57a"
+      },
+      "selected_species": 200,
+      "selected_observations": 60000,
+      "selected_photos": 60000
+    },
+    "snapshot": {
+      "snapshot_date": "2026-08-27",
+      "official_url": "https://inaturalist-open-data.s3.amazonaws.com/metadata/inaturalist-open-data-20260827.tar.gz",
+      "content_length_bytes": 35093052336,
+      "etag": "60cdb6b29b3d510bbe204b4bda1c558a-67",
+      "last_modified_utc": "2026-08-27T17:04:06Z",
+      "sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d"
+    }
+  },
+  "live_uuid_enrichment": {
+    "role": "identifier enrichment of the frozen 60,000 rows only; no selection, ranking, replacement or geometry change",
+    "endpoint": "https://api.inaturalist.org/v1/observations",
+    "lookup_key": "frozen integer observation_id",
+    "required_return_fields_semantically": [
+      "id",
+      "uuid",
+      "user.id",
+      "taxon.id",
+      "photos[].id",
+      "photos[].license_code"
+    ],
+    "required_exact_results_per_selected_observation": 1,
+    "required_unique_observation_uuid": true,
+    "selected_photo_must_still_be_attached_to_returned_observation": true,
+    "selected_photo_current_license_must_equal_frozen_license": true,
+    "allowed_photo_licenses": [
+      "cc0",
+      "cc-by",
+      "cc-by-sa",
+      "cc-by-nc",
+      "cc-by-nc-sa"
+    ],
+    "failure_rule": "not_evaluable and STOP without replacement"
+  },
+  "snapshot_resolution": {
+    "primary_exact_association_key": [
+      "photo_id",
+      "observation_uuid"
+    ],
+    "selected_observation_uuid_set_known_before_snapshot_scan": true,
+    "mutable_proxy_fields_not_used_to_identify_association": [
+      "taxon_id",
+      "latitude",
+      "longitude",
+      "positional_accuracy",
+      "observed_on",
+      "quality_grade"
+    ],
+    "exact_snapshot_association_rule": "If photos.csv contains exactly one selected photo_id row whose observation_uuid equals the enriched frozen observation_uuid, record snapshot_metadata_associated.",
+    "multiple_exact_snapshot_association_rule": "not_evaluable and STOP",
+    "observer_table_role": "diagnostic attribution context only; absence of an observers.csv row does not invalidate an already identified photo-observation association",
+    "taxon_table_role": "diagnostic dated taxonomy context only; live API metadata remains the frozen admission state and snapshot taxon state does not redefine the selected cohort"
+  },
+  "metadata_omission_fallback": {
+    "permitted_only_when_exact_snapshot_association_is_absent": true,
+    "reason": "Official Open Data documentation explicitly allows bucket photos without monthly metadata rows.",
+    "required_live_uuid_association": true,
+    "required_frozen_url_host": "inaturalist-open-data.s3.amazonaws.com",
+    "required_frozen_url_path_pattern": "/photos/{photo_id}/large.{extension}",
+    "verification_method": "HTTP HEAD only; do not read image response body",
+    "required_http_status": 200,
+    "required_positive_content_length": true,
+    "record_etag_and_content_type": true,
+    "failure_rule": "not_evaluable and STOP without replacement"
+  },
+  "full_stream_identity": {
+    "must_read_exact_compressed_snapshot_to_eof": true,
+    "archive_must_not_be_persisted": true,
+    "required_bytes": 35093052336,
+    "required_sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d"
+  },
+  "pass_rule": {
+    "all_60000_live_uuid_enrichments_required": true,
+    "all_60000_rows_must_resolve_by_exact_snapshot_association_or_documented_bucket_fallback": true,
+    "all_60000_rows_retained": true,
+    "replacement_or_resampling_permitted": false,
+    "pass_label": "pass_dated_source_uuid_bucket_scaleout_freeze",
+    "image_acquisition_authorized_by_this_gate_alone": false
+  },
+  "claim_ceiling": "Source identity, stable association provenance and open-bucket availability only. No image pixels, ROI, colour, spatial organization, shared transition, environmental concordance or biological result."
+}
