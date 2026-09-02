@@ -1,0 +1,55 @@
+{
+  "protocol": "jbi-atlas-terminal-scaleout-start-v3",
+  "status": "authorized_to_start_after_v2_validation_stop",
+  "start_date": "2026-09-02",
+  "workflow": {
+    "path": ".github/workflows/jbi-atlas-terminal-scaleout-v3.yml",
+    "git_blob_sha": "c3b7a4f7bae0fa004364f607301b655f24b0e223"
+  },
+  "technical_amendment": {
+    "path": "docs/supporting/jbi_atlas_terminal_scaleout_technical_amendment_v3.json",
+    "git_blob_sha": "025374f713b2632d382b0aad26d0c70783fa6555",
+    "status": "frozen_after_v2_validation_stop_and_before_first_terminal_scaleout_pixel"
+  },
+  "preserved_failed_attempts": [
+    {
+      "version": 1,
+      "run_id": 33591471270,
+      "outcome": "cancelled_after_deterministic_pre_get_provenance_failure",
+      "candidate_image_pixels_opened": false
+    },
+    {
+      "version": 2,
+      "run_id": 33592164271,
+      "outcome": "failed_in_validation_before_matrix_creation",
+      "candidate_image_pixels_opened": false
+    }
+  ],
+  "preimage_authorization": {
+    "run_id": 33590502331,
+    "artifact_id": 9831589627,
+    "artifact_digest": "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8",
+    "frozen_measurements": 60000
+  },
+  "prepixel_smoke_gate": {
+    "full_git_history_required": true,
+    "python_major_minor": "3.11",
+    "torch": "2.11.0+cpu",
+    "torchvision": "0.26.0+cpu",
+    "construct_exact_estimator_without_terminal_image": true,
+    "matrix_start_only_after_pass": true
+  },
+  "execution": {
+    "total_compute_partitions": 256,
+    "maximum_parallel_partitions": 8,
+    "all_partitions_required": true,
+    "early_stopping": false,
+    "replacement_or_resampling_permitted": false
+  },
+  "outcome_firewall_at_start": {
+    "candidate_image_pixels_opened": false,
+    "terminal_scaleout_colour_measured": false,
+    "coordinate_colour_join_performed": false,
+    "biological_inference_performed": false
+  }
+}
