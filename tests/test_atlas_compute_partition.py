@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -17,6 +18,12 @@ from fcp_pipeline.atlas_compute_partition import (
 )
 
 CONTRACT = Path("docs/supporting/jbi_atlas_compute_partition_amendment_v1.json")
+MEASUREMENT_CONTRACT = Path("docs/supporting/jbi_atlas_measurement_execution_contract_v5.json")
+
+
+def git_blob_sha(path: Path) -> str:
+    payload = path.read_bytes()
+    return hashlib.sha1(f"blob {len(payload)}\0".encode("ascii") + payload).hexdigest()
 
 
 def test_compute_partition_contract_is_pre_pixel_and_fixed() -> None:
@@ -24,6 +31,7 @@ def test_compute_partition_contract_is_pre_pixel_and_fixed() -> None:
     validate_compute_partition_contract(contract)
     assert contract["partition"]["total_compute_partitions"] == 256
     assert contract["partition"]["assignment_uses"] == ["measurement_id only"]
+    assert contract["immutable_parent"]["git_blob_sha"] == git_blob_sha(MEASUREMENT_CONTRACT)
 
 
 def test_assignment_is_deterministic_and_bounded() -> None:
