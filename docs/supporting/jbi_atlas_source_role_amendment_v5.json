@@ -1,0 +1,120 @@
+{
+  "protocol": "jbi-atlas-source-role-amendment-v5",
+  "version": 1,
+  "status": "prospectively_frozen_after_v4_stop_and_before_any_terminal_scaleout_candidate_pixel",
+  "date": "2026-09-02",
+  "purpose": "Separate immutable scientific selection, dated Open Data provenance and terminal asset acquisition so post-freeze changes in the current live API cannot reselect or invalidate the frozen 60,000-row experiment.",
+  "trigger": {
+    "candidate_image_pixels_opened": false,
+    "terminal_scaleout_colour_measured": false,
+    "replacement_or_resampling_permitted": false,
+    "v3_stop": {
+      "path": "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json",
+      "git_blob_sha": "0742186c425cb506d16b1cda4c274534cd8d5a8d"
+    },
+    "v4_stop": {
+      "path": "docs/supporting/jbi_atlas_dated_source_uuid_v4_stop_result.json",
+      "git_blob_sha": "3f8feb8fa79728606d0a69b4cdbf8719f732eabd"
+    }
+  },
+  "official_schema_evidence": {
+    "repository": "https://github.com/inaturalist/inaturalist-open-data",
+    "open_data_readme_git_blob_sha": "b90afdfff6dd0e150774f32eba8f71bdd6cddc1d",
+    "metadata_readme_git_blob_sha": "89362939543dc4b8bec75997586038c61b7737e7",
+    "documented_asset_identifier": "photo_id",
+    "documented_observation_identifier": "observation_uuid",
+    "documented_bucket_pattern": "photos/{photo_id}/{size}.{extension}",
+    "documented_metadata_limitation": "Monthly metadata tables can omit photos that remain in the Open Dataset bucket, and metadata rows can point to images that were deleted or moved.",
+    "consequence": "Monthly metadata completeness is not used as a 60,000-row admission or replacement rule."
+  },
+  "immutable_scientific_selection": {
+    "authority": "the exact terminal metadata artifact produced before any candidate pixel was opened",
+    "workflow_run_id": 33405153936,
+    "artifact_id": 9769165047,
+    "artifact_name": "jbi-atlas-200-species-metadata-feasibility",
+    "artifact_digest": "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375",
+    "files": {
+      "scaleout_metadata_feasibility.json": "32d8f1acc0ba1f4e8266db4aa8298e43988ac70423a11917eaf9165ccc8d819b",
+      "scaleout_observation_manifest.csv": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc",
+      "scaleout_species_panels.csv": "a061ac86311dfb60a6ea1197b1c8da45fdaa7403838f163280680651e948a57a"
+    },
+    "required_species": 200,
+    "required_cohorts": 8,
+    "required_observations": 60000,
+    "required_unique_observation_ids": 60000,
+    "required_unique_photo_ids": 60000,
+    "required_unique_source_urls": 60000,
+    "selection_used_candidate_pixels": false,
+    "selection_used_continuous_colour": false,
+    "selection_must_not_be_rerun_from_current_live_state": true
+  },
+  "frozen_asset_reference_audit": {
+    "required_scheme": "https",
+    "required_host": "inaturalist-open-data.s3.amazonaws.com",
+    "required_path_prefix_rule": "/photos/{photo_id}/large.",
+    "allowed_frozen_photo_licenses": [
+      "cc0",
+      "cc-by",
+      "cc-by-sa",
+      "cc-by-nc",
+      "cc-by-nc-sa"
+    ],
+    "expected_license_counts": {
+      "cc0": 2424,
+      "cc-by": 7954,
+      "cc-by-sa": 924,
+      "cc-by-nc": 47519,
+      "cc-by-nc-sa": 1179
+    },
+    "known_frozen_url_extension_missing": 14,
+    "known_frozen_url_extension_missing_role": "technical acquisition risk retained in the fixed denominator; it is not a licence to substitute another photo or observation",
+    "required_bad_host_or_photo_id_path_count": 0
+  },
+  "dated_snapshot_provenance": {
+    "snapshot_date": "2026-08-27",
+    "official_url": "https://inaturalist-open-data.s3.amazonaws.com/metadata/inaturalist-open-data-20260827.tar.gz",
+    "content_length_bytes": 35093052336,
+    "sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d",
+    "identity_evidence": "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json",
+    "required_identity_passed": true,
+    "required_bytes_read": 35093052336,
+    "required_computed_sha256": "c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d",
+    "archive_persisted": false,
+    "row_level_association_role": "descriptive provenance audit only; not a terminal selection/replacement gate because the snapshot predates the immutable live selection and official metadata is not a complete bucket inventory",
+    "repeat_35gb_stream_required_for_v5_authorization": false
+  },
+  "current_live_api_role": {
+    "authorization_role": "none",
+    "allowed_role": "diagnostic only",
+    "may_redefine_frozen_species": false,
+    "may_redefine_frozen_photo": false,
+    "may_redefine_frozen_license_record": false,
+    "may_remove_a_frozen_row": false,
+    "may_trigger_replacement_or_resampling": false,
+    "reason": "v4 demonstrated that later mutable live state can change after the experiment has already been frozen."
+  },
+  "terminal_acquisition_role": {
+    "image_access_occurs_only_after_all_independent_preimage_gates_pass": true,
+    "use_frozen_source_url_without_post_freeze_reselection": true,
+    "download_failure_is_terminal_measurement_failure": true,
+    "download_failure_remains_in_60000_denominator": true,
+    "download_failure_does_not_trigger_replacement": true,
+    "image_bytes_are_not_required_to_persist_after_location_blind_measurement": true,
+    "acquisition_success_or_failure_cannot_change_species_or_cohort_membership": true
+  },
+  "source_v5_pass_rule": {
+    "required_protocol": "jbi-atlas-source-role-amendment-v5",
+    "all_terminal_artifact_hashes_match": true,
+    "exact_200_species_60000_rows_preserved": true,
+    "all_observation_photo_url_ids_unique": true,
+    "all_source_hosts_and_photo_id_path_prefixes_valid": true,
+    "all_frozen_licenses_in_predeclared_allowed_set": true,
+    "dated_snapshot_identity_proof_passes": true,
+    "current_live_state_not_used_for_authorization": true,
+    "candidate_image_pixels_opened": false,
+    "replacement_or_resampling_permitted": false,
+    "pass_label": "pass_frozen_selection_dated_provenance_v5",
+    "image_acquisition_authorized_by_this_gate_alone": false
+  },
+  "claim_ceiling": "This gate establishes provenance for the immutable metadata-selected experiment and the identity of its dated Open Data context. It does not assert that every bucket object will download, does not revalidate the experiment against later live state, and contains no image, ROI, colour, spatial, environmental, pollinator or biological result."
+}
