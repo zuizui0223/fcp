@@ -98,8 +98,8 @@ def verify_repo_parent_blobs(contract: Mapping[str, Any]) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--observation-manifest", type=Path, required=True)
-    parser.add_argument("--dated-source-manifest", type=Path, required=True)
-    parser.add_argument("--dated-source-reconciliation", type=Path, required=True)
+    parser.add_argument("--source-v5-manifest", type=Path, required=True)
+    parser.add_argument("--source-v5-result", type=Path, required=True)
     parser.add_argument("--environmental-coverage-result", type=Path, required=True)
     parser.add_argument("--measurement-contract", type=Path, default=DEFAULT_CONTRACT)
     parser.add_argument("--inference-v5", type=Path, default=DEFAULT_INFERENCE)
@@ -118,14 +118,14 @@ def main() -> int:
     verify_repo_parent_blobs(contract)
 
     observation_hash = sha256(args.observation_manifest)
-    dated_manifest = load_json(args.dated_source_manifest)
-    dated_reconciliation = load_json(args.dated_source_reconciliation)
+    source_manifest = load_json(args.source_v5_manifest)
+    source_result = load_json(args.source_v5_result)
     environmental = load_json(args.environmental_coverage_result)
     roi = load_json(args.roi_locked_result)
     shared = load_json(args.shared_qualification_result)
     validate_preimage_gates(
-        dated_reconciliation=dated_reconciliation,
-        dated_manifest=dated_manifest,
+        dated_reconciliation=source_result,
+        dated_manifest=source_manifest,
         observation_manifest_name=args.observation_manifest.name,
         observation_manifest_sha256=observation_hash,
         environmental_coverage=environmental,
@@ -171,8 +171,8 @@ def main() -> int:
         "coordinate_key_opened_by_measurement_worker": False,
         "superseded_v3_ordered_inference_used": False,
         "preimage_gate_sha256": {
-            "dated_source_manifest": sha256(args.dated_source_manifest),
-            "dated_source_reconciliation": sha256(args.dated_source_reconciliation),
+            "source_v5_manifest": sha256(args.source_v5_manifest),
+            "source_v5_result": sha256(args.source_v5_result),
             "environmental_coverage": sha256(args.environmental_coverage_result),
             "roi_locked_result": sha256(args.roi_locked_result),
             "shared_transition_qualification": sha256(args.shared_qualification_result),
