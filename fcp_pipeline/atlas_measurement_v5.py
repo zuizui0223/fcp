@@ -15,8 +15,8 @@ from .atlas_measurement import build_measurement_firewall, measurement_shard
 
 
 PROTOCOL = "jbi-atlas-measurement-execution-v5"
-DATED_SOURCE_PROTOCOL = "jbi-atlas-dated-source-uuid-bucket-amendment-v4"
-DATED_SOURCE_PASS = "pass_dated_source_uuid_bucket_scaleout_freeze"
+DATED_SOURCE_PROTOCOL = "jbi-atlas-source-role-amendment-v5"
+DATED_SOURCE_PASS = "pass_frozen_selection_dated_provenance_v5"
 
 
 class MeasurementV5ContractError(ValueError):
@@ -90,16 +90,20 @@ def validate_measurement_execution_contract(
     gates = contract.get("pixel_opening_gates", {})
     if gates.get("all_required") is not True:
         raise MeasurementV5ContractError("all v5 pixel-opening gates must be required")
-    dated = gates.get("dated_source", {})
+    source = gates.get("dated_source", {})
     if (
-        dated.get("required_protocol") != DATED_SOURCE_PROTOCOL
-        or dated.get("required_status") != DATED_SOURCE_PASS
+        source.get("required_protocol") != DATED_SOURCE_PROTOCOL
+        or source.get("required_status") != DATED_SOURCE_PASS
+        or source.get("current_live_state_used_for_authorization") is not False
+        or source.get("repeat_35gb_stream_used_for_v5_authorization") is not False
     ):
-        raise MeasurementV5ContractError("dated-source v4 gate changed")
-    if gates.get("environmental_coverage", {}).get("required_status") != (
-        "pass_precolour_environmental_coverage"
+        raise MeasurementV5ContractError("source role v5 gate changed")
+    environment = gates.get("environmental_coverage", {})
+    if (
+        environment.get("required_status") != "pass_precolour_environmental_coverage"
+        or environment.get("required_source_stage") != "final-source-v5"
     ):
-        raise MeasurementV5ContractError("environmental coverage pass label changed")
+        raise MeasurementV5ContractError("environmental coverage gate changed")
     if gates.get("roi_v4_locked", {}).get("required_status") != (
         "pass_roi_v4_locked_test"
     ):
@@ -130,28 +134,33 @@ def validate_preimage_gates(
     """Require every independent pre-image gate before building the sealed key."""
 
     gates = contract["pixel_opening_gates"]
-    dated_gate = gates["dated_source"]
+    source_gate = gates["dated_source"]
+    source_parents = dated_reconciliation.get("parents", {})
     if (
-        dated_reconciliation.get("protocol") != dated_gate["required_protocol"]
-        or dated_reconciliation.get("status") != dated_gate["required_status"]
+        dated_reconciliation.get("protocol") != source_gate["required_protocol"]
+        or dated_reconciliation.get("status") != source_gate["required_status"]
         or dated_reconciliation.get("candidate_image_pixels_opened") is not False
-        or dated_reconciliation.get("selected_species") != dated_gate["required_species"]
+        or dated_reconciliation.get("selected_species") != source_gate["required_species"]
         or dated_reconciliation.get("selected_photo_assets")
-        != dated_gate["required_photo_assets"]
+        != source_gate["required_photo_assets"]
         or dated_reconciliation.get("frozen_observations")
-        != dated_gate["required_frozen_observations"]
+        != source_gate["required_frozen_observations"]
         or dated_reconciliation.get("replacement_permitted") is not False
         or dated_reconciliation.get("image_acquisition_authorized") is not False
-    ):
-        raise RuntimeError("dated-source v4 gate did not pass unchanged")
-    if (
-        dated_manifest.get("protocol") != dated_gate["required_protocol"]
-        or dated_manifest.get("status") != dated_gate["required_status"]
-        or dated_manifest.get("candidate_image_pixels_opened") is not False
-        or dated_manifest.get("files", {}).get(observation_manifest_name)
+        or dated_reconciliation.get("current_live_state_used_for_authorization") is not False
+        or dated_reconciliation.get("repeat_35gb_stream_used_for_v5_authorization") is not False
+        or source_parents.get("scaleout_observation_manifest_sha256")
         != observation_manifest_sha256
     ):
-        raise RuntimeError("dated-source v4 manifest does not authorize exact frozen rows")
+        raise RuntimeError("source role v5 gate did not pass unchanged")
+    if (
+        dated_manifest.get("protocol") != source_gate["required_protocol"]
+        or dated_manifest.get("status") != source_gate["required_status"]
+        or dated_manifest.get("candidate_image_pixels_opened") is not False
+        or dated_manifest.get("replacement_permitted") is not False
+        or not dated_manifest.get("files", {}).get("source_v5_result.json")
+    ):
+        raise RuntimeError("source role v5 manifest does not authorize the frozen selection")
 
     environment_gate = gates["environmental_coverage"]
     if (
@@ -160,7 +169,7 @@ def validate_preimage_gates(
         != environment_gate["required_status"]
         or environmental_coverage.get("source_stage")
         != environment_gate["required_source_stage"]
-        or environmental_coverage.get("final_dated_source_required") is not False
+        or environmental_coverage.get("final_source_v5_required") is not False
         or environmental_coverage.get("scaleout_colour_opened") is not False
         or environmental_coverage.get("image_acquisition_authorized") is not False
     ):
