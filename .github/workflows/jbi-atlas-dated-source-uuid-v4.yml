@@ -7,6 +7,7 @@ on:
       - "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json"
       - "fcp_pipeline/atlas_dated_source_uuid_v4.py"
       - "scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py"
+      - "scripts/data/diagnose_jbi_atlas_live_uuid_v4.py"
       - "tests/test_atlas_dated_source_uuid_v4.py"
       - ".github/workflows/jbi-atlas-dated-source-uuid-v4.yml"
   push:
@@ -17,6 +18,7 @@ on:
       - "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json"
       - "fcp_pipeline/atlas_dated_source_uuid_v4.py"
       - "scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py"
+      - "scripts/data/diagnose_jbi_atlas_live_uuid_v4.py"
       - "tests/test_atlas_dated_source_uuid_v4.py"
       - ".github/workflows/jbi-atlas-dated-source-uuid-v4.yml"
   workflow_dispatch:
@@ -54,8 +56,51 @@ jobs:
         run: |
           python -m py_compile \
             scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py \
+            scripts/data/diagnose_jbi_atlas_live_uuid_v4.py \
             scripts/data/run_jbi_atlas_precolour_environmental_coverage_v5.py \
             scripts/data/build_jbi_atlas_measurement_firewall_v5.py
+
+  diagnose-live-uuid:
+    if: github.event_name == 'push'
+    needs: validate-uuid-resolver
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: "33405153936"
+      SOURCE_ARTIFACT_ID: "9769165047"
+      SOURCE_ARTIFACT_NAME: "jbi-atlas-200-species-metadata-feasibility"
+      SOURCE_ARTIFACT_DIGEST: "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Verify and download exact terminal metadata artifact
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .digest)" = "${SOURCE_ARTIFACT_DIGEST}"
+          rm -rf /tmp/fcp-atlas-scaleout /tmp/fcp-uuid-diagnostic
+          mkdir -p /tmp/fcp-atlas-scaleout /tmp/fcp-uuid-diagnostic
+          gh run download "${SOURCE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SOURCE_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-atlas-scaleout
+      - name: Diagnose exact 60k live UUID state without snapshot or pixels
+        run: |
+          python scripts/data/diagnose_jbi_atlas_live_uuid_v4.py \
+            --observation-manifest /tmp/fcp-atlas-scaleout/scaleout_observation_manifest.csv \
+            --output /tmp/fcp-uuid-diagnostic/live_uuid_diagnostic_v4.json
+      - name: Upload UUID diagnostic receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-live-uuid-diagnostic-v4
+          path: /tmp/fcp-uuid-diagnostic/
+          if-no-files-found: error
 
   reconcile-exact-snapshot-v4:
     if: github.event_name == 'workflow_dispatch'
