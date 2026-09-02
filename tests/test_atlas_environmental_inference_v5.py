@@ -1,6 +1,13 @@
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import numpy as np
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from fcp_pipeline.shared_transition_surface import EqualAreaGrid
 from scripts.data import run_jbi_atlas_environmental_inference_v5 as env_v5
