@@ -50,11 +50,15 @@ jobs:
             tests/test_atlas_dated_source_uuid_v4.py \
             tests/test_atlas_dated_source.py \
             tests/test_atlas_dated_source_streaming.py
-      - name: Syntax-check production v4 runner
-        run: python -m py_compile scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py
+      - name: Syntax-check production v4 and downstream preimage runners
+        run: |
+          python -m py_compile \
+            scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py \
+            scripts/data/run_jbi_atlas_precolour_environmental_coverage_v5.py \
+            scripts/data/build_jbi_atlas_measurement_firewall_v5.py
 
   reconcile-exact-snapshot-v4:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     needs: validate-uuid-resolver
     runs-on: ubuntu-24.04
     timeout-minutes: 360
@@ -95,7 +99,22 @@ jobs:
           python scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py \
             --metadata-dir /tmp/fcp-atlas-scaleout \
             --output-dir /tmp/fcp-dated-source-v4
-      - name: Upload v4 source-provenance receipt
+      - name: Re-evaluate final environmental coverage on the unchanged 200-species geometry
+        run: |
+          python scripts/data/run_jbi_atlas_precolour_environmental_coverage_v5.py \
+            --metadata-feasibility /tmp/fcp-atlas-scaleout/scaleout_metadata_feasibility.json \
+            --species-panels /tmp/fcp-atlas-scaleout/scaleout_species_panels.csv \
+            --dated-source-reconciliation /tmp/fcp-dated-source-v4/dated_source_uuid_bucket_reconciliation.json \
+            --output /tmp/fcp-dated-source-v4/precolour_environmental_coverage_v5.json
+      - name: Build v5 location-blind measurement firewall only after every preimage gate passes
+        run: |
+          python scripts/data/build_jbi_atlas_measurement_firewall_v5.py \
+            --observation-manifest /tmp/fcp-dated-source-v4/dated_source_uuid_bucket_observation_manifest.csv \
+            --dated-source-manifest /tmp/fcp-dated-source-v4/dated_source_uuid_bucket_manifest.json \
+            --dated-source-reconciliation /tmp/fcp-dated-source-v4/dated_source_uuid_bucket_reconciliation.json \
+            --environmental-coverage-result /tmp/fcp-dated-source-v4/precolour_environmental_coverage_v5.json \
+            --output-dir /tmp/fcp-dated-source-v4/measurement_firewall_v5
+      - name: Upload complete v4 preimage authorization receipt
         if: always()
         uses: actions/upload-artifact@v4
         with:
