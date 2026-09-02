@@ -1,0 +1,46 @@
+{
+  "protocol": "jbi-atlas-dated-source-uuid-v4-stop-result",
+  "status": "not_evaluable_live_uuid_enrichment",
+  "recorded_date": "2026-09-02",
+  "scope": {
+    "candidate_image_pixels_opened": false,
+    "continuous_colour_used": false,
+    "replacement_or_resampling_permitted": false,
+    "biological_inference": false
+  },
+  "parent_amendment": {
+    "path": "docs/supporting/jbi_atlas_dated_source_uuid_bucket_amendment_v4.json",
+    "git_blob_sha": "5ca5aa5eb71c158dabb58e42afd0b4e4a9288be7"
+  },
+  "workflow": {
+    "run_id": 33581651853,
+    "job_id": 100097106188,
+    "head_sha": "0cc0ef10e347cedb7193e6bef1379fffa59336b3",
+    "artifact_id": 9828868355,
+    "artifact_name": "jbi-atlas-dated-source-uuid-v4",
+    "artifact_digest": "sha256:abc5b67c6a976aa1e386a4dcdcf233afdfec3fab82138043d00504cfe6cd2c61"
+  },
+  "observed_execution": {
+    "terminal_metadata_artifact_verified": true,
+    "terminal_metadata_downloaded": true,
+    "selected_observations_queried_from_current_live_api": 60000,
+    "snapshot_stream_started": false,
+    "environmental_coverage_rerun_started": false,
+    "measurement_firewall_built": false,
+    "first_hard_failure": {
+      "type": "selected_photo_license_changed_after_freeze",
+      "photo_id": "137830327",
+      "observation_id": "83896824",
+      "frozen_species": "Sambucus racemosa",
+      "frozen_license": "cc-by"
+    }
+  },
+  "diagnosis": {
+    "snapshot_identity_failure": false,
+    "schema_key_failure": false,
+    "current_live_state_used_as_authorization": true,
+    "temporal_role_failure": true,
+    "explanation": "The terminal scientific selection was already immutably frozen before this v4 run. Requiring every frozen row to retain the same mutable photo licence, attachment and observer state in a later current-live API response makes source authorization depend on post-freeze edits rather than on the frozen selection and dated source provenance. The first such change caused an immediate STOP before the dated snapshot was read."
+  },
+  "consequence": "Preserve this STOP. Do not relax or overwrite v4 in place and do not replace the affected row. Any successor source gate must be frozen before pixels and must separate immutable scientific selection, dated snapshot identity and terminal acquisition failures without using later current-live metadata to reselect the cohort."
+}
