@@ -1,0 +1,79 @@
+{
+  "protocol": "jbi-atlas-preimage-authorization-v5-result",
+  "status": "pass_exact_preimage_authorization_v5",
+  "recorded_date": "2026-09-02",
+  "scope": {
+    "candidate_image_pixels_opened": false,
+    "terminal_scaleout_colour_measured": false,
+    "coordinate_colour_join_performed": false,
+    "replacement_or_resampling_permitted": false,
+    "biological_inference": false
+  },
+  "workflow": {
+    "run_id": 33590502331,
+    "head_sha": "4d1f15e6a85b6b0862bfb69d0ac6e09dea9c54c6",
+    "artifact_id": 9831589627,
+    "artifact_name": "jbi-atlas-preimage-authorization-v5",
+    "artifact_digest": "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8"
+  },
+  "exact_parents": {
+    "terminal_selection_run_id": 33405153936,
+    "terminal_selection_artifact_id": 9769165047,
+    "terminal_selection_artifact_digest": "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375",
+    "source_v5_run_id": 33587279241,
+    "source_v5_artifact_id": 9830521820,
+    "source_v5_artifact_digest": "sha256:7b936c711368d07f7135b6047cc0c51aaf17a61c531599e952b875204aa60c87",
+    "source_observation_manifest_sha256": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc"
+  },
+  "environmental_coverage": {
+    "status": "pass_precolour_environmental_coverage",
+    "source_stage": "final-source-v5",
+    "result_sha256": "3a59c219d74683a676d872c68e70da8040d9570090dbd9bb2b8d6f5531cc97f5",
+    "evaluable_families": [
+      "macroclimate",
+      "land_cover",
+      "ecoregion"
+    ],
+    "scales": {
+      "100": {
+        "opportunity_cells": 1684,
+        "macroclimate_fraction": 0.9904988123515439,
+        "land_cover_fraction": 1.0,
+        "ecoregion_fraction": 0.9904988123515439
+      },
+      "250": {
+        "opportunity_cells": 708,
+        "macroclimate_fraction": 0.9971751412429378,
+        "land_cover_fraction": 1.0,
+        "ecoregion_fraction": 0.9971751412429378
+      },
+      "500": {
+        "opportunity_cells": 342,
+        "macroclimate_fraction": 1.0,
+        "land_cover_fraction": 0.9912280701754386,
+        "ecoregion_fraction": 1.0
+      }
+    }
+  },
+  "measurement_firewall": {
+    "status": "pass_scaleout_measurement_firewall_v5",
+    "manifest_sha256": "95c02ed3d73bcdf9a5e1f0fc3d154a896ea9f7c4618815a3862b2581451e67f5",
+    "frozen_measurements": 60000,
+    "worker_packet_rows": 60000,
+    "worker_packet_sha256": "d76a65b0b2e6440d6910e7a6b0088e0c3caed3ace3c32f92298daac35ae01465",
+    "worker_packet_fields": [
+      "measurement_id",
+      "species_blind_id",
+      "image_filename",
+      "photo_license"
+    ],
+    "sealed_species_key_rows": 60000,
+    "sealed_species_key_sha256": "612f34212188089ae636b940181e2822567728d64aee2f2df51f9ccff27b499f",
+    "sealed_acquisition_key_rows": 60000,
+    "sealed_acquisition_key_sha256": "c89aeb22936a70954be2ab084e25ea594694573c1dc2f18eeacbb67933ba983f",
+    "candidate_image_pixels_opened": false,
+    "coordinate_key_opened_by_measurement_worker": false,
+    "superseded_v3_ordered_inference_used": false
+  },
+  "consequence": "All independent pre-image gates required by measurement execution v5 passed on the exact frozen 200-species/60,000-row experiment. Terminal image acquisition may now begin under the frozen location-blind acquisition and compute-partition contracts. No biological outcome has yet been observed."
+}
