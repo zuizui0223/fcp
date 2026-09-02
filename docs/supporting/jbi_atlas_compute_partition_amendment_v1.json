@@ -1,0 +1,80 @@
+{
+  "protocol": "jbi-atlas-compute-partition-amendment-v1",
+  "version": 1,
+  "status": "prospectively_frozen_before_any_terminal_scaleout_candidate_pixel",
+  "date": "2026-09-02",
+  "purpose": "Split each already-frozen technical 16-way acquisition/measurement shard into deterministic colour-blind compute partitions so each hosted job remains bounded, then reassemble the exact original semantic shard before completeness evaluation.",
+  "trigger": {
+    "candidate_image_pixels_opened": false,
+    "terminal_scaleout_colour_measured": false,
+    "reason": "ROI-v4 development inference required 46008.10229420662 seconds for 400 images, while the locked test required 873.0979149341583 seconds for 100 images. Sequentially processing roughly 3,750 images per original shard risks exceeding a hosted-job execution ceiling."
+  },
+  "immutable_parent": {
+    "path": "docs/supporting/jbi_atlas_measurement_execution_contract_v5.json",
+    "git_blob_sha": "a347ee3cdb2a3e83f033a9b82a40767e6e8869be",
+    "semantic_acquisition_shards": 16,
+    "semantic_measurement_shards": 16,
+    "torch_threads_per_measurement_worker": 2,
+    "maximum_concurrent_workers": 8
+  },
+  "partition": {
+    "partitions_per_semantic_shard": 16,
+    "total_compute_partitions": 256,
+    "assignment": "sha256('fcp-atlas-v5-compute-partition\\x1f' + measurement_id), first eight digest bytes as unsigned big-endian integer modulo 16",
+    "assignment_uses": [
+      "measurement_id only"
+    ],
+    "assignment_forbids": [
+      "taxon name",
+      "species identity",
+      "coordinates",
+      "date",
+      "image pixels",
+      "ROI outcome",
+      "colour",
+      "environment",
+      "pollinator variables"
+    ],
+    "same_partition_for_acquisition_and_measurement": true,
+    "all_256_partitions_required": true,
+    "early_stopping": false,
+    "favourable_partition_selection_forbidden": true
+  },
+  "ephemeral_firewall": {
+    "combined_acquisition_and_measurement_job_per_compute_partition": true,
+    "rule": "The acquisition step may read only its sealed coordinate key and v5 firewall. Before measurement estimator construction, copy the location-blind worker manifest to a clean directory and delete the downloaded preimage packet, including the sealed acquisition key. The measurement step receives only the location-blind worker manifest, blinded image objects, frozen ROI assets and its compute-partition indices.",
+    "image_artifact_persistence_required": false,
+    "persist_after_partition": [
+      "location-blind acquisition receipt",
+      "location-blind measurement rows",
+      "location-blind measurement receipt"
+    ],
+    "persist_after_partition_forbidden": [
+      "image pixels",
+      "sealed coordinate key",
+      "source URL",
+      "taxon name",
+      "coordinates"
+    ]
+  },
+  "reassembly": {
+    "target_semantic_shards": 16,
+    "required_compute_partitions_per_semantic_shard": 16,
+    "duplicate_measurement_id_rule": "fail closed",
+    "missing_measurement_id_rule": "fail closed",
+    "expected_membership_rule": "The union of 16 compute partitions must equal exactly the measurement IDs assigned to that original semantic shard by the unchanged v5 measurement_shard rule.",
+    "canonical_output": "one measurement_v5_shard_XXXX.csv plus manifest per original semantic shard",
+    "completeness_gate_unchanged": true
+  },
+  "unchanged": [
+    "60,000-row frozen denominator",
+    "200 species and eight random cohorts",
+    "source provenance gate",
+    "ROI-v4 weights and thresholds",
+    "four-attempt acquisition terminal-failure rule",
+    "two torch threads per measurement worker",
+    "all measurement failures retained",
+    "spatial/shared/environment inference contracts and nulls"
+  ],
+  "claim_ceiling": "Compute scheduling only. This amendment cannot change image admission, colour values, species/cohort membership, inferential statistics, branch outcomes or biological claims."
+}
