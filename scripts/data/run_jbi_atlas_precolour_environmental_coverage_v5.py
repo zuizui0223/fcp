@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
-"""Evaluate final pre-colour environmental coverage after UUID dated-source v4.
+"""Evaluate final pre-colour environmental coverage after source-role v5 passes.
 
-This runner reuses the already-frozen environmental boundary surfaces and terminal
-geometry.  It does not use image pixels or colour and cannot authorize acquisition
-by itself.
+This runner reuses the already-frozen environmental boundary surfaces and exact
+terminal geometry. It never uses image pixels or colour and cannot authorize
+acquisition by itself.
 """
 
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from pathlib import Path
 import sys
@@ -21,16 +20,13 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from fcp_pipeline.atlas_environment import evaluate_environmental_coverage_gate
+from fcp_pipeline.atlas_source_v5 import PASS_LABEL as SOURCE_PASS, PROTOCOL as SOURCE_PROTOCOL
 from scripts.data.run_jbi_atlas_precolour_environmental_coverage import (
     file_sha256,
     load_frozen_boundaries,
     read_csv,
     selected_geometry,
 )
-
-
-DATED_PROTOCOL = "jbi-atlas-dated-source-uuid-bucket-amendment-v4"
-DATED_PASS = "pass_dated_source_uuid_bucket_scaleout_freeze"
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -40,26 +36,30 @@ def load_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def validate_v4_dated_source(dated: Mapping[str, Any]) -> None:
+def validate_source_v5_result(source: Mapping[str, Any]) -> None:
     if (
-        dated.get("protocol") != DATED_PROTOCOL
-        or dated.get("status") != DATED_PASS
-        or dated.get("candidate_image_pixels_opened") is not False
-        or dated.get("continuous_colour_used") is not False
-        or dated.get("selected_species") != 200
-        or dated.get("selected_photo_assets") != 60000
-        or dated.get("frozen_observations") != 60000
-        or dated.get("replacement_permitted") is not False
-        or dated.get("image_acquisition_authorized") is not False
+        source.get("protocol") != SOURCE_PROTOCOL
+        or source.get("status") != SOURCE_PASS
+        or source.get("candidate_image_pixels_opened") is not False
+        or source.get("continuous_colour_used") is not False
+        or source.get("selected_species") != 200
+        or source.get("selected_photo_assets") != 60000
+        or source.get("frozen_observations") != 60000
+        or source.get("replacement_permitted") is not False
+        or source.get("image_acquisition_authorized") is not False
+        or source.get("current_live_state_used_for_authorization") is not False
+        or source.get("repeat_35gb_stream_used_for_v5_authorization") is not False
+        or source.get("dated_snapshot_identity", {}).get("identity_passed") is not True
+        or source.get("dated_snapshot_identity", {}).get("reused_existing_full_stream_proof") is not True
     ):
-        raise ValueError("UUID dated-source v4 did not pass unchanged")
+        raise ValueError("source role v5 did not pass unchanged")
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--metadata-feasibility", type=Path, required=True)
     parser.add_argument("--species-panels", type=Path, required=True)
-    parser.add_argument("--dated-source-reconciliation", type=Path, required=True)
+    parser.add_argument("--source-v5-result", type=Path, required=True)
     parser.add_argument(
         "--environment-dir", type=Path, default=ROOT / "data/atlas/environment"
     )
@@ -78,8 +78,17 @@ def main() -> int:
 
     feasibility = load_json(args.metadata_feasibility)
     panels = read_csv(args.species_panels)
-    dated = load_json(args.dated_source_reconciliation)
-    validate_v4_dated_source(dated)
+    source = load_json(args.source_v5_result)
+    validate_source_v5_result(source)
+    source_parents = source.get("parents", {})
+    if (
+        source_parents.get("scaleout_metadata_feasibility_sha256")
+        != file_sha256(args.metadata_feasibility)
+        or source_parents.get("scaleout_species_panels_sha256")
+        != file_sha256(args.species_panels)
+    ):
+        raise ValueError("source v5 result does not identify this terminal geometry")
+
     contract = load_json(args.environment_contract)
     boundary_manifest = load_json(args.boundary_manifest)
     rows_by_scale, boundary_hashes = load_frozen_boundaries(
@@ -96,9 +105,9 @@ def main() -> int:
         **gate,
         "status": gate["status"],
         "coverage_gate_status": gate["status"],
-        "source_stage": "final-dated-source",
-        "dated_source_protocol": DATED_PROTOCOL,
-        "final_dated_source_required": False,
+        "source_stage": "final-source-v5",
+        "source_protocol": SOURCE_PROTOCOL,
+        "final_source_v5_required": False,
         "image_acquisition_authorized": False,
         "selected_taxon_ids": taxa,
         "claim_ceiling": (
@@ -108,9 +117,7 @@ def main() -> int:
         "parents": {
             "metadata_feasibility_sha256": file_sha256(args.metadata_feasibility),
             "species_panels_sha256": file_sha256(args.species_panels),
-            "dated_source_reconciliation_sha256": file_sha256(
-                args.dated_source_reconciliation
-            ),
+            "source_v5_result_sha256": file_sha256(args.source_v5_result),
             "environment_contract_sha256": file_sha256(args.environment_contract),
             "boundary_manifest_sha256": file_sha256(args.boundary_manifest),
             "boundary_files_sha256": boundary_hashes,
