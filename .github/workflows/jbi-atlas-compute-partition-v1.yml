@@ -1,0 +1,44 @@
+name: JBI atlas compute partition v1
+
+on:
+  pull_request:
+    paths:
+      - "docs/supporting/jbi_atlas_compute_partition_amendment_v1.json"
+      - "fcp_pipeline/atlas_compute_partition.py"
+      - "scripts/data/reassemble_jbi_atlas_compute_partitions_v1.py"
+      - "tests/test_atlas_compute_partition.py"
+      - ".github/workflows/jbi-atlas-compute-partition-v1.yml"
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "docs/supporting/jbi_atlas_compute_partition_amendment_v1.json"
+      - "fcp_pipeline/atlas_compute_partition.py"
+      - "scripts/data/reassemble_jbi_atlas_compute_partitions_v1.py"
+      - "tests/test_atlas_compute_partition.py"
+      - ".github/workflows/jbi-atlas-compute-partition-v1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-compute-partition:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Validate deterministic 256-way partition contract and exact reassembly logic
+        env:
+          PYTHONPATH: .
+        run: |
+          pytest -q tests/test_atlas_compute_partition.py
+      - name: Syntax-check reassembly entrypoint
+        run: python -m py_compile scripts/data/reassemble_jbi_atlas_compute_partitions_v1.py
