@@ -1,0 +1,238 @@
+name: JBI atlas terminal follow-up v5
+
+on:
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "scripts/data/run_jbi_atlas_environmental_inference_v5.py"
+      - "scripts/data/finalize_jbi_atlas_confirmatory_cascade_v5.py"
+      - "tests/test_atlas_environmental_inference_v5.py"
+      - "tests/test_atlas_confirmatory_cascade_finalizer_v5.py"
+      - ".github/workflows/jbi-atlas-terminal-followup-v5.yml"
+      - "docs/supporting/jbi_atlas_terminal_followup_implementation_amendment_v1.json"
+  pull_request:
+    types: [edited]
+    paths:
+      - "scripts/data/run_jbi_atlas_environmental_inference_v5.py"
+      - "scripts/data/finalize_jbi_atlas_confirmatory_cascade_v5.py"
+      - "tests/test_atlas_environmental_inference_v5.py"
+      - "tests/test_atlas_confirmatory_cascade_finalizer_v5.py"
+      - ".github/workflows/jbi-atlas-terminal-followup-v5.yml"
+      - "docs/supporting/jbi_atlas_terminal_followup_implementation_amendment_v1.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-atlas-terminal-followup-v5-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+env:
+  TERMINAL_RUN_ID: "33592829701"
+  TERMINAL_HEAD_SHA: "aea19a4eff9585f501aa6a833ad44c80080eddcf"
+  TERMINAL_ARTIFACT_NAME: "jbi-atlas-terminal-measurement-v5"
+  PREIMAGE_RUN_ID: "33590502331"
+  PREIMAGE_ARTIFACT_ID: "9831589627"
+  PREIMAGE_ARTIFACT_NAME: "jbi-atlas-preimage-authorization-v5"
+  PREIMAGE_ARTIFACT_DIGEST: "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8"
+
+jobs:
+  validate-followup-code:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Syntax-check terminal follow-up runners
+        run: |
+          python -m py_compile \
+            scripts/data/run_jbi_atlas_real_inference_v5.py \
+            scripts/data/run_jbi_atlas_environmental_inference_v5.py \
+            scripts/data/finalize_jbi_atlas_confirmatory_cascade_v5.py
+      - name: Test strict environmental field reuse and cascade termination
+        run: |
+          pytest -q \
+            tests/test_atlas_real_inference_v5.py \
+            tests/test_atlas_environmental_inference_v5.py \
+            tests/test_atlas_confirmatory_cascade_finalizer_v5.py \
+            tests/test_atlas_inference_cascade.py
+
+  execute-exact-terminal-followup:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+       github.event.pull_request.number == 21 &&
+       contains(github.event.pull_request.body, '[run-terminal-followup-v5]'))
+    needs: validate-followup-code
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install exact analysis environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Require exact terminal run to be completely successful
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${TERMINAL_RUN_ID}" --jq .head_sha)" = "${TERMINAL_HEAD_SHA}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${TERMINAL_RUN_ID}" --jq .status)" = "completed"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${TERMINAL_RUN_ID}" --jq .conclusion)" = "success"
+      - name: Resolve exactly one terminal measurement artifact from that run
+        id: terminal_artifact
+        run: |
+          MATCHES="$(gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/runs/${TERMINAL_RUN_ID}/artifacts?per_page=100" --jq '.artifacts[] | select(.name == env.TERMINAL_ARTIFACT_NAME) | [.id,.digest] | @tsv')"
+          test "$(printf '%s\n' "$MATCHES" | sed '/^$/d' | wc -l)" -eq 1
+          ARTIFACT_ID="$(printf '%s\n' "$MATCHES" | cut -f1)"
+          ARTIFACT_DIGEST="$(printf '%s\n' "$MATCHES" | cut -f2)"
+          test -n "$ARTIFACT_ID"
+          test -n "$ARTIFACT_DIGEST"
+          echo "artifact_id=$ARTIFACT_ID" >> "$GITHUB_OUTPUT"
+          echo "artifact_digest=$ARTIFACT_DIGEST" >> "$GITHUB_OUTPUT"
+      - name: Verify exact preimage artifact identity
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREIMAGE_ARTIFACT_ID}" --jq .name)" = "${PREIMAGE_ARTIFACT_NAME}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREIMAGE_ARTIFACT_ID}" --jq .digest)" = "${PREIMAGE_ARTIFACT_DIGEST}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREIMAGE_ARTIFACT_ID}" --jq .expired)" = "false"
+      - name: Download exact terminal measurement and preimage bundles
+        run: |
+          rm -rf /tmp/fcp-terminal-measurement /tmp/fcp-preimage-v5 /tmp/fcp-followup
+          mkdir -p /tmp/fcp-terminal-measurement /tmp/fcp-preimage-v5 /tmp/fcp-followup/final
+          gh run download "${TERMINAL_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${TERMINAL_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-terminal-measurement
+          gh run download "${PREIMAGE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${PREIMAGE_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-preimage-v5
+          test -f /tmp/fcp-terminal-measurement/measurement_gate_v5.json
+          test -f /tmp/fcp-preimage-v5/measurement_firewall_v5/measurement_firewall_v5_manifest.json
+          test -f /tmp/fcp-preimage-v5/measurement_firewall_v5/sealed_keys/acquisition_coordinate_key.csv
+          test -f /tmp/fcp-preimage-v5/precolour_environmental_coverage_v5.json
+      - name: Record immutable execution inputs before protected join
+        env:
+          TERMINAL_ARTIFACT_ID: ${{ steps.terminal_artifact.outputs.artifact_id }}
+          TERMINAL_ARTIFACT_DIGEST: ${{ steps.terminal_artifact.outputs.artifact_digest }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          def sha(path):
+              h=hashlib.sha256()
+              with Path(path).open('rb') as f:
+                  for b in iter(lambda:f.read(1024*1024),b''): h.update(b)
+              return h.hexdigest()
+          out={
+              'protocol':'jbi-atlas-terminal-followup-v5-execution-input-v1',
+              'terminal_run_id':int(os.environ['TERMINAL_RUN_ID']),
+              'terminal_head_sha':os.environ['TERMINAL_HEAD_SHA'],
+              'terminal_artifact_id':int(os.environ['TERMINAL_ARTIFACT_ID']),
+              'terminal_artifact_name':os.environ['TERMINAL_ARTIFACT_NAME'],
+              'terminal_artifact_digest':os.environ['TERMINAL_ARTIFACT_DIGEST'],
+              'measurement_gate_sha256':sha('/tmp/fcp-terminal-measurement/measurement_gate_v5.json'),
+              'preimage_run_id':int(os.environ['PREIMAGE_RUN_ID']),
+              'preimage_artifact_id':int(os.environ['PREIMAGE_ARTIFACT_ID']),
+              'preimage_artifact_digest':os.environ['PREIMAGE_ARTIFACT_DIGEST'],
+              'coordinate_key_opened_at_receipt':False,
+          }
+          Path('/tmp/fcp-followup/final/execution_input_receipt.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+      - name: Finalize immediately if measurement completeness is not evaluable
+        id: gate
+        run: |
+          STATUS="$(python - <<'PY'
+          import json
+          print(json.load(open('/tmp/fcp-terminal-measurement/measurement_gate_v5.json'))['status'])
+          PY
+          )"
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          if [ "$STATUS" = "not_evaluable_scaleout_measurement_completeness" ]; then
+            python scripts/data/finalize_jbi_atlas_confirmatory_cascade_v5.py \
+              --measurement-gate /tmp/fcp-terminal-measurement/measurement_gate_v5.json \
+              --output /tmp/fcp-followup/final/terminal_confirmatory_cascade_v5.json
+          else
+            test "$STATUS" = "pass_scaleout_measurement_completeness"
+          fi
+      - name: Run protected primary spatial/shared inference only after gate pass
+        if: steps.gate.outputs.status == 'pass_scaleout_measurement_completeness'
+        run: |
+          mkdir -p /tmp/fcp-followup/primary
+          python scripts/data/run_jbi_atlas_real_inference_v5.py \
+            --measurement-results-dir /tmp/fcp-terminal-measurement \
+            --measurement-gate /tmp/fcp-terminal-measurement/measurement_gate_v5.json \
+            --measurement-firewall /tmp/fcp-preimage-v5/measurement_firewall_v5/measurement_firewall_v5_manifest.json \
+            --sealed-coordinate-key /tmp/fcp-preimage-v5/measurement_firewall_v5/sealed_keys/acquisition_coordinate_key.csv \
+            --output-dir /tmp/fcp-followup/primary
+      - name: Run environmental concordance only if legally reached
+        if: steps.gate.outputs.status == 'pass_scaleout_measurement_completeness'
+        id: environment
+        run: |
+          NEXT="$(python - <<'PY'
+          import json
+          print(json.load(open('/tmp/fcp-followup/primary/real_colour_primary_inference_v5.json'))['next_confirmatory_branch'])
+          PY
+          )"
+          echo "next=$NEXT" >> "$GITHUB_OUTPUT"
+          if [ "$NEXT" = "environmental_concordance" ]; then
+            mkdir -p /tmp/fcp-followup/environment
+            python scripts/data/run_jbi_atlas_environmental_inference_v5.py \
+              --measurement-results-dir /tmp/fcp-terminal-measurement \
+              --measurement-gate /tmp/fcp-terminal-measurement/measurement_gate_v5.json \
+              --primary-inference-dir /tmp/fcp-followup/primary \
+              --environmental-coverage-result /tmp/fcp-preimage-v5/precolour_environmental_coverage_v5.json \
+              --environment-dir data/atlas/environment \
+              --output-dir /tmp/fcp-followup/environment
+          else
+            test "$NEXT" = "STOP_CONFIRMATORY"
+          fi
+      - name: Finalize all reached v5 branches
+        if: steps.gate.outputs.status == 'pass_scaleout_measurement_completeness'
+        run: |
+          ARGS=(
+            --measurement-gate /tmp/fcp-terminal-measurement/measurement_gate_v5.json
+            --primary-result /tmp/fcp-followup/primary/real_colour_primary_inference_v5.json
+            --output /tmp/fcp-followup/final/terminal_confirmatory_cascade_v5.json
+          )
+          if [ -f /tmp/fcp-followup/environment/environmental_concordance_v5.json ]; then
+            ARGS+=(--environmental-result /tmp/fcp-followup/environment/environmental_concordance_v5.json)
+            ENV_OUTCOME="$(python - <<'PY'
+          import json
+          print(json.load(open('/tmp/fcp-followup/environment/environmental_concordance_v5.json'))['outcome'])
+          PY
+          )"
+            if [ "$ENV_OUTCOME" = "unsupported" ]; then
+              ARGS+=(--bombus-source-gate docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json)
+            fi
+          fi
+          python scripts/data/finalize_jbi_atlas_confirmatory_cascade_v5.py "${ARGS[@]}"
+      - name: Delete protected preimage keys before persistence
+        if: always()
+        run: |
+          rm -rf /tmp/fcp-preimage-v5
+          test ! -e /tmp/fcp-preimage-v5
+      - name: Upload only final and reached inference evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-terminal-confirmatory-v5
+          path: /tmp/fcp-followup/
+          if-no-files-found: error
+          retention-days: 90
