@@ -5,6 +5,8 @@ on:
     paths:
       - "docs/supporting/jbi_atlas_compute_partition_amendment_v1.json"
       - "fcp_pipeline/atlas_compute_partition.py"
+      - "scripts/data/acquire_jbi_atlas_compute_partition_v1.py"
+      - "scripts/data/seal_jbi_atlas_compute_partition_result_v1.py"
       - "scripts/data/reassemble_jbi_atlas_compute_partitions_v1.py"
       - "tests/test_atlas_compute_partition.py"
       - ".github/workflows/jbi-atlas-compute-partition-v1.yml"
@@ -14,6 +16,8 @@ on:
     paths:
       - "docs/supporting/jbi_atlas_compute_partition_amendment_v1.json"
       - "fcp_pipeline/atlas_compute_partition.py"
+      - "scripts/data/acquire_jbi_atlas_compute_partition_v1.py"
+      - "scripts/data/seal_jbi_atlas_compute_partition_result_v1.py"
       - "scripts/data/reassemble_jbi_atlas_compute_partitions_v1.py"
       - "tests/test_atlas_compute_partition.py"
       - ".github/workflows/jbi-atlas-compute-partition-v1.yml"
@@ -40,5 +44,9 @@ jobs:
           PYTHONPATH: .
         run: |
           pytest -q tests/test_atlas_compute_partition.py
-      - name: Syntax-check reassembly entrypoint
-        run: python -m py_compile scripts/data/reassemble_jbi_atlas_compute_partitions_v1.py
+      - name: Syntax-check compute acquisition, sealing and reassembly entrypoints
+        run: |
+          python -m py_compile \
+            scripts/data/acquire_jbi_atlas_compute_partition_v1.py \
+            scripts/data/seal_jbi_atlas_compute_partition_result_v1.py \
+            scripts/data/reassemble_jbi_atlas_compute_partitions_v1.py
