@@ -35,8 +35,8 @@ def validate_v5_acquisition_firewall(
 
     gate_hashes = firewall.get("preimage_gate_sha256", {})
     required = {
-        "dated_source_manifest",
-        "dated_source_reconciliation",
+        "source_v5_manifest",
+        "source_v5_result",
         "environmental_coverage",
         "roi_locked_result",
         "shared_transition_qualification",
