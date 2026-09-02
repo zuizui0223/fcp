@@ -194,13 +194,36 @@ def validate_preimage_gates(
         raise RuntimeError("shared-transition preimage method qualification did not pass")
 
 
+def _normalize_preimage_row(raw: Mapping[str, Any]) -> dict[str, Any]:
+    """Normalize the CSV serialization of the frozen no-pixel flag only.
+
+    The terminal selection artifact stores ``candidate_image_pixels_opened`` as
+    the text ``False`` because it is a CSV.  The legacy low-level firewall
+    intentionally accepts only the boolean False.  v5 therefore converts that
+    one provenance flag back to bool while rejecting every other value.  No
+    image/ROI/colour field is normalized or ignored.
+    """
+
+    row = dict(raw)
+    if "candidate_image_pixels_opened" in row:
+        value = row["candidate_image_pixels_opened"]
+        if value is False:
+            pass
+        elif isinstance(value, str) and value.strip().casefold() == "false":
+            row["candidate_image_pixels_opened"] = False
+        else:
+            raise ValueError("terminal preimage row does not preserve candidate_image_pixels_opened=false")
+    return row
+
+
 def build_v5_measurement_firewall(
     rows: Sequence[Mapping[str, Any]], contract: Mapping[str, Any]
 ) -> dict[str, list[dict[str, Any]]]:
     """Use the unchanged pre-pixel blinding transformation under a v5 contract."""
 
     salt = str(contract["location_blind_measurement"]["blinding_salt"])
-    return build_measurement_firewall(rows, salt=salt)
+    normalized = [_normalize_preimage_row(row) for row in rows]
+    return build_measurement_firewall(normalized, salt=salt)
 
 
 __all__ = [
