@@ -1,7 +1,7 @@
 """Pre-image authorization and location-blind measurement rules for atlas v5.
 
 This module deliberately reuses only low-level blinding/sharding helpers from the
-legacy v3 measurement implementation.  It never validates or imports the
+legacy v3 measurement implementation. It never validates or imports the
 superseded v3 ordered inference tree; terminal biological decisions are governed
 exclusively by ``atlas_inference_cascade`` and the v5 contract.
 """
@@ -15,6 +15,8 @@ from .atlas_measurement import build_measurement_firewall, measurement_shard
 
 
 PROTOCOL = "jbi-atlas-measurement-execution-v5"
+DATED_SOURCE_PROTOCOL = "jbi-atlas-dated-source-uuid-bucket-amendment-v4"
+DATED_SOURCE_PASS = "pass_dated_source_uuid_bucket_scaleout_freeze"
 
 
 class MeasurementV5ContractError(ValueError):
@@ -88,10 +90,12 @@ def validate_measurement_execution_contract(
     gates = contract.get("pixel_opening_gates", {})
     if gates.get("all_required") is not True:
         raise MeasurementV5ContractError("all v5 pixel-opening gates must be required")
-    if gates.get("dated_source", {}).get("required_status") != (
-        "pass_dated_source_m2m_scaleout_freeze"
+    dated = gates.get("dated_source", {})
+    if (
+        dated.get("required_protocol") != DATED_SOURCE_PROTOCOL
+        or dated.get("required_status") != DATED_SOURCE_PASS
     ):
-        raise MeasurementV5ContractError("dated-source pass label changed")
+        raise MeasurementV5ContractError("dated-source v4 gate changed")
     if gates.get("environmental_coverage", {}).get("required_status") != (
         "pass_precolour_environmental_coverage"
     ):
@@ -128,7 +132,8 @@ def validate_preimage_gates(
     gates = contract["pixel_opening_gates"]
     dated_gate = gates["dated_source"]
     if (
-        dated_reconciliation.get("status") != dated_gate["required_status"]
+        dated_reconciliation.get("protocol") != dated_gate["required_protocol"]
+        or dated_reconciliation.get("status") != dated_gate["required_status"]
         or dated_reconciliation.get("candidate_image_pixels_opened") is not False
         or dated_reconciliation.get("selected_species") != dated_gate["required_species"]
         or dated_reconciliation.get("selected_photo_assets")
@@ -138,14 +143,15 @@ def validate_preimage_gates(
         or dated_reconciliation.get("replacement_permitted") is not False
         or dated_reconciliation.get("image_acquisition_authorized") is not False
     ):
-        raise RuntimeError("dated-source v5 gate did not pass unchanged")
+        raise RuntimeError("dated-source v4 gate did not pass unchanged")
     if (
-        dated_manifest.get("status") != dated_gate["required_status"]
+        dated_manifest.get("protocol") != dated_gate["required_protocol"]
+        or dated_manifest.get("status") != dated_gate["required_status"]
         or dated_manifest.get("candidate_image_pixels_opened") is not False
         or dated_manifest.get("files", {}).get(observation_manifest_name)
         != observation_manifest_sha256
     ):
-        raise RuntimeError("dated-source manifest does not authorize exact frozen rows")
+        raise RuntimeError("dated-source v4 manifest does not authorize exact frozen rows")
 
     environment_gate = gates["environmental_coverage"]
     if (
@@ -189,6 +195,8 @@ def build_v5_measurement_firewall(
 
 
 __all__ = [
+    "DATED_SOURCE_PASS",
+    "DATED_SOURCE_PROTOCOL",
     "build_v5_measurement_firewall",
     "measurement_shard",
     "validate_measurement_execution_contract",
