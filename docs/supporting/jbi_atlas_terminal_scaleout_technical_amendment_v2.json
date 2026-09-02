@@ -1,0 +1,111 @@
+{
+  "protocol": "jbi-atlas-terminal-scaleout-technical-amendment-v2",
+  "version": 2,
+  "status": "frozen_after_v1_pre_get_stop_and_before_first_terminal_scaleout_pixel",
+  "freeze_date": "2026-09-02",
+  "purpose": "Correct two execution-environment defects discovered by the first terminal workflow attempt before any terminal image request: shallow Git history prevented immutable ROI gate provenance validation, and an unpinned torch dependency resolved to a newer CUDA build rather than the qualified CPU runtime. No scientific selection, estimator parameter, image, colour value, null, branch rule or biological outcome is changed.",
+  "trigger": {
+    "v1_run_id": 33591471270,
+    "v1_head_sha": "dd220daa704eed9934f3a89dd40379f63eef6b40",
+    "v1_workflow_path": ".github/workflows/jbi-atlas-terminal-scaleout-v1.yml",
+    "v1_workflow_git_blob_sha": "9ea249fc18c45c4d1129a02649191985c6bcfab2",
+    "representative_failed_job_id": 100126320737,
+    "representative_partition": [0, 0],
+    "failure_step": "Acquire exact compute partition — first permitted scaleout pixel access",
+    "failure_location": "load_committed_locked_scaleout_result -> validate_committed_gate -> git show 5d1c033f84b00a2bbc4276a33c4f4f4b82ec5b3d:scripts/data/run_jbi_atlas_roi_v4_jrc_gate.py",
+    "failure_reason": "actions/checkout@v4 default fetch-depth=1 omitted the prospectively recorded historical ROI-gate commit, so the immutable evidence validator stopped before partition selection or the image acquisition loop.",
+    "failure_before_first_image_request": true,
+    "why_pre_get_is_deterministic": "In acquire_jbi_atlas_compute_partition_v1.py, load_committed_locked_scaleout_result and validate_scaleout_authorization execute before select_compute_partition and before any call to acquire(). Every matrix job used the same depth-1 checkout and therefore could only fail at the same provenance check before image access.",
+    "v1_runtime_drift_observed_before_pixels": {
+      "python": "3.11.16",
+      "torch_resolved": "2.13.0",
+      "qualified_training_environment_python": "3.10.11",
+      "qualified_training_environment_torch": "2.11.0+cpu"
+    }
+  },
+  "outcome_firewall": {
+    "candidate_image_pixels_opened": false,
+    "terminal_scaleout_colour_measured": false,
+    "coordinate_colour_join_performed": false,
+    "biological_inference_performed": false,
+    "v1_partition_measurement_artifact_persisted": false
+  },
+  "immutable_parents": {
+    "terminal_execution_v1": {
+      "path": "docs/supporting/jbi_atlas_terminal_scaleout_execution_v1.json",
+      "git_blob_sha": "796db42f3ddd6765da62fa5efa7ae825977068cc"
+    },
+    "preimage_authorization_result": {
+      "path": "docs/supporting/jbi_atlas_preimage_authorization_v5_result.json",
+      "git_blob_sha": "99e35f9a70652c159a9718fcbb531c5f5f087077",
+      "artifact_id": 9831589627,
+      "artifact_digest": "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8"
+    },
+    "measurement_execution_v5": {
+      "path": "docs/supporting/jbi_atlas_measurement_execution_contract_v5.json",
+      "git_blob_sha": "2ddcd9e9559ca1d96cd5aaa70920f407ce4d577d"
+    },
+    "compute_partition_v1": {
+      "path": "docs/supporting/jbi_atlas_compute_partition_amendment_v1.json",
+      "git_blob_sha": "5a5fc0ad1c24630c502bc427523ea5e9845fa664"
+    },
+    "roi_v4_locked_evidence": {
+      "path": "data/atlas/qualification/roi_v4_locked_test/gate_evidence_manifest.json",
+      "git_blob_sha": "d030f31f4dd08b4f23a19792bc0e2d14958475ce",
+      "historical_runner_commit": "5d1c033f84b00a2bbc4276a33c4f4f4b82ec5b3d"
+    },
+    "roi_v4_training_evidence": {
+      "path": "data/atlas/qualification/roi_v4_training/training_evidence_manifest.json",
+      "git_blob_sha": "c31a2ba011ce135e2a0f48f85fa1e22d8a280ec2",
+      "qualified_environment": {
+        "device": "cpu",
+        "python": "3.10.11",
+        "torch": "2.11.0+cpu",
+        "ultralytics": "8.4.112"
+      }
+    }
+  },
+  "workflow": {
+    "path": ".github/workflows/jbi-atlas-terminal-scaleout-v2.yml",
+    "git_blob_sha": "84dfddd0087bcc9217fa7d6fd3cb805a04143778",
+    "trigger_path": "docs/supporting/jbi_atlas_terminal_scaleout_start_v2.json",
+    "trigger_file_absent_at_this_freeze": true,
+    "same_concurrency_group_as_v1": "jbi-atlas-terminal-scaleout-v1",
+    "cancel_invalid_v1_when_v2_starts": true
+  },
+  "technical_changes": {
+    "checkout_fetch_depth": 0,
+    "checkout_scope": "validation, all 256 measurement partitions, and reassembly",
+    "python": "3.10.11",
+    "torch": "2.11.0+cpu",
+    "torchvision": "0.26.0+cpu",
+    "torch_install_index": "https://download.pytorch.org/whl/cpu",
+    "ultralytics": "8.4.112",
+    "onnxruntime": "1.23.2",
+    "scikit_image": "0.25.2",
+    "reason_checkout": "make the already-frozen historical ROI-gate commit available to the immutable evidence validator",
+    "reason_runtime": "match the qualified CPU detector environment instead of allowing a later unqualified torch/CUDA dependency to resolve"
+  },
+  "unchanged": {
+    "frozen_measurements": 60000,
+    "selected_species": 200,
+    "cohorts": 8,
+    "semantic_shards": 16,
+    "compute_partitions_per_semantic_shard": 16,
+    "total_compute_partitions": 256,
+    "maximum_parallel_partitions": 8,
+    "all_partitions_required": true,
+    "early_stopping": false,
+    "replacement_or_resampling_permitted": false,
+    "preimage_artifact_id": 9831589627,
+    "preimage_artifact_digest": "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8",
+    "detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_revision": "d525f622e6f640acf5a0fc37c7ca1f243da5bde0",
+    "efficient_sam_encoder_sha256": "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951",
+    "efficient_sam_decoder_sha256": "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11",
+    "roi_thresholds_and_colour_measurement": "unchanged",
+    "v5_confirmatory_sequence_and_nulls": "unchanged",
+    "not_evaluable_semantics": "unchanged"
+  },
+  "claim_ceiling": "Execution repair only. This amendment preserves the original prospective experiment and authorizes no scientific reinterpretation. No terminal scaleout candidate image was requested or decoded by the failed v1 attempt; biological inference remains unopened."
+}
