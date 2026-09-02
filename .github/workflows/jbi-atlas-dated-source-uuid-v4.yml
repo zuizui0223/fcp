@@ -1,0 +1,104 @@
+name: JBI atlas dated-source UUID v4
+
+on:
+  pull_request:
+    paths:
+      - "docs/supporting/jbi_atlas_dated_source_uuid_bucket_amendment_v4.json"
+      - "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json"
+      - "fcp_pipeline/atlas_dated_source_uuid_v4.py"
+      - "scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py"
+      - "tests/test_atlas_dated_source_uuid_v4.py"
+      - ".github/workflows/jbi-atlas-dated-source-uuid-v4.yml"
+  push:
+    branches:
+      - analysis/jbi-global-colour-boundaries-scaleup
+    paths:
+      - "docs/supporting/jbi_atlas_dated_source_uuid_bucket_amendment_v4.json"
+      - "docs/supporting/jbi_atlas_dated_source_streaming_v3_stop_result.json"
+      - "fcp_pipeline/atlas_dated_source_uuid_v4.py"
+      - "scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py"
+      - "tests/test_atlas_dated_source_uuid_v4.py"
+      - ".github/workflows/jbi-atlas-dated-source-uuid-v4.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jbi-atlas-dated-source-uuid-v4-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  validate-uuid-resolver:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Test stable UUID source roles and legacy STOP preservation
+        env:
+          PYTHONPATH: .
+        run: |
+          pytest -q \
+            tests/test_atlas_dated_source_uuid_v4.py \
+            tests/test_atlas_dated_source.py \
+            tests/test_atlas_dated_source_streaming.py
+      - name: Syntax-check production v4 runner
+        run: python -m py_compile scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py
+
+  reconcile-exact-snapshot-v4:
+    if: github.event_name == 'workflow_dispatch'
+    needs: validate-uuid-resolver
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN_ID: "33405153936"
+      SOURCE_ARTIFACT_ID: "9769165047"
+      SOURCE_ARTIFACT_NAME: "jbi-atlas-200-species-metadata-feasibility"
+      SOURCE_ARTIFACT_DIGEST: "sha256:bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Verify exact terminal metadata artifact
+        run: |
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .id)" = "${SOURCE_ARTIFACT_ID}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .name)" = "${SOURCE_ARTIFACT_NAME}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .digest)" = "${SOURCE_ARTIFACT_DIGEST}"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" --jq .expired)" = "false"
+      - name: Download terminal metadata only
+        run: |
+          rm -rf /tmp/fcp-atlas-scaleout
+          mkdir -p /tmp/fcp-atlas-scaleout
+          gh run download "${SOURCE_RUN_ID}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name "${SOURCE_ARTIFACT_NAME}" \
+            --dir /tmp/fcp-atlas-scaleout
+      - name: Enrich stable UUIDs, stream exact snapshot, and verify bucket fallbacks
+        run: |
+          rm -rf /tmp/fcp-dated-source-v4
+          mkdir -p /tmp/fcp-dated-source-v4
+          python scripts/data/reconcile_jbi_atlas_dated_source_uuid_bucket_v4.py \
+            --metadata-dir /tmp/fcp-atlas-scaleout \
+            --output-dir /tmp/fcp-dated-source-v4
+      - name: Upload v4 source-provenance receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jbi-atlas-dated-source-uuid-v4
+          path: /tmp/fcp-dated-source-v4/
+          if-no-files-found: warn
