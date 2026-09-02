@@ -1,0 +1,81 @@
+{
+  "protocol": "jbi-atlas-terminal-followup-implementation-amendment-v1",
+  "recorded_date": "2026-09-02",
+  "status": "implementation_completed_after_terminal_pixel_opening_and_before_formal_coordinate_colour_inference",
+  "timing_boundary": {
+    "terminal_candidate_pixels_opened": true,
+    "terminal_measurement_in_progress": true,
+    "measurement_completeness_evaluated": false,
+    "coordinate_colour_join_performed": false,
+    "formal_species_conditioned_spatial_inference_performed": false,
+    "formal_shared_transition_inference_performed": false,
+    "formal_environmental_concordance_performed": false,
+    "formal_pollinator_concordance_performed": false
+  },
+  "purpose": "Complete executable routing for the already-frozen v5 confirmatory cascade after discovering that the existing real-colour runner implemented spatial/shared branches but did not yet execute the already-declared environmental and terminal pollinator paths. This amendment changes implementation coverage only; it does not introduce, remove, reorder or retune any scientific hypothesis, statistic, threshold, null, seed, cohort rule, environmental family or source gate.",
+  "immutable_scientific_parents": {
+    "inference_v5": {
+      "path": "docs/supporting/jbi_image_first_atlas_inference_contract_v5.json",
+      "git_blob_sha": "24909777d7bb774f8af6431c0b0ea1161d8e51de"
+    },
+    "real_colour_inference_v5": {
+      "path": "docs/supporting/jbi_atlas_real_colour_inference_amendment_v5.json",
+      "git_blob_sha": "a459c42d854af21b417937e830ed7d6e05821f7d"
+    },
+    "colour_surface_environment_v1": {
+      "path": "docs/supporting/jbi_atlas_colour_surface_contract_v1.json",
+      "git_blob_sha": "cea071ec7e19576b98a843d4844c470c61317b29"
+    },
+    "measurement_execution_v5": {
+      "path": "docs/supporting/jbi_atlas_measurement_execution_contract_v5.json",
+      "git_blob_sha": "2ddcd9e9559ca1d96cd5aaa70920f407ce4d577d"
+    },
+    "pollinator_source_gate": {
+      "path": "docs/supporting/jbi_atlas_bombus_source_gate_result_v1.json",
+      "git_blob_sha": "e7a2db0118a1e787bb49b0dd462aa870affdae48"
+    },
+    "terminal_pixel_opening_receipt": {
+      "path": "docs/supporting/jbi_atlas_terminal_pixel_opening_v3_result.json",
+      "git_blob_sha": "804178565f3d39bd6ac5ae0cbfc3680bfd38d6b0"
+    }
+  },
+  "implementation_files_at_freeze": {
+    "scripts/data/run_jbi_atlas_environmental_inference_v5.py": "668a3eaa39af4f01c00acf4a6c2fe14a56b2453d",
+    "scripts/data/finalize_jbi_atlas_confirmatory_cascade_v5.py": "31439b6414ce7cbd0ee64c7d7c68463f8a7acf6a",
+    ".github/workflows/jbi-atlas-terminal-followup-v5.yml": "b74472ea0c8deb6a72e6c8aa407fc7f6c9d90d0c"
+  },
+  "execution_bindings": {
+    "terminal_run_id": 33592829701,
+    "terminal_run_head_sha": "aea19a4eff9585f501aa6a833ad44c80080eddcf",
+    "terminal_measurement_artifact_name": "jbi-atlas-terminal-measurement-v5",
+    "preimage_run_id": 33590502331,
+    "preimage_artifact_id": 9831589627,
+    "preimage_artifact_digest": "sha256:ba9d81b2b57600a537439260458dd7e95e311c08f38baf2adb5b8680104410d8"
+  },
+  "unchanged_scientific_rules": {
+    "all_60000_frozen_records_required": true,
+    "all_256_compute_partitions_required": true,
+    "replacement_or_resampling_permitted": false,
+    "early_stopping_permitted": false,
+    "measurement_not_evaluable_opens_coordinates": false,
+    "not_evaluable_advances_confirmatory": false,
+    "spatial_randomizations": 9999,
+    "spatial_seed": 20260901,
+    "shared_randomizations": 9999,
+    "shared_seed": 20260902,
+    "environment_randomizations": 9999,
+    "environment_seed": 20260831,
+    "same_standardized_flower_field_required_downstream": true,
+    "background_role_can_promote_primary_flower_support": false,
+    "terrain_substitution_permitted": false,
+    "post_colour_pollinator_source_substitution_permitted": false
+  },
+  "environment_implementation_boundary": {
+    "flower_field": "reuse the exact upstream frozen standardized flower Lab table and verify its SHA-256; no downstream flower remeasurement or restandardization",
+    "background_diagnostic": "standardize once within species/role from the already-frozen admitted measurements with background_features_available=true, then include it in the predeclared joint familywise maximum",
+    "primary_promotion_tests": "unchanged equal-eight-cohort flower tests at 100 km/all_dates for macroclimate, land cover and ecoregion only"
+  },
+  "measurement_not_evaluable_boundary": "If the exact 60,000-record measurement completeness gate returns not_evaluable, finalize species-conditioned spatial organization as not_evaluable and STOP_CONFIRMATORY without reading the sealed coordinate key or requiring any real-colour, environmental or pollinator result.",
+  "pollinator_boundary": "If and only if environmental concordance is reached and returns unsupported, the already-frozen Bombus source gate is appended as pollinator_biogeographic_concordance=not_evaluable and the terminal cascade ends. No replacement source may be introduced.",
+  "claim_ceiling": "This is a post-opening implementation-completeness amendment, not a pre-pixel scientific preregistration and not biological evidence. It cannot change the meaning or support status of any frozen hypothesis."
+}
