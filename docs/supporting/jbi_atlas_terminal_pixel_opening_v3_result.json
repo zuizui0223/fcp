@@ -1,0 +1,53 @@
+{
+  "protocol": "jbi-atlas-terminal-pixel-opening-v3-result",
+  "status": "terminal_scaleout_pixels_opened_measurement_in_progress",
+  "recorded_date": "2026-09-02",
+  "terminal_run": {
+    "run_id": 33592829701,
+    "head_sha": "aea19a4eff9585f501aa6a833ad44c80080eddcf",
+    "workflow": ".github/workflows/jbi-atlas-terminal-scaleout-v3.yml",
+    "workflow_git_blob_sha": "c3b7a4f7bae0fa004364f607301b655f24b0e223"
+  },
+  "prepixel_smoke_gate": {
+    "job_id": 100130152040,
+    "status": "success",
+    "full_history_roi_provenance": "pass",
+    "cpu_runtime": "torch 2.11.0+cpu / Python 3.11",
+    "detector_and_efficient_sam_identity": "pass",
+    "exact_estimator_constructed_without_terminal_image": true,
+    "preimage_artifact_identity": "pass"
+  },
+  "first_observed_successful_pixel_access": {
+    "job_id": 100130355909,
+    "semantic_shard_index": 0,
+    "compute_partition_index": 3,
+    "acquisition_step": "success",
+    "ephemeral_firewall_step": "success",
+    "roi_v4_measurement_step_at_recording": "in_progress"
+  },
+  "additional_partitions_observed_after_successful_acquisition": [
+    [0, 1],
+    [0, 2],
+    [0, 4],
+    [0, 6],
+    [0, 7]
+  ],
+  "state_transition": {
+    "candidate_image_pixels_opened": true,
+    "terminal_scaleout_colour_measurement_started": true,
+    "coordinate_colour_join_performed": false,
+    "biological_inference_performed": false,
+    "measurement_completeness_evaluated": false
+  },
+  "post_opening_freeze": {
+    "sampling_or_species_membership_may_change": false,
+    "replacement_or_resampling_permitted": false,
+    "roi_model_or_thresholds_may_change": false,
+    "colour_measurement_definition_may_change": false,
+    "v5_nulls_or_randomization_seeds_may_change": false,
+    "confirmatory_branch_rules_may_change": false,
+    "all_60000_frozen_records_remain_in_denominator": true,
+    "all_256_compute_partitions_remain_required": true
+  },
+  "claim_ceiling": "This receipt records only the transition from pre-pixel authorization to active location-blind terminal acquisition/ROI measurement. No sealed partition measurement result, species-conditioned colour field, spatial organization, shared transition, environmental concordance, pollinator concordance or biological claim has yet been evaluated."
+}
