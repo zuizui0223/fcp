@@ -57,7 +57,7 @@ jobs:
             tests/test_atlas_dated_source_streaming.py
 
   reconcile-exact-snapshot:
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'workflow_dispatch'
     needs: validate-streaming-code
     runs-on: ubuntu-latest
     timeout-minutes: 360
