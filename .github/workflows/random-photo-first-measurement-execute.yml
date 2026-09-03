@@ -8,6 +8,7 @@ on:
     paths:
       - "data/frozen/random_photo_first_candidate_pool_v1.csv"
       - "docs/supporting/random_photo_first_candidate_pool_manifest_v1.json"
+      - "docs/supporting/random_photo_first_measurement_technical_rerun_v1.json"
 
 permissions:
   contents: read
@@ -153,7 +154,31 @@ jobs:
           rm -rf /tmp/blind /tmp/efficient-sam /tmp/safe-acquisition /tmp/blind_measurement_results.csv
           test ! -e /tmp/blind
           test ! -e /tmp/efficient-sam
-          ! grep -R -E "photo_url|latitude|longitude|species|observer" /tmp/sealed-partition
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+
+          root = Path('/tmp/sealed-partition')
+          forbidden = {
+              'photo_url', 'photo_url_large', 'latitude', 'longitude',
+              'species', 'observer', 'observer_id'
+          }
+          csv_files = sorted(root.glob('*.csv'))
+          assert len(csv_files) == 1, f'unexpected sealed csv count: {len(csv_files)}'
+          with csv_files[0].open(newline='', encoding='utf-8') as handle:
+              header = next(csv.reader(handle), [])
+          leaked = sorted(forbidden.intersection(header))
+          assert not leaked, f'forbidden metadata columns in sealed partition: {leaked}'
+
+          receipt_files = sorted(root.glob('*.json'))
+          assert len(receipt_files) == 1, f'unexpected sealed receipt count: {len(receipt_files)}'
+          receipt = json.loads(receipt_files[0].read_text(encoding='utf-8'))
+          assert receipt['source_urls_present'] is False
+          assert receipt['species_present'] is False
+          assert receipt['coordinates_present'] is False
+          print('sealed_partition_metadata_firewall=pass')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: random-photo-first-terminal-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
