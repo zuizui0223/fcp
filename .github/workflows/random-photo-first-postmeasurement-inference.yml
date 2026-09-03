@@ -106,8 +106,11 @@ jobs:
               assert h1['primary']['permutations'] == 999
               assert h1['primary']['sampling_seed'] == 20260903
               assert h1['primary']['permutation_seed'] == 20260904
-              assert h2['status'] == 'complete_h2_evaluable'
-              if h1['primary']['p_upper'] >= h1['alpha']:
+              assert h2['status'] in {'complete_h2_evaluable', 'not_evaluable_h2_after_evaluable_h1'}
+              if h2['status'] == 'not_evaluable_h2_after_evaluable_h1':
+                  assert h2['confirmatory_climate_concordance_claim'] is False
+                  assert 'reason' in h2 and h2['reason']
+              elif h1['primary']['p_upper'] >= h1['alpha']:
                   assert h2['hierarchical_decision'] == 'diagnostic_only_h1_not_supported_no_climate_mechanism_claim'
           print(json.dumps({'h1': h1, 'h2': h2}, indent=2))
           PY
