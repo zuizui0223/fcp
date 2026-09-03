@@ -2,11 +2,6 @@ name: Random photo-first post-measurement H1-H2 inference
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-      - analysis/random-photo-first-boundary-persistence
-    paths:
-      - "docs/supporting/random_photo_first_inference_manual_handoff_v1.json"
   push:
     branches:
       - analysis/random-photo-first-inference-execution
@@ -19,8 +14,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: random-photo-first-postmeasurement-inference-${{ github.event.pull_request.head.ref || github.ref }}
-  cancel-in-progress: false
+  group: random-photo-first-postmeasurement-inference-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run-frozen-h1-h2:
@@ -29,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
