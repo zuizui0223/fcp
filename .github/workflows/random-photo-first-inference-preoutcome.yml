@@ -9,6 +9,7 @@ on:
       - ".github/workflows/random-photo-first-inference-preoutcome.yml"
       - "docs/supporting/random_photo_first_inference_execution_v1.json"
       - "scripts/analysis/run_random_photo_first_h1_h2.py"
+      - "scripts/analysis/run_random_photo_first_h1_h2_json_safe.py"
       - "fcp_pipeline/photo_first_h1_fast.py"
       - "fcp_pipeline/photo_first_h1_null_maps.py"
       - "fcp_pipeline/photo_first_h2_climate.py"
@@ -89,5 +90,34 @@ jobs:
             tests/test_photo_first_h1_fast.py \
             tests/test_photo_first_h1_null_maps.py \
             tests/test_photo_first_h2_climate.py
-      - name: Syntax-check post-measurement runner
-        run: python -m py_compile scripts/analysis/run_random_photo_first_h1_h2.py
+      - name: Syntax-check post-measurement runners
+        run: |
+          python -m py_compile \
+            scripts/analysis/run_random_photo_first_h1_h2.py \
+            scripts/analysis/run_random_photo_first_h1_h2_json_safe.py
+      - name: Verify JSON-safe technical serialization
+        run: |
+          python - <<'PY'
+          import math
+          import sys
+          import numpy as np
+          sys.path.insert(0, 'scripts/analysis')
+          import run_random_photo_first_h1_h2_json_safe as safe
+
+          payload = {
+              'finite': 1.25,
+              'nan': float('nan'),
+              'inf': np.float64(float('inf')),
+              'nested': [np.int64(3), np.nan],
+          }
+          cleaned = safe.json_safe(payload)
+          assert cleaned == {
+              'finite': 1.25,
+              'nan': None,
+              'inf': None,
+              'nested': [3, None],
+          }
+          text = safe.safe_dumps(payload, allow_nan=False)
+          assert 'NaN' not in text and 'Infinity' not in text
+          print('json_safe_serialization=pass')
+          PY
