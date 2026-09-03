@@ -1,0 +1,68 @@
+name: Random photo-first boundary persistence
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-boundary-persistence
+    paths:
+      - ".github/workflows/random-photo-first-boundary-persistence.yml"
+      - "fcp_pipeline/photo_first_atlas.py"
+      - "tests/test_photo_first_atlas.py"
+      - "scripts/analysis/run_random_photo_first_synthetic_validation.py"
+      - "docs/supporting/random_photo_first_boundary_persistence_contract_v1.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: random-photo-first-boundary-persistence-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-h1-core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/random-photo-first-boundary-persistence
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and tests
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Validate prospective H1 contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          contract = json.loads(
+              Path('docs/supporting/random_photo_first_boundary_persistence_contract_v1.json').read_text(encoding='utf-8')
+          )
+          assert contract['protocol'] == 'random-photo-first-boundary-persistence-v1'
+          assert contract['status'] == 'analysis_core_frozen_before_fresh_global_candidate_pool_is_opened'
+          assert contract['legacy_firewall']['pr21_terminal_60000_photo_records_are_input'] is False
+          assert contract['legacy_firewall']['pr21_terminal_60000_photo_records_may_be_rescued_or_subsetted'] is False
+          assert contract['primary_sampling']['photos_per_replicate'] == 10000
+          assert contract['primary_sampling']['replicates'] == 200
+          assert contract['primary_sampling']['species_cap_per_cell_per_replicate'] == 2
+          assert contract['transition']['transition_quantile'] == 0.9
+          assert contract['primary_null']['scope'].startswith('shuffle morph labels strictly within species')
+          assert contract['persistence']['unevaluable_replicates_are_structural_missingness_not_zero'] is True
+          print('Prospective H1 contract validated.')
+          PY
+      - name: Run focused unit tests
+        run: python -m pytest -q tests/test_photo_first_atlas.py
+      - name: Run planted-boundary synthetic validation
+        run: python scripts/analysis/run_random_photo_first_synthetic_validation.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-synthetic-validation-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: data/derived/random_photo_first_synthetic_validation_v1.json
