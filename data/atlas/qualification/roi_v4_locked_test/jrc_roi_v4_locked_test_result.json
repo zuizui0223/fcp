@@ -1,0 +1,39 @@
+{
+  "checks": {
+    "minimum_admitted_fraction": true,
+    "minimum_detector_precision_iou_0_5": true,
+    "minimum_detector_recall_iou_0_5": true,
+    "minimum_images": true,
+    "minimum_large_reference_object_recall": true,
+    "minimum_median_image_mask_pixels_inside_reference_box_union": true,
+    "minimum_medium_reference_object_recall": true,
+    "minimum_pooled_mask_pixels_inside_reference_box_union": true
+  },
+  "contract_sha256_lf_canonical_v1": "e3ffefdcd4aa6719a10b45c57886ee895f10f424a0d0b174a46541d92dd2f7a1",
+  "elapsed_seconds_new_inference": 873.0979149341583,
+  "jrc_locked_test_permitted": false,
+  "jrc_test_images_decoded_or_scored": true,
+  "metrics": {
+    "admitted_fraction": 0.85,
+    "admitted_images": 85,
+    "detector_precision_iou_0_5": 0.7304474354310658,
+    "detector_recall_iou_0_5": 0.7955625990491284,
+    "images": 100,
+    "large_reference_object_recall": 0.5,
+    "median_image_mask_pixels_inside_reference_box_union": 0.9139038039559375,
+    "medium_reference_object_recall": 0.8296296296296296,
+    "pooled_mask_pixels_inside_reference_box_union": 0.8596724910367167
+  },
+  "phase": "locked_test",
+  "protocol": "jbi-atlas-roi-estimator-v4",
+  "reference_boxes": 2524,
+  "reference_size_amendment_sha256_lf_canonical_v1": "0c99f99aed483fb036a850a4b5b08eac3f88d7dc41595ec4110e8b9698fc93cd",
+  "rows_sha256": "9f834de4bcdd530581d7713376cc918aa587e80726bba32021fa2dfa1034b248",
+  "scaleout_candidate_pixels_opened": false,
+  "scaleout_candidate_pixels_permitted": true,
+  "source_annotation_boxes": 2524,
+  "source_annotation_sha256": "9f81a7a8ff370fac269a5a5132345adac0352343f29296b82d6612e1d5285f99",
+  "source_not_evaluable_boxes": 0,
+  "status": "pass_roi_v4_locked_test",
+  "trained_weight_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5"
+}
