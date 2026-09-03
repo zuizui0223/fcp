@@ -1,0 +1,65 @@
+{
+  "protocol": "random-photo-first-candidate-pool-v1",
+  "status": "metadata_pool_frozen_before_candidate_image_pixels",
+  "frozen_at_utc": "2026-09-03T07:54:17.702853+00:00",
+  "grid": {
+    "n_lon": 18,
+    "n_sinlat": 9,
+    "n_cells": 162,
+    "cell_area_km2": 3148554.820820196
+  },
+  "query": {
+    "taxon_id": 47125,
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "quality_grade": "research",
+    "rank": "species",
+    "photos": true,
+    "geo": true,
+    "obscuration": "none",
+    "photo_license": "cc-by,cc-by-nc,cc-by-nc-sa,cc-by-sa,cc0",
+    "order_by": "random",
+    "per_cell_cap": 200,
+    "maximum_positional_accuracy_m": 5000,
+    "allowed_photo_licenses": [
+      "cc-by",
+      "cc-by-nc",
+      "cc-by-nc-sa",
+      "cc-by-sa",
+      "cc0"
+    ],
+    "metadata_eligibility_prefiltered_before_random_page": true,
+    "api_requests": 162,
+    "pages_per_cell": 1
+  },
+  "outcome_firewall": {
+    "candidate_image_pixels_opened": false,
+    "morph_used_for_selection": false,
+    "continuous_colour_used_for_selection": false,
+    "species_list_fixed_or_targeted": false,
+    "legacy_pr21_terminal_records_used": false
+  },
+  "counts": {
+    "observations": 20845,
+    "unique_observation_ids": 20845,
+    "unique_photo_ids": 20845,
+    "species": 8989,
+    "occupied_cells": 128,
+    "maximum_photos_per_species": 129,
+    "maximum_photos_per_cell": 200
+  },
+  "candidate_table_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+  "source_commit": "2642cb301bb3096f999daaa25b0906dc36ffce07",
+  "one_shot_freeze": {
+    "rerun_random_queries_after_durable_output": false,
+    "durable_outputs_checked_before_client_construction": true
+  },
+  "premeasurement_h1_gate": {
+    "fixed_photos_per_replicate": 10000,
+    "species_cap_per_cell_per_replicate": 2,
+    "candidate_species_capped_capacity": 17813,
+    "candidate_pool_can_reach_fixed_replicate_size": true,
+    "pixels_may_open": true,
+    "reason_if_false": null
+  }
+}
