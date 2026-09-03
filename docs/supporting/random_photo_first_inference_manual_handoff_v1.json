@@ -1,7 +1,7 @@
 {
   "protocol": "random-photo-first-inference-manual-handoff-v1",
   "status": "technical_trigger_only_no_statistical_change",
-  "reason": "The complete measurement result was committed by github-actions[bot], whose GITHUB_TOKEN push did not recursively trigger the downstream workflow. This marker triggers the already frozen post-measurement inference without changing measurement data or H1/H2 statistical specifications.",
+  "reason": "The complete measurement result was committed by github-actions[bot], whose GITHUB_TOKEN push did not recursively trigger the downstream workflow. The connector ref update also emitted PR synchronization rather than a push workflow event, so this second marker revision triggers the already frozen inference through the same-repository pull_request event.",
   "measurement_source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
   "measurement_csv_git_blob_sha": "08ebb4ef54237fda330771ecf4ff9c178e16903b",
   "measurement_result_git_blob_sha": "0869619ec9ed16fa9e0a824fa6be32956d038e1d",
@@ -11,5 +11,7 @@
   "classified_rows": 10103,
   "mixed_uncertain_rows": 10742,
   "h1_or_h2_result_seen_before_trigger": false,
-  "statistical_parameters_changed": false
+  "statistical_parameters_changed": false,
+  "technical_trigger_attempt": 2,
+  "trigger_route": "same_repo_pull_request_head_sha"
 }
