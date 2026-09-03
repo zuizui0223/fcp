@@ -87,7 +87,7 @@ def main() -> None:
     manifest = dict(frozen.manifest)
     manifest["source_commit"] = os.environ.get("GITHUB_SHA", "local")
     manifest["one_shot_freeze"] = {
-        "rerun_random_queries_after_durable_output": false if False else False,
+        "rerun_random_queries_after_durable_output": False,
         "durable_outputs_checked_before_client_construction": True,
     }
     manifest["premeasurement_h1_gate"] = {
