@@ -1,0 +1,94 @@
+{
+  "protocol": "random-photo-first-inference-execution-v1",
+  "status": "prospectively_frozen_before_complete_fresh_measurement_outcome",
+  "purpose": "execute the already-frozen H1 recurrent-boundary test and hierarchical H2 macroclimate concordance after, and only after, exact complete measurement of the one-shot fresh candidate denominator",
+  "immutable_input_frame": {
+    "candidate_table_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+    "frozen_candidate_rows": 20845,
+    "frozen_candidate_species": 8989,
+    "candidate_species_capped_capacity_at_cap2": 17813,
+    "measurement_manifest_required_status": "complete_fresh_location_blind_measurement_and_join",
+    "measurement_terminal_rows_must_equal_frozen_candidate_rows": true,
+    "measurement_joined_rows_must_equal_frozen_candidate_rows": true,
+    "measurement_coordinate_colour_join_must_already_be_complete": true,
+    "measurement_manifest_h1_run_must_be_false": true,
+    "measurement_manifest_h2_run_must_be_false": true,
+    "legacy_pr21_terminal_records_used": false
+  },
+  "implementation_identity": {
+    "h1_cached_engine_path": "fcp_pipeline/photo_first_h1_fast.py",
+    "h1_cached_engine_git_blob_sha": "31968e185043054eb3a13f7552afc56f80ab1f4e",
+    "h1_null_maps_path": "fcp_pipeline/photo_first_h1_null_maps.py",
+    "h1_null_maps_git_blob_sha": "dd188f42f2be0039ab1590ac2033da0764e489bc",
+    "h2_climate_path": "fcp_pipeline/photo_first_h2_climate.py",
+    "h2_climate_git_blob_sha": "92a5cdac7bba7419db9bda1f119d50aa8457e309"
+  },
+  "h1_primary": {
+    "n_lon": 18,
+    "n_sinlat": 9,
+    "photos_per_replicate": 10000,
+    "replicates": 200,
+    "species_cap_per_cell_per_replicate": 2,
+    "minimum_classifiable_photos_per_cell": 5,
+    "transition_quantile": 0.9,
+    "permutations": 999,
+    "sampling_seed": 20260903,
+    "permutation_seed": 20260904,
+    "tail": "upper",
+    "alpha": 0.05,
+    "decision_rule": "support excess recurrent-boundary concentration only when Monte Carlo p_upper < 0.05; otherwise retain an evaluable non-support result without changing the statistic"
+  },
+  "h1_predeclared_sensitivities": {
+    "factorial_grid_and_species_cap": {
+      "grids": [
+        {"n_lon": 12, "n_sinlat": 6},
+        {"n_lon": 18, "n_sinlat": 9},
+        {"n_lon": 24, "n_sinlat": 12}
+      ],
+      "species_caps": [1, 2],
+      "exclude_primary_duplicate": true
+    },
+    "same_photos_per_replicate": 10000,
+    "same_replicates": 200,
+    "same_minimum_classifiable_photos_per_cell": 5,
+    "same_transition_quantile": 0.9,
+    "same_permutations": 999,
+    "same_sampling_seed": 20260903,
+    "same_permutation_seed": 20260904,
+    "fail_closed_if_fixed_10000_photo_sample_is_not_reachable": true,
+    "sensitivities_never_replace_primary_result": true
+  },
+  "required_qc": {
+    "measurement_missingness_cell_map": true,
+    "cell_species_dominance_audit": true,
+    "mixed_uncertain_remains_in_sampling_frame_but_not_colour_composition": true,
+    "no_post_measurement_photo_replacement": true
+  },
+  "h2_primary": {
+    "parent_contract": "docs/supporting/random_photo_first_h2_climate_contract_v1.json",
+    "climate_source_scale_km": 250,
+    "predictor": "multivariate_climate_distance",
+    "minimum_supported_edges": 20,
+    "statistic": "opportunity-weighted Pearson correlation",
+    "null": "exact matched 999 H1 null edge-persistence maps from the same execution",
+    "tail": "upper",
+    "alpha": 0.05,
+    "confirmatory_claim_requires_h1_p_upper_below": 0.05,
+    "h2_must_not_rescue_non_significant_h1": true
+  },
+  "h2_secondary": {
+    "bio_axis_decomposition": ["bio1", "bio4", "bio12", "bio15"],
+    "multiplicity": "Holm family-wise correction",
+    "climate_scale_sensitivities_km": [100, 500],
+    "subset_sensitivities": ["within_biome", "within_realm"],
+    "secondary_results_never_replace_primary_250km_global_result": true
+  },
+  "outcome_firewall_at_freeze": {
+    "complete_measurement_result_seen": false,
+    "h1_statistic_seen": false,
+    "h1_p_value_seen": false,
+    "h2_statistic_seen": false,
+    "h2_p_value_seen": false
+  },
+  "claim_ceiling": "This contract fixes execution only. Biological boundary or climate-concordance claims require the future complete measurement denominator and the frozen hierarchical H1 then H2 tests."
+}
