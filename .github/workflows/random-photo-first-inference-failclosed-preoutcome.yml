@@ -1,0 +1,91 @@
+name: Random photo-first inference fail-closed pre-outcome validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-inference-execution
+    paths:
+      - ".github/workflows/random-photo-first-inference-failclosed-preoutcome.yml"
+      - "scripts/analysis/run_random_photo_first_h1_h2_failclosed.py"
+      - "scripts/analysis/run_random_photo_first_h1_h2_json_safe.py"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: random-photo-first-inference-failclosed-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-failclosed-orchestration:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Require frozen numerical core identities unchanged
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+          execution = json.loads(Path('docs/supporting/random_photo_first_inference_execution_v1.json').read_text())
+          identities = execution['implementation_identity']
+          for path_key, sha_key in (
+              ('h1_cached_engine_path', 'h1_cached_engine_git_blob_sha'),
+              ('h1_null_maps_path', 'h1_null_maps_git_blob_sha'),
+              ('h2_climate_path', 'h2_climate_git_blob_sha'),
+          ):
+              path = identities[path_key]
+              observed = subprocess.check_output(['git', 'hash-object', path], text=True).strip()
+              assert observed == identities[sha_key], (path, observed, identities[sha_key])
+          print('frozen_numerical_core_identity=pass')
+          PY
+      - name: Syntax-check technical orchestration layers
+        run: |
+          python -m py_compile \
+            scripts/analysis/run_random_photo_first_h1_h2_failclosed.py \
+            scripts/analysis/run_random_photo_first_h1_h2_json_safe.py
+      - name: Verify H2 not-evaluable payload preserves H1 and blocks claim
+        run: |
+          python - <<'PY'
+          import sys
+          sys.path.insert(0, 'scripts/analysis')
+          import run_random_photo_first_h1_h2_failclosed as fc
+
+          h1 = {'primary': {'p_upper': 0.01}, 'alpha': 0.05}
+          h2 = {'protocol': 'random-photo-first-h2-climate-concordance-v1', 'claim_ceiling': 'frozen ceiling'}
+          payload = fc._not_evaluable_h2_payload(
+              h1, h2, 'not_evaluable_h2_supported_edges: 12 < 20', climate_join_opened=True
+          )
+          assert payload['status'] == 'not_evaluable_h2_after_evaluable_h1'
+          assert payload['h1_primary_supported'] is True
+          assert payload['h1_primary_p_upper'] == 0.01
+          assert payload['climate_colour_join_opened'] is True
+          assert payload['confirmatory_climate_concordance_claim'] is False
+          assert 'supported_edges' in payload['reason']
+          print('h2_failclosed_payload=pass')
+          PY
+      - name: Verify JSON-safe launcher routes through fail-closed layer
+        run: |
+          python - <<'PY'
+          import inspect
+          import sys
+          sys.path.insert(0, 'scripts/analysis')
+          import run_random_photo_first_h1_h2_json_safe as safe
+          source = inspect.getsource(safe.main)
+          assert 'failclosed.main()' in source
+          assert 'frozen.write_json = safe_write_json' in source
+          print('json_safe_to_failclosed_route=pass')
+          PY
