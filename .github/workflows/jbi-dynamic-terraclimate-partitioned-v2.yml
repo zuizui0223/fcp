@@ -1,0 +1,245 @@
+name: JBI dynamic TerraClimate H1 partitioned v2
+
+on:
+  push:
+    branches: [analysis/jbi-global-colour-boundaries-scaleup]
+    paths:
+      - '.github/workflows/jbi-dynamic-terraclimate-partitioned-v2.yml'
+      - 'scripts/data/extract_terraclimate_fixed_points_partition.py'
+      - 'scripts/data/reassemble_terraclimate_fixed_point_partitions.py'
+      - 'scripts/analysis/decide_jbi_dynamic_h1.py'
+      - 'docs/JBI_DYNAMIC_TERRACLIMATE_COMPUTE_AMENDMENT_V2.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  CLIMATE_RUN_ID: '32932477834'
+  CLIMATE_ARTIFACT: 'jbi-full-fcp-climate-rebuild'
+  EXPANDED_RUN_ID: '32930987729'
+  EXPANDED_ARTIFACT: 'jbi-v22-full-fcp-universe'
+  RECORD_SCREEN_RUN_ID: '32835034885'
+  RECORD_SCREEN_ARTIFACT: 'jbi-v22-canonical-record-screening'
+  ATTENTION_RUN_ID: '32932116967'
+  ATTENTION_ARTIFACT: 'jbi-full-fcp-literature-attention'
+  FIXED_POINT_KEY_SHA256: 'f538d563a667f16b7707060ce53962c7e37c7f6b70cd6d8ecc94aca6a267c279'
+  PARTITION_COUNT: '64'
+  OUTDIR: 'analysis_outputs/jbi_dynamic_terraclimate_v2'
+
+jobs:
+  plan:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check pandas
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CLIMATE_ARTIFACT }}
+          path: climate
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CLIMATE_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EXPANDED_ARTIFACT }}
+          path: expanded
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.EXPANDED_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RECORD_SCREEN_ARTIFACT }}
+          path: record_screen
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.RECORD_SCREEN_RUN_ID }}
+
+      - name: Reconstruct the frozen display-core-v6 and exact 1,320-point key
+        run: |
+          mkdir -p core "$OUTDIR"
+          python scripts/literature/derive_v22_core_fcp_universe_v6.py \
+            --source-audit expanded/v22_full_fcp_source_audit.csv \
+            --record-screen record_screen/v22_record_screening_blind.csv \
+            --outdir core
+          python scripts/data/build_fixed_terraclimate_points.py \
+            --occurrences climate/full_fcp_gbif_occurrences.csv \
+            --core-species core/v22_core_fcp_species_universe.csv \
+            --analysis climate/full_fcp_climate_analysis_dataset.csv \
+            --out "$OUTDIR/jbi_fixed_spatial_points_v1.csv" \
+            --qc-out "$OUTDIR/jbi_fixed_spatial_points_v1_qc.json" \
+            --species-qc-out "$OUTDIR/jbi_fixed_spatial_points_v1_species_qc.csv" \
+            --points-per-species 20 --radial-quantile 0.95
+          python - <<'PY'
+          import hashlib, os, pandas as pd
+          p=pd.read_csv(os.environ['OUTDIR']+'/jbi_fixed_spatial_points_v1.csv')
+          assert len(p)==1320 and p.canonical_name.nunique()==66 and p.groupby('canonical_name').size().eq(20).all()
+          key='\n'.join(f'{r.canonical_name}\t{int(r.selection_rank)}\t{int(r.tc_lat_idx)}\t{int(r.tc_lon_idx)}' for r in p.itertuples(index=False))+'\n'
+          h=hashlib.sha256(key.encode()).hexdigest(); print({'fixed_point_key_sha256':h})
+          assert h==os.environ['FIXED_POINT_KEY_SHA256'], (h,os.environ['FIXED_POINT_KEY_SHA256'])
+          PY
+
+      - name: Freeze matrix topology
+        id: matrix
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          n=int(os.environ['PARTITION_COUNT'])
+          print('matrix='+json.dumps({'partition':list(range(n))},separators=(',',':')))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-dynamic-terraclimate-v2-plan
+          path: |
+            core/v22_core_fcp_species_universe.csv
+            core/v22_core_fcp_universe_summary.json
+            analysis_outputs/jbi_dynamic_terraclimate_v2/jbi_fixed_spatial_points_v1.csv
+            analysis_outputs/jbi_dynamic_terraclimate_v2/jbi_fixed_spatial_points_v1_qc.json
+            analysis_outputs/jbi_dynamic_terraclimate_v2/jbi_fixed_spatial_points_v1_species_qc.csv
+          if-no-files-found: error
+          retention-days: 30
+
+  extract:
+    needs: plan
+    runs-on: ubuntu-22.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check pandas requests
+      - uses: actions/download-artifact@v4
+        with:
+          name: jbi-dynamic-terraclimate-v2-plan
+          path: plan
+      - name: Extract exact frozen request partition
+        run: |
+          mkdir -p shard
+          P=$(printf '%03d' '${{ matrix.partition }}')
+          python scripts/data/extract_terraclimate_fixed_points_partition.py \
+            --points plan/analysis_outputs/jbi_dynamic_terraclimate_v2/jbi_fixed_spatial_points_v1.csv \
+            --out "shard/partition_${P}.csv.gz" \
+            --qc-out "shard/partition_${P}_qc.json" \
+            --partition-count "$PARTITION_COUNT" \
+            --partition-index '${{ matrix.partition }}' \
+            --start-year 1958 --end-year 2025 \
+            --variables tmin tmax ppt def vpd \
+            --workers 6 --timeout 120 --retries 8
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jbi-dynamic-terraclimate-v2-part-${{ matrix.partition }}
+          path: shard/
+          if-no-files-found: warn
+          retention-days: 30
+
+  reassemble-and-test:
+    needs: [plan, extract]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check numpy pandas scipy scikit-learn statsmodels
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: jbi-dynamic-terraclimate-v2-plan
+          path: plan
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: jbi-dynamic-terraclimate-v2-part-*
+          path: shards
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CLIMATE_ARTIFACT }}
+          path: climate
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.CLIMATE_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.ATTENTION_ARTIFACT }}
+          path: attention
+          github-token: ${{ github.token }}
+          repository: zuizui0223/fcp
+          run-id: ${{ env.ATTENTION_RUN_ID }}
+
+      - name: Exact 64-partition reassembly
+        run: |
+          mkdir -p "$OUTDIR/results"
+          python scripts/data/reassemble_terraclimate_fixed_point_partitions.py \
+            --points plan/analysis_outputs/jbi_dynamic_terraclimate_v2/jbi_fixed_spatial_points_v1.csv \
+            --shard-dir shards \
+            --out "$OUTDIR/jbi_fixed_terraclimate_1958_2025.csv.gz" \
+            --qc-out "$OUTDIR/jbi_fixed_terraclimate_1958_2025_qc.json" \
+            --partition-count "$PARTITION_COUNT" \
+            --start-year 1958 --end-year 2025 \
+            --variables tmin tmax ppt def vpd
+
+      - name: Run the unchanged prospective dynamic ecological models
+        run: |
+          python scripts/run_jbi_dynamic_climate_hypervolume.py \
+            --timeseries "$OUTDIR/jbi_fixed_terraclimate_1958_2025.csv.gz" \
+            --core-species plan/core/v22_core_fcp_species_universe.csv \
+            --analysis climate/full_fcp_climate_analysis_dataset.csv \
+            --attention attention/full_fcp_literature_attention.csv \
+            --outdir "$OUTDIR/results" \
+            --baseline-start 1991 --baseline-end 2020 \
+            --min-points 18 --family-bootstraps 499 --seed 20260827
+
+      - name: Apply the frozen pre-result H1 decision rule
+        run: |
+          python scripts/analysis/decide_jbi_dynamic_h1.py \
+            --models "$OUTDIR/results/jbi_dynamic_climate_models.csv" \
+            --reassembly-qc "$OUTDIR/jbi_fixed_terraclimate_1958_2025_qc.json" \
+            --out "$OUTDIR/results/jbi_dynamic_h1_decision_v2.json"
+
+      - name: Validate complete ecological output
+        run: |
+          python - <<'PY'
+          import json, os, pandas as pd
+          root=os.environ['OUTDIR']
+          q=json.load(open(root+'/jbi_fixed_terraclimate_1958_2025_qc.json'))
+          m=pd.read_csv(root+'/results/jbi_dynamic_climate_models.csv')
+          s=pd.read_csv(root+'/results/jbi_dynamic_climate_species_metrics.csv')
+          d=json.load(open(root+'/results/jbi_dynamic_h1_decision_v2.json'))
+          assert q['status']=='complete'
+          assert q['partition_count']==64 and q['partitions_present']==64
+          assert q['requests_expected']==6545 and q['requests_reassembled']==6545
+          assert q['fixed_points']==1320 and q['min_months_per_point']>=800
+          assert len(s)==66
+          assert len(m)==7 and set(m.status)=={'complete'} and set(m.n_species)=={32}
+          assert (m.family_bootstraps_valid>0).all()
+          assert d['decision'] in {'supported','unsupported','not_evaluable'}
+          print(m.to_csv(index=False))
+          print(json.dumps(d,indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-dynamic-terraclimate-h1-v2
+          path: |
+            analysis_outputs/jbi_dynamic_terraclimate_v2/jbi_fixed_spatial_points_v1.csv
+            analysis_outputs/jbi_dynamic_terraclimate_v2/jbi_fixed_spatial_points_v1_qc.json
+            analysis_outputs/jbi_dynamic_terraclimate_v2/jbi_fixed_spatial_points_v1_species_qc.csv
+            analysis_outputs/jbi_dynamic_terraclimate_v2/jbi_fixed_terraclimate_1958_2025_qc.json
+            analysis_outputs/jbi_dynamic_terraclimate_v2/results/
+          if-no-files-found: error
+          retention-days: 30
