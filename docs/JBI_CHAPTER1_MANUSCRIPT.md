@@ -1,6 +1,6 @@
 # Continuous flower colour is locally organized within species without a universal global transition boundary
 
-**Running title:** Spatial organization of continuous flower colour  
+**Running title:** Spatial organization of flower colour  
 **Article type:** Research Article  
 **Target journal:** *Journal of Biogeography*  
 **Draft status:** The photograph split, operational colour representation, Stage-A/Stage-B contracts and numerical results are frozen. The prospectively frozen 200-species terminal scale-out is also closed as `not_evaluable` at its measurement-completeness gate. Introduction and Discussion wording remains subject to reference audit and co-author revision.
@@ -9,7 +9,7 @@
 
 ### Aim
 
-Intraspecific flower-colour variation can be spatially organized within species even when the processes producing that organization differ among taxa. We separated two ordered questions: whether geographically neighbouring observations are more similar in continuous flower colour than expected after conditioning on species distributions, and whether independent species concentrate their strongest colour transitions in the same global regions.
+We asked whether continuous flower colour is spatially organized within species after conditioning on each species' sampled range, and whether independent species place their strongest colour transitions in the same global regions.
 
 ### Location
 
@@ -17,19 +17,19 @@ Global community-photograph sample.
 
 ### Taxon
 
-Six angiosperm species with documented natural intraspecific flower-colour variation: *Antirrhinum majus*, *Dactylorhiza sambucina*, *Gentiana lutea*, *Ipomoea purpurea*, *Lysimachia arvensis* and *Raphanus sativus*.
+Angiosperms: six species with documented natural intraspecific flower-colour variation.
 
 ### Methods
 
-We acquired 1,200 georeferenced photographs, 200 per species, and froze an outcome-blind split of 480 calibration and 720 held-out evaluation photographs. Because calibration geometry did not justify one universal discrete-morph model, flower colour was represented by species-specific continuous vectors derived from frozen Florence-localized flower regions and standardized with calibration-only parameters. Stage A measured root-mean-square colour discontinuity on colour-blind spherical nearest-neighbour graphs and compared an equal-species global statistic with 9,999 permutations of complete colour vectors strictly within species. After Stage A passed its prospective gate, Stage B ranked within-species edge discontinuities, aggregated them into geometry-defined detectable cells and tested whether shared transition intensity was more geographically concentrated than expected under a complete 9,999-permutation species-conditioned null.
+We acquired 1,200 georeferenced photographs and froze an outcome-blind 480/720 calibration–evaluation split. Species-specific continuous colour vectors were derived from frozen flower regions and standardized using calibration-only parameters. Stage A compared local colour discontinuity on colour-blind within-species nearest-neighbour graphs with 9,999 species-conditioned permutations. After its prospective gate passed, Stage B tested whether ranked within-species transition intensity was geographically concentrated across geometry-defined detectable cells under a second 9,999-permutation null.
 
 ### Results
 
-All 720 held-out photographs were processed without localization failure or post-opening rule modification. In the primary five-nearest-neighbour graph, observed equal-species discontinuity was 1.3911 compared with a null mean of 1.4294 (standardized clustering deficit = 2.31; lower-tail *p* = 0.0113). The direction was retained at `k = 3` (*p* = 0.0066) and `k = 8` (*p* = 0.0065), with the strongest species-specific support in *L. arvensis* and *R. sativus*. The primary shared-transition analysis used a 500-km edge cap and 36×18 equal-area grid. Its observed concentration was 0.00823 compared with a null mean of 0.00568 (standardized excess = 1.44; upper-tail *p* = 0.0906). One coarser sensitivity grid was nominally supported, whereas the other seven sensitivity configurations were not.
+All 720 held-out photographs were processed without localization failure or post-opening rule modification. Primary Stage A discontinuity was lower than its null expectation (1.3911 vs 1.4294; standardized deficit = 2.31; *p* = 0.0113), with the same direction at `k = 3` (*p* = 0.0066) and `k = 8` (*p* = 0.0065). Primary Stage B concentration exceeded its null mean but was not confirmatory (0.00823 vs 0.00568; standardized excess = 1.44; *p* = 0.0906). One of eight non-primary spatial sensitivities was nominally supported.
 
 ### Main conclusions
 
-Continuous flower colour was spatially organized within species after preserving each species' observed range and sampling geometry, but the strongest transitions did not show confirmatory concentration along one shared global geography. Spatial organization and spatial coincidence are therefore distinct empirical questions. The present result supports repeated within-species organization with heterogeneous geography, not a universal boundary or common mechanism.
+Continuous flower colour was spatially organized within species, but independent species did not show confirmatory concentration of their strongest transitions along one shared global geography. Spatial organization and spatial coincidence are therefore distinct empirical questions; the present evidence supports heterogeneous within-species geography rather than a universal boundary or common mechanism.
 
 **Keywords:** citizen science, colour polymorphism, continuous traits, flower colour, random labelling, spatial boundaries, spatial organization, species-conditioned permutation
 
