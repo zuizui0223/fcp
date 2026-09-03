@@ -8,6 +8,7 @@ on:
     paths:
       - "data/derived/random_photo_first_measured_photos_v1.csv"
       - "docs/supporting/random_photo_first_measurement_result_v1.json"
+      - "docs/supporting/random_photo_first_inference_manual_handoff_v1.json"
 
 permissions:
   contents: write
