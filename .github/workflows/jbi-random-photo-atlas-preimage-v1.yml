@@ -1,0 +1,53 @@
+name: JBI random photo atlas preimage v1
+
+on:
+  push:
+    branches: [analysis/jbi-global-colour-boundaries-scaleup]
+    paths:
+      - 'docs/supporting/jbi_random_photo_atlas_start_v1.json'
+
+permissions:
+  contents: read
+
+jobs:
+  freeze-preimage-reservoir:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Acquire closed-window metadata only
+        run: |
+          mkdir -p analysis_outputs/jbi_random_photo_atlas_v1/preimage
+          python scripts/data/acquire_jbi_random_photo_atlas_metadata_v1.py \
+            --out analysis_outputs/jbi_random_photo_atlas_v1/preimage/eligible_metadata.csv \
+            --qc-out analysis_outputs/jbi_random_photo_atlas_v1/preimage/metadata_qc.json \
+            --created-d1 2026-08-28 --created-d2 2026-09-02 \
+            --max-eligible 100000
+      - name: Freeze geometry-balanced 12,000-photo reservoir without pixels
+        run: |
+          python scripts/data/build_jbi_random_photo_atlas_reservoir_v1.py \
+            --metadata analysis_outputs/jbi_random_photo_atlas_v1/preimage/eligible_metadata.csv \
+            --metadata-qc analysis_outputs/jbi_random_photo_atlas_v1/preimage/metadata_qc.json \
+            --out analysis_outputs/jbi_random_photo_atlas_v1/preimage/reservoir_v1.csv \
+            --qc-out analysis_outputs/jbi_random_photo_atlas_v1/preimage/reservoir_qc.json
+      - name: Validate prospective boundary
+        run: |
+          python - <<'PY'
+          import json
+          m=json.load(open('analysis_outputs/jbi_random_photo_atlas_v1/preimage/metadata_qc.json'))
+          r=json.load(open('analysis_outputs/jbi_random_photo_atlas_v1/preimage/reservoir_qc.json'))
+          assert m['pixel_accessed'] is False and r['pixel_accessed'] is False
+          assert m['created_d1']=='2026-08-28' and m['created_d2']=='2026-09-02'
+          assert r['frozen_target']==12000
+          assert r['grid']=={'equal_area':True,'longitude_bins':24,'sin_latitude_bins':12}
+          print(json.dumps({'metadata':m,'reservoir':r},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jbi-random-photo-atlas-v1-preimage
+          path: analysis_outputs/jbi_random_photo_atlas_v1/preimage/
+          if-no-files-found: error
+          retention-days: 30
