@@ -1,0 +1,6 @@
+n_lon,n_sinlat,species_cap_per_cell,species_capped_capacity,status,observed_concentration,p_upper,supported_edges
+12,6,1,13584,complete_evaluable,0.07251998622757107,0.341,100
+12,6,2,16970,complete_evaluable,0.083115,0.018,100
+18,9,1,14645,complete_evaluable,0.05353563120307506,0.144,193
+24,12,1,14847,complete_evaluable,0.05449547519757964,0.55,248
+24,12,2,17927,complete_evaluable,0.06699741500112324,0.18,254

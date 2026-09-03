@@ -1,0 +1,90 @@
+{
+  "protocol": "random-photo-first-h2-climate-concordance-v1",
+  "status": "complete_h2_evaluable",
+  "hierarchical_decision": "diagnostic_only_h1_not_supported_no_climate_mechanism_claim",
+  "h1_primary_p_upper": 0.413,
+  "h1_primary_supported": false,
+  "primary": {
+    "climate_source_scale_km": 250,
+    "weighted_r": 0.15465199237782543,
+    "p_upper": 0.134,
+    "alpha": 0.05,
+    "supported_edges": 175,
+    "support": false
+  },
+  "driver_decomposition": [
+    {
+      "variable": "bio1",
+      "predictor": "absolute_z_difference_bio1",
+      "weighted_r": 0.03680858135459729,
+      "p_upper_raw": 0.708,
+      "supported_edges": 175,
+      "p_upper_holm": 0.708
+    },
+    {
+      "variable": "bio4",
+      "predictor": "absolute_z_difference_bio4",
+      "weighted_r": -0.039961666983600735,
+      "p_upper_raw": 0.346,
+      "supported_edges": 175,
+      "p_upper_holm": 0.692
+    },
+    {
+      "variable": "bio12",
+      "predictor": "absolute_z_difference_bio12",
+      "weighted_r": 0.09670277736186465,
+      "p_upper_raw": 0.206,
+      "supported_edges": 175,
+      "p_upper_holm": 0.618
+    },
+    {
+      "variable": "bio15",
+      "predictor": "absolute_z_difference_bio15",
+      "weighted_r": 0.19044344395193646,
+      "p_upper_raw": 0.107,
+      "supported_edges": 175,
+      "p_upper_holm": 0.428
+    }
+  ],
+  "sensitivities": [
+    {
+      "type": "subset",
+      "value": "within_biome",
+      "status": "complete_evaluable",
+      "weighted_r": 0.0026839640575297657,
+      "p_upper": 0.145,
+      "supported_edges": 77
+    },
+    {
+      "type": "subset",
+      "value": "within_realm",
+      "status": "complete_evaluable",
+      "weighted_r": 0.04678986054185921,
+      "p_upper": 0.326,
+      "supported_edges": 141
+    },
+    {
+      "type": "climate_scale_km",
+      "value": 100,
+      "status": "complete_evaluable",
+      "weighted_r": 0.1016363901927862,
+      "p_upper": 0.29,
+      "supported_edges": 176
+    },
+    {
+      "type": "climate_scale_km",
+      "value": 500,
+      "status": "complete_evaluable",
+      "weighted_r": 0.12101120411964757,
+      "p_upper": 0.185,
+      "supported_edges": 173
+    }
+  ],
+  "files": {
+    "climate_cells": "data/derived/random_photo_first_h2_climate_cells_250km_v1.csv",
+    "climate_edges": "data/derived/random_photo_first_h2_climate_edges_250km_v1.csv",
+    "drivers": "data/derived/random_photo_first_h2_driver_decomposition_v1.csv",
+    "sensitivities": "data/derived/random_photo_first_h2_sensitivities_v1.csv"
+  },
+  "claim_ceiling": "A passing hierarchical H1 followed by H2 supports concordance between recurrent flower-colour transition geography and macroclimate contrast. It does not by itself identify selection, adaptation, pigment biochemistry, pollinator causation, or a unique climate variable as causal."
+}
