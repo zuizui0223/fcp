@@ -1,0 +1,42 @@
+name: Random photo-first H1 cached optimization
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-h1-optimization
+    paths:
+      - ".github/workflows/random-photo-first-h1-optimization.yml"
+      - "fcp_pipeline/photo_first_h1_fast.py"
+      - "tests/test_photo_first_h1_fast.py"
+      - "scripts/analysis/benchmark_random_photo_first_h1_cache.py"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-cached-h1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and tests
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Verify cached engine against frozen H1 v2
+        run: python -m pytest -q tests/test_photo_first_h1_fast.py
+      - name: Benchmark cached engine against prototype
+        run: python scripts/analysis/benchmark_random_photo_first_h1_cache.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h1-cache-benchmark-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: data/derived/random_photo_first_h1_cache_benchmark_v1.json
