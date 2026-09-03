@@ -5,6 +5,7 @@
   "purpose": "freeze a fresh species-unfixed georeferenced flowering-photo pool for repeated photo-level atlas sampling",
   "source": {
     "provider": "iNaturalist API v1 observations",
+    "api_parameter_audit": "docs/supporting/random_photo_first_api_parameter_audit_v1.json",
     "angiosperm_taxon_id": 47125,
     "flowering_annotation_term_id": 12,
     "flowering_annotation_value_id": 13,
@@ -13,7 +14,11 @@
     "photos_required": true,
     "coordinates_required": true,
     "maximum_positional_accuracy_m": 5000,
-    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"]
+    "obscuration": "none",
+    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"],
+    "photo_license_prefiltered_before_random_page": true,
+    "metadata_eligibility_prefiltered_before_random_page": true,
+    "local_revalidation_after_api_response": true
   },
   "geographic_sampling": {
     "grid": {
