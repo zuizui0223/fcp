@@ -4,7 +4,8 @@
 This command opens iNaturalist observation metadata only. It must run before any
 candidate image pixels are downloaded or measured. The exact returned IDs are
 frozen once; failed licence/geometry rows are not replaced by a second random
-query.
+query. If any durable freeze output already exists, the command refuses to issue
+new API requests.
 """
 
 from __future__ import annotations
@@ -25,6 +26,7 @@ CONTRACT = Path("docs/supporting/random_photo_first_candidate_pool_contract_v1.j
 CANDIDATE_CSV = Path("data/frozen/random_photo_first_candidate_pool_v1.csv")
 CELL_AUDIT_CSV = Path("data/frozen/random_photo_first_candidate_pool_cell_audit_v1.csv")
 MANIFEST_JSON = Path("docs/supporting/random_photo_first_candidate_pool_manifest_v1.json")
+FREEZE_OUTPUTS = (CANDIDATE_CSV, CELL_AUDIT_CSV, MANIFEST_JSON)
 
 
 def load_contract() -> dict:
@@ -40,7 +42,19 @@ def load_contract() -> dict:
     return payload
 
 
+def refuse_if_already_frozen() -> None:
+    existing = [str(path) for path in FREEZE_OUTPUTS if path.exists()]
+    if existing:
+        raise RuntimeError(
+            "candidate pool already has durable freeze output; refusing all new random "
+            f"API queries: {existing}"
+        )
+
+
 def main() -> None:
+    # This guard is intentionally before client construction and before every
+    # possible remote call. A rerun can never become a favourable replicate.
+    refuse_if_already_frozen()
     contract = load_contract()
     source = contract["source"]
     sampling = contract["geographic_sampling"]
@@ -72,6 +86,10 @@ def main() -> None:
     )
     manifest = dict(frozen.manifest)
     manifest["source_commit"] = os.environ.get("GITHUB_SHA", "local")
+    manifest["one_shot_freeze"] = {
+        "rerun_random_queries_after_durable_output": false if False else False,
+        "durable_outputs_checked_before_client_construction": True,
+    }
     manifest["premeasurement_h1_gate"] = {
         "fixed_photos_per_replicate": h1_target,
         "species_cap_per_cell_per_replicate": h1_species_cap,
