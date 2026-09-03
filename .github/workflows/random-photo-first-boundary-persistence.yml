@@ -17,9 +17,6 @@ on:
       - "docs/supporting/random_photo_first_boundary_persistence_contract_v1.json"
       - "docs/supporting/random_photo_first_candidate_pool_contract_v1.json"
 
-permissions:
-  contents: read
-
 concurrency:
   group: random-photo-first-boundary-persistence-${{ github.ref }}
   cancel-in-progress: true
@@ -28,6 +25,8 @@ jobs:
   validate-h1-core:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
         with:
@@ -95,3 +94,109 @@ jobs:
           if-no-files-found: error
           retention-days: 90
           path: data/derived/random_photo_first_synthetic_validation_v1.json
+
+  freeze-fresh-metadata:
+    needs: validate-h1-core
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/random-photo-first-boundary-persistence
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Check whether the one-shot metadata pool is already frozen
+        id: existing
+        shell: bash
+        run: |
+          if [[ -f docs/supporting/random_photo_first_candidate_pool_manifest_v1.json ]]; then
+            echo "already_frozen=true" >> "$GITHUB_OUTPUT"
+            echo "Existing durable candidate-pool freeze found; no API query will be issued."
+          else
+            echo "already_frozen=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze fresh species-unfixed metadata pool exactly once
+        if: steps.existing.outputs.already_frozen == 'false'
+        run: python scripts/acquisition/freeze_random_photo_first_candidate_pool.py
+      - name: Validate frozen metadata and premeasurement capacity gate
+        if: steps.existing.outputs.already_frozen == 'false'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          manifest_path = Path('docs/supporting/random_photo_first_candidate_pool_manifest_v1.json')
+          candidate_path = Path('data/frozen/random_photo_first_candidate_pool_v1.csv')
+          audit_path = Path('data/frozen/random_photo_first_candidate_pool_cell_audit_v1.csv')
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          candidate = pd.read_csv(candidate_path)
+          audit = pd.read_csv(audit_path)
+
+          assert manifest['protocol'] == 'random-photo-first-candidate-pool-v1'
+          assert manifest['status'] == 'metadata_pool_frozen_before_candidate_image_pixels'
+          assert manifest['outcome_firewall']['candidate_image_pixels_opened'] is False
+          assert manifest['outcome_firewall']['morph_used_for_selection'] is False
+          assert manifest['outcome_firewall']['species_list_fixed_or_targeted'] is False
+          assert manifest['outcome_firewall']['legacy_pr21_terminal_records_used'] is False
+          assert manifest['one_shot_freeze']['rerun_random_queries_after_durable_output'] is False
+          assert manifest['one_shot_freeze']['durable_outputs_checked_before_client_construction'] is True
+          assert manifest['counts']['observations'] == len(candidate)
+          assert manifest['counts']['unique_observation_ids'] == candidate['observation_id'].nunique()
+          assert manifest['counts']['unique_photo_ids'] == candidate['photo_id'].nunique()
+          assert len(audit) == 162
+          gate = manifest['premeasurement_h1_gate']
+          assert gate['fixed_photos_per_replicate'] == 10000
+          assert gate['species_cap_per_cell_per_replicate'] == 2
+          assert gate['pixels_may_open'] == gate['candidate_pool_can_reach_fixed_replicate_size']
+          if not gate['pixels_may_open']:
+              assert gate['reason_if_false'] == 'not_evaluable_candidate_sampling_capacity_before_pixels'
+          print(json.dumps({
+              'candidate_observations': len(candidate),
+              'species': manifest['counts']['species'],
+              'occupied_cells': manifest['counts']['occupied_cells'],
+              'species_capped_capacity': gate['candidate_species_capped_capacity'],
+              'pixels_may_open': gate['pixels_may_open'],
+              'reason_if_false': gate['reason_if_false'],
+          }, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: steps.existing.outputs.already_frozen == 'false'
+        with:
+          name: random-photo-first-candidate-pool-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/frozen/random_photo_first_candidate_pool_v1.csv
+            data/frozen/random_photo_first_candidate_pool_cell_audit_v1.csv
+            docs/supporting/random_photo_first_candidate_pool_manifest_v1.json
+      - name: Commit the immutable metadata freeze
+        if: steps.existing.outputs.already_frozen == 'false'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/random_photo_first_candidate_pool_v1.csv \
+            data/frozen/random_photo_first_candidate_pool_cell_audit_v1.csv \
+            docs/supporting/random_photo_first_candidate_pool_manifest_v1.json
+          git commit -m "Freeze fresh random photo-first candidate metadata pool"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/random-photo-first-boundary-persistence
+            git rebase origin/analysis/random-photo-first-boundary-persistence
+            if git push origin HEAD:analysis/random-photo-first-boundary-persistence; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1
