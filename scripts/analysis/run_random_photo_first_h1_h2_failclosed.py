@@ -3,7 +3,8 @@
 
 This module does not alter any H1/H2 statistic, null, seed, predictor, threshold,
 or environmental input. It only prevents an H2 support/sensitivity insufficiency
-from erasing an already completed H1 result.
+from erasing an already completed H1 result, while reusing the pre-outcome
+JSON-safe serializer for explicit not-evaluable placeholders.
 """
 
 from __future__ import annotations
@@ -14,6 +15,7 @@ import numpy as np
 import pandas as pd
 
 import run_random_photo_first_h1_h2 as frozen
+import run_random_photo_first_h1_h2_json_safe as json_safe
 
 
 def _not_evaluable_h2_payload(
@@ -213,6 +215,10 @@ def robust_run_h2(
 
 
 def main() -> int:
+    # Technical composition only: scientific H1/H2 cores and their frozen identities
+    # remain untouched. The serializer converts explicit non-finite placeholders to null.
+    frozen.write_json = json_safe.safe_write_json
+    frozen.json.dumps = json_safe.safe_dumps
     frozen.run_h2 = robust_run_h2
     return int(frozen.main())
 
