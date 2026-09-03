@@ -73,6 +73,10 @@ The terminal result does not reopen or overwrite completed evidence:
 
 The terminal atlas is therefore **not a biological replication result**. It is a prospectively executed measurement-scale validation that became non-evaluable under its own frozen completeness rule.
 
+### Historical automated-colour pilot STOP
+
+For audit compatibility, the earlier automated-colour pilot checkpoint is preserved verbatim as a historical state: **bulk atlas image opening is stopped**. That sentence describes the pre-scale-out STOP that was binding before independent ROI-v4 qualification, dated-source/source-role resolution and final preimage authorization subsequently passed. It is not the current terminal state and does not imply that terminal candidate pixels remained unopened; the terminal run later opened pixels location-blind and ended at the measurement-completeness gate described above.
+
 ## Manuscript role
 
 For the Journal of Biogeography package, the six-species held-out Stage A/B analysis remains the primary biological result. The terminal 200-species scale-out should be reported as a transparent prospective extension that completed exact 60,000-record location-blind measurement and then stopped at the predeclared completeness gate. It must not be described as evidence for or against spatial organization, shared transitions, environmental concordance or pollinator concordance.
