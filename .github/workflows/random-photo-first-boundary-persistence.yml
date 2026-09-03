@@ -1,0 +1,230 @@
+name: Random photo-first boundary persistence
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-boundary-persistence
+    paths:
+      - ".github/workflows/random-photo-first-boundary-persistence.yml"
+      - "fcp_pipeline/photo_first_atlas.py"
+      - "fcp_pipeline/photo_first_atlas_v2.py"
+      - "fcp_pipeline/photo_first_measurement.py"
+      - "fcp_pipeline/random_photo_pool.py"
+      - "tests/test_photo_first_atlas.py"
+      - "tests/test_photo_first_measurement.py"
+      - "tests/test_random_photo_pool.py"
+      - "scripts/analysis/run_random_photo_first_synthetic_validation.py"
+      - "scripts/acquisition/freeze_random_photo_first_candidate_pool.py"
+      - "docs/supporting/random_photo_first_boundary_persistence_contract_v1.json"
+      - "docs/supporting/random_photo_first_candidate_pool_contract_v1.json"
+      - "docs/supporting/random_photo_first_measurement_contract_v1.json"
+
+concurrency:
+  group: random-photo-first-boundary-persistence-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-h1-core:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and tests
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Validate prospective contracts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          h1 = json.loads(
+              Path('docs/supporting/random_photo_first_boundary_persistence_contract_v1.json').read_text(encoding='utf-8')
+          )
+          assert h1['protocol'] == 'random-photo-first-boundary-persistence-v1'
+          assert h1['status'] == 'analysis_core_frozen_before_fresh_global_candidate_pool_is_opened'
+          assert h1['implementation'] == 'fcp_pipeline/photo_first_atlas_v2.py'
+          assert h1['legacy_firewall']['pr21_terminal_60000_photo_records_are_input'] is False
+          assert h1['legacy_firewall']['pr21_terminal_60000_photo_records_may_be_rescued_or_subsetted'] is False
+          assert h1['primary_sampling']['photos_per_replicate'] == 10000
+          assert h1['primary_sampling']['replicates'] == 200
+          assert h1['primary_sampling']['species_cap_per_cell_per_replicate'] == 2
+          assert h1['primary_sampling']['minimum_classifiable_photos_per_cell'] == 5
+          assert h1['primary_sampling']['fixed_replicate_size_is_fail_closed'] is True
+          assert h1['coarse_morph_v1']['mixed_uncertain_role'].startswith('structural measurement missingness')
+          assert h1['transition']['transition_quantile'] == 0.9
+          assert h1['primary_null']['scope'].startswith('shuffle classifiable biological morph labels strictly within species')
+          assert h1['primary_null']['mixed_uncertain_positions_are_fixed'] is True
+          assert h1['persistence']['unevaluable_replicates_are_structural_missingness_not_zero'] is True
+
+          pool = json.loads(
+              Path('docs/supporting/random_photo_first_candidate_pool_contract_v1.json').read_text(encoding='utf-8')
+          )
+          assert pool['protocol'] == 'random-photo-first-candidate-pool-v1'
+          assert pool['status'] == 'frozen_before_any_fresh_candidate_api_query_or_image_pixel'
+          assert pool['geographic_sampling']['grid'] == {
+              'type': 'equal-area longitude by sin(latitude)',
+              'n_lon': 18,
+              'n_sinlat': 9,
+              'cells': 162,
+          }
+          assert pool['geographic_sampling']['per_cell_random_candidate_cap'] == 200
+          assert pool['species_policy']['fixed_or_targeted_species_list'] is False
+          assert pool['metadata_freeze']['candidate_image_pixels_opened'] is False
+          assert pool['legacy_firewall']['pr21_terminal_60000_photo_records_used'] is False
+
+          measurement = json.loads(
+              Path('docs/supporting/random_photo_first_measurement_contract_v1.json').read_text(encoding='utf-8')
+          )
+          assert measurement['protocol'] == 'random-photo-first-measurement-v1'
+          assert measurement['status'] == 'frozen_before_any_fresh_candidate_image_pixel'
+          assert measurement['pixel_opening_gate']['required_gate_field'] == 'premeasurement_h1_gate.pixels_may_open'
+          assert measurement['pixel_opening_gate']['required_gate_value'] is True
+          assert measurement['pixel_opening_gate']['pr21_terminal_records_are_input'] is False
+          assert measurement['flower_roi']['roi_protocol'] == 'jbi-atlas-roi-estimator-v4'
+          assert measurement['flower_roi']['roi_contract_git_blob_sha'] == 'b043bc83d0d69489f38771e8f4bbe524963b70ea'
+          assert measurement['flower_roi']['trained_weight_sha256'] == 'f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5'
+          assert measurement['flower_roi']['locked_result_git_blob_sha'] == 'b25425f1f738bcea75cef5f60980332a9857610b'
+          assert measurement['flower_roi']['locked_result_required_status'] == 'pass_roi_v4_locked_test'
+          assert measurement['fixed_palette']['source_git_blob_sha'] == '95a2a33c82e343b15e58d2c6909c288e8cd39397'
+          assert measurement['fixed_palette']['palette_fitted_to_fresh_candidate_images'] is False
+          assert measurement['coarse_colour_state']['implementation'] == 'fcp_pipeline/photo_first_measurement.py'
+          assert measurement['coarse_colour_state']['mixed_uncertain_is_biological_morph'] is False
+          assert measurement['execution']['all_candidate_rows_must_reach_one_terminal_photo_state'] is True
+          assert measurement['execution']['replacement_after_failure'] is False
+          assert measurement['execution']['early_stopping'] is False
+          assert measurement['h1_handoff']['no_species_level_or_cohort_level_measurement_completeness_gate'] is True
+          assert measurement['h1_handoff']['mixed_uncertain_positions_are_fixed_under_species_conditioned_null'] is True
+          assert all(value is False for value in measurement['outcome_firewall'].values())
+          print('Prospective H1, candidate-pool and photo-measurement contracts validated pre-pixel.')
+          PY
+      - name: Run focused unit tests
+        run: |
+          python -m pytest -q \
+            tests/test_photo_first_atlas.py \
+            tests/test_photo_first_measurement.py \
+            tests/test_random_photo_pool.py
+      - name: Run planted-boundary synthetic validation
+        run: python scripts/analysis/run_random_photo_first_synthetic_validation.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-synthetic-validation-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: data/derived/random_photo_first_synthetic_validation_v1.json
+
+  freeze-fresh-metadata:
+    needs: validate-h1-core
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Check whether the one-shot metadata pool is already frozen
+        id: existing
+        shell: bash
+        run: |
+          if [[ -f docs/supporting/random_photo_first_candidate_pool_manifest_v1.json ]]; then
+            echo "already_frozen=true" >> "$GITHUB_OUTPUT"
+            echo "Existing durable candidate-pool freeze found; no API query will be issued."
+          else
+            echo "already_frozen=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Freeze fresh species-unfixed metadata pool exactly once
+        if: steps.existing.outputs.already_frozen == 'false'
+        run: python scripts/acquisition/freeze_random_photo_first_candidate_pool.py
+      - name: Validate frozen metadata and premeasurement capacity gate
+        if: steps.existing.outputs.already_frozen == 'false'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          manifest_path = Path('docs/supporting/random_photo_first_candidate_pool_manifest_v1.json')
+          candidate_path = Path('data/frozen/random_photo_first_candidate_pool_v1.csv')
+          audit_path = Path('data/frozen/random_photo_first_candidate_pool_cell_audit_v1.csv')
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          candidate = pd.read_csv(candidate_path)
+          audit = pd.read_csv(audit_path)
+
+          assert manifest['protocol'] == 'random-photo-first-candidate-pool-v1'
+          assert manifest['status'] == 'metadata_pool_frozen_before_candidate_image_pixels'
+          assert manifest['outcome_firewall']['candidate_image_pixels_opened'] is False
+          assert manifest['outcome_firewall']['morph_used_for_selection'] is False
+          assert manifest['outcome_firewall']['species_list_fixed_or_targeted'] is False
+          assert manifest['outcome_firewall']['legacy_pr21_terminal_records_used'] is False
+          assert manifest['one_shot_freeze']['rerun_random_queries_after_durable_output'] is False
+          assert manifest['one_shot_freeze']['durable_outputs_checked_before_client_construction'] is True
+          assert manifest['counts']['observations'] == len(candidate)
+          assert manifest['counts']['unique_observation_ids'] == candidate['observation_id'].nunique()
+          assert manifest['counts']['unique_photo_ids'] == candidate['photo_id'].nunique()
+          assert len(audit) == 162
+          gate = manifest['premeasurement_h1_gate']
+          assert gate['fixed_photos_per_replicate'] == 10000
+          assert gate['species_cap_per_cell_per_replicate'] == 2
+          assert gate['pixels_may_open'] == gate['candidate_pool_can_reach_fixed_replicate_size']
+          if not gate['pixels_may_open']:
+              assert gate['reason_if_false'] == 'not_evaluable_candidate_sampling_capacity_before_pixels'
+          print(json.dumps({
+              'candidate_observations': len(candidate),
+              'species': manifest['counts']['species'],
+              'occupied_cells': manifest['counts']['occupied_cells'],
+              'species_capped_capacity': gate['candidate_species_capped_capacity'],
+              'pixels_may_open': gate['pixels_may_open'],
+              'reason_if_false': gate['reason_if_false'],
+          }, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: steps.existing.outputs.already_frozen == 'false'
+        with:
+          name: random-photo-first-candidate-pool-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/frozen/random_photo_first_candidate_pool_v1.csv
+            data/frozen/random_photo_first_candidate_pool_cell_audit_v1.csv
+            docs/supporting/random_photo_first_candidate_pool_manifest_v1.json
+      - name: Commit the immutable metadata freeze
+        if: steps.existing.outputs.already_frozen == 'false'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/random_photo_first_candidate_pool_v1.csv \
+            data/frozen/random_photo_first_candidate_pool_cell_audit_v1.csv \
+            docs/supporting/random_photo_first_candidate_pool_manifest_v1.json
+          git commit -m "Freeze fresh random photo-first candidate metadata pool"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/random-photo-first-boundary-persistence
+            git rebase origin/analysis/random-photo-first-boundary-persistence
+            if git push origin HEAD:analysis/random-photo-first-boundary-persistence; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1

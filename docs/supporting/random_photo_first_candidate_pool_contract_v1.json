@@ -1,0 +1,86 @@
+{
+  "protocol": "random-photo-first-candidate-pool-v1",
+  "status": "frozen_before_any_fresh_candidate_api_query_or_image_pixel",
+  "parent_h1_protocol": "random-photo-first-boundary-persistence-v1",
+  "purpose": "freeze a fresh species-unfixed georeferenced flowering-photo pool for repeated photo-level atlas sampling",
+  "source": {
+    "provider": "iNaturalist API v1 observations",
+    "api_parameter_audit": "docs/supporting/random_photo_first_api_parameter_audit_v1.json",
+    "angiosperm_taxon_id": 47125,
+    "flowering_annotation_term_id": 12,
+    "flowering_annotation_value_id": 13,
+    "quality_grade": "research",
+    "rank": "species",
+    "photos_required": true,
+    "coordinates_required": true,
+    "maximum_positional_accuracy_m": 5000,
+    "obscuration": "none",
+    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"],
+    "photo_license_prefiltered_before_random_page": true,
+    "metadata_eligibility_prefiltered_before_random_page": true,
+    "local_revalidation_after_api_response": true
+  },
+  "geographic_sampling": {
+    "grid": {
+      "type": "equal-area longitude by sin(latitude)",
+      "n_lon": 18,
+      "n_sinlat": 9,
+      "cells": 162
+    },
+    "one_api_request_per_cell": true,
+    "pages_per_cell": 1,
+    "per_cell_random_candidate_cap": 200,
+    "maximum_raw_candidate_records": 32400,
+    "api_order_by": "random",
+    "cell_membership_recomputed_from_returned_coordinates": true,
+    "boundary_duplicates_removed_globally": true
+  },
+  "species_policy": {
+    "fixed_or_targeted_species_list": false,
+    "species_identity_retained": true,
+    "species_used_for_candidate_admission": false,
+    "species_used_later_for_sampling_caps_and_conditioned_null": true
+  },
+  "metadata_freeze": {
+    "retain": [
+      "cell_id",
+      "observation_id",
+      "photo_id",
+      "photo_url_large",
+      "photo_license",
+      "attribution",
+      "species",
+      "inat_taxon_id",
+      "latitude",
+      "longitude",
+      "positional_accuracy_m",
+      "observed_on",
+      "observer_id",
+      "observer"
+    ],
+    "candidate_image_pixels_opened": false,
+    "morph_used": false,
+    "continuous_colour_used": false,
+    "climate_used": false,
+    "pollinator_used": false
+  },
+  "no_rescue_rule": {
+    "replace_failed_or_unlicensed_rows_after_pool_freeze": false,
+    "rerun_random_api_queries_to_improve_colour_balance": false,
+    "rerun_random_api_queries_to_improve_geographic_pattern": false,
+    "select_favourable_api_replicate": false
+  },
+  "legacy_firewall": {
+    "pr21_terminal_60000_photo_records_used": false,
+    "pr21_terminal_records_may_be_rescued_or_subsetted": false,
+    "six_species_held_out_photos_used_as_new_global_inference": false,
+    "frozen_34_species_literature_comparison_used_for_candidate_selection": false
+  },
+  "freeze_output": {
+    "candidate_csv": "data/frozen/random_photo_first_candidate_pool_v1.csv",
+    "cell_audit_csv": "data/frozen/random_photo_first_candidate_pool_cell_audit_v1.csv",
+    "manifest_json": "docs/supporting/random_photo_first_candidate_pool_manifest_v1.json",
+    "candidate_table_sha256_required": true
+  },
+  "claim_ceiling": "metadata sampling frame only; no flower-colour or ecological result until pixels are measured under a separately frozen measurement contract"
+}
