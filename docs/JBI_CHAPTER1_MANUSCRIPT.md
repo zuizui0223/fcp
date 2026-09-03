@@ -3,7 +3,7 @@
 **Running title:** Spatial organization of continuous flower colour  
 **Article type:** Research Article  
 **Target journal:** *Journal of Biogeography*  
-**Draft status:** The photograph split, operational colour representation, Stage-A/Stage-B contracts and numerical results are frozen. Introduction and Discussion wording remains subject to reference audit and co-author revision.
+**Draft status:** The photograph split, operational colour representation, Stage-A/Stage-B contracts and numerical results are frozen. The prospectively frozen 200-species terminal scale-out is also closed as `not_evaluable` at its measurement-completeness gate. Introduction and Discussion wording remains subject to reference audit and co-author revision.
 
 ## Abstract
 
@@ -125,6 +125,12 @@ The eight non-primary configurations were evaluated as predeclared descriptive s
 
 Analysis contracts, frozen inputs, null distributions, result manifests and canonical figure hashes are versioned in the repository. Environmental and historical reference layers were not used to select Stage-A or Stage-B support or to modify the observed colour surface. Because the primary Stage-B gate was not passed, no geographic-reference correspondence analysis was promoted to the confirmatory sequence.
 
+### Prospective terminal scale-up
+
+A separate prospective extension tested whether the image-first measurement system could produce an evaluable colour field at substantially broader taxonomic scale; it did not re-estimate or replace the six-species Stage-A/B results. Eight disjoint cohorts of 25 genus-distinct species were frozen with 300 observations per species, giving 200 species and 60,000 photographs. All 60,000 records, source roles, ROI-v4 estimator, thresholds, cohort requirements, branch order and stopping rules were fixed before terminal outcome inspection, with no replacement, resampling, favourable subset selection or early stopping.
+
+The terminal sequence required complete location-blind measurement before any protected coordinate-colour join. A predeclared `not_evaluable` measurement-completeness outcome stopped the cascade before species-conditioned spatial organization and prohibited all downstream shared-transition, environmental and pollinator analyses. The scale-out therefore tested measurement evaluability, not the biological spatial hypotheses, unless its frozen completeness gate was passed.
+
 ## Results
 
 ### Held-out colour measurement
@@ -147,6 +153,12 @@ Observed opportunity-weighted concentration was 0.0082315, compared with a null 
 
 Sensitivity results depended on spatial support (Figure C4). The 500-km/24×12 configuration gave an upper-tail probability of 0.0445, while probabilities for 500-km/18×9, 1,000-km/36×18, 1,000-km/24×12, 1,000-km/18×9, 2,000-km/36×18, 2,000-km/24×12 and 2,000-km/18×9 were 0.3415, 0.2235, 0.4945, 0.1920, 0.4690, 0.5500 and 0.3495, respectively. The isolated nominal result on the coarser 500-km grid was retained as exploratory scale sensitivity and did not replace the frozen primary result.
 
+### Prospective terminal scale-up was not evaluable
+
+The terminal 200-species extension completed all 256 location-blind compute partitions and reassembled exactly 60,000 unique measurement records into 16 semantic shards. The frozen measurement-completeness gate was nevertheless not met. Only 58 of 200 species were measurement-evaluable, with 3, 4, 7, 8, 8, 12, 7 and 9 evaluable species across the eight fixed 25-species cohorts. The gate therefore returned `not_evaluable_scaleout_measurement_completeness`.
+
+The protected coordinate join remained prohibited (`coordinate_join_permitted = false`; `coordinates_opened = false`). Consequently, species-conditioned spatial organization and all downstream shared-transition, environmental-concordance and pollinator-concordance analyses were not run. This is a measurement-evaluability result rather than evidence for or against those biological hypotheses.
+
 ## Discussion
 
 ### Spatial organization and spatial coincidence are different results
@@ -159,7 +171,7 @@ This distinction matters for interpretation. Similar spatial autocorrelation can
 
 The equal-species global statistic was chosen to test a repeated tendency without allowing species with denser graphs to dominate. The strongest primary species-level signals occurred in *Lysimachia arvensis* and *Raphanus sativus*, whereas the remaining species were not individually resolved. This heterogeneity does not negate the prospective global test, but it limits any claim of universal species-level strength.
 
-Several non-exclusive explanations remain. Species can differ in the scale and shape of their colour gradients, the alignment of sampling locations with those gradients, the environmental or historical processes structuring populations and the reliability with which community photographs represent visible floral colour. A larger confirmatory species sample will be needed to estimate how frequently strong local organization occurs and which species properties predict its magnitude.
+Several non-exclusive explanations remain. Species can differ in the scale and shape of their colour gradients, the alignment of sampling locations with those gradients, the environmental or historical processes structuring populations and the reliability with which community photographs represent visible floral colour. Estimating how frequently strong local organization occurs across angiosperms will require a future measurement system whose transfer across taxa is prospectively qualified before a new large-scale biological test is opened.
 
 ### Why the Stage-B non-result is informative
 
@@ -177,17 +189,19 @@ These advantages do not convert community photographs into calibrated spectral m
 
 ### Limits and next tests
 
-The study has five principal limits. First, the six species are a selected development set rather than a random sample of angiosperms. Second, community photographs provide uneven spatial and temporal sampling even though the null preserves the observed geometry. Third, colour vectors are species-specific operational measurements and cannot be interpreted as directly commensurate pigment or receptor-space coordinates. Fourth, the analysis detects spatial organization but does not estimate morph-specific fitness, gene flow or causal environmental effects. Fifth, Stage-B power is constrained by the number of species and the limited set of cells with shared detectability.
+The study has six principal limits. First, the six species are a selected development set rather than a random sample of angiosperms. Second, community photographs provide uneven spatial and temporal sampling even though the null preserves the observed geometry. Third, colour vectors are species-specific operational measurements and cannot be interpreted as directly commensurate pigment or receptor-space coordinates. Fourth, the analysis detects spatial organization but does not estimate morph-specific fitness, gene flow or causal environmental effects. Fifth, Stage-B power is constrained by the number of species and the limited set of cells with shared detectability. Sixth, the prospectively frozen terminal scale-out showed that the current automated ROI-v4 measurement system did not transfer with sufficient completeness across 200 species to authorize a new biological inference.
 
-The next confirmatory expansion should increase the number of independently sampled species while preserving the same separation of stages and opportunity denominator. Environmental or historical layers can then be introduced only after a reproducible shared-transition pattern is established, or tested within species under independently frozen hypotheses. In the present six-species analysis, adding geographic overlays after the unsupported Stage-B primary test would be exploratory and cannot rescue the common-boundary hypothesis.
+That terminal extension is informative because its stopping rule was applied before coordinates were joined to measured colour. Exact location-blind measurement was completed for all 60,000 frozen records, but only 58 of 200 species met the fixed measurement-evaluable rule and none of the eight cohorts passed the frozen cohort requirement. We therefore stopped rather than relaxing the gate after observing performance. The scale-out must not be interpreted as a negative test of spatial organization, shared transitions or environmental concordance; those analyses were never opened.
+
+A future confirmatory expansion must therefore begin as a new prospective experiment with broader taxonomic measurement transfer qualified before new outcome pixels are opened. Environmental or historical layers can then be introduced only after a reproducible shared-transition pattern is established, or tested within species under independently frozen hypotheses. In the present six-species analysis, adding geographic overlays after the unsupported Stage-B primary test would be exploratory and cannot rescue the common-boundary hypothesis. The present 60,000 terminal records likewise cannot be re-analysed as a favourable 58-species subset or rescued with substituted post-result thresholds.
 
 ## Conclusions
 
-Across 720 held-out community photographs from six angiosperm species, geographically neighbouring observations were more similar in continuous flower colour than expected under species-conditioned random labelling. This result was stable across three nearest-neighbour graph scales. The stronger hypothesis that independent species concentrated their strongest colour transitions in the same global regions was not supported by the frozen primary test. Flower-colour variation can therefore be repeatedly spatially organized within species without being demonstrably governed by one universal global boundary.
+Across 720 held-out community photographs from six angiosperm species, geographically neighbouring observations were more similar in continuous flower colour than expected under species-conditioned random labelling. This result was stable across three nearest-neighbour graph scales. The stronger hypothesis that independent species concentrated their strongest colour transitions in the same global regions was not supported by the frozen primary test. Flower-colour variation can therefore be repeatedly spatially organized within species without being demonstrably governed by one universal global boundary. A separately frozen 200-species extension did not reach biological inference because its predeclared measurement-completeness gate was not met, underscoring that current automated colour measurement does not yet transfer uniformly enough across taxa for this terminal global atlas design.
 
 ## Data availability and reproducibility
 
-The frozen split, operational colour representation, evaluation features, Stage-A and Stage-B contracts, null distributions, result manifests and canonical figure products are versioned in this repository. Primary entry points are:
+The frozen split, operational colour representation, evaluation features, Stage-A and Stage-B contracts, null distributions, result manifests and canonical figure products are versioned in this repository. The terminal scale-out design, exact artifact provenance and final `not_evaluable` decision are also versioned separately so that the scale-out cannot be mistaken for a completed biological test. Primary entry points are:
 
 - `data/frozen/jbi_ch1_photo_split_v1.csv`;
 - `docs/supporting/jbi_ch1_continuous_colour_representation_v1.json`;
@@ -198,7 +212,9 @@ The frozen split, operational colour representation, evaluation features, Stage-
 - `docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json`;
 - `data/evaluation/jbi_ch1_stage_b_shared_transition_surface_v1.csv`;
 - `data/evaluation/jbi_ch1_stage_b_primary_null_v1.csv`;
-- `docs/supporting/jbi_ch1_figure_manifest_v1.json`.
+- `docs/supporting/jbi_ch1_figure_manifest_v1.json`;
+- `docs/JBI_CHAPTER1_TERMINAL_SCALEUP_RESULT.md`;
+- `docs/supporting/jbi_atlas_terminal_measurement_v5_receipt.json`.
 
 ## Figure legends
 
