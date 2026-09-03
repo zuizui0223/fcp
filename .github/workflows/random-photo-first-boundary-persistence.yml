@@ -8,10 +8,12 @@ on:
     paths:
       - ".github/workflows/random-photo-first-boundary-persistence.yml"
       - "fcp_pipeline/photo_first_atlas.py"
+      - "fcp_pipeline/photo_first_atlas_v2.py"
       - "fcp_pipeline/random_photo_pool.py"
       - "tests/test_photo_first_atlas.py"
       - "tests/test_random_photo_pool.py"
       - "scripts/analysis/run_random_photo_first_synthetic_validation.py"
+      - "scripts/acquisition/freeze_random_photo_first_candidate_pool.py"
       - "docs/supporting/random_photo_first_boundary_persistence_contract_v1.json"
       - "docs/supporting/random_photo_first_candidate_pool_contract_v1.json"
 
@@ -49,13 +51,18 @@ jobs:
           )
           assert h1['protocol'] == 'random-photo-first-boundary-persistence-v1'
           assert h1['status'] == 'analysis_core_frozen_before_fresh_global_candidate_pool_is_opened'
+          assert h1['implementation'] == 'fcp_pipeline/photo_first_atlas_v2.py'
           assert h1['legacy_firewall']['pr21_terminal_60000_photo_records_are_input'] is False
           assert h1['legacy_firewall']['pr21_terminal_60000_photo_records_may_be_rescued_or_subsetted'] is False
           assert h1['primary_sampling']['photos_per_replicate'] == 10000
           assert h1['primary_sampling']['replicates'] == 200
           assert h1['primary_sampling']['species_cap_per_cell_per_replicate'] == 2
+          assert h1['primary_sampling']['minimum_classifiable_photos_per_cell'] == 5
+          assert h1['primary_sampling']['fixed_replicate_size_is_fail_closed'] is True
+          assert h1['coarse_morph_v1']['mixed_uncertain_role'].startswith('structural measurement missingness')
           assert h1['transition']['transition_quantile'] == 0.9
-          assert h1['primary_null']['scope'].startswith('shuffle morph labels strictly within species')
+          assert h1['primary_null']['scope'].startswith('shuffle classifiable biological morph labels strictly within species')
+          assert h1['primary_null']['mixed_uncertain_positions_are_fixed'] is True
           assert h1['persistence']['unevaluable_replicates_are_structural_missingness_not_zero'] is True
 
           pool = json.loads(
@@ -73,7 +80,7 @@ jobs:
           assert pool['species_policy']['fixed_or_targeted_species_list'] is False
           assert pool['metadata_freeze']['candidate_image_pixels_opened'] is False
           assert pool['legacy_firewall']['pr21_terminal_60000_photo_records_used'] is False
-          print('Prospective H1 and candidate-pool contracts validated.')
+          print('Prospective quality-safe H1 and candidate-pool contracts validated.')
           PY
       - name: Run focused unit tests
         run: |
