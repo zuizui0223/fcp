@@ -2,6 +2,7 @@
   "protocol": "random-photo-first-boundary-persistence-v1",
   "status": "analysis_core_frozen_before_fresh_global_candidate_pool_is_opened",
   "created_for": "new prospective exploratory-validation atlas",
+  "implementation": "fcp_pipeline/photo_first_atlas_v2.py",
   "legacy_firewall": {
     "frozen_34_species_comparison_is_input": false,
     "six_species_held_out_result_is_input": false,
@@ -23,8 +24,9 @@
     "replicates": 200,
     "selection": "cell-first round-robin after within-cell species cap",
     "species_cap_per_cell_per_replicate": 2,
-    "minimum_photos_per_cell": 5,
-    "sampling_must_not_use_morph_or_continuous_colour": true
+    "minimum_classifiable_photos_per_cell": 5,
+    "sampling_must_not_use_morph_or_continuous_colour": true,
+    "fixed_replicate_size_is_fail_closed": true
   },
   "coarse_morph_v1": {
     "source_fields": [
@@ -38,7 +40,7 @@
       "white",
       "yellow"
     ],
-    "groups": {
+    "biological_groups": {
       "white": ["white"],
       "yellow_orange": ["yellow", "orange", "bronze"],
       "red_pink": ["red", "pink", "magenta"],
@@ -47,23 +49,25 @@
     "minimum_dominant_fraction": 0.5,
     "minimum_margin_over_second_group": 0.1,
     "otherwise": "mixed_uncertain",
+    "mixed_uncertain_role": "structural measurement missingness; excluded from morph composition and from the minimum classifiable-photo count; never treated as a fifth biological morph",
     "species_standardized_colour_vectors_are_prohibited_for_pooled_absolute_colour": true
   },
   "transition": {
-    "cell_summary": "morph composition vector",
+    "cell_summary": "four-state biological morph composition vector among classifiable sampled photos",
     "edge_metric": "Jensen-Shannon divergence in bits",
     "edge_metric_range": [0.0, 1.0],
-    "transition_definition": "top 10 percent of evaluable edge intensities within each replicate",
+    "transition_definition": "exact top 10 percent of evaluable edge intensities within each replicate with random tie-breaking",
     "transition_quantile": 0.9
   },
   "persistence": {
     "edge_numerator": "number of replicates where edge is a transition",
-    "edge_denominator": "number of replicates where both adjacent cells satisfy the minimum photo count",
+    "edge_denominator": "number of replicates where both adjacent cells satisfy the minimum classifiable-photo count",
     "unevaluable_replicates_are_structural_missingness_not_zero": true,
     "global_statistic": "opportunity-weighted variance of edge persistence around the realized global transition rate"
   },
   "primary_null": {
-    "scope": "shuffle morph labels strictly within species while preserving locations and species frequencies",
+    "scope": "shuffle classifiable biological morph labels strictly within species while preserving locations, species frequencies, and the geographic mask of mixed_uncertain measurements",
+    "mixed_uncertain_positions_are_fixed": true,
     "sampling_seeds_reused_across_observed_and_null": true,
     "permutations": 999,
     "tail": "upper",
@@ -76,7 +80,8 @@
     ],
     "species_cap_per_cell_per_replicate": [1, 2],
     "report_global_continent_within_and_biome_within": true,
-    "species_dominance_audit_required": true
+    "species_dominance_audit_required": true,
+    "measurement_missingness_map_required": true
   },
   "stage_gate": {
     "h2_climate_concordance_opens_only_after_h1_global_candidate_pool_is_evaluable": true,
