@@ -1,9 +1,14 @@
 """Metadata-only freeze for the prospective random photo-first atlas.
 
 The candidate pool is sampled by equal-area geographic cell, never by a fixed
-species list and never using image pixels or colour.  The remote query uses one
+species list and never using image pixels or colour. The remote query uses one
 randomly ordered iNaturalist page per cell; the exact returned observation/photo
 IDs are then frozen as the experiment's candidate manifest.
+
+Eligibility that is knowable from metadata alone is filtered in the API query
+before the random page is drawn. This prevents obscured coordinates or unusable
+photo licences from consuming the fixed 200-record cell quota. The same rules are
+validated again locally, so the API prefilter is not trusted as the sole guard.
 """
 
 from __future__ import annotations
@@ -26,6 +31,13 @@ from .shared_transition_surface import EqualAreaGrid, equal_area_cell_ids
 
 INAT_API = "https://api.inaturalist.org/v1/observations"
 DEFAULT_USER_AGENT = "fcp-random-photo-first-atlas/1.0 (github.com/zuizui0223/fcp)"
+DEFAULT_ALLOWED_PHOTO_LICENSES = (
+    "cc0",
+    "cc-by",
+    "cc-by-sa",
+    "cc-by-nc",
+    "cc-by-nc-sa",
+)
 
 
 @dataclass(frozen=True)
@@ -107,6 +119,13 @@ def equal_area_cell_bounds(grid: EqualAreaGrid, cell_id: int) -> dict[str, float
     }
 
 
+def _normalized_allowed_licenses(values: Sequence[str]) -> tuple[str, ...]:
+    allowed = tuple(sorted({str(value).casefold() for value in values if str(value).strip()}))
+    if not allowed:
+        raise ValueError("allowed_photo_licenses cannot be empty")
+    return allowed
+
+
 def inat_query_for_cell(
     grid: EqualAreaGrid,
     cell_id: int,
@@ -116,10 +135,14 @@ def inat_query_for_cell(
     flowering_term_id: int = 12,
     flowering_term_value_id: int = 13,
     maximum_positional_accuracy_m: int = 5000,
+    allowed_photo_licenses: Sequence[str] = DEFAULT_ALLOWED_PHOTO_LICENSES,
 ) -> dict[str, object]:
+    """Build the fixed metadata-only iNaturalist query for one equal-area cell."""
+
     per_page = int(per_page)
     if per_page < 1 or per_page > 200:
         raise ValueError("per_page must lie in 1..200")
+    allowed = _normalized_allowed_licenses(allowed_photo_licenses)
     params: dict[str, object] = {
         "taxon_id": int(taxon_id),
         "quality_grade": "research",
@@ -129,6 +152,11 @@ def inat_query_for_cell(
         "term_id": int(flowering_term_id),
         "term_value_id": int(flowering_term_value_id),
         "acc_below": int(maximum_positional_accuracy_m),
+        # Both filters are outcome-blind metadata eligibility rules. Filtering
+        # before the random page is drawn prevents ineligible records from using
+        # the fixed per-cell quota.
+        "obscuration": "none",
+        "photo_license": ",".join(allowed),
         "order_by": "random",
         "per_page": per_page,
         "page": 1,
@@ -140,7 +168,11 @@ def inat_query_for_cell(
 def _coordinates(observation: Mapping[str, Any]) -> tuple[float | None, float | None]:
     geojson = observation.get("geojson") or {}
     coordinates = geojson.get("coordinates") or []
-    if isinstance(coordinates, Sequence) and not isinstance(coordinates, (str, bytes)) and len(coordinates) >= 2:
+    if (
+        isinstance(coordinates, Sequence)
+        and not isinstance(coordinates, (str, bytes))
+        and len(coordinates) >= 2
+    ):
         try:
             return float(coordinates[1]), float(coordinates[0])
         except (TypeError, ValueError):
@@ -190,8 +222,12 @@ def parse_candidate_observation(
         positional_accuracy = float(observation["positional_accuracy"])
     except (KeyError, TypeError, ValueError):
         return None
-    if not math.isfinite(positional_accuracy) or not (0.0 <= positional_accuracy <= maximum_positional_accuracy_m):
+    if not math.isfinite(positional_accuracy) or not (
+        0.0 <= positional_accuracy <= maximum_positional_accuracy_m
+    ):
         return None
+    # Repeat the remote eligibility guards locally. This catches API drift and
+    # prevents a server-side filter failure from silently entering the freeze.
     if bool(observation.get("obscured")):
         return None
     if observation.get("geoprivacy") not in (None, "", "open"):
@@ -253,7 +289,10 @@ def parse_candidate_observation(
 
 
 def _sha256_rows(rows: pd.DataFrame) -> str:
-    canonical = rows.sort_values(["cell_id", "observation_id", "photo_id"]).to_csv(index=False, lineterminator="\n")
+    canonical = rows.sort_values(["cell_id", "observation_id", "photo_id"]).to_csv(
+        index=False,
+        lineterminator="\n",
+    )
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
@@ -266,22 +305,15 @@ def freeze_random_photo_candidate_pool(
     flowering_term_id: int = 12,
     flowering_term_value_id: int = 13,
     maximum_positional_accuracy_m: int = 5000,
-    allowed_photo_licenses: Sequence[str] = (
-        "cc0",
-        "cc-by",
-        "cc-by-sa",
-        "cc-by-nc",
-        "cc-by-nc-sa",
-    ),
+    allowed_photo_licenses: Sequence[str] = DEFAULT_ALLOWED_PHOTO_LICENSES,
 ) -> PoolFreeze:
     """Query each equal-area cell once and freeze the exact random metadata pool."""
 
     per_cell_cap = int(per_cell_cap)
     if per_cell_cap < 1 or per_cell_cap > 200:
         raise ValueError("per_cell_cap must lie in 1..200")
-    allowed = frozenset(str(value).casefold() for value in allowed_photo_licenses)
-    if not allowed:
-        raise ValueError("allowed_photo_licenses cannot be empty")
+    allowed_tuple = _normalized_allowed_licenses(allowed_photo_licenses)
+    allowed = frozenset(allowed_tuple)
 
     rows: list[dict[str, object]] = []
     audit: list[dict[str, object]] = []
@@ -297,6 +329,7 @@ def freeze_random_photo_candidate_pool(
             flowering_term_id=flowering_term_id,
             flowering_term_value_id=flowering_term_value_id,
             maximum_positional_accuracy_m=maximum_positional_accuracy_m,
+            allowed_photo_licenses=allowed_tuple,
         )
         payload = client.observations(params)
         raw_results = payload.get("results") or []
@@ -368,10 +401,13 @@ def freeze_random_photo_candidate_pool(
             "rank": "species",
             "photos": True,
             "geo": True,
+            "obscuration": "none",
+            "photo_license": ",".join(allowed_tuple),
             "order_by": "random",
             "per_cell_cap": per_cell_cap,
             "maximum_positional_accuracy_m": int(maximum_positional_accuracy_m),
-            "allowed_photo_licenses": sorted(allowed),
+            "allowed_photo_licenses": list(allowed_tuple),
+            "metadata_eligibility_prefiltered_before_random_page": True,
             "api_requests": grid.n_cells,
             "pages_per_cell": 1,
         },
