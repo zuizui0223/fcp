@@ -1,0 +1,11 @@
+{
+  "status": "preoutcome_inference_branch_frozen",
+  "complete_measurement_present": false,
+  "h1_result_present": false,
+  "h2_result_present": false,
+  "candidate_rows": 20845,
+  "h1_sampling_seed": 20260903,
+  "h1_permutation_seed": 20260904,
+  "h1_permutations": 999,
+  "handoff": "exact complete measurement blobs trigger frozen postmeasurement H1-H2 workflow"
+}
