@@ -2,8 +2,8 @@
 """JSON-safe launcher for the prospectively frozen H1 -> H2 runner.
 
 This wrapper does not alter sampling, statistics, seeds, nulls, climate inputs, or
-scientific decisions. It only converts non-finite scalar values used for
-not-evaluable sensitivity/QC fields to JSON null before serialization.
+scientific decisions. It converts non-finite not-evaluable/QC scalar placeholders
+to JSON null and invokes the fail-closed H2 orchestration layer.
 """
 
 from __future__ import annotations
@@ -16,6 +16,7 @@ from typing import Any
 import numpy as np
 
 import run_random_photo_first_h1_h2 as frozen
+import run_random_photo_first_h1_h2_failclosed as failclosed
 
 
 _ORIGINAL_DUMPS = json.dumps
@@ -55,7 +56,7 @@ def main() -> int:
     # frozen imports the standard json module, so replace only its dumps entrypoint;
     # _ORIGINAL_DUMPS remains an immutable reference to the real serializer.
     frozen.json.dumps = safe_dumps
-    return int(frozen.main())
+    return int(failclosed.main())
 
 
 if __name__ == "__main__":
