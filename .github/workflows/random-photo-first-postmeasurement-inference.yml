@@ -89,7 +89,7 @@ jobs:
           PY
       - name: Run frozen H1 then hierarchical H2
         run: |
-          python scripts/analysis/run_random_photo_first_h1_h2_json_safe.py
+          python scripts/analysis/run_random_photo_first_h1_h2_failclosed.py
       - name: Validate terminal inference decisions
         run: |
           python - <<'PY'
