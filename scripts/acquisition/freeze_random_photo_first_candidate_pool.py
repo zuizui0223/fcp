@@ -13,7 +13,7 @@ import json
 import os
 from pathlib import Path
 
-from fcp_pipeline.photo_first_atlas import species_capped_sampling_capacity
+from fcp_pipeline.photo_first_atlas_v2 import species_capped_sampling_capacity
 from fcp_pipeline.random_photo_pool import (
     InaturalistObservationClient,
     freeze_random_photo_candidate_pool,
@@ -72,7 +72,7 @@ def main() -> None:
     )
     manifest = dict(frozen.manifest)
     manifest["source_commit"] = os.environ.get("GITHUB_SHA", "local")
-    manifest["premmeasurement_h1_gate"] = {
+    manifest["premeasurement_h1_gate"] = {
         "fixed_photos_per_replicate": h1_target,
         "species_cap_per_cell_per_replicate": h1_species_cap,
         "candidate_species_capped_capacity": int(capped_capacity),
