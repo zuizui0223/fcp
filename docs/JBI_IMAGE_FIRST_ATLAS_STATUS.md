@@ -1,84 +1,89 @@
 # FCP image-first atlas execution status
 
-## Current decision
+## Final terminal decision
 
-The active mainline is a global image-first flower-colour atlas with a species-free public map and photo bar, but species-conditioned measurement, spatial fields and null inference.
+The prospective 200-species / 60,000-photo image-first atlas has reached its frozen terminal stopping rule.
 
-Current gate: **the 200-species live metadata audit, live-geometry environmental coverage and both independent ROI v4 gates have passed; the versioned many-to-many dated-source resolver and final dated-source environmental-coverage rerun remain; every atlas candidate pixel remains closed**.
+**Final decision: `not_evaluable`.**
 
-The fail-closed state is unchanged: bulk atlas image opening is stopped until the exact dated-source, environmental-coverage and locked ROI v4 gates all pass.
+The exact terminal run is GitHub Actions run `33592829701`, attempt 2, at frozen execution head `aea19a4eff9585f501aa6a833ad44c80080eddcf`. The workflow concluded `failure` because the protected coordinate join was deliberately fail-closed after the measurement gate returned `not_evaluable`; this is not a failure of the exact compute-partition reassembly.
 
-The terminal scale-out is eight disjoint cohorts of 25 species x 300 observations: 200 species and 60,000 observations. All eight cohorts are required. They are one experiment, not eight opportunities to stop after a favourable result.
+The exact terminal artifact is `jbi-atlas-terminal-measurement-v5` (artifact `9857419176`, SHA-256 `6bfff229a90215d016b2dd7e2bcca9446474f6d216efe33782f9faac11e69b55`). A compact immutable receipt is committed at `docs/supporting/jbi_atlas_terminal_measurement_v5_receipt.json`.
 
-The descriptive display is also fixed before pixels: every admitted finite-colour point enters the species-free Mollweide map, and the 48-image photo bar is selected by evenly spaced longitude ranks with latitude and blinded measurement ID as tie breakers. Colour, species, cohort and inferential outcomes cannot select displayed photographs.
+## What completed successfully
+
+The location-blind measurement execution completed the frozen scale-out without replacement, favourable replicate selection or early stopping:
+
+- 256 / 256 compute partitions were present and validated;
+- the exact union contained 60,000 unique measurement IDs;
+- reassembly produced 16 semantic shards;
+- no candidate image pixels were persisted in the reassembly evidence;
+- measurement did not open coordinates;
+- the reassembled ROI-v4 bundle contained exactly 60,000 terminal records;
+- estimator identity, trained-weight hash and ROI-contract hash matched the frozen v5 measurement contract.
+
+`compute_partition_reassembly_v1.json` therefore passed as `pass_exact_256_compute_partition_coverage`, and the reassembled bundle passed as `pass_complete_location_blind_roi_v4_measurement_v5_bundle`.
+
+## Binding measurement gate
+
+The frozen `measurement_gate_v5.json` returned:
+
+`not_evaluable_scaleout_measurement_completeness`
+
+Only **58 / 200 species** met the frozen measurement-evaluable rule. Evaluable-species counts by the eight fixed cohorts were:
+
+| Cohort | Evaluable species |
+|---|---:|
+| C01 | 3 |
+| C02 | 4 |
+| C03 | 7 |
+| C04 | 8 |
+| C05 | 8 |
+| C06 | 12 |
+| C07 | 7 |
+| C08 | 9 |
+
+Every cohort was therefore `not_evaluable` under the already-frozen cohort requirement.
+
+The binding state is:
+
+- `coordinate_join_permitted = false`;
+- `coordinates_opened = false`;
+- `superseded_v3_ordered_inference_used = false`;
+- claim ceiling: measurement completeness only.
+
+## Cascade closure
+
+The confirmatory sequence was frozen as:
+
+`species-conditioned spatial organization -> shared transition -> environmental concordance -> pollinator biogeographic concordance`
+
+Because `not_evaluable` never advances the cascade, the terminal experiment stops **before species-conditioned spatial organization**. The protected coordinate-colour join is not opened. Shared-transition, environmental-concordance and pollinator-concordance analyses are not run.
+
+No threshold, seed, metric, estimator, source, denominator, cohort requirement, branch order or `not_evaluable` stopping rule is altered after observing the terminal measurement result. The 60,000-record denominator remains fixed.
 
 ## Immutable earlier evidence
 
-- Six-species Chapter 1: 1,200 photographs, Stage A `p = 0.0113`, Stage B `p = 0.0906`. No atlas change retunes it.
-- Literature comparison: 34 species from 25 families. It remains method and supplementary evidence, never the atlas admission frame.
-- Automated three-species validation: 717 locked photographs, 306 admitted encounters, zero supported species. This is a frozen negative measurement/spatial validation, not proof of spatial randomness.
-- Fifty-species sentinel geometry: 20,200 observations frozen before pixels. Its images remain unopened and it is not silently promoted into the 200-species experiment.
+The terminal result does not reopen or overwrite completed evidence:
 
-## Frozen branch outcomes before atlas colour
+- six-species Chapter 1: 1,200 photographs; Stage A `p = 0.0113`, Stage B `p = 0.0906`;
+- 34-species / 25-family literature comparison: separate comparative method and supplementary context;
+- three-species automated negative validation: 717 locked photographs, 306 admitted encounters, zero supported species;
+- 50-species sentinel geometry: 20,200 observations, retained as an unopened precursor and never pooled into the terminal experiment.
 
-### Geographic shared-boundary concentration — `not_evaluable`
+The terminal atlas is therefore **not a biological replication result**. It is a prospectively executed measurement-scale validation that became non-evaluable under its own frozen completeness rule.
 
-The exact-geometry qualification used 100 repetitions per scenario and 999 within-species permutations. The proposed geographic statistic failed the predeclared signal-recovery gate (`effect = 2` power 0.21; heterogeneous-boundary false sharing 0.16). This is a method failure, not evidence that a common geographic boundary is absent. The statistic is prohibited from reading real scale-out colour.
+## Manuscript role
 
-### Environmental concordance — next evaluable branch
+For the Journal of Biogeography package, the six-species held-out Stage A/B analysis remains the primary biological result. The terminal 200-species scale-out should be reported as a transparent prospective extension that completed exact 60,000-record location-blind measurement and then stopped at the predeclared completeness gate. It must not be described as evidence for or against spatial organization, shared transitions, environmental concordance or pollinator concordance.
 
-The environmental null recovered its intended calibration before colour. Three independent primary families are frozen on the same 100, 250 and 500 km equal-area grids:
+The scientific consequence is narrower but useful: increasing image count and taxonomic breadth did not by itself guarantee an evaluable cross-species colour field under the frozen ROI-v4 completeness requirements. Any future atlas attempt must be a new prospective experiment with its measurement model and qualification rules fixed before new outcome pixels are opened; the present 60,000 records cannot be mined with substituted post-result gates.
 
-1. WorldClim 2.1 macroclimate;
-2. ESA WorldCover 2021 land-cover composition;
-3. RESOLVE Ecoregions 2017.
+## Durable evidence
 
-Copernicus terrain access did not complete under the frozen source route and terrain is permanently `not_evaluable`; no replacement DEM may be chosen after colour. Final inference uses within-species continuous Lab transition fields, equal-species surfaces, equal-cohort aggregation and one 9,999-randomization joint maximum across all frozen scales, date sensitivities, flower/background roles and environmental overlays. Only the predeclared 100 km, all-dates, equal-eight-cohort flower tests can promote a primary claim.
-
-### *Bombus* biogeography — `not_evaluable`
-
-The frozen colour-blind source gate required a citable GBIF download with its own realm, opportunity, balance and stability checks. The required authenticated download could not be frozen, so the branch remains `not_evaluable`. It cannot be replaced by a convenient post-colour occurrence source.
-
-## ROI evidence
-
-- ROI v3 (SegFormer) failed its independent JRC development gate: 400 development images, 17 admitted, recall 0.1207. The locked 100-image test remains sealed forever.
-- ROI v4 is a prospectively frozen YOLO11n flower detector followed by EfficientSAM using one shared runtime for JRC qualification and all 60,000 atlas measurements.
-- The final training executable, materialization receipt, terminal epoch weight and training curves were committed before any development prediction.
-- The 400-image development gate passed all frozen criteria: 351/400 images admitted (0.8775), detector precision 0.7760, recall 0.8465 and pooled flower-mask pixels inside the reference-box union 0.9064. The committed evidence passed CI before the locked partition was opened.
-- The locked 100-image test then passed every frozen criterion without retuning: 85/100 images admitted (0.85), detector precision 0.7304, recall 0.7956, medium-object recall 0.8296, large-object recall 0.5000, median image mask containment 0.9139 and pooled mask containment 0.8597. The row-level result, executed gate code and exact trained weight are frozen under `data/atlas/qualification/roi_v4_locked_test/`.
-- ROI v4 now authorizes the estimator for scale-out. It does not independently authorize atlas image acquisition; the dated-source and final environmental-coverage gates remain closed.
-
-## 200-species metadata and dated-source gate
-
-GitHub Actions run `33405153936` completed the full predeclared 500-species candidate-pool audit successfully. It did not stop after reaching the target. Of 500 queried candidates, 358 passed metadata and geometry admission. The frozen terminal selection contains 200 genus-distinct species in eight disjoint 25-species cohorts, with exactly 300 observations per species: 60,000 unique observations and photos. Retained maxima were 10 records per species-observer, 5 per species x 0.25-degree cell and 10 per species x 0.5-degree cell. All selected rows still declare that candidate pixels were unopened.
-
-The same selected geometry passed the live-feasibility environmental opportunity gate at all three scales. Macroclimate and ecoregion coverage was 99.05%, 99.72% and 100% at 100, 250 and 500 km; land-cover coverage was 100%, 100% and 99.12%. This is pre-colour coverage evidence only. The live API result cannot authorize images, and the coverage gate must be repeated against the exact dated-source reconciliation.
-
-The official fixed resolver is the 2026-08-27 iNaturalist Open Data snapshot:
-
-- object size: 35,093,052,336 bytes;
-- computed SHA-256: `c98202c07796b275fe41fc1518fc394ac09caf2dede370a4ee64ce6d68b0c50d`;
-- moving `latest` is prohibited.
-
-The official snapshot has observations, observers, photos and taxa but no flowering-annotation table. The pre-image contract therefore has two source stages: one complete API audit selects the exact 60,000 rows, then every photo, observation, observer and taxon must reconcile to the dated snapshot.
-
-The v1 resolver stopped `not_evaluable_dated_source_reconciliation` at selected photo asset `950871`, before any association row or image content was inspected, because it assumed that `photo_id` was a unique table key. iNaturalist documents a many-to-many photo-observation relation and the composite association key `photo_uuid + observation_uuid`. The v1 result is retained as a technical source-schema failure. A separately versioned v2 resolver was frozen before inspecting the association rows. It allows multiple observation links for a photo asset but requires exactly one full-metadata match to the already frozen API observation. Zero matches, multiple matches, duplicate composite association keys or conflicting photo-asset fields yield `not_evaluable_dated_source_m2m_reconciliation`; no replacement or resampling is allowed.
-
-## Image-access authorization
-
-The measurement firewall cannot be built unless all of these pass independently:
-
-1. exact v2 many-to-many dated-source reconciliation for 200 species and 60,000 photo assets;
-2. opportunity-cell environmental coverage at 100, 250 and 500 km, with macroclimate plus at least one other primary family;
-3. ROI v4 locked JRC test.
-
-The acquisition worker additionally checks the exact sealed-key hash and the firewall receipt. Passing metadata, a visually plausible map, or a development model alone cannot open images.
-
-## Remaining route to a submission result
-
-1. Complete the exact v2 many-to-many dated-source reconciliation and repeat pre-colour environmental coverage against that dated source.
-2. If both source gates pass, acquire and measure all 60,000 images location-blind; incomplete measurement stops the coordinate join.
-3. Run the frozen environmental joint null once, preserving `supported`, `not_supported` and `not_evaluable` outcomes.
-4. Generate the species-free map/photo bar, species-conditioned tables, manuscript, reproduction bundle and CI-complete PR.
-
-No colour-dependent retuning, early stopping, silent row repair or new environmental/pollinator overlay is permitted.
+- terminal receipt: `docs/supporting/jbi_atlas_terminal_measurement_v5_receipt.json`;
+- frozen measurement contract: `docs/supporting/jbi_atlas_measurement_execution_contract_v5.json`;
+- frozen real-colour inference amendment: `docs/supporting/jbi_atlas_real_colour_inference_amendment_v5.json`;
+- frozen terminal follow-up implementation amendment: `docs/supporting/jbi_atlas_terminal_followup_implementation_amendment_v1.json`;
+- exact run: `33592829701`;
+- exact artifact: `9857419176` / `jbi-atlas-terminal-measurement-v5`.
