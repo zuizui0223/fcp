@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run a non-biological synthetic validation of the photo-first H1 machinery."""
+"""Run a non-biological synthetic validation of the quality-safe photo-first H1 machinery."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from fcp_pipeline.photo_first_atlas import persistence_null_test
+from fcp_pipeline.photo_first_atlas_v2 import persistence_null_test
 from fcp_pipeline.shared_transition_surface import EqualAreaGrid, equal_area_cell_centers
 
 
@@ -28,8 +28,13 @@ def synthetic_photos() -> pd.DataFrame:
             base_morph = "red_pink" if col < grid.n_lon // 2 else "blue_purple"
             for photo_index in range(5):
                 morph = base_morph
-                if rng.random() < 0.03:
+                draw = rng.random()
+                if draw < 0.03:
                     morph = "blue_purple" if base_morph == "red_pink" else "red_pink"
+                elif draw < 0.08:
+                    # Planted spatially unstructured measurement uncertainty must not
+                    # become a fifth biological morph or be shuffled by the null.
+                    morph = "mixed_uncertain"
                 rows.append(
                     {
                         "species": species,
@@ -73,6 +78,7 @@ def main() -> None:
 
     payload = {
         "protocol": "random-photo-first-boundary-persistence-v1",
+        "implementation": "photo_first_atlas_v2_quality_safe",
         "role": "software_validation_only_not_biological_evidence",
         "synthetic_design": {
             "species": 12,
@@ -80,6 +86,7 @@ def main() -> None:
             "photos": int(len(photos)),
             "planted_transition": "red_pink in western half versus blue_purple in eastern half",
             "label_noise_fraction": 0.03,
+            "measurement_uncertainty_fraction": 0.05,
         },
         "observed": {
             "persistence_concentration": observed.concentration,
