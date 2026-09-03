@@ -16,9 +16,13 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: random-photo-first-h1-optimization-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate-cached-h1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
