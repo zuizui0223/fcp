@@ -1,0 +1,75 @@
+{
+  "protocol": "jbi-atlas-terminal-measurement-v5-receipt-v1",
+  "status": "terminal_confirmatory_cascade_not_evaluable",
+  "recorded_at_utc": "2026-09-03T01:29:00Z",
+  "source_run": {
+    "run_id": 33592829701,
+    "run_attempt": 2,
+    "workflow": "JBI atlas terminal scaleout v3",
+    "workflow_path": ".github/workflows/jbi-atlas-terminal-scaleout-v3.yml",
+    "head_sha": "aea19a4eff9585f501aa6a833ad44c80080eddcf",
+    "status": "completed",
+    "conclusion": "failure",
+    "interpretation": "fail_closed_after_measurement_gate; not a compute-reassembly failure"
+  },
+  "source_artifact": {
+    "artifact_id": 9857419176,
+    "artifact_name": "jbi-atlas-terminal-measurement-v5",
+    "artifact_sha256": "6bfff229a90215d016b2dd7e2bcca9446474f6d216efe33782f9faac11e69b55",
+    "measurement_gate_file": "measurement_gate_v5.json",
+    "measurement_gate_sha256": "30e16785e6012b30bafa8038100f507d9fc23117d52e15a27dadbcfc99a7349e",
+    "compute_reassembly_file": "compute_partition_reassembly_v1.json",
+    "compute_reassembly_sha256": "c8a5aab51fb5fe36c4fd64486e59c0b76216848aed379d9e47a8729be3f46677"
+  },
+  "compute_reassembly": {
+    "status": "pass_exact_256_compute_partition_coverage",
+    "compute_partitions": 256,
+    "semantic_shards": 16,
+    "measurement_ids": 60000,
+    "candidate_image_pixels_persisted": false,
+    "coordinates_opened_by_measurement": false,
+    "measurement_manifest_sha256": "d76a65b0b2e6440d6910e7a6b0088e0c3caed3ace3c32f92298daac35ae01465"
+  },
+  "measurement_bundle": {
+    "status": "pass_complete_location_blind_roi_v4_measurement_v5_bundle",
+    "terminal_records": 60000,
+    "shard_count": 16,
+    "model_id": "jbi-atlas-roi-estimator-v4",
+    "trained_weight_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "roi_contract_sha256_lf_canonical_v1": "e3ffefdcd4aa6719a10b45c57886ee895f10f424a0d0b174a46541d92dd2f7a1"
+  },
+  "measurement_gate": {
+    "status": "not_evaluable_scaleout_measurement_completeness",
+    "frozen_measurements": 60000,
+    "evaluable_species": 58,
+    "total_species": 200,
+    "cohort_evaluable_species": {
+      "C01": 3,
+      "C02": 4,
+      "C03": 7,
+      "C04": 8,
+      "C05": 8,
+      "C06": 12,
+      "C07": 7,
+      "C08": 9
+    },
+    "all_cohorts_status": "not_evaluable",
+    "coordinate_join_permitted": false,
+    "coordinates_opened": false,
+    "superseded_v3_ordered_inference_used": false,
+    "claim_ceiling": "Measurement completeness only; coordinates remain sealed and no spatial, shared-transition, environmental or pollinator result is permitted."
+  },
+  "terminal_decision": {
+    "decision": "not_evaluable",
+    "stop_before": "species-conditioned spatial organization",
+    "shared_transition_run": false,
+    "environmental_concordance_run": false,
+    "pollinator_concordance_run": false,
+    "post_result_threshold_change": false,
+    "post_result_seed_change": false,
+    "post_result_denominator_change": false,
+    "post_result_metric_substitution": false,
+    "post_result_source_substitution": false,
+    "coordinate_join_opened": false
+  }
+}
