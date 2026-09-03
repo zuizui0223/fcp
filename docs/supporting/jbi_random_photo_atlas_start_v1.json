@@ -1,0 +1,14 @@
+{
+  "status": "authorized_metadata_only_preimage_freeze",
+  "protocol": "jbi-random-photo-atlas-v1",
+  "authorized_at_utc": "2026-09-03T03:00:00Z",
+  "source_window": ["2026-08-28", "2026-09-02"],
+  "terminal_snapshot_date": "2026-08-27",
+  "pixel_access_authorized": false,
+  "reservoir_target": 12000,
+  "replicate_denominator": 4000,
+  "replicates": 200,
+  "grid": "24x12 lon-by-sin(latitude)",
+  "seed": 20260903,
+  "protocol_document": "docs/JBI_RANDOM_PHOTO_ATLAS_PROTOCOL_V1.md"
+}
