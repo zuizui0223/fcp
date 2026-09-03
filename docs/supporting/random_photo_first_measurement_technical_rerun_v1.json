@@ -1,0 +1,30 @@
+{
+  "protocol": "random-photo-first-measurement-technical-rerun-v1",
+  "status": "technical_rerun_authorized_without_scientific_change",
+  "created_at_utc": "2026-09-03T08:14:00Z",
+  "previous_run_id": 33730950669,
+  "previous_run_head_sha": "0b3ebd1eddf3f1a929d853620388a0719f0225d0",
+  "repair_workflow_commit_sha": "896e9c1337bbd8e2ebc7b251073f0be51ddd40c1",
+  "failure_location": "post-seal metadata leak assertion",
+  "failure_cause": "substring grep matched the safety receipt key species_present even though its value was false",
+  "evidence": {
+    "partition_seal_completed_before_failure": true,
+    "terminal_denominator_validation_completed_before_failure": true,
+    "source_urls_present_was_false": true,
+    "species_present_was_false": true,
+    "coordinates_present_was_false": true,
+    "failure_was_after_location_blind_measurement": true
+  },
+  "repair": {
+    "old_check": "substring grep across sealed CSV and JSON files",
+    "new_check": "exact forbidden-column inspection for sealed CSV plus explicit false assertions on receipt privacy flags",
+    "measurement_algorithm_changed": false,
+    "roi_model_or_weights_changed": false,
+    "palette_or_morph_threshold_changed": false,
+    "candidate_pool_changed": false,
+    "candidate_sampling_changed": false,
+    "h1_or_h2_contract_changed": false,
+    "observed_measurement_summary_used_to_change_scientific_method": false
+  },
+  "rerun_policy": "repeat the same frozen candidate denominator and same frozen location-blind measurement solely because no durable terminal partition artifacts could be uploaded after the CI false positive; no failed image or biological state is selectively replaced"
+}

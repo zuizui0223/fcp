@@ -1,0 +1,90 @@
+name: Sync complete random photo-first measurement to frozen inference
+
+on:
+  push:
+    branches:
+      - analysis/random-photo-first-measurement-execution
+    paths:
+      - "data/derived/random_photo_first_measured_photos_v1.csv"
+      - "docs/supporting/random_photo_first_measurement_result_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: random-photo-first-measurement-to-inference-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-exact-complete-measurement:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    steps:
+      - name: Checkout frozen inference branch
+        uses: actions/checkout@v4
+        with:
+          ref: analysis/random-photo-first-inference-execution
+          fetch-depth: 0
+      - name: Import exact measurement blobs from triggering commit
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          git fetch origin "$SOURCE_SHA"
+          source_csv_blob="$(git rev-parse "$SOURCE_SHA:data/derived/random_photo_first_measured_photos_v1.csv")"
+          source_manifest_blob="$(git rev-parse "$SOURCE_SHA:docs/supporting/random_photo_first_measurement_result_v1.json")"
+          git checkout "$SOURCE_SHA" -- \
+            data/derived/random_photo_first_measured_photos_v1.csv \
+            docs/supporting/random_photo_first_measurement_result_v1.json
+          test "$(git hash-object data/derived/random_photo_first_measured_photos_v1.csv)" = "$source_csv_blob"
+          test "$(git hash-object docs/supporting/random_photo_first_measurement_result_v1.json)" = "$source_manifest_blob"
+          echo "measurement_csv_blob=$source_csv_blob"
+          echo "measurement_manifest_blob=$source_manifest_blob"
+      - name: Verify source is the complete 128-partition denominator
+        run: |
+          python3 - <<'PY'
+          import csv
+          import hashlib
+          import json
+          from pathlib import Path
+
+          measured = Path('data/derived/random_photo_first_measured_photos_v1.csv')
+          result = json.loads(Path('docs/supporting/random_photo_first_measurement_result_v1.json').read_text())
+          candidate = json.loads(Path('docs/supporting/random_photo_first_candidate_pool_manifest_v1.json').read_text())
+          execution = json.loads(Path('docs/supporting/random_photo_first_inference_execution_v1.json').read_text())
+          assert result['status'] == 'complete_fresh_location_blind_measurement_and_join'
+          assert result['partition_receipts'] == 128
+          assert result['terminal_result_rows'] == result['joined_rows'] == result['frozen_candidate_rows'] == 20845
+          assert result['coordinate_colour_join_opened_after_complete_measurement'] is True
+          assert result['legacy_pr21_terminal_records_used'] is False
+          assert result['h1_run'] is False and result['h2_run'] is False
+          assert result['firewall_candidate_table_sha256'] == candidate['candidate_table_sha256']
+          assert candidate['candidate_table_sha256'] == execution['immutable_input_frame']['candidate_table_sha256']
+          assert hashlib.sha256(measured.read_bytes()).hexdigest() == result['measurement_table_sha256']
+          with measured.open(newline='', encoding='utf-8') as handle:
+              reader = csv.DictReader(handle)
+              assert reader.fieldnames is not None and 'measurement_id' in reader.fieldnames
+              measurement_ids = [str(row['measurement_id']) for row in reader]
+          assert len(measurement_ids) == 20845 and len(set(measurement_ids)) == 20845
+          print('measurement_sync_gate=pass')
+          PY
+      - name: Commit exact measurement blobs to inference branch
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/random_photo_first_measured_photos_v1.csv \
+            docs/supporting/random_photo_first_measurement_result_v1.json
+          git commit -m "Import complete fresh measurement from ${SOURCE_SHA}"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/random-photo-first-inference-execution
+            git rebase origin/analysis/random-photo-first-inference-execution
+            if git push origin HEAD:analysis/random-photo-first-inference-execution; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1

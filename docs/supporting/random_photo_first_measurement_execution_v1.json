@@ -1,0 +1,84 @@
+{
+  "protocol": "random-photo-first-measurement-execution-v1",
+  "status": "prospectively_frozen_before_any_fresh_candidate_image_pixel",
+  "parent_measurement_protocol": "random-photo-first-measurement-v1",
+  "pixel_gate": {
+    "candidate_pool_manifest": "docs/supporting/random_photo_first_candidate_pool_manifest_v1.json",
+    "required_candidate_pool_status": "metadata_pool_frozen_before_candidate_image_pixels",
+    "required_pixels_may_open": true,
+    "candidate_table_sha256_must_match": true,
+    "candidate_count_must_match": true,
+    "legacy_pr21_terminal_records_permitted": false
+  },
+  "blinding": {
+    "salt": "fcp-random-photo-first-v1-coordinate-firewall",
+    "measurement_id": "FCPR- plus first 24 uppercase hex characters of SHA256(salt + unit-separator + photo + unit-separator + photo_id)",
+    "worker_allowed_fields": ["measurement_id", "image_filename", "photo_license"],
+    "worker_forbidden_context": ["species", "taxon", "observation_id", "photo_id", "source_url", "latitude", "longitude", "observer", "observed_on", "climate", "pollinator"],
+    "sealed_acquisition_key_fields": ["measurement_id", "image_filename", "photo_url_large", "photo_license"],
+    "sealed_metadata_join_key": "measurement_id plus the complete frozen candidate metadata row",
+    "coordinate_colour_join_before_complete_measurement": false
+  },
+  "partitioning": {
+    "semantic_shards": 32,
+    "compute_partitions_per_semantic_shard": 4,
+    "total_compute_partitions": 128,
+    "maximum_concurrent_compute_partitions": 8,
+    "semantic_shard_function": "first 8 bytes SHA256(fcp-random-photo-first-semantic + unit-separator + measurement_id) modulo 32",
+    "compute_partition_function": "first 8 bytes SHA256(fcp-random-photo-first-compute + unit-separator + measurement_id) modulo 4",
+    "all_partitions_required": true,
+    "empty_partition_permitted": true,
+    "early_stopping": false
+  },
+  "runtime": {
+    "python_major_minor": "3.11",
+    "torch": "2.11.0+cpu",
+    "torchvision": "0.26.0+cpu",
+    "ultralytics": "8.4.112",
+    "onnxruntime": "1.23.2",
+    "scikit_image": "0.25.2",
+    "torch_threads_per_worker": 2,
+    "detector_path": "data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt",
+    "detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_revision": "d525f622e6f640acf5a0fc37c7ca1f243da5bde0",
+    "efficient_sam_encoder_sha256": "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951",
+    "efficient_sam_decoder_sha256": "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+  },
+  "acquisition": {
+    "retries_per_image": 4,
+    "timeout_seconds": 60.0,
+    "download_to_blinded_filename": true,
+    "failed_download_terminal_state": "image_acquisition_failed",
+    "replacement_after_failure": false,
+    "candidate_image_files_persisted_as_artifacts": false
+  },
+  "measurement": {
+    "roi_required_status": "automated_colour_state_admitted",
+    "roi_failure_maps_to": "mixed_uncertain",
+    "fixed_palette_implementation": "fcp_pipeline/photo_first_measurement.py",
+    "minimum_flower_mask_pixels": 100,
+    "minimum_dominant_fraction": 0.5,
+    "minimum_margin_over_second_group": 0.1,
+    "all_candidate_rows_reach_exactly_one_terminal_result": true,
+    "terminal_result_contains_coordinates": false,
+    "terminal_result_contains_species": false,
+    "persist_flower_mask": false,
+    "persist_image_pixels": false
+  },
+  "reassembly": {
+    "requires_all_128_partition_receipts": true,
+    "terminal_measurement_ids_must_equal_frozen_candidate_measurement_ids": true,
+    "duplicate_measurement_ids_permitted": false,
+    "coordinate_colour_join_opens_only_after_complete_terminal_coverage": true,
+    "joined_output": "data/derived/random_photo_first_measured_photos_v1.csv",
+    "result_manifest": "docs/supporting/random_photo_first_measurement_result_v1.json"
+  },
+  "outcome_firewall": {
+    "candidate_pixels_opened_at_freeze": false,
+    "candidate_colour_measured_at_freeze": false,
+    "coordinate_colour_joined_at_freeze": false,
+    "h1_run_at_freeze": false,
+    "h2_run_at_freeze": false
+  },
+  "claim_ceiling": "technical execution and photo-level measurement only; no H1 spatial-boundary or H2 climate result"
+}
