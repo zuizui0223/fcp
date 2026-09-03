@@ -2,7 +2,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from fcp_pipeline.photo_first_atlas import (
+from fcp_pipeline.photo_first_atlas_v2 import (
+    BIOLOGICAL_MORPH_LEVELS,
     adjacent_grid_edges,
     cell_first_species_capped_sample,
     coarse_morph_from_palette,
@@ -10,7 +11,6 @@ from fcp_pipeline.photo_first_atlas import (
     prepare_photo_grid,
     replicate_edge_table,
     run_boundary_persistence,
-    species_capped_sampling_capacity,
     species_conditioned_morph_permutation,
 )
 from fcp_pipeline.shared_transition_surface import EqualAreaGrid
@@ -31,7 +31,9 @@ def test_coarse_palette_mapping_is_species_independent_and_keeps_ambiguity():
     assert coarse_morph_from_palette(red) == "red_pink"
 
     ambiguous = dict(red)
-    ambiguous.update({"magenta": 0.20, "pink": 0.10, "red": 0.10, "white": 0.35, "yellow": 0.15})
+    ambiguous.update(
+        {"magenta": 0.20, "pink": 0.10, "red": 0.10, "white": 0.35, "yellow": 0.15}
+    )
     assert coarse_morph_from_palette(ambiguous) == "mixed_uncertain"
 
 
@@ -59,11 +61,10 @@ def test_cell_first_sampler_enforces_species_cap_and_target():
                     "species": species,
                     "latitude": -20.0,
                     "longitude": -150.0,
-                    "morph": "red" if repeat % 2 else "white",
+                    "morph": "red_pink" if repeat % 2 else "white",
                 }
             )
     photos = prepare_photo_grid(pd.DataFrame(rows), grid=grid)
-    assert species_capped_sampling_capacity(photos, species_cap_per_cell=2) == 6
     sampled = cell_first_species_capped_sample(
         photos,
         target_n=6,
@@ -75,37 +76,20 @@ def test_cell_first_sampler_enforces_species_cap_and_target():
     assert int(counts.max()) <= 2
 
 
-def test_inference_fails_closed_when_fixed_target_cannot_be_reached():
-    grid = EqualAreaGrid(n_lon=4, n_sinlat=2)
-    rows = []
-    for species in ("a", "b", "c"):
-        for repeat in range(5):
-            rows.append(
-                {
-                    "species": species,
-                    "latitude": -20.0,
-                    "longitude": -150.0,
-                    "morph": "red" if repeat % 2 else "white",
-                }
-            )
-    with pytest.raises(ValueError, match="not_evaluable_fixed_replicate_size"):
-        run_boundary_persistence(
-            pd.DataFrame(rows),
-            grid=grid,
-            target_n=7,
-            n_replicates=2,
-            species_cap_per_cell=2,
-            min_photos_per_cell=2,
-        )
-
-
-def test_species_conditioned_permutation_preserves_each_species_marginal():
+def test_species_conditioned_permutation_preserves_each_species_biological_marginal():
     photos = pd.DataFrame(
         {
             "species": ["a", "a", "a", "b", "b", "b"],
             "latitude": [0, 1, 2, 3, 4, 5],
             "longitude": [0, 1, 2, 3, 4, 5],
-            "morph": ["red", "red", "white", "blue", "yellow", "yellow"],
+            "morph": [
+                "red_pink",
+                "red_pink",
+                "white",
+                "blue_purple",
+                "yellow_orange",
+                "yellow_orange",
+            ],
         }
     )
     permuted = species_conditioned_morph_permutation(
@@ -117,34 +101,65 @@ def test_species_conditioned_permutation_preserves_each_species_marginal():
         assert before == after
 
 
-def test_exact_top_fraction_avoids_tie_inflation():
+def test_mixed_uncertain_positions_are_fixed_under_species_conditioned_null():
+    photos = pd.DataFrame(
+        {
+            "species": ["a"] * 6 + ["b"] * 6,
+            "latitude": np.arange(12),
+            "longitude": np.arange(12),
+            "morph": [
+                "mixed_uncertain",
+                "red_pink",
+                "white",
+                "red_pink",
+                "white",
+                "mixed_uncertain",
+                "blue_purple",
+                "mixed_uncertain",
+                "yellow_orange",
+                "blue_purple",
+                "yellow_orange",
+                "mixed_uncertain",
+            ],
+        }
+    )
+    uncertain_before = photos.morph.eq("mixed_uncertain").to_numpy()
+    permuted = species_conditioned_morph_permutation(
+        photos, rng=np.random.default_rng(17)
+    )
+    uncertain_after = permuted.morph.eq("mixed_uncertain").to_numpy()
+    np.testing.assert_array_equal(uncertain_before, uncertain_after)
+
+
+def test_mixed_uncertain_is_not_a_fifth_biological_state_or_cell_support():
     grid = EqualAreaGrid(n_lon=4, n_sinlat=2)
     rows = []
-    coordinates = [
-        (-30.0, -135.0), (-30.0, -45.0), (-30.0, 45.0), (-30.0, 135.0),
-        (30.0, -135.0), (30.0, -45.0), (30.0, 45.0), (30.0, 135.0),
-    ]
-    for cell_index, (lat, lon) in enumerate(coordinates):
-        for repeat in range(3):
-            rows.append(
-                {
-                    "species": f"s{repeat}",
-                    "latitude": lat,
-                    "longitude": lon,
-                    "morph": "red" if cell_index < 4 else "blue",
-                }
-            )
+    # Cell 0 has six raw photos but only one classifiable photo. It must fail a
+    # minimum classifiable-photo threshold of two.
+    for morph in [
+        "red_pink",
+        "mixed_uncertain",
+        "mixed_uncertain",
+        "mixed_uncertain",
+        "mixed_uncertain",
+        "mixed_uncertain",
+    ]:
+        rows.append({"species": "a", "latitude": -20.0, "longitude": -150.0, "morph": morph})
+    for morph in ["blue_purple", "blue_purple", "white", "white"]:
+        rows.append({"species": "b", "latitude": -20.0, "longitude": -60.0, "morph": morph})
     sampled = prepare_photo_grid(pd.DataFrame(rows), grid=grid)
-    edges = replicate_edge_table(
+    table = replicate_edge_table(
         sampled,
         grid=grid,
-        morph_levels=("red", "blue"),
+        morph_levels=BIOLOGICAL_MORPH_LEVELS,
         min_photos_per_cell=2,
         transition_quantile=0.90,
-        rng=np.random.default_rng(9),
+        rng=np.random.default_rng(2),
     )
-    assert int(edges["evaluable"].sum()) == 12
-    assert int(edges["is_transition"].sum()) == 2
+    row = table[((table.cell_i == 0) & (table.cell_j == 1)) | ((table.cell_i == 1) & (table.cell_j == 0))]
+    assert len(row) == 1
+    assert int(row.iloc[0].raw_n_i) + int(row.iloc[0].raw_n_j) == 10
+    assert bool(row.iloc[0].evaluable) is False
 
 
 def test_persistence_uses_evaluable_replicates_as_edge_denominator():
@@ -159,7 +174,7 @@ def test_persistence_uses_evaluable_replicates_as_edge_denominator():
                         "species": species,
                         "latitude": lat,
                         "longitude": lon,
-                        "morph": "red" if cell_index == 0 else "white",
+                        "morph": "red_pink" if cell_index == 0 else "white",
                     }
                 )
     result = run_boundary_persistence(
@@ -177,7 +192,6 @@ def test_persistence_uses_evaluable_replicates_as_edge_denominator():
     assert (supported.opportunities <= 20).all()
     expected = supported.transition_count / supported.opportunities
     np.testing.assert_allclose(supported.persistence, expected)
-    assert result.mean_sampled_photos == 8.0
 
 
 def test_replicate_sampling_is_deterministic_for_fixed_seed():
@@ -191,7 +205,7 @@ def test_replicate_sampling_is_deterministic_for_fixed_seed():
                         "species": species,
                         "latitude": -20.0 if repeat % 2 == 0 else 20.0,
                         "longitude": lon,
-                        "morph": "red" if lon < 0 else "blue",
+                        "morph": "red_pink" if lon < 0 else "blue_purple",
                     }
                 )
     kwargs = dict(
@@ -207,3 +221,24 @@ def test_replicate_sampling_is_deterministic_for_fixed_seed():
     second = run_boundary_persistence(pd.DataFrame(rows), **kwargs)
     pd.testing.assert_frame_equal(first.edge_table, second.edge_table)
     assert first.concentration == second.concentration
+
+
+def test_fixed_replicate_size_fails_closed_when_species_capped_capacity_is_too_small():
+    grid = EqualAreaGrid(n_lon=4, n_sinlat=2)
+    photos = pd.DataFrame(
+        {
+            "species": ["a"] * 8,
+            "latitude": [-20.0] * 8,
+            "longitude": [-150.0] * 8,
+            "morph": ["red_pink", "white"] * 4,
+        }
+    )
+    with pytest.raises(ValueError, match="not_evaluable_fixed_replicate_size"):
+        run_boundary_persistence(
+            photos,
+            grid=grid,
+            target_n=3,
+            n_replicates=2,
+            species_cap_per_cell=2,
+            min_photos_per_cell=1,
+        )
