@@ -36,7 +36,7 @@ env:
   DETECTOR_SHA256: "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5"
   EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
   EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
-  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+  EFFICSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
 
 jobs:
   validate-prepixel-measurement:
@@ -69,13 +69,28 @@ jobs:
             scripts/analysis/measure_random_photo_first_blind_partition.py \
             scripts/analysis/seal_random_photo_first_measurement_partition.py \
             scripts/analysis/reassemble_random_photo_first_measurement.py
-      - name: Verify imported ROI-v4 Git identities and locked result
+      - name: Verify imported ROI-v4 Git identities and detector hash without runtime import
         run: |
           test "$(git hash-object fcp_pipeline/flower_roi_v4.py)" = "9d1d2a1848f0c798b53c4df51543dc2682342377"
           test "$(git hash-object fcp_pipeline/flower_roi_v4_runtime.py)" = "6f3e71f7216b1635a2e06628336f5ea9ce0105d6"
           test "$(git hash-object docs/supporting/jbi_atlas_roi_estimator_contract_v4.json)" = "b043bc83d0d69489f38771e8f4bbe524963b70ea"
           test "$(git hash-object data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json)" = "b25425f1f738bcea75cef5f60980332a9857610b"
           echo "${DETECTOR_SHA256}  data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt" | sha256sum -c -
+      - name: Install exact CPU ROI runtime
+        run: |
+          python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements-atlas-roi-v4.txt
+          python - <<'PY'
+          import torch, torchvision, ultralytics, onnxruntime, skimage
+          assert torch.__version__.startswith('2.11.0') and '+cpu' in torch.__version__, torch.__version__
+          assert torchvision.__version__.startswith('0.26.0'), torchvision.__version__
+          assert ultralytics.__version__ == '8.4.112'
+          assert onnxruntime.__version__ == '1.23.2'
+          assert skimage.__version__ == '0.25.2'
+          assert torch.cuda.is_available() is False
+          PY
+      - name: Validate imported ROI-v4 contract and locked authorization
+        run: |
           python - <<'PY'
           import json
           from pathlib import Path
@@ -90,19 +105,6 @@ jobs:
           assert all(value is False for value in execution['outcome_firewall'].values())
           print('prepixel_contract_and_provenance=pass')
           PY
-      - name: Install exact CPU ROI runtime
-        run: |
-          python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
-          python -m pip install -r requirements-atlas-roi-v4.txt
-          python - <<'PY'
-          import torch, torchvision, ultralytics, onnxruntime, skimage
-          assert torch.__version__.startswith('2.11.0') and '+cpu' in torch.__version__, torch.__version__
-          assert torchvision.__version__.startswith('0.26.0'), torchvision.__version__
-          assert ultralytics.__version__ == '8.4.112'
-          assert onnxruntime.__version__ == '1.23.2'
-          assert skimage.__version__ == '0.25.2'
-          assert torch.cuda.is_available() is False
-          PY
       - name: Download and verify fixed EfficientSAM assets
         run: |
           rm -rf /tmp/efficient-sam
@@ -114,7 +116,7 @@ jobs:
             "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
             --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
           echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
-          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+          echo "${EFFICSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
       - name: Construct exact estimator without opening candidate pixels
         run: |
           python - <<'PY'
