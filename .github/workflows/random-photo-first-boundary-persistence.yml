@@ -8,9 +8,12 @@ on:
     paths:
       - ".github/workflows/random-photo-first-boundary-persistence.yml"
       - "fcp_pipeline/photo_first_atlas.py"
+      - "fcp_pipeline/random_photo_pool.py"
       - "tests/test_photo_first_atlas.py"
+      - "tests/test_random_photo_pool.py"
       - "scripts/analysis/run_random_photo_first_synthetic_validation.py"
       - "docs/supporting/random_photo_first_boundary_persistence_contract_v1.json"
+      - "docs/supporting/random_photo_first_candidate_pool_contract_v1.json"
 
 permissions:
   contents: read
@@ -35,29 +38,48 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e . pytest
-      - name: Validate prospective H1 contract
+      - name: Validate prospective contracts
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
 
-          contract = json.loads(
+          h1 = json.loads(
               Path('docs/supporting/random_photo_first_boundary_persistence_contract_v1.json').read_text(encoding='utf-8')
           )
-          assert contract['protocol'] == 'random-photo-first-boundary-persistence-v1'
-          assert contract['status'] == 'analysis_core_frozen_before_fresh_global_candidate_pool_is_opened'
-          assert contract['legacy_firewall']['pr21_terminal_60000_photo_records_are_input'] is False
-          assert contract['legacy_firewall']['pr21_terminal_60000_photo_records_may_be_rescued_or_subsetted'] is False
-          assert contract['primary_sampling']['photos_per_replicate'] == 10000
-          assert contract['primary_sampling']['replicates'] == 200
-          assert contract['primary_sampling']['species_cap_per_cell_per_replicate'] == 2
-          assert contract['transition']['transition_quantile'] == 0.9
-          assert contract['primary_null']['scope'].startswith('shuffle morph labels strictly within species')
-          assert contract['persistence']['unevaluable_replicates_are_structural_missingness_not_zero'] is True
-          print('Prospective H1 contract validated.')
+          assert h1['protocol'] == 'random-photo-first-boundary-persistence-v1'
+          assert h1['status'] == 'analysis_core_frozen_before_fresh_global_candidate_pool_is_opened'
+          assert h1['legacy_firewall']['pr21_terminal_60000_photo_records_are_input'] is False
+          assert h1['legacy_firewall']['pr21_terminal_60000_photo_records_may_be_rescued_or_subsetted'] is False
+          assert h1['primary_sampling']['photos_per_replicate'] == 10000
+          assert h1['primary_sampling']['replicates'] == 200
+          assert h1['primary_sampling']['species_cap_per_cell_per_replicate'] == 2
+          assert h1['transition']['transition_quantile'] == 0.9
+          assert h1['primary_null']['scope'].startswith('shuffle morph labels strictly within species')
+          assert h1['persistence']['unevaluable_replicates_are_structural_missingness_not_zero'] is True
+
+          pool = json.loads(
+              Path('docs/supporting/random_photo_first_candidate_pool_contract_v1.json').read_text(encoding='utf-8')
+          )
+          assert pool['protocol'] == 'random-photo-first-candidate-pool-v1'
+          assert pool['status'] == 'frozen_before_any_fresh_candidate_api_query_or_image_pixel'
+          assert pool['geographic_sampling']['grid'] == {
+              'type': 'equal-area longitude by sin(latitude)',
+              'n_lon': 18,
+              'n_sinlat': 9,
+              'cells': 162,
+          }
+          assert pool['geographic_sampling']['per_cell_random_candidate_cap'] == 200
+          assert pool['species_policy']['fixed_or_targeted_species_list'] is False
+          assert pool['metadata_freeze']['candidate_image_pixels_opened'] is False
+          assert pool['legacy_firewall']['pr21_terminal_60000_photo_records_used'] is False
+          print('Prospective H1 and candidate-pool contracts validated.')
           PY
       - name: Run focused unit tests
-        run: python -m pytest -q tests/test_photo_first_atlas.py
+        run: |
+          python -m pytest -q \
+            tests/test_photo_first_atlas.py \
+            tests/test_random_photo_pool.py
       - name: Run planted-boundary synthetic validation
         run: python scripts/analysis/run_random_photo_first_synthetic_validation.py
       - uses: actions/upload-artifact@v4
