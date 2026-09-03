@@ -1,11 +1,11 @@
 """Photo-first random atlas helpers for recurrent flower-colour boundaries.
 
-This module implements a new prospective analysis line.  It does not reuse the
+This module implements a new prospective analysis line. It does not reuse the
 terminal 60,000-photo experiment as a favourable subset and it does not change
 the frozen six-species or 34-species analyses.
 
 The inferential display is species-free, but species identity is retained for
-sampling caps and the species-conditioned null.  Boundary persistence is always
+sampling caps and the species-conditioned null. Boundary persistence is always
 computed with an opportunity denominator: an edge contributes to the denominator
 only in replicates where both adjacent cells have sufficient sampled photos.
 """
@@ -149,6 +149,23 @@ def adjacent_grid_edges(grid: EqualAreaGrid) -> np.ndarray:
     return np.asarray(sorted(edges), dtype=int)
 
 
+def species_capped_sampling_capacity(
+    photos_with_cells: pd.DataFrame,
+    *,
+    species_cap_per_cell: int,
+    species_col: str = "species",
+) -> int:
+    """Maximum rows that can enter one replicate under the fixed cell/species cap."""
+
+    species_cap_per_cell = _require_positive_int(
+        "species_cap_per_cell", species_cap_per_cell
+    )
+    if "cell_id" not in photos_with_cells.columns or species_col not in photos_with_cells.columns:
+        raise ValueError("photos_with_cells must contain cell_id and species")
+    counts = photos_with_cells.groupby(["cell_id", species_col], sort=False).size()
+    return int(np.minimum(counts.to_numpy(dtype=int), species_cap_per_cell).sum())
+
+
 def cell_first_species_capped_sample(
     photos_with_cells: pd.DataFrame,
     *,
@@ -159,9 +176,12 @@ def cell_first_species_capped_sample(
 ) -> pd.DataFrame:
     """Sample broadly over cells while limiting any species within each cell.
 
-    First, each cell-by-species pool is randomly reduced to the fixed cap.  Then
-    the remaining candidates are drawn round-robin over cells.  Colour/morph is
-    never used to decide which row is sampled.
+    First, each cell-by-species pool is randomly reduced to the fixed cap. Then
+    the remaining candidates are drawn round-robin over cells. Colour/morph is
+    never used to decide which row is sampled. If the capped candidate pool is
+    smaller than ``target_n`` the caller gets all eligible rows; the inferential
+    runner converts that condition to ``not_evaluable`` rather than silently
+    changing the replicate sample size.
     """
 
     target_n = _require_positive_int("target_n", target_n)
@@ -208,7 +228,6 @@ def cell_first_species_capped_sample(
         if not progressed:
             break
         if len(selected) < target_n:
-            # Preserve cells not visited after an early break only when needed.
             active = np.asarray(sorted(set(next_active)), dtype=int)
 
     return work.iloc[selected].reset_index(drop=True)
@@ -267,14 +286,24 @@ def replicate_edge_table(
     morph_levels: tuple[str, ...],
     min_photos_per_cell: int,
     transition_quantile: float,
+    rng: np.random.Generator | None = None,
     morph_col: str = "morph",
 ) -> pd.DataFrame:
+    """Build one replicate's edge table and select an exact top fraction.
+
+    If edge intensities tie at the transition cutoff, ties are broken randomly
+    within the replicate. Primary observed and null runs reuse the same sampling
+    seeds, so tie randomization cannot create a fixed geographic preference.
+    """
+
     min_photos_per_cell = _require_positive_int(
         "min_photos_per_cell", min_photos_per_cell
     )
     transition_quantile = float(transition_quantile)
     if not 0.0 < transition_quantile < 1.0:
         raise ValueError("transition_quantile must lie strictly inside (0, 1)")
+    if rng is None:
+        rng = np.random.default_rng(0)
 
     compositions, _ = _cell_compositions(
         sampled,
@@ -304,14 +333,16 @@ def replicate_edge_table(
             }
         )
     table = pd.DataFrame(rows)
-    evaluable_values = table.loc[table["evaluable"], "transition_intensity"].to_numpy(
-        dtype=float
-    )
-    if len(evaluable_values) == 0:
+    evaluable_index = table.index[table["evaluable"]].to_numpy(dtype=int)
+    if len(evaluable_index) == 0:
         return table
-    threshold = float(np.quantile(evaluable_values, transition_quantile))
-    mask = table["evaluable"] & (table["transition_intensity"] >= threshold)
-    table.loc[mask, "is_transition"] = True
+
+    intensities = table.loc[evaluable_index, "transition_intensity"].to_numpy(dtype=float)
+    tie_break = rng.random(len(evaluable_index))
+    order = np.lexsort((tie_break, -intensities))
+    n_transition = max(1, int(np.ceil((1.0 - transition_quantile) * len(evaluable_index))))
+    chosen = evaluable_index[order[:n_transition]]
+    table.loc[chosen, "is_transition"] = True
     return table
 
 
@@ -380,6 +411,17 @@ def run_boundary_persistence(
         latitude_col=latitude_col,
         longitude_col=longitude_col,
     )
+    capacity = species_capped_sampling_capacity(
+        work,
+        species_cap_per_cell=species_cap_per_cell,
+        species_col=species_col,
+    )
+    if capacity < target_n:
+        raise ValueError(
+            "not_evaluable_fixed_replicate_size: "
+            f"species-capped capacity {capacity} is below target_n {target_n}"
+        )
+
     edge_geometry = adjacent_grid_edges(grid)
     edge_ids = [f"{int(left)}:{int(right)}" for left, right in edge_geometry]
     opportunities = {edge_id: 0 for edge_id in edge_ids}
@@ -397,6 +439,11 @@ def run_boundary_persistence(
             rng=rng,
             species_col=species_col,
         )
+        if len(sampled) != target_n:
+            raise RuntimeError(
+                "not_evaluable_fixed_replicate_size: "
+                f"replicate sampled {len(sampled)} photos instead of {target_n}"
+            )
         sample_sizes.append(int(len(sampled)))
         edge_table = replicate_edge_table(
             sampled,
@@ -404,6 +451,7 @@ def run_boundary_persistence(
             morph_levels=levels,
             min_photos_per_cell=min_photos_per_cell,
             transition_quantile=transition_quantile,
+            rng=rng,
             morph_col=morph_col,
         )
         for row in edge_table.itertuples(index=False):
@@ -525,5 +573,8 @@ def persistence_null_test(
         null[position] = result.concentration
     if not np.isfinite(null).all():
         raise ValueError("one or more null persistence concentrations are not estimable")
-    p_upper = float((1 + np.count_nonzero(null >= observed.concentration)) / (n_permutations + 1))
+    p_upper = float(
+        (1 + np.count_nonzero(null >= observed.concentration))
+        / (n_permutations + 1)
+    )
     return observed, null, p_upper
