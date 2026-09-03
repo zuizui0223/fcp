@@ -29,6 +29,10 @@ on:
       - "requirements-inaturalist-auto-colour-analysis.txt"
       - ".github/workflows/jbi-inaturalist-automated-colour-pilot.yml"
 
+concurrency:
+  group: jbi-automated-colour-locked-pilot-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   validate-pilot:
     runs-on: ubuntu-latest
