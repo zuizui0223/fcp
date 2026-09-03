@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 import pandas as pd
 
 from fcp_pipeline.random_photo_pool import (
@@ -58,9 +61,33 @@ def test_cell_query_is_species_unfixed_flowering_photo_query():
     assert query["term_id"] == 12
     assert query["term_value_id"] == 13
     assert query["rank"] == "species"
+    assert query["acc_below"] == 5000
+    assert query["obscuration"] == "none"
+    assert set(str(query["photo_license"]).split(",")) == {
+        "cc0",
+        "cc-by",
+        "cc-by-sa",
+        "cc-by-nc",
+        "cc-by-nc-sa",
+    }
     assert query["order_by"] == "random"
     assert query["per_page"] == 200
     assert "species_id" not in query
+
+
+def test_candidate_contract_freezes_prefilters_before_random_page():
+    contract = json.loads(
+        Path("docs/supporting/random_photo_first_candidate_pool_contract_v1.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    source = contract["source"]
+    assert source["obscuration"] == "none"
+    assert source["photo_license_prefiltered_before_random_page"] is True
+    assert source["metadata_eligibility_prefiltered_before_random_page"] is True
+    assert source["local_revalidation_after_api_response"] is True
+    assert contract["geographic_sampling"]["api_order_by"] == "random"
+    assert contract["metadata_freeze"]["candidate_image_pixels_opened"] is False
 
 
 def test_freeze_queries_each_cell_once_and_never_uses_colour():
@@ -94,7 +121,11 @@ def test_freeze_queries_each_cell_once_and_never_uses_colour():
     assert frozen.manifest["counts"]["species"] == grid.n_cells
     assert frozen.manifest["outcome_firewall"]["candidate_image_pixels_opened"] is False
     assert frozen.manifest["outcome_firewall"]["morph_used_for_selection"] is False
+    assert frozen.manifest["query"]["obscuration"] == "none"
+    assert frozen.manifest["query"]["metadata_eligibility_prefiltered_before_random_page"] is True
     for call in client.calls:
+        assert call["obscuration"] == "none"
+        assert "photo_license" in call
         assert "morph" not in call
         assert "colour" not in call
         assert "color" not in call
@@ -106,7 +137,11 @@ def test_freeze_rejects_disallowed_license_and_wrong_rank_without_replacement():
     responses = []
     for cid, lat, lon in zip(cell_id, latitudes, longitudes, strict=True):
         valid = observation(
-            100 + int(cid), 500 + int(cid), f"Genus species{int(cid)}", float(lat), float(lon)
+            100 + int(cid),
+            500 + int(cid),
+            f"Genus species{int(cid)}",
+            float(lat),
+            float(lon),
         )
         if int(cid) == 0:
             valid["photos"][0]["license_code"] = None
@@ -126,14 +161,26 @@ def test_freeze_rejects_disallowed_license_and_wrong_rank_without_replacement():
 def test_manifest_hash_is_order_stable_for_frozen_rows():
     grid = EqualAreaGrid(n_lon=2, n_sinlat=2)
     _, latitudes, longitudes = equal_area_cell_centers(grid)
+
     def make_client():
-        return FakeClient([
-            {
-                "total_results": 1,
-                "results": [observation(100 + i, 500 + i, f"Genus species{i}", float(latitudes[i]), float(longitudes[i]))],
-            }
-            for i in range(grid.n_cells)
-        ])
+        return FakeClient(
+            [
+                {
+                    "total_results": 1,
+                    "results": [
+                        observation(
+                            100 + i,
+                            500 + i,
+                            f"Genus species{i}",
+                            float(latitudes[i]),
+                            float(longitudes[i]),
+                        )
+                    ],
+                }
+                for i in range(grid.n_cells)
+            ]
+        )
+
     first = freeze_random_photo_candidate_pool(client=make_client(), grid=grid, per_cell_cap=10)
     second = freeze_random_photo_candidate_pool(client=make_client(), grid=grid, per_cell_cap=10)
     assert first.manifest["candidate_table_sha256"] == second.manifest["candidate_table_sha256"]
