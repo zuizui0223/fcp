@@ -18,9 +18,13 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: random-photo-first-h2-climate-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate-h2-preoutcome:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
