@@ -1,0 +1,15 @@
+{
+  "protocol": "random-photo-first-inference-manual-handoff-v1",
+  "status": "technical_trigger_only_no_statistical_change",
+  "reason": "The complete measurement result was committed by github-actions[bot], whose GITHUB_TOKEN push did not recursively trigger the downstream workflow. This marker triggers the already frozen post-measurement inference without changing measurement data or H1/H2 statistical specifications.",
+  "measurement_source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+  "measurement_csv_git_blob_sha": "08ebb4ef54237fda330771ecf4ff9c178e16903b",
+  "measurement_result_git_blob_sha": "0869619ec9ed16fa9e0a824fa6be32956d038e1d",
+  "measurement_table_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+  "candidate_table_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+  "frozen_candidate_rows": 20845,
+  "classified_rows": 10103,
+  "mixed_uncertain_rows": 10742,
+  "h1_or_h2_result_seen_before_trigger": false,
+  "statistical_parameters_changed": false
+}
