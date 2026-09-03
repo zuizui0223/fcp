@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from fcp_pipeline.photo_first_atlas import (
     adjacent_grid_edges,
@@ -7,7 +8,9 @@ from fcp_pipeline.photo_first_atlas import (
     coarse_morph_from_palette,
     jensen_shannon_divergence,
     prepare_photo_grid,
+    replicate_edge_table,
     run_boundary_persistence,
+    species_capped_sampling_capacity,
     species_conditioned_morph_permutation,
 )
 from fcp_pipeline.shared_transition_surface import EqualAreaGrid
@@ -43,7 +46,6 @@ def test_grid_edges_wrap_longitude_without_duplicate_edges():
     edge_set = {tuple(row) for row in edges.tolist()}
     assert (0, 3) in edge_set
     assert len(edge_set) == len(edges)
-    # Four horizontal edges in each row plus four vertical edges.
     assert len(edges) == 12
 
 
@@ -61,6 +63,7 @@ def test_cell_first_sampler_enforces_species_cap_and_target():
                 }
             )
     photos = prepare_photo_grid(pd.DataFrame(rows), grid=grid)
+    assert species_capped_sampling_capacity(photos, species_cap_per_cell=2) == 6
     sampled = cell_first_species_capped_sample(
         photos,
         target_n=6,
@@ -70,6 +73,30 @@ def test_cell_first_sampler_enforces_species_cap_and_target():
     assert len(sampled) == 6
     counts = sampled.groupby(["cell_id", "species"]).size()
     assert int(counts.max()) <= 2
+
+
+def test_inference_fails_closed_when_fixed_target_cannot_be_reached():
+    grid = EqualAreaGrid(n_lon=4, n_sinlat=2)
+    rows = []
+    for species in ("a", "b", "c"):
+        for repeat in range(5):
+            rows.append(
+                {
+                    "species": species,
+                    "latitude": -20.0,
+                    "longitude": -150.0,
+                    "morph": "red" if repeat % 2 else "white",
+                }
+            )
+    with pytest.raises(ValueError, match="not_evaluable_fixed_replicate_size"):
+        run_boundary_persistence(
+            pd.DataFrame(rows),
+            grid=grid,
+            target_n=7,
+            n_replicates=2,
+            species_cap_per_cell=2,
+            min_photos_per_cell=2,
+        )
 
 
 def test_species_conditioned_permutation_preserves_each_species_marginal():
@@ -90,11 +117,39 @@ def test_species_conditioned_permutation_preserves_each_species_marginal():
         assert before == after
 
 
+def test_exact_top_fraction_avoids_tie_inflation():
+    grid = EqualAreaGrid(n_lon=4, n_sinlat=2)
+    rows = []
+    coordinates = [
+        (-30.0, -135.0), (-30.0, -45.0), (-30.0, 45.0), (-30.0, 135.0),
+        (30.0, -135.0), (30.0, -45.0), (30.0, 45.0), (30.0, 135.0),
+    ]
+    for cell_index, (lat, lon) in enumerate(coordinates):
+        for repeat in range(3):
+            rows.append(
+                {
+                    "species": f"s{repeat}",
+                    "latitude": lat,
+                    "longitude": lon,
+                    "morph": "red" if cell_index < 4 else "blue",
+                }
+            )
+    sampled = prepare_photo_grid(pd.DataFrame(rows), grid=grid)
+    edges = replicate_edge_table(
+        sampled,
+        grid=grid,
+        morph_levels=("red", "blue"),
+        min_photos_per_cell=2,
+        transition_quantile=0.90,
+        rng=np.random.default_rng(9),
+    )
+    assert int(edges["evaluable"].sum()) == 12
+    assert int(edges["is_transition"].sum()) == 2
+
+
 def test_persistence_uses_evaluable_replicates_as_edge_denominator():
     grid = EqualAreaGrid(n_lon=4, n_sinlat=2)
     rows = []
-    # Populate only three cells and use two species so some edges are intermittently
-    # evaluable after species-capped random sampling.
     coordinates = [(-20.0, -150.0), (-20.0, -60.0), (20.0, -150.0)]
     for species in ("a", "b"):
         for cell_index, (lat, lon) in enumerate(coordinates):
@@ -122,6 +177,7 @@ def test_persistence_uses_evaluable_replicates_as_edge_denominator():
     assert (supported.opportunities <= 20).all()
     expected = supported.transition_count / supported.opportunities
     np.testing.assert_allclose(supported.persistence, expected)
+    assert result.mean_sampled_photos == 8.0
 
 
 def test_replicate_sampling_is_deterministic_for_fixed_seed():
