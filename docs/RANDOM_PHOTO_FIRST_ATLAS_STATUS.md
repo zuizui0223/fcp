@@ -54,7 +54,7 @@ The metadata pool is separately frozen before image pixels:
 
 The freeze is one-shot. If any durable candidate-pool output already exists, the acquisition command refuses to issue a new random query. A rerun can therefore never become a favourable replacement replicate.
 
-## Premasurement capacity gate
+## Premeasurement capacity gate
 
 Before candidate image pixels may open, the frozen metadata pool must support the fixed H1 sample size under the species cap.
 
@@ -68,7 +68,26 @@ If this capacity is <10,000, the new atlas stops as:
 
 and candidate image pixels remain unopened.
 
-If capacity is ≥10,000, a separately frozen photo-measurement stage may proceed. This capacity gate is about the sampling frame only; it is not a biological result.
+If capacity is ≥10,000, the separately frozen photo-measurement stage may proceed. This capacity gate is about the sampling frame only; it is not a biological result.
+
+## Frozen photo-measurement path
+
+The measurement stage is now frozen before any fresh candidate pixel. It deliberately reuses only two pieces of validated infrastructure, not PR #21's terminal records or species/cohort completeness rules:
+
+1. the independently qualified **ROI-v4** flower detector/mask estimator from PR #21;
+2. the generic species-independent **sRGB reference palette** frozen in the completed Chapter-1 Florence pipeline.
+
+The measurement path is:
+
+`candidate image -> ROI-v4 flower mask -> masked RGB pixels -> fixed CIELAB nearest-palette assignment -> four coarse biological colour groups`
+
+The four biological groups are the same H1 states: `white`, `yellow_orange`, `red_pink`, and `blue_purple`. Green, brown and black palette anchors are nuisance anchors and are removed from the biological denominator. The palette is not re-fitted to the fresh images.
+
+The exact mapping code is `fcp_pipeline/photo_first_measurement.py`; its frozen contract is `docs/supporting/random_photo_first_measurement_contract_v1.json`.
+
+The worker is location-blind. Species identity, taxon ID, observation/photo IDs, coordinates, observer, date, climate and pollinator context are unavailable during measurement. All frozen candidate rows must finish in exactly one terminal photo state. Acquisition/ROI/palette failures are retained as `mixed_uncertain`; no image is replaced.
+
+Unlike PR #21, there is **no species-level or cohort-level measurement-completeness gate**. Photo-level non-evaluability remains in the fixed colour-blind sampling frame and is handled later by the edge-specific opportunity denominator.
 
 ## Quality-safety correction made before fresh data
 
@@ -86,7 +105,7 @@ This makes measurement missingness visible without converting it into flower-col
 
 ## Execution state
 
-Implemented:
+Implemented and frozen before fresh pixels:
 
 - H1 analysis core;
 - fixed-size fail-closed sampling;
@@ -98,12 +117,15 @@ Implemented:
 - metadata-only iNaturalist candidate-pool freezer;
 - one-shot query guard;
 - premeasurement 10,000-photo capacity gate;
-- CI workflow that validates H1 first and then performs the one-shot metadata freeze only after H1 software validation passes.
+- ROI-v4 + fixed-palette measurement core and tests;
+- photo-measurement contract with location blinding and no species/cohort completeness gate;
+- CI workflow that validates H1 first and then performs the one-shot metadata freeze only after software validation passes.
 
-Not yet a result:
+Not yet a biological result:
 
 - the fresh metadata pool has not yet been durably frozen in the repository;
-- candidate pixels have not been opened;
+- fresh candidate pixels have not been opened;
+- the new measurement worker has not run on the fresh pool;
 - no new flower-colour persistence statistic or p-value exists;
 - H2 climate concordance is not open.
 
