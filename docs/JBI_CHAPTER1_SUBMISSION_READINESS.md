@@ -26,7 +26,7 @@ The terminal scale-out is reported only as a prospectively stopped measurement-t
 
 ## Journal-format audit
 
-Current Journal of Biogeography author guidance for a Research Article calls for a title of at most 115 characters, a running title shorter than 40 characters, a structured abstract of at most 300 words using Aim / Location / Taxon / Methods / Results / Main conclusions, usually no more than 6,000 words of main text, and roughly up to six main tables/figures. The journal uses double-anonymous review and requires data/code access for reviewers at submission.
+Current Journal of Biogeography author guidance for a Research Article calls for a title of at most 115 characters, a running title shorter than 40 characters, a structured abstract of at most 300 words using Aim / Location / Taxon / Methods / Results / Main conclusions, usually no more than 6,000 words of main text, and roughly up to six main tables/figures. The journal uses double-anonymous review and requires data/code access for reviewers at submission. A cover letter is currently optional.
 
 | Requirement | Current state | Decision / action |
 |---|---|---|
@@ -38,15 +38,16 @@ Current Journal of Biogeography author guidance for a Research Article calls for
 | Main biological claim matches frozen results | PASS | Stage A support and Stage B primary non-support are unchanged. |
 | Main illustrative material | PASS | Four main result figures (C1–C4); C-S1 and C-S2 remain Supporting Information. |
 | Main text <=6,000 words | VERIFY AT EXPORT | Draft is written to Research Article scale; run the final word count on the anonymized submission file after title-page separation and reference cleanup. |
+| Main-file order | PARTIAL | Final anonymous export should place References before the Data Accessibility Statement, then tables/figure legends/embedded figures as required by current guidance. |
 | Double-anonymous main text | PARTIAL | Author names/affiliations are absent, but the reviewer data/code route must not expose identifying repository ownership. |
 | Separate title page | TODO | Add author names, one corresponding author, affiliations, ORCIDs and present addresses outside the anonymized main text. |
-| Acknowledgements | TODO AUTHOR INPUT | Add funding/material support and contributor acknowledgements without leaking identity into the anonymized review file beyond journal instructions. |
-| Conflict of Interest | TODO AUTHOR INPUT | Add final author-approved declaration. |
+| Acknowledgements | TODO AUTHOR INPUT | Add funding/material support and contributor acknowledgements in the submission package while preserving anonymous review. |
+| Conflict of Interest | TODO AUTHOR INPUT | Add final author-approved declaration in the required submission metadata/file. |
 | Author Contributions | TODO AUTHOR INPUT | Add final CRediT-style or journal-compatible contribution statement. |
 | Data availability for peer review | BLOCKING PACKAGING ITEM | Create a reviewer-accessible anonymized/private archive. JBI currently offers private-for-peer-review Dryad deposition at submission. Do not rely on an owner-identifying public GitHub URL in the anonymous manuscript. |
 | Permanent public archive at publication | TODO | Archive data and code with a persistent DOI; add the DOI/link to the final Data Availability Statement. |
 | Supporting Information separation | TODO PACKAGING | Export C-S1/C-S2 and detailed terminal scale-out receipts/contracts to SI rather than inflating the main paper. |
-| Cover letter <100 words | TODO | Prepare a separate editor-facing cover letter focused on the biogeographic conceptual advance. |
+| Cover letter | OPTIONAL | Current JBI guidance makes the cover letter optional. If supplied, keep it concise and focused on the biogeographic conceptual advance. |
 | Taxon image | TODO | Supply a legally reusable image of a focal study taxon as required by current JBI submission guidance. |
 | Species authorities on first main-text use | TODO NOMENCLATURE | Add taxonomic authorities after verifying the frozen taxon names against a stable nomenclatural source. This is a formatting/nomenclature step only; it must not change the frozen sample identity. |
 
@@ -123,8 +124,7 @@ Do not claim:
 3. anonymized reviewer data/code archive;
 4. final Supporting Information assembly;
 5. separate title page, acknowledgements, conflict-of-interest and author-contribution statements;
-6. <100-word cover letter;
-7. taxon image with appropriate reuse rights;
-8. final exported word count and anonymous-file inspection.
+6. taxon image with appropriate reuse rights;
+7. final main-file ordering, exported word count and anonymous-file inspection.
 
-No additional confirmatory atlas inference is a submission blocker. The analysis is scientifically closed; the remaining work is editorial, nomenclatural and packaging work.
+An optional cover letter can be prepared after these blockers are cleared. No additional confirmatory atlas inference is a submission blocker. The analysis is scientifically closed; the remaining work is editorial, nomenclatural and packaging work.
