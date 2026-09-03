@@ -1,0 +1,134 @@
+name: Random photo-first post-measurement H1-H2 inference
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-inference-execution
+    paths:
+      - "data/derived/random_photo_first_measured_photos_v1.csv"
+      - "docs/supporting/random_photo_first_measurement_result_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: random-photo-first-postmeasurement-inference-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  run-frozen-h1-h2:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install frozen analysis runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Require exact complete measurement lineage before inference
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          measured = Path('data/derived/random_photo_first_measured_photos_v1.csv')
+          result_path = Path('docs/supporting/random_photo_first_measurement_result_v1.json')
+          candidate_path = Path('docs/supporting/random_photo_first_candidate_pool_manifest_v1.json')
+          execution_path = Path('docs/supporting/random_photo_first_inference_execution_v1.json')
+          assert measured.is_file() and result_path.is_file()
+          result = json.loads(result_path.read_text())
+          candidate = json.loads(candidate_path.read_text())
+          execution = json.loads(execution_path.read_text())
+          assert result['status'] == 'complete_fresh_location_blind_measurement_and_join'
+          assert result['partition_receipts'] == 128
+          assert result['terminal_result_rows'] == result['frozen_candidate_rows'] == 20845
+          assert result['joined_rows'] == 20845
+          assert result['coordinate_colour_join_opened_after_complete_measurement'] is True
+          assert result['legacy_pr21_terminal_records_used'] is False
+          assert result['h1_run'] is False and result['h2_run'] is False
+          assert candidate['candidate_table_sha256'] == execution['immutable_input_frame']['candidate_table_sha256']
+          assert result['firewall_candidate_table_sha256'] == candidate['candidate_table_sha256']
+          observed_sha = hashlib.sha256(measured.read_bytes()).hexdigest()
+          assert observed_sha == result['measurement_table_sha256']
+          frame = pd.read_csv(measured, usecols=['measurement_id', 'morph'])
+          assert len(frame) == 20845
+          assert frame['measurement_id'].astype(str).nunique() == 20845
+          assert set(frame['morph'].astype(str)).issubset({'white','yellow_orange','red_pink','blue_purple','mixed_uncertain'})
+          print('complete_measurement_lineage=pass')
+          PY
+      - name: Revalidate frozen H1-H2 cores immediately before opening inference
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+          execution = json.loads(Path('docs/supporting/random_photo_first_inference_execution_v1.json').read_text())
+          identities = execution['implementation_identity']
+          for path_key, sha_key in (
+              ('h1_cached_engine_path', 'h1_cached_engine_git_blob_sha'),
+              ('h1_null_maps_path', 'h1_null_maps_git_blob_sha'),
+              ('h2_climate_path', 'h2_climate_git_blob_sha'),
+          ):
+              path = identities[path_key]
+              observed = subprocess.check_output(['git', 'hash-object', path], text=True).strip()
+              assert observed == identities[sha_key], (path, observed, identities[sha_key])
+          assert execution['h1_primary']['sampling_seed'] == 20260903
+          assert execution['h1_primary']['permutation_seed'] == 20260904
+          assert execution['h1_primary']['permutations'] == 999
+          print('frozen_inference_identity=pass')
+          PY
+      - name: Run frozen H1 then hierarchical H2
+        run: |
+          python scripts/analysis/run_random_photo_first_h1_h2_json_safe.py
+      - name: Validate terminal inference decisions
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          h1 = json.loads(Path('docs/supporting/random_photo_first_h1_result_v1.json').read_text())
+          h2 = json.loads(Path('docs/supporting/random_photo_first_h2_result_v1.json').read_text())
+          assert h1['status'] in {'complete_h1_evaluable', 'not_evaluable_h1_after_complete_measurement'}
+          if h1['status'] == 'not_evaluable_h1_after_complete_measurement':
+              assert h1['h2_opened'] is False
+              assert h2['status'] == 'not_evaluable_h2_because_h1_not_evaluable'
+              assert h2['climate_colour_join_opened'] is False
+          else:
+              assert h1['primary']['permutations'] == 999
+              assert h1['primary']['sampling_seed'] == 20260903
+              assert h1['primary']['permutation_seed'] == 20260904
+              assert h2['status'] == 'complete_h2_evaluable'
+              if h1['primary']['p_upper'] >= h1['alpha']:
+                  assert h2['hierarchical_decision'] == 'diagnostic_only_h1_not_supported_no_climate_mechanism_claim'
+          print(json.dumps({'h1': h1, 'h2': h2}, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h1-h2-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/derived/random_photo_first_h1_*
+            data/derived/random_photo_first_h2_*
+            docs/supporting/random_photo_first_h1_result_v1.json
+            docs/supporting/random_photo_first_h2_result_v1.json
+      - name: Commit frozen inference outputs once
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          find data/derived -maxdepth 1 -type f \( -name 'random_photo_first_h1_*' -o -name 'random_photo_first_h2_*' \) -print0 | xargs -0 -r git add
+          git add docs/supporting/random_photo_first_h1_result_v1.json docs/supporting/random_photo_first_h2_result_v1.json
+          git commit -m "Run frozen random photo-first H1 and H2"
+          git fetch origin analysis/random-photo-first-inference-execution
+          git rebase origin/analysis/random-photo-first-inference-execution
+          git push origin HEAD:analysis/random-photo-first-inference-execution
