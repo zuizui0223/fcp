@@ -1,0 +1,130 @@
+name: Random photo-first H9 measurement pre-pixel validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-h9-individual-distance-replication
+    paths:
+      - "docs/supporting/random_photo_first_h9_measurement_execution_contract_v1.json"
+      - "scripts/analysis/build_random_photo_first_h9_measurement_firewall.py"
+      - "scripts/analysis/reassemble_random_photo_first_h9_measurement.py"
+      - "scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh"
+      - ".github/workflows/random-photo-first-h9-measurement-prepixel.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: random-photo-first-h9-measurement-prepixel-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
+  EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
+  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Materialize exact validated measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+
+      - name: Install base package and static checks
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+          python -m py_compile \
+            scripts/analysis/build_random_photo_first_h9_measurement_firewall.py \
+            scripts/analysis/reassemble_random_photo_first_h9_measurement.py \
+            scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            scripts/analysis/measure_random_photo_first_blind_partition.py \
+            scripts/analysis/seal_random_photo_first_measurement_partition.py
+
+      - name: Validate H9 pixel authorization and build location-blind firewall without pixels
+        run: |
+          rm -rf /tmp/h9-firewall
+          python scripts/analysis/build_random_photo_first_h9_measurement_firewall.py \
+            --output-dir /tmp/h9-firewall
+          python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+          h9 = json.loads(Path('docs/supporting/random_photo_first_h9_measurement_execution_contract_v1.json').read_text())
+          fresh = json.loads(Path('docs/supporting/random_photo_first_h9_fresh_metadata_manifest_v1.json').read_text())
+          fw = json.loads(Path('/tmp/h9-firewall/measurement_firewall_manifest.json').read_text())
+          assert h9['status'] == 'prospectively_frozen_after_h9_metadata_gate_before_any_h9_image_pixel'
+          assert fresh['premeasurement_gate']['pass'] is True
+          assert fresh['premeasurement_gate']['decision'] == 'authorize_h9_location_blind_measurement'
+          assert fw['status'] == 'h9_measurement_firewall_frozen_before_pixels'
+          assert fw['frozen_candidate_rows'] == 2280
+          assert fw['frozen_species'] == 38
+          assert fw['measurement_ids'] == 2280
+          assert fw['total_compute_partitions'] == 128
+          assert fw['candidate_pixels_opened'] is False
+          assert fw['coordinate_colour_join_opened'] is False
+          assert fw['worker_contains_species'] is False
+          assert fw['worker_contains_coordinates'] is False
+          assert fw['worker_contains_source_url'] is False
+          with Path('/tmp/h9-firewall/worker_packet/measurement_manifest.csv').open(newline='') as fh:
+              header = next(csv.reader(fh))
+          assert header == ['measurement_id', 'image_filename', 'photo_license']
+          print(json.dumps(fw, indent=2))
+          PY
+
+      - name: Install exact CPU ROI runtime
+        run: |
+          python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -r requirements-atlas-roi-v4.txt
+          python - <<'PY'
+          import torch, torchvision, ultralytics, onnxruntime, skimage
+          assert torch.__version__.startswith('2.11.0') and '+cpu' in torch.__version__, torch.__version__
+          assert torchvision.__version__.startswith('0.26.0'), torchvision.__version__
+          assert ultralytics.__version__ == '8.4.112'
+          assert onnxruntime.__version__ == '1.23.2'
+          assert skimage.__version__ == '0.25.2'
+          assert torch.cuda.is_available() is False
+          PY
+
+      - name: Download and verify fixed EfficientSAM assets
+        run: |
+          rm -rf /tmp/efficient-sam
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+
+      - name: Construct exact estimator without H9 pixel access
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from fcp_pipeline.flower_roi_v4 import validate_roi_v4_contract
+          from fcp_pipeline.flower_roi_v4_runtime import FrozenFlowerColourEstimator, validate_scaleout_authorization
+          roi = json.loads(Path('docs/supporting/jbi_atlas_roi_estimator_contract_v4.json').read_text())
+          locked = json.loads(Path('data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json').read_text())
+          validate_roi_v4_contract(roi)
+          detector = Path('data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt')
+          validate_scaleout_authorization(locked, trained_weight_sha256='f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5')
+          estimator = FrozenFlowerColourEstimator(detector, Path('/tmp/efficient-sam'), roi, torch_threads=2)
+          assert estimator is not None
+          print('h9_prepixel_estimator_construction=pass')
+          PY
