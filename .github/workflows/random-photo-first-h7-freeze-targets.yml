@@ -7,12 +7,14 @@ on:
       - analysis/random-photo-first-h7-balanced-itv
     paths:
       - "docs/supporting/random_photo_first_h7_balanced_itv_contract_v1.json"
+      - "docs/supporting/random_photo_first_h7_freshness_source_amendment_v1.json"
       - "scripts/analysis/freeze_random_photo_first_h7_targets.py"
       - "scripts/analysis/freeze_random_photo_first_h7_exclusions.py"
       - ".github/workflows/random-photo-first-h7-freeze-targets.yml"
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
   group: random-photo-first-h7-freeze-${{ github.ref }}
@@ -38,35 +40,47 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e .
 
-      - name: Validate prospective H7 contract
+      - name: Validate prospective H7 contract and lineage amendment
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
           c = json.loads(Path('docs/supporting/random_photo_first_h7_balanced_itv_contract_v1.json').read_text())
           a = json.loads(Path('docs/supporting/random_photo_first_h7_metadata_feasibility_result_v1.json').read_text())
+          x = json.loads(Path('docs/supporting/random_photo_first_h7_freshness_source_amendment_v1.json').read_text())
           assert c['status'] == 'prospective_h7_frozen_after_metadata_feasibility_before_any_fresh_h7_query_or_pixel'
           assert c['species_discovery']['expected_species'] == 52
           assert c['target_cells']['cells_per_species'] == 6
           assert c['fresh_metadata_acquisition']['expected_queries'] == 312
           assert c['decision_rule']['conjunctive_gate'] is True
           assert a['outcome_firewall']['fresh_h7_api_queries_opened'] is False
+          assert x['status'] == 'technical_lineage_correction_frozen_before_any_fresh_h7_query_or_pixel'
+          assert x['scientific_design_changed'] is False
+          assert x['correct_pr21_terminal_source']['artifact_id'] == 9769165047
+          assert x['correct_pr21_terminal_source']['expected_rows'] == 60000
           print('h7_contract_prequery=pass')
           PY
 
-      - name: Download exact PR21 terminal metadata manifest
+      - name: Download exact PR21 terminal metadata artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: jbi-atlas-200-species-metadata-feasibility
+          path: /tmp/pr21-artifact
+          repository: zuizui0223/fcp
+          run-id: 33405153936
+          github-token: ${{ github.token }}
+
+      - name: Verify exact PR21 terminal manifest
         run: |
           set -euo pipefail
-          curl -L --fail --retry 3 \
-            "https://raw.githubusercontent.com/zuizui0223/fcp/f7003e57c82fec3023de93b9724166cf8b279877/data/atlas/jbi_image_first_atlas_observation_manifest_v1.csv" \
-            -o /tmp/pr21_manifest.csv
-          test "$(git hash-object /tmp/pr21_manifest.csv)" = "e019cb41abd37bbea19fe426a09b016056aaa7ea"
+          test -f /tmp/pr21-artifact/scaleout_observation_manifest.csv
+          echo "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc  /tmp/pr21-artifact/scaleout_observation_manifest.csv" | sha256sum -c -
 
       - name: Freeze 52 species x 6 target cells
         run: python scripts/analysis/freeze_random_photo_first_h7_targets.py
 
       - name: Freeze prior-photo exclusion ledger
-        run: python scripts/analysis/freeze_random_photo_first_h7_exclusions.py --pr21-manifest /tmp/pr21_manifest.csv
+        run: python scripts/analysis/freeze_random_photo_first_h7_exclusions.py --pr21-manifest /tmp/pr21-artifact/scaleout_observation_manifest.csv
 
       - name: Validate target and exclusion firewalls
         run: |
@@ -82,6 +96,8 @@ jobs:
           assert (tab.groupby('inat_taxon_id')['cell_id'].nunique() == 6).all()
           assert t['outcome_firewall']['fresh_h7_api_queries_opened'] is False
           assert e['source_rows']['pr21_terminal_60000'] == 60000
+          assert e['pr21_artifact_id'] == 9769165047
+          assert e['pr21_inner_manifest_sha256'] == '25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc'
           assert e['fresh_h7_api_queries_opened'] is False
           assert e['fresh_h7_pixels_opened'] is False
           print(json.dumps({'targets': t, 'exclusions': e}, indent=2))
