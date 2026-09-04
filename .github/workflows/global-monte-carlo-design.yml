@@ -16,6 +16,7 @@ on:
       - "scripts/acquisition/run_global_monte_carlo_capacity_scan.py"
       - "tests/test_global_monte_carlo.py"
       - "tests/test_global_barrier_field.py"
+      - "tests/test_global_barrier_node_null.py"
       - "tests/test_global_overlay_alignment.py"
       - "tests/test_global_edge_mechanism_v2.py"
       - "tests/test_global_colour_zones.py"
@@ -26,6 +27,8 @@ on:
       - "docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md"
       - "docs/GLOBAL_BIOGEOGRAPHY_HYPOTHESIS_AMENDMENT_V2.md"
       - "docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json"
+      - "docs/supporting/global_monte_carlo_barrier_field_contract_v1.json"
+      - "docs/supporting/global_barrier_null_amendment_v1.json"
       - "docs/supporting/global_colour_biogeography_overlay_contract_v1.json"
       - "docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json"
       - "docs/supporting/global_sympatry_colour_assembly_contract_v1.json"
@@ -66,6 +69,7 @@ jobs:
           pytest -q \
             tests/test_global_monte_carlo.py \
             tests/test_global_barrier_field.py \
+            tests/test_global_barrier_node_null.py \
             tests/test_global_overlay_alignment.py \
             tests/test_global_edge_mechanism_v2.py \
             tests/test_global_colour_zones.py \
@@ -76,6 +80,8 @@ jobs:
       - name: Validate JSON contracts
         run: |
           python -m json.tool docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_monte_carlo_barrier_field_contract_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_barrier_null_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_colour_biogeography_overlay_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_sympatry_colour_assembly_contract_v1.json >/dev/null
