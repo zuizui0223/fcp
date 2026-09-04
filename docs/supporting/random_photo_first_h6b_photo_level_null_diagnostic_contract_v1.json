@@ -1,0 +1,58 @@
+{
+  "protocol": "random-photo-first-h6b-photo-level-null-diagnostic-v1",
+  "status": "diagnostic_frozen_after_h6_before_any_photo_level_null_retest",
+  "introduced_after_h6_outcomes": true,
+  "claim_role": "diagnostic_only_for_nominal_h6_sparse_frame_signal_cannot_rescue_any_primary_test",
+  "target": {
+    "completed_h6_sensitivity": "n5_cells3_morphs2",
+    "expected_species": 188,
+    "completed_observed_mean_spearman_rho": 0.10792487117306818,
+    "completed_cell_label_null_p_upper": 0.001,
+    "reason": "This was the only nominally positive H6 sensitivity and was concentrated among sparsely sampled species."
+  },
+  "observed_statistic": {
+    "unchanged_from_h6": true,
+    "species_level": "Spearman correlation between pairwise H1-cell centroid great-circle distance and pairwise colour JSD",
+    "global": "equal-species mean across the 188 target species"
+  },
+  "stricter_null": {
+    "permutations": 999,
+    "seed": 20260908,
+    "operation": "within each species, permute individual classifiable photo soft four-group colour vectors across the species' observed photo rows; keep each photo row's H1 cell assignment fixed; recompute each species x cell mean colour composition using the original cell photo counts; then recompute cell-pair colour JSD and the species/global statistics",
+    "preserves": [
+      "species identity",
+      "occupied H1 cells",
+      "exact number of classifiable photos per species x H1 cell",
+      "species-level photo colour distribution",
+      "species geography"
+    ],
+    "breaks": "association between individual measured flower colour and geography within species",
+    "tail": "upper",
+    "alpha": 0.05
+  },
+  "diagnostic_sensitivities": [
+    {
+      "name": "pair_count_weighted_global_mean",
+      "weight": "number of H1 cell pairs per species",
+      "cannot_rescue": true
+    },
+    {
+      "name": "reliable_n10_cells5_morphs2_frame",
+      "expected_species": 74,
+      "role": "negative-control replay of the H6 primary frame under the stricter photo-level null",
+      "cannot_rescue": true
+    }
+  ],
+  "interpretation_rule": {
+    "if_target_remains_p_lt_0_05": "The sparse-frame signal survives a null that preserves per-cell photo counts; it remains exploratory because the H6 reliable primary frame was non-significant.",
+    "if_target_becomes_p_ge_0_05": "The sparse-frame signal is not robust to photo-level exchangeability and should be treated as a cell-support/null-construction artifact candidate.",
+    "primary_h6_decision_never_changes": true
+  },
+  "lineage": {
+    "h6_result": "docs/supporting/random_photo_first_h6_species_specific_spatial_structure_result_v1.json",
+    "measurement_result": "docs/supporting/random_photo_first_measurement_result_v1.json",
+    "measured_table": "data/derived/random_photo_first_measured_photos_v1.csv",
+    "capacity_table": "data/derived/random_photo_first_h4_within_species_capacity_v1.csv"
+  },
+  "claim_ceiling": "H6b is a robustness diagnostic of one post hoc H6 sensitivity. It cannot convert that sensitivity into a preregistered or primary biological result, and it cannot support a shared boundary, climate mechanism, adaptation, selection, pigment mechanism, or pollinator mechanism claim."
+}
