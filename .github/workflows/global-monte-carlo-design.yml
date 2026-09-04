@@ -10,6 +10,7 @@ on:
       - "fcp_pipeline/global_rgfca_engine.py"
       - "fcp_pipeline/global_g3.py"
       - "fcp_pipeline/global_candidate_acquisition.py"
+      - "fcp_pipeline/global_capacity_recovery.py"
       - "fcp_pipeline/global_barrier_field.py"
       - "fcp_pipeline/global_overlay_alignment.py"
       - "fcp_pipeline/global_edge_mechanism_v2.py"
@@ -18,8 +19,10 @@ on:
       - "fcp_pipeline/global_pair_context_profiles.py"
       - "scripts/acquisition/freeze_global_monte_carlo_species_discovery.py"
       - "scripts/acquisition/run_global_monte_carlo_capacity_scan.py"
+      - "scripts/acquisition/run_global_monte_carlo_capacity_429_recovery_shard.py"
       - "scripts/acquisition/run_global_monte_carlo_candidate_acquisition_shard.py"
       - "scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py"
+      - "scripts/analysis/reduce_global_monte_carlo_capacity_429_recovery.py"
       - "scripts/analysis/build_global_monte_carlo_measurement_firewall.py"
       - "scripts/analysis/reassemble_global_monte_carlo_measurement.py"
       - "scripts/analysis/run_global_rgfca_g1_shard.py"
@@ -30,6 +33,7 @@ on:
       - "tests/test_global_rgfca_engine.py"
       - "tests/test_global_g3.py"
       - "tests/test_global_candidate_acquisition.py"
+      - "tests/test_global_capacity_recovery.py"
       - "tests/test_global_barrier_field.py"
       - "tests/test_global_barrier_node_null.py"
       - "tests/test_global_overlay_alignment.py"
@@ -48,6 +52,7 @@ on:
       - "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json"
       - "docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json"
       - "docs/supporting/global_monte_carlo_inference_execution_contract_v1.json"
+      - "docs/supporting/global_monte_carlo_capacity_429_recovery_contract_v1.json"
       - "docs/supporting/global_colour_biogeography_overlay_contract_v1.json"
       - "docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json"
       - "docs/supporting/global_sympatry_colour_assembly_contract_v1.json"
@@ -62,6 +67,7 @@ on:
       - ".github/workflows/global-monte-carlo-candidate-acquisition.yml"
       - ".github/workflows/global-monte-carlo-location-blind-measurement.yml"
       - ".github/workflows/global-monte-carlo-rgfca-inference.yml"
+      - ".github/workflows/global-monte-carlo-capacity-429-recovery.yml"
   workflow_dispatch:
 
 jobs:
@@ -80,8 +86,10 @@ jobs:
         run: |
           python -m py_compile scripts/acquisition/freeze_global_monte_carlo_species_discovery.py
           python -m py_compile scripts/acquisition/run_global_monte_carlo_capacity_scan.py
+          python -m py_compile scripts/acquisition/run_global_monte_carlo_capacity_429_recovery_shard.py
           python -m py_compile scripts/acquisition/run_global_monte_carlo_candidate_acquisition_shard.py
           python -m py_compile scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py
+          python -m py_compile scripts/analysis/reduce_global_monte_carlo_capacity_429_recovery.py
           python -m py_compile scripts/analysis/build_global_monte_carlo_measurement_firewall.py
           python -m py_compile scripts/analysis/reassemble_global_monte_carlo_measurement.py
           python -m py_compile scripts/analysis/run_global_rgfca_g1_shard.py
@@ -91,6 +99,7 @@ jobs:
           python -m py_compile fcp_pipeline/global_rgfca_engine.py
           python -m py_compile fcp_pipeline/global_g3.py
           python -m py_compile fcp_pipeline/global_candidate_acquisition.py
+          python -m py_compile fcp_pipeline/global_capacity_recovery.py
           python -m py_compile fcp_pipeline/global_barrier_field.py
           python -m py_compile fcp_pipeline/global_overlay_alignment.py
           python -m py_compile fcp_pipeline/global_edge_mechanism_v2.py
@@ -105,6 +114,7 @@ jobs:
             tests/test_global_rgfca_engine.py \
             tests/test_global_g3.py \
             tests/test_global_candidate_acquisition.py \
+            tests/test_global_capacity_recovery.py \
             tests/test_global_barrier_field.py \
             tests/test_global_barrier_node_null.py \
             tests/test_global_overlay_alignment.py \
@@ -123,6 +133,7 @@ jobs:
           python -m json.tool docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_inference_execution_contract_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_monte_carlo_capacity_429_recovery_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_colour_biogeography_overlay_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_sympatry_colour_assembly_contract_v1.json >/dev/null
