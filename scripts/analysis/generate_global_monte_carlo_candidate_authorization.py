@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Generate the exact metadata-only candidate acquisition authorization from a frozen capacity result.
+"""Generate the exact metadata-only candidate acquisition authorization from one frozen capacity result.
 
-This helper is intentionally fail-closed. It never chooses a target or species set itself;
-it only copies the already-frozen values from the completed capacity manifest after
-verifying the selected-species frame and Git blob lineage.
+The handoff is fail-closed. A normal v2 capacity success is used directly. If a v3
+transport-recovery manifest exists, it must itself be the successful frozen recovery
+result and becomes the only admissible source. The helper never chooses a target or
+species set from biological outcomes; it copies the already-frozen capacity result.
 """
 from __future__ import annotations
 
@@ -15,8 +16,10 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
 BRANCH = "analysis/global-monte-carlo-barrier-atlas"
-CAPACITY = ROOT / "docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json"
-SELECTED = ROOT / "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv"
+V2_CAPACITY = ROOT / "docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json"
+V2_SELECTED = ROOT / "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv"
+V3_CAPACITY = ROOT / "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json"
+V3_SELECTED = ROOT / "data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv"
 OUT = ROOT / "docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json"
 
 
@@ -25,17 +28,35 @@ def git_blob(path: Path) -> str:
     return subprocess.check_output(["git", "rev-parse", f"HEAD:{rel}"], text=True).strip()
 
 
+def choose_capacity_source() -> tuple[Path, Path, str]:
+    if V3_CAPACITY.exists():
+        if not V3_SELECTED.exists():
+            raise RuntimeError("v3 capacity manifest exists without its selected-species frame")
+        manifest = json.loads(V3_CAPACITY.read_text(encoding="utf-8"))
+        if manifest.get("status") != "complete_metadata_only_capacity_scan_target_selected_after_transport_recovery_v3":
+            raise RuntimeError("v3 recovery exists but did not yield an admissible capacity result")
+        if manifest.get("original_v2_status") != "not_evaluable_capacity_scan_due_request_failure":
+            raise RuntimeError("v3 recovery lineage does not originate from the frozen v2 request-failure state")
+        if manifest.get("second_recovery_permitted") is not False or manifest.get("biological_rules_changed") is not False:
+            raise RuntimeError("v3 recovery contract drifted")
+        return V3_CAPACITY, V3_SELECTED, "v3_transport_recovery"
+
+    if not V2_CAPACITY.exists() or not V2_SELECTED.exists():
+        raise RuntimeError("no complete frozen capacity source is available")
+    manifest = json.loads(V2_CAPACITY.read_text(encoding="utf-8"))
+    if manifest.get("status") != "complete_metadata_only_capacity_scan_target_selected_v2":
+        raise RuntimeError("v2 capacity result did not pass the frozen request-error and target-selection gates")
+    if manifest.get("request_coverage_ok") is not True:
+        raise RuntimeError("v2 capacity request coverage did not pass")
+    return V2_CAPACITY, V2_SELECTED, "v2_primary"
+
+
 def main() -> int:
     if OUT.exists():
         raise RuntimeError(f"refusing to overwrite existing authorization: {OUT}")
-    if not CAPACITY.exists() or not SELECTED.exists():
-        raise RuntimeError("frozen capacity result is incomplete")
 
-    capacity = json.loads(CAPACITY.read_text(encoding="utf-8"))
-    if capacity.get("status") != "complete_metadata_only_capacity_scan_target_selected_v2":
-        raise RuntimeError("capacity result did not pass the frozen request-error and target-selection gates")
-    if capacity.get("request_coverage_ok") is not True:
-        raise RuntimeError("capacity request coverage did not pass")
+    capacity_path, selected_path, source = choose_capacity_source()
+    capacity = json.loads(capacity_path.read_text(encoding="utf-8"))
     if capacity.get("candidate_image_pixels_opened") is not False or capacity.get("flower_colour_used") is not False:
         raise RuntimeError("capacity stage opened forbidden outcomes")
     if capacity.get("actual_image_acquisition_authorized") is not False:
@@ -48,7 +69,7 @@ def main() -> int:
     if selected_n < int(capacity.get("minimum_metadata_eligible_species") or 300):
         raise RuntimeError("capacity selected fewer than the frozen minimum species")
 
-    selected = pd.read_csv(SELECTED)
+    selected = pd.read_csv(selected_path)
     if len(selected) != selected_n or selected["inat_taxon_id"].nunique() != selected_n:
         raise RuntimeError("selected-species frame does not match capacity manifest")
     if "selected_raw_photo_target" not in selected.columns:
@@ -59,7 +80,11 @@ def main() -> int:
     authorization = {
         "status": "authorize_exactly_one_metadata_only_global_candidate_acquisition",
         "branch": BRANCH,
-        "capacity_manifest_blob_sha": git_blob(CAPACITY),
+        "capacity_source": source,
+        "capacity_manifest_path": capacity_path.relative_to(ROOT).as_posix(),
+        "selected_species_path": selected_path.relative_to(ROOT).as_posix(),
+        "capacity_manifest_blob_sha": git_blob(capacity_path),
+        "selected_species_blob_sha": git_blob(selected_path),
         "selected_raw_photo_target": target,
         "selected_species": selected_n,
         "candidate_image_pixels_may_open": False,
