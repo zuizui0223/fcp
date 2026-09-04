@@ -50,6 +50,12 @@
       }
     ],
     "fixed_request_attempts": 486,
+    "failure_policy": {
+      "per_request_error": "record the layer/cell error and continue without retry or replacement",
+      "maximum_error_fraction": 0.05,
+      "if_exceeded": "not_evaluable_sampling_availability_surface_due_request_failure",
+      "favourable_rerun": false
+    },
     "candidate_image_pixels_opened": false,
     "flower_colour_used": false,
     "outputs": [
