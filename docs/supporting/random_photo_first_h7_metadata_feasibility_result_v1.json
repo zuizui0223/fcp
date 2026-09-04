@@ -1,0 +1,86 @@
+{
+  "protocol": "random-photo-first-h7-metadata-feasibility-v1",
+  "status": "complete_metadata_only_feasibility_audit",
+  "source_candidate_rows": 20845,
+  "source_species": 8989,
+  "matrix": [
+    {
+      "minimum_old_metadata_records_per_species_cell": 1,
+      "minimum_qualifying_cells_per_species": 5,
+      "qualifying_species": 405
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 1,
+      "minimum_qualifying_cells_per_species": 6,
+      "qualifying_species": 306
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 1,
+      "minimum_qualifying_cells_per_species": 8,
+      "qualifying_species": 180
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 1,
+      "minimum_qualifying_cells_per_species": 10,
+      "qualifying_species": 120
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 2,
+      "minimum_qualifying_cells_per_species": 5,
+      "qualifying_species": 76
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 2,
+      "minimum_qualifying_cells_per_species": 6,
+      "qualifying_species": 52
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 2,
+      "minimum_qualifying_cells_per_species": 8,
+      "qualifying_species": 34
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 2,
+      "minimum_qualifying_cells_per_species": 10,
+      "qualifying_species": 19
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 3,
+      "minimum_qualifying_cells_per_species": 5,
+      "qualifying_species": 31
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 3,
+      "minimum_qualifying_cells_per_species": 6,
+      "qualifying_species": 26
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 3,
+      "minimum_qualifying_cells_per_species": 8,
+      "qualifying_species": 15
+    },
+    {
+      "minimum_old_metadata_records_per_species_cell": 3,
+      "minimum_qualifying_cells_per_species": 10,
+      "qualifying_species": 7
+    }
+  ],
+  "proposed_target_check": {
+    "reference_rule": "at least 2 old metadata records in each of at least 6 cells",
+    "qualifying_species": 52,
+    "target_species": 60,
+    "target_is_metadata_feasible": false
+  },
+  "outcome_firewall": {
+    "colour_columns_read": false,
+    "measured_table_read": false,
+    "h1_h6_species_effects_read": false,
+    "fresh_h7_api_queries_opened": false,
+    "fresh_h7_image_pixels_opened": false
+  },
+  "lineage": {
+    "candidate_table_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+    "candidate_manifest_blob_status": "metadata_pool_frozen_before_candidate_image_pixels"
+  },
+  "claim_ceiling": "This audit can establish only metadata feasibility for a future H7. It cannot select species using flower-colour outcomes and cannot provide a biological result."
+}
