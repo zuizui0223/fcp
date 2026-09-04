@@ -10,6 +10,7 @@ on:
       - "fcp_pipeline/global_overlay_alignment.py"
       - "fcp_pipeline/global_edge_mechanism_v2.py"
       - "fcp_pipeline/global_colour_zones.py"
+      - "fcp_pipeline/global_community_colour_assembly.py"
       - "scripts/acquisition/freeze_global_monte_carlo_species_discovery.py"
       - "scripts/acquisition/run_global_monte_carlo_capacity_scan.py"
       - "tests/test_global_monte_carlo.py"
@@ -17,12 +18,16 @@ on:
       - "tests/test_global_overlay_alignment.py"
       - "tests/test_global_edge_mechanism_v2.py"
       - "tests/test_global_colour_zones.py"
+      - "tests/test_global_community_colour_assembly.py"
       - "tests/test_global_species_discovery.py"
       - "tests/test_global_capacity_scan.py"
       - "docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md"
+      - "docs/GLOBAL_BIOGEOGRAPHY_HYPOTHESIS_AMENDMENT_V2.md"
       - "docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json"
       - "docs/supporting/global_colour_biogeography_overlay_contract_v1.json"
       - "docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json"
+      - "docs/supporting/global_sympatry_colour_assembly_contract_v1.json"
+      - "docs/supporting/global_biogeography_hypothesis_registry_v2.json"
       - "docs/supporting/global_overlay_source_registry_v1.json"
       - "docs/supporting/global_monte_carlo_information_audit_v1.json"
       - "docs/supporting/global_monte_carlo_species_discovery_contract_v1.json"
@@ -51,6 +56,7 @@ jobs:
           python -m py_compile fcp_pipeline/global_overlay_alignment.py
           python -m py_compile fcp_pipeline/global_edge_mechanism_v2.py
           python -m py_compile fcp_pipeline/global_colour_zones.py
+          python -m py_compile fcp_pipeline/global_community_colour_assembly.py
       - name: Run focused Monte Carlo design tests
         run: |
           pytest -q \
@@ -59,6 +65,7 @@ jobs:
             tests/test_global_overlay_alignment.py \
             tests/test_global_edge_mechanism_v2.py \
             tests/test_global_colour_zones.py \
+            tests/test_global_community_colour_assembly.py \
             tests/test_global_species_discovery.py \
             tests/test_global_capacity_scan.py
       - name: Validate JSON contracts
@@ -66,6 +73,8 @@ jobs:
           python -m json.tool docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_colour_biogeography_overlay_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_sympatry_colour_assembly_contract_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_biogeography_hypothesis_registry_v2.json >/dev/null
           python -m json.tool docs/supporting/global_overlay_source_registry_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_information_audit_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_species_discovery_contract_v1.json >/dev/null
