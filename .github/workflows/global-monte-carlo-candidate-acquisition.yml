@@ -37,6 +37,8 @@ jobs:
           selected = pd.read_csv('data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv')
           if auth.get('status') != 'authorize_exactly_one_metadata_only_global_candidate_acquisition':
               raise SystemExit('candidate acquisition is not explicitly authorized')
+          if auth.get('branch') != 'analysis/global-monte-carlo-barrier-atlas':
+              raise SystemExit('candidate acquisition authorization branch mismatch')
           if auth.get('candidate_image_pixels_may_open') is not False or auth.get('flower_colour_may_open') is not False:
               raise SystemExit('candidate acquisition authorization unexpectedly opens pixels/colour')
           cap_blob = subprocess.check_output(['git','rev-parse','HEAD:docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json'], text=True).strip()
