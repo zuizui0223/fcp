@@ -1,0 +1,58 @@
+name: Random photo-first H9 acquisition validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-h9-individual-distance-replication
+    paths:
+      - "fcp_pipeline/random_photo_h9_pool.py"
+      - "tests/test_random_photo_h9_pool.py"
+      - "scripts/acquisition/freeze_random_photo_first_h9_fresh_metadata.py"
+      - ".github/workflows/random-photo-first-h9-acquisition-validation.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: random-photo-first-h9-acq-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install test runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+
+      - name: Run H9 acquisition tests
+        run: pytest -q tests/test_random_photo_h9_pool.py
+
+      - name: Validate frozen prequery state
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c = json.loads(Path('docs/supporting/random_photo_first_h9_individual_distance_contract_v1.json').read_text())
+          e = json.loads(Path('docs/supporting/random_photo_first_h9_exclusion_manifest_v1.json').read_text())
+          assert c['fresh_metadata_acquisition']['queries'] == 38
+          assert c['fresh_metadata_acquisition']['request_retries'] == 0
+          assert c['fresh_metadata_acquisition']['fixed_raw_photos_per_species'] == 60
+          assert e['unique_exclusion_observation_ids'] == 86745
+          assert e['h9_api_queries_opened'] is False
+          assert not Path('data/frozen/random_photo_first_h9_fresh_metadata_v1.csv').exists()
+          assert not Path('docs/supporting/random_photo_first_h9_fresh_metadata_manifest_v1.json').exists()
+          print('h9_acquisition_prequery_validation=pass')
+          PY
