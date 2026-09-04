@@ -1,0 +1,95 @@
+name: Random photo-first H7 metadata feasibility
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-h7-balanced-itv
+    paths:
+      - "docs/supporting/random_photo_first_h7_metadata_feasibility_contract_v1.json"
+      - "scripts/analysis/audit_random_photo_first_h7_metadata_feasibility.py"
+      - ".github/workflows/random-photo-first-h7-metadata-feasibility.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: random-photo-first-h7-metadata-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Validate metadata-only audit contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c = json.loads(Path('docs/supporting/random_photo_first_h7_metadata_feasibility_contract_v1.json').read_text())
+          assert c['status'] == 'pre_h7_metadata_only_audit_frozen_before_any_fresh_h7_query_or_pixel'
+          assert c['prospective_design_target_to_assess']['target_species'] == 60
+          assert c['prospective_design_target_to_assess']['fresh_target_cells_per_species'] == 6
+          assert c['prospective_design_target_to_assess']['post_measurement_minimum_classifiable_photos_per_cell'] == 10
+          assert c['prospective_design_target_to_assess']['post_measurement_minimum_cells_per_species'] == 5
+          print('h7_metadata_contract=pass')
+          PY
+
+      - name: Run metadata-only feasibility audit
+        run: python scripts/analysis/audit_random_photo_first_h7_metadata_feasibility.py
+
+      - name: Validate outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/random_photo_first_h7_metadata_feasibility_result_v1.json').read_text())
+          assert r['status'] == 'complete_metadata_only_feasibility_audit'
+          assert r['outcome_firewall']['colour_columns_read'] is False
+          assert r['outcome_firewall']['measured_table_read'] is False
+          assert r['outcome_firewall']['h1_h6_species_effects_read'] is False
+          assert r['outcome_firewall']['fresh_h7_api_queries_opened'] is False
+          assert r['outcome_firewall']['fresh_h7_image_pixels_opened'] is False
+          print(json.dumps(r, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h7-metadata-feasibility-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            docs/supporting/random_photo_first_h7_metadata_feasibility_result_v1.json
+            data/derived/random_photo_first_h7_metadata_feasibility_species_v1.csv
+
+      - name: Commit audit outputs if changed
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/random_photo_first_h7_metadata_feasibility_result_v1.json \
+                  data/derived/random_photo_first_h7_metadata_feasibility_species_v1.csv
+          if git diff --cached --quiet; then
+            echo "h7_metadata_outputs_already_identical=true"
+            exit 0
+          fi
+          git commit -m "Run H7 metadata feasibility audit"
+          git fetch origin analysis/random-photo-first-h7-balanced-itv
+          git rebase origin/analysis/random-photo-first-h7-balanced-itv
+          git push origin HEAD:analysis/random-photo-first-h7-balanced-itv
