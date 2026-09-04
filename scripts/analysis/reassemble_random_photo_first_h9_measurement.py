@@ -27,6 +27,12 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def repo_relative(path: Path) -> str:
+    """Return a stable repo-relative path for either relative or absolute inputs."""
+    candidate = path if path.is_absolute() else ROOT / path
+    return str(candidate.resolve().relative_to(ROOT.resolve()))
+
+
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
     p.add_argument("--results-dir", type=Path, required=True)
@@ -131,6 +137,7 @@ def main() -> int:
     )
 
     args.output_csv.parent.mkdir(parents=True, exist_ok=True)
+    args.output_manifest.parent.mkdir(parents=True, exist_ok=True)
     joined.to_csv(args.output_csv, index=False, lineterminator="\n")
     support_path = args.output_csv.with_name("random_photo_first_h9_measurement_species_support_v1.csv")
     species_support.to_csv(support_path, index=False, lineterminator="\n")
@@ -163,8 +170,8 @@ def main() -> int:
             "species_support_sha256": sha256_file(support_path),
         },
         "files": {
-            "measured_table": str(args.output_csv.relative_to(ROOT)),
-            "species_support": str(support_path.relative_to(ROOT)),
+            "measured_table": repo_relative(args.output_csv),
+            "species_support": repo_relative(support_path),
         },
     }
     args.output_manifest.write_text(json.dumps(result, indent=2) + "\n")
