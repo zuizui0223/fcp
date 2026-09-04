@@ -1,0 +1,5 @@
+moderator,transform,evaluable_species,observed_scale_moderation_spearman_rho,p_lower,null_mean,null_median,null_q025,null_q975,name,primary,can_rescue_primary
+max_pairwise_h1_cell_centroid_great_circle_km,log1p,79,-0.20752159540758514,0.028,0.020722133558672418,0.018300113316754716,-0.21127788677432527,0.2574265533693188,max_pairwise_geographic_span,False,False
+climate_complete_cells,none,79,-0.2573412588563342,0.006,0.04537650828732441,0.04695540854899487,-0.18604431960503093,0.2861942849375895,occupied_h1_cell_count,False,False
+mean_pairwise_h1_cell_centroid_great_circle_km,log1p,185,-0.0787076031304418,0.128,0.012940037727400348,0.012103961606055591,-0.14032685400416028,0.17419551294158198,broader_n5_cells3_morphs2,False,False
+mean_pairwise_h1_cell_centroid_great_circle_km,log1p,30,-0.07319243604004451,0.334,0.007293834435102512,0.013570634037819801,-0.38293659621802006,0.36387096774193545,strict_n20_cells3_morphs2,False,False

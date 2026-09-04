@@ -1,0 +1,126 @@
+{
+  "protocol": "random-photo-first-h5-scale-moderation-v1",
+  "status": "complete_exploratory_h5_evaluable",
+  "introduced_after_h4a_outcomes": true,
+  "claim_role": "exploratory_only_cannot_rescue_replace_or_reinterpret_h1_h2_h4a",
+  "h4a_replay": {
+    "n10_cells3_morphs2": {
+      "evaluable_species": 79,
+      "observed_mean_spearman_rho": 0.06707804283214132,
+      "completed_h4a_mean": 0.06707804283214132,
+      "exact_replay_within_1e_12": true
+    },
+    "n5_cells3_morphs2": {
+      "evaluable_species": 185,
+      "observed_mean_spearman_rho": 0.06566278912846546,
+      "completed_h4a_mean": 0.06566278912846546,
+      "exact_replay_within_1e_12": true
+    },
+    "n20_cells3_morphs2": {
+      "evaluable_species": 30,
+      "observed_mean_spearman_rho": 0.03538507643133862,
+      "completed_h4a_mean": 0.03538507643133862,
+      "exact_replay_within_1e_12": true
+    }
+  },
+  "primary": {
+    "moderator": "mean_pairwise_h1_cell_centroid_great_circle_km",
+    "transform": "log1p",
+    "evaluable_species": 79,
+    "observed_scale_moderation_spearman_rho": -0.17547788728376038,
+    "p_lower": 0.091,
+    "null_mean": 0.000947215833457223,
+    "null_median": 0.004625149861026894,
+    "null_q025": -0.2518045598782009,
+    "null_q975": 0.24681221968320252,
+    "name": "primary_n10_cells3_morphs2_mean_pairwise_geographic_span",
+    "primary": true,
+    "minimum_evaluable_species_required": 30,
+    "permutations": 999,
+    "seed": 20260906,
+    "alpha": 0.05,
+    "support": false
+  },
+  "sensitivities": [
+    {
+      "moderator": "max_pairwise_h1_cell_centroid_great_circle_km",
+      "transform": "log1p",
+      "evaluable_species": 79,
+      "observed_scale_moderation_spearman_rho": -0.20752159540758514,
+      "p_lower": 0.028,
+      "null_mean": 0.020722133558672418,
+      "null_median": 0.018300113316754716,
+      "null_q025": -0.21127788677432527,
+      "null_q975": 0.2574265533693188,
+      "name": "max_pairwise_geographic_span",
+      "primary": false,
+      "can_rescue_primary": false
+    },
+    {
+      "moderator": "climate_complete_cells",
+      "transform": "none",
+      "evaluable_species": 79,
+      "observed_scale_moderation_spearman_rho": -0.2573412588563342,
+      "p_lower": 0.006,
+      "null_mean": 0.04537650828732441,
+      "null_median": 0.04695540854899487,
+      "null_q025": -0.18604431960503093,
+      "null_q975": 0.2861942849375895,
+      "name": "occupied_h1_cell_count",
+      "primary": false,
+      "can_rescue_primary": false
+    },
+    {
+      "moderator": "mean_pairwise_h1_cell_centroid_great_circle_km",
+      "transform": "log1p",
+      "evaluable_species": 185,
+      "observed_scale_moderation_spearman_rho": -0.0787076031304418,
+      "p_lower": 0.128,
+      "null_mean": 0.012940037727400348,
+      "null_median": 0.012103961606055591,
+      "null_q025": -0.14032685400416028,
+      "null_q975": 0.17419551294158198,
+      "name": "broader_n5_cells3_morphs2",
+      "primary": false,
+      "can_rescue_primary": false
+    },
+    {
+      "moderator": "mean_pairwise_h1_cell_centroid_great_circle_km",
+      "transform": "log1p",
+      "evaluable_species": 30,
+      "observed_scale_moderation_spearman_rho": -0.07319243604004451,
+      "p_lower": 0.334,
+      "null_mean": 0.007293834435102512,
+      "null_median": 0.013570634037819801,
+      "null_q025": -0.38293659621802006,
+      "null_q975": 0.36387096774193545,
+      "name": "strict_n20_cells3_morphs2",
+      "primary": false,
+      "can_rescue_primary": false
+    }
+  ],
+  "decision": "no_support_scale_dependent_weakening",
+  "h4b_directional_decomposition_opened": false,
+  "frozen_primary_decisions_unchanged": {
+    "h1": "no_support_excess_recurrent_boundary_concentration",
+    "h1_p_upper": 0.413,
+    "h2": "diagnostic_only_h1_not_supported_no_climate_mechanism_claim",
+    "h4a": "no_support_within_species_climate_colour_divergence_do_not_open_h4b",
+    "h4a_p_upper": 0.157
+  },
+  "lineage": {
+    "contract_sha256": "1bdd0563c1bcab474c6bfe685e08b2ff6a9218b1da0700a81fccbb07312e1def",
+    "measurement_table_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+    "capacity_table_sha256": "6cafc857470e9a7e32d542a0d3d66fda1333a8774ea60dece34a35c5f71e6c22",
+    "climate_cells_sha256": "df0cf0d0096938a0b3e6d6b7f6e0008508f60d80e61f7bc847ccd95e3c2e2b15",
+    "h4a_result_sha256": "b6b155c0cc175b6fa06855ad70e1a0d58235e199cb32421524c34af576531224",
+    "permutations": 999,
+    "seed": 20260906
+  },
+  "files": {
+    "primary_species": "data/derived/random_photo_first_h5_species_primary_v1.csv",
+    "primary_null": "data/derived/random_photo_first_h5_null_primary_v1.csv",
+    "sensitivities": "data/derived/random_photo_first_h5_sensitivities_v1.csv"
+  },
+  "claim_ceiling": "H5 is a post-H4a exploratory moderation test. Even if supported, it would identify scale-dependent statistical coupling only; it would not establish adaptation, selection, causal climate effects, pigment mechanism, or rescue the non-significant preregistered H1/H2/H4a primary tests."
+}
