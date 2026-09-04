@@ -1,0 +1,84 @@
+{
+  "protocol": "random-photo-first-h5-scale-moderation-v1",
+  "status": "exploratory_frozen_after_h4a_before_any_h5_scale_moderation_test",
+  "introduced_after_h4a_outcomes": true,
+  "claim_role": "exploratory_only_cannot_rescue_replace_or_reinterpret_h1_h2_h4a",
+  "motivation_from_completed_h4a": {
+    "primary_decision": "no_support_within_species_climate_colour_divergence_do_not_open_h4b",
+    "primary_p_upper": 0.157,
+    "nominal_positive_sensitivity_names": [
+      "n5_cells3_morphs2",
+      "n10_cells3_morphs2"
+    ],
+    "interpretation_before_h5": "The threshold sensitivity suggests a scale-dependence question but is not itself evidence for a scale mechanism. H5 tests that question directly."
+  },
+  "primary_frame": {
+    "minimum_classifiable_photos_before_climate_join": 10,
+    "minimum_occupied_h1_cells_before_climate_join": 3,
+    "minimum_coarse_morph_levels_before_climate_join": 2,
+    "expected_h4a_evaluable_species_from_completed_sensitivity": 79,
+    "rationale": "Use the more reliable >=10-photo frame while allowing the >=3-cell species that motivated the scale question. This frame was selected after H4a and is therefore exploratory."
+  },
+  "colour_climate_statistic": {
+    "species_level_response": "Spearman correlation between within-species pairwise colour JSD and pairwise RMS standardized macroclimate distance",
+    "colour_representation": "soft four-group composition collapsed prospectively from the retained nine flower palette fractions",
+    "climate_variables": ["z_bio1", "z_bio4", "z_bio12", "z_bio15"],
+    "climate_source_scale_km": 250
+  },
+  "primary_scale_moderator": {
+    "name": "mean_pairwise_h1_cell_centroid_great_circle_km",
+    "transform": "log1p_km",
+    "species_level_global_statistic": "Spearman correlation across species between species climate-colour rho and log1p(mean pairwise H1-cell centroid great-circle distance)",
+    "directional_hypothesis": "negative",
+    "ecological_reading_if_supported": "within-species climate-colour coupling is stronger among spatially localized species and weakens across broader geographic spans"
+  },
+  "null": {
+    "permutations": 999,
+    "seed": 20260906,
+    "operation": "independently permute colour cell labels within each species, recompute each species climate-colour rho, then recompute the across-species scale-moderation statistic",
+    "tail": "lower",
+    "alpha": 0.05
+  },
+  "minimum_evaluable_species": 30,
+  "sensitivities": [
+    {
+      "name": "max_pairwise_h1_cell_centroid_great_circle_km",
+      "same_primary_frame": true,
+      "cannot_rescue_primary": true
+    },
+    {
+      "name": "occupied_h1_cell_count",
+      "same_primary_frame": true,
+      "cannot_rescue_primary": true
+    },
+    {
+      "name": "broader_n5_cells3_morphs2_frame",
+      "minimum_classifiable_photos": 5,
+      "minimum_cells": 3,
+      "minimum_morphs": 2,
+      "cannot_rescue_primary": true
+    },
+    {
+      "name": "strict_n20_cells3_morphs2_frame",
+      "minimum_classifiable_photos": 20,
+      "minimum_cells": 3,
+      "minimum_morphs": 2,
+      "cannot_rescue_primary": true
+    }
+  ],
+  "decision_rule": {
+    "support": "primary evaluable species >=30, observed primary scale-moderation rho < 0, and one-sided permutation p_lower < 0.05",
+    "otherwise": "no support for scale-dependent weakening",
+    "h4b_directional_colour_or_climate_driver_decomposition": "remains closed regardless of H5 because H4a primary was not supported"
+  },
+  "lineage": {
+    "measurement_result": "docs/supporting/random_photo_first_measurement_result_v1.json",
+    "h1_result": "docs/supporting/random_photo_first_h1_result_v1.json",
+    "h2_result": "docs/supporting/random_photo_first_h2_result_v1.json",
+    "h4a_result": "docs/supporting/random_photo_first_h4a_result_v1.json",
+    "capacity_table": "data/derived/random_photo_first_h4_within_species_capacity_v1.csv",
+    "measured_table": "data/derived/random_photo_first_measured_photos_v1.csv",
+    "climate_cells": "data/derived/random_photo_first_h2_climate_cells_250km_v1.csv"
+  },
+  "claim_ceiling": "H5 is a post-H4a exploratory moderation test. Even if supported, it would identify scale-dependent statistical coupling only; it would not establish adaptation, selection, causal climate effects, pigment mechanism, or rescue the non-significant preregistered H1/H2/H4a primary tests."
+}
