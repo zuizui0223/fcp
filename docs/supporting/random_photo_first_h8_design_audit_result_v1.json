@@ -1,0 +1,91 @@
+{
+  "protocol": "random-photo-first-h8-balanced-itv-replication-v1",
+  "status": "complete_h8_metadata_only_design_audit",
+  "h7_terminal_decision_preserved": "not_evaluable_h7_fresh_metadata_support_before_pixels",
+  "h7_pixels_opened": false,
+  "matrix": [
+    {
+      "minimum_retained_fresh_metadata_per_cell": 10,
+      "minimum_qualifying_cells_per_species": 5,
+      "qualifying_species": 14,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_retained_fresh_metadata_per_cell": 10,
+      "minimum_qualifying_cells_per_species": 6,
+      "qualifying_species": 4,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_retained_fresh_metadata_per_cell": 15,
+      "minimum_qualifying_cells_per_species": 5,
+      "qualifying_species": 10,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_retained_fresh_metadata_per_cell": 15,
+      "minimum_qualifying_cells_per_species": 6,
+      "qualifying_species": 3,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_retained_fresh_metadata_per_cell": 20,
+      "minimum_qualifying_cells_per_species": 5,
+      "qualifying_species": 7,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_retained_fresh_metadata_per_cell": 20,
+      "minimum_qualifying_cells_per_species": 6,
+      "qualifying_species": 2,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_retained_fresh_metadata_per_cell": 25,
+      "minimum_qualifying_cells_per_species": 5,
+      "qualifying_species": 6,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_retained_fresh_metadata_per_cell": 25,
+      "minimum_qualifying_cells_per_species": 6,
+      "qualifying_species": 2,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_retained_fresh_metadata_per_cell": 30,
+      "minimum_qualifying_cells_per_species": 5,
+      "qualifying_species": 5,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_retained_fresh_metadata_per_cell": 30,
+      "minimum_qualifying_cells_per_species": 6,
+      "qualifying_species": 1,
+      "meets_minimum_species": false
+    }
+  ],
+  "automatic_selection": {
+    "minimum_species_required": 35,
+    "selected_design": null,
+    "selected_species": 0,
+    "target_cells_per_species": 0,
+    "species_cell_targets": 0,
+    "h8_metadata_design_feasible": false
+  },
+  "outcome_firewall": {
+    "h7_colour_columns_read": false,
+    "h7_measured_table_read": false,
+    "h6_h6b_species_effects_read": false,
+    "h8_api_queries_opened": false,
+    "h8_pixels_opened": false
+  },
+  "lineage": {
+    "contract_sha256": "28f40cee2fc9000c0547ef976baaef26f5814527fc6bf4253c5de270ce12dc5f",
+    "h7_manifest_sha256": "07a16e554ac4ee57598e8f4a1d2efe898ad16a8920dc9f601c5ca0f914004537",
+    "h7_target_audit_sha256": "6220d160a79d458bcd59fe306f94a552a4cd9de5f18ca30406cedf33e5fc33c6",
+    "selected_species_sha256": "f7adeae0899cd1b6e3a7869bbc8e47c89c32a4d0c0ba949bcb8cafa0ca4e279e",
+    "selected_targets_sha256": "20f3d3c5bb7af415f60952ed4e1890ba5384e74db8f6e5172375233a65e1ed5e"
+  },
+  "claim_ceiling": "This audit can choose only a metadata-feasible H8 sampling design. It is not a biological result and cannot rescue H7 or any prior H1-H6 inference."
+}
