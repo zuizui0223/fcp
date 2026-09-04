@@ -1,6 +1,6 @@
 # Global Monte Carlo flower-colour barrier atlas — prospective protocol v1
 
-Status: **prospective design frozen on 2026-09-04 before any biological H9 result is available**. The branch was forked from `362cdcc949f1421a9a5bb0532453914a23b4be83` while the H9 location-blind measurement workflow was still queued. This protocol does not alter, rescue or reinterpret the frozen H1–H6 outcomes, and it does not use a future H9 colour result to choose its design.
+Status: **prospective design frozen on 2026-09-04 before any global Monte Carlo flower-colour field was available**. The branch was forked from `362cdcc949f1421a9a5bb0532453914a23b4be83` while the H9 location-blind measurement workflow was still queued. The recurrent-zone extraction rule, ecological/geographic overlay family and external source families were subsequently frozen while the new global species-discovery workflow was still metadata-only. This protocol does not alter, rescue or reinterpret the frozen H1–H6 outcomes.
 
 ## 1. Why a new design is necessary
 
@@ -31,25 +31,25 @@ The computational solution is not to load every photograph of every species into
 
 ## 2. Questions
 
-### G1 — recurrent barrier field
+### G1 — recurrent flower-colour barrier field
 
 After requiring adequate within-species replication, do independent plant species place stronger flower-colour discontinuities in the same broad geographic regions more often than expected under species-conditioned colour permutation?
 
 This is deliberately weaker and more realistic than requiring the exact same grid edge to be the strongest transition in many species.
 
-### G2 — stability of the inferred field
+### G2 — stability and zone reproducibility
 
-If a recurrent field exists, is its geography stable to independent species/photo resampling, taxonomic and geographic deletion, and reasonable predeclared spatial supports?
+If a recurrent field exists, is its geography stable to independent species/photo resampling, taxonomic and geographic deletion, and reasonable predeclared spatial supports? If so, can persistent high-discontinuity areas be extracted reproducibly as neutral flower-colour zones (`Z01`, `Z02`, ...)?
 
-### G3 — prevalence and heterogeneity of species-specific spatial organization
+### G3 — prevalence, heterogeneity and edge-level mechanism alignment
 
-Regardless of whether G1 passes, how common and how heterogeneous is within-species spatial colour structure across the globally sampled inferential species set?
+Regardless of whether G1 passes, how common and heterogeneous is within-species spatial colour structure? On the same fixed photo-graph edges, are stronger colour discontinuities associated with stronger independently frozen pollinator, climate, terrain or geographic-barrier contrasts?
 
-G3 prevents a null G1 from being misread as a null statement about all species-specific geography. The primary outputs are the mean, median, positive fraction and between-species heterogeneity of species-level spatial effects.
+This edge-level mechanism analysis is independent of the existence of a shared global zone and **cannot rescue a null G1**.
 
-### G4 — barrier interpretation, hierarchically gated
+### G4 — interpretation of shared flower-colour zones, hierarchically gated
 
-Only if G1 is supported may an independent, pre-frozen barrier-overlay extension ask whether the recurrent field aligns with broad biogeographic, topographic or environmental discontinuities. Barrier overlays cannot rescue a null G1.
+Only if G1 is supported and G2 stability passes may the neutral recurrent zones be compared with independently frozen pollinator-turnover, climate-turnover, terrain, marine-gap, river, mountain and established biogeographic-boundary surfaces. These overlays annotate a supported colour zone; they cannot create one.
 
 ## 3. Global sampling frame
 
@@ -143,12 +143,13 @@ Each species graph edge contributes to a global equal-area field at its great-ci
 Primary support:
 
 - global grid: 36 × 18 equal-area longitude × sin(latitude);
-- kernel support: 500 km.
+- kernel bandwidth: 500 km;
+- evaluated support extends to 3 bandwidths (1,500 km).
 
 Predeclared sensitivities:
 
-- 24 × 12 with 1,000-km kernel;
-- 72 × 36 with 250-km kernel.
+- 24 × 12 with 1,000-km bandwidth;
+- 72 × 36 with 250-km bandwidth.
 
 For every field cell:
 
@@ -169,13 +170,14 @@ The null keeps fixed:
 - observer-filtered photograph pools;
 - all Monte Carlo species/photo sampling schedules;
 - structural measurement missingness;
-- graph geometry and global opportunity fields.
+- graph geometry and global opportunity fields;
+- all external pollinator, climate, terrain and geographic predictor values.
 
 Only classifiable colour vectors are permuted within species.
 
-Primary null size: **999 permutations** with a pre-frozen seed. Each permutation is run through the exact same 200-resample schedule as the observed data.
+Primary null size: **999 permutations** with a pre-frozen seed. Each permutation is run through the exact same 200-resample schedule as the observed data. The same null therefore supplies both the G1 field test and the downstream edge/overlay alignment tests without introducing a different favourable spatial null.
 
-Support requires:
+G1 support requires:
 
 - postmeasurement inferential gate passed;
 - observed G1 concentration greater than the null expectation;
@@ -183,7 +185,7 @@ Support requires:
 
 No spatial support, kernel, species weight, photo threshold or subset may be substituted after seeing G1.
 
-## 9. Stability and robustness are first-class results
+## 9. Stability, persistent zone extraction and robustness
 
 A positive G1 is not sufficient by itself. The following are reported regardless of significance where estimable:
 
@@ -196,9 +198,61 @@ A positive G1 is not sufficient by itself. The following are reported regardless
 7. **equal-species versus inclusion-probability weighting:** weighting sensitivity only; equal-species remains primary;
 8. **predeclared spatial-support sensitivity:** 24×12/1,000 km and 72×36/250 km cannot replace the primary 36×18/500 km result.
 
-A stability claim requires that the sign of the G1 excess is unchanged, the odd/even field correlation is positive and substantial, and no single realm or major family creates the result. Exact numerical stability thresholds, if used as pass/fail gates, must be frozen in a separate synthetic-validation amendment before fresh colour pixels open.
+If G1 and the G2 stability gate are supported, persistent flower-colour zones are extracted without consulting named geography or external ecological surfaces:
 
-## 10. Computational interpretation
+- within each of the 200 observed resamples, mark the top **10%** of evaluable field cells;
+- a primary zone seed must be in that per-resample top decile in at least **60%** of evaluable observed resamples;
+- require at least **100** evaluable resamples for a seed cell;
+- join seed cells by 8-neighbour connectivity with longitude wrap across the international date line;
+- discard components smaller than **3 cells**;
+- assign neutral IDs `Z01`, `Z02`, ... in descending opportunity-weighted integrated colour-field intensity;
+- inspect geographic names or candidate explanations only after these neutral components are frozen.
+
+Top-5% and top-15% hotspot definitions are sensitivity analyses only and cannot replace the primary top-10% rule.
+
+## 10. External ecological and geographic concordance
+
+The external source family is fixed before the global colour outcome: CHELSA v2.1 climate, EarthEnv topography, GMBA Mountain Inventory v2, RESOLVE Ecoregions 2017, HydroRIVERS/HydroSHEDS, Natural Earth land-water geometry, a stable versioned GloBI interaction dataset, and an independently frozen GBIF occurrence download. Exact external download identifiers/checksums must be recorded before they enter colour inference. Missing external coverage is `not_evaluable`, never biological zero.
+
+### 10.1 G3 edge-level mechanism alignment — does not require a shared zone
+
+For every externally evaluable predictor, calculate an external contrast on the same fixed within-species photo-graph edges used for colour discontinuity. Each species contributes one within-species Spearman correlation between colour-edge score and external-edge score. The primary statistic is the **equal-species mean** of those correlations.
+
+Primary requirements:
+
+- at least 5 evaluable graph edges per species;
+- at least 30 evaluable species for a predictor;
+- the same 999 within-species colour permutations as the main analysis;
+- one-sided upper-tail test;
+- Holm correction across the fixed primary predictor family.
+
+The fixed primary edge family is:
+
+1. direct pollinator-interaction community turnover from GloBI where coverage permits;
+2. GBIF-based pollinator-guild occurrence turnover (bees, Syrphidae, Lepidoptera proxy, and a flower-visiting bird proxy);
+3. multivariate CHELSA climate turnover using standardized BIO1, BIO4, BIO12 and BIO15;
+4. EarthEnv terrain-barrier intensity from elevation, slope, terrain roughness index and vector ruggedness at the frozen 50-km grain;
+5. marine-gap fraction along the great-circle edge;
+6. major-river crossing intensity;
+7. crossing intensity of RESOLVE realm/biome/ecoregion boundaries;
+8. GMBA mountain-system boundary crossing intensity.
+
+A positive edge result means that species-specific flower-colour geography is concordant with that external contrast more strongly than expected after species-conditioned colour permutation. It **does not** establish a shared global flower-colour zone and cannot rescue a null G1.
+
+### 10.2 G4 shared-zone overlay — requires G1 + G2
+
+For a supported recurrent colour field, each independently frozen external surface is compared with the colour field using opportunity-weighted Spearman correlation. The exact same 999 species-conditioned null colour fields define the spatial null. At least 50 jointly evaluable cells are required, and Holm correction is applied across the fixed primary overlay family.
+
+Only globally supported predictors may annotate a neutral `Z` component. A zone receives a descriptor such as `climate-associated`, `pollinator-associated`, `terrain-associated`, `marine-associated`, `river-associated`, `biogeographic-boundary-associated`, or `mountain-boundary-associated` only when:
+
+1. that predictor passes the global overlay test; and
+2. the opportunity-weighted predictor mean inside the neutral zone is at or above the 75th percentile of that predictor over all evaluable cells.
+
+Multiple descriptors are allowed. Causal labels such as “pollinator-driven” or “mountain-caused” are forbidden from these spatial concordance tests alone.
+
+Direct GloBI interaction turnover and broad GBIF guild turnover are retained as complementary pollinator layers. Agreement strengthens ecological coherence; disagreement is reported as interaction-specificity/sampling uncertainty rather than selecting whichever layer fits better.
+
+## 11. Computational interpretation
 
 With 250 species × 20 photographs, the complete pairwise G3 calculation contains 47,500 photograph pairs per outer resample. Across 200 observed resamples this is 9.5 million pair evaluations, before null reuse/vectorization. Graph-based G1 is smaller still.
 
@@ -212,11 +266,21 @@ This is the intended distinction:
 
 Repeated resampling cannot manufacture within-species information from singleton species, which is why the new metadata and postmeasurement gates are binding.
 
-## 11. Claim boundaries
+## 12. Claim boundaries and outcome logic
 
-A supported G1 would establish recurrent broad geographic concentration of flower-colour discontinuity across globally sampled, adequately replicated species under the frozen opportunity-conditioned design.
+A supported G1+G2 would establish recurrent broad geographic concentration of flower-colour discontinuity across globally sampled, adequately replicated species under the frozen opportunity-conditioned design. Stable neutral components could then reasonably be described as **recurrent flower-colour biogeographic zones**.
 
-It would not by itself establish:
+The strongest possible result would be a stable neutral zone whose colour discontinuity exceeds the species-conditioned null and whose geography is independently concordant with one or more frozen ecological/geographic surfaces. It still would not by itself establish causal adaptation, pollinator-mediated selection or historical vicariance.
+
+The interpretation matrix is fixed:
+
+- **G1+G2 positive; ecological/geographic overlay positive:** recurrent flower-colour zone with independent ecological/geographic concordance;
+- **G1+G2 positive; overlays null:** recurrent colour zone detected, mechanism/geographic interpretation unresolved;
+- **G1 null; G3 edge alignment positive:** species-specific colour geography repeatedly covaries with external contrasts but is not globally synchronized;
+- **G1 null; G3 heterogeneous but edge alignment null:** substantial species-specific geography without a common global mechanism at the tested scales;
+- **G1 and G3 essentially null:** no general flower-colour geographic organization detected under the frozen design and scales.
+
+No result by itself establishes:
 
 - one exact universal boundary line;
 - climate causation;
@@ -226,12 +290,10 @@ It would not by itself establish:
 - pigment physiology;
 - absence of species-specific structure outside recurrent regions.
 
-A null G1 would mean no recurrent field was detected at the frozen global support among the inferential species. G3 remains independently interpretable and can show substantial species-specific heterogeneity even when G1 is null.
-
-## 12. Relationship to prior experiments
+## 13. Relationship to prior experiments
 
 - Six-species Chapter 1 remains evidence that within-species spatial colour organization can occur under dense focal sampling.
 - Random-atlas H1 remains the valid result for its original globally broad/sparse frame and is not rerun with relaxed rules.
 - H6/H6b motivated the need to distinguish low-information equal weighting from reliable within-species replication.
 - H7/H8 established, before pixels, that balanced species-by-cell sampling was not feasible from that fresh metadata frame.
-- H9 changed the unit to fixed-n individual photographs with continuous distance. The present protocol generalizes that logic to a globally broader Monte Carlo coverage design and was frozen before H9 supplied a biological outcome.
+- H9 changed the unit to fixed-n individual photographs with continuous distance. The present protocol generalizes that logic to a globally broader Monte Carlo coverage design while preserving outcome blindness at each new gate.
