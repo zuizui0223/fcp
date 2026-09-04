@@ -1,0 +1,116 @@
+name: Global Monte Carlo cache-resistant species discovery V2
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_species_discovery_v2_authorization_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-monte-carlo-species-discovery-v2
+  cancel-in-progress: false
+
+jobs:
+  discover-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Verify one-shot V2 authorization and outcome firewall
+        env:
+          EXPECTED_BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          auth = json.loads(Path('docs/supporting/global_monte_carlo_species_discovery_v2_authorization_v1.json').read_text())
+          contract = json.loads(Path('docs/supporting/global_monte_carlo_species_discovery_v2_contract.json').read_text())
+          v1 = json.loads(Path('docs/supporting/global_monte_carlo_species_discovery_manifest_v1.json').read_text())
+          if auth.get('status') != 'authorized_once_after_cache_resistant_validation':
+              raise SystemExit('V2 discovery is not explicitly authorized')
+          if auth.get('branch') != os.environ['EXPECTED_BRANCH']:
+              raise SystemExit('V2 authorization branch mismatch')
+          parent = subprocess.check_output(['git','rev-parse','HEAD^'], text=True).strip()
+          if auth.get('validated_parent_sha') != parent:
+              raise SystemExit(f'V2 authorization parent mismatch: {parent}')
+          if auth.get('validation_run_id') != 33851939776:
+              raise SystemExit('V2 validation run lineage mismatch')
+          if auth.get('flower_colour_may_open') is not False or auth.get('candidate_image_pixels_may_open') is not False:
+              raise SystemExit('V2 authorization unexpectedly permits colour/pixels')
+          if contract.get('status') != 'frozen_after_v1_cache_diagnostic_before_any_v2_request_and_before_any_global_colour_pixel':
+              raise SystemExit('V2 contract state mismatch')
+          if contract['outcome_firewall']['flower_colour_used'] is not False:
+              raise SystemExit('V2 contract unexpectedly uses flower colour')
+          if v1.get('candidate_image_pixels_opened') is not False or v1.get('flower_colour_used') is not False:
+              raise SystemExit('V1 lineage opened pixels/colour')
+          print('v2_species_discovery_authorization=pass')
+          PY
+      - name: Execute fixed cache-resistant metadata-only discovery V2
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: python scripts/acquisition/freeze_global_monte_carlo_species_discovery_v2.py
+      - name: Validate V2 terminal manifest and page audit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          manifest = json.loads(Path('docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json').read_text())
+          assert manifest['status'] in {
+              'complete_cache_resistant_metadata_only_global_species_discovery_v2',
+              'not_evaluable_v2_species_discovery_coverage_due_request_failure',
+          }
+          assert manifest['candidate_image_pixels_opened'] is False
+          assert manifest['flower_colour_used'] is False
+          assert manifest['v1_independence_diagnostic_accepted'] is False
+          assert manifest['v2']['request_attempts'] == 3240
+          cell = pd.read_csv('data/frozen/global_monte_carlo_species_discovery_v2_cell_page_audit_v1.csv')
+          assert len(cell) == 162
+          assert (cell['distinct_pages_used'] >= 1).all()
+          print(json.dumps(manifest, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-monte-carlo-species-discovery-v2
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/frozen/global_monte_carlo_species_discovery_v2_observation_index_v1.csv.gz
+            data/frozen/global_monte_carlo_species_discovery_v2_species_v1.csv
+            data/frozen/global_monte_carlo_species_discovery_v2_round_audit_v1.csv
+            data/frozen/global_monte_carlo_species_discovery_v2_cell_page_audit_v1.csv
+            data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv
+            docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json
+      - name: Commit immutable V2 discovery products
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/global_monte_carlo_species_discovery_v2_observation_index_v1.csv.gz \
+            data/frozen/global_monte_carlo_species_discovery_v2_species_v1.csv \
+            data/frozen/global_monte_carlo_species_discovery_v2_round_audit_v1.csv \
+            data/frozen/global_monte_carlo_species_discovery_v2_cell_page_audit_v1.csv \
+            data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv \
+            docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json
+          git commit -m "Freeze cache-resistant global metadata species discovery V2"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/global-monte-carlo-barrier-atlas
+            git rebase origin/analysis/global-monte-carlo-barrier-atlas
+            if git push origin HEAD:analysis/global-monte-carlo-barrier-atlas; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
