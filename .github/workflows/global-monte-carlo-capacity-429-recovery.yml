@@ -1,0 +1,153 @@
+name: Global Monte Carlo capacity 429 transport recovery
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_capacity_429_recovery_authorization_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-monte-carlo-capacity-429-recovery
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      retry_rows: ${{ steps.check.outputs.retry_rows }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - id: check
+        name: Require exact transport-failure recovery authorization
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          import pandas as pd
+          from pathlib import Path
+          from fcp_pipeline.global_capacity_recovery import frozen_recovery_rows
+          auth = json.loads(Path('docs/supporting/global_monte_carlo_capacity_429_recovery_authorization_v1.json').read_text())
+          contract = json.loads(Path('docs/supporting/global_monte_carlo_capacity_429_recovery_contract_v1.json').read_text())
+          failed = json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json').read_text())
+          audit = pd.read_csv('data/frozen/global_monte_carlo_capacity_scan_species_audit_v2.csv')
+          if auth.get('status') != 'authorize_exactly_one_transport_429_capacity_recovery':
+              raise SystemExit('429 recovery is not explicitly authorized')
+          if auth.get('branch') != 'analysis/global-monte-carlo-barrier-atlas':
+              raise SystemExit('429 recovery authorization branch mismatch')
+          blob = subprocess.check_output(['git','rev-parse','HEAD:docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json'], text=True).strip()
+          if auth.get('failed_capacity_manifest_blob_sha') != blob:
+              raise SystemExit('failed capacity manifest lineage mismatch')
+          trigger = contract['trigger']
+          if failed.get('status') != trigger['required_parent_status']:
+              raise SystemExit('capacity v2 is not formally not-evaluable from request failure')
+          if float(failed.get('request_error_fraction') or 0.0) <= float(trigger['required_parent_request_error_fraction_above']):
+              raise SystemExit('capacity v2 did not exceed the frozen request error ceiling')
+          if failed.get('candidate_image_pixels_opened') is not False or failed.get('flower_colour_used') is not False:
+              raise SystemExit('capacity v2 opened forbidden outcomes')
+          retry = frozen_recovery_rows(audit)
+          if len(retry) != int(auth.get('retry_rows')) or len(retry) == 0:
+              raise SystemExit('authorized retry denominator differs from exact frozen 429 set')
+          if auth.get('candidate_image_pixels_may_open') is not False or auth.get('flower_colour_may_open') is not False:
+              raise SystemExit('recovery authorization unexpectedly opens biological outcomes')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              fh.write(f'retry_rows={len(retry)}\n')
+          print({'capacity_429_recovery_gate':'pass','retry_rows':len(retry)})
+          PY
+
+  shard:
+    needs: gate
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        shard: [0, 1, 2, 3]
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Retry every assigned HTTP429 row exactly once
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/recovery
+          python scripts/acquisition/run_global_monte_carlo_capacity_429_recovery_shard.py \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 4 \
+            --output-dir /tmp/recovery
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-capacity-429-recovery-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/recovery/
+
+  reduce:
+    needs: [gate, shard]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: global-capacity-429-recovery-*
+          path: /tmp/recovery-shards
+      - name: Strictly merge only the frozen 429 rows
+        run: python scripts/analysis/reduce_global_monte_carlo_capacity_429_recovery.py --input-root /tmp/recovery-shards
+      - name: Validate transport-only recovery output
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          m = json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json').read_text())
+          a = pd.read_csv('data/frozen/global_monte_carlo_capacity_scan_species_audit_v3.csv')
+          assert len(a) == m['original_v2_request_errors'] * 0 + len(a)
+          assert m['candidate_image_pixels_opened'] is False
+          assert m['flower_colour_used'] is False
+          assert m['biological_rules_changed'] is False
+          assert m['second_recovery_permitted'] is False
+          if m['selected_raw_photo_target'] is not None:
+              assert int(m['selected_raw_photo_target']) in (100,80,60)
+              assert int(m['selected_species']) >= 300
+          PY
+      - name: Commit immutable transport-recovery result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/global_monte_carlo_capacity_scan_species_audit_v3.csv \
+            data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv \
+            docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json
+          git commit -m "Freeze transport-only capacity recovery v3"
+          git fetch origin analysis/global-monte-carlo-barrier-atlas
+          git rebase origin/analysis/global-monte-carlo-barrier-atlas
+          git push origin HEAD:analysis/global-monte-carlo-barrier-atlas
