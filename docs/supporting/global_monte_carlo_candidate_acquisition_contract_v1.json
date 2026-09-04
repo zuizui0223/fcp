@@ -1,0 +1,76 @@
+{
+  "protocol": "global-monte-carlo-candidate-acquisition-v1",
+  "status": "frozen_after_v2_discovery_success_before_capacity_outcome_and_before_candidate_pixels",
+  "date": "2026-09-04",
+  "parent_capacity_contract": "docs/supporting/global_monte_carlo_capacity_scan_contract_v1.json",
+  "capacity_result_required": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json",
+  "selected_species_required": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv",
+  "selected_raw_photo_target": "inherit exactly from capacity manifest; allowed values 100, 80, 60; no fallback",
+  "query": {
+    "stable_sort": "order_by=id, order=desc",
+    "per_page": 200,
+    "page_count_probe": 1,
+    "maximum_api_page": 50,
+    "candidate_pages_per_species": 3,
+    "candidate_page_seed": 20260917,
+    "candidate_page_rule": "rank all pages 1..min(50,ceil(total_results/200)) by SHA256(seed|inat_taxon_id|page) and take the first three or all pages when fewer than three exist",
+    "reuse_page1_probe_if_selected": true,
+    "early_stop_after_target_reached": false,
+    "extra_page_after_underperformance": false,
+    "request_retries": 0,
+    "request_interval_seconds": 1.05,
+    "quality_grade": "research",
+    "photos": true,
+    "geo": true,
+    "rank": "species",
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "maximum_positional_accuracy_m": 5000,
+    "obscuration": "none",
+    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"]
+  },
+  "selection": {
+    "prior_colour_experiment_ids_excluded": true,
+    "metadata_only_v1_v2_discovery_ids_need_not_be_excluded": true,
+    "reason_metadata_overlap_is_allowed": "V1/V2 discovery opened no image pixels or colour outcome; actual acquisition is a new prospectively fixed query draw, while prior colour-measured experiment IDs remain excluded",
+    "duplicate_observation_and_photo_ids_across_candidate_pages_removed": true,
+    "observer_cap_per_species": 2,
+    "final_photo_selection": "deterministic geographic maximin to exactly the inherited raw-photo target",
+    "failed_or_unusable_photos_replaced_after_measurement": false
+  },
+  "execution": {
+    "deterministic_shards": 8,
+    "assignment": "sort selected species by ascending inat_taxon_id then species; zero-based row index modulo 8",
+    "max_parallel": 1,
+    "requires_all_shards_before_gate": true
+  },
+  "request_failure_policy": {
+    "per_request_error": "record and continue without retry or replacement",
+    "maximum_error_fraction_for_acquisition_gate": 0.05,
+    "if_exceeded": "not_evaluable_global_candidate_acquisition_due_request_failure"
+  },
+  "premeasurement_gate": {
+    "minimum_full_target_species": 300,
+    "each_passing_species_must_have_exact_selected_target_rows": true,
+    "if_fewer_than_300": "not_evaluable_global_candidate_acquisition_before_pixels",
+    "target_relaxation_after_result": false,
+    "additional_pages_after_result": false,
+    "candidate_image_pixels_opened_at_gate": false,
+    "flower_colour_used_at_gate": false
+  },
+  "outputs": {
+    "species_audit": "all capacity-selected species with fixed pages, request errors, raw/eligible/deduplicated/observer-capped counts, geographic span and full-target status",
+    "candidate_photo_pool": "exact selected-target metadata rows only for species passing the acquisition target; includes source URL for later firewall acquisition but no pixels",
+    "manifest": "complete shard lineage, request error fraction, full-target species count, exact target and fail-closed premeasurement decision"
+  },
+  "outcome_firewall": {
+    "capacity_target_may_be_read": true,
+    "capacity_species_membership_may_be_read": true,
+    "flower_colour_used_for_page_selection": false,
+    "flower_colour_used_for_species_selection": false,
+    "climate_used": false,
+    "pollinator_used": false,
+    "barrier_overlay_used": false,
+    "image_pixels_opened": false
+  }
+}
