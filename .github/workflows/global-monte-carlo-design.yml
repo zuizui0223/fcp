@@ -6,10 +6,13 @@ on:
       - analysis/global-monte-carlo-barrier-atlas
     paths:
       - "fcp_pipeline/global_monte_carlo.py"
+      - "scripts/acquisition/freeze_global_monte_carlo_species_discovery.py"
       - "tests/test_global_monte_carlo.py"
+      - "tests/test_global_species_discovery.py"
       - "docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md"
       - "docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json"
       - "docs/supporting/global_monte_carlo_information_audit_v1.json"
+      - "docs/supporting/global_monte_carlo_species_discovery_contract_v1.json"
       - ".github/workflows/global-monte-carlo-design.yml"
   workflow_dispatch:
 
@@ -25,9 +28,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e . pytest
+      - name: Compile metadata-discovery runner
+        run: python -m py_compile scripts/acquisition/freeze_global_monte_carlo_species_discovery.py
       - name: Run focused Monte Carlo design tests
-        run: pytest -q tests/test_global_monte_carlo.py
+        run: pytest -q tests/test_global_monte_carlo.py tests/test_global_species_discovery.py
       - name: Validate JSON contracts
         run: |
           python -m json.tool docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_information_audit_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_monte_carlo_species_discovery_contract_v1.json >/dev/null
