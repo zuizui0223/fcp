@@ -1,0 +1,36 @@
+{
+  "protocol": "random-photo-first-h7-balanced-itv-v1",
+  "amendment": "freshness-source-v1",
+  "status": "technical_lineage_correction_frozen_before_any_fresh_h7_query_or_pixel",
+  "reason": "The original H7 contract pointed to data/atlas/jbi_image_first_atlas_observation_manifest_v1.csv at the closed PR21 head and labeled it as the terminal 60,000-record manifest. That committed file is the earlier 20,200-record sentinel geometry manifest. The terminal 60,000 metadata selection actually resides in the prospectively frozen GitHub Actions artifact from run 33405153936.",
+  "scientific_design_changed": false,
+  "statistics_changed": false,
+  "species_selection_changed": false,
+  "target_cell_selection_changed": false,
+  "fresh_query_rules_changed": false,
+  "measurement_rules_changed": false,
+  "decision_rule_changed": false,
+  "supersedes_only": "freshness_firewall.exclude_pr21_terminal_manifest source locator",
+  "correct_pr21_terminal_source": {
+    "workflow_run_id": 33405153936,
+    "workflow_head_sha": "ec67250d5d61a360a00665ba9b5992a9c3cc7bda",
+    "artifact_id": 9769165047,
+    "artifact_name": "jbi-atlas-200-species-metadata-feasibility",
+    "artifact_zip_digest_sha256": "bd614a680572f1f3021f5d521e1cd6bf7ddeb12ec27f916dd73a58165dfc3375",
+    "inner_manifest_path": "scaleout_observation_manifest.csv",
+    "inner_manifest_sha256": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc",
+    "expected_rows": 60000,
+    "expected_unique_observation_ids": 60000,
+    "expected_unique_photo_ids": 60000,
+    "expected_species": 200,
+    "candidate_image_pixels_opened_at_source_freeze": false
+  },
+  "incorrect_committed_locator_retained_for_provenance": {
+    "path": "data/atlas/jbi_image_first_atlas_observation_manifest_v1.csv",
+    "git_blob_sha": "e019cb41abd37bbea19fe426a09b016056aaa7ea",
+    "actual_rows": 20200,
+    "role": "sentinel geometry precursor, not the terminal 60,000 selection"
+  },
+  "freshness_requirement": "H7 acquisition must exclude every observation_id or photo_id present in the corrected 60,000-record terminal manifest in addition to the completed random-photo-first candidate pool and six-species Chapter-1 source manifest.",
+  "claim_ceiling": "This amendment repairs provenance only. It cannot alter H7 biological hypotheses, statistics, thresholds, species/cell targets, or claim ceiling."
+}
