@@ -6,8 +6,15 @@
   "geography_source": "the frozen G5 GBIF plant-occupancy frame",
   "reference_population": "all eligible plant-pair opportunities under the frozen occupancy/taxonomic/data-coverage gates before flower-colour inference",
   "thresholds": {
-    "similarity": "at or below the 25th percentile of an external turnover/distance score",
-    "separation": "at or above the 75th percentile of an external turnover/barrier score",
+    "similarity_turnover_axes": "at or below the 25th percentile of an external turnover/distance score",
+    "separation_turnover_axes": "at or above the 75th percentile of an external turnover/distance score",
+    "direct_barrier_axes": [
+      "marine_gap",
+      "major_river_crossing",
+      "biogeographic_boundary_crossing",
+      "mountain_boundary_crossing"
+    ],
+    "direct_barrier_zero_guard": "if the 75th percentile of a direct-barrier reference is zero, a zero-valued pair is never called separated; only strictly positive barrier intensity qualifies. If Q75 is positive, require value >= Q75.",
     "minimum_finite_reference_pairs_per_axis": 100,
     "constant_or_sparse_reference": "not_evaluable for that axis; never recoded as similar or separated"
   },
