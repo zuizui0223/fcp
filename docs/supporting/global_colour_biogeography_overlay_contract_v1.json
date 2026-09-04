@@ -4,18 +4,20 @@
   "date": "2026-09-04",
   "parent_branch": "analysis/global-monte-carlo-barrier-atlas",
   "purpose": "Separate discovery of recurrent flower-colour biogeographic zones from independent tests of pollinator, climate, topographic and geographic-barrier concordance.",
+  "distance_control_amendment": "docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json",
   "inferential_levels": {
     "edge_mechanism_alignment": {
       "requires_G1": false,
       "requires_postmeasurement_inferential_species_gate": true,
-      "question": "Within adequately replicated species, are larger colour discontinuities on fixed photo-graph edges associated with larger external ecological or geographic contrasts?",
+      "question": "Within adequately replicated species, are larger colour discontinuities on fixed photo-graph edges associated with larger external ecological or geographic contrasts beyond generic geographic separation?",
       "cannot_rescue_null_G1": true,
-      "statistic": "equal-species mean of within-species Spearman rho between colour-edge score and external-edge contrast",
+      "statistic": "equal-species mean within-species partial Spearman between colour-edge score and external-edge contrast after residualizing both ranked variables on ranked great-circle edge distance",
       "minimum_edges_per_species": 5,
       "minimum_evaluable_species": 30,
-      "null": "reuse the same 999 within-species colour permutations with geometry and external predictors fixed",
+      "null": "reuse the same 999 within-species colour permutations with geometry, geographic distance and external predictors fixed",
       "tail": "upper",
-      "multiplicity": "Holm across all evaluable predictors in the fixed primary family"
+      "multiplicity": "Holm across all evaluable predictors in the fixed primary family",
+      "ordinary_edge_spearman": "descriptive sensitivity only, never primary support"
     },
     "shared_zone_overlay": {
       "requires_G1": true,
@@ -33,23 +35,19 @@
     {
       "id": "pollinator_direct_interaction_turnover",
       "source": "Global Biotic Interactions stable versioned integrated data",
-      "role": "direct but potentially sparse pollination/flower-visitation evidence",
-      "edge_score": "Jensen-Shannon turnover in locally documented pollinator taxonomic/guild composition between edge endpoints after fixed spatial smoothing",
-      "high_value_means": "stronger direct pollinator-community turnover",
-      "coverage_failure": "not_evaluable; never replaced by a favourable subset",
+      "candidate_radii_km": [250, 500, 1000],
+      "automatic_radius_rule": "before colour inference choose the smallest candidate radius that makes at least 30 metadata-eligible species evaluable at at least 5 graph edges per species; if none passes, not_evaluable",
+      "edge_score": "Jensen-Shannon divergence between endpoint documented pollinator-interaction compositions after the frozen pollination/flower-visitation interaction-type mapping and additive pseudocount 0.5",
+      "high_value_means": "stronger direct documented pollinator-community turnover",
       "claim_ceiling": "alignment with documented pollinator interactions, not proof of pollinator-mediated selection"
     },
     {
       "id": "pollinator_occurrence_guild_turnover",
       "source": "GBIF occurrence data independent of the iNaturalist flower-photo sampling frame",
-      "role": "broad-coverage pollinator-landscape proxy",
-      "guilds": [
-        "bees/Anthophila",
-        "hoverflies/Syrphidae",
-        "Lepidoptera as a coarse flower-visitor proxy",
-        "flower-visiting bird proxy: Trochilidae + Nectariniidae + Meliphagidae"
-      ],
-      "edge_score": "Jensen-Shannon turnover in effort-standardized guild composition between edge endpoints",
+      "guilds": ["Anthophila", "Syrphidae", "Lepidoptera proxy", "Trochilidae+Nectariniidae+Meliphagidae flower-visiting-bird proxy"],
+      "candidate_radii_km": [100, 250, 500],
+      "automatic_radius_rule": "before colour inference choose the smallest candidate radius giving at least 20 retained target-pollinator occurrences at both endpoints for enough edges to make at least 80 percent of metadata-eligible inferential species evaluable at at least 5 edges per species; if none passes, not_evaluable",
+      "edge_score": "Jensen-Shannon divergence between endpoint four-guild relative occurrence compositions with additive pseudocount 0.5 per guild",
       "high_value_means": "stronger turnover in the broad pollinator occurrence proxy",
       "claim_ceiling": "pollinator-guild landscape concordance only; occurrence is not a plant-pollination interaction"
     },
@@ -57,45 +55,53 @@
       "id": "climate_multivariate_turnover",
       "source": "CHELSA v2.1",
       "fixed_axes": ["bio01 mean annual temperature", "bio04 temperature seasonality", "bio12 annual precipitation", "bio15 precipitation seasonality"],
-      "standardization": "z-score each axis on the terrestrial external grid before flower-colour outcomes are opened",
-      "edge_score": "Euclidean distance between endpoint climate vectors",
+      "standardization": "global terrestrial z-score for each axis on the frozen external grid",
+      "edge_score": "Euclidean distance between endpoint four-variable z-score vectors",
       "high_value_means": "stronger multivariate climatic turnover",
       "secondary_decomposition": "axis-specific contrasts only if the primary climate predictor is supported; Holm within the four-axis decomposition"
     },
     {
-      "id": "terrain_barrier_intensity",
+      "id": "terrain_multivariate_turnover",
       "source": "EarthEnv Global 1/5/10/50/100-km Topography",
       "fixed_inputs": ["elevation", "slope", "terrain roughness index", "vector ruggedness measure"],
       "primary_grain_km": 50,
-      "edge_score": "predeclared composite of endpoint topographic contrast and along-edge ruggedness, with all components standardized independently of colour",
-      "high_value_means": "stronger terrain discontinuity or rugged intervening terrain"
+      "standardization": "global terrestrial z-score for each input on the frozen external grid",
+      "edge_score": "equal-weight Euclidean distance between endpoint four-variable z-score vectors",
+      "high_value_means": "stronger multivariate topographic turnover"
     },
     {
       "id": "marine_gap_fraction",
-      "source": "fixed global land-water mask acquired before colour-field inference",
-      "edge_score": "fraction of sampled great-circle edge path lying over marine water",
-      "high_value_means": "stronger marine separation including island/strait gaps",
+      "source": "Natural Earth 1:10m Land v5.1.1",
+      "geodesic_sampling": "shortest great-circle path at intervals no greater than 10 km including endpoints; for edges shorter than 20 km use the midpoint as the interior sample",
+      "edge_score": "fraction of interior sampled path points outside the frozen land polygons",
+      "high_value_means": "larger intervening marine gap",
       "claim_ceiling": "geographic separation concordance; not proof of historical vicariance"
     },
     {
       "id": "major_river_crossing",
       "source": "HydroRIVERS/HydroSHEDS fixed release recorded at acquisition",
-      "edge_score": "fixed major-river crossing intensity along the great-circle edge; river-size threshold must be frozen from source attributes before colour outcomes",
-      "high_value_means": "stronger hydrographic barrier crossing"
+      "major_threshold": "ORD_FLOW <= 4",
+      "threshold_interpretation": "approximately long-term average discharge >=100 m3/s under published HydroRIVERS flow-order bins",
+      "edge_score": "1 if the shortest great-circle edge intersects at least one frozen HydroRIVERS reach satisfying ORD_FLOW <= 4, otherwise 0",
+      "high_value_means": "crossing at least one major river"
     },
     {
       "id": "biogeographic_boundary_crossing",
       "source": "RESOLVE Ecoregions 2017",
-      "fixed_levels": ["realm", "biome", "ecoregion"],
-      "edge_score": "hierarchically weighted count of fixed boundary levels crossed by the edge, with weights frozen before colour outcomes",
-      "high_value_means": "stronger crossing of established terrestrial biogeographic boundaries",
+      "fixed_levels": ["REALM", "BIOME_NUM", "ECO_ID"],
+      "geodesic_sampling": "shortest great-circle path at intervals no greater than 10 km including endpoints",
+      "transition_weights": {"realm": 3, "biome": 2, "ecoregion": 1},
+      "edge_score": "sum 3 for each adjacent sampled-point realm transition + 2 for each biome transition + 1 for each ecoregion transition",
+      "high_value_means": "crossing stronger or more numerous established terrestrial biogeographic boundaries",
       "claim_ceiling": "concordance with an existing biogeographic classification; these boundaries are not independent physical causes"
     },
     {
-      "id": "mountain_range_boundary_crossing",
+      "id": "mountain_system_boundary_crossing",
       "source": "GMBA Mountain Inventory v2",
-      "edge_score": "fixed hierarchical mountain-system boundary crossing intensity along the edge",
-      "high_value_means": "stronger crossing of mapped mountain-system boundaries"
+      "selection": "Standard - 300 selection of major non-overlapping mountain systems",
+      "geodesic_sampling": "shortest great-circle path at intervals no greater than 10 km including endpoints",
+      "edge_score": "count transitions in sampled-point GMBA Standard-300 mountain-system membership, treating non-mountain as its own state",
+      "high_value_means": "crossing more major mountain-system boundaries"
     }
   ],
   "external_source_rules": {
@@ -104,16 +110,17 @@
     "no_source_switch_after_observed_alignment": true,
     "no_predictor_direction_flip_after_observed_alignment": true,
     "all_predictors_or_components_high_value_direction": "stronger turnover/barrier",
-    "missing_external_coverage": "not_evaluable, never biological zero"
+    "missing_external_coverage": "not_evaluable, never biological zero",
+    "pollinator_radius_selection": "automatic coverage-only rule before colour inference; radius cannot change after colour"
   },
   "zone_extraction": {
     "requires_G1_and_G2": true,
     "primary_grid": "36x18 equal-area longitude x sin(latitude)",
     "per_resample_hotspot_definition": "top 10 percent of evaluable field cells within each of the 200 observed resamples",
-    "persistent_zone_seed": "cell belongs to the per-resample top decile in at least 60 percent of observed resamples",
+    "persistent_zone_seed": "cell belongs to the per-resample top decile in at least 60 percent of observed resamples and has at least 100 evaluable resamples",
     "connectivity": "8-neighbour grid connectivity with longitude wrap across the international date line",
     "minimum_zone_cells": 3,
-    "neutral_zone_names": "Z01, Z02, ... ordered by descending integrated colour-field intensity",
+    "neutral_zone_names": "Z01, Z02, ... ordered by descending opportunity-weighted integrated colour-field intensity",
     "sensitivity_only": ["top 5 percent", "top 15 percent"],
     "named_geographic_interpretation": "only after neutral zones are frozen"
   },
@@ -129,5 +136,5 @@
     "agreement_interpretation": "stronger ecological coherence",
     "disagreement_interpretation": "sampling/interaction specificity uncertainty, not automatic rejection of either layer"
   },
-  "claim_ceiling": "The strongest supported result is a stable recurrent flower-colour biogeographic zone whose colour discontinuities are statistically concordant with one or more independently frozen ecological/geographic contrast layers. This does not by itself establish causal adaptation, pollinator-mediated selection, or historical vicariance."
+  "claim_ceiling": "The strongest supported result is a stable recurrent flower-colour biogeographic zone whose colour discontinuities are statistically concordant with one or more independently frozen ecological/geographic contrast layers after explicit geographic-distance control at the edge-mechanism level. This does not by itself establish causal adaptation, pollinator-mediated selection, or historical vicariance."
 }
