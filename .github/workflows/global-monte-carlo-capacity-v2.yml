@@ -7,6 +7,7 @@ on:
     paths:
       - "docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json"
       - "data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv"
+      - "docs/supporting/global_monte_carlo_capacity_scan_v2_authorization_v1.json"
 
 permissions:
   contents: write
@@ -19,6 +20,8 @@ jobs:
       species_count: ${{ steps.check.outputs.species_count }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -26,12 +29,24 @@ jobs:
         name: Verify frozen V2-to-capacity gate
         run: |
           python - <<'PY'
-          import json, os
+          import json, os, subprocess
           import pandas as pd
           from pathlib import Path
-          v2 = json.loads(Path('docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json').read_text())
+          v2_path = Path('docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json')
+          auth_path = Path('docs/supporting/global_monte_carlo_capacity_scan_v2_authorization_v1.json')
+          v2 = json.loads(v2_path.read_text())
+          auth = json.loads(auth_path.read_text())
           ex = json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_v2_execution_contract.json').read_text())
           frame = pd.read_csv('data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv')
+          if auth.get('status') != 'authorize_exactly_one_complete_v2_capacity_scan_after_v2_success':
+              raise SystemExit('capacity scan is not explicitly authorized')
+          if auth.get('branch') != 'analysis/global-monte-carlo-barrier-atlas':
+              raise SystemExit('capacity authorization branch mismatch')
+          blob = subprocess.check_output(['git','rev-parse','HEAD:docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json'], text=True).strip()
+          if auth.get('v2_manifest_blob_sha') != blob:
+              raise SystemExit(f'V2 manifest lineage mismatch: {blob}')
+          if auth.get('flower_colour_may_open') is not False or auth.get('candidate_image_pixels_may_open') is not False:
+              raise SystemExit('capacity authorization unexpectedly opens colour/pixels')
           if v2.get('status') != 'complete_cache_resistant_metadata_only_global_species_discovery_v2':
               raise SystemExit('V2 discovery status does not authorize capacity scan')
           if v2.get('candidate_image_pixels_opened') is not False or v2.get('flower_colour_used') is not False:
@@ -41,11 +56,11 @@ jobs:
           if ex['execution']['deterministic_shards'] != 8 or ex['execution']['max_parallel'] != 1:
               raise SystemExit('capacity execution topology drifted')
           n = int(frame['inat_taxon_id'].nunique())
-          if n <= 0:
-              raise SystemExit('combined V2 species frame is empty')
+          if n <= 0 or n != int(auth.get('combined_species_count')):
+              raise SystemExit('combined V2 species count does not match authorization')
           with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
               fh.write(f'species_count={n}\n')
-          print({'capacity_gate': 'pass', 'species_count': n})
+          print({'capacity_gate': 'pass', 'species_count': n, 'v2_manifest_blob_sha': blob})
           PY
 
   shard:
