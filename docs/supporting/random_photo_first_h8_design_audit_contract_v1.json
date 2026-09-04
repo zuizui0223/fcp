@@ -1,0 +1,42 @@
+{
+  "protocol": "random-photo-first-h8-balanced-itv-replication-v1",
+  "status": "metadata_only_h8_design_audit_frozen_after_h7_ne_before_any_h8_query_or_pixel",
+  "purpose": "Use only H7 fresh metadata support, with no H7 image pixels or colour outcomes, to choose a feasible balanced species-by-cell sampling strength for a new H8 experiment.",
+  "source": {
+    "h7_terminal_status": "docs/H7_BALANCED_ITV_STATUS.md",
+    "h7_fresh_metadata_manifest": "docs/supporting/random_photo_first_h7_fresh_metadata_manifest_v1.json",
+    "h7_target_audit": "data/frozen/random_photo_first_h7_fresh_metadata_target_audit_v1.csv",
+    "required_h7_status": "h7_fresh_metadata_frozen_before_pixels",
+    "required_h7_decision": "not_evaluable_h7_fresh_metadata_support_before_pixels",
+    "required_h7_fresh_photos": 4942,
+    "h7_pixels_opened": false
+  },
+  "audit_matrix": {
+    "minimum_retained_fresh_metadata_per_cell": [10, 15, 20, 25, 30],
+    "minimum_qualifying_cells_per_species": [5, 6],
+    "minimum_species_required_for_h8": 35
+  },
+  "automatic_design_selection": {
+    "eligible_designs": "matrix cells with qualifying_species >= 35 and minimum_qualifying_cells_per_species >= 5",
+    "priority_1": "maximize minimum_retained_fresh_metadata_per_cell",
+    "priority_2": "maximize minimum_qualifying_cells_per_species",
+    "tie_break": "deterministic lexical order of numeric pair (per_cell_threshold, cells)",
+    "species_rule": "retain every species meeting the selected metadata support rule; do not select using H6/H6b effects or flower colour",
+    "target_cell_rule": "for each retained species, select exactly five H7 target cells with highest H7 retained fresh metadata count; ties use lower cell_id",
+    "minimum_h8_cells_per_species": 5,
+    "h8_measurement_gate": "after H8 fresh measurement, a species is evaluable only if all five fixed H8 target cells have at least 10 classifiable photos"
+  },
+  "freshness_for_future_h8": {
+    "must_exclude_h7_observation_and_photo_ids": true,
+    "must_also_retain_all_h7_prior_exclusions": true,
+    "no_h7_record_can_be_h8_input": true
+  },
+  "outcome_firewall": {
+    "h7_colour_columns_may_be_read": false,
+    "h7_measured_table_may_be_read": false,
+    "h6_h6b_species_effects_may_be_read": false,
+    "h8_api_query_may_open_during_this_audit": false,
+    "h8_pixels_may_open_during_this_audit": false
+  },
+  "claim_ceiling": "This audit can choose only a metadata-feasible H8 sampling design. It is not a biological result and cannot rescue H7 or any prior H1-H6 inference."
+}
