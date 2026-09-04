@@ -1,0 +1,99 @@
+name: Random photo-first H9 prequery freeze
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-h9-individual-distance-replication
+    paths:
+      - "docs/supporting/random_photo_first_h9_individual_distance_contract_v1.json"
+      - "scripts/analysis/freeze_random_photo_first_h9_exclusions.py"
+      - ".github/workflows/random-photo-first-h9-prequery-freeze.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: random-photo-first-h9-prequery-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Validate frozen H9 experiment contract
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          c = json.loads(Path('docs/supporting/random_photo_first_h9_individual_distance_contract_v1.json').read_text())
+          f = json.loads(Path('docs/supporting/random_photo_first_h9_metadata_feasibility_result_v1.json').read_text())
+          s = pd.read_csv('data/frozen/random_photo_first_h9_metadata_species_v1.csv')
+          assert c['status'] == 'prospective_h9_frozen_after_metadata_feasibility_before_any_h9_query_or_pixel'
+          assert f['automatic_selection']['h9_metadata_feasible'] is True
+          assert f['automatic_selection']['selected_species'] == 38
+          assert len(s) == 38 and s['inat_taxon_id'].is_unique
+          assert c['fresh_metadata_acquisition']['request_retries'] == 0
+          assert c['fresh_metadata_acquisition']['fixed_raw_photos_per_species'] == 60
+          assert c['analysis']['photos_per_evaluable_species'] == 20
+          assert c['analysis']['permutations'] == 999
+          print('h9_contract_prequery=pass')
+          PY
+
+      - name: Freeze H9 prior-ID exclusion ledger
+        run: python scripts/analysis/freeze_random_photo_first_h9_exclusions.py
+
+      - name: Validate unopened H9 firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          e = json.loads(Path('docs/supporting/random_photo_first_h9_exclusion_manifest_v1.json').read_text())
+          assert e['unique_exclusion_observation_ids'] == 86745
+          assert e['unique_exclusion_photo_ids'] == 86745
+          assert e['h9_api_queries_opened'] is False
+          assert e['h9_pixels_opened'] is False
+          print(json.dumps(e, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h9-prequery-freeze-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv
+            docs/supporting/random_photo_first_h9_exclusion_manifest_v1.json
+
+      - name: Commit H9 prequery freeze if changed
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv \
+                  docs/supporting/random_photo_first_h9_exclusion_manifest_v1.json
+          if git diff --cached --quiet; then
+            echo "h9_prequery_outputs_already_identical=true"
+            exit 0
+          fi
+          git commit -m "Freeze H9 prior-ID exclusions"
+          git fetch origin analysis/random-photo-first-h9-individual-distance-replication
+          git rebase origin/analysis/random-photo-first-h9-individual-distance-replication
+          git push origin HEAD:analysis/random-photo-first-h9-individual-distance-replication
