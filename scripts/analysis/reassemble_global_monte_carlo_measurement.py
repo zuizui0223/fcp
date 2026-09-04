@@ -96,6 +96,8 @@ def main() -> int:
             receipt = json.loads(path.read_text(encoding="utf-8"))
             if receipt.get("status") != "complete_random_photo_first_terminal_partition":
                 raise RuntimeError(f"unexpected terminal receipt status for {key}")
+            if int(receipt.get("semantic_shard", -1)) != key[1] or int(receipt.get("compute_partition", -1)) != key[2]:
+                raise RuntimeError(f"terminal receipt identity does not match filename for {key}")
             if receipt.get("source_urls_present") is not False or receipt.get("species_present") is not False or receipt.get("coordinates_present") is not False:
                 raise RuntimeError(f"terminal receipt leaked metadata for {key}")
             receipt_rows += int(receipt.get("terminal_rows") or 0)
