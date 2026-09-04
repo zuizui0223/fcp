@@ -1,0 +1,52 @@
+{
+  "protocol": "random-photo-first-h7-metadata-feasibility-v1",
+  "status": "pre_h7_metadata_only_audit_frozen_before_any_fresh_h7_query_or_pixel",
+  "purpose": "Test whether the colour-blind metadata frame from the completed random photo-first experiment contains enough geographically replicated species to support a new independent balanced within-species follow-up.",
+  "source": {
+    "candidate_pool": "data/frozen/random_photo_first_candidate_pool_v1.csv",
+    "candidate_manifest": "docs/supporting/random_photo_first_candidate_pool_manifest_v1.json",
+    "required_candidate_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d"
+  },
+  "outcome_firewall": {
+    "allowed_inputs": [
+      "species",
+      "inat_taxon_id",
+      "cell_id",
+      "observation_id",
+      "photo_id",
+      "observer_id",
+      "latitude",
+      "longitude"
+    ],
+    "forbidden_inputs": [
+      "measured colour",
+      "morph",
+      "palette fractions",
+      "H1-H6 species effects",
+      "H6b species effects",
+      "climate",
+      "pollinator data"
+    ],
+    "fresh_h7_api_queries_opened": false,
+    "fresh_h7_image_pixels_opened": false
+  },
+  "audit_matrix": {
+    "minimum_old_metadata_records_per_species_cell": [1, 2, 3],
+    "minimum_qualifying_cells_per_species": [5, 6, 8, 10]
+  },
+  "prospective_design_target_to_assess": {
+    "target_species": 60,
+    "fresh_target_cells_per_species": 6,
+    "fresh_api_return_cap_per_species_cell": 50,
+    "fresh_retained_metadata_photos_per_species_cell": 30,
+    "observer_cap_per_species_cell": 2,
+    "post_measurement_minimum_classifiable_photos_per_cell": 10,
+    "post_measurement_minimum_cells_per_species": 5,
+    "minimum_evaluable_species_for_h7": 30
+  },
+  "audit_outputs": {
+    "summary": "docs/supporting/random_photo_first_h7_metadata_feasibility_result_v1.json",
+    "species_metadata_table": "data/derived/random_photo_first_h7_metadata_feasibility_species_v1.csv"
+  },
+  "claim_ceiling": "This audit can establish only metadata feasibility for a future H7. It cannot select species using flower-colour outcomes and cannot provide a biological result."
+}
