@@ -1,0 +1,14 @@
+{
+  "protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "status": "authorize_exactly_one_h9_fresh_metadata_query_run",
+  "authorized_after": {
+    "metadata_feasibility": "complete_h9_metadata_only_feasibility_audit",
+    "prequery_exclusion_freeze": "h9_prior_id_exclusion_frozen_before_h9_query",
+    "acquisition_validation_workflow": 33839907783
+  },
+  "queries": 38,
+  "request_retries": 0,
+  "replacement_or_redraw_permitted": false,
+  "image_pixels_permitted_during_query": false,
+  "note": "This authorization opens only the frozen H9 metadata draw. It does not authorize image download or flower-colour measurement unless the frozen premeasurement gate subsequently passes."
+}
