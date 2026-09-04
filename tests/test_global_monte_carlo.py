@@ -48,6 +48,20 @@ def test_same_seed_is_reproducible_and_new_seed_changes_schedule():
     assert len(draw_labels(first, 0)) == 20
 
 
+def test_forty_photo_pool_is_reused_evenly_across_two_hundred_twenty_photo_draws():
+    photos = [f"photo_{i:02d}" for i in range(40)]
+    schedule = balanced_random_schedule(
+        photos,
+        n_replicates=200,
+        items_per_replicate=20,
+        seed=20260905,
+    )
+    # 200 * 20 / 40 = exactly 100 appearances per photo.
+    assert np.all(schedule.inclusion_counts == 100)
+    assert schedule.max_inclusion_imbalance == 0
+    assert all(len(set(row.tolist())) == 20 for row in schedule.draws)
+
+
 def test_schedule_refuses_duplicate_items_or_oversized_draw():
     with pytest.raises(ValueError):
         balanced_random_schedule(["a", "a"], n_replicates=2, items_per_replicate=1, seed=1)
