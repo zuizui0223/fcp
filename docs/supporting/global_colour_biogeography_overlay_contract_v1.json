@@ -3,7 +3,7 @@
   "status": "prospective_overlay_design_frozen_during_metadata_only_species_discovery_before_any_global_monte_carlo_colour_field",
   "date": "2026-09-04",
   "parent_branch": "analysis/global-monte-carlo-barrier-atlas",
-  "purpose": "Separate discovery of recurrent flower-colour biogeographic zones from independent tests of pollinator, climate, topographic and geographic-barrier concordance.",
+  "purpose": "Separate discovery of recurrent flower-colour biogeographic zones from independent tests of pollinator, climate, edaphic, topographic and geographic-barrier concordance.",
   "distance_control_amendment": "docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json",
   "inferential_levels": {
     "edge_mechanism_alignment": {
@@ -59,6 +59,17 @@
       "edge_score": "Euclidean distance between endpoint four-variable z-score vectors",
       "high_value_means": "stronger multivariate climatic turnover",
       "secondary_decomposition": "axis-specific contrasts only if the primary climate predictor is supported; Holm within the four-axis decomposition"
+    },
+    {
+      "id": "edaphic_multivariate_turnover",
+      "source": "SoilGrids 2.0 250-m median predictions",
+      "fixed_axes": ["phh2o", "clay", "soc", "cec"],
+      "fixed_depth": "thickness-weighted 0-30 cm mean from 0-5, 5-15 and 15-30 cm layers",
+      "standardization": "global terrestrial z-score for each axis on the frozen soil mask",
+      "edge_score": "Euclidean distance between endpoint four-variable z-score vectors",
+      "high_value_means": "stronger multivariate edaphic turnover",
+      "secondary_decomposition": "axis-specific contrasts only if the primary edaphic predictor is supported; Holm within the four-axis decomposition",
+      "claim_ceiling": "edaphic concordance, not proof of soil adaptation or anthocyanin stress benefit"
     },
     {
       "id": "terrain_multivariate_turnover",
@@ -127,7 +138,7 @@
   "zone_annotation": {
     "factor_label_requires_global_predictor_support": true,
     "zone_factor_intensity_requirement": "zone opportunity-weighted predictor mean at or above the 75th percentile of that predictor over evaluable cells",
-    "allowed_labels": ["pollinator-associated", "climate-associated", "terrain-associated", "marine-associated", "river-associated", "biogeographic-boundary-associated", "mountain-boundary-associated"],
+    "allowed_labels": ["pollinator-associated", "climate-associated", "edaphic-associated", "terrain-associated", "marine-associated", "river-associated", "biogeographic-boundary-associated", "mountain-boundary-associated"],
     "multiple_labels_allowed": true,
     "causal_language_forbidden": true
   },
@@ -136,5 +147,5 @@
     "agreement_interpretation": "stronger ecological coherence",
     "disagreement_interpretation": "sampling/interaction specificity uncertainty, not automatic rejection of either layer"
   },
-  "claim_ceiling": "The strongest supported result is a stable recurrent flower-colour biogeographic zone whose colour discontinuities are statistically concordant with one or more independently frozen ecological/geographic contrast layers after explicit geographic-distance control at the edge-mechanism level. This does not by itself establish causal adaptation, pollinator-mediated selection, or historical vicariance."
+  "claim_ceiling": "The strongest supported result is a stable recurrent flower-colour biogeographic zone whose colour discontinuities are statistically concordant with one or more independently frozen ecological/geographic contrast layers after explicit geographic-distance control at the edge-mechanism level. This does not by itself establish causal adaptation, pollinator-mediated selection, edaphic adaptation or historical vicariance."
 }
