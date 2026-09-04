@@ -7,6 +7,7 @@ on:
     paths:
       - "fcp_pipeline/global_monte_carlo.py"
       - "fcp_pipeline/global_repeated_atlas.py"
+      - "fcp_pipeline/global_rgfca_engine.py"
       - "fcp_pipeline/global_barrier_field.py"
       - "fcp_pipeline/global_overlay_alignment.py"
       - "fcp_pipeline/global_edge_mechanism_v2.py"
@@ -17,6 +18,7 @@ on:
       - "scripts/acquisition/run_global_monte_carlo_capacity_scan.py"
       - "tests/test_global_monte_carlo.py"
       - "tests/test_global_repeated_atlas.py"
+      - "tests/test_global_rgfca_engine.py"
       - "tests/test_global_barrier_field.py"
       - "tests/test_global_barrier_node_null.py"
       - "tests/test_global_overlay_alignment.py"
@@ -62,6 +64,7 @@ jobs:
           python -m py_compile scripts/acquisition/freeze_global_monte_carlo_species_discovery.py
           python -m py_compile scripts/acquisition/run_global_monte_carlo_capacity_scan.py
           python -m py_compile fcp_pipeline/global_repeated_atlas.py
+          python -m py_compile fcp_pipeline/global_rgfca_engine.py
           python -m py_compile fcp_pipeline/global_barrier_field.py
           python -m py_compile fcp_pipeline/global_overlay_alignment.py
           python -m py_compile fcp_pipeline/global_edge_mechanism_v2.py
@@ -73,6 +76,7 @@ jobs:
           pytest -q \
             tests/test_global_monte_carlo.py \
             tests/test_global_repeated_atlas.py \
+            tests/test_global_rgfca_engine.py \
             tests/test_global_barrier_field.py \
             tests/test_global_barrier_node_null.py \
             tests/test_global_overlay_alignment.py \
