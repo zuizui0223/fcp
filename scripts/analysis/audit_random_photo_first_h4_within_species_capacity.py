@@ -68,8 +68,10 @@ def main() -> int:
         raise RuntimeError("measurement denominator drifted")
 
     classifiable = photos.loc[photos["morph"].astype(str).isin(BIOLOGICAL_MORPHS)].copy()
-    if len(classifiable) != int(measurement["classification_counts"]["classifiable"]):
+    if len(classifiable) != int(measurement["classified_rows"]):
         raise RuntimeError("classifiable denominator drifted from measurement manifest")
+    if len(classifiable) != int(measurement["terminal_status_counts"]["classified_four_state_morph"]):
+        raise RuntimeError("classified_rows disagrees with terminal status counts")
 
     grid = EqualAreaGrid(n_lon=18, n_sinlat=9)
     classifiable = prepare_photo_grid(classifiable, grid=grid)
