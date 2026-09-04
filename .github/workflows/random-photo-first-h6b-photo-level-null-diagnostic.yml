@@ -94,6 +94,10 @@ jobs:
           git add docs/supporting/random_photo_first_h6b_photo_level_null_diagnostic_result_v1.json \
                   data/derived/random_photo_first_h6b_target_species_v1.csv \
                   data/derived/random_photo_first_h6b_photo_level_null_v1.csv
+          if git diff --cached --quiet; then
+            echo "h6b_outputs_already_committed=true"
+            exit 0
+          fi
           git commit -m "Run random photo-first H6b null diagnostic"
           git fetch origin analysis/random-photo-first-inference-execution
           git rebase origin/analysis/random-photo-first-inference-execution
