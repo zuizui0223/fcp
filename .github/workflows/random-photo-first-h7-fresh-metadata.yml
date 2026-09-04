@@ -1,0 +1,110 @@
+name: Random photo-first H7 fresh metadata freeze
+
+on:
+  push:
+    branches:
+      - analysis/random-photo-first-h7-balanced-itv
+    paths:
+      - "docs/supporting/random_photo_first_h7_fresh_query_authorization_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: random-photo-first-h7-fresh-metadata-one-shot
+  cancel-in-progress: false
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install acquisition runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Validate one-shot authorization and unopened outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a = json.loads(Path('docs/supporting/random_photo_first_h7_fresh_query_authorization_v1.json').read_text())
+          t = json.loads(Path('docs/supporting/random_photo_first_h7_target_manifest_v1.json').read_text())
+          e = json.loads(Path('docs/supporting/random_photo_first_h7_exclusion_manifest_v1.json').read_text())
+          assert a['status'] == 'authorized_once_after_prequery_freeze_and_acquisition_ci'
+          assert a['prequery_freeze_run_id'] == 33838303325
+          assert a['acquisition_validation_run_id'] == 33838542858
+          assert a['expected_query_attempts'] == 312
+          assert a['query_retries'] == 0
+          assert t['species_cell_targets'] == 312
+          assert e['source_rows']['pr21_terminal_60000'] == 60000
+          outputs = [
+              Path('data/frozen/random_photo_first_h7_fresh_metadata_v1.csv'),
+              Path('data/frozen/random_photo_first_h7_fresh_metadata_target_audit_v1.csv'),
+              Path('data/frozen/random_photo_first_h7_fresh_metadata_species_support_v1.csv'),
+              Path('docs/supporting/random_photo_first_h7_fresh_metadata_manifest_v1.json'),
+          ]
+          assert not any(p.exists() for p in outputs), 'one-shot output already exists; refusing fresh query rerun'
+          print('h7_fresh_query_authorization=pass')
+          PY
+
+      - name: Execute exactly 312 one-attempt fresh metadata queries
+        run: python scripts/acquisition/freeze_random_photo_first_h7_fresh_metadata.py
+
+      - name: Validate frozen metadata and premeasurement gate
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          m = json.loads(Path('docs/supporting/random_photo_first_h7_fresh_metadata_manifest_v1.json').read_text())
+          audit = pd.read_csv('data/frozen/random_photo_first_h7_fresh_metadata_target_audit_v1.csv')
+          support = pd.read_csv('data/frozen/random_photo_first_h7_fresh_metadata_species_support_v1.csv')
+          assert m['status'] == 'h7_fresh_metadata_frozen_before_pixels'
+          assert m['query_opened_once'] is True
+          assert m['query_attempts'] == 312
+          assert m['query_retries'] == 0
+          assert len(audit) == 312
+          assert support['inat_taxon_id'].nunique() == 52
+          assert m['freshness_firewall']['prior_observations_retained'] == 0
+          assert m['freshness_firewall']['prior_photos_retained'] == 0
+          assert m['candidate_image_pixels_opened'] is False
+          assert m['colour_used_for_selection'] is False
+          print(json.dumps(m, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h7-fresh-metadata-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/frozen/random_photo_first_h7_fresh_metadata_v1.csv
+            data/frozen/random_photo_first_h7_fresh_metadata_target_audit_v1.csv
+            data/frozen/random_photo_first_h7_fresh_metadata_species_support_v1.csv
+            docs/supporting/random_photo_first_h7_fresh_metadata_manifest_v1.json
+
+      - name: Commit the one-shot metadata freeze
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/frozen/random_photo_first_h7_fresh_metadata_v1.csv \
+                  data/frozen/random_photo_first_h7_fresh_metadata_target_audit_v1.csv \
+                  data/frozen/random_photo_first_h7_fresh_metadata_species_support_v1.csv \
+                  docs/supporting/random_photo_first_h7_fresh_metadata_manifest_v1.json
+          git commit -m "Freeze one-shot H7 fresh metadata"
+          git fetch origin analysis/random-photo-first-h7-balanced-itv
+          git rebase origin/analysis/random-photo-first-h7-balanced-itv
+          git push origin HEAD:analysis/random-photo-first-h7-balanced-itv
