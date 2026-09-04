@@ -1,0 +1,33 @@
+{
+  "protocol": "random-photo-first-h9-measurement-execution-v1",
+  "status": "complete_h9_location_blind_measurement_and_join",
+  "frozen_candidate_rows": 2280,
+  "frozen_species": 38,
+  "partition_receipts": 128,
+  "terminal_result_rows": 2280,
+  "joined_rows": 2280,
+  "classifiable_rows": 1244,
+  "mixed_uncertain_rows": 1036,
+  "coordinate_colour_join_opened_after_complete_measurement": true,
+  "postmeasurement_gate": {
+    "minimum_classifiable_photos_per_species": 20,
+    "evaluable_species": 34,
+    "required_species": 25,
+    "pass": true,
+    "decision": "authorize_frozen_h9_individual_distance_inference"
+  },
+  "measurement_infrastructure_source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+  "prior_experiment_rows_used": false,
+  "h9_spatial_inference_run": false,
+  "lineage": {
+    "fresh_metadata_observations_sha256": "111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f",
+    "firewall_fresh_metadata_sha256": "111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f",
+    "execution_contract_sha256": "699fbe5ccae182eeabb443a362e4b9eb14cc64af6b8341479f6d0fe248eab16d",
+    "measured_table_sha256": "83a02493b5946dbb90381512fcca7d7e64380d7e53a39a7f4986e9d927e2c937",
+    "species_support_sha256": "671cdbde5def93acbfb12543bb11072e1d65aa7956e4dd4ce73fb8a227ad22d5"
+  },
+  "files": {
+    "measured_table": "data/derived/random_photo_first_h9_measured_photos_v1.csv",
+    "species_support": "data/derived/random_photo_first_h9_measurement_species_support_v1.csv"
+  }
+}
