@@ -1,0 +1,24 @@
+{
+  "protocol": "rgfca-platform-effort-negative-control-v1",
+  "status": "complete_metadata_only_platform_effort_surface",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "cells": 162,
+  "request_attempts": 162,
+  "request_errors": 0,
+  "request_error_fraction": 0.0,
+  "all_taxa_total_records": 154803786,
+  "all_taxa_zero_cells": 4,
+  "all_taxa_gini_across_equal_area_cells": 0.8710772248725362,
+  "all_taxa_maximum_cell_share": 0.13593163671074557,
+  "spearman_log_platform_vs_log_target_group_availability": 0.9843678407489795,
+  "interpretation": "All-taxa record density is a platform-wide activity proxy, not a pure observer-effort probability. It is frozen as a negative-control covariate before any RGFCA global flower-colour field.",
+  "lineage": {
+    "contract_sha256": "d2084ba4a2109999ca3e02f14997d794a12ec5b2e8892393bd9c5d5b8d694f34",
+    "target_group_surface_sha256": "16a26b373157d92770b3d24a109efdd73062c684592e9c6cd7e0d0c320562707",
+    "cell_surface_sha256": "34261a9c3f9a1f4ac82226a260ec6f46a94c3e84b63c388f1f40fe2c3525f955"
+  },
+  "files": {
+    "cell_surface": "data/frozen/global_monte_carlo_platform_effort_cells_v1.csv"
+  }
+}
