@@ -1,0 +1,89 @@
+{
+  "protocol": "random-photo-first-h9-measurement-execution-v1",
+  "status": "prospectively_frozen_after_h9_metadata_gate_before_any_h9_image_pixel",
+  "parent_h9_protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "pixel_gate": {
+    "fresh_metadata_manifest": "docs/supporting/random_photo_first_h9_fresh_metadata_manifest_v1.json",
+    "required_status": "h9_fresh_metadata_frozen_before_pixels",
+    "required_decision": "authorize_h9_location_blind_measurement",
+    "required_gate_pass": true,
+    "required_rows": 2280,
+    "required_observations_sha256": "111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f",
+    "required_full_species": 38,
+    "previous_experiment_rows_permitted": false
+  },
+  "validated_measurement_infrastructure": {
+    "source_repository": "zuizui0223/fcp",
+    "source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "source_role": "reuse executable ROI-v4, fixed palette firewall, blind acquisition and terminal sealing infrastructure only; do not import earlier measured rows or outcomes",
+    "photo_first_measurement_git_blob_sha": "b2761c7fd2f8af615c1d96a615942e7af67d492a",
+    "flower_roi_v4_git_blob_sha": "9d1d2a1848f0c798b53c4df51543dc2682342377",
+    "flower_roi_v4_runtime_git_blob_sha": "6f3e71f7216b1635a2e06628336f5ea9ce0105d6",
+    "roi_contract_git_blob_sha": "b043bc83d0d69489f38771e8f4bbe524963b70ea",
+    "roi_locked_result_git_blob_sha": "b25425f1f738bcea75cef5f60980332a9857610b",
+    "detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_revision": "d525f622e6f640acf5a0fc37c7ca1f243da5bde0",
+    "efficient_sam_encoder_sha256": "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951",
+    "efficient_sam_decoder_sha256": "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11",
+    "old_measurement_contract_git_blob_sha": "27b5933025d33d5e91e957fdf892b7409c605ef2",
+    "old_execution_contract_git_blob_sha": "9ac42ddd6175d971a076961ff18a96bcf1355a5b"
+  },
+  "blinding": {
+    "measurement_id_salt": "fcp-random-photo-first-v1-coordinate-firewall",
+    "worker_allowed_fields": ["measurement_id", "image_filename", "photo_license"],
+    "worker_forbidden_context": ["species", "inat_taxon_id", "observation_id", "photo_id", "source_url", "latitude", "longitude", "observer", "observed_on", "climate", "pollinator"],
+    "source_url_material_deleted_before_measurement": true,
+    "coordinate_colour_join_before_complete_measurement": false
+  },
+  "partitioning": {
+    "semantic_shards": 32,
+    "compute_partitions_per_semantic_shard": 4,
+    "total_compute_partitions": 128,
+    "maximum_concurrent_compute_partitions": 8,
+    "all_partitions_required": true,
+    "empty_partition_permitted": true,
+    "early_stopping": false
+  },
+  "runtime": {
+    "python": "3.11",
+    "torch": "2.11.0+cpu",
+    "torchvision": "0.26.0+cpu",
+    "ultralytics": "8.4.112",
+    "onnxruntime": "1.23.2",
+    "scikit_image": "0.25.2",
+    "torch_threads_per_worker": 2
+  },
+  "measurement": {
+    "roi_required_status": "automated_colour_state_admitted",
+    "roi_failure_maps_to": "mixed_uncertain",
+    "fixed_palette_git_blob_sha": "b2761c7fd2f8af615c1d96a615942e7af67d492a",
+    "minimum_flower_mask_pixels": 100,
+    "minimum_dominant_fraction": 0.5,
+    "minimum_margin_over_second_group": 0.1,
+    "all_2280_rows_reach_exactly_one_terminal_result": true,
+    "replacement_after_download_or_measurement_failure": false,
+    "persist_image_pixels": false,
+    "persist_flower_masks": false
+  },
+  "reassembly": {
+    "requires_all_128_partition_receipts": true,
+    "terminal_measurement_ids_must_equal_frozen_2280_measurement_ids": true,
+    "duplicate_measurement_ids_permitted": false,
+    "metadata_join_opens_only_after_complete_terminal_coverage": true,
+    "joined_output": "data/derived/random_photo_first_h9_measured_photos_v1.csv",
+    "result_manifest": "docs/supporting/random_photo_first_h9_measurement_result_v1.json"
+  },
+  "postmeasurement_gate": {
+    "minimum_classifiable_photos_per_species": 20,
+    "minimum_evaluable_species": 25,
+    "if_pass": "authorize_frozen_h9_individual_distance_inference",
+    "if_fail": "not_evaluable_h9_measurement_support_before_spatial_inference"
+  },
+  "outcome_firewall": {
+    "h9_pixels_opened_at_freeze": false,
+    "h9_colour_measured_at_freeze": false,
+    "coordinate_colour_joined_at_freeze": false,
+    "h9_spatial_inference_run_at_freeze": false
+  },
+  "claim_ceiling": "technical location-blind measurement and measurement-support gate only; no H9 spatial biological result"
+}
