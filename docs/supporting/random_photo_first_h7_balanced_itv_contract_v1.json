@@ -1,0 +1,108 @@
+{
+  "protocol": "random-photo-first-h7-balanced-itv-v1",
+  "status": "prospective_h7_frozen_after_metadata_feasibility_before_any_fresh_h7_query_or_pixel",
+  "introduced_after": "H6b sparse-frame diagnostic",
+  "question": "Across species that are prospectively balanced for within-cell replication, does flower-colour composition diverge with geographic separation within species?",
+  "claim_role": "new prospective follow-up; cannot rescue or rewrite H1-H6b",
+  "species_discovery": {
+    "source_pool": "data/frozen/random_photo_first_candidate_pool_v1.csv",
+    "required_source_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+    "source_was_frozen_before_colour": true,
+    "rule": "species must have at least 2 metadata-only candidate observations in each of at least 6 frozen 18x9 H1 cells",
+    "expected_species": 52,
+    "select_all_qualifying_species": true,
+    "colour_outcomes_used_for_species_selection": false,
+    "h6_or_h6b_effects_used_for_species_selection": false
+  },
+  "target_cells": {
+    "grid": {"n_lon": 18, "n_sinlat": 9},
+    "cells_per_species": 6,
+    "eligible_cells": "only species cells with at least 2 observations in the old metadata-only discovery pool",
+    "selection": "deterministic maximin spread on H1 cell centroids: first choose the cell with greatest mean distance to all eligible cells, then repeatedly choose the cell maximizing minimum distance to already selected cells; ties use lower cell_id",
+    "target_freeze_before_fresh_query": true
+  },
+  "freshness_firewall": {
+    "exclude_prior_random_photo_first_pool": "data/frozen/random_photo_first_candidate_pool_v1.csv",
+    "exclude_six_species_ch1_manifest": "data/frozen/jbi_ch1_photo_source_manifest.csv",
+    "exclude_pr21_terminal_manifest": {
+      "repository": "zuizui0223/fcp",
+      "commit": "f7003e57c82fec3023de93b9724166cf8b279877",
+      "path": "data/atlas/jbi_image_first_atlas_observation_manifest_v1.csv",
+      "git_blob_sha": "e019cb41abd37bbea19fe426a09b016056aaa7ea",
+      "expected_rows": 60000
+    },
+    "exclusion_key": ["observation_id", "photo_id"],
+    "no_excluded_record_may_enter_h7": true
+  },
+  "fresh_metadata_acquisition": {
+    "source": "iNaturalist API v1 observations",
+    "target_queries": "one query for each frozen species x target cell",
+    "expected_queries": 312,
+    "quality_grade": "research",
+    "flowering_annotation": {"term_id": 12, "term_value_id": 13},
+    "rank": "species",
+    "photos": true,
+    "geo": true,
+    "obscuration": "none",
+    "maximum_positional_accuracy_m": 5000,
+    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"],
+    "order_by": "random",
+    "page": 1,
+    "per_page": 50,
+    "exact_target_taxon_id_required_locally": true,
+    "observer_cap_per_species_cell": 2,
+    "retained_photo_cap_per_species_cell": 30,
+    "retention_tie_break": "stable SHA256 of protocol seed, species taxon id, cell id and observation id",
+    "retention_seed": 20260909,
+    "no_content_based_requery": true,
+    "no_replacement_or_backfill_after_returned_metadata_is_seen": true
+  },
+  "premeasurement_gate": {
+    "required_species": 35,
+    "per_species_requirement": "at least 5 of 6 target cells retain exactly 30 fresh candidate photos after exclusions and observer cap",
+    "if_false": "not_evaluable_h7_fresh_metadata_support_before_pixels",
+    "pixels_must_remain_unopened_if_false": true
+  },
+  "measurement": {
+    "reuse_validated_algorithm_only": true,
+    "method": "location-blind ROI-v4 flower localization plus the fixed species-independent sRGB-to-CIELAB reference palette used by the completed random photo-first atlas",
+    "biological_states": ["white", "yellow_orange", "red_pink", "blue_purple"],
+    "mixed_uncertain": "structural measurement missingness, never a biological fifth state",
+    "no_photo_replacement_after_measurement_failure": true,
+    "worker_blinding": ["species", "taxon_id", "cell_id", "latitude", "longitude", "climate", "pollinator context"]
+  },
+  "final_evaluability": {
+    "minimum_classifiable_photos_per_species_cell": 10,
+    "minimum_evaluable_cells_per_species": 5,
+    "minimum_evaluable_species": 30,
+    "monomorphic_or_zero_colour_distance_species": "retain and define species-level rho as 0 rather than exclude",
+    "reason": "Do not condition inclusion on observed colour variation."
+  },
+  "primary_statistic": {
+    "cell_colour": "mean soft four-state colour composition within each species x target cell",
+    "pairwise_colour_distance": "Jensen-Shannon divergence in bits",
+    "pairwise_geographic_distance": "great-circle distance between frozen H1 cell centroids",
+    "species_level": "Spearman rho between pairwise geographic distance and pairwise colour JSD; predeclare rho=0 when colour JSD has zero variance",
+    "global_equal_species": "mean species-level rho",
+    "global_information_weighted": "mean species-level rho weighted by number of evaluable cell pairs",
+    "directional_hypothesis": "positive"
+  },
+  "null": {
+    "permutations": 999,
+    "seed": 20260910,
+    "operation": "within each species, permute individual classifiable photo soft four-state colour vectors across its retained photo rows while keeping target-cell assignments and exact classifiable photo counts per cell fixed; recompute cell compositions, pairwise JSD, species rhos and both global statistics",
+    "tail": "upper",
+    "preserves": ["species identity", "target geography", "exact classifiable photo count per species x cell", "species-level measured colour distribution"]
+  },
+  "decision_rule": {
+    "support_requires_all": [
+      "at least 30 evaluable species",
+      "observed equal-species mean rho > 0 with one-sided permutation p < 0.05",
+      "observed pair-count-weighted mean rho > 0 with one-sided permutation p < 0.05"
+    ],
+    "otherwise": "no_support_general_balanced_within_species_spatial_colour_structure",
+    "conjunctive_gate": true,
+    "no_threshold_or_weighting_rescue": true
+  },
+  "claim_ceiling": "A supported H7 would show that, in an independently resampled and prospectively balanced multi-species frame, flower-colour composition tends to diverge with geographic separation within species. It would not show a shared global boundary, identify a climate or pollinator driver, or establish adaptation, selection or pigment mechanism."
+}
