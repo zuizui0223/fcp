@@ -1,4 +1,5 @@
 name: Random photo-first H6b photo-level null diagnostic
+# Registration-only retrigger; H6b contract, statistic, null, seed, and decision rule are unchanged.
 
 on:
   workflow_dispatch:
