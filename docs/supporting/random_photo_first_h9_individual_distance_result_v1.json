@@ -1,0 +1,42 @@
+{
+  "protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "status": "complete_h9_individual_distance_inference",
+  "measurement_gate_passed": true,
+  "raw_species": 38,
+  "evaluable_species": 34,
+  "analysis_photos_per_species": 20,
+  "analysis_photos": 680,
+  "photo_pairs_per_species": 190,
+  "permutations": 999,
+  "analysis_seed": 20260909,
+  "permutation_seed": 20260910,
+  "primary": {
+    "observed_equal_species_mean_spearman_rho": -0.008714993157855507,
+    "observed_median_species_spearman_rho": -0.024761729804441295,
+    "positive_species_fraction": 0.38235294117647056,
+    "p_upper": 0.711,
+    "null_mean": 0.00029664479103827003,
+    "null_median": 0.00047036452827143893,
+    "null_q025": -0.03378141412414051,
+    "null_q975": 0.030795193251556875,
+    "support": false,
+    "decision": "no_support_general_within_species_geographic_colour_divergence"
+  },
+  "claim_ceiling": "A supported H9 would establish a general tendency for flower-colour composition to diverge with geographic separation within species under a fixed-n fresh public-photo design. It would not establish a shared global boundary, identify a climate driver, demonstrate adaptation or selection, or identify pigment or pollinator mechanisms.",
+  "lineage": {
+    "measured_table_sha256": "83a02493b5946dbb90381512fcca7d7e64380d7e53a39a7f4986e9d927e2c937",
+    "species_support_sha256": "671cdbde5def93acbfb12543bb11072e1d65aa7956e4dd4ce73fb8a227ad22d5",
+    "parent_contract_sha256": "ad00c6a9f86447da5fd8766c5b53066a59709b2d11d96c3662c9ad8f1cc7a445",
+    "inference_execution_contract_sha256": "a8c2deb2ceebad844aa3eac814e2d989dd9a71a93ccecd2b38f5b91e40df6ac2",
+    "selected_20_table_sha256": "cd6463cd66c0e6136ede862c5472f13e261c1e6268251282414b4cbd2406955f",
+    "species_result_sha256": "4db21aa8cafde5027f633cb49ca838229488eede643af3c3672b51284f90b2b7",
+    "global_null_sha256": "8a44835b66fb1bcac8efb7b6a3fe19f2e33bfdd8bcf664614b45ed0add09be3a",
+    "new_image_pixels_opened": false,
+    "new_measurement_run": false
+  },
+  "files": {
+    "selected_20": "data/derived/random_photo_first_h9_selected_20_per_species_v1.csv",
+    "species_result": "data/derived/random_photo_first_h9_species_spatial_result_v1.csv",
+    "global_null": "data/derived/random_photo_first_h9_global_null_v1.csv"
+  }
+}
