@@ -1,0 +1,46 @@
+{
+  "protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "status": "metadata_only_h9_feasibility_frozen_after_h8_before_any_h9_query_or_pixel",
+  "question": "Can a new prospective experiment test within-species spatial flower-colour divergence using fixed-n individual photographs and continuous geographic distance, without relying on low-replication cell means?",
+  "source": {
+    "h7_fresh_metadata": "data/frozen/random_photo_first_h7_fresh_metadata_v1.csv",
+    "h7_fresh_metadata_manifest": "docs/supporting/random_photo_first_h7_fresh_metadata_manifest_v1.json",
+    "h8_design_result": "docs/supporting/random_photo_first_h8_design_audit_result_v1.json",
+    "required_h7_pixels_opened": false,
+    "required_h8_feasible": false
+  },
+  "audit_matrix": {
+    "minimum_h7_fresh_records_per_species": [40, 60, 80, 100],
+    "minimum_h7_fresh_maximum_span_km": [500, 1000, 2000],
+    "minimum_species_required": 35
+  },
+  "automatic_species_rule": {
+    "eligible_designs": "matrix cells with qualifying_species >= 35",
+    "priority_1": "maximize minimum_h7_fresh_records_per_species",
+    "priority_2": "maximize minimum_h7_fresh_maximum_span_km",
+    "species_selection": "retain every species meeting the selected rule; do not use any flower-colour outcome or H6/H6b effect"
+  },
+  "prospective_h9_if_feasible": {
+    "fresh_query": "one worldwide iNaturalist random page per selected species, per_page=200, one request attempt, no replacement",
+    "freshness": "exclude every observation/photo ID used in all earlier experiments including H7",
+    "observer_cap": 2,
+    "raw_photos_per_species": 60,
+    "raw_selection": "deterministic geographic maximin selection from locally eligible fresh rows after observer cap; ties by deterministic row hash",
+    "premeasurement_gate": "at least 30 selected species must yield the full fixed 60 fresh raw photos",
+    "location_blind_measurement": "same frozen ROI-v4 plus fixed palette path as the completed random photo-first atlas",
+    "postmeasurement_gate": "at least 25 species must have at least 20 classifiable photos",
+    "analysis_rows_per_species": 20,
+    "analysis_row_selection": "among classifiable rows, take exactly 20 by fixed measurement-ID hash, independent of colour values",
+    "species_statistic": "Spearman correlation between pairwise great-circle geographic distance and pairwise soft four-group colour Jensen-Shannon divergence across exactly 20 photos",
+    "global_statistic": "equal-species mean rho because every evaluable species contributes exactly 20 photos and 190 pairs",
+    "null": "999 within-species photo-colour permutations over the fixed 20 coordinates, one-sided upper tail",
+    "support_rule": "postmeasurement gate passes, observed global mean rho > 0, and Monte Carlo p_upper < 0.05"
+  },
+  "outcome_firewall": {
+    "h7_colour_may_be_read": false,
+    "h6_h6b_effects_may_be_read": false,
+    "h9_api_query_may_open_during_audit": false,
+    "h9_pixels_may_open_during_audit": false
+  },
+  "claim_ceiling": "This audit establishes only whether a fixed-n continuous-distance H9 is metadata-feasible. It cannot provide a biological result or rescue H1-H8."
+}
