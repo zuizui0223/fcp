@@ -114,18 +114,23 @@ Biological replication is carried by the number and coverage of independently sa
 
 The method repeats not only colour analysis but the upstream global species census before pixels are opened.
 
-The completed metadata-only discovery provides a strong empirical reason for doing so:
+The first metadata-only repeated census (V1) produced a large and useful discovery union:
 
 - the original one-pass baseline contained 8,989 species;
-- 20 fresh equal-area discovery rounds found 29,304 fresh species;
-- the combined census contains 30,393 species;
+- 20 fresh equal-area metadata rounds found 29,304 fresh species;
+- the V1 combined census contains 30,393 species;
 - 21,404 species were new beyond the baseline;
-- odd-versus-even fresh-round species-set Jaccard = 0.9844;
-- baseline-versus-fresh Jaccard = 0.2599;
+- baseline-versus-fresh species-set Jaccard = 0.2599;
 - all 3,240 fixed requests completed without error;
 - no candidate image pixel or flower colour was opened during discovery.
 
-Thus a single random global pass was not an adequate description of the available taxonomic sampling frame, whereas independent halves of the repeated fresh census converged on nearly the same species set. This is a methodological result in its own right: **global photographic biodiversity coverage should be estimated through repeated, auditable realizations rather than assumed from one random draw**.
+However, a post-run audit of the frozen V1 round table found that adjacent round pairs were nearly duplicated: rounds 1 and 2 had identical species sets, and several subsequent odd/even pairs had Jaccard values around 0.99. The V1 query used `order_by=random` but always requested `page=1`. This is consistent with upstream random-order caching or refresh persistence. Consequently, the V1 odd-versus-even Jaccard value of 0.9844 is **not accepted as evidence of independent repeated-sampling stability**.
+
+This technical diagnosis does not invalidate the V1 observations or the 30,393-species discovery union. It invalidates only the interpretation of the V1 adjacent/odd-even overlap as an independent-resampling robustness test.
+
+Before any RGFCA flower-colour field is opened, a cache-resistant metadata-only V2 has therefore been frozen. V2 uses stable ID ordering plus deterministic, cell-specific distinct page schedules, excludes all V1 observation/photo IDs, retains V1 species as legitimate metadata discoveries, and measures V2 round independence directly. The capacity candidate universe is the deduplicated V1+V2 species union.
+
+The methodological lesson is therefore stronger but narrower than the original V1 stability claim: **global photographic biodiversity coverage should be built and audited through repeated realizations, and the independence of those realizations must itself be verified rather than inferred from repeated API calls**.
 
 ## 7. Relationship to biological hypotheses
 
