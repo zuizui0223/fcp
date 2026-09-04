@@ -1,0 +1,5 @@
+subset,status,observed_concentration,realized_transition_rate,p_upper,null_mean,null_median,null_q025,null_q975,supported_edges,permutations,support,reason
+global_replay,complete_evaluable,0.05578606552158198,0.10240131073677743,0.413,0.05475344286061433,0.054572353986074344,0.04596601022487419,0.06345925090782056,196.0,999.0,False,
+within_biome_predeclared,complete_evaluable,0.01989288053144978,0.053747309373165485,0.971,0.032753717452550374,0.03312037195729786,0.018819215202374097,0.0447600314580659,77.0,999.0,False,
+within_realm_existing_diagnostic,complete_evaluable,0.020210656657542642,0.054139561338025666,0.867,0.025105612773065864,0.025139019322120336,0.01691412695260593,0.03345465854990276,141.0,999.0,False,
+within_continent_predeclared,not_evaluable_missing_prospectively_frozen_continent_labels,,,,,,,,,,False,"The prospectively frozen region frame contains deterministic modal biome and realm labels, but no exact continent field. Realm is not silently substituted for continent, and no outcome-postdated geography source is introduced."

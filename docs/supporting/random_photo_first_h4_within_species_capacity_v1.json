@@ -1,0 +1,56 @@
+{
+  "protocol": "random-photo-first-h4-within-species-capacity-audit-v1",
+  "status": "complete_exploratory_capacity_audit_no_h4_model_fit",
+  "introduced_after_h1_h2_outcomes": true,
+  "claim_role": "capacity_only_no_biological_h4_claim",
+  "measurement": {
+    "all_measured_rows": 20845,
+    "classifiable_rows": 10103,
+    "classifiable_species": 5144,
+    "occupied_h1_cells": 126
+  },
+  "species_repetition": {
+    "n_ge_2_photos": 1480,
+    "n_ge_3_photos": 752,
+    "n_ge_5_photos": 356,
+    "n_ge_10_photos": 111,
+    "n_ge_20_photos": 35,
+    "n_ge_2_cells": 1052,
+    "n_ge_3_cells": 497,
+    "n_ge_5_cells": 197,
+    "n_ge_2_morphs": 552,
+    "n_ge_3_morphs": 88
+  },
+  "joint_capacity_examples": {
+    "n3_cells2_morphs2": {
+      "eligible_species": 329,
+      "eligible_photos": 2882
+    },
+    "n5_cells2_morphs2": {
+      "eligible_species": 204,
+      "eligible_photos": 2456
+    },
+    "n10_cells3_morphs2": {
+      "eligible_species": 80,
+      "eligible_photos": 1635
+    },
+    "n20_cells3_morphs2": {
+      "eligible_species": 30,
+      "eligible_photos": 980
+    },
+    "n10_cells5_morphs2": {
+      "eligible_species": 74,
+      "eligible_photos": 1557
+    }
+  },
+  "threshold_grid_is_complete_not_outcome_selected": true,
+  "lineage": {
+    "measurement_table_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+    "h1_decision_unchanged": "no_support_excess_recurrent_boundary_concentration",
+    "h1_p_upper": 0.413
+  },
+  "files": {
+    "species_capacity": "data/derived/random_photo_first_h4_within_species_capacity_v1.csv",
+    "threshold_grid": "data/derived/random_photo_first_h4_within_species_capacity_thresholds_v1.csv"
+  }
+}

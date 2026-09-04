@@ -1,0 +1,105 @@
+name: Random photo-first exploratory H6 species-specific spatial structure
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-inference-execution
+    paths:
+      - "docs/supporting/random_photo_first_h6_species_specific_spatial_structure_contract_v1.json"
+      - "scripts/analysis/run_random_photo_first_h6_species_specific_spatial_structure.py"
+      - ".github/workflows/random-photo-first-h6-species-specific-spatial-structure.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: random-photo-first-h6-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  h6:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install analysis runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Validate frozen H6 contract and parent lineage
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c = json.loads(Path('docs/supporting/random_photo_first_h6_species_specific_spatial_structure_contract_v1.json').read_text())
+          h1 = json.loads(Path('docs/supporting/random_photo_first_h1_result_v1.json').read_text())
+          h4a = json.loads(Path('docs/supporting/random_photo_first_h4a_result_v1.json').read_text())
+          h5 = json.loads(Path('docs/supporting/random_photo_first_h5_scale_moderation_result_v1.json').read_text())
+          assert c['status'] == 'exploratory_frozen_after_h5_before_any_h6_spatial_colour_test'
+          assert c['primary_species_frame']['expected_capacity_species'] == 74
+          assert c['primary_statistic']['directional_hypothesis'] == 'positive'
+          assert c['null']['permutations'] == 999
+          assert c['null']['seed'] == 20260907
+          assert h1['decision'] == 'no_support_excess_recurrent_boundary_concentration'
+          assert h4a['decision'] == 'no_support_within_species_climate_colour_divergence_do_not_open_h4b'
+          assert h5['decision'] == 'no_support_scale_dependent_weakening'
+          print('h6_pretest_contract=pass')
+          PY
+
+      - name: Run frozen H6 spatial-colour permutation test
+        run: python scripts/analysis/run_random_photo_first_h6_species_specific_spatial_structure.py
+
+      - name: Validate H6 decision and claim ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/random_photo_first_h6_species_specific_spatial_structure_result_v1.json').read_text())
+          assert r['status'] == 'complete_exploratory_h6_evaluable'
+          assert r['primary']['evaluable_species'] == 74
+          assert r['primary']['permutations'] == 999
+          assert r['primary']['seed'] == 20260907
+          assert 0.0 <= r['primary']['p_upper'] <= 1.0
+          support = r['primary']['evaluable_species'] >= 30 and r['primary']['observed_mean_spearman_rho'] > 0 and r['primary']['p_upper'] < 0.05
+          assert r['primary']['support'] is support
+          assert all(s['can_rescue_primary'] is False for s in r['sensitivities'])
+          assert r['shared_global_boundary_claim_opened'] is False
+          assert r['climate_mechanism_claim_opened'] is False
+          print(json.dumps(r, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h6-spatial-structure-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            docs/supporting/random_photo_first_h6_species_specific_spatial_structure_result_v1.json
+            data/derived/random_photo_first_h6_species_primary_v1.csv
+            data/derived/random_photo_first_h6_null_primary_v1.csv
+            data/derived/random_photo_first_h6_sensitivities_v1.csv
+
+      - name: Commit H6 outputs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/random_photo_first_h6_species_specific_spatial_structure_result_v1.json \
+                  data/derived/random_photo_first_h6_species_primary_v1.csv \
+                  data/derived/random_photo_first_h6_null_primary_v1.csv \
+                  data/derived/random_photo_first_h6_sensitivities_v1.csv
+          git commit -m "Run exploratory random photo-first H6 spatial structure"
+          git fetch origin analysis/random-photo-first-inference-execution
+          git rebase origin/analysis/random-photo-first-inference-execution
+          git push origin HEAD:analysis/random-photo-first-inference-execution

@@ -1,0 +1,76 @@
+name: Random photo-first exploratory H3 species turnover
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-inference-execution
+    paths:
+      - "scripts/analysis/run_random_photo_first_h3_species_turnover.py"
+      - ".github/workflows/random-photo-first-h3-species-turnover.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: random-photo-first-h3-species-turnover-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  species-turnover-audit:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install analysis runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Run post-H1-H2 species-turnover audit
+        run: python scripts/analysis/run_random_photo_first_h3_species_turnover.py
+      - name: Validate exploratory claim ceiling and frozen lineage
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          h3 = json.loads(Path('docs/supporting/random_photo_first_h3_species_turnover_v1.json').read_text())
+          h1 = json.loads(Path('docs/supporting/random_photo_first_h1_result_v1.json').read_text())
+          h2 = json.loads(Path('docs/supporting/random_photo_first_h2_result_v1.json').read_text())
+          assert h3['status'] == 'complete_exploratory_post_h1_h2_species_turnover_audit'
+          assert h3['introduced_after_h1_h2_outcomes'] is True
+          assert h3['claim_role'] == 'exploratory_decomposition_only_cannot_rescue_or_replace_h1_h2'
+          assert h3['result']['supported_edges'] == h1['primary']['supported_edges'] == 196
+          assert h3['lineage']['h1_permutations'] == h1['primary']['permutations'] == 999
+          assert h3['frozen_primary_decisions_unchanged']['h1'] == h1['decision']
+          assert h3['frozen_primary_decisions_unchanged']['h2'] == h2['hierarchical_decision']
+          assert 0.0 <= h3['result']['p_upper_against_exact_h1_null'] <= 1.0
+          print(json.dumps(h3, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h3-species-turnover-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            docs/supporting/random_photo_first_h3_species_turnover_v1.json
+            data/derived/random_photo_first_h3_species_turnover_edges_v1.csv
+            data/derived/random_photo_first_h3_species_turnover_null_correlations_v1.csv
+      - name: Commit H3 audit outputs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/random_photo_first_h3_species_turnover_v1.json \
+                  data/derived/random_photo_first_h3_species_turnover_edges_v1.csv \
+                  data/derived/random_photo_first_h3_species_turnover_null_correlations_v1.csv
+          git commit -m "Run exploratory random photo-first species-turnover audit"
+          git fetch origin analysis/random-photo-first-inference-execution
+          git rebase origin/analysis/random-photo-first-inference-execution
+          git push origin HEAD:analysis/random-photo-first-inference-execution

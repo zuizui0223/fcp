@@ -1,0 +1,5 @@
+variable,predictor,weighted_r,p_upper_raw,supported_edges,p_upper_holm
+bio1,absolute_z_difference_bio1,0.03680858135459729,0.708,175,0.708
+bio4,absolute_z_difference_bio4,-0.039961666983600735,0.346,175,0.692
+bio12,absolute_z_difference_bio12,0.09670277736186465,0.206,175,0.618
+bio15,absolute_z_difference_bio15,0.19044344395193646,0.107,175,0.428

@@ -1,0 +1,49 @@
+{
+  "protocol": "random-photo-first-h6b-photo-level-null-diagnostic-v1",
+  "status": "complete_h6b_diagnostic_evaluable",
+  "introduced_after_h6_outcomes": true,
+  "claim_role": "diagnostic_only_for_nominal_h6_sparse_frame_signal_cannot_rescue_any_primary_test",
+  "target_sparse_frame": {
+    "evaluable_species": 188,
+    "observed_mean_spearman_rho": 0.10792487117306818,
+    "completed_h6_cell_label_null_p_upper": 0.001,
+    "photo_level_null_p_upper": 0.002,
+    "photo_level_null_mean": 0.025457685189262346,
+    "photo_level_null_q025": -0.025188381933016365,
+    "photo_level_null_q975": 0.0777285161808382,
+    "survives_photo_level_null": true
+  },
+  "diagnostic_sensitivities": [
+    {
+      "name": "pair_count_weighted_global_mean",
+      "observed_mean_spearman_rho": 0.028054400045870495,
+      "photo_level_null_p_upper": 0.148,
+      "photo_level_null_mean": 0.01334741642176366,
+      "nominal_positive": false,
+      "can_rescue": false
+    },
+    {
+      "name": "reliable_n10_cells5_morphs2_frame",
+      "evaluable_species": 74,
+      "observed_mean_spearman_rho": 0.027753278235295296,
+      "photo_level_null_p_upper": 0.314,
+      "photo_level_null_mean": 0.017010583379269167,
+      "nominal_positive": false,
+      "can_rescue": false
+    }
+  ],
+  "diagnostic_decision": "sparse_equal_species_signal_survives_photo_count_preserving_null_but_is_not_information_weight_robust",
+  "h6_primary_decision_unchanged": "no_support_general_species_specific_spatial_structuring",
+  "lineage": {
+    "contract_sha256": "552fbf4c1de0663dfa23d0211db669110534fd38b70a7a9c9657ff93b9407c82",
+    "measurement_table_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+    "h6_result_sha256": "e20825b582c00f9906142fe85d44acc3774c5a5e2b1efdde164820b6ea11c99a",
+    "permutations": 999,
+    "seed": 20260908
+  },
+  "files": {
+    "target_species": "data/derived/random_photo_first_h6b_target_species_v1.csv",
+    "photo_level_null": "data/derived/random_photo_first_h6b_photo_level_null_v1.csv"
+  },
+  "claim_ceiling": "H6b is a robustness diagnostic of one post hoc H6 sensitivity. It cannot convert that sensitivity into a preregistered or primary biological result, and it cannot support a shared boundary, climate mechanism, adaptation, selection, pigment mechanism, or pollinator mechanism claim."
+}

@@ -1,0 +1,93 @@
+{
+  "protocol": "random-photo-first-h6-species-specific-spatial-structure-v1",
+  "status": "complete_exploratory_h6_evaluable",
+  "introduced_after_h1_h2_h4a_h5_outcomes": true,
+  "claim_role": "exploratory_species_specific_spatial_structure_only_cannot_rescue_shared_boundary_or_climate_mechanism_tests",
+  "primary": {
+    "evaluable_species": 74,
+    "observed_mean_spearman_rho": 0.027753278235295296,
+    "observed_median_spearman_rho": 0.01773264294452945,
+    "positive_species_fraction": 0.527027027027027,
+    "p_upper": 0.113,
+    "null_mean": 0.00041499097387624805,
+    "null_median": 0.0007313567925995422,
+    "null_q025": -0.04328745118541534,
+    "null_q975": 0.04498348039966151,
+    "name": "primary_n10_cells5_morphs2",
+    "primary": true,
+    "minimum_evaluable_species_required": 30,
+    "permutations": 999,
+    "seed": 20260907,
+    "alpha": 0.05,
+    "support": false
+  },
+  "sensitivities": [
+    {
+      "evaluable_species": 188,
+      "observed_mean_spearman_rho": 0.10792487117306818,
+      "observed_median_spearman_rho": 0.06484311547944327,
+      "positive_species_fraction": 0.5851063829787234,
+      "p_upper": 0.001,
+      "null_mean": -0.0005056882496091857,
+      "null_median": -0.00032941016499998886,
+      "null_q025": -0.05346468654143405,
+      "null_q975": 0.05304003929571424,
+      "name": "n5_cells3_morphs2",
+      "primary": false,
+      "nominal_positive": true,
+      "can_rescue_primary": false
+    },
+    {
+      "evaluable_species": 80,
+      "observed_mean_spearman_rho": 0.04414935821655809,
+      "observed_median_spearman_rho": 0.024285066480468957,
+      "positive_species_fraction": 0.5375,
+      "p_upper": 0.06,
+      "null_mean": 0.0008972023029764849,
+      "null_median": 0.0012637355134131954,
+      "null_q025": -0.058569389576015665,
+      "null_q975": 0.05431209548318375,
+      "name": "n10_cells3_morphs2",
+      "primary": false,
+      "nominal_positive": false,
+      "can_rescue_primary": false
+    },
+    {
+      "evaluable_species": 30,
+      "observed_mean_spearman_rho": 0.045758434380297516,
+      "observed_median_spearman_rho": 0.02762188418096924,
+      "positive_species_fraction": 0.5333333333333333,
+      "p_upper": 0.093,
+      "null_mean": -0.0015197064619926223,
+      "null_median": -0.0021386536056673105,
+      "null_q025": -0.06541798436711223,
+      "null_q975": 0.06933840858768833,
+      "name": "n20_cells3_morphs2",
+      "primary": false,
+      "nominal_positive": false,
+      "can_rescue_primary": false
+    }
+  ],
+  "decision": "no_support_general_species_specific_spatial_structuring",
+  "shared_global_boundary_claim_opened": false,
+  "climate_mechanism_claim_opened": false,
+  "frozen_primary_decisions_unchanged": {
+    "h1": "no_support_excess_recurrent_boundary_concentration",
+    "h2": "diagnostic_only_h1_not_supported_no_climate_mechanism_claim",
+    "h4a": "no_support_within_species_climate_colour_divergence_do_not_open_h4b",
+    "h5": "no_support_scale_dependent_weakening"
+  },
+  "lineage": {
+    "contract_sha256": "96d540562ddadbdd9ac59f94b92c81bd9307fdde8fb00eed3c23e6ecede2c182",
+    "measurement_table_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+    "capacity_table_sha256": "6cafc857470e9a7e32d542a0d3d66fda1333a8774ea60dece34a35c5f71e6c22",
+    "permutations": 999,
+    "seed": 20260907
+  },
+  "files": {
+    "primary_species": "data/derived/random_photo_first_h6_species_primary_v1.csv",
+    "primary_null": "data/derived/random_photo_first_h6_null_primary_v1.csv",
+    "sensitivities": "data/derived/random_photo_first_h6_sensitivities_v1.csv"
+  },
+  "claim_ceiling": "A supported H6 would show that flower-colour composition tends to diverge with geographic separation within species across the exploratory multi-species photo frame. It would not show that different species share the same boundary, identify a climate driver, establish adaptation or selection, or establish pigment or pollinator mechanism."
+}

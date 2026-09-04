@@ -1,0 +1,144 @@
+{
+  "protocol": "random-photo-first-h4a-within-species-climate-colour-v1",
+  "status": "complete_exploratory_h4a_evaluable",
+  "introduced_after_h1_h2_outcomes": true,
+  "claim_role": "exploratory_only_cannot_rescue_replace_or_reinterpret_h1_h2",
+  "primary": {
+    "name": "primary_n10_cells5_morphs2",
+    "status": "complete_evaluable",
+    "primary": true,
+    "threshold": {
+      "minimum_classifiable_photos_before_climate_join": 10,
+      "minimum_occupied_h1_cells_before_climate_join": 5,
+      "minimum_coarse_morph_levels_before_climate_join": 2
+    },
+    "pre_frame_species": 74,
+    "evaluable_species": 74,
+    "evaluable_species_cell_rows": 819,
+    "observed_mean_spearman_rho": 0.026050497463656667,
+    "observed_median_spearman_rho": 0.016811290193531996,
+    "positive_species_fraction": 0.5540540540540541,
+    "permutations": 999,
+    "seed": 20260905,
+    "p_upper": 0.157,
+    "null_mean": 0.0009036993387988091,
+    "null_median": 0.0008890053771863566,
+    "null_q025": -0.04672308904331491,
+    "null_q975": 0.05089263161144986,
+    "minimum_evaluable_species_required": 30,
+    "alpha": 0.05,
+    "support": false
+  },
+  "sensitivities": [
+    {
+      "name": "n5_cells3_morphs2",
+      "status": "complete_evaluable",
+      "primary": false,
+      "threshold": {
+        "minimum_classifiable_photos_before_climate_join": 5,
+        "minimum_occupied_h1_cells_before_climate_join": 3,
+        "minimum_coarse_morph_levels_before_climate_join": 2
+      },
+      "pre_frame_species": 188,
+      "evaluable_species": 185,
+      "evaluable_species_cell_rows": 1350,
+      "observed_mean_spearman_rho": 0.06566278912846546,
+      "observed_median_spearman_rho": 0.02290862290862291,
+      "positive_species_fraction": 0.5405405405405406,
+      "permutations": 999,
+      "seed": 20260905,
+      "p_upper": 0.013,
+      "null_mean": 0.00041065890788650485,
+      "null_median": -0.00014719100531898545,
+      "null_q025": -0.05902881113978598,
+      "null_q975": 0.05530435068599101,
+      "nominal_positive": true,
+      "can_rescue_primary": false
+    },
+    {
+      "name": "n10_cells3_morphs2",
+      "status": "complete_evaluable",
+      "primary": false,
+      "threshold": {
+        "minimum_classifiable_photos_before_climate_join": 10,
+        "minimum_occupied_h1_cells_before_climate_join": 3,
+        "minimum_coarse_morph_levels_before_climate_join": 2
+      },
+      "pre_frame_species": 80,
+      "evaluable_species": 79,
+      "evaluable_species_cell_rows": 835,
+      "observed_mean_spearman_rho": 0.06707804283214132,
+      "observed_median_spearman_rho": 0.024292163532669858,
+      "positive_species_fraction": 0.5822784810126582,
+      "permutations": 999,
+      "seed": 20260905,
+      "p_upper": 0.014,
+      "null_mean": 5.155501324625942e-06,
+      "null_median": -7.682449091961504e-05,
+      "null_q025": -0.05575741373206158,
+      "null_q975": 0.06036287456949327,
+      "nominal_positive": true,
+      "can_rescue_primary": false
+    },
+    {
+      "name": "n20_cells3_morphs2",
+      "status": "complete_evaluable",
+      "primary": false,
+      "threshold": {
+        "minimum_classifiable_photos_before_climate_join": 20,
+        "minimum_occupied_h1_cells_before_climate_join": 3,
+        "minimum_coarse_morph_levels_before_climate_join": 2
+      },
+      "pre_frame_species": 30,
+      "evaluable_species": 30,
+      "evaluable_species_cell_rows": 458,
+      "observed_mean_spearman_rho": 0.03538507643133862,
+      "observed_median_spearman_rho": -0.029982960329314294,
+      "positive_species_fraction": 0.4666666666666667,
+      "permutations": 999,
+      "seed": 20260905,
+      "p_upper": 0.193,
+      "null_mean": 0.0007083737775880293,
+      "null_median": -0.0016832051595322825,
+      "null_q025": -0.06981648960814987,
+      "null_q975": 0.07313320707082709,
+      "nominal_positive": false,
+      "can_rescue_primary": false
+    }
+  ],
+  "decision": "no_support_within_species_climate_colour_divergence_do_not_open_h4b",
+  "h4b_directional_decomposition_opened": false,
+  "colour_representation": {
+    "ordered_morph_axis_used": false,
+    "soft_four_group_species_cell_composition": true,
+    "pairwise_colour_distance": "Jensen-Shannon divergence in bits"
+  },
+  "climate_representation": {
+    "variables": [
+      "z_bio1",
+      "z_bio4",
+      "z_bio12",
+      "z_bio15"
+    ],
+    "pairwise_distance": "RMS standardized macroclimate separation",
+    "source_scale_km": 250
+  },
+  "frozen_primary_decisions_unchanged": {
+    "h1": "no_support_excess_recurrent_boundary_concentration",
+    "h1_p_upper": 0.413,
+    "h2": "diagnostic_only_h1_not_supported_no_climate_mechanism_claim"
+  },
+  "lineage": {
+    "contract_sha256": "af030767d74010ba2ea56297cdf2a6199e475738d58f0a24a90a90d90b8d75fe",
+    "measurement_table_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+    "climate_cells_sha256": "df0cf0d0096938a0b3e6d6b7f6e0008508f60d80e61f7bc847ccd95e3c2e2b15",
+    "capacity_table_sha256": "6cafc857470e9a7e32d542a0d3d66fda1333a8774ea60dece34a35c5f71e6c22",
+    "permutations": 999,
+    "seed": 20260905
+  },
+  "files": {
+    "primary_species": "data/derived/random_photo_first_h4a_species_primary_v1.csv",
+    "primary_null": "data/derived/random_photo_first_h4a_null_primary_v1.csv",
+    "sensitivities": "data/derived/random_photo_first_h4a_sensitivities_v1.csv"
+  }
+}

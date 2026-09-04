@@ -1,0 +1,52 @@
+{
+  "protocol": "random-photo-first-h3-species-turnover-exploratory-v1",
+  "status": "complete_exploratory_post_h1_h2_species_turnover_audit",
+  "introduced_after_h1_h2_outcomes": true,
+  "claim_role": "exploratory_decomposition_only_cannot_rescue_or_replace_h1_h2",
+  "question": "Do H1-supported edges with greater outcome-blind species-composition turnover show greater colour-boundary persistence than expected under the exact H1 null that preserves species geography?",
+  "species_composition": {
+    "source": "one-shot frozen candidate pool before image pixels",
+    "candidate_rows": 20845,
+    "species": 8989,
+    "occupied_cells": 128,
+    "cell_species_weight": "min(candidate_photo_count, 2)",
+    "species_cap": 2,
+    "edge_metric": "Jensen-Shannon divergence in bits",
+    "uses_colour_or_measurement_success": false
+  },
+  "result": {
+    "supported_edges": 196,
+    "observed_weighted_r": 0.16363203801859408,
+    "observed_weighted_r_squared_descriptive": 0.026775443866118617,
+    "p_upper_against_exact_h1_null": 0.826,
+    "p_two_sided_abs_against_exact_h1_null": 0.826,
+    "observed_r_percentile_in_h1_null": 0.17417417417417416,
+    "null_r_mean": 0.19289134973698746,
+    "null_r_median": 0.1918476313753442,
+    "null_r_q025": 0.13828595272365032,
+    "null_r_q975": 0.25349005636407673,
+    "species_turnover_jsd_mean": 0.8679047688318343,
+    "species_turnover_jsd_median_unweighted": 0.8931844464816954,
+    "species_turnover_jsd_min": 0.5250362449090624,
+    "species_turnover_jsd_max": 0.9999999999999998,
+    "interpretation": "no_species_turnover_alignment_above_h1_null"
+  },
+  "null_logic": "The exact 999 H1 null persistence maps preserve each species' geography and species-specific morph marginals. Therefore the null correlation is the alignment expected from that preserved species structure; only excess positive alignment beyond this distribution would indicate additional turnover-associated colour geography.",
+  "frozen_primary_decisions_unchanged": {
+    "h1": "no_support_excess_recurrent_boundary_concentration",
+    "h1_p_upper": 0.413,
+    "h2": "diagnostic_only_h1_not_supported_no_climate_mechanism_claim"
+  },
+  "lineage": {
+    "candidate_table_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+    "h1_edge_table_sha256": "00521436aa6021c75ab8a7da7c2394f47b9868a4805894019dd5fb2f2cd987f6",
+    "h1_null_maps_sha256": "e286b8438dbab98f5d0f2ed11566aa78e6c5c2826a78b3e73ed04d2766ef7c7f",
+    "h1_permutations": 999,
+    "h1_sampling_seed": 20260903,
+    "h1_permutation_seed": 20260904
+  },
+  "files": {
+    "edge_audit": "data/derived/random_photo_first_h3_species_turnover_edges_v1.csv",
+    "null_correlations": "data/derived/random_photo_first_h3_species_turnover_null_correlations_v1.csv"
+  }
+}

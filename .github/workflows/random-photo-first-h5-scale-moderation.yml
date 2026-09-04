@@ -1,0 +1,125 @@
+name: Random photo-first exploratory H5 scale moderation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-inference-execution
+    paths:
+      - "docs/supporting/random_photo_first_h5_scale_moderation_contract_v1.json"
+      - "scripts/analysis/run_random_photo_first_h5_scale_moderation.py"
+      - ".github/workflows/random-photo-first-h5-scale-moderation.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: random-photo-first-h5-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  h5:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install analysis runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Validate frozen post-H4a exploratory contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          c = json.loads(Path('docs/supporting/random_photo_first_h5_scale_moderation_contract_v1.json').read_text())
+          h1 = json.loads(Path('docs/supporting/random_photo_first_h1_result_v1.json').read_text())
+          h2 = json.loads(Path('docs/supporting/random_photo_first_h2_result_v1.json').read_text())
+          h4a = json.loads(Path('docs/supporting/random_photo_first_h4a_result_v1.json').read_text())
+
+          assert c['status'] == 'exploratory_frozen_after_h4a_before_any_h5_scale_moderation_test'
+          assert c['introduced_after_h4a_outcomes'] is True
+          assert c['claim_role'] == 'exploratory_only_cannot_rescue_replace_or_reinterpret_h1_h2_h4a'
+          assert c['primary_frame']['minimum_classifiable_photos_before_climate_join'] == 10
+          assert c['primary_frame']['minimum_occupied_h1_cells_before_climate_join'] == 3
+          assert c['primary_frame']['expected_h4a_evaluable_species_from_completed_sensitivity'] == 79
+          assert c['primary_scale_moderator']['name'] == 'mean_pairwise_h1_cell_centroid_great_circle_km'
+          assert c['primary_scale_moderator']['directional_hypothesis'] == 'negative'
+          assert c['null']['permutations'] == 999
+          assert c['null']['seed'] == 20260906
+          assert c['null']['tail'] == 'lower'
+          assert h1['decision'] == 'no_support_excess_recurrent_boundary_concentration'
+          assert h2['hierarchical_decision'] == 'diagnostic_only_h1_not_supported_no_climate_mechanism_claim'
+          assert h4a['decision'] == 'no_support_within_species_climate_colour_divergence_do_not_open_h4b'
+          assert h4a['primary']['p_upper'] == 0.157
+          assert h4a['h4b_directional_decomposition_opened'] is False
+          print('h5_pretest_contract=pass')
+          PY
+
+      - name: Run frozen H5 scale-moderation permutation test
+        run: python scripts/analysis/run_random_photo_first_h5_scale_moderation.py
+
+      - name: Validate H5 decision and claim ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          r = json.loads(Path('docs/supporting/random_photo_first_h5_scale_moderation_result_v1.json').read_text())
+          h4a = json.loads(Path('docs/supporting/random_photo_first_h4a_result_v1.json').read_text())
+          assert r['status'] == 'complete_exploratory_h5_evaluable'
+          assert r['introduced_after_h4a_outcomes'] is True
+          assert r['claim_role'] == 'exploratory_only_cannot_rescue_replace_or_reinterpret_h1_h2_h4a'
+          assert r['primary']['primary'] is True
+          assert r['primary']['evaluable_species'] == 79
+          assert r['primary']['permutations'] == 999
+          assert r['primary']['seed'] == 20260906
+          assert 0.0 <= r['primary']['p_lower'] <= 1.0
+          support = (
+              r['primary']['evaluable_species'] >= 30
+              and r['primary']['observed_scale_moderation_spearman_rho'] < 0
+              and r['primary']['p_lower'] < 0.05
+          )
+          assert r['primary']['support'] is support
+          assert all(s['can_rescue_primary'] is False for s in r['sensitivities'])
+          assert r['h4b_directional_decomposition_opened'] is False
+          assert r['frozen_primary_decisions_unchanged']['h4a'] == h4a['decision']
+          assert 'post-H4a exploratory moderation test' in r['claim_ceiling']
+          print(json.dumps(r, indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h5-scale-moderation-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            docs/supporting/random_photo_first_h5_scale_moderation_result_v1.json
+            data/derived/random_photo_first_h5_species_primary_v1.csv
+            data/derived/random_photo_first_h5_null_primary_v1.csv
+            data/derived/random_photo_first_h5_sensitivities_v1.csv
+
+      - name: Commit H5 outputs
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/random_photo_first_h5_scale_moderation_result_v1.json \
+                  data/derived/random_photo_first_h5_species_primary_v1.csv \
+                  data/derived/random_photo_first_h5_null_primary_v1.csv \
+                  data/derived/random_photo_first_h5_sensitivities_v1.csv
+          git commit -m "Run exploratory random photo-first H5 scale moderation"
+          git fetch origin analysis/random-photo-first-inference-execution
+          git rebase origin/analysis/random-photo-first-inference-execution
+          git push origin HEAD:analysis/random-photo-first-inference-execution

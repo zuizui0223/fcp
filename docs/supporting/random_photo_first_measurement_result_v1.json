@@ -1,0 +1,35 @@
+{
+  "protocol": "random-photo-first-measurement-execution-v1",
+  "status": "complete_fresh_location_blind_measurement_and_join",
+  "frozen_candidate_rows": 20845,
+  "terminal_result_rows": 20845,
+  "joined_rows": 20845,
+  "partition_receipts": 128,
+  "coordinate_colour_join_opened_after_complete_measurement": true,
+  "terminal_status_counts": {
+    "classified_four_state_morph": 10103,
+    "not_evaluable_roi_or_flip_gate": 9732,
+    "not_evaluable_ambiguous_palette_composition": 995,
+    "not_evaluable_no_biological_palette_mass": 15
+  },
+  "morph_counts": {
+    "mixed_uncertain": 10742,
+    "white": 4705,
+    "yellow_orange": 3038,
+    "red_pink": 1358,
+    "blue_purple": 1002
+  },
+  "classified_rows": 10103,
+  "mixed_uncertain_rows": 10742,
+  "legacy_pr21_terminal_records_used": false,
+  "h1_run": false,
+  "h2_run": false,
+  "measurement_table_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+  "worker_manifest_sha256": "729abc76a18421d06b461828b4a378e75ccb7209a237d600793b2c10b25c3241",
+  "metadata_join_key_sha256": "8b9d7229a7af8e5ab0dcaa4a6d1764a340913828f21431349fe75f6f237c8c60",
+  "firewall_manifest_sha256": "45ae7e38f700bf89359a00a6fe2aeb16d9f38d11d336e0eb84f0253be73b8780",
+  "execution_contract_sha256": "79cb8647376ee94fcb23b86745920ca8370649a70c0af49f004485cbfade9c60",
+  "firewall_candidate_table_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+  "all_partition_receipts_verified": true,
+  "coordinate_colour_join_opened": true
+}

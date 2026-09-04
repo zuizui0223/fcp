@@ -1,0 +1,102 @@
+{
+  "protocol": "random-photo-first-boundary-persistence-v1",
+  "status": "complete_h1_evaluable",
+  "decision": "no_support_excess_recurrent_boundary_concentration",
+  "alpha": 0.05,
+  "primary": {
+    "observed_concentration": 0.05578606552158198,
+    "realized_transition_rate": 0.10240131073677743,
+    "p_upper": 0.413,
+    "null_mean": 0.05475344286061433,
+    "null_median": 0.054572353986074344,
+    "null_q025": 0.04596601022487419,
+    "null_q975": 0.06345925090782056,
+    "supported_edges": 196,
+    "maximum_edge_persistence": 1.0,
+    "mean_sampled_photos": 10000.0,
+    "permutations": 999,
+    "sampling_seed": 20260903,
+    "permutation_seed": 20260904
+  },
+  "measurement_table_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+  "candidate_table_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+  "measurement_qc": {
+    "measured_rows": 20845,
+    "classifiable_rows": 10103,
+    "mixed_uncertain_rows": 10742,
+    "occupied_h1_cells": 128,
+    "cells_with_at_least_5_classifiable": 121,
+    "maximum_cell_mixed_uncertain_fraction": 1.0,
+    "maximum_cell_top_species_fraction": 1.0,
+    "global_top_species": "Chamaenerion angustifolium",
+    "global_top_species_photos": 129,
+    "global_top_species_fraction": 0.0061885344207243944,
+    "qc_cell_table": "data/derived/random_photo_first_h1_measurement_qc_cells_v1.csv"
+  },
+  "sensitivity_summary": [
+    {
+      "n_lon": 12,
+      "n_sinlat": 6,
+      "species_cap_per_cell": 1,
+      "species_capped_capacity": 13584,
+      "status": "complete_evaluable",
+      "observed_concentration": 0.07251998622757107,
+      "p_upper": 0.341,
+      "supported_edges": 100
+    },
+    {
+      "n_lon": 12,
+      "n_sinlat": 6,
+      "species_cap_per_cell": 2,
+      "species_capped_capacity": 16970,
+      "status": "complete_evaluable",
+      "observed_concentration": 0.083115,
+      "p_upper": 0.018,
+      "supported_edges": 100
+    },
+    {
+      "n_lon": 18,
+      "n_sinlat": 9,
+      "species_cap_per_cell": 1,
+      "species_capped_capacity": 14645,
+      "status": "complete_evaluable",
+      "observed_concentration": 0.05353563120307506,
+      "p_upper": 0.144,
+      "supported_edges": 193
+    },
+    {
+      "n_lon": 24,
+      "n_sinlat": 12,
+      "species_cap_per_cell": 1,
+      "species_capped_capacity": 14847,
+      "status": "complete_evaluable",
+      "observed_concentration": 0.05449547519757964,
+      "p_upper": 0.55,
+      "supported_edges": 248
+    },
+    {
+      "n_lon": 24,
+      "n_sinlat": 12,
+      "species_cap_per_cell": 2,
+      "species_capped_capacity": 17927,
+      "status": "complete_evaluable",
+      "observed_concentration": 0.06699741500112324,
+      "p_upper": 0.18,
+      "supported_edges": 254
+    }
+  ],
+  "files": {
+    "edge_table": "data/derived/random_photo_first_h1_edges_v1.csv",
+    "null_concentrations": "data/derived/random_photo_first_h1_null_concentrations_v1.csv",
+    "null_persistence_maps": "data/derived/random_photo_first_h1_null_maps_v1.npz",
+    "measurement_qc_cells": "data/derived/random_photo_first_h1_measurement_qc_cells_v1.csv",
+    "sensitivities": "data/derived/random_photo_first_h1_sensitivities_v1.csv"
+  },
+  "file_sha256": {
+    "edge_table": "00521436aa6021c75ab8a7da7c2394f47b9868a4805894019dd5fb2f2cd987f6",
+    "null_concentrations": "372f68ad0a849347134b91379b57032d65b7891efd58a90f262df225c9c90e1c",
+    "null_persistence_maps": "e286b8438dbab98f5d0f2ed11566aa78e6c5c2826a78b3e73ed04d2766ef7c7f",
+    "measurement_qc_cells": "7541b9e0549e7a9ea80872c809a61f4f39f65002f39a59bb38fc02658536c87a",
+    "sensitivities": "8c7d1bd84224491449dfa8ce542ea2505ef84c39edef6b5f0514213b4e61c0f3"
+  }
+}

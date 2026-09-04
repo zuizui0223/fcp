@@ -1,0 +1,5 @@
+type,value,status,weighted_r,p_upper,supported_edges
+subset,within_biome,complete_evaluable,0.0026839640575297657,0.145,77
+subset,within_realm,complete_evaluable,0.04678986054185921,0.326,141
+climate_scale_km,100,complete_evaluable,0.1016363901927862,0.29,176
+climate_scale_km,500,complete_evaluable,0.12101120411964757,0.185,173

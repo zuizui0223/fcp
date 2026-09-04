@@ -1,0 +1,74 @@
+{
+  "protocol": "random-photo-first-h6-species-specific-spatial-structure-v1",
+  "status": "exploratory_frozen_after_h5_before_any_h6_spatial_colour_test",
+  "introduced_after_h1_h2_h4a_h5_outcomes": true,
+  "claim_role": "exploratory_species_specific_spatial_structure_only_cannot_rescue_shared_boundary_or_climate_mechanism_tests",
+  "question": "Even if species do not share the same global transition geography, is flower-colour composition itself spatially structured within species?",
+  "primary_species_frame": {
+    "minimum_classifiable_photos_before_spatial_test": 10,
+    "minimum_occupied_h1_cells_before_spatial_test": 5,
+    "minimum_coarse_morph_levels_before_spatial_test": 2,
+    "expected_capacity_species": 74,
+    "rationale": "Reuse the previously established reliable within-species frame from the H4 capacity audit; this threshold is not selected from H6 outcomes."
+  },
+  "spatial_unit": {
+    "aggregation": "species x frozen 18x9 equal-area H1 cell",
+    "cell_colour": "mean soft four-group composition collapsed from the retained nine flower palette fractions and renormalized to unit mass",
+    "cell_location": "fixed equal-area H1 cell centroid",
+    "pairwise_geographic_distance": "great-circle kilometres between H1 cell centroids",
+    "pairwise_colour_distance": "Jensen-Shannon divergence in bits between species-cell soft colour compositions"
+  },
+  "primary_statistic": {
+    "species_level": "Spearman correlation between pairwise geographic distance and pairwise colour JSD",
+    "global": "equal-species mean of evaluable species-level Spearman correlations",
+    "directional_hypothesis": "positive",
+    "minimum_evaluable_species": 30
+  },
+  "null": {
+    "permutations": 999,
+    "seed": 20260907,
+    "operation": "independently permute species-cell colour labels within each species while preserving occupied geography, cell support, colour compositions, and species identity",
+    "tail": "upper",
+    "alpha": 0.05
+  },
+  "sensitivities": [
+    {
+      "name": "n5_cells3_morphs2",
+      "minimum_classifiable_photos": 5,
+      "minimum_cells": 3,
+      "minimum_morphs": 2,
+      "cannot_rescue_primary": true
+    },
+    {
+      "name": "n10_cells3_morphs2",
+      "minimum_classifiable_photos": 10,
+      "minimum_cells": 3,
+      "minimum_morphs": 2,
+      "cannot_rescue_primary": true
+    },
+    {
+      "name": "n20_cells3_morphs2",
+      "minimum_classifiable_photos": 20,
+      "minimum_cells": 3,
+      "minimum_morphs": 2,
+      "cannot_rescue_primary": true
+    }
+  ],
+  "decision_rule": {
+    "support": "primary evaluable species >=30, observed equal-species mean rho > 0, and one-sided permutation p_upper < 0.05",
+    "otherwise": "no support for general species-specific spatial structuring",
+    "shared_global_boundary_claim": "never opened by H6",
+    "climate_mechanism_claim": "never opened by H6"
+  },
+  "lineage": {
+    "measurement_result": "docs/supporting/random_photo_first_measurement_result_v1.json",
+    "capacity_audit": "docs/supporting/random_photo_first_h4_within_species_capacity_v1.json",
+    "h1_result": "docs/supporting/random_photo_first_h1_result_v1.json",
+    "h2_result": "docs/supporting/random_photo_first_h2_result_v1.json",
+    "h4a_result": "docs/supporting/random_photo_first_h4a_result_v1.json",
+    "h5_result": "docs/supporting/random_photo_first_h5_scale_moderation_result_v1.json",
+    "measured_table": "data/derived/random_photo_first_measured_photos_v1.csv",
+    "capacity_table": "data/derived/random_photo_first_h4_within_species_capacity_v1.csv"
+  },
+  "claim_ceiling": "A supported H6 would show that flower-colour composition tends to diverge with geographic separation within species across the exploratory multi-species photo frame. It would not show that different species share the same boundary, identify a climate driver, establish adaptation or selection, or establish pigment or pollinator mechanism."
+}

@@ -1,0 +1,18 @@
+{
+  "protocol": "random-photo-first-inference-preoutcome-freeze-v1",
+  "status": "frozen_before_complete_fresh_measurement_result",
+  "measurement_complete_result_present_at_freeze": false,
+  "h1_result_present_at_freeze": false,
+  "h2_result_present_at_freeze": false,
+  "h1_sampling_seed": 20260903,
+  "h1_permutation_seed": 20260904,
+  "h1_permutations": 999,
+  "candidate_rows": 20845,
+  "candidate_species": 8989,
+  "candidate_table_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+  "preoutcome_ci_run_id_initial": 33731928288,
+  "preoutcome_ci_initial_conclusion": "success",
+  "json_safe_serialization_added_before_complete_measurement": true,
+  "scientific_core_changed_by_json_safe_serialization": false,
+  "postmeasurement_execution_rule": "only exact complete 128-partition measurement output may be synchronized into this branch; that synchronization triggers the already-frozen H1 then hierarchical H2 runner"
+}

@@ -1,0 +1,63 @@
+{
+  "protocol": "random-photo-first-h1-region-audit-v1",
+  "status": "complete_predeclared_regional_sensitivity_recovery",
+  "role": "sensitivity_only_primary_global_h1_decision_unchanged",
+  "primary_h1_decision": "no_support_excess_recurrent_boundary_concentration",
+  "primary_h1_p_upper": 0.413,
+  "alpha": 0.05,
+  "global_replay": {
+    "status": "complete_evaluable",
+    "observed_concentration": 0.05578606552158198,
+    "realized_transition_rate": 0.10240131073677743,
+    "p_upper": 0.413,
+    "null_mean": 0.05475344286061433,
+    "null_median": 0.054572353986074344,
+    "null_q025": 0.04596601022487419,
+    "null_q975": 0.06345925090782056,
+    "supported_edges": 196,
+    "permutations": 999
+  },
+  "within_biome_predeclared": {
+    "status": "complete_evaluable",
+    "observed_concentration": 0.01989288053144978,
+    "realized_transition_rate": 0.053747309373165485,
+    "p_upper": 0.971,
+    "null_mean": 0.032753717452550374,
+    "null_median": 0.03312037195729786,
+    "null_q025": 0.018819215202374097,
+    "null_q975": 0.0447600314580659,
+    "supported_edges": 77,
+    "permutations": 999,
+    "support": false
+  },
+  "within_continent_predeclared": {
+    "status": "not_evaluable_missing_prospectively_frozen_continent_labels",
+    "reason": "The prospectively frozen region frame contains deterministic modal biome and realm labels, but no exact continent field. Realm is not silently substituted for continent, and no outcome-postdated geography source is introduced.",
+    "support": false
+  },
+  "within_realm_existing_diagnostic": {
+    "status": "complete_evaluable",
+    "observed_concentration": 0.020210656657542642,
+    "realized_transition_rate": 0.054139561338025666,
+    "p_upper": 0.867,
+    "null_mean": 0.025105612773065864,
+    "null_median": 0.025139019322120336,
+    "null_q025": 0.01691412695260593,
+    "null_q975": 0.03345465854990276,
+    "supported_edges": 141,
+    "permutations": 999,
+    "support": false
+  },
+  "interpretation_rule": "Regional sensitivity cannot replace or rescue the prospectively primary global H1 result. A regional p-value below alpha is reported only as scale/subset-specific sensitivity evidence.",
+  "lineage": {
+    "h1_edge_table_sha256": "00521436aa6021c75ab8a7da7c2394f47b9868a4805894019dd5fb2f2cd987f6",
+    "h1_null_maps_sha256": "e286b8438dbab98f5d0f2ed11566aa78e6c5c2826a78b3e73ed04d2766ef7c7f",
+    "h1_permutations": 999,
+    "h1_sampling_seed": 20260903,
+    "h1_permutation_seed": 20260904,
+    "biome_realm_source_frozen_before_h1_outcome": true
+  },
+  "files": {
+    "summary": "data/derived/random_photo_first_h1_region_audit_v1.csv"
+  }
+}
