@@ -1,0 +1,99 @@
+{
+  "protocol": "global-monte-carlo-rgfca-inference-execution-v1",
+  "status": "frozen_before_capacity_outcome_before_candidate_pixels_and_before_global_colour_outcome",
+  "date": "2026-09-04",
+  "parent_atlas_contract": "docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json",
+  "parent_barrier_contract": "docs/supporting/global_monte_carlo_barrier_field_contract_v1.json",
+  "parent_null_amendment": "docs/supporting/global_barrier_null_amendment_v1.json",
+  "parent_consensus_contract": "docs/supporting/global_repeated_atlas_consensus_contract_v1.json",
+  "measurement_result_required": "docs/supporting/global_monte_carlo_measurement_result_v1.json",
+  "measured_table_required": "data/derived/global_monte_carlo_measured_photos_v1.csv",
+  "input_gate": {
+    "measurement_status_required": "complete_global_location_blind_measurement_and_join",
+    "measurement_postgate_pass_required": true,
+    "measurement_postgate_decision_required": "authorize_frozen_global_monte_carlo_g1_g3_inference_under_separate_exact_authorization",
+    "minimum_classifiable_photos_per_species": 40,
+    "minimum_inferential_species": 250,
+    "inference_authorization_is_separate_future_commit": true
+  },
+  "analysis_pool": {
+    "rows": "only global_classifiable=true rows",
+    "species": "only species with at least 40 classifiable rows",
+    "colour_columns": ["colour_white", "colour_yellow_orange", "colour_red_pink", "colour_blue_purple"],
+    "colour_rows_renormalized_to_sum_one": true,
+    "no_species_or_photo_replacement_after_measurement": true
+  },
+  "outer_schedule": {
+    "observed_resamples": 200,
+    "species_per_resample": 250,
+    "photos_per_species": 20,
+    "species_seed": 2026090401,
+    "photo_master_seed": 2026090402,
+    "balanced_species_and_photo_inclusion": true,
+    "maximum_long_run_inclusion_count_imbalance": 1
+  },
+  "g1_primary": {
+    "graph": "spherical k-nearest-neighbour",
+    "k": 3,
+    "edge_colour_distance": "Jensen-Shannon divergence in bits on the four-group soft colour vector",
+    "edge_standardization": "within-species midrank percentile (rank - 0.5) / n_edges",
+    "grid": "36x18 equal-area longitude x sin(latitude)",
+    "kernel_bandwidth_km": 500.0,
+    "kernel_cutoff_multiplier": 3.0,
+    "minimum_distinct_species_support": 5,
+    "species_total_weight_per_outer": 1.0,
+    "consensus": "sum outer colour numerators divided by sum outer opportunities cellwise",
+    "statistic": "aggregate-opportunity-weighted variance of consensus field",
+    "null_permutations": 999,
+    "null_indices": "0..998 exactly once",
+    "null_master_seed": 2026090403,
+    "null_unit": "complete photo four-group colour vector permuted within species; one null assignment reused across all 200 outer realizations",
+    "tail": "upper",
+    "monte_carlo_p": "(1 + count(null concentration >= observed concentration)) / 1000",
+    "alpha": 0.05,
+    "support_requires_observed_above_null_mean": true
+  },
+  "null_execution": {
+    "deterministic_shards": 9,
+    "shard_assignment": "null index modulo 9",
+    "all_shards_required": true,
+    "observed_consensus_and_concentration_must_match_bitwise_across_shards": true,
+    "all_999_null_indices_required_exactly_once": true,
+    "persist_null_consensus_fields_for_later_frozen_overlays": true,
+    "favourable_null_shard_rerun_or_omission": false
+  },
+  "g3_prevalence_heterogeneity": {
+    "role": "reported regardless of G1; cannot rescue a null G1",
+    "species_statistic_per_outer": "Spearman correlation between all 190 pairwise great-circle distances and pairwise four-group colour JSD among the same 20 photos",
+    "outer_outputs": ["equal-species mean rho", "equal-species median rho", "fraction rho greater than zero"],
+    "species_outputs": ["number of outer appearances", "mean rho", "median rho", "q025 rho", "q975 rho"],
+    "global_outputs": ["median outer mean rho", "median outer median rho", "median outer positive fraction"],
+    "hierarchical_heterogeneity": {
+      "transform": "Fisher atanh after clipping rho to [-0.999999,0.999999]",
+      "species_effect": "mean Fisher-z over outer appearances",
+      "species_sampling_variance": "sample variance of Fisher-z across appearances divided by number of appearances; species with one appearance are not used for tau2",
+      "between_species_variance": "DerSimonian-Laird method-of-moments tau^2 on species mean Fisher-z values",
+      "interpretation": "descriptive heterogeneity estimate under repeated photo resampling; not a phylogenetic causal model"
+    },
+    "no_confirmatory_p_value_for_global_mean_rho": true
+  },
+  "g2_outputs_from_observed_outer_fields": {
+    "running_consensus_checkpoints": [25, 50, 100, 150, 200],
+    "odd_even_consensus_field_correlation": true,
+    "persistent_zone_extraction_only_if_g1_supported": true
+  },
+  "primary_outputs": {
+    "observed_outer_fields": "data/derived/global_rgfca_observed_outer_fields_v1.npz",
+    "null_consensus_fields": "data/derived/global_rgfca_null_consensus_fields_v1.npz",
+    "g1_manifest": "docs/supporting/global_rgfca_g1_result_v1.json",
+    "g3_outer": "data/derived/global_rgfca_g3_outer_v1.csv",
+    "g3_species": "data/derived/global_rgfca_g3_species_v1.csv",
+    "g3_manifest": "docs/supporting/global_rgfca_g3_result_v1.json"
+  },
+  "outcome_firewall": {
+    "measurement_outcome_seen_at_freeze": false,
+    "g1_result_seen_at_freeze": false,
+    "g3_result_seen_at_freeze": false,
+    "external_mechanism_overlay_used_at_freeze": false
+  }
+}
