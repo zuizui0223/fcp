@@ -1,0 +1,120 @@
+name: Random photo-first H9 frozen individual-distance inference
+
+on:
+  push:
+    branches:
+      - analysis/random-photo-first-h9-reassembly-recovery
+    paths:
+      - ".github/workflows/random-photo-first-h9-inference.yml"
+      - "docs/supporting/random_photo_first_h9_inference_execution_v1.json"
+      - "scripts/analysis/run_random_photo_first_h9_individual_distance.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: random-photo-first-h9-frozen-individual-distance-inference
+  cancel-in-progress: false
+
+jobs:
+  infer:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install frozen analysis runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m py_compile scripts/analysis/run_random_photo_first_h9_individual_distance.py
+      - name: Require recovered measurement gate and pre-inference freeze
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          m = json.loads(Path('docs/supporting/random_photo_first_h9_measurement_result_v1.json').read_text())
+          c = json.loads(Path('docs/supporting/random_photo_first_h9_individual_distance_contract_v1.json').read_text())
+          e = json.loads(Path('docs/supporting/random_photo_first_h9_inference_execution_v1.json').read_text())
+          measured = Path('data/derived/random_photo_first_h9_measured_photos_v1.csv')
+          support = Path('data/derived/random_photo_first_h9_measurement_species_support_v1.csv')
+          assert m['status'] == 'complete_h9_location_blind_measurement_and_join'
+          assert m['postmeasurement_gate']['pass'] is True
+          assert m['postmeasurement_gate']['evaluable_species'] == 34
+          assert m['postmeasurement_gate']['required_species'] == 25
+          assert m['h9_spatial_inference_run'] is False
+          assert c['analysis']['photos_per_evaluable_species'] == 20
+          assert c['analysis']['analysis_seed'] == 20260909
+          assert c['analysis']['permutations'] == 999
+          assert c['analysis']['permutation_seed'] == 20260910
+          assert e['status'] == 'frozen_after_h9_measurement_gate_before_any_h9_spatial_statistic'
+          assert e['outcome_firewall']['implementation_frozen_without_inspecting_species_spatial_rho'] is True
+          assert e['outcome_firewall']['implementation_frozen_without_running_any_h9_permutation'] is True
+          assert hashlib.sha256(measured.read_bytes()).hexdigest() == e['required_measured_table_sha256']
+          assert hashlib.sha256(support.read_bytes()).hexdigest() == e['required_species_support_sha256']
+          for p in (
+              'data/derived/random_photo_first_h9_selected_20_per_species_v1.csv',
+              'data/derived/random_photo_first_h9_species_spatial_result_v1.csv',
+              'data/derived/random_photo_first_h9_global_null_v1.csv',
+              'docs/supporting/random_photo_first_h9_individual_distance_result_v1.json',
+          ):
+              assert not Path(p).exists(), p
+          print('h9_preinference_firewall=pass')
+          PY
+      - name: Run exactly one frozen H9 spatial inference
+        run: python scripts/analysis/run_random_photo_first_h9_individual_distance.py
+      - name: Validate terminal H9 result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/random_photo_first_h9_individual_distance_result_v1.json').read_text())
+          assert r['status'] == 'complete_h9_individual_distance_inference'
+          assert r['measurement_gate_passed'] is True
+          assert r['raw_species'] == 38
+          assert r['evaluable_species'] == 34
+          assert r['analysis_photos_per_species'] == 20
+          assert r['analysis_photos'] == 680
+          assert r['photo_pairs_per_species'] == 190
+          assert r['permutations'] == 999
+          assert 0 < r['primary']['p_upper'] <= 1
+          assert r['lineage']['new_image_pixels_opened'] is False
+          assert r['lineage']['new_measurement_run'] is False
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h9-frozen-inference-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/derived/random_photo_first_h9_selected_20_per_species_v1.csv
+            data/derived/random_photo_first_h9_species_spatial_result_v1.csv
+            data/derived/random_photo_first_h9_global_null_v1.csv
+            docs/supporting/random_photo_first_h9_individual_distance_result_v1.json
+            docs/supporting/random_photo_first_h9_inference_execution_v1.json
+      - name: Commit terminal H9 inference once
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/random_photo_first_h9_selected_20_per_species_v1.csv \
+            data/derived/random_photo_first_h9_species_spatial_result_v1.csv \
+            data/derived/random_photo_first_h9_global_null_v1.csv \
+            docs/supporting/random_photo_first_h9_individual_distance_result_v1.json
+          git commit -m "Complete frozen H9 individual-distance inference"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/random-photo-first-h9-reassembly-recovery
+            git rebase origin/analysis/random-photo-first-h9-reassembly-recovery
+            if git push origin HEAD:analysis/random-photo-first-h9-reassembly-recovery; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
