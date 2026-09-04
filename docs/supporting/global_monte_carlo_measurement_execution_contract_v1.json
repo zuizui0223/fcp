@@ -78,7 +78,14 @@
     "minimum_dominant_fraction": 0.5,
     "minimum_margin_over_second_group": 0.1,
     "biological_groups": ["white", "yellow_orange", "red_pink", "blue_purple"],
-    "soft_colour_input_for_rgfca": "the four frozen flower_fraction values corresponding to the biological groups, retained from the terminal blind measurement output",
+    "terminal_fixed_palette_anchors": ["white", "yellow", "orange", "red", "pink", "magenta", "purple", "blue", "bronze"],
+    "rgfca_soft_colour_mapping": {
+      "colour_white": "flower_fraction_white",
+      "colour_yellow_orange": "flower_fraction_yellow + flower_fraction_orange + flower_fraction_bronze",
+      "colour_red_pink": "flower_fraction_red + flower_fraction_pink + flower_fraction_magenta",
+      "colour_blue_purple": "flower_fraction_blue + flower_fraction_purple"
+    },
+    "rgfca_soft_colour_validation": "for every global_classifiable row, the four mapped masses must sum to one within absolute tolerance 1e-8 before G1/G3",
     "all_candidate_rows_reach_exactly_one_terminal_result": true,
     "replacement_after_download_or_measurement_failure": false,
     "persist_image_pixels": false,
