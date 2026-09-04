@@ -4,6 +4,8 @@ import numpy as np
 import pytest
 
 from fcp_pipeline.global_overlay_alignment import (
+    edge_alignment_permutation_test,
+    evaluate_primary_edge_mechanisms,
     evaluate_primary_overlays,
     holm_adjust,
     overlay_alignment_permutation_test,
@@ -24,8 +26,6 @@ def test_planted_external_barrier_alignment_beats_colour_permutation_null():
     n_cells = 120
     predictor = np.linspace(-1.0, 1.0, n_cells)
     observed = predictor + rng.normal(0.0, 0.05, n_cells)
-    # Null fields preserve the same cell support but no systematic alignment to
-    # the fixed external surface.
     null = np.vstack([rng.permutation(observed) for _ in range(199)])
     result = overlay_alignment_permutation_test(
         predictor_name="planted_barrier",
@@ -82,6 +82,74 @@ def test_holm_adjustment_is_monotone_and_family_wise():
     assert adjusted["b"] == pytest.approx(0.09)
     assert adjusted["c"] == pytest.approx(0.40)
     assert adjusted["d"] == pytest.approx(0.80)
+
+
+def _edge_fixture(n_species: int = 40, edges_per_species: int = 8):
+    species_index = np.repeat(np.arange(n_species), edges_per_species)
+    external = np.tile(np.arange(edges_per_species, dtype=float), n_species)
+    colour = external.copy()
+    rng = np.random.default_rng(44)
+    null = []
+    for _ in range(199):
+        row = colour.copy()
+        for species_id in range(n_species):
+            idx = np.flatnonzero(species_index == species_id)
+            row[idx] = row[rng.permutation(idx)]
+        null.append(row)
+    return colour, np.vstack(null), external, species_index
+
+
+def test_species_equal_edge_alignment_detects_repeated_mechanistic_contrast():
+    colour, null, external, species_index = _edge_fixture()
+    result = edge_alignment_permutation_test(
+        predictor_name="pollinator_turnover",
+        colour_scores=colour,
+        null_colour_scores=null,
+        external_edge_scores=external,
+        species_index=species_index,
+        minimum_edges_per_species=5,
+        minimum_species=30,
+    )
+    assert result.status == "evaluated"
+    assert result.mean_species_rho > 0.99
+    assert result.positive_species_fraction == pytest.approx(1.0)
+    assert result.p_upper <= 0.01
+
+
+def test_edge_mechanism_family_does_not_require_global_zone_support():
+    colour, null, external, species_index = _edge_fixture()
+    rng = np.random.default_rng(18)
+    payload = evaluate_primary_edge_mechanisms(
+        colour_scores=colour,
+        null_colour_scores=null,
+        external_edge_scores={
+            "pollinator_turnover": external,
+            "noise": rng.normal(size=len(external)),
+        },
+        species_index=species_index,
+        minimum_edges_per_species=5,
+        minimum_species=30,
+        alpha=0.05,
+    )
+    assert payload["status"] == "evaluated"
+    assert payload["does_not_require_G1"] is True
+    assert payload["cannot_rescue_null_G1"] is True
+    assert payload["results"]["pollinator_turnover"]["supported"] is True
+
+
+def test_edge_alignment_with_too_few_species_is_not_evaluable():
+    colour, null, external, species_index = _edge_fixture(n_species=10)
+    result = edge_alignment_permutation_test(
+        predictor_name="climate_turnover",
+        colour_scores=colour,
+        null_colour_scores=null,
+        external_edge_scores=external,
+        species_index=species_index,
+        minimum_edges_per_species=5,
+        minimum_species=30,
+    )
+    assert result.status == "not_evaluable_species_coverage"
+    assert result.n_species == 10
 
 
 def test_primary_overlays_cannot_run_before_colour_field_and_stability_gates():
