@@ -6,6 +6,7 @@ on:
       - analysis/global-monte-carlo-barrier-atlas
     paths:
       - "fcp_pipeline/global_monte_carlo.py"
+      - "fcp_pipeline/global_repeated_atlas.py"
       - "fcp_pipeline/global_barrier_field.py"
       - "fcp_pipeline/global_overlay_alignment.py"
       - "fcp_pipeline/global_edge_mechanism_v2.py"
@@ -15,6 +16,7 @@ on:
       - "scripts/acquisition/freeze_global_monte_carlo_species_discovery.py"
       - "scripts/acquisition/run_global_monte_carlo_capacity_scan.py"
       - "tests/test_global_monte_carlo.py"
+      - "tests/test_global_repeated_atlas.py"
       - "tests/test_global_barrier_field.py"
       - "tests/test_global_barrier_node_null.py"
       - "tests/test_global_overlay_alignment.py"
@@ -29,6 +31,7 @@ on:
       - "docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json"
       - "docs/supporting/global_monte_carlo_barrier_field_contract_v1.json"
       - "docs/supporting/global_barrier_null_amendment_v1.json"
+      - "docs/supporting/global_repeated_atlas_consensus_contract_v1.json"
       - "docs/supporting/global_colour_biogeography_overlay_contract_v1.json"
       - "docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json"
       - "docs/supporting/global_sympatry_colour_assembly_contract_v1.json"
@@ -58,6 +61,7 @@ jobs:
         run: |
           python -m py_compile scripts/acquisition/freeze_global_monte_carlo_species_discovery.py
           python -m py_compile scripts/acquisition/run_global_monte_carlo_capacity_scan.py
+          python -m py_compile fcp_pipeline/global_repeated_atlas.py
           python -m py_compile fcp_pipeline/global_barrier_field.py
           python -m py_compile fcp_pipeline/global_overlay_alignment.py
           python -m py_compile fcp_pipeline/global_edge_mechanism_v2.py
@@ -68,6 +72,7 @@ jobs:
         run: |
           pytest -q \
             tests/test_global_monte_carlo.py \
+            tests/test_global_repeated_atlas.py \
             tests/test_global_barrier_field.py \
             tests/test_global_barrier_node_null.py \
             tests/test_global_overlay_alignment.py \
@@ -82,6 +87,7 @@ jobs:
           python -m json.tool docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_barrier_field_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_barrier_null_amendment_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_repeated_atlas_consensus_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_colour_biogeography_overlay_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_sympatry_colour_assembly_contract_v1.json >/dev/null
