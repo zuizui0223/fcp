@@ -106,11 +106,11 @@ def main() -> None:
             "target_is_metadata_feasible": bool(target_feasible_species >= int(target["target_species"])),
         },
         "outcome_firewall": {
-            "colour_columns_read": false,
-            "measured_table_read": false,
-            "h1_h6_species_effects_read": false,
-            "fresh_h7_api_queries_opened": false,
-            "fresh_h7_image_pixels_opened": false,
+            "colour_columns_read": False,
+            "measured_table_read": False,
+            "h1_h6_species_effects_read": False,
+            "fresh_h7_api_queries_opened": False,
+            "fresh_h7_image_pixels_opened": False,
         },
         "lineage": {
             "candidate_table_sha256": sha256_file(POOL),
