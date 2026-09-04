@@ -1,0 +1,52 @@
+{
+  "protocol": "random-photo-first-h7-balanced-itv-v1",
+  "status": "h7_fresh_metadata_frozen_before_pixels",
+  "query_attempts": 312,
+  "expected_query_attempts": 312,
+  "query_retries": 0,
+  "request_error_targets": 0,
+  "retained_fresh_photos": 4942,
+  "retained_unique_observation_ids": 4942,
+  "retained_unique_photo_ids": 4942,
+  "species": 52,
+  "target_cells": 312,
+  "premeasurement_gate": {
+    "species_requiring_at_least_full_cells": 5,
+    "full_cell_definition_retained_photos": 30,
+    "passing_species": 5,
+    "required_species": 35,
+    "pass": false,
+    "decision": "not_evaluable_h7_fresh_metadata_support_before_pixels"
+  },
+  "freshness_firewall": {
+    "prior_exclusion_observation_ids": 81803,
+    "prior_exclusion_photo_ids": 81803,
+    "prior_observations_retained": 0,
+    "prior_photos_retained": 0
+  },
+  "candidate_image_pixels_opened": false,
+  "colour_used_for_selection": false,
+  "query_opened_once": true,
+  "query_completed_without_replacement": true,
+  "lineage": {
+    "contract_path": "docs/supporting/random_photo_first_h7_balanced_itv_contract_v1.json",
+    "freshness_amendment_path": "docs/supporting/random_photo_first_h7_freshness_source_amendment_v1.json",
+    "target_table_sha256": "9ab421d79ce2b3abe7da3bac09225c51699f2d63f1096f3be7eb7c3d47ce9290",
+    "exclusion_table_sha256": "b877a5fe5d36e0a5f84e73b9eae14b3c33b3f0fddc0ebc1a5f69331cc88b811a",
+    "pr21_terminal_manifest_sha256": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc"
+  },
+  "files": {
+    "observations": {
+      "path": "data/frozen/random_photo_first_h7_fresh_metadata_v1.csv",
+      "sha256": "8c6bfe77db6248e622f585c5a703fdd3a20d6bc1892b3819411338895896d01e"
+    },
+    "target_audit": {
+      "path": "data/frozen/random_photo_first_h7_fresh_metadata_target_audit_v1.csv",
+      "sha256": "6220d160a79d458bcd59fe306f94a552a4cd9de5f18ca30406cedf33e5fc33c6"
+    },
+    "species_support": {
+      "path": "data/frozen/random_photo_first_h7_fresh_metadata_species_support_v1.csv",
+      "sha256": "c4f399c08a0283fffefb362d523d10df6a93a700ce8c4b0c04623d4ce2459aef"
+    }
+  }
+}
