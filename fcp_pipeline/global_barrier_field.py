@@ -1,9 +1,14 @@
 """Opportunity-conditioned global recurrent-barrier field primitives.
 
-This module contains only geometry/statistics.  It does not acquire images or
-choose species.  Geometry is prepared once and reused for observed and
-within-species colour permutations, so the null cannot alter where species had
-an opportunity to contribute a geographic edge.
+This module contains only geometry/statistics. It does not acquire images or
+choose species. Geometry is prepared once and reused for observed and null
+fields, so the null cannot alter where species had an opportunity to contribute
+a geographic edge.
+
+The confirmatory RGFCA G1 null is photograph-level: complete soft colour vectors
+are permuted within species and edge Jensen-Shannon divergences plus within-
+species ranks are recomputed. The older edge-score permutation helper is retained
+only as a legacy diagnostic and must not be used as the primary RGFCA null.
 """
 from __future__ import annotations
 
@@ -112,6 +117,103 @@ def within_species_rank_scores(
     return ((rank.to_numpy(dtype=float) - 0.5) / n.to_numpy(dtype=float)).astype(float)
 
 
+def edge_jensen_shannon_divergence(
+    colour_vectors: Sequence[Sequence[float]],
+    edge_nodes: Sequence[Sequence[int]],
+) -> np.ndarray:
+    """Vectorized Jensen-Shannon divergence in bits for fixed graph edges.
+
+    Rows are complete soft colour vectors. They are normalized internally, so
+    nonnegative palette masses need not sum exactly to one. The score is bounded
+    to [0, 1] for base-2 logarithms.
+    """
+    values = np.asarray(colour_vectors, dtype=float)
+    edges = np.asarray(edge_nodes)
+    if values.ndim != 2 or values.shape[0] < 2 or values.shape[1] < 2:
+        raise ValueError("colour_vectors must have shape (n_photos>=2, n_groups>=2)")
+    if not np.all(np.isfinite(values)) or np.any(values < 0):
+        raise ValueError("colour vectors must be finite and non-negative")
+    mass = values.sum(axis=1)
+    if np.any(mass <= 0):
+        raise ValueError("every colour vector must have positive mass")
+    if edges.ndim != 2 or edges.shape[1] != 2:
+        raise ValueError("edge_nodes must have shape (n_edges, 2)")
+    if not np.issubdtype(edges.dtype, np.integer):
+        if np.any(edges != np.floor(edges)):
+            raise ValueError("edge node indices must be integers")
+        edges = edges.astype(np.int64)
+    else:
+        edges = edges.astype(np.int64, copy=False)
+    if len(edges) == 0:
+        return np.empty(0, dtype=float)
+    if edges.min() < 0 or edges.max() >= len(values):
+        raise ValueError("edge node index out of bounds")
+    if np.any(edges[:, 0] == edges[:, 1]):
+        raise ValueError("self edges are not allowed")
+
+    probabilities = values / mass[:, None]
+    p = probabilities[edges[:, 0]]
+    q = probabilities[edges[:, 1]]
+    m = 0.5 * (p + q)
+
+    def _row_kl(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+        term = np.zeros_like(a, dtype=float)
+        keep = a > 0
+        term[keep] = a[keep] * np.log2(a[keep] / b[keep])
+        return term.sum(axis=1)
+
+    jsd = 0.5 * _row_kl(p, m) + 0.5 * _row_kl(q, m)
+    return np.clip(jsd, 0.0, 1.0)
+
+
+def permute_colour_vectors_within_species(
+    colour_vectors: Sequence[Sequence[float]],
+    photo_species: Sequence[object],
+    *,
+    rng: np.random.Generator,
+) -> np.ndarray:
+    """Permute complete photograph-level colour rows strictly within species."""
+    values = np.asarray(colour_vectors, dtype=float)
+    species = np.asarray(photo_species)
+    if values.ndim != 2 or species.ndim != 1 or len(values) != len(species):
+        raise ValueError("colour_vectors and photo_species observation counts must match")
+    if not np.all(np.isfinite(values)):
+        raise ValueError("colour_vectors must be finite")
+    out = values.copy()
+    for label in pd.unique(species):
+        idx = np.flatnonzero(species == label)
+        out[idx] = values[rng.permutation(idx)]
+    return out
+
+
+def _edge_species_from_nodes(
+    photo_species: np.ndarray,
+    edge_nodes: np.ndarray,
+) -> np.ndarray:
+    left = photo_species[edge_nodes[:, 0]]
+    right = photo_species[edge_nodes[:, 1]]
+    if np.any(left != right):
+        raise ValueError("every barrier edge must remain within species")
+    return left.astype(str)
+
+
+def rank_scores_from_node_colours(
+    colour_vectors: Sequence[Sequence[float]],
+    photo_species: Sequence[object],
+    edge_nodes: Sequence[Sequence[int]],
+) -> tuple[np.ndarray, np.ndarray]:
+    """Recompute edge JSD and within-species ranks from photograph colours."""
+    species = np.asarray(photo_species)
+    edges = np.asarray(edge_nodes, dtype=np.int64)
+    if species.ndim != 1:
+        raise ValueError("photo_species must be one-dimensional")
+    edge_species = _edge_species_from_nodes(species, edges)
+    raw = edge_jensen_shannon_divergence(colour_vectors, edges)
+    frame = pd.DataFrame({"species": edge_species, "raw_colour_jsd": raw})
+    rank = within_species_rank_scores(frame, score_column="raw_colour_jsd")
+    return raw, rank
+
+
 def _central_angle_distance_km(a_xyz: np.ndarray, b_xyz: np.ndarray) -> np.ndarray:
     dot = np.clip(a_xyz @ b_xyz.T, -1.0, 1.0)
     return np.arccos(dot) * EARTH_RADIUS_KM
@@ -156,9 +258,6 @@ def prepare_barrier_geometry(
     row_sum = kernel.sum(axis=1)
     missing_support = np.flatnonzero(row_sum <= 0)
     if len(missing_support):
-        # A coarse grid can in principle have no centre within a very small
-        # compact support.  Deterministically assign such an edge to its nearest
-        # grid centre rather than silently deleting geographic opportunity.
         nearest = np.argmin(distance[missing_support], axis=1)
         kernel[missing_support, nearest] = 1.0
         row_sum = kernel.sum(axis=1)
@@ -234,6 +333,7 @@ def permute_scores_within_species(
     *,
     rng: np.random.Generator,
 ) -> np.ndarray:
+    """Legacy edge-score shuffle retained for diagnostics, not primary G1."""
     score = np.asarray(score, dtype=float)
     if score.shape != species_index.shape:
         raise ValueError("score/species_index shapes differ")
@@ -252,6 +352,7 @@ def concentration_permutation_test(
     permutations: int = 999,
     seed: int = 20260904,
 ) -> dict[str, object]:
+    """Legacy edge-score null; forbidden as confirmatory RGFCA G1 primary null."""
     permutations = int(permutations)
     if permutations < 1:
         raise ValueError("permutations must be positive")
@@ -282,6 +383,77 @@ def concentration_permutation_test(
         "null_q975": float(np.quantile(null, 0.975)),
         "permutations": permutations,
         "seed": int(seed),
+        "null_unit": "legacy_edge_score",
+        "primary_rgfca_allowed": False,
+    }
+
+
+def node_colour_concentration_permutation_test(
+    geometry: BarrierGeometry,
+    colour_vectors: Sequence[Sequence[float]],
+    photo_species: Sequence[object],
+    edge_nodes: Sequence[Sequence[int]],
+    *,
+    minimum_distinct_species: int = 5,
+    permutations: int = 999,
+    seed: int = 20260904,
+) -> dict[str, object]:
+    """Confirmatory single-field null using complete photo-colour vector shuffles.
+
+    Graph geometry is fixed. For every null replicate, complete colour rows move
+    only among photographs of the same species; edge JSD and within-species ranks
+    are then recomputed. This preserves the dependence induced by graph edges that
+    share a photograph.
+
+    The full RGFCA runner must apply one such species-conditioned photo permutation
+    to the full measured pool and reuse that assignment across its frozen 200 outer
+    realizations. This helper validates the statistical primitive for one fixed
+    realization.
+    """
+    permutations = int(permutations)
+    if permutations < 1:
+        raise ValueError("permutations must be positive")
+    values = np.asarray(colour_vectors, dtype=float)
+    species = np.asarray(photo_species)
+    edges = np.asarray(edge_nodes, dtype=np.int64)
+    if values.ndim != 2 or species.ndim != 1 or len(values) != len(species):
+        raise ValueError("colour_vectors and photo_species counts must match")
+    edge_species = _edge_species_from_nodes(species, edges)
+    expected_edge_species = np.asarray([geometry.species[i] for i in geometry.edge_species_index])
+    if len(edge_species) != len(expected_edge_species) or np.any(edge_species.astype(str) != expected_edge_species.astype(str)):
+        raise ValueError("edge node species/order does not match prepared barrier geometry")
+
+    _, observed_rank = rank_scores_from_node_colours(values, species, edges)
+    observed = barrier_field(
+        geometry,
+        observed_rank,
+        minimum_distinct_species=minimum_distinct_species,
+    )
+    if not np.isfinite(observed.concentration):
+        raise ValueError("observed field is not evaluable")
+
+    rng = np.random.default_rng(int(seed))
+    null = np.empty(permutations, dtype=float)
+    for b in range(permutations):
+        permuted_values = permute_colour_vectors_within_species(values, species, rng=rng)
+        _, rank = rank_scores_from_node_colours(permuted_values, species, edges)
+        null[b] = barrier_field(
+            geometry,
+            rank,
+            minimum_distinct_species=minimum_distinct_species,
+        ).concentration
+    p_upper = float((1 + np.count_nonzero(null >= observed.concentration)) / (permutations + 1))
+    return {
+        "observed": observed,
+        "null": null,
+        "p_upper": p_upper,
+        "null_mean": float(null.mean()),
+        "null_q025": float(np.quantile(null, 0.025)),
+        "null_q975": float(np.quantile(null, 0.975)),
+        "permutations": permutations,
+        "seed": int(seed),
+        "null_unit": "complete_photo_colour_vector_within_species",
+        "primary_rgfca_allowed": True,
     }
 
 
@@ -291,9 +463,13 @@ __all__ = [
     "BarrierGrid",
     "barrier_field",
     "concentration_permutation_test",
+    "edge_jensen_shannon_divergence",
     "equal_area_grid_centers",
-    "prepare_barrier_geometry",
+    "node_colour_concentration_permutation_test",
+    "permute_colour_vectors_within_species",
     "permute_scores_within_species",
+    "prepare_barrier_geometry",
+    "rank_scores_from_node_colours",
     "spherical_midpoint",
     "within_species_rank_scores",
 ]
