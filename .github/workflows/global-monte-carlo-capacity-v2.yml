@@ -1,0 +1,138 @@
+name: Global Monte Carlo sharded capacity scan v2
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json"
+      - "data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv"
+
+permissions:
+  contents: write
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      species_count: ${{ steps.check.outputs.species_count }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - id: check
+        name: Verify frozen V2-to-capacity gate
+        run: |
+          python - <<'PY'
+          import json, os
+          import pandas as pd
+          from pathlib import Path
+          v2 = json.loads(Path('docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json').read_text())
+          ex = json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_v2_execution_contract.json').read_text())
+          frame = pd.read_csv('data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv')
+          if v2.get('status') != 'complete_cache_resistant_metadata_only_global_species_discovery_v2':
+              raise SystemExit('V2 discovery status does not authorize capacity scan')
+          if v2.get('candidate_image_pixels_opened') is not False or v2.get('flower_colour_used') is not False:
+              raise SystemExit('V2 discovery opened forbidden outcomes')
+          if ex.get('biological_rules_changed') is not False:
+              raise SystemExit('capacity execution changed biological rules')
+          if ex['execution']['deterministic_shards'] != 8 or ex['execution']['max_parallel'] != 1:
+              raise SystemExit('capacity execution topology drifted')
+          n = int(frame['inat_taxon_id'].nunique())
+          if n <= 0:
+              raise SystemExit('combined V2 species frame is empty')
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              fh.write(f'species_count={n}\n')
+          print({'capacity_gate': 'pass', 'species_count': n})
+          PY
+
+  shard:
+    needs: gate
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Run exactly one deterministic metadata shard
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/capacity-shard
+          python scripts/acquisition/run_global_monte_carlo_capacity_scan_shard.py \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 8 \
+            --output-dir /tmp/capacity-shard
+      - name: Upload immutable shard products
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-capacity-v2-shard-${{ matrix.shard }}
+          path: /tmp/capacity-shard/
+          retention-days: 30
+
+  reduce:
+    needs: [gate, shard]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Download all eight shard artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: global-capacity-v2-shard-*
+          path: /tmp/capacity-shards
+      - name: Strictly reduce complete species census
+        run: python scripts/analysis/reduce_global_monte_carlo_capacity_scan_v2.py --input-root /tmp/capacity-shards
+      - name: Validate frozen biological gate
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          m = json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json').read_text())
+          a = pd.read_csv('data/frozen/global_monte_carlo_capacity_scan_species_audit_v2.csv')
+          s = pd.read_csv('data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv')
+          assert m['candidate_image_pixels_opened'] is False
+          assert m['flower_colour_used'] is False
+          assert m['shards_reassembled'] == m['shards_required'] == 8
+          assert m['request_attempts'] == m['discovered_species_scanned'] == len(a)
+          assert a['inat_taxon_id'].nunique() == len(a)
+          assert m['biological_rules_changed_from_parent'] is False
+          if m['selected_raw_photo_target'] is not None:
+              assert int(m['selected_raw_photo_target']) in (100, 80, 60)
+              assert len(s) == int(m['selected_species'])
+              assert len(s) >= 300
+          PY
+      - name: Commit immutable metadata-only capacity result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/global_monte_carlo_capacity_scan_species_audit_v2.csv \
+            data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv \
+            docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json
+          git commit -m "Freeze sharded global capacity scan v2"
+          git fetch origin analysis/global-monte-carlo-barrier-atlas
+          git rebase origin/analysis/global-monte-carlo-barrier-atlas
+          git push origin HEAD:analysis/global-monte-carlo-barrier-atlas
