@@ -10,6 +10,7 @@ on:
       - "fcp_pipeline/global_rgfca_engine.py"
       - "fcp_pipeline/global_g3.py"
       - "fcp_pipeline/global_candidate_acquisition.py"
+      - "fcp_pipeline/global_capacity_handoff.py"
       - "fcp_pipeline/global_capacity_recovery.py"
       - "fcp_pipeline/global_barrier_field.py"
       - "fcp_pipeline/global_overlay_alignment.py"
@@ -34,6 +35,7 @@ on:
       - "tests/test_global_rgfca_engine.py"
       - "tests/test_global_g3.py"
       - "tests/test_global_candidate_acquisition.py"
+      - "tests/test_global_capacity_handoff.py"
       - "tests/test_global_capacity_recovery.py"
       - "tests/test_global_barrier_field.py"
       - "tests/test_global_barrier_node_null.py"
@@ -101,6 +103,7 @@ jobs:
           python -m py_compile fcp_pipeline/global_rgfca_engine.py
           python -m py_compile fcp_pipeline/global_g3.py
           python -m py_compile fcp_pipeline/global_candidate_acquisition.py
+          python -m py_compile fcp_pipeline/global_capacity_handoff.py
           python -m py_compile fcp_pipeline/global_capacity_recovery.py
           python -m py_compile fcp_pipeline/global_barrier_field.py
           python -m py_compile fcp_pipeline/global_overlay_alignment.py
@@ -116,6 +119,7 @@ jobs:
             tests/test_global_rgfca_engine.py \
             tests/test_global_g3.py \
             tests/test_global_candidate_acquisition.py \
+            tests/test_global_capacity_handoff.py \
             tests/test_global_capacity_recovery.py \
             tests/test_global_barrier_field.py \
             tests/test_global_barrier_node_null.py \
