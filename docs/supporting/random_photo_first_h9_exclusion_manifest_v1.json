@@ -1,0 +1,16 @@
+{
+  "protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "status": "h9_prior_id_exclusion_frozen_before_h9_query",
+  "source_rows": {
+    "pre_h7_unique_pairs": 81803,
+    "h7_fresh_rows": 4942
+  },
+  "unique_exclusion_pairs": 86745,
+  "unique_exclusion_observation_ids": 86745,
+  "unique_exclusion_photo_ids": 86745,
+  "h7_exclusion_sha256": "b877a5fe5d36e0a5f84e73b9eae14b3c33b3f0fddc0ebc1a5f69331cc88b811a",
+  "h7_fresh_sha256": "8c6bfe77db6248e622f585c5a703fdd3a20d6bc1892b3819411338895896d01e",
+  "h9_exclusion_sha256": "f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99",
+  "h9_api_queries_opened": false,
+  "h9_pixels_opened": false
+}
