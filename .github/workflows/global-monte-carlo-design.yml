@@ -20,6 +20,7 @@ on:
       - "docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md"
       - "docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json"
       - "docs/supporting/global_colour_biogeography_overlay_contract_v1.json"
+      - "docs/supporting/global_overlay_source_registry_v1.json"
       - "docs/supporting/global_monte_carlo_information_audit_v1.json"
       - "docs/supporting/global_monte_carlo_species_discovery_contract_v1.json"
       - "docs/supporting/global_monte_carlo_capacity_scan_contract_v1.json"
@@ -59,6 +60,7 @@ jobs:
         run: |
           python -m json.tool docs/supporting/global_monte_carlo_barrier_atlas_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_colour_biogeography_overlay_contract_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_overlay_source_registry_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_information_audit_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_species_discovery_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_capacity_scan_contract_v1.json >/dev/null
