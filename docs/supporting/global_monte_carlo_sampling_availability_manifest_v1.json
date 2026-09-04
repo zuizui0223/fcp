@@ -1,0 +1,28 @@
+{
+  "protocol": "rgfca-observation-bias-robustness-v1",
+  "status": "complete_metadata_only_sampling_availability_surface",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "cells": 162,
+  "layers": [
+    "all_research_photo_records",
+    "license_eligible_photo_records",
+    "flowering_annotated_eligible_records"
+  ],
+  "request_attempts": 486,
+  "request_errors": 0,
+  "request_error_fraction": 0.0,
+  "maximum_error_fraction": 0.05,
+  "top_decile_log1p_all_photo_effort_threshold": 13.614926917578556,
+  "top_decile_cells": 17,
+  "interpretation": "Counts are target-group sampling-availability proxies that combine biological availability and observer/platform effort. They are frozen robustness covariates, not direct estimates of true sampling probability.",
+  "lineage": {
+    "contract_sha256": "4b3b32d617063761fb79c7e672ab722f2710b7e58ccc3b6ddbf18098d77cf92e"
+  },
+  "files": {
+    "cell_surface": {
+      "path": "data/frozen/global_monte_carlo_sampling_availability_cells_v1.csv",
+      "sha256": "16a26b373157d92770b3d24a109efdd73062c684592e9c6cd7e0d0c320562707"
+    }
+  }
+}
