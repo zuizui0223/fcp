@@ -65,13 +65,17 @@
   "g3_prevalence_heterogeneity": {
     "role": "reported regardless of G1; cannot rescue a null G1",
     "species_statistic_per_outer": "Spearman correlation between all 190 pairwise great-circle distances and pairwise four-group colour JSD among the same 20 photos",
+    "constant_colour_distance_rule": "rho=0 because the draw contains no spatial colour differentiation",
+    "constant_geographic_distance_rule": "rho=not_evaluable for that species-outer draw because geographic distance contains no rank information",
+    "outer_summary_denominator": "finite species rho values only; scheduled and evaluable species counts are both reported",
     "outer_outputs": ["equal-species mean rho", "equal-species median rho", "fraction rho greater than zero"],
-    "species_outputs": ["number of outer appearances", "mean rho", "median rho", "q025 rho", "q975 rho"],
+    "species_outputs": ["number of outer appearances", "number of evaluable appearances", "mean rho", "median rho", "q025 rho", "q975 rho"],
     "global_outputs": ["median outer mean rho", "median outer median rho", "median outer positive fraction"],
     "hierarchical_heterogeneity": {
       "transform": "Fisher atanh after clipping rho to [-0.999999,0.999999]",
-      "species_effect": "mean Fisher-z over outer appearances",
-      "species_sampling_variance": "sample variance of Fisher-z across appearances divided by number of appearances; species with one appearance are not used for tau2",
+      "species_effect": "mean Fisher-z over finite outer appearances",
+      "species_sampling_variance": "sample variance of Fisher-z across appearances divided by number of appearances; species with fewer than two finite appearances are not used for tau2",
+      "sampling_variance_floor": 0.000001,
       "between_species_variance": "DerSimonian-Laird method-of-moments tau^2 on species mean Fisher-z values",
       "interpretation": "descriptive heterogeneity estimate under repeated photo resampling; not a phylogenetic causal model"
     },
