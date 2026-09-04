@@ -1,11 +1,29 @@
 {
   "protocol": "global-monte-carlo-candidate-acquisition-v1",
   "status": "frozen_after_v2_discovery_success_before_capacity_outcome_and_before_candidate_pixels",
-  "date": "2026-09-04",
+  "date": "2026-09-05",
   "parent_capacity_contract": "docs/supporting/global_monte_carlo_capacity_scan_contract_v1.json",
-  "capacity_result_required": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json",
-  "selected_species_required": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv",
-  "selected_raw_photo_target": "inherit exactly from capacity manifest; allowed values 100, 80, 60; no fallback",
+  "capacity_handoff": {
+    "authorization_required": "docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json",
+    "allowed_sources": {
+      "v2_primary": {
+        "manifest": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json",
+        "selected_species": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv",
+        "required_status": "complete_metadata_only_capacity_scan_target_selected_v2"
+      },
+      "v3_transport_recovery": {
+        "manifest": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json",
+        "selected_species": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv",
+        "required_status": "complete_metadata_only_capacity_scan_target_selected_after_transport_recovery_v3",
+        "required_original_v2_status": "not_evaluable_capacity_scan_due_request_failure",
+        "second_recovery_permitted": false
+      }
+    },
+    "rule": "use exactly the single source named by the authorization; v3 is admissible only as the frozen transport-only recovery of a formally request-failed v2; no source selection from biological outcomes",
+    "capacity_manifest_blob_sha_required": true,
+    "selected_species_blob_sha_required": true
+  },
+  "selected_raw_photo_target": "inherit exactly from the authorized capacity manifest; allowed values 100, 80, 60; no fallback",
   "query": {
     "stable_sort": "order_by=id, order=desc",
     "per_page": 200,
@@ -61,11 +79,12 @@
   "outputs": {
     "species_audit": "all capacity-selected species with fixed pages, request errors, raw/eligible/deduplicated/observer-capped counts, geographic span and full-target status",
     "candidate_photo_pool": "exact selected-target metadata rows only for species passing the acquisition target; includes source URL for later firewall acquisition but no pixels",
-    "manifest": "complete shard lineage, request error fraction, full-target species count, exact target and fail-closed premeasurement decision"
+    "manifest": "complete capacity-source lineage, shard lineage, request error fraction, full-target species count, exact target and fail-closed premeasurement decision"
   },
   "outcome_firewall": {
     "capacity_target_may_be_read": true,
     "capacity_species_membership_may_be_read": true,
+    "flower_colour_used_for_capacity_source_selection": false,
     "flower_colour_used_for_page_selection": false,
     "flower_colour_used_for_species_selection": false,
     "climate_used": false,
