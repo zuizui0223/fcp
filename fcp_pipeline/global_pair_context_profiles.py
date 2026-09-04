@@ -1,7 +1,7 @@
 """External-only ecological/geographic profiles for sympatric and allopatric pairs.
 
 These descriptors are frozen before flower-colour outcomes. They are deliberately
-non-causal and nonexclusive.  A pair can receive multiple labels, or none.
+non-causal and nonexclusive. A pair can receive multiple labels, or none.
 
 The same external contrast variables used by G3/G4 are summarized relative to a
 pre-frozen reference distribution of all eligible plant-pair opportunities.
@@ -9,8 +9,8 @@ Flower colour is never used to create thresholds or labels.
 
 For sympatric pairs, low external distance/turnover can describe shared ecological
 context (e.g. climate-similar, edaphic-similar, pollinator-similar).
-For allopatric pairs, high external distance or barrier intensity can describe the
-kind of separation (e.g. climate-separated, marine-separated).
+For allopatric pairs, high external distance or positive barrier intensity can
+describe the kind of separation (e.g. climate-separated, marine-gap-separated).
 """
 from __future__ import annotations
 
@@ -58,31 +58,30 @@ def build_pair_context_profiles(
         "biogeographic_boundary_crossing",
         "mountain_boundary_crossing",
     ),
+    direct_barrier_axes: Sequence[str] = (
+        "marine_gap",
+        "major_river_crossing",
+        "biogeographic_boundary_crossing",
+        "mountain_boundary_crossing",
+    ),
     low_quantile: float = 0.25,
     high_quantile: float = 0.75,
     minimum_reference: int = 100,
 ) -> dict[str, object]:
     """Assign external-only context labels to sympatric/allopatric plant pairs.
 
-    Parameters
-    ----------
-    geography:
-        Each value must be exactly ``sympatric`` or ``allopatric``. Geography is
-        defined upstream from the frozen GBIF occupancy frame.
-    pair_scores:
-        Predictor contrast scores aligned to ``pair_ids``. High values must mean
-        greater turnover/separation/barrier intensity for every axis.
-    reference_scores:
-        Outcome-blind eligible-pair reference distributions for each axis.
+    ``pair_scores`` and ``reference_scores`` must be outcome-blind. All scores
+    increase with ecological turnover or geographic-barrier intensity.
 
-    Returns
-    -------
-    Sympatric pairs are labelled ``<axis>-similar`` when a turnover/distance axis
-    is at or below its frozen 25th-percentile reference threshold. Allopatric
-    pairs are labelled ``<axis>-separated`` when an axis is at or above the 75th
-    percentile. Binary barrier axes therefore naturally become labels only where
-    their high quantile permits discrimination; axes with constant references
-    are marked non-informative and produce no labels.
+    Sympatric turnover/distance axes receive ``<axis>-similar`` when at or below
+    the external-only 25th percentile. Allopatric turnover/distance axes receive
+    ``<axis>-separated`` at or above the 75th percentile.
+
+    Zero-inflated explicit barrier axes need one extra guard. If their 75th
+    percentile is zero, a zero score cannot be called separated merely because it
+    equals that percentile; only a strictly positive barrier score is labelled.
+    If Q75 is positive, the usual >=Q75 rule applies. Constant/sparse references
+    remain not evaluable.
     """
     ids = np.asarray(pair_ids, dtype=object)
     geo = np.asarray(geography, dtype=object)
@@ -101,6 +100,9 @@ def build_pair_context_profiles(
 
     low_axes = tuple(str(x) for x in low_similarity_axes)
     high_axes = tuple(str(x) for x in high_separation_axes)
+    barrier_axes = set(str(x) for x in direct_barrier_axes)
+    if not barrier_axes.issubset(set(high_axes)):
+        raise ValueError("direct_barrier_axes must be a subset of high_separation_axes")
     requested_axes = tuple(dict.fromkeys((*low_axes, *high_axes)))
     score_arrays: dict[str, np.ndarray] = {}
     thresholds: dict[str, dict[str, float | str]] = {}
@@ -116,9 +118,13 @@ def build_pair_context_profiles(
         scores = np.asarray(pair_scores[axis], dtype=float)
         if scores.ndim != 1 or len(scores) != len(ids):
             raise ValueError(f"pair score for {axis} must align with pair_ids")
+        if np.any(scores[np.isfinite(scores)] < 0):
+            raise ValueError(f"pair scores for {axis} cannot be negative")
         score_arrays[axis] = scores
         reference = np.asarray(reference_scores[axis], dtype=float)
         finite_reference = reference[np.isfinite(reference)]
+        if np.any(finite_reference < 0):
+            raise ValueError(f"reference scores for {axis} cannot be negative")
         if len(finite_reference) < minimum_reference:
             thresholds[axis] = {
                 "status": "not_evaluable_reference_coverage",
@@ -166,7 +172,12 @@ def build_pair_context_profiles(
                 if not np.isfinite(value):
                     continue
                 evaluable_axes += 1
-                if value >= float(info["high"]):
+                high = float(info["high"])
+                if axis in barrier_axes and high <= 0:
+                    separated = value > 0
+                else:
+                    separated = value >= high
+                if separated:
                     base = axis.replace("_turnover", "").replace("_crossing", "").replace("_", "-")
                     label = f"{base}-separated"
                     labels.append(label)
@@ -183,6 +194,7 @@ def build_pair_context_profiles(
         "threshold_source": "external-only eligible-pair reference distribution",
         "low_quantile": float(low_quantile),
         "high_quantile": float(high_quantile),
+        "direct_barrier_zero_guard": True,
         "thresholds": thresholds,
         "profiles": profiles,
         "label_counts": label_counts,
