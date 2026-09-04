@@ -1,0 +1,181 @@
+name: Random photo-first H9 artifact-only reassembly recovery
+
+on:
+  push:
+    branches:
+      - analysis/random-photo-first-h9-reassembly-recovery
+    paths:
+      - ".github/workflows/random-photo-first-h9-reassembly-recovery.yml"
+      - "scripts/analysis/reassemble_random_photo_first_h9_measurement.py"
+      - "docs/supporting/random_photo_first_h9_reassembly_recovery_v1.json"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: random-photo-first-h9-artifact-only-reassembly-recovery
+  cancel-in-progress: false
+
+jobs:
+  recover-reassembly:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Verify recovery is lineage-only
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/random_photo_first_h9_reassembly_recovery_v1.json').read_text())
+          assert r['status'] == 'authorize_artifact_only_reassembly_recovery_after_complete_measurement_before_h9_spatial_inference'
+          assert r['source_measurement_commit'] == '362cdcc949f1421a9a5bb0532453914a23b4be83'
+          assert r['source_measurement_run_id'] == 33841342171
+          assert r['failure_classification'] == 'postmeasurement_reassembly_path_serialization_bug'
+          c = r['recovery_constraints']
+          assert c['new_image_downloads_allowed'] is False
+          assert c['new_image_pixels_opened'] is False
+          assert c['new_roi_measurement_allowed'] is False
+          assert c['new_colour_classification_allowed'] is False
+          assert c['required_terminal_partition_count'] == 128
+          assert c['required_terminal_rows'] == 2280
+          assert c['required_species'] == 38
+          assert not Path('data/derived/random_photo_first_h9_measured_photos_v1.csv').exists()
+          assert not Path('docs/supporting/random_photo_first_h9_measurement_result_v1.json').exists()
+          print('h9_artifact_only_recovery_authorization=pass')
+          PY
+      - name: Materialize exact validated reassembly infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m py_compile scripts/analysis/reassemble_random_photo_first_h9_measurement.py
+      - name: Download original frozen H9 firewall artifact only
+        uses: actions/download-artifact@v4
+        with:
+          name: random-photo-first-h9-measurement-firewall-v1
+          path: /tmp/firewall
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33841342171
+      - name: Download original 128 terminal measurement artifacts only
+        uses: actions/download-artifact@v4
+        with:
+          pattern: random-photo-first-h9-terminal-*
+          path: /tmp/partition-results
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33841342171
+      - name: Verify immutable source artifact coverage before metadata join
+        run: |
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          root = Path('/tmp/partition-results')
+          csv_re = re.compile(r'^partition_s(\d{2})_p(\d{2})\.csv$')
+          json_re = re.compile(r'^partition_s(\d{2})_p(\d{2})\.json$')
+          csv_pairs = set()
+          receipt_pairs = set()
+          receipt_rows = 0
+          for p in root.iterdir():
+              m = csv_re.match(p.name)
+              if m:
+                  csv_pairs.add((int(m.group(1)), int(m.group(2))))
+              m = json_re.match(p.name)
+              if m:
+                  pair = (int(m.group(1)), int(m.group(2)))
+                  receipt_pairs.add(pair)
+                  rec = json.loads(p.read_text())
+                  assert rec['status'] == 'complete_random_photo_first_terminal_partition'
+                  assert rec['source_urls_present'] is False
+                  assert rec['species_present'] is False
+                  assert rec['coordinates_present'] is False
+                  receipt_rows += int(rec['terminal_rows'])
+          expected = {(s, p) for s in range(32) for p in range(4)}
+          assert csv_pairs == expected, (len(csv_pairs), sorted(expected-csv_pairs))
+          assert receipt_pairs == expected, (len(receipt_pairs), sorted(expected-receipt_pairs))
+          assert receipt_rows == 2280, receipt_rows
+          print('source_terminal_artifacts=128_of_128')
+          print('source_terminal_rows=2280')
+          PY
+      - name: Reassemble without opening any new image pixels
+        run: |
+          python scripts/analysis/reassemble_random_photo_first_h9_measurement.py \
+            --results-dir /tmp/partition-results \
+            --worker-manifest /tmp/firewall/worker_packet/measurement_manifest.csv \
+            --metadata-join-key /tmp/firewall/sealed_keys/metadata_join_key.csv \
+            --firewall-manifest /tmp/firewall/measurement_firewall_manifest.json \
+            --output-csv data/derived/random_photo_first_h9_measured_photos_v1.csv \
+            --output-manifest docs/supporting/random_photo_first_h9_measurement_result_v1.json
+      - name: Validate recovered measurement and frozen H9 gate
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import pandas as pd
+          result_path = Path('docs/supporting/random_photo_first_h9_measurement_result_v1.json')
+          measured_path = Path('data/derived/random_photo_first_h9_measured_photos_v1.csv')
+          support_path = Path('data/derived/random_photo_first_h9_measurement_species_support_v1.csv')
+          r = json.loads(result_path.read_text())
+          assert r['status'] == 'complete_h9_location_blind_measurement_and_join'
+          assert r['partition_receipts'] == 128
+          assert r['terminal_result_rows'] == 2280
+          assert r['joined_rows'] == 2280
+          assert r['frozen_species'] == 38
+          assert r['coordinate_colour_join_opened_after_complete_measurement'] is True
+          assert r['prior_experiment_rows_used'] is False
+          assert r['h9_spatial_inference_run'] is False
+          assert r['files']['measured_table'] == str(measured_path)
+          assert r['files']['species_support'] == str(support_path)
+          frame = pd.read_csv(measured_path, dtype={'inat_taxon_id': str})
+          assert len(frame) == 2280
+          assert frame['measurement_id'].astype(str).nunique() == 2280
+          assert frame['inat_taxon_id'].astype(str).nunique() == 38
+          assert (frame.groupby('inat_taxon_id').size() == 60).all()
+          assert hashlib.sha256(measured_path.read_bytes()).hexdigest() == r['lineage']['measured_table_sha256']
+          assert hashlib.sha256(support_path.read_bytes()).hexdigest() == r['lineage']['species_support_sha256']
+          print(json.dumps({
+              'postmeasurement_gate': r['postmeasurement_gate'],
+              'classifiable_rows': r['classifiable_rows'],
+              'mixed_uncertain_rows': r['mixed_uncertain_rows'],
+              'h9_spatial_inference_run': r['h9_spatial_inference_run'],
+          }, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h9-recovered-measurement-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/derived/random_photo_first_h9_measured_photos_v1.csv
+            data/derived/random_photo_first_h9_measurement_species_support_v1.csv
+            docs/supporting/random_photo_first_h9_measurement_result_v1.json
+            docs/supporting/random_photo_first_h9_reassembly_recovery_v1.json
+      - name: Commit deterministic recovered H9 measurement products
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/random_photo_first_h9_measured_photos_v1.csv \
+            data/derived/random_photo_first_h9_measurement_species_support_v1.csv \
+            docs/supporting/random_photo_first_h9_measurement_result_v1.json
+          git commit -m "Recover complete H9 measurement from immutable artifacts"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/random-photo-first-h9-reassembly-recovery
+            git rebase origin/analysis/random-photo-first-h9-reassembly-recovery
+            if git push origin HEAD:analysis/random-photo-first-h9-reassembly-recovery; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
