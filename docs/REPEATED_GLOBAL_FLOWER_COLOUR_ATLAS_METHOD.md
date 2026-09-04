@@ -1,10 +1,10 @@
 # Repeated Global Flower-Colour Atlas (RGFCA)
 
-Status: **methodological estimand frozen after metadata-only species discovery and before any RGFCA flower-colour field is opened**. This note does not change the numerical gates in `GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md`; it makes explicit what the repeated global Monte Carlo design estimates and what the repetitions do not mean biologically.
+Status: **methodological estimand frozen before any RGFCA global flower-colour field is opened**. This note makes explicit what the repeated global Monte Carlo design estimates, what repetitions do not mean biologically, and how observation availability is handled.
 
 ## 1. Core idea: repeated world-map realizations
 
-The global analysis is not defined as one enormous matrix containing every available photograph from every species. Instead, it constructs a sequence of bounded, balanced **world-map realizations**.
+The global analysis is not one enormous matrix containing every available photograph from every species. Instead it constructs bounded, balanced **world-map realizations**.
 
 For realization `r = 1, ..., R`:
 
@@ -16,7 +16,7 @@ For realization `r = 1, ..., R`:
 6. save the field and the exact species/photo inclusion ledger;
 7. repeat under the same frozen schedule.
 
-Primary values remain those already frozen in the prospective protocol:
+Primary values remain:
 
 - `R = 200` observed realizations;
 - 250 species per realization;
@@ -32,7 +32,7 @@ Let `c_i(R)` be the number of the first `R` realizations in which eligible speci
 
 `max_i c_i(R) - min_i c_i(R) <= 1`.
 
-The same principle is used for photographs within species. Thus high-volume iNaturalist species do not gain larger inferential weight merely because more photographs exist for them.
+The same principle is used for photographs within species. High-volume public-photo species therefore do not gain larger inferential weight merely because more photographs exist for them.
 
 If more than 250 species are eligible, no single realization contains the entire inferential species pool, but all eligible species have repeated non-zero inclusion opportunity. If exactly 250 survive, species composition is fixed while the 20-photo realization changes within species.
 
@@ -46,108 +46,110 @@ For every evaluable global cell `x` and realization `r`, let
 - `N_r(x)` = the same support weighted by within-species rank-standardized flower-colour discontinuity;
 - `F_r(x) = N_r(x) / O_r(x)` where the frozen opportunity gate is passed.
 
-The repeated atlas reports at least four distinct quantities:
+The repeated atlas reports:
 
 ### 3.1 Consensus intensity
 
 `F_bar(x) = mean_r F_r(x)` over evaluable realizations.
 
-This asks where colour discontinuity is consistently strong conditional on sampled geographic opportunity.
-
 ### 3.2 Realization uncertainty
 
-For every cell, report the across-realization SD and MAD of `F_r(x)` together with the number of evaluable realizations. A visually strong mean field with high realization variance is not a stable biogeographic result.
+For every cell, report across-realization SD and MAD of `F_r(x)` together with the number of evaluable realizations.
 
 ### 3.3 Hotspot recurrence
 
-Within each realization, mark the frozen top 10% of evaluable field cells. Define
+Within each realization, mark the frozen top 10% of evaluable field cells and define
 
 `P_hot(x) = (# evaluable realizations in which x is a top-decile hotspot) / (# realizations in which x is evaluable)`.
 
-The prospective persistent-zone rule remains `P_hot >= 0.60`, at least 100 evaluable realizations, followed by the frozen connected-component rule. Neutral IDs `Z01`, `Z02`, ... are assigned before named geography or mechanism overlays are inspected.
+The persistent-zone rule remains `P_hot >= 0.60`, at least 100 evaluable realizations, followed by the frozen connected-component rule. Neutral IDs `Z01`, `Z02`, ... are assigned before named geography or mechanism overlays are inspected.
 
-This recurrence probability is the most direct statistical translation of the intuitive procedure: **scatter a balanced set of flower photographs over the world map many times and ask which flower-colour transition regions keep coming back**.
+This recurrence probability is the direct translation of the intuitive procedure: **scatter a balanced set of flower photographs over the world map many times and ask which flower-colour transition regions keep coming back**.
 
 ### 3.4 Monte Carlo convergence
 
-The atlas reports the change in the consensus field and recurrent-zone support at fixed checkpoints (`R = 25, 50, 100, 150, 200`). A proposed global band is not considered robust simply because it appears in the final realization.
+The atlas reports change in the consensus field and recurrent-zone support at `R = 25, 50, 100, 150, 200`.
 
 ## 4. Matched species-conditioned null
 
 Repetition alone is not evidence of biological structure. Every null replicate uses the same species/photo sampling opportunity and the same fixed coordinates/graph geometry as the observed program. Only complete classifiable colour vectors are permuted within species.
 
-Therefore the comparison is not
-
-`observed global map` versus `spatially random points`.
-
-It is
-
-`repeated observed flower-colour maps on the sampled geometry`
-
-versus
-
-`repeated within-species colour-permuted maps on exactly the same sampled geometry`.
-
-This preserves observer/geographic sampling geometry, species range geometry, measured missingness and the balanced inclusion schedule. A recurrent observed region is interesting only if comparable recurrence is not produced by this matched null.
+The comparison is therefore recurrent observed flower-colour geography versus recurrent colour geography expected from exactly the same sampled geometry after within-species colour-location association is broken.
 
 ## 5. What repetition does and does not buy
 
-### Repetition does provide
+Repetition provides bounded computation, equal-species sampling opportunity, broad coverage of a larger eligible species pool, direct stability estimates, and separation of instability caused by taxon composition, photograph composition or spatial support.
 
-1. **bounded computation** — the cost of one realization stays fixed even as the measured global pool grows;
-2. **sampling fairness** — no data-rich species is allowed to dominate one monolithic global fit;
-3. **coverage of a large species pool** — species not present in one realization can enter later realizations;
-4. **direct stability estimates** — field intensity, zones and species effects have observable resampling distributions;
-5. **failure localization** — instability caused by taxon composition, photograph composition, realm deletion or spatial support can be separated.
+It does **not** create 200 independent biological worlds, multiply biological sample size by 200, or recover species/regions that have essentially zero public-photo inclusion probability.
 
-### Repetition does not provide
+## 6. Repeated global discovery
 
-1. 200 biological replicates from one species;
-2. 200 independent worlds;
-3. additional biological information for a species represented by one photograph;
-4. permission to multiply nominal sample size by the number of realizations;
-5. a substitute for enough independently sampled species and enough within-species photographs.
+The method also treats the upstream species universe as a sampling problem. The original one-pass baseline contained 8,989 species. A first 20-round metadata-only census discovered 30,393 species in the combined union, but a technical audit showed that adjacent `order_by=random, page=1` rounds could be nearly duplicated by upstream random-page persistence. Those records remain valid discoveries, but the V1 odd/even overlap is not used as independent-repetition evidence.
 
-Biological replication is carried by the number and coverage of independently sampled species/photographs. The outer repetitions estimate **sampling/field stability conditional on that biological pool**.
+A cache-resistant V2 was therefore frozen before any RGFCA colour field using stable ID ordering, deterministic cell-specific pages and explicit V1 ID exclusion. The capacity universe is the deduplicated V1+V2 species union after successful V2 completion.
 
-## 6. Why repeated global discovery is part of the method
+## 7. Observation-bias architecture
 
-The method repeats not only colour analysis but the upstream global species census before pixels are opened.
+The repeated-atlas framework reduces **dominance bias**, not all observation bias.
 
-The first metadata-only repeated census (V1) produced a large and useful discovery union:
+Primary design protections include:
 
-- the original one-pass baseline contained 8,989 species;
-- 20 fresh equal-area metadata rounds found 29,304 fresh species;
-- the V1 combined census contains 30,393 species;
-- 21,404 species were new beyond the baseline;
-- baseline-versus-fresh species-set Jaccard = 0.2599;
-- all 3,240 fixed requests completed without error;
-- no candidate image pixel or flower colour was opened during discovery.
+- equal-area global discovery attempts;
+- observer cap of two retained candidate photographs per observer/species;
+- deterministic geographic maximin raw-photo selection;
+- balanced species and photograph inclusion across realizations;
+- equal-species contribution to the global field;
+- division of colour support by geographic edge opportunity;
+- leave-one-realm-out and major-family deletion;
+- location-blind image measurement.
 
-However, a post-run audit of the frozen V1 round table found that adjacent round pairs were nearly duplicated: rounds 1 and 2 had identical species sets, and several subsequent odd/even pairs had Jaccard values around 0.99. The V1 query used `order_by=random` but always requested `page=1`. This is consistent with upstream random-order caching or refresh persistence. Consequently, the V1 odd-versus-even Jaccard value of 0.9844 is **not accepted as evidence of independent repeated-sampling stability**.
+### 7.1 Empirical target-group sampling availability
 
-This technical diagnosis does not invalidate the V1 observations or the 30,393-species discovery union. It invalidates only the interpretation of the V1 adjacent/odd-even overlap as an independent-resampling robustness test.
+Before any RGFCA global colour outcome, three count-only surfaces were frozen over the same 162 equal-area cells. All 486 requests succeeded with zero errors.
 
-Before any RGFCA flower-colour field is opened, a cache-resistant metadata-only V2 has therefore been frozen. V2 uses stable ID ordering plus deterministic, cell-specific distinct page schedules, excludes all V1 observation/photo IDs, retains V1 species as legitimate metadata discoveries, and measures V2 round independence directly. The capacity candidate universe is the deduplicated V1+V2 species union.
+The public-photo frame is extremely concentrated:
 
-The methodological lesson is therefore stronger but narrower than the original V1 stability claim: **global photographic biodiversity coverage should be built and audited through repeated realizations, and the independence of those realizations must itself be verified rather than inferred from repeated API calls**.
+- all target-group research photo records: 53,270,601; equal-area-cell Gini **0.885**;
+- reusable-licence records: 40,554,393; Gini **0.882**;
+- flowering-annotated reusable records: 4,049,721; Gini **0.885**;
+- the 17 cells in the pre-frozen top observation-effort decile contain **84.8%**, **84.2%** and **83.3%** of these three record pools, respectively.
 
-## 7. Relationship to biological hypotheses
+Median reusable-licence retention across defined cells is 0.790. Median flowering-annotation retention conditional on reusable licence is only 0.095. Geographic ranks remain highly similar across the filters (`rho=0.999` all-vs-licence; `rho=0.983` all-vs-flowering), showing that filtering reduces volume far more than it removes the geographic observation concentration.
 
-RGFCA separates three levels that must not be conflated:
+These are target-group **sampling-availability proxies**, not pure observer-effort probabilities, because biological plant availability also varies geographically.
+
+### 7.2 Platform-wide activity control
+
+A separate all-taxa research-photo count surface is prospectively frozen before RGFCA colour to provide a broader platform-activity proxy. This allows target-group availability to be distinguished, imperfectly, from areas that are simply intensively used by the observation platform. The all-taxa layer is a negative control, not a correction that replaces the primary RGFCA field.
+
+### 7.3 Frozen robustness checks
+
+A positive primary G1 is not automatically called observation-robust. The atlas also reports:
+
+1. an observer-unique sensitivity with at most one classifiable photograph per observer/species/realization when at least 20 distinct observers are available;
+2. complete reanalysis after deleting the 17 pre-frozen highest-observation cells;
+3. opportunity-weighted field correlations with target-group record density, reusable-licence fraction, flowering-annotation fraction and platform-wide activity, evaluated against the same 999 species-conditioned null fields;
+4. observer concentration diagnostics and primary-versus-observer-unique field similarity.
+
+A colour zone that disappears after high-effort deletion, or that simply follows a sampling-availability layer without exceptional separation from the matched null, is classified as observation-sensitive rather than robust biogeography.
+
+### 7.4 Residual bias that cannot be claimed away
+
+The method cannot identify unrecorded taxa/regions, fully remove preferential uploading of unusual colour morphs, remove colour-dependent identification/annotation errors, or perfectly separate biological abundance from human observer effort. Consequently the claim ceiling is recurring flower-colour geography **within the measurable public-photo sampling frame**, robust to the explicitly measured observation-availability structure—not an unbiased census of all flowers on Earth.
+
+## 8. Biological hierarchy
+
+RGFCA separates:
 
 1. **global recurrence:** do independent species repeatedly place strong colour discontinuity in the same broad geographic regions? (`G1/G2`)
-2. **species-specific organization:** even if no shared zone exists, which species show spatial colour structure and how heterogeneous are those effects? (`G3`)
+2. **species-specific organization:** how heterogeneous are within-species spatial colour effects? (`G3`)
 3. **mechanistic concordance:** are colour discontinuities aligned, beyond geographic distance alone, with pollinator turnover, climate, soil, terrain, marine gaps, rivers, mountain systems or established biogeographic boundaries? (`G3/G4`)
+4. **sympatry/allopatry:** are co-occurring species more colour-similar or more colour-divergent than matched non-co-occurring controls? (`G5`)
 
-The sympatry/allopatry extension (`G5`) is separate again: it asks whether co-occurring species are more colour-similar or more colour-divergent than matched non-co-occurring controls.
+A null shared global field does not imply that flower colour has no biogeography. Species-specific effects or ecological concordance cannot retroactively rescue a null recurrent-zone test.
 
-A null shared global field therefore does not imply that flower colour has no biogeography. Conversely, species-specific effects or ecological concordance cannot be used to retroactively declare a null recurrent-zone test positive.
+## 9. Methodological claim ceiling
 
-## 8. Methodological claim ceiling
+The defensible methodological claim is not that Monte Carlo, bagging or spatial resampling is new. It is:
 
-Until a literature comparison is completed, the defensible methodological claim is not “the first method ever to resample a global biodiversity map.” The claim is narrower:
-
-> We operationalize global flower-colour biogeography as a balanced repeated-atlas problem: rather than fitting one all-at-once model to the complete opportunistic photograph archive, we generate bounded random world-map realizations, preserve equal-species contribution and sampling opportunity, and estimate the recurrence and stability of geographic colour structure against a species-conditioned matched null.
-
-The scientific novelty must ultimately be evaluated against existing spatial bootstrap, bagging, biodiversity-atlas and Monte Carlo mapping literature; the implementation above is frozen independently of that novelty assessment.
+> We operationalize global flower-colour biogeography as a balanced repeated-atlas problem: bounded multispecies realizations of public flower photographs are repeatedly mapped at their true coordinates, converted to opportunity-corrected colour-discontinuity fields, and summarized by geographic hotspot recurrence against a species-conditioned matched null, with observation-availability surfaces frozen independently as negative controls.
