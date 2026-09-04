@@ -15,6 +15,7 @@ from fcp_pipeline.global_candidate_acquisition import (
     deterministic_candidate_pages,
     stable_candidate_query,
 )
+from fcp_pipeline.global_capacity_handoff import resolve_capacity_handoff
 from fcp_pipeline.random_photo_h9_pool import (
     geographic_maximin,
     observer_cap,
@@ -25,8 +26,7 @@ from fcp_pipeline.random_photo_pool import InaturalistObservationClient
 ROOT = Path(__file__).resolve().parents[2]
 PARENT = ROOT / "docs/supporting/global_monte_carlo_capacity_scan_contract_v1.json"
 CONTRACT = ROOT / "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json"
-CAPACITY_MANIFEST = ROOT / "docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json"
-SELECTED_SPECIES = ROOT / "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv"
+AUTHORIZATION = ROOT / "docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json"
 
 PARSER_COLUMNS = [
     "species", "inat_taxon_id", "observation_id", "photo_id", "photo_url_large",
@@ -89,24 +89,17 @@ def main() -> int:
     args = parse_args()
     parent = json.loads(PARENT.read_text(encoding="utf-8"))
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    capacity = json.loads(CAPACITY_MANIFEST.read_text(encoding="utf-8"))
 
     if contract.get("status") != "frozen_after_v2_discovery_success_before_capacity_outcome_and_before_candidate_pixels":
         raise RuntimeError("candidate acquisition contract drifted")
-    if capacity.get("candidate_image_pixels_opened") is not False or capacity.get("flower_colour_used") is not False:
-        raise RuntimeError("capacity stage opened forbidden outcomes")
-    target_raw = capacity.get("selected_raw_photo_target")
-    if target_raw is None:
-        raise RuntimeError("capacity result did not select an acquisition target")
-    target = int(target_raw)
-    if target not in (100, 80, 60):
-        raise RuntimeError("capacity selected an unfrozen target")
-    if int(capacity.get("selected_species") or 0) < int(contract["premeasurement_gate"]["minimum_full_target_species"]):
-        raise RuntimeError("capacity result did not meet the frozen metadata gate")
-
-    selected = pd.read_csv(SELECTED_SPECIES)
-    if not {"species", "inat_taxon_id"}.issubset(selected.columns):
-        raise RuntimeError("capacity selected-species frame lacks required columns")
+    handoff = resolve_capacity_handoff(
+        ROOT,
+        AUTHORIZATION,
+        minimum_species=int(contract["premeasurement_gate"]["minimum_full_target_species"]),
+    )
+    capacity = handoff.manifest
+    target = int(handoff.target)
+    selected = handoff.selected.copy()
     selected = selected.drop_duplicates("inat_taxon_id", keep="first").copy()
     selected["inat_taxon_id"] = selected["inat_taxon_id"].astype(int)
     selected["species"] = selected["species"].astype(str)
@@ -293,6 +286,7 @@ def main() -> int:
         "status": "complete_metadata_only_candidate_acquisition_shard",
         "shard_index": shard_index,
         "shard_count": shard_count,
+        "capacity_source": handoff.source,
         "global_selected_species": int(len(selected)),
         "shard_species": int(len(shard)),
         "selected_raw_photo_target": target,
@@ -304,8 +298,8 @@ def main() -> int:
         "flower_colour_used": False,
         "lineage": {
             "candidate_contract_sha256": sha256_file(CONTRACT),
-            "capacity_manifest_sha256": sha256_file(CAPACITY_MANIFEST),
-            "selected_species_sha256": sha256_file(SELECTED_SPECIES),
+            "capacity_manifest_sha256": sha256_file(handoff.manifest_path),
+            "selected_species_sha256": sha256_file(handoff.selected_path),
             "prior_colour_exclusion_sha256": exclusion_hashes,
             "species_audit_sha256": sha256_file(audit_path),
             "candidate_photos_sha256": sha256_file(candidate_path),
