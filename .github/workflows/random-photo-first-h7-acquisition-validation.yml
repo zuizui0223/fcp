@@ -1,0 +1,64 @@
+name: Random photo-first H7 acquisition validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-h7-balanced-itv
+    paths:
+      - "fcp_pipeline/h7_acquisition.py"
+      - "tests/test_h7_acquisition.py"
+      - "scripts/acquisition/freeze_random_photo_first_h7_fresh_metadata.py"
+      - ".github/workflows/random-photo-first-h7-acquisition-validation.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: random-photo-first-h7-acquisition-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install test runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+
+      - name: Run H7 acquisition tests
+        run: pytest -q tests/test_h7_acquisition.py
+
+      - name: Validate frozen prequery lineage and one-shot runner
+        run: |
+          python - <<'PY'
+          import ast
+          import json
+          from pathlib import Path
+          c = json.loads(Path('docs/supporting/random_photo_first_h7_balanced_itv_contract_v1.json').read_text())
+          t = json.loads(Path('docs/supporting/random_photo_first_h7_target_manifest_v1.json').read_text())
+          e = json.loads(Path('docs/supporting/random_photo_first_h7_exclusion_manifest_v1.json').read_text())
+          assert c['fresh_metadata_acquisition']['expected_queries'] == 312
+          assert c['fresh_metadata_acquisition']['per_page'] == 50
+          assert c['fresh_metadata_acquisition']['observer_cap_per_species_cell'] == 2
+          assert c['fresh_metadata_acquisition']['retained_photo_cap_per_species_cell'] == 30
+          assert t['species_cell_targets'] == 312
+          assert e['source_rows']['pr21_terminal_60000'] == 60000
+          tree = ast.parse(Path('scripts/acquisition/freeze_random_photo_first_h7_fresh_metadata.py').read_text())
+          text = Path('scripts/acquisition/freeze_random_photo_first_h7_fresh_metadata.py').read_text()
+          assert 'max_retries=0' in text
+          assert 'One-shot guard must execute before the network client is constructed.' in text
+          assert not Path('data/frozen/random_photo_first_h7_fresh_metadata_v1.csv').exists()
+          print('h7_acquisition_prequery_validation=pass')
+          PY
