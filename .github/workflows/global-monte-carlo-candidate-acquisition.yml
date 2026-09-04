@@ -1,0 +1,142 @@
+name: Global Monte Carlo candidate acquisition
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json"
+
+permissions:
+  contents: write
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify exact metadata-only acquisition authorization
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          import pandas as pd
+          from pathlib import Path
+          auth = json.loads(Path('docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json').read_text())
+          cap = json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json').read_text())
+          contract = json.loads(Path('docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json').read_text())
+          selected = pd.read_csv('data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv')
+          if auth.get('status') != 'authorize_exactly_one_metadata_only_global_candidate_acquisition':
+              raise SystemExit('candidate acquisition is not explicitly authorized')
+          if auth.get('candidate_image_pixels_may_open') is not False or auth.get('flower_colour_may_open') is not False:
+              raise SystemExit('candidate acquisition authorization unexpectedly opens pixels/colour')
+          cap_blob = subprocess.check_output(['git','rev-parse','HEAD:docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json'], text=True).strip()
+          if auth.get('capacity_manifest_blob_sha') != cap_blob:
+              raise SystemExit('capacity result lineage does not match authorization')
+          if cap.get('status') != 'complete_metadata_only_capacity_scan_target_selected_v2':
+              raise SystemExit('capacity result did not select a target')
+          target = cap.get('selected_raw_photo_target')
+          if int(target) not in (100, 80, 60):
+              raise SystemExit('capacity target not frozen')
+          if int(auth.get('selected_raw_photo_target')) != int(target):
+              raise SystemExit('authorization target differs from capacity result')
+          if int(auth.get('selected_species')) != int(cap.get('selected_species')) or len(selected) != int(cap.get('selected_species')):
+              raise SystemExit('authorization selected-species count differs from capacity result')
+          if int(cap.get('selected_species')) < int(contract['premeasurement_gate']['minimum_full_target_species']):
+              raise SystemExit('capacity selected fewer than the frozen minimum species')
+          if cap.get('candidate_image_pixels_opened') is not False or cap.get('flower_colour_used') is not False:
+              raise SystemExit('capacity result opened forbidden outcomes')
+          print({'candidate_acquisition_gate': 'pass', 'target': int(target), 'selected_species': len(selected)})
+          PY
+
+  shard:
+    needs: gate
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Run one deterministic candidate-acquisition shard
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/candidate-shard
+          python scripts/acquisition/run_global_monte_carlo_candidate_acquisition_shard.py \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 8 \
+            --output-dir /tmp/candidate-shard
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-candidate-acquisition-shard-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/candidate-shard/
+
+  reduce:
+    needs: [gate, shard]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: global-candidate-acquisition-shard-*
+          path: /tmp/candidate-shards
+      - name: Strictly reduce all candidate shards before pixels open
+        run: python scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py --input-root /tmp/candidate-shards
+      - name: Validate premeasurement gate remains metadata-only
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          m = json.loads(Path('docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json').read_text())
+          a = pd.read_csv('data/frozen/global_monte_carlo_candidate_species_audit_v1.csv')
+          p = pd.read_csv('data/frozen/global_monte_carlo_candidate_photos_v1.csv')
+          assert m['candidate_image_pixels_opened'] is False
+          assert m['flower_colour_used'] is False
+          assert m['measurement_authorized'] is False
+          assert m['target_relaxed'] is False
+          assert m['additional_pages_after_result'] is False
+          assert len(a) == m['capacity_selected_species']
+          if m['premeasurement_gate']['pass']:
+              assert m['full_target_species'] >= 300
+              assert len(p) == m['full_target_species'] * m['capacity_selected_raw_photo_target']
+          PY
+      - name: Commit immutable metadata-only candidate acquisition result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/global_monte_carlo_candidate_species_audit_v1.csv \
+            data/frozen/global_monte_carlo_candidate_photos_v1.csv \
+            docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json
+          git commit -m "Freeze global candidate acquisition before pixels"
+          git fetch origin analysis/global-monte-carlo-barrier-atlas
+          git rebase origin/analysis/global-monte-carlo-barrier-atlas
+          git push origin HEAD:analysis/global-monte-carlo-barrier-atlas
