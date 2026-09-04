@@ -59,7 +59,6 @@ def test_allopatric_pair_gets_high_separation_labels():
 
 def test_midrange_pair_can_remain_unlabelled():
     reference = _reference()
-    scores = {name: [0.50] for name in reference}
     payload = build_pair_context_profiles(
         pair_ids=["p3", "p4"],
         geography=["sympatric", "allopatric"],
@@ -97,6 +96,22 @@ def test_constant_reference_cannot_generate_a_favourable_label():
     )
     assert payload["thresholds"]["marine_gap"]["status"] == "not_evaluable_constant_reference"
     assert "marine-gap-separated" not in payload["profiles"]["p1"].labels
+
+
+def test_zero_inflated_barrier_does_not_label_zero_as_separated():
+    reference = _reference()
+    reference["major_river_crossing"] = np.r_[np.zeros(180), np.ones(20)]
+    pair_scores = {name: [0.0, 1.0] for name in reference}
+    payload = build_pair_context_profiles(
+        pair_ids=["no_crossing", "crossing"],
+        geography=["allopatric", "allopatric"],
+        pair_scores=pair_scores,
+        reference_scores=reference,
+        minimum_reference=100,
+    )
+    assert payload["thresholds"]["major_river_crossing"]["high"] == pytest.approx(0.0)
+    assert "major-river-separated" not in payload["profiles"]["no_crossing"].labels
+    assert "major-river-separated" in payload["profiles"]["crossing"].labels
 
 
 def test_invalid_geography_is_rejected():
