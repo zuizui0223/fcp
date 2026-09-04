@@ -1,0 +1,154 @@
+{
+  "registry": "global-flower-colour-biogeography-hypotheses-v2",
+  "status": "prospective_recast_frozen_during_metadata_only_species_discovery_before_global_colour_outcome",
+  "date": "2026-09-04",
+  "core_shift": "The response is no longer a single C/S category or total niche breadth. The programme separates recurrent global colour geography, species-specific spatial structure, ecological/geographic concordance, and between-species community assembly.",
+  "current_questions": {
+    "G1": "Is there a recurrent flower-colour discontinuity field shared across adequately replicated species?",
+    "G2": "If so, is that field stable enough to define neutral recurrent zones Z01, Z02, ...?",
+    "G3": "Regardless of G1, which external ecological or geographic contrasts align with within-species colour discontinuity after controlling geographic distance?",
+    "G4": "If G1+G2 pass, which independently frozen external surfaces annotate the recurrent zones?",
+    "G5": "Are sympatric plant species more colour-convergent or colour-divergent than outcome-blind matched allopatric controls, and which contexts explain the sign?"
+  },
+  "legacy_hypothesis_mapping": [
+    {
+      "legacy_id": "H1_temporal_environmental_variation",
+      "mechanism": "fluctuating selection through time",
+      "v2_disposition": "retain_as_temporal_extension",
+      "best_v2_test": "occurrence-year and flowering-season dynamic climate turnover as a moderator of species-level spatial colour structure and local coexistence",
+      "atlas_role_now": "not a primary static spatial overlay",
+      "reason": "static BIO4 was only a weak/confounded candidate; the old registry explicitly required dynamic environmental data"
+    },
+    {
+      "legacy_id": "H11_pigment_pleiotropy_abiotic_stress",
+      "mechanism": "anthocyanin-linked abiotic stress tolerance",
+      "v2_disposition": "promote_to_G3_external_alignment",
+      "best_v2_test": "distance-controlled colour-edge alignment with CHELSA climate plus SoilGrids multivariate edaphic turnover; zone overlay only after G1+G2",
+      "positive_signature": "colour discontinuity tracks drought/thermal/edaphic turnover beyond geographic distance",
+      "claim_limit": "environmental concordance, not morph-specific fitness or local adaptation"
+    },
+    {
+      "legacy_id": "H2_spatial_local_adaptation",
+      "mechanism": "spatially divergent selection sorts morphs among populations",
+      "v2_disposition": "retain_but_split_environmental_sorting_from_adaptation",
+      "best_v2_test": "G3 climate/soil/pollinator alignment and G4 zone overlays",
+      "positive_signature": "repeated colour-environment concordance across species",
+      "required_for_adaptation_claim": "independent morph-specific fitness, reciprocal transplant or genomic-environment evidence"
+    },
+    {
+      "legacy_id": "H3_pollinator_geographic_mosaic",
+      "mechanism": "geographic turnover in pollinator guilds/preferences",
+      "v2_disposition": "promote_to_G3_and_G4",
+      "best_v2_test": "distance-controlled edge concordance with independent GBIF pollinator guild turnover and direct GloBI interaction turnover",
+      "positive_signature": "colour discontinuity follows pollinator turnover beyond distance; supported zones may be pollinator-associated"
+    },
+    {
+      "legacy_id": "H4_multi_agent_balancing_selection",
+      "mechanism": "opposing selection by multiple agents within populations",
+      "v2_disposition": "retain_as_local_mechanism_not_directly_resolved_by_atlas",
+      "best_v2_test": "future local interaction-community and morph-specific fitness data",
+      "atlas_proxy": "heterogeneity in G3 effects can prioritize species but cannot confirm balancing selection"
+    },
+    {
+      "legacy_id": "H6_autonomous_reproductive_assurance",
+      "mechanism": "autonomous selfing rescues disadvantaged morphs",
+      "v2_disposition": "secondary_species_level_moderator",
+      "best_v2_test": "test quantitative autofertility against species-level rho_i and community-embedding scores when balanced coverage exists",
+      "guard": "SC/SI alone remains an invalid substitute"
+    },
+    {
+      "legacy_id": "H15_phenological_partitioning",
+      "mechanism": "different flowering times alter pollinator/abiotic exposure",
+      "v2_disposition": "promote_to_G5_context_and_temporal_extension",
+      "best_v2_test": "co-flowering-qualified sympatry subset and future morph-specific dynamic climate/pollinator histories",
+      "positive_signature": "sympatric colour divergence or convergence changes predictably with flowering overlap"
+    },
+    {
+      "legacy_id": "H7_gene_flow_connectivity_balance",
+      "mechanism": "restricted connectivity permits spatial sorting",
+      "v2_disposition": "retain_as_barrier_vs_environment_decomposition",
+      "best_v2_test": "marine, river, mountain and biogeographic-boundary alignment contrasted with climate/pollinator/soil alignment",
+      "claim_limit": "geographic barrier concordance is not gene flow; population genetics is still required"
+    },
+    {
+      "legacy_id": "H5_pollinator_herbivore_antagonism",
+      "mechanism": "opposing pollinator and antagonist selection",
+      "v2_disposition": "retain_as_sparse_secondary_extension",
+      "best_v2_test": "only when independent spatial herbivore/florivore interaction data reach adequate coverage",
+      "current_role": "do not infer from pollinator data alone"
+    },
+    {
+      "legacy_id": "H10_seed_bank_storage_effect",
+      "mechanism": "dormancy stores morphs across temporal fitness reversals",
+      "v2_disposition": "future_trait_moderator",
+      "best_v2_test": "seed-bank persistence x dynamic environmental turnover interaction",
+      "current_role": "not testable from spatial photo atlas alone"
+    },
+    {
+      "legacy_id": "H8_drift_founder_history",
+      "mechanism": "neutral founder history/drift creates spatial colour structure",
+      "v2_disposition": "retain_as_explicit_alternative",
+      "best_v2_signature": "strong species-specific spatial structure associated with isolation/barriers but weak current climate/pollinator/soil concordance",
+      "claim_limit": "this pattern is consistent with neutral history but cannot prove drift without demographic/genetic data"
+    },
+    {
+      "legacy_id": "H9_clonal_persistence",
+      "mechanism": "clonality slows local loss of colour genotypes",
+      "v2_disposition": "future_trait_moderator",
+      "best_v2_test": "clonality against local coexistence and species spatial-structure heterogeneity once balanced global coverage exists",
+      "current_status": "old CLO-PLA coverage was insufficient"
+    },
+    {
+      "legacy_id": "H12_frequency_dependent_selection",
+      "mechanism": "rare-morph advantage",
+      "v2_disposition": "retain_but_not_atlas_testable",
+      "required_evidence": "frequency manipulation or repeated morph-specific fitness-frequency data"
+    },
+    {
+      "legacy_id": "H13_overdominance_genetic_architecture",
+      "mechanism": "heterozygote advantage/genetic architecture maintains alleles",
+      "v2_disposition": "retain_but_not_atlas_testable",
+      "required_evidence": "genotype-phenotype-fitness data"
+    },
+    {
+      "legacy_id": "H14_reproductive_interference_character_displacement",
+      "mechanism": "heterospecific/congeneric interactions favour colour displacement",
+      "v2_disposition": "promote_to_G5_primary_context_hypothesis",
+      "best_v2_test": "matched sympatric versus allopatric colour distance, with a predeclared congeneric and co-flowering context",
+      "positive_signature": "positive sympatric-minus-allopatric colour-distance delta, strongest among congeners with high flowering overlap",
+      "claim_limit": "character-displacement mechanism still requires reproductive-interference or heterospecific-pollen evidence"
+    },
+    {
+      "legacy_id": "H16_plasticity_or_nonheritable_colour",
+      "mechanism": "environmentally induced/nonheritable colour",
+      "v2_disposition": "retain_as_interpretation_guard",
+      "rule": "spatial colour structure is phenotypic geography unless heritability/genetic basis is independently established"
+    }
+  ],
+  "new_competing_community_hypotheses": [
+    {
+      "id": "G5a_shared_filter_convergence",
+      "prediction": "sympatric species are more colour-similar than matched allopatric controls",
+      "statistic_sign": "negative delta",
+      "candidate_contexts": ["shared pollinator guilds", "similar climate", "similar soil"]
+    },
+    {
+      "id": "G5b_character_displacement_divergence",
+      "prediction": "sympatric species are more colour-different than matched allopatric controls",
+      "statistic_sign": "positive delta",
+      "candidate_contexts": ["congeneric sympatry", "high flowering overlap", "high pollinator overlap where discrimination/reproductive interference is plausible"]
+    },
+    {
+      "id": "G5c_context_dependent_sign",
+      "prediction": "the global mean may be near zero because convergence and divergence occur in different ecological contexts",
+      "key_test": "predeclared context-stratified matched contrasts rather than adding samples until a single global sign becomes significant"
+    }
+  ],
+  "priority_order": [
+    "complete metadata discovery and capacity gates without colour-driven changes",
+    "execute G1-G3 with distance-controlled external alignment including edaphic turnover",
+    "if G1+G2 pass, annotate neutral Z zones with G4 overlays",
+    "execute G5 matched sympatry/allopatry assembly on the same location-blind species colour profiles",
+    "only then open targeted temporal, reproductive, genetic or fitness studies needed for causal mechanism claims"
+  ]
+}
