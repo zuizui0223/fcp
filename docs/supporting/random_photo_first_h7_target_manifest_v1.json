@@ -1,0 +1,17 @@
+{
+  "protocol": "random-photo-first-h7-balanced-itv-v1",
+  "status": "h7_species_and_target_cells_frozen_before_fresh_query",
+  "species": 52,
+  "target_cells_per_species": 6,
+  "species_cell_targets": 312,
+  "selection_rule": "deterministic maximin spread on H1 cell centroids: first choose the cell with greatest mean distance to all eligible cells, then repeatedly choose the cell maximizing minimum distance to already selected cells; ties use lower cell_id",
+  "source_pool_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+  "target_table_sha256": "9ab421d79ce2b3abe7da3bac09225c51699f2d63f1096f3be7eb7c3d47ce9290",
+  "outcome_firewall": {
+    "colour_columns_read": false,
+    "measured_table_read": false,
+    "h6_or_h6b_effects_read": false,
+    "fresh_h7_api_queries_opened": false,
+    "fresh_h7_pixels_opened": false
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "protocol": "random-photo-first-h7-balanced-itv-v1",
+  "status": "h7_prior_photo_exclusion_ledger_frozen_before_fresh_query",
+  "freshness_source_amendment": "docs/supporting/random_photo_first_h7_freshness_source_amendment_v1.json",
+  "source_rows": {
+    "random_photo_first_v1": 20845,
+    "six_species_ch1": 1200,
+    "pr21_terminal_60000": 60000
+  },
+  "unique_exclusion_pairs": 81803,
+  "unique_exclusion_observation_ids": 81803,
+  "unique_exclusion_photo_ids": 81803,
+  "old_random_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+  "six_species_git_blob_sha": "d8442bed4973556110a0678bee6ac580ddf90242",
+  "pr21_artifact_id": 9769165047,
+  "pr21_artifact_name": "jbi-atlas-200-species-metadata-feasibility",
+  "pr21_inner_manifest_sha256": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc",
+  "exclusion_table_sha256": "b877a5fe5d36e0a5f84e73b9eae14b3c33b3f0fddc0ebc1a5f69331cc88b811a",
+  "fresh_h7_api_queries_opened": false,
+  "fresh_h7_pixels_opened": false,
+  "enforcement": "H7 acquisition rejects a returned row if either its observation_id or its photo_id appears in this ledger."
+}
