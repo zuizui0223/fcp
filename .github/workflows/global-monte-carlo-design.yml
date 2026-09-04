@@ -19,6 +19,8 @@ on:
       - "scripts/acquisition/run_global_monte_carlo_capacity_scan.py"
       - "scripts/acquisition/run_global_monte_carlo_candidate_acquisition_shard.py"
       - "scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py"
+      - "scripts/analysis/build_global_monte_carlo_measurement_firewall.py"
+      - "scripts/analysis/reassemble_global_monte_carlo_measurement.py"
       - "tests/test_global_monte_carlo.py"
       - "tests/test_global_repeated_atlas.py"
       - "tests/test_global_rgfca_engine.py"
@@ -39,6 +41,7 @@ on:
       - "docs/supporting/global_barrier_null_amendment_v1.json"
       - "docs/supporting/global_repeated_atlas_consensus_contract_v1.json"
       - "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json"
+      - "docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json"
       - "docs/supporting/global_colour_biogeography_overlay_contract_v1.json"
       - "docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json"
       - "docs/supporting/global_sympatry_colour_assembly_contract_v1.json"
@@ -51,6 +54,7 @@ on:
       - ".github/workflows/global-monte-carlo-design.yml"
       - ".github/workflows/global-monte-carlo-species-discovery.yml"
       - ".github/workflows/global-monte-carlo-candidate-acquisition.yml"
+      - ".github/workflows/global-monte-carlo-location-blind-measurement.yml"
   workflow_dispatch:
 
 jobs:
@@ -71,6 +75,8 @@ jobs:
           python -m py_compile scripts/acquisition/run_global_monte_carlo_capacity_scan.py
           python -m py_compile scripts/acquisition/run_global_monte_carlo_candidate_acquisition_shard.py
           python -m py_compile scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py
+          python -m py_compile scripts/analysis/build_global_monte_carlo_measurement_firewall.py
+          python -m py_compile scripts/analysis/reassemble_global_monte_carlo_measurement.py
           python -m py_compile fcp_pipeline/global_repeated_atlas.py
           python -m py_compile fcp_pipeline/global_rgfca_engine.py
           python -m py_compile fcp_pipeline/global_candidate_acquisition.py
@@ -103,6 +109,7 @@ jobs:
           python -m json.tool docs/supporting/global_barrier_null_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_repeated_atlas_consensus_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_colour_biogeography_overlay_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_sympatry_colour_assembly_contract_v1.json >/dev/null
