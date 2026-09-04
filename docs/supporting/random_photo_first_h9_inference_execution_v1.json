@@ -1,0 +1,62 @@
+{
+  "protocol": "random-photo-first-h9-inference-execution-v1",
+  "status": "frozen_after_h9_measurement_gate_before_any_h9_spatial_statistic",
+  "parent_protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "measurement_result": "docs/supporting/random_photo_first_h9_measurement_result_v1.json",
+  "required_measurement_status": "complete_h9_location_blind_measurement_and_join",
+  "required_measured_table_sha256": "83a02493b5946dbb90381512fcca7d7e64380d7e53a39a7f4986e9d927e2c937",
+  "required_species_support_sha256": "671cdbde5def93acbfb12543bb11072e1d65aa7956e4dd4ce73fb8a227ad22d5",
+  "required_postmeasurement_gate": {
+    "pass": true,
+    "evaluable_species": 34,
+    "minimum_classifiable_photos_per_species": 20
+  },
+  "selection_implementation": {
+    "photos_per_species": 20,
+    "analysis_seed": 20260909,
+    "hash": "SHA-256",
+    "hash_input_bytes": "UTF-8 bytes of measurement_id immediately followed by UTF-8 decimal bytes of analysis_seed; no delimiter",
+    "ordering": "ascending hexadecimal SHA-256 digest, then ascending measurement_id only for an exact hash tie",
+    "selection_uses_colour_values": false,
+    "selection_uses_coordinates": false,
+    "all_eligible_species_included": true
+  },
+  "colour_vector_implementation": {
+    "white": ["flower_fraction_white"],
+    "yellow_orange": ["flower_fraction_yellow", "flower_fraction_orange", "flower_fraction_bronze"],
+    "red_pink": ["flower_fraction_red", "flower_fraction_pink", "flower_fraction_magenta"],
+    "blue_purple": ["flower_fraction_blue", "flower_fraction_purple"],
+    "normalization": "sum the frozen palette fractions into the four groups, then divide by their positive row sum",
+    "distance": "Jensen-Shannon divergence in bits with log base 2"
+  },
+  "species_statistic": {
+    "coordinate_distance": "great-circle distance in km using Earth radius 6371.0088 km",
+    "photo_pairs_per_species": 190,
+    "statistic": "Spearman rho between all 190 pairwise geographic distances and all 190 pairwise four-group colour JSD values"
+  },
+  "global_statistic": "equal-species arithmetic mean of the 34 species Spearman rho values",
+  "null_implementation": {
+    "permutations": 999,
+    "permutation_seed": 20260910,
+    "unit": "within species",
+    "action": "permute the 20 complete four-group colour vectors across the 20 fixed photo coordinates",
+    "child_rng": "for permutation index p=0..998 and taxon id t, take the first 8 bytes of SHA-256(UTF-8 f'{permutation_seed}|{p}|{t}') as an unsigned big-endian integer and initialize numpy.random.default_rng(child_seed)",
+    "global_null": "equal-species mean rho after independently permuting every species for the same permutation index",
+    "p_upper": "(1 + count(null_global >= observed_global)) / (999 + 1)"
+  },
+  "decision": {
+    "alpha": 0.05,
+    "support_if": "observed equal-species mean rho > 0 and p_upper < 0.05",
+    "support_label": "support_general_within_species_geographic_colour_divergence",
+    "no_support_label": "no_support_general_within_species_geographic_colour_divergence"
+  },
+  "outcome_firewall": {
+    "implementation_frozen_without_inspecting_species_spatial_rho": true,
+    "implementation_frozen_without_inspecting_global_mean_rho": true,
+    "implementation_frozen_without_running_any_h9_permutation": true,
+    "no_new_image_download": true,
+    "no_new_pixel_access": true,
+    "no_photo_replacement": true
+  },
+  "claim_ceiling": "A supported H9 establishes a general within-species association between geographic separation and flower-colour compositional divergence under the frozen fixed-n design; it does not establish a shared global boundary or mechanism."
+}
