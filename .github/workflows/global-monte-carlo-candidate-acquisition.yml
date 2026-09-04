@@ -28,36 +28,17 @@ jobs:
       - name: Verify exact metadata-only acquisition authorization
         run: |
           python - <<'PY'
-          import json, subprocess
-          import pandas as pd
+          import json
           from pathlib import Path
-          auth = json.loads(Path('docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json').read_text())
-          cap = json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json').read_text())
+          from fcp_pipeline.global_capacity_handoff import resolve_capacity_handoff
+          root = Path('.').resolve()
           contract = json.loads(Path('docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json').read_text())
-          selected = pd.read_csv('data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv')
-          if auth.get('status') != 'authorize_exactly_one_metadata_only_global_candidate_acquisition':
-              raise SystemExit('candidate acquisition is not explicitly authorized')
-          if auth.get('branch') != 'analysis/global-monte-carlo-barrier-atlas':
-              raise SystemExit('candidate acquisition authorization branch mismatch')
-          if auth.get('candidate_image_pixels_may_open') is not False or auth.get('flower_colour_may_open') is not False:
-              raise SystemExit('candidate acquisition authorization unexpectedly opens pixels/colour')
-          cap_blob = subprocess.check_output(['git','rev-parse','HEAD:docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json'], text=True).strip()
-          if auth.get('capacity_manifest_blob_sha') != cap_blob:
-              raise SystemExit('capacity result lineage does not match authorization')
-          if cap.get('status') != 'complete_metadata_only_capacity_scan_target_selected_v2':
-              raise SystemExit('capacity result did not select a target')
-          target = cap.get('selected_raw_photo_target')
-          if int(target) not in (100, 80, 60):
-              raise SystemExit('capacity target not frozen')
-          if int(auth.get('selected_raw_photo_target')) != int(target):
-              raise SystemExit('authorization target differs from capacity result')
-          if int(auth.get('selected_species')) != int(cap.get('selected_species')) or len(selected) != int(cap.get('selected_species')):
-              raise SystemExit('authorization selected-species count differs from capacity result')
-          if int(cap.get('selected_species')) < int(contract['premeasurement_gate']['minimum_full_target_species']):
-              raise SystemExit('capacity selected fewer than the frozen minimum species')
-          if cap.get('candidate_image_pixels_opened') is not False or cap.get('flower_colour_used') is not False:
-              raise SystemExit('capacity result opened forbidden outcomes')
-          print({'candidate_acquisition_gate': 'pass', 'target': int(target), 'selected_species': len(selected)})
+          h = resolve_capacity_handoff(
+              root,
+              root / 'docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json',
+              minimum_species=int(contract['premeasurement_gate']['minimum_full_target_species']),
+          )
+          print({'candidate_acquisition_gate':'pass','capacity_source':h.source,'target':h.target,'selected_species':h.selected_species})
           PY
 
   shard:
@@ -129,6 +110,7 @@ jobs:
           assert m['measurement_authorized'] is False
           assert m['target_relaxed'] is False
           assert m['additional_pages_after_result'] is False
+          assert m['capacity_source'] in {'v2_primary','v3_transport_recovery'}
           assert len(a) == m['capacity_selected_species']
           if m['premeasurement_gate']['pass']:
               assert m['full_target_species'] >= 300
