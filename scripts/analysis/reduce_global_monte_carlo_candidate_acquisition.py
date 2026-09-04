@@ -9,10 +9,11 @@ from pathlib import Path
 
 import pandas as pd
 
+from fcp_pipeline.global_capacity_handoff import resolve_capacity_handoff
+
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT = ROOT / "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json"
-CAPACITY_MANIFEST = ROOT / "docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json"
-SELECTED_SPECIES = ROOT / "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv"
+AUTHORIZATION = ROOT / "docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json"
 OUT_AUDIT = ROOT / "data/frozen/global_monte_carlo_candidate_species_audit_v1.csv"
 OUT_CANDIDATES = ROOT / "data/frozen/global_monte_carlo_candidate_photos_v1.csv"
 OUT_MANIFEST = ROOT / "docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json"
@@ -39,17 +40,14 @@ def main() -> int:
             raise RuntimeError(f"refusing to overwrite frozen output: {path}")
 
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    capacity = json.loads(CAPACITY_MANIFEST.read_text(encoding="utf-8"))
-    target_raw = capacity.get("selected_raw_photo_target")
-    if target_raw is None:
-        raise RuntimeError("capacity scan selected no target")
-    target = int(target_raw)
-    if target not in (100, 80, 60):
-        raise RuntimeError("capacity target drifted")
-    if capacity.get("candidate_image_pixels_opened") is not False or capacity.get("flower_colour_used") is not False:
-        raise RuntimeError("capacity stage opened forbidden outcomes")
-
-    expected = pd.read_csv(SELECTED_SPECIES)[["species", "inat_taxon_id"]].drop_duplicates("inat_taxon_id", keep="first")
+    handoff = resolve_capacity_handoff(
+        ROOT,
+        AUTHORIZATION,
+        minimum_species=int(contract["premeasurement_gate"]["minimum_full_target_species"]),
+    )
+    capacity = handoff.manifest
+    target = int(handoff.target)
+    expected = handoff.selected[["species", "inat_taxon_id"]].drop_duplicates("inat_taxon_id", keep="first").copy()
     expected["inat_taxon_id"] = expected["inat_taxon_id"].astype(int)
     expected["species"] = expected["species"].astype(str)
     expected = expected.sort_values(["inat_taxon_id", "species"], kind="mergesort").reset_index(drop=True)
@@ -72,10 +70,16 @@ def main() -> int:
             raise RuntimeError(f"candidate shard {shard_index} status invalid")
         if int(manifest.get("shard_index", -1)) != shard_index or int(manifest.get("shard_count", -1)) != shard_count:
             raise RuntimeError(f"candidate shard {shard_index} identity drift")
+        if manifest.get("capacity_source") != handoff.source:
+            raise RuntimeError(f"candidate shard {shard_index} capacity source drift")
         if int(manifest.get("selected_raw_photo_target", -1)) != target:
             raise RuntimeError(f"candidate shard {shard_index} target drift")
         if manifest.get("candidate_image_pixels_opened") is not False or manifest.get("flower_colour_used") is not False:
             raise RuntimeError(f"candidate shard {shard_index} opened forbidden outcomes")
+        if manifest["lineage"].get("capacity_manifest_sha256") != sha256_file(handoff.manifest_path):
+            raise RuntimeError(f"candidate shard {shard_index} capacity manifest lineage drift")
+        if manifest["lineage"].get("selected_species_sha256") != sha256_file(handoff.selected_path):
+            raise RuntimeError(f"candidate shard {shard_index} selected-species lineage drift")
         if sha256_file(audit_matches[0]) != manifest["lineage"]["species_audit_sha256"]:
             raise RuntimeError(f"candidate shard {shard_index} audit SHA mismatch")
         if sha256_file(photo_matches[0]) != manifest["lineage"]["candidate_photos_sha256"]:
@@ -146,6 +150,9 @@ def main() -> int:
         "status": status,
         "candidate_image_pixels_opened": False,
         "flower_colour_used": False,
+        "capacity_source": handoff.source,
+        "capacity_manifest_path": str(handoff.manifest_path.relative_to(ROOT)),
+        "capacity_selected_species_path": str(handoff.selected_path.relative_to(ROOT)),
         "shards_required": shard_count,
         "shards_reassembled": shard_count,
         "capacity_selected_raw_photo_target": target,
@@ -168,8 +175,8 @@ def main() -> int:
         "additional_pages_after_result": False,
         "lineage": {
             "candidate_contract_sha256": sha256_file(CONTRACT),
-            "capacity_manifest_sha256": sha256_file(CAPACITY_MANIFEST),
-            "capacity_selected_species_sha256": sha256_file(SELECTED_SPECIES),
+            "capacity_manifest_sha256": sha256_file(handoff.manifest_path),
+            "capacity_selected_species_sha256": sha256_file(handoff.selected_path),
             "shard_species_audit_sha256": [m["lineage"]["species_audit_sha256"] for m in shard_manifests],
             "shard_candidate_photos_sha256": [m["lineage"]["candidate_photos_sha256"] for m in shard_manifests],
             "species_audit_sha256": sha256_file(OUT_AUDIT),
