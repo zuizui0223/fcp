@@ -46,6 +46,8 @@ def main() -> int:
     if failed.get("status") != contract["trigger"]["required_parent_status"]:
         raise RuntimeError("v2 capacity result does not authorize transport recovery")
     original = pd.read_csv(FAILED_AUDIT)
+    if len(original) != int(failed.get("discovered_species_scanned") or -1):
+        raise RuntimeError("v2 capacity audit denominator differs from its manifest")
 
     shard_count = int(contract["execution"]["deterministic_shards"])
     pieces: list[pd.DataFrame] = []
@@ -71,7 +73,16 @@ def main() -> int:
         manifests.append(m)
 
     recovered = pd.concat(pieces, ignore_index=True) if pieces else pd.DataFrame()
+    if recovered["global_row_index"].duplicated().any() if len(recovered) else False:
+        raise RuntimeError("duplicate global_row_index across 429 recovery shards")
     merged = merge_transport_recovery(original, recovered)
+    if len(merged) != len(original):
+        raise RuntimeError("transport recovery changed the global species denominator")
+    if merged["global_row_index"].astype(int).tolist() != original["global_row_index"].astype(int).tolist():
+        raise RuntimeError("transport recovery changed deterministic global row ordering")
+    if merged["inat_taxon_id"].astype(int).tolist() != original["inat_taxon_id"].astype(int).tolist():
+        raise RuntimeError("transport recovery changed the taxon denominator")
+
     targets = [int(x) for x in parent["target_rule"]["candidate_raw_photos_per_species"]]
     target_counts = {str(t): int(merged[f"eligible_raw_{t}"].astype(bool).sum()) for t in targets}
     errors = int(nonempty_error_mask(merged).sum())
@@ -105,6 +116,8 @@ def main() -> int:
         "candidate_image_pixels_opened": False,
         "flower_colour_used": False,
         "original_v2_status": failed["status"],
+        "original_v2_discovered_species_scanned": int(failed["discovered_species_scanned"]),
+        "discovered_species_scanned": int(len(merged)),
         "original_v2_request_errors": int(failed["request_errors"]),
         "recovered_429_rows": int(len(recovered)),
         "remaining_request_errors": errors,
