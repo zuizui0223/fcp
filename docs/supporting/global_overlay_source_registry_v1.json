@@ -10,6 +10,16 @@
       "fixed_variables": ["bio01", "bio04", "bio12", "bio15"],
       "role": "multivariate climatic turnover"
     },
+    "soil": {
+      "name": "SoilGrids",
+      "version": "2.0",
+      "resolution": "250 m",
+      "access_rule": "freeze median-prediction COG/WebDAV payloads before colour inference; do not rely on the beta REST service",
+      "fixed_variables": ["phh2o", "clay", "soc", "cec"],
+      "fixed_depths_cm": ["0-5", "5-15", "15-30"],
+      "depth_aggregation": "thickness-weighted 0-30 cm mean for each variable, then global terrestrial z-score",
+      "role": "multivariate edaphic turnover for local-adaptation and pigment-stress hypotheses"
+    },
     "topography": {
       "name": "EarthEnv Global Topography",
       "product": "Global 1/5/10/50/100-km Topography",
@@ -47,6 +57,12 @@
       "name": "GBIF",
       "release_rule": "create an occurrence download with DOI before colour outcome and preserve query/taxon keys/checksum",
       "role": "broad independent pollinator-guild occurrence turnover proxy"
+    },
+    "plant_sympatry_occurrence": {
+      "name": "GBIF",
+      "release_rule": "create a separate vascular-plant occurrence download with DOI before colour outcome and preserve query/taxon keys/checksum",
+      "role": "outcome-blind 100-km occupancy, sympatry and matched-allopatry frame for G5",
+      "independence_rule": "exclude iNaturalist flower-photo occurrence identifiers used in colour measurement wherever cross-source identifiers allow"
     }
   },
   "freeze_rules": {
