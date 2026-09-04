@@ -1,0 +1,38 @@
+{
+  "protocol": "random-photo-first-h9-reassembly-recovery-v1",
+  "status": "authorize_artifact_only_reassembly_recovery_after_complete_measurement_before_h9_spatial_inference",
+  "date": "2026-09-04",
+  "source_measurement_branch": "analysis/random-photo-first-h9-individual-distance-replication",
+  "source_measurement_commit": "362cdcc949f1421a9a5bb0532453914a23b4be83",
+  "source_measurement_run_id": 33841342171,
+  "source_measurement_run_conclusion": "failure",
+  "failure_classification": "postmeasurement_reassembly_path_serialization_bug",
+  "failure_evidence": {
+    "terminal_partition_artifacts_downloaded": 128,
+    "expected_terminal_partition_artifacts": 128,
+    "failed_job": "reassemble-complete-measurement",
+    "failed_expression": "args.output_csv.relative_to(ROOT)",
+    "reason": "output_csv was a repository-relative Path while ROOT was absolute; pathlib.relative_to rejected mixed relative/absolute path forms"
+  },
+  "recovery_constraints": {
+    "new_image_downloads_allowed": false,
+    "new_image_pixels_opened": false,
+    "new_roi_measurement_allowed": false,
+    "new_colour_classification_allowed": false,
+    "source_terminal_partition_artifacts_must_be_reused_exactly": true,
+    "source_firewall_artifact_must_be_reused_exactly": true,
+    "required_terminal_partition_count": 128,
+    "required_terminal_rows": 2280,
+    "required_species": 38,
+    "allowed_code_change": "normalize output paths only for manifest serialization; all biological calculations, measurement states, gates and thresholds remain unchanged"
+  },
+  "postmeasurement_gate_frozen_from_original_execution_contract": true,
+  "h9_spatial_inference_may_open_only_after": [
+    "artifact-only reassembly validates exact 128 partition coverage",
+    "joined row denominator equals 2280",
+    "species denominator equals 38 with 60 raw photos each",
+    "measurement manifest reports h9_spatial_inference_run=false",
+    "original frozen postmeasurement classifiable-photo gate is evaluated without threshold changes"
+  ],
+  "scientific_interpretation": "This recovery is computational lineage repair only. It neither creates a new H9 measurement replicate nor changes the predeclared H9 hypothesis, sampling design, image measurements, colour states or inferential thresholds."
+}
