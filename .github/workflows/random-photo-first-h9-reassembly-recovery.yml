@@ -60,23 +60,50 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -e .
           python -m py_compile scripts/analysis/reassemble_random_photo_first_h9_measurement.py
-      - name: Download original frozen H9 firewall artifact only
-        uses: actions/download-artifact@v4
-        with:
-          name: random-photo-first-h9-measurement-firewall-v1
-          path: /tmp/firewall
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: 33841342171
-      - name: Download original 128 terminal measurement artifacts only
-        uses: actions/download-artifact@v4
-        with:
-          pattern: random-photo-first-h9-terminal-*
-          path: /tmp/partition-results
-          merge-multiple: true
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: 33841342171
+      - name: Enumerate and download all immutable source artifacts with pagination
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: "33841342171"
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/firewall /tmp/partition-results /tmp/h9-artifact-zips
+          mkdir -p /tmp/firewall /tmp/partition-results /tmp/h9-artifact-zips
+
+          gh api --method GET --paginate \
+            "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts?per_page=100" \
+            --jq '.artifacts[] | [.id, .name] | @tsv' \
+            > /tmp/h9-artifacts.tsv
+
+          awk -F '\t' '$2 ~ /^random-photo-first-h9-terminal-/ {print}' /tmp/h9-artifacts.tsv > /tmp/h9-terminal-artifacts.tsv
+          awk -F '\t' '$2 == "random-photo-first-h9-measurement-firewall-v1" {print}' /tmp/h9-artifacts.tsv > /tmp/h9-firewall-artifact.tsv
+
+          test "$(wc -l < /tmp/h9-terminal-artifacts.tsv)" -eq 128
+          test "$(wc -l < /tmp/h9-firewall-artifact.tsv)" -eq 1
+
+          while IFS=$'\t' read -r artifact_id artifact_name; do
+            zip_path="/tmp/h9-artifact-zips/${artifact_name}.zip"
+            curl --fail --location --retry 4 --retry-delay 2 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" \
+              --output "${zip_path}"
+            unzip -q "${zip_path}" -d /tmp/partition-results
+          done < /tmp/h9-terminal-artifacts.tsv
+
+          while IFS=$'\t' read -r artifact_id artifact_name; do
+            zip_path="/tmp/h9-artifact-zips/${artifact_name}.zip"
+            curl --fail --location --retry 4 --retry-delay 2 \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "Accept: application/vnd.github+json" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" \
+              --output "${zip_path}"
+            unzip -q "${zip_path}" -d /tmp/firewall
+          done < /tmp/h9-firewall-artifact.tsv
+
+          echo "paginated_terminal_artifacts=$(wc -l < /tmp/h9-terminal-artifacts.tsv)"
+          echo "paginated_firewall_artifacts=$(wc -l < /tmp/h9-firewall-artifact.tsv)"
       - name: Verify immutable source artifact coverage before metadata join
         run: |
           python - <<'PY'
