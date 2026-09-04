@@ -1,0 +1,19 @@
+{
+  "protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "status": "authorize_exactly_one_h9_location_blind_measurement_run",
+  "prepixel_validation_run": 33840553473,
+  "prepixel_validation_conclusion": "success",
+  "fresh_metadata_manifest": "docs/supporting/random_photo_first_h9_fresh_metadata_manifest_v1.json",
+  "fresh_metadata_rows": 2280,
+  "full_species": 38,
+  "required_species_before_pixels": 30,
+  "measurement_execution_contract": "docs/supporting/random_photo_first_h9_measurement_execution_contract_v1.json",
+  "measurement_engine_source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+  "outcome_firewall": {
+    "h9_colour_seen_before_authorization": false,
+    "h9_spatial_statistic_seen_before_authorization": false,
+    "h9_p_value_seen_before_authorization": false,
+    "measurement_thresholds_changed_after_premeasurement_gate": false
+  },
+  "authorization_scope": "one complete 2280-photo location-blind measurement run only; no biological inference in this authorization"
+}
