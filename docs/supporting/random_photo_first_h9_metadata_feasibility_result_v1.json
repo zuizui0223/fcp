@@ -1,0 +1,121 @@
+{
+  "protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "status": "complete_h9_metadata_only_feasibility_audit",
+  "source_h7_fresh_photos": 4942,
+  "source_species": 52,
+  "matrix": [
+    {
+      "minimum_h7_fresh_records_per_species": 40,
+      "minimum_h7_fresh_maximum_span_km": 500.0,
+      "qualifying_species": 46,
+      "meets_minimum_species": true
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 40,
+      "minimum_h7_fresh_maximum_span_km": 1000.0,
+      "qualifying_species": 46,
+      "meets_minimum_species": true
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 40,
+      "minimum_h7_fresh_maximum_span_km": 2000.0,
+      "qualifying_species": 46,
+      "meets_minimum_species": true
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 60,
+      "minimum_h7_fresh_maximum_span_km": 500.0,
+      "qualifying_species": 38,
+      "meets_minimum_species": true
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 60,
+      "minimum_h7_fresh_maximum_span_km": 1000.0,
+      "qualifying_species": 38,
+      "meets_minimum_species": true
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 60,
+      "minimum_h7_fresh_maximum_span_km": 2000.0,
+      "qualifying_species": 38,
+      "meets_minimum_species": true
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 80,
+      "minimum_h7_fresh_maximum_span_km": 500.0,
+      "qualifying_species": 31,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 80,
+      "minimum_h7_fresh_maximum_span_km": 1000.0,
+      "qualifying_species": 31,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 80,
+      "minimum_h7_fresh_maximum_span_km": 2000.0,
+      "qualifying_species": 31,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 100,
+      "minimum_h7_fresh_maximum_span_km": 500.0,
+      "qualifying_species": 23,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 100,
+      "minimum_h7_fresh_maximum_span_km": 1000.0,
+      "qualifying_species": 23,
+      "meets_minimum_species": false
+    },
+    {
+      "minimum_h7_fresh_records_per_species": 100,
+      "minimum_h7_fresh_maximum_span_km": 2000.0,
+      "qualifying_species": 23,
+      "meets_minimum_species": false
+    }
+  ],
+  "automatic_selection": {
+    "minimum_species_required": 35,
+    "selected_rule": {
+      "minimum_h7_fresh_records_per_species": 60,
+      "minimum_h7_fresh_maximum_span_km": 2000.0,
+      "qualifying_species": 38,
+      "meets_minimum_species": true
+    },
+    "selected_species": 38,
+    "h9_metadata_feasible": true
+  },
+  "prospective_h9_design_if_feasible": {
+    "fresh_query": "one worldwide iNaturalist random page per selected species, per_page=200, one request attempt, no replacement",
+    "freshness": "exclude every observation/photo ID used in all earlier experiments including H7",
+    "observer_cap": 2,
+    "raw_photos_per_species": 60,
+    "raw_selection": "deterministic geographic maximin selection from locally eligible fresh rows after observer cap; ties by deterministic row hash",
+    "premeasurement_gate": "at least 30 selected species must yield the full fixed 60 fresh raw photos",
+    "location_blind_measurement": "same frozen ROI-v4 plus fixed palette path as the completed random photo-first atlas",
+    "postmeasurement_gate": "at least 25 species must have at least 20 classifiable photos",
+    "analysis_rows_per_species": 20,
+    "analysis_row_selection": "among classifiable rows, take exactly 20 by fixed measurement-ID hash, independent of colour values",
+    "species_statistic": "Spearman correlation between pairwise great-circle geographic distance and pairwise soft four-group colour Jensen-Shannon divergence across exactly 20 photos",
+    "global_statistic": "equal-species mean rho because every evaluable species contributes exactly 20 photos and 190 pairs",
+    "null": "999 within-species photo-colour permutations over the fixed 20 coordinates, one-sided upper tail",
+    "support_rule": "postmeasurement gate passes, observed global mean rho > 0, and Monte Carlo p_upper < 0.05"
+  },
+  "outcome_firewall": {
+    "h7_colour_read": false,
+    "h6_h6b_effects_read": false,
+    "h9_api_queries_opened": false,
+    "h9_pixels_opened": false
+  },
+  "lineage": {
+    "contract_sha256": "dafe18d38958e34ca3f77808fde4a6cd736cf6b4fee24afc7bf5d06309b41fd0",
+    "h7_fresh_metadata_sha256": "8c6bfe77db6248e622f585c5a703fdd3a20d6bc1892b3819411338895896d01e",
+    "h7_manifest_sha256": "07a16e554ac4ee57598e8f4a1d2efe898ad16a8920dc9f601c5ca0f914004537",
+    "h8_design_result_sha256": "54b023243b31573e8912e53ae0f571862c69e9bb7b85f6dbcb2e557683cec501",
+    "selected_species_sha256": "4636b0a7ffeb5f5a7e1d0c6c8342b2f510ad566309cdd5491277bad8dcab261f"
+  },
+  "claim_ceiling": "This audit establishes only whether a fixed-n continuous-distance H9 is metadata-feasible. It cannot provide a biological result or rescue H1-H8."
+}
