@@ -1,0 +1,87 @@
+{
+  "protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "status": "prospective_h9_frozen_after_metadata_feasibility_before_any_h9_query_or_pixel",
+  "question": "Across independently sampled species with fixed individual-level replication, does flower-colour composition diverge more as geographic distance increases within species?",
+  "design_lineage": {
+    "feasibility_result": "docs/supporting/random_photo_first_h9_metadata_feasibility_result_v1.json",
+    "selected_species": "data/frozen/random_photo_first_h9_metadata_species_v1.csv",
+    "expected_species": 38,
+    "selection_rule": {
+      "minimum_h7_fresh_records_per_species": 60,
+      "minimum_h7_fresh_maximum_span_km": 2000
+    },
+    "selection_uses_colour": false
+  },
+  "fresh_metadata_acquisition": {
+    "source": "iNaturalist API v1 observations",
+    "queries": 38,
+    "query_scope": "one worldwide query per frozen species taxon_id",
+    "quality_grade": "research",
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "rank": "species",
+    "photos": true,
+    "geo": true,
+    "obscuration": "none",
+    "maximum_positional_accuracy_m": 5000,
+    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"],
+    "order_by": "random",
+    "per_page": 200,
+    "pages_per_species": 1,
+    "request_attempts_per_species": 1,
+    "request_retries": 0,
+    "request_error_policy": "record zero fresh rows for that species; never redraw",
+    "local_exact_taxon_validation": true,
+    "observer_cap": 2,
+    "fixed_raw_photos_per_species": 60,
+    "raw_photo_selection": "deterministic geographic maximin after local eligibility, prior-ID exclusion and observer cap; first point maximizes mean great-circle distance to all rows, then each next point maximizes minimum distance to selected points; ties use stable row hash",
+    "replacement_after_shortfall": false
+  },
+  "freshness_firewall": {
+    "exclude_all_prior_observation_and_photo_ids": true,
+    "sources": [
+      "random photo-first v1",
+      "six-species Chapter 1",
+      "PR21 terminal 60,000",
+      "H7 fresh metadata 4,942"
+    ],
+    "expected_unique_prior_observations": 86745,
+    "expected_unique_prior_photos": 86745,
+    "h8_added_records": 0,
+    "no_prior_row_may_enter_h9": true
+  },
+  "premeasurement_gate": {
+    "full_species_definition": "exactly 60 retained fresh raw photos after all frozen filters",
+    "minimum_full_species": 30,
+    "if_fail": "not_evaluable_h9_fresh_metadata_support_before_pixels",
+    "if_pass": "authorize location-blind measurement of only the frozen retained H9 rows"
+  },
+  "measurement": {
+    "localization": "same frozen ROI-v4 implementation and weights used by the completed random photo-first atlas",
+    "colour": "same fixed generic sRGB-to-CIELAB palette and soft flower-only fractions",
+    "worker_blinding": "species, coordinates, observation/photo IDs, observer/date and ecological context unavailable to measurement worker",
+    "failures": "terminal mixed_uncertain; no image replacement",
+    "raw_photo_denominator_fixed_before_pixels": true
+  },
+  "postmeasurement_gate": {
+    "classifiable_definition": "measurement status classified_four_state_morph with retained soft four-group composition",
+    "minimum_classifiable_photos_per_species": 20,
+    "minimum_evaluable_species": 25,
+    "if_fail": "not_evaluable_h9_measurement_support_before_spatial_inference"
+  },
+  "analysis": {
+    "photos_per_evaluable_species": 20,
+    "photo_selection": "exactly 20 classifiable rows per species by ascending SHA-256 of fixed measurement_id plus analysis seed; colour values do not enter selection",
+    "analysis_seed": 20260909,
+    "soft_colour_groups": ["white", "yellow_orange", "red_pink", "blue_purple"],
+    "species_statistic": "Spearman rho between all 190 pairwise great-circle geographic distances and pairwise Jensen-Shannon divergences of soft four-group photo colour compositions",
+    "global_statistic": "equal-species mean rho because each species contributes exactly 20 photos and 190 pairs",
+    "permutations": 999,
+    "permutation_seed": 20260910,
+    "null": "within each species independently permute the 20 fixed photo colour vectors across the 20 fixed coordinates, recompute rho and equal-species mean",
+    "tail": "upper",
+    "alpha": 0.05,
+    "support": "postmeasurement gate passes, observed mean rho > 0 and Monte Carlo p_upper < 0.05"
+  },
+  "claim_ceiling": "A supported H9 would establish a general tendency for flower-colour composition to diverge with geographic separation within species under a fixed-n fresh public-photo design. It would not establish a shared global boundary, identify a climate driver, demonstrate adaptation or selection, or identify pigment or pollinator mechanisms."
+}
