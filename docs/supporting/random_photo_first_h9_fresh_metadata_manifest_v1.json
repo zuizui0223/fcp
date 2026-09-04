@@ -1,0 +1,45 @@
+{
+  "protocol": "random-photo-first-h9-individual-distance-replication-v1",
+  "status": "h9_fresh_metadata_frozen_before_pixels",
+  "query_attempts": 38,
+  "expected_query_attempts": 38,
+  "query_retries": 0,
+  "request_error_species": 0,
+  "selected_species": 38,
+  "retained_fresh_photos": 2280,
+  "retained_unique_observation_ids": 2280,
+  "retained_unique_photo_ids": 2280,
+  "premeasurement_gate": {
+    "fixed_raw_photos_per_species": 60,
+    "full_species": 38,
+    "required_species": 30,
+    "pass": true,
+    "decision": "authorize_h9_location_blind_measurement"
+  },
+  "freshness_firewall": {
+    "prior_exclusion_observation_ids": 86745,
+    "prior_exclusion_photo_ids": 86745,
+    "prior_observations_retained": 0,
+    "prior_photos_retained": 0
+  },
+  "candidate_image_pixels_opened": false,
+  "colour_used_for_selection": false,
+  "query_opened_once": true,
+  "query_completed_without_replacement": true,
+  "lineage": {
+    "contract_sha256": "ad00c6a9f86447da5fd8766c5b53066a59709b2d11d96c3662c9ad8f1cc7a445",
+    "feasibility_result_sha256": "63cdb5b875b58939287f57dc15c2672297f79678994de1aefa17389846d0f577",
+    "selected_species_sha256": "4636b0a7ffeb5f5a7e1d0c6c8342b2f510ad566309cdd5491277bad8dcab261f",
+    "exclusion_table_sha256": "f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99"
+  },
+  "files": {
+    "observations": {
+      "path": "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv",
+      "sha256": "111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f"
+    },
+    "species_audit": {
+      "path": "data/frozen/random_photo_first_h9_fresh_metadata_species_audit_v1.csv",
+      "sha256": "7b05a0d59f9bc9dcd5d840e6cf4354f34ee95c90ece86b16d2a5080017db3573"
+    }
+  }
+}
