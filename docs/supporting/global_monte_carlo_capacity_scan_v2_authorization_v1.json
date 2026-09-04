@@ -14,5 +14,13 @@
   "candidate_image_pixels_may_open": false,
   "flower_colour_may_open": false,
   "favourable_rerun_authorized": false,
+  "infrastructure_retry": {
+    "previous_run": 33862995135,
+    "previous_run_failed_before_any_capacity_request": true,
+    "previous_shards_started": 0,
+    "failure": "gate ModuleNotFoundError: pandas",
+    "fix": "install the frozen repository package and dependencies before the gate check",
+    "biological_or_sampling_rule_changed": false
+  },
   "decision": "run all eight deterministic capacity shards and apply the frozen 100/80/60 largest-target-with-at-least-300-species rule only after strict reassembly"
 }
