@@ -1,0 +1,255 @@
+name: Random photo-first H9 location-blind measurement
+
+on:
+  push:
+    branches:
+      - analysis/random-photo-first-h9-individual-distance-replication
+    paths:
+      - "docs/supporting/random_photo_first_h9_measurement_authorization_v1.json"
+
+permissions:
+  contents: read
+
+env:
+  EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
+  EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
+  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+
+concurrency:
+  group: random-photo-first-h9-measurement
+  cancel-in-progress: false
+
+jobs:
+  authorize-and-build-firewall:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Materialize exact validated measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Require exact H9 measurement authorization and build firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a = json.loads(Path('docs/supporting/random_photo_first_h9_measurement_authorization_v1.json').read_text())
+          m = json.loads(Path('docs/supporting/random_photo_first_h9_fresh_metadata_manifest_v1.json').read_text())
+          c = json.loads(Path('docs/supporting/random_photo_first_h9_measurement_execution_contract_v1.json').read_text())
+          assert a['status'] == 'authorize_exactly_one_h9_location_blind_measurement_run'
+          assert a['prepixel_validation_run'] == 33840553473
+          assert m['premeasurement_gate']['pass'] is True
+          assert m['premeasurement_gate']['decision'] == 'authorize_h9_location_blind_measurement'
+          assert m['retained_fresh_photos'] == 2280
+          assert c['pixel_gate']['required_rows'] == 2280
+          assert not Path('data/derived/random_photo_first_h9_measured_photos_v1.csv').exists()
+          assert not Path('docs/supporting/random_photo_first_h9_measurement_result_v1.json').exists()
+          print('h9_measurement_authorization=pass')
+          PY
+          rm -rf /tmp/h9-firewall
+          python scripts/analysis/build_random_photo_first_h9_measurement_firewall.py \
+            --output-dir /tmp/h9-firewall
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h9-measurement-firewall-v1
+          if-no-files-found: error
+          retention-days: 14
+          path: /tmp/h9-firewall
+
+  measure-partition:
+    needs: authorize-and-build-firewall
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        semantic_shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        compute_partition: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Materialize exact validated measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install exact CPU measurement runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e . -r requirements-atlas-roi-v4.txt
+      - name: Download exact EfficientSAM weights
+        run: |
+          rm -rf /tmp/efficient-sam
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+      - uses: actions/download-artifact@v4
+        with:
+          name: random-photo-first-h9-measurement-firewall-v1
+          path: /tmp/firewall
+      - name: Acquire assigned H9 source URLs into blind ephemeral filenames
+        run: |
+          rm -rf /tmp/acquisition
+          python scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            --worker-manifest /tmp/firewall/worker_packet/measurement_manifest.csv \
+            --acquisition-key /tmp/firewall/sealed_keys/acquisition_key.csv \
+            --output-dir /tmp/acquisition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+      - name: Cross firewall and delete all source-URL material before measurement
+        run: |
+          rm -rf /tmp/blind /tmp/safe-acquisition
+          mkdir -p /tmp/blind/images /tmp/safe-acquisition
+          cp /tmp/acquisition/successful_worker_manifest.csv /tmp/blind/measurement_manifest.csv
+          cp -a /tmp/acquisition/ephemeral_images/. /tmp/blind/images/
+          cp /tmp/acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/selected_blind_manifest.csv
+          cp /tmp/acquisition/acquisition_failures.csv /tmp/safe-acquisition/acquisition_failures.csv
+          cp /tmp/acquisition/acquisition_receipt.csv /tmp/safe-acquisition/acquisition_receipt.csv
+          rm -rf /tmp/firewall /tmp/acquisition
+          test ! -e /tmp/firewall
+          test ! -e /tmp/acquisition
+          ! grep -R -E "photo_url|latitude|longitude|species|observer" /tmp/blind /tmp/safe-acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/acquisition_receipt.csv
+      - name: Run exact frozen location-blind ROI-v4 and fixed palette
+        run: |
+          python scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --worker-manifest /tmp/blind/measurement_manifest.csv \
+            --images-dir /tmp/blind/images \
+            --detector-weight data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --efficient-sam-dir /tmp/efficient-sam \
+            --output-csv /tmp/blind_measurement_results.csv
+      - name: Seal exact terminal H9 partition and delete image pixels
+        run: |
+          rm -rf /tmp/sealed-partition
+          python scripts/analysis/seal_random_photo_first_measurement_partition.py \
+            --selected-blind-manifest /tmp/safe-acquisition/selected_blind_manifest.csv \
+            --acquisition-failures /tmp/safe-acquisition/acquisition_failures.csv \
+            --measurement-results /tmp/blind_measurement_results.csv \
+            --output-dir /tmp/sealed-partition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+          rm -rf /tmp/blind /tmp/efficient-sam /tmp/safe-acquisition /tmp/blind_measurement_results.csv
+          test ! -e /tmp/blind
+          test ! -e /tmp/efficient-sam
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('/tmp/sealed-partition')
+          forbidden = {'photo_url','photo_url_large','latitude','longitude','species','observer','observer_id'}
+          csv_files = sorted(root.glob('*.csv'))
+          assert len(csv_files) == 1
+          with csv_files[0].open(newline='', encoding='utf-8') as fh:
+              header = next(csv.reader(fh), [])
+          assert not forbidden.intersection(header)
+          receipt_files = sorted(root.glob('*.json'))
+          assert len(receipt_files) == 1
+          receipt = json.loads(receipt_files[0].read_text())
+          assert receipt['source_urls_present'] is False
+          assert receipt['species_present'] is False
+          assert receipt['coordinates_present'] is False
+          print('h9_sealed_partition_metadata_firewall=pass')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h9-terminal-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/sealed-partition
+
+  reassemble-complete-measurement:
+    needs: measure-partition
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 35
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Materialize exact validated reassembly infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - uses: actions/download-artifact@v4
+        with:
+          name: random-photo-first-h9-measurement-firewall-v1
+          path: /tmp/firewall
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: random-photo-first-h9-terminal-*
+          path: /tmp/partition-results
+          merge-multiple: true
+      - name: Require exact 128-partition coverage before H9 metadata join
+        run: |
+          python scripts/analysis/reassemble_random_photo_first_h9_measurement.py \
+            --results-dir /tmp/partition-results \
+            --worker-manifest /tmp/firewall/worker_packet/measurement_manifest.csv \
+            --metadata-join-key /tmp/firewall/sealed_keys/metadata_join_key.csv \
+            --firewall-manifest /tmp/firewall/measurement_firewall_manifest.json \
+            --output-csv data/derived/random_photo_first_h9_measured_photos_v1.csv \
+            --output-manifest docs/supporting/random_photo_first_h9_measurement_result_v1.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/random_photo_first_h9_measurement_result_v1.json').read_text())
+          assert r['status'] == 'complete_h9_location_blind_measurement_and_join'
+          assert r['partition_receipts'] == 128
+          assert r['terminal_result_rows'] == 2280
+          assert r['joined_rows'] == 2280
+          assert r['coordinate_colour_join_opened_after_complete_measurement'] is True
+          assert r['prior_experiment_rows_used'] is False
+          assert r['h9_spatial_inference_run'] is False
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: random-photo-first-h9-measured-photos-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/derived/random_photo_first_h9_measured_photos_v1.csv
+            data/derived/random_photo_first_h9_measurement_species_support_v1.csv
+            docs/supporting/random_photo_first_h9_measurement_result_v1.json
+      - name: Commit complete H9 measurement result
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/random_photo_first_h9_measured_photos_v1.csv \
+            data/derived/random_photo_first_h9_measurement_species_support_v1.csv \
+            docs/supporting/random_photo_first_h9_measurement_result_v1.json
+          git commit -m "Complete H9 location-blind flower-colour measurement"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/random-photo-first-h9-individual-distance-replication
+            git rebase origin/analysis/random-photo-first-h9-individual-distance-replication
+            if git push origin HEAD:analysis/random-photo-first-h9-individual-distance-replication; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
