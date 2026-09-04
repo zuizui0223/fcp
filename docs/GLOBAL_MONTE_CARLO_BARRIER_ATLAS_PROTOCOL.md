@@ -51,31 +51,46 @@ G3 prevents a null G1 from being misread as a null statement about all species-s
 
 Only if G1 is supported may an independent, pre-frozen barrier-overlay extension ask whether the recurrent field aligns with broad biogeographic, topographic or environmental discontinuities. Barrier overlays cannot rescue a null G1.
 
-## 3. Two-layer global sampling frame
+## 3. Global sampling frame
 
-### 3.1 Census layer
+### 3.1 Repeated metadata-only species-discovery census
 
-The census layer is metadata-only and outcome-blind. It is intended to be as globally inclusive as practical and can be processed in hash-partitioned chunks. No flower-colour pixel is opened at this stage.
+The original 8,989-species pool came from only one random metadata page in each 18 × 9 equal-area cell. It is therefore retained as **round 0**, not treated as the complete global species frame.
 
-The census records species identity, coordinates, observation/photo identifiers, observer identity, licence and metadata quality. It is allowed to estimate sampling capacity and geographic geometry but not flower colour.
+Before any new colour pixel is opened, species discovery itself is repeated prospectively:
 
-Species that cannot support within-species inference remain part of the descriptive global census. They are not recoded as biologically unstructured.
+- the same 18 × 9 equal-area grid;
+- 20 fresh metadata-only discovery rounds;
+- one independently random 200-record iNaturalist page per cell per round;
+- 3,240 fixed fresh request attempts in total;
+- the same research-grade, flowering-annotation, georeferenced, positional-accuracy and licence filters as the original atlas;
+- no colour, climate, barrier or H9 outcome enters discovery;
+- no early stopping when species accumulation appears to plateau;
+- failed cell-round requests are recorded and not replaced or rerun.
 
-### 3.2 Inferential layer
+The census saves a compact observation-ID/species index, the cumulative species frame, per-round and per-cell accumulation audits, odd-versus-even fresh-round species-set overlap, baseline-versus-fresh overlap and the species-accumulation curve. Thus the geographic/taxonomic sampling frame itself has a reproducible stability diagnostic rather than depending on one random global draw.
+
+All species discovered in round 0 or any of the 20 fresh rounds enter the next **metadata capacity scan**. Discovery does not imply inclusion in colour inference.
+
+### 3.2 Capacity census and inferential layer
 
 The inferential layer contains only species with enough metadata support for fixed-n, range-spanning measurement. Eligibility is determined without colour.
 
-Before any fresh pixels are opened, a metadata-only feasibility audit evaluates the following predeclared raw-photo targets per species:
+Before any fresh pixels are opened, a metadata-only capacity audit evaluates the following predeclared raw-photo targets per species:
 
-- 60;
+- 100;
 - 80;
-- 100.
+- 60.
 
 Within each candidate species, prior experiment IDs are excluded, observer contribution is capped at two retained photographs, and retained raw photographs are selected by a deterministic geographic maximin rule with deterministic hash tie-breaking.
 
 The automatic primary raw-photo target is the **largest** of 100, 80 or 60 that yields at least 300 metadata-eligible species globally. If no target yields at least 300 species, the experiment stops as `not_evaluable_global_inferential_species_capacity_before_pixels`; the threshold is not relaxed after colour opening.
 
+The capacity scan and the eventual candidate-image acquisition are distinct outcome-blind stages. Capacity may be estimated from a metadata-only draw, but actual image acquisition uses one separately frozen fresh draw at the automatically selected target and has its own premeasurement gate. A favourable second target may not be substituted if the acquisition draw underperforms.
+
 The metadata audit must also report representation by major terrestrial realm, latitude band and family. These are coverage diagnostics, not outcome-driven inclusion criteria and are never used to select a favourable colour result.
+
+Species that cannot support within-species inference remain part of the descriptive global census. They are not recoded as biologically unstructured.
 
 ## 4. Location-blind colour measurement
 
@@ -172,13 +187,14 @@ No spatial support, kernel, species weight, photo threshold or subset may be sub
 
 A positive G1 is not sufficient by itself. The following are reported regardless of significance where estimable:
 
-1. **Monte Carlo convergence:** running consensus-field distance and concentration versus 25, 50, 100, 150 and 200 resamples;
-2. **split-resample reproducibility:** correlation of odd- versus even-resample consensus fields;
-3. **photo-resampling stability:** within-species spread of `rho_i` and boundary contribution across the 200 draws;
-4. **leave-one-realm-out:** recompute the consensus after deleting each represented terrestrial realm;
-5. **leave-one-family-out for major families:** delete families contributing at least 5% of inferential species;
-6. **equal-species versus inclusion-probability weighting:** weighting sensitivity only; equal-species remains primary;
-7. **predeclared spatial-support sensitivity:** 24×12/1,000 km and 72×36/250 km cannot replace the primary 36×18/500 km result.
+1. **species-discovery stability:** accumulation across the fixed 20 metadata rounds and odd/even fresh-round overlap;
+2. **Monte Carlo convergence:** running consensus-field distance and concentration versus 25, 50, 100, 150 and 200 resamples;
+3. **split-resample reproducibility:** correlation of odd- versus even-resample consensus fields;
+4. **photo-resampling stability:** within-species spread of `rho_i` and boundary contribution across the 200 draws;
+5. **leave-one-realm-out:** recompute the consensus after deleting each represented terrestrial realm;
+6. **leave-one-family-out for major families:** delete families contributing at least 5% of inferential species;
+7. **equal-species versus inclusion-probability weighting:** weighting sensitivity only; equal-species remains primary;
+8. **predeclared spatial-support sensitivity:** 24×12/1,000 km and 72×36/250 km cannot replace the primary 36×18/500 km result.
 
 A stability claim requires that the sign of the G1 excess is unchanged, the odd/even field correlation is positive and substantial, and no single realm or major family creates the result. Exact numerical stability thresholds, if used as pass/fail gates, must be frozen in a separate synthetic-validation amendment before fresh colour pixels open.
 
@@ -190,7 +206,8 @@ Thus the scientific sample can eventually contain far more than 250 species and 
 
 This is the intended distinction:
 
-- **more Monte Carlo resamples** reduce computational/sampling Monte Carlo error conditional on the measured pool;
+- **more metadata discovery rounds** broaden and stabilize which species have an opportunity to enter the global programme;
+- **more Monte Carlo analysis resamples** reduce computational/sampling Monte Carlo error conditional on the measured pool;
 - **more adequately replicated species and photographs** add biological information.
 
 Repeated resampling cannot manufacture within-species information from singleton species, which is why the new metadata and postmeasurement gates are binding.
