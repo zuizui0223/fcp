@@ -1,0 +1,44 @@
+{
+  "protocol": "global-pair-context-profile-v1",
+  "status": "prospective_external_only_descriptive_layer_frozen_before_global_colour_outcome",
+  "date": "2026-09-04",
+  "purpose": "Give geographically sympatric and allopatric plant pairs ecological/geographic context descriptors without using flower colour to define the descriptors.",
+  "geography_source": "the frozen G5 GBIF plant-occupancy frame",
+  "reference_population": "all eligible plant-pair opportunities under the frozen occupancy/taxonomic/data-coverage gates before flower-colour inference",
+  "thresholds": {
+    "similarity": "at or below the 25th percentile of an external turnover/distance score",
+    "separation": "at or above the 75th percentile of an external turnover/barrier score",
+    "minimum_finite_reference_pairs_per_axis": 100,
+    "constant_or_sparse_reference": "not_evaluable for that axis; never recoded as similar or separated"
+  },
+  "sympatric_labels": [
+    "pollinator-similar",
+    "climate-similar",
+    "edaphic-similar",
+    "terrain-similar"
+  ],
+  "allopatric_labels": [
+    "pollinator-separated",
+    "climate-separated",
+    "edaphic-separated",
+    "terrain-separated",
+    "marine-gap-separated",
+    "major-river-separated",
+    "biogeographic-boundary-separated",
+    "mountain-boundary-separated"
+  ],
+  "rules": {
+    "labels_nonexclusive": true,
+    "zero_labels_allowed": true,
+    "flower_colour_used_in_thresholds_or_labels": false,
+    "predictor_direction": "all stored external pair scores increase with turnover/separation/barrier intensity",
+    "thresholds_may_change_after_colour": false,
+    "labels_are_causal": false
+  },
+  "uses": {
+    "G5_context_strata": "Interpret whether colour convergence/divergence differs among externally similar versus separated contexts.",
+    "allopatry_characterization": "Describe whether a non-overlapping pair is especially separated in climate, soil, pollinator landscape, topography, marine gaps, rivers, biogeographic boundaries or mountains.",
+    "sympatry_characterization": "Describe shared ecological context of a co-occurring pair without assuming facilitation, competition, mimicry or reproductive interference."
+  },
+  "claim_ceiling": "These are outcome-blind pair-context descriptors. A label such as climate-separated or marine-gap-separated does not mean that climate or the marine gap caused allopatry, and pollinator-similar does not establish shared selective pressure."
+}
