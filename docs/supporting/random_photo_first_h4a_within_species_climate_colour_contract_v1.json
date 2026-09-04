@@ -1,0 +1,114 @@
+{
+  "protocol": "random-photo-first-h4a-within-species-climate-colour-v1",
+  "status": "exploratory_frozen_after_h1_h2_outcomes_before_any_h4a_climate_colour_join_or_test",
+  "introduced_after_h1_h2_outcomes": true,
+  "claim_role": "exploratory_only_cannot_rescue_replace_or_reinterpret_h1_h2",
+  "question": "Within species, are cells that are more different in macroclimate also more different in flower-colour composition even when transition locations are not shared globally?",
+  "lineage": {
+    "measurement_table": "data/derived/random_photo_first_measured_photos_v1.csv",
+    "measurement_table_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+    "measurement_rows": 20845,
+    "classifiable_rows": 10103,
+    "capacity_audit": "docs/supporting/random_photo_first_h4_within_species_capacity_v1.json",
+    "h1_result": "docs/supporting/random_photo_first_h1_result_v1.json",
+    "h2_result": "docs/supporting/random_photo_first_h2_result_v1.json",
+    "climate_cells": "data/derived/random_photo_first_h2_climate_cells_250km_v1.csv",
+    "climate_source_role": "reuse prospectively frozen H2 250-km cell climate frame; no new climate source or variable selection"
+  },
+  "colour_representation": {
+    "input": "classifiable fresh measurements only",
+    "excluded_morph": "mixed_uncertain",
+    "soft_palette_columns": [
+      "flower_fraction_white",
+      "flower_fraction_yellow",
+      "flower_fraction_orange",
+      "flower_fraction_red",
+      "flower_fraction_pink",
+      "flower_fraction_magenta",
+      "flower_fraction_purple",
+      "flower_fraction_blue",
+      "flower_fraction_bronze"
+    ],
+    "four_group_collapse": {
+      "white": ["white"],
+      "yellow_orange": ["yellow", "orange", "bronze"],
+      "red_pink": ["red", "pink", "magenta"],
+      "blue_purple": ["blue", "purple"]
+    },
+    "species_cell_summary": "arithmetic mean of each four-group soft composition across all classifiable photos of that species in that frozen H1 cell, followed by renormalization to sum 1",
+    "cell_pair_colour_distance": "Jensen-Shannon divergence in bits on the four-group mean compositions",
+    "coarse_morph_ordering_used": false
+  },
+  "climate_representation": {
+    "primary_variables": ["z_bio1", "z_bio4", "z_bio12", "z_bio15"],
+    "source": "frozen H2 250-km H1-cell climate table",
+    "complete_macroclimate_required": true,
+    "cell_pair_distance": "sqrt(mean((delta z_bio1, delta z_bio4, delta z_bio12, delta z_bio15)^2))"
+  },
+  "primary_species_frame": {
+    "minimum_classifiable_photos_before_climate_join": 10,
+    "minimum_occupied_h1_cells_before_climate_join": 5,
+    "minimum_coarse_morph_levels_before_climate_join": 2,
+    "capacity_audit_species": 74,
+    "capacity_audit_photos": 1557,
+    "after_climate_join_rule": "retain a pre-frame species only if it still has at least 5 climate-complete species-cell summaries; no replacement species are added",
+    "minimum_evaluable_species_to_run": 30
+  },
+  "species_level_statistic": {
+    "statistic": "Spearman correlation between all within-species cell-pair climate RMS distances and colour JSD distances",
+    "pair_dependence_handled_by": "cell-label permutation within species; no iid pairwise p-values are used",
+    "invalid_species": "species with fewer than 5 climate-complete cells or zero variance in either pairwise distance vector are not evaluable"
+  },
+  "global_statistic": {
+    "statistic": "arithmetic mean of evaluable species Spearman correlations",
+    "species_weighting": "equal species weight",
+    "directional_hypothesis": "positive: larger climate separation corresponds to larger colour-composition separation within species"
+  },
+  "null": {
+    "permutations": 999,
+    "seed": 20260905,
+    "procedure": "for each global permutation independently permute the colour-composition cell labels within each species relative to its fixed climate cells; recompute each species Spearman correlation and the equal-species mean",
+    "preserves": [
+      "species membership",
+      "the set of occupied climate cells for each species",
+      "each species' observed set of species-cell colour compositions",
+      "each species' observed colour and climate distance marginals"
+    ],
+    "p_value": "Monte Carlo upper tail (1 + count(null_mean_rho >= observed_mean_rho)) / 1000"
+  },
+  "decision": {
+    "alpha": 0.05,
+    "h4a_support_requires": "evaluable species >=30, observed mean Spearman rho >0, and upper-tail p <0.05",
+    "h4b_directional_decomposition_gate": "open only if H4a support requirement is met",
+    "if_not_supported": "do not open directional H4b; conclude no evidence in this exploratory atlas that within-species colour divergence tracks the frozen multivariate climate distance"
+  },
+  "predeclared_sensitivities": [
+    {
+      "name": "n5_cells3_morphs2",
+      "minimum_classifiable_photos": 5,
+      "minimum_occupied_h1_cells": 3,
+      "minimum_coarse_morph_levels": 2
+    },
+    {
+      "name": "n10_cells3_morphs2",
+      "minimum_classifiable_photos": 10,
+      "minimum_occupied_h1_cells": 3,
+      "minimum_coarse_morph_levels": 2
+    },
+    {
+      "name": "n20_cells3_morphs2",
+      "minimum_classifiable_photos": 20,
+      "minimum_occupied_h1_cells": 3,
+      "minimum_coarse_morph_levels": 2
+    }
+  ],
+  "sensitivity_rule": "sensitivities are descriptive robustness checks and cannot rescue a non-significant primary H4a",
+  "forbidden": [
+    "selecting a colour ordering among the four morph labels",
+    "selecting climate variables after seeing H4a results",
+    "changing the primary species threshold after seeing H4a results",
+    "introducing a new climate product after seeing H4a results",
+    "using sensitivity significance to replace a non-significant primary H4a",
+    "using H4a to overturn the completed H1 or hierarchical H2 decisions"
+  ]
+}
