@@ -1,0 +1,59 @@
+{
+  "protocol": "global-overlay-source-registry-v1",
+  "status": "source_families_frozen_before_global_colour_outcome_exact_download_checksums_pending",
+  "date": "2026-09-04",
+  "sources": {
+    "climate": {
+      "name": "CHELSA",
+      "version": "2.1",
+      "product": "CHELSA-bioclim",
+      "fixed_variables": ["bio01", "bio04", "bio12", "bio15"],
+      "role": "multivariate climatic turnover"
+    },
+    "topography": {
+      "name": "EarthEnv Global Topography",
+      "product": "Global 1/5/10/50/100-km Topography",
+      "fixed_grain_km": 50,
+      "fixed_variables": ["elevation", "slope", "terrain roughness index", "vector ruggedness measure"],
+      "role": "terrain contrast and rugged intervening terrain"
+    },
+    "mountains": {
+      "name": "GMBA Mountain Inventory",
+      "version": "2",
+      "role": "hierarchical mountain-range boundary crossing"
+    },
+    "biogeography": {
+      "name": "RESOLVE Ecoregions",
+      "version": "2017",
+      "fixed_levels": ["realm", "biome", "ecoregion"],
+      "role": "established terrestrial biogeographic boundary crossing"
+    },
+    "hydrography": {
+      "name": "HydroRIVERS / HydroSHEDS",
+      "version_rule": "record exact fixed release and river-size attribute threshold before colour outcome",
+      "role": "major-river crossing"
+    },
+    "marine_land_mask": {
+      "name": "Natural Earth 1:10m Land",
+      "version": "5.1.1",
+      "role": "great-circle marine-gap fraction including island/strait separation"
+    },
+    "direct_pollination": {
+      "name": "Global Biotic Interactions",
+      "release_rule": "use a stable versioned integrated dataset and record DOI plus payload checksum before colour outcome",
+      "role": "direct pollination/flower-visitation community turnover where spatial coverage is adequate"
+    },
+    "pollinator_occurrence_proxy": {
+      "name": "GBIF",
+      "release_rule": "create an occurrence download with DOI before colour outcome and preserve query/taxon keys/checksum",
+      "role": "broad independent pollinator-guild occurrence turnover proxy"
+    }
+  },
+  "freeze_rules": {
+    "exact_payload_checksums_required_before_inference": true,
+    "no_source_family_switch_after_colour_outcome": true,
+    "no_version_switch_to_improve_alignment": true,
+    "unavailable_source": "not_evaluable rather than substitution",
+    "external_predictors_must_be_generated_without_flower_colour": true
+  }
+}
