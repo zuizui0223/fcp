@@ -133,26 +133,26 @@ def main() -> int:
     missing_fractions = sorted(required_fraction_columns - set(joined.columns))
     if missing_fractions:
         raise RuntimeError(f"global measurement lacks frozen palette fractions: {missing_fractions}")
-    joined["soft4_white"] = pd.to_numeric(joined["flower_fraction_white"], errors="raise")
-    joined["soft4_yellow_orange"] = (
+    joined["colour_white"] = pd.to_numeric(joined["flower_fraction_white"], errors="raise")
+    joined["colour_yellow_orange"] = (
         pd.to_numeric(joined["flower_fraction_yellow"], errors="raise")
         + pd.to_numeric(joined["flower_fraction_orange"], errors="raise")
         + pd.to_numeric(joined["flower_fraction_bronze"], errors="raise")
     )
-    joined["soft4_red_pink"] = (
+    joined["colour_red_pink"] = (
         pd.to_numeric(joined["flower_fraction_red"], errors="raise")
         + pd.to_numeric(joined["flower_fraction_pink"], errors="raise")
         + pd.to_numeric(joined["flower_fraction_magenta"], errors="raise")
     )
-    joined["soft4_blue_purple"] = (
+    joined["colour_blue_purple"] = (
         pd.to_numeric(joined["flower_fraction_blue"], errors="raise")
         + pd.to_numeric(joined["flower_fraction_purple"], errors="raise")
     )
-    soft_cols = ["soft4_white", "soft4_yellow_orange", "soft4_red_pink", "soft4_blue_purple"]
+    colour_cols = ["colour_white", "colour_yellow_orange", "colour_red_pink", "colour_blue_purple"]
     classifiable = joined["global_classifiable"].to_numpy(dtype=bool)
-    soft_sum = joined.loc[classifiable, soft_cols].sum(axis=1)
-    if len(soft_sum) and not ((soft_sum - 1.0).abs() <= 1e-8).all():
-        raise RuntimeError("classifiable global soft-four vectors do not sum to one")
+    colour_sum = joined.loc[classifiable, colour_cols].sum(axis=1)
+    if len(colour_sum) and not ((colour_sum - 1.0).abs() <= 1e-8).all():
+        raise RuntimeError("classifiable global four-group colour vectors do not sum to one")
 
     species_support = (
         joined.groupby(["species", "inat_taxon_id"], observed=True)
@@ -183,6 +183,7 @@ def main() -> int:
         "classifiable_rows": int(joined["global_classifiable"].sum()),
         "mixed_uncertain_rows": int((~joined["global_classifiable"]).sum()),
         "coordinate_colour_join_opened_after_complete_measurement": True,
+        "rgfca_colour_columns": colour_cols,
         "postmeasurement_gate": {
             "minimum_classifiable_photos_per_species": minimum_classifiable,
             "evaluable_species": evaluable_species,
