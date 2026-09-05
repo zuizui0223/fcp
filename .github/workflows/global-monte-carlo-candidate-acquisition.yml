@@ -38,7 +38,15 @@ jobs:
               root / 'docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json',
               minimum_species=int(contract['premeasurement_gate']['minimum_full_target_species']),
           )
-          print({'candidate_acquisition_gate':'pass','capacity_source':h.source,'target':h.target,'selected_species':h.selected_species})
+          assert h.selected_species <= 1000
+          assert h.capacity_selected_species >= h.selected_species
+          print({
+              'candidate_acquisition_gate':'pass',
+              'capacity_source':h.source,
+              'target':h.target,
+              'capacity_selected_species':h.capacity_selected_species,
+              'candidate_queried_species':h.selected_species,
+          })
           PY
 
   shard:
@@ -96,7 +104,7 @@ jobs:
           path: /tmp/candidate-shards
       - name: Strictly reduce all candidate shards before pixels open
         run: python scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py --input-root /tmp/candidate-shards
-      - name: Validate premeasurement gate remains metadata-only
+      - name: Validate premeasurement gate remains metadata-only and bounded
         run: |
           python - <<'PY'
           import json
@@ -111,9 +119,12 @@ jobs:
           assert m['target_relaxed'] is False
           assert m['additional_pages_after_result'] is False
           assert m['capacity_source'] in {'v2_primary','v3_transport_recovery'}
-          assert len(a) == m['capacity_selected_species']
+          assert m['candidate_queried_species'] == len(a) <= 1000
+          assert m['capacity_selected_species'] >= m['candidate_queried_species']
+          assert a['inat_taxon_id'].nunique() == len(a)
           if m['premeasurement_gate']['pass']:
               assert m['full_target_species'] >= 300
+              assert m['full_target_species'] <= m['candidate_queried_species']
               assert len(p) == m['full_target_species'] * m['capacity_selected_raw_photo_target']
           PY
       - name: Commit immutable metadata-only candidate acquisition result
