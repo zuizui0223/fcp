@@ -1,0 +1,5 @@
+{
+  "purpose": "technical retrigger after GitHub Actions GITHUB_TOKEN push suppression",
+  "scientific_rules_changed": false,
+  "capacity_manifest": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json"
+}
