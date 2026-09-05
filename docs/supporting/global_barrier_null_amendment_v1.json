@@ -1,0 +1,52 @@
+{
+  "protocol": "global-barrier-null-amendment-v1",
+  "status": "frozen_before_any_rgfca_global_flower_colour_field_and_before_candidate_image_pixels",
+  "date": "2026-09-04",
+  "scope": "Resolve a pre-outcome inconsistency between the main prospective protocol and the barrier-field implementation contract.",
+  "conflict_detected": {
+    "main_protocol": "docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md specifies that complete classifiable colour vectors are permuted within species while coordinates, sampling schedules and graph geometry remain fixed.",
+    "older_field_contract": "docs/supporting/global_monte_carlo_barrier_field_contract_v1.json specified permutation of rank-standardized edge scores within species.",
+    "implementation_before_amendment": "fcp_pipeline/global_barrier_field.py implemented edge-score permutation."
+  },
+  "primary_null_after_amendment": {
+    "unit_permuted": "complete photograph-level soft four-group colour vector",
+    "within": "species",
+    "permutation_scope": "one species-conditioned photograph-colour assignment per null replicate, reused across the exact same frozen outer species/photo schedule",
+    "fixed": [
+      "photograph identities",
+      "species identities",
+      "photograph coordinates",
+      "outer species schedule",
+      "outer within-species photograph schedule",
+      "spherical kNN graph geometry for each outer realization",
+      "edge midpoints",
+      "kernel geometry",
+      "opportunity fields",
+      "structural measurement missingness"
+    ],
+    "recomputed_after_each_permutation": [
+      "soft four-group Jensen-Shannon divergence on every fixed graph edge",
+      "within-species midrank edge scores",
+      "colour numerator",
+      "outer-realization field intensity",
+      "consensus field",
+      "G1 concentration statistic"
+    ],
+    "permutations": 999,
+    "tail": "upper",
+    "p_value": "(1 + number of null G1 concentrations >= observed G1 concentration) / 1000"
+  },
+  "reason": "Graph edges sharing a photograph are statistically dependent because the same colour vector contributes to multiple edges. Permuting already-computed edge scores destroys that node-sharing dependence and is not equivalent to the species-conditioned photograph-label null used in the prior spatial analyses. Photograph-level vector permutation preserves the intended exchangeability unit.",
+  "edge_score_shuffle_status": "legacy diagnostic only; forbidden as the primary G1 null and forbidden as a rescue null",
+  "biological_thresholds_changed": false,
+  "sampling_thresholds_changed": false,
+  "spatial_support_changed": false,
+  "positive_G1_rule_changed": false,
+  "outcome_firewall": {
+    "candidate_image_pixels_opened": false,
+    "flower_colour_used": false,
+    "H9_result_used_to_choose_null": false,
+    "RGFCA_result_used_to_choose_null": false
+  },
+  "supersedes": "Only the null.shuffle item of docs/supporting/global_monte_carlo_barrier_field_contract_v1.json; all non-conflicting field, support and stability rules remain frozen."
+}

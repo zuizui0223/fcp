@@ -1,0 +1,98 @@
+{
+  "protocol": "global-monte-carlo-flower-colour-barrier-atlas-v1",
+  "status": "prospective_design_frozen_before_h9_biological_outcome",
+  "date": "2026-09-04",
+  "fork_sha": "362cdcc949f1421a9a5bb0532453914a23b4be83",
+  "motivation_audit": {
+    "measured_photos": 20845,
+    "classifiable_photos": 10103,
+    "candidate_species": 8989,
+    "classifiable_species": 5144,
+    "species_ge_2_classifiable_photos": 1480,
+    "species_ge_3_classifiable_photos": 752,
+    "species_ge_5_classifiable_photos": 356,
+    "species_ge_10_classifiable_photos": 111,
+    "species_ge_20_classifiable_photos": 35,
+    "classifiable_singleton_species": 3664,
+    "historical_h1_p_upper": 0.413,
+    "interpretation": "Historical H1 remains valid for a globally broad but within-species sparse frame; it is not evidence that geographic barriers never organize flower colour."
+  },
+  "questions": {
+    "G1": "Do adequately replicated independent species show excess recurrent broad geographic concentration of flower-colour discontinuity under an opportunity-conditioned species null?",
+    "G2": "Is the inferred recurrent field stable across species/photo Monte Carlo resampling and geographic/taxonomic deletion?",
+    "G3": "What are the prevalence, central tendency and between-species heterogeneity of species-specific spatial colour organization?",
+    "G4": "Only if G1 passes, do independently frozen barrier surfaces align with the recurrent field?"
+  },
+  "metadata_only_feasibility": {
+    "raw_photo_target_candidates_per_species": [100, 80, 60],
+    "automatic_rule": "select the largest raw-photo target that yields at least 300 metadata-eligible species; if none does, stop before pixels",
+    "minimum_metadata_species": 300,
+    "observer_cap": 2,
+    "photo_selection": "deterministic geographic maximin with deterministic hash tie-break",
+    "prior_experiment_ids_excluded": true,
+    "colour_used_for_eligibility": false
+  },
+  "measurement": {
+    "location_blind": true,
+    "path": "qualified ROI-v4 flower mask plus fixed generic CIELAB palette",
+    "replacement_after_failure": false,
+    "minimum_classifiable_photos_per_inferential_species": 40,
+    "minimum_inferential_species": 250
+  },
+  "outer_monte_carlo": {
+    "observed_resamples": 200,
+    "species_per_resample": 250,
+    "photos_per_species_per_resample": 20,
+    "species_sampling": "seeded balanced random blocks",
+    "photo_sampling": "seeded balanced random blocks within species",
+    "save_species_inclusion_counts": true,
+    "save_photo_inclusion_counts": true
+  },
+  "species_geometry": {
+    "graph": "spherical k-nearest-neighbour",
+    "k": 3,
+    "edge_colour_distance": "soft four-group Jensen-Shannon divergence",
+    "edge_standardization": "rank within species",
+    "G3_species_statistic": "Spearman pairwise great-circle distance versus pairwise colour JSD across 20 photos"
+  },
+  "global_field": {
+    "primary_grid": "36x18 equal-area longitude x sin(latitude)",
+    "primary_kernel_km": 500,
+    "sensitivity_supports": [
+      {"grid": "24x12", "kernel_km": 1000},
+      {"grid": "72x36", "kernel_km": 250}
+    ],
+    "species_weight": "equal total contribution within each resample",
+    "opportunity_conditioning": true,
+    "primary_statistic": "opportunity-weighted spatial concentration of the consensus field"
+  },
+  "null": {
+    "permutations": 999,
+    "shuffle": "classifiable colour vectors within species only",
+    "fixed": [
+      "species identities",
+      "coordinates",
+      "observer-filtered photo pools",
+      "outer species/photo schedules",
+      "structural missingness",
+      "graph geometry",
+      "opportunity field"
+    ],
+    "tail": "upper",
+    "alpha": 0.05
+  },
+  "stability_outputs": [
+    "running convergence at 25/50/100/150/200 resamples",
+    "odd-even resample consensus-field correlation",
+    "within-species Monte Carlo spread of G3 rho and field contribution",
+    "leave-one-realm-out",
+    "leave-one-major-family-out for families >=5% of inferential species",
+    "equal-species versus inclusion-probability weighting sensitivity",
+    "predeclared spatial-support sensitivity"
+  ],
+  "hierarchical_gate": {
+    "barrier_overlay_requires_G1_support": true,
+    "barrier_overlay_may_rescue_G1": false
+  },
+  "claim_ceiling": "G1 support establishes recurrent broad geographic concentration of flower-colour discontinuity across globally sampled adequately replicated species under this frozen opportunity-conditioned design; it does not establish a universal exact boundary or a causal climate, topographic, pollinator or pigment mechanism."
+}

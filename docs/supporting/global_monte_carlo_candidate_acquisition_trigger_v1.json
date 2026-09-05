@@ -1,0 +1,5 @@
+{
+  "purpose": "technical retrigger after authorization was committed by GitHub Actions",
+  "scientific_rules_changed": false,
+  "authorization": "docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json"
+}

@@ -1,0 +1,11 @@
+{
+  "protocol": "rgfca-observation-bias-robustness-v1",
+  "status": "authorized_once_after_successful_validation",
+  "validation_run_id": 33853340114,
+  "validated_head_sha": "99dafc6c14aa7eb4c4d7c68a0bccd8411176b6df",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "fixed_request_attempts": 486,
+  "candidate_image_pixels_may_open": false,
+  "flower_colour_may_open": false,
+  "authorization_scope": "execute the already-frozen three-layer equal-area metadata count census exactly once and commit only the count surface plus manifest"
+}

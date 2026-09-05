@@ -1,0 +1,114 @@
+name: Global Monte Carlo measurement reassembly technical recovery
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - ".github/workflows/global-monte-carlo-measurement-reassembly-technical.yml"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-monte-carlo-measurement-reassembly-technical
+  cancel-in-progress: false
+
+jobs:
+  reassemble-sealed-results-only:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install frozen package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Download exact firewall from completed measurement run
+        uses: actions/download-artifact@v4
+        with:
+          name: global-monte-carlo-measurement-firewall-v1
+          path: /tmp/firewall
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 33947369389
+      - name: Download exact 256 sealed terminal artifacts from completed measurement run
+        uses: actions/download-artifact@v4
+        with:
+          pattern: global-terminal-*
+          path: /tmp/partition-results
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 33947369389
+      - name: Reassemble only; do not reopen pixels or rerun any partition
+        run: |
+          set -euo pipefail
+          test ! -e docs/supporting/global_monte_carlo_measurement_result_v1.json
+          python scripts/analysis/reassemble_global_monte_carlo_measurement.py \
+            --results-dir /tmp/partition-results \
+            --worker-batch0 /tmp/firewall/batch_0/worker_packet/measurement_manifest.csv \
+            --worker-batch1 /tmp/firewall/batch_1/worker_packet/measurement_manifest.csv \
+            --metadata-join-key /tmp/firewall/sealed_keys/metadata_join_key.csv \
+            --firewall-manifest /tmp/firewall/measurement_firewall_manifest.json \
+            --output-csv "$GITHUB_WORKSPACE/data/derived/global_monte_carlo_measured_photos_v1.csv" \
+            --output-manifest "$GITHUB_WORKSPACE/docs/supporting/global_monte_carlo_measurement_result_v1.json"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/global_monte_carlo_measurement_result_v1.json').read_text())
+          assert r['status'] == 'complete_global_location_blind_measurement_and_join'
+          assert r['partition_receipts'] == 256
+          assert r['terminal_result_rows'] == r['joined_rows'] == r['frozen_candidate_rows']
+          assert r['coordinate_colour_join_opened_after_complete_measurement'] is True
+          assert r['g1_g3_inference_run'] is False
+          assert r['external_overlay_opened'] is False
+          print(json.dumps(r, indent=2))
+          PY
+      - name: Commit exact frozen reassembly products
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/global_monte_carlo_measured_photos_v1.csv \
+            data/derived/global_monte_carlo_measurement_species_support_v1.csv \
+            docs/supporting/global_monte_carlo_measurement_result_v1.json
+          git commit -m "Complete frozen global measurement reassembly from sealed artifacts"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/global-monte-carlo-barrier-atlas
+            git rebase origin/analysis/global-monte-carlo-barrier-atlas
+            if git push origin HEAD:analysis/global-monte-carlo-barrier-atlas; then break; fi
+            test "$attempt" -lt 4
+            sleep $((attempt * 2))
+          done
+      - name: Authorize frozen G1 G3 only if the committed postmeasurement gate passes
+        run: |
+          set -euo pipefail
+          PASS=$(python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('docs/supporting/global_monte_carlo_measurement_result_v1.json').read_text())
+          print('true' if r['postmeasurement_gate']['pass'] else 'false')
+          PY
+          )
+          if [ "$PASS" != "true" ]; then
+            echo "postmeasurement gate did not pass; no inference authorization will be created"
+            exit 0
+          fi
+          python scripts/analysis/generate_global_monte_carlo_inference_authorization.py
+          git add docs/supporting/global_monte_carlo_inference_authorization_v1.json
+          git commit -m "Authorize frozen global RGFCA G1 G3 inference"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/global-monte-carlo-barrier-atlas
+            git rebase origin/analysis/global-monte-carlo-barrier-atlas
+            if git push origin HEAD:analysis/global-monte-carlo-barrier-atlas; then exit 0; fi
+            test "$attempt" -lt 4
+            sleep $((attempt * 2))
+          done

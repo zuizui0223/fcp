@@ -1,0 +1,38 @@
+{
+  "protocol": "global-monte-carlo-candidate-species-budget-coverage-v1",
+  "status": "complete_metadata_only_equal_area_candidate_budget_coverage_audit",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "capacity_source": "v3_transport_recovery",
+  "selected_raw_photo_target": 100,
+  "capacity_selected": {
+    "taxon_count": 4730,
+    "occupied_equal_area_cells": 124,
+    "unique_taxon_cell_links": 28667,
+    "cell_species_gini": 0.6335165353374443
+  },
+  "bounded_candidate_queried": {
+    "taxon_count": 1000,
+    "occupied_equal_area_cells": 117,
+    "unique_taxon_cell_links": 6054,
+    "cell_species_gini": 0.6388389270230477
+  },
+  "fresh_full_target_retained": {
+    "taxon_count": 1000,
+    "occupied_equal_area_cells": 117,
+    "unique_taxon_cell_links": 6054,
+    "cell_species_gini": 0.6388389270230477
+  },
+  "bounded_candidate_occupied_cell_retention_vs_capacity": 0.9435483870967742,
+  "fresh_full_target_occupied_cell_retention_vs_capacity": 0.9435483870967742,
+  "bounded_candidate_cell_species_count_pearson_vs_capacity": 0.9909775919366377,
+  "fresh_full_target_cell_species_count_pearson_vs_capacity": 0.9909775919366377,
+  "interpretation": "Descriptive pre-pixel coverage audit only. It measures whether deterministic bounded species stages preserve the equal-area discovery footprint of the full capacity-selected frame; it does not select or rescue flower-colour outcomes.",
+  "lineage": {
+    "capacity_manifest_sha256": "1d7c24d7047922e8b3115d8e35bb6d44f8d30a7fef9ee012967c1b28e1902977",
+    "capacity_selected_species_sha256": "850501d7293a3968cf6566f8e9d7a396afd3927e8166ab2468e58ed22afcabde",
+    "candidate_species_audit_sha256": "c9e9e76883d18bbb06355e1dec46a83aaf8f9a8680fb9b2c99d3cc811d62b152",
+    "v1_discovery_index_sha256": "b60a8b1b98fcf6745344d6acc394bb6ff905b9d5bded134031402892ff2efa2e",
+    "v2_discovery_index_sha256": "d7f08601ccc4d7dc9ff1943ea3e58ed903b9759277f7b536bc7423bc08189b3a"
+  }
+}

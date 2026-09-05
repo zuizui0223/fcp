@@ -1,0 +1,65 @@
+{
+  "protocol": "global-monte-carlo-species-discovery-v1",
+  "status": "complete_metadata_only_global_species_discovery",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "baseline": {
+    "observations": 20845,
+    "species": 8989
+  },
+  "fresh": {
+    "rounds": 20,
+    "request_attempts": 3240,
+    "expected_request_attempts": 3240,
+    "request_errors": 0,
+    "request_error_fraction": 0.0,
+    "coverage_error_fraction_ceiling": 0.05,
+    "coverage_evaluable": true,
+    "api_returned": 416940,
+    "accepted_query_rows": 416914,
+    "fresh_unique_species": 29304
+  },
+  "combined": {
+    "species": 30393,
+    "unique_observations": 158817,
+    "new_species_beyond_baseline": 21404
+  },
+  "stability": {
+    "odd_even_fresh_round_species_jaccard": 0.9843707343707344,
+    "baseline_vs_fresh_species_jaccard": 0.2599282729575889,
+    "final_round_new_species": 201,
+    "final_round_cumulative_species": 30393
+  },
+  "next_gate": {
+    "species_capacity_scan_uses_all_discovered_species": true,
+    "capacity_scan_may_open_colour_pixels": false,
+    "capacity_scan_targets_raw_photos_per_species": [
+      100,
+      80,
+      60
+    ],
+    "minimum_metadata_eligible_species_for_inferential_program": 300
+  },
+  "lineage": {
+    "contract_sha256": "5ca7ef7dcce5a723abb8ea10404c4a2b4edf756fa9ce5c11cc1a3354be7fd965",
+    "baseline_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d"
+  },
+  "files": {
+    "observation_index": {
+      "path": "data/frozen/global_monte_carlo_species_discovery_observation_index_v1.csv.gz",
+      "sha256": "b60a8b1b98fcf6745344d6acc394bb6ff905b9d5bded134031402892ff2efa2e"
+    },
+    "species_frame": {
+      "path": "data/frozen/global_monte_carlo_species_discovery_species_v1.csv",
+      "sha256": "8f86a6a5f4ea691fd25057e92818fc5684a809018789e50b656d1160f219cf64"
+    },
+    "round_audit": {
+      "path": "data/frozen/global_monte_carlo_species_discovery_round_audit_v1.csv",
+      "sha256": "1fad0a4d54ba49977b8d5c0b65baafc564f03f33e77732e7af9239fa3d5f4b82"
+    },
+    "cell_audit": {
+      "path": "data/frozen/global_monte_carlo_species_discovery_cell_audit_v1.csv",
+      "sha256": "863be9c1ead70e5f435919df2d7c21c4c500683daae0627a02b6a99a21f00744"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "protocol": "global-monte-carlo-candidate-species-budget-amendment-v1",
+  "status": "frozen_after_metadata_capacity_scale_observed_before_candidate_acquisition_outcome_and_before_any_global_candidate_pixels",
+  "date": "2026-09-05",
+  "parent_candidate_contract": "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json",
+  "reason": "The metadata-only capacity census showed thousands of species can satisfy the largest raw-photo target. Querying every such species in the fresh candidate stage would recreate an all-at-once mega-analysis and could create an unnecessarily large URL-bearing candidate artifact. This amendment fixes a bounded species envelope before fresh candidate acquisition and before any flower-colour pixels are opened.",
+  "candidate_species_budget": {
+    "maximum_species": 1000,
+    "selection_seed": 20260916,
+    "selection_unit": "inat_taxon_id",
+    "selection_rule": "If the frozen capacity result contains at most 1000 selected species, query them all. Otherwise rank all capacity-selected inat_taxon_id values by SHA256(seed + unit-separator + inat_taxon_id), with taxon ID as deterministic tie-break, and fresh-query the first 1000 taxa.",
+    "all_selected_candidate_species_use_the_same_frozen_page_rule": true,
+    "species_replacement_after_fresh_candidate_failure": false,
+    "extra_species_after_result": false,
+    "selection_uses_flower_colour": false,
+    "selection_uses_climate": false,
+    "selection_uses_pollinator": false,
+    "selection_uses_barrier_overlay": false
+  },
+  "unchanged_gates": {
+    "selected_raw_photo_target_inherited_exactly_from_capacity": true,
+    "minimum_full_target_species_before_pixels": 300,
+    "postmeasurement_minimum_inferential_species": 250
+  },
+  "relationship_to_measurement_budget": {
+    "candidate_species_maximum": 1000,
+    "measurement_species_maximum": 500,
+    "purpose": "retain a fixed two-fold pre-pixel reserve against fresh metadata acquisition attrition without outcome-dependent replacement"
+  },
+  "outcome_firewall": {
+    "candidate_acquisition_outcome_seen_at_freeze": false,
+    "candidate_pixels_opened_at_freeze": false,
+    "flower_colour_seen_at_freeze": false,
+    "g1_seen_at_freeze": false,
+    "g3_seen_at_freeze": false
+  }
+}

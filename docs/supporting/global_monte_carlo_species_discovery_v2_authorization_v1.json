@@ -1,0 +1,14 @@
+{
+  "protocol": "global-monte-carlo-species-discovery-v2-cache-resistant",
+  "status": "authorized_once_after_cache_resistant_validation",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "validated_parent_sha": "8dcbdc2b3d2e9c0f908b33cb64d47bfa617cbaed",
+  "validation_run_id": 33851939776,
+  "validation_conclusion": "success",
+  "flower_colour_may_open": false,
+  "candidate_image_pixels_may_open": false,
+  "v1_species_are_retained_as_metadata_discoveries": true,
+  "v1_odd_even_stability_is_accepted": false,
+  "v2_request_attempts": 3240,
+  "rerun_for_favourable_species_set_allowed": false
+}

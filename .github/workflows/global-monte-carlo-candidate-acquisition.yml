@@ -1,0 +1,149 @@
+name: Global Monte Carlo candidate acquisition
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json"
+      - "docs/supporting/global_monte_carlo_candidate_acquisition_trigger_v1.json"
+
+permissions:
+  contents: write
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install gate dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Verify exact metadata-only acquisition authorization
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from fcp_pipeline.global_capacity_handoff import resolve_capacity_handoff
+          root = Path('.').resolve()
+          contract = json.loads(Path('docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json').read_text())
+          h = resolve_capacity_handoff(
+              root,
+              root / 'docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json',
+              minimum_species=int(contract['premeasurement_gate']['minimum_full_target_species']),
+          )
+          assert h.selected_species <= 1000
+          assert h.capacity_selected_species >= h.selected_species
+          print({
+              'candidate_acquisition_gate':'pass',
+              'capacity_source':h.source,
+              'target':h.target,
+              'capacity_selected_species':h.capacity_selected_species,
+              'candidate_queried_species':h.selected_species,
+          })
+          PY
+
+  shard:
+    needs: gate
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Run one deterministic candidate-acquisition shard
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/candidate-shard
+          python scripts/acquisition/run_global_monte_carlo_candidate_acquisition_shard.py \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 8 \
+            --output-dir /tmp/candidate-shard
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-candidate-acquisition-shard-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/candidate-shard/
+
+  reduce:
+    needs: [gate, shard]
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: global-candidate-acquisition-shard-*
+          path: /tmp/candidate-shards
+      - name: Strictly reduce all candidate shards before pixels open
+        run: python scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py --input-root /tmp/candidate-shards
+      - name: Audit equal-area coverage retained by the bounded species stages
+        run: python scripts/analysis/audit_global_monte_carlo_candidate_budget_coverage.py
+      - name: Validate premeasurement gate remains metadata-only and bounded
+        run: |
+          python - <<'PY'
+          import json
+          import pandas as pd
+          from pathlib import Path
+          m = json.loads(Path('docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json').read_text())
+          c = json.loads(Path('docs/supporting/global_monte_carlo_candidate_species_budget_coverage_v1.json').read_text())
+          a = pd.read_csv('data/frozen/global_monte_carlo_candidate_species_audit_v1.csv')
+          p = pd.read_csv('data/frozen/global_monte_carlo_candidate_photos_v1.csv')
+          assert m['candidate_image_pixels_opened'] is False
+          assert m['flower_colour_used'] is False
+          assert m['measurement_authorized'] is False
+          assert m['target_relaxed'] is False
+          assert m['additional_pages_after_result'] is False
+          assert m['capacity_source'] in {'v2_primary','v3_transport_recovery'}
+          assert m['candidate_queried_species'] == len(a) <= 1000
+          assert m['capacity_selected_species'] >= m['candidate_queried_species']
+          assert a['inat_taxon_id'].nunique() == len(a)
+          assert c['candidate_image_pixels_opened'] is False and c['flower_colour_used'] is False
+          assert c['bounded_candidate_queried']['taxon_count'] == m['candidate_queried_species']
+          if m['premeasurement_gate']['pass']:
+              assert m['full_target_species'] >= 300
+              assert m['full_target_species'] <= m['candidate_queried_species']
+              assert len(p) == m['full_target_species'] * m['capacity_selected_raw_photo_target']
+              assert c['fresh_full_target_retained']['taxon_count'] == m['full_target_species']
+          PY
+      - name: Commit immutable metadata-only candidate acquisition result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/global_monte_carlo_candidate_species_audit_v1.csv \
+            data/frozen/global_monte_carlo_candidate_photos_v1.csv \
+            docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json \
+            docs/supporting/global_monte_carlo_candidate_species_budget_coverage_v1.json
+          git commit -m "Freeze global candidate acquisition before pixels"
+          git fetch origin analysis/global-monte-carlo-barrier-atlas
+          git rebase origin/analysis/global-monte-carlo-barrier-atlas
+          git push origin HEAD:analysis/global-monte-carlo-barrier-atlas

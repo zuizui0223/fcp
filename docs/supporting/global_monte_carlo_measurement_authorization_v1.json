@@ -1,0 +1,18 @@
+{
+  "status": "authorize_exactly_one_global_location_blind_measurement_run",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "candidate_manifest_blob_sha": "0e470a2acfc86c93c0582aa1fd2ecad09c615f6b",
+  "measurement_budget_amendment_blob_sha": "4ca67d99e01e3ec402bcda37361fbb3494323f37",
+  "candidate_rows": 100000,
+  "full_target_species": 1000,
+  "measurement_species_budget": 500,
+  "measurement_species_selection_seed": 20260918,
+  "measurement_species": 500,
+  "measurement_rows": 50000,
+  "measurement_taxon_id_sha256": "c32fbb78f0d3165e9ed1008665083f1a8c879f3e508bfff3713fb01c4fc4514a",
+  "selected_raw_photo_target": 100,
+  "measurement_rule_change_allowed": false,
+  "replacement_after_failure_allowed": false,
+  "external_overlay_may_open": false
+}
+

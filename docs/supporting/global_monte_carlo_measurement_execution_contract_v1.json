@@ -1,0 +1,119 @@
+{
+  "protocol": "global-monte-carlo-location-blind-measurement-v1",
+  "status": "frozen_before_capacity_outcome_before_candidate_acquisition_outcome_and_before_global_candidate_pixels",
+  "date": "2026-09-04",
+  "candidate_parent_contract": "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json",
+  "candidate_manifest_required": "docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json",
+  "candidate_pool_required": "data/frozen/global_monte_carlo_candidate_photos_v1.csv",
+  "pixel_opening": {
+    "requires_candidate_premeasurement_gate_pass": true,
+    "requires_candidate_status": "complete_global_candidate_acquisition_premeasurement_gate_passed",
+    "requires_exact_candidate_manifest_blob_authorization": true,
+    "minimum_full_target_species": 300,
+    "authorization_is_separate_future_commit": true,
+    "pixels_open_at_contract_freeze": false
+  },
+  "validated_measurement_infrastructure": {
+    "source_repository": "zuizui0223/fcp",
+    "source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "source_role": "reuse the already-qualified ROI-v4, fixed-palette, blind acquisition, measurement and terminal sealing infrastructure without changing biological measurement rules",
+    "photo_first_measurement_git_blob_sha": "b2761c7fd2f8af615c1d96a615942e7af67d492a",
+    "flower_roi_v4_git_blob_sha": "9d1d2a1848f0c798b53c4df51543dc2682342377",
+    "flower_roi_v4_runtime_git_blob_sha": "6f3e71f7216b1635a2e06628336f5ea9ce0105d6",
+    "roi_contract_git_blob_sha": "b043bc83d0d69489f38771e8f4bbe524963b70ea",
+    "roi_locked_result_git_blob_sha": "b25425f1f738bcea75cef5f60980332a9857610b",
+    "detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_revision": "d525f622e6f640acf5a0fc37c7ca1f243da5bde0",
+    "efficient_sam_encoder_sha256": "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951",
+    "efficient_sam_decoder_sha256": "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11",
+    "validated_measurement_contract_git_blob_sha": "27b5933025d33d5e91e957fdf892b7409c605ef2",
+    "validated_execution_contract_git_blob_sha": "9ac42ddd6175d971a076961ff18a96bcf1355a5b"
+  },
+  "blinding": {
+    "measurement_id_salt": "fcp-global-monte-carlo-v1-coordinate-firewall",
+    "measurement_id": "FCPG- plus first 24 uppercase hexadecimal characters of SHA256(salt + unit-separator + photo + unit-separator + photo_id)",
+    "worker_allowed_fields": ["measurement_id", "image_filename", "photo_license"],
+    "sealed_acquisition_key_fields": ["measurement_id", "image_filename", "photo_url_large", "photo_license"],
+    "worker_forbidden_context": ["species", "inat_taxon_id", "observation_id", "photo_id", "source_url", "latitude", "longitude", "observer", "observed_on", "climate", "pollinator", "realm", "family"],
+    "source_url_material_deleted_before_measurement": true,
+    "coordinate_colour_join_before_complete_measurement": false
+  },
+  "partitioning": {
+    "blind_batches": 2,
+    "batch_function": "first 8 bytes SHA256(fcp-global-measurement-batch + unit-separator + measurement_id) modulo 2",
+    "validated_partitions_per_batch": {
+      "semantic_shards": 32,
+      "compute_partitions_per_semantic_shard": 4,
+      "partitions": 128,
+      "implementation": "unchanged validated random-photo-first measurement execution v1"
+    },
+    "total_terminal_partitions": 256,
+    "maximum_concurrent_compute_partitions": 8,
+    "all_256_partitions_required": true,
+    "empty_partition_permitted": true,
+    "early_stopping": false,
+    "reason_for_two_batches": "keep every validated measurement helper unchanged while reducing rows per individual compute job for the larger global denominator"
+  },
+  "runtime": {
+    "python": "3.11",
+    "torch": "2.11.0+cpu",
+    "torchvision": "0.26.0+cpu",
+    "ultralytics": "8.4.112",
+    "onnxruntime": "1.23.2",
+    "scikit_image": "0.25.2",
+    "torch_threads_per_worker": 2
+  },
+  "acquisition_at_measurement_time": {
+    "source_url_only_visible_to_ephemeral_acquisition_process": true,
+    "download_retries_per_image": 4,
+    "timeout_seconds": 60.0,
+    "failed_download_terminal_state": "image_acquisition_failed",
+    "replacement_after_failure": false,
+    "candidate_image_files_persisted_as_artifacts": false
+  },
+  "measurement": {
+    "roi_required_status": "automated_colour_state_admitted",
+    "roi_failure_maps_to": "mixed_uncertain",
+    "minimum_flower_mask_pixels": 100,
+    "minimum_dominant_fraction": 0.5,
+    "minimum_margin_over_second_group": 0.1,
+    "biological_groups": ["white", "yellow_orange", "red_pink", "blue_purple"],
+    "terminal_fixed_palette_anchors": ["white", "yellow", "orange", "red", "pink", "magenta", "purple", "blue", "bronze"],
+    "rgfca_soft_colour_mapping": {
+      "colour_white": "flower_fraction_white",
+      "colour_yellow_orange": "flower_fraction_yellow + flower_fraction_orange + flower_fraction_bronze",
+      "colour_red_pink": "flower_fraction_red + flower_fraction_pink + flower_fraction_magenta",
+      "colour_blue_purple": "flower_fraction_blue + flower_fraction_purple"
+    },
+    "rgfca_soft_colour_validation": "for every global_classifiable row, the four mapped masses must sum to one within absolute tolerance 1e-8 before G1/G3",
+    "all_candidate_rows_reach_exactly_one_terminal_result": true,
+    "replacement_after_download_or_measurement_failure": false,
+    "persist_image_pixels": false,
+    "persist_flower_masks": false
+  },
+  "reassembly": {
+    "requires_all_256_partition_receipts": true,
+    "terminal_measurement_ids_must_equal_frozen_candidate_measurement_ids": true,
+    "duplicate_measurement_ids_permitted": false,
+    "metadata_join_opens_only_after_complete_terminal_coverage": true,
+    "joined_output": "data/derived/global_monte_carlo_measured_photos_v1.csv",
+    "species_support_output": "data/derived/global_monte_carlo_measurement_species_support_v1.csv",
+    "result_manifest": "docs/supporting/global_monte_carlo_measurement_result_v1.json"
+  },
+  "postmeasurement_gate": {
+    "minimum_classifiable_photos_per_species": 40,
+    "minimum_inferential_species": 250,
+    "if_pass": "authorize_frozen_global_monte_carlo_g1_g3_inference_under_separate_exact_authorization",
+    "if_fail": "not_evaluable_global_monte_carlo_measurement_support_before_spatial_inference",
+    "threshold_relaxation_after_measurement": false
+  },
+  "outcome_firewall": {
+    "candidate_pixels_opened_at_freeze": false,
+    "flower_colour_measured_at_freeze": false,
+    "coordinate_colour_joined_at_freeze": false,
+    "g1_run_at_freeze": false,
+    "g3_run_at_freeze": false,
+    "external_overlay_opened_at_freeze": false
+  },
+  "claim_ceiling": "technical location-blind measurement and measurement-support gate only; no global flower-colour spatial inference"
+}
