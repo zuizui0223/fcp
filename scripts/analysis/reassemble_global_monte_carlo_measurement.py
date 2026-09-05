@@ -55,11 +55,19 @@ def main() -> int:
 
     target = int(candidate["capacity_selected_raw_photo_target"])
     full_species = int(candidate["full_target_species"])
-    expected_rows = full_species * target
-    if int(firewall["frozen_candidate_rows"]) != expected_rows or int(candidate["candidate_rows"]) != expected_rows:
-        raise RuntimeError("global measurement denominator drifted")
-    if int(firewall["frozen_species"]) != full_species or int(firewall["selected_raw_photo_target"]) != target:
-        raise RuntimeError("global firewall species/target denominator drifted")
+    candidate_rows = full_species * target
+    measurement_species = int(firewall["frozen_measurement_species"])
+    expected_rows = int(firewall["frozen_measurement_rows"])
+    if int(firewall["candidate_pool_rows"]) != candidate_rows or int(candidate["candidate_rows"]) != candidate_rows:
+        raise RuntimeError("global full candidate denominator drifted")
+    if int(firewall["candidate_full_target_species"]) != full_species:
+        raise RuntimeError("global firewall full-target species denominator drifted")
+    if expected_rows != measurement_species * target:
+        raise RuntimeError("bounded measurement rows do not equal measurement species * target")
+    if measurement_species != min(full_species, int(firewall["measurement_species_budget"])):
+        raise RuntimeError("bounded measurement species denominator drifted")
+    if int(firewall["selected_raw_photo_target"]) != target:
+        raise RuntimeError("global firewall raw photo target drifted")
 
     workers = [
         pd.read_csv(args.worker_batch0, dtype=str).fillna(""),
@@ -71,6 +79,8 @@ def main() -> int:
     metadata_join = pd.read_csv(args.metadata_join_key, dtype={"measurement_id": str}).fillna("")
     if len(metadata_join) != expected_rows or metadata_join["measurement_id"].nunique() != expected_rows:
         raise RuntimeError("global metadata join denominator is incomplete")
+    if int(metadata_join["inat_taxon_id"].nunique()) != measurement_species:
+        raise RuntimeError("metadata join taxon denominator differs from bounded measurement species")
 
     result_pattern = re.compile(r"^b(\d+)_partition_s(\d{2})_p(\d{2})\.csv$")
     receipt_pattern = re.compile(r"^b(\d+)_partition_s(\d{2})_p(\d{2})\.json$")
@@ -109,7 +119,7 @@ def main() -> int:
             f"missing_results={sorted(expected_keys-result_keys)}; missing_receipts={sorted(expected_keys-receipt_keys)}"
         )
     if receipt_rows != expected_rows:
-        raise RuntimeError(f"global terminal receipt rows {receipt_rows} != frozen denominator {expected_rows}")
+        raise RuntimeError(f"global terminal receipt rows {receipt_rows} != frozen bounded denominator {expected_rows}")
 
     partition_results = [pd.read_csv(path, dtype={"measurement_id": str}).fillna("") for path in result_files]
     assembled = reassemble_complete_measurement(
@@ -121,8 +131,8 @@ def main() -> int:
     joined = assembled.joined_photos.copy()
     if len(joined) != expected_rows or joined["measurement_id"].nunique() != expected_rows:
         raise RuntimeError("global joined measurement denominator is incomplete")
-    if int(joined["inat_taxon_id"].nunique()) != full_species:
-        raise RuntimeError("global joined species denominator drifted")
+    if int(joined["inat_taxon_id"].nunique()) != measurement_species:
+        raise RuntimeError("global joined bounded species denominator drifted")
     if not (joined.groupby("inat_taxon_id", observed=True).size().astype(int) == target).all():
         raise RuntimeError("global joined raw photo target drifted")
 
@@ -176,8 +186,13 @@ def main() -> int:
     result = {
         "protocol": execution["protocol"],
         "status": "complete_global_location_blind_measurement_and_join",
-        "frozen_candidate_rows": expected_rows,
-        "frozen_species": full_species,
+        "candidate_pool_rows": candidate_rows,
+        "candidate_full_target_species": full_species,
+        "measurement_species_budget": int(firewall["measurement_species_budget"]),
+        "measurement_species_selection_seed": int(firewall["measurement_species_selection_seed"]),
+        "measurement_taxon_id_sha256": firewall["measurement_taxon_id_sha256"],
+        "frozen_measurement_rows": expected_rows,
+        "frozen_measurement_species": measurement_species,
         "selected_raw_photo_target": target,
         "partition_receipts": int(execution["partitioning"]["total_terminal_partitions"]),
         "terminal_result_rows": expected_rows,
@@ -198,6 +213,7 @@ def main() -> int:
         "external_overlay_opened": False,
         "lineage": {
             "candidate_photos_sha256": firewall["candidate_photos_sha256"],
+            "measurement_budget_amendment_sha256": firewall["measurement_budget_amendment_sha256"],
             "execution_contract_sha256": sha256_file(args.execution_contract),
             "measured_table_sha256": sha256_file(args.output_csv),
             "species_support_sha256": sha256_file(support_path),
