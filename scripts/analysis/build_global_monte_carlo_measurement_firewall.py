@@ -9,6 +9,7 @@ from pathlib import Path
 
 import pandas as pd
 
+from fcp_pipeline.global_measurement_budget import select_measurement_rows
 from fcp_pipeline.photo_first_measurement_execution import (
     WORKER_FIELDS,
     ACQUISITION_FIELDS,
@@ -20,6 +21,8 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CANDIDATE = ROOT / "data/frozen/global_monte_carlo_candidate_photos_v1.csv"
 DEFAULT_MANIFEST = ROOT / "docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json"
 DEFAULT_EXECUTION = ROOT / "docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json"
+DEFAULT_BUDGET = ROOT / "docs/supporting/global_monte_carlo_measurement_budget_amendment_v1.json"
+DEFAULT_AUTH = ROOT / "docs/supporting/global_monte_carlo_measurement_authorization_v1.json"
 
 
 def sha256_file(path: Path) -> str:
@@ -28,6 +31,11 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: fh.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def taxon_digest(values: pd.Series) -> str:
+    text = "\n".join(str(int(x)) for x in sorted(set(values.astype(int)))) + "\n"
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 def _blind(salt: str, label: str, value: object, *, length: int = 24) -> str:
@@ -53,6 +61,8 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--candidate-csv", type=Path, default=DEFAULT_CANDIDATE)
     p.add_argument("--candidate-manifest", type=Path, default=DEFAULT_MANIFEST)
     p.add_argument("--execution-contract", type=Path, default=DEFAULT_EXECUTION)
+    p.add_argument("--measurement-budget", type=Path, default=DEFAULT_BUDGET)
+    p.add_argument("--measurement-authorization", type=Path, default=DEFAULT_AUTH)
     p.add_argument("--output-dir", type=Path, required=True)
     return p.parse_args()
 
@@ -62,9 +72,15 @@ def main() -> int:
     candidate = pd.read_csv(args.candidate_csv)
     manifest = json.loads(args.candidate_manifest.read_text(encoding="utf-8"))
     execution = json.loads(args.execution_contract.read_text(encoding="utf-8"))
+    budget = json.loads(args.measurement_budget.read_text(encoding="utf-8"))
+    auth = json.loads(args.measurement_authorization.read_text(encoding="utf-8"))
 
     if execution.get("status") != "frozen_before_capacity_outcome_before_candidate_acquisition_outcome_and_before_global_candidate_pixels":
         raise RuntimeError("global measurement execution contract is not frozen pre-pixel")
+    if budget.get("status") != "frozen_after_metadata_capacity_scale_observed_before_candidate_acquisition_outcome_and_before_any_global_candidate_pixels":
+        raise RuntimeError("global measurement budget amendment is not frozen pre-pixel")
+    if auth.get("status") != "authorize_exactly_one_global_location_blind_measurement_run":
+        raise RuntimeError("global measurement is not explicitly authorized")
     if manifest.get("status") != execution["pixel_opening"]["requires_candidate_status"]:
         raise RuntimeError("global candidate acquisition status does not authorize firewall construction")
     gate = manifest.get("premeasurement_gate", {})
@@ -80,8 +96,8 @@ def main() -> int:
 
     target = int(manifest["capacity_selected_raw_photo_target"])
     full_species = int(manifest["full_target_species"])
-    expected_rows = full_species * target
-    if len(candidate) != expected_rows or int(manifest["candidate_rows"]) != expected_rows:
+    candidate_rows = full_species * target
+    if len(candidate) != candidate_rows or int(manifest["candidate_rows"]) != candidate_rows:
         raise RuntimeError("global candidate denominator does not equal full_species * target")
     required = {"species", "inat_taxon_id", "observation_id", "photo_id", "photo_url_large", "photo_license", "latitude", "longitude"}
     missing = sorted(required - set(candidate.columns))
@@ -93,6 +109,31 @@ def main() -> int:
     if len(counts) != full_species or not (counts.astype(int) == target).all():
         raise RuntimeError("global candidate per-species denominator drifted")
 
+    b = budget["measurement_species_budget"]
+    maximum_species = int(b["maximum_species"])
+    seed = int(b["selection_seed"])
+    metadata = select_measurement_rows(
+        candidate,
+        target_photos_per_species=target,
+        maximum_species=maximum_species,
+        seed=seed,
+    )
+    measurement_species = int(metadata["inat_taxon_id"].nunique())
+    measurement_rows = int(len(metadata))
+    digest = taxon_digest(metadata["inat_taxon_id"])
+    if measurement_species != min(full_species, maximum_species):
+        raise RuntimeError("measurement species denominator differs from frozen budget")
+    if measurement_rows != measurement_species * target:
+        raise RuntimeError("measurement row denominator differs from budget * target")
+    if int(auth.get("candidate_rows")) != candidate_rows or int(auth.get("full_target_species")) != full_species:
+        raise RuntimeError("measurement authorization candidate denominator drifted")
+    if int(auth.get("measurement_species")) != measurement_species or int(auth.get("measurement_rows")) != measurement_rows:
+        raise RuntimeError("measurement authorization bounded denominator drifted")
+    if int(auth.get("measurement_species_budget")) != maximum_species or int(auth.get("measurement_species_selection_seed")) != seed:
+        raise RuntimeError("measurement authorization budget rule drifted")
+    if auth.get("measurement_taxon_id_sha256") != digest:
+        raise RuntimeError("measurement authorization taxon subset differs from frozen hash selection")
+
     partition = execution["partitioning"]
     batches = int(partition["blind_batches"])
     validated = partition["validated_partitions_per_batch"]
@@ -103,7 +144,7 @@ def main() -> int:
     if batches * semantic_shards * compute_partitions != int(partition["total_terminal_partitions"]):
         raise RuntimeError("global measurement total terminal partition count drifted")
 
-    metadata = candidate.reset_index(drop=True).copy()
+    metadata = metadata.reset_index(drop=True).copy()
     salt = str(execution["blinding"]["measurement_id_salt"])
     metadata.insert(0, "measurement_id", [measurement_id(v, salt=salt) for v in metadata["photo_id"]])
     metadata.insert(1, "measurement_batch", [measurement_batch(v, batches) for v in metadata["measurement_id"].astype(str)])
@@ -155,14 +196,19 @@ def main() -> int:
             max_partition_rows = max(max_partition_rows, int(c.max()))
     assignment = pd.concat(assignments, ignore_index=True).sort_values("measurement_id", kind="mergesort")
     assignment.to_csv(out / "partition_assignments.csv", index=False, lineterminator="\n")
-    if sum(batch_counts.values()) != len(candidate):
-        raise RuntimeError("blind batch split changed the candidate denominator")
+    if sum(batch_counts.values()) != measurement_rows:
+        raise RuntimeError("blind batch split changed the bounded measurement denominator")
 
     firewall = {
         "protocol": execution["protocol"],
         "status": "global_measurement_firewall_frozen_before_pixels",
-        "frozen_candidate_rows": int(len(candidate)),
-        "frozen_species": full_species,
+        "candidate_pool_rows": candidate_rows,
+        "candidate_full_target_species": full_species,
+        "measurement_species_budget": maximum_species,
+        "measurement_species_selection_seed": seed,
+        "frozen_measurement_rows": measurement_rows,
+        "frozen_measurement_species": measurement_species,
+        "measurement_taxon_id_sha256": digest,
         "selected_raw_photo_target": target,
         "measurement_ids": int(worker_all["measurement_id"].nunique()),
         "blind_batches": batches,
@@ -180,6 +226,7 @@ def main() -> int:
         "coordinate_colour_join_opened": False,
         "candidate_pixels_opened": False,
         "candidate_photos_sha256": sha256_file(args.candidate_csv),
+        "measurement_budget_amendment_sha256": sha256_file(args.measurement_budget),
         "execution_contract_sha256": sha256_file(args.execution_contract),
     }
     (out / "measurement_firewall_manifest.json").write_text(json.dumps(firewall, indent=2) + "\n", encoding="utf-8")
