@@ -6,6 +6,7 @@ on:
       - analysis/global-monte-carlo-barrier-atlas
     paths:
       - "docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json"
+      - "docs/supporting/global_monte_carlo_candidate_acquisition_trigger_v1.json"
 
 permissions:
   contents: write
