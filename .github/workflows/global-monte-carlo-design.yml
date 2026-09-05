@@ -13,6 +13,7 @@ on:
       - "fcp_pipeline/global_capacity_handoff.py"
       - "fcp_pipeline/global_capacity_recovery.py"
       - "fcp_pipeline/global_measurement_budget.py"
+      - "fcp_pipeline/global_species_budget_coverage.py"
       - "fcp_pipeline/global_barrier_field.py"
       - "fcp_pipeline/global_overlay_alignment.py"
       - "fcp_pipeline/global_edge_mechanism_v2.py"
@@ -28,6 +29,7 @@ on:
       - "scripts/analysis/generate_global_monte_carlo_measurement_authorization.py"
       - "scripts/analysis/generate_global_monte_carlo_inference_authorization.py"
       - "scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py"
+      - "scripts/analysis/audit_global_monte_carlo_candidate_budget_coverage.py"
       - "scripts/analysis/reduce_global_monte_carlo_capacity_429_recovery.py"
       - "scripts/analysis/build_global_monte_carlo_measurement_firewall.py"
       - "scripts/analysis/reassemble_global_monte_carlo_measurement.py"
@@ -42,6 +44,7 @@ on:
       - "tests/test_global_capacity_handoff.py"
       - "tests/test_global_capacity_recovery.py"
       - "tests/test_global_measurement_budget.py"
+      - "tests/test_global_species_budget_coverage.py"
       - "tests/test_global_barrier_field.py"
       - "tests/test_global_barrier_node_null.py"
       - "tests/test_global_overlay_alignment.py"
@@ -103,6 +106,7 @@ jobs:
           python -m py_compile scripts/analysis/generate_global_monte_carlo_measurement_authorization.py
           python -m py_compile scripts/analysis/generate_global_monte_carlo_inference_authorization.py
           python -m py_compile scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py
+          python -m py_compile scripts/analysis/audit_global_monte_carlo_candidate_budget_coverage.py
           python -m py_compile scripts/analysis/reduce_global_monte_carlo_capacity_429_recovery.py
           python -m py_compile scripts/analysis/build_global_monte_carlo_measurement_firewall.py
           python -m py_compile scripts/analysis/reassemble_global_monte_carlo_measurement.py
@@ -116,6 +120,7 @@ jobs:
           python -m py_compile fcp_pipeline/global_capacity_handoff.py
           python -m py_compile fcp_pipeline/global_capacity_recovery.py
           python -m py_compile fcp_pipeline/global_measurement_budget.py
+          python -m py_compile fcp_pipeline/global_species_budget_coverage.py
           python -m py_compile fcp_pipeline/global_barrier_field.py
           python -m py_compile fcp_pipeline/global_overlay_alignment.py
           python -m py_compile fcp_pipeline/global_edge_mechanism_v2.py
@@ -133,6 +138,7 @@ jobs:
             tests/test_global_capacity_handoff.py \
             tests/test_global_capacity_recovery.py \
             tests/test_global_measurement_budget.py \
+            tests/test_global_species_budget_coverage.py \
             tests/test_global_barrier_field.py \
             tests/test_global_barrier_node_null.py \
             tests/test_global_overlay_alignment.py \
