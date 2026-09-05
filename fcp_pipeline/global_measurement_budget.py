@@ -1,15 +1,15 @@
-"""Outcome-blind species budgeting for global RGFCA flower-colour measurement.
+"""Outcome-blind species budgeting for the global RGFCA pipeline.
 
-The global metadata/candidate pool can contain thousands of species.  RGFCA is
-explicitly a bounded repeated-world-map design, so pixel measurement is capped at a
-prospectively fixed number of species before any flower-colour pixels are opened.
+The global metadata pool can contain tens of thousands of species. RGFCA is
+explicitly a bounded repeated-world-map design, so both fresh candidate acquisition
+and pixel measurement use prospectively fixed species budgets selected by the same
+deterministic hash-ranking primitive before flower-colour pixels are opened.
 """
 from __future__ import annotations
 
 import hashlib
 from typing import Iterable
 
-import numpy as np
 import pandas as pd
 
 
@@ -18,13 +18,13 @@ def _rank_key(taxon_id: int, *, seed: int) -> tuple[bytes, int]:
     return hashlib.sha256(payload).digest(), int(taxon_id)
 
 
-def select_measurement_taxa(
+def select_hashed_taxa(
     taxon_ids: Iterable[int],
     *,
-    maximum_species: int = 500,
-    seed: int = 20260918,
+    maximum_species: int,
+    seed: int,
 ) -> tuple[int, ...]:
-    """Select at most ``maximum_species`` taxa uniformly by deterministic hash rank."""
+    """Select at most ``maximum_species`` unique taxa by deterministic hash rank."""
     maximum = int(maximum_species)
     if maximum < 1:
         raise ValueError("maximum_species must be positive")
@@ -33,6 +33,16 @@ def select_measurement_taxa(
         raise ValueError("taxon_ids is empty")
     ranked = sorted(unique, key=lambda x: _rank_key(x, seed=int(seed)))
     return tuple(ranked[: min(maximum, len(ranked))])
+
+
+def select_measurement_taxa(
+    taxon_ids: Iterable[int],
+    *,
+    maximum_species: int = 500,
+    seed: int = 20260918,
+) -> tuple[int, ...]:
+    """Backward-compatible measurement-stage alias for ``select_hashed_taxa``."""
+    return select_hashed_taxa(taxon_ids, maximum_species=maximum_species, seed=seed)
 
 
 def select_measurement_rows(
@@ -58,7 +68,7 @@ def select_measurement_rows(
     if frame["photo_id"].duplicated().any():
         raise ValueError("candidate photo IDs must be unique")
     selected_taxa = set(
-        select_measurement_taxa(counts.index, maximum_species=int(maximum_species), seed=int(seed))
+        select_hashed_taxa(counts.index, maximum_species=int(maximum_species), seed=int(seed))
     )
     selected = frame.loc[frame["inat_taxon_id"].isin(selected_taxa)].copy()
     if selected["inat_taxon_id"].nunique() != len(selected_taxa):
@@ -69,4 +79,4 @@ def select_measurement_rows(
     return selected.sort_values(sort_cols, kind="mergesort").reset_index(drop=True)
 
 
-__all__ = ["select_measurement_rows", "select_measurement_taxa"]
+__all__ = ["select_hashed_taxa", "select_measurement_rows", "select_measurement_taxa"]
