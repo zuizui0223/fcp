@@ -86,7 +86,7 @@ jobs:
   reduce:
     needs: [gate, shard]
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
         with:
@@ -104,6 +104,8 @@ jobs:
           path: /tmp/candidate-shards
       - name: Strictly reduce all candidate shards before pixels open
         run: python scripts/analysis/reduce_global_monte_carlo_candidate_acquisition.py --input-root /tmp/candidate-shards
+      - name: Audit equal-area coverage retained by the bounded species stages
+        run: python scripts/analysis/audit_global_monte_carlo_candidate_budget_coverage.py
       - name: Validate premeasurement gate remains metadata-only and bounded
         run: |
           python - <<'PY'
@@ -111,6 +113,7 @@ jobs:
           import pandas as pd
           from pathlib import Path
           m = json.loads(Path('docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json').read_text())
+          c = json.loads(Path('docs/supporting/global_monte_carlo_candidate_species_budget_coverage_v1.json').read_text())
           a = pd.read_csv('data/frozen/global_monte_carlo_candidate_species_audit_v1.csv')
           p = pd.read_csv('data/frozen/global_monte_carlo_candidate_photos_v1.csv')
           assert m['candidate_image_pixels_opened'] is False
@@ -122,10 +125,13 @@ jobs:
           assert m['candidate_queried_species'] == len(a) <= 1000
           assert m['capacity_selected_species'] >= m['candidate_queried_species']
           assert a['inat_taxon_id'].nunique() == len(a)
+          assert c['candidate_image_pixels_opened'] is False and c['flower_colour_used'] is False
+          assert c['bounded_candidate_queried']['taxon_count'] == m['candidate_queried_species']
           if m['premeasurement_gate']['pass']:
               assert m['full_target_species'] >= 300
               assert m['full_target_species'] <= m['candidate_queried_species']
               assert len(p) == m['full_target_species'] * m['capacity_selected_raw_photo_target']
+              assert c['fresh_full_target_retained']['taxon_count'] == m['full_target_species']
           PY
       - name: Commit immutable metadata-only candidate acquisition result
         run: |
@@ -134,7 +140,8 @@ jobs:
           git add \
             data/frozen/global_monte_carlo_candidate_species_audit_v1.csv \
             data/frozen/global_monte_carlo_candidate_photos_v1.csv \
-            docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json
+            docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json \
+            docs/supporting/global_monte_carlo_candidate_species_budget_coverage_v1.json
           git commit -m "Freeze global candidate acquisition before pixels"
           git fetch origin analysis/global-monte-carlo-barrier-atlas
           git rebase origin/analysis/global-monte-carlo-barrier-atlas
