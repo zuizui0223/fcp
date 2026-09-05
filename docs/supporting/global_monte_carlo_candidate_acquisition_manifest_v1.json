@@ -1,0 +1,63 @@
+{
+  "protocol": "global-monte-carlo-candidate-acquisition-v1",
+  "status": "complete_global_candidate_acquisition_premeasurement_gate_passed",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "capacity_source": "v3_transport_recovery",
+  "capacity_manifest_path": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json",
+  "capacity_selected_species_path": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv",
+  "shards_required": 8,
+  "shards_reassembled": 8,
+  "capacity_selected_raw_photo_target": 100,
+  "capacity_selected_species": 4730,
+  "candidate_species_budget": 1000,
+  "candidate_queried_species": 1000,
+  "candidate_taxon_id_sha256": "670ff7155e4da52aed336587f7607a8c0eff744c8592efa97a2f501e0856a5ee",
+  "request_attempts": 2190,
+  "request_errors": 0,
+  "request_error_fraction": 0.0,
+  "request_error_fraction_ceiling": 0.05,
+  "full_target_species": 1000,
+  "minimum_full_target_species": 300,
+  "candidate_rows": 100000,
+  "premeasurement_gate": {
+    "request_coverage_pass": true,
+    "species_count_pass": true,
+    "pass": true,
+    "decision": "authorize_location_blind_candidate_pixel_measurement_only_under_separate_exact_authorization"
+  },
+  "measurement_authorized": false,
+  "target_relaxed": false,
+  "additional_pages_after_result": false,
+  "lineage": {
+    "candidate_contract_sha256": "786bfbe0196bd5811f206e36cf6ab0210d8658ff41dc91dfaee13dbf9e766180",
+    "capacity_manifest_sha256": "1d7c24d7047922e8b3115d8e35bb6d44f8d30a7fef9ee012967c1b28e1902977",
+    "capacity_selected_species_sha256": "850501d7293a3968cf6566f8e9d7a396afd3927e8166ab2468e58ed22afcabde",
+    "shard_species_audit_sha256": [
+      "503552dba1da08032933ca4c9ccf617536aef0d6b42dd23ae25a68265a05f0f9",
+      "ccb0a9c768d966f1dee76091085d57b266c52fe73bd05ec624c3fe12060a4017",
+      "c1185bd7617e0f1a03d27157b5c0604e77b667f4200e306670860166f4742952",
+      "8b38510cc1051c4de0ca3db6375cc9f90b2a59e254a73d9cc54c18905b62abc2",
+      "7280643042c357d13f92875bd01cc6bb11447b9b174ab208d1cadc910f00e656",
+      "9a4df04ee6cfe963ec4fcfdc74dd2cb32cc842d86761c83be99d43e695fe98f2",
+      "f4538dcca3f7a85782205e41816f7f843027cd694d5898f1679123fcbd614675",
+      "d8bcdb88dc4547ff1dd8c1577b75a9bfeeb8325451a33830c2d2715cac0289fd"
+    ],
+    "shard_candidate_photos_sha256": [
+      "f039977576f065e15b5f3f50b33807deed36174419cf92c08db83e95a73cd0a0",
+      "9435a4262d7acc9a3b0062cb4a4ecd033d3e5c853292c93bb58b9efe589f76c1",
+      "e7da05c9b5a8243a620e2a52f92e10ebc5e2e6a4be7b6675224d91b850a52648",
+      "2ae3840104f067b57d5c5ad69a760e6facf5156302fb67d6412a6dfdadaa8eb2",
+      "fae508cdad99c39556c47fd5cf95b66f50853f5843b6920d48975f40ebd97e46",
+      "a39df5d665b951a3f971ffcc7f7907613b40d39c2ad088aeb773fa6b1947286a",
+      "6c8bf0f69d932ac51098f852bc8aa5c13b66609780a1a36164fb38d95fb0d3bd",
+      "963ab1d371984066ddfad3ef7b84b387c30e4c39b4d30493f107ffeba72c6359"
+    ],
+    "species_audit_sha256": "c9e9e76883d18bbb06355e1dec46a83aaf8f9a8680fb9b2c99d3cc811d62b152",
+    "candidate_photos_sha256": "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2"
+  },
+  "files": {
+    "species_audit": "data/frozen/global_monte_carlo_candidate_species_audit_v1.csv",
+    "candidate_photo_pool": "data/frozen/global_monte_carlo_candidate_photos_v1.csv"
+  }
+}
