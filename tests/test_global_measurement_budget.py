@@ -3,6 +3,7 @@ from __future__ import annotations
 import pandas as pd
 
 from fcp_pipeline.global_measurement_budget import (
+    select_hashed_taxa,
     select_measurement_rows,
     select_measurement_taxa,
 )
@@ -24,6 +25,15 @@ def test_measure_all_when_candidate_species_below_budget():
     taxa = select_measurement_taxa(range(1, 321), maximum_species=500, seed=7)
     assert len(taxa) == 320
     assert set(taxa) == set(range(1, 321))
+
+
+def test_candidate_budget_caps_at_exactly_1000_and_is_reproducible():
+    a = select_hashed_taxa(range(1, 5001), maximum_species=1000, seed=20260916)
+    b = select_hashed_taxa(reversed(range(1, 5001)), maximum_species=1000, seed=20260916)
+    c = select_hashed_taxa(range(1, 5001), maximum_species=1000, seed=20260917)
+    assert len(a) == len(set(a)) == 1000
+    assert a == b
+    assert a != c
 
 
 def test_measurement_budget_caps_at_exactly_500_and_is_reproducible():
