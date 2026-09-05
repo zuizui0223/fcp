@@ -1,0 +1,11 @@
+{
+  "status": "authorize_exactly_one_transport_429_capacity_recovery",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "failed_capacity_manifest_blob_sha": "32e858c0044b12103a71157c452e508cf83e2994",
+  "retry_rows": 330,
+  "candidate_image_pixels_may_open": false,
+  "flower_colour_may_open": false,
+  "successful_rows_may_be_requeried": false,
+  "non_429_rows_may_be_requeried": false,
+  "second_recovery_allowed": false
+}
