@@ -58,6 +58,7 @@ on:
       - "docs/supporting/global_barrier_null_amendment_v1.json"
       - "docs/supporting/global_repeated_atlas_consensus_contract_v1.json"
       - "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json"
+      - "docs/supporting/global_monte_carlo_candidate_species_budget_amendment_v1.json"
       - "docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json"
       - "docs/supporting/global_monte_carlo_measurement_budget_amendment_v1.json"
       - "docs/supporting/global_monte_carlo_inference_execution_contract_v1.json"
@@ -148,6 +149,7 @@ jobs:
           python -m json.tool docs/supporting/global_barrier_null_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_repeated_atlas_consensus_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_monte_carlo_candidate_species_budget_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_measurement_budget_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_inference_execution_contract_v1.json >/dev/null
