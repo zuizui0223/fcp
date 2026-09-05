@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from fcp_pipeline.global_capacity_handoff import resolve_capacity_handoff
+from fcp_pipeline.global_capacity_handoff import resolve_capacity_handoff, taxon_digest
 
 ROOT = Path(__file__).resolve().parents[2]
 CONTRACT = ROOT / "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json"
@@ -52,8 +52,11 @@ def main() -> int:
     expected["species"] = expected["species"].astype(str)
     expected = expected.sort_values(["inat_taxon_id", "species"], kind="mergesort").reset_index(drop=True)
     expected["global_row_index"] = range(len(expected))
-    if len(expected) != int(capacity.get("selected_species") or 0):
-        raise RuntimeError("capacity selected-species lineage mismatch")
+    if int(handoff.capacity_selected_species) != int(capacity.get("selected_species") or 0):
+        raise RuntimeError("capacity full selected-species lineage mismatch")
+    if len(expected) != int(handoff.selected_species):
+        raise RuntimeError("bounded candidate species denominator mismatch")
+    expected_digest = taxon_digest(expected["inat_taxon_id"])
 
     shard_count = int(contract["execution"]["deterministic_shards"])
     audit_parts: list[pd.DataFrame] = []
@@ -72,6 +75,12 @@ def main() -> int:
             raise RuntimeError(f"candidate shard {shard_index} identity drift")
         if manifest.get("capacity_source") != handoff.source:
             raise RuntimeError(f"candidate shard {shard_index} capacity source drift")
+        if int(manifest.get("global_capacity_selected_species", -1)) != int(handoff.capacity_selected_species):
+            raise RuntimeError(f"candidate shard {shard_index} full capacity denominator drift")
+        if int(manifest.get("global_selected_species", -1)) != int(handoff.selected_species):
+            raise RuntimeError(f"candidate shard {shard_index} bounded species denominator drift")
+        if manifest.get("candidate_taxon_id_sha256") != expected_digest:
+            raise RuntimeError(f"candidate shard {shard_index} bounded taxon set drift")
         if int(manifest.get("selected_raw_photo_target", -1)) != target:
             raise RuntimeError(f"candidate shard {shard_index} target drift")
         if manifest.get("candidate_image_pixels_opened") is not False or manifest.get("flower_colour_used") is not False:
@@ -101,10 +110,10 @@ def main() -> int:
     got_ids = set(audit["inat_taxon_id"].astype(int))
     expected_ids = set(expected["inat_taxon_id"].astype(int))
     if got_ids != expected_ids or len(audit) != len(expected):
-        raise RuntimeError("candidate acquisition did not cover the exact capacity-selected taxon set")
+        raise RuntimeError("candidate acquisition did not cover the exact bounded candidate taxon set")
     audit = audit.sort_values("global_row_index", kind="mergesort").reset_index(drop=True)
     if audit["inat_taxon_id"].astype(int).tolist() != expected["inat_taxon_id"].astype(int).tolist():
-        raise RuntimeError("candidate acquisition deterministic species ordering drifted")
+        raise RuntimeError("candidate acquisition deterministic bounded species ordering drifted")
 
     if len(photos):
         if photos["observation_id"].duplicated().any() or photos["photo_id"].duplicated().any():
@@ -156,7 +165,10 @@ def main() -> int:
         "shards_required": shard_count,
         "shards_reassembled": shard_count,
         "capacity_selected_raw_photo_target": target,
-        "capacity_selected_species": int(len(expected)),
+        "capacity_selected_species": int(handoff.capacity_selected_species),
+        "candidate_species_budget": int(handoff.selected_species),
+        "candidate_queried_species": int(len(expected)),
+        "candidate_taxon_id_sha256": expected_digest,
         "request_attempts": attempts,
         "request_errors": errors,
         "request_error_fraction": error_fraction,
