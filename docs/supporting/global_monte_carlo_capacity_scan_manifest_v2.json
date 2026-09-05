@@ -1,0 +1,46 @@
+{
+  "protocol": "global-monte-carlo-capacity-scan-v2-sharded-execution",
+  "status": "not_evaluable_capacity_scan_due_request_failure",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "shards_required": 8,
+  "shards_reassembled": 8,
+  "discovered_species_scanned": 42111,
+  "request_attempts": 42111,
+  "request_errors": 2237,
+  "request_error_fraction": 0.05312151219396357,
+  "request_error_fraction_ceiling": 0.05,
+  "request_coverage_ok": false,
+  "target_counts": {
+    "100": 4663,
+    "80": 5471,
+    "60": 6660
+  },
+  "minimum_metadata_eligible_species": 300,
+  "selected_raw_photo_target": null,
+  "selected_species": 0,
+  "actual_image_acquisition_authorized": false,
+  "biological_rules_changed_from_parent": false,
+  "lineage": {
+    "parent_contract_sha256": "3861a68117e62d7747159953be9fd80c662b7e361e49c96f88928cec976d2577",
+    "execution_contract_sha256": "03f972d7bdd1044d5d8d0207c8a2034e849998536f17fc2363dd1b26d9f07b57",
+    "v2_manifest_sha256": "52ec6634012ca37c33ac0bff4f85f799a5826873501ddd82a1e13eb4ff1a64e8",
+    "combined_species_sha256": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+    "shard_manifest_audit_sha256": [
+      "feaf1dcbd8f342720f935b298fdc75d8947c82b55efa7261bfb2dfedaedc4bd6",
+      "6d5c19646c26b02398add279d98e9ba953892530940c9a1376747c9fa6bbb8ec",
+      "4dc15e1faf82f9a7c02867bd6437d45ac119906ab69d28e669fb2fa2ee3e68cf",
+      "c2b37b00b8b758c6503574e9ac8272e3dfb5707422eb0df06516ce6e4fffb3f5",
+      "e29f6d597808b68c21f99cd2888602c30f15634f8a905e2cc4b63d0eb8be268a",
+      "57324f6753862d8d3273f87bda1dddc6f1f11920e03da116345788a554eab04e",
+      "44ed12634233e0ab8bad9b9db1aabb205fa78eee69eaf51ffb191ed1e9682e53",
+      "4a6b47e19a25fb38515179d1a582eb4b5c00da48286b9bf5f9dcf992ca8cc506"
+    ],
+    "audit_sha256": "060335f984de19d2de3dbfecdd4ad2abd8407ae1267862093bacde568dd3ae93",
+    "selected_sha256": "81251d54b797a22138f43ee289539d7f50c32db081da1b5d60270c6eb9912b10"
+  },
+  "files": {
+    "species_audit": "data/frozen/global_monte_carlo_capacity_scan_species_audit_v2.csv",
+    "selected_species_frame": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv"
+  }
+}
