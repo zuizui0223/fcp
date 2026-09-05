@@ -1,5 +1,8 @@
 {
   "purpose": "technical retrigger after GitHub Actions GITHUB_TOKEN push suppression",
   "scientific_rules_changed": false,
-  "capacity_manifest": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json"
+  "capacity_manifest": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json",
+  "candidate_manifest": "docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json",
+  "candidate_manifest_blob_sha": "0e470a2acfc86c93c0582aa1fd2ecad09c615f6b",
+  "handoff_stage": "measurement_authorization_after_candidate_gate"
 }
