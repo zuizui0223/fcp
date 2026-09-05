@@ -1,0 +1,90 @@
+name: Global Monte Carlo pre-opening fail-closed handoff
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json"
+      - "docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-monte-carlo-preopening-handoff
+  cancel-in-progress: false
+
+jobs:
+  advance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Advance exactly one already-frozen pre-opening handoff
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          v3 = Path('docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json')
+          candidate_manifest = Path('docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json')
+          candidate_auth = Path('docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json')
+          measurement_auth = Path('docs/supporting/global_monte_carlo_measurement_authorization_v1.json')
+
+          action = 'none'
+          if candidate_manifest.exists() and not measurement_auth.exists():
+              m = json.loads(candidate_manifest.read_text())
+              if m.get('status') == 'complete_global_candidate_acquisition_premeasurement_gate_passed' and m.get('premeasurement_gate', {}).get('pass') is True:
+                  subprocess.check_call(['python', 'scripts/analysis/generate_global_monte_carlo_measurement_authorization.py'])
+                  action = 'measurement_authorization'
+              else:
+                  print({'handoff': 'blocked_at_candidate_gate', 'status': m.get('status'), 'gate': m.get('premeasurement_gate')})
+          elif v3.exists() and not candidate_auth.exists():
+              m = json.loads(v3.read_text())
+              if m.get('status') == 'complete_metadata_only_capacity_scan_target_selected_after_transport_recovery_v3':
+                  subprocess.check_call(['python', 'scripts/analysis/generate_global_monte_carlo_candidate_authorization.py'])
+                  action = 'candidate_authorization'
+              else:
+                  print({'handoff': 'blocked_at_capacity_v3', 'status': m.get('status')})
+          else:
+              print({'handoff': 'no_action_needed'})
+          Path('/tmp/global_atlas_handoff_action.txt').write_text(action + '\n')
+          print({'handoff_action': action})
+          PY
+      - name: Commit authorization only when one was newly generated
+        run: |
+          set -euo pipefail
+          ACTION=$(cat /tmp/global_atlas_handoff_action.txt)
+          if [ "$ACTION" = "none" ]; then
+            echo "No admissible handoff generated"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -f docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json ]; then
+            git add docs/supporting/global_monte_carlo_candidate_acquisition_authorization_v1.json
+          fi
+          if [ -f docs/supporting/global_monte_carlo_measurement_authorization_v1.json ]; then
+            git add docs/supporting/global_monte_carlo_measurement_authorization_v1.json
+          fi
+          git commit -m "Advance frozen global atlas pre-opening handoff"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/global-monte-carlo-barrier-atlas
+            git rebase origin/analysis/global-monte-carlo-barrier-atlas
+            if git push origin HEAD:analysis/global-monte-carlo-barrier-atlas; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1
