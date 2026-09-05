@@ -15,7 +15,7 @@ from fcp_pipeline.global_candidate_acquisition import (
     deterministic_candidate_pages,
     stable_candidate_query,
 )
-from fcp_pipeline.global_capacity_handoff import resolve_capacity_handoff
+from fcp_pipeline.global_capacity_handoff import resolve_capacity_handoff, taxon_digest
 from fcp_pipeline.random_photo_h9_pool import (
     geographic_maximin,
     observer_cap,
@@ -104,8 +104,11 @@ def main() -> int:
     selected["inat_taxon_id"] = selected["inat_taxon_id"].astype(int)
     selected["species"] = selected["species"].astype(str)
     selected = selected.sort_values(["inat_taxon_id", "species"], kind="mergesort").reset_index(drop=True)
-    if len(selected) != int(capacity["selected_species"]):
-        raise RuntimeError("capacity manifest/species-frame count mismatch")
+    if int(handoff.capacity_selected_species) != int(capacity.get("selected_species") or 0):
+        raise RuntimeError("capacity manifest full selected-species denominator mismatch")
+    if len(selected) != int(handoff.selected_species):
+        raise RuntimeError("bounded candidate species denominator mismatch")
+    selected_digest = taxon_digest(selected["inat_taxon_id"])
     selected["global_row_index"] = np.arange(len(selected), dtype=int)
 
     shard_count = int(args.shard_count)
@@ -287,7 +290,9 @@ def main() -> int:
         "shard_index": shard_index,
         "shard_count": shard_count,
         "capacity_source": handoff.source,
-        "global_selected_species": int(len(selected)),
+        "global_capacity_selected_species": int(handoff.capacity_selected_species),
+        "global_selected_species": int(handoff.selected_species),
+        "candidate_taxon_id_sha256": selected_digest,
         "shard_species": int(len(shard)),
         "selected_raw_photo_target": target,
         "request_attempts": int(request_attempts),
