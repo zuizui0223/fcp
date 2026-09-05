@@ -1,6 +1,6 @@
 # Global Monte Carlo flower-colour barrier atlas — prospective protocol v1
 
-Status: **prospective design frozen on 2026-09-04 before any global Monte Carlo flower-colour field was available**. The branch was forked from `362cdcc949f1421a9a5bb0532453914a23b4be83` while the H9 location-blind measurement workflow was still queued. The recurrent-zone extraction rule, ecological/geographic overlay family and external source families were subsequently frozen while the new global species-discovery workflow was still metadata-only. This protocol does not alter, rescue or reinterpret the frozen H1–H6 outcomes.
+Status: **prospective design frozen on 2026-09-04 before any global Monte Carlo flower-colour field was available**. The branch was forked from `362cdcc949f1421a9a5bb0532453914a23b4be83` while the H9 location-blind measurement workflow was still queued. The recurrent-zone extraction rule, ecological/geographic overlay family and external source families were subsequently frozen while the new global species-discovery workflow was still metadata-only. On 2026-09-05, after the metadata-only capacity scan showed that thousands of species can satisfy the largest raw-photo target but before fresh candidate acquisition or any new global flower-colour pixels were opened, the compute envelope was prospectively bounded to at most 1,000 fresh-candidate species and at most 500 pixel-measured species. This preserves the repeated-world-map estimand rather than allowing metadata abundance to turn the analysis into an all-at-once mega-analysis. This protocol does not alter, rescue or reinterpret the frozen H1–H6 outcomes.
 
 ## 1. Why a new design is necessary
 
@@ -72,7 +72,7 @@ The census saves a compact observation-ID/species index, the cumulative species 
 
 All species discovered in round 0 or any of the 20 fresh rounds enter the next **metadata capacity scan**. Discovery does not imply inclusion in colour inference.
 
-### 3.2 Capacity census and inferential layer
+### 3.2 Capacity census and bounded inferential layer
 
 The inferential layer contains only species with enough metadata support for fixed-n, range-spanning measurement. Eligibility is determined without colour.
 
@@ -82,13 +82,22 @@ Before any fresh pixels are opened, a metadata-only capacity audit evaluates the
 - 80;
 - 60.
 
-Within each candidate species, prior experiment IDs are excluded, observer contribution is capped at two retained photographs, and retained raw photographs are selected by a deterministic geographic maximin rule with deterministic hash tie-breaking.
-
-The automatic primary raw-photo target is the **largest** of 100, 80 or 60 that yields at least 300 metadata-eligible species globally. If no target yields at least 300 species, the experiment stops as `not_evaluable_global_inferential_species_capacity_before_pixels`; the threshold is not relaxed after colour opening.
+Within each candidate species, prior experiment IDs are excluded and observer contribution is capped at two retained photographs. The automatic primary raw-photo target is the **largest** of 100, 80 or 60 that yields at least 300 metadata-eligible species globally. If no target yields at least 300 species, the experiment stops as `not_evaluable_global_inferential_species_capacity_before_pixels`; the threshold is not relaxed after colour opening.
 
 The capacity scan and the eventual candidate-image acquisition are distinct outcome-blind stages. Capacity may be estimated from a metadata-only draw, but actual image acquisition uses one separately frozen fresh draw at the automatically selected target and has its own premeasurement gate. A favourable second target may not be substituted if the acquisition draw underperforms.
 
-The metadata audit must also report representation by major terrestrial realm, latitude band and family. These are coverage diagnostics, not outcome-driven inclusion criteria and are never used to select a favourable colour result.
+The metadata-only capacity census eventually showed that thousands of species can satisfy the largest target. That information changed only the **computational envelope**, not the biological thresholds or colour model. Before fresh candidate acquisition and before any global candidate pixels were opened, the following bounded hierarchy was frozen:
+
+1. **global capacity universe:** all discovered species are retained for metadata provenance and target selection;
+2. **fresh candidate species:** if more than 1,000 species pass the chosen capacity target, select exactly 1,000 by deterministic SHA256 rank of `inat_taxon_id` under seed `20260916`; otherwise query all passing species;
+3. **pixel-measured species:** after the fixed fresh acquisition and its ≥300-species gate, if more than 500 full-target species remain, select exactly 500 by an independent deterministic SHA256 rank under seed `20260918`; otherwise measure all full-target species;
+4. **one world-map realization:** draw 250 measured species and 20 classifiable photographs per included species under balanced inclusion schedules.
+
+No species is replaced if the fresh candidate draw or measurement underperforms. No extra species is added after seeing flower colour. The 1,000- and 500-species bounds use taxon identity only and cannot read colour, climate, pollinator, barrier, measurement-success or G1/G3 outcomes.
+
+This means the global census defines the universe and non-zero inclusion frame, while bounded prospectively random stages define the computational sample. The biological sample size is not multiplied by the number of Monte Carlo repetitions.
+
+The metadata audit must also report global/equal-area coverage diagnostics. These are coverage diagnostics, not outcome-driven inclusion criteria and are never used to select a favourable colour result.
 
 Species that cannot support within-species inference remain part of the descriptive global census. They are not recoded as biologically unstructured.
 
@@ -96,7 +105,7 @@ Species that cannot support within-species inference remain part of the descript
 
 Fresh candidate images are measured without species name, coordinates, climate or barrier context using the already-qualified ROI-v4 flower-mask path plus the fixed generic CIELAB palette.
 
-No failed image is replaced after measurement.
+At most **500 species** enter pixel measurement. At the largest 100-photo target this caps the location-blind image workload at **50,000 photographs**. Every frozen candidate photograph of a selected measurement species is attempted; failed image downloads or measurements are terminal missingness and are not replaced.
 
 A species enters Monte Carlo inference only if it retains at least **40 classifiable photographs**. This number is fixed because each analysis draw uses 20 photographs and the design needs genuine within-species photo resampling rather than repeatedly analyzing the same fixed set.
 
@@ -115,7 +124,7 @@ Primary schedule:
 - photo inclusion: seeded balanced random blocks within species so all classifiable photographs have repeated non-zero opportunity while no single resample uses more than 20 photographs per species;
 - the complete species and photo inclusion-count audit is saved.
 
-If exactly 250 species survive, every species is included in every outer resample but its 20-photo subset still varies. If more than 250 survive, the balanced random schedule spreads computation across the full eligible pool.
+If exactly 250 species survive, every species is included in every outer resample but its 20-photo subset still varies. If more than 250 survive, the balanced random schedule spreads computation across the full measured eligible pool. With the 500-species measurement ceiling, a fully populated frame gives each species essentially symmetric long-run inclusion opportunity across the 200 realizations.
 
 This design uses the full eligible dataset **in probability and over repeated coverage**, rather than attempting an all-at-once Cartesian analysis.
 
@@ -173,127 +182,38 @@ The null keeps fixed:
 - graph geometry and global opportunity fields;
 - all external pollinator, climate, terrain and geographic predictor values.
 
-Only classifiable colour vectors are permuted within species.
+Only complete classifiable four-group colour vectors are permuted within species. One null assignment is reused across all 200 outer realizations for that permutation, preserving the observed geometry and the dependence induced by repeated appearances of the same measured photographs.
 
 Primary null size: **999 permutations** with a pre-frozen seed. Each permutation is run through the exact same 200-resample schedule as the observed data. The same null therefore supplies both the G1 field test and the downstream edge/overlay alignment tests without introducing a different favourable spatial null.
 
 G1 support requires:
 
-- postmeasurement inferential gate passed;
-- observed G1 concentration greater than the null expectation;
-- upper-tail Monte Carlo `p < 0.05`.
+1. the postmeasurement species/photo gate to pass;
+2. observed recurrent-field concentration above the null mean;
+3. primary one-sided Monte Carlo `p < 0.05`.
 
-No spatial support, kernel, species weight, photo threshold or subset may be substituted after seeing G1.
+If G1 is null, external overlays do not rescue it.
 
-## 9. Stability, persistent zone extraction and robustness
+## 9. Recurrent-zone extraction and stability
 
-A positive G1 is not sufficient by itself. The following are reported regardless of significance where estimable:
+Persistent zones are extracted only if G1 is supported.
 
-1. **species-discovery stability:** accumulation across the fixed 20 metadata rounds and odd/even fresh-round overlap;
-2. **Monte Carlo convergence:** running consensus-field distance and concentration versus 25, 50, 100, 150 and 200 resamples;
-3. **split-resample reproducibility:** correlation of odd- versus even-resample consensus fields;
-4. **photo-resampling stability:** within-species spread of `rho_i` and boundary contribution across the 200 draws;
-5. **leave-one-realm-out:** recompute the consensus after deleting each represented terrestrial realm;
-6. **leave-one-family-out for major families:** delete families contributing at least 5% of inferential species;
-7. **equal-species versus inclusion-probability weighting:** weighting sensitivity only; equal-species remains primary;
-8. **predeclared spatial-support sensitivity:** 24×12/1,000 km and 72×36/250 km cannot replace the primary 36×18/500 km result.
+Within each evaluable observed realization, hotspot cells are the upper 10% of that realization's field. A cell may seed a persistent zone only if it is evaluable in at least 100 of 200 realizations and is a hotspot in at least 60% of those evaluable realizations. Adjacency includes longitude wrap. Connected components with at least three seed cells are assigned neutral IDs `Z01`, `Z02`, ... before geographic names or external predictors are opened.
 
-If G1 and the G2 stability gate are supported, persistent flower-colour zones are extracted without consulting named geography or external ecological surfaces:
+Predeclared stability diagnostics include running consensus at 25, 50, 100, 150 and 200 realizations, odd/even consensus correlation, leave-one-realm-out, major-family deletion, support-scale sensitivity, high-observation-effort-cell deletion and observer-unique sensitivity. Repetition estimates sampling and map stability; it does not multiply biological sample size.
 
-- within each of the 200 observed resamples, mark the top **10%** of evaluable field cells;
-- a primary zone seed must be in that per-resample top decile in at least **60%** of evaluable observed resamples;
-- require at least **100** evaluable resamples for a seed cell;
-- join seed cells by 8-neighbour connectivity with longitude wrap across the international date line;
-- discard components smaller than **3 cells**;
-- assign neutral IDs `Z01`, `Z02`, ... in descending opportunity-weighted integrated colour-field intensity;
-- inspect geographic names or candidate explanations only after these neutral components are frozen.
+## 10. Ecological interpretation hierarchy
 
-Top-5% and top-15% hotspot definitions are sensitivity analyses only and cannot replace the primary top-10% rule.
+G3 edge-level mechanism alignment is reported regardless of G1 but cannot rescue a null G1. Primary within-species colour/external alignment controls great-circle distance so that ordinary distance-decay in both variables is not mistaken for a mechanism.
 
-## 10. External ecological and geographic concordance
+Only after G1 support and G2 stability may neutral zones be annotated using the independently frozen pollinator, climate, soil, terrain and geographic-barrier surfaces. Candidate explanations include pollinator-community turnover, CHELSA climate turnover, SoilGrids edaphic turnover, EarthEnv terrain, marine gaps, major HydroRIVERS crossings, RESOLVE realm/biome/ecoregion boundaries and GMBA mountain-system boundaries.
 
-The external source family is fixed before the global colour outcome: CHELSA v2.1 climate, EarthEnv topography, GMBA Mountain Inventory v2, RESOLVE Ecoregions 2017, HydroRIVERS/HydroSHEDS, Natural Earth land-water geometry, a stable versioned GloBI interaction dataset, and an independently frozen GBIF occurrence download. Exact external download identifiers/checksums must be recorded before they enter colour inference. Missing external coverage is `not_evaluable`, never biological zero.
+G5 separately compares sympatric species with matched allopatric controls. Negative `Delta = D_colour(sympatric) - mean D_colour(matched allopatric)` indicates convergence in sympatry; positive Delta indicates divergence/character displacement. These species-pair analyses are separate from G1 and do not create a global zone.
 
-### 10.1 G3 edge-level mechanism alignment — does not require a shared zone
+## 11. Claim ceiling
 
-For every externally evaluable predictor, calculate an external contrast on the same fixed within-species photo-graph edges used for colour discontinuity. Each species contributes one within-species Spearman correlation between colour-edge score and external-edge score. The primary statistic is the **equal-species mean** of those correlations.
+A positive G1 supports **broad recurrent geographic concentration of within-species flower-colour discontinuity within the public-photo sampling frame under the frozen observation-bias controls**. It does not demonstrate one exact universal line, does not imply that every species changes there, and does not by itself establish a causal mechanism.
 
-Primary requirements:
+A null G1 with heterogeneous G3 effects supports the narrower conclusion that spatial colour organization is species- or context-specific rather than globally synchronized. A null G1 and near-zero heterogeneous/prevalence signal supports weak general geographic organization at the tested scales.
 
-- at least 5 evaluable graph edges per species;
-- at least 30 evaluable species for a predictor;
-- the same 999 within-species colour permutations as the main analysis;
-- one-sided upper-tail test;
-- Holm correction across the fixed primary predictor family.
-
-The fixed primary edge family is:
-
-1. direct pollinator-interaction community turnover from GloBI where coverage permits;
-2. GBIF-based pollinator-guild occurrence turnover (bees, Syrphidae, Lepidoptera proxy, and a flower-visiting bird proxy);
-3. multivariate CHELSA climate turnover using standardized BIO1, BIO4, BIO12 and BIO15;
-4. EarthEnv terrain-barrier intensity from elevation, slope, terrain roughness index and vector ruggedness at the frozen 50-km grain;
-5. marine-gap fraction along the great-circle edge;
-6. major-river crossing intensity;
-7. crossing intensity of RESOLVE realm/biome/ecoregion boundaries;
-8. GMBA mountain-system boundary crossing intensity.
-
-A positive edge result means that species-specific flower-colour geography is concordant with that external contrast more strongly than expected after species-conditioned colour permutation. It **does not** establish a shared global flower-colour zone and cannot rescue a null G1.
-
-### 10.2 G4 shared-zone overlay — requires G1 + G2
-
-For a supported recurrent colour field, each independently frozen external surface is compared with the colour field using opportunity-weighted Spearman correlation. The exact same 999 species-conditioned null colour fields define the spatial null. At least 50 jointly evaluable cells are required, and Holm correction is applied across the fixed primary overlay family.
-
-Only globally supported predictors may annotate a neutral `Z` component. A zone receives a descriptor such as `climate-associated`, `pollinator-associated`, `terrain-associated`, `marine-associated`, `river-associated`, `biogeographic-boundary-associated`, or `mountain-boundary-associated` only when:
-
-1. that predictor passes the global overlay test; and
-2. the opportunity-weighted predictor mean inside the neutral zone is at or above the 75th percentile of that predictor over all evaluable cells.
-
-Multiple descriptors are allowed. Causal labels such as “pollinator-driven” or “mountain-caused” are forbidden from these spatial concordance tests alone.
-
-Direct GloBI interaction turnover and broad GBIF guild turnover are retained as complementary pollinator layers. Agreement strengthens ecological coherence; disagreement is reported as interaction-specificity/sampling uncertainty rather than selecting whichever layer fits better.
-
-## 11. Computational interpretation
-
-With 250 species × 20 photographs, the complete pairwise G3 calculation contains 47,500 photograph pairs per outer resample. Across 200 observed resamples this is 9.5 million pair evaluations, before null reuse/vectorization. Graph-based G1 is smaller still.
-
-Thus the scientific sample can eventually contain far more than 250 species and far more than 20 photographs per species while each compute unit remains bounded. Additional species/photos improve coverage and resampling stability rather than exploding one monolithic analysis.
-
-This is the intended distinction:
-
-- **more metadata discovery rounds** broaden and stabilize which species have an opportunity to enter the global programme;
-- **more Monte Carlo analysis resamples** reduce computational/sampling Monte Carlo error conditional on the measured pool;
-- **more adequately replicated species and photographs** add biological information.
-
-Repeated resampling cannot manufacture within-species information from singleton species, which is why the new metadata and postmeasurement gates are binding.
-
-## 12. Claim boundaries and outcome logic
-
-A supported G1+G2 would establish recurrent broad geographic concentration of flower-colour discontinuity across globally sampled, adequately replicated species under the frozen opportunity-conditioned design. Stable neutral components could then reasonably be described as **recurrent flower-colour biogeographic zones**.
-
-The strongest possible result would be a stable neutral zone whose colour discontinuity exceeds the species-conditioned null and whose geography is independently concordant with one or more frozen ecological/geographic surfaces. It still would not by itself establish causal adaptation, pollinator-mediated selection or historical vicariance.
-
-The interpretation matrix is fixed:
-
-- **G1+G2 positive; ecological/geographic overlay positive:** recurrent flower-colour zone with independent ecological/geographic concordance;
-- **G1+G2 positive; overlays null:** recurrent colour zone detected, mechanism/geographic interpretation unresolved;
-- **G1 null; G3 edge alignment positive:** species-specific colour geography repeatedly covaries with external contrasts but is not globally synchronized;
-- **G1 null; G3 heterogeneous but edge alignment null:** substantial species-specific geography without a common global mechanism at the tested scales;
-- **G1 and G3 essentially null:** no general flower-colour geographic organization detected under the frozen design and scales.
-
-No result by itself establishes:
-
-- one exact universal boundary line;
-- climate causation;
-- topographic causation;
-- local adaptation;
-- pollinator mediation;
-- pigment physiology;
-- absence of species-specific structure outside recurrent regions.
-
-## 13. Relationship to prior experiments
-
-- Six-species Chapter 1 remains evidence that within-species spatial colour organization can occur under dense focal sampling.
-- Random-atlas H1 remains the valid result for its original globally broad/sparse frame and is not rerun with relaxed rules.
-- H6/H6b motivated the need to distinguish low-information equal weighting from reliable within-species replication.
-- H7/H8 established, before pixels, that balanced species-by-cell sampling was not feasible from that fresh metadata frame.
-- H9 changed the unit to fixed-n individual photographs with continuous distance. The present protocol generalizes that logic to a globally broader Monte Carlo coverage design while preserving outcome blindness at each new gate.
+No result is described as an unbiased census of all world flowers. Regions or taxa absent from the public-photo frame cannot be reconstructed by Monte Carlo resampling.
