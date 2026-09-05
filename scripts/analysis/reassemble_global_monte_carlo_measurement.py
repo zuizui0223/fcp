@@ -193,6 +193,8 @@ def main() -> int:
         "measurement_taxon_id_sha256": firewall["measurement_taxon_id_sha256"],
         "frozen_measurement_rows": expected_rows,
         "frozen_measurement_species": measurement_species,
+        "frozen_candidate_rows": expected_rows,
+        "frozen_species": measurement_species,
         "selected_raw_photo_target": target,
         "partition_receipts": int(execution["partitioning"]["total_terminal_partitions"]),
         "terminal_result_rows": expected_rows,
