@@ -12,6 +12,7 @@ on:
       - "fcp_pipeline/global_candidate_acquisition.py"
       - "fcp_pipeline/global_capacity_handoff.py"
       - "fcp_pipeline/global_capacity_recovery.py"
+      - "fcp_pipeline/global_measurement_budget.py"
       - "fcp_pipeline/global_barrier_field.py"
       - "fcp_pipeline/global_overlay_alignment.py"
       - "fcp_pipeline/global_edge_mechanism_v2.py"
@@ -40,6 +41,7 @@ on:
       - "tests/test_global_candidate_acquisition.py"
       - "tests/test_global_capacity_handoff.py"
       - "tests/test_global_capacity_recovery.py"
+      - "tests/test_global_measurement_budget.py"
       - "tests/test_global_barrier_field.py"
       - "tests/test_global_barrier_node_null.py"
       - "tests/test_global_overlay_alignment.py"
@@ -57,6 +59,7 @@ on:
       - "docs/supporting/global_repeated_atlas_consensus_contract_v1.json"
       - "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json"
       - "docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json"
+      - "docs/supporting/global_monte_carlo_measurement_budget_amendment_v1.json"
       - "docs/supporting/global_monte_carlo_inference_execution_contract_v1.json"
       - "docs/supporting/global_monte_carlo_capacity_429_recovery_contract_v1.json"
       - "docs/supporting/global_colour_biogeography_overlay_contract_v1.json"
@@ -111,6 +114,7 @@ jobs:
           python -m py_compile fcp_pipeline/global_candidate_acquisition.py
           python -m py_compile fcp_pipeline/global_capacity_handoff.py
           python -m py_compile fcp_pipeline/global_capacity_recovery.py
+          python -m py_compile fcp_pipeline/global_measurement_budget.py
           python -m py_compile fcp_pipeline/global_barrier_field.py
           python -m py_compile fcp_pipeline/global_overlay_alignment.py
           python -m py_compile fcp_pipeline/global_edge_mechanism_v2.py
@@ -127,6 +131,7 @@ jobs:
             tests/test_global_candidate_acquisition.py \
             tests/test_global_capacity_handoff.py \
             tests/test_global_capacity_recovery.py \
+            tests/test_global_measurement_budget.py \
             tests/test_global_barrier_field.py \
             tests/test_global_barrier_node_null.py \
             tests/test_global_overlay_alignment.py \
@@ -144,6 +149,7 @@ jobs:
           python -m json.tool docs/supporting/global_repeated_atlas_consensus_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json >/dev/null
+          python -m json.tool docs/supporting/global_monte_carlo_measurement_budget_amendment_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_inference_execution_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_monte_carlo_capacity_429_recovery_contract_v1.json >/dev/null
           python -m json.tool docs/supporting/global_colour_biogeography_overlay_contract_v1.json >/dev/null
