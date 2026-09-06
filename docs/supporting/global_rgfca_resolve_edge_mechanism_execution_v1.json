@@ -1,0 +1,126 @@
+{
+  "protocol": "global-rgfca-resolve-edge-mechanism-execution-v1",
+  "status": "technical_execution_mapping_frozen_before_any_rgfca_colour_resolve_alignment_result",
+  "date": "2026-09-06",
+  "scientific_contracts": [
+    "docs/supporting/global_colour_biogeography_overlay_contract_v1.json",
+    "docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json"
+  ],
+  "external_source_provenance": {
+    "reuse_contract": "docs/supporting/global_rgfca_resolve2017_reuse_contract_v1.json",
+    "verification": "docs/supporting/global_rgfca_resolve2017_source_verification_v1.json",
+    "verified_artifact_run_id": 34007344377,
+    "verified_artifact_id": 9981370295,
+    "archive_sha256": "be36d6209e443038d02e309f0447c6e7f2a62f5fe60c605ffe90d064952f2a60",
+    "source_substitution_allowed": false
+  },
+  "fixed_primary_predictor_family_evaluability": {
+    "pollinator_direct_interaction_turnover": "not_evaluable_exact_precolour_payload_not_frozen",
+    "pollinator_occurrence_guild_turnover": "not_evaluable_exact_precolour_payload_not_frozen",
+    "climate_multivariate_turnover": "not_evaluable_exact_precolour_CHELSA_2_1_payload_not_frozen_WorldClim_substitution_forbidden",
+    "edaphic_multivariate_turnover": "not_evaluable_exact_precolour_payload_not_frozen",
+    "terrain_multivariate_turnover": "not_evaluable_exact_precolour_payload_not_frozen",
+    "marine_gap_fraction": "not_evaluable_exact_precolour_payload_not_frozen",
+    "major_river_crossing": "not_evaluable_exact_precolour_payload_not_frozen",
+    "biogeographic_boundary_crossing": "evaluable_exact_precolour_RESOLVE_2017_payload_verified",
+    "mountain_system_boundary_crossing": "not_evaluable_exact_precolour_payload_not_frozen"
+  },
+  "multiplicity": {
+    "method": "Holm across all evaluable predictors in the fixed primary family",
+    "evaluable_predictors_under_frozen_source_provenance": [
+      "biogeographic_boundary_crossing"
+    ],
+    "effective_family_size": 1,
+    "unevaluable_predictors_must_be_reported_not_dropped": true,
+    "alpha": 0.05
+  },
+  "edge_occurrence_estimand": {
+    "outer_realizations": 200,
+    "species_per_outer": 250,
+    "photos_per_species": 20,
+    "species_seed": 2026090401,
+    "photo_master_seed": 2026090402,
+    "graph": "same spherical k-nearest-neighbour graph as G1",
+    "k": 3,
+    "all_scheduled_edge_occurrences_retained": true,
+    "repeated_unordered_photo_pair_occurrences_deduplicated": false,
+    "interpretation_of_repeated_occurrence": "Monte Carlo edge-opportunity weighting induced by the frozen balanced species/photo schedule",
+    "final_grouping": "taxonomic species across all retained edge occurrences, not outer-realization occurrence",
+    "species_weighting": "equal one species-level partial Spearman value per evaluable species",
+    "minimum_edges_per_species_after_external_coverage_filter": 5,
+    "minimum_evaluable_species": 30
+  },
+  "colour_edge_score": {
+    "observed": "same within-outer within-species midrank percentile of four-group Jensen-Shannon edge divergence used by G1",
+    "null": "same score after exact species-conditioned complete-photo colour-vector reassignment for null index 0..998",
+    "within_graph_rank_formula": "(average_rank - 0.5) / number_of_edges_for_that_species_in_that_outer_realization",
+    "null_mapping_reused_across_all_outer_realizations": true,
+    "null_master_seed": 2026090403,
+    "null_indices": "exact integers 0..998 once each",
+    "new_null_allowed": false
+  },
+  "geographic_distance": {
+    "metric": "great-circle angular distance times Earth radius",
+    "earth_radius_km": 6371.0088,
+    "role": "ranked covariate partialled from both colour and external scores"
+  },
+  "resolve_boundary_score": {
+    "fields": [
+      "REALM",
+      "BIOME_NUM",
+      "ECO_ID"
+    ],
+    "path": "shortest great-circle path",
+    "maximum_sample_interval_km": 10.0,
+    "endpoints_included": true,
+    "interpolation": "spherical linear interpolation on unit Cartesian vectors",
+    "point_polygon_predicate": "covered_by RESOLVE polygon",
+    "overlap_tie_break": "if a sampled point is covered by multiple polygons choose the polygon with the smallest numeric ECO_ID, then smallest numeric BIOME_NUM, then Unicode REALM",
+    "outside_resolve_policy": "if any sampled path point is not covered by a RESOLVE terrestrial polygon, that edge has missing external coverage and is excluded; it is never recoded as zero",
+    "adjacent_transition_score": "for each adjacent classified sample pair add 3 if REALM differs, add 2 if BIOME_NUM differs, and add 1 if ECO_ID differs; components may add at the same adjacency",
+    "high_value_means": "crossing stronger or more numerous established terrestrial biogeographic boundaries"
+  },
+  "primary_statistic": {
+    "name": "equal-species mean within-species partial Spearman",
+    "per_species": [
+      "rank retained colour-edge scores across all retained scheduled edge occurrences for that species",
+      "rank retained RESOLVE boundary scores across the same occurrences",
+      "rank retained great-circle distances across the same occurrences",
+      "residualize colour rank and boundary rank separately on distance rank with intercept",
+      "Pearson-correlate the two residual vectors"
+    ],
+    "global": "arithmetic mean of evaluable species partial correlations",
+    "secondary_report": [
+      "median species partial rho",
+      "fraction of evaluable species with positive partial rho"
+    ]
+  },
+  "null_test": {
+    "permutations": 999,
+    "tail": "upper",
+    "p_value": "(1 + number of null global mean partial-rho statistics >= observed global mean partial rho) / 1000",
+    "support_requires": [
+      "observed global mean partial rho > 0",
+      "Holm-adjusted p < 0.05"
+    ],
+    "null_geometry_external_scores_distances_and_external_coverage_mask_fixed": true,
+    "if_any_null_changes_evaluable_species_set": "fail_closed"
+  },
+  "computational_equivalence": {
+    "streaming_or_batched_null_evaluation_allowed": true,
+    "requirement": "streaming/batching must reproduce the mathematical statistic in fcp_pipeline/global_edge_mechanism_v2.py exactly; it may not change edge weights, ranks, species weights, nulls, tail or thresholds",
+    "duplicate_pair_external_score_memoization_allowed": true,
+    "memoization_role": "speed only; repeated edge occurrences remain repeated in the statistic"
+  },
+  "execution_policy": {
+    "workflow_attempts_allowed": 1,
+    "selective_early_stop_allowed": false,
+    "favourable_rerun_allowed": false,
+    "source_switch_allowed": false,
+    "predictor_direction_flip_allowed": false,
+    "primary_g1_may_be_rescued": false,
+    "g1_support_required": false,
+    "causal_language_allowed": false
+  },
+  "claim_if_supported": "Within the public-photo inferential frame, stronger within-species flower-colour discontinuities are concordant with stronger established RESOLVE biogeographic-boundary transitions beyond ranked great-circle distance under the frozen species-conditioned colour null. This is concordance, not evidence that the classification itself caused colour evolution or proof of local adaptation."
+}
