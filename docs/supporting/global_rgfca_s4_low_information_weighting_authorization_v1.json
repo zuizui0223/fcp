@@ -1,0 +1,21 @@
+{
+  "status": "authorize_exactly_one_s4_low_information_weighting_simulation",
+  "date": "2026-09-06",
+  "workflow_attempts_allowed": 1,
+  "favourable_rerun_allowed": false,
+  "contract": {
+    "path": "docs/supporting/global_rgfca_s4_low_information_weighting_execution_v1.json",
+    "git_blob_sha": "c119b438e390ab92a2a99abcabfbfd19b54040c4"
+  },
+  "runner": {
+    "path": "scripts/analysis/run_global_rgfca_s4_low_information_weighting_simulation.py",
+    "git_blob_sha": "77488dacb5d6cf965503dcc07706405b8eeb0c3e"
+  },
+  "target_species": 188,
+  "reliable_species": 74,
+  "h6b_permutations": 999,
+  "h6b_seed": 20260908,
+  "simulation_replicates": 100000,
+  "simulation_seed": 2026090604,
+  "H6_or_H6b_reclassification_allowed": false
+}
