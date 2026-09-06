@@ -1,0 +1,47 @@
+{
+  "protocol": "global-rgfca-environmental-interaction-power-supplement-v1",
+  "status": "frozen_before_exact_interaction_family_power_result",
+  "date": "2026-09-06",
+  "parent_simulation_contract": "docs/supporting/global_rgfca_design_power_identifiability_simulation_contract_v1.json",
+  "role": "Complete S3 for the frozen ten-interaction family using its exact immutable 999x10 joint null distribution rather than an approximation. This is design/power interpretation only and cannot change the observed 0/10 Holm decision.",
+  "source": {
+    "artifact_id": 9987049057,
+    "artifact_name": "global-rgfca-environmental-interaction-family-v1",
+    "null_filename": "global_rgfca_environmental_interaction_family_null_v1.csv",
+    "null_sha256": "97bfdc641255ed60d4c2a12bdb3eef7d84967128025abc2f68ba2dcb689609d7",
+    "observed_verification": "docs/supporting/global_rgfca_environmental_interaction_family_verification_v1.json",
+    "expected_null_rows": 999,
+    "expected_family_size": 10
+  },
+  "simulation": {
+    "effect_grid": [0.0, 0.0025, 0.005, 0.0075, 0.01, 0.015, 0.02],
+    "replicates": 100000,
+    "seed": 2026090603,
+    "joint_noise": "sample rows with replacement from the exact frozen 999x10 null-statistic matrix, thereby preserving the empirical cross-interaction dependence structure",
+    "alternative": "add the fixed effect only to the target interaction statistic; all other interaction statistics retain the sampled joint-null values",
+    "per_interaction_p": "same frozen two-sided absolute-tail empirical p against that interaction's 999 null values: (1 + count(|null| >= |stat|))/1000",
+    "multiplicity": "Holm across exactly all ten interaction p-values",
+    "alpha": 0.05,
+    "targets": "all ten interactions, no selection based on observed raw or Holm p-values"
+  },
+  "outputs": [
+    "target one-test power by effect size",
+    "target Holm power by effect size",
+    "family any-discovery probability by effect size",
+    "Holm power cost",
+    "smallest grid effect with target Holm power >=0.8 for every interaction",
+    "empirical null correlation matrix"
+  ],
+  "observed_reference_only_after_simulation": {
+    "water_balance_x_terrain_structure": 0.00821653847160954,
+    "thermal_regime_x_water_balance": 0.006887024324457337,
+    "thermal_regime_x_atmospheric_energy_dryness": 0.004582406079856096,
+    "rule": "Observed values may be located relative to the already-frozen power curve, but are not used to tune the effect grid or family."
+  },
+  "decision_guard": {
+    "observed_interaction_family_reclassification_allowed": false,
+    "variable_level_decomposition_allowed": false,
+    "family_of_one_retest_allowed": false,
+    "favourable_rerun_allowed": false
+  }
+}
