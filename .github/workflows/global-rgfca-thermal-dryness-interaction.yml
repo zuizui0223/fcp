@@ -1,0 +1,177 @@
+name: Global RGFCA thermal-dryness interaction
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - ".github/workflows/global-rgfca-thermal-dryness-interaction.yml"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-thermal-dryness-interaction
+  cancel-in-progress: false
+
+jobs:
+  interaction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      PYTHONUNBUFFERED: "1"
+      PYTHONHASHSEED: "0"
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout frozen authorization state
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install frozen package and raster dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install "rasterio==1.4.3" pytest
+
+      - name: Enforce frozen exploratory interaction contract
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT'] != '1':
+              raise SystemExit('favourable workflow reruns are forbidden')
+          auth=json.loads(Path('docs/supporting/global_rgfca_thermal_dryness_interaction_authorization_v1.json').read_text())
+          contract=json.loads(Path(auth['contract']['path']).read_text())
+          parent=json.loads(Path(auth['frozen_inputs']['parent_five_block_result_path']).read_text())
+          source=json.loads(Path(auth['frozen_inputs']['chelsa_source_verification_path']).read_text())
+          if auth.get('status')!='authorize_exactly_one_frozen_exploratory_interaction_execution': raise SystemExit('authorization drift')
+          if auth['execution']['workflow_attempts_allowed'] != 1 or auth['execution']['biological_computation_attempts_allowed'] != 1: raise SystemExit('attempt gate drift')
+          if auth['execution']['null_indices'] != '0..998 exactly once' or auth['execution']['null_master_seed'] != 2026090403: raise SystemExit('null gate drift')
+          if auth['execution']['single_interaction_only'] is not True or auth['execution']['favourable_rerun_allowed'] is not False: raise SystemExit('anti-fishing gate drift')
+          if contract.get('status')!='postoutcome_exploratory_interaction_frozen_before_interaction_statistic_is_computed': raise SystemExit('interaction contract drift')
+          if parent.get('supported_blocks') != [] or parent.get('any_environmental_process_block_supported') is not False: raise SystemExit('parent five-block result drift')
+          if source.get('status')!='pass_exact_expanded_chelsa_source_acquisition_before_any_expanded_chelsa_colour_alignment': raise SystemExit('source verification drift')
+          checks=[
+              (auth['contract']['path'], auth['contract']['git_blob_sha']),
+              (auth['runner']['path'], auth['runner']['git_blob_sha']),
+              (auth['frozen_inputs']['chelsa_source_verification_path'], auth['frozen_inputs']['chelsa_source_verification_git_blob_sha']),
+              (auth['frozen_inputs']['parent_five_block_result_path'], auth['frozen_inputs']['parent_five_block_result_git_blob_sha']),
+          ]
+          for path, expected in checks:
+              actual=subprocess.check_output(['git','hash-object',path], text=True).strip()
+              if actual != expected: raise SystemExit(f'frozen blob drift: {path}: {actual} != {expected}')
+          print({'gate':'pass','interaction':'thermal_regime x atmospheric_energy_dryness','parent_supported_blocks':parent['supported_blocks']})
+          PY
+
+      - name: Preflight unchanged RGFCA engine and interaction runner
+        run: |
+          python -m py_compile scripts/analysis/run_global_rgfca_thermal_dryness_interaction.py
+          python -m pytest -q tests/test_global_edge_mechanism_v2.py tests/test_global_rgfca_engine.py tests/test_global_repeated_atlas.py
+          python - <<'PY'
+          import importlib.util, sys
+          from pathlib import Path
+          import numpy as np
+          p=Path('scripts/analysis/run_global_rgfca_thermal_dryness_interaction.py')
+          spec=importlib.util.spec_from_file_location('interaction_preflight',p)
+          m=importlib.util.module_from_spec(spec); sys.modules['interaction_preflight']=m; spec.loader.exec_module(m)
+          x=np.arange(1,41,dtype=float)
+          assert np.isfinite(m.zrank_1d(x)).all()
+          z=m.zrank_rows(np.vstack([x,x[::-1]]))
+          assert z.shape==(2,40) and np.allclose(z.mean(axis=1),0.0,atol=1e-12)
+          print('interaction numerical helpers pass')
+          PY
+
+      - name: Download and SHA-verify exact eight CHELSA rasters
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/chelsa
+          python - <<'PY' > /tmp/interaction_chelsa.tsv
+          import json
+          from pathlib import Path
+          acquire=json.loads(Path('docs/supporting/global_rgfca_chelsa_expanded_source_acquisition_contract_v1.json').read_text())
+          verify=json.loads(Path('docs/supporting/global_rgfca_chelsa_expanded_source_verification_v1.json').read_text())
+          base=acquire['dataset']['base_url']
+          frozen={x['filename']:x for x in verify['files']}
+          for block in ('thermal_regime','atmospheric_energy_dryness'):
+              entries=acquire['process_blocks'][block]
+              if len(entries)!=4: raise SystemExit(f'four-axis block drift: {block}')
+              for entry in entries:
+                  v=frozen[entry['filename']]
+                  if v['block'] != block or v['id'] != entry['id']: raise SystemExit('source identity drift')
+                  print(base+entry['filename'], entry['filename'], v['sha256'], sep='\t')
+          PY
+          test "$(wc -l < /tmp/interaction_chelsa.tsv)" -eq 8
+          while IFS=$'\t' read -r url filename sha; do
+            curl -fL --retry 3 --retry-delay 3 "$url" -o "/tmp/chelsa/$filename"
+            got=$(sha256sum "/tmp/chelsa/$filename" | awk '{print $1}')
+            test "$got" = "$sha"
+          done < /tmp/interaction_chelsa.tsv
+
+      - name: Execute frozen interaction with all 999 colour nulls once
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/interaction-result
+          python scripts/analysis/run_global_rgfca_thermal_dryness_interaction.py \
+            --source-dir /tmp/chelsa \
+            --output-result /tmp/interaction-result/global_rgfca_thermal_dryness_interaction_result_v1.json \
+            --output-species /tmp/interaction-result/global_rgfca_thermal_dryness_interaction_species_v1.csv \
+            --output-null /tmp/interaction-result/global_rgfca_thermal_dryness_interaction_null_v1.csv \
+            --null-batch-size 32
+
+      - name: Validate single frozen interaction result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/interaction-result/global_rgfca_thermal_dryness_interaction_result_v1.json')
+          r=json.loads(p.read_text())
+          if r.get('status')!='complete_postoutcome_exploratory_thermal_dryness_interaction': raise SystemExit('interaction result incomplete')
+          if r.get('null_permutations')!=999 or r.get('null_indices_exact_0_998') is not True: raise SystemExit('null execution incomplete')
+          if r.get('parent_five_block_panel_remains_unsupported') is not True or r.get('parent_supported_blocks_remain') != []: raise SystemExit('parent reclassification attempted')
+          print({k:r[k] for k in ['observed_global_mean_species_beta_interaction','observed_median_species_beta_interaction','observed_positive_species_fraction','n_evaluable_species','p_upper','exploratory_interaction_supported']})
+          PY
+
+      - name: Upload immutable interaction result before any branch write
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-thermal-dryness-interaction-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/interaction-result/
+
+      - name: Commit exact completed result only if branch head is unchanged
+        run: |
+          set -euo pipefail
+          git fetch origin analysis/global-monte-carlo-barrier-atlas
+          current=$(git rev-parse origin/analysis/global-monte-carlo-barrier-atlas)
+          if [ "$current" != "${GITHUB_SHA}" ]; then
+            echo "Branch advanced from ${GITHUB_SHA} to ${current}; immutable artifact is authoritative. Do not recompute biology."
+            exit 0
+          fi
+          cp /tmp/interaction-result/global_rgfca_thermal_dryness_interaction_result_v1.json docs/supporting/
+          cp /tmp/interaction-result/global_rgfca_thermal_dryness_interaction_species_v1.csv docs/supporting/
+          cp /tmp/interaction-result/global_rgfca_thermal_dryness_interaction_null_v1.csv docs/supporting/
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add \
+            docs/supporting/global_rgfca_thermal_dryness_interaction_result_v1.json \
+            docs/supporting/global_rgfca_thermal_dryness_interaction_species_v1.csv \
+            docs/supporting/global_rgfca_thermal_dryness_interaction_null_v1.csv
+          git commit -m 'Freeze thermal-dryness interaction result'
+          git push origin HEAD:analysis/global-monte-carlo-barrier-atlas
