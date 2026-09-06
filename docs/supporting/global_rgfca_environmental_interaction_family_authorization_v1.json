@@ -1,0 +1,43 @@
+{
+  "protocol": "global-rgfca-environmental-interaction-family-v1",
+  "status": "authorize_exactly_one_complete_ten_pair_environmental_interaction_family_execution",
+  "date": "2026-09-06",
+  "contract": {
+    "path": "docs/supporting/global_rgfca_environmental_interaction_family_contract_v1.json",
+    "git_blob_sha": "bcb983a08732b8dc6fd8bdbaad5cd58179b53240"
+  },
+  "runner": {
+    "path": "scripts/analysis/run_global_rgfca_environmental_interaction_family.py",
+    "git_blob_sha": "5c0101b01cf76467b6592123c0b5d63617f6335e"
+  },
+  "helper_lineage": {
+    "path": "scripts/analysis/run_global_rgfca_thermal_dryness_interaction.py",
+    "git_blob_sha": "fa58479cfa3e8940c884a451224ad19ae88d5e99",
+    "note": "This helper was frozen before the standalone thermal-dryness outcome and supplies only the predeclared rank-standardization and interaction-design calculations."
+  },
+  "execution": {
+    "workflow_attempts_allowed": 1,
+    "biological_computation_attempts_allowed": 1,
+    "family_size": 10,
+    "all_ten_pairs_required": true,
+    "two_sided_pair_tests": true,
+    "holm_across_ten": true,
+    "null_indices": "0..998 exactly once",
+    "null_master_seed": 2026090403,
+    "favourable_rerun_allowed": false,
+    "pair_omission_after_result_allowed": false,
+    "higher_order_interaction_search_allowed": false
+  },
+  "standalone_interaction_policy": {
+    "thermal_dryness_standalone_run_id": 34022259618,
+    "standalone_outcome_is_not_used_for_family_support": true,
+    "thermal_dryness_is_re_evaluated_as_one_of_all_ten_pairs": true
+  },
+  "output": {
+    "artifact_name": "global-rgfca-environmental-interaction-family-v1",
+    "result_file": "global_rgfca_environmental_interaction_family_result_v1.json",
+    "species_file": "global_rgfca_environmental_interaction_family_species_v1.csv",
+    "null_file": "global_rgfca_environmental_interaction_family_null_v1.csv"
+  },
+  "claim_guard": "This complete post-outcome exploratory interaction family cannot rescue or reclassify the unsupported five-block main-effect panel, G1, species-disjoint commonness, or any earlier external-alignment result."
+}
