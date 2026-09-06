@@ -1,0 +1,124 @@
+name: Global RGFCA EarthEnv terrain source acquisition
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_earthenv_terrain_source_acquisition_authorization_v1.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: global-rgfca-earthenv-terrain-source-acquisition
+  cancel-in-progress: false
+
+jobs:
+  acquire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Enforce exact source-only acquisition
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT'] != '1':
+              raise SystemExit('source acquisition reruns are forbidden')
+          contract=json.loads(Path('docs/supporting/global_rgfca_earthenv_terrain_source_acquisition_contract_v1.json').read_text())
+          auth=json.loads(Path('docs/supporting/global_rgfca_earthenv_terrain_source_acquisition_authorization_v1.json').read_text())
+          if contract.get('status') != 'exact_postoutcome_secondary_source_locator_frozen_before_any_terrain_colour_alignment':
+              raise SystemExit('source locator contract drift')
+          if auth.get('status') != 'authorize_exactly_one_earthenv_terrain_source_acquisition':
+              raise SystemExit('source acquisition not authorized')
+          if auth.get('workflow_attempts_allowed') != 1:
+              raise SystemExit('authorization drift')
+          if contract.get('role') != 'source acquisition and byte verification only; no flower-colour values may be opened or joined in this workflow':
+              raise SystemExit('source-only firewall drift')
+          files=contract.get('files',[])
+          if [f.get('id') for f in files] != ['elevation','slope','terrain_roughness_index','vector_ruggedness_measure']:
+              raise SystemExit('terrain file family drift')
+          if len({f.get('url') for f in files}) != 4:
+              raise SystemExit('terrain URLs must be unique')
+          print({'gate':'pass','files':[f['filename'] for f in files]})
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install metadata reader
+        run: python -m pip install "rasterio==1.4.4"
+      - name: Download exact frozen PANGAEA files
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/earthenv-terrain
+          python - <<'PY' > /tmp/earthenv_urls.tsv
+          import json
+          from pathlib import Path
+          c=json.loads(Path('docs/supporting/global_rgfca_earthenv_terrain_source_acquisition_contract_v1.json').read_text())
+          for f in c['files']:
+              print(f"{f['filename']}\t{f['url']}")
+          PY
+          while IFS=$'\t' read -r name url; do
+            curl --fail --location --retry 3 --retry-delay 2 --output "/tmp/earthenv-terrain/$name" "$url"
+            test -s "/tmp/earthenv-terrain/$name"
+          done < /tmp/earthenv_urls.tsv
+      - name: Record exact SHA256 and raster metadata without colour access
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import rasterio
+          root=Path('/tmp/earthenv-terrain')
+          contract_path=Path('docs/supporting/global_rgfca_earthenv_terrain_source_acquisition_contract_v1.json')
+          c=json.loads(contract_path.read_text())
+          out=[]
+          for item in c['files']:
+              p=root/item['filename']
+              b=p.read_bytes()
+              with rasterio.open(p) as ds:
+                  meta={
+                      'width':int(ds.width), 'height':int(ds.height), 'count':int(ds.count),
+                      'dtype':str(ds.dtypes[0]), 'crs':str(ds.crs),
+                      'nodata':None if ds.nodata is None else float(ds.nodata),
+                      'bounds':[float(ds.bounds.left),float(ds.bounds.bottom),float(ds.bounds.right),float(ds.bounds.top)],
+                      'transform':[float(v) for v in tuple(ds.transform)[:6]],
+                  }
+              out.append({
+                  'id':item['id'], 'filename':item['filename'], 'url':item['url'],
+                  'size_bytes':len(b), 'sha256':hashlib.sha256(b).hexdigest(),
+                  'raster':meta,
+              })
+          payload={
+              'protocol':c['protocol'],
+              'status':'pass_exact_earthenv_terrain_source_acquisition_before_any_terrain_colour_alignment',
+              'doi':c['dataset']['doi'],
+              'selected_grain_km':c['dataset']['selected_grain_km'],
+              'selected_summary':c['dataset']['selected_summary'],
+              'files':out,
+              'all_four_present':len(out)==4,
+              'colour_files_opened':False,
+              'colour_join_performed':False,
+              'terrain_statistic_computed':False,
+              'lineage':{
+                  'source_contract_sha256':hashlib.sha256(contract_path.read_bytes()).hexdigest()
+              }
+          }
+          (root/'global_rgfca_earthenv_terrain_source_verification_v1.json').write_text(json.dumps(payload,indent=2)+'\n')
+          print(json.dumps(payload,indent=2))
+          PY
+      - name: Upload immutable exact source bytes and verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-exact-earthenv-terrain-50km-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/earthenv-terrain/
