@@ -1,0 +1,83 @@
+{
+  "protocol": "global-rgfca-worldclim-edge-secondary-execution-v1",
+  "status": "complete_global_rgfca_worldclim_edge_secondary",
+  "inferential_role": {
+    "role": "postoutcome_secondary_validation_of_the_shifted_process_recurrence_hypothesis",
+    "part_of_original_CHELSA_G3_primary_family": false,
+    "may_reclassify_primary_G1": false,
+    "may_reclassify_species_disjoint_commonness": false,
+    "may_reclassify_RESOLVE_result": false,
+    "causal_language_allowed": false
+  },
+  "primary_g1_supported": false,
+  "primary_g1_p_upper": 0.07,
+  "species_disjoint_common_architecture_supported": false,
+  "resolve_boundary_alignment_supported": false,
+  "predictor": "worldclim_multivariate_climate_distance",
+  "predictor_source": "exact pre-colour-frozen WorldClim 2.1 250-km equal-area grid",
+  "source_archive_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+  "source_grid_sha256": "d51be4ee91a1bc78c316d2441338fe1ff73513c08df426ec2ad683b30ec72b99",
+  "statistic": "equal-species mean within-species partial Spearman correlation of ranked colour edge score with frozen multivariate climate distance, controlling ranked great-circle edge distance",
+  "observed_mean_species_partial_rho": -0.0019335618026886856,
+  "observed_median_species_partial_rho": -0.0005851002408377699,
+  "observed_positive_species_fraction": 0.4904632152588556,
+  "n_evaluable_species": 367,
+  "minimum_evaluable_species": 30,
+  "total_scheduled_edge_occurrences": 1981590,
+  "climate_evaluable_edge_occurrences": 1976009,
+  "climate_edge_occurrence_coverage_fraction": 0.9971835748060901,
+  "photos_with_complete_climate": 21392,
+  "photo_climate_coverage_fraction": 0.9985063480209111,
+  "climate_source_audit": {
+    "source_rows": 3076,
+    "complete_source_rows": 3076,
+    "grid_cells": 8192,
+    "variable_means_complete_source": {
+      "bio1": 12.062744182519143,
+      "bio4": 658.7046330627209,
+      "bio12": 900.218527816485,
+      "bio15": 62.888170413642136
+    },
+    "variable_sd_ddof0_complete_source": {
+      "bio1": 14.494784861786874,
+      "bio4": 494.8684208055669,
+      "bio12": 825.5016439580036,
+      "bio15": 32.971867177046065
+    }
+  },
+  "null_permutations": 999,
+  "null_indices_exact_0_998": true,
+  "null_mean": -7.359258658009535e-05,
+  "null_q025": -0.007503580820881814,
+  "null_q975": 0.007112533736297469,
+  "p_upper": 0.699,
+  "alpha": 0.05,
+  "secondary_supported": false,
+  "claim_ceiling": "The independently frozen WorldClim secondary test does not support a common macroclimate-contrast alignment of species-specific flower-colour edges beyond geographic distance.",
+  "causal_language_allowed": false,
+  "execution_audit": {
+    "all_200_outer_realizations_used": true,
+    "same_G1_edge_geometry_audited": true,
+    "repeated_edge_occurrences_deduplicated": false,
+    "missing_climate_recoded_to_zero": false,
+    "single_predictor_only": true,
+    "BIO_axis_decomposition_run": false,
+    "null_batching_changed_statistic": false
+  },
+  "lineage": {
+    "secondary_execution_mapping_sha256": "b9926436c1a84a25dad3ea7c2dde0da8b3387e9f13ed92e067e38eca27810bc6",
+    "precolour_worldclim_source_manifest_sha256": "f6ca3fb6e9c33c387cd65385c0e8fa1ad9c95f32eedb7b7c0cef277feb51ed45",
+    "preoutcome_old_H2_contract_sha256": "7a418bc4bc4a8e9ab2e90c07a1b9c5838d63adef7455c60425b7f0dc6c20155e",
+    "measurement_manifest_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "primary_g1_result_sha256": "3cddceded039f802f31f207820f6355424bdc081d27576d3b3887d7ee4334906",
+    "species_disjoint_result_sha256": "db8ee2567caf23297451fbceb65975e08fe476ce6ee19f482fa35b0b021679ed",
+    "resolve_result_sha256": "0d6c382116884d86f1242a10ce1c9308ee1199273fa712fb52b0547579e7b1e2",
+    "species_result_sha256": "ff242607fbedb5b23fc3b628c95e5637d05dedfa215f4ef7f45031c20064e863",
+    "null_result_sha256": "5f1cf703f5afc45209dd8a1a9bbf6a2b4d33b51e037d2ce64f3ac9231941c93a"
+  },
+  "files": {
+    "species": "/tmp/rgfca-worldclim-secondary/global_rgfca_worldclim_edge_secondary_species_v1.csv",
+    "null": "/tmp/rgfca-worldclim-secondary/global_rgfca_worldclim_edge_secondary_null_v1.csv"
+  }
+}
