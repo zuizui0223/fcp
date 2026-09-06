@@ -1,0 +1,225 @@
+name: Global RGFCA prespecified robustness suite
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_prespecified_robustness_authorization_v1.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: global-rgfca-prespecified-robustness-suite
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Enforce one complete non-rescue execution
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          auth = json.loads(Path("docs/supporting/global_rgfca_prespecified_robustness_authorization_v1.json").read_text())
+          mapping = json.loads(Path("docs/supporting/global_rgfca_prespecified_robustness_execution_v1.json").read_text())
+          barrier = json.loads(Path("docs/supporting/global_monte_carlo_barrier_field_contract_v1.json").read_text())
+          primary = json.loads(Path("docs/supporting/global_rgfca_g1_result_v1.json").read_text())
+
+          if os.environ["RUN_ATTEMPT"] != "1":
+              raise SystemExit("favourable reruns are forbidden; workflow run_attempt must equal 1")
+          if auth.get("status") != "authorize_exactly_one_complete_prespecified_rgfca_robustness_suite":
+              raise SystemExit("robustness suite is not explicitly authorized")
+          if auth.get("branch") != "analysis/global-monte-carlo-barrier-atlas":
+              raise SystemExit("authorization branch mismatch")
+          if int(auth.get("workflow_attempts_allowed", 0)) != 1:
+              raise SystemExit("authorization must permit exactly one workflow attempt")
+          if auth.get("run_all_four_jobs_regardless_of_intermediate_results") is not True:
+              raise SystemExit("selective stopping guard is absent")
+          if auth.get("primary_g1_may_be_rescued") is not False:
+              raise SystemExit("primary G1 rescue is forbidden")
+          if mapping.get("primary_g1_decision_is_immutable") is not True:
+              raise SystemExit("execution mapping does not protect primary G1")
+          if mapping.get("all_four_jobs_required_regardless_of_intermediate_results") is not True:
+              raise SystemExit("execution mapping permits selective stopping")
+          if mapping.get("workflow_attempts_allowed") != 1:
+              raise SystemExit("execution mapping workflow attempt drift")
+          if primary.get("status") != "complete_global_rgfca_g1_primary_inference":
+              raise SystemExit("primary G1 result is missing")
+          if primary.get("g1_supported") is not False or float(primary.get("p_upper")) != 0.07:
+              raise SystemExit("frozen primary G1 decision drift")
+          if Path("docs/supporting/global_rgfca_prespecified_robustness_result_v1.json").exists():
+              raise SystemExit("robustness result already committed; second execution forbidden")
+
+          sens = barrier["predeclared_spatial_support_sensitivities"]
+          if sens[0]["grid"] != "24x12" or float(sens[0]["kernel_bandwidth_km"]) != 1000.0:
+              raise SystemExit("coarse prespecified support drift")
+          if sens[1]["grid"] != "72x36" or float(sens[1]["kernel_bandwidth_km"]) != 250.0:
+              raise SystemExit("fine prespecified support drift")
+          if int(barrier["support_threshold_sensitivity"]["secondary_minimum_distinct_species"]) != 10:
+              raise SystemExit("support10 prespecified threshold drift")
+          t = barrier["stability_claim_thresholds"]
+          if float(t["odd_even_consensus_field_pearson_r_minimum"]) != 0.5:
+              raise SystemExit("odd/even correlation threshold drift")
+          if t["odd_half_G1_excess_must_be_positive"] is not True or t["even_half_G1_excess_must_be_positive"] is not True:
+              raise SystemExit("half-null directional gates drift")
+          print({"gate": "pass", "primary_g1_p": primary["p_upper"], "jobs": 4})
+          PY
+
+  robustness:
+    needs: gate
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: coarse
+            args: "--mode spatial --configuration coarse_24x12_1000km"
+            filename: global_rgfca_g1_robustness_coarse_v1.json
+          - id: fine
+            args: "--mode spatial --configuration fine_72x36_250km"
+            filename: global_rgfca_g1_robustness_fine_v1.json
+          - id: support10
+            args: "--mode spatial --configuration support10_36x18_500km"
+            filename: global_rgfca_g1_robustness_support10_v1.json
+          - id: odd-even
+            args: "--mode halves"
+            filename: global_rgfca_g1_robustness_odd_even_v1.json
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install frozen analysis package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Execute complete prespecified diagnostic
+        env:
+          PYTHONUNBUFFERED: "1"
+          OMP_NUM_THREADS: "1"
+          OPENBLAS_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+        run: |
+          mkdir -p /tmp/rgfca-robustness
+          python scripts/analysis/run_global_rgfca_prespecified_robustness.py \
+            ${{ matrix.args }} \
+            --output "/tmp/rgfca-robustness/${{ matrix.filename }}"
+      - name: Upload immutable diagnostic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-prespecified-${{ matrix.id }}-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/rgfca-robustness/${{ matrix.filename }}
+
+  aggregate:
+    needs: [gate, robustness]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: global-rgfca-prespecified-*-v1
+          path: /tmp/all
+          merge-multiple: true
+      - name: Aggregate all four results without selective omission
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("/tmp/all")
+          required = {
+              "coarse": root / "global_rgfca_g1_robustness_coarse_v1.json",
+              "fine": root / "global_rgfca_g1_robustness_fine_v1.json",
+              "support10": root / "global_rgfca_g1_robustness_support10_v1.json",
+              "odd_even": root / "global_rgfca_g1_robustness_odd_even_v1.json",
+          }
+          missing = [str(p) for p in required.values() if not p.exists()]
+          if missing:
+              raise SystemExit("all four prespecified results are required: " + ", ".join(missing))
+          results = {k: json.loads(p.read_text()) for k, p in required.items()}
+          spatial = [results["coarse"], results["fine"], results["support10"]]
+          if any(x.get("role") != "robustness_only_cannot_rescue_primary_g1" for x in results.values()):
+              raise SystemExit("result role drift")
+          all_spatial_positive = all(bool(x["positive_excess"]) for x in spatial)
+          half_gate = bool(results["odd_even"]["predeclared_half_excess_gate_pass"])
+          half_r_gate = bool(results["odd_even"]["r_threshold_pass"])
+
+          primary = json.loads(Path("docs/supporting/global_rgfca_g1_result_v1.json").read_text())
+          running = primary["predeclared_observed_stability_diagnostics"]["running_consensus"]
+          run100 = float(running["100"]["field_correlation_with_200"])
+          run150 = float(running["150"]["field_correlation_with_200"])
+          payload = {
+              "protocol": "global-rgfca-prespecified-robustness-execution-v1",
+              "status": "complete_all_four_prespecified_rgfca_g1_robustness_diagnostics",
+              "primary_g1": {
+                  "g1_supported": primary["g1_supported"],
+                  "p_upper": primary["p_upper"],
+                  "decision": primary["decision"],
+                  "immutable": True,
+                  "may_be_rescued_by_this_suite": False
+              },
+              "spatial_support": {
+                  "coarse": results["coarse"],
+                  "fine": results["fine"],
+                  "support10": results["support10"],
+                  "all_three_positive_excess": all_spatial_positive
+              },
+              "odd_even": results["odd_even"],
+              "predeclared_subset_gates": {
+                  "all_three_spatial_excess_positive": all_spatial_positive,
+                  "both_half_excess_positive": half_gate,
+                  "odd_even_field_r_at_least_0_5": half_r_gate,
+                  "running_100_vs_200_r_at_least_0_9": run100 >= 0.9,
+                  "running_150_vs_200_r_at_least_0_95": run150 >= 0.95
+              },
+              "full_strong_stability_claim_not_yet_evaluable": True,
+              "remaining_prespecified_gates": [
+                  "leave-one-realm-out positive excess for every estimable realm",
+                  "leave-one-major-family-out positive excess for every estimable major family"
+              ],
+              "selective_stopping_used": False,
+              "all_four_jobs_completed": True,
+              "interpretation_boundary": "Positive robustness excesses strengthen evidence for a weak recurrent directional field but cannot change the frozen primary G1 no-support decision at p=0.070."
+          }
+          out = Path("/tmp/global_rgfca_prespecified_robustness_result_v1.json")
+          out.write_text(json.dumps(payload, indent=2) + "\n")
+          print(json.dumps({
+              "all_three_spatial_positive": all_spatial_positive,
+              "half_gate": half_gate,
+              "half_r_gate": half_r_gate,
+              "running100_pass": run100 >= 0.9,
+              "running150_pass": run150 >= 0.95
+          }, indent=2))
+          PY
+      - name: Upload complete suite
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-prespecified-robustness-suite-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/global_rgfca_prespecified_robustness_result_v1.json
