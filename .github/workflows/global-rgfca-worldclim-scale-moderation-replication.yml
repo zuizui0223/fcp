@@ -1,0 +1,111 @@
+name: Global RGFCA WorldClim scale moderation replication
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_worldclim_scale_moderation_replication_authorization_v1.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: global-rgfca-worldclim-scale-moderation-replication
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Enforce one frozen replication execution
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT'] != '1':
+              raise SystemExit('favourable reruns are forbidden')
+          auth=json.loads(Path('docs/supporting/global_rgfca_worldclim_scale_moderation_replication_authorization_v1.json').read_text())
+          contract=json.loads(Path('docs/supporting/global_rgfca_worldclim_scale_moderation_replication_contract_v1.json').read_text())
+          prior=json.loads(Path('docs/supporting/global_rgfca_worldclim_edge_secondary_result_v1.json').read_text())
+          if auth.get('status') != 'authorize_exactly_one_rgfca_worldclim_scale_moderation_replication':
+              raise SystemExit('replication not authorized')
+          if auth.get('workflow_attempts_allowed') != 1:
+              raise SystemExit('authorization drift')
+          if auth.get('null_indices') != '0..998 exactly once' or auth.get('favourable_rerun_allowed') is not False:
+              raise SystemExit('null/rerun authorization drift')
+          if contract.get('status') != 'postoutcome_replication_frozen_after_worldclim_global_result_before_any_rgfca_scale_moderation_result':
+              raise SystemExit('contract is not frozen')
+          if float(prior.get('p_upper')) != 0.699 or prior.get('secondary_supported') is not False:
+              raise SystemExit('known WorldClim result drift')
+          if Path('docs/supporting/global_rgfca_worldclim_scale_moderation_replication_result_v1.json').exists():
+              raise SystemExit('replication result already committed; second execution forbidden')
+          print({'gate':'pass','known_worldclim_p':prior['p_upper']})
+          PY
+
+  replicate:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install package and test runner
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install pytest
+      - name: Preflight unchanged inference invariants and script
+        run: |
+          python -m py_compile scripts/analysis/run_global_rgfca_worldclim_scale_moderation_replication.py
+          python -m pytest -q tests/test_global_edge_mechanism_v2.py tests/test_global_rgfca_engine.py tests/test_global_repeated_atlas.py
+      - name: Execute frozen replication once
+        env:
+          PYTHONUNBUFFERED: "1"
+          PYTHONHASHSEED: "0"
+          OMP_NUM_THREADS: "1"
+          OPENBLAS_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+        run: |
+          mkdir -p /tmp/rgfca-scale-replication
+          python scripts/analysis/run_global_rgfca_worldclim_scale_moderation_replication.py \
+            --output-result /tmp/rgfca-scale-replication/global_rgfca_worldclim_scale_moderation_replication_result_v1.json \
+            --output-species /tmp/rgfca-scale-replication/global_rgfca_worldclim_scale_moderation_replication_species_v1.csv \
+            --output-null /tmp/rgfca-scale-replication/global_rgfca_worldclim_scale_moderation_replication_null_v1.csv \
+            --null-batch-size 64
+      - name: Require complete non-selective result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('/tmp/rgfca-scale-replication')
+          result=json.loads((root/'global_rgfca_worldclim_scale_moderation_replication_result_v1.json').read_text())
+          if result.get('null_permutations') != 999 or result.get('null_indices_exact_0_998') is not True:
+              raise SystemExit('incomplete null execution')
+          audit=result.get('execution_audit',{})
+          if audit.get('alternative_moderators_run') is not False or audit.get('sensitivities_run') is not False:
+              raise SystemExit('unexpected adaptive analyses')
+          print({k:result[k] for k in ['supported','observed_scale_moderation_spearman_rho','p_lower','evaluable_species']})
+          PY
+      - name: Upload immutable complete replication result
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-worldclim-scale-moderation-replication-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/rgfca-scale-replication/
