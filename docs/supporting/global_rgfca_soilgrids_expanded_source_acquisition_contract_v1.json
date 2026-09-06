@@ -1,0 +1,46 @@
+{
+  "protocol": "global-rgfca-soilgrids-expanded-source-acquisition-v1",
+  "status": "exact_postoutcome_secondary_soilgrids_urls_frozen_before_any_expanded_edaphic_colour_alignment",
+  "date": "2026-09-06",
+  "role": "source acquisition and byte verification only; no flower-colour values may be opened or joined in this workflow",
+  "inferential_boundary": {
+    "part_of_original_preoutcome_250m_median_G3_family": false,
+    "role": "postoutcome expanded environmental process panel only",
+    "reason": "use a computationally tractable broad-scale SoilGrids aggregate while keeping the original unavailable 250-m median confirmatory family unreclassified"
+  },
+  "dataset": {
+    "provider": "ISRIC SoilGrids",
+    "version_family": "SoilGrids 2.0 latest frozen-by-checksum payload",
+    "product": "official 5000-m aggregated mean GeoTIFFs",
+    "base_url": "https://files.isric.org/soilgrids/latest/data_aggregated/5000m/",
+    "prediction_summary": "mean",
+    "grain_m": 5000
+  },
+  "properties": ["phh2o","clay","soc","cec"],
+  "depth_layers": [
+    {"depth":"0-5cm","thickness_cm":5},
+    {"depth":"5-15cm","thickness_cm":10},
+    {"depth":"15-30cm","thickness_cm":15}
+  ],
+  "depth_aggregation": "for each property, thickness-weighted arithmetic mean = (5*x_0_5 + 10*x_5_15 + 15*x_15_30) / 30 at each raster cell, requiring all three layers finite",
+  "file_rule": "{base_url}/{property}/{property}_{depth}_mean_5000.tif",
+  "official_checksum_rule": "for each property also freeze and save {base_url}/{property}/checksum.sha256.txt and require each selected GeoTIFF SHA256 to match the official manifest",
+  "acquisition_rules": {
+    "all_12_GeoTIFFs_required": true,
+    "all_4_official_checksum_manifests_required": true,
+    "record_sha256_size_and_GeoTIFF_metadata_for_every_selected_file": true,
+    "upload_exact_selected_GeoTIFFs_and_checksum_manifests_as_immutable_artifact": true,
+    "failed_download_or_checksum_mismatch_is_fail_closed": true,
+    "source_substitution_allowed": false,
+    "flower_colour_access_allowed": false,
+    "edaphic_alignment_allowed_in_source_acquisition": false
+  },
+  "downstream": {
+    "panel_contract": "docs/supporting/global_rgfca_expanded_environmental_process_panel_contract_v1.json",
+    "block": "edaphic_regime",
+    "derived_axes": ["phh2o_0_30cm","clay_0_30cm","soc_0_30cm","cec_0_30cm"],
+    "standardization": "global terrestrial z-score per derived 0-30cm property on cells with finite derived value",
+    "block_edge_score": "sqrt(mean squared endpoint difference across four standardized derived properties)",
+    "source_bytes_must_match_frozen_artifact_before_colour_alignment": true
+  }
+}
