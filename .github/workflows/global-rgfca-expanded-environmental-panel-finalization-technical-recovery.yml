@@ -1,0 +1,152 @@
+name: Global RGFCA expanded environmental panel finalization technical recovery
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - .github/workflows/global-rgfca-expanded-environmental-panel-finalization-technical-recovery.yml
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-expanded-environmental-panel-finalization-technical-recovery-v1
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout frozen branch
+        uses: actions/checkout@v4
+        with:
+          ref: analysis/global-monte-carlo-barrier-atlas
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install finalizer dependency only
+        run: python -m pip install --disable-pip-version-check numpy
+
+      - name: Enforce frozen metadata-only recovery contract
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          p = Path('docs/supporting/global_rgfca_expanded_environmental_panel_finalization_technical_recovery_v1.json')
+          c = json.loads(p.read_text())
+          assert c['status'] == 'frozen_before_chelsa_or_edaphic_raw_outcomes_are_opened_after_original_finalizer_failure'
+          assert c['original_finalization']['run_id'] == 34021682120
+          assert c['original_finalization']['final_result_file_written'] is False
+          assert c['scientific_inference_frozen_unchanged']['family_size'] == 5
+          assert c['scientific_inference_frozen_unchanged']['multiplicity'] == 'Holm across exactly all five parent blocks'
+          assert c['technical_change_allowed_once']['technical_recovery_attempts_allowed'] == 1
+          assert c['technical_change_allowed_once']['coverage_field_is_reporting_metadata_not_used_in_holm_or_support_decision'] is True
+          path = c['technical_change_allowed_once']['recovery_script']
+          expected = c['technical_change_allowed_once']['recovery_script_git_blob_sha']
+          actual = subprocess.check_output(['git','hash-object',path], text=True).strip()
+          if actual != expected:
+              raise SystemExit(f'recovery script blob drift: {actual} != {expected}')
+          print('metadata-only recovery frozen', actual)
+          PY
+
+      - name: Recover exact five frozen raw block artifacts
+        run: |
+          set -euo pipefail
+          mkdir -p incoming/terrain incoming/thermal incoming/water incoming/dryness incoming/edaphic
+          gh run download 34017934825 -n global-rgfca-earthenv-terrain-block-v1 -D incoming/terrain
+          gh run download 34019160099 -n global-rgfca-expanded-thermal_regime-block-v1 -D incoming/thermal
+          gh run download 34019160099 -n global-rgfca-expanded-water_balance-block-v1 -D incoming/water
+          gh run download 34019160099 -n global-rgfca-expanded-atmospheric_energy_dryness-block-v1 -D incoming/dryness
+          gh run download 34019187941 -n global-rgfca-expanded-edaphic-regime-block-v1 -D incoming/edaphic
+
+      - name: Require exact raw result files and verify terrain alias condition
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          files = {
+            'terrain_structure': Path('incoming/terrain/global_rgfca_earthenv_terrain_block_result_v1.json'),
+            'thermal_regime': Path('incoming/thermal/global_rgfca_thermal_regime_block_result_v1.json'),
+            'water_balance': Path('incoming/water/global_rgfca_water_balance_block_result_v1.json'),
+            'atmospheric_energy_dryness': Path('incoming/dryness/global_rgfca_atmospheric_energy_dryness_block_result_v1.json'),
+            'edaphic_regime': Path('incoming/edaphic/global_rgfca_edaphic_regime_block_result_v1.json'),
+          }
+          for name, p in files.items():
+              if not p.exists(): raise SystemExit(f'missing raw result {name}: {p}')
+              r = json.loads(p.read_text())
+              assert r['block'] == name
+              assert r['null_permutations'] == 999
+              assert r['null_indices_exact_0_998'] is True
+              assert r['p_holm'] is None
+              assert r['panel_supported'] is None
+          terrain = json.loads(files['terrain_structure'].read_text())
+          assert 'block_edge_occurrence_coverage_fraction' not in terrain
+          assert 'terrain_edge_occurrence_coverage_fraction' in terrain
+          for name in ('thermal_regime','water_balance','atmospheric_energy_dryness','edaphic_regime'):
+              assert 'block_edge_occurrence_coverage_fraction' in json.loads(files[name].read_text())
+          print('exact metadata mismatch reproduced without changing any outcome field')
+          PY
+
+      - name: Execute frozen metadata-only recovery once
+        run: |
+          set -euo pipefail
+          python scripts/analysis/finalize_global_rgfca_expanded_environmental_panel_technical_recovery.py \
+            --terrain-structure incoming/terrain/global_rgfca_earthenv_terrain_block_result_v1.json \
+            --thermal-regime incoming/thermal/global_rgfca_thermal_regime_block_result_v1.json \
+            --water-balance incoming/water/global_rgfca_water_balance_block_result_v1.json \
+            --atmospheric-energy-dryness incoming/dryness/global_rgfca_atmospheric_energy_dryness_block_result_v1.json \
+            --edaphic-regime incoming/edaphic/global_rgfca_edaphic_regime_block_result_v1.json \
+            --output docs/supporting/global_rgfca_expanded_environmental_panel_final_result_v1.json
+
+      - name: Freeze exact raw input JSONs unchanged
+        run: |
+          set -euo pipefail
+          cp incoming/terrain/global_rgfca_earthenv_terrain_block_result_v1.json docs/supporting/
+          cp incoming/thermal/global_rgfca_thermal_regime_block_result_v1.json docs/supporting/
+          cp incoming/water/global_rgfca_water_balance_block_result_v1.json docs/supporting/
+          cp incoming/dryness/global_rgfca_atmospheric_energy_dryness_block_result_v1.json docs/supporting/
+          cp incoming/edaphic/global_rgfca_edaphic_regime_block_result_v1.json docs/supporting/
+
+      - name: Commit exact raw inputs and recovered final family result
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add \
+            docs/supporting/global_rgfca_earthenv_terrain_block_result_v1.json \
+            docs/supporting/global_rgfca_thermal_regime_block_result_v1.json \
+            docs/supporting/global_rgfca_water_balance_block_result_v1.json \
+            docs/supporting/global_rgfca_atmospheric_energy_dryness_block_result_v1.json \
+            docs/supporting/global_rgfca_edaphic_regime_block_result_v1.json \
+            docs/supporting/global_rgfca_expanded_environmental_panel_final_result_v1.json
+          if git diff --cached --quiet; then
+            echo 'Expected recovery outputs were not newly frozen'
+            exit 1
+          fi
+          git commit -m 'Freeze recovered five-block environmental Holm result'
+          git push origin HEAD:analysis/global-monte-carlo-barrier-atlas
+
+      - name: Upload immutable recovered finalization bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-expanded-environmental-panel-final-technical-recovery-v1
+          path: |
+            docs/supporting/global_rgfca_earthenv_terrain_block_result_v1.json
+            docs/supporting/global_rgfca_thermal_regime_block_result_v1.json
+            docs/supporting/global_rgfca_water_balance_block_result_v1.json
+            docs/supporting/global_rgfca_atmospheric_energy_dryness_block_result_v1.json
+            docs/supporting/global_rgfca_edaphic_regime_block_result_v1.json
+            docs/supporting/global_rgfca_expanded_environmental_panel_final_result_v1.json
+          if-no-files-found: error
+          retention-days: 90
