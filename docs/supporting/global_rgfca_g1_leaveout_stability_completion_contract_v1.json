@@ -1,0 +1,60 @@
+{
+  "protocol": "global-rgfca-g1-leaveout-stability-completion-v1",
+  "status": "technical_completion_frozen_before_any_leaveout_colour_result_is_computed",
+  "date": "2026-09-06",
+  "scientific_rule_source": "docs/supporting/global_monte_carlo_barrier_field_contract_v1.json",
+  "primary_g1_result": "docs/supporting/global_rgfca_g1_result_v1.json",
+  "role": "Complete only the two preoutcome stability gates that remain unresolved: leave-one-realm-out positive G1 excess for every estimable realm and leave-one-major-family-out positive G1 excess for every estimable major family.",
+  "primary_decision_immutable": true,
+  "may_rescue_primary_g1": false,
+  "strong_stability_claim_requires_all_original_gates": true,
+  "known_existing_failed_gate": {"gate":"running_consensus_100_vs_200_field_r_at_least_0_9","observed":0.8809461021778187,"required":0.9,"consequence":"Even if every leave-out excess is positive, the full original strong-stability claim remains not passed."},
+  "metadata_source": {
+    "file": "data/frozen/global_rgfca_g5_species_metadata_v1.csv",
+    "provenance": "Outcome-blind independent GBIF taxon/occurrence and realm metadata frozen by the prospective G5 metadata stage before any G5 colour outcome was opened.",
+    "required_columns": ["species", "accepted_family", "dominant_realm"],
+    "colour_columns_forbidden": true,
+    "source_sha256": "PIN_IN_EXECUTION_AUTHORIZATION_AFTER_G5_METADATA_COMMIT"
+  },
+  "group_definitions": {
+    "realm": {
+      "assignment": "exact nonempty dominant_realm string from frozen G5 species metadata",
+      "missing_assignment": "species with missing dominant_realm remains in every realm leave-out and is never assigned post hoc",
+      "estimable": "at least one of the 369 inferential species is assigned to the realm; after omission at least 5 distinct species remain available somewhere and at least one primary grid cell is evaluable under the unchanged support>=5 rule"
+    },
+    "major_family": {
+      "assignment": "exact nonempty accepted_family string from frozen G5 GBIF taxon metadata",
+      "major_definition": "family count among all 369 inferential species is at least ceil(0.05*369)=19; denominator remains 369 even if some species have missing family metadata",
+      "missing_assignment": "species with missing accepted_family remains in every family leave-out and is never assigned post hoc",
+      "estimable": "family meets the fixed >=19-species definition and at least one primary grid cell remains evaluable after omission"
+    }
+  },
+  "leaveout_operation": {
+    "outer_schedule": "reuse the exact frozen 200 x 250-species x 20-photo schedule; do not redraw or replace an omitted species",
+    "species_seed": 2026090401,
+    "photo_master_seed": 2026090402,
+    "null_master_seed": 2026090403,
+    "null_indices": "0..998 exactly once",
+    "operation": "Within each frozen outer realization, remove all edge-kernel contributions of scheduled species belonging to the omitted group. All retained species keep their original scheduled photos, kNN graph, within-species edge ranks, species-total weight, kernel geometry and null colour assignment.",
+    "support_mask": "recompute the outer distinct-species support after group removal and require >=5 retained species; do not retain cells solely because they were evaluable in the full dataset",
+    "consensus": "aggregate retained observed/null edge numerators and retained opportunities over the same 200 outers, only where that leave-out outer cell satisfies the unchanged support rule",
+    "statistic": "same aggregate-opportunity-weighted variance of consensus field as primary G1"
+  },
+  "null_and_gate": {
+    "permutations": 999,
+    "same_complete_photo_colour_vector_within_species_null": true,
+    "reported_per_group": ["omitted_species_count", "evaluable_cells", "observed_concentration", "null_mean_concentration", "G1_excess", "G1_excess_ratio", "descriptive_p_upper"],
+    "stability_gate": "G1_excess > 0 for every estimable group",
+    "descriptive_p_role": "reported only for scale; not a confirmatory gate and cannot rescue primary G1",
+    "no_multiplicity_claim": "No family/realm leave-out p-value is interpreted as a new hypothesis test."
+  },
+  "execution": {
+    "all_realm_and_major_family_groups_required": true,
+    "selective_stopping_forbidden": true,
+    "group_omission_after_outcome_selection_forbidden": true,
+    "favourable_rerun_forbidden": true,
+    "source_substitution_forbidden": true,
+    "result_must_record_all_estimable_and_not_evaluable_groups": true
+  },
+  "claim_ceiling": "Can complete the prespecified leave-out component of the G1 robustness audit. It cannot change p=0.070 primary no-support, and because the predeclared 100-vs-200 stability gate already failed, it cannot by itself establish the original full strong-stability claim."
+}
