@@ -1,0 +1,13 @@
+{
+  "protocol": "global-rgfca-worldclim-scale-moderation-replication-v1",
+  "status": "authorize_exactly_one_rgfca_worldclim_scale_moderation_replication",
+  "date": "2026-09-06",
+  "workflow_attempts_allowed": 1,
+  "all_999_nulls_required": true,
+  "null_indices": "0..998 exactly once",
+  "selective_early_stop_allowed": false,
+  "favourable_rerun_allowed": false,
+  "alternative_moderator_after_result_allowed": false,
+  "sensitivity_after_result_allowed": false,
+  "scientific_contract_may_change_after_execution_begins": false
+}
