@@ -1,0 +1,155 @@
+name: Global RGFCA cross-domain barrier source acquisition recovery
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_crossdomain_barrier_source_acquisition_recovery_authorization_v1.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: global-rgfca-crossdomain-barrier-source-acquisition-recovery
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Enforce same-source one-shot technical recovery
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT']!='1': raise SystemExit('recovery rerun forbidden')
+          a=json.loads(Path('docs/supporting/global_rgfca_crossdomain_barrier_source_acquisition_recovery_authorization_v1.json').read_text())
+          r=json.loads(Path(a['recovery_contract']['path']).read_text())
+          s=json.loads(Path(r['scientific_and_source_identity_unchanged']['source_contract']).read_text())
+          if a.get('status')!='authorize_exactly_one_same_source_barrier_http_recovery': raise SystemExit('authorization drift')
+          if a.get('recovery_attempts_allowed')!=1: raise SystemExit('attempt drift')
+          if a.get('source_substitution_allowed') is not False or a.get('flower_colour_access_allowed') is not False: raise SystemExit('firewall drift')
+          if r.get('status')!='technical_recovery_frozen_after_source_only_http_403_before_any_barrier_source_verification_or_E3_E4_outcome': raise SystemExit('recovery contract drift')
+          if r['failed_run']['run_id']!=34023393646 or r['failed_run']['verification_json_written'] is not False: raise SystemExit('failure lineage drift')
+          if r['technical_change_allowed_once']['recovery_attempts_allowed']!=1: raise SystemExit('recovery allowance drift')
+          if r['scientific_and_source_identity_unchanged']['all_three_urls_unchanged'] is not True or r['scientific_and_source_identity_unchanged']['no_alternate_mirror'] is not True: raise SystemExit('source identity drift')
+          actual=subprocess.check_output(['git','hash-object',a['recovery_contract']['path']],text=True).strip()
+          if actual!=a['recovery_contract']['git_blob_sha']: raise SystemExit('recovery contract blob drift')
+          if len(s['sources'])!=3: raise SystemExit('source family drift')
+          print({'gate':'pass','same_urls':True,'biological_access':False})
+          PY
+      - name: Install vector metadata dependency
+        run: python -m pip install --disable-pip-version-check pyshp==2.3.1
+      - name: Download exact frozen archives with provider HTTP headers only
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/barrier-source/archives /tmp/barrier-source/extracted
+          python - <<'PY' > /tmp/barrier_sources.tsv
+          import json
+          from pathlib import Path
+          s=json.loads(Path('docs/supporting/global_rgfca_crossdomain_barrier_source_acquisition_contract_v1.json').read_text())
+          r=json.loads(Path('docs/supporting/global_rgfca_crossdomain_barrier_source_acquisition_technical_recovery_v1.json').read_text())
+          refs={
+            'marine_land_mask':r['technical_change_allowed_once']['natural_earth_referer'],
+            'major_river_crossing':r['technical_change_allowed_once']['hydrorivers_referer'],
+            'mountain_system_boundary':r['technical_change_allowed_once']['gmba_referer'],
+          }
+          for x in s['sources']:
+              print(x['id'],x['url'],x['expected_archive_name'],refs[x['id']],sep='\t')
+          PY
+          while IFS=$'\t' read -r ident url filename referer; do
+            echo "Downloading $ident from unchanged frozen URL"
+            curl -fL --retry 3 --retry-delay 5 --connect-timeout 30 \
+              -A 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/128 Safari/537.36' \
+              -e "$referer" \
+              "$url" -o "/tmp/barrier-source/archives/$filename"
+            test -s "/tmp/barrier-source/archives/$filename"
+            unzip -tq "/tmp/barrier-source/archives/$filename"
+            mkdir -p "/tmp/barrier-source/extracted/$ident"
+            unzip -q "/tmp/barrier-source/archives/$filename" -d "/tmp/barrier-source/extracted/$ident"
+          done < /tmp/barrier_sources.tsv
+          df -h /
+      - name: Verify required vector components and freeze byte metadata
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          import shapefile
+          root=Path('/tmp/barrier-source')
+          spath=Path('docs/supporting/global_rgfca_crossdomain_barrier_source_acquisition_contract_v1.json')
+          rpath=Path('docs/supporting/global_rgfca_crossdomain_barrier_source_acquisition_technical_recovery_v1.json')
+          s=json.loads(spath.read_text())
+          def sha(p):
+              h=hashlib.sha256()
+              with p.open('rb') as f:
+                  for chunk in iter(lambda:f.read(1<<20),b''): h.update(chunk)
+              return h.hexdigest()
+          out=[]
+          for src in s['sources']:
+              ident=src['id']; archive=root/'archives'/src['expected_archive_name']; extroot=root/'extracted'/ident
+              candidates=list(extroot.rglob(src['required_internal_basename']+'.shp'))
+              if len(candidates)!=1: raise SystemExit(f'{ident}: expected one shapefile, got {candidates}')
+              shp=candidates[0]; base=shp.with_suffix(''); components={}
+              for suffix in src['required_extensions']:
+                  p=Path(str(base)+suffix)
+                  if not p.exists(): raise SystemExit(f'{ident}: missing {suffix}')
+                  components[suffix]={"filename":p.name,"sha256":sha(p),"size_bytes":p.stat().st_size}
+              reader=shapefile.Reader(str(shp)); fields=[f[0] for f in reader.fields[1:]]
+              req=src.get('required_attribute_for_future_test')
+              if req and req not in fields: raise SystemExit(f'{ident}: missing field {req}')
+              out.append({
+                "id":ident,"provider":src['provider'],"product":src['product'],"version":src['version'],"url":src['url'],
+                "archive_filename":archive.name,"archive_sha256":sha(archive),"archive_size_bytes":archive.stat().st_size,
+                "component_sha256":components,"shape_record_count":len(reader),"bbox":list(map(float,reader.bbox)),"fields":fields,
+                "required_attribute_present":None if not req else True
+              })
+              reader.close()
+          payload={
+            "protocol":s['protocol'],
+            "status":"pass_exact_crossdomain_barrier_source_acquisition_via_same_url_http_recovery_before_any_E3_or_E4_interaction_outcome",
+            "date":"2026-09-06",
+            "technical_recovery":{"failed_run_id":34023393646,"inferential_change":False,"source_identity_change":False,"http_headers_only":True},
+            "sources":out,"all_three_present":len(out)==3,"flower_colour_files_opened":False,"RGFCA_edge_join_performed":False,
+            "E3_or_E4_interaction_statistic_computed":False,
+            "lineage":{"source_contract_sha256":sha(spath),"technical_recovery_contract_sha256":sha(rpath)}
+          }
+          p=root/'global_rgfca_crossdomain_barrier_source_verification_v1.json'
+          p.write_text(json.dumps(payload,indent=2,ensure_ascii=False)+'\n')
+          print(json.dumps({"status":payload['status'],"sources":[{"id":x['id'],"sha256":x['archive_sha256'],"bytes":x['archive_size_bytes'],"records":x['shape_record_count']} for x in out]},indent=2))
+          PY
+      - name: Require source-only firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/barrier-source/global_rgfca_crossdomain_barrier_source_verification_v1.json').read_text())
+          assert r['all_three_present'] is True
+          assert r['flower_colour_files_opened'] is False
+          assert r['RGFCA_edge_join_performed'] is False
+          assert r['E3_or_E4_interaction_statistic_computed'] is False
+          assert r['technical_recovery']['source_identity_change'] is False
+          print('same-source barrier recovery verified')
+          PY
+      - name: Upload immutable recovered barrier source bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-crossdomain-barrier-sources-v1
+          retention-days: 90
+          if-no-files-found: error
+          compression-level: 0
+          path: |
+            /tmp/barrier-source/archives/
+            /tmp/barrier-source/global_rgfca_crossdomain_barrier_source_verification_v1.json
