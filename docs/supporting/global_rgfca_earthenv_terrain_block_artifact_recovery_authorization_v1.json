@@ -1,0 +1,9 @@
+{
+  "protocol": "global-rgfca-earthenv-terrain-block-artifact-recovery-v1",
+  "status": "authorize_exactly_one_artifact_only_recovery",
+  "workflow_attempts_allowed": 1,
+  "source_run_id": 34017934825,
+  "source_artifact_id": 9984688398,
+  "analysis_reexecution_allowed": false,
+  "scientific_result_change_allowed": false
+}
