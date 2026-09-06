@@ -89,7 +89,7 @@ def main() -> int:
         raise RuntimeError("heterogeneity inference contract drift")
     if panel_result.get("supported_blocks") != [] or panel_result.get("any_environmental_process_block_supported") is not False:
         raise RuntimeError("parent main-effect panel drift")
-    if interaction_verification.get("any_pair_supported") is not False:
+    if interaction_verification.get("family", {}).get("supported_after_holm_count") != 0:
         raise RuntimeError("parent interaction family drift")
     if contract["null"]["master_seed"] != 2026090403 or contract["null"]["permutations"] != 999:
         raise RuntimeError("shared-null contract drift")
