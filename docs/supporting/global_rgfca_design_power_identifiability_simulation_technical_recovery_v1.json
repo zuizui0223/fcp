@@ -1,0 +1,40 @@
+{
+  "protocol": "global-rgfca-design-power-identifiability-simulation-technical-recovery-v1",
+  "status": "frozen_after_original_serialization_failure_before_any_simulation_result_was_persisted_or_opened",
+  "date": "2026-09-06",
+  "original_run": 34030130087,
+  "original_job": 101478006052,
+  "original_runner": "scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py",
+  "original_runner_blob_sha": "baa85df12db2d630ec6f554404baf1067dcfdebb",
+  "failure": {
+    "stage": "final result payload assembly after S1, S2 and five-block S3 computations and CSV writes in the ephemeral runner",
+    "exception": "NameError: name 'false' is not defined. Did you mean: 'False'?",
+    "cause": "four lowercase JSON-style boolean literals were used inside a Python dict",
+    "persisted_scientific_result_from_failed_run": false
+  },
+  "only_permitted_change": {
+    "exact_replacements": [
+      "\"G1_primary_reclassified\": false -> \"G1_primary_reclassified\": False",
+      "\"environmental_parent_blocks_reclassified\": false -> \"environmental_parent_blocks_reclassified\": False",
+      "\"interaction_family_reclassified\": false -> \"interaction_family_reclassified\": False",
+      "\"variable_level_decomposition_opened\": false -> \"variable_level_decomposition_opened\": False"
+    ],
+    "scientific_code_change": false,
+    "seed_change": false,
+    "scenario_grid_change": false,
+    "statistic_change": false,
+    "input_change": false,
+    "threshold_change": false,
+    "new_analysis_added": false
+  },
+  "execution": {
+    "same_frozen_contract": "docs/supporting/global_rgfca_design_power_identifiability_simulation_contract_v1.json",
+    "same_original_runner_other_than_four_in_memory_literal_corrections": true,
+    "recompute_deterministically_from_same_fixed_seeds": true,
+    "workflow_attempts_allowed": 1,
+    "favourable_rerun_allowed": false,
+    "S4_must_not_be_added_in_this_recovery": true,
+    "ten_interaction_S3_must_not_be_added_in_this_recovery": true
+  },
+  "claim_ceiling": "Technical recovery only. The recovered methodological simulation may quantify design power and identifiability but cannot rescue, reclassify, or retest any frozen biological result."
+}
