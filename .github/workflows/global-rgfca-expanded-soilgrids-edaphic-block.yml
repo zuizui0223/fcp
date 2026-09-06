@@ -1,0 +1,128 @@
+name: Global RGFCA expanded SoilGrids edaphic block
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_expanded_soilgrids_edaphic_authorization_v1.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: global-rgfca-expanded-soilgrids-edaphic
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Enforce one complete edaphic execution
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT']!='1': raise SystemExit('favourable workflow reruns are forbidden')
+          panel=json.loads(Path('docs/supporting/global_rgfca_expanded_environmental_process_panel_contract_v1.json').read_text())
+          order=json.loads(Path('docs/supporting/global_rgfca_expanded_environmental_panel_execution_v1.json').read_text())
+          source=json.loads(Path('docs/supporting/global_rgfca_soilgrids_expanded_source_verification_v1.json').read_text())
+          auth=json.loads(Path('docs/supporting/global_rgfca_expanded_soilgrids_edaphic_authorization_v1.json').read_text())
+          if panel.get('status')!='postoutcome_secondary_panel_frozen_before_any_expanded_environmental_panel_result_or_new_source_payload_is_opened': raise SystemExit('panel contract drift')
+          if order.get('status')!='technical_execution_order_frozen_before_any_expanded_panel_block_colour_alignment_result': raise SystemExit('execution-order drift')
+          if source.get('status')!='pass_exact_expanded_soilgrids_source_acquisition_before_any_edaphic_colour_alignment': raise SystemExit('SoilGrids source verification missing')
+          if source.get('official_checksums_verified') is not True or source.get('all_12_geotiffs_present') is not True: raise SystemExit('SoilGrids source verification incomplete')
+          if source.get('source_run_id')!=34018059667 or source.get('source_artifact_id')!=9984595950: raise SystemExit('SoilGrids artifact identity drift')
+          if auth.get('status')!='authorize_exactly_one_edaphic_regime_execution': raise SystemExit('edaphic block not authorized')
+          if auth.get('workflow_attempts_allowed')!=1 or auth.get('null_indices')!='0..998 exactly once': raise SystemExit('authorization drift')
+          if auth.get('favourable_rerun_allowed') is not False or auth.get('final_Holm_decision_allowed') is not False: raise SystemExit('inference hierarchy drift')
+          print({'gate':'pass','block':'edaphic_regime','final_holm_pending':True})
+          PY
+
+  edaphic:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install frozen package and raster dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install "rasterio==1.4.3" pytest
+      - name: Preflight unchanged edge inference and SoilGrids runner
+        run: |
+          python -m py_compile scripts/analysis/run_global_rgfca_soilgrids_edaphic_block.py
+          python -m pytest -q tests/test_global_edge_mechanism_v2.py tests/test_global_rgfca_engine.py tests/test_global_repeated_atlas.py
+      - name: Recover exact verified SoilGrids source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-exact-soilgrids-5km-v1
+          path: /tmp/soilgrids
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34018059667
+      - name: Recheck all 12 SoilGrids bytes before colour alignment
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          source=json.loads(Path('docs/supporting/global_rgfca_soilgrids_expanded_source_verification_v1.json').read_text())
+          root=Path('/tmp/soilgrids')
+          for e in source['files']:
+              p=root/e['property']/e['filename']
+              if not p.exists(): raise SystemExit(f'missing {p}')
+              h=hashlib.sha256(p.read_bytes()).hexdigest()
+              if h!=e['sha256']: raise SystemExit(f"SHA drift: {e['property']} {e['depth']}")
+          print({'verified_files':len(source['files']),'official_checksums_verified':source['official_checksums_verified']})
+          PY
+      - name: Execute frozen edaphic block with all 999 colour nulls
+        env:
+          PYTHONUNBUFFERED: "1"
+          PYTHONHASHSEED: "0"
+          OMP_NUM_THREADS: "1"
+          OPENBLAS_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+        run: |
+          mkdir -p /tmp/edaphic-result
+          python scripts/analysis/run_global_rgfca_soilgrids_edaphic_block.py \
+            --source-dir /tmp/soilgrids \
+            --output-result /tmp/edaphic-result/global_rgfca_edaphic_regime_block_result_v1.json \
+            --output-species /tmp/edaphic-result/global_rgfca_edaphic_regime_block_species_v1.csv \
+            --output-null /tmp/edaphic-result/global_rgfca_edaphic_regime_block_null_v1.csv \
+            --null-batch-size 64
+      - name: Require complete raw block result and keep final Holm closed
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/edaphic-result/global_rgfca_edaphic_regime_block_result_v1.json').read_text())
+          if r.get('block')!='edaphic_regime': raise SystemExit('block identity drift')
+          if r.get('null_permutations')!=999 or r.get('null_indices_exact_0_998') is not True: raise SystemExit('incomplete nulls')
+          if r.get('final_panel_support_decision_available') is not False or r.get('p_holm') is not None: raise SystemExit('Holm gate opened early')
+          if r.get('individual_variable_decomposition_open') is not False: raise SystemExit('component gate opened early')
+          print({k:r[k] for k in ['block','observed_mean_species_partial_rho','raw_p_upper','n_evaluable_species','block_edge_occurrence_coverage_fraction']})
+          PY
+      - name: Upload immutable complete raw edaphic artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-expanded-edaphic-regime-block-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/edaphic-result/
