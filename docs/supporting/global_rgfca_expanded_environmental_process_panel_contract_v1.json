@@ -1,0 +1,92 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-v1",
+  "status": "postoutcome_secondary_panel_frozen_before_any_expanded_environmental_panel_result_or_new_source_payload_is_opened",
+  "date": "2026-09-06",
+  "motivation": "The completed four-axis WorldClim secondary is an intentionally compact macroclimate test and does not exhaust environmental mechanisms relevant to flower-colour geography. This panel expands environmental representation without opening a variable-by-variable significance search.",
+  "known_results_before_panel": {
+    "primary_G1_p_upper": 0.070,
+    "species_disjoint_commonness_p_upper": 0.856,
+    "RESOLVE_edge_p_upper": 0.425,
+    "WorldClim_four_axis_edge_p_upper": 0.699
+  },
+  "inferential_role": {
+    "role": "postoutcome_secondary_environmental_process_validation",
+    "not_part_of_original_preoutcome_G3_primary_family": true,
+    "cannot_rescue_or_reclassify_G1": true,
+    "cannot_reclassify_species_disjoint_commonness": true,
+    "cannot_reclassify_RESOLVE_or_WorldClim_four_axis_results": true,
+    "causal_language_allowed": false
+  },
+  "process_blocks": [
+    {
+      "id": "thermal_regime",
+      "source": "CHELSA v2.1 1981-2010",
+      "variables": ["bio01", "bio04", "bio05", "bio06"],
+      "ecological_content": "mean temperature, temperature seasonality, warm extreme and cold extreme"
+    },
+    {
+      "id": "water_balance",
+      "source": "CHELSA v2.1 1981-2010",
+      "variables": ["bio12", "bio14", "bio15", "cmi_mean"],
+      "ecological_content": "annual precipitation, driest-month precipitation, precipitation seasonality and climatic moisture balance"
+    },
+    {
+      "id": "atmospheric_energy_dryness",
+      "source": "CHELSA v2.1 1981-2010",
+      "variables": ["vpd", "rsds", "gdd5", "sfcWind"],
+      "ecological_content": "atmospheric drying power, shortwave irradiance, growing-season heat accumulation and wind exposure"
+    },
+    {
+      "id": "edaphic_regime",
+      "source": "SoilGrids 2.0",
+      "variables": ["phh2o", "clay", "soc", "cec"],
+      "depth": "thickness-weighted 0-30 cm mean from 0-5, 5-15 and 15-30 cm layers",
+      "ecological_content": "soil acidity, texture, organic carbon and cation-exchange capacity"
+    },
+    {
+      "id": "terrain_structure",
+      "source": "EarthEnv Global Topography, GMTED-derived product",
+      "variables": ["elevation", "slope", "terrain_roughness_index", "vector_ruggedness_measure"],
+      "primary_grain_km": 50,
+      "aggregation": "published 50-km median (md) product for each continuous variable where available",
+      "ecological_content": "height, inclination, local surface roughness and three-dimensional terrain ruggedness"
+    }
+  ],
+  "source_acquisition_firewall": {
+    "exact_source_URL_release_DOI_and_sha256_must_be_recorded_before_any_colour_alignment_for_that_block": true,
+    "source_payload_may_not_be_switched_after_alignment_result": true,
+    "failed_or_missing_external_coverage_is_NA_not_zero": true,
+    "new_payloads_are_postoutcome_secondary_even_if_provider_family_was_preoutcome_frozen": true
+  },
+  "block_preprocessing": {
+    "standardization": "global terrestrial z-score separately for every input variable on the frozen source support",
+    "block_edge_score": "sqrt(mean squared endpoint difference across the fixed standardized variables in that block)",
+    "reason_for_mean_squared_scaling": "prevents blocks with more variables from receiving larger scores solely because of dimensionality",
+    "variable_weighting": "equal within block",
+    "colour_used_in_preprocessing": false
+  },
+  "primary_edge_test": {
+    "geometry": "exact frozen RGFCA 200-outer, 250-species, 20-photo, spherical k=3 edge schedule",
+    "colour_score": "same within-outer within-species midrank four-group JSD edge score",
+    "per_species_statistic": "partial Spearman of ranked colour edge score and ranked environmental block contrast after residualizing both on ranked great-circle edge distance",
+    "global_statistic": "equal-species mean of evaluable species partial rhos",
+    "minimum_edges_per_species": 5,
+    "minimum_evaluable_species": 30,
+    "null": "same complete four-group colour-vector within-species permutations, master seed 2026090403, null indices 0..998 exactly once",
+    "tail": "upper",
+    "alpha": 0.05,
+    "multiplicity": "Holm across all evaluable process blocks in this five-block panel"
+  },
+  "decomposition_gate": {
+    "individual_variable_tests_allowed_only_if_parent_block_supported_after_Holm": true,
+    "individual_variable_tail": "upper",
+    "individual_variable_multiplicity": "Holm within the supported parent block",
+    "no_variable_level_cherry_picking_from_unsupported_block": true
+  },
+  "interpretation": {
+    "supported_block": "species-specific flower-colour discontinuities are concordant with a broad environmental process class beyond ranked geographic distance in this postoutcome secondary panel",
+    "unsupported_block": "does not establish that the process is absent; it means no common positive edge alignment was detected under the fixed block representation",
+    "local_adaptation_claim_allowed": false,
+    "universal_process_claim_allowed": false
+  }
+}
