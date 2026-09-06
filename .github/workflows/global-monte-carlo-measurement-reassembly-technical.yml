@@ -28,6 +28,8 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
+      - name: Materialize exact validated H9 reassembly infrastructure only
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
       - name: Install frozen package
         run: |
           python -m pip install --upgrade pip
@@ -39,14 +41,97 @@ jobs:
           path: /tmp/firewall
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 33947369389
-      - name: Download exact 256 sealed terminal artifacts from completed measurement run
-        uses: actions/download-artifact@v4
-        with:
-          pattern: global-terminal-*
-          path: /tmp/partition-results
-          merge-multiple: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: 33947369389
+      - name: Download all exact 256 sealed terminal artifacts with explicit pagination
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY'
+          import io
+          import json
+          import os
+          import re
+          import urllib.request
+          import zipfile
+          from pathlib import Path
+
+          owner = 'zuizui0223'
+          repo = 'fcp'
+          run_id = 33947369389
+          token = os.environ['GH_TOKEN']
+          expected = {
+              f'global-terminal-b{b}-s{s}-p{p}'
+              for b in range(2)
+              for s in range(32)
+              for p in range(4)
+          }
+          pattern = re.compile(r'^global-terminal-b[01]-s(?:[0-9]|[12][0-9]|3[01])-p[0-3]$')
+          headers = {
+              'Authorization': f'Bearer {token}',
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+              'User-Agent': 'fcp-frozen-measurement-reassembly',
+          }
+
+          artifacts = {}
+          total_count = None
+          for page in range(1, 5):
+              url = (
+                  f'https://api.github.com/repos/{owner}/{repo}/actions/runs/{run_id}/artifacts'
+                  f'?per_page=100&page={page}'
+              )
+              req = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(req, timeout=60) as response:
+                  payload = json.load(response)
+              if total_count is None:
+                  total_count = int(payload['total_count'])
+              rows = payload.get('artifacts', [])
+              for artifact in rows:
+                  name = str(artifact['name'])
+                  if pattern.fullmatch(name):
+                      if name in artifacts:
+                          raise SystemExit(f'duplicate terminal artifact name: {name}')
+                      if artifact.get('expired'):
+                          raise SystemExit(f'expired terminal artifact: {name}')
+                      artifacts[name] = artifact
+              if not rows:
+                  break
+
+          got = set(artifacts)
+          if got != expected:
+              missing = sorted(expected - got)
+              extra = sorted(got - expected)
+              raise SystemExit(
+                  f'terminal artifact census mismatch: got={len(got)} '
+                  f'missing={missing[:10]} extra={extra[:10]} total_run_artifacts={total_count}'
+              )
+
+          out = Path('/tmp/partition-results')
+          out.mkdir(parents=True, exist_ok=True)
+          extracted = set()
+          for name in sorted(expected):
+              artifact = artifacts[name]
+              req = urllib.request.Request(str(artifact['archive_download_url']), headers=headers)
+              with urllib.request.urlopen(req, timeout=120) as response:
+                  raw = response.read()
+              with zipfile.ZipFile(io.BytesIO(raw)) as zf:
+                  for member in zf.infolist():
+                      if member.is_dir():
+                          continue
+                      base = Path(member.filename).name
+                      if base in extracted:
+                          raise SystemExit(f'duplicate extracted terminal filename: {base}')
+                      extracted.add(base)
+                      target = out / base
+                      with zf.open(member) as src, target.open('wb') as dst:
+                          dst.write(src.read())
+
+          print({
+              'run_total_artifacts': total_count,
+              'terminal_artifacts': len(artifacts),
+              'extracted_terminal_files': len(extracted),
+              'pixels_reopened': False,
+          })
+          PY
       - name: Reassemble only; do not reopen pixels or rerun any partition
         run: |
           set -euo pipefail
