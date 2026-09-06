@@ -1,0 +1,136 @@
+name: Global RGFCA expanded SoilGrids source acquisition
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_soilgrids_expanded_source_acquisition_authorization_v1.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: global-rgfca-soilgrids-expanded-source-acquisition
+  cancel-in-progress: false
+
+jobs:
+  acquire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Enforce exact source-only SoilGrids acquisition
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT'] != '1':
+              raise SystemExit('SoilGrids source acquisition reruns are forbidden')
+          c=json.loads(Path('docs/supporting/global_rgfca_soilgrids_expanded_source_acquisition_contract_v1.json').read_text())
+          a=json.loads(Path('docs/supporting/global_rgfca_soilgrids_expanded_source_acquisition_authorization_v1.json').read_text())
+          if c.get('status') != 'exact_postoutcome_secondary_soilgrids_urls_frozen_before_any_expanded_edaphic_colour_alignment':
+              raise SystemExit('SoilGrids contract drift')
+          if a.get('status') != 'authorize_exactly_one_expanded_soilgrids_source_acquisition':
+              raise SystemExit('SoilGrids acquisition not authorized')
+          if a.get('workflow_attempts_allowed') != 1 or a.get('source_substitution_allowed') is not False:
+              raise SystemExit('SoilGrids authorization drift')
+          if c.get('properties') != ['phh2o','clay','soc','cec']:
+              raise SystemExit('SoilGrids property family drift')
+          if [x['depth'] for x in c.get('depth_layers',[])] != ['0-5cm','5-15cm','15-30cm']:
+              raise SystemExit('SoilGrids depth family drift')
+          print({'gate':'pass','files':12,'checksum_manifests':4})
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install source-verification dependencies
+        run: python -m pip install "rasterio==1.4.4"
+      - name: Download exact official checksums and selected SoilGrids GeoTIFFs
+        run: |
+          set -euo pipefail
+          ROOT=/tmp/soilgrids-source
+          mkdir -p "$ROOT"
+          BASE="https://files.isric.org/soilgrids/latest/data_aggregated/5000m"
+          for prop in phh2o clay soc cec; do
+            mkdir -p "$ROOT/$prop"
+            curl --fail --location --retry 3 --retry-delay 2 \
+              -o "$ROOT/$prop/checksum.sha256.txt" "$BASE/$prop/checksum.sha256.txt"
+            for depth in 0-5cm 5-15cm 15-30cm; do
+              file="${prop}_${depth}_mean_5000.tif"
+              curl --fail --location --retry 3 --retry-delay 2 \
+                -o "$ROOT/$prop/$file" "$BASE/$prop/$file"
+              expected=$(awk -v f="$file" '$NF==f {print $1}' "$ROOT/$prop/checksum.sha256.txt")
+              test -n "$expected"
+              got=$(sha256sum "$ROOT/$prop/$file" | awk '{print $1}')
+              test "$got" = "$expected"
+            done
+          done
+      - name: Record exact SoilGrids source verification without colour access
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import rasterio
+          contract_path=Path('docs/supporting/global_rgfca_soilgrids_expanded_source_acquisition_contract_v1.json')
+          c=json.loads(contract_path.read_text())
+          root=Path('/tmp/soilgrids-source')
+          records=[]; manifests=[]
+          for prop in c['properties']:
+              mp=root/prop/'checksum.sha256.txt'
+              manifests.append({
+                  'property':prop,'filename':'checksum.sha256.txt',
+                  'sha256':hashlib.sha256(mp.read_bytes()).hexdigest(),
+                  'size_bytes':mp.stat().st_size,
+              })
+              for d in c['depth_layers']:
+                  filename=f"{prop}_{d['depth']}_mean_5000.tif"
+                  p=root/prop/filename
+                  with rasterio.open(p) as ds:
+                      meta={
+                          'width':int(ds.width),'height':int(ds.height),'count':int(ds.count),
+                          'dtype':str(ds.dtypes[0]),'crs':str(ds.crs),
+                          'nodata':None if ds.nodata is None else float(ds.nodata),
+                          'bounds':[float(ds.bounds.left),float(ds.bounds.bottom),float(ds.bounds.right),float(ds.bounds.top)],
+                          'transform':[float(v) for v in tuple(ds.transform)[:6]],
+                      }
+                  records.append({
+                      'property':prop,'depth':d['depth'],'thickness_cm':d['thickness_cm'],
+                      'filename':filename,
+                      'url':f"{c['dataset']['base_url']}{prop}/{filename}",
+                      'size_bytes':p.stat().st_size,
+                      'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
+                      'raster':meta,
+                  })
+          payload={
+              'protocol':c['protocol'],
+              'status':'pass_exact_expanded_soilgrids_source_acquisition_before_any_edaphic_colour_alignment',
+              'dataset':c['dataset'],
+              'depth_aggregation':c['depth_aggregation'],
+              'files':records,'checksum_manifests':manifests,
+              'all_12_geotiffs_present':len(records)==12,
+              'all_4_official_checksum_manifests_present':len(manifests)==4,
+              'official_checksums_verified':True,
+              'flower_colour_files_opened':False,
+              'colour_join_performed':False,
+              'edaphic_statistic_computed':False,
+              'lineage':{'source_contract_sha256':hashlib.sha256(contract_path.read_bytes()).hexdigest()}
+          }
+          out=root/'global_rgfca_soilgrids_expanded_source_verification_v1.json'
+          out.write_text(json.dumps(payload,indent=2)+'\n')
+          print(json.dumps({'status':payload['status'],'files':len(records),'manifests':len(manifests)}))
+          PY
+      - name: Upload immutable exact selected SoilGrids bytes and verification
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-exact-soilgrids-5km-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/soilgrids-source/
