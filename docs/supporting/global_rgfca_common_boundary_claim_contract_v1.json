@@ -1,0 +1,98 @@
+{
+  "protocol": "global-rgfca-common-boundary-claim-v1",
+  "status": "frozen_before_species_disjoint_commonness_result",
+  "date": "2026-09-06",
+  "scope": "Repeated Global Flower-Colour Atlas",
+  "terminology": {
+    "single_universal_boundary_required": false,
+    "number_of_recurrent_zones": "unbounded; one or many disconnected zones are allowed",
+    "boundary": "a spatial zone with elevated within-species flower-colour discontinuity intensity",
+    "common_boundary_architecture": "a non-uniform spatial propensity for colour discontinuities that is recoverable in independently held-out species, regardless of how many disconnected zones compose the field",
+    "global_commonness": "common-boundary architecture that is not attributable to a small set of species, families, or one geographic region",
+    "universal_tendency": "reserved for a stronger process-level claim: positive recurrence is expected across adequately sampled independent geographic/taxonomic strata; identical boundary coordinates are not required"
+  },
+  "claim_hierarchy": {
+    "level_1_recurrent_spatial_concentration": {
+      "meaning": "colour-discontinuity intensity is more spatially concentrated than the frozen within-species colour-permutation null",
+      "note": "multiple peaks or disconnected zones are fully compatible with this level"
+    },
+    "level_2_common_across_species": {
+      "meaning": "a field estimated from one set of species predicts the spatial distribution of colour discontinuity in species that were not used to estimate that field",
+      "required_validation": "species-disjoint cross-prediction"
+    },
+    "level_3_globally_common": {
+      "meaning": "level 2 persists after taxonomic and geographic blocking and is not driven by one lineage or one region",
+      "required_validation": [
+        "family-blocked or lineage-blocked cross-prediction where taxonomy permits",
+        "region/realm-stratified recurrence summaries with no dominant single-region explanation",
+        "leave-one-major-region and leave-one-dominant-family sensitivity"
+      ]
+    },
+    "level_4_universal_tendency": {
+      "meaning": "the recurrence-generating process is expected to be positive in new adequately sampled strata",
+      "required_validation": "hierarchical stratum-level effect with positive overall effect and a prediction interval excluding zero, plus no adequately powered stratum with a reproducible sign reversal",
+      "identical_global_boundary_coordinates_required": false
+    }
+  },
+  "prospective_species_disjoint_test": {
+    "purpose": "decide level_2_common_across_species without assuming one boundary or one connected zone",
+    "partition": {
+      "type": "five-fold species-disjoint partition",
+      "assignment_seed": 2026090604,
+      "species_unit": "eligible species from the frozen measured pool",
+      "colour_outcome_used_for_partition": false,
+      "each_species_is_held_out_exactly_once": true
+    },
+    "field_construction": {
+      "retain_primary_colour_distance": "Jensen-Shannon divergence in bits on four-group colour vector",
+      "retain_primary_edge_standardization": "within-species midrank percentile",
+      "retain_primary_graph": "spherical k-nearest-neighbour with k=3",
+      "retain_primary_outer_photo_schedule": true,
+      "retain_primary_species/photo seeds": [2026090401, 2026090402],
+      "retain_primary_kernel_and_grid_for_primary-scale_cross-prediction": true,
+      "no_zone_count_parameter": true
+    },
+    "cross_prediction_statistic": {
+      "per_fold": "opportunity-weighted correlation between training-species and held-out-species consensus discontinuity fields over jointly evaluable cells",
+      "global_statistic": "median of the five held-out fold correlations",
+      "direction": "positive",
+      "interpretation": "positive values mean that high-discontinuity places learned from one set of species recur in different species"
+    },
+    "null": {
+      "unit": "complete four-group colour vectors permuted within species",
+      "reuse_frozen_null_master_seed": 2026090403,
+      "null_indices": "0..998 exactly once",
+      "tail": "upper",
+      "monte_carlo_p": "(1 + count(null global statistic >= observed global statistic)) / 1000",
+      "alpha": 0.05,
+      "no_favourable_rerun_or_fold_omission": true
+    },
+    "claim_rule": {
+      "common_across_species_supported_if": [
+        "global Monte Carlo p < 0.05",
+        "observed global statistic > null mean",
+        "at least four of five held-out fold correlations are > 0"
+      ],
+      "failure_of_rule": "do not claim common-across-species architecture; retain only lower-level recurrence/robustness claims already supported",
+      "cannot_reclassify_primary_G1": true
+    }
+  },
+  "zone_reporting_after_commonness": {
+    "number_of_zones_fixed_in_advance": false,
+    "connected_components_allowed": "any positive integer determined by the frozen field/threshold procedure",
+    "zone_count_is_descriptive_not_the_hypothesis": true,
+    "preferred_language": "globally recurrent flower-colour transition zones or common multi-zone boundary architecture",
+    "avoid_language": [
+      "the universal boundary",
+      "a single global boundary",
+      "the same boundary is crossed by every species"
+    ]
+  },
+  "outcome_firewall": {
+    "primary_G1_result_seen_before_this_contract": true,
+    "scale_sensitivity_results_seen_before_this_contract": true,
+    "odd_even_outer_result_seen_before_this_contract": true,
+    "species_disjoint_commonness_result_seen_before_this_contract": false,
+    "contract_can_only_govern_future_species_disjoint_and_stratum_generalization_claims": true
+  }
+}
