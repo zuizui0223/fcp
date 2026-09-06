@@ -1,0 +1,59 @@
+{
+  "protocol": "global-rgfca-earthenv-terrain-source-acquisition-v1",
+  "status": "exact_postoutcome_secondary_source_locator_frozen_before_any_terrain_colour_alignment",
+  "date": "2026-09-06",
+  "role": "source acquisition and byte verification only; no flower-colour values may be opened or joined in this workflow",
+  "dataset": {
+    "title": "A suite of global, cross-scale topographic variables for environmental and biodiversity modeling, GMTED source",
+    "authors": "Amatulli et al. 2018",
+    "repository": "PANGAEA",
+    "doi": "10.1594/PANGAEA.867113",
+    "license": "CC-BY-3.0",
+    "source_dem": "GMTED global 250 m source as published in the PANGAEA dataset",
+    "selected_grain_km": 50,
+    "selected_summary": "md (median)",
+    "selection_reason": "matches the prospectively frozen RGFCA terrain predictor: EarthEnv 50-km grain with elevation, slope, terrain roughness index and vector ruggedness measure"
+  },
+  "files": [
+    {
+      "id": "elevation",
+      "filename": "elevation_50KMmd_GMTEDmd.tif",
+      "url": "https://hs.pangaea.de/model/GMTED/elevation/elevation_50KMmd_GMTEDmd.tif"
+    },
+    {
+      "id": "slope",
+      "filename": "slope_50KMmd_GMTEDmd.tif",
+      "url": "https://hs.pangaea.de/model/GMTED/slope/slope_50KMmd_GMTEDmd.tif"
+    },
+    {
+      "id": "terrain_roughness_index",
+      "filename": "tri_50KMmd_GMTEDmd.tif",
+      "url": "https://hs.pangaea.de/model/GMTED/tri/tri_50KMmd_GMTEDmd.tif"
+    },
+    {
+      "id": "vector_ruggedness_measure",
+      "filename": "vrm_50KMmd_GMTEDmd.tif",
+      "url": "https://hs.pangaea.de/model/GMTED/vrm/vrm_50KMmd_GMTEDmd.tif"
+    }
+  ],
+  "provenance": {
+    "pangaea_listing": "https://doi.pangaea.de/10.1594/PANGAEA.867113?format=html",
+    "file_names_and_urls_frozen_before_download": true,
+    "colour_or_rgfca_effect_used_to_select_files": false,
+    "alternative_grain_or_summary_after_terrain_result_allowed": false
+  },
+  "acquisition_rules": {
+    "download_all_four_exact_urls_once": true,
+    "record_sha256_size_and_geotiff_metadata_for_every_file": true,
+    "require_all_four_files": true,
+    "failed_download_may_not_be_replaced_with_another_terrain_product": true,
+    "upload_exact_bytes_as_immutable_workflow_artifact": true,
+    "no_colour_join_or_statistic_in_source_acquisition": true
+  },
+  "downstream_boundary": {
+    "terrain_block": "terrain_structure in global-rgfca-expanded-environmental-process-panel-v1",
+    "variables": ["elevation", "slope", "terrain_roughness_index", "vector_ruggedness_measure"],
+    "source_bytes_must_match_this_acquisition_before_alignment": true,
+    "downstream_role": "postoutcome secondary only"
+  }
+}
