@@ -1,0 +1,36 @@
+{
+  "protocol": "global-rgfca-worldclim-edge-secondary-technical-recovery-v1",
+  "status": "technical_recovery_frozen_before_any_worldclim_rgfca_alignment_result",
+  "failed_run": {
+    "workflow_run_id": 34011670737,
+    "job_id": 101428488245,
+    "failure_stage": "pre-analysis invariant tests",
+    "failure_reason": "pytest was not installed in the GitHub Actions environment",
+    "analysis_execution_step_started": false,
+    "worldclim_alignment_result_opened": false,
+    "null_permutations_started": false
+  },
+  "repair": {
+    "only_change": "install pytest before running the already-selected invariant tests",
+    "scientific_code_change": false,
+    "source_change": false,
+    "predictor_change": false,
+    "statistic_change": false,
+    "tail_change": false,
+    "alpha_change": false,
+    "null_seed_change": false,
+    "null_index_change": false,
+    "sampling_schedule_change": false,
+    "external_grid_change": false
+  },
+  "recovery_execution": {
+    "workflow_attempts_allowed": 1,
+    "must_use_execution_mapping": "docs/supporting/global_rgfca_worldclim_edge_secondary_execution_v1.json",
+    "must_use_runner": "scripts/analysis/run_global_rgfca_worldclim_edge_secondary.py",
+    "null_indices": "0..998 exactly once",
+    "all_999_nulls_required": true,
+    "favourable_rerun_allowed": false,
+    "selective_early_stop_allowed": false
+  },
+  "claim_boundary": "This recovery repairs an environment-only preflight failure and does not create a second biological analysis attempt. Any biological result must come from exactly one completed execution of the unchanged frozen runner."
+}
