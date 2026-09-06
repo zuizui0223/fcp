@@ -1,0 +1,152 @@
+{
+  "protocol": "global-rgfca-prespecified-robustness-execution-v1",
+  "status": "complete_all_four_prespecified_rgfca_g1_robustness_diagnostics",
+  "primary_g1": {
+    "g1_supported": false,
+    "p_upper": 0.07,
+    "decision": "no_support_recurrent_global_flower_colour_barrier_concentration",
+    "immutable": true,
+    "may_be_rescued_by_this_suite": false
+  },
+  "spatial_support": {
+    "coarse": {
+      "protocol": "global-rgfca-prespecified-robustness-execution-v1",
+      "status": "complete_prespecified_g1_spatial_robustness",
+      "configuration": "coarse_24x12_1000km",
+      "role": "robustness_only_cannot_rescue_primary_g1",
+      "primary_g1_supported": false,
+      "primary_g1_p_upper": 0.07,
+      "grid": "24x12",
+      "kernel_bandwidth_km": 1000.0,
+      "minimum_distinct_species_support": 5,
+      "observed_concentration": 5.091387340643105e-05,
+      "null_mean_concentration": 3.641835997548452e-05,
+      "g1_excess": 1.449551343094653e-05,
+      "g1_excess_ratio": 1.3980276278422303,
+      "positive_excess": true,
+      "descriptive_p_upper_not_primary_gate": 0.043,
+      "null_permutations": 999,
+      "null_indices_exact_0_998": true,
+      "scientific_rules_changed": false,
+      "lineage": {
+        "execution_contract_sha256": "a699fa97541b68ea11859ea22f25d62b3294ce31afbeb9b43b8ae927f4b9bb47",
+        "barrier_contract_sha256": "d1198cbdde264782dda42d23a62e51d3ad36c8b0649f7314dafe0595dc8d4661",
+        "measurement_manifest_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6",
+        "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+        "primary_g1_result_sha256": "3cddceded039f802f31f207820f6355424bdc081d27576d3b3887d7ee4334906"
+      }
+    },
+    "fine": {
+      "protocol": "global-rgfca-prespecified-robustness-execution-v1",
+      "status": "complete_prespecified_g1_spatial_robustness",
+      "configuration": "fine_72x36_250km",
+      "role": "robustness_only_cannot_rescue_primary_g1",
+      "primary_g1_supported": false,
+      "primary_g1_p_upper": 0.07,
+      "grid": "72x36",
+      "kernel_bandwidth_km": 250.0,
+      "minimum_distinct_species_support": 5,
+      "observed_concentration": 0.0002571637909302228,
+      "null_mean_concentration": 0.00020509527982078544,
+      "g1_excess": 5.206851110943738e-05,
+      "g1_excess_ratio": 1.2538747413150386,
+      "positive_excess": true,
+      "descriptive_p_upper_not_primary_gate": 0.006,
+      "null_permutations": 999,
+      "null_indices_exact_0_998": true,
+      "scientific_rules_changed": false,
+      "lineage": {
+        "execution_contract_sha256": "a699fa97541b68ea11859ea22f25d62b3294ce31afbeb9b43b8ae927f4b9bb47",
+        "barrier_contract_sha256": "d1198cbdde264782dda42d23a62e51d3ad36c8b0649f7314dafe0595dc8d4661",
+        "measurement_manifest_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6",
+        "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+        "primary_g1_result_sha256": "3cddceded039f802f31f207820f6355424bdc081d27576d3b3887d7ee4334906"
+      }
+    },
+    "support10": {
+      "protocol": "global-rgfca-prespecified-robustness-execution-v1",
+      "status": "complete_prespecified_g1_spatial_robustness",
+      "configuration": "support10_36x18_500km",
+      "role": "robustness_only_cannot_rescue_primary_g1",
+      "primary_g1_supported": false,
+      "primary_g1_p_upper": 0.07,
+      "grid": "36x18",
+      "kernel_bandwidth_km": 500.0,
+      "minimum_distinct_species_support": 10,
+      "observed_concentration": 7.383527446214457e-05,
+      "null_mean_concentration": 6.785800676974802e-05,
+      "g1_excess": 5.977267692396543e-06,
+      "g1_excess_ratio": 1.0880849287642396,
+      "positive_excess": true,
+      "descriptive_p_upper_not_primary_gate": 0.26,
+      "null_permutations": 999,
+      "null_indices_exact_0_998": true,
+      "scientific_rules_changed": false,
+      "lineage": {
+        "execution_contract_sha256": "a699fa97541b68ea11859ea22f25d62b3294ce31afbeb9b43b8ae927f4b9bb47",
+        "barrier_contract_sha256": "d1198cbdde264782dda42d23a62e51d3ad36c8b0649f7314dafe0595dc8d4661",
+        "measurement_manifest_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6",
+        "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+        "primary_g1_result_sha256": "3cddceded039f802f31f207820f6355424bdc081d27576d3b3887d7ee4334906"
+      }
+    },
+    "all_three_positive_excess": true
+  },
+  "odd_even": {
+    "protocol": "global-rgfca-prespecified-robustness-execution-v1",
+    "status": "complete_prespecified_g1_odd_even_half_null_robustness",
+    "role": "robustness_only_cannot_rescue_primary_g1",
+    "primary_g1_supported": false,
+    "primary_g1_p_upper": 0.07,
+    "null_permutations_per_half": 999,
+    "null_indices_exact_0_998": true,
+    "odd": {
+      "half": "odd_realizations_1_3_to_199",
+      "observed_concentration": 0.00012377253884511717,
+      "null_mean_concentration": 0.00010603429643369867,
+      "g1_excess": 1.7738242411418506e-05,
+      "g1_excess_ratio": 1.1672877833683737,
+      "positive_excess": true,
+      "descriptive_p_upper_not_primary_gate": 0.115,
+      "evaluable_cells": 497
+    },
+    "even": {
+      "half": "even_realizations_2_4_to_200",
+      "observed_concentration": 0.00013251275484796622,
+      "null_mean_concentration": 0.00010579949888724507,
+      "g1_excess": 2.671325596072115e-05,
+      "g1_excess_ratio": 1.2524894374895914,
+      "positive_excess": true,
+      "descriptive_p_upper_not_primary_gate": 0.038,
+      "evaluable_cells": 497
+    },
+    "odd_even_consensus_field_pearson_r": 0.7247088165527926,
+    "predeclared_r_minimum": 0.5,
+    "r_threshold_pass": true,
+    "both_half_excess_positive": true,
+    "predeclared_half_excess_gate_pass": true,
+    "scientific_rules_changed": false,
+    "lineage": {
+      "execution_contract_sha256": "a699fa97541b68ea11859ea22f25d62b3294ce31afbeb9b43b8ae927f4b9bb47",
+      "barrier_contract_sha256": "d1198cbdde264782dda42d23a62e51d3ad36c8b0649f7314dafe0595dc8d4661",
+      "measurement_manifest_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6",
+      "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+      "primary_g1_result_sha256": "3cddceded039f802f31f207820f6355424bdc081d27576d3b3887d7ee4334906"
+    }
+  },
+  "predeclared_subset_gates": {
+    "all_three_spatial_excess_positive": true,
+    "both_half_excess_positive": true,
+    "odd_even_field_r_at_least_0_5": true,
+    "running_100_vs_200_r_at_least_0_9": false,
+    "running_150_vs_200_r_at_least_0_95": true
+  },
+  "full_strong_stability_claim_not_yet_evaluable": true,
+  "remaining_prespecified_gates": [
+    "leave-one-realm-out positive excess for every estimable realm",
+    "leave-one-major-family-out positive excess for every estimable major family"
+  ],
+  "selective_stopping_used": false,
+  "all_four_jobs_completed": true,
+  "interpretation_boundary": "Positive robustness excesses strengthen evidence for a weak recurrent directional field but cannot change the frozen primary G1 no-support decision at p=0.070."
+}
