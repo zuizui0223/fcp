@@ -1,0 +1,64 @@
+{
+  "protocol": "global-rgfca-upstream-design-audit-v1",
+  "status": "complete_methodological_audit_no_new_colour_outcome",
+  "date": "2026-09-06",
+  "scope": "Audit whether the random-photo repeated world-map design sufficiently fixes the analysis target before downstream inference. This is a methodological audit, not a new biological test.",
+  "overall_assessment": {
+    "adequate_for": "Inference conditional on the frozen iNaturalist-derived candidate availability surface, the location-blind measurement system, the postmeasurement classifiability gate, and the frozen repeated-atlas schedule.",
+    "not_equivalent_to": "An unbiased census of all angiosperm individuals, species, regions, or photographs on Earth.",
+    "upstream_target_definition_sufficient": true,
+    "upstream_target_definition_needs_redesign_before_current_downstream_work": false,
+    "remaining_work_is_quantification_not_redefinition": true
+  },
+  "audit": [
+    {
+      "component": "candidate_universe_and_species_budget",
+      "status": "pass_with_sampling_frame_limit",
+      "evidence": "A frozen metadata-first candidate programme defined the photo/species universe before colour pixels were opened, and the later measurement budget selected 500 species and 100 candidate photographs per species without colour outcomes.",
+      "remaining_limit": "The candidate universe inherits platform participation, observer geography, taxon availability, flowering annotation, licence, coordinate-quality, and image-availability filters."
+    },
+    {
+      "component": "location_blind_colour_measurement",
+      "status": "pass",
+      "evidence": "50,000 measurement rows reached terminal colour-measurement states before coordinates were joined to colour outputs; 25,377 were classifiable and 24,623 mixed/uncertain.",
+      "remaining_limit": "Classifiability is substantial structural missingness and may vary geographically or taxonomically even though location was not used to measure colour."
+    },
+    {
+      "component": "postmeasurement_eligibility",
+      "status": "pass",
+      "evidence": "The >=40 classifiable-photo rule yielded 369 eligible species before G1/G3 inference and was not altered after seeing the primary result.",
+      "remaining_limit": "The estimand is the eligible measured-species population, not all originally sampled species."
+    },
+    {
+      "component": "repeated_species_and_photo_schedule",
+      "status": "pass_strong",
+      "evidence": "200 outer realizations x 250 species x 20 photographs were frozen with fixed species/photo seeds; every eligible species appears 135-136 times and long-run species/photo inclusion imbalance is at most one.",
+      "remaining_limit": "Monte Carlo field convergence at 100 versus 200 realizations fell just below the predeclared strong-stability correlation threshold, so convergence strength still needs diagnostic quantification."
+    },
+    {
+      "component": "opportunity_and_species_weighting",
+      "status": "pass_for_declared_estimand",
+      "evidence": "Species total geometric weight is equalized within each outer realization and field intensity is divided by the same geographic opportunity support used in the numerator.",
+      "remaining_limit": "This controls the declared opportunity field but does not create observations in geographic/taxonomic regions poorly represented by the platform."
+    },
+    {
+      "component": "observation_bias_characterization",
+      "status": "pass_descriptive_not_corrective",
+      "evidence": "A pre-colour platform-effort audit found very high cell-level concordance between target-group and all-platform record intensity, indicating that generic platform activity is a major component of availability.",
+      "remaining_limit": "The audit characterizes but does not fully remove platform or target-group availability bias."
+    },
+    {
+      "component": "outcome_firewalls_and_nonreplacement",
+      "status": "pass_strong",
+      "evidence": "No species/photo replacement after measurement, fixed null indices/seeds, separate authorizations, and explicit no-rescue rules are recorded throughout the analysis lineage.",
+      "remaining_limit": "None requiring redesign of the current upstream sampling target."
+    }
+  ],
+  "quantitative_followups_required": [
+    "Estimate G1 detectability and type-I behaviour under the actual clustered photo geometry.",
+    "Compare detectability using the actual classifiable 369-species pool versus the full 500-species measured-coordinate pool with synthetic outcomes, to quantify the cost of classifiability attrition without reopening biological outcomes.",
+    "Quantify how consensus-field stability changes with the number of outer realizations using simulation/bootstrap rather than extending the frozen observed primary schedule to chase the stability gate.",
+    "Quantify power to detect partial rather than universal recurrence when only a fraction of species share a latent transition architecture."
+  ],
+  "interpretation_boundary": "The repeated random-photo atlas is methodologically mature enough to continue downstream. Its main unresolved upstream issue is not target-definition ambiguity but how platform geometry, missingness, partial sharing, and finite repeated sampling affect detectability and stability."
+}
