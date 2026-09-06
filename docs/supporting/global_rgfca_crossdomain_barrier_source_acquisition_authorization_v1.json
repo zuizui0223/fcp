@@ -1,0 +1,17 @@
+{
+  "protocol": "global-rgfca-crossdomain-barrier-source-acquisition-authorization-v1",
+  "status": "authorize_exactly_one_crossdomain_barrier_source_acquisition",
+  "date": "2026-09-06",
+  "contract": {
+    "path": "docs/supporting/global_rgfca_crossdomain_barrier_source_acquisition_contract_v1.json",
+    "git_blob_sha": "a0f58381de9c1b266fbee6322c0feef62c562c1b"
+  },
+  "workflow_attempts_allowed": 1,
+  "all_three_sources_required": true,
+  "source_ids": ["marine_land_mask", "major_river_crossing", "mountain_system_boundary"],
+  "flower_colour_access_allowed": false,
+  "interaction_statistic_allowed": false,
+  "source_substitution_allowed": false,
+  "favourable_rerun_allowed": false,
+  "role": "postoutcome source-only acquisition for future cross-domain exploratory families"
+}
