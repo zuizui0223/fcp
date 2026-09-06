@@ -1,0 +1,90 @@
+{
+  "protocol": "global-rgfca-earthenv-terrain-source-acquisition-v1",
+  "status": "pass_exact_earthenv_terrain_source_acquisition_before_any_terrain_colour_alignment",
+  "doi": "10.1594/PANGAEA.867113",
+  "selected_grain_km": 50,
+  "selected_summary": "md (median)",
+  "files": [
+    {
+      "id": "elevation",
+      "filename": "elevation_50KMmd_GMTEDmd.tif",
+      "url": "https://hs.pangaea.de/model/GMTED/elevation/elevation_50KMmd_GMTEDmd.tif",
+      "size_bytes": 210720,
+      "sha256": "cf8dd85ce935ba677d59b9496e02a8130e00ac2bb3d145f10e281001f1f408f5",
+      "raster": {
+        "width": 864,
+        "height": 336,
+        "count": 1,
+        "dtype": "float32",
+        "crs": "EPSG:4326",
+        "nodata": -9999.0,
+        "bounds": [-180.0, -56.0, 180.0, 84.0],
+        "transform": [0.4166666666666667, 0.0, -180.0, 0.0, -0.4166666666666667, 84.0]
+      }
+    },
+    {
+      "id": "slope",
+      "filename": "slope_50KMmd_GMTEDmd.tif",
+      "url": "https://hs.pangaea.de/model/GMTED/slope/slope_50KMmd_GMTEDmd.tif",
+      "size_bytes": 287378,
+      "sha256": "c1b898236d9d8deb325e72152173974d324809d20d1b712219df6386fa75627f",
+      "raster": {
+        "width": 864,
+        "height": 336,
+        "count": 1,
+        "dtype": "float32",
+        "crs": "EPSG:4326",
+        "nodata": -9999.0,
+        "bounds": [-180.0, -56.0, 180.0, 84.0],
+        "transform": [0.4166666666666667, 0.0, -180.0, 0.0, -0.4166666666666667, 84.0]
+      }
+    },
+    {
+      "id": "terrain_roughness_index",
+      "filename": "tri_50KMmd_GMTEDmd.tif",
+      "url": "https://hs.pangaea.de/model/GMTED/tri/tri_50KMmd_GMTEDmd.tif",
+      "size_bytes": 157966,
+      "sha256": "f205d533f029fa63bd50b425ed38df79a0246a695c8d19a957358a54b96685ea",
+      "raster": {
+        "width": 864,
+        "height": 336,
+        "count": 1,
+        "dtype": "float32",
+        "crs": "EPSG:4326",
+        "nodata": -32768.0,
+        "bounds": [-180.0, -56.0, 180.0, 84.0],
+        "transform": [0.4166666666666667, 0.0, -180.0, 0.0, -0.4166666666666667, 84.0]
+      }
+    },
+    {
+      "id": "vector_ruggedness_measure",
+      "filename": "vrm_50KMmd_GMTEDmd.tif",
+      "url": "https://hs.pangaea.de/model/GMTED/vrm/vrm_50KMmd_GMTEDmd.tif",
+      "size_bytes": 353750,
+      "sha256": "4ee9553ae3c5c1e6cfbcf8e1bcebacbadded288ed4c3ddd4ce4c7daac5d9c0b0",
+      "raster": {
+        "width": 864,
+        "height": 336,
+        "count": 1,
+        "dtype": "float32",
+        "crs": "EPSG:4326",
+        "nodata": -32768.0,
+        "bounds": [-180.0, -56.0, 180.0, 84.0],
+        "transform": [0.4166666666666667, 0.0, -180.0, 0.0, -0.4166666666666667, 84.0]
+      }
+    }
+  ],
+  "all_four_present": true,
+  "colour_files_opened": false,
+  "colour_join_performed": false,
+  "terrain_statistic_computed": false,
+  "lineage": {
+    "source_contract_sha256": "f372c21d772753842b4d5bb98718ac3ed85d3083985f40d11ab982d0280d4a4f"
+  },
+  "artifact": {
+    "workflow_run_id": 34017520302,
+    "artifact_id": 9984413514,
+    "artifact_name": "global-rgfca-exact-earthenv-terrain-50km-v1",
+    "artifact_digest": "sha256:c5c7b1db796bb549f3badf7bafc96f53abe92fded7cce1959ce719cc240a2f6d"
+  }
+}
