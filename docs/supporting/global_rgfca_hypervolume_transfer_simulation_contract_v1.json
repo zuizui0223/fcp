@@ -1,0 +1,60 @@
+{
+  "protocol": "global-rgfca-hypervolume-transfer-simulation-v1",
+  "status": "fixed_before_first_benchmark_outcome",
+  "parent_commit": "fe336db8fe9344608886a421ac4a0e6fc6aa38d2",
+  "purpose": "Test whether colour-conditioned Gaussian hypervolume geometry combined with species-disjoint partition transfer distinguishes geography-representable from environment-representable synthetic colour organization. This is a bounded proof of concept, NOT an end-to-end calibration of the 369-species RGFCA or a causal-identification procedure.",
+  "seed": 2026090621,
+  "design": {
+    "species_per_world": 60,
+    "photos_per_species": 20,
+    "training_species": 30,
+    "heldout_species": 30,
+    "calibration_worlds_per_nuisance": 1000,
+    "evaluation_worlds_per_scenario": 1000,
+    "amplitudes": [0.5, 1.0, 2.0],
+    "noise_sd": 1.0,
+    "transition_width": 0.5,
+    "gaussian_shrinkage": 0.2,
+    "covariance_ridge": 0.000001,
+    "minimum_photos_per_colour_class": 4,
+    "alpha_two_domain_family": 0.05
+  },
+  "coordinates": {
+    "geography": "Independent uniform unit-sphere xyz observations, scaled by sqrt(3). No real photo outcomes or climate values are used in the benchmark.",
+    "environment": "Two globally defined synthetic fourth-harmonic fields: (x^4-6*x^2*y^2+y^4, 4*x*y*(x^2-y^2)), scaled by sqrt(315)/8. These even functions repeat environmental conditions across different geographic positions; they are not CHELSA heat/dryness measurements.",
+    "availability": "Identical coordinate arrays are reused across scenario comparisons within a stage/replicate. Occupancy and observation selection remain fixed when synthetic colour organization changes.",
+    "confounded_control": "For a separate identifiability control set environment=(sqrt(3)*x,sqrt(3)*y) and shared colour response along sqrt(3)*x. Geographic and environmental response are then observationally equivalent; a both-domain result is permitted and must not be forced into one cause."
+  },
+  "worlds": {
+    "geography_shared": "One common random geographic plane normal across species.",
+    "environment_shared": "One common random environmental plane normal across species.",
+    "species_specific_geography": "Independent random geographic plane normal per species, with the same signal amplitude and response shape as geography_shared.",
+    "species_specific_environment": "Independent random environmental plane normal per species, with the same signal amplitude and response shape as environment_shared.",
+    "unstructured": "Independent Gaussian noise only.",
+    "confounded_shared": "Same shared signal in overlapping geographic/environmental representations, at amplitude 2 only."
+  },
+  "colour_generator": "Binary synthetic colour = 1[amplitude * species_random_sign * tanh(projected_coordinate / transition_width) + N(0,1) > 0]. A random sign per species deliberately prevents pooling colour identities across species.",
+  "hypervolumes": {
+    "total_volume": "Log volume of a 95% shrinkage-Gaussian ellipsoid ignoring colour; an exact negative-control invariant when only colour labels change.",
+    "colour_partition": "Two class-conditional shrinkage-Gaussian distributions with equal priors per training species. Report Bhattacharyya affinity, NOT geometric intersection volume or Jaccard.",
+    "transfer": "For each training species fit its two Gaussian distributions, predict a two-class partition for every heldout species in each domain, and calculate adjusted Rand index (ARI) against heldout synthetic colours. ARI is invariant to species-specific colour-label swaps. Average equally across all training x heldout species pairs; pairs lacking >=4 observations per true class contribute zero, not an outcome-selected exclusion. No heldout species is used to fit, tune or orient a predictor.",
+    "not_claimed": "Gaussian moments do not recover arbitrary multimodal/holey hypervolumes. Representation-specific recovery is not proof of a unique ecological cause."
+  },
+  "calibration": {
+    "nuisances": ["unstructured", "species_specific_geography", "species_specific_environment"],
+    "threshold": "For each domain and nonzero amplitude take the maximum empirical 97.5th-percentile (method=higher) of transfer scores across the three nuisance calibration worlds. Use strict greater-than rejection. This is composite empirical calibration with a two-domain Bonferroni allocation, not an exact permutation test.",
+    "evaluation": "Use disjoint RNG streams for calibration and evaluation. Report geography-only, environment-only, both and neither frequencies for every world, plus per-domain rates and Wilson 95% Monte Carlo intervals. Include independent nuisance evaluation; do not certify 5% error just because the nominal allocation is 5%.",
+    "uncertainty": "Wilson intervals condition on estimated calibration thresholds and omit calibration-threshold uncertainty.",
+    "decision": "No outcome-dependent seed, amplitude, dimensionality, bandwidth or subset replacement. Failures and both-domain outcomes remain visible."
+  },
+  "empirical_geometry_audit": {
+    "source": "SHA-verified geometry-only export from the frozen 50000-row measured table",
+    "allowed_columns": ["photo_id", "species", "latitude", "longitude", "global_classifiable"],
+    "source_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "task": "Quantify fixed sampling-frame attrition and coordinate coverage separately from the uniform-sphere benchmark. Do not present a geometry audit as empirical hypervolume inference or as a full actual-geometry power simulation."
+  },
+  "parent_decisions_immutable": true,
+  "real_colour_reanalysis_authorized": false,
+  "real_environment_reanalysis_authorized": false,
+  "future_prerequisites": ["Actual-geometry and nonuniform-availability calibration", "Species-disjoint AND geographic-block holdout with common-support checks", "Verified fixed real environmental axes and scaling", "Explicit structure-preserving alignment null", "No reinterpretation of existing G1, thermal/dryness, C/S or interaction decisions"]
+}
