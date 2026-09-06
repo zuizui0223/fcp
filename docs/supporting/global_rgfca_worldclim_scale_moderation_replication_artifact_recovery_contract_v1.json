@@ -1,0 +1,18 @@
+{
+  "protocol": "global-rgfca-worldclim-scale-moderation-replication-artifact-recovery-v1",
+  "status": "artifact_only_recovery_frozen_after_completed_analysis_before_repo_result_commit",
+  "source_run_id": 34017386903,
+  "source_artifact_id": 9984557058,
+  "source_artifact_name": "global-rgfca-worldclim-scale-moderation-replication-v1",
+  "source_artifact_zip_digest": "sha256:1380e7642eada6b5ccffc10f7783551063a0fc7c39835c5676dbfe2edc3aa251",
+  "analysis_completed_successfully": true,
+  "analysis_may_be_reexecuted": false,
+  "recovery_is_byte_copy_only": true,
+  "files": {
+    "docs/supporting/global_rgfca_worldclim_scale_moderation_replication_result_v1.json": "c4f1600e68061da471b959765feefbc31011639d21db926867666e2ddd0d12ae",
+    "data/derived/global_rgfca_worldclim_scale_moderation_replication_species_v1.csv": "0d7aaf29f4f1906f470f243bbabfacb83d5bd8988c97a1b372ae8c678b09f1cb",
+    "data/derived/global_rgfca_worldclim_scale_moderation_replication_null_v1.csv": "5b5df9baa7ff3f1e40ef09a5b5f87aaad279ed9ca2a4a46d621dc87fbbd630e9"
+  },
+  "scientific_result_change_allowed": false,
+  "result_selection_allowed": false
+}
