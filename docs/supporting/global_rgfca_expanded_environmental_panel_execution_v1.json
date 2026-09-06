@@ -1,0 +1,51 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-v1",
+  "status": "technical_execution_order_frozen_before_any_expanded_panel_block_colour_alignment_result",
+  "date": "2026-09-06",
+  "parent_contract": "docs/supporting/global_rgfca_expanded_environmental_process_panel_contract_v1.json",
+  "execution_order": [
+    "terrain_structure",
+    "thermal_regime",
+    "water_balance",
+    "atmospheric_energy_dryness",
+    "edaphic_regime"
+  ],
+  "reason_for_order": "terrain exact source bytes were frozen first; order is determined by source readiness, not observed flower-colour alignment",
+  "nonselective_completion_rule": {
+    "attempt_every_block_with_a_completed_source_freeze": true,
+    "terrain_result_may_not_stop_or_change_acquisition_or_execution_of_later_blocks": true,
+    "no_block_may_be_omitted_because_its_observed_sign_is_unfavourable": true,
+    "no_new_block_may_be_added_after_any_block_result": true,
+    "fixed_block_family": [
+      "thermal_regime",
+      "water_balance",
+      "atmospheric_energy_dryness",
+      "edaphic_regime",
+      "terrain_structure"
+    ]
+  },
+  "intermediate_reporting": {
+    "raw_block_p_values_may_be_recorded_as_each_source-ready block completes": true,
+    "no_block_is_called_panel_supported_before_final_Holm_across_all_evaluable_fixed_blocks": true,
+    "individual_variable_decomposition_remains_closed_until_parent_block_passes_final_Holm": true
+  },
+  "terrain_execution_mapping": {
+    "source_verification": "docs/supporting/global_rgfca_earthenv_terrain_source_verification_v1.json",
+    "source_artifact_run_id": 34017520302,
+    "source_artifact_id": 9984413514,
+    "source_artifact_name": "global-rgfca-exact-earthenv-terrain-50km-v1",
+    "source_artifact_digest": "sha256:c5c7b1db796bb549f3badf7bafc96f53abe92fded7cce1959ce719cc240a2f6d",
+    "standardization": "for each of elevation, slope, TRI and VRM independently, mean 0 and population-SD 1 over all finite cells in its exact frozen EarthEnv raster",
+    "endpoint_sampling": "nearest containing raster cell under the exact geotransform; outside extent or nodata is missing, never zero",
+    "edge_score": "sqrt(mean((z_endpoint_A - z_endpoint_B)^2)) over the four fixed terrain axes",
+    "edge_filter": "both endpoints complete for all four axes",
+    "colour_geometry": "exact frozen RGFCA 200 outer realizations, k=3, within-species midrank four-group JSD",
+    "per_species_statistic": "partial Spearman of terrain block contrast and colour edge score controlling ranked great-circle edge distance",
+    "global_statistic": "equal-species mean partial rho",
+    "minimum_edges_per_species": 5,
+    "minimum_species": 30,
+    "null_indices": "0..998 exactly once",
+    "null_master_seed": 2026090403,
+    "tail": "upper"
+  }
+}
