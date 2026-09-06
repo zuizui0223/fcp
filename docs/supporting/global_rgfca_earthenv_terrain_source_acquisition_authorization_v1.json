@@ -1,0 +1,13 @@
+{
+  "protocol": "global-rgfca-earthenv-terrain-source-acquisition-v1",
+  "status": "authorize_exactly_one_earthenv_terrain_source_acquisition",
+  "date": "2026-09-06",
+  "workflow_attempts_allowed": 1,
+  "download_exact_frozen_urls_only": true,
+  "all_four_files_required": true,
+  "record_sha256_before_any_terrain_colour_alignment": true,
+  "flower_colour_access_allowed": false,
+  "terrain_alignment_allowed_in_this_workflow": false,
+  "source_substitution_allowed": false,
+  "favourable_rerun_allowed": false
+}
