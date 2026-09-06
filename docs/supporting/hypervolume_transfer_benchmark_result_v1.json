@@ -1,0 +1,42 @@
+{
+  "protocol": "hypervolume-geo-environment-transfer-benchmark-v1",
+  "status": "complete_synthetic_benchmark",
+  "specification_commit": "bb23f879f6d84a27d0c7fdbde430b9d4f4b4f7ad",
+  "seed": 2026090701,
+  "simulated_worlds": 40500,
+  "calibration_worlds": 24000,
+  "evaluation_worlds": 16500,
+  "evaluation_worlds_per_scenario": 500,
+  "species_per_world": 60,
+  "training_species": 30,
+  "evaluation_species": 30,
+  "photos_per_species": 20,
+  "runner_sha256": "b5312f75128992f99b45898a6e5190aab1a86e18ad59573d26ca5fae66d8219b",
+  "unit_tests_passed": 15,
+  "versions": {"python": "3.13.5", "numpy": "2.3.5", "scipy": "1.17.0", "pandas": "2.2.3", "scikit_learn": "1.8.0"},
+  "maximum_colour_invariant_total_volume_error": 0.0,
+  "all_decisions": "data/derived/hypervolume_transfer_decisions_v1.csv",
+  "environment_only_recovery_by_amplitude": {
+    "0.5": {"count": 66, "rate": 0.132, "wilson95": [0.105117, 0.164495]},
+    "1.0": {"count": 472, "rate": 0.944, "wilson95": [0.920255, 0.960974]},
+    "2.0": {"count": 500, "rate": 1.0, "wilson95": [0.992376, 1.0]}
+  },
+  "geography_only_recovery_by_amplitude": {"0.5": 0.454, "1.0": 1.0, "2.0": 1.0},
+  "confounded_control_both_positive_by_amplitude": {"0.5": 0.198, "1.0": 0.986, "2.0": 1.0},
+  "maximum_nuisance_any_positive_rate": 0.042,
+  "maximum_nuisance_case": "confounded mapping / amplitude 0.5 / environmental_specific",
+  "maximum_nuisance_case_count": 21,
+  "maximum_nuisance_case_wilson95": [0.027632, 0.063352],
+  "amplitude1_environmental_separation_comparison": {
+    "shared_1_minus_gaussian_affinity": 0.248787,
+    "species_specific_1_minus_gaussian_affinity": 0.247905,
+    "shared_cross_species_transfer_ARI": 0.107159,
+    "species_specific_cross_species_transfer_ARI": 0.059873
+  },
+  "biological_colour_values_used": false,
+  "real_climate_used": false,
+  "parent_decisions_modified": false,
+  "claim_ceiling": "Species-disjoint predictive transfer of low-order Gaussian summaries under explicitly constructed synthetic worlds. Harmonic environmental coordinates were chosen to create representation-dependent recoverability. This is not identification of causal climate versus geography, not species-and-region-disjoint validation, not actual-RGFCA power, and not observed colour niche inference.",
+  "uncertainty": "Wilson intervals describe evaluation Monte Carlo error conditional on estimated thresholds and omit calibration-threshold uncertainty. Maximum observed nuisance rate below 5% is not certification of universal type-I control. Amplitudes have no established conversion to empirical RGFCA rho or beta.",
+  "technical_correction": "Before simulation, the E(x)=E(-x) test was changed from bitwise equality to tolerance 1e-14 after discrepancies up to 2.22e-16. No generator, scientific threshold, seed, or scenario was changed."
+}
