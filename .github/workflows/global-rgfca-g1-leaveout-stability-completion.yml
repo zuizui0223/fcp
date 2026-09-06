@@ -10,8 +10,6 @@ on:
 permissions:
   contents: write
 
-actionlint: false
-
 concurrency:
   group: global-rgfca-g1-leaveout-stability-completion
   cancel-in-progress: false
