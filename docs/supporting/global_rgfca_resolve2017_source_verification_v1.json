@@ -1,0 +1,27 @@
+{
+  "protocol": "global-rgfca-resolve2017-precolour-source-reuse-v1",
+  "status": "pass_exact_precolour_resolve2017_payload_recovered",
+  "archive_sha256": "be36d6209e443038d02e309f0447c6e7f2a62f5fe60c605ffe90d064952f2a60",
+  "archive_bytes": 149248653,
+  "extracted": {
+    "Ecoregions2017.shp": {
+      "sha256": "d564235263d7a2f118cbb4fcb6e7593ef5f8c2f3600604d46047aa2712a83574",
+      "bytes": 243042148
+    },
+    "Ecoregions2017.shx": {
+      "sha256": "140342bc19d04a6f1ee11d1099a6c115f8c076f1396c6f2a5a55182471ff4c42",
+      "bytes": 6876
+    },
+    "Ecoregions2017.dbf": {
+      "sha256": "036987c540eef2dfd6e8a0678f3b85193649b3f63f545463dfcb2fed4f973ab5",
+      "bytes": 1027078
+    },
+    "Ecoregions2017.prj": {
+      "sha256": "db2f4b2a30c81a88981162acd3ff4629b86350834194efed1a6650446ccaecf4",
+      "bytes": 257
+    }
+  },
+  "precolour_import_commit": "6ee27d9af03941440992c3f598483f29b6edc08e",
+  "source_substituted": false,
+  "primary_g1_may_be_rescued": false
+}
