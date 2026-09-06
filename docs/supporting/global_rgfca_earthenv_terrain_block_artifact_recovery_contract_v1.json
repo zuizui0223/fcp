@@ -1,0 +1,18 @@
+{
+  "protocol": "global-rgfca-earthenv-terrain-block-artifact-recovery-v1",
+  "status": "artifact_only_recovery_frozen_after_completed_terrain_analysis_before_repo_result_commit",
+  "source_run_id": 34017934825,
+  "source_artifact_id": 9984688398,
+  "source_artifact_name": "global-rgfca-earthenv-terrain-block-v1",
+  "source_artifact_zip_digest": "sha256:9b57fa4873f51ee3b8f6459137a2c92a2395f8fc7772d8db2ac3de1a44298b92",
+  "analysis_completed_successfully": true,
+  "analysis_may_be_reexecuted": false,
+  "recovery_is_byte_copy_only": true,
+  "files": {
+    "docs/supporting/global_rgfca_earthenv_terrain_block_result_v1.json": "1b4b6877a60f7e8c0f395cf4a4ae967d2e02d04648753e17d28f57a476549849",
+    "data/derived/global_rgfca_earthenv_terrain_block_species_v1.csv": "3320ffb72f68b9c2a9d0e95505143c332a2e6bd32b7580ffba98277abc4b124e",
+    "data/derived/global_rgfca_earthenv_terrain_block_null_v1.csv": "41cdb2c062c72edc1b770a407c245e9b5463efb6be9ba30c68fb04d1faf742a0"
+  },
+  "scientific_result_change_allowed": false,
+  "result_selection_allowed": false
+}
