@@ -1,0 +1,61 @@
+{
+  "protocol": "hypervolume-actual-support-blocked-transfer-v1",
+  "status": "frozen_before_actual_support_synthetic_outcomes",
+  "date_jst": "2026-09-07",
+  "parent_snapshot": "baaf65920d149c555338562f878d3040b3a4e4be",
+  "role": "Post-outcome methodological extension only; preserve all existing empirical decisions.",
+  "seed": 2026090702,
+  "geometry": {
+    "source_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "export_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+    "columns": ["photo_id", "species", "latitude", "longitude", "global_classifiable"],
+    "eligible_species": 369,
+    "complete_same_species_rows": 36900,
+    "classifiable_same_species_rows": 21424,
+    "eligibility": "Reuse the frozen >=40 classifiable-photo species frame. Existing classifiability is a measurement-derived selection mask, not an outcome-independent random missingness mechanism. No biological colour values enter this benchmark.",
+    "frames": ["retained", "complete_same_species"],
+    "photos_per_species_per_fold": 20,
+    "missingness_comparison": "Same species identities, same 20-photo draw size; compare retained pools with complete-coordinate pools. This isolates a support/sampling contrast conditional on selected species, not a causal missingness effect. No missing real colour is imputed."
+  },
+  "splits": {
+    "species_assignment": "Sort eligible species by SHA256('2026090702|species_split|' + species); first floor(369/2)=184 are training-only and the remaining 185 evaluation-only in every fold/world.",
+    "geographic_folds": "Four longitude sectors floor(((longitude+180) mod 360)/90), numbered 0,1,2,3. Evaluation photos are restricted to the selected sector.",
+    "buffer_km": 500,
+    "earth_radius_km": 6371.0088,
+    "buffer_reference": "All complete-coordinate photos of the 369 fixed eligible species in the held-out longitude sector. Exclude training photos outside the sector whose nearest reference point is <500 km great-circle distance.",
+    "modes": ["species_only", "species_and_region"],
+    "species_only_comparator": "Use all-region training pools of the exact same training species; keep evaluation species and target-sector pools unchanged. This is not a random-photo holdout and not a within-species fit.",
+    "capacity": "Training species require >=20 retained photos outside the sector and buffer; evaluation species require >=20 retained photos inside the sector. Need >=20 eligible species in each role in all four folds; otherwise stop not_evaluable without relaxing thresholds.",
+    "species_per_fold": {"training": 20, "evaluation": 20},
+    "sampling": "Each world resamples 20 training and 20 evaluation species per fold without replacement from metadata-eligible role pools, then 20 distinct photos per species. Geometry schedules are shared across signal scenarios at the same stage/replicate. Species selections and random photo priorities are paired across the two frames and two modes.",
+    "metadata_only_preflight": {"eligible_training_species_by_fold": [133,135,141,165], "eligible_evaluation_species_by_fold": [60,62,59,26]},
+    "fold_aggregation": "Equal mean of all four fold transfer scores is the test statistic. All four folds are retained; no best-fold selection or treatment of folds/species pairs as independent simulation replicates."
+  },
+  "synthetic_worlds": {
+    "representation": "Reuse parent three-dimensional sqrt(3)*spherical Cartesian coordinates and its fixed two-dimensional fourth-harmonic synthetic environment. No real climate or learned coordinate transform.",
+    "model": "Parent colour-conditioned Gaussian/QDA, equal priors, 20% isotropic covariance shrinkage, ridge 1e-8. ARI is label-swap invariant. Invalid colour groups (<4 photos per class) and constant predictions contribute zero in the fixed denominator.",
+    "nuisance": ["geographic_specific", "environmental_specific", "mixed_specific", "no_structure"],
+    "nuisance_amplitudes": [0.5,1.0,2.0],
+    "no_structure_amplitude": 0.0,
+    "positive_families": ["geographic_shared", "environmental_shared"],
+    "positive_amplitude": 1.0,
+    "shared_fractions": [0.25,0.5,1.0],
+    "signal": "Reuse amplitude*sign*tanh(projection/0.5)+N(0,1)>0. Species-specific directions are independent; round(369*shared_fraction) species selected by a fresh random permutation share one common direction in positive worlds; others retain independent same-domain directions. Sign is species-specific and irrelevant to ARI.",
+    "dependency": "For a global synthetic world, draw species response directions and one noise value per original photo once. Reuse them wherever that species/photo occurs across all folds, frames and modes. No real-photo replication is called a new biological sample.",
+    "calibration_replicates_per_nuisance_arm": 250,
+    "evaluation_replicates_per_arm": 250,
+    "calibration_arms": 10,
+    "evaluation_arms": 16,
+    "unique_synthetic_worlds": 6500,
+    "fold_world_design_evaluations": 104000
+  },
+  "calibration": {
+    "rule": "For each frame/mode and representation, maximum empirical 97.5th percentile (method=higher) over all ten calibration nuisance arms, INCLUDING all three nuisance amplitudes. Use one threshold across positive sharing fractions; no conditioning on the unknown true amplitude.",
+    "comparison": "Strictly greater than threshold; retain geography_only, environment_only, both, neither and any-positive counts.",
+    "uncertainty": "Wilson 95% intervals for 250 independent evaluation-world draws conditional on the fixed support and estimated thresholds. Calibration-threshold uncertainty and generality beyond the finite nuisance family are not certified.",
+    "between_designs": "Four prespecified design diagnostics, not four confirmatory biological discoveries or a winner search. No joint type-I guarantee across all designs is asserted."
+  },
+  "outputs": ["fold/species/photo capacity and separation audit", "sampling schedules and inclusion counts", "all calibration and evaluation scores including per-fold contributions", "fixed thresholds", "all four-way decisions and Wilson intervals", "valid train/test and informative-prediction fractions", "paired complete-minus-retained and species-only-minus-blocked contrasts", "unit tests and independent score agreement", "source/code/output checksums"],
+  "forbidden": ["reading biological colour values", "changing empirical G1/H1-H6 or environmental support decisions", "relaxing fold capacity gates", "changing seeds or thresholds after outcomes", "claiming real environmental commonness or causation", "selecting successful folds"],
+  "claim_ceiling": "Recoverability of a fixed Gaussian transfer statistic under synthetic responses on actual coordinate support and the fixed measurement mask, with disjoint species and buffered spatial holdout. Not real-climate inference, unbiased global-plant sampling, empirical sharing prevalence, causal missingness effects, or proof of geographic/environmental causal separation."
+}
