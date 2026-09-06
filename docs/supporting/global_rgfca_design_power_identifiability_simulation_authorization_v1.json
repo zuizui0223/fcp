@@ -1,0 +1,16 @@
+{
+  "protocol": "global-rgfca-design-power-identifiability-simulation-authorization-v1",
+  "status": "authorize_exactly_one_design_power_simulation_execution",
+  "date": "2026-09-06",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "contract": "docs/supporting/global_rgfca_design_power_identifiability_simulation_contract_v1.json",
+  "contract_blob_sha": "e9209ea1d0e4c27915b2c45c97a1327379ed7e5b",
+  "runner": "scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py",
+  "runner_blob_sha": "baa85df12db2d630ec6f554404baf1067dcfdebb",
+  "workflow": ".github/workflows/global-rgfca-design-power-identifiability-simulation.yml",
+  "workflow_blob_sha": "1d3161f7a1043a1c2553bbd82205ffa3184fc700",
+  "workflow_attempts_allowed": 1,
+  "favourable_rerun_allowed": false,
+  "observed_decision_reclassification_allowed": false,
+  "posthoc_scenario_addition_allowed": false
+}
