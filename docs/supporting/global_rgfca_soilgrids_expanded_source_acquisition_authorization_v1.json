@@ -1,0 +1,13 @@
+{
+  "protocol": "global-rgfca-soilgrids-expanded-source-acquisition-v1",
+  "status": "authorize_exactly_one_expanded_soilgrids_source_acquisition",
+  "date": "2026-09-06",
+  "workflow_attempts_allowed": 1,
+  "all_12_GeoTIFFs_required": true,
+  "all_4_official_checksum_manifests_required": true,
+  "official_checksum_verification_required": true,
+  "flower_colour_access_allowed": false,
+  "edaphic_alignment_allowed_in_this_workflow": false,
+  "source_substitution_allowed": false,
+  "favourable_rerun_allowed": false
+}
