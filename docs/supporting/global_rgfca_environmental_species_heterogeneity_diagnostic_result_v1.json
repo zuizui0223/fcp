@@ -1,0 +1,72 @@
+{
+  "bootstrap_explained_variance_PC1_to_PC3": {
+    "PC1": {
+      "q10": 0.19797244668006897,
+      "q50": 0.2144368290901184,
+      "q90": 0.23156826198101044,
+      "reference": 0.21209157028363895
+    },
+    "PC2": {
+      "q10": 0.12161035090684891,
+      "q50": 0.13404381275177002,
+      "q90": 0.14554977416992188,
+      "reference": 0.13149522513134454
+    },
+    "PC3": {
+      "q10": 0.10777276009321213,
+      "q50": 0.11876329779624939,
+      "q90": 0.13252486288547516,
+      "reference": 0.11931956188722702
+    }
+  },
+  "decision_guard": {
+    "causal_or_local_adaptation_language_allowed": false,
+    "five_block_main_effect_panel_reclassified": false,
+    "individual_variable_decomposition_opened": false,
+    "ten_interaction_family_reclassified": false
+  },
+  "explained_variance_fraction_PC1_to_PC5": {
+    "PC1": 0.21209157028363895,
+    "PC2": 0.13149522513134454,
+    "PC3": 0.11931956188722702,
+    "PC4": 0.08057341919367404,
+    "PC5": 0.0659801862362616
+  },
+  "features": [
+    "main__terrain_structure",
+    "main__thermal_regime",
+    "main__water_balance",
+    "main__atmospheric_energy_dryness",
+    "main__edaphic_regime",
+    "interaction__atmospheric_energy_dryness_x_edaphic_regime",
+    "interaction__atmospheric_energy_dryness_x_terrain_structure",
+    "interaction__edaphic_regime_x_terrain_structure",
+    "interaction__thermal_regime_x_atmospheric_energy_dryness",
+    "interaction__thermal_regime_x_edaphic_regime",
+    "interaction__thermal_regime_x_terrain_structure",
+    "interaction__thermal_regime_x_water_balance",
+    "interaction__water_balance_x_atmospheric_energy_dryness",
+    "interaction__water_balance_x_edaphic_regime",
+    "interaction__water_balance_x_terrain_structure"
+  ],
+  "files": {
+    "correlations": "data/derived/global_rgfca_environmental_species_effect_correlations_v1.csv",
+    "pca_bootstrap": "data/derived/global_rgfca_environmental_species_effect_pca_bootstrap_v1.csv",
+    "pca_loadings": "data/derived/global_rgfca_environmental_species_effect_pca_loadings_v1.csv",
+    "species_matrix": "data/derived/global_rgfca_environmental_species_effect_matrix_v1.csv"
+  },
+  "input_species_sha256": {
+    "atmospheric_energy_dryness": "547530b991bf01b9de0ae787cc6daa1431c06ef8f286498d2f2c5d385f8e425f",
+    "edaphic_regime": "ffe9af0d97c67359d46648213d7a2d6954e4e79ea869371c70b233833aee15c4",
+    "ten_interaction_family": "9aea3003eb23db848ad93ecf70fb900a592e2183a235956259b12b1a12f588ea",
+    "terrain_structure": "3320ffb72f68b9c2a9d0e95505143c332a2e6bd32b7580ffba98277abc4b124e",
+    "thermal_regime": "8888675d309ac7c34fd928c485f13034d86296241ad2aa4e4f9cd5265f67495b",
+    "water_balance": "53e949b9bef1ad2fffddabb8ab73716b1b62ce29a00a9935d2e3996fcc011357"
+  },
+  "n_features": 15,
+  "n_species": 369,
+  "protocol": "global-rgfca-environmental-species-heterogeneity-diagnostic-v1",
+  "status": "complete_omnibus_species_environmental_heterogeneity_diagnostic",
+  "thermal_dryness_interpretation_guard": "Descriptive member of the complete 15-feature matrix; not a confirmatory combined heat-dryness test and does not open variable decomposition.",
+  "thermal_vs_atmospheric_dryness_species_effect_spearman": 0.30125987599476467
+}
