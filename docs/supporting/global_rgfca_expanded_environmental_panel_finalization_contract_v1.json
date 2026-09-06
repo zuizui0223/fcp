@@ -8,6 +8,10 @@
     "atmospheric_energy_dryness",
     "edaphic_regime"
   ],
+  "finalizer": {
+    "path": "scripts/analysis/finalize_global_rgfca_expanded_environmental_panel.py",
+    "git_blob_sha": "a8d2805c16881f58b889d253bc9cd1535fefc26e"
+  },
   "raw_result_sources": {
     "terrain_structure": {
       "run_id": 34017934825,
