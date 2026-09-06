@@ -1,0 +1,197 @@
+{
+  "S1": {
+    "frames": [
+      {
+        "eligible_species": 369,
+        "frame": "actual_classifiable",
+        "null": {
+          "calibration_mean": 8.311667610324289e-05,
+          "calibration_replicates": 500,
+          "evaluation_replicates": 500,
+          "evaluation_type1_fraction": 0.058,
+          "replicates": 1000,
+          "threshold_95_higher": 0.00010035243148063658
+        },
+        "pool_rows": 21424,
+        "schedule": {
+          "maximum_species_inclusions": 136,
+          "minimum_species_inclusions": 135,
+          "outer_realizations": 200,
+          "photo_max_inclusion_imbalance": 1,
+          "photos_per_species": 20,
+          "species_per_outer": 250
+        }
+      },
+      {
+        "eligible_species": 500,
+        "frame": "synthetic_complete_measured",
+        "null": {
+          "calibration_mean": 2.9230618387808668e-05,
+          "calibration_replicates": 500,
+          "evaluation_replicates": 500,
+          "evaluation_type1_fraction": 0.036,
+          "replicates": 1000,
+          "threshold_95_higher": 3.633085652078305e-05
+        },
+        "pool_rows": 50000,
+        "schedule": {
+          "maximum_species_inclusions": 100,
+          "minimum_species_inclusions": 100,
+          "outer_realizations": 200,
+          "photo_max_inclusion_imbalance": 0,
+          "photos_per_species": 20,
+          "species_per_outer": 250
+        }
+      }
+    ],
+    "minimum_shared_fraction": [
+      {
+        "frame": "actual_classifiable",
+        "minimum_shared_fraction_for_power_ge_0_8": 1.0,
+        "signal_amplitude": 0.5
+      },
+      {
+        "frame": "actual_classifiable",
+        "minimum_shared_fraction_for_power_ge_0_8": 0.0,
+        "signal_amplitude": 1.0
+      },
+      {
+        "frame": "actual_classifiable",
+        "minimum_shared_fraction_for_power_ge_0_8": 0.0,
+        "signal_amplitude": 2.0
+      },
+      {
+        "frame": "synthetic_complete_measured",
+        "minimum_shared_fraction_for_power_ge_0_8": 0.0,
+        "signal_amplitude": 0.5
+      },
+      {
+        "frame": "synthetic_complete_measured",
+        "minimum_shared_fraction_for_power_ge_0_8": 0.0,
+        "signal_amplitude": 1.0
+      },
+      {
+        "frame": "synthetic_complete_measured",
+        "minimum_shared_fraction_for_power_ge_0_8": 0.0,
+        "signal_amplitude": 2.0
+      }
+    ],
+    "scenario_rows": 38
+  },
+  "S2": {
+    "frozen_observed_gate_reference": {
+      "r_100_vs_200": 0.8809461021778187,
+      "threshold": 0.9
+    },
+    "rows": [
+      {
+        "bootstrap_replicates": 2000,
+        "independent_pair_median_r": 0.5906477671196348,
+        "independent_pair_prob_r_ge_0_9": 0.0,
+        "independent_pair_prob_r_ge_0_95": 0.0,
+        "independent_pair_q10_r": 0.48682064115846424,
+        "independent_pair_q90_r": 0.6880419972398241,
+        "outer_count": 25,
+        "to_frozen_200_median_r": 0.7601539873222833,
+        "to_frozen_200_prob_r_ge_0_9": 0.0,
+        "to_frozen_200_prob_r_ge_0_95": 0.0,
+        "to_frozen_200_q10_r": 0.6965264738991104,
+        "to_frozen_200_q90_r": 0.813494955959293
+      },
+      {
+        "bootstrap_replicates": 2000,
+        "independent_pair_median_r": 0.6883959177556707,
+        "independent_pair_prob_r_ge_0_9": 0.0,
+        "independent_pair_prob_r_ge_0_95": 0.0,
+        "independent_pair_q10_r": 0.5959464912948477,
+        "independent_pair_q90_r": 0.7646593655977618,
+        "outer_count": 50,
+        "to_frozen_200_median_r": 0.8293926766489528,
+        "to_frozen_200_prob_r_ge_0_9": 0.0095,
+        "to_frozen_200_prob_r_ge_0_95": 0.0,
+        "to_frozen_200_q10_r": 0.7739353757780792,
+        "to_frozen_200_q90_r": 0.8710430768591522
+      },
+      {
+        "bootstrap_replicates": 2000,
+        "independent_pair_median_r": 0.7937316016702611,
+        "independent_pair_prob_r_ge_0_9": 0.0065,
+        "independent_pair_prob_r_ge_0_95": 0.0,
+        "independent_pair_q10_r": 0.7114553337481033,
+        "independent_pair_q90_r": 0.8543159042449786,
+        "outer_count": 100,
+        "to_frozen_200_median_r": 0.8933256205042812,
+        "to_frozen_200_prob_r_ge_0_9": 0.414,
+        "to_frozen_200_prob_r_ge_0_95": 0.001,
+        "to_frozen_200_q10_r": 0.8459466149016286,
+        "to_frozen_200_q90_r": 0.9243600831650146
+      },
+      {
+        "bootstrap_replicates": 2000,
+        "independent_pair_median_r": 0.8476544766151786,
+        "independent_pair_prob_r_ge_0_9": 0.064,
+        "independent_pair_prob_r_ge_0_95": 0.0,
+        "independent_pair_q10_r": 0.775444197999739,
+        "independent_pair_q90_r": 0.8930589512337567,
+        "outer_count": 150,
+        "to_frozen_200_median_r": 0.926916951588729,
+        "to_frozen_200_prob_r_ge_0_9": 0.8145,
+        "to_frozen_200_prob_r_ge_0_95": 0.093,
+        "to_frozen_200_q10_r": 0.8842112277606371,
+        "to_frozen_200_q90_r": 0.9494315278924096
+      },
+      {
+        "bootstrap_replicates": 2000,
+        "independent_pair_median_r": 0.8836021010454764,
+        "independent_pair_prob_r_ge_0_9": 0.316,
+        "independent_pair_prob_r_ge_0_95": 0.0,
+        "independent_pair_q10_r": 0.8292733681520237,
+        "independent_pair_q90_r": 0.9221146535288162,
+        "outer_count": 200,
+        "to_frozen_200_median_r": 0.9450506884071461,
+        "to_frozen_200_prob_r_ge_0_9": 0.9275,
+        "to_frozen_200_prob_r_ge_0_95": 0.3835,
+        "to_frozen_200_q10_r": 0.9082770869238918,
+        "to_frozen_200_q90_r": 0.9624325432822288
+      }
+    ]
+  },
+  "S3": {
+    "implemented_family": "five_environmental_parent_blocks",
+    "meta": {
+      "approximation": "Gaussian null approximation fixed from each raw block's reported 2.5/97.5% null quantiles; no observed block is removed from the five-test family.",
+      "blocks": [
+        "terrain_structure",
+        "thermal_regime",
+        "water_balance",
+        "atmospheric_energy_dryness",
+        "edaphic_regime"
+      ],
+      "gaussian_sigma_from_reported_null_95_interval": {
+        "atmospheric_energy_dryness": 0.0037148641508841685,
+        "edaphic_regime": 0.005282296165078075,
+        "terrain_structure": 0.004163298640746908,
+        "thermal_regime": 0.003686093534694483,
+        "water_balance": 0.004018443166790721
+      },
+      "null_mean": {
+        "atmospheric_energy_dryness": -5.4855006524127344e-05,
+        "edaphic_regime": 0.00013683087454056844,
+        "terrain_structure": -1.0954391892256494e-05,
+        "thermal_regime": -5.481831056405096e-05,
+        "water_balance": -1.0039126362635336e-05
+      }
+    },
+    "rows": 105,
+    "ten_interaction_family_status": "deferred_until_exact_interaction_null_distribution_is_recovered_from_immutable_artifact; no approximation from observed pair p-values is used"
+  },
+  "decision_guard": {
+    "G1_primary_reclassified": false,
+    "environmental_parent_blocks_reclassified": false,
+    "interaction_family_reclassified": false,
+    "variable_level_decomposition_opened": false
+  },
+  "protocol": "global-rgfca-design-power-identifiability-simulation-v1",
+  "role": "Post-outcome methodological simulation. It quantifies detectability, stability, missingness cost, partial-sharing identifiability, and multiplicity cost. It cannot rescue or reclassify any observed biological result.",
+  "status": "complete_postoutcome_methodological_simulation_no_observed_decision_change"
+}
