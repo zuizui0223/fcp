@@ -1,0 +1,22 @@
+{
+  "protocol": "global-rgfca-g5-execution-authorization-v1",
+  "status": "authorize_exactly_one_g5_metadata_freeze_and_conditional_primary_inference",
+  "date": "2026-09-06",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "parent_contract": "docs/supporting/global_sympatry_colour_assembly_contract_v1.json",
+  "implementation_contract": "docs/supporting/global_rgfca_g5_metadata_matching_implementation_contract_v1.json",
+  "workflow": ".github/workflows/global-rgfca-g5-sympatry-colour-assembly.yml",
+  "workflow_attempts_allowed": 1,
+  "execution_order": [
+    "validate code without external outcome access",
+    "acquire and freeze independent GBIF/CHELSA/realm metadata and matched sets without colour access",
+    "commit matched sets",
+    "open colour only if at least 30 focal species have at least two matched sets",
+    "run the frozen 999-permutation two-sided primary test or close as not_evaluable without colour access"
+  ],
+  "source_substitution_allowed": false,
+  "matching_threshold_relaxation_allowed": false,
+  "favourable_rerun_allowed": false,
+  "posthoc_context_selection_allowed": false,
+  "claim_ceiling": "Unchanged from the prospective G5 contract."
+}
