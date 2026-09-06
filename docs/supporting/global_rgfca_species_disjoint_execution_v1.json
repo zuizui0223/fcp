@@ -1,0 +1,82 @@
+{
+  "protocol": "global-rgfca-species-disjoint-commonness-execution-v1",
+  "status": "technical_execution_mapping_frozen_before_species_disjoint_commonness_result",
+  "date": "2026-09-06",
+  "parent_claim_contract": "docs/supporting/global_rgfca_common_boundary_claim_contract_v1.json",
+  "scope": "level_2_common_across_species only",
+  "outcome_firewall": {
+    "primary_g1_seen": true,
+    "prespecified_spatial_robustness_seen": true,
+    "resolve_edge_mechanism_seen": true,
+    "species_disjoint_result_seen": false
+  },
+  "species_partition": {
+    "eligible_species_source": "frozen measured pool after >=40 classifiable-photo gate",
+    "eligible_species_count_expected": 369,
+    "canonical_order": "lexicographically sorted species labels from canonical_colour_pool",
+    "algorithm": "numpy.default_rng(seed).permutation(canonical_order), then assign permuted position modulo 5",
+    "seed": 2026090604,
+    "folds": 5,
+    "balanced_fold_sizes_expected": [74, 74, 74, 74, 73],
+    "colour_or_coordinate_information_used_for_partition": false,
+    "each_species_held_out_exactly_once": true
+  },
+  "outer_schedule": {
+    "reuse_exact_primary_200_outer_schedule": true,
+    "reuse_primary_species_seed": 2026090401,
+    "reuse_primary_photo_master_seed": 2026090402,
+    "no_new_photo_draws": true,
+    "per_fold_operation": "within each original outer realization, filter scheduled species into complementary training and held-out sets without replacement or substitution"
+  },
+  "field": {
+    "grid": "36x18 equal-area longitude x sin(latitude)",
+    "kernel_bandwidth_km": 500.0,
+    "kernel_cutoff_multiplier": 3.0,
+    "minimum_distinct_species_support_per_cell_per_subset_per_outer": 5,
+    "graph": "spherical kNN k=3",
+    "colour_distance": "Jensen-Shannon divergence in bits on four-group colour vector",
+    "edge_standardization": "within-species midrank percentile",
+    "species_total_weight": 1.0,
+    "consensus": "sum subset outer colour numerators divided by sum subset outer opportunities over subset-evaluable outer cells",
+    "multiple_disconnected_high-discontinuity_zones_allowed": true,
+    "zone_number_parameter": null
+  },
+  "cross_prediction": {
+    "per_fold_statistic": "symmetric opportunity-weighted Pearson correlation between training-species and held-out-species consensus fields",
+    "joint_cells": "cells with finite train and held-out consensus values and positive aggregate opportunity in both",
+    "minimum_joint_cells_required": 10,
+    "cell_weight": "sqrt(training aggregate opportunity * held-out aggregate opportunity)",
+    "weighted_correlation_formula": "weighted covariance divided by square root of weighted train variance times weighted held-out variance",
+    "global_statistic": "median of all five fold correlations",
+    "all_five_folds_required": true,
+    "positive_fold_gate": "at least four of five observed fold correlations > 0"
+  },
+  "null": {
+    "null_master_seed": 2026090403,
+    "null_indices": "0..998 exactly once",
+    "unit": "complete four-group colour vector permuted within species with each null assignment reused across all 200 outer realizations",
+    "same_null_index_used_for_train_and_heldout_species": true,
+    "global_null_statistic": "median of the same five fold correlations for each null index",
+    "tail": "upper",
+    "p_value": "(1 + count(null_global_statistic >= observed_global_statistic)) / 1000",
+    "alpha": 0.05
+  },
+  "decision": {
+    "supported_if_all": [
+      "p_upper < 0.05",
+      "observed_global_statistic > null mean",
+      "at least four of five observed fold correlations > 0"
+    ],
+    "primary_g1_reclassification_allowed": false,
+    "zone_extraction_opened_by_level2_alone": false,
+    "claim_if_supported": "common multi-zone flower-colour boundary architecture across species",
+    "claim_if_not_supported": "no species-disjoint support for common boundary architecture; retain lower-level recurrence and robustness results only"
+  },
+  "execution_policy": {
+    "workflow_attempts_allowed": 1,
+    "favourable_rerun_allowed": false,
+    "fold_omission_allowed": false,
+    "threshold_or_seed_change_after_result": false,
+    "all_999_nulls_required": true
+  }
+}
