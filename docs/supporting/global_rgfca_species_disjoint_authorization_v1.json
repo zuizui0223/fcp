@@ -1,0 +1,24 @@
+{
+  "protocol": "global-rgfca-species-disjoint-commonness-execution-v1",
+  "status": "authorize_exactly_one_species_disjoint_commonness_execution",
+  "date": "2026-09-06",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "workflow_attempts_allowed": 1,
+  "all_five_folds_and_all_999_nulls_required": true,
+  "fold_omission_allowed": false,
+  "favourable_rerun_allowed": false,
+  "seed_or_threshold_change_after_result_allowed": false,
+  "primary_g1_reclassification_allowed": false,
+  "single_boundary_required": false,
+  "multiple_disconnected_recurrent_zones_allowed": true,
+  "authorized_question": "Does a multi-zone colour-discontinuity field learned from one set of species predict the spatial distribution of discontinuities in entirely held-out species?",
+  "required_contracts": [
+    "docs/supporting/global_rgfca_common_boundary_claim_contract_v1.json",
+    "docs/supporting/global_rgfca_species_disjoint_execution_v1.json"
+  ],
+  "preflight": {
+    "workflow_run_id": 34010226296,
+    "status": "success",
+    "outcome_data_read": false
+  }
+}
