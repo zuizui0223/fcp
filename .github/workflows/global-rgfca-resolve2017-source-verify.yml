@@ -1,0 +1,121 @@
+name: Global RGFCA exact RESOLVE 2017 source verification
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_resolve2017_source_authorization_v1.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: global-rgfca-resolve2017-source-verify
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Enforce exact pre-colour source reuse and one attempt
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          if os.environ["RUN_ATTEMPT"] != "1":
+              raise SystemExit("favourable source rerun forbidden")
+          auth = json.loads(Path("docs/supporting/global_rgfca_resolve2017_source_authorization_v1.json").read_text())
+          reuse = json.loads(Path("docs/supporting/global_rgfca_resolve2017_reuse_contract_v1.json").read_text())
+          old = json.loads(Path("data/atlas/environment/climate_ecoregion_source_manifest.json").read_text())
+          if auth.get("status") != "authorize_exactly_one_exact_resolve2017_source_verification":
+              raise SystemExit("source verification not authorized")
+          if auth.get("workflow_attempts_allowed") != 1:
+              raise SystemExit("exactly one workflow attempt required")
+          if reuse.get("newer_or_different_resolve_payload_allowed") is not False or reuse.get("source_substitution_allowed") is not False:
+              raise SystemExit("source substitution protection drift")
+          expected = reuse["source"]["archive_sha256_required"]
+          if old["archive_sha256"]["Ecoregions2017.zip"] != expected:
+              raise SystemExit("reuse contract no longer matches pre-colour archive hash")
+          for name, digest in reuse["source"]["extracted_sha256_required"].items():
+              if old["extracted_source_sha256"].get(name) != digest:
+                  raise SystemExit(f"reuse contract no longer matches pre-colour hash for {name}")
+          if reuse.get("precolour_import_commit") != "6ee27d9af03941440992c3f598483f29b6edc08e":
+              raise SystemExit("pre-colour lineage commit drift")
+          print({"gate":"pass","archive_sha256":expected})
+          PY
+      - name: Download exact historical locator
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/resolve2017
+          curl --fail --location --retry 0 \
+            "https://storage.googleapis.com/teow2016/Ecoregions2017.zip" \
+            -o /tmp/resolve2017/Ecoregions2017.zip
+      - name: Verify archive and extracted file hashes
+        run: |
+          set -euo pipefail
+          echo "be36d6209e443038d02e309f0447c6e7f2a62f5fe60c605ffe90d064952f2a60  /tmp/resolve2017/Ecoregions2017.zip" | sha256sum -c -
+          mkdir -p /tmp/resolve2017/extracted
+          unzip -q /tmp/resolve2017/Ecoregions2017.zip -d /tmp/resolve2017/extracted
+          find /tmp/resolve2017/extracted -type f -maxdepth 3 -print | sort
+          SHP=$(find /tmp/resolve2017/extracted -type f -name 'Ecoregions2017.shp' -print -quit)
+          SHX=$(find /tmp/resolve2017/extracted -type f -name 'Ecoregions2017.shx' -print -quit)
+          DBF=$(find /tmp/resolve2017/extracted -type f -name 'Ecoregions2017.dbf' -print -quit)
+          PRJ=$(find /tmp/resolve2017/extracted -type f -name 'Ecoregions2017.prj' -print -quit)
+          test -n "$SHP" && test -n "$SHX" && test -n "$DBF" && test -n "$PRJ"
+          test "$(sha256sum "$SHP" | awk '{print $1}')" = "d564235263d7a2f118cbb4fcb6e7593ef5f8c2f3600604d46047aa2712a83574"
+          test "$(sha256sum "$SHX" | awk '{print $1}')" = "140342bc19d04a6f1ee11d1099a6c115f8c076f1396c6f2a5a55182471ff4c42"
+          test "$(sha256sum "$DBF" | awk '{print $1}')" = "036987c540eef2dfd6e8a0678f3b85193649b3f63f545463dfcb2fed4f973ab5"
+          test "$(sha256sum "$PRJ" | awk '{print $1}')" = "db2f4b2a30c81a88981162acd3ff4629b86350834194efed1a6650446ccaecf4"
+      - name: Write verification manifest
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          root = Path('/tmp/resolve2017')
+          ext = root / 'extracted'
+          def sha(p):
+              h=hashlib.sha256()
+              with Path(p).open('rb') as f:
+                  for chunk in iter(lambda:f.read(1<<20), b''):
+                      h.update(chunk)
+              return h.hexdigest()
+          names = ['Ecoregions2017.shp','Ecoregions2017.shx','Ecoregions2017.dbf','Ecoregions2017.prj']
+          files = {}
+          for name in names:
+              p = next(ext.rglob(name))
+              files[name] = {"sha256":sha(p),"bytes":p.stat().st_size}
+          payload = {
+              "protocol":"global-rgfca-resolve2017-precolour-source-reuse-v1",
+              "status":"pass_exact_precolour_resolve2017_payload_recovered",
+              "archive_sha256":sha(root/'Ecoregions2017.zip'),
+              "archive_bytes":(root/'Ecoregions2017.zip').stat().st_size,
+              "extracted":files,
+              "precolour_import_commit":"6ee27d9af03941440992c3f598483f29b6edc08e",
+              "source_substituted":False,
+              "primary_g1_may_be_rescued":False
+          }
+          (root/'global_rgfca_resolve2017_source_verification_v1.json').write_text(json.dumps(payload,indent=2)+'\n')
+          print(json.dumps(payload,indent=2))
+          PY
+      - name: Upload exact verified source and provenance
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-exact-precolour-resolve2017-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/resolve2017/Ecoregions2017.zip
+            /tmp/resolve2017/global_rgfca_resolve2017_source_verification_v1.json
