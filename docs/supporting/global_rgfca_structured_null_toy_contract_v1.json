@@ -1,0 +1,49 @@
+{
+  "protocol": "global-rgfca-structured-null-specificity-toy-v1",
+  "status": "postoutcome_methodological_specification_fixed_before_new_toy_outputs",
+  "date": "2026-09-06",
+  "role": "Proof-of-concept for distinguishing individual spatial structure from cross-species spatial alignment; not a recalibration or rerun of observed RGFCA.",
+  "known_context": {
+    "design_simulation_result": "docs/supporting/global_rgfca_design_power_identifiability_simulation_result_v1.json",
+    "s4_result": "docs/supporting/global_rgfca_s4_low_information_weighting_result_v1.json",
+    "reason": "Existing S1 can reject spatially unstructured data when no species share their boundary. S4 concerns estimator spread, not an induced nonzero mean."
+  },
+  "design": {
+    "geometry": "64 equally weighted cells on a periodic ring; 40 exchangeable synthetic species",
+    "n_cells": 64,
+    "n_species": 40,
+    "shape": "Cyclic Gaussian bump with width 3 cells, centered across cells and normalized to population SD 1",
+    "width_cells": 3.0,
+    "amplitudes": [0.0, 0.5, 1.0, 2.0],
+    "shared_fractions": [0.0, 0.1, 0.25, 0.5, 1.0],
+    "noise_sd": 1.0,
+    "generator": "q=round(f*40) species share one uniformly random cyclic phase; remaining species have independent uniform phases. Add independent unit Gaussian cell noise, then center each species field across cells.",
+    "equal_species_weights": true,
+    "calibration_replicates_per_amplitude": 2000,
+    "evaluation_replicates_per_scenario": 1000,
+    "seed": 2026090615,
+    "duplicate_zero_amplitude_scenarios_collapsed": true
+  },
+  "statistics": {
+    "total": "mean_cell(mean_species(centered_field)^2)",
+    "self": "sum_species(mean_cell(centered_field^2)) / n_species^2",
+    "cross": "total - self; equals 2*sum_{s<t} spatial_covariance(s,t)/n_species^2",
+    "expectation_cross": "q*(q-1)*amplitude^2/n_species^2 under this generator",
+    "expectation_total": "(amplitude^2 + noise_sd^2*(n_cells-1)/n_cells)/n_species + expectation_cross"
+  },
+  "calibration_comparison": {
+    "structured_independent_phases": "Generate f=0 fields retaining per-species spatial shape but with independent species phases.",
+    "within_species_cell_scramble": "Independently permute cells within each f=0 calibration field, preserving every species' realized marginal values and self variance while destroying its spatial shape.",
+    "threshold": "Separate upper 95th percentile (method=higher) for total and cross under each calibration model, fixed before independent evaluation",
+    "no_shared_evaluation": "f=0 with nonzero amplitude is a valid structured no-alignment world, not a spatially unstructured world.",
+    "dependence": "The two calibration models use paired marginal values; total and cross are related diagnostics, not independent scientific discoveries."
+  },
+  "outputs": ["decomposition identity numerical error", "empirical and analytic mean statistics", "rejection fractions with 95% Wilson Monte Carlo intervals", "calibration thresholds"],
+  "interpretation_limits": [
+    "The ring has uniform support and is not the real Earth, observed photo geometry, categorical palette/JSD, or the balanced outer schedule.",
+    "Any rejection rate is conditional on this toy generator and fixed empirical calibration; Wilson intervals omit uncertainty in the calibration threshold.",
+    "Observed G1, species-disjoint commonness, environmental means/interactions, H6/H6b, and all frozen gates remain unchanged.",
+    "Do not infer an observed shared-species fraction, name a geographic zone, or replace the actual primary null from this simulation.",
+    "No favourable seed, width, amplitude, cell-count or threshold search is permitted."
+  ]
+}
