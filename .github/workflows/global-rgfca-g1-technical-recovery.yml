@@ -1,0 +1,290 @@
+name: Global RGFCA G1 same-runner technical recovery
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_g1_technical_recovery_authorization_v1.json"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-g1-same-runner-technical-recovery
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install frozen analysis package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Require exact one-attempt technical recovery authorization
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+
+          auth_path = Path('docs/supporting/global_rgfca_g1_technical_recovery_authorization_v1.json')
+          recovery_path = Path('docs/supporting/global_rgfca_g1_technical_recovery_contract_v1.json')
+          execution_path = Path('docs/supporting/global_monte_carlo_inference_execution_contract_v1.json')
+          measurement_path = Path('docs/supporting/global_monte_carlo_measurement_result_v1.json')
+          auth = json.loads(auth_path.read_text())
+          recovery = json.loads(recovery_path.read_text())
+          execution = json.loads(execution_path.read_text())
+          measurement = json.loads(measurement_path.read_text())
+
+          if auth.get('status') != 'authorize_exactly_one_global_rgfca_g1_same_runner_technical_recovery':
+              raise SystemExit('technical recovery is not explicitly authorized')
+          if auth.get('branch') != 'analysis/global-monte-carlo-barrier-atlas':
+              raise SystemExit('technical recovery authorization branch mismatch')
+          recovery_blob = subprocess.check_output(
+              ['git','rev-parse','HEAD:docs/supporting/global_rgfca_g1_technical_recovery_contract_v1.json'],
+              text=True,
+          ).strip()
+          if auth.get('recovery_contract_blob_sha') != recovery_blob:
+              raise SystemExit('technical recovery contract lineage mismatch')
+          if recovery.get('status') != 'frozen_after_cross_runner_bitwise_failure_before_g1_primary_decision':
+              raise SystemExit('technical recovery contract status drift')
+          if recovery.get('scientific_rule_changes_allowed') is not False:
+              raise SystemExit('scientific rule changes are forbidden')
+          tech = recovery.get('technical_recovery', {})
+          if int(tech.get('maximum_attempts', 0)) != 1:
+              raise SystemExit('recovery must remain exactly one attempt')
+          if int(tech.get('logical_shards', 0)) != 9:
+              raise SystemExit('logical shard count drift')
+          if tech.get('numeric_tolerance_added') is not False or tech.get('rounding_added') is not False:
+              raise SystemExit('numeric relaxation is forbidden')
+          if tech.get('representative_shard_selection_allowed') is not False:
+              raise SystemExit('representative shard selection is forbidden')
+          if execution['null_execution']['observed_consensus_and_concentration_must_match_bitwise_across_shards'] is not True:
+              raise SystemExit('original bitwise G1 gate drifted')
+          if int(execution['g1_primary']['null_permutations']) != 999:
+              raise SystemExit('null permutation count drifted')
+          if measurement.get('postmeasurement_gate', {}).get('pass') is not True:
+              raise SystemExit('measurement postgate no longer passes')
+          forbidden_g1 = [
+              Path('data/derived/global_rgfca_observed_outer_fields_v1.npz'),
+              Path('data/derived/global_rgfca_null_consensus_fields_v1.npz'),
+              Path('docs/supporting/global_rgfca_g1_result_v1.json'),
+              Path('docs/supporting/global_rgfca_g1_technical_recovery_result_v1.json'),
+          ]
+          if any(p.exists() for p in forbidden_g1):
+              raise SystemExit('G1 recovery/result output already exists; second attempt forbidden')
+          print({'technical_recovery_gate':'pass','logical_shards':9,'nulls':999})
+          PY
+
+      - name: Recover the already-completed independent G3 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-g3-observed-v1
+          path: /tmp/g3
+          run-id: 34000824828
+          github-token: ${{ github.token }}
+
+      - name: Verify and freeze G3 without rerunning it
+        run: |
+          python - <<'PY'
+          import hashlib, json, shutil
+          from pathlib import Path
+
+          def sha(path):
+              h = hashlib.sha256()
+              with Path(path).open('rb') as f:
+                  for chunk in iter(lambda: f.read(1 << 20), b''):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          root = Path('/tmp/g3')
+          manifest = json.loads((root/'global_rgfca_g3_result_v1.json').read_text())
+          if manifest.get('status') != 'complete_global_rgfca_g3_prevalence_heterogeneity':
+              raise SystemExit('G3 artifact status invalid')
+          if manifest.get('confirmatory_p_value') is not None or manifest.get('cannot_rescue_null_g1') is not True:
+              raise SystemExit('G3 inferential guard drift')
+          if sha(root/'global_rgfca_g3_outer_v1.csv') != manifest['lineage']['outer_csv_sha256']:
+              raise SystemExit('G3 outer CSV hash mismatch')
+          if sha(root/'global_rgfca_g3_species_v1.csv') != manifest['lineage']['species_csv_sha256']:
+              raise SystemExit('G3 species CSV hash mismatch')
+
+          Path('data/derived').mkdir(parents=True, exist_ok=True)
+          Path('docs/supporting').mkdir(parents=True, exist_ok=True)
+          destinations = {
+              root/'global_rgfca_g3_outer_v1.csv': Path('data/derived/global_rgfca_g3_outer_v1.csv'),
+              root/'global_rgfca_g3_species_v1.csv': Path('data/derived/global_rgfca_g3_species_v1.csv'),
+              root/'global_rgfca_g3_result_v1.json': Path('docs/supporting/global_rgfca_g3_result_v1.json'),
+          }
+          for src, dst in destinations.items():
+              if dst.exists():
+                  if sha(src) != sha(dst):
+                      raise SystemExit(f'existing G3 file differs from frozen artifact: {dst}')
+              else:
+                  shutil.copy2(src, dst)
+          print({'g3_recovered':'verified','eligible_species':manifest['eligible_species'],'median_outer_mean_rho':manifest['median_outer_mean_rho']})
+          PY
+
+      - name: Commit recovered immutable G3 artifact
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/global_rgfca_g3_outer_v1.csv \
+            data/derived/global_rgfca_g3_species_v1.csv \
+            docs/supporting/global_rgfca_g3_result_v1.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Freeze recovered global RGFCA G3 result artifact"
+            git push origin HEAD:analysis/global-monte-carlo-barrier-atlas
+          fi
+
+      - name: Run all nine frozen logical G1 shards sequentially on one runner
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/g1-shards
+          mkdir -p /tmp/g1-shards
+          for shard in 0 1 2 3 4 5 6 7 8; do
+            out="/tmp/g1-shards/shard-${shard}"
+            mkdir -p "$out"
+            python scripts/analysis/run_global_rgfca_g1_shard.py \
+              --shard-index "$shard" \
+              --shard-count 9 \
+              --output-dir "$out"
+          done
+
+      - name: Apply the unchanged strict reducer
+        id: strict_reduce
+        shell: bash
+        run: |
+          set +e
+          python scripts/analysis/reduce_global_rgfca_g1.py --input-root /tmp/g1-shards > /tmp/g1-reducer.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/g1-reducer.log
+          echo "exit_code=$rc" >> "$GITHUB_OUTPUT"
+
+      - name: Close repeated bitwise failure as not evaluable
+        if: steps.strict_reduce.outputs.exit_code != '0'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          log = Path('/tmp/g1-reducer.log').read_text(errors='replace')
+          expected = 'observed G1 program is not bitwise identical across all nine null shards'
+          if expected not in log:
+              raise SystemExit('strict reducer failed for an unapproved reason; intervention required')
+          out = {
+              'protocol': 'global-rgfca-g1-same-runner-technical-recovery-v1',
+              'status': 'not_evaluable_under_frozen_bitwise_reproducibility_gate',
+              'g1_primary_p_value': None,
+              'g1_primary_decision': None,
+              'recovery_attempts_used': 1,
+              'bitwise_gate_relaxed': False,
+              'null_or_species_exclusions_added': False,
+              'reason': expected,
+              'original_failed_run_id': 34000824828,
+              'scientific_interpretation': 'technical non-evaluability; not evidence for or against recurrent global flower-colour concentration'
+          }
+          Path('docs/supporting/global_rgfca_g1_technical_recovery_result_v1.json').write_text(json.dumps(out, indent=2)+'\n')
+          PY
+          git add docs/supporting/global_rgfca_g1_technical_recovery_result_v1.json
+          git commit -m "Close G1 as not evaluable under frozen bitwise gate"
+          git push origin HEAD:analysis/global-monte-carlo-barrier-atlas
+          exit 0
+
+      - name: Validate successful G1 recovery and record recovery lineage
+        if: steps.strict_reduce.outputs.exit_code == '0'
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          import numpy as np
+
+          g1_path = Path('docs/supporting/global_rgfca_g1_result_v1.json')
+          g1 = json.loads(g1_path.read_text())
+          if g1.get('status') != 'complete_global_rgfca_g1_primary_inference':
+              raise SystemExit('G1 result status invalid')
+          if int(g1.get('null_permutations', 0)) != 999:
+              raise SystemExit('G1 null count drift')
+          if not (0.001 <= float(g1['p_upper']) <= 1.0):
+              raise SystemExit('G1 Monte Carlo p outside frozen range')
+          with np.load('data/derived/global_rgfca_null_consensus_fields_v1.npz') as z:
+              if not np.array_equal(z['null_indices'], np.arange(999)):
+                  raise SystemExit('G1 null indices are not exactly 0..998')
+          recovery_bytes = Path('docs/supporting/global_rgfca_g1_technical_recovery_contract_v1.json').read_bytes()
+          recovery_sha = hashlib.sha256(recovery_bytes).hexdigest()
+          g1['technical_recovery'] = {
+              'protocol': 'global-rgfca-g1-same-runner-technical-recovery-v1',
+              'attempts_used': 1,
+              'execution_topology': 'nine logical modulo-9 shards sequentially on one ubuntu-24.04 runner',
+              'bitwise_gate_relaxed': False,
+              'numeric_tolerance_added': False,
+              'rounding_added': False,
+              'all_999_null_indices_used': True,
+              'recovery_contract_sha256': recovery_sha,
+              'original_failed_run_id': 34000824828
+          }
+          g1_path.write_text(json.dumps(g1, indent=2)+'\n')
+          result = {
+              'protocol': 'global-rgfca-g1-same-runner-technical-recovery-v1',
+              'status': 'complete_strict_g1_recovery',
+              'g1_supported': g1['g1_supported'],
+              'decision': g1['decision'],
+              'p_upper': g1['p_upper'],
+              'observed_concentration': g1['observed_concentration'],
+              'null_mean_concentration': g1['null_mean_concentration'],
+              'null_permutations': 999,
+              'recovery_attempts_used': 1,
+              'bitwise_gate_relaxed': False,
+              'scientific_rules_changed': False
+          }
+          Path('docs/supporting/global_rgfca_g1_technical_recovery_result_v1.json').write_text(json.dumps(result, indent=2)+'\n')
+          print(result)
+          PY
+
+      - name: Upload successful G1 recovery package
+        if: steps.strict_reduce.outputs.exit_code == '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-g1-same-runner-recovery-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/derived/global_rgfca_observed_outer_fields_v1.npz
+            data/derived/global_rgfca_null_consensus_fields_v1.npz
+            docs/supporting/global_rgfca_g1_result_v1.json
+            docs/supporting/global_rgfca_g1_technical_recovery_result_v1.json
+
+      - name: Commit successful immutable G1 recovery
+        if: steps.strict_reduce.outputs.exit_code == '0'
+        run: |
+          set -euo pipefail
+          git add \
+            data/derived/global_rgfca_observed_outer_fields_v1.npz \
+            data/derived/global_rgfca_null_consensus_fields_v1.npz \
+            docs/supporting/global_rgfca_g1_result_v1.json \
+            docs/supporting/global_rgfca_g1_technical_recovery_result_v1.json
+          git commit -m "Freeze strict same-runner global RGFCA G1 result"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/global-monte-carlo-barrier-atlas
+            git rebase origin/analysis/global-monte-carlo-barrier-atlas
+            if git push origin HEAD:analysis/global-monte-carlo-barrier-atlas; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
