@@ -1,0 +1,64 @@
+name: Global RGFCA expanded environmental panel finalizer preflight
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_expanded_environmental_panel_finalizer_preflight_authorization_v1.json"
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install numerical dependency
+        run: python -m pip install numpy
+      - name: Compile and exercise fixed Holm finalizer on synthetic blocks only
+        run: |
+          python -m py_compile scripts/analysis/finalize_global_rgfca_expanded_environmental_panel.py
+          mkdir -p /tmp/panel-synthetic
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          blocks=['terrain_structure','thermal_regime','water_balance','atmospheric_energy_dryness','edaphic_regime']
+          ps=[0.001,0.02,0.2,0.8,0.04]
+          for i,(b,p) in enumerate(zip(blocks,ps)):
+              r={
+                'block':b,'null_permutations':999,'null_indices_exact_0_998':True,
+                'final_panel_support_decision_available':False,'p_holm':None,'panel_supported':None,
+                'individual_variable_decomposition_open':False,'n_evaluable_species':100,
+                'observed_mean_species_partial_rho':0.01 if i!=3 else -0.01,
+                'observed_median_species_partial_rho':0.005,'observed_positive_species_fraction':0.55,
+                'block_edge_occurrence_coverage_fraction':0.95,'raw_p_upper':p,
+              }
+              Path(f'/tmp/panel-synthetic/{b}.json').write_text(json.dumps(r))
+          PY
+          python scripts/analysis/finalize_global_rgfca_expanded_environmental_panel.py \
+            --terrain-structure /tmp/panel-synthetic/terrain_structure.json \
+            --thermal-regime /tmp/panel-synthetic/thermal_regime.json \
+            --water-balance /tmp/panel-synthetic/water_balance.json \
+            --atmospheric-energy-dryness /tmp/panel-synthetic/atmospheric_energy_dryness.json \
+            --edaphic-regime /tmp/panel-synthetic/edaphic_regime.json \
+            --output /tmp/panel-synthetic/final.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/panel-synthetic/final.json').read_text())
+          got={x['block']:x['p_holm'] for x in r['blocks']}
+          expected={'terrain_structure':0.005,'thermal_regime':0.08,'water_balance':0.4,'atmospheric_energy_dryness':0.8,'edaphic_regime':0.12}
+          for k,v in expected.items():
+              if abs(got[k]-v)>1e-12: raise SystemExit(f'Holm mismatch {k}: {got[k]} vs {v}')
+          if r['supported_blocks']!=['terrain_structure']: raise SystemExit('support gate mismatch')
+          if r['individual_variable_decomposition_open_for']!=['terrain_structure']: raise SystemExit('decomposition gate mismatch')
+          print({'preflight':'pass','holm':got,'supported':r['supported_blocks']})
+          PY
