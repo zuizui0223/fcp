@@ -1,0 +1,147 @@
+{
+  "protocol": "hypervolume-actual-support-blocked-transfer-v1",
+  "status": "complete_actual_support_synthetic_benchmark",
+  "specification_commit": "db9e34175a22c8f21bde8f018db69b26dde7cc58",
+  "implementation_commit": "0bae260b559a42a9d2506bb7512016094c5916b3",
+  "unique_synthetic_worlds": 6500,
+  "fold_world_design_evaluations": 104000,
+  "score_records": 52000,
+  "full_sharing_recovery_counts": [
+    {
+      "frame": "retained",
+      "mode": "species_only",
+      "geographic_world_geographic_detection": 0,
+      "environmental_world_environmental_detection": 0,
+      "evaluation_worlds_per_condition": 250
+    },
+    {
+      "frame": "retained",
+      "mode": "species_and_region",
+      "geographic_world_geographic_detection": 0,
+      "environmental_world_environmental_detection": 0,
+      "evaluation_worlds_per_condition": 250
+    },
+    {
+      "frame": "complete_same_species",
+      "mode": "species_only",
+      "geographic_world_geographic_detection": 0,
+      "environmental_world_environmental_detection": 1,
+      "evaluation_worlds_per_condition": 250
+    },
+    {
+      "frame": "complete_same_species",
+      "mode": "species_and_region",
+      "geographic_world_geographic_detection": 0,
+      "environmental_world_environmental_detection": 1,
+      "evaluation_worlds_per_condition": 250
+    }
+  ],
+  "primary_retained_blocked_environmental_transfer": [
+    {
+      "world": "environmental_shared",
+      "amplitude": 1.0,
+      "shared_fraction": 1.0,
+      "transfer": 0.0117213997468313,
+      "informative_pair_fraction": 0.2520725
+    },
+    {
+      "world": "environmental_specific",
+      "amplitude": 1.0,
+      "shared_fraction": 0.0,
+      "transfer": 0.0094496730758857,
+      "informative_pair_fraction": 0.2503849999999999
+    },
+    {
+      "world": "environmental_specific",
+      "amplitude": 2.0,
+      "shared_fraction": 0.0,
+      "transfer": 0.0158725612128331,
+      "informative_pair_fraction": 0.1290099999999999
+    }
+  ],
+  "primary_environmental_threshold": 0.0262268185300213,
+  "paired_full_environmental_sharing": [
+    {
+      "world": "environmental_shared",
+      "amplitude": 1.0,
+      "shared_fraction": 1.0,
+      "representation": "environmental",
+      "contrast": "complete_minus_retained_species_and_region",
+      "mean_paired_difference": -0.0002982478934496,
+      "paired_mc_se": 0.0002248469878175,
+      "normal_mc95_low": -0.000738947989572,
+      "normal_mc95_high": 0.0001424522026727,
+      "replicates": 250
+    },
+    {
+      "world": "environmental_shared",
+      "amplitude": 1.0,
+      "shared_fraction": 1.0,
+      "representation": "environmental",
+      "contrast": "species_only_minus_blocked_retained",
+      "mean_paired_difference": 0.0011850536817101,
+      "paired_mc_se": 0.0001175005974393,
+      "normal_mc95_low": 0.000954752510729,
+      "normal_mc95_high": 0.0014153548526912,
+      "replicates": 250
+    }
+  ],
+  "maximum_nuisance_false_positive": {
+    "frame": "retained",
+    "mode": "species_only",
+    "world": "environmental_specific",
+    "amplitude": 2.0,
+    "shared_fraction": 0.0,
+    "decision": "any",
+    "count": 11,
+    "replicates": 250,
+    "rate": 0.044,
+    "wilson95_low": 0.02474379816749356,
+    "wilson95_high": 0.07705777097235189
+  },
+  "zero_of_250_wilson95": [
+    0.0,
+    0.015133299495444574
+  ],
+  "unit_tests_passed": 34,
+  "verification": {
+    "protocol": "hypervolume-actual-support-blocked-transfer-v1",
+    "fully_verified": true,
+    "checks": {
+      "every_original_output_checksum": true,
+      "executed_runner_checksum": true,
+      "original_parent_runner_checksum": true,
+      "entire_schedule_species_photos_masks_regions_and_buffer": true,
+      "all_52000_unique_finite_scores": true,
+      "all_four_folds_equal_weight": true,
+      "all_80_calibration_quantiles": true,
+      "all_recorded_decision_counts_recomputed": true,
+      "480_actual_support_direct_gaussian_spot_checks": true,
+      "empirical_claim_guards_unchanged": true
+    },
+    "direct_score_checks": 480,
+    "maximum_transfer_error": 9.974659986866641e-17,
+    "maximum_separation_error": 0.0,
+    "maximum_fold_average_error": 1.5027042110649091e-16,
+    "maximum_threshold_error": 0.0,
+    "test_suite": "34 tests passed; recorded separately",
+    "simulation_rerun": false,
+    "observed_decisions_modified": false
+  },
+  "runner_sha256": "dbedd48765816f6a2c8678585c62c52add32bdbd75a3fab59a66f06d8084891e",
+  "parent_runner_sha256": "b5312f75128992f99b45898a6e5190aab1a86e18ad59573d26ca5fae66d8219b",
+  "geometry_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+  "decision_table_sha256": "d3e5eee0b38bbaf35836638cf222028ebdb1bb7440e528d6b5dabe3b26941d9b",
+  "biological_colour_values_read": false,
+  "real_environment_used": false,
+  "parent_decisions_modified": false,
+  "empirical_transfer_claim_opened": false,
+  "next_target": "Environmental support overlap and signal-strength-conditioned transfer; separate prespecified design, not a rescue of these results.",
+  "caveats": [
+    "These outcomes do not mean real flowers lack shared responses.",
+    "The original 94.4% benchmark also differs in species count, sampling support and calibration across nuisance strengths; no one-factor causal attribution.",
+    "The complete pool uses the same 369 selected species and fixed 20-photo draws; it does not restore excluded species or infer missing biological colours.",
+    "The 500 km buffer and four longitude sectors are fixed stress tests, not estimated independence ranges.",
+    "Wilson intervals are conditional on estimated thresholds and this finite nuisance family; no certified 5% error bound."
+  ]
+}
