@@ -1,0 +1,137 @@
+name: Global RGFCA expanded environmental panel finalization
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_expanded_environmental_panel_finalization_authorization_v1.json"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-expanded-environmental-panel-finalization
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Enforce frozen five-block finalization
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT']!='1': raise SystemExit('favourable finalization reruns are forbidden')
+          c=json.loads(Path('docs/supporting/global_rgfca_expanded_environmental_panel_finalization_contract_v1.json').read_text())
+          a=json.loads(Path('docs/supporting/global_rgfca_expanded_environmental_panel_finalization_authorization_v1.json').read_text())
+          expected=['terrain_structure','thermal_regime','water_balance','atmospheric_energy_dryness','edaphic_regime']
+          if c.get('status')!='finalization_path_frozen_before_chelsa_and_edaphic_block_results_are_opened': raise SystemExit('finalization contract drift')
+          if c.get('family')!=expected or c['requirements'].get('family_size')!=5: raise SystemExit('family drift')
+          if c['requirements'].get('multiplicity')!='Holm across exactly all five parent blocks': raise SystemExit('Holm drift')
+          if c['execution_policy'].get('raw_block_recomputation_allowed') is not False or c['execution_policy'].get('favourable_block_omission_allowed') is not False: raise SystemExit('execution policy drift')
+          if a.get('status')!='authorize_exactly_one_five_block_artifact_finalization' or a.get('workflow_attempts_allowed')!=1: raise SystemExit('finalization not authorized')
+          if a.get('all_five_source_workflows_complete') is not True: raise SystemExit('source workflows not certified complete')
+          blob=subprocess.check_output(['git','rev-parse','HEAD:'+c['finalizer']['path']],text=True).strip()
+          if blob!=c['finalizer']['git_blob_sha']: raise SystemExit('finalizer implementation drift')
+          PY
+      - name: Download terrain raw artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-earthenv-terrain-block-v1
+          path: /tmp/panel/terrain_structure
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34017934825
+      - name: Download thermal raw artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-expanded-thermal_regime-block-v1
+          path: /tmp/panel/thermal_regime
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34019160099
+      - name: Download water raw artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-expanded-water_balance-block-v1
+          path: /tmp/panel/water_balance
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34019160099
+      - name: Download dryness raw artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-expanded-atmospheric_energy_dryness-block-v1
+          path: /tmp/panel/atmospheric_energy_dryness
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34019160099
+      - name: Download edaphic raw artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-expanded-edaphic-regime-block-v1
+          path: /tmp/panel/edaphic_regime
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34019187941
+      - name: Require all five immutable raw results
+        run: |
+          set -euo pipefail
+          test -f /tmp/panel/terrain_structure/global_rgfca_earthenv_terrain_block_result_v1.json
+          test -f /tmp/panel/thermal_regime/global_rgfca_thermal_regime_block_result_v1.json
+          test -f /tmp/panel/water_balance/global_rgfca_water_balance_block_result_v1.json
+          test -f /tmp/panel/atmospheric_energy_dryness/global_rgfca_atmospheric_energy_dryness_block_result_v1.json
+          test -f /tmp/panel/edaphic_regime/global_rgfca_edaphic_regime_block_result_v1.json
+      - name: Compute exactly one fixed five-block Holm decision
+        run: |
+          mkdir -p /tmp/panel/final
+          python scripts/analysis/finalize_global_rgfca_expanded_environmental_panel.py \
+            --terrain-structure /tmp/panel/terrain_structure/global_rgfca_earthenv_terrain_block_result_v1.json \
+            --thermal-regime /tmp/panel/thermal_regime/global_rgfca_thermal_regime_block_result_v1.json \
+            --water-balance /tmp/panel/water_balance/global_rgfca_water_balance_block_result_v1.json \
+            --atmospheric-energy-dryness /tmp/panel/atmospheric_energy_dryness/global_rgfca_atmospheric_energy_dryness_block_result_v1.json \
+            --edaphic-regime /tmp/panel/edaphic_regime/global_rgfca_edaphic_regime_block_result_v1.json \
+            --output /tmp/panel/final/global_rgfca_expanded_environmental_panel_result_v1.json
+      - name: Upload immutable final family result
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-expanded-environmental-panel-final-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/panel/final/global_rgfca_expanded_environmental_panel_result_v1.json
+      - name: Commit exact raw results and final Holm result to latest branch
+        env:
+          TARGET_BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          set -euo pipefail
+          git fetch origin "$TARGET_BRANCH"
+          git checkout -B "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
+          cp /tmp/panel/terrain_structure/global_rgfca_earthenv_terrain_block_result_v1.json docs/supporting/global_rgfca_earthenv_terrain_block_result_v1.json
+          cp /tmp/panel/thermal_regime/global_rgfca_thermal_regime_block_result_v1.json docs/supporting/global_rgfca_thermal_regime_block_result_v1.json
+          cp /tmp/panel/water_balance/global_rgfca_water_balance_block_result_v1.json docs/supporting/global_rgfca_water_balance_block_result_v1.json
+          cp /tmp/panel/atmospheric_energy_dryness/global_rgfca_atmospheric_energy_dryness_block_result_v1.json docs/supporting/global_rgfca_atmospheric_energy_dryness_block_result_v1.json
+          cp /tmp/panel/edaphic_regime/global_rgfca_edaphic_regime_block_result_v1.json docs/supporting/global_rgfca_edaphic_regime_block_result_v1.json
+          cp /tmp/panel/final/global_rgfca_expanded_environmental_panel_result_v1.json docs/supporting/
+          for d in terrain_structure thermal_regime water_balance atmospheric_energy_dryness edaphic_regime; do
+            cp /tmp/panel/$d/*_species_v1.csv data/derived/
+            cp /tmp/panel/$d/*_null_v1.csv data/derived/
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_*block_result_v1.json docs/supporting/global_rgfca_expanded_environmental_panel_result_v1.json data/derived/global_rgfca_*_block_species_v1.csv data/derived/global_rgfca_*_block_null_v1.csv
+          if git diff --cached --quiet; then
+            echo 'Exact artifacts already present; no commit needed.'
+          else
+            git commit -m "Record fixed five-block environmental panel Holm result"
+            git push origin HEAD:"$TARGET_BRANCH"
+          fi
