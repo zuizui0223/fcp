@@ -1,0 +1,92 @@
+{
+  "protocol": "global-monte-carlo-rgfca-inference-execution-v1",
+  "status": "complete_global_rgfca_g1_primary_inference",
+  "decision": "no_support_recurrent_global_flower_colour_barrier_concentration",
+  "g1_supported": false,
+  "observed_concentration": 0.00012392941060552267,
+  "null_mean_concentration": 0.00010166446209890232,
+  "null_q025": 7.69922888935154e-05,
+  "null_q975": 0.0001303356362847843,
+  "null_permutations": 999,
+  "null_exceed_or_equal_count": 69,
+  "p_upper": 0.07,
+  "alpha": 0.05,
+  "observed_above_null_mean": true,
+  "null_unit": "complete_photo_colour_vector_within_species_reused_across_outer_realizations",
+  "eligible_species": 369,
+  "classifiable_pool_rows": 21424,
+  "schedule_audit": {
+    "eligible_species": 369,
+    "outer_realizations": 200,
+    "species_per_outer": 250,
+    "photos_per_species": 20,
+    "total_species_inclusions": 50000,
+    "minimum_species_inclusions": 135,
+    "maximum_species_inclusions": 136,
+    "species_max_inclusion_imbalance": 1,
+    "photo_max_inclusion_imbalance_within_species": 1,
+    "species_seed": 2026090401,
+    "photo_master_seed": 2026090402
+  },
+  "predeclared_observed_stability_diagnostics": {
+    "running_consensus": {
+      "25": {
+        "concentration": 0.00013461654851438344,
+        "field_correlation_with_200": 0.7340547138939728
+      },
+      "50": {
+        "concentration": 0.0001290359389915558,
+        "field_correlation_with_200": 0.8309711272071901
+      },
+      "100": {
+        "concentration": 0.00012948928317883484,
+        "field_correlation_with_200": 0.8809461021778187
+      },
+      "150": {
+        "concentration": 0.00012675982727834947,
+        "field_correlation_with_200": 0.9799140417667301
+      },
+      "200": {
+        "concentration": 0.00012392941060552267,
+        "field_correlation_with_200": 0.9999999999999999
+      }
+    },
+    "odd_even_consensus_field_pearson_r": 0.7247088165527928,
+    "scope": "partial G2 diagnostics only; leave-one-realm/family and spatial-support robustness remain separate and no persistent zone is frozen here"
+  },
+  "persistent_zone_extracted": false,
+  "g4_overlay_run": false,
+  "lineage": {
+    "execution_contract_sha256": "a699fa97541b68ea11859ea22f25d62b3294ce31afbeb9b43b8ae927f4b9bb47",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "observed_digest_sha256": "03fd37c6085aee136ebfa301c60ad9bfa63aec340990fab9f62af6239eb8f941",
+    "observed_outer_npz_sha256": "70e0e0dbe76add6be0e4ed9fb456ada7fc8256240ee51bf2ee9e6f2a37df946c",
+    "null_consensus_npz_sha256": "8ff928bc62393718da70505f24e53296f8b0bbded8bc98ea9387099b0b7854c5",
+    "shard_npz_sha256": [
+      "a6120da2f6aa668c0b96dc24962fb527ffa297affec602d743df1b2dc7db2d92",
+      "29fd9b723cfeaeb01ff64f91698756278488f3d19a901ed4c289a3866c9c0227",
+      "2b2efa8306e207f87beab6d606e73da130a2efe4581ea8003e149ca218d3b631",
+      "4add4fc274dee65914083b2803ed14b1eabfe6a14effb82df16c0115005cc23a",
+      "ddb99864175b8ba652d08e7aa018b7be306f62cf6c1406ba790d92b3b2ba7448",
+      "d88f4fe8ff5dc933a9c5402f00ab35bdf86aa86bf928410eed91b9022dd22e3a",
+      "1b0802aea343e107af2117873b31f6ac91f9a72bc6c8dc2aba5803c4c894782d",
+      "f24f0efa5378170093e6cebb5151c96c712b93f72591b631bdcdf41386f5fdd2",
+      "b021dd0d3c80f33e5def160867212b0ee6d6556c690a86b398a54524d762ac2b"
+    ]
+  },
+  "files": {
+    "observed_outer_fields": "data/derived/global_rgfca_observed_outer_fields_v1.npz",
+    "null_consensus_fields": "data/derived/global_rgfca_null_consensus_fields_v1.npz"
+  },
+  "technical_recovery": {
+    "protocol": "global-rgfca-g1-same-runner-technical-recovery-v1",
+    "attempts_used": 1,
+    "execution_topology": "nine logical modulo-9 shards sequentially on one ubuntu-24.04 runner",
+    "bitwise_gate_relaxed": false,
+    "numeric_tolerance_added": false,
+    "rounding_added": false,
+    "all_999_null_indices_used": true,
+    "recovery_contract_sha256": "a8bc097777161f0821a0f9df3a1d2df2f23960b3eb31bbf2ed068941f11579f0",
+    "original_failed_run_id": 34000824828
+  }
+}

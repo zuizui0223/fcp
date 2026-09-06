@@ -1,0 +1,13 @@
+{
+  "protocol": "global-rgfca-g1-same-runner-technical-recovery-v1",
+  "status": "complete_strict_g1_recovery",
+  "g1_supported": false,
+  "decision": "no_support_recurrent_global_flower_colour_barrier_concentration",
+  "p_upper": 0.07,
+  "observed_concentration": 0.00012392941060552267,
+  "null_mean_concentration": 0.00010166446209890232,
+  "null_permutations": 999,
+  "recovery_attempts_used": 1,
+  "bitwise_gate_relaxed": false,
+  "scientific_rules_changed": false
+}
