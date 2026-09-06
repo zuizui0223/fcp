@@ -1,0 +1,107 @@
+{
+  "protocol": "global-rgfca-nearmiss-followup-registry-v1",
+  "status": "postoutcome_diagnostic_registry_frozen_before_any_new_nearmiss_followup_outcome",
+  "date": "2026-09-06",
+  "scope": "RGFCA and its immediate random-photo-first / six-species predecessor results that either narrowly missed a frozen gate, showed a nominal sensitivity, or left a prespecified diagnostic unresolved.",
+  "principles": [
+    "No entry may rescue or reclassify its frozen primary decision.",
+    "No new threshold, bandwidth, variable decomposition, favourable seed, weighting rule, or subset may be selected because an observed p-value was close to a gate.",
+    "Unresolved analyses that were explicitly prespecified before the relevant outcome may still be completed.",
+    "Post-outcome follow-ups are limited to power/identifiability simulation, omnibus heterogeneity diagnostics, or genuinely new prospective questions.",
+    "A failed independent replication closes rather than strengthens the original near-miss explanation."
+  ],
+  "entries": [
+    {
+      "id": "RGFCA_G1_PRIMARY",
+      "frozen_result": {"p_upper": 0.070, "observed_to_null_mean_ratio": 1.219004},
+      "near_miss_reason": "Primary recurrence direction was positive and the p-value was near but above 0.05.",
+      "supporting_directional_robustness": "All prespecified scale/support sensitivity excesses and both Monte Carlo half excesses were positive; fine and coarse descriptive p-values were nominally below 0.05 but cannot rescue G1.",
+      "allowed_followup": [
+        "complete still-unresolved preoutcome leave-one-realm-out and leave-one-major-family-out positive-excess stability gates",
+        "simulation of detection probability under partial recurrent architectures using the exact sampled geometry",
+        "simulation/bootstrap of consensus convergence as outer-realization count changes"
+      ],
+      "forbidden_followup": ["new observed-data kernel bandwidth search", "new observed-data grid search", "new observed-data support threshold search", "rerun with a different seed"],
+      "priority": 1
+    },
+    {
+      "id": "RGFCA_G1_STRONG_STABILITY",
+      "frozen_result": {"r_100_vs_200": 0.8809461021778187, "required": 0.9, "r_150_vs_200": 0.9799140417667301, "odd_even_r": 0.7247088165527928},
+      "near_miss_reason": "Only the 100-versus-200 running-consensus correlation missed the numerical convergence threshold among already completed running/half gates.",
+      "allowed_followup": ["bootstrap/synthetic convergence curve for 25/50/100/150/200 outer draws", "estimate outer-realization count needed for median field correlation >=0.9 as a design recommendation for future experiments"],
+      "forbidden_followup": ["extend the observed primary from 200 to more outer realizations and retroactively claim the old strong-stability gate passed"],
+      "priority": 1
+    },
+    {
+      "id": "ENV_THERMAL_MAIN",
+      "frozen_result": {"mean_partial_rho": 0.00836138508820797, "raw_p_upper": 0.010, "holm_p": 0.050},
+      "near_miss_reason": "Strongest parent environmental block and exactly on the Holm boundary, while the frozen decision rule required strictly p_Holm < 0.05.",
+      "allowed_followup": ["include thermal effects in an all-five-block species-level covariance/latent-heterogeneity diagnostic", "estimate design minimum-detectable mean effect under the frozen five-block family", "test thermal context only in a new prospective independent dataset/question"],
+      "forbidden_followup": ["open BIO1/BIO4/BIO5/BIO6 variable decomposition for significance", "change <= versus < rule", "drop other blocks from Holm family"],
+      "priority": 1
+    },
+    {
+      "id": "ENV_ATMOSPHERIC_DRYNESS_MAIN",
+      "frozen_result": {"mean_partial_rho": 0.007432524450955611, "raw_p_upper": 0.026, "holm_p": 0.104},
+      "near_miss_reason": "Second strongest positive environmental parent block, with a nominal raw signal that did not survive the fixed family correction.",
+      "allowed_followup": ["include dryness/energy effects in the same all-five-block species-level covariance/latent-heterogeneity diagnostic", "estimate design minimum-detectable mean effect under the frozen five-block family", "new prospective independent mechanism test"],
+      "forbidden_followup": ["open VPD/RSDS/GDD5/wind variable decomposition for significance", "combine only thermal and dryness after observing their p-values and treat that as confirmatory"],
+      "priority": 1
+    },
+    {
+      "id": "ENV_INTERACTION_WATER_TERRAIN",
+      "frozen_result": {"mean_beta": 0.00821653847160954, "raw_p_two_sided": 0.020, "holm_p": 0.200},
+      "near_miss_reason": "Strongest nominal pairwise process interaction in the complete ten-pair family.",
+      "allowed_followup": ["include in all-ten-interaction species-level heterogeneity matrix", "interaction-family power/MDE simulation"],
+      "forbidden_followup": ["variable-level interaction decomposition", "retest as a one-off family of one"],
+      "priority": 2
+    },
+    {
+      "id": "ENV_INTERACTION_THERMAL_WATER",
+      "frozen_result": {"mean_beta": 0.006887024324457337, "raw_p_two_sided": 0.048, "holm_p": 0.432},
+      "near_miss_reason": "Second nominally small raw p-value in the complete ten-pair interaction family.",
+      "allowed_followup": ["include in all-ten-interaction species-level heterogeneity matrix", "interaction-family power/MDE simulation"],
+      "forbidden_followup": ["variable-level interaction decomposition", "one-off retesting"],
+      "priority": 2
+    },
+    {
+      "id": "RANDOM_H4A_WITHIN_SPECIES_CLIMATE",
+      "frozen_result": {"mean_rho": 0.02605, "p_upper": 0.157},
+      "near_miss_reason": "Looser three-cell sensitivities were nominally positive although the reliable five-cell primary was not.",
+      "allowed_followup": ["simulation of sparse-species bias and effective information", "new prospective replication with fixed per-cell replication"],
+      "forbidden_followup": ["reopen H4b", "choose the three-cell threshold as the new primary"],
+      "priority": 3
+    },
+    {
+      "id": "RANDOM_H5_SCALE_MODERATION",
+      "frozen_result": {"rho": -0.17549, "p_lower": 0.091},
+      "near_miss_reason": "Original exploratory moderator was directionally suggestive and some non-primary extent diagnostics were nominally positive.",
+      "independent_replication": {"n_species": 266, "rho": 0.023095, "p_lower": 0.641},
+      "allowed_followup": ["retain as an example in simulation of why nominal moderator patterns require replication"],
+      "forbidden_followup": ["further observed-data rescue of the weakening-with-range explanation"],
+      "priority": 4,
+      "disposition": "closed_by_independent_replication"
+    },
+    {
+      "id": "RANDOM_H6_SPATIAL_STRUCTURE",
+      "frozen_result": {"reliable_frame_mean_rho": 0.02775, "reliable_frame_p_upper": 0.113, "sparse_equal_species_mean_rho": 0.10792, "sparse_photo_level_null_p": 0.002, "sparse_pair_weighted_p": 0.148},
+      "near_miss_reason": "A strong sparse equal-species signal survived a stricter photo-level null but disappeared under information weighting and in the reliable frame.",
+      "allowed_followup": ["simulation of low-information equal-weight inflation", "new prospective replicate with fixed minimum cell/photo information"],
+      "forbidden_followup": ["promote the sparse sensitivity to the canonical result", "further cutoff search on the same dataset"],
+      "priority": 2
+    },
+    {
+      "id": "SIX_SPECIES_STAGE_B_SHARED_BOUNDARY",
+      "frozen_result": {"p_primary": 0.0906},
+      "near_miss_reason": "Small-system shared-transition test was directionally suggestive but did not confirm a universal shared boundary.",
+      "allowed_followup": ["use as a benchmark scenario in power simulations of partial sharing", "new independent systems"],
+      "forbidden_followup": ["reinterpret as support"],
+      "priority": 4
+    }
+  ],
+  "omnibus_postoutcome_diagnostics_authorized": {
+    "environmental_species_response_matrix": "All five parent block species effects plus all ten pairwise interaction species effects; no outcome-based feature selection and no new confirmatory p-values.",
+    "simulation": "Method/design detectability, missingness, partial-sharing, stability, and multiplicity simulations under a separately frozen contract.",
+    "prespecified_unresolved_stability": "Leave-one-realm and leave-one-major-family G1 excess gates may be completed using outcome-independent taxonomy/realm metadata, without altering the primary result."
+  }
+}
