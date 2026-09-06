@@ -1,6 +1,6 @@
 {
-  "status": "authorize_exactly_one_global_rgfca_g1_g3_primary_inference",
   "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "status": "authorize_exactly_one_global_rgfca_g1_g3_primary_inference",
   "measurement_manifest_blob_sha": "864a13f22228e7feff65bbac2fbbd276cc54ec35",
   "evaluable_species": 369,
   "g1_g3_rule_change_allowed": false,
