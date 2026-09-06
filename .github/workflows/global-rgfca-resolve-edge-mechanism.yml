@@ -1,0 +1,154 @@
+name: Global RGFCA exact RESOLVE edge mechanism
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_resolve_edge_mechanism_authorization_v1.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: global-rgfca-resolve-edge-mechanism
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Enforce exactly one frozen mechanism execution
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          if os.environ["RUN_ATTEMPT"] != "1":
+              raise SystemExit("favourable mechanism reruns are forbidden")
+          auth = json.loads(Path("docs/supporting/global_rgfca_resolve_edge_mechanism_authorization_v1.json").read_text())
+          mapping = json.loads(Path("docs/supporting/global_rgfca_resolve_edge_mechanism_execution_v1.json").read_text())
+          source = json.loads(Path("docs/supporting/global_rgfca_resolve2017_source_verification_v1.json").read_text())
+          primary = json.loads(Path("docs/supporting/global_rgfca_g1_result_v1.json").read_text())
+
+          if auth.get("status") != "authorize_exactly_one_global_rgfca_resolve_edge_mechanism_execution":
+              raise SystemExit("mechanism execution not explicitly authorized")
+          if auth.get("workflow_attempts_allowed") != 1:
+              raise SystemExit("authorization must permit exactly one attempt")
+          if auth.get("null_indices") != "0..998 exactly once" or auth.get("all_999_nulls_required") is not True:
+              raise SystemExit("null authorization drift")
+          if auth.get("selective_early_stop_allowed") is not False or auth.get("favourable_rerun_allowed") is not False:
+              raise SystemExit("selective execution is forbidden")
+          if mapping.get("status") != "technical_execution_mapping_frozen_before_any_rgfca_colour_resolve_alignment_result":
+              raise SystemExit("technical mapping is not frozen")
+          if mapping["execution_policy"].get("workflow_attempts_allowed") != 1:
+              raise SystemExit("mapping attempt count drift")
+          if mapping["execution_policy"].get("primary_g1_may_be_rescued") is not False:
+              raise SystemExit("primary G1 rescue protection drift")
+          if mapping["multiplicity"].get("evaluable_predictors_under_frozen_source_provenance") != ["biogeographic_boundary_crossing"]:
+              raise SystemExit("frozen predictor evaluability family drift")
+          if source.get("status") != "pass_exact_precolour_resolve2017_payload_recovered":
+              raise SystemExit("exact RESOLVE source verification missing")
+          if source.get("archive_sha256") != "be36d6209e443038d02e309f0447c6e7f2a62f5fe60c605ffe90d064952f2a60":
+              raise SystemExit("RESOLVE archive hash drift")
+          if primary.get("g1_supported") is not False or float(primary.get("p_upper")) != 0.07:
+              raise SystemExit("primary G1 result drift")
+          if Path("docs/supporting/global_rgfca_resolve_edge_mechanism_result_v1.json").exists():
+              raise SystemExit("mechanism result already committed; second execution forbidden")
+          print({"gate":"pass","primary_g1_p":primary["p_upper"],"mechanism_requires_g1":False})
+          PY
+
+  mechanism:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install frozen package and technical spatial dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install "pyshp==2.3.1" "shapely==2.1.2"
+      - name: Recover the already-verified exact pre-colour RESOLVE artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-exact-precolour-resolve2017-v1
+          path: /tmp/verified-source
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34007344377
+      - name: Recheck exact source bytes before colour alignment
+        run: |
+          set -euo pipefail
+          test -f /tmp/verified-source/Ecoregions2017.zip
+          echo "be36d6209e443038d02e309f0447c6e7f2a62f5fe60c605ffe90d064952f2a60  /tmp/verified-source/Ecoregions2017.zip" | sha256sum -c -
+          mkdir -p /tmp/resolve2017
+          unzip -q /tmp/verified-source/Ecoregions2017.zip -d /tmp/resolve2017
+          SHP=$(find /tmp/resolve2017 -type f -name 'Ecoregions2017.shp' -print -quit)
+          SHX=$(find /tmp/resolve2017 -type f -name 'Ecoregions2017.shx' -print -quit)
+          DBF=$(find /tmp/resolve2017 -type f -name 'Ecoregions2017.dbf' -print -quit)
+          PRJ=$(find /tmp/resolve2017 -type f -name 'Ecoregions2017.prj' -print -quit)
+          test -n "$SHP" && test -n "$SHX" && test -n "$DBF" && test -n "$PRJ"
+          test "$(sha256sum "$SHP" | awk '{print $1}')" = "d564235263d7a2f118cbb4fcb6e7593ef5f8c2f3600604d46047aa2712a83574"
+          test "$(sha256sum "$SHX" | awk '{print $1}')" = "140342bc19d04a6f1ee11d1099a6c115f8c076f1396c6f2a5a55182471ff4c42"
+          test "$(sha256sum "$DBF" | awk '{print $1}')" = "036987c540eef2dfd6e8a0678f3b85193649b3f63f545463dfcb2fed4f973ab5"
+          test "$(sha256sum "$PRJ" | awk '{print $1}')" = "db2f4b2a30c81a88981162acd3ff4629b86350834194efed1a6650446ccaecf4"
+          echo "RESOLVE_SHP=$SHP" >> "$GITHUB_ENV"
+      - name: Execute exact distance-controlled RESOLVE mechanism once
+        env:
+          PYTHONUNBUFFERED: "1"
+          PYTHONHASHSEED: "0"
+          OMP_NUM_THREADS: "1"
+          OPENBLAS_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+        run: |
+          mkdir -p /tmp/rgfca-resolve-result
+          python scripts/analysis/run_global_rgfca_resolve_edge_mechanism.py \
+            --resolve-shapefile "$RESOLVE_SHP" \
+            --output-result /tmp/rgfca-resolve-result/global_rgfca_resolve_edge_mechanism_result_v1.json \
+            --output-species /tmp/rgfca-resolve-result/global_rgfca_resolve_edge_mechanism_species_v1.csv \
+            --output-null /tmp/rgfca-resolve-result/global_rgfca_resolve_edge_mechanism_null_v1.csv \
+            --null-batch-size 64
+      - name: Require complete non-selective outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('/tmp/rgfca-resolve-result')
+          required=[
+            root/'global_rgfca_resolve_edge_mechanism_result_v1.json',
+            root/'global_rgfca_resolve_edge_mechanism_species_v1.csv',
+            root/'global_rgfca_resolve_edge_mechanism_null_v1.csv'
+          ]
+          missing=[str(p) for p in required if not p.exists()]
+          if missing: raise SystemExit('missing required outputs: '+', '.join(missing))
+          result=json.loads(required[0].read_text())
+          if result.get('null_permutations') != 999 or result.get('null_indices_exact_0_998') is not True:
+              raise SystemExit('incomplete null execution')
+          if result.get('cannot_rescue_primary_g1') is not True or result.get('g1_required') is not False:
+              raise SystemExit('G1 hierarchy drift')
+          print({k:result[k] for k in ['supported','observed_mean_species_partial_rho','p_upper','p_holm','n_evaluable_species']})
+          PY
+      - name: Upload immutable complete mechanism result
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-resolve-edge-mechanism-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/rgfca-resolve-result/
