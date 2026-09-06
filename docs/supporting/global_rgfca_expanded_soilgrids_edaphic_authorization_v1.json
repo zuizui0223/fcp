@@ -1,0 +1,14 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-v1",
+  "status": "authorize_exactly_one_edaphic_regime_execution",
+  "workflow_attempts_allowed": 1,
+  "block": "edaphic_regime",
+  "source_run_id": 34018059667,
+  "source_artifact_id": 9984595950,
+  "null_indices": "0..998 exactly once",
+  "all_999_nulls_required": true,
+  "selective_early_stop_allowed": false,
+  "favourable_rerun_allowed": false,
+  "final_Holm_decision_allowed": false,
+  "individual_variable_decomposition_allowed": false
+}
