@@ -1,0 +1,66 @@
+{
+  "protocol": "global-rgfca-species-disjoint-commonness-execution-v1",
+  "status": "complete_species_disjoint_commonness_test",
+  "question": "Do multiple high-discontinuity spatial zones learned from some species recur in entirely held-out species?",
+  "single_boundary_required": false,
+  "number_of_zones_fixed": false,
+  "primary_g1": {
+    "supported": false,
+    "p_upper": 0.07,
+    "immutable": true,
+    "reclassification_allowed": false
+  },
+  "species": {
+    "eligible": 369,
+    "folds": 5,
+    "fold_sizes": [74, 74, 74, 74, 73],
+    "partition_seed": 2026090604,
+    "each_species_held_out_exactly_once": true
+  },
+  "field": {
+    "grid": "36x18",
+    "kernel_bandwidth_km": 500.0,
+    "minimum_distinct_species_support_per_subset_per_outer": 5,
+    "outer_realizations": 200
+  },
+  "fold_results": [
+    {"fold": 0, "held_out_species": 74, "jointly_evaluable_cells": 271, "observed_train_vs_heldout_weighted_r": -0.0880319026490033},
+    {"fold": 1, "held_out_species": 74, "jointly_evaluable_cells": 233, "observed_train_vs_heldout_weighted_r": 0.011379669922613017},
+    {"fold": 2, "held_out_species": 74, "jointly_evaluable_cells": 209, "observed_train_vs_heldout_weighted_r": 0.016127704331676557},
+    {"fold": 3, "held_out_species": 74, "jointly_evaluable_cells": 205, "observed_train_vs_heldout_weighted_r": -0.18464237881628967},
+    {"fold": 4, "held_out_species": 73, "jointly_evaluable_cells": 289, "observed_train_vs_heldout_weighted_r": -0.08870906003577227}
+  ],
+  "observed_global_median_fold_r": -0.0880319026490033,
+  "observed_positive_fold_count": 2,
+  "null_permutations": 999,
+  "null_indices_exact_0_998": true,
+  "null_global_mean": -0.0015904225247363845,
+  "null_global_q025": -0.16010601110424133,
+  "null_global_q975": 0.1681801128950568,
+  "p_upper": 0.856,
+  "alpha": 0.05,
+  "support_gates": {
+    "p_upper_lt_0_05": false,
+    "observed_above_null_mean": false,
+    "at_least_four_of_five_fold_correlations_positive": false
+  },
+  "common_across_species_supported": false,
+  "decision": "no_species_disjoint_support_for_common_boundary_architecture",
+  "claim_ceiling": "Retain recurrent spatial concentration and prespecified robustness only; do not claim common architecture across species.",
+  "lineage": {
+    "execution_contract_sha256": "a699fa97541b68ea11859ea22f25d62b3294ce31afbeb9b43b8ae927f4b9bb47",
+    "measurement_manifest_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "primary_g1_result_sha256": "3cddceded039f802f31f207820f6355424bdc081d27576d3b3887d7ee4334906",
+    "common_boundary_claim_contract_sha256": "a19332896d6ddf304644f13cbeb05ebef0012859dfe9ece01d78fad12d2be2cc",
+    "species_disjoint_execution_mapping_sha256": "c7e18d9415e1d2f4ef735cb87e5c27477a44434dc8555db5b20be2344740d951",
+    "fold_mapping_sha256": "30f565d7b179b0aefdfe7cb017aa159c971b8b7840e97f8ab412c82555f78ff4",
+    "null_result_sha256": "16e2288e9eb4cb2657702a7c98b78c24bc386b14516dbb7aceb19e5b2426bb95"
+  },
+  "artifact": {
+    "workflow_run_id": 34010291268,
+    "artifact_id": 9982292228,
+    "artifact_name": "global-rgfca-species-disjoint-commonness-v1",
+    "artifact_digest": "sha256:26f1160c817a6ccb603b599ef7c17ccf04f0456280ef4c3fa6e3b102fcf5d368"
+  }
+}

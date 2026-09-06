@@ -1,0 +1,16 @@
+{
+  "status": "authorized_once_after_design_validation",
+  "date": "2026-09-04",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "validated_parent_sha": "1c81a0ad0c365c8ffbf18bb762e497cfb409cbdd",
+  "design_validation_run_id": 33845158378,
+  "design_validation_conclusion": "success",
+  "authorized_operation": "execute the fixed 20-round x 162-cell metadata-only global species discovery exactly once",
+  "flower_colour_may_open": false,
+  "candidate_image_pixels_may_open": false,
+  "climate_may_enter_selection": false,
+  "barrier_overlay_may_enter_selection": false,
+  "H9_biological_outcome_may_enter_selection": false,
+  "rerun_for_favourable_species_set": false,
+  "next_stage_if_discovery_passes": "metadata-only per-species 100/80/60 capacity scan under the already-frozen contract"
+}

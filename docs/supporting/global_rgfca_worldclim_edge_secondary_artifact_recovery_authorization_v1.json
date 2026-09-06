@@ -1,0 +1,10 @@
+{
+  "protocol": "global-rgfca-worldclim-edge-secondary-artifact-recovery-v1",
+  "status": "authorize_exactly_one_worldclim_secondary_artifact_recovery",
+  "workflow_attempts_allowed": 1,
+  "artifact_id": 9982869598,
+  "analysis_rerun_allowed": false,
+  "statistic_recalculation_allowed": false,
+  "result_editing_allowed": false,
+  "purpose": "commit exact already-completed and hash-verified artifact bytes after an unrelated branch-advance race blocked the original result commit"
+}

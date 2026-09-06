@@ -1,0 +1,73 @@
+{
+  "protocol": "global-rgfca-worldclim-scale-moderation-replication-v1",
+  "status": "postoutcome_replication_frozen_after_worldclim_global_result_before_any_rgfca_scale_moderation_result",
+  "date": "2026-09-06",
+  "motivation": "The earlier random-photo-first H5 analysis prospectively defined a negative scale-moderation hypothesis: climate-colour coupling may be stronger in geographically localized species and weaken as occupied geographic span increases. The new balanced RGFCA WorldClim edge analysis provides an independent larger species frame and a distance-controlled species-level climate-colour effect suitable for a direct replication.",
+  "known_results_before_this_replication": {
+    "primary_G1_p_upper": 0.070,
+    "species_disjoint_commonness_p_upper": 0.856,
+    "RESOLVE_edge_p_upper": 0.425,
+    "WorldClim_global_edge_secondary_p_upper": 0.699,
+    "WorldClim_global_mean_species_partial_rho": -0.0019335618026886856,
+    "earlier_random_photo_first_H5_primary_scale_moderation_rho": -0.17547788728376038,
+    "earlier_random_photo_first_H5_primary_p_lower": 0.091
+  },
+  "inferential_role": {
+    "role": "independent_large_frame_replication_of_a_pre-existing_scale_moderation_hypothesis",
+    "postoutcome_relative_to_rgfca_worldclim_global_mean": true,
+    "not_a_rescue_of_primary_G1": true,
+    "not_a_rescue_of_species_disjoint_commonness": true,
+    "not_a_rescue_of_worldclim_global_mean": true,
+    "causal_language_allowed": false
+  },
+  "response": {
+    "name": "species_partial_rho_colour_vs_worldclim_given_distance",
+    "definition": "For each WorldClim-evaluable species, the equal-edge-occurrence partial Spearman correlation between ranked within-species colour-edge score and frozen multivariate WorldClim contrast after residualizing both on ranked great-circle edge distance, using the exact RGFCA 200-outer k=3 edge schedule.",
+    "source_analysis": "global-rgfca-worldclim-edge-secondary-execution-v1"
+  },
+  "moderator": {
+    "name": "mean_pairwise_H1_18x9_cell_centroid_great_circle_km",
+    "purpose": "exact conceptual replication of the earlier H5 primary geographic-span moderator",
+    "construction": [
+      "use the full frozen RGFCA classifiable photo pool, without reading colour values for the moderator",
+      "retain photos with complete frozen WorldClim coverage",
+      "assign photo coordinates to the legacy H1 18x9 equal-area longitude by sin(latitude) grid",
+      "within species take unique occupied H1 cells",
+      "require at least three occupied H1 cells",
+      "compute great-circle distances among all occupied-cell centroids",
+      "take the arithmetic mean of pairwise distances",
+      "apply log1p before the across-species rank correlation"
+    ],
+    "minimum_occupied_H1_cells": 3,
+    "colour_used_to_construct_moderator": false
+  },
+  "primary_test": {
+    "statistic": "Spearman correlation across evaluable species between log1p(mean pairwise H1-cell geographic span) and species partial rho colour-vs-WorldClim-given-distance",
+    "directional_hypothesis": "negative",
+    "interpretation_if_negative": "macroclimate-colour concordance weakens as a species spans broader geography, consistent with context dependence rather than one globally portable climate-colour mapping",
+    "minimum_evaluable_species": 30,
+    "alternative_moderators": "none in this replication",
+    "sensitivities": "none in this replication"
+  },
+  "null": {
+    "unit": "complete four-group colour vectors permuted within species",
+    "reuse_RGFCA_null_master_seed": 2026090403,
+    "null_indices": "0..998 exactly once",
+    "geometry_distance_climate_and_moderator_fixed": true,
+    "for_each_null": "recompute each species WorldClim partial rho on the exact fixed edge schedule, then recompute the across-species scale-moderation Spearman statistic",
+    "tail": "lower",
+    "monte_carlo_p": "(1 + count(null scale-moderation rho <= observed rho)) / 1000",
+    "alpha": 0.05,
+    "favourable_rerun_allowed": false,
+    "selective_early_stop_allowed": false
+  },
+  "support_rule": {
+    "supported_if": [
+      "observed scale-moderation Spearman rho < 0",
+      "p_lower < 0.05",
+      "at least 30 species are evaluable"
+    ],
+    "claim_if_supported": "In the balanced global public-photo frame, the strength of distance-controlled macroclimate-flower-colour concordance is scale dependent: geographically broader species show weaker species-level climate-colour coupling under the frozen WorldClim representation. This is a replication-level association, not evidence that geographic range causes weaker selection or that climate causally determines flower colour.",
+    "claim_if_not_supported": "The larger balanced RGFCA frame does not replicate the earlier suggested weakening of climate-colour coupling with geographic span."
+  }
+}

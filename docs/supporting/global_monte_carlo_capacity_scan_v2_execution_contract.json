@@ -1,0 +1,43 @@
+{
+  "protocol": "global-monte-carlo-capacity-scan-v2-sharded-execution",
+  "status": "frozen_while_cache_resistant_v2_discovery_is_running_before_v2_outcome_and_before_capacity_queries",
+  "parent_contract": "docs/supporting/global_monte_carlo_capacity_scan_contract_v1.json",
+  "biological_rules_changed": false,
+  "input_after_v2_success": "data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv",
+  "required_v2_manifest": "docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json",
+  "execution": {
+    "deterministic_shards": 8,
+    "assignment": "sort unique species by ascending inat_taxon_id then species; zero-based row index modulo 8",
+    "max_parallel": 1,
+    "reason": "bound each hosted compute job while preserving the parent contract's one-request-per-species census and global API pacing",
+    "all_input_species_must_appear_in_exactly_one_shard": true,
+    "favourable_shard_rerun": false
+  },
+  "inherited_without_change": {
+    "one_request_per_species": true,
+    "per_page": 200,
+    "request_retries": 0,
+    "request_interval_seconds": 1.05,
+    "observer_cap": 2,
+    "candidate_raw_photos_per_species": [100, 80, 60],
+    "minimum_metadata_eligible_species": 300,
+    "target_selection": "largest target with at least 300 eligible species",
+    "request_error_fraction_ceiling": 0.05,
+    "prior_experiment_ids_excluded": true
+  },
+  "reducer": {
+    "requires_all_8_shards": true,
+    "requires_exact_taxon_set_equality_to_v1_plus_v2_union": true,
+    "requires_no_duplicate_taxon_between_shards": true,
+    "target_selected_only_after_complete_reassembly": true,
+    "image_pixels_opened": false
+  },
+  "outcome_firewall": {
+    "flower_colour_used": false,
+    "H9_result_used_to_change_thresholds": false,
+    "V2_discovery_outcome_used_to_change_thresholds": false,
+    "climate_used": false,
+    "pollinator_used": false,
+    "barrier_overlay_used": false
+  }
+}

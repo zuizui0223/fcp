@@ -1,0 +1,63 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-finalization-v1",
+  "status": "finalization_path_frozen_before_chelsa_and_edaphic_block_results_are_opened",
+  "family": [
+    "terrain_structure",
+    "thermal_regime",
+    "water_balance",
+    "atmospheric_energy_dryness",
+    "edaphic_regime"
+  ],
+  "finalizer": {
+    "path": "scripts/analysis/finalize_global_rgfca_expanded_environmental_panel.py",
+    "git_blob_sha": "a8d2805c16881f58b889d253bc9cd1535fefc26e"
+  },
+  "raw_result_sources": {
+    "terrain_structure": {
+      "run_id": 34017934825,
+      "artifact_name": "global-rgfca-earthenv-terrain-block-v1",
+      "result_file": "global_rgfca_earthenv_terrain_block_result_v1.json"
+    },
+    "thermal_regime": {
+      "run_id": 34019160099,
+      "artifact_name": "global-rgfca-expanded-thermal_regime-block-v1",
+      "result_file": "global_rgfca_thermal_regime_block_result_v1.json"
+    },
+    "water_balance": {
+      "run_id": 34019160099,
+      "artifact_name": "global-rgfca-expanded-water_balance-block-v1",
+      "result_file": "global_rgfca_water_balance_block_result_v1.json"
+    },
+    "atmospheric_energy_dryness": {
+      "run_id": 34019160099,
+      "artifact_name": "global-rgfca-expanded-atmospheric_energy_dryness-block-v1",
+      "result_file": "global_rgfca_atmospheric_energy_dryness_block_result_v1.json"
+    },
+    "edaphic_regime": {
+      "run_id": 34019187941,
+      "artifact_name": "global-rgfca-expanded-edaphic-regime-block-v1",
+      "result_file": "global_rgfca_edaphic_regime_block_result_v1.json"
+    }
+  },
+  "requirements": {
+    "all_five_artifacts_required": true,
+    "all_five_raw_results_required": true,
+    "each_raw_result_requires_999_nulls": true,
+    "family_size": 5,
+    "multiplicity": "Holm across exactly all five parent blocks",
+    "alpha": 0.05,
+    "support_rule": "observed mean species partial rho > 0 and Holm-adjusted upper-tail p < 0.05",
+    "individual_variable_decomposition_opens_only_for_supported_parent_blocks": true,
+    "unsupported_parent_block_significance_decomposition_forbidden": true
+  },
+  "execution_policy": {
+    "workflow_attempts_allowed": 1,
+    "favourable_block_omission_allowed": false,
+    "favourable_rerun_allowed": false,
+    "raw_block_recomputation_allowed": false,
+    "artifact_byte_recovery_only": true,
+    "primary_G1_rescue_allowed": false,
+    "species_disjoint_reclassification_allowed": false,
+    "causal_language_allowed": false
+  }
+}

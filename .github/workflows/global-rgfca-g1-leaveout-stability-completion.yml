@@ -1,0 +1,100 @@
+name: Global RGFCA G1 leave-out stability completion
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_g1_leaveout_stability_completion_authorization_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-rgfca-g1-leaveout-stability-completion
+  cancel-in-progress: false
+
+jobs:
+  leaveout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Enforce frozen completion and one attempt
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          test "$RUN_ATTEMPT" = "1" || { echo "leave-out workflow reruns are forbidden"; exit 1; }
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          c=Path('docs/supporting/global_rgfca_g1_leaveout_stability_completion_contract_v1.json')
+          a=Path('docs/supporting/global_rgfca_g1_leaveout_stability_completion_authorization_v1.json')
+          m=Path('data/frozen/global_rgfca_g5_species_metadata_v1.csv')
+          x=json.loads(c.read_text()); y=json.loads(a.read_text())
+          if x.get('status') != 'technical_completion_frozen_before_any_leaveout_colour_result_is_computed':
+              raise SystemExit('leave-out contract drift')
+          if y.get('status') != 'authorize_exactly_one_g1_leaveout_stability_completion':
+              raise SystemExit('leave-out authorization drift')
+          if y.get('workflow_attempts_allowed') != 1 or y.get('favourable_rerun_allowed') is not False:
+              raise SystemExit('leave-out retry policy drift')
+          if not m.exists(): raise SystemExit('frozen G5 metadata not present')
+          sha=hashlib.sha256(m.read_bytes()).hexdigest()
+          if sha != y.get('metadata_source_sha256'):
+              raise SystemExit(f'G5 metadata SHA drift: {sha}')
+          print({'gate':'pass','metadata_sha256':sha})
+          PY
+      - name: Install dependencies and validate runner
+        run: |
+          python -m pip install -e .
+          python -m py_compile scripts/analysis/run_global_rgfca_g1_leaveout_stability_completion.py
+      - name: Run all frozen realm and major-family leave-outs
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/rgfca-g1-leaveout
+          mkdir -p /tmp/rgfca-g1-leaveout
+          python scripts/analysis/run_global_rgfca_g1_leaveout_stability_completion.py \
+            --output-dir /tmp/rgfca-g1-leaveout \
+            --null-batch-size 64
+      - name: Verify immutable primary and complete reporting
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('/tmp/rgfca-g1-leaveout/global_rgfca_g1_leaveout_stability_completion_result_v1.json').read_text())
+          if x.get('status') != 'complete_prespecified_g1_leaveout_stability_gates':
+              raise SystemExit('unexpected leave-out status')
+          if x['primary_g1'] != {'p_upper':0.07,'supported':False,'decision_immutable':True}:
+              raise SystemExit('primary G1 changed')
+          if x.get('null_permutations') != 999 or x.get('null_indices_exact_0_998') is not True:
+              raise SystemExit('null family drift')
+          if x.get('full_original_strong_stability_claim_pass') is not False:
+              raise SystemExit('known failed 100-vs-200 gate was incorrectly rescued')
+          print({'guard':'pass','realm_gate':x['leave_one_realm_positive_excess_every_estimable'],'family_gate':x['leave_one_major_family_positive_excess_every_estimable']})
+          PY
+      - name: Commit exact leave-out results
+        env:
+          BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          cp /tmp/rgfca-g1-leaveout/global_rgfca_g1_leaveout_stability_completion_result_v1.json docs/supporting/global_rgfca_g1_leaveout_stability_completion_result_v1.json
+          cp /tmp/rgfca-g1-leaveout/global_rgfca_g1_leaveout_stability_completion_groups_v1.csv data/derived/global_rgfca_g1_leaveout_stability_completion_groups_v1.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_g1_leaveout_stability_completion_result_v1.json data/derived/global_rgfca_g1_leaveout_stability_completion_groups_v1.csv
+          git commit -m "Complete prespecified G1 leave-out stability gates"
+          git pull --rebase origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-g1-leaveout-stability-completion-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/rgfca-g1-leaveout/

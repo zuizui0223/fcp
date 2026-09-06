@@ -1,0 +1,12 @@
+{
+  "protocol": "global-rgfca-environmental-interaction-power-supplement-authorization-v1",
+  "status": "authorize_exactly_one_exact_interaction_power_supplement",
+  "date": "2026-09-06",
+  "contract_blob_sha": "9629ff868cd148621a871351ad2e25a8a90cca79",
+  "runner_blob_sha": "7706b9efb27c11c0bfcafac21ce783082998463a",
+  "workflow_blob_sha": "54f19a4e8c36e787b4998fd5f7355b8ebfd95d4f",
+  "workflow_attempts_allowed": 1,
+  "favourable_rerun_allowed": false,
+  "posthoc_effect_grid_change_allowed": false,
+  "observed_family_reclassification_allowed": false
+}

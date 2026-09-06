@@ -1,0 +1,54 @@
+{
+  "protocol": "global-monte-carlo-species-discovery-v2-cache-resistant",
+  "status": "complete_cache_resistant_metadata_only_global_species_discovery_v2",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "v1_independence_diagnostic_accepted": false,
+  "v1_species_retained_as_metadata_discoveries": 30393,
+  "v2": {
+    "rounds": 20,
+    "request_attempts": 3240,
+    "request_errors": 0,
+    "request_error_fraction": 0.0,
+    "api_returned": 393992,
+    "accepted_after_v1_id_exclusion": 218357,
+    "unique_observations": 205955,
+    "unique_species": 30910,
+    "new_species_beyond_v1": 11718,
+    "odd_even_species_jaccard": 0.43688126819799417,
+    "v1_vs_v2_species_jaccard": 0.4557479043480326,
+    "cells_with_fewer_than_20_distinct_available_pages": 109,
+    "median_distinct_pages_used": 6.0
+  },
+  "combined": {
+    "species": 42111
+  },
+  "lineage": {
+    "contract_sha256": "c6f1c951f54ae1d556abdf71e8342e44bc605232e9be81e009197504d6fcbe70",
+    "v1_manifest_sha256": "6b6e040d452bd9aa1d3efb1e972483231ade76aee827c49eeacb70e1004e3ccb",
+    "v1_observation_index_sha256": "b60a8b1b98fcf6745344d6acc394bb6ff905b9d5bded134031402892ff2efa2e",
+    "v1_species_sha256": "8f86a6a5f4ea691fd25057e92818fc5684a809018789e50b656d1160f219cf64"
+  },
+  "files": {
+    "v2_observation_index": {
+      "path": "data/frozen/global_monte_carlo_species_discovery_v2_observation_index_v1.csv.gz",
+      "sha256": "d7f08601ccc4d7dc9ff1943ea3e58ed903b9759277f7b536bc7423bc08189b3a"
+    },
+    "v2_species": {
+      "path": "data/frozen/global_monte_carlo_species_discovery_v2_species_v1.csv",
+      "sha256": "69c530c457a8c40370a68292696d323e6946f9e2e92543d52cba1971e58b9faa"
+    },
+    "v2_round_audit": {
+      "path": "data/frozen/global_monte_carlo_species_discovery_v2_round_audit_v1.csv",
+      "sha256": "08b8a051e737ab37f38dfc102ec56e0a5e2b7da719757a6066f21577b7891070"
+    },
+    "v2_cell_page_audit": {
+      "path": "data/frozen/global_monte_carlo_species_discovery_v2_cell_page_audit_v1.csv",
+      "sha256": "60915afe5bb53709a5b6e2b5aff8912e118bfe6d1a098466926725e41c84052a"
+    },
+    "combined_species": {
+      "path": "data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv",
+      "sha256": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc"
+    }
+  }
+}

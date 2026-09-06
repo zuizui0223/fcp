@@ -1,0 +1,191 @@
+name: Global RGFCA complete environmental interaction family
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_environmental_interaction_family_authorization_v1.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: global-rgfca-environmental-interaction-family
+  cancel-in-progress: false
+
+jobs:
+  interaction-family:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      PYTHONUNBUFFERED: "1"
+      PYTHONHASHSEED: "0"
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - name: Checkout frozen authorization state
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install frozen package and raster dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install "rasterio==1.4.3" pytest
+
+      - name: Enforce complete ten-pair family authorization
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT'] != '1':
+              raise SystemExit('favourable family reruns are forbidden')
+          auth=json.loads(Path('docs/supporting/global_rgfca_environmental_interaction_family_authorization_v1.json').read_text())
+          family=json.loads(Path(auth['contract']['path']).read_text())
+          panel=json.loads(Path('docs/supporting/global_rgfca_expanded_environmental_panel_final_result_v1.json').read_text())
+          if auth.get('status')!='authorize_exactly_one_complete_ten_pair_environmental_interaction_family_execution': raise SystemExit('authorization drift')
+          if auth['execution']['workflow_attempts_allowed']!=1 or auth['execution']['biological_computation_attempts_allowed']!=1: raise SystemExit('attempt gate drift')
+          if auth['execution']['family_size']!=10 or auth['execution']['all_ten_pairs_required'] is not True: raise SystemExit('family completeness drift')
+          if auth['execution']['null_indices']!='0..998 exactly once' or auth['execution']['null_master_seed']!=2026090403: raise SystemExit('null family drift')
+          if auth['execution']['two_sided_pair_tests'] is not True or auth['execution']['holm_across_ten'] is not True: raise SystemExit('multiplicity drift')
+          if auth['execution']['favourable_rerun_allowed'] is not False: raise SystemExit('anti-fishing drift')
+          if family.get('status')!='postoutcome_exploratory_family_frozen_after_single_interaction_launch_but_before_any_interaction_outcome_is_opened': raise SystemExit('family contract drift')
+          if len(family['interaction_family'])!=10 or family['completeness_rule']['all_unordered_pairs_included'] is not True: raise SystemExit('interaction list drift')
+          if panel.get('supported_blocks')!=[]: raise SystemExit('parent panel drift')
+          for item in [auth['contract'],auth['runner']]:
+              actual=subprocess.check_output(['git','hash-object',item['path']],text=True).strip()
+              if actual!=item['git_blob_sha']: raise SystemExit(f"blob drift: {item['path']}: {actual} != {item['git_blob_sha']}")
+          print({'gate':'pass','family_size':10,'two_sided':True,'holm':'10 pairs','standalone_thermal_dryness_ignored':True})
+          PY
+
+      - name: Preflight code and unchanged RGFCA invariants
+        run: |
+          python -m py_compile scripts/analysis/run_global_rgfca_environmental_interaction_family.py
+          python -m py_compile scripts/analysis/run_global_rgfca_thermal_dryness_interaction.py
+          python -m pytest -q tests/test_global_edge_mechanism_v2.py tests/test_global_rgfca_engine.py tests/test_global_repeated_atlas.py
+          python - <<'PY'
+          import importlib.util, sys
+          from pathlib import Path
+          import numpy as np
+          p=Path('scripts/analysis/run_global_rgfca_thermal_dryness_interaction.py')
+          spec=importlib.util.spec_from_file_location('family_helper_preflight',p)
+          m=importlib.util.module_from_spec(spec); sys.modules['family_helper_preflight']=m; spec.loader.exec_module(m)
+          x=np.arange(1,41,dtype=float)
+          assert np.allclose(m.zrank_1d(x).mean(),0.0,atol=1e-12)
+          assert m.zrank_rows(np.vstack([x,x[::-1]])).shape==(2,40)
+          print('interaction helper preflight pass')
+          PY
+
+      - name: Recover exact frozen SoilGrids source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-exact-soilgrids-5km-v1
+          path: /tmp/soilgrids
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34018059667
+
+      - name: Recover exact frozen EarthEnv source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-exact-earthenv-terrain-50km-v1
+          path: /tmp/earthenv-terrain
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34017520302
+
+      - name: Recheck SoilGrids and EarthEnv exact bytes
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          soil=json.loads(Path('docs/supporting/global_rgfca_soilgrids_expanded_source_verification_v1.json').read_text())
+          for e in soil['files']:
+              p=Path('/tmp/soilgrids')/e['property']/e['filename']
+              if not p.exists() or hashlib.sha256(p.read_bytes()).hexdigest()!=e['sha256']: raise SystemExit(f"soil SHA drift {e['property']} {e['depth']}")
+          terrain=json.loads(Path('docs/supporting/global_rgfca_earthenv_terrain_source_verification_v1.json').read_text())
+          for e in terrain['files']:
+              p=Path('/tmp/earthenv-terrain')/e['filename']
+              if not p.exists() or hashlib.sha256(p.read_bytes()).hexdigest()!=e['sha256']: raise SystemExit(f"terrain SHA drift {e['id']}")
+          print({'soil_files':len(soil['files']),'terrain_files':len(terrain['files']),'verified':True})
+          PY
+
+      - name: Download and SHA-verify all twelve exact CHELSA rasters
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/chelsa
+          python - <<'PY' > /tmp/chelsa_all.tsv
+          import json
+          from pathlib import Path
+          acquire=json.loads(Path('docs/supporting/global_rgfca_chelsa_expanded_source_acquisition_contract_v1.json').read_text())
+          verify=json.loads(Path('docs/supporting/global_rgfca_chelsa_expanded_source_verification_v1.json').read_text())
+          base=acquire['dataset']['base_url']
+          frozen={x['filename']:x for x in verify['files']}
+          for block in ('thermal_regime','water_balance','atmospheric_energy_dryness'):
+              for entry in acquire['process_blocks'][block]:
+                  v=frozen[entry['filename']]
+                  if v['block']!=block or v['id']!=entry['id']: raise SystemExit('CHELSA source identity drift')
+                  print(base+entry['filename'],entry['filename'],v['sha256'],sep='\t')
+          PY
+          test "$(wc -l < /tmp/chelsa_all.tsv)" -eq 12
+          while IFS=$'\t' read -r url filename sha; do
+            curl -fL --retry 3 --retry-delay 3 "$url" -o "/tmp/chelsa/$filename"
+            got=$(sha256sum "/tmp/chelsa/$filename" | awk '{print $1}')
+            test "$got" = "$sha"
+          done < /tmp/chelsa_all.tsv
+          df -h /
+
+      - name: Execute all ten interactions with shared 999 colour nulls once
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/interaction-family-result
+          python scripts/analysis/run_global_rgfca_environmental_interaction_family.py \
+            --chelsa-dir /tmp/chelsa \
+            --soil-dir /tmp/soilgrids \
+            --terrain-dir /tmp/earthenv-terrain \
+            --output-result /tmp/interaction-family-result/global_rgfca_environmental_interaction_family_result_v1.json \
+            --output-species /tmp/interaction-family-result/global_rgfca_environmental_interaction_family_species_v1.csv \
+            --output-null /tmp/interaction-family-result/global_rgfca_environmental_interaction_family_null_v1.csv \
+            --null-batch-size 4
+
+      - name: Validate complete family result without selective decomposition
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/interaction-family-result/global_rgfca_environmental_interaction_family_result_v1.json')
+          r=json.loads(p.read_text())
+          if r.get('status')!='complete_fixed_ten_pair_environmental_interaction_family': raise SystemExit('family result incomplete')
+          if r.get('family_size')!=10 or len(r.get('pairs',[]))!=10: raise SystemExit('family size drift')
+          if r.get('null_permutations')!=999 or r.get('null_indices_exact_0_998') is not True: raise SystemExit('null result incomplete')
+          if r.get('standalone_thermal_dryness_result_used_for_family_support') is not False: raise SystemExit('standalone result leaked into family')
+          if r.get('higher_order_interactions_open') is not False: raise SystemExit('higher-order fishing opened')
+          for x in r['pairs']:
+              if not (0 <= x['raw_p_two_sided'] <= 1 and 0 <= x['p_holm'] <= 1): raise SystemExit('invalid p value')
+              if x['variable_level_decomposition_open'] != x['supported_after_ten_pair_holm']: raise SystemExit('decomposition gate drift')
+          print({'family':'complete','supported_pairs':r['supported_pairs'],'n_supported':len(r['supported_pairs'])})
+          PY
+
+      - name: Upload immutable complete interaction family artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-environmental-interaction-family-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/interaction-family-result/

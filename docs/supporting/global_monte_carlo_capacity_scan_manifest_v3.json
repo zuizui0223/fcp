@@ -1,0 +1,42 @@
+{
+  "protocol": "global-monte-carlo-capacity-429-recovery-v1",
+  "status": "complete_metadata_only_capacity_scan_target_selected_after_transport_recovery_v3",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "original_v2_status": "not_evaluable_capacity_scan_due_request_failure",
+  "original_v2_discovered_species_scanned": 42111,
+  "discovered_species_scanned": 42111,
+  "original_v2_request_errors": 2237,
+  "recovered_429_rows": 2237,
+  "remaining_request_errors": 0,
+  "request_error_fraction": 0.0,
+  "request_error_fraction_ceiling": 0.05,
+  "target_counts": {
+    "100": 4730,
+    "80": 5558,
+    "60": 6770
+  },
+  "selected_raw_photo_target": 100,
+  "selected_species": 4730,
+  "minimum_metadata_eligible_species": 300,
+  "actual_image_acquisition_authorized": false,
+  "second_recovery_permitted": false,
+  "biological_rules_changed": false,
+  "lineage": {
+    "recovery_contract_sha256": "a64daa6490145b23f0e77640f2301b68109213fceac255b2a3a8562da9c9a144",
+    "failed_capacity_manifest_sha256": "7f504d53223f2c4ddf31260da12014b65f622d8769c492b254973154878554e6",
+    "failed_capacity_audit_sha256": "060335f984de19d2de3dbfecdd4ad2abd8407ae1267862093bacde568dd3ae93",
+    "recovery_csv_sha256": [
+      "d00333b6c844786da80d38da7f964ec9e68817f3c878d31823900f904552bd52",
+      "3781fe88501c2f2ae0d7dabba985c5e40b764e1caba56f164870892d4952e168",
+      "25657d47bab1ab9280163be18bb7e7582befb93a417c56a61fa1f98ff2f8d8ce",
+      "00c57496790879bffde94b338030717005396226eea2856ffa101c37bfca3f2d"
+    ],
+    "audit_sha256": "12d94100d6343597aa2b87670555e801ce0681f4b69e3ad634fa6d80409008e8",
+    "selected_sha256": "850501d7293a3968cf6566f8e9d7a396afd3927e8166ab2468e58ed22afcabde"
+  },
+  "files": {
+    "species_audit": "data/frozen/global_monte_carlo_capacity_scan_species_audit_v3.csv",
+    "selected_species_frame": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv"
+  }
+}

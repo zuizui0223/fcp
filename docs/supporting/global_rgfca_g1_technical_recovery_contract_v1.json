@@ -1,0 +1,68 @@
+{
+  "protocol": "global-rgfca-g1-same-runner-technical-recovery-v1",
+  "status": "frozen_after_cross_runner_bitwise_failure_before_g1_primary_decision",
+  "date": "2026-09-06",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "original_execution_contract": "docs/supporting/global_monte_carlo_inference_execution_contract_v1.json",
+  "original_failed_run": {
+    "run_id": 34000824828,
+    "head_sha": "09b9aed4f1e7416811d61d29def67c6299b1c0da",
+    "failed_job": "reduce-primary-inference",
+    "failure_class": "cross_runner_observed_bitwise_nonidentity",
+    "g1_primary_p_value_computed": false,
+    "g1_primary_decision_released": false,
+    "all_nine_logical_null_shards_completed": true,
+    "all_999_frozen_null_indices_generated": true
+  },
+  "scientific_rule_changes_allowed": false,
+  "unchanged_scientific_specification": [
+    "measured photo table and classifiable pool",
+    "eligible species set",
+    "200 balanced observed outer realizations",
+    "250 species per realization",
+    "20 photos per species per realization",
+    "species seed 2026090401",
+    "photo master seed 2026090402",
+    "spherical kNN graph with k=3",
+    "four-group colour-vector Jensen-Shannon distance",
+    "within-species midrank edge standardization",
+    "36x18 equal-area grid",
+    "500 km kernel and frozen support rule",
+    "aggregate-opportunity-weighted consensus concentration statistic",
+    "999 null permutations with indices 0..998 exactly once",
+    "null master seed 2026090403",
+    "within-species complete colour-vector permutation null",
+    "upper-tail Monte Carlo p=(1+count(null>=observed))/1000",
+    "alpha=0.05 and observed-above-null-mean support requirement",
+    "nine logical modulo-9 null shards",
+    "bitwise identity requirement for observed consensus and concentration across all nine logical shards"
+  ],
+  "technical_recovery": {
+    "maximum_attempts": 1,
+    "runner": "ubuntu-24.04",
+    "python": "3.12",
+    "logical_shards": 9,
+    "shard_assignment": "null index modulo 9 unchanged",
+    "execution_topology": "run shard indices 0..8 sequentially inside one GitHub Actions job on one runner",
+    "recompute_scope": "all nine complete deterministic logical shards, including all 999 null indices, from the unchanged frozen seeds and code",
+    "bitwise_gate": "unchanged; the existing strict reducer is used without tolerance",
+    "numeric_tolerance_added": false,
+    "rounding_added": false,
+    "representative_shard_selection_allowed": false,
+    "null_shard_omission_allowed": false,
+    "favourable_rerun_or_result_dependent_exclusion_allowed": false,
+    "if_strict_reducer_fails_again": "close G1 as not_evaluable_under_frozen_bitwise_reproducibility_gate; no second technical rescue"
+  },
+  "g3_separation": {
+    "existing_g3_observed_artifact_must_not_be_rerun": true,
+    "existing_g3_result_is_independent_of_g1": true,
+    "g3_cannot_rescue_g1": true
+  },
+  "outcome_firewall_at_recovery_freeze": {
+    "cross_runner_bitwise_failure_seen": true,
+    "tiny_cross_runner_observed_numeric_difference_seen": true,
+    "g1_primary_p_value_seen": false,
+    "g1_primary_decision_seen": false,
+    "g3_descriptive_result_seen": true
+  }
+}

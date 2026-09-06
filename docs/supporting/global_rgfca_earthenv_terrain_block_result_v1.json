@@ -1,0 +1,94 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-v1",
+  "status": "complete_terrain_structure_block_raw_pending_full_panel_holm",
+  "block": "terrain_structure",
+  "inferential_role": {
+    "role": "postoutcome_secondary_environmental_process_validation",
+    "not_part_of_original_preoutcome_G3_primary_family": true,
+    "cannot_rescue_or_reclassify_G1": true,
+    "cannot_reclassify_species_disjoint_commonness": true,
+    "cannot_reclassify_RESOLVE_or_WorldClim_four_axis_results": true,
+    "causal_language_allowed": false
+  },
+  "final_panel_support_decision_available": false,
+  "reason_final_support_pending": "Holm adjustment requires all evaluable fixed blocks in the nonselective five-block panel",
+  "predictor_source": "exact frozen EarthEnv GMTED-derived 50-km median elevation+slope+TRI+VRM",
+  "source_artifact": "global-rgfca-exact-earthenv-terrain-50km-v1",
+  "statistic": "equal-species mean of evaluable species partial rhos",
+  "observed_mean_species_partial_rho": 0.004367022589224834,
+  "observed_median_species_partial_rho": -0.0008206365311479113,
+  "observed_positive_species_fraction": 0.4905149051490515,
+  "n_evaluable_species": 369,
+  "minimum_evaluable_species": 30,
+  "total_scheduled_edge_occurrences": 1981590,
+  "terrain_evaluable_edge_occurrences": 1981590,
+  "terrain_edge_occurrence_coverage_fraction": 1.0,
+  "terrain_source_audit": {
+    "elevation": {
+      "global_finite_cells": 290304,
+      "global_mean": 198.86510175540124,
+      "global_sd_ddof0": 545.1748553132263,
+      "photo_complete_count": 21424,
+      "raster_sha256": "cf8dd85ce935ba677d59b9496e02a8130e00ac2bb3d145f10e281001f1f408f5"
+    },
+    "slope": {
+      "global_finite_cells": 290304,
+      "global_mean": 0.7440335147417834,
+      "global_sd_ddof0": 2.337427314032642,
+      "photo_complete_count": 21424,
+      "raster_sha256": "c1b898236d9d8deb325e72152173974d324809d20d1b712219df6386fa75627f"
+    },
+    "terrain_roughness_index": {
+      "global_finite_cells": 290304,
+      "global_mean": 2.865078288621583,
+      "global_sd_ddof0": 8.81185656099453,
+      "photo_complete_count": 21424,
+      "raster_sha256": "f205d533f029fa63bd50b425ed38df79a0246a695c8d19a957358a54b96685ea"
+    },
+    "vector_ruggedness_measure": {
+      "global_finite_cells": 290304,
+      "global_mean": 0.0003052930085943972,
+      "global_sd_ddof0": 0.0014563233864594539,
+      "photo_complete_count": 21424,
+      "raster_sha256": "4ee9553ae3c5c1e6cfbcf8e1bcebacbadded288ed4c3ddd4ce4c7daac5d9c0b0"
+    },
+    "joint_photo_complete_count": 21424,
+    "photo_count": 21424,
+    "joint_photo_complete_fraction": 1.0
+  },
+  "null_permutations": 999,
+  "null_indices_exact_0_998": true,
+  "null_mean": -1.0954391892256494e-05,
+  "null_q025": -0.007998716998501888,
+  "null_q975": 0.008321113786995111,
+  "raw_p_upper": 0.15,
+  "raw_nominal_positive_before_panel_Holm": false,
+  "alpha": 0.05,
+  "p_holm": null,
+  "panel_supported": null,
+  "individual_variable_decomposition_open": false,
+  "causal_language_allowed": false,
+  "execution_audit": {
+    "all_200_outer_realizations_used": true,
+    "same_RGFCA_edge_geometry": true,
+    "repeated_edge_occurrences_deduplicated": false,
+    "missing_terrain_recoded_to_zero": false,
+    "four_fixed_terrain_axes_only": true,
+    "same_999_RGFCA_colour_nulls": true,
+    "terrain_result_cannot_stop_later_fixed_blocks": true
+  },
+  "lineage": {
+    "panel_contract_sha256": "f81690c19684be611d0bf4fb03b5196da1d377174df7b79722ae07d36324c659",
+    "panel_execution_sha256": "ca5da04cf4ee6f1f5dbc22102e4a9ad7ab12408fc3537bb59a05a35995725341",
+    "terrain_source_verification_sha256": "7915c4d53a8bb48ce2f6d55fde42a4fab1f00474764592949dd5f3338083b0e0",
+    "measurement_manifest_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "primary_g1_result_sha256": "3cddceded039f802f31f207820f6355424bdc081d27576d3b3887d7ee4334906",
+    "species_result_sha256": "3320ffb72f68b9c2a9d0e95505143c332a2e6bd32b7580ffba98277abc4b124e",
+    "null_result_sha256": "41cdb2c062c72edc1b770a407c245e9b5463efb6be9ba30c68fb04d1faf742a0"
+  },
+  "files": {
+    "species": "/tmp/rgfca-terrain-result/global_rgfca_earthenv_terrain_block_species_v1.csv",
+    "null": "/tmp/rgfca-terrain-result/global_rgfca_earthenv_terrain_block_null_v1.csv"
+  }
+}

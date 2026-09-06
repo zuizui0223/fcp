@@ -1,0 +1,104 @@
+{
+  "protocol": "global-edge-mechanism-distance-control-amendment-v1",
+  "status": "frozen_before_any_global_monte_carlo_colour_field",
+  "date": "2026-09-04",
+  "supersedes": {
+    "raw_edge_statistic": "equal-species mean within-species ordinary Spearman",
+    "documents": [
+      "docs/supporting/global_colour_biogeography_overlay_contract_v1.json",
+      "docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md section 10.1"
+    ]
+  },
+  "reason": "Colour dissimilarity, climate dissimilarity, pollinator turnover and many barrier metrics can all increase with geographic separation. Ordinary edge correlation would therefore confound generic isolation-by-distance with predictor-specific concordance.",
+  "primary_edge_statistic": {
+    "name": "equal-species mean within-species partial Spearman",
+    "procedure_per_species": [
+      "rank colour-edge score",
+      "rank external-edge contrast",
+      "rank great-circle edge distance in km",
+      "linearly residualize ranked colour and ranked external contrast separately on ranked geographic distance with intercept",
+      "Pearson-correlate the two residual vectors"
+    ],
+    "minimum_edges_per_species": 5,
+    "minimum_evaluable_species": 30,
+    "species_weighting": "equal",
+    "null": "same 999 within-species colour permutations as G1 with edge geometry, distance and external predictor fixed",
+    "tail": "upper",
+    "multiplicity": "Holm across all evaluable predictors in the fixed primary edge-mechanism family",
+    "ordinary_spearman_role": "descriptive sensitivity only; never primary support"
+  },
+  "fixed_external_edge_formulas": {
+    "climate_multivariate_turnover": {
+      "source": "CHELSA v2.1",
+      "variables": ["bio01", "bio04", "bio12", "bio15"],
+      "standardization": "global terrestrial z-score for each variable using the frozen external grid",
+      "formula": "Euclidean distance between endpoint four-variable z-score vectors",
+      "high_value_means": "stronger multivariate climate turnover"
+    },
+    "terrain_multivariate_turnover": {
+      "source": "EarthEnv Global 1/5/10/50/100-km Topography",
+      "grain_km": 50,
+      "variables": ["elevation", "slope", "terrain roughness index", "vector ruggedness measure"],
+      "standardization": "global terrestrial z-score for each variable using the frozen external grid",
+      "formula": "Euclidean distance between endpoint four-variable z-score vectors with equal component weights",
+      "high_value_means": "stronger multivariate topographic turnover"
+    },
+    "marine_gap_fraction": {
+      "source": "Natural Earth 1:10m Land v5.1.1",
+      "geodesic_sampling": "sample the shortest great-circle path at intervals no greater than 10 km, including endpoints",
+      "formula": "fraction of interior sampled path points outside the frozen land polygons",
+      "edge_shorter_than_20_km": "evaluate the midpoint as the interior sample",
+      "high_value_means": "larger intervening marine gap"
+    },
+    "major_river_crossing": {
+      "source": "HydroRIVERS/HydroSHEDS fixed release",
+      "major_threshold": "ORD_FLOW <= 4",
+      "threshold_interpretation": "approximately long-term average discharge >=100 m3/s under the published HydroRIVERS flow-order bins",
+      "formula": "1 if the shortest great-circle edge intersects at least one frozen HydroRIVERS reach with ORD_FLOW <= 4, otherwise 0",
+      "high_value_means": "crossing at least one major river",
+      "threshold_may_change_after_colour": false
+    },
+    "biogeographic_boundary_crossing": {
+      "source": "RESOLVE Ecoregions 2017",
+      "fields": ["REALM", "BIOME_NUM", "ECO_ID"],
+      "geodesic_sampling": "sample the shortest great-circle path at intervals no greater than 10 km, including endpoints",
+      "transition_weights": {"realm": 3, "biome": 2, "ecoregion": 1},
+      "formula": "sum 3 for every adjacent sampled-point realm transition + 2 for every biome transition + 1 for every ecoregion transition",
+      "high_value_means": "crossing stronger or more numerous established terrestrial biogeographic boundaries"
+    },
+    "mountain_system_boundary_crossing": {
+      "source": "GMBA Mountain Inventory v2",
+      "selection": "Standard - 300 selection of major non-overlapping mountain systems",
+      "geodesic_sampling": "sample the shortest great-circle path at intervals no greater than 10 km, including endpoints",
+      "formula": "count transitions in sampled-point GMBA Standard-300 mountain-system membership, treating non-mountain as its own state",
+      "high_value_means": "crossing more major mountain-system boundaries"
+    },
+    "pollinator_occurrence_guild_turnover": {
+      "source": "independent frozen GBIF occurrence download",
+      "guilds": ["Anthophila", "Syrphidae", "Lepidoptera proxy", "Trochilidae+Nectariniidae+Meliphagidae flower-visiting-bird proxy"],
+      "candidate_radii_km": [100, 250, 500],
+      "automatic_radius_rule": "before colour inference choose the smallest candidate radius that gives >=20 retained target-pollinator occurrences at both endpoints for enough edges to make >=80% of metadata-eligible inferential species evaluable at >=5 edges/species; if none passes, predictor is not_evaluable",
+      "endpoint_composition": "four-guild relative occurrence composition after the frozen occurrence QC/effort rules, with additive pseudocount 0.5 per guild",
+      "formula": "Jensen-Shannon divergence between endpoint four-guild compositions",
+      "high_value_means": "stronger pollinator-guild occurrence turnover",
+      "radius_may_change_after_colour": false
+    },
+    "pollinator_direct_interaction_turnover": {
+      "source": "stable versioned frozen GloBI integrated interaction dataset",
+      "candidate_radii_km": [250, 500, 1000],
+      "automatic_radius_rule": "before colour inference choose the smallest candidate radius that makes >=30 metadata-eligible species evaluable at >=5 graph edges/species; if none passes, predictor is not_evaluable",
+      "interaction_filter": "documented pollination or flower-visitation interactions only under the frozen GloBI interaction-type mapping",
+      "endpoint_composition": "relative documented pollinator guild/taxon composition with additive pseudocount 0.5 per retained guild/taxon bin",
+      "formula": "Jensen-Shannon divergence between endpoint documented interaction compositions",
+      "high_value_means": "stronger direct documented pollinator-interaction turnover",
+      "claim_ceiling": "documented interaction concordance, not causal pollinator-mediated selection",
+      "radius_may_change_after_colour": false
+    }
+  },
+  "interpretation": {
+    "supported_edge_predictor": "predictor-specific colour concordance beyond ranked great-circle distance under the frozen species-conditioned null",
+    "does_not_require_G1": true,
+    "cannot_rescue_null_G1": true,
+    "causal_language_forbidden": true
+  }
+}

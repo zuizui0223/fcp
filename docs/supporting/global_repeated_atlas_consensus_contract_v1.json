@@ -1,0 +1,63 @@
+{
+  "protocol": "global-repeated-atlas-consensus-v1",
+  "status": "frozen_before_any_rgfca_global_flower_colour_field_and_before_candidate_image_pixels",
+  "date": "2026-09-04",
+  "purpose": "Make the aggregation of the 200 fixed outer realizations explicit before any global colour outcome is available.",
+  "outer_realization": {
+    "count": 200,
+    "species_per_realization": 250,
+    "photos_per_species": 20,
+    "spherical_knn_k": 3,
+    "minimum_distinct_species_support_per_cell": 5,
+    "field_intensity": "realization colour numerator / realization geographic opportunity"
+  },
+  "primary_consensus": {
+    "cellwise_rule": "sum the colour numerators over outer realizations in which the cell is evaluable, divided by the sum of geographic opportunity over those same evaluable realizations",
+    "equivalent_description": "opportunity-weighted mean of realization-specific field intensity conditional on evaluability",
+    "missing_support": "a non-evaluable realization-cell contributes neither numerator nor denominator and is never recoded as zero",
+    "aggregate_opportunity": "sum of realization opportunity over evaluable realizations",
+    "primary_G1_statistic": "aggregate-opportunity-weighted variance of the consensus field over cells with positive aggregate opportunity"
+  },
+  "observed_stability_products": {
+    "store_all_200_realization_fields": true,
+    "persistent_hotspots_use_realization_fields_not_the_consensus_rank": true,
+    "running_consensus_checkpoints": [25, 50, 100, 150, 200],
+    "odd_even_consensus": "apply the identical aggregate-numerator / aggregate-opportunity rule separately to odd and even outer realizations"
+  },
+  "null_aggregation": {
+    "permutations": 999,
+    "node_level_colour_permutation_amendment": "docs/supporting/global_barrier_null_amendment_v1.json",
+    "same_outer_schedule": true,
+    "same_realization_evaluability_and_opportunity": true,
+    "one_species_conditioned_photo_colour_assignment_per_null_replicate_reused_across_all_200_outer_realizations": true,
+    "null_consensus_rule": "identical aggregate-numerator / aggregate-opportunity rule",
+    "null_G1_statistic": "identical aggregate-opportunity-weighted variance",
+    "primary_p_upper": "(1 + number of null G1 statistics >= observed G1 statistic) / 1000"
+  },
+  "fixed_seeds": {
+    "species_schedule_seed": 2026090401,
+    "photo_schedule_master_seed": 2026090402,
+    "null_permutation_master_seed": 2026090403,
+    "stable_species_seed_derivation": "first 64 bits of SHA256(master_seed + ':' + canonical species label)",
+    "stable_null_species_seed_derivation": "first 64 bits of SHA256(master_seed + ':' + permutation_index + ':' + canonical species label)"
+  },
+  "canonical_ordering": {
+    "species": "Unicode string ascending",
+    "photos_within_species": "ascending integer photo_id",
+    "reason": "make balanced schedules and stateless null permutations invariant to input row order"
+  },
+  "forbidden_post_outcome_changes": [
+    "switching to an unweighted mean consensus because it is more favourable",
+    "changing the aggregate opportunity weights",
+    "treating unsupported cells as zero",
+    "regenerating schedule or null seeds after seeing G1",
+    "using independent null shuffles in each outer realization",
+    "choosing a favourable subset of outer realizations"
+  ],
+  "outcome_firewall": {
+    "candidate_image_pixels_opened": false,
+    "flower_colour_used": false,
+    "biological_thresholds_changed": false,
+    "spatial_support_changed": false
+  }
+}

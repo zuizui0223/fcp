@@ -1,0 +1,18 @@
+{
+  "protocol": "global-rgfca-worldclim-scale-moderation-replication-v1",
+  "status": "authorize_exactly_one_technical_recovery_before_any_scale_moderation_result",
+  "date": "2026-09-06",
+  "failed_run_id": 34017271067,
+  "failed_job_id": 101443174579,
+  "failure_stage": "dynamic_import_before_pool_load_or_observed_statistic",
+  "failure_cause": "Python 3.12 dataclasses dynamic import required sys.modules registration",
+  "technical_fix": "register dynamically imported modules in sys.modules before exec_module",
+  "scientific_logic_changed": false,
+  "contract_changed": false,
+  "moderator_changed": false,
+  "null_changed": false,
+  "null_indices": "0..998 exactly once",
+  "workflow_attempts_allowed": 1,
+  "favourable_rerun_allowed": false,
+  "selective_early_stop_allowed": false
+}

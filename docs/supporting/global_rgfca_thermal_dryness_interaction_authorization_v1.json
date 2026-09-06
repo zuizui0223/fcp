@@ -1,0 +1,37 @@
+{
+  "protocol": "global-rgfca-thermal-dryness-interaction-v1",
+  "status": "authorize_exactly_one_frozen_exploratory_interaction_execution",
+  "date": "2026-09-06",
+  "contract": {
+    "path": "docs/supporting/global_rgfca_thermal_dryness_interaction_contract_v1.json",
+    "git_blob_sha": "be6867e8f11e9e143b033becf68f2be255b441a2"
+  },
+  "runner": {
+    "path": "scripts/analysis/run_global_rgfca_thermal_dryness_interaction.py",
+    "git_blob_sha": "fa58479cfa3e8940c884a451224ad19ae88d5e99"
+  },
+  "frozen_inputs": {
+    "chelsa_source_verification_path": "docs/supporting/global_rgfca_chelsa_expanded_source_verification_v1.json",
+    "chelsa_source_verification_git_blob_sha": "12fbe42b8a9818042e7174017ea6d1b73d0aa3a5",
+    "parent_five_block_result_path": "docs/supporting/global_rgfca_expanded_environmental_panel_final_result_v1.json",
+    "parent_five_block_result_git_blob_sha": "88f9771fd49ccfdd0f82cfa5cc47f5216d7e7d6a"
+  },
+  "execution": {
+    "workflow_attempts_allowed": 1,
+    "biological_computation_attempts_allowed": 1,
+    "null_indices": "0..998 exactly once",
+    "null_master_seed": 2026090403,
+    "single_interaction_only": true,
+    "favourable_rerun_allowed": false,
+    "alternative_transform_after_result_allowed": false,
+    "technical_recovery_if_failure_before_result": "allowed only after explicitly recording the failure and only if the scientific statistic, sources, seeds, family and decision rule remain unchanged",
+    "branch_race_after_complete_result": "recover exact immutable artifact bytes; do not recompute biology"
+  },
+  "output": {
+    "artifact_name": "global-rgfca-thermal-dryness-interaction-v1",
+    "result_file": "global_rgfca_thermal_dryness_interaction_result_v1.json",
+    "species_file": "global_rgfca_thermal_dryness_interaction_species_v1.csv",
+    "null_file": "global_rgfca_thermal_dryness_interaction_null_v1.csv"
+  },
+  "claim_guard": "This exploratory interaction can neither rescue nor reclassify the unsupported five-block environmental panel, primary G1, species-disjoint commonness, RESOLVE, or WorldClim results."
+}

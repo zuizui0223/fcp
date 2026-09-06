@@ -1,0 +1,59 @@
+name: Validate RGFCA sampling availability audit
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_observation_bias_contract_v1.json"
+      - "scripts/acquisition/freeze_global_monte_carlo_sampling_availability.py"
+      - ".github/workflows/global-monte-carlo-sampling-availability-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Compile metadata-only effort census
+        run: python -m py_compile scripts/acquisition/freeze_global_monte_carlo_sampling_availability.py
+      - name: Validate frozen layers and request budget without network
+        run: |
+          python - <<'PY'
+          import importlib.util, json
+          from pathlib import Path
+          from fcp_pipeline.shared_transition_surface import EqualAreaGrid
+          c = json.loads(Path('docs/supporting/global_monte_carlo_observation_bias_contract_v1.json').read_text())
+          assert c['status'] == 'frozen_before_any_rgfca_global_flower_colour_field'
+          s = c['metadata_only_sampling_availability_census']
+          assert s['fixed_request_attempts'] == 486
+          assert s['candidate_image_pixels_opened'] is False
+          assert s['flower_colour_used'] is False
+          assert [x['name'] for x in s['layers']] == [
+              'all_research_photo_records',
+              'license_eligible_photo_records',
+              'flowering_annotated_eligible_records',
+          ]
+          spec = importlib.util.spec_from_file_location('bias', 'scripts/acquisition/freeze_global_monte_carlo_sampling_availability.py')
+          m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+          grid = EqualAreaGrid(18, 9)
+          q0 = m.layer_query(s, grid, 0, 'all_research_photo_records')
+          q1 = m.layer_query(s, grid, 0, 'license_eligible_photo_records')
+          q2 = m.layer_query(s, grid, 0, 'flowering_annotated_eligible_records')
+          assert 'photo_license' not in q0 and 'term_id' not in q0
+          assert 'photo_license' in q1 and 'term_id' not in q1
+          assert 'photo_license' in q2 and q2['term_id'] == 12 and q2['term_value_id'] == 13
+          assert q0['order_by'] == q1['order_by'] == q2['order_by'] == 'id'
+          assert q0['per_page'] == q1['per_page'] == q2['per_page'] == 1
+          print('rgfca_sampling_availability_validation=pass')
+          PY

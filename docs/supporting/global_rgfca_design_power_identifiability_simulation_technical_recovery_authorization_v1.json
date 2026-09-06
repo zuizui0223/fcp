@@ -1,0 +1,11 @@
+{
+  "status": "authorize_exactly_one_design_simulation_technical_recovery",
+  "date": "2026-09-06",
+  "contract": "docs/supporting/global_rgfca_design_power_identifiability_simulation_technical_recovery_v1.json",
+  "original_run": 34030130087,
+  "original_job": 101478006052,
+  "workflow_attempts_allowed": 1,
+  "favourable_rerun_allowed": false,
+  "scientific_changes_allowed": false,
+  "authorized_fix": "only the four frozen Python decision_guard boolean literals false->False"
+}

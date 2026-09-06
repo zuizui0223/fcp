@@ -1,0 +1,125 @@
+name: Global RGFCA design power simulation technical recovery
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_design_power_identifiability_simulation_technical_recovery_authorization_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-rgfca-design-power-identifiability-simulation-technical-recovery
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Enforce frozen recovery and one attempt
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          test "$RUN_ATTEMPT" = "1" || { echo "technical recovery reruns are forbidden"; exit 1; }
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          c=json.loads(Path('docs/supporting/global_rgfca_design_power_identifiability_simulation_technical_recovery_v1.json').read_text())
+          a=json.loads(Path('docs/supporting/global_rgfca_design_power_identifiability_simulation_technical_recovery_authorization_v1.json').read_text())
+          if c.get('status') != 'frozen_after_original_serialization_failure_before_any_simulation_result_was_persisted_or_opened':
+              raise SystemExit('recovery contract drift')
+          if a.get('status') != 'authorize_exactly_one_design_simulation_technical_recovery':
+              raise SystemExit('recovery authorization drift')
+          if a.get('workflow_attempts_allowed') != 1 or a.get('favourable_rerun_allowed') is not False:
+              raise SystemExit('recovery retry policy drift')
+          sha=subprocess.check_output(['git','rev-parse','HEAD:scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py'], text=True).strip()
+          if sha != c['original_runner_blob_sha']:
+              raise SystemExit(f'original runner blob drift: {sha}')
+          if c['original_run'] != 34030130087 or c['original_job'] != 101478006052:
+              raise SystemExit('failure provenance drift')
+          print({'gate':'pass','runner_blob_sha':sha})
+          PY
+      - name: Apply only four Python boolean literal corrections
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py')
+          text=p.read_text()
+          keys=['G1_primary_reclassified','environmental_parent_blocks_reclassified','interaction_family_reclassified','variable_level_decomposition_opened']
+          patched=text
+          for key in keys:
+              old=f'"{key}": false'
+              new=f'"{key}": False'
+              if patched.count(old) != 1:
+                  raise SystemExit(f'expected exactly one literal for {key}')
+              patched=patched.replace(old,new)
+          if patched.count(': false') != text.count(': false')-4:
+              raise SystemExit('unexpected patch cardinality')
+          p.write_text(patched)
+          PY
+          git diff -- scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py
+          test "$(git diff --numstat -- scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py | awk '{print $1":"$2}')" = "4:4" || { echo "unexpected technical patch size"; exit 1; }
+      - name: Install dependencies and run identical frozen simulation
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python -m pip install -e .
+          python -m py_compile scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py
+          rm -rf /tmp/rgfca-design-sim
+          mkdir -p /tmp/rgfca-design-sim
+          python scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py --output-dir /tmp/rgfca-design-sim
+      - name: Verify recovered outputs and immutable decisions
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/rgfca-design-sim/global_rgfca_design_power_identifiability_simulation_result_v1.json')
+          x=json.loads(p.read_text())
+          if x.get('status') != 'complete_postoutcome_methodological_simulation_no_observed_decision_change':
+              raise SystemExit('unexpected recovered status')
+          g=x.get('decision_guard',{})
+          keys=['G1_primary_reclassified','environmental_parent_blocks_reclassified','interaction_family_reclassified','variable_level_decomposition_opened']
+          if any(g.get(k) is not False for k in keys):
+              raise SystemExit('recovery changed frozen biological decision')
+          if x['S3'].get('implemented_family') != 'five_environmental_parent_blocks':
+              raise SystemExit('S3 family changed in recovery')
+          required=['global_rgfca_design_power_s1_v1.csv','global_rgfca_outer_stability_s2_v1.csv','global_rgfca_environmental_holm_power_s3_v1.csv']
+          if any(not (Path('/tmp/rgfca-design-sim')/f).exists() for f in required):
+              raise SystemExit('missing recovered CSV')
+          print({'guard':'pass','s1_rows':x['S1']['scenario_rows'],'s2_rows':len(x['S2']['rows']),'s3_rows':x['S3']['rows']})
+          PY
+      - name: Restore runner and commit recovered outputs
+        env:
+          BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          git checkout -- scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py
+          cp /tmp/rgfca-design-sim/global_rgfca_design_power_identifiability_simulation_result_v1.json docs/supporting/global_rgfca_design_power_identifiability_simulation_result_v1.json
+          cp /tmp/rgfca-design-sim/global_rgfca_design_power_s1_v1.csv data/derived/global_rgfca_design_power_s1_v1.csv
+          cp /tmp/rgfca-design-sim/global_rgfca_outer_stability_s2_v1.csv data/derived/global_rgfca_outer_stability_s2_v1.csv
+          cp /tmp/rgfca-design-sim/global_rgfca_environmental_holm_power_s3_v1.csv data/derived/global_rgfca_environmental_holm_power_s3_v1.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_design_power_identifiability_simulation_result_v1.json \
+                  data/derived/global_rgfca_design_power_s1_v1.csv \
+                  data/derived/global_rgfca_outer_stability_s2_v1.csv \
+                  data/derived/global_rgfca_environmental_holm_power_s3_v1.csv
+          git commit -m "Recover frozen RGFCA design power simulation"
+          git pull --rebase origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-design-power-identifiability-simulation-technical-recovery-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/rgfca-design-sim/

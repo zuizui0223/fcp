@@ -1,0 +1,82 @@
+{
+  "protocol": "global-rgfca-thermal-dryness-interaction-v1",
+  "status": "postoutcome_exploratory_interaction_frozen_before_interaction_statistic_is_computed",
+  "date": "2026-09-06",
+  "scientific_question": "Within species, are flower-colour discontinuities stronger than expected from geographic distance plus additive thermal-regime and atmospheric-energy/dryness turnover when both environmental contrasts are simultaneously high on the same fixed edge?",
+  "rationale_lineage": {
+    "precolour_registry": "docs/supporting/global_biogeography_hypothesis_registry_v2.json",
+    "precolour_hypothesis": "H11_pigment_pleiotropy_abiotic_stress",
+    "precolour_positive_signature": "colour discontinuity tracks drought/thermal/edaphic turnover beyond geographic distance",
+    "interaction_formula_was_precolour_preregistered": false,
+    "therefore_inferential_role": "postoutcome_exploratory_interaction_only"
+  },
+  "known_parent_results_before_this_contract": {
+    "five_block_panel": "docs/supporting/global_rgfca_expanded_environmental_panel_final_result_v1.json",
+    "thermal_regime": {
+      "observed_mean_species_partial_rho": 0.00836138508820797,
+      "raw_p_upper": 0.01,
+      "p_holm": 0.05,
+      "supported_after_five_block_holm": false
+    },
+    "atmospheric_energy_dryness": {
+      "observed_mean_species_partial_rho": 0.007432524450955611,
+      "raw_p_upper": 0.026,
+      "p_holm": 0.104,
+      "supported_after_five_block_holm": false
+    },
+    "five_block_supported_blocks": []
+  },
+  "external_predictors": {
+    "source_verification": "docs/supporting/global_rgfca_chelsa_expanded_source_verification_v1.json",
+    "thermal_regime_axes": ["bio01", "bio04", "bio05", "bio06"],
+    "atmospheric_energy_dryness_axes": ["vpd_mean", "rsds_mean", "gdd5", "sfcWind_mean"],
+    "per_axis_standardization": "same global finite-cell z-score used by the expanded CHELSA parent-block runner",
+    "edge_block_score": "for each block, square root of the mean squared endpoint difference across its four globally standardized axes",
+    "source_byte_rule": "all eight raster bytes must match the already frozen SHA256 values before colour alignment"
+  },
+  "edge_and_colour_geometry": {
+    "outer_realizations": 200,
+    "species_per_outer": 250,
+    "photos_per_species": 20,
+    "species_seed": 2026090401,
+    "photo_master_seed": 2026090402,
+    "knn_k": 3,
+    "colour_edge_score": "same four-group JSD edge score followed by the same within-outer/species midrank transform used in RGFCA",
+    "repeated_edge_occurrences_deduplicated": false,
+    "joint_environment_coverage": "retain only edge occurrences whose two endpoints are complete for all eight fixed CHELSA axes; missing environment is never recoded to zero"
+  },
+  "primary_interaction_test": {
+    "unit": "species",
+    "minimum_joint_edges_per_species": 20,
+    "minimum_evaluable_species": 30,
+    "within_species_transform": "for retained edge occurrences, average-tie rank each of colour score Y, great-circle distance G, thermal turnover T, and atmospheric-energy/dryness turnover A across all retained occurrences for that species, then center and scale each ranked variable to mean 0 and population SD 1",
+    "model": "z(rank(Y)) = beta0 + beta_G*z(rank(G)) + beta_T*z(rank(T)) + beta_A*z(rank(A)) + beta_TxA*[z(rank(T))*z(rank(A))] + error",
+    "primary_species_statistic": "beta_TxA",
+    "rank_condition": "design matrix [1,G,T,A,T*A] must have full column rank 5; otherwise that species is not evaluable",
+    "global_statistic": "equal-species arithmetic mean beta_TxA over all evaluable species",
+    "positive_direction": "beta_TxA > 0 means simultaneous high thermal and atmospheric-energy/dryness turnover predicts stronger colour discontinuity beyond their additive main effects and geographic distance"
+  },
+  "null_and_decision": {
+    "null_permutations": 999,
+    "null_indices": "0..998 exactly once",
+    "null_master_seed": 2026090403,
+    "null_operation": "same within-species complete colour-vector permutations as RGFCA with edge geometry, distance, CHELSA predictors and interaction design fixed",
+    "tail": "upper",
+    "p_formula": "(1 + count(null_global_mean_beta_TxA >= observed_global_mean_beta_TxA)) / 1000",
+    "alpha": 0.05,
+    "support_rule": "observed global mean beta_TxA > 0 AND p_upper < 0.05",
+    "multiplicity": "exactly one frozen exploratory interaction test; no within-family adjustment because no second interaction is allowed"
+  },
+  "anti_fishing_guards": {
+    "alternative_interaction_transform_after_result_allowed": false,
+    "threshold_or_high_high_redefinition_after_result_allowed": false,
+    "switch_to_min_max_ratio_or_raw_product_after_result_allowed": false,
+    "axis_level_interaction_search_after_result_allowed": false,
+    "favourable_rerun_or_new_null_seed_allowed": false,
+    "parent_block_reclassification_allowed": false,
+    "five_block_Holm_rescue_allowed": false,
+    "G1_rescue_or_species_disjoint_reclassification_allowed": false
+  },
+  "claim_ceiling_if_supported": "Exploratory evidence that flower-colour discontinuities are stronger where thermal-regime and atmospheric-energy/dryness turnover coincide beyond additive main effects and geographic distance. This is not confirmatory support for H11, not a rescue of the five-block panel, and not evidence of causal adaptation or anthocyanin stress benefit.",
+  "claim_if_not_supported": "Close the frozen thermal-by-dryness interaction line; do not try alternative interaction transforms or thresholds on these outcomes."
+}

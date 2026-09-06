@@ -1,0 +1,77 @@
+{
+  "protocol": "global-monte-carlo-species-discovery-v1",
+  "status": "frozen_before_any_new_global_discovery_query",
+  "date": "2026-09-04",
+  "role": "metadata-only global species discovery; no flower-colour pixel or outcome is opened",
+  "baseline_round_zero": {
+    "source": "data/frozen/random_photo_first_candidate_pool_v1.csv",
+    "observations": 20845,
+    "species": 8989,
+    "use": "outcome-free baseline discovery frame only"
+  },
+  "fresh_discovery": {
+    "rounds": 20,
+    "grid": {
+      "n_lon": 18,
+      "n_sinlat": 9,
+      "cells": 162
+    },
+    "requests_per_round": 162,
+    "total_fresh_request_attempts": 3240,
+    "per_cell_random_page_size": 200,
+    "request_retries": 0,
+    "request_interval_seconds": 1.05,
+    "taxon_id": 47125,
+    "quality_grade": "research",
+    "rank": "species",
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "photos": true,
+    "geo": true,
+    "obscuration": "none",
+    "maximum_positional_accuracy_m": 5000,
+    "allowed_photo_licenses": [
+      "cc0",
+      "cc-by",
+      "cc-by-sa",
+      "cc-by-nc",
+      "cc-by-nc-sa"
+    ],
+    "order_by": "random",
+    "early_stopping": false,
+    "replacement_after_empty_or_failed_request": false
+  },
+  "failure_policy": {
+    "per_request_error": "record the error and continue; do not retry or replace that cell-round draw",
+    "maximum_error_fraction_for_coverage_claim": 0.05,
+    "if_exceeded": "not_evaluable_species_discovery_coverage_due_request_failure",
+    "rerun_to_get_a_more_favourable_random_species_set": false
+  },
+  "outputs": {
+    "compact_observation_index": "round_id, cell_id, observation_id, photo_id, species, inat_taxon_id only",
+    "species_frame": "one row per discovered species with first round, number of rounds seen, unique observation count and occupied discovery-cell count",
+    "round_audit": "returned/accepted/error counts plus cumulative and newly discovered species",
+    "cell_audit": "per-cell accumulation over rounds",
+    "manifest": "hashes, query counts and saturation diagnostics"
+  },
+  "stability_diagnostics": {
+    "species_accumulation_curve": true,
+    "new_species_per_round": true,
+    "odd_even_fresh_round_species_jaccard": true,
+    "round_to_round_species_jaccard": true,
+    "per_cell_species_accumulation": true,
+    "baseline_vs_fresh_species_overlap": true
+  },
+  "next_gate": {
+    "species_capacity_scan_uses_all_discovered_species": true,
+    "capacity_scan_may_open_colour_pixels": false,
+    "capacity_scan_targets_raw_photos_per_species": [100, 80, 60],
+    "minimum_metadata_eligible_species_for_inferential_program": 300
+  },
+  "outcome_firewall": {
+    "H9_biological_outcome_used": false,
+    "flower_colour_used": false,
+    "climate_used": false,
+    "barrier_overlay_used": false
+  }
+}

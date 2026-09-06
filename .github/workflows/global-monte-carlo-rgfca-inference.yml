@@ -1,0 +1,231 @@
+name: Global Monte Carlo RGFCA G1 G3 inference
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_inference_authorization_v1.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: global-monte-carlo-rgfca-primary-inference
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Require exact postmeasurement inference authorization
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          import pandas as pd
+          from pathlib import Path
+          auth = json.loads(Path('docs/supporting/global_monte_carlo_inference_authorization_v1.json').read_text())
+          measurement = json.loads(Path('docs/supporting/global_monte_carlo_measurement_result_v1.json').read_text())
+          contract = json.loads(Path('docs/supporting/global_monte_carlo_inference_execution_contract_v1.json').read_text())
+          if auth.get('status') != 'authorize_exactly_one_global_rgfca_g1_g3_primary_inference':
+              raise SystemExit('global primary inference is not explicitly authorized')
+          if auth.get('branch') != 'analysis/global-monte-carlo-barrier-atlas':
+              raise SystemExit('inference authorization branch mismatch')
+          blob = subprocess.check_output(['git','rev-parse','HEAD:docs/supporting/global_monte_carlo_measurement_result_v1.json'], text=True).strip()
+          if auth.get('measurement_manifest_blob_sha') != blob:
+              raise SystemExit('measurement result lineage differs from inference authorization')
+          gate = contract['input_gate']
+          if measurement.get('status') != gate['measurement_status_required']:
+              raise SystemExit('measurement status does not authorize inference')
+          post = measurement.get('postmeasurement_gate', {})
+          if post.get('pass') is not True or post.get('decision') != gate['measurement_postgate_decision_required']:
+              raise SystemExit('measurement postgate did not authorize inference')
+          if int(auth.get('evaluable_species')) != int(post.get('evaluable_species')):
+              raise SystemExit('authorized evaluable species count differs from measurement')
+          if int(post.get('evaluable_species')) < int(gate['minimum_inferential_species']):
+              raise SystemExit('postmeasurement species gate is below frozen minimum')
+          measured = pd.read_csv('data/derived/global_monte_carlo_measured_photos_v1.csv', usecols=['photo_id','species','global_classifiable'])
+          classifiable = measured['global_classifiable'].astype(str).str.casefold().isin({'true','1'})
+          counts = measured.loc[classifiable].groupby('species', observed=True).size()
+          inferred = int((counts >= int(gate['minimum_classifiable_photos_per_species'])).sum())
+          if inferred != int(post.get('evaluable_species')):
+              raise SystemExit('measured table and measurement manifest disagree on inferential species')
+          forbidden = [
+              'data/derived/global_rgfca_observed_outer_fields_v1.npz',
+              'data/derived/global_rgfca_null_consensus_fields_v1.npz',
+              'docs/supporting/global_rgfca_g1_result_v1.json',
+              'data/derived/global_rgfca_g3_outer_v1.csv',
+              'data/derived/global_rgfca_g3_species_v1.csv',
+              'docs/supporting/global_rgfca_g3_result_v1.json',
+          ]
+          if any(Path(path).exists() for path in forbidden):
+              raise SystemExit('one or more primary inference outputs already exist; rerun forbidden')
+          print({'global_rgfca_inference_authorization':'pass','evaluable_species':inferred})
+          PY
+
+  g1-null-shard:
+    needs: gate
+    strategy:
+      fail-fast: true
+      max-parallel: 3
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install analysis package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Run exact deterministic G1 null shard
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/g1-shard
+          python scripts/analysis/run_global_rgfca_g1_shard.py \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 9 \
+            --output-dir /tmp/g1-shard
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-g1-shard-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/g1-shard/
+
+  g3-observed:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install analysis package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Run frozen observed G3 prevalence and heterogeneity
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/g3
+          python scripts/analysis/run_global_rgfca_g3.py --output-dir /tmp/g3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-g3-observed-v1
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/g3/
+
+  reduce-primary-inference:
+    needs: [g1-null-shard, g3-observed]
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install analysis package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: global-rgfca-g1-shard-*
+          path: /tmp/g1-shards
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-g3-observed-v1
+          path: /tmp/g3
+      - name: Strictly reduce all 999 nulls and compute the sole G1 primary p-value
+        run: python scripts/analysis/reduce_global_rgfca_g1.py --input-root /tmp/g1-shards
+      - name: Install frozen G3 outputs without result-dependent edits
+        run: |
+          mkdir -p data/derived docs/supporting
+          cp /tmp/g3/global_rgfca_g3_outer_v1.csv data/derived/global_rgfca_g3_outer_v1.csv
+          cp /tmp/g3/global_rgfca_g3_species_v1.csv data/derived/global_rgfca_g3_species_v1.csv
+          cp /tmp/g3/global_rgfca_g3_result_v1.json docs/supporting/global_rgfca_g3_result_v1.json
+      - name: Validate primary inference package
+        run: |
+          python - <<'PY'
+          import json
+          import numpy as np
+          import pandas as pd
+          from pathlib import Path
+          g1 = json.loads(Path('docs/supporting/global_rgfca_g1_result_v1.json').read_text())
+          g3 = json.loads(Path('docs/supporting/global_rgfca_g3_result_v1.json').read_text())
+          assert g1['status'] == 'complete_global_rgfca_g1_primary_inference'
+          assert g1['null_permutations'] == 999
+          assert 0.001 <= g1['p_upper'] <= 1.0
+          assert g1['persistent_zone_extracted'] is False
+          with np.load('data/derived/global_rgfca_null_consensus_fields_v1.npz') as z:
+              assert np.array_equal(z['null_indices'], np.arange(999))
+              assert z['null_consensus_fields'].shape[0] == 999
+          assert g3['status'] == 'complete_global_rgfca_g3_prevalence_heterogeneity'
+          assert g3['confirmatory_p_value'] is None
+          assert g3['cannot_rescue_null_g1'] is True
+          assert len(pd.read_csv('data/derived/global_rgfca_g3_outer_v1.csv')) == 200
+          print({'g1_decision':g1['decision'],'g1_p_upper':g1['p_upper'],'g3_tau2':g3['hierarchical_heterogeneity']['tau2_fisher_z']})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-primary-inference-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/derived/global_rgfca_observed_outer_fields_v1.npz
+            data/derived/global_rgfca_null_consensus_fields_v1.npz
+            data/derived/global_rgfca_g3_outer_v1.csv
+            data/derived/global_rgfca_g3_species_v1.csv
+            docs/supporting/global_rgfca_g1_result_v1.json
+            docs/supporting/global_rgfca_g3_result_v1.json
+      - name: Commit immutable G1 G3 primary result
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/global_rgfca_observed_outer_fields_v1.npz \
+            data/derived/global_rgfca_null_consensus_fields_v1.npz \
+            data/derived/global_rgfca_g3_outer_v1.csv \
+            data/derived/global_rgfca_g3_species_v1.csv \
+            docs/supporting/global_rgfca_g1_result_v1.json \
+            docs/supporting/global_rgfca_g3_result_v1.json
+          git commit -m "Freeze global RGFCA G1 G3 primary inference"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/global-monte-carlo-barrier-atlas
+            git rebase origin/analysis/global-monte-carlo-barrier-atlas
+            if git push origin HEAD:analysis/global-monte-carlo-barrier-atlas; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1

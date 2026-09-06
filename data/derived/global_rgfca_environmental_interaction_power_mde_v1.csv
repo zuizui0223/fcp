@@ -1,0 +1,11 @@
+target_interaction,minimum_grid_effect_for_holm_power_ge_0_8,maximum_grid_power
+thermal_regime_x_water_balance,0.015,0.99583
+thermal_regime_x_atmospheric_energy_dryness,0.015,0.99908
+thermal_regime_x_edaphic_regime,0.02,0.90945
+thermal_regime_x_terrain_structure,0.015,0.99712
+water_balance_x_atmospheric_energy_dryness,0.015,1.0
+water_balance_x_edaphic_regime,0.02,0.88226
+water_balance_x_terrain_structure,0.015,0.99909
+atmospheric_energy_dryness_x_edaphic_regime,0.02,0.86172
+atmospheric_energy_dryness_x_terrain_structure,0.015,0.99917
+edaphic_regime_x_terrain_structure,0.02,0.88717

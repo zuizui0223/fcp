@@ -1,0 +1,38 @@
+{
+  "protocol": "global-monte-carlo-measurement-budget-amendment-v1",
+  "status": "frozen_after_metadata_capacity_scale_observed_before_candidate_acquisition_outcome_and_before_any_global_candidate_pixels",
+  "date": "2026-09-05",
+  "parent_measurement_contract": "docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json",
+  "reason": "The metadata-only capacity census showed thousands of species can satisfy the 100-photo condition. Measuring every full-target species would turn the bounded repeated-world-map design into an all-at-once CPU mega-analysis. This amendment fixes the pixel-measurement envelope before candidate acquisition or any global flower-colour pixels are opened.",
+  "measurement_species_budget": {
+    "maximum_species": 500,
+    "selection_seed": 20260918,
+    "selection_unit": "inat_taxon_id",
+    "selection_rule": "If full_target_species is at most 500, measure every full-target species. Otherwise rank all full-target inat_taxon_id values by SHA256(seed + unit-separator + inat_taxon_id), with taxon ID as deterministic tie-break, and measure the first 500 taxa.",
+    "all_frozen_candidate_photos_for_selected_species_measured": true,
+    "expected_rows": "measurement_species * capacity_selected_raw_photo_target",
+    "species_or_photo_replacement_after_measurement": false,
+    "selection_uses_flower_colour": false,
+    "selection_uses_climate": false,
+    "selection_uses_pollinator": false,
+    "selection_uses_barrier_overlay": false,
+    "selection_uses_measurement_success": false
+  },
+  "unchanged_biological_rules": {
+    "candidate_premeasurement_gate_minimum_full_target_species": 300,
+    "postmeasurement_minimum_classifiable_photos_per_species": 40,
+    "postmeasurement_minimum_inferential_species": 250,
+    "outer_realizations": 200,
+    "species_per_outer": 250,
+    "photos_per_species_per_outer": 20,
+    "g1_null_permutations": 999
+  },
+  "computational_interpretation": "At the maximum 100-photo capacity target, the pixel workload is capped at 50,000 photographs. The 200 outer realizations then repeatedly draw 250 species and 20 photos per species from this measured frame; repetitions estimate map stability and do not multiply biological sample size.",
+  "outcome_firewall": {
+    "candidate_acquisition_outcome_seen_at_freeze": false,
+    "candidate_pixels_opened_at_freeze": false,
+    "flower_colour_seen_at_freeze": false,
+    "g1_seen_at_freeze": false,
+    "g3_seen_at_freeze": false
+  }
+}

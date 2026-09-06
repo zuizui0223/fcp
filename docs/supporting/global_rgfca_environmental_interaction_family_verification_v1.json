@@ -1,0 +1,48 @@
+{
+  "protocol": "global-rgfca-environmental-interaction-family-verification-v1",
+  "status": "complete_verified_from_immutable_actions_artifact",
+  "date": "2026-09-06",
+  "workflow_run": {
+    "run_id": 34023100034,
+    "job_id": 101459169989,
+    "conclusion": "success",
+    "artifact_id": 9987049057,
+    "artifact_name": "global-rgfca-environmental-interaction-family-v1",
+    "artifact_digest": "sha256:cce33fc50c67f68e866ac216efc08126b640c1f54d78da380eeba0c496916f44",
+    "head_sha": "a4fade95c18e3f5442c5886cfcf9e9e23bf81040"
+  },
+  "artifact_file_sha256": {
+    "global_rgfca_environmental_interaction_family_result_v1.json": "77ab30313d23681440a3947a0c4e93d704307a7820c1405e9c53b51cdcebc8ab",
+    "global_rgfca_environmental_interaction_family_species_v1.csv": "9aea3003eb23db848ad93ecf70fb900a592e2183a235956259b12b1a12f588ea",
+    "global_rgfca_environmental_interaction_family_null_v1.csv": "97bfdc641255ed60d4c2a12bdb3eef7d84967128025abc2f68ba2dcb689609d7"
+  },
+  "family": {
+    "n_interactions": 10,
+    "n_evaluable_species_each": 369,
+    "null_permutations": 999,
+    "multiplicity": "Holm across exactly all ten frozen block-level pairwise interactions",
+    "supported_after_holm_count": 0,
+    "variable_level_decomposition_open_for_any_pair": false
+  },
+  "pairs": [
+    {"interaction":"thermal_regime_x_water_balance","mean_beta":0.006887024324457337,"positive_species_fraction":0.5907859078590786,"raw_p_two_sided":0.048,"p_holm":0.432,"supported":false},
+    {"interaction":"thermal_regime_x_atmospheric_energy_dryness","mean_beta":0.004582406079856096,"positive_species_fraction":0.5257452574525745,"raw_p_two_sided":0.167,"p_holm":1.0,"supported":false},
+    {"interaction":"thermal_regime_x_edaphic_regime","mean_beta":-0.003002586826882422,"positive_species_fraction":0.4878048780487805,"raw_p_two_sided":0.524,"p_holm":1.0,"supported":false},
+    {"interaction":"thermal_regime_x_terrain_structure","mean_beta":0.0032385870349109598,"positive_species_fraction":0.5311653116531165,"raw_p_two_sided":0.371,"p_holm":1.0,"supported":false},
+    {"interaction":"water_balance_x_atmospheric_energy_dryness","mean_beta":0.0020110400884115515,"positive_species_fraction":0.5121951219512195,"raw_p_two_sided":0.531,"p_holm":1.0,"supported":false},
+    {"interaction":"water_balance_x_edaphic_regime","mean_beta":-0.00790703961595901,"positive_species_fraction":0.4444444444444444,"raw_p_two_sided":0.094,"p_holm":0.752,"supported":false},
+    {"interaction":"water_balance_x_terrain_structure","mean_beta":0.00821653847160954,"positive_species_fraction":0.5474254742547425,"raw_p_two_sided":0.020,"p_holm":0.200,"supported":false},
+    {"interaction":"atmospheric_energy_dryness_x_edaphic_regime","mean_beta":-0.0022511545853766534,"positive_species_fraction":0.4959349593495935,"raw_p_two_sided":0.626,"p_holm":1.0,"supported":false},
+    {"interaction":"atmospheric_energy_dryness_x_terrain_structure","mean_beta":-0.0037371183859780744,"positive_species_fraction":0.4986449864498645,"raw_p_two_sided":0.241,"p_holm":1.0,"supported":false},
+    {"interaction":"edaphic_regime_x_terrain_structure","mean_beta":-0.007607909684170523,"positive_species_fraction":0.45257452574525747,"raw_p_two_sided":0.109,"p_holm":0.763,"supported":false}
+  ],
+  "interpretation_guard": {
+    "block_level_family_support": false,
+    "strongest_nominal_pair": "water_balance_x_terrain_structure",
+    "strongest_nominal_pair_raw_p": 0.020,
+    "strongest_nominal_pair_holm_p": 0.200,
+    "nominal_signals_do_not_open_variable_level_decomposition": true,
+    "cannot_rescue_main_effect_panel_or_G1": true,
+    "causal_or_local_adaptation_language_allowed": false
+  }
+}

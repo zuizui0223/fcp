@@ -1,0 +1,115 @@
+{
+  "protocol": "rgfca-observation-bias-robustness-v1",
+  "status": "frozen_before_any_rgfca_global_flower_colour_field",
+  "date": "2026-09-04",
+  "purpose": "Separate design-based mitigation of opportunistic-photo bias from explicit post hoc robustness diagnostics, without changing the frozen primary RGFCA estimand or using flower-colour outcomes to choose corrections.",
+  "primary_design_mitigation_already_frozen": {
+    "equal_area_global_discovery": true,
+    "repeated_species_discovery": true,
+    "observer_cap_per_species_before_candidate_measurement": 2,
+    "geographic_maximin_raw_photo_selection": true,
+    "balanced_species_inclusion_across_realizations": true,
+    "balanced_photo_inclusion_within_species": true,
+    "equal_species_field_contribution": true,
+    "field_divided_by_geographic_edge_opportunity": true,
+    "leave_one_realm_out": true,
+    "major_family_deletion": true,
+    "measurement_location_blind": true,
+    "no_replacement_after_measurement_failure": true
+  },
+  "metadata_only_sampling_availability_census": {
+    "grid": {"n_lon": 18, "n_sinlat": 9, "cells": 162},
+    "taxon_id": 47125,
+    "quality_grade": "research",
+    "rank": "species",
+    "photos": true,
+    "geo": true,
+    "obscuration": "none",
+    "maximum_positional_accuracy_m": 5000,
+    "per_page": 1,
+    "page": 1,
+    "order_by": "id",
+    "order": "desc",
+    "request_retries": 0,
+    "request_interval_seconds": 1.05,
+    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"],
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "layers": [
+      {
+        "name": "all_research_photo_records",
+        "description": "All research-grade, georeferenced, species-rank photo records in the focal plant clade, without licence or flowering-annotation restriction. This is an observer/platform availability proxy, not pure biological abundance or pure sampling effort."
+      },
+      {
+        "name": "license_eligible_photo_records",
+        "description": "Same query with the fixed reusable-photo licence set; quantifies the extra geographic filter introduced by image reuse eligibility."
+      },
+      {
+        "name": "flowering_annotated_eligible_records",
+        "description": "Same licence-eligible query plus the frozen flowering annotation; quantifies the extra geographic filter introduced by annotation availability."
+      }
+    ],
+    "fixed_request_attempts": 486,
+    "failure_policy": {
+      "per_request_error": "record the layer/cell error and continue without retry or replacement",
+      "maximum_error_fraction": 0.05,
+      "if_exceeded": "not_evaluable_sampling_availability_surface_due_request_failure",
+      "favourable_rerun": false
+    },
+    "candidate_image_pixels_opened": false,
+    "flower_colour_used": false,
+    "outputs": [
+      "per-cell total_results for each of the three layers",
+      "log1p counts for each layer",
+      "licence-eligible fraction of all photo records",
+      "flowering-annotation fraction of licence-eligible records",
+      "request-error audit"
+    ]
+  },
+  "postmeasurement_robustness_diagnostics_frozen_now": {
+    "observer_unique_realization_sensitivity": {
+      "rule": "Within each species and realization, retain at most one classifiable photograph per observer before choosing the 20-photo sensitivity draw.",
+      "feasibility": "A species enters this sensitivity only when at least 20 distinct observers retain classifiable photographs. No threshold is relaxed and no primary result is replaced."
+    },
+    "high_effort_cell_deletion_sensitivity": {
+      "effort_layer": "all_research_photo_records",
+      "rule": "Delete the top decile of equal-area cells by pre-frozen log1p sampling-availability count and recompute the complete observed/null RGFCA program on the remaining support.",
+      "role": "robustness sensitivity only; cannot rescue a null primary G1 or replace the primary field"
+    },
+    "sampling_availability_negative_controls": {
+      "field_targets": ["consensus_intensity_F_bar", "hotspot_recurrence_P_hot"],
+      "covariates": [
+        "log1p_all_research_photo_records",
+        "licence_eligible_fraction",
+        "flowering_annotation_fraction_given_licence"
+      ],
+      "statistic": "opportunity-weighted Spearman correlation across jointly evaluable cells",
+      "null": "Use the same 999 species-conditioned colour permutations and fixed geometry as primary RGFCA; do not introduce a favourable alternative null.",
+      "interpretation": "A strong observed colour-field association with an availability/annotation layer that is not exceptional under the matched null is treated as sampling-confounded evidence."
+    },
+    "observer_concentration_audit": {
+      "report": [
+        "distinct observers per inferential species",
+        "largest observer share before and after the cap",
+        "fraction of primary realization photos contributed by repeated observers",
+        "primary-versus-observer-unique field correlation"
+      ]
+    }
+  },
+  "what_this_can_reduce": [
+    "dominance by prolific observers within species",
+    "dominance by species with very large public-photo archives",
+    "local geographic clustering of retained photographs",
+    "global field inflation caused simply by more sampled edges in popular regions",
+    "fragility to one realm or one major family",
+    "dependence of a claimed zone on the highest-observation cells"
+  ],
+  "what_this_cannot_identify_or_remove": [
+    "species and regions with effectively zero public-photo sampling probability",
+    "phenotype-dependent upload choice, including preferential photography of unusual flower colours",
+    "colour-dependent identification or annotation errors",
+    "camera, illumination and post-processing effects not removed by the fixed image estimator",
+    "a causal decomposition of biological abundance versus human observation effort from opportunistic occurrence counts alone"
+  ],
+  "claim_ceiling": "A robust RGFCA result may be described as stable to several major forms of observer, taxonomic, spatial-opportunity and metadata-availability bias within the public-photo sampling frame. It must not be described as unbiased for all angiosperms, all geographic areas or the true unsampled frequency of colour morphs."
+}

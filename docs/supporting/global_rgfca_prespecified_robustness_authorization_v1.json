@@ -1,0 +1,16 @@
+{
+  "protocol": "global-rgfca-prespecified-robustness-execution-v1",
+  "status": "authorize_exactly_one_complete_prespecified_rgfca_robustness_suite",
+  "date": "2026-09-06",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "workflow_attempts_allowed": 1,
+  "run_all_four_jobs_regardless_of_intermediate_results": true,
+  "selective_stopping_after_positive_result_allowed": false,
+  "primary_g1_may_be_rescued": false,
+  "primary_g1_decision_must_remain_unchanged": true,
+  "new_scientific_thresholds_allowed": false,
+  "new_null_seed_allowed": false,
+  "null_omission_allowed": false,
+  "all_999_null_indices_required": true,
+  "purpose": "Execute the spatial-support, support-threshold and odd/even half-null robustness diagnostics that were frozen before the RGFCA flower-colour outcome. Report every result regardless of sign."
+}

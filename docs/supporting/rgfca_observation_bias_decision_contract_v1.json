@@ -1,0 +1,52 @@
+{
+  "protocol": "rgfca-observation-bias-decision-v1",
+  "status": "frozen_after_metadata_effort_surfaces_and_before_any_rgfca_global_flower_colour_field",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "purpose": "Prevent post-outcome rescue or selective reporting when judging whether a supported recurrent RGFCA colour field is robust to measured dimensions of opportunistic observation bias.",
+  "primary_analysis_replaced_by_bias_correction": false,
+  "negative_control_surfaces": [
+    "log1p(target_group_all_research_photo_records)",
+    "target_group_licence_eligible_fraction",
+    "target_group_flowering_annotation_fraction_given_licence",
+    "log1p(all_taxa_platform_research_photo_records)"
+  ],
+  "negative_control_test": {
+    "statistic": "absolute opportunity-weighted Spearman correlation between the observed RGFCA field and each frozen availability surface over jointly evaluable cells",
+    "matched_null": "the same absolute correlation computed for each of the exact 999 species-conditioned colour-null fields with sampling geometry and the complete Monte Carlo schedule fixed",
+    "p_value": "(1 + number of null absolute correlations >= observed absolute correlation) / 1000",
+    "multiplicity": "Holm correction across the four pre-frozen negative-control surfaces",
+    "alpha_familywise": 0.05,
+    "flag": "observation_alignment_flag if any Holm-adjusted p < 0.05",
+    "direction_is_not_used_to_select_a_favourable_test": true
+  },
+  "high_effort_deletion": {
+    "cells_removed": "the 17 cells frozen as top_decile_all_photo_effort in data/frozen/global_monte_carlo_sampling_availability_cells_v1.csv",
+    "analysis": "rerun the complete observed and 999-null RGFCA program on remaining support without changing species, photo, field, hotspot or recurrence rules except for unavailable deleted support",
+    "pass": "the same primary recurrent-field support gate passes on the reduced support",
+    "failure_label": "observation_sensitive_high_effort_dependence",
+    "cannot_rescue_primary_null": true
+  },
+  "observer_unique_sensitivity": {
+    "rule": "at most one classifiable photograph per observer per species within a realization",
+    "species_eligibility": "at least 20 distinct eligible observers",
+    "analysis": "rerun the complete observed and 999-null RGFCA program using only species meeting the observer-unique eligibility rule",
+    "evaluable_gate": "enough eligible species remain to satisfy the already frozen realization-size and global inferential gates; otherwise report not_evaluable and do not lower them",
+    "pass_if_evaluable": "the same primary recurrent-field support gate passes",
+    "cannot_rescue_primary_null": true
+  },
+  "overall_labels": {
+    "primary_not_supported": "the primary RGFCA recurrent-field gate does not pass; observation-bias sensitivities cannot rescue it",
+    "primary_supported_observation_robust": "primary passes, high-effort deletion passes, observer-unique sensitivity is evaluable and passes, and no Holm-significant negative-control alignment is present",
+    "primary_supported_observation_sensitive": "primary passes but at least one evaluable high-effort, observer-unique, or Holm-corrected negative-control diagnostic flags sensitivity",
+    "primary_supported_observation_robustness_incomplete": "primary passes but one or more required observation-bias diagnostics are technically or biologically not evaluable under their frozen gates"
+  },
+  "interpretation_boundary": "Even the observation-robust label supports recurring flower-colour geography conditional on the public-photo frame. It does not estimate unbiased global flower-colour frequencies or recover taxa/regions with near-zero inclusion probability.",
+  "forbidden_post_outcome_changes": [
+    "dropping an unfavourable negative-control surface",
+    "changing the top-effort deletion threshold",
+    "loosening the observer-unique eligibility rule to obtain a favourable result",
+    "using effort correction to create or rescue a primary colour zone",
+    "redefining the Holm family after seeing colour results"
+  ]
+}

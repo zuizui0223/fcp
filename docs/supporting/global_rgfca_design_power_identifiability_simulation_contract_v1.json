@@ -1,0 +1,138 @@
+{
+  "protocol": "global-rgfca-design-power-identifiability-simulation-v1",
+  "status": "frozen_before_any_new_design_power_simulation_result",
+  "date": "2026-09-06",
+  "role": "Post-outcome methodological simulation. It quantifies detectability, stability, missingness cost, partial-sharing identifiability, and multiplicity cost. It cannot rescue or reclassify any observed biological result.",
+  "scientific_questions": [
+    "How often can the frozen RGFCA spatial field detect a planted recurrent transition architecture under the actual photo geometry?",
+    "How much detectability is lost by the observed classifiability/eligibility attrition relative to the same measured coordinate pool with synthetic complete outcomes?",
+    "How much species-level sharing is needed before a globally recurrent field becomes detectable?",
+    "Is the observed 100-versus-200 consensus correlation near 0.88 consistent with finite outer-resampling noise, and how quickly does field stability saturate?",
+    "What effect sizes are needed for a five-block Holm family and a ten-interaction Holm family to have useful power under the frozen multiplicity structure?"
+  ],
+  "firewall": {
+    "observed_results_may_be_used_only_for": [
+      "labelling the already-known near-miss cases",
+      "comparing observed values to simulation-derived detectability ranges after simulation settings are frozen",
+      "bootstrap of the already-frozen 200 observed outer fields for convergence diagnostics"
+    ],
+    "simulation_settings_may_not_be_tuned_to": ["observed p-values", "observed significant/nominal locations", "thermal or dryness individual variables", "a favourable spatial zone"],
+    "primary_biological_decisions_immutable": true
+  },
+  "S1_spatial_design_simulation": {
+    "input_geometry_frames": [
+      {
+        "id": "actual_classifiable",
+        "source": "data/derived/global_monte_carlo_measured_photos_v1.csv",
+        "rows": "global_classifiable=true only",
+        "species_gate": ">=40 classifiable photos",
+        "expected_species": 369,
+        "meaning": "Actual RGFCA inferential geometry."
+      },
+      {
+        "id": "synthetic_complete_measured",
+        "source": "data/derived/global_monte_carlo_measured_photos_v1.csv",
+        "rows": "all 50,000 measured-coordinate rows regardless of colour terminal state, with synthetic outcomes only",
+        "species_gate": ">=40 rows",
+        "expected_species": 500,
+        "meaning": "Counterfactual complete-measurement geometry to quantify the design cost of classifiability attrition; no real mixed/uncertain row is assigned a biological observed colour."
+      }
+    ],
+    "outer_schedule": {
+      "outer_realizations": 200,
+      "species_per_outer": 250,
+      "photos_per_species": 20,
+      "minimum_pool_photos_per_species": 40,
+      "species_seed": 2026090401,
+      "photo_master_seed": 2026090402
+    },
+    "geometry": {
+      "knn_k": 3,
+      "grid": "36x18 equal-area lon x sinlat",
+      "kernel_km": 500,
+      "cutoff_multiplier": 3,
+      "minimum_distinct_species_support": 5,
+      "species_equal_total_weight": true,
+      "primary_statistic": "aggregate opportunity-weighted variance of the consensus field"
+    },
+    "synthetic_photo_score_generator": {
+      "coordinate_representation": "unit sphere xyz",
+      "shared_boundary": "one random great-circle plane per simulation replicate, generated from a fixed seed stream",
+      "species_specific_boundary": "independent random great-circle plane for non-sharing species",
+      "signed_distance_km": "asin(clipped dot(xyz, plane_normal)) * Earth radius",
+      "transition_width_km": 500,
+      "latent_score": "signal_amplitude * tanh(signed_distance_km / 500) + standard_normal_noise",
+      "edge_colour_proxy": "absolute difference in latent photo score; because the RGFCA field uses within-species edge ranks, this simulation targets ordering/detectability rather than a particular colour-palette parameterization",
+      "species_response_sign": "random +/-1 per species; sign does not change absolute edge discontinuity",
+      "noise_sd": 1.0
+    },
+    "scenario_grid": {
+      "shared_species_fraction": [0.0, 0.1, 0.25, 0.5, 0.75, 1.0],
+      "signal_amplitude": [0.0, 0.5, 1.0, 2.0],
+      "simulation_replicates_per_nonredundant_scenario": 100,
+      "seed": 2026090601,
+      "duplicate_zero_signal_cells_collapsed": true
+    },
+    "calibration": {
+      "null_definition": "shared_species_fraction=0 and signal_amplitude=0, with all latent scores spatially unstructured",
+      "null_replicates": 1000,
+      "alpha_threshold": "95th percentile of synthetic null concentration for each geometry frame",
+      "reported_type1": "fraction of independent null replicates exceeding the frozen synthetic-null 95th percentile using an internal 50/50 calibration/evaluation split",
+      "power": "fraction of alternative replicates exceeding the frozen frame-specific 95th-percentile threshold",
+      "note": "This is a design-level simulation, not a replacement permutation p-value for the observed data."
+    },
+    "outputs": [
+      "power by shared fraction x signal amplitude x geometry frame",
+      "median and 10/90% concentration excess ratio",
+      "minimum shared-species fraction reaching >=0.8 simulated power at each amplitude",
+      "power loss actual_classifiable versus synthetic_complete_measured"
+    ]
+  },
+  "S2_outer_stability_simulation": {
+    "source": "data/derived/global_rgfca_observed_outer_fields_v1.npz",
+    "role": "Observed-field resampling diagnostic only; does not extend or alter the frozen 200-realization primary result.",
+    "outer_counts": [25, 50, 100, 150, 200],
+    "bootstrap_replicates": 2000,
+    "seed": 2026090602,
+    "procedure": "Resample frozen outer field/opportunity pairs with replacement, form two independently bootstrapped consensus fields at each N, and record Pearson correlation on jointly finite cells. Separately compare each bootstrap consensus to the frozen 200-field consensus.",
+    "outputs": ["median/q10/q90 correlation by N", "probability correlation>=0.9 by N", "probability correlation>=0.95 by N"],
+    "interpretation": "Design convergence diagnostic only. It cannot convert the frozen r_100_vs_200=0.880946 gate into a pass."
+  },
+  "S3_multiplicity_detectability": {
+    "families": [
+      {
+        "id": "five_environmental_parent_blocks",
+        "family_size": 5,
+        "holm": true,
+        "observed_effect_scale_reference": "mean species partial rho",
+        "effect_grid": [0.0, 0.0025, 0.005, 0.0075, 0.01, 0.015, 0.02]
+      },
+      {
+        "id": "ten_environmental_pairwise_interactions",
+        "family_size": 10,
+        "holm": true,
+        "observed_effect_scale_reference": "mean species interaction beta",
+        "effect_grid": [0.0, 0.0025, 0.005, 0.0075, 0.01, 0.015, 0.02]
+      }
+    ],
+    "initial_implementation": "Use the exact stored null distributions when recoverable from immutable artifacts; otherwise use a Gaussian approximation whose variance is fixed from the corresponding reported null 2.5/97.5% quantiles, and label approximation explicitly.",
+    "replicates": 100000,
+    "seed": 2026090603,
+    "correlation_scenarios": [0.0, 0.25, 0.5],
+    "outputs": ["familywise any-discovery power", "target-block discovery power", "minimum effect for >=0.8 target power", "Holm cost relative to one-test power"],
+    "interpretation": "Explains detectability of near-threshold block/interactions; does not justify dropping multiplicity correction or reopening variable-level decompositions."
+  },
+  "S4_low_information_weighting_simulation": {
+    "motivation": "Random-photo-first H6/H6b showed a sparse equal-species signal that vanished under information weighting.",
+    "design": "Simulate species effect estimates with true mean zero and species-specific sampling variances patterned after sparse versus reliable frames; compare equal-species mean, pair-count weighting, and inverse-information weighting.",
+    "purpose": "Quantify false apparent mean shifts and variance inflation caused by many low-information species; not a reanalysis of H6 outcomes.",
+    "seed": 2026090604,
+    "replicates": 100000
+  },
+  "result_hierarchy": [
+    "S1 and S2 may inform whether the current upstream design is underpowered or unstable for partial recurrence.",
+    "S3 may quantify how close thermal/dryness/interaction effects are to the design's practical detection boundary.",
+    "S4 may explain why sparse equal-species signals are fragile.",
+    "None may change any frozen observed-data support decision."
+  ]
+}

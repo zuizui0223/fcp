@@ -1,0 +1,113 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-final-v1",
+  "status": "complete_fixed_five_block_environmental_panel_holm_technical_recovery",
+  "technical_recovery": {
+    "original_finalization_run_id": 34021682120,
+    "original_failure": "KeyError: block_edge_occurrence_coverage_fraction on terrain_structure reporting metadata",
+    "inferential_change": false,
+    "only_change": "terrain coverage reporting key fallback to terrain_edge_occurrence_coverage_fraction"
+  },
+  "inferential_role": {
+    "role": "postoutcome_secondary_environmental_process_validation",
+    "not_part_of_original_preoutcome_G3_primary_family": true,
+    "cannot_rescue_or_reclassify_G1": true,
+    "cannot_reclassify_species_disjoint_commonness": true,
+    "cannot_reclassify_RESOLVE_or_WorldClim_four_axis_results": true,
+    "causal_language_allowed": false
+  },
+  "family_size": 5,
+  "family": [
+    "terrain_structure",
+    "thermal_regime",
+    "water_balance",
+    "atmospheric_energy_dryness",
+    "edaphic_regime"
+  ],
+  "multiplicity": "Holm across exactly the five frozen parent process blocks",
+  "alpha": 0.05,
+  "blocks": [
+    {
+      "block": "terrain_structure",
+      "observed_mean_species_partial_rho": 0.004367022589224834,
+      "observed_median_species_partial_rho": -0.0008206365311479113,
+      "observed_positive_species_fraction": 0.4905149051490515,
+      "n_evaluable_species": 369,
+      "block_edge_occurrence_coverage_fraction": 1.0,
+      "raw_p_upper": 0.15,
+      "p_holm": 0.44399999999999995,
+      "supported_after_five_block_holm": false,
+      "individual_variable_decomposition_open": false,
+      "raw_result_sha256": "1b4b6877a60f7e8c0f395cf4a4ae967d2e02d04648753e17d28f57a476549849"
+    },
+    {
+      "block": "thermal_regime",
+      "observed_mean_species_partial_rho": 0.00836138508820797,
+      "observed_median_species_partial_rho": 0.004704646409974426,
+      "observed_positive_species_fraction": 0.5365853658536586,
+      "n_evaluable_species": 369,
+      "block_edge_occurrence_coverage_fraction": 1.0,
+      "raw_p_upper": 0.01,
+      "p_holm": 0.05,
+      "supported_after_five_block_holm": false,
+      "individual_variable_decomposition_open": false,
+      "raw_result_sha256": "745d4175b6144f35ae2e921be1ba427612cf6c33c2e3f0283465fee1be712eea"
+    },
+    {
+      "block": "water_balance",
+      "observed_mean_species_partial_rho": 0.001661945752999415,
+      "observed_median_species_partial_rho": -0.003269501800160823,
+      "observed_positive_species_fraction": 0.4823848238482385,
+      "n_evaluable_species": 369,
+      "block_edge_occurrence_coverage_fraction": 0.9999177428226828,
+      "raw_p_upper": 0.338,
+      "p_holm": 0.44399999999999995,
+      "supported_after_five_block_holm": false,
+      "individual_variable_decomposition_open": false,
+      "raw_result_sha256": "43a68005bb795a67694e8eb4da1a4af0421b4a572f80e002098fa4af51836a52"
+    },
+    {
+      "block": "atmospheric_energy_dryness",
+      "observed_mean_species_partial_rho": 0.007432524450955611,
+      "observed_median_species_partial_rho": 0.004701071834174306,
+      "observed_positive_species_fraction": 0.5203252032520326,
+      "n_evaluable_species": 369,
+      "block_edge_occurrence_coverage_fraction": 0.9994206672419622,
+      "raw_p_upper": 0.026,
+      "p_holm": 0.104,
+      "supported_after_five_block_holm": false,
+      "individual_variable_decomposition_open": false,
+      "raw_result_sha256": "196d16ae65cd27d31a9672be5323bbee407e1c2d6496ec280a628fd83719c8bf"
+    },
+    {
+      "block": "edaphic_regime",
+      "observed_mean_species_partial_rho": 0.005472536464222981,
+      "observed_median_species_partial_rho": 0.0056473722187342385,
+      "observed_positive_species_fraction": 0.5257452574525745,
+      "n_evaluable_species": 369,
+      "block_edge_occurrence_coverage_fraction": 0.5845144555634617,
+      "raw_p_upper": 0.148,
+      "p_holm": 0.44399999999999995,
+      "supported_after_five_block_holm": false,
+      "individual_variable_decomposition_open": false,
+      "raw_result_sha256": "fcb53e58d033dccc065ec27d26dbbe43e38cc58911673926f02499bf738f5405"
+    }
+  ],
+  "supported_blocks": [],
+  "any_environmental_process_block_supported": false,
+  "individual_variable_decomposition_open_for": [],
+  "unsupported_parent_blocks_may_not_be_decomposed_for_significance": true,
+  "cannot_rescue_or_reclassify_primary_G1": true,
+  "cannot_reclassify_species_disjoint_commonness": true,
+  "causal_or_local_adaptation_language_allowed": false,
+  "lineage": {
+    "panel_contract_sha256": "f81690c19684be611d0bf4fb03b5196da1d377174df7b79722ae07d36324c659",
+    "panel_execution_sha256": "ca5da04cf4ee6f1f5dbc22102e4a9ad7ab12408fc3537bb59a05a35995725341",
+    "raw_block_result_sha256": {
+      "terrain_structure": "1b4b6877a60f7e8c0f395cf4a4ae967d2e02d04648753e17d28f57a476549849",
+      "thermal_regime": "745d4175b6144f35ae2e921be1ba427612cf6c33c2e3f0283465fee1be712eea",
+      "water_balance": "43a68005bb795a67694e8eb4da1a4af0421b4a572f80e002098fa4af51836a52",
+      "atmospheric_energy_dryness": "196d16ae65cd27d31a9672be5323bbee407e1c2d6496ec280a628fd83719c8bf",
+      "edaphic_regime": "fcb53e58d033dccc065ec27d26dbbe43e38cc58911673926f02499bf738f5405"
+    }
+  }
+}

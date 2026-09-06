@@ -1,0 +1,14 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-v1",
+  "status": "authorize_exactly_one_terrain_structure_block_execution",
+  "date": "2026-09-06",
+  "workflow_attempts_allowed": 1,
+  "all_999_nulls_required": true,
+  "null_indices": "0..998 exactly once",
+  "selective_early_stop_allowed": false,
+  "favourable_rerun_allowed": false,
+  "terrain_result_may_stop_later_blocks": false,
+  "individual_variable_decomposition_allowed_now": false,
+  "final_panel_support_decision_allowed_now": false,
+  "scientific_contract_may_change_after_execution_begins": false
+}

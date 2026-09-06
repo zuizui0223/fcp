@@ -1,0 +1,119 @@
+{
+  "protocol": "global-sympatry-colour-assembly-v1",
+  "status": "prospective_design_frozen_during_metadata_only_global_species_discovery_before_any_global_monte_carlo_colour_field",
+  "date": "2026-09-04",
+  "question": "Are flower-colour profiles of sympatric plant species more similar or more divergent than independently matched allopatric controls, and which ecological contexts predict the sign?",
+  "relationship_to_G1_G4": {
+    "new_question_id": "G5",
+    "requires_G1": false,
+    "requires_G2": false,
+    "uses_same_location_blind_colour_measurements": true,
+    "does_not_rescue_null_G1": true,
+    "distinction": "G1-G4 concern within-species colour geography; G5 concerns between-species community assembly and sympatry."
+  },
+  "sympatry_frame": {
+    "source": "independent frozen GBIF vascular-plant occurrence download, excluding the iNaturalist flower-photo records used for colour measurement where identifiers can be matched",
+    "grid": "100-km equal-area terrestrial occupancy grid",
+    "species_occurrence_gate": {
+      "minimum_georeferenced_records": 50,
+      "minimum_occupied_cells": 20
+    },
+    "sympatric_pair": {
+      "minimum_shared_cells": 5,
+      "minimum_occupancy_jaccard": 0.10
+    },
+    "allopatric_candidate": "zero overlap after one-cell dilation of both species occupancy masks",
+    "claim_boundary": "This primary frame establishes geographic sympatry, not direct ecological interaction. The term co-flowering is reserved for the secondary phenology-qualified subset."
+  },
+  "outcome_blind_matching": {
+    "unit": "one focal species x one sympatric partner",
+    "allopatric_controls_per_set": {
+      "target": 5,
+      "minimum": 2
+    },
+    "exact_match": [
+      "taxonomic distance class relative to focal: congeneric / same-family noncongeneric / different-family",
+      "dominant terrestrial realm of partner"
+    ],
+    "nearest_match_covariates": [
+      "four-axis CHELSA climate-centroid difference from focal using BIO1/BIO4/BIO12/BIO15 standardized without colour",
+      "log occupied-cell count",
+      "log GBIF occurrence count"
+    ],
+    "selection_rule": "choose up to five allopatric controls with smallest Euclidean distance in the standardized matching covariates, deterministic hash tie-break; discard the matched set unless at least two controls have matching distance <= 1.5",
+    "no_colour_in_matching": true
+  },
+  "colour_distance": {
+    "primary": "Jensen-Shannon distance between species mean soft four-group flower-colour palette vectors within each frozen 20-photo Monte Carlo draw",
+    "same_photo_schedule_as_global_atlas": true,
+    "sensitivity": "distance between location-blind CIELAB species centroids; never substitute for the primary result"
+  },
+  "primary_statistic": {
+    "matched_set_delta": "D_colour(sympatric partner) - mean D_colour(matched allopatric controls)",
+    "negative_sign": "convergence in sympatry",
+    "positive_sign": "divergence in sympatry",
+    "focal_weighting": "average matched-set deltas within focal species, then equal-weight focal species",
+    "minimum_matched_sets_per_focal": 2,
+    "minimum_evaluable_focal_species": 30,
+    "primary_test": "two-sided deviation from matched allopatric expectation",
+    "directional_interpretation": {
+      "lower_tail": "sympatric convergence",
+      "upper_tail": "sympatric divergence"
+    }
+  },
+  "null": {
+    "permutations": 999,
+    "seed": 20260904,
+    "scheme": "within each frozen matched set, randomly choose one partner from the observed sympatric partner plus its matched allopatric controls as pseudo-sympatric and treat the remaining partners as pseudo-controls",
+    "preserves": [
+      "focal species",
+      "matched-set membership",
+      "number of controls",
+      "all observed partner colour distances",
+      "matching covariates and geography"
+    ]
+  },
+  "species_characterization": {
+    "score": "equal-set mean delta for each focal species",
+    "multiple_testing": "Benjamini-Hochberg FDR across evaluable focal species",
+    "q_threshold": 0.10,
+    "labels": {
+      "negative_and_q_below_threshold": "convergent_in_sympatry",
+      "positive_and_q_below_threshold": "divergent_in_sympatry",
+      "otherwise": "undetected"
+    },
+    "claim_boundary": "Species labels are descriptive community-embedding profiles, not causal evolutionary diagnoses."
+  },
+  "predeclared_context_tests": [
+    {
+      "id": "pollinator_overlap_context",
+      "prediction_competing": "high shared pollinator-guild overlap can produce either convergence through shared signalling/filtering or divergence through partitioning; sign is estimated rather than selected",
+      "source": "frozen GBIF pollinator-guild and GloBI layers from G3",
+      "stratification": "external-data-only median split before colour inference"
+    },
+    {
+      "id": "reproductive_interference_character_displacement",
+      "legacy_hypothesis": "H14",
+      "prediction": "sympatric divergence should be strongest for congeners, especially when flowering overlap is high",
+      "taxonomic_stratum": "congeneric",
+      "phenology_requirement": "secondary only when independent metadata support at least two overlapping flowering months for both species"
+    },
+    {
+      "id": "pollinator_signal_convergence",
+      "prediction": "sympatric convergence may be strongest among noncongeneric species sharing similar pollinator guilds",
+      "taxonomic_stratum": "noncongeneric",
+      "pollinator_requirement": "high external-data pollinator overlap"
+    },
+    {
+      "id": "abiotic_community_filtering",
+      "prediction": "sympatric convergence may track strong environmental similarity even after taxonomic matching",
+      "source": "CHELSA + SoilGrids + EarthEnv external layers"
+    }
+  ],
+  "coflowering_secondary_subset": {
+    "status": "secondary_not_primary",
+    "definition": "geographically sympatric pair plus at least two overlapping flowering months from outcome-blind phenology metadata",
+    "missing_phenology": "not_evaluable, not no-overlap"
+  },
+  "claim_ceiling": "A supported G5 result establishes non-random flower-colour similarity or divergence among geographically sympatric species relative to outcome-blind matched allopatric controls. It does not by itself establish facilitation, competition, reproductive interference, mimicry or pollinator-mediated character displacement."
+}

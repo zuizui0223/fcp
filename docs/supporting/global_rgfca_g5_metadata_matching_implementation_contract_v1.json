@@ -1,0 +1,173 @@
+{
+  "protocol": "global-rgfca-g5-metadata-matching-implementation-v1",
+  "status": "prospective_technical_implementation_frozen_before_any_new_g5_gbif_payload_or_any_g5_colour_outcome_is_opened",
+  "date": "2026-09-06",
+  "parent_contract": "docs/supporting/global_sympatry_colour_assembly_contract_v1.json",
+  "role": "Resolve implementation details left open by the prospective G5 scientific contract without changing its hypotheses, thresholds, primary statistic, null, or claim ceiling.",
+  "firewall": {
+    "metadata_stage_may_read": [
+      "data/derived/global_monte_carlo_measurement_species_support_v1.csv",
+      "data/frozen/global_monte_carlo_candidate_photos_v1.csv metadata identifiers only",
+      "data/atlas/environment/climate_ecoregion_grid_100km.csv realm/grid columns only",
+      "docs/supporting/global_rgfca_chelsa_expanded_source_verification_v1.json",
+      "GBIF taxon and occurrence metadata",
+      "CHELSA BIO1/BIO4/BIO12/BIO15 rasters"
+    ],
+    "metadata_stage_must_not_read": [
+      "flower-colour probability columns",
+      "CIELAB outcome columns",
+      "G1/G3 colour-effect outcomes for matching",
+      "any preliminary G5 colour distance or G5 test statistic"
+    ],
+    "colour_stage_opens_only_after": "the frozen G5 matched-set file and matching manifest are committed on the analysis branch"
+  },
+  "target_universe": {
+    "species_file": "data/derived/global_monte_carlo_measurement_species_support_v1.csv",
+    "eligibility_column": "global_measurement_evaluable",
+    "expected_eligible_species": 369,
+    "species_identity": "accepted binomial string in the species column; iNaturalist taxon id is audit metadata only"
+  },
+  "gbif_transport": {
+    "provider": "GBIF",
+    "api": "https://api.gbif.org/v1",
+    "taxon_resolution_endpoint": "/species/match?name={urlencoded_species}",
+    "occurrence_endpoint": "/occurrence/search",
+    "occurrence_parameters": {
+      "taxon_key": "resolved accepted usageKey",
+      "hasCoordinate": true,
+      "occurrence_status": "PRESENT",
+      "limit": 300
+    },
+    "paging": "offset 0,300,600,... until the reported total is exhausted",
+    "maximum_total_records_for_full_snapshot": 10000,
+    "above_cap_rule": "species with reported total >10000 are not evaluable rather than represented by a truncated occurrence sample",
+    "request_retry_rule": "up to 3 transport retries with fixed exponential waits 2,4,8 seconds; retries do not alter query parameters",
+    "source_substitution_allowed": false,
+    "note": "The Search API is the transport used to materialize the independent frozen GBIF occurrence snapshot; it does not change the GBIF source semantics of the parent contract."
+  },
+  "occurrence_filters_and_exclusions": {
+    "finite_decimal_coordinates_required": true,
+    "latitude_range": [-90.0, 90.0],
+    "longitude_range": [-180.0, 180.0],
+    "deduplicate_by": "GBIF occurrence key",
+    "inat_colour_record_exclusion": {
+      "source": "data/frozen/global_monte_carlo_candidate_photos_v1.csv",
+      "metadata_column": "observation_id",
+      "rule": "exclude a GBIF record when its occurrenceID or references field contains an exact decimal iNaturalist observation_id used in the frozen global candidate-photo pool; if neither field exposes a matchable identifier, retain the GBIF record and record that exclusion matching was unavailable for that row"
+    },
+    "parent_gates": {
+      "minimum_georeferenced_records_after_exclusion": 50,
+      "minimum_occupied_cells": 20
+    }
+  },
+  "equal_area_grid": {
+    "n_lon": 320,
+    "n_sinlat": 160,
+    "global_cells": 51200,
+    "longitude_index": "floor(((longitude + 180) mod 360) / 360 * 320), clipped to 0..319",
+    "sinlat_index": "floor((sin(latitude*pi/180)+1)/2 * 160), clipped to 0..159",
+    "cell_id": "sinlat_index * 320 + longitude_index",
+    "one_cell_dilation": "8-neighbour Chebyshev dilation in the 320x160 lattice with longitude wrap and no latitude wrap",
+    "sympatry_rule": "at least 5 shared occupied cells and occupancy Jaccard >=0.10",
+    "allopatry_rule": "zero overlap after one-cell dilation of both occupancy masks"
+  },
+  "realm": {
+    "source": "data/atlas/environment/climate_ecoregion_grid_100km.csv",
+    "use_only": "100-km cell coordinates/indices and terrestrial-realm labels; WorldClim values in this legacy grid are forbidden for G5 matching",
+    "column_resolution": "case-insensitive normalized priority: realm, realm_name, biogeographic_realm for realm; cell_id if present otherwise reconstruct from longitude/latitude columns with the frozen 320x160 formula",
+    "dominant_realm": "modal terrestrial realm across occupied cells; ties resolved lexicographically",
+    "missing_realm": "species not evaluable for matched-set construction"
+  },
+  "chelsa_matching_climate": {
+    "source_verification": "docs/supporting/global_rgfca_chelsa_expanded_source_verification_v1.json",
+    "fixed_variables": ["bio01", "bio04", "bio12", "bio15"],
+    "source_bytes": "redownload exact verified CHELSA v2.1 1981-2010 rasters and require SHA256 equality before extraction",
+    "species_centroid": "unweighted mean of raster values sampled at occupied 100-km cell centres for each species",
+    "standardization": "for each of the four species climate centroids, z-score across all G5 occurrence-eligible species using finite values only; no colour information",
+    "focal_difference_vector": "signed standardized partner centroid minus signed standardized focal centroid for BIO1/BIO4/BIO12/BIO15"
+  },
+  "taxonomy": {
+    "source": "GBIF resolved accepted taxon metadata",
+    "distance_classes": [
+      "congeneric",
+      "same_family_noncongeneric",
+      "different_family"
+    ],
+    "classification": "relative to the focal species using accepted genus and family strings; missing genus/family is not evaluable"
+  },
+  "matching": {
+    "unit": "directed focal species x sympatric partner",
+    "exact_match": [
+      "taxonomic distance class relative to focal",
+      "dominant terrestrial realm of partner"
+    ],
+    "candidate_controls": "species in the 369-species target universe that pass occurrence/climate/taxonomy/realm gates, satisfy the frozen allopatry rule relative to focal, are not focal or the observed sympatric partner, and satisfy both exact matches",
+    "continuous_vector": [
+      "delta_z_bio01_from_focal",
+      "delta_z_bio04_from_focal",
+      "delta_z_bio12_from_focal",
+      "delta_z_bio15_from_focal",
+      "z_log1p_occupied_cell_count",
+      "z_log1p_gbif_occurrence_count"
+    ],
+    "continuous_standardization": "the two log abundance/extent covariates are z-scored across all occurrence-eligible species; climate components are already global species z-score differences from focal",
+    "distance": "Euclidean distance between the sympatric partner vector and each candidate-control vector",
+    "maximum_distance": 1.5,
+    "controls_target": 5,
+    "controls_minimum": 2,
+    "selection": "choose the five smallest distances <=1.5; deterministic tie-break by SHA256(focal|sympatric_partner|candidate_control)",
+    "set_discard_rule": "discard directed matched set when fewer than 2 controls remain"
+  },
+  "frozen_outputs": {
+    "species_metadata": "data/frozen/global_rgfca_g5_species_metadata_v1.csv",
+    "occupancy_cells": "data/frozen/global_rgfca_g5_occupancy_cells_v1.csv.gz",
+    "matched_sets": "data/frozen/global_rgfca_g5_matched_sets_v1.csv",
+    "manifest": "docs/supporting/global_rgfca_g5_matching_manifest_v1.json"
+  },
+  "colour_schedule_implementation": {
+    "source": "data/derived/global_monte_carlo_measured_photos_v1.csv",
+    "schedule_function": "fcp_pipeline.global_repeated_atlas.build_repeated_atlas_schedule",
+    "frozen_parameters": {
+      "n_outer": 200,
+      "species_per_outer": 250,
+      "photos_per_species": 20,
+      "minimum_pool_photos_per_species": 40,
+      "species_seed": 2026090401,
+      "photo_master_seed": 2026090402
+    },
+    "appearance_rank_rule": "for every eligible species, collect its 20-photo palette vector in the chronological outer/slot order in which that species appears in the frozen atlas schedule; all species have at least 135 appearances, so use exactly the first 135 appearance-ranked draws for every species and discard a 136th appearance where present",
+    "pair_distance": "for each species pair, calculate Jensen-Shannon distance between the two species mean soft four-group palette vectors at each of the 135 paired appearance ranks, then average those 135 distances",
+    "equivalence_note": "Because matched-set deltas and focal/global averaging are linear in pair distance, averaging the 135 fixed draw-rank distances before the conditional label randomization is algebraically equivalent to applying the same within-set pseudo-sympatric relabeling across all 135 ranks and averaging afterward."
+  },
+  "inference": {
+    "engine": "fcp_pipeline.global_community_colour_assembly.matched_sympatry_colour_assembly_test",
+    "minimum_controls_per_set": 2,
+    "minimum_sets_per_focal": 2,
+    "minimum_focal_species": 30,
+    "permutations": 999,
+    "seed": 20260904,
+    "species_fdr_alpha": 0.10,
+    "primary_test": "two-sided",
+    "global_alpha": 0.05,
+    "outcome_selection_forbidden": true,
+    "rerun_for_favourable_result_forbidden": true
+  },
+  "failure_and_recovery": {
+    "metadata_acquisition_attempts": 1,
+    "one_technical_recovery_may_be_frozen_only_after_a_source_or_implementation_failure_before_any_g5_colour_outcome_is_opened": true,
+    "technical_recovery_may_not_change": [
+      "GBIF query semantics",
+      "record cap",
+      "grid",
+      "sympatry/allopatry definitions",
+      "matching variables or thresholds",
+      "control count",
+      "CHELSA variables",
+      "colour schedule",
+      "null",
+      "alpha"
+    ],
+    "insufficient_matched_coverage": "scientific not_evaluable outcome; do not loosen thresholds post hoc"
+  },
+  "claim_ceiling": "Unchanged from global_sympatry_colour_assembly_contract_v1.json."
+}

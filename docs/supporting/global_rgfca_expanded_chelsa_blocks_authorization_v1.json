@@ -1,0 +1,13 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-v1",
+  "status": "authorize_exactly_one_complete_three_block_chelsa_execution",
+  "workflow_attempts_allowed": 1,
+  "blocks": ["thermal_regime", "water_balance", "atmospheric_energy_dryness"],
+  "all_three_blocks_required": true,
+  "null_indices": "0..998 exactly once",
+  "all_999_nulls_required_per_block": true,
+  "selective_early_stop_allowed": false,
+  "favourable_rerun_allowed": false,
+  "final_Holm_decision_allowed_before_all_five_parent_blocks_complete": false,
+  "individual_variable_decomposition_allowed_before_parent_Holm_support": false
+}

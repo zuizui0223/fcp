@@ -1,0 +1,78 @@
+{
+  "protocol": "global-rgfca-worldclim-edge-secondary-execution-v1",
+  "status": "postoutcome_secondary_execution_mapping_frozen_before_any_rgfca_worldclim_edge_alignment_result",
+  "frozen_after_known_results": {
+    "primary_g1_p_upper": 0.07,
+    "primary_g1_supported": false,
+    "species_disjoint_common_architecture_supported": false,
+    "resolve_boundary_alignment_supported": false
+  },
+  "scientific_question": "Although transition coordinates are not common across held-out species, do species-specific flower-colour discontinuity edges recur where independently pre-colour-frozen macroclimate changes more strongly, beyond geographic distance?",
+  "inferential_role": {
+    "role": "postoutcome_secondary_validation_of_the_shifted_process_recurrence_hypothesis",
+    "part_of_original_CHELSA_G3_primary_family": false,
+    "may_reclassify_primary_G1": false,
+    "may_reclassify_species_disjoint_commonness": false,
+    "may_reclassify_RESOLVE_result": false,
+    "causal_language_allowed": false
+  },
+  "external_source": {
+    "provider": "WorldClim 2.1 10 arc-minute bioclimatic variables aggregated to the independently frozen equal-area 250-km atlas grid before colour opening",
+    "source_manifest": "data/atlas/environment/climate_ecoregion_source_manifest.json",
+    "source_manifest_git_blob_sha": "b96bf0ae58a030cfa99f4203d919989c887e7387",
+    "source_archive_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+    "grid_path": "data/atlas/environment/climate_ecoregion_grid_250km.csv",
+    "grid_git_blob_sha": "8427948c1e7ca980ea31f0d3987fbc1384ffecb6",
+    "grid_content_sha256": "d51be4ee91a1bc78c316d2441338fe1ff73513c08df426ec2ad683b30ec72b99",
+    "grid_n_lon": 128,
+    "grid_n_sinlat": 64,
+    "variables": ["bio1", "bio4", "bio12", "bio15"],
+    "source_selected_using_rgfca_colour": false,
+    "note": "This source is not substituted for the prospectively named CHELSA 2.1 member of the original G3 predictor family. It is a separately labelled legacy-source secondary validation because these exact WorldClim bytes were frozen before global colour outcomes."
+  },
+  "external_predictor": {
+    "name": "worldclim_multivariate_climate_distance",
+    "photo_cell_assignment": "exact equal_area_cell_ids on the frozen 128x64 longitude-by-sin(latitude) grid",
+    "complete_source_cells": "source rows with finite BIO1, BIO4, BIO12 and BIO15",
+    "standardization": "z-score each BIO variable across all complete frozen 250-km source cells using population standard deviation ddof=0 before joining colour",
+    "edge_definition": "sqrt(mean((zBIO_j_left-zBIO_j_right)^2)) across BIO1, BIO4, BIO12 and BIO15",
+    "missing_external_rule": "if either edge endpoint lacks a complete frozen climate source cell, external score is missing and that edge occurrence is excluded; never recode missing climate to zero",
+    "single_predictor_only": true,
+    "BIO_axis_decomposition_in_this_run": false
+  },
+  "colour_geometry_and_schedule": {
+    "measured_pool": "exact frozen RGFCA classifiable pool",
+    "outer_realizations": 200,
+    "species_per_outer": 250,
+    "photos_per_species": 20,
+    "species_seed": 2026090401,
+    "photo_master_seed": 2026090402,
+    "spherical_knn_k": 3,
+    "edge_colour_score": "soft four-group Jensen-Shannon divergence ranked within species within each outer realization exactly as G1",
+    "repeated_edge_occurrences_deduplicated": false,
+    "external_score_memoization_changes_estimand": false
+  },
+  "test": {
+    "statistic": "equal-species mean within-species partial Spearman correlation of ranked colour edge score with frozen multivariate climate distance, controlling ranked great-circle edge distance",
+    "minimum_edge_occurrences_per_species_after_external_filter": 5,
+    "minimum_evaluable_species": 30,
+    "null": "the exact same 999 within-species colour-vector permutations as G1 applied to the exact same 200 outer schedules and fixed external climate vector",
+    "null_master_seed": 2026090403,
+    "null_indices": "0..998 exactly once",
+    "tail": "upper",
+    "monte_carlo_p": "(1 + number(null_statistic >= observed_statistic)) / 1000",
+    "alpha": 0.05,
+    "secondary_support_rule": "observed mean species partial rho > 0 and p_upper < 0.05",
+    "multiplicity": "none within this one-predictor legacy-source secondary validation; this p-value is not promoted into the original CHELSA G3 family"
+  },
+  "execution_policy": {
+    "workflow_attempts_allowed": 1,
+    "all_999_nulls_required": true,
+    "selective_early_stop_allowed": false,
+    "favourable_rerun_allowed": false,
+    "parameter_change_after_result_allowed": false,
+    "all_outputs_reported_regardless_of_sign": true
+  },
+  "claim_if_supported": "Within the public-photo RGFCA frame, species-specific flower-colour discontinuity edges show positive alignment with independently pre-colour-frozen WorldClim macroclimate contrast beyond ranked geographic distance. This is secondary legacy-source evidence for recurrent environmental process, not evidence for common transition coordinates, not the original CHELSA confirmatory G3 test, and not causal evidence.",
+  "claim_if_not_supported": "The independently frozen WorldClim secondary test does not support a common macroclimate-contrast alignment of species-specific flower-colour edges beyond geographic distance."
+}

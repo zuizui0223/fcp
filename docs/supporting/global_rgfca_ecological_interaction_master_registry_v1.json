@@ -1,0 +1,131 @@
+{
+  "registry": "global-rgfca-ecological-interaction-master-v1",
+  "status": "postoutcome_exploratory_interaction_map_frozen_while_environmental_ten_pair_family_is_running_before_that_family_outcome_is_opened",
+  "date": "2026-09-06",
+  "purpose": "Bound the phrase all ecologically meaningful interactions to interactions already motivated by the pre-colour hypothesis registry and frozen source families, rather than an unbounded mathematical search.",
+  "lineage": {
+    "precolour_hypothesis_registry": "docs/supporting/global_biogeography_hypothesis_registry_v2.json",
+    "precolour_overlay_contract": "docs/supporting/global_colour_biogeography_overlay_contract_v1.json",
+    "precolour_source_registry": "docs/supporting/global_overlay_source_registry_v1.json",
+    "current_environmental_interaction_family": "docs/supporting/global_rgfca_environmental_interaction_family_contract_v1.json"
+  },
+  "global_guards": {
+    "this_registry_is_not_confirmatory": true,
+    "no_family_can_reclassify_G1": true,
+    "no_family_can_reclassify_species_disjoint_commonness": true,
+    "no_interaction_can_be_called_causal_selection_or_local_adaptation_without_independent_fitness_or_genetic_evidence": true,
+    "families_are_tested_separately_because_they_require_different data_units_sources_and_nulls": true,
+    "do_not_expand_a_family_after_its_outcomes_are_opened": true,
+    "unsupported_parent_or_family_does_not_authorize_variable_level_fishing": true
+  },
+  "families": [
+    {
+      "id": "E1_environment_x_environment",
+      "status": "frozen_and_running",
+      "unit": "within-species photo-graph edge",
+      "members": "all 10 unordered pairwise interactions among thermal_regime, water_balance, atmospheric_energy_dryness, edaphic_regime and terrain_structure",
+      "ecological_basis": ["H11 pigment/abiotic stress", "H2 environmental sorting"],
+      "family_contract": "docs/supporting/global_rgfca_environmental_interaction_family_contract_v1.json",
+      "multiplicity": "Holm across all 10",
+      "higher_order_terms": "closed"
+    },
+    {
+      "id": "E2_environment_x_pollinator",
+      "status": "registered_not_executable_until_pollinator_source_payloads_and_coverage_are_frozen",
+      "unit": "within-species photo-graph edge",
+      "environment_blocks": ["thermal_regime", "water_balance", "atmospheric_energy_dryness", "edaphic_regime", "terrain_structure"],
+      "pollinator_layers": ["GloBI direct interaction turnover", "GBIF pollinator-guild occurrence turnover"],
+      "members_if_both_pollinator_layers_evaluable": 10,
+      "ecological_interpretations": [
+        "abiotic context may strengthen, weaken or reverse pollinator-associated colour sorting",
+        "climate and terrain can restructure pollinator communities and flower exposure simultaneously",
+        "soil/resource context may alter the cost-benefit balance of pigment under pollinator-mediated selection"
+      ],
+      "ecological_basis": ["H3 pollinator geographic mosaic", "H11 abiotic stress", "H2 spatial environmental sorting", "H4 multiple agents"],
+      "multiplicity_rule_when_opened": "freeze all evaluable environment-by-pollinator members together and Holm-correct across that complete family",
+      "current_blocker": "exact GloBI and GBIF pollinator payload/checksum and coverage rules are not currently frozen as executable RGFCA inputs"
+    },
+    {
+      "id": "E3_environment_x_isolation_barrier",
+      "status": "partly_source_ready_but_family_not_opened",
+      "unit": "within-species photo-graph edge",
+      "environment_blocks": ["thermal_regime", "water_balance", "atmospheric_energy_dryness", "edaphic_regime", "terrain_structure"],
+      "barrier_layers": ["marine_gap", "major_river_crossing", "RESOLVE_biogeographic_boundary", "GMBA_mountain_system_boundary"],
+      "members_if_all_barriers_evaluable": 20,
+      "ecological_interpretations": [
+        "restricted connectivity may allow environmentally associated colour differentiation to persist",
+        "the same environmental contrast may produce stronger phenotypic separation across a dispersal barrier",
+        "barriers may substitute for or synergize with environmental turnover"
+      ],
+      "ecological_basis": ["H7 gene-flow/connectivity balance", "H2 spatial environmental sorting", "H8 drift/founder alternative"],
+      "multiplicity_rule_when_opened": "freeze all evaluable environment-by-barrier members together and Holm-correct across them",
+      "current_source_state": "RESOLVE is exact and evaluated; Natural Earth, HydroRIVERS and GMBA exact executable payloads still require freezing/verification before this family can run"
+    },
+    {
+      "id": "E4_pollinator_x_isolation_barrier",
+      "status": "registered_not_executable_until_pollinator_and_remaining_barrier_sources_are_frozen",
+      "unit": "within-species photo-graph edge",
+      "pollinator_layers": ["GloBI direct interaction turnover", "GBIF pollinator-guild occurrence turnover"],
+      "barrier_layers": ["marine_gap", "major_river_crossing", "RESOLVE_biogeographic_boundary", "GMBA_mountain_system_boundary"],
+      "members_if_all_layers_evaluable": 8,
+      "ecological_interpretations": [
+        "barriers may stabilize geographically distinct pollinator mosaics and thereby strengthen colour differentiation",
+        "pollinator turnover without isolation may be transient whereas coincident pollinator turnover and barriers may produce stronger spatial phenotypic structure"
+      ],
+      "ecological_basis": ["H3 pollinator mosaic", "H7 connectivity", "H8 historical isolation alternative"],
+      "multiplicity_rule_when_opened": "freeze all evaluable pollinator-by-barrier members together and Holm-correct across them"
+    },
+    {
+      "id": "E5_G5_community_context_interactions",
+      "status": "precolour_hypothesis_exists_but_requires_G5_matched_sympatry_data_execution",
+      "unit": "matched sympatric versus outcome-blind allopatric species-pair contrast",
+      "primary_context_interactions": [
+        "sympatry_effect x congeneric_status",
+        "sympatry_effect x flowering_overlap",
+        "sympatry_effect x pollinator_overlap",
+        "sympatry_effect x climate_similarity",
+        "sympatry_effect x soil_similarity"
+      ],
+      "ecological_interpretations": [
+        "shared environmental filtering can drive convergence",
+        "reproductive interference or discrimination can drive divergence",
+        "the sign of community assembly may change with phylogenetic, phenological and pollination context"
+      ],
+      "ecological_basis": ["G5a shared-filter convergence", "G5b character-displacement divergence", "G5c context-dependent sign", "H14 reproductive interference", "H15 phenological partitioning"],
+      "guard": "these are not edge-level interactions and must not be mixed into E1-E4 multiplicity families"
+    },
+    {
+      "id": "E6_temporal_and_trait_moderators",
+      "status": "registered_future_or_coverage_gated",
+      "unit": "species or population-level moderator analysis depending source",
+      "registered_interactions": [
+        "dynamic_environmental_turnover x flowering_time_or_flowering_overlap",
+        "dynamic_environmental_turnover x seed_bank_persistence",
+        "pollinator_turnover x flowering_time_or_flowering_overlap",
+        "pollinator_turnover x quantitative_autofertility",
+        "environmental_or_spatial_structure x quantitative_autofertility",
+        "spatial_or_community_structure x clonality"
+      ],
+      "ecological_basis": ["H1 temporal environmental variation", "H10 seed-bank storage effect", "H15 phenological partitioning", "H6 reproductive assurance", "H9 clonal persistence", "H4 multiple agents"],
+      "guards": [
+        "SC/SI cannot substitute for quantitative autofertility",
+        "clonality remains coverage-gated",
+        "dynamic climate must use temporally resolved data rather than static BIO seasonality",
+        "trait moderators are not evidence of morph-specific fitness by themselves"
+      ]
+    }
+  ],
+  "explicit_exclusions": [
+    "all mathematical three-way and higher interactions without a separately frozen mechanistic hypothesis",
+    "interactions between two alternative measurements of the same construct when the purpose is only measurement agreement rather than ecology",
+    "variable-by-variable interaction mining from unsupported block-level pairs",
+    "post-result thresholds, sign flips, subsets or source substitutions"
+  ],
+  "execution_order": [
+    "finish E1 exactly as frozen",
+    "freeze exact external payloads and coverage gates for E2-E4 before any cross-domain interaction outcome",
+    "execute E2-E4 as separate complete families only when their required sources are evaluable",
+    "execute G5 community context as its own matched-design programme",
+    "open E6 only when quantitative temporal or trait data pass coverage gates"
+  ]
+}

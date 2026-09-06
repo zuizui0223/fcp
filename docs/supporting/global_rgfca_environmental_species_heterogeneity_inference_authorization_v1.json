@@ -1,0 +1,19 @@
+{
+  "status": "authorize_exactly_one_environmental_species_heterogeneity_inference",
+  "date": "2026-09-06",
+  "workflow_attempts_allowed": 1,
+  "favourable_rerun_allowed": false,
+  "contract": {
+    "path": "docs/supporting/global_rgfca_environmental_species_heterogeneity_inference_contract_v1.json",
+    "git_blob_sha": "3a356b457192abe5c5ff3b1a53bc81131d68f9c5"
+  },
+  "runner": {
+    "path": "scripts/analysis/run_global_rgfca_environmental_species_heterogeneity_inference.py",
+    "git_blob_sha": "708c278744344c54952592467f2c509a17afc658"
+  },
+  "fixed_family": {"main_effect_variance_tests": 5, "interaction_variance_tests": 10, "syndrome_omnibus_tests": 2},
+  "null_permutations": 999,
+  "null_master_seed": 2026090403,
+  "parent_mean_effect_reclassification_allowed": false,
+  "individual_variable_decomposition_allowed": false
+}

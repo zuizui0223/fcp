@@ -1,0 +1,50 @@
+{
+  "protocol": "global-rgfca-frozen-field-realm-jackknife-diagnostic-v1",
+  "date": "2026-09-06",
+  "status": "postoutcome_diagnostic_fixed_before_realm_deletion_statistics",
+  "question": "Does positive G1 concentration excess persist when the contribution of each mapped terrestrial realm is removed from the already-frozen consensus field?",
+  "scope": "Descriptive geographic leverage audit of existing fields; NOT a refitted leave-one-realm-out analysis, not a new significance test, and not completion or rescue of the original strong-stability gate.",
+  "inputs": {
+    "g1_run_id": 34002956347,
+    "g1_artifact_id": 9980198765,
+    "g1_artifact_zip_sha256": "65553c98b4a3dbe92bb379a779c181d02b8a03bdd094663e8af0b7af28741912ee",
+    "g1_artifact_name": "global-rgfca-g1-single-runner-primary-v1",
+    "resolve_run_id": 34007596955,
+    "resolve_artifact_id": 9982073937,
+    "resolve_artifact_zip_sha256": "727e6dc800f2704a6bb7a58d8574d2fe146c8e462333b20c6c435e47c6b137394",
+    "resolve_gpkg_sha256": "a7e030466bc111f8418988157c713600d9c2a8e46c5b7b1d003ff59b8cbb60d1f",
+    "resolve_raster_sha256": "eed139ebc8f80e73b9edc5714144a2a8df4823f531cb0ec96ca4d28f177326c76"
+  },
+  "assignment": {
+    "unit": "the center of each original 36 x 18 equal-area grid cell",
+    "method": "sample the exact frozen 0.01-degree RESOLVE integer ecoregion raster at the cell center, map its row ID through the original GPKG REALM column",
+    "realm_order": ["Afrotropic", "Antarctic", "Australasia", "Indomalaya", "Nearctic", "Neotropic", "Oceania", "Palearctic"],
+    "unassigned": "Preserve as UNASSIGNED rather than infer a terrestrial realm; include a separate fixed UNASSIGNED deletion diagnostic.",
+    "selection": "all eight source realms plus UNASSIGNED; no result-dependent selection or merging"
+  },
+  "computation": {
+    "base": "original aggregate observed field, aggregate opportunity weights, original evaluable mask, and all 999 aggregate null fields from the primary artifact",
+    "deletion": "remove only evaluable grid cells assigned to the selected realm, identically for observed and every null field; retain all other original cells and weights",
+    "statistic": "opportunity-weighted variance, re-centering the field mean on each retained domain",
+    "outputs": ["removed and retained cell counts", "removed opportunity-weight fraction", "observed concentration", "mean null concentration", "observed minus mean-null concentration", "observed / mean-null concentration", "change relative to full-domain excess"],
+    "minimum_retained_cells": 3,
+    "empty_realm": "not_evaluable_no_evaluable_cells; never counted as a successful deletion",
+    "p_values": "none; no new inferential family or pass/fail significance label",
+    "baseline_verification": "reconstruct the existing full-domain concentration, ratio, and p=0.070 from the stored primary arrays before any deletion output"
+  },
+  "guard": {
+    "observed_colour_or_geometry_recomputed": false,
+    "new_null_draws": false,
+    "G1_reclassification": false,
+    "G2_strong_stability_reclassification": false,
+    "species_disjoint_commonness_reclassification": false,
+    "new_geographic_zone_naming": false,
+    "original_refitted_realm_and_family_deletions_completed_by_this": false
+  },
+  "limitations": [
+    "Deleting output-domain cells does not remove that realm's photo edges or their kernels from retained cells.",
+    "Realm assignment is at coarse grid centers; boundary-crossing cells and kernel spillover prevent literal ecological exclusion of a realm.",
+    "Unassigned cells may include ocean and coastal support; they remain a separate category, not missing values recoded to a realm.",
+    "Positive excess under all deletions is directional robustness only; the original unsupported G1 remains unsupported."
+  ]
+}

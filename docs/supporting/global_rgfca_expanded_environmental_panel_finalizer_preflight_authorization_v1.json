@@ -1,0 +1,7 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-finalization-v1",
+  "status": "authorize_synthetic_finalizer_preflight_before_real_five_block_finalization",
+  "biological_data_allowed": false,
+  "real_block_results_allowed": false,
+  "purpose": "verify compilation, Holm arithmetic and decomposition gate only"
+}

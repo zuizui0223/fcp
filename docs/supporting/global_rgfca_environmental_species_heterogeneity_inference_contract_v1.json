@@ -1,0 +1,104 @@
+{
+  "protocol": "global-rgfca-environmental-species-heterogeneity-inference-v1",
+  "status": "postoutcome_exploratory_frozen_before_any_species_variance_or_syndrome_null_result_is_computed",
+  "date": "2026-09-06",
+  "motivation": "The completed environmental tests targeted equal-species mean effects. A mean near zero can coexist with strong positive and negative species-specific coupling. This analysis tests heterogeneity itself rather than attempting to rescue a positive global mean.",
+  "parent_results_immutable": {
+    "five_block_main_effect_panel_supported": false,
+    "ten_pair_interaction_family_supported": false,
+    "G1_supported": false,
+    "individual_variable_decomposition_open": false
+  },
+  "fixed_features": {
+    "main_effect_family": ["thermal_regime", "water_balance", "atmospheric_energy_dryness", "edaphic_regime", "terrain_structure"],
+    "interaction_family": [
+      "thermal_regime_x_water_balance",
+      "thermal_regime_x_atmospheric_energy_dryness",
+      "thermal_regime_x_edaphic_regime",
+      "thermal_regime_x_terrain_structure",
+      "water_balance_x_atmospheric_energy_dryness",
+      "water_balance_x_edaphic_regime",
+      "water_balance_x_terrain_structure",
+      "atmospheric_energy_dryness_x_edaphic_regime",
+      "atmospheric_energy_dryness_x_terrain_structure",
+      "edaphic_regime_x_terrain_structure"
+    ],
+    "selection_rule": "all previously frozen parent features are included; no feature is added, dropped or privileged because of its observed mean p-value"
+  },
+  "geometry_and_species_effects": {
+    "same_200_outer_edge_occurrences": true,
+    "same_species_seed": 2026090401,
+    "same_photo_seed": 2026090402,
+    "same_knn_k": 3,
+    "main_effect_species_statistic": "same distance-controlled partial Spearman rho used in the completed five-block panel, with the parent panel's >=5 retained-edge species rule",
+    "interaction_species_statistic": "same beta_AxB used in the completed ten-pair family, including geographic distance and both additive main effects, with the parent's >=20 retained-edge/full-rank design rule",
+    "expected_species_per_feature": 369,
+    "missing_environment_rule": "unchanged pair/block-specific complete cases; no missing value becomes zero"
+  },
+  "heterogeneity_families": {
+    "main_effect_variance": {
+      "tests": 5,
+      "observed_statistic": "sample variance (ddof=1) across the 369 species partial-rho estimates for each complete process block",
+      "null_statistic": "same variance across species under each of the exact 999 shared RGFCA colour permutations",
+      "tail": "upper",
+      "raw_p": "(1 + count(null_variance >= observed_variance))/1000",
+      "multiplicity": "Holm across exactly the five parent blocks",
+      "alpha": 0.05
+    },
+    "interaction_variance": {
+      "tests": 10,
+      "observed_statistic": "sample variance (ddof=1) across the 369 species beta_AxB estimates for each complete interaction pair",
+      "null_statistic": "same variance across species under each of the exact 999 shared RGFCA colour permutations",
+      "tail": "upper",
+      "raw_p": "(1 + count(null_variance >= observed_variance))/1000",
+      "multiplicity": "Holm across exactly the ten interaction pairs",
+      "alpha": 0.05
+    }
+  },
+  "coordinated_syndrome_omnibus": {
+    "statistics": [
+      {
+        "id": "main5_pc1_fraction",
+        "matrix": "369 species x all five main-effect estimates",
+        "standardization": "z-score each feature across species",
+        "statistic": "largest eigenvalue of the 5x5 species correlation matrix divided by 5"
+      },
+      {
+        "id": "all15_pc1_fraction",
+        "matrix": "369 species x five main effects plus all ten interaction effects",
+        "standardization": "z-score each feature across species",
+        "statistic": "largest eigenvalue of the 15x15 species correlation matrix divided by 15"
+      }
+    ],
+    "null": "For each exact colour permutation index, recompute the complete species-effect matrix and the same PC1-fraction statistic. Shared null index across all features preserves dependence created by common colour permutations and correlated environmental predictors.",
+    "tail": "upper",
+    "raw_p": "(1 + count(null_PC1_fraction >= observed_PC1_fraction))/1000",
+    "multiplicity": "Holm across the two omnibus syndrome statistics",
+    "alpha": 0.05
+  },
+  "null": {
+    "permutations": 999,
+    "indices": "0..998 exactly once",
+    "master_seed": 2026090403,
+    "operation": "same within-species complete flower-colour-vector permutation used by RGFCA and both parent environmental families",
+    "environment_distance_design_fixed": true,
+    "same_null_index_shared_across_all_15_features": true
+  },
+  "interpretation": {
+    "supported_feature_variance": "Species differ in the strength/sign of association with that broad process more than expected from the frozen colour-permutation null. This is evidence of heterogeneity, not of a positive mean effect.",
+    "supported_pc1_omnibus": "The multi-feature species response matrix has stronger coordinated low-dimensional structure than expected under the shared colour null, consistent with recurrent species-response syndromes.",
+    "unsupported": "No permutation-supported excess heterogeneity/syndrome is established for that family/statistic.",
+    "thermal_dryness": "Thermal and atmospheric/dryness are never tested as a privileged pair; any relationship is interpreted only inside the complete five/15-feature structures."
+  },
+  "anti_fishing": {
+    "feature_selection": false,
+    "new_environmental_variables": false,
+    "individual_variable_decomposition": false,
+    "new_thresholds": false,
+    "new_null_seed": false,
+    "favourable_rerun": false,
+    "cluster_number_search": false,
+    "parent_mean_effect_reclassification": false
+  },
+  "claim_ceiling": "Exploratory permutation evidence may support cross-species heterogeneity or coordinated response syndromes in broad environmental colour associations. It cannot establish causal selection, local adaptation, a universal direction, or rescue any completed mean-effect family."
+}

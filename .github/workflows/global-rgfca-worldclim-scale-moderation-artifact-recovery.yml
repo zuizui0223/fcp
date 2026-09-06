@@ -1,0 +1,69 @@
+name: Global RGFCA WorldClim scale moderation artifact recovery
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_worldclim_scale_moderation_replication_artifact_recovery_authorization_v1.json"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-worldclim-scale-moderation-artifact-recovery
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Enforce artifact-only recovery
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path('docs/supporting/global_rgfca_worldclim_scale_moderation_replication_artifact_recovery_contract_v1.json').read_text())
+          a=json.loads(Path('docs/supporting/global_rgfca_worldclim_scale_moderation_replication_artifact_recovery_authorization_v1.json').read_text())
+          if c.get('status')!='artifact_only_recovery_frozen_after_completed_analysis_before_repo_result_commit': raise SystemExit('contract drift')
+          if c.get('source_run_id')!=34017386903 or c.get('source_artifact_id')!=9984557058: raise SystemExit('artifact identity drift')
+          if c.get('analysis_may_be_reexecuted') is not False or c.get('recovery_is_byte_copy_only') is not True: raise SystemExit('recovery policy drift')
+          if a.get('status')!='authorize_exactly_one_artifact_only_recovery': raise SystemExit('recovery not authorized')
+          if a.get('workflow_attempts_allowed')!=1: raise SystemExit('attempt count drift')
+          PY
+      - name: Download immutable completed artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-worldclim-scale-moderation-replication-v1
+          path: /tmp/scale-recovery
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34017386903
+      - name: Verify exact completed result bytes
+        run: |
+          set -euo pipefail
+          echo "c4f1600e68061da471b959765feefbc31011639d21db926867666e2ddd0d12ae  /tmp/scale-recovery/global_rgfca_worldclim_scale_moderation_replication_result_v1.json" | sha256sum -c -
+          echo "0d7aaf29f4f1906f470f243bbabfacb83d5bd8988c97a1b372ae8c678b09f1cb  /tmp/scale-recovery/global_rgfca_worldclim_scale_moderation_replication_species_v1.csv" | sha256sum -c -
+          echo "5b5df9baa7ff3f1e40ef09a5b5f87aaad279ed9ca2a4a46d621dc87fbbd630e9  /tmp/scale-recovery/global_rgfca_worldclim_scale_moderation_replication_null_v1.csv" | sha256sum -c -
+      - name: Commit exact artifact bytes on latest branch
+        env:
+          TARGET_BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          set -euo pipefail
+          git fetch origin "$TARGET_BRANCH"
+          git checkout -B "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
+          test ! -e docs/supporting/global_rgfca_worldclim_scale_moderation_replication_result_v1.json
+          cp /tmp/scale-recovery/global_rgfca_worldclim_scale_moderation_replication_result_v1.json docs/supporting/
+          cp /tmp/scale-recovery/global_rgfca_worldclim_scale_moderation_replication_species_v1.csv data/derived/
+          cp /tmp/scale-recovery/global_rgfca_worldclim_scale_moderation_replication_null_v1.csv data/derived/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_worldclim_scale_moderation_replication_result_v1.json data/derived/global_rgfca_worldclim_scale_moderation_replication_species_v1.csv data/derived/global_rgfca_worldclim_scale_moderation_replication_null_v1.csv
+          git commit -m "Recover exact WorldClim scale-moderation replication artifact"
+          git push origin HEAD:"$TARGET_BRANCH"

@@ -1,0 +1,64 @@
+{
+  "protocol": "global-monte-carlo-capacity-scan-v1",
+  "status": "frozen_before_global_species_discovery_outcome_and_before_capacity_queries",
+  "date": "2026-09-04",
+  "input_species_frame": "data/frozen/global_monte_carlo_species_discovery_species_v1.csv",
+  "query": {
+    "one_request_per_discovered_species": true,
+    "per_page": 200,
+    "request_retries": 0,
+    "request_interval_seconds": 1.05,
+    "quality_grade": "research",
+    "photos": true,
+    "geo": true,
+    "rank": "species",
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "maximum_positional_accuracy_m": 5000,
+    "obscuration": "none",
+    "allowed_photo_licenses": [
+      "cc0",
+      "cc-by",
+      "cc-by-sa",
+      "cc-by-nc",
+      "cc-by-nc-sa"
+    ],
+    "order_by": "random",
+    "observer_cap": 2,
+    "prior_experiment_ids_excluded": true
+  },
+  "prior_experiment_exclusion_sources": [
+    "data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv",
+    "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv"
+  ],
+  "target_rule": {
+    "candidate_raw_photos_per_species": [100, 80, 60],
+    "minimum_metadata_eligible_species": 300,
+    "automatic_selection": "choose the largest candidate target with at least 300 species after local metadata filtering, prior-ID exclusion and observer cap",
+    "if_none_pass": "not_evaluable_global_inferential_species_capacity_before_pixels",
+    "post_outcome_target_relaxation": false
+  },
+  "request_failure_policy": {
+    "per_species_error": "record and continue without retry or replacement",
+    "maximum_error_fraction_for_capacity_decision": 0.05,
+    "if_exceeded": "not_evaluable_capacity_scan_due_request_failure",
+    "favourable_rerun_for_more_species": false
+  },
+  "outputs": {
+    "species_audit": "raw result count, local eligible count, prior excluded count, observer-capped count, geographic span and target eligibility for every discovered species",
+    "selected_species_frame": "all species passing the automatically selected raw-photo target",
+    "manifest": "target counts, error fraction, selected target and immutable hashes"
+  },
+  "actual_image_acquisition_boundary": {
+    "capacity_scan_rows_are_not_image_measurement_candidates": true,
+    "actual_candidate_acquisition_is_a_separate_fresh_frozen_draw": true,
+    "actual_acquisition_uses_selected_target_without_relaxation": true,
+    "actual_acquisition_requires_at_least_300_full_target_species_before_pixels": true
+  },
+  "outcome_firewall": {
+    "flower_colour_used": false,
+    "H9_biological_outcome_used": false,
+    "climate_used": false,
+    "barrier_overlay_used": false
+  }
+}

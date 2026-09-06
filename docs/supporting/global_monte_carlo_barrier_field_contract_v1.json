@@ -1,0 +1,92 @@
+{
+  "protocol": "global-monte-carlo-recurrent-barrier-field-v1",
+  "status": "frozen_before_new_global_species_discovery_outcome_and_before_new_colour_pixels",
+  "date": "2026-09-04",
+  "input_unit": "within-species photograph-neighbour edge",
+  "edge_colour_score": {
+    "raw": "soft four-group Jensen-Shannon divergence",
+    "standardization": "within-species midrank percentile (rank - 0.5) / n_edges",
+    "reason": "equalize species with different absolute colour-variance scales while retaining within-species transition order"
+  },
+  "edge_geometry": {
+    "photographs_per_species_per_outer_resample": 20,
+    "spherical_knn_k": 3,
+    "edge_midpoint": "normalized Cartesian great-circle midpoint",
+    "species_total_geometric_weight": 1.0,
+    "edge_weight_within_species": "1 / number_of_undirected_edges"
+  },
+  "primary_field": {
+    "grid": "36x18 equal-area longitude x sin(latitude)",
+    "kernel": "Gaussian great-circle kernel",
+    "kernel_bandwidth_km": 500.0,
+    "compact_support_cutoff_multiplier": 3.0,
+    "compact_support_cutoff_km": 1500.0,
+    "edge_kernel_normalization": "each edge kernel sums to one across field cells",
+    "field_numerator": "species-equal geometric kernel support weighted by within-species edge rank score",
+    "field_denominator": "same species-equal geometric kernel support without colour score",
+    "field_intensity": "numerator / denominator",
+    "minimum_distinct_species_support_per_cell": 5,
+    "primary_statistic": "opportunity-weighted variance of field intensity across evaluable cells"
+  },
+  "predeclared_spatial_support_sensitivities": [
+    {
+      "grid": "24x12",
+      "kernel_bandwidth_km": 1000.0,
+      "compact_support_cutoff_multiplier": 3.0,
+      "minimum_distinct_species_support_per_cell": 5
+    },
+    {
+      "grid": "72x36",
+      "kernel_bandwidth_km": 250.0,
+      "compact_support_cutoff_multiplier": 3.0,
+      "minimum_distinct_species_support_per_cell": 5
+    }
+  ],
+  "support_threshold_sensitivity": {
+    "primary_minimum_distinct_species": 5,
+    "secondary_minimum_distinct_species": 10,
+    "secondary_cannot_replace_primary": true
+  },
+  "null": {
+    "permutations": 999,
+    "tail": "upper",
+    "alpha": 0.05,
+    "shuffle": "rank-standardized edge colour scores within species",
+    "fixed": [
+      "species identities",
+      "photograph coordinates",
+      "outer species schedule",
+      "outer within-species photograph schedule",
+      "nearest-neighbour graph geometry",
+      "edge midpoints",
+      "kernel geometry",
+      "opportunity field",
+      "distinct-species support mask"
+    ]
+  },
+  "positive_G1_rule": {
+    "postmeasurement_gate_passed": true,
+    "observed_concentration_exceeds_null_mean": true,
+    "primary_p_upper_less_than": 0.05
+  },
+  "stability_claim_thresholds": {
+    "odd_even_consensus_field_pearson_r_minimum": 0.5,
+    "odd_half_G1_excess_must_be_positive": true,
+    "even_half_G1_excess_must_be_positive": true,
+    "running_consensus_100_vs_200_field_r_minimum": 0.9,
+    "running_consensus_150_vs_200_field_r_minimum": 0.95,
+    "leave_one_realm_out_G1_excess_must_remain_positive_for_every_estimable_realm": true,
+    "leave_one_major_family_out_G1_excess_must_remain_positive_for_every_estimable_family": true,
+    "major_family_definition": "family contributes at least 5% of inferential species",
+    "both_predeclared_spatial_support_sensitivities_G1_excess_must_be_positive": true,
+    "support_threshold_10_G1_excess_must_be_positive": true,
+    "note": "Only the primary p-value is a confirmatory significance gate; robustness thresholds govern use of a strong stability/robustness claim."
+  },
+  "synthetic_validation_before_colour": {
+    "required": true,
+    "planted_recurrent_barrier_must_be_detectable": true,
+    "null_fixture_must_not_be_declared_supported": true,
+    "field_geometry_and_permutation_code_frozen_after_validation": true
+  },
+  "claim_boundary": "A supported and stable G1 is evidence for recurrent broad geographic concentration of flower-colour discontinuity conditional on sampled species opportunity. It is not evidence for one exact universal line or a specific causal geographic, climatic, topographic, pollinator or pigment mechanism."
+}

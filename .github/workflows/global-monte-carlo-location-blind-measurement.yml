@@ -1,0 +1,276 @@
+name: Global Monte Carlo location-blind measurement
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_measurement_authorization_v1.json"
+
+permissions:
+  contents: read
+
+env:
+  EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
+  EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
+  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+
+concurrency:
+  group: global-monte-carlo-location-blind-measurement
+  cancel-in-progress: false
+
+jobs:
+  authorize-and-build-firewall:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Materialize exact validated H9 measurement infrastructure only
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Require exact global measurement authorization
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          import pandas as pd
+          from pathlib import Path
+          auth = json.loads(Path('docs/supporting/global_monte_carlo_measurement_authorization_v1.json').read_text())
+          candidate = json.loads(Path('docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json').read_text())
+          contract = json.loads(Path('docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json').read_text())
+          pool = pd.read_csv('data/frozen/global_monte_carlo_candidate_photos_v1.csv')
+          if auth.get('status') != 'authorize_exactly_one_global_location_blind_measurement_run':
+              raise SystemExit('global measurement is not explicitly authorized')
+          if auth.get('branch') != 'analysis/global-monte-carlo-barrier-atlas':
+              raise SystemExit('global measurement authorization branch mismatch')
+          blob = subprocess.check_output(['git','rev-parse','HEAD:docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json'], text=True).strip()
+          if auth.get('candidate_manifest_blob_sha') != blob:
+              raise SystemExit('global candidate manifest lineage mismatch')
+          if candidate.get('status') != contract['pixel_opening']['requires_candidate_status']:
+              raise SystemExit('candidate acquisition status does not permit measurement')
+          if candidate.get('premeasurement_gate', {}).get('pass') is not True:
+              raise SystemExit('candidate acquisition gate did not pass')
+          if candidate.get('candidate_image_pixels_opened') is not False or candidate.get('flower_colour_used') is not False:
+              raise SystemExit('candidate stage already opened forbidden outcomes')
+          expected = int(candidate['full_target_species']) * int(candidate['capacity_selected_raw_photo_target'])
+          if len(pool) != expected or int(candidate['candidate_rows']) != expected:
+              raise SystemExit('candidate denominator differs from frozen manifest')
+          if int(auth.get('candidate_rows')) != expected or int(auth.get('full_target_species')) != int(candidate['full_target_species']):
+              raise SystemExit('measurement authorization denominator mismatch')
+          if Path('data/derived/global_monte_carlo_measured_photos_v1.csv').exists() or Path('docs/supporting/global_monte_carlo_measurement_result_v1.json').exists():
+              raise SystemExit('global measurement output already exists; rerun forbidden')
+          print({'global_measurement_authorization': 'pass', 'rows': expected, 'species': int(candidate['full_target_species'])})
+          PY
+      - name: Build two-batch coordinate firewall before pixels
+        run: |
+          rm -rf /tmp/global-firewall
+          python scripts/analysis/build_global_monte_carlo_measurement_firewall.py --output-dir /tmp/global-firewall
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-monte-carlo-measurement-firewall-v1
+          if-no-files-found: error
+          retention-days: 14
+          path: /tmp/global-firewall
+
+  measure-partition:
+    needs: authorize-and-build-firewall
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        measurement_batch: [0, 1]
+        semantic_shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        compute_partition: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Materialize exact validated H9 measurement infrastructure only
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install exact CPU measurement runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e . -r requirements-atlas-roi-v4.txt
+      - name: Download exact EfficientSAM weights
+        run: |
+          rm -rf /tmp/efficient-sam
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-monte-carlo-measurement-firewall-v1
+          path: /tmp/firewall
+      - name: Acquire one validated blind partition into ephemeral filenames
+        run: |
+          B=${{ matrix.measurement_batch }}
+          rm -rf /tmp/acquisition
+          python scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            --worker-manifest /tmp/firewall/batch_${B}/worker_packet/measurement_manifest.csv \
+            --acquisition-key /tmp/firewall/batch_${B}/sealed_keys/acquisition_key.csv \
+            --output-dir /tmp/acquisition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+      - name: Delete every source-URL surface before colour measurement
+        run: |
+          rm -rf /tmp/blind /tmp/safe-acquisition
+          mkdir -p /tmp/blind/images /tmp/safe-acquisition
+          cp /tmp/acquisition/successful_worker_manifest.csv /tmp/blind/measurement_manifest.csv
+          cp -a /tmp/acquisition/ephemeral_images/. /tmp/blind/images/
+          cp /tmp/acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/selected_blind_manifest.csv
+          cp /tmp/acquisition/acquisition_failures.csv /tmp/safe-acquisition/acquisition_failures.csv
+          cp /tmp/acquisition/acquisition_receipt.csv /tmp/safe-acquisition/acquisition_receipt.csv
+          rm -rf /tmp/firewall /tmp/acquisition
+          test ! -e /tmp/firewall
+          test ! -e /tmp/acquisition
+          ! grep -R -E "photo_url|latitude|longitude|species|observer|taxon" /tmp/blind /tmp/safe-acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/acquisition_receipt.csv
+      - name: Run the unchanged frozen ROI-v4 and fixed palette location blind
+        run: |
+          python scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --worker-manifest /tmp/blind/measurement_manifest.csv \
+            --images-dir /tmp/blind/images \
+            --detector-weight data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --efficient-sam-dir /tmp/efficient-sam \
+            --output-csv /tmp/blind_measurement_results.csv
+      - name: Seal one exact terminal partition and delete pixels
+        run: |
+          rm -rf /tmp/sealed-partition
+          python scripts/analysis/seal_random_photo_first_measurement_partition.py \
+            --selected-blind-manifest /tmp/safe-acquisition/selected_blind_manifest.csv \
+            --acquisition-failures /tmp/safe-acquisition/acquisition_failures.csv \
+            --measurement-results /tmp/blind_measurement_results.csv \
+            --output-dir /tmp/sealed-partition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+          B=${{ matrix.measurement_batch }}
+          for F in /tmp/sealed-partition/partition_s*_p*; do
+            BASE=$(basename "$F")
+            mv "$F" "/tmp/sealed-partition/b${B}_${BASE}"
+          done
+          rm -rf /tmp/blind /tmp/efficient-sam /tmp/safe-acquisition /tmp/blind_measurement_results.csv
+          test ! -e /tmp/blind
+          test ! -e /tmp/efficient-sam
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('/tmp/sealed-partition')
+          forbidden = {'photo_url','photo_url_large','latitude','longitude','species','observer','observer_id','inat_taxon_id'}
+          csv_files = sorted(root.glob('*.csv'))
+          json_files = sorted(root.glob('*.json'))
+          assert len(csv_files) == len(json_files) == 1
+          with csv_files[0].open(newline='', encoding='utf-8') as fh:
+              header = next(csv.reader(fh), [])
+          assert not forbidden.intersection(header)
+          receipt = json.loads(json_files[0].read_text())
+          assert receipt['source_urls_present'] is False
+          assert receipt['species_present'] is False
+          assert receipt['coordinates_present'] is False
+          print('global_sealed_partition_firewall=pass')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-terminal-b${{ matrix.measurement_batch }}-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/sealed-partition
+
+  reassemble-complete-measurement:
+    needs: measure-partition
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Materialize exact validated reassembly infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-monte-carlo-measurement-firewall-v1
+          path: /tmp/firewall
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: global-terminal-*
+          path: /tmp/partition-results
+          merge-multiple: true
+      - name: Require all 256 terminal receipts before the coordinate-colour join
+        run: |
+          python scripts/analysis/reassemble_global_monte_carlo_measurement.py \
+            --results-dir /tmp/partition-results \
+            --worker-batch0 /tmp/firewall/batch_0/worker_packet/measurement_manifest.csv \
+            --worker-batch1 /tmp/firewall/batch_1/worker_packet/measurement_manifest.csv \
+            --metadata-join-key /tmp/firewall/sealed_keys/metadata_join_key.csv \
+            --firewall-manifest /tmp/firewall/measurement_firewall_manifest.json \
+            --output-csv data/derived/global_monte_carlo_measured_photos_v1.csv \
+            --output-manifest docs/supporting/global_monte_carlo_measurement_result_v1.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/global_monte_carlo_measurement_result_v1.json').read_text())
+          assert r['status'] == 'complete_global_location_blind_measurement_and_join'
+          assert r['partition_receipts'] == 256
+          assert r['terminal_result_rows'] == r['joined_rows'] == r['frozen_candidate_rows']
+          assert r['coordinate_colour_join_opened_after_complete_measurement'] is True
+          assert r['g1_g3_inference_run'] is False
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-monte-carlo-measured-photos-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/derived/global_monte_carlo_measured_photos_v1.csv
+            data/derived/global_monte_carlo_measurement_species_support_v1.csv
+            docs/supporting/global_monte_carlo_measurement_result_v1.json
+      - name: Commit complete global location-blind measurement result
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/global_monte_carlo_measured_photos_v1.csv \
+            data/derived/global_monte_carlo_measurement_species_support_v1.csv \
+            docs/supporting/global_monte_carlo_measurement_result_v1.json
+          git commit -m "Complete global location-blind flower-colour measurement"
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/global-monte-carlo-barrier-atlas
+            git rebase origin/analysis/global-monte-carlo-barrier-atlas
+            if git push origin HEAD:analysis/global-monte-carlo-barrier-atlas; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1

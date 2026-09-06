@@ -1,0 +1,144 @@
+name: Global RGFCA expanded CHELSA source acquisition
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_chelsa_expanded_source_acquisition_authorization_v1.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: global-rgfca-chelsa-expanded-source-acquisition
+  cancel-in-progress: false
+
+jobs:
+  acquire:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Enforce exact source-only CHELSA acquisition
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT'] != '1':
+              raise SystemExit('CHELSA source acquisition reruns are forbidden')
+          c=json.loads(Path('docs/supporting/global_rgfca_chelsa_expanded_source_acquisition_contract_v1.json').read_text())
+          a=json.loads(Path('docs/supporting/global_rgfca_chelsa_expanded_source_acquisition_authorization_v1.json').read_text())
+          if c.get('status') != 'exact_postoutcome_secondary_chelsa_source_urls_frozen_before_any_expanded_chelsa_colour_alignment':
+              raise SystemExit('CHELSA source contract drift')
+          if a.get('status') != 'authorize_exactly_one_expanded_chelsa_source_acquisition':
+              raise SystemExit('CHELSA acquisition not authorized')
+          if a.get('workflow_attempts_allowed') != 1 or a.get('source_substitution_allowed') is not False:
+              raise SystemExit('CHELSA authorization drift')
+          files=[x for block in c['process_blocks'].values() for x in block]
+          if len(files) != 12 or len({x['filename'] for x in files}) != 12:
+              raise SystemExit('CHELSA fixed 12-file family drift')
+          if c.get('role') != 'source acquisition and byte verification only; no flower-colour values may be opened or joined in this workflow':
+              raise SystemExit('CHELSA source-only firewall drift')
+          print({'gate':'pass','files':len(files),'blocks':list(c['process_blocks'])})
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install source-verification dependencies
+        run: python -m pip install "rasterio==1.4.4" "requests==2.32.5"
+      - name: Download, hash and discard each exact CHELSA raster without colour access
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          mkdir -p /tmp/chelsa-source-verification
+          python - <<'PY'
+          import hashlib, json, os, tempfile
+          from pathlib import Path
+          import requests, rasterio
+
+          contract_path=Path('docs/supporting/global_rgfca_chelsa_expanded_source_acquisition_contract_v1.json')
+          c=json.loads(contract_path.read_text())
+          base=c['dataset']['base_url']
+          records=[]
+          for block, items in c['process_blocks'].items():
+              for item in items:
+                  url=base+item['filename']
+                  fd,tmp=tempfile.mkstemp(suffix='.tif')
+                  os.close(fd)
+                  p=Path(tmp)
+                  h=hashlib.sha256(); size=0
+                  try:
+                      with requests.get(url, stream=True, timeout=(30,600)) as r:
+                          r.raise_for_status()
+                          etag=r.headers.get('ETag')
+                          last_modified=r.headers.get('Last-Modified')
+                          content_length=r.headers.get('Content-Length')
+                          with p.open('wb') as out:
+                              for chunk in r.iter_content(chunk_size=1<<20):
+                                  if not chunk: continue
+                                  out.write(chunk); h.update(chunk); size += len(chunk)
+                      with rasterio.open(p) as ds:
+                          meta={
+                              'width':int(ds.width),'height':int(ds.height),'count':int(ds.count),
+                              'dtype':str(ds.dtypes[0]),'crs':str(ds.crs),
+                              'nodata':None if ds.nodata is None else float(ds.nodata),
+                              'bounds':[float(ds.bounds.left),float(ds.bounds.bottom),float(ds.bounds.right),float(ds.bounds.top)],
+                              'transform':[float(v) for v in tuple(ds.transform)[:6]],
+                          }
+                      records.append({
+                          'block':block,'id':item['id'],'filename':item['filename'],'url':url,
+                          'size_bytes':size,'sha256':h.hexdigest(),'etag':etag,
+                          'last_modified':last_modified,'content_length_header':content_length,
+                          'raster':meta,
+                      })
+                      print(json.dumps({'verified':item['id'],'block':block,'size':size,'sha256':h.hexdigest()}), flush=True)
+                  finally:
+                      p.unlink(missing_ok=True)
+
+          payload={
+              'protocol':c['protocol'],
+              'status':'pass_exact_expanded_chelsa_source_acquisition_before_any_expanded_chelsa_colour_alignment',
+              'dataset':c['dataset'],
+              'files':records,
+              'all_twelve_present':len(records)==12,
+              'flower_colour_files_opened':False,
+              'colour_join_performed':False,
+              'expanded_chelsa_statistic_computed':False,
+              'lineage':{
+                  'source_contract_sha256':hashlib.sha256(contract_path.read_bytes()).hexdigest()
+              }
+          }
+          out=Path('/tmp/chelsa-source-verification/global_rgfca_chelsa_expanded_source_verification_v1.json')
+          out.write_text(json.dumps(payload,indent=2)+'\n')
+          print(json.dumps({'status':payload['status'],'files':len(records)}), flush=True)
+          PY
+      - name: Require all fixed files verified
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/chelsa-source-verification/global_rgfca_chelsa_expanded_source_verification_v1.json')
+          x=json.loads(p.read_text())
+          if x.get('all_twelve_present') is not True or len(x.get('files',[])) != 12:
+              raise SystemExit('not all CHELSA files verified')
+          if x.get('colour_join_performed') is not False or x.get('expanded_chelsa_statistic_computed') is not False:
+              raise SystemExit('CHELSA source-only firewall violated')
+          if len({f['sha256'] for f in x['files']}) != 12:
+              raise SystemExit('unexpected duplicate CHELSA payloads')
+          print({'verified':12})
+          PY
+      - name: Upload compact immutable verification manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-expanded-chelsa-source-verification-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/chelsa-source-verification/global_rgfca_chelsa_expanded_source_verification_v1.json

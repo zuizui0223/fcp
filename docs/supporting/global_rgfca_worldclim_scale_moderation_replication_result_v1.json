@@ -1,0 +1,46 @@
+{
+  "protocol": "global-rgfca-worldclim-scale-moderation-replication-v1",
+  "status": "complete_global_rgfca_worldclim_scale_moderation_replication",
+  "inferential_role": {
+    "role": "independent_large_frame_replication_of_a_pre-existing_scale_moderation_hypothesis",
+    "postoutcome_relative_to_rgfca_worldclim_global_mean": true,
+    "not_a_rescue_of_primary_G1": true,
+    "not_a_rescue_of_species_disjoint_commonness": true,
+    "not_a_rescue_of_worldclim_global_mean": true,
+    "causal_language_allowed": false
+  },
+  "response_source": "completed global-rgfca-worldclim-edge-secondary-execution-v1 species effects",
+  "moderator": "mean_pairwise_H1_18x9_cell_centroid_great_circle_km",
+  "moderator_transform": "log1p",
+  "minimum_occupied_H1_cells": 3,
+  "evaluable_species": 266,
+  "observed_scale_moderation_spearman_rho": 0.023095450673632358,
+  "null_permutations": 999,
+  "null_indices_exact_0_998": true,
+  "null_mean": 0.000788777931602239,
+  "null_median": -0.001669200930531291,
+  "null_q025": -0.11918404050624912,
+  "null_q975": 0.12305473341505173,
+  "p_lower": 0.641,
+  "alpha": 0.05,
+  "supported": false,
+  "claim_ceiling": "The larger balanced RGFCA frame does not replicate the earlier suggested weakening of climate-colour coupling with geographic span.",
+  "execution_audit": {
+    "completed_worldclim_species_effects_replayed_within_1e_12": true,
+    "moderator_uses_colour": false,
+    "alternative_moderators_run": false,
+    "sensitivities_run": false,
+    "same_999_RGFCA_colour_nulls": true,
+    "same_200_outer_edge_schedule": true
+  },
+  "lineage": {
+    "contract_sha256": "612fd76eb803ced00b42a61e7d42d6ac0feb9f8ff6e269191f99eec933a3e08c",
+    "worldclim_result_sha256": "e31fe43d5c4c1f0147acf935d633d79218a89c119e012b697893d064c9a83b93",
+    "worldclim_species_sha256": "ff242607fbedb5b23fc3b628c95e5637d05dedfa215f4ef7f45031c20064e863",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  },
+  "files": {
+    "species": "/tmp/rgfca-scale-replication/global_rgfca_worldclim_scale_moderation_replication_species_v1.csv",
+    "null": "/tmp/rgfca-scale-replication/global_rgfca_worldclim_scale_moderation_replication_null_v1.csv"
+  }
+}

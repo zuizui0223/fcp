@@ -1,0 +1,66 @@
+{
+  "protocol": "global-rgfca-chelsa-expanded-source-acquisition-v1",
+  "status": "exact_postoutcome_secondary_chelsa_source_urls_frozen_before_any_expanded_chelsa_colour_alignment",
+  "date": "2026-09-06",
+  "role": "source acquisition and byte verification only; no flower-colour values may be opened or joined in this workflow",
+  "dataset": {
+    "provider": "CHELSA",
+    "version": "2.1",
+    "period": "1981-2010",
+    "dataset_family": "global climatologies and bioclimatic derivatives",
+    "license": "CC0 1.0",
+    "data_citation_doi": "10.16904/envidat.228",
+    "base_url": "https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/1981-2010/bio/"
+  },
+  "process_blocks": {
+    "thermal_regime": [
+      {"id":"bio01","filename":"CHELSA_bio1_1981-2010_V.2.1.tif"},
+      {"id":"bio04","filename":"CHELSA_bio4_1981-2010_V.2.1.tif"},
+      {"id":"bio05","filename":"CHELSA_bio5_1981-2010_V.2.1.tif"},
+      {"id":"bio06","filename":"CHELSA_bio6_1981-2010_V.2.1.tif"}
+    ],
+    "water_balance": [
+      {"id":"bio12","filename":"CHELSA_bio12_1981-2010_V.2.1.tif"},
+      {"id":"bio14","filename":"CHELSA_bio14_1981-2010_V.2.1.tif"},
+      {"id":"bio15","filename":"CHELSA_bio15_1981-2010_V.2.1.tif"},
+      {"id":"cmi_mean","filename":"CHELSA_cmi_mean_1981-2010_V.2.1.tif"}
+    ],
+    "atmospheric_energy_dryness": [
+      {"id":"vpd_mean","filename":"CHELSA_vpd_mean_1981-2010_V.2.1.tif"},
+      {"id":"rsds_mean","filename":"CHELSA_rsds_1981-2010_mean_V.2.1.tif"},
+      {"id":"gdd5","filename":"CHELSA_gdd5_1981-2010_V.2.1.tif"},
+      {"id":"sfcWind_mean","filename":"CHELSA_sfcWind_mean_1981-2010_V.2.1.tif"}
+    ]
+  },
+  "variable_semantics": {
+    "bio01": "mean annual near-surface air temperature",
+    "bio04": "temperature seasonality",
+    "bio05": "mean daily maximum near-surface air temperature of warmest month",
+    "bio06": "mean daily minimum near-surface air temperature of coldest month",
+    "bio12": "annual precipitation",
+    "bio14": "precipitation of driest month",
+    "bio15": "precipitation seasonality",
+    "cmi_mean": "mean climatic moisture index",
+    "vpd_mean": "mean vapor pressure deficit",
+    "rsds_mean": "mean surface downwelling shortwave radiation",
+    "gdd5": "growing degree day heat sum above 5 degrees C",
+    "sfcWind_mean": "mean near-surface wind speed"
+  },
+  "url_rule": "exact URL = base_url + frozen filename; no alternate CHELSA mirror or filename may be substituted after this contract",
+  "acquisition_rules": {
+    "download_all_twelve_exact_files_once_for_sha256_verification": true,
+    "record_sha256_size_and_GeoTIFF_metadata_for_every_file": true,
+    "all_twelve_required": true,
+    "download_failure_is_fail_closed_not_source_substitution": true,
+    "flower_colour_access_allowed": false,
+    "expanded_chelsa_alignment_allowed_in_source_acquisition": false,
+    "full_rasters_need_not_be_retained_as_GitHub_artifacts_because_the_verification_manifest_freezes_exact_URL_and_SHA256_and_downstream_must_redownload_and_reverify": true
+  },
+  "downstream": {
+    "panel_contract": "docs/supporting/global_rgfca_expanded_environmental_process_panel_contract_v1.json",
+    "blocks": ["thermal_regime","water_balance","atmospheric_energy_dryness"],
+    "standardization": "global terrestrial z-score per fixed raster",
+    "source_bytes_must_match_recorded_sha256_before_any_colour_alignment": true,
+    "role": "postoutcome secondary"
+  }
+}

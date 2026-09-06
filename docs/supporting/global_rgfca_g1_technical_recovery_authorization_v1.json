@@ -1,0 +1,9 @@
+{
+  "status": "authorize_exactly_one_global_rgfca_g1_same_runner_technical_recovery",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "recovery_contract_blob_sha": "3a339455dc7ab2a2c2d31692ccfed10523d4312d",
+  "maximum_attempts": 1,
+  "scientific_rule_change_allowed": false,
+  "g3_rerun_allowed": false,
+  "authorization_basis": "user explicitly requested verification/recovery to proceed while preserving the frozen scientific design"
+}

@@ -1,0 +1,36 @@
+{
+  "protocol": "global-rgfca-chelsa-expanded-source-acquisition-v1",
+  "status": "pass_exact_expanded_chelsa_source_acquisition_before_any_expanded_chelsa_colour_alignment",
+  "dataset": {
+    "provider": "CHELSA",
+    "version": "2.1",
+    "period": "1981-2010",
+    "dataset_family": "global climatologies and bioclimatic derivatives",
+    "license": "CC0 1.0",
+    "data_citation_doi": "10.16904/envidat.228",
+    "base_url": "https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/1981-2010/bio/"
+  },
+  "files": [
+    {"block":"thermal_regime","id":"bio01","filename":"CHELSA_bio1_1981-2010_V.2.1.tif","sha256":"f584314e12be7cd63d0e2292f4655173030e3e547ce36a2a97ecbdabc4f87a53","size_bytes":115490323},
+    {"block":"thermal_regime","id":"bio04","filename":"CHELSA_bio4_1981-2010_V.2.1.tif","sha256":"771b1037b33d46800608a96bd12c569755447aa0b8762a8a731fbc06a4f6125e","size_bytes":457053433},
+    {"block":"thermal_regime","id":"bio05","filename":"CHELSA_bio5_1981-2010_V.2.1.tif","sha256":"9f88f80555cebeb35ae277cfdd1b5bbb11de71050bdc44e1ee0e980f9c478a8d","size_bytes":126368334},
+    {"block":"thermal_regime","id":"bio06","filename":"CHELSA_bio6_1981-2010_V.2.1.tif","sha256":"fffa9e9948933a0e9b5fd4fb3e299e310e7e52e56785c7c493e1a543b44acfc1","size_bytes":117685874},
+    {"block":"water_balance","id":"bio12","filename":"CHELSA_bio12_1981-2010_V.2.1.tif","sha256":"070c2309ead1ae703652e87f1ca51ba390c9ddfd9a236944528ae8b1c53a4e9a","size_bytes":655151886},
+    {"block":"water_balance","id":"bio14","filename":"CHELSA_bio14_1981-2010_V.2.1.tif","sha256":"9871eee93986cafac449524173d8e721b340f1445035f42338e92ec6a5d3b628","size_bytes":178915498},
+    {"block":"water_balance","id":"bio15","filename":"CHELSA_bio15_1981-2010_V.2.1.tif","sha256":"1c45e31b3204be33a3005723163b9d84bda96f5152e9b1c629e6cae72ce011bd","size_bytes":188425245},
+    {"block":"water_balance","id":"cmi_mean","filename":"CHELSA_cmi_mean_1981-2010_V.2.1.tif","sha256":"5aa9f5f1aa14f8671807a73181c13aa55217ab1a653081111e691fa89c6cd283","size_bytes":244959851},
+    {"block":"atmospheric_energy_dryness","id":"vpd_mean","filename":"CHELSA_vpd_mean_1981-2010_V.2.1.tif","sha256":"35328724237339b2f8eb80f21adb7ee38f58aebd17bd18d1c271d563a18fe8e8","size_bytes":434549721},
+    {"block":"atmospheric_energy_dryness","id":"rsds_mean","filename":"CHELSA_rsds_1981-2010_mean_V.2.1.tif","sha256":"cc1ad14a70a1a940be3d01d918d4c3f7e35db95b86b12af9be5487e1bbc1fc7d","size_bytes":424287653},
+    {"block":"atmospheric_energy_dryness","id":"gdd5","filename":"CHELSA_gdd5_1981-2010_V.2.1.tif","sha256":"c4ad02ef85db9fc79a1f65d1ee5e1c72d7229c74574906c63bef39663047fb6c","size_bytes":452334119},
+    {"block":"atmospheric_energy_dryness","id":"sfcWind_mean","filename":"CHELSA_sfcWind_mean_1981-2010_V.2.1.tif","sha256":"d4b88b69c98ef50522163727766137a91bc2ffde1b0cedcf208b5230d1835f08","size_bytes":345940605}
+  ],
+  "raster_common_geometry": {"width":43200,"height":20880,"crs":"EPSG:4326","pixel_size_degree":0.0083333333},
+  "all_twelve_present": true,
+  "flower_colour_files_opened": false,
+  "colour_join_performed": false,
+  "expanded_chelsa_statistic_computed": false,
+  "source_run_id": 34018007041,
+  "source_artifact_id": 9984579378,
+  "source_artifact_digest": "sha256:6d6cea6e6ac66a0f7a064b5ace460b948739aa0a98a9a6a8d430facbe23edbb7",
+  "lineage": {"source_contract_sha256":"375b98895d42e0694ebd0e5f673e9fe9cfef5dad5ecbc319a51cd48436600e81"}
+}

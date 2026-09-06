@@ -1,0 +1,108 @@
+{
+  "protocol": "rgfca-observation-bias-robustness-v1",
+  "status": "complete_sampling_availability_bias_summary",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "cells": 162,
+  "layer_summary": {
+    "all_research_photo_records": {
+      "total_records": 53270601,
+      "zero_cells": 30,
+      "nonzero_cells": 132,
+      "maximum_cell_records": 7248189,
+      "maximum_cell_share_of_global_records": 0.13606358599183066,
+      "gini_across_equal_area_cells": 0.884955689504453,
+      "all_photo_effort_top_decile_cells_share_of_records": 0.8481322183693779,
+      "all_cells_quantiles": {
+        "q10": 0.0,
+        "q25": 108.25,
+        "median": 11051.0,
+        "q75": 130205.0,
+        "q90": 818473.7000000003
+      },
+      "nonzero_cell_quantiles": {
+        "q10": 125.40000000000002,
+        "q25": 2486.25,
+        "median": 30017.5,
+        "q75": 177983.5,
+        "q90": 955792.5000000007
+      }
+    },
+    "license_eligible_photo_records": {
+      "total_records": 40554393,
+      "zero_cells": 31,
+      "nonzero_cells": 131,
+      "maximum_cell_records": 5385100,
+      "maximum_cell_share_of_global_records": 0.1327870941133307,
+      "gini_across_equal_area_cells": 0.8822725891820107,
+      "all_photo_effort_top_decile_cells_share_of_records": 0.8417669819395398,
+      "all_cells_quantiles": {
+        "q10": 0.0,
+        "q25": 89.0,
+        "median": 8670.0,
+        "q75": 88865.75,
+        "q90": 664876.6000000001
+      },
+      "nonzero_cell_quantiles": {
+        "q10": 134.0,
+        "q25": 2276.0,
+        "median": 20893.0,
+        "q75": 142594.0,
+        "q90": 794776.0
+      }
+    },
+    "flowering_annotated_eligible_records": {
+      "total_records": 4049721,
+      "zero_cells": 34,
+      "nonzero_cells": 128,
+      "maximum_cell_records": 511776,
+      "maximum_cell_share_of_global_records": 0.1263731501503437,
+      "gini_across_equal_area_cells": 0.8846933506631052,
+      "all_photo_effort_top_decile_cells_share_of_records": 0.8334670462483712,
+      "all_cells_quantiles": {
+        "q10": 0.0,
+        "q25": 9.0,
+        "median": 1063.0,
+        "q75": 8603.5,
+        "q90": 56137.30000000006
+      },
+      "nonzero_cell_quantiles": {
+        "q10": 17.0,
+        "q25": 204.75,
+        "median": 2708.5,
+        "q75": 12046.0,
+        "q90": 76835.39999999998
+      }
+    }
+  },
+  "selection_filter_summary": {
+    "licence_eligible_fraction_across_defined_cells": {
+      "q10": 0.6674897188888016,
+      "q25": 0.7305475159906816,
+      "median": 0.7898845546714284,
+      "q75": 0.8557044837748746,
+      "q90": 0.9252674297374275
+    },
+    "flowering_annotation_fraction_given_licence_across_defined_cells": {
+      "q10": 0.0325097529258777,
+      "q25": 0.0620778504974414,
+      "median": 0.0950355610852166,
+      "q75": 0.13543084269784444,
+      "q90": 0.1972700498414137
+    },
+    "spearman_log_all_vs_log_license": 0.9990126045931315,
+    "spearman_log_all_vs_log_flowering_annotated": 0.9828959898276363,
+    "spearman_log_license_vs_log_flowering_annotated": 0.9837763459209579
+  },
+  "robustness_consequence": {
+    "primary_field_replaced_by_effort_correction": false,
+    "top_decile_high_effort_cells_deleted_in_frozen_sensitivity": 17,
+    "availability_layers_used_as_pre_frozen_negative_controls": true,
+    "same_species_conditioned_999_colour_null_required": true
+  },
+  "interpretation": "The equal-area public-photo frame is expected to be strongly heterogeneous. These summaries quantify that heterogeneity before any RGFCA colour field and define robustness covariates; they are not estimates of true biological sampling probabilities.",
+  "lineage": {
+    "cell_surface_sha256": "16a26b373157d92770b3d24a109efdd73062c684592e9c6cd7e0d0c320562707",
+    "sampling_availability_manifest_sha256": "bebb316e8fdc8e7074bf38acde551e43cee35a24be0f3f5b2bd97527ce1de192"
+  }
+}

@@ -1,0 +1,125 @@
+name: Global RGFCA expanded environmental panel finalization
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - .github/workflows/global-rgfca-expanded-environmental-panel-finalization.yml
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-expanded-environmental-panel-finalization-v1
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout frozen branch
+        uses: actions/checkout@v4
+        with:
+          ref: analysis/global-monte-carlo-barrier-atlas
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install finalizer dependency only
+        run: python -m pip install --disable-pip-version-check numpy
+
+      - name: Enforce frozen finalization contract and finalizer blob
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          p = Path('docs/supporting/global_rgfca_expanded_environmental_panel_finalization_contract_v1.json')
+          c = json.loads(p.read_text())
+          assert c['status'] == 'finalization_path_frozen_before_chelsa_and_edaphic_block_results_are_opened'
+          assert c['requirements']['family_size'] == 5
+          assert c['requirements']['multiplicity'] == 'Holm across exactly all five parent blocks'
+          assert c['execution_policy']['workflow_attempts_allowed'] == 1
+          expected = c['finalizer']['git_blob_sha']
+          actual = subprocess.check_output(['git','hash-object',c['finalizer']['path']], text=True).strip()
+          if actual != expected:
+              raise SystemExit(f'finalizer blob drift: {actual} != {expected}')
+          print('frozen finalizer verified', actual)
+          PY
+
+      - name: Recover exact five raw block artifacts from frozen run IDs
+        run: |
+          set -euo pipefail
+          mkdir -p incoming/terrain incoming/thermal incoming/water incoming/dryness incoming/edaphic
+          gh run download 34017934825 -n global-rgfca-earthenv-terrain-block-v1 -D incoming/terrain
+          gh run download 34019160099 -n global-rgfca-expanded-thermal_regime-block-v1 -D incoming/thermal
+          gh run download 34019160099 -n global-rgfca-expanded-water_balance-block-v1 -D incoming/water
+          gh run download 34019160099 -n global-rgfca-expanded-atmospheric_energy_dryness-block-v1 -D incoming/dryness
+          gh run download 34019187941 -n global-rgfca-expanded-edaphic-regime-block-v1 -D incoming/edaphic
+
+      - name: Require exact raw result files
+        run: |
+          set -euo pipefail
+          test -f incoming/terrain/global_rgfca_earthenv_terrain_block_result_v1.json
+          test -f incoming/thermal/global_rgfca_thermal_regime_block_result_v1.json
+          test -f incoming/water/global_rgfca_water_balance_block_result_v1.json
+          test -f incoming/dryness/global_rgfca_atmospheric_energy_dryness_block_result_v1.json
+          test -f incoming/edaphic/global_rgfca_edaphic_regime_block_result_v1.json
+
+      - name: Execute frozen five-block Holm finalizer once
+        run: |
+          set -euo pipefail
+          python scripts/analysis/finalize_global_rgfca_expanded_environmental_panel.py \
+            --terrain-structure incoming/terrain/global_rgfca_earthenv_terrain_block_result_v1.json \
+            --thermal-regime incoming/thermal/global_rgfca_thermal_regime_block_result_v1.json \
+            --water-balance incoming/water/global_rgfca_water_balance_block_result_v1.json \
+            --atmospheric-energy-dryness incoming/dryness/global_rgfca_atmospheric_energy_dryness_block_result_v1.json \
+            --edaphic-regime incoming/edaphic/global_rgfca_edaphic_regime_block_result_v1.json \
+            --output docs/supporting/global_rgfca_expanded_environmental_panel_final_result_v1.json
+
+      - name: Freeze exact raw block JSON inputs in repository
+        run: |
+          set -euo pipefail
+          cp incoming/terrain/global_rgfca_earthenv_terrain_block_result_v1.json docs/supporting/
+          cp incoming/thermal/global_rgfca_thermal_regime_block_result_v1.json docs/supporting/
+          cp incoming/water/global_rgfca_water_balance_block_result_v1.json docs/supporting/
+          cp incoming/dryness/global_rgfca_atmospheric_energy_dryness_block_result_v1.json docs/supporting/
+          cp incoming/edaphic/global_rgfca_edaphic_regime_block_result_v1.json docs/supporting/
+
+      - name: Commit exact raw inputs and final family result
+        run: |
+          set -euo pipefail
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add \
+            docs/supporting/global_rgfca_earthenv_terrain_block_result_v1.json \
+            docs/supporting/global_rgfca_thermal_regime_block_result_v1.json \
+            docs/supporting/global_rgfca_water_balance_block_result_v1.json \
+            docs/supporting/global_rgfca_atmospheric_energy_dryness_block_result_v1.json \
+            docs/supporting/global_rgfca_edaphic_regime_block_result_v1.json \
+            docs/supporting/global_rgfca_expanded_environmental_panel_final_result_v1.json
+          git diff --cached --exit-code && { echo 'Expected finalization outputs were not newly frozen'; exit 1; } || true
+          git commit -m 'Freeze five-block environmental Holm result'
+          git push origin HEAD:analysis/global-monte-carlo-barrier-atlas
+
+      - name: Upload immutable finalization bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-expanded-environmental-panel-final-v1
+          path: |
+            docs/supporting/global_rgfca_earthenv_terrain_block_result_v1.json
+            docs/supporting/global_rgfca_thermal_regime_block_result_v1.json
+            docs/supporting/global_rgfca_water_balance_block_result_v1.json
+            docs/supporting/global_rgfca_atmospheric_energy_dryness_block_result_v1.json
+            docs/supporting/global_rgfca_edaphic_regime_block_result_v1.json
+            docs/supporting/global_rgfca_expanded_environmental_panel_final_result_v1.json
+          if-no-files-found: error
+          retention-days: 90

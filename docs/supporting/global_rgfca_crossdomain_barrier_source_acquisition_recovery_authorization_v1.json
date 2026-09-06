@@ -1,0 +1,15 @@
+{
+  "protocol": "global-rgfca-crossdomain-barrier-source-acquisition-recovery-authorization-v1",
+  "status": "authorize_exactly_one_same_source_barrier_http_recovery",
+  "date": "2026-09-06",
+  "recovery_contract": {
+    "path": "docs/supporting/global_rgfca_crossdomain_barrier_source_acquisition_technical_recovery_v1.json",
+    "git_blob_sha": "f26d0736552079049d36d19f7afc19e71dc8980f"
+  },
+  "recovery_attempts_allowed": 1,
+  "same_source_urls_required": true,
+  "source_substitution_allowed": false,
+  "flower_colour_access_allowed": false,
+  "interaction_statistic_allowed": false,
+  "favourable_rerun_allowed": false
+}

@@ -1,0 +1,137 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-process-panel-v1",
+  "status": "complete_edaphic_regime_block_raw_pending_full_panel_holm",
+  "block": "edaphic_regime",
+  "inferential_role": {
+    "role": "postoutcome_secondary_environmental_process_validation",
+    "not_part_of_original_preoutcome_G3_primary_family": true,
+    "cannot_rescue_or_reclassify_G1": true,
+    "cannot_reclassify_species_disjoint_commonness": true,
+    "cannot_reclassify_RESOLVE_or_WorldClim_four_axis_results": true,
+    "causal_language_allowed": false
+  },
+  "final_panel_support_decision_available": false,
+  "reason_final_support_pending": "Holm adjustment requires all evaluable fixed blocks in the nonselective five-block panel",
+  "predictor_source": "exact official-checksum-verified SoilGrids 2.0 5-km aggregated mean, thickness-weighted 0-30 cm",
+  "axes": [
+    "phh2o_0_30cm",
+    "clay_0_30cm",
+    "soc_0_30cm",
+    "cec_0_30cm"
+  ],
+  "observed_mean_species_partial_rho": 0.005472536464222981,
+  "observed_median_species_partial_rho": 0.0056473722187342385,
+  "observed_positive_species_fraction": 0.5257452574525745,
+  "n_evaluable_species": 369,
+  "minimum_evaluable_species": 30,
+  "total_scheduled_edge_occurrences": 1981590,
+  "block_evaluable_edge_occurrences": 1158268,
+  "block_edge_occurrence_coverage_fraction": 0.5845144555634617,
+  "joint_photo_complete_count": 15893,
+  "joint_photo_complete_fraction": 0.7418315907393578,
+  "source_audit": {
+    "phh2o": {
+      "global_finite_derived_cells": 5128996,
+      "global_mean_derived": 64.82060553371457,
+      "global_sd_ddof0_derived": 11.621318163584386,
+      "global_min_derived": 33.5,
+      "global_max_derived": 98.33333333333333,
+      "photo_complete_count": 16850,
+      "photo_complete_fraction": 0.7865011202389843,
+      "width": 7962,
+      "height": 2902,
+      "crs": "ESRI:54052",
+      "depth_weights": {
+        "0-5cm": 0.16666666666666666,
+        "5-15cm": 0.3333333333333333,
+        "15-30cm": 0.5
+      }
+    },
+    "clay": {
+      "global_finite_derived_cells": 5129337,
+      "global_mean_derived": 258.5553383085052,
+      "global_sd_ddof0_derived": 82.11993045433219,
+      "global_min_derived": 11.0,
+      "global_max_derived": 825.5,
+      "photo_complete_count": 16853,
+      "photo_complete_fraction": 0.7866411501120238,
+      "width": 7962,
+      "height": 2902,
+      "crs": "ESRI:54052",
+      "depth_weights": {
+        "0-5cm": 0.16666666666666666,
+        "5-15cm": 0.3333333333333333,
+        "15-30cm": 0.5
+      }
+    },
+    "soc": {
+      "global_finite_derived_cells": 5121222,
+      "global_mean_derived": 341.3012435964178,
+      "global_sd_ddof0_derived": 387.4111204746543,
+      "global_min_derived": 3.333333333333333,
+      "global_max_derived": 4865.5,
+      "photo_complete_count": 16927,
+      "photo_complete_fraction": 0.790095220313667,
+      "width": 7962,
+      "height": 2902,
+      "crs": "ESRI:54052",
+      "depth_weights": {
+        "0-5cm": 0.16666666666666666,
+        "5-15cm": 0.3333333333333333,
+        "15-30cm": 0.5
+      }
+    },
+    "cec": {
+      "global_finite_derived_cells": 5128958,
+      "global_mean_derived": 215.35711665670362,
+      "global_sd_ddof0_derived": 91.84857273995733,
+      "global_min_derived": 14.0,
+      "global_max_derived": 1037.3333333333333,
+      "photo_complete_count": 16850,
+      "photo_complete_fraction": 0.7865011202389843,
+      "width": 7962,
+      "height": 2902,
+      "crs": "ESRI:54052",
+      "depth_weights": {
+        "0-5cm": 0.16666666666666666,
+        "5-15cm": 0.3333333333333333,
+        "15-30cm": 0.5
+      }
+    }
+  },
+  "null_permutations": 999,
+  "null_indices_exact_0_998": true,
+  "null_mean": 0.00013683087454056844,
+  "null_q025": -0.010434669677777097,
+  "null_q975": 0.010271550800677046,
+  "raw_p_upper": 0.148,
+  "raw_nominal_positive_before_panel_Holm": false,
+  "alpha": 0.05,
+  "p_holm": null,
+  "panel_supported": null,
+  "individual_variable_decomposition_open": false,
+  "causal_language_allowed": false,
+  "execution_audit": {
+    "all_200_outer_realizations_used": true,
+    "same_RGFCA_edge_geometry": true,
+    "repeated_edge_occurrences_deduplicated": false,
+    "missing_environment_recoded_to_zero": false,
+    "four_fixed_derived_soil_axes_only": true,
+    "same_999_RGFCA_colour_nulls": true,
+    "block_result_cannot_stop_later_fixed_blocks": true
+  },
+  "lineage": {
+    "panel_contract_sha256": "f81690c19684be611d0bf4fb03b5196da1d377174df7b79722ae07d36324c659",
+    "panel_execution_sha256": "ca5da04cf4ee6f1f5dbc22102e4a9ad7ab12408fc3537bb59a05a35995725341",
+    "soil_source_verification_sha256": "02e005380adfaa16395a0e3d8a7e8dfc4f02b925d9b4636b676faf6b0ead1c05",
+    "measurement_manifest_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "primary_g1_result_sha256": "3cddceded039f802f31f207820f6355424bdc081d27576d3b3887d7ee4334906",
+    "species_result_sha256": "ffe9af0d97c67359d46648213d7a2d6954e4e79ea869371c70b233833aee15c4",
+    "null_result_sha256": "171de35ff9336529aa2c0026700e533d6367a15067bdd444b1648c032f4c15dc"
+  },
+  "files": {
+    "species": "/tmp/edaphic-result/global_rgfca_edaphic_regime_block_species_v1.csv",
+    "null": "/tmp/edaphic-result/global_rgfca_edaphic_regime_block_null_v1.csv"
+  }
+}

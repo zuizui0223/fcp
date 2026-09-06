@@ -1,0 +1,34 @@
+{
+  "status": "complete_design_motivation_audit",
+  "source": "docs/supporting/random_photo_first_h4_within_species_capacity_v1.json",
+  "source_measurement_sha256": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+  "counts": {
+    "measured_photos": 20845,
+    "candidate_species": 8989,
+    "classifiable_photos": 10103,
+    "classifiable_species": 5144,
+    "species_exactly_1_classifiable_photo": 3664,
+    "species_exactly_2_classifiable_photos": 728,
+    "species_with_3_or_4_classifiable_photos": 396,
+    "species_with_5_to_9_classifiable_photos": 245,
+    "species_with_10_or_more_classifiable_photos": 111,
+    "species_with_20_or_more_classifiable_photos": 35
+  },
+  "derived": {
+    "candidate_photos_per_candidate_species_mean": 2.318945377683836,
+    "classifiable_photos_per_candidate_species_mean": 1.12392924685727,
+    "classifiable_photos_per_nonzero_species_mean": 1.9640357698289268,
+    "fraction_candidate_species_ge_2_classifiable": 0.16464567805095115,
+    "fraction_candidate_species_ge_3_classifiable": 0.08365780398264545,
+    "fraction_candidate_species_ge_5_classifiable": 0.039603960396039604,
+    "fraction_candidate_species_ge_10_classifiable": 0.012348425853821338,
+    "fraction_nonzero_species_that_are_singletons": 0.7122861586314152
+  },
+  "null_information_note": "The historical H1 null permutes classifiable colour labels within species. A one-classifiable-photo species is invariant under this permutation and therefore contributes no within-species label-exchange information; two- and three-photo species contribute very limited within-species spatial information.",
+  "historical_h1": {
+    "p_upper": 0.413,
+    "permitted_interpretation": "No excess recurrent boundary concentration was detected in the globally broad but within-species sparse historical frame.",
+    "forbidden_overinterpretation": "The result is not evidence that terrestrial geographic barriers never organize flower colour."
+  },
+  "design_consequence": "Global coverage and within-species information must be separated. The new atlas uses a metadata-wide census plus an adequately replicated inferential layer, with balanced repeated Monte Carlo species/photo inclusion rather than one monolithic all-photo analysis."
+}

@@ -1,0 +1,30 @@
+{
+  "protocol": "global-rgfca-worldclim-edge-secondary-artifact-recovery-v1",
+  "status": "postresult_technical_artifact_recovery_only",
+  "completed_scientific_run_id": 34011748942,
+  "completed_scientific_job_id": 101428691087,
+  "artifact_id": 9982869598,
+  "artifact_name": "global-rgfca-worldclim-edge-secondary-v1",
+  "artifact_zip_sha256": "46fec33da6027b9f634c5342b961eea7c0173050f6bbd68f1292f3f302acb23e",
+  "scientific_execution_complete": true,
+  "all_999_nulls_complete": true,
+  "result_already_opened": true,
+  "result_summary": {
+    "observed_mean_species_partial_rho": -0.0019335618026886856,
+    "p_upper": 0.699,
+    "n_evaluable_species": 367,
+    "secondary_supported": false
+  },
+  "required_payload_sha256": {
+    "global_rgfca_worldclim_edge_secondary_result_v1.json": "e31fe43d5c4c1f0147acf935d633d79218a89c119e012b697893d064c9a83b93",
+    "global_rgfca_worldclim_edge_secondary_species_v1.csv": "ff242607fbedb5b23fc3b628c95e5637d05dedfa215f4ef7f45031c20064e863",
+    "global_rgfca_worldclim_edge_secondary_null_v1.csv": "5f1cf703f5afc45209dd8a1a9bbf6a2b4d33b51e037d2ce64f3ac9231941c93a"
+  },
+  "allowed_action": "download the immutable completed Actions artifact, verify all exact hashes, and commit those exact three files to the current analysis branch",
+  "analysis_rerun_allowed": false,
+  "scientific_code_change_allowed": false,
+  "statistic_recalculation_allowed": false,
+  "result_editing_allowed": false,
+  "reason_original_commit_failed": "unrelated github-actions bot commit 45da597412d538830510a57f8318efd4b33cd465 advanced the branch while the scientific run was active, triggering the intended ambiguity guard",
+  "claim_boundary": "This operation only preserves exact completed result bytes. It cannot change, rerun, reinterpret, select, or improve the biological result."
+}

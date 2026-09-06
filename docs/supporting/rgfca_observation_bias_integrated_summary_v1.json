@@ -1,0 +1,131 @@
+{
+  "protocol": "rgfca-observation-bias-integrated-summary-v1",
+  "status": "complete_precolour_integrated_observation_bias_summary",
+  "candidate_image_pixels_opened": false,
+  "flower_colour_used": false,
+  "cells": 162,
+  "global_counts": {
+    "target_group_records": 53270601,
+    "all_taxa_platform_records": 154803786,
+    "target_group_fraction_of_all_taxa_records": 0.3441169132646407,
+    "target_group_zero_cells": 30,
+    "platform_zero_cells": 4
+  },
+  "equal_area_concentration": {
+    "target_group_gini_recomputed": 0.884955689504453,
+    "platform_gini_recomputed": 0.8710772248725362,
+    "spearman_log_target_vs_log_platform": 0.9843678407489795,
+    "pearson_log_target_vs_log_platform": 0.9814321764417965,
+    "ols_log_target_on_log_platform": {
+      "intercept": -2.3381528892773624,
+      "slope": 1.071613427249015,
+      "r_squared_descriptive": 0.9632091169552806,
+      "note": "Descriptive equal-area-cell regression only; spatial autocorrelation is not used for inference here."
+    }
+  },
+  "top_decile_geometry": {
+    "n_cells_each": 17,
+    "frozen_target_group_top_cells": [
+      34,
+      35,
+      46,
+      111,
+      112,
+      123,
+      128,
+      129,
+      130,
+      131,
+      134,
+      135,
+      136,
+      152,
+      153,
+      154,
+      155
+    ],
+    "platform_top_cells": [
+      34,
+      35,
+      52,
+      94,
+      111,
+      112,
+      123,
+      128,
+      129,
+      130,
+      131,
+      134,
+      135,
+      136,
+      152,
+      153,
+      154
+    ],
+    "intersection_cells": [
+      34,
+      35,
+      111,
+      112,
+      123,
+      128,
+      129,
+      130,
+      131,
+      134,
+      135,
+      136,
+      152,
+      153,
+      154
+    ],
+    "intersection_count": 15,
+    "union_count": 19,
+    "jaccard": 0.7894736842105263,
+    "target_records_share_inside_platform_top17": 0.8376997473709749,
+    "platform_records_share_inside_frozen_target_top17": 0.8097592974890162
+  },
+  "target_fraction_across_platform_nonzero_cells": {
+    "q10": 0.0,
+    "q25": 0.10330767951924727,
+    "median": 0.19939918361486908,
+    "q75": 0.36306808050412165,
+    "q90": 0.4609861872933261
+  },
+  "platform_conditioned_target_residual": {
+    "quantiles": {
+      "q10": -1.259962823897951,
+      "q25": -0.4693275416079128,
+      "median": 0.10979541203385823,
+      "q75": 0.5335428376773075,
+      "q90": 0.9636491696912775
+    },
+    "largest_positive_cell_ids": [
+      20,
+      21,
+      31,
+      49,
+      8,
+      11,
+      19,
+      126,
+      74,
+      92
+    ],
+    "largest_negative_cell_ids": [
+      107,
+      14,
+      0,
+      4,
+      1,
+      9,
+      15,
+      13,
+      2,
+      3
+    ],
+    "interpretation": "Residuals are descriptive target-group over/under-representation relative to platform-wide record density, not corrected flower-colour weights."
+  },
+  "interpretation": "Platform-wide and target-group recording intensity are compared before any RGFCA colour outcome. High concordance indicates that generic platform activity is a major component of the target-group availability surface; remaining residual structure can also contain biological target-group availability and unmeasured observation processes."
+}

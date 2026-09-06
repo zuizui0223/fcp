@@ -1,0 +1,47 @@
+{
+  "protocol": "global-monte-carlo-location-blind-measurement-v1",
+  "status": "complete_global_location_blind_measurement_and_join",
+  "candidate_pool_rows": 100000,
+  "candidate_full_target_species": 1000,
+  "measurement_species_budget": 500,
+  "measurement_species_selection_seed": 20260918,
+  "measurement_taxon_id_sha256": "c32fbb78f0d3165e9ed1008665083f1a8c879f3e508bfff3713fb01c4fc4514a",
+  "frozen_measurement_rows": 50000,
+  "frozen_measurement_species": 500,
+  "frozen_candidate_rows": 50000,
+  "frozen_species": 500,
+  "selected_raw_photo_target": 100,
+  "partition_receipts": 256,
+  "terminal_result_rows": 50000,
+  "joined_rows": 50000,
+  "classifiable_rows": 25377,
+  "mixed_uncertain_rows": 24623,
+  "coordinate_colour_join_opened_after_complete_measurement": true,
+  "rgfca_colour_columns": [
+    "colour_white",
+    "colour_yellow_orange",
+    "colour_red_pink",
+    "colour_blue_purple"
+  ],
+  "postmeasurement_gate": {
+    "minimum_classifiable_photos_per_species": 40,
+    "evaluable_species": 369,
+    "required_species": 250,
+    "pass": true,
+    "decision": "authorize_frozen_global_monte_carlo_g1_g3_inference_under_separate_exact_authorization"
+  },
+  "measurement_infrastructure_source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+  "g1_g3_inference_run": false,
+  "external_overlay_opened": false,
+  "lineage": {
+    "candidate_photos_sha256": "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2",
+    "measurement_budget_amendment_sha256": "d893c02313a9e2c5db3603ef312063ac9235a6423e681eb7052f0b8c0a22dfd6",
+    "execution_contract_sha256": "e549e083e305265dbc553cfc550c2e912c5786a67de0ce55620e7aeabba64f1f",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "species_support_sha256": "b66054bfc0157e40a2fa89da672a2b946056832c7c6b503153450895f2569a72"
+  },
+  "files": {
+    "measured_table": "data/derived/global_monte_carlo_measured_photos_v1.csv",
+    "species_support": "data/derived/global_monte_carlo_measurement_species_support_v1.csv"
+  }
+}

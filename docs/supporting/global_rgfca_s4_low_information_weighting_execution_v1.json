@@ -1,0 +1,81 @@
+{
+  "protocol": "global-rgfca-s4-low-information-weighting-execution-v1",
+  "status": "postoutcome_methodological_execution_frozen_before_any_s4_simulation_result",
+  "date": "2026-09-06",
+  "parent_contract": "docs/supporting/global_rgfca_design_power_identifiability_simulation_contract_v1.json",
+  "parent_section": "S4_low_information_weighting_simulation",
+  "role": "Quantify how heterogeneous species-level information changes the sampling spread of an across-species mean under a true-zero spatial-colour association. This cannot retest or rescue H6/H6b.",
+  "source_frame": {
+    "h6b_contract": "docs/supporting/random_photo_first_h6b_photo_level_null_diagnostic_contract_v1.json",
+    "h6b_runner": "scripts/analysis/run_random_photo_first_h6b_photo_level_null_diagnostic.py",
+    "target_species_rule": "exact completed H6b sparse n>=5 photos, >=3 occupied H1 cells, >=2 morph levels frame",
+    "expected_species": 188,
+    "reliable_species_rule": "exact completed H6/H6b n>=10 photos, >=5 occupied H1 cells, >=2 morph levels frame",
+    "expected_reliable_species": 74,
+    "species_information": "cell-pair count from the outcome-blind spatial sampling geometry and the species-specific empirical sampling variance of rho from the exact H6b within-species photo-level colour permutation null",
+    "observed_species_rho_used_to_set_simulation": false
+  },
+  "empirical_sampling_distributions": {
+    "per_species_null_recomputation": "reuse exact H6b prepare_species_photo_null for every one of the 188 fixed target species",
+    "h6b_permutations_per_species": 999,
+    "h6b_seed": 20260908,
+    "species_null_variance": "sample variance ddof=1 across that species' 999 null rho values",
+    "zero_center_before_simulation": true,
+    "zero_center_rule": "subtract each species' own mean across its 999 H6b null rho values before resampling; this enforces the S4 true-mean-zero condition without changing its marginal heteroskedasticity or non-Gaussian shape"
+  },
+  "simulation": {
+    "replicates": 100000,
+    "seed": 2026090604,
+    "draw_rule": "for every replicate and every species, independently sample one value with replacement from that species' 999 zero-centered empirical H6b null rho values",
+    "cross_species_dependence": "none imposed; the target is information heterogeneity rather than environmental or taxonomic covariance",
+    "estimators": [
+      {
+        "id": "equal_species_188",
+        "weights": "1/188 for every target species"
+      },
+      {
+        "id": "pair_count_weighted_188",
+        "weights": "fixed cell_pairs divided by total cell_pairs across the 188 target species"
+      },
+      {
+        "id": "inverse_null_variance_188",
+        "weights": "1/species_null_variance normalized to sum 1; no floor or truncation unless a zero/nonfinite variance makes the simulation not evaluable"
+      },
+      {
+        "id": "reliable_74_equal_species",
+        "weights": "1/74 for the fixed reliable H6 primary frame only"
+      }
+    ]
+  },
+  "fixed_outputs": {
+    "per_estimator": [
+      "simulation_mean",
+      "simulation_sd",
+      "q005",
+      "q025",
+      "q975",
+      "q995",
+      "q95_absolute_mean",
+      "probability_abs_mean_ge_0_025",
+      "probability_abs_mean_ge_0_05",
+      "probability_abs_mean_ge_0_10",
+      "effective_species_number_1_over_sum_w2"
+    ],
+    "comparisons": [
+      "variance_ratio_equal188_to_inverse_variance188",
+      "variance_ratio_paircount188_to_inverse_variance188",
+      "variance_ratio_equal188_to_reliable74",
+      "spearman_log1p_cell_pairs_vs_species_null_sd"
+    ]
+  },
+  "anti_fishing": {
+    "replicate_change_after_result": false,
+    "seed_change_after_result": false,
+    "weight_floor_search": false,
+    "species_subset_search": false,
+    "threshold_search": false,
+    "observed_H6_effect_used_as_simulation_target": false,
+    "favourable_rerun": false
+  },
+  "claim_ceiling": "May show that equal-species aggregation is more or less noisy than geometry/information-weighted alternatives under the completed H6b sampling structure. It cannot establish a biological mean effect, invalidate equal weighting generally, or change any completed H6/H6b support decision."
+}

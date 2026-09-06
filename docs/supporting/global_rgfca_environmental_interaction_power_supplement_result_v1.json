@@ -1,0 +1,109 @@
+{
+  "decision_guard": {
+    "family_of_one_retest_used": false,
+    "observed_interaction_family_reclassified": false,
+    "variable_level_decomposition_opened": false
+  },
+  "effect_grid": [
+    0.0,
+    0.0025,
+    0.005,
+    0.0075,
+    0.01,
+    0.015,
+    0.02
+  ],
+  "family_size": 10,
+  "features": [
+    "thermal_regime_x_water_balance",
+    "thermal_regime_x_atmospheric_energy_dryness",
+    "thermal_regime_x_edaphic_regime",
+    "thermal_regime_x_terrain_structure",
+    "water_balance_x_atmospheric_energy_dryness",
+    "water_balance_x_edaphic_regime",
+    "water_balance_x_terrain_structure",
+    "atmospheric_energy_dryness_x_edaphic_regime",
+    "atmospheric_energy_dryness_x_terrain_structure",
+    "edaphic_regime_x_terrain_structure"
+  ],
+  "mde_grid": [
+    {
+      "maximum_grid_power": 0.99583,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.015,
+      "target_interaction": "thermal_regime_x_water_balance"
+    },
+    {
+      "maximum_grid_power": 0.99908,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.015,
+      "target_interaction": "thermal_regime_x_atmospheric_energy_dryness"
+    },
+    {
+      "maximum_grid_power": 0.90945,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.02,
+      "target_interaction": "thermal_regime_x_edaphic_regime"
+    },
+    {
+      "maximum_grid_power": 0.99712,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.015,
+      "target_interaction": "thermal_regime_x_terrain_structure"
+    },
+    {
+      "maximum_grid_power": 1.0,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.015,
+      "target_interaction": "water_balance_x_atmospheric_energy_dryness"
+    },
+    {
+      "maximum_grid_power": 0.88226,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.02,
+      "target_interaction": "water_balance_x_edaphic_regime"
+    },
+    {
+      "maximum_grid_power": 0.99909,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.015,
+      "target_interaction": "water_balance_x_terrain_structure"
+    },
+    {
+      "maximum_grid_power": 0.86172,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.02,
+      "target_interaction": "atmospheric_energy_dryness_x_edaphic_regime"
+    },
+    {
+      "maximum_grid_power": 0.99917,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.015,
+      "target_interaction": "atmospheric_energy_dryness_x_terrain_structure"
+    },
+    {
+      "maximum_grid_power": 0.88717,
+      "minimum_grid_effect_for_holm_power_ge_0_8": 0.02,
+      "target_interaction": "edaphic_regime_x_terrain_structure"
+    }
+  ],
+  "null_rows": 999,
+  "null_source_sha256": "97bfdc641255ed60d4c2a12bdb3eef7d84967128025abc2f68ba2dcb689609d7",
+  "observed_reference_positions": {
+    "thermal_regime_x_atmospheric_energy_dryness": {
+      "nearest_lower_grid_effect": 0.0025,
+      "nearest_lower_holm_power": 0.02547,
+      "nearest_upper_grid_effect": 0.005,
+      "nearest_upper_holm_power": 0.08755,
+      "observed_effect": 0.004582406079856096
+    },
+    "thermal_regime_x_water_balance": {
+      "nearest_lower_grid_effect": 0.005,
+      "nearest_lower_holm_power": 0.05206,
+      "nearest_upper_grid_effect": 0.0075,
+      "nearest_upper_holm_power": 0.19097,
+      "observed_effect": 0.006887024324457337
+    },
+    "water_balance_x_terrain_structure": {
+      "nearest_lower_grid_effect": 0.0075,
+      "nearest_lower_holm_power": 0.17105,
+      "nearest_upper_grid_effect": 0.01,
+      "nearest_upper_holm_power": 0.39285,
+      "observed_effect": 0.00821653847160954
+    }
+  },
+  "protocol": "global-rgfca-environmental-interaction-power-supplement-v1",
+  "simulation_replicates_per_target": 100000,
+  "status": "complete_exact_joint_null_interaction_family_power_supplement"
+}

@@ -1,0 +1,99 @@
+name: Global RGFCA S4 low-information weighting simulation
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_s4_low_information_weighting_authorization_v1.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-rgfca-s4-low-information-weighting-simulation
+  cancel-in-progress: false
+
+jobs:
+  s4:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PYTHONUNBUFFERED: "1"
+      PYTHONHASHSEED: "0"
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install package
+        run: |
+          python -m pip install -e .
+      - name: Enforce frozen one-shot S4
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          test "$RUN_ATTEMPT" = "1" || { echo "S4 favourable reruns forbidden"; exit 1; }
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          a=json.loads(Path('docs/supporting/global_rgfca_s4_low_information_weighting_authorization_v1.json').read_text())
+          c=json.loads(Path('docs/supporting/global_rgfca_s4_low_information_weighting_execution_v1.json').read_text())
+          if a.get('status')!='authorize_exactly_one_s4_low_information_weighting_simulation': raise SystemExit('auth drift')
+          if a.get('workflow_attempts_allowed')!=1 or a.get('favourable_rerun_allowed') is not False: raise SystemExit('retry drift')
+          if c.get('status')!='postoutcome_methodological_execution_frozen_before_any_s4_simulation_result': raise SystemExit('contract drift')
+          if c['simulation']['replicates']!=100000 or c['simulation']['seed']!=2026090604: raise SystemExit('simulation drift')
+          if c['empirical_sampling_distributions']['h6b_permutations_per_species']!=999 or c['empirical_sampling_distributions']['h6b_seed']!=20260908: raise SystemExit('H6b null drift')
+          for item in (a['contract'],a['runner']):
+              actual=subprocess.check_output(['git','hash-object',item['path']],text=True).strip()
+              if actual!=item['git_blob_sha']: raise SystemExit(f"blob drift {item['path']}: {actual}")
+          print({'gate':'pass','species':188,'reliable':74,'reps':100000})
+          PY
+      - name: Compile frozen runner
+        run: python -m py_compile scripts/analysis/run_global_rgfca_s4_low_information_weighting_simulation.py
+      - name: Run S4 simulation once
+        run: |
+          mkdir -p /tmp/s4
+          python scripts/analysis/run_global_rgfca_s4_low_information_weighting_simulation.py \
+            --output-result /tmp/s4/global_rgfca_s4_low_information_weighting_result_v1.json \
+            --output-species /tmp/s4/global_rgfca_s4_low_information_weighting_species_v1.csv \
+            --output-draws /tmp/s4/global_rgfca_s4_low_information_weighting_draws_v1.csv \
+            --batch-size 5000
+      - name: Validate no biological reclassification
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/s4/global_rgfca_s4_low_information_weighting_result_v1.json').read_text())
+          if r.get('status')!='complete_frozen_s4_low_information_weighting_simulation': raise SystemExit('incomplete S4')
+          if r.get('target_species')!=188 or r.get('reliable_species')!=74: raise SystemExit('frame drift')
+          if r.get('simulation_replicates')!=100000 or r.get('simulation_seed')!=2026090604: raise SystemExit('simulation settings drift')
+          if r.get('H6_or_H6b_reclassified') is not False: raise SystemExit('biological rescue detected')
+          if set(r.get('estimators',{})) != {'equal_species_188','pair_count_weighted_188','inverse_null_variance_188','reliable_74_equal_species'}: raise SystemExit('estimator family drift')
+          print({'guard':'pass','comparisons':r['comparisons']})
+          PY
+      - name: Commit compact S4 outputs
+        env:
+          BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          cp /tmp/s4/global_rgfca_s4_low_information_weighting_result_v1.json docs/supporting/global_rgfca_s4_low_information_weighting_result_v1.json
+          cp /tmp/s4/global_rgfca_s4_low_information_weighting_species_v1.csv data/derived/global_rgfca_s4_low_information_weighting_species_v1.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_s4_low_information_weighting_result_v1.json data/derived/global_rgfca_s4_low_information_weighting_species_v1.csv
+          git commit -m "Freeze S4 low-information weighting simulation"
+          git pull --rebase origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-s4-low-information-weighting-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/s4/

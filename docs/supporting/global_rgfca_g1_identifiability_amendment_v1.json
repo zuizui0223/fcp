@@ -1,0 +1,63 @@
+{
+  "protocol": "global-rgfca-g1-identifiability-amendment-v1",
+  "status": "interpretive_amendment_frozen_after_design_simulation_without_primary_reclassification",
+  "date": "2026-09-06",
+  "trigger": {
+    "design_simulation": "docs/supporting/global_rgfca_design_power_identifiability_simulation_result_v1.json",
+    "scenario_table": "data/derived/global_rgfca_design_power_s1_v1.csv",
+    "finding": "The frozen G1 concentration statistic has high power against strong species-specific spatial boundaries even when shared_species_fraction=0, because the within-species colour-permutation null removes species-specific spatial colour structure as well as cross-species alignment."
+  },
+  "exact_simulation_examples": [
+    {
+      "frame": "actual_classifiable",
+      "shared_species_fraction": 0.0,
+      "signal_amplitude": 0.5,
+      "power": 0.42
+    },
+    {
+      "frame": "actual_classifiable",
+      "shared_species_fraction": 0.0,
+      "signal_amplitude": 1.0,
+      "power": 1.0
+    },
+    {
+      "frame": "actual_classifiable",
+      "shared_species_fraction": 0.0,
+      "signal_amplitude": 2.0,
+      "power": 1.0
+    }
+  ],
+  "interpretive_partition": {
+    "G1_concentration_test": "Evidence about aggregate spatial organization/concentration of within-species flower-colour discontinuity relative to a null with no within-species colour-geography association. G1 alone is not an identifiable test of shared absolute global boundary coordinates.",
+    "species_disjoint_commonness_test": "Required existing test for whether discontinuity locations learned from one species subset predict absolute global coordinates for independent species.",
+    "species_disjoint_completed_result": "docs/supporting/global_rgfca_species_disjoint_commonness_result_v1.json",
+    "species_disjoint_decision": "no_species_disjoint_support_for_common_boundary_architecture"
+  },
+  "primary_decisions": {
+    "G1_p": 0.07,
+    "G1_support": false,
+    "G1_reclassified": false,
+    "prespecified_robustness_reclassified": false,
+    "species_disjoint_reclassified": false
+  },
+  "language_rules": {
+    "allowed_for_G1_alone": [
+      "aggregate spatial concentration of within-species flower-colour discontinuity",
+      "directional excess spatial organization relative to within-species colour permutation"
+    ],
+    "not_allowed_for_G1_alone": [
+      "shared global boundary coordinates",
+      "common boundary architecture across species",
+      "universal recurrent transition locations"
+    ],
+    "common_coordinate_claim_requires": "independent species-disjoint or another structure-preserving alignment test"
+  },
+  "future_direct_alignment_extension": {
+    "status": "methodological_option_not_yet_an_observed_result",
+    "question": "Do species-specific discontinuity fields align in absolute geography more than expected when each species' internal spatial colour structure is preserved?",
+    "preferred_null_principle": "preserve each species' internal colour-geography structure, sampling geometry, edge ranks and field shape while randomizing its absolute placement/alignment independently of other species",
+    "warning": "Any concrete rotation/translation scheme must be frozen before its observed alignment statistic is computed and must not be chosen from favourable observed locations.",
+    "may_rescue_G1": false
+  },
+  "claim_ceiling": "The combined evidence may distinguish aggregate within-species spatial organization from common cross-species geographic coordinates. This amendment changes interpretation precision, not any frozen support decision."
+}

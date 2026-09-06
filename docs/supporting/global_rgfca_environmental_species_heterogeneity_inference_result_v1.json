@@ -1,0 +1,461 @@
+{
+  "protocol": "global-rgfca-environmental-species-heterogeneity-inference-v1",
+  "status": "complete_exact_shared_null_environmental_species_heterogeneity_inference",
+  "inferential_role": "postoutcome_exploratory_heterogeneity_not_mean_effect_rescue",
+  "n_species": 369,
+  "features": 15,
+  "null_permutations": 999,
+  "null_indices_exact_0_998": true,
+  "null_master_seed": 2026090403,
+  "main_effect_variance_family": [
+    {
+      "feature": "thermal_regime",
+      "observed_variance": 0.00546024249584973,
+      "null_mean_variance": 0.004969366976356,
+      "raw_p_upper": 0.102,
+      "p_holm": 0.47,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "water_balance",
+      "observed_variance": 0.0058485436081482135,
+      "null_mean_variance": 0.005698638938744753,
+      "raw_p_upper": 0.364,
+      "p_holm": 0.728,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "atmospheric_energy_dryness",
+      "observed_variance": 0.005961616770536221,
+      "null_mean_variance": 0.005380266099506293,
+      "raw_p_upper": 0.094,
+      "p_holm": 0.47,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "edaphic_regime",
+      "observed_variance": 0.010275328132908162,
+      "null_mean_variance": 0.010005687057171997,
+      "raw_p_upper": 0.369,
+      "p_holm": 0.728,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "terrain_structure",
+      "observed_variance": 0.007206929497459858,
+      "null_mean_variance": 0.006576299455538882,
+      "raw_p_upper": 0.102,
+      "p_holm": 0.47,
+      "supported_excess_species_heterogeneity": false
+    }
+  ],
+  "interaction_variance_family": [
+    {
+      "feature": "thermal_regime_x_water_balance",
+      "observed_variance": 0.005098933277174395,
+      "null_mean_variance": 0.0044160938399475476,
+      "raw_p_upper": 0.032,
+      "p_holm": 0.256,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "thermal_regime_x_atmospheric_energy_dryness",
+      "observed_variance": 0.004250177692070029,
+      "null_mean_variance": 0.004116367112617956,
+      "raw_p_upper": 0.32,
+      "p_holm": 1.0,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "thermal_regime_x_edaphic_regime",
+      "observed_variance": 0.007926419211101684,
+      "null_mean_variance": 0.008234618482917525,
+      "raw_p_upper": 0.609,
+      "p_holm": 1.0,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "thermal_regime_x_terrain_structure",
+      "observed_variance": 0.005197500713798047,
+      "null_mean_variance": 0.004469002169599724,
+      "raw_p_upper": 0.028,
+      "p_holm": 0.252,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "water_balance_x_atmospheric_energy_dryness",
+      "observed_variance": 0.003933410120275037,
+      "null_mean_variance": 0.004069106596086598,
+      "raw_p_upper": 0.637,
+      "p_holm": 1.0,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "water_balance_x_edaphic_regime",
+      "observed_variance": 0.009202434197701347,
+      "null_mean_variance": 0.00828644102721592,
+      "raw_p_upper": 0.158,
+      "p_holm": 1.0,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "water_balance_x_terrain_structure",
+      "observed_variance": 0.005594345357558813,
+      "null_mean_variance": 0.004763688766871782,
+      "raw_p_upper": 0.024,
+      "p_holm": 0.24,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "atmospheric_energy_dryness_x_edaphic_regime",
+      "observed_variance": 0.007709507335187457,
+      "null_mean_variance": 0.008530113952377988,
+      "raw_p_upper": 0.617,
+      "p_holm": 1.0,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "atmospheric_energy_dryness_x_terrain_structure",
+      "observed_variance": 0.004299585788938583,
+      "null_mean_variance": 0.004109346321346066,
+      "raw_p_upper": 0.285,
+      "p_holm": 1.0,
+      "supported_excess_species_heterogeneity": false
+    },
+    {
+      "feature": "edaphic_regime_x_terrain_structure",
+      "observed_variance": 0.008995597940693472,
+      "null_mean_variance": 0.008217469074260518,
+      "raw_p_upper": 0.168,
+      "p_holm": 1.0,
+      "supported_excess_species_heterogeneity": false
+    }
+  ],
+  "coordinated_syndrome_omnibus": [
+    {
+      "statistic": "main5_pc1_fraction",
+      "observed_pc1_fraction": 0.37068590831630444,
+      "null_mean": 0.376128728237067,
+      "null_q025": 0.3417872663496328,
+      "null_q975": 0.4115776195021226,
+      "raw_p_upper": 0.622,
+      "p_holm": 0.976,
+      "supported_coordinated_syndrome": false
+    },
+    {
+      "statistic": "all15_pc1_fraction",
+      "observed_pc1_fraction": 0.2120915702836387,
+      "null_mean": 0.21202835928181918,
+      "null_q025": 0.18792239760667184,
+      "null_q975": 0.23784964994624344,
+      "raw_p_upper": 0.488,
+      "p_holm": 0.976,
+      "supported_coordinated_syndrome": false
+    }
+  ],
+  "supported_main_variance_features": [],
+  "supported_interaction_variance_features": [],
+  "supported_syndrome_statistics": [],
+  "parent_mean_effects_reclassified": false,
+  "individual_variable_decomposition_opened": false,
+  "causal_or_local_adaptation_claim_allowed": false,
+  "source_audit": {
+    "thermal_regime": {
+      "bio01": {
+        "global_finite_cells": 902016000,
+        "global_mean_physical": 5.921637645119379,
+        "global_sd_ddof0_physical": 19.890345892203815,
+        "global_min_physical": -53.549999999999955,
+        "global_max_physical": 34.75000000000006,
+        "scale": 0.1,
+        "offset": -273.15,
+        "photo_complete_count": 21424,
+        "photo_complete_fraction": 1.0,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "f584314e12be7cd63d0e2292f4655173030e3e547ce36a2a97ecbdabc4f87a53"
+      },
+      "bio04": {
+        "global_finite_cells": 902016000,
+        "global_mean_physical": 480.23736649826327,
+        "global_sd_ddof0_physical": 426.5098703525761,
+        "global_min_physical": 4.7,
+        "global_max_physical": 2334.2000000000003,
+        "scale": 0.1,
+        "offset": 0.0,
+        "photo_complete_count": 21424,
+        "photo_complete_fraction": 1.0,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "771b1037b33d46800608a96bd12c569755447aa0b8762a8a731fbc06a4f6125e"
+      },
+      "bio05": {
+        "global_finite_cells": 902016000,
+        "global_mean_physical": 14.893223672750802,
+        "global_sd_ddof0_physical": 16.371434049206233,
+        "global_min_physical": -33.74999999999997,
+        "global_max_physical": 46.950000000000045,
+        "scale": 0.1,
+        "offset": -273.15,
+        "photo_complete_count": 21424,
+        "photo_complete_fraction": 1.0,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "9f88f80555cebeb35ae277cfdd1b5bbb11de71050bdc44e1ee0e980f9c478a8d"
+      },
+      "bio06": {
+        "global_finite_cells": 902016000,
+        "global_mean_physical": -2.2725156914068276,
+        "global_sd_ddof0_physical": 23.59891772174978,
+        "global_min_physical": -65.84999999999997,
+        "global_max_physical": 26.350000000000023,
+        "scale": 0.1,
+        "offset": -273.15,
+        "photo_complete_count": 21424,
+        "photo_complete_fraction": 1.0,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "fffa9e9948933a0e9b5fd4fb3e299e310e7e52e56785c7c493e1a543b44acfc1"
+      },
+      "joint_photo_complete_count": 21424,
+      "joint_photo_complete_fraction": 1.0
+    },
+    "water_balance": {
+      "bio12": {
+        "global_finite_cells": 902016000,
+        "global_mean_physical": 1024.507932141225,
+        "global_sd_ddof0_physical": 872.1718051278397,
+        "global_min_physical": 0.0,
+        "global_max_physical": 6553.5,
+        "scale": 0.1,
+        "offset": 0.0,
+        "photo_complete_count": 21424,
+        "photo_complete_fraction": 1.0,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "070c2309ead1ae703652e87f1ca51ba390c9ddfd9a236944528ae8b1c53a4e9a"
+      },
+      "bio14": {
+        "global_finite_cells": 902016000,
+        "global_mean_physical": 44.04630247146425,
+        "global_sd_ddof0_physical": 47.076904670658024,
+        "global_min_physical": 0.0,
+        "global_max_physical": 6553.5,
+        "scale": 0.1,
+        "offset": 0.0,
+        "photo_complete_count": 21424,
+        "photo_complete_fraction": 1.0,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "9871eee93986cafac449524173d8e721b340f1445035f42338e92ec6a5d3b628"
+      },
+      "bio15": {
+        "global_finite_cells": 902016000,
+        "global_mean_physical": 41.69399219581487,
+        "global_sd_ddof0_physical": 28.601623154483867,
+        "global_min_physical": 0.0,
+        "global_max_physical": 231.20000000000002,
+        "scale": 0.1,
+        "offset": 0.0,
+        "photo_complete_count": 21424,
+        "photo_complete_fraction": 1.0,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "1c45e31b3204be33a3005723163b9d84bda96f5152e9b1c629e6cae72ce011bd"
+      },
+      "cmi_mean": {
+        "global_finite_cells": 224368589,
+        "global_mean_physical": -26.414703585803736,
+        "global_sd_ddof0_physical": 82.29838365760226,
+        "global_min_physical": -334.90000000000003,
+        "global_max_physical": 1739.3000000000002,
+        "scale": 0.1,
+        "offset": 0.0,
+        "photo_complete_count": 21423,
+        "photo_complete_fraction": 0.9999533233756535,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "5aa9f5f1aa14f8671807a73181c13aa55217ab1a653081111e691fa89c6cd283"
+      },
+      "joint_photo_complete_count": 21423,
+      "joint_photo_complete_fraction": 0.9999533233756535
+    },
+    "atmospheric_energy_dryness": {
+      "vpd_mean": {
+        "global_finite_cells": 902016000,
+        "global_mean_physical": 648.711908986645,
+        "global_sd_ddof0_physical": 532.7075025956627,
+        "global_min_physical": 0.4,
+        "global_max_physical": 3166.8,
+        "scale": 0.1,
+        "offset": 0.0,
+        "photo_complete_count": 21424,
+        "photo_complete_fraction": 1.0,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "35328724237339b2f8eb80f21adb7ee38f58aebd17bd18d1c271d563a18fe8e8"
+      },
+      "rsds_mean": {
+        "global_finite_cells": 902016000,
+        "global_mean_physical": 14.427438635130665,
+        "global_sd_ddof0_physical": 4.879970855759117,
+        "global_min_physical": 4.158,
+        "global_max_physical": 28.97,
+        "scale": 0.001,
+        "offset": 0.0,
+        "photo_complete_count": 21424,
+        "photo_complete_fraction": 1.0,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "cc1ad14a70a1a940be3d01d918d4c3f7e35db95b86b12af9be5487e1bbc1fc7d"
+      },
+      "gdd5": {
+        "global_finite_cells": 650699691,
+        "global_mean_physical": 4494.462175534499,
+        "global_sd_ddof0_physical": 2857.589269035113,
+        "global_min_physical": 0.0,
+        "global_max_physical": 10868.1,
+        "scale": 0.1,
+        "offset": 0.0,
+        "photo_complete_count": 21419,
+        "photo_complete_fraction": 0.9997666168782674,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "c4ad02ef85db9fc79a1f65d1ee5e1c72d7229c74574906c63bef39663047fb6c"
+      },
+      "sfcWind_mean": {
+        "global_finite_cells": 224368589,
+        "global_mean_physical": 3.4988377031376623,
+        "global_sd_ddof0_physical": 1.5720100302718205,
+        "global_min_physical": 0.151,
+        "global_max_physical": 48.272,
+        "scale": 0.001,
+        "offset": 0.0,
+        "photo_complete_count": 21423,
+        "photo_complete_fraction": 0.9999533233756535,
+        "width": 43200,
+        "height": 20880,
+        "crs": "EPSG:4326",
+        "sha256": "d4b88b69c98ef50522163727766137a91bc2ffde1b0cedcf208b5230d1835f08"
+      },
+      "joint_photo_complete_count": 21418,
+      "joint_photo_complete_fraction": 0.9997199402539209
+    },
+    "edaphic_regime": {
+      "phh2o": {
+        "global_finite_derived_cells": 5128996,
+        "global_mean_derived": 64.82060553371457,
+        "global_sd_ddof0_derived": 11.621318163584386,
+        "global_min_derived": 33.5,
+        "global_max_derived": 98.33333333333333,
+        "photo_complete_count": 16850,
+        "photo_complete_fraction": 0.7865011202389843,
+        "width": 7962,
+        "height": 2902,
+        "crs": "ESRI:54052",
+        "depth_weights": {
+          "0-5cm": 0.16666666666666666,
+          "5-15cm": 0.3333333333333333,
+          "15-30cm": 0.5
+        }
+      },
+      "clay": {
+        "global_finite_derived_cells": 5129337,
+        "global_mean_derived": 258.5553383085052,
+        "global_sd_ddof0_derived": 82.11993045433219,
+        "global_min_derived": 11.0,
+        "global_max_derived": 825.5,
+        "photo_complete_count": 16853,
+        "photo_complete_fraction": 0.7866411501120238,
+        "width": 7962,
+        "height": 2902,
+        "crs": "ESRI:54052",
+        "depth_weights": {
+          "0-5cm": 0.16666666666666666,
+          "5-15cm": 0.3333333333333333,
+          "15-30cm": 0.5
+        }
+      },
+      "soc": {
+        "global_finite_derived_cells": 5121222,
+        "global_mean_derived": 341.3012435964178,
+        "global_sd_ddof0_derived": 387.4111204746543,
+        "global_min_derived": 3.333333333333333,
+        "global_max_derived": 4865.5,
+        "photo_complete_count": 16927,
+        "photo_complete_fraction": 0.790095220313667,
+        "width": 7962,
+        "height": 2902,
+        "crs": "ESRI:54052",
+        "depth_weights": {
+          "0-5cm": 0.16666666666666666,
+          "5-15cm": 0.3333333333333333,
+          "15-30cm": 0.5
+        }
+      },
+      "cec": {
+        "global_finite_derived_cells": 5128958,
+        "global_mean_derived": 215.35711665670362,
+        "global_sd_ddof0_derived": 91.84857273995733,
+        "global_min_derived": 14.0,
+        "global_max_derived": 1037.3333333333333,
+        "photo_complete_count": 16850,
+        "photo_complete_fraction": 0.7865011202389843,
+        "width": 7962,
+        "height": 2902,
+        "crs": "ESRI:54052",
+        "depth_weights": {
+          "0-5cm": 0.16666666666666666,
+          "5-15cm": 0.3333333333333333,
+          "15-30cm": 0.5
+        }
+      },
+      "joint_photo_complete_count": 15893,
+      "joint_photo_complete_fraction": 0.7418315907393578
+    },
+    "terrain_structure": {
+      "elevation": {
+        "global_finite_cells": 290304,
+        "global_mean": 198.86510175540124,
+        "global_sd_ddof0": 545.1748553132263,
+        "photo_complete_count": 21424,
+        "raster_sha256": "cf8dd85ce935ba677d59b9496e02a8130e00ac2bb3d145f10e281001f1f408f5"
+      },
+      "slope": {
+        "global_finite_cells": 290304,
+        "global_mean": 0.7440335147417834,
+        "global_sd_ddof0": 2.337427314032642,
+        "photo_complete_count": 21424,
+        "raster_sha256": "c1b898236d9d8deb325e72152173974d324809d20d1b712219df6386fa75627f"
+      },
+      "terrain_roughness_index": {
+        "global_finite_cells": 290304,
+        "global_mean": 2.865078288621583,
+        "global_sd_ddof0": 8.81185656099453,
+        "photo_complete_count": 21424,
+        "raster_sha256": "f205d533f029fa63bd50b425ed38df79a0246a695c8d19a957358a54b96685ea"
+      },
+      "vector_ruggedness_measure": {
+        "global_finite_cells": 290304,
+        "global_mean": 0.0003052930085943972,
+        "global_sd_ddof0": 0.0014563233864594539,
+        "photo_complete_count": 21424,
+        "raster_sha256": "4ee9553ae3c5c1e6cfbcf8e1bcebacbadded288ed4c3ddd4ce4c7daac5d9c0b0"
+      },
+      "joint_photo_complete_count": 21424,
+      "photo_count": 21424,
+      "joint_photo_complete_fraction": 1.0
+    }
+  }
+}

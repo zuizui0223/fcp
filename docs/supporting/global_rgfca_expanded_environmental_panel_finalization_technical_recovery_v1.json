@@ -1,0 +1,79 @@
+{
+  "protocol": "global-rgfca-expanded-environmental-panel-finalization-technical-recovery-v1",
+  "status": "frozen_before_chelsa_or_edaphic_raw_outcomes_are_opened_after_original_finalizer_failure",
+  "date": "2026-09-06",
+  "original_finalization": {
+    "run_id": 34021682120,
+    "attempt": 1,
+    "conclusion": "failure",
+    "failure_stage": "final payload assembly after five exact raw artifacts were recovered and validated",
+    "exception": "KeyError: block_edge_occurrence_coverage_fraction",
+    "cause": "terrain_structure raw JSON uses terrain_edge_occurrence_coverage_fraction while later block runners use block_edge_occurrence_coverage_fraction",
+    "final_result_file_written": false,
+    "final_result_artifact_uploaded": false,
+    "repository_result_commit_written": false
+  },
+  "scientific_inference_frozen_unchanged": {
+    "family": [
+      "terrain_structure",
+      "thermal_regime",
+      "water_balance",
+      "atmospheric_energy_dryness",
+      "edaphic_regime"
+    ],
+    "family_size": 5,
+    "raw_p_definition": "unchanged upper-tail p from each fixed 999-null block",
+    "multiplicity": "Holm across exactly all five parent blocks",
+    "alpha": 0.05,
+    "support_rule": "observed mean species partial rho > 0 and Holm-adjusted upper-tail p < 0.05",
+    "individual_variable_decomposition_gate": "open only for supported parent blocks",
+    "raw_block_recomputation_allowed": false,
+    "null_recomputation_allowed": false,
+    "source_reacquisition_or_substitution_allowed": false,
+    "block_omission_allowed": false,
+    "predictor_change_allowed": false,
+    "causal_language_allowed": false
+  },
+  "technical_change_allowed_once": {
+    "recovery_script": "scripts/analysis/finalize_global_rgfca_expanded_environmental_panel_technical_recovery.py",
+    "recovery_script_git_blob_sha": "d6a8285f4f29bc9c963ad27e23f54f028ed12437",
+    "only_change": "when block=terrain_structure only, read terrain_edge_occurrence_coverage_fraction if block_edge_occurrence_coverage_fraction is absent",
+    "coverage_field_is_reporting_metadata_not_used_in_holm_or_support_decision": true,
+    "all_other_finalizer_logic_must_match_original": true,
+    "technical_recovery_attempts_allowed": 1,
+    "favourable_rerun_allowed": false
+  },
+  "exact_raw_artifacts": {
+    "terrain_structure": {
+      "run_id": 34017934825,
+      "artifact_id": 9984688398,
+      "name": "global-rgfca-earthenv-terrain-block-v1",
+      "digest": "sha256:9b57fa4873f51ee3b8f6459137a2c92a2395f8fc7772d8db2ac3de1a44298b92"
+    },
+    "thermal_regime": {
+      "run_id": 34019160099,
+      "artifact_id": 9985148009,
+      "name": "global-rgfca-expanded-thermal_regime-block-v1",
+      "digest": "sha256:5d4d9163fa62ed9c87ab5cf24e31ef2df3da95befac0920237a94cdfce7748cc"
+    },
+    "water_balance": {
+      "run_id": 34019160099,
+      "artifact_id": 9985074144,
+      "name": "global-rgfca-expanded-water_balance-block-v1",
+      "digest": "sha256:56128219cfcba65aa3d1cdf8f106bf0f2a3e50dca8c31e5c1bf2440e9e175f4b"
+    },
+    "atmospheric_energy_dryness": {
+      "run_id": 34019160099,
+      "artifact_id": 9985172128,
+      "name": "global-rgfca-expanded-atmospheric_energy_dryness-block-v1",
+      "digest": "sha256:b187e954cfec6b644c381e8ff503b4788714769339cccfe58f4c29aa0646cd2f"
+    },
+    "edaphic_regime": {
+      "run_id": 34019187941,
+      "artifact_id": 9985095930,
+      "name": "global-rgfca-expanded-edaphic-regime-block-v1",
+      "digest": "sha256:ba9ecc8f2fab3a6fb032c1cfe2fc051925945eeab668c15ebd687d910c479136"
+    }
+  },
+  "claim_ceiling": "postoutcome secondary environmental process concordance at species-specific locations only; cannot rescue primary G1, positional commonness, or establish causal adaptation"
+}

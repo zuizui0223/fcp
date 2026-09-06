@@ -1,0 +1,22 @@
+{
+  "status": "authorize_exactly_one_metadata_only_global_candidate_acquisition",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "capacity_source": "v3_transport_recovery",
+  "capacity_manifest_path": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json",
+  "selected_species_path": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv",
+  "capacity_manifest_blob_sha": "d47b5b84e3890d7f54bec1f078037dcea8f086a5",
+  "selected_species_blob_sha": "cf09ee716fe15caad5b8a97081bbb1ecd4bce7f5",
+  "candidate_species_budget_amendment_path": "docs/supporting/global_monte_carlo_candidate_species_budget_amendment_v1.json",
+  "candidate_species_budget_amendment_blob_sha": "7a3185ae69bf7f2c19fa76f9273cc70bccc55c27",
+  "selected_raw_photo_target": 100,
+  "capacity_selected_species": 4730,
+  "candidate_species_budget": 1000,
+  "candidate_species_selection_seed": 20260916,
+  "selected_species": 1000,
+  "candidate_taxon_id_sha256": "670ff7155e4da52aed336587f7607a8c0eff744c8592efa97a2f501e0856a5ee",
+  "candidate_image_pixels_may_open": false,
+  "flower_colour_may_open": false,
+  "target_relaxation_allowed": false,
+  "additional_pages_after_result_allowed": false,
+  "rerun_for_favourable_species_set_allowed": false
+}

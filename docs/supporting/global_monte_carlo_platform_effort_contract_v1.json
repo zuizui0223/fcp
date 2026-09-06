@@ -1,0 +1,44 @@
+{
+  "protocol": "rgfca-platform-effort-negative-control-v1",
+  "status": "frozen_after_target_group_availability_census_and_before_any_rgfca_global_flower_colour_field",
+  "date": "2026-09-04",
+  "purpose": "Add a platform-wide activity proxy so target-group record density is not treated as pure human observation effort.",
+  "grid": {"n_lon": 18, "n_sinlat": 9, "cells": 162},
+  "query": {
+    "taxon_filter": null,
+    "quality_grade": "research",
+    "photos": true,
+    "geo": true,
+    "obscuration": "none",
+    "maximum_positional_accuracy_m": 5000,
+    "per_page": 1,
+    "page": 1,
+    "order_by": "id",
+    "order": "desc",
+    "request_retries": 0,
+    "request_interval_seconds": 1.05
+  },
+  "fixed_request_attempts": 162,
+  "failure_policy": {
+    "per_request_error": "record error and continue without retry or replacement",
+    "maximum_error_fraction": 0.05,
+    "if_exceeded": "not_evaluable_platform_effort_surface_due_request_failure",
+    "favourable_rerun": false
+  },
+  "join_to": "data/frozen/global_monte_carlo_sampling_availability_cells_v1.csv",
+  "derived_covariates": [
+    "log1p_all_taxa_research_photo_records",
+    "target_group_photo_fraction_of_all_taxa_records"
+  ],
+  "postmeasurement_role": {
+    "negative_control": "test opportunity-weighted association of RGFCA consensus intensity and hotspot recurrence with log1p platform-wide activity using the exact same 999 species-conditioned colour null fields",
+    "sensitivity": "report partial rank association with target-group sampling availability conditional on platform-wide activity; this is diagnostic and cannot replace the primary RGFCA field",
+    "claim_limit": "platform-wide record density remains an imperfect activity proxy because biological observation opportunity also varies among cells"
+  },
+  "outcome_firewall": {
+    "candidate_image_pixels_opened": false,
+    "flower_colour_used": false,
+    "H9_result_used_to_choose_effort_metric": false,
+    "RGFCA_colour_result_available_at_freeze": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "protocol": "global-rgfca-resolve2017-precolour-source-reuse-v1",
+  "status": "authorize_exactly_one_exact_resolve2017_source_verification",
+  "date": "2026-09-06",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "workflow_attempts_allowed": 1,
+  "exact_precolour_archive_hash_required": true,
+  "exact_precolour_extracted_hashes_required": true,
+  "source_substitution_allowed": false,
+  "newer_source_version_allowed": false,
+  "flower_colour_may_be_read": false,
+  "purpose": "Recover and verify the exact pre-colour RESOLVE 2017 payload before any RGFCA colour-to-biogeography alignment is executed."
+}

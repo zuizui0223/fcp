@@ -1,0 +1,128 @@
+name: Global RGFCA species-disjoint commonness
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_species_disjoint_authorization_v1.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: global-rgfca-species-disjoint-commonness
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Enforce exactly one frozen species-disjoint execution
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          auth = json.loads(Path("docs/supporting/global_rgfca_species_disjoint_authorization_v1.json").read_text())
+          mapping = json.loads(Path("docs/supporting/global_rgfca_species_disjoint_execution_v1.json").read_text())
+          claim = json.loads(Path("docs/supporting/global_rgfca_common_boundary_claim_contract_v1.json").read_text())
+          primary = json.loads(Path("docs/supporting/global_rgfca_g1_result_v1.json").read_text())
+
+          if os.environ["RUN_ATTEMPT"] != "1":
+              raise SystemExit("favourable reruns are forbidden; run_attempt must equal 1")
+          if auth.get("status") != "authorize_exactly_one_species_disjoint_commonness_execution":
+              raise SystemExit("species-disjoint execution is not explicitly authorized")
+          if auth.get("branch") != "analysis/global-monte-carlo-barrier-atlas":
+              raise SystemExit("authorization branch mismatch")
+          if int(auth.get("workflow_attempts_allowed", 0)) != 1:
+              raise SystemExit("authorization must allow exactly one workflow attempt")
+          if auth.get("all_five_folds_and_all_999_nulls_required") is not True:
+              raise SystemExit("nonselective completeness guard missing")
+          if auth.get("primary_g1_reclassification_allowed") is not False:
+              raise SystemExit("primary G1 rescue is forbidden")
+          if mapping.get("status") != "technical_execution_mapping_frozen_before_species_disjoint_commonness_result":
+              raise SystemExit("execution mapping drift")
+          if mapping["execution_policy"].get("workflow_attempts_allowed") != 1:
+              raise SystemExit("mapping one-shot guard drift")
+          if claim.get("status") != "frozen_before_species_disjoint_commonness_result":
+              raise SystemExit("common-boundary contract drift")
+          if claim["terminology"].get("single_universal_boundary_required") is not False:
+              raise SystemExit("single-boundary prohibition drift")
+          if primary.get("g1_supported") is not False or float(primary.get("p_upper")) != 0.07:
+              raise SystemExit("primary G1 decision drift")
+          if Path("docs/supporting/global_rgfca_species_disjoint_commonness_result_v1.json").exists():
+              raise SystemExit("species-disjoint result already committed; second execution forbidden")
+          print({"gate": "pass", "folds": 5, "nulls": 999, "single_boundary_required": False})
+          PY
+
+  commonness:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install frozen analysis package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Execute all five species-disjoint folds and all 999 nulls once
+        env:
+          PYTHONUNBUFFERED: "1"
+          OMP_NUM_THREADS: "1"
+          OPENBLAS_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+        run: |
+          mkdir -p /tmp/rgfca-species-disjoint
+          python scripts/analysis/run_global_rgfca_species_disjoint_commonness.py \
+            --output-result /tmp/rgfca-species-disjoint/global_rgfca_species_disjoint_commonness_result_v1.json \
+            --output-folds /tmp/rgfca-species-disjoint/global_rgfca_species_disjoint_folds_v1.csv \
+            --output-null /tmp/rgfca-species-disjoint/global_rgfca_species_disjoint_null_v1.csv
+      - name: Require complete nonselective output
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          root = Path("/tmp/rgfca-species-disjoint")
+          result = json.loads((root / "global_rgfca_species_disjoint_commonness_result_v1.json").read_text())
+          folds = pd.read_csv(root / "global_rgfca_species_disjoint_folds_v1.csv")
+          nulls = pd.read_csv(root / "global_rgfca_species_disjoint_null_v1.csv")
+          if result.get("status") != "complete_species_disjoint_commonness_test":
+              raise SystemExit("incomplete result status")
+          if len(result.get("fold_results", [])) != 5:
+              raise SystemExit("all five folds are required")
+          if len(folds) != 369 or folds["species"].nunique() != 369 or set(folds["fold"]) != set(range(5)):
+              raise SystemExit("fold mapping completeness failure")
+          if len(nulls) != 999 or nulls["null_index"].tolist() != list(range(999)):
+              raise SystemExit("all null indices 0..998 are required exactly once")
+          if result["primary_g1"].get("reclassification_allowed") is not False:
+              raise SystemExit("primary G1 rescue guard missing from output")
+          print({"complete": True, "supported": result["common_across_species_supported"], "p_upper": result["p_upper"]})
+          PY
+      - name: Upload immutable complete species-disjoint result
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-species-disjoint-commonness-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/rgfca-species-disjoint/

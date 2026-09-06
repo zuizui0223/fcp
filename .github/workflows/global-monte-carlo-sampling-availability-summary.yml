@@ -1,0 +1,40 @@
+name: Summarize RGFCA sampling availability bias
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "scripts/analysis/summarize_global_monte_carlo_sampling_availability.py"
+      - ".github/workflows/global-monte-carlo-sampling-availability-summary.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Compute deterministic summary
+        run: python scripts/analysis/summarize_global_monte_carlo_sampling_availability.py
+      - name: Validate and commit summary
+        run: |
+          python -m json.tool docs/supporting/global_monte_carlo_sampling_availability_summary_v1.json >/dev/null
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_monte_carlo_sampling_availability_summary_v1.json
+          git commit -m "Freeze RGFCA sampling-availability bias summary"
+          git fetch origin analysis/global-monte-carlo-barrier-atlas
+          git rebase origin/analysis/global-monte-carlo-barrier-atlas
+          git push origin HEAD:analysis/global-monte-carlo-barrier-atlas

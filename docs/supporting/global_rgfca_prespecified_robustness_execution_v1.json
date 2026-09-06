@@ -1,0 +1,57 @@
+{
+  "protocol": "global-rgfca-prespecified-robustness-execution-v1",
+  "status": "technical_execution_mapping_after_primary_g1_for_only_preoutcome_prespecified_robustness",
+  "date": "2026-09-06",
+  "scientific_rule_source": "docs/supporting/global_monte_carlo_barrier_field_contract_v1.json",
+  "primary_g1_result": "docs/supporting/global_rgfca_g1_result_v1.json",
+  "primary_g1_decision_is_immutable": true,
+  "primary_g1_may_be_rescued": false,
+  "new_scientific_thresholds_added": false,
+  "new_nulls_added": false,
+  "favourable_seed_or_null_rerun_allowed": false,
+  "selective_stopping_after_positive_result_allowed": false,
+  "required_complete_suite": [
+    {
+      "id": "coarse_24x12_1000km",
+      "grid": "24x12",
+      "kernel_bandwidth_km": 1000.0,
+      "minimum_distinct_species_support": 5,
+      "decision_role": "prespecified robustness; G1 excess must remain positive"
+    },
+    {
+      "id": "fine_72x36_250km",
+      "grid": "72x36",
+      "kernel_bandwidth_km": 250.0,
+      "minimum_distinct_species_support": 5,
+      "decision_role": "prespecified robustness; G1 excess must remain positive"
+    },
+    {
+      "id": "support10_36x18_500km",
+      "grid": "36x18",
+      "kernel_bandwidth_km": 500.0,
+      "minimum_distinct_species_support": 10,
+      "decision_role": "prespecified robustness; G1 excess must remain positive"
+    },
+    {
+      "id": "odd_even_half_null",
+      "null_indices": "0..998 in each half",
+      "decision_role": "prespecified robustness; odd and even G1 excess must each remain positive and field correlation must satisfy the predeclared threshold"
+    }
+  ],
+  "shared_frozen_quantities": {
+    "outer_realizations": 200,
+    "species_per_outer": 250,
+    "photos_per_species": 20,
+    "spherical_knn_k": 3,
+    "null_permutations": 999,
+    "species_seed": 2026090401,
+    "photo_master_seed": 2026090402,
+    "null_master_seed": 2026090403,
+    "minimum_classifiable_photos_per_species": 40
+  },
+  "workflow_attempts_allowed": 1,
+  "all_four_jobs_required_regardless_of_intermediate_results": true,
+  "persistent_zone_extraction_allowed": false,
+  "g4_overlay_allowed": false,
+  "result_interpretation": "These diagnostics can establish robustness of the direction of the observed G1 excess at prespecified supports, but cannot turn the frozen primary p=0.070 decision into G1 support."
+}

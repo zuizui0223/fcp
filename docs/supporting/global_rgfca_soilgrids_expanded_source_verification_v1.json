@@ -1,0 +1,44 @@
+{
+  "protocol": "global-rgfca-soilgrids-expanded-source-acquisition-v1",
+  "status": "pass_exact_expanded_soilgrids_source_acquisition_before_any_edaphic_colour_alignment",
+  "dataset": {
+    "provider": "ISRIC SoilGrids",
+    "version_family": "SoilGrids 2.0 latest frozen-by-checksum payload",
+    "product": "official 5000-m aggregated mean GeoTIFFs",
+    "base_url": "https://files.isric.org/soilgrids/latest/data_aggregated/5000m/",
+    "prediction_summary": "mean",
+    "grain_m": 5000
+  },
+  "depth_aggregation": "for each property, thickness-weighted arithmetic mean = (5*x_0_5 + 10*x_5_15 + 15*x_15_30) / 30 at each raster cell, requiring all three layers finite",
+  "files": [
+    {"property":"phh2o","depth":"0-5cm","thickness_cm":5,"filename":"phh2o_0-5cm_mean_5000.tif","sha256":"a74bc7e8551e8e281f7abb9cfc4fe3d60a72717c8cb131f7feb51b43a893c8c9","size_bytes":4264169},
+    {"property":"phh2o","depth":"5-15cm","thickness_cm":10,"filename":"phh2o_5-15cm_mean_5000.tif","sha256":"23816f452e812142d1f91bbc1c8d25026f05c131d7175a375030da8bf37ea8d0","size_bytes":4281009},
+    {"property":"phh2o","depth":"15-30cm","thickness_cm":15,"filename":"phh2o_15-30cm_mean_5000.tif","sha256":"16faa5e308dfb60681bbad24bc6b41df69cb6a507506ac8683e22d98c0c27f01","size_bytes":4281382},
+    {"property":"clay","depth":"0-5cm","thickness_cm":5,"filename":"clay_0-5cm_mean_5000.tif","sha256":"8d75b5db5bb295b4f54e64068d5cdbae8283ae7d6fab5278b9225face1b7020a","size_bytes":8993596},
+    {"property":"clay","depth":"5-15cm","thickness_cm":10,"filename":"clay_5-15cm_mean_5000.tif","sha256":"75d8cbd87391814fd400edeb1bd970ea458a1dde2640b2fafd905f84f814e0fb","size_bytes":9028837},
+    {"property":"clay","depth":"15-30cm","thickness_cm":15,"filename":"clay_15-30cm_mean_5000.tif","sha256":"d42c0067eccea56ed3272608149c510e5fc1aa0c555cc6782c972cc1b768f72b","size_bytes":9098018},
+    {"property":"soc","depth":"0-5cm","thickness_cm":5,"filename":"soc_0-5cm_mean_5000.tif","sha256":"cd1f40e14817112cb732ff84374182d628b858b8843cd477fc410f4a32764bf3","size_bytes":10112094},
+    {"property":"soc","depth":"5-15cm","thickness_cm":10,"filename":"soc_5-15cm_mean_5000.tif","sha256":"1aed65adc0f9b35d5725576a98557454d895cd8a1863309a7229c789f45eb782","size_bytes":9702007},
+    {"property":"soc","depth":"15-30cm","thickness_cm":15,"filename":"soc_15-30cm_mean_5000.tif","sha256":"f18e7fb4f1d306497bf829ff5ede5e3113ee555e40f21e496d0a8d42f7c12985","size_bytes":9491529},
+    {"property":"cec","depth":"0-5cm","thickness_cm":5,"filename":"cec_0-5cm_mean_5000.tif","sha256":"3aa4a59ce4c2589d84e19aac54076ee3bd91260b8a6db36d73c7ff5b65577328","size_bytes":8753065},
+    {"property":"cec","depth":"5-15cm","thickness_cm":10,"filename":"cec_5-15cm_mean_5000.tif","sha256":"8fd31caae291f5941cc871d12bc44b317b4bdc095392f0d604af30c0781d0336","size_bytes":8745579},
+    {"property":"cec","depth":"15-30cm","thickness_cm":15,"filename":"cec_15-30cm_mean_5000.tif","sha256":"019dd998ec8a8281c866ba7144620c13a9be2a648657edb7c0897450d5a20b28","size_bytes":8746844}
+  ],
+  "official_checksum_manifests": {
+    "phh2o":"d62b9c4c6f509687640c2d4312d071c7e3b1444590f5734734fc9371f51b7a3e",
+    "clay":"21ec5f18ce2a266c4320f330cbd3a8d0d63b8f4ac84c50c48972c7b6bbc735a7",
+    "soc":"7e9ff618e65276f138d03ff9318bf8306b04d00a88ddadf0001bf7c9c019d8da",
+    "cec":"17415f8ec32370a05f1f83a6d39460cc5cfca6340c9350c2008e9770b30baa13"
+  },
+  "raster_common_geometry": {"width":7962,"height":2902,"crs":"ESRI:54052","pixel_size_m":5000,"nodata":-32768},
+  "all_12_geotiffs_present": true,
+  "all_4_official_checksum_manifests_present": true,
+  "official_checksums_verified": true,
+  "flower_colour_files_opened": false,
+  "colour_join_performed": false,
+  "edaphic_statistic_computed": false,
+  "source_run_id": 34018059667,
+  "source_artifact_id": 9984595950,
+  "source_artifact_digest": "sha256:08286ddbe31ecf6e59b648a2b68825715b35dce03b93d0aa1ac03961709c6703",
+  "lineage": {"source_contract_sha256":"f42ba28ea48964a8032350099d2c660e418c06d15f9fc33de2a9155155b4d224"}
+}

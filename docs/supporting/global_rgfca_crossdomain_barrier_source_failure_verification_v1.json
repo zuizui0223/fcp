@@ -1,0 +1,38 @@
+{
+  "protocol": "global-rgfca-crossdomain-barrier-source-failure-verification-v1",
+  "status": "source_family_not_evaluable_under_frozen_delivery_contract",
+  "date": "2026-09-06",
+  "initial_run": {
+    "run_id": 34023393646,
+    "job_id": 101459984693,
+    "result": "failure_before_any_barrier_verification_or_colour_access",
+    "natural_earth": "download_and_zip_integrity_success",
+    "hydrorivers": "HTTP_403_on_frozen_URL",
+    "gmba": "not_reached"
+  },
+  "single_allowed_same_source_recovery": {
+    "run_id": 34023483989,
+    "job_id": 101460228520,
+    "result": "failure_before_any_barrier_verification_or_colour_access",
+    "urls_changed": false,
+    "versions_changed": false,
+    "source_substitution": false,
+    "http_only_change": "browser User-Agent plus official provider Referer",
+    "natural_earth": "download_and_zip_integrity_success",
+    "hydrorivers": "HTTP_403_on_same_frozen_URL",
+    "gmba": "not_reached"
+  },
+  "scientific_firewall": {
+    "flower_colour_accessed": false,
+    "RGFCA_edge_join_computed": false,
+    "E3_or_E4_interaction_statistic_computed": false,
+    "biological_result_generated": false
+  },
+  "decision": {
+    "additional_recovery_allowed": false,
+    "alternate_mirror_allowed": false,
+    "environment_x_barrier_family_status": "not_evaluable_until_a_prospectively_new_delivery_contract_is_defined_in_a_separate_analysis_generation",
+    "pollinator_x_barrier_family_status": "not_evaluable_until_barrier_and_pollinator_sources_are_independently_verified",
+    "existing_RESOLVE_result_unchanged": true
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "protocol": "global-monte-carlo-rgfca-inference-execution-v1",
+  "status": "complete_global_rgfca_g3_prevalence_heterogeneity",
+  "confirmatory_p_value": null,
+  "cannot_rescue_null_g1": true,
+  "classifiable_pool_rows": 21424,
+  "eligible_species": 369,
+  "median_outer_mean_rho": 0.026330124886506087,
+  "median_outer_median_rho": 0.008733439182598732,
+  "median_outer_positive_fraction": 0.532,
+  "hierarchical_heterogeneity": {
+    "tau2_fisher_z": 0.0043718238258641205,
+    "species_used": 369,
+    "sampling_variance_floor": 1e-06,
+    "method": "DerSimonian-Laird on species mean Fisher-z effects using repeated-photo resampling variance"
+  },
+  "schedule_audit": {
+    "eligible_species": 369,
+    "outer_realizations": 200,
+    "species_per_outer": 250,
+    "photos_per_species": 20,
+    "total_species_inclusions": 50000,
+    "minimum_species_inclusions": 135,
+    "maximum_species_inclusions": 136,
+    "species_max_inclusion_imbalance": 1,
+    "photo_max_inclusion_imbalance_within_species": 1,
+    "species_seed": 2026090401,
+    "photo_master_seed": 2026090402
+  },
+  "lineage": {
+    "execution_contract_sha256": "a699fa97541b68ea11859ea22f25d62b3294ce31afbeb9b43b8ae927f4b9bb47",
+    "measurement_manifest_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "outer_csv_sha256": "073cde1c1e713a0abf3caa96a810cff5864af7f14c0c01798f0b708d04f28acd",
+    "species_csv_sha256": "c3ea73173ede9a16b5836f55272304b3d9ebf0921c41c7cf4cc3e98c82c33d31"
+  }
+}

@@ -1,0 +1,59 @@
+name: Global RGFCA species-disjoint synthetic preflight
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - ".github/workflows/global-rgfca-species-disjoint-preflight.yml"
+      - "scripts/analysis/run_global_rgfca_species_disjoint_commonness.py"
+      - "docs/supporting/global_rgfca_species_disjoint_execution_v1.json"
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install frozen package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Compile executor
+        run: python -m py_compile scripts/analysis/run_global_rgfca_species_disjoint_commonness.py
+      - name: Test outcome-blind fold mapping and weighted correlation
+        run: |
+          python - <<'PY'
+          import importlib.util
+          import json
+          from pathlib import Path
+          import numpy as np
+
+          path = Path("scripts/analysis/run_global_rgfca_species_disjoint_commonness.py")
+          spec = importlib.util.spec_from_file_location("species_disjoint", path)
+          mod = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(mod)
+
+          mapping = json.loads(Path("docs/supporting/global_rgfca_species_disjoint_execution_v1.json").read_text())
+          labels = tuple(f"Species_{i:03d}" for i in range(369))
+          folds = mod.deterministic_folds(labels, seed=2026090604, n_folds=5)
+          sizes = np.bincount(folds, minlength=5).tolist()
+          if sizes != [74, 74, 74, 74, 73]:
+              raise SystemExit(f"unexpected synthetic fold sizes: {sizes}")
+          if abs(mod.weighted_pearson(np.array([1,2,3]), np.array([2,4,6]), np.ones(3)) - 1.0) > 1e-12:
+              raise SystemExit("weighted correlation identity test failed")
+          if mapping["cross_prediction"]["cell_weight"] != "sqrt(training aggregate opportunity * held-out aggregate opportunity)":
+              raise SystemExit("cell-weight mapping drift")
+          if mapping["execution_policy"]["workflow_attempts_allowed"] != 1:
+              raise SystemExit("one-shot mapping drift")
+          print({"synthetic_fold_sizes": sizes, "weighted_r_identity": 1.0, "outcome_data_read": False})
+          PY

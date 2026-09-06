@@ -1,0 +1,111 @@
+name: Global RGFCA WorldClim secondary artifact recovery
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_worldclim_edge_secondary_artifact_recovery_authorization_v1.json"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-worldclim-edge-secondary-artifact-recovery
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: analysis/global-monte-carlo-barrier-atlas
+          fetch-depth: 0
+      - name: Enforce artifact-only recovery
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          if os.environ['RUN_ATTEMPT'] != '1':
+              raise SystemExit('artifact recovery reruns are forbidden')
+          auth=json.loads(Path('docs/supporting/global_rgfca_worldclim_edge_secondary_artifact_recovery_authorization_v1.json').read_text())
+          contract=json.loads(Path('docs/supporting/global_rgfca_worldclim_edge_secondary_artifact_recovery_v1.json').read_text())
+          if auth.get('status') != 'authorize_exactly_one_worldclim_secondary_artifact_recovery':
+              raise SystemExit('artifact recovery not authorized')
+          if auth.get('workflow_attempts_allowed') != 1:
+              raise SystemExit('artifact recovery must be one attempt')
+          if contract.get('status') != 'postresult_technical_artifact_recovery_only':
+              raise SystemExit('artifact recovery contract drift')
+          if contract.get('analysis_rerun_allowed') is not False or contract.get('statistic_recalculation_allowed') is not False:
+              raise SystemExit('scientific rerun/recalculation forbidden')
+          if contract.get('artifact_id') != 9982869598:
+              raise SystemExit('artifact identity drift')
+          print({'gate':'pass','artifact_id':contract['artifact_id'],'analysis_rerun':False})
+          PY
+      - name: Download immutable completed artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/worldclim-artifact
+          curl --fail --location --retry 3 \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9982869598/zip" \
+            -o /tmp/worldclim-artifact.zip
+          echo "46fec33da6027b9f634c5342b961eea7c0173050f6bbd68f1292f3f302acb23e  /tmp/worldclim-artifact.zip" | sha256sum -c -
+          unzip -q /tmp/worldclim-artifact.zip -d /tmp/worldclim-artifact
+      - name: Verify exact completed result bytes
+        run: |
+          set -euo pipefail
+          cd /tmp/worldclim-artifact
+          echo "e31fe43d5c4c1f0147acf935d633d79218a89c119e012b697893d064c9a83b93  global_rgfca_worldclim_edge_secondary_result_v1.json" | sha256sum -c -
+          echo "ff242607fbedb5b23fc3b628c95e5637d05dedfa215f4ef7f45031c20064e863  global_rgfca_worldclim_edge_secondary_species_v1.csv" | sha256sum -c -
+          echo "5f1cf703f5afc45209dd8a1a9bbf6a2b4d33b51e037d2ce64f3ac9231941c93a  global_rgfca_worldclim_edge_secondary_null_v1.csv" | sha256sum -c -
+          python - <<'PY'
+          import json
+          p=json.load(open('global_rgfca_worldclim_edge_secondary_result_v1.json'))
+          assert p['status']=='complete_global_rgfca_worldclim_edge_secondary'
+          assert p['null_permutations']==999 and p['null_indices_exact_0_998'] is True
+          assert p['observed_mean_species_partial_rho']==-0.0019335618026886856
+          assert p['p_upper']==0.699
+          assert p['secondary_supported'] is False
+          print({'verified':True,'rho':p['observed_mean_species_partial_rho'],'p_upper':p['p_upper']})
+          PY
+      - name: Commit exact artifact bytes on latest branch
+        env:
+          TARGET_BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          set -euo pipefail
+          git fetch origin "$TARGET_BRANCH"
+          git checkout -B "$TARGET_BRANCH" "origin/$TARGET_BRANCH"
+          if [ -e docs/supporting/global_rgfca_worldclim_edge_secondary_result_v1.json ] || \
+             [ -e data/derived/global_rgfca_worldclim_edge_secondary_species_v1.csv ] || \
+             [ -e data/derived/global_rgfca_worldclim_edge_secondary_null_v1.csv ]; then
+            echo "One or more target result files already exist; refusing overwrite."
+            exit 1
+          fi
+          cp /tmp/worldclim-artifact/global_rgfca_worldclim_edge_secondary_result_v1.json docs/supporting/
+          cp /tmp/worldclim-artifact/global_rgfca_worldclim_edge_secondary_species_v1.csv data/derived/
+          cp /tmp/worldclim-artifact/global_rgfca_worldclim_edge_secondary_null_v1.csv data/derived/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_worldclim_edge_secondary_result_v1.json \
+                  data/derived/global_rgfca_worldclim_edge_secondary_species_v1.csv \
+                  data/derived/global_rgfca_worldclim_edge_secondary_null_v1.csv
+          git commit -m "Recover exact WorldClim edge secondary artifact"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:"$TARGET_BRANCH"; then
+              exit 0
+            fi
+            git fetch origin "$TARGET_BRANCH"
+            git rebase "origin/$TARGET_BRANCH"
+          done
+          echo "Could not commit exact artifact after branch-only races; no scientific rerun performed."
+          exit 1

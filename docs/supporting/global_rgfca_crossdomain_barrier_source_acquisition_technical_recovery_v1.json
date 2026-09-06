@@ -1,0 +1,41 @@
+{
+  "protocol": "global-rgfca-crossdomain-barrier-source-acquisition-technical-recovery-v1",
+  "status": "technical_recovery_frozen_after_source_only_http_403_before_any_barrier_source_verification_or_E3_E4_outcome",
+  "date": "2026-09-06",
+  "failed_run": {
+    "run_id": 34023393646,
+    "job_id": 101459984693,
+    "failure_stage": "Download all three frozen archives once",
+    "completed_before_failure": ["authorization gate", "Natural Earth archive download", "Natural Earth ZIP integrity check"],
+    "failure": "HTTP 403 on the frozen HydroRIVERS URL before HydroRIVERS bytes were downloaded",
+    "GMBA_download_started": false,
+    "verification_json_written": false,
+    "flower_colour_accessed": false,
+    "interaction_statistic_computed": false
+  },
+  "scientific_and_source_identity_unchanged": {
+    "source_contract": "docs/supporting/global_rgfca_crossdomain_barrier_source_acquisition_contract_v1.json",
+    "all_three_urls_unchanged": true,
+    "versions_unchanged": true,
+    "required_internal_files_unchanged": true,
+    "future_predictor_definitions_unchanged": true,
+    "no_alternate_mirror": true,
+    "no_source_substitution": true
+  },
+  "technical_change_allowed_once": {
+    "recovery_attempts_allowed": 1,
+    "http_change": "send a conventional browser User-Agent and the official provider product-page Referer while requesting the same frozen URL; follow redirects exactly as before",
+    "natural_earth_referer": "https://www.naturalearthdata.com/downloads/10m-physical-vectors/",
+    "hydrorivers_referer": "https://www.hydrosheds.org/products/hydrorivers",
+    "gmba_referer": "https://www.earthenv.org/mountains",
+    "curl_retry_policy_unchanged": true,
+    "archive_and_internal_component_SHA256_still_required": true
+  },
+  "guards": {
+    "flower_colour_access_allowed": false,
+    "RGFCA_edge_join_allowed": false,
+    "E3_or_E4_interaction_statistic_allowed": false,
+    "second_recovery_if_this_fails": false,
+    "claim_if_recovery_fails": "source not executable from the frozen delivery endpoint in this environment; mark affected cross-domain family not_evaluable rather than changing source"
+  }
+}

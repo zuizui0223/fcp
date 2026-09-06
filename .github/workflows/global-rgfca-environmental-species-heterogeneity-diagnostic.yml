@@ -1,0 +1,127 @@
+name: Global RGFCA environmental species heterogeneity diagnostic
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_environmental_species_heterogeneity_diagnostic_authorization_v1.json"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-environmental-species-heterogeneity-diagnostic
+  cancel-in-progress: false
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Enforce frozen omnibus diagnostic and one attempt
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          test "$RUN_ATTEMPT" = "1" || { echo "heterogeneity diagnostic reruns are forbidden"; exit 1; }
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path('docs/supporting/global_rgfca_environmental_species_heterogeneity_diagnostic_contract_v1.json').read_text())
+          a=json.loads(Path('docs/supporting/global_rgfca_environmental_species_heterogeneity_diagnostic_authorization_v1.json').read_text())
+          if c.get('status') != 'postoutcome_exploratory_omnibus_frozen_before_species_effect_matrix_is_reopened':
+              raise SystemExit('heterogeneity contract drift')
+          if a.get('status') != 'authorize_exactly_one_omnibus_environmental_species_heterogeneity_diagnostic':
+              raise SystemExit('heterogeneity authorization drift')
+          if a.get('workflow_attempts_allowed') != 1 or a.get('favourable_rerun_allowed') is not False:
+              raise SystemExit('heterogeneity retry policy drift')
+          print({'gate':'pass'})
+          PY
+      - name: Install dependencies and validate code
+        run: |
+          python -m pip install -e .
+          python -m py_compile scripts/analysis/run_global_rgfca_environmental_species_heterogeneity_diagnostic.py
+      - name: Recover exact immutable species-effect artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ROOT=/tmp/rgfca-heterogeneity-inputs
+          rm -rf "$ROOT" /tmp/rgfca-artifact.zip
+          mkdir -p "$ROOT"
+          fetch_artifact () {
+            ID="$1"; NAME="$2"
+            mkdir -p "$ROOT/$NAME"
+            curl -L --fail --silent --show-error \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${ID}/zip" \
+              -o /tmp/rgfca-artifact.zip
+            unzip -q /tmp/rgfca-artifact.zip -d "$ROOT/$NAME"
+            rm /tmp/rgfca-artifact.zip
+          }
+          fetch_artifact 9984688398 global-rgfca-earthenv-terrain-block-v1
+          fetch_artifact 9985148009 global-rgfca-expanded-thermal_regime-block-v1
+          fetch_artifact 9985074144 global-rgfca-expanded-water_balance-block-v1
+          fetch_artifact 9985172128 global-rgfca-expanded-atmospheric_energy_dryness-block-v1
+          fetch_artifact 9985095930 global-rgfca-expanded-edaphic-regime-block-v1
+          fetch_artifact 9987049057 global-rgfca-environmental-interaction-family-v1
+          find "$ROOT" -type f -maxdepth 3 -print | sort
+      - name: Run complete 15-feature species heterogeneity diagnostic
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/rgfca-heterogeneity-result
+          mkdir -p /tmp/rgfca-heterogeneity-result
+          python scripts/analysis/run_global_rgfca_environmental_species_heterogeneity_diagnostic.py \
+            --artifact-root /tmp/rgfca-heterogeneity-inputs \
+            --output-dir /tmp/rgfca-heterogeneity-result
+      - name: Verify no inferential rescue
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('/tmp/rgfca-heterogeneity-result/global_rgfca_environmental_species_heterogeneity_diagnostic_result_v1.json').read_text())
+          if x.get('status') != 'complete_omnibus_species_environmental_heterogeneity_diagnostic':
+              raise SystemExit('unexpected diagnostic status')
+          if x.get('n_species') != 369 or x.get('n_features') != 15:
+              raise SystemExit('diagnostic matrix dimension drift')
+          g=x['decision_guard']
+          if any(g.get(k) is not False for k in ['five_block_main_effect_panel_reclassified','ten_interaction_family_reclassified','individual_variable_decomposition_opened','causal_or_local_adaptation_language_allowed']):
+              raise SystemExit('diagnostic changed a frozen decision')
+          print({'guard':'pass','thermal_dryness_rho':x['thermal_vs_atmospheric_dryness_species_effect_spearman']})
+          PY
+      - name: Commit exact diagnostic outputs
+        env:
+          BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          cp /tmp/rgfca-heterogeneity-result/global_rgfca_environmental_species_heterogeneity_diagnostic_result_v1.json docs/supporting/global_rgfca_environmental_species_heterogeneity_diagnostic_result_v1.json
+          cp /tmp/rgfca-heterogeneity-result/global_rgfca_environmental_species_effect_matrix_v1.csv data/derived/global_rgfca_environmental_species_effect_matrix_v1.csv
+          cp /tmp/rgfca-heterogeneity-result/global_rgfca_environmental_species_effect_correlations_v1.csv data/derived/global_rgfca_environmental_species_effect_correlations_v1.csv
+          cp /tmp/rgfca-heterogeneity-result/global_rgfca_environmental_species_effect_pca_loadings_v1.csv data/derived/global_rgfca_environmental_species_effect_pca_loadings_v1.csv
+          cp /tmp/rgfca-heterogeneity-result/global_rgfca_environmental_species_effect_pca_bootstrap_v1.csv data/derived/global_rgfca_environmental_species_effect_pca_bootstrap_v1.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_environmental_species_heterogeneity_diagnostic_result_v1.json \
+                  data/derived/global_rgfca_environmental_species_effect_matrix_v1.csv \
+                  data/derived/global_rgfca_environmental_species_effect_correlations_v1.csv \
+                  data/derived/global_rgfca_environmental_species_effect_pca_loadings_v1.csv \
+                  data/derived/global_rgfca_environmental_species_effect_pca_bootstrap_v1.csv
+          git commit -m "Freeze omnibus environmental species heterogeneity diagnostic"
+          git pull --rebase origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-environmental-species-heterogeneity-diagnostic-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/rgfca-heterogeneity-result/

@@ -1,0 +1,48 @@
+name: Validate sharded global capacity scan v2
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_monte_carlo_capacity_scan_v2_execution_contract.json"
+      - "scripts/acquisition/run_global_monte_carlo_capacity_scan_shard.py"
+      - "scripts/analysis/reduce_global_monte_carlo_capacity_scan_v2.py"
+      - ".github/workflows/global-monte-carlo-capacity-v2-validation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Compile sharded execution
+        run: |
+          python -m py_compile scripts/acquisition/run_global_monte_carlo_capacity_scan_shard.py scripts/analysis/reduce_global_monte_carlo_capacity_scan_v2.py
+      - name: Validate frozen execution semantics without capacity queries
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          parent = json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_contract_v1.json').read_text())
+          ex = json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_v2_execution_contract.json').read_text())
+          assert ex['biological_rules_changed'] is False
+          assert ex['execution']['deterministic_shards'] == 8
+          assert ex['execution']['max_parallel'] == 1
+          assert ex['inherited_without_change']['candidate_raw_photos_per_species'] == parent['target_rule']['candidate_raw_photos_per_species'] == [100,80,60]
+          assert ex['inherited_without_change']['minimum_metadata_eligible_species'] == parent['target_rule']['minimum_metadata_eligible_species'] == 300
+          assert ex['reducer']['requires_all_8_shards'] is True
+          assert ex['reducer']['requires_exact_taxon_set_equality_to_v1_plus_v2_union'] is True
+          assert ex['outcome_firewall']['flower_colour_used'] is False
+          print('capacity_v2_static_validation=pass')
+          PY

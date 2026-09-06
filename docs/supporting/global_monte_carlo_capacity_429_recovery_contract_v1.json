@@ -1,0 +1,68 @@
+{
+  "protocol": "global-monte-carlo-capacity-429-recovery-v1",
+  "status": "frozen_after_repeated_transport_429_observation_before_complete_capacity_outcome_and_before_any_candidate_pixels",
+  "date": "2026-09-05",
+  "parent_capacity_contract": "docs/supporting/global_monte_carlo_capacity_scan_contract_v1.json",
+  "failed_capacity_manifest_required": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v2.json",
+  "failed_capacity_audit_required": "data/frozen/global_monte_carlo_capacity_scan_species_audit_v2.csv",
+  "trigger": {
+    "required_parent_status": "not_evaluable_capacity_scan_due_request_failure",
+    "required_parent_request_error_fraction_above": 0.05,
+    "candidate_image_pixels_opened_must_be": false,
+    "flower_colour_used_must_be": false,
+    "recovery_authorization_is_separate_future_commit": true
+  },
+  "retry_set": {
+    "definition": "every and only capacity-audit row whose request_error is exactly HTTPError:HTTP Error 429: normal_throttling",
+    "successful_rows_requeried": false,
+    "non_429_error_rows_requeried": false,
+    "selective_retry_by_target_eligibility": false,
+    "all_retry_rows_required_exactly_once": true
+  },
+  "query": {
+    "same_h9_query_for_species_as_parent": true,
+    "per_page": 200,
+    "request_retries": 0,
+    "request_interval_seconds": 3.0,
+    "timeout_seconds": 45.0,
+    "quality_grade": "research",
+    "photos": true,
+    "geo": true,
+    "rank": "species",
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "maximum_positional_accuracy_m": 5000,
+    "obscuration": "none",
+    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"],
+    "order_by": "random",
+    "observer_cap": 2,
+    "prior_experiment_ids_excluded": true
+  },
+  "target_rule": {
+    "candidate_raw_photos_per_species": [100, 80, 60],
+    "minimum_metadata_eligible_species": 300,
+    "automatic_selection": "apply the unchanged parent rule only after replacing every retryable 429 row exactly once",
+    "post_recovery_target_relaxation": false
+  },
+  "execution": {
+    "deterministic_shards": 4,
+    "assignment": "sort frozen 429 rows by global_row_index and assign zero-based position modulo 4",
+    "max_parallel": 1,
+    "all_shards_required": true
+  },
+  "final_gate": {
+    "maximum_remaining_error_fraction": 0.05,
+    "if_pass_and_target_exists": "complete_metadata_only_capacity_scan_target_selected_after_transport_recovery_v3",
+    "if_remaining_error_fraction_above_ceiling": "not_evaluable_capacity_scan_after_429_transport_recovery",
+    "no_second_recovery_run": true
+  },
+  "outcome_firewall": {
+    "candidate_image_pixels_opened_at_freeze": false,
+    "flower_colour_used_at_freeze": false,
+    "climate_used_at_freeze": false,
+    "pollinator_used_at_freeze": false,
+    "barrier_overlay_used_at_freeze": false,
+    "biological_rules_changed": false
+  },
+  "interpretation": "This is a transport-failure recovery only. The original v2 capacity result remains immutable; v3 may be used only if v2 is formally not evaluable because its frozen 5% request-error ceiling is exceeded."
+}

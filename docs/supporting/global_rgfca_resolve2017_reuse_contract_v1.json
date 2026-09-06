@@ -1,0 +1,31 @@
+{
+  "protocol": "global-rgfca-resolve2017-precolour-source-reuse-v1",
+  "status": "technical_reuse_mapping_after_primary_g1_of_exact_payload_frozen_before_rgfca_colour_outcome",
+  "date": "2026-09-06",
+  "purpose": "Permit only byte-identical reuse of the RESOLVE Ecoregions 2017 payload whose archive and extracted-file hashes were already frozen before the RGFCA colour outcome. This mapping adds no new source choice, release choice, biological threshold, predictor direction or outcome-dependent substitution.",
+  "precolour_manifest": "data/atlas/environment/climate_ecoregion_source_manifest.json",
+  "precolour_import_commit": "6ee27d9af03941440992c3f598483f29b6edc08e",
+  "source": {
+    "name": "RESOLVE Ecoregions 2017",
+    "locator": "https://storage.googleapis.com/teow2016/Ecoregions2017.zip",
+    "archive_name": "Ecoregions2017.zip",
+    "archive_sha256_required": "be36d6209e443038d02e309f0447c6e7f2a62f5fe60c605ffe90d064952f2a60",
+    "extracted_sha256_required": {
+      "Ecoregions2017.dbf": "036987c540eef2dfd6e8a0678f3b85193649b3f63f545463dfcb2fed4f973ab5",
+      "Ecoregions2017.prj": "db2f4b2a30c81a88981162acd3ff4629b86350834194efed1a6650446ccaecf4",
+      "Ecoregions2017.shp": "d564235263d7a2f118cbb4fcb6e7593ef5f8c2f3600604d46047aa2712a83574",
+      "Ecoregions2017.shx": "140342bc19d04a6f1ee11d1099a6c115f8c076f1396c6f2a5a55182471ff4c42"
+    }
+  },
+  "allowed_rgfca_roles": [
+    "leave-one-realm-out geographic robustness after a separate outcome-blind deletion-semantics freeze",
+    "biogeographic_boundary_crossing external edge predictor under the already-frozen formula"
+  ],
+  "biogeographic_boundary_formula_source": "docs/supporting/global_edge_mechanism_distance_control_amendment_v1.json",
+  "newer_or_different_resolve_payload_allowed": false,
+  "source_substitution_allowed": false,
+  "hash_mismatch_policy": "not_evaluable_exact_precolour_resolve_source_recovery",
+  "primary_g1_may_be_rescued": false,
+  "g3_edge_mechanism_requires_g1": false,
+  "causal_language_allowed": false
+}

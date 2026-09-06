@@ -1,0 +1,71 @@
+{
+  "protocol": "global-rgfca-crossdomain-barrier-source-acquisition-v1",
+  "status": "postoutcome_crossdomain_source_urls_frozen_before_any_E3_or_E4_interaction_outcome",
+  "date": "2026-09-06",
+  "role": "source-only acquisition and byte verification for future environment-by-barrier and pollinator-by-barrier exploratory interaction families; flower-colour data may not be opened in this workflow",
+  "lineage": {
+    "precolour_source_registry": "docs/supporting/global_overlay_source_registry_v1.json",
+    "precolour_overlay_contract": "docs/supporting/global_colour_biogeography_overlay_contract_v1.json",
+    "interaction_master_registry": "docs/supporting/global_rgfca_ecological_interaction_master_registry_v1.json"
+  },
+  "sources": [
+    {
+      "id": "marine_land_mask",
+      "provider": "Natural Earth",
+      "product": "1:10m Land",
+      "version": "5.1.1",
+      "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_land.zip",
+      "expected_archive_name": "ne_10m_land.zip",
+      "required_internal_basename": "ne_10m_land",
+      "required_extensions": [".shp", ".dbf", ".shx", ".prj"],
+      "future_edge_score": "fraction of interior points along the shortest great-circle path that fall outside the frozen land polygons, using the already frozen geodesic sampling rule",
+      "source_note": "Natural Earth official 1:10m physical-vector page labels Land as version 5.1.1; the download CDN URL itself is not versioned, therefore the acquired archive SHA256 is the immutable identity for downstream use"
+    },
+    {
+      "id": "major_river_crossing",
+      "provider": "HydroRIVERS / HydroSHEDS",
+      "product": "HydroRIVERS global shapefile",
+      "version": "1",
+      "url": "https://data.hydrosheds.org/file/HydroRIVERS/HydroRIVERS_v10_shp.zip",
+      "expected_archive_name": "HydroRIVERS_v10_shp.zip",
+      "required_internal_basename": "HydroRIVERS_v10",
+      "required_extensions": [".shp", ".dbf", ".shx", ".prj"],
+      "required_attribute_for_future_test": "ORD_FLOW",
+      "future_major_threshold": "ORD_FLOW <= 4",
+      "future_edge_score": "1 if the shortest great-circle edge intersects at least one frozen HydroRIVERS reach with ORD_FLOW <= 4, otherwise 0",
+      "source_note": "official HydroRIVERS page identifies product as version 1; exact v10 archive bytes are frozen here"
+    },
+    {
+      "id": "mountain_system_boundary",
+      "provider": "GMBA-EarthEnv",
+      "product": "GMBA Mountain Inventory v2 Standard - 300 selection",
+      "version": "2.0",
+      "dataset_doi": "10.48601/earthenv-t9k2-1407",
+      "url": "https://data.earthenv.org/mountains/standard/GMBA_Inventory_v2.0_standard_300.zip",
+      "expected_archive_name": "GMBA_Inventory_v2.0_standard_300.zip",
+      "required_internal_basename": "GMBA_Inventory_v2.0_standard_300",
+      "required_extensions": [".shp", ".dbf", ".shx", ".prj"],
+      "future_edge_score": "count transitions in sampled-point Standard-300 mountain-system membership, treating non-mountain as its own state, under the already frozen geodesic sampling rule",
+      "source_note": "official EarthEnv page defines Standard-300 as a non-overlapping selection of 291 major mountain ranges and systems"
+    }
+  ],
+  "acquisition_rules": {
+    "download_all_three_exact_urls_once": true,
+    "record_archive_sha256_size_and_internal_component_sha256": true,
+    "record_vector_metadata_and_required_attribute_presence": true,
+    "all_three_required": true,
+    "download_failure": "fail_closed_no_source_substitution",
+    "no_alternate_mirror_after_download_failure": true,
+    "flower_colour_access_allowed": false,
+    "RGFCA_edge_join_allowed": false,
+    "E3_or_E4_interaction_statistic_allowed": false,
+    "retain_exact_archives_as_GitHub_Actions_artifact": true
+  },
+  "downstream_guard": {
+    "E3_environment_x_isolation_barrier_may_open_after_source_verification": true,
+    "E4_pollinator_x_isolation_barrier_also_requires_pollinator_source_verification": true,
+    "RESOLVE_source_already_exact": true,
+    "source_acquisition_does_not_reclassify_existing_RESOLVE_result": true,
+    "postoutcome_exploratory_only": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "protocol": "global-rgfca-worldclim-edge-secondary-execution-v1",
+  "status": "authorize_exactly_one_global_rgfca_worldclim_edge_secondary_execution",
+  "authorization_scope": "the single frozen WorldClim multivariate climate-distance secondary predictor only",
+  "workflow_attempts_allowed": 1,
+  "null_indices": "0..998 exactly once",
+  "all_999_nulls_required": true,
+  "selective_early_stop_allowed": false,
+  "favourable_rerun_allowed": false,
+  "parameter_change_after_result_allowed": false,
+  "primary_g1_may_be_reclassified": false,
+  "species_disjoint_commonness_may_be_reclassified": false,
+  "resolve_result_may_be_reclassified": false,
+  "original_CHELSA_G3_family_may_be_claimed": false
+}
