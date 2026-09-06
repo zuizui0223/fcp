@@ -1,0 +1,96 @@
+name: Global RGFCA design power and identifiability simulation
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_design_power_identifiability_simulation_authorization_v1.json"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-design-power-identifiability-simulation
+  cancel-in-progress: false
+
+jobs:
+  simulate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Enforce frozen simulation and one attempt
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          test "$RUN_ATTEMPT" = "1" || { echo "simulation reruns are forbidden"; exit 1; }
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path('docs/supporting/global_rgfca_design_power_identifiability_simulation_contract_v1.json').read_text())
+          a=json.loads(Path('docs/supporting/global_rgfca_design_power_identifiability_simulation_authorization_v1.json').read_text())
+          if c.get('status') != 'frozen_before_any_new_design_power_simulation_result':
+              raise SystemExit('simulation contract drift')
+          if a.get('status') != 'authorize_exactly_one_design_power_simulation_execution':
+              raise SystemExit('simulation authorization drift')
+          if a.get('workflow_attempts_allowed') != 1 or a.get('favourable_rerun_allowed') is not False:
+              raise SystemExit('simulation retry policy drift')
+          print({'gate':'pass'})
+          PY
+      - name: Install dependencies and validate code
+        run: |
+          python -m pip install -e .
+          python -m py_compile scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py
+      - name: Run frozen design simulations
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/rgfca-design-sim
+          mkdir -p /tmp/rgfca-design-sim
+          python scripts/analysis/run_global_rgfca_design_power_identifiability_simulation.py --output-dir /tmp/rgfca-design-sim
+      - name: Verify result guard
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/rgfca-design-sim/global_rgfca_design_power_identifiability_simulation_result_v1.json')
+          x=json.loads(p.read_text())
+          if x.get('status') != 'complete_postoutcome_methodological_simulation_no_observed_decision_change':
+              raise SystemExit('unexpected simulation status')
+          g=x.get('decision_guard',{})
+          if any(g.get(k) is not False for k in ['G1_primary_reclassified','environmental_parent_blocks_reclassified','interaction_family_reclassified','variable_level_decomposition_opened']):
+              raise SystemExit('simulation changed a frozen biological decision')
+          print({'guard':'pass','s1_rows':x['S1']['scenario_rows'],'s2_rows':len(x['S2']['rows']),'s3_rows':x['S3']['rows']})
+          PY
+      - name: Commit exact simulation outputs
+        env:
+          BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          cp /tmp/rgfca-design-sim/global_rgfca_design_power_identifiability_simulation_result_v1.json docs/supporting/global_rgfca_design_power_identifiability_simulation_result_v1.json
+          cp /tmp/rgfca-design-sim/global_rgfca_design_power_s1_v1.csv data/derived/global_rgfca_design_power_s1_v1.csv
+          cp /tmp/rgfca-design-sim/global_rgfca_outer_stability_s2_v1.csv data/derived/global_rgfca_outer_stability_s2_v1.csv
+          cp /tmp/rgfca-design-sim/global_rgfca_environmental_holm_power_s3_v1.csv data/derived/global_rgfca_environmental_holm_power_s3_v1.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_design_power_identifiability_simulation_result_v1.json \
+                  data/derived/global_rgfca_design_power_s1_v1.csv \
+                  data/derived/global_rgfca_outer_stability_s2_v1.csv \
+                  data/derived/global_rgfca_environmental_holm_power_s3_v1.csv
+          git commit -m "Freeze RGFCA design power simulation results"
+          git pull --rebase origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-design-power-identifiability-simulation-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/rgfca-design-sim/
