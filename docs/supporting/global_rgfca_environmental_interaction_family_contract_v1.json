@@ -1,0 +1,160 @@
+{
+  "protocol": "global-rgfca-environmental-interaction-family-v1",
+  "status": "postoutcome_exploratory_family_frozen_after_single_interaction_launch_but_before_any_interaction_outcome_is_opened",
+  "date": "2026-09-06",
+  "scope": "all pairwise interactions among the five already frozen environmental process blocks; no pair may be added, removed, or privileged after interaction outcomes are opened",
+  "design_history": {
+    "single_thermal_dryness_contract": "docs/supporting/global_rgfca_thermal_dryness_interaction_contract_v1.json",
+    "single_interaction_run_launched_before_family_expansion": true,
+    "single_interaction_outcome_opened_before_family_freeze": false,
+    "reason_for_expansion": "user requested all ecologically meaningful interactions rather than privileging the initially selected thermal-by-dryness pair",
+    "single_interaction_inferential_status_after_this_contract": "its standalone p-value is not used for scientific support; thermal_regime x atmospheric_energy_dryness is re-evaluated as one of the ten fixed family members under the family multiplicity rule"
+  },
+  "inferential_role": {
+    "role": "postoutcome_exploratory_environmental_interaction_family",
+    "interaction_formula_precolour_preregistered": false,
+    "cannot_rescue_or_reclassify_five_block_main_effect_panel": true,
+    "cannot_rescue_or_reclassify_G1": true,
+    "cannot_reclassify_species_disjoint_commonness": true,
+    "causal_or_local_adaptation_language_allowed": false
+  },
+  "parent_process_blocks": [
+    "thermal_regime",
+    "water_balance",
+    "atmospheric_energy_dryness",
+    "edaphic_regime",
+    "terrain_structure"
+  ],
+  "interaction_family": [
+    {
+      "id": "thermal_regime_x_water_balance",
+      "a": "thermal_regime",
+      "b": "water_balance",
+      "ecological_interpretation": "temperature stress can depend on climatic water supply; heat and hydrologic limitation may amplify or buffer one another"
+    },
+    {
+      "id": "thermal_regime_x_atmospheric_energy_dryness",
+      "a": "thermal_regime",
+      "b": "atmospheric_energy_dryness",
+      "ecological_interpretation": "thermal gradients may interact with atmospheric evaporative demand, radiation, accumulated heat and wind exposure"
+    },
+    {
+      "id": "thermal_regime_x_edaphic_regime",
+      "a": "thermal_regime",
+      "b": "edaphic_regime",
+      "ecological_interpretation": "temperature effects may depend on substrate chemistry, texture, carbon and cation exchange, altering resource limitation or pigment costs"
+    },
+    {
+      "id": "thermal_regime_x_terrain_structure",
+      "a": "thermal_regime",
+      "b": "terrain_structure",
+      "ecological_interpretation": "topography can expose, intensify or buffer regional thermal gradients and generate local thermal mosaics"
+    },
+    {
+      "id": "water_balance_x_atmospheric_energy_dryness",
+      "a": "water_balance",
+      "b": "atmospheric_energy_dryness",
+      "ecological_interpretation": "plant water stress depends jointly on water supply and atmospheric demand; the same precipitation regime can differ under VPD, radiation and wind"
+    },
+    {
+      "id": "water_balance_x_edaphic_regime",
+      "a": "water_balance",
+      "b": "edaphic_regime",
+      "ecological_interpretation": "climatic moisture limitation can be amplified or buffered by soil texture, organic carbon, pH and exchange capacity"
+    },
+    {
+      "id": "water_balance_x_terrain_structure",
+      "a": "water_balance",
+      "b": "terrain_structure",
+      "ecological_interpretation": "orographic precipitation, runoff, drainage and topographic water redistribution can modify climatic water gradients"
+    },
+    {
+      "id": "atmospheric_energy_dryness_x_edaphic_regime",
+      "a": "atmospheric_energy_dryness",
+      "b": "edaphic_regime",
+      "ecological_interpretation": "soil water and nutrient buffering may alter responses to VPD, radiation, heat accumulation and wind exposure"
+    },
+    {
+      "id": "atmospheric_energy_dryness_x_terrain_structure",
+      "a": "atmospheric_energy_dryness",
+      "b": "terrain_structure",
+      "ecological_interpretation": "ridges, slopes and ruggedness structure radiation and wind exposure and therefore atmospheric drying stress"
+    },
+    {
+      "id": "edaphic_regime_x_terrain_structure",
+      "a": "edaphic_regime",
+      "b": "terrain_structure",
+      "ecological_interpretation": "erosion, weathering, deposition and landform create topographically structured edaphic mosaics"
+    }
+  ],
+  "completeness_rule": {
+    "number_of_parent_blocks": 5,
+    "number_of_pairwise_interactions": 10,
+    "all_unordered_pairs_included": true,
+    "higher_order_interactions_primary_family": false,
+    "reason_higher_order_closed": "three-way and higher terms require many lower-order terms, have non-unique ecological interpretation and would create an underpowered postoutcome search; they are not tested in this family"
+  },
+  "external_predictor_definition": {
+    "block_score": "exact same block-level edge turnover used by the completed five-block main-effect panel: sqrt(mean squared endpoint difference across the four globally standardized variables in that block)",
+    "thermal_regime": ["bio01", "bio04", "bio05", "bio06"],
+    "water_balance": ["bio12", "bio14", "bio15", "cmi_mean"],
+    "atmospheric_energy_dryness": ["vpd_mean", "rsds_mean", "gdd5", "sfcWind_mean"],
+    "edaphic_regime": ["phh2o_0_30cm", "clay_0_30cm", "soc_0_30cm", "cec_0_30cm"],
+    "terrain_structure": ["elevation", "slope", "terrain_roughness_index", "vector_ruggedness_measure"],
+    "missing_rule": "pair-specific complete cases only; an interaction retains an edge occurrence only when both endpoints are complete for all variables in both constituent blocks; missing values are never biological zero",
+    "source_bytes": "must match the already frozen CHELSA, SoilGrids and EarthEnv source verification SHA256 values"
+  },
+  "edge_and_colour_geometry": {
+    "outer_realizations": 200,
+    "species_per_outer": 250,
+    "photos_per_species": 20,
+    "species_seed": 2026090401,
+    "photo_master_seed": 2026090402,
+    "knn_k": 3,
+    "colour_edge_score": "same four-group JSD followed by the same within-outer/species midrank transform used in RGFCA",
+    "repeated_edge_occurrences_deduplicated": false
+  },
+  "pairwise_model": {
+    "unit": "species",
+    "minimum_joint_edges_per_species": 20,
+    "minimum_evaluable_species": 30,
+    "transform": "within each species and pair-specific retained edge set, average-tie rank Y, geographic distance G, block A turnover and block B turnover; center and scale each ranked variable to mean 0 and population SD 1",
+    "model": "z(rank(Y)) = beta0 + beta_G*z(rank(G)) + beta_A*z(rank(A)) + beta_B*z(rank(B)) + beta_AxB*[z(rank(A))*z(rank(B))] + error",
+    "species_statistic": "beta_AxB",
+    "rank_condition": "design matrix [1,G,A,B,A*B] must have full column rank 5",
+    "global_statistic": "equal-species arithmetic mean beta_AxB",
+    "sign_interpretation": {
+      "positive": "synergistic/coincident turnover: simultaneous high contrasts predict more colour discontinuity than their additive main effects plus distance",
+      "negative": "antagonistic/buffering/redundant turnover: simultaneous high contrasts predict less colour discontinuity than the additive expectation"
+    }
+  },
+  "null_and_multiplicity": {
+    "null_permutations": 999,
+    "null_indices": "0..998 exactly once",
+    "null_master_seed": 2026090403,
+    "null_operation": "same within-species complete colour-vector permutations as RGFCA; environmental predictors, pair-specific coverage, distance and interaction design remain fixed",
+    "pair_raw_p": "two-sided empirical p = (1 + count(abs(null_global_mean_beta_AxB) >= abs(observed_global_mean_beta_AxB))) / 1000",
+    "family_multiplicity": "Holm across exactly all ten pairwise interactions",
+    "alpha": 0.05,
+    "support_rule": "p_Holm < 0.05; sign is then interpreted from observed global mean beta_AxB",
+    "standalone_thermal_dryness_p_may_be_used_for_support": false
+  },
+  "followup_gate": {
+    "variable_level_interaction_decomposition_allowed_only_for_supported_parent_pair_after_ten_pair_Holm": true,
+    "unsupported_pair_variable_search_allowed": false,
+    "supported_pair_decomposition_must_freeze_all_16_cross-block_variable_pairs_together_before_opening_any_variable-level interaction result": true,
+    "supported_pair_variable_family_multiplicity": "Holm across all 16 cross-block variable interactions for that supported parent pair"
+  },
+  "anti_fishing_guards": {
+    "drop_unfavourable_pair_after_results": false,
+    "add_new_pair_after_results": false,
+    "change_to_one_sided_after_results": false,
+    "threshold_high_high_search_after_results": false,
+    "alternative_product_min_max_ratio_search_after_results": false,
+    "favourable_rerun_or_new_null_seed": false,
+    "main_effect_panel_reclassification": false,
+    "G1_or_commonness_reclassification": false
+  },
+  "claim_ceiling_if_supported": "Exploratory evidence for a reproducible non-additive association between two broad environmental process contrasts and species-specific flower-colour discontinuity beyond geographic distance and their additive main effects. This does not establish causal selection, local adaptation or a universal mechanism.",
+  "claim_if_none_supported": "No pairwise non-additive environmental process interaction is supported under the fixed ten-pair exploratory family; close block-level interaction fishing and move to independently motivated community, temporal, demographic or trait moderators."
+}
