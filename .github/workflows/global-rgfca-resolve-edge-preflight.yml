@@ -1,0 +1,38 @@
+name: Global RGFCA RESOLVE edge synthetic preflight
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "fcp_pipeline/global_resolve_boundary.py"
+      - "scripts/analysis/run_global_rgfca_resolve_edge_mechanism.py"
+      - "tests/test_global_resolve_boundary.py"
+      - ".github/workflows/global-rgfca-resolve-edge-preflight.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install package and fixed technical geometry dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install "pyshp==2.3.1" "shapely==2.1.2" pytest
+      - name: Compile one-shot executor
+        run: python -m py_compile scripts/analysis/run_global_rgfca_resolve_edge_mechanism.py fcp_pipeline/global_resolve_boundary.py
+      - name: Run synthetic boundary tests only
+        run: pytest -q tests/test_global_resolve_boundary.py
+      - name: Confirm executor imports without reading RGFCA outcome data
+        run: python scripts/analysis/run_global_rgfca_resolve_edge_mechanism.py --help >/dev/null
