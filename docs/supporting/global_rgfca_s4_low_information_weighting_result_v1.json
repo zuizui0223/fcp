@@ -1,0 +1,75 @@
+{
+  "protocol": "global-rgfca-s4-low-information-weighting-execution-v1",
+  "status": "complete_frozen_s4_low_information_weighting_simulation",
+  "role": "Quantify how heterogeneous species-level information changes the sampling spread of an across-species mean under a true-zero spatial-colour association. This cannot retest or rescue H6/H6b.",
+  "target_species": 188,
+  "reliable_species": 74,
+  "h6b_null_per_species": 999,
+  "h6b_seed": 20260908,
+  "simulation_replicates": 100000,
+  "simulation_seed": 2026090604,
+  "observed_species_rho_used_to_set_simulation": false,
+  "estimators": {
+    "equal_species_188": {
+      "simulation_mean": 5.650735683488443e-05,
+      "simulation_sd": 0.027391558419048407,
+      "q005": -0.06969825141907536,
+      "q025": -0.05337971896618367,
+      "q975": 0.05398962142510596,
+      "q995": 0.07046277590389567,
+      "q95_absolute_mean": 0.05373254449437819,
+      "probability_abs_mean_ge_0_025": 0.36346,
+      "probability_abs_mean_ge_0_05": 0.06845,
+      "probability_abs_mean_ge_0_10": 0.00013,
+      "effective_species_number_1_over_sum_w2": 188.0
+    },
+    "pair_count_weighted_188": {
+      "simulation_mean": 9.891660521958088e-06,
+      "simulation_sd": 0.014415086593120376,
+      "q005": -0.03562336052783665,
+      "q025": -0.02749936405651997,
+      "q975": 0.028950263270625495,
+      "q995": 0.038265380273471955,
+      "q95_absolute_mean": 0.028191581805604746,
+      "probability_abs_mean_ge_0_025": 0.08169,
+      "probability_abs_mean_ge_0_05": 0.00067,
+      "probability_abs_mean_ge_0_10": 0.0,
+      "effective_species_number_1_over_sum_w2": 40.11819965308741
+    },
+    "inverse_null_variance_188": {
+      "simulation_mean": 2.9479957023053836e-05,
+      "simulation_sd": 0.0133599841065351,
+      "q005": -0.03281063549459544,
+      "q025": -0.02517743839855721,
+      "q975": 0.027015757977997754,
+      "q995": 0.03628567235942711,
+      "q95_absolute_mean": 0.02610135597398617,
+      "probability_abs_mean_ge_0_025": 0.06028,
+      "probability_abs_mean_ge_0_05": 0.00042,
+      "probability_abs_mean_ge_0_10": 0.0,
+      "effective_species_number_1_over_sum_w2": 29.54473322822001
+    },
+    "reliable_74_equal_species": {
+      "simulation_mean": -2.4555954228258158e-05,
+      "simulation_sd": 0.022940263778153832,
+      "q005": -0.05749960135220114,
+      "q025": -0.04427356284365374,
+      "q975": 0.04538767352161772,
+      "q995": 0.060097313294805034,
+      "q95_absolute_mean": 0.04477766777133896,
+      "probability_abs_mean_ge_0_025": 0.27761,
+      "probability_abs_mean_ge_0_05": 0.02898,
+      "probability_abs_mean_ge_0_10": 0.0,
+      "effective_species_number_1_over_sum_w2": 73.99999999999997
+    }
+  },
+  "comparisons": {
+    "variance_ratio_equal188_to_inverse_variance188": 4.2036021022009225,
+    "variance_ratio_paircount188_to_inverse_variance188": 1.1641866858683199,
+    "variance_ratio_equal188_to_reliable74": 1.425727967357812,
+    "spearman_log1p_cell_pairs_vs_species_null_sd": -0.9614050321103216,
+    "spearman_p_descriptive_only": 3.46430090363701e-106
+  },
+  "H6_or_H6b_reclassified": false,
+  "claim_ceiling": "May show that equal-species aggregation is more or less noisy than geometry/information-weighted alternatives under the completed H6b sampling structure. It cannot establish a biological mean effect, invalidate equal weighting generally, or change any completed H6/H6b support decision."
+}
