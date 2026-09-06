@@ -1,0 +1,21 @@
+{
+  "protocol": "global-rgfca-resolve-edge-mechanism-execution-v1",
+  "status": "authorize_exactly_one_global_rgfca_resolve_edge_mechanism_execution",
+  "date": "2026-09-06",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "workflow_attempts_allowed": 1,
+  "predictor": "biogeographic_boundary_crossing",
+  "source": "exact pre-colour verified RESOLVE Ecoregions 2017 payload only",
+  "source_substitution_allowed": false,
+  "new_predictor_allowed": false,
+  "predictor_direction_flip_allowed": false,
+  "null_indices": "0..998 exactly once",
+  "all_999_nulls_required": true,
+  "null_seed_change_allowed": false,
+  "selective_early_stop_allowed": false,
+  "favourable_rerun_allowed": false,
+  "g1_support_required": false,
+  "primary_g1_may_be_rescued": false,
+  "all_fixed_family_unevaluable_predictors_must_remain_reported": true,
+  "purpose": "Execute once the pre-outcome distance-controlled equal-species flower-colour versus RESOLVE biogeographic-boundary concordance test using the exact verified source and the original 999 species-conditioned colour nulls."
+}
