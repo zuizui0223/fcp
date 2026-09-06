@@ -1,0 +1,158 @@
+name: Global RGFCA WorldClim edge secondary
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_worldclim_edge_secondary_authorization_v1.json"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-worldclim-edge-secondary
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Enforce exactly one frozen secondary execution
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          if os.environ["RUN_ATTEMPT"] != "1":
+              raise SystemExit("favourable secondary reruns are forbidden")
+          auth = json.loads(Path("docs/supporting/global_rgfca_worldclim_edge_secondary_authorization_v1.json").read_text())
+          mapping = json.loads(Path("docs/supporting/global_rgfca_worldclim_edge_secondary_execution_v1.json").read_text())
+          primary = json.loads(Path("docs/supporting/global_rgfca_g1_result_v1.json").read_text())
+          common = json.loads(Path("docs/supporting/global_rgfca_species_disjoint_commonness_result_v1.json").read_text())
+          resolve = json.loads(Path("docs/supporting/global_rgfca_resolve_edge_mechanism_result_v1.json").read_text())
+
+          if auth.get("status") != "authorize_exactly_one_global_rgfca_worldclim_edge_secondary_execution":
+              raise SystemExit("secondary execution not explicitly authorized")
+          if auth.get("workflow_attempts_allowed") != 1:
+              raise SystemExit("authorization must permit exactly one attempt")
+          if auth.get("null_indices") != "0..998 exactly once" or auth.get("all_999_nulls_required") is not True:
+              raise SystemExit("null authorization drift")
+          if auth.get("selective_early_stop_allowed") is not False or auth.get("favourable_rerun_allowed") is not False:
+              raise SystemExit("selective execution is forbidden")
+          if mapping.get("status") != "postoutcome_secondary_execution_mapping_frozen_before_any_rgfca_worldclim_edge_alignment_result":
+              raise SystemExit("secondary mapping is not frozen")
+          if mapping["execution_policy"].get("workflow_attempts_allowed") != 1:
+              raise SystemExit("secondary mapping attempt count drift")
+          if mapping["inferential_role"].get("part_of_original_CHELSA_G3_primary_family") is not False:
+              raise SystemExit("secondary/source-family separation drift")
+          if mapping["inferential_role"].get("may_reclassify_primary_G1") is not False:
+              raise SystemExit("primary G1 rescue protection drift")
+          if mapping["external_predictor"].get("single_predictor_only") is not True:
+              raise SystemExit("single-predictor freeze drift")
+          if primary.get("g1_supported") is not False or float(primary.get("p_upper")) != 0.07:
+              raise SystemExit("primary G1 result drift")
+          if common.get("common_across_species_supported") is not False:
+              raise SystemExit("species-disjoint result drift")
+          if resolve.get("supported") is not False:
+              raise SystemExit("RESOLVE result drift")
+          if Path("docs/supporting/global_rgfca_worldclim_edge_secondary_result_v1.json").exists():
+              raise SystemExit("secondary result already committed; second execution forbidden")
+          print({"gate":"pass","primary_g1_p":primary["p_upper"],"common_architecture":False,"resolve_supported":False})
+          PY
+
+  secondary:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install frozen package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Run relevant invariant tests
+        run: |
+          python -m pytest -q tests/test_global_edge_mechanism_v2.py tests/test_global_rgfca_engine.py tests/test_global_repeated_atlas.py
+      - name: Recheck exact pre-colour WorldClim grid bytes
+        run: |
+          set -euo pipefail
+          echo "d51be4ee91a1bc78c316d2441338fe1ff73513c08df426ec2ad683b30ec72b99  data/atlas/environment/climate_ecoregion_grid_250km.csv" | sha256sum -c -
+      - name: Execute frozen WorldClim secondary once
+        env:
+          PYTHONUNBUFFERED: "1"
+          PYTHONHASHSEED: "0"
+          OMP_NUM_THREADS: "1"
+          OPENBLAS_NUM_THREADS: "1"
+          MKL_NUM_THREADS: "1"
+          NUMEXPR_NUM_THREADS: "1"
+        run: |
+          mkdir -p /tmp/rgfca-worldclim-secondary
+          python scripts/analysis/run_global_rgfca_worldclim_edge_secondary.py \
+            --output-result /tmp/rgfca-worldclim-secondary/global_rgfca_worldclim_edge_secondary_result_v1.json \
+            --output-species /tmp/rgfca-worldclim-secondary/global_rgfca_worldclim_edge_secondary_species_v1.csv \
+            --output-null /tmp/rgfca-worldclim-secondary/global_rgfca_worldclim_edge_secondary_null_v1.csv \
+            --null-batch-size 64
+      - name: Require complete non-selective outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('/tmp/rgfca-worldclim-secondary')
+          required=[
+            root/'global_rgfca_worldclim_edge_secondary_result_v1.json',
+            root/'global_rgfca_worldclim_edge_secondary_species_v1.csv',
+            root/'global_rgfca_worldclim_edge_secondary_null_v1.csv'
+          ]
+          missing=[str(p) for p in required if not p.exists()]
+          if missing: raise SystemExit('missing required outputs: '+', '.join(missing))
+          result=json.loads(required[0].read_text())
+          if result.get('null_permutations') != 999 or result.get('null_indices_exact_0_998') is not True:
+              raise SystemExit('incomplete null execution')
+          role=result.get('inferential_role',{})
+          if role.get('may_reclassify_primary_G1') is not False or role.get('part_of_original_CHELSA_G3_primary_family') is not False:
+              raise SystemExit('secondary hierarchy drift')
+          print({k:result[k] for k in ['secondary_supported','observed_mean_species_partial_rho','p_upper','n_evaluable_species','climate_edge_occurrence_coverage_fraction']})
+          PY
+      - name: Upload immutable complete secondary result
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-worldclim-edge-secondary-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/rgfca-worldclim-secondary/
+      - name: Commit complete result to analysis branch
+        env:
+          TARGET_BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          set -euo pipefail
+          git fetch origin "$TARGET_BRANCH"
+          if [ "$(git rev-parse origin/$TARGET_BRANCH)" != "$GITHUB_SHA" ]; then
+            echo "Branch advanced during scientific execution; refusing an ambiguous result commit."
+            exit 1
+          fi
+          cp /tmp/rgfca-worldclim-secondary/global_rgfca_worldclim_edge_secondary_result_v1.json docs/supporting/
+          cp /tmp/rgfca-worldclim-secondary/global_rgfca_worldclim_edge_secondary_species_v1.csv data/derived/
+          cp /tmp/rgfca-worldclim-secondary/global_rgfca_worldclim_edge_secondary_null_v1.csv data/derived/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_worldclim_edge_secondary_result_v1.json \
+                  data/derived/global_rgfca_worldclim_edge_secondary_species_v1.csv \
+                  data/derived/global_rgfca_worldclim_edge_secondary_null_v1.csv
+          git commit -m "Record WorldClim edge secondary result"
+          git push origin HEAD:"$TARGET_BRANCH"
