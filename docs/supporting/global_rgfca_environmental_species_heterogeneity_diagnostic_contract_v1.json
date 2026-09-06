@@ -1,0 +1,43 @@
+{
+  "protocol": "global-rgfca-environmental-species-heterogeneity-diagnostic-v1",
+  "status": "postoutcome_exploratory_omnibus_frozen_before_species_effect_matrix_is_reopened",
+  "date": "2026-09-06",
+  "role": "Determine whether the weak/null global environmental averages conceal reproducible multivariate species-response syndromes. This is an omnibus descriptive heterogeneity diagnostic, not a significance rescue.",
+  "inputs": {
+    "main_effect_artifacts": [
+      {"block":"terrain_structure","artifact_id":9984688398,"artifact_name":"global-rgfca-earthenv-terrain-block-v1","species_sha256":"3320ffb72f68b9c2a9d0e95505143c332a2e6bd32b7580ffba98277abc4b124e"},
+      {"block":"thermal_regime","artifact_id":9985148009,"artifact_name":"global-rgfca-expanded-thermal_regime-block-v1","species_sha256":"8888675d309ac7c34fd928c485f13034d86296241ad2aa4e4f9cd5265f67495b"},
+      {"block":"water_balance","artifact_id":9985074144,"artifact_name":"global-rgfca-expanded-water_balance-block-v1","species_sha256":"53e949b9bef1ad2fffddabb8ab73716b1b62ce29a00a9935d2e3996fcc011357"},
+      {"block":"atmospheric_energy_dryness","artifact_id":9985172128,"artifact_name":"global-rgfca-expanded-atmospheric_energy_dryness-block-v1","species_sha256":"547530b991bf01b9de0ae787cc6daa1431c06ef8f286498d2f2c5d385f8e425f"},
+      {"block":"edaphic_regime","artifact_id":9985095930,"artifact_name":"global-rgfca-expanded-edaphic-regime-block-v1","species_sha256":"ffe9af0d97c67359d46648213d7a2d6954e4e79ea869371c70b233833aee15c4"}
+    ],
+    "interaction_artifact": {"artifact_id":9987049057,"artifact_name":"global-rgfca-environmental-interaction-family-v1","species_sha256":"9aea3003eb23db848ad93ecf70fb900a592e2183a235956259b12b1a12f588ea"},
+    "expected_species": 369,
+    "expected_features": 15
+  },
+  "analysis": {
+    "main_effect_features": "all five species partial-rho columns, no block selection",
+    "interaction_features": "all ten beta_interaction columns, no pair selection",
+    "join": "inner join by exact species string; fail unless all 369 species are present in every feature",
+    "standardization": "z-score each of the 15 species-effect columns across the 369 species",
+    "pairwise_structure": "complete 15x15 Spearman correlation matrix, reported descriptively without feature-wise p-values",
+    "ordination": "PCA by SVD of the standardized 369x15 matrix; report all eigenvalue fractions and loadings for PC1-PC5",
+    "bootstrap_stability": {
+      "replicates": 2000,
+      "seed": 2026090605,
+      "procedure": "species bootstrap with replacement; refit PCA; align each bootstrap component sign to the reference loading vector; report loading q10/q50/q90 and explained-variance q10/q50/q90 for PC1-PC3",
+      "component_matching": "greedy maximum absolute loading correlation with reference PC1-PC3; fail closed if a bootstrap component cannot be matched uniquely"
+    },
+    "species_scores": "retain PC1-PC5 scores for later outcome-independent context joins; no clustering threshold is chosen here"
+  },
+  "special_nearmiss_rule": "Thermal and atmospheric/dryness may be discussed together only as entries in the complete 15-feature matrix. Their pairwise correlation is not a confirmatory test and cannot open individual-variable decomposition.",
+  "future_context_join": "After independent G5/GBIF species metadata are frozen, PC scores may be related to taxonomy, realm, occupancy/range and other predeclared external contexts in a separate contract. No such context is selected from the PCA outcome here.",
+  "forbidden": [
+    "feature-wise significance tests selected from large loadings",
+    "dropping weak blocks before PCA",
+    "choosing a cluster count from ecological interpretation and treating it as confirmatory",
+    "opening individual CHELSA/SoilGrids/EarthEnv variables",
+    "reclassifying the five-block or ten-interaction Holm results"
+  ],
+  "claim_ceiling": "May establish that species-level environmental response estimates covary in stable multivariate syndromes. It cannot establish adaptation, mechanism, or a globally supported environmental main effect."
+}
