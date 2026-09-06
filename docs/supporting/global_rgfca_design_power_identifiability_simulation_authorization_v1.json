@@ -12,5 +12,6 @@
   "workflow_attempts_allowed": 1,
   "favourable_rerun_allowed": false,
   "observed_decision_reclassification_allowed": false,
-  "posthoc_scenario_addition_allowed": false
+  "posthoc_scenario_addition_allowed": false,
+  "execution_trigger_note": "Technical trigger only: the original authorization commit produced no matching workflow run. Scientific contract, runner, workflow, scenarios, seeds, attempt limit, and decision guards are unchanged."
 }
