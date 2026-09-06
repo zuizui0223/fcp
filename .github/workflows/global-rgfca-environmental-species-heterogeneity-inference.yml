@@ -1,0 +1,166 @@
+name: Global RGFCA environmental species heterogeneity inference
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_environmental_species_heterogeneity_inference_authorization_v1.json"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-environmental-species-heterogeneity-inference
+  cancel-in-progress: false
+
+jobs:
+  heterogeneity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 420
+    env:
+      PYTHONUNBUFFERED: "1"
+      PYTHONHASHSEED: "0"
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install frozen package and raster dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip install "rasterio==1.4.3" pytest
+      - name: Enforce frozen inference and one attempt
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          test "$RUN_ATTEMPT" = "1" || { echo "heterogeneity reruns are forbidden"; exit 1; }
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          a=json.loads(Path('docs/supporting/global_rgfca_environmental_species_heterogeneity_inference_authorization_v1.json').read_text())
+          c=json.loads(Path('docs/supporting/global_rgfca_environmental_species_heterogeneity_inference_contract_v1.json').read_text())
+          if a.get('status')!='authorize_exactly_one_environmental_species_heterogeneity_inference': raise SystemExit('authorization drift')
+          if a.get('workflow_attempts_allowed')!=1 or a.get('favourable_rerun_allowed') is not False: raise SystemExit('retry drift')
+          if c.get('status')!='postoutcome_exploratory_frozen_before_any_species_variance_or_syndrome_null_result_is_computed': raise SystemExit('contract drift')
+          if len(c['fixed_features']['main_effect_family'])!=5 or len(c['fixed_features']['interaction_family'])!=10: raise SystemExit('feature family drift')
+          if c['null']['permutations']!=999 or c['null']['master_seed']!=2026090403: raise SystemExit('null drift')
+          for item in (a['contract'],a['runner']):
+              actual=subprocess.check_output(['git','hash-object',item['path']],text=True).strip()
+              if actual!=item['git_blob_sha']: raise SystemExit(f"blob drift {item['path']}: {actual}")
+          print({'gate':'pass','main_features':5,'interactions':10,'nulls':999})
+          PY
+      - name: Preflight code
+        run: |
+          python -m py_compile scripts/analysis/run_global_rgfca_environmental_species_heterogeneity_inference.py
+          python -m pytest -q tests/test_global_edge_mechanism_v2.py tests/test_global_rgfca_engine.py tests/test_global_repeated_atlas.py
+      - name: Recover exact frozen SoilGrids source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-exact-soilgrids-5km-v1
+          path: /tmp/soilgrids
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34018059667
+      - name: Recover exact frozen EarthEnv source artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-exact-earthenv-terrain-50km-v1
+          path: /tmp/earthenv-terrain
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34017520302
+      - name: Recheck exact SoilGrids and EarthEnv bytes
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          soil=json.loads(Path('docs/supporting/global_rgfca_soilgrids_expanded_source_verification_v1.json').read_text())
+          for e in soil['files']:
+              p=Path('/tmp/soilgrids')/e['property']/e['filename']
+              if not p.exists() or hashlib.sha256(p.read_bytes()).hexdigest()!=e['sha256']: raise SystemExit('SoilGrids SHA drift')
+          terrain=json.loads(Path('docs/supporting/global_rgfca_earthenv_terrain_source_verification_v1.json').read_text())
+          for e in terrain['files']:
+              p=Path('/tmp/earthenv-terrain')/e['filename']
+              if not p.exists() or hashlib.sha256(p.read_bytes()).hexdigest()!=e['sha256']: raise SystemExit('EarthEnv SHA drift')
+          print({'soil':len(soil['files']),'terrain':len(terrain['files']),'verified':True})
+          PY
+      - name: Download and SHA-verify all twelve exact CHELSA rasters
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/chelsa
+          python - <<'PY' > /tmp/chelsa_all.tsv
+          import json
+          from pathlib import Path
+          acquire=json.loads(Path('docs/supporting/global_rgfca_chelsa_expanded_source_acquisition_contract_v1.json').read_text())
+          verify=json.loads(Path('docs/supporting/global_rgfca_chelsa_expanded_source_verification_v1.json').read_text())
+          frozen={x['filename']:x for x in verify['files']}
+          base=acquire['dataset']['base_url']
+          for block in ('thermal_regime','water_balance','atmospheric_energy_dryness'):
+              for e in acquire['process_blocks'][block]:
+                  v=frozen[e['filename']]
+                  if v['block']!=block or v['id']!=e['id']: raise SystemExit('CHELSA identity drift')
+                  print(base+e['filename'],e['filename'],v['sha256'],sep='\t')
+          PY
+          test "$(wc -l < /tmp/chelsa_all.tsv)" -eq 12
+          while IFS=$'\t' read -r url filename sha; do
+            curl -fL --retry 3 --retry-delay 3 "$url" -o "/tmp/chelsa/$filename"
+            test "$(sha256sum "/tmp/chelsa/$filename" | awk '{print $1}')" = "$sha"
+          done < /tmp/chelsa_all.tsv
+      - name: Execute exact shared-null heterogeneity inference
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/heterogeneity
+          python scripts/analysis/run_global_rgfca_environmental_species_heterogeneity_inference.py \
+            --chelsa-dir /tmp/chelsa \
+            --soil-dir /tmp/soilgrids \
+            --terrain-dir /tmp/earthenv-terrain \
+            --output-result /tmp/heterogeneity/global_rgfca_environmental_species_heterogeneity_inference_result_v1.json \
+            --output-null /tmp/heterogeneity/global_rgfca_environmental_species_heterogeneity_inference_null_v1.csv \
+            --output-species /tmp/heterogeneity/global_rgfca_environmental_species_heterogeneity_inference_species_v1.csv \
+            --null-batch-size 4
+      - name: Validate inference guard
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/heterogeneity/global_rgfca_environmental_species_heterogeneity_inference_result_v1.json').read_text())
+          if r.get('status')!='complete_exact_shared_null_environmental_species_heterogeneity_inference': raise SystemExit('incomplete result')
+          if r.get('n_species')!=369 or r.get('features')!=15: raise SystemExit('matrix drift')
+          if r.get('null_permutations')!=999 or r.get('null_indices_exact_0_998') is not True: raise SystemExit('null drift')
+          if r.get('parent_mean_effects_reclassified') is not False or r.get('individual_variable_decomposition_opened') is not False: raise SystemExit('parent rescue detected')
+          if len(r['main_effect_variance_family'])!=5 or len(r['interaction_variance_family'])!=10 or len(r['coordinated_syndrome_omnibus'])!=2: raise SystemExit('family size drift')
+          print({'guard':'pass','main_supported':r['supported_main_variance_features'],'interaction_supported':r['supported_interaction_variance_features'],'syndrome_supported':r['supported_syndrome_statistics']})
+          PY
+      - name: Commit exact inference outputs
+        env:
+          BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          cp /tmp/heterogeneity/global_rgfca_environmental_species_heterogeneity_inference_result_v1.json docs/supporting/global_rgfca_environmental_species_heterogeneity_inference_result_v1.json
+          cp /tmp/heterogeneity/global_rgfca_environmental_species_heterogeneity_inference_null_v1.csv data/derived/global_rgfca_environmental_species_heterogeneity_inference_null_v1.csv
+          cp /tmp/heterogeneity/global_rgfca_environmental_species_heterogeneity_inference_species_v1.csv data/derived/global_rgfca_environmental_species_heterogeneity_inference_species_v1.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_environmental_species_heterogeneity_inference_result_v1.json \
+                  data/derived/global_rgfca_environmental_species_heterogeneity_inference_null_v1.csv \
+                  data/derived/global_rgfca_environmental_species_heterogeneity_inference_species_v1.csv
+          git commit -m "Freeze exact environmental species heterogeneity inference"
+          git pull --rebase origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-environmental-species-heterogeneity-inference-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/heterogeneity/
