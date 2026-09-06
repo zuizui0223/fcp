@@ -1,0 +1,104 @@
+name: Global RGFCA environmental interaction power supplement
+
+on:
+  push:
+    branches:
+      - analysis/global-monte-carlo-barrier-atlas
+    paths:
+      - "docs/supporting/global_rgfca_environmental_interaction_power_supplement_authorization_v1.json"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-environmental-interaction-power-supplement
+  cancel-in-progress: false
+
+jobs:
+  power:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Enforce frozen supplement and one attempt
+        env:
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          test "$RUN_ATTEMPT" = "1" || { echo "interaction power reruns are forbidden"; exit 1; }
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path('docs/supporting/global_rgfca_environmental_interaction_power_supplement_contract_v1.json').read_text())
+          a=json.loads(Path('docs/supporting/global_rgfca_environmental_interaction_power_supplement_authorization_v1.json').read_text())
+          if c.get('status') != 'frozen_before_exact_interaction_family_power_result': raise SystemExit('contract drift')
+          if a.get('status') != 'authorize_exactly_one_exact_interaction_power_supplement': raise SystemExit('authorization drift')
+          if a.get('workflow_attempts_allowed') != 1 or a.get('favourable_rerun_allowed') is not False: raise SystemExit('retry policy drift')
+          print({'gate':'pass'})
+          PY
+      - name: Install dependencies and validate code
+        run: |
+          python -m pip install -e .
+          python -m py_compile scripts/analysis/run_global_rgfca_environmental_interaction_power_supplement.py
+      - name: Recover exact immutable ten-interaction artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/interaction-power-input /tmp/interaction-power.zip
+          mkdir -p /tmp/interaction-power-input/global-rgfca-environmental-interaction-family-v1
+          curl -L --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9987049057/zip" \
+            -o /tmp/interaction-power.zip
+          unzip -q /tmp/interaction-power.zip -d /tmp/interaction-power-input/global-rgfca-environmental-interaction-family-v1
+          find /tmp/interaction-power-input -type f -print | sort
+      - name: Run exact joint-null power supplement
+        run: |
+          rm -rf /tmp/interaction-power-result
+          mkdir -p /tmp/interaction-power-result
+          python scripts/analysis/run_global_rgfca_environmental_interaction_power_supplement.py \
+            --artifact-root /tmp/interaction-power-input \
+            --output-dir /tmp/interaction-power-result
+      - name: Verify no observed-data rescue
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('/tmp/interaction-power-result/global_rgfca_environmental_interaction_power_supplement_result_v1.json').read_text())
+          if x.get('status') != 'complete_exact_joint_null_interaction_family_power_supplement': raise SystemExit('unexpected status')
+          if x.get('family_size') != 10 or x.get('null_rows') != 999: raise SystemExit('family/null drift')
+          g=x['decision_guard']
+          if any(g.get(k) is not False for k in ['observed_interaction_family_reclassified','variable_level_decomposition_opened','family_of_one_retest_used']): raise SystemExit('observed inference changed')
+          print({'guard':'pass'})
+          PY
+      - name: Commit exact supplement outputs
+        env:
+          BRANCH: analysis/global-monte-carlo-barrier-atlas
+        run: |
+          cp /tmp/interaction-power-result/global_rgfca_environmental_interaction_power_supplement_result_v1.json docs/supporting/global_rgfca_environmental_interaction_power_supplement_result_v1.json
+          cp /tmp/interaction-power-result/global_rgfca_environmental_interaction_power_supplement_v1.csv data/derived/global_rgfca_environmental_interaction_power_supplement_v1.csv
+          cp /tmp/interaction-power-result/global_rgfca_environmental_interaction_null_correlations_v1.csv data/derived/global_rgfca_environmental_interaction_null_correlations_v1.csv
+          cp /tmp/interaction-power-result/global_rgfca_environmental_interaction_power_mde_v1.csv data/derived/global_rgfca_environmental_interaction_power_mde_v1.csv
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/supporting/global_rgfca_environmental_interaction_power_supplement_result_v1.json \
+                  data/derived/global_rgfca_environmental_interaction_power_supplement_v1.csv \
+                  data/derived/global_rgfca_environmental_interaction_null_correlations_v1.csv \
+                  data/derived/global_rgfca_environmental_interaction_power_mde_v1.csv
+          git commit -m "Freeze exact interaction-family power supplement"
+          git pull --rebase origin "$BRANCH"
+          git push origin "HEAD:$BRANCH"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-environmental-interaction-power-supplement-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/interaction-power-result/
