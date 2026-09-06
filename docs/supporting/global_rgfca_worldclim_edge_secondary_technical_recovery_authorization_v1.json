@@ -1,0 +1,12 @@
+{
+  "protocol": "global-rgfca-worldclim-edge-secondary-technical-recovery-v1",
+  "status": "authorize_exactly_one_worldclim_secondary_technical_recovery",
+  "workflow_attempts_allowed": 1,
+  "repair_scope": "pytest installation only before unchanged invariant tests",
+  "scientific_configuration_changed": false,
+  "worldclim_alignment_result_previously_opened": false,
+  "null_indices": "0..998 exactly once",
+  "all_999_nulls_required": true,
+  "selective_early_stop_allowed": false,
+  "favourable_rerun_allowed": false
+}
