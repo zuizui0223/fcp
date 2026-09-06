@@ -1,0 +1,12 @@
+{
+  "protocol": "global-rgfca-chelsa-expanded-source-acquisition-v1",
+  "status": "authorize_exactly_one_expanded_chelsa_source_acquisition",
+  "date": "2026-09-06",
+  "workflow_attempts_allowed": 1,
+  "all_twelve_exact_frozen_files_required": true,
+  "record_sha256_before_any_expanded_chelsa_colour_alignment": true,
+  "flower_colour_access_allowed": false,
+  "expanded_chelsa_alignment_allowed_in_this_workflow": false,
+  "source_substitution_allowed": false,
+  "favourable_rerun_allowed": false
+}
