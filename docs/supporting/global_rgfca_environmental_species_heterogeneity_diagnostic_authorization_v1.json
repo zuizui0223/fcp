@@ -1,0 +1,13 @@
+{
+  "protocol": "global-rgfca-environmental-species-heterogeneity-diagnostic-authorization-v1",
+  "status": "authorize_exactly_one_omnibus_environmental_species_heterogeneity_diagnostic",
+  "date": "2026-09-06",
+  "branch": "analysis/global-monte-carlo-barrier-atlas",
+  "contract_blob_sha": "3b539de7932b5fc3be887e04e65a46d9616ce47b",
+  "runner_blob_sha": "3704dc1689af6db4b268523fc48e4fb95161e5a0",
+  "workflow_blob_sha": "5dadbc44a2b63b316520ff2dd7f90652c9902f70",
+  "workflow_attempts_allowed": 1,
+  "favourable_rerun_allowed": false,
+  "feature_selection_after_result_allowed": false,
+  "observed_panel_reclassification_allowed": false
+}
