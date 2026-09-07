@@ -1,0 +1,70 @@
+name: Global RGFCA matched-background qualification
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/global-rgfca-background-control-qualification.yml'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONHASHSEED: '0'
+  PYTHONPATH: '.'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  pre-pixel-qualification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Materialize exact original measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install qualification dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 pytest==8.4.2
+      - name: Run paired-control focused tests
+        run: python -m pytest -q tests/test_global_rgfca_background_control.py
+      - name: Build complete reacquisition firewall without opening pixels
+        run: |
+          rm -rf /tmp/bg-firewall
+          python scripts/analysis/build_global_rgfca_background_control_firewall.py \
+            --output-dir /tmp/bg-firewall
+      - name: Require exact blinded 21,424-photo / 128-partition census
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          r = json.loads(Path('/tmp/bg-firewall/firewall_manifest.json').read_text())
+          a = pd.read_csv('/tmp/bg-firewall/partition_assignments.csv')
+          w = pd.read_csv('/tmp/bg-firewall/worker_manifest.csv')
+          e = pd.read_csv('/tmp/bg-firewall/safe_expected_reproduction_key.csv')
+          assert r['status'] == 'background_control_reacquisition_firewall_ready_before_pixels'
+          assert r['rows'] == len(a) == len(w) == len(e) == 21424
+          assert r['nonempty_partitions'] == 128
+          assert r['pixels_opened'] is False
+          assert r['background_colour_opened'] is False
+          assert r['species_hidden_from_workers'] is True
+          assert r['coordinates_hidden_from_workers'] is True
+          assert set(w.columns) == {'measurement_id','image_filename','photo_license'}
+          assert not any(c in e.columns for c in ['species','latitude','longitude','photo_id','photo_url_large'])
+          assert a[['semantic_shard','compute_partition']].drop_duplicates().shape[0] == 128
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-background-control-qualified-firewall-v2
+          path: /tmp/bg-firewall/
+          if-no-files-found: error
+          retention-days: 30
