@@ -1,0 +1,78 @@
+{
+  "protocol": "hypervolume-real-climate-identifiability-diagnostic-v1",
+  "status": "post_failure_diagnostic_frozen_before_any_diagnostic_outcome",
+  "date_jst": "2026-09-07",
+  "parent_qualification_run_id": 34082752756,
+  "parent_qualification_result_commit": "1d282e4f4c3c5099980d2d4c0cf1fcd156fab206",
+  "parent_qualification_decision": "FAIL",
+  "role": "Mechanistic synthetic diagnosis of why the frozen real-climate qualification failed. It cannot reclassify that failure, cannot alter its thresholds/gates, and cannot open observed flower-colour inference.",
+  "inputs": {
+    "geometry_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+    "real_climate_export_sha256": "33ab7c56df9bcd5a1f88ae97346ab7108d4a12cdffb4168359448b308ef5a4eb",
+    "parent_full_artifact_id": 10004261294,
+    "parent_full_artifact_digest": "sha256:e845ebe650005d0cd494fed332fe7d6f1d9304e5852f3a1a1893ad012ece2723",
+    "same_joint_complete_retained_frame": 21418,
+    "same_species_split_region_holdouts_buffer_and_photo_schedule": true,
+    "biological_colour_values_allowed": false
+  },
+  "blocks": [
+    "thermal_regime",
+    "water_balance",
+    "atmospheric_energy_dryness"
+  ],
+  "diagnostic_scenarios_per_block": [
+    {"world": "climate_shared_shifted", "amplitude": 1.0, "shared_fraction": 1.0, "threshold_sd": 0.5},
+    {"world": "climate_shared_shifted", "amplitude": 1.0, "shared_fraction": 1.0, "threshold_sd": 1.0},
+    {"world": "climate_shared_shifted", "amplitude": 2.0, "shared_fraction": 1.0, "threshold_sd": 0.5},
+    {"world": "climate_shared_common_offset", "amplitude": 1.0, "shared_fraction": 1.0, "common_threshold": 0.5}
+  ],
+  "replication": {
+    "replicates_per_scenario_per_block": 250,
+    "total_diagnostic_worlds": 3000,
+    "deterministic_sharding": "3 blocks x ten nonoverlapping 25-replicate shards",
+    "same_parent_seed_and_evaluation_worlds": true
+  },
+  "questions": [
+    "Q1: Is the fixed 32-axis representation too coarse relative to the true shared response axis on actual climate support?",
+    "Q2: Even on the true response axis, do sampled species/photos actually span their transition thresholds often enough to identify a colour change?",
+    "Q3: Does regional holdout create projection leverage or colour-state loss between training and evaluation samples?",
+    "Q4: How much raw held-out sharing score is recovered by a privileged one-axis augmentation that adds the simulator's true common axis to the frozen 32-axis grid?"
+  ],
+  "fixed_diagnostics": {
+    "axis_vector_coverage": "maximum absolute cosine between the true shared R4 axis and the frozen 32 candidate axes",
+    "support_projected_axis_coverage": "maximum absolute Pearson correlation between true-axis and each frozen-axis projections on the exact selected photos, computed by fold",
+    "transition_exposure": "fraction of selected species whose 20 photo projections straddle that species' simulator threshold, separately for training and evaluation roles",
+    "synthetic_colour_variability": "fraction of selected species containing both artificial colour states among the 20 scheduled photos, separately for training and evaluation roles",
+    "true_projection_sd": "mean within-species SD of the true-axis projection among the 20 scheduled photos, separately for training and evaluation roles",
+    "privileged_axis_augmentation": "recompute the exact intercept-marginal model after adding the simulator true common axis as a 33rd candidate axis; report raw score change only",
+    "parent_score_reconstruction": "recompute the original frozen 32-axis raw score and require exact numerical agreement with the parent full-artifact score before accepting any diagnostic row"
+  },
+  "privileged_comparator_guard": {
+    "true_axis_is_not_available_to_real_analysis": true,
+    "augmented_score_has_no_new_inferential_threshold": true,
+    "augmented_score_may_not_be_used_to_pass_the_failed_parent_gate": true,
+    "no_dense_axis_search_or_outcome_selected_axis_is_allowed": true
+  },
+  "required_outputs": [
+    "one row per block-scenario-replicate with all fixed diagnostics",
+    "exact parent-score reconstruction discrepancy",
+    "block/scenario summaries with medians and 10th/90th percentiles",
+    "association of frozen parent score with axis coverage, transition exposure and colour variability",
+    "privileged-axis raw score delta distributions",
+    "all source/code/output checksums and colour-firewall guards"
+  ],
+  "interpretation_ceiling": {
+    "axis_augmentation_large": "suggests representation/axis approximation contributes to the failed synthetic qualification; does not validate an empirical axis search",
+    "transition_exposure_low": "suggests the actual sampled climate support does not repeatedly cross species response thresholds at the chosen effect scale",
+    "both_poor": "both response-axis approximation and environmental leverage can contribute",
+    "neither_poor": "remaining failure is more consistent with finite-sample response/sharing estimation or geographic transfer rather than these two diagnostics",
+    "biological_claim_allowed": false
+  },
+  "stop_rules": [
+    "Any mismatch with parent synthetic labels, schedules, scores or checksums stops the diagnostic.",
+    "No parent threshold/gate, nuisance family, seed, species/photo frame or block may be changed.",
+    "No observed flower-colour value may be read.",
+    "The next empirical stage remains closed regardless of diagnostic direction."
+  ],
+  "claim_ceiling": "Post-failure synthetic identifiability diagnosis only. It explains limitations of the failed qualification; it does not rescue it and is not evidence for real heat, water-balance, dryness, radiation or flower-colour responses."
+}
