@@ -277,6 +277,7 @@ internal consistency with that reading record, not scientific validity.
 - Sharedness and environmental decisions: [current status and linked fixed results](RGFCA_RESEARCH_STATUS.md).
 - Replication design and execution receipts: [reserve protocol](RGFCA_RESERVE_REPLICATION.md).
 - Figure provenance: [manifest](supporting/rgfca_publication_figure_manifest_v1.json).
+- Full discovery/supporting claim audit: [evidence index](RGFCA_SUPPORTING_EVIDENCE.md), including the parent-branch heterogeneity source and unresolved submission gates.
 
 ## References
 

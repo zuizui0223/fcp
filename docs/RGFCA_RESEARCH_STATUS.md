@@ -22,9 +22,12 @@ Result files are `docs/supporting/global_monte_carlo_measurement_result_v1.json`
 `global_rgfca_g1_result_v1.json`, `global_rgfca_prespecified_robustness_result_v1.json`,
 `global_rgfca_species_disjoint_commonness_result_v1.json`,
 `global_rgfca_expanded_environmental_panel_final_result_v1.json`,
-`global_rgfca_environmental_species_heterogeneity_inference_result_v1.json`,
 `hypervolume_real_climate_synthetic_qualification_result_v1.json`, and
 `global_rgfca_sharedness_specific_predictive_result_v1.json` in that same directory.
+The heterogeneity inference result is on the parent branch, not at a local path:
+[immutable result](https://github.com/zuizui0223/fcp/blob/f2f9c58e1d857a5d4b5b35a78adab8e8324b25eb/docs/supporting/global_rgfca_environmental_species_heterogeneity_inference_result_v1.json).
+The [supporting evidence index](RGFCA_SUPPORTING_EVIDENCE.md) records its verified
+artifact, exact file hashes and complete 5/10/2-family reconstruction checks.
 
 ## Completed: species-level spatial information
 
@@ -135,11 +138,17 @@ explicit; neither prior photographic validation nor the plus-one permutation
 formula validates RGFCA's measurement or ecological interpretation.
 
 Nine citation regression checks plus the eleven existing figure/evidence checks
-pass locally (20 tests total). They reject uncited/duplicate references, stale
+passed locally and in [publication CI 34096712215](https://github.com/zuizui0223/fcp/actions/runs/34096712215)
+(20 tests total). They reject uncited/duplicate references, stale
 preprint metadata and missing reading records while preserving the incomplete
 replication/submission labels. The read-only publication workflow now runs this
 combined suite and preserves the audited draft/notes as a separate artifact.
-CI at the resulting commit must still be checked. No reserve outcome was read,
+Its four-document artifact `10008879104` was downloaded and every file matched
+its committed Git object at `730612e4af6c64178b1c079d23bb6dc802e1dac0`.
+The supporting-evidence extension adds nine checks: complete environmental Holm
+families, all 17 heterogeneity tail probabilities, all 15 species variances and
+preservation of failed synthetic qualifications. All 29 tests pass locally;
+CI for this extension must still be checked. No reserve outcome was read,
 and no frozen measurement, inference, result or legacy file was changed by this
 literature work.
 

@@ -7,10 +7,12 @@ on:
       - scripts/analysis/make_rgfca_publication_figures.py
       - tests/test_rgfca_publication_figures.py
       - tests/test_rgfca_manuscript_references.py
+      - tests/test_rgfca_supporting_evidence.py
       - docs/RGFCA_MANUSCRIPT.md
       - docs/RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md
       - docs/RGFCA_STATISTICAL_LITERATURE_AUDIT.md
       - docs/RGFCA_METHOD_NOVELTY_POSITIONING.md
+      - docs/RGFCA_SUPPORTING_EVIDENCE.md
       - docs/RGFCA_PUBLICATION_FIGURES.md
       - docs/supporting/rgfca_publication_figure_manifest_v1.json
       - docs/figures/rgfca_figure*.png
@@ -41,7 +43,7 @@ jobs:
           PYTHONPATH: .
         run: >-
           python -m pytest tests/test_rgfca_publication_figures.py
-          tests/test_rgfca_manuscript_references.py -q
+          tests/test_rgfca_manuscript_references.py tests/test_rgfca_supporting_evidence.py -q
       - name: Export verified discovery figures without reserve outcomes
         run: >-
           python scripts/analysis/make_rgfca_publication_figures.py
@@ -62,5 +64,6 @@ jobs:
             docs/RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md
             docs/RGFCA_STATISTICAL_LITERATURE_AUDIT.md
             docs/RGFCA_METHOD_NOVELTY_POSITIONING.md
+            docs/RGFCA_SUPPORTING_EVIDENCE.md
           if-no-files-found: error
           retention-days: 90
