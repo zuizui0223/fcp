@@ -1,0 +1,4 @@
+model,threshold
+linear_logit_joint_train,0.0019949324748096
+linear_logit_joint_train_intercept_marginal,0.0011908763265869
+saturating_probit_joint_train_intercept_marginal,0.0010862996919428
