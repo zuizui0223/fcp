@@ -195,6 +195,34 @@ segmentation claims. All five basemap files independently matched their official
 tagged source. Mixed-licence metadata and model/training-data distribution still
 need their own release review; the 24 CC0 crops do not clear the whole data pool.
 
+## Technical maintenance: bounded legacy figure updates
+
+The frozen legacy pipeline passed in runs
+[34105526167](https://github.com/zuizui0223/fcp/actions/runs/34105526167) and
+[34106658236](https://github.com/zuizui0223/fcp/actions/runs/34106658236), including
+all five models, finite-sample checks, numerical regression and two-render figure
+identity. Its automatic write step nevertheless produced consecutive bot commits
+`a5c209a473f763b30d7d901d8f9ecab16e9e11b8` and
+`fb5565cb587ef37dfb48283d7cb53c2dc8d97aec`, each changing only
+`figure5_inference_method_sensitivity.pdf`; the second returns exactly to the
+PDF bytes at `b3370a88d39ba90ce150bdccbc3817ccf818f45a`. Thus same-run rendering
+identity did not prevent cross-run byte oscillation and repeated PR checks.
+
+The final write step now stops for the original `github-actions[bot]` actor,
+including after human approval/rerun. All analysis, numerical and rendering
+checks still run; a human-originated update can still commit changed figures.
+The distinction between original and rerun actors follows the
+[GitHub variable contract](https://docs.github.com/en/actions/reference/workflows-and-actions/variables).
+Six shell-replay regression cases intercept all Git operations: the unguarded
+step failed four cases and passed two; the guarded step passed all six.
+Together with the legacy unit tests, 18 tests passed using the exact stored LF
+input. The Windows checkout and initial export had CRLF and failed the existing
+exact-byte gate; exporting with `core.autocrlf=false` reproduced the required
+`bdc06dd671f41ce062ebf4ba687437909d9617b268657504c1c6c5e991d417ed`
+SHA-256 without changing the dataset or validator. This bounds write recursion;
+it does not claim to remove the underlying cross-run floating-point PDF drift.
+Reserve measurement, background recovery and all ecological outcomes are unchanged.
+
 ## Route to an ecological result
 
 1. Freeze the reserve cohort, measurement, primary test and observer/quarter
