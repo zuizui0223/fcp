@@ -13,6 +13,8 @@ from fcp_pipeline.photo_first_measurement import REFERENCE_RGB
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CONTRACT = ROOT / "docs/supporting/global_rgfca_within_species_spatial_background_control_contract_v2.json"
+DEFAULT_AMENDMENT = ROOT / "docs/supporting/global_rgfca_background_control_postoutcome_status_amendment_v2a.json"
+DEFAULT_OLD_RESULT = ROOT / "docs/supporting/global_rgfca_within_species_spatial_omnibus_result_v1.json"
 DEFAULT_MEASURED = ROOT / "data/derived/global_monte_carlo_measured_photos_v1.csv"
 DEFAULT_CANDIDATE = ROOT / "data/frozen/global_monte_carlo_candidate_photos_v1.csv"
 DEFAULT_MEASUREMENT_RESULT = ROOT / "docs/supporting/global_monte_carlo_measurement_result_v1.json"
@@ -34,6 +36,8 @@ def bool_series(series: pd.Series) -> pd.Series:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--contract", type=Path, default=DEFAULT_CONTRACT)
+    ap.add_argument("--amendment", type=Path, default=DEFAULT_AMENDMENT)
+    ap.add_argument("--old-result", type=Path, default=DEFAULT_OLD_RESULT)
     ap.add_argument("--measured", type=Path, default=DEFAULT_MEASURED)
     ap.add_argument("--candidate", type=Path, default=DEFAULT_CANDIDATE)
     ap.add_argument("--measurement-result", type=Path, default=DEFAULT_MEASUREMENT_RESULT)
@@ -42,10 +46,25 @@ def main() -> int:
     args = ap.parse_args()
 
     contract = json.loads(args.contract.read_text(encoding="utf-8"))
+    amendment = json.loads(args.amendment.read_text(encoding="utf-8"))
+    old_result = json.loads(args.old_result.read_text(encoding="utf-8"))
     measurement = json.loads(args.measurement_result.read_text(encoding="utf-8"))
     candidate_manifest = json.loads(args.candidate_manifest.read_text(encoding="utf-8"))
+
     if contract.get("status") != "frozen_before_any_within_species_omnibus_permutation_outcome_and_before_any_background_colour_recovery":
-        raise RuntimeError("background-control contract is not frozen pre-recovery")
+        raise RuntimeError("parent background-control contract identity/status drifted")
+    if amendment.get("status") != "frozen_after_flower_only_omnibus_outcome_but_before_any_background_colour_recovery":
+        raise RuntimeError("timing amendment is not frozen before background recovery")
+    known = amendment["known_flower_only_result_before_background_control"]
+    if old_result.get("status") != "complete_verified_rgfca_within_species_spatial_omnibus":
+        raise RuntimeError("known flower-only result is absent or unverified")
+    if int(old_result.get("verification", {}).get("github_run_id", -1)) != int(known["github_run_id"]):
+        raise RuntimeError("flower-only result run differs from timing amendment")
+    if abs(float(old_result["primary"]["observed_mean_rho"]) - float(known["observed_equal_species_mean_rho"])) > 1e-15:
+        raise RuntimeError("flower-only observed mean differs from timing amendment")
+    if abs(float(old_result["primary"]["p_upper"]) - float(known["permutation_p_upper"])) > 1e-15:
+        raise RuntimeError("flower-only p-value differs from timing amendment")
+
     expected_measured_sha = contract["matched_frame"]["measured_table_sha256"]
     observed_measured_sha = sha256_file(args.measured)
     if observed_measured_sha != expected_measured_sha:
@@ -55,7 +74,8 @@ def main() -> int:
     expected_candidate_sha = str(measurement.get("lineage", {}).get("candidate_photos_sha256") or "")
     if not expected_candidate_sha or sha256_file(args.candidate) != expected_candidate_sha:
         raise RuntimeError("candidate table SHA differs from frozen measurement lineage")
-    if candidate_manifest.get("lineage", {}).get("candidate_photos_sha256") not in {None, expected_candidate_sha}:
+    manifest_candidate_sha = candidate_manifest.get("lineage", {}).get("candidate_photos_sha256")
+    if manifest_candidate_sha not in {None, expected_candidate_sha}:
         raise RuntimeError("candidate manifest lineage disagrees with measurement lineage")
 
     measured = pd.read_csv(args.measured, dtype={"measurement_id": str, "photo_id": str}).fillna("")
@@ -72,7 +92,9 @@ def main() -> int:
 
     classifiable = bool_series(measured["global_classifiable"])
     class_frame = measured.loc[classifiable].copy()
-    minimum = int(contract["matched_frame"]["selection_rule"].split("at least ", 1)[1].split(" classifiable", 1)[0])
+    minimum = 40
+    if "at least 40 classifiable photographs" not in str(contract["matched_frame"]["selection_rule"]):
+        raise RuntimeError("parent contract no longer encodes the old diagnostic >=40 frame")
     counts = class_frame.groupby("species", observed=True).size()
     eligible = counts[counts >= minimum].index
     frame = class_frame.loc[class_frame["species"].isin(eligible)].copy()
@@ -119,6 +141,13 @@ def main() -> int:
     report = {
         "protocol": contract["protocol"],
         "status": "pass_background_control_preflight_without_pixels",
+        "inferential_role": "postoutcome_falsification_diagnostic",
+        "flower_only_outcome_known_before_this_control": True,
+        "known_flower_only": {
+            "github_run_id": int(known["github_run_id"]),
+            "observed_mean_rho": float(known["observed_equal_species_mean_rho"]),
+            "p_upper": float(known["permutation_p_upper"]),
+        },
         "pixels_opened": False,
         "background_colour_opened": False,
         "source_urls_persisted": False,
@@ -137,6 +166,8 @@ def main() -> int:
         },
         "lineage": {
             "contract_sha256": sha256_file(args.contract),
+            "timing_amendment_sha256": sha256_file(args.amendment),
+            "known_flower_result_sha256": sha256_file(args.old_result),
             "measured_table_sha256": observed_measured_sha,
             "candidate_table_sha256": expected_candidate_sha,
             "measurement_result_sha256": sha256_file(args.measurement_result),
