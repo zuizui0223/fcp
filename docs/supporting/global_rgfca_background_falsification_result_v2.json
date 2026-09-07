@@ -1,0 +1,22 @@
+{
+  "protocol": "global-rgfca-within-species-spatial-background-control-v2",
+  "status": "not_evaluable_incomplete_exact_background_recovery",
+  "inferential_role": "postoutcome_falsification_diagnostic",
+  "matched_rows_required": 21424,
+  "exact_rows": 21339,
+  "failed_rows": 85,
+  "status_counts": {
+    "exact_matched_background_recovered": 21339,
+    "original_roi_or_flower_palette_not_exactly_reproduced": 85
+  },
+  "primary_statistic_computed": false,
+  "replacement_photos_used": false,
+  "denominator_adapted_after_recovery": false,
+  "claim": "No flower-background diagnostic may be interpreted because exact same-image/ROI reproduction was incomplete.",
+  "lineage": {
+    "contract_sha256": "3a3dac30d2cd82f912426fca1296734dabb6521838c04c764462dbe10232eafc",
+    "amendment_sha256": "be64240023ce7fbf80eb484d93759f53ef488b0ab5e593370d35a818914afd1a",
+    "measured_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "recovery_rows_sha256": "4ac8b8edbaaf3c784ee7648367f50b994e1cde7114f9cc9d4ad5434ee9d56ae4"
+  }
+}
