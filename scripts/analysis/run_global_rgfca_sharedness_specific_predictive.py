@@ -240,7 +240,10 @@ def score_from_ll(ll: np.ndarray):
     lnf = np.full(len(FRACTIONS), -np.inf)
     np.log(FRACTIONS, out=lf, where=FRACTIONS > 0)
     np.log(1.0 - FRACTIONS, out=lnf, where=FRACTIONS < 1)
-    mix = np.logaddexp(lnf[:, None, None], lf[:, None, None] + tr[:, :, None, :])
+    mix = np.logaddexp(
+        lnf[None, None, :, None],
+        lf[None, None, :, None] + tr[:, :, None, :],
+    )
     lp = mix.sum(axis=1)
     posterior = np.exp(lp - logsumexp(lp, axis=(-2, -1), keepdims=True))
     weighted_axis = np.einsum("wfk,f->wk", posterior, FRACTIONS)
