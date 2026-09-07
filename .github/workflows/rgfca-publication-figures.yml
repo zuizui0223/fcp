@@ -10,6 +10,11 @@ on:
       - tests/test_rgfca_supporting_evidence.py
       - tests/test_rgfca_photo_bar.py
       - tests/test_rgfca_roi_qualification_audit.py
+      - tests/test_rgfca_background_recovery_completion.py
+      - scripts/analysis/audit_rgfca_background_recovery_completion.py
+      - docs/RGFCA_BACKGROUND_RECOVERY_COMPLETION.md
+      - docs/supporting/rgfca_background_recovery_completion_audit_v1.json
+      - docs/supporting/global_rgfca_background_falsification_result_v2.json
       - fcp_pipeline/rgfca_photo_bar.py
       - scripts/analysis/make_rgfca_photo_bar.py
       - docs/RGFCA_PHOTO_BAR.md
@@ -55,7 +60,8 @@ jobs:
         run: >-
           python -m pytest tests/test_rgfca_publication_figures.py
           tests/test_rgfca_manuscript_references.py tests/test_rgfca_supporting_evidence.py
-          tests/test_rgfca_photo_bar.py tests/test_rgfca_roi_qualification_audit.py -q
+          tests/test_rgfca_photo_bar.py tests/test_rgfca_roi_qualification_audit.py
+          tests/test_rgfca_background_recovery_completion.py -q
       - name: Export verified discovery figures without reserve outcomes
         run: >-
           python scripts/analysis/make_rgfca_publication_figures.py
@@ -85,5 +91,8 @@ jobs:
             docs/RGFCA_ROI_QUALIFICATION_AUDIT.md
             docs/RGFCA_METHOD_NOVELTY_POSITIONING.md
             docs/RGFCA_SUPPORTING_EVIDENCE.md
+            docs/RGFCA_BACKGROUND_RECOVERY_COMPLETION.md
+            docs/supporting/rgfca_background_recovery_completion_audit_v1.json
+            docs/supporting/global_rgfca_background_falsification_result_v2.json
           if-no-files-found: error
           retention-days: 90

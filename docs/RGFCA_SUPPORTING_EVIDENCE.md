@@ -123,9 +123,12 @@ The material submission blockers are scientific, not cosmetic:
 
 1. Finish the entire reserve measurement and exact census before opening its
    fixed primary/observer/quarter/background inference; no partial subset.
-2. Finish discovery background recovery or retain its exact failure as not
-   evaluable. Stronger flower-specific interpretation requires the prospective
-   reserve controls and cannot be certified by the discovery p-value alone.
+2. Preserve the now-completed discovery background recovery as not evaluable:
+   21,339 exact rows and 85 reproduction failures, no background-adjusted test.
+   The [complete artifact audit](RGFCA_BACKGROUND_RECOVERY_COMPLETION.md) closes
+   the execution/accounting task, not flower-specific validation. Stronger
+   interpretation still requires the prospective reserve controls and cannot
+   be certified by the discovery p-value or a successful recovery subset.
 3. Complete remaining software-release, data-provider, model and environmental-layer references,
    and audit the final manuscript/SI/reproducibility package together.
 

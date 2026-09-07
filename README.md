@@ -12,6 +12,14 @@ The research objective is an ecologically interpretable observed signal that sur
 
 ## Start here
 
+The discovery matched-background recovery is now **completed but not evaluable**:
+21,339 of 21,424 photographs passed all exact reproduction checks; 85 did not.
+No background-adjusted statistic or p-value was computed, and no successful
+subset was substituted. This is a measurement-reproduction limitation, not a
+negative ecological result. The separate 500-species reserve measurement remains
+in progress under its unchanged first-decode flower/background protocol.
+See the [completed recovery audit](docs/RGFCA_BACKGROUND_RECOVERY_COMPLETION.md).
+
 The two frozen inferential lanes retained below are now legacy studies. Their samples, response variables, null models and claims are distinct.
 
 - **Active goal and validation route:** [`docs/RGFCA_RESEARCH_GOAL.md`](docs/RGFCA_RESEARCH_GOAL.md)

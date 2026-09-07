@@ -24,7 +24,9 @@ geography: the original repeated-field primary test and species-disjoint
 commonness test remained unsupported. No environmental process block passed the
 fixed five-block correction gate. We prospectively specified replication in the
 other 500 candidate species, together with observer, seasonal and matched-image
-background controls. Those outcomes are not included here. The current result is
+background controls; reserve outcomes remain unopened. The separate discovery
+background reacquisition failed exact reproduction for 85 of 21,424 photographs,
+so no background-adjusted diagnostic was computed. The current result is
 a taxon-labelled photograph association: pooled flower regions have not been
 verified as belonging only to each observation's focal species. It remains
 a candidate photo-derived distance-colour association, not independently
@@ -267,6 +269,29 @@ effect. Source pages and the API-reported credit text accompany every slot.
 
 ![Figure 3. Actual RGB within reconstructed discovery flower regions.](figures/rgfca_figure3_discovery_photo_bar.png)
 
+### 3.5 Completed discovery-background recovery is not evaluable
+
+The postoutcome matched-background recovery completed all 128 partitions and
+retained all 21,424 unique records from the fixed 369-species frame. Exactly
+21,339 records passed all reproduction checks; 85 failed. Saved worker flags
+record original-image SHA agreement and reproduced ROI admission for all records.
+For 79 records both flower-mask pixel totals and flower-palette counts differed;
+for a separate six, background pixel totals differed. The saved fields do not
+identify the root cause or quantify the magnitude of these differences, and
+matching summary counts would not establish bitwise mask identity.
+
+The frozen complete-recovery gate therefore returned
+`not_evaluable_incomplete_exact_background_recovery`.
+No background-adjusted statistic or p-value was computed. No images were replaced,
+no threshold was relaxed, and the 21,339 successful records were not substituted
+as a smaller analysis set. This is neither an ecological negative nor evidence
+that background effects are absent. The original exploratory flower-only result
+is unchanged and remains unvalidated for flower specificity. The prospective
+reserve's first-decode flower/background measurement is a separate, unchanged
+design, not a repair or replacement of this failed recovery.
+The [completion audit](RGFCA_BACKGROUND_RECOVERY_COMPLETION.md) records the exact
+run, artifact, full row/partition reconciliation and preservation of the stop.
+
 ## 4. Interpretation and limitations
 
 The discovery analysis motivates independent assessment of a weak, species-equal
@@ -329,7 +354,7 @@ with [24 source credits](figures/rgfca_photo_bar_v1/RGFCA_PHOTO_BAR_CREDITS.md).
 Palette swatches are not presented as photographs.
 
 Before this draft can be submitted, it requires complete independent replication
-and matched-background evaluation, completion of the submission-wide citation audit,
+and its prespecified matched-background evaluation, completion of the submission-wide citation audit,
 final ecological interpretation consistent with every control, a complete manuscript/SI evidence ledger,
 and an audited reproducibility/submission package. These are outstanding work,
 not cosmetic omissions. No submission or claim of readiness is authorized by

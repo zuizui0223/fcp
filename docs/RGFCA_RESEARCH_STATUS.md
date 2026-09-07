@@ -11,6 +11,7 @@ current ecological-signal search.
 | Measurement | 500 species; 50,000 terminal records; 25,377 classifiable records | Automated public-photo colour measurements |
 | Eligible RGFCA frame | 369 species; 21,424 photos; at least 40 classifiable photos per species | Conditional inference frame, not a census of all plants |
 | Within-species spatial omnibus | Mean rho = 0.0270213; 999-permutation upper-tail p = 0.001; all 369 species included | Small positive exploratory photo-derived spatial association; independent replication pending |
+| Discovery matched-background recovery | All 128 partitions complete; 21,339 exact rows and 85 reproduction failures among 21,424 | Not evaluable; no background-adjusted statistic or p-value; not an ecological negative |
 | G1 repeated field | Primary p = 0.070; fine-scale sensitivity p = 0.006 | Primary not supported; scale-sensitive candidate structure |
 | Species-disjoint commonness | p = 0.856; median fold correlation = -0.0880 | No supported transfer of boundary geography across held-out species |
 | Five environmental process blocks | None passes the fixed five-block Holm gate; thermal partial rho = 0.00836, adjusted p = 0.050 | Weak exploratory thermal candidate, no confirmed mechanism |
@@ -113,6 +114,19 @@ retains the same 21,424 photos, exact reproduction gates, finalizer and permutat
 specification. Eleven focused parser regression tests pass and are required again
 before the continuation opens images. Prior failed workers had decoded pixels;
 this is explicitly not another pre-pixel freeze claim.
+
+The authorized continuation [34094784607](https://github.com/zuizui0223/fcp/actions/runs/34094784607)
+has now completed all 128 partitions and finalization. Result commit
+`2f00847ccc4d15be8637a1e3589239ce2ab5c114` records
+`not_evaluable_incomplete_exact_background_recovery`: 21,339 exact and 85 failed
+rows, with no statistic, replacement or denominator adaptation. The failures
+comprise 79 flower-pixel/palette mismatches and six separate background-pixel
+mismatches. All original-image and admission flags pass; root cause and mismatch
+magnitudes remain unknown. This completed technical limitation does not overturn
+the discovery coefficient and does not validate it as flower-specific biology.
+The [artifact completion audit](RGFCA_BACKGROUND_RECOVERY_COMPLETION.md) reconciles
+every partition and unique measurement ID. Do not restart this closed recovery
+or analyse its successful subset. The independently fixed reserve run remains active.
 
 ## Discovery manuscript and figures
 
