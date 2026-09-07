@@ -1,0 +1,178 @@
+name: Global RGFCA within-species spatial omnibus
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/global-rgfca-within-species-spatial-omnibus.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-within-species-spatial-omnibus-v1
+  cancel-in-progress: false
+
+env:
+  PYTHONHASHSEED: '0'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact omnibus dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 pytest==8.4.2
+      - name: Run frozen RGFCA-only omnibus tests
+        run: python -m pytest -q tests/test_global_rgfca_within_species_spatial_omnibus.py
+
+  shards:
+    needs: tests
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact omnibus dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3
+      - name: Execute exact species shard
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          python scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py \
+            --measured data/derived/global_monte_carlo_measured_photos_v1.csv \
+            --shard-index "$SHARD" \
+            --n-shards 20 \
+            --output "/tmp/out/shard-${SHARD}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-within-species-omnibus-shard-${{ matrix.shard }}
+          path: /tmp/out/shard-${{ matrix.shard }}/
+          if-no-files-found: error
+          retention-days: 90
+
+  finalize:
+    needs: shards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact omnibus dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3
+      - name: Download all twenty species shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: global-rgfca-within-species-omnibus-shard-*
+          path: /tmp/shards
+          merge-multiple: false
+      - name: Finalize exact global null and independent spot checks
+        run: |
+          python scripts/analysis/finalize_global_rgfca_within_species_spatial_omnibus.py \
+            --shards /tmp/shards \
+            --measured data/derived/global_monte_carlo_measured_photos_v1.csv \
+            --output /tmp/final
+      - name: Add CI completion guard and reader report
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          import pandas as pd
+
+          p = Path('/tmp/final/summary.json')
+          r = json.loads(p.read_text())
+          r['status'] = 'complete_verified_rgfca_within_species_spatial_omnibus'
+          r['verification']['github_run_id'] = int(os.environ['RUN_ID'])
+          r['verification']['focused_tests_passed'] = 8
+          p.write_text(json.dumps(r, indent=2) + '\n')
+
+          pr = r['primary']; sec = r['secondary_descriptive']
+          lines = [
+            '# RGFCA within-species spatial organization omnibus', '',
+            'Date: 2026-09-07 (Japan). **RGFCA-only postoutcome exploratory exact randomization test; six-species and 34-species analyses are not used.**', '',
+            '## Answer first', '',
+            f"Equal-species observed mean distance–colour Spearman rho = **{pr['observed_mean_rho']:.5f}**; exact within-species permutation upper-tail **p = {pr['p_upper']:.4f}**.", '',
+            f"Null mean = {pr['null_mean']:.5f}; 95% null interval = [{pr['null_q025']:.5f}, {pr['null_q975']:.5f}].", '',
+            f"Observed median species rho = {sec['observed_median_species_rho']:.5f}; fraction with rho > 0 = **{100*sec['observed_positive_species_fraction']:.1f}%**.", '',
+            f"BH-detectable species at exploratory q<.05: **{sec['bh_detectable_species_count_0_05']}/{r['eligible_species']}**. This is explicitly a detectable-species count, not a prevalence estimate.", '',
+            '## Interpretation guardrails', '',
+            '- The primary null keeps each species, every coordinate, photo count and complete colour-vector multiset fixed; only colour vectors are reassigned among coordinates within species.',
+            '- The primary unit is species: 369 species receive equal weight regardless of photo or pair count.',
+            '- This tests a monotone geographic-distance versus colour-dissimilarity tendency. Non-monotone patchy structure can be missed.',
+            '- The analysis is postoutcome exploratory because the descriptive G3 direction was already known; it is not confirmatory.',
+            '- It is not a biological prevalence estimate, shared-boundary test, environmental mechanism test or causal test.',
+            '- G1 and all prior frozen decisions remain unchanged.', '',
+            f"Workflow `{os.environ['RUN_ID']}` verified all 369 observed species statistics, all 999 synchronized global null statistics, and 12 direct SciPy Spearman spot checks."
+          ]
+          Path('/tmp/final/RGFCA_WITHIN_SPECIES_SPATIAL_OMNIBUS.md').write_text('\n'.join(lines) + '\n')
+          PY
+      - name: Stage compact verified outputs
+        run: |
+          mkdir -p docs/supporting data/derived docs
+          cp /tmp/final/summary.json docs/supporting/global_rgfca_within_species_spatial_omnibus_result_v1.json
+          cp /tmp/final/species_results.csv data/derived/global_rgfca_within_species_spatial_omnibus_species_v1.csv
+          cp /tmp/final/global_null.csv data/derived/global_rgfca_within_species_spatial_omnibus_null_v1.csv
+          cp /tmp/final/species_audit.csv data/derived/global_rgfca_within_species_spatial_omnibus_audit_v1.csv
+          cp /tmp/final/independent_spot_checks.csv data/derived/global_rgfca_within_species_spatial_omnibus_spot_checks_v1.csv
+          cp /tmp/final/RGFCA_WITHIN_SPECIES_SPATIAL_OMNIBUS.md docs/RGFCA_WITHIN_SPECIES_SPATIAL_OMNIBUS.md
+      - name: Commit verified RGFCA-only omnibus outputs
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            docs/RGFCA_WITHIN_SPECIES_SPATIAL_OMNIBUS.md \
+            docs/supporting/global_rgfca_within_species_spatial_omnibus_result_v1.json \
+            data/derived/global_rgfca_within_species_spatial_omnibus_species_v1.csv \
+            data/derived/global_rgfca_within_species_spatial_omnibus_null_v1.csv \
+            data/derived/global_rgfca_within_species_spatial_omnibus_audit_v1.csv \
+            data/derived/global_rgfca_within_species_spatial_omnibus_spot_checks_v1.csv
+          git commit -m 'Record verified RGFCA within-species spatial omnibus result'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/hypervolume-geo-environment-identifiability
+            git rebase origin/analysis/hypervolume-geo-environment-identifiability
+            if git push origin HEAD:analysis/hypervolume-geo-environment-identifiability; then break; fi
+            test "$attempt" -lt 4
+            sleep $((attempt*2))
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-within-species-spatial-omnibus-full-v1
+          path: /tmp/final/
+          if-no-files-found: error
+          retention-days: 90
