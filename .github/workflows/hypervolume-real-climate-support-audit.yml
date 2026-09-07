@@ -1,0 +1,66 @@
+name: Hypervolume real-climate support audit
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/hypervolume-real-climate-support-audit.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact audit dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 pandas==2.2.3 scipy==1.17.0
+      - name: Recover colour-blind real-climate artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: hypervolume-real-climate-only-v1
+          path: /tmp/real-climate
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34081512316
+      - name: Run outcome-blind capacity and support audit
+        run: |
+          mkdir -p /tmp/audit
+          python scripts/analysis/audit_hypervolume_real_climate_support.py \
+            --input /tmp/real-climate/real_climate_only.csv \
+            --output-json /tmp/audit/hypervolume_real_climate_support_audit_v1.json \
+            --output-capacity /tmp/audit/hypervolume_real_climate_capacity_v1.csv \
+            --output-support /tmp/audit/hypervolume_real_climate_support_schedules_v1.csv
+      - name: Commit compact audit
+        run: |
+          set -euo pipefail
+          cp /tmp/audit/hypervolume_real_climate_support_audit_v1.json docs/supporting/hypervolume_real_climate_support_audit_v1.json
+          cp /tmp/audit/hypervolume_real_climate_capacity_v1.csv data/derived/hypervolume_real_climate_capacity_v1.csv
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/supporting/hypervolume_real_climate_support_audit_v1.json data/derived/hypervolume_real_climate_capacity_v1.csv
+          git commit -m 'Record outcome-blind real-climate support audit'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/hypervolume-geo-environment-identifiability
+            git rebase origin/analysis/hypervolume-geo-environment-identifiability
+            if git push origin HEAD:analysis/hypervolume-geo-environment-identifiability; then break; fi
+            test "$attempt" -lt 4
+            sleep $((attempt*2))
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hypervolume-real-climate-support-audit-v1
+          path: /tmp/audit/
+          if-no-files-found: error
+          retention-days: 90
