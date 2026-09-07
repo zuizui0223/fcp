@@ -1,4 +1,5 @@
 name: Global RGFCA matched-background qualification
+# Technical recovery only: candidate join now adds URL only; no background pixels had opened.
 
 on:
   push:
