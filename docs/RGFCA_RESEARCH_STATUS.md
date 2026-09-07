@@ -52,6 +52,14 @@ evidence, not global petal-mask accuracy: large-object recall is only 2/4 and
 mask containment must not be read as petal segmentation IoU. Training-data
 licence/citation checks do not complete scientific or package-wide release gates.
 
+The frozen estimator also pools all retained flower instances without receiving
+the observation's taxon label. Species-conditioning is therefore by labelled
+photograph, not by a verified focal-species mask. Exact-source and artificial-mask
+checks now document that scope; the contamination rate from co-photographed
+flowers is unknown. Independent replication and background contrasts do not
+themselves validate taxon-to-mask attribution. No measurement or admission rule
+was changed to address this limitation after outcomes became available.
+
 Run `34085861343` stopped at `ModuleNotFoundError: No module named 'fcp_pipeline'`
 in all species shards, before numerical execution. Technical recovery exposes
 the checkout through `PYTHONPATH` in all workflow jobs and smoke-tested both real

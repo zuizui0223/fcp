@@ -88,6 +88,23 @@ the definition is not misdescribed as present in the initial contract.
    validation.** Their completion can test the prospectively stated transfer
    and image-background contrasts. They do not prove the model uniformly measures
    petals or eliminate every systematic error shared by regions and taxa.
+6. **The observation's taxon label is not a verified focal-species mask.** The
+   frozen detector has one class, `flower`. Its `measure(self, image)` and
+   `_analyze_orientation(self, image)` interfaces take no taxon argument. Every
+   retained instance is combined by `union_canvas |= selected`; overlapping
+   pixels count once, and no instance is selected as the focal plant. Thus
+   other flowering taxa in the same photograph may contribute. Neither these
+   code checks nor JRC qualification estimates a contamination rate. A
+   flower-background contrast cannot distinguish focal from co-photographed
+   flowers. This remains a separate limit on an intraspecific petal-colour claim.
+
+The exact [pooling runtime](https://github.com/zuizui0223/fcp/blob/9fae6ccdf684a46026f72ba12e98de2c5c54bf2a/fcp_pipeline/flower_roi_v4_runtime.py)
+has SHA-256 `e269930cd9a06a58503277ab0b105f3396aeabe597deebe89103a33611e1e9f9`.
+The replay tests extract only its orientation/pooling functions and frozen
+geometry helpers, with detector/encoder/decoder responses stubbed. Two artificial
+40-by-40 regions yield 3,200 pooled pixels when disjoint and 2,800 when overlapping
+by 20-by-20 pixels. These are software examples, not measured flowers or ecological
+frequencies. No model weights, actual photographs or reserve outcomes are opened.
 
 These caveats limit the inference; they do not retrospectively change the
 passing qualification, reject selected images, or authorize threshold changes.
@@ -110,10 +127,13 @@ read their literal committed Git objects, not a result-directory search.
 | [Evidence manifest](https://github.com/zuizui0223/fcp/blob/2449c77597cc4c57f18eb0aaa446211143ce3be5/data/atlas/qualification/roi_v4_locked_test/gate_evidence_manifest.json) | `dc467f9ac4e12325c86c5c4e305216b02adc6cc97b9fbebb67fd28236fbb89e8` |
 | [Frozen gate executable](https://github.com/zuizui0223/fcp/blob/2449c77597cc4c57f18eb0aaa446211143ce3be5/data/atlas/qualification/roi_v4_locked_test/gate_executable.py) | `f43048839f5dde8ec1acd56c1163d988a8a7cddb024a289a6a2ba96b76c84074` |
 
-The [eight publication audit tests](../tests/test_rgfca_roi_qualification_audit.py)
-check seven exact source identities, runtime/result identity, the complete image
+The [twelve publication audit tests](../tests/test_rgfca_roi_qualification_audit.py)
+retain the eight qualification checks of seven exact source identities,
+runtime/result identity, the complete image
 and object census, all saved metric arithmetic, all eight frozen decisions,
 image admission, reference-size denominators and the retained historical STOP.
+Four additional scope checks verify the exact pooling-runtime bytes, taxon-free
+interface, disjoint/overlapping instance unions and explicit manuscript caveat.
 They do not independently reproduce model predictions, annotations, original
 training or the source point split. They require the repository's full Git
 history, as provided by the [publication workflow](../.github/workflows/rgfca-publication-figures.yml).

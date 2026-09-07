@@ -194,6 +194,12 @@ predicted IoU, thresholds logits, clips masks to boxes and unions them. This is
 automated flower-candidate masking, not a botanical guarantee that every retained
 pixel is petal tissue. Its measurement-validity ceiling must follow the separate
 RGFCA qualification evidence, not the EfficientSAM licence or generic benchmarks.
+Species-conditioning is by the observation's taxon label: the frozen image-only
+estimator has no focal-taxon input and pools every retained flower instance.
+The [qualification audit](RGFCA_ROI_QUALIFICATION_AUDIT.md) records the exact source
+and artificial-mask pooling tests. A same-scene flower from another taxon can
+contribute; its frequency and effect are unmeasured, and background controls do
+not independently validate focal-species attribution.
 
 Access ceiling: pinned README, full licence and provider file metadata; official
 CVF-indexed abstract and bibliographic record. A later direct CVF page open was

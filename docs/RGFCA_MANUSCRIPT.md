@@ -25,6 +25,8 @@ commonness test remained unsupported. No environmental process block passed the
 fixed five-block correction gate. We prospectively specified replication in the
 other 500 candidate species, together with observer, seasonal and matched-image
 background controls. Those outcomes are not included here. The current result is
+a taxon-labelled photograph association: pooled flower regions have not been
+verified as belonging only to each observation's focal species. It remains
 a candidate photo-derived distance-colour association, not independently
 validated flower-colour biogeography or an identified ecological mechanism.
 
@@ -92,6 +94,14 @@ Large-object recall was 2/4, a particularly sparse validation stratum. The
 gate using all 100 rows, including failures. European grassland box validation
 does not establish global taxon-uniform petal-mask accuracy, and source images
 selected for flower presence do not constitute a flower-absent specificity test.
+
+Species-conditioning uses the observation's taxon label, not a separately
+verified focal-species mask. The one-class flower detector does not receive
+that label; the estimator pools all retained flower-instance masks in the
+photograph. Other flowering taxa visible in the same scene can therefore
+contribute to its measured colour. We have not estimated this contamination rate.
+The [qualification audit](RGFCA_ROI_QUALIFICATION_AUDIT.md) verifies this code path
+with artificial masks, without treating those checks as biological validation.
 
 All 50,000 terminal records, including non-evaluable measurements, were retained
 before coordinates and colours were joined. Automated classifiability is a
@@ -264,6 +274,12 @@ photo-derived spatial association. It does not yet establish that the signal is
 specific to flowers rather than spatial patterns in backgrounds, season,
 observer practice or acquisition conditions. The current map is a descriptive
 view of an opportunistic, measurement-filtered sample, not all flowers on Earth.
+Conditioning on observation labels does not by itself separate the focal plant's
+petal colour from co-photographed flowers. Even a successful independent
+replication and flower-versus-background contrast would leave this taxon-to-mask
+attribution assumption unvalidated. A specifically intraspecific petal-colour
+claim would require a separate, prospectively defined attribution validation;
+the current result concerns flower-candidate regions in taxon-labelled photographs.
 iNaturalist observer specialization and incompletely specified sampling
 processes require explicit consideration. [Di Cecco et al. (2021)](https://doi.org/10.1093/biosci/biab093).
 Thinning performance also depends on the modelling target and evaluation

@@ -1,22 +1,31 @@
 """Reconstruct completed ROI qualification, never remeasure any photograph.
 
 Read only literal immutable Git objects from the 100-image JRC locked test.
-No network, model import, reserve result, image decode, or new inference.
+No network, model import, reserve result, photograph decode, or new inference.
+Artificial masks below replay only the frozen region-pooling code with stubbed
+detector/encoder/decoder responses; they do not test botanical accuracy.
 """
+import ast
 import csv
 from functools import lru_cache
 import hashlib
 import io
 import json
+import math
 from pathlib import Path
 import statistics
 import subprocess
+from types import SimpleNamespace
 
+import numpy as np
+from PIL import Image
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 QUALIFICATION = "2449c77597cc4c57f18eb0aaa446211143ce3be5"
 RUNTIME_SOURCE = "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a"
+RUNTIME_PATH = "fcp_pipeline/flower_roi_v4_runtime.py"
+RUNTIME_SHA256 = "e269930cd9a06a58503277ab0b105f3396aeabe597deebe89103a33611e1e9f9"
 DIRECTORY = "data/atlas/qualification/roi_v4_locked_test/"
 SOURCES = {
     "contract": ("docs/supporting/jbi_atlas_roi_estimator_contract_v4.json", "e3ffefdcd4aa6719a10b45c57886ee895f10f424a0d0b174a46541d92dd2f7a1"),
@@ -159,3 +168,84 @@ def test_historical_failure_and_ecological_firewall_not_reinterpreted():
     assert result["scaleout_candidate_pixels_opened"] is False
     assert "taxon-uniform error" in contract["claim_ceiling"]
     assert "calibrated reflectance" in contract["claim_ceiling"]
+
+
+@lru_cache(None)
+def frozen_runtime_tree():
+    raw = subprocess.check_output(["git", "show", f"{RUNTIME_SOURCE}:{RUNTIME_PATH}"], cwd=ROOT)
+    assert hashlib.sha256(raw).hexdigest() == RUNTIME_SHA256
+    return ast.parse(raw.decode("utf-8"))
+
+
+def test_measurement_interface_has_no_focal_taxon_input():
+    cls = next(n for n in frozen_runtime_tree().body
+               if isinstance(n, ast.ClassDef) and n.name == "FrozenFlowerColourEstimator")
+    for name in ("measure", "_analyze_orientation"):
+        method = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == name)
+        assert [a.arg for a in method.args.args] == ["self", "image"]
+        assert not method.args.kwonlyargs and method.args.kwarg is None
+    assert record("contract")["detector"]["classes"] == ["flower"]
+
+
+def replay_pooling(boxes):
+    """Run the original pooling/helper functions, never model loading or measure."""
+    tree = frozen_runtime_tree()
+    cls = next(n for n in tree.body if isinstance(n, ast.ClassDef)
+               and n.name == "FrozenFlowerColourEstimator")
+    orientation = next(n for n in cls.body if isinstance(n, ast.FunctionDef)
+                       and n.name == "_analyze_orientation")
+    helper_names = {"_letterboxed_rgb", "_canvas_mask_to_original", "_background_annulus"}
+    rule_names = {"letterbox_geometry", "box_to_canvas", "select_prompt_mask"}
+    nodes = ast.parse("from __future__ import annotations").body
+    nodes += [n for n in ast.parse(raw_source("rules").decode("utf-8")).body
+              if isinstance(n, ast.FunctionDef) and n.name in rule_names]
+    nodes += [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in helper_names]
+    nodes += [orientation]
+    namespace = {"np": np, "Image": Image, "math": math, "CANVAS_SIZE": 1024}
+    exec(compile(ast.Module(body=nodes, type_ignores=[]), RUNTIME_PATH, "exec"), namespace)
+
+    def tensor(values):
+        stub = SimpleNamespace()
+        stub.detach = lambda: stub
+        stub.cpu = lambda: stub
+        stub.numpy = lambda: np.asarray(values)
+        return stub
+
+    predictions = SimpleNamespace(boxes=SimpleNamespace(
+        xyxy=tensor(boxes), conf=tensor([.9] * len(boxes))))
+    # The segmenter stub supplies positive logits everywhere; the real frozen
+    # select_prompt_mask clips each instance to its distinct detector box.
+    estimator = SimpleNamespace(
+        contract=record("contract"),
+        detector=SimpleNamespace(predict=lambda **kwargs: [predictions]),
+        encoder=SimpleNamespace(run=lambda *args: [None]),
+        decoder=SimpleNamespace(run=lambda *args: (
+            np.ones((1, 1, 1, 1024, 1024), dtype=np.float32),
+            np.ones((1, 1, 1), dtype=np.float32), None)),
+    )
+    return namespace["_analyze_orientation"](estimator, Image.new("RGB", (1024, 1024)))
+
+
+@pytest.mark.parametrize("boxes,pixels", [
+    ([[20, 20, 60, 60], [80, 20, 120, 60]], 3200),
+    ([[20, 20, 60, 60], [40, 40, 80, 80]], 2800),
+])
+def test_all_retained_instances_are_pooled_not_one_focal_flower(boxes, pixels):
+    result = replay_pooling(boxes)
+    expected = np.zeros((1024, 1024), dtype=bool)
+    for x0, y0, x1, y1 in boxes:
+        expected[y0:y1, x0:x1] = True
+    assert result["retained_instances"] == 2
+    assert np.array_equal(result["flower_mask"], expected)
+    assert result["flower_mask"].sum() == pixels
+    assert not np.any(result["flower_mask"] & result["background_mask"])
+
+
+def test_taxon_mask_limitation_is_explicit_in_manuscript_and_audit():
+    manuscript = (ROOT / "docs/RGFCA_MANUSCRIPT.md").read_text(encoding="utf-8")
+    audit = (ROOT / "docs/RGFCA_ROI_QUALIFICATION_AUDIT.md").read_text(encoding="utf-8")
+    for text in (manuscript, audit):
+        assert "observation's taxon label" in text
+        assert "focal-species mask" in text
+        assert "contamination rate" in text
+    assert RUNTIME_SHA256 in audit

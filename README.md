@@ -6,6 +6,8 @@ The active research mainline is **RGFCA**: image-first measurement of global flo
 
 RGFCA has measured **50,000 photographs from 500 species**. Its eligible inferential frame contains **21,424 classifiable photographs from 369 species**. Balanced realizations each use 250 species and 20 photos per species, repeated 200 times with the full schedule preserved in the species-conditioned null. Repetitions measure sampling stability, not additional biological replication.
 
+Species-conditioning follows observation taxon labels; the frozen image-only estimator pools all retained flower regions, not a verified mask of the focal species alone. Co-photographed flowers can contribute, with an unmeasured contamination rate. See the [measurement scope and qualification limits](docs/RGFCA_ROI_QUALIFICATION_AUDIT.md).
+
 The research objective is an ecologically interpretable observed signal that survives independent validation. **A new exploratory 369-species test detects a small within-species distance–colour association: mean Spearman rho = 0.0270, permutation p = 0.001.** This is a candidate photo-derived spatial signal, not a shared-boundary or causal result. Completed non-support decisions remain unchanged: primary G1 concentration `p = 0.070`, species-disjoint commonness `p = 0.856`. The next stage is a prospectively fixed replication in the other **500 species / 50,000 previously unmeasured candidate photographs**, with disjoint observation/photo IDs and seasonal/observer sensitivity tests. See the [current status](docs/RGFCA_RESEARCH_STATUS.md), [replication protocol](docs/RGFCA_RESERVE_REPLICATION.md) and [research goal](docs/RGFCA_RESEARCH_GOAL.md).
 
 ## Start here
