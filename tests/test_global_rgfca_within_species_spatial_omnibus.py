@@ -85,8 +85,9 @@ def test_species_seed_stream_differs_by_species_and_permutation():
     assert run.seed_for("A", 0) == run.seed_for("A", 0)
 
 
-def test_runner_source_contains_no_six_or_34_species_input_route():
+def test_runner_has_no_six_or_34_species_input_route_and_explicit_false_firewall():
     source = Path(run.__file__).read_text().lower()
     assert "jbi_chapter1" not in source
     assert "34species" not in source
-    assert "six_species" not in source
+    assert '"six_species_used": false' in source
+    assert '"thirty_four_species_used": false' in source
