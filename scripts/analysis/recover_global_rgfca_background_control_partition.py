@@ -41,6 +41,19 @@ def parse_args() -> argparse.Namespace:
     return ap.parse_args()
 
 
+def _expected_integer(value: object, *, label: str) -> int:
+    """Parse integer-like CSV values without changing the frozen numeric value.
+
+    Original measurement columns can be materialized by pandas as strings such as
+    ``56230.0`` because terminal tables also contain missing values.  Require a
+    finite, exactly integral number rather than silently rounding it.
+    """
+    numeric = float(value)
+    if not np.isfinite(numeric) or numeric < 0 or not numeric.is_integer():
+        raise RuntimeError(f"frozen expected {label} is not a nonnegative integer: {value!r}")
+    return int(numeric)
+
+
 def main() -> int:
     args = parse_args()
     execution = json.loads(args.execution_contract.read_text(encoding="utf-8"))
@@ -137,12 +150,20 @@ def main() -> int:
         background_counts = nearest_palette_counts(rgb[background_mask])
         flower_pixels = int(np.count_nonzero(flower_mask))
         background_pixels = int(np.count_nonzero(background_mask))
-        expected_flower_pixels = int(row.expected_flower_mask_pixels)
-        expected_background_pixels = int(row.expected_background_effective_pixels)
+        expected_flower_pixels = _expected_integer(
+            row.expected_flower_mask_pixels, label="flower mask pixels"
+        )
+        expected_background_pixels = _expected_integer(
+            row.expected_background_effective_pixels, label="background pixels"
+        )
         result["flower_mask_pixels_exact"] = flower_pixels == expected_flower_pixels
         result["background_pixels_exact"] = background_pixels == expected_background_pixels
         palette_exact = all(
-            int(flower_counts[name]) == int(getattr(row, f"expected_flower_palette_count_{name}"))
+            int(flower_counts[name])
+            == _expected_integer(
+                getattr(row, f"expected_flower_palette_count_{name}"),
+                label=f"flower palette count {name}",
+            )
             for name in names
         )
         result["flower_palette_exact"] = palette_exact
