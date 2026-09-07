@@ -60,6 +60,8 @@ def main() -> int:
         raise RuntimeError("measured table differs from frozen matched frame")
 
     measured = pd.read_csv(args.measured, dtype={"measurement_id": str, "photo_id": str}).fillna("")
+    if "photo_license" not in measured.columns:
+        raise RuntimeError("measured table lacks the original frozen photo license")
     classifiable = bool_series(measured["global_classifiable"])
     cf = measured.loc[classifiable].copy()
     counts = cf.groupby("species", observed=True).size()
@@ -73,8 +75,11 @@ def main() -> int:
     candidate = pd.read_csv(args.candidate, dtype={"photo_id": str}).fillna("")
     if candidate["photo_id"].nunique() != len(candidate):
         raise RuntimeError("candidate photo IDs are not unique")
+    # Only the sealed source URL is added from the candidate table.  The license
+    # already frozen into the original measured row is retained, avoiding a
+    # duplicate-column merge and preserving the exact old measurement metadata.
     joined = frame.merge(
-        candidate[["photo_id", "photo_url_large", "photo_license"]],
+        candidate[["photo_id", "photo_url_large"]],
         on="photo_id",
         how="left",
         validate="one_to_one",
