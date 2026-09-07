@@ -1,19 +1,24 @@
-# FCP — spatial organization of intraspecific flower-colour variation
+# FCP — Repeated Global Flower-Colour Atlas (RGFCA)
 
 This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. `fcp` asks how intraspecific colour diversity is maintained or sorted across space; the complementary [`chun`](https://github.com/zuizui0223/chun) project asks how similar flower-colour states are repeatedly generated through evolutionary time. See [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md).
 
-This repository now contains **two frozen inferential lanes that answer different questions and must not be pooled**.
+The active research mainline is **RGFCA**: image-first measurement of global flower-colour variation, balanced repeated world maps and species-conditioned spatial and ecological inference. The six-species Chapter 1 analysis and 34-species literature comparison are **legacy studies**, retained for provenance and reproduction rather than used as the biological foundation of the new atlas.
 
-1. **Chapter 1 spatial-photograph lane:** Do present-day continuous flower-colour observations show non-random spatial organization within species, and do independent species share the same strongest transition geography?
-2. **34-species comparative lane:** Does occupied climatic niche breadth differ according to whether literature-documented intraspecific flower-colour variation occurs as local within-population coexistence or geographic differentiation among populations?
+RGFCA has measured **50,000 photographs from 500 species**. Its eligible inferential frame contains **21,424 classifiable photographs from 369 species**. Balanced realizations each use 250 species and 20 photos per species, repeated 200 times with the full schedule preserved in the species-conditioned null. Repetitions measure sampling stability, not additional biological replication.
 
-The first lane uses 1,200 community photographs from six species with a frozen 480/720 calibration–evaluation split. The second uses a checksum-locked literature-derived dataset of 34 species from 25 families. Their samples, response variables, null models and claims are distinct.
+The research objective is an ecologically interpretable observed signal that survives independent validation. Completed spatial and environmental non-support decisions remain part of the evidence. Current G1 concentration is not supported at the primary scale (`p = 0.070`); species-disjoint commonness is also not supported (`p = 0.856`). A new exploratory 369-species within-species spatial omnibus is the next execution step. See the [current status](docs/RGFCA_RESEARCH_STATUS.md) and [research goal](docs/RGFCA_RESEARCH_GOAL.md).
 
 ## Start here
 
+- **Active goal and validation route:** [`docs/RGFCA_RESEARCH_GOAL.md`](docs/RGFCA_RESEARCH_GOAL.md)
+- **Current results, execution and next questions:** [`docs/RGFCA_RESEARCH_STATUS.md`](docs/RGFCA_RESEARCH_STATUS.md)
+- **RGFCA protocol:** [`docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md`](docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md)
+- **Repeated-atlas method:** [`docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md`](docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md)
+- **Methodological contribution:** [`docs/RGFCA_METHOD_NOVELTY_POSITIONING.md`](docs/RGFCA_METHOD_NOVELTY_POSITIONING.md)
+- **Observation-bias audit:** [`docs/RGFCA_OBSERVATION_BIAS.md`](docs/RGFCA_OBSERVATION_BIAS.md)
 - **Programme position:** [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md)
 
-### Chapter 1 — held-out spatial analysis
+### Legacy: six-species Chapter 1 held-out spatial analysis
 
 - **Manuscript draft:** [`docs/JBI_CHAPTER1_MANUSCRIPT.md`](docs/JBI_CHAPTER1_MANUSCRIPT.md)
 - **Current decision and execution status:** [`docs/JBI_CHAPTER1_SPATIAL_STATUS.md`](docs/JBI_CHAPTER1_SPATIAL_STATUS.md)
@@ -24,7 +29,7 @@ The first lane uses 1,200 community photographs from six species with a frozen 4
 - **Figure manifest:** [`docs/supporting/jbi_ch1_figure_manifest_v1.json`](docs/supporting/jbi_ch1_figure_manifest_v1.json)
 - **Boundary CI:** [`.github/workflows/jbi-global-colour-boundaries.yml`](.github/workflows/jbi-global-colour-boundaries.yml)
 
-### Frozen 34-species comparative paper
+### Legacy: frozen 34-species comparative paper
 
 - **Manuscript:** [`docs/jbi_manuscript.md`](docs/jbi_manuscript.md)
 - **Pipeline and evidence reduction:** [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md)
@@ -35,7 +40,7 @@ The first lane uses 1,200 community photographs from six species with a frozen 4
 - **Canonical frozen input:** [`data/frozen/frozen_34species_five_metric_dataset.csv`](data/frozen/frozen_34species_five_metric_dataset.csv)
 - **Reproduction workflow:** [`.github/workflows/34species-paper.yml`](.github/workflows/34species-paper.yml)
 
-## Chapter 1: frozen photograph analysis
+## Legacy Chapter 1: frozen photograph analysis
 
 ### Design
 
@@ -105,7 +110,7 @@ The governing rule is:
 
 > Species may disappear from the map display, but species must never disappear from the null model.
 
-## Frozen 34-species comparative paper
+## Legacy: frozen 34-species comparative paper
 
 ### Final paper dataset
 
@@ -198,9 +203,9 @@ python -m pip install -e .
 
 ## Repository boundary
 
-Active material must be assigned to one of the two lanes before it is interpreted.
+Active RGFCA material belongs to the repeated-atlas research programme described above. Discovery, technical qualification, exploratory inference and independent biological validation have different claims. The two legacy studies below retain their original samples, protocols and results, and are not pooled with RGFCA.
 
-### Chapter 1 spatial lane
+### Legacy Chapter 1 spatial lane
 
 A file belongs here only if it supports:
 
@@ -209,7 +214,7 @@ A file belongs here only if it supports:
 3. label-blind transition detectability and shared concentration;
 4. audit, figures or manuscript reporting for those analyses.
 
-### 34-species comparative lane
+### Legacy 34-species comparative lane
 
 A file belongs here only if it supports:
 

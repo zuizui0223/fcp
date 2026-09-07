@@ -1,5 +1,11 @@
 # Global Monte Carlo flower-colour barrier atlas — prospective protocol v1
 
+Current programme position (2026-09-07): RGFCA is the active FCP mainline;
+the six-species and 34-species studies are legacy. The text below records the
+original prospective RGFCA design. Subsequent outcomes and explicitly exploratory
+extensions are tracked in [RGFCA_RESEARCH_STATUS.md](RGFCA_RESEARCH_STATUS.md),
+with the current objective in [RGFCA_RESEARCH_GOAL.md](RGFCA_RESEARCH_GOAL.md).
+
 Status: **prospective design frozen on 2026-09-04 before any global Monte Carlo flower-colour field was available**. The branch was forked from `362cdcc949f1421a9a5bb0532453914a23b4be83` while the H9 location-blind measurement workflow was still queued. The recurrent-zone extraction rule, ecological/geographic overlay family and external source families were subsequently frozen while the new global species-discovery workflow was still metadata-only. On 2026-09-05, after the metadata-only capacity scan showed that thousands of species can satisfy the largest raw-photo target but before fresh candidate acquisition or any new global flower-colour pixels were opened, the compute envelope was prospectively bounded to at most 1,000 fresh-candidate species and at most 500 pixel-measured species. This preserves the repeated-world-map estimand rather than allowing metadata abundance to turn the analysis into an all-at-once mega-analysis. This protocol does not alter, rescue or reinterpret the frozen H1–H6 outcomes.
 
 ## 1. Why a new design is necessary
