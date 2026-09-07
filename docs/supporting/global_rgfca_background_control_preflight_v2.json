@@ -1,0 +1,36 @@
+{
+  "protocol": "global-rgfca-within-species-spatial-background-control-v2",
+  "status": "pass_background_control_preflight_without_pixels",
+  "inferential_role": "postoutcome_falsification_diagnostic",
+  "flower_only_outcome_known_before_this_control": true,
+  "known_flower_only": {
+    "github_run_id": 34088925008,
+    "observed_mean_rho": 0.02702130374565584,
+    "p_upper": 0.001
+  },
+  "pixels_opened": false,
+  "background_colour_opened": false,
+  "source_urls_persisted": false,
+  "matched_rows": 21424,
+  "matched_species": 369,
+  "minimum_classifiable_photos_per_species_for_this_diagnostic_only": 40,
+  "candidate_url_join_complete": true,
+  "original_image_sha_available_for_every_row": true,
+  "stored_twelve_anchor_flower_counts_complete": true,
+  "stored_flower_palette_counts_equal_mask_pixels": true,
+  "stored_background_pixel_count_positive_for_every_row": true,
+  "background_effective_pixels": {
+    "minimum": 168,
+    "median": 54836.5,
+    "maximum": 313295
+  },
+  "lineage": {
+    "contract_sha256": "3a3dac30d2cd82f912426fca1296734dabb6521838c04c764462dbe10232eafc",
+    "timing_amendment_sha256": "be64240023ce7fbf80eb484d93759f53ef488b0ab5e593370d35a818914afd1a",
+    "known_flower_result_sha256": "f8a81dda11136fbdf3550fca79ba0152ef04e8739817d5d9bf4e6bc0f4fec699",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "candidate_table_sha256": "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2",
+    "measurement_result_sha256": "7ee83c549f84d53ca9ba514853610158c0c8cc4dc6cf8ccad8481193776ad0b6"
+  },
+  "next_gate": "Only exact-image-SHA matched re-acquisition using frozen ROI-v4 may open background pixels; no replacement photos or denominator adaptation are permitted."
+}
