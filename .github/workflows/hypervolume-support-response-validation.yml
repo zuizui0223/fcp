@@ -54,7 +54,7 @@ jobs:
           assert r['parent_decisions_modified'] is False
           assert r['no_observed_colour_inference_opened'] is True
           assert len(r['primary_counts'])==8
-          assert {(x[0],x[1]) for x in r['primary_counts']}=={(m,w) for m in m.MODELS for w in m.WEIGHTS}
+          assert {(x[0],x[1]) for x in r['primary_counts']}=={(model,weight) for model in m.MODELS for weight in m.WEIGHTS}
           assert all(0<=k<=250 for row in r['primary_counts'] for k in row[2:])
           print('Reference code and recorded guards verified. Full simulation not rerun; no biological colours opened.')
           PY
