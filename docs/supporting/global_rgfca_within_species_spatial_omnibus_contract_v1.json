@@ -1,0 +1,74 @@
+{
+  "protocol": "global-rgfca-within-species-spatial-omnibus-v1",
+  "status": "frozen_before_new_permutation_outcome",
+  "date_jst": "2026-09-07",
+  "role": "Postoutcome exploratory RGFCA-only extension. Existing G3 descriptive values were already known, so this is not confirmatory and cannot reclassify G1 or any prior result.",
+  "scope_firewall": {
+    "six_species_used": false,
+    "thirty_four_species_used": false,
+    "rgfca_only": true,
+    "eligible_species": 369,
+    "classifiable_rows": 21424,
+    "minimum_classifiable_photos_per_species": 40,
+    "measured_table": "data/derived/global_monte_carlo_measured_photos_v1.csv",
+    "colour_representation": "the frozen four-component RGFCA colour probability vector",
+    "no_environmental_variables": true
+  },
+  "question": "Across the 369 eligible RGFCA species, is within-species flower-colour dissimilarity positively associated with geographic distance more strongly than expected if each species retained exactly the same photographs, geography and colour-vector distribution but colour vectors were randomly reassigned among that species' coordinates?",
+  "species_statistic": {
+    "name": "distance_colour_spearman_rho",
+    "definition": "Spearman correlation across all unordered photo pairs within one species between great-circle geographic distance and Jensen-Shannon divergence of the frozen four-component colour vectors.",
+    "continuity_with_existing_g3": "Same species_distance_colour_rho estimand as frozen G3, but uses every classifiable photo of each eligible species once rather than repeated 20-photo outer draws.",
+    "constant_colour_distance_rule": "rho=0 exactly, matching frozen G3.",
+    "constant_geographic_distance_rule": "not evaluable; stop if any eligible species is non-evaluable rather than dropping it after outcome."
+  },
+  "primary_global_statistic": {
+    "name": "equal_species_mean_rho",
+    "definition": "Arithmetic mean of the 369 species rho values, equal weight per species regardless of photo count or pair count.",
+    "tail": "upper",
+    "decision_alpha": 0.05,
+    "reason_for_single_primary": "Avoid selecting among mean, median, positive fraction or species-count summaries after the already-known descriptive G3 direction."
+  },
+  "secondary_descriptive_outputs": [
+    "equal-species median rho",
+    "fraction of species with rho > 0",
+    "species rho distribution and quantiles",
+    "for each species, its permutation percentile and Monte Carlo upper-tail p-value, explicitly exploratory and not a prevalence estimate",
+    "BH count may be reported only as detectable-species count, never as the biological prevalence of spatial organization"
+  ],
+  "exact_randomization_null": {
+    "permutations": 999,
+    "master_seed": 202609070901,
+    "procedure": "For each permutation index, independently within every species permute the complete frozen colour vectors across that species' fixed coordinates; preserve photo identities, species, coordinates, photo count, and the full within-species multiset of colour vectors exactly.",
+    "global_null_statistic": "Recompute every species rho and the equal-species mean rho for the same permutation index.",
+    "p_value": "(1 + number of 999 null mean-rho values >= observed mean rho) / 1000.",
+    "no_pair_independence_assumption": true,
+    "no_asymptotic_spearman_p_values": true,
+    "reuse_dependencies_preserved": "All classifiable photographs are used once in the observed statistic; no outer resampling is used in this extension."
+  },
+  "implementation_efficiency_without_scientific_change": {
+    "rank_equivalence": "For a species using all photos, a vertex permutation preserves the multiset of pairwise colour distances. Therefore precomputed average ranks of all pairwise JSD values may be gathered under the permuted vertex labels and Pearson-correlated with precomputed geographic-distance ranks; this is algebraically the Spearman statistic without re-sorting on every permutation.",
+    "sharding": "Species may be partitioned into deterministic non-overlapping shards; each shard emits observed and all 999 null species rho contributions, then the finalizer reconstructs all 369-species global null values exactly.",
+    "no_seed_or_metric_change_after_outcome": true
+  },
+  "interpretation": {
+    "positive_supported_result": "Evidence, conditional on the frozen RGFCA eligible/photo frame, that geographic separation and colour dissimilarity have a positive species-equal association across species. It is evidence for widespread directional spatial organization, not a claim that every species is structured and not a shared-boundary result.",
+    "null_result": "Does not establish absence of within-species spatial organization; power and heterogeneous/non-monotone spatial pattern sensitivity would remain to be quantified.",
+    "not_a_prevalence_estimator": true,
+    "not_a_shared_geography_test": true,
+    "not_an_environmental_mechanism_test": true,
+    "not_causal": true
+  },
+  "required_outputs": [
+    "all 369 observed species rho values",
+    "all 999 null global mean rho values",
+    "primary Monte Carlo p-value",
+    "secondary median and positive-fraction summaries",
+    "species exploratory permutation p-values",
+    "BH detectable-species count labelled non-prevalence",
+    "species/photo count audit and complete no-drop guard",
+    "input/code/output SHA256 receipts",
+    "independent spot-check against scipy.stats.spearmanr for observed and selected permuted species"
+  ],
+  "claim_ceiling": "Postoutcome exploratory RGFCA-only exact randomization evidence for a species-equal positive geographic-distance versus flower-colour-dissimilarity association. No six-species or 34-species evidence, no G1 rescue, no shared universal boundary, no environment mechanism, and no biological prevalence estimate."
+}
