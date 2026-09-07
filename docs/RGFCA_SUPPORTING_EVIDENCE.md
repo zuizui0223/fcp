@@ -100,6 +100,14 @@ checks are documented in [the figure audit](RGFCA_PUBLICATION_FIGURES.md).
 The [image/ecology](RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md) and
 [statistical](RGFCA_STATISTICAL_LITERATURE_AUDIT.md) readings limit interpretation;
 neither software checks nor precedent establishes this signal's ecological cause.
+The [real photo-bar release](RGFCA_PHOTO_BAR.md) now provides 24 verified CC0 ROI
+crops with source links, exact reproduction checks and a separate figure receipt.
+This closes the missing-photo illustration item, not the measurement-validity
+or independent-replication gates. Four [core software references](RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md)
+have also been checked against project-owned citation records.
+The [four-provider audit](RGFCA_MEASUREMENT_PROVIDER_AUDIT.md) adds exact model
+and basemap identities, separates photo from observation-data licences, and
+records the remaining model/training-data and mixed-licence reuse questions.
 
 The material submission blockers are scientific, not cosmetic:
 
@@ -108,9 +116,7 @@ The material submission blockers are scientific, not cosmetic:
 2. Finish discovery background recovery or retain its exact failure as not
    evaluable. Stronger flower-specific interpretation requires the prospective
    reserve controls and cannot be certified by the discovery p-value alone.
-3. Complete licensed real ROI-photo presentation or explicitly omit it; a
-   palette swatch is not a photograph.
-4. Complete software, data-provider, model and environmental-layer references,
+3. Complete remaining software-release, data-provider, model and environmental-layer references,
    and audit the final manuscript/SI/reproducibility package together.
 
 At this audit, no independent validation result, shared global boundary,

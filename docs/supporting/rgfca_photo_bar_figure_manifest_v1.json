@@ -1,0 +1,19 @@
+{
+  "execution_sha256": "d414799530f538fd312b5395913cd6334fd0b56299160c188ae159986a3d1501",
+  "new_inference": false,
+  "outputs": [
+    {
+      "bytes": 480422,
+      "name": "rgfca_figure3_discovery_photo_bar.png",
+      "sha256": "97fda4ea7f418a965fac095cb957a21dbaa3ffa36cee2218b41537b47478d4ad"
+    },
+    {
+      "bytes": 332043,
+      "name": "rgfca_figure3_discovery_photo_bar.pdf",
+      "sha256": "311c9b577ead5a710e5f8fc8c9a77bec29fffd831ba8a9b4eadcd81c70a58a4e"
+    }
+  ],
+  "plan_sha256": "63e916f4833d938bef371a03e0cfdbeec76a58f7e8e7f18b712f7e0b0cbc0246",
+  "reserve_outcomes_read": false,
+  "status": "rendered_complete_discovery_photo_bar"
+}

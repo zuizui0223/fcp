@@ -1,6 +1,6 @@
 """Internal citation consistency, not automated verification of scientific truth.
 
-Read only the active manuscript and two primary-reading notes. Never open
+Read only the active manuscript and its bounded primary-reading notes. Never open
 reserve outcomes, images or inference inputs. The bounded reference set must be
 extended deliberately alongside a source audit, not by accepting arbitrary DOIs.
 """
@@ -25,6 +25,10 @@ REFERENCES = {
     "10.1111/ecog.02881": (2017, "Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure"),
     "10.1111/2041-210x.13525": (2021, "Spatial thinning and class balancing: Key choices lead to variation in the performance of species distribution models with citizen science data"),
     "10.1111/nph.18361": (2022, "The ecological implications of intra- and inter-species variation in phenological sensitivity"),
+    "10.1038/s41586-020-2649-2": (2020, "Array programming with NumPy"),
+    "10.1038/s41592-019-0686-2": (2020, "SciPy 1.0: fundamental algorithms for scientific computing in Python"),
+    "10.25080/majora-92bf1922-00a": (2010, "Data Structures for Statistical Computing in Python"),
+    "10.1109/mcse.2007.55": (2007, "Matplotlib: A 2D graphics environment"),
 }
 
 
@@ -65,12 +69,13 @@ def validate_citations(manuscript, audit_text):
 def documents():
     manuscript = (ROOT / "docs/RGFCA_MANUSCRIPT.md").read_text(encoding="utf-8")
     audits = "\n".join((ROOT / "docs" / name).read_text(encoding="utf-8") for name in (
-        "RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md", "RGFCA_STATISTICAL_LITERATURE_AUDIT.md"))
+        "RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md", "RGFCA_STATISTICAL_LITERATURE_AUDIT.md",
+        "RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md"))
     return manuscript, audits
 
 
 def test_all_core_references_are_cited_once_in_list_and_audited(documents):
-    assert validate_citations(*documents) == 11
+    assert validate_citations(*documents) == 15
 
 
 def test_orphan_reference_rejected(documents):
@@ -108,7 +113,7 @@ def test_missing_reading_record_rejected(documents):
 def test_same_publication_can_be_cited_twice_in_body(documents):
     manuscript, audits = documents
     manuscript = manuscript.replace("## References", "[Drake (2015)](https://doi.org/10.1098/rsif.2015.0086).\n\n## References")
-    assert validate_citations(manuscript, audits) == 11
+    assert validate_citations(manuscript, audits) == 15
 
 
 def test_audit_does_not_close_replication_or_submission(documents):

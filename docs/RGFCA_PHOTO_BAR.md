@@ -3,8 +3,8 @@
 Display protocol, 7 September 2026. This is a new publication illustration, not
 a new ecological test or a change to the frozen measurements. Original discovery
 pixels/colours have already been analysed; this is not a preoutcome scientific
-registration. No reserve outcomes or images are used. Current status: display
-implementation and metadata selection; no finished photo bar is yet claimed.
+registration. No reserve outcomes or images are used. Current status: all 24
+licensed crops and the PNG/PDF photo bar are reconstructed and verified.
 
 The metadata plan contains 24 species and 24 observers, selected from 659 CC0
 photos with credits. Its canonical SHA-256 is
@@ -90,3 +90,33 @@ two-render PNG/PDF identity in the same pinned runtime, and an explicit label:
 **Illustrative CC0 discovery sample; not independent validation or a global
 flower-colour frequency estimate.** Legacy results and ongoing reserve/background
 inference remain unchanged.
+
+## Completed execution and release
+
+[CI 34100227172](https://github.com/zuizui0223/fcp/actions/runs/34100227172), at
+`214a939d29512648986620e0abf19cbf1f35addd`, passed all 30 original tests and completed
+all 24 photo-level CC0 checks, original image hashes, frozen ROI admission,
+flower/background pixel counts and twelve flower-palette counts. Both PNG/PDF
+exports reproduced identically on a second render. No source photo was replaced.
+
+Artifact `10010284387` was downloaded and the complete plan, execution receipt,
+all 24 RGBA crops and both figure hashes were checked again locally. Its
+GitHub-reported archive SHA-256 is
+`7abd9f0ce278e0fbb5bb2c2247af77bf87d2628e5ee50cc95914677cc509caa1`.
+See the [release receipt](supporting/rgfca_photo_bar_release_v1.json),
+[figure manifest](supporting/rgfca_photo_bar_figure_manifest_v1.json),
+[execution record](figures/rgfca_photo_bar_v1/photo_bar_execution.json) and
+[per-slot source credits](figures/rgfca_photo_bar_v1/RGFCA_PHOTO_BAR_CREDITS.md).
+The API's CC0 credit text is generic (`no rights reserved`); source photo and
+observation pages are retained, not invented photographer names or inferred
+photographer identity from the observation contributor.
+
+The final PNG was visually inspected across all 24 slots. Labels and limits are
+legible, and no private content was visible at this display scale. Some masks
+are sparse or fragmented and some flowers are small in the union rectangle;
+this is retained and disclosed rather than manually cleaned or resampled.
+The check is not botanical verification or evidence of mask accuracy.
+The continuing publication CI verifies committed provenance and renders these
+existing crops twice without another network or model measurement.
+
+![Figure 3. Fixed discovery photo bar.](figures/rgfca_figure3_discovery_photo_bar.png)

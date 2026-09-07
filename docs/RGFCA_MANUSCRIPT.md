@@ -69,6 +69,12 @@ of methodological priority.
 The fixed discovery allocation selected 500 species from a 1,000-species candidate
 frame, with 100 photographs per selected species. Measurement used the frozen
 flower-region detector and segmentation pipeline without geographic context.
+The fixed pipeline uses a custom fine-tuned YOLO11n detector to supply box
+prompts to the pinned EfficientSAM-Ti ONNX segmenter. It does not use YOLO11
+instance-segmentation weights or the later YOLO26 model. Exact base/custom
+checkpoint distinctions, software versions and primary provider references are
+recorded in the [measurement/provider audit](RGFCA_MEASUREMENT_PROVIDER_AUDIT.md);
+upstream model benchmarks do not establish floral measurement validity.
 All 50,000 terminal records, including non-evaluable measurements, were retained
 before coordinates and colours were joined. Automated classifiability is a
 measurement gate, not verification of a biological colour morph.
@@ -156,6 +162,28 @@ The distinction is consistent with structured-validation work: the split must
 match the intended transfer claim, and a different blocking axis tests a
 different kind of generalization. [Roberts et al. (2017)](https://doi.org/10.1111/ecog.02881).
 
+### 2.5 Display and scientific software
+
+The species-free map is a descriptive display, not a pooled-species test.
+A separate 24-photo CC0 illustration (Figure 3) was selected using metadata-only
+longitude-rank bins and a fixed hash rank after discovery eligibility was known.
+Each displayed species and observer occurs once. No hue, effect size or
+significance selected the examples, and there were no replacements. Current
+photo-level rights, original image hashes and all retained flower-palette/mask
+counts were reproduced before publication of the lossless masked crops.
+Original RGB is retained inside reconstructed masks; the illustration is neither
+a random census of all flowers nor independent measurement validation.
+
+Array computations used NumPy, table handling used pandas, and rank operations
+and direct statistical equivalence checks used SciPy.
+[Harris et al. (2020)](https://doi.org/10.1038/s41586-020-2649-2),
+[McKinney (2010)](https://doi.org/10.25080/Majora-92bf1922-00a),
+[Virtanen et al. (2020)](https://doi.org/10.1038/s41592-019-0686-2).
+Static figures used Matplotlib. [Hunter (2007)](https://doi.org/10.1109/MCSE.2007.55).
+Frozen inference and display runs have separate version records; the
+[software audit](RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md) maps their actual roles and
+does not substitute software citations for the RGFCA randomization contract.
+
 ## 3. Discovery results
 
 ### 3.1 Coverage and measurements
@@ -199,6 +227,17 @@ signals adequately under the tested designs. These failures are not evidence of 
 of biological boundaries in nature. Synthetic recovery frequencies must not be
 reported as ecological prevalence. Failed source access or incomplete technical
 execution likewise cannot be converted into an ecological negative.
+
+### 3.4 Actual photographed flower regions
+
+Figure 3 shows the complete fixed 24-photo display sample. All 24 current CC0
+checks and original image/ROI-summary reproduction checks passed. Some automatic
+ROI unions are sparse or fragmented; these were retained, not visually cleaned
+or replaced. The display shows what the measurement retained and does not
+establish segmentation accuracy, true flower-colour frequencies or an ecological
+effect. Source pages and the API-reported credit text accompany every slot.
+
+![Figure 3. Actual RGB within reconstructed discovery flower regions.](figures/rgfca_figure3_discovery_photo_bar.png)
 
 ## 4. Interpretation and limitations
 
@@ -250,13 +289,14 @@ The figure builder verifies exact committed source-byte hashes, reconstructs
 reported numerical summaries, checks every photo/species count and produces
 PNG/PDF pairs with a source/output manifest. Basemap geometry is display-only.
 [Figure contracts and complete legends](RGFCA_PUBLICATION_FIGURES.md) define the
-palette display, full denominators and visual limitations. A licensed ROI-crop
-photo bar remains absent; palette swatches are not presented as photographs.
+palette display, full denominators and visual limitations. The licensed ROI-crop
+photo bar has a [separate display protocol and release receipt](RGFCA_PHOTO_BAR.md),
+with [24 source credits](figures/rgfca_photo_bar_v1/RGFCA_PHOTO_BAR_CREDITS.md).
+Palette swatches are not presented as photographs.
 
 Before this draft can be submitted, it requires complete independent replication
 and matched-background evaluation, completion of the submission-wide citation audit,
-final ecological interpretation consistent with every control, a verified real
-photo bar or an explicit final omission, a complete manuscript/SI evidence ledger,
+final ecological interpretation consistent with every control, a complete manuscript/SI evidence ledger,
 and an audited reproducibility/submission package. These are outstanding work,
 not cosmetic omissions. No submission or claim of readiness is authorized by
 this discovery draft.
@@ -268,6 +308,9 @@ Methods are not asserted. Source access and claim limits are recorded in the
 [image/ecology audit](RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md) and
 [statistical audit](RGFCA_STATISTICAL_LITERATURE_AUDIT.md). Citation tests check
 internal consistency with that reading record, not scientific validity.
+Four core software citations have also been checked against project-owned
+records; remaining release, model, data-provider and environmental-layer
+references are not declared complete.
 
 ## Source ledger
 
@@ -277,6 +320,7 @@ internal consistency with that reading record, not scientific validity.
 - Sharedness and environmental decisions: [current status and linked fixed results](RGFCA_RESEARCH_STATUS.md).
 - Replication design and execution receipts: [reserve protocol](RGFCA_RESERVE_REPLICATION.md).
 - Figure provenance: [manifest](supporting/rgfca_publication_figure_manifest_v1.json).
+- Real photo-bar provenance: [release receipt](supporting/rgfca_photo_bar_release_v1.json), [plan and limits](RGFCA_PHOTO_BAR.md).
 - Full discovery/supporting claim audit: [evidence index](RGFCA_SUPPORTING_EVIDENCE.md), including the parent-branch heterogeneity source and unresolved submission gates.
 
 ## References
@@ -292,3 +336,7 @@ internal consistency with that reading record, not scientific validity.
 - Roberts, D. R., Bahn, V., Ciuti, S., Boyce, M. S., Elith, J., Guillera-Arroita, G., Hauenstein, S., Lahoz-Monfort, J. J., Schröder, B., Thuiller, W., Warton, D. I., Wintle, B. A., Hartig, F., and Dormann, C. F. (2017). Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. *Ecography* 40:913–929. [10.1111/ecog.02881](https://doi.org/10.1111/ecog.02881).
 - Steen, V. A., Tingley, M. W., Paton, P. W. C., and Elphick, C. S. (2021). Spatial thinning and class balancing: Key choices lead to variation in the performance of species distribution models with citizen science data. *Methods in Ecology and Evolution* 12(2):216–226. [10.1111/2041-210X.13525](https://doi.org/10.1111/2041-210X.13525).
 - Xie, Y., Thammavong, H. T., and Park, D. S. (2022). The ecological implications of intra- and inter-species variation in phenological sensitivity. *New Phytologist* 236(2):760–773. [10.1111/nph.18361](https://doi.org/10.1111/nph.18361).
+- Harris, C. R., et al. (2020). Array programming with NumPy. *Nature* 585:357–362. [10.1038/s41586-020-2649-2](https://doi.org/10.1038/s41586-020-2649-2).
+- Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. *Computing in Science & Engineering* 9(3):90–95. [10.1109/MCSE.2007.55](https://doi.org/10.1109/MCSE.2007.55).
+- McKinney, W. (2010). Data Structures for Statistical Computing in Python. *Proceedings of the 9th Python in Science Conference*, pp. 56–61. [10.25080/Majora-92bf1922-00a](https://doi.org/10.25080/Majora-92bf1922-00a).
+- Virtanen, P., et al. (2020). SciPy 1.0: fundamental algorithms for scientific computing in Python. *Nature Methods* 17:261–272. [10.1038/s41592-019-0686-2](https://doi.org/10.1038/s41592-019-0686-2).

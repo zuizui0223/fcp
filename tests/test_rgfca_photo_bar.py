@@ -192,3 +192,32 @@ def test_incomplete_or_tampered_inputs_never_render(synthetic_render_inputs, tmp
     with pytest.raises(ValueError):
         cli.render(Path("synthetic"), inputs, tmp_path / "blocked-output")
     assert not (tmp_path / "blocked-output").exists()
+
+
+def test_committed_display_has_complete_source_crop_and_figure_provenance():
+    release = json.loads((bar.ROOT / "docs/supporting/rgfca_photo_bar_release_v1.json").read_bytes())
+    for field in ("execution", "figure_manifest", "credits"):
+        assert bar.sha256((bar.ROOT / release[field + "_path"]).read_bytes()) == release[field + "_sha256"]
+    inputs = (bar.ROOT / release["execution_path"]).parent
+    plan, plan_sha, crops = cli.load_render_inputs(bar.ROOT / "docs/supporting/rgfca_photo_bar_plan_v1.json", inputs)
+    assert plan_sha == release["plan_sha256"]
+    assert len(crops) == release["verified_photo_count"] == release["current_photo_level_cc0_count"] == 24
+    manifest = json.loads((bar.ROOT / release["figure_manifest_path"]).read_bytes())
+    assert manifest["execution_sha256"] == release["execution_sha256"]
+    assert manifest["plan_sha256"] == plan_sha
+    for row in manifest["outputs"]:
+        raw = (bar.ROOT / "docs/figures" / row["name"]).read_bytes()
+        assert len(raw) == row["bytes"] and bar.sha256(raw) == row["sha256"]
+    credits = (bar.ROOT / release["credits_path"]).read_text(encoding="utf-8")
+    assert len([line for line in credits.splitlines() if line.startswith("- ")]) == 24
+    assert all(row["photo_page"] in credits and row["observation_page"] in credits for row in plan["selected"])
+    for flag in ("replacement_used", "reserve_outcomes_read", "new_inference",
+                 "independent_validation_claim_allowed", "segmentation_accuracy_validated_by_display"):
+        assert release[flag] is False
+
+
+def test_real_committed_crops_render_twice_without_reacquisition(tmp_path, monkeypatch):
+    monkeypatch.setattr(cli, "fetch_bytes", lambda *args: pytest.fail("Rendering must not reacquire photographs"))
+    plan = bar.ROOT / "docs/supporting/rgfca_photo_bar_plan_v1.json"
+    inputs = bar.ROOT / "docs/figures/rgfca_photo_bar_v1"
+    assert cli.render(plan, inputs, tmp_path / "a") == cli.render(plan, inputs, tmp_path / "b")

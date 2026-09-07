@@ -118,8 +118,9 @@ workflow reproduced these checks successfully in
 [run 34094422559](https://github.com/zuizui0223/fcp/actions/runs/34094422559), with
 artifact `10008033327` and archive SHA-256
 `480ceaa25e0e5844dd482eff9e7e4bc4a2e695b5c9fb63a92f0f353f44a623f6`.
-Licensed ROI crops, independent validation, submission-wide references and final
-manuscript/SI closure remain outstanding.
+Independent validation, submission-wide references and final manuscript/SI
+closure remain outstanding. The separate photo-bar update below now provides
+licensed ROI crops without altering these first two figures.
 
 ## Completed: bounded core literature audit
 
@@ -156,17 +157,34 @@ No reserve outcome was read,
 and no frozen measurement, inference, result or legacy file was changed by this
 literature work.
 
-## In progress: actual licensed discovery photo bar
+## Completed: actual licensed discovery photo bar
 
 The [display protocol](RGFCA_PHOTO_BAR.md) fixes 24 species/24 observers from the
 659 CC0 photographs with credits in the discovery frame. Selection uses only
 metadata after frozen eligibility, longitude-rank bins and a fixed hash rank;
 neither colours nor observed effects choose the examples. The saved plan and
-30 metadata/synthetic-pixel tests pass locally, including two-render identity
-and failure guards. Real source-image identity, current photo-level CC0 rights,
-ROI-summary reproduction and visual QA are still pending CI acquisition.
-This illustrative figure will not estimate global colour frequencies or count
+30 metadata/synthetic-pixel tests passed locally and in
+[CI 34100227172](https://github.com/zuizui0223/fcp/actions/runs/34100227172).
+All 24 current photo-level CC0 declarations, source-image hashes and original
+ROI/palette summaries reproduced, followed by exact two-render PNG/PDF identity.
+The downloaded artifact `10010284387` passed complete local crop/hash checks;
+all 24 display slots were visually inspected. Sparse/fragmented masks are
+retained without aesthetic replacement and do not establish segmentation accuracy.
+The [release receipt](supporting/rgfca_photo_bar_release_v1.json) records provenance;
+ongoing publication checks render committed crops without reacquisition.
+This illustrative figure does not estimate global colour frequencies or count
 as independent evidence; no reserve outcomes or legacy results are involved.
+
+Four project-owned scientific-software citation records have also been checked
+and added to the draft (15 manuscript references in total). This does not close
+the remaining release, model, data-provider or environmental-layer citation and
+reuse audits. See [the software reading record](RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md).
+The [measurement/provider audit](RGFCA_MEASUREMENT_PROVIDER_AUDIT.md) distinguishes
+YOLO11 detection from the installed package's later YOLO26 citation, custom
+weights from the base checkpoint, and EfficientSAM's pinned export from generic
+segmentation claims. All five basemap files independently matched their official
+tagged source. Mixed-licence metadata and model/training-data distribution still
+need their own release review; the 24 CC0 crops do not clear the whole data pool.
 
 ## Route to an ecological result
 
