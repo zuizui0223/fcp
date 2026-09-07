@@ -14,6 +14,8 @@ The two frozen inferential lanes retained below are now legacy studies. Their sa
 
 - **Active goal and validation route:** [`docs/RGFCA_RESEARCH_GOAL.md`](docs/RGFCA_RESEARCH_GOAL.md)
 - **Current results, execution and next questions:** [`docs/RGFCA_RESEARCH_STATUS.md`](docs/RGFCA_RESEARCH_STATUS.md)
+- **Active discovery manuscript (validation pending):** [`docs/RGFCA_MANUSCRIPT.md`](docs/RGFCA_MANUSCRIPT.md)
+- **Discovery map, effects and figure provenance:** [`docs/RGFCA_PUBLICATION_FIGURES.md`](docs/RGFCA_PUBLICATION_FIGURES.md)
 - **RGFCA protocol:** [`docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md`](docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md)
 - **Repeated-atlas method:** [`docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md`](docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md)
 - **Methodological contribution:** [`docs/RGFCA_METHOD_NOVELTY_POSITIONING.md`](docs/RGFCA_METHOD_NOVELTY_POSITIONING.md)

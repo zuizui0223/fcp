@@ -84,7 +84,28 @@ The separate discovery-background recovery encountered a numeric serialization
 error (`1818.0` parsed as an integer string); upstream `af36e98` fixes exact-integer
 parsing without changing masks, colours or statistics. An incomplete/failed
 recovery is not a negative ecological result and cannot certify the flower-only
-signal. Preserve the original run and track its properly recorded continuation.
+signal. Original run `34091174522` has now terminated with 128 failed recovery
+partitions and no finalized background result. Preserve the original run and
+track its properly recorded continuation using the already-fixed parser.
+
+## Discovery manuscript and figures
+
+The active [RGFCA manuscript](RGFCA_MANUSCRIPT.md) now separates the completed
+exploratory distance-colour signal from unsupported shared geography, unresolved
+mechanisms and prospective reserve validation. It is explicitly not submission-ready.
+[Figure 1](figures/rgfca_figure1_discovery_atlas.png) displays all 21,424 eligible
+discovery photographs without a species legend; [Figure 2](figures/rgfca_figure2_discovery_omnibus.png)
+shows all 369 species effects and all 999 global null means. The map's colours
+are display mixtures, not calibrated reflectance, and the null interval is not
+an effect confidence interval. No reserve outcomes were read for these products.
+
+The [figure contracts](RGFCA_PUBLICATION_FIGURES.md), reproducible builder and
+source/output manifest retain exact discovery input hashes. Local verification
+passed 11 tests, including complete-census guards, numerical reconstruction and
+identical two-render PNG/PDF hashes. Both PNGs were visually inspected; an
+observed-statistic label collision was corrected. The matching read-only CI
+workflow reproduces these checks. Licensed ROI crops, independent validation,
+literature/citation audit and final manuscript/SI closure remain outstanding.
 
 ## Route to an ecological result
 

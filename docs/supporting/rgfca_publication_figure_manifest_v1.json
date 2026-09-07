@@ -1,0 +1,73 @@
+{
+  "protocol": "rgfca-publication-figures-v1",
+  "status": "discovery_figures_reconstructed_not_submission_ready",
+  "source_commit": "29584f3ad7ae0cd99a1d8f43459252af38f615da",
+  "input_sha256": {
+    "docs/supporting/global_rgfca_within_species_spatial_omnibus_result_v1.json": "f8a81dda11136fbdf3550fca79ba0152ef04e8739817d5d9bf4e6bc0f4fec699",
+    "data/derived/global_rgfca_within_species_spatial_omnibus_species_v1.csv": "48e4d991086a07b3d9da2a987bafb8c37f1732a9e229f141be8854ac589fdab8",
+    "data/derived/global_rgfca_within_species_spatial_omnibus_null_v1.csv": "cecac9e6311c9a3f834be5bd4dfde7f1c7dd14172463034fd7c13da88d939c29",
+    "data/derived/global_monte_carlo_measured_photos_v1.csv": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  },
+  "source_bytes": "exact git blobs; no newline normalization or input edits",
+  "reconstructed": {
+    "observed_mean_rho": 0.02702130374565584,
+    "p_upper": 0.001,
+    "null_mean": 3.9554224859291e-05,
+    "null_sd": 0.003107683835727331,
+    "null_q025": -0.00600826264267355,
+    "null_q975": 0.005895728971578247,
+    "species": 369,
+    "eligible_photos": 21424,
+    "permutations": 999
+  },
+  "outputs": [
+    {
+      "name": "rgfca_figure1_discovery_atlas.png",
+      "sha256": "1e59813733d7633ef79e7ad4f53bff58ff6a6dbdf21e44055ef78c1b5a8bc11a",
+      "bytes": 717054
+    },
+    {
+      "name": "rgfca_figure1_discovery_atlas.pdf",
+      "sha256": "823722526b3913ededccc02287e26b4adcae0ad3bfe3de9f18e5b2b6f8572703",
+      "bytes": 570485
+    },
+    {
+      "name": "rgfca_figure2_discovery_omnibus.png",
+      "sha256": "b13cfce84601260728cbc93224934128644cce64e2f9a02a05ba5e57b4f7f329",
+      "bytes": 237150
+    },
+    {
+      "name": "rgfca_figure2_discovery_omnibus.pdf",
+      "sha256": "a2c2db050609e8705cef2883a32b500edc23093bc72dc0229e5ddef3ebefea66",
+      "bytes": 16984
+    }
+  ],
+  "basemap": {
+    "source": "Natural Earth low resolution, bundled with GeoPandas 0.14.4",
+    "use": "display only; no inference",
+    "sha256": {
+      "naturalearth_lowres.cpg": "09fc313075748ce8ead962229ed89c919d5a9ff71974ee725a0b48bb87d975a2",
+      "naturalearth_lowres.dbf": "5cfbcaa21ce5fad798abf2ec65ab0db59538f9bb8a37273ef62b6aa8121487fd",
+      "naturalearth_lowres.prj": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4",
+      "naturalearth_lowres.shp": "1f689e60b357e1e98702d5d9f774e95e77fc6b324487cadf57eb9317d533ce12",
+      "naturalearth_lowres.shx": "7933917ebd636eb80822c1bddfa31dd7597ca9e6f89b21e23283c594ed6482c5"
+    }
+  },
+  "reserve_outcomes_read": false,
+  "legacy_results_read": false,
+  "new_inferential_tests_run": false,
+  "photo_bar_present": false,
+  "independent_replication_claim_allowed": false,
+  "shared_boundary_claim_allowed": false,
+  "display_palette": {
+    "colour_white": "#F4F1E8",
+    "colour_yellow_orange": "#DBAD34",
+    "colour_red_pink": "#B84A78",
+    "colour_blue_purple": "#655AB0"
+  },
+  "renderer": {
+    "matplotlib": "3.10.8",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3"
+  }
+}
