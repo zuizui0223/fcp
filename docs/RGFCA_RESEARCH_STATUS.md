@@ -147,10 +147,26 @@ Its four-document artifact `10008879104` was downloaded and every file matched
 its committed Git object at `730612e4af6c64178b1c079d23bb6dc802e1dac0`.
 The supporting-evidence extension adds nine checks: complete environmental Holm
 families, all 17 heterogeneity tail probabilities, all 15 species variances and
-preservation of failed synthetic qualifications. All 29 tests pass locally;
-CI for this extension must still be checked. No reserve outcome was read,
+preservation of failed synthetic qualifications. All 29 tests pass locally and
+in [publication CI 34097657746](https://github.com/zuizui0223/fcp/actions/runs/34097657746).
+Its five-document artifact `10009230975` was downloaded and each file matched
+its committed Git object at `21d13586777eb90324b2ebfc54eeca8659e38b42`.
+The same head's legacy 34-species CI `34097662439` also completed successfully.
+No reserve outcome was read,
 and no frozen measurement, inference, result or legacy file was changed by this
 literature work.
+
+## In progress: actual licensed discovery photo bar
+
+The [display protocol](RGFCA_PHOTO_BAR.md) fixes 24 species/24 observers from the
+659 CC0 photographs with credits in the discovery frame. Selection uses only
+metadata after frozen eligibility, longitude-rank bins and a fixed hash rank;
+neither colours nor observed effects choose the examples. The saved plan and
+30 metadata/synthetic-pixel tests pass locally, including two-render identity
+and failure guards. Real source-image identity, current photo-level CC0 rights,
+ROI-summary reproduction and visual QA are still pending CI acquisition.
+This illustrative figure will not estimate global colour frequencies or count
+as independent evidence; no reserve outcomes or legacy results are involved.
 
 ## Route to an ecological result
 

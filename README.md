@@ -16,6 +16,7 @@ The two frozen inferential lanes retained below are now legacy studies. Their sa
 - **Current results, execution and next questions:** [`docs/RGFCA_RESEARCH_STATUS.md`](docs/RGFCA_RESEARCH_STATUS.md)
 - **Active discovery manuscript (validation pending):** [`docs/RGFCA_MANUSCRIPT.md`](docs/RGFCA_MANUSCRIPT.md)
 - **Discovery map, effects and figure provenance:** [`docs/RGFCA_PUBLICATION_FIGURES.md`](docs/RGFCA_PUBLICATION_FIGURES.md)
+- **Real flower photo-bar display plan (reconstruction pending):** [`docs/RGFCA_PHOTO_BAR.md`](docs/RGFCA_PHOTO_BAR.md)
 - **Supporting numerical evidence and submission gaps:** [`docs/RGFCA_SUPPORTING_EVIDENCE.md`](docs/RGFCA_SUPPORTING_EVIDENCE.md)
 - **Audited core literature and claim limits:** [image/ecology precedents](docs/RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md), [statistical interpretation](docs/RGFCA_STATISTICAL_LITERATURE_AUDIT.md)
 - **RGFCA protocol:** [`docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md`](docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md)
