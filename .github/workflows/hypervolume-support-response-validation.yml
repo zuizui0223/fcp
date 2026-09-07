@@ -1,0 +1,72 @@
+name: Hypervolume support-response validation
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/hypervolume-support-response-validation.yml'
+      - 'scripts/analysis/run_hypervolume_support_response_diagnostic.py'
+      - 'tests/test_hypervolume_support_response_diagnostic.py'
+      - 'docs/supporting/hypervolume_support_response_diagnostic_*_v1.json'
+      - 'docs/HYPERVOLUME_SUPPORT_RESPONSE_DIAGNOSTIC.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install exact reference dependencies
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 scikit-learn==1.8.0
+      - name: Run 13 focused independent algebra and optimization tests
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: |
+          set -o pipefail
+          python -m unittest discover -s tests -p test_hypervolume_support_response_diagnostic.py -v 2>&1 | tee support-response-ci-tests.txt
+      - name: Verify code checksums and recorded result guards
+        run: |
+          python - <<'PY'
+          import hashlib, json, sys
+          from pathlib import Path
+          sys.path.insert(0, 'scripts/analysis')
+          import run_hypervolume_support_response_diagnostic as m
+          r=json.loads(Path('docs/supporting/hypervolume_support_response_diagnostic_result_v1.json').read_text())
+          c=json.loads(Path('docs/supporting/hypervolume_support_response_diagnostic_contract_v1.json').read_text())
+          assert r['status']=='complete_verified_synthetic_diagnostic'
+          assert c['seed']==m.SEED==2026090703
+          assert r['specification_commit']==m.SPEC
+          assert hashlib.sha256(Path(m.__file__).read_bytes()).hexdigest()==r['verification']['runner_sha256']
+          for name, digest in m.PARENT_HASHES.items():
+              assert hashlib.sha256(Path(m.__file__).with_name(name).read_bytes()).hexdigest()==digest
+          assert r['unique_worlds']==6000 and r['score_records']==48000
+          assert r['verification']['fully_verified'] is True
+          assert all(r['verification']['checks'].values())
+          assert r['biological_colour_values_read'] is False
+          assert r['real_climate_used'] is False
+          assert r['parent_decisions_modified'] is False
+          assert r['no_observed_colour_inference_opened'] is True
+          assert len(r['primary_counts'])==8
+          assert {(x[0],x[1]) for x in r['primary_counts']}=={(m,w) for m in m.MODELS for w in m.WEIGHTS}
+          assert all(0<=k<=250 for row in r['primary_counts'] for k in row[2:])
+          print('Reference code and recorded guards verified. Full simulation not rerun; no biological colours opened.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hypervolume-support-response-code-summary-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            scripts/analysis/run_hypervolume_support_response_diagnostic.py
+            tests/test_hypervolume_support_response_diagnostic.py
+            docs/supporting/hypervolume_support_response_diagnostic_contract_v1.json
+            docs/supporting/hypervolume_support_response_diagnostic_result_v1.json
+            docs/HYPERVOLUME_SUPPORT_RESPONSE_DIAGNOSTIC.md
+            support-response-ci-tests.txt
