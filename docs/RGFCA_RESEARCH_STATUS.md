@@ -87,6 +87,13 @@ recovery is not a negative ecological result and cannot certify the flower-only
 signal. Original run `34091174522` has now terminated with 128 failed recovery
 partitions and no finalized background result. Preserve the original run and
 track its properly recorded continuation using the already-fixed parser.
+The complete failed-log audit found 128 tracebacks and 128 matching integer-string
+errors; the sole artifact is the pre-acquisition firewall, not a recovered colour
+result. [Technical continuation v2b](supporting/global_rgfca_background_control_numeric_recovery_v2b.json)
+retains the same 21,424 photos, exact reproduction gates, finalizer and permutation
+specification. Eleven focused parser regression tests pass and are required again
+before the continuation opens images. Prior failed workers had decoded pixels;
+this is explicitly not another pre-pixel freeze claim.
 
 ## Discovery manuscript and figures
 
@@ -104,7 +111,11 @@ source/output manifest retain exact discovery input hashes. Local verification
 passed 11 tests, including complete-census guards, numerical reconstruction and
 identical two-render PNG/PDF hashes. Both PNGs were visually inspected; an
 observed-statistic label collision was corrected. The matching read-only CI
-workflow reproduces these checks. Licensed ROI crops, independent validation,
+workflow reproduced these checks successfully in
+[run 34094422559](https://github.com/zuizui0223/fcp/actions/runs/34094422559), with
+artifact `10008033327` and archive SHA-256
+`480ceaa25e0e5844dd482eff9e7e4bc4a2e695b5c9fb63a92f0f353f44a623f6`.
+Licensed ROI crops, independent validation,
 literature/citation audit and final manuscript/SI closure remain outstanding.
 
 ## Route to an ecological result

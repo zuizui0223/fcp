@@ -40,8 +40,30 @@ jobs:
       - name: Install firewall dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install numpy==2.3.5 pandas==2.2.3
-      - name: Require completed pre-pixel qualification and unopened background outcome
+          python -m pip install numpy==2.3.5 pandas==2.2.3 pytest==8.3.5
+      - name: Verify recorded numeric recovery before repeating unchanged acquisition
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m pytest tests/test_rgfca_background_recovery_numeric.py -q
+          python - <<'PY'
+          import hashlib, json, subprocess
+          from pathlib import Path
+          recovery = json.loads(Path('docs/supporting/global_rgfca_background_control_numeric_recovery_v2b.json').read_text())
+          assert recovery['status'] == 'authorize_same_design_technical_continuation_after_serialization_failure'
+          assert not Path('docs/supporting/global_rgfca_background_falsification_result_v2.json').exists()
+          for path, expected in recovery['files_sha256'].items():
+              assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, path
+          run_id = recovery['original_run_id']
+          run = json.loads(subprocess.check_output(['gh', 'api', f'repos/zuizui0223/fcp/actions/runs/{run_id}']))
+          assert run['status'] == 'completed' and run['conclusion'] == 'failure'
+          assert run['head_sha'] == recovery['original_head_sha']
+          artifacts = json.loads(subprocess.check_output(['gh', 'api', f'repos/zuizui0223/fcp/actions/runs/{run_id}/artifacts']))
+          assert artifacts['total_count'] == 1
+          assert artifacts['artifacts'][0]['id'] == recovery['audit']['only_artifact_id']
+          print('numeric_recovery_verified; prior pixels were opened but no recovery outcomes persisted')
+          PY
+      - name: Require historical qualification and recorded postoutcome timing
         run: |
           python - <<'PY'
           import json
