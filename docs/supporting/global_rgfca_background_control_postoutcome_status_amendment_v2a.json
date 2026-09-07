@@ -1,0 +1,34 @@
+{
+  "protocol": "global-rgfca-background-control-postoutcome-status-amendment-v2a",
+  "status": "frozen_after_flower_only_omnibus_outcome_but_before_any_background_colour_recovery",
+  "date_jst": "2026-09-07",
+  "parent_background_contract": "docs/supporting/global_rgfca_within_species_spatial_background_control_contract_v2.json",
+  "parent_contract_commit": "2fee4d7114cce9b032346ffe637f645bbdc89f20",
+  "correction": "The parent contract incorrectly stated that the flower-only omnibus had not produced a scientific permutation outcome. Repository audit after freezing the parent contract showed that workflow 34088925008 had already completed successfully and committed the flower-only result before the parent background-control contract was created.",
+  "known_flower_only_result_before_background_control": {
+    "result_file": "docs/supporting/global_rgfca_within_species_spatial_omnibus_result_v1.json",
+    "github_run_id": 34088925008,
+    "workflow_completed_before_background_contract": true,
+    "eligible_species": 369,
+    "classifiable_rows": 21424,
+    "observed_equal_species_mean_rho": 0.02702130374565584,
+    "permutation_p_upper": 0.001,
+    "bh_detectable_species_count": 9,
+    "interpretation": "Postoutcome exploratory flower-only result only. It is not evidence of sharedness and is not considered biologically interpretable until the matched background falsification diagnostic is evaluated."
+  },
+  "still_unopened_at_this_amendment": {
+    "recovered_background_palette_vectors": false,
+    "background_geographic_rho": false,
+    "flower_minus_background_differential_rho": false,
+    "background_control_permutation_p_value": false
+  },
+  "valid_freeze_remaining": "The exact-image reacquisition rule, frozen ROI-v4 background mask, twelve-anchor matched flower/background representation, pairwise JSD difference, species differential Spearman statistic, equal-species primary, joint paired permutation null, seeds, and interpretation gates in the parent background-control contract were all specified before any recovered background colour outcome was opened.",
+  "inferential_role": "postoutcome_falsification_diagnostic_not_confirmatory",
+  "main_line": "RGFCA sharedness remains the scientific target. The flower-only omnibus may not replace the failed/underpowered sharedness-specific test as the paper's main claim regardless of its p-value.",
+  "no_retroactive_changes_allowed": [
+    "do not change the matched 369-species/21424-photo diagnostic frame after background recovery",
+    "do not change the twelve-anchor palette after background recovery",
+    "do not change the differential JSD statistic or joint-pair permutation after background recovery",
+    "do not select a different negative-control region after seeing the annulus result"
+  ]
+}
