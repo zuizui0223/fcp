@@ -60,7 +60,7 @@ jobs:
           --manifest /tmp/rgfca-publication/manifest.json
       - name: Export verified real discovery photo bar without reacquisition
         run: |
-          python scripts/analysis/make_rgfca_photo_bar.py render --plan docs/supporting/rgfca_photo_bar_plan_v1.json --inputs-dir docs/figures/rgfca_photo_bar_v1 --output-dir /tmp/rgfca-publication/photo-bar
+          python -m scripts.analysis.make_rgfca_photo_bar render --plan docs/supporting/rgfca_photo_bar_plan_v1.json --inputs-dir docs/figures/rgfca_photo_bar_v1 --output-dir /tmp/rgfca-publication/photo-bar
           cp docs/figures/rgfca_photo_bar_v1/RGFCA_PHOTO_BAR_CREDITS.md /tmp/rgfca-publication/photo-bar/
       - uses: actions/upload-artifact@v4
         with:

@@ -1,7 +1,11 @@
 """Photo-bar guards use metadata and synthetic owned pixels, never live photos."""
 import copy
 import json
+import os
 from pathlib import Path
+import shlex
+import subprocess
+import sys
 
 import numpy as np
 import pytest
@@ -221,3 +225,22 @@ def test_real_committed_crops_render_twice_without_reacquisition(tmp_path, monke
     plan = bar.ROOT / "docs/supporting/rgfca_photo_bar_plan_v1.json"
     inputs = bar.ROOT / "docs/figures/rgfca_photo_bar_v1"
     assert cli.render(plan, inputs, tmp_path / "a") == cli.render(plan, inputs, tmp_path / "b")
+
+
+def test_actual_publication_export_command_without_inherited_pythonpath(tmp_path):
+    workflow = (bar.ROOT / ".github/workflows/rgfca-publication-figures.yml").read_text(encoding="utf-8")
+    commands = [line.strip() for line in workflow.splitlines()
+                if line.strip().startswith("python ") and "make_rgfca_photo_bar" in line and " render " in line]
+    assert len(commands) == 1
+    args = shlex.split(commands[0])
+    args[0] = sys.executable
+    output = tmp_path / "actual-cli-export"
+    args[args.index("--output-dir") + 1] = str(output)
+    env = dict(os.environ)
+    env.pop("PYTHONPATH", None)
+    env["PYTHONUTF8"] = "1"
+    result = subprocess.run(args, cwd=bar.ROOT, env=env, capture_output=True, text=True, encoding="utf-8", timeout=60)
+    assert result.returncode == 0, result.stderr
+    manifest = json.loads((output / "photo_bar_figure_manifest.json").read_bytes())
+    assert manifest["status"] == "rendered_complete_discovery_photo_bar"
+    assert len(manifest["outputs"]) == 2 and not manifest["reserve_outcomes_read"]

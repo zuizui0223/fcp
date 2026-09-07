@@ -119,4 +119,13 @@ The check is not botanical verification or evidence of mask accuracy.
 The continuing publication CI verifies committed provenance and renders these
 existing crops twice without another network or model measurement.
 
+Post-release CI `34101672366` passed all 61 expanded tests but failed the separate
+export command before rendering with `ModuleNotFoundError: fcp_pipeline`:
+the test step supplied `PYTHONPATH`, while the standalone export step did not.
+The export now uses Python's repository-root module invocation. A regression
+test runs the exact workflow command with inherited `PYTHONPATH` removed;
+it reproduced the original failure before the one-line invocation fix.
+No crop, source receipt, measurement, inference, palette or mask was changed,
+and this technical failure did not trigger reacquisition.
+
 ![Figure 3. Fixed discovery photo bar.](figures/rgfca_figure3_discovery_photo_bar.png)
