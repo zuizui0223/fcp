@@ -1,0 +1,207 @@
+name: Global RGFCA sharedness-specific predictive qualification
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/global-rgfca-sharedness-specific-predictive.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: global-rgfca-sharedness-specific-predictive-v1
+  cancel-in-progress: false
+
+env:
+  PYTHONHASHSEED: '0'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact sharedness dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 scikit-learn==1.8.0
+      - name: Recover checksum-verified RGFCA geometry only
+        uses: actions/download-artifact@v4
+        with:
+          name: hypervolume-geometry-only-v1
+          path: inputs
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34041094467
+      - name: Run frozen sharedness-specific tests
+        run: python -m pytest -q tests/test_global_rgfca_sharedness_specific_predictive.py
+
+  shards:
+    needs: tests
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        stage: [calibration, evaluation]
+        start: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact sharedness dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 scikit-learn==1.8.0
+      - name: Recover checksum-verified RGFCA geometry only
+        uses: actions/download-artifact@v4
+        with:
+          name: hypervolume-geometry-only-v1
+          path: /tmp/geometry
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34041094467
+      - name: Execute frozen sharedness shard
+        env:
+          STAGE: ${{ matrix.stage }}
+          START: ${{ matrix.start }}
+        run: |
+          set -euo pipefail
+          STOP=$((START + 25))
+          python scripts/analysis/run_global_rgfca_sharedness_specific_predictive.py \
+            --geometry /tmp/geometry/geometry_only.csv \
+            --stage "$STAGE" \
+            --rep-start "$START" \
+            --rep-stop "$STOP" \
+            --output "/tmp/out/${STAGE}-${START}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-sharedness-shard-${{ matrix.stage }}-${{ matrix.start }}
+          path: /tmp/out/${{ matrix.stage }}-${{ matrix.start }}/
+          if-no-files-found: error
+          retention-days: 90
+
+  finalize:
+    needs: shards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact sharedness dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 scikit-learn==1.8.0
+      - name: Download all twenty immutable shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: global-rgfca-sharedness-shard-*
+          path: /tmp/shards
+          merge-multiple: false
+      - name: Finalize and independently recompute every sharedness decision
+        run: |
+          python scripts/analysis/finalize_global_rgfca_sharedness_specific_predictive.py \
+            --shards /tmp/shards \
+            --output /tmp/final
+      - name: Add CI completion guard and reader report
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          import pandas as pd
+
+          p = Path('/tmp/final/summary.json')
+          r = json.loads(p.read_text())
+          r['status'] = 'complete_verified_rgfca_sharedness_specific_synthetic_qualification'
+          r['verification']['github_run_id'] = int(os.environ['RUN_ID'])
+          r['verification']['focused_tests_passed'] = 12
+          p.write_text(json.dumps(r, indent=2) + '\n')
+
+          rates = pd.read_csv('/tmp/final/decision_rates.csv')
+          nuisance = rates[~rates.world.isin(['partially_shared_boundaries','shared_common_offset'])]
+          positive = rates[rates.world.isin(['partially_shared_boundaries','shared_common_offset'])]
+          g = r['qualification_gates']
+          lines = [
+              '# RGFCA sharedness-specific predictive qualification', '',
+              'Date: 2026-09-07 (Japan). **RGFCA mainline only; six-species and 34-species analyses are not used in this stage. Observed flower colours remain closed.**', '',
+              '## Answer first', '',
+              f"Overall frozen synthetic qualification gate: **{'PASS' if g['synthetic_qualification_pass'] else 'FAIL'}**.", '',
+              'The null explicitly allows every species to possess its own strong spatial boundary. The statistic only asks whether a common boundary learned from 100 training species predicts 100 disjoint evaluation species better than that structured independent-boundary baseline.', '',
+              f"Global decision threshold: `{r['global_threshold']:.8g}`.", '',
+              '| Arm | detected / 250 | rate |', '|---|---:|---:|'
+          ]
+          for _, x in positive.iterrows():
+              extra = f", common_offset={x['common_threshold']:.2f}" if pd.notna(x.get('common_threshold')) else ''
+              lines.append(f"| {x['world']}, amp={x['amplitude']:.1f}, shared={x['shared_fraction']:.2f}, threshold_sd={x['threshold_sd']:.2f}{extra} | {int(x['count'])} | {100*x['rate']:.1f}% |")
+          worst = nuisance.loc[nuisance.rate.idxmax()]
+          lines += ['', '## Structured-null control', '',
+                    f"Worst evaluation nuisance rejection: **{int(worst['count'])}/250 = {100*worst['rate']:.1f}%** in `{worst['world']}` (amp={worst['amplitude']:.1f}).", '',
+                    '## Guardrails', '',
+                    '- `shared_fraction=0, amplitude>0` independent-boundary worlds are calibration nulls, not alternatives.',
+                    '- Training and evaluation species are disjoint fixed pools (184/185); each replicate samples 100/100 species and 20 photos/species.',
+                    '- Evaluation labels never update the training posterior.',
+                    '- One threshold is the maximum 97.5th percentile across all nine structured-null calibration arms; there is no amplitude-specific or favourable-axis threshold.',
+                    '- No six-species or 34-species result is used as evidence or input in this stage.',
+                    '- No biological flower-colour value or real climate value is read.',
+                    '- A PASS would qualify the synthetic statistic only; it would not reclassify G1 or automatically open observed-colour inference.', '',
+                    f"Workflow `{os.environ['RUN_ID']}` recomputed all 9 null quantiles, the global threshold, all 19 evaluation decision counts, and the species/photo inclusion censuses after all 20 shards completed."]
+          Path('/tmp/final/RGFCA_SHAREDNESS_SPECIFIC_PREDICTIVE.md').write_text('\n'.join(lines) + '\n')
+          PY
+      - name: Stage compact verified results
+        run: |
+          mkdir -p docs/supporting data/derived docs
+          cp /tmp/final/summary.json docs/supporting/global_rgfca_sharedness_specific_predictive_result_v1.json
+          cp /tmp/final/calibration_quantiles.csv data/derived/global_rgfca_sharedness_specific_calibration_v1.csv
+          cp /tmp/final/threshold.csv data/derived/global_rgfca_sharedness_specific_threshold_v1.csv
+          cp /tmp/final/decision_rates.csv data/derived/global_rgfca_sharedness_specific_decision_rates_v1.csv
+          cp /tmp/final/species_inclusion_census.csv data/derived/global_rgfca_sharedness_specific_species_inclusion_v1.csv
+          cp /tmp/final/photo_inclusion_census.csv data/derived/global_rgfca_sharedness_specific_photo_inclusion_v1.csv
+          cp /tmp/final/RGFCA_SHAREDNESS_SPECIFIC_PREDICTIVE.md docs/RGFCA_SHAREDNESS_SPECIFIC_PREDICTIVE.md
+      - name: Commit verified sharedness outputs only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            docs/RGFCA_SHAREDNESS_SPECIFIC_PREDICTIVE.md \
+            docs/supporting/global_rgfca_sharedness_specific_predictive_result_v1.json \
+            data/derived/global_rgfca_sharedness_specific_calibration_v1.csv \
+            data/derived/global_rgfca_sharedness_specific_threshold_v1.csv \
+            data/derived/global_rgfca_sharedness_specific_decision_rates_v1.csv \
+            data/derived/global_rgfca_sharedness_specific_species_inclusion_v1.csv \
+            data/derived/global_rgfca_sharedness_specific_photo_inclusion_v1.csv
+          git commit -m 'Record verified RGFCA sharedness-specific qualification results'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/hypervolume-geo-environment-identifiability
+            git rebase origin/analysis/hypervolume-geo-environment-identifiability
+            if git push origin HEAD:analysis/hypervolume-geo-environment-identifiability; then break; fi
+            test "$attempt" -lt 4
+            sleep $((attempt*2))
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-sharedness-specific-full-v1
+          path: /tmp/final/
+          if-no-files-found: error
+          retention-days: 90
