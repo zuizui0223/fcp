@@ -6,7 +6,11 @@ on:
     paths:
       - scripts/analysis/make_rgfca_publication_figures.py
       - tests/test_rgfca_publication_figures.py
+      - tests/test_rgfca_manuscript_references.py
       - docs/RGFCA_MANUSCRIPT.md
+      - docs/RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md
+      - docs/RGFCA_STATISTICAL_LITERATURE_AUDIT.md
+      - docs/RGFCA_METHOD_NOVELTY_POSITIONING.md
       - docs/RGFCA_PUBLICATION_FIGURES.md
       - docs/supporting/rgfca_publication_figure_manifest_v1.json
       - docs/figures/rgfca_figure*.png
@@ -35,7 +39,9 @@ jobs:
       - name: Audit exact discovery bytes, numerical claims and two-render identity
         env:
           PYTHONPATH: .
-        run: python -m pytest tests/test_rgfca_publication_figures.py -q
+        run: >-
+          python -m pytest tests/test_rgfca_publication_figures.py
+          tests/test_rgfca_manuscript_references.py -q
       - name: Export verified discovery figures without reserve outcomes
         run: >-
           python scripts/analysis/make_rgfca_publication_figures.py
@@ -45,5 +51,16 @@ jobs:
         with:
           name: rgfca-discovery-publication-figures
           path: /tmp/rgfca-publication
+          if-no-files-found: error
+          retention-days: 90
+      - name: Preserve the source-audited discovery draft and reading ceilings
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-core-literature-audit
+          path: |
+            docs/RGFCA_MANUSCRIPT.md
+            docs/RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md
+            docs/RGFCA_STATISTICAL_LITERATURE_AUDIT.md
+            docs/RGFCA_METHOD_NOVELTY_POSITIONING.md
           if-no-files-found: error
           retention-days: 90

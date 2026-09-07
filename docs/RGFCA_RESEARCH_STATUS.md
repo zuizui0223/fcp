@@ -115,8 +115,33 @@ workflow reproduced these checks successfully in
 [run 34094422559](https://github.com/zuizui0223/fcp/actions/runs/34094422559), with
 artifact `10008033327` and archive SHA-256
 `480ceaa25e0e5844dd482eff9e7e4bc4a2e695b5c9fb63a92f0f353f44a623f6`.
-Licensed ROI crops, independent validation,
-literature/citation audit and final manuscript/SI closure remain outstanding.
+Licensed ROI crops, independent validation, submission-wide references and final
+manuscript/SI closure remain outstanding.
+
+## Completed: bounded core literature audit
+
+The [image/ecology audit](RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md) and
+[statistical audit](RGFCA_STATISTICAL_LITERATURE_AUDIT.md) document twelve primary
+papers, the sections actually read and explicit transfer/access limits. Eleven
+are cited in the active manuscript; the additional survey-bias paper informs
+the method-positioning note. This is a targeted reading, not a systematic review
+or a claim that all submission references have been checked.
+
+Direct floral-image precedents in *Erysimum*, *Monarda fistulosa* and North
+American colour/phenology are acknowledged. Photo volume, image-first analysis
+and pollinator overlays alone are not priority claims. The distinction between
+one field's spatial structure and association between two spatial fields is
+explicit; neither prior photographic validation nor the plus-one permutation
+formula validates RGFCA's measurement or ecological interpretation.
+
+Nine citation regression checks plus the eleven existing figure/evidence checks
+pass locally (20 tests total). They reject uncited/duplicate references, stale
+preprint metadata and missing reading records while preserving the incomplete
+replication/submission labels. The read-only publication workflow now runs this
+combined suite and preserves the audited draft/notes as a separate artifact.
+CI at the resulting commit must still be checked. No reserve outcome was read,
+and no frozen measurement, inference, result or legacy file was changed by this
+literature work.
 
 ## Route to an ecological result
 

@@ -30,6 +30,16 @@ validated flower-colour biogeography or an identified ecological mechanism.
 
 ## 1. Questions and inferential targets
 
+Community photographs already support landscape flower-colour analysis in
+*Erysimum* and high-throughput geographic phenotyping in *Monarda fistulosa*.
+[Luong et al. (2023)](https://doi.org/10.1002/aps3.11546),
+[McKenzie, Church and Hopkins (2026)](https://doi.org/10.1086/739413).
+A much larger North American study linked species-level flower-colour labels
+and flowering observations to seasonal hummingbird distributions, with
+bumblebees as a comparison. [McKenzie, Berardi and Hopkins (2025)](https://doi.org/10.1016/j.cub.2025.03.035).
+Neither image-first phenotyping nor a large collection of flower photographs
+is therefore a sufficient novelty claim for the present study.
+
 The motivating question is whether flower-colour differences are spatially
 organized within plant species, and whether that organization aligns across
 species or with ecological context. These questions require different tests.
@@ -46,6 +56,11 @@ fields against null realizations with identical sampled geometry. An additional
 within-species distance analysis asks a simpler, distinct question about monotone
 spatial association. Outcome-driven extensions are labelled exploratory and do
 not retrospectively replace the original primary analysis.
+Ensemble subsampling has established ecological precedents, including range
+bagging for environmental niche estimation. [Drake (2015)](https://doi.org/10.1098/rsif.2015.0086).
+Our proposed contribution is the separation of inferential targets and their
+linked measurement, opportunity and replication checks, not a verified claim
+of methodological priority.
 
 ## 2. Methods
 
@@ -64,6 +79,11 @@ spectral reflectance, a pigment assay or a model of pollinator colour vision.
 Species entered inference when at least 40 photographs passed the frozen
 classifiability rule. The resulting frame contained 369 species and 21,424
 photographs. The remaining records were not silently repaired or replaced.
+
+Published photographic validation provides reasons to investigate visible
+colour, but does not calibrate our masks or palette. In particular, ordinary
+photographs do not recover ultraviolet information needed for some questions
+about pollinator perception. [Laitly et al. (2021)](https://doi.org/10.1002/ece3.7307).
 
 ### 2.2 Balanced repeated spatial fields
 
@@ -98,6 +118,10 @@ used. The randomizations are Monte Carlo draws, not exhaustive enumeration of
 all possible assignments. Their validity is conditional on the stated
 exchangeability null; they do not by themselves eliminate observer, season,
 background or spatially patterned measurement effects.
+The plus-one calculation follows finite Monte Carlo testing principles;
+0.001 is its minimum attainable reported p-value with 999 draws, not a claim
+about the exact exhaustive tail probability.
+[Phipson and Smyth (2010)](https://doi.org/10.2202/1544-6115.1585).
 
 This analysis is exploratory because earlier descriptive G3 outcomes were
 already known. All 20 nonoverlapping species shards, all 999 reconstructed global
@@ -128,6 +152,9 @@ Taxon-disjoint replication still shares the platform and measurement model and
 may share observers and regions. It therefore tests transfer within this design,
 not independence from every systematic observation error. A passing result would
 not on its own identify a causal environmental or pollination mechanism.
+The distinction is consistent with structured-validation work: the split must
+match the intended transfer claim, and a different blocking axis tests a
+different kind of generalization. [Roberts et al. (2017)](https://doi.org/10.1111/ecog.02881).
 
 ## 3. Discovery results
 
@@ -180,6 +207,11 @@ photo-derived spatial association. It does not yet establish that the signal is
 specific to flowers rather than spatial patterns in backgrounds, season,
 observer practice or acquisition conditions. The current map is a descriptive
 view of an opportunistic, measurement-filtered sample, not all flowers on Earth.
+iNaturalist observer specialization and incompletely specified sampling
+processes require explicit consideration. [Di Cecco et al. (2021)](https://doi.org/10.1093/biosci/biab093).
+Thinning performance also depends on the modelling target and evaluation
+criterion; distribution-model studies do not validate a universal thinning
+distance or this study's admission thresholds. [Steen et al. (2021)](https://doi.org/10.1111/2041-210X.13525).
 
 A monotone distance statistic can miss local patchiness, non-monotone transitions
 and species-specific boundaries. More randomizations would refine tail precision
@@ -188,6 +220,13 @@ resolve a weakly identified boundary model. Additional species and denser
 within-species geographic sampling address different limitations; future designs
 must freeze their admissibility and resolution rules before inspecting outcomes.
 
+Testing colour's spatial structure is not the same as testing association
+between two autocorrelated spatial fields. Unrestricted permutations can be
+invalid for the latter; controlling geographic distance alone is not a general
+solution. [Guillot and Rousset (2013)](https://doi.org/10.1111/2041-210X.12018).
+Thus retaining coordinate geometry in our null is not a claim to retain the
+colour field's autocorrelation or to have isolated an environmental cause.
+
 The present inferential claim is deliberately narrower than the original shared
 boundary motivation. Environmental boundaries and pollinator biogeographic
 regions remain candidate ecological questions, not substitutes that can be tried
@@ -195,6 +234,12 @@ until one yields a favourable p-value. Such analyses require verified source
 layers, outcome-independent definitions, appropriate nulls and a new independent
 validation route. All prior non-support and non-evaluable decisions remain in
 the record.
+Work on a plant and its specialist bee further illustrates why colour groups,
+regional climate responses and phenology need matched biological definitions.
+[Xie et al. (2022)](https://doi.org/10.1111/nph.18361).
+Our calendar-quarter control is not a measured flowering stage; a future
+pollinator analysis must not equate a broad distribution polygon with observed
+visitation or fitness effects.
 
 ## 5. Reproducibility and completion gates
 
@@ -209,12 +254,20 @@ palette display, full denominators and visual limitations. A licensed ROI-crop
 photo bar remains absent; palette swatches are not presented as photographs.
 
 Before this draft can be submitted, it requires complete independent replication
-and matched-background evaluation, a source-verified literature/citation audit,
+and matched-background evaluation, completion of the submission-wide citation audit,
 final ecological interpretation consistent with every control, a verified real
 photo bar or an explicit final omission, a complete manuscript/SI evidence ledger,
 and an audited reproducibility/submission package. These are outstanding work,
 not cosmetic omissions. No submission or claim of readiness is authorized by
 this discovery draft.
+
+The bounded core literature audit now checks the image/ecology precedents and
+statistical interpretation cited below. It is not a systematic review or a
+complete software/data-provider bibliography. Exact comparisons to unread final
+Methods are not asserted. Source access and claim limits are recorded in the
+[image/ecology audit](RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md) and
+[statistical audit](RGFCA_STATISTICAL_LITERATURE_AUDIT.md). Citation tests check
+internal consistency with that reading record, not scientific validity.
 
 ## Source ledger
 
@@ -225,5 +278,16 @@ this discovery draft.
 - Replication design and execution receipts: [reserve protocol](RGFCA_RESERVE_REPLICATION.md).
 - Figure provenance: [manifest](supporting/rgfca_publication_figure_manifest_v1.json).
 
-External literature is not yet an audited reference list. The methodological
-positioning note is a search starting point, not a substitute for that audit.
+## References
+
+- Di Cecco, G. J., Barve, V., Belitz, M. W., Stucky, B. J., Guralnick, R. P., and Hurlbert, A. H. (2021). Observing the Observers: How Participants Contribute Data to iNaturalist and Implications for Biodiversity Science. *BioScience* 71(11):1179–1188. [10.1093/biosci/biab093](https://doi.org/10.1093/biosci/biab093).
+- Drake, J. M. (2015). Range bagging: a new method for ecological niche modelling from presence-only data. *Journal of the Royal Society Interface* 12(107):20150086. [10.1098/rsif.2015.0086](https://doi.org/10.1098/rsif.2015.0086).
+- Guillot, G., and Rousset, F. (2013). Dismantling the Mantel tests. *Methods in Ecology and Evolution* 4:336–344. [10.1111/2041-210X.12018](https://doi.org/10.1111/2041-210X.12018).
+- Laitly, A., Callaghan, C. T., Delhey, K., and Cornwell, W. K. (2021). Is color data from citizen science photographs reliable for biodiversity research? *Ecology and Evolution* 11:4071–4083. [10.1002/ece3.7307](https://doi.org/10.1002/ece3.7307).
+- Luong, Y., Gasca-Herrera, A., Misiewicz, T. M., and Carter, B. E. (2023). A pipeline for the rapid collection of color data from photographs. *Applications in Plant Sciences* 11(5):e11546. [10.1002/aps3.11546](https://doi.org/10.1002/aps3.11546).
+- McKenzie, P. F., Berardi, A. E., and Hopkins, R. (2025). Delayed flowering phenology of red-flowering plants in response to hummingbird migration. *Current Biology* 35(9):2175–2182.e3. [10.1016/j.cub.2025.03.035](https://doi.org/10.1016/j.cub.2025.03.035).
+- McKenzie, P. F., Church, S. H., and Hopkins, R. (2026). High-Throughput iNaturalist Image Analysis Reveals Flower Color Divergence in Monarda fistulosa. *The American Naturalist* 208(1):101–109. [10.1086/739413](https://doi.org/10.1086/739413).
+- Phipson, B., and Smyth, G. K. (2010). Permutation P-values should never be zero: calculating exact P-values when permutations are randomly drawn. *Statistical Applications in Genetics and Molecular Biology* 9:Article 39. [10.2202/1544-6115.1585](https://doi.org/10.2202/1544-6115.1585).
+- Roberts, D. R., Bahn, V., Ciuti, S., Boyce, M. S., Elith, J., Guillera-Arroita, G., Hauenstein, S., Lahoz-Monfort, J. J., Schröder, B., Thuiller, W., Warton, D. I., Wintle, B. A., Hartig, F., and Dormann, C. F. (2017). Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. *Ecography* 40:913–929. [10.1111/ecog.02881](https://doi.org/10.1111/ecog.02881).
+- Steen, V. A., Tingley, M. W., Paton, P. W. C., and Elphick, C. S. (2021). Spatial thinning and class balancing: Key choices lead to variation in the performance of species distribution models with citizen science data. *Methods in Ecology and Evolution* 12(2):216–226. [10.1111/2041-210X.13525](https://doi.org/10.1111/2041-210X.13525).
+- Xie, Y., Thammavong, H. T., and Park, D. S. (2022). The ecological implications of intra- and inter-species variation in phenological sensitivity. *New Phytologist* 236(2):760–773. [10.1111/nph.18361](https://doi.org/10.1111/nph.18361).
