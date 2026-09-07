@@ -64,6 +64,28 @@ flower counts in the first decode; flower-specific interpretation requires the
 prospectively specified differential control as well as the replication and
 observer/season checks. Flower-only p = 0.001 alone is not a biological discovery.
 
+Execution receipts:
+
+- Reserve protocol and metadata freeze: `9fd4ae98632c74caa9e66dd24e7390ec221efb4c`.
+- [Pre-pixel measurement preflight 34090865980](https://github.com/zuizui0223/fcp/actions/runs/34090865980):
+  18 tests passed, full metadata audit and blind worker census reproduced.
+- [Extended inference implementation preflight 34091922722](https://github.com/zuizui0223/fcp/actions/runs/34091922722):
+  27 tests passed at `708b305e314087047a39d27956a76c9327585497`.
+  This tested code without reading reserve outcomes while blind measurement
+  was underway; it is not a second claim that no other process had opened pixels.
+- [Reserve measurement 34091091640](https://github.com/zuizui0223/fcp/actions/runs/34091091640):
+  authorized at `1f80af7f5db81d61f28ae2818c130ef058a9f850`, running.
+  First partitions have completed; no partial colour inference is permitted.
+- Fixed primary and all three controls are implemented. Inference execution
+  remains unopened until all 256 terminal partitions and the exact cohort/ID
+  census pass. The final inference authorization is not yet issued.
+
+The separate discovery-background recovery encountered a numeric serialization
+error (`1818.0` parsed as an integer string); upstream `af36e98` fixes exact-integer
+parsing without changing masks, colours or statistics. An incomplete/failed
+recovery is not a negative ecological result and cannot certify the flower-only
+signal. Preserve the original run and track its properly recorded continuation.
+
 ## Route to an ecological result
 
 1. Freeze the reserve cohort, measurement, primary test and observer/quarter
