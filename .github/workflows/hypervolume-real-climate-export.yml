@@ -84,6 +84,16 @@ jobs:
           if g.photo_id.duplicated().any(): raise SystemExit('duplicate photo id')
           lat=g.latitude.to_numpy(float); lon=g.longitude.to_numpy(float)
 
+          # Reconstruct the exact old 369-species / 21,424-classifiable-photo frame
+          # before comparing against old block source_audit counts. The previous
+          # source_audit denominator was that inference frame, not all 50,000 rows.
+          classifiable=g.global_classifiable.astype(str).str.lower().isin(['true','1','yes'])
+          counts=g.loc[classifiable].groupby('species').size()
+          eligible=set(counts[counts>=40].index.astype(str))
+          retained=(classifiable & g.species.astype(str).isin(eligible)).to_numpy(bool)
+          if len(eligible)!=369 or int(retained.sum())!=21424:
+              raise SystemExit(f'frozen eligibility drift species={len(eligible)} rows={int(retained.sum())}')
+
           base=source['dataset']['base_url']
           sampled={}; raster_receipts=[]
           source_by_id={x['id']:x for x in source['files']}
@@ -121,25 +131,29 @@ jobs:
                       if ds.nodata is not None: valid &= raw!=float(ds.nodata)
                       scale=float(ds.scales[0]) if ds.scales else 1.0
                       offset=float(ds.offsets[0]) if ds.offsets else 0.0
-                      # Require metadata interpretation to match the completed block audit.
                       if not np.isclose(scale,float(a['scale'])) or not np.isclose(offset,float(a['offset'])):
                           raise SystemExit('scale/offset drift '+var)
                       z=np.full(len(raw),np.nan)
                       physical=raw[valid]*scale+offset
                       z[valid]=(physical-float(a['global_mean_physical']))/float(a['global_sd_ddof0_physical'])
                       sampled[var]=z
+                      all_complete=int(np.isfinite(z).sum())
+                      retained_complete=int(np.isfinite(z[retained]).sum())
                       receipt={
                           'id':var,'block':block,'filename':entry['filename'],'sha256':entry['sha256'],
-                          'size_bytes':nbytes,'sample_complete_count':int(np.isfinite(z).sum()),
-                          'sample_complete_fraction':float(np.isfinite(z).mean()),
+                          'size_bytes':nbytes,
+                          'all_50000_sample_complete_count':all_complete,
+                          'all_50000_sample_complete_fraction':float(all_complete/len(z)),
+                          'retained_21424_sample_complete_count':retained_complete,
+                          'retained_21424_sample_complete_fraction':float(retained_complete/retained.sum()),
                           'global_mean_physical':float(a['global_mean_physical']),
                           'global_sd_ddof0_physical':float(a['global_sd_ddof0_physical']),
                           'scale':scale,'offset':offset,
                       }
                       raster_receipts.append(receipt)
-                      if receipt['sample_complete_count']!=int(a['photo_complete_count']):
-                          raise SystemExit(f'photo completeness drift {var}: {receipt["sample_complete_count"]} != {a["photo_complete_count"]}')
-                      print(json.dumps({'sampled':var,'complete':receipt['sample_complete_count'],'sha256':entry['sha256']}),flush=True)
+                      if retained_complete!=int(a['photo_complete_count']):
+                          raise SystemExit(f'retained photo completeness drift {var}: {retained_complete} != {a["photo_complete_count"]}')
+                      print(json.dumps({'sampled':var,'all_complete':all_complete,'retained_complete':retained_complete,'sha256':entry['sha256']}),flush=True)
               finally:
                   p.unlink(missing_ok=True)
 
@@ -148,17 +162,10 @@ jobs:
           out_path=Path('/tmp/real-climate/real_climate_only.csv')
           out.to_csv(out_path,index=False,lineterminator='\n')
 
-          classifiable=g.global_classifiable.astype(str).str.lower().isin(['true','1','yes'])
-          counts=g.loc[classifiable].groupby('species').size()
-          eligible=set(counts[counts>=40].index.astype(str))
-          retained=classifiable & g.species.astype(str).isin(eligible)
-          if len(eligible)!=369 or int(retained.sum())!=21424:
-              raise SystemExit(f'frozen eligibility drift species={len(eligible)} rows={int(retained.sum())}')
-
           block_audit={}
           for block,variables in contract['environment_source']['blocks'].items():
               cols=['env_'+v for v in variables]
-              complete_all=out[cols].notna().all(axis=1)
+              complete_all=out[cols].notna().all(axis=1).to_numpy(bool)
               complete_retained=complete_all & retained
               block_audit[block]={
                   'variables':variables,
