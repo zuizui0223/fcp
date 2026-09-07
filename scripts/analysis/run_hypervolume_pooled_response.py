@@ -188,7 +188,7 @@ def summarize(output: Path) -> dict:
             q=df[(df.stage=='evaluation')&(df.model==model)&(df.world==w)&(df.amplitude==a)&(df.shared_fraction==f)]
             if len(q)!=REPS: raise RuntimeError('evaluation arm census')
             count=int((q.score>threshold).sum());lo,hi=base.wilson(count,REPS)
-            rates.append(dict(model=model=model,world=w,amplitude=a,shared_fraction=f,count=count,
+            rates.append(dict(model=model,world=w,amplitude=a,shared_fraction=f,count=count,
                               replicates=REPS,rate=count/REPS,wilson95_low=lo,wilson95_high=hi,
                               threshold=threshold,mean_score=float(q.score.mean()),
                               mean_train_fraction=float(q.train_fraction.mean())))
