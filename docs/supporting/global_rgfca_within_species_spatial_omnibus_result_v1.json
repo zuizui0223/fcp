@@ -1,0 +1,53 @@
+{
+  "protocol": "global-rgfca-within-species-spatial-omnibus-v1",
+  "status": "complete_verified_rgfca_within_species_spatial_omnibus",
+  "specification_commit": "92db63bae67a91ddb2526eb5da5922ddf2c1e7df",
+  "inferential_role": "postoutcome_exploratory_rgfca_only_exact_randomization",
+  "eligible_species": 369,
+  "classifiable_rows": 21424,
+  "permutations": 999,
+  "primary": {
+    "statistic": "equal_species_mean_distance_colour_spearman_rho",
+    "observed_mean_rho": 0.02702130374565584,
+    "null_mean": 3.955422485929391e-05,
+    "null_sd": 0.003107683835727371,
+    "null_q025": -0.006008262642673626,
+    "null_q975": 0.005895728971578312,
+    "p_upper": 0.001,
+    "supported_at_0_05": true
+  },
+  "secondary_descriptive": {
+    "observed_median_species_rho": 0.0164008520537438,
+    "observed_positive_species_fraction": 0.6043360433604336,
+    "null_positive_fraction_mean": 0.46664550729591375,
+    "null_positive_fraction_q025": 0.4146341463414634,
+    "null_positive_fraction_q975": 0.5176151761517616,
+    "null_median_rho_mean": -0.004386052320122899,
+    "bh_detectable_species_count_0_05": 9,
+    "bh_detectable_species_fraction_0_05": 0.024390243902439025,
+    "bh_label": "exploratory detectable-species count only; not biological prevalence"
+  },
+  "verification": {
+    "twenty_nonoverlapping_species_shards": true,
+    "all_369_species_present_once_per_observed_and_null_index": true,
+    "all_999_global_null_statistics_reconstructed": true,
+    "primary_p_recomputed_from_global_null": true,
+    "bh_adjustment_recomputed": true,
+    "direct_scipy_spot_checks": 12,
+    "maximum_spot_check_absolute_error": 6.938893903907228e-17,
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "runner_sha256": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+    "species_results_sha256": "48e4d991086a07b3d9da2a987bafb8c37f1732a9e229f141be8854ac589fdab8",
+    "global_null_sha256": "cecac9e6311c9a3f834be5bd4dfde7f1c7dd14172463034fd7c13da88d939c29",
+    "github_run_id": 34088925008,
+    "focused_tests_passed": 8,
+    "technical_recovery_before_any_permutation_outcome": true
+  },
+  "six_species_used": false,
+  "thirty_four_species_used": false,
+  "environmental_variables_used": false,
+  "parent_G1_reclassified": false,
+  "shared_boundary_claim_allowed": false,
+  "biological_prevalence_claim_allowed": false,
+  "claim_ceiling": "Postoutcome exploratory RGFCA-only exact randomization evidence for a species-equal geographic-distance versus flower-colour-dissimilarity association. The BH species count is detectable-species count, not true prevalence; no shared-boundary, environment, causal, six-species, or 34-species claim is allowed."
+}
