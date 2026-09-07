@@ -1,0 +1,83 @@
+name: RGFCA reserve replication preflight
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - .github/workflows/rgfca-reserve-*.yml
+      - fcp_pipeline/rgfca_reserve*.py
+      - scripts/analysis/run_rgfca_reserve*.py
+      - scripts/analysis/measure_rgfca_reserve*.py
+      - tests/test_rgfca_reserve*.py
+      - docs/supporting/rgfca_reserve_replication_contract_v1.json
+      - docs/supporting/rgfca_reserve_metadata_audit_v1.json
+      - data/frozen/rgfca_reserve_geometry_audit_v1.csv
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: ${{ github.workspace }}
+  PYTHONDONTWRITEBYTECODE: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+
+jobs:
+  metadata-and-implementation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install fixed inference test runtime
+        run: python -m pip install numpy==2.3.5 pandas==2.2.3 scipy==1.17.0 pytest==8.4.2 Pillow==11.3.0 scikit-image==0.25.2
+      - name: Materialize and verify the existing measurement interface without candidate images
+        run: |
+          bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+          test "$(git hash-object fcp_pipeline/photo_first_measurement_execution.py)" = "b6e76efb4db8e7529b5ce5a91c60b6ae68637fb5"
+      - name: Reproduce exact metadata-only reserve audit
+        run: |
+          python scripts/analysis/run_rgfca_reserve_replication.py --help
+          python scripts/analysis/measure_rgfca_reserve_blind_partition.py --help
+          python scripts/analysis/run_rgfca_reserve_replication.py audit
+          git diff --exit-code -- docs/supporting/rgfca_reserve_metadata_audit_v1.json data/frozen/rgfca_reserve_geometry_audit_v1.csv
+      - name: Test real reserve firewall and immutable discovery statistic
+        run: |
+          python -m pytest -q tests/test_rgfca_reserve_replication.py tests/test_global_rgfca_within_species_spatial_omnibus.py
+      - name: Record pre-pixel evidence
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          paths = [
+            'docs/supporting/rgfca_reserve_replication_contract_v1.json',
+            'docs/supporting/rgfca_reserve_metadata_audit_v1.json',
+            'fcp_pipeline/rgfca_reserve_replication.py',
+            'fcp_pipeline/rgfca_reserve_image_control.py',
+            'scripts/analysis/run_rgfca_reserve_replication.py',
+            'scripts/analysis/measure_rgfca_reserve_blind_partition.py',
+            '.github/workflows/rgfca-reserve-location-blind-measurement.yml',
+          ]
+          record = {
+            'status': 'preflight_passed_without_reserve_pixels',
+            'github_run_id': os.environ['GITHUB_RUN_ID'],
+            'head_sha': os.environ['GITHUB_SHA'],
+            'candidate_pixels_opened': False,
+            'measurement_authorized': False,
+            'files_sha256': {p: hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths},
+          }
+          Path('/tmp/rgfca-reserve-preflight.json').write_text(json.dumps(record, indent=2) + '\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-reserve-preflight-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            /tmp/rgfca-reserve-preflight.json
+            docs/supporting/rgfca_reserve_metadata_audit_v1.json
+            data/frozen/rgfca_reserve_geometry_audit_v1.csv

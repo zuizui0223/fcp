@@ -10,6 +10,7 @@ current ecological-signal search.
 |---|---|---|
 | Measurement | 500 species; 50,000 terminal records; 25,377 classifiable records | Automated public-photo colour measurements |
 | Eligible RGFCA frame | 369 species; 21,424 photos; at least 40 classifiable photos per species | Conditional inference frame, not a census of all plants |
+| Within-species spatial omnibus | Mean rho = 0.0270213; 999-permutation upper-tail p = 0.001; all 369 species included | Small positive exploratory photo-derived spatial association; independent replication pending |
 | G1 repeated field | Primary p = 0.070; fine-scale sensitivity p = 0.006 | Primary not supported; scale-sensitive candidate structure |
 | Species-disjoint commonness | p = 0.856; median fold correlation = -0.0880 | No supported transfer of boundary geography across held-out species |
 | Five environmental process blocks | None passes the fixed five-block Holm gate; thermal partial rho = 0.00836, adjusted p = 0.050 | Weak exploratory thermal candidate, no confirmed mechanism |
@@ -25,23 +26,49 @@ Result files are `docs/supporting/global_monte_carlo_measurement_result_v1.json`
 `hypervolume_real_climate_synthetic_qualification_result_v1.json`, and
 `global_rgfca_sharedness_specific_predictive_result_v1.json` in that same directory.
 
-## In progress: species-level spatial information
+## Completed: species-level spatial information
 
-Complete the frozen 369-species within-species spatial omnibus under
+Completed the frozen 369-species within-species spatial omnibus under
 `global_rgfca_within_species_spatial_omnibus_contract_v1.json`. This tests an
 equal-species mean association between geographic distance and colour
 dissimilarity. It is exploratory because earlier descriptive G3 outcomes are
-known; its 999 permutation outcomes have not yet been computed successfully.
+known. Run [34088925008](https://github.com/zuizui0223/fcp/actions/runs/34088925008)
+completed all 20 shards, all 999 global null statistics, eight focused tests and
+12 direct SciPy equivalence checks. Result commit: `29584f3ad7ae0cd99a1d8f43459252af38f615da`.
+The observed mean rho is **0.0270213**, null mean 0.0000396, upper-tail **p = 0.001**.
+This is a small effect, not an independent replication, shared boundary,
+environmental mechanism or estimate of the prevalence of spatial organization.
+The null quantiles are not a confidence interval on the observed effect.
+Full result: `supporting/global_rgfca_within_species_spatial_omnibus_result_v1.json`.
 
 Run `34085861343` stopped at `ModuleNotFoundError: No module named 'fcp_pipeline'`
 in all species shards, before numerical execution. Technical recovery exposes
-the checkout through `PYTHONPATH` in all workflow jobs and smoke-tests both real
+the checkout through `PYTHONPATH` in all workflow jobs and smoke-tested both real
 entry points. The data, runner, fixed seeds, statistics and thresholds are unchanged.
+
+## In progress: prospective reserve-species replication
+
+The metadata-only audit identifies the entire complementary **500 taxa / 50,000
+photos**, 100 per taxon, with no observation/photo-ID overlap with RGFCA discovery,
+the older photo-first measurements, H9 fresh metadata or the H9 exclusion ledger.
+All coordinates have stated accuracy at most 5 km; no observer contributes more
+than two photos within a species. The audit does not open images or authorize
+measurement. See [the replication protocol](RGFCA_RESERVE_REPLICATION.md).
+
+The same sampling platform, measurement model, regions and potentially observers
+are shared: disjoint IDs do not eliminate systematic observational error.
+Some species occupy few spatial cells; this is not uniform global coverage.
+The newer upstream matched-background diagnostic is preserved separately. The
+reserve measurement adds symmetric twelve-anchor background counts alongside
+flower counts in the first decode; flower-specific interpretation requires the
+prospectively specified differential control as well as the replication and
+observer/season checks. Flower-only p = 0.001 alone is not a biological discovery.
 
 ## Route to an ecological result
 
-1. Finish that test and inspect effect size, species information and measurement
-   limitations before choosing further analyses.
+1. Freeze the reserve cohort, measurement, primary test and observer/quarter
+   sensitivity before pixels, pass metadata and implementation checks, then
+   measure the complete reserve once and retain every terminal outcome.
 2. Develop bounded, registered exploratory questions using the existing atlas
    and qualification work. Local patchiness, monotone distance effects, shared
    boundaries and environmental mechanisms are distinct targets.
