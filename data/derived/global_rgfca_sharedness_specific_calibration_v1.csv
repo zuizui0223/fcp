@@ -1,0 +1,10 @@
+world,amplitude,shared_fraction,threshold_sd,quantile_975,axis_concentration
+no_structure,0.0,0.0,0.0,0.0078299570833073,
+independent_boundaries,0.5,0.0,0.0,0.004110360074503,
+independent_boundaries,1.0,0.0,0.0,0.0009612729314852,
+independent_boundaries,2.0,0.0,0.0,0.0076133475322309,
+independent_shifted_boundaries,1.0,0.0,0.25,0.0009295542814408,
+independent_shifted_boundaries,2.0,0.0,0.25,0.0074243157339444,
+directionally_clustered_independent,1.0,0.0,0.25,0.0049210930000972,2.0
+directionally_clustered_independent,2.0,0.0,0.25,0.0139621278596181,2.0
+bimodal_clustered_independent,1.0,0.0,0.25,0.0019049815547095,3.0
