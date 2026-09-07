@@ -253,8 +253,12 @@ or display regeneration was performed.
 2. **Models and training provenance:** document the distinct base/custom
    detector and pinned segmenter, retain relevant notices, and assess the actual
    proposed distribution/integration against provider terms. This audit neither
-   certifies AGPL compliance nor audits the separate JRC training dataset or
-   upstream pretraining corpus rights.
+   certifies AGPL compliance nor audits upstream pretraining corpus rights.
+   The subsequent [JRC training-source audit](RGFCA_TRAINING_SOURCE_AUDIT.md)
+   checks the separate dataset-specific CC BY 4.0 notice and citation/split
+   provenance; it does not settle the model-distribution question. The
+   [qualification audit](RGFCA_ROI_QUALIFICATION_AUDIT.md) separately reconstructs
+   saved FCP localization gates and documents their measurement limits.
 3. **Citation specificity:** cite actual YOLO11 software, EfficientSAM's original
    CVPR paper plus pinned code/export, the actual iNaturalist acquisition, and
    Natural Earth plus the exact bundled display dataset. Avoid automatic YOLO26

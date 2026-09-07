@@ -44,6 +44,14 @@ environmental mechanism or estimate of the prevalence of spatial organization.
 The null quantiles are not a confidence interval on the observed effect.
 Full result: `supporting/global_rgfca_within_species_spatial_omnibus_result_v1.json`.
 
+Submission preparation also now includes a [JRC training-source audit](RGFCA_TRAINING_SOURCE_AUDIT.md)
+and [saved ROI qualification reconstruction](RGFCA_ROI_QUALIFICATION_AUDIT.md).
+The 100-image JRC test admitted 85 images; all eight frozen gate decisions
+reproduce from the saved rows. This is European grassland box-validation
+evidence, not global petal-mask accuracy: large-object recall is only 2/4 and
+mask containment must not be read as petal segmentation IoU. Training-data
+licence/citation checks do not complete scientific or package-wide release gates.
+
 Run `34085861343` stopped at `ModuleNotFoundError: No module named 'fcp_pipeline'`
 in all species shards, before numerical execution. Technical recovery exposes
 the checkout through `PYTHONPATH` in all workflow jobs and smoke-tested both real
@@ -176,7 +184,8 @@ This illustrative figure does not estimate global colour frequencies or count
 as independent evidence; no reserve outcomes or legacy results are involved.
 
 Four project-owned scientific-software citation records have also been checked
-and added to the draft (15 manuscript references in total). This does not close
+and added to the draft. The later JRC article/dataset audit brings the active
+manuscript to 17 references. This does not close
 the remaining release, model, data-provider or environmental-layer citation and
 reuse audits. See [the software reading record](RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md).
 The [measurement/provider audit](RGFCA_MEASUREMENT_PROVIDER_AUDIT.md) distinguishes

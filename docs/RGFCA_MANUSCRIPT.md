@@ -75,6 +75,24 @@ instance-segmentation weights or the later YOLO26 model. Exact base/custom
 checkpoint distinctions, software versions and primary provider references are
 recorded in the [measurement/provider audit](RGFCA_MEASUREMENT_PROVIDER_AUDIT.md);
 upstream model benchmarks do not establish floral measurement validity.
+The detector's 400-image development pool and 100-image locked test come from
+the JRC Flower Detection dataset. The source study kept slices from a survey
+point in the same partition; its test comprised 100 slices from 50 points.
+[Elvekjaer et al. (2024)](https://doi.org/10.1002/2688-8319.12324),
+[European Commission, Joint Research Centre (2026)](https://doi.org/10.2905/JRC.2XJ67GR).
+The dataset citation follows its currently registered year, not its 2018 survey
+or 2022 issued/README dates; the [training-source audit](RGFCA_TRAINING_SOURCE_AUDIT.md)
+preserves that distinction and the dataset-specific CC BY 4.0 notice.
+
+FCP's saved locked test admitted 85/100 images, with box-detection precision
+0.730447 and recall 0.795563. Pooled mask containment in reference flower boxes
+was 0.859672; this is not petal segmentation IoU or a calibrated colour error.
+Large-object recall was 2/4, a particularly sparse validation stratum. The
+[qualification audit](RGFCA_ROI_QUALIFICATION_AUDIT.md) reconstructs every saved
+gate using all 100 rows, including failures. European grassland box validation
+does not establish global taxon-uniform petal-mask accuracy, and source images
+selected for flower presence do not constitute a flower-absent specificity test.
+
 All 50,000 terminal records, including non-evaluable measurements, were retained
 before coordinates and colours were joined. Automated classifiability is a
 measurement gate, not verification of a biological colour morph.
@@ -321,6 +339,7 @@ references are not declared complete.
 - Replication design and execution receipts: [reserve protocol](RGFCA_RESERVE_REPLICATION.md).
 - Figure provenance: [manifest](supporting/rgfca_publication_figure_manifest_v1.json).
 - Real photo-bar provenance: [release receipt](supporting/rgfca_photo_bar_release_v1.json), [plan and limits](RGFCA_PHOTO_BAR.md).
+- Training-source and measurement validity: [JRC source audit](RGFCA_TRAINING_SOURCE_AUDIT.md), [saved qualification reconstruction](RGFCA_ROI_QUALIFICATION_AUDIT.md).
 - Full discovery/supporting claim audit: [evidence index](RGFCA_SUPPORTING_EVIDENCE.md), including the parent-branch heterogeneity source and unresolved submission gates.
 
 ## References
@@ -340,3 +359,5 @@ references are not declared complete.
 - Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. *Computing in Science & Engineering* 9(3):90–95. [10.1109/MCSE.2007.55](https://doi.org/10.1109/MCSE.2007.55).
 - McKinney, W. (2010). Data Structures for Statistical Computing in Python. *Proceedings of the 9th Python in Science Conference*, pp. 56–61. [10.25080/Majora-92bf1922-00a](https://doi.org/10.25080/Majora-92bf1922-00a).
 - Virtanen, P., et al. (2020). SciPy 1.0: fundamental algorithms for scientific computing in Python. *Nature Methods* 17:261–272. [10.1038/s41592-019-0686-2](https://doi.org/10.1038/s41592-019-0686-2).
+- Elvekjaer, N., Martinez-Sanchez, L., Bonnet, P., Joly, A., Paracchini, M. L., and van der Velde, M. (2024). Detecting flowers on imagery with computer vision to improve continental scale grassland biodiversity surveying. *Ecological Solutions and Evidence* 5(2):e12324. [10.1002/2688-8319.12324](https://doi.org/10.1002/2688-8319.12324).
+- European Commission, Joint Research Centre (2026). Flower Detection [Dataset]. [10.2905/JRC.2XJ67GR](https://doi.org/10.2905/JRC.2XJ67GR). Current provider/registration citation accessed 7 September 2026; issued date and README are from 2022, source survey from 2018.

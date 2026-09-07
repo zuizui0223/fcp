@@ -9,6 +9,7 @@ on:
       - tests/test_rgfca_manuscript_references.py
       - tests/test_rgfca_supporting_evidence.py
       - tests/test_rgfca_photo_bar.py
+      - tests/test_rgfca_roi_qualification_audit.py
       - fcp_pipeline/rgfca_photo_bar.py
       - scripts/analysis/make_rgfca_photo_bar.py
       - docs/RGFCA_PHOTO_BAR.md
@@ -19,6 +20,8 @@ on:
       - docs/RGFCA_STATISTICAL_LITERATURE_AUDIT.md
       - docs/RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md
       - docs/RGFCA_MEASUREMENT_PROVIDER_AUDIT.md
+      - docs/RGFCA_TRAINING_SOURCE_AUDIT.md
+      - docs/RGFCA_ROI_QUALIFICATION_AUDIT.md
       - docs/RGFCA_METHOD_NOVELTY_POSITIONING.md
       - docs/RGFCA_SUPPORTING_EVIDENCE.md
       - docs/RGFCA_PUBLICATION_FIGURES.md
@@ -52,7 +55,7 @@ jobs:
         run: >-
           python -m pytest tests/test_rgfca_publication_figures.py
           tests/test_rgfca_manuscript_references.py tests/test_rgfca_supporting_evidence.py
-          tests/test_rgfca_photo_bar.py -q
+          tests/test_rgfca_photo_bar.py tests/test_rgfca_roi_qualification_audit.py -q
       - name: Export verified discovery figures without reserve outcomes
         run: >-
           python scripts/analysis/make_rgfca_publication_figures.py
@@ -78,6 +81,8 @@ jobs:
             docs/RGFCA_STATISTICAL_LITERATURE_AUDIT.md
             docs/RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md
             docs/RGFCA_MEASUREMENT_PROVIDER_AUDIT.md
+            docs/RGFCA_TRAINING_SOURCE_AUDIT.md
+            docs/RGFCA_ROI_QUALIFICATION_AUDIT.md
             docs/RGFCA_METHOD_NOVELTY_POSITIONING.md
             docs/RGFCA_SUPPORTING_EVIDENCE.md
           if-no-files-found: error

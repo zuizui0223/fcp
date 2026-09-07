@@ -108,6 +108,16 @@ have also been checked against project-owned citation records.
 The [four-provider audit](RGFCA_MEASUREMENT_PROVIDER_AUDIT.md) adds exact model
 and basemap identities, separates photo from observation-data licences, and
 records the remaining model/training-data and mixed-licence reuse questions.
+The separate [JRC source audit](RGFCA_TRAINING_SOURCE_AUDIT.md) now confirms the
+dataset-specific CC BY 4.0 notice and the source article's point-before-slice
+partition. It preserves the dataset's conflicting 2026 citation/2022 issued
+dates rather than treating them as new image collection. The
+[ROI qualification reconstruction](RGFCA_ROI_QUALIFICATION_AUDIT.md) checks all
+100 saved test rows and all eight original gates without model execution.
+Box precision/recall are 0.730447/0.795563; 85/100 images pass admission.
+The large-object denominator is only four boxes, and mask containment is not
+petal segmentation accuracy. These audits do not close target-domain measurement
+validation or the remaining model-distribution/mixed-licence questions.
 
 The material submission blockers are scientific, not cosmetic:
 

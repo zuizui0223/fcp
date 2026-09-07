@@ -29,6 +29,8 @@ REFERENCES = {
     "10.1038/s41592-019-0686-2": (2020, "SciPy 1.0: fundamental algorithms for scientific computing in Python"),
     "10.25080/majora-92bf1922-00a": (2010, "Data Structures for Statistical Computing in Python"),
     "10.1109/mcse.2007.55": (2007, "Matplotlib: A 2D graphics environment"),
+    "10.1002/2688-8319.12324": (2024, "Detecting flowers on imagery with computer vision to improve continental scale grassland biodiversity surveying"),
+    "10.2905/jrc.2xj67gr": (2026, "Flower Detection"),
 }
 
 
@@ -70,12 +72,12 @@ def documents():
     manuscript = (ROOT / "docs/RGFCA_MANUSCRIPT.md").read_text(encoding="utf-8")
     audits = "\n".join((ROOT / "docs" / name).read_text(encoding="utf-8") for name in (
         "RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md", "RGFCA_STATISTICAL_LITERATURE_AUDIT.md",
-        "RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md"))
+        "RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md", "RGFCA_TRAINING_SOURCE_AUDIT.md"))
     return manuscript, audits
 
 
 def test_all_core_references_are_cited_once_in_list_and_audited(documents):
-    assert validate_citations(*documents) == 15
+    assert validate_citations(*documents) == 17
 
 
 def test_orphan_reference_rejected(documents):
@@ -113,7 +115,7 @@ def test_missing_reading_record_rejected(documents):
 def test_same_publication_can_be_cited_twice_in_body(documents):
     manuscript, audits = documents
     manuscript = manuscript.replace("## References", "[Drake (2015)](https://doi.org/10.1098/rsif.2015.0086).\n\n## References")
-    assert validate_citations(manuscript, audits) == 15
+    assert validate_citations(manuscript, audits) == 17
 
 
 def test_audit_does_not_close_replication_or_submission(documents):
