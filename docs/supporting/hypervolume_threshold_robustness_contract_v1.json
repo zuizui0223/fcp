@@ -48,6 +48,8 @@
     {"world": "environmental_independent", "amplitude": 0.5, "threshold_sd": 0.0},
     {"world": "environmental_independent", "amplitude": 1.0, "threshold_sd": 0.0},
     {"world": "environmental_independent", "amplitude": 2.0, "threshold_sd": 0.0},
+    {"world": "geographic_independent", "amplitude": 2.0, "threshold_sd": 0.0},
+    {"world": "mixed_independent", "amplitude": 2.0, "threshold_sd": 0.0},
     {"world": "environmental_independent_shifted", "amplitude": 0.5, "threshold_sd": 0.5},
     {"world": "environmental_independent_shifted", "amplitude": 1.0, "threshold_sd": 0.5},
     {"world": "environmental_independent_shifted", "amplitude": 2.0, "threshold_sd": 0.5},
@@ -66,13 +68,13 @@
   "replication": {
     "calibration_replicates_per_arm": 250,
     "evaluation_replicates_per_arm": 250,
-    "calibration_worlds": 2500,
-    "evaluation_worlds": 4000,
-    "unique_worlds": 6500,
+    "calibration_worlds": 3000,
+    "evaluation_worlds": 4500,
+    "unique_worlds": 7500,
     "sharding": "deterministic non-overlapping replicate shards are allowed from the outset; no seed/scenario/threshold change after outcomes"
   },
   "calibration": {
-    "threshold": "for each model use the maximum empirical 97.5th percentile, method=higher, across all ten nuisance arms",
+    "threshold": "for each model use the maximum empirical 97.5th percentile, method=higher, across all twelve nuisance arms",
     "decision": "strict score > threshold",
     "all_nulls_retained": true,
     "no_known_strength_cutoff": true,
@@ -86,7 +88,7 @@
     "paired candidate-minus-baseline detection changes",
     "training posterior mean sharing fraction",
     "threshold-shift sensitivity",
-    "directionally clustered and support-aligned nuisance rejection rates",
+    "directionally clustered, support-aligned, geographic and mixed nuisance rejection rates",
     "independent reimplementation spot checks",
     "source/code/output checksums and immutable empirical-claim guards"
   ],
