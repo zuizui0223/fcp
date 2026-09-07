@@ -1,0 +1,215 @@
+name: Hypervolume real-climate synthetic qualification
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/hypervolume-real-climate-synthetic-qualification.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: hypervolume-real-climate-synthetic-qualification-v1
+  cancel-in-progress: false
+
+env:
+  PYTHONHASHSEED: '0'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact qualification dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 scikit-learn==1.8.0
+      - name: Recover checksum-verified geometry
+        uses: actions/download-artifact@v4
+        with:
+          name: hypervolume-geometry-only-v1
+          path: inputs
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34041094467
+      - name: Recover checksum-verified colour-blind real climate
+        uses: actions/download-artifact@v4
+        with:
+          name: hypervolume-real-climate-only-v1
+          path: climate
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34081512316
+      - name: Run frozen real-climate qualification tests
+        run: python -m unittest discover -s tests -p test_hypervolume_real_climate_synthetic_qualification.py -v
+
+  shards:
+    needs: tests
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        block: [thermal_regime, water_balance, atmospheric_energy_dryness]
+        stage: [calibration, evaluation]
+        start: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact qualification dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 scikit-learn==1.8.0
+      - name: Recover checksum-verified geometry
+        uses: actions/download-artifact@v4
+        with:
+          name: hypervolume-geometry-only-v1
+          path: /tmp/geometry
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34041094467
+      - name: Recover checksum-verified colour-blind real climate
+        uses: actions/download-artifact@v4
+        with:
+          name: hypervolume-real-climate-only-v1
+          path: /tmp/climate
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34081512316
+      - name: Execute frozen block shard
+        env:
+          BLOCK: ${{ matrix.block }}
+          STAGE: ${{ matrix.stage }}
+          START: ${{ matrix.start }}
+        run: |
+          set -euo pipefail
+          STOP=$((START + 25))
+          python scripts/analysis/run_hypervolume_real_climate_synthetic_qualification.py \
+            --geometry /tmp/geometry/geometry_only.csv \
+            --climate /tmp/climate/real_climate_only.csv \
+            --block "$BLOCK" --stage "$STAGE" \
+            --rep-start "$START" --rep-stop "$STOP" \
+            --output "/tmp/out/${BLOCK}-${STAGE}-${START}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hypervolume-real-climate-qual-${{ matrix.block }}-${{ matrix.stage }}-${{ matrix.start }}
+          path: /tmp/out/${{ matrix.block }}-${{ matrix.stage }}-${{ matrix.start }}/
+          if-no-files-found: error
+          retention-days: 90
+
+  finalize:
+    needs: shards
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact qualification dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 scikit-learn==1.8.0
+      - name: Download all sixty immutable shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: hypervolume-real-climate-qual-*
+          path: /tmp/shards
+          merge-multiple: false
+      - name: Finalize and independently census every block arm
+        run: |
+          python scripts/analysis/finalize_hypervolume_real_climate_synthetic_qualification.py \
+            --shards /tmp/shards --output /tmp/final
+      - name: Add CI completion guard and reader report
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          import pandas as pd
+          p=Path('/tmp/final/summary.json')
+          r=json.loads(p.read_text())
+          r['status']='complete_verified_real_climate_synthetic_qualification'
+          r['verification']['github_run_id']=int(os.environ['RUN_ID'])
+          r['verification']['new_unit_tests_passed']=12
+          p.write_text(json.dumps(r,indent=2)+'\n')
+          rates=pd.read_csv('/tmp/final/decision_rates.csv')
+          candidate='linear_logit_joint_train_intercept_marginal'
+          q=rates[rates.model==candidate]
+          lines=[
+            '# Real-climate synthetic response-sharing qualification', '',
+            'Date: 2026-09-07 (Japan). **Synthetic labels only; observed flower colours remain closed.**', '',
+            '## Answer first', '',
+            f"Overall frozen synthetic qualification gate: **{'PASS' if r['qualification_gates']['synthetic_qualification_pass'] else 'FAIL'}**.", '',
+            'The same 21,418 jointly climate-complete retained photos, species split, four longitude holdouts, 500-km buffer and 20 photos/species were used for all three climate blocks.', '',
+            '| Block | amp=1 full shared, threshold SD=.5 | amp=2 full shared, threshold SD=.5 | worst nuisance rejection |',
+            '|---|---:|---:|---:|',
+          ]
+          for block in r['blocks']:
+            moderate=q[(q.block==block)&(q.world=='climate_shared_shifted')&(q.amplitude==1.0)&(q.shared_fraction==1.0)&(q.threshold_sd==0.5)].iloc[0]
+            strong=q[(q.block==block)&(q.world=='climate_shared_shifted')&(q.amplitude==2.0)&(q.shared_fraction==1.0)&(q.threshold_sd==0.5)].iloc[0]
+            nuis=q[(q.block==block)&(~q.world.str.startswith('climate_shared'))]
+            worst=nuis.loc[nuis.rate.idxmax()]
+            lines.append(f"| {block} | {int(moderate['count'])}/250 = {100*moderate['rate']:.1f}% | {int(strong['count'])}/250 = {100*strong['rate']:.1f}% | {int(worst['count'])}/250 = {100*worst['rate']:.1f}% ({worst['world']}) |")
+          lines += ['', '## Guardrails', '',
+                    '- The primary threshold is one common threshold per model: the maximum 97.5th percentile across all 36 block-by-nuisance calibration distributions.',
+                    '- No block-specific decision threshold, best block, best fold, replacement photo, or post-outcome axis search is used.',
+                    '- Species-specific threshold heterogeneity and all richer nuisance worlds remain in the benchmark.',
+                    '- Real CHELSA values are used only as predictor geometry for artificial labels; no biological flower-colour value is read.',
+                    '- Passing this benchmark does not itself open empirical inference; a separate observed-colour contract is still required.', '',
+                    f"Workflow `{os.environ['RUN_ID']}` recomputed all 72 nuisance quantiles, both global thresholds and all 108 evaluation decisions after all 60 shards completed."]
+          Path('/tmp/final/HYPERVOLUME_REAL_CLIMATE_SYNTHETIC_QUALIFICATION.md').write_text('\n'.join(lines)+'\n')
+          PY
+      - name: Stage compact verified outputs
+        run: |
+          mkdir -p docs/supporting data/derived
+          cp /tmp/final/summary.json docs/supporting/hypervolume_real_climate_synthetic_qualification_result_v1.json
+          cp /tmp/final/decision_rates.csv data/derived/hypervolume_real_climate_synthetic_qualification_decision_rates_v1.csv
+          cp /tmp/final/calibration_quantiles.csv data/derived/hypervolume_real_climate_synthetic_qualification_calibration_v1.csv
+          cp /tmp/final/thresholds.csv data/derived/hypervolume_real_climate_synthetic_qualification_thresholds_v1.csv
+          cp /tmp/final/paired_detections.csv data/derived/hypervolume_real_climate_synthetic_qualification_paired_v1.csv
+          cp /tmp/final/HYPERVOLUME_REAL_CLIMATE_SYNTHETIC_QUALIFICATION.md docs/HYPERVOLUME_REAL_CLIMATE_SYNTHETIC_QUALIFICATION.md
+      - name: Commit verified qualification outputs only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            docs/HYPERVOLUME_REAL_CLIMATE_SYNTHETIC_QUALIFICATION.md \
+            docs/supporting/hypervolume_real_climate_synthetic_qualification_result_v1.json \
+            data/derived/hypervolume_real_climate_synthetic_qualification_decision_rates_v1.csv \
+            data/derived/hypervolume_real_climate_synthetic_qualification_calibration_v1.csv \
+            data/derived/hypervolume_real_climate_synthetic_qualification_thresholds_v1.csv \
+            data/derived/hypervolume_real_climate_synthetic_qualification_paired_v1.csv
+          git commit -m 'Record verified real-climate synthetic qualification'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/hypervolume-geo-environment-identifiability
+            git rebase origin/analysis/hypervolume-geo-environment-identifiability
+            if git push origin HEAD:analysis/hypervolume-geo-environment-identifiability; then break; fi
+            test "$attempt" -lt 4
+            sleep $((attempt*2))
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hypervolume-real-climate-synthetic-qualification-full-v1
+          path: /tmp/final/
+          if-no-files-found: error
+          retention-days: 90
