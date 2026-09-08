@@ -1,0 +1,102 @@
+{
+  "protocol": "rgfca-sharedness-v2-continuous-matched-control-synthetic-qualification-v1",
+  "status": "frozen_before_high_depth_capacity_pilot_final_result_and_before_any_v2_synthetic_outcome",
+  "date": "2026-09-08",
+  "activation": {
+    "requires_capacity_protocol": "rgfca-sharedness-v2-high-depth-capacity-pilot-v1",
+    "requires_capacity_primary_pass": true,
+    "requires_selected_species": 150,
+    "requires_training_species": 75,
+    "requires_evaluation_species": 75,
+    "if_not_satisfied": "do not run and do not relax species/photo targets"
+  },
+  "estimand": "cross-species sharing of geographic transition geometry in visible flower colour, beyond species-specific boundaries and beyond matched photographic/background colour geography",
+  "future_geometry": {
+    "source": "a separately frozen fresh metadata candidate frame for the 150 post-capacity-selected species",
+    "raw_metadata_target_per_species": 300,
+    "observed_flower_colour_allowed": false,
+    "observed_background_colour_allowed": false,
+    "real_climate_allowed": false,
+    "evaluation_species_never_update_training_posterior": true
+  },
+  "continuous_colour_representation": {
+    "flower_vector": ["L_mean", "a_mean", "b_mean"],
+    "background_vector": ["L_mean", "a_mean", "b_mean"],
+    "pairwise_flower_distance": "Euclidean distance in the frozen camera-space CIELAB mean vector",
+    "pairwise_background_distance": "Euclidean distance in the frozen camera-space CIELAB mean vector",
+    "pairwise_primary_colour_contrast": "flower_distance - background_distance",
+    "no_UV_claim": true,
+    "no_channel_or_summary_selection": true
+  },
+  "sharedness_statistic": {
+    "geographic_axis_grid": "the same 96 fixed antipodally unique unit-sphere normals generated from seed 202609070801 in sharedness v1",
+    "threshold_grid": [-0.5, -0.25, 0.0, 0.25, 0.5],
+    "species_axis_score": "for each candidate axis and threshold, mean pairwise primary colour contrast among photo pairs on opposite sides minus mean pairwise primary colour contrast among photo pairs on the same side; require both pair classes, otherwise that species-axis-threshold cell is unavailable",
+    "species_direction_invariance": "the statistic uses colour distances, so red-to-white versus white-to-red or different species-specific CIELAB response directions do not need a shared sign",
+    "training": "using training species only, convert each species axis score to evidence relative to its equal-weight independent-axis baseline, marginalize the fixed threshold grid, and form a posterior over common geographic axis and sharing fraction",
+    "sharing_fraction_grid": [0.0, 0.1, 0.25, 0.5, 0.75, 1.0],
+    "evaluation": "score disjoint evaluation species by predictive log-density/evidence gain under the training posterior relative to the independent-axis baseline; evaluation colour labels never update the posterior",
+    "primary_world_score": "equal-evaluation-species mean predictive gain",
+    "no_best_axis_selection_on_evaluation": true
+  },
+  "synthetic_generator": {
+    "coordinate_frame": "actual future high-depth metadata geometry only",
+    "species_specific_boundary": "independent random unit-sphere normal and independent threshold for every non-sharing species",
+    "shared_boundary": "one common unit-sphere normal assigned to the fixed shared fraction; response direction in CIELAB remains species-specific",
+    "species_colour_centroid": "independent nuisance centroid; cancels from pairwise distances and is retained to test implementation invariance",
+    "species_colour_response_direction": "independent random unit vector in three-dimensional CIELAB-like standardized coordinates",
+    "flower_response": "centroid + amplitude * species_colour_direction * tanh((geographic_projection - species_threshold)/0.15) + multivariate observation noise",
+    "background_response": "independent background centroid plus prespecified photographic/geographic nuisance gradients and multivariate noise; no biological shared flower boundary unless explicitly specified by a nuisance arm",
+    "matched_photo_nuisance": "prespecified per-photo additive three-dimensional nuisance component added to both flower and background vectors",
+    "structured_null_property": "every species may have a strong independent flower boundary; this is null, not positive sharedness"
+  },
+  "measurement_retention_arms": [0.4, 0.6, 0.8],
+  "measurement_retention_rule": "retention is generated independently from biological sharedness but may include prespecified coordinate-dependent nuisance arms; no single assumed 51-percent historical classifiable rate",
+  "calibration_nuisance_families": [
+    "no flower structure",
+    "strong independent flower boundaries",
+    "independent shifted flower boundaries",
+    "directionally clustered but nonshared flower boundaries",
+    "matched flower/background geographic photographic gradient",
+    "background-only geographic gradient",
+    "coordinate-dependent measurement retention without shared flower boundary"
+  ],
+  "positive_families": {
+    "amplitude_grid": [0.5, 1.0, 2.0],
+    "shared_fraction_grid": [0.25, 0.5, 1.0],
+    "diagnostic_extra_shared_fraction": [0.1],
+    "species_threshold_sd": [0.0, 0.25]
+  },
+  "replication": {
+    "replicates_per_arm": 250,
+    "deterministic_seeds": true,
+    "calibration_and_evaluation_worlds_disjoint": true,
+    "no_favourable_reruns": true
+  },
+  "calibration": {
+    "threshold": "maximum empirical 97.5th percentile using method=higher across all structured-null calibration families and all fixed measurement-retention arms",
+    "decision": "strict world score greater than the single frozen global threshold",
+    "no_amplitude_or_retention_conditioned_threshold": true
+  },
+  "hard_qualification_gates": {
+    "maximum_rejection_rate_in_every_evaluation_nuisance_family": 0.10,
+    "minimum_power_amplitude_1_shared_fraction_1_at_retention_0_4": 0.80,
+    "minimum_power_amplitude_1_shared_fraction_0_5_at_retention_0_4": 0.50,
+    "minimum_power_amplitude_2_shared_fraction_0_5_at_retention_0_4": 0.80,
+    "shared_fraction_0_25_and_0_10_are_diagnostic_not_hard_gates": true,
+    "all_three_hard_positive_gates_and_all_nuisance_gates_required": true,
+    "failure_retained_without_statistic_threshold_or_species_count_search": true
+  },
+  "future_empirical_firewall": {
+    "synthetic_pass_does_not_itself_open_v2_pixels": true,
+    "fresh_candidate_acquisition_and_measurement_authorization_must_be_separately_frozen": true,
+    "future_observed_test_must_use_the_same_matched_background_control": true,
+    "discovery_and_reserve_are_not_reanalysed_under_v2": true
+  },
+  "pollination_guild_in_primary": false,
+  "ecological_claim_changed": false,
+  "reserve_flower_specific_gate_reclassified": false,
+  "six_species_used": false,
+  "thirty_four_species_used": false,
+  "claim_ceiling": "Prospective synthetic qualification of a continuous matched-control, species-disjoint sharedness statistic on future high-depth geometry. Not observed ecological evidence."
+}
