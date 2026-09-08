@@ -83,7 +83,7 @@ join coordinates. The audit is retrospective source checking, not preregistered
 scientific inference. The cause and historical relevance of the source conflict
 are unknown; no author contact was made.
 
-## Next executable gate and stop rules
+## Metadata gate and stop rules
 
 The next useful action is **public metadata-only paired-manifest feasibility
 for the 300 already exposed FlowerMask annotation IDs**. Before requesting
@@ -100,6 +100,18 @@ The [fixed implementation and single-dispatch protocol](RGFCA_FLOWERMASK_PAIR_ME
 now specify all 300 source-derived rows, one reused metadata response and at
 most 299 new metadata requests. Qualification and acquisition remain distinct;
 the presence of this plan is not a result or benchmark admission.
+
+**Subsequent result:** the single qualified run `34201981494` inspected all
+300 metadata rows, with 299 new requests and one cached response. Required
+pair members were advertised in 299/300 listings. Butterfly Pea `33_dataset`
+lacked an `img.png` entry in its returned listing. All source rows and exact
+303 evidence files are preserved in the
+[completed result](RGFCA_FLOWERMASK_PAIR_METADATA.md#completed-result-metadata-inspected-paired-frame-incomplete).
+There was no source transport failure, but complete documentary pairing was
+not established. Do not substitute `label_viz.png`, query alternate endpoints
+under this closed plan or benchmark a convenient 299-row subset. A separately
+specified next reference design is required; this result does not authorize
+more payload access, model execution or benchmark admission.
 
 If this gate cannot establish the paired frame or annotation target, preserve
 that specific unresolved outcome; do not proceed to a convenient subset score.

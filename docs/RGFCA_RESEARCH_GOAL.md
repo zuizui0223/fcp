@@ -80,8 +80,15 @@ defines generic flower-region localization separately from focal-taxon
 attribution and colour validity. A bounded independent-reference audit retained
 the USDA public split conflict (100/30 rows, one shared filename, union 129)
 with exact-byte sources and an offline verifier. No new benchmark is admitted.
-The next executable gate is a frozen metadata-only paired-manifest check of
-the 300 already exposed FlowerMask annotation IDs, not another model score.
+The frozen metadata-only paired-manifest check of the 300 already exposed
+FlowerMask annotation IDs is now complete: **300 inspected, 299 listings with
+the required pair members, one missing `img.png` entry**. All rows and exact
+metadata bytes are retained in the [completed gate](RGFCA_FLOWERMASK_PAIR_METADATA.md#completed-result-metadata-inspected-paired-frame-incomplete).
+This is incomplete documentary pairing, not a benchmark admission or a source
+transport failure. Do not score only the 299 complete-looking listings or
+substitute a visualization for an original image. The next reference design
+must preserve this gap and separately establish annotation scope, alignment,
+rights and a valid development/validation route before payload acquisition.
 
 ## Research route
 

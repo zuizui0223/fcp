@@ -1,0 +1,45 @@
+name: RGFCA retained FlowerMask pairing result
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - scripts/analysis/verify_rgfca_flowermask_pair_result.py
+      - scripts/analysis/audit_rgfca_flowermask_pair_metadata.py
+      - tests/test_rgfca_flowermask_pair_result.py
+      - data/validation/flowermask_pair_metadata_result_v1/**
+      - data/validation/flowermask_pair_metadata_inputs_v1/**
+      - docs/supporting/rgfca_flowermask_pair_metadata*json
+      - docs/RGFCA_FLOWERMASK_PAIR_METADATA.md
+      - .github/workflows/rgfca-flowermask-pair-result.yml
+
+permissions:
+  contents: read
+
+jobs:
+  reconstruct-retained-result:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: .
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest==8.3.5
+      - name: Check closed-source corruption and reconstruct all 300 metadata rows
+        run: |
+          python -m pytest tests/test_rgfca_flowermask_pair_metadata.py tests/test_rgfca_flowermask_pair_result.py -q
+          python -m scripts.analysis.verify_rgfca_flowermask_pair_result data/validation/flowermask_pair_metadata_result_v1 --verify-summary docs/supporting/rgfca_flowermask_pair_metadata_result_v1.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-flowermask-pair-metadata-retained-evidence-v1
+          path: |
+            data/validation/flowermask_pair_metadata_result_v1/
+            docs/supporting/rgfca_flowermask_pair_metadata_result_v1.json
+            docs/RGFCA_FLOWERMASK_PAIR_METADATA.md
+            scripts/analysis/verify_rgfca_flowermask_pair_result.py
+          if-no-files-found: error
+          retention-days: 90

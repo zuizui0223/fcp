@@ -89,3 +89,66 @@ payload budget, development/validation status and rights scope. If pairing or
 access fails, retain the precise unresolved outcome and do not score a
 convenient subset. The closed six-document FlowerMask inspection, Monarda
 non-support and all completed FCP ecological tests remain unchanged.
+
+## Completed result: metadata inspected, paired frame incomplete
+
+The one authorized [run 34201981494](https://github.com/zuizui0223/fcp/actions/runs/34201981494)
+completed on **8 September 2026 at 08:03:35 UTC**. Its acquisition code and plan
+were fixed at `49d24a1b3ca060608d629577a01ce337b2bb45fe`, after successful
+push preflight `34201856801` and exact-byte verification of its nine qualification
+files. The metadata job itself ran for 5 minutes 14 seconds. It inspected all
+300 rows, reused the one cached response and started exactly 299 new requests.
+No transport/schema failure occurred. All six previously schema-opened IDs and
+all six provider groups of 50 rows are retained, with provider spellings unchanged.
+
+**299/300 returned listings advertise the required three pair members;
+`all_300_pair_metadata_present=false`.** Butterfly Pea `33.json`, annotation ID
+`bf1604ee-fe76-4ec2-b2b7-51c50a732090`, maps to `33_dataset`, folder
+`d88759cb-dfb0-4996-8b33-d1002cdc33eb`. That returned listing has `label.png`,
+`label_names.txt` and `label_viz.png`, but no `img.png` entry. Its exact response
+is 2,251 bytes, SHA-256
+`a3246f20b3eab5436a461a7e9d7d6609f2f299e74a3390ad741fae2f2f75a83f`.
+This establishes an absence **in the inspected listing**, not that an original
+image does not exist elsewhere. Pagination and alternate source paths were not
+followed. The visualization is not substituted for the missing original.
+
+The fixed inspection completed successfully, but its full-pairing indicator
+did not pass. The unresolved row is neither dropped nor replaced. There is no
+299-image convenience benchmark, retry, hidden endpoint recovery, new model run
+or ecological conclusion from this outcome. The next reference-acquisition or
+correspondence design must be specified separately; it is not authorized here.
+Annotation scope, rights, actual alignment and development/validation status
+would still require evidence even if every filename were present.
+
+### Retained evidence and offline reconstruction
+
+The [exact 303-file bundle](../data/validation/flowermask_pair_metadata_result_v1/)
+preserves the 300 valid metadata response bodies, full terminal result,
+execution-start receipt and dispatch history from artifact `10046355184`.
+It totals **1,550,546 bytes** and contains no image or mask payload. These are
+native byte copies, not regenerated responses. The result SHA-256 is
+`27c79f60b4088c4c2942778c43c9089509ac3dcce5ec825166d97804166359b3`;
+execution-start SHA-256 is
+`b133ba62b29a0ed5539b28ed54218b5e74da0069d669aec8598b7f101aa08793`;
+dispatch-history SHA-256 is
+`cc1ba4ef73ec7f7a57feffe4907cc591ab0782f57e94040436993e70999f3da0`.
+The provider reports artifact-ZIP SHA-256
+`a26dabf38c4a51274303dad0191fb2284df65b0806832f9c988210018df950e6`;
+the compressed ZIP digest was not locally checked. Extracted response bytes,
+identities, summaries and receipt hashes were checked directly.
+
+The [retained summary](supporting/rgfca_flowermask_pair_metadata_result_v1.json)
+also closes subsequent acquisition heads. The additional retained-result
+verifier pins the completed run's receipts, requires the exact 303-file census,
+checks the first-attempt dispatch and reconstructs all 300 summaries using the
+original frozen metadata parser. It does not rerun acquisition or modify that
+parser. Corruption tests and a separate read-only retained-result CI preserve
+the incomplete-pairing outcome as a valid, reproducible result.
+
+```text
+python -m scripts.analysis.verify_rgfca_flowermask_pair_result data/validation/flowermask_pair_metadata_result_v1 --verify-summary docs/supporting/rgfca_flowermask_pair_metadata_result_v1.json
+```
+
+CI success certifies faithful preservation, not pairing completeness or an
+admitted measurement benchmark. Model execution, decoded image pixels and
+coordinate joins all remain false for this gate.

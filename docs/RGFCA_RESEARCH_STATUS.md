@@ -350,8 +350,17 @@ keeps all candidates unadmitted for focal-petal validation. USDA's public
 receipts and an offline verifier preserve the conflict, not a corrected split.
 The [measurement-target design](RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md)
 separates generic flower-region engineering from focal-taxon and colour
-validation. Next freeze a metadata-only paired-manifest check of the already
-exposed 300 FlowerMask annotation IDs; no new image/model run occurred here.
+validation. The subsequent prospectively frozen
+[300-ID paired-metadata inspection](RGFCA_FLOWERMASK_PAIR_METADATA.md#completed-result-metadata-inspected-paired-frame-incomplete)
+completed in run `34201981494` at qualified head `49d24a1`: all 300 metadata
+rows inspected, 299 new requests plus one reused response, no source failures.
+Required pair members are advertised in **299/300** returned listings; Butterfly
+Pea `33_dataset` lacks an `img.png` entry. Full pairing is therefore unresolved,
+not silently repaired. All 303 exact evidence files and all six previously
+schema-opened IDs are retained. No image pixels, model or coordinates were
+used in this gate. Metadata CI success does not authorize a 299-image benchmark
+or establish anatomical accuracy; a distinct next correspondence design is
+needed before any further payload access. The biological goal remains unmet.
 
 1. Preserve the now-completed reserve measurement and all four fixed tests.
    The weak photo association replicated, but the flower-specific gate did not
