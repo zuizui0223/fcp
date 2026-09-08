@@ -1,0 +1,78 @@
+name: RGFCA sharedness v2 geometry transport recovery
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - 'docs/supporting/rgfca_sharedness_v2_geometry_transport_recovery_contract_v1.json'
+      - 'scripts/acquisition/recover_rgfca_sharedness_v2_geometry_transport_shard.py'
+      - 'scripts/analysis/finalize_rgfca_sharedness_v2_geometry_transport_recovery.py'
+      - '.github/workflows/rgfca-sharedness-v2-geometry-transport-recovery.yml'
+permissions: {contents: write}
+env: {PYTHONPATH: '.', PYTHONHASHSEED: '0'}
+concurrency: {group: rgfca-sharedness-v2-geometry-transport-recovery, cancel-in-progress: false}
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.sha }}'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install numpy==2.3.5 pandas==2.2.3
+      - run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path('docs/supporting/rgfca_sharedness_v2_geometry_transport_recovery_contract_v1.json').read_text())
+          assert c['status']=='frozen_after_random-batch-geometry-failure_before_recovery_requests'
+          assert c['scientific_design_unchanged'] is True
+          assert c['selected_species']==150 and c['photos_per_species']==300
+          assert c['image_pixels_opened'] is False and c['flower_colour_opened'] is False
+          PY
+  shard:
+    needs: gate
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix: {shard: [0,1,2,3,4,5]}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.sha }}'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install numpy==2.3.5 pandas==2.2.3
+      - run: python scripts/acquisition/recover_rgfca_sharedness_v2_geometry_transport_shard.py --shard-index ${{ matrix.shard }} --shard-count 6 --output-dir /tmp/recovery
+      - uses: actions/upload-artifact@v4
+        with: {name: 'rgfca-v2-geometry-recovery-${{ matrix.shard }}', path: '/tmp/recovery/', if-no-files-found: error, retention-days: 30}
+  finalize:
+    needs: [gate, shard]
+    if: ${{ always() && needs.gate.result == 'success' && needs.shard.result == 'success' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0, ref: '${{ github.sha }}'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install pandas==2.2.3
+      - uses: actions/download-artifact@v4
+        with: {pattern: 'rgfca-v2-geometry-recovery-*', path: '/tmp/recovery-shards'}
+      - run: python scripts/analysis/finalize_rgfca_sharedness_v2_geometry_transport_recovery.py --input-root /tmp/recovery-shards --output-photos data/frozen/rgfca_sharedness_v2_geometry_photos_v1.csv --output-audit data/frozen/rgfca_sharedness_v2_geometry_species_audit_v1.csv --output-json docs/supporting/rgfca_sharedness_v2_geometry_result_v1.json
+      - run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('docs/supporting/rgfca_sharedness_v2_geometry_result_v1.json').read_text())
+          assert r['complete_fixed_frame'] is True
+          assert r['retained_photos']==45000 and r['species']==150
+          assert r['synthetic_sharedness_qualification_permitted'] is True
+          PY
+      - run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add data/frozen/rgfca_sharedness_v2_geometry_photos_v1.csv data/frozen/rgfca_sharedness_v2_geometry_species_audit_v1.csv docs/supporting/rgfca_sharedness_v2_geometry_result_v1.json
+          git commit -m 'Recover RGFCA v2 150x300 metadata geometry'
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability
