@@ -96,6 +96,11 @@ performance, colour or geographic outcomes. No author contact or rights change
 is authorized. Public metadata can establish documentary correspondence only,
 not actual image/mask alignment or anatomical truth.
 
+The [fixed implementation and single-dispatch protocol](RGFCA_FLOWERMASK_PAIR_METADATA.md)
+now specify all 300 source-derived rows, one reused metadata response and at
+most 299 new metadata requests. Qualification and acquisition remain distinct;
+the presence of this plan is not a result or benchmark admission.
+
 If this gate cannot establish the paired frame or annotation target, preserve
 that specific unresolved outcome; do not proceed to a convenient subset score.
 A later, separately specified inspection may be needed for pairing/alignment

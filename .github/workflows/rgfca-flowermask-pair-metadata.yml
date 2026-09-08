@@ -1,0 +1,104 @@
+name: RGFCA FlowerMask paired metadata feasibility
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - scripts/analysis/audit_rgfca_flowermask_pair_metadata.py
+      - scripts/analysis/audit_rgfca_reference_schema.py
+      - tests/test_rgfca_flowermask_pair_metadata.py
+      - docs/supporting/rgfca_flowermask_pair_metadata_plan_v1.json
+      - docs/supporting/rgfca_reference_schema_plan_v1.json
+      - data/validation/flowermask_pair_metadata_inputs_v1/**
+      - docs/RGFCA_FLOWERMASK_PAIR_METADATA.md
+      - .github/workflows/rgfca-flowermask-pair-metadata.yml
+  workflow_dispatch:
+    inputs:
+      expected_plan_sha256:
+        description: Exact frozen metadata-only plan SHA-256
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: rgfca-flowermask-pair-metadata-v1
+  cancel-in-progress: false
+
+env:
+  PYTHONPATH: .
+  PYTHONUTF8: '1'
+  PLAN: docs/supporting/rgfca_flowermask_pair_metadata_plan_v1.json
+  PLAN_SHA256: 2ce2a578db6c470a9021189241e2e5c9fae561c2435896f64e61d50e0ccd4d83
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest==8.3.5
+      - name: Artificial metadata tests and exact 300-ID source-frame reconstruction
+        run: |
+          python -m pytest tests/test_rgfca_flowermask_pair_metadata.py -q
+          python -m scripts.analysis.audit_rgfca_flowermask_pair_metadata preflight --plan "$PLAN" --expected-plan-sha256 "$PLAN_SHA256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-flowermask-pair-metadata-qualified-inputs-v1
+          path: |
+            scripts/analysis/audit_rgfca_flowermask_pair_metadata.py
+            scripts/analysis/audit_rgfca_reference_schema.py
+            tests/test_rgfca_flowermask_pair_metadata.py
+            docs/supporting/rgfca_flowermask_pair_metadata_plan_v1.json
+            docs/supporting/rgfca_reference_schema_plan_v1.json
+            data/validation/flowermask_pair_metadata_inputs_v1/
+            docs/RGFCA_FLOWERMASK_PAIR_METADATA.md
+            .github/workflows/rgfca-flowermask-pair-metadata.yml
+          if-no-files-found: error
+          retention-days: 90
+
+  inspect-metadata-once:
+    if: github.event_name == 'workflow_dispatch'
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify exact plan and one first-attempt dispatch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUESTED_PLAN_SHA256: ${{ inputs.expected_plan_sha256 }}
+        run: |
+          test "$REQUESTED_PLAN_SHA256" = "$PLAN_SHA256"
+          test ! -f docs/supporting/rgfca_flowermask_pair_metadata_result_v1.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/rgfca-flowermask-pair-metadata.yml/runs?event=workflow_dispatch&per_page=100" > /tmp/flowermask-pair-dispatch-history.json
+          python -m scripts.analysis.audit_rgfca_flowermask_pair_metadata history --history /tmp/flowermask-pair-dispatch-history.json
+      - name: Inspect at most 299 public metadata endpoints, reusing one cached response
+        run: >-
+          python -m scripts.analysis.audit_rgfca_flowermask_pair_metadata inspect
+          --plan "$PLAN" --expected-plan-sha256 "$PLAN_SHA256"
+          --output /tmp/rgfca-flowermask-pair-metadata-v1
+      - name: Reconstruct all metadata summaries from saved exact response bytes
+        if: always()
+        run: |
+          if test -f /tmp/rgfca-flowermask-pair-metadata-v1/result.json; then
+            python -m scripts.analysis.audit_rgfca_flowermask_pair_metadata verify --plan "$PLAN" --expected-plan-sha256 "$PLAN_SHA256" --output /tmp/rgfca-flowermask-pair-metadata-v1
+          fi
+      - name: Retain every row and execution state, including a stopped acquisition
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-flowermask-pair-metadata-result-v1
+          path: |
+            /tmp/rgfca-flowermask-pair-metadata-v1/
+            /tmp/flowermask-pair-dispatch-history.json
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,3027 @@
+{
+  "schema": "rgfca-flowermask-pair-metadata-plan-v1",
+  "source_hashes": {
+    "docs/supporting/rgfca_reference_schema_plan_v1.json": "48436a74160b4700e2d9b2bbc803aeac7fcfe8a1f09885140a1eade034c5aade",
+    "data/validation/flowermask_pair_metadata_inputs_v1/folders.json": "fd30ad1ba248c43eca04c1a53cec31e87617dbd815b5a98b752eb461dec2b892",
+    "data/validation/flowermask_pair_metadata_inputs_v1/cached_folder_files.json": "a227790321584118998d390850cca1b66ab4f7ac54276ebc0c0262f566c77485"
+  },
+  "rules": {
+    "maximum_new_requests": 299,
+    "maximum_response_bytes": 250000,
+    "request_timeout_seconds": 30,
+    "minimum_request_start_interval_seconds": 1,
+    "retries": 0,
+    "redirects": 0,
+    "pagination_followups": 0,
+    "stop_on_transport_or_schema_failure": true,
+    "required_pair_filenames": [
+      "img.png",
+      "label.png",
+      "label_names.txt"
+    ],
+    "benchmark_execution_authorized": false
+  },
+  "rows": [
+    {
+      "annotation_id": "00d850be-5cd5-4495-b29f-a6bde12dfae5",
+      "group": "Butterfly Pea",
+      "annotation_filename": "42.json",
+      "candidate_folder_id": "a416768c-0cf1-45d8-b126-c9ce06f378d7",
+      "candidate_folder_name": "42_dataset",
+      "prior_schema_opened": true,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a416768c-0cf1-45d8-b126-c9ce06f378d7&version=1"
+    },
+    {
+      "annotation_id": "0c833fb6-96a1-4505-b2f0-660aee9b7eff",
+      "group": "Butterfly Pea",
+      "annotation_filename": "47.json",
+      "candidate_folder_id": "7bfc3d07-4658-454a-be2d-07d9d88fcaba",
+      "candidate_folder_name": "47_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7bfc3d07-4658-454a-be2d-07d9d88fcaba&version=1"
+    },
+    {
+      "annotation_id": "0e6f53cc-62b8-4b18-bcc4-55f11f7ae784",
+      "group": "Butterfly Pea",
+      "annotation_filename": "32.json",
+      "candidate_folder_id": "fd5f4b62-2865-4e39-87e6-8fd7788c33fd",
+      "candidate_folder_name": "32_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=fd5f4b62-2865-4e39-87e6-8fd7788c33fd&version=1"
+    },
+    {
+      "annotation_id": "100a1e0d-2ec9-4377-b9f4-c605d15fdd33",
+      "group": "Butterfly Pea",
+      "annotation_filename": "43.json",
+      "candidate_folder_id": "822dc079-1107-4fa6-b2fe-eeb42e2b59f0",
+      "candidate_folder_name": "43_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=822dc079-1107-4fa6-b2fe-eeb42e2b59f0&version=1"
+    },
+    {
+      "annotation_id": "11b38135-8848-4ee1-80f9-fae0bc156427",
+      "group": "Butterfly Pea",
+      "annotation_filename": "13.json",
+      "candidate_folder_id": "b06931f1-bd78-4e97-a1da-a9fab8717b86",
+      "candidate_folder_name": "13_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b06931f1-bd78-4e97-a1da-a9fab8717b86&version=1"
+    },
+    {
+      "annotation_id": "291dc0d3-863e-4c77-97a3-1c6ef0410b41",
+      "group": "Butterfly Pea",
+      "annotation_filename": "44.json",
+      "candidate_folder_id": "cc3c58f6-ac8f-4966-b8f1-4c72914fda9d",
+      "candidate_folder_name": "44_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=cc3c58f6-ac8f-4966-b8f1-4c72914fda9d&version=1"
+    },
+    {
+      "annotation_id": "3bc53958-af21-4ac8-b148-1976a6b946fb",
+      "group": "Butterfly Pea",
+      "annotation_filename": "3.json",
+      "candidate_folder_id": "072496aa-1ce9-4dc5-b2c2-151c59f339ee",
+      "candidate_folder_name": "3_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=072496aa-1ce9-4dc5-b2c2-151c59f339ee&version=1"
+    },
+    {
+      "annotation_id": "42ea1c0c-c25b-4710-88e1-b348f45f869d",
+      "group": "Butterfly Pea",
+      "annotation_filename": "46.json",
+      "candidate_folder_id": "43e1dd2a-1364-498a-ad32-6f259c39c2e1",
+      "candidate_folder_name": "46_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=43e1dd2a-1364-498a-ad32-6f259c39c2e1&version=1"
+    },
+    {
+      "annotation_id": "44badd59-17aa-4b9c-9537-6f4b833dd16d",
+      "group": "Butterfly Pea",
+      "annotation_filename": "18.json",
+      "candidate_folder_id": "5c3027bb-958c-4a00-a216-84fc2b7b542f",
+      "candidate_folder_name": "18_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5c3027bb-958c-4a00-a216-84fc2b7b542f&version=1"
+    },
+    {
+      "annotation_id": "4dd9e55f-6979-4938-99c0-40047d86c960",
+      "group": "Butterfly Pea",
+      "annotation_filename": "30.json",
+      "candidate_folder_id": "f9df8510-7606-4982-9483-d3ade114dcce",
+      "candidate_folder_name": "30_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=f9df8510-7606-4982-9483-d3ade114dcce&version=1"
+    },
+    {
+      "annotation_id": "50c46fec-9fbe-441d-836d-020fb4afe4af",
+      "group": "Butterfly Pea",
+      "annotation_filename": "14.json",
+      "candidate_folder_id": "77872ca0-7247-48af-87d5-1061f03cbf83",
+      "candidate_folder_name": "14_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=77872ca0-7247-48af-87d5-1061f03cbf83&version=1"
+    },
+    {
+      "annotation_id": "5b9b5ecd-aa5d-45d8-b251-6fcb7e2facb7",
+      "group": "Butterfly Pea",
+      "annotation_filename": "26.json",
+      "candidate_folder_id": "487140dd-6ec3-4765-94d9-11c54d17aabd",
+      "candidate_folder_name": "26_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=487140dd-6ec3-4765-94d9-11c54d17aabd&version=1"
+    },
+    {
+      "annotation_id": "681b39c9-5ac5-41f4-ba11-6e039b5f74b4",
+      "group": "Butterfly Pea",
+      "annotation_filename": "39.json",
+      "candidate_folder_id": "f1d31525-51ff-4291-8fd6-aee09248f270",
+      "candidate_folder_name": "39_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=f1d31525-51ff-4291-8fd6-aee09248f270&version=1"
+    },
+    {
+      "annotation_id": "69d1b958-f55f-4ebb-acbf-6a72f82dbdd7",
+      "group": "Butterfly Pea",
+      "annotation_filename": "28.json",
+      "candidate_folder_id": "59d0c66e-c767-48c6-aa2d-ec5f7533cfab",
+      "candidate_folder_name": "28_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=59d0c66e-c767-48c6-aa2d-ec5f7533cfab&version=1"
+    },
+    {
+      "annotation_id": "708edadb-84dc-4053-a7c0-7b929023ecab",
+      "group": "Butterfly Pea",
+      "annotation_filename": "19.json",
+      "candidate_folder_id": "97494f8f-c3c0-4891-ad3f-aae3137a41cc",
+      "candidate_folder_name": "19_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=97494f8f-c3c0-4891-ad3f-aae3137a41cc&version=1"
+    },
+    {
+      "annotation_id": "7172eae9-a1c5-4b63-bf03-d814200deff4",
+      "group": "Butterfly Pea",
+      "annotation_filename": "5.json",
+      "candidate_folder_id": "ebf51616-d9ca-4457-a372-71f14ec471aa",
+      "candidate_folder_name": "5_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ebf51616-d9ca-4457-a372-71f14ec471aa&version=1"
+    },
+    {
+      "annotation_id": "72c720a1-876f-4e9b-9b40-967b53f1d71b",
+      "group": "Butterfly Pea",
+      "annotation_filename": "9.json",
+      "candidate_folder_id": "0d055faa-f63f-48c1-803b-a14d8ce76bb6",
+      "candidate_folder_name": "9_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=0d055faa-f63f-48c1-803b-a14d8ce76bb6&version=1"
+    },
+    {
+      "annotation_id": "782116ae-2b77-4a63-9f2a-79fc8b3e389c",
+      "group": "Butterfly Pea",
+      "annotation_filename": "36.json",
+      "candidate_folder_id": "34338011-bd67-4f30-ae06-b743166f242d",
+      "candidate_folder_name": "36_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=34338011-bd67-4f30-ae06-b743166f242d&version=1"
+    },
+    {
+      "annotation_id": "7a6f1d13-5127-42c8-9637-d238dbfc004e",
+      "group": "Butterfly Pea",
+      "annotation_filename": "31.json",
+      "candidate_folder_id": "4ed7583e-0ca1-4895-879c-5bb6d69e1402",
+      "candidate_folder_name": "31_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4ed7583e-0ca1-4895-879c-5bb6d69e1402&version=1"
+    },
+    {
+      "annotation_id": "8209f62d-61a4-4b57-b0d0-9bbdaf108c3d",
+      "group": "Butterfly Pea",
+      "annotation_filename": "49.json",
+      "candidate_folder_id": "be6a1af4-c766-4920-821f-d579a0021073",
+      "candidate_folder_name": "49_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=be6a1af4-c766-4920-821f-d579a0021073&version=1"
+    },
+    {
+      "annotation_id": "87b37e2f-f46d-4ae7-84df-4befe392ce24",
+      "group": "Butterfly Pea",
+      "annotation_filename": "35.json",
+      "candidate_folder_id": "f2d89d92-bf6f-4349-8546-35766c7d73e6",
+      "candidate_folder_name": "35_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=f2d89d92-bf6f-4349-8546-35766c7d73e6&version=1"
+    },
+    {
+      "annotation_id": "8fd119c1-c28c-40fd-9ca4-f10bfae6e7bb",
+      "group": "Butterfly Pea",
+      "annotation_filename": "11.json",
+      "candidate_folder_id": "b9435358-cef4-48bb-b5ff-0e6f3001d202",
+      "candidate_folder_name": "11_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b9435358-cef4-48bb-b5ff-0e6f3001d202&version=1"
+    },
+    {
+      "annotation_id": "8fdb91f4-0061-45b1-90f5-6fcb61fc70a6",
+      "group": "Butterfly Pea",
+      "annotation_filename": "34.json",
+      "candidate_folder_id": "01eb5c76-0d07-43ab-bf7d-aa4e76dc1d84",
+      "candidate_folder_name": "34_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=01eb5c76-0d07-43ab-bf7d-aa4e76dc1d84&version=1"
+    },
+    {
+      "annotation_id": "91b942e1-2de5-4aa3-9d82-2b865e87024a",
+      "group": "Butterfly Pea",
+      "annotation_filename": "15.json",
+      "candidate_folder_id": "bc8453b8-5ac2-4a7b-8a38-bb7ca2e6a4a9",
+      "candidate_folder_name": "15_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=bc8453b8-5ac2-4a7b-8a38-bb7ca2e6a4a9&version=1"
+    },
+    {
+      "annotation_id": "99e41d36-a7e2-4a32-860f-10696f764ff9",
+      "group": "Butterfly Pea",
+      "annotation_filename": "48.json",
+      "candidate_folder_id": "be91a5ef-2f85-49bc-b178-418d00e98592",
+      "candidate_folder_name": "48_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=be91a5ef-2f85-49bc-b178-418d00e98592&version=1"
+    },
+    {
+      "annotation_id": "9aebfc95-6197-4524-a0f8-45d08a48173d",
+      "group": "Butterfly Pea",
+      "annotation_filename": "22.json",
+      "candidate_folder_id": "6e00711a-60e8-46ae-ac03-2a1bd3ef71bc",
+      "candidate_folder_name": "22_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=6e00711a-60e8-46ae-ac03-2a1bd3ef71bc&version=1"
+    },
+    {
+      "annotation_id": "9c1a522a-f7ac-4ec7-a5ec-14d851e9f08a",
+      "group": "Butterfly Pea",
+      "annotation_filename": "27.json",
+      "candidate_folder_id": "c11db045-02ae-441a-838a-17e5345ce8e8",
+      "candidate_folder_name": "27_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c11db045-02ae-441a-838a-17e5345ce8e8&version=1"
+    },
+    {
+      "annotation_id": "a10f3480-2a0b-421a-b58b-d8ff56376401",
+      "group": "Butterfly Pea",
+      "annotation_filename": "21.json",
+      "candidate_folder_id": "5f58113b-5398-4839-b7f4-019c5a618373",
+      "candidate_folder_name": "21_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5f58113b-5398-4839-b7f4-019c5a618373&version=1"
+    },
+    {
+      "annotation_id": "a2d8fa74-815a-47d6-8fc3-bdeb727aaaf3",
+      "group": "Butterfly Pea",
+      "annotation_filename": "12.json",
+      "candidate_folder_id": "5b5a6f0b-1bb0-4107-b35c-4c6241e3188b",
+      "candidate_folder_name": "12_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5b5a6f0b-1bb0-4107-b35c-4c6241e3188b&version=1"
+    },
+    {
+      "annotation_id": "a7249b41-de27-4c34-8be9-df8c7a11f8c7",
+      "group": "Butterfly Pea",
+      "annotation_filename": "4.json",
+      "candidate_folder_id": "9e397e12-9ae2-4d9d-81e7-9f80613af8b4",
+      "candidate_folder_name": "4_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9e397e12-9ae2-4d9d-81e7-9f80613af8b4&version=1"
+    },
+    {
+      "annotation_id": "ae6680cc-62ff-4c89-a020-7951e98f21e1",
+      "group": "Butterfly Pea",
+      "annotation_filename": "40.json",
+      "candidate_folder_id": "879cce31-3ff8-4db9-b270-847c2d891bc5",
+      "candidate_folder_name": "40_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=879cce31-3ff8-4db9-b270-847c2d891bc5&version=1"
+    },
+    {
+      "annotation_id": "af86d735-d5e5-47d3-a9a7-cf404e078a85",
+      "group": "Butterfly Pea",
+      "annotation_filename": "41.json",
+      "candidate_folder_id": "4482409a-45aa-425f-a40e-143d5a4cdab0",
+      "candidate_folder_name": "41_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4482409a-45aa-425f-a40e-143d5a4cdab0&version=1"
+    },
+    {
+      "annotation_id": "b0245714-10bd-47be-ae36-669f2a6d499e",
+      "group": "Butterfly Pea",
+      "annotation_filename": "23.json",
+      "candidate_folder_id": "4ac77667-f9c0-462c-baf5-b575fed8c4de",
+      "candidate_folder_name": "23_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4ac77667-f9c0-462c-baf5-b575fed8c4de&version=1"
+    },
+    {
+      "annotation_id": "b2d81ea0-5d7a-4920-896c-fdd13349c5ce",
+      "group": "Butterfly Pea",
+      "annotation_filename": "6.json",
+      "candidate_folder_id": "3c13f048-01f3-41d0-9d80-171a6a9bab19",
+      "candidate_folder_name": "6_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=3c13f048-01f3-41d0-9d80-171a6a9bab19&version=1"
+    },
+    {
+      "annotation_id": "b8247d0f-6a16-4210-b4c3-c356cec5e2ea",
+      "group": "Butterfly Pea",
+      "annotation_filename": "2.json",
+      "candidate_folder_id": "d4aca23a-4832-4640-8be6-1be649bbbdf9",
+      "candidate_folder_name": "2_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d4aca23a-4832-4640-8be6-1be649bbbdf9&version=1"
+    },
+    {
+      "annotation_id": "bd72139e-96a1-433b-ad83-e302fa33f0b7",
+      "group": "Butterfly Pea",
+      "annotation_filename": "1.json",
+      "candidate_folder_id": "e677f918-a695-4472-9a03-39e6827d007a",
+      "candidate_folder_name": "1_dataset",
+      "prior_schema_opened": false,
+      "source": "cached",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e677f918-a695-4472-9a03-39e6827d007a&version=1"
+    },
+    {
+      "annotation_id": "bf1604ee-fe76-4ec2-b2b7-51c50a732090",
+      "group": "Butterfly Pea",
+      "annotation_filename": "33.json",
+      "candidate_folder_id": "d88759cb-dfb0-4996-8b33-d1002cdc33eb",
+      "candidate_folder_name": "33_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d88759cb-dfb0-4996-8b33-d1002cdc33eb&version=1"
+    },
+    {
+      "annotation_id": "c9f9e846-0195-4d78-8841-599940b0280e",
+      "group": "Butterfly Pea",
+      "annotation_filename": "8.json",
+      "candidate_folder_id": "2260700d-db49-4c03-a9e7-91b0f618f077",
+      "candidate_folder_name": "8_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=2260700d-db49-4c03-a9e7-91b0f618f077&version=1"
+    },
+    {
+      "annotation_id": "d2fb8b22-3b6a-4039-9928-ecd052524fb7",
+      "group": "Butterfly Pea",
+      "annotation_filename": "50.json",
+      "candidate_folder_id": "3bf561c0-0527-4b3a-9062-a9a8c1c22f78",
+      "candidate_folder_name": "50_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=3bf561c0-0527-4b3a-9062-a9a8c1c22f78&version=1"
+    },
+    {
+      "annotation_id": "d3de545c-5108-47b0-856e-6a7ce4d26e58",
+      "group": "Butterfly Pea",
+      "annotation_filename": "25.json",
+      "candidate_folder_id": "d776bc56-73ef-49d8-83a3-fa14eab90eee",
+      "candidate_folder_name": "25_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d776bc56-73ef-49d8-83a3-fa14eab90eee&version=1"
+    },
+    {
+      "annotation_id": "d75820f3-b54e-40a0-946f-08f346c15f6d",
+      "group": "Butterfly Pea",
+      "annotation_filename": "16.json",
+      "candidate_folder_id": "d8d7c76a-55cb-4bcf-9ed0-f034d37f0501",
+      "candidate_folder_name": "16_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d8d7c76a-55cb-4bcf-9ed0-f034d37f0501&version=1"
+    },
+    {
+      "annotation_id": "d7c3f2f7-71b3-4820-9baf-5469b3544f4d",
+      "group": "Butterfly Pea",
+      "annotation_filename": "17.json",
+      "candidate_folder_id": "2ba472c8-aa96-4a44-8aa7-553b485bd7f3",
+      "candidate_folder_name": "17_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=2ba472c8-aa96-4a44-8aa7-553b485bd7f3&version=1"
+    },
+    {
+      "annotation_id": "dcb65812-3844-4364-92bc-5f37d2eaac7f",
+      "group": "Butterfly Pea",
+      "annotation_filename": "20.json",
+      "candidate_folder_id": "b1dcf1f2-5216-4cd8-8ffe-7795654e37ca",
+      "candidate_folder_name": "20_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b1dcf1f2-5216-4cd8-8ffe-7795654e37ca&version=1"
+    },
+    {
+      "annotation_id": "dd5cf17e-4932-4334-969d-f2b207d09c56",
+      "group": "Butterfly Pea",
+      "annotation_filename": "24.json",
+      "candidate_folder_id": "69754924-bccb-4c01-901f-93d9aba91321",
+      "candidate_folder_name": "24_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=69754924-bccb-4c01-901f-93d9aba91321&version=1"
+    },
+    {
+      "annotation_id": "e4bb1d99-4658-4c4b-99fe-d14829ff7c5c",
+      "group": "Butterfly Pea",
+      "annotation_filename": "10.json",
+      "candidate_folder_id": "5d0686c0-20b7-4fc2-834a-72eb08603344",
+      "candidate_folder_name": "10_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5d0686c0-20b7-4fc2-834a-72eb08603344&version=1"
+    },
+    {
+      "annotation_id": "ed39db03-ea84-4708-8b8e-c087e813d38e",
+      "group": "Butterfly Pea",
+      "annotation_filename": "29.json",
+      "candidate_folder_id": "43f2d8be-2eaa-42ea-99b5-bafb01b5344c",
+      "candidate_folder_name": "29_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=43f2d8be-2eaa-42ea-99b5-bafb01b5344c&version=1"
+    },
+    {
+      "annotation_id": "efa0237c-efe4-418a-a297-5d13739a9c20",
+      "group": "Butterfly Pea",
+      "annotation_filename": "7.json",
+      "candidate_folder_id": "3c5dabde-c5cb-4871-a130-1b45d1be6bb2",
+      "candidate_folder_name": "7_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=3c5dabde-c5cb-4871-a130-1b45d1be6bb2&version=1"
+    },
+    {
+      "annotation_id": "f2ef00d5-9744-46a2-a6f2-5bb415cfbd0e",
+      "group": "Butterfly Pea",
+      "annotation_filename": "38.json",
+      "candidate_folder_id": "7cdb19a2-4802-431f-9a66-70bb2ad09f02",
+      "candidate_folder_name": "38_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7cdb19a2-4802-431f-9a66-70bb2ad09f02&version=1"
+    },
+    {
+      "annotation_id": "f47cf490-af8c-4220-8340-ceb386e35cc6",
+      "group": "Butterfly Pea",
+      "annotation_filename": "45.json",
+      "candidate_folder_id": "9154d019-6e95-4ce4-9ab9-10edb1dfa486",
+      "candidate_folder_name": "45_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9154d019-6e95-4ce4-9ab9-10edb1dfa486&version=1"
+    },
+    {
+      "annotation_id": "fed05cab-667d-4d04-b74f-681bb91a0018",
+      "group": "Butterfly Pea",
+      "annotation_filename": "37.json",
+      "candidate_folder_id": "b90caefa-0800-463b-80f4-7e71d013e781",
+      "candidate_folder_name": "37_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b90caefa-0800-463b-80f4-7e71d013e781&version=1"
+    },
+    {
+      "annotation_id": "00ef6a1f-794a-4580-8fca-16790e12d5c1",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "199.json",
+      "candidate_folder_id": "a8e6d582-e53c-4cdb-b307-4aea73a68caf",
+      "candidate_folder_name": "199_dataset",
+      "prior_schema_opened": true,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a8e6d582-e53c-4cdb-b307-4aea73a68caf&version=1"
+    },
+    {
+      "annotation_id": "083977e0-410e-4252-8e37-772ba2f95494",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "216.json",
+      "candidate_folder_id": "9a7f84a4-60d6-4fc5-884a-35d054645aa6",
+      "candidate_folder_name": "216_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9a7f84a4-60d6-4fc5-884a-35d054645aa6&version=1"
+    },
+    {
+      "annotation_id": "12ee47ad-a55c-447f-bb5f-cf5a158ab9db",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "219.json",
+      "candidate_folder_id": "ac53bbcc-c828-4bae-8348-0c9b4cdc0168",
+      "candidate_folder_name": "219_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ac53bbcc-c828-4bae-8348-0c9b4cdc0168&version=1"
+    },
+    {
+      "annotation_id": "13595fb4-df83-487f-91aa-407a6e44fe95",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "214.json",
+      "candidate_folder_id": "db7d69c7-ea91-4afb-baeb-314358ae2ccc",
+      "candidate_folder_name": "214_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=db7d69c7-ea91-4afb-baeb-314358ae2ccc&version=1"
+    },
+    {
+      "annotation_id": "14e47684-dfe6-4c07-b652-55a121122750",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "188.json",
+      "candidate_folder_id": "9d9f3ef8-f611-4346-8d7e-e9677559439b",
+      "candidate_folder_name": "188_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9d9f3ef8-f611-4346-8d7e-e9677559439b&version=1"
+    },
+    {
+      "annotation_id": "15578f3e-8473-4784-a2e6-7a56510f5265",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "194.json",
+      "candidate_folder_id": "0b70140d-a466-490d-8229-155b1c984f28",
+      "candidate_folder_name": "194_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=0b70140d-a466-490d-8229-155b1c984f28&version=1"
+    },
+    {
+      "annotation_id": "210b1fd3-0c45-429b-99b5-633861febbc2",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "210.json",
+      "candidate_folder_id": "6dcc9cca-6095-4fe2-92a3-2c441cb572ba",
+      "candidate_folder_name": "210_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=6dcc9cca-6095-4fe2-92a3-2c441cb572ba&version=1"
+    },
+    {
+      "annotation_id": "2488eaff-dbbb-4fca-b0ef-a9e32e9e2c99",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "207.json",
+      "candidate_folder_id": "79e47bd6-131c-4f80-bb13-3631b91c90e9",
+      "candidate_folder_name": "207_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=79e47bd6-131c-4f80-bb13-3631b91c90e9&version=1"
+    },
+    {
+      "annotation_id": "262f269a-19a9-43d1-91a7-192a75f92faf",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "179.json",
+      "candidate_folder_id": "6cb47947-dbfd-40fb-9b07-b147f2487a8e",
+      "candidate_folder_name": "179_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=6cb47947-dbfd-40fb-9b07-b147f2487a8e&version=1"
+    },
+    {
+      "annotation_id": "2dc644d9-b066-499b-93e7-f3ce12d25d76",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "213.json",
+      "candidate_folder_id": "6cf36ba2-5de1-42ed-9624-e1fb6f297598",
+      "candidate_folder_name": "213_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=6cf36ba2-5de1-42ed-9624-e1fb6f297598&version=1"
+    },
+    {
+      "annotation_id": "312828e6-25e0-4599-8698-58db3419cb29",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "197.json",
+      "candidate_folder_id": "e55219d2-6f1a-4cb9-a82e-1717947dd73e",
+      "candidate_folder_name": "197_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e55219d2-6f1a-4cb9-a82e-1717947dd73e&version=1"
+    },
+    {
+      "annotation_id": "398c49ff-f6cc-4e3a-88b5-53814defb398",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "209.json",
+      "candidate_folder_id": "868e55f8-a2d9-46ce-ba85-1e79347d652d",
+      "candidate_folder_name": "209_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=868e55f8-a2d9-46ce-ba85-1e79347d652d&version=1"
+    },
+    {
+      "annotation_id": "39c12d66-e43d-4286-a8f6-86c5234d3f66",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "184.json",
+      "candidate_folder_id": "812d5fce-c00a-45be-9398-fec45c21ab1d",
+      "candidate_folder_name": "184_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=812d5fce-c00a-45be-9398-fec45c21ab1d&version=1"
+    },
+    {
+      "annotation_id": "3a059215-a260-4341-88cc-bb61beae10d1",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "220.json",
+      "candidate_folder_id": "ab792695-5522-41c1-b7f1-13a2a4987ff9",
+      "candidate_folder_name": "220_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ab792695-5522-41c1-b7f1-13a2a4987ff9&version=1"
+    },
+    {
+      "annotation_id": "4240c30d-3f6b-41ec-b2ed-e2d9463a52b2",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "217.json",
+      "candidate_folder_id": "c3fd4464-e9c5-4e37-999d-a04fd157a1e6",
+      "candidate_folder_name": "217_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c3fd4464-e9c5-4e37-999d-a04fd157a1e6&version=1"
+    },
+    {
+      "annotation_id": "49c883e5-f970-45bb-86c0-7bb473a492e7",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "202.json",
+      "candidate_folder_id": "4f9cf3f5-b159-4081-997d-09741db7d48b",
+      "candidate_folder_name": "202_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4f9cf3f5-b159-4081-997d-09741db7d48b&version=1"
+    },
+    {
+      "annotation_id": "4eb7b52b-fd4a-4069-8553-9e93dec4694f",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "201.json",
+      "candidate_folder_id": "b2ef3069-edbc-4e80-aa36-9d8d14a159c3",
+      "candidate_folder_name": "201_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b2ef3069-edbc-4e80-aa36-9d8d14a159c3&version=1"
+    },
+    {
+      "annotation_id": "50d18e17-8d62-43ed-a05b-34fa0ed665df",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "171.json",
+      "candidate_folder_id": "3db16145-a78f-4e68-93c8-0c20e6d749f4",
+      "candidate_folder_name": "171_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=3db16145-a78f-4e68-93c8-0c20e6d749f4&version=1"
+    },
+    {
+      "annotation_id": "63c974f6-0752-40da-8e3d-c6b8f4d931b8",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "189.json",
+      "candidate_folder_id": "d3e9f121-3a2a-4ffc-a20c-068b3485c09d",
+      "candidate_folder_name": "189_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d3e9f121-3a2a-4ffc-a20c-068b3485c09d&version=1"
+    },
+    {
+      "annotation_id": "68b97dfd-6f65-47c1-9d0d-c97ca28cc5e8",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "198.json",
+      "candidate_folder_id": "1f2f1e97-1249-4c91-927a-34b26e65743a",
+      "candidate_folder_name": "198_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=1f2f1e97-1249-4c91-927a-34b26e65743a&version=1"
+    },
+    {
+      "annotation_id": "70209769-315c-4fbb-9aed-c9acf8400e9a",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "187.json",
+      "candidate_folder_id": "9183e7d7-5472-4b96-8578-11b7da6a9304",
+      "candidate_folder_name": "187_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9183e7d7-5472-4b96-8578-11b7da6a9304&version=1"
+    },
+    {
+      "annotation_id": "7375d96d-e86c-4364-b2ae-a72f989ab95c",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "172.json",
+      "candidate_folder_id": "e171cda6-7eb2-448f-bcfe-d03f0403cbd8",
+      "candidate_folder_name": "172_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e171cda6-7eb2-448f-bcfe-d03f0403cbd8&version=1"
+    },
+    {
+      "annotation_id": "74ce0de9-b216-4a18-95dd-a3f0a9252194",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "176.json",
+      "candidate_folder_id": "97bf097e-b6fd-4cae-a20e-b8d1cc67c2bc",
+      "candidate_folder_name": "176_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=97bf097e-b6fd-4cae-a20e-b8d1cc67c2bc&version=1"
+    },
+    {
+      "annotation_id": "75eac398-493f-4f4e-9e7d-6cbccc4ddf90",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "205.json",
+      "candidate_folder_id": "15043305-3e08-4685-a525-0b457cfeaf75",
+      "candidate_folder_name": "205_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=15043305-3e08-4685-a525-0b457cfeaf75&version=1"
+    },
+    {
+      "annotation_id": "774ab367-e49e-4ff4-b702-63c518937e3d",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "190.json",
+      "candidate_folder_id": "65dd23da-b912-4954-bc26-d4b8282ed72c",
+      "candidate_folder_name": "190_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=65dd23da-b912-4954-bc26-d4b8282ed72c&version=1"
+    },
+    {
+      "annotation_id": "78404732-f65d-49aa-b643-b866a616f87a",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "177.json",
+      "candidate_folder_id": "392dcca6-bf7c-4d10-a635-a6e0266884f8",
+      "candidate_folder_name": "177_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=392dcca6-bf7c-4d10-a635-a6e0266884f8&version=1"
+    },
+    {
+      "annotation_id": "7844c7f0-ea94-4eb1-a2e7-ab4fc9c456c5",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "185.json",
+      "candidate_folder_id": "aa3e1933-5c56-49a0-8386-889d182de37e",
+      "candidate_folder_name": "185_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=aa3e1933-5c56-49a0-8386-889d182de37e&version=1"
+    },
+    {
+      "annotation_id": "7d9c8c60-6013-4483-937d-65889167e96e",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "173.json",
+      "candidate_folder_id": "46138442-c572-42d7-9c86-7dbc590e3bb0",
+      "candidate_folder_name": "173_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=46138442-c572-42d7-9c86-7dbc590e3bb0&version=1"
+    },
+    {
+      "annotation_id": "7de8ea44-c02b-4082-a585-40dfcea8504e",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "218.json",
+      "candidate_folder_id": "703c90cb-eccd-48de-9c3e-8e19608dfc32",
+      "candidate_folder_name": "218_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=703c90cb-eccd-48de-9c3e-8e19608dfc32&version=1"
+    },
+    {
+      "annotation_id": "80e34192-962a-49a3-aef7-10efd3679f68",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "192.json",
+      "candidate_folder_id": "71b86141-5a0b-4702-8df9-039c9869c42c",
+      "candidate_folder_name": "192_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=71b86141-5a0b-4702-8df9-039c9869c42c&version=1"
+    },
+    {
+      "annotation_id": "86ff08c5-3d39-446f-b77a-0fc92b552cd1",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "208.json",
+      "candidate_folder_id": "b68f630f-d714-4b08-a663-0749f665fc7a",
+      "candidate_folder_name": "208_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b68f630f-d714-4b08-a663-0749f665fc7a&version=1"
+    },
+    {
+      "annotation_id": "8bbdb909-17b0-4142-b272-6bff3114a725",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "206.json",
+      "candidate_folder_id": "3e14b7c2-32bd-4e60-b75c-2dd72cb7b40c",
+      "candidate_folder_name": "206_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=3e14b7c2-32bd-4e60-b75c-2dd72cb7b40c&version=1"
+    },
+    {
+      "annotation_id": "90591f76-d762-4f16-8c51-0a4a5daa19f1",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "203.json",
+      "candidate_folder_id": "b868fd42-1904-4264-83bd-148e474dedaf",
+      "candidate_folder_name": "203_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b868fd42-1904-4264-83bd-148e474dedaf&version=1"
+    },
+    {
+      "annotation_id": "97b76c04-b343-4529-b03d-b57950b67965",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "191.json",
+      "candidate_folder_id": "4ee3c866-0efc-4983-9c1d-c968e2dc019a",
+      "candidate_folder_name": "191_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4ee3c866-0efc-4983-9c1d-c968e2dc019a&version=1"
+    },
+    {
+      "annotation_id": "a1bbd70a-01c8-4e34-9194-b12cbdee34b7",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "180.json",
+      "candidate_folder_id": "a9d6efe1-24d2-451d-98bb-47261eb8285b",
+      "candidate_folder_name": "180_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a9d6efe1-24d2-451d-98bb-47261eb8285b&version=1"
+    },
+    {
+      "annotation_id": "bbf3c278-54d3-4945-a31c-276fa8dd409d",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "182.json",
+      "candidate_folder_id": "db767274-c796-41ea-8873-4c1c290d8412",
+      "candidate_folder_name": "182_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=db767274-c796-41ea-8873-4c1c290d8412&version=1"
+    },
+    {
+      "annotation_id": "c585b689-1236-41a0-8f17-c42b7eecb4a5",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "196.json",
+      "candidate_folder_id": "8b563779-0ba9-4454-8c87-7c2a28a5d926",
+      "candidate_folder_name": "196_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=8b563779-0ba9-4454-8c87-7c2a28a5d926&version=1"
+    },
+    {
+      "annotation_id": "ca15a3e5-1ffa-4470-98e8-1b5e92aaafe5",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "178.json",
+      "candidate_folder_id": "e5003363-e587-4d33-86bd-3c177df55ffd",
+      "candidate_folder_name": "178_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e5003363-e587-4d33-86bd-3c177df55ffd&version=1"
+    },
+    {
+      "annotation_id": "cd2776c5-294d-42ad-a780-8ce9a4666c6b",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "183.json",
+      "candidate_folder_id": "eecf9088-2c4b-42f6-b2b4-6d9202afe5eb",
+      "candidate_folder_name": "183_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=eecf9088-2c4b-42f6-b2b4-6d9202afe5eb&version=1"
+    },
+    {
+      "annotation_id": "cd8a07e9-8568-48f4-a32b-c210d3c30936",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "174.json",
+      "candidate_folder_id": "7be9e19f-4198-4cd6-8489-beaeaff0901b",
+      "candidate_folder_name": "174_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7be9e19f-4198-4cd6-8489-beaeaff0901b&version=1"
+    },
+    {
+      "annotation_id": "d7f56f96-0c66-451e-843b-8c3250e9250b",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "175.json",
+      "candidate_folder_id": "390b0b83-f611-40de-94c2-7f38efddb5c7",
+      "candidate_folder_name": "175_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=390b0b83-f611-40de-94c2-7f38efddb5c7&version=1"
+    },
+    {
+      "annotation_id": "dc6ace15-bda8-425b-861d-0a5089f8c0a6",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "200.json",
+      "candidate_folder_id": "1cc1ad28-e7ea-4a41-91ae-59a55b3a8231",
+      "candidate_folder_name": "200_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=1cc1ad28-e7ea-4a41-91ae-59a55b3a8231&version=1"
+    },
+    {
+      "annotation_id": "e45e9e6c-9e64-4ba5-b6f9-673d844f7af7",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "212.json",
+      "candidate_folder_id": "59f52e5a-016e-496d-bfca-7ec752db1c23",
+      "candidate_folder_name": "212_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=59f52e5a-016e-496d-bfca-7ec752db1c23&version=1"
+    },
+    {
+      "annotation_id": "e814ad54-df03-4c2c-bffa-f27782864a50",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "215.json",
+      "candidate_folder_id": "4183fb8f-f4d6-4665-b37c-7c17dcf6eeb8",
+      "candidate_folder_name": "215_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4183fb8f-f4d6-4665-b37c-7c17dcf6eeb8&version=1"
+    },
+    {
+      "annotation_id": "e8241654-7547-4efa-8a56-910d00f43673",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "195.json",
+      "candidate_folder_id": "560f73ec-ef81-4557-8a1a-009d3afa68c2",
+      "candidate_folder_name": "195_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=560f73ec-ef81-4557-8a1a-009d3afa68c2&version=1"
+    },
+    {
+      "annotation_id": "ea058578-d576-426c-a51e-db3cb8c02516",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "211.json",
+      "candidate_folder_id": "d65c224d-08e2-4f78-b8c3-1fb745b20103",
+      "candidate_folder_name": "211_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d65c224d-08e2-4f78-b8c3-1fb745b20103&version=1"
+    },
+    {
+      "annotation_id": "f1dd887f-fed8-48e2-81df-73a54c3575b1",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "204.json",
+      "candidate_folder_id": "d933f281-954c-4d21-a1a8-82bd5af634e4",
+      "candidate_folder_name": "204_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d933f281-954c-4d21-a1a8-82bd5af634e4&version=1"
+    },
+    {
+      "annotation_id": "f6168f8a-a86f-411c-9274-0c3dc1f50812",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "181.json",
+      "candidate_folder_id": "a14069ed-c0a1-4e6c-a850-a299bd8cbbb2",
+      "candidate_folder_name": "181_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a14069ed-c0a1-4e6c-a850-a299bd8cbbb2&version=1"
+    },
+    {
+      "annotation_id": "fd26a94f-0589-454e-adcd-46c169b1803a",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "193.json",
+      "candidate_folder_id": "1c694d0b-0b11-4494-b596-084452cfb00e",
+      "candidate_folder_name": "193_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=1c694d0b-0b11-4494-b596-084452cfb00e&version=1"
+    },
+    {
+      "annotation_id": "fefd2c97-b1e5-4c47-8899-335582ba9b82",
+      "group": "Caesalpinia Pulcherrima",
+      "annotation_filename": "186.json",
+      "candidate_folder_id": "814432f5-ee04-45c4-9f60-b39fd20c0e6f",
+      "candidate_folder_name": "186_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=814432f5-ee04-45c4-9f60-b39fd20c0e6f&version=1"
+    },
+    {
+      "annotation_id": "04e0c169-3aff-41ea-8c36-5ac200c447aa",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "435.json",
+      "candidate_folder_id": "ff910e0a-20a6-4dd2-8701-0ba43ce858ff",
+      "candidate_folder_name": "435_dataset",
+      "prior_schema_opened": true,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ff910e0a-20a6-4dd2-8701-0ba43ce858ff&version=1"
+    },
+    {
+      "annotation_id": "090be0c2-fa09-4a7d-b04e-f1278d9b273c",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "428.json",
+      "candidate_folder_id": "e7c0f170-8bc4-4437-8792-85b5b91d9ee8",
+      "candidate_folder_name": "428_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e7c0f170-8bc4-4437-8792-85b5b91d9ee8&version=1"
+    },
+    {
+      "annotation_id": "0ac47509-e9a7-4394-a257-aecde7408216",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "443.json",
+      "candidate_folder_id": "cbf248c1-b11e-4639-b075-b62144bfecd0",
+      "candidate_folder_name": "443_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=cbf248c1-b11e-4639-b075-b62144bfecd0&version=1"
+    },
+    {
+      "annotation_id": "0c699b10-1581-4480-bf42-7a8c0c5e8940",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "420.json",
+      "candidate_folder_id": "66ab91cd-9b27-4388-899f-4c9dd4ddcb45",
+      "candidate_folder_name": "420_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=66ab91cd-9b27-4388-899f-4c9dd4ddcb45&version=1"
+    },
+    {
+      "annotation_id": "0f860719-72bf-4689-ad7d-799b9ba6be85",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "437.json",
+      "candidate_folder_id": "aee05462-1672-4bcf-b877-3d8a173fbd2f",
+      "candidate_folder_name": "437_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=aee05462-1672-4bcf-b877-3d8a173fbd2f&version=1"
+    },
+    {
+      "annotation_id": "12d312c8-c59c-49fd-a2dd-d9fe4357bbcd",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "401.json",
+      "candidate_folder_id": "71b987fd-8467-4613-92a4-fcb083e515e4",
+      "candidate_folder_name": "401_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=71b987fd-8467-4613-92a4-fcb083e515e4&version=1"
+    },
+    {
+      "annotation_id": "132fd594-a384-4bb6-abf1-444c30fc81ad",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "448.json",
+      "candidate_folder_id": "a3ad5e9c-5fa5-43e4-8b1e-fe0586ff84e3",
+      "candidate_folder_name": "448_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a3ad5e9c-5fa5-43e4-8b1e-fe0586ff84e3&version=1"
+    },
+    {
+      "annotation_id": "15d97886-5195-4f94-bfa6-7e55524a152b",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "408.json",
+      "candidate_folder_id": "70e21562-298b-40e4-8699-724c5fd0baf3",
+      "candidate_folder_name": "408_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=70e21562-298b-40e4-8699-724c5fd0baf3&version=1"
+    },
+    {
+      "annotation_id": "29de96a2-e71e-4e65-bbf2-3de07a157173",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "410.json",
+      "candidate_folder_id": "7df15b68-ac8f-4fb9-af92-f46110a896a4",
+      "candidate_folder_name": "410_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7df15b68-ac8f-4fb9-af92-f46110a896a4&version=1"
+    },
+    {
+      "annotation_id": "2abd306d-bd94-4489-8700-3754d3fd86c4",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "413.json",
+      "candidate_folder_id": "2cc7945f-622a-4451-9231-e7639de75614",
+      "candidate_folder_name": "413_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=2cc7945f-622a-4451-9231-e7639de75614&version=1"
+    },
+    {
+      "annotation_id": "393ba4ec-59f9-455c-8375-e2fe190f0e55",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "403.json",
+      "candidate_folder_id": "70f12064-0b5a-485f-a560-353593e8006a",
+      "candidate_folder_name": "403_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=70f12064-0b5a-485f-a560-353593e8006a&version=1"
+    },
+    {
+      "annotation_id": "3a7dd3c4-50de-44bf-9d54-804cc69dd8e0",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "421.json",
+      "candidate_folder_id": "5e94a408-bcdb-4e99-b1f4-8b060504d85b",
+      "candidate_folder_name": "421_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5e94a408-bcdb-4e99-b1f4-8b060504d85b&version=1"
+    },
+    {
+      "annotation_id": "3f1d187c-7d55-48ce-bbb6-81a797a18e99",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "417.json",
+      "candidate_folder_id": "fa4ba778-ffee-43d9-8c16-5c94388041fc",
+      "candidate_folder_name": "417_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=fa4ba778-ffee-43d9-8c16-5c94388041fc&version=1"
+    },
+    {
+      "annotation_id": "42cd14c7-8187-4b4c-ab66-820d902616c9",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "441.json",
+      "candidate_folder_id": "d12fde2a-65ad-42d9-9dd0-f892c0f588f0",
+      "candidate_folder_name": "441_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d12fde2a-65ad-42d9-9dd0-f892c0f588f0&version=1"
+    },
+    {
+      "annotation_id": "432c2475-c7aa-464a-b37b-195537babd96",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "429.json",
+      "candidate_folder_id": "d874e483-f27a-4d5f-886d-7d365b4fd309",
+      "candidate_folder_name": "429_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d874e483-f27a-4d5f-886d-7d365b4fd309&version=1"
+    },
+    {
+      "annotation_id": "597a09b5-3048-4093-a893-d5f149e0c37f",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "418.json",
+      "candidate_folder_id": "9413edb0-29e7-45b8-86b0-f2fe3f519cee",
+      "candidate_folder_name": "418_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9413edb0-29e7-45b8-86b0-f2fe3f519cee&version=1"
+    },
+    {
+      "annotation_id": "60243b49-1f1e-456e-9fc2-69470959065b",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "405.json",
+      "candidate_folder_id": "7a26373e-cbd0-4076-b1e7-38b5397d5807",
+      "candidate_folder_name": "405_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7a26373e-cbd0-4076-b1e7-38b5397d5807&version=1"
+    },
+    {
+      "annotation_id": "641ac936-a9f4-4159-95aa-037ccc88bd1c",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "422.json",
+      "candidate_folder_id": "c417a9c9-53eb-4f71-b798-56029b2cf1e5",
+      "candidate_folder_name": "422_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c417a9c9-53eb-4f71-b798-56029b2cf1e5&version=1"
+    },
+    {
+      "annotation_id": "6a081d2b-0d5e-4010-980b-b74291f7488e",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "426.json",
+      "candidate_folder_id": "ad65108e-39e3-42b2-a00a-c31814ff24dc",
+      "candidate_folder_name": "426_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ad65108e-39e3-42b2-a00a-c31814ff24dc&version=1"
+    },
+    {
+      "annotation_id": "6ff6e7b6-feb7-4a81-b8d9-bd04584ffe5d",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "439.json",
+      "candidate_folder_id": "9d6bae4f-db23-4314-8878-e71242d21ad7",
+      "candidate_folder_name": "439_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9d6bae4f-db23-4314-8878-e71242d21ad7&version=1"
+    },
+    {
+      "annotation_id": "7756586c-07ac-465f-bbc9-6f7624cb8f3f",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "425.json",
+      "candidate_folder_id": "7053b761-4e05-40a1-862a-345a72f74cdd",
+      "candidate_folder_name": "425_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7053b761-4e05-40a1-862a-345a72f74cdd&version=1"
+    },
+    {
+      "annotation_id": "807e50f9-7288-4920-a264-3e3317109c1b",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "416.json",
+      "candidate_folder_id": "77aadfc2-19dc-4182-9752-da21b9de8b7a",
+      "candidate_folder_name": "416_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=77aadfc2-19dc-4182-9752-da21b9de8b7a&version=1"
+    },
+    {
+      "annotation_id": "80965288-3d9b-4066-af08-a3e6814f6a52",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "412.json",
+      "candidate_folder_id": "b771c466-19d7-4416-a268-d56983bc2b84",
+      "candidate_folder_name": "412_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b771c466-19d7-4416-a268-d56983bc2b84&version=1"
+    },
+    {
+      "annotation_id": "85a35330-4746-4527-baf4-467db83a5bf8",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "442.json",
+      "candidate_folder_id": "23eb9f80-9bf0-4baf-8248-65354d222741",
+      "candidate_folder_name": "442_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=23eb9f80-9bf0-4baf-8248-65354d222741&version=1"
+    },
+    {
+      "annotation_id": "85bf9d0f-eccd-42a9-9e0b-0e26902b25a2",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "423.json",
+      "candidate_folder_id": "40787a47-c591-4e80-9641-2b4a4eed5f68",
+      "candidate_folder_name": "423_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=40787a47-c591-4e80-9641-2b4a4eed5f68&version=1"
+    },
+    {
+      "annotation_id": "861e3ff8-d367-4401-8993-9f8e6fd49c98",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "433.json",
+      "candidate_folder_id": "7969c039-a718-42e2-9dc5-861bca756999",
+      "candidate_folder_name": "433_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7969c039-a718-42e2-9dc5-861bca756999&version=1"
+    },
+    {
+      "annotation_id": "8c67ae18-8e43-4427-b09f-411a027605fb",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "447.json",
+      "candidate_folder_id": "fa176521-f4c8-48c5-8b7c-f525cb56792d",
+      "candidate_folder_name": "447_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=fa176521-f4c8-48c5-8b7c-f525cb56792d&version=1"
+    },
+    {
+      "annotation_id": "8fefe844-5c09-459b-be0a-b2481cd6f0b7",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "449.json",
+      "candidate_folder_id": "98b581dc-6fcb-42e1-8e65-279bd00d1633",
+      "candidate_folder_name": "449_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=98b581dc-6fcb-42e1-8e65-279bd00d1633&version=1"
+    },
+    {
+      "annotation_id": "90af1f51-34f0-43bc-b876-eff799264587",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "432.json",
+      "candidate_folder_id": "261a2da1-df5c-4f37-ad14-9b63e9eb769a",
+      "candidate_folder_name": "432_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=261a2da1-df5c-4f37-ad14-9b63e9eb769a&version=1"
+    },
+    {
+      "annotation_id": "91400eac-84c0-4370-a3d3-61461a84bdd6",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "424.json",
+      "candidate_folder_id": "906b44e2-9e8d-4202-9a12-0f77e1a26ce2",
+      "candidate_folder_name": "424_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=906b44e2-9e8d-4202-9a12-0f77e1a26ce2&version=1"
+    },
+    {
+      "annotation_id": "91d31e30-13c7-4dcc-8439-f8e950434091",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "434.json",
+      "candidate_folder_id": "a2608e29-6a5d-4364-a9e2-6d86a05dbfac",
+      "candidate_folder_name": "434_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a2608e29-6a5d-4364-a9e2-6d86a05dbfac&version=1"
+    },
+    {
+      "annotation_id": "952dc4e7-b70e-46ed-9eb6-fbccd3af35b7",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "419.json",
+      "candidate_folder_id": "22700aa0-3bb7-4fb8-8577-0684631ad799",
+      "candidate_folder_name": "419_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=22700aa0-3bb7-4fb8-8577-0684631ad799&version=1"
+    },
+    {
+      "annotation_id": "a1d111e7-3b34-4d25-be7b-cb47dbcd9fd5",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "427.json",
+      "candidate_folder_id": "2ef29905-9569-4c41-9bd8-1af729f12d29",
+      "candidate_folder_name": "427_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=2ef29905-9569-4c41-9bd8-1af729f12d29&version=1"
+    },
+    {
+      "annotation_id": "a623d759-4ec9-4779-9b14-c946a264109a",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "438.json",
+      "candidate_folder_id": "0d71906f-cd4d-4cf7-a1a2-cae49c58f0c7",
+      "candidate_folder_name": "438_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=0d71906f-cd4d-4cf7-a1a2-cae49c58f0c7&version=1"
+    },
+    {
+      "annotation_id": "a8a266c5-2513-4272-8736-b0c3f02b8a5a",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "431.json",
+      "candidate_folder_id": "7f591c45-83a7-4309-9e1d-0c654d69cdcb",
+      "candidate_folder_name": "431_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7f591c45-83a7-4309-9e1d-0c654d69cdcb&version=1"
+    },
+    {
+      "annotation_id": "aea12a50-6e9f-49cb-9e6e-4ebaf212e694",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "411.json",
+      "candidate_folder_id": "e4a6dabb-a19c-4fbd-b061-6c2c73b74633",
+      "candidate_folder_name": "411_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e4a6dabb-a19c-4fbd-b061-6c2c73b74633&version=1"
+    },
+    {
+      "annotation_id": "b5562e5e-b1d3-43c9-9a26-c6356320164b",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "404.json",
+      "candidate_folder_id": "27de8118-3775-4181-b04a-5855254f1711",
+      "candidate_folder_name": "404_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=27de8118-3775-4181-b04a-5855254f1711&version=1"
+    },
+    {
+      "annotation_id": "b9b71256-b45b-4bad-984f-fd2169e0166d",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "415.json",
+      "candidate_folder_id": "662d040d-6c87-4da3-8c7f-965732a150fc",
+      "candidate_folder_name": "415_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=662d040d-6c87-4da3-8c7f-965732a150fc&version=1"
+    },
+    {
+      "annotation_id": "bace4139-9ac3-4660-bc03-5ee39fe80dbb",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "436.json",
+      "candidate_folder_id": "22d53127-285a-4c9f-a338-2b3cba8f5024",
+      "candidate_folder_name": "436_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=22d53127-285a-4c9f-a338-2b3cba8f5024&version=1"
+    },
+    {
+      "annotation_id": "be665f12-d18b-478f-9447-43347c0a383f",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "406.json",
+      "candidate_folder_id": "ebf366b8-8c9e-4561-8165-cc172a290e21",
+      "candidate_folder_name": "406_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ebf366b8-8c9e-4561-8165-cc172a290e21&version=1"
+    },
+    {
+      "annotation_id": "bf6d3944-6898-4c7e-bd59-0f189af4f334",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "430.json",
+      "candidate_folder_id": "a071bce9-54fa-4e5d-83a9-eb5f47449e7a",
+      "candidate_folder_name": "430_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a071bce9-54fa-4e5d-83a9-eb5f47449e7a&version=1"
+    },
+    {
+      "annotation_id": "c5b47284-b66d-4d18-8d9b-cc2c90801fc9",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "414.json",
+      "candidate_folder_id": "907149c6-bbb3-4a15-b7e3-d438f90be7ac",
+      "candidate_folder_name": "414_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=907149c6-bbb3-4a15-b7e3-d438f90be7ac&version=1"
+    },
+    {
+      "annotation_id": "cc55ee1f-bddb-4f81-8e50-3f2eea830f37",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "402.json",
+      "candidate_folder_id": "671ba4a9-e5a2-4dd3-9db7-c26dfecca7b8",
+      "candidate_folder_name": "402_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=671ba4a9-e5a2-4dd3-9db7-c26dfecca7b8&version=1"
+    },
+    {
+      "annotation_id": "d1d317ac-f457-42fb-abe3-f150be31f859",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "445.json",
+      "candidate_folder_id": "7877d04f-38c2-4a16-a9fd-fdad019d699b",
+      "candidate_folder_name": "445_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7877d04f-38c2-4a16-a9fd-fdad019d699b&version=1"
+    },
+    {
+      "annotation_id": "d774fb0e-5aaf-41d1-908a-f99781f80b43",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "409.json",
+      "candidate_folder_id": "2ea325e0-529e-4184-a652-5ddebf1d7660",
+      "candidate_folder_name": "409_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=2ea325e0-529e-4184-a652-5ddebf1d7660&version=1"
+    },
+    {
+      "annotation_id": "ec77caea-bfd1-433e-87a6-fe58c3c45eeb",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "444.json",
+      "candidate_folder_id": "2bdf05fd-6e45-430e-9086-738ceb4854a8",
+      "candidate_folder_name": "444_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=2bdf05fd-6e45-430e-9086-738ceb4854a8&version=1"
+    },
+    {
+      "annotation_id": "ed730e76-77a2-4f95-953e-ae769cbf4b15",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "450.json",
+      "candidate_folder_id": "411d1764-28ce-4c3d-80e4-faad54158527",
+      "candidate_folder_name": "450_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=411d1764-28ce-4c3d-80e4-faad54158527&version=1"
+    },
+    {
+      "annotation_id": "f20f652b-a629-41f4-814f-5f3fb9f4497f",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "407.json",
+      "candidate_folder_id": "5058d36c-dcf2-4076-b8e5-18b6d93c1305",
+      "candidate_folder_name": "407_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5058d36c-dcf2-4076-b8e5-18b6d93c1305&version=1"
+    },
+    {
+      "annotation_id": "f30657c5-a927-4984-947b-a7d87df2ca2c",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "440.json",
+      "candidate_folder_id": "4d607fdf-e94d-49c9-abfe-39f50c363a72",
+      "candidate_folder_name": "440_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4d607fdf-e94d-49c9-abfe-39f50c363a72&version=1"
+    },
+    {
+      "annotation_id": "f5039a7f-10ae-4c11-a9ef-abe1db5da8bc",
+      "group": "Jatropha Integerimma",
+      "annotation_filename": "446.json",
+      "candidate_folder_id": "b1cf3b34-57c4-41ca-9b8c-11ff2fcbf99a",
+      "candidate_folder_name": "446_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b1cf3b34-57c4-41ca-9b8c-11ff2fcbf99a&version=1"
+    },
+    {
+      "annotation_id": "001f424b-8763-444c-9f09-732ea52301f7",
+      "group": "Plumeria",
+      "annotation_filename": "501.json",
+      "candidate_folder_id": "acff781e-b2fa-47f8-a635-47a9a8ebe051",
+      "candidate_folder_name": "501_dataset",
+      "prior_schema_opened": true,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=acff781e-b2fa-47f8-a635-47a9a8ebe051&version=1"
+    },
+    {
+      "annotation_id": "05909be7-5a75-4da4-8d99-488ec258b981",
+      "group": "Plumeria",
+      "annotation_filename": "541.json",
+      "candidate_folder_id": "e0152cf7-7525-44e1-90a5-44c92660756e",
+      "candidate_folder_name": "541_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e0152cf7-7525-44e1-90a5-44c92660756e&version=1"
+    },
+    {
+      "annotation_id": "063cf5b0-341f-4706-a323-3bb8e5c9bf90",
+      "group": "Plumeria",
+      "annotation_filename": "549.json",
+      "candidate_folder_id": "46310581-aff1-4d6a-8058-5c0ce4860fa3",
+      "candidate_folder_name": "549_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=46310581-aff1-4d6a-8058-5c0ce4860fa3&version=1"
+    },
+    {
+      "annotation_id": "07ae3d0a-df5a-4c86-be49-d4e83202e516",
+      "group": "Plumeria",
+      "annotation_filename": "505.json",
+      "candidate_folder_id": "74d428c6-e2fb-4fe5-b0a2-cc4f50b0524d",
+      "candidate_folder_name": "505_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=74d428c6-e2fb-4fe5-b0a2-cc4f50b0524d&version=1"
+    },
+    {
+      "annotation_id": "093c6e43-e728-42e3-ac82-d4af04813318",
+      "group": "Plumeria",
+      "annotation_filename": "510.json",
+      "candidate_folder_id": "56d439c1-d118-49ef-88fd-f3436501ef31",
+      "candidate_folder_name": "510_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=56d439c1-d118-49ef-88fd-f3436501ef31&version=1"
+    },
+    {
+      "annotation_id": "0e94761f-bd43-4e80-a2df-43626bd17784",
+      "group": "Plumeria",
+      "annotation_filename": "533.json",
+      "candidate_folder_id": "6897eaa2-ee8f-4bdb-a02d-7fe568de2607",
+      "candidate_folder_name": "533_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=6897eaa2-ee8f-4bdb-a02d-7fe568de2607&version=1"
+    },
+    {
+      "annotation_id": "120bd9c1-58aa-4e12-baaf-a53f5278d02e",
+      "group": "Plumeria",
+      "annotation_filename": "522.json",
+      "candidate_folder_id": "6de943fb-28e7-44f7-aeff-234131ed8235",
+      "candidate_folder_name": "522_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=6de943fb-28e7-44f7-aeff-234131ed8235&version=1"
+    },
+    {
+      "annotation_id": "15e4bdd8-6d16-43d7-9769-a6109a30d237",
+      "group": "Plumeria",
+      "annotation_filename": "513.json",
+      "candidate_folder_id": "120c617d-fade-4659-845c-f3febc18bf6e",
+      "candidate_folder_name": "513_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=120c617d-fade-4659-845c-f3febc18bf6e&version=1"
+    },
+    {
+      "annotation_id": "2c3a20d4-8dde-4c16-bad2-351e4aa97221",
+      "group": "Plumeria",
+      "annotation_filename": "502.json",
+      "candidate_folder_id": "29b2427d-34d0-4335-951f-212352493dd6",
+      "candidate_folder_name": "502_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=29b2427d-34d0-4335-951f-212352493dd6&version=1"
+    },
+    {
+      "annotation_id": "33003850-414e-4ea6-a6d8-80c41faa42ec",
+      "group": "Plumeria",
+      "annotation_filename": "536.json",
+      "candidate_folder_id": "9f5c5eee-999a-4714-8f39-21aed6c2398e",
+      "candidate_folder_name": "536_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9f5c5eee-999a-4714-8f39-21aed6c2398e&version=1"
+    },
+    {
+      "annotation_id": "3b191596-7123-4fd0-93cf-ff53e4948c96",
+      "group": "Plumeria",
+      "annotation_filename": "550.json",
+      "candidate_folder_id": "0014efe3-54ac-4275-b575-95649b23b94b",
+      "candidate_folder_name": "550_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=0014efe3-54ac-4275-b575-95649b23b94b&version=1"
+    },
+    {
+      "annotation_id": "3da80ddd-4f98-4e2b-bb65-c5303fd42d4d",
+      "group": "Plumeria",
+      "annotation_filename": "520.json",
+      "candidate_folder_id": "5e5ba505-5b24-45ab-afb8-64b1d802d6d6",
+      "candidate_folder_name": "520_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5e5ba505-5b24-45ab-afb8-64b1d802d6d6&version=1"
+    },
+    {
+      "annotation_id": "4259cf16-d4ad-4d10-afde-26b875879bd1",
+      "group": "Plumeria",
+      "annotation_filename": "539.json",
+      "candidate_folder_id": "197f82da-f1a0-4209-a035-166ee93f68b6",
+      "candidate_folder_name": "539_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=197f82da-f1a0-4209-a035-166ee93f68b6&version=1"
+    },
+    {
+      "annotation_id": "529ab7d2-5f3b-4ada-abee-c66edb99975e",
+      "group": "Plumeria",
+      "annotation_filename": "535.json",
+      "candidate_folder_id": "0b6c7c12-5b5d-4b6a-8957-8ea5f024e648",
+      "candidate_folder_name": "535_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=0b6c7c12-5b5d-4b6a-8957-8ea5f024e648&version=1"
+    },
+    {
+      "annotation_id": "546a4e0b-6853-4d6d-98a8-c9846b5b1f27",
+      "group": "Plumeria",
+      "annotation_filename": "531.json",
+      "candidate_folder_id": "ebfdf238-6c94-4846-ba9a-640ff92eb4fa",
+      "candidate_folder_name": "531_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ebfdf238-6c94-4846-ba9a-640ff92eb4fa&version=1"
+    },
+    {
+      "annotation_id": "54c1be07-3e7e-4a92-b7d1-1122d63756cd",
+      "group": "Plumeria",
+      "annotation_filename": "542.json",
+      "candidate_folder_id": "fd5f093a-da3a-4b8e-8e4c-959c40382840",
+      "candidate_folder_name": "542_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=fd5f093a-da3a-4b8e-8e4c-959c40382840&version=1"
+    },
+    {
+      "annotation_id": "59cb11e6-0c4c-438f-944b-853d15ee3206",
+      "group": "Plumeria",
+      "annotation_filename": "509.json",
+      "candidate_folder_id": "4210cd16-fcdb-45f0-8142-c810afee4cd8",
+      "candidate_folder_name": "509_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4210cd16-fcdb-45f0-8142-c810afee4cd8&version=1"
+    },
+    {
+      "annotation_id": "5fcc511b-ecc4-437e-85c1-e0bdabbe2d7b",
+      "group": "Plumeria",
+      "annotation_filename": "504.json",
+      "candidate_folder_id": "f4422120-e664-468e-a03e-48aefb20b164",
+      "candidate_folder_name": "504_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=f4422120-e664-468e-a03e-48aefb20b164&version=1"
+    },
+    {
+      "annotation_id": "6012e9ba-f7f7-48b0-b5fe-e047e5f93161",
+      "group": "Plumeria",
+      "annotation_filename": "506.json",
+      "candidate_folder_id": "72cfc11c-7668-4b68-9bbe-7659559becae",
+      "candidate_folder_name": "506_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=72cfc11c-7668-4b68-9bbe-7659559becae&version=1"
+    },
+    {
+      "annotation_id": "607c4cc2-b178-4c18-abf5-49714c7b4c73",
+      "group": "Plumeria",
+      "annotation_filename": "515.json",
+      "candidate_folder_id": "8bd380fc-03ff-4593-b2c0-f5f5c55fd9fd",
+      "candidate_folder_name": "515_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=8bd380fc-03ff-4593-b2c0-f5f5c55fd9fd&version=1"
+    },
+    {
+      "annotation_id": "645cbf42-8b45-4287-800f-d5f152833194",
+      "group": "Plumeria",
+      "annotation_filename": "503.json",
+      "candidate_folder_id": "887aea66-0a56-4d15-9133-7dbe8ccec7c7",
+      "candidate_folder_name": "503_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=887aea66-0a56-4d15-9133-7dbe8ccec7c7&version=1"
+    },
+    {
+      "annotation_id": "6f01a55e-f87d-48dc-a238-c4ca4fa2a242",
+      "group": "Plumeria",
+      "annotation_filename": "527.json",
+      "candidate_folder_id": "c75aa767-e643-4e17-8136-acbeccde782f",
+      "candidate_folder_name": "527_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c75aa767-e643-4e17-8136-acbeccde782f&version=1"
+    },
+    {
+      "annotation_id": "775496ad-95c8-4a88-82b0-ab4abd88efc4",
+      "group": "Plumeria",
+      "annotation_filename": "534.json",
+      "candidate_folder_id": "5281ac6b-4422-40d7-84b1-0de989a42ede",
+      "candidate_folder_name": "534_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5281ac6b-4422-40d7-84b1-0de989a42ede&version=1"
+    },
+    {
+      "annotation_id": "7f440d4f-e09c-4575-b622-746d2404af8d",
+      "group": "Plumeria",
+      "annotation_filename": "519.json",
+      "candidate_folder_id": "81e1f452-877e-44f9-bad4-21c1828ebdeb",
+      "candidate_folder_name": "519_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=81e1f452-877e-44f9-bad4-21c1828ebdeb&version=1"
+    },
+    {
+      "annotation_id": "826dd0d8-4b2a-40d7-abf1-59b5fb07ebbc",
+      "group": "Plumeria",
+      "annotation_filename": "544.json",
+      "candidate_folder_id": "c54b5e9d-1c94-4520-adc8-f203553ad263",
+      "candidate_folder_name": "544_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c54b5e9d-1c94-4520-adc8-f203553ad263&version=1"
+    },
+    {
+      "annotation_id": "84b05cfe-d1f5-46be-9d2a-12cb6d73e8a9",
+      "group": "Plumeria",
+      "annotation_filename": "543.json",
+      "candidate_folder_id": "499fb6f3-2d24-4fbd-b91e-481a60e19658",
+      "candidate_folder_name": "543_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=499fb6f3-2d24-4fbd-b91e-481a60e19658&version=1"
+    },
+    {
+      "annotation_id": "86c53b4e-3323-4614-9a5d-9aa7f8c57e2a",
+      "group": "Plumeria",
+      "annotation_filename": "547.json",
+      "candidate_folder_id": "a9e99465-b780-4be5-8387-98a2fa151fe7",
+      "candidate_folder_name": "547_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a9e99465-b780-4be5-8387-98a2fa151fe7&version=1"
+    },
+    {
+      "annotation_id": "8b7c625b-59b3-45dc-8c90-7dbd72c4d254",
+      "group": "Plumeria",
+      "annotation_filename": "537.json",
+      "candidate_folder_id": "162c695f-6896-41c2-b122-d024d7d4d823",
+      "candidate_folder_name": "537_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=162c695f-6896-41c2-b122-d024d7d4d823&version=1"
+    },
+    {
+      "annotation_id": "919baca4-9727-4408-a142-a92e14c46e43",
+      "group": "Plumeria",
+      "annotation_filename": "528.json",
+      "candidate_folder_id": "6f593ae6-7bf5-4f9b-8c19-d2be8841655f",
+      "candidate_folder_name": "528_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=6f593ae6-7bf5-4f9b-8c19-d2be8841655f&version=1"
+    },
+    {
+      "annotation_id": "9c13414d-5d8b-4e19-acb6-7a4168b274e0",
+      "group": "Plumeria",
+      "annotation_filename": "507.json",
+      "candidate_folder_id": "cbddfcb2-904f-4bb8-813c-22ea5a75543f",
+      "candidate_folder_name": "507_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=cbddfcb2-904f-4bb8-813c-22ea5a75543f&version=1"
+    },
+    {
+      "annotation_id": "9f019dd0-8492-41f5-bf4a-e1aae0d1d9e7",
+      "group": "Plumeria",
+      "annotation_filename": "508.json",
+      "candidate_folder_id": "a605b501-843b-43db-8cba-b4e106cc054d",
+      "candidate_folder_name": "508_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a605b501-843b-43db-8cba-b4e106cc054d&version=1"
+    },
+    {
+      "annotation_id": "a140eea8-7718-49de-a3c3-f374bb749299",
+      "group": "Plumeria",
+      "annotation_filename": "526.json",
+      "candidate_folder_id": "5736dde2-259f-43fe-978a-4068a7a9f889",
+      "candidate_folder_name": "526_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5736dde2-259f-43fe-978a-4068a7a9f889&version=1"
+    },
+    {
+      "annotation_id": "a563a83a-cab9-4c68-8191-3615eb1f1996",
+      "group": "Plumeria",
+      "annotation_filename": "529.json",
+      "candidate_folder_id": "1f31cb0a-524b-489d-99b5-2f4f81757d4a",
+      "candidate_folder_name": "529_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=1f31cb0a-524b-489d-99b5-2f4f81757d4a&version=1"
+    },
+    {
+      "annotation_id": "b39233ad-938a-44d6-a352-2e36872e1431",
+      "group": "Plumeria",
+      "annotation_filename": "514.json",
+      "candidate_folder_id": "d5d00a2e-0eaa-42b6-a6ae-81fe3b765cb0",
+      "candidate_folder_name": "514_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d5d00a2e-0eaa-42b6-a6ae-81fe3b765cb0&version=1"
+    },
+    {
+      "annotation_id": "b3d06551-baca-4895-98bb-095158ffb1db",
+      "group": "Plumeria",
+      "annotation_filename": "524.json",
+      "candidate_folder_id": "861e15b5-0624-45ec-9e7c-d87daa16e058",
+      "candidate_folder_name": "524_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=861e15b5-0624-45ec-9e7c-d87daa16e058&version=1"
+    },
+    {
+      "annotation_id": "b4962688-deb7-403f-bbf1-ad9c0e7a5611",
+      "group": "Plumeria",
+      "annotation_filename": "521.json",
+      "candidate_folder_id": "945cbd84-7ef7-445b-b954-7987a2f083fa",
+      "candidate_folder_name": "521_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=945cbd84-7ef7-445b-b954-7987a2f083fa&version=1"
+    },
+    {
+      "annotation_id": "b72bd1eb-928d-4105-b7f4-b7ac2a09bc8e",
+      "group": "Plumeria",
+      "annotation_filename": "540.json",
+      "candidate_folder_id": "7ec7652a-9af7-4ee6-bba2-a59e40617c65",
+      "candidate_folder_name": "540_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7ec7652a-9af7-4ee6-bba2-a59e40617c65&version=1"
+    },
+    {
+      "annotation_id": "bd9e6f27-7346-4e82-8c47-db74914fc3cf",
+      "group": "Plumeria",
+      "annotation_filename": "532.json",
+      "candidate_folder_id": "8aaabbbd-f24c-4034-b36c-99a71cdb1676",
+      "candidate_folder_name": "532_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=8aaabbbd-f24c-4034-b36c-99a71cdb1676&version=1"
+    },
+    {
+      "annotation_id": "bdff8222-3c6d-40a4-af30-ce3b80054c10",
+      "group": "Plumeria",
+      "annotation_filename": "512.json",
+      "candidate_folder_id": "9d913e41-522a-4378-ad43-c04fd8c70ed4",
+      "candidate_folder_name": "512_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9d913e41-522a-4378-ad43-c04fd8c70ed4&version=1"
+    },
+    {
+      "annotation_id": "c0472ebd-54c2-48bf-9ec5-e317b463166a",
+      "group": "Plumeria",
+      "annotation_filename": "511.json",
+      "candidate_folder_id": "d1f43ef8-1e1c-416f-9bc5-c335592b6848",
+      "candidate_folder_name": "511_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d1f43ef8-1e1c-416f-9bc5-c335592b6848&version=1"
+    },
+    {
+      "annotation_id": "c53d6384-cbfc-4ce1-813c-84e8dc26928d",
+      "group": "Plumeria",
+      "annotation_filename": "546.json",
+      "candidate_folder_id": "fc75ee06-44e2-480e-adf8-84d42a29baed",
+      "candidate_folder_name": "546_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=fc75ee06-44e2-480e-adf8-84d42a29baed&version=1"
+    },
+    {
+      "annotation_id": "c576ac6d-56fd-48c4-ad75-512a2f40af10",
+      "group": "Plumeria",
+      "annotation_filename": "548.json",
+      "candidate_folder_id": "ae1d115a-8de2-4b55-a7fc-d3d28c637b5a",
+      "candidate_folder_name": "548_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ae1d115a-8de2-4b55-a7fc-d3d28c637b5a&version=1"
+    },
+    {
+      "annotation_id": "c58c0b04-32af-4528-b841-48be587f0994",
+      "group": "Plumeria",
+      "annotation_filename": "517.json",
+      "candidate_folder_id": "c9147125-1ac6-4a33-9fb4-bfd01c2bfc0a",
+      "candidate_folder_name": "517_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c9147125-1ac6-4a33-9fb4-bfd01c2bfc0a&version=1"
+    },
+    {
+      "annotation_id": "c7b33a0c-c8a5-4f89-b7f8-abf8ff3b82b7",
+      "group": "Plumeria",
+      "annotation_filename": "530.json",
+      "candidate_folder_id": "49e7df7b-46c7-4536-9574-26dbc7ed8976",
+      "candidate_folder_name": "530_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=49e7df7b-46c7-4536-9574-26dbc7ed8976&version=1"
+    },
+    {
+      "annotation_id": "ced0b056-6faf-4837-a3a0-5fb4d81e5f5f",
+      "group": "Plumeria",
+      "annotation_filename": "545.json",
+      "candidate_folder_id": "e01f830b-2bce-4c7e-83e8-695c8d6e7cb2",
+      "candidate_folder_name": "545_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e01f830b-2bce-4c7e-83e8-695c8d6e7cb2&version=1"
+    },
+    {
+      "annotation_id": "dc16d5ad-bb14-41dd-b186-c7a8874e2a53",
+      "group": "Plumeria",
+      "annotation_filename": "516.json",
+      "candidate_folder_id": "eb1d6292-bb76-45a4-a911-fbee58f4480e",
+      "candidate_folder_name": "516_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=eb1d6292-bb76-45a4-a911-fbee58f4480e&version=1"
+    },
+    {
+      "annotation_id": "ed8405a0-c923-4a7c-9f66-d55618629453",
+      "group": "Plumeria",
+      "annotation_filename": "525.json",
+      "candidate_folder_id": "55e24c11-6c71-4ff0-b1c1-587430f44eaa",
+      "candidate_folder_name": "525_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=55e24c11-6c71-4ff0-b1c1-587430f44eaa&version=1"
+    },
+    {
+      "annotation_id": "f6165eeb-071f-45e8-8eef-36aef7b80a87",
+      "group": "Plumeria",
+      "annotation_filename": "518.json",
+      "candidate_folder_id": "5731b89f-0419-41d2-bb10-7b0e6a5543d0",
+      "candidate_folder_name": "518_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5731b89f-0419-41d2-bb10-7b0e6a5543d0&version=1"
+    },
+    {
+      "annotation_id": "fa33a231-63cd-455f-ba66-9fa721259456",
+      "group": "Plumeria",
+      "annotation_filename": "538.json",
+      "candidate_folder_id": "b1d4b76d-9ce5-4d94-9715-39cf268ef66d",
+      "candidate_folder_name": "538_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b1d4b76d-9ce5-4d94-9715-39cf268ef66d&version=1"
+    },
+    {
+      "annotation_id": "fae4f8a1-2ee1-4d1b-9011-0c93e73c5bed",
+      "group": "Plumeria",
+      "annotation_filename": "523.json",
+      "candidate_folder_id": "08578ced-524a-4b1a-945a-906183739423",
+      "candidate_folder_name": "523_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=08578ced-524a-4b1a-945a-906183739423&version=1"
+    },
+    {
+      "annotation_id": "034b0b92-bf4d-450f-9d52-6a19ea245824",
+      "group": "Rose",
+      "annotation_filename": "509.json",
+      "candidate_folder_id": "59c7d703-b63d-40a5-8a57-991b15f85ede",
+      "candidate_folder_name": "509_dataset",
+      "prior_schema_opened": true,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=59c7d703-b63d-40a5-8a57-991b15f85ede&version=1"
+    },
+    {
+      "annotation_id": "0b4439c0-0050-4938-a29d-923fb293d6c4",
+      "group": "Rose",
+      "annotation_filename": "540.json",
+      "candidate_folder_id": "edcea1cf-ff59-466b-960c-34daefe79c98",
+      "candidate_folder_name": "540_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=edcea1cf-ff59-466b-960c-34daefe79c98&version=1"
+    },
+    {
+      "annotation_id": "11d5b865-474e-4a46-ac23-58b38432dfdb",
+      "group": "Rose",
+      "annotation_filename": "515.json",
+      "candidate_folder_id": "0a55faac-145b-4c11-b775-43f39145d138",
+      "candidate_folder_name": "515_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=0a55faac-145b-4c11-b775-43f39145d138&version=1"
+    },
+    {
+      "annotation_id": "15c2dc66-3aba-460a-a27e-d3cb83ad4036",
+      "group": "Rose",
+      "annotation_filename": "513.json",
+      "candidate_folder_id": "a0aabce6-8d89-4360-9703-6fb19e79609d",
+      "candidate_folder_name": "513_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a0aabce6-8d89-4360-9703-6fb19e79609d&version=1"
+    },
+    {
+      "annotation_id": "1be84e44-c45a-46c1-b5d5-04cef27a6a24",
+      "group": "Rose",
+      "annotation_filename": "535.json",
+      "candidate_folder_id": "1ef65afe-adce-4729-a7ac-ed9d45bf9f87",
+      "candidate_folder_name": "535_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=1ef65afe-adce-4729-a7ac-ed9d45bf9f87&version=1"
+    },
+    {
+      "annotation_id": "2460c2ad-7b8f-43a5-a2db-98bd9c7a69e5",
+      "group": "Rose",
+      "annotation_filename": "544.json",
+      "candidate_folder_id": "e45583a5-f457-4bbb-b3e6-a1823e5a673a",
+      "candidate_folder_name": "544_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e45583a5-f457-4bbb-b3e6-a1823e5a673a&version=1"
+    },
+    {
+      "annotation_id": "2e53029c-6b43-4589-8321-f82a319f94ce",
+      "group": "Rose",
+      "annotation_filename": "545.json",
+      "candidate_folder_id": "f83b7b9e-216c-4cd9-a23f-cc2f6f472e2b",
+      "candidate_folder_name": "545_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=f83b7b9e-216c-4cd9-a23f-cc2f6f472e2b&version=1"
+    },
+    {
+      "annotation_id": "323fe3bc-c690-4e4a-a2e5-e8a60606abd9",
+      "group": "Rose",
+      "annotation_filename": "514.json",
+      "candidate_folder_id": "f998e54a-96d2-4396-8907-ba6a0c17539a",
+      "candidate_folder_name": "514_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=f998e54a-96d2-4396-8907-ba6a0c17539a&version=1"
+    },
+    {
+      "annotation_id": "385343d2-b1d5-44ba-b1b4-b32112188f2a",
+      "group": "Rose",
+      "annotation_filename": "538.json",
+      "candidate_folder_id": "205eb3d4-2828-4742-bb7e-1554d5157463",
+      "candidate_folder_name": "538_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=205eb3d4-2828-4742-bb7e-1554d5157463&version=1"
+    },
+    {
+      "annotation_id": "3fe6c08a-4647-46f5-b6d0-1267f09ac948",
+      "group": "Rose",
+      "annotation_filename": "518.json",
+      "candidate_folder_id": "8d23938e-a447-453f-91dd-bca592a4b6c5",
+      "candidate_folder_name": "518_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=8d23938e-a447-453f-91dd-bca592a4b6c5&version=1"
+    },
+    {
+      "annotation_id": "43930413-ec2a-4fe2-ad20-25b6523543cf",
+      "group": "Rose",
+      "annotation_filename": "543.json",
+      "candidate_folder_id": "9715f596-3120-4108-9420-c5ff4fc24e42",
+      "candidate_folder_name": "543_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9715f596-3120-4108-9420-c5ff4fc24e42&version=1"
+    },
+    {
+      "annotation_id": "44fde883-c2b3-4380-b93c-2a52ead71e3f",
+      "group": "Rose",
+      "annotation_filename": "527.json",
+      "candidate_folder_id": "57987b96-8533-437b-9a07-900a7d956a26",
+      "candidate_folder_name": "527_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=57987b96-8533-437b-9a07-900a7d956a26&version=1"
+    },
+    {
+      "annotation_id": "45657c10-68a1-40f5-a72e-d6eaef416cc3",
+      "group": "Rose",
+      "annotation_filename": "502.json",
+      "candidate_folder_id": "e484ba1d-47b3-4778-8dcf-8d4815653909",
+      "candidate_folder_name": "502_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e484ba1d-47b3-4778-8dcf-8d4815653909&version=1"
+    },
+    {
+      "annotation_id": "46d40ab6-e906-4ef8-97c1-963509a4e40e",
+      "group": "Rose",
+      "annotation_filename": "505.json",
+      "candidate_folder_id": "a8996973-e3cb-4023-ae3b-2196524be097",
+      "candidate_folder_name": "505_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a8996973-e3cb-4023-ae3b-2196524be097&version=1"
+    },
+    {
+      "annotation_id": "46dea64a-bf21-40c7-9b8b-0103fefecec2",
+      "group": "Rose",
+      "annotation_filename": "524.json",
+      "candidate_folder_id": "416ed467-022b-4996-b3e4-eb1c2751474e",
+      "candidate_folder_name": "524_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=416ed467-022b-4996-b3e4-eb1c2751474e&version=1"
+    },
+    {
+      "annotation_id": "48073063-4125-4029-909a-5ebb94c1a2a1",
+      "group": "Rose",
+      "annotation_filename": "532.json",
+      "candidate_folder_id": "6a907da0-9faf-43bb-8396-8e66855921ca",
+      "candidate_folder_name": "532_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=6a907da0-9faf-43bb-8396-8e66855921ca&version=1"
+    },
+    {
+      "annotation_id": "4923cd80-7d0d-495c-99b1-e4ae921ad426",
+      "group": "Rose",
+      "annotation_filename": "523.json",
+      "candidate_folder_id": "94a902c8-fb11-4b1b-81c1-e99e7a07f240",
+      "candidate_folder_name": "523_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=94a902c8-fb11-4b1b-81c1-e99e7a07f240&version=1"
+    },
+    {
+      "annotation_id": "4e25158a-265a-496d-95b2-2f6b14066f77",
+      "group": "Rose",
+      "annotation_filename": "528.json",
+      "candidate_folder_id": "a51c856b-d135-466d-b1e6-79412b84700c",
+      "candidate_folder_name": "528_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a51c856b-d135-466d-b1e6-79412b84700c&version=1"
+    },
+    {
+      "annotation_id": "6058deb9-413f-4d03-a883-be992e13c0a4",
+      "group": "Rose",
+      "annotation_filename": "548.json",
+      "candidate_folder_id": "7b8d8ec7-4317-4511-b804-390cd026d60b",
+      "candidate_folder_name": "548_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7b8d8ec7-4317-4511-b804-390cd026d60b&version=1"
+    },
+    {
+      "annotation_id": "613993e7-70b6-4822-9a60-d494d3e34fcc",
+      "group": "Rose",
+      "annotation_filename": "541.json",
+      "candidate_folder_id": "adbbc2cb-e31e-49e1-a233-9997f5e8e48a",
+      "candidate_folder_name": "541_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=adbbc2cb-e31e-49e1-a233-9997f5e8e48a&version=1"
+    },
+    {
+      "annotation_id": "64bc3e04-fc4e-4536-8bc4-ed0669927a49",
+      "group": "Rose",
+      "annotation_filename": "501.json",
+      "candidate_folder_id": "b4e82f8d-984c-40fa-b343-ac18812264d3",
+      "candidate_folder_name": "501_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b4e82f8d-984c-40fa-b343-ac18812264d3&version=1"
+    },
+    {
+      "annotation_id": "6779329a-9840-4e54-906c-3f00b0f96d88",
+      "group": "Rose",
+      "annotation_filename": "522.json",
+      "candidate_folder_id": "073f7137-be96-43ea-b475-76bd838a0346",
+      "candidate_folder_name": "522_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=073f7137-be96-43ea-b475-76bd838a0346&version=1"
+    },
+    {
+      "annotation_id": "678bcf75-4e6c-45a5-9a40-881deb2e1adf",
+      "group": "Rose",
+      "annotation_filename": "512.json",
+      "candidate_folder_id": "98d2a750-0e94-4090-945a-d4b317b3667f",
+      "candidate_folder_name": "512_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=98d2a750-0e94-4090-945a-d4b317b3667f&version=1"
+    },
+    {
+      "annotation_id": "734d0d32-8d53-4c9d-af9d-031d0fc554d5",
+      "group": "Rose",
+      "annotation_filename": "546.json",
+      "candidate_folder_id": "f7a2c197-8983-4d43-9f5b-c6f7b60016c8",
+      "candidate_folder_name": "546_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=f7a2c197-8983-4d43-9f5b-c6f7b60016c8&version=1"
+    },
+    {
+      "annotation_id": "76a7cce0-dd33-431a-b473-f4892f56d600",
+      "group": "Rose",
+      "annotation_filename": "531.json",
+      "candidate_folder_id": "47c1a66b-1587-44c0-bbe9-86e9ce6d93d9",
+      "candidate_folder_name": "531_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=47c1a66b-1587-44c0-bbe9-86e9ce6d93d9&version=1"
+    },
+    {
+      "annotation_id": "816d082d-b874-4a6b-9ef0-951309b31787",
+      "group": "Rose",
+      "annotation_filename": "542.json",
+      "candidate_folder_id": "124870d8-cdc1-422c-b714-38c2946d3b95",
+      "candidate_folder_name": "542_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=124870d8-cdc1-422c-b714-38c2946d3b95&version=1"
+    },
+    {
+      "annotation_id": "858bbf31-2d49-499b-aa98-973f93fb89b5",
+      "group": "Rose",
+      "annotation_filename": "526.json",
+      "candidate_folder_id": "ce0e1b0e-a09d-485d-8da7-6b19b6fce995",
+      "candidate_folder_name": "526_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ce0e1b0e-a09d-485d-8da7-6b19b6fce995&version=1"
+    },
+    {
+      "annotation_id": "977e5bf2-80ad-42b2-9c59-dbeb9396dcec",
+      "group": "Rose",
+      "annotation_filename": "520.json",
+      "candidate_folder_id": "f8a75fb9-d67f-4266-b10f-b756871f9510",
+      "candidate_folder_name": "520_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=f8a75fb9-d67f-4266-b10f-b756871f9510&version=1"
+    },
+    {
+      "annotation_id": "9c4db269-08bc-4415-bcf6-486480044c0b",
+      "group": "Rose",
+      "annotation_filename": "517.json",
+      "candidate_folder_id": "e137bfa0-8592-4262-a9aa-d34d5d952ee9",
+      "candidate_folder_name": "517_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e137bfa0-8592-4262-a9aa-d34d5d952ee9&version=1"
+    },
+    {
+      "annotation_id": "9e920bfc-af67-41f6-a1fb-6eeb3c39de52",
+      "group": "Rose",
+      "annotation_filename": "533.json",
+      "candidate_folder_id": "697e07e8-b0ab-47ac-8fca-a319bd3ad267",
+      "candidate_folder_name": "533_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=697e07e8-b0ab-47ac-8fca-a319bd3ad267&version=1"
+    },
+    {
+      "annotation_id": "a72ef081-6f8c-4b54-a069-e01f023768e3",
+      "group": "Rose",
+      "annotation_filename": "536.json",
+      "candidate_folder_id": "7e12f0c7-ba39-4a1b-896e-488812e18737",
+      "candidate_folder_name": "536_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7e12f0c7-ba39-4a1b-896e-488812e18737&version=1"
+    },
+    {
+      "annotation_id": "ad41bc67-27dc-49aa-8ee3-dfbcc73d9828",
+      "group": "Rose",
+      "annotation_filename": "507.json",
+      "candidate_folder_id": "8803decf-a7ae-44be-882a-84ec137e3422",
+      "candidate_folder_name": "507_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=8803decf-a7ae-44be-882a-84ec137e3422&version=1"
+    },
+    {
+      "annotation_id": "aec52e20-4c70-40c6-bf3c-0887a2742fff",
+      "group": "Rose",
+      "annotation_filename": "503.json",
+      "candidate_folder_id": "e92bcd88-95bb-463b-a8b8-fbe3a145db24",
+      "candidate_folder_name": "503_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e92bcd88-95bb-463b-a8b8-fbe3a145db24&version=1"
+    },
+    {
+      "annotation_id": "b238c46d-f610-4495-9470-d33ba235761c",
+      "group": "Rose",
+      "annotation_filename": "534.json",
+      "candidate_folder_id": "f73c6cbd-4ae7-4e30-afa6-ee0ebfd69e71",
+      "candidate_folder_name": "534_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=f73c6cbd-4ae7-4e30-afa6-ee0ebfd69e71&version=1"
+    },
+    {
+      "annotation_id": "baa90f74-872d-4879-a282-34bda5ff227b",
+      "group": "Rose",
+      "annotation_filename": "511.json",
+      "candidate_folder_id": "c8c35f27-3448-4a86-930f-27f198224c47",
+      "candidate_folder_name": "511_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c8c35f27-3448-4a86-930f-27f198224c47&version=1"
+    },
+    {
+      "annotation_id": "bd0bc34d-9195-4891-940a-43497d757ba4",
+      "group": "Rose",
+      "annotation_filename": "519.json",
+      "candidate_folder_id": "06e72496-d0e9-4498-b16a-6a510b2c6960",
+      "candidate_folder_name": "519_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=06e72496-d0e9-4498-b16a-6a510b2c6960&version=1"
+    },
+    {
+      "annotation_id": "c0fb9b82-c58f-4537-8b7b-7fd08447c637",
+      "group": "Rose",
+      "annotation_filename": "530.json",
+      "candidate_folder_id": "08749824-5bf6-44d5-a4a8-690b81aca0ee",
+      "candidate_folder_name": "530_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=08749824-5bf6-44d5-a4a8-690b81aca0ee&version=1"
+    },
+    {
+      "annotation_id": "cd40a895-220b-45ad-bbfc-c9344de8a1bd",
+      "group": "Rose",
+      "annotation_filename": "539.json",
+      "candidate_folder_id": "55f4a36c-e30b-4cf2-b617-a9636e963401",
+      "candidate_folder_name": "539_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=55f4a36c-e30b-4cf2-b617-a9636e963401&version=1"
+    },
+    {
+      "annotation_id": "d005d8f9-4a18-4255-ab28-e9014dc1a8b0",
+      "group": "Rose",
+      "annotation_filename": "510.json",
+      "candidate_folder_id": "2db49e0e-2d64-4535-9045-89f618e61fb2",
+      "candidate_folder_name": "510_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=2db49e0e-2d64-4535-9045-89f618e61fb2&version=1"
+    },
+    {
+      "annotation_id": "d1e234b4-d11a-4a7d-be6a-64e89cf8285d",
+      "group": "Rose",
+      "annotation_filename": "537.json",
+      "candidate_folder_id": "ad2d5944-eefd-443b-852a-fa5c44a49b56",
+      "candidate_folder_name": "537_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ad2d5944-eefd-443b-852a-fa5c44a49b56&version=1"
+    },
+    {
+      "annotation_id": "d4ed8bdd-5b8d-4bed-8471-fdba4e8e7838",
+      "group": "Rose",
+      "annotation_filename": "547.json",
+      "candidate_folder_id": "fbf68bc0-3ce6-4db2-aeae-a6900cd6a834",
+      "candidate_folder_name": "547_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=fbf68bc0-3ce6-4db2-aeae-a6900cd6a834&version=1"
+    },
+    {
+      "annotation_id": "d8fea93f-0db1-4dd7-a280-c13cca73ccff",
+      "group": "Rose",
+      "annotation_filename": "525.json",
+      "candidate_folder_id": "cfcf7a4c-e72d-4e67-843f-c561f783fa94",
+      "candidate_folder_name": "525_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=cfcf7a4c-e72d-4e67-843f-c561f783fa94&version=1"
+    },
+    {
+      "annotation_id": "da55bc5f-92d3-4ed0-a9db-ae59ec4795dc",
+      "group": "Rose",
+      "annotation_filename": "516.json",
+      "candidate_folder_id": "d3c71f0f-1c1b-4c06-a962-6869039e55da",
+      "candidate_folder_name": "516_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d3c71f0f-1c1b-4c06-a962-6869039e55da&version=1"
+    },
+    {
+      "annotation_id": "dfe6393c-c1aa-4099-bf4b-3911c0a8d61e",
+      "group": "Rose",
+      "annotation_filename": "508.json",
+      "candidate_folder_id": "704bc914-b7e0-4379-a2cd-9f3318bc6923",
+      "candidate_folder_name": "508_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=704bc914-b7e0-4379-a2cd-9f3318bc6923&version=1"
+    },
+    {
+      "annotation_id": "e090fc0a-fb30-47b7-98af-8caedd187f52",
+      "group": "Rose",
+      "annotation_filename": "550.json",
+      "candidate_folder_id": "3af31840-e803-475f-bbfc-4c1c4e67764d",
+      "candidate_folder_name": "550_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=3af31840-e803-475f-bbfc-4c1c4e67764d&version=1"
+    },
+    {
+      "annotation_id": "e911878e-5264-44c5-8b18-f90e57920c71",
+      "group": "Rose",
+      "annotation_filename": "521.json",
+      "candidate_folder_id": "a3d07b05-7522-4756-b596-c17d1da51a9e",
+      "candidate_folder_name": "521_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a3d07b05-7522-4756-b596-c17d1da51a9e&version=1"
+    },
+    {
+      "annotation_id": "f2d898bf-bf65-4340-85e6-4dc17f4e55ac",
+      "group": "Rose",
+      "annotation_filename": "506.json",
+      "candidate_folder_id": "70d03aec-0f10-4b9d-8e70-aee419acca89",
+      "candidate_folder_name": "506_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=70d03aec-0f10-4b9d-8e70-aee419acca89&version=1"
+    },
+    {
+      "annotation_id": "f2fbc9b1-b845-4b03-b201-1417514592d4",
+      "group": "Rose",
+      "annotation_filename": "549.json",
+      "candidate_folder_id": "7baa019c-be28-49cb-84ff-874d43fb48fd",
+      "candidate_folder_name": "549_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7baa019c-be28-49cb-84ff-874d43fb48fd&version=1"
+    },
+    {
+      "annotation_id": "fa37b636-b64e-4f4b-a197-de13e2f1a600",
+      "group": "Rose",
+      "annotation_filename": "504.json",
+      "candidate_folder_id": "2fac8566-52e5-4aa2-b742-3c51ad55bdcf",
+      "candidate_folder_name": "504_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=2fac8566-52e5-4aa2-b742-3c51ad55bdcf&version=1"
+    },
+    {
+      "annotation_id": "fb0f6f5e-8a7a-47f4-b9da-b49dd1de467b",
+      "group": "Rose",
+      "annotation_filename": "529.json",
+      "candidate_folder_id": "1f693782-30db-44ab-9b0e-9091c4dbb152",
+      "candidate_folder_name": "529_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=1f693782-30db-44ab-9b0e-9091c4dbb152&version=1"
+    },
+    {
+      "annotation_id": "06faaada-76aa-4d54-b892-ec74ca521f5b",
+      "group": "Tecoma Stans",
+      "annotation_filename": "50.json",
+      "candidate_folder_id": "08a9171d-2b16-4d31-a991-72bf5c835edd",
+      "candidate_folder_name": "50_dataset",
+      "prior_schema_opened": true,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=08a9171d-2b16-4d31-a991-72bf5c835edd&version=1"
+    },
+    {
+      "annotation_id": "08797a44-4e32-4170-911f-5694d66b7e4a",
+      "group": "Tecoma Stans",
+      "annotation_filename": "41.json",
+      "candidate_folder_id": "748a4c4c-ada8-4f93-879b-b9132776f22c",
+      "candidate_folder_name": "41_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=748a4c4c-ada8-4f93-879b-b9132776f22c&version=1"
+    },
+    {
+      "annotation_id": "09e4d60b-dffd-4a74-9873-b37441fd7028",
+      "group": "Tecoma Stans",
+      "annotation_filename": "47.json",
+      "candidate_folder_id": "edd010f9-70b0-4952-9820-b8745396a168",
+      "candidate_folder_name": "47_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=edd010f9-70b0-4952-9820-b8745396a168&version=1"
+    },
+    {
+      "annotation_id": "1b3fa02b-46cb-4e11-b75e-a40686419c83",
+      "group": "Tecoma Stans",
+      "annotation_filename": "28.json",
+      "candidate_folder_id": "06d4ee5f-0968-46ea-bade-cbff6d3c0939",
+      "candidate_folder_name": "28_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=06d4ee5f-0968-46ea-bade-cbff6d3c0939&version=1"
+    },
+    {
+      "annotation_id": "1c4d1f4c-48e8-413f-9774-1488d97d9805",
+      "group": "Tecoma Stans",
+      "annotation_filename": "14.json",
+      "candidate_folder_id": "22c699dd-cd7b-4fbf-b99e-5b6d4815780f",
+      "candidate_folder_name": "14_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=22c699dd-cd7b-4fbf-b99e-5b6d4815780f&version=1"
+    },
+    {
+      "annotation_id": "1f9fcb82-b5a6-4a95-bb36-531e651e8bea",
+      "group": "Tecoma Stans",
+      "annotation_filename": "35.json",
+      "candidate_folder_id": "6929600e-9208-4054-99b5-6ce5804fd71f",
+      "candidate_folder_name": "35_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=6929600e-9208-4054-99b5-6ce5804fd71f&version=1"
+    },
+    {
+      "annotation_id": "213667bd-e673-4c28-91dd-b73f1bbf8047",
+      "group": "Tecoma Stans",
+      "annotation_filename": "25.json",
+      "candidate_folder_id": "543c971b-86e7-4900-b6e2-2d37c4a4d77f",
+      "candidate_folder_name": "25_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=543c971b-86e7-4900-b6e2-2d37c4a4d77f&version=1"
+    },
+    {
+      "annotation_id": "259f168e-a40e-44cc-a52e-1cb4b448e4f6",
+      "group": "Tecoma Stans",
+      "annotation_filename": "46.json",
+      "candidate_folder_id": "5e159bec-20eb-48e6-834a-aa72b5c543ac",
+      "candidate_folder_name": "46_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5e159bec-20eb-48e6-834a-aa72b5c543ac&version=1"
+    },
+    {
+      "annotation_id": "281103dd-b9b9-4c83-b599-abc25a2bfe53",
+      "group": "Tecoma Stans",
+      "annotation_filename": "51.json",
+      "candidate_folder_id": "0b79b940-3820-49b8-a5ee-476c1c1b74c8",
+      "candidate_folder_name": "51_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=0b79b940-3820-49b8-a5ee-476c1c1b74c8&version=1"
+    },
+    {
+      "annotation_id": "2fee3d12-4b91-4972-9c1e-a156769693cd",
+      "group": "Tecoma Stans",
+      "annotation_filename": "19.json",
+      "candidate_folder_id": "c9a60e16-aa58-4b86-91d2-a57b9fb680a6",
+      "candidate_folder_name": "19_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c9a60e16-aa58-4b86-91d2-a57b9fb680a6&version=1"
+    },
+    {
+      "annotation_id": "34d0a405-5bd7-4420-b659-98406dc9968b",
+      "group": "Tecoma Stans",
+      "annotation_filename": "45.json",
+      "candidate_folder_id": "a4f35eac-b31e-4ba7-bbfe-46bae1698785",
+      "candidate_folder_name": "45_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=a4f35eac-b31e-4ba7-bbfe-46bae1698785&version=1"
+    },
+    {
+      "annotation_id": "3696f604-38a9-4167-86d8-1a806c0d9711",
+      "group": "Tecoma Stans",
+      "annotation_filename": "58.json",
+      "candidate_folder_id": "9fa5a2df-480c-446e-bf59-e64c41e2cb91",
+      "candidate_folder_name": "58_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9fa5a2df-480c-446e-bf59-e64c41e2cb91&version=1"
+    },
+    {
+      "annotation_id": "37b577d9-80ce-4d25-a2bc-6d9e79d31e5d",
+      "group": "Tecoma Stans",
+      "annotation_filename": "31.json",
+      "candidate_folder_id": "3c0f226b-1250-43e3-8b43-3d48eb551982",
+      "candidate_folder_name": "31_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=3c0f226b-1250-43e3-8b43-3d48eb551982&version=1"
+    },
+    {
+      "annotation_id": "45a87450-cea9-4f10-b3b6-6b8281db70ee",
+      "group": "Tecoma Stans",
+      "annotation_filename": "55.json",
+      "candidate_folder_id": "dccc4392-e8bd-42dd-a6e8-2bc1ac60e6e1",
+      "candidate_folder_name": "55_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=dccc4392-e8bd-42dd-a6e8-2bc1ac60e6e1&version=1"
+    },
+    {
+      "annotation_id": "495a0791-770f-438f-a75d-e5b21114c4ee",
+      "group": "Tecoma Stans",
+      "annotation_filename": "38.json",
+      "candidate_folder_id": "4c4fbe6d-2d42-45ac-9e9c-440d3d351d69",
+      "candidate_folder_name": "38_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4c4fbe6d-2d42-45ac-9e9c-440d3d351d69&version=1"
+    },
+    {
+      "annotation_id": "49c48430-10d3-40ec-8bfc-bc77becbd30a",
+      "group": "Tecoma Stans",
+      "annotation_filename": "16.json",
+      "candidate_folder_id": "ecc0e490-f470-4a65-af81-78c22085eb88",
+      "candidate_folder_name": "16_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ecc0e490-f470-4a65-af81-78c22085eb88&version=1"
+    },
+    {
+      "annotation_id": "4a9ef2fd-ec91-4b6d-b8e0-27056d889b7f",
+      "group": "Tecoma Stans",
+      "annotation_filename": "29.json",
+      "candidate_folder_id": "7f66324a-8892-4d25-84b5-4219dd9ba061",
+      "candidate_folder_name": "29_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7f66324a-8892-4d25-84b5-4219dd9ba061&version=1"
+    },
+    {
+      "annotation_id": "4b4b3fc1-3a65-4e88-8d55-7fd1f3dc5aff",
+      "group": "Tecoma Stans",
+      "annotation_filename": "13.json",
+      "candidate_folder_id": "46a47247-be63-41a1-a95a-b15a63fd0427",
+      "candidate_folder_name": "13_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=46a47247-be63-41a1-a95a-b15a63fd0427&version=1"
+    },
+    {
+      "annotation_id": "53af1826-164e-4059-8734-9eeba2245384",
+      "group": "Tecoma Stans",
+      "annotation_filename": "43.json",
+      "candidate_folder_id": "9e30d2f0-d6d3-4364-b1b1-88f45cb53abb",
+      "candidate_folder_name": "43_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9e30d2f0-d6d3-4364-b1b1-88f45cb53abb&version=1"
+    },
+    {
+      "annotation_id": "56d5a303-449f-4c78-bae4-45ad0b823824",
+      "group": "Tecoma Stans",
+      "annotation_filename": "39.json",
+      "candidate_folder_id": "d337561c-e3e0-4b58-ae8e-4cd87c88c842",
+      "candidate_folder_name": "39_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d337561c-e3e0-4b58-ae8e-4cd87c88c842&version=1"
+    },
+    {
+      "annotation_id": "5818c2d4-a4b4-4409-b5bc-3a4716994737",
+      "group": "Tecoma Stans",
+      "annotation_filename": "30.json",
+      "candidate_folder_id": "231e712d-dba5-4013-9ee7-c2baffed1d4b",
+      "candidate_folder_name": "30_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=231e712d-dba5-4013-9ee7-c2baffed1d4b&version=1"
+    },
+    {
+      "annotation_id": "599b5eea-68dc-425b-a12f-65706076e773",
+      "group": "Tecoma Stans",
+      "annotation_filename": "18.json",
+      "candidate_folder_id": "952ce506-0ca4-49b4-9b1f-28a2f3510744",
+      "candidate_folder_name": "18_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=952ce506-0ca4-49b4-9b1f-28a2f3510744&version=1"
+    },
+    {
+      "annotation_id": "648359ae-5ced-46b6-9ee4-b57c46386c0d",
+      "group": "Tecoma Stans",
+      "annotation_filename": "56.json",
+      "candidate_folder_id": "b1b83508-4d88-452a-8b43-dfdd8d5e4869",
+      "candidate_folder_name": "56_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b1b83508-4d88-452a-8b43-dfdd8d5e4869&version=1"
+    },
+    {
+      "annotation_id": "684a5f98-a978-4904-bd2c-8968328a8d2e",
+      "group": "Tecoma Stans",
+      "annotation_filename": "44.json",
+      "candidate_folder_id": "ba3a7ee1-b83c-4e8c-9601-9303863c4bba",
+      "candidate_folder_name": "44_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=ba3a7ee1-b83c-4e8c-9601-9303863c4bba&version=1"
+    },
+    {
+      "annotation_id": "6d288eef-e94a-4282-8f27-328d87a7ba23",
+      "group": "Tecoma Stans",
+      "annotation_filename": "60.json",
+      "candidate_folder_id": "84533a50-931c-46b6-97e0-a330c4af895f",
+      "candidate_folder_name": "60_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=84533a50-931c-46b6-97e0-a330c4af895f&version=1"
+    },
+    {
+      "annotation_id": "6f0c44cd-6c18-404f-9147-2f35a375d362",
+      "group": "Tecoma Stans",
+      "annotation_filename": "49.json",
+      "candidate_folder_id": "1f60bdbb-7564-48ae-9cfb-414abf66d667",
+      "candidate_folder_name": "49_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=1f60bdbb-7564-48ae-9cfb-414abf66d667&version=1"
+    },
+    {
+      "annotation_id": "80f4117b-e78d-4636-a7aa-6f20e3959849",
+      "group": "Tecoma Stans",
+      "annotation_filename": "17.json",
+      "candidate_folder_id": "5e87d945-4d99-4218-b9d3-66d7ac31a05f",
+      "candidate_folder_name": "17_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=5e87d945-4d99-4218-b9d3-66d7ac31a05f&version=1"
+    },
+    {
+      "annotation_id": "867039cf-55ad-47f3-b14a-a9ebc0fcdd94",
+      "group": "Tecoma Stans",
+      "annotation_filename": "33.json",
+      "candidate_folder_id": "78f0be01-3b0b-40c8-b2ef-19aa383e0b2a",
+      "candidate_folder_name": "33_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=78f0be01-3b0b-40c8-b2ef-19aa383e0b2a&version=1"
+    },
+    {
+      "annotation_id": "8790906d-4a52-44fb-8fdf-cbb7db18c975",
+      "group": "Tecoma Stans",
+      "annotation_filename": "32.json",
+      "candidate_folder_id": "89ca508b-c06a-40ff-bdd8-5f082d68a9d4",
+      "candidate_folder_name": "32_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=89ca508b-c06a-40ff-bdd8-5f082d68a9d4&version=1"
+    },
+    {
+      "annotation_id": "9aa61a17-6e50-4f49-83c3-75eb069f5a98",
+      "group": "Tecoma Stans",
+      "annotation_filename": "36.json",
+      "candidate_folder_id": "4ce3446b-4e85-4867-9136-34d0760566a3",
+      "candidate_folder_name": "36_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4ce3446b-4e85-4867-9136-34d0760566a3&version=1"
+    },
+    {
+      "annotation_id": "9af26ac3-cc15-4c67-8acd-082ca41224f2",
+      "group": "Tecoma Stans",
+      "annotation_filename": "11.json",
+      "candidate_folder_id": "1efc21c8-8bfb-4530-9e28-9acab5011644",
+      "candidate_folder_name": "11_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=1efc21c8-8bfb-4530-9e28-9acab5011644&version=1"
+    },
+    {
+      "annotation_id": "9d381987-18cb-4833-bd26-540700c7d1d6",
+      "group": "Tecoma Stans",
+      "annotation_filename": "57.json",
+      "candidate_folder_id": "fab433d1-aeb7-46fc-a4ea-40a5e252fa8d",
+      "candidate_folder_name": "57_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=fab433d1-aeb7-46fc-a4ea-40a5e252fa8d&version=1"
+    },
+    {
+      "annotation_id": "a67d8d22-dbd9-4dd1-86f2-3d5fef6ef00f",
+      "group": "Tecoma Stans",
+      "annotation_filename": "40.json",
+      "candidate_folder_id": "4aebafe4-075b-4513-aaab-21319b88d351",
+      "candidate_folder_name": "40_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4aebafe4-075b-4513-aaab-21319b88d351&version=1"
+    },
+    {
+      "annotation_id": "a8c543ff-44eb-4d3e-b005-58e12061f541",
+      "group": "Tecoma Stans",
+      "annotation_filename": "48.json",
+      "candidate_folder_id": "d2f6bd53-b7b9-463c-a7ab-ed2884f01287",
+      "candidate_folder_name": "48_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=d2f6bd53-b7b9-463c-a7ab-ed2884f01287&version=1"
+    },
+    {
+      "annotation_id": "aa9b3021-a18d-4748-aba6-683f3a59b9d5",
+      "group": "Tecoma Stans",
+      "annotation_filename": "53.json",
+      "candidate_folder_id": "3e8fad12-f8f2-4655-9143-1842c9407c6b",
+      "candidate_folder_name": "53_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=3e8fad12-f8f2-4655-9143-1842c9407c6b&version=1"
+    },
+    {
+      "annotation_id": "b29f5e70-c949-461e-aa31-8a7c5c2abefc",
+      "group": "Tecoma Stans",
+      "annotation_filename": "54.json",
+      "candidate_folder_id": "dd462958-524c-4230-9f33-5a7ad383a2ec",
+      "candidate_folder_name": "54_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=dd462958-524c-4230-9f33-5a7ad383a2ec&version=1"
+    },
+    {
+      "annotation_id": "b47c7537-d223-49ef-a65e-8a89983cb20e",
+      "group": "Tecoma Stans",
+      "annotation_filename": "59.json",
+      "candidate_folder_id": "c0066fd2-04f8-4d33-a77a-82a7d9355f0a",
+      "candidate_folder_name": "59_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c0066fd2-04f8-4d33-a77a-82a7d9355f0a&version=1"
+    },
+    {
+      "annotation_id": "b87ee476-db31-4fb9-a500-cefe086f3e99",
+      "group": "Tecoma Stans",
+      "annotation_filename": "21.json",
+      "candidate_folder_id": "e5b1f69b-ac8f-49cc-917a-4c82f99d083d",
+      "candidate_folder_name": "21_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=e5b1f69b-ac8f-49cc-917a-4c82f99d083d&version=1"
+    },
+    {
+      "annotation_id": "b905f58d-fb84-4f8b-9a43-0f9ad0cb8945",
+      "group": "Tecoma Stans",
+      "annotation_filename": "12.json",
+      "candidate_folder_id": "695e99ad-73f6-4014-ad9c-6ac4402cc7ab",
+      "candidate_folder_name": "12_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=695e99ad-73f6-4014-ad9c-6ac4402cc7ab&version=1"
+    },
+    {
+      "annotation_id": "bc6c2dd2-b65f-4024-9458-246af10506f3",
+      "group": "Tecoma Stans",
+      "annotation_filename": "37.json",
+      "candidate_folder_id": "53c37f55-641f-4021-ae9b-981dd3266f9e",
+      "candidate_folder_name": "37_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=53c37f55-641f-4021-ae9b-981dd3266f9e&version=1"
+    },
+    {
+      "annotation_id": "c0c906a7-d7de-475f-bb3c-70666cb4749b",
+      "group": "Tecoma Stans",
+      "annotation_filename": "15.json",
+      "candidate_folder_id": "64c09b39-3f79-49b6-9d0c-4d1ea8621d0b",
+      "candidate_folder_name": "15_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=64c09b39-3f79-49b6-9d0c-4d1ea8621d0b&version=1"
+    },
+    {
+      "annotation_id": "c1522303-9309-4d9c-9e6e-217c39926ad2",
+      "group": "Tecoma Stans",
+      "annotation_filename": "34.json",
+      "candidate_folder_id": "8e3a1dc7-f21b-4f68-aa4e-cc7cb46db01a",
+      "candidate_folder_name": "34_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=8e3a1dc7-f21b-4f68-aa4e-cc7cb46db01a&version=1"
+    },
+    {
+      "annotation_id": "cbde692b-5800-4f84-8f0f-191888c9a068",
+      "group": "Tecoma Stans",
+      "annotation_filename": "26.json",
+      "candidate_folder_id": "9160bb8c-7eae-46b5-86f4-5f2d3e7615ca",
+      "candidate_folder_name": "26_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=9160bb8c-7eae-46b5-86f4-5f2d3e7615ca&version=1"
+    },
+    {
+      "annotation_id": "d4c4344d-c6eb-4f5b-81f3-785c9fe2ad03",
+      "group": "Tecoma Stans",
+      "annotation_filename": "27.json",
+      "candidate_folder_id": "becc2bcf-2e7f-459e-a6b9-9881052cd698",
+      "candidate_folder_name": "27_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=becc2bcf-2e7f-459e-a6b9-9881052cd698&version=1"
+    },
+    {
+      "annotation_id": "dac0f46c-1921-4968-a5f8-4b628fa0a000",
+      "group": "Tecoma Stans",
+      "annotation_filename": "24.json",
+      "candidate_folder_id": "c43ea383-4ac0-45f4-8ad1-7ce60d81ba83",
+      "candidate_folder_name": "24_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=c43ea383-4ac0-45f4-8ad1-7ce60d81ba83&version=1"
+    },
+    {
+      "annotation_id": "dcab1db2-30de-4d55-9c65-acda84b1a472",
+      "group": "Tecoma Stans",
+      "annotation_filename": "20.json",
+      "candidate_folder_id": "57d32e98-70c6-44a9-806e-a043960c28a8",
+      "candidate_folder_name": "20_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=57d32e98-70c6-44a9-806e-a043960c28a8&version=1"
+    },
+    {
+      "annotation_id": "ec7869ee-6652-48a7-b52d-9cd7d9439738",
+      "group": "Tecoma Stans",
+      "annotation_filename": "52.json",
+      "candidate_folder_id": "4f52ba50-a44f-498c-93eb-6a7c9f956ea9",
+      "candidate_folder_name": "52_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=4f52ba50-a44f-498c-93eb-6a7c9f956ea9&version=1"
+    },
+    {
+      "annotation_id": "f0771ba1-10dc-4188-9fa8-d87061dda543",
+      "group": "Tecoma Stans",
+      "annotation_filename": "42.json",
+      "candidate_folder_id": "59b20839-638f-41bb-8219-099813848205",
+      "candidate_folder_name": "42_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=59b20839-638f-41bb-8219-099813848205&version=1"
+    },
+    {
+      "annotation_id": "f6db5014-99c5-4518-8caf-545ac40a49c6",
+      "group": "Tecoma Stans",
+      "annotation_filename": "23.json",
+      "candidate_folder_id": "b385354f-4f89-4974-b305-fdd25bc7533a",
+      "candidate_folder_name": "23_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=b385354f-4f89-4974-b305-fdd25bc7533a&version=1"
+    },
+    {
+      "annotation_id": "fbf3cc96-6792-4166-9227-1778352b0d11",
+      "group": "Tecoma Stans",
+      "annotation_filename": "22.json",
+      "candidate_folder_id": "7174371b-66ef-4e81-9532-1d7fda691c17",
+      "candidate_folder_name": "22_dataset",
+      "prior_schema_opened": false,
+      "source": "request",
+      "metadata_url": "https://data.mendeley.com/public-api/datasets/3pw57gdcj2/files?folder_id=7174371b-66ef-4e81-9532-1d7fda691c17&version=1"
+    }
+  ],
+  "scope": "300_previously_exposed_annotation_ids_not_complete_3600_dataset"
+}
