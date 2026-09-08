@@ -1,0 +1,35 @@
+{
+  "after_observer_cap_threshold_counts": {
+    "100": 4730,
+    "125": 3934,
+    "150": 3082,
+    "175": 1727,
+    "200": 21
+  },
+  "availability_above_200_raw_results_identifiable_from_parent_census": false,
+  "can_infer_300_or_400_photo_capacity_from_parent_census": false,
+  "claim_ceiling": "metadata capacity only; not classifiable yield, sharedness power, flower-specific ecology, or an acquisition authorization",
+  "flower_colour_used": false,
+  "image_pixels_opened": false,
+  "lineage": {
+    "contract_sha256": "c7b1d654d301be8a212338fbe6629cd7c81dbb5f0aa4f90fba1c93680f82c846",
+    "parent_manifest_sha256": "1d7c24d7047922e8b3115d8e35bb6d44f8d30a7fef9ee012967c1b28e1902977",
+    "parent_species_audit_sha256": "12d94100d6343597aa2b87670555e801ce0681f4b69e3ad634fa6d80409008e8"
+  },
+  "maximum_observed_after_observer_cap": 200,
+  "maximum_observed_raw_results": 200,
+  "next_required_step": "prospective_metadata_only_extension_on_right_censored_species_before_any_300_or_400_photo_design_claim",
+  "old_query_per_page_ceiling": 200,
+  "protocol": "rgfca-sharedness-v2-capacity-extension-v1",
+  "request_errors": 0,
+  "right_censored_species_after_observer_cap_threshold_counts": {
+    "100": 3370,
+    "125": 3265,
+    "150": 2866,
+    "175": 1700,
+    "200": 21
+  },
+  "right_censored_species_raw_results_equal_ceiling": 3440,
+  "species_census": 42111,
+  "status": "complete_metadata_only_existing_census_capacity_summary"
+}
