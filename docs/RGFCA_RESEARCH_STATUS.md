@@ -336,6 +336,23 @@ absence. Localization error, annotation incompleteness and ontology mismatch
 remain unresolved alternatives; no root cause is established. Monarda is now
 outcome-opened and cannot be used as a fresh holdout for model selection.
 
+The result head `6a9ab216766d99f4444d33041f5d4d085db593ce` passed actual
+retained-result CI `34195682122`, reference `34195682118`, publication
+`34195682181`, manuscript `34195686426`, boundary `34195686251` and legacy
+`34195686254`. The legacy run completed both reproduction and double-render
+PNG/PDF identity checks; generated figures and manuscript integration were
+unchanged. CI completion does not turn the failed measurement gate into a pass.
+
+**Next independent-reference gate:** the
+[three-family source audit](RGFCA_INDEPENDENT_REGION_REFERENCE_AUDIT_20260908.md)
+keeps all candidates unadmitted for focal-petal validation. USDA's public
+100/30 filename lists share `IMG_0339.JPG` (union 129); exact original text
+receipts and an offline verifier preserve the conflict, not a corrected split.
+The [measurement-target design](RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md)
+separates generic flower-region engineering from focal-taxon and colour
+validation. Next freeze a metadata-only paired-manifest check of the already
+exposed 300 FlowerMask annotation IDs; no new image/model run occurred here.
+
 1. Preserve the now-completed reserve measurement and all four fixed tests.
    The weak photo association replicated, but the flower-specific gate did not
    pass. Complete its bounded manuscript/reproducibility package, then address

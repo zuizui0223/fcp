@@ -7,6 +7,11 @@ on:
       - scripts/analysis/audit_rgfca_reference_schema.py
       - tests/test_rgfca_reference_schema.py
       - tests/test_rgfca_reference_schema_result.py
+      - scripts/analysis/audit_rgfca_reference_splits.py
+      - tests/test_rgfca_reference_splits.py
+      - data/validation/usda_flower_split_audit_v1/**
+      - docs/RGFCA_INDEPENDENT_REGION_REFERENCE_AUDIT_20260908.md
+      - docs/RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md
       - docs/supporting/rgfca_reference_schema_plan_v1.json
       - docs/supporting/rgfca_reference_schema_result_v1.json
       - docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md
@@ -39,6 +44,24 @@ jobs:
         run: |
           echo '48436a74160b4700e2d9b2bbc803aeac7fcfe8a1f09885140a1eade034c5aade  docs/supporting/rgfca_reference_schema_plan_v1.json' | sha256sum -c -
           python -m pytest tests/test_rgfca_reference_schema.py tests/test_rgfca_reference_schema_result.py tests/test_rgfca_monarda_reference.py -q
+      - name: Recompute public filename split integrity without image or network access
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m pytest tests/test_rgfca_reference_splits.py -q
+          python scripts/analysis/audit_rgfca_reference_splits.py data/validation/usda_flower_split_audit_v1 --verify data/validation/usda_flower_split_audit_v1/result.json
+      - name: Retain the source conflict and measurement-target design
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-independent-reference-audit-v1
+          path: |
+            data/validation/usda_flower_split_audit_v1/
+            scripts/analysis/audit_rgfca_reference_splits.py
+            tests/test_rgfca_reference_splits.py
+            docs/RGFCA_INDEPENDENT_REGION_REFERENCE_AUDIT_20260908.md
+            docs/RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md
+          if-no-files-found: error
+          retention-days: 90
       - uses: actions/upload-artifact@v4
         with:
           name: rgfca-reference-schema-preflight-v1

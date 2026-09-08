@@ -75,6 +75,14 @@ tests on these opened images. This single-species reference is not global
 focal-petal ground truth or new ecological replication. The overall research
 objective remains unmet.
 
+The [next measurement design](RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md) now
+defines generic flower-region localization separately from focal-taxon
+attribution and colour validity. A bounded independent-reference audit retained
+the USDA public split conflict (100/30 rows, one shared filename, union 129)
+with exact-byte sources and an offline verifier. No new benchmark is admitted.
+The next executable gate is a frozen metadata-only paired-manifest check of
+the 300 already exposed FlowerMask annotation IDs, not another model score.
+
 ## Research route
 
 1. Complete the existing RGFCA-only spatial omnibus and assess the effect,

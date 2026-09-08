@@ -10,6 +10,14 @@ addenda retain their own read depth: Monarda is a sixth candidate, and the final
 section fixes a separate six-document annotation-schema inspection. That step
 may transfer embedded image strings but never decodes or displays them.
 
+**Later checkpoint:** the user-supplied Monarda archive was subsequently scored
+once under its separate authorization; [its completed region-agreement gate did
+not pass](RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md). Historical no-pixel statements
+below describe their respective intake stages, not the current Monarda status.
+The [independent-reference follow-up](RGFCA_INDEPENDENT_REGION_REFERENCE_AUDIT_20260908.md)
+and [next measurement-target design](RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md)
+retain the new USDA filename split conflict without running another benchmark.
+
 ## Decision
 
 **No inspected resource establishes a ready-to-run, independent gold standard
