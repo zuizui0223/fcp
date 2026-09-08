@@ -310,6 +310,18 @@ run or measurement score calculated. See the
 ID disjointness is not model-training, event or observer independence, and
 generic flower-region annotations are not verified focal-petal truth.
 
+**Monarda execution clarification, before outcomes:** initial eight-test
+qualification succeeded at `846b2ad` / run `34189809578`, but its runner called
+the full CIELAB-computing runtime despite saying it never measured colour.
+Both tasks confirmed no reference-image/model execution and assigned Monarda
+to one desktop owner. The [explicit amendment](RGFCA_MONARDA_EXECUTION_AMENDMENT.md)
+preserves the original contract, permits only incidental internal colour
+computation, and requires exact source/environment checks before decoding,
+a full 110-row durable ledger, and no automatic rerun. The hardened runner
+is awaiting its own qualification and separate authorization; no actual
+localization score is available. Neither CI nor this clarification alters
+the reserve non-support or establishes botanical measurement accuracy.
+
 1. Preserve the now-completed reserve measurement and all four fixed tests.
    The weak photo association replicated, but the flower-specific gate did not
    pass. Complete its bounded manuscript/reproducibility package, then address

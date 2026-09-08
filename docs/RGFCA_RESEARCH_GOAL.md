@@ -61,8 +61,13 @@ overlaps against each complete 50,000-photo FCP frame. The former archive-access
 blocker is resolved. [The intake audit](RGFCA_MONARDA_REFERENCE_INTAKE.md) retains
 the one unannotated image as unknown, historical photo-rights restrictions and
 sampling/independence limits. No pixels were decoded or model benchmark run.
-Next freeze a bounded flower-region measurement diagnostic before execution;
-this single-species reference is not global focal-petal ground truth or new
+The bounded diagnostic was frozen at `336b4b8`; its initial eight artificial
+tests and CI passed, without reference-image execution. A subsequent
+[pre-outcome execution amendment](RGFCA_MONARDA_EXECUTION_AMENDMENT.md) clarifies
+the unchanged runtime's internal colour calculation and guards source identity,
+environment, all-image checkpoints and single execution. Next qualify this
+amended implementation and commit its separate execution authorization.
+This single-species reference is not global focal-petal ground truth or new
 ecological replication. The overall research objective remains unmet.
 
 ## Research route

@@ -2,6 +2,13 @@
 
 ## Decision first
 
+**Execution clarification:** the earlier qualification below did not resolve
+the full runtime's internal colour computation or bind local execution to its
+checked sources/environment. The [pre-outcome amendment](RGFCA_MONARDA_EXECUTION_AMENDMENT.md)
+preserves this original contract, clarifies that scope and adds single-execution
+guards. Actual image scoring remains closed pending a separate authorization
+for the amended, qualified implementation. Do not run the historical CLI.
+
 The limited Monarda flower-region agreement diagnostic is **prospectively frozen and pre-pixel qualified**, but the actual 110-image model/reference comparison has **not yet run**. The pinned user-supplied archive is intentionally not committed to this repository, and no Monarda image was decoded by the qualification workflow.
 
 This checkpoint does not change any ecological result. In particular, the independent reserve matched flower-minus-background differential remains **not supported (p = 0.087)** and `flower_specific_robust_replication=false`.

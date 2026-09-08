@@ -3,8 +3,9 @@
 
 This script is intentionally narrow. It verifies the exact user-supplied archive,
 checks every exported JPEG/COCO alignment before model execution, and then runs the
-unchanged FCP ROI-v4 runtime once on all 110 images. It never trains, tunes, measures
-colour, joins geography, or publishes raw images/polygon vertices.
+unchanged FCP ROI-v4 runtime once on all 110 images. The pre-outcome amendment
+permits its incidental internal CIELAB computation, but no continuous colour
+output or analysis. It never trains, tunes, joins geography, or publishes pixels.
 """
 from __future__ import annotations
 
@@ -22,6 +23,10 @@ import pandas as pd
 from PIL import Image, ImageDraw
 
 from scripts.analysis.audit_rgfca_monarda_archive import inspect_archive
+from scripts.analysis.monarda_execution_guard import (
+    ExecutionLedger, atomic_json, import_runtime, materialize_runtime,
+    verify_authorization,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CONTRACT = ROOT / "docs/supporting/rgfca_monarda_region_agreement_contract_v1.json"
@@ -193,9 +198,11 @@ def _reference_census(archive: zipfile.ZipFile) -> list[dict]:
     return rows
 
 
-def _alignment_audit(archive: zipfile.ZipFile, census: list[dict]) -> pd.DataFrame:
+def _alignment_audit(archive: zipfile.ZipFile, census: list[dict], ledger=None) -> pd.DataFrame:
     rows = []
     for row in census:
+        if ledger is not None:
+            ledger.event("alignment_started", (row["split"], row["coco_image_id"]))
         status = "alignment_pass"
         decoded_width = decoded_height = None
         exif_orientation = None
@@ -236,6 +243,8 @@ def _alignment_audit(archive: zipfile.ZipFile, census: list[dict]) -> pd.DataFra
                 "alignment_status": status,
             }
         )
+        if ledger is not None:
+            ledger.update("alignment", rows[-1])
     return pd.DataFrame(rows)
 
 
@@ -262,16 +271,18 @@ def main() -> int:
     ap.add_argument("--archive", type=Path, required=True)
     ap.add_argument("--detector-weight", type=Path, required=True)
     ap.add_argument("--efficient-sam-dir", type=Path, required=True)
-    ap.add_argument("--output-dir", type=Path, required=True)
-    ap.add_argument("--contract", type=Path, default=DEFAULT_CONTRACT)
-    ap.add_argument("--intake", type=Path, default=DEFAULT_INTAKE)
-    ap.add_argument("--mapping", type=Path, default=DEFAULT_MAPPING)
-    ap.add_argument("--roi-contract", type=Path, default=DEFAULT_ROI_CONTRACT)
-    ap.add_argument("--locked-result", type=Path, default=DEFAULT_LOCKED)
-    ap.add_argument("--torch-threads", type=int, default=2)
+    ap.add_argument("--preflight-only", action="store_true",
+                    help="verify committed authorization, code, environment and inputs; no model or pixels")
     args = ap.parse_args()
-
-    contract = _load_contract(args.contract)
+    auth, amendment, receipt = verify_authorization()
+    args.contract, args.intake, args.mapping = DEFAULT_CONTRACT, DEFAULT_INTAKE, DEFAULT_MAPPING
+    args.output_dir = ROOT / amendment["canonical_output_directory"]
+    if args.output_dir.resolve() != (ROOT / ".artifacts/monarda-region-agreement-v1").resolve():
+        raise RuntimeError("canonical execution directory drifted")
+    if args.output_dir.exists():
+        raise RuntimeError("Monarda execution directory already exists; no automatic rerun")
+    args.torch_threads = amendment["execution_environment"]["torch_threads"]
+    contract = _load_contract(DEFAULT_CONTRACT)
     if sha256_file(args.archive) != contract["parent_checkpoint"]["archive_sha256"]:
         raise RuntimeError("Monarda archive SHA differs from frozen contract")
     if sha256_file(args.intake) != contract["parent_checkpoint"]["archive_intake_receipt_sha256"]:
@@ -282,64 +293,79 @@ def main() -> int:
     intake = inspect_archive(args.archive)
     if intake["total_images"] != 110 or intake["total_annotations"] != 788:
         raise RuntimeError("Monarda archive intake census drifted")
-
-    output_dir = args.output_dir
-    output_dir.mkdir(parents=True, exist_ok=True)
+    frozen_intake = json.loads(DEFAULT_INTAKE.read_text(encoding="utf-8"))
+    if intake["members"] != frozen_intake["members"]:
+        raise RuntimeError("archive member identity inventory drifted")
+    runtime_cache, receipt["runtime_sources"] = materialize_runtime()
+    args.roi_contract = runtime_cache / "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json"
+    args.locked_result = runtime_cache / "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json"
+    roi_contract = json.loads(args.roi_contract.read_text(encoding="utf-8"))
+    weights = {
+        "detector": (args.detector_weight, contract["frozen_fcp_runtime"]["detector_weight_sha256"]),
+        "encoder": (args.efficient_sam_dir / Path(roi_contract["mask_generator"]["encoder_path"]).name,
+                    contract["frozen_fcp_runtime"]["efficient_sam_encoder_sha256"]),
+        "decoder": (args.efficient_sam_dir / Path(roi_contract["mask_generator"]["decoder_path"]).name,
+                    contract["frozen_fcp_runtime"]["efficient_sam_decoder_sha256"]),
+    }
+    for name, (path, expected) in weights.items():
+        if sha256_file(path) != expected:
+            raise RuntimeError(f"model weight identity mismatch: {name}")
+    receipt["weight_sha256"] = {name: expected for name, (_, expected) in weights.items()}
+    receipt["archive_sha256"] = intake["archive_sha256"]
+    receipt["archive_member_count"] = len(intake["members"])
     with zipfile.ZipFile(args.archive) as archive:
         census = _reference_census(archive)
-        alignment = _alignment_audit(archive, census)
+    if args.preflight_only:
+        print(json.dumps({"status": "preflight_pass_pixels_closed", **receipt}, indent=2))
+        return 0
+    ledger = ExecutionLedger(args.output_dir, census, receipt)
+    try:
+        return _execute(args, contract, amendment, runtime_cache, ledger, census)
+    except BaseException as exc:
+        ledger.fail(f"execution_exception:{type(exc).__name__}")
+        raise
+
+
+def _execute(args, contract, amendment, runtime_cache, ledger, census) -> int:
+    output_dir = args.output_dir
+    # Setup is complete before the first reference JPEG is decoded. The run
+    # claim already exists, so setup failures cannot trigger an unrecorded retry.
+    ledger.event("model_setup_started")
+    runtime = import_runtime(runtime_cache)
+    roi_contract = json.loads(args.roi_contract.read_text(encoding="utf-8"))
+    locked = json.loads(args.locked_result.read_text(encoding="utf-8"))
+    runtime.validate_roi_v4_contract(roi_contract)
+    detector_sha = runtime.file_sha256(args.detector_weight)
+    runtime.validate_scaleout_authorization(locked, trained_weight_sha256=detector_sha)
+    estimator = runtime.FrozenFlowerColourEstimator(
+        args.detector_weight, args.efficient_sam_dir, roi_contract,
+        torch_threads=int(args.torch_threads),
+    )
+    ledger.event("model_setup_complete_pixels_closed")
+    if sha256_file(args.archive) != contract["parent_checkpoint"]["archive_sha256"]:
+        raise RuntimeError("archive changed between preflight and pixel opening")
+    with zipfile.ZipFile(args.archive) as archive:
+        alignment = _alignment_audit(archive, census, ledger)
+        alignment.to_csv(output_dir / "alignment_rows_v1.csv", index=False, lineterminator="\n")
         if len(alignment) != 110 or not alignment["alignment_status"].eq("alignment_pass").all():
-            return _write_not_evaluable(
+            result = _write_not_evaluable(
                 output_dir,
                 alignment,
                 contract,
                 "one_or_more_reference_images_failed_exact_decode_dimension_orientation_or_rasterization_gate",
                 contract["parent_checkpoint"]["archive_sha256"],
             )
+            ledger.complete(output_dir / "monarda_region_agreement_result_v1.json")
+            return result
         positive = alignment["annotation_count"].astype(int).gt(0)
         if int(positive.sum()) != 109 or int((~positive).sum()) != 1:
             raise RuntimeError("Monarda positive/unknown reference census drifted")
-
-        # Heavy runtime imports only after the entire reference/alignment gate passes.
-        from fcp_pipeline.flower_roi_v4 import validate_roi_v4_contract
-        from fcp_pipeline.flower_roi_v4_runtime import (
-            FrozenFlowerColourEstimator,
-            file_sha256,
-            validate_scaleout_authorization,
-        )
-
-        roi_contract = json.loads(args.roi_contract.read_text(encoding="utf-8"))
-        locked = json.loads(args.locked_result.read_text(encoding="utf-8"))
-        validate_roi_v4_contract(roi_contract)
-        detector_sha = file_sha256(args.detector_weight)
-        if detector_sha != contract["frozen_fcp_runtime"]["detector_weight_sha256"]:
-            raise RuntimeError("detector weight SHA differs from frozen Monarda contract")
-        validate_scaleout_authorization(locked, trained_weight_sha256=detector_sha)
-        for name, path, expected_sha in (
-            (
-                "encoder",
-                args.efficient_sam_dir / Path(roi_contract["mask_generator"]["encoder_path"]).name,
-                contract["frozen_fcp_runtime"]["efficient_sam_encoder_sha256"],
-            ),
-            (
-                "decoder",
-                args.efficient_sam_dir / Path(roi_contract["mask_generator"]["decoder_path"]).name,
-                contract["frozen_fcp_runtime"]["efficient_sam_decoder_sha256"],
-            ),
-        ):
-            if file_sha256(path) != expected_sha:
-                raise RuntimeError(f"EfficientSAM {name} SHA differs from frozen Monarda contract")
-        estimator = FrozenFlowerColourEstimator(
-            args.detector_weight,
-            args.efficient_sam_dir,
-            roi_contract,
-            torch_threads=int(args.torch_threads),
-        )
 
         scored_rows = []
         census_key = {(r["split"], r["coco_image_id"]): r for r in census}
         for record in alignment.to_dict("records"):
             key = (str(record["split"]), int(record["coco_image_id"]))
+            ledger.event("score_started", key)
             source_row = census_key[key]
             reference_mask = rasterize_polygon_union(
                 source_row["width_declared"], source_row["height_declared"], source_row["segmentations"]
@@ -388,6 +414,7 @@ def main() -> int:
                     }
                 )
             scored_rows.append(row)
+            ledger.update("score", row)
             print(f"monarda_region_scored={len(scored_rows)}/110", flush=True)
 
     scored = pd.DataFrame(scored_rows)
@@ -416,6 +443,9 @@ def main() -> int:
         "reference_alignment_complete": True,
         "positive_reference_images": 109,
         "reference_unknown_images": 1,
+        "execution_amendment": amendment["protocol"],
+        "incidental_internal_colour_computation_permitted": True,
+        "continuous_colour_values_saved_or_analyzed": False,
         "unknown_zero_annotation_image": {
             "split": str(unknown["split"]),
             "coco_image_id": int(unknown["coco_image_id"]),
@@ -450,6 +480,7 @@ def main() -> int:
     }
     result_path = output_dir / "monarda_region_agreement_result_v1.json"
     result_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+    ledger.complete(result_path)
     print(json.dumps(summary, indent=2))
     return 0
 

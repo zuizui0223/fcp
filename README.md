@@ -40,6 +40,7 @@ The two frozen inferential lanes retained below are now legacy studies. Their sa
 - **Training data and limits of flower-region validation:** [JRC source and rights](docs/RGFCA_TRAINING_SOURCE_AUDIT.md), [100-image qualification audit](docs/RGFCA_ROI_QUALIFICATION_AUDIT.md)
 - **New measurement-reference feasibility:** [six source families and completed six-document schema inspection](docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md); public annotation access is verified, not focal-petal accuracy or an admitted independent benchmark.
 - **Received Monarda reference:** [110 image/annotation pairs, 788 polygons and complete source-ID mapping](docs/RGFCA_MONARDA_REFERENCE_INTAKE.md); zero photo/observation ID overlaps with either 50,000-photo frame, but no segmentation score or global validation claim yet.
+  The [pre-outcome execution clarification](docs/RGFCA_MONARDA_EXECUTION_AMENDMENT.md) preserves the original model and scoring rules, explicitly accounts for internal CIELAB computation, and requires source/environment verification plus a complete, single-execution ledger before real-image scoring.
 - **RGFCA protocol:** [`docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md`](docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md)
 - **Repeated-atlas method:** [`docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md`](docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md)
 - **Methodological contribution:** [`docs/RGFCA_METHOD_NOVELTY_POSITIONING.md`](docs/RGFCA_METHOD_NOVELTY_POSITIONING.md)

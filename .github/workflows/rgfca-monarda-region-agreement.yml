@@ -6,7 +6,10 @@ on:
     paths:
       - 'docs/supporting/rgfca_monarda_region_agreement_contract_v1.json'
       - 'scripts/analysis/run_rgfca_monarda_region_agreement.py'
+      - 'scripts/analysis/monarda_execution_guard.py'
       - 'tests/test_rgfca_monarda_region_agreement.py'
+      - 'tests/test_monarda_execution_guard.py'
+      - 'docs/supporting/rgfca_monarda_execution_amendment_v1.json'
       - '.github/workflows/rgfca-monarda-region-agreement.yml'
 
 permissions:
@@ -55,7 +58,7 @@ jobs:
           print('monarda_region_preoutcome_firewall=pass')
           PY
       - name: Run focused frozen-design tests
-        run: python -m pytest -q tests/test_rgfca_monarda_region_agreement.py
+        run: python -m pytest -q tests/test_rgfca_monarda_region_agreement.py tests/test_monarda_execution_guard.py
       - name: Verify exact model/runtime identities without loading a model or decoding a reference image
         run: |
           test "$(git hash-object fcp_pipeline/flower_roi_v4.py)" = '9d1d2a1848f0c798b53c4df51543dc2682342377'
