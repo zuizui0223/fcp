@@ -1,6 +1,6 @@
 # RGFCA research status
 
-Updated 2026-09-07 (Japan). RGFCA is the active FCP mainline. The six-species
+Updated 2026-09-08 (Japan). RGFCA is the active FCP mainline. The six-species
 Chapter 1 and 34-species literature study are legacy and are not input to the
 current ecological-signal search.
 
@@ -94,11 +94,25 @@ Execution receipts:
   This tested code without reading reserve outcomes while blind measurement
   was underway; it is not a second claim that no other process had opened pixels.
 - [Reserve measurement 34091091640](https://github.com/zuizui0223/fcp/actions/runs/34091091640):
-  authorized at `1f80af7f5db81d61f28ae2818c130ef058a9f850`, running.
-  First partitions have completed; no partial colour inference is permitted.
-- Fixed primary and all three controls are implemented. Inference execution
-  remains unopened until all 256 terminal partitions and the exact cohort/ID
-  census pass. The final inference authorization is not yet issued.
+  authorized at `1f80af7f5db81d61f28ae2818c130ef058a9f850`, now complete.
+  Result commit `9f5abe7b45fcdc20ba83adf75d1a8d4a640f622c` retains all 50,000 rows
+  from 500 species. All 256 CSV/receipt pairs were downloaded and hash-verified,
+  then reassembled with the frozen completeness checks. The complete photo and
+  observation census matches the metadata freeze and has no overlap with the
+  recorded discovery/prior sets.
+- 24,885 photographs are classifiable; the fixed at-least-40 gate admits **363
+  species / 20,903 photographs**, passing the minimum-250-species rule. The other
+  terminal records remain: 22,681 ROI/flip failures, 2,415 ambiguous palettes and
+  19 records without biological-palette mass. These counts are measurement
+  outcomes, not spatial inference or prevalence estimates.
+- [Complete census audit](supporting/rgfca_reserve_complete_census_audit_v1.json)
+  verifies all 512 terminal files, the completed output hashes and all 13 files
+  from the successful inference implementation preflight. Exact Git bytes were
+  used for frozen text; no hash rule was weakened for Windows newline conversion.
+- [Fixed inference authorization](supporting/rgfca_reserve_inference_authorization_v1.json)
+  now binds those 13 tested files and all three completed measurement files.
+  Execute the original primary and all three controls once, using the full fixed
+  eligible frame. No inferential outcome was opened to prepare this authorization.
 
 The separate discovery-background recovery encountered a numeric serialization
 error (`1818.0` parsed as an integer string); upstream `af36e98` fixes exact-integer
@@ -126,7 +140,8 @@ magnitudes remain unknown. This completed technical limitation does not overturn
 the discovery coefficient and does not validate it as flower-specific biology.
 The [artifact completion audit](RGFCA_BACKGROUND_RECOVERY_COMPLETION.md) reconciles
 every partition and unique measurement ID. Do not restart this closed recovery
-or analyse its successful subset. The independently fixed reserve run remains active.
+or analyse its successful subset. The independent reserve moves to its fixed
+inference stage after the complete census above; it is not a repair of this recovery.
 
 ## Discovery manuscript and figures
 

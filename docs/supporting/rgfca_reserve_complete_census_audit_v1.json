@@ -1,0 +1,35 @@
+{
+  "status": "complete_census_verified_before_fixed_reserve_inference",
+  "measurement_run_id": 34091091640,
+  "measurement_head_sha": "1f80af7f5db81d61f28ae2818c130ef058a9f850",
+  "result_commit": "9f5abe7b45fcdc20ba83adf75d1a8d4a640f622c",
+  "preflight_run_id": 34091922722,
+  "preflight_head_sha": "708b305e314087047a39d27956a76c9327585497",
+  "tested_files_verified": 13,
+  "terminal_partitions_verified": 256,
+  "terminal_files_verified": 512,
+  "raw_species": 500,
+  "raw_photos": 50000,
+  "classifiable_photos": 24885,
+  "eligible_species": 363,
+  "eligible_photos": 20903,
+  "measurement_gate_pass": true,
+  "all_partition_hashes_match_completed_manifest": true,
+  "photo_observation_ids_match_frozen_audit": true,
+  "prior_photo_observation_overlap": 0,
+  "terminal_status_counts": {
+    "classified_four_state_morph": 24885,
+    "not_evaluable_roi_or_flip_gate": 22681,
+    "not_evaluable_ambiguous_palette_composition": 2415,
+    "not_evaluable_no_biological_palette_mass": 19
+  },
+  "files_sha256": {
+    "data/derived/rgfca_reserve_replication_measured_photos_v1.csv": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "data/derived/rgfca_reserve_replication_species_support_v1.csv": "288708afec68c18a3654e09e9af510eeea4a05137086a6c558616e4a46f0f994",
+    "docs/supporting/rgfca_reserve_replication_measurement_result_v1.json": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70"
+  },
+  "inference_run_by_audit": false,
+  "images_reacquired": false,
+  "threshold_or_cohort_changed": false,
+  "interpretation": "Measurement completeness and eligibility only; no ecological effect or p-value computed."
+}
