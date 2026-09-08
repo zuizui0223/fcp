@@ -41,3 +41,14 @@ This document is not an execution authorization and does not report image
 performance. The next gate is implementation qualification and a separate
 authorization bound to the exact qualified commit. Ecological results remain
 unchanged, including the reserve flower-specific differential `p = 0.087`.
+
+## Qualification and single-execution authorization
+
+The amended implementation at `1b6ccc7987baaa02edf8fea8c5af1f0f09c144f7`
+passed [qualification run 34193780128](https://github.com/zuizui0223/fcp/actions/runs/34193780128):
+23 focused artificial tests, exact runtime/model identity checks and the
+pre-outcome firewall. Local qualification including intake tests passed 53/53.
+The [separate authorization](supporting/rgfca_monarda_execution_authorization_v1.json)
+binds the exact qualified source blobs and permits the one guarded run after
+local environment/input checks. No real image was opened to choose this
+implementation, environment or gate. Actual performance is not reported here.
