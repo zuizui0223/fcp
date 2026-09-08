@@ -1,0 +1,20 @@
+{
+  "protocol": "rgfca-sharedness-v2-geometry-transport-recovery-v1",
+  "status": "frozen_after_random-batch-geometry-failure_before_recovery_requests",
+  "parent_failed_run": 34191534839,
+  "parent_failure": {"retained_photos": 26856, "species_below_target": 150, "terminal_request_error_species": 0},
+  "scientific_design_unchanged": true,
+  "selected_species": 150,
+  "training_species": 75,
+  "evaluation_species": 75,
+  "photos_per_species": 300,
+  "transport_change_only": "replace repeated random page=1 requests with the same stable id-ascending pagination proven in the pre-outcome capacity pilot, then select first 300 by stable SHA256(observation_id:photo_id)",
+  "query": {"per_page": 200, "maximum_pages_per_species": 5, "stable_order_by": "id", "stable_order": "asc", "stop_when_after_observer_cap_reaches": 400, "observer_cap": 2, "request_interval_seconds": 1.05, "request_retries": 2, "maximum_positional_accuracy_m": 5000, "flowering_term_id": 12, "flowering_term_value_id": 13, "allowed_photo_licenses": ["cc0","cc-by","cc-by-sa","cc-by-nc","cc-by-nc-sa"]},
+  "failure_rule": "all 150 species must retain exactly 300; no replacement species, no lower target, no favourable rerun",
+  "image_pixels_opened": false,
+  "flower_colour_opened": false,
+  "ecological_claim_changed": false,
+  "six_species_used": false,
+  "thirty_four_species_used": false,
+  "claim_ceiling": "Transport-only recovery of the frozen 150 x 300 metadata geometry for later synthetic sharedness qualification."
+}
