@@ -1,0 +1,21 @@
+{
+  "protocol": "rgfca-sharedness-v2-unavailable-axis-rule-v1",
+  "status": "frozen_before_any_v2_synthetic_world_score",
+  "date": "2026-09-08",
+  "parent_mapping": "docs/supporting/rgfca_sharedness_v2_synthetic_technical_mapping_v1.json",
+  "rule": {
+    "partially_evaluable_axis": "average all finite threshold cell scores for that species-axis",
+    "no_evaluable_threshold_for_species_axis": "uninformative evidence; set axis likelihood ratio to 1 (axis log evidence 0) for that species rather than treating it as support or contradiction",
+    "species_with_at_least_two_finite_axes": "center and RMS-standardize finite axis scores, convert finite scores to normalized evidence, and leave unavailable axes at neutral LR=1",
+    "species_with_fewer_than_two_finite_axes_or_rms_lte_1e_12": "all 96 axes receive neutral LR=1 for that species",
+    "reason": "Geographic support may make a candidate boundary unevaluable. Absence of evaluability is not evidence against a shared boundary."
+  },
+  "no_axis_or_threshold_is_dropped_globally_based_on_evaluation_species": true,
+  "observed_flower_colour_opened": false,
+  "observed_background_colour_opened": false,
+  "image_pixels_opened": false,
+  "scientific_outcome_generated_before_rule": false,
+  "prior_ecological_decisions_unchanged": true,
+  "six_species_used": false,
+  "thirty_four_species_used": false
+}
