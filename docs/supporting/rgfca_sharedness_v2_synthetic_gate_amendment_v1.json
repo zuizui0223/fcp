@@ -1,0 +1,46 @@
+{
+  "protocol": "rgfca-sharedness-v2-continuous-matched-control-synthetic-gate-amendment-v1",
+  "status": "frozen_before_any_v2_synthetic_world_score",
+  "date": "2026-09-08",
+  "parent_contract": "docs/supporting/rgfca_sharedness_v2_synthetic_qualification_contract_v1.json",
+  "technical_mapping": "docs/supporting/rgfca_sharedness_v2_synthetic_technical_mapping_v1.json",
+  "reason": "The parent contract fixed species-threshold SD values 0.0 and 0.25 but did not state which SD variant controls each hard positive power gate. This amendment resolves that ambiguity before any v2 synthetic world score exists; it does not change any numerical floor, species count, photo count, axis grid, threshold grid, retention arm, nuisance family, or positive family.",
+  "hard_positive_gate_rule": {
+    "amp1_full_shared_retention04": {
+      "amplitude": 1.0,
+      "shared_fraction": 1.0,
+      "retention": 0.4,
+      "required_species_threshold_sd": [0.0, 0.25],
+      "minimum_power_each": 0.80,
+      "pass": "both SD-specific powers must individually meet the floor"
+    },
+    "amp1_half_shared_retention04": {
+      "amplitude": 1.0,
+      "shared_fraction": 0.5,
+      "retention": 0.4,
+      "required_species_threshold_sd": [0.0, 0.25],
+      "minimum_power_each": 0.50,
+      "pass": "both SD-specific powers must individually meet the floor"
+    },
+    "amp2_half_shared_retention04": {
+      "amplitude": 2.0,
+      "shared_fraction": 0.5,
+      "retention": 0.4,
+      "required_species_threshold_sd": [0.0, 0.25],
+      "minimum_power_each": 0.80,
+      "pass": "both SD-specific powers must individually meet the floor"
+    }
+  },
+  "equivalent_summary": "For every listed hard positive gate, the minimum power across species_threshold_sd in {0.0,0.25} must meet the previously frozen power floor.",
+  "diagnostic_shared_fraction_0_1_remains_nonhard": true,
+  "every_evaluation_nuisance_rejection_lte_unchanged": 0.10,
+  "calibration_threshold_rule_unchanged": true,
+  "observed_flower_colour_opened": false,
+  "observed_background_colour_opened": false,
+  "image_pixels_opened": false,
+  "scientific_outcome_generated_before_amendment": false,
+  "prior_ecological_decisions_unchanged": true,
+  "six_species_used": false,
+  "thirty_four_species_used": false,
+  "claim_ceiling": "Pre-outcome decision-rule clarification only; no observed or synthetic scientific result."
+}
