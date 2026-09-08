@@ -1,11 +1,12 @@
 # Separating within-species colour geography from shared boundaries in a repeated global flower-colour atlas
 
-Working manuscript, 7 September 2026. **Discovery draft; not submission-ready.**
+Working manuscript, 8 September 2026. **Discovery and replication draft; not submission-ready.**
 This is the active RGFCA manuscript. The six-species Chapter 1 manuscript and
 34-species literature comparison remain unchanged legacy studies. The present
-draft documents completed discovery evidence; independent replication and
-flower-specific validation are pending. It is not an assertion that the active
-research goal has been achieved.
+draft documents completed discovery and independent replication evidence. The weak
+photo-derived association replicated, but the fixed flower-specific robustness
+gate did not pass. It is not an assertion that the active research goal has
+been achieved.
 
 ## Abstract
 
@@ -22,15 +23,17 @@ geographic distance and colour dissimilarity was 0.0270213 (999-permutation
 upper-tail p = 0.001). The effect was small and did not establish common boundary
 geography: the original repeated-field primary test and species-disjoint
 commonness test remained unsupported. No environmental process block passed the
-fixed five-block correction gate. We prospectively specified replication in the
-other 500 candidate species, together with observer, seasonal and matched-image
-background controls; reserve outcomes remain unopened. The separate discovery
-background reacquisition failed exact reproduction for 85 of 21,424 photographs,
-so no background-adjusted diagnostic was computed. The current result is
-a taxon-labelled photograph association: pooled flower regions have not been
-verified as belonging only to each observation's focal species. It remains
-a candidate photo-derived distance-colour association, not independently
-validated flower-colour biogeography or an identified ecological mechanism.
+fixed five-block correction gate. Prospectively fixed replication in the other
+500 candidate species yielded 363 eligible species and 20,903 photographs. The
+weak association replicated (mean rho = 0.0254826, p = 0.001), including the
+observer-pair and calendar-quarter controls (both p = 0.001). The matched
+flower-minus-background differential was evaluable but unsupported (mean rho =
+0.0044773, p = 0.087), so the required flower-specific robust-replication gate
+did not pass. The separate discovery background reacquisition failed exact
+reproduction for 85 of 21,424 photographs and produced no adjusted diagnostic.
+The replicated result concerns taxon-labelled photographs: pooled flower regions
+have not been verified as belonging only to each observation's focal species.
+It does not establish flower-specific biogeography or an ecological mechanism.
 
 ## 1. Questions and inferential targets
 
@@ -184,6 +187,17 @@ The seasonal control is a calendar proxy, not a direct phenological measurement.
 All 256 terminal measurement partitions and the exact cohort census must pass
 before any reserve inference. Partial successful subsets are not analysed.
 
+The background control uses the equal-species mean of
+`Spearman(geographic distance, flower12 JSD - background12 JSD)` over matched
+photo pairs. It is not the difference between two Spearman coefficients. The
+quarter control retains the same observed pairs and coefficient as the primary
+test but restricts randomization within calendar quarters; its observed equality
+is by design, not a second identical analysis. Each test retains its fixed 999
+randomizations. The stronger label requires all four positive-support gates,
+not selection of whichever control passes. A fixed 4,999-draw species bootstrap
+provides a conditional interval on the primary mean; it is not spatially or
+phylogenetically independent uncertainty for all plants.
+
 Taxon-disjoint replication still shares the platform and measurement model and
 may share observers and regions. It therefore tests transfer within this design,
 not independence from every systematic observation error. A passing result would
@@ -214,7 +228,7 @@ Frozen inference and display runs have separate version records; the
 [software audit](RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md) maps their actual roles and
 does not substitute software citations for the RGFCA randomization contract.
 
-## 3. Discovery results
+## 3. Discovery and independent reserve results
 
 ### 3.1 Coverage and measurements
 
@@ -292,12 +306,45 @@ design, not a repair or replacement of this failed recovery.
 The [completion audit](RGFCA_BACKGROUND_RECOVERY_COMPLETION.md) records the exact
 run, artifact, full row/partition reconciliation and preservation of the stop.
 
+### 3.6 Independent replication and all fixed controls
+
+The full reserve measurement retained 50,000 records from 500 previously unused
+species: 24,885 were classifiable, with 363 species and 20,903 photographs admitted
+by the fixed at-least-40-photo and minimum-250-species rules. All 256 terminal
+partitions and exact observation/photo-ID census passed before inference was
+authorized. All 20 inference shards and all four fixed tests subsequently
+completed; no successful subset, replacement species or additional test was used.
+
+| Prespecified test | Equal-species mean rho | Upper-tail p | Fixed positive-support gate |
+|---|---:|---:|---|
+| Primary distance-colour association | 0.0254826 | 0.001 | Passed |
+| Observer-pair exclusion | 0.0252180 | 0.001 | Passed |
+| Calendar-quarter-stratified randomization | 0.0254826 | 0.001 | Passed |
+| Matched flower-minus-background differential | 0.0044773 | 0.087 | Did not pass |
+
+All four randomization distributions were nondegenerate and evaluable. The
+conditional species-bootstrap 95% interval for the primary mean was
+[0.0170055, 0.0343321]. It applies to this admitted species frame, not all plants
+or spatially/phylogenetically independent samples. The directional photo
+association replicated, but `flower_specific_robust_replication = false` under
+the predeclared conjunction. The background p = 0.087 is non-support, not proof
+of no flower-specific effect, equivalence to zero or background causation.
+
+The [complete reserve result audit](RGFCA_RESERVE_REPLICATION_RESULTS.md) verifies
+all 363 species by four tests by 999 stored null values, exact artifact hashes
+and 2,541 direct SciPy checks (maximum difference 1.11e-16). Discovery and reserve
+remain separate cohorts; the combined 1,000 species / 100,000 measured photographs
+are an acquisition total, not a newly pooled inferential denominator. Figures
+1-3 continue to display discovery data only.
+
 ## 4. Interpretation and limitations
 
-The discovery analysis motivates independent assessment of a weak, species-equal
-photo-derived spatial association. It does not yet establish that the signal is
-specific to flowers rather than spatial patterns in backgrounds, season,
-observer practice or acquisition conditions. The current map is a descriptive
+The weak, species-equal photo-derived spatial association transferred to the
+previously unused species cohort and survived the fixed observer and calendar
+controls. Nevertheless, the flower-minus-background control did not pass the
+required gate. This does not establish flower specificity, identify background
+causation or eliminate residual seasonal, observer or acquisition effects. The
+current map is a descriptive
 view of an opportunistic, measurement-filtered sample, not all flowers on Earth.
 Conditioning on observation labels does not by itself separate the focal plant's
 petal colour from co-photographed flowers. Even a successful independent
@@ -353,12 +400,16 @@ photo bar has a [separate display protocol and release receipt](RGFCA_PHOTO_BAR.
 with [24 source credits](figures/rgfca_photo_bar_v1/RGFCA_PHOTO_BAR_CREDITS.md).
 Palette swatches are not presented as photographs.
 
-Before this draft can be submitted, it requires complete independent replication
-and its prespecified matched-background evaluation, completion of the submission-wide citation audit,
-final ecological interpretation consistent with every control, a complete manuscript/SI evidence ledger,
-and an audited reproducibility/submission package. These are outstanding work,
-not cosmetic omissions. No submission or claim of readiness is authorized by
-this discovery draft.
+Independent reserve inference is complete at commit
+`ef00a78a2eda7bc79f7e6b88f719a8a696dc8b43`, run
+[34178957447](https://github.com/zuizui0223/fcp/actions/runs/34178957447).
+Before submission, the remaining work is the submission-wide reference/reuse
+audit, final claim scope consistent with the failed flower-specific gate, a
+complete manuscript/SI evidence ledger and an audited reproducibility package.
+Stronger ecological interpretation requires new target-domain measurement
+validation and an independently specified validation route, not repeated testing
+of these now-opened cohorts. No submission or claim of readiness is authorized
+by this draft.
 
 The bounded core literature audit now checks the image/ecology precedents and
 statistical interpretation cited below. It is not a systematic review or a

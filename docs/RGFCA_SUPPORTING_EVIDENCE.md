@@ -1,10 +1,12 @@
 # RGFCA supporting evidence and outstanding submission gates
 
-Discovery evidence audit, 7 September 2026. **Share with caveats as a discovery
-draft; not submission-ready.** This is the supporting index for the active
+Discovery audit, 7 September; independent reserve update, 8 September 2026.
+**Share with caveats; not submission-ready.** This is the supporting index for the active
 [manuscript](RGFCA_MANUSCRIPT.md), not a new analysis or a replacement for any
-original execution contract. Complete independent replication and flower-specific
-validation remain pending. No reserve outcome was opened for this audit.
+original execution contract. Independent reserve inference is complete, but
+the required flower-specific robust-replication gate did not pass. No reserve outcome
+was opened for the original discovery audit; the separately identified reserve
+result below was subsequently opened after complete-census authorization.
 
 ## S1. Populations, estimands and completed evidence
 
@@ -119,18 +121,39 @@ The large-object denominator is only four boxes, and mask containment is not
 petal segmentation accuracy. These audits do not close target-domain measurement
 validation or the remaining model-distribution/mixed-licence questions.
 
+### Completed independent reserve evidence
+
+The [complete result report](RGFCA_RESERVE_REPLICATION_RESULTS.md) and
+[artifact audit](supporting/rgfca_reserve_inference_artifact_audit_v1.json) bind
+result `ef00a78a2eda7bc79f7e6b88f719a8a696dc8b43`, inference run
+[34178957447](https://github.com/zuizui0223/fcp/actions/runs/34178957447), and all
+20 shard receipts. The full reserve has 500 species / 50,000 terminal records;
+363 species / 20,903 photos meet the fixed eligibility rules. Primary rho is
+0.0254826 (p = 0.001), observer rho 0.0252180 (p = 0.001), quarter rho 0.0254826
+(p = 0.001), and matched-background differential rho 0.0044773 (p = 0.087).
+All four tests were evaluable; the flower-specific robustness conjunction failed.
+This is not proof of no effect or of background causation. The conditional
+species-bootstrap primary interval [0.0170055, 0.0343321] is not spatially or
+phylogenetically independent uncertainty for all plants. Publication checks
+reconstruct all four results from the exact committed tables and stored nulls;
+no new permutation test is performed.
+
 The material submission blockers are scientific, not cosmetic:
 
-1. Finish the entire reserve measurement and exact census before opening its
-   fixed primary/observer/quarter/background inference; no partial subset.
+1. The reserve measurement, full census and all fixed inference tests are now
+   complete. Retain the weak replicated photo association and failed
+   flower-specific gate together; do not rerun opened cohorts until that gate
+   passes. Stronger ecology requires target-domain measurement validation and
+   a genuinely fresh, prospectively specified validation route.
 2. Preserve the now-completed discovery background recovery as not evaluable:
    21,339 exact rows and 85 reproduction failures, no background-adjusted test.
    The [complete artifact audit](RGFCA_BACKGROUND_RECOVERY_COMPLETION.md) closes
    the execution/accounting task, not flower-specific validation. Stronger
-   interpretation still requires the prospective reserve controls and cannot
-   be certified by the discovery p-value or a successful recovery subset.
+   interpretation is not established by the now-completed reserve controls and
+   cannot be certified by the discovery p-value or a successful recovery subset.
 3. Complete remaining software-release, data-provider, model and environmental-layer references,
    and audit the final manuscript/SI/reproducibility package together.
 
-At this audit, no independent validation result, shared global boundary,
-pollination mechanism, completed submission bundle or submission is claimed.
+The independent photo-association replication is now documented, but no
+flower-specific robust replication, shared global boundary, pollination
+mechanism, completed submission bundle or submission is claimed.

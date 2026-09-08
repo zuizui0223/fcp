@@ -11,6 +11,19 @@ on:
       - tests/test_rgfca_photo_bar.py
       - tests/test_rgfca_roi_qualification_audit.py
       - tests/test_rgfca_background_recovery_completion.py
+      - tests/test_rgfca_reserve_publication_result.py
+      - scripts/analysis/audit_rgfca_reserve_complete_census.py
+      - scripts/analysis/audit_rgfca_reserve_inference_result.py
+      - docs/RGFCA_RESERVE_REPLICATION_RESULTS.md
+      - docs/RGFCA_RESERVE_REPLICATION.md
+      - docs/RGFCA_RESEARCH_STATUS.md
+      - docs/RGFCA_RESEARCH_GOAL.md
+      - README.md
+      - docs/supporting/rgfca_reserve_inference_artifact_audit_v1.json
+      - docs/supporting/rgfca_reserve_complete_census_audit_v1.json
+      - docs/supporting/rgfca_reserve_replication_result_v1.json
+      - data/derived/rgfca_reserve_replication_species_v1.csv
+      - data/derived/rgfca_reserve_replication_global_null_v1.csv
       - scripts/analysis/audit_rgfca_background_recovery_completion.py
       - docs/RGFCA_BACKGROUND_RECOVERY_COMPLETION.md
       - docs/supporting/rgfca_background_recovery_completion_audit_v1.json
@@ -54,14 +67,15 @@ jobs:
         run: >-
           python -m pip install numpy==2.2.6 pandas==2.3.3 matplotlib==3.10.8
           geopandas==0.14.4 shapely==2.1.2 pyproj==3.7.1 fiona==1.10.1 pytest==8.3.5 Pillow==12.1.1
-      - name: Audit exact discovery bytes, numerical claims and two-render identity
+      - name: Audit exact completed evidence, all reserve controls and discovery figure identity
         env:
           PYTHONPATH: .
         run: >-
           python -m pytest tests/test_rgfca_publication_figures.py
           tests/test_rgfca_manuscript_references.py tests/test_rgfca_supporting_evidence.py
           tests/test_rgfca_photo_bar.py tests/test_rgfca_roi_qualification_audit.py
-          tests/test_rgfca_background_recovery_completion.py -q
+          tests/test_rgfca_background_recovery_completion.py
+          tests/test_rgfca_reserve_publication_result.py -q
       - name: Export verified discovery figures without reserve outcomes
         run: >-
           python scripts/analysis/make_rgfca_publication_figures.py
@@ -75,6 +89,26 @@ jobs:
         with:
           name: rgfca-discovery-publication-figures
           path: /tmp/rgfca-publication
+          if-no-files-found: error
+          retention-days: 90
+      - name: Preserve all completed reserve tests and reconstruction evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-reserve-publication-evidence-v1
+          path: |
+            README.md
+            docs/RGFCA_RESEARCH_STATUS.md
+            docs/RGFCA_RESEARCH_GOAL.md
+            docs/RGFCA_RESERVE_REPLICATION.md
+            docs/RGFCA_RESERVE_REPLICATION_RESULTS.md
+            docs/supporting/rgfca_reserve_complete_census_audit_v1.json
+            docs/supporting/rgfca_reserve_inference_artifact_audit_v1.json
+            docs/supporting/rgfca_reserve_replication_result_v1.json
+            data/derived/rgfca_reserve_replication_species_v1.csv
+            data/derived/rgfca_reserve_replication_global_null_v1.csv
+            scripts/analysis/audit_rgfca_reserve_complete_census.py
+            scripts/analysis/audit_rgfca_reserve_inference_result.py
+            tests/test_rgfca_reserve_publication_result.py
           if-no-files-found: error
           retention-days: 90
       - name: Preserve the source-audited discovery draft and reading ceilings

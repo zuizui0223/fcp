@@ -8,9 +8,12 @@ current ecological-signal search.
 
 | Stage | Evidence | Interpretation |
 |---|---|---|
-| Measurement | 500 species; 50,000 terminal records; 25,377 classifiable records | Automated public-photo colour measurements |
+| Measurement, two separate cohorts | 1,000 species; 100,000 terminal records; discovery/reserve classifiable counts 25,377 / 24,885 | Acquisition total, not a retroactively pooled inference frame |
 | Eligible RGFCA frame | 369 species; 21,424 photos; at least 40 classifiable photos per species | Conditional inference frame, not a census of all plants |
-| Within-species spatial omnibus | Mean rho = 0.0270213; 999-permutation upper-tail p = 0.001; all 369 species included | Small positive exploratory photo-derived spatial association; independent replication pending |
+| Discovery within-species spatial omnibus | Mean rho = 0.0270213; 999-permutation upper-tail p = 0.001; all 369 species included | Small positive exploratory photo-derived spatial association |
+| Independent reserve primary | 363 species / 20,903 photos; mean rho = 0.0254826; p = 0.001 | Weak directional photo association replicated; not by itself flower-specific biology |
+| Reserve observer / calendar controls | Mean rho = 0.0252180 / 0.0254826; both p = 0.001 | Both fixed controls passed; residual observational error is not excluded |
+| Reserve matched-background differential | Mean rho = 0.0044773; p = 0.087 | Evaluable but not supported; flower-specific robust-replication gate did not pass |
 | Discovery matched-background recovery | All 128 partitions complete; 21,339 exact rows and 85 reproduction failures among 21,424 | Not evaluable; no background-adjusted statistic or p-value; not an ecological negative |
 | G1 repeated field | Primary p = 0.070; fine-scale sensitivity p = 0.006 | Primary not supported; scale-sensitive candidate structure |
 | Species-disjoint commonness | p = 0.856; median fold correlation = -0.0880 | No supported transfer of boundary geography across held-out species |
@@ -66,14 +69,16 @@ in all species shards, before numerical execution. Technical recovery exposes
 the checkout through `PYTHONPATH` in all workflow jobs and smoke-tested both real
 entry points. The data, runner, fixed seeds, statistics and thresholds are unchanged.
 
-## In progress: prospective reserve-species replication
+## Completed: prospective reserve-species replication, limited claim
 
 The metadata-only audit identifies the entire complementary **500 taxa / 50,000
 photos**, 100 per taxon, with no observation/photo-ID overlap with RGFCA discovery,
 the older photo-first measurements, H9 fresh metadata or the H9 exclusion ledger.
 All coordinates have stated accuracy at most 5 km; no observer contributes more
-than two photos within a species. The audit does not open images or authorize
-measurement. See [the replication protocol](RGFCA_RESERVE_REPLICATION.md).
+than two photos within a species. The original audit did not open images or
+authorize measurement. Measurement and inference subsequently passed their
+separate execution gates. See [the replication protocol](RGFCA_RESERVE_REPLICATION.md)
+and [all completed results](RGFCA_RESERVE_REPLICATION_RESULTS.md).
 
 The same sampling platform, measurement model, regions and potentially observers
 are shared: disjoint IDs do not eliminate systematic observational error.
@@ -110,9 +115,21 @@ Execution receipts:
   from the successful inference implementation preflight. Exact Git bytes were
   used for frozen text; no hash rule was weakened for Windows newline conversion.
 - [Fixed inference authorization](supporting/rgfca_reserve_inference_authorization_v1.json)
-  now binds those 13 tested files and all three completed measurement files.
-  Execute the original primary and all three controls once, using the full fixed
-  eligible frame. No inferential outcome was opened to prepare this authorization.
+  at `391caecaa1a6d3c3e2407f5f19d0bad7057922e0` binds those 13 tested files and
+  all three completed measurement files. No inferential outcome was opened to
+  prepare that authorization.
+- [Inference 34178957447](https://github.com/zuizui0223/fcp/actions/runs/34178957447)
+  completed all 20 shards and all four tests once. Result commit
+  `ef00a78a2eda7bc79f7e6b88f719a8a696dc8b43` records primary rho = 0.0254826,
+  p = 0.001; observer and quarter p = 0.001; matched-background rho = 0.0044773,
+  p = 0.087. All nulls are evaluable. The directional photo association replicated,
+  but the required flower-specific robust-replication conjunction did not pass.
+- [Full inference artifact audit](supporting/rgfca_reserve_inference_artifact_audit_v1.json)
+  verifies all 363 x 4 x 999 stored null values, complete species/photo allocation,
+  exact file hashes, 2,541 direct SciPy checks and the fixed bootstrap interval
+  [0.0170055, 0.0343321]. That interval is conditional on the admitted species,
+  not spatially or phylogenetically independent uncertainty for all plants.
+  No new permutations were generated for the audit.
 
 The separate discovery-background recovery encountered a numeric serialization
 error (`1818.0` parsed as an integer string); upstream `af36e98` fixes exact-integer
@@ -140,14 +157,16 @@ magnitudes remain unknown. This completed technical limitation does not overturn
 the discovery coefficient and does not validate it as flower-specific biology.
 The [artifact completion audit](RGFCA_BACKGROUND_RECOVERY_COMPLETION.md) reconciles
 every partition and unique measurement ID. Do not restart this closed recovery
-or analyse its successful subset. The independent reserve moves to its fixed
-inference stage after the complete census above; it is not a repair of this recovery.
+or analyse its successful subset. The independent reserve has completed its fixed
+inference; its evaluable but unsupported background differential is not a repair
+of this recovery. A p-value of 0.087 is not proof of no effect or background causation.
 
 ## Discovery manuscript and figures
 
 The active [RGFCA manuscript](RGFCA_MANUSCRIPT.md) now separates the completed
-exploratory distance-colour signal from unsupported shared geography, unresolved
-mechanisms and prospective reserve validation. It is explicitly not submission-ready.
+exploratory distance-colour signal and its weak reserve replication from
+unsupported shared geography, unresolved mechanisms and the failed reserve
+flower-specific gate. It is explicitly not submission-ready.
 [Figure 1](figures/rgfca_figure1_discovery_atlas.png) displays all 21,424 eligible
 discovery photographs without a species legend; [Figure 2](figures/rgfca_figure2_discovery_omnibus.png)
 shows all 369 species effects and all 999 global null means. The map's colours
@@ -163,7 +182,8 @@ workflow reproduced these checks successfully in
 [run 34094422559](https://github.com/zuizui0223/fcp/actions/runs/34094422559), with
 artifact `10008033327` and archive SHA-256
 `480ceaa25e0e5844dd482eff9e7e4bc4a2e695b5c9fb63a92f0f353f44a623f6`.
-Independent validation, submission-wide references and final manuscript/SI
+The subsequent reserve tests are now complete with the limited result above;
+flower-specific validation, submission-wide references and final manuscript/SI
 closure remain outstanding. The separate photo-bar update below now provides
 licensed ROI crops without altering these first two figures.
 
@@ -262,9 +282,10 @@ Reserve measurement, background recovery and all ecological outcomes are unchang
 
 ## Route to an ecological result
 
-1. Freeze the reserve cohort, measurement, primary test and observer/quarter
-   sensitivity before pixels, pass metadata and implementation checks, then
-   measure the complete reserve once and retain every terminal outcome.
+1. Preserve the now-completed reserve measurement and all four fixed tests.
+   The weak photo association replicated, but the flower-specific gate did not
+   pass. Complete its bounded manuscript/reproducibility package, then address
+   target-domain measurement and focal-species attribution before stronger claims.
 2. Develop bounded, registered exploratory questions using the existing atlas
    and qualification work. Local patchiness, monotone distance effects, shared
    boundaries and environmental mechanisms are distinct targets.

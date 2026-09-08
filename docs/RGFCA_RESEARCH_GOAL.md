@@ -12,7 +12,7 @@ The six-species Chapter 1 analysis, 34-species literature comparison and earlier
 small pilots are legacy evidence. Preserve their original data, results and
 provenance; they are not the empirical foundation of the new RGFCA claim.
 
-## Starting evidence
+## Starting evidence (7 September 2026, historical)
 
 The current RGFCA experiment measured 50,000 photographs from 500 species.
 Its eligible frame contains 21,424 classifiable photographs from 369 species.
@@ -25,6 +25,24 @@ The first pending analysis is the frozen 369-species geographic-distance versus
 colour-dissimilarity omnibus. Its last CI attempt stopped at module import,
 before computing species permutation outcomes. Restore the execution environment
 without changing its fixed estimand, denominator or randomization rules.
+
+## Current checkpoint (8 September 2026)
+
+The 369-species analysis completed: mean rho = 0.0270213, p = 0.001. A prospectively
+fixed independent reserve of another 500 species / 50,000 photographs also
+completed all measurement gates and four tests, admitting 363 species / 20,903
+photos. Its weak primary association replicated (rho = 0.0254826, p = 0.001),
+including observer and calendar controls, but the matched-background differential
+did not pass (rho = 0.0044773, p = 0.087). The flower-specific robust-replication
+criterion is false and this goal remains unmet. See
+[complete reserve results](RGFCA_RESERVE_REPLICATION_RESULTS.md).
+
+The 1,000 species / 100,000 photographs are two separate, now-opened cohorts,
+not a newly pooled test or an untouched validation reserve. Preserve this
+bounded result in the manuscript and CI-verified evidence package. Stronger
+ecological interpretation next requires target-domain measurement/attribution
+validation and a genuinely fresh, prospectively specified validation route.
+Do not rerun this fixed gate until it passes.
 
 ## Research route
 

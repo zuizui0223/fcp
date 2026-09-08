@@ -118,9 +118,10 @@ def test_same_publication_can_be_cited_twice_in_body(documents):
     assert validate_citations(manuscript, audits) == 17
 
 
-def test_audit_does_not_close_replication_or_submission(documents):
+def test_citation_audit_does_not_certify_flower_specificity_or_submission(documents):
     manuscript, audits = documents
-    for required in ("not submission-ready", "replication and", "are pending",
+    for required in ("not submission-ready", "flower_specific_robust_replication = false",
+                     "No submission or claim of readiness is authorized",
                      "not a systematic review", "software/data-provider bibliography",
                      "not scientific validity"):
         assert required in manuscript

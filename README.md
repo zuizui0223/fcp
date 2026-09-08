@@ -4,11 +4,11 @@ This repository is the **geographic-space arm** of a broader programme on the sp
 
 The active research mainline is **RGFCA**: image-first measurement of global flower-colour variation, balanced repeated world maps and species-conditioned spatial and ecological inference. The six-species Chapter 1 analysis and 34-species literature comparison are **legacy studies**, retained for provenance and reproduction rather than used as the biological foundation of the new atlas.
 
-RGFCA has measured **50,000 photographs from 500 species**. Its eligible inferential frame contains **21,424 classifiable photographs from 369 species**. Balanced realizations each use 250 species and 20 photos per species, repeated 200 times with the full schedule preserved in the species-conditioned null. Repetitions measure sampling stability, not additional biological replication.
+RGFCA has measured **100,000 photographs from 1,000 species in two separate cohorts**. The discovery inferential frame contains **21,424 classifiable photographs from 369 species**; the prospectively fixed, species-disjoint reserve contains **20,903 photographs from 363 species**. They are not retrospectively pooled for inference. Discovery balanced realizations each use 250 species and 20 photos per species, repeated 200 times with the full schedule preserved in the species-conditioned null. Repetitions measure sampling stability, not additional biological replication.
 
 Species-conditioning follows observation taxon labels; the frozen image-only estimator pools all retained flower regions, not a verified mask of the focal species alone. Co-photographed flowers can contribute, with an unmeasured contamination rate. See the [measurement scope and qualification limits](docs/RGFCA_ROI_QUALIFICATION_AUDIT.md).
 
-The research objective is an ecologically interpretable observed signal that survives independent validation. **A new exploratory 369-species test detects a small within-species distance–colour association: mean Spearman rho = 0.0270, permutation p = 0.001.** This is a candidate photo-derived spatial signal, not a shared-boundary or causal result. Completed non-support decisions remain unchanged: primary G1 concentration `p = 0.070`, species-disjoint commonness `p = 0.856`. The next stage is a prospectively fixed replication in the other **500 species / 50,000 previously unmeasured candidate photographs**, with disjoint observation/photo IDs and seasonal/observer sensitivity tests. See the [current status](docs/RGFCA_RESEARCH_STATUS.md), [replication protocol](docs/RGFCA_RESERVE_REPLICATION.md) and [research goal](docs/RGFCA_RESEARCH_GOAL.md).
+The research objective is an ecologically interpretable observed signal that survives independent validation. **A weak photo-derived distance–colour association replicated in the reserve: mean Spearman rho = 0.02548, permutation p = 0.001**, following the exploratory discovery result (rho = 0.02702, p = 0.001). Observer-pair exclusion and calendar-quarter controls also returned p = 0.001, but the fixed matched flower-minus-background differential returned **rho = 0.00448, p = 0.087**. Thus the flower-specific robust-replication gate **did not pass**; no causal or shared-boundary conclusion follows. Completed non-support decisions remain unchanged: primary G1 concentration `p = 0.070`, species-disjoint commonness `p = 0.856`. See the [complete reserve results](docs/RGFCA_RESERVE_REPLICATION_RESULTS.md), [current status](docs/RGFCA_RESEARCH_STATUS.md), [replication protocol](docs/RGFCA_RESERVE_REPLICATION.md) and [research goal](docs/RGFCA_RESEARCH_GOAL.md).
 
 ## Start here
 
@@ -19,15 +19,18 @@ subset was substituted. This is a measurement-reproduction limitation, not a
 negative ecological result. The separate 500-species reserve measurement has
 completed under its unchanged first-decode flower/background protocol. Its full
 256-partition/50,000-row census is verified; 363 species and 20,903 photographs
-meet the fixed inference threshold. The four prespecified tests are now authorized;
-no independent ecological result is yet claimed.
+meet the fixed inference threshold. All four prespecified tests are complete:
+the directional photo association replicated, but flower specificity did not
+pass the required background control. Unlike the discovery recovery, this
+reserve control was evaluable; its non-support is not proof of no effect or
+of background causation.
 See the [completed recovery audit](docs/RGFCA_BACKGROUND_RECOVERY_COMPLETION.md).
 
 The two frozen inferential lanes retained below are now legacy studies. Their samples, response variables, null models and claims are distinct.
 
 - **Active goal and validation route:** [`docs/RGFCA_RESEARCH_GOAL.md`](docs/RGFCA_RESEARCH_GOAL.md)
 - **Current results, execution and next questions:** [`docs/RGFCA_RESEARCH_STATUS.md`](docs/RGFCA_RESEARCH_STATUS.md)
-- **Active discovery manuscript (validation pending):** [`docs/RGFCA_MANUSCRIPT.md`](docs/RGFCA_MANUSCRIPT.md)
+- **Active discovery and replication manuscript (flower specificity unresolved):** [`docs/RGFCA_MANUSCRIPT.md`](docs/RGFCA_MANUSCRIPT.md)
 - **Discovery map, effects and figure provenance:** [`docs/RGFCA_PUBLICATION_FIGURES.md`](docs/RGFCA_PUBLICATION_FIGURES.md)
 - **Verified real flower photo bar and source credits:** [`docs/RGFCA_PHOTO_BAR.md`](docs/RGFCA_PHOTO_BAR.md)
 - **Supporting numerical evidence and submission gaps:** [`docs/RGFCA_SUPPORTING_EVIDENCE.md`](docs/RGFCA_SUPPORTING_EVIDENCE.md)

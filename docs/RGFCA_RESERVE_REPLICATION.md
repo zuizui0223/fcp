@@ -1,5 +1,14 @@
 # RGFCA: independent reserve-species replication
 
+**Execution update, 8 September 2026:** the design below is unchanged and all
+measurement/inference stages are complete. The reserve admits 363 species /
+20,903 photographs from the full 500-species / 50,000-photo census. Primary,
+observer and quarter tests return p = 0.001; the matched-background differential
+returns p = 0.087 and does not pass the required flower-specific gate. See
+[all results and immutable receipts](RGFCA_RESERVE_REPLICATION_RESULTS.md).
+The following prospective language records the original rules, not an instruction
+to repeat completed tests or relabel these now-opened outcomes as unused.
+
 The discovery atlas now has a positive but small exploratory within-species
 distance–colour association: **369 species, 21,424 photos, mean rho = 0.0270213,
 999-permutation p = 0.001**. This motivates a new prospective replication; it
