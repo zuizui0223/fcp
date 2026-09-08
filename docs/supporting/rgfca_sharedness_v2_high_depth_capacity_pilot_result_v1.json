@@ -1,0 +1,45 @@
+{
+  "claim_ceiling": "This pilot can establish metadata availability for a higher-depth acquisition design only. It cannot establish classifiable yield, sharedness power, flower-specificity, ecological signal, or authorize image acquisition.",
+  "combined_csv_sha256": "9826a5b9f6c0e69ed7ca776775509ffafe2db00e593c9e183e3095300b97818d",
+  "confirmed_at_least_after_observer_cap": {
+    "300": 260,
+    "400": 199
+  },
+  "confirmed_below_after_api_exhaustion": {
+    "300": 240,
+    "400": 301
+  },
+  "ecological_claim_changed": false,
+  "flower_colour_used": false,
+  "image_pixels_opened": false,
+  "indeterminate_due_error_or_page_cap": {
+    "300": 0,
+    "400": 0
+  },
+  "lineage": {
+    "contract_sha256": "b00c0f397950a7d4199fe2a008230f9dd30e07ab35db94b0d1ad0316410d0e38",
+    "parent_audit_sha256": "12d94100d6343597aa2b87670555e801ce0681f4b69e3ad634fa6d80409008e8",
+    "shard_csv_sha256": [
+      "14f0ca3c02e7bb204e2a977465aad660cd8e6933f84bac084d35896f8973bb1e",
+      "2146336a15760f8acfe9dc091808cb512f5ec3c91497c57c6f90da556e162179",
+      "bffae74098ee861fbd48813a0c302b2c9e69206fa15f43fcce73fa0cd6ba8c06",
+      "8ec6913956d95a1fa77abed9c243fd220412d059e8dae390ffc9293d71332640",
+      "848780d0a74271443516538ef3450a0f1a28327091bf46c13ab20f4b107457d8",
+      "461e61c038e89fbccfeb19cb228347f79d3a70a911e129bef5970e47ba5dfc8d",
+      "6dfa07aa544a5fa6a2201fbce71120e16c2ef9830be13ec4051c25aab55cf68a",
+      "487329b32cbad38d9c2eb3f17f8e8b45e80da3fe01070acbcec0063542769057"
+    ]
+  },
+  "next_step_if_fail_or_indeterminate": "do_not_relax_target_post_outcome; either prefreeze a larger metadata pilot or conclude current high-depth design is not established",
+  "next_step_if_pass": "sharedness_v2_synthetic_power_design_with_no_observed_colour_opening",
+  "pilot_species": 500,
+  "primary_feasibility_pass": true,
+  "primary_feasibility_target_after_observer_cap": 300,
+  "primary_required_species": 150,
+  "protocol": "rgfca-sharedness-v2-high-depth-capacity-pilot-v1",
+  "request_error_fraction_ceiling": 0.05,
+  "reserve_flower_specific_gate_reclassified": false,
+  "status": "complete_metadata_only_high_depth_capacity_pilot",
+  "terminal_request_error_fraction": 0.0,
+  "terminal_request_error_species": 0
+}
