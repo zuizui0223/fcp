@@ -1,0 +1,141 @@
+name: RGFCA sharedness v2 random metadata geometry freeze
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - 'docs/supporting/rgfca_sharedness_v2_geometry_freeze_contract_v1.json'
+      - 'scripts/acquisition/freeze_rgfca_sharedness_v2_geometry_shard.py'
+      - 'scripts/analysis/finalize_rgfca_sharedness_v2_geometry.py'
+      - '.github/workflows/rgfca-sharedness-v2-geometry-freeze.yml'
+
+permissions:
+  contents: write
+
+env:
+  PYTHONPATH: '.'
+  PYTHONHASHSEED: '0'
+
+concurrency:
+  group: rgfca-sharedness-v2-geometry-freeze
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install metadata dependencies
+        run: python -m pip install numpy==2.3.5 pandas==2.2.3
+      - name: Verify activation and frozen 150-species split before requests
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from scripts.acquisition.freeze_rgfca_sharedness_v2_geometry_shard import selected_species
+          c=json.loads(Path('docs/supporting/rgfca_sharedness_v2_geometry_freeze_contract_v1.json').read_text())
+          r=json.loads(Path('docs/supporting/rgfca_sharedness_v2_high_depth_capacity_pilot_result_v1.json').read_text())
+          assert c['status']=='frozen_after_capacity_pass_before_any_v2_geometry_request'
+          assert r['status']=='complete_metadata_only_high_depth_capacity_pilot'
+          assert r['primary_feasibility_pass'] is True
+          s=selected_species()
+          assert len(s)==150
+          assert (s['sample_role']=='training').sum()==75
+          assert (s['sample_role']=='evaluation').sum()==75
+          assert c['fixed_photo_frame']['photos_per_species']==300
+          assert c['fixed_photo_frame']['geographic_maximin_not_used'] is True
+          assert c['image_pixels_opened'] is False and c['flower_colour_opened'] is False
+          print('rgfca_v2_geometry_prequery_gate=pass')
+          PY
+
+  shard:
+    needs: gate
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        shard: [0,1,2,3,4,5]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install metadata dependencies
+        run: python -m pip install numpy==2.3.5 pandas==2.2.3
+      - name: Freeze one random metadata geometry shard
+        run: |
+          rm -rf /tmp/rgfca-v2-geometry
+          python scripts/acquisition/freeze_rgfca_sharedness_v2_geometry_shard.py \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 6 \
+            --output-dir /tmp/rgfca-v2-geometry
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-sharedness-v2-geometry-${{ matrix.shard }}
+          path: /tmp/rgfca-v2-geometry/
+          if-no-files-found: error
+          retention-days: 30
+
+  finalize:
+    needs: [gate, shard]
+    if: ${{ always() && needs.gate.result == 'success' && needs.shard.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install metadata dependency
+        run: python -m pip install pandas==2.2.3
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: rgfca-sharedness-v2-geometry-*
+          path: /tmp/rgfca-v2-geometry-shards
+      - name: Strictly finalize 150 x 300 metadata geometry
+        run: |
+          python scripts/analysis/finalize_rgfca_sharedness_v2_geometry.py \
+            --input-root /tmp/rgfca-v2-geometry-shards \
+            --output-photos data/frozen/rgfca_sharedness_v2_geometry_photos_v1.csv \
+            --output-audit data/frozen/rgfca_sharedness_v2_geometry_species_audit_v1.csv \
+            --output-json docs/supporting/rgfca_sharedness_v2_geometry_result_v1.json
+      - name: Enforce complete frame before any later synthetic gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('docs/supporting/rgfca_sharedness_v2_geometry_result_v1.json').read_text())
+          assert r['complete_fixed_frame'] is True
+          assert r['status']=='complete_frozen_metadata_geometry_150x300'
+          assert r['species']==150 and r['training_species']==75 and r['evaluation_species']==75
+          assert r['retained_photos']==45000 and r['target_photos_per_species']==300
+          assert r['terminal_request_error_species']==0 and r['species_below_target']==0
+          assert r['image_pixels_opened'] is False and r['flower_colour_opened'] is False
+          assert r['synthetic_sharedness_qualification_permitted'] is True
+          assert r['image_acquisition_permitted'] is False
+          PY
+      - name: Commit frozen metadata geometry
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/frozen/rgfca_sharedness_v2_geometry_photos_v1.csv \
+            data/frozen/rgfca_sharedness_v2_geometry_species_audit_v1.csv \
+            docs/supporting/rgfca_sharedness_v2_geometry_result_v1.json
+          git commit -m 'Freeze RGFCA v2 150x300 random metadata geometry'
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability
