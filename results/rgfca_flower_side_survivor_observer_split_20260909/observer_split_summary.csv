@@ -1,0 +1,3 @@
+half,support_reps,n_species_median,n_species_min,n_species_max,median_flower_score,q025,q975,positive_fraction,passes_half_gate,observer_disjoint_robust
+A,191,8.0,5,14,0.009493794918150843,-0.042577802037359176,0.056367163509639676,0.6178010471204188,False,False
+B,200,11.0,5,17,0.014372905799609679,-0.015157512461739972,0.04880460667678341,0.78,True,False
