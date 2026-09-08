@@ -37,8 +37,17 @@ A subsequent, prospectively specified 110-image Monarda region-agreement
 diagnostic failed its operational localization gate (pooled precision 0.56824,
 recall 0.42609), despite complete alignment and no runtime failures. This
 reference is not verified focal-petal truth, but the failed agreement gate
-further limits interpreting the atlas as validated floral phenotypes. The study
-does not establish flower-specific biogeography or an ecological mechanism.
+further limits interpreting the atlas as validated floral phenotypes. A separate
+prospectively fixed sharedness-v2 synthetic qualification on 150 species × 300
+photos also failed: nuisance false-positive control passed (maximum ~2.4%), but
+the best prespecified hard-positive detection rate was only ~3.2% versus the
+required 80%. A post-fail audit showed that only ~42–45% of shared species
+straddled the injected common boundary, while the frozen axis grid closely
+approximated the true direction. This supports a design-level
+support/identifiability limitation for the global common-hyperplane estimand,
+not a biological absence claim; empirical acquisition for that lane remains
+blocked. The study does not establish flower-specific biogeography or an
+ecological mechanism.
 
 ## 1. Questions and inferential targets
 
@@ -211,7 +220,27 @@ The distinction is consistent with structured-validation work: the split must
 match the intended transfer claim, and a different blocking axis tests a
 different kind of generalization. [Roberts et al. (2017)](https://doi.org/10.1111/ecog.02881).
 
-### 2.5 Display and scientific software
+### 2.5 Prospective sharedness-v2 qualification
+
+Before any empirical v2 flower/background colour was opened, a separate
+high-depth geometry was fixed at 150 species and 300 photographs per species,
+with a species-disjoint 75/75 training/evaluation split. The estimator uses the
+paired continuous contrast between flower-colour and matched background-colour
+distances across versus within candidate geographic partitions. The geographic
+axis grid, thresholds, retention arms, synthetic nuisance and positive worlds,
+power floor and fail-closed rule were fixed before the qualification outcome.
+Failure could not be repaired by changing the statistic, grid, thresholds,
+species count, photo count or power target after seeing results, and empirical
+image acquisition required a passing qualification.
+
+Because the qualification failed, a later diagnostic was restricted to the
+metadata geometry and synthetic generator truth. It asked whether species
+assigned to a shared boundary actually sampled both sides of that boundary and
+whether the already-frozen axis/threshold grid could approximate the injected
+partition. This audit was descriptive only: it could not reopen qualification,
+retune the design or authorize pixels.
+
+### 2.6 Display and scientific software
 
 The species-free map is a descriptive display, not a pooled-species test.
 A separate 24-photo CC0 illustration (Figure 3) was selected using metadata-only
@@ -233,7 +262,7 @@ Frozen inference and display runs have separate version records; the
 [software audit](RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md) maps their actual roles and
 does not substitute software citations for the RGFCA randomization contract.
 
-### 2.6 Bounded target-domain region-agreement diagnostic
+### 2.7 Bounded target-domain region-agreement diagnostic
 
 After the reserve results, we prospectively specified a separate measurement
 diagnostic using the received Monarda v1 COCO export: all 110 images and 788
@@ -258,7 +287,31 @@ run. [Protocol clarification and execution record](RGFCA_MONARDA_EXECUTION_AMEND
 
 ## 3. Discovery and independent reserve results
 
-### 3.1 Coverage and measurements
+### 3.1 Sharedness-v2 qualification failed before empirical opening
+
+The sharedness-v2 synthetic qualification did not pass. Nuisance-world
+false-positive control was acceptable, with a maximum rate of approximately
+**2.4%**, but all three prespecified hard-positive power gates failed. The best
+hard-positive detection rate was only approximately **3.2%**, compared with the
+required **80%** floor. The outcome therefore remained `qualification_pass =
+false`; empirical v2 image acquisition was not authorized, and no observed
+flower/background colour or image pixel was opened for that empirical lane.
+
+The post-fail support audit covered 1,500 hard-positive synthetic worlds without
+changing any qualification parameter. Depending on the prespecified scenario,
+only about **42–45%** of shared species sampled both sides of the true injected
+boundary. About **22–26%** had at least 10% of retained observations on the
+minority side, and only **15–18%** had at least 20%; the median species-instance
+minority-side fraction was **0**. The frozen 96-axis geometry was not the main
+limitation: the nearest fixed axis was typically only **6–7°** from the true
+common normal and the median nearest-axis plus frozen-threshold partition
+agreement was **1.0**. Thus the failed recovery is most directly interpreted as
+a support/identifiability mismatch between a global common-hyperplane estimand
+and realized species-range geometry. It is not evidence that shared geographic
+colour structure is absent in nature and does not supersede the original G1,
+species-disjoint commonness or reserve flower-specific decisions.
+
+### 3.2 Coverage and measurements
 
 The completed discovery measurement retained 50,000 terminal records, of which
 25,377 were classifiable and 24,623 were not. The eligible 369-species frame used
@@ -268,7 +321,7 @@ are not estimates of global plant abundance or shared transition boundaries.
 
 ![Figure 1. Discovery photo-derived colour map.](figures/rgfca_figure1_discovery_atlas.png)
 
-### 3.2 A small positive distance-colour association
+### 3.3 A small positive distance-colour association
 
 The observed equal-species mean rho was **0.0270213**, compared with a null mean
 of 0.0000396 and upper-tail p = **0.001**. Species effects varied in direction;

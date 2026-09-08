@@ -21,17 +21,48 @@ current ecological-signal search.
 | Environmental effect heterogeneity | No corrected main-effect variance, interaction variance or syndrome support | Species/context-specific environmental mechanisms are hypotheses |
 | Real-climate synthetic qualification | Failed; moderate full-sharing recovery 0%, 3.2%, 6.8% across three blocks | Insufficient recovery under the tested design; no biological result |
 | Sharedness-specific predictive qualification | Failed; moderate full-sharing recovery 0.8% | Method development, not evidence of absence in nature |
+| Sharedness-v2 high-depth paired qualification | **Failed** on 150 species × 300 photos (45,000 metadata-fixed photos); nuisance FPR max ~2.4%, best hard-positive detection ~3.2% vs required 80% | Empirical image acquisition remains blocked; post-fail audit identifies support/identifiability mismatch for the global common-hyperplane estimand |
 
 Result files are `docs/supporting/global_monte_carlo_measurement_result_v1.json`,
 `global_rgfca_g1_result_v1.json`, `global_rgfca_prespecified_robustness_result_v1.json`,
 `global_rgfca_species_disjoint_commonness_result_v1.json`,
 `global_rgfca_expanded_environmental_panel_final_result_v1.json`,
 `hypervolume_real_climate_synthetic_qualification_result_v1.json`, and
-`global_rgfca_sharedness_specific_predictive_result_v1.json` in that same directory.
+`global_rgfca_sharedness_specific_predictive_result_v1.json`, `rgfca_sharedness_v2_synthetic_qualification_result_v1.json`, and
+`rgfca_sharedness_v2_postfail_identifiability_v1.json` in that same directory.
 The heterogeneity inference result is on the parent branch, not at a local path:
 [immutable result](https://github.com/zuizui0223/fcp/blob/f2f9c58e1d857a5d4b5b35a78adab8e8324b25eb/docs/supporting/global_rgfca_environmental_species_heterogeneity_inference_result_v1.json).
 The [supporting evidence index](RGFCA_SUPPORTING_EVIDENCE.md) records its verified
 artifact, exact file hashes and complete 5/10/2-family reconstruction checks.
+
+## Closed: sharedness-v2 high-depth qualification
+
+A prospectively fixed species-disjoint shared-boundary qualification used a
+metadata-only geometry of **150 species × 300 photographs = 45,000 photographs**,
+with 75 training and 75 held-out evaluation species. The paired continuous
+estimator compares flower-colour distance with matched background-colour distance
+and asks whether a geographic boundary learned from training species predicts
+held-out species. The synthetic qualification **failed**. Nuisance-world
+false-positive control passed (maximum approximately **2.4%**), but all three
+prespecified hard-positive power gates failed; the best hard-positive detection
+rate was only approximately **3.2%**, below the required **80%** floor. The
+frozen decision is therefore `qualification_pass = false`, and empirical image
+acquisition for this lane remains prohibited. No observed flower colour, observed
+background colour or image pixel was opened for the v2 empirical test.
+
+A post-fail descriptive identifiability audit did not reopen qualification or
+search parameters. Across 1,500 hard-positive worlds, only about **42–45%** of
+shared species straddled the true injected boundary; about **22–26%** had at least
+10% of retained observations on the minority side and about **15–18%** had at
+least 20%. The median species-instance minority-side fraction was **0**. By
+contrast, the frozen geographic grid was adequate for the injected direction:
+the nearest fixed axis was typically about **6–7 degrees** from the true common
+normal and median nearest-axis plus frozen-threshold partition agreement was
+**1.0**. The dominant diagnosis is therefore a **support/identifiability mismatch
+for the global common-hyperplane estimand on realized species-range geometry**,
+not a demonstrated absence of shared flower-colour geography in nature. This
+diagnostic cannot convert FAIL to PASS or authorize a new tuning cycle. Full
+interpretation: [sharedness-v2 post-fail status](RGFCA_SHAREDNESS_V2_POSTFAIL_STATUS.md).
 
 ## Completed: species-level spatial information
 
