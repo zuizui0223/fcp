@@ -1,0 +1,55 @@
+{
+  "claim_ceiling": "Transport-only recovery of the frozen 150 x 300 metadata geometry for later synthetic sharedness qualification.",
+  "complete_fixed_frame": true,
+  "ecological_claim_changed": false,
+  "evaluation_species": 75,
+  "flower_colour_opened": false,
+  "image_acquisition_permitted": false,
+  "image_pixels_opened": false,
+  "lineage": {
+    "combined_audit_sha256": "2886ef1d399df7c8969b84cdf58889c6bf7f63346dd7e7ba0ac36c6354a79007",
+    "combined_photos_sha256": "124e0cb08972d1b1ca69fc151d8c253db602fbdfd376e321f8bac922966f6df4",
+    "contract_sha256": "cd7b909beea7bbdfbad6b15b30822e02d3fa95b00356c2e4ba1cbd927233aa01",
+    "shards": [
+      {
+        "audit": "6f2297780a2928dd0cd37447a43012f6b367c7954120d12c861dcdc1fffaa0e6",
+        "photos": "9bdb1abfdeb43bdd152dc6b9a5028bff7f1e0342013695173b3ce5d9c77e609e",
+        "shard": 0
+      },
+      {
+        "audit": "6c715c8844254a0b31c6c0fd04a1f3b2c0aa302fd263651baaff28e7d8d8124f",
+        "photos": "d451a7e8a75ef58fcb4bd88226a4b49278b6d16ba8788512addc5fe40a2d1d76",
+        "shard": 1
+      },
+      {
+        "audit": "7d20e2db2e5e3e568373c46a70b958028729374720dab14514c9c1220a6b6b63",
+        "photos": "48cfb55a265053954f2ebeb36521891eaf3def23a1c0ffe75ea275e5146d761f",
+        "shard": 2
+      },
+      {
+        "audit": "28c37b2663809a2da66ec5051314a07bd22da8d43fa6c1cd5385c3277ba5f51d",
+        "photos": "48c533f481de4e21ef170270b47740a29b7a1709e2245b852d02a2a78cf88e71",
+        "shard": 3
+      },
+      {
+        "audit": "81a0f63d8ba0e5798d971d7676f9bbc35b101b4ba5ffb0eb5d14413b9aa186ca",
+        "photos": "a1c4c9f85db129c1e32f6643853ad718e11bd078673959117b9e20bbce658292",
+        "shard": 4
+      },
+      {
+        "audit": "506125794abad3af5bfffe4f8d3af72c4946bdbfa285c33eeabcf5a22605c691",
+        "photos": "82e8438db344d39b3271c81c50c65be3fef60f007f24866d352b51013e5b0ab0",
+        "shard": 5
+      }
+    ]
+  },
+  "photos_per_species": 300,
+  "protocol": "rgfca-sharedness-v2-geometry-transport-recovery-v1",
+  "retained_photos": 45000,
+  "species": 150,
+  "species_below_target": 0,
+  "status": "complete_transport_recovered_metadata_geometry_150x300",
+  "synthetic_sharedness_qualification_permitted": true,
+  "terminal_request_error_species": 0,
+  "training_species": 75
+}
