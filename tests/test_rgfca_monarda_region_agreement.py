@@ -87,12 +87,12 @@ def test_score_masks_empty_prediction_is_retained_as_zero_performance():
     assert score["dice"] == 0.0
 
 
-def _positive_frame(*, precision: float, recall: float, iou: float, predicted: int = 100) -> pd.DataFrame:
+def _positive_frame(*, precision: float, recall: float, iou: float | None = None) -> pd.DataFrame:
     rows = []
     reference = 100
     intersection = int(round(reference * recall))
-    if precision > 0:
-        predicted = max(predicted, int(round(intersection / precision)))
+    if precision > 0 and intersection > 0:
+        predicted = max(intersection, int(round(intersection / precision)))
     else:
         predicted = 0
     intersection = min(intersection, predicted, reference)
