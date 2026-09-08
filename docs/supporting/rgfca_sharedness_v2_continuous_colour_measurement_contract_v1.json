@@ -1,0 +1,58 @@
+{
+  "protocol": "rgfca-sharedness-v2-continuous-visible-colour-measurement-v1",
+  "status": "prospectively_frozen_before_any_sharedness_v2_candidate_pixel_opening",
+  "date": "2026-09-08",
+  "role": "prospective measurement-output specification only; it does not authorize acquisition, pixel opening, species selection, ecological inference, or a rerun of discovery/reserve",
+  "measurement_runtime": {
+    "source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "runtime_path": "fcp_pipeline/flower_roi_v4_runtime.py",
+    "runtime_git_blob": "6f3e71f7216b1635a2e06628336f5ea9ce0105d6",
+    "roi_v4_unchanged": true,
+    "detector_weight_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "orientation": "apply EXIF orientation then convert once to RGB",
+    "colour_space": "camera-space sRGB converted to CIELAB under the already-frozen ROI-v4 runtime; not calibrated reflectance"
+  },
+  "required_flower_outputs_per_photo": [
+    "flower_effective_pixels",
+    "flower_L_mean", "flower_L_sd", "flower_L_q10", "flower_L_q50", "flower_L_q90",
+    "flower_a_mean", "flower_a_sd", "flower_a_q10", "flower_a_q50", "flower_a_q90",
+    "flower_b_mean", "flower_b_sd", "flower_b_q10", "flower_b_q50", "flower_b_q90"
+  ],
+  "required_matched_background_outputs_per_photo": [
+    "background_effective_pixels",
+    "background_L_mean", "background_L_sd", "background_L_q10", "background_L_q50", "background_L_q90",
+    "background_a_mean", "background_a_sd", "background_a_q10", "background_a_q50", "background_a_q90",
+    "background_b_mean", "background_b_sd", "background_b_q10", "background_b_q50", "background_b_q90"
+  ],
+  "required_quality_outputs": [
+    "horizontal_flip_mask_iou",
+    "horizontal_flip_colour_delta_e",
+    "automated_colour_state_status",
+    "failure_reasons"
+  ],
+  "legacy_palette_outputs": {
+    "retain_12_anchor_counts_as_secondary_compatibility_output": true,
+    "four_state_morph_is_not_the_primary_sharedness_v2_colour_representation": true,
+    "do_not_select_continuous_channels_based_on_discovery_or_reserve_results": true
+  },
+  "continuous_primary_representation_for_future_synthetic_design": {
+    "vector": ["L_mean", "a_mean", "b_mean"],
+    "within_photo_dispersion_and_quantiles": "retained for diagnostics and prespecified sensitivity only, not searched for the best signal",
+    "matched_background_vector": ["L_mean", "a_mean", "b_mean"],
+    "reason": "the exact frozen ROI-v4 runtime already computes these values before palette compression"
+  },
+  "prohibited": [
+    "no UV or pollinator-vision claim from ordinary RGB photographs",
+    "no post-outcome channel selection",
+    "no colour calibration or reflectance claim",
+    "no discovery/reserve remeasurement under this v2 contract",
+    "no change to reserve flower-specific p=0.087 or flower_specific_robust_replication=false"
+  ],
+  "future_negative_control": "any sharedness-v2 observed analysis must carry the matched background continuous summaries through the same photo frame; exact differential/control statistic must be frozen in the later inference contract",
+  "image_pixels_opened_under_this_contract": false,
+  "flower_colour_outcomes_opened_under_this_contract": false,
+  "ecological_claim_changed": false,
+  "six_species_used": false,
+  "thirty_four_species_used": false,
+  "claim_ceiling": "Prospective preservation of already-existing visible CIELAB summaries from the fixed ROI-v4 measurement runtime. Not evidence of shared geographic boundaries or ecological adaptation."
+}
