@@ -1,0 +1,2 @@
+n_reps,observed_seed,null_seed,n_eligible_photos,n_eligible_species,upstream_max_abs_diff,species_median,states_median
+200,20260909,20260911,24885,500,4.440892098500626e-16,326.0,1877.0
