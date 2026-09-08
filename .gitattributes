@@ -6,3 +6,5 @@ docs/figures/rgfca_photo_bar_v1/*.json text eol=lf
 docs/figures/rgfca_photo_bar_v1/*.md text eol=lf
 docs/supporting/rgfca_reference_schema_plan_v1.json text eol=lf
 docs/supporting/rgfca_reference_schema_result_v1.json text eol=lf
+docs/supporting/rgfca_monarda_archive_intake_v1.json text eol=lf
+docs/supporting/rgfca_monarda_source_mapping_v1.json text eol=lf

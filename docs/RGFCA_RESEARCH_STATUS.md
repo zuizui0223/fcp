@@ -299,6 +299,17 @@ overlap and ontology qualification for a clearly limited flower-region diagnosti
 the independent iNaturalist focal-taxon measurement gate remains unresolved.
 Do not rerun the six completed schema examples or admit all 300 from this sample.
 
+**Monarda archive received and audited:** the completed user-supplied v1 ZIP
+contains 110 paired images and 788 polygon annotations. All 110 source photo
+and observation IDs are mapped through pinned author metadata, with zero ID
+overlaps against either full 50,000-photo frame. This resolves the prior access
+blocker. One image has no annotations and remains unknown; 98 photos have
+historical noncommercial licence conditions. No pixels were decoded, model
+run or measurement score calculated. See the
+[complete intake and next prospective gate](RGFCA_MONARDA_REFERENCE_INTAKE.md).
+ID disjointness is not model-training, event or observer independence, and
+generic flower-region annotations are not verified focal-petal truth.
+
 1. Preserve the now-completed reserve measurement and all four fixed tests.
    The weak photo association replicated, but the flower-specific gate did not
    pass. Complete its bounded manuscript/reproducibility package, then address

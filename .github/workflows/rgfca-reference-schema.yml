@@ -10,6 +10,13 @@ on:
       - docs/supporting/rgfca_reference_schema_plan_v1.json
       - docs/supporting/rgfca_reference_schema_result_v1.json
       - docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md
+      - scripts/analysis/audit_rgfca_monarda_archive.py
+      - scripts/analysis/map_rgfca_monarda_reference_sources.py
+      - tests/test_rgfca_monarda_reference.py
+      - docs/supporting/rgfca_monarda_archive_intake_v1.json
+      - docs/supporting/rgfca_monarda_source_mapping_v1.json
+      - docs/RGFCA_MONARDA_REFERENCE_INTAKE.md
+      - .gitattributes
       - .github/workflows/rgfca-reference-schema.yml
   workflow_dispatch:
 
@@ -31,7 +38,7 @@ jobs:
           PYTHONPATH: .
         run: |
           echo '48436a74160b4700e2d9b2bbc803aeac7fcfe8a1f09885140a1eade034c5aade  docs/supporting/rgfca_reference_schema_plan_v1.json' | sha256sum -c -
-          python -m pytest tests/test_rgfca_reference_schema.py tests/test_rgfca_reference_schema_result.py -q
+          python -m pytest tests/test_rgfca_reference_schema.py tests/test_rgfca_reference_schema_result.py tests/test_rgfca_monarda_reference.py -q
       - uses: actions/upload-artifact@v4
         with:
           name: rgfca-reference-schema-preflight-v1
@@ -42,6 +49,21 @@ jobs:
             tests/test_rgfca_reference_schema_result.py
             docs/supporting/rgfca_reference_schema_result_v1.json
             docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md
+            .github/workflows/rgfca-reference-schema.yml
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Preserve metadata-only Monarda intake and source correspondence
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-monarda-reference-intake-v1
+          path: |
+            docs/RGFCA_MONARDA_REFERENCE_INTAKE.md
+            docs/supporting/rgfca_monarda_archive_intake_v1.json
+            docs/supporting/rgfca_monarda_source_mapping_v1.json
+            scripts/analysis/audit_rgfca_monarda_archive.py
+            scripts/analysis/map_rgfca_monarda_reference_sources.py
+            tests/test_rgfca_monarda_reference.py
             .github/workflows/rgfca-reference-schema.yml
           if-no-files-found: error
           retention-days: 90

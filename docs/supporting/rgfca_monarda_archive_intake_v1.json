@@ -1,0 +1,2283 @@
+{
+  "schema_version": "fcp-monarda-archive-intake-v1",
+  "archive_sha256": "7c9d213514e319b11cc15623747277f88eb37c453722f665b8570b40b9f0dd0d",
+  "archive_bytes": 41055963,
+  "members": [
+    {
+      "path": "README.dataset.txt",
+      "bytes": 183,
+      "sha256": "f28bc2834a99f501869e03cae08da255f00896d4418dd4bd0801e1b234d6e078"
+    },
+    {
+      "path": "README.roboflow.txt",
+      "bytes": 991,
+      "sha256": "008baafd6d371a1f548d3427ff162e7cf1f699e17800ee15dffce80b210a5eb2"
+    },
+    {
+      "path": "test/11932_jpg.rf.8dbfc1de9f0e89db9200752fbc179ad4.jpg",
+      "bytes": 328516,
+      "sha256": "642402b437f54773d7154b7de332ab9ef43d89b7688339057da92d64567f5b98"
+    },
+    {
+      "path": "test/12245_jpg.rf.6bf395b67e8f38fbd0004243bf6eab9d.jpg",
+      "bytes": 468705,
+      "sha256": "6490410b571bf0c3c0ca92101394cd23cdb2faeb82419518bd5534bfc617efe5"
+    },
+    {
+      "path": "test/19840_jpg.rf.067673c55f6dacdc6c81707acff37d56.jpg",
+      "bytes": 259049,
+      "sha256": "790d9e5f7e80772278ad7d970c6389bc9927700013f7b2acb289eef98ef8c58d"
+    },
+    {
+      "path": "test/22187_jpg.rf.2ecf056dcddf6d6102d18f157bd7bcdc.jpg",
+      "bytes": 185791,
+      "sha256": "2b7492de00a5c3e83c80f1e6baf62b4af9e1a2d51f7454b974afa9a9ce1ae6d3"
+    },
+    {
+      "path": "test/24899_jpg.rf.947f60004f7ef7855490dfd69922d40a.jpg",
+      "bytes": 335953,
+      "sha256": "c7958c7ee839afb723bc6a5e15516142c95c0950149571ad92b3721983a0a0a6"
+    },
+    {
+      "path": "test/25375_jpg.rf.145a32b0a8e08291ffc62e7a49ea2d6f.jpg",
+      "bytes": 396876,
+      "sha256": "c977b586994afc25f00032c9a339588c87d73b51df7c896fc29d496cf5e99b7c"
+    },
+    {
+      "path": "test/26306_jpg.rf.fb2f2c32cb753e0861b7598527051c31.jpg",
+      "bytes": 317699,
+      "sha256": "d1a11fba2c56735cdf8ece8d859bc0ec2e22984cb3c34f60fc028d715d208be0"
+    },
+    {
+      "path": "test/28441_jpg.rf.4b78741291ab03ba422154459df2d880.jpg",
+      "bytes": 269054,
+      "sha256": "03c1414cfebe416057f12fb33ab231cdfaf0521870b9dc2eb02e49f522e74d1e"
+    },
+    {
+      "path": "test/30203_jpg.rf.275e7842864487accdba083ec9710cf8.jpg",
+      "bytes": 264386,
+      "sha256": "a14a9b8caaf5d6022da95c6f8b35e0b1d3746c66756d4e679b0fa27295e4078a"
+    },
+    {
+      "path": "test/37864_jpg.rf.5867be9551604e13c506ea4d1acd246a.jpg",
+      "bytes": 112897,
+      "sha256": "0fd2bdebbd37a329a6708ef7778b5cda67e3b849216972c5971523393493fc8f"
+    },
+    {
+      "path": "test/944_jpg.rf.9e527e577e66f746c7d9930eacc5d64c.jpg",
+      "bytes": 351865,
+      "sha256": "19077a35cae9da4aafb85aa1c0da2ecc0fa243c26a5d541e21df23f59aba9607"
+    },
+    {
+      "path": "test/_annotations.coco.json",
+      "bytes": 68297,
+      "sha256": "c03773148342e0bf7ae49dbac106e4730d9ad279924cce2253a9163ea0d67bc1"
+    },
+    {
+      "path": "train/10276_jpg.rf.fdad978d38c23b8de17be0b7207bc365.jpg",
+      "bytes": 456115,
+      "sha256": "e372d2f4ea5d9679ea213a9c5f44220b9dd953c69653908cc00d4ca741a46afd"
+    },
+    {
+      "path": "train/10976_jpg.rf.7fe70eb92dddc8b2cc5fcaa03d2eae42.jpg",
+      "bytes": 360762,
+      "sha256": "b00db03e74424d882429df75c26f90531041f5016aae61689a5cd78e5629700a"
+    },
+    {
+      "path": "train/11103_jpg.rf.4d6c94fe718fb4f5d594c989ef5dd0a4.jpg",
+      "bytes": 241605,
+      "sha256": "723819a3424c6e70547b02600325c81fcb5a75d9d342560ffea70ba251720920"
+    },
+    {
+      "path": "train/11334_jpg.rf.e840dd14c689b1a72f853a665632a153.jpg",
+      "bytes": 423249,
+      "sha256": "c2e69a74699541929f110c373048adb44515a591c2205af49b31ff37447d0771"
+    },
+    {
+      "path": "train/12015_jpg.rf.69a09077b8f9ed522eb8c4bc942b2b6e.jpg",
+      "bytes": 771476,
+      "sha256": "a57e57796da4048b26dd477a1b79fe16617aa20ebf87516ab33446d507f413c7"
+    },
+    {
+      "path": "train/12435_jpg.rf.641cc331a6393f73842e1d24dd667ae2.jpg",
+      "bytes": 402630,
+      "sha256": "6a573b945fa5fb43c0719cd41c9c4b3241cd4e3fa931429474d230b3628b3c74"
+    },
+    {
+      "path": "train/12731_jpg.rf.393d1734ef912162b81f2da18c0e1b2f.jpg",
+      "bytes": 384716,
+      "sha256": "7bbd6268fec4ae8e29f4259918d7e7c8416124baead9e00abc232947d90c4622"
+    },
+    {
+      "path": "train/12892_jpg.rf.527e5831143c26b67c682e486337924c.jpg",
+      "bytes": 427457,
+      "sha256": "279a04fcee6eecec804544cb9cd0573735e057101278df2910fcbf86ffc5fe7f"
+    },
+    {
+      "path": "train/13560_jpg.rf.67d87ca3fb64ac71f8b17783ac382e73.jpg",
+      "bytes": 278360,
+      "sha256": "9ec76cb956c1f4516ca87a609430f9f7df7d016cd2103a8007f4f353b4b5a242"
+    },
+    {
+      "path": "train/13709_jpg.rf.525c829a65f19c8d9ad744574ca711f0.jpg",
+      "bytes": 278668,
+      "sha256": "b9fa86d42c26e4bda891f02c67d61ca2d5e8f8d9eb4d89f0272e2c638d0cbf0d"
+    },
+    {
+      "path": "train/1416_jpg.rf.0b63de2cd11ac23f893033ceee85d613.jpg",
+      "bytes": 410516,
+      "sha256": "90b1268f777906bbf924354bb5053758b312be274ff2498320b54df2c21d9ef8"
+    },
+    {
+      "path": "train/14224_jpg.rf.da21965023ce9e73d25713ac3bed744a.jpg",
+      "bytes": 407088,
+      "sha256": "7f0e9337e29e5f45b3364486755a19ee803345c6e67aeaf4c95d7eabe08e1bca"
+    },
+    {
+      "path": "train/14739_jpg.rf.da8c8c1fff02cd6cab2cf7b92a3ca343.jpg",
+      "bytes": 495211,
+      "sha256": "d807abb930f14c870aeb43ca645cebf2eaad01b2e6a7817b6b328880ba1f073f"
+    },
+    {
+      "path": "train/14768_jpg.rf.7fbbb5a8e4c6f36a997d9d01288dadb9.jpg",
+      "bytes": 328228,
+      "sha256": "8b210a9ce0b4bd99b3e3e9b5079a18aae9be839831eb0a2a40e414719daa1c07"
+    },
+    {
+      "path": "train/14949_jpg.rf.4bd711a3f37a3bfd3cf334abc547077e.jpg",
+      "bytes": 363815,
+      "sha256": "23fc05398038fadfd2f4848d4081f82040504cbd90b0dcbb1cc482ab7bed0838"
+    },
+    {
+      "path": "train/15567_jpg.rf.c4468a5eb90f5c31f05f0a5363ff3bd3.jpg",
+      "bytes": 203178,
+      "sha256": "761df8f035b6f3989c8b956cdc72750a957acb3d71a3a8624c16671e9c13588f"
+    },
+    {
+      "path": "train/15611_jpg.rf.b40474ff6492ddaef014a20e437ddcc7.jpg",
+      "bytes": 290952,
+      "sha256": "25262bd910caf5e6bac9a459f4eb976b752faee1f53ad5042e9a8e73665415ea"
+    },
+    {
+      "path": "train/1571_jpg.rf.ce9283a8f809779aa6fe42c016a25e44.jpg",
+      "bytes": 444281,
+      "sha256": "440be1f2a3099cca8ca35ca72ce423f65823a40441f52129dc31a2acb75a123a"
+    },
+    {
+      "path": "train/16167_jpg.rf.70de2a08b3dda976db3f0f32c2542e8a.jpg",
+      "bytes": 441617,
+      "sha256": "d9a712bce4be5b092e2ff41b5e039562eb6c91a5b1cd024710e808cbe03a4cee"
+    },
+    {
+      "path": "train/1734_jpg.rf.6826b5376bdbcfb7b97674c20e06ea30.jpg",
+      "bytes": 311731,
+      "sha256": "6721b6338c3b14c830d9fe4bd46ab7dea9b7f73712fc714b8b1d2380653e223c"
+    },
+    {
+      "path": "train/19449_jpg.rf.a3f8738dc52aa27b2f6ea8499e37db00.jpg",
+      "bytes": 323069,
+      "sha256": "1e0549ef9edf2a958d83cbedb183e3a71b699180eb632c2e214ddeb94e8c2338"
+    },
+    {
+      "path": "train/19605_jpg.rf.71dc8b3f97fc884e3296f99211970478.jpg",
+      "bytes": 392874,
+      "sha256": "bb7255d57fad5aabe22facbe9bed3174cdd36d195dd5b0f04bda5f3878da48d6"
+    },
+    {
+      "path": "train/19806_jpg.rf.39d93a63a8e973a13df945cdde570ad5.jpg",
+      "bytes": 367558,
+      "sha256": "e62f4b955170910935bb26fb662b443612af7b8559f49cddd666b7dca1c35522"
+    },
+    {
+      "path": "train/20583_jpg.rf.944a97922eea4b059e55f9a547e5f1e5.jpg",
+      "bytes": 279390,
+      "sha256": "40acec28505374ea5469993395991293ee2fc8a69e2aa1eeb8a88479c7e4c1c3"
+    },
+    {
+      "path": "train/21020_jpg.rf.b120590fb6c0d592e63be06beeb1d956.jpg",
+      "bytes": 246082,
+      "sha256": "0249611ba15759a4be4557585c6f94135681a788823be0db971653c42ab38104"
+    },
+    {
+      "path": "train/21043_jpg.rf.94ad9e43467e67e25d4a5ae5ce24133f.jpg",
+      "bytes": 351072,
+      "sha256": "e48ea47d0d91298836375e1852fa1c12c544ee5bc8027777e18030569bf6f06e"
+    },
+    {
+      "path": "train/21661_jpg.rf.563dab1e16ecb8892664d68d5df29a65.jpg",
+      "bytes": 303223,
+      "sha256": "7f9925595be68804e395ade2696e76d71a98aad32903587a448494555986eff0"
+    },
+    {
+      "path": "train/21768_jpg.rf.8fdff1ee99ef41702b97346235b5c92c.jpg",
+      "bytes": 294079,
+      "sha256": "e9513e2fe3f4c68a6afa2ff50c35a3ef987fe46909b3239301063874b5736c26"
+    },
+    {
+      "path": "train/21797_jpg.rf.24748a19ea49f42ef74127d5066cafb7.jpg",
+      "bytes": 291649,
+      "sha256": "e8fe2928bd5c28336fe0a803ff61fe6999a941831e149576bcf77719a5901dd2"
+    },
+    {
+      "path": "train/22132_jpg.rf.a9555732c84a73e3f24c7c78214276d4.jpg",
+      "bytes": 334459,
+      "sha256": "f3a182dbd1f29d065901d9a69aff79841c59878b0ca7b11ed60f758032021a69"
+    },
+    {
+      "path": "train/22308_jpg.rf.85d331025bf2e00b750c8e24104906b5.jpg",
+      "bytes": 640419,
+      "sha256": "26df31b2303cb9faa0b607c2939fb84456d745f6dda15524e19dec0a9643fbbc"
+    },
+    {
+      "path": "train/233_jpg.rf.2e663d4d3fb638f9e920182093e20891.jpg",
+      "bytes": 524967,
+      "sha256": "f852d43727a9c6d5cd7e77bd4d68fda6296e475cc3a7cda714832e3af5e02b0c"
+    },
+    {
+      "path": "train/23554_jpg.rf.efadc781e7955de5d422fa57f1b3ba94.jpg",
+      "bytes": 382031,
+      "sha256": "2c89a15dffea4a0880443b3997e420aa3d5aa12c2b26dc1cd8d05e11ba724338"
+    },
+    {
+      "path": "train/25640_jpg.rf.ed317cf74b088db64e3c7d15e4e3fc62.jpg",
+      "bytes": 352049,
+      "sha256": "19711e30bbdc416067320ec18ed13412a72896aebc7dc8fb715b7cf2b0682544"
+    },
+    {
+      "path": "train/25643_jpg.rf.69aae9003ea878bf523a57be5d9c2ab4.jpg",
+      "bytes": 423931,
+      "sha256": "6c35a99993dbafa7af90ea239db69fcda9ea7816fe11b4a8dc459f9310efee6c"
+    },
+    {
+      "path": "train/25945_jpg.rf.35b735d94e4a15281c2561a46e96c26f.jpg",
+      "bytes": 332588,
+      "sha256": "f8a9d4bb7abdc6003f74d812c01254e3e93f2af99e85aa7bb882683d411138d1"
+    },
+    {
+      "path": "train/264_jpg.rf.6dcb92cc567b2eac40b7e7d914b4cb8c.jpg",
+      "bytes": 324353,
+      "sha256": "d5ed3d6a0c3f3edcd15528b37d9486f0525cf0f20c0599eb3bb774dbc8cc6ba7"
+    },
+    {
+      "path": "train/26668_jpg.rf.47432da3f31d31107583991ece195581.jpg",
+      "bytes": 433642,
+      "sha256": "a6599e2e2ef0561be9d510b9155d074978f412521f3615e62da4e352ae6a2e5d"
+    },
+    {
+      "path": "train/27546_jpg.rf.b6efa718f2b7815a3817dc2ea743a6a0.jpg",
+      "bytes": 1054556,
+      "sha256": "95804dff6fdb3ad2cbd4e2f28fe6ee894ff4fef8b39c3bb794889bf3566321e5"
+    },
+    {
+      "path": "train/28010_jpg.rf.beca5b821569ed8782a057f8e04ccfd3.jpg",
+      "bytes": 159857,
+      "sha256": "e2d052e9856d8264411f7e27eaa94901b40bd61e96444aaaaa7d682f39b0cb71"
+    },
+    {
+      "path": "train/29902_jpg.rf.84dce01f6bd9d90b402f61ed1cdf2018.jpg",
+      "bytes": 157879,
+      "sha256": "1af46203ee9bca44b5e5ed15db8baa2ddd00e2c512f6ae5da8bad014f71736d1"
+    },
+    {
+      "path": "train/30576_jpg.rf.27d095aa6ad986fcd952ce240d95c765.jpg",
+      "bytes": 168939,
+      "sha256": "58a639674b1514a69e56a1cd2aa53bc2aba8c2443b8fee65f236023d1cd5bf42"
+    },
+    {
+      "path": "train/31039_jpg.rf.44d27e87360f6ab56e969f969c6cc0b7.jpg",
+      "bytes": 946237,
+      "sha256": "7c546aec2eefd0fae2d89137c4bc77d20c80bdb218ec6120f872c26ad0bdf1c1"
+    },
+    {
+      "path": "train/31554_jpg.rf.4f16bc405f6a5f6d83115c23232bb090.jpg",
+      "bytes": 23591,
+      "sha256": "75ea14126705e326ece5f2429e5016c9f6479a69ee3dc544897819d1e26e6b8a"
+    },
+    {
+      "path": "train/32914_jpg.rf.739978d694b89ff330f1bf7775680c3c.jpg",
+      "bytes": 141089,
+      "sha256": "d5656a9f823e9be34fa958ce8864f27373eda803d460d1fe0f7c70e58ee6e561"
+    },
+    {
+      "path": "train/33131_jpg.rf.b1cc5f01cd4337fe3ebfa6ede3e2c0ef.jpg",
+      "bytes": 307416,
+      "sha256": "5ff07ca3b68247d4915490626414eb4e823c794fbfa7cc4a42306df8950cb768"
+    },
+    {
+      "path": "train/33246_jpg.rf.5e7289d617056b3c7ebd34f78329efbd.jpg",
+      "bytes": 317678,
+      "sha256": "3a933ff7bec8d0837d18a3a15d77c3ee9e33b163e3ef6f0669dfc114afc38299"
+    },
+    {
+      "path": "train/33419_jpg.rf.9f42ba72290c1b1bac08a29a63e34bc1.jpg",
+      "bytes": 243528,
+      "sha256": "b8af76707ccaf8849ea565bb98a6ef8b6d1776b645eb77db170945cff2b6f61e"
+    },
+    {
+      "path": "train/33690_jpg.rf.e2fe58cd71898a3172ff89de5b198084.jpg",
+      "bytes": 502469,
+      "sha256": "52dda2ecdc38f69fe4f9b9069c4f8a5facdd8719d1b77e8bf7bf1ec87df7eed1"
+    },
+    {
+      "path": "train/33790_jpg.rf.5df0efc9e4d0977d9fce9fb2949192ba.jpg",
+      "bytes": 381679,
+      "sha256": "b7ebdf0fa2f5ac9231e8aa1c7bb2e6e4ef106d8f26a59ad0ee47947ef1fae5df"
+    },
+    {
+      "path": "train/34466_jpg.rf.3c43e3c2d5f793d24cdab9b877f880b4.jpg",
+      "bytes": 300190,
+      "sha256": "e05ded506508ed2c5d498f888e5ae45c25f1a59d1df0a1e0e6176b761b685c16"
+    },
+    {
+      "path": "train/34472_jpg.rf.956b66b310304cf9a34622cc7f97e370.jpg",
+      "bytes": 255439,
+      "sha256": "8767283607a022ba0093a4dd87719cbea761107132e51e8fdeede310bb4d59b2"
+    },
+    {
+      "path": "train/34813_jpg.rf.a15612a703e4ebd018d33958a782a5fd.jpg",
+      "bytes": 126667,
+      "sha256": "f2cb005ef3c6e04cfc5f92405bb8c2c25d1efd002f86e28930436d436a2f02ec"
+    },
+    {
+      "path": "train/360_jpg.rf.ffda2703a9f445425611979f5ec050e7.jpg",
+      "bytes": 476828,
+      "sha256": "ff71ecd49fb0de310f33a69e25e330fc03dc2adc79e707a0b776ea6a4899246e"
+    },
+    {
+      "path": "train/37485_jpg.rf.785f97d31f1b9166fa8a95bb50961a62.jpg",
+      "bytes": 384622,
+      "sha256": "e5ac11c64a2534377324cb7d775571080db9d86e903219d63af1320425925cbb"
+    },
+    {
+      "path": "train/37749_jpg.rf.24f35d17c9722dc485548cd4f9e1b7cf.jpg",
+      "bytes": 583173,
+      "sha256": "213505088fbf0212d3264530dde2f78053fdbdca3ce63e329ea60f51f9f1747d"
+    },
+    {
+      "path": "train/38418_jpg.rf.e9ccf20f73c665933f030d637bd6bc2a.jpg",
+      "bytes": 316564,
+      "sha256": "79b898b6dba0b468e13604bc4379a0e1304d91cfdd789590976e314c51697950"
+    },
+    {
+      "path": "train/38433_jpg.rf.75280988f82fcf7fd75860ec82c826dc.jpg",
+      "bytes": 180671,
+      "sha256": "b2b00022174520cb25b464e979472f75e8169d9cc9e2855efc48350c4e82b021"
+    },
+    {
+      "path": "train/3990_jpg.rf.3b62561e587971b93c29e27404977db3.jpg",
+      "bytes": 367234,
+      "sha256": "03495c2b5b30df4a6c82c79fa46c4c5cbcc42f5571c1b278ec0cb46a41752b64"
+    },
+    {
+      "path": "train/39978_jpg.rf.f5d0a6a4665dfc201e37782f338a129a.jpg",
+      "bytes": 277801,
+      "sha256": "ea1ed757f476fd78397311aacd8db380a75f3a27ed200c56c919783b8015c285"
+    },
+    {
+      "path": "train/428_jpg.rf.499fd8de104c67e63570fa14c8dcacc9.jpg",
+      "bytes": 345569,
+      "sha256": "5673d32799d66cf1e49bca0e9a40eba0d7d6c41f79ba9b3cbbb778a97c8cd481"
+    },
+    {
+      "path": "train/5059_jpg.rf.37a2cfa3b2040f4323eabcf2ec5e5262.jpg",
+      "bytes": 583262,
+      "sha256": "af84c8dd4cc574268f482659533b8402baa6dd281cf55f00298b772088a4901e"
+    },
+    {
+      "path": "train/5316_jpg.rf.aed2914b458e9039b2c592b8b3bcc061.jpg",
+      "bytes": 381934,
+      "sha256": "fadcac72bdbb60f89a9a2486d696b559b28998269c56834670f0993121550cde"
+    },
+    {
+      "path": "train/5715_jpg.rf.96e18ae5b857bd60ff8a4b0fa8e450c3.jpg",
+      "bytes": 336967,
+      "sha256": "a53ac63386af3e683c21b451531e932bf993b850c412a8bf583fddd9a7f77506"
+    },
+    {
+      "path": "train/5732_jpg.rf.85b520727a39fecc968913aa465cfe05.jpg",
+      "bytes": 540169,
+      "sha256": "3b727fe11db1f38ec25567c41e6500d58f5c0ac3e28cf14045c41eea903056b0"
+    },
+    {
+      "path": "train/5917_jpg.rf.9b5f41d7505d8c0ac13a5d0b90f0272b.jpg",
+      "bytes": 292676,
+      "sha256": "361fa5300568f6f5ecb553998a4ed32c70ed5daf83fbfe68b02003b7a138c25c"
+    },
+    {
+      "path": "train/6182_jpg.rf.34f7c302cd021ccfd4b3a770bccfc8dc.jpg",
+      "bytes": 323432,
+      "sha256": "dceded5bf25163045b8508143b3c53c3954a23926258dfe7f7061a7e7e54d763"
+    },
+    {
+      "path": "train/6476_jpg.rf.b365f552e1c4bd24b1e6afc2070fc3e8.jpg",
+      "bytes": 457597,
+      "sha256": "c2ffe30fd4d3f1d4c2d1a9a8c431797b1c2e28ade7b2e81e85581879931909b0"
+    },
+    {
+      "path": "train/6692_jpg.rf.eaef8e025926a01e82351609755df494.jpg",
+      "bytes": 187294,
+      "sha256": "915e568cbf4fc26fa05ca05754b3ee93f7d9a9295ce960ed19faa7fda0928706"
+    },
+    {
+      "path": "train/7141_jpg.rf.b8034f4f056a9c1148e3c7a88feb0f05.jpg",
+      "bytes": 496253,
+      "sha256": "ef636d5826a0d2c896fab0b32ec54e549a5c3e86298a4fd3c5aa1750b321fd37"
+    },
+    {
+      "path": "train/7212_jpg.rf.61c70472c64ce66beb2ce47c9129155e.jpg",
+      "bytes": 152757,
+      "sha256": "5aad9d67df85aac9585e7875f72349f2e602bce35b9c30a6db0f19f6b5018f79"
+    },
+    {
+      "path": "train/7544_jpg.rf.4ce014b278fb9270726b68fc733900dd.jpg",
+      "bytes": 196220,
+      "sha256": "d880368459e542bdd48ee0d50cfef69cfcd9669113a6edfde57bdb017e92ed23"
+    },
+    {
+      "path": "train/7981_jpg.rf.15324439234aa084b33ef05fd288cc46.jpg",
+      "bytes": 538055,
+      "sha256": "c900dce0b9716a1151f1ef287c43ffac6a0bbd1a015785a15e2684315d03398c"
+    },
+    {
+      "path": "train/8869_jpg.rf.3b4465dd3d721e53dd570d26c3beca5e.jpg",
+      "bytes": 370581,
+      "sha256": "1268280c2213f42cefc4cae2011271b824310dd77c8c1d99ba0e9416d3dfd822"
+    },
+    {
+      "path": "train/9158_jpg.rf.afc0f49e4db1277fd8b32160de3983cb.jpg",
+      "bytes": 324082,
+      "sha256": "6a79cd38f5cdc169be7f8a7a59728de039bf3695743ce657931e787d889a3efb"
+    },
+    {
+      "path": "train/9242_jpg.rf.8664e7c13418b2be689a211db2709ed8.jpg",
+      "bytes": 517285,
+      "sha256": "767427ee7e9a1e9afe32d4d2bd823376e0d4fcaa46a5df2261d599f5e6369b1b"
+    },
+    {
+      "path": "train/9872_jpg.rf.358c05768760ee5f93e45894ed6b14ff.jpg",
+      "bytes": 511057,
+      "sha256": "9a4f1e3725adb9a20e39277621ca53065c1baea9d8b0ef3af1cc742f292e6337"
+    },
+    {
+      "path": "train/_annotations.coco.json",
+      "bytes": 433598,
+      "sha256": "36bc118752142c949c38255e1c024b321842210a32c05ef3d809a57b74e4fa8b"
+    },
+    {
+      "path": "valid/14078_jpg.rf.0a93cda2917f6cf26175c6741b7ce457.jpg",
+      "bytes": 396876,
+      "sha256": "b022471d0960b6b64790fe1c3c02d017a041053eab1519c4faff0827633ff49f"
+    },
+    {
+      "path": "valid/14191_jpg.rf.96ccc332ed408adb46a4ca4b2f4d2219.jpg",
+      "bytes": 398118,
+      "sha256": "d99638a9f0b80cc569e5f5574a970bef57ad00f518e457ef78de40b82503294d"
+    },
+    {
+      "path": "valid/15088_jpg.rf.e0db7bb21c186c4a783393fd82a82b95.jpg",
+      "bytes": 398565,
+      "sha256": "edd493c57c2352140d57ec20f3775d9b97d02e5b08bc0aa31a1885772bb6139f"
+    },
+    {
+      "path": "valid/15262_jpg.rf.d1fbb50c6ac98027f9e6e3154273a53d.jpg",
+      "bytes": 816513,
+      "sha256": "94388614cb541cfda02e7bc57cfbeafd60c47cc618d0a5c14a4198b1080bba79"
+    },
+    {
+      "path": "valid/15422_jpg.rf.2141cbbb2535b19e9dac59f70e428b08.jpg",
+      "bytes": 171441,
+      "sha256": "58141dafa7edf794ff443342e7a231dd657781e4bb50f454d93b1d028f0fc5d9"
+    },
+    {
+      "path": "valid/19193_jpg.rf.20a4e36fc96a4cf3bad852c77fbf7cdc.jpg",
+      "bytes": 118279,
+      "sha256": "0bc4a2fe4d3cdfd11c7c97d51cf7daf6e95358ec6ed5ba691c659108d6ae4d4c"
+    },
+    {
+      "path": "valid/23281_jpg.rf.3c91c3b8a06c0e24cdb0e56d9c057e3a.jpg",
+      "bytes": 623526,
+      "sha256": "456aff56b7981be190e51f2d6e77769048010962957556e54ae59ed2fd67bf38"
+    },
+    {
+      "path": "valid/23497_jpg.rf.74f5517b2dc3e90252deab57219205ad.jpg",
+      "bytes": 375184,
+      "sha256": "b01667c300fda809cbb534c24f40f333d3617dc12944dfa2476ba1f8ae9e585a"
+    },
+    {
+      "path": "valid/23961_jpg.rf.bc35ebea61184fd520099b4264b6f9c2.jpg",
+      "bytes": 369121,
+      "sha256": "eca687b5326dcbf924c43f5642fab2973c024e455a5187cc0ffbef67a54c0a05"
+    },
+    {
+      "path": "valid/26226_jpg.rf.de2e31d5720cf348080d8b326a4df249.jpg",
+      "bytes": 189605,
+      "sha256": "de177166c67b37952ab4ddcbafc7da59b8f1748ebb0f22db5daefad02787dd82"
+    },
+    {
+      "path": "valid/27507_jpg.rf.8ec7608fbeecae7b7a4fe8e662372b59.jpg",
+      "bytes": 659360,
+      "sha256": "f14c0fbbd24d95fb0e97fc3d29b05a219f79c4eaa89b35b96b95c71011dcf879"
+    },
+    {
+      "path": "valid/2826_jpg.rf.3e5c4cfda95003ef587ee662f36d8edb.jpg",
+      "bytes": 271067,
+      "sha256": "7217fe690954d1fb1f8eaccbbc1a2fa5183ab450c60c2a53e9e85152b3155bcb"
+    },
+    {
+      "path": "valid/29064_jpg.rf.13a5d7b4c704671988da927303e64f39.jpg",
+      "bytes": 580770,
+      "sha256": "f806e702083cd09c6368a94173cf62bd2194ebe8e570cba35ca5fab83feab0a1"
+    },
+    {
+      "path": "valid/31496_jpg.rf.563bd66129561eaeab1e77e78dc191f9.jpg",
+      "bytes": 269801,
+      "sha256": "1cffa47441c446dfc9576b9627e1b7ac7ab445450edaafb20001884c4bf1a0f8"
+    },
+    {
+      "path": "valid/31985_jpg.rf.0ee087ccd190f9b9c6b4c5f634618c48.jpg",
+      "bytes": 306003,
+      "sha256": "1d506e2a685f7db4bf792fd91f2932bb2278cee6494d47d2310485663e74afab"
+    },
+    {
+      "path": "valid/36251_jpg.rf.7c73fb64fd1f201cb6e1d4ec58584dc1.jpg",
+      "bytes": 353459,
+      "sha256": "2682685867775ad897fda4a1bfbb07d78749809cd72f86916a2a2bf8f790f718"
+    },
+    {
+      "path": "valid/37685_jpg.rf.e5c3ca1b191702c33fa3ddedd116809e.jpg",
+      "bytes": 590937,
+      "sha256": "035640331135b9f79fa2c9e1052d440fccc0aca6d2a6a12aef0912786a9b2c1b"
+    },
+    {
+      "path": "valid/38429_jpg.rf.3d9031c6856992d16489eaf33d3084b0.jpg",
+      "bytes": 391351,
+      "sha256": "9700814b12852fbf0e9eb03f6f553467ed473815fa501a796e04edc34b2bcab0"
+    },
+    {
+      "path": "valid/39841_jpg.rf.409f2baf0deefc99353f12881a8cd03b.jpg",
+      "bytes": 330448,
+      "sha256": "b89ef891c5be156e48138fc44cc177aece7d1d357aee602c2c260d3382d6faab"
+    },
+    {
+      "path": "valid/4197_jpg.rf.c055d5ef6adbfaf1f9e00275425b95b3.jpg",
+      "bytes": 194242,
+      "sha256": "cdabca80f4fbed56f5470add06adf4e04ef6da0431a1d1614f0b89ae22a986bc"
+    },
+    {
+      "path": "valid/6921_jpg.rf.df2d84bbb3c37aa217116feb9df8fb17.jpg",
+      "bytes": 504620,
+      "sha256": "9087b880e23c259b4d530bf0a6a381ad1df452763c86963462b734ef3bfa8038"
+    },
+    {
+      "path": "valid/8268_jpg.rf.458c2fd0e12c3713542e35c5cda50121.jpg",
+      "bytes": 639904,
+      "sha256": "60013d0b8ce7c8c47947c35e7395bddc71104faf61ffbe6c6ab38cad74329964"
+    },
+    {
+      "path": "valid/_annotations.coco.json",
+      "bytes": 143419,
+      "sha256": "1c71222d0b34f2b11d85ed7c384fee5b706a63548853c793b6e31d4cdcbec541"
+    }
+  ],
+  "archive_crc_all_members_verified": true,
+  "readmes_verbatim_untrusted_data": {
+    "README.dataset.txt": "# monarda_fistulosa_segmentation > 2025-02-21 12:32am\nhttps://universe.roboflow.com/patricks-dashboard/monarda_fistulosa_segmentation\n\nProvided by a Roboflow user\nLicense: CC BY 4.0\n\n",
+    "README.roboflow.txt": "\nmonarda_fistulosa_segmentation - v1 2025-02-21 12:32am\n==============================\n\nThis dataset was exported via roboflow.com on September 8, 2026 at 4:07 AM GMT\n\nRoboflow is an end-to-end computer vision platform that helps you\n* collaborate with your team on computer vision projects\n* collect & organize images\n* understand and search unstructured image data\n* annotate, and create datasets\n* export, train, and deploy computer vision models\n* use active learning to improve your dataset over time\n\nFor state of the art Computer Vision training notebooks you can use with this dataset,\nvisit https://github.com/roboflow/notebooks\n\nTo find over 100k other datasets and pre-trained models, visit https://universe.roboflow.com\n\nThe dataset includes 110 images.\nFlowers are annotated in COCO Segmentation format.\n\nThe following pre-processing was applied to each image:\n* Auto-orientation of pixel data (with EXIF-orientation stripping)\n\nNo image augmentation techniques were applied.\n\n\n"
+  },
+  "splits": {
+    "train": {
+      "images": 77,
+      "annotations": 537,
+      "categories": [
+        {
+          "id": 0,
+          "name": "flowers",
+          "supercategory": "none"
+        },
+        {
+          "id": 1,
+          "name": "flowers",
+          "supercategory": "flowers"
+        }
+      ],
+      "used_category_ids": {
+        "1": 537
+      },
+      "segmentation_types": {
+        "list": 537
+      },
+      "checks": {
+        "polygon_components": 537,
+        "date_captured_equals_export_date_created": 77,
+        "images_without_annotations": 1
+      },
+      "info": {
+        "year": "2026",
+        "version": "1",
+        "description": "Exported from roboflow.com",
+        "contributor": "",
+        "url": "https://public.roboflow.com/object-detection/undefined",
+        "date_created": "2026-09-08T04:07:49+00:00"
+      },
+      "licenses": [
+        {
+          "id": 1,
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "name": "CC BY 4.0"
+        }
+      ]
+    },
+    "valid": {
+      "images": 22,
+      "annotations": 134,
+      "categories": [
+        {
+          "id": 0,
+          "name": "flowers",
+          "supercategory": "none"
+        },
+        {
+          "id": 1,
+          "name": "flowers",
+          "supercategory": "flowers"
+        }
+      ],
+      "used_category_ids": {
+        "1": 134
+      },
+      "segmentation_types": {
+        "list": 134
+      },
+      "checks": {
+        "polygon_components": 134,
+        "date_captured_equals_export_date_created": 22
+      },
+      "info": {
+        "year": "2026",
+        "version": "1",
+        "description": "Exported from roboflow.com",
+        "contributor": "",
+        "url": "https://public.roboflow.com/object-detection/undefined",
+        "date_created": "2026-09-08T04:07:49+00:00"
+      },
+      "licenses": [
+        {
+          "id": 1,
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "name": "CC BY 4.0"
+        }
+      ]
+    },
+    "test": {
+      "images": 11,
+      "annotations": 117,
+      "categories": [
+        {
+          "id": 0,
+          "name": "flowers",
+          "supercategory": "none"
+        },
+        {
+          "id": 1,
+          "name": "flowers",
+          "supercategory": "flowers"
+        }
+      ],
+      "used_category_ids": {
+        "1": 117
+      },
+      "segmentation_types": {
+        "list": 117
+      },
+      "checks": {
+        "polygon_components": 117,
+        "date_captured_equals_export_date_created": 11
+      },
+      "info": {
+        "year": "2026",
+        "version": "1",
+        "description": "Exported from roboflow.com",
+        "contributor": "",
+        "url": "https://public.roboflow.com/object-detection/undefined",
+        "date_created": "2026-09-08T04:07:49+00:00"
+      },
+      "licenses": [
+        {
+          "id": 1,
+          "url": "https://creativecommons.org/licenses/by/4.0/",
+          "name": "CC BY 4.0"
+        }
+      ]
+    }
+  },
+  "total_images": 110,
+  "total_annotations": 788,
+  "checks": {
+    "polygon_components": 788,
+    "date_captured_equals_export_date_created": 110,
+    "images_without_annotations": 1
+  },
+  "duplicate_image_byte_groups": [],
+  "duplicate_original_name_groups": [],
+  "image_inventory": [
+    {
+      "split": "test",
+      "coco_image_id": 3,
+      "path": "test/11932_jpg.rf.8dbfc1de9f0e89db9200752fbc179ad4.jpg",
+      "original_name": "11932.jpg",
+      "width_declared": 1080,
+      "height_declared": 1920,
+      "bytes": 328516,
+      "sha256": "642402b437f54773d7154b7de332ab9ef43d89b7688339057da92d64567f5b98",
+      "annotation_count": 10,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 10,
+      "path": "test/12245_jpg.rf.6bf395b67e8f38fbd0004243bf6eab9d.jpg",
+      "original_name": "12245.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 468705,
+      "sha256": "6490410b571bf0c3c0ca92101394cd23cdb2faeb82419518bd5534bfc617efe5",
+      "annotation_count": 16,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 5,
+      "path": "test/19840_jpg.rf.067673c55f6dacdc6c81707acff37d56.jpg",
+      "original_name": "19840.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 259049,
+      "sha256": "790d9e5f7e80772278ad7d970c6389bc9927700013f7b2acb289eef98ef8c58d",
+      "annotation_count": 9,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 8,
+      "path": "test/22187_jpg.rf.2ecf056dcddf6d6102d18f157bd7bcdc.jpg",
+      "original_name": "22187.jpg",
+      "width_declared": 1542,
+      "height_declared": 2048,
+      "bytes": 185791,
+      "sha256": "2b7492de00a5c3e83c80f1e6baf62b4af9e1a2d51f7454b974afa9a9ce1ae6d3",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 6,
+      "path": "test/24899_jpg.rf.947f60004f7ef7855490dfd69922d40a.jpg",
+      "original_name": "24899.jpg",
+      "width_declared": 2048,
+      "height_declared": 1152,
+      "bytes": 335953,
+      "sha256": "c7958c7ee839afb723bc6a5e15516142c95c0950149571ad92b3721983a0a0a6",
+      "annotation_count": 19,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 7,
+      "path": "test/25375_jpg.rf.145a32b0a8e08291ffc62e7a49ea2d6f.jpg",
+      "original_name": "25375.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 396876,
+      "sha256": "c977b586994afc25f00032c9a339588c87d73b51df7c896fc29d496cf5e99b7c",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 1,
+      "path": "test/26306_jpg.rf.fb2f2c32cb753e0861b7598527051c31.jpg",
+      "original_name": "26306.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 317699,
+      "sha256": "d1a11fba2c56735cdf8ece8d859bc0ec2e22984cb3c34f60fc028d715d208be0",
+      "annotation_count": 10,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 0,
+      "path": "test/28441_jpg.rf.4b78741291ab03ba422154459df2d880.jpg",
+      "original_name": "28441.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 269054,
+      "sha256": "03c1414cfebe416057f12fb33ab231cdfaf0521870b9dc2eb02e49f522e74d1e",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 9,
+      "path": "test/30203_jpg.rf.275e7842864487accdba083ec9710cf8.jpg",
+      "original_name": "30203.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 264386,
+      "sha256": "a14a9b8caaf5d6022da95c6f8b35e0b1d3746c66756d4e679b0fa27295e4078a",
+      "annotation_count": 27,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 4,
+      "path": "test/37864_jpg.rf.5867be9551604e13c506ea4d1acd246a.jpg",
+      "original_name": "37864.jpg",
+      "width_declared": 1280,
+      "height_declared": 960,
+      "bytes": 112897,
+      "sha256": "0fd2bdebbd37a329a6708ef7778b5cda67e3b849216972c5971523393493fc8f",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "test",
+      "coco_image_id": 2,
+      "path": "test/944_jpg.rf.9e527e577e66f746c7d9930eacc5d64c.jpg",
+      "original_name": "944.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 351865,
+      "sha256": "19077a35cae9da4aafb85aa1c0da2ecc0fa243c26a5d541e21df23f59aba9607",
+      "annotation_count": 12,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 75,
+      "path": "train/10276_jpg.rf.fdad978d38c23b8de17be0b7207bc365.jpg",
+      "original_name": "10276.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 456115,
+      "sha256": "e372d2f4ea5d9679ea213a9c5f44220b9dd953c69653908cc00d4ca741a46afd",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 48,
+      "path": "train/10976_jpg.rf.7fe70eb92dddc8b2cc5fcaa03d2eae42.jpg",
+      "original_name": "10976.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 360762,
+      "sha256": "b00db03e74424d882429df75c26f90531041f5016aae61689a5cd78e5629700a",
+      "annotation_count": 21,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 4,
+      "path": "train/11103_jpg.rf.4d6c94fe718fb4f5d594c989ef5dd0a4.jpg",
+      "original_name": "11103.jpg",
+      "width_declared": 2048,
+      "height_declared": 1362,
+      "bytes": 241605,
+      "sha256": "723819a3424c6e70547b02600325c81fcb5a75d9d342560ffea70ba251720920",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 60,
+      "path": "train/11334_jpg.rf.e840dd14c689b1a72f853a665632a153.jpg",
+      "original_name": "11334.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 423249,
+      "sha256": "c2e69a74699541929f110c373048adb44515a591c2205af49b31ff37447d0771",
+      "annotation_count": 9,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 29,
+      "path": "train/12015_jpg.rf.69a09077b8f9ed522eb8c4bc942b2b6e.jpg",
+      "original_name": "12015.jpg",
+      "width_declared": 1936,
+      "height_declared": 1936,
+      "bytes": 771476,
+      "sha256": "a57e57796da4048b26dd477a1b79fe16617aa20ebf87516ab33446d507f413c7",
+      "annotation_count": 5,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 5,
+      "path": "train/12435_jpg.rf.641cc331a6393f73842e1d24dd667ae2.jpg",
+      "original_name": "12435.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 402630,
+      "sha256": "6a573b945fa5fb43c0719cd41c9c4b3241cd4e3fa931429474d230b3628b3c74",
+      "annotation_count": 29,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 39,
+      "path": "train/12731_jpg.rf.393d1734ef912162b81f2da18c0e1b2f.jpg",
+      "original_name": "12731.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 384716,
+      "sha256": "7bbd6268fec4ae8e29f4259918d7e7c8416124baead9e00abc232947d90c4622",
+      "annotation_count": 7,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 24,
+      "path": "train/12892_jpg.rf.527e5831143c26b67c682e486337924c.jpg",
+      "original_name": "12892.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 427457,
+      "sha256": "279a04fcee6eecec804544cb9cd0573735e057101278df2910fcbf86ffc5fe7f",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 72,
+      "path": "train/13560_jpg.rf.67d87ca3fb64ac71f8b17783ac382e73.jpg",
+      "original_name": "13560.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 278360,
+      "sha256": "9ec76cb956c1f4516ca87a609430f9f7df7d016cd2103a8007f4f353b4b5a242",
+      "annotation_count": 11,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 57,
+      "path": "train/13709_jpg.rf.525c829a65f19c8d9ad744574ca711f0.jpg",
+      "original_name": "13709.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 278668,
+      "sha256": "b9fa86d42c26e4bda891f02c67d61ca2d5e8f8d9eb4d89f0272e2c638d0cbf0d",
+      "annotation_count": 19,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 38,
+      "path": "train/1416_jpg.rf.0b63de2cd11ac23f893033ceee85d613.jpg",
+      "original_name": "1416.jpg",
+      "width_declared": 1710,
+      "height_declared": 2048,
+      "bytes": 410516,
+      "sha256": "90b1268f777906bbf924354bb5053758b312be274ff2498320b54df2c21d9ef8",
+      "annotation_count": 7,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 70,
+      "path": "train/14224_jpg.rf.da21965023ce9e73d25713ac3bed744a.jpg",
+      "original_name": "14224.jpg",
+      "width_declared": 1542,
+      "height_declared": 2048,
+      "bytes": 407088,
+      "sha256": "7f0e9337e29e5f45b3364486755a19ee803345c6e67aeaf4c95d7eabe08e1bca",
+      "annotation_count": 4,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 31,
+      "path": "train/14739_jpg.rf.da8c8c1fff02cd6cab2cf7b92a3ca343.jpg",
+      "original_name": "14739.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 495211,
+      "sha256": "d807abb930f14c870aeb43ca645cebf2eaad01b2e6a7817b6b328880ba1f073f",
+      "annotation_count": 8,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 43,
+      "path": "train/14768_jpg.rf.7fbbb5a8e4c6f36a997d9d01288dadb9.jpg",
+      "original_name": "14768.jpg",
+      "width_declared": 2048,
+      "height_declared": 1365,
+      "bytes": 328228,
+      "sha256": "8b210a9ce0b4bd99b3e3e9b5079a18aae9be839831eb0a2a40e414719daa1c07",
+      "annotation_count": 8,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 44,
+      "path": "train/14949_jpg.rf.4bd711a3f37a3bfd3cf334abc547077e.jpg",
+      "original_name": "14949.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 363815,
+      "sha256": "23fc05398038fadfd2f4848d4081f82040504cbd90b0dcbb1cc482ab7bed0838",
+      "annotation_count": 3,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 28,
+      "path": "train/15567_jpg.rf.c4468a5eb90f5c31f05f0a5363ff3bd3.jpg",
+      "original_name": "15567.jpg",
+      "width_declared": 1542,
+      "height_declared": 2048,
+      "bytes": 203178,
+      "sha256": "761df8f035b6f3989c8b956cdc72750a957acb3d71a3a8624c16671e9c13588f",
+      "annotation_count": 10,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 63,
+      "path": "train/15611_jpg.rf.b40474ff6492ddaef014a20e437ddcc7.jpg",
+      "original_name": "15611.jpg",
+      "width_declared": 1542,
+      "height_declared": 2048,
+      "bytes": 290952,
+      "sha256": "25262bd910caf5e6bac9a459f4eb976b752faee1f53ad5042e9a8e73665415ea",
+      "annotation_count": 4,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 30,
+      "path": "train/1571_jpg.rf.ce9283a8f809779aa6fe42c016a25e44.jpg",
+      "original_name": "1571.jpg",
+      "width_declared": 1601,
+      "height_declared": 2001,
+      "bytes": 444281,
+      "sha256": "440be1f2a3099cca8ca35ca72ce423f65823a40441f52129dc31a2acb75a123a",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 58,
+      "path": "train/16167_jpg.rf.70de2a08b3dda976db3f0f32c2542e8a.jpg",
+      "original_name": "16167.jpg",
+      "width_declared": 1152,
+      "height_declared": 2048,
+      "bytes": 441617,
+      "sha256": "d9a712bce4be5b092e2ff41b5e039562eb6c91a5b1cd024710e808cbe03a4cee",
+      "annotation_count": 4,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 14,
+      "path": "train/1734_jpg.rf.6826b5376bdbcfb7b97674c20e06ea30.jpg",
+      "original_name": "1734.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 311731,
+      "sha256": "6721b6338c3b14c830d9fe4bd46ab7dea9b7f73712fc714b8b1d2380653e223c",
+      "annotation_count": 2,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 12,
+      "path": "train/19449_jpg.rf.a3f8738dc52aa27b2f6ea8499e37db00.jpg",
+      "original_name": "19449.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 323069,
+      "sha256": "1e0549ef9edf2a958d83cbedb183e3a71b699180eb632c2e214ddeb94e8c2338",
+      "annotation_count": 17,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 46,
+      "path": "train/19605_jpg.rf.71dc8b3f97fc884e3296f99211970478.jpg",
+      "original_name": "19605.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 392874,
+      "sha256": "bb7255d57fad5aabe22facbe9bed3174cdd36d195dd5b0f04bda5f3878da48d6",
+      "annotation_count": 15,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 37,
+      "path": "train/19806_jpg.rf.39d93a63a8e973a13df945cdde570ad5.jpg",
+      "original_name": "19806.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 367558,
+      "sha256": "e62f4b955170910935bb26fb662b443612af7b8559f49cddd666b7dca1c35522",
+      "annotation_count": 5,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 3,
+      "path": "train/20583_jpg.rf.944a97922eea4b059e55f9a547e5f1e5.jpg",
+      "original_name": "20583.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 279390,
+      "sha256": "40acec28505374ea5469993395991293ee2fc8a69e2aa1eeb8a88479c7e4c1c3",
+      "annotation_count": 2,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 34,
+      "path": "train/21020_jpg.rf.b120590fb6c0d592e63be06beeb1d956.jpg",
+      "original_name": "21020.jpg",
+      "width_declared": 1152,
+      "height_declared": 2048,
+      "bytes": 246082,
+      "sha256": "0249611ba15759a4be4557585c6f94135681a788823be0db971653c42ab38104",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 26,
+      "path": "train/21043_jpg.rf.94ad9e43467e67e25d4a5ae5ce24133f.jpg",
+      "original_name": "21043.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 351072,
+      "sha256": "e48ea47d0d91298836375e1852fa1c12c544ee5bc8027777e18030569bf6f06e",
+      "annotation_count": 11,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 42,
+      "path": "train/21661_jpg.rf.563dab1e16ecb8892664d68d5df29a65.jpg",
+      "original_name": "21661.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 303223,
+      "sha256": "7f9925595be68804e395ade2696e76d71a98aad32903587a448494555986eff0",
+      "annotation_count": 8,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 59,
+      "path": "train/21768_jpg.rf.8fdff1ee99ef41702b97346235b5c92c.jpg",
+      "original_name": "21768.jpg",
+      "width_declared": 1152,
+      "height_declared": 2048,
+      "bytes": 294079,
+      "sha256": "e9513e2fe3f4c68a6afa2ff50c35a3ef987fe46909b3239301063874b5736c26",
+      "annotation_count": 5,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 52,
+      "path": "train/21797_jpg.rf.24748a19ea49f42ef74127d5066cafb7.jpg",
+      "original_name": "21797.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 291649,
+      "sha256": "e8fe2928bd5c28336fe0a803ff61fe6999a941831e149576bcf77719a5901dd2",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 69,
+      "path": "train/22132_jpg.rf.a9555732c84a73e3f24c7c78214276d4.jpg",
+      "original_name": "22132.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 334459,
+      "sha256": "f3a182dbd1f29d065901d9a69aff79841c59878b0ca7b11ed60f758032021a69",
+      "annotation_count": 0,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 27,
+      "path": "train/22308_jpg.rf.85d331025bf2e00b750c8e24104906b5.jpg",
+      "original_name": "22308.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 640419,
+      "sha256": "26df31b2303cb9faa0b607c2939fb84456d745f6dda15524e19dec0a9643fbbc",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 49,
+      "path": "train/233_jpg.rf.2e663d4d3fb638f9e920182093e20891.jpg",
+      "original_name": "233.jpg",
+      "width_declared": 2048,
+      "height_declared": 2048,
+      "bytes": 524967,
+      "sha256": "f852d43727a9c6d5cd7e77bd4d68fda6296e475cc3a7cda714832e3af5e02b0c",
+      "annotation_count": 14,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 17,
+      "path": "train/23554_jpg.rf.efadc781e7955de5d422fa57f1b3ba94.jpg",
+      "original_name": "23554.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 382031,
+      "sha256": "2c89a15dffea4a0880443b3997e420aa3d5aa12c2b26dc1cd8d05e11ba724338",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 36,
+      "path": "train/25640_jpg.rf.ed317cf74b088db64e3c7d15e4e3fc62.jpg",
+      "original_name": "25640.jpg",
+      "width_declared": 1445,
+      "height_declared": 1826,
+      "bytes": 352049,
+      "sha256": "19711e30bbdc416067320ec18ed13412a72896aebc7dc8fb715b7cf2b0682544",
+      "annotation_count": 5,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 18,
+      "path": "train/25643_jpg.rf.69aae9003ea878bf523a57be5d9c2ab4.jpg",
+      "original_name": "25643.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 423931,
+      "sha256": "6c35a99993dbafa7af90ea239db69fcda9ea7816fe11b4a8dc459f9310efee6c",
+      "annotation_count": 8,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 33,
+      "path": "train/25945_jpg.rf.35b735d94e4a15281c2561a46e96c26f.jpg",
+      "original_name": "25945.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 332588,
+      "sha256": "f8a9d4bb7abdc6003f74d812c01254e3e93f2af99e85aa7bb882683d411138d1",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 76,
+      "path": "train/264_jpg.rf.6dcb92cc567b2eac40b7e7d914b4cb8c.jpg",
+      "original_name": "264.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 324353,
+      "sha256": "d5ed3d6a0c3f3edcd15528b37d9486f0525cf0f20c0599eb3bb774dbc8cc6ba7",
+      "annotation_count": 4,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 40,
+      "path": "train/26668_jpg.rf.47432da3f31d31107583991ece195581.jpg",
+      "original_name": "26668.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 433642,
+      "sha256": "a6599e2e2ef0561be9d510b9155d074978f412521f3615e62da4e352ae6a2e5d",
+      "annotation_count": 3,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 71,
+      "path": "train/27546_jpg.rf.b6efa718f2b7815a3817dc2ea743a6a0.jpg",
+      "original_name": "27546.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 1054556,
+      "sha256": "95804dff6fdb3ad2cbd4e2f28fe6ee894ff4fef8b39c3bb794889bf3566321e5",
+      "annotation_count": 16,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 73,
+      "path": "train/28010_jpg.rf.beca5b821569ed8782a057f8e04ccfd3.jpg",
+      "original_name": "28010.jpg",
+      "width_declared": 2048,
+      "height_declared": 1360,
+      "bytes": 159857,
+      "sha256": "e2d052e9856d8264411f7e27eaa94901b40bd61e96444aaaaa7d682f39b0cb71",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 67,
+      "path": "train/29902_jpg.rf.84dce01f6bd9d90b402f61ed1cdf2018.jpg",
+      "original_name": "29902.jpg",
+      "width_declared": 1800,
+      "height_declared": 1201,
+      "bytes": 157879,
+      "sha256": "1af46203ee9bca44b5e5ed15db8baa2ddd00e2c512f6ae5da8bad014f71736d1",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 45,
+      "path": "train/30576_jpg.rf.27d095aa6ad986fcd952ce240d95c765.jpg",
+      "original_name": "30576.jpg",
+      "width_declared": 2048,
+      "height_declared": 1365,
+      "bytes": 168939,
+      "sha256": "58a639674b1514a69e56a1cd2aa53bc2aba8c2443b8fee65f236023d1cd5bf42",
+      "annotation_count": 14,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 2,
+      "path": "train/31039_jpg.rf.44d27e87360f6ab56e969f969c6cc0b7.jpg",
+      "original_name": "31039.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 946237,
+      "sha256": "7c546aec2eefd0fae2d89137c4bc77d20c80bdb218ec6120f872c26ad0bdf1c1",
+      "annotation_count": 11,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 55,
+      "path": "train/31554_jpg.rf.4f16bc405f6a5f6d83115c23232bb090.jpg",
+      "original_name": "31554.jpg",
+      "width_declared": 240,
+      "height_declared": 320,
+      "bytes": 23591,
+      "sha256": "75ea14126705e326ece5f2429e5016c9f6479a69ee3dc544897819d1e26e6b8a",
+      "annotation_count": 2,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 8,
+      "path": "train/32914_jpg.rf.739978d694b89ff330f1bf7775680c3c.jpg",
+      "original_name": "32914.jpg",
+      "width_declared": 1365,
+      "height_declared": 2048,
+      "bytes": 141089,
+      "sha256": "d5656a9f823e9be34fa958ce8864f27373eda803d460d1fe0f7c70e58ee6e561",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 22,
+      "path": "train/33131_jpg.rf.b1cc5f01cd4337fe3ebfa6ede3e2c0ef.jpg",
+      "original_name": "33131.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 307416,
+      "sha256": "5ff07ca3b68247d4915490626414eb4e823c794fbfa7cc4a42306df8950cb768",
+      "annotation_count": 11,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 13,
+      "path": "train/33246_jpg.rf.5e7289d617056b3c7ebd34f78329efbd.jpg",
+      "original_name": "33246.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 317678,
+      "sha256": "3a933ff7bec8d0837d18a3a15d77c3ee9e33b163e3ef6f0669dfc114afc38299",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 51,
+      "path": "train/33419_jpg.rf.9f42ba72290c1b1bac08a29a63e34bc1.jpg",
+      "original_name": "33419.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 243528,
+      "sha256": "b8af76707ccaf8849ea565bb98a6ef8b6d1776b645eb77db170945cff2b6f61e",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 32,
+      "path": "train/33690_jpg.rf.e2fe58cd71898a3172ff89de5b198084.jpg",
+      "original_name": "33690.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 502469,
+      "sha256": "52dda2ecdc38f69fe4f9b9069c4f8a5facdd8719d1b77e8bf7bf1ec87df7eed1",
+      "annotation_count": 31,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 66,
+      "path": "train/33790_jpg.rf.5df0efc9e4d0977d9fce9fb2949192ba.jpg",
+      "original_name": "33790.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 381679,
+      "sha256": "b7ebdf0fa2f5ac9231e8aa1c7bb2e6e4ef106d8f26a59ad0ee47947ef1fae5df",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 20,
+      "path": "train/34466_jpg.rf.3c43e3c2d5f793d24cdab9b877f880b4.jpg",
+      "original_name": "34466.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 300190,
+      "sha256": "e05ded506508ed2c5d498f888e5ae45c25f1a59d1df0a1e0e6176b761b685c16",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 1,
+      "path": "train/34472_jpg.rf.956b66b310304cf9a34622cc7f97e370.jpg",
+      "original_name": "34472.jpg",
+      "width_declared": 2048,
+      "height_declared": 1365,
+      "bytes": 255439,
+      "sha256": "8767283607a022ba0093a4dd87719cbea761107132e51e8fdeede310bb4d59b2",
+      "annotation_count": 10,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 6,
+      "path": "train/34813_jpg.rf.a15612a703e4ebd018d33958a782a5fd.jpg",
+      "original_name": "34813.jpg",
+      "width_declared": 1200,
+      "height_declared": 1800,
+      "bytes": 126667,
+      "sha256": "f2cb005ef3c6e04cfc5f92405bb8c2c25d1efd002f86e28930436d436a2f02ec",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 64,
+      "path": "train/360_jpg.rf.ffda2703a9f445425611979f5ec050e7.jpg",
+      "original_name": "360.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 476828,
+      "sha256": "ff71ecd49fb0de310f33a69e25e330fc03dc2adc79e707a0b776ea6a4899246e",
+      "annotation_count": 12,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 15,
+      "path": "train/37485_jpg.rf.785f97d31f1b9166fa8a95bb50961a62.jpg",
+      "original_name": "37485.jpg",
+      "width_declared": 2048,
+      "height_declared": 2048,
+      "bytes": 384622,
+      "sha256": "e5ac11c64a2534377324cb7d775571080db9d86e903219d63af1320425925cbb",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 35,
+      "path": "train/37749_jpg.rf.24f35d17c9722dc485548cd4f9e1b7cf.jpg",
+      "original_name": "37749.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 583173,
+      "sha256": "213505088fbf0212d3264530dde2f78053fdbdca3ce63e329ea60f51f9f1747d",
+      "annotation_count": 4,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 68,
+      "path": "train/38418_jpg.rf.e9ccf20f73c665933f030d637bd6bc2a.jpg",
+      "original_name": "38418.jpg",
+      "width_declared": 2048,
+      "height_declared": 2048,
+      "bytes": 316564,
+      "sha256": "79b898b6dba0b468e13604bc4379a0e1304d91cfdd789590976e314c51697950",
+      "annotation_count": 2,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 21,
+      "path": "train/38433_jpg.rf.75280988f82fcf7fd75860ec82c826dc.jpg",
+      "original_name": "38433.jpg",
+      "width_declared": 1014,
+      "height_declared": 1352,
+      "bytes": 180671,
+      "sha256": "b2b00022174520cb25b464e979472f75e8169d9cc9e2855efc48350c4e82b021",
+      "annotation_count": 2,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 25,
+      "path": "train/3990_jpg.rf.3b62561e587971b93c29e27404977db3.jpg",
+      "original_name": "3990.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 367234,
+      "sha256": "03495c2b5b30df4a6c82c79fa46c4c5cbcc42f5571c1b278ec0cb46a41752b64",
+      "annotation_count": 10,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 47,
+      "path": "train/39978_jpg.rf.f5d0a6a4665dfc201e37782f338a129a.jpg",
+      "original_name": "39978.jpg",
+      "width_declared": 2048,
+      "height_declared": 1535,
+      "bytes": 277801,
+      "sha256": "ea1ed757f476fd78397311aacd8db380a75f3a27ed200c56c919783b8015c285",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 56,
+      "path": "train/428_jpg.rf.499fd8de104c67e63570fa14c8dcacc9.jpg",
+      "original_name": "428.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 345569,
+      "sha256": "5673d32799d66cf1e49bca0e9a40eba0d7d6c41f79ba9b3cbbb778a97c8cd481",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 54,
+      "path": "train/5059_jpg.rf.37a2cfa3b2040f4323eabcf2ec5e5262.jpg",
+      "original_name": "5059.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 583262,
+      "sha256": "af84c8dd4cc574268f482659533b8402baa6dd281cf55f00298b772088a4901e",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 16,
+      "path": "train/5316_jpg.rf.aed2914b458e9039b2c592b8b3bcc061.jpg",
+      "original_name": "5316.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 381934,
+      "sha256": "fadcac72bdbb60f89a9a2486d696b559b28998269c56834670f0993121550cde",
+      "annotation_count": 31,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 62,
+      "path": "train/5715_jpg.rf.96e18ae5b857bd60ff8a4b0fa8e450c3.jpg",
+      "original_name": "5715.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 336967,
+      "sha256": "a53ac63386af3e683c21b451531e932bf993b850c412a8bf583fddd9a7f77506",
+      "annotation_count": 4,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 50,
+      "path": "train/5732_jpg.rf.85b520727a39fecc968913aa465cfe05.jpg",
+      "original_name": "5732.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 540169,
+      "sha256": "3b727fe11db1f38ec25567c41e6500d58f5c0ac3e28cf14045c41eea903056b0",
+      "annotation_count": 14,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 23,
+      "path": "train/5917_jpg.rf.9b5f41d7505d8c0ac13a5d0b90f0272b.jpg",
+      "original_name": "5917.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 292676,
+      "sha256": "361fa5300568f6f5ecb553998a4ed32c70ed5daf83fbfe68b02003b7a138c25c",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 53,
+      "path": "train/6182_jpg.rf.34f7c302cd021ccfd4b3a770bccfc8dc.jpg",
+      "original_name": "6182.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 323432,
+      "sha256": "dceded5bf25163045b8508143b3c53c3954a23926258dfe7f7061a7e7e54d763",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 65,
+      "path": "train/6476_jpg.rf.b365f552e1c4bd24b1e6afc2070fc3e8.jpg",
+      "original_name": "6476.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 457597,
+      "sha256": "c2ffe30fd4d3f1d4c2d1a9a8c431797b1c2e28ade7b2e81e85581879931909b0",
+      "annotation_count": 2,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 0,
+      "path": "train/6692_jpg.rf.eaef8e025926a01e82351609755df494.jpg",
+      "original_name": "6692.jpg",
+      "width_declared": 2048,
+      "height_declared": 1365,
+      "bytes": 187294,
+      "sha256": "915e568cbf4fc26fa05ca05754b3ee93f7d9a9295ce960ed19faa7fda0928706",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 10,
+      "path": "train/7141_jpg.rf.b8034f4f056a9c1148e3c7a88feb0f05.jpg",
+      "original_name": "7141.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 496253,
+      "sha256": "ef636d5826a0d2c896fab0b32ec54e549a5c3e86298a4fd3c5aa1750b321fd37",
+      "annotation_count": 9,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 19,
+      "path": "train/7212_jpg.rf.61c70472c64ce66beb2ce47c9129155e.jpg",
+      "original_name": "7212.jpg",
+      "width_declared": 2048,
+      "height_declared": 1365,
+      "bytes": 152757,
+      "sha256": "5aad9d67df85aac9585e7875f72349f2e602bce35b9c30a6db0f19f6b5018f79",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 7,
+      "path": "train/7544_jpg.rf.4ce014b278fb9270726b68fc733900dd.jpg",
+      "original_name": "7544.jpg",
+      "width_declared": 1152,
+      "height_declared": 2048,
+      "bytes": 196220,
+      "sha256": "d880368459e542bdd48ee0d50cfef69cfcd9669113a6edfde57bdb017e92ed23",
+      "annotation_count": 16,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 41,
+      "path": "train/7981_jpg.rf.15324439234aa084b33ef05fd288cc46.jpg",
+      "original_name": "7981.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 538055,
+      "sha256": "c900dce0b9716a1151f1ef287c43ffac6a0bbd1a015785a15e2684315d03398c",
+      "annotation_count": 10,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 11,
+      "path": "train/8869_jpg.rf.3b4465dd3d721e53dd570d26c3beca5e.jpg",
+      "original_name": "8869.jpg",
+      "width_declared": 2048,
+      "height_declared": 1896,
+      "bytes": 370581,
+      "sha256": "1268280c2213f42cefc4cae2011271b824310dd77c8c1d99ba0e9416d3dfd822",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 74,
+      "path": "train/9158_jpg.rf.afc0f49e4db1277fd8b32160de3983cb.jpg",
+      "original_name": "9158.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 324082,
+      "sha256": "6a79cd38f5cdc169be7f8a7a59728de039bf3695743ce657931e787d889a3efb",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 61,
+      "path": "train/9242_jpg.rf.8664e7c13418b2be689a211db2709ed8.jpg",
+      "original_name": "9242.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 517285,
+      "sha256": "767427ee7e9a1e9afe32d4d2bd823376e0d4fcaa46a5df2261d599f5e6369b1b",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "train",
+      "coco_image_id": 9,
+      "path": "train/9872_jpg.rf.358c05768760ee5f93e45894ed6b14ff.jpg",
+      "original_name": "9872.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 511057,
+      "sha256": "9a4f1e3725adb9a20e39277621ca53065c1baea9d8b0ef3af1cc742f292e6337",
+      "annotation_count": 5,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 21,
+      "path": "valid/14078_jpg.rf.0a93cda2917f6cf26175c6741b7ce457.jpg",
+      "original_name": "14078.jpg",
+      "width_declared": 1920,
+      "height_declared": 2048,
+      "bytes": 396876,
+      "sha256": "b022471d0960b6b64790fe1c3c02d017a041053eab1519c4faff0827633ff49f",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 15,
+      "path": "valid/14191_jpg.rf.96ccc332ed408adb46a4ca4b2f4d2219.jpg",
+      "original_name": "14191.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 398118,
+      "sha256": "d99638a9f0b80cc569e5f5574a970bef57ad00f518e457ef78de40b82503294d",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 20,
+      "path": "valid/15088_jpg.rf.e0db7bb21c186c4a783393fd82a82b95.jpg",
+      "original_name": "15088.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 398565,
+      "sha256": "edd493c57c2352140d57ec20f3775d9b97d02e5b08bc0aa31a1885772bb6139f",
+      "annotation_count": 8,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 19,
+      "path": "valid/15262_jpg.rf.d1fbb50c6ac98027f9e6e3154273a53d.jpg",
+      "original_name": "15262.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 816513,
+      "sha256": "94388614cb541cfda02e7bc57cfbeafd60c47cc618d0a5c14a4198b1080bba79",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 3,
+      "path": "valid/15422_jpg.rf.2141cbbb2535b19e9dac59f70e428b08.jpg",
+      "original_name": "15422.jpg",
+      "width_declared": 2048,
+      "height_declared": 1229,
+      "bytes": 171441,
+      "sha256": "58141dafa7edf794ff443342e7a231dd657781e4bb50f454d93b1d028f0fc5d9",
+      "annotation_count": 2,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 16,
+      "path": "valid/19193_jpg.rf.20a4e36fc96a4cf3bad852c77fbf7cdc.jpg",
+      "original_name": "19193.jpg",
+      "width_declared": 2048,
+      "height_declared": 1152,
+      "bytes": 118279,
+      "sha256": "0bc4a2fe4d3cdfd11c7c97d51cf7daf6e95358ec6ed5ba691c659108d6ae4d4c",
+      "annotation_count": 4,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 4,
+      "path": "valid/23281_jpg.rf.3c91c3b8a06c0e24cdb0e56d9c057e3a.jpg",
+      "original_name": "23281.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 623526,
+      "sha256": "456aff56b7981be190e51f2d6e77769048010962957556e54ae59ed2fd67bf38",
+      "annotation_count": 17,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 8,
+      "path": "valid/23497_jpg.rf.74f5517b2dc3e90252deab57219205ad.jpg",
+      "original_name": "23497.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 375184,
+      "sha256": "b01667c300fda809cbb534c24f40f333d3617dc12944dfa2476ba1f8ae9e585a",
+      "annotation_count": 7,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 5,
+      "path": "valid/23961_jpg.rf.bc35ebea61184fd520099b4264b6f9c2.jpg",
+      "original_name": "23961.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 369121,
+      "sha256": "eca687b5326dcbf924c43f5642fab2973c024e455a5187cc0ffbef67a54c0a05",
+      "annotation_count": 8,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 9,
+      "path": "valid/26226_jpg.rf.de2e31d5720cf348080d8b326a4df249.jpg",
+      "original_name": "26226.jpg",
+      "width_declared": 922,
+      "height_declared": 2048,
+      "bytes": 189605,
+      "sha256": "de177166c67b37952ab4ddcbafc7da59b8f1748ebb0f22db5daefad02787dd82",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 12,
+      "path": "valid/27507_jpg.rf.8ec7608fbeecae7b7a4fe8e662372b59.jpg",
+      "original_name": "27507.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 659360,
+      "sha256": "f14c0fbbd24d95fb0e97fc3d29b05a219f79c4eaa89b35b96b95c71011dcf879",
+      "annotation_count": 18,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 17,
+      "path": "valid/2826_jpg.rf.3e5c4cfda95003ef587ee662f36d8edb.jpg",
+      "original_name": "2826.jpg",
+      "width_declared": 950,
+      "height_declared": 1266,
+      "bytes": 271067,
+      "sha256": "7217fe690954d1fb1f8eaccbbc1a2fa5183ab450c60c2a53e9e85152b3155bcb",
+      "annotation_count": 15,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 14,
+      "path": "valid/29064_jpg.rf.13a5d7b4c704671988da927303e64f39.jpg",
+      "original_name": "29064.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 580770,
+      "sha256": "f806e702083cd09c6368a94173cf62bd2194ebe8e570cba35ca5fab83feab0a1",
+      "annotation_count": 5,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 6,
+      "path": "valid/31496_jpg.rf.563bd66129561eaeab1e77e78dc191f9.jpg",
+      "original_name": "31496.jpg",
+      "width_declared": 2048,
+      "height_declared": 1536,
+      "bytes": 269801,
+      "sha256": "1cffa47441c446dfc9576b9627e1b7ac7ab445450edaafb20001884c4bf1a0f8",
+      "annotation_count": 3,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 10,
+      "path": "valid/31985_jpg.rf.0ee087ccd190f9b9c6b4c5f634618c48.jpg",
+      "original_name": "31985.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 306003,
+      "sha256": "1d506e2a685f7db4bf792fd91f2932bb2278cee6494d47d2310485663e74afab",
+      "annotation_count": 4,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 18,
+      "path": "valid/36251_jpg.rf.7c73fb64fd1f201cb6e1d4ec58584dc1.jpg",
+      "original_name": "36251.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 353459,
+      "sha256": "2682685867775ad897fda4a1bfbb07d78749809cd72f86916a2a2bf8f790f718",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 7,
+      "path": "valid/37685_jpg.rf.e5c3ca1b191702c33fa3ddedd116809e.jpg",
+      "original_name": "37685.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 590937,
+      "sha256": "035640331135b9f79fa2c9e1052d440fccc0aca6d2a6a12aef0912786a9b2c1b",
+      "annotation_count": 10,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 11,
+      "path": "valid/38429_jpg.rf.3d9031c6856992d16489eaf33d3084b0.jpg",
+      "original_name": "38429.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 391351,
+      "sha256": "9700814b12852fbf0e9eb03f6f553467ed473815fa501a796e04edc34b2bcab0",
+      "annotation_count": 9,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 2,
+      "path": "valid/39841_jpg.rf.409f2baf0deefc99353f12881a8cd03b.jpg",
+      "original_name": "39841.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 330448,
+      "sha256": "b89ef891c5be156e48138fc44cc177aece7d1d357aee602c2c260d3382d6faab",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 13,
+      "path": "valid/4197_jpg.rf.c055d5ef6adbfaf1f9e00275425b95b3.jpg",
+      "original_name": "4197.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 194242,
+      "sha256": "cdabca80f4fbed56f5470add06adf4e04ef6da0431a1d1614f0b89ae22a986bc",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 0,
+      "path": "valid/6921_jpg.rf.df2d84bbb3c37aa217116feb9df8fb17.jpg",
+      "original_name": "6921.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 504620,
+      "sha256": "9087b880e23c259b4d530bf0a6a381ad1df452763c86963462b734ef3bfa8038",
+      "annotation_count": 1,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    },
+    {
+      "split": "valid",
+      "coco_image_id": 1,
+      "path": "valid/8268_jpg.rf.458c2fd0e12c3713542e35c5cda50121.jpg",
+      "original_name": "8268.jpg",
+      "width_declared": 1536,
+      "height_declared": 2048,
+      "bytes": 639904,
+      "sha256": "60013d0b8ce7c8c47947c35e7395bddc71104faf61ffbe6c6ab38cad74329964",
+      "annotation_count": 6,
+      "license_id": 1,
+      "export_date_captured": "2026-09-08T04:07:49+00:00",
+      "date_captured_equals_export_date_created": true
+    }
+  ],
+  "read_depth": {
+    "zip_bytes_and_coco_json_read": true,
+    "pixel_decode": false,
+    "rasterized_masks": false,
+    "model_execution": false,
+    "colour_measurement": false,
+    "geographic_join": false
+  },
+  "limits": [
+    "COCO dimensions are declarations, not JPEG header or decoded-pixel validation.",
+    "Exact-byte and original-name uniqueness are not perceptual, event or observer independence.",
+    "Export dates are not verified observation or phenology dates.",
+    "COCO image IDs are split-local; use split plus id.",
+    "Numeric original names require author-source mapping before use as original photo identifiers.",
+    "Generic flowers annotations are not verified focal-taxon petal truth.",
+    "No external model-training, FCP frame or JRC overlap audit has yet been performed.",
+    "Provider CC BY 4.0 declarations do not verify every original photo's rights."
+  ],
+  "decision": "complete_archive_and_coco_pair_census_received_not_admitted_for_model_evaluation"
+}

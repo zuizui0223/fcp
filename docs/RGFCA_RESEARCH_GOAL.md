@@ -54,6 +54,17 @@ admitted validation set. Next qualify reference correspondence, provenance,
 overlap and the supported measurement target; preserve the completed reserve
 non-support and do not rerun its analyses.
 
+The user has now supplied the completed Monarda v1 COCO export. All 110
+image/annotation pairs and 788 polygons are inventoried; all 110 original photo
+and observation IDs are mapped through pinned author metadata, with zero ID
+overlaps against each complete 50,000-photo FCP frame. The former archive-access
+blocker is resolved. [The intake audit](RGFCA_MONARDA_REFERENCE_INTAKE.md) retains
+the one unannotated image as unknown, historical photo-rights restrictions and
+sampling/independence limits. No pixels were decoded or model benchmark run.
+Next freeze a bounded flower-region measurement diagnostic before execution;
+this single-species reference is not global focal-petal ground truth or new
+ecological replication. The overall research objective remains unmet.
+
 ## Research route
 
 1. Complete the existing RGFCA-only spatial omnibus and assess the effect,

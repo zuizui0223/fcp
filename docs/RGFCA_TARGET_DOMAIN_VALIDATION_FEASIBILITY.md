@@ -442,3 +442,22 @@ image correspondence and overlap, and explicitly state a narrower diagnostic
 target if it uses whole-flower polygons. No new benchmark score or ecological
 claim is available. Later-head CI checks the saved ledger without reacquisition;
 the completed six-document acquisition job is closed at later commits.
+
+### Subsequent Monarda archive receipt — 8 September 2026
+
+The user supplied the complete v1 COCO segmentation ZIP, resolving the earlier
+access restriction. All 115 ZIP members passed CRC reads; the census contains
+110 image/annotation pairs and 788 polygon components (77/22/11 images in the
+provider splits). All 110 original photo and observation IDs are mapped using
+the author's immutable filename/index convention and metadata. Both full
+50,000-photo FCP frames have zero photo-ID and observation-ID intersections.
+These are documentary linkage and bounded ID-disjointness results, not model
+or perceptual independence, global coverage or segmentation accuracy.
+
+The [dedicated intake audit](RGFCA_MONARDA_REFERENCE_INTAKE.md) records all member
+hashes, the unannotated image retained as unknown, export dates that must not
+be treated as phenology, historical photo licences (98 noncommercial), source
+selection uncertainty and the next prospective flower-region diagnostic gate.
+No image pixels were decoded, annotations rasterized, model run, colour
+measured or geography joined. This does not reopen the completed FlowerMask
+acquisition or alter the reserve's flower-specific non-support.
