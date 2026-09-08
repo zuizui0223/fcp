@@ -338,7 +338,7 @@ global null values rather than a selected set of significant species.
 
 ![Figure 2. Exploratory within-species distance-colour association.](figures/rgfca_figure2_discovery_omnibus.png)
 
-### 3.3 Shared geography and environmental interpretation remain unresolved
+### 3.4 Shared geography and environmental interpretation remain unresolved
 
 The repeated-field primary test remained unsupported (p = 0.070), despite a
 fine-scale sensitivity result of p = 0.006. Species-disjoint commonness was also
@@ -353,7 +353,7 @@ of biological boundaries in nature. Synthetic recovery frequencies must not be
 reported as ecological prevalence. Failed source access or incomplete technical
 execution likewise cannot be converted into an ecological negative.
 
-### 3.4 Actual photographed flower regions
+### 3.5 Actual photographed flower regions
 
 Figure 3 shows the complete fixed 24-photo display sample. All 24 current CC0
 checks and original image/ROI-summary reproduction checks passed. Some automatic
@@ -364,7 +364,7 @@ effect. Source pages and the API-reported credit text accompany every slot.
 
 ![Figure 3. Actual RGB within reconstructed discovery flower regions.](figures/rgfca_figure3_discovery_photo_bar.png)
 
-### 3.5 Completed discovery-background recovery is not evaluable
+### 3.6 Completed discovery-background recovery is not evaluable
 
 The postoutcome matched-background recovery completed all 128 partitions and
 retained all 21,424 unique records from the fixed 369-species frame. Exactly
@@ -387,7 +387,7 @@ design, not a repair or replacement of this failed recovery.
 The [completion audit](RGFCA_BACKGROUND_RECOVERY_COMPLETION.md) records the exact
 run, artifact, full row/partition reconciliation and preservation of the stop.
 
-### 3.6 Independent replication and all fixed controls
+### 3.7 Independent replication and all fixed controls
 
 The full reserve measurement retained 50,000 records from 500 previously unused
 species: 24,885 were classifiable, with 363 species and 20,903 photographs admitted
@@ -418,7 +418,7 @@ remain separate cohorts; the combined 1,000 species / 100,000 measured photograp
 are an acquisition total, not a newly pooled inferential denominator. Figures
 1-3 continue to display discovery data only.
 
-### 3.7 The Monarda operational region-agreement gate did not pass
+### 3.8 The Monarda operational region-agreement gate did not pass
 
 All 110 images passed reference alignment and completed model processing, with
 zero runtime failures. Over the 109 annotated images, pooled prediction-region
