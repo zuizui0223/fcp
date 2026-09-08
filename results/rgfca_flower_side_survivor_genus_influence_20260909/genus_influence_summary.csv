@@ -1,0 +1,2 @@
+supported_reps,full_positive_fraction,all_loo_positive_fraction,min_loo_score_median,min_loo_score_q025,min_loo_score_q975,max_abs_genus_influence_median,max_abs_genus_influence_q975,n_species_median,n_genera_median,single_genus_robust,upstream_maxdiff
+200,0.95,0.87,0.017041719009462587,-0.014870085585320702,0.03909967319885098,0.009536461527734071,0.02070543206040485,19.0,18.0,True,4.440892098500626e-16
