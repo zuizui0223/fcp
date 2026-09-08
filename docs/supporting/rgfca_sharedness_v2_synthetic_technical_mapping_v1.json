@@ -1,0 +1,97 @@
+{
+  "protocol": "rgfca-sharedness-v2-continuous-matched-control-synthetic-technical-mapping-v1",
+  "status": "frozen_after_complete_150x300_geometry_before_any_v2_synthetic_score",
+  "date": "2026-09-08",
+  "parent_contract": "docs/supporting/rgfca_sharedness_v2_synthetic_qualification_contract_v1.json",
+  "geometry_result": "docs/supporting/rgfca_sharedness_v2_geometry_result_v1.json",
+  "activation": {
+    "geometry_status": "complete_frozen_metadata_geometry_150x300",
+    "complete_fixed_frame": true,
+    "species": 150,
+    "training_species": 75,
+    "evaluation_species": 75,
+    "photos_per_species": 300,
+    "retained_photos_total": 45000
+  },
+  "axis_score_to_evidence": {
+    "raw_cell_score": "exact all-retained-pair mean(flower CIELAB distance - background CIELAB distance) for opposite-side pairs minus the corresponding mean for same-side pairs",
+    "threshold_marginalization": "arithmetic mean of all finite raw cell scores over the five frozen thresholds for each species and axis; an axis is unavailable if no threshold is evaluable",
+    "species_standardization": "subtract the equal-weight mean across the 96 finite axis scores and divide by their population RMS; if RMS<=1e-12, all axis evidence is zero",
+    "axis_log_evidence": "standardized axis score minus logmeanexp of standardized scores across the 96 fixed axes, so the equal-weight independent-axis baseline has mean likelihood ratio one",
+    "training_posterior": "reuse the frozen v1 mixture mapping over sharing fractions: product over training species of (1-f)+f*exp(axis_log_evidence), with a uniform prior over the six sharing fractions and 96 axes",
+    "evaluation_predictive_ratio": "posterior-weighted mixture of the independent baseline and exp(axis_log_evidence) for each held-out evaluation species",
+    "primary_world_score": "equal-evaluation-species mean log predictive ratio",
+    "normalization_note": "no division by photo count because the standardized axis evidence is dimensionless"
+  },
+  "pair_computation": {
+    "all_retained_pairs_required": true,
+    "pair_subsampling_forbidden": true,
+    "flower_and_background_use_identical_retained_photo_indices": true,
+    "euclidean_not_squared_euclidean": true,
+    "no_best_axis_or_threshold_selection_on_evaluation": true
+  },
+  "retention": {
+    "fractions": [0.4, 0.6, 0.8],
+    "exact_counts_per_species": {"0.4": 120, "0.6": 180, "0.8": 240},
+    "selection": "deterministic world-specific random priority within each frozen 300-photo species pool; first exact retained count unless the coordinate-dependent nuisance arm applies its frozen weighted-retention mechanism",
+    "same_train_eval_retention_rule": true
+  },
+  "nuisance_scenarios": [
+    {"id":"no_structure","flower_amplitude":0.0,"threshold_sd":0.0},
+    {"id":"strong_independent_boundaries","flower_amplitude":2.0,"threshold_sd":0.0},
+    {"id":"independent_shifted_boundaries","flower_amplitude":2.0,"threshold_sd":0.25},
+    {"id":"directionally_clustered_nonshared","flower_amplitude":2.0,"threshold_sd":0.25,"axis_concentration":2.0},
+    {"id":"matched_flower_background_geographic_gradient","flower_amplitude":0.0,"matched_gradient_amplitude":2.0},
+    {"id":"background_only_geographic_gradient","flower_amplitude":0.0,"background_gradient_amplitude":2.0},
+    {"id":"coordinate_dependent_retention_independent_boundary","flower_amplitude":2.0,"threshold_sd":0.25,"retention_logit_slope":2.0}
+  ],
+  "positive_scenarios": {
+    "cartesian_primary_grid": {"amplitude":[0.5,1.0,2.0],"shared_fraction":[0.25,0.5,1.0],"species_threshold_sd":[0.0,0.25]},
+    "diagnostic_extra": [{"amplitude":1.0,"shared_fraction":0.1,"species_threshold_sd":0.25}]
+  },
+  "world_census": {
+    "calibration": "7 nuisance scenarios x 3 retention fractions x 250 replicates = 5250 worlds",
+    "evaluation_nuisance": "7 nuisance scenarios x 3 retention fractions x 250 replicates = 5250 worlds",
+    "evaluation_positive": "19 positive scenarios x 3 retention fractions x 250 replicates = 14250 worlds",
+    "total": 24750
+  },
+  "synthetic_scale": {
+    "observation_noise_sd_each_CIELAB_like_axis": 1.0,
+    "matched_photo_nuisance_sd_each_axis": 0.5,
+    "background_independent_noise_sd_each_axis": 1.0,
+    "species_centroid_sd_each_axis": 1.0,
+    "boundary_width_projection_units": 0.15,
+    "geographic_nuisance_gradient_direction": "world-specific random unit-sphere normal independent of any shared flower boundary except in the named matched-gradient nuisance"
+  },
+  "calibration": {
+    "quantile_method": "higher",
+    "quantile": 0.975,
+    "single_global_threshold": "maximum of the 21 nuisance-arm calibration quantiles",
+    "strict_rejection": "world_score > global_threshold"
+  },
+  "hard_gates": {
+    "every_evaluation_nuisance_rejection_lte": 0.10,
+    "amp1_full_shared_retention04_power_gte": 0.80,
+    "amp1_half_shared_retention04_power_gte": 0.50,
+    "amp2_half_shared_retention04_power_gte": 0.80,
+    "all_required": true
+  },
+  "execution": {
+    "deterministic_seed_root": 202609081750,
+    "calibration_and_evaluation_seed_namespaces_disjoint": true,
+    "observed_flower_colour_opened": false,
+    "observed_background_colour_opened": false,
+    "image_pixels_opened": false,
+    "real_climate_opened": false,
+    "performance_qualification_may_run_before_full_worlds": true,
+    "performance_qualification_must_not_change_scientific_mapping": true
+  },
+  "firewall": {
+    "synthetic_pass_does_not_authorize_image_acquisition": true,
+    "failure_does_not_permit_species_count_photo_count_axis_grid_threshold_grid_or_gate_search": true,
+    "six_species_used": false,
+    "thirty_four_species_used": false,
+    "prior_ecological_decisions_unchanged": true
+  },
+  "claim_ceiling": "Technical mapping and synthetic qualification only; no observed flower-colour evidence."
+}
