@@ -1,0 +1,42 @@
+{
+  "protocol": "rgfca-sharedness-v2-post-capacity-selection-rule-v1",
+  "status": "frozen_before_high_depth_capacity_pilot_final_result",
+  "date": "2026-09-08",
+  "parent_pilot_protocol": "rgfca-sharedness-v2-high-depth-capacity-pilot-v1",
+  "activation_condition": "the parent pilot is evaluable and primary_feasibility_pass is true",
+  "if_activation_condition_false": "select no species; do not relax the 300-photo target or the 150-species requirement",
+  "primary_species_sample": {
+    "n": 150,
+    "eligibility": "confirmed_at_least_300 == true in the fixed 500-species metadata pilot",
+    "selection": "ascending frozen pilot_rank; take the first 150 eligible species",
+    "uses_flower_colour": false,
+    "uses_G1_G3_or_reserve_outcome": false,
+    "uses_pollination_guild": false,
+    "replacement": false
+  },
+  "species_disjoint_split": {
+    "training_species": 75,
+    "evaluation_species": 75,
+    "assignment": "within the selected 150, ascending SHA-256 of string 'train-eval|' plus decimal iNaturalist taxon ID; first 75 training, remaining 75 evaluation",
+    "evaluation_species_never_update_training_posterior": true
+  },
+  "future_candidate_acquisition": {
+    "raw_metadata_target_per_species": 300,
+    "actual_photo_candidate_draw_must_be_separately_frozen_and_fresh": true,
+    "capacity_pilot_rows_are_not_measurement_candidates": true,
+    "prior_experiment_ids_remain_excluded": true,
+    "observer_cap_remains_2": true,
+    "no_pixel_opening_until_synthetic_identifiability_pass": true
+  },
+  "pollination_guild": {
+    "primary_stratification": false,
+    "reason": "no adequately global independently audited species-level guild frame is currently qualified; geographically restricted sources would confound guild with region",
+    "future_secondary_allowed_only_if_separately_frozen_before_v2_colour_outcomes": true
+  },
+  "continuous_visible_colour_contract": "docs/supporting/rgfca_sharedness_v2_continuous_colour_measurement_contract_v1.json",
+  "ecological_claim_changed": false,
+  "reserve_flower_specific_gate_reclassified": false,
+  "six_species_used": false,
+  "thirty_four_species_used": false,
+  "claim_ceiling": "Outcome-blind species/sample split rule for later v2 design. It does not authorize acquisition or establish sharedness."
+}
