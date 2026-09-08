@@ -1,0 +1,120 @@
+name: Sync RGFCA sharedness-v2 negative result
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/sync-rgfca-sharedness-v2-negative.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-rgfca-sharedness-v2-negative
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Patch canonical status and manuscript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          status = Path('docs/RGFCA_RESEARCH_STATUS.md')
+          s = status.read_text()
+          row_anchor = '| Sharedness-specific predictive qualification | Failed; moderate full-sharing recovery 0.8% | Method development, not evidence of absence in nature |\n'
+          new_row = '| Sharedness-v2 high-depth paired qualification | **Failed** on 150 species × 300 photos (45,000 metadata-fixed photos); nuisance FPR max ~2.4%, best hard-positive detection ~3.2% vs required 80% | Empirical image acquisition remains blocked; post-fail audit identifies support/identifiability mismatch for the global common-hyperplane estimand |\n'
+          if new_row not in s:
+              if row_anchor not in s:
+                  raise SystemExit('status evidence-row anchor drift')
+              s = s.replace(row_anchor, row_anchor + new_row, 1)
+
+          result_anchor = '`global_rgfca_sharedness_specific_predictive_result_v1.json` in that same directory.\n'
+          result_insert = ('`global_rgfca_sharedness_specific_predictive_result_v1.json`, '
+                           '`rgfca_sharedness_v2_synthetic_qualification_result_v1.json`, and\n'
+                           '`rgfca_sharedness_v2_postfail_identifiability_v1.json` in that same directory.\n')
+          if 'rgfca_sharedness_v2_postfail_identifiability_v1.json' not in s:
+              if result_anchor not in s:
+                  raise SystemExit('status result-list anchor drift')
+              s = s.replace(result_anchor, result_insert, 1)
+
+          section_anchor = '## Completed: species-level spatial information\n'
+          section = '''## Closed: sharedness-v2 high-depth qualification\n\nA prospectively fixed species-disjoint shared-boundary qualification used a\nmetadata-only geometry of **150 species × 300 photographs = 45,000 photographs**,\nwith 75 training and 75 held-out evaluation species. The paired continuous\nestimator compares flower-colour distance with matched background-colour distance\nand asks whether a geographic boundary learned from training species predicts\nheld-out species. The synthetic qualification **failed**. Nuisance-world\nfalse-positive control passed (maximum approximately **2.4%**), but all three\nprespecified hard-positive power gates failed; the best hard-positive detection\nrate was only approximately **3.2%**, below the required **80%** floor. The\nfrozen decision is therefore `qualification_pass = false`, and empirical image\nacquisition for this lane remains prohibited. No observed flower colour, observed\nbackground colour or image pixel was opened for the v2 empirical test.\n\nA post-fail descriptive identifiability audit did not reopen qualification or\nsearch parameters. Across 1,500 hard-positive worlds, only about **42–45%** of\nshared species straddled the true injected boundary; about **22–26%** had at least\n10% of retained observations on the minority side and about **15–18%** had at\nleast 20%. The median species-instance minority-side fraction was **0**. By\ncontrast, the frozen geographic grid was adequate for the injected direction:\nthe nearest fixed axis was typically about **6–7 degrees** from the true common\nnormal and median nearest-axis plus frozen-threshold partition agreement was\n**1.0**. The dominant diagnosis is therefore a **support/identifiability mismatch\nfor the global common-hyperplane estimand on realized species-range geometry**,\nnot a demonstrated absence of shared flower-colour geography in nature. This\ndiagnostic cannot convert FAIL to PASS or authorize a new tuning cycle. Full\ninterpretation: [sharedness-v2 post-fail status](RGFCA_SHAREDNESS_V2_POSTFAIL_STATUS.md).\n\n'''
+          if '## Closed: sharedness-v2 high-depth qualification' not in s:
+              if section_anchor not in s:
+                  raise SystemExit('status section anchor drift')
+              s = s.replace(section_anchor, section + section_anchor, 1)
+          status.write_text(s)
+
+          manuscript = Path('docs/RGFCA_MANUSCRIPT.md')
+          m = manuscript.read_text()
+          abs_anchor = ('reference is not verified focal-petal truth, but the failed agreement gate\n'
+                        'further limits interpreting the atlas as validated floral phenotypes. The study\n'
+                        'does not establish flower-specific biogeography or an ecological mechanism.\n')
+          abs_repl = ('reference is not verified focal-petal truth, but the failed agreement gate\n'
+                      'further limits interpreting the atlas as validated floral phenotypes. A separate\n'
+                      'prospectively fixed sharedness-v2 synthetic qualification on 150 species × 300\n'
+                      'photos also failed: nuisance false-positive control passed (maximum ~2.4%), but\n'
+                      'the best prespecified hard-positive detection rate was only ~3.2% versus the\n'
+                      'required 80%. A post-fail audit showed that only ~42–45% of shared species\n'
+                      'straddled the injected common boundary, while the frozen axis grid closely\n'
+                      'approximated the true direction. This supports a design-level\n'
+                      'support/identifiability limitation for the global common-hyperplane estimand,\n'
+                      'not a biological absence claim; empirical acquisition for that lane remains\n'
+                      'blocked. The study does not establish flower-specific biogeography or an\n'
+                      'ecological mechanism.\n')
+          if 'prospectively fixed sharedness-v2 synthetic qualification on 150 species' not in m:
+              if abs_anchor not in m:
+                  raise SystemExit('manuscript abstract anchor drift')
+              m = m.replace(abs_anchor, abs_repl, 1)
+
+          methods_anchor = '### 2.5 Display and scientific software\n'
+          methods = '''### 2.5 Prospective sharedness-v2 qualification\n\nBefore any empirical v2 flower/background colour was opened, a separate\nhigh-depth geometry was fixed at 150 species and 300 photographs per species,\nwith a species-disjoint 75/75 training/evaluation split. The estimator uses the\npaired continuous contrast between flower-colour and matched background-colour\ndistances across versus within candidate geographic partitions. The geographic\naxis grid, thresholds, retention arms, synthetic nuisance and positive worlds,\npower floor and fail-closed rule were fixed before the qualification outcome.\nFailure could not be repaired by changing the statistic, grid, thresholds,\nspecies count, photo count or power target after seeing results, and empirical\nimage acquisition required a passing qualification.\n\nBecause the qualification failed, a later diagnostic was restricted to the\nmetadata geometry and synthetic generator truth. It asked whether species\nassigned to a shared boundary actually sampled both sides of that boundary and\nwhether the already-frozen axis/threshold grid could approximate the injected\npartition. This audit was descriptive only: it could not reopen qualification,\nretune the design or authorize pixels.\n\n'''
+          if '### 2.5 Prospective sharedness-v2 qualification' not in m:
+              if methods_anchor not in m:
+                  raise SystemExit('manuscript methods anchor drift')
+              m = m.replace(methods_anchor, methods + '### 2.6 Display and scientific software\n', 1)
+              m = m.replace('### 2.6 Bounded target-domain region-agreement diagnostic\n', '### 2.7 Bounded target-domain region-agreement diagnostic\n', 1)
+
+          results_anchor = '### 3.1 Coverage and measurements\n'
+          results = '''### 3.1 Sharedness-v2 qualification failed before empirical opening\n\nThe sharedness-v2 synthetic qualification did not pass. Nuisance-world\nfalse-positive control was acceptable, with a maximum rate of approximately\n**2.4%**, but all three prespecified hard-positive power gates failed. The best\nhard-positive detection rate was only approximately **3.2%**, compared with the\nrequired **80%** floor. The outcome therefore remained `qualification_pass =\nfalse`; empirical v2 image acquisition was not authorized, and no observed\nflower/background colour or image pixel was opened for that empirical lane.\n\nThe post-fail support audit covered 1,500 hard-positive synthetic worlds without\nchanging any qualification parameter. Depending on the prespecified scenario,\nonly about **42–45%** of shared species sampled both sides of the true injected\nboundary. About **22–26%** had at least 10% of retained observations on the\nminority side, and only **15–18%** had at least 20%; the median species-instance\nminority-side fraction was **0**. The frozen 96-axis geometry was not the main\nlimitation: the nearest fixed axis was typically only **6–7°** from the true\ncommon normal and the median nearest-axis plus frozen-threshold partition\nagreement was **1.0**. Thus the failed recovery is most directly interpreted as\na support/identifiability mismatch between a global common-hyperplane estimand\nand realized species-range geometry. It is not evidence that shared geographic\ncolour structure is absent in nature and does not supersede the original G1,\nspecies-disjoint commonness or reserve flower-specific decisions.\n\n### 3.2 Coverage and measurements\n'''
+          if '### 3.1 Sharedness-v2 qualification failed before empirical opening' not in m:
+              if results_anchor not in m:
+                  raise SystemExit('manuscript result anchor drift')
+              m = m.replace(results_anchor, results, 1)
+              # Renumber only the immediately following known subsection so numbering remains monotone.
+              m = m.replace('### 3.2 A small positive distance-colour association\n', '### 3.3 A small positive distance-colour association\n', 1)
+          manuscript.write_text(m)
+          PY
+      - name: Verify fail-closed wording
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          for p in ['docs/RGFCA_RESEARCH_STATUS.md','docs/RGFCA_MANUSCRIPT.md']:
+              s=Path(p).read_text()
+              assert '42–45%' in s
+              assert '3.2%' in s
+              assert '80%' in s
+              assert 'support/identifiability' in s
+          m=Path('docs/RGFCA_MANUSCRIPT.md').read_text()
+          assert 'empirical v2 image acquisition was not authorized' in m
+          assert 'not evidence that shared geographic' in m
+          print('canonical_negative_sync=pass')
+          PY
+      - name: Commit canonical sync
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/RGFCA_RESEARCH_STATUS.md docs/RGFCA_MANUSCRIPT.md
+          git diff --cached --check
+          git commit -m 'Sync RGFCA sharedness-v2 negative result into canonical docs'
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability
