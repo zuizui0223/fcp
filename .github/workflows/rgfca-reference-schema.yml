@@ -1,0 +1,68 @@
+name: RGFCA bounded reference schema audit
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - scripts/analysis/audit_rgfca_reference_schema.py
+      - tests/test_rgfca_reference_schema.py
+      - docs/supporting/rgfca_reference_schema_plan_v1.json
+      - docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md
+      - .github/workflows/rgfca-reference-schema.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest==8.3.5
+      - name: Verify the pre-acquisition plan and artificial JSON checks
+        env:
+          PYTHONPATH: .
+        run: |
+          echo '48436a74160b4700e2d9b2bbc803aeac7fcfe8a1f09885140a1eade034c5aade  docs/supporting/rgfca_reference_schema_plan_v1.json' | sha256sum -c -
+          python -m pytest tests/test_rgfca_reference_schema.py -q
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-reference-schema-preflight-v1
+          path: |
+            docs/supporting/rgfca_reference_schema_plan_v1.json
+            scripts/analysis/audit_rgfca_reference_schema.py
+            tests/test_rgfca_reference_schema.py
+            docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md
+            .github/workflows/rgfca-reference-schema.yml
+          if-no-files-found: error
+          retention-days: 90
+
+  inspect-six-documents:
+    if: github.event_name == 'workflow_dispatch'
+    needs: offline-preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Inspect six fixed annotation documents without decoding embedded images
+        run: >-
+          python scripts/analysis/audit_rgfca_reference_schema.py inspect
+          --plan docs/supporting/rgfca_reference_schema_plan_v1.json
+          --expected-plan-sha256 48436a74160b4700e2d9b2bbc803aeac7fcfe8a1f09885140a1eade034c5aade
+          --output /tmp/rgfca-reference-schema/result.json
+      - name: Retain all terminal schema outcomes, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-reference-schema-result-v1
+          path: /tmp/rgfca-reference-schema/result.json
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,2724 @@
+{
+  "schema": "rgfca-reference-schema-plan-v1",
+  "dataset_version": "10.17632/3pw57gdcj2.1",
+  "source_receipt_sha256": {
+    "flowermask-v1-public-folders.json": "fd30ad1ba248c43eca04c1a53cec31e87617dbd815b5a98b752eb461dec2b892",
+    "flowermask-v1-json-files-1a19a69d-b974-496a-8452-8474e7cbbd12.json": "38431ea37dddcad5d5fb86a5be159290d4c67bb57f65dc561f90144443be6f77",
+    "flowermask-v1-json-files-420f7bab-f24c-404d-8f76-6e60b3e5bae4.json": "efa3e5d212c4ecbbe1bc5232e508d55160729d06515fc532cfaebb98aab4198f",
+    "flowermask-v1-json-files-49347441-47f8-4a23-8a74-2b922cedcd78.json": "63017d75b61de0e7ce350c3d8aebcc2a1f3df2247824e8f51fb8b11c09547a6b",
+    "flowermask-v1-json-files-9167e445-8515-49b1-bf57-a459dbbf8b3e.json": "5ddfc501ba45249b35f2b63cd4b01b104349cc3ed6019672e62c28a1c54da7a7",
+    "flowermask-v1-json-files-cf445387-4408-4056-9332-7e6bc16bffe7.json": "b503c8ed04f41dbabec5954820b2c62f6be1ac79a4c4f1db172faf1626fa0c32",
+    "flowermask-v1-json-files-ff41bedc-86e4-46b5-8776-ed7aac29226b.json": "bc21e1eefb7431021991f67e29cdc5d5fc74e2a180c0ea1ad0ce81b5dd2051b2"
+  },
+  "selection": "smallest_provider_file_id_per_group",
+  "public_annotation_files": [
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "00d850be-5cd5-4495-b29f-a6bde12dfae5",
+      "filename": "42.json",
+      "bytes": 6103041,
+      "sha256": "465930d61255f04026d2353d3b40233f44f2b358d8b7d3bcc98a5f6b52610294",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/00d850be-5cd5-4495-b29f-a6bde12dfae5/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "0c833fb6-96a1-4505-b2f0-660aee9b7eff",
+      "filename": "47.json",
+      "bytes": 6215169,
+      "sha256": "3ab22a56cb3bef35661bdd86b13a9952723dba62424c95979f6480c1f314ac2d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/0c833fb6-96a1-4505-b2f0-660aee9b7eff/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "0e6f53cc-62b8-4b18-bcc4-55f11f7ae784",
+      "filename": "32.json",
+      "bytes": 7030933,
+      "sha256": "0502c73aacaac239168e1fc516d62a81eaad36648edfd2978058934d10f15d51",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/0e6f53cc-62b8-4b18-bcc4-55f11f7ae784/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "100a1e0d-2ec9-4377-b9f4-c605d15fdd33",
+      "filename": "43.json",
+      "bytes": 6375057,
+      "sha256": "5e51a09959cd40d172986f739b942edce79bde60855af2d6873ffb8a180a55fe",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/100a1e0d-2ec9-4377-b9f4-c605d15fdd33/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "11b38135-8848-4ee1-80f9-fae0bc156427",
+      "filename": "13.json",
+      "bytes": 6676657,
+      "sha256": "788664d4f918c29a1f297153ce59833a532a76c92204f185772b1bc9b36a7bcf",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/11b38135-8848-4ee1-80f9-fae0bc156427/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "291dc0d3-863e-4c77-97a3-1c6ef0410b41",
+      "filename": "44.json",
+      "bytes": 6984257,
+      "sha256": "4eef13b8f3cf8577e1ddf6509bde9683e2b52066e01af98a4e972af603e1f83c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/291dc0d3-863e-4c77-97a3-1c6ef0410b41/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "3bc53958-af21-4ac8-b148-1976a6b946fb",
+      "filename": "3.json",
+      "bytes": 5566632,
+      "sha256": "0389dd3aa4bf76c2eb5c69e322f43050d254eb9e2f007bb166a1dbf4ce868bc2",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/3bc53958-af21-4ac8-b148-1976a6b946fb/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "42ea1c0c-c25b-4710-88e1-b348f45f869d",
+      "filename": "46.json",
+      "bytes": 6767317,
+      "sha256": "074cc5e18dd283e4ca001ca45aa016c719ee88a0f7a182e06da78217d0c8a54c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/42ea1c0c-c25b-4710-88e1-b348f45f869d/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "44badd59-17aa-4b9c-9537-6f4b833dd16d",
+      "filename": "18.json",
+      "bytes": 6336917,
+      "sha256": "c3b6720a028ac2b950e93cfc35280dbbb4ba2fb700eefd40ff27eded2c67e807",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/44badd59-17aa-4b9c-9537-6f4b833dd16d/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "4dd9e55f-6979-4938-99c0-40047d86c960",
+      "filename": "30.json",
+      "bytes": 6507721,
+      "sha256": "f258731e62b22dc0cc855857350ca589b680d84448103aed8950a983555704fa",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/4dd9e55f-6979-4938-99c0-40047d86c960/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "50c46fec-9fbe-441d-836d-020fb4afe4af",
+      "filename": "14.json",
+      "bytes": 8404729,
+      "sha256": "84b208f4050a3a2ac21317b2b74aa28359bf5c9a88a93283c36e8e5641946a01",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/50c46fec-9fbe-441d-836d-020fb4afe4af/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "5b9b5ecd-aa5d-45d8-b251-6fcb7e2facb7",
+      "filename": "26.json",
+      "bytes": 6483641,
+      "sha256": "15c5b7d62b8b3abb434d02c3b5421e338bb4e9b5d4e5e3125d5df93055307567",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/5b9b5ecd-aa5d-45d8-b251-6fcb7e2facb7/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "681b39c9-5ac5-41f4-ba11-6e039b5f74b4",
+      "filename": "39.json",
+      "bytes": 6681293,
+      "sha256": "52d1fc6ccd121972f59d8389e95d2cae389197a580474478ee7acb523245fda1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/681b39c9-5ac5-41f4-ba11-6e039b5f74b4/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "69d1b958-f55f-4ebb-acbf-6a72f82dbdd7",
+      "filename": "28.json",
+      "bytes": 6834881,
+      "sha256": "957dfb31c40914413389dfffe36cf67c3411bc96456237c2372e5c32c128935b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/69d1b958-f55f-4ebb-acbf-6a72f82dbdd7/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "708edadb-84dc-4053-a7c0-7b929023ecab",
+      "filename": "19.json",
+      "bytes": 6309941,
+      "sha256": "3124c1b4cb131445887f7a6506b936dee94e3bcaaef8abfef56b46b3b377fc94",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/708edadb-84dc-4053-a7c0-7b929023ecab/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "7172eae9-a1c5-4b63-bf03-d814200deff4",
+      "filename": "5.json",
+      "bytes": 6447525,
+      "sha256": "5bad56056f977a4ea1818597ad7cd5281f654ac2e8f0f3ded70a695a724322ac",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/7172eae9-a1c5-4b63-bf03-d814200deff4/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "72c720a1-876f-4e9b-9b40-967b53f1d71b",
+      "filename": "9.json",
+      "bytes": 7046169,
+      "sha256": "85915bb39c6dc68e6d870de297b599dd1cb5c17219d47bc23149fe3a304b82b8",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/72c720a1-876f-4e9b-9b40-967b53f1d71b/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "782116ae-2b77-4a63-9f2a-79fc8b3e389c",
+      "filename": "36.json",
+      "bytes": 4735753,
+      "sha256": "2d64ec20546aaae271d3b30e784069c9fc65cbe4bc6dd282568a34c46b7b5fb3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/782116ae-2b77-4a63-9f2a-79fc8b3e389c/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "7a6f1d13-5127-42c8-9637-d238dbfc004e",
+      "filename": "31.json",
+      "bytes": 6918657,
+      "sha256": "e37e73844960157e06c4d61a6e6b3106354662b4add36a6b7e12e5aa3af38601",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/7a6f1d13-5127-42c8-9637-d238dbfc004e/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "8209f62d-61a4-4b57-b0d0-9bbdaf108c3d",
+      "filename": "49.json",
+      "bytes": 6666289,
+      "sha256": "6215bd1ffcbda1645d4b0ec46dcb4644b081d80e8557e1cc4864603f63b4abab",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/8209f62d-61a4-4b57-b0d0-9bbdaf108c3d/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "87b37e2f-f46d-4ae7-84df-4befe392ce24",
+      "filename": "35.json",
+      "bytes": 6933589,
+      "sha256": "fbe2d6d360738ae8c02303c8dc384fb9edbdf0e9cb0250b5ab11d40be8cba822",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/87b37e2f-f46d-4ae7-84df-4befe392ce24/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "8fd119c1-c28c-40fd-9ca4-f10bfae6e7bb",
+      "filename": "11.json",
+      "bytes": 7068433,
+      "sha256": "8b084daf6de6ce449077e33de064c022425b31225a8f9482ede99f043dbd257f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/8fd119c1-c28c-40fd-9ca4-f10bfae6e7bb/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "8fdb91f4-0061-45b1-90f5-6fcb61fc70a6",
+      "filename": "34.json",
+      "bytes": 6665670,
+      "sha256": "73caf51e978f2c9ff3242b8991ac1d4b774125bd18b5f38f618a3e0334b4cddb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/8fdb91f4-0061-45b1-90f5-6fcb61fc70a6/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "91b942e1-2de5-4aa3-9d82-2b865e87024a",
+      "filename": "15.json",
+      "bytes": 7124565,
+      "sha256": "91095e200d5aed7ae23e595d2040d738e4d8249453f18e0b58d859be581303c0",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/91b942e1-2de5-4aa3-9d82-2b865e87024a/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "99e41d36-a7e2-4a32-860f-10696f764ff9",
+      "filename": "48.json",
+      "bytes": 6554269,
+      "sha256": "b21b14b466129576adabdb092709c2ad4fc648c8b0baeceff5dcc2b44620c580",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/99e41d36-a7e2-4a32-860f-10696f764ff9/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "9aebfc95-6197-4524-a0f8-45d08a48173d",
+      "filename": "22.json",
+      "bytes": 6525677,
+      "sha256": "7736bbe577e7e06fe35d0e18a2b0a2028145b2de36c28a68dd02a3553dab57ef",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/9aebfc95-6197-4524-a0f8-45d08a48173d/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "9c1a522a-f7ac-4ec7-a5ec-14d851e9f08a",
+      "filename": "27.json",
+      "bytes": 6914901,
+      "sha256": "26ba05723b122be254faa05a3a735174c0c3ef8537be09b301e58f30159adad1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/9c1a522a-f7ac-4ec7-a5ec-14d851e9f08a/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "a10f3480-2a0b-421a-b58b-d8ff56376401",
+      "filename": "21.json",
+      "bytes": 6947957,
+      "sha256": "2baa992aa42ca0d0829712da92fcfc258f664f66986f757133e538086c51505f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a10f3480-2a0b-421a-b58b-d8ff56376401/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "a2d8fa74-815a-47d6-8fc3-bdeb727aaaf3",
+      "filename": "12.json",
+      "bytes": 7013645,
+      "sha256": "590e9eaa65ca7deede4845103695d1aca4b908b322a384490928fd45ed3365ad",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a2d8fa74-815a-47d6-8fc3-bdeb727aaaf3/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "a7249b41-de27-4c34-8be9-df8c7a11f8c7",
+      "filename": "4.json",
+      "bytes": 6259837,
+      "sha256": "81969e20ff1a9c04548b41a951f2bb1d703d656ca6657eed94b55d7cb5befcd7",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a7249b41-de27-4c34-8be9-df8c7a11f8c7/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "ae6680cc-62ff-4c89-a020-7951e98f21e1",
+      "filename": "40.json",
+      "bytes": 6787205,
+      "sha256": "9d279eaf17059c394e8aba973191bde8306a06458ffa79f09ada1190d1819aaf",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ae6680cc-62ff-4c89-a020-7951e98f21e1/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "af86d735-d5e5-47d3-a9a7-cf404e078a85",
+      "filename": "41.json",
+      "bytes": 6678421,
+      "sha256": "c6b8f648d734868ef5bff02b5ea6b50dadfd3b5cc8b32d0f62f5913a06c7277d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/af86d735-d5e5-47d3-a9a7-cf404e078a85/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "b0245714-10bd-47be-ae36-669f2a6d499e",
+      "filename": "23.json",
+      "bytes": 6431301,
+      "sha256": "495d3254eb6b53678f124bb44258e0de5f650cca1fd8311560488a395bb5e330",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b0245714-10bd-47be-ae36-669f2a6d499e/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "b2d81ea0-5d7a-4920-896c-fdd13349c5ce",
+      "filename": "6.json",
+      "bytes": 7744197,
+      "sha256": "af8c3777ab645fdf0732ef787387d792a6468be6ff511eda1c4f9712ad563987",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b2d81ea0-5d7a-4920-896c-fdd13349c5ce/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "b8247d0f-6a16-4210-b4c3-c356cec5e2ea",
+      "filename": "2.json",
+      "bytes": 144557,
+      "sha256": "d658c7627df50a791b845a6e2c31b6fda2a799cdc2ee0a5a2907f8262a5637a6",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b8247d0f-6a16-4210-b4c3-c356cec5e2ea/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "bd72139e-96a1-433b-ad83-e302fa33f0b7",
+      "filename": "1.json",
+      "bytes": 7277221,
+      "sha256": "3939e4670c288a60ba06f9acb3a8fa91f318734522e309ec9e544b8c643b3c5b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/bd72139e-96a1-433b-ad83-e302fa33f0b7/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "bf1604ee-fe76-4ec2-b2b7-51c50a732090",
+      "filename": "33.json",
+      "bytes": 7924469,
+      "sha256": "e7970ad75efc8ffba9e264767e64b788442041e5bf526a146ec90a4ccfab6640",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/bf1604ee-fe76-4ec2-b2b7-51c50a732090/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "c9f9e846-0195-4d78-8841-599940b0280e",
+      "filename": "8.json",
+      "bytes": 7695293,
+      "sha256": "238ad41e921a42f0ccc20da5451f04674c5dc0fb927415d73aaff66c094a4431",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c9f9e846-0195-4d78-8841-599940b0280e/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "d2fb8b22-3b6a-4039-9928-ecd052524fb7",
+      "filename": "50.json",
+      "bytes": 6989833,
+      "sha256": "4373e4026dcada9b328eb71ccd95fce3ecc8aa3ffae2152d6df24bdfbfb42c0a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d2fb8b22-3b6a-4039-9928-ecd052524fb7/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "d3de545c-5108-47b0-856e-6a7ce4d26e58",
+      "filename": "25.json",
+      "bytes": 6467873,
+      "sha256": "04de6c0907ca0e1f999502c70c942fbd5e3329db880199d130c7d006fbd0ea08",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d3de545c-5108-47b0-856e-6a7ce4d26e58/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "d75820f3-b54e-40a0-946f-08f346c15f6d",
+      "filename": "16.json",
+      "bytes": 6236927,
+      "sha256": "daa209dd9c0a13de0ce3d3653d244254b60527ece6b932631fa07552869eb05e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d75820f3-b54e-40a0-946f-08f346c15f6d/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "d7c3f2f7-71b3-4820-9baf-5469b3544f4d",
+      "filename": "17.json",
+      "bytes": 6208133,
+      "sha256": "869228dd24d89cc90932cc9d0042e98749543f08c37eade1b151fdf772d8f056",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d7c3f2f7-71b3-4820-9baf-5469b3544f4d/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "dcb65812-3844-4364-92bc-5f37d2eaac7f",
+      "filename": "20.json",
+      "bytes": 6996107,
+      "sha256": "ab89391f6741caa24331968053667be4411d31d8356faaf3f74de3d671e12d89",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/dcb65812-3844-4364-92bc-5f37d2eaac7f/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "dd5cf17e-4932-4334-969d-f2b207d09c56",
+      "filename": "24.json",
+      "bytes": 6473161,
+      "sha256": "35a387a97286b7dec95363d2f509f8e72f00c4173ecda0b8d7ec4341adb23507",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/dd5cf17e-4932-4334-969d-f2b207d09c56/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "e4bb1d99-4658-4c4b-99fe-d14829ff7c5c",
+      "filename": "10.json",
+      "bytes": 7318519,
+      "sha256": "5e0332dced330fe9248a0353904bf324d6ad141ab763e054f2688a9b65a521b2",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/e4bb1d99-4658-4c4b-99fe-d14829ff7c5c/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "ed39db03-ea84-4708-8b8e-c087e813d38e",
+      "filename": "29.json",
+      "bytes": 7090349,
+      "sha256": "6b3af9a259cfa90244715ac501678339585b1abe99a1caf98762ac4e5d0fdc43",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ed39db03-ea84-4708-8b8e-c087e813d38e/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "efa0237c-efe4-418a-a297-5d13739a9c20",
+      "filename": "7.json",
+      "bytes": 7090405,
+      "sha256": "b7d3445ea6339d7006f3c3da892460f93e9434c656d2cfb75d0094a3a82004b7",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/efa0237c-efe4-418a-a297-5d13739a9c20/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "f2ef00d5-9744-46a2-a6f2-5bb415cfbd0e",
+      "filename": "38.json",
+      "bytes": 7716737,
+      "sha256": "8cf0c786a5540b07518c734e11c0c160cdb0d3f60458b8e4a9c4289ce78f434f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f2ef00d5-9744-46a2-a6f2-5bb415cfbd0e/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "f47cf490-af8c-4220-8340-ceb386e35cc6",
+      "filename": "45.json",
+      "bytes": 7086213,
+      "sha256": "168c6e20fa9efff7c4a5c5011a05473e5b717562d249d49b9540a06468d59c7f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f47cf490-af8c-4220-8340-ceb386e35cc6/file_downloaded"
+    },
+    {
+      "group": "Butterfly Pea",
+      "folder_id": "49347441-47f8-4a23-8a74-2b922cedcd78",
+      "id": "fed05cab-667d-4d04-b74f-681bb91a0018",
+      "filename": "37.json",
+      "bytes": 7568021,
+      "sha256": "5b677ea11cfa0daea6204c4394eff653025171eaacbf6a9fadf4740463d9eef2",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/fed05cab-667d-4d04-b74f-681bb91a0018/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "00ef6a1f-794a-4580-8fca-16790e12d5c1",
+      "filename": "199.json",
+      "bytes": 937358,
+      "sha256": "5e0ea25fda413e67ae4f8a3e111c6589c1ca7691523c2cb7269f890a21c963a1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/00ef6a1f-794a-4580-8fca-16790e12d5c1/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "083977e0-410e-4252-8e37-772ba2f95494",
+      "filename": "216.json",
+      "bytes": 1207207,
+      "sha256": "eb59ba424b8ea8403bef133e915cceb3f3113736e2441c56f337c3253ec081f7",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/083977e0-410e-4252-8e37-772ba2f95494/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "12ee47ad-a55c-447f-bb5f-cf5a158ab9db",
+      "filename": "219.json",
+      "bytes": 1018072,
+      "sha256": "b8bdbc653b57fc72085889303d6de992800cf627161e2865d0845b698efc03e3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/12ee47ad-a55c-447f-bb5f-cf5a158ab9db/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "13595fb4-df83-487f-91aa-407a6e44fe95",
+      "filename": "214.json",
+      "bytes": 976742,
+      "sha256": "5e825f9ebe9297c6a84680f13f5be00a9893ba33a94a8692916db3608e4a09da",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/13595fb4-df83-487f-91aa-407a6e44fe95/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "14e47684-dfe6-4c07-b652-55a121122750",
+      "filename": "188.json",
+      "bytes": 1099064,
+      "sha256": "aabc07f6052f719cf9086626d6b9524f419bf6095e5c5a706f2ebc9ac809991a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/14e47684-dfe6-4c07-b652-55a121122750/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "15578f3e-8473-4784-a2e6-7a56510f5265",
+      "filename": "194.json",
+      "bytes": 1100845,
+      "sha256": "da75433d73e05a3758293f91b6d9fe8811874496e9a7a9c3bf316b4ffa540775",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/15578f3e-8473-4784-a2e6-7a56510f5265/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "210b1fd3-0c45-429b-99b5-633861febbc2",
+      "filename": "210.json",
+      "bytes": 1191043,
+      "sha256": "5dcb4f3c9f8d40702ba8cafcde24a588408def0d843380709ebeb8df702a7a1d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/210b1fd3-0c45-429b-99b5-633861febbc2/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "2488eaff-dbbb-4fca-b0ef-a9e32e9e2c99",
+      "filename": "207.json",
+      "bytes": 1033555,
+      "sha256": "d4063ac7de9e5ee39dbeb7f1525356c25ea54627b7ec710184db5fe94705b998",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/2488eaff-dbbb-4fca-b0ef-a9e32e9e2c99/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "262f269a-19a9-43d1-91a7-192a75f92faf",
+      "filename": "179.json",
+      "bytes": 1123071,
+      "sha256": "e72dd771419ebb6cffa19ca0003bf5a6ae340f39d77a6618e9f343f93bfd7711",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/262f269a-19a9-43d1-91a7-192a75f92faf/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "2dc644d9-b066-499b-93e7-f3ce12d25d76",
+      "filename": "213.json",
+      "bytes": 799335,
+      "sha256": "43425b3f57d86c7809e82c68041e7c24cab0006fb1923c6c2606b651aebe7cd5",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/2dc644d9-b066-499b-93e7-f3ce12d25d76/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "312828e6-25e0-4599-8698-58db3419cb29",
+      "filename": "197.json",
+      "bytes": 732269,
+      "sha256": "7101492181a7434e89ceebe3623129049ee293e99532d2e45f7a43115a23e546",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/312828e6-25e0-4599-8698-58db3419cb29/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "398c49ff-f6cc-4e3a-88b5-53814defb398",
+      "filename": "209.json",
+      "bytes": 958818,
+      "sha256": "e966d87dc4e0a86634363e5d29813046d6065cb5ad9d1685929f94c9af9dc1fb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/398c49ff-f6cc-4e3a-88b5-53814defb398/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "39c12d66-e43d-4286-a8f6-86c5234d3f66",
+      "filename": "184.json",
+      "bytes": 733506,
+      "sha256": "3880cadbe9132ad77f55aaaa29d770b99549318172ffd64a04bca309adbe168f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/39c12d66-e43d-4286-a8f6-86c5234d3f66/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "3a059215-a260-4341-88cc-bb61beae10d1",
+      "filename": "220.json",
+      "bytes": 946521,
+      "sha256": "c51c6c07fc43ae5ae9b5a7064b94d5e2eaef33550f3141b22b72ea36ac5f67c2",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/3a059215-a260-4341-88cc-bb61beae10d1/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "4240c30d-3f6b-41ec-b2ed-e2d9463a52b2",
+      "filename": "217.json",
+      "bytes": 1016951,
+      "sha256": "510638a27cf9924c1c55d0df5a597582d7e2784d6c24350cd7c1ad46afdaa52b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/4240c30d-3f6b-41ec-b2ed-e2d9463a52b2/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "49c883e5-f970-45bb-86c0-7bb473a492e7",
+      "filename": "202.json",
+      "bytes": 965842,
+      "sha256": "069739cf441aa5ba0e1e9fd74453b8d2b270587497b956798894c4dcbd4688bb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/49c883e5-f970-45bb-86c0-7bb473a492e7/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "4eb7b52b-fd4a-4069-8553-9e93dec4694f",
+      "filename": "201.json",
+      "bytes": 881255,
+      "sha256": "a2f2429e0912494ab377cd50950e01c091e472083b3011ada7154c4505a6a285",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/4eb7b52b-fd4a-4069-8553-9e93dec4694f/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "50d18e17-8d62-43ed-a05b-34fa0ed665df",
+      "filename": "171.json",
+      "bytes": 805211,
+      "sha256": "deb9619847d954ad857ab9eb8355dc4608e1371f75473c8a20b794f6be1888d1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/50d18e17-8d62-43ed-a05b-34fa0ed665df/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "63c974f6-0752-40da-8e3d-c6b8f4d931b8",
+      "filename": "189.json",
+      "bytes": 758646,
+      "sha256": "8cccde790184515744c75728e431d1628894b27f7e6d8d299bef65fecfb7d7b1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/63c974f6-0752-40da-8e3d-c6b8f4d931b8/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "68b97dfd-6f65-47c1-9d0d-c97ca28cc5e8",
+      "filename": "198.json",
+      "bytes": 849140,
+      "sha256": "bd514aa6b0c3fea9d72f86464db74ce4f5fe2439cd8901d5a216218b00ad6da8",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/68b97dfd-6f65-47c1-9d0d-c97ca28cc5e8/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "70209769-315c-4fbb-9aed-c9acf8400e9a",
+      "filename": "187.json",
+      "bytes": 898301,
+      "sha256": "7de21a73f0f3fc38c505fb862de339e430ca47a3f91e4d8cbb313eeec7fff45f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/70209769-315c-4fbb-9aed-c9acf8400e9a/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "7375d96d-e86c-4364-b2ae-a72f989ab95c",
+      "filename": "172.json",
+      "bytes": 1050814,
+      "sha256": "3c8150e594dbcefdf743602f8f69c09e148f4d7455fd2753820130f754dfa6e9",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/7375d96d-e86c-4364-b2ae-a72f989ab95c/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "74ce0de9-b216-4a18-95dd-a3f0a9252194",
+      "filename": "176.json",
+      "bytes": 1299858,
+      "sha256": "0ff2c014ff43c2c5ed51558b3e62ce062409d15740fd20049bc1b01c1590ed26",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/74ce0de9-b216-4a18-95dd-a3f0a9252194/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "75eac398-493f-4f4e-9e7d-6cbccc4ddf90",
+      "filename": "205.json",
+      "bytes": 1344241,
+      "sha256": "38927dc0e6fe2305f2ab024454bb0b415b6459b7905b7d3aa962e61e7ce2058d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/75eac398-493f-4f4e-9e7d-6cbccc4ddf90/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "774ab367-e49e-4ff4-b702-63c518937e3d",
+      "filename": "190.json",
+      "bytes": 753122,
+      "sha256": "d1d48e2775d4690ababee154fd2b3af4042b8d535f70bc4f3811de9fe7764a7f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/774ab367-e49e-4ff4-b702-63c518937e3d/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "78404732-f65d-49aa-b643-b866a616f87a",
+      "filename": "177.json",
+      "bytes": 949372,
+      "sha256": "7c761cf19434ec171618c21d51abdb3813a49992daa26a64f7283428284bf6d7",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/78404732-f65d-49aa-b643-b866a616f87a/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "7844c7f0-ea94-4eb1-a2e7-ab4fc9c456c5",
+      "filename": "185.json",
+      "bytes": 682015,
+      "sha256": "f1540ac86eee7f90fac1ccb69c66626f35621d44cc3bbea1f28987d5685c93c7",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/7844c7f0-ea94-4eb1-a2e7-ab4fc9c456c5/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "7d9c8c60-6013-4483-937d-65889167e96e",
+      "filename": "173.json",
+      "bytes": 1137450,
+      "sha256": "94ddb221f2dbe1e4defb46c154b9941207bafccb242e4abeea9f8aca25456bc4",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/7d9c8c60-6013-4483-937d-65889167e96e/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "7de8ea44-c02b-4082-a585-40dfcea8504e",
+      "filename": "218.json",
+      "bytes": 798312,
+      "sha256": "ebc5ca1316b27b137d332b9fdba9698df5906291cf9c8559c0faf0fe0770c3bc",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/7de8ea44-c02b-4082-a585-40dfcea8504e/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "80e34192-962a-49a3-aef7-10efd3679f68",
+      "filename": "192.json",
+      "bytes": 1075352,
+      "sha256": "f4d796436c492bc6b1ed2c3cfa6b19b2120da284cffb1e18d3728b8be43ac54b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/80e34192-962a-49a3-aef7-10efd3679f68/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "86ff08c5-3d39-446f-b77a-0fc92b552cd1",
+      "filename": "208.json",
+      "bytes": 1254002,
+      "sha256": "b5c840ce4a900828ea19cfe1fe0a41ee602960212b515328d7c2518d8b455969",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/86ff08c5-3d39-446f-b77a-0fc92b552cd1/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "8bbdb909-17b0-4142-b272-6bff3114a725",
+      "filename": "206.json",
+      "bytes": 1127568,
+      "sha256": "9c21d81631616a80611133db2a2b0a9cc51eab478edcc11b0877296aec6a5878",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/8bbdb909-17b0-4142-b272-6bff3114a725/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "90591f76-d762-4f16-8c51-0a4a5daa19f1",
+      "filename": "203.json",
+      "bytes": 1150890,
+      "sha256": "3f2c48ba39d55819272a780fa20e4a91fc1cd11dab6df468012130e13ea2ace0",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/90591f76-d762-4f16-8c51-0a4a5daa19f1/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "97b76c04-b343-4529-b03d-b57950b67965",
+      "filename": "191.json",
+      "bytes": 745642,
+      "sha256": "1d770498914955ba2be7f47cd1e3b60c53e49306a2178077bf53c05cc8144ef9",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/97b76c04-b343-4529-b03d-b57950b67965/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "a1bbd70a-01c8-4e34-9194-b12cbdee34b7",
+      "filename": "180.json",
+      "bytes": 796673,
+      "sha256": "ee74f9b74fc78330df0c0a44e88d4341bd6fadd3f63f68b2f30e60211d59b52a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a1bbd70a-01c8-4e34-9194-b12cbdee34b7/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "bbf3c278-54d3-4945-a31c-276fa8dd409d",
+      "filename": "182.json",
+      "bytes": 1018092,
+      "sha256": "69d79922ddd60fe4472e6d2d3d7f471f25e6e78cd88c7de47f839f62809a6873",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/bbf3c278-54d3-4945-a31c-276fa8dd409d/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "c585b689-1236-41a0-8f17-c42b7eecb4a5",
+      "filename": "196.json",
+      "bytes": 961281,
+      "sha256": "20a6d117137762357337440e212a4792482d90076679df857dd1f6637a91439a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c585b689-1236-41a0-8f17-c42b7eecb4a5/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "ca15a3e5-1ffa-4470-98e8-1b5e92aaafe5",
+      "filename": "178.json",
+      "bytes": 1183222,
+      "sha256": "ddc3f57be207225a08a88af7c95c1582b5c72a9b312697261f672f30f99aaa7d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ca15a3e5-1ffa-4470-98e8-1b5e92aaafe5/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "cd2776c5-294d-42ad-a780-8ce9a4666c6b",
+      "filename": "183.json",
+      "bytes": 861202,
+      "sha256": "9cdeb0f3c83185d7e1b1af4f633da53b8bbade0b99507410a744758aada24f62",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/cd2776c5-294d-42ad-a780-8ce9a4666c6b/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "cd8a07e9-8568-48f4-a32b-c210d3c30936",
+      "filename": "174.json",
+      "bytes": 901862,
+      "sha256": "d87d55462ddb28039347fde85685e7ae37008a7650f86224ee07c1c50c1b7ef0",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/cd8a07e9-8568-48f4-a32b-c210d3c30936/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "d7f56f96-0c66-451e-843b-8c3250e9250b",
+      "filename": "175.json",
+      "bytes": 1068974,
+      "sha256": "14828d3865da938ceb0b15c7255399c04ef886e705d071abcad5a3bb91416070",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d7f56f96-0c66-451e-843b-8c3250e9250b/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "dc6ace15-bda8-425b-861d-0a5089f8c0a6",
+      "filename": "200.json",
+      "bytes": 1364360,
+      "sha256": "aa9313b3addd53dd4d922ebc4d8c8c5732f0d2052f8e30748dadc0e52112376f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/dc6ace15-bda8-425b-861d-0a5089f8c0a6/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "e45e9e6c-9e64-4ba5-b6f9-673d844f7af7",
+      "filename": "212.json",
+      "bytes": 947105,
+      "sha256": "9ce2a5a1cfadadeae38156211a31394c1e86b3f4e9db73448dc64fe9096b0581",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/e45e9e6c-9e64-4ba5-b6f9-673d844f7af7/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "e814ad54-df03-4c2c-bffa-f27782864a50",
+      "filename": "215.json",
+      "bytes": 1213015,
+      "sha256": "53990d6647570b5823e0717d32e89035155f402c7552eb53dcee7f5d2735b3dc",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/e814ad54-df03-4c2c-bffa-f27782864a50/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "e8241654-7547-4efa-8a56-910d00f43673",
+      "filename": "195.json",
+      "bytes": 833415,
+      "sha256": "801dc3dc17889caa748c36ccab9f7ec4be35b6a409b970773463017ec8af308c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/e8241654-7547-4efa-8a56-910d00f43673/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "ea058578-d576-426c-a51e-db3cb8c02516",
+      "filename": "211.json",
+      "bytes": 765930,
+      "sha256": "6c24e936347425018c68278e508096a68897260b06aee64e93c536119a155562",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ea058578-d576-426c-a51e-db3cb8c02516/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "f1dd887f-fed8-48e2-81df-73a54c3575b1",
+      "filename": "204.json",
+      "bytes": 1324008,
+      "sha256": "17a6fc1e5dccf904c332319d4e46162cb5556ab6f0aea197734cbd33741085fb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f1dd887f-fed8-48e2-81df-73a54c3575b1/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "f6168f8a-a86f-411c-9274-0c3dc1f50812",
+      "filename": "181.json",
+      "bytes": 1122240,
+      "sha256": "c024e892e233cc33a01539a43c516b6836a9a7fb8c26875b752b226ce3dfebc6",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f6168f8a-a86f-411c-9274-0c3dc1f50812/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "fd26a94f-0589-454e-adcd-46c169b1803a",
+      "filename": "193.json",
+      "bytes": 1021683,
+      "sha256": "581b88126a7d755b953f5fd86934fd6c2a517f93bc994a01eedc3a2be9627703",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/fd26a94f-0589-454e-adcd-46c169b1803a/file_downloaded"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "folder_id": "9167e445-8515-49b1-bf57-a459dbbf8b3e",
+      "id": "fefd2c97-b1e5-4c47-8899-335582ba9b82",
+      "filename": "186.json",
+      "bytes": 831116,
+      "sha256": "22908326b22671b6686af692b47863f43700064003adab0144998cf4dd92147f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/fefd2c97-b1e5-4c47-8899-335582ba9b82/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "04e0c169-3aff-41ea-8c36-5ac200c447aa",
+      "filename": "435.json",
+      "bytes": 873650,
+      "sha256": "f8c2b1f79ad092412a8288e02954fcd0e84d85a826af41dfe8c30fcb0551748b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/04e0c169-3aff-41ea-8c36-5ac200c447aa/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "090be0c2-fa09-4a7d-b04e-f1278d9b273c",
+      "filename": "428.json",
+      "bytes": 1006153,
+      "sha256": "45769a5159e984f8dd1b685aeb49ba8a606d0c7edc3a91d8a2ff69db61dd36fa",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/090be0c2-fa09-4a7d-b04e-f1278d9b273c/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "0ac47509-e9a7-4394-a257-aecde7408216",
+      "filename": "443.json",
+      "bytes": 159755,
+      "sha256": "18fd4fb27d7a2a4edf6a9598fc4ed3142ef1189a925e7c266a521b4d81872a4f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/0ac47509-e9a7-4394-a257-aecde7408216/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "0c699b10-1581-4480-bf42-7a8c0c5e8940",
+      "filename": "420.json",
+      "bytes": 1044910,
+      "sha256": "26747e14fc117146397a863e9725156395389f31df1ba410096a3d90d45af65a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/0c699b10-1581-4480-bf42-7a8c0c5e8940/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "0f860719-72bf-4689-ad7d-799b9ba6be85",
+      "filename": "437.json",
+      "bytes": 167264,
+      "sha256": "25a241fd82d711fe8f908c9b4a837423ed5dbe4924afa27b5c4eedabf66525dc",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/0f860719-72bf-4689-ad7d-799b9ba6be85/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "12d312c8-c59c-49fd-a2dd-d9fe4357bbcd",
+      "filename": "401.json",
+      "bytes": 794905,
+      "sha256": "cb27f4fdd6427c414fcdd84310c9835fd9b8d9e2b3f9c488df6c28569e1e2e13",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/12d312c8-c59c-49fd-a2dd-d9fe4357bbcd/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "132fd594-a384-4bb6-abf1-444c30fc81ad",
+      "filename": "448.json",
+      "bytes": 143484,
+      "sha256": "8740fbddfc76eab4d2e4ba1c57ed696a10912464b90a4c67e1b0299767599355",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/132fd594-a384-4bb6-abf1-444c30fc81ad/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "15d97886-5195-4f94-bfa6-7e55524a152b",
+      "filename": "408.json",
+      "bytes": 671121,
+      "sha256": "9a096608246535aaebd00ef1f8742effa6f981c9735ae203ea007089391f2610",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/15d97886-5195-4f94-bfa6-7e55524a152b/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "29de96a2-e71e-4e65-bbf2-3de07a157173",
+      "filename": "410.json",
+      "bytes": 895473,
+      "sha256": "16d24e5697c6ad5c8e267c4ea3703457a5e7575520fb2bed7dec9022ad9a859a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/29de96a2-e71e-4e65-bbf2-3de07a157173/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "2abd306d-bd94-4489-8700-3754d3fd86c4",
+      "filename": "413.json",
+      "bytes": 1051670,
+      "sha256": "dea0465a5afbe49fe9f0f8a04735853491ea3433316b001cf665259dbebe579f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/2abd306d-bd94-4489-8700-3754d3fd86c4/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "393ba4ec-59f9-455c-8375-e2fe190f0e55",
+      "filename": "403.json",
+      "bytes": 863858,
+      "sha256": "dbe8ac7c3ff63e4f69f742b38ed5797fb51f135189c2c3b923dea4d3c0a248fc",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/393ba4ec-59f9-455c-8375-e2fe190f0e55/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "3a7dd3c4-50de-44bf-9d54-804cc69dd8e0",
+      "filename": "421.json",
+      "bytes": 988691,
+      "sha256": "0fcc924d5d9bfe571edd596b4b96eb7143daa648cbe9ca13080b15e67266dcaa",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/3a7dd3c4-50de-44bf-9d54-804cc69dd8e0/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "3f1d187c-7d55-48ce-bbb6-81a797a18e99",
+      "filename": "417.json",
+      "bytes": 1009973,
+      "sha256": "54bd268eb0427b50dbdccb99268683ee90b4d566717513c4f9ed85898a6a266a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/3f1d187c-7d55-48ce-bbb6-81a797a18e99/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "42cd14c7-8187-4b4c-ab66-820d902616c9",
+      "filename": "441.json",
+      "bytes": 141521,
+      "sha256": "87ff5cb1a0ecffe110c9a9e2218a3d6ece1a1e2854e4e780ad80ffb78e27cbc1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/42cd14c7-8187-4b4c-ab66-820d902616c9/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "432c2475-c7aa-464a-b37b-195537babd96",
+      "filename": "429.json",
+      "bytes": 1143737,
+      "sha256": "c82a74fc4c3dcb6caa216b442d57aa8c707731a8765e5bfbb3ad36925664d157",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/432c2475-c7aa-464a-b37b-195537babd96/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "597a09b5-3048-4093-a893-d5f149e0c37f",
+      "filename": "418.json",
+      "bytes": 1132113,
+      "sha256": "13087a92713f9bd6dc5fccee6adf296400ee2c8763f35e1c2d69a1d29a9b3df6",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/597a09b5-3048-4093-a893-d5f149e0c37f/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "60243b49-1f1e-456e-9fc2-69470959065b",
+      "filename": "405.json",
+      "bytes": 767223,
+      "sha256": "df1c662191cc2799152c4decee616e6b099ca75453861f58c8815b24b041c40e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/60243b49-1f1e-456e-9fc2-69470959065b/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "641ac936-a9f4-4159-95aa-037ccc88bd1c",
+      "filename": "422.json",
+      "bytes": 880563,
+      "sha256": "b71c164593fb697bcf15f73f5b856d53c1b5ad737e889f4abc847ed80efdf17d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/641ac936-a9f4-4159-95aa-037ccc88bd1c/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "6a081d2b-0d5e-4010-980b-b74291f7488e",
+      "filename": "426.json",
+      "bytes": 1082110,
+      "sha256": "4abfd2360eb9089bdc85cf4aa55c747d0e7cfd8e9b60e3de8f5a131744b39331",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/6a081d2b-0d5e-4010-980b-b74291f7488e/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "6ff6e7b6-feb7-4a81-b8d9-bd04584ffe5d",
+      "filename": "439.json",
+      "bytes": 136064,
+      "sha256": "6c291b32ee0a35f47f85b34e48e0a2f84ac68aec8ad3875da4fa0f03b5a87c1e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/6ff6e7b6-feb7-4a81-b8d9-bd04584ffe5d/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "7756586c-07ac-465f-bbc9-6f7624cb8f3f",
+      "filename": "425.json",
+      "bytes": 847000,
+      "sha256": "965c56abe535d54690887e921810bb7e09d19f8920e5f97b81013487fdcd2acc",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/7756586c-07ac-465f-bbc9-6f7624cb8f3f/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "807e50f9-7288-4920-a264-3e3317109c1b",
+      "filename": "416.json",
+      "bytes": 1019032,
+      "sha256": "57edd9931ef511a901696195b32b14d6f64db79c27a24425df8b51f6463e6a26",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/807e50f9-7288-4920-a264-3e3317109c1b/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "80965288-3d9b-4066-af08-a3e6814f6a52",
+      "filename": "412.json",
+      "bytes": 866034,
+      "sha256": "cdf1f8f8c237f35d523a4f504302da0213d8d63f8382eadc2903a71eda22a232",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/80965288-3d9b-4066-af08-a3e6814f6a52/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "85a35330-4746-4527-baf4-467db83a5bf8",
+      "filename": "442.json",
+      "bytes": 160737,
+      "sha256": "03c99c50fafcd244758d61b13ed865f083cf7877646b3c3e0124e83524cac9d6",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/85a35330-4746-4527-baf4-467db83a5bf8/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "85bf9d0f-eccd-42a9-9e0b-0e26902b25a2",
+      "filename": "423.json",
+      "bytes": 1075311,
+      "sha256": "6099563f45748a21e1cd870536ce1e87f6713d08dd5c6ca0d7d59727e25179dd",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/85bf9d0f-eccd-42a9-9e0b-0e26902b25a2/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "861e3ff8-d367-4401-8993-9f8e6fd49c98",
+      "filename": "433.json",
+      "bytes": 1108257,
+      "sha256": "382d896d80ff28dff22337f50883163d5bf2a64f6a9d3b4108a1494d06ab4453",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/861e3ff8-d367-4401-8993-9f8e6fd49c98/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "8c67ae18-8e43-4427-b09f-411a027605fb",
+      "filename": "447.json",
+      "bytes": 146831,
+      "sha256": "010b7f482371fa8d39e0d6e1577a23e5df853e9a72e716814b455183c4f028e7",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/8c67ae18-8e43-4427-b09f-411a027605fb/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "8fefe844-5c09-459b-be0a-b2481cd6f0b7",
+      "filename": "449.json",
+      "bytes": 143042,
+      "sha256": "42ebcf74d21f33af8f9fc8eef1f2a967232c04e082a76f329a4666e3ee078608",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/8fefe844-5c09-459b-be0a-b2481cd6f0b7/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "90af1f51-34f0-43bc-b876-eff799264587",
+      "filename": "432.json",
+      "bytes": 800999,
+      "sha256": "08b07e815d231af12797fe795a428194dc063d1ff439697ae83c6dc1c15335eb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/90af1f51-34f0-43bc-b876-eff799264587/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "91400eac-84c0-4370-a3d3-61461a84bdd6",
+      "filename": "424.json",
+      "bytes": 915239,
+      "sha256": "dc08d452eacea7b6cdf310b04d699f9320262b9d46d5bfca86b37dd5b00e3b9d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/91400eac-84c0-4370-a3d3-61461a84bdd6/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "91d31e30-13c7-4dcc-8439-f8e950434091",
+      "filename": "434.json",
+      "bytes": 1109913,
+      "sha256": "0cb87206233c7587bced9d797617cf9e8f3690d384c96f228f50839c8176fc12",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/91d31e30-13c7-4dcc-8439-f8e950434091/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "952dc4e7-b70e-46ed-9eb6-fbccd3af35b7",
+      "filename": "419.json",
+      "bytes": 796875,
+      "sha256": "7620c6b8773153cb51fc3eefa8c722a314425036dcf0a782b5b64086cf87378d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/952dc4e7-b70e-46ed-9eb6-fbccd3af35b7/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "a1d111e7-3b34-4d25-be7b-cb47dbcd9fd5",
+      "filename": "427.json",
+      "bytes": 1002720,
+      "sha256": "f9c2261903afa152ab928dfb02e448771496b16eb20a2fbe80307e8ec4f6f72f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a1d111e7-3b34-4d25-be7b-cb47dbcd9fd5/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "a623d759-4ec9-4779-9b14-c946a264109a",
+      "filename": "438.json",
+      "bytes": 167100,
+      "sha256": "822d3779fcff0760a4de411a179a9dde91c355be13ab17683cb2567b7b258b36",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a623d759-4ec9-4779-9b14-c946a264109a/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "a8a266c5-2513-4272-8736-b0c3f02b8a5a",
+      "filename": "431.json",
+      "bytes": 772138,
+      "sha256": "0822f13158fe5d9fb253002180acc2ceba95f3f096932571315c3e4b4b4d04eb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a8a266c5-2513-4272-8736-b0c3f02b8a5a/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "aea12a50-6e9f-49cb-9e6e-4ebaf212e694",
+      "filename": "411.json",
+      "bytes": 864930,
+      "sha256": "dcc92ad7e21d2898404d212569c592ce10866b3e53648c2eb6dd25800c94ed12",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/aea12a50-6e9f-49cb-9e6e-4ebaf212e694/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "b5562e5e-b1d3-43c9-9a26-c6356320164b",
+      "filename": "404.json",
+      "bytes": 704212,
+      "sha256": "ce6a4849ace372d485184455971d0eeb9418d2fed1a97947bb062c95608f6ba3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b5562e5e-b1d3-43c9-9a26-c6356320164b/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "b9b71256-b45b-4bad-984f-fd2169e0166d",
+      "filename": "415.json",
+      "bytes": 974686,
+      "sha256": "cc925ec7eab31103d38cb4fde09e5512657ba6dcbf872197235085ff3d61e944",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b9b71256-b45b-4bad-984f-fd2169e0166d/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "bace4139-9ac3-4660-bc03-5ee39fe80dbb",
+      "filename": "436.json",
+      "bytes": 173187,
+      "sha256": "e11a8aa92f03c3b6e0aa8cfed5ea9018c86c5b0e67f9e9bdf2cb88cf01b98e56",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/bace4139-9ac3-4660-bc03-5ee39fe80dbb/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "be665f12-d18b-478f-9447-43347c0a383f",
+      "filename": "406.json",
+      "bytes": 951272,
+      "sha256": "99dc4de347df07e88a56651d015e75ab133269736abd9569c536690146f2d512",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/be665f12-d18b-478f-9447-43347c0a383f/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "bf6d3944-6898-4c7e-bd59-0f189af4f334",
+      "filename": "430.json",
+      "bytes": 774523,
+      "sha256": "e413927f84adabf812b8f2e4bcd973c68b98d6725a49b2c7b5b578d010a8d766",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/bf6d3944-6898-4c7e-bd59-0f189af4f334/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "c5b47284-b66d-4d18-8d9b-cc2c90801fc9",
+      "filename": "414.json",
+      "bytes": 876438,
+      "sha256": "bebfd60857196c710d4ddde006dd4d6c0f9c5aff19c4fa2616de59e03137b683",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c5b47284-b66d-4d18-8d9b-cc2c90801fc9/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "cc55ee1f-bddb-4f81-8e50-3f2eea830f37",
+      "filename": "402.json",
+      "bytes": 868442,
+      "sha256": "0866e76e70ad1a9f79dc9380950870b134159c9ffad2e684d2d50689bbf1e831",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/cc55ee1f-bddb-4f81-8e50-3f2eea830f37/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "d1d317ac-f457-42fb-abe3-f150be31f859",
+      "filename": "445.json",
+      "bytes": 179100,
+      "sha256": "32f9cba8aec7f54548ef1b9b89076b445c6b8c0ec3cbb05f56426f390d58e4bf",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d1d317ac-f457-42fb-abe3-f150be31f859/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "d774fb0e-5aaf-41d1-908a-f99781f80b43",
+      "filename": "409.json",
+      "bytes": 811563,
+      "sha256": "05861b5374c70f484c79d711872cc2ec016791f78040998e9eb3b892e33ceeab",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d774fb0e-5aaf-41d1-908a-f99781f80b43/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "ec77caea-bfd1-433e-87a6-fe58c3c45eeb",
+      "filename": "444.json",
+      "bytes": 231646,
+      "sha256": "c349dbc4f1d2ecd3f5eb3ade809005025bd82bb11447240630f15c854c0f6bb9",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ec77caea-bfd1-433e-87a6-fe58c3c45eeb/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "ed730e76-77a2-4f95-953e-ae769cbf4b15",
+      "filename": "450.json",
+      "bytes": 343903,
+      "sha256": "f3555918b357c0ce0cf50377d547909cfa42088343051d8423cdcc2e039a78bb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ed730e76-77a2-4f95-953e-ae769cbf4b15/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "f20f652b-a629-41f4-814f-5f3fb9f4497f",
+      "filename": "407.json",
+      "bytes": 984466,
+      "sha256": "131961493d261dcb7400cd8cac43cff8be9b9054ea80e6347b4af7f35f4cd7e4",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f20f652b-a629-41f4-814f-5f3fb9f4497f/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "f30657c5-a927-4984-947b-a7d87df2ca2c",
+      "filename": "440.json",
+      "bytes": 154918,
+      "sha256": "f8d7715c5a12ad9c40f12754b34eca1be1fea055614cb7a42ea2f73c39ecf355",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f30657c5-a927-4984-947b-a7d87df2ca2c/file_downloaded"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "folder_id": "cf445387-4408-4056-9332-7e6bc16bffe7",
+      "id": "f5039a7f-10ae-4c11-a9ef-abe1db5da8bc",
+      "filename": "446.json",
+      "bytes": 179190,
+      "sha256": "7904d7e517fb47757512918a08dfe580c5f5fbeb0109b7e507cedb67c2d17edb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f5039a7f-10ae-4c11-a9ef-abe1db5da8bc/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "001f424b-8763-444c-9f09-732ea52301f7",
+      "filename": "501.json",
+      "bytes": 1156123,
+      "sha256": "3ff97264da3f4ade58062284d2e637551089fc2a00635a18fc3fdca1b5577ba3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/001f424b-8763-444c-9f09-732ea52301f7/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "05909be7-5a75-4da4-8d99-488ec258b981",
+      "filename": "541.json",
+      "bytes": 4762359,
+      "sha256": "a2b00dd4d63985621fde95425dccab29c1f24e4ee5b757f71894a3be776ea440",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/05909be7-5a75-4da4-8d99-488ec258b981/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "063cf5b0-341f-4706-a323-3bb8e5c9bf90",
+      "filename": "549.json",
+      "bytes": 3289291,
+      "sha256": "0c8fa887d718dc47ad8f0bd19d3f3efefba52e87dab5661e03f73718fb9a286b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/063cf5b0-341f-4706-a323-3bb8e5c9bf90/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "07ae3d0a-df5a-4c86-be49-d4e83202e516",
+      "filename": "505.json",
+      "bytes": 929752,
+      "sha256": "1ffc4e4a0a9077f94e7d049711bd51e74e0f4ecf86c703f2d3dd00dea520b345",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/07ae3d0a-df5a-4c86-be49-d4e83202e516/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "093c6e43-e728-42e3-ac82-d4af04813318",
+      "filename": "510.json",
+      "bytes": 1077941,
+      "sha256": "e0ba30a329e76964337abb47682d5a379fe615ff5d8d64b1fddb7ae0dc58d55f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/093c6e43-e728-42e3-ac82-d4af04813318/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "0e94761f-bd43-4e80-a2df-43626bd17784",
+      "filename": "533.json",
+      "bytes": 3795627,
+      "sha256": "08f7c96c322d8ffedbc52cb9e745c3dcb9d4dfbe9ccd8335f41dde1ccd15df4c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/0e94761f-bd43-4e80-a2df-43626bd17784/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "120bd9c1-58aa-4e12-baaf-a53f5278d02e",
+      "filename": "522.json",
+      "bytes": 3358459,
+      "sha256": "4db3788672fbd8e882fcb468f3d08c6ffa6bae325834f8f86ca15d1f4927c3d2",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/120bd9c1-58aa-4e12-baaf-a53f5278d02e/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "15e4bdd8-6d16-43d7-9769-a6109a30d237",
+      "filename": "513.json",
+      "bytes": 5020347,
+      "sha256": "c773f5624fa3ca5cddebd4131b3cb09038e8b6542da1f9643ea0008fc6f7b11b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/15e4bdd8-6d16-43d7-9769-a6109a30d237/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "2c3a20d4-8dde-4c16-bad2-351e4aa97221",
+      "filename": "502.json",
+      "bytes": 1125405,
+      "sha256": "660b82f656c2f4053eb5683fc36bc5dc6dd9ef2e145ecf290d3faa1842c3cf18",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/2c3a20d4-8dde-4c16-bad2-351e4aa97221/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "33003850-414e-4ea6-a6d8-80c41faa42ec",
+      "filename": "536.json",
+      "bytes": 2896550,
+      "sha256": "718bdd6a96e3c28b31d020cbabc5c482a07e11a96467edd2e663a13c3dc05450",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/33003850-414e-4ea6-a6d8-80c41faa42ec/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "3b191596-7123-4fd0-93cf-ff53e4948c96",
+      "filename": "550.json",
+      "bytes": 3807339,
+      "sha256": "9d461edd198dc0cf5010516eed3d6c4374543085f7ed430b30ebb4ada741b2a4",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/3b191596-7123-4fd0-93cf-ff53e4948c96/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "3da80ddd-4f98-4e2b-bb65-c5303fd42d4d",
+      "filename": "520.json",
+      "bytes": 3498439,
+      "sha256": "9d2277a03341c702ea1c3ea0b108d4bd152f84853f89fe76e979239cfe1722c1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/3da80ddd-4f98-4e2b-bb65-c5303fd42d4d/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "4259cf16-d4ad-4d10-afde-26b875879bd1",
+      "filename": "539.json",
+      "bytes": 3074131,
+      "sha256": "8ed3a3e2d93287681725cbb820262a14e1f6719ec8726addd30d3b200d8fb30a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/4259cf16-d4ad-4d10-afde-26b875879bd1/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "529ab7d2-5f3b-4ada-abee-c66edb99975e",
+      "filename": "535.json",
+      "bytes": 3293596,
+      "sha256": "adbfa172f6fecd16f0999b5013995360dcb4461126fee01eb7a96b95b9032ec2",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/529ab7d2-5f3b-4ada-abee-c66edb99975e/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "546a4e0b-6853-4d6d-98a8-c9846b5b1f27",
+      "filename": "531.json",
+      "bytes": 3908971,
+      "sha256": "4217e153c6be34ebf6d1c37be3f750b371f79b7cfe7b9d0fb828132fad277aac",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/546a4e0b-6853-4d6d-98a8-c9846b5b1f27/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "54c1be07-3e7e-4a92-b7d1-1122d63756cd",
+      "filename": "542.json",
+      "bytes": 4009423,
+      "sha256": "067b04c1eb44aba528f881966aa02232ea492cfff2f79a1b622eee3102e6ad88",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/54c1be07-3e7e-4a92-b7d1-1122d63756cd/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "59cb11e6-0c4c-438f-944b-853d15ee3206",
+      "filename": "509.json",
+      "bytes": 918197,
+      "sha256": "63e23bc5d51671a5d61be37248ffecf80ef910a3e46c224a76eb8c1359b3f138",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/59cb11e6-0c4c-438f-944b-853d15ee3206/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "5fcc511b-ecc4-437e-85c1-e0bdabbe2d7b",
+      "filename": "504.json",
+      "bytes": 868999,
+      "sha256": "93ffec5043a51f514b756dc56cd7cc85469173a4b5892106d890d1314f9275d2",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/5fcc511b-ecc4-437e-85c1-e0bdabbe2d7b/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "6012e9ba-f7f7-48b0-b5fe-e047e5f93161",
+      "filename": "506.json",
+      "bytes": 1035822,
+      "sha256": "36b1584e8fc76e3f750b5de258af8f27ab7c2c8a098cdc58d94372c9d0dccd4b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/6012e9ba-f7f7-48b0-b5fe-e047e5f93161/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "607c4cc2-b178-4c18-abf5-49714c7b4c73",
+      "filename": "515.json",
+      "bytes": 3560623,
+      "sha256": "f285d58145f3a6b2721a815d99676e2089814c5d28ec9e8526a48678f63b929e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/607c4cc2-b178-4c18-abf5-49714c7b4c73/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "645cbf42-8b45-4287-800f-d5f152833194",
+      "filename": "503.json",
+      "bytes": 1123573,
+      "sha256": "9386bcee974d22f6575d000633e7068510d4d1cc1e76f1ff8caa6bea342158eb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/645cbf42-8b45-4287-800f-d5f152833194/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "6f01a55e-f87d-48dc-a238-c4ca4fa2a242",
+      "filename": "527.json",
+      "bytes": 3625815,
+      "sha256": "02a5a7c272c5d4d3535584709947d314cf5b287a1647197e9aaeb67d88482a6b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/6f01a55e-f87d-48dc-a238-c4ca4fa2a242/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "775496ad-95c8-4a88-82b0-ab4abd88efc4",
+      "filename": "534.json",
+      "bytes": 3596548,
+      "sha256": "3c168fcb412ea3b279201085efe207b2635718b24fd86ca9c5d55234c12d60e3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/775496ad-95c8-4a88-82b0-ab4abd88efc4/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "7f440d4f-e09c-4575-b622-746d2404af8d",
+      "filename": "519.json",
+      "bytes": 2907275,
+      "sha256": "5e08c4847eeaca5c596bcf7f516f2cece4026acbeca6da44b51f37c94bc17f75",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/7f440d4f-e09c-4575-b622-746d2404af8d/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "826dd0d8-4b2a-40d7-abf1-59b5fb07ebbc",
+      "filename": "544.json",
+      "bytes": 3795827,
+      "sha256": "5709a7f18fd8c8887db8e13f921585ebc4daab12b03d9b86d2f9a83744c1929a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/826dd0d8-4b2a-40d7-abf1-59b5fb07ebbc/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "84b05cfe-d1f5-46be-9d2a-12cb6d73e8a9",
+      "filename": "543.json",
+      "bytes": 3025399,
+      "sha256": "84b359454bbe99e103c6aa137b0cc4ce946da0d2cc1db4269cc625d8c86b5b04",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/84b05cfe-d1f5-46be-9d2a-12cb6d73e8a9/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "86c53b4e-3323-4614-9a5d-9aa7f8c57e2a",
+      "filename": "547.json",
+      "bytes": 2961716,
+      "sha256": "ba283cc4a657e4bc53a2f66c51c81ce778453243c8614f4969e8aa8838f7d416",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/86c53b4e-3323-4614-9a5d-9aa7f8c57e2a/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "8b7c625b-59b3-45dc-8c90-7dbd72c4d254",
+      "filename": "537.json",
+      "bytes": 3557535,
+      "sha256": "730dba6fbca102c98f0d58300822ca94fc40b54f7507314dae310f75570fcb65",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/8b7c625b-59b3-45dc-8c90-7dbd72c4d254/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "919baca4-9727-4408-a142-a92e14c46e43",
+      "filename": "528.json",
+      "bytes": 3351647,
+      "sha256": "2a6daf7b3f9b9a001366f525a4b053688558d197f331e9b2754a7c5dbdd046f8",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/919baca4-9727-4408-a142-a92e14c46e43/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "9c13414d-5d8b-4e19-acb6-7a4168b274e0",
+      "filename": "507.json",
+      "bytes": 916069,
+      "sha256": "2a45314e29b711cf9832e1d70ff5520c24e938ef2b29619263d45cd11ea0e989",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/9c13414d-5d8b-4e19-acb6-7a4168b274e0/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "9f019dd0-8492-41f5-bf4a-e1aae0d1d9e7",
+      "filename": "508.json",
+      "bytes": 878209,
+      "sha256": "0727b56f1e2a9d84bfaf070f4180d52258f4e611fcf570dd1c15375f79a9d722",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/9f019dd0-8492-41f5-bf4a-e1aae0d1d9e7/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "a140eea8-7718-49de-a3c3-f374bb749299",
+      "filename": "526.json",
+      "bytes": 2557918,
+      "sha256": "6437e1ade712dc10f25efc93983035b57ba5a4551805d6eb9c59888069903d3f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a140eea8-7718-49de-a3c3-f374bb749299/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "a563a83a-cab9-4c68-8191-3615eb1f1996",
+      "filename": "529.json",
+      "bytes": 4934807,
+      "sha256": "e20f345ecb2e6b3551c50547f1c07f3781a78305d733d8b9584485bc4c89241f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a563a83a-cab9-4c68-8191-3615eb1f1996/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "b39233ad-938a-44d6-a352-2e36872e1431",
+      "filename": "514.json",
+      "bytes": 4064459,
+      "sha256": "1a029183a4f9274e7ec5c138e7995bcc085790811fe9c9133024bf13cec18731",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b39233ad-938a-44d6-a352-2e36872e1431/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "b3d06551-baca-4895-98bb-095158ffb1db",
+      "filename": "524.json",
+      "bytes": 2839693,
+      "sha256": "0a5509cbe2c8c3cf15d4281c47183515670bf41488ecfcee4421b24cca400e14",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b3d06551-baca-4895-98bb-095158ffb1db/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "b4962688-deb7-403f-bbf1-ad9c0e7a5611",
+      "filename": "521.json",
+      "bytes": 4362323,
+      "sha256": "956dcd3c4f8b2c5965b31916a890aada59a1790afafb29927cfd68521c190fda",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b4962688-deb7-403f-bbf1-ad9c0e7a5611/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "b72bd1eb-928d-4105-b7f4-b7ac2a09bc8e",
+      "filename": "540.json",
+      "bytes": 4225347,
+      "sha256": "04f0bc3480c32abac5641df301749ea33833c21aebbded90b78270ce8893858b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b72bd1eb-928d-4105-b7f4-b7ac2a09bc8e/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "bd9e6f27-7346-4e82-8c47-db74914fc3cf",
+      "filename": "532.json",
+      "bytes": 4870679,
+      "sha256": "d3261023e89bfdfcb50c742fe4236096e96e47abb72cd4fe363c1b5e7268d22e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/bd9e6f27-7346-4e82-8c47-db74914fc3cf/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "bdff8222-3c6d-40a4-af30-ce3b80054c10",
+      "filename": "512.json",
+      "bytes": 3208011,
+      "sha256": "816dd75052022bdd658076cf2ba4b3b0b393d1fa7db05b102aa3ffe1dfbcc5d6",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/bdff8222-3c6d-40a4-af30-ce3b80054c10/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "c0472ebd-54c2-48bf-9ec5-e317b463166a",
+      "filename": "511.json",
+      "bytes": 1073568,
+      "sha256": "f78c7d4ca2cd4ea543f20aee673b6c0f532d0aef53de8517418dda206a7a083d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c0472ebd-54c2-48bf-9ec5-e317b463166a/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "c53d6384-cbfc-4ce1-813c-84e8dc26928d",
+      "filename": "546.json",
+      "bytes": 3133623,
+      "sha256": "c77aee981d703108cfb9f7b7a95312131838e8347ea7c83b663181612bd49acc",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c53d6384-cbfc-4ce1-813c-84e8dc26928d/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "c576ac6d-56fd-48c4-ad75-512a2f40af10",
+      "filename": "548.json",
+      "bytes": 3051759,
+      "sha256": "c4e47f123d7ee785faaae22ebe45528f140ec058c2846b941a046670940405dc",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c576ac6d-56fd-48c4-ad75-512a2f40af10/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "c58c0b04-32af-4528-b841-48be587f0994",
+      "filename": "517.json",
+      "bytes": 3427123,
+      "sha256": "c04ccc10989ff7f83afecf3e851374bd698e76d479b70522bf025a79ebf98f00",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c58c0b04-32af-4528-b841-48be587f0994/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "c7b33a0c-c8a5-4f89-b7f8-abf8ff3b82b7",
+      "filename": "530.json",
+      "bytes": 3563663,
+      "sha256": "2be9e93739b2751dd618d72d536c408365bc915af4977676832ee8f5adf1a6b4",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c7b33a0c-c8a5-4f89-b7f8-abf8ff3b82b7/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "ced0b056-6faf-4837-a3a0-5fb4d81e5f5f",
+      "filename": "545.json",
+      "bytes": 3759699,
+      "sha256": "708c535f1e46f154efa6cdd7a0a73f265b0f57ca4f68188f04a520b5aab61ec3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ced0b056-6faf-4837-a3a0-5fb4d81e5f5f/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "dc16d5ad-bb14-41dd-b186-c7a8874e2a53",
+      "filename": "516.json",
+      "bytes": 4800464,
+      "sha256": "aec8487ec59179413ab70b9a08d1dab4091345d6a71f1d9f275e2c479c607fe8",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/dc16d5ad-bb14-41dd-b186-c7a8874e2a53/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "ed8405a0-c923-4a7c-9f66-d55618629453",
+      "filename": "525.json",
+      "bytes": 3650815,
+      "sha256": "5462e4e9c7cbca928a9b643fcecd2fb44343300f1f386292c04e3d16cc2f54b9",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ed8405a0-c923-4a7c-9f66-d55618629453/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "f6165eeb-071f-45e8-8eef-36aef7b80a87",
+      "filename": "518.json",
+      "bytes": 2637730,
+      "sha256": "54339dabd331b8202ddab1188d589f1324dd519cea768be6fe33253a1e3d222c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f6165eeb-071f-45e8-8eef-36aef7b80a87/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "fa33a231-63cd-455f-ba66-9fa721259456",
+      "filename": "538.json",
+      "bytes": 2981529,
+      "sha256": "18619d1098b688aa4e8e8d317f055f5bb92de6c4c05cad78251a4e862d0b8324",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/fa33a231-63cd-455f-ba66-9fa721259456/file_downloaded"
+    },
+    {
+      "group": "Plumeria",
+      "folder_id": "ff41bedc-86e4-46b5-8776-ed7aac29226b",
+      "id": "fae4f8a1-2ee1-4d1b-9011-0c93e73c5bed",
+      "filename": "523.json",
+      "bytes": 3220772,
+      "sha256": "1dabc2cfd9ad5b96e2c19ce5d52041362b2a41a9428e3d799c0ab9c72f3d0f07",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/fae4f8a1-2ee1-4d1b-9011-0c93e73c5bed/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "034b0b92-bf4d-450f-9d52-6a19ea245824",
+      "filename": "509.json",
+      "bytes": 250223,
+      "sha256": "95aacc4b462332ce3306396f75812cea84c99fe1f0978b2553ec800a6026bfa2",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/034b0b92-bf4d-450f-9d52-6a19ea245824/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "0b4439c0-0050-4938-a29d-923fb293d6c4",
+      "filename": "540.json",
+      "bytes": 186357,
+      "sha256": "4c1a1d4fe77ac9fcd1f7bc7d9d241b46563ef0733b615bb91f011d8ce3928ba4",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/0b4439c0-0050-4938-a29d-923fb293d6c4/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "11d5b865-474e-4a46-ac23-58b38432dfdb",
+      "filename": "515.json",
+      "bytes": 268564,
+      "sha256": "b66a8f39691d07849d05df3132d02e1ea1d509f21caf300a677ae29b672749cc",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/11d5b865-474e-4a46-ac23-58b38432dfdb/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "15c2dc66-3aba-460a-a27e-d3cb83ad4036",
+      "filename": "513.json",
+      "bytes": 331253,
+      "sha256": "afeddd48ed17bcdbc4340345a3226f2e118675b7c7d069523566541b960d0d36",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/15c2dc66-3aba-460a-a27e-d3cb83ad4036/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "1be84e44-c45a-46c1-b5d5-04cef27a6a24",
+      "filename": "535.json",
+      "bytes": 517188,
+      "sha256": "205691e61c75cb03ee8ee942fcb2bd34cbf0f6e1c0b3b20cce8b20e48a9ff240",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/1be84e44-c45a-46c1-b5d5-04cef27a6a24/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "2460c2ad-7b8f-43a5-a2db-98bd9c7a69e5",
+      "filename": "544.json",
+      "bytes": 166014,
+      "sha256": "db720a674cc1445c8a4b8483a0f4468e73878249adc9edef28b56f7595bc07a5",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/2460c2ad-7b8f-43a5-a2db-98bd9c7a69e5/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "2e53029c-6b43-4589-8321-f82a319f94ce",
+      "filename": "545.json",
+      "bytes": 207401,
+      "sha256": "7b88747f01b9444a8a15b56023580a077d4349a740dd0835240ca81d2d0182a1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/2e53029c-6b43-4589-8321-f82a319f94ce/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "323fe3bc-c690-4e4a-a2e5-e8a60606abd9",
+      "filename": "514.json",
+      "bytes": 324951,
+      "sha256": "9073d96536c40127a69e93b9afb77a04a68770f1c68d53a2b6e4ce9b5178ad0b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/323fe3bc-c690-4e4a-a2e5-e8a60606abd9/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "385343d2-b1d5-44ba-b1b4-b32112188f2a",
+      "filename": "538.json",
+      "bytes": 311359,
+      "sha256": "cae59fdb1ba5c76ea19cd86eff643c365b9aaccb6ade9b5c9f04a83cdb2bb916",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/385343d2-b1d5-44ba-b1b4-b32112188f2a/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "3fe6c08a-4647-46f5-b6d0-1267f09ac948",
+      "filename": "518.json",
+      "bytes": 285385,
+      "sha256": "359b0f039cfd44ee808f70fe163ab1b362ae0243081ceec450c53ee816ff9d72",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/3fe6c08a-4647-46f5-b6d0-1267f09ac948/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "43930413-ec2a-4fe2-ad20-25b6523543cf",
+      "filename": "543.json",
+      "bytes": 151632,
+      "sha256": "fed5aaa3ce0426fbc4172755e6c81d89419e2123b2541f2dc62fad297994303f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/43930413-ec2a-4fe2-ad20-25b6523543cf/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "44fde883-c2b3-4380-b93c-2a52ead71e3f",
+      "filename": "527.json",
+      "bytes": 289196,
+      "sha256": "904059236b8f71fd748c8a433cb94bffe0321a32f5acd6826da9b9dac5fc9675",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/44fde883-c2b3-4380-b93c-2a52ead71e3f/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "45657c10-68a1-40f5-a72e-d6eaef416cc3",
+      "filename": "502.json",
+      "bytes": 281817,
+      "sha256": "574f69a5b80b5fb3ef3fce26c663ada8d3020c33d26f7a8373008dd0a0dacfb3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/45657c10-68a1-40f5-a72e-d6eaef416cc3/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "46d40ab6-e906-4ef8-97c1-963509a4e40e",
+      "filename": "505.json",
+      "bytes": 338545,
+      "sha256": "16daf82d84bdb4398e4f6c92d4db4bc88d9d663e0d6fba224e6f6479ab26d139",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/46d40ab6-e906-4ef8-97c1-963509a4e40e/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "46dea64a-bf21-40c7-9b8b-0103fefecec2",
+      "filename": "524.json",
+      "bytes": 213854,
+      "sha256": "bc87d60e02ad98acd8e3b1bec38bad7b0bc65345024ec699c304abe132fe2abd",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/46dea64a-bf21-40c7-9b8b-0103fefecec2/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "48073063-4125-4029-909a-5ebb94c1a2a1",
+      "filename": "532.json",
+      "bytes": 244252,
+      "sha256": "f1e35d8aea83b9f112d4188c438ff87dde085c6fc9daf1cba40c8bc5db8a70a5",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/48073063-4125-4029-909a-5ebb94c1a2a1/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "4923cd80-7d0d-495c-99b1-e4ae921ad426",
+      "filename": "523.json",
+      "bytes": 220574,
+      "sha256": "660fb865e317879fe2353468161d7c4dbb9b45fa59dcbdc0a37d812b98385d0f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/4923cd80-7d0d-495c-99b1-e4ae921ad426/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "4e25158a-265a-496d-95b2-2f6b14066f77",
+      "filename": "528.json",
+      "bytes": 347717,
+      "sha256": "d808528c8cabad2c5ffdde8525ace7637b8d521c7e23b74c23f768b68fc033b1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/4e25158a-265a-496d-95b2-2f6b14066f77/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "6058deb9-413f-4d03-a883-be992e13c0a4",
+      "filename": "548.json",
+      "bytes": 146620,
+      "sha256": "bcc213327c663ca214fbb803f92568194efd7e2e3a5ce54976be79c1688fc5b9",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/6058deb9-413f-4d03-a883-be992e13c0a4/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "613993e7-70b6-4822-9a60-d494d3e34fcc",
+      "filename": "541.json",
+      "bytes": 159294,
+      "sha256": "0397d08aa0e5380b806b5017d78a59c3b66deaf95e3e5180278f92f1bf467cfa",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/613993e7-70b6-4822-9a60-d494d3e34fcc/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "64bc3e04-fc4e-4536-8bc4-ed0669927a49",
+      "filename": "501.json",
+      "bytes": 304119,
+      "sha256": "4d6d2acfb40e6d26c082be6665dc6ad3fa72e497a4daa6cf40fbf6f7be40bf1e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/64bc3e04-fc4e-4536-8bc4-ed0669927a49/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "6779329a-9840-4e54-906c-3f00b0f96d88",
+      "filename": "522.json",
+      "bytes": 245243,
+      "sha256": "287caa65da6d7b92e556a1ae8ed4226a5cd57dddea814cdab69843c6b069305c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/6779329a-9840-4e54-906c-3f00b0f96d88/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "678bcf75-4e6c-45a5-9a40-881deb2e1adf",
+      "filename": "512.json",
+      "bytes": 286099,
+      "sha256": "31e1173d80892ef77131021b4bc20932fbe85bb011582b81a8382d2b3f44612f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/678bcf75-4e6c-45a5-9a40-881deb2e1adf/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "734d0d32-8d53-4c9d-af9d-031d0fc554d5",
+      "filename": "546.json",
+      "bytes": 224325,
+      "sha256": "b1305b50a810341076be46478788c647dfe34a72a5cb839f65ad1d94e1a8bba6",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/734d0d32-8d53-4c9d-af9d-031d0fc554d5/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "76a7cce0-dd33-431a-b473-f4892f56d600",
+      "filename": "531.json",
+      "bytes": 241882,
+      "sha256": "86760f8f5f11476796fbeb84cb29bba8b4c45f2a96caae69180367d810b6480d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/76a7cce0-dd33-431a-b473-f4892f56d600/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "816d082d-b874-4a6b-9ef0-951309b31787",
+      "filename": "542.json",
+      "bytes": 168505,
+      "sha256": "9eeeb4fd67197788cf00a2c4e9ddc6e2810a44d0a69be62f2d5982b634969b76",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/816d082d-b874-4a6b-9ef0-951309b31787/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "858bbf31-2d49-499b-aa98-973f93fb89b5",
+      "filename": "526.json",
+      "bytes": 277457,
+      "sha256": "31217ed52d4aba77da52ac8328baae2f42a11dce8269f54a38380496de65d0b5",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/858bbf31-2d49-499b-aa98-973f93fb89b5/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "977e5bf2-80ad-42b2-9c59-dbeb9396dcec",
+      "filename": "520.json",
+      "bytes": 250295,
+      "sha256": "74fca560d97a153c44521b6231b2de9fbbbe58637922e7f02a37acc890bb300c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/977e5bf2-80ad-42b2-9c59-dbeb9396dcec/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "9c4db269-08bc-4415-bcf6-486480044c0b",
+      "filename": "517.json",
+      "bytes": 331722,
+      "sha256": "fff151842e5a0c9ccfc2c735e91c89cd47638b5ab59481dc0cdfe97cacc810bb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/9c4db269-08bc-4415-bcf6-486480044c0b/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "9e920bfc-af67-41f6-a1fb-6eeb3c39de52",
+      "filename": "533.json",
+      "bytes": 224131,
+      "sha256": "c94ca8e1873c15c10ff217ccd436604a8db2f73a0732ad74544c43eabaa84f44",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/9e920bfc-af67-41f6-a1fb-6eeb3c39de52/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "a72ef081-6f8c-4b54-a069-e01f023768e3",
+      "filename": "536.json",
+      "bytes": 356748,
+      "sha256": "028e584a04e391023be6c6d80d693be1e021cac22f8c61cfaf133bde28b1ed15",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a72ef081-6f8c-4b54-a069-e01f023768e3/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "ad41bc67-27dc-49aa-8ee3-dfbcc73d9828",
+      "filename": "507.json",
+      "bytes": 369281,
+      "sha256": "b6f4f3f665e39f9bd7a8159445eba1bd33b2f3c046f7fbd65e4ca501135711f3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ad41bc67-27dc-49aa-8ee3-dfbcc73d9828/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "aec52e20-4c70-40c6-bf3c-0887a2742fff",
+      "filename": "503.json",
+      "bytes": 257013,
+      "sha256": "14145d780f9a0ecda6383340ac003d618d3b072a634f081cb1b15a70eb58d4f3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/aec52e20-4c70-40c6-bf3c-0887a2742fff/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "b238c46d-f610-4495-9470-d33ba235761c",
+      "filename": "534.json",
+      "bytes": 216560,
+      "sha256": "f05b04a9b16252f6708bf00a32b1c4303a452514a0c7673644c8d5e671907699",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b238c46d-f610-4495-9470-d33ba235761c/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "baa90f74-872d-4879-a282-34bda5ff227b",
+      "filename": "511.json",
+      "bytes": 288088,
+      "sha256": "fa165fa58a30336b877a2e492ef66acb326f169d2d1e9768a437575c57e5c22e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/baa90f74-872d-4879-a282-34bda5ff227b/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "bd0bc34d-9195-4891-940a-43497d757ba4",
+      "filename": "519.json",
+      "bytes": 308519,
+      "sha256": "b98cc0e0809594c8b320ad31f31d309f3352d04cd130cf88afd41615f27147cd",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/bd0bc34d-9195-4891-940a-43497d757ba4/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "c0fb9b82-c58f-4537-8b7b-7fd08447c637",
+      "filename": "530.json",
+      "bytes": 243669,
+      "sha256": "bb628c553113d3035fa7b6a541381cef3492dbf670047ff8a5360a033ef78957",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c0fb9b82-c58f-4537-8b7b-7fd08447c637/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "cd40a895-220b-45ad-bbfc-c9344de8a1bd",
+      "filename": "539.json",
+      "bytes": 195089,
+      "sha256": "634bd1393570ec175253dd98eed7b569ec2c75325a1be056f91896777a2adf2f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/cd40a895-220b-45ad-bbfc-c9344de8a1bd/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "d005d8f9-4a18-4255-ab28-e9014dc1a8b0",
+      "filename": "510.json",
+      "bytes": 326548,
+      "sha256": "f252bc643285160edb536472c9d86eff4e324208d173ab33ab6b7c1ef7e2ca8b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d005d8f9-4a18-4255-ab28-e9014dc1a8b0/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "d1e234b4-d11a-4a7d-be6a-64e89cf8285d",
+      "filename": "537.json",
+      "bytes": 351467,
+      "sha256": "74d17f2e552ad70e6e572c7db7b7e8b0e36bbab9efbff618b0b0eb936e5de6cc",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d1e234b4-d11a-4a7d-be6a-64e89cf8285d/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "d4ed8bdd-5b8d-4bed-8471-fdba4e8e7838",
+      "filename": "547.json",
+      "bytes": 213651,
+      "sha256": "eec1c91e3109e4b995ebd710d4fdc99c5d9f598e0f71c5f91886fb7b4bfd2c41",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d4ed8bdd-5b8d-4bed-8471-fdba4e8e7838/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "d8fea93f-0db1-4dd7-a280-c13cca73ccff",
+      "filename": "525.json",
+      "bytes": 249218,
+      "sha256": "424670c0775dedd75558c6a0e6bda3a849007c074f8cc978a9943188a054dc1c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d8fea93f-0db1-4dd7-a280-c13cca73ccff/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "da55bc5f-92d3-4ed0-a9db-ae59ec4795dc",
+      "filename": "516.json",
+      "bytes": 288958,
+      "sha256": "984c58a3c5f7a13cdf550fb23c2f132a80900d8d4d2b86ec2b0da03e40b481e8",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/da55bc5f-92d3-4ed0-a9db-ae59ec4795dc/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "dfe6393c-c1aa-4099-bf4b-3911c0a8d61e",
+      "filename": "508.json",
+      "bytes": 253681,
+      "sha256": "9c4bb9d0da631ffbe02d9f1e3646fe9d44759d9c05864d7343014cc3b9c3865f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/dfe6393c-c1aa-4099-bf4b-3911c0a8d61e/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "e090fc0a-fb30-47b7-98af-8caedd187f52",
+      "filename": "550.json",
+      "bytes": 205818,
+      "sha256": "fb43a8acf43db2f678203ea5d7faa007e388d8f733add6f9a3548ee6a75d71df",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/e090fc0a-fb30-47b7-98af-8caedd187f52/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "e911878e-5264-44c5-8b18-f90e57920c71",
+      "filename": "521.json",
+      "bytes": 313473,
+      "sha256": "36f657cc7fafdb5ba8a31114136f389c66991ed10b14f7cc6b0471815cf40a66",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/e911878e-5264-44c5-8b18-f90e57920c71/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "f2d898bf-bf65-4340-85e6-4dc17f4e55ac",
+      "filename": "506.json",
+      "bytes": 300885,
+      "sha256": "165c93a36611f674289d1cedcde895fc4d8cfb24623b74307aab131cf01d4078",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f2d898bf-bf65-4340-85e6-4dc17f4e55ac/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "f2fbc9b1-b845-4b03-b201-1417514592d4",
+      "filename": "549.json",
+      "bytes": 143209,
+      "sha256": "02c620f64a24b0d5d9225a8b41c0674163d82ba40a235c220febd26eb5cd0997",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f2fbc9b1-b845-4b03-b201-1417514592d4/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "fa37b636-b64e-4f4b-a197-de13e2f1a600",
+      "filename": "504.json",
+      "bytes": 378635,
+      "sha256": "6ef37b3fd5c9965cb94f29c1ef4aa02e141c9a1291d1dd356c59f82a71e24a6d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/fa37b636-b64e-4f4b-a197-de13e2f1a600/file_downloaded"
+    },
+    {
+      "group": "Rose",
+      "folder_id": "420f7bab-f24c-404d-8f76-6e60b3e5bae4",
+      "id": "fb0f6f5e-8a7a-47f4-b9da-b49dd1de467b",
+      "filename": "529.json",
+      "bytes": 347359,
+      "sha256": "b97da5b86efee35d7df179d5513b1b40aa69f65fef0c84064c31218deb10b16a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/fb0f6f5e-8a7a-47f4-b9da-b49dd1de467b/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "06faaada-76aa-4d54-b892-ec74ca521f5b",
+      "filename": "50.json",
+      "bytes": 121787,
+      "sha256": "1602cfbb0e602062b4684a2210788f54324a90d730c14318b548508e9b7eda1d",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/06faaada-76aa-4d54-b892-ec74ca521f5b/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "08797a44-4e32-4170-911f-5694d66b7e4a",
+      "filename": "41.json",
+      "bytes": 392614,
+      "sha256": "c7c7d6f65cab9ea6adcebdcd0a52b643e044c5d89157a58f6d6a4452f3ab75ed",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/08797a44-4e32-4170-911f-5694d66b7e4a/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "09e4d60b-dffd-4a74-9873-b37441fd7028",
+      "filename": "47.json",
+      "bytes": 161344,
+      "sha256": "a97beb51a464c018da509752faf2292fe3948dbb82b7fadf97f91721deafdce3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/09e4d60b-dffd-4a74-9873-b37441fd7028/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "1b3fa02b-46cb-4e11-b75e-a40686419c83",
+      "filename": "28.json",
+      "bytes": 62138,
+      "sha256": "d89bd66bbb94f3d335343188ae46348002fb2ac56be786f573e04b91ee78f26c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/1b3fa02b-46cb-4e11-b75e-a40686419c83/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "1c4d1f4c-48e8-413f-9774-1488d97d9805",
+      "filename": "14.json",
+      "bytes": 83197,
+      "sha256": "f5f8d9bbc0f0f053fa467f3d8aa92186fb86eec1c191bb4c1c8405fcc9a08107",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/1c4d1f4c-48e8-413f-9774-1488d97d9805/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "1f9fcb82-b5a6-4a95-bb36-531e651e8bea",
+      "filename": "35.json",
+      "bytes": 277400,
+      "sha256": "3ca0fbf88b00d7da8886e81e4ca311d9dba69a5c3c4735b970542ad740bf08f5",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/1f9fcb82-b5a6-4a95-bb36-531e651e8bea/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "213667bd-e673-4c28-91dd-b73f1bbf8047",
+      "filename": "25.json",
+      "bytes": 141484,
+      "sha256": "b83827713b4a4ffc2b013dc17163f3faceeeba137c5b8fc1b10820f2f5e607eb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/213667bd-e673-4c28-91dd-b73f1bbf8047/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "259f168e-a40e-44cc-a52e-1cb4b448e4f6",
+      "filename": "46.json",
+      "bytes": 136880,
+      "sha256": "33a3d3de65909beb84a319b6814891cc9064f8d723603b81b1cf0e998a521a96",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/259f168e-a40e-44cc-a52e-1cb4b448e4f6/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "281103dd-b9b9-4c83-b599-abc25a2bfe53",
+      "filename": "51.json",
+      "bytes": 119182,
+      "sha256": "04cd30509a06df9ffb4cbddeed9bb85efeb19b8014df4747b3143a578ca259be",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/281103dd-b9b9-4c83-b599-abc25a2bfe53/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "2fee3d12-4b91-4972-9c1e-a156769693cd",
+      "filename": "19.json",
+      "bytes": 109869,
+      "sha256": "9297860beb37523d95f6debd9c0a440624bae2fbd0709a5e3c85b4c4cecf6750",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/2fee3d12-4b91-4972-9c1e-a156769693cd/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "34d0a405-5bd7-4420-b659-98406dc9968b",
+      "filename": "45.json",
+      "bytes": 100769,
+      "sha256": "79e3204054efa790e8a804de9170267b7dce6db730677cf4a280a1361ba5d41b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/34d0a405-5bd7-4420-b659-98406dc9968b/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "3696f604-38a9-4167-86d8-1a806c0d9711",
+      "filename": "58.json",
+      "bytes": 193111,
+      "sha256": "3ab84f856d75097c3c7c1763aa1b552d517dd87d33f3c12c7d50ba731e9e835a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/3696f604-38a9-4167-86d8-1a806c0d9711/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "37b577d9-80ce-4d25-a2bc-6d9e79d31e5d",
+      "filename": "31.json",
+      "bytes": 132227,
+      "sha256": "ed839d8478f599c03464cef5776db032bb0615beefd5b37ba0fa4ad56d8e66b3",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/37b577d9-80ce-4d25-a2bc-6d9e79d31e5d/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "45a87450-cea9-4f10-b3b6-6b8281db70ee",
+      "filename": "55.json",
+      "bytes": 138729,
+      "sha256": "568472d5fb129417a86db50a5b7cf2da573c5685c577a4036fc8e0c07229f883",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/45a87450-cea9-4f10-b3b6-6b8281db70ee/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "495a0791-770f-438f-a75d-e5b21114c4ee",
+      "filename": "38.json",
+      "bytes": 192924,
+      "sha256": "b1a93c1ec7c0cf4d97a301bb1e3b48de5a2616177043cc3af9ca28d5a2843ff6",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/495a0791-770f-438f-a75d-e5b21114c4ee/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "49c48430-10d3-40ec-8bfc-bc77becbd30a",
+      "filename": "16.json",
+      "bytes": 136624,
+      "sha256": "8418cb4017ea14c37dc8fddc86bbfae16a819459722dee4ce048078f9355f128",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/49c48430-10d3-40ec-8bfc-bc77becbd30a/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "4a9ef2fd-ec91-4b6d-b8e0-27056d889b7f",
+      "filename": "29.json",
+      "bytes": 60355,
+      "sha256": "125d7b09d1b4ce4ca900aaf375994cff210f326be75259cdd4bdd93518e4329e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/4a9ef2fd-ec91-4b6d-b8e0-27056d889b7f/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "4b4b3fc1-3a65-4e88-8d55-7fd1f3dc5aff",
+      "filename": "13.json",
+      "bytes": 149042,
+      "sha256": "364e35a54ae6db95d8ec05f834418839343d820a2525655679d4e008147905cf",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/4b4b3fc1-3a65-4e88-8d55-7fd1f3dc5aff/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "53af1826-164e-4059-8734-9eeba2245384",
+      "filename": "43.json",
+      "bytes": 116226,
+      "sha256": "809394486ac7d8cd4095763ff27355ba605a21f36624a49f80a0bfa7d9555dfe",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/53af1826-164e-4059-8734-9eeba2245384/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "56d5a303-449f-4c78-bae4-45ad0b823824",
+      "filename": "39.json",
+      "bytes": 137862,
+      "sha256": "d54050643995a50ab31d2027af09d027e15e900da5e33e0c11aa07fa0b64654e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/56d5a303-449f-4c78-bae4-45ad0b823824/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "5818c2d4-a4b4-4409-b5bc-3a4716994737",
+      "filename": "30.json",
+      "bytes": 99973,
+      "sha256": "140e98a327f27f93daa139b507449d56d0a9fa7b7d75622a4dd7f396a8c94d7a",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/5818c2d4-a4b4-4409-b5bc-3a4716994737/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "599b5eea-68dc-425b-a12f-65706076e773",
+      "filename": "18.json",
+      "bytes": 215321,
+      "sha256": "bbee527ee07d8810d97e2d8ff6ac663577569e0645e7864eeb60439e06260abb",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/599b5eea-68dc-425b-a12f-65706076e773/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "648359ae-5ced-46b6-9ee4-b57c46386c0d",
+      "filename": "56.json",
+      "bytes": 94836,
+      "sha256": "d7440ac9f30989061909db3748625a4c62b5cece903f2e3a6434b6cdbc7d76f6",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/648359ae-5ced-46b6-9ee4-b57c46386c0d/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "684a5f98-a978-4904-bd2c-8968328a8d2e",
+      "filename": "44.json",
+      "bytes": 181295,
+      "sha256": "6a1f5266569b53ced4e3815c88c1c881d3ecd473b475565e6628a91a12e3efb1",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/684a5f98-a978-4904-bd2c-8968328a8d2e/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "6d288eef-e94a-4282-8f27-328d87a7ba23",
+      "filename": "60.json",
+      "bytes": 200189,
+      "sha256": "b535a0a12d6fdbf1a60459515f70cb21bbbe24c1579d7c4e46d195e43cdac44b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/6d288eef-e94a-4282-8f27-328d87a7ba23/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "6f0c44cd-6c18-404f-9147-2f35a375d362",
+      "filename": "49.json",
+      "bytes": 186496,
+      "sha256": "7f42ab0db61529213e0142295537579a911983c1a53f96b42f4844e5a34bacfe",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/6f0c44cd-6c18-404f-9147-2f35a375d362/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "80f4117b-e78d-4636-a7aa-6f20e3959849",
+      "filename": "17.json",
+      "bytes": 110928,
+      "sha256": "18a4778e9c189fd292fd1aeb35f6a915ec79a52bcbad610bfec73cf794e06c81",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/80f4117b-e78d-4636-a7aa-6f20e3959849/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "867039cf-55ad-47f3-b14a-a9ebc0fcdd94",
+      "filename": "33.json",
+      "bytes": 91117,
+      "sha256": "3d261bb2e74ef13391c9abc45fd31a1f6adb79f37d2cb05ce51074a278692a5e",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/867039cf-55ad-47f3-b14a-a9ebc0fcdd94/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "8790906d-4a52-44fb-8fdf-cbb7db18c975",
+      "filename": "32.json",
+      "bytes": 146262,
+      "sha256": "fb51b6acee1579d54757ed1316f87c3281f1261777098b0d73be03be4b2bea54",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/8790906d-4a52-44fb-8fdf-cbb7db18c975/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "9aa61a17-6e50-4f49-83c3-75eb069f5a98",
+      "filename": "36.json",
+      "bytes": 224222,
+      "sha256": "9c941d2c8a6160fd9610af15a7f7e05d71bf05efeabf6243f5a4e29aca6a25e7",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/9aa61a17-6e50-4f49-83c3-75eb069f5a98/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "9af26ac3-cc15-4c67-8acd-082ca41224f2",
+      "filename": "11.json",
+      "bytes": 97739,
+      "sha256": "a93913b7f29ad5e89a909b735f45f2b8aefce3edfaaa4f1cb81f154475be7bcd",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/9af26ac3-cc15-4c67-8acd-082ca41224f2/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "9d381987-18cb-4833-bd26-540700c7d1d6",
+      "filename": "57.json",
+      "bytes": 98678,
+      "sha256": "f35d6fb83a72899e6faee2ec0ab0a122c70965660b99fa4c001959e298bc7d9b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/9d381987-18cb-4833-bd26-540700c7d1d6/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "a67d8d22-dbd9-4dd1-86f2-3d5fef6ef00f",
+      "filename": "40.json",
+      "bytes": 91468,
+      "sha256": "34fc28a432f67debcd55fa8fe0c6859703f7a7f913df889c4e0a68f74a18dbd0",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a67d8d22-dbd9-4dd1-86f2-3d5fef6ef00f/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "a8c543ff-44eb-4d3e-b005-58e12061f541",
+      "filename": "48.json",
+      "bytes": 80369,
+      "sha256": "40371002ff23db27f48d1541ed9b2ab283ef87249fda06cae81e9870398abce2",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/a8c543ff-44eb-4d3e-b005-58e12061f541/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "aa9b3021-a18d-4748-aba6-683f3a59b9d5",
+      "filename": "53.json",
+      "bytes": 159631,
+      "sha256": "56ca6249482b5ea190f8836b4c0649a8bab7f48d4d3409260900d383324b3096",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/aa9b3021-a18d-4748-aba6-683f3a59b9d5/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "b29f5e70-c949-461e-aa31-8a7c5c2abefc",
+      "filename": "54.json",
+      "bytes": 169613,
+      "sha256": "775ed3fc40badef3ddf00901ee77f6ab646f192f32ae0771d2486db38839daf4",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b29f5e70-c949-461e-aa31-8a7c5c2abefc/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "b47c7537-d223-49ef-a65e-8a89983cb20e",
+      "filename": "59.json",
+      "bytes": 117108,
+      "sha256": "8fa0991d99affde04ba070da5d88bc104ccd08f6b498e9913a065e8d0db52048",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b47c7537-d223-49ef-a65e-8a89983cb20e/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "b87ee476-db31-4fb9-a500-cefe086f3e99",
+      "filename": "21.json",
+      "bytes": 154177,
+      "sha256": "bf2f4498cb1d65d4ca1aed4629bd525297a732e1130360301c8867ee2016632f",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b87ee476-db31-4fb9-a500-cefe086f3e99/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "b905f58d-fb84-4f8b-9a43-0f9ad0cb8945",
+      "filename": "12.json",
+      "bytes": 82446,
+      "sha256": "707372e4cb8708d8e78f9d39672ed47e3806fd09206f558857fbb8248f4bf428",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/b905f58d-fb84-4f8b-9a43-0f9ad0cb8945/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "bc6c2dd2-b65f-4024-9458-246af10506f3",
+      "filename": "37.json",
+      "bytes": 147142,
+      "sha256": "652ad0abebb3890425f202e97ec752b5d1ee8bfd5244730dc2cac2813bbfac40",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/bc6c2dd2-b65f-4024-9458-246af10506f3/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "c0c906a7-d7de-475f-bb3c-70666cb4749b",
+      "filename": "15.json",
+      "bytes": 139590,
+      "sha256": "9048bc47a6cf4a9ad47913261b6416770b18cdc404f4621e5d2c67f783c8e8ca",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c0c906a7-d7de-475f-bb3c-70666cb4749b/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "c1522303-9309-4d9c-9e6e-217c39926ad2",
+      "filename": "34.json",
+      "bytes": 161603,
+      "sha256": "962d7423d5a55c7dfaf6d90657fef33619ce5e5bf98c56ca779f828d7ec0be8c",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/c1522303-9309-4d9c-9e6e-217c39926ad2/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "cbde692b-5800-4f84-8f0f-191888c9a068",
+      "filename": "26.json",
+      "bytes": 169335,
+      "sha256": "99549b0663f6f54164e029089ed69f5fffe11eaf3f2f3964bed186df335db250",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/cbde692b-5800-4f84-8f0f-191888c9a068/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "d4c4344d-c6eb-4f5b-81f3-785c9fe2ad03",
+      "filename": "27.json",
+      "bytes": 117610,
+      "sha256": "56fd766d780fef57dd40e484b0bd213d1114516ad5f5b34e32906b855bd8c876",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/d4c4344d-c6eb-4f5b-81f3-785c9fe2ad03/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "dac0f46c-1921-4968-a5f8-4b628fa0a000",
+      "filename": "24.json",
+      "bytes": 82186,
+      "sha256": "42a1d27496f440c3a8a98c349fe556764e3698026558b3432afe528415f98b45",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/dac0f46c-1921-4968-a5f8-4b628fa0a000/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "dcab1db2-30de-4d55-9c65-acda84b1a472",
+      "filename": "20.json",
+      "bytes": 189807,
+      "sha256": "02748d2d50ea19cd83da6e0cfb15bccdf20f947ef0580d51ce75fbf93ac78969",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/dcab1db2-30de-4d55-9c65-acda84b1a472/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "ec7869ee-6652-48a7-b52d-9cd7d9439738",
+      "filename": "52.json",
+      "bytes": 125042,
+      "sha256": "99c22bc8de3ded80520fbfb09692cf3062c35a57899d5d7f02d824e883fd5e15",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/ec7869ee-6652-48a7-b52d-9cd7d9439738/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "f0771ba1-10dc-4188-9fa8-d87061dda543",
+      "filename": "42.json",
+      "bytes": 352961,
+      "sha256": "16e4ea66cb5247ab3479a82f008a6f03033c485d165de077a972c5ad44d1b6ae",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f0771ba1-10dc-4188-9fa8-d87061dda543/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "f6db5014-99c5-4518-8caf-545ac40a49c6",
+      "filename": "23.json",
+      "bytes": 298667,
+      "sha256": "52ffb19e6f910a923d8588d6feac355ee51be4736d91a611b44acacee107f20b",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/f6db5014-99c5-4518-8caf-545ac40a49c6/file_downloaded"
+    },
+    {
+      "group": "Tecoma Stans",
+      "folder_id": "1a19a69d-b974-496a-8452-8474e7cbbd12",
+      "id": "fbf3cc96-6792-4166-9227-1778352b0d11",
+      "filename": "22.json",
+      "bytes": 72881,
+      "sha256": "12c949d9cd3b442b57d8b24ae1330a79fa76cf5085be0c62b80b471bb4d63358",
+      "url": "https://data.mendeley.com/public-files/datasets/3pw57gdcj2/files/fbf3cc96-6792-4166-9227-1778352b0d11/file_downloaded"
+    }
+  ],
+  "selected_ids": [
+    "00d850be-5cd5-4495-b29f-a6bde12dfae5",
+    "00ef6a1f-794a-4580-8fca-16790e12d5c1",
+    "04e0c169-3aff-41ea-8c36-5ac200c447aa",
+    "001f424b-8763-444c-9f09-732ea52301f7",
+    "034b0b92-bf4d-450f-9d52-6a19ea245824",
+    "06faaada-76aa-4d54-b892-ec74ca521f5b"
+  ]
+}
