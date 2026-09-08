@@ -1,0 +1,41 @@
+{
+  "protocol": "rgfca-sharedness-v2-capacity-extension-v1",
+  "status": "frozen_before_sharedness_v2_capacity_summary_and_before_any_new_capacity_query",
+  "date": "2026-09-08",
+  "objective": "determine how far the already-completed metadata-only global capacity census can support a fewer-species-higher-photo-count sharedness design, without opening image pixels, flower colour, or ecological outcomes",
+  "parent_capacity": {
+    "manifest": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json",
+    "required_status": "complete_metadata_only_capacity_scan_target_selected_after_transport_recovery_v3",
+    "species_audit": "data/frozen/global_monte_carlo_capacity_scan_species_audit_v3.csv",
+    "species_census": 42111,
+    "request_errors": 0,
+    "old_query_per_page_ceiling": 200
+  },
+  "fixed_existing-census_thresholds_after_observer_cap": [100, 125, 150, 175, 200],
+  "fixed_right_censor_definition": "raw_results == 200 because the parent metadata request returned at most 200 observations per species",
+  "required_outputs": [
+    "species count with after_observer_cap at or above each frozen threshold",
+    "species count with raw_results equal to 200",
+    "among raw_results-equal-200 species, counts above each frozen after_observer_cap threshold",
+    "maximum observed after_observer_cap",
+    "explicit statement that availability above 200 raw results is not identifiable from the parent census"
+  ],
+  "interpretation_rules": {
+    "counts_are_metadata_capacity_not_measurement_yield": true,
+    "do_not_extrapolate_300_or_400_from_right_censored_rows": true,
+    "do_not_use_discovery_or_reserve_flower_colour_to_choose_species": true,
+    "do_not_use_G1_G3_or_sharedness_outcomes_to_choose_thresholds": true,
+    "new_metadata_extension_required_for_300_or_400": true
+  },
+  "prospective_extension_if_needed": {
+    "scope": "only species right-censored at raw_results=200 in the parent census",
+    "candidate_raw_targets": [200, 300, 400],
+    "rule": "freeze query depth, observer cap, prior-experiment exclusions, request-error ceiling, and deterministic species ordering before issuing any new metadata request",
+    "image_pixels_may_open": false,
+    "flower_colour_may_open": false
+  },
+  "ecological_claim_changed": false,
+  "reserve_flower_specific_gate_reclassified": false,
+  "six_species_used": false,
+  "thirty_four_species_used": false
+}
