@@ -6,7 +6,9 @@ on:
     paths:
       - scripts/analysis/audit_rgfca_reference_schema.py
       - tests/test_rgfca_reference_schema.py
+      - tests/test_rgfca_reference_schema_result.py
       - docs/supporting/rgfca_reference_schema_plan_v1.json
+      - docs/supporting/rgfca_reference_schema_result_v1.json
       - docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md
       - .github/workflows/rgfca-reference-schema.yml
   workflow_dispatch:
@@ -29,7 +31,7 @@ jobs:
           PYTHONPATH: .
         run: |
           echo '48436a74160b4700e2d9b2bbc803aeac7fcfe8a1f09885140a1eade034c5aade  docs/supporting/rgfca_reference_schema_plan_v1.json' | sha256sum -c -
-          python -m pytest tests/test_rgfca_reference_schema.py -q
+          python -m pytest tests/test_rgfca_reference_schema.py tests/test_rgfca_reference_schema_result.py -q
       - uses: actions/upload-artifact@v4
         with:
           name: rgfca-reference-schema-preflight-v1
@@ -37,13 +39,16 @@ jobs:
             docs/supporting/rgfca_reference_schema_plan_v1.json
             scripts/analysis/audit_rgfca_reference_schema.py
             tests/test_rgfca_reference_schema.py
+            tests/test_rgfca_reference_schema_result.py
+            docs/supporting/rgfca_reference_schema_result_v1.json
             docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md
             .github/workflows/rgfca-reference-schema.yml
           if-no-files-found: error
           retention-days: 90
 
   inspect-six-documents:
-    if: github.event_name == 'workflow_dispatch'
+    # Closed at later heads: the six documents were already inspected once.
+    if: github.event_name == 'workflow_dispatch' && github.sha == 'df0838c15f01eb98eaee6b620c3bb4fd5c9bc78e'
     needs: offline-preflight
     runs-on: ubuntu-latest
     timeout-minutes: 10

@@ -44,6 +44,16 @@ ecological interpretation next requires target-domain measurement/attribution
 validation and a genuinely fresh, prospectively specified validation route.
 Do not rerun this fixed gate until it passes.
 
+Measurement-reference follow-up has now established actual public access to six
+preselected FlowerMask annotation documents, after freezing their selection and
+passing offline tests. All six provider hashes match, but their generic
+flower/rose polygons do not close the focal-taxon petal-accuracy gate. See
+[the source audit and completed structure check](RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md).
+This is a concrete reference-access advance, not a new ecological result or an
+admitted validation set. Next qualify reference correspondence, provenance,
+overlap and the supported measurement target; preserve the completed reserve
+non-support and do not rerun its analyses.
+
 ## Research route
 
 1. Complete the existing RGFCA-only spatial omnibus and assess the effect,

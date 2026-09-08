@@ -397,3 +397,48 @@ Implementation: `scripts/analysis/audit_rgfca_reference_schema.py`,
 `tests/test_rgfca_reference_schema.py`, and
 `.github/workflows/rgfca-reference-schema.yml`. The existing atlas measurements,
 all four reserve results and the discovery-background STOP stay unchanged.
+
+### Completed six-document gate — 8 September 2026
+
+The selection and implementation were committed **before acquisition** at
+`df0838c15f01eb98eaee6b620c3bb4fd5c9bc78e`.
+[Push preflight 34182661045](https://github.com/zuizui0223/fcp/actions/runs/34182661045)
+passed 16 artificial-JSON tests and the exact plan hash, with the acquisition
+job skipped. All five downloaded preflight artifact files byte-match that Git
+commit. Subsequently,
+[manual execution 34182715550](https://github.com/zuizui0223/fcp/actions/runs/34182715550)
+passed its preflight and completed all six document inspections once.
+
+All six provider SHA-256 and size pairs matched, totalling **9,442,182 bytes**.
+The result artifact `10039458598` has provider archive digest
+`e0e4587d3c05380769e8af48adff8625e82c6494f8de90c3232da49baa41572e`.
+The downloaded and committed [terminal JSON](supporting/rgfca_reference_schema_result_v1.json)
+has locally verified SHA-256
+`70b2fc123dd2ea5e57dff67de84ce9e77cea52a87124243f687f636e9ef8c23c`.
+No raw annotation document or embedded image was published in the artifact.
+
+| Provider group | Recorded polygon label | Polygon count | Populated group IDs |
+| --- | --- | ---: | ---: |
+| Butterfly Pea | `Flower` | 1 | 0 |
+| Caesalpinia Pulcherrima | `flower` | 1 | 0 |
+| Jatropha Integerimma | `flower` | 1 | 0 |
+| Plumeria | `flower` | 1 | 0 |
+| Rose | `rose` | 1 | 0 |
+| Tecoma Stans | `Flower` | 1 | 0 |
+
+All six contain non-empty embedded image strings. These bytes were transferred
+and hashed as part of the JSON but **not decoded or displayed**. No model,
+palette, coordinate join or biological inference ran. Field names `description`
+and `mask` are present in shapes, but their values were not reported; neither
+their presence nor an empty group ID proves absence of all taxon information.
+Observed label case is preserved, not silently normalized into a new ontology.
+
+**Decision:** actual annotation-document access and format are verified for the
+six fixed examples. They remain generic flower-region candidates; this does not
+admit them as verified focal-petal ground truth. The other 294 registered JSON
+bodies and corresponding image/mask pairs remain uninspected. Any next census
+must retain these six as already schema-opened examples, verify source and
+image correspondence and overlap, and explicitly state a narrower diagnostic
+target if it uses whole-flower polygons. No new benchmark score or ecological
+claim is available. Later-head CI checks the saved ledger without reacquisition;
+the completed six-document acquisition job is closed at later commits.

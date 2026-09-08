@@ -38,6 +38,7 @@ The two frozen inferential lanes retained below are now legacy studies. Their sa
 - **Core scientific-software citation audit:** [`docs/RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md`](docs/RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md)
 - **Measurement providers, model identities and reuse limits:** [`docs/RGFCA_MEASUREMENT_PROVIDER_AUDIT.md`](docs/RGFCA_MEASUREMENT_PROVIDER_AUDIT.md)
 - **Training data and limits of flower-region validation:** [JRC source and rights](docs/RGFCA_TRAINING_SOURCE_AUDIT.md), [100-image qualification audit](docs/RGFCA_ROI_QUALIFICATION_AUDIT.md)
+- **New measurement-reference feasibility:** [six source families and completed six-document schema inspection](docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md); public annotation access is verified, not focal-petal accuracy or an admitted independent benchmark.
 - **RGFCA protocol:** [`docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md`](docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md)
 - **Repeated-atlas method:** [`docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md`](docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md)
 - **Methodological contribution:** [`docs/RGFCA_METHOD_NOVELTY_POSITIONING.md`](docs/RGFCA_METHOD_NOVELTY_POSITIONING.md)

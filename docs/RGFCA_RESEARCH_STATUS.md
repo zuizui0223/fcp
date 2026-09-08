@@ -282,6 +282,23 @@ Reserve measurement, background recovery and all ecological outcomes are unchang
 
 ## Route to an ecological result
 
+The [measurement-reference feasibility audit](RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md)
+now covers six source families. A public FlowerMask metadata snapshot exposed
+300 annotation-file entries, without proving exhaustive access to the advertised
+3,600 photographs. A prospectively fixed six-document structure check completed
+in [34182715550](https://github.com/zuizui0223/fcp/actions/runs/34182715550) at
+`df0838c15f01eb98eaee6b620c3bb4fd5c9bc78e`, after the offline preflight passed.
+All six exact file hashes and sizes matched. Each contained one polygon labelled
+`Flower`, `flower` or `rose`, with no populated shape group ID; these fields do
+not establish focal-taxon or petal-only truth. Embedded image strings were
+transferred and hashed but not decoded, displayed or measured. The saved
+[terminal ledger](supporting/rgfca_reference_schema_result_v1.json) is an access
+and format result, not a measurement-performance result or ecological support.
+The next useful step is reference image/annotation correspondence, provenance,
+overlap and ontology qualification for a clearly limited flower-region diagnostic;
+the independent iNaturalist focal-taxon measurement gate remains unresolved.
+Do not rerun the six completed schema examples or admit all 300 from this sample.
+
 1. Preserve the now-completed reserve measurement and all four fixed tests.
    The weak photo association replicated, but the flower-specific gate did not
    pass. Complete its bounded manuscript/reproducibility package, then address
