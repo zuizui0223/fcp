@@ -49,7 +49,8 @@ jobs:
           assert intake['total_images']==110 and intake['total_annotations']==788
           assert sha('docs/supporting/rgfca_monarda_archive_intake_v1.json')==c['parent_checkpoint']['archive_intake_receipt_sha256']
           assert sha('docs/supporting/rgfca_monarda_source_mapping_v1.json')==c['parent_checkpoint']['source_mapping_receipt_sha256']
-          assert mapping['counts']['mapped_images']==110
+          assert mapping['reference_images_mapped']==110
+          assert mapping['unique_photo_ids']==110 and mapping['unique_observation_ids']==110
           assert not Path('docs/supporting/rgfca_monarda_region_agreement_result_v1.json').exists()
           print('monarda_region_preoutcome_firewall=pass')
           PY
