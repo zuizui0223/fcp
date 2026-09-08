@@ -304,8 +304,8 @@ contains 110 paired images and 788 polygon annotations. All 110 source photo
 and observation IDs are mapped through pinned author metadata, with zero ID
 overlaps against either full 50,000-photo frame. This resolves the prior access
 blocker. One image has no annotations and remains unknown; 98 photos have
-historical noncommercial licence conditions. No pixels were decoded, model
-run or measurement score calculated. See the
+historical noncommercial licence conditions. At that intake checkpoint, no pixels
+were decoded, model run or measurement score calculated. See the
 [complete intake and next prospective gate](RGFCA_MONARDA_REFERENCE_INTAKE.md).
 ID disjointness is not model-training, event or observer independence, and
 generic flower-region annotations are not verified focal-petal truth.
@@ -317,10 +317,24 @@ Both tasks confirmed no reference-image/model execution and assigned Monarda
 to one desktop owner. The [explicit amendment](RGFCA_MONARDA_EXECUTION_AMENDMENT.md)
 preserves the original contract, permits only incidental internal colour
 computation, and requires exact source/environment checks before decoding,
-a full 110-row durable ledger, and no automatic rerun. The hardened runner
-is awaiting its own qualification and separate authorization; no actual
-localization score is available. Neither CI nor this clarification alters
+a full 110-row durable ledger, and no automatic rerun. At this pre-outcome
+checkpoint the hardened runner awaited qualification and separate authorization.
+Neither CI nor this clarification alters
 the reserve non-support or establishes botanical measurement accuracy.
+
+**Subsequent completed Monarda result:** qualified code `1b6ccc7` and CI
+`34193780128` preceded single-execution authorization `887b4da`. The run
+completed on 8 September 2026, 06:32 UTC: **110/110 aligned, 110 terminal rows,
+109 annotated + 1 unknown, zero runtime failures**. The fixed gate did not pass:
+pooled precision **0.56824250** (< 0.70), pooled recall **0.42608787** (>= 0.35),
+median image precision **0.51480059** (< 0.70). Fifteen annotated images had
+empty predictions, retained under the original rules. An independent verifier
+recomputed every count-derived metric, split summary and gate and checked
+ledger/events/hashes. See [the retained result](RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md).
+This is measurement-agreement non-support, not technical failure or ecological
+absence. Localization error, annotation incompleteness and ontology mismatch
+remain unresolved alternatives; no root cause is established. Monarda is now
+outcome-opened and cannot be used as a fresh holdout for model selection.
 
 1. Preserve the now-completed reserve measurement and all four fixed tests.
    The weak photo association replicated, but the flower-specific gate did not

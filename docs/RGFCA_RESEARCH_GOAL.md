@@ -60,15 +60,20 @@ and observation IDs are mapped through pinned author metadata, with zero ID
 overlaps against each complete 50,000-photo FCP frame. The former archive-access
 blocker is resolved. [The intake audit](RGFCA_MONARDA_REFERENCE_INTAKE.md) retains
 the one unannotated image as unknown, historical photo-rights restrictions and
-sampling/independence limits. No pixels were decoded or model benchmark run.
+sampling/independence limits. At intake, no pixels were decoded or model benchmark run.
 The bounded diagnostic was frozen at `336b4b8`; its initial eight artificial
 tests and CI passed, without reference-image execution. A subsequent
 [pre-outcome execution amendment](RGFCA_MONARDA_EXECUTION_AMENDMENT.md) clarifies
 the unchanged runtime's internal colour calculation and guards source identity,
-environment, all-image checkpoints and single execution. Next qualify this
-amended implementation and commit its separate execution authorization.
-This single-species reference is not global focal-petal ground truth or new
-ecological replication. The overall research objective remains unmet.
+environment, all-image checkpoints and single execution.
+The amended implementation subsequently passed qualification and the single
+authorized 110-image run completed. Its [region-agreement gate did not pass](RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md):
+pooled precision 0.56824, recall 0.42609 and median precision 0.51480, with no
+runtime failures. All rows and the non-support are retained. The next biological
+claim gate is independently validated measurement/annotation scope, not more
+tests on these opened images. This single-species reference is not global
+focal-petal ground truth or new ecological replication. The overall research
+objective remains unmet.
 
 ## Research route
 

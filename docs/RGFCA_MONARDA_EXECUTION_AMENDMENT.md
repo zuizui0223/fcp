@@ -1,5 +1,10 @@
 # Monarda: pre-outcome execution clarification
 
+**Execution completed:** this prospectively recorded clarification was followed
+by one authorized 110-image run. The operational gate did not pass; see the
+[complete result](RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md). The protocol and
+authorization records below remain historical, unchanged pre-outcome evidence.
+
 The original contract at `336b4b8` is preserved byte-for-byte in Git. Before
 any Monarda pixel opening, both execution tasks confirmed no JPEG decoding,
 polygon rasterization or model loading. The peer explicitly handed Monarda

@@ -1,0 +1,7 @@
+{
+  "status": "terminal_result_retained",
+  "result_sha256": "49b2f017a6accb305867d62e7b4afe4e8ed96fcd03f8aafde86bda2da915fa4c",
+  "checkpoint_sha256": "208ca5a4678f0b5d1011ca38a110ab0b21f5378978edccae049e934b8560b839",
+  "events_sha256": "10a93776d711af4b636ea33293eeabbbfc491c76c9623101d682c15324e007ae",
+  "automatic_restart_permitted": false
+}

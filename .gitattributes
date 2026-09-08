@@ -10,3 +10,6 @@ docs/supporting/rgfca_monarda_archive_intake_v1.json text eol=lf
 docs/supporting/rgfca_monarda_source_mapping_v1.json text eol=lf
 docs/supporting/rgfca_monarda_execution_amendment_v1.json text eol=lf
 docs/supporting/rgfca_monarda_execution_authorization_v1.json text eol=lf
+# Retained execution receipts/counts preserve exact Windows output bytes.
+data/validation/monarda_region_agreement_v1/** -text
+docs/supporting/rgfca_monarda_region_agreement_result_v1.json -text

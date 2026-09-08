@@ -33,7 +33,12 @@ did not pass. The separate discovery background reacquisition failed exact
 reproduction for 85 of 21,424 photographs and produced no adjusted diagnostic.
 The replicated result concerns taxon-labelled photographs: pooled flower regions
 have not been verified as belonging only to each observation's focal species.
-It does not establish flower-specific biogeography or an ecological mechanism.
+A subsequent, prospectively specified 110-image Monarda region-agreement
+diagnostic failed its operational localization gate (pooled precision 0.56824,
+recall 0.42609), despite complete alignment and no runtime failures. This
+reference is not verified focal-petal truth, but the failed agreement gate
+further limits interpreting the atlas as validated floral phenotypes. The study
+does not establish flower-specific biogeography or an ecological mechanism.
 
 ## 1. Questions and inferential targets
 
@@ -228,6 +233,29 @@ Frozen inference and display runs have separate version records; the
 [software audit](RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md) maps their actual roles and
 does not substitute software citations for the RGFCA randomization contract.
 
+### 2.6 Bounded target-domain region-agreement diagnostic
+
+After the reserve results, we prospectively specified a separate measurement
+diagnostic using the received Monarda v1 COCO export: all 110 images and 788
+generic flower polygons, with 109 annotated images scored and one unannotated
+image retained as reference-unknown. All polygon components were unioned using
+fixed rasterization/orientation rules. The original ROI-v4 runtime and weights
+were unchanged. A documented pre-outcome amendment resolved contradictory
+colour wording by permitting incidental internal CIELAB computation in the
+original full measurement call, without continuous-colour output/analysis or
+admission-based selection of scored images. Fixed operational floors were
+pooled prediction precision >= 0.70, pooled reference recall >= 0.35 and median
+image precision >= 0.70; all were required. They were borrowed operationally
+from prior JRC criteria, not independently established petal-pixel standards.
+
+Both tasks confirmed reference pixels and models had not been opened before
+single-owner authorization. Exact code, environment, archive/member and model
+checks preceded decoding. Empty predictions and runtime failures retained the
+fixed zero-mask penalty on annotated images; the unknown image was never scored
+as a verified negative. Every image and event was checkpointed. Saved integer
+counts, all summaries and the gate were independently recomputed after the one
+run. [Protocol clarification and execution record](RGFCA_MONARDA_EXECUTION_AMENDMENT.md).
+
 ## 3. Discovery and independent reserve results
 
 ### 3.1 Coverage and measurements
@@ -337,6 +365,26 @@ remain separate cohorts; the combined 1,000 species / 100,000 measured photograp
 are an acquisition total, not a newly pooled inferential denominator. Figures
 1-3 continue to display discovery data only.
 
+### 3.7 The Monarda operational region-agreement gate did not pass
+
+All 110 images passed reference alignment and completed model processing, with
+zero runtime failures. Over the 109 annotated images, pooled prediction-region
+precision was 0.56824250, pooled reference-region recall 0.42608787, and median
+image precision 0.51480059. Both precision floors failed, so the conjunctive
+operational gate did not pass. Median IoU was 0.38417873 and median Dice
+0.55509989. Fifteen annotated images produced empty predictions and remained
+in the denominator. The single annotation-unknown image had a nonempty model
+prediction but was not treated as a biological false positive. Provider splits
+were descriptive only, not FCP model holdouts. Every saved metric, all 110
+statuses and exact file/event identities passed independent verification.
+[Full result and retained counts](RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md).
+
+This is measurement-agreement non-support under fixed operational criteria,
+not a runtime STOP or evidence of biological absence. The particular export's
+sampling and annotation completeness remain uncertain, and its generic flower
+regions are not verified focal petals. The evaluation does not separate
+localization errors from annotation incompleteness or ontology mismatch.
+
 ## 4. Interpretation and limitations
 
 The weak, species-equal photo-derived spatial association transferred to the
@@ -352,6 +400,11 @@ replication and flower-versus-background contrast would leave this taxon-to-mask
 attribution assumption unvalidated. A specifically intraspecific petal-colour
 claim would require a separate, prospectively defined attribution validation;
 the current result concerns flower-candidate regions in taxon-labelled photographs.
+The failed Monarda localization-agreement gate adds a concrete target-domain
+measurement limitation, without establishing the cause of the reserve
+flower-minus-background non-support. These 110 reference images are now opened;
+model selection on their outcomes would require genuinely new validation data,
+not relabelling them as an unused holdout or repeating a tuned benchmark.
 iNaturalist observer specialization and incompletely specified sampling
 processes require explicit consideration. [Di Cecco et al. (2021)](https://doi.org/10.1093/biosci/biab093).
 Thinning performance also depends on the modelling target and evaluation
@@ -432,6 +485,7 @@ references are not declared complete.
 - Figure provenance: [manifest](supporting/rgfca_publication_figure_manifest_v1.json).
 - Real photo-bar provenance: [release receipt](supporting/rgfca_photo_bar_release_v1.json), [plan and limits](RGFCA_PHOTO_BAR.md).
 - Training-source and measurement validity: [JRC source audit](RGFCA_TRAINING_SOURCE_AUDIT.md), [saved qualification reconstruction](RGFCA_ROI_QUALIFICATION_AUDIT.md).
+- Target-domain measurement limitation: [complete Monarda region-agreement result](RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md), [pre-outcome amendment and authorization](RGFCA_MONARDA_EXECUTION_AMENDMENT.md).
 - Full discovery/supporting claim audit: [evidence index](RGFCA_SUPPORTING_EVIDENCE.md), including the parent-branch heterogeneity source and unresolved submission gates.
 
 ## References

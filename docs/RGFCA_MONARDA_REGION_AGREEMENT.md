@@ -1,15 +1,25 @@
-# RGFCA Monarda flower-region agreement — qualified execution checkpoint
+# RGFCA Monarda flower-region agreement — protocol and execution history
 
 ## Decision first
 
-**Execution clarification:** the earlier qualification below did not resolve
+**Current result:** the one guarded 110-image execution is complete and the
+fixed operational gate **did not pass**. Pooled precision/recall were
+0.56824250/0.42608787; median precision was 0.51480059. All alignment checks
+passed, no runtime failed, and all rows were independently verified. See
+[the completed result and interpretation](RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md).
+The qualification/availability statements below describe historical checkpoints,
+not the current pixel-opening state. These images are now outcome-opened.
+
+**Historical execution clarification:** the earlier qualification below did not resolve
 the full runtime's internal colour computation or bind local execution to its
 checked sources/environment. The [pre-outcome amendment](RGFCA_MONARDA_EXECUTION_AMENDMENT.md)
 preserves this original contract, clarifies that scope and adds single-execution
-guards. Actual image scoring remains closed pending a separate authorization
-for the amended, qualified implementation. Do not run the historical CLI.
+guards. At that checkpoint image scoring remained closed pending a separate
+authorization for the amended implementation. Do not run the historical CLI.
 
-The limited Monarda flower-region agreement diagnostic is **prospectively frozen and pre-pixel qualified**, but the actual 110-image model/reference comparison has **not yet run**. The pinned user-supplied archive is intentionally not committed to this repository, and no Monarda image was decoded by the qualification workflow.
+At the original qualification checkpoint, the limited diagnostic was frozen
+but not executed. The archive remains private; the qualification workflow did
+not decode it. The later authorized local execution is reported above.
 
 This checkpoint does not change any ecological result. In particular, the independent reserve matched flower-minus-background differential remains **not supported (p = 0.087)** and `flower_specific_robust_replication=false`.
 
