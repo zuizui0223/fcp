@@ -1,0 +1,1122 @@
+{
+  "protocol": "rgfca-reserve-species-replication-v1",
+  "lineage": {
+    "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+    "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+    "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+    "code_sha256": {
+      "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+      "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+      "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+      "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+      "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+    }
+  },
+  "raw_species": 500,
+  "raw_photos": 50000,
+  "eligible_species": 363,
+  "eligible_photos": 20903,
+  "github_run_id": "34178957447",
+  "measurement_run_id": "34091091640",
+  "source_shard_receipts": [
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 0,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        47687,
+        52821,
+        55759,
+        57311,
+        59943,
+        63047,
+        75766,
+        78333,
+        84510,
+        126369,
+        129036,
+        142283,
+        161947,
+        167316,
+        200075,
+        321207,
+        410902,
+        564970,
+        1449995
+      ],
+      "files_sha256": {
+        "species.csv": "b6387452e8db9ca59db56abb0e872d18cb95293302ba5b8f60323417755a08ec",
+        "null.npz": "468f5c9f616edf0b11291fd4e0c982e10b8edc8868e5dd59e6b53688a2ea5073"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 1,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        47894,
+        53041,
+        55798,
+        57312,
+        59982,
+        64093,
+        75956,
+        78346,
+        84666,
+        126484,
+        129098,
+        142979,
+        162093,
+        167723,
+        204271,
+        322012,
+        415330,
+        566532,
+        1464017
+      ],
+      "files_sha256": {
+        "species.csv": "ea195bd746e83dfb07359bc4cd74dcd7d4f3347c3599cb29794f76e5a8fca6b9",
+        "null.npz": "99ba78b76bcdcc3480153606aa8bc22ba2464e401bb37277bfedeba6e665fb52"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 2,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        47908,
+        53077,
+        55809,
+        57393,
+        60220,
+        64410,
+        76006,
+        78399,
+        84668,
+        126617,
+        129347,
+        143356,
+        162431,
+        168218,
+        204420,
+        323231,
+        431220,
+        579088,
+        1550566
+      ],
+      "files_sha256": {
+        "species.csv": "0ec7128fe0487bfd8c78b34f1a2272d3c21aeb6c607ef5d38ae5b7a58575853f",
+        "null.npz": "eadabdbad2d8e32fcf1fd74b240d07e5952d1c0a0deab05f00a1b312d77802d3"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 3,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        48152,
+        53092,
+        55858,
+        57427,
+        60241,
+        67775,
+        76358,
+        78451,
+        84732,
+        126633,
+        129361,
+        143359,
+        163075,
+        168387,
+        209347,
+        323866,
+        470643,
+        716947
+      ],
+      "files_sha256": {
+        "species.csv": "01c2636439c007378de8d1aea0c58728364cf956f6f270402ac4e9a3de5e1bac",
+        "null.npz": "20dc6a03354c446488fed8386aa00d272282d8c35fafe43a09f20368aade4ccd"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 4,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        48363,
+        53166,
+        55886,
+        57504,
+        60496,
+        68034,
+        76563,
+        78824,
+        85027,
+        126702,
+        129446,
+        146622,
+        163184,
+        168400,
+        209376,
+        323883,
+        481347,
+        738046
+      ],
+      "files_sha256": {
+        "species.csv": "66c7134bde2609dc4e00e3189c851fb5cc4629a7506faf2752143d270a342202",
+        "null.npz": "48f35230c3410886aea23f118e6e8914ccefc64198e30378805fc324b5ec825f"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 5,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        48625,
+        53193,
+        55894,
+        57850,
+        60505,
+        68553,
+        76630,
+        78847,
+        85331,
+        126869,
+        130545,
+        152133,
+        163229,
+        168725,
+        209586,
+        324502,
+        489547,
+        738777
+      ],
+      "files_sha256": {
+        "species.csv": "fff5012e7f613dca0d63cd108131514b798cb3f3cd2f205b4df8ffefa39ea8ec",
+        "null.npz": "e83c0600e20636d6a928371c7585480087809c3d98f4612efc9ae08377d4e36c"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 6,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        48651,
+        53208,
+        55967,
+        57858,
+        60885,
+        69624,
+        76897,
+        78872,
+        117309,
+        126887,
+        130869,
+        153953,
+        163256,
+        168843,
+        210990,
+        333757,
+        495697,
+        738781
+      ],
+      "files_sha256": {
+        "species.csv": "8ae5da4a5ecae101b7057cdd877aeae0a979b1e72f90a154e6375360d2990a63",
+        "null.npz": "e81d3e74a126fce48976267385254394d8d0198dcdd0201954ac2faed618be11"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 7,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        49322,
+        53212,
+        56057,
+        58014,
+        60955,
+        69636,
+        77069,
+        78886,
+        118571,
+        126892,
+        131140,
+        154224,
+        163265,
+        168976,
+        245731,
+        334567,
+        498086,
+        765394
+      ],
+      "files_sha256": {
+        "species.csv": "7af661a43aecb100e10dfc59c105c0f46329c92cd81cab782714affa724c2c57",
+        "null.npz": "fa8a5f98167c53c4d55ad737d76890b31809ffb04502ef3da13edfe661248d5b"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 8,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        50612,
+        53324,
+        56061,
+        58039,
+        61297,
+        69713,
+        77206,
+        78887,
+        119795,
+        126980,
+        131153,
+        154543,
+        163683,
+        168993,
+        279747,
+        334755,
+        511287,
+        769248
+      ],
+      "files_sha256": {
+        "species.csv": "42a93f5ed81bdefe4bdd4a3a008a8d98318ae3ef4dbcf8d6172a1e17960515d0",
+        "null.npz": "52b60c9ec1c775b103a2581e62d54650cade50a19c04c75e9836c32f0464feb6"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 9,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        50642,
+        53328,
+        56136,
+        58074,
+        61776,
+        69816,
+        77281,
+        78955,
+        119810,
+        127010,
+        131637,
+        157838,
+        164076,
+        169109,
+        280392,
+        336295,
+        524340,
+        771851
+      ],
+      "files_sha256": {
+        "species.csv": "70f7e99a482063297366b3a7dc7011b44ac4e89ec193b279c30e6bfa6fbb66dd",
+        "null.npz": "72d9e3f3688c78f5942110cbf7702ef029379357f1acb9041b1fab312f52c633"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 10,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        50832,
+        53785,
+        56137,
+        58164,
+        61821,
+        69855,
+        77305,
+        79095,
+        120008,
+        127037,
+        132855,
+        158043,
+        164091,
+        169675,
+        283656,
+        336871,
+        524900,
+        805291
+      ],
+      "files_sha256": {
+        "species.csv": "61750a4955b7a21ee1e2072d146803972121dc3a9358ed62e1e705dae8e49e05",
+        "null.npz": "02be35ab1f6b86492acfb8c5ecac37831f01d603e9de9952049b7a5694f92926"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 11,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        50878,
+        54453,
+        56174,
+        58211,
+        61824,
+        75255,
+        77403,
+        79313,
+        120917,
+        127059,
+        133005,
+        158194,
+        164720,
+        169752,
+        286995,
+        338417,
+        526700,
+        860746
+      ],
+      "files_sha256": {
+        "species.csv": "a5e0b7a089cdb58e9c739752516cf0137ef76ad30232b56ac8d03465dd05c92f",
+        "null.npz": "bc672a407bc40cdf80356ab3ef727c9b167782bbd922432229c7d52353a24707"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 12,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        51082,
+        54520,
+        56826,
+        58361,
+        62258,
+        75326,
+        77616,
+        79499,
+        121635,
+        127270,
+        133031,
+        158459,
+        164730,
+        169982,
+        319120,
+        353887,
+        537403,
+        902550
+      ],
+      "files_sha256": {
+        "species.csv": "c28f449484d92949149322257ddde143e3e4140ae3f06d360a5f403a27c7932b",
+        "null.npz": "6124f02f924dfca159fa35dee233d633c2bf2277eea20047be173e92168258f5"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 13,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        51306,
+        54793,
+        56838,
+        58822,
+        62262,
+        75371,
+        77672,
+        82688,
+        121785,
+        127279,
+        133064,
+        159273,
+        165190,
+        170185,
+        320704,
+        357176,
+        543632,
+        905463
+      ],
+      "files_sha256": {
+        "species.csv": "6293fea39fc71be7f326597843720e2a4092f5fdc27d1495db15c281c0e55df1",
+        "null.npz": "a62490fffb62fd2b88c971b52f164481de435dbf9a480259bb005ce49b9db7e9"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 14,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        51646,
+        54875,
+        56868,
+        58831,
+        62338,
+        75427,
+        77778,
+        82741,
+        122587,
+        127345,
+        133294,
+        159601,
+        165527,
+        170358,
+        320809,
+        358187,
+        544086,
+        923031
+      ],
+      "files_sha256": {
+        "species.csv": "3171ec10e13d8df93c692083a1e94267cbc67181f3221e6a8501ba5b9aa27cfd",
+        "null.npz": "74b6f9abe016906e79dca3bf7e4e38a0143aa66c92973a04bd1831016931cd46"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 15,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        51850,
+        55021,
+        57054,
+        58917,
+        62406,
+        75469,
+        77830,
+        82853,
+        124817,
+        127899,
+        133350,
+        159699,
+        165669,
+        179648,
+        321030,
+        361308,
+        545347,
+        962649
+      ],
+      "files_sha256": {
+        "species.csv": "9e5b065795bf4d088e9638f3c35e35f6b329a5fa427e9f53e5679efb06974537",
+        "null.npz": "a399e885779e7eeeadb6992ecf63e2bf37a5c7542d0c6796559aedac0f314d95"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 16,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        52078,
+        55411,
+        57076,
+        59035,
+        62474,
+        75573,
+        77838,
+        82861,
+        125103,
+        128038,
+        133488,
+        159727,
+        165759,
+        181901,
+        321032,
+        366692,
+        545370,
+        977347
+      ],
+      "files_sha256": {
+        "species.csv": "97b87f0f55f398743cf4371b971651a27013bbdc7384cbb2770b81775e7c1497",
+        "null.npz": "c305bb435259731b08ce1acacc10f3be2d6fabe62b38535a2ddc88d455d5b548"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 17,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        52355,
+        55443,
+        57087,
+        59243,
+        62493,
+        75602,
+        77960,
+        83362,
+        125380,
+        128076,
+        133665,
+        160297,
+        165891,
+        183233,
+        321090,
+        366715,
+        545973,
+        1005385
+      ],
+      "files_sha256": {
+        "species.csv": "564df7568de269f383c3c6c56308acab22fdf25e16b03bf1877eb8438720ab6c",
+        "null.npz": "76628e255569daba1dcb645edc4650699b9a09d055a00287a7e220dd98699336"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 18,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        52588,
+        55727,
+        57250,
+        59752,
+        62659,
+        75615,
+        78245,
+        84281,
+        125675,
+        128652,
+        136384,
+        160757,
+        166061,
+        183320,
+        321102,
+        405101,
+        550645,
+        1096279
+      ],
+      "files_sha256": {
+        "species.csv": "d284b8bf6b4ef39f4f5b84d97396f01ab64eea3959d9f49822933f0b6b524cad",
+        "null.npz": "829062d4487224ee9a820ea223cea06ff33acd0b17174054c820e1a0b2172426"
+      }
+    },
+    {
+      "protocol": "rgfca-reserve-species-replication-v1",
+      "shard_index": 19,
+      "shards": 20,
+      "lineage": {
+        "contract_sha256": "d34567cba854cc3e47a14b4152f5008755f16c602b0bd531fd7fd037ea5bace9",
+        "metadata_audit_sha256": "7c39b6a28e8d9db3d8bf710ceb321ed1f076666931dabc5d61a92bf7e5d4b703",
+        "measured_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "measurement_result_sha256": "91f265aef2b1e2802a3df68062fa509bae7416a50d76345a252e8f972bb25a70",
+        "code_sha256": {
+          "fcp_pipeline/rgfca_reserve_inference.py": "e46656446b713c29683123b30e6857f527981359d0e549d027127c7971399219",
+          "scripts/analysis/run_rgfca_reserve_inference.py": "32ed0ac9139948d5f7b08233d726c909dfbdaeced909f473206d18388d941849",
+          "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py": "cebb75fd3975b2cff479e06dc61935c117819e38a7b9b2ebb325a28c88314aa1",
+          "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+          "fcp_pipeline/global_g3.py": "d87bcee2500e7e4cb48e2e0d85c176b2b5d15c63e598feb57a04ccbcaa2df168"
+        }
+      },
+      "eligible_species": 363,
+      "permutations": 999,
+      "metrics": [
+        "primary",
+        "observer_pair_exclusion",
+        "calendar_quarter_stratification",
+        "matched_background_differential"
+      ],
+      "github_run_id": "34178957447",
+      "status": "complete_reserve_species_shard",
+      "taxa": [
+        52621,
+        55734,
+        57310,
+        59753,
+        62942,
+        75756,
+        78283,
+        84344,
+        125902,
+        128715,
+        142279,
+        161657,
+        166852,
+        199181,
+        321203,
+        406971,
+        554805,
+        1415101
+      ],
+      "files_sha256": {
+        "species.csv": "e7fda3003266a55a22cce2cf3583342785fdbf94576aded092e8ec1778e6b40c",
+        "null.npz": "9fb4509cf905abdc6b2dda1894be9fa36aec52ba04f984f8c7595737b957e683"
+      }
+    }
+  ],
+  "status": "complete_reserve_replication_with_fixed_controls",
+  "primary_computed": true,
+  "metrics": {
+    "primary": {
+      "mean_rho": 0.025482606069841617,
+      "p_upper": 0.001,
+      "null_mean": -4.64113510220194e-05,
+      "null_sd": 0.00322332935150143,
+      "null_nondegenerate": true,
+      "status": "evaluable",
+      "positive_supported": true
+    },
+    "observer_pair_exclusion": {
+      "mean_rho": 0.02521802297988336,
+      "p_upper": 0.001,
+      "null_mean": 0.00011159930105429724,
+      "null_sd": 0.003345578819817765,
+      "null_nondegenerate": true,
+      "status": "evaluable",
+      "positive_supported": true
+    },
+    "calendar_quarter_stratification": {
+      "mean_rho": 0.025482606069841617,
+      "p_upper": 0.001,
+      "null_mean": 0.001697917455849524,
+      "null_sd": 0.003135416154617162,
+      "null_nondegenerate": true,
+      "status": "evaluable",
+      "positive_supported": true
+    },
+    "matched_background_differential": {
+      "mean_rho": 0.004477251893133873,
+      "p_upper": 0.087,
+      "null_mean": -0.00011176656840738049,
+      "null_sd": 0.0032630649420554996,
+      "null_nondegenerate": true,
+      "status": "evaluable",
+      "positive_supported": false
+    }
+  },
+  "directional_photo_association_replicated": true,
+  "flower_specific_robust_replication": false,
+  "conditional_species_bootstrap_primary_mean_95pct": [
+    0.017005540177786112,
+    0.034332127466449106
+  ],
+  "bootstrap_ceiling": "Conditional species bootstrap, not spatially or phylogenetically independent uncertainty for all plants.",
+  "cause_or_shared_boundary_inferred": false,
+  "maximum_direct_check_error": 1.1102230246251563e-16,
+  "direct_checks": 2541,
+  "files_sha256": {
+    "species.csv": "e925414dc39625ce653e9fafd1fd101ed48fd8de0ce72e33e708795ea2893e5b",
+    "global_null.csv": "aa53b9baabdebb698ba31bdd0c1b6ead32ec007acd8dcd15932d03bb4f70c811"
+  },
+  "claim_ceiling": "Species- and observation-disjoint replication in the same iNaturalist frame and measurement model. No causal, all-plant-prevalence or shared-boundary conclusion. Report every required control, including failures."
+}
