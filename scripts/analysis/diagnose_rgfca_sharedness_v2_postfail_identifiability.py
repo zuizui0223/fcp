@@ -30,30 +30,40 @@ HARD = (
     {"amplitude": 2.0, "shared_fraction": 0.5, "retention": 0.4},
 )
 THRESHOLD_SDS = (0.0, 0.25)
+AXES = canonical_axes()
 
 
 def generator_truth(root: int, arm: dict, rep: int):
     """Reproduce only the pre-colour truth draws of the frozen positive generator."""
     rng = np.random.default_rng(base.seed_for(root, "world", "evaluation", base.arm_id(arm), rep))
-    normals = base.unit_vectors(rng, (150, 3))
+    _ = base.unit_vectors(rng, (150, 3))  # independent normals drawn before shared replacement
     sd = float(arm["threshold_sd"])
     thresholds = rng.normal(0.0, sd, 150) if sd > 0 else np.zeros(150)
     common = base.unit_vectors(rng, (1, 3))[0]
     chosen = rng.permutation(150)[: round(150 * float(arm["shared_fraction"]))]
-    normals[chosen] = common
     return common, thresholds, np.asarray(chosen, dtype=int)
 
 
-def best_partition_agreement(x: np.ndarray, true_side: np.ndarray) -> float:
-    """Best agreement with the frozen 96x5 candidate partition grid; descriptive only."""
-    proj = x @ canonical_axes().T
+def nearest_axis(common: np.ndarray) -> tuple[np.ndarray, float, float]:
+    dots = AXES @ common
+    k = int(np.argmax(np.abs(dots)))
+    axis = AXES[k].copy()
+    dot = float(dots[k])
+    if dot < 0:
+        axis *= -1.0
+        dot = -dot
+    angle = float(np.degrees(np.arccos(np.clip(dot, -1.0, 1.0))))
+    return axis, dot, angle
+
+
+def nearest_axis_threshold_agreement(x: np.ndarray, true_side: np.ndarray, axis: np.ndarray) -> float:
+    """Best frozen threshold agreement on the single nearest fixed axis; descriptive only."""
+    p = x @ axis
     best = 0.5
     for t in THRESHOLDS:
-        cand = proj > t
-        for k in range(cand.shape[1]):
-            a = float(np.mean(cand[:, k] == true_side))
-            a = max(a, 1.0 - a)  # antipodal/sign invariance
-            best = max(best, a)
+        cand = p > t
+        a = float(np.mean(cand == true_side))
+        best = max(best, a, 1.0 - a)
     return best
 
 
@@ -68,8 +78,8 @@ def summarize(rows: pd.DataFrame, ids: np.ndarray) -> dict:
         "balanced_20pct_fraction": float((z["minority_side_fraction"] >= 0.20).mean()),
         "median_minority_side_fraction": float(z["minority_side_fraction"].median()),
         "median_latent_dynamic_range": float(z["latent_dynamic_range"].median()),
-        "median_best_frozen_grid_partition_agreement": float(z["best_grid_partition_agreement"].median()),
-        "q10_best_frozen_grid_partition_agreement": float(z["best_grid_partition_agreement"].quantile(0.10)),
+        "median_nearest_axis_threshold_partition_agreement": float(z["nearest_axis_threshold_partition_agreement"].median()),
+        "q10_nearest_axis_threshold_partition_agreement": float(z["nearest_axis_threshold_partition_agreement"].quantile(0.10)),
     }
 
 
@@ -82,6 +92,7 @@ def main(output: Path) -> int:
 
     _, mapping, _, xyz, train_ids, test_ids = transport.load_transport_inputs()
     root = int(mapping["execution"]["deterministic_seed_root"])
+    train_set = set(map(int, train_ids))
     species_rows = []
     world_rows = []
 
@@ -97,6 +108,7 @@ def main(output: Path) -> int:
             }
             for rep in range(REPS):
                 common, thresholds, chosen = generator_truth(root, arm, rep)
+                near_axis, near_dot, near_angle = nearest_axis(common)
                 idx = base.retention_indices(root, "evaluation", rep, float(h["retention"]), xyz, False, 0.0)
                 wr = []
                 for s in chosen:
@@ -115,15 +127,15 @@ def main(output: Path) -> int:
                         "threshold_sd": float(sd),
                         "replicate": rep,
                         "species_id": int(s),
-                        "role": "training" if int(s) in set(map(int, train_ids)) else "evaluation",
+                        "role": "training" if int(s) in train_set else "evaluation",
                         "straddles_true_boundary": bool(side.any() and (~side).any()),
                         "minority_side_fraction": minority,
                         "latent_dynamic_range": float(latent.max() - latent.min()),
-                        "best_grid_partition_agreement": best_partition_agreement(x, side),
+                        "nearest_axis_threshold_partition_agreement": nearest_axis_threshold_agreement(x, side, near_axis),
                     }
                     species_rows.append(r)
                     wr.append(r)
-                wdf = pd.DataFrame(wr)
+                w = pd.DataFrame(wr)
                 world_rows.append({
                     "hard_index": hard_index,
                     "amplitude": float(h["amplitude"]),
@@ -132,11 +144,13 @@ def main(output: Path) -> int:
                     "threshold_sd": float(sd),
                     "replicate": rep,
                     "shared_species": int(len(chosen)),
-                    "straddle_fraction": float(wdf["straddles_true_boundary"].mean()),
-                    "balanced_10pct_fraction": float((wdf["minority_side_fraction"] >= 0.10).mean()),
-                    "balanced_20pct_fraction": float((wdf["minority_side_fraction"] >= 0.20).mean()),
-                    "median_latent_dynamic_range": float(wdf["latent_dynamic_range"].median()),
-                    "median_best_grid_partition_agreement": float(wdf["best_grid_partition_agreement"].median()),
+                    "nearest_fixed_axis_abs_dot": near_dot,
+                    "nearest_fixed_axis_angle_deg": near_angle,
+                    "straddle_fraction": float(w["straddles_true_boundary"].mean()),
+                    "balanced_10pct_fraction": float((w["minority_side_fraction"] >= 0.10).mean()),
+                    "balanced_20pct_fraction": float((w["minority_side_fraction"] >= 0.20).mean()),
+                    "median_latent_dynamic_range": float(w["latent_dynamic_range"].median()),
+                    "median_nearest_axis_threshold_partition_agreement": float(w["nearest_axis_threshold_partition_agreement"].median()),
                 })
 
     sdf = pd.DataFrame(species_rows)
@@ -161,7 +175,10 @@ def main(output: Path) -> int:
                 "median_balanced_10pct_fraction": float(wz["balanced_10pct_fraction"].median()),
                 "median_balanced_20pct_fraction": float(wz["balanced_20pct_fraction"].median()),
                 "median_latent_dynamic_range": float(wz["median_latent_dynamic_range"].median()),
-                "median_best_frozen_grid_partition_agreement": float(wz["median_best_grid_partition_agreement"].median()),
+                "median_nearest_fixed_axis_abs_dot": float(wz["nearest_fixed_axis_abs_dot"].median()),
+                "median_nearest_fixed_axis_angle_deg": float(wz["nearest_fixed_axis_angle_deg"].median()),
+                "q90_nearest_fixed_axis_angle_deg": float(wz["nearest_fixed_axis_angle_deg"].quantile(0.90)),
+                "median_nearest_axis_threshold_partition_agreement": float(wz["median_nearest_axis_threshold_partition_agreement"].median()),
             },
         })
 
@@ -178,7 +195,7 @@ def main(output: Path) -> int:
         "observed_flower_colour_opened": False,
         "observed_background_colour_opened": False,
         "image_pixels_opened": False,
-        "diagnostic_question": "Does the frozen positive generator's true shared boundary have within-species observational support on the retained real metadata geometry, and can the frozen 96x5 grid geometrically approximate its partition?",
+        "diagnostic_question": "Does the frozen positive generator's true shared boundary have within-species observational support on retained real metadata geometry, and can the nearest frozen axis plus frozen threshold grid approximate its partition?",
         "interpretation_rule": "Descriptive identifiability/support diagnosis only. It cannot convert FAIL to PASS or authorize empirical acquisition.",
         "worlds_audited": int(len(wdf)),
         "shared_species_instances_audited": int(len(sdf)),
