@@ -1,0 +1,77 @@
+{
+  "protocol": "rgfca-sharedness-v2-high-depth-random-geometry-v1",
+  "status": "frozen_after_capacity_pass_before_any_v2_geometry_request",
+  "date": "2026-09-08",
+  "activation": {
+    "capacity_result": "docs/supporting/rgfca_sharedness_v2_high_depth_capacity_pilot_result_v1.json",
+    "required_capacity_status": "complete_metadata_only_high_depth_capacity_pilot",
+    "required_capacity_pass": true,
+    "selection_rule": "docs/supporting/rgfca_sharedness_v2_post_capacity_selection_rule_v1.json",
+    "selected_species": 150,
+    "training_species": 75,
+    "evaluation_species": 75
+  },
+  "metadata_sampling": {
+    "endpoint": "https://api.inaturalist.org/v1/observations",
+    "order_by": "random",
+    "per_page": 200,
+    "page": 1,
+    "maximum_random_batches_per_species": 10,
+    "stop_when_after_observer_cap_reaches": 400,
+    "quality_grade": "research",
+    "photos": true,
+    "geo": true,
+    "rank": "species",
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "maximum_positional_accuracy_m": 5000,
+    "obscuration": "none",
+    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"],
+    "prior_experiment_ids_excluded": true,
+    "prior_experiment_exclusion_sources": [
+      "data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv",
+      "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv"
+    ],
+    "deduplicate_observation_id": true,
+    "deduplicate_photo_id": true,
+    "observer_cap": 2,
+    "request_interval_seconds": 1.05,
+    "request_retries": 2
+  },
+  "fixed_photo_frame": {
+    "photos_per_species": 300,
+    "selection_after_random_batches_and_observer_cap": "ascending stable SHA-256 of observation_id:photo_id; first 300",
+    "geographic_maximin_not_used": true,
+    "reason": "retain the original RGFCA random-photo design while increasing per-species depth; do not optimize locations toward a boundary statistic",
+    "all_150_species_must_have_exactly_300": true,
+    "no_replacement_species": true,
+    "total_photos_if_complete": 45000
+  },
+  "failure_rule": {
+    "any_species_below_300_after_all_frozen_batches": "geometry freeze FAIL; do not replace species or lower 300",
+    "any_terminal_request_error": "geometry freeze FAIL unless an exact transport-only retry protocol is separately frozen without changing biological rules",
+    "partial_success_is_not_authorization": true
+  },
+  "allowed_saved_fields": [
+    "sample_role", "species_order", "species", "inat_taxon_id", "observation_id", "photo_id",
+    "photo_url_large", "photo_license", "attribution", "latitude", "longitude",
+    "positional_accuracy_m", "observed_on", "observer_id", "observer", "row_hash", "photo_order"
+  ],
+  "prohibited": [
+    "no image download or pixel decode",
+    "no flower/background colour measurement",
+    "no climate join",
+    "no G1/G3 scoring",
+    "no sharedness outcome",
+    "no selection by geographic spread or future statistic",
+    "no change to reserve p=0.087"
+  ],
+  "deterministic_shards": 6,
+  "max_parallel": 3,
+  "image_pixels_opened": false,
+  "flower_colour_opened": false,
+  "ecological_claim_changed": false,
+  "six_species_used": false,
+  "thirty_four_species_used": false,
+  "claim_ceiling": "A frozen 150-species x 300-photo random metadata geometry for synthetic sharedness qualification only."
+}
