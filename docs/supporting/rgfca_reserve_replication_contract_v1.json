@@ -1,0 +1,73 @@
+{
+  "protocol": "rgfca-reserve-species-replication-v1",
+  "status": "frozen_before_reserve_pixels",
+  "date_jst": "2026-09-07",
+  "role": "Prospective species-disjoint, observation-disjoint replication of the exploratory RGFCA within-species distance-colour association. Discovery rho=0.02702130374565584, p=0.001 is already known. The independent replication outcome is unknown.",
+  "source_commit": "29584f3ad7ae0cd99a1d8f43459252af38f615da",
+  "cohort": {
+    "source": "data/frozen/global_monte_carlo_candidate_photos_v1.csv",
+    "selection": "All 500 taxa not selected by the original 500-taxon hash budget (seed 20260918), including all their 100 frozen metadata rows each. Verify original budget exactly reproduces the 50000 discovery measurement IDs. No selecting promising taxa or replacement.",
+    "rows": 50000,
+    "taxa": 500,
+    "raw_photos_per_taxon": 100,
+    "maximum_positional_accuracy_m": 5000,
+    "maximum_photos_per_observer_per_species": 2,
+    "prior_experiment_photo_and_observation_overlap_allowed": false,
+    "audit": "docs/supporting/rgfca_reserve_metadata_audit_v1.json",
+    "geometry": "Report 0.25/0.5-degree cell occupancy, 100/250/500-km pair and neighbor support, observers, quarters and years before pixels. Round metadata distance summaries to six decimal kilometres for cross-platform serialization only; never round inference coordinates or distances. These diagnostics do not select a scale for this all-pairs replication and must not be repurposed into a post-colour boundary-scale choice.",
+    "no_new_thinning": "Retain original geographic-maximin selection for exact methodological replication; cell crowding and broad spatial spans remain limitations. No post-outcome additions to reach a larger per-species photo target."
+  },
+  "measurement": {
+    "method": "Unchanged qualified ROI-v4 detector and EfficientSAM mask, frozen nine-colour palette collapsed to the same four-component probability vector as RGFCA discovery.",
+    "validated_infrastructure_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "execution_reference": "docs/supporting/global_monte_carlo_measurement_execution_contract_v1.json",
+    "changes_from_discovery": "Reserve-only IDs with new blind salt, separate output paths and run identity, stricter per-partition completeness validation. Add the twelve fixed palette counts in the unchanged ROI-v4 background annulus during the same image decode, without changing flower outputs, ROI, weights, palette, thresholds or retries. No second image acquisition is needed for this prospective control.",
+    "measurement_id_salt": "rgfca-reserve-species-replication-v1",
+    "partitioning": "2 blind batches x 32 semantic shards x 4 compute partitions; at most 8 concurrent; all 256 terminal partitions required before coordinate-colour join.",
+    "worker_fields": ["measurement_id", "image_filename", "photo_license"],
+    "failed_or_unclassifiable": "Retain as terminal missingness, never replace or silently drop. No pixels/masks in public artifacts; licenses and attribution preserved in metadata.",
+    "admission": "Use all species with at least 40 classifiable photos, require at least 250 such species. If fewer, report not_evaluable without target relaxation or extra acquisition."
+  },
+  "primary": {
+    "name": "equal_species_mean_distance_colour_spearman_rho",
+    "statistic": "For every eligible taxon use every unordered pair of classifiable photos: Spearman correlation of great-circle distance with Jensen-Shannon divergence of the fixed four-component colour vector. Equal species mean; constant colour distance contributes exactly zero; any constant geographic-distance or invalid eligible species makes the analysis not_evaluable, not a post-outcome exclusion.",
+    "null": "Independently reassign complete colour vectors to coordinates within each species and permutation index, recompute the full statistic. No pair-independence or asymptotic Spearman p-value.",
+    "permutations": 999,
+    "seed": 202609070901,
+    "seed_rule": "Same immutable species-name and permutation-index hash as the discovery omnibus, applied to disjoint species. Reuse the verified statistic implementation; no seed search.",
+    "p_value": "(1 + count(null mean rho >= observed mean rho)) / 1000",
+    "replicated_directional_association": "observed mean rho > 0 and upper-tail p < 0.05",
+    "multiplicity": "One prospectively selected replication primary. It does not retroactively correct or turn the many discovery analyses into confirmatory tests. Secondary robustness cannot replace a failed primary."
+  },
+  "required_robustness": {
+    "observer_pair_exclusion": "Use only pairs from different observer IDs. For observed and each within-species colour permutation, recompute Spearman ranks over that fixed pair mask. Do not use the full-pair rank shortcut for masked pairs. Equal-species mean and 999 upper-tail permutations. No variable mask based on colour.",
+    "calendar_quarter_stratification": "Use all pairs but permute colour vectors only within species x calendar quarter (Jan-Mar, Apr-Jun, Jul-Sep, Oct-Dec), preserving quarter-colour distributions. This is an observation-season proxy, not a complete phenological adjustment; geography, hemisphere and species remain fixed. Singleton strata remain fixed.",
+    "robustness_seed": 202609070902,
+    "seed_rule": "SHA256(str(seed) + '|' + sensitivity_name + '|' + species + '|' + permutation_index), first 8 bytes little endian; sorted quarter values before within-quarter draws.",
+    "gate": "Report both p-values and effect sizes. Robustly replicated association requires primary and both required robustness tests to have observed mean rho > 0 and p < 0.05 (intersection rule, not selection among tests). If a robustness estimand has insufficient/constant pair geometry or no exchangeable null, label it not_evaluable and do not call the signal robust. No alternative strata or observer rules after results.",
+    "remaining_confounding": "These controls do not remove all observer, camera, illumination, habitat, taxonomic or phenological bias. No causal environmental or pollinator conclusion."
+  },
+  "reporting": {
+    "effect_size": "Primary rho, complete species rho distribution, replication-minus-discovery mean difference descriptive only; do not report the randomization null interval as a confidence interval on the effect.",
+    "uncertainty": "Percentile species bootstrap (4999 draws, seed 202609070903) for the mean, explicitly conditional and not spatially/phylogenetically independent uncertainty for all plants.",
+    "counts": "All 500 species and 50000 terminal records, eligibility and every failure reason. Any BH-detectable count is exploratory, not biological prevalence.",
+    "null_resolution": "Smallest possible Monte Carlo p is 0.001; no additional permutations triggered by a borderline result.",
+    "required_artifacts": "Exact metadata/code/model hashes, all terminal receipts, measured table, complete species and null statistics, direct scipy checks, failed results, CI run identity and public claim ceiling."
+  },
+  "matched_background_control": {
+    "required_before_flower_specific_interpretation": true,
+    "prospective_source": "Reuse the mask, symmetric twelve-anchor representation, differential JSD statistic and joint paired null defined in global_rgfca_within_species_spatial_background_control_contract_v2.json; its postoutcome status correction v2a pertains to discovery, not this unmeasured reserve.",
+    "source_definition_commit": "8dc8cf48d6c854162973f6db8d4681bec71d7adf",
+    "mask": "Unchanged ROI-v4 background annulus: expanded detector boxes minus unexpanded boxes and flower mask. Retain all twelve anchors including green, brown and black; no alternative control region after results.",
+    "acquisition": "Measure background counts alongside the original flower counts in each reserve image using the same decode, orientation, masks and image SHA256. Existing flower counts and admission are unchanged. All eligible classifiable photos must have a complete matched vector; otherwise the control is not_evaluable with no successful-subset replacement.",
+    "statistic": "Within each admitted species, Spearman rho between great-circle distance and [JSD(flower12_i,flower12_j) - JSD(background12_i,background12_j)]. Equal-species mean. Constant differential-distance vector contributes zero; constant geographic distance is not_evaluable.",
+    "null": "Jointly permute each photograph's paired flower12/background12 vectors across that species' fixed coordinates; recompute differential rho and the equal-species mean. The two masks from a photograph always travel together.",
+    "permutations": 999,
+    "seed": 202609071503,
+    "seed_rule": "SHA256(str(seed) + '|' + species + '|' + permutation_index), first 8 bytes little endian.",
+    "interpretation_gate": "Flower-specific replicated photo association requires positive primary flower-only mean and p < 0.05, both observer/quarter robustness gates, and positive differential mean with upper-tail p < 0.05. This is a conjunction, not four alternative ways to pass. Even passing does not identify a cause or establish shared boundaries. Report background-only and flower12-only rho descriptively; never describe a background correlation as proof of purely photographic artefact because background has real ecological structure too.",
+    "outcome_status_at_definition": "No reserve pixels or background outcome have been opened; the discovery flower-only p=0.001 and the existence of the separately registered discovery-background diagnostic are known."
+  },
+  "independence_and_claim_ceiling": "Species- and observation-disjoint replication in the same iNaturalist sampling frame using the same measurement model. It can support a small photo-derived within-species spatial distance-colour association across the admitted frame. It cannot establish global prevalence, genetic polymorphism, one shared transition geography, a pollinator boundary, an environmental mechanism or independence of systematic measurement error. Previously exposed public photos outside the recorded workflows cannot be ruled out by an ID ledger.",
+  "stopping_and_next_question": "Complete the fixed reserve once, regardless of sign. Preserve non-support/not_evaluable. Any later question, larger cohort, alternate colour estimator or environmental/pollinator overlay is a new registered study with fresh validation, not a rescue of this replication."
+}

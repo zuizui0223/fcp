@@ -1,0 +1,137 @@
+name: RGFCA sharedness v2 high-depth metadata capacity pilot
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - 'docs/supporting/rgfca_sharedness_v2_high_depth_capacity_pilot_contract_v1.json'
+      - 'scripts/acquisition/run_rgfca_sharedness_v2_high_depth_capacity_shard.py'
+      - 'scripts/analysis/finalize_rgfca_sharedness_v2_high_depth_capacity_pilot.py'
+      - '.github/workflows/rgfca-sharedness-v2-high-depth-capacity-pilot.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-sharedness-v2-high-depth-capacity-pilot
+  cancel-in-progress: false
+
+env:
+  PYTHONPATH: '.'
+  PYTHONHASHSEED: '0'
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install metadata dependencies
+        run: python -m pip install numpy==2.3.5 pandas==2.2.3
+      - name: Verify frozen pilot and exact 500-species selection without network
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from scripts.acquisition.run_rgfca_sharedness_v2_high_depth_capacity_shard import frozen_pilot_frame
+          c=json.loads(Path('docs/supporting/rgfca_sharedness_v2_high_depth_capacity_pilot_contract_v1.json').read_text())
+          assert c['status']=='frozen_before_any_high_depth_capacity_request'
+          assert c['pilot_species_selection']['n']==500
+          assert c['fixed_targets_after_observer_cap']==[300,400]
+          assert c['query']['maximum_pages_per_species']==5
+          assert c['query']['observer_cap']==2
+          assert c['execution']['candidate_image_pixels_may_open'] is False
+          assert c['execution']['flower_colour_may_open'] is False
+          p=frozen_pilot_frame(c)
+          assert len(p)==500 and p['inat_taxon_id'].nunique()==500
+          assert p['pilot_rank'].tolist()==list(range(500))
+          print('high_depth_capacity_prequery_gate=pass')
+          PY
+
+  shard:
+    needs: gate
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install metadata dependencies
+        run: python -m pip install numpy==2.3.5 pandas==2.2.3
+      - name: Run one frozen metadata shard
+        run: |
+          rm -rf /tmp/rgfca-v2-capacity
+          python scripts/acquisition/run_rgfca_sharedness_v2_high_depth_capacity_shard.py \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 8 \
+            --output-dir /tmp/rgfca-v2-capacity
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-sharedness-v2-capacity-${{ matrix.shard }}
+          path: /tmp/rgfca-v2-capacity/
+          if-no-files-found: error
+          retention-days: 30
+
+  finalize:
+    needs: [gate, shard]
+    if: ${{ always() && needs.gate.result == 'success' && needs.shard.result == 'success' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install metadata dependency
+        run: python -m pip install pandas==2.2.3
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: rgfca-sharedness-v2-capacity-*
+          path: /tmp/rgfca-v2-capacity-shards
+      - name: Strictly finalize fixed 500-species census
+        run: |
+          python scripts/analysis/finalize_rgfca_sharedness_v2_high_depth_capacity_pilot.py \
+            --input-root /tmp/rgfca-v2-capacity-shards \
+            --output-csv data/frozen/rgfca_sharedness_v2_high_depth_capacity_pilot_v1.csv \
+            --output-json docs/supporting/rgfca_sharedness_v2_high_depth_capacity_pilot_result_v1.json
+      - name: Verify claim firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('docs/supporting/rgfca_sharedness_v2_high_depth_capacity_pilot_result_v1.json').read_text())
+          assert r['pilot_species']==500
+          assert r['image_pixels_opened'] is False
+          assert r['flower_colour_used'] is False
+          assert r['ecological_claim_changed'] is False
+          assert r['reserve_flower_specific_gate_reclassified'] is False
+          assert r['primary_feasibility_target_after_observer_cap']==300
+          assert r['primary_required_species']==150
+          PY
+      - name: Commit immutable metadata-only pilot result
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/frozen/rgfca_sharedness_v2_high_depth_capacity_pilot_v1.csv \
+            docs/supporting/rgfca_sharedness_v2_high_depth_capacity_pilot_result_v1.json
+          git commit -m 'Record RGFCA v2 high-depth metadata capacity pilot'
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability

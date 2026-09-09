@@ -1,0 +1,30 @@
+{
+  "M1_M3_scores_used": false,
+  "current_api_identity_queries_used": false,
+  "flower_colour_used": false,
+  "frozen_h7_pairs": 81803,
+  "image_pixels_opened": false,
+  "lineage": {
+    "h7_exclusion_ledger_sha256": "b877a5fe5d36e0a5f84e73b9eae14b3c33b3f0fddc0ebc1a5f69331cc88b811a",
+    "pr21_sha256": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc",
+    "random_sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+    "reconstructed_ledger_sha256": "0c0ca9566241e03bd0fb15fc6b7e8bcd72f646353d8abdacc1c72ed767ad8153",
+    "six_git_blob_sha": "d8442bed4973556110a0678bee6ac580ddf90242"
+  },
+  "observer_conflicts": 0,
+  "pair_coverage_missing": 0,
+  "pre_h7_observer_identity_complete": true,
+  "protocol": "rgfca-pre-h7-observer-identity-reconstruction-v1",
+  "protocol_commit": "6424b32c580f1f7c232d8876fdb43a86dd9af1a4",
+  "reconstructed_pairs": 81803,
+  "source_overlap_duplicate_pair_rows": 242,
+  "source_rows": {
+    "pr21_terminal_60000": 60000,
+    "random_photo_first_candidate_pool_v1": 20845,
+    "six_species_ch1": 1200,
+    "total_before_source_overlap_collapse": 82045
+  },
+  "source_union_extra_pairs": 0,
+  "status": "complete_exact_historical_observer_reconstruction",
+  "unique_historical_observers": 32527
+}

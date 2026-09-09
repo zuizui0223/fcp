@@ -1,0 +1,61 @@
+{
+  "protocol": "hypervolume-geo-environment-transfer-benchmark-v1",
+  "status": "frozen_before_simulation_results",
+  "date": "2026-09-07",
+  "parent_snapshot": "fe336db8fe9344608886a421ac4a0e6fc6aa38d2",
+  "question": "Can colour-conditioned Gaussian hypervolume geometry transfer across disjoint species in geographic versus environmental representations, while independent species-specific structure is not miscalled commonness?",
+  "claim_boundary": "Representation-specific synthetic predictive identifiability, not causal identification of climate versus geography. If E=f(G), a shared environmental response is also a geographic function. Both/neither outcomes must be retained. No observed biological colour values or real environmental rasters are used.",
+  "simulation": {
+    "seed": 2026090701,
+    "species": 60,
+    "training_species": 30,
+    "evaluation_species": 30,
+    "photos_per_species": 20,
+    "amplitudes": [0.5, 1.0, 2.0],
+    "noise_sd": 1.0,
+    "transition_width": 0.5,
+    "calibration_replicates_per_nuisance_world": 1000,
+    "evaluation_replicates_per_world": 500,
+    "geography": "Independent uniform unit-sphere photo locations, G=sqrt(3)*xyz; geography is 3D Cartesian embedding, not longitude-latitude Euclidean distance.",
+    "environment": "A fixed smooth two-dimensional fourth-harmonic field E=(x^4-6*x^2*y^2+y^4, 4*x*y*(x^2-y^2))*sqrt(315)/8. It is synthetic, not CHELSA or an estimated biological environment. These even fourth-order coordinates create repeated environmental conditions with identical first/second geographic moments in the population.",
+    "colour": "Binary synthetic labels sign(amplitude*random_species_sign*tanh(projection/0.5)+Normal(0,1)); species signs are arbitrary colour names and never used by the estimator.",
+    "worlds": {
+      "geographic_shared": "One random unit direction in G shared by every species.",
+      "environmental_shared": "One random unit direction in E shared by every species.",
+      "geographic_specific": "Independent random geographic direction for each species.",
+      "environmental_specific": "Independent random environmental direction for each species.",
+      "mixed_specific": "Each species independently selects geographic or environmental structure with probability 1/2, then its own independent direction.",
+      "no_structure": "Independent Gaussian noise only.",
+      "confounded_shared": "Separate positive control: E equals the first two geographic coordinates and every species responds to the first geographic coordinate. Predictive success in both representations must not be forced into an exclusive cause."
+    }
+  },
+  "estimator": {
+    "class_gaussian": "Sample mean and sample covariance per species/class; covariance=(1-0.2)*sample_cov+0.2*trace(sample_cov)/dimension*I+1e-8*I; equal class priors.",
+    "minimum_photos_per_class": 4,
+    "total_volume": "95% Gaussian ellipsoid log-volume from all coordinates, without colour. This negative control must remain invariant to colour-label replacement on the same coordinates.",
+    "within_species_separation": "1 minus analytic Gaussian Bhattacharyya affinity of the two class distributions; not geometric ellipsoid intersection and not evidence of cross-species sharedness.",
+    "transfer": "For each training species, fit its two class Gaussians and use equal-prior QDA to partition each evaluation species' photos. Average adjusted Rand index over all 30x30 ordered train/evaluation pairs. ARI makes whole-species label reversal irrelevant. No evaluation label is used to fit or tune a Gaussian.",
+    "low_information": "Training or evaluation species with fewer than four examples in either synthetic class contribute zero transfer/separation score rather than being silently removed. Their fraction is reported. Predicted constant partitions also score zero.",
+    "repetition_unit": "An entire simulated world, not the dependent species pairs or photos. No multiplier from repeated maps is interpreted as biological sample size."
+  },
+  "calibration": {
+    "nuisance_worlds": ["geographic_specific", "environmental_specific", "mixed_specific", "no_structure"],
+    "rule": "Separately at each amplitude and representation, use the maximum of the four independently calibrated 97.5th-percentile thresholds (higher order statistic). Report independent evaluation rejection rates and Wilson intervals. Threshold calibration uncertainty is not included in those intervals; nominal familywise 5% is a target, not certified by construction.",
+    "decision": "Geographic score>geographic threshold; environmental score>environmental threshold. Preserve geography_only, environment_only, both, neither.",
+    "confounded_control": "Calibrate separately using the same four nuisance definitions but E=G[:2]; freeze same counts, estimator and threshold rule. No causal label is assigned.",
+    "prohibited": ["favourable seeds", "post-result shrinkage tuning", "selecting a better dimension", "dropping nuisance worlds", "changing observed G1 or environmental decisions"]
+  },
+  "actual_geometry_audit": {
+    "artifact_id": 9991684761,
+    "source_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "columns": ["photo_id", "species", "latitude", "longitude", "global_classifiable"],
+    "expected_rows": 50000,
+    "expected_species": 500,
+    "expected_classifiable": 25377,
+    "expected_eligible_species": 369,
+    "method": "Verify export checksum, uniqueness and coordinate validity. Compare complete versus classifiable geometry for the same 369 eligible species using synthetic E only. Record coordinate covariance effective rank and 95% Gaussian log-volume; report the 131-species eligibility loss separately. Full-versus-retained raw volume comparison is descriptive and sample-size-confounded, not an unbiased missingness effect.",
+    "scope": "Actual coordinate/mask audit only, not calibrated power for the actual RGFCA, not observed-colour niche inference, not a real climate test."
+  },
+  "outputs": ["unit tests", "per-world statistics", "calibration thresholds", "four-way decisions and Wilson intervals", "geometry audit", "reproducible runner and interpretation report"],
+  "parent_decisions_modified": false
+}

@@ -1,0 +1,77 @@
+name: Hypervolume transfer validation
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/hypervolume-transfer-validation.yml'
+      - 'scripts/analysis/run_hypervolume_transfer*.py'
+      - 'tests/test_hypervolume_transfer_benchmark.py'
+      - 'docs/supporting/hypervolume_transfer_benchmark*.json'
+      - 'data/derived/hypervolume_transfer_decisions_v1.csv'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install reference numerical packages
+        run: python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3 scikit-learn==1.8.0
+      - name: Run focused unit tests and independent calculation
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          python -m unittest discover -s tests -p test_hypervolume_transfer_benchmark.py -v 2>&1 | tee reports/hypervolume_ci_tests.txt
+          python -m py_compile scripts/analysis/run_hypervolume_transfer_suite.py
+      - name: Verify source checksum, counts, and immutable claim guards
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json
+          from pathlib import Path
+          result = json.loads(Path('docs/supporting/hypervolume_transfer_benchmark_result_v1.json').read_text())
+          contract = json.loads(Path('docs/supporting/hypervolume_transfer_benchmark_contract_v1.json').read_text())
+          runner = Path('scripts/analysis/run_hypervolume_transfer_benchmark.py')
+          assert hashlib.sha256(runner.read_bytes()).hexdigest() == result['runner_sha256']
+          assert result['specification_commit'] == 'bb23f879f6d84a27d0c7fdbde430b9d4f4b4f7ad'
+          assert result['seed'] == contract['simulation']['seed'] == 2026090701
+          assert result['simulated_worlds'] == 40500
+          assert result['calibration_worlds'] + result['evaluation_worlds'] == 40500
+          assert result['unit_tests_passed'] == 15
+          assert result['parent_decisions_modified'] is False
+          assert result['biological_colour_values_used'] is False
+          assert result['real_climate_used'] is False
+          with Path('data/derived/hypervolume_transfer_decisions_v1.csv').open(newline='') as f:
+              rows = list(csv.DictReader(f))
+          assert len(rows) == 33
+          assert len({(r['mapping'], r['amplitude'], r['world']) for r in rows}) == 33
+          for row in rows:
+              rates = [float(row[k]) for k in ('both', 'environment_only', 'geography_only', 'neither')]
+              assert all(0 <= p <= 1 for p in rates)
+              assert abs(sum(rates)-1) < 1e-12
+              assert all(abs(p*500-round(p*500)) < 1e-9 for p in rates)
+          evidence = {'source_checksum_verified': True, 'unit_tests_passed': 15, 'decision_rows': len(rows), 'full_scientific_simulation_rerun_in_ci': False, 'biological_analysis_run': False}
+          Path('reports/hypervolume_ci_validation.json').write_text(json.dumps(evidence, indent=2)+'\n')
+          print(json.dumps(evidence, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hypervolume-benchmark-code-and-summary-v1
+          path: |
+            scripts/analysis/run_hypervolume_transfer*.py
+            tests/test_hypervolume_transfer_benchmark.py
+            docs/HYPERVOLUME_TRANSFER_BENCHMARK.md
+            docs/supporting/hypervolume*.json
+            data/derived/hypervolume_transfer_decisions_v1.csv
+            reports/hypervolume_ci_*
+          if-no-files-found: error
+          retention-days: 90

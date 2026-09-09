@@ -1,0 +1,50 @@
+{
+  "acquisition_source_failures": 0,
+  "all_300_pair_metadata_present": false,
+  "artifact_id": 10046355184,
+  "benchmark_execution_authorized": false,
+  "cached_responses_reused": 1,
+  "claim_ceiling": "Documentary metadata only; one returned listing lacks img.png; no subset benchmark.",
+  "coordinates_joined": false,
+  "execution_head_sha": "49d24a1b3ca060608d629577a01ce337b2bb45fe",
+  "image_pixels_decoded": false,
+  "metadata_rows_inspected": 300,
+  "model_run": false,
+  "new_requests_started": 299,
+  "pair_metadata_present_count": 299,
+  "plan_sha256": "2ce2a578db6c470a9021189241e2e5c9fae561c2435896f64e61d50e0ccd4d83",
+  "prior_schema_opened_rows_retained": 6,
+  "provider_artifact_zip_sha256": "a26dabf38c4a51274303dad0191fb2284df65b0806832f9c988210018df950e6",
+  "provider_zip_digest_locally_verified": false,
+  "result_sha256": "27c79f60b4088c4c2942778c43c9089509ac3dcce5ec825166d97804166359b3",
+  "retained_files_verified": 303,
+  "retained_verification_passed": true,
+  "run_id": 34201981494,
+  "schema": "rgfca-flowermask-pair-metadata-retained-summary-v1",
+  "source_group_row_counts": {
+    "Butterfly Pea": 50,
+    "Caesalpinia Pulcherrima": 50,
+    "Jatropha Integerimma": 50,
+    "Plumeria": 50,
+    "Rose": 50,
+    "Tecoma Stans": 50
+  },
+  "status": "completed_metadata_only_pairing_incomplete",
+  "unresolved": [
+    {
+      "annotation_filename": "33.json",
+      "annotation_id": "bf1604ee-fe76-4ec2-b2b7-51c50a732090",
+      "candidate_folder_id": "d88759cb-dfb0-4996-8b33-d1002cdc33eb",
+      "candidate_folder_name": "33_dataset",
+      "group": "Butterfly Pea",
+      "missing_required_filenames": [
+        "img.png"
+      ],
+      "observed_filenames": [
+        "label.png",
+        "label_names.txt",
+        "label_viz.png"
+      ]
+    }
+  ]
+}

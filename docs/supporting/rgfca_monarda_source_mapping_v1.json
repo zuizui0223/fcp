@@ -1,0 +1,2471 @@
+{
+  "schema_version": "fcp-monarda-author-index-mapping-v1",
+  "archive_sha256": "7c9d213514e319b11cc15623747277f88eb37c453722f665b8570b40b9f0dd0d",
+  "intake_sha256": "1f5acb5af939b83c76b75d6513a0f404019ea88d4a4924d6d1322c8b8cde70f8",
+  "author_multimedia_sha256": "94c045bc9b03049830761c42c4265b04e790aafea6e10a13223b5541ed2d18a5",
+  "author_occurrence_sha256": "39d2d1a4b75f044ba1435637c909458a06b24fd778fca1226f6ff9dd244765e8",
+  "author_repository_commit": "49812a431abce78c871f23aff6bc7978573dd502",
+  "author_multimedia_git_blob": "84b64ccb89019174a738bdf380528aa79e804fe7",
+  "author_occurrence_git_blob": "192b2874235ea4f2457b519cff0f0144fd190081",
+  "filename_rule_source_git_blob": "24bd0653f5a3d8cf74cbf89364c91100a94e22b4",
+  "filename_mapping_rule": "Notebook 1 reads multimedia.txt with default pandas row index, downloads table.identifier, and writes each file as table.index[idx].jpg. COCO extra.name preserves this filename.",
+  "source_selection_caution": "Notebook 3 at blob e579b1c4817c4bd47f472dc3575e14b233a88773 samples 200 GPT flower-present indices via np.random.choice without an explicit seed or replace=False. This does not reproduce or explain selection of the released 110 annotations.",
+  "reference_images_mapped": 110,
+  "unique_photo_ids": 110,
+  "unique_observation_ids": 110,
+  "source_license_counts": {
+    "http://creativecommons.org/licenses/by-nc-sa/4.0/": 1,
+    "http://creativecommons.org/licenses/by-nc/4.0/": 97,
+    "http://creativecommons.org/licenses/by/4.0/": 9,
+    "http://creativecommons.org/publicdomain/zero/1.0/": 3
+  },
+  "duplicate_photo_id_groups": {},
+  "duplicate_observation_id_groups": {},
+  "fcp_comparison_frames": {
+    "discovery": {
+      "rows": 50000,
+      "immutable_input_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+      "git_ref": "29584f3ad7ae0cd99a1d8f43459252af38f615da:data/derived/global_monte_carlo_measured_photos_v1.csv",
+      "photo_id_matches": 0,
+      "observation_id_matches": 0
+    },
+    "reserve": {
+      "rows": 50000,
+      "immutable_input_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+      "git_ref": "9f5abe7b45fcdc20ba83adf75d1a8d4a640f622c:data/derived/rgfca_reserve_replication_measured_photos_v1.csv",
+      "photo_id_matches": 0,
+      "observation_id_matches": 0
+    }
+  },
+  "image_source_mapping": [
+    {
+      "path": "test/11932_jpg.rf.8dbfc1de9f0e89db9200752fbc179ad4.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 11932,
+      "photo_id": "315537140",
+      "observation_id": "181079600",
+      "gbif_id": "4413754392",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/315537140/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/315537140",
+      "observation_url": "https://www.inaturalist.org/observations/181079600",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/12245_jpg.rf.6bf395b67e8f38fbd0004243bf6eab9d.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 12245,
+      "photo_id": "314108398",
+      "observation_id": "180352495",
+      "gbif_id": "4405476559",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/314108398/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/314108398",
+      "observation_url": "https://www.inaturalist.org/observations/180352495",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/19840_jpg.rf.067673c55f6dacdc6c81707acff37d56.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 19840,
+      "photo_id": "219305520",
+      "observation_id": "129074049",
+      "gbif_id": "3881621763",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/219305520/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/219305520",
+      "observation_url": "https://www.inaturalist.org/observations/129074049",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/22187_jpg.rf.2ecf056dcddf6d6102d18f157bd7bcdc.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 22187,
+      "photo_id": "214677116",
+      "observation_id": "126519793",
+      "gbif_id": "3873144880",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/214677116/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/214677116",
+      "observation_url": "https://www.inaturalist.org/observations/126519793",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/24899_jpg.rf.947f60004f7ef7855490dfd69922d40a.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 24899,
+      "photo_id": "171442916",
+      "observation_id": "102554207",
+      "gbif_id": "3455906893",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/171442916/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/171442916",
+      "observation_url": "https://www.inaturalist.org/observations/102554207",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/25375_jpg.rf.145a32b0a8e08291ffc62e7a49ea2d6f.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 25375,
+      "photo_id": "142384376",
+      "observation_id": "86432575",
+      "gbif_id": "3384656842",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/142384376/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/142384376",
+      "observation_url": "https://www.inaturalist.org/observations/86432575",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/26306_jpg.rf.fb2f2c32cb753e0861b7598527051c31.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 26306,
+      "photo_id": "150510234",
+      "observation_id": "91029631",
+      "gbif_id": "3337785256",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/150510234/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/150510234",
+      "observation_url": "https://www.inaturalist.org/observations/91029631",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/28441_jpg.rf.4b78741291ab03ba422154459df2d880.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 28441,
+      "photo_id": "144555694",
+      "observation_id": "87663365",
+      "gbif_id": "3330412083",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/144555694/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/144555694",
+      "observation_url": "https://www.inaturalist.org/observations/87663365",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/30203_jpg.rf.275e7842864487accdba083ec9710cf8.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 30203,
+      "photo_id": "135785038",
+      "observation_id": "82717388",
+      "gbif_id": "3307394785",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/135785038/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/135785038",
+      "observation_url": "https://www.inaturalist.org/observations/82717388",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/37864_jpg.rf.5867be9551604e13c506ea4d1acd246a.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 37864,
+      "photo_id": "45125541",
+      "observation_id": "28931670",
+      "gbif_id": "2294526768",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/45125541/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/45125541",
+      "observation_url": "https://www.inaturalist.org/observations/28931670",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "test/944_jpg.rf.9e527e577e66f746c7d9930eacc5d64c.jpg",
+      "split": "test",
+      "source_row_index_zero_based": 944,
+      "photo_id": "405919262",
+      "observation_id": "228725445",
+      "gbif_id": "5007267095",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/405919262/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/405919262",
+      "observation_url": "https://www.inaturalist.org/observations/228725445",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/10276_jpg.rf.fdad978d38c23b8de17be0b7207bc365.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 10276,
+      "photo_id": "362451252",
+      "observation_id": "176688265",
+      "gbif_id": "4535887850",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/362451252/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/362451252",
+      "observation_url": "https://www.inaturalist.org/observations/176688265",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/10976_jpg.rf.7fe70eb92dddc8b2cc5fcaa03d2eae42.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 10976,
+      "photo_id": "340852309",
+      "observation_id": "193979325",
+      "gbif_id": "4500812282",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/340852309/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/340852309",
+      "observation_url": "https://www.inaturalist.org/observations/193979325",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/11103_jpg.rf.4d6c94fe718fb4f5d594c989ef5dd0a4.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 11103,
+      "photo_id": "338939315",
+      "observation_id": "192999398",
+      "gbif_id": "4458727209",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/338939315/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/338939315",
+      "observation_url": "https://www.inaturalist.org/observations/192999398",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/11334_jpg.rf.e840dd14c689b1a72f853a665632a153.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 11334,
+      "photo_id": "312857755",
+      "observation_id": "179680130",
+      "gbif_id": "4438670927",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/312857755/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/312857755",
+      "observation_url": "https://www.inaturalist.org/observations/179680130",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/12015_jpg.rf.69a09077b8f9ed522eb8c4bc942b2b6e.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 12015,
+      "photo_id": "299859780",
+      "observation_id": "172715405",
+      "gbif_id": "4413509821",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/299859780/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/299859780",
+      "observation_url": "https://www.inaturalist.org/observations/172715405",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/12435_jpg.rf.641cc331a6393f73842e1d24dd667ae2.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 12435,
+      "photo_id": "312370271",
+      "observation_id": "179426495",
+      "gbif_id": "4400409819",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/312370271/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/312370271",
+      "observation_url": "https://www.inaturalist.org/observations/179426495",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/12731_jpg.rf.393d1734ef912162b81f2da18c0e1b2f.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 12731,
+      "photo_id": "309226106",
+      "observation_id": "177767858",
+      "gbif_id": "4177269652",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/309226106/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/309226106",
+      "observation_url": "https://www.inaturalist.org/observations/177767858",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/12892_jpg.rf.527e5831143c26b67c682e486337924c.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 12892,
+      "photo_id": "308634358",
+      "observation_id": "177452999",
+      "gbif_id": "4177048876",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/308634358/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/308634358",
+      "observation_url": "https://www.inaturalist.org/observations/177452999",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/13560_jpg.rf.67d87ca3fb64ac71f8b17783ac382e73.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 13560,
+      "photo_id": "305933876",
+      "observation_id": "176001521",
+      "gbif_id": "4171820117",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/305933876/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/305933876",
+      "observation_url": "https://www.inaturalist.org/observations/176001521",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/13709_jpg.rf.525c829a65f19c8d9ad744574ca711f0.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 13709,
+      "photo_id": "305279247",
+      "observation_id": "175649830",
+      "gbif_id": "4171672095",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/305279247/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/305279247",
+      "observation_url": "https://www.inaturalist.org/observations/175649830",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/1416_jpg.rf.0b63de2cd11ac23f893033ceee85d613.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 1416,
+      "photo_id": "410418967",
+      "observation_id": "231104613",
+      "gbif_id": "4978301385",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/410418967/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/410418967",
+      "observation_url": "https://www.inaturalist.org/observations/231104613",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/14224_jpg.rf.da21965023ce9e73d25713ac3bed744a.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 14224,
+      "photo_id": "303788795",
+      "observation_id": "174837926",
+      "gbif_id": "4165956600",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/303788795/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/303788795",
+      "observation_url": "https://www.inaturalist.org/observations/174837926",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/14739_jpg.rf.da8c8c1fff02cd6cab2cf7b92a3ca343.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 14739,
+      "photo_id": "299958004",
+      "observation_id": "172766992",
+      "gbif_id": "4165580628",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/299958004/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/299958004",
+      "observation_url": "https://www.inaturalist.org/observations/172766992",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/14768_jpg.rf.7fbbb5a8e4c6f36a997d9d01288dadb9.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 14768,
+      "photo_id": "302312296",
+      "observation_id": "174041386",
+      "gbif_id": "4165566263",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/302312296/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/302312296",
+      "observation_url": "https://www.inaturalist.org/observations/174041386",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/14949_jpg.rf.4bd711a3f37a3bfd3cf334abc547077e.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 14949,
+      "photo_id": "301889301",
+      "observation_id": "173813538",
+      "gbif_id": "4165445233",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/301889301/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/301889301",
+      "observation_url": "https://www.inaturalist.org/observations/173813538",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/15567_jpg.rf.c4468a5eb90f5c31f05f0a5363ff3bd3.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 15567,
+      "photo_id": "300202600",
+      "observation_id": "172898182",
+      "gbif_id": "4162154710",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/300202600/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/300202600",
+      "observation_url": "https://www.inaturalist.org/observations/172898182",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/15611_jpg.rf.b40474ff6492ddaef014a20e437ddcc7.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 15611,
+      "photo_id": "300202567",
+      "observation_id": "172898151",
+      "gbif_id": "4162100974",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/300202567/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/300202567",
+      "observation_url": "https://www.inaturalist.org/observations/172898151",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/1571_jpg.rf.ce9283a8f809779aa6fe42c016a25e44.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 1571,
+      "photo_id": "404682662",
+      "observation_id": "228073639",
+      "gbif_id": "4954695477",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/404682662/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/404682662",
+      "observation_url": "https://www.inaturalist.org/observations/228073639",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/16167_jpg.rf.70de2a08b3dda976db3f0f32c2542e8a.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 16167,
+      "photo_id": "297247687",
+      "observation_id": "171307976",
+      "gbif_id": "4153533075",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/297247687/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/297247687",
+      "observation_url": "https://www.inaturalist.org/observations/171307976",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/1734_jpg.rf.6826b5376bdbcfb7b97674c20e06ea30.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 1734,
+      "photo_id": "413352481",
+      "observation_id": "232648218",
+      "gbif_id": "4952690366",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/413352481/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/413352481",
+      "observation_url": "https://www.inaturalist.org/observations/232648218",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/19449_jpg.rf.a3f8738dc52aa27b2f6ea8499e37db00.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 19449,
+      "photo_id": "219572632",
+      "observation_id": "129221880",
+      "gbif_id": "3888820636",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/219572632/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/219572632",
+      "observation_url": "https://www.inaturalist.org/observations/129221880",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/19605_jpg.rf.71dc8b3f97fc884e3296f99211970478.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 19605,
+      "photo_id": "219236506",
+      "observation_id": "129037002",
+      "gbif_id": "3881826844",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/219236506/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/219236506",
+      "observation_url": "https://www.inaturalist.org/observations/129037002",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/19806_jpg.rf.39d93a63a8e973a13df945cdde570ad5.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 19806,
+      "photo_id": "219318672",
+      "observation_id": "129080866",
+      "gbif_id": "3881669828",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/219318672/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/219318672",
+      "observation_url": "https://www.inaturalist.org/observations/129080866",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/20583_jpg.rf.944a97922eea4b059e55f9a547e5f1e5.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 20583,
+      "photo_id": "215727988",
+      "observation_id": "127094627",
+      "gbif_id": "3874037486",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/215727988/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/215727988",
+      "observation_url": "https://www.inaturalist.org/observations/127094627",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/21020_jpg.rf.b120590fb6c0d592e63be06beeb1d956.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 21020,
+      "photo_id": "212950961",
+      "observation_id": "125565028",
+      "gbif_id": "3873818655",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/212950961/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/212950961",
+      "observation_url": "https://www.inaturalist.org/observations/125565028",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/21043_jpg.rf.94ad9e43467e67e25d4a5ae5ce24133f.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 21043,
+      "photo_id": "215595283",
+      "observation_id": "127022931",
+      "gbif_id": "3873805987",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/215595283/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/215595283",
+      "observation_url": "https://www.inaturalist.org/observations/127022931",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/21661_jpg.rf.563dab1e16ecb8892664d68d5df29a65.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 21661,
+      "photo_id": "215794233",
+      "observation_id": "127131927",
+      "gbif_id": "3873444843",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/215794233/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/215794233",
+      "observation_url": "https://www.inaturalist.org/observations/127131927",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/21768_jpg.rf.8fdff1ee99ef41702b97346235b5c92c.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 21768,
+      "photo_id": "217113066",
+      "observation_id": "127858873",
+      "gbif_id": "3873391770",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/217113066/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/217113066",
+      "observation_url": "https://www.inaturalist.org/observations/127858873",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/21797_jpg.rf.24748a19ea49f42ef74127d5066cafb7.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 21797,
+      "photo_id": "214274360",
+      "observation_id": "126294607",
+      "gbif_id": "3873363511",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/214274360/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/214274360",
+      "observation_url": "https://www.inaturalist.org/observations/126294607",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/22132_jpg.rf.a9555732c84a73e3f24c7c78214276d4.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 22132,
+      "photo_id": "212509641",
+      "observation_id": "125317193",
+      "gbif_id": "3873172345",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/212509641/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/212509641",
+      "observation_url": "https://www.inaturalist.org/observations/125317193",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/22308_jpg.rf.85d331025bf2e00b750c8e24104906b5.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 22308,
+      "photo_id": "216233515",
+      "observation_id": "127371637",
+      "gbif_id": "3873088777",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/216233515/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/216233515",
+      "observation_url": "https://www.inaturalist.org/observations/127371637",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/233_jpg.rf.2e663d4d3fb638f9e920182093e20891.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 233,
+      "photo_id": "409559534",
+      "observation_id": "230646488",
+      "gbif_id": "5062795014",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/409559534/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/409559534",
+      "observation_url": "https://www.inaturalist.org/observations/230646488",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/23554_jpg.rf.efadc781e7955de5d422fa57f1b3ba94.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 23554,
+      "photo_id": "208003994",
+      "observation_id": "122826791",
+      "gbif_id": "3858880606",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/208003994/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/208003994",
+      "observation_url": "https://www.inaturalist.org/observations/122826791",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/25640_jpg.rf.ed317cf74b088db64e3c7d15e4e3fc62.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 25640,
+      "photo_id": "84718568",
+      "observation_id": "53271132",
+      "gbif_id": "3383855477",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/84718568/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/84718568",
+      "observation_url": "https://www.inaturalist.org/observations/53271132",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/25643_jpg.rf.69aae9003ea878bf523a57be5d9c2ab4.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 25643,
+      "photo_id": "140936829",
+      "observation_id": "85639190",
+      "gbif_id": "3383854840",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/140936829/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/140936829",
+      "observation_url": "https://www.inaturalist.org/observations/85639190",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/25945_jpg.rf.35b735d94e4a15281c2561a46e96c26f.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 25945,
+      "photo_id": "152844313",
+      "observation_id": "92319084",
+      "gbif_id": "3344048734",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/152844313/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/152844313",
+      "observation_url": "https://www.inaturalist.org/observations/92319084",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/264_jpg.rf.6dcb92cc567b2eac40b7e7d914b4cb8c.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 264,
+      "photo_id": "419446338",
+      "observation_id": "235820702",
+      "gbif_id": "5062783243",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/419446338/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/419446338",
+      "observation_url": "https://www.inaturalist.org/observations/235820702",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/26668_jpg.rf.47432da3f31d31107583991ece195581.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 26668,
+      "photo_id": "148385875",
+      "observation_id": "89831120",
+      "gbif_id": "3335501363",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/148385875/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/148385875",
+      "observation_url": "https://www.inaturalist.org/observations/89831120",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/27546_jpg.rf.b6efa718f2b7815a3817dc2ea743a6a0.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 27546,
+      "photo_id": "146205943",
+      "observation_id": "88606618",
+      "gbif_id": "3333090042",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/146205943/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/146205943",
+      "observation_url": "https://www.inaturalist.org/observations/88606618",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/28010_jpg.rf.beca5b821569ed8782a057f8e04ccfd3.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 28010,
+      "photo_id": "144117960",
+      "observation_id": "87414256",
+      "gbif_id": "3330652826",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/144117960/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/144117960",
+      "observation_url": "https://www.inaturalist.org/observations/87414256",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/29902_jpg.rf.84dce01f6bd9d90b402f61ed1cdf2018.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 29902,
+      "photo_id": "140192379",
+      "observation_id": "85227500",
+      "gbif_id": "3320979532",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/140192379/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/140192379",
+      "observation_url": "https://www.inaturalist.org/observations/85227500",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/30576_jpg.rf.27d095aa6ad986fcd952ce240d95c765.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 30576,
+      "photo_id": "124415296",
+      "observation_id": "76039132",
+      "gbif_id": "3112291874",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/124415296/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/124415296",
+      "observation_url": "https://www.inaturalist.org/observations/76039132",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/31039_jpg.rf.44d27e87360f6ab56e969f969c6cc0b7.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 31039,
+      "photo_id": "114814873",
+      "observation_id": "70606119",
+      "gbif_id": "3058840973",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/114814873/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/114814873",
+      "observation_url": "https://www.inaturalist.org/observations/70606119",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/31554_jpg.rf.4f16bc405f6a5f6d83115c23232bb090.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 31554,
+      "photo_id": "86775866",
+      "observation_id": "54533207",
+      "gbif_id": "2992808494",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/86775866/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/86775866",
+      "observation_url": "https://www.inaturalist.org/observations/54533207",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/32914_jpg.rf.739978d694b89ff330f1bf7775680c3c.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 32914,
+      "photo_id": "87811717",
+      "observation_id": "55167536",
+      "gbif_id": "2826478199",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/87811717/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/87811717",
+      "observation_url": "https://www.inaturalist.org/observations/55167536",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/33131_jpg.rf.b1cc5f01cd4337fe3ebfa6ede3e2c0ef.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 33131,
+      "photo_id": "86838407",
+      "observation_id": "54571322",
+      "gbif_id": "2826302374",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/86838407/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/86838407",
+      "observation_url": "https://www.inaturalist.org/observations/54571322",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/33246_jpg.rf.5e7289d617056b3c7ebd34f78329efbd.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 33246,
+      "photo_id": "83956802",
+      "observation_id": "52801339",
+      "gbif_id": "2826197664",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/83956802/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/83956802",
+      "observation_url": "https://www.inaturalist.org/observations/52801339",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/33419_jpg.rf.9f42ba72290c1b1bac08a29a63e34bc1.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 33419,
+      "photo_id": "85543729",
+      "observation_id": "53776919",
+      "gbif_id": "2823346229",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/85543729/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/85543729",
+      "observation_url": "https://www.inaturalist.org/observations/53776919",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/33690_jpg.rf.e2fe58cd71898a3172ff89de5b198084.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 33690,
+      "photo_id": "85332318",
+      "observation_id": "53646738",
+      "gbif_id": "2823152107",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/85332318/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/85332318",
+      "observation_url": "https://www.inaturalist.org/observations/53646738",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/33790_jpg.rf.5df0efc9e4d0977d9fce9fb2949192ba.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 33790,
+      "photo_id": "84902024",
+      "observation_id": "53382687",
+      "gbif_id": "2823105665",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/84902024/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/84902024",
+      "observation_url": "https://www.inaturalist.org/observations/53382687",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/34466_jpg.rf.3c43e3c2d5f793d24cdab9b877f880b4.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 34466,
+      "photo_id": "84375821",
+      "observation_id": "53060043",
+      "gbif_id": "2818507271",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/84375821/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/84375821",
+      "observation_url": "https://www.inaturalist.org/observations/53060043",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/34472_jpg.rf.956b66b310304cf9a34622cc7f97e370.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 34472,
+      "photo_id": "83769414",
+      "observation_id": "52687016",
+      "gbif_id": "2818504825",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/83769414/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/83769414",
+      "observation_url": "https://www.inaturalist.org/observations/52687016",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/34813_jpg.rf.a15612a703e4ebd018d33958a782a5fd.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 34813,
+      "photo_id": "82536629",
+      "observation_id": "51936454",
+      "gbif_id": "2814159853",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/82536629/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/82536629",
+      "observation_url": "https://www.inaturalist.org/observations/51936454",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/360_jpg.rf.ffda2703a9f445425611979f5ec050e7.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 360,
+      "photo_id": "413460165",
+      "observation_id": "232696082",
+      "gbif_id": "5062745168",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/413460165/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/413460165",
+      "observation_url": "https://www.inaturalist.org/observations/232696082",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/37485_jpg.rf.785f97d31f1b9166fa8a95bb50961a62.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 37485,
+      "photo_id": "46026766",
+      "observation_id": "29489836",
+      "gbif_id": "2294672134",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/46026766/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/46026766",
+      "observation_url": "https://www.inaturalist.org/observations/29489836",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/37749_jpg.rf.24f35d17c9722dc485548cd4f9e1b7cf.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 37749,
+      "photo_id": "45451998",
+      "observation_id": "29132056",
+      "gbif_id": "2294579764",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/45451998/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/45451998",
+      "observation_url": "https://www.inaturalist.org/observations/29132056",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/38418_jpg.rf.e9ccf20f73c665933f030d637bd6bc2a.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 38418,
+      "photo_id": "42275669",
+      "observation_id": "27188822",
+      "gbif_id": "2269290813",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/42275669/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/42275669",
+      "observation_url": "https://www.inaturalist.org/observations/27188822",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/38433_jpg.rf.75280988f82fcf7fd75860ec82c826dc.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 38433,
+      "photo_id": "42133731",
+      "observation_id": "27103199",
+      "gbif_id": "2269269830",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/42133731/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/42133731",
+      "observation_url": "https://www.inaturalist.org/observations/27103199",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/3990_jpg.rf.3b62561e587971b93c29e27404977db3.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 3990,
+      "photo_id": "419048969",
+      "observation_id": "235613492",
+      "gbif_id": "4923659297",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/419048969/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/419048969",
+      "observation_url": "https://www.inaturalist.org/observations/235613492",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/39978_jpg.rf.f5d0a6a4665dfc201e37782f338a129a.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 39978,
+      "photo_id": "14126180",
+      "observation_id": "10221718",
+      "gbif_id": "1836625942",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/14126180/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/14126180",
+      "observation_url": "https://www.inaturalist.org/observations/10221718",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/428_jpg.rf.499fd8de104c67e63570fa14c8dcacc9.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 428,
+      "photo_id": "309858298",
+      "observation_id": "178104291",
+      "gbif_id": "5062623033",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/309858298/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/309858298",
+      "observation_url": "https://www.inaturalist.org/observations/178104291",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/5059_jpg.rf.37a2cfa3b2040f4323eabcf2ec5e5262.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 5059,
+      "photo_id": "412661978",
+      "observation_id": "232286315",
+      "gbif_id": "4919177962",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/412661978/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/412661978",
+      "observation_url": "https://www.inaturalist.org/observations/232286315",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/5316_jpg.rf.aed2914b458e9039b2c592b8b3bcc061.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 5316,
+      "photo_id": "410629159",
+      "observation_id": "231215958",
+      "gbif_id": "4911059352",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/410629159/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/410629159",
+      "observation_url": "https://www.inaturalist.org/observations/231215958",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/5715_jpg.rf.96e18ae5b857bd60ff8a4b0fa8e450c3.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 5715,
+      "photo_id": "410055076",
+      "observation_id": "230912098",
+      "gbif_id": "4910768065",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/410055076/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/410055076",
+      "observation_url": "https://www.inaturalist.org/observations/230912098",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/5732_jpg.rf.85b520727a39fecc968913aa465cfe05.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 5732,
+      "photo_id": "409773445",
+      "observation_id": "230763355",
+      "gbif_id": "4910763675",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/409773445/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/409773445",
+      "observation_url": "https://www.inaturalist.org/observations/230763355",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/5917_jpg.rf.9b5f41d7505d8c0ac13a5d0b90f0272b.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 5917,
+      "photo_id": "406100964",
+      "observation_id": "228820224",
+      "gbif_id": "4909339361",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/406100964/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/406100964",
+      "observation_url": "https://www.inaturalist.org/observations/228820224",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/6182_jpg.rf.34f7c302cd021ccfd4b3a770bccfc8dc.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 6182,
+      "photo_id": "404806076",
+      "observation_id": "228137843",
+      "gbif_id": "4909122948",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/404806076/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/404806076",
+      "observation_url": "https://www.inaturalist.org/observations/228137843",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/6476_jpg.rf.b365f552e1c4bd24b1e6afc2070fc3e8.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 6476,
+      "photo_id": "404334638",
+      "observation_id": "227891147",
+      "gbif_id": "4908924035",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/404334638/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/404334638",
+      "observation_url": "https://www.inaturalist.org/observations/227891147",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/6692_jpg.rf.eaef8e025926a01e82351609755df494.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 6692,
+      "photo_id": "403831626",
+      "observation_id": "227626356",
+      "gbif_id": "4908785556",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/403831626/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/403831626",
+      "observation_url": "https://www.inaturalist.org/observations/227626356",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/7141_jpg.rf.b8034f4f056a9c1148e3c7a88feb0f05.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 7141,
+      "photo_id": "398270919",
+      "observation_id": "224694863",
+      "gbif_id": "4908440791",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/398270919/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/398270919",
+      "observation_url": "https://www.inaturalist.org/observations/224694863",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/7212_jpg.rf.61c70472c64ce66beb2ce47c9129155e.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 7212,
+      "photo_id": "407832462",
+      "observation_id": "229738535",
+      "gbif_id": "4908397523",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/407832462/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/407832462",
+      "observation_url": "https://www.inaturalist.org/observations/229738535",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/7544_jpg.rf.4ce014b278fb9270726b68fc733900dd.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 7544,
+      "photo_id": "405541318",
+      "observation_id": "227789290",
+      "gbif_id": "4908164342",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/405541318/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/405541318",
+      "observation_url": "https://www.inaturalist.org/observations/227789290",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/7981_jpg.rf.15324439234aa084b33ef05fd288cc46.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 7981,
+      "photo_id": "401415783",
+      "observation_id": "226345886",
+      "gbif_id": "4904199945",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/401415783/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/401415783",
+      "observation_url": "https://www.inaturalist.org/observations/226345886",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/8869_jpg.rf.3b4465dd3d721e53dd570d26c3beca5e.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 8869,
+      "photo_id": "396130506",
+      "observation_id": "223558475",
+      "gbif_id": "4901048422",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/396130506/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/396130506",
+      "observation_url": "https://www.inaturalist.org/observations/223558475",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/9158_jpg.rf.afc0f49e4db1277fd8b32160de3983cb.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 9158,
+      "photo_id": "389136743",
+      "observation_id": "219828770",
+      "gbif_id": "4875197444",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/389136743/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/389136743",
+      "observation_url": "https://www.inaturalist.org/observations/219828770",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/9242_jpg.rf.8664e7c13418b2be689a211db2709ed8.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 9242,
+      "photo_id": "387426531",
+      "observation_id": "218914703",
+      "gbif_id": "4872217946",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/387426531/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/387426531",
+      "observation_url": "https://www.inaturalist.org/observations/218914703",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "train/9872_jpg.rf.358c05768760ee5f93e45894ed6b14ff.jpg",
+      "split": "train",
+      "source_row_index_zero_based": 9872,
+      "photo_id": "302451391",
+      "observation_id": "174116009",
+      "gbif_id": "4847137085",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/302451391/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/302451391",
+      "observation_url": "https://www.inaturalist.org/observations/174116009",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/14078_jpg.rf.0a93cda2917f6cf26175c6741b7ce457.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 14078,
+      "photo_id": "304309681",
+      "observation_id": "175124391",
+      "gbif_id": "4171289240",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/304309681/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/304309681",
+      "observation_url": "https://www.inaturalist.org/observations/175124391",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/14191_jpg.rf.96ccc332ed408adb46a4ca4b2f4d2219.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 14191,
+      "photo_id": "304001073",
+      "observation_id": "174953050",
+      "gbif_id": "4171154711",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/304001073/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/304001073",
+      "observation_url": "https://www.inaturalist.org/observations/174953050",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/15088_jpg.rf.e0db7bb21c186c4a783393fd82a82b95.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 15088,
+      "photo_id": "301910192",
+      "observation_id": "173824750",
+      "gbif_id": "4165353923",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/301910192/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/301910192",
+      "observation_url": "https://www.inaturalist.org/observations/173824750",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/15262_jpg.rf.d1fbb50c6ac98027f9e6e3154273a53d.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 15262,
+      "photo_id": "301019956",
+      "observation_id": "173342053",
+      "gbif_id": "4162433195",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/301019956/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/301019956",
+      "observation_url": "https://www.inaturalist.org/observations/173342053",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/15422_jpg.rf.2141cbbb2535b19e9dac59f70e428b08.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 15422,
+      "photo_id": "300286444",
+      "observation_id": "172942756",
+      "gbif_id": "4162307820",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/300286444/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/300286444",
+      "observation_url": "https://www.inaturalist.org/observations/172942756",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/19193_jpg.rf.20a4e36fc96a4cf3bad852c77fbf7cdc.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 19193,
+      "photo_id": "222762402",
+      "observation_id": "130945272",
+      "gbif_id": "3892300159",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/222762402/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/222762402",
+      "observation_url": "https://www.inaturalist.org/observations/130945272",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/23281_jpg.rf.3c91c3b8a06c0e24cdb0e56d9c057e3a.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 23281,
+      "photo_id": "211791611",
+      "observation_id": "124894767",
+      "gbif_id": "3859571271",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/211791611/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/211791611",
+      "observation_url": "https://www.inaturalist.org/observations/124894767",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/23497_jpg.rf.74f5517b2dc3e90252deab57219205ad.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 23497,
+      "photo_id": "41426117",
+      "observation_id": "26669910",
+      "gbif_id": "3859057402",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/41426117/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/41426117",
+      "observation_url": "https://www.inaturalist.org/observations/26669910",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/23961_jpg.rf.bc35ebea61184fd520099b4264b6f9c2.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 23961,
+      "photo_id": "145288915",
+      "observation_id": "88080806",
+      "gbif_id": "3802430366",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/145288915/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/145288915",
+      "observation_url": "https://www.inaturalist.org/observations/88080806",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/26226_jpg.rf.de2e31d5720cf348080d8b326a4df249.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 26226,
+      "photo_id": "144374373",
+      "observation_id": "87559842",
+      "gbif_id": "3337884716",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/144374373/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/144374373",
+      "observation_url": "https://www.inaturalist.org/observations/87559842",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/27507_jpg.rf.8ec7608fbeecae7b7a4fe8e662372b59.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 27507,
+      "photo_id": "145504345",
+      "observation_id": "88205067",
+      "gbif_id": "3333114632",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/145504345/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/145504345",
+      "observation_url": "https://www.inaturalist.org/observations/88205067",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/2826_jpg.rf.3e5c4cfda95003ef587ee662f36d8edb.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 2826,
+      "photo_id": "421784010",
+      "observation_id": "237031096",
+      "gbif_id": "4937151480",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/421784010/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/421784010",
+      "observation_url": "https://www.inaturalist.org/observations/237031096",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/29064_jpg.rf.13a5d7b4c704671988da927303e64f39.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 29064,
+      "photo_id": "143072352",
+      "observation_id": "86808339",
+      "gbif_id": "3327711281",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/143072352/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/143072352",
+      "observation_url": "https://www.inaturalist.org/observations/86808339",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/31496_jpg.rf.563bd66129561eaeab1e77e78dc191f9.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 31496,
+      "photo_id": "45378780",
+      "observation_id": "29087029",
+      "gbif_id": "3005235342",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/45378780/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/45378780",
+      "observation_url": "https://www.inaturalist.org/observations/29087029",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/31985_jpg.rf.0ee087ccd190f9b9c6b4c5f634618c48.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 31985,
+      "photo_id": "91620532",
+      "observation_id": "57439753",
+      "gbif_id": "2862549498",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/91620532/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/91620532",
+      "observation_url": "https://www.inaturalist.org/observations/57439753",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/36251_jpg.rf.7c73fb64fd1f201cb6e1d4ec58584dc1.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 36251,
+      "photo_id": "56416182",
+      "observation_id": "35754336",
+      "gbif_id": "2460146412",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/56416182/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/56416182",
+      "observation_url": "https://www.inaturalist.org/observations/35754336",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/37685_jpg.rf.e5c3ca1b191702c33fa3ddedd116809e.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 37685,
+      "photo_id": "45672575",
+      "observation_id": "29271236",
+      "gbif_id": "2294615266",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/45672575/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/45672575",
+      "observation_url": "https://www.inaturalist.org/observations/29271236",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/38429_jpg.rf.3d9031c6856992d16489eaf33d3084b0.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 38429,
+      "photo_id": "42148864",
+      "observation_id": "27112442",
+      "gbif_id": "2269272872",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/42148864/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/42148864",
+      "observation_url": "https://www.inaturalist.org/observations/27112442",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/39841_jpg.rf.409f2baf0deefc99353f12881a8cd03b.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 39841,
+      "photo_id": "19308953",
+      "observation_id": "13206065",
+      "gbif_id": "1850929941",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/19308953/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/19308953",
+      "observation_url": "https://www.inaturalist.org/observations/13206065",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/4197_jpg.rf.c055d5ef6adbfaf1f9e00275425b95b3.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 4197,
+      "photo_id": "416066232",
+      "observation_id": "234071787",
+      "gbif_id": "4921808335",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/416066232/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/416066232",
+      "observation_url": "https://www.inaturalist.org/observations/234071787",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/6921_jpg.rf.df2d84bbb3c37aa217116feb9df8fb17.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 6921,
+      "photo_id": "405234683",
+      "observation_id": "228364325",
+      "gbif_id": "4908576239",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/405234683/original.jpeg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/405234683",
+      "observation_url": "https://www.inaturalist.org/observations/228364325",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    },
+    {
+      "path": "valid/8268_jpg.rf.458c2fd0e12c3713542e35c5cda50121.jpg",
+      "split": "valid",
+      "source_row_index_zero_based": 8268,
+      "photo_id": "401596799",
+      "observation_id": "226440678",
+      "gbif_id": "4903929354",
+      "original_photo_license_from_2025_archive": "http://creativecommons.org/licenses/by-nc/4.0/",
+      "source_image_url": "https://inaturalist-open-data.s3.amazonaws.com/photos/401596799/original.jpg",
+      "source_photo_reference": "https://www.inaturalist.org/photos/401596799",
+      "observation_url": "https://www.inaturalist.org/observations/226440678",
+      "overlap": {
+        "discovery": {
+          "photo_id": false,
+          "observation_id": false
+        },
+        "reserve": {
+          "photo_id": false,
+          "observation_id": false
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Mapping is documentary linkage through indexed names, not byte identity to reacquired originals.",
+    "The 2025 source licence field is historical, not a current rights verification or permission to relicense photos.",
+    "The raw occurrence source includes locations; only gbifID and occurrenceID were retained for this mapping.",
+    "No coordinate, colour, phenology or observer fields were joined.",
+    "ID disjointness from two FCP frames does not prove absence from JRC, foundation-model training, legacy frames, nearby observations or other participants' datasets.",
+    "No image was decoded or measured; no reference was admitted for model evaluation."
+  ],
+  "decision": "author_filename_to_source_id_mapping_completed_with_bounded_fcp_id_overlap_check"
+}

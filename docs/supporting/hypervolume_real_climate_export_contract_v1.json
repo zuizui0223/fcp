@@ -1,0 +1,52 @@
+{
+  "protocol": "hypervolume-real-climate-export-v1",
+  "status": "frozen_before_real_climate_coordinate_export",
+  "date_jst": "2026-09-07",
+  "role": "Technical outcome-blind environmental export only. No biological flower-colour values may be read, copied, joined, summarized or inferred.",
+  "geometry_source": {
+    "artifact_run_id": 34041094467,
+    "artifact_name": "hypervolume-geometry-only-v1",
+    "geometry_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+    "rows": 50000,
+    "columns": ["photo_id", "species", "latitude", "longitude", "global_classifiable"]
+  },
+  "environment_source": {
+    "dataset": "CHELSA v2.1 1981-2010",
+    "verification_file": "docs/supporting/global_rgfca_chelsa_expanded_source_verification_v1.json",
+    "verification_status": "pass_exact_expanded_chelsa_source_acquisition_before_any_expanded_chelsa_colour_alignment",
+    "variables": [
+      "bio01", "bio04", "bio05", "bio06",
+      "bio12", "bio14", "bio15", "cmi_mean",
+      "vpd_mean", "rsds_mean", "gdd5", "sfcWind_mean"
+    ],
+    "blocks": {
+      "thermal_regime": ["bio01", "bio04", "bio05", "bio06"],
+      "water_balance": ["bio12", "bio14", "bio15", "cmi_mean"],
+      "atmospheric_energy_dryness": ["vpd_mean", "rsds_mean", "gdd5", "sfcWind_mean"]
+    },
+    "standardization": "Use the exact global terrestrial physical mean and ddof0 SD already recorded in each completed block result source_audit. Do not recompute or refit standardization from flower observations.",
+    "expected_retained_joint_complete_minimum": 21400
+  },
+  "execution": {
+    "download_rule": "Download each exact CHELSA file separately from the frozen provider URL, verify byte SHA256 before sampling, sample all 50,000 fixed coordinates, then delete that raster before downloading the next.",
+    "raster_substitution_allowed": false,
+    "coordinate_change_allowed": false,
+    "missing_environment": "NA; never recode to zero",
+    "colour_columns_allowed": false,
+    "biological_colour_values_opened": false,
+    "external_environment_inference_opened": false
+  },
+  "output": {
+    "columns": "geometry columns plus twelve globally standardized environmental z-values",
+    "primary_future_frame": "369 fixed species and existing global_classifiable mask only; this export itself does not select or remove species",
+    "required_audit": [
+      "input geometry checksum",
+      "all 12 raster checksums",
+      "per-variable sampled completeness",
+      "block joint completeness for all 50,000 rows and for retained classifiable rows",
+      "output checksum",
+      "explicit no-colour/no-inference guards"
+    ]
+  },
+  "claim_ceiling": "Provides a checksum-verified real environmental coordinate representation for later synthetic method qualification. It is not a flower-colour result, does not test heat/dryness effects, and cannot alter any existing empirical decision."
+}

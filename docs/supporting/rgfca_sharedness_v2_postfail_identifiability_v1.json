@@ -1,0 +1,314 @@
+{
+  "diagnostic_question": "Does the frozen positive generator's true shared boundary have within-species observational support on retained real metadata geometry, and can the nearest frozen axis plus frozen threshold grid approximate its partition?",
+  "image_acquisition_permitted": false,
+  "image_pixels_opened": false,
+  "interpretation_rule": "Descriptive identifiability/support diagnosis only. It cannot convert FAIL to PASS or authorize empirical acquisition.",
+  "observed_background_colour_opened": false,
+  "observed_flower_colour_opened": false,
+  "parameter_search_performed": false,
+  "parent_global_threshold": 0.2233624266548023,
+  "parent_qualification_pass": false,
+  "parent_qualification_status": "complete_rgfca_sharedness_v2_synthetic_qualification",
+  "protocol": "rgfca-sharedness-v2-postfail-identifiability-descriptive-v1",
+  "qualification_decision_changed": false,
+  "qualification_reopened": false,
+  "scenarios": [
+    {
+      "all_shared_species": {
+        "balanced_10pct_fraction": 0.25008,
+        "balanced_20pct_fraction": 0.17322666666666667,
+        "median_latent_dynamic_range": 0.46686139426739615,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.95,
+        "shared_species_instances": 37500,
+        "straddle_fraction": 0.44562666666666667
+      },
+      "amplitude": 1.0,
+      "evaluation_shared_species": {
+        "balanced_10pct_fraction": 0.2595733333333333,
+        "balanced_20pct_fraction": 0.1784,
+        "median_latent_dynamic_range": 0.5070795466968557,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.95,
+        "shared_species_instances": 18750,
+        "straddle_fraction": 0.4501866666666667
+      },
+      "hard_index": 0,
+      "replicates": 250,
+      "retention": 0.4,
+      "shared_fraction": 1.0,
+      "threshold_sd": 0.0,
+      "training_shared_species": {
+        "balanced_10pct_fraction": 0.24058666666666667,
+        "balanced_20pct_fraction": 0.16805333333333333,
+        "median_latent_dynamic_range": 0.42502510788684233,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 18750,
+        "straddle_fraction": 0.44106666666666666
+      },
+      "world_level": {
+        "median_balanced_10pct_fraction": 0.2733333333333333,
+        "median_balanced_20pct_fraction": 0.18666666666666668,
+        "median_latent_dynamic_range": 0.6566086838921625,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "median_nearest_fixed_axis_abs_dot": 0.994143433162466,
+        "median_nearest_fixed_axis_angle_deg": 6.203966920336471,
+        "median_straddle_fraction": 0.47,
+        "q10_straddle_fraction": 0.26666666666666666,
+        "q90_nearest_fixed_axis_angle_deg": 12.400690060749206
+      }
+    },
+    {
+      "all_shared_species": {
+        "balanced_10pct_fraction": 0.22856,
+        "balanced_20pct_fraction": 0.15672,
+        "median_latent_dynamic_range": 0.3508724820563037,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.95,
+        "shared_species_instances": 37500,
+        "straddle_fraction": 0.42357333333333336
+      },
+      "amplitude": 1.0,
+      "evaluation_shared_species": {
+        "balanced_10pct_fraction": 0.23829333333333333,
+        "balanced_20pct_fraction": 0.16325333333333333,
+        "median_latent_dynamic_range": 0.3653391363403916,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.95,
+        "shared_species_instances": 18750,
+        "straddle_fraction": 0.4264
+      },
+      "hard_index": 0,
+      "replicates": 250,
+      "retention": 0.4,
+      "shared_fraction": 1.0,
+      "threshold_sd": 0.25,
+      "training_shared_species": {
+        "balanced_10pct_fraction": 0.21882666666666667,
+        "balanced_20pct_fraction": 0.15018666666666666,
+        "median_latent_dynamic_range": 0.3346205580590017,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 18750,
+        "straddle_fraction": 0.42074666666666666
+      },
+      "world_level": {
+        "median_balanced_10pct_fraction": 0.24,
+        "median_balanced_20pct_fraction": 0.16666666666666666,
+        "median_latent_dynamic_range": 0.4344190426869896,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "median_nearest_fixed_axis_abs_dot": 0.9929115019010994,
+        "median_nearest_fixed_axis_angle_deg": 6.826083614334629,
+        "median_straddle_fraction": 0.44333333333333336,
+        "q10_straddle_fraction": 0.28,
+        "q90_nearest_fixed_axis_angle_deg": 13.241754069334307
+      }
+    },
+    {
+      "all_shared_species": {
+        "balanced_10pct_fraction": 0.23413333333333333,
+        "balanced_20pct_fraction": 0.16245333333333334,
+        "median_latent_dynamic_range": 0.34921609534919945,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 18750,
+        "straddle_fraction": 0.4309866666666667
+      },
+      "amplitude": 1.0,
+      "evaluation_shared_species": {
+        "balanced_10pct_fraction": 0.24526270456503016,
+        "balanced_20pct_fraction": 0.1695736434108527,
+        "median_latent_dynamic_range": 0.3996461670379801,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 9288,
+        "straddle_fraction": 0.4394918173987941
+      },
+      "hard_index": 1,
+      "replicates": 250,
+      "retention": 0.4,
+      "shared_fraction": 0.5,
+      "threshold_sd": 0.0,
+      "training_shared_species": {
+        "balanced_10pct_fraction": 0.22320862396956245,
+        "balanced_20pct_fraction": 0.15546396110758826,
+        "median_latent_dynamic_range": 0.30429115807795865,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 9462,
+        "straddle_fraction": 0.42263792010145845
+      },
+      "world_level": {
+        "median_balanced_10pct_fraction": 0.24,
+        "median_balanced_20pct_fraction": 0.16,
+        "median_latent_dynamic_range": 0.39101731782940535,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "median_nearest_fixed_axis_abs_dot": 0.993122432983494,
+        "median_nearest_fixed_axis_angle_deg": 6.723622871406439,
+        "median_straddle_fraction": 0.44,
+        "q10_straddle_fraction": 0.26666666666666666,
+        "q90_nearest_fixed_axis_angle_deg": 12.297483129251365
+      }
+    },
+    {
+      "all_shared_species": {
+        "balanced_10pct_fraction": 0.22858666666666666,
+        "balanced_20pct_fraction": 0.15568,
+        "median_latent_dynamic_range": 0.3267269342940377,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 18750,
+        "straddle_fraction": 0.4201066666666667
+      },
+      "amplitude": 1.0,
+      "evaluation_shared_species": {
+        "balanced_10pct_fraction": 0.24020186835606142,
+        "balanced_20pct_fraction": 0.15988403307204982,
+        "median_latent_dynamic_range": 0.36275353874597527,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.95,
+        "shared_species_instances": 9313,
+        "straddle_fraction": 0.42875550306023835
+      },
+      "hard_index": 1,
+      "replicates": 250,
+      "retention": 0.4,
+      "shared_fraction": 0.5,
+      "threshold_sd": 0.25,
+      "training_shared_species": {
+        "balanced_10pct_fraction": 0.21712408604429373,
+        "balanced_20pct_fraction": 0.15153120695136166,
+        "median_latent_dynamic_range": 0.29951371687739325,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 9437,
+        "straddle_fraction": 0.4115714739853767
+      },
+      "world_level": {
+        "median_balanced_10pct_fraction": 0.24,
+        "median_balanced_20pct_fraction": 0.15333333333333332,
+        "median_latent_dynamic_range": 0.4091364231665835,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "median_nearest_fixed_axis_abs_dot": 0.9933137846513844,
+        "median_nearest_fixed_axis_angle_deg": 6.629298838049715,
+        "median_straddle_fraction": 0.4266666666666667,
+        "q10_straddle_fraction": 0.28,
+        "q90_nearest_fixed_axis_angle_deg": 12.451583817767885
+      }
+    },
+    {
+      "all_shared_species": {
+        "balanced_10pct_fraction": 0.23461333333333334,
+        "balanced_20pct_fraction": 0.16608,
+        "median_latent_dynamic_range": 0.36523491842666234,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 18750,
+        "straddle_fraction": 0.42848
+      },
+      "amplitude": 2.0,
+      "evaluation_shared_species": {
+        "balanced_10pct_fraction": 0.24661333333333332,
+        "balanced_20pct_fraction": 0.17216,
+        "median_latent_dynamic_range": 0.408898901946242,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.95,
+        "shared_species_instances": 9375,
+        "straddle_fraction": 0.4349866666666667
+      },
+      "hard_index": 2,
+      "replicates": 250,
+      "retention": 0.4,
+      "shared_fraction": 0.5,
+      "threshold_sd": 0.0,
+      "training_shared_species": {
+        "balanced_10pct_fraction": 0.22261333333333333,
+        "balanced_20pct_fraction": 0.16,
+        "median_latent_dynamic_range": 0.3157124510137227,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 9375,
+        "straddle_fraction": 0.4219733333333333
+      },
+      "world_level": {
+        "median_balanced_10pct_fraction": 0.22666666666666666,
+        "median_balanced_20pct_fraction": 0.16,
+        "median_latent_dynamic_range": 0.3760425754961064,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "median_nearest_fixed_axis_abs_dot": 0.9932953341366164,
+        "median_nearest_fixed_axis_angle_deg": 6.638476522166972,
+        "median_straddle_fraction": 0.4266666666666667,
+        "q10_straddle_fraction": 0.26666666666666666,
+        "q90_nearest_fixed_axis_angle_deg": 12.2249933084502
+      }
+    },
+    {
+      "all_shared_species": {
+        "balanced_10pct_fraction": 0.23610666666666666,
+        "balanced_20pct_fraction": 0.16005333333333333,
+        "median_latent_dynamic_range": 0.40867111462022865,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.95,
+        "shared_species_instances": 18750,
+        "straddle_fraction": 0.43349333333333334
+      },
+      "amplitude": 2.0,
+      "evaluation_shared_species": {
+        "balanced_10pct_fraction": 0.2444468290589119,
+        "balanced_20pct_fraction": 0.16729262796437386,
+        "median_latent_dynamic_range": 0.39506694290099575,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.95,
+        "shared_species_instances": 9319,
+        "straddle_fraction": 0.43395214078763816
+      },
+      "hard_index": 2,
+      "replicates": 250,
+      "retention": 0.4,
+      "shared_fraction": 0.5,
+      "threshold_sd": 0.25,
+      "training_shared_species": {
+        "balanced_10pct_fraction": 0.22786554978263174,
+        "balanced_20pct_fraction": 0.15290001060332944,
+        "median_latent_dynamic_range": 0.42990494945595414,
+        "median_minority_side_fraction": 0.0,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "q10_nearest_axis_threshold_partition_agreement": 0.9583333333333334,
+        "shared_species_instances": 9431,
+        "straddle_fraction": 0.4330399745520093
+      },
+      "world_level": {
+        "median_balanced_10pct_fraction": 0.25333333333333335,
+        "median_balanced_20pct_fraction": 0.16,
+        "median_latent_dynamic_range": 0.45128166860139285,
+        "median_nearest_axis_threshold_partition_agreement": 1.0,
+        "median_nearest_fixed_axis_abs_dot": 0.992523936426469,
+        "median_nearest_fixed_axis_angle_deg": 7.010417682552175,
+        "median_straddle_fraction": 0.44,
+        "q10_straddle_fraction": 0.28,
+        "q90_nearest_fixed_axis_angle_deg": 12.661646780412521
+      }
+    }
+  ],
+  "shared_species_instances_audited": 150000,
+  "status": "complete_postfail_identifiability_audit",
+  "worlds_audited": 1500
+}

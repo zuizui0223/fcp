@@ -1,0 +1,73 @@
+name: RGFCA sharedness v2 metadata capacity summary
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - 'docs/supporting/rgfca_sharedness_v2_capacity_extension_contract_v1.json'
+      - 'scripts/analysis/summarize_rgfca_sharedness_v2_capacity.py'
+      - '.github/workflows/rgfca-sharedness-v2-capacity-summary.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-sharedness-v2-capacity-summary
+  cancel-in-progress: false
+
+jobs:
+  summarize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install metadata-only dependency
+        run: python -m pip install pandas==2.2.3
+      - name: Require no prior result on this frozen execution head
+        run: |
+          test ! -e docs/supporting/rgfca_sharedness_v2_capacity_summary_v1.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path('docs/supporting/rgfca_sharedness_v2_capacity_extension_contract_v1.json').read_text())
+          assert c['status']=='frozen_before_sharedness_v2_capacity_summary_and_before_any_new_capacity_query'
+          assert c['interpretation_rules']['do_not_extrapolate_300_or_400_from_right_censored_rows'] is True
+          assert c['interpretation_rules']['do_not_use_discovery_or_reserve_flower_colour_to_choose_species'] is True
+          assert c['ecological_claim_changed'] is False
+          assert c['reserve_flower_specific_gate_reclassified'] is False
+          PY
+      - name: Summarize the complete frozen metadata census
+        run: |
+          python scripts/analysis/summarize_rgfca_sharedness_v2_capacity.py \
+            --output docs/supporting/rgfca_sharedness_v2_capacity_summary_v1.json
+      - name: Validate bounded result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('docs/supporting/rgfca_sharedness_v2_capacity_summary_v1.json').read_text())
+          assert r['status']=='complete_metadata_only_existing_census_capacity_summary'
+          assert r['species_census']==42111
+          assert r['request_errors']==0
+          assert r['image_pixels_opened'] is False
+          assert r['flower_colour_used'] is False
+          assert r['maximum_observed_raw_results']==200
+          assert r['availability_above_200_raw_results_identifiable_from_parent_census'] is False
+          assert r['can_infer_300_or_400_photo_capacity_from_parent_census'] is False
+          assert list(sorted(map(int,r['after_observer_cap_threshold_counts'].keys()))) == [100,125,150,175,200]
+          PY
+      - name: Commit exact metadata summary
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/supporting/rgfca_sharedness_v2_capacity_summary_v1.json
+          git commit -m 'Record RGFCA sharedness v2 metadata capacity summary'
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability

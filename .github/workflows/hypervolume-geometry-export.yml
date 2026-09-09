@@ -1,0 +1,51 @@
+name: Hypervolume geometry-only export
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths: [.github/workflows/hypervolume-geometry-export.yml]
+permissions:
+  contents: read
+jobs:
+  geometry:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Export coordinates and fixed classifiability mask without colour values
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json
+          from pathlib import Path
+          src = Path('data/derived/global_monte_carlo_measured_photos_v1.csv')
+          manifest = json.loads(Path('docs/supporting/global_monte_carlo_measurement_result_v1.json').read_text())
+          digest = hashlib.sha256(src.read_bytes()).hexdigest()
+          assert digest == manifest['lineage']['measured_table_sha256']
+          cols = ['photo_id', 'species', 'latitude', 'longitude', 'global_classifiable']
+          out = Path('hypervolume_geometry_export')
+          out.mkdir()
+          dest = out / 'geometry_only.csv'
+          with src.open(newline='') as fin, dest.open('w', newline='') as fout:
+              reader = csv.DictReader(fin)
+              assert set(cols) <= set(reader.fieldnames)
+              writer = csv.DictWriter(fout, fieldnames=cols)
+              writer.writeheader()
+              n = 0
+              for row in reader:
+                  writer.writerow({k: row[k] for k in cols})
+                  n += 1
+          assert n == 50000
+          audit = {'source_sha256': digest, 'export_sha256': hashlib.sha256(dest.read_bytes()).hexdigest(), 'rows': n, 'columns': cols, 'biological_colour_values_exported': False, 'parent_decisions_modified': False}
+          (out / 'audit.json').write_text(json.dumps(audit, indent=2) + '\n')
+          print(json.dumps(audit, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hypervolume-geometry-only-v1
+          path: hypervolume_geometry_export/
+          if-no-files-found: error
+          retention-days: 90

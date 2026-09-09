@@ -1,0 +1,383 @@
+{
+  "protocol": "hypervolume-real-climate-support-audit-v1",
+  "status": "complete_outcome_blind_real_climate_support_audit",
+  "seed": 20260907060,
+  "input_sha256": "33ab7c56df9bcd5a1f88ae97346ab7108d4a12cdffb4168359448b308ef5a4eb",
+  "eligible_species": 369,
+  "retained_rows": 21424,
+  "training_species": 184,
+  "evaluation_species": 185,
+  "buffer_km": 500.0,
+  "block_geometry": {
+    "thermal_regime": {
+      "variables": [
+        "env_bio01",
+        "env_bio04",
+        "env_bio05",
+        "env_bio06"
+      ],
+      "retained_complete_rows": 21424,
+      "retained_mean": [
+        0.31954166314927207,
+        0.34397430744552393,
+        0.6749355478871092,
+        0.08346969413737182
+      ],
+      "retained_sd": [
+        0.31913964777525566,
+        0.6477888354563149,
+        0.3407853495554223,
+        0.3911708257417871
+      ],
+      "covariance_eigenvalues": [
+        0.0011844702854053497,
+        0.007893256486255803,
+        0.19088194480233275,
+        0.5906700879330943
+      ],
+      "effective_rank_participation": 1.6219781463034217,
+      "max_abs_offdiag_correlation": 0.9088781238536174,
+      "correlation": [
+        [
+          1.0,
+          -0.5690827284053646,
+          0.7186300519840223,
+          0.9088781238536174
+        ],
+        [
+          -0.5690827284053646,
+          1.0,
+          0.09489623590143978,
+          -0.8369841334421281
+        ],
+        [
+          0.7186300519840223,
+          0.09489623590143977,
+          1.0,
+          0.39477396405071435
+        ],
+        [
+          0.9088781238536173,
+          -0.8369841334421282,
+          0.39477396405071435,
+          0.9999999999999999
+        ]
+      ]
+    },
+    "water_balance": {
+      "variables": [
+        "env_bio12",
+        "env_bio14",
+        "env_bio15",
+        "env_cmi_mean"
+      ],
+      "retained_complete_rows": 21423,
+      "retained_mean": [
+        -0.03200168372714024,
+        -0.0831522713089042,
+        0.05432436051972546,
+        0.17714346531540814
+      ],
+      "retained_sd": [
+        0.719417128020808,
+        0.7492798759344925,
+        0.9616945650466157,
+        0.7220430296308349
+      ],
+      "covariance_eigenvalues": [
+        0.03419592681322233,
+        0.09877899122284946,
+        0.7007539161804599,
+        1.691455075432275
+      ],
+      "effective_rank_participation": 1.8960892474054398,
+      "max_abs_offdiag_correlation": 0.9016028519393867,
+      "correlation": [
+        [
+          1.0,
+          0.7066759730709621,
+          -0.17826151151014502,
+          0.9016028519393866
+        ],
+        [
+          0.7066759730709621,
+          1.0,
+          -0.6668429179461993,
+          0.7307429775858737
+        ],
+        [
+          -0.178261511510145,
+          -0.6668429179461992,
+          1.0,
+          -0.35141474006834345
+        ],
+        [
+          0.9016028519393867,
+          0.7307429775858737,
+          -0.3514147400683435,
+          1.0
+        ]
+      ]
+    },
+    "atmospheric_energy_dryness": {
+      "variables": [
+        "env_vpd_mean",
+        "env_rsds_mean",
+        "env_gdd5",
+        "env_sfcWind_mean"
+      ],
+      "retained_complete_rows": 21418,
+      "retained_mean": [
+        0.1011303186955558,
+        0.26635552230956194,
+        -0.46018138683463855,
+        -0.15380332410725453
+      ],
+      "retained_sd": [
+        0.5739673259767415,
+        0.6895541192730724,
+        0.6016990697580715,
+        0.7978674696762577
+      ],
+      "covariance_eigenvalues": [
+        0.030064220920755915,
+        0.17579244735926858,
+        0.5317072737591062,
+        1.0659937023715376
+      ],
+      "effective_rank_participation": 2.241991372131241,
+      "max_abs_offdiag_correlation": 0.906284675086148,
+      "correlation": [
+        [
+          0.9999999999999998,
+          0.7020129451972826,
+          0.9062846750861479,
+          -0.2267437078670006
+        ],
+        [
+          0.7020129451972826,
+          1.0,
+          0.634586478095665,
+          -0.2532026950506965
+        ],
+        [
+          0.906284675086148,
+          0.634586478095665,
+          1.0,
+          -0.25756752831928
+        ],
+        [
+          -0.2267437078670006,
+          -0.2532026950506965,
+          -0.25756752831928,
+          1.0
+        ]
+      ]
+    }
+  },
+  "capacity": [
+    {
+      "block": "thermal_regime",
+      "fold": 0,
+      "training_species": 133,
+      "evaluation_species": 60,
+      "retained_training_photos": 6352,
+      "retained_evaluation_photos": 3110,
+      "minimum_training_to_sector_photo_km": 500.31235754640977
+    },
+    {
+      "block": "thermal_regime",
+      "fold": 1,
+      "training_species": 135,
+      "evaluation_species": 62,
+      "retained_training_photos": 6786,
+      "retained_evaluation_photos": 2366,
+      "minimum_training_to_sector_photo_km": 500.7904381424917
+    },
+    {
+      "block": "thermal_regime",
+      "fold": 2,
+      "training_species": 141,
+      "evaluation_species": 59,
+      "retained_training_photos": 7523,
+      "retained_evaluation_photos": 2466,
+      "minimum_training_to_sector_photo_km": 502.29941738943194
+    },
+    {
+      "block": "thermal_regime",
+      "fold": 3,
+      "training_species": 165,
+      "evaluation_species": 26,
+      "retained_training_photos": 9208,
+      "retained_evaluation_photos": 1186,
+      "minimum_training_to_sector_photo_km": 509.7260254638044
+    },
+    {
+      "block": "water_balance",
+      "fold": 0,
+      "training_species": 133,
+      "evaluation_species": 60,
+      "retained_training_photos": 6351,
+      "retained_evaluation_photos": 3110,
+      "minimum_training_to_sector_photo_km": 500.31235754640977
+    },
+    {
+      "block": "water_balance",
+      "fold": 1,
+      "training_species": 135,
+      "evaluation_species": 62,
+      "retained_training_photos": 6785,
+      "retained_evaluation_photos": 2366,
+      "minimum_training_to_sector_photo_km": 500.7904381424917
+    },
+    {
+      "block": "water_balance",
+      "fold": 2,
+      "training_species": 141,
+      "evaluation_species": 59,
+      "retained_training_photos": 7522,
+      "retained_evaluation_photos": 2466,
+      "minimum_training_to_sector_photo_km": 502.29941738943194
+    },
+    {
+      "block": "water_balance",
+      "fold": 3,
+      "training_species": 165,
+      "evaluation_species": 26,
+      "retained_training_photos": 9208,
+      "retained_evaluation_photos": 1186,
+      "minimum_training_to_sector_photo_km": 509.7260254638044
+    },
+    {
+      "block": "atmospheric_energy_dryness",
+      "fold": 0,
+      "training_species": 133,
+      "evaluation_species": 60,
+      "retained_training_photos": 6349,
+      "retained_evaluation_photos": 3110,
+      "minimum_training_to_sector_photo_km": 500.31235754640977
+    },
+    {
+      "block": "atmospheric_energy_dryness",
+      "fold": 1,
+      "training_species": 135,
+      "evaluation_species": 62,
+      "retained_training_photos": 6782,
+      "retained_evaluation_photos": 2364,
+      "minimum_training_to_sector_photo_km": 500.7904381424917
+    },
+    {
+      "block": "atmospheric_energy_dryness",
+      "fold": 2,
+      "training_species": 141,
+      "evaluation_species": 59,
+      "retained_training_photos": 7521,
+      "retained_evaluation_photos": 2466,
+      "minimum_training_to_sector_photo_km": 502.29941738943194
+    },
+    {
+      "block": "atmospheric_energy_dryness",
+      "fold": 3,
+      "training_species": 165,
+      "evaluation_species": 26,
+      "retained_training_photos": 9205,
+      "retained_evaluation_photos": 1186,
+      "minimum_training_to_sector_photo_km": 509.7260254638044
+    }
+  ],
+  "support_summary": [
+    {
+      "block": "atmospheric_energy_dryness",
+      "fold": 0,
+      "mean_source_target_photo_coverage": 0.24514500000000003,
+      "target_any_source_fraction": 0.986,
+      "effective_source_count_mean": 7.827423885801357
+    },
+    {
+      "block": "atmospheric_energy_dryness",
+      "fold": 1,
+      "mean_source_target_photo_coverage": 0.35421375,
+      "target_any_source_fraction": 0.9990000000000001,
+      "effective_source_count_mean": 9.647585147579496
+    },
+    {
+      "block": "atmospheric_energy_dryness",
+      "fold": 2,
+      "mean_source_target_photo_coverage": 0.27319,
+      "target_any_source_fraction": 1.0,
+      "effective_source_count_mean": 8.597600921882938
+    },
+    {
+      "block": "atmospheric_energy_dryness",
+      "fold": 3,
+      "mean_source_target_photo_coverage": 0.3840125,
+      "target_any_source_fraction": 0.9995,
+      "effective_source_count_mean": 10.882422670019656
+    },
+    {
+      "block": "thermal_regime",
+      "fold": 0,
+      "mean_source_target_photo_coverage": 0.303205,
+      "target_any_source_fraction": 1.0,
+      "effective_source_count_mean": 8.48552589918773
+    },
+    {
+      "block": "thermal_regime",
+      "fold": 1,
+      "mean_source_target_photo_coverage": 0.29458375,
+      "target_any_source_fraction": 0.995,
+      "effective_source_count_mean": 8.038427903741187
+    },
+    {
+      "block": "thermal_regime",
+      "fold": 2,
+      "mean_source_target_photo_coverage": 0.27043125,
+      "target_any_source_fraction": 1.0,
+      "effective_source_count_mean": 7.489881823806967
+    },
+    {
+      "block": "thermal_regime",
+      "fold": 3,
+      "mean_source_target_photo_coverage": 0.32151375000000004,
+      "target_any_source_fraction": 1.0,
+      "effective_source_count_mean": 8.4218927261791
+    },
+    {
+      "block": "water_balance",
+      "fold": 0,
+      "mean_source_target_photo_coverage": 0.30118375000000003,
+      "target_any_source_fraction": 0.9990000000000001,
+      "effective_source_count_mean": 7.692282195397819
+    },
+    {
+      "block": "water_balance",
+      "fold": 1,
+      "mean_source_target_photo_coverage": 0.34969,
+      "target_any_source_fraction": 1.0,
+      "effective_source_count_mean": 9.170863474387973
+    },
+    {
+      "block": "water_balance",
+      "fold": 2,
+      "mean_source_target_photo_coverage": 0.4851175,
+      "target_any_source_fraction": 1.0,
+      "effective_source_count_mean": 11.81968262881901
+    },
+    {
+      "block": "water_balance",
+      "fold": 3,
+      "mean_source_target_photo_coverage": 0.43256999999999995,
+      "target_any_source_fraction": 0.9884999999999999,
+      "effective_source_count_mean": 11.300792963539234
+    }
+  ],
+  "support_schedules": 100,
+  "photos_per_species": 20,
+  "sources_per_fold": 20,
+  "targets_per_fold": 20,
+  "biological_colour_values_read": false,
+  "synthetic_colour_labels_generated": false,
+  "real_environment_inference_opened": false,
+  "parent_empirical_decisions_modified": false,
+  "interpretation": "Outcome-blind feasibility/support description only. Gaussian ellipsoid coverage is a support diagnostic, not ecological niche overlap or a biological result."
+}

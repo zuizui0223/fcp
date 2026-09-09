@@ -1,19 +1,53 @@
-# FCP — spatial organization of intraspecific flower-colour variation
+# FCP — Repeated Global Flower-Colour Atlas (RGFCA)
 
 This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. `fcp` asks how intraspecific colour diversity is maintained or sorted across space; the complementary [`chun`](https://github.com/zuizui0223/chun) project asks how similar flower-colour states are repeatedly generated through evolutionary time. See [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md).
 
-This repository now contains **two frozen inferential lanes that answer different questions and must not be pooled**.
+The active research mainline is **RGFCA**: image-first measurement of global flower-colour variation, balanced repeated world maps and species-conditioned spatial and ecological inference. The six-species Chapter 1 analysis and 34-species literature comparison are **legacy studies**, retained for provenance and reproduction rather than used as the biological foundation of the new atlas.
 
-1. **Chapter 1 spatial-photograph lane:** Do present-day continuous flower-colour observations show non-random spatial organization within species, and do independent species share the same strongest transition geography?
-2. **34-species comparative lane:** Does occupied climatic niche breadth differ according to whether literature-documented intraspecific flower-colour variation occurs as local within-population coexistence or geographic differentiation among populations?
+RGFCA has measured **100,000 photographs from 1,000 species in two separate cohorts**. The discovery inferential frame contains **21,424 classifiable photographs from 369 species**; the prospectively fixed, species-disjoint reserve contains **20,903 photographs from 363 species**. They are not retrospectively pooled for inference. Discovery balanced realizations each use 250 species and 20 photos per species, repeated 200 times with the full schedule preserved in the species-conditioned null. Repetitions measure sampling stability, not additional biological replication.
 
-The first lane uses 1,200 community photographs from six species with a frozen 480/720 calibration–evaluation split. The second uses a checksum-locked literature-derived dataset of 34 species from 25 families. Their samples, response variables, null models and claims are distinct.
+Species-conditioning follows observation taxon labels; the frozen image-only estimator pools all retained flower regions, not a verified mask of the focal species alone. Co-photographed flowers can contribute, with an unmeasured contamination rate. See the [measurement scope and qualification limits](docs/RGFCA_ROI_QUALIFICATION_AUDIT.md).
+
+The research objective is an ecologically interpretable observed signal that survives independent validation. **A weak photo-derived distance–colour association replicated in the reserve: mean Spearman rho = 0.02548, permutation p = 0.001**, following the exploratory discovery result (rho = 0.02702, p = 0.001). Observer-pair exclusion and calendar-quarter controls also returned p = 0.001, but the fixed matched flower-minus-background differential returned **rho = 0.00448, p = 0.087**. Thus the flower-specific robust-replication gate **did not pass**; no causal or shared-boundary conclusion follows. Completed non-support decisions remain unchanged: primary G1 concentration `p = 0.070`, species-disjoint commonness `p = 0.856`. See the [complete reserve results](docs/RGFCA_RESERVE_REPLICATION_RESULTS.md), [current status](docs/RGFCA_RESEARCH_STATUS.md), [replication protocol](docs/RGFCA_RESERVE_REPLICATION.md) and [research goal](docs/RGFCA_RESEARCH_GOAL.md).
 
 ## Start here
 
+The discovery matched-background recovery is now **completed but not evaluable**:
+21,339 of 21,424 photographs passed all exact reproduction checks; 85 did not.
+No background-adjusted statistic or p-value was computed, and no successful
+subset was substituted. This is a measurement-reproduction limitation, not a
+negative ecological result. The separate 500-species reserve measurement has
+completed under its unchanged first-decode flower/background protocol. Its full
+256-partition/50,000-row census is verified; 363 species and 20,903 photographs
+meet the fixed inference threshold. All four prespecified tests are complete:
+the directional photo association replicated, but flower specificity did not
+pass the required background control. Unlike the discovery recovery, this
+reserve control was evaluable; its non-support is not proof of no effect or
+of background causation.
+See the [completed recovery audit](docs/RGFCA_BACKGROUND_RECOVERY_COMPLETION.md).
+
+The two frozen inferential lanes retained below are now legacy studies. Their samples, response variables, null models and claims are distinct.
+
+- **Active goal and validation route:** [`docs/RGFCA_RESEARCH_GOAL.md`](docs/RGFCA_RESEARCH_GOAL.md)
+- **Current results, execution and next questions:** [`docs/RGFCA_RESEARCH_STATUS.md`](docs/RGFCA_RESEARCH_STATUS.md)
+- **Active discovery and replication manuscript (flower specificity unresolved):** [`docs/RGFCA_MANUSCRIPT.md`](docs/RGFCA_MANUSCRIPT.md)
+- **Discovery map, effects and figure provenance:** [`docs/RGFCA_PUBLICATION_FIGURES.md`](docs/RGFCA_PUBLICATION_FIGURES.md)
+- **Verified real flower photo bar and source credits:** [`docs/RGFCA_PHOTO_BAR.md`](docs/RGFCA_PHOTO_BAR.md)
+- **Supporting numerical evidence and submission gaps:** [`docs/RGFCA_SUPPORTING_EVIDENCE.md`](docs/RGFCA_SUPPORTING_EVIDENCE.md)
+- **Audited core literature and claim limits:** [image/ecology precedents](docs/RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md), [statistical interpretation](docs/RGFCA_STATISTICAL_LITERATURE_AUDIT.md)
+- **Core scientific-software citation audit:** [`docs/RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md`](docs/RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md)
+- **Measurement providers, model identities and reuse limits:** [`docs/RGFCA_MEASUREMENT_PROVIDER_AUDIT.md`](docs/RGFCA_MEASUREMENT_PROVIDER_AUDIT.md)
+- **Training data and limits of flower-region validation:** [JRC source and rights](docs/RGFCA_TRAINING_SOURCE_AUDIT.md), [100-image qualification audit](docs/RGFCA_ROI_QUALIFICATION_AUDIT.md)
+- **New measurement-reference feasibility:** [six source families and completed six-document schema inspection](docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md); public annotation access is verified, not focal-petal accuracy or an admitted independent benchmark.
+- **Independent measurement-reference status:** [target definition and source-integrity checks](docs/RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md). USDA public 100/30 split lists overlap by one filename (union 129). The [completed FlowerMask metadata check](docs/RGFCA_FLOWERMASK_PAIR_METADATA.md#completed-result-metadata-inspected-paired-frame-incomplete) retained all 300 rows: 299 advertise the required pair members; one returned listing lacks `img.png`. Exact source bytes and the unresolved row are preserved. No image/model benchmark or successful-subset score is admitted.
+- **Completed Monarda measurement diagnostic — gate did not pass:** [110-image result and exact retained bundle](docs/RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md). Pooled region precision was **0.56824** (required 0.70), recall **0.42609** (required 0.35), and median image precision **0.51480** (required 0.70). All images aligned; no runtime failures. This limits localization claims, not evidence of absent biology or a cause of the reserve non-support. The original model/thresholds were unchanged; the [pre-outcome clarification](docs/RGFCA_MONARDA_EXECUTION_AMENDMENT.md) explicitly permits internal CIELAB but no continuous-colour output/analysis.
+- **RGFCA protocol:** [`docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md`](docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md)
+- **Repeated-atlas method:** [`docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md`](docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md)
+- **Methodological contribution:** [`docs/RGFCA_METHOD_NOVELTY_POSITIONING.md`](docs/RGFCA_METHOD_NOVELTY_POSITIONING.md)
+- **Observation-bias audit:** [`docs/RGFCA_OBSERVATION_BIAS.md`](docs/RGFCA_OBSERVATION_BIAS.md)
 - **Programme position:** [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md)
 
-### Chapter 1 — held-out spatial analysis
+### Legacy: six-species Chapter 1 held-out spatial analysis
 
 - **Manuscript draft:** [`docs/JBI_CHAPTER1_MANUSCRIPT.md`](docs/JBI_CHAPTER1_MANUSCRIPT.md)
 - **Current decision and execution status:** [`docs/JBI_CHAPTER1_SPATIAL_STATUS.md`](docs/JBI_CHAPTER1_SPATIAL_STATUS.md)
@@ -24,7 +58,7 @@ The first lane uses 1,200 community photographs from six species with a frozen 4
 - **Figure manifest:** [`docs/supporting/jbi_ch1_figure_manifest_v1.json`](docs/supporting/jbi_ch1_figure_manifest_v1.json)
 - **Boundary CI:** [`.github/workflows/jbi-global-colour-boundaries.yml`](.github/workflows/jbi-global-colour-boundaries.yml)
 
-### Frozen 34-species comparative paper
+### Legacy: frozen 34-species comparative paper
 
 - **Manuscript:** [`docs/jbi_manuscript.md`](docs/jbi_manuscript.md)
 - **Pipeline and evidence reduction:** [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md)
@@ -35,7 +69,7 @@ The first lane uses 1,200 community photographs from six species with a frozen 4
 - **Canonical frozen input:** [`data/frozen/frozen_34species_five_metric_dataset.csv`](data/frozen/frozen_34species_five_metric_dataset.csv)
 - **Reproduction workflow:** [`.github/workflows/34species-paper.yml`](.github/workflows/34species-paper.yml)
 
-## Chapter 1: frozen photograph analysis
+## Legacy Chapter 1: frozen photograph analysis
 
 ### Design
 
@@ -105,7 +139,7 @@ The governing rule is:
 
 > Species may disappear from the map display, but species must never disappear from the null model.
 
-## Frozen 34-species comparative paper
+## Legacy: frozen 34-species comparative paper
 
 ### Final paper dataset
 
@@ -198,9 +232,9 @@ python -m pip install -e .
 
 ## Repository boundary
 
-Active material must be assigned to one of the two lanes before it is interpreted.
+Active RGFCA material belongs to the repeated-atlas research programme described above. Discovery, technical qualification, exploratory inference and independent biological validation have different claims. The two legacy studies below retain their original samples, protocols and results, and are not pooled with RGFCA.
 
-### Chapter 1 spatial lane
+### Legacy Chapter 1 spatial lane
 
 A file belongs here only if it supports:
 
@@ -209,7 +243,7 @@ A file belongs here only if it supports:
 3. label-blind transition detectability and shared concentration;
 4. audit, figures or manuscript reporting for those analyses.
 
-### 34-species comparative lane
+### Legacy 34-species comparative lane
 
 A file belongs here only if it supports:
 

@@ -1,0 +1,54 @@
+{
+  "audit_kind": "retrospective_public_filename_split_integrity",
+  "benchmark_execution_authorized": false,
+  "casefold_shared_keys": [
+    "img_0339.jpg"
+  ],
+  "casefold_spelling_collisions": {},
+  "coordinates_joined": false,
+  "ecological_inference_performed": false,
+  "event_observer_training_independence_verified": false,
+  "exact_shared_filename_count": 1,
+  "exact_shared_filenames": [
+    "IMG_0339.JPG"
+  ],
+  "exact_union_filename_count": 129,
+  "filename_integrity_gate_passed": false,
+  "filename_split_disjoint": false,
+  "image_content_identity_verified": false,
+  "image_pixels_decoded": false,
+  "model_run": false,
+  "profiles": {
+    "train": {
+      "duplicate_extra_row_count": 0,
+      "duplicate_filenames": {},
+      "row_count": 100,
+      "unique_filename_count": 100
+    },
+    "validation": {
+      "duplicate_extra_row_count": 0,
+      "duplicate_filenames": {},
+      "row_count": 30,
+      "unique_filename_count": 30
+    }
+  },
+  "schema_version": "rgfca-reference-split-audit-v1",
+  "source_manifest_sha256": "b0f9937a8856018fe20252fba11afd42ca077fc459ee4827adb4336955996fbf",
+  "source_receipts": [
+    {
+      "bytes": 1400,
+      "local_filename": "train.txt",
+      "provider_md5_verified": true,
+      "role": "train",
+      "sha256": "cadbea55cf2232b94b44429f7a3f4f72c4b14cfd2170c0d2f844e1ca870f1abf"
+    },
+    {
+      "bytes": 390,
+      "local_filename": "val_0.txt",
+      "provider_md5_verified": true,
+      "role": "validation",
+      "sha256": "959181b42150e82b1479aff5c7221970aa6c1c1c5b43dfad1fe7bf11e62d1643"
+    }
+  ],
+  "source_record": "https://api.figshare.com/v2/articles/24852636"
+}

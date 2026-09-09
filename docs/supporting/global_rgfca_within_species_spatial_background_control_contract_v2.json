@@ -1,0 +1,110 @@
+{
+  "protocol": "global-rgfca-within-species-spatial-background-control-v2",
+  "status": "frozen_before_any_within_species_omnibus_permutation_outcome_and_before_any_background_colour_recovery",
+  "date_jst": "2026-09-07",
+  "role": "Postoutcome exploratory RGFCA-only diagnostic. It supersedes the flower-only omnibus v1 for interpretation before any v1 scientific permutation outcome existed. It is not a sharedness test and cannot reclassify G1, G3, environmental tests, or any prior frozen decision.",
+  "supersedes": {
+    "contract": "docs/supporting/global_rgfca_within_species_spatial_omnibus_contract_v1.json",
+    "reason": "The flower-only coordinate-shuffle null destroys all spatial structure and therefore cannot distinguish flower-specific spatial organization from geographically structured illumination, camera, scene, phenology, observer, or other image-level nuisances.",
+    "preoutcome_guard": "Workflow runs 34085753211 and 34085861343 terminated before any species observed/null omnibus statistic was produced: run 1 failed in tests; run 2 passed tests but every shard stopped at Python import before loading the measured frame or computing a species statistic."
+  },
+  "main_line_firewall": {
+    "scientific_main_question": "cross-species sharedness of flower-colour transition structure",
+    "this_diagnostic_is_main_claim": false,
+    "six_species_used": false,
+    "thirty_four_species_used": false,
+    "rgfca_only": true,
+    "g1_reclassified": false,
+    "g3_reclassified": false,
+    "sharedness_predictive_test_reclassified": false
+  },
+  "matched_frame": {
+    "purpose": "Diagnose the already-existing G3/old-omnibus 369-species frame, not choose the RGFCA-v2 acquisition denominator.",
+    "measured_table": "data/derived/global_monte_carlo_measured_photos_v1.csv",
+    "measured_table_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "species": 369,
+    "photos": 21424,
+    "selection_rule": "Exactly the previously frozen global_classifiable photographs belonging to species with at least 40 classifiable photographs. No threshold or species set may be changed after background recovery.",
+    "no_replacement_photos": true
+  },
+  "background_recovery": {
+    "source_image_rule": "Reacquire the exact same photo_id through the frozen candidate photo_url_large only; no replacement or alternative observation is permitted.",
+    "exact_image_identity_required": "Every reacquired image used in the diagnostic must have SHA256 exactly equal to the image_sha256 stored by the original blinded measurement. A mismatch is not a usable control photograph.",
+    "roi_runtime_source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "roi_runtime": "Frozen ROI-v4 detector plus EfficientSAM used in the original global measurement.",
+    "background_mask": "The already-frozen ROI-v4 _background_annulus: union of each detector box expanded by 25% in width and height, minus the unexpanded detector boxes and minus the flower mask.",
+    "reproduction_guards": [
+      "recomputed flower palette_count_* for all twelve frozen anchors must exactly equal the originally stored flower palette counts for every used photo",
+      "recomputed background_effective_pixels must exactly equal the originally stored background_effective_pixels for every used photo",
+      "the original image SHA256 must match before any recovered background colour is admitted"
+    ],
+    "failure_rule": "If exact matched recovery is incomplete, report the predetermined recovery failure and do not silently replace photos, lower a species threshold, or select a successful subset for the primary diagnostic."
+  },
+  "matched_colour_representation": {
+    "reason_for_twelve_anchor_control": "The original four biological groups explicitly discard green, brown and black. Applying that flower-specific denominator to leaves/background would erase much of the negative-control signal. Therefore flower and background are compared symmetrically using the already-frozen full twelve-anchor palette, with no new colour axis fitted from outcomes.",
+    "anchors": [
+      "white",
+      "yellow",
+      "orange",
+      "red",
+      "pink",
+      "magenta",
+      "purple",
+      "blue",
+      "bronze",
+      "green",
+      "brown",
+      "black"
+    ],
+    "pixel_assignment": "nearest frozen sRGB palette anchor in CIELAB, exactly as photo_first_measurement.nearest_palette_counts",
+    "vector": "twelve palette counts normalized by all pixels in that mask; no nuisance anchor is dropped",
+    "pairwise_dissimilarity": "Jensen-Shannon divergence using base-2 logarithms, identical formula for flower and background vectors"
+  },
+  "species_statistic": {
+    "name": "distance_differential_colour_spearman_rho",
+    "definition": "For every unordered photo pair within a species compute D_ij = JSD(flower12_i, flower12_j) - JSD(background12_i, background12_j), then Spearman-correlate great-circle geographic distance with D_ij.",
+    "motivation": "A positive statistic means flower dissimilarity increases with geographic separation more strongly than matched local-background dissimilarity on the same photographs.",
+    "same_photo_pairing_preserved": true,
+    "pair_independence_assumed": false
+  },
+  "primary_global_statistic": {
+    "name": "equal_species_mean_differential_rho",
+    "definition": "Arithmetic mean of the 369 species differential rho values, equal weight per species regardless of photo or pair count.",
+    "tail": "upper",
+    "decision_alpha": 0.05,
+    "single_primary": true
+  },
+  "joint_exact_randomization_null": {
+    "permutations": 999,
+    "master_seed": 202609071503,
+    "procedure": "Within each species and permutation, jointly permute each photograph's paired (flower12 vector, background12 vector) across the species' fixed coordinates. The flower/background pair from one photograph always moves together.",
+    "preserves": [
+      "species and all coordinates",
+      "photo count",
+      "the complete within-species multiset of flower vectors",
+      "the complete within-species multiset of background vectors",
+      "the exact same-photo association between flower and background vectors"
+    ],
+    "global_null_statistic": "Recompute every species differential rho and the equal-species mean differential rho for the same permutation index.",
+    "p_value": "(1 + number of 999 null global statistics >= observed global statistic) / 1000",
+    "no_asymptotic_pairwise_p_values": true
+  },
+  "mandatory_secondary_controls": [
+    "equal-species mean Spearman rho for geographic distance versus flower12 JSD",
+    "equal-species mean Spearman rho for geographic distance versus background12 JSD",
+    "species distributions of flower rho, background rho, and differential rho",
+    "reacquisition/image-SHA/flower-count/background-pixel exact reproduction audit"
+  ],
+  "interpretation_gate": {
+    "if_primary_supported": "May be described only as postoutcome exploratory evidence that flower colour has a geographic-distance association exceeding matched local-background colour structure under the frozen twelve-anchor diagnostic. It remains neither a sharedness result nor a causal/environmental mechanism result.",
+    "if_primary_unsupported": "The flower-only within-species omnibus is not biologically interpretable as evidence of flower-specific spatial organization and must not be promoted as an RGFCA main result.",
+    "if_background_mean_rho_is_comparable_to_or_larger_than_flower_mean_rho": "Explicitly report that scene/background geographic colour structure is sufficient to challenge the flower-only interpretation even if a flower-only shuffle test would be positive.",
+    "no_biological_prevalence_claim": true
+  },
+  "v2_acquisition_separation": {
+    "this_contract_does_not_choose_a_new_minimum_photos_threshold": true,
+    "the_369_species_gate_is_not_reendorsed_for_future_sharedness": true,
+    "future_sharedness_design_must_freeze_its_photo_per_species_and_species_count_rule_from_outcome-blind_design_power_before_new_observed_colour_inference": true
+  },
+  "claim_ceiling": "Negative-control diagnostic for whether the old RGFCA within-species distance-colour tendency exceeds matched same-photo background colour structure. The RGFCA scientific main line remains sharedness and its acquisition/design-power problem."
+}

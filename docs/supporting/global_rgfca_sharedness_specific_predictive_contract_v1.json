@@ -1,0 +1,104 @@
+{
+  "protocol": "global-rgfca-sharedness-specific-predictive-v1",
+  "status": "frozen_before_any_sharedness_specific_synthetic_outcome",
+  "date_jst": "2026-09-07",
+  "motivation": "The frozen G1 field statistic is sensitive to within-species spatial transition architecture even when species-specific boundaries are independent. This new method asks a different question: whether a boundary direction learned from one species set predicts transition structure in disjoint species beyond an independent-boundary baseline.",
+  "role": "Prospective synthetic method development only. It cannot rescue or reclassify G1, Stage 6, environmental mean effects, heterogeneity tests, or any other observed result.",
+  "input_geometry": {
+    "source": "checksum-verified geometry_only.csv",
+    "geometry_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+    "eligible_species": 369,
+    "retained_classifiable_rows": 21424,
+    "species_split": "same fixed 184 training / 185 evaluation species split used in prior response-transfer work",
+    "species_per_replicate": {"training": 100, "evaluation": 100},
+    "photos_per_species": 20,
+    "photo_sampling": "deterministic random priority within species from retained classifiable rows; no replacement",
+    "biological_colour_values_allowed": false,
+    "real_climate_values_used": false
+  },
+  "target_estimand": "Cross-species geographic boundary sharing: predictive evidence that a common spherical boundary orientation inferred from training species generalizes to disjoint evaluation species, conditional on allowing every species to have its own strong spatial boundary under the null.",
+  "synthetic_generator": {
+    "coordinate_representation": "unit-sphere xyz",
+    "species_specific_boundary": "continuous random unit normal in R3 independently for each non-sharing species",
+    "shared_boundary": "one continuous random unit normal in R3 assigned to the prespecified shared fraction of species",
+    "species_response_sign": "random +/-1 independently by species and marginalized by the fitted model",
+    "species_threshold": "offset in signed dot-product units; either zero, shared common offset, or independent N(0, threshold_sd)",
+    "latent_response": "amplitude * species_sign * tanh((dot(xyz,boundary_normal)-species_threshold)/0.15) + N(0,1) > 0",
+    "important_null_property": "shared_fraction=0 with amplitude>0 is a structured independent-boundary null, not an alternative"
+  },
+  "predictive_model": {
+    "axis_grid": "96 fixed antipodally unique unit normals in R3 generated once from seed 202609070801; reused for all stages/replicates",
+    "slope_grid": [0.0, 1.0, 2.0, 4.0, 8.0],
+    "threshold_grid": [-0.5, -0.25, 0.0, 0.25, 0.5],
+    "species_sign_prior": "equal +/-1",
+    "sharing_fraction_grid": [0.0, 0.1, 0.25, 0.5, 0.75, 1.0],
+    "training": "form posterior over sharing fraction and common boundary axis from training-species likelihoods only",
+    "evaluation": "held-out evaluation-species predictive log-density gain relative to an independent-axis prior; evaluation labels never update training posterior",
+    "score": "equal evaluation-species mean predictive log-density gain per photo, averaged over 100 evaluation species",
+    "constant_synthetic_colour_species_retained": true
+  },
+  "calibration_nuisance_arms": [
+    {"world": "no_structure", "amplitude": 0.0, "shared_fraction": 0.0, "threshold_sd": 0.0},
+    {"world": "independent_boundaries", "amplitude": 0.5, "shared_fraction": 0.0, "threshold_sd": 0.0},
+    {"world": "independent_boundaries", "amplitude": 1.0, "shared_fraction": 0.0, "threshold_sd": 0.0},
+    {"world": "independent_boundaries", "amplitude": 2.0, "shared_fraction": 0.0, "threshold_sd": 0.0},
+    {"world": "independent_shifted_boundaries", "amplitude": 1.0, "shared_fraction": 0.0, "threshold_sd": 0.25},
+    {"world": "independent_shifted_boundaries", "amplitude": 2.0, "shared_fraction": 0.0, "threshold_sd": 0.25},
+    {"world": "directionally_clustered_independent", "amplitude": 1.0, "shared_fraction": 0.0, "threshold_sd": 0.25, "axis_concentration": 2.0},
+    {"world": "directionally_clustered_independent", "amplitude": 2.0, "shared_fraction": 0.0, "threshold_sd": 0.25, "axis_concentration": 2.0},
+    {"world": "bimodal_clustered_independent", "amplitude": 1.0, "shared_fraction": 0.0, "threshold_sd": 0.25, "axis_concentration": 3.0}
+  ],
+  "evaluation_positive_arms": [
+    {"world": "partially_shared_boundaries", "amplitude": 0.5, "shared_fraction": 0.5, "threshold_sd": 0.25},
+    {"world": "partially_shared_boundaries", "amplitude": 1.0, "shared_fraction": 0.1, "threshold_sd": 0.25},
+    {"world": "partially_shared_boundaries", "amplitude": 1.0, "shared_fraction": 0.25, "threshold_sd": 0.25},
+    {"world": "partially_shared_boundaries", "amplitude": 1.0, "shared_fraction": 0.5, "threshold_sd": 0.25},
+    {"world": "partially_shared_boundaries", "amplitude": 1.0, "shared_fraction": 0.75, "threshold_sd": 0.25},
+    {"world": "partially_shared_boundaries", "amplitude": 1.0, "shared_fraction": 1.0, "threshold_sd": 0.25},
+    {"world": "partially_shared_boundaries", "amplitude": 2.0, "shared_fraction": 0.25, "threshold_sd": 0.25},
+    {"world": "partially_shared_boundaries", "amplitude": 2.0, "shared_fraction": 0.5, "threshold_sd": 0.25},
+    {"world": "partially_shared_boundaries", "amplitude": 2.0, "shared_fraction": 1.0, "threshold_sd": 0.25},
+    {"world": "shared_common_offset", "amplitude": 1.0, "shared_fraction": 1.0, "common_threshold": 0.25}
+  ],
+  "replication": {
+    "replicates_per_arm": 250,
+    "calibration_worlds": 2250,
+    "evaluation_positive_worlds": 2500,
+    "evaluation_nuisance_worlds": 2250,
+    "total_worlds": 7000,
+    "deterministic_sharding": "calibration and evaluation each split into ten nonoverlapping 25-replicate shards",
+    "same synthetic world within a replicate is scored once; no favourable reruns"
+  },
+  "calibration": {
+    "threshold": "maximum empirical 97.5th percentile (method=higher) across all nine structured-null calibration arms",
+    "decision": "strict score > frozen threshold",
+    "structured_independent_boundaries_are_in_the_null": true,
+    "no amplitude-conditioned threshold": true,
+    "no best-axis/fold/subset selection": true
+  },
+  "qualification_gates": {
+    "maximum_evaluation_nuisance_rejection_rate": 0.10,
+    "minimum_power_amp1_shared_fraction_1": 0.80,
+    "minimum_power_amp1_shared_fraction_0_5": 0.50,
+    "minimum_power_amp2_shared_fraction_0_5": 0.80,
+    "shared_fraction_0_25_and_0_10_are_diagnostic_not_hard_gates": true,
+    "gate_failure_is_retained_without_parameter_search": true
+  },
+  "required_outputs": [
+    "all calibration/evaluation scores",
+    "nine structured-null calibration quantiles and one global threshold",
+    "all nuisance and positive decision rates with Wilson 95% intervals",
+    "posterior mean sharing fraction",
+    "posterior common-axis concentration/entropy diagnostics",
+    "power as a function of shared fraction and amplitude",
+    "exact species/photo inclusion census",
+    "independent recomputation of threshold and every decision count",
+    "runner/geometry/output checksums and biological-colour firewall"
+  ],
+  "future_empirical_firewall": {
+    "a_favourable_synthetic_result_does_not_reclassify_G1": true,
+    "a_favourable_synthetic_result_does_not_open_observed_analysis_automatically": true,
+    "any_observed_application_would_be_a_separately_frozen_postoutcome_exploratory_test": true
+  },
+  "claim_ceiling": "Synthetic qualification of a sharedness-specific species-disjoint geographic predictive statistic on actual photo geometry. Not evidence that real flower-colour boundaries are shared and not a rescue of any frozen observed-data result."
+}

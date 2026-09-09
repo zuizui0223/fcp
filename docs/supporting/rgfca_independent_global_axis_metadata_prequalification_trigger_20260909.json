@@ -1,0 +1,28 @@
+{
+  "protocol": "rgfca-independent-global-signal-axis-replication-metadata-prequalification-v1",
+  "date": "2026-09-09",
+  "protocol_commit": "6ea2783970d0e0fdea959a4ce13abaafc4e9b5d9",
+  "candidate_pool": "data/frozen/global_monte_carlo_candidate_photos_v1.csv",
+  "candidate_pool_sha256": "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2",
+  "reserve_artifact_run": 34091091640,
+  "reserve_artifact_id": 10025692225,
+  "reserve_artifact_digest": "sha256:fbe4e8ab93e665115b5560cd05ddd31d02b9c9138b8a30ce460b61b6c6775ef5",
+  "allowed_operations": [
+    "read_frozen_metadata",
+    "read_reserve_identity_columns",
+    "project_coordinates_to_fixed_epsg6933_lattice",
+    "audit_identity_overlap",
+    "rank_spatially_qualified_species",
+    "freeze_prequalified_metadata_manifest"
+  ],
+  "forbidden_operations": [
+    "download_candidate_images",
+    "open_candidate_image_pixels",
+    "compute_flower_colour",
+    "compute_M1_M3_scores",
+    "use_climate",
+    "use_island_status",
+    "use_previous_ecological_outcomes"
+  ],
+  "ecological_outcome_opening_authorized": false
+}

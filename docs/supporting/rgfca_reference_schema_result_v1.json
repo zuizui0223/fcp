@@ -1,0 +1,265 @@
+{
+  "schema": "rgfca-reference-schema-audit-v1",
+  "terminal": [
+    {
+      "group": "Butterfly Pea",
+      "id": "00d850be-5cd5-4495-b29f-a6bde12dfae5",
+      "expected_sha256": "465930d61255f04026d2353d3b40233f44f2b358d8b7d3bcc98a5f6b52610294",
+      "expected_bytes": 6103041,
+      "observed_sha256": "465930d61255f04026d2353d3b40233f44f2b358d8b7d3bcc98a5f6b52610294",
+      "observed_bytes": 6103041,
+      "summary": {
+        "top_level_keys": [
+          "flags",
+          "imageData",
+          "imageHeight",
+          "imagePath",
+          "imageWidth",
+          "shapes",
+          "version"
+        ],
+        "shape_count": 1,
+        "labels": {
+          "Flower": 1
+        },
+        "shape_types": {
+          "polygon": 1
+        },
+        "point_counts": [
+          46
+        ],
+        "nonempty_group_id_count": 0,
+        "extra_shape_keys": [
+          "description",
+          "mask"
+        ],
+        "image_height_width": [
+          8160,
+          6120
+        ],
+        "embedded_image_string_characters": 6099884,
+        "image_path_sha256": "6f71c23c6cb7e52262de3bb5e82cbb0b657414bea5ede5dadcd392ade9d66758",
+        "image_path_suffix": ".jpg"
+      },
+      "status": "schema_inspected"
+    },
+    {
+      "group": "Caesalpinia Pulcherrima",
+      "id": "00ef6a1f-794a-4580-8fca-16790e12d5c1",
+      "expected_sha256": "5e0ea25fda413e67ae4f8a3e111c6589c1ca7691523c2cb7269f890a21c963a1",
+      "expected_bytes": 937358,
+      "observed_sha256": "5e0ea25fda413e67ae4f8a3e111c6589c1ca7691523c2cb7269f890a21c963a1",
+      "observed_bytes": 937358,
+      "summary": {
+        "top_level_keys": [
+          "flags",
+          "imageData",
+          "imageHeight",
+          "imagePath",
+          "imageWidth",
+          "shapes",
+          "version"
+        ],
+        "shape_count": 1,
+        "labels": {
+          "flower": 1
+        },
+        "shape_types": {
+          "polygon": 1
+        },
+        "point_counts": [
+          43
+        ],
+        "nonempty_group_id_count": 0,
+        "extra_shape_keys": [
+          "description",
+          "mask"
+        ],
+        "image_height_width": [
+          4096,
+          3072
+        ],
+        "embedded_image_string_characters": 933436,
+        "image_path_sha256": "8ca2d85e43d7c810df582565d315a7c15aeed88cbdb83e8de27df69720f7ccf5",
+        "image_path_suffix": ".jpg"
+      },
+      "status": "schema_inspected"
+    },
+    {
+      "group": "Jatropha Integerimma",
+      "id": "04e0c169-3aff-41ea-8c36-5ac200c447aa",
+      "expected_sha256": "f8c2b1f79ad092412a8288e02954fcd0e84d85a826af41dfe8c30fcb0551748b",
+      "expected_bytes": 873650,
+      "observed_sha256": "f8c2b1f79ad092412a8288e02954fcd0e84d85a826af41dfe8c30fcb0551748b",
+      "observed_bytes": 873650,
+      "summary": {
+        "top_level_keys": [
+          "flags",
+          "imageData",
+          "imageHeight",
+          "imagePath",
+          "imageWidth",
+          "shapes",
+          "version"
+        ],
+        "shape_count": 1,
+        "labels": {
+          "flower": 1
+        },
+        "shape_types": {
+          "polygon": 1
+        },
+        "point_counts": [
+          31
+        ],
+        "nonempty_group_id_count": 0,
+        "extra_shape_keys": [
+          "description",
+          "mask"
+        ],
+        "image_height_width": [
+          4096,
+          3072
+        ],
+        "embedded_image_string_characters": 870740,
+        "image_path_sha256": "4ee5e0f293037b43687754e19c2bb59de6015863ee219e2a3fc6866f44966b92",
+        "image_path_suffix": ".jpg"
+      },
+      "status": "schema_inspected"
+    },
+    {
+      "group": "Plumeria",
+      "id": "001f424b-8763-444c-9f09-732ea52301f7",
+      "expected_sha256": "3ff97264da3f4ade58062284d2e637551089fc2a00635a18fc3fdca1b5577ba3",
+      "expected_bytes": 1156123,
+      "observed_sha256": "3ff97264da3f4ade58062284d2e637551089fc2a00635a18fc3fdca1b5577ba3",
+      "observed_bytes": 1156123,
+      "summary": {
+        "top_level_keys": [
+          "flags",
+          "imageData",
+          "imageHeight",
+          "imagePath",
+          "imageWidth",
+          "shapes",
+          "version"
+        ],
+        "shape_count": 1,
+        "labels": {
+          "flower": 1
+        },
+        "shape_types": {
+          "polygon": 1
+        },
+        "point_counts": [
+          70
+        ],
+        "nonempty_group_id_count": 0,
+        "extra_shape_keys": [
+          "description",
+          "mask"
+        ],
+        "image_height_width": [
+          4080,
+          3060
+        ],
+        "embedded_image_string_characters": 1149984,
+        "image_path_sha256": "936192b32bb893c2ed0e31f6e38b600f3f8265fd39d3c3fc2d686d7492192018",
+        "image_path_suffix": ".jpg"
+      },
+      "status": "schema_inspected"
+    },
+    {
+      "group": "Rose",
+      "id": "034b0b92-bf4d-450f-9d52-6a19ea245824",
+      "expected_sha256": "95aacc4b462332ce3306396f75812cea84c99fe1f0978b2553ec800a6026bfa2",
+      "expected_bytes": 250223,
+      "observed_sha256": "95aacc4b462332ce3306396f75812cea84c99fe1f0978b2553ec800a6026bfa2",
+      "observed_bytes": 250223,
+      "summary": {
+        "top_level_keys": [
+          "flags",
+          "imageData",
+          "imageHeight",
+          "imagePath",
+          "imageWidth",
+          "shapes",
+          "version"
+        ],
+        "shape_count": 1,
+        "labels": {
+          "rose": 1
+        },
+        "shape_types": {
+          "polygon": 1
+        },
+        "point_counts": [
+          79
+        ],
+        "nonempty_group_id_count": 0,
+        "extra_shape_keys": [
+          "description",
+          "mask"
+        ],
+        "image_height_width": [
+          1280,
+          960
+        ],
+        "embedded_image_string_characters": 243292,
+        "image_path_sha256": "505538781be2628ee6041bfa311efc771843dfa36026e7e1997a7d4e2d7f0ba9",
+        "image_path_suffix": ".jpg"
+      },
+      "status": "schema_inspected"
+    },
+    {
+      "group": "Tecoma Stans",
+      "id": "06faaada-76aa-4d54-b892-ec74ca521f5b",
+      "expected_sha256": "1602cfbb0e602062b4684a2210788f54324a90d730c14318b548508e9b7eda1d",
+      "expected_bytes": 121787,
+      "observed_sha256": "1602cfbb0e602062b4684a2210788f54324a90d730c14318b548508e9b7eda1d",
+      "observed_bytes": 121787,
+      "summary": {
+        "top_level_keys": [
+          "flags",
+          "imageData",
+          "imageHeight",
+          "imagePath",
+          "imageWidth",
+          "shapes",
+          "version"
+        ],
+        "shape_count": 1,
+        "labels": {
+          "Flower": 1
+        },
+        "shape_types": {
+          "polygon": 1
+        },
+        "point_counts": [
+          48
+        ],
+        "nonempty_group_id_count": 0,
+        "extra_shape_keys": [
+          "description",
+          "mask"
+        ],
+        "image_height_width": [
+          750,
+          1000
+        ],
+        "embedded_image_string_characters": 117496,
+        "image_path_sha256": "3807914c94bfb12be711a256111542b38953d11188c6693e9ec06579f9346d3c",
+        "image_path_suffix": ".jpeg"
+      },
+      "status": "schema_inspected"
+    }
+  ],
+  "all_six_schema_inspected": true,
+  "image_pixels_decoded": false,
+  "coordinates_joined": false,
+  "model_run": false,
+  "measurement_validation_passed": false,
+  "ecological_inference_performed": false,
+  "scope": "six_preselected_schema_examples_not_annotation_accuracy_or_complete_payload_census",
+  "plan_sha256": "48436a74160b4700e2d9b2bbc803aeac7fcfe8a1f09885140a1eade034c5aade"
+}

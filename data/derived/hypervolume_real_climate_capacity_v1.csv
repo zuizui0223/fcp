@@ -1,0 +1,13 @@
+block,fold,training_species,evaluation_species,retained_training_photos,retained_evaluation_photos,minimum_training_to_sector_photo_km
+thermal_regime,0,133,60,6352,3110,500.31235754640977
+thermal_regime,1,135,62,6786,2366,500.7904381424917
+thermal_regime,2,141,59,7523,2466,502.29941738943194
+thermal_regime,3,165,26,9208,1186,509.7260254638044
+water_balance,0,133,60,6351,3110,500.31235754640977
+water_balance,1,135,62,6785,2366,500.7904381424917
+water_balance,2,141,59,7522,2466,502.29941738943194
+water_balance,3,165,26,9208,1186,509.7260254638044
+atmospheric_energy_dryness,0,133,60,6349,3110,500.31235754640977
+atmospheric_energy_dryness,1,135,62,6782,2364,500.7904381424917
+atmospheric_energy_dryness,2,141,59,7521,2466,502.29941738943194
+atmospheric_energy_dryness,3,165,26,9205,1186,509.7260254638044

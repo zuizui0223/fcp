@@ -1,0 +1,67 @@
+{
+  "status": "verified_complete_fixed_reserve_inference_artifacts",
+  "run_id": 34178957447,
+  "authorization_commit": "391caecaa1a6d3c3e2407f5f19d0bad7057922e0",
+  "result_commit": "ef00a78a2eda7bc79f7e6b88f719a8a696dc8b43",
+  "shards_verified": 20,
+  "species_verified": 363,
+  "photos_verified": 20903,
+  "null_tensor_shape": [
+    363,
+    4,
+    999
+  ],
+  "global_null_draws_per_metric": 999,
+  "direct_checks": 2541,
+  "maximum_direct_check_error": 1.1102230246251563e-16,
+  "metrics": {
+    "primary": {
+      "mean_rho": 0.025482606069841617,
+      "p_upper": 0.001,
+      "null_mean": -4.64113510220194e-05,
+      "null_sd": 0.00322332935150143,
+      "null_nondegenerate": true,
+      "status": "evaluable",
+      "positive_supported": true
+    },
+    "observer_pair_exclusion": {
+      "mean_rho": 0.02521802297988336,
+      "p_upper": 0.001,
+      "null_mean": 0.00011159930105429724,
+      "null_sd": 0.003345578819817765,
+      "null_nondegenerate": true,
+      "status": "evaluable",
+      "positive_supported": true
+    },
+    "calendar_quarter_stratification": {
+      "mean_rho": 0.025482606069841617,
+      "p_upper": 0.001,
+      "null_mean": 0.001697917455849524,
+      "null_sd": 0.003135416154617162,
+      "null_nondegenerate": true,
+      "status": "evaluable",
+      "positive_supported": true
+    },
+    "matched_background_differential": {
+      "mean_rho": 0.004477251893133873,
+      "p_upper": 0.087,
+      "null_mean": -0.00011176656840738049,
+      "null_sd": 0.0032630649420554996,
+      "null_nondegenerate": true,
+      "status": "evaluable",
+      "positive_supported": false
+    }
+  },
+  "directional_photo_association_replicated": true,
+  "flower_specific_robust_replication": false,
+  "conditional_species_bootstrap_primary_mean_95pct": [
+    0.017005540177786112,
+    0.034332127466449106
+  ],
+  "byte_hashes_verified_exactly": true,
+  "numeric_reconstruction_absolute_tolerance": 2e-12,
+  "new_permutations_or_measurements": false,
+  "selected_or_replaced_species": false,
+  "cause_or_shared_boundary_inferred": false,
+  "result_sha256": "1cb9de6feb8bda3bf05f3fbe51abd8eeebb41774a9cd8253034d618b78dcb3f3"
+}

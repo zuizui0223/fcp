@@ -1,0 +1,101 @@
+{
+  "protocol": "hypervolume-threshold-robustness-v1",
+  "status": "frozen_before_synthetic_outcomes",
+  "date_jst": "2026-09-07",
+  "parent_snapshot": "e125720aae6e62c0b1b057a92d89f7a3b8f681b6",
+  "role": "Methodological robustness extension only. No observed flower colours or real climate may be opened and no frozen empirical decision may change.",
+  "seed": 2026090705,
+  "geometry": {
+    "source": "checksum-verified coordinate-only export used by PR #31",
+    "geometry_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+    "eligible_species": 369,
+    "frame": "retained classifiable support only",
+    "species_split": "reuse fixed training/evaluation identity split from hypervolume_actual_support_blocked_transfer_v1",
+    "regional_holdout": "reuse all four longitude sectors and 500-km training buffer",
+    "species_per_fold": {"training": 20, "evaluation": 20},
+    "photos_per_species": 20,
+    "biological_colour_values_allowed": false,
+    "real_environment_allowed": false
+  },
+  "estimand": "Whether a response-axis distribution learned from training species predicts held-out species in held-out regions better than a finite family of structured no-exact-sharing worlds. This is not a literal estimate of the fraction of biological species sharing an exact threshold.",
+  "models": {
+    "baseline": "reuse linear_logit_joint_train from hypervolume_pooled_response_v1 without modification",
+    "primary_candidate": "linear_logit_joint_train_intercept_marginal",
+    "secondary_candidate": "saturating_probit_joint_train_intercept_marginal",
+    "intercept_grid_projection_units": [-1.0, -0.5, 0.0, 0.5, 1.0],
+    "axis_grid": 48,
+    "sharing_fraction_grid": [0.0, 0.25, 0.5, 0.75, 1.0],
+    "linear_logit_slope_grid": [0.0, 0.5, 1.0, 2.0, 4.0, 8.0],
+    "saturating_probit_slope_grid": [0.0, 0.5, 1.0, 2.0],
+    "sign_prior": "equal plus/minus per species",
+    "intercept_prior": "equal over the fixed five-point grid independently for each species; target labels never update the training sharing posterior",
+    "score": "held-out predictive log-density gain per target photo, averaged equally over target species and four folds",
+    "constant_colour_samples": "retained in likelihood calculations"
+  },
+  "synthetic_generator": {
+    "base_link": "amplitude * species_sign * tanh((projection - species_threshold)/0.5) + N(0,1) > 0",
+    "amplitudes": [0.5, 1.0, 2.0],
+    "shared_axis_rule": "round(369 * shared_fraction) species use one common environmental axis; remaining species use independently sampled environmental axes",
+    "threshold_draw": "species thresholds are drawn once per world and reused across every fold/photo occurrence of that species",
+    "random_threshold_distributions": {
+      "zero": {"sd": 0.0},
+      "moderate": {"sd": 0.5},
+      "large": {"sd": 1.0}
+    }
+  },
+  "calibration_nuisance_arms": [
+    {"world": "no_structure", "amplitude": 0.0, "threshold_sd": 0.0},
+    {"world": "environmental_independent", "amplitude": 0.5, "threshold_sd": 0.0},
+    {"world": "environmental_independent", "amplitude": 1.0, "threshold_sd": 0.0},
+    {"world": "environmental_independent", "amplitude": 2.0, "threshold_sd": 0.0},
+    {"world": "geographic_independent", "amplitude": 2.0, "threshold_sd": 0.0},
+    {"world": "mixed_independent", "amplitude": 2.0, "threshold_sd": 0.0},
+    {"world": "environmental_independent_shifted", "amplitude": 0.5, "threshold_sd": 0.5},
+    {"world": "environmental_independent_shifted", "amplitude": 1.0, "threshold_sd": 0.5},
+    {"world": "environmental_independent_shifted", "amplitude": 2.0, "threshold_sd": 0.5},
+    {"world": "support_aligned_independent", "amplitude": 1.0, "threshold_sd": 0.5},
+    {"world": "directionally_clustered_independent", "amplitude": 1.0, "threshold_sd": 0.5, "axis_concentration": 2.0},
+    {"world": "nonlinear_independent", "amplitude": 1.0, "threshold_sd": 0.5}
+  ],
+  "evaluation_positive_arms": [
+    {"world": "environmental_shared_shifted", "amplitude": 1.0, "shared_fraction": 0.25, "threshold_sd": 0.5},
+    {"world": "environmental_shared_shifted", "amplitude": 1.0, "shared_fraction": 0.5, "threshold_sd": 0.5},
+    {"world": "environmental_shared_shifted", "amplitude": 1.0, "shared_fraction": 1.0, "threshold_sd": 0.5},
+    {"world": "environmental_shared_shifted", "amplitude": 1.0, "shared_fraction": 1.0, "threshold_sd": 1.0},
+    {"world": "environmental_shared_shifted", "amplitude": 2.0, "shared_fraction": 1.0, "threshold_sd": 0.5},
+    {"world": "environmental_shared_common_offset", "amplitude": 1.0, "shared_fraction": 1.0, "common_threshold": 0.5}
+  ],
+  "replication": {
+    "calibration_replicates_per_arm": 250,
+    "evaluation_replicates_per_arm": 250,
+    "calibration_worlds": 3000,
+    "evaluation_worlds": 4500,
+    "unique_worlds": 7500,
+    "sharding": "deterministic non-overlapping replicate shards are allowed from the outset; no seed/scenario/threshold change after outcomes"
+  },
+  "calibration": {
+    "threshold": "for each model use the maximum empirical 97.5th percentile, method=higher, across all twelve nuisance arms",
+    "decision": "strict score > threshold",
+    "all_nulls_retained": true,
+    "no_known_strength_cutoff": true,
+    "no_best_fold_selection": true,
+    "no_favourable_model_selection": true
+  },
+  "required_outputs": [
+    "all calibration and evaluation scores with four fold contributions",
+    "all nuisance quantiles and model thresholds",
+    "all decision counts and Wilson 95% intervals",
+    "paired candidate-minus-baseline detection changes",
+    "training posterior mean sharing fraction",
+    "threshold-shift sensitivity",
+    "directionally clustered, support-aligned, geographic and mixed nuisance rejection rates",
+    "independent reimplementation spot checks",
+    "source/code/output checksums and immutable empirical-claim guards"
+  ],
+  "stop_rules": [
+    "If any fold/species/photo capacity or checksum guard fails, stop without relaxing gates.",
+    "If a candidate has excessive rejection under a richer nuisance arm, retain the failure and do not drop that nuisance arm.",
+    "Do not open observed colours or real climate based on a favourable robustness result alone."
+  ],
+  "claim_ceiling": "Synthetic robustness of a prespecified predictive-sharing statistic to species-specific threshold shifts and a finite richer family of no-exact-sharing structures on the actual coordinate support. Does not establish real flower-colour sharing, real climatic thresholds, adaptation, causality, prevalence, or a universally calibrated <=5% error rate."
+}

@@ -1,0 +1,129 @@
+{
+  "protocol": "rgfca-reserve-species-replication-v1",
+  "status": "metadata_only_reserve_admission_passed",
+  "source_commit": "29584f3ad7ae0cd99a1d8f43459252af38f615da",
+  "rows": 50000,
+  "species": 500,
+  "photos_per_species": 100,
+  "maximum_positional_accuracy_m": 4998.0,
+  "maximum_observer_photos_per_species": 2,
+  "selection": "entire complement of the original fixed hash-ranked 500-taxon measurement budget; no replacement",
+  "ids_sha256": {
+    "inat_taxon_id": "0b8a38df7d23566183f291c8f76a625f54526f134a3ac405a9845c66ceb28340",
+    "photo_id": "e69edd505de5e800db4c8f3a4bb83063e72ef09ff1858236940c088f3a0236fa",
+    "observation_id": "a0d9af2821870e20a7c59402e042e1c3e41b2ce1b0d4f01b7a25ee8bcda66dac"
+  },
+  "source_sha256": {
+    "data/frozen/global_monte_carlo_candidate_photos_v1.csv": "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2",
+    "data/derived/global_monte_carlo_measured_photos_v1.csv": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "data/derived/random_photo_first_measured_photos_v1.csv": "5d17ba931bbf712def34f3e5f47341c3c5bd436ac754978c6e34978cf8675098",
+    "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv": "111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f",
+    "data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv": "f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99"
+  },
+  "overlap_counts": {
+    "data/derived/global_monte_carlo_measured_photos_v1.csv": {
+      "photo_id": 0,
+      "observation_id": 0
+    },
+    "data/derived/random_photo_first_measured_photos_v1.csv": {
+      "photo_id": 0,
+      "observation_id": 0
+    },
+    "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv": {
+      "photo_id": 0,
+      "observation_id": 0
+    },
+    "data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv": {
+      "photo_id": 0,
+      "observation_id": 0
+    }
+  },
+  "discovery_taxon_overlap": 0,
+  "geometry_summary": {
+    "raw_photos": {
+      "min": 100.0,
+      "median": 100.0,
+      "max": 100.0
+    },
+    "observers": {
+      "min": 77.0,
+      "median": 95.0,
+      "max": 100.0
+    },
+    "quarters": {
+      "min": 1.0,
+      "median": 4.0,
+      "max": 4.0
+    },
+    "years": {
+      "min": 4.0,
+      "median": 13.0,
+      "max": 22.0
+    },
+    "maximum_span_km": {
+      "min": 149.64701,
+      "median": 3200.2729185,
+      "max": 20010.982773
+    },
+    "median_pair_distance_km": {
+      "min": 8.39366,
+      "median": 720.190102,
+      "max": 10215.689711
+    },
+    "cells_0p25_degree": {
+      "min": 7.0,
+      "median": 96.0,
+      "max": 100.0
+    },
+    "maximum_cell_photos_0p25_degree": {
+      "min": 1.0,
+      "median": 2.0,
+      "max": 78.0
+    },
+    "cells_0p5_degree": {
+      "min": 4.0,
+      "median": 78.0,
+      "max": 100.0
+    },
+    "maximum_cell_photos_0p5_degree": {
+      "min": 1.0,
+      "median": 4.0,
+      "max": 88.0
+    },
+    "pairs_within_100_km": {
+      "min": 0.0,
+      "median": 244.5,
+      "max": 4376.0
+    },
+    "photos_with_neighbor_within_100_km": {
+      "min": 0.0,
+      "median": 87.0,
+      "max": 100.0
+    },
+    "pairs_within_250_km": {
+      "min": 0.0,
+      "median": 763.5,
+      "max": 4950.0
+    },
+    "photos_with_neighbor_within_250_km": {
+      "min": 0.0,
+      "median": 97.5,
+      "max": 100.0
+    },
+    "pairs_within_500_km": {
+      "min": 32.0,
+      "median": 1718.5,
+      "max": 4950.0
+    },
+    "photos_with_neighbor_within_500_km": {
+      "min": 43.0,
+      "median": 99.0,
+      "max": 100.0
+    }
+  },
+  "candidate_pixels_opened_by_audit": false,
+  "colour_fields_parsed": false,
+  "measurement_authorized": false,
+  "independence_ceiling": "New observation and photo IDs, species-disjoint from RGFCA discovery, same iNaturalist sampling frame and measurement model. Shared observers/regions and systematic measurement error remain possible. This audit cannot prove nobody outside the recorded workflows ever viewed these public photos.",
+  "geometry_table_sha256": "626943acd530319ab2ce1ba47e3fe4b2b20a6f2406d88790db6d2b6c4cd2524d"
+}

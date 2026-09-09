@@ -1,0 +1,31 @@
+{
+  "protocol": "rgfca-sharedness-v2-geometry-activation-amendment-v1",
+  "status": "frozen_before_any_v2_synthetic_world_score",
+  "date": "2026-09-08",
+  "reason": "The first random-page geometry freeze failed and was preserved. A separately frozen transport-only recovery then reproduced the same 150 selected species, 75/75 species split, target 300 photos/species, prior-ID exclusions, observer cap, and no biological outcome access using the stable pagination already used by the successful capacity pilot. This amendment names that complete transport-recovered geometry as the canonical v2 synthetic input. No scientific design parameter changes.",
+  "canonical_geometry_result": "docs/supporting/rgfca_sharedness_v2_geometry_result_v1.json",
+  "required_result_protocol": "rgfca-sharedness-v2-geometry-transport-recovery-v1",
+  "required_result_status": "complete_transport_recovered_metadata_geometry_150x300",
+  "required": {
+    "complete_fixed_frame": true,
+    "species": 150,
+    "training_species": 75,
+    "evaluation_species": 75,
+    "photos_per_species": 300,
+    "retained_photos": 45000,
+    "species_below_target": 0,
+    "terminal_request_error_species": 0,
+    "synthetic_sharedness_qualification_permitted": true,
+    "image_pixels_opened": false,
+    "flower_colour_opened": false,
+    "image_acquisition_permitted": false
+  },
+  "original_failed_geometry_result_is_not_reclassified": true,
+  "scientific_outcome_generated_before_amendment": false,
+  "observed_flower_colour_opened": false,
+  "observed_background_colour_opened": false,
+  "image_pixels_opened": false,
+  "prior_ecological_decisions_unchanged": true,
+  "six_species_used": false,
+  "thirty_four_species_used": false
+}

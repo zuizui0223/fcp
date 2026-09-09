@@ -1,0 +1,73 @@
+{
+  "protocol": "rgfca-sharedness-v2-high-depth-capacity-pilot-v1",
+  "status": "frozen_before_any_high_depth_capacity_request",
+  "date": "2026-09-08",
+  "objective": "test whether a prospective fewer-species higher-photo-count RGFCA sharedness design is physically feasible using metadata only",
+  "parent": {
+    "capacity_manifest": "docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json",
+    "capacity_audit": "data/frozen/global_monte_carlo_capacity_scan_species_audit_v3.csv",
+    "summary": "docs/supporting/rgfca_sharedness_v2_capacity_summary_v1.json",
+    "required_right_censored_species": 3440
+  },
+  "pilot_species_selection": {
+    "eligible_pool": "rows with raw_results == 200 in the complete v3 capacity audit",
+    "rank": "ascending SHA-256 of the ASCII decimal iNaturalist taxon ID, then ascending taxon ID",
+    "n": 500,
+    "replacement": false,
+    "uses_flower_colour": false,
+    "uses_ecological_outcome": false
+  },
+  "query": {
+    "endpoint": "https://api.inaturalist.org/v1/observations",
+    "per_page": 200,
+    "maximum_pages_per_species": 5,
+    "stable_order_by": "id",
+    "stable_order": "desc",
+    "quality_grade": "research",
+    "photos": true,
+    "geo": true,
+    "rank": "species",
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "maximum_positional_accuracy_m": 5000,
+    "obscuration": "none",
+    "allowed_photo_licenses": ["cc0", "cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa"],
+    "observer_cap": 2,
+    "prior_experiment_ids_excluded": true,
+    "prior_experiment_exclusion_sources": [
+      "data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv",
+      "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv"
+    ],
+    "deduplicate_observation_id": true,
+    "deduplicate_photo_id": true,
+    "stop_when_after_observer_cap_reaches": 400,
+    "request_interval_seconds": 1.05,
+    "request_retries": 2
+  },
+  "fixed_targets_after_observer_cap": [300, 400],
+  "feasibility_rule": {
+    "primary": "at least 150 of the fixed 500 pilot species reach 300 after observer cap",
+    "secondary": "report number reaching 400 without a pass/fail requirement",
+    "reason": "150 species is the upper end of the prespecified 100-150 species prospective design range; this is a capacity gate, not a power gate"
+  },
+  "failure_and_censoring": {
+    "request_error": "retain species; do not replace; overall pilot not evaluable if more than 5 percent of fixed species have any terminal request error",
+    "page_cap_reached_before_target": "mark right-censored/indeterminate for that target, never call it confirmed insufficient",
+    "api_exhausted_before_target": "confirmed below target under the frozen metadata rules",
+    "favourable_species_replacement": false,
+    "post_outcome_threshold_change": false
+  },
+  "execution": {
+    "deterministic_shards": 8,
+    "max_parallel": 4,
+    "candidate_image_pixels_may_open": false,
+    "flower_colour_may_open": false,
+    "climate_may_open": false,
+    "pollination_guild_may_open": false
+  },
+  "claim_ceiling": "This pilot can establish metadata availability for a higher-depth acquisition design only. It cannot establish classifiable yield, sharedness power, flower-specificity, ecological signal, or authorize image acquisition.",
+  "ecological_claim_changed": false,
+  "reserve_flower_specific_gate_reclassified": false,
+  "six_species_used": false,
+  "thirty_four_species_used": false
+}

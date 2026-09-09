@@ -1,0 +1,10 @@
+{
+  "protocol": "rgfca-pre-h7-observer-identity-reconstruction-v1",
+  "protocol_commit": "6424b32c580f1f7c232d8876fdb43a86dd9af1a4",
+  "workflow_commit": "c4fa2e3804fc98c7178e996a1d35b7c61a58f523",
+  "status": "authorized_historical_metadata_only_reconstruction",
+  "current_api_identity_queries_authorized": false,
+  "image_pixels_authorized": false,
+  "flower_colour_authorized": false,
+  "M1_M3_scores_authorized": false
+}

@@ -1,0 +1,23 @@
+{
+  "status": "complete_actual_coordinate_and_mask_audit_only",
+  "source_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+  "export_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+  "artifact_id": 9991684761,
+  "export_run_id": 34041094467,
+  "rows": 50000,
+  "species": 500,
+  "classifiable_rows": 25377,
+  "eligible_species": 369,
+  "eligible_classifiable_rows": 21424,
+  "ineligible_species": 131,
+  "biological_colour_values_used": false,
+  "real_climate_used": false,
+  "sample_size_confounded_raw_volume_comparison": true,
+  "medians": [
+    {"frame": "classifiable_same_369", "representation": "geographic", "photos": 56.0, "effective_rank": 1.6248065996477155, "log_total_volume": -2.1894982341733744},
+    {"frame": "classifiable_same_369", "representation": "synthetic_environmental", "photos": 56.0, "effective_rank": 1.7284125651424052, "log_total_volume": -0.05151617775452433},
+    {"frame": "complete_same_369", "representation": "geographic", "photos": 100.0, "effective_rank": 1.6949663411776366, "log_total_volume": -1.9814391684168537},
+    {"frame": "complete_same_369", "representation": "synthetic_environmental", "photos": 100.0, "effective_rank": 1.74811239634031, "log_total_volume": -0.043474086448499705}
+  ],
+  "interpretation": "Coordinate/mask and synthetic-coordinate geometry only. Geographic effective rank summarizes covariance of the spherical Cartesian embedding; it is not environmental niche dimensionality or evidence of adaptation. Volume differences change both sample size and locations and do not identify a missingness effect. The synthetic-sphere benchmark is not yet calibrated on these actual coordinates."
+}

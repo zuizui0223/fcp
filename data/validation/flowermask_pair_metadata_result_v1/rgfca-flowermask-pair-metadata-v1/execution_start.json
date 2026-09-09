@@ -1,0 +1,7 @@
+{
+  "head_sha": "49d24a1b3ca060608d629577a01ce337b2bb45fe",
+  "run_id": "34201981494",
+  "started_utc": "2026-09-08T07:58:31Z",
+  "canonical_plan_sha256": "2ce2a578db6c470a9021189241e2e5c9fae561c2435896f64e61d50e0ccd4d83",
+  "all_rows_checkpointed_before_requests": true
+}

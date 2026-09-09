@@ -1,0 +1,96 @@
+name: Global RGFCA matched-background preflight
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/global-rgfca-background-control-preflight.yml'
+
+permissions:
+  contents: write
+
+env:
+  PYTHONHASHSEED: '0'
+  PYTHONPATH: '.'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install preflight dependencies only
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 pandas==2.2.3
+      - name: Bind to the already-known flower-only outcome and unopened background
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          old = json.loads(Path('docs/supporting/global_rgfca_within_species_spatial_omnibus_result_v1.json').read_text())
+          amend = json.loads(Path('docs/supporting/global_rgfca_background_control_postoutcome_status_amendment_v2a.json').read_text())
+          assert old['status'] == 'complete_verified_rgfca_within_species_spatial_omnibus'
+          assert old['verification']['github_run_id'] == 34088925008
+          assert old['primary']['p_upper'] == 0.001
+          assert amend['status'] == 'frozen_after_flower_only_omnibus_outcome_but_before_any_background_colour_recovery'
+          assert amend['still_unopened_at_this_amendment']['recovered_background_palette_vectors'] is False
+          print('flower_only_outcome_known=true')
+          print('background_colour_outcome_opened=false')
+          PY
+      - name: Run metadata-only matched-background preflight
+        run: |
+          rm -rf /tmp/preflight
+          mkdir -p /tmp/preflight
+          python scripts/analysis/audit_global_rgfca_background_control_preflight.py \
+            --output /tmp/preflight/global_rgfca_background_control_preflight_v2.json
+      - name: Require exact frozen denominator and unopened pixels
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('/tmp/preflight/global_rgfca_background_control_preflight_v2.json')
+          r = json.loads(p.read_text())
+          assert r['status'] == 'pass_background_control_preflight_without_pixels'
+          assert r['inferential_role'] == 'postoutcome_falsification_diagnostic'
+          assert r['flower_only_outcome_known_before_this_control'] is True
+          assert r['pixels_opened'] is False
+          assert r['background_colour_opened'] is False
+          assert r['matched_rows'] == 21424
+          assert r['matched_species'] == 369
+          assert r['candidate_url_join_complete'] is True
+          assert r['original_image_sha_available_for_every_row'] is True
+          assert r['stored_twelve_anchor_flower_counts_complete'] is True
+          print(json.dumps(r, indent=2))
+          PY
+      - name: Commit metadata-only preflight receipt
+        run: |
+          set -euo pipefail
+          mkdir -p docs/supporting
+          cp /tmp/preflight/global_rgfca_background_control_preflight_v2.json \
+            docs/supporting/global_rgfca_background_control_preflight_v2.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/supporting/global_rgfca_background_control_preflight_v2.json
+          git commit -m 'Record RGFCA background-control preflight receipt'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/hypervolume-geo-environment-identifiability
+            git rebase origin/analysis/hypervolume-geo-environment-identifiability
+            if git push origin HEAD:analysis/hypervolume-geo-environment-identifiability; then exit 0; fi
+            test "$attempt" -lt 4
+            sleep $((attempt*2))
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-background-control-preflight-v2
+          path: /tmp/preflight/
+          if-no-files-found: error
+          retention-days: 90

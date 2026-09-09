@@ -1,0 +1,23 @@
+# This publication plan is an exact UTF-8/LF artifact on every platform.
+docs/supporting/rgfca_photo_bar_plan_v1.json text eol=lf
+docs/supporting/rgfca_photo_bar_figure_manifest_v1.json text eol=lf
+docs/supporting/rgfca_photo_bar_release_v1.json text eol=lf
+docs/figures/rgfca_photo_bar_v1/*.json text eol=lf
+docs/figures/rgfca_photo_bar_v1/*.md text eol=lf
+docs/supporting/rgfca_reference_schema_plan_v1.json text eol=lf
+docs/supporting/rgfca_reference_schema_result_v1.json text eol=lf
+docs/supporting/rgfca_monarda_archive_intake_v1.json text eol=lf
+docs/supporting/rgfca_monarda_source_mapping_v1.json text eol=lf
+docs/supporting/rgfca_monarda_execution_amendment_v1.json text eol=lf
+docs/supporting/rgfca_monarda_execution_authorization_v1.json text eol=lf
+# Retained execution receipts/counts preserve exact Windows output bytes.
+data/validation/monarda_region_agreement_v1/** -text
+docs/supporting/rgfca_monarda_region_agreement_result_v1.json -text
+# Public filename-list receipts preserve provider bytes (including mixed EOL).
+data/validation/usda_flower_split_audit_v1/*.txt -text
+data/validation/usda_flower_split_audit_v1/*.json text eol=lf
+data/validation/flowermask_pair_metadata_inputs_v1/*.json -text
+docs/supporting/rgfca_flowermask_pair_metadata_plan_v1.json text eol=lf
+# Exact retained public metadata and run receipts; no image payloads.
+data/validation/flowermask_pair_metadata_result_v1/** -text
+docs/supporting/rgfca_flowermask_pair_metadata_result_v1.json text eol=lf

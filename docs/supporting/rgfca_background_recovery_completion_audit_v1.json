@@ -1,0 +1,32 @@
+{
+  "status": "verified_completed_non_evaluable_discovery_background_recovery",
+  "run_id": 34094784607,
+  "execution_head": "3ba0c11a66b1b0c6aef09483ebc7eb0666f244a3",
+  "result_commit": "2f00847ccc4d15be8637a1e3589239ce2ab5c114",
+  "partitions_verified": 128,
+  "rows_verified": 21424,
+  "species_in_fixed_frame": 369,
+  "exact_rows": 21339,
+  "failed_rows": 85,
+  "failed_flags": {
+    "exact_image_sha_match": 0,
+    "roi_admission_reproduced": 0,
+    "flower_mask_pixels_exact": 79,
+    "flower_palette_exact": 79,
+    "background_pixels_exact": 6
+  },
+  "failure_combinations": {
+    "flower_mask_pixels_exact + flower_palette_exact": 79,
+    "background_pixels_exact": 6
+  },
+  "lineage": {
+    "contract_sha256": "3a3dac30d2cd82f912426fca1296734dabb6521838c04c764462dbe10232eafc",
+    "amendment_sha256": "be64240023ce7fbf80eb484d93759f53ef488b0ab5e593370d35a818914afd1a",
+    "measured_sha256": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "recovery_rows_sha256": "4ac8b8edbaaf3c784ee7648367f50b994e1cde7114f9cc9d4ad5434ee9d56ae4"
+  },
+  "primary_statistic_computed": false,
+  "reserve_outcomes_read": false,
+  "raw_images_reacquired_by_audit": false,
+  "scope": "Saved worker flags and exact artifact/ID census; not an independent rerun of image measurement or a diagnosis of the root cause."
+}

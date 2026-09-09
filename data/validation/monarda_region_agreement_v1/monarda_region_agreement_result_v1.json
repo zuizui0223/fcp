@@ -1,0 +1,81 @@
+{
+  "protocol": "rgfca-monarda-region-agreement-v1",
+  "status": "complete_monarda_limited_region_agreement_diagnostic",
+  "inferential_role": "Limited target-domain flower-region agreement diagnostic for the already frozen FCP ROI-v4 runtime. This is measurement validation only and cannot change any ecological decision.",
+  "all_110_images_accounted_for": true,
+  "reference_alignment_complete": true,
+  "positive_reference_images": 109,
+  "reference_unknown_images": 1,
+  "execution_amendment": "rgfca-monarda-execution-amendment-v1",
+  "incidental_internal_colour_computation_permitted": true,
+  "continuous_colour_values_saved_or_analyzed": false,
+  "unknown_zero_annotation_image": {
+    "split": "train",
+    "coco_image_id": 69,
+    "predicted_pixels_descriptive_only": 122416,
+    "model_status": "model_success",
+    "counted_as_verified_negative": false
+  },
+  "aggregate": {
+    "positive_reference_images": 109,
+    "reference_pixels_total": 28428697,
+    "predicted_pixels_total": 21316820,
+    "intersection_pixels_total": 12113123,
+    "pooled_prediction_precision": 0.5682424958319299,
+    "pooled_reference_recall": 0.42608787170231543,
+    "median_positive_image_prediction_precision": 0.5148005920236809,
+    "median_positive_image_reference_recall": 0.7514949010832835,
+    "median_positive_image_iou": 0.3841787346627377,
+    "median_positive_image_dice": 0.5550998943158086,
+    "fraction_positive_images_iou_ge_0_25": 0.6055045871559633,
+    "fraction_positive_images_with_nonempty_prediction": 0.8623853211009175,
+    "gate_components": {
+      "pooled_prediction_precision_ge_0_70": false,
+      "pooled_reference_recall_ge_0_35": true,
+      "median_positive_image_prediction_precision_ge_0_70": false
+    },
+    "limited_gate_pass": false
+  },
+  "limited_gate_pass": false,
+  "provider_split_descriptive_only": {
+    "train": {
+      "positive_reference_images": 76,
+      "median_iou": 0.4346924336634132,
+      "median_precision": 0.5421642824100825,
+      "median_recall": 0.7957889012593777
+    },
+    "valid": {
+      "positive_reference_images": 22,
+      "median_iou": 0.4086541389679932,
+      "median_precision": 0.5483675058569585,
+      "median_recall": 0.7743970919042164
+    },
+    "test": {
+      "positive_reference_images": 11,
+      "median_iou": 0.22847593439672625,
+      "median_precision": 0.3669522714759039,
+      "median_recall": 0.36281364293612317
+    }
+  },
+  "model_runtime_failure_images": 0,
+  "ecological_results_changed": false,
+  "reserve_flower_specific_gate_reclassified": false,
+  "claim_ceiling": "A pass supports only bounded flower-region localization agreement of the unchanged FCP ROI-v4 runtime on this 110-image Monarda export under generic flowers polygon reference. It does not establish focal-petal accuracy, annotation completeness, calibrated colour, ecological replication, taxonomic generality, or causal biology.",
+  "limits": [
+    "Generic flowers polygons are not verified focal-taxon petal truth.",
+    "The released 110-image selection is not reproducibly explained by the author's unseeded notebook sampling step.",
+    "Provider train/valid/test labels are not treated as FCP holdouts.",
+    "Zero photo-ID/observation-ID overlap with the two FCP frames does not establish event, observer, JRC or foundation-model independence.",
+    "A pass is measurement-localization evidence only and cannot rescue the reserve flower-minus-background p=0.087 ecological gate."
+  ],
+  "lineage": {
+    "archive_sha256": "7c9d213514e319b11cc15623747277f88eb37c453722f665b8570b40b9f0dd0d",
+    "contract_sha256": "4b80de8151de16d9b5164fa2d9d1497026784b94dd805f6aa179163bc74809c8",
+    "intake_receipt_sha256": "1f5acb5af939b83c76b75d6513a0f404019ea88d4a4924d6d1322c8b8cde70f8",
+    "source_mapping_receipt_sha256": "fd0c58eb2657b8a7f5c620dca851e195ed341aa6f6781e7c704645b14a308106",
+    "detector_weight_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_encoder_sha256": "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951",
+    "efficient_sam_decoder_sha256": "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11",
+    "rows_sha256": "67cbeaa2cd0ea1f1d3f98516b4fe9f7bb1abc8648ac80268e6dc4ec3e754dc22"
+  }
+}

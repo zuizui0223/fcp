@@ -1,0 +1,115 @@
+{
+  "protocol": "rgfca-monarda-region-agreement-v1",
+  "status": "prospectively_frozen_after_complete_metadata_intake_before_any_monarda_pixel_decode_or_model_execution",
+  "date_jst": "2026-09-08",
+  "role": "Limited target-domain flower-region agreement diagnostic for the already frozen FCP ROI-v4 runtime. This is measurement validation only and cannot change any ecological decision.",
+  "parent_checkpoint": {
+    "pr": 31,
+    "branch_parent_head_before_contract": "2d51a544903b4e9a4ba6315bd63f3925c072af4f",
+    "archive_intake_commit": "2f2538387e48e1a1468df0a1917db56da880e8cb",
+    "archive_sha256": "7c9d213514e319b11cc15623747277f88eb37c453722f665b8570b40b9f0dd0d",
+    "archive_bytes": 41055963,
+    "archive_intake_receipt_sha256": "1f5acb5af939b83c76b75d6513a0f404019ea88d4a4924d6d1322c8b8cde70f8",
+    "source_mapping_receipt_sha256": "fd0c58eb2657b8a7f5c620dca851e195ed341aa6f6781e7c704645b14a308106",
+    "flower_only_or_ecological_results_used_for_threshold_selection": false
+  },
+  "fixed_denominator": {
+    "all_images": 110,
+    "provider_split_counts": {"train": 77, "valid": 22, "test": 11},
+    "images_with_one_or_more_polygon_annotations": 109,
+    "images_with_zero_annotations": 1,
+    "zero_annotation_identity": {"split": "train", "coco_image_id": 69, "original_name": "22132.jpg", "mapped_photo_id": "212509641"},
+    "zero_annotation_treatment": "reference_unknown_empty: retain in the 110-image census, do not call flower-negative, and do not count a model mask as a verified biological false positive",
+    "provider_splits_are_not_model_holdouts": true,
+    "no_image_may_be_dropped_after_pixel_outcome": true
+  },
+  "reference_definition": {
+    "supported_ontology": "union of every COCO polygon component using category id 1 / generic label flowers for one exported image",
+    "claim_limit": "generic flower-region reference only; not verified focal-taxon petal truth, anatomical completeness, or colour-valid petal mask",
+    "rasterization": "deterministic polygon union in the exported JPEG coordinate frame using Pillow ImageDraw.polygon with floating COCO vertices converted to image coordinates by round-half-to-even through Python round(), then clipped to [0,width-1] and [0,height-1]; fill=1; no dilation, erosion, hole repair, topology repair or component filtering",
+    "all_polygon_components_union": true,
+    "no_bbox_substitution": true
+  },
+  "orientation_and_alignment": {
+    "decode": "Pillow JPEG decode from the pinned ZIP member bytes",
+    "declared_dimension_gate": "decoded stored JPEG width and height must exactly equal the corresponding COCO declared width and height",
+    "exif_gate": "EXIF orientation must be absent or equal to 1; any other orientation makes the complete diagnostic not evaluable rather than transforming reference polygons after outcome",
+    "runtime_orientation": "unchanged FCP ROI-v4 applies ImageOps.exif_transpose then RGB conversion; under the gate above this leaves the reference coordinate frame unchanged",
+    "failure_rule": "any archive member mismatch, decode failure, declared-dimension mismatch, unsupported EXIF orientation, polygon rasterization failure, or missing COCO/image join makes the complete 110-image diagnostic not evaluable"
+  },
+  "frozen_fcp_runtime": {
+    "source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "flower_roi_v4_blob": "9d1d2a1848f0c798b53c4df51543dc2682342377",
+    "flower_roi_v4_runtime_blob": "6f3e71f7216b1635a2e06628336f5ea9ce0105d6",
+    "photo_first_measurement_blob": "b2761c7fd2f8af615c1d96a615942e7af67d492a",
+    "roi_contract_blob": "b043bc83d0d69489f38771e8f4bbe524963b70ea",
+    "locked_test_result_blob": "b25425f1f738bcea75cef5f60980332a9857610b",
+    "detector_weight_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "detector_inference": {"image_size": 1024, "confidence_minimum": 0.25, "nms_iou": 0.7, "maximum_detections": 300, "test_time_augmentation": false},
+    "efficient_sam_revision": "d525f622e6f640acf5a0fc37c7ca1f243da5bde0",
+    "efficient_sam_encoder_sha256": "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951",
+    "efficient_sam_decoder_sha256": "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11",
+    "mask_rule": "use the unchanged original-orientation union flower_mask returned by FrozenFlowerColourEstimator.measure; no Monarda-specific threshold, component rule, morphology, colour prior or tuning",
+    "admission_gate_not_used_to_select_scored_images": true,
+    "reason": "the diagnostic evaluates localization itself; filtering to colour-admitted images would condition on downstream ROI/background/flip gates"
+  },
+  "per_image_scoring": {
+    "positive_reference_images": 109,
+    "predicted_mask_for_runtime_success": "unchanged union flower_mask",
+    "runtime_failure_or_empty_prediction_on_positive_reference": "retain image and assign intersection=0, predicted_pixels=0, precision=0, recall=0, IoU=0 and Dice=0",
+    "metrics": ["reference_pixels", "predicted_pixels", "intersection_pixels", "union_pixels", "prediction_precision", "reference_recall", "iou", "dice"],
+    "unknown_zero_annotation_image": "report model/runtime status and predicted pixel count only; no precision/recall/IoU/Dice and no false-positive label"
+  },
+  "aggregate_metrics": {
+    "primary_operational_metrics": [
+      "pooled_prediction_precision_over_109_positive_reference_images",
+      "pooled_reference_recall_over_109_positive_reference_images",
+      "median_positive_image_prediction_precision"
+    ],
+    "mandatory_descriptive": [
+      "median_positive_image_reference_recall",
+      "median_positive_image_iou",
+      "median_positive_image_dice",
+      "fraction_positive_images_iou_ge_0_25",
+      "fraction_positive_images_with_nonempty_prediction",
+      "all 110 row statuses",
+      "provider-split descriptive summaries only"
+    ],
+    "no_best_split_selection": true
+  },
+  "limited_gate": {
+    "purpose": "bounded operational adequacy of flower-region localization only",
+    "threshold_origin": "reuse, without tuning to Monarda, the already frozen JRC locked-test floors: 0.70 mask containment/purity and 0.35 detector recall; apply them here only as conservative pixel-region precision and recall floors",
+    "requirements": {
+      "complete_reference_alignment": true,
+      "all_110_images_accounted_for": true,
+      "pooled_prediction_precision_minimum": 0.70,
+      "pooled_reference_recall_minimum": 0.35,
+      "median_positive_image_prediction_precision_minimum": 0.70
+    },
+    "pass_rule": "all requirements must pass; no compensating composite score",
+    "failure_rule": "report all rows and metrics, retain failure, do not retune or rerun a modified model on these same images"
+  },
+  "verification": {
+    "required": [
+      "archive SHA and member SHA verification before decode",
+      "110/110 exact COCO-image-member census",
+      "decoded dimension and EXIF-orientation audit",
+      "independent recomputation of every aggregate from saved per-image counts",
+      "synthetic polygon-rasterization tests including clipping and multiple-component union",
+      "synthetic model-failure and zero-annotation treatment tests",
+      "all code/input/output SHA256 receipts"
+    ]
+  },
+  "prohibited": [
+    "training or fine-tuning on Monarda",
+    "threshold search or component filtering after scores are seen",
+    "using provider train/valid/test labels to choose parameters",
+    "relabeling the zero-annotation image as a verified negative",
+    "colour measurement or geographic/ecological inference from Monarda",
+    "publication of raw JPEGs or polygon vertices",
+    "reclassification of the reserve matched flower-minus-background p=0.087",
+    "PR merge or manuscript submission based on this diagnostic alone"
+  ],
+  "claim_ceiling": "A pass supports only bounded flower-region localization agreement of the unchanged FCP ROI-v4 runtime on this 110-image Monarda export under generic flowers polygon reference. It does not establish focal-petal accuracy, annotation completeness, calibrated colour, ecological replication, taxonomic generality, or causal biology."
+}

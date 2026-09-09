@@ -1,0 +1,51 @@
+{
+  "protocol": "rgfca-pre-h7-observer-identity-reconstruction-v1",
+  "status": "frozen_before_reconstruction_outcome",
+  "date": "2026-09-09",
+  "purpose": "recover exact historical observer IDs for the 81803 pre-H7 observation/photo pairs without querying current iNaturalist identity state",
+  "sources": {
+    "random_photo_first_candidate_pool": {
+      "path": "data/frozen/random_photo_first_candidate_pool_v1.csv",
+      "expected_rows": 20845,
+      "sha256": "c124af7229d8ccb26d8ab20886772fbf61f12b8dabbcb529f83012bafcd5413d",
+      "observer_id_was_required_by_frozen_parser": true
+    },
+    "six_species_ch1": {
+      "path": "data/frozen/jbi_ch1_photo_source_manifest.csv",
+      "expected_rows": 1200,
+      "git_blob_sha": "d8442bed4973556110a0678bee6ac580ddf90242",
+      "observer_id_present": true
+    },
+    "pr21_terminal_60000": {
+      "workflow_run_id": 33405153936,
+      "artifact_id": 9769165047,
+      "artifact_name": "jbi-atlas-200-species-metadata-feasibility",
+      "inner_path": "scaleout_observation_manifest.csv",
+      "expected_rows": 60000,
+      "inner_sha256": "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc",
+      "observer_id_present": true
+    },
+    "frozen_h7_exclusion_pairs": {
+      "path": "data/frozen/random_photo_first_h7_exclusion_ledger_v1.csv",
+      "expected_unique_pairs": 81803,
+      "sha256": "b877a5fe5d36e0a5f84e73b9eae14b3c33b3f0fddc0ebc1a5f69331cc88b811a"
+    }
+  },
+  "reconstruction_rule": {
+    "key": ["observation_id", "photo_id"],
+    "observer_value": "historically stored observer_id from the exact frozen source row",
+    "current_api_identity_queries_allowed": false,
+    "pair_coverage_required": "81803 of 81803 exact frozen H7 pairs",
+    "observer_conflicts_allowed": 0,
+    "missing_observer_ids_allowed": 0,
+    "source_union_extra_pairs_allowed": 0
+  },
+  "outcome_firewall": {
+    "image_pixels_opened": false,
+    "flower_colour_used": false,
+    "M1_M3_scores_used": false,
+    "climate_used": false,
+    "island_status_used": false
+  },
+  "failure_rule": "if exact coverage, conflict, source identity, or historical observer completeness fails, retain pre_h7_observer_identity_complete=false"
+}

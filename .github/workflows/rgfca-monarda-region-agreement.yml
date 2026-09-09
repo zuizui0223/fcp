@@ -1,0 +1,69 @@
+name: RGFCA Monarda region agreement qualification
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - 'docs/supporting/rgfca_monarda_region_agreement_contract_v1.json'
+      - 'scripts/analysis/run_rgfca_monarda_region_agreement.py'
+      - 'scripts/analysis/monarda_execution_guard.py'
+      - 'tests/test_rgfca_monarda_region_agreement.py'
+      - 'tests/test_monarda_execution_guard.py'
+      - 'docs/supporting/rgfca_monarda_execution_amendment_v1.json'
+      - '.github/workflows/rgfca-monarda-region-agreement.yml'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONHASHSEED: '0'
+  PYTHONPATH: '.'
+
+jobs:
+  pre-pixel-qualification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Materialize the exact already-frozen FCP ROI-v4 runtime only
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install lightweight qualification dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 pandas==2.2.3 Pillow==12.0.0 pytest==8.4.2
+      - name: Require the complete metadata intake and no region-agreement outcome yet
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          def sha(path):
+              return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+          c=json.loads(Path('docs/supporting/rgfca_monarda_region_agreement_contract_v1.json').read_text())
+          intake=json.loads(Path('docs/supporting/rgfca_monarda_archive_intake_v1.json').read_text())
+          mapping=json.loads(Path('docs/supporting/rgfca_monarda_source_mapping_v1.json').read_text())
+          assert c['status']=='prospectively_frozen_after_complete_metadata_intake_before_any_monarda_pixel_decode_or_model_execution'
+          assert intake['archive_sha256']==c['parent_checkpoint']['archive_sha256']
+          assert intake['total_images']==110 and intake['total_annotations']==788
+          assert sha('docs/supporting/rgfca_monarda_archive_intake_v1.json')==c['parent_checkpoint']['archive_intake_receipt_sha256']
+          assert sha('docs/supporting/rgfca_monarda_source_mapping_v1.json')==c['parent_checkpoint']['source_mapping_receipt_sha256']
+          assert mapping['reference_images_mapped']==110
+          assert mapping['unique_photo_ids']==110 and mapping['unique_observation_ids']==110
+          assert not Path('docs/supporting/rgfca_monarda_region_agreement_result_v1.json').exists()
+          print('monarda_region_preoutcome_firewall=pass')
+          PY
+      - name: Run focused frozen-design tests
+        run: python -m pytest -q tests/test_rgfca_monarda_region_agreement.py tests/test_monarda_execution_guard.py
+      - name: Verify exact model/runtime identities without loading a model or decoding a reference image
+        run: |
+          test "$(git hash-object fcp_pipeline/flower_roi_v4.py)" = '9d1d2a1848f0c798b53c4df51543dc2682342377'
+          test "$(git hash-object fcp_pipeline/flower_roi_v4_runtime.py)" = '6f3e71f7216b1635a2e06628336f5ea9ce0105d6'
+          test "$(git hash-object fcp_pipeline/photo_first_measurement.py)" = 'b2761c7fd2f8af615c1d96a615942e7af67d492a'
+          echo 'f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5  data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt' | sha256sum -c -
+          echo 'monarda_reference_pixels_decoded=false'
+          echo 'monarda_model_loaded=false'

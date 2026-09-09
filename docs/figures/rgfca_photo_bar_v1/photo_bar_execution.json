@@ -1,0 +1,818 @@
+{
+  "detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+  "finished_at_utc": "2026-09-07T08:25:58.567836+00:00",
+  "new_inference": false,
+  "photos": [
+    {
+      "bbox_xyxy": [
+        293,
+        300,
+        719,
+        507
+      ],
+      "crop_name": "slot_01.png",
+      "crop_sha256": "a8ba5b0c245b8272b523a28ee07b1915567f1efbc8cd5f4527f32750ee28968a",
+      "flower_mask_pixels": 12183,
+      "full_flower_mask_sha256": "87f528b4cb81e2cfae702cf4d03caac12e1571df0d382725c3f54fec7ebdf1dd",
+      "measurement_id": "FCPG-B86F1D1C90281DD9D30BFEFF",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "185286249",
+      "slot": 1,
+      "source_image_sha256": "722097f82de1077f813a6a0f5be1a92d00327c6744610ec2ddea346e6d40b717",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        0,
+        16,
+        1024,
+        768
+      ],
+      "crop_name": "slot_02.png",
+      "crop_sha256": "1de0c7a51f880a30d3bc19726c9b8614faa93946e40eef62b29f49c73a055faa",
+      "flower_mask_pixels": 56971,
+      "full_flower_mask_sha256": "a4d06938f1d069f40d772db7ae226a71b964a6392249d231484dfb6a7bb44851",
+      "measurement_id": "FCPG-C733DB9ADCA7D5D56AF49DFB",
+      "oriented_size": [
+        1024,
+        768
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "642119468",
+      "slot": 2,
+      "source_image_sha256": "0130d5475ffb3180457fd759940817805bb6726bfb9fb79f43c8c8f81676f467",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        224,
+        9,
+        667,
+        996
+      ],
+      "crop_name": "slot_03.png",
+      "crop_sha256": "e8f54e99aecf7b5c97c5d52729cab1d56fadd2e91d00e18a8f479e09cbe61a5d",
+      "flower_mask_pixels": 23563,
+      "full_flower_mask_sha256": "e4208e5a611902394661dd7aac9b386f006916ead62fd716536b29cb50458844",
+      "measurement_id": "FCPG-C0E3AB285D55AE0A8753BAA9",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "301720556",
+      "slot": 3,
+      "source_image_sha256": "d8b80bbb5d7d96d399fab94accadb21d6d7cb4c0f6314d14375bb367fb6cfeb1",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        0,
+        25,
+        608,
+        1024
+      ],
+      "crop_name": "slot_04.png",
+      "crop_sha256": "44a9e3e5e05e73c267ef04fe85227d63b52804c2e1fb9fa4e0dedc5dec68d281",
+      "flower_mask_pixels": 12879,
+      "full_flower_mask_sha256": "b02d001702fda48f708242f8af47be0e9f0cb059536b47eab9fc6b0bf61e85d1",
+      "measurement_id": "FCPG-2D66F0ECF2E3A58B95DAAEB3",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "272461339",
+      "slot": 4,
+      "source_image_sha256": "5875a959bcfc99348aa97697b7e86f64ed1f11173c3214042b9f0c16cded10a9",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        80,
+        200,
+        443,
+        1011
+      ],
+      "crop_name": "slot_05.png",
+      "crop_sha256": "d7a2b5a8c42f4a06216e65bb370cb9cd06e23bf69021e179ed5c377fc0f3b438",
+      "flower_mask_pixels": 20922,
+      "full_flower_mask_sha256": "690bac5a49dda3622b9abfd49e32876fe6ac22149c556731ad51577e0a5b97d4",
+      "measurement_id": "FCPG-FAFFE0721765B9ACF9ED3D88",
+      "oriented_size": [
+        680,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "42721718",
+      "slot": 5,
+      "source_image_sha256": "4fcdd5c7a4fd39bddc81d8b275d2390dc268e22b52e8961373aa4bd7be5300fd",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        616,
+        290,
+        712,
+        568
+      ],
+      "crop_name": "slot_06.png",
+      "crop_sha256": "9e0ca9b5239c29fc7ea6dee17db21acb572388ebf056c13fe27f35382848cc57",
+      "flower_mask_pixels": 3682,
+      "full_flower_mask_sha256": "8bff920a98790578cdbca3878b45af94b770040994713f18f9f2134862d8e761",
+      "measurement_id": "FCPG-E19992E64CF28244AEDDE541",
+      "oriented_size": [
+        1024,
+        768
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "282161948",
+      "slot": 6,
+      "source_image_sha256": "5c73fb7ae3c7f3cedeb6cfc8432d379acd9d5c4d88134ce5182b4bc11c9f8956",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        3,
+        360,
+        471,
+        869
+      ],
+      "crop_name": "slot_07.png",
+      "crop_sha256": "581e66783731c42f6acbdc9569cc5911597b4e910a236fd348e6a2ffd5550c6f",
+      "flower_mask_pixels": 27002,
+      "full_flower_mask_sha256": "69b0e3639eda73d80b8f3176bbd227835b3b04e94cfd356b7cc147d9a1aa38e1",
+      "measurement_id": "FCPG-C45A0C0D8EC725F240A681CB",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "308903083",
+      "slot": 7,
+      "source_image_sha256": "3f86c1e94e7ee6bcb2655092ece4b0bbf59366ed5158074f0210a681a4d12fa3",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        250,
+        336,
+        473,
+        608
+      ],
+      "crop_name": "slot_08.png",
+      "crop_sha256": "f7e49cf471ebfd6af76dfc3428aa6fb0e2911beb9f249022ec6a8c2955f10989",
+      "flower_mask_pixels": 18489,
+      "full_flower_mask_sha256": "55a687810794e991e889d564acc6a9aea12061ec9c4d5ab0494d4184186f500e",
+      "measurement_id": "FCPG-E9F6F24819BD193EAA02A1A4",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "60194554",
+      "slot": 8,
+      "source_image_sha256": "bd6b2fe3ac965bcbf8d753b0cdd97c58592a251c02a825c2570725bf966057d6",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        15,
+        192,
+        600,
+        797
+      ],
+      "crop_name": "slot_09.png",
+      "crop_sha256": "4d4ae04acddf9dfee84aecb956b42b95079a52a7f14826583b38f94f0a2bed24",
+      "flower_mask_pixels": 9431,
+      "full_flower_mask_sha256": "d7b6fa9c02c183f7fdd65de26746460cf1e476ce4353b62bcec671a1c7dfe984",
+      "measurement_id": "FCPG-4532A610EA3F9DDA58A3AA02",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "42356371",
+      "slot": 9,
+      "source_image_sha256": "a4094e979cc488f92f2846e45fff3b1e455efdbe91daabaed292abf5261019fe",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        232,
+        440,
+        500,
+        654
+      ],
+      "crop_name": "slot_10.png",
+      "crop_sha256": "4b1e5f737e187208143586fea242554e7aaabc2d24447ac35bb4712622714d99",
+      "flower_mask_pixels": 30368,
+      "full_flower_mask_sha256": "d4867779c02070f1430b0341a0c4e61ee39d7126368b40071110a3adc232e1e5",
+      "measurement_id": "FCPG-EE697E59C484400BC41F7728",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "532134873",
+      "slot": 10,
+      "source_image_sha256": "b515174f25577c38dd74d83b4a3abef29317d29df6707afe4e9f19853a551226",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        412,
+        326,
+        501,
+        473
+      ],
+      "crop_name": "slot_11.png",
+      "crop_sha256": "60fea27a06fa76b4eb0d59779fa1ebd7b39f6ec701582ad84d846e581f747e08",
+      "flower_mask_pixels": 7419,
+      "full_flower_mask_sha256": "a570c75548ab51ab1a565b62b1afacdabfe0d4ade9773e894ac667983a34239b",
+      "measurement_id": "FCPG-BE0FEFAE3C57EBC6831A6E77",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "498271456",
+      "slot": 11,
+      "source_image_sha256": "c9404506193d9c45ef8e82efd9e8210230c6a94a6025b01dadbc7ca372ab1f9d",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        478,
+        94,
+        675,
+        296
+      ],
+      "crop_name": "slot_12.png",
+      "crop_sha256": "5a852916fea886e4508e38a7945ace29701ee06b76434aa0b7c0e41ea120e3c8",
+      "flower_mask_pixels": 10346,
+      "full_flower_mask_sha256": "efb13691183dc8dce2924606ac3a147bc00cd395f9be7a8079f15b71e18508b7",
+      "measurement_id": "FCPG-700DAE6A5D87650E1DEF3A2D",
+      "oriented_size": [
+        810,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "205193298",
+      "slot": 12,
+      "source_image_sha256": "30516ee0e82089666e06714ff0ed9c4d2e8d3d81c054519de4c88ef38c064dd3",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        0,
+        137,
+        615,
+        760
+      ],
+      "crop_name": "slot_13.png",
+      "crop_sha256": "083b68bf12e8b5f20ccf2f821308076392d6f81ed7979c9a7608fad04bc69bdd",
+      "flower_mask_pixels": 34396,
+      "full_flower_mask_sha256": "89d308a4a6fc40ff2e96b77db3ee9a1c20894f68cfd88e1c4e8bc0ac26c60281",
+      "measurement_id": "FCPG-1F9F9F81B747DF6D343DA849",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "19449339",
+      "slot": 13,
+      "source_image_sha256": "36cb7e657cc4ce1669d610bedcfca8d1c8d35e2a81e98478517a67b22d3984e3",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        0,
+        0,
+        768,
+        1024
+      ],
+      "crop_name": "slot_14.png",
+      "crop_sha256": "69fe7c66558dd5bc9665b9be91179b51ca1b3b8d2fd1fef25edec4df85c46975",
+      "flower_mask_pixels": 163950,
+      "full_flower_mask_sha256": "cca4547ac859bbde7708a06c72982cda43ff4cd25e3e163cacaa3569707d90cd",
+      "measurement_id": "FCPG-E8BE7E5A503AAA70F3FEAEEC",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "426443207",
+      "slot": 14,
+      "source_image_sha256": "6e693a0b9a74c08eed0eccb70f7f70a4c6095cabe03a5b724c34dd656af02b5f",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        0,
+        0,
+        768,
+        953
+      ],
+      "crop_name": "slot_15.png",
+      "crop_sha256": "b01c19cc18513a9aceeb873a273588037930e5f914773855a5634a5a97336e0c",
+      "flower_mask_pixels": 74709,
+      "full_flower_mask_sha256": "e0a470d8330adb7ae571a0465b90f2315e0a66c7b21b6b84d2fca775b3779589",
+      "measurement_id": "FCPG-F0A3C42A456D488DAD6CC1B6",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "57136759",
+      "slot": 15,
+      "source_image_sha256": "82be6307c719a21694f163f2cd805bcf487e5c6715cb64c82b8104e558fd3969",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        132,
+        12,
+        848,
+        927
+      ],
+      "crop_name": "slot_16.png",
+      "crop_sha256": "395b99154cff3f16f5f4ff53d51667757c09fbc28f831b6fa0e3cb74df3f61c2",
+      "flower_mask_pixels": 13168,
+      "full_flower_mask_sha256": "c9be630725c799e8bc90a6dcf0a472c70b57cdb1ba17875aa0d4e64e96bdef4b",
+      "measurement_id": "FCPG-ADBC1439F7082F9A19591F4D",
+      "oriented_size": [
+        908,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "453112951",
+      "slot": 16,
+      "source_image_sha256": "d86044ea02590b213ebb195e75ff23a24fde8ca7a3494cf106f54feefdd6b0b0",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        1,
+        53,
+        767,
+        960
+      ],
+      "crop_name": "slot_17.png",
+      "crop_sha256": "b32858c0417523d7ff2c1c37b901b30ce98a3435faf4863464225dc082550d2a",
+      "flower_mask_pixels": 47103,
+      "full_flower_mask_sha256": "7311f416c2b39fe6714a32a98592fd5ead7ca747390818c77a44d7b78599816e",
+      "measurement_id": "FCPG-9508FB91BE3CA2C6C2435815",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "367509680",
+      "slot": 17,
+      "source_image_sha256": "1d0e1c62dbd5c639d75a557ac3b5856d2f9acc34c86bc600ac22a41009caaf13",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        86,
+        157,
+        687,
+        889
+      ],
+      "crop_name": "slot_18.png",
+      "crop_sha256": "40663f6cd72342115726e9bde32bfd82bca89eb977b61524918f4bc21c003e1d",
+      "flower_mask_pixels": 62776,
+      "full_flower_mask_sha256": "07fad5377c31f923d45779347eb522da0b8952a5f90733aacb34986f8be3006c",
+      "measurement_id": "FCPG-CA4EBB79A34DCB0D2BCE1475",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "90244853",
+      "slot": 18,
+      "source_image_sha256": "5038752ca5906d97dad6396059270ca396fd4ffdfd3284866e1b36a9c2d9d521",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        2,
+        1,
+        1016,
+        541
+      ],
+      "crop_name": "slot_19.png",
+      "crop_sha256": "072bf2dcfb6151982fa59f128b07ba09f644556d3b74c6d9f39920226f526eb4",
+      "flower_mask_pixels": 3258,
+      "full_flower_mask_sha256": "52d675d807075b0985de9d59f5c5f65e0a9d977e65ea5efc0bd1d485f323aa9f",
+      "measurement_id": "FCPG-926DFEBFD8F78CA1A281F263",
+      "oriented_size": [
+        1024,
+        576
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "146425042",
+      "slot": 19,
+      "source_image_sha256": "f302ec799be6482c3599ee76bbd0daf3e5fcb2f20b9eb28e681c0cf30c835d5e",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        259,
+        191,
+        640,
+        659
+      ],
+      "crop_name": "slot_20.png",
+      "crop_sha256": "22911c627f41249daeccaf779543269b593f5d1502570fdf0035e6e4d28caf4b",
+      "flower_mask_pixels": 39571,
+      "full_flower_mask_sha256": "7312c99a3230f24cf9824697a2194c76410400d24937c488ab77030bf9a9ad88",
+      "measurement_id": "FCPG-D4E88700686B6F3065EDC864",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "284571871",
+      "slot": 20,
+      "source_image_sha256": "ca61debc60b5e9d60ad49f8499fa687c7e41e597ca64a9a5cd5cc455d5f90706",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        208,
+        5,
+        687,
+        600
+      ],
+      "crop_name": "slot_21.png",
+      "crop_sha256": "5b863ca4a60fa183fde7d149f1fdbae8cfe970b05bef439d312a596aca8ba49d",
+      "flower_mask_pixels": 46915,
+      "full_flower_mask_sha256": "6a75a315cfe7af3ebb9f3d093096e5c9f3a1585f6f6ebc5f928be7cd02b75cab",
+      "measurement_id": "FCPG-7F252004E520183E8E635F3A",
+      "oriented_size": [
+        790,
+        731
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "171302969",
+      "slot": 21,
+      "source_image_sha256": "759e3c12a7e346e1ce870a1fff1d9e339fe3f90c0342112f35530cc490d12ea7",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        312,
+        421,
+        492,
+        631
+      ],
+      "crop_name": "slot_22.png",
+      "crop_sha256": "8d79b5279c3d2bae7cfdbb85c7d8932be5c54a9a29b31cb9a16030d67fa24311",
+      "flower_mask_pixels": 18721,
+      "full_flower_mask_sha256": "93f936e71bd17212713de2847d4ed0428a2e964c870eeb04fdf37d5ee226df4c",
+      "measurement_id": "FCPG-2BC1B8036354F9788043A186",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "95399051",
+      "slot": 22,
+      "source_image_sha256": "859c032f60e40e6e997f62aa954f4609d99b3ec13aed509748b7cd8465085ab6",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        150,
+        252,
+        563,
+        729
+      ],
+      "crop_name": "slot_23.png",
+      "crop_sha256": "10c93d0be4dadc5c828a850167011fdb2f3f812e165d27ab33be4d3253a3bd8b",
+      "flower_mask_pixels": 28628,
+      "full_flower_mask_sha256": "651ae78cf35a31da00785fd86b0c91960de6fd0e0f40d667d121fd9a75cc27dd",
+      "measurement_id": "FCPG-2EFB3918CC103EC81B7DA416",
+      "oriented_size": [
+        1024,
+        768
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "410545106",
+      "slot": 23,
+      "source_image_sha256": "c4dd8aafc47d43df1c6ea28a6b016e3927a1a8364097723779a9f576695e1b5a",
+      "status": "original_summaries_reproduced_crop_created"
+    },
+    {
+      "bbox_xyxy": [
+        137,
+        30,
+        595,
+        1023
+      ],
+      "crop_name": "slot_24.png",
+      "crop_sha256": "b707562535a1f9fc0c308a1e51342da2d115ad0ef3cae29c24feb6483d55d903",
+      "flower_mask_pixels": 5546,
+      "full_flower_mask_sha256": "dff1acadf5322e866cfb84b2e281e4290079b938b81b71b8091aae36895bf632",
+      "measurement_id": "FCPG-A725E10B1272233C5EF2BA36",
+      "oriented_size": [
+        768,
+        1024
+      ],
+      "palette_counts_reproduced": true,
+      "photo_id": "578371186",
+      "slot": 24,
+      "source_image_sha256": "a7b0124c03ce484b2a4a51c9b94cb33a6aaa2185e07c2e9818680c071500ef3a",
+      "status": "original_summaries_reproduced_crop_created"
+    }
+  ],
+  "plan_sha256": "63e916f4833d938bef371a03e0cfdbeec76a58f7e8e7f18b712f7e0b0cbc0246",
+  "protocol": "rgfca-discovery-photo-bar-v1",
+  "replacement_used": false,
+  "reserve_outcomes_read": false,
+  "rights": [
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/109886478",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "185286249",
+      "photo_page": "https://www.inaturalist.org/photos/185286249",
+      "response_sha256": "08f09ce0b05259b52811917b60bf4acc5b51c2ba9be28667467033a334b0ad80",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:19.498369+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/351842011",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "642119468",
+      "photo_page": "https://www.inaturalist.org/photos/642119468",
+      "response_sha256": "bb9d3681b258a23356eb2936863a0382d71c67194aa65b76302605a2f1e3b601",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:21.561360+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/173720757",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "301720556",
+      "photo_page": "https://www.inaturalist.org/photos/301720556",
+      "response_sha256": "1e08e0515cd6c8c628c3ca282c574d3e198f653b095354f583ebbf149393d754",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:22.942744+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/157594420",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "272461339",
+      "photo_page": "https://www.inaturalist.org/photos/272461339",
+      "response_sha256": "4e7b2d0d80a88dba369abe33987750c1af2dc85fb26b4b6a0c46e16645f130e5",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:24.597072+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/27456150",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "42721718",
+      "photo_page": "https://www.inaturalist.org/photos/42721718",
+      "response_sha256": "9f3ee2b58539739fb9bc0009c35243b6b65ce19baf5b3715d71e7a399c265f72",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:26.232747+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/163150876",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "282161948",
+      "photo_page": "https://www.inaturalist.org/photos/282161948",
+      "response_sha256": "c073371b5d9e8527c0e15dca4c430950b286b244b8545492a7c5384277d47816",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:27.861947+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/177596088",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "308903083",
+      "photo_page": "https://www.inaturalist.org/photos/308903083",
+      "response_sha256": "e2584721cd90e392d034e55ac4699ff4b7a3d6206fdfac4bb5de0f8d7462c919",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:29.389090+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/37923176",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "60194554",
+      "photo_page": "https://www.inaturalist.org/photos/60194554",
+      "response_sha256": "6924be0e046d12428fabb547bb757ae86579caf4cd2bb74c4284e4a46e8ffa26",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:31.094101+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/27236953",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "42356371",
+      "photo_page": "https://www.inaturalist.org/photos/42356371",
+      "response_sha256": "eb01c7ae1261b6758a0bca4c7d952b14a0c060b5d0456cc9c384ce7bf395ea16",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:32.487726+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/295583310",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "532134873",
+      "photo_page": "https://www.inaturalist.org/photos/532134873",
+      "response_sha256": "0c2d26fdfe09493832eaf5aceefcbbdd974a793a0a299fa4c69547e5f925eae7",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:34.148704+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/277498086",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "498271456",
+      "photo_page": "https://www.inaturalist.org/photos/498271456",
+      "response_sha256": "42a8bf4d1ae2e8422d09645b37d332600d32419f0023e80ac640fc681299ec11",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:35.583870+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/121271040",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "205193298",
+      "photo_page": "https://www.inaturalist.org/photos/205193298",
+      "response_sha256": "e197832b3cf6798efd14c6f921f1acee0e9be11c5a4e94302a08f6bca008d4e8",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:37.076751+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/13284114",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "19449339",
+      "photo_page": "https://www.inaturalist.org/photos/19449339",
+      "response_sha256": "d7f22ea09ea14c2562ef4467f0230f1f9eb4673db794cac585165dd5a935812b",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:38.573719+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/239438237",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "426443207",
+      "photo_page": "https://www.inaturalist.org/photos/426443207",
+      "response_sha256": "29685bd13f28d2882e8be504e6ad71dfa18be3144d599c0a5eb323e4ecc13607",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:39.978324+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/36166338",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "57136759",
+      "photo_page": "https://www.inaturalist.org/photos/57136759",
+      "response_sha256": "f1fafd42c28fcfb9344ca7b058be5062f51654be56055ded6193b461727f48fe",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:41.470702+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/253095150",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "453112951",
+      "photo_page": "https://www.inaturalist.org/photos/453112951",
+      "response_sha256": "c19f628fc13ecfcb93ba401314594e7455e160db6b16916542b39d5d908b6fe7",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:43.173320+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/207747796",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "367509680",
+      "photo_page": "https://www.inaturalist.org/photos/367509680",
+      "response_sha256": "3fa179b06317d255d8a792f7a960738b94e2430f847f299c48b473dc775467bb",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:44.659905+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/56621778",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "90244853",
+      "photo_page": "https://www.inaturalist.org/photos/90244853",
+      "response_sha256": "f6be4c461bf46ecba9966137add8faa0aecc8ef7827b73caa17e949581a930b8",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:46.114356+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/88724009",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "146425042",
+      "photo_page": "https://www.inaturalist.org/photos/146425042",
+      "response_sha256": "458e8caa232a79d465827ea9fbfdebda0a65e830b75db59d1d7388a92f3265ff",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:47.511978+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/164464126",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "284571871",
+      "photo_page": "https://www.inaturalist.org/photos/284571871",
+      "response_sha256": "767574614f6e56c11d0d7924280dbcd6cf590ae30be2ddb1e1c0e0554a8e7676",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:48.979566+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/102472058",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "171302969",
+      "photo_page": "https://www.inaturalist.org/photos/171302969",
+      "response_sha256": "27c7ac1f38ca1a99dcd5af60e20d8d5cd0a1e41573251d2e6f5b3384d82a5cbc",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:50.509298+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/59695649",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "95399051",
+      "photo_page": "https://www.inaturalist.org/photos/95399051",
+      "response_sha256": "626c43135ff26c04d94fd41c259237d429d1659c2ec7ccde0fe94e1abacf03ff",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:52.091247+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/231170205",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "410545106",
+      "photo_page": "https://www.inaturalist.org/photos/410545106",
+      "response_sha256": "dbd9f9d737355ec53cb4f0a49bafe0f1f67c00fc8397378f59b68993a3660621",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:53.466830+00:00"
+    },
+    {
+      "attribution": "no rights reserved",
+      "endpoint": "https://api.inaturalist.org/v1/observations/319925844",
+      "license_code": "cc0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "photo_id": "578371186",
+      "photo_page": "https://www.inaturalist.org/photos/578371186",
+      "response_sha256": "58ad7f6c35ba468a37f91b6a71df3651373b14617ce3418b8fcb3534d1693c05",
+      "status": "cc0_photo_verified",
+      "verified_at_utc": "2026-09-07T08:23:55.064945+00:00"
+    }
+  ],
+  "runtime_versions": {
+    "Pillow": "12.1.1",
+    "numpy": "2.3.5",
+    "onnxruntime": "1.23.2",
+    "pandas": "2.2.3",
+    "scikit-image": "0.25.2",
+    "torch": "2.11.0+cpu",
+    "ultralytics": "8.4.112"
+  },
+  "source_commit": "29584f3ad7ae0cd99a1d8f43459252af38f615da",
+  "source_images_persisted": false,
+  "started_at_utc": "2026-09-07T08:23:19.052550+00:00",
+  "status": "complete_reconstructed_cc0_discovery_photo_bar_inputs"
+}

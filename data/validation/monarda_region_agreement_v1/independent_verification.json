@@ -1,0 +1,31 @@
+{
+  "status": "verified_complete_110_row_region_result",
+  "rows": 110,
+  "positive_reference_images": 109,
+  "unknown_reference_images": 1,
+  "model_runtime_failure_images": 0,
+  "recomputed": {
+    "positive_reference_images": 109,
+    "reference_pixels_total": 28428697,
+    "predicted_pixels_total": 21316820,
+    "intersection_pixels_total": 12113123,
+    "pooled_prediction_precision": 0.5682424958319299,
+    "pooled_reference_recall": 0.42608787170231543,
+    "median_positive_image_prediction_precision": 0.5148005920236809,
+    "median_positive_image_reference_recall": 0.7514949010832835,
+    "median_positive_image_iou": 0.3841787346627377,
+    "median_positive_image_dice": 0.5550998943158086,
+    "fraction_positive_images_iou_ge_0_25": 0.6055045871559633,
+    "fraction_positive_images_with_nonempty_prediction": 0.8623853211009175,
+    "gate_components": {
+      "pooled_prediction_precision_ge_0_70": false,
+      "pooled_reference_recall_ge_0_35": true,
+      "median_positive_image_prediction_precision_ge_0_70": false
+    },
+    "limited_gate_pass": false
+  },
+  "result_sha256": "49b2f017a6accb305867d62e7b4afe4e8ed96fcd03f8aafde86bda2da915fa4c",
+  "rows_sha256": "67cbeaa2cd0ea1f1d3f98516b4fe9f7bb1abc8648ac80268e6dc4ec3e754dc22",
+  "independent_method": "standard-library integer counts and statistics.median; no runner aggregation import",
+  "claim_limit": "Mathematical/provenance consistency, not independent annotation truth or ecological evidence."
+}

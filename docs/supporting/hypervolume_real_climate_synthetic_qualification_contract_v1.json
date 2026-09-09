@@ -1,0 +1,117 @@
+{
+  "protocol": "hypervolume-real-climate-synthetic-qualification-v1",
+  "status": "frozen_before_any_real_climate_synthetic_outcome",
+  "date_jst": "2026-09-07",
+  "parent_support_audit_commit": "fce3dff85401fab51ea63f8cfc9207e898ac5dd3",
+  "role": "Synthetic method qualification on checksum-verified real CHELSA geometry only. Observed flower-colour values remain closed and no frozen empirical decision may change.",
+  "seed": 2026090707,
+  "inputs": {
+    "real_climate_export_sha256": "33ab7c56df9bcd5a1f88ae97346ab7108d4a12cdffb4168359448b308ef5a4eb",
+    "geometry_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+    "support_audit_status": "complete_outcome_blind_real_climate_support_audit",
+    "eligible_species": 369,
+    "training_species": 184,
+    "evaluation_species": 185,
+    "regional_holdouts": 4,
+    "buffer_km": 500.0,
+    "species_per_fold": {"training": 20, "evaluation": 20},
+    "photos_per_species": 20,
+    "photo_frame": "retained classifiable rows jointly complete across all twelve CHELSA variables; no missing-value replacement or block-specific photo substitution",
+    "joint_complete_retained_rows_expected": 21418,
+    "biological_colour_values_allowed": false
+  },
+  "climate_blocks": {
+    "thermal_regime": ["env_bio01", "env_bio04", "env_bio05", "env_bio06"],
+    "water_balance": ["env_bio12", "env_bio14", "env_bio15", "env_cmi_mean"],
+    "atmospheric_energy_dryness": ["env_vpd_mean", "env_rsds_mean", "env_gdd5", "env_sfcWind_mean"]
+  },
+  "representation": {
+    "all_three_blocks_mandatory": true,
+    "variables_used_as_checksum_verified_global_z_scores": true,
+    "within_block_dimension": 4,
+    "candidate_axis_grid": "32 fixed unit vectors in R4 generated once from seed 202609070701 and reused for every block/stage/replicate",
+    "generator_axes": "continuous unit-sphere draws in R4 independent of the candidate-axis grid",
+    "axis_sign": "marginalized by an equal plus/minus species-sign prior",
+    "threshold_grid_projection_units": [-1.0, -0.5, 0.0, 0.5, 1.0],
+    "no_PCA_or_block_specific_axis_selection_after_outcomes": true
+  },
+  "models": {
+    "baseline": "linear_logit_joint_train_fixed_zero_threshold on the same 32 R4 axes",
+    "primary_candidate": "linear_logit_joint_train_intercept_marginal on the same 32 R4 axes",
+    "sharing_fraction_grid": [0.0, 0.25, 0.5, 0.75, 1.0],
+    "slope_grid": [0.0, 0.5, 1.0, 2.0, 4.0, 8.0],
+    "candidate_intercept_prior": "equal over the fixed five-point threshold grid independently for each species",
+    "score": "held-out predictive log-density gain per target photo, averaged equally over target species and four regional folds",
+    "target_labels_never_update_training_posterior": true,
+    "constant_colour_synthetic_samples_retained": true
+  },
+  "synthetic_generator": {
+    "link": "amplitude * species_sign * tanh((block_projection - species_threshold)/0.5) + N(0,1) > 0",
+    "shared_axis_rule": "round(369 * shared_fraction) species use one common continuous R4 axis within the tested climate block; remaining species use independent continuous R4 axes",
+    "species_threshold_draw_once_per_world": true,
+    "threshold_sd_values": [0.0, 0.5, 1.0]
+  },
+  "calibration_nuisance_arms_per_block": [
+    {"world": "no_structure", "amplitude": 0.0, "threshold_sd": 0.0},
+    {"world": "climate_independent", "amplitude": 0.5, "threshold_sd": 0.0},
+    {"world": "climate_independent", "amplitude": 1.0, "threshold_sd": 0.0},
+    {"world": "climate_independent", "amplitude": 2.0, "threshold_sd": 0.0},
+    {"world": "geographic_independent", "amplitude": 2.0, "threshold_sd": 0.0},
+    {"world": "mixed_independent", "amplitude": 2.0, "threshold_sd": 0.0},
+    {"world": "climate_independent_shifted", "amplitude": 0.5, "threshold_sd": 0.5},
+    {"world": "climate_independent_shifted", "amplitude": 1.0, "threshold_sd": 0.5},
+    {"world": "climate_independent_shifted", "amplitude": 2.0, "threshold_sd": 0.5},
+    {"world": "support_aligned_independent", "amplitude": 1.0, "threshold_sd": 0.5},
+    {"world": "directionally_clustered_independent", "amplitude": 1.0, "threshold_sd": 0.5, "axis_concentration": 2.0},
+    {"world": "nonlinear_independent", "amplitude": 1.0, "threshold_sd": 0.5}
+  ],
+  "evaluation_positive_arms_per_block": [
+    {"world": "climate_shared_shifted", "amplitude": 1.0, "shared_fraction": 0.25, "threshold_sd": 0.5},
+    {"world": "climate_shared_shifted", "amplitude": 1.0, "shared_fraction": 0.5, "threshold_sd": 0.5},
+    {"world": "climate_shared_shifted", "amplitude": 1.0, "shared_fraction": 1.0, "threshold_sd": 0.5},
+    {"world": "climate_shared_shifted", "amplitude": 1.0, "shared_fraction": 1.0, "threshold_sd": 1.0},
+    {"world": "climate_shared_shifted", "amplitude": 2.0, "shared_fraction": 1.0, "threshold_sd": 0.5},
+    {"world": "climate_shared_common_offset", "amplitude": 1.0, "shared_fraction": 1.0, "common_threshold": 0.5}
+  ],
+  "replication": {
+    "replicates_per_arm_per_block": 250,
+    "calibration_block_worlds": 9000,
+    "evaluation_block_worlds": 13500,
+    "total_block_worlds": 22500,
+    "deterministic_sharding": "3 blocks x 2 stages x 10 nonoverlapping 25-replicate shards",
+    "all_failures_and_null_arms_retained": true
+  },
+  "calibration": {
+    "primary_decision_threshold": "for each model, maximum empirical 97.5th percentile (method=higher) across all 36 block-by-nuisance calibration distributions",
+    "decision": "strict score > global threshold",
+    "block_specific_thresholds_not_used_for_primary_decisions": true,
+    "no_known_strength_cutoff": true,
+    "no_best_block_or_best_fold_selection": true
+  },
+  "qualification_gates_fixed_from_parent_synthetic_results_before_real_climate_outcomes": {
+    "maximum_evaluation_nuisance_rejection_rate_across_all_blocks": 0.10,
+    "minimum_full_sharing_amp1_threshold_sd0_5_recovery_each_block": 0.50,
+    "minimum_full_sharing_amp2_threshold_sd0_5_recovery_each_block": 0.90,
+    "partial_sharing_is_diagnostic_not_a_gate": true,
+    "gate_failure_is_retained_and_does_not_trigger_parameter_search": true
+  },
+  "required_outputs": [
+    "all calibration and evaluation scores with four fold contributions",
+    "global and block-by-nuisance calibration quantiles",
+    "global thresholds for both models",
+    "all block-by-arm decision counts and Wilson 95% intervals",
+    "paired intercept-marginal minus fixed-zero detection changes",
+    "posterior mean sharing fraction",
+    "qualification-gate outcomes",
+    "independent arm census and threshold recomputation",
+    "source/code/output checksums and immutable empirical-claim guards"
+  ],
+  "stop_rules": [
+    "If the checksum-verified real-climate artifact or geometry lineage differs, stop.",
+    "If joint-complete 12-variable support no longer retains the frozen fold capacities, stop without relaxing the frame.",
+    "If any richer nuisance arm rejects excessively, retain it and fail the corresponding qualification gate; do not drop the arm.",
+    "Do not inspect observed flower colours during this stage.",
+    "Do not open empirical real-climate flower-colour inference automatically after a favourable result; a separate empirical contract is still required."
+  ],
+  "claim_ceiling": "Synthetic recoverability and finite-family calibration of the prespecified response-sharing statistic on the actual SHA-locked CHELSA geometry. Not evidence that real flower colours respond to heat, water balance, dryness, radiation or any climate block; not adaptation, causality, prevalence, or a universally calibrated <=5% test."
+}

@@ -1,0 +1,1 @@
+species,inat_taxon_id,observation_id,photo_id,photo_url_large,photo_license,attribution,latitude,longitude,positional_accuracy_m,observed_on,observer_id,observer,row_hash,global_row_index,shard_index,excluded_reserve_species,excluded_opened_observation,excluded_opened_photo,excluded_known_opened_observer,identity_excluded,x_m,y_m,gx,gy,selected_group_order

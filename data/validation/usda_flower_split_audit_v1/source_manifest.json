@@ -1,0 +1,32 @@
+{
+  "schema_version": "rgfca-reference-split-source-v1",
+  "source_record": "https://api.figshare.com/v2/articles/24852636",
+  "provider_record": "https://agdatacommons.nal.usda.gov/articles/dataset/Data_from_Multi-species_fruit_flower_detection_using_a_refined_semantic_segmentation_network/24852636",
+  "article_id": 24852636,
+  "article_version_observed": 1,
+  "published_date": "2024-02-08T21:37:06Z",
+  "modified_date": "2025-11-21T23:22:13Z",
+  "access_date": "2026-09-08",
+  "provider_license_declaration": "U.S. Public Domain",
+  "scope": "Two public filename lists only; no image or mask payloads. Filenames do not establish image-content or event identity. This manifest records already-observed source evidence, not prospective benchmark authorization.",
+  "files": [
+    {
+      "role": "train",
+      "local_filename": "train.txt",
+      "provider_file_id": 44358653,
+      "download_url": "https://ndownloader.figshare.com/files/44358653",
+      "bytes": 1400,
+      "provider_md5": "38c13cfcc80d6e70442fd9c3729d190e",
+      "sha256": "cadbea55cf2232b94b44429f7a3f4f72c4b14cfd2170c0d2f844e1ca870f1abf"
+    },
+    {
+      "role": "validation",
+      "local_filename": "val_0.txt",
+      "provider_file_id": 44358659,
+      "download_url": "https://ndownloader.figshare.com/files/44358659",
+      "bytes": 390,
+      "provider_md5": "f13899724a34ad6a0a12cb74eaee83e2",
+      "sha256": "959181b42150e82b1479aff5c7221970aa6c1c1c5b43dfad1fe7bf11e62d1643"
+    }
+  ]
+}

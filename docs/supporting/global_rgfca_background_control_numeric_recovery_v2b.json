@@ -1,0 +1,47 @@
+{
+  "protocol": "global-rgfca-background-control-numeric-recovery-v2b",
+  "status": "authorize_same_design_technical_continuation_after_serialization_failure",
+  "date_jst": "2026-09-07",
+  "original_run_id": 34091174522,
+  "original_head_sha": "5c55c6eb5ce76037d5eb6c69e85ed4a25ae028fa",
+  "original_status": "completed",
+  "original_conclusion": "failure",
+  "audit": {
+    "failed_partitions": 128,
+    "tracebacks_in_failed_job_logs": 128,
+    "numeric_int_string_errors_in_failed_job_logs": 128,
+    "example_error": "ValueError: invalid literal for int() with base 10: '1818.0'",
+    "successful_recovery_partition_artifacts": 0,
+    "only_artifact_id": 10006871803,
+    "only_artifact_name": "global-rgfca-background-control-firewall-v2",
+    "finalizer_skipped": true,
+    "background_pixels_already_opened_in_failed_run": true,
+    "persisted_background_outcome_present": false
+  },
+  "fix_commit": "af36e98",
+  "change": "Read finite nonnegative exactly-integral CSV values such as 1818.0 as the same integer, without rounding or imputation. The already committed fix is unchanged in this continuation.",
+  "preserved": {
+    "matched_photos": 21424,
+    "matched_species": 369,
+    "partitions": 128,
+    "model_weights_roi_masks_palette": true,
+    "exact_original_image_and_flower_reproduction_gates": true,
+    "complete_census_before_inference": true,
+    "joint_vertex_permutation_statistic_seed_and_threshold": true,
+    "postoutcome_falsification_role": true,
+    "original_failed_run_and_artifact": true
+  },
+  "forbidden": {
+    "partial_subset_inference": true,
+    "replacement_photos": true,
+    "claim_of_first_pixel_opening": true,
+    "technical_failure_as_ecological_negative": true,
+    "reclassify_G1_or_sharedness": true
+  },
+  "files_sha256": {
+    "scripts/analysis/recover_global_rgfca_background_control_partition.py": "44c8543aed48f9600dfba64b14e2e806850fdd8644034ebbb779af53ba9664e9",
+    "scripts/analysis/finalize_global_rgfca_background_control.py": "89b6659a2eccd85c85b0b46c44d44504cc51eb431c52eac36825614ab9508e35",
+    "scripts/analysis/build_global_rgfca_background_control_firewall.py": "a3a0d9fec5fc6798b1cfd3ea0af28b19ed071291fe5e203166c601a3beed2f15"
+  },
+  "regression_tests": "tests/test_rgfca_background_recovery_numeric.py; 11 tests pass locally, including original failure replay and refusal of fractional, missing, negative or nonfinite values. Repeat in the authorization job before image acquisition."
+}

@@ -1,0 +1,37 @@
+{
+  "protocol": "rgfca-independent-global-axis-metadata-recovery-acquisition-v1",
+  "status": "frozen_execution_erratum_after_transport_failure_before_any_pixel_or_colour_outcome",
+  "date": "2026-09-09",
+  "parent_protocol_commit": "928b8eee67e93192232ad725126600c2da524628",
+  "failed_execution_run_id": 34332020913,
+  "failed_execution_head_sha": "8fe1a858b8959a5811663029738dfa63c3de6fc5",
+  "failure_class": "retained_group_selection_feasibility_bug",
+  "failure": {
+    "location": "select_six_photos after a group had passed the frozen >=6 photo and >=3 observer support rule",
+    "cause": "the support rule does not logically guarantee that six rows can be selected while also enforcing the separately frozen maximum of two photos per observer; for example observer counts 4+1+1 pass >=6 photos and >=3 observers but have capped capacity 2+1+1=4",
+    "observed_exception": "RuntimeError: qualified support group could not supply exact six-photo round-robin sample"
+  },
+  "correction": {
+    "original_spatial_thresholds_relaxed": false,
+    "new_photos_or_pages_added": false,
+    "candidate_page_rule_changed": false,
+    "identity_firewall_changed": false,
+    "pixels_opened": false,
+    "flower_colour_used": false,
+    "M1_M3_scores_used": false,
+    "rule": "before a group may count as an executable qualifying support group, require sum_over_observers(min(distinct_photos_for_observer, 2)) >= 6 in addition to all original frozen group conditions",
+    "effect_direction": "fail_closed_only; this rule can remove groups or species but can never add support relative to the frozen spatial gate",
+    "species_rule": "the existing >=3 groups and >=500 km centroid-separation rule is then evaluated on executable qualifying groups so every selected species can actually produce the frozen six-photo-per-group manifest without violating the observer cap"
+  },
+  "first_run_disposition": "invalid_execution_no_shard_artifact_committed_and_no_metadata_outcome_is_reused_for_v2_selection",
+  "rerun_policy": {
+    "all_eight_shards_rerun_from_the_same_3730_taxon_source": true,
+    "same_three_deterministic_pages": true,
+    "same_page_seed": 20260917,
+    "same_max_parallel": 2,
+    "same_request_interval_seconds": 1.30,
+    "same_error_fraction_ceiling": 0.05,
+    "same_target_species": 300,
+    "post_result_threshold_relaxation": false
+  }
+}

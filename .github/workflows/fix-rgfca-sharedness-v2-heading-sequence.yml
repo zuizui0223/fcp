@@ -1,0 +1,57 @@
+name: Fix RGFCA sharedness-v2 heading sequence
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/fix-rgfca-sharedness-v2-heading-sequence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Renumber displaced section-3 headings only
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('docs/RGFCA_MANUSCRIPT.md')
+          s=p.read_text()
+          assert '### 3.1 Sharedness-v2 qualification failed before empirical opening' in s
+          assert '### 3.2 Coverage and measurements' in s
+          assert '### 3.3 A small positive distance-colour association' in s
+          mapping=[
+            ('### 3.3 Shared geography and environmental interpretation remain unresolved', '### 3.4 Shared geography and environmental interpretation remain unresolved'),
+            ('### 3.4 Actual photographed flower regions', '### 3.5 Actual photographed flower regions'),
+            ('### 3.5 Completed discovery-background recovery is not evaluable', '### 3.6 Completed discovery-background recovery is not evaluable'),
+            ('### 3.6 Independent replication and all fixed controls', '### 3.7 Independent replication and all fixed controls'),
+            ('### 3.7 The Monarda operational region-agreement gate did not pass', '### 3.8 The Monarda operational region-agreement gate did not pass'),
+          ]
+          for old,new in mapping:
+            if new not in s:
+              if old not in s:
+                raise SystemExit('heading anchor drift: '+old)
+              s=s.replace(old,new,1)
+          p.write_text(s)
+          headings=[line for line in s.splitlines() if line.startswith('### 3.')]
+          nums=[int(h.split()[1].split('.')[1]) for h in headings]
+          assert nums==list(range(1,len(nums)+1)), (nums, headings)
+          print('\n'.join(headings))
+          PY
+      - name: Commit numbering-only fix
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/RGFCA_MANUSCRIPT.md
+          git diff --cached --check
+          git commit -m 'Fix RGFCA manuscript heading sequence'
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability

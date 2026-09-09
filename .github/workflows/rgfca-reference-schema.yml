@@ -1,0 +1,118 @@
+name: RGFCA bounded reference schema audit
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - scripts/analysis/audit_rgfca_reference_schema.py
+      - tests/test_rgfca_reference_schema.py
+      - tests/test_rgfca_reference_schema_result.py
+      - scripts/analysis/audit_rgfca_reference_splits.py
+      - tests/test_rgfca_reference_splits.py
+      - data/validation/usda_flower_split_audit_v1/**
+      - docs/RGFCA_INDEPENDENT_REGION_REFERENCE_AUDIT_20260908.md
+      - docs/RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md
+      - docs/supporting/rgfca_reference_schema_plan_v1.json
+      - docs/supporting/rgfca_reference_schema_result_v1.json
+      - docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md
+      - scripts/analysis/audit_rgfca_monarda_archive.py
+      - scripts/analysis/map_rgfca_monarda_reference_sources.py
+      - tests/test_rgfca_monarda_reference.py
+      - docs/supporting/rgfca_monarda_archive_intake_v1.json
+      - docs/supporting/rgfca_monarda_source_mapping_v1.json
+      - docs/RGFCA_MONARDA_REFERENCE_INTAKE.md
+      - .gitattributes
+      - .github/workflows/rgfca-reference-schema.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install pytest==8.3.5
+      - name: Verify the pre-acquisition plan and artificial JSON checks
+        env:
+          PYTHONPATH: .
+        run: |
+          echo '48436a74160b4700e2d9b2bbc803aeac7fcfe8a1f09885140a1eade034c5aade  docs/supporting/rgfca_reference_schema_plan_v1.json' | sha256sum -c -
+          python -m pytest tests/test_rgfca_reference_schema.py tests/test_rgfca_reference_schema_result.py tests/test_rgfca_monarda_reference.py -q
+      - name: Recompute public filename split integrity without image or network access
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m pytest tests/test_rgfca_reference_splits.py -q
+          python scripts/analysis/audit_rgfca_reference_splits.py data/validation/usda_flower_split_audit_v1 --verify data/validation/usda_flower_split_audit_v1/result.json
+      - name: Retain the source conflict and measurement-target design
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-independent-reference-audit-v1
+          path: |
+            data/validation/usda_flower_split_audit_v1/
+            scripts/analysis/audit_rgfca_reference_splits.py
+            tests/test_rgfca_reference_splits.py
+            docs/RGFCA_INDEPENDENT_REGION_REFERENCE_AUDIT_20260908.md
+            docs/RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md
+          if-no-files-found: error
+          retention-days: 90
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-reference-schema-preflight-v1
+          path: |
+            docs/supporting/rgfca_reference_schema_plan_v1.json
+            scripts/analysis/audit_rgfca_reference_schema.py
+            tests/test_rgfca_reference_schema.py
+            tests/test_rgfca_reference_schema_result.py
+            docs/supporting/rgfca_reference_schema_result_v1.json
+            docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md
+            .github/workflows/rgfca-reference-schema.yml
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Preserve metadata-only Monarda intake and source correspondence
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-monarda-reference-intake-v1
+          path: |
+            docs/RGFCA_MONARDA_REFERENCE_INTAKE.md
+            docs/supporting/rgfca_monarda_archive_intake_v1.json
+            docs/supporting/rgfca_monarda_source_mapping_v1.json
+            scripts/analysis/audit_rgfca_monarda_archive.py
+            scripts/analysis/map_rgfca_monarda_reference_sources.py
+            tests/test_rgfca_monarda_reference.py
+            .github/workflows/rgfca-reference-schema.yml
+          if-no-files-found: error
+          retention-days: 90
+
+  inspect-six-documents:
+    # Closed at later heads: the six documents were already inspected once.
+    if: github.event_name == 'workflow_dispatch' && github.sha == 'df0838c15f01eb98eaee6b620c3bb4fd5c9bc78e'
+    needs: offline-preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Inspect six fixed annotation documents without decoding embedded images
+        run: >-
+          python scripts/analysis/audit_rgfca_reference_schema.py inspect
+          --plan docs/supporting/rgfca_reference_schema_plan_v1.json
+          --expected-plan-sha256 48436a74160b4700e2d9b2bbc803aeac7fcfe8a1f09885140a1eade034c5aade
+          --output /tmp/rgfca-reference-schema/result.json
+      - name: Retain all terminal schema outcomes, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-reference-schema-result-v1
+          path: /tmp/rgfca-reference-schema/result.json
+          if-no-files-found: error
+          retention-days: 90

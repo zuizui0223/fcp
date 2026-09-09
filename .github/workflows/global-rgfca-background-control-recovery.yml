@@ -1,0 +1,292 @@
+name: Global RGFCA matched-background recovery
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/global-rgfca-background-control-recovery.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONHASHSEED: '0'
+  PYTHONPATH: '.'
+  OPENBLAS_NUM_THREADS: '1'
+  OMP_NUM_THREADS: '1'
+  EFFICIENTSAM_REVISION: 'd525f622e6f640acf5a0fc37c7ca1f243da5bde0'
+  EFFICIENTSAM_ENCODER_SHA256: '84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951'
+  EFFICIENTSAM_DECODER_SHA256: 'a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11'
+
+concurrency:
+  group: global-rgfca-matched-background-recovery-v2
+  cancel-in-progress: false
+
+jobs:
+  authorize-and-build-firewall:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Materialize exact original measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install firewall dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 pandas==2.2.3 pytest==8.3.5
+      - name: Verify recorded numeric recovery before repeating unchanged acquisition
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python -m pytest tests/test_rgfca_background_recovery_numeric.py -q
+          python - <<'PY'
+          import hashlib, json, subprocess
+          from pathlib import Path
+          recovery = json.loads(Path('docs/supporting/global_rgfca_background_control_numeric_recovery_v2b.json').read_text())
+          assert recovery['status'] == 'authorize_same_design_technical_continuation_after_serialization_failure'
+          assert not Path('docs/supporting/global_rgfca_background_falsification_result_v2.json').exists()
+          for path, expected in recovery['files_sha256'].items():
+              assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, path
+          run_id = recovery['original_run_id']
+          run = json.loads(subprocess.check_output(['gh', 'api', f'repos/zuizui0223/fcp/actions/runs/{run_id}']))
+          assert run['status'] == 'completed' and run['conclusion'] == 'failure'
+          assert run['head_sha'] == recovery['original_head_sha']
+          artifacts = json.loads(subprocess.check_output(['gh', 'api', f'repos/zuizui0223/fcp/actions/runs/{run_id}/artifacts']))
+          assert artifacts['total_count'] == 1
+          assert artifacts['artifacts'][0]['id'] == recovery['audit']['only_artifact_id']
+          print('numeric_recovery_verified; prior pixels were opened but no recovery outcomes persisted')
+          PY
+      - name: Require historical qualification and recorded postoutcome timing
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          pre = json.loads(Path('docs/supporting/global_rgfca_background_control_preflight_v2.json').read_text())
+          amend = json.loads(Path('docs/supporting/global_rgfca_background_control_postoutcome_status_amendment_v2a.json').read_text())
+          assert pre['status'] == 'pass_background_control_preflight_without_pixels'
+          assert pre['background_colour_opened'] is False
+          assert pre['matched_rows'] == 21424 and pre['matched_species'] == 369
+          assert amend['status'] == 'frozen_after_flower_only_omnibus_outcome_but_before_any_background_colour_recovery'
+          assert amend['still_unopened_at_this_amendment']['recovered_background_palette_vectors'] is False
+          print('matched_background_pixel_gate=pass')
+          PY
+      - name: Build exact 21,424-photo blinded reacquisition firewall
+        run: |
+          rm -rf /tmp/bg-firewall
+          python scripts/analysis/build_global_rgfca_background_control_firewall.py \
+            --output-dir /tmp/bg-firewall
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/bg-firewall/firewall_manifest.json').read_text())
+          assert r['status']=='background_control_reacquisition_firewall_ready_before_pixels'
+          assert r['rows']==21424 and r['nonempty_partitions']==128
+          assert r['pixels_opened'] is False and r['background_colour_opened'] is False
+          print(json.dumps(r,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-background-control-firewall-v2
+          path: /tmp/bg-firewall/
+          if-no-files-found: error
+          retention-days: 7
+
+  recover-partition:
+    needs: authorize-and-build-firewall
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        semantic_shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        compute_partition: [0,1,2,3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Materialize exact original ROI-v4 measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install exact CPU ROI-v4 runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install 'torch==2.11.0' 'torchvision==0.26.0' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e . -r requirements-atlas-roi-v4.txt
+      - name: Download exact EfficientSAM weights
+        run: |
+          rm -rf /tmp/efficient-sam
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+      - uses: actions/download-artifact@v4
+        with:
+          name: global-rgfca-background-control-firewall-v2
+          path: /tmp/firewall
+      - name: Reacquire exact frozen photo IDs into ephemeral filenames
+        run: |
+          rm -rf /tmp/acquisition
+          python scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            --worker-manifest /tmp/firewall/worker_manifest.csv \
+            --acquisition-key /tmp/firewall/sealed/acquisition_key.csv \
+            --output-dir /tmp/acquisition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+      - name: Delete URL surfaces before ROI/background recovery
+        run: |
+          rm -rf /tmp/blind /tmp/safe
+          mkdir -p /tmp/blind/images /tmp/safe
+          cp /tmp/acquisition/selected_blind_manifest.csv /tmp/safe/selected_blind_manifest.csv
+          cp /tmp/acquisition/acquisition_receipt.csv /tmp/safe/acquisition_receipt.csv
+          cp /tmp/firewall/safe_expected_reproduction_key.csv /tmp/safe/expected.csv
+          cp -a /tmp/acquisition/ephemeral_images/. /tmp/blind/images/
+          rm -rf /tmp/firewall /tmp/acquisition
+          test ! -e /tmp/firewall
+          test ! -e /tmp/acquisition
+          ! grep -R -E 'photo_url|latitude|longitude|species|observer|taxon' /tmp/safe/selected_blind_manifest.csv /tmp/safe/acquisition_receipt.csv /tmp/safe/expected.csv
+      - name: Recover frozen ROI-v4 matched background palette with exact reproduction guards
+        run: |
+          S=${{ matrix.semantic_shard }}
+          P=${{ matrix.compute_partition }}
+          rm -rf /tmp/recovery
+          mkdir -p /tmp/recovery
+          python scripts/analysis/recover_global_rgfca_background_control_partition.py \
+            --selected-blind-manifest /tmp/safe/selected_blind_manifest.csv \
+            --acquisition-receipt /tmp/safe/acquisition_receipt.csv \
+            --images-dir /tmp/blind/images \
+            --expected-key /tmp/safe/expected.csv \
+            --detector-weight data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --efficient-sam-dir /tmp/efficient-sam \
+            --output-csv "/tmp/recovery/recovery_s$(printf '%02d' "$S")_p$(printf '%02d' "$P").csv" \
+            --output-manifest "/tmp/recovery/recovery_s$(printf '%02d' "$S")_p$(printf '%02d' "$P").json"
+      - name: Seal and verify location firewall
+        run: |
+          rm -rf /tmp/blind /tmp/safe /tmp/efficient-sam
+          test ! -e /tmp/blind
+          test ! -e /tmp/safe
+          test ! -e /tmp/efficient-sam
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root=Path('/tmp/recovery')
+          csvs=list(root.glob('*.csv')); js=list(root.glob('*.json'))
+          assert len(csvs)==len(js)==1
+          with csvs[0].open(newline='',encoding='utf-8') as fh:
+              header=next(csv.reader(fh),[])
+          forbidden={'species','latitude','longitude','photo_id','photo_url_large','observer','taxon'}
+          assert not forbidden.intersection(header)
+          r=json.loads(js[0].read_text())
+          assert r['species_opened_to_worker'] is False
+          assert r['coordinates_opened_to_worker'] is False
+          assert r['replacement_photos_used'] is False
+          print(json.dumps(r,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-background-recovery-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
+          path: /tmp/recovery/
+          if-no-files-found: error
+          retention-days: 30
+
+  finalize:
+    needs: recover-partition
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install finalizer dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 scipy==1.17.0 pandas==2.2.3
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: global-rgfca-background-recovery-*
+          path: /tmp/recoveries
+          merge-multiple: true
+      - name: Finalize fail-closed matched background diagnostic
+        run: |
+          rm -rf /tmp/final
+          python scripts/analysis/finalize_global_rgfca_background_control.py \
+            --recovery-dir /tmp/recoveries \
+            --output-dir /tmp/final
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/final/summary.json').read_text())
+          assert r['status'] in {
+            'not_evaluable_incomplete_exact_background_recovery',
+            'complete_postoutcome_background_falsification_diagnostic'
+          }
+          if r['status']=='not_evaluable_incomplete_exact_background_recovery':
+              assert r['primary_statistic_computed'] is False
+              assert r['replacement_photos_used'] is False
+              assert r['denominator_adapted_after_recovery'] is False
+          else:
+              assert r['matched_rows']==21424 and r['matched_species']==369
+              assert r['sharedness_main_line_unchanged'] is True
+              assert r['g1_reclassified'] is False
+              assert r['verification']['joint_flower_background_vertex_permutation'] is True
+          print(json.dumps(r,indent=2))
+          PY
+      - name: Stage compact diagnostic outputs
+        run: |
+          mkdir -p docs/supporting data/derived
+          cp /tmp/final/summary.json docs/supporting/global_rgfca_background_falsification_result_v2.json
+          if test -e /tmp/final/species_results_v2.csv; then
+            cp /tmp/final/species_results_v2.csv data/derived/global_rgfca_background_falsification_species_v2.csv
+            cp /tmp/final/global_null_v2.csv data/derived/global_rgfca_background_falsification_null_v2.csv
+            cp /tmp/final/independent_spot_checks_v2.csv data/derived/global_rgfca_background_falsification_spot_checks_v2.csv
+          fi
+      - name: Commit compact verified diagnostic
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/supporting/global_rgfca_background_falsification_result_v2.json
+          for f in \
+            data/derived/global_rgfca_background_falsification_species_v2.csv \
+            data/derived/global_rgfca_background_falsification_null_v2.csv \
+            data/derived/global_rgfca_background_falsification_spot_checks_v2.csv; do
+            test ! -e "$f" || git add "$f"
+          done
+          git commit -m 'Record matched RGFCA background falsification diagnostic'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/hypervolume-geo-environment-identifiability
+            git rebase origin/analysis/hypervolume-geo-environment-identifiability
+            if git push origin HEAD:analysis/hypervolume-geo-environment-identifiability; then exit 0; fi
+            test "$attempt" -lt 4
+            sleep $((attempt*2))
+          done
+          exit 1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-rgfca-background-falsification-full-v2
+          path: /tmp/final/
+          if-no-files-found: error
+          retention-days: 90

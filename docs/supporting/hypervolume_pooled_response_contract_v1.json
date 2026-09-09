@@ -1,0 +1,48 @@
+{
+  "protocol": "hypervolume-pooled-response-evidence-v1",
+  "status": "frozen_before_fresh_synthetic_outcomes",
+  "date_jst": "2026-09-07",
+  "parent_snapshot": "cfbbf658196588d7f81a76108d7d45b42bdbfe24",
+  "seed": 2026090704,
+  "role": "Method development after prior method failures; not preregistered biological inference or rescue of any existing decision.",
+  "question": "Does retaining uncertainty about species responses and learning a shared unoriented environmental axis from training species improve held-out species/region prediction against independently structured species, without knowing true response parameters?",
+  "geometry": {
+    "export_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+    "eligible_species": 369,
+    "retained_photo_rows": 21424,
+    "source": "Same checksum-verified coordinate-only export, fixed classifiability mask, frozen 184/185 disjoint species assignment, four longitude sectors and 500 km complete-coordinate buffer as actual-support v1.",
+    "sampling": "Each fresh replicate draws 20 training and 20 evaluation species per fold, then 20 retained photos each. No replacement within a draw. One priority per original photo. Reuse identical schedules across all scenarios and models; keep all four folds with equal weight.",
+    "mask_caveat": "The classifiability mask is measurement-derived selection, not random missingness. No real colour values or real climate are read."
+  },
+  "synthetic_worlds": {
+    "representation": "Unchanged two-dimensional fourth-harmonic artificial environment on actual photo coordinates.",
+    "generator": "Unchanged amplitude*species_sign*tanh(projection/0.5)+N(0,1)>0. One direction and sign per species and one noise per original photo in a global world; reuse across all folds and models. Shared subsets of round(369*f) species chosen before labels; remaining axes independent.",
+    "nuisance_arms": "No structure at amplitude 0; geographic_specific, environmental_specific and mixed_specific at each amplitude 0.5, 1, 2 (10 arms).",
+    "evaluation_positive_arms": [["environmental_shared",1,0.25],["environmental_shared",1,0.5],["environmental_shared",1,1],["environmental_shared",2,1]],
+    "calibration_replicates_per_arm": 250,
+    "evaluation_replicates_per_arm": 250,
+    "unique_worlds": 6000
+  },
+  "likelihood_models": {
+    "axis_grid": "48 equally spaced axes theta=k*pi/48, k=0..47; sign integrated per whole species, not per photo.",
+    "saturating_probit": "p=Phi(a*tanh(x dot u_theta/0.5)); uniform amplitude grid [0,0.5,1,2]. This knows the simulator's link family and fixed origin, but not true species axes, signs or strengths. It is simulator-informed, NOT an oracle fitted using true response parameters.",
+    "linear_logit": "p=logistic(a*x dot u_theta); uniform slope grid [0,0.5,1,2,4,8]. Fixed zero intercept; a deliberately misspecified alternative to the saturating probit generator.",
+    "species_likelihood": "For each axis, integrate amplitude/slope and one whole-species sign using log-sum-exp. Normalize by the uniform-axis marginal likelihood to obtain R_s(theta). All 20 labels, including constant-colour samples, enter; no <4-photo class exclusion in likelihood models.",
+    "independent_baseline": "Each species has its own independent uniform axis, with the same link/sign/strength prior as the shared alternative. It is not an unstructured label-shuffle baseline."
+  },
+  "predictors": {
+    "joint_train": "Uniform prior on f in [0,0.25,0.5,0.75,1] and on theta. Use only training species to form posterior proportional to product_s[(1-f)+f*R_s(theta)]. Score each evaluation species with log(sum_theta,f posterior_train(theta,f)*[(1-f)+f*R_t(theta)]). Average over 20 target species, divide by 20 photos, then mean all four folds. Target labels never update the training posterior. Score is marginal per-target predictive log-density gain, not joint evidence over repeated folds.",
+    "single_source_average": "For each training species separately normalize R_s over axes, then average the 20 axis posteriors. Evaluate log of its weighted average of R_t, per target/photo/fold. A predeclared uncertainty-aware individual-source comparator; no shared-fraction parameter is fitted.",
+    "qda_equal": "Unchanged original equal-prior Gaussian/QDA and equal source weights, original >=4-per-colour validity rule and ARI score. Same fresh worlds, not copied old counts.",
+    "designs": ["saturating_probit_joint_train","saturating_probit_single_source_average","linear_logit_joint_train","linear_logit_single_source_average","qda_equal"],
+    "noncausal_comparison": "Comparisons change likelihood family, aggregation and/or score. Improvements cannot be attributed to pooling alone. New likelihood scores and ARI have different units. No outcome-based winner selection."
+  },
+  "calibration": {
+    "rule": "Per design use maximum empirical 97.5th percentile (method=higher) over all ten calibration nuisance arms and strengths. Strict score > threshold. Same cutoff for every evaluation arm; never select a known-strength cutoff.",
+    "report": "All five designs and all 14 evaluation arms, Wilson 95% intervals and paired detection differences. Intervals condition on estimated thresholds and finite nuisance family. No joint five-design or universal 5% type-I guarantee.",
+    "primary_candidate": "linear_logit_joint_train is the deployable-family candidate; saturating_probit is a generator-informed diagnostic. Neither opens real-colour inference by itself."
+  },
+  "outputs": ["geometry/schedule audits and hashes","all 30000 score records with four fold scores","all calibration quantiles and thresholds","all 70 evaluation decision counts and Wilson intervals","paired detection changes","training-only posterior diagnostics","unit tests and independent scalar probability checks","complete source/code/output hashes"],
+  "forbidden": ["reading biological colours or real climate","using true species response parameters in a predictor","target-label updating of training posterior","changing seeds, grids, scores or nuisance thresholds after outcomes","replacing any previous result","interpreting latent mixture f as empirical sharing prevalence","claiming causal environmental versus geographic separation"],
+  "claim_ceiling": "Synthetic detectability of uncertainty-aware environmental response sharing under fixed sampling support and assumptions. No real flower-colour mechanism, population prevalence, calibrated real-climate power or unbiased global coverage claim. Realistic unknown thresholds, alternative response shapes, phylogenetic dependence and nonuniform independent direction distributions remain untested."
+}

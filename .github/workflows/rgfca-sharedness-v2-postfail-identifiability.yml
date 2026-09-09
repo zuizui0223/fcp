@@ -1,0 +1,73 @@
+name: RGFCA sharedness v2 post-fail identifiability audit
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - 'scripts/analysis/diagnose_rgfca_sharedness_v2_postfail_identifiability.py'
+      - '.github/workflows/rgfca-sharedness-v2-postfail-identifiability.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-sharedness-v2-postfail-identifiability
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install numpy==2.3.5 pandas==2.2.3 scipy==1.16.1
+      - name: Verify frozen parent FAIL and transport geometry
+        run: |
+          python - <<'PY'
+          import json
+          q=json.load(open('docs/supporting/rgfca_sharedness_v2_synthetic_qualification_result_v1.json'))
+          assert q['qualification_pass'] is False
+          assert q['image_acquisition_permitted'] is False
+          assert q['observed_flower_colour_opened'] is False
+          assert q['observed_background_colour_opened'] is False
+          assert q['image_pixels_opened'] is False
+          assert q['total_worlds']==24750
+          print('immutable_parent_fail=verified')
+          PY
+      - name: Run descriptive support/identifiability audit
+        run: python scripts/analysis/diagnose_rgfca_sharedness_v2_postfail_identifiability.py
+      - name: Verify diagnostic cannot reopen qualification
+        run: |
+          python - <<'PY'
+          import json
+          p='docs/supporting/rgfca_sharedness_v2_postfail_identifiability_v1.json'
+          r=json.load(open(p))
+          assert r['status']=='complete_postfail_identifiability_audit'
+          assert r['parent_qualification_pass'] is False
+          assert r['qualification_reopened'] is False
+          assert r['qualification_decision_changed'] is False
+          assert r['parameter_search_performed'] is False
+          assert r['image_acquisition_permitted'] is False
+          assert r['observed_flower_colour_opened'] is False
+          assert r['observed_background_colour_opened'] is False
+          assert r['image_pixels_opened'] is False
+          assert r['worlds_audited']==1500
+          assert len(r['scenarios'])==6
+          print('postfail_firewall=pass')
+          PY
+      - name: Commit immutable diagnostic result
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/supporting/rgfca_sharedness_v2_postfail_identifiability_v1.json
+          git commit -m 'Record RGFCA v2 post-fail identifiability audit'
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability

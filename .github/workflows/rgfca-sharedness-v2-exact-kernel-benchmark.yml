@@ -1,0 +1,32 @@
+name: RGFCA sharedness v2 exact kernel benchmark
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - 'docs/supporting/rgfca_sharedness_v2_synthetic_technical_mapping_v1.json'
+      - 'scripts/analysis/benchmark_rgfca_sharedness_v2_exact_kernel.py'
+      - '.github/workflows/rgfca-sharedness-v2-exact-kernel-benchmark.yml'
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: '.'
+  PYTHONHASHSEED: '0'
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact-kernel dependencies
+        run: python -m pip install numpy==2.3.5 scipy==1.16.1
+      - name: Verify exact all-pairs kernel without scientific outcomes
+        run: python scripts/analysis/benchmark_rgfca_sharedness_v2_exact_kernel.py

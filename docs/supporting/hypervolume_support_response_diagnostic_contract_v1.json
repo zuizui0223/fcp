@@ -1,0 +1,33 @@
+{
+  "protocol": "hypervolume-support-response-diagnostic-v1",
+  "status": "frozen_before_fresh_synthetic_outcomes",
+  "date_jst": "2026-09-07",
+  "parent_snapshot": "6c12203d8c635fd62c64d6da3c28f36f1cf7b8dc",
+  "role": "Post-empirical-outcome method development, not a biological retest. The earlier benchmark motivated this design; its outcomes remain unchanged.",
+  "seed": 2026090703,
+  "geometry_sha256": "5fa0c45a3f54f7441e2e372fa4ff4e813548c4cc44896a12a5ba8e97fb5af743",
+  "geometry": "Reuse parent Geometry, 369 selected species, 21424 retained photos, fixed 184/185 species split, four longitude sectors and 500-km buffer. Only retained/species_and_region pools (parent design index 1). Select 20 training and 20 evaluation species and 20 distinct photos per species per fold. New deterministic schedules, paired across all models, weights and world arms. Equal mean over all four folds; no fold or target deletion.",
+  "synthetic_environment": "Unchanged artificial fourth-harmonic 2D field; not real climate. Generate one label per original photo from amplitude*species_sign*tanh(direction dot coordinates/0.5)+N(0,1)>0, sharing the same label wherever the photo reappears. Independent directions except the planted shared fraction; all 369 species remain in direction generation.",
+  "calibration_arms": "no_structure at 0 plus geographic_specific, environmental_specific, mixed_specific at each of 0.5,1,2 (10 arms)",
+  "evaluation_arms": "The same 10 nuisance arms plus environmental_shared at amplitude 1 and fractions 0.25,0.5,1, and environmental_shared at amplitude 2 and fraction 1 (14 arms).",
+  "replicates_per_arm": 250,
+  "unique_worlds": 6000,
+  "models": {
+    "qda_equal": "Unchanged parent Gaussian class fitting (20% isotropic covariance shrinkage, ridge 1e-8) and equal prior prediction.",
+    "qda_empirical_prior": "Same fitted Gaussians; add log(n1/n0) from training labels only to the Gaussian class-density log ratio. Diagnostic for unequal training colour proportions, not a guaranteed transport correction under misspecification.",
+    "conditional_logit": "Linear logistic P(synthetic colour|2D artificial environment), fit per training species; intercept plus two raw parent environmental coordinates; slope penalty 0.5*sum(beta_slope^2), intercept penalty 0.5e-6*beta_intercept^2, summed binomial negative log likelihood; Newton solve, no hyperparameter tuning. Fail if numerical convergence cannot be verified.",
+    "oracle_response": "Diagnostic only: the simulator's true direction/domain/sign for each TRAINING species predicts the held-out species' partition. No held-out response parameter is used. Unrealistic knowledge, not a deployable estimator or formal optimal-power bound."
+  },
+  "support_weights": {
+    "equal": "Uniform training weights for each evaluation species, unchanged 400-pair fold mean.",
+    "overlap": "Fit colour-blind Gaussian to each training species' 20 environmental points with parent covariance shrinkage. Weight source i for target j by the fraction of the target's 20 environmental points within source i's 95% chi-square(2) ellipsoid. Normalize source weights separately for each target; zero-support targets contribute zero and stay in denominator. Every target species has equal outer weight. This is a Gaussian support proxy and weighting of full-target prediction, NOT exact hypervolume intersection or restriction of every scored photo to common support. No colour enters weights."
+  },
+  "validity": "All models use unchanged min-four-photos-in-each-colour validity for source and target. Invalid pairs and constant predictions contribute zero, never disappear from target denominators. ARI is colour-label-swap invariant. Save informative-pair fractions and support effective-source counts.",
+  "thresholds": "For each of 4 models x 2 weights, maximum 97.5th empirical percentile (method=higher) across all 10 calibration nuisance arms. Strict >. Same cutoff for every positive amplitude/fraction. Separate oracle-known-strength-1 and -2 cutoffs across only that strength's three nuisance arms plus noise are secondary diagnostics; NEVER substitute for primary unknown-strength cutoff. Save mismatched-strength false sharing as well.",
+  "uncertainty": "Wilson intervals over 250 independent synthetic evaluation worlds, conditional on actual fixed support and estimated thresholds. No calibration uncertainty or family-wide guarantee across model/weight diagnostics. All models and arms reported, no best-model empirical claim.",
+  "outputs": ["fresh schedules", "all fold scores", "colour-blind overlap coverage and effective source counts", "all calibration quantiles and thresholds", "all detection counts and Wilson intervals", "paired scores", "direct numerical checks and tests", "checksums and current-state record"],
+  "empirical_decisions_modified": false,
+  "biological_colour_values_read": false,
+  "real_climate_used": false,
+  "claim_ceiling": "Can diagnose recoverability under these synthetic response and sampling assumptions. Cannot establish real environmental sharing, estimate biological shared fractions, identify exclusive geographic/environmental causes, or authorize observed-colour inference automatically."
+}

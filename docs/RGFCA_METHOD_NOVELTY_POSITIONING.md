@@ -2,6 +2,12 @@
 
 Status: working positioning note; **not** a claim that generic Monte Carlo, bootstrap aggregation, spatial thinning or spatial bootstrap is new.
 
+Updated 7 September 2026 after a bounded primary-source audit. Read/access
+ceilings and full references are in the [image/ecology audit](RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md)
+and [statistical audit](RGFCA_STATISTICAL_LITERATURE_AUDIT.md). This is not a
+systematic review. The active [manuscript](RGFCA_MANUSCRIPT.md) now acknowledges
+the direct image-derived floral precedents as well as the statistical ones.
+
 ## Claim to avoid
 
 > We introduce the first ecological method to repeatedly resample spatial biodiversity records.
@@ -10,14 +16,28 @@ That claim is not defensible. Ecological modelling already uses bootstrap aggreg
 
 Relevant precedents include:
 
-- Drake JM. 2015. *Range bagging: a new method for ecological niche modelling from presence-only data*. Journal of the Royal Society Interface 12:20150086. doi:10.1098/rsif.2015.0086. Range bagging repeatedly subsamples occurrence records/environmental dimensions and aggregates an ensemble of marginal niche estimates.
-- Fithian W et al. 2015. *Bias correction in species distribution models: pooling survey and collection data for multiple species*. Methods in Ecology and Evolution 6. doi:10.1111/2041-210X.12242. Spatial block bootstrap is used to accommodate spatial autocorrelation in inference.
-- Steen VA et al. 2021. *Spatial thinning and class balancing: Key choices lead to variation in the performance of species distribution models with citizen science data*. Methods in Ecology and Evolution. doi:10.1111/2041-210X.13525. Spatial bias and spatial thinning/balancing of opportunistic citizen-science data are explicit methodological concerns.
-- Recent spatial-bagging work also incorporates spatial dependence or spatial weighting into ensemble learning; therefore 'bagging a map' alone is not a novelty claim.
+- [Drake (2015)](https://doi.org/10.1098/rsif.2015.0086): range bagging targets environmental niche support.
+- [Fithian et al. (2015)](https://doi.org/10.1111/2041-210X.12242): joint survey/collection modelling and spatial block bootstrap.
+- [Steen et al. (2021)](https://doi.org/10.1111/2041-210X.13525): thinning and class-balancing performance depends on the modelling/evaluation setting.
+
+Image-first flower-colour work also has direct precedents:
+
+- [Luong et al. (2023)](https://doi.org/10.1002/aps3.11546): landscape colour analysis in *Erysimum*.
+- [McKenzie, Church and Hopkins (2026)](https://doi.org/10.1086/739413): high-throughput geographic colour phenotyping in *Monarda fistulosa*.
+- [McKenzie, Berardi and Hopkins (2025)](https://doi.org/10.1016/j.cub.2025.03.035): multispecies colour/phenology and seasonal pollinator context in North America.
+
+Accordingly, neither photograph volume, within-species geographic colour
+variation nor adding pollinator distributions is by itself a priority claim.
+Published versions are cited; unread final methodological details are not
+inferred from earlier preprints.
 
 ## What is methodologically distinctive here
 
 The RGFCA contribution is the **estimand and workflow combination**, not resampling in isolation.
+The points below describe the proposed design, not demonstrated superiority to
+those methods. Discovery currently supports only a small exploratory
+distance-colour association. Sharedness, flower specificity, independent
+replication and ecological mechanism do not become established by this wording.
 
 ### 1. The base learner is a bounded multispecies world-map realization
 
@@ -38,6 +58,11 @@ The atlas estimates `P_hot(x)`: the probability that a cell reappears as a top-d
 ### 5. The null preserves the whole sampled geometry
 
 For null realizations, species membership, selected photographs, coordinates, graph geometry and the Monte Carlo schedule stay fixed. Only complete colour vectors are permuted within species. The target comparison is therefore recurrent observed colour geography versus recurrent colour geography expected from the same opportunistic sampling geometry with within-species colour-location association removed.
+
+This does not preserve the colour field's spatial autocorrelation or remove all
+selection/measurement bias. Testing one field's spatial structure and testing
+association between two autocorrelated fields need different nulls.
+[Guillot and Rousset (2013)](https://doi.org/10.1111/2041-210X.12018).
 
 ### 6. Global discovery is itself audited as a repeated sampling problem
 

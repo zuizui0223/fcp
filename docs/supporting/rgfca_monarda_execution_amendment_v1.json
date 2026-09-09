@@ -1,0 +1,61 @@
+{
+  "protocol": "rgfca-monarda-execution-amendment-v1",
+  "status": "pre_outcome_execution_clarification_not_execution_authorization",
+  "date_jst": "2026-09-08",
+  "parent_contract_commit": "336b4b8052c54d396f24a5ccd26d0ca2fee3669f",
+  "parent_contract_blob": "b18286a286cca46c370a98d520b44372345fafaa",
+  "parent_contract_preserved": true,
+  "execution_owner": "desktop task 01a055e9-8f5e-7822-b85c-c924c8c02078",
+  "peer_handoff": {
+    "task": "6a9d73e9-9708-83e8-8166-36e434591a0d",
+    "response_id": "c3864f68-6012-46c2-9284-e3f544e199e8",
+    "reported_jpeg_decode_or_display": 0,
+    "reported_polygon_rasterization": false,
+    "reported_model_loading": false,
+    "reported_uncommitted_monarda_edits": false,
+    "peer_will_not_execute_or_edit_monarda": true
+  },
+  "local_pixels_opened_before_amendment": false,
+  "local_models_loaded_before_amendment": false,
+  "scope_clarification": {
+    "reason": "The original contract simultaneously specifies measure() and prohibits colour measurement, although that exact runtime internally computes CIELAB. Preserve the specified complete runtime and its failure semantics; do not substitute a mask-only adapter after outcomes.",
+    "interface": "unchanged FrozenFlowerColourEstimator.measure(image)",
+    "incidental_internal_cielab_computation_permitted": true,
+    "continuous_colour_values_saved_or_analyzed": false,
+    "colour_admission_filters_scoring_cohort": false,
+    "automated_colour_admission_status": "retained descriptively as originally implemented, never used for scoring selection",
+    "prohibition_replacement": "No standalone Monarda colour analysis, geographic/ecological inference, or continuous-colour output. Incidental colour computation inside the unchanged full measurement call is explicitly permitted.",
+    "runtime_failure_scope": "Failure anywhere in the unchanged original/flip/colour call retains the originally specified zero-mask operational penalty; report runtime failures separately, never as biological absence.",
+    "not_a_colour_validation": true
+  },
+  "unchanged": ["110-image census", "109 annotated plus one unknown", "provider splits", "reference polygon union and rasterization", "original-orientation prediction union", "three model weights", "runtime source", "all three .70/.35/.70 floors", "all ecological results"],
+  "threshold_interpretation": "JRC object/box-derived floors are prespecified operational criteria for this diagnostic, not externally validated petal-pixel accuracy criteria or a guarantee of conservativeness.",
+  "execution_environment": {
+    "python": "3.10.11",
+    "system": "Windows",
+    "machine": "AMD64",
+    "torch_threads": 2,
+    "device": "cpu",
+    "packages": {
+      "numpy": "2.2.6",
+      "pandas": "2.3.3",
+      "Pillow": "12.2.0",
+      "torch": "2.11.0",
+      "torchvision": "0.26.0",
+      "ultralytics": "8.4.112",
+      "onnxruntime": "1.23.2",
+      "scikit-image": "0.25.2",
+      "scipy": "1.15.3",
+      "opencv-python": "4.13.0.92"
+    },
+    "portability_limit": "The actual Windows environment is frozen prospectively; Linux qualification CI is not a claim of byte-identical image inference. Record every installed distribution and platform details at execution. No environment selection from Monarda outcomes."
+  },
+  "pre_decode_gate": ["committed execution authorization referring to successful qualification", "qualified current runner, guard and intake source identities", "original and amendment contract identities", "exact immutable runtime and reference receipts", "archive and all member hashes", "three weight hashes", "exact declared local environment", "complete 110 metadata census", "fresh canonical output directory and durable start/census receipts"],
+  "isolated_runtime": "Materialize only specified immutable Git blobs into a dedicated local cache; never overwrite the working tree runtime or fetch substitute weights.",
+  "text_identity": "For explicitly listed source/contract text files only, normalize CRLF to LF before Git-blob comparison. Archive and weight hashes remain exact byte hashes. Generated immutable runtime files retain exact Git bytes.",
+  "canonical_output_directory": ".artifacts/monarda-region-agreement-v1",
+  "checkpoint_policy": "Persist all 110 pending rows at start; atomically update the complete ledger after each alignment and score. Append and fsync start/terminal events around each image operation. Preserve exceptions and incomplete rows; never aggregate a successful subset.",
+  "restart_policy": "No automatic resume, repeated image scoring or alternate output directory. An existing canonical output directory blocks execution. A setup or interrupted-run terminal receipt cannot be relabeled a biological negative. Any future recovery requires an explicit separately recorded decision preserving opened outcomes.",
+  "authorization_policy": "This amendment and passing artificial tests do not authorize pixels by themselves. Commit a separate execution authorization after verifying the qualified code commit and successful CI; bind local code and environment before decoding.",
+  "claim_ceiling": "Bounded agreement with generic flower-region annotations in this particular 110-image single-species export only. Not verified focal petals, calibrated colour, global validity, ecological replication or permission to alter reserve p=0.087."
+}

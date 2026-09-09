@@ -1,0 +1,41 @@
+{
+  "protocol": "rgfca-monarda-single-execution-authorization-v1",
+  "status": "authorized_once_after_pre_pixel_qualification",
+  "date_jst": "2026-09-08",
+  "authority_scope": "User requested continuation and supplied the exact reference archive. The peer explicitly handed Monarda execution to the desktop task; this record opens only the already specified bounded diagnostic.",
+  "execution_owner": "01a055e9-8f5e-7822-b85c-c924c8c02078",
+  "peer_response_id": "c3864f68-6012-46c2-9284-e3f544e199e8",
+  "archive_sha256": "7c9d213514e319b11cc15623747277f88eb37c453722f665b8570b40b9f0dd0d",
+  "images": 110,
+  "reference_pixels_opened_at_authorization": false,
+  "model_loaded_at_authorization": false,
+  "qualification": {
+    "head_sha": "1b6ccc7987baaa02edf8fea8c5af1f0f09c144f7",
+    "run_id": 34193780128,
+    "url": "https://github.com/zuizui0223/fcp/actions/runs/34193780128",
+    "conclusion": "success",
+    "focused_artificial_tests_passed": 23,
+    "focused_ci_seconds": 1.18,
+    "local_focused_plus_intake_tests_passed": 53,
+    "local_test_seconds": 6.48,
+    "actual_log_firewall": "monarda_region_preoutcome_firewall=pass",
+    "actual_log_reference_pixels": "monarda_reference_pixels_decoded=false",
+    "actual_log_model_loading": "monarda_model_loaded=false"
+  },
+  "qualified_source_blobs": {
+    ".github/workflows/rgfca-monarda-region-agreement.yml": "6eb4f8a46425d751375bb3bbf017d65bd1132e35",
+    "docs/supporting/rgfca_monarda_archive_intake_v1.json": "952af41174228dc773c45a542002a50f7386ae56",
+    "docs/supporting/rgfca_monarda_execution_amendment_v1.json": "63e825c948b638d421efd6e9e9afd864422b7a28",
+    "docs/supporting/rgfca_monarda_region_agreement_contract_v1.json": "b18286a286cca46c370a98d520b44372345fafaa",
+    "docs/supporting/rgfca_monarda_source_mapping_v1.json": "f0b46cf0b6e43666efdfb387b8a94e350ab67dc5",
+    "scripts/analysis/audit_rgfca_monarda_archive.py": "7b336d3539609de4378f3a5a2934d9dac8aeac0d",
+    "scripts/analysis/monarda_execution_guard.py": "ea86235f309c807591b4e1d0aaedf78da097314c",
+    "scripts/analysis/run_rgfca_monarda_region_agreement.py": "b381a81b51a3d938eaa3a4e9048fb082878d1556",
+    "tests/test_monarda_execution_guard.py": "638a242fcce5817c2318903dc86ec3e3caca7765",
+    "tests/test_rgfca_monarda_region_agreement.py": "466fc70729a91e862b3074dc4909bcec7a4cf55d"
+  },
+  "execution_rule": "The committed guard must pass all local source, environment, archive/member and model checks first. Then exactly one canonical output directory may be claimed. Preserve all 110 rows and every failure/unknown. No automatic resume, alternate directory, retuning or successful-subset inference.",
+  "scope": "Run the original full measure() call with explicitly permitted incidental internal CIELAB; export region counts/metrics and descriptive admission status only, no continuous colours, reference vertices or images.",
+  "ecological_results_changed": false,
+  "claim_ceiling": "This is execution permission, not measured accuracy, botanical truth, taxonomic generality or ecological replication. Reserve flower-specific p=0.087 remains unchanged."
+}

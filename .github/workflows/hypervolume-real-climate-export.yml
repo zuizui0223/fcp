@@ -1,0 +1,222 @@
+name: Hypervolume real-climate colour-blind export
+
+on:
+  push:
+    branches: [analysis/hypervolume-geo-environment-identifiability]
+    paths:
+      - '.github/workflows/hypervolume-real-climate-export.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: hypervolume-real-climate-export-v1
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install exact extraction dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy==2.3.5 pandas==2.2.3 rasterio==1.4.4 requests==2.32.5
+      - name: Recover checksum-verified geometry only
+        uses: actions/download-artifact@v4
+        with:
+          name: hypervolume-geometry-only-v1
+          path: /tmp/geometry
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34041094467
+      - name: Enforce colour-blind export contract and sample exact CHELSA files
+        env:
+          PYTHONUNBUFFERED: '1'
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/real-climate
+          python - <<'PY'
+          import hashlib, json, os, tempfile
+          from pathlib import Path
+          import numpy as np
+          import pandas as pd
+          import rasterio
+          import requests
+          from rasterio.warp import transform as warp_transform
+
+          def sha(path):
+              h=hashlib.sha256()
+              with open(path,'rb') as fh:
+                  for chunk in iter(lambda:fh.read(1<<20),b''):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          root=Path('.')
+          contract=json.loads((root/'docs/supporting/hypervolume_real_climate_export_contract_v1.json').read_text())
+          source=json.loads((root/'docs/supporting/global_rgfca_chelsa_expanded_source_verification_v1.json').read_text())
+          result_paths={
+              'thermal_regime': root/'docs/supporting/global_rgfca_thermal_regime_block_result_v1.json',
+              'water_balance': root/'docs/supporting/global_rgfca_water_balance_block_result_v1.json',
+              'atmospheric_energy_dryness': root/'docs/supporting/global_rgfca_atmospheric_energy_dryness_block_result_v1.json',
+          }
+          results={k:json.loads(p.read_text()) for k,p in result_paths.items()}
+          if contract['status']!='frozen_before_real_climate_coordinate_export': raise SystemExit('export contract drift')
+          if source['status']!=contract['environment_source']['verification_status']: raise SystemExit('source verification drift')
+          if len(source['files'])!=12: raise SystemExit('expected twelve exact CHELSA files')
+          if any(results[k]['block']!=k for k in results): raise SystemExit('block result drift')
+          if any(results[k]['lineage']['measured_table_sha256']!='ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4' for k in results): raise SystemExit('measurement lineage drift')
+
+          geometry=Path('/tmp/geometry/geometry_only.csv')
+          if sha(geometry)!=contract['geometry_source']['geometry_sha256']: raise SystemExit('geometry checksum drift')
+          g=pd.read_csv(geometry)
+          expected_cols=contract['geometry_source']['columns']
+          if list(g.columns)!=expected_cols or len(g)!=50000: raise SystemExit('geometry shape/column drift')
+          if g.photo_id.duplicated().any(): raise SystemExit('duplicate photo id')
+          lat=g.latitude.to_numpy(float); lon=g.longitude.to_numpy(float)
+
+          # Reconstruct the exact old 369-species / 21,424-classifiable-photo frame
+          # before comparing against old block source_audit counts. The previous
+          # source_audit denominator was that inference frame, not all 50,000 rows.
+          classifiable=g.global_classifiable.astype(str).str.lower().isin(['true','1','yes'])
+          counts=g.loc[classifiable].groupby('species').size()
+          eligible=set(counts[counts>=40].index.astype(str))
+          retained=(classifiable & g.species.astype(str).isin(eligible)).to_numpy(bool)
+          if len(eligible)!=369 or int(retained.sum())!=21424:
+              raise SystemExit(f'frozen eligibility drift species={len(eligible)} rows={int(retained.sum())}')
+
+          base=source['dataset']['base_url']
+          sampled={}; raster_receipts=[]
+          source_by_id={x['id']:x for x in source['files']}
+          audits={}
+          for block,r in results.items():
+              for var,a in r['source_audit'].items():
+                  audits[var]=(block,a)
+          if set(audits)!=set(contract['environment_source']['variables']): raise SystemExit('audit variable family drift')
+
+          for var in contract['environment_source']['variables']:
+              block,a=audits[var]
+              entry=source_by_id[var]
+              if entry['block']!=block or a['sha256']!=entry['sha256']: raise SystemExit('source/audit mismatch '+var)
+              url=base+entry['filename']
+              fd,tmp=tempfile.mkstemp(suffix='.tif'); os.close(fd); p=Path(tmp)
+              h=hashlib.sha256(); nbytes=0
+              try:
+                  with requests.get(url,stream=True,timeout=(30,600)) as response:
+                      response.raise_for_status()
+                      with p.open('wb') as out:
+                          for chunk in response.iter_content(chunk_size=1<<20):
+                              if not chunk: continue
+                              out.write(chunk); h.update(chunk); nbytes+=len(chunk)
+                  if h.hexdigest()!=entry['sha256'] or nbytes!=entry['size_bytes']:
+                      raise SystemExit('CHELSA byte drift '+var)
+                  with rasterio.open(p) as ds:
+                      if ds.count!=1 or str(ds.crs)=='' or ds.crs is None: raise SystemExit('bad raster '+var)
+                      xs,ys=lon,lat
+                      if str(ds.crs)!='EPSG:4326':
+                          x2,y2=warp_transform('EPSG:4326',ds.crs,xs.tolist(),ys.tolist()); coords=list(zip(x2,y2))
+                      else:
+                          coords=list(zip(xs.tolist(),ys.tolist()))
+                      raw=np.asarray([v[0] for v in ds.sample(coords)],dtype=float)
+                      valid=np.isfinite(raw)
+                      if ds.nodata is not None: valid &= raw!=float(ds.nodata)
+                      scale=float(ds.scales[0]) if ds.scales else 1.0
+                      offset=float(ds.offsets[0]) if ds.offsets else 0.0
+                      if not np.isclose(scale,float(a['scale'])) or not np.isclose(offset,float(a['offset'])):
+                          raise SystemExit('scale/offset drift '+var)
+                      z=np.full(len(raw),np.nan)
+                      physical=raw[valid]*scale+offset
+                      z[valid]=(physical-float(a['global_mean_physical']))/float(a['global_sd_ddof0_physical'])
+                      sampled[var]=z
+                      all_complete=int(np.isfinite(z).sum())
+                      retained_complete=int(np.isfinite(z[retained]).sum())
+                      receipt={
+                          'id':var,'block':block,'filename':entry['filename'],'sha256':entry['sha256'],
+                          'size_bytes':nbytes,
+                          'all_50000_sample_complete_count':all_complete,
+                          'all_50000_sample_complete_fraction':float(all_complete/len(z)),
+                          'retained_21424_sample_complete_count':retained_complete,
+                          'retained_21424_sample_complete_fraction':float(retained_complete/retained.sum()),
+                          'global_mean_physical':float(a['global_mean_physical']),
+                          'global_sd_ddof0_physical':float(a['global_sd_ddof0_physical']),
+                          'scale':scale,'offset':offset,
+                      }
+                      raster_receipts.append(receipt)
+                      if retained_complete!=int(a['photo_complete_count']):
+                          raise SystemExit(f'retained photo completeness drift {var}: {retained_complete} != {a["photo_complete_count"]}')
+                      print(json.dumps({'sampled':var,'all_complete':all_complete,'retained_complete':retained_complete,'sha256':entry['sha256']}),flush=True)
+              finally:
+                  p.unlink(missing_ok=True)
+
+          out=g.copy()
+          for var in contract['environment_source']['variables']: out['env_'+var]=sampled[var]
+          out_path=Path('/tmp/real-climate/real_climate_only.csv')
+          out.to_csv(out_path,index=False,lineterminator='\n')
+
+          block_audit={}
+          for block,variables in contract['environment_source']['blocks'].items():
+              cols=['env_'+v for v in variables]
+              complete_all=out[cols].notna().all(axis=1).to_numpy(bool)
+              complete_retained=complete_all & retained
+              block_audit[block]={
+                  'variables':variables,
+                  'all_50000_joint_complete_count':int(complete_all.sum()),
+                  'all_50000_joint_complete_fraction':float(complete_all.mean()),
+                  'retained_21424_joint_complete_count':int(complete_retained.sum()),
+                  'retained_21424_joint_complete_fraction':float(complete_retained.sum()/retained.sum()),
+              }
+              if block_audit[block]['retained_21424_joint_complete_count'] < int(contract['environment_source']['expected_retained_joint_complete_minimum']):
+                  raise SystemExit('retained climate completeness gate failed '+block)
+
+          audit={
+              'protocol':contract['protocol'],
+              'status':'complete_checksum_verified_colour_blind_real_climate_export',
+              'github_run_id':int(os.environ['RUN_ID']),
+              'input_geometry_sha256':sha(geometry),
+              'output_sha256':sha(out_path),
+              'rows':len(out),
+              'species_in_geometry':int(g.species.nunique()),
+              'frozen_eligible_species':len(eligible),
+              'frozen_retained_classifiable_rows':int(retained.sum()),
+              'environment_columns':['env_'+v for v in contract['environment_source']['variables']],
+              'raster_receipts':raster_receipts,
+              'block_completeness':block_audit,
+              'biological_colour_values_read':False,
+              'biological_colour_columns_exported':False,
+              'real_environment_inference_opened':False,
+              'parent_empirical_decisions_modified':False,
+              'claim_ceiling':contract['claim_ceiling'],
+          }
+          Path('/tmp/real-climate/audit.json').write_text(json.dumps(audit,indent=2)+'\n')
+          print(json.dumps({'status':audit['status'],'output_sha256':audit['output_sha256'],'block_completeness':block_audit},indent=2),flush=True)
+          PY
+      - name: Commit compact export audit only
+        run: |
+          set -euo pipefail
+          cp /tmp/real-climate/audit.json docs/supporting/hypervolume_real_climate_export_result_v1.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/supporting/hypervolume_real_climate_export_result_v1.json
+          git commit -m 'Record colour-blind real-climate export audit'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/hypervolume-geo-environment-identifiability
+            git rebase origin/analysis/hypervolume-geo-environment-identifiability
+            if git push origin HEAD:analysis/hypervolume-geo-environment-identifiability; then break; fi
+            test "$attempt" -lt 4
+            sleep $((attempt*2))
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hypervolume-real-climate-only-v1
+          path: /tmp/real-climate/
+          if-no-files-found: error
+          retention-days: 90
