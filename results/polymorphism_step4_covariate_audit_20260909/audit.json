@@ -1,0 +1,526 @@
+{
+  "audit": "polymorphism_step4_covariate_availability",
+  "csv_headers_scanned": 118,
+  "date_jst": "2026-09-09",
+  "known_sources": {
+    "candidate_species_audit": "data/frozen/global_monte_carlo_candidate_species_audit_v1.csv",
+    "capacity_species": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv",
+    "discovery_measurement": "data/derived/global_monte_carlo_measured_photos_v1.csv"
+  },
+  "matches": {
+    "latitude": [
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/frozen/global_monte_carlo_candidate_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "swlat",
+          "nelat"
+        ],
+        "path": "data/frozen/global_monte_carlo_platform_effort_cells_v1.csv"
+      },
+      {
+        "columns": [
+          "swlat",
+          "nelat"
+        ],
+        "path": "data/frozen/global_monte_carlo_sampling_availability_cells_v1.csv"
+      },
+      {
+        "columns": [
+          "cumulative_species"
+        ],
+        "path": "data/frozen/global_monte_carlo_species_discovery_round_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "cumulative_v1_plus_v2_species"
+        ],
+        "path": "data/frozen/global_monte_carlo_species_discovery_v2_round_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/frozen/jbi_ch1_photo_source_manifest.csv"
+      },
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/frozen/jbi_ch1_photo_split_v1.csv"
+      },
+      {
+        "columns": [
+          "swlat",
+          "nelat"
+        ],
+        "path": "data/frozen/random_photo_first_candidate_pool_cell_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/frozen/random_photo_first_candidate_pool_v1.csv"
+      },
+      {
+        "columns": [
+          "latitude",
+          "target_cell_center_latitude"
+        ],
+        "path": "data/frozen/random_photo_first_h7_fresh_metadata_v1.csv"
+      },
+      {
+        "columns": [
+          "cell_center_latitude"
+        ],
+        "path": "data/frozen/random_photo_first_h7_species_cells_v1.csv"
+      },
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv"
+      },
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/frozen/rgfca_independent_global_axis_prequalified_photo_manifest_20260909.csv"
+      },
+      {
+        "columns": [
+          "max_qualifying_group_centroid_separation_km"
+        ],
+        "path": "data/frozen/rgfca_independent_global_axis_species_audit_20260909.csv"
+      },
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/frozen/rgfca_sharedness_v2_geometry_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/derived/global_monte_carlo_measured_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "simulation_replicates"
+        ],
+        "path": "data/derived/global_rgfca_design_power_s1_v1.csv"
+      },
+      {
+        "columns": [
+          "correlation"
+        ],
+        "path": "data/derived/global_rgfca_environmental_holm_power_s3_v1.csv"
+      },
+      {
+        "columns": [
+          "mean_pairwise_H1_cell_centroid_great_circle_km",
+          "log1p_mean_pairwise_H1_cell_centroid_great_circle_km"
+        ],
+        "path": "data/derived/global_rgfca_worldclim_scale_moderation_replication_species_v1.csv"
+      },
+      {
+        "columns": [
+          "n_sinlat"
+        ],
+        "path": "data/derived/random_photo_first_h1_sensitivities_v1.csv"
+      },
+      {
+        "columns": [
+          "mean_pairwise_h1_cell_centroid_great_circle_km",
+          "max_pairwise_h1_cell_centroid_great_circle_km"
+        ],
+        "path": "data/derived/random_photo_first_h5_species_primary_v1.csv"
+      },
+      {
+        "columns": [
+          "mean_pairwise_h1_cell_centroid_great_circle_km"
+        ],
+        "path": "data/derived/random_photo_first_h6_species_primary_v1.csv"
+      },
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/derived/random_photo_first_measured_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "lat"
+        ],
+        "path": "data/derived/rgfca_global_signal_spatial_recurrence_20260909/exploratory_flower_side_candidate_cells.csv"
+      },
+      {
+        "columns": [
+          "latitude"
+        ],
+        "path": "data/derived/rgfca_reserve_replication_measured_photos_v1.csv"
+      }
+    ],
+    "life_form": [],
+    "pollination": [],
+    "range": [
+      {
+        "columns": [
+          "pca_hull_area"
+        ],
+        "path": "data/frozen/frozen_34species_five_metric_dataset.csv"
+      },
+      {
+        "columns": [
+          "maximum_span_km_after_observer_cap"
+        ],
+        "path": "data/frozen/global_monte_carlo_candidate_species_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "maximum_span_km"
+        ],
+        "path": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv"
+      },
+      {
+        "columns": [
+          "maximum_span_km"
+        ],
+        "path": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv"
+      },
+      {
+        "columns": [
+          "maximum_span_km"
+        ],
+        "path": "data/frozen/global_monte_carlo_capacity_scan_species_audit_v2.csv"
+      },
+      {
+        "columns": [
+          "maximum_span_km"
+        ],
+        "path": "data/frozen/global_monte_carlo_capacity_scan_species_audit_v3.csv"
+      },
+      {
+        "columns": [
+          "pca_hull_area"
+        ],
+        "path": "data/frozen/jbi_cs_climate_analysis_v22.csv"
+      },
+      {
+        "columns": [
+          "h7_maximum_span_km"
+        ],
+        "path": "data/frozen/random_photo_first_h9_metadata_species_v1.csv"
+      },
+      {
+        "columns": [
+          "maximum_span_km"
+        ],
+        "path": "data/frozen/rgfca_reserve_geometry_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "palette_count_orange",
+          "flower_fraction_orange",
+          "colour_yellow_orange"
+        ],
+        "path": "data/derived/global_monte_carlo_measured_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "yellow_orange_n"
+        ],
+        "path": "data/derived/random_photo_first_h4_within_species_capacity_v1.csv"
+      },
+      {
+        "columns": [
+          "palette_count_orange",
+          "flower_fraction_orange"
+        ],
+        "path": "data/derived/random_photo_first_measured_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "palette_count_orange",
+          "background_palette_count_orange",
+          "flower_fraction_orange",
+          "colour_yellow_orange"
+        ],
+        "path": "data/derived/rgfca_reserve_replication_measured_photos_v1.csv"
+      }
+    ],
+    "taxonomy": [
+      {
+        "columns": [
+          "family"
+        ],
+        "path": "data/frozen/frozen_34species_coexistence_segregation_v22.csv"
+      },
+      {
+        "columns": [
+          "family"
+        ],
+        "path": "data/frozen/frozen_34species_five_metric_dataset.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/global_monte_carlo_candidate_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "wrong_taxon"
+        ],
+        "path": "data/frozen/global_monte_carlo_candidate_species_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v2.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "wrong_taxon"
+        ],
+        "path": "data/frozen/global_monte_carlo_capacity_scan_species_audit_v2.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "wrong_taxon"
+        ],
+        "path": "data/frozen/global_monte_carlo_capacity_scan_species_audit_v3.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/global_monte_carlo_species_discovery_species_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/global_monte_carlo_species_discovery_v2_species_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "inat_taxon_name"
+        ],
+        "path": "data/frozen/jbi_ch1_photo_source_manifest.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "inat_taxon_name"
+        ],
+        "path": "data/frozen/jbi_ch1_photo_split_v1.csv"
+      },
+      {
+        "columns": [
+          "family"
+        ],
+        "path": "data/frozen/jbi_cs_climate_analysis_v22.csv"
+      },
+      {
+        "columns": [
+          "family"
+        ],
+        "path": "data/frozen/jbi_cs_evidence_freeze_v22.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/random_photo_first_candidate_pool_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/random_photo_first_h7_fresh_metadata_species_support_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "target_cell_order",
+          "wrong_taxon"
+        ],
+        "path": "data/frozen/random_photo_first_h7_fresh_metadata_target_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "target_cell_order"
+        ],
+        "path": "data/frozen/random_photo_first_h7_fresh_metadata_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "target_cell_order"
+        ],
+        "path": "data/frozen/random_photo_first_h7_species_cells_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "h8_target_order"
+        ],
+        "path": "data/frozen/random_photo_first_h8_design_species_cells_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/random_photo_first_h8_design_species_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "wrong_taxon"
+        ],
+        "path": "data/frozen/random_photo_first_h9_fresh_metadata_species_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "h9_selection_order"
+        ],
+        "path": "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/random_photo_first_h9_metadata_species_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id",
+          "selected_group_order"
+        ],
+        "path": "data/frozen/rgfca_independent_global_axis_prequalified_photo_manifest_20260909.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/rgfca_independent_global_axis_species_audit_20260909.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/rgfca_reserve_geometry_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "species_order",
+          "inat_taxon_id",
+          "photo_order"
+        ],
+        "path": "data/frozen/rgfca_sharedness_v2_geometry_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "species_order",
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/rgfca_sharedness_v2_geometry_species_audit_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/frozen/rgfca_sharedness_v2_high_depth_capacity_pilot_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/derived/global_monte_carlo_measured_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/derived/global_monte_carlo_measurement_species_support_v1.csv"
+      },
+      {
+        "columns": [
+          "family",
+          "family_any_discovery_probability"
+        ],
+        "path": "data/derived/global_rgfca_environmental_holm_power_s3_v1.csv"
+      },
+      {
+        "columns": [
+          "family_any_discovery_probability"
+        ],
+        "path": "data/derived/global_rgfca_environmental_interaction_power_supplement_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/derived/random_photo_first_h7_metadata_feasibility_species_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/derived/random_photo_first_measured_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/derived/rgfca_reserve_replication_measured_photos_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/derived/rgfca_reserve_replication_species_support_v1.csv"
+      },
+      {
+        "columns": [
+          "inat_taxon_id"
+        ],
+        "path": "data/derived/rgfca_reserve_replication_species_v1.csv"
+      }
+    ]
+  },
+  "outcomes_opened_by_this_audit": false,
+  "preliminary_availability": {
+    "family": "available_only_if_a_matching tracked taxonomy column/file appears above; otherwise missing",
+    "genus": "derivable_from_binomial_species_name_without_external_lookup",
+    "latitude_centroid": "derivable from frozen colour-blind sampled coordinates; must freeze raw-photo rather than classifiable-photo denominator before D analysis",
+    "life_form": "available_only_if a matching tracked trait column/file appears above; otherwise missing",
+    "pollination_mode": "available_only_if a matching tracked trait column/file appears above; otherwise missing",
+    "range_size_proxy": "available_from frozen metadata span fields and/or raw coordinates; must freeze one definition before D analysis"
+  }
+}
