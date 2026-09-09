@@ -1,0 +1,34 @@
+name: Polymorphism Step 4 covariate audit
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-covariate-freeze-step4
+    paths:
+      - "scripts/analysis/audit_polymorphism_step4_covariates_20260909.py"
+      - ".github/workflows/polymorphism-step4-covariate-audit.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run header-only audit
+        run: python scripts/analysis/audit_polymorphism_step4_covariates_20260909.py
+      - name: Commit audit result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_step4_covariate_audit_20260909/
+          if git diff --cached --quiet; then
+            echo "No result changes"
+          else
+            git commit -m "Record Step 4 covariate availability audit"
+            git push
+          fi
