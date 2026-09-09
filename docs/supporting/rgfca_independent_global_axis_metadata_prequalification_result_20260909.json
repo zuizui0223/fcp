@@ -1,0 +1,78 @@
+{
+  "M1_M3_scores_used": false,
+  "all_opened_frame_observer_identity_complete": false,
+  "block_reason": "fewer_than_300_species_met_frozen_spatial_support_rule",
+  "candidate_image_pixels_opened": false,
+  "candidate_reserve_species_name_overlap_before_exclusion": 500,
+  "candidate_reserve_taxon_overlap_before_exclusion": 500,
+  "candidate_rows": 100000,
+  "candidate_species": 1000,
+  "climate_used": false,
+  "ecological_image_pixels_opened": false,
+  "ecological_metadata_frame_qualified": false,
+  "final_identity_gate_pass": false,
+  "flower_colour_used": false,
+  "island_status_used": false,
+  "known_identity_overlap_checks": {
+    "h9_observation_overlap": 0,
+    "h9_observer_overlap": 0,
+    "h9_photo_overlap": 0,
+    "prior_ledger_observation_overlap": 0,
+    "prior_ledger_photo_overlap": 0,
+    "reserve_observation_overlap": 0,
+    "reserve_observer_overlap": 0,
+    "reserve_photo_overlap": 0,
+    "reserve_species_taxon_overlap": 0
+  },
+  "lattice": {
+    "assignment": "floor(x/300000),floor(y/300000)",
+    "cell_m": 300000.0,
+    "crs": "EPSG:6933",
+    "minimum_centroid_pair_separation_m": 500000.0,
+    "minimum_groups_per_species": 3,
+    "minimum_observers_per_group": 3,
+    "minimum_photos_per_group": 6,
+    "origin_shift_m": [
+      0.0,
+      0.0
+    ]
+  },
+  "lineage": {
+    "candidate_path": "data/frozen/global_monte_carlo_candidate_photos_v1.csv",
+    "candidate_sha256": "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2",
+    "h9_fresh_path": "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv",
+    "h9_fresh_sha256": "111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f",
+    "prior_ledger_path": "data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv",
+    "prior_ledger_sha256": "f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99",
+    "reserve_path": "/tmp/rgfca-reserve/data/derived/rgfca_reserve_replication_measured_photos_v1.csv",
+    "reserve_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  },
+  "measurement_gate_passed": false,
+  "opening_authorized": false,
+  "pre_h7_observer_identity_complete": false,
+  "protocol": "rgfca-independent-global-signal-axis-replication-metadata-prequalification-v1",
+  "protocol_commit": "6ea2783970d0e0fdea959a4ce13abaafc4e9b5d9",
+  "reserve_rows": 50000,
+  "reserve_species": 500,
+  "rows_after_known_identity_exclusions": 17440,
+  "selected_observers": 0,
+  "selected_photo_rows": 0,
+  "selected_species": 0,
+  "selected_support_groups": 0,
+  "selection": {
+    "observer_rule": "deterministic round-robin, max 2 photos per observer per group",
+    "photos_per_retained_group": 6,
+    "rank": [
+      "descending_qualifying_spatial_groups",
+      "descending_identity_clean_distinct_observers",
+      "descending_max_centroid_separation",
+      "ascending_stable_taxon_id"
+    ],
+    "retained_groups_per_species": "min(5, qualifying_group_count) using deterministic farthest-point dispersion"
+  },
+  "spatial_prequalification_pass": false,
+  "spatial_species_qualified_count": 42,
+  "spatial_target_species": 300,
+  "species_after_known_identity_exclusions": 500,
+  "status": "spatial_prequalification_failed"
+}
