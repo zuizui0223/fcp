@@ -1,0 +1,51 @@
+{
+  "analysis": "polymorphism_m3_step3",
+  "axis": {
+    "M3_explained": 0.13312029306424442,
+    "loadings": {
+      "black": -0.5645623341052616,
+      "blue": 0.007557258711877689,
+      "bronze": 0.18885476761721465,
+      "brown": 0.6767070970392758,
+      "green": 0.15715053641654908,
+      "magenta": -0.002563361164237883,
+      "orange": -0.006775332326883701,
+      "pink": -0.018878795110177492,
+      "purple": -0.028055157245154103,
+      "red": 0.006452506899857341,
+      "white": -0.014038124608976046,
+      "yellow": -0.4018490621240828
+    },
+    "reference_spatial_species": 331,
+    "reference_states": 1848
+  },
+  "date_jst": "2026-09-09",
+  "decision": {
+    "abs_background_ge_abs_flower_in_reserve": false,
+    "biological_only_pass": true,
+    "flowering_stage_claim_allowed": false,
+    "full_discovery_association_present": true,
+    "nuisance_controlled_pass": true,
+    "verdict": "FLOWER_BIOLOGICAL_SUPPORTED"
+  },
+  "discovery": {
+    "n_species": 369,
+    "p_mean_M3_bio9_upper": 4.999750012499375e-05,
+    "p_mean_M3_full_upper": 4.999750012499375e-05,
+    "partial_p_upper": 4.999750012499375e-05,
+    "partial_rho_D_mean_M3_full_controlling_nuisance": 0.27172329257378036,
+    "rho_D_mean_M3_bio9": 0.3001945859332632,
+    "rho_D_mean_M3_full": 0.255991427281511,
+    "rho_D_mean_nuisance_fraction": 0.06529510421858108,
+    "rho_D_sd_M3_full": -0.01557282138156232
+  },
+  "protocol": "docs/POLYMORPHISM_M3_STEP3_PROTOCOL_20260909.md",
+  "reserve_component_diagnostic": {
+    "n_species": 363,
+    "partial_rho_D_flower_M3_controlling_background_M3": 0.31609759925818653,
+    "rho_D_mean_background_M3": 0.0076290317110754334,
+    "rho_D_mean_flower_M3": 0.31609758157776224,
+    "rho_D_mean_flower_minus_background_M3": 0.32210158097538666,
+    "rho_D_mean_flower_nuisance_fraction": 0.15699624013168215
+  }
+}
