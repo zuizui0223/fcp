@@ -1,0 +1,16 @@
+{
+  "protocol": "rgfca-independent-global-axis-metadata-recovery-acquisition-v1",
+  "protocol_commit": "928b8eee67e93192232ad725126600c2da524628",
+  "workflow_commit": "7f9bbdc460eb75567c03f4cea7d937a900b1e719",
+  "status": "authorized_metadata_only_recovery_acquisition",
+  "date": "2026-09-09",
+  "source_species_before_span_filter": 3730,
+  "shards": 8,
+  "max_parallel": 2,
+  "candidate_image_pixels_authorized": false,
+  "ecological_image_pixels_authorized": false,
+  "flower_colour_authorized": false,
+  "M1_M3_scores_authorized": false,
+  "threshold_relaxation_authorized": false,
+  "extra_pages_authorized": false
+}
