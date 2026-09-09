@@ -1,0 +1,244 @@
+name: RGFCA independent global-axis metadata recovery acquisition v2
+
+on:
+  push:
+    branches:
+      - analysis/hypervolume-geo-environment-identifiability
+    paths:
+      - "docs/supporting/rgfca_independent_global_axis_metadata_recovery_trigger_v2_20260909.json"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  shard:
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      RESERVE_ARTIFACT_ID: "10025692225"
+      RESERVE_ARTIFACT_DIGEST: "sha256:fbe4e8ab93e665115b5560cd05ddd31d02b9c9138b8a30ce460b61b6c6775ef5"
+      CAPACITY_SHA256: "850501d7293a3968cf6566f8e9d7a396afd3927e8166ab2468e58ed22afcabde"
+      PRIOR_CANDIDATE_AUDIT_SHA256: "c9e9e76883d18bbb06355e1dec46a83aaf8f9a8680fb9b2c99d3cc811d62b152"
+      H9_SHA256: "111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f"
+      PRIOR_LEDGER_SHA256: "f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99"
+      ERRATUM_COMMIT: "d98dacc1d4f42c47d482b51d93c75465ced3c47f"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install metadata acquisition package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Verify frozen metadata source identities
+        run: |
+          python - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          expected = {
+              Path('data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv'): os.environ['CAPACITY_SHA256'],
+              Path('data/frozen/global_monte_carlo_candidate_species_audit_v1.csv'): os.environ['PRIOR_CANDIDATE_AUDIT_SHA256'],
+              Path('data/frozen/random_photo_first_h9_fresh_metadata_v1.csv'): os.environ['H9_SHA256'],
+              Path('data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv'): os.environ['PRIOR_LEDGER_SHA256'],
+          }
+          for p, expected_sha in expected.items():
+              actual = hashlib.sha256(p.read_bytes()).hexdigest()
+              assert actual == expected_sha, (p, actual, expected_sha)
+          print({'frozen_metadata_sources_verified': True, 'pixels_opened': False})
+          PY
+
+      - name: Verify and recover exact 500-species reserve identity artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/rgfca-reserve /tmp/rgfca-reserve.zip /tmp/reserve-artifact.json
+          mkdir -p /tmp/rgfca-reserve
+          curl --location --fail-with-body \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${RESERVE_ARTIFACT_ID}" \
+            -o /tmp/reserve-artifact.json
+          python - <<'PY'
+          import json, os
+          m = json.load(open('/tmp/reserve-artifact.json'))
+          assert str(m['id']) == os.environ['RESERVE_ARTIFACT_ID']
+          assert m['name'] == 'rgfca-reserve-measured-photos-v1'
+          assert m['digest'] == os.environ['RESERVE_ARTIFACT_DIGEST']
+          assert not m['expired']
+          PY
+          curl --location --fail-with-body \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${RESERVE_ARTIFACT_ID}/zip" \
+            -o /tmp/rgfca-reserve.zip
+          unzip -q /tmp/rgfca-reserve.zip -d /tmp/rgfca-reserve
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p = Path('/tmp/rgfca-reserve/data/derived/rgfca_reserve_replication_measured_photos_v1.csv')
+          assert p.exists()
+          actual = hashlib.sha256(p.read_bytes()).hexdigest()
+          assert actual == '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6', actual
+          print({'reserve_csv_sha256': actual})
+          PY
+
+      - name: Materialize fail-closed retention-feasibility erratum
+        run: |
+          python scripts/acquisition/apply_rgfca_recovery_retention_feasibility_erratum_20260909.py \
+            --source scripts/acquisition/run_rgfca_independent_global_axis_metadata_recovery_shard_20260909.py \
+            --output scripts/acquisition/.run_rgfca_independent_global_axis_metadata_recovery_shard_v2_runtime.py
+
+      - name: Run one deterministic metadata recovery shard v2
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          rm -rf /tmp/rgfca-recovery-shard
+          python scripts/acquisition/.run_rgfca_independent_global_axis_metadata_recovery_shard_v2_runtime.py \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 8 \
+            --output-dir /tmp/rgfca-recovery-shard \
+            --capacity-selected data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv \
+            --prior-candidate-audit data/frozen/global_monte_carlo_candidate_species_audit_v1.csv \
+            --reserve /tmp/rgfca-reserve/data/derived/rgfca_reserve_replication_measured_photos_v1.csv \
+            --h9-fresh data/frozen/random_photo_first_h9_fresh_metadata_v1.csv \
+            --prior-ledger data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          shard = int(os.environ['SHARD_INDEX'])
+          p = Path(f'/tmp/rgfca-recovery-shard/recovery_shard_{shard:02d}.json')
+          m = json.loads(p.read_text())
+          assert m['execution_erratum_commit'] == os.environ['ERRATUM_COMMIT']
+          assert m['candidate_image_pixels_opened'] is False
+          assert m['ecological_image_pixels_opened'] is False
+          assert m['flower_colour_used'] is False
+          assert m['M1_M3_scores_used'] is False
+          PY
+        env:
+          PYTHONUNBUFFERED: "1"
+          SHARD_INDEX: ${{ matrix.shard }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-axis-recovery-v2-shard-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/rgfca-recovery-shard/
+
+  reduce:
+    needs: shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      ERRATUM_COMMIT: "d98dacc1d4f42c47d482b51d93c75465ced3c47f"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install reducer dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: rgfca-axis-recovery-v2-shard-*
+          path: /tmp/rgfca-recovery-shards
+          merge-multiple: true
+
+      - name: Verify all eight shards carry the frozen erratum lineage
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          paths = sorted(Path('/tmp/rgfca-recovery-shards').glob('recovery_shard_*.json'))
+          assert len(paths) == 8, len(paths)
+          for p in paths:
+              m = json.loads(p.read_text())
+              assert m['execution_erratum_commit'] == os.environ['ERRATUM_COMMIT'], p
+              assert m['candidate_image_pixels_opened'] is False
+              assert m['ecological_image_pixels_opened'] is False
+              assert m['flower_colour_used'] is False
+              assert m['M1_M3_scores_used'] is False
+          print({'erratum_verified_shards': len(paths), 'pixels_opened': False})
+          PY
+
+      - name: Strictly reduce all eight metadata-only recovery shards
+        run: |
+          python scripts/acquisition/reduce_rgfca_independent_global_axis_metadata_recovery_20260909.py \
+            --input-dir /tmp/rgfca-recovery-shards \
+            --output-root .
+
+      - name: Independently rerun reducer and require byte-identical outputs
+        run: |
+          rm -rf /tmp/rgfca-recovery-rerun
+          python scripts/acquisition/reduce_rgfca_independent_global_axis_metadata_recovery_20260909.py \
+            --input-dir /tmp/rgfca-recovery-shards \
+            --output-root /tmp/rgfca-recovery-rerun
+          for f in \
+            data/frozen/rgfca_independent_global_axis_metadata_recovery_species_audit_20260909.csv \
+            data/frozen/rgfca_independent_global_axis_metadata_recovery_support_groups_20260909.csv \
+            data/frozen/rgfca_independent_global_axis_metadata_recovery_prequalified_photo_manifest_20260909.csv \
+            docs/supporting/rgfca_independent_global_axis_metadata_recovery_result_20260909.json
+          do
+            cmp "$f" "/tmp/rgfca-recovery-rerun/$f"
+            sha256sum "$f"
+          done
+
+      - name: Enforce sealed ecological opening boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/rgfca_independent_global_axis_metadata_recovery_result_20260909.json').read_text())
+          for key in ('candidate_image_pixels_opened','ecological_image_pixels_opened','flower_colour_used','M1_M3_scores_used','climate_used','island_status_used','pre_h7_observer_identity_complete','all_opened_frame_observer_identity_complete','final_identity_gate_pass','measurement_gate_passed','ecological_metadata_frame_qualified','opening_authorized'):
+              assert r[key] is False, (key, r[key])
+          if r['spatial_recovery_prequalification_pass']:
+              assert r['request_gate_pass'] is True
+              assert r['selected_species'] == 300
+              assert 5400 <= r['selected_photo_rows'] <= 9000
+              assert r['selected_photo_rows'] == 6 * r['selected_support_groups']
+          else:
+              assert r['selected_species'] == 0
+              assert r['selected_photo_rows'] == 0
+          print({
+              'status': r['status'],
+              'request_error_fraction': r['request_error_fraction'],
+              'spatial_species_qualified_count': r['spatial_species_qualified_count'],
+              'selected_species': r['selected_species'],
+              'selected_photo_rows': r['selected_photo_rows'],
+              'opening_authorized': r['opening_authorized'],
+              'block_reason': r['block_reason'],
+          })
+          PY
+
+      - name: Commit immutable metadata-only recovery result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/rgfca_independent_global_axis_metadata_recovery_species_audit_20260909.csv \
+            data/frozen/rgfca_independent_global_axis_metadata_recovery_support_groups_20260909.csv \
+            data/frozen/rgfca_independent_global_axis_metadata_recovery_prequalified_photo_manifest_20260909.csv \
+            docs/supporting/rgfca_independent_global_axis_metadata_recovery_result_20260909.json
+          git commit -m "Freeze corrected independent global-axis metadata recovery result"
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability
