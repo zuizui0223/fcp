@@ -1,0 +1,85 @@
+{
+  "analysis": "polymorphism_spatial_subset_step5",
+  "complement": {
+    "label": "second_lt_0.10",
+    "n_species": 197,
+    "null_mean": 5.242104824250955e-05,
+    "null_q025": -0.008382177538678265,
+    "null_q975": 0.008524304286044709,
+    "null_sd": 0.004333505446809949,
+    "observed_mean_rho": 0.020434834861073056,
+    "observed_median_species_rho": 0.0141936329087276,
+    "observed_positive_species_fraction": 0.5786802030456852,
+    "p_upper": 0.001,
+    "supported_at_0_05": true
+  },
+  "continuous_D_diagnostic": {
+    "null_mean": -0.0006282047486134681,
+    "null_q025": -0.09648442651153935,
+    "null_q975": 0.09604328356516938,
+    "p_upper": 0.034,
+    "positive_gradient_supported_at_0_05": true,
+    "rho_D_species_spatial_rho": 0.08921325988911004
+  },
+  "date_jst": "2026-09-09",
+  "decision": {
+    "adaptation_claim_allowed": false,
+    "claim3_subset_strengthened": true,
+    "common_boundary_claim_allowed": false,
+    "continuous_gradient_language_allowed_as_exploratory": true,
+    "dilution_language_allowed": true,
+    "verdict": "POLYMORPHIC_SUBSET_SPATIALLY_STRUCTURED_WITH_DILUTION_CONTRAST"
+  },
+  "dilution_contrast": {
+    "dilution_contrast_supported_at_0_05": true,
+    "null_mean": -2.760382458375916e-05,
+    "null_q025": -0.01190635489350608,
+    "null_q975": 0.01195268515539622,
+    "p_upper": 0.014,
+    "primary_minus_complement_observed_delta": 0.014130273362854936
+  },
+  "inferential_role": "postoutcome_exploratory_subset_of_existing_exact_randomization",
+  "polymorphism_fingerprint": {
+    "D_max": 0.7076446280991735,
+    "D_min": 0.0,
+    "fraction_second_ge_0_10": 0.46612466124661245,
+    "fraction_second_ge_0_20": 0.26558265582655827,
+    "n_species": 369
+  },
+  "primary": {
+    "label": "second_ge_0.10",
+    "n_species": 172,
+    "null_mean": 2.4817223658750354e-05,
+    "null_q025": -0.00822285107972884,
+    "null_q975": 0.009286685526315109,
+    "null_sd": 0.004483994636555812,
+    "observed_mean_rho": 0.03456510822392799,
+    "observed_median_species_rho": 0.018411248117225748,
+    "observed_positive_species_fraction": 0.6337209302325582,
+    "p_upper": 0.001,
+    "supported_at_0_05": true
+  },
+  "protocol": "docs/POLYMORPHISM_SPATIAL_SUBSET_STEP5_PROTOCOL_20260909.md",
+  "sensitivity": {
+    "label": "second_ge_0.20",
+    "n_species": 98,
+    "null_mean": 0.000111656468983436,
+    "null_q025": -0.010370768777527592,
+    "null_q975": 0.011816581362993645,
+    "null_sd": 0.005450018254102832,
+    "observed_mean_rho": 0.02708109913323883,
+    "observed_median_species_rho": 0.0133008071652324,
+    "observed_positive_species_fraction": 0.6326530612244898,
+    "p_upper": 0.001,
+    "supported_at_0_05": true
+  },
+  "upstream": {
+    "github_run_id": 34088925008,
+    "new_spatial_permutations_generated": false,
+    "permutations_reused": 999,
+    "spatial_protocol": "global-rgfca-within-species-spatial-omnibus-v1",
+    "whole_frame_n_species": 369,
+    "whole_frame_observed_mean_rho": 0.02702130374565584,
+    "whole_frame_p_upper": 0.001
+  }
+}
