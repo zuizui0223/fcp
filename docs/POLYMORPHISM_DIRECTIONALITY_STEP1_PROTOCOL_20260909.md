@@ -56,8 +56,8 @@ Primary statistic: Spearman rho between `D` and `R12`.
 
 Uncertainty/stress tests:
 
-1. label-permutation p-value for rho (`20,000` permutations; fixed seed 20260909);
-2. species bootstrap 95% CI (`5,000` bootstraps; fixed seed 20260909);
+1. **upper-tail** label-permutation p-value for positive rho (`20,000` permutations; fixed seed 20260909): `(1 + count(null_rho >= observed_rho)) / 20001`;
+2. species bootstrap percentile 95% CI (`5,000` bootstraps; fixed seed 20260909);
 3. partial Spearman robustness of `D` versus `R12` controlling `log(T)` by rank residualization;
 4. individual `R1` and `R2` results as secondary diagnostics;
 5. descriptive reproduction of the earlier scale-sensitive signals `rho(D, SD(M1))` and `rho(D, SD(M2))`, without using them in the Step 1 decision.
