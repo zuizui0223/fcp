@@ -1,0 +1,147 @@
+name: RGFCA independent global-axis metadata prequalification
+
+on:
+  push:
+    branches:
+      - analysis/hypervolume-geo-environment-identifiability
+    paths:
+      - "docs/supporting/rgfca_independent_global_axis_metadata_prequalification_trigger_20260909.json"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      RESERVE_ARTIFACT_ID: "10025692225"
+      RESERVE_ARTIFACT_DIGEST: "sha256:fbe4e8ab93e665115b5560cd05ddd31d02b9c9138b8a30ce460b61b6c6775ef5"
+      CANDIDATE_SHA256: "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2"
+      PROTOCOL_COMMIT: "6ea2783970d0e0fdea959a4ce13abaafc4e9b5d9"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install metadata-only dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas
+
+      - name: Verify untouched candidate-pool identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p = Path('data/frozen/global_monte_carlo_candidate_photos_v1.csv')
+          h = hashlib.sha256(p.read_bytes()).hexdigest()
+          expected = '${{ env.CANDIDATE_SHA256 }}'
+          assert h == expected, (h, expected)
+          print({'candidate_sha256': h, 'candidate_pixels_opened': False})
+          PY
+
+      - name: Verify and recover exact 500-species reserve identity artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/rgfca-reserve
+          curl --location --fail-with-body \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${RESERVE_ARTIFACT_ID}" \
+            -o /tmp/reserve-artifact.json
+          python - <<'PY'
+          import json, os
+          m = json.load(open('/tmp/reserve-artifact.json'))
+          assert str(m['id']) == os.environ['RESERVE_ARTIFACT_ID']
+          assert m['name'] == 'rgfca-reserve-measured-photos-v1'
+          assert m['digest'] == os.environ['RESERVE_ARTIFACT_DIGEST']
+          assert not m['expired']
+          print({'artifact_id': m['id'], 'name': m['name'], 'digest': m['digest'], 'expired': m['expired']})
+          PY
+          curl --location --fail-with-body \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${RESERVE_ARTIFACT_ID}/zip" \
+            -o /tmp/rgfca-reserve.zip
+          unzip -q /tmp/rgfca-reserve.zip -d /tmp/rgfca-reserve
+          test -f /tmp/rgfca-reserve/data/derived/rgfca_reserve_replication_measured_photos_v1.csv
+
+      - name: Run metadata-only spatial and known-identity prequalification
+        run: |
+          python scripts/analysis/qualify_rgfca_independent_global_axis_metadata_20260909.py \
+            --candidate data/frozen/global_monte_carlo_candidate_photos_v1.csv \
+            --reserve /tmp/rgfca-reserve/data/derived/rgfca_reserve_replication_measured_photos_v1.csv \
+            --h9-fresh data/frozen/random_photo_first_h9_fresh_metadata_v1.csv \
+            --prior-ledger data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv \
+            --protocol-commit "${PROTOCOL_COMMIT}" \
+            --output-root .
+
+      - name: Independently rerun and require byte-identical metadata outputs
+        run: |
+          rm -rf /tmp/rgfca-metadata-rerun
+          python scripts/analysis/qualify_rgfca_independent_global_axis_metadata_20260909.py \
+            --candidate data/frozen/global_monte_carlo_candidate_photos_v1.csv \
+            --reserve /tmp/rgfca-reserve/data/derived/rgfca_reserve_replication_measured_photos_v1.csv \
+            --h9-fresh data/frozen/random_photo_first_h9_fresh_metadata_v1.csv \
+            --prior-ledger data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv \
+            --protocol-commit "${PROTOCOL_COMMIT}" \
+            --output-root /tmp/rgfca-metadata-rerun
+          for f in \
+            data/frozen/rgfca_independent_global_axis_species_audit_20260909.csv \
+            data/frozen/rgfca_independent_global_axis_support_groups_20260909.csv \
+            data/frozen/rgfca_independent_global_axis_prequalified_photo_manifest_20260909.csv \
+            docs/supporting/rgfca_independent_global_axis_metadata_prequalification_result_20260909.json
+          do
+            cmp "$f" "/tmp/rgfca-metadata-rerun/$f"
+            sha256sum "$f"
+          done
+
+      - name: Enforce sealed opening boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('docs/supporting/rgfca_independent_global_axis_metadata_prequalification_result_20260909.json')
+          r = json.loads(p.read_text())
+          assert r['candidate_image_pixels_opened'] is False
+          assert r['ecological_image_pixels_opened'] is False
+          assert r['flower_colour_used'] is False
+          assert r['M1_M3_scores_used'] is False
+          assert r['measurement_gate_passed'] is False
+          assert r['opening_authorized'] is False
+          assert r['ecological_metadata_frame_qualified'] is False
+          if r['spatial_prequalification_pass']:
+              assert r['selected_species'] == 300
+              assert 5400 <= r['selected_photo_rows'] <= 9000
+          print({
+              'spatial_prequalification_pass': r['spatial_prequalification_pass'],
+              'spatial_species_qualified_count': r['spatial_species_qualified_count'],
+              'selected_species': r['selected_species'],
+              'selected_photo_rows': r['selected_photo_rows'],
+              'opening_authorized': r['opening_authorized'],
+              'block_reason': r['block_reason'],
+          })
+          PY
+
+      - name: Commit immutable metadata-only prequalification result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/rgfca_independent_global_axis_species_audit_20260909.csv \
+            data/frozen/rgfca_independent_global_axis_support_groups_20260909.csv \
+            data/frozen/rgfca_independent_global_axis_prequalified_photo_manifest_20260909.csv \
+            docs/supporting/rgfca_independent_global_axis_metadata_prequalification_result_20260909.json
+          git commit -m "Freeze independent global-axis metadata prequalification"
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability
