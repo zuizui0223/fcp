@@ -1,0 +1,37 @@
+name: Polymorphism directionality Step 1 input audit
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-directionality-step1
+    paths:
+      - scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py
+      - .github/workflows/polymorphism-directionality-step1-input-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Audit frozen Step 1 inputs only
+        run: python scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py
+      - name: Commit provenance audit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_directionality_step1_input_audit_20260909/
+          if git diff --cached --quiet; then
+            echo "No audit changes"
+          else
+            git commit -m "Record Step 1 input provenance audit"
+            git push
+          fi
