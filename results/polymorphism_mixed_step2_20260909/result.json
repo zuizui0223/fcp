@@ -1,0 +1,114 @@
+{
+  "D_fingerprint": {
+    "D_max": 0.7076446280991735,
+    "D_min": 0.0,
+    "second_ge_0_10": 0.46612466124661245,
+    "second_ge_0_20": 0.26558265582655827
+  },
+  "analysis": "polymorphism_mixed_step2",
+  "bridge_geometry": {
+    "bridge_pair_counts": {
+      "red_pink__blue_purple": 393,
+      "white__blue_purple": 530,
+      "white__red_pink": 700,
+      "white__yellow_orange": 505,
+      "yellow_orange__blue_purple": 47,
+      "yellow_orange__red_pink": 121
+    },
+    "coordinate_permutation_reps": 2000,
+    "null_mean": 0.8082847341337908,
+    "null_q025": 0.4789772727272727,
+    "null_q975": 0.9905660377358491,
+    "observed_interior_bridge_fraction": 0.9845626072041166,
+    "p_bridge_upper": 0.051974012993503245
+  },
+  "date_jst": "2026-09-09",
+  "decision": {
+    "D_numeric_underestimation_claim_allowed": false,
+    "geometry_pass": false,
+    "intermediate_colour_interpretation_supported": false,
+    "species_D_link_pass": true,
+    "verdict": "MIXED_REMAINS_STRUCTURAL_MISSINGNESS"
+  },
+  "discovery_rows": 50000,
+  "discovery_species_D": 369,
+  "mixed_decomposition": {
+    "all_mixed_fraction_of_50000": 0.49246,
+    "all_mixed_uncertain": 24623,
+    "ambiguous_palette_fraction_of_all_mixed": 0.09470819965073306,
+    "ambiguous_palette_rows": 2332,
+    "ambiguous_palette_valid_geometry_rows": 2332,
+    "status_counts": {
+      "not_evaluable_ambiguous_palette_composition": 2332,
+      "not_evaluable_no_biological_palette_mass": 25,
+      "not_evaluable_roi_or_flip_gate": 22266
+    },
+    "technical_or_other_mixed_rows": 22291
+  },
+  "new_image_acquisition": false,
+  "protocol": "docs/POLYMORPHISM_MIXED_STEP2_PROTOCOL_20260909.md",
+  "reserve_reference": {
+    "centroids": {
+      "blue_purple": {
+        "blue": 0.38331813559852923,
+        "bronze": 0.011136008596067006,
+        "magenta": 0.014025246576824805,
+        "orange": 0.0005493304591034139,
+        "pink": 0.045268352249055906,
+        "purple": 0.38570504512359455,
+        "red": 0.0003927386442819944,
+        "white": 0.15235189124882395,
+        "yellow": 0.007253251503718952
+      },
+      "red_pink": {
+        "blue": 0.003016436442225995,
+        "bronze": 0.06563305208672333,
+        "magenta": 0.15372723449913353,
+        "orange": 0.009248697258212616,
+        "pink": 0.40364179989895593,
+        "purple": 0.04544593495597972,
+        "red": 0.19405638773618192,
+        "white": 0.11538109265523819,
+        "yellow": 0.00984936446734827
+      },
+      "white": {
+        "blue": 0.024848441184715846,
+        "bronze": 0.05554147924834741,
+        "magenta": 0.0010790425866610799,
+        "orange": 0.001127933879290811,
+        "pink": 0.028073472724760067,
+        "purple": 0.00837510618461618,
+        "red": 0.0012937786766278583,
+        "white": 0.8427092734441726,
+        "yellow": 0.036951472070809205
+      },
+      "yellow_orange": {
+        "blue": 0.002007756982924923,
+        "bronze": 0.19176510728126087,
+        "magenta": 0.0002739261428802099,
+        "orange": 0.04377608062668478,
+        "pink": 0.005276116221323624,
+        "purple": 0.0010173034788021184,
+        "red": 0.009183462317850347,
+        "white": 0.08136630829982705,
+        "yellow": 0.6653339386484461
+      }
+    },
+    "n_rows_per_morph": {
+      "blue_purple": 2559,
+      "red_pink": 3128,
+      "white": 11843,
+      "yellow_orange": 7355
+    },
+    "within_morph_radius_q95": 0.6871065546148686
+  },
+  "species_level": {
+    "bridge_rate_upper_label_permutation_p": 4.999750012499375e-05,
+    "raw_rows_per_species_max": 100,
+    "raw_rows_per_species_min": 100,
+    "rho_D_ambiguous_palette_rate": 0.7275446952494382,
+    "rho_D_bridge_rate": 0.7252458547130213,
+    "rho_D_mixed_rate": 0.5371392346404109,
+    "rho_D_technical_mixed_rate": 0.23225646208517217
+  }
+}
