@@ -1,0 +1,86 @@
+{
+  "analysis": "polymorphism_directionality_step1",
+  "axis_learning": {
+    "M1_explained": 0.32031025304497934,
+    "M1_sum": -2.220446049250313e-16,
+    "M2_explained": 0.21961282012730018,
+    "M2_sum": -1.0824674490095276e-15,
+    "reference_spatial_species": 331,
+    "reference_states": 1848,
+    "reserve_rows_used_by_frozen_loader": 24885
+  },
+  "date_jst": "2026-09-09",
+  "decision": {
+    "claim2_survives": false,
+    "primary_pass": false,
+    "rotation_pass": false,
+    "verdict": "CLAIM2_REJECT_PRIMARY_NOT_SUPPORTED"
+  },
+  "diagnostics": {
+    "rho_D_R1": -0.11285849314872891,
+    "rho_D_R2": -0.0199193944473958,
+    "rho_D_SD_M1": 0.39755490825045997,
+    "rho_D_SD_M2": 0.6185810928657854,
+    "rho_D_mean_M1": -0.0695507827746979,
+    "rho_D_mean_M2": 0.03306147447909752,
+    "rho_D_total_variance": 0.8257571519124836
+  },
+  "direction_specificity": {
+    "p_rotation_upper": 0.7239276072392761,
+    "random_2d_subspaces": 10000,
+    "rotation_null_max": 0.7362664308590214,
+    "rotation_null_mean_rho": 0.02487398840790283,
+    "rotation_null_q025": -0.5001729763030697,
+    "rotation_null_q50": 0.024846569631143497,
+    "rotation_null_q975": 0.5367491151324429
+  },
+  "discovery_classifiable_rows": 25377,
+  "discovery_species": 369,
+  "fingerprint": {
+    "D_max": 0.7076446280991735,
+    "D_min": 0.0,
+    "second_ge_0_10": 0.46612466124661245,
+    "second_ge_0_20": 0.26558265582655827
+  },
+  "new_image_acquisition": false,
+  "primary": {
+    "bootstrap_95_percentile_ci": [
+      -0.27337709136721944,
+      -0.054861093101905435
+    ],
+    "label_permutation_upper_p": 0.9991000449977501,
+    "partial_spearman_controlling_log_T": 0.10399090050622249,
+    "rho_D_R12": -0.1647274869228537
+  },
+  "protocol": "docs/POLYMORPHISM_DIRECTIONALITY_STEP1_PROTOCOL_20260909.md",
+  "reference_loadings": {
+    "M1": {
+      "black": -0.1388586537438114,
+      "blue": 0.00727048746876463,
+      "bronze": 0.003379383486741827,
+      "brown": -0.21153876413043066,
+      "green": 0.708289783377742,
+      "magenta": 0.019778592536036713,
+      "orange": 0.009833060613644123,
+      "pink": 0.031752156249569646,
+      "purple": 0.0534984865452348,
+      "red": 0.02299634726722064,
+      "white": -0.6412229915938966,
+      "yellow": 0.13482211192318416
+    },
+    "M2": {
+      "black": -0.20528961335971255,
+      "blue": -0.06488536063786973,
+      "bronze": -0.012700206082095671,
+      "brown": -0.42838818105298887,
+      "green": 0.49478713731348145,
+      "magenta": -0.04351511561584778,
+      "orange": -0.004489097050954125,
+      "pink": -0.08931886568106953,
+      "purple": -0.05282777340350218,
+      "red": 0.001988308571154376,
+      "white": 0.6663244775079128,
+      "yellow": -0.26168571050850925
+    }
+  }
+}
