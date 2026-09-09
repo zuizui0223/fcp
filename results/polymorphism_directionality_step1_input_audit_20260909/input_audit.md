@@ -4,14 +4,12 @@ This audit was run before the Step 1 inferential statistic. `inference_opened = 
 
 ## Fingerprint reconstruction
 
-| table | rows | has global_morph | species >=40 four-state | D max | second >=10% | second >=20% | flower count cols | background count cols | flower fraction cols | background fraction cols |
-|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| discovery | 50000 | False | 0 | NA | NA | NA | 12 | 0 | 9 | 0 |
-| reserve | 50000 | False | 0 | NA | NA | NA | 12 | 12 | 9 | 0 |
+| table | rows | classifiable | morph field | species >=40 | D max | second >=10% | second >=20% | flower 12 | background 12 | colour4 |
+|---|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| discovery | 50000 | 25377 | morph | 369 | 0.707645 | 0.4661 | 0.2656 | 12 | 0 | 4 |
+| reserve | 50000 | 24885 | morph | 363 | 0.680272 | 0.4160 | 0.2479 | 12 | 12 | 4 |
 
-Fingerprint-best table: **None** (distance NA).
-
-## Exact-number / provenance grep
+Fingerprint-best table: **discovery** (distance 0.002897).
 
 ### exact_reported_numbers
 - `docs/supporting/global_rgfca_structured_null_toy_summary_v1.json:56:    [1.0, 0.1, "S", "cross", 299, 1000, 0.299, 0.271438, 0.328101],`
@@ -24,7 +22,32 @@ Fingerprint-best table: **None** (distance NA).
 - `docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json:1675:          "maximum_cell_intensity": 0.5372928176795579,`
 - `docs/supporting/random_photo_first_h6_species_specific_spatial_structure_result_v1.json:44:      "positive_species_fraction": 0.5375,`
 - `docs/supporting/rgfca_sharedness_v2_postfail_identifiability_v1.json:193:        "median_latent_dynamic_range": 0.29951371687739325,`
-- `scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py:134:            "reported_correlations": {"D_SD_M1": 0.332, "D_SD_M2": 0.299, "D_mixed_rate": 0.537},`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:14:      "D_SD_M1": 0.332,`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:15:      "D_SD_M2": 0.299,`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:16:      "D_mixed_rate": 0.537`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:23:      "docs/supporting/global_rgfca_structured_null_toy_summary_v1.json:56:    [1.0, 0.1, \"S\", \"cross\", 299, 1000, 0.299, 0.271438, 0.328101],",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:24:      "docs/supporting/hypervolume_real_climate_identifiability_diagnostic_result_v1.json:665:      \"train_transition_exposure_median\": 0.5375,",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:25:      "docs/supporting/hypervolume_real_climate_identifiability_diagnostic_result_v1.json:685:      \"evaluation_true_projection_sd_median\": 0.3324828359080394,",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:26:      "docs/supporting/jbi_ch1_calibration_feature_geometry_v1.json:234:          \"p75\": 0.5373395,",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:27:      "docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json:480:          \"maximum_cell_intensity\": 0.5372928176795579,",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:28:      "docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json:1088:          \"maximum_cell_intensity\": 0.5372928176795579,",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:29:      "docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json:1195:            \"shared_transition_intensity\": 0.5370731271938892",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:30:      "docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json:1675:          \"maximum_cell_intensity\": 0.5372928176795579,",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:31:      "docs/supporting/random_photo_first_h6_species_specific_spatial_structure_result_v1.json:44:      \"positive_species_fraction\": 0.5375,",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:32:      "docs/supporting/rgfca_sharedness_v2_postfail_identifiability_v1.json:193:        \"median_latent_dynamic_range\": 0.29951371687739325,",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:33:      "scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py:134:            \"reported_correlations\": {\"D_SD_M1\": 0.332, \"D_SD_M2\": 0.299, \"D_mixed_rate\": 0.537},"`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:17:- `docs/supporting/global_rgfca_structured_null_toy_summary_v1.json:56:    [1.0, 0.1, "S", "cross", 299, 1000, 0.299, 0.271438, 0.328101],``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:18:- `docs/supporting/hypervolume_real_climate_identifiability_diagnostic_result_v1.json:665:      "train_transition_exposure_median": 0.5375,``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:19:- `docs/supporting/hypervolume_real_climate_identifiability_diagnostic_result_v1.json:685:      "evaluation_true_projection_sd_median": 0.3324828359080394,``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:20:- `docs/supporting/jbi_ch1_calibration_feature_geometry_v1.json:234:          "p75": 0.5373395,``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:21:- `docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json:480:          "maximum_cell_intensity": 0.5372928176795579,``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:22:- `docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json:1088:          "maximum_cell_intensity": 0.5372928176795579,``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:23:- `docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json:1195:            "shared_transition_intensity": 0.5370731271938892``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:24:- `docs/supporting/jbi_ch1_stage_b_shared_transition_concentration_v1.json:1675:          "maximum_cell_intensity": 0.5372928176795579,``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:25:- `docs/supporting/random_photo_first_h6_species_specific_spatial_structure_result_v1.json:44:      "positive_species_fraction": 0.5375,``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:26:- `docs/supporting/rgfca_sharedness_v2_postfail_identifiability_v1.json:193:        "median_latent_dynamic_range": 0.29951371687739325,``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:27:- `scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py:134:            "reported_correlations": {"D_SD_M1": 0.332, "D_SD_M2": 0.299, "D_mixed_rate": 0.537},``
+- `scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py:124:            "reported_correlations": {"D_SD_M1": 0.332, "D_SD_M2": 0.299, "D_mixed_rate": 0.537},`
 
 ### simpson_polymorphism_terms
 - `.github/workflows/polymorphism-directionality-step1-input-audit.yml:6:      - analysis/polymorphism-directionality-step1`
@@ -111,7 +134,17 @@ Fingerprint-best table: **None** (distance NA).
 ### mode_sd_terms
 - `.github/workflows/hypervolume-real-climate-synthetic-qualification.yml:167:            moderate=q[(q.block==block)&(q.world=='climate_shared_shifted')&(q.amplitude==1.0)&(q.shared_fraction==1.0)&(q.threshold_sd==0.5)].iloc[0]`
 - `docs/supporting/hypervolume_threshold_robustness_contract_v1.json:42:      "moderate": {"sd": 0.5},`
-- `scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py:146:        "mode_sd_terms": r"SD\(M[123]\)|sd_m[123]|mode.*sd|species.*mode.*std",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:35:    "mode_sd_terms": [`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:36:      ".github/workflows/hypervolume-real-climate-synthetic-qualification.yml:167:            moderate=q[(q.block==block)&(q.world=='climate_shared_shifted')&(q.amplitude==1.0)&(q.shared_fraction==1.0)&(q.threshold_sd==0.5)].iloc[0]",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:37:      "docs/supporting/hypervolume_threshold_robustness_contract_v1.json:42:      \"moderate\": {\"sd\": 0.5},",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:38:      "scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py:146:        \"mode_sd_terms\": r\"SD\\(M[123]\\)|sd_m[123]|mode.*sd|species.*mode.*std\",",`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.json:39:      "scripts/run_full_fcp_latent_models.py:260:    manifest={'status':'complete','model':'marginalized latent-state repeated-source detection model','scopes':['core','expanded'],'axes':AXES,'metrics':METRICS,'occupancy_formula':'latent C or S ~ metric_z + z(log1p(geographic_radius_95_km))','detection_model':'constant source-level detection probability within each axis/metric/scope fit','core_source_boundary':'core uses only display-core membership sources; expanded uses all expanded FCP-eligible sources','false_positive_probability':float(args.epsilon),'weak_regularization_sd':PRIOR_SD,'parametric_bootstraps':int(args.parametric_bootstraps),'family_cluster_bootstraps':int(args.family_bootstraps),'seed':int(args.seed),'zero_semantics':'source-level zero is a non-detection; species-level biological absence is latent and never assigned directly','historical_34_role':'none in model fitting'}"`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:111:### mode_sd_terms`
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:112:- `.github/workflows/hypervolume-real-climate-synthetic-qualification.yml:167:            moderate=q[(q.block==block)&(q.world=='climate_shared_shifted')&(q.amplitude==1.0)&(q.shared_fraction==1.0)&(q.threshold_sd==0.5)].iloc[0]``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:113:- `docs/supporting/hypervolume_threshold_robustness_contract_v1.json:42:      "moderate": {"sd": 0.5},``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:114:- `scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py:146:        "mode_sd_terms": r"SD\(M[123]\)|sd_m[123]|mode.*sd|species.*mode.*std",``
+- `results/polymorphism_directionality_step1_input_audit_20260909/input_audit.md:115:- `scripts/run_full_fcp_latent_models.py:260:    manifest={'status':'complete','model':'marginalized latent-state repeated-source detection model','scopes':['core','expanded'],'axes':AXES,'metrics':METRICS,'occupancy_formula':'latent C or S ~ metric_z + z(log1p(geographic_radius_95_km))','detection_model':'constant source-level detection probability within each axis/metric/scope fit','core_source_boundary':'core uses only display-core membership sources; expanded uses all expanded FCP-eligible sources','false_positive_probability':float(args.epsilon),'weak_regularization_sd':PRIOR_SD,'parametric_bootstraps':int(args.parametric_bootstraps),'family_cluster_bootstraps':int(args.family_bootstraps),'seed':int(args.seed),'zero_semantics':'source-level zero is a non-detection; species-level biological absence is latent and never assigned directly','historical_34_role':'none in model fitting'}``
+- `scripts/analysis/audit_polymorphism_directionality_inputs_20260909.py:134:        "mode_sd_terms": git_grep(r"SD\(M[123]\)|sd_m[123]|mode.*sd|species.*mode.*std"),`
 - `scripts/run_full_fcp_latent_models.py:260:    manifest={'status':'complete','model':'marginalized latent-state repeated-source detection model','scopes':['core','expanded'],'axes':AXES,'metrics':METRICS,'occupancy_formula':'latent C or S ~ metric_z + z(log1p(geographic_radius_95_km))','detection_model':'constant source-level detection probability within each axis/metric/scope fit','core_source_boundary':'core uses only display-core membership sources; expanded uses all expanded FCP-eligible sources','false_positive_probability':float(args.epsilon),'weak_regularization_sd':PRIOR_SD,'parametric_bootstraps':int(args.parametric_bootstraps),'family_cluster_bootstraps':int(args.family_bootstraps),'seed':int(args.seed),'zero_semantics':'source-level zero is a non-detection; species-level biological absence is latent and never assigned directly','historical_34_role':'none in model fitting'}`
 
 ## Decision boundary
