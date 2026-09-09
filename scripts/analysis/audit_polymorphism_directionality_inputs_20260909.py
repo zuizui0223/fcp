@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import csv
 import json
-import math
 import subprocess
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -36,6 +35,14 @@ def git_grep(pattern: str) -> list[str]:
         check=False,
     )
     return [x for x in proc.stdout.splitlines() if x.strip()][:500]
+
+
+def fmt(value, digits: int = 4) -> str:
+    if value is None:
+        return "NA"
+    if isinstance(value, float):
+        return f"{value:.{digits}f}"
+    return str(value)
 
 
 def summarize_table(path: Path) -> dict:
@@ -111,7 +118,6 @@ def fingerprint_distance(x: dict) -> float | None:
     if any(v is None for v in required):
         return None
     n, dmax, s10, s20 = required
-    # Scale count so a one-species discrepancy has comparable influence to ~0.0027 in fractions.
     return abs(n - 369) / 369 + abs(dmax - 0.71) + abs(s10 - 0.466) + abs(s20 - 0.266)
 
 
@@ -141,7 +147,6 @@ def main() -> None:
     }
     report["repository_grep"] = {k: git_grep(v) for k, v in patterns.items()}
 
-    # Pick a provenance candidate only from the fingerprint, never from inferential outcomes.
     candidates = []
     for name, x in report["tables"].items():
         dist = x.get("fingerprint_distance")
@@ -151,8 +156,7 @@ def main() -> None:
     report["fingerprint_best_table"] = candidates[0][1] if candidates else None
     report["fingerprint_best_distance"] = candidates[0][0] if candidates else None
 
-    json_path = OUT / "input_audit.json"
-    json_path.write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
+    (OUT / "input_audit.json").write_text(json.dumps(report, indent=2, sort_keys=True), encoding="utf-8")
 
     lines = [
         "# Polymorphism directionality Step 1 — input provenance audit",
@@ -161,22 +165,23 @@ def main() -> None:
         "",
         "## Fingerprint reconstruction",
         "",
-        "| table | rows | species >=40 four-state | D max | second >=10% | second >=20% | 12 flower counts | 12 background counts |",
-        "|---|---:|---:|---:|---:|---:|---:|---:|",
+        "| table | rows | has global_morph | species >=40 four-state | D max | second >=10% | second >=20% | flower count cols | background count cols | flower fraction cols | background fraction cols |",
+        "|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for name in ("discovery", "reserve"):
         x = report["tables"][name]
         if not x.get("exists"):
-            lines.append(f"| {name} | missing | | | | | | |")
+            lines.append(f"| {name} | missing | | | | | | | | | |")
             continue
         lines.append(
-            f"| {name} | {x['rows']} | {x['n_species_ge40_four_state']} | "
-            f"{x['D_max']:.6f} | {x['second_ge_0_10_fraction']:.4f} | {x['second_ge_0_20_fraction']:.4f} | "
-            f"{len(x['palette_count_columns'])} | {len(x['background_palette_count_columns'])} |"
+            f"| {name} | {x['rows']} | {x['has_global_morph']} | {x['n_species_ge40_four_state']} | "
+            f"{fmt(x['D_max'], 6)} | {fmt(x['second_ge_0_10_fraction'])} | {fmt(x['second_ge_0_20_fraction'])} | "
+            f"{len(x['palette_count_columns'])} | {len(x['background_palette_count_columns'])} | "
+            f"{len(x['flower_fraction_columns'])} | {len(x['background_fraction_columns'])} |"
         )
     lines += [
         "",
-        f"Fingerprint-best table: **{report['fingerprint_best_table']}** (distance {report['fingerprint_best_distance']}).",
+        f"Fingerprint-best table: **{report['fingerprint_best_table']}** (distance {fmt(report['fingerprint_best_distance'], 6)}).",
         "",
         "## Exact-number / provenance grep",
         "",
@@ -195,7 +200,7 @@ def main() -> None:
         "",
     ]
     (OUT / "input_audit.md").write_text("\n".join(lines), encoding="utf-8")
-    print("\n".join(lines[:30]))
+    print("\n".join(lines[:50]))
 
 
 if __name__ == "__main__":
