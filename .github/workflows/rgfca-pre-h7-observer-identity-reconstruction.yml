@@ -1,0 +1,125 @@
+name: RGFCA pre-H7 observer identity reconstruction
+
+on:
+  push:
+    branches:
+      - analysis/hypervolume-geo-environment-identifiability
+    paths:
+      - "docs/supporting/rgfca_pre_h7_observer_identity_reconstruction_trigger_20260909.json"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  reconstruct:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PR21_ARTIFACT_ID: "9769165047"
+      PR21_ARTIFACT_NAME: "jbi-atlas-200-species-metadata-feasibility"
+      PR21_INNER_SHA256: "25835fb30510297d14b0863b204367e972c266fef3736cbed8f289116cf422cc"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install metadata-only dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas
+
+      - name: Recover exact PR21 terminal metadata artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/pr21 /tmp/pr21.zip /tmp/pr21-artifact.json
+          mkdir -p /tmp/pr21
+          curl --location --fail-with-body \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${PR21_ARTIFACT_ID}" \
+            -o /tmp/pr21-artifact.json
+          python - <<'PY'
+          import json, os
+          m = json.load(open('/tmp/pr21-artifact.json'))
+          assert str(m['id']) == os.environ['PR21_ARTIFACT_ID']
+          assert m['name'] == os.environ['PR21_ARTIFACT_NAME']
+          assert not m['expired']
+          print({'artifact_id': m['id'], 'artifact_name': m['name'], 'expired': m['expired']})
+          PY
+          curl --location --fail-with-body \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${PR21_ARTIFACT_ID}/zip" \
+            -o /tmp/pr21.zip
+          unzip -q /tmp/pr21.zip -d /tmp/pr21
+          sha256sum /tmp/pr21/scaleout_observation_manifest.csv
+          test "$(sha256sum /tmp/pr21/scaleout_observation_manifest.csv | cut -d' ' -f1)" = "$PR21_INNER_SHA256"
+
+      - name: Reconstruct exact historical pre-H7 observer ledger
+        run: |
+          python scripts/acquisition/reconstruct_rgfca_pre_h7_observer_identity_20260909.py \
+            --random data/frozen/random_photo_first_candidate_pool_v1.csv \
+            --six data/frozen/jbi_ch1_photo_source_manifest.csv \
+            --pr21 /tmp/pr21/scaleout_observation_manifest.csv \
+            --h7-ledger data/frozen/random_photo_first_h7_exclusion_ledger_v1.csv \
+            --output-ledger data/frozen/rgfca_pre_h7_observer_identity_ledger_20260909.csv \
+            --output-result docs/supporting/rgfca_pre_h7_observer_identity_reconstruction_result_20260909.json
+
+      - name: Independently rerun and require byte-identical reconstruction
+        run: |
+          rm -rf /tmp/pre-h7-rerun
+          mkdir -p /tmp/pre-h7-rerun/data/frozen /tmp/pre-h7-rerun/docs/supporting
+          python scripts/acquisition/reconstruct_rgfca_pre_h7_observer_identity_20260909.py \
+            --random data/frozen/random_photo_first_candidate_pool_v1.csv \
+            --six data/frozen/jbi_ch1_photo_source_manifest.csv \
+            --pr21 /tmp/pr21/scaleout_observation_manifest.csv \
+            --h7-ledger data/frozen/random_photo_first_h7_exclusion_ledger_v1.csv \
+            --output-ledger /tmp/pre-h7-rerun/data/frozen/rgfca_pre_h7_observer_identity_ledger_20260909.csv \
+            --output-result /tmp/pre-h7-rerun/docs/supporting/rgfca_pre_h7_observer_identity_reconstruction_result_20260909.json
+          cmp data/frozen/rgfca_pre_h7_observer_identity_ledger_20260909.csv /tmp/pre-h7-rerun/data/frozen/rgfca_pre_h7_observer_identity_ledger_20260909.csv
+          cmp docs/supporting/rgfca_pre_h7_observer_identity_reconstruction_result_20260909.json /tmp/pre-h7-rerun/docs/supporting/rgfca_pre_h7_observer_identity_reconstruction_result_20260909.json
+
+      - name: Enforce reconstruction gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('docs/supporting/rgfca_pre_h7_observer_identity_reconstruction_result_20260909.json').read_text())
+          assert r['status'] == 'complete_exact_historical_observer_reconstruction'
+          assert r['pre_h7_observer_identity_complete'] is True
+          assert r['current_api_identity_queries_used'] is False
+          assert r['reconstructed_pairs'] == 81803
+          assert r['frozen_h7_pairs'] == 81803
+          assert r['pair_coverage_missing'] == 0
+          assert r['source_union_extra_pairs'] == 0
+          assert r['observer_conflicts'] == 0
+          assert r['image_pixels_opened'] is False
+          assert r['flower_colour_used'] is False
+          assert r['M1_M3_scores_used'] is False
+          print({
+              'reconstructed_pairs': r['reconstructed_pairs'],
+              'unique_historical_observers': r['unique_historical_observers'],
+              'observer_conflicts': r['observer_conflicts'],
+              'pre_h7_observer_identity_complete': r['pre_h7_observer_identity_complete'],
+          })
+          PY
+
+      - name: Commit reconstructed historical identity ledger
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/frozen/rgfca_pre_h7_observer_identity_ledger_20260909.csv \
+            docs/supporting/rgfca_pre_h7_observer_identity_reconstruction_result_20260909.json
+          git commit -m "Freeze exact pre-H7 observer identity reconstruction"
+          git fetch origin analysis/hypervolume-geo-environment-identifiability
+          git rebase origin/analysis/hypervolume-geo-environment-identifiability
+          git push origin HEAD:analysis/hypervolume-geo-environment-identifiability
