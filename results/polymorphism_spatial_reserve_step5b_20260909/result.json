@@ -1,0 +1,169 @@
+{
+  "analysis": "polymorphism_spatial_reserve_step5b",
+  "continuous_D_diagnostic": {
+    "null_mean": -0.0026117003934431593,
+    "null_q025": -0.10038360756706033,
+    "null_q975": 0.09898485764678953,
+    "p_upper": 0.025,
+    "positive_supported_at_0_05": true,
+    "rho_D_species_primary_spatial_rho": 0.10160084472811265
+  },
+  "date_jst": "2026-09-09",
+  "decision": {
+    "adaptation_claim_allowed": false,
+    "common_boundary_claim_allowed": false,
+    "continuous_gradient_supported_as_secondary": true,
+    "dilution_contrast_replicated": true,
+    "matched_background_subset_supported": true,
+    "robust_primary_observer_quarter_replication": true,
+    "verdict": "RESERVE_POLYMORPHIC_SUBSET_REPLICATED_ROBUSTLY_WITH_DILUTION_REPLICATION_WITH_MATCHED_BACKGROUND_SUPPORT"
+  },
+  "dilution_contrast": {
+    "null_mean": 0.00014598788621173015,
+    "null_q025": -0.013481744785560672,
+    "null_q975": 0.013137899176794187,
+    "p_upper": 0.041,
+    "primary_minus_complement_observed_delta": 0.011671677699588327,
+    "replicated_at_0_05": true
+  },
+  "new_permutations_generated": false,
+  "primary_complement": {
+    "metric": "primary",
+    "n_species": 212,
+    "null_mean": -0.00010713909432221579,
+    "null_q025": -0.007428508152394983,
+    "null_q975": 0.007851460933782682,
+    "null_sd": 0.004133731180345251,
+    "observed_mean_rho": 0.020627445373869614,
+    "observed_median_species_rho": 0.011586067502876149,
+    "observed_positive_species_fraction": 0.5754716981132075,
+    "p_upper": 0.001,
+    "positive_supported_at_0_05": true,
+    "subset": "second_lt_0.10"
+  },
+  "primary_subset": {
+    "calendar_quarter_stratification": {
+      "metric": "calendar_quarter_stratification",
+      "n_species": 151,
+      "null_mean": 0.001033829101995265,
+      "null_q025": -0.008040289314938375,
+      "null_q975": 0.010729832996996815,
+      "null_sd": 0.004973648909825075,
+      "observed_mean_rho": 0.03229912307345794,
+      "observed_median_species_rho": 0.0167907852585729,
+      "observed_positive_species_fraction": 0.6291390728476821,
+      "p_upper": 0.001,
+      "positive_supported_at_0_05": true,
+      "subset": "second_ge_0.10"
+    },
+    "matched_background_differential": {
+      "metric": "matched_background_differential",
+      "n_species": 151,
+      "null_mean": -0.0003028949063583979,
+      "null_q025": -0.009954693638148758,
+      "null_q975": 0.010036358094785957,
+      "null_sd": 0.005278091849611275,
+      "observed_mean_rho": 0.01362172640616562,
+      "observed_median_species_rho": 0.0096163939246438,
+      "observed_positive_species_fraction": 0.5629139072847682,
+      "p_upper": 0.005,
+      "positive_supported_at_0_05": true,
+      "subset": "second_ge_0.10"
+    },
+    "observer_pair_exclusion": {
+      "metric": "observer_pair_exclusion",
+      "n_species": 151,
+      "null_mean": 7.751457422583504e-05,
+      "null_q025": -0.00979041315111276,
+      "null_q975": 0.009953742584149522,
+      "null_sd": 0.005115961095156926,
+      "observed_mean_rho": 0.03177456855896077,
+      "observed_median_species_rho": 0.016646487042012,
+      "observed_positive_species_fraction": 0.6291390728476821,
+      "p_upper": 0.001,
+      "positive_supported_at_0_05": true,
+      "subset": "second_ge_0.10"
+    },
+    "primary": {
+      "metric": "primary",
+      "n_species": 151,
+      "null_mean": 3.884879188951431e-05,
+      "null_q025": -0.009851688881345256,
+      "null_q975": 0.010075964507654545,
+      "null_sd": 0.00513107485620844,
+      "observed_mean_rho": 0.03229912307345794,
+      "observed_median_species_rho": 0.0167907852585729,
+      "observed_positive_species_fraction": 0.6291390728476821,
+      "p_upper": 0.001,
+      "positive_supported_at_0_05": true,
+      "subset": "second_ge_0.10"
+    }
+  },
+  "protocol": "docs/POLYMORPHISM_SPATIAL_RESERVE_STEP5B_PROTOCOL_20260909.md",
+  "reserve_polymorphism_fingerprint": {
+    "D_max": 0.6802721088435375,
+    "D_min": 0.0,
+    "fraction_second_ge_0_10": 0.41597796143250687,
+    "fraction_second_ge_0_20": 0.24793388429752067,
+    "n_species": 363
+  },
+  "sensitivity_subset": {
+    "calendar_quarter_stratification": {
+      "metric": "calendar_quarter_stratification",
+      "n_species": 90,
+      "null_mean": 0.0011605556561357418,
+      "null_q025": -0.010998606724868049,
+      "null_q975": 0.012983150245131383,
+      "null_sd": 0.006049665638030891,
+      "observed_mean_rho": 0.03907703392382986,
+      "observed_median_species_rho": 0.02167449134826815,
+      "observed_positive_species_fraction": 0.6444444444444445,
+      "p_upper": 0.001,
+      "positive_supported_at_0_05": true,
+      "subset": "second_ge_0.20"
+    },
+    "matched_background_differential": {
+      "metric": "matched_background_differential",
+      "n_species": 90,
+      "null_mean": -0.0005974323938220491,
+      "null_q025": -0.013185084310153793,
+      "null_q975": 0.013269836272141062,
+      "null_sd": 0.0066540632702194544,
+      "observed_mean_rho": 0.021517487782097375,
+      "observed_median_species_rho": 0.015490985412924,
+      "observed_positive_species_fraction": 0.6111111111111112,
+      "p_upper": 0.003,
+      "positive_supported_at_0_05": true,
+      "subset": "second_ge_0.20"
+    },
+    "observer_pair_exclusion": {
+      "metric": "observer_pair_exclusion",
+      "n_species": 90,
+      "null_mean": 9.395916188919892e-06,
+      "null_q025": -0.011389895166663201,
+      "null_q975": 0.011881058631626551,
+      "null_sd": 0.00602159078734064,
+      "observed_mean_rho": 0.03848699722467763,
+      "observed_median_species_rho": 0.0219687451020149,
+      "observed_positive_species_fraction": 0.6444444444444445,
+      "p_upper": 0.001,
+      "positive_supported_at_0_05": true,
+      "subset": "second_ge_0.20"
+    },
+    "primary": {
+      "metric": "primary",
+      "n_species": 90,
+      "null_mean": 1.797415478806886e-05,
+      "null_q025": -0.011445595559456782,
+      "null_q975": 0.01267912756208094,
+      "null_sd": 0.006282109575918056,
+      "observed_mean_rho": 0.03907703392382986,
+      "observed_median_species_rho": 0.02167449134826815,
+      "observed_positive_species_fraction": 0.6444444444444445,
+      "p_upper": 0.001,
+      "positive_supported_at_0_05": true,
+      "subset": "second_ge_0.20"
+    }
+  },
+  "upstream_run_id": 34178957447
+}
