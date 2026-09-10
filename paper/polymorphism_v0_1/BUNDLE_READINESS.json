@@ -1,0 +1,40 @@
+{
+  "figure_data_files_checked": 11,
+  "main_figures_checked": [
+    {
+      "bytes": 33212,
+      "path": "figures/figure1_polymorphism_estimand.pdf",
+      "sha256": "88f80c35b79445d8c9351908a558651db052c3bf340f1bef33f5013edeccda79"
+    },
+    {
+      "bytes": 41842,
+      "path": "figures/figure2_polymorphism_spatial_replication.pdf",
+      "sha256": "6416fa775562c4efcdebf3cd15b6cbdb9f375541644c52dec36a05610a40f64a"
+    },
+    {
+      "bytes": 42343,
+      "path": "figures/figure3_measurement_and_ambiguity_robustness.pdf",
+      "sha256": "9970c8b30a3d2c5b1c6234112e2c6e8b82e8e76d79985808873b1572d7541175"
+    },
+    {
+      "bytes": 24424,
+      "path": "figures/figure4_genus_taxonomic_structure.pdf",
+      "sha256": "2444c4756c6470ad8440e9cd38bb06835ce6cc79376e72ce8f18fe81c3182ea6"
+    }
+  ],
+  "main_text_word_count": 4166,
+  "paper_version": "v0.1-post-step9",
+  "remaining_submission_blockers": [
+    "pixel-level final figure inspection at journal column size",
+    "final author list and affiliations",
+    "corresponding-author metadata and ORCID",
+    "acknowledgements and funding",
+    "CRediT roles",
+    "conflict-of-interest declaration",
+    "permanent repository/data archive DOI"
+  ],
+  "science_bundle_ready": true,
+  "source_receipts_checked": 9,
+  "status": "PASS",
+  "submission_ready": false
+}
