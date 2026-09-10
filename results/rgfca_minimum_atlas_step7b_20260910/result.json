@@ -1,0 +1,50 @@
+{
+  "analysis": "rgfca_minimum_atlas_step7b",
+  "claim_boundary": "Minimum refers to recovery of the frozen species-equal 10-degree atlas plus D distribution under the predeclared thresholds; it is not a universal sampling law for all flower-colour questions.",
+  "discovery": {
+    "passing_designs": [
+      {
+        "nominal_budget": 28000,
+        "raw_photos_per_species": 80,
+        "species_count": 350
+      },
+      {
+        "nominal_budget": 35000,
+        "raw_photos_per_species": 100,
+        "species_count": 350
+      }
+    ],
+    "reference_D_species": 500,
+    "reference_cells_ge3_species": 164,
+    "reference_median_classifiable": 50.0,
+    "reference_second_ge_0_10": 0.546,
+    "species_universe": 500
+  },
+  "minimum_common_design": {
+    "nominal_budget": 28000,
+    "raw_photos_per_species": 80,
+    "species_count": 350
+  },
+  "protocol": "docs/RGFCA_MINIMUM_ATLAS_STEP7B_PROTOCOL_20260910.md",
+  "realizations_per_design": 200,
+  "reserve": {
+    "passing_designs": [
+      {
+        "nominal_budget": 28000,
+        "raw_photos_per_species": 80,
+        "species_count": 350
+      },
+      {
+        "nominal_budget": 35000,
+        "raw_photos_per_species": 100,
+        "species_count": 350
+      }
+    ],
+    "reference_D_species": 500,
+    "reference_cells_ge3_species": 174,
+    "reference_median_classifiable": 51.0,
+    "reference_second_ge_0_10": 0.54,
+    "species_universe": 500
+  },
+  "verdict": "COMMON_MINIMUM_FOUND"
+}
