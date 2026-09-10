@@ -1,0 +1,103 @@
+name: Polymorphism paper v0.1 figure data
+
+on:
+  push:
+    branches:
+      - feat/polymorphism-paper-v0-1-post-step9
+    paths:
+      - "scripts/analysis/build_polymorphism_paper_v0_1_figure_data_20260910.py"
+      - "docs/POLYMORPHISM_PAPER_V0_1_POST_STEP9_20260910.md"
+      - ".github/workflows/polymorphism-paper-v0-1-figure-data.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas
+
+      - name: Verify frozen evidence inputs
+        run: |
+          test -f results/polymorphism_directionality_step1_20260909/result.json
+          test -f results/polymorphism_species_attributes_step4_association_20260910/result.json
+          test -f results/polymorphism_species_attributes_step4_association_20260910/species_analysis_table.csv
+          test -f results/polymorphism_spatial_subset_step5_20260909/result.json
+          test -f results/polymorphism_spatial_subset_step5_20260909/species_membership_and_observed_rho.csv
+          test -f results/polymorphism_spatial_reserve_step5b_20260909/result.json
+          test -f results/polymorphism_spatial_reserve_step5b_20260909/reserve_species_membership_and_observed_metrics.csv
+          test -f results/polymorphism_genus_replication_step7_20260910/result.json
+          test -f results/polymorphism_genus_adjustment_decomposition_step7b_20260910/result.json
+          test -f results/polymorphism_measurement_missingness_step8_preflight_20260910/result.json
+          test -f results/polymorphism_measurement_missingness_step8_analysis_20260910/result.json
+          test -f results/polymorphism_ambiguity_bounds_step9_20260910/result.json
+          test -f results/polymorphism_ambiguity_bounds_step9_20260910/discovery_ambiguity_endpoint_panel.csv
+          test -f results/polymorphism_ambiguity_bounds_step9_20260910/reserve_ambiguity_endpoint_panel.csv
+
+      - name: Build synchronized figure data and number ledger
+        run: |
+          python scripts/analysis/build_polymorphism_paper_v0_1_figure_data_20260910.py
+
+      - name: Verify paper-number contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('paper/polymorphism_v0_1')
+          numbers = json.loads((root / 'paper_numbers.json').read_text())
+          manifest = json.loads((root / 'manifest.json').read_text())
+          expected = {
+              'figure1_discovery_species_polymorphism.csv',
+              'figure2_discovery_spatial.csv',
+              'figure2_reserve_spatial.csv',
+              'figure2_effect_summary.csv',
+              'figure3_measurement_status_partition.csv',
+              'figure3_spatial_robustness_summary.csv',
+              'figure3_ambiguity_interval_summary.csv',
+              'figure3_discovery_ambiguity_intervals.csv',
+              'figure3_reserve_ambiguity_intervals.csv',
+              'figure4_genus_clustering_summary.csv',
+          }
+          assert numbers['paper_version'] == 'v0.1-post-step9'
+          assert numbers['discovery']['species'] == 369
+          assert numbers['reserve']['species'] == 363
+          assert numbers['measurement']['raw_rows'] == 50000
+          assert numbers['measurement']['candidate_species'] == 500
+          assert numbers['measurement']['rows_per_species'] == 100
+          assert set(manifest['figure_data']) == expected
+          assert (root / 'PAPER_NUMBERS.md').is_file()
+          for name in expected:
+              assert (root / 'figure_data' / name).is_file()
+          print(json.dumps({
+              'paper_version': numbers['paper_version'],
+              'discovery_species': numbers['discovery']['species'],
+              'reserve_species': numbers['reserve']['species'],
+              'figure_data_files': len(manifest['figure_data']),
+          }, indent=2))
+          PY
+
+      - name: Commit synchronized paper data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper/polymorphism_v0_1/
+          if git diff --cached --quiet; then
+            echo "No paper figure-data changes"
+          else
+            git commit -m "Record synchronized FCP paper v0.1 figure data"
+            git push
+          fi
