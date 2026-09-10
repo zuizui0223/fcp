@@ -1,0 +1,30 @@
+{
+  "all_species_have_original_discovery_anchor": true,
+  "analysis": "rgfca_42111_anchor_allocation_step8c",
+  "capacity_depth_target_counts": {
+    "0": 789,
+    "1": 7378,
+    "10": 5316,
+    "2": 9332,
+    "20": 12985,
+    "5": 6311
+  },
+  "capacity_tier_total_records": 370457,
+  "claim_boundary": "Metadata-only allocation. Original discovery photo IDs establish breadth-anchor availability but no image or colour outcome is opened here.",
+  "combined_target_depth_counts_with_discovery_anchor_floor1": {
+    "1": 8167,
+    "10": 5316,
+    "2": 9332,
+    "20": 12985,
+    "5": 6311
+  },
+  "combined_total_target_records": 371246,
+  "flower_colour_used": false,
+  "new_measurement_target_records_if_existing_reused": 351246,
+  "opened_existing_species": 1000,
+  "pixels_opened": false,
+  "species_requiring_fresh_requery_for_unopened_anchor": 1245,
+  "species_universe": 42111,
+  "species_with_fresh_discovery_anchor_after_prior_id_exclusion": 40785,
+  "status": "complete_metadata_only_anchor_allocation"
+}
