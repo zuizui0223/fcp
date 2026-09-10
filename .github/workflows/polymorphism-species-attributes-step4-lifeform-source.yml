@@ -1,0 +1,82 @@
+name: Polymorphism species attributes Step 4 life-form source
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-species-attributes-step4b
+    paths:
+      - "scripts/analysis/run_polymorphism_species_attributes_step4_lifeform_source_20260910.py"
+      - "docs/POLYMORPHISM_SPECIES_ATTRIBUTES_STEP4_LIFEFORM_SOURCE_PROTOCOL_20260910.md"
+      - ".github/workflows/polymorphism-species-attributes-step4-lifeform-source.yml"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas
+
+      - name: Download pinned GIFT v3.2 source artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/gift-lifeform
+          mkdir -p /tmp/gift-lifeform
+          gh run download 29338693288 \
+            --repo zuizui0223/island \
+            --name gift-direct-traits-29338693288 \
+            --dir /tmp/gift-lifeform
+          test "$(find /tmp/gift-lifeform -name traits_meta.json | wc -l)" -eq 1
+          test "$(find /tmp/gift-lifeform -name reference_traits.json | wc -l)" -eq 1
+          test "$(find /tmp/gift-lifeform -name references.json | wc -l)" -eq 1
+          test "$(find /tmp/gift-lifeform -name species.csv.gz | wc -l)" -eq 1
+
+      - name: Acquire direct Life_form_1 records
+        run: |
+          python scripts/analysis/run_polymorphism_species_attributes_step4_lifeform_source_20260910.py \
+            --gift-artifact-root /tmp/gift-lifeform \
+            --max-workers 6
+
+      - name: Verify outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('results/polymorphism_species_attributes_step4_lifeform_source_20260910/result.json')
+          r = json.loads(p.read_text())
+          assert r['fcp_species'] == 369
+          assert r['D_association_computed'] is False
+          print(json.dumps({
+              'fcp_species_with_life_form': r['fcp_species_with_life_form'],
+              'life_form_counts': r['life_form_counts'],
+              'eligible_levels_n_ge_10': r['eligible_levels_n_ge_10'],
+              'life_form_gate_pass': r['life_form_gate_pass'],
+          }, indent=2))
+          PY
+
+      - name: Commit frozen life-form source result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_species_attributes_step4_lifeform_source_20260910/
+          if git diff --cached --quiet; then
+            echo "No life-form result changes"
+          else
+            git commit -m "Record Step 4 life-form source result"
+            git push
+          fi
