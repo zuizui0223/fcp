@@ -104,15 +104,15 @@ def figure1(numbers: dict[str, Any]) -> list[Path]:
     panel(ax, "A")
     ax.axis("off")
     boxes = [
-        (0.03, 0.62, 0.26, 0.22, "100 fixed\nphotos / species"),
-        (0.37, 0.62, 0.26, 0.22, "measurement +\nstatus partition"),
+        (0.03, 0.62, 0.26, 0.22, "100 photos\nper species"),
+        (0.37, 0.62, 0.26, 0.22, "image measurement\n+ status gate"),
         (0.71, 0.62, 0.26, 0.22, "4 admitted\ncolour states"),
         (0.37, 0.16, 0.26, 0.22, "species diversity\nD = 1 − Σp²"),
     ]
     for x, y, w, h, label in boxes:
         rect = plt.Rectangle((x, y), w, h, transform=ax.transAxes, fill=False, lw=1.1, ec=DARK)
         ax.add_patch(rect)
-        ax.text(x + w/2, y + h/2, label, transform=ax.transAxes, ha="center", va="center")
+        ax.text(x + w/2, y + h/2, label, transform=ax.transAxes, ha="center", va="center", fontsize=7.5)
     arrows = [((0.29, 0.73), (0.37, 0.73)), ((0.63, 0.73), (0.71, 0.73)), ((0.84, 0.62), (0.54, 0.38))]
     for a, b in arrows:
         ax.annotate("", xy=b, xytext=a, xycoords=ax.transAxes, arrowprops=dict(arrowstyle="->", lw=1.0, color=DARK))
@@ -133,7 +133,7 @@ def figure1(numbers: dict[str, Any]) -> list[Path]:
     ax.axhline(0.20, color=MID, ls=":", lw=0.9)
     ax.text(0.01, 0.105, "10%", fontsize=7, color=MID)
     ax.text(0.01, 0.205, "20%", fontsize=7, color=MID)
-    ax.set(xlabel="D", ylabel="Second-largest morph fraction", title="Threshold summaries preserve a continuous gradient")
+    ax.set(xlabel="D", ylabel="Second-largest morph fraction", title="Threshold summaries preserve\na continuous gradient")
 
     ax = fig.add_subplot(gs[1, 1])
     panel(ax, "D")
@@ -142,10 +142,10 @@ def figure1(numbers: dict[str, Any]) -> list[Path]:
     ax.barh(y, vals, height=0.55, color=DISC)
     ax.set_yticks(y, ["second morph ≥10%", "second morph ≥20%"])
     ax.invert_yaxis()
-    ax.set(xlabel="Species in admitted discovery frame (%)", xlim=(0, 55), title="Non-trivial secondary morphs are common in-frame")
+    ax.set(xlabel="Species in admitted discovery frame (%)", xlim=(0, 55), title="Non-trivial secondary morphs\nare common in-frame")
     for yi, v in zip(y, vals):
         ax.text(v + 1, yi, f"{v:.1f}%", va="center")
-    ax.text(0, 1.35, "Not an angiosperm-wide prevalence estimate", fontsize=7, color=MID)
+    ax.text(0.98, 0.04, "not angiosperm-wide", transform=ax.transAxes, ha="right", va="bottom", fontsize=6.6, color=MID)
 
     fig.suptitle("Figure 1 | Flower-colour polymorphism as a species-level property", fontsize=11, y=0.995)
     return save(fig, "figure1_polymorphism_estimand")
@@ -192,7 +192,7 @@ def figure2(numbers: dict[str, Any]) -> list[Path]:
     pdisc = float(effects.loc[(effects.tranche=="discovery") & (effects.metric=="polymorphic_minus_complement"), "p"].iloc[0])
     pres = float(effects.loc[(effects.tranche=="reserve") & (effects.metric=="polymorphic_minus_complement"), "p"].iloc[0])
     ax.text(0.03, 0.94, f"contrast: discovery {ptxt(pdisc)}; reserve {ptxt(pres)}", transform=ax.transAxes, va="top", fontsize=7.2)
-    ax.set(ylabel="Mean species spatial ρ ± bootstrap 95% CI", title="Polymorphic subset is more spatially organized")
+    ax.set(ylabel="Mean species spatial ρ ± bootstrap 95% CI", title="Polymorphic subset has stronger\nspatial organization")
 
     ax = fig.add_subplot(gs[1, 1])
     panel(ax, "D")
@@ -211,7 +211,7 @@ def figure2(numbers: dict[str, Any]) -> list[Path]:
         ax.text(x + 0.0014, y, ptxt(float(p)), va="center", fontsize=7)
     ax.set_yticks(yy, lab)
     ax.invert_yaxis()
-    ax.set(xlabel="Equal-species mean spatial ρ (≥10% subset)", title="Reserve replication survives nuisance controls")
+    ax.set(xlabel="Equal-species mean spatial ρ (≥10% subset)", title="Reserve replication survives\nnuisance controls")
 
     fig.suptitle("Figure 2 | Greater polymorphism predicts stronger within-species geographic organization", fontsize=11, y=0.995)
     return save(fig, "figure2_polymorphism_spatial_replication")
@@ -280,7 +280,7 @@ def figure3(numbers: dict[str, Any]) -> list[Path]:
             ax.text(x, y + 0.006, f"{p:.3f}", ha="center", va="bottom", fontsize=6.6, color=c)
     ax.axhline(0, color=LIGHT, lw=1)
     ax.set_xticks(base, [g[2] for g in groups], rotation=18, ha="right")
-    ax.set(ylabel="Partial Spearman ρ\n| sampled span + technical failure", title="Spatial signal survives both ambiguity endpoints")
+    ax.set(ylabel="Partial Spearman ρ\n| sampled span + technical failure", title="Spatial signal survives\nboth ambiguity endpoints")
     ax.legend(frameon=False, ncol=3, loc="upper left")
     ax.text(0.02, 0.03, "numbers above points are geometry-preserving p", transform=ax.transAxes, fontsize=6.5, color=MID)
 
@@ -290,7 +290,7 @@ def figure3(numbers: dict[str, Any]) -> list[Path]:
     xx = np.arange(len(rr))
     ax.fill_between(xx, rr["D_min4"], rr["D_max4"], color=LIGHT, alpha=0.8, linewidth=0, label="four-state completion interval")
     ax.plot(xx, rr["D"], color=RES, lw=1.3, label="observed D")
-    ax.set(xlabel="Reserve species ranked by observed D", ylabel="D", title="Observed ordering is stable across broad completion bounds")
+    ax.set(xlabel="Reserve species ranked by observed D", ylabel="D", title="Observed ordering remains stable\nacross completion bounds")
     ax.legend(frameon=False, loc="upper left")
     ax.text(0.03, 0.86, f"ρ(D,Dmin4)={numbers['reserve'].get('rho_D_Dmin4', 0.997):.3f}\nρ(D,Dmax4)={numbers['reserve'].get('rho_D_Dmax4', 0.961):.3f}", transform=ax.transAxes, fontsize=7)
 
@@ -324,14 +324,14 @@ def figure4(numbers: dict[str, Any]) -> list[Path]:
         ax.text(x + 0.005, y, ptxt(float(p)), va="center", fontsize=6.7)
     ax.set_yticks(yy, summary["label"])
     ax.invert_yaxis()
-    ax.set(xlabel="Genus clustering gain", title="Taxonomic clustering is replicated but ambiguity-sensitive")
+    ax.set(xlabel="Genus clustering gain", title="Genus clustering replicates,\nbut is ambiguity-sensitive")
 
     ax = fig.add_subplot(gs[0, 1])
     panel(ax, "B")
     ax.scatter(shared["discovery_mean_D"], shared["reserve_mean_D"], s=28, alpha=0.75, color=RES, edgecolors="white", linewidths=0.4)
     lim = (0, max(float(shared["discovery_mean_D"].max()), float(shared["reserve_mean_D"].max())) + 0.04)
     ax.plot(lim, lim, ls="--", lw=0.9, color=MID)
-    ax.set(xlim=lim, ylim=lim, xlabel="Discovery genus mean D", ylabel="Reserve genus mean D", title="23 repeated genera show cross-tranche concordance")
+    ax.set(xlim=lim, ylim=lim, xlabel="Discovery genus mean D", ylabel="Reserve genus mean D", title="Repeated genera show\ncross-tranche concordance")
     ax.text(0.04, 0.95, f"Spearman ρ={numbers['genus_secondary']['shared_23_rho']:.3f}; {ptxt(numbers['genus_secondary']['shared_23_p'])}", transform=ax.transAxes, va="top", fontsize=7.5)
     deviation = np.abs(shared["reserve_mean_D"].to_numpy() - shared["discovery_mean_D"].to_numpy())
     label_idx = set(np.argsort(deviation)[-4:].tolist()) | set(np.argsort(shared["discovery_mean_D"].to_numpy())[-2:].tolist())
