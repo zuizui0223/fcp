@@ -1,0 +1,87 @@
+name: RGFCA 42,111 breadth-depth Step 8B
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-breadth-depth-step8b
+    paths:
+      - 'docs/RGFCA_42111_BREADTH_DEPTH_STEP8B_PROTOCOL_20260911.md'
+      - 'scripts/analysis/run_rgfca_42111_breadth_depth_step8b_20260911.py'
+      - '.github/workflows/rgfca-42111-breadth-depth-step8b.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-42111-breadth-depth-step8b
+  cancel-in-progress: false
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install numpy pandas
+      - name: Verify frozen outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('docs/supporting/global_monte_carlo_species_discovery_v2_manifest_v1.json').read_text())
+          c=json.loads(Path('docs/supporting/global_monte_carlo_capacity_scan_manifest_v3.json').read_text())
+          assert d['combined']['species'] == 42111
+          assert d['candidate_image_pixels_opened'] is False and d['flower_colour_used'] is False
+          assert c['discovered_species_scanned'] == 42111
+          assert c['remaining_request_errors'] == 0
+          assert c['candidate_image_pixels_opened'] is False and c['flower_colour_used'] is False
+          print('step8b_preflight=pass')
+          PY
+      - name: Run frozen Step 8B census
+        run: python scripts/analysis/run_rgfca_42111_breadth_depth_step8b_20260911.py
+      - name: Validate outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/rgfca_42111_breadth_depth_step8b_20260911/result.json')
+          x=json.loads(p.read_text())
+          assert x['status']=='complete_metadata_only_breadth_depth_census'
+          assert x['species_universe']==42111
+          assert x['pixels_opened'] is False and x['flower_colour_used'] is False
+          assert len(x['breadth_saturation'])==8
+          assert Path('results/rgfca_42111_breadth_depth_step8b_20260911/species_capacity_census.csv.gz').stat().st_size>1000
+          assert Path('results/rgfca_42111_breadth_depth_step8b_20260911/breadth_saturation_200x.csv').stat().st_size>1000
+          print(Path('results/rgfca_42111_breadth_depth_step8b_20260911/RESULT.md').read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-breadth-depth-step8b
+          path: results/rgfca_42111_breadth_depth_step8b_20260911/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Commit immutable metadata result
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_breadth_depth_step8b_20260911/
+          if git diff --cached --quiet; then
+            echo 'Step 8B outputs already committed'
+            exit 0
+          fi
+          git commit -m 'Freeze 42,111-species breadth-depth census result'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-breadth-depth-step8b
+            git rebase origin/analysis/rgfca-42111-breadth-depth-step8b
+            if git push origin HEAD:analysis/rgfca-42111-breadth-depth-step8b; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
