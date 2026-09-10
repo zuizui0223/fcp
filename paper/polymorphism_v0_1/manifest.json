@@ -43,7 +43,8 @@
     "results/polymorphism_measurement_missingness_step8_analysis_20260910/result.json",
     "results/polymorphism_ambiguity_bounds_step9_20260910/result.json",
     "results/polymorphism_genus_replication_step7_20260910/result.json",
-    "results/polymorphism_genus_adjustment_decomposition_step7b_20260910/result.json"
+    "results/polymorphism_genus_adjustment_decomposition_step7b_20260910/result.json",
+    "results/polymorphism_acquisition_provenance_20260911/result.json"
   ],
   "submission_blockers": [
     "pixel-level final figure inspection at journal column size",
