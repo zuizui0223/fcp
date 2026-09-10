@@ -1,0 +1,24 @@
+{
+  "all_species_retained": true,
+  "analysis": "rgfca_42111_anchor_resolution_full_step8d",
+  "batch_size": 200,
+  "boundary": "Current API metadata resolution only. Unresolved frozen anchors remain in the 42,111-species denominator and are not substituted here.",
+  "elapsed_seconds": 793.8631718158722,
+  "flower_colour_used": false,
+  "image_pixels_opened": false,
+  "lineage": {
+    "allocation_sha256": "db51ba9e9b9c71fef06980aa5670bfff49fe6186b69865d414ca22873fdef48e",
+    "batch_receipts_sha256": "716d42411d691d3dda88ac63a46a4995277c05c7cb989249ee38913a32561dc2",
+    "resolved_csv_sha256": "13228b1d675bd0b43149aaf28d6f91f07606b38481158b07b7ebe44f1d8f67f1",
+    "smoke_result_sha256": "4a6e89e21d5a1fd568d29d6d6cf9efabcb85c19e1d9515c9285e3cb6e60d2b07"
+  },
+  "requests": 211,
+  "resolution_counts": {
+    "expected_photo_not_attached": 1,
+    "resolved": 42110
+  },
+  "resolved_species": 42110,
+  "species_universe": 42111,
+  "status": "complete_metadata_only_full_anchor_resolution",
+  "unresolved_species": 1
+}
