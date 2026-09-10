@@ -6,6 +6,7 @@ on:
       - analysis/rgfca-42111-tiered-measurement-step8c
     paths:
       - '.github/workflows/rgfca-42111-taxon-cell-conflict-step8e2.yml'
+      - 'scripts/analysis/diagnose_rgfca_42111_taxon_cell_anchor_conflicts_step8e2_20260911.py'
   workflow_dispatch:
 
 permissions:
