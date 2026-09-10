@@ -1,0 +1,96 @@
+name: Polymorphism measurement missingness Step 8 analysis
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-measurement-missingness-step8
+    paths:
+      - "scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py"
+      - "docs/POLYMORPHISM_MEASUREMENT_MISSINGNESS_STEP8_ANALYSIS_PROTOCOL_20260910.md"
+      - ".github/workflows/polymorphism-measurement-missingness-step8-analysis.yml"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DISCOVERY_RUN_ID: "34088925008"
+      RESERVE_RUN_ID: "34178957447"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy
+
+      - name: Verify frozen Step 8 preflight
+        run: |
+          test -f results/polymorphism_measurement_missingness_step8_preflight_20260910/result.json
+          test -f data/derived/global_monte_carlo_measured_photos_v1.csv
+          test -f data/derived/rgfca_reserve_replication_measured_photos_v1.csv
+
+      - name: Download immutable discovery spatial nulls
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/discovery-spatial
+          mkdir -p /tmp/discovery-spatial
+          gh run download "${DISCOVERY_RUN_ID}" --repo "${GITHUB_REPOSITORY}" --dir /tmp/discovery-spatial
+          test "$(find /tmp/discovery-spatial -path '*/species_rho_permutations.csv' | wc -l)" -eq 20
+
+      - name: Download immutable reserve spatial nulls
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/reserve-spatial
+          mkdir -p /tmp/reserve-spatial
+          gh run download "${RESERVE_RUN_ID}" --repo "${GITHUB_REPOSITORY}" --dir /tmp/reserve-spatial
+          test "$(find /tmp/reserve-spatial -path '*/null.npz' | wc -l)" -eq 20
+          test "$(find /tmp/reserve-spatial -path '*/receipt.json' | wc -l)" -eq 20
+
+      - name: Run Step 8 technical-failure robustness analysis
+        run: |
+          python scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py \
+            --discovery-artifact-root /tmp/discovery-spatial \
+            --reserve-artifact-root /tmp/reserve-spatial
+
+      - name: Verify result receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('results/polymorphism_measurement_missingness_step8_analysis_20260910/result.json').read_text())
+          assert r['analysis'] == 'polymorphism_measurement_missingness_step8_analysis'
+          assert r['fixed_raw_photo_denominator'] == {'discovery': 100, 'reserve': 100}
+          assert r['spatial_null_permutations_reused'] == 999
+          assert r['new_spatial_permutations_generated'] is False
+          print(json.dumps({
+              'decision': r['decision'],
+              'reserve_genus': r['reserve_genus'],
+              'reserve_spatial_primary': r['reserve_spatial_primary'],
+              'reserve_spatial_background': r['reserve_spatial_matched_background_differential'],
+          }, indent=2))
+          PY
+
+      - name: Commit Step 8 analysis results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_measurement_missingness_step8_analysis_20260910/
+          if git diff --cached --quiet; then
+            echo "No Step 8 analysis result changes"
+          else
+            git commit -m "Record Step 8 technical-failure robustness result"
+            git push
+          fi
