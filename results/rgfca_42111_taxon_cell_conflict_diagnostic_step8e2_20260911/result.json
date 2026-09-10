@@ -1,0 +1,18 @@
+{
+  "analysis": "rgfca_42111_taxon_cell_anchor_conflict_diagnostic_step8e2",
+  "boundary": "Diagnostic only. No taxon-cell measurement frame is authorized or frozen by this output.",
+  "candidate_observation_ids_spanning_multiple_pairs": 0,
+  "candidate_photo_ids_spanning_multiple_pairs": 2,
+  "deterministic_greedy_unique_pairs_matched": 85337,
+  "deterministic_greedy_unresolved_pairs": 0,
+  "duplicated_selected_observation_ids": 0,
+  "duplicated_selected_photo_ids": 1,
+  "flower_colour_used": false,
+  "image_pixels_opened": false,
+  "independent_hash_selected_rows": 85337,
+  "max_pairs_per_observation_id": 1,
+  "max_pairs_per_photo_id": 2,
+  "selected_pairs_affected_by_any_duplicate_id": 2,
+  "status": "complete_metadata_only_conflict_diagnostic",
+  "taxon_cell_pairs": 85337
+}
