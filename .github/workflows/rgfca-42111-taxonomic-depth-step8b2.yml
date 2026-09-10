@@ -1,0 +1,67 @@
+name: RGFCA 42,111 taxonomic depth Step 8B2
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - '.github/workflows/rgfca-42111-taxonomic-depth-step8b2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-42111-taxonomic-depth-step8b2
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install pandas numpy
+      - name: Run metadata-only taxonomic/depth audit
+        run: python scripts/analysis/audit_rgfca_42111_taxonomic_depth_bias_step8b2_20260911.py
+      - name: Validate no outcome opening
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('results/rgfca_42111_taxonomic_depth_bias_step8b2_20260911')
+          r=json.loads((root/'result.json').read_text())
+          d=pd.read_csv(root/'depth_taxonomic_retention.csv')
+          assert r['species_universe']==42111
+          assert r['pixels_opened'] is False and r['flower_colour_used'] is False
+          assert set(d['minimum_raw_photos'].astype(int))=={1,2,5,10,20,30,40,50,60,80,100}
+          assert int(d.loc[d['minimum_raw_photos']==20,'species'].iloc[0])==12985
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-taxonomic-depth-step8b2
+          if-no-files-found: error
+          retention-days: 90
+          path: results/rgfca_42111_taxonomic_depth_bias_step8b2_20260911/
+      - name: Commit audit result
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_taxonomic_depth_bias_step8b2_20260911
+          git commit -m 'Freeze 42,111-species taxonomic depth audit'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
