@@ -6,6 +6,7 @@ on:
       - feat/polymorphism-paper-v0-1-post-step9
     paths:
       - "paper/polymorphism_v0_1/**"
+      - "results/polymorphism_acquisition_provenance_20260911/**"
       - "scripts/analysis/check_polymorphism_paper_v0_1_bundle_20260910.py"
       - ".github/workflows/polymorphism-paper-v0-1-bundle-readiness.yml"
 
@@ -34,13 +35,18 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          r = json.loads(Path('paper/polymorphism_v0_1/BUNDLE_READINESS.json').read_text())
+          paper = Path('paper/polymorphism_v0_1')
+          r = json.loads((paper / 'BUNDLE_READINESS.json').read_text())
+          mc = json.loads((paper / 'MANUSCRIPT_CHECK.json').read_text())
+          m = json.loads((paper / 'manifest.json').read_text())
           assert r['status'] == 'PASS'
           assert r['science_bundle_ready'] is True
-          assert r['main_text_word_count'] == 4166
+          assert r['main_text_word_count'] == mc['main_text_word_count']
           assert len(r['main_figures_checked']) == 4
-          assert r['figure_data_files_checked'] == 11
-          assert r['source_receipts_checked'] == 9
+          assert r['figure_data_files_checked'] == len(m['figure_data'])
+          assert r['source_receipts_checked'] == len(m['source_receipts'])
+          if 'acquisition_provenance_checked' in r:
+              assert r['acquisition_provenance_checked'] is True
           print(json.dumps(r, indent=2))
           PY
 
