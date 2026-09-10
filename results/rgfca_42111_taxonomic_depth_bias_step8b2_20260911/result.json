@@ -1,0 +1,49 @@
+{
+  "analysis": "rgfca_42111_taxonomic_depth_bias_step8b2",
+  "boundary": "Genus labels are the first token of the frozen scientific name and are descriptive labels, not an independently resolved phylogeny or family-level audit.",
+  "cell_species_richness": {
+    "max": 2143.0,
+    "median": 561.5,
+    "min": 1.0,
+    "p90": 1514.5
+  },
+  "depth20": {
+    "effective_genera_simpson": 707.4624157159582,
+    "genera": 3403,
+    "genus_composition_jsd_vs_full": 0.16338073928573116,
+    "genus_retention": 0.4786889857926572,
+    "minimum_raw_photos": 20,
+    "species": 12985
+  },
+  "effective_genera_simpson_full": 953.2574855224264,
+  "flower_colour_used": false,
+  "genus_labels_first_token": 7109,
+  "occupied_equal_area_cells": 128,
+  "pixels_opened": false,
+  "singleton_genus_fraction": 0.434238289492193,
+  "singleton_genus_labels": 3087,
+  "species_occupied_cell_counts": {
+    "max": 70.0,
+    "median": 1.0,
+    "min": 1.0,
+    "p90": 3.0
+  },
+  "species_per_genus": {
+    "max": 287.0,
+    "median": 2.0,
+    "min": 1.0,
+    "p90": 12.0
+  },
+  "species_universe": 42111,
+  "species_with_ge_10_discovery_cells": 1078,
+  "species_with_ge_2_discovery_cells": 13564,
+  "species_with_ge_5_discovery_cells": 2851,
+  "species_with_one_discovery_cell": 28547,
+  "taxon_cell_links": 85337,
+  "top10_cells_taxon_cell_link_share": 0.20478807551238032,
+  "v1_v2_source_species": {
+    "both": 19192,
+    "v1_only": 11201,
+    "v2_only": 11718
+  }
+}
