@@ -22,7 +22,7 @@ jobs:
       - name: Verify frozen Step 7A states
         run: test -f results/rgfca_local_cooccurrence_segregation_step7a_20260910/photo_organization_states.csv
       - name: Run frozen Step 7C photo-only family
-        run: python scripts/analysis/run_rgfca_old34_hypothesis_transfer_step7c_20260910.py
+        run: python scripts/analysis/run_rgfca_old34_hypothesis_transfer_step7c_20260910_v2.py
       - name: Print result
         run: cat results/rgfca_old34_hypothesis_transfer_step7c_20260910/RESULT.md
       - name: Commit result
