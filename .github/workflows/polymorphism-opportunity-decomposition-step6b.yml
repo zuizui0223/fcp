@@ -1,0 +1,58 @@
+name: Polymorphism opportunity decomposition Step 6b
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-opportunity-decomposition-step6b
+    paths:
+      - "scripts/analysis/run_polymorphism_opportunity_decomposition_step6b_20260910.py"
+      - "docs/POLYMORPHISM_OPPORTUNITY_DECOMPOSITION_STEP6B_PROTOCOL_20260910.md"
+      - ".github/workflows/polymorphism-opportunity-decomposition-step6b.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas scipy
+
+      - name: Verify frozen inputs
+        run: |
+          test -f results/polymorphism_span_adjusted_robustness_step6_20260910/discovery_joined.csv
+          test -f results/polymorphism_span_adjusted_robustness_step6_20260910/reserve_joined.csv
+          test -f results/polymorphism_span_adjusted_robustness_step6_20260910/result.json
+          test -f results/polymorphism_species_attributes_step4_preflight_20260910/covariate_panel_preoutcome.csv
+          test -f data/frozen/rgfca_reserve_geometry_audit_v1.csv
+
+      - name: Run frozen Step 6b decomposition
+        run: |
+          python scripts/analysis/run_polymorphism_opportunity_decomposition_step6b_20260910.py
+
+      - name: Print result
+        run: cat results/polymorphism_opportunity_decomposition_step6b_20260910/RESULT.md
+
+      - name: Commit Step 6b result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_opportunity_decomposition_step6b_20260910/
+          if git diff --cached --quiet; then
+            echo "No result changes"
+          else
+            git commit -m "Record Step 6b opportunity decomposition result"
+            git push
+          fi
