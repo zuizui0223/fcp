@@ -1,0 +1,12 @@
+tranche,metric,estimate,p,n
+discovery,whole_frame_mean_rho,0.02702130374565584,0.001,369
+discovery,second_ge_0.10_mean_rho,0.03456510822392799,0.001,172
+discovery,second_lt_0.10_mean_rho,0.020434834861073056,0.001,197
+discovery,polymorphic_minus_complement,0.014130273362854936,0.014,369
+discovery,rho_D_spatial,0.08921325988911004,0.034,369
+reserve,second_ge_0.10_primary_mean_rho,0.03229912307345794,0.001,151
+reserve,second_ge_0.10_observer_exclusion_mean_rho,0.03177456855896077,0.001,151
+reserve,second_ge_0.10_quarter_mean_rho,0.03229912307345794,0.001,151
+reserve,second_ge_0.10_matched_background_mean_rho,0.01362172640616562,0.005,151
+reserve,polymorphic_minus_complement,0.011671677699588327,0.041,363
+reserve,rho_D_spatial,0.10160084472811265,0.025,363

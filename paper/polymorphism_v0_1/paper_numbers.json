@@ -1,0 +1,71 @@
+{
+  "discovery": {
+    "D_max": 0.7076446280991735,
+    "D_min": 0.0,
+    "rho_D_spatial": 0.08921325988911004,
+    "rho_D_spatial_p": 0.034,
+    "second_ge_0_10_fraction": 0.46612466124661245,
+    "second_ge_0_20_fraction": 0.26558265582655827,
+    "species": 369,
+    "technical_adjusted_p": 0.007,
+    "technical_adjusted_partial_rho": 0.1266367492856858
+  },
+  "genus_secondary": {
+    "discovery_gain": 0.20296304739768833,
+    "discovery_holm_p": 0.011499425028748563,
+    "discovery_p": 0.0022998850057497125,
+    "reserve_Dmax_gain": 0.14154578977479892,
+    "reserve_Dmax_p": 0.023798810059497025,
+    "reserve_Dmin_gain": 0.1102120655173141,
+    "reserve_Dmin_p": 0.0616469176541173,
+    "reserve_raw_gain": 0.15365447441552016,
+    "reserve_raw_p": 0.021698915054247286,
+    "shared_23_p": 0.009899505024748763,
+    "shared_23_rho": 0.5306324110671937
+  },
+  "measurement": {
+    "candidate_species": 500,
+    "discovery_ambiguity_median_width": 0.07424173834314163,
+    "discovery_rho_D_ambiguous_palette": 0.7275446952494382,
+    "discovery_rho_D_technical_failure": 0.23342675706962387,
+    "measurement_status_counts": {
+      "classified_four_state_morph": 24885,
+      "not_evaluable_ambiguous_palette_composition": 2415,
+      "not_evaluable_no_biological_palette_mass": 19,
+      "not_evaluable_roi_or_flip_gate": 22681
+    },
+    "raw_rows": 50000,
+    "reserve_ambiguity_median_width": 0.07322485207100582,
+    "reserve_rho_D_ambiguous_palette": 0.704373371041048,
+    "reserve_rho_D_technical_failure": 0.21745487747491313,
+    "rows_per_species": 100
+  },
+  "paper_version": "v0.1-post-step9",
+  "rejected_or_nonheadline": {
+    "absolute_latitude_holm_p": 1.0,
+    "directionality_claim_survives": false,
+    "directionality_rotation_p": 0.7239276072392761,
+    "family_holm_p": 1.0,
+    "reserve_span_rho": -0.002566725426913358,
+    "step4_span_holm_p": 0.0047997600119994,
+    "step4_span_rho": 0.18103092816767072
+  },
+  "reserve": {
+    "Dmax_background_p": 0.006,
+    "Dmax_background_partial_rho": 0.13278517512096266,
+    "Dmax_primary_p": 0.008,
+    "Dmax_primary_partial_rho": 0.12528581173891157,
+    "Dmin_background_p": 0.009,
+    "Dmin_background_partial_rho": 0.11629858122358201,
+    "Dmin_primary_p": 0.029,
+    "Dmin_primary_partial_rho": 0.09707806726524047,
+    "rho_D_spatial": 0.10160084472811265,
+    "rho_D_spatial_p": 0.025,
+    "species": 363,
+    "technical_adjusted_background_p": 0.01,
+    "technical_adjusted_background_partial_rho": 0.1162411363016301,
+    "technical_adjusted_primary_p": 0.025,
+    "technical_adjusted_primary_partial_rho": 0.09928771129095708
+  },
+  "title": "Flower-colour polymorphism is geographically organized within species without a shared global boundary"
+}
