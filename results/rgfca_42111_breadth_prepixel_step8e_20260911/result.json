@@ -1,0 +1,22 @@
+{
+  "analysis": "rgfca_42111_breadth_prepixel_step8e",
+  "boundary": "This gate authorizes nothing by itself. A separate hash-bound authorization is required before Step-8E image pixels may open.",
+  "flower_colour_used": false,
+  "image_pixels_opened": false,
+  "lineage": {
+    "denominator_sha256": "450fcc8d69fda845ff21f09f0478d4eeb488c49fc5742f95f2d4c59e71fd347a",
+    "source_manifest_sha256": "ca792433048052d5bec24552e3101daa4ad762bea07b708d3e2726187227c44c",
+    "step8d_result_sha256": "2e6df8ff4aaa6411f97c8ba2f3db9ca85287d0a4b0aaf3c6e798632badcd7e4e",
+    "step8d_table_sha256": "13228b1d675bd0b43149aaf28d6f91f07606b38481158b07b7ebe44f1d8f67f1"
+  },
+  "occupied_discovery_cells_in_denominator": 124,
+  "occupied_discovery_cells_in_resolved": 124,
+  "pixel_opening_authorized": false,
+  "required_resolved_fraction": 0.95,
+  "resolved_exact_anchor_species": 42110,
+  "resolved_fraction": 0.9999762532354967,
+  "species_denominator": 42111,
+  "status": "transport_gate_pass",
+  "transport_evaluable": true,
+  "unresolved_anchor_species": 1
+}
