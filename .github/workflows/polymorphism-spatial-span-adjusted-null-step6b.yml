@@ -1,0 +1,97 @@
+name: Polymorphism spatial span-adjusted null Step 6b
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-spatial-span-adjusted-step6
+    paths:
+      - "scripts/analysis/run_polymorphism_spatial_span_adjusted_null_step6b_20260910.py"
+      - "docs/POLYMORPHISM_SPATIAL_SPAN_ADJUSTED_NULL_STEP6B_PROTOCOL_20260910.md"
+      - ".github/workflows/polymorphism-spatial-span-adjusted-null-step6b.yml"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DISCOVERY_RUN_ID: "34088925008"
+      RESERVE_RUN_ID: "34178957447"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy
+
+      - name: Download immutable discovery spatial artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/discovery-spatial
+          mkdir -p /tmp/discovery-spatial
+          gh run download "${DISCOVERY_RUN_ID}" --repo "${GITHUB_REPOSITORY}" --dir /tmp/discovery-spatial
+          test "$(find /tmp/discovery-spatial -path '*/species_rho_permutations.csv' | wc -l)" -eq 20
+          test -f /tmp/discovery-spatial/global-rgfca-within-species-spatial-omnibus-full-v1/species_results.csv
+          test -f /tmp/discovery-spatial/global-rgfca-within-species-spatial-omnibus-full-v1/global_null.csv
+
+      - name: Download immutable reserve spatial artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf /tmp/reserve-spatial
+          mkdir -p /tmp/reserve-spatial
+          gh run download "${RESERVE_RUN_ID}" --repo "${GITHUB_REPOSITORY}" --dir /tmp/reserve-spatial
+          test "$(find /tmp/reserve-spatial -path '*/null.npz' | wc -l)" -eq 20
+          test "$(find /tmp/reserve-spatial -path '*/receipt.json' | wc -l)" -eq 20
+          test -f /tmp/reserve-spatial/rgfca-reserve-replication-full-result-v1/result.json
+          test -f /tmp/reserve-spatial/rgfca-reserve-replication-full-result-v1/species.csv
+          test -f /tmp/reserve-spatial/rgfca-reserve-replication-full-result-v1/global_null.csv
+
+      - name: Run geometry-preserving adjusted-null analysis
+        run: |
+          python scripts/analysis/run_polymorphism_spatial_span_adjusted_null_step6b_20260910.py \
+            --discovery-artifact-root /tmp/discovery-spatial \
+            --reserve-artifact-root /tmp/reserve-spatial
+
+      - name: Verify result receipt
+        run: |
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          r = json.loads(Path('results/polymorphism_spatial_span_adjusted_null_step6b_20260910/result.json').read_text())
+          assert r['analysis'] == 'polymorphism_spatial_span_adjusted_null_step6b'
+          assert r['spatial_null_permutations_reused'] == 999
+          assert r['new_spatial_permutations_generated'] is False
+          for key in ['discovery_primary', 'reserve_primary', 'reserve_matched_background_differential']:
+              assert math.isfinite(r[key]['observed_partial_spearman'])
+              assert 0 < r[key]['p_upper_geometry_preserving_spatial_null'] <= 1
+          print(json.dumps({
+              'decision': r['decision'],
+              'discovery_primary': r['discovery_primary'],
+              'reserve_primary': r['reserve_primary'],
+              'reserve_background': r['reserve_matched_background_differential'],
+          }, indent=2))
+          PY
+
+      - name: Commit Step 6b results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_spatial_span_adjusted_null_step6b_20260910/
+          if git diff --cached --quiet; then
+            echo "No Step 6b result changes"
+          else
+            git commit -m "Record Step 6b geometry-preserving adjusted null result"
+            git push
+          fi
