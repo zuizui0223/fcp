@@ -9,6 +9,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 PAPER = ROOT / "paper" / "polymorphism_v0_1"
 MANIFEST = PAPER / "manifest.json"
+PROVENANCE_REL = "results/polymorphism_acquisition_provenance_20260911/result.json"
+EXPECTED_PROVENANCE_SOURCE_COMMIT = "29584f3ad7ae0cd99a1d8f43459252af38f615da"
+EXPECTED_CANDIDATE_SHA256 = "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2"
 
 
 def sha256(path: Path) -> str:
@@ -75,6 +78,21 @@ def main() -> None:
         if not path.exists() or path.stat().st_size == 0:
             raise RuntimeError(f"source receipt missing/empty: {rel}")
 
+    if PROVENANCE_REL not in m["source_receipts"]:
+        raise RuntimeError("acquisition provenance receipt absent from paper manifest")
+    provenance = json.loads((ROOT / PROVENANCE_REL).read_text(encoding="utf-8"))
+    if provenance.get("status") != "pass":
+        raise RuntimeError("acquisition provenance audit has not passed")
+    if provenance.get("source_commit") != EXPECTED_PROVENANCE_SOURCE_COMMIT:
+        raise RuntimeError("acquisition provenance source commit drift")
+    if provenance.get("candidate_pixels_opened_by_audit") is not False:
+        raise RuntimeError("acquisition provenance audit opened candidate pixels")
+    if provenance.get("flower_colour_outcomes_opened_by_audit") is not False:
+        raise RuntimeError("acquisition provenance audit opened flower-colour outcomes")
+    candidate_sha = provenance.get("historical_inputs", {}).get("candidate_pool_sha256")
+    if candidate_sha != EXPECTED_CANDIDATE_SHA256:
+        raise RuntimeError("acquisition provenance candidate-pool hash drift")
+
     blockers = list(m.get("submission_blockers", []))
     receipt = {
         "paper_version": m["paper_version"],
@@ -84,6 +102,7 @@ def main() -> None:
         "main_figures_checked": checked_figures,
         "figure_data_files_checked": len(m["figure_data"]),
         "source_receipts_checked": len(m["source_receipts"]),
+        "acquisition_provenance_checked": True,
         "remaining_submission_blockers": blockers,
         "status": "PASS",
     }
