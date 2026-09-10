@@ -1,0 +1,92 @@
+name: Polymorphism paper v0.1 figures
+
+on:
+  push:
+    branches:
+      - feat/polymorphism-paper-v0-1-post-step9
+    paths:
+      - "scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py"
+      - "paper/polymorphism_v0_1/figure_data/**"
+      - "paper/polymorphism_v0_1/paper_numbers.json"
+      - ".github/workflows/polymorphism-paper-v0-1-figures.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install figure dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy matplotlib
+
+      - name: Verify synchronized paper inputs
+        run: |
+          test -f paper/polymorphism_v0_1/paper_numbers.json
+          test -f paper/polymorphism_v0_1/manifest.json
+          test -f paper/polymorphism_v0_1/figure_data/figure1_discovery_species_polymorphism.csv
+          test -f paper/polymorphism_v0_1/figure_data/figure2_discovery_spatial.csv
+          test -f paper/polymorphism_v0_1/figure_data/figure2_reserve_spatial.csv
+          test -f paper/polymorphism_v0_1/figure_data/figure3_spatial_robustness_summary.csv
+          test -f paper/polymorphism_v0_1/figure_data/figure4_genus_clustering_summary.csv
+          test -f results/polymorphism_genus_replication_step7_20260910/shared_repeated_genus_means.csv
+
+      - name: Render figures
+        run: |
+          python scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py
+
+      - name: Verify figure bundle
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('paper/polymorphism_v0_1')
+          fig = root / 'figures'
+          stems = [
+              'figure1_polymorphism_estimand',
+              'figure2_polymorphism_spatial_replication',
+              'figure3_measurement_and_ambiguity_robustness',
+              'figure4_genus_taxonomic_structure',
+          ]
+          for stem in stems:
+              for ext in ['png', 'pdf']:
+                  p = fig / f'{stem}.{ext}'
+                  assert p.is_file(), p
+                  assert p.stat().st_size > 10_000, (p, p.stat().st_size)
+          m = json.loads((fig / 'manifest.json').read_text())
+          assert m['paper_version'] == 'v0.1-post-step9'
+          assert len(m['outputs']) == 8
+          assert (root / 'FIGURE_CAPTIONS.md').is_file()
+          assert (root / 'figure_data' / 'figure4_shared_genus_means.csv').is_file()
+          print(json.dumps({
+              'figures': len(stems),
+              'rendered_files': len(m['outputs']),
+              'min_bytes': min(x['bytes'] for x in m['outputs']),
+          }, indent=2))
+          PY
+
+      - name: Commit figure drafts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper/polymorphism_v0_1/figures/ \
+                  paper/polymorphism_v0_1/FIGURE_CAPTIONS.md \
+                  paper/polymorphism_v0_1/figure_data/figure4_shared_genus_means.csv
+          if git diff --cached --quiet; then
+            echo "No figure changes"
+          else
+            git commit -m "Record FCP paper v0.1 figure drafts"
+            git push
+          fi
