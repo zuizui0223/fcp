@@ -105,14 +105,14 @@ def figure1(numbers: dict[str, Any]) -> list[Path]:
     ax.axis("off")
     boxes = [
         (0.03, 0.62, 0.26, 0.22, "100 photos\nper species"),
-        (0.37, 0.62, 0.26, 0.22, "image measurement\n+ status gate"),
-        (0.71, 0.62, 0.26, 0.22, "4 admitted\ncolour states"),
+        (0.37, 0.62, 0.26, 0.22, "measurement\n+ status gate"),
+        (0.71, 0.62, 0.26, 0.22, "4 colour\nstates"),
         (0.37, 0.16, 0.26, 0.22, "species diversity\nD = 1 − Σp²"),
     ]
     for x, y, w, h, label in boxes:
         rect = plt.Rectangle((x, y), w, h, transform=ax.transAxes, fill=False, lw=1.1, ec=DARK)
         ax.add_patch(rect)
-        ax.text(x + w/2, y + h/2, label, transform=ax.transAxes, ha="center", va="center", fontsize=7.5)
+        ax.text(x + w/2, y + h/2, label, transform=ax.transAxes, ha="center", va="center", fontsize=6.5)
     arrows = [((0.29, 0.73), (0.37, 0.73)), ((0.63, 0.73), (0.71, 0.73)), ((0.84, 0.62), (0.54, 0.38))]
     for a, b in arrows:
         ax.annotate("", xy=b, xytext=a, xycoords=ax.transAxes, arrowprops=dict(arrowstyle="->", lw=1.0, color=DARK))
@@ -176,7 +176,7 @@ def figure2(numbers: dict[str, Any]) -> list[Path]:
     ax = fig.add_subplot(gs[1, 0])
     panel(ax, "C")
     x_positions = [0, 1, 3, 4]
-    labels = ["Disc. <10%", "Disc. ≥10%", "Res. <10%", "Res. ≥10%"]
+    labels = ["Disc.\n<10%", "Disc.\n≥10%", "Reserve\n<10%", "Reserve\n≥10%"]
     datasets = [
         d.loc[~d["primary_second_ge_0_10"].astype(bool), "spatial_rho"].to_numpy(float),
         d.loc[d["primary_second_ge_0_10"].astype(bool), "spatial_rho"].to_numpy(float),
@@ -281,8 +281,8 @@ def figure3(numbers: dict[str, Any]) -> list[Path]:
     ax.axhline(0, color=LIGHT, lw=1)
     ax.set_xticks(base, [g[2] for g in groups], rotation=18, ha="right")
     ax.set(ylabel="Partial Spearman ρ\n| sampled span + technical failure", title="Spatial signal survives\nboth ambiguity endpoints")
-    ax.legend(frameon=False, ncol=3, loc="upper left")
-    ax.text(0.02, 0.03, "numbers above points are geometry-preserving p", transform=ax.transAxes, fontsize=6.5, color=MID)
+    ax.legend(frameon=False, ncol=3, loc="lower center", bbox_to_anchor=(0.5, 0.04))
+    # Geometry-preserving P-value provenance is stated in the figure caption.
 
     ax = fig.add_subplot(gs[1, 1])
     panel(ax, "D")
@@ -291,7 +291,7 @@ def figure3(numbers: dict[str, Any]) -> list[Path]:
     ax.fill_between(xx, rr["D_min4"], rr["D_max4"], color=LIGHT, alpha=0.8, linewidth=0, label="four-state completion interval")
     ax.plot(xx, rr["D"], color=RES, lw=1.3, label="observed D")
     ax.set(xlabel="Reserve species ranked by observed D", ylabel="D", title="Observed ordering remains stable\nacross completion bounds")
-    ax.legend(frameon=False, loc="upper left")
+    ax.legend(frameon=False, loc="lower right")
     ax.text(0.03, 0.86, f"ρ(D,Dmin4)={numbers['reserve'].get('rho_D_Dmin4', 0.997):.3f}\nρ(D,Dmax4)={numbers['reserve'].get('rho_D_Dmax4', 0.961):.3f}", transform=ax.transAxes, fontsize=7)
 
     fig.suptitle("Figure 3 | Opportunity, technical failure, and ambiguity do not erase the spatial result", fontsize=11, y=0.995)
@@ -303,8 +303,8 @@ def figure4(numbers: dict[str, Any]) -> list[Path]:
     shared = pd.read_csv(SHARED_GENUS)
     shared.to_csv(DATA / "figure4_shared_genus_means.csv", index=False)
 
-    fig = plt.figure(figsize=(7.2, 3.3))
-    gs = fig.add_gridspec(1, 2, wspace=0.42)
+    fig = plt.figure(figsize=(7.2, 3.8))
+    gs = fig.add_gridspec(1, 2, wspace=0.42, top=0.78)
 
     ax = fig.add_subplot(gs[0, 0])
     panel(ax, "A")
@@ -339,7 +339,7 @@ def figure4(numbers: dict[str, Any]) -> list[Path]:
         row = shared.iloc[i]
         ax.text(row.discovery_mean_D + 0.007, row.reserve_mean_D + 0.007, row.genus, fontsize=6.6)
 
-    fig.suptitle("Figure 4 | Genus-level structure is a secondary, qualified result", fontsize=11, y=1.01)
+    fig.suptitle("Figure 4 | Genus-level structure is a secondary, qualified result", fontsize=11, y=0.98)
     return save(fig, "figure4_genus_taxonomic_structure")
 
 
