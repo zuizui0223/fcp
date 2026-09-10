@@ -1,0 +1,35 @@
+name: RGFCA old34 hypothesis transfer Step 7C
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-old34-hypothesis-transfer-step7c
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install numpy pandas
+      - name: Verify frozen Step 7A states
+        run: test -f results/rgfca_local_cooccurrence_segregation_step7a_20260910/photo_organization_states.csv
+      - name: Run frozen Step 7C photo-only family
+        run: python scripts/analysis/run_rgfca_old34_hypothesis_transfer_step7c_20260910.py
+      - name: Print result
+        run: cat results/rgfca_old34_hypothesis_transfer_step7c_20260910/RESULT.md
+      - name: Commit result
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add results/rgfca_old34_hypothesis_transfer_step7c_20260910
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Freeze Step 7C photo-only hypothesis transfer results"
+          git push
