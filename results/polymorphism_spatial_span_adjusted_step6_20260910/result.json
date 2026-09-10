@@ -1,0 +1,180 @@
+{
+  "analysis": "polymorphism_spatial_span_adjusted_step6",
+  "date_jst": "2026-09-10",
+  "decision": {
+    "claim_boundary": "Adjustment can show that sampled span and classifiable-photo count do not fully account for the observed association; it does not identify causal range-size effects, adaptation, selection, population-genetic differentiation, or a shared boundary.",
+    "flower_specific_adjusted_support_p_lt_0_05": false,
+    "sampled_span_alternative_not_sufficient_directionally": true,
+    "strong_adjusted_discovery_plus_reserve_replication_p_lt_0_05": false
+  },
+  "discovery": {
+    "continuous_partial": {
+      "n": 369,
+      "null_mean": 0.0004047804382249605,
+      "null_q025": -0.10070564824323046,
+      "null_q975": 0.10116344952334527,
+      "p_two_sided": 0.0006499675016249188,
+      "p_upper_directional": 0.0002999850007499625,
+      "partial_spearman": 0.17019784215971404
+    },
+    "continuous_partial_D_unbiased": {
+      "n": 369,
+      "null_mean": 0.00030385312388217083,
+      "null_q025": -0.10370579743940962,
+      "null_q975": 0.10258554088672409,
+      "p_two_sided": 0.0014499275036248187,
+      "p_upper_directional": 0.0005499725013749313,
+      "partial_spearman": 0.1699699569205353
+    },
+    "descriptive": {
+      "n_classifiable_max": 86,
+      "n_classifiable_min": 40,
+      "n_species": 369,
+      "rho_D_span": 0.18103092816767077,
+      "rho_D_spatial": 0.08921325988911004,
+      "rho_spatial_span": -0.06681331384406676,
+      "span_km_max": 20008.542204854304,
+      "span_km_median": 3834.5999767354424,
+      "span_km_min": 126.26160683198371
+    },
+    "span_conditioned_second_ge_0_10_contrast": {
+      "n": 369,
+      "n_complement": 197,
+      "n_polymorphic": 172,
+      "null_mean": -0.001733766414665389,
+      "null_q025": -0.017477513118148425,
+      "null_q975": 0.01410864611040738,
+      "observed_mean_difference": 0.01413027336285494,
+      "p_upper": 0.024848757562121893,
+      "span_bin_counts": {
+        "0": 74,
+        "1": 74,
+        "2": 74,
+        "3": 74,
+        "4": 73
+      },
+      "span_bin_polymorphic_counts": {
+        "0": 30,
+        "1": 31,
+        "2": 33,
+        "3": 39,
+        "4": 39
+      }
+    }
+  },
+  "inferential_role": "post_step4_robustness_diagnostic",
+  "new_image_acquisition": false,
+  "new_spatial_permutations_generated": false,
+  "new_species_level_permutations": 20000,
+  "protocol": "docs/POLYMORPHISM_SPATIAL_SPAN_ADJUSTED_STEP6_PROTOCOL_20260910.md",
+  "reserve_matched_background_differential": {
+    "continuous_partial": {
+      "n": 363,
+      "null_mean": 1.7684499749785898e-05,
+      "null_q025": -0.10263835296199768,
+      "null_q975": 0.10217660448403702,
+      "p_two_sided": 0.0975951202439878,
+      "p_upper_directional": 0.04864756762161892,
+      "partial_spearman": 0.08718035943360454
+    },
+    "continuous_partial_D_unbiased": {
+      "n": 363,
+      "null_mean": -0.00018612187218068334,
+      "null_q025": -0.1042224886050852,
+      "null_q975": 0.10208612976766698,
+      "p_two_sided": 0.09679516024198791,
+      "p_upper_directional": 0.04759762011899405,
+      "partial_spearman": 0.08711770163644275
+    },
+    "descriptive": {
+      "n_classifiable_max": 92,
+      "n_classifiable_min": 40,
+      "n_species": 363,
+      "rho_D_span": -0.002566725426913358,
+      "rho_D_spatial": 0.1318470739192422,
+      "rho_spatial_span": -0.0134566588609783,
+      "span_km_max": 20005.624113266007,
+      "span_km_median": 3199.809391217598,
+      "span_km_min": 149.64701002537313
+    },
+    "span_conditioned_second_ge_0_10_contrast": {
+      "n": 363,
+      "n_complement": 212,
+      "n_polymorphic": 151,
+      "null_mean": -0.0008297110977212382,
+      "null_q025": -0.01633171988066199,
+      "null_q975": 0.014747803977177324,
+      "observed_mean_difference": 0.015657755887879828,
+      "p_upper": 0.01864906754662267,
+      "span_bin_counts": {
+        "0": 73,
+        "1": 73,
+        "2": 72,
+        "3": 73,
+        "4": 72
+      },
+      "span_bin_polymorphic_counts": {
+        "0": 33,
+        "1": 27,
+        "2": 28,
+        "3": 30,
+        "4": 33
+      }
+    }
+  },
+  "reserve_primary": {
+    "continuous_partial": {
+      "n": 363,
+      "null_mean": 0.0003988588651195304,
+      "null_q025": -0.10363078445740832,
+      "null_q975": 0.10271890757803497,
+      "p_two_sided": 0.1367931603419829,
+      "p_upper_directional": 0.06904654767261637,
+      "partial_spearman": 0.07818621416059582
+    },
+    "continuous_partial_D_unbiased": {
+      "n": 363,
+      "null_mean": -0.00010267525745740165,
+      "null_q025": -0.1013585576535845,
+      "null_q975": 0.10305639359959028,
+      "p_two_sided": 0.13309334533273337,
+      "p_upper_directional": 0.06734663266836659,
+      "partial_spearman": 0.07847037346604475
+    },
+    "descriptive": {
+      "n_classifiable_max": 92,
+      "n_classifiable_min": 40,
+      "n_species": 363,
+      "rho_D_span": -0.002566725426913358,
+      "rho_D_spatial": 0.10160084472811265,
+      "rho_spatial_span": 0.051976150419143885,
+      "span_km_max": 20005.624113266007,
+      "span_km_median": 3199.809391217598,
+      "span_km_min": 149.64701002537313
+    },
+    "span_conditioned_second_ge_0_10_contrast": {
+      "n": 363,
+      "n_complement": 212,
+      "n_polymorphic": 151,
+      "null_mean": -0.0004273644467756361,
+      "null_q025": -0.017310386899401755,
+      "null_q975": 0.016633435955846397,
+      "observed_mean_difference": 0.011671677699588327,
+      "p_upper": 0.08269586520673966,
+      "span_bin_counts": {
+        "0": 73,
+        "1": 73,
+        "2": 72,
+        "3": 73,
+        "4": 72
+      },
+      "span_bin_polymorphic_counts": {
+        "0": 33,
+        "1": 27,
+        "2": 28,
+        "3": 30,
+        "4": 33
+      }
+    }
+  }
+}
