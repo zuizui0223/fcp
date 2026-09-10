@@ -176,7 +176,7 @@ def figure2(numbers: dict[str, Any]) -> list[Path]:
     ax = fig.add_subplot(gs[1, 0])
     panel(ax, "C")
     x_positions = [0, 1, 3, 4]
-    labels = ["<10%", "≥10%", "<10%", "≥10%"]
+    labels = ["Disc. <10%", "Disc. ≥10%", "Res. <10%", "Res. ≥10%"]
     datasets = [
         d.loc[~d["primary_second_ge_0_10"].astype(bool), "spatial_rho"].to_numpy(float),
         d.loc[d["primary_second_ge_0_10"].astype(bool), "spatial_rho"].to_numpy(float),
@@ -189,8 +189,6 @@ def figure2(numbers: dict[str, Any]) -> list[Path]:
         ax.errorbar(x, mean, yerr=[[mean-lo], [hi-mean]], fmt="o", ms=5, capsize=3, color=c, lw=1.2)
     ax.axhline(0, color=LIGHT, lw=1)
     ax.set_xticks(x_positions, labels)
-    ax.text(0.5, -0.23, "Discovery", transform=ax.transAxes, ha="left", color=DISC)
-    ax.text(0.84, -0.23, "Reserve", transform=ax.transAxes, ha="left", color=RES)
     pdisc = float(effects.loc[(effects.tranche=="discovery") & (effects.metric=="polymorphic_minus_complement"), "p"].iloc[0])
     pres = float(effects.loc[(effects.tranche=="reserve") & (effects.metric=="polymorphic_minus_complement"), "p"].iloc[0])
     ax.text(0.03, 0.94, f"contrast: discovery {ptxt(pdisc)}; reserve {ptxt(pres)}", transform=ax.transAxes, va="top", fontsize=7.2)
@@ -279,7 +277,7 @@ def figure3(numbers: dict[str, Any]) -> list[Path]:
         ax.scatter(xs, ys, s=30, color=c, label=vl, zorder=3)
         for x, y, (tr, resp, _) in zip(xs, ys, groups):
             p = float(robust[(robust.tranche==tr) & (robust.response==resp) & (robust.D_variant==v)].p.iloc[0])
-            ax.text(x, y + 0.006, f"{p:.3f}", ha="center", va="bottom", fontsize=5.8, color=c)
+            ax.text(x, y + 0.006, f"{p:.3f}", ha="center", va="bottom", fontsize=6.6, color=c)
     ax.axhline(0, color=LIGHT, lw=1)
     ax.set_xticks(base, [g[2] for g in groups], rotation=18, ha="right")
     ax.set(ylabel="Partial Spearman ρ\n| sampled span + technical failure", title="Spatial signal survives both ambiguity endpoints")
@@ -339,7 +337,7 @@ def figure4(numbers: dict[str, Any]) -> list[Path]:
     label_idx = set(np.argsort(deviation)[-4:].tolist()) | set(np.argsort(shared["discovery_mean_D"].to_numpy())[-2:].tolist())
     for i in sorted(label_idx):
         row = shared.iloc[i]
-        ax.text(row.discovery_mean_D + 0.007, row.reserve_mean_D + 0.007, row.genus, fontsize=5.8)
+        ax.text(row.discovery_mean_D + 0.007, row.reserve_mean_D + 0.007, row.genus, fontsize=6.6)
 
     fig.suptitle("Figure 4 | Genus-level structure is a secondary, qualified result", fontsize=11, y=1.01)
     return save(fig, "figure4_genus_taxonomic_structure")

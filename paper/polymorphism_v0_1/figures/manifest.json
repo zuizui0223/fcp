@@ -22,37 +22,37 @@
     {
       "bytes": 33212,
       "path": "paper/polymorphism_v0_1/figures/figure1_polymorphism_estimand.pdf",
-      "sha256": "88f80c35b79445d8c9351908a558651db052c3bf340f1bef33f5013edeccda79"
+      "sha256": "356743adac5840799ddf985c19c60dc835270ccc853a47c8c2a70a1db438b6ed"
     },
     {
-      "bytes": 419995,
+      "bytes": 418262,
       "path": "paper/polymorphism_v0_1/figures/figure2_polymorphism_spatial_replication.png",
-      "sha256": "04e894561631fb97bc1fa127996253abcabf7056177a64c7fab0ad54c47f2b17"
+      "sha256": "3d82306a3b57394b1630dfce89dfa11bcbb2e74b0f84be7415dd0ba3285472be"
     },
     {
-      "bytes": 41842,
+      "bytes": 41723,
       "path": "paper/polymorphism_v0_1/figures/figure2_polymorphism_spatial_replication.pdf",
-      "sha256": "6416fa775562c4efcdebf3cd15b6cbdb9f375541644c52dec36a05610a40f64a"
+      "sha256": "ef159f97f64cf0da365c461c8e6a825d15198baeaef8c47c301a0b8e291c0fa7"
     },
     {
-      "bytes": 393945,
+      "bytes": 395107,
       "path": "paper/polymorphism_v0_1/figures/figure3_measurement_and_ambiguity_robustness.png",
-      "sha256": "b7b953884e8a6c620e4d5b559a6bf3c7ed84b5f48ba5f55ce705938903a25202"
+      "sha256": "329f6c2e3b3d3d917f759dbb39971b04af1f824eaea7576bf82e0937c03faea9"
     },
     {
-      "bytes": 42343,
+      "bytes": 42339,
       "path": "paper/polymorphism_v0_1/figures/figure3_measurement_and_ambiguity_robustness.pdf",
-      "sha256": "9970c8b30a3d2c5b1c6234112e2c6e8b82e8e76d79985808873b1572d7541175"
+      "sha256": "32b8ecd0953d0c3aeffd55affcec246fc13ecb07b324b11217c4383bee3a9341"
     },
     {
-      "bytes": 209340,
+      "bytes": 211450,
       "path": "paper/polymorphism_v0_1/figures/figure4_genus_taxonomic_structure.png",
-      "sha256": "6d32c7738734f893e73cc33dd9229b33bcede65b9e4c9bf78f5766f219365564"
+      "sha256": "3d8e685272ff4bdb453f92312550501047eeb7b1270c60341e1fa9b14148afe1"
     },
     {
-      "bytes": 24424,
+      "bytes": 24430,
       "path": "paper/polymorphism_v0_1/figures/figure4_genus_taxonomic_structure.pdf",
-      "sha256": "2444c4756c6470ad8440e9cd38bb06835ce6cc79376e72ce8f18fe81c3182ea6"
+      "sha256": "9d8050fbf3b4bca52f1fb4f29656b1926076b0f80fdec9280965b739fd871e23"
     }
   ],
   "paper_version": "v0.1-post-step9",

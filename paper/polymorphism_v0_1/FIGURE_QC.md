@@ -30,3 +30,7 @@ Neither issue affects the scientific content, number synchronization, or current
 - Figure 4: qualified genus-level taxonomic clustering; not formal phylogenetic signal.
 
 No main figure is permitted to imply adaptation, a universal climate threshold, a shared global boundary, or that ambiguous observations are known hidden morphs.
+
+## Readability polish executed
+
+The renderer-level risks identified above were addressed without changing any data or statistics: Figure 2C now uses self-contained discovery/reserve tick labels, and the smallest point/genus annotations in Figures 3C and 4B were increased from 5.8 pt to 6.6 pt. Figures were then regenerated from the same frozen figure-data tables and their hashes were refreshed in `figures/manifest.json`.
