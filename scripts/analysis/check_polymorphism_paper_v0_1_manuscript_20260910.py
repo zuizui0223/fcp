@@ -19,6 +19,11 @@ def require(text: str, token: str) -> None:
         raise RuntimeError(f"required manuscript token missing: {token}")
 
 
+def require_any(text: str, tokens: list[str], label: str) -> None:
+    if not any(token in text for token in tokens):
+        raise RuntimeError(f"required manuscript concept missing: {label}; accepted={tokens}")
+
+
 def forbid(text: str, token: str) -> None:
     if token.lower() in text.lower():
         raise RuntimeError(f"forbidden overclaim present: {token}")
@@ -71,16 +76,20 @@ def main() -> None:
     for x in required_numbers:
         require(m, x)
 
-    # Inferential boundaries must remain visible.
+    # Inferential boundaries must remain visible. Wording may vary while preserving the concept.
     for phrase in [
         "species-disjoint reserve",
         "not random samples of all angiosperms",
         "not a formal phylogenetic comparative test",
-        "not an estimate of biological range size",
         "uniform endpoint stress tests",
         "does not identify selection",
     ]:
         require(m, phrase)
+    require_any(
+        m,
+        ["not an estimate of biological range size", "not as an estimate of biological range size"],
+        "sampled span is not biological range size",
+    )
 
     for phrase in [
         "polymorphism is adaptive",
