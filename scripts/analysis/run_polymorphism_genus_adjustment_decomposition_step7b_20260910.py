@@ -36,9 +36,10 @@ def add_genus(df: pd.DataFrame) -> pd.DataFrame:
     derived = out["species"].astype(str).str.strip().str.split().str[0]
     if "genus" in out.columns:
         stored = out["genus"].astype(str).str.strip()
-        if not stored.equals(derived):
-            bad = out.loc[stored.ne(derived), ["species", "genus"]]
-            raise RuntimeError(f"genus mismatch: {bad.head().to_dict('records')}")
+        bad = stored.ne(derived)
+        if bad.any():
+            rows = out.loc[bad, ["species", "genus"]]
+            raise RuntimeError(f"genus mismatch: {rows.head().to_dict('records')}")
     out["genus"] = derived
     return out
 
@@ -188,7 +189,6 @@ def main() -> None:
     if len(shared) != 23:
         raise RuntimeError(f"Step7 shared-genus list drift: {len(shared)} != 23")
 
-    # Reconcile raw Step7 genus coverage before decomposition.
     disc_cov = repeated_group_pairs(discovery["genus"])[4]
     res_cov = repeated_group_pairs(reserve["genus"])[4]
     if disc_cov["repeated_groups"] != step7["discovery"]["raw_step4_seed_exact_reproduction"]["repeated_groups"]:
@@ -199,7 +199,6 @@ def main() -> None:
     discovery_tests = tranche_tests(discovery, span_col="log1p_span_primary", seed_offset=100)
     reserve_tests = tranche_tests(reserve, span_col="reserve_log1p_span", seed_offset=200)
 
-    # Exact shared genera from Step7; no new inclusion search.
     shared_names = shared["genus"].astype(str).tolist()
     d_unb = discovery.assign(D_unbiased=discovery["D"] * discovery["n_classifiable"] / (discovery["n_classifiable"] - 1.0))
     r_unb = reserve.assign(D_unbiased=reserve["D"] * reserve["n_classifiable"] / (reserve["n_classifiable"] - 1.0))
