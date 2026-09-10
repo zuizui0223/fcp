@@ -1,0 +1,33 @@
+{
+  "analysis": "rgfca_state_construction_null_step7f",
+  "boundary": "Post-result classifier-null diagnostic; no causal claim.",
+  "diagnostic_class": "construction_sufficient",
+  "discovery": {
+    "eligible_species": 171,
+    "null_median": 9.400317725933174,
+    "null_pure_C_median": 88.0,
+    "null_pure_S_median": 4.0,
+    "null_q005": 0.10607089166993208,
+    "null_q025": 0.9317636497325265,
+    "null_q975": 28.866396919021263,
+    "null_q995": 35.26730202912704,
+    "observed_H0_delta": 9.37182419530179,
+    "one_sided_p": 0.5025432349949135,
+    "tranche": "discovery",
+    "valid_null_worlds": 982
+  },
+  "reserve": {
+    "eligible_species": 150,
+    "null_median": 11.786496305488193,
+    "null_pure_C_median": 89.0,
+    "null_pure_S_median": 3.0,
+    "null_q005": -0.5185128707564572,
+    "null_q025": 2.0908406146933576,
+    "null_q975": 32.68349695731131,
+    "null_q995": 38.552212072261504,
+    "observed_H0_delta": 9.661780091846277,
+    "one_sided_p": 0.5887353878852285,
+    "tranche": "reserve",
+    "valid_null_worlds": 940
+  }
+}
