@@ -1,6 +1,7 @@
 # RGFCA Step 8E2 — taxon×cell anchor conflict diagnostic
 
 - taxon×cell pairs: **85,337**
+- candidate rows: **364,772**
 - duplicated selected observation IDs: **0**
 - duplicated selected photo IDs: **1**
 - selected pair rows affected: **2**

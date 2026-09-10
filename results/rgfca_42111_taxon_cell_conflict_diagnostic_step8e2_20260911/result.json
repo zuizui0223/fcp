@@ -3,6 +3,7 @@
   "boundary": "Diagnostic only. No taxon-cell measurement frame is authorized or frozen by this output.",
   "candidate_observation_ids_spanning_multiple_pairs": 0,
   "candidate_photo_ids_spanning_multiple_pairs": 2,
+  "candidate_rows": 364772,
   "deterministic_greedy_unique_pairs_matched": 85337,
   "deterministic_greedy_unresolved_pairs": 0,
   "duplicated_selected_observation_ids": 0,
