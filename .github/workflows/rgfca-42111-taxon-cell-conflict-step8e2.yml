@@ -1,0 +1,59 @@
+name: RGFCA 42,111 taxon-cell conflict Step 8E2
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - '.github/workflows/rgfca-42111-taxon-cell-conflict-step8e2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install pandas numpy
+      - name: Diagnose duplicate anchor identities and unique matching
+        run: python scripts/analysis/diagnose_rgfca_42111_taxon_cell_anchor_conflicts_step8e2_20260911.py
+      - name: Validate diagnostic only
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('results/rgfca_42111_taxon_cell_conflict_diagnostic_step8e2_20260911/result.json').read_text())
+          assert r['status']=='complete_metadata_only_conflict_diagnostic'
+          assert r['taxon_cell_pairs']==85337
+          assert r['image_pixels_opened'] is False and r['flower_colour_used'] is False
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-taxon-cell-conflict-step8e2
+          if-no-files-found: error
+          retention-days: 90
+          path: results/rgfca_42111_taxon_cell_conflict_diagnostic_step8e2_20260911/
+      - name: Commit diagnostic
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_taxon_cell_conflict_diagnostic_step8e2_20260911
+          git commit -m 'Record taxon-cell anchor conflict diagnostic'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
