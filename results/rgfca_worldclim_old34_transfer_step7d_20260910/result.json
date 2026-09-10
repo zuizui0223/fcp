@@ -1,0 +1,203 @@
+{
+  "analysis": "rgfca_worldclim_old34_transfer_step7d",
+  "claim_boundary": "Transferred historical climate estimands on photo-derived pure C*/S* states; not confirmatory replication, causal selection, or dynamic temporal climate.",
+  "discovery": {
+    "H0_hypervolume_negative_control": {
+      "delta_S_minus_C": 9.37182419530179,
+      "n": 86,
+      "n_C": 76,
+      "n_S": 10,
+      "null_q025": -1.5566025659721698,
+      "null_q975": 3.1455187230892836,
+      "p": 0.00024998750062496874
+    },
+    "pure_C": 76,
+    "pure_S": 10,
+    "pure_species_complete": 86,
+    "tests": {
+      "H1a_mean_bio4": {
+        "delta_S_minus_C": 380.1107145501992,
+        "direction_ok": false,
+        "holm_p": 1.0,
+        "n": 86,
+        "n_C": 76,
+        "n_S": 10,
+        "null_q025": -196.87868628226863,
+        "null_q975": 277.1043894712541,
+        "p": 0.9984500774961252,
+        "pass": false
+      },
+      "H1b_mean_bio15": {
+        "delta_S_minus_C": -18.091435519667233,
+        "direction_ok": true,
+        "holm_p": 0.3549822508874556,
+        "n": 86,
+        "n_C": 76,
+        "n_S": 10,
+        "null_q025": -21.234548880605832,
+        "null_q975": 28.869788992933053,
+        "p": 0.07099645017749112,
+        "pass": false
+      },
+      "H3a_spatial_niche_turnover": {
+        "delta_S_minus_C": 0.09010429645772322,
+        "direction_ok": true,
+        "holm_p": 1.0,
+        "n": 86,
+        "n_C": 76,
+        "n_S": 10,
+        "null_q025": -0.27480353141416114,
+        "null_q975": 0.2980766439261433,
+        "p": 0.2994350282485876,
+        "pass": false
+      },
+      "H3b_regional_centroid_sep": {
+        "delta_S_minus_C": 0.21004545359491666,
+        "direction_ok": true,
+        "holm_p": 1.0,
+        "n": 66,
+        "n_C": 59,
+        "n_S": 7,
+        "null_q025": -0.3138911713313137,
+        "null_q975": 0.38228476787452337,
+        "p": 0.343682815859207,
+        "pass": false
+      },
+      "H3c_regional_gaussian_overlap": {
+        "delta_S_minus_C": 0.037906063228258735,
+        "direction_ok": false,
+        "holm_p": 1.0,
+        "n": 66,
+        "n_C": 59,
+        "n_S": 7,
+        "null_q025": -0.22466532833498026,
+        "null_q975": 0.15572869724848004,
+        "p": 0.6406679666016699,
+        "pass": false
+      }
+    },
+    "tranche": "discovery"
+  },
+  "discovery_qc": {
+    "pca_variance_explained": [
+      0.43011770615747946,
+      0.3355265340085189,
+      0.1465990724621865
+    ],
+    "raw_coordinate_rows": 17200,
+    "rows_with_climate": 17198,
+    "species": 172,
+    "unique_species_climate_cells": 14926
+  },
+  "reserve": {
+    "H0_hypervolume_negative_control": {
+      "delta_S_minus_C": 9.661780091846277,
+      "n": 85,
+      "n_C": 80,
+      "n_S": 5,
+      "null_q025": -1.7763798913052835,
+      "null_q975": 4.662143522312081,
+      "p": 0.0010999450027498626
+    },
+    "pure_C": 80,
+    "pure_S": 5,
+    "pure_species_complete": 85,
+    "tests": {
+      "H1a_mean_bio4": {
+        "delta_S_minus_C": 220.5267575073242,
+        "direction_ok": false,
+        "holm_p": 1.0,
+        "n": 85,
+        "n_C": 80,
+        "n_S": 5,
+        "null_q025": -193.31434388499974,
+        "null_q975": 236.18314441430186,
+        "p": 0.9558022098895055,
+        "pass": false
+      },
+      "H1b_mean_bio15": {
+        "delta_S_minus_C": -4.100082559585573,
+        "direction_ok": true,
+        "holm_p": 1.0,
+        "n": 85,
+        "n_C": 80,
+        "n_S": 5,
+        "null_q025": -18.794091727373434,
+        "null_q975": 41.51105368997514,
+        "p": 0.4031298435078246,
+        "pass": false
+      },
+      "H3a_spatial_niche_turnover": {
+        "delta_S_minus_C": 0.08787555585224349,
+        "direction_ok": true,
+        "holm_p": 1.0,
+        "n": 85,
+        "n_C": 80,
+        "n_S": 5,
+        "null_q025": -0.37406896364813563,
+        "null_q975": 0.4948350353052471,
+        "p": 0.38743062846857657,
+        "pass": false
+      },
+      "H3b_regional_centroid_sep": {
+        "delta_S_minus_C": -0.3679761030343257,
+        "direction_ok": false,
+        "holm_p": 1.0,
+        "n": 58,
+        "n_C": 53,
+        "n_S": 5,
+        "null_q025": -0.372119351465762,
+        "null_q975": 0.377845629535947,
+        "p": 0.9667516624168792,
+        "pass": false
+      },
+      "H3c_regional_gaussian_overlap": {
+        "delta_S_minus_C": 0.21331585608255715,
+        "direction_ok": false,
+        "holm_p": 1.0,
+        "n": 58,
+        "n_C": 53,
+        "n_S": 5,
+        "null_q025": -0.24959411562999823,
+        "null_q975": 0.22331020749944602,
+        "p": 0.9741012949352532,
+        "pass": false
+      }
+    },
+    "tranche": "reserve"
+  },
+  "reserve_qc": {
+    "pca_variance_explained": [
+      0.41878808992941635,
+      0.3461816248382051,
+      0.14875795179935797
+    ],
+    "raw_coordinate_rows": 15100,
+    "rows_with_climate": 15098,
+    "species": 151,
+    "unique_species_climate_cells": 12812
+  },
+  "source": {
+    "bio_variables": [
+      1,
+      4,
+      5,
+      6,
+      7,
+      12,
+      14,
+      15,
+      17
+    ],
+    "product": "WorldClim 2.1",
+    "resolution": "10 arc-minute",
+    "url": "https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip"
+  },
+  "two_tranche_recurrent": {
+    "H1a_mean_bio4": false,
+    "H1b_mean_bio15": false,
+    "H3a_spatial_niche_turnover": false,
+    "H3b_regional_centroid_sep": false,
+    "H3c_regional_gaussian_overlap": false
+  }
+}
