@@ -24,6 +24,8 @@ jobs:
           python-version: "3.11"
       - name: Apply fail-closed manuscript patch
         run: python scripts/analysis/apply_polymorphism_acquisition_provenance_to_manuscript_20260911.py
+      - name: Normalize touched version line
+        run: sed -i 's/^\(\*\*Version:\*\* v0\.1-post-Step-9+acquisition-provenance, 2026-09-11\)  $/\1/' paper/polymorphism_v0_1/MANUSCRIPT.md
       - name: Verify frozen provenance still reconstructs
         run: python scripts/analysis/audit_polymorphism_acquisition_provenance_20260911.py --check
       - name: Validate patch and commit
