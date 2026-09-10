@@ -1,0 +1,32 @@
+name: Polymorphism acquisition provenance
+
+on:
+  push:
+    branches:
+      - feat/polymorphism-paper-v0-1-post-step9
+    paths:
+      - scripts/analysis/audit_polymorphism_acquisition_provenance_20260911.py
+      - results/polymorphism_acquisition_provenance_20260911/**
+      - paper/polymorphism_v0_1/MANUSCRIPT.md
+      - .github/workflows/polymorphism-acquisition-provenance.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  provenance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Reconstruct acquisition provenance
+        run: python scripts/analysis/audit_polymorphism_acquisition_provenance_20260911.py
+      - name: Show frozen audit output
+        run: |
+          cat results/polymorphism_acquisition_provenance_20260911/result.json
+          cat results/polymorphism_acquisition_provenance_20260911/RESULT.md
