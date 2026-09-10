@@ -1,0 +1,76 @@
+{
+  "analysis": "rgfca_old34_hypothesis_transfer_step7c_photo_only",
+  "claim_boundary": "H2 is sampled-coordinate fragmentation, not biological range fragmentation. H9 is photo-date partitioning, not direct flowering phenology. C*/S* are photo-derived states, so this is a transferred test rather than a confirmatory replication of the historical 34-species response.",
+  "discovery": {
+    "H2_fragmentation": {
+      "delta": -0.12944973568698426,
+      "holm_p": 1.0,
+      "n": 172,
+      "n_positive": 26,
+      "null_q025": -0.23089597096037667,
+      "null_q975": 0.17220000071452787,
+      "p": 0.8567571621418929
+    },
+    "H2_primary_pass": false,
+    "H2_span_adjusted_robustness": {
+      "delta": -1.3698979772323696,
+      "n": 172,
+      "n_positive": 26,
+      "null_q025": -10.679292337915637,
+      "null_q975": 10.436572367536646,
+      "p": 0.6069696515174241
+    },
+    "H9_photo_date_partitioning": {
+      "delta": null,
+      "eligible_species": 93,
+      "holm_p": 1.0,
+      "n": 93,
+      "n_positive": 93,
+      "p": 1.0,
+      "rho_with_D": -0.19914500983355882,
+      "rho_with_S_star": -0.08924091764991612
+    },
+    "H9_primary_pass": false,
+    "phenology_proxy_gate_fraction": 0.5406976744186046,
+    "species": 172
+  },
+  "environmental_family_status": "NOT_OPENED_REQUIRES_SEPARATE_SOURCE_FREEZE",
+  "protocol": "docs/RGFCA_OLD34_HYPOTHESIS_TRANSFER_STEP7C_PROTOCOL_20260910.md",
+  "reserve": {
+    "H2_fragmentation": {
+      "delta": -0.15476190476190482,
+      "holm_p": 1.0,
+      "n": 151,
+      "n_positive": 17,
+      "null_q025": -0.26160799652325084,
+      "null_q975": 0.29896840747904574,
+      "p": 0.8505574721263937
+    },
+    "H2_primary_pass": false,
+    "H2_span_adjusted_robustness": {
+      "delta": 4.674804810038339,
+      "n": 151,
+      "n_positive": 17,
+      "null_q025": -9.6619275008714,
+      "null_q975": 11.26442140118506,
+      "p": 0.3067346632668367
+    },
+    "H9_photo_date_partitioning": {
+      "delta": null,
+      "eligible_species": 93,
+      "holm_p": 1.0,
+      "n": 93,
+      "n_positive": 93,
+      "p": 1.0,
+      "rho_with_D": 0.03953966090272257,
+      "rho_with_S_star": -0.0848959753015637
+    },
+    "H9_primary_pass": false,
+    "phenology_proxy_gate_fraction": 0.6158940397350994,
+    "species": 151
+  },
+  "two_tranche_recurrent": {
+    "H2": false,
+    "H9": false
+  }
+}
