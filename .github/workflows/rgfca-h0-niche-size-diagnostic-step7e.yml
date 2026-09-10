@@ -1,0 +1,38 @@
+name: RGFCA H0 niche-size diagnostic Step 7E
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-h0-niche-size-diagnostic-step7e
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install numpy pandas scipy statsmodels
+      - name: Verify frozen prerequisites
+        run: |
+          test -f results/rgfca_worldclim_old34_transfer_step7d_20260910/species_environment_metrics.csv
+          test -f data/derived/global_monte_carlo_measured_photos_v1.csv
+          test -f data/derived/rgfca_reserve_replication_measured_photos_v1.csv
+      - name: Run frozen Step 7E
+        run: python scripts/analysis/run_rgfca_h0_niche_size_diagnostic_step7e_20260910.py
+      - name: Print result
+        run: cat results/rgfca_h0_niche_size_diagnostic_step7e_20260910/RESULT.md
+      - name: Commit result
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add results/rgfca_h0_niche_size_diagnostic_step7e_20260910
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Freeze Step 7E H0 diagnostic results"
+          git push
