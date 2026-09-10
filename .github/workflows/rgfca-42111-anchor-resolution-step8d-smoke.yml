@@ -1,0 +1,68 @@
+name: RGFCA 42,111 anchor resolution Step 8D smoke
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - 'docs/RGFCA_42111_ANCHOR_RESOLUTION_STEP8D_PROTOCOL_20260911.md'
+      - 'scripts/acquisition/smoke_resolve_rgfca_42111_anchor_metadata_step8d_20260911.py'
+      - '.github/workflows/rgfca-42111-anchor-resolution-step8d-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-42111-anchor-resolution-step8d-smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install pandas
+      - name: Resolve 200 exact anchors without opening pixels
+        run: python scripts/acquisition/smoke_resolve_rgfca_42111_anchor_metadata_step8d_20260911.py
+      - name: Validate metadata-only result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('results/rgfca_42111_anchor_resolution_step8d_20260911')
+          x=json.loads((root/'result.json').read_text())
+          assert x['status']=='complete_metadata_only_batch_resolution_smoke'
+          assert x['requested_observations']==200
+          assert x['image_pixels_opened'] is False and x['flower_colour_used'] is False
+          assert x['full_resolution_authorized'] is True
+          print((root/'RESULT.md').read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-anchor-resolution-step8d-smoke
+          path: results/rgfca_42111_anchor_resolution_step8d_20260911/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Commit smoke result
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_anchor_resolution_step8d_20260911/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Freeze Step 8D anchor-resolution smoke result'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
