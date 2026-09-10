@@ -7,6 +7,14 @@
   "human_readable_number_ledger": "PAPER_NUMBERS.md",
   "number_ledger": "paper_numbers.json",
   "figure_manifest": "figures/manifest.json",
+  "figure_layout_polish": {
+    "status": "executed",
+    "scope": "readability_only_no_data_or_statistic_change",
+    "changes": [
+      "Figure 2C uses self-contained discovery/reserve tick labels",
+      "Figure 3C and Figure 4B minimum annotations increased from 5.8 pt to 6.6 pt"
+    ]
+  },
   "main_figures": [
     "figures/figure1_polymorphism_estimand.pdf",
     "figures/figure2_polymorphism_spatial_replication.pdf",
