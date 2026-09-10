@@ -1,0 +1,57 @@
+name: Polymorphism span-adjusted robustness Step 6
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-span-adjusted-robustness-step6
+    paths:
+      - "scripts/analysis/run_polymorphism_span_adjusted_robustness_step6_20260910.py"
+      - "docs/POLYMORPHISM_SPAN_ADJUSTED_ROBUSTNESS_STEP6_PROTOCOL_20260910.md"
+      - ".github/workflows/polymorphism-span-adjusted-robustness-step6.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas scipy
+
+      - name: Verify frozen inputs
+        run: |
+          test -f results/polymorphism_spatial_subset_step5_20260909/species_membership_and_observed_rho.csv
+          test -f results/polymorphism_spatial_reserve_step5b_20260909/reserve_species_membership_and_observed_metrics.csv
+          test -f results/polymorphism_species_attributes_step4_preflight_20260910/covariate_panel_preoutcome.csv
+          test -f data/frozen/rgfca_reserve_geometry_audit_v1.csv
+
+      - name: Run frozen Step 6 diagnostic
+        run: |
+          python scripts/analysis/run_polymorphism_span_adjusted_robustness_step6_20260910.py
+
+      - name: Print result
+        run: cat results/polymorphism_span_adjusted_robustness_step6_20260910/RESULT.md
+
+      - name: Commit Step 6 result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_span_adjusted_robustness_step6_20260910/
+          if git diff --cached --quiet; then
+            echo "No result changes"
+          else
+            git commit -m "Record Step 6 span-adjusted robustness result"
+            git push
+          fi
