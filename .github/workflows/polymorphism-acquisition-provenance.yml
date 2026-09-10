@@ -24,9 +24,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Reconstruct acquisition provenance
-        run: python scripts/analysis/audit_polymorphism_acquisition_provenance_20260911.py
-      - name: Show frozen audit output
-        run: |
-          cat results/polymorphism_acquisition_provenance_20260911/result.json
-          cat results/polymorphism_acquisition_provenance_20260911/RESULT.md
+      - name: Reconstruct and verify frozen acquisition provenance
+        run: python scripts/analysis/audit_polymorphism_acquisition_provenance_20260911.py --check
