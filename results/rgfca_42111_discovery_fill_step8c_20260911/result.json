@@ -1,0 +1,20 @@
+{
+  "analysis": "rgfca_42111_discovery_fill_step8c",
+  "claim_boundary": "This is metadata allocation only. Fill counts are frozen candidate availability, not successful image resolution or colour measurement.",
+  "descriptive_records_filled_from_v1v2": 191386,
+  "descriptive_records_shortfall_after_v1v2": 179860,
+  "flower_colour_used": false,
+  "fresh_records_filled_from_v1v2_after_prior_id_exclusion": 172828,
+  "fresh_records_shortfall_requiring_new_query": 178418,
+  "fresh_target_records_unopened": 351246,
+  "pixels_opened": false,
+  "species_fully_filled_descriptive": 19304,
+  "species_partially_filled_descriptive": 22807,
+  "species_universe": 42111,
+  "species_zero_fill_descriptive": 0,
+  "status": "complete_metadata_only_discovery_fill_audit",
+  "target_records_total": 371246,
+  "unopened_species": 41111,
+  "unopened_species_fully_filled_from_v1v2": 17460,
+  "unopened_species_with_any_new_query_shortfall": 23651
+}
