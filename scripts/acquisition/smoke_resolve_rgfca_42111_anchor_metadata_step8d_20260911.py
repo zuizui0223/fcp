@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import time
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 import pandas as pd
@@ -13,7 +14,7 @@ ALLOC = ROOT / "results/rgfca_42111_tiered_measurement_step8c_20260911/species_a
 OUT = ROOT / "results/rgfca_42111_anchor_resolution_step8d_20260911"
 API = "https://api.inaturalist.org/v1/observations"
 USER_AGENT = "fcp-rgfca-42111-anchor-resolver/1.0 (github.com/zuizui0223/fcp)"
-BATCH_SIZE = 50
+BATCH_SIZE = 200
 REQUEST_INTERVAL_SECONDS = 1.05
 
 
@@ -26,10 +27,14 @@ def large_url(url: str) -> str:
 
 
 def fetch_batch(ids: list[int]) -> list[dict]:
-    url = API + "/" + ",".join(map(str, ids))
+    url = API + "/" + ",".join(map(str, ids)) + f"?per_page={len(ids)}"
     req = Request(url, headers={"Accept": "application/json", "User-Agent": USER_AGENT})
-    with urlopen(req, timeout=60) as response:
-        payload = json.loads(response.read().decode("utf-8"))
+    try:
+        with urlopen(req, timeout=60) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"iNaturalist HTTP {exc.code}: {body[:1000]}") from exc
     results = payload.get("results") or []
     if not isinstance(results, list):
         raise RuntimeError("iNaturalist returned non-list results")
@@ -91,7 +96,8 @@ def main() -> None:
         "request_seconds": float(time.time() - started),
         "batch_size": BATCH_SIZE,
         "request_count": request_count,
-        "transport_recovery_from_run": 34495173572,
+        "explicit_per_page": BATCH_SIZE,
+        "transport_recovery_from_runs": [34495173572, 34495521705],
         "image_pixels_opened": False,
         "flower_colour_used": False,
         "full_resolution_authorized": True,
@@ -102,7 +108,7 @@ def main() -> None:
         "# RGFCA Step 8D — anchor metadata smoke\n\n"
         f"- requested: **{len(ids)}**\n"
         f"- API results: **{len(results)}**\n"
-        f"- transport: **{request_count} requests × <= {BATCH_SIZE} IDs**\n"
+        f"- transport: **{request_count} request(s) × <= {BATCH_SIZE} IDs; explicit per_page={BATCH_SIZE}**\n"
         f"- resolved: **{counts.get('resolved', 0)} / {len(ids)}**\n"
         f"- resolved fraction: **{result['resolved_fraction']:.4f}**\n"
         f"- request seconds: **{result['request_seconds']:.2f}**\n\n"
