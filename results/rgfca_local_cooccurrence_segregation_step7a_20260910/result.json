@@ -1,0 +1,60 @@
+{
+  "analysis": "rgfca_local_cooccurrence_segregation_step7a",
+  "claim_boundary": "C* is repeated <=100-km photo co-occurrence, not within-population coexistence; S* is photo-label spatial segregation, not adaptation/genetic differentiation.",
+  "discovery": {
+    "C_star_fraction": 0.5406976744186046,
+    "S_star_fraction": 0.1511627906976744,
+    "eligible_polymorphic_species": 172,
+    "median_local_retention_100km": 0.965034965034965,
+    "median_segregation_delta_km": 2.451642781800814,
+    "state_counts": {
+      "cooccurrence_and_segregation": 16,
+      "local_cooccurrence_only": 77,
+      "spatial_segregation_only": 10,
+      "unresolved_photo_state": 69
+    }
+  },
+  "literature_validation": {
+    "C_binary_accuracy": 1.0,
+    "S_binary_accuracy": 0.0,
+    "overlap_rows": 2,
+    "overlap_species": 2,
+    "rows": [
+      {
+        "C_local_coexistence_documented": 1,
+        "C_star": true,
+        "S_spatial_segregation_documented": 1,
+        "S_star": false,
+        "organization_state_literature": "coexistence_and_segregation",
+        "organization_state_photo": "local_cooccurrence_only",
+        "species": "Anemone pavonina",
+        "tranche": "discovery"
+      },
+      {
+        "C_local_coexistence_documented": 1,
+        "C_star": true,
+        "S_spatial_segregation_documented": 1,
+        "S_star": false,
+        "organization_state_literature": "coexistence_and_segregation",
+        "organization_state_photo": "local_cooccurrence_only",
+        "species": "Anemone palmata",
+        "tranche": "reserve"
+      }
+    ]
+  },
+  "protocol": "docs/RGFCA_LOCAL_COOCCURRENCE_SEGREGATION_STEP7A_PROTOCOL_20260910.md",
+  "reserve": {
+    "C_star_fraction": 0.6158940397350994,
+    "S_star_fraction": 0.11258278145695365,
+    "eligible_polymorphic_species": 151,
+    "median_local_retention_100km": 0.9934893442738713,
+    "median_segregation_delta_km": 7.390410768336864,
+    "state_counts": {
+      "cooccurrence_and_segregation": 12,
+      "local_cooccurrence_only": 81,
+      "spatial_segregation_only": 5,
+      "unresolved_photo_state": 53
+    }
+  },
+  "species_overlap_discovery_reserve": 0
+}
