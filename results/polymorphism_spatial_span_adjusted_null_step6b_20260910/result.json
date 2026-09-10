@@ -1,0 +1,64 @@
+{
+  "analysis": "polymorphism_spatial_span_adjusted_null_step6b",
+  "date_jst": "2026-09-10",
+  "decision": {
+    "adjusted_flower_specific_reserve_gradient_supported": true,
+    "adjusted_primary_gradient_supported_discovery_and_reserve": false,
+    "claim_boundary": "If supported, sampled span and classifiable-photo count are insufficient to reproduce the D-spatial association under the original geometry-preserving within-species spatial null. This is not evidence of adaptation, causal range-size effects, population-genetic differentiation, or a shared boundary.",
+    "sampled_span_opportunity_sufficient_explanation": null
+  },
+  "discovery_D_unbiased": {
+    "null_mean": 0.007947461808600204,
+    "null_q025": -0.09321742206128181,
+    "null_q975": 0.10734106679968977,
+    "observed_partial_spearman": 0.16996995692053546,
+    "p_upper_geometry_preserving_spatial_null": 0.001,
+    "positive_supported_at_0_05": true
+  },
+  "discovery_primary": {
+    "null_mean": 0.007955028619181851,
+    "null_q025": -0.09328608368120865,
+    "null_q975": 0.10709146609966315,
+    "observed_partial_spearman": 0.17019784215971412,
+    "p_upper_geometry_preserving_spatial_null": 0.001,
+    "positive_supported_at_0_05": true
+  },
+  "inferential_role": "post_step4_geometry_preserving_span_robustness",
+  "new_spatial_permutations_generated": false,
+  "protocol": "docs/POLYMORPHISM_SPATIAL_SPAN_ADJUSTED_NULL_STEP6B_PROTOCOL_20260910.md",
+  "reserve_matched_background_D_unbiased": {
+    "null_mean": -0.004436953050855601,
+    "null_q025": -0.10927170832181077,
+    "null_q975": 0.1018161393723327,
+    "observed_partial_spearman": 0.08711770163644268,
+    "p_upper_geometry_preserving_spatial_null": 0.037,
+    "positive_supported_at_0_05": true
+  },
+  "reserve_matched_background_differential": {
+    "null_mean": -0.004428383474465184,
+    "null_q025": -0.1090406117411195,
+    "null_q975": 0.10200439107392968,
+    "observed_partial_spearman": 0.08718035943360447,
+    "p_upper_geometry_preserving_spatial_null": 0.037,
+    "positive_supported_at_0_05": true
+  },
+  "reserve_primary": {
+    "null_mean": 0.0038736071250658737,
+    "null_q025": -0.0964341425556482,
+    "null_q975": 0.09959234133088343,
+    "observed_partial_spearman": 0.07818621416059582,
+    "p_upper_geometry_preserving_spatial_null": 0.08,
+    "positive_supported_at_0_05": false
+  },
+  "reserve_primary_D_unbiased": {
+    "null_mean": 0.003858333788173869,
+    "null_q025": -0.09620679262998155,
+    "null_q975": 0.0994376578906994,
+    "observed_partial_spearman": 0.07847037346604477,
+    "p_upper_geometry_preserving_spatial_null": 0.08,
+    "positive_supported_at_0_05": false
+  },
+  "spatial_null_permutations_reused": 999,
+  "upstream_discovery_run_id": 34088925008,
+  "upstream_reserve_run_id": 34178957447
+}
