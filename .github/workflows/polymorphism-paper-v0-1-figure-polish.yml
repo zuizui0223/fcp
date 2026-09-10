@@ -1,0 +1,73 @@
+name: Polymorphism paper v0.1 figure polish
+
+on:
+  push:
+    branches:
+      - feat/polymorphism-paper-v0-1-post-step9
+    paths:
+      - "scripts/analysis/polish_polymorphism_paper_v0_1_figures_20260910.py"
+      - ".github/workflows/polymorphism-paper-v0-1-figure-polish.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install figure dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy matplotlib
+
+      - name: Apply renderer readability polish
+        run: |
+          python scripts/analysis/polish_polymorphism_paper_v0_1_figures_20260910.py
+
+      - name: Re-render frozen figures
+        run: |
+          python scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py
+
+      - name: Verify polished figure bundle
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('paper/polymorphism_v0_1')
+          renderer = Path('scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py').read_text()
+          assert 'Disc. <10%' in renderer and 'Res. ≥10%' in renderer
+          assert 'fontsize=5.8' not in renderer
+          manifest = json.loads((root/'figures/manifest.json').read_text())
+          assert len(manifest['outputs']) == 8
+          for out in manifest['outputs']:
+              p = Path(out['path'])
+              assert p.exists() and p.stat().st_size > 10_000
+          qc = (root/'FIGURE_QC.md').read_text()
+          assert '## Readability polish executed' in qc
+          print('figure readability polish verified')
+          PY
+
+      - name: Commit polished figures and renderer
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py \
+                  paper/polymorphism_v0_1/FIGURE_QC.md \
+                  paper/polymorphism_v0_1/FIGURE_CAPTIONS.md \
+                  paper/polymorphism_v0_1/figure_data/figure4_shared_genus_means.csv \
+                  paper/polymorphism_v0_1/figures/
+          if git diff --cached --quiet; then
+            echo "No figure polish changes"
+          else
+            git commit -m "Polish FCP paper v0.1 figure readability"
+            git push
+          fi
