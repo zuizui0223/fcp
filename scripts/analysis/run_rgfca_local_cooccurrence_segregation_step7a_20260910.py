@@ -39,8 +39,7 @@ def load(path: Path) -> pd.DataFrame:
     use = ["species", "morph", "global_classifiable", "latitude", "longitude", "observer_id", "photo_id"]
     df = pd.read_csv(path, usecols=use)
     keep = bseries(df["global_classifiable"]) & df["morph"].isin(MORPHS)
-    df = df.loc[keep].dropna(subset=["latitude", "longitude"]).copy()
-    return df
+    return df.loc[keep].dropna(subset=["latitude", "longitude"]).copy()
 
 
 def one_species(g: pd.DataFrame, rng: np.random.Generator) -> dict[str, Any] | None:
@@ -55,7 +54,6 @@ def one_species(g: pd.DataFrame, rng: np.random.Generator) -> dict[str, Any] | N
     D = float(1.0 - np.sum(p * p))
     lat = g["latitude"].to_numpy(float); lon = g["longitude"].to_numpy(float)
     morph = g["morph"].astype(str).to_numpy(); obs = g["observer_id"].astype(str).to_numpy()
-    pid = g["photo_id"].astype(str).to_numpy()
     ii, jj, dist = haversine_pairs(lat, lon)
     diff = morph[ii] != morph[jj]
     same = ~diff
@@ -134,17 +132,18 @@ def analyze(df: pd.DataFrame, name: str, seed: int) -> pd.DataFrame:
 
 def lit_validate(all_states: pd.DataFrame) -> dict[str, Any]:
     lit = pd.read_csv(LIT)
-    merged = all_states.merge(lit, left_on="species", right_on="canonical_name", how="inner")
+    merged = all_states.merge(lit, left_on="species", right_on="canonical_name", how="inner", suffixes=("_photo", "_literature"))
     if merged.empty:
         return {"overlap_rows": 0}
     c_acc = float((merged["C_star"].astype(int) == merged["C_local_coexistence_documented"].astype(int)).mean())
     s_acc = float((merged["S_star"].astype(int) == merged["S_spatial_segregation_documented"].astype(int)).mean())
+    cols = ["tranche", "species", "organization_state_photo", "organization_state_literature", "C_star", "S_star", "C_local_coexistence_documented", "S_spatial_segregation_documented"]
     return {
         "overlap_rows": int(len(merged)),
         "overlap_species": int(merged["species"].nunique()),
         "C_binary_accuracy": c_acc,
         "S_binary_accuracy": s_acc,
-        "rows": merged[["tranche", "species", "organization_state", "organization_state_y", "C_star", "S_star", "C_local_coexistence_documented", "S_spatial_segregation_documented"]].to_dict("records") if "organization_state_y" in merged.columns else [],
+        "rows": merged[cols].to_dict("records"),
     }
 
 
@@ -175,28 +174,11 @@ def main() -> None:
         "claim_boundary": "C* is repeated <=100-km photo co-occurrence, not within-population coexistence; S* is photo-label spatial segregation, not adaptation/genetic differentiation.",
     }
     (OUT / "result.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    lines = [
-        "# RGFCA Step 7A — local co-occurrence and spatial segregation",
-        "",
-        f"- discovery eligible polymorphic species: **{len(d)}**",
-        f"- reserve eligible polymorphic species: **{len(r)}**",
-        f"- discovery/reserve species overlap: **{result['species_overlap_discovery_reserve']}**",
-        "",
-        "## Discovery states",
-        "",
-    ]
+    lines = ["# RGFCA Step 7A — local co-occurrence and spatial segregation", "", f"- discovery eligible polymorphic species: **{len(d)}**", f"- reserve eligible polymorphic species: **{len(r)}**", f"- discovery/reserve species overlap: **{result['species_overlap_discovery_reserve']}**", "", "## Discovery states", ""]
     for k, v in result["discovery"]["state_counts"].items(): lines.append(f"- {k}: **{v}**")
     lines += ["", "## Reserve states", ""]
     for k, v in result["reserve"]["state_counts"].items(): lines.append(f"- {k}: **{v}**")
-    lines += [
-        "", "## Continuous descriptors", "",
-        f"- discovery median local-retention ratio (100 km): **{result['discovery']['median_local_retention_100km']:.4f}**",
-        f"- reserve median local-retention ratio (100 km): **{result['reserve']['median_local_retention_100km']:.4f}**",
-        f"- discovery median segregation delta: **{result['discovery']['median_segregation_delta_km']:.2f} km**",
-        f"- reserve median segregation delta: **{result['reserve']['median_segregation_delta_km']:.2f} km**",
-        "", "## Literature validation", "",
-        f"- overlap rows: **{validation.get('overlap_rows', 0)}**",
-    ]
+    lines += ["", "## Continuous descriptors", "", f"- discovery median local-retention ratio (100 km): **{result['discovery']['median_local_retention_100km']:.4f}**", f"- reserve median local-retention ratio (100 km): **{result['reserve']['median_local_retention_100km']:.4f}**", f"- discovery median segregation delta: **{result['discovery']['median_segregation_delta_km']:.2f} km**", f"- reserve median segregation delta: **{result['reserve']['median_segregation_delta_km']:.2f} km**", "", "## Literature validation", "", f"- overlap rows: **{validation.get('overlap_rows', 0)}**"]
     if validation.get("overlap_rows", 0):
         lines += [f"- C binary accuracy: **{validation['C_binary_accuracy']:.3f}**", f"- S binary accuracy: **{validation['S_binary_accuracy']:.3f}**"]
     lines += ["", "C* is repeated <=100-km photo co-occurrence, not proof of within-population coexistence. S* is photo-label spatial segregation, not evidence of adaptation or genetic differentiation."]
