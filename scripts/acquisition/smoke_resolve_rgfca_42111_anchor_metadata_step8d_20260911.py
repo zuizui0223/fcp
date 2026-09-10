@@ -13,6 +13,8 @@ ALLOC = ROOT / "results/rgfca_42111_tiered_measurement_step8c_20260911/species_a
 OUT = ROOT / "results/rgfca_42111_anchor_resolution_step8d_20260911"
 API = "https://api.inaturalist.org/v1/observations"
 USER_AGENT = "fcp-rgfca-42111-anchor-resolver/1.0 (github.com/zuizui0223/fcp)"
+BATCH_SIZE = 50
+REQUEST_INTERVAL_SECONDS = 1.05
 
 
 def large_url(url: str) -> str:
@@ -23,6 +25,17 @@ def large_url(url: str) -> str:
     return url
 
 
+def fetch_batch(ids: list[int]) -> list[dict]:
+    url = API + "/" + ",".join(map(str, ids))
+    req = Request(url, headers={"Accept": "application/json", "User-Agent": USER_AGENT})
+    with urlopen(req, timeout=60) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+    results = payload.get("results") or []
+    if not isinstance(results, list):
+        raise RuntimeError("iNaturalist returned non-list results")
+    return results
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     a = pd.read_csv(ALLOC)
@@ -30,14 +43,17 @@ def main() -> None:
         raise RuntimeError("anchor allocation is not 42,111 species")
     q = a.sort_values("breadth_rank", kind="mergesort").head(200).copy()
     ids = [int(x) for x in q["anchor_any_observation_id"]]
-    url = API + "/" + ",".join(map(str, ids))
-    req = Request(url, headers={"Accept": "application/json", "User-Agent": USER_AGENT})
+
     started = time.time()
-    with urlopen(req, timeout=60) as response:
-        payload = json.loads(response.read().decode("utf-8"))
-    results = payload.get("results") or []
-    if not isinstance(results, list):
-        raise RuntimeError("iNaturalist returned non-list results")
+    results: list[dict] = []
+    request_count = 0
+    for start in range(0, len(ids), BATCH_SIZE):
+        if request_count:
+            time.sleep(REQUEST_INTERVAL_SECONDS)
+        batch = ids[start : start + BATCH_SIZE]
+        results.extend(fetch_batch(batch))
+        request_count += 1
+
     by_id = {int(r.get("id")): r for r in results if isinstance(r, dict) and r.get("id") is not None}
 
     rows = []
@@ -73,7 +89,9 @@ def main() -> None:
         "resolution_counts": counts,
         "resolved_fraction": float((out.status == "resolved").mean()),
         "request_seconds": float(time.time() - started),
-        "batch_size": 200,
+        "batch_size": BATCH_SIZE,
+        "request_count": request_count,
+        "transport_recovery_from_run": 34495173572,
         "image_pixels_opened": False,
         "flower_colour_used": False,
         "full_resolution_authorized": True,
@@ -84,6 +102,7 @@ def main() -> None:
         "# RGFCA Step 8D — anchor metadata smoke\n\n"
         f"- requested: **{len(ids)}**\n"
         f"- API results: **{len(results)}**\n"
+        f"- transport: **{request_count} requests × <= {BATCH_SIZE} IDs**\n"
         f"- resolved: **{counts.get('resolved', 0)} / {len(ids)}**\n"
         f"- resolved fraction: **{result['resolved_fraction']:.4f}**\n"
         f"- request seconds: **{result['request_seconds']:.2f}**\n\n"
