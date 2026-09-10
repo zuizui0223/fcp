@@ -1,0 +1,57 @@
+name: Polymorphism paper v0.1 bundle readiness
+
+on:
+  push:
+    branches:
+      - feat/polymorphism-paper-v0-1-post-step9
+    paths:
+      - "paper/polymorphism_v0_1/**"
+      - "scripts/analysis/check_polymorphism_paper_v0_1_bundle_20260910.py"
+      - ".github/workflows/polymorphism-paper-v0-1-bundle-readiness.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate assembled science bundle
+        run: |
+          python scripts/analysis/check_polymorphism_paper_v0_1_bundle_20260910.py
+
+      - name: Verify readiness receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('paper/polymorphism_v0_1/BUNDLE_READINESS.json').read_text())
+          assert r['status'] == 'PASS'
+          assert r['science_bundle_ready'] is True
+          assert r['main_text_word_count'] == 4166
+          assert len(r['main_figures_checked']) == 4
+          assert r['figure_data_files_checked'] == 11
+          assert r['source_receipts_checked'] == 9
+          print(json.dumps(r, indent=2))
+          PY
+
+      - name: Commit readiness receipt
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper/polymorphism_v0_1/BUNDLE_READINESS.json
+          if git diff --cached --quiet; then
+            echo "No readiness receipt changes"
+          else
+            git commit -m "Record FCP paper v0.1 bundle readiness"
+            git push
+          fi
