@@ -49,7 +49,7 @@ def freedman_lane(y,s,x,seed):
 
 
 def strat_perm(y,s,x,seed):
-    ranks=pd.Series(x).rank(method='first').to_numpy(); strata=pd.qcut(ranks,4,labels=False).to_numpy(); obs=float(np.median(y[s])-np.median(y[~s])); rng=np.random.default_rng(seed); null=np.empty(N)
+    ranks=pd.Series(x).rank(method='first').to_numpy(); strata=np.asarray(pd.qcut(ranks,4,labels=False)); obs=float(np.median(y[s])-np.median(y[~s])); rng=np.random.default_rng(seed); null=np.empty(N)
     idxs=[np.where(strata==k)[0] for k in sorted(set(strata))]
     for b in range(N):
         q=s.copy()
