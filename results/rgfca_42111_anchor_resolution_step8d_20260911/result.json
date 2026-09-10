@@ -1,0 +1,22 @@
+{
+  "analysis": "rgfca_42111_anchor_resolution_step8d_smoke",
+  "api_results_returned": 200,
+  "batch_size": 200,
+  "boundary": "The smoke gate tests batch metadata resolution only. Unresolved anchors are retained and may not be silently replaced after colour opening.",
+  "explicit_per_page": 200,
+  "flower_colour_used": false,
+  "full_resolution_authorized": true,
+  "image_pixels_opened": false,
+  "request_count": 1,
+  "request_seconds": 8.948099374771118,
+  "requested_observations": 200,
+  "resolution_counts": {
+    "resolved": 200
+  },
+  "resolved_fraction": 1.0,
+  "status": "complete_metadata_only_batch_resolution_smoke",
+  "transport_recovery_from_runs": [
+    34495173572,
+    34495521705
+  ]
+}
