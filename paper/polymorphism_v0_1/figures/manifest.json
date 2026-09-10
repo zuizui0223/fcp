@@ -1,0 +1,60 @@
+{
+  "captions": "paper/polymorphism_v0_1/FIGURE_CAPTIONS.md",
+  "figure_inputs": [
+    "figure1_discovery_species_polymorphism.csv",
+    "figure2_discovery_spatial.csv",
+    "figure2_effect_summary.csv",
+    "figure2_reserve_spatial.csv",
+    "figure3_ambiguity_interval_summary.csv",
+    "figure3_discovery_ambiguity_intervals.csv",
+    "figure3_measurement_status_partition.csv",
+    "figure3_reserve_ambiguity_intervals.csv",
+    "figure3_spatial_robustness_summary.csv",
+    "figure4_genus_clustering_summary.csv",
+    "figure4_shared_genus_means.csv"
+  ],
+  "outputs": [
+    {
+      "bytes": 299935,
+      "path": "paper/polymorphism_v0_1/figures/figure1_polymorphism_estimand.png",
+      "sha256": "6a44468c0a30df0e5207f1d05e7f911288ddb4d7eed2c0f8069e6e3ce15457d2"
+    },
+    {
+      "bytes": 33212,
+      "path": "paper/polymorphism_v0_1/figures/figure1_polymorphism_estimand.pdf",
+      "sha256": "88f80c35b79445d8c9351908a558651db052c3bf340f1bef33f5013edeccda79"
+    },
+    {
+      "bytes": 419995,
+      "path": "paper/polymorphism_v0_1/figures/figure2_polymorphism_spatial_replication.png",
+      "sha256": "04e894561631fb97bc1fa127996253abcabf7056177a64c7fab0ad54c47f2b17"
+    },
+    {
+      "bytes": 41842,
+      "path": "paper/polymorphism_v0_1/figures/figure2_polymorphism_spatial_replication.pdf",
+      "sha256": "6416fa775562c4efcdebf3cd15b6cbdb9f375541644c52dec36a05610a40f64a"
+    },
+    {
+      "bytes": 393945,
+      "path": "paper/polymorphism_v0_1/figures/figure3_measurement_and_ambiguity_robustness.png",
+      "sha256": "b7b953884e8a6c620e4d5b559a6bf3c7ed84b5f48ba5f55ce705938903a25202"
+    },
+    {
+      "bytes": 42343,
+      "path": "paper/polymorphism_v0_1/figures/figure3_measurement_and_ambiguity_robustness.pdf",
+      "sha256": "9970c8b30a3d2c5b1c6234112e2c6e8b82e8e76d79985808873b1572d7541175"
+    },
+    {
+      "bytes": 209340,
+      "path": "paper/polymorphism_v0_1/figures/figure4_genus_taxonomic_structure.png",
+      "sha256": "6d32c7738734f893e73cc33dd9229b33bcede65b9e4c9bf78f5766f219365564"
+    },
+    {
+      "bytes": 24424,
+      "path": "paper/polymorphism_v0_1/figures/figure4_genus_taxonomic_structure.pdf",
+      "sha256": "2444c4756c6470ad8440e9cd38bb06835ce6cc79376e72ce8f18fe81c3182ea6"
+    }
+  ],
+  "paper_version": "v0.1-post-step9",
+  "renderer": "scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py"
+}
