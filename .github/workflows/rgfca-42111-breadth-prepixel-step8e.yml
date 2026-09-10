@@ -1,0 +1,70 @@
+name: RGFCA 42,111 breadth pre-pixel Step 8E
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - 'results/rgfca_42111_anchor_resolution_full_step8d_20260911/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-42111-breadth-prepixel-step8e
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependency
+        run: pip install pandas
+      - name: Build frozen pre-pixel gate
+        run: python scripts/analysis/build_rgfca_42111_breadth_prepixel_gate_step8e_20260911.py
+      - name: Validate gate remains non-authorizing
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('results/rgfca_42111_breadth_prepixel_step8e_20260911')
+          r=json.loads((root/'result.json').read_text())
+          d=pd.read_csv(root/'breadth_denominator_42111.csv.gz')
+          c=pd.read_csv(root/'breadth_source_manifest_resolved.csv.gz')
+          assert len(d)==42111 and d['inat_taxon_id'].nunique()==42111
+          assert len(c)==r['resolved_exact_anchor_species']
+          assert r['resolved_exact_anchor_species'] + r['unresolved_anchor_species']==42111
+          assert r['image_pixels_opened'] is False
+          assert r['flower_colour_used'] is False
+          assert r['pixel_opening_authorized'] is False
+          assert r['status'] in {'transport_gate_pass','transport_gate_fail'}
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-breadth-prepixel-step8e
+          if-no-files-found: error
+          retention-days: 90
+          path: results/rgfca_42111_breadth_prepixel_step8e_20260911/
+      - name: Commit immutable pre-pixel gate
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_breadth_prepixel_step8e_20260911
+          git commit -m 'Freeze 42,111-species breadth pre-pixel gate'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
