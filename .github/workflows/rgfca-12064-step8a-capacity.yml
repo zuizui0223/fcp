@@ -1,0 +1,32 @@
+name: RGFCA Step 8A 12064 species capacity
+
+on:
+  push:
+    branches: [analysis/rgfca-expanded-atlas-step8]
+    paths:
+      - '.github/workflows/rgfca-12064-step8a-capacity.yml'
+      - 'scripts/analysis/build_rgfca_12064_species_frame_step8a.py'
+      - 'docs/RGFCA_12064_SPECIES_ATLAS_STEP8A_PROTOCOL_20260910.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  capacity:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pandas
+      - name: Build exact 12064-species metadata-only frame
+        run: python scripts/analysis/build_rgfca_12064_species_frame_step8a.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rgfca-12064-step8a-capacity
+          path: analysis_outputs/rgfca_12064_step8a/
+          if-no-files-found: error
