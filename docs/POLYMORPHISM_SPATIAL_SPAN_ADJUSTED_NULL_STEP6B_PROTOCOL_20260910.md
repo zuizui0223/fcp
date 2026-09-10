@@ -62,6 +62,10 @@ Reserve matched-background support is an additional flower-specific diagnostic; 
 
 If the adjusted geometry-preserving test fails in reserve, retain the original Step-5b replication but do not claim that the continuous D gradient is robust to explicit span adjustment.
 
+## Execution contract
+
+The runner and dedicated GitHub Actions workflow were committed after this scientific rule set was fixed. This follow-up protocol-only commit exists solely to trigger the now-admitted workflow; it changes no statistic, input, threshold, seed, null array, or decision rule.
+
 ## Claim boundary
 
 No result here licenses adaptation, causal range-size effects, local selection, population-genetic differentiation, or a shared global boundary. The test only evaluates whether fixed sampled geographic opportunity is sufficient to explain the observed D–spatial association.
