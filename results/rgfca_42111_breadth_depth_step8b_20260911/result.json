@@ -1,0 +1,121 @@
+{
+  "analysis": "rgfca_42111_breadth_depth_step8b",
+  "availability_bin_counts": {
+    "0_structural_no_current_eligible_photo": 789,
+    "1": 7378,
+    "100_149": 1648,
+    "10_19": 5316,
+    "150_plus": 3082,
+    "20_29": 2655,
+    "2_4": 9332,
+    "30_39": 1577,
+    "40_49": 1121,
+    "50_59": 862,
+    "5_9": 6311,
+    "60_79": 1212,
+    "80_99": 828
+  },
+  "breadth_saturation": {
+    "1000": {
+      "median_cell_species_count_pearson": 0.9732293159837402,
+      "median_occupied_cell_retention": 0.859375,
+      "median_taxon_cell_link_retention": 0.02385249071328966,
+      "q05_cell_species_count_pearson": 0.9630471879686517,
+      "q05_occupied_cell_retention": 0.8046875
+    },
+    "10000": {
+      "median_cell_species_count_pearson": 0.9977929296810522,
+      "median_occupied_cell_retention": 0.96875,
+      "median_taxon_cell_link_retention": 0.23755815179816492,
+      "q05_cell_species_count_pearson": 0.996897761816635,
+      "q05_occupied_cell_retention": 0.953125
+    },
+    "2000": {
+      "median_cell_species_count_pearson": 0.9866514429554571,
+      "median_occupied_cell_retention": 0.8984375,
+      "median_taxon_cell_link_retention": 0.047763572658987306,
+      "q05_cell_species_count_pearson": 0.9816863783767181,
+      "q05_occupied_cell_retention": 0.859375
+    },
+    "20000": {
+      "median_cell_species_count_pearson": 0.9992306757197413,
+      "median_occupied_cell_retention": 0.984375,
+      "median_taxon_cell_link_retention": 0.4748877977899387,
+      "q05_cell_species_count_pearson": 0.9989302236437977,
+      "q05_occupied_cell_retention": 0.9765625
+    },
+    "30000": {
+      "median_cell_species_count_pearson": 0.9997209648178904,
+      "median_occupied_cell_retention": 0.9921875,
+      "median_taxon_cell_link_retention": 0.7128502290917187,
+      "q05_cell_species_count_pearson": 0.9995944022277139,
+      "q05_occupied_cell_retention": 0.984375
+    },
+    "42111": {
+      "median_cell_species_count_pearson": 0.9999999999999998,
+      "median_occupied_cell_retention": 1.0,
+      "median_taxon_cell_link_retention": 1.0,
+      "q05_cell_species_count_pearson": 0.9999999999999998,
+      "q05_occupied_cell_retention": 1.0
+    },
+    "500": {
+      "median_cell_species_count_pearson": 0.9485001785066136,
+      "median_occupied_cell_retention": 0.80078125,
+      "median_taxon_cell_link_retention": 0.011847147192894055,
+      "q05_cell_species_count_pearson": 0.9289201510522019,
+      "q05_occupied_cell_retention": 0.749609375
+    },
+    "5000": {
+      "median_cell_species_count_pearson": 0.9949629580321913,
+      "median_occupied_cell_retention": 0.9453125,
+      "median_taxon_cell_link_retention": 0.11891676529524123,
+      "q05_cell_species_count_pearson": 0.9931499755261927,
+      "q05_occupied_cell_retention": 0.9140625
+    }
+  },
+  "claim_boundary": "Metadata-only sampling/capacity result. No flower-colour prevalence, polymorphism, C*/S*, or biological mechanism is inferred here.",
+  "discovery_taxon_cell_links": 85337,
+  "flower_colour_used": false,
+  "lineage": {
+    "capacity_audit_sha256": "12d94100d6343597aa2b87670555e801ce0681f4b69e3ad634fa6d80409008e8",
+    "census_sha256": "1141bfa1ea5f1f2ffa995e6695483a0fc1ec86add7a00e7c76d6da447e02b22c",
+    "saturation_sha256": "4059a563c7dad7a1aa4fb34eb55dc09e62cfcf97a62381f64b6e284ac4320f08",
+    "species_frame_sha256": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+    "v1_index_sha256": "b60a8b1b98fcf6745344d6acc394bb6ff905b9d5bded134031402892ff2efa2e",
+    "v2_index_sha256": "d7f08601ccc4d7dc9ff1943ea3e58ed903b9759277f7b536bc7423bc08189b3a"
+  },
+  "maximum_span_km_quantiles_all_species": {
+    "median": 463.69949957753954,
+    "q10": 0.0,
+    "q90": 8304.622019837967
+  },
+  "maximum_span_km_quantiles_ge1": {
+    "median": 493.63113454251095,
+    "q10": 0.0,
+    "q90": 8498.565554813213
+  },
+  "occupied_equal_area_cells_full": 128,
+  "pixels_opened": false,
+  "source_membership": {
+    "both": 19192,
+    "v1": 30393,
+    "v1_only": 11201,
+    "v2": 30910,
+    "v2_only": 11718
+  },
+  "species_universe": 42111,
+  "status": "complete_metadata_only_breadth_depth_census",
+  "threshold_counts_after_observer_cap": {
+    "1": 41322,
+    "10": 18301,
+    "100": 4730,
+    "2": 33944,
+    "20": 12985,
+    "30": 10330,
+    "40": 8753,
+    "5": 24612,
+    "50": 7632,
+    "60": 6770,
+    "80": 5558
+  }
+}
