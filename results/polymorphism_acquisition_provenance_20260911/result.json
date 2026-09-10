@@ -1,0 +1,52 @@
+{
+  "candidate_pixels_opened_by_audit": false,
+  "claim_boundary": "The geographic estimand describes organization among the observed community-photograph records. The acquisition code did not impose a native-range filter or explicit captive=false/wild=true parameter, so native-range-only or exclusively wild-population interpretation is not warranted.",
+  "explicit_filters_not_applied_by_acquisition_code": [
+    "native_range",
+    "captive_false",
+    "wild_true"
+  ],
+  "flower_colour_outcomes_opened_by_audit": false,
+  "historical_inputs": {
+    "candidate_contract": "docs/supporting/global_monte_carlo_candidate_acquisition_contract_v1.json",
+    "candidate_contract_sha256": "786bfbe0196bd5811f206e36cf6ab0210d8658ff41dc91dfaee13dbf9e766180",
+    "candidate_manifest": "docs/supporting/global_monte_carlo_candidate_acquisition_manifest_v1.json",
+    "candidate_manifest_sha256": "d2b8497f51b3f0e6d3ac8ec5f1e2b9968db3ce9bd441aa2839f1c169d44ce5d4",
+    "candidate_pool": "data/frozen/global_monte_carlo_candidate_photos_v1.csv",
+    "candidate_pool_sha256": "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2",
+    "candidate_rows": 100000,
+    "candidate_species": 1000,
+    "photos_per_species": 100
+  },
+  "protocol": "polymorphism-acquisition-provenance-audit-v1",
+  "proven_acquisition_conditions": {
+    "allowed_photo_licenses": [
+      "cc0",
+      "cc-by",
+      "cc-by-sa",
+      "cc-by-nc",
+      "cc-by-nc-sa"
+    ],
+    "final_photo_selection": "deterministic geographic maximin to exactly the inherited raw-photo target",
+    "flower_colour_used_for_page_selection": false,
+    "flower_colour_used_for_species_selection": false,
+    "flowering_annotation_term_id": 12,
+    "flowering_annotation_value_id": 13,
+    "georeference_required": true,
+    "maximum_positional_accuracy_m": 5000,
+    "obscuration": "none",
+    "observer_cap_per_species": 2,
+    "photos_required": true,
+    "quality_grade": "research",
+    "source": "iNaturalist v1 observations via InaturalistObservationClient",
+    "taxon_rank": "species"
+  },
+  "reserve_lineage": {
+    "candidate_pool_sha256_guarded": true,
+    "colour_outcome_used_for_reserve_selection": false,
+    "construction": "entire species-disjoint complement of the original fixed hash-ranked 500-taxon measurement budget from the same frozen 1000-species candidate pool",
+    "raw_photos_per_species": 100
+  },
+  "source_commit": "29584f3ad7ae0cd99a1d8f43459252af38f615da",
+  "status": "pass"
+}
