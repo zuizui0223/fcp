@@ -1,0 +1,92 @@
+name: RGFCA 42,111 full anchor resolution Step 8D
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - '.github/workflows/rgfca-42111-anchor-resolution-step8d-full.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-42111-anchor-resolution-step8d-full
+  cancel-in-progress: false
+
+jobs:
+  resolve:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependency
+        run: pip install pandas
+      - name: Verify pre-resolution firewall and smoke gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          alloc=Path('results/rgfca_42111_tiered_measurement_step8c_20260911/species_anchor_allocation.csv.gz')
+          smoke=Path('results/rgfca_42111_anchor_resolution_step8d_20260911/result.json')
+          assert alloc.exists() and smoke.exists()
+          a=pd.read_csv(alloc)
+          s=json.loads(smoke.read_text())
+          assert len(a)==42111 and a['inat_taxon_id'].nunique()==42111
+          assert s['status']=='complete_metadata_only_batch_resolution_smoke'
+          assert s['requested_observations']==200
+          assert s['resolution_counts']['resolved']==200
+          assert s['image_pixels_opened'] is False
+          assert s['flower_colour_used'] is False
+          print('step8d_full_preflight=pass')
+          PY
+      - name: Resolve all 42,111 frozen anchors without opening image pixels
+        run: python scripts/acquisition/resolve_rgfca_42111_anchor_metadata_step8d_20260911.py
+      - name: Validate full retained denominator
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('results/rgfca_42111_anchor_resolution_full_step8d_20260911')
+          r=json.loads((root/'result.json').read_text())
+          x=pd.read_csv(root/'anchor_metadata_42111.csv.gz')
+          b=pd.read_csv(root/'batch_receipts.csv')
+          assert r['status']=='complete_metadata_only_full_anchor_resolution'
+          assert r['species_universe']==42111
+          assert r['all_species_retained'] is True
+          assert r['image_pixels_opened'] is False
+          assert r['flower_colour_used'] is False
+          assert len(x)==42111 and x['inat_taxon_id'].nunique()==42111
+          assert len(b)==211
+          assert int(b['requested'].sum())==42111
+          assert r['resolved_species'] + r['unresolved_species'] == 42111
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-anchor-resolution-step8d-full
+          if-no-files-found: error
+          retention-days: 90
+          path: results/rgfca_42111_anchor_resolution_full_step8d_20260911/
+      - name: Commit immutable metadata-resolution result
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_anchor_resolution_full_step8d_20260911
+          git commit -m 'Freeze full 42,111-species anchor metadata resolution'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
