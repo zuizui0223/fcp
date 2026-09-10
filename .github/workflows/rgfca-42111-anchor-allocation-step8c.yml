@@ -1,0 +1,69 @@
+name: RGFCA 42,111 anchor allocation Step 8C
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - 'docs/RGFCA_42111_TIERED_MEASUREMENT_STEP8C_PROTOCOL_20260911.md'
+      - 'scripts/analysis/build_rgfca_42111_anchor_allocation_step8c_20260911.py'
+      - '.github/workflows/rgfca-42111-anchor-allocation-step8c.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-42111-anchor-allocation-step8c
+  cancel-in-progress: false
+
+jobs:
+  allocation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install numpy pandas
+      - name: Run metadata-only allocation
+        run: python scripts/analysis/build_rgfca_42111_anchor_allocation_step8c_20260911.py
+      - name: Validate allocation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/rgfca_42111_tiered_measurement_step8c_20260911/result.json')
+          x=json.loads(p.read_text())
+          assert x['status']=='complete_metadata_only_anchor_allocation'
+          assert x['species_universe']==42111
+          assert x['pixels_opened'] is False and x['flower_colour_used'] is False
+          assert x['all_species_have_original_discovery_anchor'] is True
+          assert Path('results/rgfca_42111_tiered_measurement_step8c_20260911/species_anchor_allocation.csv.gz').stat().st_size > 1000
+          print(Path('results/rgfca_42111_tiered_measurement_step8c_20260911/RESULT.md').read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-anchor-allocation-step8c
+          path: results/rgfca_42111_tiered_measurement_step8c_20260911/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Commit allocation result
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_tiered_measurement_step8c_20260911/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Freeze 42,111-species anchor allocation result'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
