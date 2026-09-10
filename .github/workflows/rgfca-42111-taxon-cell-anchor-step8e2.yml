@@ -1,0 +1,66 @@
+name: RGFCA 42,111 taxon-cell anchor Step 8E2
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - '.github/workflows/rgfca-42111-taxon-cell-anchor-step8e2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install pandas numpy
+      - name: Build outcome-blind taxon-cell anchors
+        run: python scripts/analysis/build_rgfca_42111_taxon_cell_anchor_frame_step8e2_20260911.py
+      - name: Validate exact geographic frame
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('results/rgfca_42111_taxon_cell_anchor_step8e2_20260911')
+          r=json.loads((root/'result.json').read_text())
+          x=pd.read_csv(root/'taxon_cell_anchor_frame.csv.gz')
+          assert r['status']=='complete_metadata_only_taxon_cell_anchor_freeze'
+          assert len(x)==r['taxon_cell_anchors']==85337
+          assert x[['inat_taxon_id','cell_id']].drop_duplicates().shape[0]==85337
+          assert x['inat_taxon_id'].nunique()==42111
+          assert x['cell_id'].nunique()==128
+          assert x['observation_id'].nunique()==85337 and x['photo_id'].nunique()==85337
+          assert r['image_pixels_opened'] is False and r['flower_colour_used'] is False
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-taxon-cell-anchor-step8e2
+          if-no-files-found: error
+          retention-days: 90
+          path: results/rgfca_42111_taxon_cell_anchor_step8e2_20260911/
+      - name: Commit immutable frame
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_taxon_cell_anchor_step8e2_20260911
+          git commit -m 'Freeze 85,337 taxon-cell geographic breadth anchors'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
