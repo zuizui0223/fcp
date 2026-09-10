@@ -23,5 +23,7 @@
   "nested_checkpoints": [1000, 2000, 4000, 8000, 12064],
   "source_run_id": 34472538663,
   "source_artifact_id": 10150114212,
-  "artifact_zip_sha256": "8697d47efede7472f7da6dcffa2e2bf309c6e5472b8f8207e1b47482ff2f84b8"
+  "artifact_zip_sha256": "8697d47efede7472f7da6dcffa2e2bf309c6e5472b8f8207e1b47482ff2f84b8",
+  "frame_csv_sha256": "131a60ec6fe288442a1cfffe6c8dadde09f129aa85044bc83ce72f0947df6370",
+  "frame_storage": "workflow artifact; exactly reconstructable from frozen capacity audit plus deterministic Step-8A script"
 }
