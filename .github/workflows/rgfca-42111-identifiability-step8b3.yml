@@ -1,0 +1,63 @@
+name: RGFCA 42,111 identifiability Step 8B3
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - '.github/workflows/rgfca-42111-identifiability-step8b3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ladder:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependency
+        run: pip install pandas
+      - name: Build pre-colour identifiability ladder
+        run: python scripts/analysis/build_rgfca_42111_identifiability_ladder_step8b3_20260911.py
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('results/rgfca_42111_identifiability_ladder_step8b3_20260911')
+          r=json.loads((root/'result.json').read_text())
+          t=pd.read_csv(root/'identifiability_ladder.csv')
+          assert r['species_universe']==42111
+          assert r['pixels_opened'] is False and r['flower_colour_used'] is False
+          assert int(t.loc[t.tier=='breadth_anchor_available','species'].iloc[0])==42111
+          assert int(t.loc[t.tier=='at_least_20_raw_photos','species'].iloc[0])==12985
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-identifiability-step8b3
+          if-no-files-found: error
+          retention-days: 90
+          path: results/rgfca_42111_identifiability_ladder_step8b3_20260911/
+      - name: Commit result
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_identifiability_ladder_step8b3_20260911
+          git commit -m 'Freeze 42,111-species identifiability ladder'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
