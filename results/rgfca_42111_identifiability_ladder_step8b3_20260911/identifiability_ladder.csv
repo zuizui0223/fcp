@@ -1,0 +1,10 @@
+tier,species,fraction_of_42111
+breadth_anchor_available,42111,1.0
+at_least_2_raw_photos,33944,0.8060601743012514
+at_least_5_raw_photos,24612,0.584455367956116
+at_least_10_raw_photos,18301,0.4345895371755598
+at_least_20_raw_photos,12985,0.3083517370758234
+depth20_and_ge2_discovery_cells,8275,0.1965044762651089
+depth20_and_ge5_discovery_cells,2636,0.0625964712307948
+depth20_and_span_ge100km,12755,0.30288998124005606
+depth20_ge5cells_span_ge100km,2636,0.0625964712307948

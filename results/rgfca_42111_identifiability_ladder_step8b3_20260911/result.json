@@ -1,0 +1,54 @@
+{
+  "analysis": "rgfca_42111_identifiability_ladder_step8b3",
+  "boundary": "These are pre-colour opportunity/identifiability counts, not positive biological findings.",
+  "flower_colour_used": false,
+  "interpretation": {
+    "at_least_10_raw_photos": "Moderate within-species colour-diversity opportunity; still not a C*/S* guarantee.",
+    "at_least_20_raw_photos": "Step-8 tiered depth ceiling for new large-scale polymorphism summaries.",
+    "at_least_2_raw_photos": "Only a repeated-observation opportunity bound; two photos are not a reliable D estimate.",
+    "at_least_5_raw_photos": "Coarse within-species colour-diversity opportunity; uncertainty must be explicit.",
+    "breadth_anchor_available": "Supports one-photo species-equal breadth summaries only; not species polymorphism.",
+    "depth20_and_ge2_discovery_cells": "Upper-bound geometry for spatial comparison, not proof of estimable C*/S*.",
+    "depth20_and_ge5_discovery_cells": "Stronger pre-colour spatial-support geometry; still requires measured/classifiable local support."
+  },
+  "pixels_opened": false,
+  "species_universe": 42111,
+  "tiers": {
+    "at_least_10_raw_photos": {
+      "fraction": 0.4345895371755598,
+      "species": 18301
+    },
+    "at_least_20_raw_photos": {
+      "fraction": 0.3083517370758234,
+      "species": 12985
+    },
+    "at_least_2_raw_photos": {
+      "fraction": 0.8060601743012514,
+      "species": 33944
+    },
+    "at_least_5_raw_photos": {
+      "fraction": 0.584455367956116,
+      "species": 24612
+    },
+    "breadth_anchor_available": {
+      "fraction": 1.0,
+      "species": 42111
+    },
+    "depth20_and_ge2_discovery_cells": {
+      "fraction": 0.1965044762651089,
+      "species": 8275
+    },
+    "depth20_and_ge5_discovery_cells": {
+      "fraction": 0.0625964712307948,
+      "species": 2636
+    },
+    "depth20_and_span_ge100km": {
+      "fraction": 0.30288998124005606,
+      "species": 12755
+    },
+    "depth20_ge5cells_span_ge100km": {
+      "fraction": 0.0625964712307948,
+      "species": 2636
+    }
+  }
+}
