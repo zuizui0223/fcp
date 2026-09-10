@@ -6,6 +6,8 @@ on:
       - analysis/rgfca-42111-tiered-measurement-step8c
     paths:
       - 'results/rgfca_42111_anchor_resolution_full_step8d_20260911/**'
+      - '.github/workflows/rgfca-42111-breadth-prepixel-step8e.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
