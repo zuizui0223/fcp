@@ -1,0 +1,43 @@
+name: RGFCA WorldClim old34 transfer Step 7D
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-worldclim-old34-transfer-step7d
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install numpy pandas scipy scikit-learn rasterio
+      - name: Download frozen WorldClim source
+        run: |
+          mkdir -p /tmp/worldclim
+          curl -L --fail --retry 3 -o /tmp/wc2.1_10m_bio.zip https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
+          unzip -q /tmp/wc2.1_10m_bio.zip -d /tmp/worldclim
+      - name: Verify frozen prerequisites
+        run: |
+          test -f results/rgfca_local_cooccurrence_segregation_step7a_20260910/photo_organization_states.csv
+          test -f /tmp/worldclim/wc2.1_10m_bio_4.tif
+          test -f /tmp/worldclim/wc2.1_10m_bio_15.tif
+      - name: Run frozen Step 7D
+        run: python scripts/analysis/run_rgfca_worldclim_old34_transfer_step7d_20260910.py --worldclim-dir /tmp/worldclim
+      - name: Print result
+        run: cat results/rgfca_worldclim_old34_transfer_step7d_20260910/RESULT.md
+      - name: Commit result
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add results/rgfca_worldclim_old34_transfer_step7d_20260910
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Freeze Step 7D WorldClim transfer results"
+          git push
