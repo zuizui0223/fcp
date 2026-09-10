@@ -1,0 +1,72 @@
+name: Polymorphism genus replication Step 7
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-genus-replication-step7
+    paths:
+      - "scripts/analysis/run_polymorphism_genus_replication_step7_20260910.py"
+      - "docs/POLYMORPHISM_GENUS_REPLICATION_STEP7_PROTOCOL_20260910.md"
+      - ".github/workflows/polymorphism-genus-replication-step7.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy
+
+      - name: Verify frozen inputs
+        run: |
+          test -f results/polymorphism_species_attributes_step4_association_20260910/species_analysis_table.csv
+          test -f results/polymorphism_species_attributes_step4_association_20260910/result.json
+          test -f results/polymorphism_spatial_span_adjusted_step6_20260910/reserve_species_span_adjusted_input.csv
+
+      - name: Run genus replication
+        run: |
+          python scripts/analysis/run_polymorphism_genus_replication_step7_20260910.py
+
+      - name: Verify result receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('results/polymorphism_genus_replication_step7_20260910/result.json').read_text())
+          assert r['analysis'] == 'polymorphism_genus_replication_step7'
+          assert r['species_disjoint_verified'] is True
+          assert r['n_permutations_each_test'] == 20000
+          assert r['discovery']['raw_step4_seed_exact_reproduction']['repeated_groups'] == 61
+          assert r['discovery']['raw_step4_seed_exact_reproduction']['species_in_repeated_groups'] == 169
+          print(json.dumps({
+              'decision': r['decision'],
+              'reserve_raw': r['reserve']['raw'],
+              'reserve_adjusted': r['reserve']['adjusted_span_and_n'],
+              'cross_tranche': r['cross_tranche_genus_mean_concordance'],
+          }, indent=2))
+          PY
+
+      - name: Commit Step 7 results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_genus_replication_step7_20260910/
+          if git diff --cached --quiet; then
+            echo "No Step 7 result changes"
+          else
+            git commit -m "Record Step 7 genus replication result"
+            git push
+          fi
