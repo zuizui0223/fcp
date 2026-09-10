@@ -1,4 +1,18 @@
 {
+  "paper_version": "v0.1-post-step9",
+  "manuscript": "MANUSCRIPT.md",
+  "manuscript_check": "MANUSCRIPT_CHECK.json",
+  "figure_qc": "FIGURE_QC.md",
+  "figure_captions": "FIGURE_CAPTIONS.md",
+  "human_readable_number_ledger": "PAPER_NUMBERS.md",
+  "number_ledger": "paper_numbers.json",
+  "figure_manifest": "figures/manifest.json",
+  "main_figures": [
+    "figures/figure1_polymorphism_estimand.pdf",
+    "figures/figure2_polymorphism_spatial_replication.pdf",
+    "figures/figure3_measurement_and_ambiguity_robustness.pdf",
+    "figures/figure4_genus_taxonomic_structure.pdf"
+  ],
   "figure_data": [
     "figure1_discovery_species_polymorphism.csv",
     "figure2_discovery_spatial.csv",
@@ -9,11 +23,9 @@
     "figure3_measurement_status_partition.csv",
     "figure3_reserve_ambiguity_intervals.csv",
     "figure3_spatial_robustness_summary.csv",
-    "figure4_genus_clustering_summary.csv"
+    "figure4_genus_clustering_summary.csv",
+    "figure4_shared_genus_means.csv"
   ],
-  "human_readable_number_ledger": "PAPER_NUMBERS.md",
-  "number_ledger": "paper_numbers.json",
-  "paper_version": "v0.1-post-step9",
   "source_receipts": [
     "results/polymorphism_directionality_step1_20260909/result.json",
     "results/polymorphism_species_attributes_step4_association_20260910/result.json",
@@ -24,5 +36,14 @@
     "results/polymorphism_ambiguity_bounds_step9_20260910/result.json",
     "results/polymorphism_genus_replication_step7_20260910/result.json",
     "results/polymorphism_genus_adjustment_decomposition_step7b_20260910/result.json"
+  ],
+  "submission_blockers": [
+    "pixel-level final figure inspection at journal column size",
+    "final author list and affiliations",
+    "corresponding-author metadata and ORCID",
+    "acknowledgements and funding",
+    "CRediT roles",
+    "conflict-of-interest declaration",
+    "permanent repository/data archive DOI"
   ]
 }
