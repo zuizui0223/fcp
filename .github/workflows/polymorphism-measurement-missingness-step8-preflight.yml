@@ -1,0 +1,64 @@
+name: Polymorphism measurement missingness Step 8 preflight
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-measurement-missingness-step8
+    paths:
+      - "scripts/analysis/run_polymorphism_measurement_missingness_step8_preflight_20260910.py"
+      - "docs/POLYMORPHISM_MEASUREMENT_MISSINGNESS_STEP8_PREFLIGHT_20260910.md"
+      - ".github/workflows/polymorphism-measurement-missingness-step8-preflight.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas
+
+      - name: Run outcome-blind status preflight
+        run: |
+          python scripts/analysis/run_polymorphism_measurement_missingness_step8_preflight_20260910.py
+
+      - name: Verify firewall receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('results/polymorphism_measurement_missingness_step8_preflight_20260910/result.json').read_text())
+          assert r['D_association_computed'] is False
+          assert r['species_stratified_status_analysis_computed'] is False
+          assert r['every_species_exactly_100_rows'] is True
+          assert r['row_count'] == r['unique_species'] * 100
+          print(json.dumps({
+              'row_count': r['row_count'],
+              'unique_species': r['unique_species'],
+              'candidate_status_columns': r['candidate_status_columns'],
+          }, indent=2))
+          PY
+
+      - name: Commit Step 8 preflight result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_measurement_missingness_step8_preflight_20260910/
+          if git diff --cached --quiet; then
+            echo "No Step 8 preflight result changes"
+          else
+            git commit -m "Record Step 8 measurement-missingness preflight"
+            git push
+          fi
