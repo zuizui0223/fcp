@@ -1,0 +1,58 @@
+[
+  {
+    "ID": 1,
+    "description": "2018-08-08: Data included in and workflows used to assemble GIFT 1.0 are described in detail in: Weigelt, P., König, C. & Kreft, H. (2020) GIFT – A Global Inventory of Floras and Traits for macroecology and biogeography. Journal of Biogeography, 47, 16-43. doi: 10.1111/jbi.13623",
+    "overlap": "gaptani (version: okt2005, ID_column: UNITID); glonaf (version: 2017-06-12; ID_column: OBJIDsic); gmba (version: 1.0, ID_column: rownames)\r\n",
+    "phylogeny": null,
+    "taxonomy": "The Plant List 1.1 and resources used by TNRS at the time",
+    "version": "1.0"
+  },
+  {
+    "ID": 2,
+    "description": "2019-09-01: New checklist and trait data included for Europe, the Mediterranean, temperate Asia, Panama, Japan, Java, New Zealand, Easter Island and the Torres Strait Islands. Updated workflows to document biases in the distribution of trait data; Updated taxonomic trait derivation; Final trait values and agreement scores for trait values from several resources are now calculated separately including and excluding restricted resources.",
+    "overlap": "gaptani (version: okt2005, ID_column: UNITID); glonaf (version: 2017-06-12; ID_column: OBJIDsic); gmba (version: 1.0, ID_column: rownames)",
+    "phylogeny": null,
+    "taxonomy": "The Plant List 1.1 and resources used by TNRS at the time",
+    "version": "2.0"
+  },
+  {
+    "ID": 3,
+    "description": "2021-05-21: New checklists and traits included for the Americas, Crimea, Madagascar, Arabian peninsula, Laos, Bhutan, India, China, Sunda-Sahul shelf, Tonga, Canary Islands, West Africa and for ferns and palms globally. Large categorical trait data included from Try.",
+    "overlap": "gaptani (version: okt2005, ID_column: UNITID); glonaf (version: 2017-06-12; ID_column: OBJIDsic); gmba (version: 1.0, ID_column: rownames)",
+    "phylogeny": null,
+    "taxonomy": "The Plant List 1.1 and resources used by TNRS at the time",
+    "version": "2.1"
+  },
+  {
+    "ID": 4,
+    "description": "2022-05-30: New checklists (with a focus on endemic species) and traits for various oceanic archipelagos (Cook Islands, Madeira, Arctic Islands, Cayman Islands, Comores, Juan Fernandez, Palau, Galapagos, Frisian Islands, Antilles, Japan, Mayotte, Fiji, Taiwan, etc.) and various mainland regions (Equatorial Guinea and the entire former USSR in sub-regions).",
+    "overlap": "gaptani (version: okt2005, ID_column: UNITID); glonaf (version: 2017-06-12; ID_column: OBJIDsic); gmba (version: 1.0, ID_column: rownames)",
+    "phylogeny": null,
+    "taxonomy": "The Plant List 1.1 and resources used by TNRS at the time",
+    "version": "2.2"
+  },
+  {
+    "ID": 5,
+    "description": "2023-06-30: New data and updated workflows as described in: Denelle, P., Weigelt, P. & Kreft, H. (2023) GIFT - an R package to access the Global Inventory of Floras and Traits. BioRxiv, doi: 10.1101/2023.06.27.546704. Updated workflows include: (1) New taxonomic name standardization based on WCVP; (2) More statistics on species level trait aggregation; (3) Updated extraction of raster layer values per GIFT region and new raster resources; (4) Updated phylogeny.",
+    "overlap": "gaptani (version: okt2005, ID_column: UNITID); glonaf (version: 2021-07-02; ID_column: OBJIDsic); gmba (version: 1.2, ID_column: rownames)",
+    "phylogeny": "Phylogeny built using U.PhyloMaker R-package (Jin & Qian, 2022) based on the GBOTB megatree from Smith & Brown (2018) and Zanne et al. (2014), standardized according to WCVP.",
+    "taxonomy": "World Checklist of Vascular Plants (WCVP, v9) and resources used by TNRS at the time",
+    "version": "3.0"
+  },
+  {
+    "ID": 6,
+    "description": "2023-11-11: New checklist data for Mongolia and Farasan Archipelago and correction of seed traits for Hawaii (ref 16; units).",
+    "overlap": "gaptani (version: okt2005, ID_column: UNITID); glonaf (version: 2021-07-02; ID_column: OBJIDsic); gmba (version: 2.0, ID_column: GMBA_V2_ID)",
+    "phylogeny": "Phylogeny built using U.PhyloMaker R-package (Jin & Qian, 2022) based on the GBOTB megatree from Smith & Brown (2018) and Zanne et al. (2014), standardized according to WCVP.",
+    "taxonomy": "World Checklist of Vascular Plants (WCVP, v9) and resources used by TNRS at the time",
+    "version": "3.1"
+  },
+  {
+    "ID": 7,
+    "description": "2024-06-13: New oceanic archipelago trait data and global parasitism information",
+    "overlap": "gaptani (version: okt2005, ID_column: UNITID); glonaf (version: 2021-07-02; ID_column: OBJIDsic); gmba (version: 2.0, ID_column: GMBA_V2_ID)",
+    "phylogeny": "Phylogeny built using U.PhyloMaker R-package (Jin & Qian, 2022) based on the GBOTB megatree from Smith & Brown (2018) and Zanne et al. (2014), standardized according to WCVP.",
+    "taxonomy": "World Checklist of Vascular Plants (WCVP, v9) and resources used by TNRS at the time",
+    "version": "3.2"
+  }
+]

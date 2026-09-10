@@ -1,0 +1,79 @@
+{
+  "D_association_computed": false,
+  "analysis": "polymorphism_species_attributes_step4_preflight",
+  "date_jst": "2026-09-10",
+  "family_nonmissing": 345,
+  "family_retrieval_status": {
+    "error:HTTPError:HTTP Error 429: normal_throttling": 24,
+    "ok": 345
+  },
+  "genus_nonmissing": 369,
+  "input_sha256": {
+    "candidate_photos": "f1319461d8883f3094cec8ac0e5fc247ff902b464f34146af275575b94edc9d2",
+    "range_primary": "c9e9e76883d18bbb06355e1dec46a83aaf8f9a8680fb9b2c99d3cc811d62b152",
+    "range_sensitivity": "850501d7293a3968cf6566f8e9d7a396afd3927e8166ab2468e58ed22afcabde",
+    "species_metrics_source": "15adc2bca13b543c8facfc3d121269a14a8adebdbe0af0bc2d4ddf106e37a054"
+  },
+  "latitude_nonmissing": 369,
+  "latitude_photo_count": {
+    "max": 100,
+    "median": 100.0,
+    "min": 100
+  },
+  "life_form_source_preflight": {
+    "availability": [],
+    "candidate_trait_ids_detected": [],
+    "endpoint": "https://gift.uni-goettingen.de/api/extended/index3.2.php",
+    "gift_version": "3.2",
+    "n_candidate_metadata_rows": 10,
+    "n_traits_meta_rows": 109,
+    "reference_traits_url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=reference_traits",
+    "references_url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=references",
+    "retrieved_at_utc": "2026-09-10T07:00:39.424480+00:00",
+    "search_terms_frozen": [
+      "life",
+      "growth",
+      "habit",
+      "wood"
+    ],
+    "traits_meta_url": "https://gift.uni-goettingen.de/api/extended/index3.2.php?query=traits_meta",
+    "versions_url": "https://gift.uni-goettingen.de/api/index.php?query=versions"
+  },
+  "new_image_acquisition": false,
+  "pollination": {
+    "eligible_levels_n_ge_10": [
+      "mixed"
+    ],
+    "evidence_file_sha256": "722e7b82dec0145c009c0cf7fa230d5df8910b56f9083d79d0427bed388636b9",
+    "fcp_species": 369,
+    "gate_at_least_two_levels_ge_10": false,
+    "gate_total_ge_50": true,
+    "island_artifact_id": 8340477381,
+    "island_artifact_name": "all-master-trait-ledger-29409415292",
+    "island_recorded_artifact_digest": "sha256:0cbba21f384d2b595272f13ed7be5a4b89d8ab0b77c6a0dd7a355fb3b3be1665",
+    "island_repo": "zuizui0223/island",
+    "island_run_id": 29409415292,
+    "mapped_counts": {
+      "bee": 3,
+      "mixed": 137,
+      "other_animal": 1,
+      "wind": 3
+    },
+    "pollination_gate_pass": false,
+    "raw_counts": {
+      "bees": 1,
+      "birds": 1,
+      "bumblebees": 2,
+      "mixed": 137,
+      "wind": 3
+    },
+    "species_with_admissible_exact_source_backed_pollination": 144,
+    "species_with_nonunknown_final_pollination": 146,
+    "traits_file_sha256": "71736613fd298e95e71af3d375de07dd19b9eb1ade24f7d394edd44c8626acb3"
+  },
+  "protocol": "docs/POLYMORPHISM_SPECIES_ATTRIBUTES_STEP4_PREFLIGHT_PROTOCOL_20260910.md",
+  "span_primary_nonmissing": 369,
+  "span_sensitivity_nonmissing": 369,
+  "species_rows": 369,
+  "unique_species": 369
+}

@@ -1,0 +1,11 @@
+Lvl1,Category,Lvl2,Trait1,Lvl3,Trait2,Units,type,comment,count,_matched_terms
+1,Morphology,1.1,Woodiness,1.1.1,Woodiness_1,"woody, non-woody, variable",categorical,,248944,wood
+1,Morphology,1.2,Growth form,1.2.1,Growth_form_1,"herb, shrub, tree, other",categorical,Combinations possible (e.g. herb/shrub).,222338,growth
+1,Morphology,1.2,Growth form,1.2.2,Growth_form_2,"herb, graminoid, forb, subshrub, shrub, tree, palm, other",categorical,Combinations possible (e.g. herb/subshrub).,178875,growth
+1,Morphology,1.4,Climber,1.4.2,Climber_2,"liana, vine, self-supporting",categorical,"lianas are woody, vines are non-woody",96072,wood
+2,Life history,2.1,Lifecycle,2.1.1,Lifecycle_1,"annual, biennial, perennial, variable",categorical,Combinations possible,190225,life
+2,Life history,2.2,Lifespan,2.2.1,Lifespan_1,years,numeric,,60,life
+2,Life history,2.3,Life form,2.3.1,Life_form_1,"phanerophyte, chamaephyte, hemicryptophyte, cryptophyte, therophyte",categorical,"Combinations possible (e.g. hemicryptophyte/therophyte). Note that cryptophytes encompass geophytes, hydrophytes and helophytes. ",100390,life
+2,Life history,2.3,Life form,2.3.2,Life_form_2,"nanophanerophyte, phanerophyte, chamaephyte, hemicryptophyte, geophyte, hydrophyte, helophyte, therophyte, lithophyte",categorical,Combinations possible (e.g. hemicryptophyte/therophyte); Lithophytes include Chasmophytes here,111531,life
+2,Life history,2.4,Deciduousness,2.4.1,Deciduousness_1,"deciduous, evergreen, variable",categorical,,9985,life
+6,Ecology,6.3,Habitat,6.3.1,Habitat_1,,text,no defined categories (free text),54180,habit
