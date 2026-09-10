@@ -1,0 +1,59 @@
+{
+  "analysis": "rgfca_h0_niche_size_diagnostic_step7e",
+  "boundary": "Post-result diagnostic only; no Step-7D hypothesis is reopened.",
+  "diagnostic_class": "extent_insufficient",
+  "discovery": {
+    "E1_extent_state": {
+      "delta_S_minus_C": 1.7360299679817413,
+      "p": 0.00839958002099895
+    },
+    "E2_hv_extent": {
+      "pearson_p": 3.686868223013416e-15,
+      "pearson_r": 0.7232925622579652,
+      "spearman_p": 2.0674066808544285e-18,
+      "spearman_rho": 0.7748384357752723
+    },
+    "E3_extent_adjusted": {
+      "S_coef_log1p_hv": 0.49207162404107213,
+      "freedman_lane_coef": 0.49207162404107213,
+      "freedman_lane_p": 0.017149142542872857,
+      "hc3_ci_high": 1.022448393995446,
+      "hc3_ci_low": -0.03830514591330175
+    },
+    "E4_radius_stratified": {
+      "delta_S_minus_C_log1p_hv": 1.3665287877574002,
+      "p": 0.025298735063246838
+    },
+    "n": 86,
+    "n_C": 76,
+    "n_S": 10,
+    "tranche": "discovery"
+  },
+  "reserve": {
+    "E1_extent_state": {
+      "delta_S_minus_C": 2.960251520615337,
+      "p": 0.000199990000499975
+    },
+    "E2_hv_extent": {
+      "pearson_p": 2.244177860905621e-18,
+      "pearson_r": 0.7771824807410959,
+      "spearman_p": 1.2467217292781642e-18,
+      "spearman_rho": 0.7807308970099668
+    },
+    "E3_extent_adjusted": {
+      "S_coef_log1p_hv": 0.6081622934928184,
+      "freedman_lane_coef": 0.6081622934928184,
+      "freedman_lane_p": 0.015699215039248038,
+      "hc3_ci_high": 1.0516728573026792,
+      "hc3_ci_low": 0.16465172968295755
+    },
+    "E4_radius_stratified": {
+      "delta_S_minus_C_log1p_hv": 1.5939743467911334,
+      "p": 0.009449527523623819
+    },
+    "n": 85,
+    "n_C": 80,
+    "n_S": 5,
+    "tranche": "reserve"
+  }
+}
