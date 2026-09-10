@@ -1,0 +1,163 @@
+{
+  "analysis": "polymorphism_ambiguity_bounds_step9",
+  "date_jst": "2026-09-10",
+  "decision": {
+    "claim_boundary": "These are uniform D_min4/D_max4 completion stress tests. They do not exhaust arbitrary species-specific latent allocations and do not imply ambiguous rows are true four-state morphs.",
+    "reserve_flower_minus_background_spatial_uniform_endpoint_robust": true,
+    "reserve_genus_uniform_endpoint_robust": false,
+    "reserve_primary_spatial_uniform_endpoint_robust": true
+  },
+  "discovery_description": {
+    "fraction_A_zero": 0.2086720867208672,
+    "median_D_max4": 0.2827777777777777,
+    "median_D_min4": 0.18836565096952906,
+    "median_D_observed": 0.2003121748178979,
+    "median_interval_width": 0.07424173834314163,
+    "n_species": 369,
+    "q95_interval_width": 0.2533242130644727,
+    "rho_interval_width_ambiguous_rate": 0.9743329940776906,
+    "rho_observed_D_D_max4": 0.97303180968277,
+    "rho_observed_D_D_min4": 0.9963069434814742
+  },
+  "discovery_genus": {
+    "D_max4": {
+      "W_observed": 101.01278056604794,
+      "clustering_gain": 0.15081336918739774,
+      "gate_pass": true,
+      "null_mean_W": 118.95239150124979,
+      "null_q025": 103.10231768282819,
+      "null_q975": 134.54942575419838,
+      "p_lower": 0.01319934003299835,
+      "repeated_groups": 61,
+      "species_in_repeated_groups": 169,
+      "supported_at_0_05": true,
+      "tested": true
+    },
+    "D_min4": {
+      "W_observed": 94.76794548043866,
+      "clustering_gain": 0.16324025044806334,
+      "gate_pass": true,
+      "null_mean_W": 113.25586051573877,
+      "null_q025": 98.30700497365711,
+      "null_q975": 128.13550194490563,
+      "p_lower": 0.008049597520123995,
+      "repeated_groups": 61,
+      "species_in_repeated_groups": 169,
+      "supported_at_0_05": true,
+      "tested": true
+    }
+  },
+  "discovery_spatial": {
+    "D_max4": {
+      "null_mean": 0.0010895457175998087,
+      "null_q025": -0.09531276160576568,
+      "null_q975": 0.10021490436275081,
+      "observed_partial_spearman": 0.11743792026314592,
+      "p_upper_geometry_preserving_spatial_null": 0.01,
+      "positive_supported_at_0_05": true
+    },
+    "D_min4": {
+      "null_mean": 0.0033542937525608556,
+      "null_q025": -0.09342120917192091,
+      "null_q975": 0.09877759812124438,
+      "observed_partial_spearman": 0.1335075220567376,
+      "p_upper_geometry_preserving_spatial_null": 0.006,
+      "positive_supported_at_0_05": true
+    }
+  },
+  "genus_permutations": 20000,
+  "inferential_role": "uniform_endpoint_stress_test_under_four_state_ambiguity_completion",
+  "new_image_acquisition": false,
+  "new_spatial_permutations_generated": false,
+  "protocol": "docs/POLYMORPHISM_AMBIGUITY_BOUNDS_STEP9_PROTOCOL_20260910.md",
+  "reserve_description": {
+    "fraction_A_zero": 0.18181818181818182,
+    "median_D_max4": 0.25146484375,
+    "median_D_min4": 0.16004924592182213,
+    "median_D_observed": 0.1680384087791495,
+    "median_interval_width": 0.07322485207100582,
+    "n_species": 363,
+    "q95_interval_width": 0.27897354681517567,
+    "rho_interval_width_ambiguous_rate": 0.9776315448409302,
+    "rho_observed_D_D_max4": 0.960985085038141,
+    "rho_observed_D_D_min4": 0.9969195749635439
+  },
+  "reserve_genus": {
+    "D_max4": {
+      "W_observed": 99.71068002433923,
+      "clustering_gain": 0.14154578977479892,
+      "gate_pass": true,
+      "null_mean_W": 116.15142524396472,
+      "null_q025": 99.86345869215934,
+      "null_q975": 132.15643731848422,
+      "p_lower": 0.023798810059497025,
+      "repeated_groups": 54,
+      "species_in_repeated_groups": 146,
+      "supported_at_0_05": true,
+      "tested": true
+    },
+    "D_min4": {
+      "W_observed": 100.22472141993646,
+      "clustering_gain": 0.1102120655173141,
+      "gate_pass": true,
+      "null_mean_W": 112.63888566684841,
+      "null_q025": 97.10054334854875,
+      "null_q975": 127.96102570716617,
+      "p_lower": 0.0616469176541173,
+      "repeated_groups": 54,
+      "species_in_repeated_groups": 146,
+      "supported_at_0_05": false,
+      "tested": true
+    }
+  },
+  "reserve_spatial_matched_background_differential": {
+    "D_max4": {
+      "null_mean": -0.006904923023644892,
+      "null_q025": -0.11489552581159418,
+      "null_q975": 0.09105199770018514,
+      "observed_partial_spearman": 0.13278517512096266,
+      "p_upper_geometry_preserving_spatial_null": 0.006,
+      "positive_supported_at_0_05": true
+    },
+    "D_min4": {
+      "null_mean": -0.007487460898990896,
+      "null_q025": -0.11518562020215377,
+      "null_q975": 0.09342543037388902,
+      "observed_partial_spearman": 0.11629858122358201,
+      "p_upper_geometry_preserving_spatial_null": 0.009,
+      "positive_supported_at_0_05": true
+    }
+  },
+  "reserve_spatial_primary": {
+    "D_max4": {
+      "null_mean": -0.0011209564784364098,
+      "null_q025": -0.10180475211915307,
+      "null_q975": 0.09666229619083715,
+      "observed_partial_spearman": 0.12528581173891157,
+      "p_upper_geometry_preserving_spatial_null": 0.008,
+      "positive_supported_at_0_05": true
+    },
+    "D_min4": {
+      "null_mean": 9.915089466787034e-06,
+      "null_q025": -0.0952795789722932,
+      "null_q975": 0.09945313621045389,
+      "observed_partial_spearman": 0.09707806726524047,
+      "p_upper_geometry_preserving_spatial_null": 0.029,
+      "positive_supported_at_0_05": true
+    }
+  },
+  "shared_23_genus_endpoint_concordance": {
+    "D_max4": {
+      "n": 23,
+      "p_two_sided": 0.00519974001299935,
+      "rho": 0.5711462450592886
+    },
+    "D_min4": {
+      "n": 23,
+      "p_two_sided": 0.0058997050147492625,
+      "rho": 0.5592885375494071
+    },
+    "shared_genera": 23
+  },
+  "spatial_null_permutations_reused": 999
+}
