@@ -5,7 +5,7 @@ on:
     branches:
       - feat/polymorphism-paper-v0-1-post-step9
     paths:
-      - scripts/analysis/apply_polymorphism_jbi_postvisual_qc_20260911.py
+      - scripts/analysis/apply_polymorphism_final_label_qc_20260911.py
       - .github/workflows/polymorphism-paper-v0-1-jbi-postvisual-qc.yml
   workflow_dispatch:
 
@@ -26,11 +26,11 @@ jobs:
           python-version: "3.11"
       - name: Install render dependencies
         run: python -m pip install --quiet pandas numpy matplotlib pillow
-      - name: Apply fail-closed post-JBI visual patch
-        run: python scripts/analysis/apply_polymorphism_jbi_postvisual_qc_20260911.py
+      - name: Apply fail-closed final label-placement patch
+        run: python scripts/analysis/apply_polymorphism_final_label_qc_20260911.py
       - name: Render figures from frozen data
         run: python scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py
-      - name: Verify compliance and decluttering contract
+      - name: Verify compliance and final label contract
         run: |
           python - <<'PY'
           import re
@@ -42,10 +42,14 @@ jobs:
           assert 'f"({letter.lower()})"' in r
           assert '(0.16, 0.78, 0.68, 0.14, "100 photos per species")' in r
           assert 'ax.text(x, y + 0.006' not in r
+          assert '"Res.\\n<10%", "Res.\\n≥10%"' in r
+          assert '"Salvia": (-6, 5, "right")' in r
+          assert '"Ipomoea": (6, 8, "left")' in r
+          assert 'textcoords="offset points"' in r
           assert 'Exact P values are reported in Results and retained in the frozen figure-data table' in c
           for token in ['(a)', '(b)', '(c)', '(d)', '(a–b)']:
               assert token in c, token
-          print({'minimum_explicit_font_pt': min(vals), 'figure1a': 'vertical-flow', 'figure3c': 'pointwise-p-text-removed'})
+          print({'minimum_explicit_font_pt': min(vals), 'figure2c': 'short-reserve-labels', 'figure4b': 'fixed-genus-offsets'})
           PY
       - name: Build 168-mm 300-dpi previews
         run: |
@@ -87,11 +91,11 @@ jobs:
       - name: Upload final 168-mm previews
         uses: actions/upload-artifact@v4
         with:
-          name: polymorphism-v0-1-final-168mm-300dpi
+          name: polymorphism-v0-1-final-labels-168mm-300dpi
           path: visual_qc_168mm_300dpi/*.png
           if-no-files-found: error
           retention-days: 7
-      - name: Commit final layout-fixed figures and bundle receipt
+      - name: Commit final label-fixed figures and bundle receipt
         run: |
           git diff --check
           git config user.name "github-actions[bot]"
@@ -102,5 +106,5 @@ jobs:
                   paper/polymorphism_v0_1/figure_data/figure4_shared_genus_means.csv \
                   paper/polymorphism_v0_1/BUNDLE_READINESS.json
           test -n "$(git status --porcelain)"
-          git commit -m "Finish 168-mm visual QC for FCP figures"
+          git commit -m "Resolve final FCP figure label collisions"
           git push origin HEAD:feat/polymorphism-paper-v0-1-post-step9
