@@ -1,0 +1,105 @@
+name: RGFCA 42,111 breadth postmeasurement Step 8H
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - 'results/rgfca_42111_breadth_measurement_step8f_20260911/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-42111-breadth-postmeasurement-step8h
+  cancel-in-progress: false
+
+jobs:
+  postprocess:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fast-forward to current analysis branch
+        run: |
+          git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+          git checkout --detach origin/analysis/rgfca-42111-tiered-measurement-step8c
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install analysis runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Require complete frozen breadth result before downstream analysis
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('results/rgfca_42111_breadth_measurement_step8f_20260911')
+          r=json.loads((root/'result.json').read_text())
+          x=pd.read_csv(root/'rgfca_42111_species_breadth_measured.csv.gz')
+          assert r['status']=='complete_42111_species_breadth_measurement_and_postcomplete_join'
+          assert r['terminal_partition_receipts']==128
+          assert r['species_metadata_join_opened_only_after_complete_measurement'] is True
+          assert len(x)==42111 and x['inat_taxon_id'].nunique()==42111
+          assert r['no_species_modal_colour_claim'] is True
+          assert r['no_polymorphism_prevalence_claim'] is True
+          assert r['no_Cstar_Sstar_claim'] is True
+          print('complete breadth prerequisite verified')
+          PY
+      - name: Run prespecified 200x repeated composition saturation
+        run: |
+          rm -rf results/rgfca_42111_repeated_colour_breadth_saturation_step8h_20260911
+          python scripts/analysis/run_rgfca_42111_repeated_colour_breadth_saturation_20260911.py \
+            --measured results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz \
+            --output-dir results/rgfca_42111_repeated_colour_breadth_saturation_step8h_20260911
+      - name: Run prespecified missingness audit
+        run: |
+          rm -rf results/rgfca_42111_breadth_missingness_audit_step8h_20260911
+          python scripts/analysis/run_rgfca_42111_breadth_missingness_audit_20260911.py \
+            --measured results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz \
+            --output-dir results/rgfca_42111_breadth_missingness_audit_step8h_20260911
+      - name: Validate Step 8H outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=Path('results/rgfca_42111_repeated_colour_breadth_saturation_step8h_20260911')
+          m=Path('results/rgfca_42111_breadth_missingness_audit_step8h_20260911')
+          sr=json.loads((s/'result.json').read_text())
+          mr=json.loads((m/'result.json').read_text())
+          assert sr['status']=='complete_prespecified_repeated_saturation'
+          assert sr['species_universe']==42111
+          assert sr['replicates_per_level']==200
+          assert mr['status']=='complete_prespecified_missingness_audit'
+          assert mr['species_denominator']==42111
+          for key in ['raw_four_state_composition_among_classifiable','no_assumption_denominator_bounds','ipw_four_state_composition_sensitivity','complete_stratum_standardized_four_state_composition_sensitivity']:
+              assert key in mr
+          print(json.dumps({'saturation': sr['verdict'], 'minimum_n': sr['minimum_repeated_composition_species_n'], 'classifiable_fraction': mr['classifiable_fraction']}, indent=2))
+          PY
+      - name: Commit complete Step 8H results
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            results/rgfca_42111_repeated_colour_breadth_saturation_step8h_20260911 \
+            results/rgfca_42111_breadth_missingness_audit_step8h_20260911
+          if git diff --cached --quiet; then
+            echo 'Step 8H outputs already identical; no commit needed'
+            exit 0
+          fi
+          git commit -m 'Complete 42,111-species breadth saturation and missingness audit'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
