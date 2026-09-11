@@ -26,6 +26,17 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def canonical_frame_sha256(frame: pd.DataFrame) -> str:
+    """Stable content identity independent of gzip container metadata."""
+    if "breadth_rank" not in frame.columns:
+        raise RuntimeError("canonical Step-8E frame lacks breadth_rank")
+    canonical = frame.sort_values("breadth_rank", kind="mergesort").to_csv(
+        index=False,
+        lineterminator="\n",
+    )
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     if not RESOLVED.exists() or not RESOLVED_RESULT.exists():
@@ -64,12 +75,13 @@ def main() -> None:
         n = int(joined["cell_id"].isna().sum())
         raise RuntimeError(f"{n} frozen anchors lack their original discovery cell")
     joined["cell_id"] = joined["cell_id"].astype(int)
+    joined = joined.sort_values("breadth_rank", kind="mergesort").reset_index(drop=True)
 
     resolved = joined["status"].astype(str).eq("resolved")
     resolved_n = int(resolved.sum())
     resolved_fraction = resolved_n / float(N_SPECIES)
     gate_pass = bool(resolved_fraction >= TRANSPORT_GATE)
-    candidate = joined.loc[resolved].copy()
+    candidate = joined.loc[resolved].copy().sort_values("breadth_rank", kind="mergesort").reset_index(drop=True)
     if candidate["photo_url_large"].fillna("").astype(str).str.len().eq(0).any():
         raise RuntimeError("resolved candidate contains an empty current photo URL")
 
@@ -95,10 +107,13 @@ def main() -> None:
         "lineage": {
             "step8d_result_sha256": sha256_file(RESOLVED_RESULT),
             "step8d_table_sha256": sha256_file(RESOLVED),
-            "source_manifest_sha256": sha256_file(candidate_path),
-            "denominator_sha256": sha256_file(denominator_path),
+            "source_manifest_canonical_sha256": canonical_frame_sha256(candidate),
+            "denominator_canonical_sha256": canonical_frame_sha256(joined),
+            "source_manifest_gzip_sha256_diagnostic_only": sha256_file(candidate_path),
+            "denominator_gzip_sha256_diagnostic_only": sha256_file(denominator_path),
+            "canonical_hash_rule": "sort breadth_rank mergesort; pandas to_csv(index=False, lineterminator='\\n'); SHA256 UTF-8 text"
         },
-        "boundary": "This gate authorizes nothing by itself. A separate hash-bound authorization is required before Step-8E image pixels may open."
+        "boundary": "This gate authorizes nothing by itself. A separate canonical-content-hash-bound authorization is required before Step-8F image pixels may open."
     }
     (OUT / "result.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (OUT / "RESULT.md").write_text(
@@ -110,6 +125,8 @@ def main() -> None:
         f"- required fraction: **{TRANSPORT_GATE:.2f}**\n"
         f"- transport evaluable: **{gate_pass}**\n"
         f"- occupied discovery cells retained: **{int(candidate['cell_id'].nunique())} / {int(joined['cell_id'].nunique())}**\n"
+        "- lineage authorization identity: **canonical uncompressed table content hash**\n"
+        "- raw gzip hashes: **diagnostic only**\n"
         "- image pixels opened: **false**\n"
         "- pixel opening authorized: **false**\n\n"
         "All 42,111 species remain in the denominator; unresolved anchors are not replaced.\n",
