@@ -1,0 +1,84 @@
+{
+  "protocol": "rgfca-42111-species-equal-breadth-measurement-v1",
+  "date_jst": "2026-09-11",
+  "status": "authorize_exactly_one_breadth_measurement_after_transport_gate_before_pixels",
+  "purpose": "Measure one frozen flower-photo anchor per discovered species under a location-blind worker and the unchanged qualified ROI-v4 plus fixed four-group palette, while retaining all failures as structural missingness.",
+  "species_universe": 42111,
+  "resolved_anchor_species": 42110,
+  "unresolved_anchor_species": 1,
+  "resolved_anchor_rule": "Only rows already status=resolved in the frozen Step-8D 42,111-species anchor metadata table may enter image acquisition. The single unresolved species is retained as terminal structural missingness and may not be replaced.",
+  "lineage": {
+    "step8d_result_path": "results/rgfca_42111_anchor_resolution_full_step8d_20260911/result.json",
+    "step8d_resolved_table_path": "results/rgfca_42111_anchor_resolution_full_step8d_20260911/anchor_metadata_42111.csv.gz",
+    "required_step8d_resolved_table_sha256": "13228b1d675bd0b43149aaf28d6f91f07606b38481158b07b7ebe44f1d8f67f1",
+    "step8e_gate_path": "results/rgfca_42111_breadth_prepixel_step8e_20260911/result.json",
+    "required_step8e_denominator_sha256": "450fcc8d69fda845ff21f09f0478d4eeb488c49fc5742f95f2d4c59e71fd347a",
+    "required_step8e_source_manifest_sha256": "ca792433048052d5bec24552e3101daa4ad762bea07b708d3e2726187227c44c"
+  },
+  "transport_gate": {
+    "required_status": "transport_gate_pass",
+    "required_species_denominator": 42111,
+    "required_resolved_exact_anchor_species": 42110,
+    "minimum_resolved_fraction": 0.95,
+    "replacement_after_transport_failure": false
+  },
+  "measurement_infrastructure": {
+    "reuse_without_change": true,
+    "source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "measurement_contract_path": "docs/supporting/random_photo_first_measurement_contract_v1.json",
+    "execution_contract_path": "docs/supporting/random_photo_first_measurement_execution_v1.json",
+    "roi_protocol": "jbi-atlas-roi-estimator-v4",
+    "roi_locked_status": "pass_roi_v4_locked_test",
+    "roi_locked_admitted_fraction": 0.85,
+    "detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_revision": "d525f622e6f640acf5a0fc37c7ca1f243da5bde0",
+    "fixed_palette_groups": ["white", "yellow_orange", "red_pink", "blue_purple"],
+    "mixed_uncertain_is_structural_missingness": true,
+    "species_specific_thresholds": false,
+    "post_outcome_tuning": false
+  },
+  "blinding": {
+    "worker_allowed_fields": ["measurement_id", "image_filename", "photo_license"],
+    "acquisition_key_fields": ["measurement_id", "image_filename", "photo_url_large", "photo_license"],
+    "worker_forbidden_context": ["species", "inat_taxon_id", "observation_id", "photo_id", "breadth_rank", "cell_id", "latitude", "longitude", "observer", "climate", "pollinator"],
+    "join_species_metadata_only_after_all_terminal_partitions": true,
+    "measurement_id_salt": "fcp-rgfca-42111-species-breadth-v1"
+  },
+  "partitioning": {
+    "semantic_shards": 32,
+    "compute_partitions_per_semantic_shard": 4,
+    "total_terminal_partitions": 128,
+    "maximum_parallel_workers": 8,
+    "all_partitions_required": true,
+    "early_stopping": false
+  },
+  "terminal_denominator": {
+    "image_measurement_rows": 42110,
+    "preexisting_unresolved_terminal_rows": 1,
+    "final_species_rows": 42111,
+    "each_species_exactly_one_terminal_row": true,
+    "replacement_after_image_acquisition_failure": false
+  },
+  "estimand_boundary": {
+    "primary": "species-equal distribution of observed coarse flower-colour states among the 42,111 discovered species anchors",
+    "not_modal_species_colour": true,
+    "not_species_polymorphism_prevalence": true,
+    "not_within_species_diversity_D": true,
+    "not_Cstar_or_Sstar": true,
+    "not_population_level_coexistence": true,
+    "not_adaptation_or_environmental_selection": true,
+    "one_photo_per_species_cannot_establish_absence_of_other_morphs": true
+  },
+  "postmeasurement_outputs_allowed": [
+    "four-state species-equal observed-colour composition among classifiable anchors",
+    "mixed_uncertain fraction",
+    "nested breadth-rank saturation of the four-state composition",
+    "taxonomic descriptive summaries only after complete terminal measurement"
+  ],
+  "outcome_firewall": {
+    "image_pixels_opened_at_contract_freeze": false,
+    "flower_colour_opened_at_contract_freeze": false,
+    "measurement_result_opened_at_contract_freeze": false,
+    "geographic_taxon_cell_colour_join_opened_at_contract_freeze": false
+  }
+}
