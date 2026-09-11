@@ -1,0 +1,73 @@
+name: RGFCA 42,111 cross-cell observer preflight
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - '.github/workflows/rgfca-42111-crosscell-observer-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-42111-crosscell-observer-preflight
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install pandas numpy
+      - name: Recover exact frozen observer identities and freeze pairs
+        run: python scripts/acquisition/recover_rgfca_42111_crosscell_observers_20260911.py
+      - name: Validate metadata-only pair frame
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('results/rgfca_42111_crosscell_observer_preflight_20260911')
+          r=json.loads((root/'result.json').read_text())
+          p=pd.read_csv(root/'crosscell_observer_disjoint_pairs.csv.gz')
+          assert r['status']=='complete_metadata_only_observer_disjoint_pair_freeze'
+          assert r['taxon_cell_rows']==85337
+          assert r['species_universe']==42111
+          assert r['species_with_ge2_frozen_cells']==13564
+          assert len(p)==r['observer_disjoint_crosscell_pair_species']
+          assert p['inat_taxon_id'].nunique()==len(p)
+          assert not (p['cell_id_1']==p['cell_id_2']).any()
+          assert not (p['observer_id_1'].astype(str)==p['observer_id_2'].astype(str)).any()
+          assert r['image_pixels_opened'] is False and r['flower_colour_used'] is False
+          assert r['replacement_after_observer_failure'] is False
+          print(json.dumps(r,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-crosscell-observer-preflight
+          if-no-files-found: error
+          retention-days: 90
+          path: results/rgfca_42111_crosscell_observer_preflight_20260911/
+      - name: Commit immutable metadata preflight
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_crosscell_observer_preflight_20260911
+          git commit -m 'Freeze observer-disjoint cross-cell pair frame'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
