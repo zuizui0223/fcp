@@ -104,19 +104,18 @@ def figure1(numbers: dict[str, Any]) -> list[Path]:
     panel(ax, "A")
     ax.axis("off")
     boxes = [
-        (0.03, 0.62, 0.26, 0.22, "100 photos\nper species"),
-        (0.37, 0.62, 0.26, 0.22, "measurement\n+ status gate"),
-        (0.71, 0.62, 0.26, 0.22, "4 colour\nstates"),
-        (0.37, 0.16, 0.26, 0.22, "species diversity\nD = 1 − Σp²"),
+        (0.16, 0.78, 0.68, 0.14, "100 photos per species"),
+        (0.16, 0.55, 0.68, 0.14, "measurement + status gate"),
+        (0.16, 0.32, 0.68, 0.14, "4 admitted colour states"),
+        (0.16, 0.07, 0.68, 0.16, "focal species diversity\nD = 1 − Σp²"),
     ]
     for x, y, w, h, label in boxes:
         rect = plt.Rectangle((x, y), w, h, transform=ax.transAxes, fill=False, lw=1.1, ec=DARK)
         ax.add_patch(rect)
         ax.text(x + w/2, y + h/2, label, transform=ax.transAxes, ha="center", va="center", fontsize=9.5)
-    arrows = [((0.29, 0.73), (0.37, 0.73)), ((0.63, 0.73), (0.71, 0.73)), ((0.84, 0.62), (0.54, 0.38))]
+    arrows = [((0.50, 0.78), (0.50, 0.69)), ((0.50, 0.55), (0.50, 0.46)), ((0.50, 0.32), (0.50, 0.23))]
     for a, b in arrows:
         ax.annotate("", xy=b, xytext=a, xycoords=ax.transAxes, arrowprops=dict(arrowstyle="->", lw=1.0, color=DARK))
-    ax.text(0.5, 0.01, "Amount of polymorphism is the focal species-level estimand", transform=ax.transAxes, ha="center", fontsize=9.5)
 
     ax = fig.add_subplot(gs[0, 1])
     panel(ax, "B")
@@ -275,9 +274,7 @@ def figure3(numbers: dict[str, Any]) -> list[Path]:
                 raise RuntimeError(f"missing robustness row {tr}/{resp}/{v}")
             xs.append(base[i] + offsets[v]); ys.append(float(row.partial_rho.iloc[0]))
         ax.scatter(xs, ys, s=30, color=c, label=vl, zorder=3)
-        for x, y, (tr, resp, _) in zip(xs, ys, groups):
-            p = float(robust[(robust.tranche==tr) & (robust.response==resp) & (robust.D_variant==v)].p.iloc[0])
-            ax.text(x, y + 0.006, f"{p:.3f}", ha="center", va="bottom", fontsize=9.5, color=c)
+        # Exact geometry-preserving P values remain in Results and the frozen figure-data table.
     ax.axhline(0, color=LIGHT, lw=1)
     ax.set_xticks(base, [g[2] for g in groups], rotation=18, ha="right")
     ax.set(ylabel="Partial Spearman ρ\n| sampled span + technical failure", title="Spatial signal survives\nboth ambiguity endpoints")
@@ -376,7 +373,7 @@ def main() -> None:
 
 ## Figure 3 | Opportunity, technical failure, and ambiguity do not erase the spatial result
 
-(a) Measurement-status partition of the 50,000-photo reserve candidate frame. Only ROI/flip-gate failure is treated as clearly technical; ambiguous-palette observations remain separate. (b) Empirical distributions of species-level four-state ambiguity interval width. (c) Partial Spearman associations between polymorphism and spatial organization after controlling sampled geographic span and technical-failure rate, shown for observed D and the exact Dmin4/Dmax4 species-level completion endpoints under the four-state ambiguity sensitivity model. P values use the original geometry-preserving within-species spatial null arrays. (d) Reserve species ranked by observed D, showing Dmin4–Dmax4 intervals. Uniform endpoint stress tests do not exhaust arbitrary species-specific latent allocations and do not imply that ambiguous observations are true four-state morphs.
+(a) Measurement-status partition of the 50,000-photo reserve candidate frame. Only ROI/flip-gate failure is treated as clearly technical; ambiguous-palette observations remain separate. (b) Empirical distributions of species-level four-state ambiguity interval width. (c) Partial Spearman associations between polymorphism and spatial organization after controlling sampled geographic span and technical-failure rate, shown for observed D and the exact Dmin4/Dmax4 species-level completion endpoints under the four-state ambiguity sensitivity model. Exact P values are reported in Results and retained in the frozen figure-data table; all use the original geometry-preserving within-species spatial null arrays. (d) Reserve species ranked by observed D, showing Dmin4–Dmax4 intervals. Uniform endpoint stress tests do not exhaust arbitrary species-specific latent allocations and do not imply that ambiguous observations are true four-state morphs.
 
 ## Figure 4 | Genus-level structure is a secondary, qualified result
 
