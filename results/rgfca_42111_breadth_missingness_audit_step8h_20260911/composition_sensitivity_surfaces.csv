@@ -1,0 +1,17 @@
+surface,morph,estimate,lower,upper
+raw_classifiable_composition,blue_purple,0.08322045836268083,,
+no_assumption_denominator_bound,blue_purple,,0.03647503027712474,0.5981809978390444
+metadata_only_ipw_composition,blue_purple,0.08251664198029382,,
+complete_stratum_standardized_composition,blue_purple,0.08262963493444733,,
+raw_classifiable_composition,red_pink,0.10841415181232053,,
+no_assumption_denominator_bound,red_pink,,0.047517275771176176,0.6092232433330959
+metadata_only_ipw_composition,red_pink,0.10824269860166613,,
+complete_stratum_standardized_composition,red_pink,0.10790251510973972,,
+raw_classifiable_composition,white,0.46578533889581186,,
+no_assumption_denominator_bound,white,,0.2041509344351832,0.7658569019971029
+metadata_only_ipw_composition,white,0.4655982937850062,,
+complete_stratum_standardized_composition,white,0.46591179708249086,,
+raw_classifiable_composition,yellow_orange,0.34258005092918675,,
+no_assumption_denominator_bound,yellow_orange,,0.15015079195459619,0.7118567595165158
+metadata_only_ipw_composition,yellow_orange,0.3436423656330338,,
+complete_stratum_standardized_composition,yellow_orange,0.3435560528733221,,

@@ -1,0 +1,122 @@
+{
+  "all_sensitivity_surfaces_reported_together": true,
+  "analysis": "rgfca_42111_breadth_postmeasurement_missingness_audit",
+  "anchor_replacement_performed": false,
+  "claim_boundary": "Missingness diagnostic only. One photo per species does not identify modal colour, polymorphism prevalence, D, or C*/S*.",
+  "classifiability_probability_clip": [
+    0.01,
+    0.99
+  ],
+  "classifiable_fraction": 0.4382940324380803,
+  "classifiable_species": 18457,
+  "complete_stratum_coverage_fraction_of_42111": 0.99964379853245,
+  "complete_stratum_denominator": 42096,
+  "complete_stratum_standardized_four_state_composition_sensitivity": {
+    "blue_purple": 0.08262963493444733,
+    "red_pink": 0.10790251510973972,
+    "white": 0.46591179708249086,
+    "yellow_orange": 0.3435560528733221
+  },
+  "family_selection_diagnostics": {
+    "breadth_rank_block": {
+      "family": "breadth_rank_block",
+      "levels": 9,
+      "max_absolute_classifiable_fraction_difference": 0.0137983893889152,
+      "maximum_level_classifiable_fraction": 0.4444,
+      "minimum_level_classifiable_fraction": 0.4306016106110848
+    },
+    "capacity_bin": {
+      "family": "capacity_bin",
+      "levels": 6,
+      "max_absolute_classifiable_fraction_difference": 0.07923561992413003,
+      "maximum_level_classifiable_fraction": 0.4784751636503658,
+      "minimum_level_classifiable_fraction": 0.39923954372623577
+    },
+    "discovery_source": {
+      "family": "discovery_source",
+      "levels": 3,
+      "max_absolute_classifiable_fraction_difference": 0.028277084431194366,
+      "maximum_level_classifiable_fraction": 0.45044810337640684,
+      "minimum_level_classifiable_fraction": 0.4221710189452125
+    },
+    "genus_size_class": {
+      "family": "genus_size_class",
+      "levels": 2,
+      "max_absolute_classifiable_fraction_difference": 0.038107296160425186,
+      "maximum_level_classifiable_fraction": 0.44108753587535876,
+      "minimum_level_classifiable_fraction": 0.4029802397149336
+    },
+    "previously_opened": {
+      "family": "previously_opened",
+      "levels": 2,
+      "max_absolute_classifiable_fraction_difference": 0.0847177397776751,
+      "maximum_level_classifiable_fraction": 0.521,
+      "minimum_level_classifiable_fraction": 0.4362822602223249
+    }
+  },
+  "flower_colour_used_as_classifiability_predictor": false,
+  "ipw_effective_sample_size": 18365.319126962873,
+  "ipw_effective_sample_size_fraction_of_classifiable": 0.9950327315903382,
+  "ipw_four_state_composition_sensitivity": {
+    "blue_purple": 0.08251664198029382,
+    "red_pink": 0.10824269860166613,
+    "white": 0.4655982937850062,
+    "yellow_orange": 0.3436423656330338
+  },
+  "ipw_maximum_nonzero_weight": 2.7452282880178918,
+  "ipw_minimum_nonzero_weight": 1.844910289786329,
+  "metadata_only_classifiability_model_terms": [
+    "intercept",
+    "discovery_source=v1_only",
+    "discovery_source=v2_only",
+    "capacity_bin=1",
+    "capacity_bin=10_19",
+    "capacity_bin=20_plus",
+    "capacity_bin=2_4",
+    "capacity_bin=5_9",
+    "opened_group=previously_opened_1000",
+    "breadth_rank_block=15001_20000",
+    "breadth_rank_block=1_5000",
+    "breadth_rank_block=20001_25000",
+    "breadth_rank_block=25001_30000",
+    "breadth_rank_block=30001_35000",
+    "breadth_rank_block=35001_40000",
+    "breadth_rank_block=40001_42111",
+    "breadth_rank_block=5001_10000",
+    "genus_size_class=singleton_genus_label"
+  ],
+  "no_assumption_denominator_bounds": {
+    "blue_purple": {
+      "lower": 0.03647503027712474,
+      "upper": 0.5981809978390444
+    },
+    "red_pink": {
+      "lower": 0.047517275771176176,
+      "upper": 0.6092232433330959
+    },
+    "white": {
+      "lower": 0.2041509344351832,
+      "upper": 0.7658569019971029
+    },
+    "yellow_orange": {
+      "lower": 0.15015079195459619,
+      "upper": 0.7118567595165158
+    }
+  },
+  "observed_four_state_counts": {
+    "blue_purple": 1536,
+    "red_pink": 2001,
+    "white": 8597,
+    "yellow_orange": 6323
+  },
+  "primary_estimator_replaced": false,
+  "raw_four_state_composition_among_classifiable": {
+    "blue_purple": 0.08322045836268083,
+    "red_pink": 0.10841415181232053,
+    "white": 0.46578533889581186,
+    "yellow_orange": 0.34258005092918675
+  },
+  "species_denominator": 42111,
+  "status": "complete_prespecified_missingness_audit",
+  "unclassified_or_missing_species": 23654
+}

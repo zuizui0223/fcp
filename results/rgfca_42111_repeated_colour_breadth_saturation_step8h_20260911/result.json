@@ -1,0 +1,35 @@
+{
+  "analysis": "rgfca_42111_repeated_colour_breadth_saturation",
+  "claim_boundary": "Minimum N applies only to the one-anchor species-equal observed-state composition, not within-species polymorphism or the geographic taxon-cell map.",
+  "classifiable_fraction_full": 0.4382940324380803,
+  "classifiable_full": 18457,
+  "criterion": {
+    "absolute_classifiable_fraction_deviation": 0.03,
+    "l1_max": 0.05,
+    "maximum_absolute_colour_proportion_deviation": 0.025,
+    "required_replicate_pass_fraction": 0.95
+  },
+  "full_four_state_composition": {
+    "blue_purple": 0.08322045836268083,
+    "red_pink": 0.10841415181232053,
+    "white": 0.46578533889581186,
+    "yellow_orange": 0.34258005092918675
+  },
+  "minimum_repeated_composition_species_n": 5000,
+  "replicates_per_level": 200,
+  "species_levels": [
+    100,
+    250,
+    500,
+    1000,
+    2000,
+    5000,
+    10000,
+    20000,
+    30000,
+    42111
+  ],
+  "species_universe": 42111,
+  "status": "complete_prespecified_repeated_saturation",
+  "verdict": "minimum_repeated_composition_dataset_identified"
+}
