@@ -36,12 +36,12 @@ MAXC = "#D55E00"
 
 plt.rcParams.update({
     "font.family": "DejaVu Sans",
-    "font.size": 8.5,
-    "axes.titlesize": 10,
-    "axes.labelsize": 9,
-    "xtick.labelsize": 7.5,
-    "ytick.labelsize": 7.5,
-    "legend.fontsize": 7.5,
+    "font.size": 9.5,
+    "axes.titlesize": 10.5,
+    "axes.labelsize": 9.5,
+    "xtick.labelsize": 9.5,
+    "ytick.labelsize": 9.5,
+    "legend.fontsize": 9.5,
     "axes.spines.top": False,
     "axes.spines.right": False,
     "pdf.fonttype": 42,
@@ -54,7 +54,7 @@ def read_json(path: Path) -> dict[str, Any]:
 
 
 def panel(ax: plt.Axes, letter: str) -> None:
-    ax.text(-0.12, 1.06, letter, transform=ax.transAxes, fontsize=11, fontweight="bold", va="top")
+    ax.text(-0.12, 1.06, f"({letter.lower()})", transform=ax.transAxes, fontsize=11.5, fontweight="bold", va="top")
 
 
 def save(fig: plt.Figure, stem: str) -> list[Path]:
@@ -112,18 +112,18 @@ def figure1(numbers: dict[str, Any]) -> list[Path]:
     for x, y, w, h, label in boxes:
         rect = plt.Rectangle((x, y), w, h, transform=ax.transAxes, fill=False, lw=1.1, ec=DARK)
         ax.add_patch(rect)
-        ax.text(x + w/2, y + h/2, label, transform=ax.transAxes, ha="center", va="center", fontsize=6.5)
+        ax.text(x + w/2, y + h/2, label, transform=ax.transAxes, ha="center", va="center", fontsize=9.5)
     arrows = [((0.29, 0.73), (0.37, 0.73)), ((0.63, 0.73), (0.71, 0.73)), ((0.84, 0.62), (0.54, 0.38))]
     for a, b in arrows:
         ax.annotate("", xy=b, xytext=a, xycoords=ax.transAxes, arrowprops=dict(arrowstyle="->", lw=1.0, color=DARK))
-    ax.text(0.5, 0.01, "Amount of polymorphism is the focal species-level estimand", transform=ax.transAxes, ha="center", fontsize=7.5)
+    ax.text(0.5, 0.01, "Amount of polymorphism is the focal species-level estimand", transform=ax.transAxes, ha="center", fontsize=9.5)
 
     ax = fig.add_subplot(gs[0, 1])
     panel(ax, "B")
     ax.hist(df["D"], bins=np.linspace(0, 0.72, 25), edgecolor="white", linewidth=0.5, color=DISC)
     med = float(df["D"].median())
     ax.axvline(med, color=DARK, lw=1.1, ls="--")
-    ax.text(med + 0.015, ax.get_ylim()[1]*0.88, f"median={med:.2f}", fontsize=7.5)
+    ax.text(med + 0.015, ax.get_ylim()[1]*0.88, f"median={med:.2f}", fontsize=9.5)
     ax.set(xlabel="Four-state flower-colour diversity, D", ylabel="Species", title="Polymorphism varies continuously")
 
     ax = fig.add_subplot(gs[1, 0])
@@ -131,8 +131,8 @@ def figure1(numbers: dict[str, Any]) -> list[Path]:
     ax.scatter(df["D"], df["second_fraction"], s=11, alpha=0.35, color=DISC, edgecolors="none")
     ax.axhline(0.10, color=MID, ls="--", lw=0.9)
     ax.axhline(0.20, color=MID, ls=":", lw=0.9)
-    ax.text(0.01, 0.105, "10%", fontsize=7, color=MID)
-    ax.text(0.01, 0.205, "20%", fontsize=7, color=MID)
+    ax.text(0.01, 0.105, "10%", fontsize=9.5, color=MID)
+    ax.text(0.01, 0.205, "20%", fontsize=9.5, color=MID)
     ax.set(xlabel="D", ylabel="Second-largest morph fraction", title="Threshold summaries preserve\na continuous gradient")
 
     ax = fig.add_subplot(gs[1, 1])
@@ -145,7 +145,7 @@ def figure1(numbers: dict[str, Any]) -> list[Path]:
     ax.set(xlabel="Species in admitted discovery frame (%)", xlim=(0, 55), title="Non-trivial secondary morphs\nare common in-frame")
     for yi, v in zip(y, vals):
         ax.text(v + 1, yi, f"{v:.1f}%", va="center")
-    ax.text(0.98, 0.04, "not angiosperm-wide", transform=ax.transAxes, ha="right", va="bottom", fontsize=6.6, color=MID)
+    ax.text(0.98, 0.04, "not angiosperm-wide", transform=ax.transAxes, ha="right", va="bottom", fontsize=9.5, color=MID)
 
     fig.suptitle("Figure 1 | Flower-colour polymorphism as a species-level property", fontsize=11, y=0.995)
     return save(fig, "figure1_polymorphism_estimand")
@@ -170,7 +170,7 @@ def figure2(numbers: dict[str, Any]) -> list[Path]:
         ax.scatter(x, y, s=10, alpha=0.28, color=color, edgecolors="none")
         ax.axhline(0, color=LIGHT, lw=1)
         binned_trend(ax, x, y, color)
-        ax.text(0.03, 0.94, f"Spearman ρ={rho:.3f}; {ptxt(p)}", transform=ax.transAxes, va="top", fontsize=7.5)
+        ax.text(0.03, 0.94, f"Spearman ρ={rho:.3f}; {ptxt(p)}", transform=ax.transAxes, va="top", fontsize=9.5)
         ax.set(xlabel="Flower-colour polymorphism, D", ylabel="Within-species spatial ρ", title=tranche)
 
     ax = fig.add_subplot(gs[1, 0])
@@ -191,7 +191,7 @@ def figure2(numbers: dict[str, Any]) -> list[Path]:
     ax.set_xticks(x_positions, labels)
     pdisc = float(effects.loc[(effects.tranche=="discovery") & (effects.metric=="polymorphic_minus_complement"), "p"].iloc[0])
     pres = float(effects.loc[(effects.tranche=="reserve") & (effects.metric=="polymorphic_minus_complement"), "p"].iloc[0])
-    ax.text(0.03, 0.94, f"contrast: discovery {ptxt(pdisc)}; reserve {ptxt(pres)}", transform=ax.transAxes, va="top", fontsize=7.2)
+    ax.text(0.03, 0.94, f"contrast: discovery {ptxt(pdisc)}; reserve {ptxt(pres)}", transform=ax.transAxes, va="top", fontsize=9.5)
     ax.set(ylabel="Mean species spatial ρ ± bootstrap 95% CI", title="Polymorphic subset has stronger\nspatial organization")
 
     ax = fig.add_subplot(gs[1, 1])
@@ -208,7 +208,7 @@ def figure2(numbers: dict[str, Any]) -> list[Path]:
     ax.axvline(0, color=LIGHT, lw=1)
     ax.scatter(sub["estimate"], yy, s=30, color=RES, zorder=3)
     for x, y, p in zip(sub["estimate"], yy, sub["p"]):
-        ax.text(x + 0.0014, y, ptxt(float(p)), va="center", fontsize=7)
+        ax.text(x + 0.0014, y, ptxt(float(p)), va="center", fontsize=9.5)
     ax.set_yticks(yy, lab)
     ax.invert_yaxis()
     ax.set(xlabel="Equal-species mean spatial ρ (≥10% subset)", title="Reserve replication survives\nnuisance controls")
@@ -246,7 +246,7 @@ def figure3(numbers: dict[str, Any]) -> list[Path]:
     ax.set_yticks(yy, [maplab[x] for x in status["measurement_status"]])
     ax.set(xlabel="Reserve candidate-frame photos (%)", title="Missingness is not one process")
     for y, v in zip(yy, status["fraction"]*100):
-        ax.text(v + 0.6, y, f"{v:.1f}%", va="center", fontsize=7)
+        ax.text(v + 0.6, y, f"{v:.1f}%", va="center", fontsize=9.5)
 
     ax = fig.add_subplot(gs[0, 1])
     panel(ax, "B")
@@ -277,7 +277,7 @@ def figure3(numbers: dict[str, Any]) -> list[Path]:
         ax.scatter(xs, ys, s=30, color=c, label=vl, zorder=3)
         for x, y, (tr, resp, _) in zip(xs, ys, groups):
             p = float(robust[(robust.tranche==tr) & (robust.response==resp) & (robust.D_variant==v)].p.iloc[0])
-            ax.text(x, y + 0.006, f"{p:.3f}", ha="center", va="bottom", fontsize=6.6, color=c)
+            ax.text(x, y + 0.006, f"{p:.3f}", ha="center", va="bottom", fontsize=9.5, color=c)
     ax.axhline(0, color=LIGHT, lw=1)
     ax.set_xticks(base, [g[2] for g in groups], rotation=18, ha="right")
     ax.set(ylabel="Partial Spearman ρ\n| sampled span + technical failure", title="Spatial signal survives\nboth ambiguity endpoints")
@@ -292,7 +292,7 @@ def figure3(numbers: dict[str, Any]) -> list[Path]:
     ax.plot(xx, rr["D"], color=RES, lw=1.3, label="observed D")
     ax.set(xlabel="Reserve species ranked by observed D", ylabel="D", title="Observed ordering remains stable\nacross completion bounds")
     ax.legend(frameon=False, loc="lower right")
-    ax.text(0.03, 0.86, f"ρ(D,Dmin4)={numbers['reserve'].get('rho_D_Dmin4', 0.997):.3f}\nρ(D,Dmax4)={numbers['reserve'].get('rho_D_Dmax4', 0.961):.3f}", transform=ax.transAxes, fontsize=7)
+    ax.text(0.03, 0.86, f"ρ(D,Dmin4)={numbers['reserve'].get('rho_D_Dmin4', 0.997):.3f}\nρ(D,Dmax4)={numbers['reserve'].get('rho_D_Dmax4', 0.961):.3f}", transform=ax.transAxes, fontsize=9.5)
 
     fig.suptitle("Figure 3 | Opportunity, technical failure, and ambiguity do not erase the spatial result", fontsize=11, y=0.995)
     return save(fig, "figure3_measurement_and_ambiguity_robustness")
@@ -321,7 +321,7 @@ def figure4(numbers: dict[str, Any]) -> list[Path]:
     ax.axvline(0, color=LIGHT, lw=1)
     ax.scatter(summary["gain"], yy, s=32, color=[DISC if t=="discovery" else RES for t in summary.tranche])
     for x, y, p in zip(summary.gain, yy, summary.p):
-        ax.text(x + 0.005, y, ptxt(float(p)), va="center", fontsize=6.7)
+        ax.text(x + 0.005, y, ptxt(float(p)), va="center", fontsize=9.5)
     ax.set_yticks(yy, summary["label"])
     ax.invert_yaxis()
     ax.set(xlabel="Genus clustering gain", title="Genus clustering replicates,\nbut is ambiguity-sensitive")
@@ -332,12 +332,12 @@ def figure4(numbers: dict[str, Any]) -> list[Path]:
     lim = (0, max(float(shared["discovery_mean_D"].max()), float(shared["reserve_mean_D"].max())) + 0.04)
     ax.plot(lim, lim, ls="--", lw=0.9, color=MID)
     ax.set(xlim=lim, ylim=lim, xlabel="Discovery genus mean D", ylabel="Reserve genus mean D", title="Repeated genera show\ncross-tranche concordance")
-    ax.text(0.04, 0.95, f"Spearman ρ={numbers['genus_secondary']['shared_23_rho']:.3f}; {ptxt(numbers['genus_secondary']['shared_23_p'])}", transform=ax.transAxes, va="top", fontsize=7.5)
+    ax.text(0.04, 0.95, f"Spearman ρ={numbers['genus_secondary']['shared_23_rho']:.3f}; {ptxt(numbers['genus_secondary']['shared_23_p'])}", transform=ax.transAxes, va="top", fontsize=9.5)
     deviation = np.abs(shared["reserve_mean_D"].to_numpy() - shared["discovery_mean_D"].to_numpy())
     label_idx = set(np.argsort(deviation)[-4:].tolist()) | set(np.argsort(shared["discovery_mean_D"].to_numpy())[-2:].tolist())
     for i in sorted(label_idx):
         row = shared.iloc[i]
-        ax.text(row.discovery_mean_D + 0.007, row.reserve_mean_D + 0.007, row.genus, fontsize=6.6)
+        ax.text(row.discovery_mean_D + 0.007, row.reserve_mean_D + 0.007, row.genus, fontsize=9.5)
 
     fig.suptitle("Figure 4 | Genus-level structure is a secondary, qualified result", fontsize=11, y=0.98)
     return save(fig, "figure4_genus_taxonomic_structure")
@@ -368,19 +368,19 @@ def main() -> None:
 
 ## Figure 1 | Flower-colour polymorphism as a species-level property
 
-(A) Fixed-photo measurement design and the four-state Gini–Simpson diversity estimand D. (B) Distribution of D across the 369-species discovery frame. (C) Relationship between D and the fraction of observations assigned to the second-largest morph, with 10% and 20% descriptive thresholds. (D) Fractions of the admitted discovery frame exceeding those thresholds. These fractions characterize the admitted photo-derived frame and are not estimates of angiosperm-wide polymorphism prevalence.
+(a) Fixed-photo measurement design and the four-state Gini–Simpson diversity estimand D. (b) Distribution of D across the 369-species discovery frame. (c) Relationship between D and the fraction of observations assigned to the second-largest morph, with 10% and 20% descriptive thresholds. (d) Fractions of the admitted discovery frame exceeding those thresholds. These fractions characterize the admitted photo-derived frame and are not estimates of angiosperm-wide polymorphism prevalence.
 
 ## Figure 2 | Greater polymorphism predicts stronger within-species geographic organization
 
-(A–B) Species-level flower-colour diversity D versus within-species spatial rho in discovery and a species-disjoint reserve photo tranche. Points are species; connected points show equal-count-bin mean spatial rho and are descriptive. Reported P values use the frozen spatial randomization procedures. (C) Mean species spatial rho for species below versus above the preregistered 10% second-morph threshold; intervals are descriptive bootstrap 95% intervals, while the displayed contrast P values come from the frozen spatial nulls. (D) Reserve >=10% subset results under primary, observer-pair exclusion, calendar-quarter, and matched flower-minus-background metrics.
+(a–b) Species-level flower-colour diversity D versus within-species spatial rho in discovery and a species-disjoint reserve photo tranche. Points are species; connected points show equal-count-bin mean spatial rho and are descriptive. Reported P values use the frozen spatial randomization procedures. (c) Mean species spatial rho for species below versus above the preregistered 10% second-morph threshold; intervals are descriptive bootstrap 95% intervals, while the displayed contrast P values come from the frozen spatial nulls. (d) Reserve >=10% subset results under primary, observer-pair exclusion, calendar-quarter, and matched flower-minus-background metrics.
 
 ## Figure 3 | Opportunity, technical failure, and ambiguity do not erase the spatial result
 
-(A) Measurement-status partition of the 50,000-photo reserve candidate frame. Only ROI/flip-gate failure is treated as clearly technical; ambiguous-palette observations remain separate. (B) Empirical distributions of species-level four-state ambiguity interval width. (C) Partial Spearman associations between polymorphism and spatial organization after controlling sampled geographic span and technical-failure rate, shown for observed D and the exact Dmin4/Dmax4 species-level completion endpoints under the four-state ambiguity sensitivity model. P values use the original geometry-preserving within-species spatial null arrays. (D) Reserve species ranked by observed D, showing Dmin4–Dmax4 intervals. Uniform endpoint stress tests do not exhaust arbitrary species-specific latent allocations and do not imply that ambiguous observations are true four-state morphs.
+(a) Measurement-status partition of the 50,000-photo reserve candidate frame. Only ROI/flip-gate failure is treated as clearly technical; ambiguous-palette observations remain separate. (b) Empirical distributions of species-level four-state ambiguity interval width. (c) Partial Spearman associations between polymorphism and spatial organization after controlling sampled geographic span and technical-failure rate, shown for observed D and the exact Dmin4/Dmax4 species-level completion endpoints under the four-state ambiguity sensitivity model. P values use the original geometry-preserving within-species spatial null arrays. (d) Reserve species ranked by observed D, showing Dmin4–Dmax4 intervals. Uniform endpoint stress tests do not exhaust arbitrary species-specific latent allocations and do not imply that ambiguous observations are true four-state morphs.
 
 ## Figure 4 | Genus-level structure is a secondary, qualified result
 
-(A) Genus-level taxonomic clustering gain in discovery, species-disjoint reserve, opportunity/technical-failure adjustments, and ambiguity endpoint sensitivities. The reserve Dmin4 endpoint is not supported at P<0.05, so genus clustering is not treated as uniform-endpoint robust. (B) Mean observed D for the 23 genera represented by at least two different species in both tranches. This is taxonomic clustering/concordance, not formal phylogenetic signal.
+(a) Genus-level taxonomic clustering gain in discovery, species-disjoint reserve, opportunity/technical-failure adjustments, and ambiguity endpoint sensitivities. The reserve Dmin4 endpoint is not supported at P<0.05, so genus clustering is not treated as uniform-endpoint robust. (b) Mean observed D for the 23 genera represented by at least two different species in both tranches. This is taxonomic clustering/concordance, not formal phylogenetic signal.
 """
     (PAPER / "FIGURE_CAPTIONS.md").write_text(captions, encoding="utf-8")
 
