@@ -1,11 +1,14 @@
 {
   "analysis": "rgfca_42111_breadth_prepixel_step8e",
-  "boundary": "This gate authorizes nothing by itself. A separate hash-bound authorization is required before Step-8E image pixels may open.",
+  "boundary": "This gate authorizes nothing by itself. A separate canonical-content-hash-bound authorization is required before Step-8F image pixels may open.",
   "flower_colour_used": false,
   "image_pixels_opened": false,
   "lineage": {
-    "denominator_sha256": "57d2db4b5f5a85693e110b00a5aa6dc02cb4a428e46f3564f2dc9475371aaba1",
-    "source_manifest_sha256": "f913c3b9cce6f66ecfaa68842e2161146b8ae275bba94f9071367cff912b1985",
+    "canonical_hash_rule": "sort breadth_rank mergesort; pandas to_csv(index=False, lineterminator='\\n'); SHA256 UTF-8 text",
+    "denominator_canonical_sha256": "368b473dc7d173de19376fdf58309431b8f6eb645d1aa084342aceb4c9958e06",
+    "denominator_gzip_sha256_diagnostic_only": "c36cc64cb0793ec4c2581551ce50d0380fef44151dbe195486b2e3443a04909e",
+    "source_manifest_canonical_sha256": "a7d0cbd1dfbfe5ee03cd86998ee58319ba1ea1a854753704a389c0ea25c823a8",
+    "source_manifest_gzip_sha256_diagnostic_only": "35206f021bb29098c22988a447ee75a03d667d7799a5fbc17f3c29aeb19e9eda",
     "step8d_result_sha256": "2e6df8ff4aaa6411f97c8ba2f3db9ca85287d0a4b0aaf3c6e798632badcd7e4e",
     "step8d_table_sha256": "13228b1d675bd0b43149aaf28d6f91f07606b38481158b07b7ebe44f1d8f67f1"
   },

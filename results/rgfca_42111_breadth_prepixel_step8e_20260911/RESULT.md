@@ -7,6 +7,8 @@
 - required fraction: **0.95**
 - transport evaluable: **True**
 - occupied discovery cells retained: **124 / 124**
+- lineage authorization identity: **canonical uncompressed table content hash**
+- raw gzip hashes: **diagnostic only**
 - image pixels opened: **false**
 - pixel opening authorized: **false**
 
