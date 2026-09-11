@@ -21,8 +21,6 @@ STEP8D_TABLE = ROOT / "results/rgfca_42111_anchor_resolution_full_step8d_2026091
 STEP8E_GATE = ROOT / "results/rgfca_42111_breadth_prepixel_step8e_20260911/result.json"
 OUT_DEFAULT = ROOT / "results/rgfca_42111_breadth_measurement_firewall_step8f_20260911"
 
-BIOLOGICAL = {"white", "yellow_orange", "red_pink", "blue_purple"}
-
 
 def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
@@ -64,14 +62,22 @@ def main(output_dir: Path = OUT_DEFAULT) -> None:
         raise RuntimeError("pre-pixel gate already opened forbidden outcomes")
     if sha256_file(STEP8D_TABLE) != contract["lineage"]["required_step8d_resolved_table_sha256"]:
         raise RuntimeError("Step 8D resolved table hash drift")
-    if gate.get("lineage", {}).get("denominator_sha256") != contract["lineage"]["required_step8e_denominator_sha256"]:
-        raise RuntimeError("Step 8E denominator hash drift")
-    if gate.get("lineage", {}).get("source_manifest_sha256") != contract["lineage"]["required_step8e_source_manifest_sha256"]:
-        raise RuntimeError("Step 8E source-manifest hash drift")
+
+    lineage = gate.get("lineage", {})
+    if lineage.get("canonical_hash_rule") != contract["lineage"]["canonical_hash_rule"]:
+        raise RuntimeError("Step 8E canonical hash rule drift")
+    if lineage.get("denominator_canonical_sha256") != contract["lineage"]["required_step8e_denominator_canonical_sha256"]:
+        raise RuntimeError("Step 8E canonical denominator content drift")
+    if lineage.get("source_manifest_canonical_sha256") != contract["lineage"]["required_step8e_source_manifest_canonical_sha256"]:
+        raise RuntimeError("Step 8E canonical source-manifest content drift")
+    if contract["lineage"].get("gzip_byte_hashes_are_diagnostic_only") is not True:
+        raise RuntimeError("contract did not freeze gzip byte hashes as diagnostic-only")
 
     anchors = pd.read_csv(STEP8D_TABLE)
     if len(anchors) != 42111 or anchors["inat_taxon_id"].nunique() != 42111:
         raise RuntimeError("Step 8D table is not the exact 42,111-species universe")
+    if anchors["breadth_rank"].tolist() != list(range(1, 42112)):
+        raise RuntimeError("Step 8D breadth rank denominator drift")
     resolved = anchors.loc[anchors["status"].astype(str).eq("resolved")].copy()
     unresolved = anchors.loc[~anchors["status"].astype(str).eq("resolved")].copy()
     if len(resolved) != 42110 or len(unresolved) != 1:
@@ -164,6 +170,8 @@ def main(output_dir: Path = OUT_DEFAULT) -> None:
             "outer_contract_sha256": sha256_file(CONTRACT),
             "step8d_table_sha256": sha256_file(STEP8D_TABLE),
             "step8e_gate_sha256": sha256_file(STEP8E_GATE),
+            "step8e_denominator_canonical_sha256": lineage["denominator_canonical_sha256"],
+            "step8e_source_manifest_canonical_sha256": lineage["source_manifest_canonical_sha256"],
             "worker_sha256": sha256_file(output_dir / "worker_packet/measurement_manifest.csv"),
             "acquisition_key_sha256": sha256_file(output_dir / "sealed_keys/acquisition_key.csv"),
             "metadata_join_sha256": sha256_file(output_dir / "sealed_keys/metadata_join_key.csv"),
