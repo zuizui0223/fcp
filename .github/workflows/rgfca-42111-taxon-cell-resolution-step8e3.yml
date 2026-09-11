@@ -6,6 +6,8 @@ on:
       - analysis/rgfca-42111-tiered-measurement-step8c
     paths:
       - '.github/workflows/rgfca-42111-taxon-cell-resolution-step8e3.yml'
+      - 'scripts/acquisition/resolve_rgfca_42111_taxon_cell_metadata_step8e3_20260911.py'
+      - 'results/rgfca_42111_taxon_cell_anchor_step8e2_20260911/**'
   workflow_dispatch:
 
 permissions:
