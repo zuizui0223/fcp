@@ -1,0 +1,22 @@
+{
+  "additional_unique_anchors_beyond_species_breadth": 58432,
+  "analysis": "rgfca_42111_taxon_cell_anchor_step8e2",
+  "boundary": "This frame is for cell-wise geographic breadth. It must not replace the one-anchor-per-species estimator for global species-equal composition.",
+  "candidate_rows": 364772,
+  "cell_species_richness": {
+    "max": 2143,
+    "median": 561.5,
+    "min": 1
+  },
+  "flower_colour_used": false,
+  "image_pixels_opened": false,
+  "occupied_cells": 128,
+  "selection_rule": "ascending SHA256 pair order; within pair ascending SHA256 candidate order; first observation/photo identity unused globally",
+  "species": 42111,
+  "species_anchor_overlap_rows": 26905,
+  "status": "complete_metadata_only_unique_taxon_cell_anchor_freeze",
+  "taxon_cell_anchors": 85337,
+  "unique_observation_ids": 85337,
+  "unique_photo_ids": 85337,
+  "unresolved_pairs": 0
+}
