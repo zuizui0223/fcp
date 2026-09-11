@@ -19,6 +19,7 @@ CONTRACT = ROOT / "docs/supporting/rgfca_42111_breadth_measurement_contract_v1.j
 STEP8D_RESULT = ROOT / "results/rgfca_42111_anchor_resolution_full_step8d_20260911/result.json"
 STEP8D_TABLE = ROOT / "results/rgfca_42111_anchor_resolution_full_step8d_20260911/anchor_metadata_42111.csv.gz"
 STEP8E_GATE = ROOT / "results/rgfca_42111_breadth_prepixel_step8e_20260911/result.json"
+FINAL_RESULT = ROOT / "results/rgfca_42111_breadth_measurement_step8f_20260911/result.json"
 OUT_DEFAULT = ROOT / "results/rgfca_42111_breadth_measurement_firewall_step8f_20260911"
 
 
@@ -41,6 +42,14 @@ def unresolved_id(taxon_id: int, salt: str) -> str:
 
 
 def main(output_dir: Path = OUT_DEFAULT) -> None:
+    # Fail closed on every later workflow run once one complete 42,111-species
+    # terminal result has been committed. This prevents duplicate pixel opening
+    # from queued runs created during pre-pixel technical repairs.
+    if FINAL_RESULT.exists():
+        previous = json.loads(FINAL_RESULT.read_text(encoding="utf-8"))
+        if previous.get("status") == "complete_42111_species_breadth_measurement_and_postcomplete_join":
+            raise RuntimeError("one-shot breadth measurement already complete; duplicate pixel opening forbidden")
+
     output_dir.mkdir(parents=True, exist_ok=True)
     contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
     d_result = json.loads(STEP8D_RESULT.read_text(encoding="utf-8"))
@@ -166,6 +175,7 @@ def main(output_dir: Path = OUT_DEFAULT) -> None:
         "image_pixels_opened": False,
         "flower_colour_used": False,
         "coordinate_or_species_colour_join_opened": False,
+        "one_shot_duplicate_guard": True,
         "lineage": {
             "outer_contract_sha256": sha256_file(CONTRACT),
             "step8d_table_sha256": sha256_file(STEP8D_TABLE),
