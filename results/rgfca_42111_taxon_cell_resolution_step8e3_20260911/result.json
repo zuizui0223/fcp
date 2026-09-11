@@ -1,0 +1,28 @@
+{
+  "analysis": "rgfca_42111_taxon_cell_resolution_step8e3",
+  "api_requests": 293,
+  "api_resolution_rows_requested": 58433,
+  "boundary": "Metadata transport only. Unresolved taxon-cell anchors remain unresolved and are not replaced.",
+  "flower_colour_used": false,
+  "image_pixels_opened": false,
+  "lineage": {
+    "batch_receipts_sha256": "e5a975c4e7cb3c59a6adbcb8674fda282e9edad31d5b093ef1ad7ae3b29699c0",
+    "frame_sha256": "e9b3229a56462d2c4919e5cb9aeaa1f60fdf34e5cd973e75afbff3f777833db0",
+    "resolved_csv_sha256": "7d4c67c3480ff5921abfd8bd1c882d0511d79a6a8b4a065e749822805f31b431",
+    "species_metadata_sha256": "13228b1d675bd0b43149aaf28d6f91f07606b38481158b07b7ebe44f1d8f67f1"
+  },
+  "occupied_cells": 128,
+  "replacement_after_resolution_failure": false,
+  "resolution_status_counts": {
+    "expected_photo_not_attached": 2,
+    "resolved_by_api": 58431,
+    "reused_species_anchor_resolution": 26904
+  },
+  "resolved_exact_photo": 85335,
+  "resolved_fraction": 0.9999765635070368,
+  "reused_species_anchor_rows": 26904,
+  "species": 42111,
+  "status": "complete_metadata_only_taxon_cell_resolution",
+  "taxon_cell_pairs": 85337,
+  "unresolved_rows": 2
+}
