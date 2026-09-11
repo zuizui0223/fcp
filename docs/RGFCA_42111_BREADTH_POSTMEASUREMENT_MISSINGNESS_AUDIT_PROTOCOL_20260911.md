@@ -33,13 +33,14 @@ The primary selection diagnostic is the maximum absolute difference in classifia
 
 The primary colour composition remains the unweighted composition among classifiable anchors, with the full 42,111 denominator and missingness fraction shown alongside it.
 
-Two prespecified sensitivities are allowed:
+Three prespecified sensitivity surfaces are required:
 
-- inverse-probability weighting from a logistic model of classifiability using only the frozen metadata strata above;
-- complete-stratum standardization to the full 42,111 metadata distribution.
+1. **No-assumption denominator bounds.** For each colour state m, with N=42,111, observed classified count k_m and total unclassified/missing count M, report `[k_m/N, (k_m+M)/N]`. These bounds make no missing-at-random assumption and are not required to sum to one across states.
+2. **Inverse-probability weighting.** Fit a logistic model of classifiability using only the frozen metadata strata above. Predicted probabilities are clipped to `[0.01, 0.99]` before inverse weighting. Report the weighted four-state composition, maximum nonzero weight, and effective sample size `(sum w)^2 / sum(w^2)` among classifiable anchors.
+3. **Complete-stratum standardization.** Standardize colour composition from metadata cells having at least one classifiable anchor back to their full-cell denominators. Report both the standardized composition and the fraction of all 42,111 species represented by complete standardization cells.
 
-Neither sensitivity may replace the primary estimator. No flower-colour value may enter the classifiability model.
+Neither sensitivity may replace the primary estimator. No flower-colour value may enter the classifiability model. The raw classifiable composition, bounds, IPW composition and standardized composition must be reported together rather than selecting the most favourable one.
 
 ## Hard boundaries
 
-This audit cannot convert one photograph per species into modal species colour, species polymorphism prevalence, within-species D, C*/S*, or a population-level claim. It cannot replace failed anchors, alter palette/ROI thresholds, or exclude a taxonomic/geographic stratum because its result is inconvenient.
+This audit cannot convert one photograph per species into modal species colour, species polymorphism prevalence, within-species D, C*/S*, or a population-level claim. It cannot replace failed anchors, alter palette/ROI thresholds, exclude a taxonomic/geographic stratum because its result is inconvenient, or reinterpret a missingness correction as evidence of a biological mechanism.
