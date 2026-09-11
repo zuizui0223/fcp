@@ -6,6 +6,8 @@ on:
       - analysis/rgfca-42111-tiered-measurement-step8c
     paths:
       - '.github/workflows/rgfca-42111-crosscell-observer-preflight.yml'
+      - 'scripts/acquisition/recover_rgfca_42111_crosscell_observers_20260911.py'
+      - 'docs/RGFCA_42111_CROSSCELL_DISCORDANCE_OBSERVER_PROTOCOL_20260911.md'
   workflow_dispatch:
 
 permissions:
