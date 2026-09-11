@@ -8,11 +8,17 @@
   "number_ledger": "paper_numbers.json",
   "figure_manifest": "figures/manifest.json",
   "figure_layout_polish": {
-    "status": "executed",
+    "status": "final_visual_qc_passed",
     "scope": "readability_only_no_data_or_statistic_change",
+    "target_width_mm": 168,
+    "preview_dpi": 300,
+    "source_typography_floor_pt": 9.5,
+    "panel_style": "lowercase_parenthesized",
     "changes": [
-      "Figure 2C uses self-contained discovery/reserve tick labels",
-      "Figure 3C and Figure 4B minimum annotations increased from 5.8 pt to 6.6 pt"
+      "Figure 1a uses a vertical measurement flow to avoid half-panel text crowding",
+      "Figure 2c uses abbreviated self-contained discovery/reserve tick labels",
+      "Figure 3c removes redundant pointwise P-value labels while retaining exact values in Results and frozen figure data",
+      "Figure 4b uses fixed offsets for the six deliberately labelled genera"
     ]
   },
   "main_figures": [
@@ -47,7 +53,6 @@
     "results/polymorphism_acquisition_provenance_20260911/result.json"
   ],
   "submission_blockers": [
-    "pixel-level final figure inspection at journal column size",
     "final author list and affiliations",
     "corresponding-author metadata and ORCID",
     "acknowledgements and funding",
