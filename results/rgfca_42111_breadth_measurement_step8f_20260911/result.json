@@ -1,0 +1,56 @@
+{
+  "classifiable_fraction": 0.4382940324380803,
+  "classifiable_rows": 18457,
+  "estimand_boundary": {
+    "not_Cstar_or_Sstar": true,
+    "not_adaptation_or_environmental_selection": true,
+    "not_modal_species_colour": true,
+    "not_population_level_coexistence": true,
+    "not_species_polymorphism_prevalence": true,
+    "not_within_species_diversity_D": true,
+    "one_photo_per_species_cannot_establish_absence_of_other_morphs": true,
+    "primary": "species-equal distribution of observed coarse flower-colour states among the 42,111 discovered species anchors"
+  },
+  "final_rows": 42111,
+  "image_measurement_rows": 42110,
+  "lineage": {
+    "firewall_manifest_sha256": "4bea9363a418d410f85fa89a6af4307196a2aad72321c13f3856d6dfc7d6a1f2",
+    "measured_table_sha256": "38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
+    "metadata_join_sha256": "c114b1804a9c6e21d8159a2979f3e3e48b3af8c76d23e2e1503ebfe5e891d892",
+    "outer_contract_sha256": "60af21aa19d98345f9b76ddbdd47a9ba4d075220f560bbb5f683fad475a3b744",
+    "saturation_sha256": "520b83378af004b91d75ab614d265cc2e4abe2bda73f9b2d2bffd6bf7932e40b",
+    "unresolved_terminal_sha256": "1f1dbd4660374db9b838ca6bfd9533bc648f6f15f93b4cd743e637339fd501ec",
+    "worker_manifest_sha256": "739be27775c193501928db2e367e88bd35488b2a1dfd6a2344782d8323551b5b"
+  },
+  "measurement_status_counts": {
+    "anchor_resolution_failed": 1,
+    "classified_four_state_morph": 18457,
+    "not_evaluable_ambiguous_palette_composition": 1760,
+    "not_evaluable_no_biological_palette_mass": 34,
+    "not_evaluable_roi_or_flip_gate": 21859
+  },
+  "mixed_or_unresolved_rows": 23654,
+  "morph_counts": {
+    "blue_purple": 1536,
+    "mixed_uncertain": 23654,
+    "red_pink": 2001,
+    "white": 8597,
+    "yellow_orange": 6323
+  },
+  "no_Cstar_Sstar_claim": true,
+  "no_polymorphism_prevalence_claim": true,
+  "no_species_modal_colour_claim": true,
+  "preexisting_unresolved_terminal_rows": 1,
+  "primary_species_equal_observed_colour_composition": {
+    "blue_purple": 0.08322045836268083,
+    "red_pink": 0.10841415181232053,
+    "white": 0.46578533889581186,
+    "yellow_orange": 0.34258005092918675
+  },
+  "protocol": "rgfca-42111-species-equal-breadth-measurement-v1",
+  "species_denominator": 42111,
+  "species_metadata_join_opened_only_after_complete_measurement": true,
+  "status": "complete_42111_species_breadth_measurement_and_postcomplete_join",
+  "terminal_partition_receipts": 128,
+  "terminal_receipt_rows": 42110
+}
