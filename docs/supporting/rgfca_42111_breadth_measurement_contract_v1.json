@@ -12,8 +12,11 @@
     "step8d_resolved_table_path": "results/rgfca_42111_anchor_resolution_full_step8d_20260911/anchor_metadata_42111.csv.gz",
     "required_step8d_resolved_table_sha256": "13228b1d675bd0b43149aaf28d6f91f07606b38481158b07b7ebe44f1d8f67f1",
     "step8e_gate_path": "results/rgfca_42111_breadth_prepixel_step8e_20260911/result.json",
-    "required_step8e_denominator_sha256": "450fcc8d69fda845ff21f09f0478d4eeb488c49fc5742f95f2d4c59e71fd347a",
-    "required_step8e_source_manifest_sha256": "ca792433048052d5bec24552e3101daa4ad762bea07b708d3e2726187227c44c"
+    "required_step8e_denominator_canonical_sha256": "368b473dc7d173de19376fdf58309431b8f6eb645d1aa084342aceb4c9958e06",
+    "required_step8e_source_manifest_canonical_sha256": "a7d0cbd1dfbfe5ee03cd86998ee58319ba1ea1a854753704a389c0ea25c823a8",
+    "canonical_hash_rule": "sort breadth_rank mergesort; pandas to_csv(index=False, lineterminator='\\n'); SHA256 UTF-8 text",
+    "gzip_byte_hashes_are_diagnostic_only": true,
+    "technical_erratum": "docs/RGFCA_42111_STEP8E_CANONICAL_HASH_ERRATUM_20260911.md"
   },
   "transport_gate": {
     "required_status": "transport_gate_pass",
