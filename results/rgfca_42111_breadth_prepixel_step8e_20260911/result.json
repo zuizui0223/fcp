@@ -6,9 +6,9 @@
   "lineage": {
     "canonical_hash_rule": "sort breadth_rank mergesort; pandas to_csv(index=False, lineterminator='\\n'); SHA256 UTF-8 text",
     "denominator_canonical_sha256": "368b473dc7d173de19376fdf58309431b8f6eb645d1aa084342aceb4c9958e06",
-    "denominator_gzip_sha256_diagnostic_only": "d17187c0507e75515208d18401223b45c4bf1c68352487c157196c987854baaa",
+    "denominator_gzip_sha256_diagnostic_only": "76ad6b3f519bed677b19f47d6c4b1ff12902bf2cce47164512f510e1ccfbc19c",
     "source_manifest_canonical_sha256": "a7d0cbd1dfbfe5ee03cd86998ee58319ba1ea1a854753704a389c0ea25c823a8",
-    "source_manifest_gzip_sha256_diagnostic_only": "984c655af7a5dd0f9a54c33a12e32b49e59a7b295f5e7c637c440b74b3621193",
+    "source_manifest_gzip_sha256_diagnostic_only": "686ff4435d2e94bdc66c802cef21327933da0c4ebf3050d957ff63bf1210f564",
     "step8d_result_sha256": "2e6df8ff4aaa6411f97c8ba2f3db9ca85287d0a4b0aaf3c6e798632badcd7e4e",
     "step8d_table_sha256": "13228b1d675bd0b43149aaf28d6f91f07606b38481158b07b7ebe44f1d8f67f1"
   },
