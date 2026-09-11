@@ -1,0 +1,143 @@
+name: RGFCA 42,111 taxon-cell finalize Step 8G
+
+on:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - 'results/rgfca_42111_taxon_cell_new_measurement_step8g_20260911/**'
+      - 'results/rgfca_42111_breadth_measurement_step8f_20260911/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rgfca-42111-taxon-cell-finalize-step8g
+  cancel-in-progress: false
+
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fast-forward to current analysis branch
+        run: |
+          git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+          git checkout --detach origin/analysis/rgfca-42111-tiered-measurement-step8c
+      - id: ready
+        name: Check both independently completed measurement layers
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            results/rgfca_42111_taxon_cell_new_measurement_step8g_20260911/result.json
+            results/rgfca_42111_taxon_cell_new_measurement_step8g_20260911/rgfca_42111_taxon_cell_new_terminal_blind.csv.gz
+            results/rgfca_42111_breadth_measurement_step8f_20260911/result.json
+            results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz
+            results/rgfca_42111_crosscell_observer_preflight_20260911/result.json
+            results/rgfca_42111_crosscell_observer_preflight_20260911/crosscell_observer_disjoint_pairs.csv.gz
+          )
+          ready=true
+          for f in "${required[@]}"; do
+            if [[ ! -f "$f" ]]; then
+              echo "missing prerequisite: $f"
+              ready=false
+            fi
+          done
+          echo "ready=$ready" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v5
+        if: steps.ready.outputs.ready == 'true'
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Materialize exact validated measurement infrastructure
+        if: steps.ready.outputs.ready == 'true'
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package
+        if: steps.ready.outputs.ready == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Rebuild deterministic v2 sealed join keys
+        if: steps.ready.outputs.ready == 'true'
+        run: python scripts/analysis/build_rgfca_42111_taxon_cell_new_only_firewall_step8g_20260911.py
+      - name: Open the taxon-cell biological join only after both layers are complete
+        if: steps.ready.outputs.ready == 'true'
+        run: |
+          rm -rf results/rgfca_42111_taxon_cell_measurement_step8g_20260911
+          python scripts/analysis/finalize_rgfca_42111_taxon_cell_measurement_step8g_20260911.py \
+            --new-terminal results/rgfca_42111_taxon_cell_new_measurement_step8g_20260911/rgfca_42111_taxon_cell_new_terminal_blind.csv.gz \
+            --new-terminal-result results/rgfca_42111_taxon_cell_new_measurement_step8g_20260911/result.json \
+            --new-metadata-join results/rgfca_42111_taxon_cell_new_firewall_step8g_20260911/sealed_keys/new_metadata_join_key.csv.gz \
+            --reuse-key results/rgfca_42111_taxon_cell_new_firewall_step8g_20260911/sealed_keys/reuse_deferred_key.csv.gz \
+            --unresolved-key results/rgfca_42111_taxon_cell_new_firewall_step8g_20260911/sealed_keys/transport_unresolved_key.csv \
+            --breadth-table results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz \
+            --output-dir results/rgfca_42111_taxon_cell_measurement_step8g_20260911
+      - name: Open frozen observer-disjoint cross-cell discordance
+        if: steps.ready.outputs.ready == 'true'
+        run: |
+          rm -rf results/rgfca_42111_crosscell_discordance_step8g_20260911
+          python scripts/analysis/run_rgfca_42111_crosscell_discordance_20260911.py
+      - name: Validate exact final denominators and claim ceilings
+        if: steps.ready.outputs.ready == 'true'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          mroot=Path('results/rgfca_42111_taxon_cell_measurement_step8g_20260911')
+          croot=Path('results/rgfca_42111_crosscell_discordance_step8g_20260911')
+          mr=json.loads((mroot/'result.json').read_text())
+          cr=json.loads((croot/'result.json').read_text())
+          atlas=pd.read_csv(mroot/'taxon_cell_measured_85337.csv.gz')
+          cells=pd.read_csv(mroot/'cell_species_equal_colour_composition.csv')
+          pairs=pd.read_csv(croot/'crosscell_discordance_pairs_13416.csv.gz')
+          assert mr['status']=='complete_85337_taxon_cell_measurement_and_postcomplete_join'
+          assert len(atlas)==85337
+          assert atlas[['inat_taxon_id','cell_id']].drop_duplicates().shape[0]==85337
+          assert mr['new_image_terminal_rows']==58431
+          assert mr['reused_breadth_terminal_rows']==26904
+          assert mr['transport_unresolved_rows']==2
+          assert mr['pool_all_85337_as_global_frequency'] is False
+          assert len(cells)==128 and int(cells['taxon_denominator'].sum())==85337
+          assert cr['status']=='complete_fixed_observer_disjoint_crosscell_coarse_colour_discordance'
+          assert cr['fixed_pair_species']==13416
+          assert len(pairs)==13416 and pairs['inat_taxon_id'].nunique()==13416
+          assert cr['post_outcome_distance_bins_used'] is False
+          assert cr['same_coarse_colour']+cr['discordant_coarse_colour']+cr['one_or_both_unclassifiable']==13416
+          print(json.dumps({'map':mr,'crosscell':cr}, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: steps.ready.outputs.ready == 'true'
+        with:
+          name: rgfca-42111-taxon-cell-final-step8g
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            results/rgfca_42111_taxon_cell_measurement_step8g_20260911/
+            results/rgfca_42111_crosscell_discordance_step8g_20260911/
+      - name: Commit complete taxon-cell atlas and frozen pair result
+        if: steps.ready.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            results/rgfca_42111_taxon_cell_measurement_step8g_20260911 \
+            results/rgfca_42111_crosscell_discordance_step8g_20260911
+          if git diff --cached --quiet; then
+            echo 'final Step 8G results already identical; no commit needed'
+            exit 0
+          fi
+          git commit -m 'Finalize 42,111-species taxon-cell atlas and cross-cell discordance'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
