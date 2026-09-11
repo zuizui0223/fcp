@@ -1,0 +1,98 @@
+name: RGFCA 42,111 breadth postmeasurement audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/rgfca-42111-tiered-measurement-step8c
+    paths:
+      - '.github/workflows/rgfca-42111-breadth-postmeasurement-audit.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install pandas numpy
+      - name: Require complete one-shot 42,111 result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/rgfca_42111_breadth_measurement_step8f_20260911/result.json')
+          if not p.exists():
+              raise SystemExit('fail-closed: complete Step-8F result not present')
+          r=json.loads(p.read_text())
+          assert r['status']=='complete_42111_species_breadth_measurement_and_postcomplete_join'
+          assert r['final_rows']==42111
+          assert r['terminal_partition_receipts']==128
+          assert r['species_metadata_join_opened_only_after_complete_measurement'] is True
+          PY
+      - name: Run prespecified repeated saturation
+        run: |
+          python scripts/analysis/run_rgfca_42111_repeated_colour_breadth_saturation_20260911.py \
+            --measured results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz \
+            --output-dir results/rgfca_42111_repeated_colour_breadth_saturation_20260911
+      - name: Run prespecified missingness audit
+        run: |
+          python scripts/analysis/run_rgfca_42111_breadth_missingness_audit_20260911.py \
+            --measured results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz \
+            --output-dir results/rgfca_42111_breadth_missingness_audit_20260911
+      - name: Run no-assumption denominator bounds
+        run: |
+          python scripts/analysis/run_rgfca_42111_breadth_noassumption_bounds_20260911.py \
+            --measured results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz \
+            --output-dir results/rgfca_42111_breadth_noassumption_bounds_20260911
+      - name: Validate all three surfaces
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s=json.loads(Path('results/rgfca_42111_repeated_colour_breadth_saturation_20260911/result.json').read_text())
+          m=json.loads(Path('results/rgfca_42111_breadth_missingness_audit_20260911/result.json').read_text())
+          b=json.loads(Path('results/rgfca_42111_breadth_noassumption_bounds_20260911/result.json').read_text())
+          assert s['status']=='complete_prespecified_repeated_saturation'
+          assert s['species_universe']==42111 and s['replicates_per_level']==200
+          assert m['status']=='complete_prespecified_missingness_audit'
+          assert m['species_denominator']==42111
+          assert m['flower_colour_used_as_classifiability_predictor'] is False
+          assert b['status']=='complete_prespecified_noassumption_bounds'
+          assert b['species_denominator']==42111
+          assert b['bounds_assume_missing_at_random'] is False
+          print(json.dumps({'saturation':s,'missingness':m,'bounds':b},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-breadth-postmeasurement-audits
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            results/rgfca_42111_repeated_colour_breadth_saturation_20260911/
+            results/rgfca_42111_breadth_missingness_audit_20260911/
+            results/rgfca_42111_breadth_noassumption_bounds_20260911/
+      - name: Commit immutable postmeasurement audits
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_repeated_colour_breadth_saturation_20260911 \
+                  results/rgfca_42111_breadth_missingness_audit_20260911 \
+                  results/rgfca_42111_breadth_noassumption_bounds_20260911
+          git commit -m 'Audit 42,111-species breadth saturation and missingness'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
