@@ -1,0 +1,106 @@
+name: Polymorphism paper v0.1 final 168-mm visual QC
+
+on:
+  push:
+    branches:
+      - feat/polymorphism-paper-v0-1-post-step9
+    paths:
+      - scripts/analysis/apply_polymorphism_jbi_postvisual_qc_20260911.py
+      - .github/workflows/polymorphism-paper-v0-1-jbi-postvisual-qc.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-render-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: feat/polymorphism-paper-v0-1-post-step9
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install render dependencies
+        run: python -m pip install --quiet pandas numpy matplotlib pillow
+      - name: Apply fail-closed post-JBI visual patch
+        run: python scripts/analysis/apply_polymorphism_jbi_postvisual_qc_20260911.py
+      - name: Render figures from frozen data
+        run: python scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py
+      - name: Verify compliance and decluttering contract
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          r = Path('scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py').read_text()
+          c = Path('paper/polymorphism_v0_1/FIGURE_CAPTIONS.md').read_text()
+          vals = [float(v) for v in re.findall(r'fontsize=(\d+(?:\.\d+)?)', r)]
+          assert vals and min(vals) >= 9.5, min(vals)
+          assert 'f"({letter.lower()})"' in r
+          assert '(0.16, 0.78, 0.68, 0.14, "100 photos per species")' in r
+          assert 'ax.text(x, y + 0.006' not in r
+          assert 'Exact P values are reported in Results and retained in the frozen figure-data table' in c
+          for token in ['(a)', '(b)', '(c)', '(d)', '(a–b)']:
+              assert token in c, token
+          print({'minimum_explicit_font_pt': min(vals), 'figure1a': 'vertical-flow', 'figure3c': 'pointwise-p-text-removed'})
+          PY
+      - name: Build 168-mm 300-dpi previews
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          src = Path('paper/polymorphism_v0_1/figures')
+          out = Path('visual_qc_168mm_300dpi')
+          out.mkdir(exist_ok=True)
+          names = [
+              'figure1_polymorphism_estimand.png',
+              'figure2_polymorphism_spatial_replication.png',
+              'figure3_measurement_and_ambiguity_robustness.png',
+              'figure4_genus_taxonomic_structure.png',
+          ]
+          target_w = round(168 / 25.4 * 300)
+          assert target_w == 1984
+          for name in names:
+              im = Image.open(src / name).convert('RGB')
+              target_h = round(im.height * target_w / im.width)
+              im.resize((target_w, target_h), Image.Resampling.LANCZOS).save(out / name, dpi=(300,300), quality=95)
+              print(name, target_w, target_h)
+          PY
+      - name: Revalidate science bundle with final figure hashes
+        run: |
+          python scripts/analysis/check_polymorphism_paper_v0_1_bundle_20260910.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('paper/polymorphism_v0_1/BUNDLE_READINESS.json').read_text())
+          assert r['status'] == 'PASS'
+          assert r['science_bundle_ready'] is True
+          assert r['main_text_word_count'] == 4452
+          assert r['source_receipts_checked'] == 10
+          assert r['acquisition_provenance_checked'] is True
+          assert len(r['main_figures_checked']) == 4
+          print(json.dumps(r, indent=2))
+          PY
+      - name: Upload final 168-mm previews
+        uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-v0-1-final-168mm-300dpi
+          path: visual_qc_168mm_300dpi/*.png
+          if-no-files-found: error
+          retention-days: 7
+      - name: Commit final layout-fixed figures and bundle receipt
+        run: |
+          git diff --check
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py \
+                  paper/polymorphism_v0_1/figures/ \
+                  paper/polymorphism_v0_1/FIGURE_CAPTIONS.md \
+                  paper/polymorphism_v0_1/figure_data/figure4_shared_genus_means.csv \
+                  paper/polymorphism_v0_1/BUNDLE_READINESS.json
+          test -n "$(git status --porcelain)"
+          git commit -m "Finish 168-mm visual QC for FCP figures"
+          git push origin HEAD:feat/polymorphism-paper-v0-1-post-step9
