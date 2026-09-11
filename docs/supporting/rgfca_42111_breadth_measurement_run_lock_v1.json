@@ -1,0 +1,25 @@
+{
+  "protocol": "rgfca-42111-species-breadth-one-shot-run-lock-v1",
+  "date_jst": "2026-09-11",
+  "status": "locked_after_first_authorized_firewall_before_complete_species_colour_join",
+  "authorized_workflow_run_id": 34547355040,
+  "authorized_workflow_run_number": 4,
+  "authorized_head_sha": "76fa8d01124e02eca7396774679b86527ebda8a1",
+  "reason": "Technical pre-pixel repairs queued additional workflow runs. The first run whose canonical-content-bound firewall passed is the sole authorized pixel-opening run. Later queued runs must fail closed before pixel opening even if the authorized run does not reach a final committed result.",
+  "scientific_inputs_changed": false,
+  "species_denominator": 42111,
+  "image_measurement_rows": 42110,
+  "preexisting_unresolved_terminal_rows": 1,
+  "partial_colour_results_inspected_before_lock": false,
+  "allowed_post_lock_actions": [
+    "continue authorized run 34547355040",
+    "inspect job status and failure logs without reading partial morph outcomes",
+    "repair purely technical post-pixel failures without changing biological definitions, thresholds, palette, species selection, photo IDs, denominator or estimand"
+  ],
+  "forbidden": [
+    "opening the same breadth pixel experiment in another workflow run",
+    "changing photo selection after observing colour",
+    "changing ROI or palette thresholds after observing colour",
+    "changing the 42,111 species denominator or one-anchor estimand after observing colour"
+  ]
+}
