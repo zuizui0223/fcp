@@ -1,0 +1,5 @@
+measurement_status,count,fraction
+classified_four_state_morph,24885,0.4977
+not_evaluable_ambiguous_palette_composition,2415,0.0483
+not_evaluable_no_biological_palette_mass,19,0.00038
+not_evaluable_roi_or_flip_gate,22681,0.45362

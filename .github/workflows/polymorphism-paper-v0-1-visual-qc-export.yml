@@ -1,0 +1,55 @@
+name: Polymorphism paper v0.1 visual QC export
+
+on:
+  push:
+    branches:
+      - feat/polymorphism-paper-v0-1-post-step9
+    paths:
+      - ".github/workflows/polymorphism-paper-v0-1-visual-qc-export.yml"
+      - "paper/polymorphism_v0_1/figures/*.png"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install preview dependency
+        run: python -m pip install --quiet pillow
+      - name: Build 85-mm 300-dpi previews
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          src = Path('paper/polymorphism_v0_1/figures')
+          out = Path('visual_qc_85mm_300dpi')
+          out.mkdir(exist_ok=True)
+          target_w = round(85 / 25.4 * 300)
+          names = [
+              'figure1_polymorphism_estimand.png',
+              'figure2_polymorphism_spatial_replication.png',
+              'figure3_measurement_and_ambiguity_robustness.png',
+              'figure4_genus_taxonomic_structure.png',
+          ]
+          for name in names:
+              im = Image.open(src / name).convert('RGB')
+              ratio = target_w / im.width
+              target_h = round(im.height * ratio)
+              preview = im.resize((target_w, target_h), Image.Resampling.LANCZOS)
+              preview.save(out / name, dpi=(300, 300), quality=95)
+              print(f'{name}: source={im.width}x{im.height}; preview={target_w}x{target_h}')
+          PY
+      - name: Upload visual QC previews
+        uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-v0-1-visual-qc-85mm-300dpi
+          path: visual_qc_85mm_300dpi/*.png
+          if-no-files-found: error
+          retention-days: 7

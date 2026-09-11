@@ -1,0 +1,83 @@
+name: Polymorphism paper v0.1 visual QC layout fix
+
+on:
+  push:
+    branches:
+      - feat/polymorphism-paper-v0-1-post-step9
+    paths:
+      - "scripts/analysis/apply_polymorphism_figure_visual_qc_layout_fix_20260911.py"
+      - ".github/workflows/polymorphism-paper-v0-1-visual-qc-layout-fix.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-render-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: feat/polymorphism-paper-v0-1-post-step9
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install render dependencies
+        run: python -m pip install --quiet pandas numpy matplotlib pillow
+      - name: Apply fail-closed layout-only patch
+        run: python scripts/analysis/apply_polymorphism_figure_visual_qc_layout_fix_20260911.py
+      - name: Render from frozen figure data
+        run: python scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py
+      - name: Validate layout-only diff surface
+        run: |
+          git diff --check
+          test -n "$(git status --porcelain scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py paper/polymorphism_v0_1/figures)"
+      - name: Build 85-mm and 170-mm 300-dpi previews
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          src = Path('paper/polymorphism_v0_1/figures')
+          names = [
+              'figure1_polymorphism_estimand.png',
+              'figure2_polymorphism_spatial_replication.png',
+              'figure3_measurement_and_ambiguity_robustness.png',
+              'figure4_genus_taxonomic_structure.png',
+          ]
+          for width_mm in (85, 170):
+              out = Path(f'visual_qc_{width_mm}mm_300dpi')
+              out.mkdir(exist_ok=True)
+              target_w = round(width_mm / 25.4 * 300)
+              for name in names:
+                  im = Image.open(src / name).convert('RGB')
+                  target_h = round(im.height * target_w / im.width)
+                  preview = im.resize((target_w, target_h), Image.Resampling.LANCZOS)
+                  preview.save(out / name, dpi=(300, 300), quality=95)
+                  print(f'{width_mm}mm {name}: source={im.width}x{im.height}; preview={target_w}x{target_h}')
+          PY
+      - name: Upload 85-mm previews
+        uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-v0-1-layout-fixed-85mm-300dpi
+          path: visual_qc_85mm_300dpi/*.png
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload 170-mm previews
+        uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-v0-1-layout-fixed-170mm-300dpi
+          path: visual_qc_170mm_300dpi/*.png
+          if-no-files-found: error
+          retention-days: 7
+      - name: Commit layout-fixed renderer and figures
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/analysis/render_polymorphism_paper_v0_1_figures_20260910.py \
+                  paper/polymorphism_v0_1/figures/ \
+                  paper/polymorphism_v0_1/FIGURE_CAPTIONS.md \
+                  paper/polymorphism_v0_1/figure_data/figure4_shared_genus_means.csv
+          git commit -m "Fix FCP figure layout after journal-size visual QC"
+          git push origin HEAD:feat/polymorphism-paper-v0-1-post-step9

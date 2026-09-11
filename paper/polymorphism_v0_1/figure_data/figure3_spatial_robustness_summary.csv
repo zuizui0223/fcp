@@ -1,0 +1,10 @@
+tranche,response,adjustment,D_variant,partial_rho,p
+discovery,primary_spatial,span_plus_technical_failure,observed,0.1266367492856858,0.007
+reserve,primary_spatial,span_plus_technical_failure,observed,0.09928771129095708,0.025
+reserve,flower_minus_background,span_plus_technical_failure,observed,0.1162411363016301,0.01
+discovery,primary_spatial,span_plus_technical_failure,D_min4,0.1335075220567376,0.006
+discovery,primary_spatial,span_plus_technical_failure,D_max4,0.11743792026314592,0.01
+reserve,primary_spatial,span_plus_technical_failure,D_min4,0.09707806726524047,0.029
+reserve,primary_spatial,span_plus_technical_failure,D_max4,0.12528581173891157,0.008
+reserve,flower_minus_background,span_plus_technical_failure,D_min4,0.11629858122358201,0.009
+reserve,flower_minus_background,span_plus_technical_failure,D_max4,0.13278517512096266,0.006

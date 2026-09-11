@@ -1,0 +1,81 @@
+name: Polymorphism paper v0.1 manuscript check
+
+on:
+  push:
+    branches:
+      - feat/polymorphism-paper-v0-1-post-step9
+    paths:
+      - "paper/polymorphism_v0_1/MANUSCRIPT.md"
+      - "paper/polymorphism_v0_1/paper_numbers.json"
+      - "paper/polymorphism_v0_1/FIGURE_CAPTIONS.md"
+      - "paper/polymorphism_v0_1/FIGURE_QC.md"
+      - "scripts/analysis/check_polymorphism_paper_v0_1_manuscript_20260910.py"
+      - "scripts/analysis/audit_polymorphism_acquisition_provenance_20260911.py"
+      - "results/polymorphism_acquisition_provenance_20260911/**"
+      - ".github/workflows/polymorphism-paper-v0-1-manuscript-check.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check manuscript against frozen paper ledger
+        run: |
+          python scripts/analysis/check_polymorphism_paper_v0_1_manuscript_20260910.py
+
+      - name: Verify frozen acquisition provenance and manuscript boundary
+        run: |
+          python scripts/analysis/audit_polymorphism_acquisition_provenance_20260911.py --check
+          python - <<'PY'
+          from pathlib import Path
+          m = Path('paper/polymorphism_v0_1/MANUSCRIPT.md').read_text(encoding='utf-8')
+          required = [
+              '**Version:** v0.1-post-Step-9+acquisition-provenance, 2026-09-11',
+              '`quality_grade=research`',
+              'species-disjoint complement of the other 500 taxa',
+              'did **not** apply a native-range restriction or explicit `captive=false`/`wild=true` parameter',
+              'Research Grade only as the iNaturalist quality-grade criterion',
+              'observed community-photograph sample rather than a native-range-only cline',
+              'results/polymorphism_acquisition_provenance_20260911/',
+          ]
+          missing = [x for x in required if x not in m]
+          if missing:
+              raise SystemExit(f'manuscript acquisition-provenance boundary drift: {missing}')
+          print('manuscript acquisition-provenance boundary: PASS')
+          PY
+
+      - name: Verify manuscript receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('paper/polymorphism_v0_1/MANUSCRIPT_CHECK.json')
+          r = json.loads(p.read_text())
+          assert r['status'] == 'PASS'
+          assert r['paper_version'] == 'v0.1-post-step9'
+          assert 2500 <= r['main_text_word_count'] <= 7500
+          print(json.dumps(r, indent=2))
+          PY
+
+      - name: Commit manuscript check receipt
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add paper/polymorphism_v0_1/MANUSCRIPT_CHECK.json
+          if git diff --cached --quiet; then
+            echo "No manuscript receipt changes"
+          else
+            git commit -m "Record FCP paper v0.1 manuscript check"
+            git push
+          fi
