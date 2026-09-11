@@ -12,7 +12,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 PROTOCOL = ROOT / "docs/RGFCA_42111_BREADTH_POSTMEASUREMENT_MISSINGNESS_AUDIT_PROTOCOL_20260911.md"
 CENSUS = ROOT / "results/rgfca_42111_breadth_depth_step8b_20260911/species_capacity_census.csv.gz"
-BIOLOGICAL = {"white", "yellow_orange", "red_pink", "blue_purple"}
+BIOLOGICAL = ("blue_purple", "red_pink", "white", "yellow_orange")
+N_SPECIES = 42111
 
 
 def parse_args() -> argparse.Namespace:
@@ -38,7 +39,7 @@ def capacity_bin(n: int) -> str:
 
 def breadth_block(rank: int) -> str:
     lo = ((int(rank) - 1) // 5000) * 5000 + 1
-    hi = min(42111, lo + 4999)
+    hi = min(N_SPECIES, lo + 4999)
     return f"{lo}_{hi}"
 
 
@@ -136,13 +137,14 @@ def main() -> None:
     args.output_dir.mkdir(parents=True, exist_ok=True)
     if not PROTOCOL.exists():
         raise RuntimeError("frozen missingness protocol is missing")
+
     x = pd.read_csv(args.measured)
     c = pd.read_csv(CENSUS, usecols=[
         "inat_taxon_id", "after_observer_cap", "source_v1", "source_v2"
     ])
-    if len(x) != 42111 or x["inat_taxon_id"].nunique() != 42111:
+    if len(x) != N_SPECIES or x["inat_taxon_id"].nunique() != N_SPECIES:
         raise RuntimeError("measured table is not exact 42,111 species")
-    if len(c) != 42111 or c["inat_taxon_id"].nunique() != 42111:
+    if len(c) != N_SPECIES or c["inat_taxon_id"].nunique() != N_SPECIES:
         raise RuntimeError("metadata census is not exact 42,111 species")
     x = x.merge(c, on="inat_taxon_id", how="left", validate="one_to_one")
     if x[["after_observer_cap", "source_v1", "source_v2"]].isna().any().any():
@@ -163,11 +165,17 @@ def main() -> None:
     x["mixed_uncertain"] = x["morph"].astype(str).eq("mixed_uncertain")
     x["discovery_source"] = x.apply(source_class, axis=1)
     x["capacity_bin"] = pd.to_numeric(x["after_observer_cap"], errors="raise").astype(int).map(capacity_bin)
-    x["opened_group"] = np.where(x["opened_existing_species"].astype(str).str.lower().isin(["true", "1"]), "previously_opened_1000", "not_previously_opened")
+    x["opened_group"] = np.where(
+        x["opened_existing_species"].astype(str).str.lower().isin(["true", "1"]),
+        "previously_opened_1000",
+        "not_previously_opened",
+    )
     x["breadth_rank_block"] = pd.to_numeric(x["breadth_rank"], errors="raise").astype(int).map(breadth_block)
     x["genus_label"] = x["species"].astype(str).str.split().str[0]
     genus_n = x.groupby("genus_label", observed=True)["inat_taxon_id"].transform("size")
-    x["genus_size_class"] = np.where(genus_n.eq(1), "singleton_genus_label", "non_singleton_genus_label")
+    x["genus_size_class"] = np.where(
+        genus_n.eq(1), "singleton_genus_label", "non_singleton_genus_label"
+    )
 
     families = [
         ("discovery_source", "discovery_source"),
@@ -184,8 +192,28 @@ def main() -> None:
         family_summaries[family] = s
     strata = pd.concat(tables, ignore_index=True)
 
+    full_class = int(x["classifiable"].sum())
+    missing_n = int(N_SPECIES - full_class)
+    observed_counts = {
+        m: int((x["classifiable"] & x["morph"].astype(str).eq(m)).sum())
+        for m in BIOLOGICAL
+    }
+    raw_comp = {
+        m: (float(observed_counts[m] / full_class) if full_class > 0 else None)
+        for m in BIOLOGICAL
+    }
+    no_assumption_bounds = {
+        m: {
+            "lower": float(observed_counts[m] / N_SPECIES),
+            "upper": float((observed_counts[m] + missing_n) / N_SPECIES),
+        }
+        for m in BIOLOGICAL
+    }
+
     # Prespecified metadata-only classifiability model. No colour category enters X.
-    model_cols = ["discovery_source", "capacity_bin", "opened_group", "breadth_rank_block", "genus_size_class"]
+    model_cols = [
+        "discovery_source", "capacity_bin", "opened_group", "breadth_rank_block", "genus_size_class"
+    ]
     X, names = make_design(x, model_cols)
     y = x["classifiable"].astype(int).to_numpy(float)
     beta = fit_logit_irls(X, y)
@@ -195,9 +223,23 @@ def main() -> None:
     x["ipw_classifiable"] = np.where(x["classifiable"], 1.0 / p, 0.0)
 
     # Sensitivity composition: model-based IPW among the same four admitted states.
-    ipw_num = {m: float(x.loc[x["morph"].astype(str).eq(m), "ipw_classifiable"].sum()) for m in sorted(BIOLOGICAL)}
+    ipw_num = {
+        m: float(x.loc[x["morph"].astype(str).eq(m), "ipw_classifiable"].sum())
+        for m in BIOLOGICAL
+    }
     ipw_den = float(sum(ipw_num.values()))
     ipw_comp = {m: (v / ipw_den if ipw_den > 0 else None) for m, v in ipw_num.items()}
+    nonzero_weights = x.loc[x["classifiable"], "ipw_classifiable"].to_numpy(dtype=float)
+    if len(nonzero_weights):
+        weight_sum = float(nonzero_weights.sum())
+        weight_sq_sum = float(np.square(nonzero_weights).sum())
+        ipw_ess = float((weight_sum * weight_sum) / weight_sq_sum) if weight_sq_sum > 0 else 0.0
+        ipw_max_weight = float(nonzero_weights.max())
+        ipw_min_weight = float(nonzero_weights.min())
+    else:
+        ipw_ess = 0.0
+        ipw_max_weight = None
+        ipw_min_weight = None
 
     # Complete-stratum standardization. Standardization cells use only frozen metadata.
     cell_cols = model_cols
@@ -205,46 +247,129 @@ def main() -> None:
         denominator=("inat_taxon_id", "size"),
         classifiable=("classifiable", "sum"),
     ).reset_index()
-    for m in sorted(BIOLOGICAL):
-        z = x.assign(_is=(x["morph"].astype(str) == m) & x["classifiable"]).groupby(cell_cols, observed=True, dropna=False)["_is"].sum().reset_index(name=f"n_{m}")
+    for m in BIOLOGICAL:
+        z = (
+            x.assign(_is=(x["morph"].astype(str) == m) & x["classifiable"])
+            .groupby(cell_cols, observed=True, dropna=False)["_is"]
+            .sum()
+            .reset_index(name=f"n_{m}")
+        )
         cell = cell.merge(z, on=cell_cols, how="left", validate="one_to_one")
     complete = cell.loc[cell["classifiable"] > 0].copy()
-    standardized_num = {m: float(((complete[f"n_{m}"] / complete["classifiable"]) * complete["denominator"]).sum()) for m in sorted(BIOLOGICAL)}
+    standardized_num = {
+        m: float(((complete[f"n_{m}"] / complete["classifiable"]) * complete["denominator"]).sum())
+        for m in BIOLOGICAL
+    }
     standardized_den = float(complete["denominator"].sum())
-    standardized_comp = {m: (v / standardized_den if standardized_den > 0 else None) for m, v in standardized_num.items()}
+    standardized_comp = {
+        m: (v / standardized_den if standardized_den > 0 else None)
+        for m, v in standardized_num.items()
+    }
+    standardized_coverage_fraction = float(standardized_den / N_SPECIES)
+
+    sensitivity_rows: list[dict[str, object]] = []
+    for m in BIOLOGICAL:
+        sensitivity_rows.extend([
+            {
+                "surface": "raw_classifiable_composition",
+                "morph": m,
+                "estimate": raw_comp[m],
+                "lower": np.nan,
+                "upper": np.nan,
+            },
+            {
+                "surface": "no_assumption_denominator_bound",
+                "morph": m,
+                "estimate": np.nan,
+                "lower": no_assumption_bounds[m]["lower"],
+                "upper": no_assumption_bounds[m]["upper"],
+            },
+            {
+                "surface": "metadata_only_ipw_composition",
+                "morph": m,
+                "estimate": ipw_comp[m],
+                "lower": np.nan,
+                "upper": np.nan,
+            },
+            {
+                "surface": "complete_stratum_standardized_composition",
+                "morph": m,
+                "estimate": standardized_comp[m],
+                "lower": np.nan,
+                "upper": np.nan,
+            },
+        ])
 
     strata.to_csv(args.output_dir / "missingness_by_frozen_stratum.csv", index=False, lineterminator="\n")
     cell.to_csv(args.output_dir / "standardization_cells.csv", index=False, lineterminator="\n")
-    pd.DataFrame({"term": names, "coefficient": beta}).to_csv(args.output_dir / "classifiability_logit_coefficients.csv", index=False, lineterminator="\n")
+    pd.DataFrame({"term": names, "coefficient": beta}).to_csv(
+        args.output_dir / "classifiability_logit_coefficients.csv", index=False, lineterminator="\n"
+    )
+    pd.DataFrame(sensitivity_rows).to_csv(
+        args.output_dir / "composition_sensitivity_surfaces.csv", index=False, lineterminator="\n"
+    )
 
-    full_class = int(x["classifiable"].sum())
     result = {
         "analysis": "rgfca_42111_breadth_postmeasurement_missingness_audit",
         "status": "complete_prespecified_missingness_audit",
-        "species_denominator": 42111,
+        "species_denominator": N_SPECIES,
         "classifiable_species": full_class,
-        "classifiable_fraction": float(full_class / 42111),
+        "classifiable_fraction": float(full_class / N_SPECIES),
+        "unclassified_or_missing_species": missing_n,
+        "raw_four_state_composition_among_classifiable": raw_comp,
+        "observed_four_state_counts": observed_counts,
+        "no_assumption_denominator_bounds": no_assumption_bounds,
         "family_selection_diagnostics": family_summaries,
         "metadata_only_classifiability_model_terms": names,
+        "classifiability_probability_clip": [0.01, 0.99],
         "ipw_four_state_composition_sensitivity": ipw_comp,
+        "ipw_effective_sample_size": ipw_ess,
+        "ipw_effective_sample_size_fraction_of_classifiable": (
+            float(ipw_ess / full_class) if full_class > 0 else None
+        ),
+        "ipw_maximum_nonzero_weight": ipw_max_weight,
+        "ipw_minimum_nonzero_weight": ipw_min_weight,
         "complete_stratum_standardized_four_state_composition_sensitivity": standardized_comp,
         "complete_stratum_denominator": int(standardized_den),
+        "complete_stratum_coverage_fraction_of_42111": standardized_coverage_fraction,
         "primary_estimator_replaced": False,
         "flower_colour_used_as_classifiability_predictor": False,
         "anchor_replacement_performed": False,
+        "all_sensitivity_surfaces_reported_together": True,
         "claim_boundary": "Missingness diagnostic only. One photo per species does not identify modal colour, polymorphism prevalence, D, or C*/S*."
     }
-    (args.output_dir / "result.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    (args.output_dir / "RESULT.md").write_text(
-        "# RGFCA 42,111 breadth — postmeasurement missingness audit\n\n"
-        f"- species denominator: **42,111**\n"
-        f"- classifiable: **{full_class:,} ({full_class/42111:.3%})**\n"
-        "- primary estimator replaced: **false**\n"
-        "- colour used in classifiability model: **false**\n"
-        "- failed anchors replaced: **false**\n\n"
-        "The audit diagnoses selection into the classifiable subset using only frozen metadata strata; it does not change the primary species-equal observed-state composition.\n",
-        encoding="utf-8",
+    (args.output_dir / "result.json").write_text(
+        json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
+
+    lines = [
+        "# RGFCA 42,111 breadth — postmeasurement missingness audit",
+        "",
+        f"- species denominator: **{N_SPECIES:,}**",
+        f"- classifiable: **{full_class:,} ({full_class/N_SPECIES:.3%})**",
+        f"- unclassified/missing: **{missing_n:,}**",
+        f"- IPW effective sample size: **{ipw_ess:,.1f}**",
+        f"- IPW maximum nonzero weight: **{ipw_max_weight if ipw_max_weight is not None else 'NA'}**",
+        f"- complete-stratum coverage: **{standardized_coverage_fraction:.3%}**",
+        "- primary estimator replaced: **false**",
+        "- colour used in classifiability model: **false**",
+        "- failed anchors replaced: **false**",
+        "",
+        "## Raw composition and no-assumption denominator bounds",
+        "",
+    ]
+    for m in BIOLOGICAL:
+        raw = raw_comp[m]
+        b = no_assumption_bounds[m]
+        raw_text = "NA" if raw is None else f"{raw:.6f}"
+        lines.append(
+            f"- {m}: raw(classifiable) **{raw_text}**; full-denominator bound **[{b['lower']:.6f}, {b['upper']:.6f}]**"
+        )
+    lines += [
+        "",
+        "Raw composition, assumption-free bounds, metadata-only IPW and complete-stratum standardization are all retained together. None replaces the primary estimator.",
+    ]
+    (args.output_dir / "RESULT.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2, sort_keys=True))
 
 
