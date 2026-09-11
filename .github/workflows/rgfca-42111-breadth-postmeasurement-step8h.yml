@@ -6,6 +6,10 @@ on:
       - analysis/rgfca-42111-tiered-measurement-step8c
     paths:
       - 'results/rgfca_42111_breadth_measurement_step8f_20260911/**'
+      # The breadth result is committed by github-actions[bot], whose GITHUB_TOKEN
+      # push does not recursively start another workflow. Including this workflow
+      # path provides a provenance-preserving, data-neutral one-shot kick path.
+      - '.github/workflows/rgfca-42111-breadth-postmeasurement-step8h.yml'
   workflow_dispatch:
 
 permissions:
