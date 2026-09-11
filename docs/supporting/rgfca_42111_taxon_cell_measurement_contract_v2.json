@@ -1,0 +1,113 @@
+{
+  "protocol": "rgfca-42111-taxon-cell-geographic-measurement-v2-operational-decoupling",
+  "date_jst": "2026-09-11",
+  "status": "frozen_before_any_taxon_cell_specific_image_pixel_v2",
+  "supersedes": {
+    "path": "docs/supporting/rgfca_42111_taxon_cell_measurement_contract_v1.json",
+    "sha256_role": "v1 is retained as the historical contract; v2 changes only execution ordering before any taxon-cell-specific pixel is opened",
+    "scientific_estimand_changed": false,
+    "measurement_rule_changed": false,
+    "denominator_changed": false,
+    "reason": "The 58,431 new resolved_by_api photos can be measured location-blindly without access to breadth outcomes. Breadth completion is required only for the later reuse join of 26,904 already-measured species-anchor photos."
+  },
+  "purpose": "Measure the frozen 85,337 taxon-by-cell geographic frame while never reopening the 26,904 breadth-anchor images and while allowing the 58,431 new images to be measured independently of breadth completion.",
+  "taxon_cell_denominator": 85337,
+  "species_universe": 42111,
+  "occupied_cells": 128,
+  "transport": {
+    "source_result": "results/rgfca_42111_taxon_cell_resolution_step8e3_20260911/result.json",
+    "source_table": "results/rgfca_42111_taxon_cell_resolution_step8e3_20260911/taxon_cell_anchor_metadata_85337.csv.gz",
+    "required_source_table_sha256": "7d4c67c3480ff5921abfd8bd1c882d0511d79a6a8b4a065e749822805f31b431",
+    "resolved_exact_photo": 85335,
+    "unresolved_rows": 2,
+    "replacement_after_failure": false
+  },
+  "execution_order": {
+    "stage_a_new_only_blind_measurement": {
+      "breadth_outcomes_required": false,
+      "new_image_rows": 58431,
+      "biological_join_allowed": false,
+      "all_128_terminal_partitions_required": true,
+      "safe_terminal_aggregate_may_be_persisted": true
+    },
+    "stage_b_final_taxon_cell_join": {
+      "breadth_complete_result_required": true,
+      "breadth_result": "results/rgfca_42111_breadth_measurement_step8f_20260911/result.json",
+      "breadth_table": "results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz",
+      "required_breadth_status": "complete_42111_species_breadth_measurement_and_postcomplete_join",
+      "reused_taxon_cell_rows": 26904,
+      "reuse_key": ["observation_id", "photo_id"],
+      "reopen_reused_image_pixels": false,
+      "new_taxon_cell_colour_join_allowed_only_after_stage_a_complete": true
+    }
+  },
+  "new_measurement": {
+    "resolution_status": "resolved_by_api",
+    "expected_new_image_rows": 58431,
+    "measurement_infrastructure_source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+    "reuse_roi_palette_without_change": true,
+    "roi_protocol": "jbi-atlas-roi-estimator-v4",
+    "detector_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "efficient_sam_revision": "d525f622e6f640acf5a0fc37c7ca1f243da5bde0",
+    "fixed_palette_groups": ["white", "yellow_orange", "red_pink", "blue_purple"],
+    "mixed_uncertain_is_structural_missingness": true,
+    "species_specific_thresholds": false,
+    "post_outcome_tuning": false,
+    "replacement_after_image_failure": false
+  },
+  "blinding": {
+    "worker_allowed_fields": ["measurement_id", "image_filename", "photo_license"],
+    "worker_forbidden_context": ["species", "inat_taxon_id", "cell_id", "observation_id", "photo_id", "latitude", "longitude", "observer_id", "climate", "pollinator"],
+    "measurement_id_salt": "fcp-rgfca-42111-taxon-cell-v1",
+    "new_terminal_aggregate_forbidden_context": ["species", "inat_taxon_id", "cell_id", "observation_id", "photo_id", "latitude", "longitude", "observer_id", "source_url"],
+    "taxon_cell_join_only_after_all_new_terminal_partitions": true
+  },
+  "partitioning": {
+    "semantic_shards": 32,
+    "compute_partitions_per_semantic_shard": 4,
+    "total_terminal_partitions": 128,
+    "maximum_parallel_workers": 8,
+    "all_partitions_required": true,
+    "early_stopping": false
+  },
+  "terminal_accounting": {
+    "reused_breadth_terminal_rows": 26904,
+    "new_image_measurement_rows": 58431,
+    "preexisting_transport_unresolved_rows": 2,
+    "final_taxon_cell_rows": 85337,
+    "each_taxon_cell_exactly_one_terminal_row": true
+  },
+  "geographic_estimand": {
+    "primary": "within each frozen equal-area cell, the species-equal distribution of observed coarse flower-colour states among classifiable taxon-cell anchors, with the full cell-specific taxon denominator and missingness shown alongside it",
+    "pool_all_85337_as_global_frequency": false,
+    "reason_not_pooled": "Pooling all taxon-cell rows would weight geographically widespread species more heavily than narrow-ranged species.",
+    "global_species_equal_frequency_source": "the separate 42,111 one-anchor-per-species breadth estimator"
+  },
+  "crosscell_estimand": {
+    "fixed_pair_frame": "results/rgfca_42111_crosscell_observer_preflight_20260911/crosscell_observer_disjoint_pairs.csv.gz",
+    "fixed_pair_species": 13416,
+    "states": ["same", "discordant", "unclassifiable"],
+    "primary_report": "discordant/(same+discordant) among fixed pairs with both endpoints classifiable",
+    "also_report_unconditional": true,
+    "post_outcome_distance_bins": false,
+    "claim_boundary": "cross-cell coarse colour discordance between two geographically separated, observer-disjoint photos"
+  },
+  "downstream_authorized_after_complete_map_measurement": [
+    "cell-wise four-state composition and classifiability",
+    "geographic composition gradients with prespecified spatial uncertainty",
+    "observer-disjoint cross-cell pair discordance using the separately frozen pair frame"
+  ],
+  "hard_nonclaims": [
+    "not within-population coexistence",
+    "not genetic differentiation",
+    "not adaptation",
+    "not flower-colour-polymorphism prevalence",
+    "not species-wide Simpson D from one taxon-cell draw per occupied cell",
+    "not evidence that unresolved or mixed_uncertain anchors belong to any particular colour state"
+  ],
+  "outcome_firewall": {
+    "taxon_cell_specific_pixels_opened_at_v2_freeze": false,
+    "taxon_cell_colour_join_opened_at_v2_freeze": false,
+    "crosscell_discordance_opened_at_v2_freeze": false
+  }
+}
