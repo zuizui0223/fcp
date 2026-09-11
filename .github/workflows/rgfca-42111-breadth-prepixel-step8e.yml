@@ -7,6 +7,8 @@ on:
     paths:
       - 'results/rgfca_42111_anchor_resolution_full_step8d_20260911/**'
       - 'docs/supporting/rgfca_42111_breadth_measurement_contract_v1.json'
+      - 'docs/RGFCA_42111_STEP8E_CANONICAL_HASH_ERRATUM_20260911.md'
+      - 'scripts/analysis/build_rgfca_42111_breadth_prepixel_gate_step8e_20260911.py'
       - 'scripts/analysis/build_rgfca_42111_breadth_measurement_firewall_step8f_20260911.py'
       - 'scripts/analysis/reassemble_rgfca_42111_breadth_measurement_step8f_20260911.py'
       - '.github/workflows/rgfca-42111-breadth-prepixel-step8e.yml'
@@ -56,6 +58,8 @@ jobs:
           assert r['flower_colour_used'] is False
           assert r['pixel_opening_authorized'] is False
           assert r['status']=='transport_gate_pass'
+          assert len(r['lineage']['denominator_canonical_sha256'])==64
+          assert len(r['lineage']['source_manifest_canonical_sha256'])==64
           print(json.dumps(r, indent=2))
           PY
       - uses: actions/upload-artifact@v4
@@ -74,7 +78,7 @@ jobs:
             echo 'gate already identical; no commit needed'
             exit 0
           fi
-          git commit -m 'Freeze 42,111-species breadth pre-pixel gate'
+          git commit -m 'Freeze canonical 42,111-species breadth pre-pixel gate'
           for attempt in 1 2 3 4; do
             git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
             git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
