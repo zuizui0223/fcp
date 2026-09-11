@@ -5,22 +5,22 @@
     {
       "bytes": 32252,
       "path": "figures/figure1_polymorphism_estimand.pdf",
-      "sha256": "23c84938612818aa10ae601a5abe0e700b7062f9f1430fb116e212d5f06f4bf5"
+      "sha256": "b217a47dabcf15f82a054dee4dc5166943bd7a9053305d7fc51da0cd996074d0"
     },
     {
-      "bytes": 41960,
+      "bytes": 41934,
       "path": "figures/figure2_polymorphism_spatial_replication.pdf",
-      "sha256": "3dd657674a3273f29d3bd3ad6ac88c9f64a961f6138241e3bb5c7882b82fe01b"
+      "sha256": "9ab2fe300fc6b8c2bbb78157805316b4b96d38cc8e75519f2623d47e20d311d2"
     },
     {
       "bytes": 41722,
       "path": "figures/figure3_measurement_and_ambiguity_robustness.pdf",
-      "sha256": "5a0cd2dc5c7e8c9d5b3ad5957ef7e4a4506fbd4be65f4518741ab54c611c7f4e"
+      "sha256": "8f366be4ca5062048c9b85a77781063523f895aff66aa939fda8cfae53b64bd6"
     },
     {
-      "bytes": 24363,
+      "bytes": 24355,
       "path": "figures/figure4_genus_taxonomic_structure.pdf",
-      "sha256": "c2220d1a5bab19f2048a150898873ff5a0f0f78a3a8a676dc050275895974e0e"
+      "sha256": "46e27884b5059059670ef157e5927bc4812f815b31b557cfc7b4b2b55b65915a"
     }
   ],
   "main_text_word_count": 4452,

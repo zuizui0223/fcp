@@ -175,7 +175,7 @@ def figure2(numbers: dict[str, Any]) -> list[Path]:
     ax = fig.add_subplot(gs[1, 0])
     panel(ax, "C")
     x_positions = [0, 1, 3, 4]
-    labels = ["Disc.\n<10%", "Disc.\n≥10%", "Reserve\n<10%", "Reserve\n≥10%"]
+    labels = ["Disc.\n<10%", "Disc.\n≥10%", "Res.\n<10%", "Res.\n≥10%"]
     datasets = [
         d.loc[~d["primary_second_ge_0_10"].astype(bool), "spatial_rho"].to_numpy(float),
         d.loc[d["primary_second_ge_0_10"].astype(bool), "spatial_rho"].to_numpy(float),
@@ -332,9 +332,26 @@ def figure4(numbers: dict[str, Any]) -> list[Path]:
     ax.text(0.04, 0.95, f"Spearman ρ={numbers['genus_secondary']['shared_23_rho']:.3f}; {ptxt(numbers['genus_secondary']['shared_23_p'])}", transform=ax.transAxes, va="top", fontsize=9.5)
     deviation = np.abs(shared["reserve_mean_D"].to_numpy() - shared["discovery_mean_D"].to_numpy())
     label_idx = set(np.argsort(deviation)[-4:].tolist()) | set(np.argsort(shared["discovery_mean_D"].to_numpy())[-2:].tolist())
+    label_offsets = {
+        "Allium": (5, 4, "left"),
+        "Calochortus": (5, 5, "left"),
+        "Erythranthe": (5, 4, "left"),
+        "Ipomoea": (6, 8, "left"),
+        "Rosa": (5, 8, "left"),
+        "Salvia": (-6, 5, "right"),
+    }
     for i in sorted(label_idx):
         row = shared.iloc[i]
-        ax.text(row.discovery_mean_D + 0.007, row.reserve_mean_D + 0.007, row.genus, fontsize=9.5)
+        dx, dy, ha = label_offsets.get(row.genus, (5, 5, "left"))
+        ax.annotate(
+            row.genus,
+            (row.discovery_mean_D, row.reserve_mean_D),
+            xytext=(dx, dy),
+            textcoords="offset points",
+            ha=ha,
+            va="center",
+            fontsize=9.5,
+        )
 
     fig.suptitle("Figure 4 | Genus-level structure is a secondary, qualified result", fontsize=11, y=0.98)
     return save(fig, "figure4_genus_taxonomic_structure")
