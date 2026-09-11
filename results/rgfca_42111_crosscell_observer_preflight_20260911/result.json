@@ -1,0 +1,24 @@
+{
+  "analysis": "rgfca_42111_crosscell_observer_preflight",
+  "claim_boundary": "Pair frame identifies observer-disjoint cross-cell measurement opportunity only; no flower-colour discordance has been opened.",
+  "flower_colour_used": false,
+  "image_pixels_opened": false,
+  "lineage": {
+    "batch_receipts_sha256": "a2f99894444c4961a487bdc25e8a8dd065909553ec5718d1700c79745d2fba34",
+    "observer_metadata_sha256": "07b23bbbfbecdcaa7f02c921e60ef3503f923102b884a34aacf8a512872cfd5a",
+    "pair_frame_sha256": "a5d8e677a87fc3b0771413bbb5b2aa40a1b2242acb4156813ae986518ffa7e4f",
+    "protocol_sha256": "f3c7b969c361027d24716c63dbe741495acbc8c61d816d8dce784fb1f4871a3c",
+    "taxon_cell_frame_sha256": "e326c77900c8ce2ed112daf7fb6dd9a73fe49d0f4641f539c053d36181faa10c"
+  },
+  "observer_api_requests": 427,
+  "observer_disjoint_crosscell_pair_species": 13416,
+  "observer_ids_resolved": 85337,
+  "observer_ids_unresolved": 0,
+  "observer_resolution_fraction": 1.0,
+  "pair_eligibility_fraction_of_ge2cell_species": 0.9890887643762902,
+  "replacement_after_observer_failure": false,
+  "species_universe": 42111,
+  "species_with_ge2_frozen_cells": 13564,
+  "status": "complete_metadata_only_observer_disjoint_pair_freeze",
+  "taxon_cell_rows": 85337
+}
