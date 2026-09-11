@@ -1,4 +1,4 @@
-name: RGFCA 42,111 breadth pre-pixel Step 8E
+name: RGFCA 42,111 species-breadth measurement Step 8E-F
 
 on:
   push:
@@ -6,6 +6,9 @@ on:
       - analysis/rgfca-42111-tiered-measurement-step8c
     paths:
       - 'results/rgfca_42111_anchor_resolution_full_step8d_20260911/**'
+      - 'docs/supporting/rgfca_42111_breadth_measurement_contract_v1.json'
+      - 'scripts/analysis/build_rgfca_42111_breadth_measurement_firewall_step8f_20260911.py'
+      - 'scripts/analysis/reassemble_rgfca_42111_breadth_measurement_step8f_20260911.py'
       - '.github/workflows/rgfca-42111-breadth-prepixel-step8e.yml'
   workflow_dispatch:
 
@@ -13,8 +16,13 @@ permissions:
   contents: write
 
 concurrency:
-  group: rgfca-42111-breadth-prepixel-step8e
+  group: rgfca-42111-breadth-step8ef
   cancel-in-progress: false
+
+env:
+  EFFICIENTSAM_REVISION: 'd525f622e6f640acf5a0fc37c7ca1f243da5bde0'
+  EFFICIENTSAM_ENCODER_SHA256: '84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951'
+  EFFICIENTSAM_DECODER_SHA256: 'a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11'
 
 jobs:
   gate:
@@ -29,9 +37,9 @@ jobs:
           python-version: '3.12'
       - name: Install dependency
         run: pip install pandas
-      - name: Build frozen pre-pixel gate
+      - name: Build frozen pre-pixel transport gate
         run: python scripts/analysis/build_rgfca_42111_breadth_prepixel_gate_step8e_20260911.py
-      - name: Validate gate remains non-authorizing
+      - name: Validate non-authorizing gate
         run: |
           python - <<'PY'
           import json
@@ -42,12 +50,12 @@ jobs:
           d=pd.read_csv(root/'breadth_denominator_42111.csv.gz')
           c=pd.read_csv(root/'breadth_source_manifest_resolved.csv.gz')
           assert len(d)==42111 and d['inat_taxon_id'].nunique()==42111
-          assert len(c)==r['resolved_exact_anchor_species']
-          assert r['resolved_exact_anchor_species'] + r['unresolved_anchor_species']==42111
+          assert len(c)==r['resolved_exact_anchor_species']==42110
+          assert r['unresolved_anchor_species']==1
           assert r['image_pixels_opened'] is False
           assert r['flower_colour_used'] is False
           assert r['pixel_opening_authorized'] is False
-          assert r['status'] in {'transport_gate_pass','transport_gate_fail'}
+          assert r['status']=='transport_gate_pass'
           print(json.dumps(r, indent=2))
           PY
       - uses: actions/upload-artifact@v4
@@ -56,13 +64,242 @@ jobs:
           if-no-files-found: error
           retention-days: 90
           path: results/rgfca_42111_breadth_prepixel_step8e_20260911/
-      - name: Commit immutable pre-pixel gate
+      - name: Commit gate if changed
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add results/rgfca_42111_breadth_prepixel_step8e_20260911
+          if git diff --cached --quiet; then
+            echo 'gate already identical; no commit needed'
+            exit 0
+          fi
           git commit -m 'Freeze 42,111-species breadth pre-pixel gate'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+            git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
+            if git push origin HEAD:analysis/rgfca-42111-tiered-measurement-step8c; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
+
+  firewall:
+    needs: gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fast-forward to current analysis branch
+        run: |
+          git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
+          git checkout --detach origin/analysis/rgfca-42111-tiered-measurement-step8c
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Materialize exact validated measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Build 42,111-species breadth firewall
+        run: python scripts/analysis/build_rgfca_42111_breadth_measurement_firewall_step8f_20260911.py
+      - name: Validate frozen denominator and blind interface
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('results/rgfca_42111_breadth_measurement_firewall_step8f_20260911')
+          r=json.loads((root/'firewall_manifest.json').read_text())
+          w=pd.read_csv(root/'worker_packet/measurement_manifest.csv')
+          a=pd.read_csv(root/'sealed_keys/acquisition_key.csv')
+          m=pd.read_csv(root/'sealed_keys/metadata_join_key.csv')
+          u=pd.read_csv(root/'sealed_keys/unresolved_terminal_species.csv')
+          assert r['status']=='breadth_measurement_firewall_frozen_before_pixels'
+          assert len(w)==len(a)==len(m)==r['resolved_measurement_rows']==42110
+          assert len(u)==r['preexisting_unresolved_terminal_rows']==1
+          assert w['measurement_id'].nunique()==42110
+          assert r['terminal_partitions']==128
+          assert r['worker_contains_species'] is False
+          assert r['worker_contains_coordinates'] is False
+          assert r['worker_contains_source_url'] is False
+          assert r['image_pixels_opened'] is False and r['flower_colour_used'] is False
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-breadth-firewall-step8f
+          if-no-files-found: error
+          retention-days: 14
+          path: results/rgfca_42111_breadth_measurement_firewall_step8f_20260911/
+
+  measure:
+    needs: firewall
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        semantic_shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        compute_partition: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Materialize exact validated measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install exact CPU measurement runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install 'torch==2.11.0' 'torchvision==0.26.0' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e . -r requirements-atlas-roi-v4.txt
+      - name: Download exact EfficientSAM weights
+        run: |
+          rm -rf /tmp/efficient-sam
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+      - uses: actions/download-artifact@v4
+        with:
+          name: rgfca-42111-breadth-firewall-step8f
+          path: /tmp/firewall
+      - name: Acquire one blind partition into ephemeral filenames
+        run: |
+          rm -rf /tmp/acquisition
+          python scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            --worker-manifest /tmp/firewall/worker_packet/measurement_manifest.csv \
+            --acquisition-key /tmp/firewall/sealed_keys/acquisition_key.csv \
+            --output-dir /tmp/acquisition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+      - name: Delete URL and biological-context surfaces before colour measurement
+        run: |
+          rm -rf /tmp/blind /tmp/safe-acquisition
+          mkdir -p /tmp/blind/images /tmp/safe-acquisition
+          cp /tmp/acquisition/successful_worker_manifest.csv /tmp/blind/measurement_manifest.csv
+          cp -a /tmp/acquisition/ephemeral_images/. /tmp/blind/images/
+          cp /tmp/acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/selected_blind_manifest.csv
+          cp /tmp/acquisition/acquisition_failures.csv /tmp/safe-acquisition/acquisition_failures.csv
+          cp /tmp/acquisition/acquisition_receipt.csv /tmp/safe-acquisition/acquisition_receipt.csv
+          rm -rf /tmp/firewall /tmp/acquisition
+          test ! -e /tmp/firewall
+          test ! -e /tmp/acquisition
+          ! grep -R -E 'photo_url|latitude|longitude|species|observer|taxon|breadth_rank' /tmp/blind /tmp/safe-acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/acquisition_receipt.csv
+      - name: Run unchanged ROI-v4 and fixed palette location-blindly
+        run: |
+          python scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --worker-manifest /tmp/blind/measurement_manifest.csv \
+            --images-dir /tmp/blind/images \
+            --detector-weight data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --efficient-sam-dir /tmp/efficient-sam \
+            --output-csv /tmp/blind_measurement_results.csv
+      - name: Seal exact terminal partition and delete pixels
+        run: |
+          rm -rf /tmp/sealed-partition
+          python scripts/analysis/seal_random_photo_first_measurement_partition.py \
+            --selected-blind-manifest /tmp/safe-acquisition/selected_blind_manifest.csv \
+            --acquisition-failures /tmp/safe-acquisition/acquisition_failures.csv \
+            --measurement-results /tmp/blind_measurement_results.csv \
+            --output-dir /tmp/sealed-partition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+          rm -rf /tmp/blind /tmp/efficient-sam /tmp/safe-acquisition /tmp/blind_measurement_results.csv
+          test ! -e /tmp/blind
+          test ! -e /tmp/efficient-sam
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-breadth-terminal-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/sealed-partition/
+
+  reassemble:
+    needs: measure
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Materialize exact validated reassembly infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - uses: actions/download-artifact@v4
+        with:
+          name: rgfca-42111-breadth-firewall-step8f
+          path: /tmp/firewall
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: rgfca-42111-breadth-terminal-*
+          path: /tmp/partition-results
+          merge-multiple: true
+      - name: Require all 128 partitions then open species-colour join
+        run: |
+          rm -rf results/rgfca_42111_breadth_measurement_step8f_20260911
+          python scripts/analysis/reassemble_rgfca_42111_breadth_measurement_step8f_20260911.py \
+            --results-dir /tmp/partition-results \
+            --worker-manifest /tmp/firewall/worker_packet/measurement_manifest.csv \
+            --metadata-join-key /tmp/firewall/sealed_keys/metadata_join_key.csv \
+            --unresolved-terminal /tmp/firewall/sealed_keys/unresolved_terminal_species.csv \
+            --firewall-manifest /tmp/firewall/firewall_manifest.json \
+            --output-dir results/rgfca_42111_breadth_measurement_step8f_20260911
+      - name: Validate complete 42,111-species terminal result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          root=Path('results/rgfca_42111_breadth_measurement_step8f_20260911')
+          r=json.loads((root/'result.json').read_text())
+          x=pd.read_csv(root/'rgfca_42111_species_breadth_measured.csv.gz')
+          s=pd.read_csv(root/'breadth_prefix_saturation.csv')
+          assert r['status']=='complete_42111_species_breadth_measurement_and_postcomplete_join'
+          assert len(x)==r['final_rows']==42111
+          assert x['inat_taxon_id'].nunique()==42111
+          assert r['image_measurement_rows']==42110
+          assert r['preexisting_unresolved_terminal_rows']==1
+          assert r['terminal_partition_receipts']==128
+          assert r['species_metadata_join_opened_only_after_complete_measurement'] is True
+          assert r['no_species_modal_colour_claim'] is True
+          assert r['no_polymorphism_prevalence_claim'] is True
+          assert r['no_Cstar_Sstar_claim'] is True
+          assert s['species_prefix'].tolist()==[500,1000,2000,5000,10000,20000,30000,42111]
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rgfca-42111-breadth-measurement-step8f
+          if-no-files-found: error
+          retention-days: 90
+          path: results/rgfca_42111_breadth_measurement_step8f_20260911/
+      - name: Commit complete breadth result
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add results/rgfca_42111_breadth_measurement_step8f_20260911
+          git commit -m 'Measure 42,111-species flower-colour breadth atlas'
           for attempt in 1 2 3 4; do
             git fetch origin analysis/rgfca-42111-tiered-measurement-step8c
             git rebase origin/analysis/rgfca-42111-tiered-measurement-step8c
