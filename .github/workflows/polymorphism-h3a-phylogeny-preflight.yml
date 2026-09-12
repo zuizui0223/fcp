@@ -1,0 +1,70 @@
+name: polymorphism-h3a-phylogeny-preflight
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "scripts/analysis/run_polymorphism_h3a_phylogeny_preflight_20260912.R"
+      - "docs/POLYMORPHISM_H3A_PHYLOGENETIC_SIGNAL_PROTOCOL_20260912.md"
+      - ".github/workflows/polymorphism-h3a-phylogeny-preflight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+
+      - name: Install base R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::ape
+            any::jsonlite
+            any::remotes
+          cache-version: h3a-preflight-v1
+
+      - name: Install pinned V.PhyloMaker2
+        run: |
+          Rscript -e 'remotes::install_github("jinyizju/V.PhyloMaker2@7af3fb5152f691af2e4ec9d5e2e467d1b50505e9", upgrade="never", dependencies=TRUE)'
+          Rscript -e 'x <- packageDescription("V.PhyloMaker2"); print(list(version=x$Version, remote_sha=x$RemoteSha, remote_repo=x$RemoteRepo))'
+
+      - name: Syntax parse
+        run: Rscript -e 'parse(file="scripts/analysis/run_polymorphism_h3a_phylogeny_preflight_20260912.R")'
+
+      - name: Build outcome-blind S1-S3 trees and coverage gate
+        run: Rscript scripts/analysis/run_polymorphism_h3a_phylogeny_preflight_20260912.R
+
+      - name: Verify outcome firewall
+        if: always()
+        run: |
+          if test -f results/polymorphism_h3a_phylogeny_preflight_20260912/result.json; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('results/polymorphism_h3a_phylogeny_preflight_20260912/result.json').read_text())
+          assert r['D_association_computed'] is False
+          assert r['phylogenetic_signal_computed'] is False
+          print(json.dumps(r, indent=2))
+          PY
+          fi
+
+      - name: Upload preflight receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-h3a-phylogeny-preflight-20260912
+          path: results/polymorphism_h3a_phylogeny_preflight_20260912
+          if-no-files-found: warn
