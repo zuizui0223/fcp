@@ -1,0 +1,58 @@
+{
+  "analysis": "polymorphism_h2_prospective_u100_selection",
+  "date_jst": "2026-09-13",
+  "downstream_status": {
+    "P500_H1_evaluated": false,
+    "P500_H2_W_evaluated": false,
+    "P500_colour_outcomes_opened": false
+  },
+  "legacy_high_depth_identity_audit": {
+    "discovery_reserve_identity_overlap": 0,
+    "discovery_species_in_measured_file": 500,
+    "discovery_species_inside_U100": 500,
+    "legacy_union_inside_U100_excluded": 1000,
+    "legacy_union_outside_U100": 0,
+    "legacy_union_species": 1000,
+    "reserve_species_in_measured_file": 500,
+    "reserve_species_inside_U100": 500
+  },
+  "outcome_firewall": {
+    "H2_geometry_read": false,
+    "H3_predictors_read": false,
+    "capacity_columns_read": [
+      "inat_taxon_id",
+      "species",
+      "after_observer_cap"
+    ],
+    "colour_outcome_columns_read": false,
+    "discovery_columns_read": [
+      "species"
+    ],
+    "morph_columns_read": false,
+    "reserve_columns_read": [
+      "species"
+    ]
+  },
+  "prospective_pool": {
+    "P100_species": 3730,
+    "P500_species": 500,
+    "ordering": "ascending SHA256(salt|inat_taxon_id|species), then inat_taxon_id",
+    "p100_csv": "results/polymorphism_h2_prospective_u100_selection_20260913/p100_outcome_blind_pool.csv",
+    "p100_sha256": "1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c",
+    "p500_csv": "results/polymorphism_h2_prospective_u100_selection_20260913/p500_frozen_selection.csv",
+    "p500_sha256": "f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4",
+    "replacement_after_outcome_opening_allowed": false,
+    "selection_salt": "FCP_H2_PROSPECTIVE_20260913"
+  },
+  "protocol": "docs/POLYMORPHISM_H2_PROSPECTIVE_U100_SELECTION_PROTOCOL_20260913.md",
+  "sampling_frame": {
+    "U0_species": 42111,
+    "U100_min_after_observer_cap": 100,
+    "U100_species": 4730
+  },
+  "selection_verdict": "P500_FROZEN_OUTCOME_BLIND",
+  "status": "complete_pre_outcome_species_selection",
+  "workflow_run": 34708044962,
+  "artifact_id": 10302477571,
+  "artifact_digest": "sha256:7e43763e3f1d9fa3ff108154dc6ef9443430b70fdb62532e2f6845582d607abb"
+}
