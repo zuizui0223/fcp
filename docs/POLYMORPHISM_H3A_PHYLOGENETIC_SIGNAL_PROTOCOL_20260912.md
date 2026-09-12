@@ -46,7 +46,7 @@ Use the same dated-megaphylogeny system already used in the repository's 34-spec
 - time-scaled `GBOTB.extended.LCVP` backbone;
 - `nodes.info.1.LCVP` node table;
 - placement scenarios S1, S2 and S3;
-- package source pinned to the previously recorded remote SHA `7af3fb5152f691af2e4ec9d5e2e467d1b50505e9` when installation infrastructure permits.
+- package source pinned to remote SHA `7af3fb5152f691af2e4ec9d5e2e467d1b50505e9`.
 
 The tree is constructed from species names before any H3a association statistic is calculated.
 
@@ -71,6 +71,8 @@ Before H3a is opened, each of discovery and reserve must satisfy on every S1-S3 
 
 Failure is source/placement insufficiency, not evidence of absent phylogenetic signal.
 
+The gate passed before outcome opening: discovery retained 368/369 (99.73%) and reserve retained 341/363 (93.94%) on each S1-S3 tree. The exact trees are frozen by artifact ID/digest and per-tree SHA256 in `results/polymorphism_h3a_phylogeny_preflight_20260912/frozen_tree_manifest.json`.
+
 ## Primary signal statistic
 
 Blomberg's `K` is the primary H3a statistic because its significance can be calibrated by tip-label randomization while preserving the bounded and zero-heavy marginal distribution of `D`.
@@ -92,17 +94,22 @@ Estimate Pagel's `lambda` on each S1-S3 tree for raw `D` and report the package 
 
 ## Sampling-opportunity sensitivity
 
-For each cohort construct, before phylogenetic inference:
+A dedicated pre-outcome audit read only `species`, `observer_id`, `latitude`, and `longitude`; it did not read `morph`, `fine_state`, `global_classifiable`, or `D`. The exact panel is frozen by artifact ID/digest and SHA256 in `results/polymorphism_h3a_covariate_preflight_20260912/frozen_covariate_manifest.json`.
 
-- `n_classifiable`;
-- number of unique observers among admitted rows;
-- sampled geographic span from admitted coordinates.
+The pre-outcome audit found exactly 100 measured images per species in both 500-species source cohorts. Therefore total image count has zero variance by design and is not an estimable control.
 
-The opportunity-adjusted sensitivity trait is the residual from a rank-linear model
+The opportunity-adjusted sensitivity is fixed as follows, with no outcome-driven covariate selection:
 
-`rank(D) ~ z(log(n_classifiable)) + z(log1p(n_observers)) + z(log1p(sampled_span_km))`.
+1. after `D` is computed, retain `n_classifiable` as the estimator-precision/usable-image control;
+2. join the frozen pre-outcome `n_observers_all_measured` and `maximum_span_km_all_measured` values;
+3. within each cohort, form centered ranks of `D`, `log1p(n_classifiable)`, `log1p(n_observers_all_measured)`, and `log1p(maximum_span_km_all_measured)`;
+4. regress centered `rank(D)` on an intercept plus the three centered control ranks;
+5. use the residual as the opportunity-adjusted sensitivity trait;
+6. repeat the same 9,999-permutation Blomberg-K test on that residual for S1-S3.
 
-Repeat Blomberg K randomization on this residual trait for S1-S3. This is a sensitivity analysis because sampled geographic span is partly biological as well as observational.
+Sampled geographic span is explicitly a sensitivity control because it is partly biological as well as observational.
+
+`D_unbiased` is reported as an additional finite-sample effect-size sensitivity, but it does not replace raw `D` as the primary confirmatory outcome.
 
 ## Decision rule
 
