@@ -1,0 +1,43 @@
+{
+  "breadth_reuse_join_opened_only_after_complete_breadth": true,
+  "classifiable_fraction": 0.457890481268383,
+  "classifiable_taxon_cell_rows": 39075,
+  "geographic_estimand": "within each frozen equal-area cell, the species-equal distribution of observed coarse flower-colour states among classifiable taxon-cell anchors, with the full cell-specific taxon denominator and missingness shown alongside it",
+  "global_species_equal_frequency_source": "the separate 42,111 one-anchor-per-species breadth estimator",
+  "hard_nonclaims": [
+    "not within-population coexistence",
+    "not genetic differentiation",
+    "not adaptation",
+    "not flower-colour-polymorphism prevalence",
+    "not species-wide Simpson D from one taxon-cell draw per occupied cell",
+    "not evidence that unresolved or mixed_uncertain anchors belong to any particular colour state"
+  ],
+  "lineage": {
+    "breadth_result_sha256": "23a2f23fd721b71a2e5436a936345626ebb1fc173d337ff137fda29d7935abd9",
+    "breadth_table_sha256": "38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
+    "cell_summary_sha256": "92d8d6495bfc31cb329759eec4048254d22e6c936a213a254a5ef73a9f5a94bd",
+    "contract_sha256": "f96835d65ea96f80339a7becb0741e69127da090d9226679114ddf54518a2233",
+    "final_table_sha256": "7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e",
+    "new_metadata_join_sha256": "494922ad3cb7f6ecf9c3d4564aa07093acc1321535caee8d07edd3b97033c8cc",
+    "new_terminal_result_sha256": "b06302986f5718312459778064a54493534cd01972e7bb7f52ed4106b71e5516",
+    "new_terminal_sha256": "98084eb4a821bc4f2c16b1122e4091ad1368cf629f4daef27ccda66c51688a1e",
+    "reuse_key_sha256": "c5aafc72358ccad671dea6bf914b180bc3058abcb1ebb96f11489648a6701a4c",
+    "unresolved_key_sha256": "f4a2428c7fa69a08d6723fd46941b0dd8acf5d776ce6b1d0d7d2f665ef6985a8"
+  },
+  "measurement_origin_counts": {
+    "new_taxon_cell_blind": 58431,
+    "reused_breadth_terminal": 26904,
+    "transport_unresolved": 2
+  },
+  "new_image_terminal_rows": 58431,
+  "new_taxon_cell_metadata_join_opened_only_after_128_partitions": true,
+  "occupied_cells": 128,
+  "pool_all_85337_as_global_frequency": false,
+  "protocol": "rgfca-42111-taxon-cell-geographic-measurement-v2-operational-decoupling",
+  "reused_breadth_terminal_rows": 26904,
+  "reused_image_pixels_reopened": false,
+  "species_universe": 42111,
+  "status": "complete_85337_taxon_cell_measurement_and_postcomplete_join",
+  "taxon_cell_rows": 85337,
+  "transport_unresolved_rows": 2
+}

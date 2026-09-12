@@ -1,0 +1,36 @@
+{
+  "analysis": "rgfca_42111_observer_disjoint_crosscell_discordance",
+  "both_endpoints_classifiable": 3196,
+  "claim_boundary": "cross-cell coarse colour discordance between two geographically separated, observer-disjoint photos",
+  "conditional_discordance_given_both_classifiable": 0.24937421777221527,
+  "discordant_coarse_colour": 797,
+  "distinct_equal_area_cells_by_construction": true,
+  "fixed_pair_species": 13416,
+  "hard_nonclaims": [
+    "not within-population coexistence",
+    "not genetic differentiation",
+    "not adaptation",
+    "not flower-colour-polymorphism prevalence",
+    "not species-wide Simpson D from one taxon-cell draw per occupied cell",
+    "not evidence that unresolved or mixed_uncertain anchors belong to any particular colour state"
+  ],
+  "lineage": {
+    "contract_sha256": "f96835d65ea96f80339a7becb0741e69127da090d9226679114ddf54518a2233",
+    "map_result_sha256": "69880d14852d13c6f7f93979de7560c09c11aef30745e14181e8aa718471f9bd",
+    "map_table_sha256": "7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e",
+    "pair_output_sha256": "26755316b2cbd07e1e2241eb4ddc1cddc85219fd7e96424df8c14df32575a4d2",
+    "pair_result_sha256": "884a1cc7b19ffba707450e0075e816b07b983c940b1c7f0856e3754b917c8adb",
+    "pair_table_sha256": "a5d8e677a87fc3b0771413bbb5b2aa40a1b2242acb4156813ae986518ffa7e4f"
+  },
+  "observer_disjoint_by_construction": true,
+  "one_or_both_unclassifiable": 10220,
+  "post_outcome_distance_bins_used": false,
+  "protocol": "rgfca-42111-taxon-cell-geographic-measurement-v2-operational-decoupling",
+  "same_coarse_colour": 2399,
+  "status": "complete_fixed_observer_disjoint_crosscell_coarse_colour_discordance",
+  "unconditional_proportions_over_all_fixed_pairs": {
+    "discordant": 0.0594066785927251,
+    "same": 0.17881633870005964,
+    "unclassifiable": 0.7617769827072153
+  }
+}
