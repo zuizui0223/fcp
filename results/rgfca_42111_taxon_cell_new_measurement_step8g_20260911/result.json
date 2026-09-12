@@ -1,0 +1,34 @@
+{
+  "blind_measurement_status_counts": {
+    "classified_four_state_morph": 27496,
+    "not_evaluable_ambiguous_palette_composition": 2604,
+    "not_evaluable_no_biological_palette_mass": 42,
+    "not_evaluable_roi_or_flip_gate": 28289
+  },
+  "blind_morph_counts_not_biologically_joined": {
+    "blue_purple": 2443,
+    "mixed_uncertain": 30935,
+    "red_pink": 3162,
+    "white": 12977,
+    "yellow_orange": 8914
+  },
+  "cell_context_present": false,
+  "claim_boundary": "Colour outcomes exist only under opaque measurement IDs. No species, taxon, cell, or cross-cell biological inference is authorized from this aggregate.",
+  "crosscell_discordance_opened": false,
+  "lineage": {
+    "contract_sha256": "f96835d65ea96f80339a7becb0741e69127da090d9226679114ddf54518a2233",
+    "firewall_manifest_sha256": "8743e22f57aeeb7d3d8fbdbafd9727a205d7aca0dec8fec58a89a861b90523ec",
+    "terminal_table_sha256": "98084eb4a821bc4f2c16b1122e4091ad1368cf629f4daef27ccda66c51688a1e",
+    "worker_manifest_sha256": "878a302b57137217ab1ad41586f1291fb227938f7acbcba9b45e24a8545a1fd1"
+  },
+  "measurement_ids_unique": 58431,
+  "new_image_measurement_rows": 58431,
+  "protocol": "rgfca-42111-taxon-cell-geographic-measurement-v2-operational-decoupling",
+  "source_urls_present": false,
+  "species_context_present": false,
+  "status": "complete_58431_new_taxon_cell_blind_terminal_measurement_without_biological_join",
+  "taxon_cell_colour_join_opened": false,
+  "terminal_partition_receipts": 128,
+  "terminal_receipt_rows": 58431,
+  "terminal_rows": 58431
+}
