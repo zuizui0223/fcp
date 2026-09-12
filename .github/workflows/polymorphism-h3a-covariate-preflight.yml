@@ -1,0 +1,45 @@
+name: polymorphism-h3a-covariate-preflight
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "scripts/analysis/run_polymorphism_h3a_covariate_preflight_20260912.py"
+      - ".github/workflows/polymorphism-h3a-covariate-preflight.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pandas numpy
+      - name: Build outcome-blind sampling-opportunity panel
+        run: python scripts/analysis/run_polymorphism_h3a_covariate_preflight_20260912.py
+      - name: Verify firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('results/polymorphism_h3a_covariate_preflight_20260912/result.json').read_text())
+          f=r['outcome_firewall']
+          assert f['morph_read'] is False
+          assert f['fine_state_read'] is False
+          assert f['global_classifiable_read'] is False
+          assert f['D_computed'] is False
+          assert f['association_computed'] is False
+          assert f['columns_read'] == ['species','observer_id','latitude','longitude']
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-h3a-covariate-preflight-20260912
+          path: results/polymorphism_h3a_covariate_preflight_20260912
+          if-no-files-found: error
