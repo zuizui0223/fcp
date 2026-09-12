@@ -7,6 +7,7 @@ on:
     paths:
       - "scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py"
       - "scripts/analysis/run_polymorphism_delta_geometry_structured_null_20260912.py"
+      - "scripts/analysis/run_polymorphism_delta_geometry_white_axis_audit_20260912.py"
       - "docs/POLYMORPHISM_42111_H1_H2_ELIGIBILITY_PROTOCOL_20260912.md"
       - ".github/workflows/polymorphism-42111-h1-h2-validation.yml"
   workflow_dispatch:
@@ -34,6 +35,7 @@ jobs:
         run: |
           python -m py_compile scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py
           python -m py_compile scripts/analysis/run_polymorphism_delta_geometry_structured_null_20260912.py
+          python -m py_compile scripts/analysis/run_polymorphism_delta_geometry_white_axis_audit_20260912.py
 
       - name: Run label-free H2 discovery/reserve validation
         run: python scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py
@@ -41,11 +43,15 @@ jobs:
       - name: Run coarse-state-preserving structured null
         run: python scripts/analysis/run_polymorphism_delta_geometry_structured_null_20260912.py
 
+      - name: Run white-axis and nonwhite-subset audit
+        run: python scripts/analysis/run_polymorphism_delta_geometry_white_axis_audit_20260912.py
+
       - name: Show frozen results
         if: always()
         run: |
           test -f results/polymorphism_delta_geometry_validation_20260912/result.json && cat results/polymorphism_delta_geometry_validation_20260912/result.json || true
           test -f results/polymorphism_delta_geometry_structured_null_20260912/result.json && cat results/polymorphism_delta_geometry_structured_null_20260912/result.json || true
+          test -f results/polymorphism_delta_geometry_white_axis_audit_20260912/result.json && cat results/polymorphism_delta_geometry_white_axis_audit_20260912/result.json || true
 
       - name: Upload H2 validation receipts
         if: always()
@@ -55,4 +61,5 @@ jobs:
           path: |
             results/polymorphism_delta_geometry_validation_20260912
             results/polymorphism_delta_geometry_structured_null_20260912
+            results/polymorphism_delta_geometry_white_axis_audit_20260912
           if-no-files-found: warn
