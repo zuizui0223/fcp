@@ -1,0 +1,109 @@
+name: polymorphism-h3a-phylogenetic-signal
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R"
+      - "docs/POLYMORPHISM_H3A_PHYLOGENETIC_SIGNAL_PROTOCOL_20260912.md"
+      - "results/polymorphism_h3a_phylogeny_preflight_20260912/frozen_tree_manifest.json"
+      - "results/polymorphism_h3a_covariate_preflight_20260912/frozen_covariate_manifest.json"
+      - ".github/workflows/polymorphism-h3a-phylogenetic-signal.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  signal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+
+      - name: Install analysis dependencies without repository scan
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: any::sessioninfo
+          extra-packages: |
+            any::ape
+            any::jsonlite
+            any::phytools
+          cache-version: h3a-signal-v1
+
+      - name: Download exact frozen tree and covariate artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/h3a-tree /tmp/h3a-cov /tmp/h3a-tree-exact
+          mkdir -p /tmp/h3a-tree /tmp/h3a-cov /tmp/h3a-tree-exact
+          gh run download 34676531258 --repo zuizui0223/fcp --name polymorphism-h3a-phylogeny-preflight-20260912 --dir /tmp/h3a-tree
+          gh run download 34676855989 --repo zuizui0223/fcp --name polymorphism-h3a-covariate-preflight-20260912 --dir /tmp/h3a-cov
+          for f in h3a_s1.tre h3a_s2.tre h3a_s3.tre; do
+            test "$(find /tmp/h3a-tree -name "$f" | wc -l)" -eq 1
+            cp "$(find /tmp/h3a-tree -name "$f")" "/tmp/h3a-tree-exact/$f"
+          done
+          test "$(find /tmp/h3a-cov -name sampling_opportunity_preoutcome.csv | wc -l)" -eq 1
+          cp "$(find /tmp/h3a-cov -name sampling_opportunity_preoutcome.csv)" /tmp/h3a-covariates.csv
+
+      - name: Verify all pre-outcome freezes before reading D
+        run: |
+          set -euo pipefail
+          echo 'ce4a2ede815dbe0eb2407d3d9ebb58d0218d85ece85ea1b9ab58e00e7dd84d19  /tmp/h3a-tree-exact/h3a_s1.tre' | sha256sum -c -
+          echo '384c9d1bcde150ac200d7006703de55ebfee6f83fc9108bb9b7c02cee3107abb  /tmp/h3a-tree-exact/h3a_s2.tre' | sha256sum -c -
+          echo '9a25eb77d87e7a698697f8c4835f8c24e98ee3c8bfc7c02d317f46090e382c26  /tmp/h3a-tree-exact/h3a_s3.tre' | sha256sum -c -
+          echo 'c45b436ef01394845cfc5a22807a086f589abdfdc1a8e97ea0ac14cd704fa2a7  /tmp/h3a-covariates.csv' | sha256sum -c -
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  data/derived/global_monte_carlo_measured_photos_v1.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  data/derived/rgfca_reserve_replication_measured_photos_v1.csv' | sha256sum -c -
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          t=json.loads(Path('results/polymorphism_h3a_phylogeny_preflight_20260912/frozen_tree_manifest.json').read_text())
+          c=json.loads(Path('results/polymorphism_h3a_covariate_preflight_20260912/frozen_covariate_manifest.json').read_text())
+          assert t['outcome_firewall']['D_association_computed'] is False
+          assert t['coverage_gate_all_scenarios_both_cohorts'] is True
+          assert c['outcome_firewall']['D_computed'] is False
+          assert c['outcome_firewall']['association_computed'] is False
+          print('pre-outcome freezes verified')
+          PY
+
+      - name: Syntax parse before outcome opening
+        run: Rscript -e 'parse(file="scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R")'
+
+      - name: Open D and run frozen H3a test
+        run: |
+          Rscript scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R \
+            --tree-root /tmp/h3a-tree-exact \
+            --covariate /tmp/h3a-covariates.csv
+
+      - name: Verify decision receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/polymorphism_h3a_phylogenetic_signal_20260912/result.json')
+          r=json.loads(p.read_text())
+          assert r['outcome_opened'] is True
+          assert r['reserve_role'] == 'fresh_primary_replication'
+          assert len(r['scenario_results']) == 6
+          print(json.dumps(r['decision'], indent=2))
+          PY
+
+      - name: Upload H3a result
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: polymorphism-h3a-phylogenetic-signal-20260912
+          path: results/polymorphism_h3a_phylogenetic_signal_20260912
+          if-no-files-found: error
+          retention-days: 90
