@@ -8,7 +8,7 @@ DETECTOR_SHA256="f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d
 fetch() {
   local path="$1"
   mkdir -p "$(dirname "$path")"
-  curl --fail --location --retry 4 --retry-delay 2 \
+  curl --fail --location --retry 4 --retry-delay 2 --retry-all-errors \
     "${SOURCE_REPO}/${SOURCE_COMMIT}/${path}" \
     --output "$path"
 }
