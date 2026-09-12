@@ -1,0 +1,41 @@
+name: polymorphism-h3a-covariate-header-audit
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "scripts/analysis/run_polymorphism_h3a_covariate_header_audit_20260912.py"
+      - ".github/workflows/polymorphism-h3a-covariate-header-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pandas
+      - name: Run zero-row header audit
+        run: python scripts/analysis/run_polymorphism_h3a_covariate_header_audit_20260912.py
+      - name: Verify firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('results/polymorphism_h3a_covariate_header_audit_20260912/result.json').read_text())
+          assert r['rows_read'] == 0
+          assert r['D_computed'] is False
+          assert r['outcome_values_read'] is False
+          assert r['association_computed'] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-h3a-covariate-header-audit-20260912
+          path: results/polymorphism_h3a_covariate_header_audit_20260912
+          if-no-files-found: error
