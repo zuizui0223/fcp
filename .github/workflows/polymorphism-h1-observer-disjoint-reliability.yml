@@ -1,0 +1,66 @@
+name: polymorphism-h1-observer-disjoint-reliability
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py"
+      - "docs/POLYMORPHISM_H1_OBSERVER_DISJOINT_RELIABILITY_PROTOCOL_20260913.md"
+      - ".github/workflows/polymorphism-h1-observer-disjoint-reliability.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  reliability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install analysis dependencies
+        run: python -m pip install --disable-pip-version-check numpy pandas
+
+      - name: Verify frozen measured-photo inputs
+        run: |
+          set -euo pipefail
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  data/derived/global_monte_carlo_measured_photos_v1.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  data/derived/rgfca_reserve_replication_measured_photos_v1.csv' | sha256sum -c -
+
+      - name: Syntax compile
+        run: python -m py_compile scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py
+
+      - name: Run frozen observer-disjoint reliability analysis
+        run: python scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py
+
+      - name: Verify decision receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json').read_text())
+          assert r['analysis'] == 'polymorphism_h1_observer_disjoint_D_reliability'
+          assert r['reserve']['primary20']['partitions'] == 200
+          assert r['decision']['reserve_is_primary'] is True
+          assert r['decision']['sensitivity_can_rescue_primary'] is False
+          print(json.dumps(r['decision'], indent=2, sort_keys=True))
+          print(json.dumps(r['reserve']['primary20'], indent=2, sort_keys=True))
+          PY
+
+      - name: Upload H1 reliability result
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: polymorphism-h1-observer-disjoint-reliability-20260913
+          path: results/polymorphism_h1_observer_disjoint_reliability_20260913
+          if-no-files-found: error
+          retention-days: 90
