@@ -1,0 +1,97 @@
+{
+  "analysis": "polymorphism_white_axis_targeted_test",
+  "claim_boundary": "Positive existing-cohort evidence is retrospective because the fixed achromatic/chromatic candidate was motivated by already opened H2 geometry. It may be frozen as the prospective axis target for the global high-depth expansion. No pigment pathway, ecological mechanism, or adaptive interpretation is identified here.",
+  "date_jst": "2026-09-12",
+  "decision": {
+    "primary_both_cohorts_pass": true,
+    "strict_both_cohorts_pass": true,
+    "verdict": "WHITE_AXIS_TARGETED_SUPPORT_PRIMARY_AND_STRICT"
+  },
+  "fixed_axis_palette_loadings": {
+    "blue": -0.11785113019775793,
+    "bronze": -0.11785113019775793,
+    "magenta": -0.11785113019775793,
+    "orange": -0.11785113019775793,
+    "pink": -0.11785113019775793,
+    "purple": -0.11785113019775793,
+    "red": -0.11785113019775793,
+    "white": 0.9428090415820635,
+    "yellow": -0.11785113019775793
+  },
+  "freeze": "docs/POLYMORPHISM_H2_WHITE_AXIS_TARGET_FREEZE_20260912.md",
+  "statistic": "mean_i (u_i dot q_white)^2",
+  "status": "targeted_post_audit_decomposition_not_untouched_confirmatory_test",
+  "structured_null_replicates": 999,
+  "thresholds": {
+    "primary_0_10": {
+      "both_cohorts_pass": true,
+      "discovery": {
+        "isotropic_8d_expectation": 0.125,
+        "observed_mean_squared_white_axis_alignment": 0.5146245742375285,
+        "observed_minus_null_median": 0.08381676896126944,
+        "observed_to_null_median_ratio": 1.1945572200288275,
+        "pass": true,
+        "species": 152,
+        "structured_null_summary": {
+          "mean": 0.4306619261016736,
+          "q025": 0.4113669624650322,
+          "q50": 0.43080780527625906,
+          "q975": 0.44912902869042687,
+          "sd": 0.00992430657095506
+        },
+        "structured_null_upper_p": 0.001
+      },
+      "reserve": {
+        "isotropic_8d_expectation": 0.125,
+        "observed_mean_squared_white_axis_alignment": 0.5145857778624214,
+        "observed_minus_null_median": 0.04803944082355888,
+        "observed_to_null_median_ratio": 1.1029682091782391,
+        "pass": true,
+        "species": 129,
+        "structured_null_summary": {
+          "mean": 0.465881302594352,
+          "q025": 0.441993187595008,
+          "q50": 0.46654633703886256,
+          "q975": 0.48820967274963006,
+          "sd": 0.011481145460532282
+        },
+        "structured_null_upper_p": 0.001
+      }
+    },
+    "strict_0_20": {
+      "both_cohorts_pass": true,
+      "discovery": {
+        "isotropic_8d_expectation": 0.125,
+        "observed_mean_squared_white_axis_alignment": 0.5423549779816461,
+        "observed_minus_null_median": 0.0987287066872482,
+        "observed_to_null_median_ratio": 1.2225492786961891,
+        "pass": true,
+        "species": 75,
+        "structured_null_summary": {
+          "mean": 0.4435413045488863,
+          "q025": 0.4181933934608043,
+          "q50": 0.4436262712943979,
+          "q975": 0.4675932356300413,
+          "sd": 0.012987885725147981
+        },
+        "structured_null_upper_p": 0.001
+      },
+      "reserve": {
+        "isotropic_8d_expectation": 0.125,
+        "observed_mean_squared_white_axis_alignment": 0.5105174254190324,
+        "observed_minus_null_median": 0.04057407816924402,
+        "observed_to_null_median_ratio": 1.086338232909759,
+        "pass": true,
+        "species": 65,
+        "structured_null_summary": {
+          "mean": 0.4699203804079493,
+          "q025": 0.43777872725859734,
+          "q50": 0.4699433472497884,
+          "q975": 0.5018264813445905,
+          "sd": 0.016501470803185914
+        },
+        "structured_null_upper_p": 0.008
+      }
+    }
+  }
+}
