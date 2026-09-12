@@ -1,0 +1,131 @@
+{
+  "analysis": "polymorphism_h1_observer_disjoint_D_reliability",
+  "date_jst": "2026-09-13",
+  "decision": {
+    "discovery_consistent": true,
+    "label": "H1_OBSERVER_DISJOINT_D_RELIABILITY_SUPPORTED+DISCOVERY_CONSISTENT",
+    "reserve_is_primary": true,
+    "sensitivity_can_rescue_primary": false,
+    "verdict": "H1_OBSERVER_DISJOINT_D_RELIABILITY_SUPPORTED"
+  },
+  "discovery": {
+    "passes_primary_rule": true,
+    "primary20": {
+      "bias_abs_q95": 0.012771413389175309,
+      "bias_median": 2.333462265201709e-06,
+      "ccc_median": 0.8514261920507641,
+      "ccc_q05": 0.8274005298565961,
+      "ccc_q95": 0.868913225316994,
+      "mae_median": 0.07989326791747842,
+      "mae_q95": 0.08606051103813302,
+      "paired_n_max": 350,
+      "paired_n_median": 340.0,
+      "paired_n_min": 327,
+      "partitions": 200,
+      "partitions_with_defined_rho": 200,
+      "rho_median": 0.8115445339069183,
+      "rho_q05": 0.7883802742744114,
+      "rho_q95": 0.8335443103292743,
+      "spearman_brown_median": 0.8959697227180321,
+      "spearman_brown_q05": 0.8816696145329135
+    },
+    "sensitivity15": {
+      "bias_abs_q95": 0.012188941981213964,
+      "bias_median": -3.6119176971339036e-05,
+      "ccc_median": 0.855078370881973,
+      "ccc_q05": 0.8352398322469958,
+      "ccc_q95": 0.8718523521264174,
+      "mae_median": 0.08071797971948488,
+      "mae_q95": 0.08649306624599312,
+      "paired_n_max": 369,
+      "paired_n_median": 369.0,
+      "paired_n_min": 367,
+      "partitions": 200,
+      "partitions_with_defined_rho": 200,
+      "rho_median": 0.8227932886424215,
+      "rho_q05": 0.8024766304520579,
+      "rho_q95": 0.8428758865552047,
+      "spearman_brown_median": 0.9027828730304325,
+      "spearman_brown_q05": 0.8904155716408098
+    }
+  },
+  "eligibility": {
+    "full_D_fingerprint_discovery": 369,
+    "full_D_fingerprint_reserve": 363,
+    "minimum_distinct_observers": 2,
+    "minimum_full_classifiable_observer_known": 40,
+    "observer_known_eligible_discovery": 369,
+    "observer_known_eligible_reserve": 363
+  },
+  "four_states": [
+    "white",
+    "yellow_orange",
+    "red_pink",
+    "blue_purple"
+  ],
+  "frozen_inputs_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "reserve": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  },
+  "hard_nonclaims": [
+    "not a global polymorphism prevalence estimate",
+    "not proof of globally representative species sampling",
+    "not validation of image-level state classification correctness",
+    "not evidence against geographic morph-frequency structure",
+    "not a causal ecological or phylogenetic result",
+    "not an H2 geometry test"
+  ],
+  "implementation_note": "observer-level row and four-state counts are preaggregated once; this is computationally equivalent to row-level reconstruction under the frozen partition rule",
+  "mixed_uncertain_promoted": false,
+  "n_partitions": 200,
+  "partition_seed_base": 20260913,
+  "primary_gate": {
+    "minimum_classifiable_per_half": 20,
+    "minimum_median_paired_species": 100,
+    "minimum_median_split_rho": 0.6666666666666666,
+    "minimum_q05_split_rho": 0.5
+  },
+  "protocol": "docs/POLYMORPHISM_H1_OBSERVER_DISJOINT_RELIABILITY_PROTOCOL_20260913.md",
+  "reserve": {
+    "passes_primary_rule": true,
+    "primary20": {
+      "bias_abs_q95": 0.010581315214492156,
+      "bias_median": -0.0009798312196238862,
+      "ccc_median": 0.8548306738463054,
+      "ccc_q05": 0.8337283318452752,
+      "ccc_q95": 0.8746665942116175,
+      "mae_median": 0.07898060739400078,
+      "mae_q95": 0.08441163686005218,
+      "paired_n_max": 339,
+      "paired_n_median": 329.0,
+      "paired_n_min": 315,
+      "partitions": 200,
+      "partitions_with_defined_rho": 200,
+      "rho_median": 0.7891029925726101,
+      "rho_q05": 0.7651649940131238,
+      "rho_q95": 0.8109402582919217,
+      "spearman_brown_median": 0.8821213710838693,
+      "spearman_brown_q05": 0.8669614223342251
+    },
+    "sensitivity15": {
+      "bias_abs_q95": 0.009964024509117824,
+      "bias_median": -0.0010838824538107069,
+      "ccc_median": 0.8526148285364382,
+      "ccc_q05": 0.8303773430042671,
+      "ccc_q95": 0.8743364748437228,
+      "mae_median": 0.08106354793945304,
+      "mae_q95": 0.0872919343452283,
+      "paired_n_max": 363,
+      "paired_n_median": 363.0,
+      "paired_n_min": 360,
+      "partitions": 200,
+      "partitions_with_defined_rho": 200,
+      "rho_median": 0.80605221490446,
+      "rho_q05": 0.7801152845701568,
+      "rho_q95": 0.82876921387816,
+      "spearman_brown_median": 0.8926122991456846,
+      "spearman_brown_q05": 0.8764772326761995
+    }
+  },
+  "role": "measurement_and_sampling_stability_not_biological_prevalence"
+}
