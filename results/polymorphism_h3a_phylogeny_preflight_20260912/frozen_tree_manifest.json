@@ -1,0 +1,40 @@
+{
+  "analysis": "polymorphism_h3a_phylogeny_preflight",
+  "freeze_date_jst": "2026-09-12",
+  "outcome_firewall": {
+    "D_association_computed": false,
+    "phylogenetic_signal_computed": false
+  },
+  "source_commit": "9f612b2424c2cdb32655b7167bd2b346c0118c38",
+  "workflow_run_id": 34676531258,
+  "artifact_id": 10292662493,
+  "artifact_name": "polymorphism-h3a-phylogeny-preflight-20260912",
+  "artifact_digest": "sha256:fa0a896f1ef1622c71f9425986d30c47306f6702f7800d4f7eae872561b62d25",
+  "vphylomaker2": {
+    "version": "0.1.0",
+    "source_repo": "jinyizju/V.PhyloMaker2",
+    "source_commit": "7af3fb5152f691af2e4ec9d5e2e467d1b50505e9",
+    "backbone": "GBOTB.extended.LCVP",
+    "node_table": "nodes.info.1.LCVP",
+    "seed": 20260912
+  },
+  "cohorts": {
+    "discovery": {"eligible_species": 369, "retained_tips_each_scenario": 368, "coverage_each_scenario": 0.997289972899729},
+    "reserve": {"eligible_species": 363, "retained_tips_each_scenario": 341, "coverage_each_scenario": 0.939393939393939}
+  },
+  "coverage_gate_all_scenarios_both_cohorts": true,
+  "tree_sha256": {
+    "S1": "ce4a2ede815dbe0eb2407d3d9ebb58d0218d85ece85ea1b9ab58e00e7dd84d19",
+    "S2": "384c9d1bcde150ac200d7006703de55ebfee6f83fc9108bb9b7c02cee3107abb",
+    "S3": "9a25eb77d87e7a698697f8c4835f8c24e98ee3c8bfc7c02d317f46090e382c26"
+  },
+  "audit_file_sha256": {
+    "result.json": "27108abfe1fcdc1604568b78c7e3504205228793ebf8231d769941f7242873c6",
+    "tree_coverage.csv": "de6b67ab32d4a584a7395fbb532b45a8fa378bcc2dfdc235dc1a3cceb1a16873",
+    "vphylomaker2_input_species.csv": "3e94fa1fc25a580787c0fb32812c0f9ab64f2c21c9b7c8f0464f9ec4a03b05ea",
+    "vphylomaker2_species_placement.csv": "f016f02e11c53bd27038609941d43fbf18a9c05bac3640a783b81056dba2a621",
+    "species_family_preflight.csv": "0cf643e2cb8100387949056e25b8c158dce23997360e3c1b5f45b3e18eca94b8"
+  },
+  "next_action": "H3A_SIGNAL_ANALYSIS_ALLOWED",
+  "hard_rule": "H3a signal analysis must use these exact S1-S3 tree files and must verify their SHA256 values before reading D."
+}
