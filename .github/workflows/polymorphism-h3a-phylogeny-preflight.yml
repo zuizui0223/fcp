@@ -34,13 +34,19 @@ jobs:
           extra-packages: |
             any::ape
             any::jsonlite
-            any::remotes
-          cache-version: h3a-preflight-v2
+          cache-version: h3a-preflight-v3
 
-      - name: Install pinned V.PhyloMaker2
+      - name: Install pinned V.PhyloMaker2 from immutable commit archive
+        env:
+          VPHYLO_SHA: 7af3fb5152f691af2e4ec9d5e2e467d1b50505e9
         run: |
-          Rscript -e 'remotes::install_github("jinyizju/V.PhyloMaker2@7af3fb5152f691af2e4ec9d5e2e467d1b50505e9", upgrade="never", dependencies=TRUE)'
-          Rscript -e 'x <- packageDescription("V.PhyloMaker2"); print(list(version=x$Version, remote_sha=x$RemoteSha, remote_repo=x$RemoteRepo))'
+          set -euo pipefail
+          curl -L --fail --retry 3 \
+            -o /tmp/V.PhyloMaker2.tar.gz \
+            "https://codeload.github.com/jinyizju/V.PhyloMaker2/tar.gz/${VPHYLO_SHA}"
+          tar -tzf /tmp/V.PhyloMaker2.tar.gz | head
+          R CMD INSTALL /tmp/V.PhyloMaker2.tar.gz
+          Rscript -e 'stopifnot(as.character(packageVersion("V.PhyloMaker2")) == "0.1.0"); x <- packageDescription("V.PhyloMaker2"); print(list(version=x$Version, source_commit=Sys.getenv("VPHYLO_SHA")))'
 
       - name: Syntax parse
         run: Rscript -e 'parse(file="scripts/analysis/run_polymorphism_h3a_phylogeny_preflight_20260912.R")'
