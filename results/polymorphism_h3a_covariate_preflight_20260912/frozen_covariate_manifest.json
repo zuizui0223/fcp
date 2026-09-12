@@ -1,0 +1,46 @@
+{
+  "analysis": "polymorphism_h3a_covariate_preflight",
+  "freeze_date_jst": "2026-09-12",
+  "outcome_firewall": {
+    "columns_read": ["species", "observer_id", "latitude", "longitude"],
+    "morph_read": false,
+    "fine_state_read": false,
+    "global_classifiable_read": false,
+    "D_computed": false,
+    "association_computed": false
+  },
+  "source_commit": "af2f75340995ace8d952d04c3933c740209bc276",
+  "workflow_run_id": 34676855989,
+  "artifact_id": 10292767459,
+  "artifact_name": "polymorphism-h3a-covariate-preflight-20260912",
+  "artifact_digest": "sha256:14331752df8b654a810cdfb6323ccc0a268bcfea3e5ed603d2191deeb4915480",
+  "panel_sha256": "c45b436ef01394845cfc5a22807a086f589abdfdc1a8e97ea0ac14cd704fa2a7",
+  "result_json_sha256": "6a3569c212c32b1f006fa22fa9e164dfd26ab3ce747aa0ede423bf287ee076e8",
+  "source_measured_file_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "reserve": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  },
+  "definitions": {
+    "n_images_all_measured": "all measured rows per species; no outcome/classifiability filtering",
+    "n_observers_all_measured": "distinct non-empty observer_id among all measured rows per species",
+    "maximum_span_km_all_measured": "exact maximum pairwise haversine great-circle distance among all finite latitude/longitude rows, Earth radius 6371.0088 km"
+  },
+  "preoutcome_design_audit": {
+    "discovery_species_rows": 500,
+    "reserve_species_rows": 500,
+    "n_images_all_measured_discovery": {"min": 100, "max": 100, "unique_values": 1},
+    "n_images_all_measured_reserve": {"min": 100, "max": 100, "unique_values": 1},
+    "n_observers_all_measured_discovery": {"min": 76, "max": 100, "unique_values": 25},
+    "n_observers_all_measured_reserve": {"min": 77, "max": 100, "unique_values": 24},
+    "maximum_span_km_all_measured_unique_values_discovery": 500,
+    "maximum_span_km_all_measured_unique_values_reserve": 500,
+    "missing_span_species": 0
+  },
+  "frozen_sensitivity_model": {
+    "reason_n_images_not_fitted": "n_images_all_measured is exactly 100 for every species in both cohorts and has zero variance by design",
+    "controls": ["n_classifiable", "n_observers_all_measured", "maximum_span_km_all_measured"],
+    "transformation": "rank each variable within cohort; regress centered rank(D) on intercept plus centered ranks of log1p(n_classifiable), log1p(n_observers_all_measured), and log1p(maximum_span_km_all_measured); use residual as sensitivity trait",
+    "selection_rule": "controls fixed from the pre-outcome audit; no control can be added, removed, or selected using D associations"
+  },
+  "hard_rule": "H3a signal analysis must download this exact artifact, verify panel SHA256 and measured-file SHA256 values, and use the frozen sensitivity model without outcome-driven covariate selection."
+}
