@@ -1,0 +1,62 @@
+name: polymorphism-h2-prospective-u100-selection
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "docs/POLYMORPHISM_H2_PROSPECTIVE_U100_SELECTION_PROTOCOL_20260913.md"
+      - "scripts/analysis/select_polymorphism_h2_prospective_u100_20260913.py"
+      - ".github/workflows/polymorphism-h2-prospective-u100-selection.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check pandas
+
+      - name: Syntax compile
+        run: python -m py_compile scripts/analysis/select_polymorphism_h2_prospective_u100_20260913.py
+
+      - name: Run outcome-blind selection
+        run: python scripts/analysis/select_polymorphism_h2_prospective_u100_20260913.py
+
+      - name: Verify pre-outcome receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('results/polymorphism_h2_prospective_u100_selection_20260913/result.json')
+          r = json.loads(p.read_text())
+          assert r['sampling_frame']['U0_species'] == 42111
+          assert r['sampling_frame']['U100_species'] == 4730
+          assert r['prospective_pool']['P500_species'] == 500
+          assert r['outcome_firewall']['colour_outcome_columns_read'] is False
+          assert r['downstream_status']['P500_colour_outcomes_opened'] is False
+          assert r['selection_verdict'] == 'P500_FROZEN_OUTCOME_BLIND'
+          print(json.dumps(r, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload selection receipt
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: polymorphism-h2-prospective-u100-selection-20260913
+          path: results/polymorphism_h2_prospective_u100_selection_20260913
+          if-no-files-found: error
+          retention-days: 90
