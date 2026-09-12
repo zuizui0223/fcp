@@ -44,7 +44,8 @@ jobs:
           curl -L --fail --retry 3 \
             -o /tmp/V.PhyloMaker2.tar.gz \
             "https://codeload.github.com/jinyizju/V.PhyloMaker2/tar.gz/${VPHYLO_SHA}"
-          tar -tzf /tmp/V.PhyloMaker2.tar.gz | head
+          tar -tzf /tmp/V.PhyloMaker2.tar.gz > /tmp/vphylomaker2_archive_listing.txt
+          head /tmp/vphylomaker2_archive_listing.txt
           R CMD INSTALL /tmp/V.PhyloMaker2.tar.gz
           Rscript -e 'stopifnot(as.character(packageVersion("V.PhyloMaker2")) == "0.1.0"); x <- packageDescription("V.PhyloMaker2"); print(list(version=x$Version, source_commit=Sys.getenv("VPHYLO_SHA")))'
 
