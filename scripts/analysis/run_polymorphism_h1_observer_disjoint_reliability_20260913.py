@@ -31,9 +31,9 @@ def as_bool(s: pd.Series) -> pd.Series:
     return s.fillna("").astype(str).str.strip().str.lower().isin({"true", "1", "yes"})
 
 
-def d_score(morphs: pd.Series) -> float:
-    counts = morphs.value_counts().reindex(MORPHS, fill_value=0).to_numpy(dtype=float)
-    n = counts.sum()
+def d_from_counts(counts: np.ndarray) -> float:
+    counts = np.asarray(counts, dtype=float)
+    n = float(counts.sum())
     if n <= 0:
         return float("nan")
     p = counts / n
@@ -57,7 +57,7 @@ def stable_hash_int(*parts: object) -> int:
     return int(hashlib.sha256(text.encode("utf-8")).hexdigest(), 16)
 
 
-def prepare_cohort(path: Path, cohort: str) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, pd.DataFrame]]:
+def prepare_cohort(path: Path, cohort: str) -> tuple[pd.DataFrame, pd.DataFrame, dict[str, list[tuple[str, int, np.ndarray]]]]:
     df = pd.read_csv(path, low_memory=False)
     required = {"species", "observer_id", "global_classifiable", "morph"}
     missing = sorted(required.difference(df.columns))
@@ -82,34 +82,49 @@ def prepare_cohort(path: Path, cohort: str) -> tuple[pd.DataFrame, pd.DataFrame,
         elig[c] = elig[c].astype(int)
     elig["eligible"] = (elig["n_classifiable_observer_known"] >= MIN_FULL_CLASS) & (elig["n_observers"] >= 2)
     elig["cohort"] = cohort
+    eligible_species = set(elig.loc[elig["eligible"], "species"])
 
-    species_frames = {s: g.copy() for s, g in known.groupby("species", sort=False) if s in set(elig.loc[elig["eligible"], "species"])}
-    return full, elig, species_frames
+    profiles: dict[str, list[tuple[str, int, np.ndarray]]] = {}
+    for species, g in known.groupby("species", sort=False):
+        if species not in eligible_species:
+            continue
+        observers: list[tuple[str, int, np.ndarray]] = []
+        for obs, og in g.groupby("observer_clean", sort=False):
+            counts = (
+                og.loc[og["class4"], "morph"]
+                .value_counts()
+                .reindex(MORPHS, fill_value=0)
+                .to_numpy(dtype=np.int64)
+            )
+            observers.append((str(obs), int(len(og)), counts))
+        if len(observers) < 2:
+            raise RuntimeError(f"{cohort}/{species}: eligible species lost observer support")
+        profiles[str(species)] = observers
+
+    return full, elig, profiles
 
 
-def observer_assignment(g: pd.DataFrame, species: str, seed: int) -> dict[str, int]:
-    counts = g.groupby("observer_clean", sort=False).size().to_dict()
-    items = []
-    for obs, count in counts.items():
-        h = stable_hash_int(seed, species, obs)
-        items.append((str(obs), int(count), h))
-    items.sort(key=lambda z: (-z[1], z[2]))
+def partition_counts(profile: list[tuple[str, int, np.ndarray]], species: str, seed: int) -> tuple[np.ndarray, np.ndarray]:
+    items = [(obs, n_all, counts, stable_hash_int(seed, species, obs)) for obs, n_all, counts in profile]
+    items.sort(key=lambda z: (-z[1], z[3]))
 
     totals = [0, 0]
-    assignment: dict[str, int] = {}
-    for obs, count, h in items:
+    morph_totals = np.zeros((2, len(MORPHS)), dtype=np.int64)
+    used = [0, 0]
+    for obs, n_all, counts, h in items:
         if totals[0] < totals[1]:
             side = 0
         elif totals[1] < totals[0]:
             side = 1
         else:
             side = h & 1
-        assignment[obs] = side
-        totals[side] += count
+        totals[side] += n_all
+        morph_totals[side] += counts
+        used[side] += 1
 
-    if len(set(assignment.values())) != 2:
+    if min(used) == 0:
         raise RuntimeError(f"{species}: observer partition failed to create two sides")
-    return assignment
+    return morph_totals[0], morph_totals[1]
 
 
 def rank_average(x: np.ndarray) -> np.ndarray:
@@ -146,28 +161,13 @@ def spearman_brown(rho: float) -> float:
     return float(2.0 * rho / (1.0 + rho))
 
 
-def one_partition(species_frames: dict[str, pd.DataFrame], seed: int, min_half: int) -> dict[str, float]:
-    xa: list[float] = []
-    xb: list[float] = []
-    for species, g in species_frames.items():
-        assignment = observer_assignment(g, species, seed)
-        side = g["observer_clean"].map(assignment).to_numpy(dtype=int)
-        class4 = g["class4"].to_numpy(dtype=bool)
-        morph = g["morph"].astype(str)
-
-        mask_a = class4 & (side == 0)
-        mask_b = class4 & (side == 1)
-        na, nb = int(mask_a.sum()), int(mask_b.sum())
-        if na < min_half or nb < min_half:
-            continue
-        da = d_score(morph.loc[g.index[mask_a]])
-        db = d_score(morph.loc[g.index[mask_b]])
-        if np.isfinite(da) and np.isfinite(db):
-            xa.append(da)
-            xb.append(db)
-
-    x = np.asarray(xa, dtype=float)
-    y = np.asarray(xb, dtype=float)
+def metrics_from_pairs(pairs: list[tuple[float, float]]) -> dict[str, float]:
+    if pairs:
+        x = np.asarray([a for a, _ in pairs], dtype=float)
+        y = np.asarray([b for _, b in pairs], dtype=float)
+    else:
+        x = np.asarray([], dtype=float)
+        y = np.asarray([], dtype=float)
     rho = spearman(x, y)
     return {
         "paired_n": int(len(x)),
@@ -177,6 +177,23 @@ def one_partition(species_frames: dict[str, pd.DataFrame], seed: int, min_half: 
         "mae": float(np.mean(np.abs(x - y))) if len(x) else float("nan"),
         "bias_a_minus_b": float(np.mean(x - y)) if len(x) else float("nan"),
     }
+
+
+def one_seed(profiles: dict[str, list[tuple[str, int, np.ndarray]]], seed: int) -> dict[str, dict[str, float]]:
+    pairs15: list[tuple[float, float]] = []
+    pairs20: list[tuple[float, float]] = []
+    for species, profile in profiles.items():
+        ca, cb = partition_counts(profile, species, seed)
+        na, nb = int(ca.sum()), int(cb.sum())
+        if na < MIN_HALF_SENS or nb < MIN_HALF_SENS:
+            continue
+        da, db = d_from_counts(ca), d_from_counts(cb)
+        if not (np.isfinite(da) and np.isfinite(db)):
+            continue
+        pairs15.append((da, db))
+        if na >= MIN_HALF_PRIMARY and nb >= MIN_HALF_PRIMARY:
+            pairs20.append((da, db))
+    return {"primary20": metrics_from_pairs(pairs20), "sensitivity15": metrics_from_pairs(pairs15)}
 
 
 def q(values: Iterable[float], p: float) -> float:
@@ -214,13 +231,20 @@ def passes_primary(summary: dict) -> bool:
     )
 
 
-def analyze_cohort(species_frames: dict[str, pd.DataFrame], cohort: str) -> tuple[pd.DataFrame, dict, dict]:
+def analyze_cohort(profiles: dict[str, list[tuple[str, int, np.ndarray]]], cohort: str) -> tuple[pd.DataFrame, dict, dict]:
     rows = []
     for i in range(1, N_SPLITS + 1):
         seed = BASE_SEED + i
+        result = one_seed(profiles, seed)
         for gate_name, min_half in [("primary20", MIN_HALF_PRIMARY), ("sensitivity15", MIN_HALF_SENS)]:
-            m = one_partition(species_frames, seed, min_half)
-            rows.append({"cohort": cohort, "split_index": i, "seed": seed, "gate": gate_name, "min_half_classifiable": min_half, **m})
+            rows.append({
+                "cohort": cohort,
+                "split_index": i,
+                "seed": seed,
+                "gate": gate_name,
+                "min_half_classifiable": min_half,
+                **result[gate_name],
+            })
     frame = pd.DataFrame(rows)
     primary = summarize(frame[frame["gate"] == "primary20"].copy())
     sensitivity = summarize(frame[frame["gate"] == "sensitivity15"].copy())
@@ -244,8 +268,8 @@ def main() -> None:
     if observed_sha != expected_sha:
         raise RuntimeError(f"Frozen measured-photo SHA256 drift: {observed_sha}")
 
-    full_d, elig_d, frames_d = prepare_cohort(DISC, "discovery")
-    full_r, elig_r, frames_r = prepare_cohort(RES, "reserve")
+    full_d, elig_d, profiles_d = prepare_cohort(DISC, "discovery")
+    full_r, elig_r, profiles_r = prepare_cohort(RES, "reserve")
     if len(full_d) != 369:
         raise RuntimeError(f"Discovery full-D fingerprint drift: {len(full_d)}")
     if len(full_r) != 363:
@@ -255,8 +279,8 @@ def main() -> None:
     if abs(float(full_d["D"].max()) - 0.707645) > 1e-5:
         raise RuntimeError("Discovery D maximum fingerprint drift")
 
-    metrics_d, primary_d, sens_d = analyze_cohort(frames_d, "discovery")
-    metrics_r, primary_r, sens_r = analyze_cohort(frames_r, "reserve")
+    metrics_d, primary_d, sens_d = analyze_cohort(profiles_d, "discovery")
+    metrics_r, primary_r, sens_r = analyze_cohort(profiles_r, "reserve")
     metrics = pd.concat([metrics_d, metrics_r], ignore_index=True)
 
     reserve_pass = passes_primary(primary_r)
@@ -278,6 +302,7 @@ def main() -> None:
         "date_jst": "2026-09-13",
         "protocol": "docs/POLYMORPHISM_H1_OBSERVER_DISJOINT_RELIABILITY_PROTOCOL_20260913.md",
         "role": "measurement_and_sampling_stability_not_biological_prevalence",
+        "implementation_note": "observer-level row and four-state counts are preaggregated once; this is computationally equivalent to row-level reconstruction under the frozen partition rule",
         "frozen_inputs_sha256": observed_sha,
         "four_states": list(MORPHS),
         "mixed_uncertain_promoted": False,
