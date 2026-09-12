@@ -1,0 +1,63 @@
+{
+  "analysis": "polymorphism_42111_h1_h2_eligibility_audit",
+  "date_jst": "2026-09-12",
+  "status": "frozen_preexecution_eligibility_and_feasibility_ledger",
+  "protocol": "docs/POLYMORPHISM_42111_H1_H2_ELIGIBILITY_PROTOCOL_20260912.md",
+  "sampling_frame": {
+    "U0_species": 42111,
+    "U100_definition": "after_observer_cap >= 100 raw eligible photos",
+    "U100_species": 4730,
+    "legacy_validation_species_nclass_ge40": 369
+  },
+  "H1": {
+    "role": "measurement-valid non-trivial secondary-mode gate; not a prevalence estimator",
+    "n_classifiable_min": 40,
+    "second_fraction_primary_min": 0.1,
+    "second_fraction_strict_min": 0.2,
+    "mixed_uncertain_promoted": false,
+    "legacy_validation_primary_count": 172,
+    "legacy_validation_strict_count": 98,
+    "U100_observed_eligible_n": null,
+    "U100_observed_eligible_n_status": "unknown_until_high_depth_measurement"
+  },
+  "H2": {
+    "role": "sign-invariant geometry of species-specific primary-to-secondary displacement vectors",
+    "delta_definition": "Delta_i = mu_i,2 - mu_i,1 using normalized nine-colour biological flower palette centroids",
+    "primary_statistic": "largest eigenvalue of mean outer-product matrix of unit Delta_i vectors",
+    "orientation": "axial_sign_invariant",
+    "null": "10000 independent Haar-random orientations in the 8D zero-sum subspace",
+    "legacy_M1_M2_test_reused": false,
+    "U100_observed_eligible_n": null,
+    "U100_observed_eligible_n_status": "unknown_until_H1_and_delta_construction"
+  },
+  "frozen_negative_constraints": {
+    "mixed_bridge_geometry_p": 0.051974012993503245,
+    "mixed_verdict": "MIXED_REMAINS_STRUCTURAL_MISSINGNESS",
+    "legacy_directionality_rho_D_R12": -0.1647274869228537,
+    "legacy_directionality_label_p": 0.9991000449977501,
+    "legacy_directionality_rotation_p": 0.7239276072392761,
+    "legacy_directionality_verdict": "CLAIM2_REJECT_PRIMARY_NOT_SUPPORTED"
+  },
+  "planning_only_binomial_depth40_projection": {
+    "raw_photos": 100,
+    "classifiable_required": 40,
+    "classifiability_probability_low": 0.39923954372623577,
+    "classifiability_probability_central": 0.4382940324380803,
+    "classifiability_probability_high": 0.4784751636503658,
+    "probability_reach_nclass_ge40_low": 0.5317426682230215,
+    "probability_reach_nclass_ge40_central": 0.8082254647768139,
+    "probability_reach_nclass_ge40_high": 0.9531500201960758,
+    "projected_species_low": 2515.1428206948917,
+    "projected_species_central": 3822.90644839433,
+    "projected_species_high": 4508.399595527439,
+    "biological_eligibility_claim_allowed": false,
+    "assumption": "independent-binomial planning approximation only; species heterogeneity ignored"
+  },
+  "hard_stops": [
+    "one-photo breadth classifiability is not species polymorphism",
+    "mixed_uncertain is not a fifth biological morph",
+    "planning projection is not an observed eligible N",
+    "legacy rejected M1/M2 directionality test is not H2",
+    "H3 ecology/phylogeny cannot tune H1/H2 eligibility thresholds"
+  ]
+}
