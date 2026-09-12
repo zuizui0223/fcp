@@ -27,14 +27,15 @@ jobs:
           r-version: "release"
           use-public-rspm: true
 
-      - name: Install base R dependencies
+      - name: Install base R dependencies without repository scan
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
+          packages: any::sessioninfo
           extra-packages: |
             any::ape
             any::jsonlite
             any::remotes
-          cache-version: h3a-preflight-v1
+          cache-version: h3a-preflight-v2
 
       - name: Install pinned V.PhyloMaker2
         run: |
