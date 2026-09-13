@@ -1,0 +1,122 @@
+name: polymorphism-h2-p500-candidate-metadata
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "docs/POLYMORPHISM_H2_P500_CANDIDATE_METADATA_PROTOCOL_20260913.md"
+      - "scripts/acquisition/run_polymorphism_h2_p500_candidate_metadata_20260913.py"
+      - ".github/workflows/polymorphism-h2-p500-candidate-metadata.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: polymorphism-h2-p500-candidate-metadata-20260913
+  cancel-in-progress: false
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Syntax compile
+        run: python -m py_compile scripts/acquisition/run_polymorphism_h2_p500_candidate_metadata_20260913.py
+
+      - name: Run exactly one frozen P500 metadata draw
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: python scripts/acquisition/run_polymorphism_h2_p500_candidate_metadata_20260913.py
+
+      - name: Verify pre-pixel gate and outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('results/polymorphism_h2_p500_candidate_metadata_20260913/result.json')
+          r = json.loads(p.read_text())
+          assert r['status'] == 'complete_fresh_metadata_draw_before_pixels'
+          assert r['P500']['species'] == 500
+          assert r['P500']['sha256'] == 'f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4'
+          assert r['decision']['no_species_replacement'] is True
+          assert r['decision']['no_target_relaxation'] is True
+          assert r['query']['target_rows_per_species'] == 100
+          assert r['query']['observer_cap'] == 2
+          assert r['query']['request_retries'] == 0
+          assert r['prior_id_exclusion']['unique_observation_ids'] == 128464
+          assert r['prior_id_exclusion']['unique_photo_ids'] == 128464
+          for key in ['image_pixels_opened','flower_colour_opened','morph_opened','palette_opened','D_opened','H2_W_opened','H3_predictors_used']:
+              assert r['outcome_firewall'][key] is False
+
+          verdict = r['decision']['verdict']
+          err = r['transport']['request_error_fraction']
+          n100 = r['capacity']['full100_species']
+          if verdict == 'P500_CANDIDATE_METADATA_GATE_PASS':
+              assert err <= 0.05 and n100 >= 300
+              assert r['decision']['pixels_may_be_authorized_in_separate_next_step'] is True
+          elif verdict == 'P500_CANDIDATE_METADATA_TRANSPORT_NOT_EVALUABLE':
+              assert err > 0.05
+              assert r['decision']['pixels_may_be_authorized_in_separate_next_step'] is False
+          elif verdict == 'P500_CANDIDATE_METADATA_CAPACITY_NOT_EVALUABLE':
+              assert err <= 0.05 and n100 < 300
+              assert r['decision']['pixels_may_be_authorized_in_separate_next_step'] is False
+          else:
+              raise AssertionError(verdict)
+
+          assert Path(r['files']['metadata']).stat().st_size > 0
+          assert Path(r['files']['species_audit']).stat().st_size > 0
+          assert Path(r['files']['full100_species']).exists()
+          print(json.dumps(r, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload immutable metadata draw
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-h2-p500-candidate-metadata-20260913
+          path: |
+            data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz
+            results/polymorphism_h2_p500_candidate_metadata_20260913/
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Commit immutable metadata result
+        if: success()
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz \
+            results/polymorphism_h2_p500_candidate_metadata_20260913/
+          if git diff --cached --quiet; then
+            echo 'P500 candidate metadata outputs already committed'
+            exit 0
+          fi
+          git commit -m 'freeze prospective P500 candidate metadata draw'
+          for attempt in 1 2 3 4; do
+            git fetch origin analysis/polymorphism-42111-h1-h2-gates-20260912
+            git rebase origin/analysis/polymorphism-42111-h1-h2-gates-20260912
+            if git push origin HEAD:analysis/polymorphism-42111-h1-h2-gates-20260912; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1
