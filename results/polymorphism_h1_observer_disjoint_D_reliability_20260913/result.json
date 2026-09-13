@@ -1,0 +1,124 @@
+{
+  "analysis": "polymorphism_h1_observer_disjoint_D_reliability",
+  "date_jst": "2026-09-13",
+  "decision": {
+    "bootstrap_lower_floor_0_70_pass": true,
+    "ccc_floor_0_75_pass": true,
+    "decision_cohort": "reserve",
+    "rho_floor_0_80_pass": false,
+    "supported": false,
+    "verdict": "H1_OBSERVER_DISJOINT_D_RELIABILITY_NOT_SUPPORTED"
+  },
+  "discovery": {
+    "H1_gate_stability_0_10": {
+      "A_positive_fraction": 0.4715447154471545,
+      "B_positive_fraction": 0.47696476964769646,
+      "agreement": 0.8102981029810298,
+      "kappa": 0.6195988336131483
+    },
+    "H1_gate_stability_0_20": {
+      "A_positive_fraction": 0.2926829268292683,
+      "B_positive_fraction": 0.2764227642276423,
+      "agreement": 0.8753387533875339,
+      "kappa": 0.6939305420318079
+    },
+    "attrition": {
+      "full_n_classifiable_lt_40": 131
+    },
+    "bootstrap_replicates_finite": 10000,
+    "bootstrap_replicates_requested": 10000,
+    "cohort": "discovery",
+    "discrepancy_opportunity_diagnostics": {
+      "rho_absdiff_full_n_classifiable": -0.13033081043086364,
+      "rho_absdiff_n_valid_observers": -0.12524234884321428,
+      "rho_absdiff_split_imbalance": 0.1223711911362952
+    },
+    "full_n_classifiable_ge_40": 369,
+    "lin_ccc": 0.8542231236478213,
+    "mean_signed_D_difference_A_minus_B": 0.0006441551956149529,
+    "median_abs_D_difference": 0.06035665294924564,
+    "observer_leakage_count": 0,
+    "ols_D_B_on_D_A": {
+      "intercept": 0.04148825464617418,
+      "slope": 0.825639029208531
+    },
+    "pearson_D_A_D_B": 0.8547400639596927,
+    "q90_abs_D_difference": 0.18325450593044315,
+    "reliability_eligible_n": 369,
+    "spearman_D_A_D_B": 0.8205485041663029,
+    "spearman_bootstrap_95_percentile_ci": [
+      0.7774661010634631,
+      0.8548738966524254
+    ],
+    "species_total_in_source": 500
+  },
+  "frozen_inputs_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "reserve": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  },
+  "historical_approx_0_971_used_as_evidence": false,
+  "nonclaims": [
+    "not a global polymorphism prevalence estimate",
+    "not an untouched prospective biological replication",
+    "excluded species are not called monomorphic or unreliable",
+    "does not validate mixed_uncertain as a biological morph"
+  ],
+  "protocol": "docs/POLYMORPHISM_H1_OBSERVER_DISJOINT_D_RELIABILITY_PROTOCOL_20260913.md",
+  "reserve": {
+    "H1_gate_stability_0_10": {
+      "A_positive_fraction": 0.45454545454545453,
+      "B_positive_fraction": 0.43526170798898073,
+      "agreement": 0.8484848484848485,
+      "kappa": 0.6933603649265079
+    },
+    "H1_gate_stability_0_20": {
+      "A_positive_fraction": 0.26170798898071623,
+      "B_positive_fraction": 0.25068870523415976,
+      "agreement": 0.8787878787878788,
+      "kappa": 0.682010034243848
+    },
+    "attrition": {
+      "full_n_classifiable_lt_40": 137
+    },
+    "bootstrap_replicates_finite": 10000,
+    "bootstrap_replicates_requested": 10000,
+    "cohort": "reserve",
+    "discrepancy_opportunity_diagnostics": {
+      "rho_absdiff_full_n_classifiable": -0.21112324119610804,
+      "rho_absdiff_n_valid_observers": -0.1933837908004307,
+      "rho_absdiff_split_imbalance": 0.06269173740134278
+    },
+    "full_n_classifiable_ge_40": 363,
+    "lin_ccc": 0.8474290237389148,
+    "mean_signed_D_difference_A_minus_B": 0.006594997200942048,
+    "median_abs_D_difference": 0.06377551020408179,
+    "observer_leakage_count": 0,
+    "ols_D_B_on_D_A": {
+      "intercept": 0.029290044195875997,
+      "slope": 0.846248858876882
+    },
+    "pearson_D_A_D_B": 0.8478833401252754,
+    "q90_abs_D_difference": 0.1881661828754747,
+    "reliability_eligible_n": 363,
+    "spearman_D_A_D_B": 0.7927276933213221,
+    "spearman_bootstrap_95_percentile_ci": [
+      0.7418679143323839,
+      0.832365877315184
+    ],
+    "species_total_in_source": 500
+  },
+  "split": {
+    "assignment_rule": "descending admitted-row count; tie SHA256(salt|species|observer); greedy to smaller half; A on tie",
+    "assignment_uses_morph_identity": false,
+    "full_min": 40,
+    "half_min": 20,
+    "observer_disjoint": true,
+    "salt": "h1-observer-disjoint-v1"
+  },
+  "state_definition": [
+    "white",
+    "yellow_orange",
+    "red_pink",
+    "blue_purple"
+  ]
+}
