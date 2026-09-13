@@ -1,0 +1,75 @@
+name: polymorphism-h2-p500-metadata-artifact-recovery
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - ".github/workflows/polymorphism-h2-p500-metadata-artifact-recovery.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: polymorphism-h2-p500-metadata-artifact-recovery-20260913
+  cancel-in-progress: false
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Recover exact immutable artifact from original one-shot draw
+        uses: actions/download-artifact@v4
+        with:
+          name: polymorphism-h2-p500-candidate-metadata-20260913
+          path: .
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: zuizui0223/fcp
+          run-id: 34728801295
+
+      - name: Verify original frozen outputs and outcome firewall
+        run: |
+          set -euo pipefail
+          echo 'a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595  data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz' | sha256sum -c -
+          echo '568a64e692dc21f4a5f76c5eadb615a63b07d71f01bc9cd91e8496ccd0fa3f9e  results/polymorphism_h2_p500_candidate_metadata_20260913/full100_species.csv' | sha256sum -c -
+          echo '2ebb8a32838121a836e4514fc88762da40bf1d522585e4117e4ededb0812913a  results/polymorphism_h2_p500_candidate_metadata_20260913/species_audit.csv' | sha256sum -c -
+          echo 'd70d5258797e1c57046945061b584ea239d315c33ed5a8a551805947b1ead3ec  results/polymorphism_h2_p500_candidate_metadata_20260913/result.json' | sha256sum -c -
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('results/polymorphism_h2_p500_candidate_metadata_20260913/result.json').read_text())
+          assert r['decision']['verdict'] == 'P500_CANDIDATE_METADATA_GATE_PASS'
+          assert r['capacity']['full100_species'] == 499
+          assert r['transport']['request_attempts'] == 500
+          assert r['transport']['request_errors'] == 0
+          assert r['decision']['pixels_may_be_authorized_in_separate_next_step'] is True
+          assert r['P500']['sha256'] == 'f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4'
+          for key in ['image_pixels_opened','flower_colour_opened','morph_opened','palette_opened','D_opened','H2_W_opened','H3_predictors_used']:
+              assert r['outcome_firewall'][key] is False
+          print('exact original artifact verified; no reacquisition performed')
+          PY
+
+      - name: Commit recovered immutable outputs
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz \
+            results/polymorphism_h2_p500_candidate_metadata_20260913/full100_species.csv \
+            results/polymorphism_h2_p500_candidate_metadata_20260913/species_audit.csv \
+            results/polymorphism_h2_p500_candidate_metadata_20260913/result.json
+          if git diff --cached --quiet; then
+            echo 'original P500 metadata artifact already committed'
+            exit 0
+          fi
+          git commit -m 'freeze recovered prospective P500 candidate metadata draw'
+          test -z "$(git status --porcelain)"
+          git pull --rebase origin analysis/polymorphism-42111-h1-h2-gates-20260912
+          git push origin HEAD:analysis/polymorphism-42111-h1-h2-gates-20260912
