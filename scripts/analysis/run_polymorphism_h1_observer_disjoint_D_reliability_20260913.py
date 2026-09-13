@@ -29,11 +29,6 @@ def bool_series(s: pd.Series) -> pd.Series:
     return s.fillna("").astype(str).str.strip().str.lower().isin(["true", "1", "yes"])
 
 
-def valid_observer_series(s: pd.Series) -> pd.Series:
-    z = s.fillna("").astype(str).str.strip()
-    return z.ne("") & ~z.str.lower().isin(["nan", "none", "null", "na"])
-
-
 def stable_tie(species: str, observer: str) -> str:
     return hashlib.sha256(f"{SALT}|{species}|{observer}".encode()).hexdigest()
 
@@ -106,8 +101,9 @@ def analyze(path: Path, cohort: str, expected_full: int, seed_offset: int):
     raw["species"] = raw["species"].fillna("").astype(str).str.strip()
     all_species = sorted(x for x in raw["species"].unique() if x)
     admitted = raw.loc[bool_series(raw["global_classifiable"]) & raw["morph"].isin(MORPHS)].copy()
-    admitted["observer_valid"] = valid_observer_series(admitted["observer_id"])
-    admitted.loc[admitted["observer_valid"], "observer_id"] = admitted.loc[admitted["observer_valid"], "observer_id"].astype(str).str.strip()
+    observer_clean = admitted["observer_id"].astype("string").fillna("").str.strip()
+    admitted["observer_id"] = observer_clean
+    admitted["observer_valid"] = observer_clean.ne("") & ~observer_clean.str.lower().isin(["nan", "none", "null", "na"])
 
     rows = []; attrition = Counter(); full_depth_n = 0
     for sp in all_species:
