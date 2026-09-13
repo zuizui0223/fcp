@@ -1,0 +1,70 @@
+name: polymorphism-h1-observer-disjoint-D-reliability
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "scripts/analysis/run_polymorphism_h1_observer_disjoint_D_reliability_20260913.py"
+      - "docs/POLYMORPHISM_H1_OBSERVER_DISJOINT_D_RELIABILITY_PROTOCOL_20260913.md"
+      - ".github/workflows/polymorphism-h1-observer-disjoint-D-reliability.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install analysis dependencies
+        run: python -m pip install --upgrade pip numpy pandas scipy
+
+      - name: Verify frozen measured-photo inputs
+        run: |
+          set -euo pipefail
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  data/derived/global_monte_carlo_measured_photos_v1.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  data/derived/rgfca_reserve_replication_measured_photos_v1.csv' | sha256sum -c -
+
+      - name: Syntax check
+        run: python -m py_compile scripts/analysis/run_polymorphism_h1_observer_disjoint_D_reliability_20260913.py
+
+      - name: Run observer-disjoint D reliability
+        run: python scripts/analysis/run_polymorphism_h1_observer_disjoint_D_reliability_20260913.py
+
+      - name: Verify decision receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.json')
+          r=json.loads(p.read_text())
+          assert r['historical_approx_0_971_used_as_evidence'] is False
+          assert r['discovery']['full_n_classifiable_ge_40'] == 369
+          assert r['reserve']['full_n_classifiable_ge_40'] == 363
+          assert r['discovery']['observer_leakage_count'] == 0
+          assert r['reserve']['observer_leakage_count'] == 0
+          assert r['decision']['verdict'] in {
+              'H1_OBSERVER_DISJOINT_D_RELIABILITY_SUPPORTED',
+              'H1_OBSERVER_DISJOINT_D_RELIABILITY_NOT_SUPPORTED',
+          }
+          print(json.dumps(r, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload H1 reliability receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-h1-observer-disjoint-D-reliability-20260913
+          path: results/polymorphism_h1_observer_disjoint_D_reliability_20260913
+          if-no-files-found: error
+          retention-days: 90
