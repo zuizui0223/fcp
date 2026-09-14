@@ -1,0 +1,95 @@
+{
+  "analysis": "polymorphism_h1_evidence_reconciliation",
+  "date_jst": "2026-09-14",
+  "new_statistical_test_run": false,
+  "canonical_status": "H1_MEASUREMENT_VALIDITY_SUPPORTED_WITH_STRICT_STRESS_TEST_CAVEAT",
+  "role": "measurement_validity_admission_gate_not_prevalence_or_mechanism",
+  "four_states": [
+    "white",
+    "yellow_orange",
+    "red_pink",
+    "blue_purple"
+  ],
+  "mixed_uncertain_promoted": false,
+  "canonical_primary": {
+    "protocol": "docs/POLYMORPHISM_H1_OBSERVER_DISJOINT_RELIABILITY_PROTOCOL_20260913.md",
+    "protocol_commit": "92488ada5f4f535f6731bba6519101d8ed8a7e1a",
+    "protocol_time_utc": "2026-09-12T17:03:49Z",
+    "result": "results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json",
+    "result_commit": "927940e5a3b0541b96515b53107cab24cb138950",
+    "result_time_utc": "2026-09-12T17:15:12Z",
+    "design": "200 observer-disjoint partitions",
+    "decision_cohort": "reserve",
+    "reserve": {
+      "partitions": 200,
+      "paired_n_median": 329.0,
+      "paired_n_min": 315,
+      "paired_n_max": 339,
+      "rho_median": 0.7891029925726101,
+      "rho_q05": 0.7651649940131238,
+      "rho_q95": 0.8109402582919217,
+      "ccc_median": 0.8548306738463054,
+      "ccc_q05": 0.8337283318452752,
+      "mae_median": 0.07898060739400078,
+      "bias_abs_q95": 0.010581315214492156,
+      "spearman_brown_median": 0.8821213710838693
+    },
+    "frozen_rule": {
+      "minimum_classifiable_per_half": 20,
+      "minimum_median_paired_species": 100,
+      "minimum_median_split_rho": 0.6666666666666666,
+      "minimum_q05_split_rho": 0.5
+    },
+    "verdict": "H1_OBSERVER_DISJOINT_D_RELIABILITY_SUPPORTED"
+  },
+  "later_strict_stress_test": {
+    "protocol": "docs/POLYMORPHISM_H1_OBSERVER_DISJOINT_D_RELIABILITY_PROTOCOL_20260913.md",
+    "protocol_commit": "8b2b416265b2ddcad53ecaafc214c80cc16a2648",
+    "protocol_time_utc": "2026-09-13T04:03:25Z",
+    "result": "results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.json",
+    "result_commit": "9a507a1a0cfbb5316657760c1283865a672ad346",
+    "result_time_utc": "2026-09-13T12:36:06Z",
+    "design": "single deterministic observer-disjoint split",
+    "status_relative_to_primary": "frozen_before_own_split_outcome_but_after_primary_H1_result_was_known",
+    "decision_cohort": "reserve",
+    "reserve": {
+      "reliability_eligible_n": 363,
+      "spearman_D_A_D_B": 0.7927276933213221,
+      "spearman_bootstrap_95_percentile_ci": [
+        0.7418679143323839,
+        0.832365877315184
+      ],
+      "lin_ccc": 0.8474290237389148,
+      "pearson_D_A_D_B": 0.8478833401252754,
+      "median_abs_D_difference": 0.06377551020408179,
+      "q90_abs_D_difference": 0.1881661828754747,
+      "gate_agreement_0_10": 0.8484848484848485,
+      "gate_agreement_0_20": 0.8787878787878788,
+      "observer_leakage_count": 0
+    },
+    "rho_floor": 0.8,
+    "rho_floor_pass": false,
+    "ccc_floor_pass": true,
+    "bootstrap_lower_floor_pass": true,
+    "verdict": "H1_OBSERVER_DISJOINT_D_RELIABILITY_NOT_SUPPORTED"
+  },
+  "reconciliation": {
+    "ordering_basis": "prospective chronology, not result favorability",
+    "primary_remains_first_frozen_repeated_partition_test": true,
+    "later_test_can_retroactively_replace_primary": false,
+    "later_failure_preserved": true,
+    "rho_0_80_floor_relaxed": false,
+    "historical_approx_0_971_used_as_current_D_evidence": false,
+    "interpretation": "D passes the first-frozen observer-disjoint measurement-validity gate, while a later stronger single-split rho>=0.80 criterion is not met; near-perfect or split-invariant reliability is not supported."
+  },
+  "allowed_claim": "The continuous four-state polymorphism score D was reproducible across repeated observer-disjoint partitions under the first-frozen validation rule in the species-disjoint reserve cohort (median split rho 0.789; q05 0.765; median CCC 0.855). A later deliberately stricter deterministic split yielded rho 0.793 and failed a prespecified 0.80 floor, so near-perfect or split-invariant reliability is not claimed.",
+  "hard_nonclaims": [
+    "not a global polymorphism prevalence estimate",
+    "not a globally representative species sample claim",
+    "not current-D observer-disjoint reliability of approximately 0.971",
+    "not near-perfect or split-invariant reliability",
+    "no post-hoc relaxation of the later rho=0.80 floor",
+    "mixed_uncertain is not a biological morph",
+    "not a causal ecological, phylogenetic, or H2 geometry result"
+  ]
+}
