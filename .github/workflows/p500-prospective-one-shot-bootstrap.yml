@@ -55,8 +55,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          EXISTING=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/p500-prospective-location-blind-measurement.yml/runs?branch=${GITHUB_REF_NAME}&event=workflow_dispatch&per_page=50" \
-            --jq '[.workflow_runs[] | select(.head_sha == env.GITHUB_SHA)] | length')
+          EXISTING=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?branch=${GITHUB_REF_NAME}&event=workflow_dispatch&per_page=100" \
+            --jq '[.workflow_runs[] | select(.head_sha == env.GITHUB_SHA and .name == "P500 prospective location-blind measurement")] | length')
           if [ "$EXISTING" != "0" ]; then
             echo "measurement workflow already exists at this exact head: $EXISTING" >&2
             exit 1
@@ -67,7 +67,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          gh workflow run p500-prospective-execution-gate.yml \
+          gh workflow run 358502539 \
             --repo "$GITHUB_REPOSITORY" \
             --ref "$GITHUB_REF_NAME" \
             -f issue_start_receipt=true
@@ -80,8 +80,8 @@ jobs:
           set -euo pipefail
           RUN_ID=""
           for i in $(seq 1 120); do
-            CANDIDATE=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/p500-prospective-execution-gate.yml/runs?branch=${GITHUB_REF_NAME}&event=workflow_dispatch&per_page=30" \
-              --jq '.workflow_runs[] | select(.head_sha == env.GITHUB_SHA) | .id' | head -n1 || true)
+            CANDIDATE=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?branch=${GITHUB_REF_NAME}&event=workflow_dispatch&per_page=100" \
+              --jq '.workflow_runs[] | select(.head_sha == env.GITHUB_SHA and .name == "P500 prospective execution gate") | .id' | head -n1 || true)
             if [ -n "$CANDIDATE" ]; then
               STATUS=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${CANDIDATE}" --jq '.status')
               CONCLUSION=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${CANDIDATE}" --jq '.conclusion // ""')
@@ -142,8 +142,8 @@ jobs:
           set -euo pipefail
           MEASUREMENT_RUN_ID=""
           for i in $(seq 1 30); do
-            CANDIDATE=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/workflows/p500-prospective-location-blind-measurement.yml/runs?branch=${GITHUB_REF_NAME}&event=workflow_dispatch&per_page=30" \
-              --jq '.workflow_runs[] | select(.head_sha == env.GITHUB_SHA) | .id' | head -n1 || true)
+            CANDIDATE=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?branch=${GITHUB_REF_NAME}&event=workflow_dispatch&per_page=100" \
+              --jq '.workflow_runs[] | select(.head_sha == env.GITHUB_SHA and .name == "P500 prospective location-blind measurement") | .id' | head -n1 || true)
             if [ -n "$CANDIDATE" ]; then
               MEASUREMENT_RUN_ID="$CANDIDATE"
               break
