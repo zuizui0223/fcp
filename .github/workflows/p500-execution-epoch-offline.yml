@@ -1,0 +1,47 @@
+name: P500 execution epoch offline guard
+
+on:
+  pull_request:
+    paths:
+      - 'fcp_pipeline/p500_execution_epoch.py'
+      - 'tests/test_p500_execution_epoch.py'
+      - 'docs/POLYMORPHISM_H2_P500_EXECUTION_EPOCH_20260915.json'
+      - 'docs/POLYMORPHISM_H2_P500_EXECUTION_EPOCH_20260915.md'
+      - 'docs/POLYMORPHISM_H2_P500_GATE_RECONCILIATION_20260915.md'
+      - '.github/workflows/p500-execution-epoch-offline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-chronology-guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify inherited frozen protocol blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object docs/POLYMORPHISM_H2_PROSPECTIVE_U100_SELECTION_PROTOCOL_20260913.md)" = "e16326446d30f59ddc883adfaf74a17c63bcdde7"
+          test "$(git hash-object docs/POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260915.md)" = "d1f81202a7a8eedf8625b9c9db58845c0c96678a"
+          test "$(git hash-object docs/POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_AUTHORIZATION_20260915.json)" = "3310b4d573a2dd321f9684250892cee3b1982954"
+      - name: Run chronology state-machine tests
+        run: python -m unittest discover -s tests -p 'test_p500_execution_epoch.py' -v
+      - name: Assert freeze remains pre-dispatch
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('docs/POLYMORPHISM_H2_P500_EXECUTION_EPOCH_20260915.json')
+          d = json.loads(p.read_text(encoding='utf-8'))
+          assert d['state'] == 'PREOPEN_FROZEN'
+          assert d['history'] == []
+          assert all(value is False for value in d['opening_flags'].values())
+          assert d['historical_nonaccess_claimed'] is False
+          assert d['minimum_computable_H2_vector_species'] == 20
+          assert d['confirmatory_minimum_H2_vector_species'] == 100
+          PY
