@@ -1,0 +1,18 @@
+{
+  "schema": "p500_prospective_run_authorization_v1",
+  "date_jst": "2026-09-15",
+  "authorized": true,
+  "authorization_source": "explicit_user_instruction_in_project_chat",
+  "branch": "analysis/p500-prospective-execution-gate-20260915",
+  "scope": "exactly_one_p500_prospective_location_blind_measurement_and_frozen_h2_test",
+  "species": 499,
+  "rows": 49900,
+  "p500_species_sha256": "f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4",
+  "no_replacement": true,
+  "no_target_relaxation": true,
+  "no_axis_refit": true,
+  "no_threshold_change": true,
+  "no_post_outcome_rerun": true,
+  "one_shot": true,
+  "claim_boundary": "This marker authorizes one frozen prospective execution only. It does not authorize replacement, rescue, threshold changes, axis refitting, or a second outcome run."
+}
