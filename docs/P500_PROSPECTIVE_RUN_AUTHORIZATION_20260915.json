@@ -14,5 +14,7 @@
   "no_threshold_change": true,
   "no_post_outcome_rerun": true,
   "one_shot": true,
-  "claim_boundary": "This marker authorizes one frozen prospective execution only. It does not authorize replacement, rescue, threshold changes, axis refitting, or a second outcome run."
+  "bootstrap_attempt": 2,
+  "prior_attempt_opened_pixels": false,
+  "claim_boundary": "This marker authorizes one frozen prospective execution only. It does not authorize replacement, rescue, threshold changes, axis refitting, or a second biological outcome run. Bootstrap retry is permitted only because the prior attempt failed before PREOPENING dispatch and opened no pixels."
 }
