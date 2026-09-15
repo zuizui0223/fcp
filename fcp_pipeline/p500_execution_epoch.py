@@ -1,9 +1,15 @@
 """Fail-closed chronology guard for the prospective P500 H2 confirmation.
 
-This module does not acquire images, measure colour, or calculate H2.  Its only
+This module does not acquire images, measure colour, or calculate H2. Its only
 job is to make the execution chronology explicit and machine-checkable from a
-new prospective freeze forward.  It deliberately makes no retrospective claim
+new prospective freeze forward. It deliberately makes no retrospective claim
 about whether pixels were accessed before this epoch was created.
+
+The earliest P500 prospective protocol froze N>=100 H2 vectors as the
+confirmatory identifiability gate. A later measurement protocol encoded N>=20.
+Because no P500 outcome is opened at this epoch freeze, the conservative
+reconciliation is to retain 20 only as a computational/reporting floor and keep
+100 as the confirmatory decision floor.
 """
 
 from __future__ import annotations
@@ -35,6 +41,8 @@ EXPECTED_FREEZE = {
     "state": "PREOPEN_FROZEN",
     "base_branch": "analysis/polymorphism-42111-h1-h2-gates-20260912",
     "base_sha": "26f7a792f93fb53bc6e8c9a64efb45ccb548b9ea",
+    "selection_protocol_path": "docs/POLYMORPHISM_H2_PROSPECTIVE_U100_SELECTION_PROTOCOL_20260913.md",
+    "selection_protocol_blob_sha": "e16326446d30f59ddc883adfaf74a17c63bcdde7",
     "protocol_path": "docs/POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260915.md",
     "protocol_blob_sha": "d1f81202a7a8eedf8625b9c9db58845c0c96678a",
     "authorization_path": "docs/POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_AUTHORIZATION_20260915.json",
@@ -49,7 +57,9 @@ EXPECTED_FREEZE = {
     "terminal_partitions": 256,
     "minimum_classifiable_photos_per_species": 40,
     "minimum_measurement_evaluable_species": 250,
-    "minimum_primary_H2_vector_species": 20,
+    "minimum_computable_H2_vector_species": 20,
+    "confirmatory_minimum_H2_vector_species": 100,
+    "confirmatory_gate_reconciliation": "earliest_stricter_preoutcome_gate_controls",
     "H2_target": "fixed_q_white_W_structured_null",
     "axis_refit_allowed": False,
     "primary_threshold": 0.10,
@@ -90,15 +100,15 @@ def canonical_json_sha256(payload: Mapping[str, Any]) -> str:
 
 
 def _require_bool(value: Any, label: str) -> None:
-    if type(value) is not bool:  # bool is intentionally stricter than truthiness.
+    if type(value) is not bool:
         raise RuntimeError(f"{label} must be boolean")
 
 
 def validate_preopen_freeze(receipt: Mapping[str, Any]) -> None:
     """Validate the immutable pre-opening epoch receipt.
 
-    Passing this function means only that the *new epoch receipt* is internally
-    consistent.  It does not prove any historical non-access before the receipt.
+    Passing this function means only that the new epoch receipt is internally
+    consistent. It does not prove any historical non-access before the receipt.
     """
     for key, expected in EXPECTED_FREEZE.items():
         if receipt.get(key) != expected:
@@ -137,8 +147,8 @@ def advance_epoch(
 ) -> dict[str, Any]:
     """Advance exactly one chronology state after validating its evidence.
 
-    The caller is responsible for durably saving the returned receipt before
-    performing any action that belongs to the new state.
+    The caller must durably save the returned receipt before performing any
+    action that belongs to the new state.
     """
     current = receipt.get("state")
     if current not in STATES:
