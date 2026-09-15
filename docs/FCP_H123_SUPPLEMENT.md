@@ -179,6 +179,20 @@ on the 341 reserve tips remains a secondary diagnostic, reported in the
 [frozen H3b result note](POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md);
 it cannot override the failed primary test.
 
+The rank-PGLS implementation first matches rows to the pruned tree, then
+calculates centered average ranks within that matched set. Its formula is
+`rank(D) ~ rank(log1p(span)) + rank(log1p(n_classifiable)) + rank(log1p(n_observers))`,
+including an intercept, fitted with `phylolm(..., model="lambda")`. Thus these
+rank values are not necessarily the ranks used in the full 363-species primary
+test. The recorded span p-value is computed explicitly as
+`2 * pnorm(-abs(beta_span / se_span))`: a normal-reference Wald calculation,
+not the primary 20,000-permutation test or a package-summary t-test.
+The coefficient is in centered-rank units, not change in D per kilometre.
+The frozen note reports reserve lambda approximately 1e-7 in all scenarios;
+this fitted value does not establish absence of phylogenetic dependence in
+every model or sampling design. Runtime package versions and optimizer
+diagnostics require the original artifact, not assumptions from current docs.
+
 ### Implementation and interpretation checks
 
 The [H3a protocol](POLYMORPHISM_H3A_PHYLOGENETIC_SIGNAL_PROTOCOL_20260912.md),

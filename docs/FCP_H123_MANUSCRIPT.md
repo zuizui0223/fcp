@@ -118,7 +118,7 @@ and 250 tips per cohort. The unmatched species are not assigned zero signal.
 Raw D is tested using Blomberg K (Blomberg et al., 2003) with 9,999 randomized trait-to-tip assignments;
 tree, branch lengths, retained species and trait values remain fixed. The
 upper-tail plus-one p-value has denominator 10,000. Reserve support requires
-p<0.05 in all three scenarios. Pagel lambda and its likelihood-ratio test
+p<0.05 in all three scenarios. Pagel lambda (Pagel, 1999) and its likelihood-ratio test
 against zero are secondary diagnostics and cannot rescue the primary decision.
 
 The H3a opportunity sensitivity regresses centered ranks of D on centered
@@ -137,7 +137,10 @@ and log1p(span), using all 363 eligible reserve species without tree matching.
 Its two-sided test permutes D ranks among species 20,000 times, with a plus-one
 denominator of 20,001. Support requires positive reserve rho and p<0.05.
 Sensitivities use finite-sample-corrected D, partial ranks controlling usable
-image and observer counts, and rank-PGLS on the 341 matched reserve tips. The
+image and observer counts, and rank-PGLS using phylolm (Ho & Ané, 2014) on the
+341 matched reserve tips. This secondary regression fits a lambda covariance
+model and uses a normal-reference coefficient test, not the primary
+permutation test (Supplement S3). The
 partial-rank test permutes residualized D against a fixed residualized span;
 it is a sensitivity, not causal adjustment. The reserve is the replication
 cohort for both H3 tests; discovery associations were already inspected.
@@ -321,6 +324,10 @@ Blomberg, S. P., Garland, T., Jr., & Ives, A. R. (2003). Testing for phylogeneti
 signal in comparative data: behavioral traits are more labile. Evolution,
 57(4), 717–745. https://doi.org/10.1111/j.0014-3820.2003.tb00285.x
 
+Ho, L. S. T., & Ané, C. (2014). A linear-time algorithm for Gaussian and
+non-Gaussian trait evolution models. Systematic Biology, 63(3), 397–408.
+https://doi.org/10.1093/sysbio/syu005
+
 Jin, Y., & Qian, H. (2022). V.PhyloMaker2: An updated and enlarged R package
 that can generate very large phylogenies for vascular plants. Plant Diversity,
 44(4), 335–339. https://doi.org/10.1016/j.pld.2022.05.005
@@ -336,6 +343,9 @@ Luong, Y., Gasca-Herrera, A., Misiewicz, T. M., & Carter, B. E. (2023). A pipeli
 for the rapid collection of color data from photographs. Applications in Plant
 Sciences, 11(5), e11546. https://doi.org/10.1002/aps3.11546
 
+Pagel, M. (1999). Inferring the historical patterns of biological evolution.
+Nature, 401, 877–884. https://doi.org/10.1038/44766
+
 Phipson, B., & Smyth, G. K. (2010). Permutation P-values should never be zero:
 calculating exact P-values when permutations are randomly drawn. Statistical
 Applications in Genetics and Molecular Biology, 9(1), Article 39.
@@ -350,5 +360,7 @@ Access details and non-transferability limits are recorded in the
 [measurement-reference audit](FCP_H123_MEASUREMENT_REFERENCES.md) and
 [statistical-reference audit](FCP_H123_STATISTICAL_REFERENCES.md). Lin and
 V.PhyloMaker2 were not fully text-audited; the audit records the exact accessible
-sections and limits. References for lambda, phylogenetic regression, image
-models and remaining statistical/ecological context still require verification.
+sections and limits. The [phylogenetic-reference audit](FCP_H123_PHYLOGENETIC_REFERENCES.md)
+records Pagel and phylolm references, official model documentation and original
+full-text access limits. Image-model references and remaining
+statistical/ecological context still require verification.
