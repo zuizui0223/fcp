@@ -64,3 +64,6 @@ set or changed test is authorized here. A later exploratory diagnostic would
 require explicit labeling and cannot repair historical pre-opening compliance.
 For the actual opening chronology see the
 [Actions correction](FCP_H123_P500_ACTIONS_CORRECTION_20260915.md).
+The [synthetic reassembly audit](P500_REASSEMBLY_COMPONENT_AUDIT_20260915.md)
+tests duplicate/missing-ID rejection and records the separate checks still
+needed on the complete aggregate.
