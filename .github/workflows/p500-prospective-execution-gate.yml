@@ -111,7 +111,8 @@ jobs:
           assert r['cases_passed'] == 4
           assert r['cases_required'] == 4
           assert r['candidate_pixels_opened'] is False
-          assert all(x['exact_null_vector_match'] for x in r['cases'])
+          assert all(x['exact_legacy_prospective_null_vector_match'] for x in r['cases'])
+          assert all(x['frozen_result_json_numeric_match'] for x in r['cases'])
           print('P500 H2 executor legacy replay: PASS')
           PY
       - name: Dry-run complete 49,900-row firewall construction without pixels
