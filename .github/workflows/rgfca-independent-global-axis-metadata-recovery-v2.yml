@@ -101,8 +101,6 @@ jobs:
             --output scripts/acquisition/.run_rgfca_independent_global_axis_metadata_recovery_shard_v2_runtime.py
 
       - name: Run one deterministic metadata recovery shard v2
-        env:
-          PYTHONUNBUFFERED: "1"
         run: |
           rm -rf /tmp/rgfca-recovery-shard
           python scripts/acquisition/.run_rgfca_independent_global_axis_metadata_recovery_shard_v2_runtime.py \
