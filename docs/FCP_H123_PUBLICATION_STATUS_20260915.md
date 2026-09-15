@@ -48,6 +48,15 @@ of support for H1–H3, and historical frozen data/results must not be edited.
 
 ## Development checkpoint
 
+The active manuscript now reports the completed Monarda gate failure in its
+abstract, Methods and Results, and Supplement Table S1 carries all three
+operational criteria. Publication tests independently recompute its pooled and
+median values from the unchanged count table and check exact source hashes,
+complete image census and labeled table cells. This strengthens the measurement
+limitations record; it neither repairs the failed gate nor establishes a
+general atlas error rate. The reference-target mismatch and annotation
+completeness remain unresolved rather than assigned a convenient explanation.
+
 Technical snapshot implementation now exists in
 `fcp_pipeline/p500_technical_snapshot.py`: it accepts only photo identity and
 near-clip fraction, requires exact coverage of a supplied evaluable identity set,

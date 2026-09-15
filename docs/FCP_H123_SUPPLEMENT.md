@@ -67,6 +67,43 @@ The [measurement-reference audit](FCP_H123_MEASUREMENT_REFERENCES.md) records th
 primary sources supporting the main text's photography/calibration limitations.
 Their validation does not transfer automatically to this estimator or cohort.
 
+### Table S1. Completed Monarda operational measurement diagnostic
+
+| Criterion | Observed | Fixed minimum | Decision |
+| --- | ---: | ---: | --- |
+| Pooled prediction precision | 0.56824250 | 0.70 | Failed |
+| Pooled reference recall | 0.42608787 | 0.35 | Passed |
+| Median annotated-image prediction precision | 0.51480059 | 0.70 | Failed |
+
+All three conditions were required; the overall decision is **failed**.
+The denominator is 109 annotated images, including 15 empty predictions, from
+110 accounted-for images. One annotation-unknown image is not a verified
+negative and does not enter overlap metrics. Pooled reference, prediction and
+intersection counts are respectively 28,428,697, 21,316,820 and 12,113,123 pixels.
+Pooled precision divides intersection by prediction; recall divides intersection
+by reference. Per-image median precision retains empty predictions with zero
+precision under the frozen convention. Larger regions contribute more weight
+to pooled metrics than to the image median. These are descriptive operational
+metrics, not independent pixel-level confidence estimates.
+
+The original source files remain unchanged:
+
+- [Saved result](../data/validation/monarda_region_agreement_v1/monarda_region_agreement_result_v1.json),
+  exact SHA256 `49b2f017a6accb305867d62e7b4afe4e8ed96fcd03f8aafde86bda2da915fa4c`.
+- [All-image count table](../data/validation/monarda_region_agreement_v1/monarda_region_agreement_rows_v1.csv),
+  exact SHA256 `67cbeaa2cd0ea1f1d3f98516b4fe9f7bb1abc8648ac80268e6dc4ec3e754dc22`.
+- [Original independent verification](../data/validation/monarda_region_agreement_v1/independent_verification.json).
+
+Publication checks rederive Table S1 from retained integer pixel counts and
+compare the saved result, exact byte identities, image census and table cells.
+They do not verify annotation truth or rerun the estimator. Generic flower
+polygons are not exhaustive focal-taxon petal labels. The observed disagreement
+cannot separate localization error, incomplete annotation and target mismatch;
+no such explanation is selected as a proven cause. Provider train/valid/test
+labels are not FCP holdouts, and this opened export cannot serve as a new
+untouched validation set. Neither these metrics nor the JRC box qualification
+calibrates reflectance, ultraviolet signal or biological morph frequencies.
+
 ## S5. Package completion checklist
 
 - [ ] All source-to-number mappings checked automatically.

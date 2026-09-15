@@ -23,6 +23,8 @@ span were not supported in reserve. These findings support reproducibility and
 constrained geometry of the current image-derived measurements; unresolved
 localization and highlight confounding prevent treating them as validated
 biological morph frequencies or identified ecological mechanisms.
+The completed 110-image Monarda localization diagnostic failed its fixed
+operational gate; this is a measurement limitation, not a biological absence.
 
 ## Introduction
 
@@ -75,6 +77,18 @@ photographic span, not true biological range size. The reserve is the replicatio
 cohort. Failed replications are retained without searching for replacement
 predictors.
 
+Measurement qualification was evaluated separately from H1–H3. The estimator
+combines retained generic flower masks rather than selecting a verified focal
+taxon's petals. The JRC box-based qualification and Monarda polygon-based
+diagnostic therefore have different reference targets. For Monarda, all 110
+exported images were accounted for: 109 had positive generic flower annotations
+and one had unknown reference status. The latter was not treated as a verified
+negative. The fixed gate required pooled prediction precision >=0.70, pooled
+reference recall >=0.35 and median annotated-image precision >=0.70 jointly.
+Precision means overlap with the supplied polygon union, not verified petal
+purity. Saved pixel-count arithmetic is reported in Supplement Table S1;
+neither model predictions nor annotations were regenerated for this manuscript.
+
 ## Results
 
 ### H1: repeatability, not proof of biological accuracy
@@ -108,6 +122,17 @@ permutation p=0.272, 0.413 and 0.267). The discovery sampled-span association
 p=0.958602. These tests do not establish that evolutionary history or true
 geographic range size is biologically irrelevant.
 
+### Measurement qualification: a completed failure, not a pending test
+
+All 110 Monarda images completed without a model runtime failure. Among the 109
+annotated images, 15 produced empty predictions and remained in the evaluation.
+Pooled prediction precision was 0.56824250 and median image precision was
+0.51480059, both below their 0.70 floors; pooled recall was 0.42608787, above
+its 0.35 floor. The conjunctive localization gate therefore failed. A passing
+runtime or recall component does not reverse the two precision failures.
+These comparisons do not identify whether disagreement arose from localization
+error, incomplete reference annotations or mismatch in anatomical target.
+
 ## Discussion — limits governing interpretation
 
 Observer-disjoint repeatability establishes a property of the measurement under
@@ -116,7 +141,10 @@ correct image-level biological classification or population morph frequencies.
 The present estimator pools retained flower regions; co-photographed nonfocal
 flowers can contribute. The completed Monarda region-agreement gate failed and
 cannot be repaired by relabeling, selecting a successful subset or retuning on
-the same images. White–nonwhite geometry could also be affected by digital
+the same images. This single-species diagnostic does not estimate a universal
+error rate across atlas taxa. Conversely, passing box containment on JRC images
+does not establish anatomical petal accuracy or invalidate the Monarda failure.
+White–nonwhite geometry could also be affected by digital
 highlight failure; the proposed measurement-control test has no result yet.
 
 External photographic studies do not remove these limitations. In particular,

@@ -3,6 +3,8 @@ import json
 import re
 import csv
 import hashlib
+from statistics import median
+from decimal import Decimal
 
 import yaml
 
@@ -81,3 +83,49 @@ def test_h3_artifact_summaries_and_manuscript_values():
             for row in rows:
                 assert f"rho={float(row['rho_D_span']):.6f}" in section
                 assert f"p={float(row['p_D_span']):.6f}" in section
+
+
+def test_monarda_table_recomputed_from_unchanged_pixel_counts():
+    base = ROOT / 'data/validation/monarda_region_agreement_v1'
+    result_raw = (base / 'monarda_region_agreement_result_v1.json').read_bytes()
+    rows_raw = (base / 'monarda_region_agreement_rows_v1.csv').read_bytes()
+    assert hashlib.sha256(result_raw).hexdigest() == '49b2f017a6accb305867d62e7b4afe4e8ed96fcd03f8aafde86bda2da915fa4c'
+    assert hashlib.sha256(rows_raw).hexdigest() == '67cbeaa2cd0ea1f1d3f98516b4fe9f7bb1abc8648ac80268e6dc4ec3e754dc22'
+    result = json.loads(result_raw)
+    rows = list(csv.DictReader(rows_raw.decode().splitlines()))
+    assert len(rows) == 110
+    assert len({(r['split'], r['coco_image_id']) for r in rows}) == 110
+    assert all(r['model_status'] == 'model_success' for r in rows)
+    positive = [r for r in rows if r['reference_role'] == 'positive_generic_flower_region']
+    assert len(positive) == 109
+    assert result['reference_unknown_images'] == 1
+    assert result['unknown_zero_annotation_image']['counted_as_verified_negative'] is False
+
+    def count(row, field):
+        value = Decimal(row[field])
+        assert value.is_finite() and value >= 0 and value == int(value)
+        return int(value)
+
+    counts = [(count(r, 'reference_pixels'), count(r, 'predicted_pixels'),
+               count(r, 'intersection_pixels')) for r in positive]
+    assert all(0 <= intersection <= min(reference, prediction)
+               for reference, prediction, intersection in counts)
+    assert sum(prediction == 0 for _, prediction, _ in counts) == 15
+    reference, prediction, intersection = map(sum, zip(*counts))
+    assert (reference, prediction, intersection) == (28428697, 21316820, 12113123)
+    values = [intersection / prediction, intersection / reference,
+              median(i / p if p else 0.0 for _, p, i in counts)]
+    keys = ['pooled_prediction_precision', 'pooled_reference_recall',
+            'median_positive_image_prediction_precision']
+    assert values == [result['aggregate'][key] for key in keys]
+    assert [v >= floor for v, floor in zip(values, [.70, .35, .70])] == [False, True, False]
+    assert result['limited_gate_pass'] is False
+    supplement = (ROOT / 'docs/FCP_H123_SUPPLEMENT.md').read_text(encoding='utf-8')
+    labels = ['Pooled prediction precision', 'Pooled reference recall',
+              'Median annotated-image prediction precision']
+    for label, value, floor, decision in zip(labels, values, [.70, .35, .70], ['Failed', 'Passed', 'Failed']):
+        assert f'| {label} | {value:.8f} | {floor:.2f} | {decision} |' in supplement
+    manuscript = (ROOT / 'docs/FCP_H123_MANUSCRIPT.md').read_text(encoding='utf-8')
+    for value in values:
+        assert f'{value:.8f}' in manuscript
+    assert 'not a biological absence' in manuscript
