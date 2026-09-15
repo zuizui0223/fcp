@@ -1,0 +1,227 @@
+name: P500 prospective execution gate
+
+on:
+  push:
+    branches: [analysis/p500-prospective-execution-gate-20260915]
+    paths:
+      - fcp_pipeline/p500_prospective_execution_gate.py
+      - scripts/analysis/build_p500_prospective_measurement_firewall.py
+      - scripts/analysis/reassemble_p500_prospective_measurement.py
+      - scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py
+      - scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py
+      - tests/test_p500_prospective_execution_gate.py
+      - .github/workflows/p500-prospective-execution-gate.yml
+      - .github/workflows/p500-prospective-location-blind-measurement.yml
+      - docs/POLYMORPHISM_H2_P500_PROSPECTIVE_EXECUTION_GATE_20260915.md
+  pull_request:
+    paths:
+      - fcp_pipeline/p500_prospective_execution_gate.py
+      - scripts/analysis/build_p500_prospective_measurement_firewall.py
+      - scripts/analysis/reassemble_p500_prospective_measurement.py
+      - scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py
+      - scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py
+      - tests/test_p500_prospective_execution_gate.py
+      - .github/workflows/p500-prospective-execution-gate.yml
+      - .github/workflows/p500-prospective-location-blind-measurement.yml
+  workflow_dispatch:
+    inputs:
+      issue_start_receipt:
+        description: 'Issue a forward-only PREOPENING receipt for the next execution run'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: .
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run execution-gate tests
+        run: |
+          python -m pip install pytest pandas numpy scipy PyYAML
+          python -m pytest tests/test_p500_prospective_execution_gate.py -q
+      - name: Parse both P500 workflows as YAML
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+          for p in [
+              Path('.github/workflows/p500-prospective-execution-gate.yml'),
+              Path('.github/workflows/p500-prospective-location-blind-measurement.yml'),
+          ]:
+              obj = yaml.safe_load(p.read_text())
+              assert isinstance(obj, dict) and 'jobs' in obj
+              assert 'h2-prospective-test' in yaml.safe_load(Path('.github/workflows/p500-prospective-location-blind-measurement.yml').read_text())['jobs']
+              print(f'{p}: YAML PASS')
+          PY
+      - name: Validate real frozen inputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from fcp_pipeline.p500_prospective_execution_gate import (
+              validate_authorization, validate_candidate_metadata)
+          candidate = json.loads(Path('results/polymorphism_h2_p500_candidate_metadata_20260913/result.json').read_text())
+          auth = json.loads(Path('docs/POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_AUTHORIZATION_20260915.json').read_text())
+          validate_candidate_metadata(candidate)
+          validate_authorization(auth)
+          print('frozen P500 candidate metadata and H2 authorization: PASS')
+          PY
+      - name: Verify future output namespace is unopened
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          forbidden = [
+              Path('results/polymorphism_h2_p500_prospective_execution_20260915'),
+              Path('results/polymorphism_h2_p500_prospective_white_axis_20260915'),
+              Path('data/measurement/polymorphism_h2_p500_prospective_v1'),
+          ]
+          existing = [str(p) for p in forbidden if p.exists()]
+          if existing:
+              raise SystemExit('prospective output namespace already exists: ' + ', '.join(existing))
+          print('prospective output namespace absent: PASS')
+          PY
+      - name: Materialize exact inherited blind-measurement interface
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Compile prospective execution scripts against inherited interface
+        run: |
+          python -m py_compile \
+            fcp_pipeline/p500_prospective_execution_gate.py \
+            scripts/analysis/build_p500_prospective_measurement_firewall.py \
+            scripts/analysis/reassemble_p500_prospective_measurement.py \
+            scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py \
+            scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py
+      - name: Validate support-receipt to H2 contract without opening pixels
+        run: |
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path('scripts/analysis').resolve()))
+          from run_polymorphism_h2_p500_prospective_white_axis_20260915 import measurement_support_from_receipt
+          support_stage = {
+              'stage': 'SUPPORT_GATE_COMPLETE', 'species': 499, 'rows': 49900,
+              'replacement_rows': 0, 'replacement_species': 0,
+              'measurement_evaluable_species': 300, 'support_decision': 'PASS',
+          }
+          receipt = {
+              'schema': 'p500_prospective_measurement_result_v1',
+              'status': 'complete_p500_location_blind_measurement_and_support_gate',
+              'stage': 'SUPPORT_GATE_COMPLETE', 'species': 499, 'rows': 49900,
+              'measurement_evaluable_species': 300, 'support_decision': 'PASS',
+              'H2_opened': False, 'replacement_rows': 0, 'replacement_species': 0,
+              'persisted_image_pixels': False,
+              'stage_receipts': {'support': support_stage},
+          }
+          x = measurement_support_from_receipt(receipt)
+          assert x['pass'] is True and x['evaluable_species'] == 300
+          receipt['measurement_evaluable_species'] = 249
+          receipt['support_decision'] = 'NOT_EVALUABLE'
+          receipt['stage_receipts']['support']['measurement_evaluable_species'] = 249
+          receipt['stage_receipts']['support']['support_decision'] = 'NOT_EVALUABLE'
+          x = measurement_support_from_receipt(receipt)
+          assert x['pass'] is False and x['decision'] == 'NOT_EVALUABLE'
+          print('support receipt -> H2 contract: PASS')
+          PY
+      - name: Qualify H2 executor by exact frozen legacy replay
+        run: |
+          rm -rf /tmp/p500-h2-executor-qualification
+          python scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py \
+            --output /tmp/p500-h2-executor-qualification/result.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('/tmp/p500-h2-executor-qualification/result.json').read_text())
+          assert r['qualification_pass'] is True
+          assert r['cases_passed'] == 4
+          assert r['cases_required'] == 4
+          assert r['candidate_pixels_opened'] is False
+          assert all(x['exact_legacy_prospective_null_vector_match'] for x in r['cases'])
+          assert all(x['frozen_result_json_numeric_match'] for x in r['cases'])
+          print('P500 H2 executor legacy replay: PASS')
+          PY
+      - name: Dry-run complete 49,900-row firewall construction without pixels
+        run: |
+          rm -rf /tmp/p500-firewall
+          python scripts/analysis/build_p500_prospective_measurement_firewall.py --output-dir /tmp/p500-firewall
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('/tmp/p500-firewall/measurement_firewall_manifest.json').read_text())
+          assert m['status'] == 'p500_measurement_firewall_frozen_before_pixels'
+          assert m['species'] == 499
+          assert m['rows'] == 49900
+          assert m['measurement_ids'] == 49900
+          assert m['terminal_partitions'] == 256
+          assert m['nonempty_terminal_partitions'] == 256
+          assert m['worker_contains_species'] is False
+          assert m['worker_contains_coordinates'] is False
+          assert m['worker_contains_source_url'] is False
+          assert m['coordinate_colour_join_opened'] is False
+          assert m['candidate_pixels_opened'] is False
+          print(json.dumps(m, indent=2))
+          PY
+      - name: Save qualification receipt
+        env:
+          ISSUE_START: ${{ github.event_name == 'workflow_dispatch' && inputs.issue_start_receipt || false }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from fcp_pipeline.p500_prospective_execution_gate import build_start_record
+          h2q = json.loads(Path('/tmp/p500-h2-executor-qualification/result.json').read_text())
+          if h2q.get('qualification_pass') is not True:
+              raise SystemExit('H2 executor replay qualification did not pass')
+          issue = os.environ.get('ISSUE_START', 'false').lower() == 'true'
+          if issue:
+              record = build_start_record(
+                  branch=os.environ['GITHUB_REF_NAME'],
+                  head_sha=os.environ['GITHUB_SHA'],
+                  known_output_paths_absent=True,
+                  working_tree_inputs_verified=True,
+              )
+              record['h2_executor_legacy_replay_qualification_pass'] = True
+              record['support_to_h2_contract_qualification_pass'] = True
+          else:
+              record = {
+                  'schema': 'p500_prospective_execution_qualification_v1',
+                  'branch': os.environ['GITHUB_REF_NAME'],
+                  'head_sha': os.environ['GITHUB_SHA'],
+                  'qualification_pass': True,
+                  'firewall_dry_run_pass': True,
+                  'measurement_workflow_yaml_pass': True,
+                  'h2_executor_legacy_replay_qualification_pass': True,
+                  'support_to_h2_contract_qualification_pass': True,
+                  'opening_authorized': False,
+                  'reason': 'qualification_only; dispatch with issue_start_receipt=true immediately before execution',
+              }
+          Path('p500-prospective-execution-gate.json').write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record))
+          PY
+      - name: Stage qualification artifact at a single root
+        run: |
+          rm -rf /tmp/p500-gate-artifact
+          mkdir -p /tmp/p500-gate-artifact
+          cp p500-prospective-execution-gate.json /tmp/p500-gate-artifact/
+          cp /tmp/p500-firewall/measurement_firewall_manifest.json /tmp/p500-gate-artifact/
+          cp /tmp/p500-firewall/partition_assignments.csv /tmp/p500-gate-artifact/
+          cp /tmp/p500-h2-executor-qualification/result.json /tmp/p500-gate-artifact/h2_executor_legacy_replay.json
+          test -f /tmp/p500-gate-artifact/p500-prospective-execution-gate.json
+          test -f /tmp/p500-gate-artifact/measurement_firewall_manifest.json
+          test -f /tmp/p500-gate-artifact/partition_assignments.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p500-prospective-execution-gate
+          path: /tmp/p500-gate-artifact
+          if-no-files-found: error

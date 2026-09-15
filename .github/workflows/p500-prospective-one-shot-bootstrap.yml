@@ -1,0 +1,165 @@
+name: P500 prospective one-shot bootstrap
+
+on:
+  push:
+    branches: [analysis/p500-prospective-execution-gate-20260915]
+    paths:
+      - docs/P500_PROSPECTIVE_RUN_AUTHORIZATION_20260915.json
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: p500-prospective-one-shot-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  launch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Validate one-shot user authorization marker
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path('docs/P500_PROSPECTIVE_RUN_AUTHORIZATION_20260915.json')
+          x = json.loads(p.read_text())
+          required = {
+              'schema': 'p500_prospective_run_authorization_v1',
+              'authorized': True,
+              'branch': 'analysis/p500-prospective-execution-gate-20260915',
+              'scope': 'exactly_one_p500_prospective_location_blind_measurement_and_frozen_h2_test',
+              'species': 499,
+              'rows': 49900,
+              'p500_species_sha256': 'f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4',
+              'no_replacement': True,
+              'no_target_relaxation': True,
+          }
+          for k, v in required.items():
+              if x.get(k) != v:
+                  raise SystemExit(f'authorization marker mismatch: {k}={x.get(k)!r} expected {v!r}')
+          if os.environ['GITHUB_REF_NAME'] != required['branch']:
+              raise SystemExit('authorization branch mismatch')
+          print({'authorization': 'PASS', 'head_sha': os.environ['GITHUB_SHA']})
+          PY
+
+      - name: Refuse duplicate prospective measurement at this exact head
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          EXISTING=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?branch=${GITHUB_REF_NAME}&event=workflow_dispatch&per_page=100" \
+            --jq '[.workflow_runs[] | select(.head_sha == env.GITHUB_SHA and .name == "P500 prospective location-blind measurement")] | length')
+          if [ "$EXISTING" != "0" ]; then
+            echo "measurement workflow already exists at this exact head: $EXISTING" >&2
+            exit 1
+          fi
+
+      - name: Dispatch exact-head PREOPENING gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh workflow run 358502539 \
+            --repo "$GITHUB_REPOSITORY" \
+            --ref "$GITHUB_REF_NAME" \
+            -f issue_start_receipt=true
+          echo "PREOPENING gate dispatched for $GITHUB_SHA"
+
+      - name: Wait for exact-head PREOPENING success and capture run ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          RUN_ID=""
+          for i in $(seq 1 120); do
+            CANDIDATE=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?branch=${GITHUB_REF_NAME}&event=workflow_dispatch&per_page=100" \
+              --jq '.workflow_runs[] | select(.head_sha == env.GITHUB_SHA and .name == "P500 prospective execution gate") | .id' | head -n1 || true)
+            if [ -n "$CANDIDATE" ]; then
+              STATUS=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${CANDIDATE}" --jq '.status')
+              CONCLUSION=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${CANDIDATE}" --jq '.conclusion // ""')
+              echo "PREOPENING run=${CANDIDATE} status=${STATUS} conclusion=${CONCLUSION}"
+              if [ "$STATUS" = "completed" ]; then
+                if [ "$CONCLUSION" != "success" ]; then
+                  echo "PREOPENING gate failed: ${CONCLUSION}" >&2
+                  exit 1
+                fi
+                RUN_ID="$CANDIDATE"
+                break
+              fi
+            fi
+            sleep 10
+          done
+          if [ -z "$RUN_ID" ]; then
+            echo "No successful exact-head PREOPENING run resolved" >&2
+            exit 1
+          fi
+          echo "START_RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
+
+      - name: Verify PREOPENING artifact opens execution exactly once
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/preopening
+          gh run download "$START_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name p500-prospective-execution-gate --dir /tmp/preopening
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          x = json.loads(Path('/tmp/preopening/p500-prospective-execution-gate.json').read_text())
+          assert x['opening_authorized'] is True
+          assert x['stage'] == 'PREOPENING'
+          assert x['head_sha'] == os.environ['GITHUB_SHA']
+          assert x['branch'] == os.environ['GITHUB_REF_NAME']
+          assert x['h2_executor_legacy_replay_qualification_pass'] is True
+          assert x['support_to_h2_contract_qualification_pass'] is True
+          print({'PREOPENING': 'PASS', 'run_id': os.environ['START_RUN_ID']})
+          PY
+
+      - name: Dispatch prospective location-blind measurement
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh workflow run p500-prospective-location-blind-measurement.yml \
+            --repo "$GITHUB_REPOSITORY" \
+            --ref "$GITHUB_REF_NAME" \
+            -f start_receipt_run_id="$START_RUN_ID"
+          echo "measurement workflow dispatched from PREOPENING run $START_RUN_ID"
+
+      - name: Capture exact-head measurement run ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          MEASUREMENT_RUN_ID=""
+          for i in $(seq 1 30); do
+            CANDIDATE=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs?branch=${GITHUB_REF_NAME}&event=workflow_dispatch&per_page=100" \
+              --jq '.workflow_runs[] | select(.head_sha == env.GITHUB_SHA and .name == "P500 prospective location-blind measurement") | .id' | head -n1 || true)
+            if [ -n "$CANDIDATE" ]; then
+              MEASUREMENT_RUN_ID="$CANDIDATE"
+              break
+            fi
+            sleep 5
+          done
+          if [ -z "$MEASUREMENT_RUN_ID" ]; then
+            echo "measurement dispatch did not materialize" >&2
+            exit 1
+          fi
+          echo "measurement_run_id=$MEASUREMENT_RUN_ID" >> "$GITHUB_STEP_SUMMARY"
+          echo "preopening_run_id=$START_RUN_ID" >> "$GITHUB_STEP_SUMMARY"
+          echo "head_sha=$GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "P500_MEASUREMENT_RUN_ID=$MEASUREMENT_RUN_ID" >> "$GITHUB_ENV"
+
+      - name: Record launch boundary
+        run: |
+          echo "P500 prospective execution launched." >> "$GITHUB_STEP_SUMMARY"
+          echo "No replacement, target relaxation, or second run is authorized." >> "$GITHUB_STEP_SUMMARY"
