@@ -1,11 +1,14 @@
 """Technical-only snapshots; integrity checks are not opening authorization.
 
-Pure in-memory operations. No files, images, network, colour responses or
-historical timestamps are read or written. Trusted digest custody is external.
+No images, network or historical timestamps are read. The optional writer uses
+exclusive creation. Joining accepts already supplied response rows only after
+snapshot integrity checks. Trusted digest custody and authorization are external.
 """
 import hashlib
 import json
 import math
+import os
+from pathlib import Path
 from collections.abc import Mapping
 from numbers import Real
 
@@ -75,3 +78,44 @@ def verify_high_clip_snapshot(encoded, trusted_sha256, expected_photo_ids):
     if rebuilt != encoded:
         raise ValueError('Snapshot content does not match frozen technical rule')
     return tuple(payload['high_clip_photo_ids'])
+
+
+def write_high_clip_snapshot(path, encoded, trusted_sha256, expected_photo_ids):
+    """Exclusively create a validated snapshot; never overwrite an existing path.
+
+    Failure during writing may leave a partial file, which must remain a failure
+    record and will not pass digest verification. This is not WORM storage and
+    cannot prevent other programs from rewriting files. No chronology is inferred.
+    """
+    verify_high_clip_snapshot(encoded, trusted_sha256, expected_photo_ids)
+    with Path(path).open('xb') as stream:
+        stream.write(encoded)
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
+def join_verified_technical_snapshot(encoded, trusted_sha256, expected_photo_ids, responses):
+    """One-to-one complete join, using fixed exclusion membership only.
+
+    This is an integrity operation, not permission to read a biological response.
+    No loader, image path, download or real-data entry point is provided here.
+    Missing response measurements must be handled by a separately frozen
+    attrition contract; silently joining only complete cases is forbidden.
+    """
+    expected = tuple(expected_photo_ids)
+    excluded = set(verify_high_clip_snapshot(encoded, trusted_sha256, expected))
+    supplied = {}
+    for response in responses:
+        if not isinstance(response, Mapping) or set(response) != {'photo_id', 'white'}:
+            raise ValueError('Only photo_id and boolean white response are allowed')
+        identity = response['photo_id']
+        if type(identity) is not int or identity <= 0 or identity in supplied:
+            raise ValueError('Invalid or duplicate response identity')
+        if type(response['white']) is not bool:
+            raise ValueError('Response must be a boolean, not a missing value or score')
+        supplied[identity] = response['white']
+    if set(supplied) != set(expected):
+        raise ValueError('Response identities must exactly match the technical snapshot')
+    return [dict(row, white=supplied[row['photo_id']],
+                 high_clip=row['photo_id'] in excluded)
+            for row in json.loads(encoded)['rows']]

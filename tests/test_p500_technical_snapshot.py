@@ -4,6 +4,7 @@ import json
 import pytest
 
 from fcp_pipeline.p500_technical_snapshot import seal_high_clip_snapshot, verify_high_clip_snapshot
+from fcp_pipeline.p500_technical_snapshot import write_high_clip_snapshot, join_verified_technical_snapshot
 
 
 def rows():
@@ -49,3 +50,47 @@ def test_exact_threshold_is_not_excluded_and_identity_change_rejected():
     assert verify_high_clip_snapshot(encoded, digest, [1]) == ()
     with pytest.raises(ValueError):
         verify_high_clip_snapshot(encoded, digest, [2])
+
+
+def test_exclusive_writer_roundtrip_and_no_overwrite(tmp_path):
+    encoded, digest = seal_high_clip_snapshot(rows(), range(1, 21))
+    target = tmp_path / 'technical.json'
+    write_high_clip_snapshot(target, encoded, digest, range(1, 21))
+    assert target.read_bytes() == encoded
+    with pytest.raises(FileExistsError):
+        write_high_clip_snapshot(target, encoded, digest, range(1, 21))
+    assert target.read_bytes() == encoded
+    with pytest.raises(ValueError):
+        write_high_clip_snapshot(tmp_path / 'invalid.json', encoded, 'invalid', range(1, 21))
+    assert not (tmp_path / 'invalid.json').exists()
+
+
+def test_join_retains_all_rows_and_fixed_membership():
+    encoded, digest = seal_high_clip_snapshot(rows(), range(1, 21))
+    response = [{'photo_id': i, 'white': i % 2 == 0} for i in range(20, 0, -1)]
+    joined = join_verified_technical_snapshot(encoded, digest, range(1, 21), response)
+    assert len(joined) == 20
+    assert [r['photo_id'] for r in joined if r['high_clip']] == [20]
+    assert all(r['white'] == (r['photo_id'] % 2 == 0) for r in joined)
+
+
+@pytest.mark.parametrize('mutation', ['missing', 'duplicate', 'unknown', 'score', 'extra'])
+def test_response_join_refuses_partial_or_ambiguous_data(mutation):
+    encoded, digest = seal_high_clip_snapshot(rows(), range(1, 21))
+    response = [{'photo_id': i, 'white': False} for i in range(1, 21)]
+    if mutation == 'missing': response.pop()
+    elif mutation == 'duplicate': response[-1]['photo_id'] = 1
+    elif mutation == 'unknown': response[-1]['photo_id'] = 30
+    elif mutation == 'score': response[0]['white'] = 0
+    elif mutation == 'extra': response[0]['species'] = 'unfrozen'
+    with pytest.raises(ValueError):
+        join_verified_technical_snapshot(encoded, digest, range(1, 21), response)
+
+
+def test_bad_snapshot_is_rejected_before_response_iteration():
+    encoded, digest = seal_high_clip_snapshot(rows(), range(1, 21))
+    def forbidden_response_read():
+        raise AssertionError('Response iterator must not be opened')
+        yield
+    with pytest.raises(ValueError):
+        join_verified_technical_snapshot(encoded, 'invalid', range(1, 21), forbidden_response_read())

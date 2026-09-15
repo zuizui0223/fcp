@@ -55,8 +55,14 @@ applies the unchanged high-clip rule, and validates canonical bytes against a
 separately supplied trusted digest. Synthetic tests cover missing/duplicate rows,
 response-bearing columns, invalid values, row-order invariance and altered
 membership. These are integrity tests, not historical non-access evidence.
-There is no disk writer, acquisition, response join, coupling model or opening
-token. A caller could still supply a wrong cohort or an untrusted digest; those
+An exclusive-create writer now refuses existing paths and validates the snapshot
+before writing. A complete one-to-one response join verifies the snapshot before
+iterating responses; missing, duplicate or unknown IDs are rejected rather than
+silently reducing the cohort. Artificial-data tests only have exercised this
+route. This is not tamper-proof storage or authenticated chronology; a failed
+write may leave a partial file that must be retained as a failure, not repaired
+silently. There is no acquisition, coupling model or opening token.
+A caller could still supply a wrong cohort or an untrusted digest; those
 must be bound by the future execution recorder and chronology qualification.
 Do not treat this partial implementation as a complete P500 execution gate.
 
