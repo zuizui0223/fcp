@@ -1,5 +1,11 @@
 # P500 conditional-model implementation reference
 
+Current-state caveat: the research below did not access P500 outcomes, but its
+pre-response wording does not establish that P500 was globally unopened.
+The [Actions correction](FCP_H123_P500_ACTIONS_CORRECTION_20260915.md) records
+earlier pixel measurement on another branch. This note cannot supply a
+retroactive pre-opening method freeze.
+
 Status: pre-response reference only; accessed 2026-09-15. This note neither
 authorizes image opening nor supplies missing historical records. No P500
 images, responses, or fitted models were accessed for this research.

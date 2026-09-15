@@ -44,7 +44,7 @@ def figure_data(root=ROOT):
                            p=r['structured_null_upper_p']))
     return dict(h1=h1, h2=h2, h3a=sources['h3a'], h3b=sources['h3b'],
                 source_sha256_lf=hashes, scientific_results_recomputed=False,
-                p500_opened=False)
+                p500_opened_by_renderer=False)
 
 
 def render(output_dir, root=ROOT):

@@ -2,6 +2,14 @@
 
 Status: IN DEVELOPMENT — not submission-ready.
 
+**Current-state correction, 2026-09-15 14:29 JST:** P500 measurement is running
+under later GitHub Actions authorization. The snapshot is 100/256 measurement
+jobs successful, 8 active and 148 queued. Earlier statements below about
+globally closed P500 pixels are superseded by the
+[Actions audit](FCP_H123_P500_ACTIONS_CORRECTION_20260915.md). The scientific
+outcome and compatibility with the older highlight-control protocol are pending.
+Do not restart or reinterpret partial measurement as a completed H2 result.
+
 ## Current scope
 
 The paper concerns reproducibility and geometry of photo-derived within-species
@@ -38,7 +46,9 @@ of support for H1–H3, and historical frozen data/results must not be edited.
    Freeze unresolved implementation choices before real responses.
 4. Establish evidence-backed pre-opening chronology. The present acquisition
    JSON is not the strict execution record. Missing historical false flags
-   cannot be invented. P500 opening remains unauthorized.
+   cannot be invented. No additional P500 opening is authorized by this
+   publication branch; audit the already running route against its own records
+   and the earlier measurement-control requirements.
 5. Only if all gates pass, execute the frozen prospective test with complete
    attrition accounting. Otherwise report the unresolved/negative outcome and
    assess the manuscript at its supported, narrower measurement scope.
@@ -47,6 +57,15 @@ of support for H1–H3, and historical frozen data/results must not be edited.
    guaranteed; submission itself requires separate user authorization.
 
 ## Development checkpoint
+
+The [field-level P500 audit](P500_PREOPENING_EVIDENCE_AUDIT_20260915.md) now
+identifies four same-name candidate declarations and five absent required
+fields. None alone establishes independent historical non-access. PR 33 still
+holds the same opening barrier. More artificial-data tests cannot close this
+provenance gap; contemporaneous records and explicit event semantics are needed.
+P500 has no computed scientific verdict, and absence of evidence is not coded
+as proof of a hidden opening. Publication preparation can continue while the
+   earlier control contract remains unresolved.
 
 H1's operational split and resampling methods are now explicit, including
 blank-observer handling, the automatic 20/15/10 opportunity gate, paired-species

@@ -7,7 +7,9 @@ H1 observer-disjoint reproducibility, H2 retrospective white-versus-nonwhite
 geometry, and H3 phylogenetic/sampled-span tests that did not replicate.
 The [publication status](docs/FCP_H123_PUBLICATION_STATUS_20260915.md) governs
 current claims and remaining gates. Neither H1 reliability nor CI success
-establishes image-level biological accuracy. P500 pixels remain closed.
+establishes image-level biological accuracy. P500 measurement is already running
+in GitHub Actions; its scientific outcome and measurement-control compatibility
+remain pending. See the [Actions state correction](docs/FCP_H123_P500_ACTIONS_CORRECTION_20260915.md).
 
 The **34-species comparison is retired from both the main paper and its
 supplementary evidence**. Its files remain historical records, not an active

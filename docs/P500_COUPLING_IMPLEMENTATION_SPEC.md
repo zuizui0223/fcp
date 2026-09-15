@@ -1,5 +1,14 @@
 # P500 coupling implementation specification
 
+**Chronology correction (2026-09-15):** this implementation was developed on
+synthetic data without inspecting P500 responses in this task. However, later
+inspection of GitHub Actions showed that another branch had already opened
+P500 pixels before this code was authored. It is not a repository-wide
+pre-opening freeze. See the [Actions audit](FCP_H123_P500_ACTIONS_CORRECTION_20260915.md).
+Historical wording below describes the intended local route, not current
+global pixel-access status. Do not retrofit this method as a preregistered
+control for the running measurement.
+
 Pre-response implementation work, 2026-09-15. No biological response is opened.
 This specification does not replace the original protocol or authorize P500.
 

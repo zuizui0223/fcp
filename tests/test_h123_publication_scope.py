@@ -17,10 +17,11 @@ def test_legacy_reproduction_is_manual_only():
     assert 'reproduce-paper' in workflow['jobs']
 
 
-def test_current_publication_scope_preserves_closed_pixels():
+def test_current_publication_scope_does_not_authorize_extra_opening():
     status = (ROOT / 'docs/FCP_H123_PUBLICATION_STATUS_20260915.md').read_text(encoding='utf-8')
     assert 'not submission-ready' in status
-    assert 'P500 opening remains unauthorized' in status
+    assert 'No additional P500 opening is authorized' in status
+    assert 'P500 measurement is running' in status
     assert '34-species literature comparison is retired' in status
 
 
@@ -57,7 +58,7 @@ def test_active_manuscript_links_and_measurement_limits():
                 assert (path.parent / target).is_file(), target
     manuscript = (ROOT / 'docs/FCP_H123_MANUSCRIPT.md').read_text(encoding='utf-8')
     for text in ('Monarda region-agreement gate failed', 'not true biological range size',
-                 'No pigment pathway', 'P500 is currently\nmetadata-only'):
+                 'No pigment pathway', 'P500 measurement is\nin progress'):
         assert text in manuscript
 
 
@@ -209,3 +210,34 @@ def test_initial_statistical_citations_have_bibliography_and_access_audit():
         assert doi in audit
     assert 'were not fully text-audited' in manuscript
     assert 'does not establish the validity' in prose
+
+
+def test_p500_evidence_table_does_not_convert_missing_flags_into_false():
+    from fcp_pipeline.p500_white_measurement_control import REQUIRED_BLIND_FLAGS
+    candidate = json.loads((ROOT / 'results/polymorphism_h2_p500_candidate_metadata_20260913/result.json').read_text())
+    receipt = json.loads((ROOT / 'results/polymorphism_h2_p500_white_measurement_control_freeze_20260913/receipt.json').read_text())
+    audit = (ROOT / 'docs/P500_PREOPENING_EVIDENCE_AUDIT_20260915.md').read_text(encoding='utf-8')
+    declared = candidate['outcome_firewall']
+    assert sum(key in declared for key in REQUIRED_BLIND_FLAGS) == 4
+    for key in REQUIRED_BLIND_FLAGS:
+        if key in declared:
+            assert declared[key] is False
+            candidate_text = 'false'
+        else:
+            candidate_text = 'missing'
+        assert receipt['required_blind_flags'][key] is False
+        assert f'| {key} | {candidate_text} | false | no |' in audit
+    assert receipt['current_measurement_control_result'] is None
+    assert receipt['current_h2_result'] is None
+    assert 'not a computed measurement-control verdict' in audit
+
+
+def test_actions_correction_distinguishes_live_measurement_from_control_qualification():
+    correction = (ROOT / 'docs/FCP_H123_P500_ACTIONS_CORRECTION_20260915.md').read_text(encoding='utf-8')
+    assert '34919485994' in correction
+    assert '100 completed successfully, 8 in progress, 148 queued' in correction
+    assert 'not verified measured-image or classifiable-species' in correction
+    assert 'after actual\nP500 pixel opening' in correction
+    assert 'not equivalent to response-blind highlight control' in correction
+    readme = (ROOT / 'README.md').read_text(encoding='utf-8')
+    assert 'P500 pixels remain closed' not in readme

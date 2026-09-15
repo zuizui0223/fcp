@@ -18,7 +18,7 @@ def test_figure_data_preserves_comparisons_and_interval_types():
     assert {r['scenario'] for r in data['h3a']} == {'S1', 'S2', 'S3'}
     assert all(float(r['p_K_raw']) > .05 for r in data['h3a'] if r['cohort'] == 'reserve')
     assert float(data['h3b'][1]['rho_D_span']) < 0
-    assert data['p500_opened'] is data['scientific_results_recomputed'] is False
+    assert data['p500_opened_by_renderer'] is data['scientific_results_recomputed'] is False
 
 
 def test_committed_plot_data_matches_current_frozen_sources():

@@ -256,8 +256,17 @@ neither reflectance calibration nor missing ultraviolet information
 
 No pigment pathway, adaptive direction, pollinator mechanism or climatic cause
 is identified. A new prospective white-axis test would strengthen inference
-only if its measurement and chronology gates are satisfied. P500 is currently
-metadata-only and must not appear as a completed analysis in this manuscript.
+only if its measurement and chronology gates are satisfied. P500 measurement is
+in progress in GitHub Actions and must not appear as a completed analysis in
+this manuscript. The [Actions correction](FCP_H123_P500_ACTIONS_CORRECTION_20260915.md)
+records its later one-shot authorization and successful partial measurement.
+The [pre-opening evidence audit](P500_PREOPENING_EVIDENCE_AUDIT_20260915.md)
+distinguishes unavailable chronology evidence from an actual measurement result:
+the candidate record lacks five same-name fields required by the older PR 33
+control contract. That schema limitation does not mean there is no Actions
+execution evidence. Compatibility between the later measurement route and the
+earlier highlight-control requirements remains unresolved. No retrospective
+control or negative H2 result is inferred from this difference.
 
 ## Outstanding before submission
 
