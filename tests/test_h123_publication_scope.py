@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import re
 
 import yaml
 
@@ -28,3 +29,29 @@ def test_manuscript_h1_values_match_direct_receipt():
     assert 'failed its 0.80 criterion' in manuscript
     assert 'not an untouched prospective confirmation' in manuscript
     assert 'not submission-ready' in manuscript
+
+
+def test_manuscript_h2_values_match_targeted_receipt():
+    result = json.loads((ROOT / 'results/polymorphism_white_axis_targeted_test_20260912/result.json').read_text())
+    manuscript = (ROOT / 'docs/FCP_H123_MANUSCRIPT.md').read_text(encoding='utf-8')
+    section = manuscript.split('### H2:')[1].split('### H3:')[0]
+    for threshold in result['thresholds'].values():
+        for cohort in ('discovery', 'reserve'):
+            values = threshold[cohort]
+            assert f"W={values['observed_mean_squared_white_axis_alignment']:.6f}" in section
+            assert f"{values['species']} species" in section
+            assert f"p={values['structured_null_upper_p']:.3f}" in section
+    assert 'not prospective confirmation' in section
+
+
+def test_active_manuscript_links_and_measurement_limits():
+    for name in ('FCP_H123_MANUSCRIPT.md', 'FCP_H123_SUPPLEMENT.md', 'FCP_H123_PUBLICATION_STATUS_20260915.md'):
+        path = ROOT / 'docs' / name
+        content = path.read_text(encoding='utf-8')
+        for target in re.findall(r'\]\(([^)]+)\)', content):
+            if not target.startswith('https://'):
+                assert (path.parent / target).is_file(), target
+    manuscript = (ROOT / 'docs/FCP_H123_MANUSCRIPT.md').read_text(encoding='utf-8')
+    for text in ('Monarda region-agreement gate failed', 'not true biological range size',
+                 'No pigment pathway', 'P500 is currently\nmetadata-only'):
+        assert text in manuscript
