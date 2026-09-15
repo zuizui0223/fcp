@@ -8,7 +8,7 @@ This ledger consolidates the currently admissible claims on branch `analysis/pol
 
 The current paper should be organized around two positive claims and two bounded negative results:
 
-1. **H1 — measurement validity:** continuous four-state species-level flower-colour polymorphism `D = 1 - sum_k p_k^2` is reproducible across observer-disjoint photo sets in the high-depth validation design.
+1. **H1 — measurement validity:** continuous four-state species-level flower-colour polymorphism `D = 1 - sum_k p_k^2` is reproducible across observer-disjoint photo sets in the high-depth validation design, with later split analyses showing modest design sensitivity rather than split-invariant reliability.
 2. **H2 — geometry:** within-species colour polymorphism in the existing high-depth cohorts is disproportionately aligned with an achromatic–chromatic, white-versus-nonwhite axis. No recurrent non-white hue direction survives the construction-preserving audit.
 3. **H3a — phylogeny:** broad tree-wide phylogenetic signal in D does not replicate in the species-disjoint reserve cohort.
 4. **H3b — sampled geographic span:** the discovery association between sampled span and D does not replicate in reserve.
@@ -22,14 +22,27 @@ Canonical result freeze:
 - `docs/POLYMORPHISM_H1_OBSERVER_DISJOINT_RESULT_FREEZE_20260913.md`
 - `results/polymorphism_h1_observer_disjoint_d_20260913/result.json`
 - preflight: `docs/POLYMORPHISM_H1_OBSERVER_SPLIT_PREFLIGHT_FREEZE_20260913.md`
+- chronology audit: `docs/POLYMORPHISM_H1_CHRONOLOGY_AUDIT_20260915.md`
+- corrected reconciliation: `results/polymorphism_h1_evidence_reconciliation_20260914/result.json`
 
-Outcome firewall:
+### Prospective chronology
+
+The deterministic H1 test is the first frozen H1 outcome test, not a post-hoc rescue:
+
+- outcome-blind preflight workflow `34706579235` completed successfully at 2026-09-12 16:53:41 UTC;
+- protocol commit `743e13d3597c88ea7a725c596ea733b30d978024` froze the test at 16:53:54 UTC;
+- preflight receipt commit `a77e23bd7a098307c4961d77271fb2e5a294ce88` followed at 16:54:57 UTC;
+- primary outcome workflow `34706708406` ran successfully from 16:55:59 UTC and produced immutable artifact `10302770009`, digest `sha256:7a87432d91c257a1c010b9cf075eeb8a5f15e2ea016d55ed6d8cfaddc6f0b64e`.
+
+The later 200-partition protocol was not frozen until 17:03:49 UTC. The previous 2026-09-14 reconciliation receipt incorrectly omitted this earlier deterministic run; that chronology has now been corrected without changing any statistic or threshold.
+
+### Outcome firewall
 
 - observer assignment and the per-half opportunity gate were fixed from `species`, `observer_id`, and `global_classifiable` only;
 - `morph`, palette coordinates, D, and D_unbiased were not opened during preflight;
 - all 369 discovery species and all 363 reserve species passed the frozen minimum of 20 classifiable photos per observer-disjoint half.
 
-Primary reserve result:
+### Primary reserve result
 
 - n = 363 species;
 - Spearman `rho(D_A, D_B) = 0.8109164415`;
@@ -43,7 +56,16 @@ Frozen decision gates were reserve rho >= 0.80, bootstrap lower bound > 0.70, an
 
 Discovery is calibration/support only: n = 369, rho = 0.8370151412, CCC = 0.8661920927.
 
-**Allowed H1 claim:** under the frozen high-depth photo design, continuous four-state flower-colour polymorphism D is reproducible at the species level across disjoint observer sets, including the species-disjoint reserve cohort.
+### Later robustness analyses
+
+These analyses were frozen after the canonical primary outcome was already known and therefore cannot retroactively replace it, but their results remain part of the evidence record.
+
+- repeated 200 observer-disjoint partitions: reserve median rho = **0.789103**, q05 = **0.765165**, q95 = **0.810940**, median CCC = **0.854831**;
+- later strict deterministic stress test: reserve rho = **0.792728**, bootstrap 95% interval = **[0.741868, 0.832366]**, CCC = **0.847429**; its deliberately strict rho >= 0.80 criterion fails.
+
+Thus H1 supports reproducible D measurement, but the exact correlation is somewhat split-design-sensitive around rho ~0.79–0.81. Near-perfect or split-invariant reliability is not supported.
+
+**Allowed H1 claim:** under the frozen high-depth photo design, continuous four-state flower-colour polymorphism D is reproducible at the species level across disjoint observer sets in the species-disjoint reserve cohort (first-frozen reserve rho = 0.811, 95% bootstrap interval 0.765–0.847). Later alternative observer partitions yielded rho around 0.79, so near-perfect or split-invariant reliability is not claimed.
 
 **Important boundary:** the historical project-summary observer reproducibility value near 0.971 is not current-D evidence and must not be used. H1 validates measurement/sampling stability in the high-depth cohorts; it does not estimate global prevalence, true population morph frequencies, genetic discreteness, or image-classification accuracy.
 
@@ -138,7 +160,7 @@ Failure to pass H1/H2 measurement gates in a future expansion must be coded as m
 
 The strongest defensible paper-level statement at the current evidence state is:
 
-> Species-level flower-colour polymorphism can be measured reproducibly from high-depth citizen-science photographs, and in two species-disjoint high-depth cohorts the dominant recurrent geometry of within-species colour variation lies along a white-versus-nonwhite axis rather than a general hue axis. Broad phylogenetic signal and a discovery association with sampled geographic span do not replicate.
+> Species-level flower-colour polymorphism can be measured reproducibly from high-depth citizen-science photographs, with observer-split correlations around 0.79–0.81 rather than near-perfect split invariance. In two species-disjoint high-depth cohorts, the dominant recurrent geometry of within-species colour variation lies along a white-versus-nonwhite axis rather than a general hue axis. Broad phylogenetic signal and a discovery association with sampled geographic span do not replicate.
 
 This paper is therefore primarily about **measurement + geometry**, not about a discovered ecological or phylogenetic predictor of polymorphism.
 
