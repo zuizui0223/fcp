@@ -12,6 +12,13 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts" / "analysis"))
 
+from fcp_pipeline.p500_prospective_execution_gate import (  # noqa: E402
+    EXPECTED_ROWS,
+    EXPECTED_SPECIES,
+    MIN_H2_VECTOR_SPECIES,
+    MIN_MEASUREMENT_EVALUABLE_SPECIES,
+    validate_stage_transition,
+)
 from run_polymorphism_delta_geometry_validation_20260912 import (  # noqa: E402
     BIO,
     load_classifiable,
@@ -26,7 +33,7 @@ from run_polymorphism_delta_geometry_structured_null_20260912 import (  # noqa: 
 
 PROTOCOL = ROOT / "docs" / "POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260915.md"
 N_NULL = 999
-MIN_VECTOR_SPECIES = 20
+MIN_VECTOR_SPECIES = MIN_H2_VECTOR_SPECIES
 THRESHOLDS = {"primary_0_10": 0.10, "strict_0_20": 0.20}
 SEEDS = {"primary_0_10": 20260915, "strict_0_20": 20261015}
 EPS = 1e-12
@@ -110,6 +117,48 @@ def run_threshold(
     }, null
 
 
+def measurement_support_from_receipt(measurement: dict) -> dict:
+    if measurement.get("schema") != "p500_prospective_measurement_result_v1":
+        raise RuntimeError("unexpected prospective measurement receipt schema")
+    if measurement.get("status") != "complete_p500_location_blind_measurement_and_support_gate":
+        raise RuntimeError("prospective measurement receipt is incomplete")
+    if measurement.get("stage") != "SUPPORT_GATE_COMPLETE":
+        raise RuntimeError("prospective measurement receipt did not reach SUPPORT_GATE_COMPLETE")
+    if measurement.get("species") != EXPECTED_SPECIES or measurement.get("rows") != EXPECTED_ROWS:
+        raise RuntimeError("prospective measurement receipt denominator mismatch")
+    if measurement.get("H2_opened") is not False:
+        raise RuntimeError("measurement receipt says H2 was already opened")
+    if measurement.get("replacement_rows", 0) != 0 or measurement.get("replacement_species", 0) != 0:
+        raise RuntimeError("measurement receipt contains forbidden replacement")
+    if measurement.get("persisted_image_pixels") is not False:
+        raise RuntimeError("measurement receipt says image pixels persisted")
+
+    n = measurement.get("measurement_evaluable_species")
+    if type(n) is not int or not 0 <= n <= EXPECTED_SPECIES:
+        raise RuntimeError("invalid measurement-evaluable species count")
+    expected = "PASS" if n >= MIN_MEASUREMENT_EVALUABLE_SPECIES else "NOT_EVALUABLE"
+    if measurement.get("support_decision") != expected:
+        raise RuntimeError("measurement-support decision mismatch")
+
+    support_stage = measurement.get("stage_receipts", {}).get("support")
+    if not isinstance(support_stage, dict):
+        raise RuntimeError("measurement receipt lacks frozen support-stage record")
+    if support_stage.get("stage") != "SUPPORT_GATE_COMPLETE":
+        raise RuntimeError("embedded support-stage record is invalid")
+    if support_stage.get("measurement_evaluable_species") != n:
+        raise RuntimeError("embedded support-stage count differs from measurement receipt")
+    if support_stage.get("support_decision") != expected:
+        raise RuntimeError("embedded support-stage decision differs from measurement receipt")
+
+    return {
+        "pass": expected == "PASS",
+        "decision": expected,
+        "evaluable_species": n,
+        "minimum_evaluable_species": MIN_MEASUREMENT_EVALUABLE_SPECIES,
+        "support_stage": support_stage,
+    }
+
+
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
     p.add_argument("--measured-csv", type=Path, required=True)
@@ -129,13 +178,9 @@ def write_result(out: Path, result: dict) -> None:
 def main() -> int:
     args = parse_args()
     measurement = json.loads(args.measurement_result.read_text(encoding="utf-8"))
-    if measurement.get("status") != "complete_p500_location_blind_measurement_and_join":
-        raise RuntimeError("prospective measurement receipt is incomplete")
-    if measurement.get("H2_W_opened") is not False:
-        raise RuntimeError("measurement receipt says H2 W was already opened")
+    support = measurement_support_from_receipt(measurement)
 
-    gate = measurement.get("postmeasurement_gate", {})
-    if gate.get("pass") is not True:
+    if support["pass"] is not True:
         result = {
             "analysis": "polymorphism_h2_p500_prospective_white_axis",
             "date_jst": "2026-09-15",
@@ -145,7 +190,7 @@ def main() -> int:
                 "verdict": "H2_PROSPECTIVE_NOT_EVALUABLE_MEASUREMENT_SUPPORT",
                 "primary_confirmed": False,
             },
-            "measurement_support": gate,
+            "measurement_support": {k: v for k, v in support.items() if k != "support_stage"},
             "H2_W_computed": False,
             "hard_nonclaims": [
                 "measurement-support failure is not evidence against polymorphism",
@@ -157,7 +202,7 @@ def main() -> int:
 
     work = load_classifiable(args.measured_csv)
     n40 = nclass40_count(work)
-    if n40 != int(gate.get("evaluable_species", -1)):
+    if n40 != int(support["evaluable_species"]):
         raise RuntimeError(
             f"n_classifiable>=40 count differs between measurement receipt and H2 loader: {n40}"
         )
@@ -185,20 +230,39 @@ def main() -> int:
     if not primary["evaluable"]:
         verdict = "H2_PROSPECTIVE_NOT_EVALUABLE_VECTOR_SUPPORT"
         primary_confirmed = False
+        h2_decision = "NOT_EVALUABLE_VECTOR_SUPPORT"
+        primary_p = None
     elif primary["pass"]:
         verdict = "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED"
         primary_confirmed = True
+        h2_decision = "CONFIRMED"
+        primary_p = float(primary["structured_null_upper_p"])
     else:
         verdict = "H2_PROSPECTIVE_WHITE_AXIS_NOT_CONFIRMED"
         primary_confirmed = False
+        h2_decision = "NOT_CONFIRMED"
+        primary_p = float(primary["structured_null_upper_p"])
+
+    h2_stage = {
+        "stage": "H2_COMPLETE",
+        "species": EXPECTED_SPECIES,
+        "rows": EXPECTED_ROWS,
+        "replacement_rows": 0,
+        "replacement_species": 0,
+        "primary_h2_vector_species": int(primary["species"]),
+        "primary_structured_null_p": primary_p,
+        "h2_decision": h2_decision,
+    }
+    validate_stage_transition(support["support_stage"], h2_stage)
 
     result = {
         "analysis": "polymorphism_h2_p500_prospective_white_axis",
         "date_jst": "2026-09-15",
         "status": "untouched_prospective_test_of_previously_frozen_axis",
+        "stage": "H2_COMPLETE",
         "protocol": str(PROTOCOL.relative_to(ROOT)),
         "measurement_result": str(args.measurement_result.relative_to(ROOT)),
-        "measurement_support": gate,
+        "measurement_support": {k: v for k, v in support.items() if k != "support_stage"},
         "fixed_axis_palette_loadings": {BIO[i]: float(q[i]) for i in range(len(BIO))},
         "statistic": "W = mean_i (u_i dot q_white)^2",
         "structured_null": (
@@ -207,6 +271,7 @@ def main() -> int:
             "refit unchanged label-free Hellinger two-means"
         ),
         "thresholds": threshold_results,
+        "stage_receipt": h2_stage,
         "decision": {
             "primary_threshold": 0.10,
             "primary_evaluable": bool(primary["evaluable"]),
