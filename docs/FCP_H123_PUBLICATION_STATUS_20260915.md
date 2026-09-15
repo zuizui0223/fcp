@@ -48,6 +48,18 @@ of support for H1–H3, and historical frozen data/results must not be edited.
 
 ## Development checkpoint
 
+Technical snapshot implementation now exists in
+`fcp_pipeline/p500_technical_snapshot.py`: it accepts only photo identity and
+near-clip fraction, requires exact coverage of a supplied evaluable identity set,
+applies the unchanged high-clip rule, and validates canonical bytes against a
+separately supplied trusted digest. Synthetic tests cover missing/duplicate rows,
+response-bearing columns, invalid values, row-order invariance and altered
+membership. These are integrity tests, not historical non-access evidence.
+There is no disk writer, acquisition, response join, coupling model or opening
+token. A caller could still supply a wrong cohort or an untrusted digest; those
+must be bound by the future execution recorder and chronology qualification.
+Do not treat this partial implementation as a complete P500 execution gate.
+
 Starting point: PR 33 head 9e87458185bba8b6df901280b7a7078ce3544de8.
 Its dedicated 44 tests and manuscript checks passed; legacy reproduction also
 passed but is not a publication advancement for this paper. The new work is on
