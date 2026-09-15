@@ -1,16 +1,9 @@
-"""Forward-only execution gate for the prospective P500 H2 confirmation.
-
-This module does not open images or compute flower-colour outcomes.  It validates
-frozen metadata/authorization inputs, creates a forward execution chronology,
-and enforces the permitted stage order for the future P500 run.
-"""
-
+"""Forward-only execution gate for the prospective P500 H2 confirmation."""
 from __future__ import annotations
 
 from collections.abc import Mapping
 from datetime import datetime, timezone
 from typing import Any
-
 
 P500_SHA256 = "f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4"
 METADATA_SHA256 = "a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595"
@@ -24,8 +17,8 @@ MIN_H2_VECTOR_SPECIES = 20
 
 STAGES = (
     "PREOPENING",
-    "ACQUISITION_COMPLETE",
-    "MEASUREMENT_COMPLETE",
+    "FIREWALL_FROZEN",
+    "PARTITION_MEASUREMENT_COMPLETE",
     "REASSEMBLY_COMPLETE",
     "SUPPORT_GATE_COMPLETE",
     "H2_COMPLETE",
@@ -63,15 +56,10 @@ def validate_candidate_metadata(candidate: Mapping[str, Any]) -> None:
     if decision.get("no_target_relaxation") is not True:
         raise RuntimeError("target relaxation prohibition missing")
     firewall = candidate.get("outcome_firewall", {})
-    required_false = (
-        "image_pixels_opened",
-        "flower_colour_opened",
-        "palette_opened",
-        "D_opened",
-        "H2_W_opened",
-        "morph_opened",
-    )
-    for key in required_false:
+    for key in (
+        "image_pixels_opened", "flower_colour_opened", "palette_opened",
+        "D_opened", "H2_W_opened", "morph_opened",
+    ):
         if firewall.get(key) is not False:
             raise RuntimeError(f"candidate metadata firewall not closed: {key}")
 
@@ -79,45 +67,36 @@ def validate_candidate_metadata(candidate: Mapping[str, Any]) -> None:
 def validate_authorization(auth: Mapping[str, Any]) -> None:
     if auth.get("status") != "authorize_exactly_one_prospective_h2_p500_location_blind_measurement":
         raise RuntimeError("unexpected authorization status")
-    if auth.get("P500_sha256") != P500_SHA256:
-        raise RuntimeError("authorization P500 hash mismatch")
-    if auth.get("metadata_sha256") != METADATA_SHA256:
-        raise RuntimeError("authorization metadata hash mismatch")
-    if auth.get("full100_species_sha256") != FULL100_SHA256:
-        raise RuntimeError("authorization full100 hash mismatch")
-    if auth.get("frozen_species") != EXPECTED_SPECIES or auth.get("frozen_rows") != EXPECTED_ROWS:
-        raise RuntimeError("authorization denominator mismatch")
+    expected = {
+        "P500_sha256": P500_SHA256,
+        "metadata_sha256": METADATA_SHA256,
+        "full100_species_sha256": FULL100_SHA256,
+        "frozen_species": EXPECTED_SPECIES,
+        "frozen_rows": EXPECTED_ROWS,
+        "measurement_machine_source_commit": MEASUREMENT_SOURCE_COMMIT,
+        "H2_target": "fixed_q_white_W_structured_null",
+        "primary_threshold": 0.10,
+        "strict_sensitivity_threshold": 0.20,
+        "structured_null_replicates": 999,
+        "minimum_classifiable_photos_per_species": 40,
+        "minimum_measurement_evaluable_species": MIN_MEASUREMENT_EVALUABLE_SPECIES,
+        "minimum_primary_H2_vector_species": MIN_H2_VECTOR_SPECIES,
+    }
+    for key, value in expected.items():
+        if auth.get(key) != value:
+            raise RuntimeError(f"authorization field mismatch: {key}")
     if auth.get("species_replacement_allowed") is not False:
         raise RuntimeError("authorization permits species replacement")
     if auth.get("row_replacement_allowed") is not False:
         raise RuntimeError("authorization permits row replacement")
     if auth.get("target_relaxation_allowed") is not False:
         raise RuntimeError("authorization permits target relaxation")
-    if auth.get("measurement_machine_source_commit") != MEASUREMENT_SOURCE_COMMIT:
-        raise RuntimeError("measurement source commit mismatch")
-    if auth.get("H2_target") != "fixed_q_white_W_structured_null":
-        raise RuntimeError("H2 target mismatch")
     if auth.get("axis_refit_allowed") is not False:
         raise RuntimeError("axis refit must remain forbidden")
-    if auth.get("primary_threshold") != 0.10 or auth.get("strict_sensitivity_threshold") != 0.20:
-        raise RuntimeError("H2 threshold mismatch")
-    if auth.get("structured_null_replicates") != 999:
-        raise RuntimeError("structured-null replicate mismatch")
-    if auth.get("minimum_classifiable_photos_per_species") != 40:
-        raise RuntimeError("classifiable-photo threshold mismatch")
-    if auth.get("minimum_measurement_evaluable_species") != MIN_MEASUREMENT_EVALUABLE_SPECIES:
-        raise RuntimeError("measurement-support threshold mismatch")
-    if auth.get("minimum_primary_H2_vector_species") != MIN_H2_VECTOR_SPECIES:
-        raise RuntimeError("H2 vector threshold mismatch")
 
 
 def build_start_record(*, branch: str, head_sha: str, known_output_paths_absent: bool,
                        working_tree_inputs_verified: bool) -> dict[str, Any]:
-    """Create a forward chronology receipt immediately before first pixel opening.
-
-    The two booleans must be established by the execution workflow itself.  They
-    are deliberately not inferred from historical receipts.
-    """
     _require_bool(known_output_paths_absent, "known_output_paths_absent")
     _require_bool(working_tree_inputs_verified, "working_tree_inputs_verified")
     if not head_sha or len(head_sha) != 40:
@@ -181,7 +160,7 @@ def validate_start_record(record: Mapping[str, Any], *, expected_head_sha: str) 
 
 
 def validate_stage_transition(previous: Mapping[str, Any], current: Mapping[str, Any]) -> None:
-    """Fail closed unless execution advances exactly one frozen stage."""
+    """Fail closed unless execution advances exactly one frozen global stage."""
     prev = previous.get("stage")
     cur = current.get("stage")
     if prev not in STAGES or cur not in STAGES:
@@ -193,14 +172,22 @@ def validate_stage_transition(previous: Mapping[str, Any], current: Mapping[str,
     if current.get("replacement_rows", 0) != 0 or current.get("replacement_species", 0) != 0:
         raise RuntimeError("replacement is forbidden")
 
-    if cur == "ACQUISITION_COMPLETE":
+    if cur == "FIREWALL_FROZEN":
+        if current.get("measurement_ids") != EXPECTED_ROWS:
+            raise RuntimeError("firewall measurement-ID census mismatch")
+        if current.get("terminal_partitions") != EXPECTED_TERMINAL_PARTITIONS:
+            raise RuntimeError("firewall partition census mismatch")
+        if current.get("candidate_pixels_opened") is not False:
+            raise RuntimeError("firewall was not frozen before pixels")
+    elif cur == "PARTITION_MEASUREMENT_COMPLETE":
         if current.get("terminal_acquisition_rows") != EXPECTED_ROWS:
-            raise RuntimeError("acquisition is not complete for all frozen rows")
-    elif cur == "MEASUREMENT_COMPLETE":
+            raise RuntimeError("partition acquisition coverage is incomplete")
         if current.get("terminal_measurement_rows") != EXPECTED_ROWS:
-            raise RuntimeError("measurement is not complete for all frozen rows")
+            raise RuntimeError("partition measurement coverage is incomplete")
         if current.get("terminal_partitions") != EXPECTED_TERMINAL_PARTITIONS:
             raise RuntimeError("terminal partition census mismatch")
+        if current.get("persisted_image_pixels") is not False:
+            raise RuntimeError("partition execution persisted image pixels")
     elif cur == "REASSEMBLY_COMPLETE":
         if current.get("unique_measurement_ids") != EXPECTED_ROWS:
             raise RuntimeError("reassembly measurement-ID census mismatch")
@@ -210,9 +197,8 @@ def validate_stage_transition(previous: Mapping[str, Any], current: Mapping[str,
         n = current.get("measurement_evaluable_species")
         if type(n) is not int or not 0 <= n <= EXPECTED_SPECIES:
             raise RuntimeError("invalid measurement-evaluable species count")
-        decision = current.get("support_decision")
         expected = "PASS" if n >= MIN_MEASUREMENT_EVALUABLE_SPECIES else "NOT_EVALUABLE"
-        if decision != expected:
+        if current.get("support_decision") != expected:
             raise RuntimeError("measurement-support decision mismatch")
     elif cur == "H2_COMPLETE":
         if previous.get("support_decision") != "PASS":
@@ -233,19 +219,9 @@ def validate_stage_transition(previous: Mapping[str, Any], current: Mapping[str,
 
 
 __all__ = [
-    "EXPECTED_ROWS",
-    "EXPECTED_SPECIES",
-    "EXPECTED_TERMINAL_PARTITIONS",
-    "FULL100_SHA256",
-    "MEASUREMENT_SOURCE_COMMIT",
-    "METADATA_SHA256",
-    "MIN_H2_VECTOR_SPECIES",
-    "MIN_MEASUREMENT_EVALUABLE_SPECIES",
-    "P500_SHA256",
-    "STAGES",
-    "build_start_record",
-    "validate_authorization",
-    "validate_candidate_metadata",
-    "validate_stage_transition",
-    "validate_start_record",
+    "EXPECTED_ROWS", "EXPECTED_SPECIES", "EXPECTED_TERMINAL_PARTITIONS",
+    "FULL100_SHA256", "MEASUREMENT_SOURCE_COMMIT", "METADATA_SHA256",
+    "MIN_H2_VECTOR_SPECIES", "MIN_MEASUREMENT_EVALUABLE_SPECIES",
+    "P500_SHA256", "STAGES", "build_start_record", "validate_authorization",
+    "validate_candidate_metadata", "validate_stage_transition", "validate_start_record",
 ]
