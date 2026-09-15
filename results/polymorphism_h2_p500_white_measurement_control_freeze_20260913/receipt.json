@@ -1,0 +1,49 @@
+{
+  "freeze_id": "polymorphism-h2-p500-white-measurement-control-20260913",
+  "status": "preopening_protocol_frozen",
+  "base_sha": "c55fb858579074d2e3a4ce1a71b5a2d266e11011",
+  "base_branch": "analysis/polymorphism-42111-h1-h2-gates-20260912",
+  "freeze_branch": "analysis/p500-white-measurement-control-freeze-20260913",
+  "protocol_path": "docs/POLYMORPHISM_H2_P500_WHITE_MEASUREMENT_CONTROL_PROTOCOL_20260913.md",
+  "preflight_result_path": "results/polymorphism_h2_p500_candidate_metadata_20260913/result.json",
+  "preflight_overall_pass": true,
+  "candidate_species_n": 500,
+  "eligible_species_n": 499,
+  "request_error_species_n": 0,
+  "required_blind_flags": {
+    "image_results_requested": false,
+    "filtered_specimens_opened": false,
+    "image_urls_opened": false,
+    "image_bytes_opened": false,
+    "flower_colour_opened": false,
+    "palette_opened": false,
+    "D_opened": false,
+    "H1_opened": false,
+    "H2_W_opened": false
+  },
+  "image_or_colour_outcomes_opened_at_freeze": false,
+  "h2_estimand_mutated": false,
+  "primary_technical_predictor": "near_clip_fraction",
+  "technical_metrics": [
+    "clip_fraction",
+    "near_clip_fraction",
+    "luminance_q99"
+  ],
+  "forbidden_technical_predictors": [
+    "hsv_saturation",
+    "hsl_saturation",
+    "lab_chroma",
+    "palette_distance",
+    "white_fraction"
+  ],
+  "decision_states": [
+    "CLEAR",
+    "FLAGGED",
+    "INDETERMINATE"
+  ],
+  "equivalence_or_interval": [0.8, 1.25],
+  "minimum_h2_species_retention": 0.9,
+  "current_measurement_control_result": null,
+  "current_h2_result": null,
+  "allowed_next_step": "response_blind_technical_image_materialization_after_freeze_verification"
+}
