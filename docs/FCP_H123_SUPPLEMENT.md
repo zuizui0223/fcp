@@ -28,8 +28,53 @@ visible. No frozen result or threshold is changed by this correction.
 `results/polymorphism_white_axis_targeted_test_20260912/result.json` records the
 targeted primary/strict results and its retrospective claim boundary.
 CI run 34675697583, artifact 10292077657. The coarse-state-preserving null
-must not be replaced with the easier isotropic comparison. Full mode/null
-construction and residual diagnostics require dedicated reproducibility tables.
+must not be replaced with the easier isotropic comparison.
+
+### Table S2. White-axis alignment against the structured construction null
+
+| Threshold | Cohort | Species | Observed W | Null median | Excess over median | Upper-tail p |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Primary 0.10 | discovery | 152 | 0.514625 | 0.430808 | 0.083817 | 0.001 |
+| Primary 0.10 | reserve | 129 | 0.514586 | 0.466546 | 0.048039 | 0.001 |
+| Strict 0.20 | discovery | 75 | 0.542355 | 0.443626 | 0.098729 | 0.001 |
+| Strict 0.20 | reserve | 65 | 0.510517 | 0.469943 | 0.040574 | 0.008 |
+
+These medians describe 999 null worlds, not uncertainty intervals for observed
+W. Excess is observed W minus null median. A p-value of 0.001 is the minimum
+attainable with the plus-one rule, not zero probability. The selected species
+are weighted equally regardless of photographic depth. The fixed contrast is
+not a learned pigment axis, and W is not polymorphism prevalence.
+
+### Operational source audit
+
+The [target freeze](POLYMORPHISM_H2_WHITE_AXIS_TARGET_FREEZE_20260912.md),
+[observed geometry code](../scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py),
+[structured-null code](../scripts/analysis/run_polymorphism_delta_geometry_structured_null_20260912.py)
+and [targeted runner](../scripts/analysis/run_polymorphism_white_axis_targeted_test_20260912.py)
+were inspected, not rerun, for this methods description. The runner uses seed
+20260912 for primary discovery, 20260913 for primary reserve, 20261012 for strict
+discovery and 20261013 for strict reserve.
+
+Two-means initializes one centre at the row farthest from the grand mean and
+the other at the row farthest from that first centre, in square-root composition
+space. Nearest-centre assignments and arithmetic centre updates repeat until
+labels stabilize, with at most 200 iterations. Distance ties follow first-array
+index order. If a cluster empties, a farthest row is reassigned; identical input
+rows receive a deterministic half split, but zero displacement is excluded
+from observed axes and errors in null axes. These implementation details are
+not a biological assertion that each species has exactly two morphs. Exact
+row order therefore belongs to reproducibility; it cannot be silently shuffled.
+
+Null palettes are reassigned only within coarse-state pools within a cohort;
+species-by-state counts and pooled palette rows remain fixed. The observed
+selected species are retained in every null world. The continuous minor-cluster
+fraction filter is **not reapplied** in null worlds, and no observer, season or
+geographic strata constrain this permutation. Consequently this comparison
+does not calibrate the entire data-dependent admission procedure or eliminate
+photographic dependence. The audit identifies a scope limitation; it does not
+establish the magnitude or direction of any resulting bias. No null was changed,
+no additional result was generated and no historical p-value was replaced.
+Residual-diagnostic tables and exact source/input bundle closure remain pending.
 
 ## S3. H3 explanatory boundaries
 

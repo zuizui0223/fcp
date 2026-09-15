@@ -65,12 +65,34 @@ classifiable observations per half, and reserve decision criteria of rho >=0.80,
 bootstrap lower bound >0.70 and permutation p<0.001. Repeated-partition and
 later strict-split results are reported separately, not substituted post hoc.
 
-H2 uses the frozen nine-colour palette, unlabeled two-mode construction and
-sign-invariant displacement axes. The fixed targeted white contrast and W
-statistic are evaluated against a null preserving coarse-state composition and
-global coarse-state-to-palette structure. Primary and strict mode thresholds
-remain 10% and 20%. Full operational definitions and frozen inputs must be
-cross-checked against their original protocols before submission.
+H2 uses classifiable photographs in the four retained image states. Their nine
+palette fractions (white, yellow, orange, red, pink, magenta, purple, blue,
+bronze) are normalized to sum to one. Eligible species have at least 40
+classifiable photographs, a second-most-common coarse-state fraction at least
+0.10, and a minor continuous cluster fraction at least 0.10; the strict analysis
+uses 0.20 for both fraction gates. Deterministic two-means is applied to the
+square roots of normalized fractions, without coarse-state labels as cluster
+inputs. The difference between the two clusters' mean original compositions
+defines Delta; nonzero Delta is normalized to a unit axis u. Thus cluster fitting
+uses Hellinger coordinates while the reported displacement uses composition
+coordinates. Sign is immaterial to the targeted statistic.
+
+The fixed contrast q is the unit-normalized vector [1, -1/8, ..., -1/8], with
+the positive coordinate assigned to white. W is the equally species-weighted
+mean of (u dot q)^2, not the fraction of photographs classified as white.
+Within each cohort and coarse state, normalized palette rows are permuted
+across the selected species, preserving each species-by-state row count. Two
+clusters and their displacement are refitted for every null world. With 999
+worlds, the upper-tail Monte Carlo p-value is (1 + count(null W >= observed W))
+/1000. Discovery and reserve are evaluated separately; q is not fitted to either.
+The primary decision requires both cohorts to have p<0.05, with the strict
+analysis retained as sensitivity evidence (Supplement S2).
+
+The selected observed species set is held fixed in these null worlds: the
+continuous minor-cluster admission gate is not reapplied after permutation.
+This is the implemented construction null for a selected set, not a complete
+replay of selection or an observer-, season- or geography-stratified null.
+Its adequacy for stronger biological inference remains unestablished.
 
 H3a uses the frozen S1–S3 phylogenetic placement scenarios. H3b tests sampled
 photographic span, not true biological range size. The reserve is the replication
@@ -113,6 +135,10 @@ p=0.001; reserve (65 species) gives W=0.510517, p=0.008. After removal of
 the white contrast, the residual structured-null analyses do not support a
 general recurrent nonwhite hue direction. This is an existing-cohort targeted
 result, not prospective confirmation of the specific white axis.
+The corresponding primary null medians are 0.430808 and 0.466546; the observed
+excesses are 0.083817 and 0.048039, respectively. The structured null already
+contains substantial white-axis alignment. The isotropic expectation of 0.125
+is therefore not the appropriate baseline for these reported targeted tests.
 
 ### H3: bounded explanatory tests do not replicate
 

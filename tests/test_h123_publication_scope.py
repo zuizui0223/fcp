@@ -129,3 +129,21 @@ def test_monarda_table_recomputed_from_unchanged_pixel_counts():
     for value in values:
         assert f'{value:.8f}' in manuscript
     assert 'not a biological absence' in manuscript
+
+
+def test_h2_labeled_table_matches_frozen_targeted_result():
+    result = json.loads((ROOT / 'results/polymorphism_white_axis_targeted_test_20260912/result.json').read_text())
+    supplement = (ROOT / 'docs/FCP_H123_SUPPLEMENT.md').read_text(encoding='utf-8')
+    for key, label in [('primary_0_10', 'Primary 0.10'), ('strict_0_20', 'Strict 0.20')]:
+        for cohort in ('discovery', 'reserve'):
+            r = result['thresholds'][key][cohort]
+            observed = r['observed_mean_squared_white_axis_alignment']
+            median_null = r['structured_null_summary']['q50']
+            excess = observed - median_null
+            assert abs(excess - r['observed_minus_null_median']) < 1e-14
+            row = (f"| {label} | {cohort} | {r['species']} | {observed:.6f} | "
+                   f"{median_null:.6f} | {excess:.6f} | {r['structured_null_upper_p']:.3f} |")
+            assert row in supplement
+    assert result['structured_null_replicates'] == 999
+    assert '**not reapplied**' in supplement
+    assert 'not uncertainty intervals' in supplement

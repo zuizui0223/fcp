@@ -48,6 +48,16 @@ of support for H1–H3, and historical frozen data/results must not be edited.
 
 ## Development checkpoint
 
+H2 methods now distinguish square-root coordinates for clustering from original
+composition coordinates for displacement, fixed equal-species weighting, and
+the 999-world plus-one Monte Carlo rule. Supplement Table S2 preserves the
+structured-null medians and observed excesses, not merely p-values. Source
+inspection also identified an important scope limit: null worlds retain the
+observed selected species without reapplying the continuous minor-cluster gate,
+and permutations do not preserve observer/season/geographic strata. The
+manuscript reports this limitation without asserting a measured bias or changing
+the historical null. Stronger biological calibration remains unresolved.
+
 The active manuscript now reports the completed Monarda gate failure in its
 abstract, Methods and Results, and Supplement Table S1 carries all three
 operational criteria. Publication tests independently recompute its pooled and
