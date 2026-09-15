@@ -7,6 +7,7 @@ on:
       - fcp_pipeline/p500_prospective_execution_gate.py
       - scripts/analysis/build_p500_prospective_measurement_firewall.py
       - scripts/analysis/reassemble_p500_prospective_measurement.py
+      - scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py
       - scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py
       - tests/test_p500_prospective_execution_gate.py
       - .github/workflows/p500-prospective-execution-gate.yml
@@ -17,6 +18,7 @@ on:
       - fcp_pipeline/p500_prospective_execution_gate.py
       - scripts/analysis/build_p500_prospective_measurement_firewall.py
       - scripts/analysis/reassemble_p500_prospective_measurement.py
+      - scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py
       - scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py
       - tests/test_p500_prospective_execution_gate.py
       - .github/workflows/p500-prospective-execution-gate.yml
@@ -61,6 +63,7 @@ jobs:
           ]:
               obj = yaml.safe_load(p.read_text())
               assert isinstance(obj, dict) and 'jobs' in obj
+              assert 'h2-prospective-test' in yaml.safe_load(Path('.github/workflows/p500-prospective-location-blind-measurement.yml').read_text())['jobs']
               print(f'{p}: YAML PASS')
           PY
       - name: Validate real frozen inputs
@@ -82,6 +85,7 @@ jobs:
           from pathlib import Path
           forbidden = [
               Path('results/polymorphism_h2_p500_prospective_execution_20260915'),
+              Path('results/polymorphism_h2_p500_prospective_white_axis_20260915'),
               Path('data/measurement/polymorphism_h2_p500_prospective_v1'),
           ]
           existing = [str(p) for p in forbidden if p.exists()]
@@ -97,7 +101,39 @@ jobs:
             fcp_pipeline/p500_prospective_execution_gate.py \
             scripts/analysis/build_p500_prospective_measurement_firewall.py \
             scripts/analysis/reassemble_p500_prospective_measurement.py \
+            scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py \
             scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py
+      - name: Validate support-receipt to H2 contract without opening pixels
+        run: |
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, str(Path('scripts/analysis').resolve()))
+          from run_polymorphism_h2_p500_prospective_white_axis_20260915 import measurement_support_from_receipt
+          support_stage = {
+              'stage': 'SUPPORT_GATE_COMPLETE', 'species': 499, 'rows': 49900,
+              'replacement_rows': 0, 'replacement_species': 0,
+              'measurement_evaluable_species': 300, 'support_decision': 'PASS',
+          }
+          receipt = {
+              'schema': 'p500_prospective_measurement_result_v1',
+              'status': 'complete_p500_location_blind_measurement_and_support_gate',
+              'stage': 'SUPPORT_GATE_COMPLETE', 'species': 499, 'rows': 49900,
+              'measurement_evaluable_species': 300, 'support_decision': 'PASS',
+              'H2_opened': False, 'replacement_rows': 0, 'replacement_species': 0,
+              'persisted_image_pixels': False,
+              'stage_receipts': {'support': support_stage},
+          }
+          x = measurement_support_from_receipt(receipt)
+          assert x['pass'] is True and x['evaluable_species'] == 300
+          receipt['measurement_evaluable_species'] = 249
+          receipt['support_decision'] = 'NOT_EVALUABLE'
+          receipt['stage_receipts']['support']['measurement_evaluable_species'] = 249
+          receipt['stage_receipts']['support']['support_decision'] = 'NOT_EVALUABLE'
+          x = measurement_support_from_receipt(receipt)
+          assert x['pass'] is False and x['decision'] == 'NOT_EVALUABLE'
+          print('support receipt -> H2 contract: PASS')
+          PY
       - name: Qualify H2 executor by exact frozen legacy replay
         run: |
           rm -rf /tmp/p500-h2-executor-qualification
@@ -156,6 +192,7 @@ jobs:
                   working_tree_inputs_verified=True,
               )
               record['h2_executor_legacy_replay_qualification_pass'] = True
+              record['support_to_h2_contract_qualification_pass'] = True
           else:
               record = {
                   'schema': 'p500_prospective_execution_qualification_v1',
@@ -165,6 +202,7 @@ jobs:
                   'firewall_dry_run_pass': True,
                   'measurement_workflow_yaml_pass': True,
                   'h2_executor_legacy_replay_qualification_pass': True,
+                  'support_to_h2_contract_qualification_pass': True,
                   'opening_authorized': False,
                   'reason': 'qualification_only; dispatch with issue_start_receipt=true immediately before execution',
               }
