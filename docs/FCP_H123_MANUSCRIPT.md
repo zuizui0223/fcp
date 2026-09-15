@@ -31,7 +31,7 @@ operational gate; this is a measurement limitation, not a biological absence.
 The manuscript separates three questions: whether species-level photographic
 colour diversity is reproducible across observers (H1), whether within-species
 palette variation shares a recurrent direction (H2), and whether broad
-phylogenetic structure or sampled geographic span explains the measured diversity
+phylogenetic structure or sampled geographic span is associated with measured diversity
 (H3).
 
 Citizen-science photographs can provide useful visible-colour information, but
@@ -230,6 +230,30 @@ error, incomplete reference annotations or mismatch in anatomical target.
 
 ## Discussion — limits governing interpretation
 
+### What the joint evidence establishes
+
+H1, H2 and H3 address different properties, so their outcomes do not form a
+single pass/fail ladder. H1 shows that a species-level image descriptor can
+retain substantial rank agreement under within-species observer separation.
+H2 identifies a narrower property of selected species' continuous palettes:
+their two-mode displacements align with a white–nonwhite contrast more than
+under the implemented coarse-state-preserving construction null. Neither
+result predicts that D must have broad phylogenetic signal or increase with
+sampled photographic span. The failed reserve H3 tests therefore constrain
+those particular associations without invalidating the descriptive H1 result
+or supplying a mechanism for H2.
+
+The size and reference frame of the H2 pattern matter. Reserve primary W is
+0.514586, but its structured-null median is already 0.466546. The relevant
+excess is 0.048039 in squared-projection units, not the much larger distance
+from an isotropic expectation. This is evidence of geometry under a selected
+measurement design; it is not the proportion of species with white morphs,
+the magnitude of colour change perceived by a pollinator, or a transition
+rate between biological states. Calling it a common pigment-loss mechanism
+would require evidence absent from these tests.
+
+### Measurement validity remains distinct from reproducibility
+
 Observer-disjoint repeatability establishes a property of the measurement under
 the sampled design. It does not establish accurate focal-petal localization,
 correct image-level biological classification or population morph frequencies.
@@ -264,9 +288,24 @@ The [pre-opening evidence audit](P500_PREOPENING_EVIDENCE_AUDIT_20260915.md)
 distinguishes unavailable chronology evidence from an actual measurement result:
 the candidate record lacks five same-name fields required by the older PR 33
 control contract. That schema limitation does not mean there is no Actions
-execution evidence. Compatibility between the later measurement route and the
-earlier highlight-control requirements remains unresolved. No retrospective
-control or negative H2 result is inferred from this difference.
+execution evidence. The [protocol comparison](P500_PROTOCOL_COMPATIBILITY_AUDIT_20260915.md)
+finds that the executing workflow does not establish the earlier response-blind
+highlight-table freeze, coupling test and clipping-exclusion sensitivity.
+A prospective H2 support label would therefore not constitute clearance under
+that control contract. No retrospective control or negative H2 result is
+inferred from this difference.
+
+## Conclusion
+
+The current evidence supports reproducible photo-derived diversity rankings
+and a retrospectively targeted white–nonwhite geometric pattern, while the
+specified reserve phylogenetic and sampled-span associations are unsupported.
+The failed localization qualification and unresolved highlight control limit
+the biological interpretation of all three analyses. The contribution at this
+stage is an auditable separation of sampling reliability, palette geometry
+and bounded association tests, not a validated global atlas of biological
+morph frequencies. The ongoing prospective cohort can test the fixed geometric
+target on additional species, but cannot by itself resolve measurement validity.
 
 ## Outstanding before submission
 

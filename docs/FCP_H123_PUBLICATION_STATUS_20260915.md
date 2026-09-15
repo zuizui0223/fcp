@@ -41,17 +41,20 @@ of support for H1–H3, and historical frozen data/results must not be edited.
    with a matching supplement and traceable numerical/figure inventory.
 2. Audit the biological measurement claim, retaining failed external validation
    and distinguishing observed image states from verified biological morphs.
-3. Qualify P500 technical-table recording, fixed high-clip membership, response
-   join barrier and within-species coupling implementation on synthetic inputs.
-   Freeze unresolved implementation choices before real responses.
+3. Preserve the synthetic qualification of technical-table recording and
+   within-species coupling, but do not describe it as globally pre-opening:
+   P500 pixels had already opened on the separate execution branch. The
+   [protocol comparison](P500_PROTOCOL_COMPATIBILITY_AUDIT_20260915.md) identifies
+   requirements not established by that run. Do not retrofit a control freeze.
 4. Establish evidence-backed pre-opening chronology. The present acquisition
    JSON is not the strict execution record. Missing historical false flags
    cannot be invented. No additional P500 opening is authorized by this
    publication branch; audit the already running route against its own records
    and the earlier measurement-control requirements.
-5. Only if all gates pass, execute the frozen prospective test with complete
-   attrition accounting. Otherwise report the unresolved/negative outcome and
-   assess the manuscript at its supported, narrower measurement scope.
+5. Audit the existing run's completed aggregate and support gates, including
+   all terminal failures, before interpreting its prospective H2 output.
+   Do not dispatch another test. Report non-support, not-evaluable and
+   unresolved measurement validity separately; none substitutes for another.
 6. Verify references, main/supplement consistency, figures and reproducibility
    before calling the package submission-ready. Journal acceptance is not
    guaranteed; submission itself requires separate user authorization.
