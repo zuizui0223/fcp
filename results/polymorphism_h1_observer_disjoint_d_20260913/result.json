@@ -1,0 +1,153 @@
+{
+  "analyses": {
+    "discovery": {
+      "D": {
+        "bootstrap_95_percentile_ci": [
+          0.7987951354842991,
+          0.8674412513011389
+        ],
+        "bootstrap_replicates_finite": 5000,
+        "lin_ccc": 0.8661920926769832,
+        "mean_A": 0.24750422011058834,
+        "mean_B": 0.23526851113337616,
+        "median_abs_difference": 0.060546875,
+        "n": 369,
+        "permutation_replicates": 20000,
+        "permutation_two_sided_p": 4.999750012499375e-05,
+        "q90_abs_difference": 0.1760051446811932,
+        "spearman_rho": 0.8370151412044557
+      },
+      "D_unbiased": {
+        "bootstrap_95_percentile_ci": [
+          0.7975098535012043,
+          0.8670006267555297
+        ],
+        "bootstrap_replicates_finite": 5000,
+        "lin_ccc": 0.8673244299815897,
+        "mean_A": 0.25743822709864816,
+        "mean_B": 0.2447995001945099,
+        "median_abs_difference": 0.06349206349206354,
+        "n": 369,
+        "permutation_replicates": 20000,
+        "permutation_two_sided_p": 4.999750012499375e-05,
+        "q90_abs_difference": 0.18302309606657435,
+        "spearman_rho": 0.8367947429453506
+      }
+    },
+    "reserve": {
+      "D": {
+        "bootstrap_95_percentile_ci": [
+          0.7648383249147064,
+          0.8474976906537689
+        ],
+        "bootstrap_replicates_finite": 5000,
+        "lin_ccc": 0.8582944313924915,
+        "mean_A": 0.22973884700867556,
+        "mean_B": 0.23006040087966995,
+        "median_abs_difference": 0.06243496357960443,
+        "n": 363,
+        "permutation_replicates": 20000,
+        "permutation_two_sided_p": 4.999750012499375e-05,
+        "q90_abs_difference": 0.1721134272178947,
+        "spearman_rho": 0.8109164414604769
+      },
+      "D_unbiased": {
+        "bootstrap_95_percentile_ci": [
+          0.766474145106324,
+          0.8478134693725383
+        ],
+        "bootstrap_replicates_finite": 5000,
+        "lin_ccc": 0.8594198789054034,
+        "mean_A": 0.23910894869915392,
+        "mean_B": 0.23945750263057924,
+        "median_abs_difference": 0.06461538461538482,
+        "n": 363,
+        "permutation_replicates": 20000,
+        "permutation_two_sided_p": 4.999750012499375e-05,
+        "q90_abs_difference": 0.17891625615763548,
+        "spearman_rho": 0.8116141835938241
+      }
+    }
+  },
+  "analysis": "polymorphism_h1_observer_disjoint_d",
+  "date_jst": "2026-09-13",
+  "decision": {
+    "bootstrap_lower_threshold_strictly_greater_than": 0.7,
+    "pass_bootstrap_lower": true,
+    "pass_permutation": true,
+    "pass_rho": true,
+    "permutation_p_threshold_strictly_less_than": 0.001,
+    "primary_cohort": "reserve",
+    "rho_threshold": 0.8,
+    "supported": true,
+    "verdict": "H1_OBSERVER_DISJOINT_D_REPRODUCIBLE"
+  },
+  "four_states": [
+    "white",
+    "yellow_orange",
+    "red_pink",
+    "blue_purple"
+  ],
+  "historical_0_971_used_as_evidence": false,
+  "new_image_acquisition": false,
+  "nonclaims": [
+    "not an unbiased global prevalence estimate",
+    "does not establish biological independence of photographs",
+    "does not remove image-classification error",
+    "does not identify ecological or evolutionary causes",
+    "does not establish direction of colour evolution",
+    "369/363 validation cohorts are not claimed representative of all 42111 species"
+  ],
+  "preflight_freeze": "docs/POLYMORPHISM_H1_OBSERVER_SPLIT_PREFLIGHT_FREEZE_20260913.md",
+  "preflight_receipt": {
+    "D_computed_during_preflight_verification": false,
+    "assignment_sha256": "f5e4333e596a69cdb032d840ec95eb02eadf1ec322658e2738e1b043fcde0cc1",
+    "cohorts": {
+      "discovery": {
+        "cohort": "discovery",
+        "eligible_by_min_half_threshold": {
+          "10": 369,
+          "15": 369,
+          "20": 369
+        },
+        "min_half_quantiles": {
+          "q00": 20.0,
+          "q100": 43.0,
+          "q25": 24.0,
+          "q50": 28.0,
+          "q75": 33.0
+        },
+        "n_classifiable_rows": 25377,
+        "n_rows_source": 50000,
+        "n_species_full_n_ge_40": 369,
+        "source": "data/derived/global_monte_carlo_measured_photos_v1.csv",
+        "species_with_at_least_two_classifiable_observers": 369
+      },
+      "reserve": {
+        "cohort": "reserve",
+        "eligible_by_min_half_threshold": {
+          "10": 363,
+          "15": 363,
+          "20": 363
+        },
+        "min_half_quantiles": {
+          "q00": 20.0,
+          "q100": 46.0,
+          "q25": 24.0,
+          "q50": 28.0,
+          "q75": 33.0
+        },
+        "n_classifiable_rows": 24885,
+        "n_rows_source": 50000,
+        "n_species_full_n_ge_40": 363,
+        "source": "data/derived/rgfca_reserve_replication_measured_photos_v1.csv",
+        "species_with_at_least_two_classifiable_observers": 363
+      }
+    },
+    "morph_opened_during_preflight_verification": false,
+    "panel_sha256": "bb30b6f73c6ecac06022c7ddd275cd01ea71d4bc40f54dd8889814819d1f92eb",
+    "selected_min_half": 20
+  },
+  "primary_min_classifiable_per_half": 20,
+  "protocol": "docs/POLYMORPHISM_H1_OBSERVER_DISJOINT_D_PROTOCOL_20260913.md"
+}
