@@ -64,7 +64,8 @@ new near-clip coupling/snapshot helpers or the older PR 33 measurement-control
 gate. Location blindness is not equivalent to response-blind highlight control.
 Do not claim this run satisfies every condition of the earlier control contract,
 or interpret a future H2 support label as a CLEAR artifact-control verdict.
-An explicit cross-protocol compatibility audit remains required.
+The [source-level compatibility audit](P500_PROTOCOL_COMPATIBILITY_AUDIT_20260915.md)
+documents the missing correspondence; terminal artifact verification remains required.
 
 The publication branch's synthetic coupling work was authored **after actual
 P500 pixel opening elsewhere in the repository**. It remains synthetic-only
