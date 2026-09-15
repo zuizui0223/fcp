@@ -17,9 +17,7 @@ import run_polymorphism_h2_p500_prospective_white_axis_20260915 as prospective  
 
 DISCOVERY = ROOT / "data" / "derived" / "global_monte_carlo_measured_photos_v1.csv"
 RESERVE = ROOT / "data" / "derived" / "rgfca_reserve_replication_measured_photos_v1.csv"
-VECTOR_DIR = ROOT / "results" / "polymorphism_delta_geometry_validation_20260912"
-FROZEN_DIR = ROOT / "results" / "polymorphism_white_axis_targeted_test_20260912"
-FROZEN_RESULT = FROZEN_DIR / "result.json"
+FROZEN_RESULT = ROOT / "results" / "polymorphism_white_axis_targeted_test_20260912" / "result.json"
 LABELS = ("primary_0_10", "strict_0_20")
 LEGACY_SEEDS = {
     ("primary_0_10", "discovery"): 20260912,
@@ -33,8 +31,9 @@ ATOL = 1e-15
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
         description=(
-            "Qualify the prospective P500 H2 executor by exact replay of the frozen 2026-09-12 "
-            "white-axis result using already-opened discovery/reserve cohorts only."
+            "Qualify the prospective P500 H2 executor by replaying the frozen 2026-09-12 white-axis "
+            "result on already-opened discovery/reserve cohorts. Delta vectors and null draws are rebuilt "
+            "in memory because the historical CSV intermediates were not committed."
         )
     )
     p.add_argument("--output", type=Path, default=None)
@@ -46,32 +45,14 @@ def _assert_close(name: str, got: float, expected: float) -> None:
         raise RuntimeError(f"{name} mismatch: got={got!r} expected={expected!r}")
 
 
-def _check_case(
-    *,
-    label: str,
-    cohort: str,
-    work: pd.DataFrame,
-    vectors: pd.DataFrame,
-    frozen: dict,
-) -> dict:
-    q_legacy = legacy.white_contrast()
-    q_prospective = prospective.white_contrast()
-    if not np.array_equal(q_legacy, q_prospective):
-        raise RuntimeError("prospective q_white differs from frozen legacy q_white")
-
-    seed = LEGACY_SEEDS[(label, cohort)]
-    got, null = prospective.run_threshold(work, vectors, q_prospective, seed)
-    if got.get("evaluable") is not True or null is None:
-        raise RuntimeError(f"legacy replay unexpectedly not evaluable for {label}/{cohort}")
-
-    expected = frozen["thresholds"][label][cohort]
+def _check_frozen_summary(*, label: str, cohort: str, got: dict, expected: dict) -> None:
     if int(got["species"]) != int(expected["species"]):
         raise RuntimeError(
             f"{label}/{cohort} species mismatch: {got['species']} != {expected['species']}"
         )
     _assert_close(
         f"{label}/{cohort} W",
-        got["observed_W"],
+        got["observed_mean_squared_white_axis_alignment"],
         expected["observed_mean_squared_white_axis_alignment"],
     )
     _assert_close(
@@ -98,29 +79,92 @@ def _check_case(
     if bool(got["pass"]) != bool(expected["pass"]):
         raise RuntimeError(f"{label}/{cohort} pass/fail differs from frozen result")
 
-    frozen_null_path = FROZEN_DIR / f"{label}_{cohort}_structured_null.csv"
-    frozen_null = pd.read_csv(frozen_null_path)["mean_squared_white_axis_alignment"].to_numpy(float)
-    if len(frozen_null) != len(null):
-        raise RuntimeError(
-            f"{label}/{cohort} null length mismatch: {len(null)} != {len(frozen_null)}"
+
+def _check_case(
+    *,
+    label: str,
+    cohort: str,
+    work: pd.DataFrame,
+    frozen: dict,
+) -> dict:
+    q_legacy = legacy.white_contrast()
+    q_prospective = prospective.white_contrast()
+    if not np.array_equal(q_legacy, q_prospective):
+        raise RuntimeError("prospective q_white differs from frozen legacy q_white")
+
+    threshold = prospective.THRESHOLDS[label]
+    vectors, vector_matrix, gate_counts = prospective.species_delta_vectors(work, threshold)
+    if len(vectors) != len(vector_matrix):
+        raise RuntimeError(f"{label}/{cohort} rebuilt vector table/matrix denominator mismatch")
+
+    seed = LEGACY_SEEDS[(label, cohort)]
+    legacy_got, legacy_null = legacy.run_cohort(work, vectors, q_legacy, seed)
+    prospective_got, prospective_null = prospective.run_threshold(
+        work, vectors, q_prospective, seed
+    )
+    if prospective_got.get("evaluable") is not True or prospective_null is None:
+        raise RuntimeError(f"legacy replay unexpectedly not evaluable for {label}/{cohort}")
+
+    # First anchor the rebuilt historical computation to the committed frozen result.json.
+    expected = frozen["thresholds"][label][cohort]
+    _check_frozen_summary(label=label, cohort=cohort, got=legacy_got, expected=expected)
+
+    # Then require the prospective executor to be numerically identical to that legacy computation.
+    if int(prospective_got["species"]) != int(legacy_got["species"]):
+        raise RuntimeError(f"{label}/{cohort} prospective species denominator differs from legacy")
+    _assert_close(
+        f"{label}/{cohort} prospective-vs-legacy W",
+        prospective_got["observed_W"],
+        legacy_got["observed_mean_squared_white_axis_alignment"],
+    )
+    _assert_close(
+        f"{label}/{cohort} prospective-vs-legacy p",
+        prospective_got["structured_null_upper_p"],
+        legacy_got["structured_null_upper_p"],
+    )
+    _assert_close(
+        f"{label}/{cohort} prospective-vs-legacy observed-minus-null-median",
+        prospective_got["observed_minus_null_median"],
+        legacy_got["observed_minus_null_median"],
+    )
+    _assert_close(
+        f"{label}/{cohort} prospective-vs-legacy observed-to-null-median-ratio",
+        prospective_got["observed_to_null_median_ratio"],
+        legacy_got["observed_to_null_median_ratio"],
+    )
+    for key, value in legacy_got["structured_null_summary"].items():
+        _assert_close(
+            f"{label}/{cohort} prospective-vs-legacy null-summary/{key}",
+            prospective_got["structured_null_summary"][key],
+            value,
         )
-    if not np.array_equal(null, frozen_null):
-        max_abs = float(np.max(np.abs(null - frozen_null)))
+    if bool(prospective_got["pass"]) != bool(legacy_got["pass"]):
+        raise RuntimeError(f"{label}/{cohort} prospective pass/fail differs from legacy")
+
+    if len(legacy_null) != len(prospective_null):
         raise RuntimeError(
-            f"{label}/{cohort} structured-null replay is not exact; max_abs_diff={max_abs:.17g}"
+            f"{label}/{cohort} null length mismatch: {len(prospective_null)} != {len(legacy_null)}"
+        )
+    if not np.array_equal(prospective_null, legacy_null):
+        max_abs = float(np.max(np.abs(prospective_null - legacy_null)))
+        raise RuntimeError(
+            f"{label}/{cohort} prospective structured-null vector differs from legacy; "
+            f"max_abs_diff={max_abs:.17g}"
         )
 
     return {
         "label": label,
         "cohort": cohort,
+        "threshold": float(threshold),
         "seed": seed,
-        "species": int(got["species"]),
-        "observed_W": float(got["observed_W"]),
-        "structured_null_upper_p": float(got["structured_null_upper_p"]),
-        "null_replicates": int(len(null)),
-        "exact_null_vector_match": True,
-        "frozen_numeric_summary_match": True,
-        "pass": bool(got["pass"]),
+        "species": int(prospective_got["species"]),
+        "observed_W": float(prospective_got["observed_W"]),
+        "structured_null_upper_p": float(prospective_got["structured_null_upper_p"]),
+        "null_replicates": int(len(prospective_null)),
+        "construction_gate_counts": {str(k): int(v) for k, v in gate_counts.items()},
+        "exact_legacy_prospective_null_vector_match": True,
+        "frozen_result_json_numeric_match": True,
+        "pass": bool(prospective_got["pass"]),
     }
 
 
@@ -135,13 +179,11 @@ def main() -> int:
     cases: list[dict] = []
     for label in LABELS:
         for cohort in ("discovery", "reserve"):
-            vectors = pd.read_csv(VECTOR_DIR / f"{label}_{cohort}_delta_vectors.csv")
             cases.append(
                 _check_case(
                     label=label,
                     cohort=cohort,
                     work=work_by_cohort[cohort],
-                    vectors=vectors,
                     frozen=frozen,
                 )
             )
@@ -149,10 +191,17 @@ def main() -> int:
     result = {
         "analysis": "polymorphism_h2_p500_executor_legacy_replay_qualification",
         "date_jst": "2026-09-15",
-        "status": "executor_qualified_by_exact_frozen_legacy_replay",
+        "status": "executor_qualified_by_frozen_summary_and_exact_legacy_kernel_replay",
         "qualification_pass": True,
         "prospective_executor": "scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py",
+        "legacy_executor": "scripts/analysis/run_polymorphism_white_axis_targeted_test_20260912.py",
         "frozen_reference": "results/polymorphism_white_axis_targeted_test_20260912/result.json",
+        "historical_intermediate_csvs_committed": False,
+        "replay_method": (
+            "rebuild Delta vectors from the same already-opened discovery/reserve source tables using the "
+            "legacy construction; require the rebuilt legacy summary to match frozen result.json; then require "
+            "prospective and legacy executors to return exactly identical 999-draw structured-null vectors"
+        ),
         "cases": cases,
         "cases_passed": len(cases),
         "cases_required": 4,
@@ -160,7 +209,9 @@ def main() -> int:
         "uses_existing_opened_cohorts_only": True,
         "claim_boundary": (
             "This qualification establishes implementation continuity of q_white, W, and the structured-null "
-            "kernel by exact replay of already-opened legacy cohorts. It does not open P500 pixels and is not "
+            "kernel. The historical vector/null CSV intermediates were not committed, so frozen-result continuity "
+            "is established through exact reconstruction of the legacy computation plus committed result.json, "
+            "not by comparison to unavailable historical CSV bytes. It does not open P500 pixels and is not "
             "prospective H2 evidence."
         ),
     }
