@@ -5,12 +5,14 @@ on:
     branches: [analysis/p500-prospective-execution-gate-20260915]
     paths:
       - fcp_pipeline/p500_prospective_execution_gate.py
+      - scripts/analysis/build_p500_prospective_measurement_firewall.py
       - tests/test_p500_prospective_execution_gate.py
       - .github/workflows/p500-prospective-execution-gate.yml
       - docs/POLYMORPHISM_H2_P500_PROSPECTIVE_EXECUTION_GATE_20260915.md
   pull_request:
     paths:
       - fcp_pipeline/p500_prospective_execution_gate.py
+      - scripts/analysis/build_p500_prospective_measurement_firewall.py
       - tests/test_p500_prospective_execution_gate.py
       - .github/workflows/p500-prospective-execution-gate.yml
   workflow_dispatch:
@@ -30,7 +32,7 @@ env:
 jobs:
   qualify:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,7 +42,7 @@ jobs:
           python-version: '3.12'
       - name: Run execution-gate tests
         run: |
-          python -m pip install pytest
+          python -m pip install pytest pandas numpy
           python -m pytest tests/test_p500_prospective_execution_gate.py -q
       - name: Validate real frozen inputs
         run: |
@@ -68,6 +70,29 @@ jobs:
               raise SystemExit('prospective output namespace already exists: ' + ', '.join(existing))
           print('prospective output namespace absent: PASS')
           PY
+      - name: Materialize exact inherited blind-measurement interface
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Dry-run complete 49,900-row firewall construction without pixels
+        run: |
+          rm -rf /tmp/p500-firewall
+          python scripts/analysis/build_p500_prospective_measurement_firewall.py --output-dir /tmp/p500-firewall
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('/tmp/p500-firewall/measurement_firewall_manifest.json').read_text())
+          assert m['status'] == 'p500_measurement_firewall_frozen_before_pixels'
+          assert m['species'] == 499
+          assert m['rows'] == 49900
+          assert m['measurement_ids'] == 49900
+          assert m['terminal_partitions'] == 256
+          assert m['nonempty_terminal_partitions'] == 256
+          assert m['worker_contains_species'] is False
+          assert m['worker_contains_coordinates'] is False
+          assert m['worker_contains_source_url'] is False
+          assert m['coordinate_colour_join_opened'] is False
+          assert m['candidate_pixels_opened'] is False
+          print(json.dumps(m, indent=2))
+          PY
       - name: Save qualification receipt
         env:
           ISSUE_START: ${{ github.event_name == 'workflow_dispatch' && inputs.issue_start_receipt || false }}
@@ -90,6 +115,7 @@ jobs:
                   'branch': os.environ['GITHUB_REF_NAME'],
                   'head_sha': os.environ['GITHUB_SHA'],
                   'qualification_pass': True,
+                  'firewall_dry_run_pass': True,
                   'opening_authorized': False,
                   'reason': 'qualification_only; dispatch with issue_start_receipt=true immediately before execution',
               }
@@ -99,5 +125,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: p500-prospective-execution-gate
-          path: p500-prospective-execution-gate.json
+          path: |
+            p500-prospective-execution-gate.json
+            /tmp/p500-firewall/measurement_firewall_manifest.json
+            /tmp/p500-firewall/partition_assignments.csv
           if-no-files-found: error
