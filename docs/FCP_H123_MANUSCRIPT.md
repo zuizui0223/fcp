@@ -60,10 +60,26 @@ spatial study are not analyses or supporting evidence in this manuscript.
 
 H1 uses D = 1 - sum(p_k squared) for white, yellow/orange, red/pink and
 blue/purple image states; mixed/uncertain is excluded from those four states.
-The direct analysis uses observer-disjoint halves, a frozen minimum of 20
-classifiable observations per half, and reserve decision criteria of rho >=0.80,
-bootstrap lower bound >0.70 and permutation p<0.001. Repeated-partition and
+The direct analysis groups classifiable rows into indivisible observer blocks
+within each species. Blocks are sorted by decreasing row count with SHA256
+tie-breaking, then assigned to balance half counts. Blank observer identifiers
+are not assigned. Before opening state labels for this test, the frozen
+opportunity rule selects the largest of 20, 15 or 10 classifiable observations
+per half that retains at least 100 species in both cohorts; it selected 20.
+The preflight uses species, observer identity and an existing classifiability
+flag, not state labels, palette values, dates or coordinates. It is not a claim
+that the classifiability flag was generated independently of prior imaging.
+Reserve decision criteria are rho >=0.80, bootstrap lower bound >0.70 and
+permutation p<0.001. Repeated-partition and
 later strict-split results are reported separately, not substituted post hoc.
+
+Spearman rho describes cross-species rank agreement between half-specific D.
+The bootstrap samples species pairs with replacement 5,000 times and reports
+the 2.5th and 97.5th percentiles of finite correlations. The permutation test
+reassigns half-B ranks among species 20,000 times and uses a two-sided plus-one
+p-value with denominator 20,001. Lin CCC (Lin, 1989) and absolute half differences describe
+value agreement separately from rank agreement (Supplement S1). Neither CCC nor
+these diagnostics can rescue failure of the frozen primary criteria.
 
 H2 uses classifiable photographs in the four retained image states. Their nine
 palette fractions (white, yellow, orange, red, pink, magenta, purple, blue,
@@ -94,11 +110,12 @@ This is the implemented construction null for a selected set, not a complete
 replay of selection or an observer-, season- or geography-stratified null.
 Its adequacy for stronger biological inference remains unestablished.
 
-H3a uses the frozen V.PhyloMaker2 dated backbone (GBOTB.extended.LCVP) under
+H3a uses V.PhyloMaker2 (Jin & Qian, 2022) with the frozen dated backbone
+(GBOTB.extended.LCVP) under
 S1–S3 placement scenarios. Each scenario retains 368/369 discovery species and
 341/363 reserve species, exceeding the pre-outcome requirements of 90% coverage
 and 250 tips per cohort. The unmatched species are not assigned zero signal.
-Raw D is tested using Blomberg K with 9,999 randomized trait-to-tip assignments;
+Raw D is tested using Blomberg K (Blomberg et al., 2003) with 9,999 randomized trait-to-tip assignments;
 tree, branch lengths, retained species and trait values remain fixed. The
 upper-tail plus-one p-value has denominator 10,000. Reserve support requires
 p<0.05 in all three scenarios. Pagel lambda and its likelihood-ratio test
@@ -125,6 +142,9 @@ partial-rank test permutes residualized D against a fixed residualized span;
 it is a sensitivity, not causal adjustment. The reserve is the replication
 cohort for both H3 tests; discovery associations were already inspected.
 Failed replications are retained without searching for replacement predictors.
+The plus-one randomization convention avoids reporting zero Monte Carlo
+p-values (Phipson & Smyth, 2010). This correction does not establish the validity
+of a null construction or remove selection and dependence concerns.
 
 Measurement qualification was evaluated separately from H1–H3. The estimator
 combines retained generic flower masks rather than selecting a verified focal
@@ -213,6 +233,10 @@ error, incomplete reference annotations or mismatch in anatomical target.
 Observer-disjoint repeatability establishes a property of the measurement under
 the sampled design. It does not establish accurate focal-petal localization,
 correct image-level biological classification or population morph frequencies.
+Observer disjointness is enforced within species, not as a global partition of
+all observers across every species. Cross-species shared observers and common
+photographic conditions can therefore remain. The species bootstrap is not an
+observer-cluster bootstrap or a validated correction for that dependence.
 The present estimator pools retained flower regions; co-photographed nonfocal
 flowers can contribute. The completed Monarda region-agreement gate failed and
 cannot be repaired by relabeling, selecting a successful subset or retuning on
@@ -245,13 +269,29 @@ claim scope. No submission readiness or acceptance is asserted.
 
 ## References — verified initial set
 
+Blomberg, S. P., Garland, T., Jr., & Ives, A. R. (2003). Testing for phylogenetic
+signal in comparative data: behavioral traits are more labile. Evolution,
+57(4), 717–745. https://doi.org/10.1111/j.0014-3820.2003.tb00285.x
+
+Jin, Y., & Qian, H. (2022). V.PhyloMaker2: An updated and enlarged R package
+that can generate very large phylogenies for vascular plants. Plant Diversity,
+44(4), 335–339. https://doi.org/10.1016/j.pld.2022.05.005
+
 Laitly, A., Callaghan, C. T., Delhey, K., & Cornwell, W. K. (2021). Is color data
 from citizen science photographs reliable for biodiversity research? Ecology
 and Evolution, 11(9), 4071–4083. https://doi.org/10.1002/ece3.7307
 
+Lin, L. I.-K. (1989). A concordance correlation coefficient to evaluate
+reproducibility. Biometrics, 45(1), 255–268. https://doi.org/10.2307/2532051
+
 Luong, Y., Gasca-Herrera, A., Misiewicz, T. M., & Carter, B. E. (2023). A pipeline
 for the rapid collection of color data from photographs. Applications in Plant
 Sciences, 11(5), e11546. https://doi.org/10.1002/aps3.11546
+
+Phipson, B., & Smyth, G. K. (2010). Permutation P-values should never be zero:
+calculating exact P-values when permutations are randomly drawn. Statistical
+Applications in Genetics and Molecular Biology, 9(1), Article 39.
+https://doi.org/10.2202/1544-6115.1585
 
 Troscianko, J., & Stevens, M. (2015). Image calibration and analysis toolbox – a
 free software suite for objectively measuring reflectance, colour and pattern.
@@ -259,5 +299,8 @@ Methods in Ecology and Evolution, 6(11), 1320–1331.
 https://doi.org/10.1111/2041-210X.12439
 
 Access details and non-transferability limits are recorded in the
-[measurement-reference audit](FCP_H123_MEASUREMENT_REFERENCES.md). Statistical,
-phylogenetic, image-model and wider ecological references remain to be audited.
+[measurement-reference audit](FCP_H123_MEASUREMENT_REFERENCES.md) and
+[statistical-reference audit](FCP_H123_STATISTICAL_REFERENCES.md). Lin and
+V.PhyloMaker2 were not fully text-audited; the audit records the exact accessible
+sections and limits. References for lambda, phylogenetic regression, image
+models and remaining statistical/ecological context still require verification.

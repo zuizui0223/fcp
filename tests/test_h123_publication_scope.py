@@ -179,3 +179,33 @@ def test_h3_coverage_matches_frozen_tree_manifest():
         assert f"{r['retained_tips_each_scenario']}/{r['eligible_species']}" in manuscript
         assert r['retained_tips_each_scenario'] / r['eligible_species'] >= .9
     assert 'unmatched species are not assigned zero signal' in manuscript
+
+
+def test_h1_agreement_table_matches_direct_analysis_only():
+    result = json.loads((ROOT / 'results/polymorphism_h1_observer_disjoint_d_20260913/result.json').read_text())
+    supplement = (ROOT / 'docs/FCP_H123_SUPPLEMENT.md').read_text(encoding='utf-8')
+    for cohort in ('discovery', 'reserve'):
+        for outcome in ('D', 'D_unbiased'):
+            r = result['analyses'][cohort][outcome]
+            values = ' | '.join(f'{r[k]:.6f}' for k in ('spearman_rho', 'lin_ccc', 'median_abs_difference', 'q90_abs_difference'))
+            assert f"| {cohort} | {outcome} | {r['n']} | {values} |" in supplement
+            assert r['bootstrap_replicates_finite'] == 5000
+            assert r['permutation_replicates'] == 20000
+    manuscript = (ROOT / 'docs/FCP_H123_MANUSCRIPT.md').read_text(encoding='utf-8')
+    assert 'within species, not as a global partition' in manuscript
+    assert 'not an\nobserver-cluster bootstrap' in manuscript
+
+
+def test_initial_statistical_citations_have_bibliography_and_access_audit():
+    manuscript = (ROOT / 'docs/FCP_H123_MANUSCRIPT.md').read_text(encoding='utf-8')
+    audit = (ROOT / 'docs/FCP_H123_STATISTICAL_REFERENCES.md').read_text(encoding='utf-8')
+    prose, references = manuscript.split('## References — verified initial set')
+    for citation, doi in [('Lin, 1989', '10.2307/2532051'),
+                          ('Phipson & Smyth, 2010', '10.2202/1544-6115.1585'),
+                          ('Blomberg et al., 2003', '10.1111/j.0014-3820.2003.tb00285.x'),
+                          ('Jin & Qian, 2022', '10.1016/j.pld.2022.05.005')]:
+        assert citation in prose
+        assert references.count(doi) == 1
+        assert doi in audit
+    assert 'were not fully text-audited' in manuscript
+    assert 'does not establish the validity' in prose

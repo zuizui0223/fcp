@@ -48,6 +48,14 @@ of support for H1–H3, and historical frozen data/results must not be edited.
 
 ## Development checkpoint
 
+H1's operational split and resampling methods are now explicit, including
+blank-observer handling, the automatic 20/15/10 opportunity gate, paired-species
+bootstrap and within-species scope of observer disjointness. Table S5 preserves
+direct-split CCC and absolute disagreement as well as rank correlation. Shared
+observers across species are not ruled out; the bootstrap is not represented
+as observer-cluster robust. Source-flag counts are distinguished from the final
+half-analysis denominator. No split, classification or outcome was rerun.
+
 H3 Methods and Supplement Tables S3–S4 now preserve exact cohort/scenario
 bindings for raw, corrected and opportunity-adjusted results. Tree coverage
 matches the preflight manifest, including 22 unmatched reserve species that

@@ -23,6 +23,45 @@ and `results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.jso
 Their different partition rules and the latter's failed threshold must remain
 visible. No frozen result or threshold is changed by this correction.
 
+### Table S5. Direct H1 value agreement and finite-sample sensitivity
+
+| Cohort | Outcome | Species | Spearman rho | Lin CCC | Median absolute half difference | 90th percentile difference |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| discovery | D | 369 | 0.837015 | 0.866192 | 0.060547 | 0.176005 |
+| discovery | D_unbiased | 369 | 0.836795 | 0.867324 | 0.063492 | 0.183023 |
+| reserve | D | 363 | 0.810916 | 0.858294 | 0.062435 | 0.172113 |
+| reserve | D_unbiased | 363 | 0.811614 | 0.859420 | 0.064615 | 0.178916 |
+
+These are diagnostics from the direct split, not from the repeated or later
+strict split. CCC is `2*cov(A,B)/(var(A)+var(B)+(mean(A)-mean(B))^2)`, using
+population-divisor empirical variances/covariance in the retained implementation.
+It penalizes location/scale disagreement as well as imperfect correlation;
+Spearman rho alone does not do so. Absolute differences are in D units, not
+error relative to verified biological ground truth. D_unbiased multiplies each
+half's D by its own n/(n-1); it does not calibrate image classification.
+
+The [direct protocol](POLYMORPHISM_H1_OBSERVER_DISJOINT_D_PROTOCOL_20260913.md),
+[preflight implementation](../scripts/analysis/run_polymorphism_h1_observer_split_preflight_20260913.py)
+and [direct analysis implementation](../scripts/analysis/run_polymorphism_h1_observer_disjoint_d_20260913.py)
+were read, not executed, for this methods audit. The assignment and eligibility
+panel hashes are verified by the runner before reading state labels. The
+opportunity gate retained all 369/363 eligible species at 20 per half. This does
+not mean every source photograph contributes: the source cohorts each contain
+50,000 photos, but only 25,377 discovery and 24,885 reserve rows carry the
+classifiability flag before the species/observer/half filters. Those are source
+flag counts, not asserted final half-analysis totals.
+
+The direct bootstrap samples paired species indices, recomputing ranks after
+resampling. It accepts at least 99% finite draws; both raw-D cohorts report all
+5,000 finite draws. The same random generator then permutes the fixed half-B
+ranks 20,000 times, with a 1e-15 comparison tolerance. Seeds for raw D are
+20260914 (discovery) and 20261014 (reserve), with one added for corrected D.
+No bootstrap or permutation was rerun to create this table. The source hashes,
+test counts and agreement statistics do not prove historical non-access or
+independence across species. A globally observer-disjoint split or clustered
+uncertainty would require separately specified designs and qualification, not
+silent replacements of the frozen analysis.
+
 ## S2. H2 source and retrospective status
 
 `results/polymorphism_white_axis_targeted_test_20260912/result.json` records the
@@ -214,6 +253,12 @@ untouched validation set. Neither these metrics nor the JRC box qualification
 calibrates reflectance, ultraviolet signal or biological morph frequencies.
 
 ## S5. Package completion checklist
+
+The main bibliography now includes the verified Lin, Phipson–Smyth, Blomberg
+and V.PhyloMaker2 references. Their source access and bounded support are
+recorded in the [statistical-reference audit](FCP_H123_STATISTICAL_REFERENCES.md).
+This does not validate the particular FCP null or establish historical
+non-access. Lambda, regression and remaining model citations are still pending.
 
 Main Figure 1 is rendered by
 `scripts/analysis/make_h123_evidence_figure.py` using only the six retained
