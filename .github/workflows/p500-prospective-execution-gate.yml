@@ -1,0 +1,103 @@
+name: P500 prospective execution gate
+
+on:
+  push:
+    branches: [analysis/p500-prospective-execution-gate-20260915]
+    paths:
+      - fcp_pipeline/p500_prospective_execution_gate.py
+      - tests/test_p500_prospective_execution_gate.py
+      - .github/workflows/p500-prospective-execution-gate.yml
+      - docs/POLYMORPHISM_H2_P500_PROSPECTIVE_EXECUTION_GATE_20260915.md
+  pull_request:
+    paths:
+      - fcp_pipeline/p500_prospective_execution_gate.py
+      - tests/test_p500_prospective_execution_gate.py
+      - .github/workflows/p500-prospective-execution-gate.yml
+  workflow_dispatch:
+    inputs:
+      issue_start_receipt:
+        description: 'Issue a forward-only PREOPENING receipt for the next execution run'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: .
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run execution-gate tests
+        run: |
+          python -m pip install pytest
+          python -m pytest tests/test_p500_prospective_execution_gate.py -q
+      - name: Validate real frozen inputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from fcp_pipeline.p500_prospective_execution_gate import (
+              validate_authorization, validate_candidate_metadata)
+          candidate = json.loads(Path('results/polymorphism_h2_p500_candidate_metadata_20260913/result.json').read_text())
+          auth = json.loads(Path('docs/POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_AUTHORIZATION_20260915.json').read_text())
+          validate_candidate_metadata(candidate)
+          validate_authorization(auth)
+          print('frozen P500 candidate metadata and H2 authorization: PASS')
+          PY
+      - name: Verify future output namespace is unopened
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          forbidden = [
+              Path('results/polymorphism_h2_p500_prospective_execution_20260915'),
+              Path('data/measurement/polymorphism_h2_p500_prospective_v1'),
+          ]
+          existing = [str(p) for p in forbidden if p.exists()]
+          if existing:
+              raise SystemExit('prospective output namespace already exists: ' + ', '.join(existing))
+          print('prospective output namespace absent: PASS')
+          PY
+      - name: Save qualification receipt
+        env:
+          ISSUE_START: ${{ github.event_name == 'workflow_dispatch' && inputs.issue_start_receipt || false }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from fcp_pipeline.p500_prospective_execution_gate import build_start_record
+          issue = os.environ.get('ISSUE_START', 'false').lower() == 'true'
+          if issue:
+              record = build_start_record(
+                  branch=os.environ['GITHUB_REF_NAME'],
+                  head_sha=os.environ['GITHUB_SHA'],
+                  known_output_paths_absent=True,
+                  working_tree_inputs_verified=True,
+              )
+          else:
+              record = {
+                  'schema': 'p500_prospective_execution_qualification_v1',
+                  'branch': os.environ['GITHUB_REF_NAME'],
+                  'head_sha': os.environ['GITHUB_SHA'],
+                  'qualification_pass': True,
+                  'opening_authorized': False,
+                  'reason': 'qualification_only; dispatch with issue_start_receipt=true immediately before execution',
+              }
+          Path('p500-prospective-execution-gate.json').write_text(json.dumps(record, indent=2) + '\n')
+          print(json.dumps(record))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p500-prospective-execution-gate
+          path: p500-prospective-execution-gate.json
+          if-no-files-found: error
