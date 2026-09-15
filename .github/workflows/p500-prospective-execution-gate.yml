@@ -48,7 +48,7 @@ jobs:
           python-version: '3.12'
       - name: Run execution-gate tests
         run: |
-          python -m pip install pytest pandas numpy PyYAML
+          python -m pip install pytest pandas numpy scipy PyYAML
           python -m pytest tests/test_p500_prospective_execution_gate.py -q
       - name: Parse both P500 workflows as YAML
         run: |
