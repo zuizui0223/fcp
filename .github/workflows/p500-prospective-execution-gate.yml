@@ -209,12 +209,19 @@ jobs:
           Path('p500-prospective-execution-gate.json').write_text(json.dumps(record, indent=2) + '\n')
           print(json.dumps(record))
           PY
+      - name: Stage qualification artifact at a single root
+        run: |
+          rm -rf /tmp/p500-gate-artifact
+          mkdir -p /tmp/p500-gate-artifact
+          cp p500-prospective-execution-gate.json /tmp/p500-gate-artifact/
+          cp /tmp/p500-firewall/measurement_firewall_manifest.json /tmp/p500-gate-artifact/
+          cp /tmp/p500-firewall/partition_assignments.csv /tmp/p500-gate-artifact/
+          cp /tmp/p500-h2-executor-qualification/result.json /tmp/p500-gate-artifact/h2_executor_legacy_replay.json
+          test -f /tmp/p500-gate-artifact/p500-prospective-execution-gate.json
+          test -f /tmp/p500-gate-artifact/measurement_firewall_manifest.json
+          test -f /tmp/p500-gate-artifact/partition_assignments.csv
       - uses: actions/upload-artifact@v4
         with:
           name: p500-prospective-execution-gate
-          path: |
-            p500-prospective-execution-gate.json
-            /tmp/p500-h2-executor-qualification/result.json
-            /tmp/p500-firewall/measurement_firewall_manifest.json
-            /tmp/p500-firewall/partition_assignments.csv
+          path: /tmp/p500-gate-artifact
           if-no-files-found: error
