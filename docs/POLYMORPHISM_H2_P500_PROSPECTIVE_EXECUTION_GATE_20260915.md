@@ -35,34 +35,45 @@ A PREOPENING receipt can be created only by an explicit workflow dispatch with `
 1. validate the real frozen candidate metadata and prospective authorization;
 2. run the execution-gate test suite;
 3. verify that the designated prospective output namespaces do not yet exist;
-4. bind the receipt to the exact branch and 40-character `GITHUB_SHA`;
-5. record all preopening outcome flags as false.
+4. dry-run the complete 49,900-row location-blind firewall and verify all 256 partitions;
+5. bind the receipt to the exact branch and 40-character `GITHUB_SHA`;
+6. record all preopening outcome flags as false.
 
 The resulting artifact is forward-only evidence. A later image-opening workflow must consume and validate that exact receipt rather than synthesize its fields.
 
 ## Frozen execution ladder
 
-The execution may advance only one stage at a time:
+The global execution may advance only one stage at a time:
 
-`PREOPENING -> ACQUISITION_COMPLETE -> MEASUREMENT_COMPLETE -> REASSEMBLY_COMPLETE -> SUPPORT_GATE_COMPLETE -> H2_COMPLETE`
+`PREOPENING -> FIREWALL_FROZEN -> PARTITION_MEASUREMENT_COMPLETE -> REASSEMBLY_COMPLETE -> SUPPORT_GATE_COMPLETE -> H2_COMPLETE`
 
-Each transition fails closed.
+This ordering matches the safe implementation: each partition acquires its images, immediately measures them location-blind, seals terminal rows, and deletes pixels. The design therefore never requires all 49,900 images to be retained simultaneously.
 
-### ACQUISITION_COMPLETE
+### FIREWALL_FROZEN
 
-- exactly 49,900 frozen rows must have terminal acquisition states;
-- no replacement rows or species.
+- exactly 49,900 unique blinded measurement IDs;
+- two blind batches;
+- 32 semantic shards per batch;
+- four compute partitions per shard;
+- all 256 terminal partitions populated;
+- worker surface contains no species, coordinates, source URL, observer identity or biological outcome;
+- candidate pixels remain unopened.
 
-### MEASUREMENT_COMPLETE
+### PARTITION_MEASUREMENT_COMPLETE
 
-- exactly 49,900 terminal measurement rows;
-- exactly 256 terminal partitions;
+Across the complete 256-partition set:
+
+- exactly 49,900 frozen rows have terminal acquisition states;
+- exactly 49,900 rows have terminal measurement states;
+- all 256 terminal partitions are present;
+- no image pixels or masks are persisted after partition sealing;
 - no replacement rows or species.
 
 ### REASSEMBLY_COMPLETE
 
 - exactly 49,900 unique measurement IDs;
-- zero duplicate measurement IDs.
+- zero duplicate measurement IDs;
+- the sealed metadata-colour join opens only after complete partition coverage.
 
 ### SUPPORT_GATE_COMPLETE
 
@@ -81,6 +92,8 @@ H2 can open only after support `PASS`.
 
 The strict 20% sensitivity cannot rescue the primary 10% decision.
 
-## Current state after this change
+## Current qualification result
 
-This branch adds and tests the forward execution contract. It does **not** fetch images, decode pixels, run ROI/segmentation, open colour, compute D, or calculate H2. Until an explicit PREOPENING receipt is issued and consumed by a separately qualified execution workflow, the prospective P500 biological result remains unopened.
+The branch qualification has already reconstructed the real frozen inputs and dry-run the complete P500 firewall without opening pixels. The dry run retained 499 species / 49,900 rows and populated all 256 partitions under the exact inherited blind-measurement interface.
+
+This remains a technical qualification result only. No image was fetched or decoded by the qualification workflow, no ROI/segmentation was run, no colour outcome was opened, and no H2 statistic was calculated. The prospective biological result remains unopened until a PREOPENING receipt is explicitly issued and consumed by a separately qualified execution workflow.
