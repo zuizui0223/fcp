@@ -164,7 +164,7 @@ jobs:
           retention-days: 30
 
   generate-figures:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && startsWith(github.head_ref, 'analysis/34species-paper-')
     needs: reproduce-paper
     runs-on: ubuntu-latest
     timeout-minutes: 30
