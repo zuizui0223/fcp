@@ -151,6 +151,16 @@ calibrates reflectance, ultraviolet signal or biological morph frequencies.
 
 ## S5. Package completion checklist
 
+Main Figure 1 is rendered by
+`scripts/analysis/make_h123_evidence_figure.py` using only the six retained
+summary files named in its plotted-data JSON. It does not open photographs or
+fit models. PNG and vector PDF are provided, with LF-canonicalized source
+hashes (not replacements for original exact-byte provenance). Tests check
+source-to-plot data identity and repeated-render byte equality within one
+runtime. Cross-platform byte identity is not asserted. H1's partition spread
+and H2's null spread are explicitly distinguished from confidence intervals.
+The figure is an overview, not the complete set of supplementary diagnostics.
+
 - [ ] All source-to-number mappings checked automatically.
 - [ ] Dedicated main/supplement figures generated and visually inspected.
 - [ ] Methods and bibliographic references audited together.

@@ -48,6 +48,16 @@ of support for H1–H3, and historical frozen data/results must not be edited.
 
 ## Development checkpoint
 
+Main Figure 1 now presents frozen H1 reserve split comparisons, all four H2
+targeted comparisons, all H3a placement scenarios and both H3b cohorts. It
+retains the later strict H1 failure and H3 non-replication, distinguishes
+bootstrap intervals from partition/null ranges, and invents no unavailable
+H3 confidence intervals. PNG and the exported vector PDF were visually
+inspected after correcting overlapping footer text. Tests check the committed
+plot-data bindings and same-runtime duplicate rendering. Supplementary
+diagnostic figures and a full manuscript rendering are still required; this
+overview alone is not the complete submission package.
+
 H2 methods now distinguish square-root coordinates for clustering from original
 composition coordinates for displacement, fixed equal-species weighting, and
 the 999-world plus-one Monte Carlo rule. Supplement Table S2 preserves the

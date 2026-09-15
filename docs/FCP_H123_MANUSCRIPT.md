@@ -113,6 +113,23 @@ neither model predictions nor annotations were regenerated for this manuscript.
 
 ## Results
 
+![Frozen H1–H3 summary; distinct interval types and non-replication retained.](figures/h123/h123_evidence.png)
+
+**Figure 1. Frozen evidence summary.** (A) Reserve H1 rank repeatability:
+direct and later strict splits have bootstrap 95% intervals; the repeated-split
+row shows the median and 5th–95th percentiles across 200 partitions, not a
+confidence interval. The 0.80 line applies to the two deterministic split
+criteria only. (B) Observed W and structured-null median/central 95% range;
+the latter is a null distribution range, not uncertainty around observed W.
+(C) Raw Blomberg K across all three placement scenarios, retaining discovery
+and reserve; scenarios are not confidence bounds. (D) D–sampled-span correlation
+in each cohort. C–D have no confidence intervals in the retained summary and
+none are invented. P-values refer to each panel's original test, not differences
+between plotted estimates. H2 is retrospectively targeted, and none of the
+panels establishes anatomical measurement validity or a causal mechanism.
+[Vector PDF](figures/h123/h123_evidence.pdf) and
+[plotted values with source hashes](figures/h123/h123_evidence_data.json).
+
 ### H1: repeatability, not proof of biological accuracy
 
 The direct observer-disjoint reserve analysis includes all 363 eligible species:

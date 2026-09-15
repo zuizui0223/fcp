@@ -1,0 +1,192 @@
+{
+  "h1": [
+    {
+      "label": "Direct split",
+      "estimate": 0.8109164414604769,
+      "interval": [
+        0.7648383249147064,
+        0.8474976906537689
+      ],
+      "interval_type": "bootstrap 95% CI",
+      "n": 363
+    },
+    {
+      "label": "Later strict split",
+      "estimate": 0.7927276933213221,
+      "interval": [
+        0.7418679143323839,
+        0.832365877315184
+      ],
+      "interval_type": "bootstrap 95% CI",
+      "n": 363
+    },
+    {
+      "label": "200 partitions",
+      "estimate": 0.7891029925726101,
+      "interval": [
+        0.7651649940131238,
+        0.8109402582919217
+      ],
+      "interval_type": "partition 5th\u201395th percentiles",
+      "n": 329.0
+    }
+  ],
+  "h2": [
+    {
+      "label": "Primary: discovery",
+      "n": 152,
+      "observed": 0.5146245742375285,
+      "median": 0.43080780527625906,
+      "interval": [
+        0.4113669624650322,
+        0.44912902869042687
+      ],
+      "p": 0.001
+    },
+    {
+      "label": "Primary: reserve",
+      "n": 129,
+      "observed": 0.5145857778624214,
+      "median": 0.46654633703886256,
+      "interval": [
+        0.441993187595008,
+        0.48820967274963006
+      ],
+      "p": 0.001
+    },
+    {
+      "label": "Strict: discovery",
+      "n": 75,
+      "observed": 0.5423549779816461,
+      "median": 0.4436262712943979,
+      "interval": [
+        0.4181933934608043,
+        0.4675932356300413
+      ],
+      "p": 0.001
+    },
+    {
+      "label": "Strict: reserve",
+      "n": 65,
+      "observed": 0.5105174254190324,
+      "median": 0.4699433472497884,
+      "interval": [
+        0.43777872725859734,
+        0.5018264813445905
+      ],
+      "p": 0.008
+    }
+  ],
+  "h3a": [
+    {
+      "cohort": "discovery",
+      "scenario": "S1",
+      "n_tips": "368",
+      "K_raw": "0.10154886182042",
+      "p_K_raw": "0.0045",
+      "lambda_raw": "0.237590352465813",
+      "LR_lambda0": "30.8125376791679",
+      "p_lambda0": "2.84195766546041e-08",
+      "K_D_unbiased": "0.101679746037065",
+      "K_opportunity_residual": "0.0542389483177259",
+      "p_K_opportunity_residual": "0.4832"
+    },
+    {
+      "cohort": "discovery",
+      "scenario": "S2",
+      "n_tips": "368",
+      "K_raw": "0.0123781801781197",
+      "p_K_raw": "0.2209",
+      "lambda_raw": "0.235471842710578",
+      "LR_lambda0": "31.5416743323538",
+      "p_lambda0": "1.95205531258785e-08",
+      "K_D_unbiased": "0.0124626326920096",
+      "K_opportunity_residual": "0.000842861528196049",
+      "p_K_opportunity_residual": "0.9587"
+    },
+    {
+      "cohort": "discovery",
+      "scenario": "S3",
+      "n_tips": "368",
+      "K_raw": "0.0948838322161718",
+      "p_K_raw": "0.0093",
+      "lambda_raw": "0.236229916960327",
+      "LR_lambda0": "30.7445668231412",
+      "p_lambda0": "2.94326790314188e-08",
+      "K_D_unbiased": "0.0949806166177453",
+      "K_opportunity_residual": "0.0530428460992746",
+      "p_K_opportunity_residual": "0.4912"
+    },
+    {
+      "cohort": "reserve",
+      "scenario": "S1",
+      "n_tips": "341",
+      "K_raw": "0.071019005025099",
+      "p_K_raw": "0.2716",
+      "lambda_raw": "0.0485656664441525",
+      "LR_lambda0": "1.92148895940386",
+      "p_lambda0": "0.165692611266283",
+      "K_D_unbiased": "0.071224280948145",
+      "K_opportunity_residual": "0.0692909656655915",
+      "p_K_opportunity_residual": "0.35"
+    },
+    {
+      "cohort": "reserve",
+      "scenario": "S2",
+      "n_tips": "341",
+      "K_raw": "0.0601475597708986",
+      "p_K_raw": "0.4134",
+      "lambda_raw": "0.0511287826055403",
+      "LR_lambda0": "2.01731227097741",
+      "p_lambda0": "0.155514196096827",
+      "K_D_unbiased": "0.0602622694454869",
+      "K_opportunity_residual": "0.0653324817499505",
+      "p_K_opportunity_residual": "0.2464"
+    },
+    {
+      "cohort": "reserve",
+      "scenario": "S3",
+      "n_tips": "341",
+      "K_raw": "0.0707576659115146",
+      "p_K_raw": "0.2674",
+      "lambda_raw": "0.0474641311683462",
+      "LR_lambda0": "1.88084833982145",
+      "p_lambda0": "0.170237759709357",
+      "K_D_unbiased": "0.0709624481161725",
+      "K_opportunity_residual": "0.0691557064405095",
+      "p_K_opportunity_residual": "0.351"
+    }
+  ],
+  "h3b": [
+    {
+      "cohort": "discovery",
+      "n_species": "369",
+      "rho_D_span": "0.179878573301315",
+      "p_D_span": "0.000899955002249887",
+      "rho_Dunbiased_span": "0.179683190856683",
+      "p_Dunbiased_span": "0.0007999600019999",
+      "partial_rho_D_span": "0.158508478305538",
+      "p_partial_D_span": "0.00269986500674966"
+    },
+    {
+      "cohort": "reserve",
+      "n_species": "363",
+      "rho_D_span": "-0.00258554706615477",
+      "p_D_span": "0.958602069896505",
+      "rho_Dunbiased_span": "-0.00237424611498116",
+      "p_Dunbiased_span": "0.962901854907255",
+      "partial_rho_D_span": "0.00551866494325547",
+      "p_partial_D_span": "0.91620418979051"
+    }
+  ],
+  "source_sha256_lf": {
+    "results/polymorphism_h1_observer_disjoint_d_20260913/result.json": "3f76407e389173a5cd4357c21008e91b4a68ad96c088147580ce31c396bff561",
+    "results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.json": "91942c5676c0ee4828941422bfe22d76bb25293b69a78ced55d4719ca0ab7d50",
+    "results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json": "eea54d70159d7e71e72bdf92c40671246a383c63fb64b23626cf9bf98090caac",
+    "results/polymorphism_white_axis_targeted_test_20260912/result.json": "9afc86079f288f1c1a78adcbf3d76e3ef9eee856b6178510ec74bda4ceb1e631",
+    "docs/supporting/h123/h3a_signal_by_scenario.csv": "8b37b0edcdf0823351aad82d443d2ff6686d3684294855f20900e1770614f986",
+    "docs/supporting/h123/h3b_span_summary.csv": "a8f58d2cf7282ec8aa55fd5741eb34e9440112fd319710654c4f03c12551460b"
+  },
+  "scientific_results_recomputed": false,
+  "p500_opened": false
+}
