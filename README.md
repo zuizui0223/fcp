@@ -1,5 +1,22 @@
 # FCP — Repeated Global Flower-Colour Atlas (RGFCA)
 
+## Active publication route — H1–H3 (2026-09-15)
+
+The current paper concerns **photo-derived within-species colour diversity**:
+H1 observer-disjoint reproducibility, H2 retrospective white-versus-nonwhite
+geometry, and H3 phylogenetic/sampled-span tests that did not replicate.
+The [publication status](docs/FCP_H123_PUBLICATION_STATUS_20260915.md) governs
+current claims and remaining gates. Neither H1 reliability nor CI success
+establishes image-level biological accuracy. P500 pixels remain closed.
+
+The **34-species comparison is retired from both the main paper and its
+supplementary evidence**. Its files remain historical records, not an active
+submission package. Its reproduction workflow is manual-only. Six-species
+Stage A/B results also remain unchanged legacy evidence. The historical
+navigation below does not make either study a requirement for H1–H3 publication.
+
+## Historical programme and navigation (not the current paper)
+
 This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. `fcp` asks how intraspecific colour diversity is maintained or sorted across space; the complementary [`chun`](https://github.com/zuizui0223/chun) project asks how similar flower-colour states are repeatedly generated through evolutionary time. See [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md).
 
 The active research mainline is **RGFCA**: image-first measurement of global flower-colour variation, balanced repeated world maps and species-conditioned spatial and ecological inference. The six-species Chapter 1 analysis and 34-species literature comparison are **legacy studies**, retained for provenance and reproduction rather than used as the biological foundation of the new atlas.
