@@ -58,6 +58,39 @@ not a representative global sample. They must not be used to estimate worldwide
 polymorphism prevalence. The 34-species literature comparison and six-species
 spatial study are not analyses or supporting evidence in this manuscript.
 
+### Image measurement and admission
+
+The inherited ROI-v4 estimator combines a single-class YOLO11n flower detector
+(Jocher & Qiu, 2024) with EfficientSAM-Ti box-prompt segmentation
+(Xiong et al., 2024). The detector contract uses all
+400 JRC development images, 50 training epochs and the final epoch's weights,
+not an epoch selected on the locked test. At inference, detector confidence
+must be at least 0.25; the nonmaximum-suppression IoU threshold is 0.70 and
+at most 300 detections are retained. Each box prompts the fixed segmenter.
+The highest predicted-IoU mask is thresholded at logit zero, intersected with
+its detector box, and retained if it contains at least nine analysis-canvas
+pixels. Retained masks are pooled without a focal-species or petal selector.
+
+Admission requires at least 100 flower and 100 background pixels in the
+original image, together with horizontal-flip mask IoU >=0.50 and colour
+Delta E <=5.0. These consistency filters do not demonstrate anatomical
+accuracy. Colour classification uses EXIF-oriented RGB pixels under the
+original-orientation flower mask. Pixels are assigned to fixed palette
+anchors in the frozen sRGB-to-D65 CIELAB space. Green, brown and black anchors
+are excluded from the denominator of the nine retained palette fractions;
+these are therefore not fractions of all segmented pixels.
+
+Nine fractions are combined into four groups: white; yellow/orange/bronze;
+red/pink/magenta; and blue/purple. A photo receives a retained state only if
+the dominant group is at least 0.50 and exceeds the second group by at least
+0.10. Insufficient pixels, absent retained-palette mass, ambiguous composition,
+ROI/flip failure and acquisition failure remain non-classified terminal rows,
+not a fifth morph or replacement observations. H1 and H2 consequently describe
+the admitted image measurements, not all observed flowers. Supplement S4
+records the source contracts, model identities and measurement limitations.
+
+### Hypothesis tests
+
 H1 uses D = 1 - sum(p_k squared) for white, yellow/orange, red/pink and
 blue/purple image states; mixed/uncertain is excluded from those four states.
 The direct analysis groups classifiable rows into indivisible observer blocks
@@ -332,6 +365,9 @@ Jin, Y., & Qian, H. (2022). V.PhyloMaker2: An updated and enlarged R package
 that can generate very large phylogenies for vascular plants. Plant Diversity,
 44(4), 335–339. https://doi.org/10.1016/j.pld.2022.05.005
 
+Jocher, G., & Qiu, J. (2024). Ultralytics YOLO11 [Computer software].
+https://github.com/ultralytics/ultralytics
+
 Laitly, A., Callaghan, C. T., Delhey, K., & Cornwell, W. K. (2021). Is color data
 from citizen science photographs reliable for biodiversity research? Ecology
 and Evolution, 11(9), 4071–4083. https://doi.org/10.1002/ece3.7307
@@ -356,11 +392,20 @@ free software suite for objectively measuring reflectance, colour and pattern.
 Methods in Ecology and Evolution, 6(11), 1320–1331.
 https://doi.org/10.1111/2041-210X.12439
 
+Xiong, Y., Varadarajan, B., Wu, L., Xiang, X., Xiao, F., Zhu, C., Dai, X., Wang,
+D., Sun, F., Iandola, F., Krishnamoorthi, R., & Chandra, V. (2024).
+EfficientSAM: Leveraged masked image pretraining for efficient segment anything.
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern
+Recognition (CVPR), 16111–16121.
+https://openaccess.thecvf.com/content/CVPR2024/html/Xiong_EfficientSAM_Leveraged_Masked_Image_Pretraining_for_Efficient_Segment_Anything_CVPR_2024_paper.html
+
 Access details and non-transferability limits are recorded in the
 [measurement-reference audit](FCP_H123_MEASUREMENT_REFERENCES.md) and
 [statistical-reference audit](FCP_H123_STATISTICAL_REFERENCES.md). Lin and
 V.PhyloMaker2 were not fully text-audited; the audit records the exact accessible
 sections and limits. The [phylogenetic-reference audit](FCP_H123_PHYLOGENETIC_REFERENCES.md)
 records Pagel and phylolm references, official model documentation and original
-full-text access limits. Image-model references and remaining
-statistical/ecological context still require verification.
+full-text access limits. The [image-model reference audit](FCP_H123_IMAGE_MODEL_REFERENCES.md)
+distinguishes the EfficientSAM publication from the YOLO11 software citation,
+with exact model identities in Supplement S4. Remaining statistical/ecological
+context and full submission-package checks are still incomplete.

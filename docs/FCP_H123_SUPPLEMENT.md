@@ -218,6 +218,39 @@ ecological results.
 
 ## S4. Measurement failures and unqualified gates
 
+### Fixed estimator and palette provenance
+
+The Methods reconstruction uses measurement source commit
+`9fae6ccdf684a46026f72ba12e98de2c5c54bf2a`, specifically its
+[ROI-v4 contract](https://github.com/zuizui0223/fcp/blob/9fae6ccdf684a46026f72ba12e98de2c5c54bf2a/docs/supporting/jbi_atlas_roi_estimator_contract_v4.json),
+[measurement contract](https://github.com/zuizui0223/fcp/blob/9fae6ccdf684a46026f72ba12e98de2c5c54bf2a/docs/supporting/random_photo_first_measurement_contract_v1.json),
+and [blind measurement runner](https://github.com/zuizui0223/fcp/blob/9fae6ccdf684a46026f72ba12e98de2c5c54bf2a/scripts/analysis/measure_random_photo_first_blind_partition.py).
+These were inspected without decoding images or rerunning the estimator.
+
+The detector's trained-weight SHA256 is
+`f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5`.
+The EfficientSAM source revision is `d525f622e6f640acf5a0fc37c7ca1f243da5bde0`,
+with encoder SHA256
+`84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951`
+and decoder SHA256
+`a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11`.
+The contract specifies Ultralytics 8.4.112 and ONNX Runtime 1.23.2; these
+contract settings are not an independently recreated software environment.
+
+The 1024-by-1024 segmentation canvas preserves aspect ratio with padding;
+colour values come from original-image pixels, not the padded canvas.
+Background is derived from expanded detector boxes minus original boxes and
+flower masks. Neither those background pixels nor a passing flip check
+certifies petal purity. A zero-logit hard mask is not a calibrated confidence
+threshold for biological anatomy.
+
+The twelve palette anchors and grouping rules remain fixed in the linked
+contract. Removing green, brown and black before normalizing the remaining
+nine fractions changes the colour denominator; it does not establish that
+those removed pixels were contaminants or that genuine flowers cannot have
+those colours. The descriptor is limited to that retained palette. Generic
+palette reuse does not import the legacy six-species results as H1–H3 evidence.
+
 Retain `docs/RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md` and
 `docs/RGFCA_ROI_QUALIFICATION_AUDIT.md` as measurement limitations.
 P500 implementation qualification is documented in
