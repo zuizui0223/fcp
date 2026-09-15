@@ -1,0 +1,293 @@
+name: P500 prospective location-blind measurement
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_receipt_run_id:
+        description: 'Successful P500 execution-gate workflow_dispatch run that issued the PREOPENING receipt at this exact HEAD'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONPATH: .
+  EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
+  EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
+  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+
+concurrency:
+  group: p500-prospective-location-blind-measurement
+  cancel-in-progress: false
+
+jobs:
+  authorize-and-build-firewall:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install preopening dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy
+      - name: Fetch and authenticate exact PREOPENING receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          START_RUN_ID: ${{ inputs.start_receipt_run_id }}
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/start
+          mkdir -p /tmp/start
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${START_RUN_ID}" > /tmp/start/run.json
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          r = json.loads(Path('/tmp/start/run.json').read_text())
+          if str(r.get('head_sha')) != os.environ['GITHUB_SHA']:
+              raise SystemExit('PREOPENING run head SHA differs from measurement HEAD')
+          if r.get('event') != 'workflow_dispatch':
+              raise SystemExit('PREOPENING evidence must come from workflow_dispatch')
+          if r.get('status') != 'completed' or r.get('conclusion') != 'success':
+              raise SystemExit('PREOPENING workflow run is not successful and complete')
+          if r.get('name') != 'P500 prospective execution gate':
+              raise SystemExit('PREOPENING run came from the wrong workflow')
+          print({'start_run': r['id'], 'head_sha': r['head_sha'], 'workflow': r['name']})
+          PY
+          gh run download "${START_RUN_ID}" --repo "${GITHUB_REPOSITORY}" \
+            --name p500-prospective-execution-gate --dir /tmp/start/artifact
+          test -f /tmp/start/artifact/p500-prospective-execution-gate.json
+          test -f /tmp/start/artifact/measurement_firewall_manifest.json
+          test -f /tmp/start/artifact/partition_assignments.csv
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          from fcp_pipeline.p500_prospective_execution_gate import validate_start_record
+          record = json.loads(Path('/tmp/start/artifact/p500-prospective-execution-gate.json').read_text())
+          validate_start_record(record, expected_head_sha=os.environ['GITHUB_SHA'])
+          if record.get('branch') != 'analysis/p500-prospective-execution-gate-20260915':
+              raise SystemExit('PREOPENING branch mismatch')
+          print('PREOPENING receipt: PASS')
+          PY
+      - name: Materialize exact inherited blind-measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Build exact P500 firewall and match PREOPENING dry run
+        run: |
+          rm -rf /tmp/firewall
+          python scripts/analysis/build_p500_prospective_measurement_firewall.py --output-dir /tmp/firewall
+          cmp /tmp/firewall/measurement_firewall_manifest.json /tmp/start/artifact/measurement_firewall_manifest.json
+          cmp /tmp/firewall/partition_assignments.csv /tmp/start/artifact/partition_assignments.csv
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from fcp_pipeline.p500_prospective_execution_gate import validate_stage_transition
+          pre = {
+              'stage': 'PREOPENING', 'species': 499, 'rows': 49900,
+              'replacement_rows': 0, 'replacement_species': 0,
+          }
+          m = json.loads(Path('/tmp/firewall/measurement_firewall_manifest.json').read_text())
+          cur = {
+              'stage': 'FIREWALL_FROZEN', 'species': m['species'], 'rows': m['rows'],
+              'replacement_rows': 0, 'replacement_species': 0,
+              'measurement_ids': m['measurement_ids'],
+              'terminal_partitions': m['terminal_partitions'],
+              'candidate_pixels_opened': m['candidate_pixels_opened'],
+          }
+          validate_stage_transition(pre, cur)
+          print('P500 FIREWALL_FROZEN: PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p500-prospective-measurement-firewall-v1
+          if-no-files-found: error
+          retention-days: 14
+          path: /tmp/firewall
+
+  measure-partition:
+    needs: authorize-and-build-firewall
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        measurement_batch: [0, 1]
+        semantic_shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        compute_partition: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Materialize exact inherited measurement infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install exact CPU measurement runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e . -r requirements-atlas-roi-v4.txt
+      - name: Download exact EfficientSAM weights
+        run: |
+          rm -rf /tmp/efficient-sam
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+      - uses: actions/download-artifact@v4
+        with:
+          name: p500-prospective-measurement-firewall-v1
+          path: /tmp/firewall
+      - name: Acquire one frozen blind partition into ephemeral filenames
+        run: |
+          B=${{ matrix.measurement_batch }}
+          rm -rf /tmp/acquisition
+          python scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            --worker-manifest /tmp/firewall/batch_${B}/worker_packet/measurement_manifest.csv \
+            --acquisition-key /tmp/firewall/batch_${B}/sealed_keys/acquisition_key.csv \
+            --output-dir /tmp/acquisition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+      - name: Delete source-URL surface before colour measurement
+        run: |
+          rm -rf /tmp/blind /tmp/safe-acquisition
+          mkdir -p /tmp/blind/images /tmp/safe-acquisition
+          cp /tmp/acquisition/successful_worker_manifest.csv /tmp/blind/measurement_manifest.csv
+          cp -a /tmp/acquisition/ephemeral_images/. /tmp/blind/images/
+          cp /tmp/acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/selected_blind_manifest.csv
+          cp /tmp/acquisition/acquisition_failures.csv /tmp/safe-acquisition/acquisition_failures.csv
+          cp /tmp/acquisition/acquisition_receipt.csv /tmp/safe-acquisition/acquisition_receipt.csv
+          rm -rf /tmp/firewall /tmp/acquisition
+          test ! -e /tmp/firewall
+          test ! -e /tmp/acquisition
+          ! grep -R -E "photo_url|latitude|longitude|species|observer|taxon" \
+            /tmp/blind /tmp/safe-acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/acquisition_receipt.csv
+      - name: Run frozen ROI-v4 and fixed palette location-blind
+        run: |
+          python scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --worker-manifest /tmp/blind/measurement_manifest.csv \
+            --images-dir /tmp/blind/images \
+            --detector-weight data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --efficient-sam-dir /tmp/efficient-sam \
+            --output-csv /tmp/blind_measurement_results.csv
+      - name: Seal terminal partition and destroy pixels
+        run: |
+          rm -rf /tmp/sealed-partition
+          python scripts/analysis/seal_random_photo_first_measurement_partition.py \
+            --selected-blind-manifest /tmp/safe-acquisition/selected_blind_manifest.csv \
+            --acquisition-failures /tmp/safe-acquisition/acquisition_failures.csv \
+            --measurement-results /tmp/blind_measurement_results.csv \
+            --output-dir /tmp/sealed-partition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+          B=${{ matrix.measurement_batch }}
+          for F in /tmp/sealed-partition/partition_s*_p*; do
+            BASE=$(basename "$F")
+            mv "$F" "/tmp/sealed-partition/b${B}_${BASE}"
+          done
+          rm -rf /tmp/blind /tmp/efficient-sam /tmp/safe-acquisition /tmp/blind_measurement_results.csv
+          test ! -e /tmp/blind
+          test ! -e /tmp/efficient-sam
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('/tmp/sealed-partition')
+          forbidden = {'photo_url','photo_url_large','latitude','longitude','species','observer','observer_id','inat_taxon_id'}
+          csv_files = sorted(root.glob('*.csv'))
+          json_files = sorted(root.glob('*.json'))
+          assert len(csv_files) == len(json_files) == 1
+          with csv_files[0].open(newline='', encoding='utf-8') as fh:
+              header = next(csv.reader(fh), [])
+          assert not forbidden.intersection(header)
+          receipt = json.loads(json_files[0].read_text())
+          assert receipt['source_urls_present'] is False
+          assert receipt['species_present'] is False
+          assert receipt['coordinates_present'] is False
+          print('P500 sealed partition firewall: PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p500-terminal-b${{ matrix.measurement_batch }}-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/sealed-partition
+
+  reassemble-and-support-gate:
+    needs: measure-partition
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Materialize exact inherited reassembly infrastructure
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install reassembly dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy
+      - uses: actions/download-artifact@v4
+        with:
+          name: p500-prospective-measurement-firewall-v1
+          path: /tmp/firewall
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: p500-terminal-*
+          path: /tmp/partition-results
+          merge-multiple: true
+      - name: Require complete 256-partition census before metadata-colour join
+        run: |
+          rm -rf results/polymorphism_h2_p500_prospective_execution_20260915
+          mkdir -p results/polymorphism_h2_p500_prospective_execution_20260915
+          python scripts/analysis/reassemble_p500_prospective_measurement.py \
+            --results-dir /tmp/partition-results \
+            --worker-batch0 /tmp/firewall/batch_0/worker_packet/measurement_manifest.csv \
+            --worker-batch1 /tmp/firewall/batch_1/worker_packet/measurement_manifest.csv \
+            --metadata-join-key /tmp/firewall/sealed_keys/metadata_join_key.csv \
+            --firewall-manifest /tmp/firewall/measurement_firewall_manifest.json \
+            --output-csv-gz results/polymorphism_h2_p500_prospective_execution_20260915/measured_photos.csv.gz \
+            --output-support results/polymorphism_h2_p500_prospective_execution_20260915/species_support.csv \
+            --output-manifest results/polymorphism_h2_p500_prospective_execution_20260915/measurement_result.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('results/polymorphism_h2_p500_prospective_execution_20260915/measurement_result.json').read_text())
+          assert r['status'] == 'complete_p500_location_blind_measurement_and_support_gate'
+          assert r['species'] == 499 and r['rows'] == 49900
+          assert r['partition_receipts'] == 256 and r['terminal_rows'] == 49900
+          assert r['joined_rows'] == 49900
+          assert r['H2_opened'] is False
+          assert r['persisted_image_pixels'] is False
+          print(json.dumps(r, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p500-prospective-measurement-result-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_h2_p500_prospective_execution_20260915
