@@ -6,15 +6,19 @@ on:
     paths:
       - fcp_pipeline/p500_prospective_execution_gate.py
       - scripts/analysis/build_p500_prospective_measurement_firewall.py
+      - scripts/analysis/reassemble_p500_prospective_measurement.py
       - tests/test_p500_prospective_execution_gate.py
       - .github/workflows/p500-prospective-execution-gate.yml
+      - .github/workflows/p500-prospective-location-blind-measurement.yml
       - docs/POLYMORPHISM_H2_P500_PROSPECTIVE_EXECUTION_GATE_20260915.md
   pull_request:
     paths:
       - fcp_pipeline/p500_prospective_execution_gate.py
       - scripts/analysis/build_p500_prospective_measurement_firewall.py
+      - scripts/analysis/reassemble_p500_prospective_measurement.py
       - tests/test_p500_prospective_execution_gate.py
       - .github/workflows/p500-prospective-execution-gate.yml
+      - .github/workflows/p500-prospective-location-blind-measurement.yml
   workflow_dispatch:
     inputs:
       issue_start_receipt:
@@ -42,8 +46,21 @@ jobs:
           python-version: '3.12'
       - name: Run execution-gate tests
         run: |
-          python -m pip install pytest pandas numpy
+          python -m pip install pytest pandas numpy PyYAML
           python -m pytest tests/test_p500_prospective_execution_gate.py -q
+      - name: Parse both P500 workflows as YAML
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+          for p in [
+              Path('.github/workflows/p500-prospective-execution-gate.yml'),
+              Path('.github/workflows/p500-prospective-location-blind-measurement.yml'),
+          ]:
+              obj = yaml.safe_load(p.read_text())
+              assert isinstance(obj, dict) and 'jobs' in obj
+              print(f'{p}: YAML PASS')
+          PY
       - name: Validate real frozen inputs
         run: |
           python - <<'PY'
@@ -72,6 +89,12 @@ jobs:
           PY
       - name: Materialize exact inherited blind-measurement interface
         run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Compile prospective execution scripts against inherited interface
+        run: |
+          python -m py_compile \
+            fcp_pipeline/p500_prospective_execution_gate.py \
+            scripts/analysis/build_p500_prospective_measurement_firewall.py \
+            scripts/analysis/reassemble_p500_prospective_measurement.py
       - name: Dry-run complete 49,900-row firewall construction without pixels
         run: |
           rm -rf /tmp/p500-firewall
@@ -116,6 +139,7 @@ jobs:
                   'head_sha': os.environ['GITHUB_SHA'],
                   'qualification_pass': True,
                   'firewall_dry_run_pass': True,
+                  'measurement_workflow_yaml_pass': True,
                   'opening_authorized': False,
                   'reason': 'qualification_only; dispatch with issue_start_receipt=true immediately before execution',
               }
