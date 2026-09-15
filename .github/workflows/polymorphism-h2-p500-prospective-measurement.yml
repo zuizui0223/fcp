@@ -1,0 +1,279 @@
+name: Prospective H2 P500 location-blind measurement
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "docs/POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_AUTHORIZATION_20260915.json"
+
+permissions:
+  contents: read
+
+env:
+  EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
+  EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
+  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+  PROTOCOL_COMMIT: "b90dc53e90cc26d7c797bdc26d4e07848ad16016"
+  TARGET_BRANCH: "analysis/polymorphism-42111-h1-h2-gates-20260912"
+
+concurrency:
+  group: polymorphism-h2-p500-prospective-measurement
+  cancel-in-progress: false
+
+jobs:
+  authorize-and-build-firewall:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Materialize exact validated legacy measurement machine
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+      - name: Require exact one-shot prospective authorization
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          auth = json.loads(Path('docs/POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_AUTHORIZATION_20260915.json').read_text())
+          assert auth['status'] == 'authorize_exactly_one_prospective_h2_p500_location_blind_measurement'
+          assert auth['branch'] == 'analysis/polymorphism-42111-h1-h2-gates-20260912'
+          assert auth['protocol_commit'] == 'b90dc53e90cc26d7c797bdc26d4e07848ad16016'
+          assert auth['frozen_species'] == 499
+          assert auth['frozen_rows'] == 49900
+          assert auth['target_rows_per_species'] == 100
+          assert auth['measurement_machine_source_commit'] == '9fae6ccdf684a46026f72ba12e98de2c5c54bf2a'
+          assert auth['P500_sha256'] == 'f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4'
+          assert auth['metadata_sha256'] == 'a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595'
+          assert auth['full100_species_sha256'] == '568a64e692dc21f4a5f76c5eadb615a63b07d71f01bc9cd91e8496ccd0fa3f9e'
+          assert auth['H2_target'] == 'fixed_q_white_W_structured_null'
+          print(json.dumps(auth, indent=2, sort_keys=True))
+          PY
+          LAST=$(git log -1 --format=%H -- docs/POLYMORPHISM_H2_P500_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260915.md)
+          test "$LAST" = "$PROTOCOL_COMMIT"
+          git fetch origin "$TARGET_BRANCH"
+          if git cat-file -e "origin/$TARGET_BRANCH:results/polymorphism_h2_p500_prospective_measurement_20260915/result.json" 2>/dev/null; then
+            echo "prospective P500 measurement result already exists on target branch; rerun forbidden"
+            exit 1
+          fi
+      - name: Syntax-check prospective implementation before pixels
+        run: |
+          python -m py_compile \
+            scripts/analysis/build_polymorphism_h2_p500_measurement_firewall_20260915.py \
+            scripts/analysis/reassemble_polymorphism_h2_p500_measurement_20260915.py \
+            scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py
+      - name: Build P500 location-blind firewall before pixels
+        run: |
+          rm -rf /tmp/h2p500-firewall
+          python scripts/analysis/build_polymorphism_h2_p500_measurement_firewall_20260915.py \
+            --output-dir /tmp/h2p500-firewall
+      - uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-h2-p500-measurement-firewall-v1
+          if-no-files-found: error
+          retention-days: 14
+          path: /tmp/h2p500-firewall
+
+  measure-partition:
+    needs: authorize-and-build-firewall
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        measurement_batch: [0, 1]
+        semantic_shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        compute_partition: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Materialize exact validated legacy measurement machine
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install exact CPU measurement runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e . -r requirements-atlas-roi-v4.txt
+      - name: Download exact EfficientSAM weights
+        run: |
+          rm -rf /tmp/efficient-sam
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+      - uses: actions/download-artifact@v4
+        with:
+          name: polymorphism-h2-p500-measurement-firewall-v1
+          path: /tmp/firewall
+      - name: Acquire one frozen blind partition
+        run: |
+          B=${{ matrix.measurement_batch }}
+          rm -rf /tmp/acquisition
+          python scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            --worker-manifest /tmp/firewall/batch_${B}/worker_packet/measurement_manifest.csv \
+            --acquisition-key /tmp/firewall/batch_${B}/sealed_keys/acquisition_key.csv \
+            --output-dir /tmp/acquisition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+      - name: Remove source-URL and metadata surfaces before colour measurement
+        run: |
+          rm -rf /tmp/blind /tmp/safe-acquisition
+          mkdir -p /tmp/blind/images /tmp/safe-acquisition
+          cp /tmp/acquisition/successful_worker_manifest.csv /tmp/blind/measurement_manifest.csv
+          cp -a /tmp/acquisition/ephemeral_images/. /tmp/blind/images/
+          cp /tmp/acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/selected_blind_manifest.csv
+          cp /tmp/acquisition/acquisition_failures.csv /tmp/safe-acquisition/acquisition_failures.csv
+          cp /tmp/acquisition/acquisition_receipt.csv /tmp/safe-acquisition/acquisition_receipt.csv
+          rm -rf /tmp/firewall /tmp/acquisition
+          test ! -e /tmp/firewall
+          test ! -e /tmp/acquisition
+          ! grep -R -E "photo_url|latitude|longitude|species|observer|taxon" /tmp/blind /tmp/safe-acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/acquisition_receipt.csv
+      - name: Run unchanged ROI-v4 and fixed palette location blind
+        run: |
+          python scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --worker-manifest /tmp/blind/measurement_manifest.csv \
+            --images-dir /tmp/blind/images \
+            --detector-weight data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --efficient-sam-dir /tmp/efficient-sam \
+            --output-csv /tmp/blind_measurement_results.csv
+      - name: Seal exact terminal partition and delete pixels
+        run: |
+          rm -rf /tmp/sealed-partition
+          python scripts/analysis/seal_random_photo_first_measurement_partition.py \
+            --selected-blind-manifest /tmp/safe-acquisition/selected_blind_manifest.csv \
+            --acquisition-failures /tmp/safe-acquisition/acquisition_failures.csv \
+            --measurement-results /tmp/blind_measurement_results.csv \
+            --output-dir /tmp/sealed-partition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+          B=${{ matrix.measurement_batch }}
+          for F in /tmp/sealed-partition/partition_s*_p*; do
+            BASE=$(basename "$F")
+            mv "$F" "/tmp/sealed-partition/b${B}_${BASE}"
+          done
+          rm -rf /tmp/blind /tmp/efficient-sam /tmp/safe-acquisition /tmp/blind_measurement_results.csv
+          test ! -e /tmp/blind
+          test ! -e /tmp/efficient-sam
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('/tmp/sealed-partition')
+          forbidden = {'photo_url','photo_url_large','latitude','longitude','species','observer','observer_id','inat_taxon_id'}
+          csv_files = sorted(root.glob('*.csv'))
+          json_files = sorted(root.glob('*.json'))
+          assert len(csv_files) == len(json_files) == 1
+          with csv_files[0].open(newline='', encoding='utf-8') as fh:
+              header = next(csv.reader(fh), [])
+          assert not forbidden.intersection(header)
+          receipt = json.loads(json_files[0].read_text())
+          assert receipt['source_urls_present'] is False
+          assert receipt['species_present'] is False
+          assert receipt['coordinates_present'] is False
+          print('p500_sealed_partition_firewall=pass')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h2-p500-terminal-b${{ matrix.measurement_batch }}-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/sealed-partition
+
+  reassemble-and-test:
+    needs: measure-partition
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Materialize exact validated legacy measurement machine
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install analysis runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . scipy
+      - uses: actions/download-artifact@v4
+        with:
+          name: polymorphism-h2-p500-measurement-firewall-v1
+          path: /tmp/firewall
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: h2-p500-terminal-*
+          path: /tmp/partition-results
+          merge-multiple: true
+      - name: Require all 256 terminal receipts then open metadata-colour join
+        run: |
+          mkdir -p results/polymorphism_h2_p500_prospective_measurement_20260915
+          python scripts/analysis/reassemble_polymorphism_h2_p500_measurement_20260915.py \
+            --results-dir /tmp/partition-results \
+            --worker-batch0 /tmp/firewall/batch_0/worker_packet/measurement_manifest.csv \
+            --worker-batch1 /tmp/firewall/batch_1/worker_packet/measurement_manifest.csv \
+            --metadata-join-key /tmp/firewall/sealed_keys/metadata_join_key.csv \
+            --firewall-manifest /tmp/firewall/measurement_firewall_manifest.json \
+            --output-csv data/derived/polymorphism_h2_p500_measured_photos_v1.csv \
+            --support-csv data/derived/polymorphism_h2_p500_measurement_species_support_v1.csv \
+            --output-json results/polymorphism_h2_p500_prospective_measurement_20260915/result.json
+      - name: Run only the frozen prospective q_white/W test after support gate
+        run: |
+          python scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py \
+            --measured-csv data/derived/polymorphism_h2_p500_measured_photos_v1.csv \
+            --measurement-result results/polymorphism_h2_p500_prospective_measurement_20260915/result.json \
+            --output-dir results/polymorphism_h2_p500_prospective_white_axis_20260915
+      - uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-h2-p500-prospective-result-20260915
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/derived/polymorphism_h2_p500_measured_photos_v1.csv
+            data/derived/polymorphism_h2_p500_measurement_species_support_v1.csv
+            results/polymorphism_h2_p500_prospective_measurement_20260915
+            results/polymorphism_h2_p500_prospective_white_axis_20260915
+      - name: Commit immutable prospective measurement and H2 result
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/polymorphism_h2_p500_measured_photos_v1.csv \
+            data/derived/polymorphism_h2_p500_measurement_species_support_v1.csv \
+            results/polymorphism_h2_p500_prospective_measurement_20260915 \
+            results/polymorphism_h2_p500_prospective_white_axis_20260915
+          git commit -m "complete prospective P500 H2 white-axis test"
+          for attempt in 1 2 3 4; do
+            git fetch origin "$TARGET_BRANCH"
+            git rebase "origin/$TARGET_BRANCH"
+            if git push origin "HEAD:$TARGET_BRANCH"; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
