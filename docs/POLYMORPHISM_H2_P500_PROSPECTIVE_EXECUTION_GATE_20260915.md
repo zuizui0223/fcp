@@ -96,4 +96,8 @@ The strict 20% sensitivity cannot rescue the primary 10% decision.
 
 The branch qualification has already reconstructed the real frozen inputs and dry-run the complete P500 firewall without opening pixels. The dry run retained 499 species / 49,900 rows and populated all 256 partitions under the exact inherited blind-measurement interface.
 
+The H2 executor was additionally qualified by rebuilding the legacy discovery/reserve Delta vectors, matching the committed frozen `result.json`, and requiring exact equality of all 999 structured-null draws between the legacy and prospective executors in all four primary/strict × discovery/reserve cases.
+
+A legacy 34-species figure workflow subsequently moved the PR head without changing any P500 scientific input or implementation. Because PREOPENING evidence is bound to an exact commit SHA, that head move is treated conservatively as invalidating the earlier head-specific qualification. This document update intentionally triggers a fresh P500 qualification on the new post-figure head; no first pixel may open until that fresh qualification succeeds.
+
 This remains a technical qualification result only. No image was fetched or decoded by the qualification workflow, no ROI/segmentation was run, no colour outcome was opened, and no H2 statistic was calculated. The prospective biological result remains unopened until a PREOPENING receipt is explicitly issued and consumed by a separately qualified execution workflow.
