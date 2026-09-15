@@ -147,3 +147,35 @@ def test_h2_labeled_table_matches_frozen_targeted_result():
     assert result['structured_null_replicates'] == 999
     assert '**not reapplied**' in supplement
     assert 'not uncertainty intervals' in supplement
+
+
+def test_h3_sensitivity_tables_match_each_cohort_and_scenario():
+    supplement = (ROOT / 'docs/FCP_H123_SUPPLEMENT.md').read_text(encoding='utf-8')
+    base = ROOT / 'docs/supporting/h123'
+    with (base / 'h3a_signal_by_scenario.csv').open(newline='') as f:
+        rows = list(csv.DictReader(f))
+    assert {(r['cohort'], r['scenario']) for r in rows} == {
+        (c, s) for c in ('discovery', 'reserve') for s in ('S1', 'S2', 'S3')}
+    for r in rows:
+        values = ' | '.join(f"{float(r[k]):.{digits}f}" for k, digits in [
+            ('K_raw', 6), ('p_K_raw', 4), ('lambda_raw', 6), ('p_lambda0', 8),
+            ('K_opportunity_residual', 6), ('p_K_opportunity_residual', 4)])
+        assert f"| {r['cohort']} | {r['scenario']} | {r['n_tips']} | {values} |" in supplement
+    with (base / 'h3b_span_summary.csv').open(newline='') as f:
+        rows = list(csv.DictReader(f))
+    for r in rows:
+        for label, rho, p in [('Raw D', 'rho_D_span', 'p_D_span'),
+                              ('Corrected D', 'rho_Dunbiased_span', 'p_Dunbiased_span'),
+                              ('Partial ranks', 'partial_rho_D_span', 'p_partial_D_span')]:
+            assert (f"| {r['cohort']} | {r['n_species']} | {label} | "
+                    f"{float(r[rho]):.6f} | {float(r[p]):.6f} |") in supplement
+    assert 'Non-support does not establish equivalence' in supplement
+
+
+def test_h3_coverage_matches_frozen_tree_manifest():
+    manifest = json.loads((ROOT / 'results/polymorphism_h3a_phylogeny_preflight_20260912/frozen_tree_manifest.json').read_text())
+    manuscript = (ROOT / 'docs/FCP_H123_MANUSCRIPT.md').read_text(encoding='utf-8')
+    for r in manifest['cohorts'].values():
+        assert f"{r['retained_tips_each_scenario']}/{r['eligible_species']}" in manuscript
+        assert r['retained_tips_each_scenario'] / r['eligible_species'] >= .9
+    assert 'unmatched species are not assigned zero signal' in manuscript

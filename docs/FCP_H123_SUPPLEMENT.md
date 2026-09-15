@@ -99,6 +99,70 @@ Windows checkout conversion. This does not rewrite any original exact-artifact
 contract. Manuscript H3 values are checked against these tables. This verifies
 reporting, not independent reconstruction of tree models or permutation draws.
 
+### Table S3. H3a: raw and opportunity-adjusted phylogenetic signal
+
+| Cohort | Scenario | Tips | Raw K | Raw K p | Lambda | Lambda p | Residual K | Residual K p |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| discovery | S1 | 368 | 0.101549 | 0.0045 | 0.237590 | 0.00000003 | 0.054239 | 0.4832 |
+| discovery | S2 | 368 | 0.012378 | 0.2209 | 0.235472 | 0.00000002 | 0.000843 | 0.9587 |
+| discovery | S3 | 368 | 0.094884 | 0.0093 | 0.236230 | 0.00000003 | 0.053043 | 0.4912 |
+| reserve | S1 | 341 | 0.071019 | 0.2716 | 0.048566 | 0.16569261 | 0.069291 | 0.3500 |
+| reserve | S2 | 341 | 0.060148 | 0.4134 | 0.051129 | 0.15551420 | 0.065332 | 0.2464 |
+| reserve | S3 | 341 | 0.070758 | 0.2674 | 0.047464 | 0.17023776 | 0.069156 | 0.3510 |
+
+Raw K is primary; lambda likelihood-ratio p-values are secondary and are not
+interchangeable with K randomization p-values. No reserve scenario passes raw
+K p<0.05, and no opportunity-adjusted scenario passes. The all-scenario rule
+does not choose the best placement after inspecting results. Tree coverage
+is 368/369 in discovery and 341/363 in reserve; the missing 1 and 22 species
+remain missing, not negative outcomes. The backbone/package revision and exact
+tree identities are retained in the
+[pre-outcome tree manifest](../results/polymorphism_h3a_phylogeny_preflight_20260912/frozen_tree_manifest.json).
+Use of that phylogenetic infrastructure does not restore the retired 34-species
+comparative analysis as evidence.
+
+### Table S4. H3b: sampled-span association and opportunity sensitivities
+
+| Cohort | Species | Analysis | Rank association | Two-sided p |
+| --- | ---: | --- | ---: | ---: |
+| discovery | 369 | Raw D | 0.179879 | 0.000900 |
+| discovery | 369 | Corrected D | 0.179683 | 0.000800 |
+| discovery | 369 | Partial ranks | 0.158508 | 0.002700 |
+| reserve | 363 | Raw D | -0.002586 | 0.958602 |
+| reserve | 363 | Corrected D | -0.002374 | 0.962902 |
+| reserve | 363 | Partial ranks | 0.005519 | 0.916204 |
+
+Raw/corrected rows are Spearman correlations. Partial ranks are Pearson
+correlations of residualized centered ranks, not raw Spearman correlations.
+All tests use 20,000 permutations, with a plus-one denominator of 20,001.
+Their p-values do not test discovery–reserve differences directly. Rank-PGLS
+on the 341 reserve tips remains a secondary diagnostic, reported in the
+[frozen H3b result note](POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md);
+it cannot override the failed primary test.
+
+### Implementation and interpretation checks
+
+The [H3a protocol](POLYMORPHISM_H3A_PHYLOGENETIC_SIGNAL_PROTOCOL_20260912.md),
+[H3a runner](../scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R),
+[H3b protocol](POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md) and
+[H3b runner](../scripts/analysis/run_polymorphism_h3b_reserve_span_20260912.R)
+were read to reconstruct Methods. In H3a, the implementation requests 10,000
+K maps, checks that the first is the observed map, and uses the remaining 9,999
+as randomizations. Both runners use a 1e-15 comparison tolerance in counting
+upper-tail exceedances. Rank ties use average ranks. H3a fits opportunity
+residuals before pruning to matched tree tips; H3b residualizes both D and span
+against usable-image and observer counts. No alternative controls were fitted
+for this manuscript. These code checks are not a rerun of the frozen analyses
+or an independent validation of permutation exchangeability.
+
+Non-support does not establish equivalence, absence of every phylogenetic effect,
+or adequate power for every ecological effect size. No equivalence margin or
+minimum detectable effect was established by these results. The source-derived
+photographic span can reflect sampling and biology simultaneously; it cannot
+identify environmental heterogeneity or pollinator mechanisms. Trait-coverage
+failures described in the H3b protocol remain untested hypotheses, not negative
+ecological results.
+
 ## S4. Measurement failures and unqualified gates
 
 Retain `docs/RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md` and

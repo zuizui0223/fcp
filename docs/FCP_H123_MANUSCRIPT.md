@@ -94,10 +94,37 @@ This is the implemented construction null for a selected set, not a complete
 replay of selection or an observer-, season- or geography-stratified null.
 Its adequacy for stronger biological inference remains unestablished.
 
-H3a uses the frozen S1–S3 phylogenetic placement scenarios. H3b tests sampled
-photographic span, not true biological range size. The reserve is the replication
-cohort. Failed replications are retained without searching for replacement
-predictors.
+H3a uses the frozen V.PhyloMaker2 dated backbone (GBOTB.extended.LCVP) under
+S1–S3 placement scenarios. Each scenario retains 368/369 discovery species and
+341/363 reserve species, exceeding the pre-outcome requirements of 90% coverage
+and 250 tips per cohort. The unmatched species are not assigned zero signal.
+Raw D is tested using Blomberg K with 9,999 randomized trait-to-tip assignments;
+tree, branch lengths, retained species and trait values remain fixed. The
+upper-tail plus-one p-value has denominator 10,000. Reserve support requires
+p<0.05 in all three scenarios. Pagel lambda and its likelihood-ratio test
+against zero are secondary diagnostics and cannot rescue the primary decision.
+
+The H3a opportunity sensitivity regresses centered ranks of D on centered
+ranks of log1p(classifiable count), log1p(observer count) and log1p(sampled span),
+with an intercept. These residuals are calculated within the eligible cohort
+before tree matching and then subjected to the same K randomization. The
+finite-sample correction D*n/(n-1) supplies an additional effect-size sensitivity.
+The constant total of 100 measured photographs per source species cannot act
+as a varying control.
+
+H3b tests sampled photographic span, not true biological range size. Span is
+the maximum pairwise haversine distance among finite coordinates in all 100
+measured photographs per species, without colour or classifiability filtering
+(Earth radius 6371.0088 km). The primary association is Spearman rho between D
+and log1p(span), using all 363 eligible reserve species without tree matching.
+Its two-sided test permutes D ranks among species 20,000 times, with a plus-one
+denominator of 20,001. Support requires positive reserve rho and p<0.05.
+Sensitivities use finite-sample-corrected D, partial ranks controlling usable
+image and observer counts, and rank-PGLS on the 341 matched reserve tips. The
+partial-rank test permutes residualized D against a fixed residualized span;
+it is a sensitivity, not causal adjustment. The reserve is the replication
+cohort for both H3 tests; discovery associations were already inspected.
+Failed replications are retained without searching for replacement predictors.
 
 Measurement qualification was evaluated separately from H1–H3. The estimator
 combines retained generic flower masks rather than selecting a verified focal
@@ -164,6 +191,11 @@ permutation p=0.272, 0.413 and 0.267). The discovery sampled-span association
 (rho=0.179879, p=0.000900) does not replicate: reserve rho=-0.002586,
 p=0.958602. These tests do not establish that evolutionary history or true
 geographic range size is biologically irrelevant.
+Opportunity-adjusted reserve K is also unsupported in S1–S3 (p=0.3500, 0.2464,
+0.3510). For H3b, finite-sample-corrected D yields reserve rho=-0.002374,
+p=0.962902; partial ranks yield rho=0.005519, p=0.916204. Supplement Tables
+S3–S4 retain the discovery and reserve comparisons without treating these
+sensitivities as separate opportunities to rescue the primary result.
 
 ### Measurement qualification: a completed failure, not a pending test
 

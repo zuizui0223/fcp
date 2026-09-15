@@ -48,6 +48,14 @@ of support for H1–H3, and historical frozen data/results must not be edited.
 
 ## Development checkpoint
 
+H3 Methods and Supplement Tables S3–S4 now preserve exact cohort/scenario
+bindings for raw, corrected and opportunity-adjusted results. Tree coverage
+matches the preflight manifest, including 22 unmatched reserve species that
+are not coded as absent signal. Source inspection records permutation counts,
+residualization order and secondary-statistic roles. The text explicitly
+distinguishes non-support from equivalence or demonstrated power. Tree-model
+reruns, full statistical references and submission-package closure remain open.
+
 Main Figure 1 now presents frozen H1 reserve split comparisons, all four H2
 targeted comparisons, all H3a placement scenarios and both H3b cohorts. It
 retains the later strict H1 failure and H3 non-replication, distinguishes
