@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install offline test dependencies
-        run: python -m pip install numpy pytest PyYAML
+        run: python -m pip install numpy pytest PyYAML scipy==1.15.3 statsmodels==0.14.6
       - name: Check draft evidence and closed-image safeguards
         run: python -m pytest tests/test_h123_publication_scope.py tests/test_p500_white_measurement_control.py tests/test_p500_offline_workflow.py tests/test_p500_technical_snapshot.py tests/test_p500_coupling.py -q --junitxml=h123-offline-tests.xml
       - uses: actions/upload-artifact@v4

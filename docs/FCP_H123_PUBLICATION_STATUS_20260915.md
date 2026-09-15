@@ -61,7 +61,13 @@ iterating responses; missing, duplicate or unknown IDs are rejected rather than
 silently reducing the cohort. Artificial-data tests only have exercised this
 route. This is not tamper-proof storage or authenticated chronology; a failed
 write may leave a partial file that must be retained as a failure, not repaired
-silently. There is no acquisition, coupling model or opening token.
+silently. There is no acquisition or opening token.
+The [coupling implementation specification](P500_COUPLING_IMPLEMENTATION_SPEC.md)
+now records a pure species-conditioned fitter tested against analytic matched
+pairs and an independently enumerated multi-photo likelihood. Separation,
+numeric warnings and failed curvature checks produce no estimate. All fitting
+so far is artificial-data only. This does not establish observer-robust coverage,
+measurement validity, production-scale qualification or chronology.
 A caller could still supply a wrong cohort or an untrusted digest; those
 must be bound by the future execution recorder and chronology qualification.
 Do not treat this partial implementation as a complete P500 execution gate.
