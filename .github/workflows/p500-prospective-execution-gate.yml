@@ -7,6 +7,7 @@ on:
       - fcp_pipeline/p500_prospective_execution_gate.py
       - scripts/analysis/build_p500_prospective_measurement_firewall.py
       - scripts/analysis/reassemble_p500_prospective_measurement.py
+      - scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py
       - tests/test_p500_prospective_execution_gate.py
       - .github/workflows/p500-prospective-execution-gate.yml
       - .github/workflows/p500-prospective-location-blind-measurement.yml
@@ -16,6 +17,7 @@ on:
       - fcp_pipeline/p500_prospective_execution_gate.py
       - scripts/analysis/build_p500_prospective_measurement_firewall.py
       - scripts/analysis/reassemble_p500_prospective_measurement.py
+      - scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py
       - tests/test_p500_prospective_execution_gate.py
       - .github/workflows/p500-prospective-execution-gate.yml
       - .github/workflows/p500-prospective-location-blind-measurement.yml
@@ -94,7 +96,24 @@ jobs:
           python -m py_compile \
             fcp_pipeline/p500_prospective_execution_gate.py \
             scripts/analysis/build_p500_prospective_measurement_firewall.py \
-            scripts/analysis/reassemble_p500_prospective_measurement.py
+            scripts/analysis/reassemble_p500_prospective_measurement.py \
+            scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py
+      - name: Qualify H2 executor by exact frozen legacy replay
+        run: |
+          rm -rf /tmp/p500-h2-executor-qualification
+          python scripts/analysis/qualify_polymorphism_h2_p500_executor_legacy_replay_20260915.py \
+            --output /tmp/p500-h2-executor-qualification/result.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('/tmp/p500-h2-executor-qualification/result.json').read_text())
+          assert r['qualification_pass'] is True
+          assert r['cases_passed'] == 4
+          assert r['cases_required'] == 4
+          assert r['candidate_pixels_opened'] is False
+          assert all(x['exact_null_vector_match'] for x in r['cases'])
+          print('P500 H2 executor legacy replay: PASS')
+          PY
       - name: Dry-run complete 49,900-row firewall construction without pixels
         run: |
           rm -rf /tmp/p500-firewall
@@ -124,6 +143,9 @@ jobs:
           import json, os
           from pathlib import Path
           from fcp_pipeline.p500_prospective_execution_gate import build_start_record
+          h2q = json.loads(Path('/tmp/p500-h2-executor-qualification/result.json').read_text())
+          if h2q.get('qualification_pass') is not True:
+              raise SystemExit('H2 executor replay qualification did not pass')
           issue = os.environ.get('ISSUE_START', 'false').lower() == 'true'
           if issue:
               record = build_start_record(
@@ -132,6 +154,7 @@ jobs:
                   known_output_paths_absent=True,
                   working_tree_inputs_verified=True,
               )
+              record['h2_executor_legacy_replay_qualification_pass'] = True
           else:
               record = {
                   'schema': 'p500_prospective_execution_qualification_v1',
@@ -140,6 +163,7 @@ jobs:
                   'qualification_pass': True,
                   'firewall_dry_run_pass': True,
                   'measurement_workflow_yaml_pass': True,
+                  'h2_executor_legacy_replay_qualification_pass': True,
                   'opening_authorized': False,
                   'reason': 'qualification_only; dispatch with issue_start_receipt=true immediately before execution',
               }
@@ -151,6 +175,7 @@ jobs:
           name: p500-prospective-execution-gate
           path: |
             p500-prospective-execution-gate.json
+            /tmp/p500-h2-executor-qualification/result.json
             /tmp/p500-firewall/measurement_firewall_manifest.json
             /tmp/p500-firewall/partition_assignments.csv
           if-no-files-found: error
