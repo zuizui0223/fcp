@@ -1,4 +1,3 @@
-import copy
 import json
 from pathlib import Path
 
@@ -24,7 +23,7 @@ def _load(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _base_record(stage):
+def _base(stage):
     return {
         "stage": stage,
         "species": EXPECTED_SPECIES,
@@ -53,7 +52,7 @@ def test_authorization_estimand_change_is_rejected():
         validate_authorization(auth)
 
 
-def test_forward_start_record_can_authorize_only_after_runtime_checks():
+def test_forward_start_record_requires_runtime_checks():
     sha = "a" * 40
     record = build_start_record(
         branch="analysis/p500-prospective-execution-gate-20260915",
@@ -61,100 +60,124 @@ def test_forward_start_record_can_authorize_only_after_runtime_checks():
         known_output_paths_absent=True,
         working_tree_inputs_verified=True,
     )
-    assert record["opening_authorized"] is True
     validate_start_record(record, expected_head_sha=sha)
+    assert record["opening_authorized"] is True
 
-
-def test_forward_start_record_fails_closed_without_runtime_checks():
-    sha = "b" * 40
-    record = build_start_record(
+    blocked = build_start_record(
         branch="analysis/p500-prospective-execution-gate-20260915",
         head_sha=sha,
         known_output_paths_absent=False,
         working_tree_inputs_verified=True,
     )
-    assert record["opening_authorized"] is False
+    assert blocked["opening_authorized"] is False
     with pytest.raises(RuntimeError, match="output paths"):
-        validate_start_record(record, expected_head_sha=sha)
+        validate_start_record(blocked, expected_head_sha=sha)
 
 
-def test_stage_ladder_accepts_complete_nominal_path():
-    pre = _base_record("PREOPENING")
-    acq = _base_record("ACQUISITION_COMPLETE")
-    acq["terminal_acquisition_rows"] = EXPECTED_ROWS
-    validate_stage_transition(pre, acq)
+def test_stage_ladder_matches_partition_local_ephemeral_execution():
+    pre = _base("PREOPENING")
+    firewall = _base("FIREWALL_FROZEN")
+    firewall.update(
+        measurement_ids=EXPECTED_ROWS,
+        terminal_partitions=EXPECTED_TERMINAL_PARTITIONS,
+        candidate_pixels_opened=False,
+    )
+    validate_stage_transition(pre, firewall)
 
-    meas = _base_record("MEASUREMENT_COMPLETE")
-    meas["terminal_measurement_rows"] = EXPECTED_ROWS
-    meas["terminal_partitions"] = EXPECTED_TERMINAL_PARTITIONS
-    validate_stage_transition(acq, meas)
+    measured = _base("PARTITION_MEASUREMENT_COMPLETE")
+    measured.update(
+        terminal_acquisition_rows=EXPECTED_ROWS,
+        terminal_measurement_rows=EXPECTED_ROWS,
+        terminal_partitions=EXPECTED_TERMINAL_PARTITIONS,
+        persisted_image_pixels=False,
+    )
+    validate_stage_transition(firewall, measured)
 
-    reasm = _base_record("REASSEMBLY_COMPLETE")
-    reasm["unique_measurement_ids"] = EXPECTED_ROWS
-    reasm["duplicate_measurement_ids"] = 0
-    validate_stage_transition(meas, reasm)
+    reasm = _base("REASSEMBLY_COMPLETE")
+    reasm.update(unique_measurement_ids=EXPECTED_ROWS, duplicate_measurement_ids=0)
+    validate_stage_transition(measured, reasm)
 
-    support = _base_record("SUPPORT_GATE_COMPLETE")
-    support["measurement_evaluable_species"] = 300
-    support["support_decision"] = "PASS"
+    support = _base("SUPPORT_GATE_COMPLETE")
+    support.update(measurement_evaluable_species=300, support_decision="PASS")
     validate_stage_transition(reasm, support)
 
-    h2 = _base_record("H2_COMPLETE")
-    h2["primary_h2_vector_species"] = 40
-    h2["primary_structured_null_p"] = 0.031
-    h2["h2_decision"] = "CONFIRMED"
+    h2 = _base("H2_COMPLETE")
+    h2.update(
+        primary_h2_vector_species=40,
+        primary_structured_null_p=0.031,
+        h2_decision="CONFIRMED",
+    )
     validate_stage_transition(support, h2)
 
 
 def test_stage_skipping_is_rejected():
-    pre = _base_record("PREOPENING")
-    meas = _base_record("MEASUREMENT_COMPLETE")
-    meas["terminal_measurement_rows"] = EXPECTED_ROWS
-    meas["terminal_partitions"] = EXPECTED_TERMINAL_PARTITIONS
+    pre = _base("PREOPENING")
+    measured = _base("PARTITION_MEASUREMENT_COMPLETE")
+    measured.update(
+        terminal_acquisition_rows=EXPECTED_ROWS,
+        terminal_measurement_rows=EXPECTED_ROWS,
+        terminal_partitions=EXPECTED_TERMINAL_PARTITIONS,
+        persisted_image_pixels=False,
+    )
     with pytest.raises(RuntimeError, match="illegal"):
-        validate_stage_transition(pre, meas)
+        validate_stage_transition(pre, measured)
 
 
-def test_incomplete_measurement_denominator_is_rejected():
-    acq = _base_record("ACQUISITION_COMPLETE")
-    meas = _base_record("MEASUREMENT_COMPLETE")
-    meas["terminal_measurement_rows"] = EXPECTED_ROWS - 1
-    meas["terminal_partitions"] = EXPECTED_TERMINAL_PARTITIONS
-    with pytest.raises(RuntimeError, match="all frozen rows"):
-        validate_stage_transition(acq, meas)
+def test_incomplete_partition_measurement_is_rejected():
+    firewall = _base("FIREWALL_FROZEN")
+    measured = _base("PARTITION_MEASUREMENT_COMPLETE")
+    measured.update(
+        terminal_acquisition_rows=EXPECTED_ROWS,
+        terminal_measurement_rows=EXPECTED_ROWS - 1,
+        terminal_partitions=EXPECTED_TERMINAL_PARTITIONS,
+        persisted_image_pixels=False,
+    )
+    with pytest.raises(RuntimeError, match="measurement coverage"):
+        validate_stage_transition(firewall, measured)
+
+
+def test_persisted_pixels_are_rejected():
+    firewall = _base("FIREWALL_FROZEN")
+    measured = _base("PARTITION_MEASUREMENT_COMPLETE")
+    measured.update(
+        terminal_acquisition_rows=EXPECTED_ROWS,
+        terminal_measurement_rows=EXPECTED_ROWS,
+        terminal_partitions=EXPECTED_TERMINAL_PARTITIONS,
+        persisted_image_pixels=True,
+    )
+    with pytest.raises(RuntimeError, match="persisted"):
+        validate_stage_transition(firewall, measured)
 
 
 def test_support_failure_stops_before_h2():
-    reasm = _base_record("REASSEMBLY_COMPLETE")
-    support = _base_record("SUPPORT_GATE_COMPLETE")
-    support["measurement_evaluable_species"] = 249
-    support["support_decision"] = "NOT_EVALUABLE"
+    reasm = _base("REASSEMBLY_COMPLETE")
+    support = _base("SUPPORT_GATE_COMPLETE")
+    support.update(measurement_evaluable_species=249, support_decision="NOT_EVALUABLE")
     validate_stage_transition(reasm, support)
 
-    h2 = _base_record("H2_COMPLETE")
-    h2["primary_h2_vector_species"] = 30
-    h2["primary_structured_null_p"] = 0.01
-    h2["h2_decision"] = "CONFIRMED"
+    h2 = _base("H2_COMPLETE")
+    h2.update(primary_h2_vector_species=30, primary_structured_null_p=0.01, h2_decision="CONFIRMED")
     with pytest.raises(RuntimeError, match="failed support gate"):
         validate_stage_transition(support, h2)
 
 
 def test_vector_support_is_not_rescued_by_pvalue():
-    support = _base_record("SUPPORT_GATE_COMPLETE")
-    support["measurement_evaluable_species"] = 300
-    support["support_decision"] = "PASS"
-    h2 = _base_record("H2_COMPLETE")
-    h2["primary_h2_vector_species"] = 19
-    h2["primary_structured_null_p"] = 0.001
-    h2["h2_decision"] = "CONFIRMED"
+    support = _base("SUPPORT_GATE_COMPLETE")
+    support.update(measurement_evaluable_species=300, support_decision="PASS")
+    h2 = _base("H2_COMPLETE")
+    h2.update(primary_h2_vector_species=19, primary_structured_null_p=0.001, h2_decision="CONFIRMED")
     with pytest.raises(RuntimeError, match="vector-support"):
         validate_stage_transition(support, h2)
 
 
 def test_replacement_is_never_allowed():
-    pre = _base_record("PREOPENING")
-    acq = _base_record("ACQUISITION_COMPLETE")
-    acq["terminal_acquisition_rows"] = EXPECTED_ROWS
-    acq["replacement_rows"] = 1
+    pre = _base("PREOPENING")
+    firewall = _base("FIREWALL_FROZEN")
+    firewall.update(
+        measurement_ids=EXPECTED_ROWS,
+        terminal_partitions=EXPECTED_TERMINAL_PARTITIONS,
+        candidate_pixels_opened=False,
+        replacement_rows=1,
+    )
     with pytest.raises(RuntimeError, match="replacement"):
-        validate_stage_transition(pre, acq)
+        validate_stage_transition(pre, firewall)
