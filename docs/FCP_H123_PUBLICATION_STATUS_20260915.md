@@ -12,9 +12,10 @@ of support for H1–H3, and historical frozen data/results must not be edited.
 ## Evidence and claim ceiling
 
 - H1: direct observer-disjoint four-state D reproducibility supports a sampling
-  reliability claim. The latest result is retained on parent branch commit
-  c34c5e8 (result note POLYMORPHISM_H1_OBSERVER_DISJOINT_RESULT_FREEZE_20260913.md).
-  Reconcile this source into the working branch before drafting canonical values.
+  reliability claim. The direct result from c34c5e8 is now retained unchanged in
+  `results/polymorphism_h1_observer_disjoint_d_20260913/result.json`.
+  The [active manuscript](FCP_H123_MANUSCRIPT.md) and
+  [companion supplement](FCP_H123_SUPPLEMENT.md) record its source hierarchy.
   The older repeated-partition and stricter failed split remain visible; do not
   select a primary test according to its favorable result.
 - H2: white-versus-nonwhite targeted geometry is supported in already opened
