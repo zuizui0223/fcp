@@ -291,3 +291,65 @@ jobs:
           if-no-files-found: error
           retention-days: 90
           path: results/polymorphism_h2_p500_prospective_execution_20260915
+
+  h2-prospective-test:
+    needs: reassemble-and-support-gate
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install frozen H2 inference dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy
+      - uses: actions/download-artifact@v4
+        with:
+          name: p500-prospective-measurement-result-v1
+          path: results/polymorphism_h2_p500_prospective_execution_20260915
+      - name: Open H2 only after the frozen support gate
+        run: |
+          rm -rf results/polymorphism_h2_p500_prospective_white_axis_20260915
+          python scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py \
+            --measured-csv results/polymorphism_h2_p500_prospective_execution_20260915/measured_photos.csv.gz \
+            --measurement-result results/polymorphism_h2_p500_prospective_execution_20260915/measurement_result.json \
+            --output-dir results/polymorphism_h2_p500_prospective_white_axis_20260915
+      - name: Validate terminal H2 decision and claim ceiling
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('results/polymorphism_h2_p500_prospective_execution_20260915/measurement_result.json').read_text())
+          r = json.loads(Path('results/polymorphism_h2_p500_prospective_white_axis_20260915/result.json').read_text())
+          assert m['H2_opened'] is False
+          if m['support_decision'] == 'NOT_EVALUABLE':
+              assert r['status'] == 'untouched_prospective_target_not_evaluable'
+              assert r['decision']['verdict'] == 'H2_PROSPECTIVE_NOT_EVALUABLE_MEASUREMENT_SUPPORT'
+              assert r['H2_W_computed'] is False
+          else:
+              assert m['support_decision'] == 'PASS'
+              assert r['status'] == 'untouched_prospective_test_of_previously_frozen_axis'
+              assert r['stage'] == 'H2_COMPLETE'
+              assert r['stage_receipt']['stage'] == 'H2_COMPLETE'
+              assert r['decision']['verdict'] in {
+                  'H2_PROSPECTIVE_NOT_EVALUABLE_VECTOR_SUPPORT',
+                  'H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED',
+                  'H2_PROSPECTIVE_WHITE_AXIS_NOT_CONFIRMED',
+              }
+              assert r['hard_nonclaims']
+          print(json.dumps(r['decision'], indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p500-prospective-h2-result-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_h2_p500_prospective_white_axis_20260915
