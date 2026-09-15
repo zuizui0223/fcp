@@ -1,6 +1,8 @@
 from pathlib import Path
 import json
 import re
+import csv
+import hashlib
 
 import yaml
 
@@ -55,3 +57,27 @@ def test_active_manuscript_links_and_measurement_limits():
     for text in ('Monarda region-agreement gate failed', 'not true biological range size',
                  'No pigment pathway', 'P500 is currently\nmetadata-only'):
         assert text in manuscript
+
+
+def test_h3_artifact_summaries_and_manuscript_values():
+    base = ROOT / 'docs/supporting/h123'
+    expected = {
+        'h3a_signal_by_scenario.csv': '8b37b0edcdf0823351aad82d443d2ff6686d3684294855f20900e1770614f986',
+        'h3b_span_summary.csv': 'a8f58d2cf7282ec8aa55fd5741eb34e9440112fd319710654c4f03c12551460b',
+    }
+    manuscript = (ROOT / 'docs/FCP_H123_MANUSCRIPT.md').read_text(encoding='utf-8')
+    section = manuscript.split('### H3:')[1].split('## Discussion')[0]
+    for name, digest in expected.items():
+        raw = (base / name).read_bytes().replace(b'\r\n', b'\n')
+        assert hashlib.sha256(raw).hexdigest() == digest
+        rows = list(csv.DictReader(raw.decode().splitlines()))
+        if name.startswith('h3a'):
+            reserve = [r for r in rows if r['cohort'] == 'reserve']
+            assert {r['scenario'] for r in reserve} == {'S1', 'S2', 'S3'}
+            for row in reserve:
+                assert f"{float(row['p_K_raw']):.3f}" in section
+        else:
+            assert {r['cohort'] for r in rows} == {'discovery', 'reserve'}
+            for row in rows:
+                assert f"rho={float(row['rho_D_span']):.6f}" in section
+                assert f"p={float(row['p_D_span']):.6f}" in section

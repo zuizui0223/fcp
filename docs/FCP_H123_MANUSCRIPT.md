@@ -24,14 +24,29 @@ constrained geometry of the current image-derived measurements; unresolved
 localization and highlight confounding prevent treating them as validated
 biological morph frequencies or identified ecological mechanisms.
 
-## Introduction — drafting scope
+## Introduction
 
 The manuscript separates three questions: whether species-level photographic
 colour diversity is reproducible across observers (H1), whether within-species
 palette variation shares a recurrent direction (H2), and whether broad
 phylogenetic structure or sampled geographic span explains the measured diversity
-(H3). Claims of novelty and comparisons with existing literature require a
-primary-source reference audit before this section is complete.
+(H3).
+
+Citizen-science photographs can provide useful visible-colour information, but
+their accuracy depends on the measurement target and photographic conditions.
+Laitly et al. (2021) compared photographic and controlled measurements and found
+that aggregation could improve agreement; this does not establish a universal
+sampling threshold for within-species diversity. Luong et al. (2023) demonstrated
+landscape-scale flower-colour analysis using manually selected Erysimum petal
+pixels, with a separate colour-correction assessment. These precedents establish
+feasibility, not the accuracy of our automated multi-species estimator.
+
+The distinction matters because calibrated reflectance measurement requires
+additional acquisition information, including linearized image measurements and
+reference standards (Troscianko & Stevens, 2015). A reproducible descriptor from
+ordinary photographs need not be calibrated reflectance or a pollinator's colour
+signal. We therefore evaluate sampling reproducibility and observed palette
+geometry separately from their possible biological interpretation.
 
 ## Methods — evidence-backed outline
 
@@ -104,6 +119,14 @@ cannot be repaired by relabeling, selecting a successful subset or retuning on
 the same images. White–nonwhite geometry could also be affected by digital
 highlight failure; the proposed measurement-control test has no result yet.
 
+External photographic studies do not remove these limitations. In particular,
+Luong et al. (2023) manually avoided unsuitable petal pixels and studied a
+restricted hue range; that validation cannot certify an automated white–nonwhite
+contrast. Laitly et al. (2021) likewise does not establish that more photographs
+eliminate all colour-measurement error. Colour-space conversion alone supplies
+neither reflectance calibration nor missing ultraviolet information
+(Troscianko & Stevens, 2015).
+
 No pigment pathway, adaptive direction, pollinator mechanism or climatic cause
 is identified. A new prospective white-axis test would strengthen inference
 only if its measurement and chronology gates are satisfied. P500 is currently
@@ -116,3 +139,22 @@ eligibility denominators; generate and inspect dedicated H1–H3 figures; comple
 the companion supplement; resolve measurement qualification and P500 execution
 gates, or explicitly retain their unresolved status and reassess the resulting
 claim scope. No submission readiness or acceptance is asserted.
+
+## References — verified initial set
+
+Laitly, A., Callaghan, C. T., Delhey, K., & Cornwell, W. K. (2021). Is color data
+from citizen science photographs reliable for biodiversity research? Ecology
+and Evolution, 11(9), 4071–4083. https://doi.org/10.1002/ece3.7307
+
+Luong, Y., Gasca-Herrera, A., Misiewicz, T. M., & Carter, B. E. (2023). A pipeline
+for the rapid collection of color data from photographs. Applications in Plant
+Sciences, 11(5), e11546. https://doi.org/10.1002/aps3.11546
+
+Troscianko, J., & Stevens, M. (2015). Image calibration and analysis toolbox – a
+free software suite for objectively measuring reflectance, colour and pattern.
+Methods in Ecology and Evolution, 6(11), 1320–1331.
+https://doi.org/10.1111/2041-210X.12439
+
+Access details and non-transferability limits are recorded in the
+[measurement-reference audit](FCP_H123_MEASUREMENT_REFERENCES.md). Statistical,
+phylogenetic, image-model and wider ecological references remain to be audited.

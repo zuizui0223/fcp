@@ -39,6 +39,21 @@ H3b result note: `docs/POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md`.
 The manuscript figures must include reserve results and preserve all placement
 scenarios. Missing trait coverage is not a biological negative.
 
+The CI artifact summary tables were retrieved without rerunning either test:
+
+- H3a: run 34677042793 / artifact 10292218669; retained as
+  `docs/supporting/h123/h3a_signal_by_scenario.csv`. SHA256
+  `8b37b0edcdf0823351aad82d443d2ff6686d3684294855f20900e1770614f986`
+  matches the existing frozen manifest and retrieved artifact bytes.
+- H3b: run 34677468362 / artifact 10292399238; retained as
+  `docs/supporting/h123/h3b_span_summary.csv`. Retrieved SHA256
+  `a8f58d2cf7282ec8aa55fd5741eb34e9440112fd319710654c4f03c12551460b`.
+
+These copies use LF newlines; CI checks LF-canonicalized hashes to accommodate
+Windows checkout conversion. This does not rewrite any original exact-artifact
+contract. Manuscript H3 values are checked against these tables. This verifies
+reporting, not independent reconstruction of tree models or permutation draws.
+
 ## S4. Measurement failures and unqualified gates
 
 Retain `docs/RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md` and
@@ -47,6 +62,10 @@ P500 implementation qualification is documented in
 `docs/P500_WHITE_CONTROL_IMPLEMENTATION_ERRATUM_20260915.md`.
 The static gate does not authorize opening. No P500 biological results exist
 in this package. CI success is not a measurement-accuracy result.
+
+The [measurement-reference audit](FCP_H123_MEASUREMENT_REFERENCES.md) records the
+primary sources supporting the main text's photography/calibration limitations.
+Their validation does not transfer automatically to this estimator or cohort.
 
 ## S5. Package completion checklist
 
