@@ -1,0 +1,60 @@
+{
+  "analysis": "polymorphism_h2_third_cohort_terminal_preopening_qualification",
+  "date_jst": "2026-09-16",
+  "status": "PREOPENING_SYNTHETIC_TERMINAL_GATE_PASS",
+  "verdict": "PASS",
+  "protocol": "docs/POLYMORPHISM_H2_THIRD_COHORT_PREOPENING_FREEZE_20260916.md",
+  "selection_evidence": {
+    "durable_selection_commit": "2768b2dd0f8baf4ed1185a1b64c1060768b36c00",
+    "selection_receipt": "results/polymorphism_h2_third_cohort_selection_20260916/result.json",
+    "ordered_identity_manifest": "results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv",
+    "ordered_identity_manifest_sha256": "16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59",
+    "canonical_selected_csv_sha256": "4ad1191f39068e0fb2229f84361b1004803e24793190566d21e5c474aef2002a",
+    "selected_species": 500
+  },
+  "qualification_execution": {
+    "head_sha": "7fcabcda61c90aaac3ad84e7f53ad5cd6c8c5663",
+    "workflow": ".github/workflows/h2-third-cohort-terminal-synthetic-qualification.yml",
+    "workflow_run_id": 35065814180,
+    "job_id": 104695722267,
+    "workflow_conclusion": "success",
+    "tests_passed": 17,
+    "independent_disk_readback": "PASS",
+    "terminal_stage_validation": "PASS",
+    "artifact_upload": "PASS"
+  },
+  "artifact_evidence": {
+    "artifact_id": 10434700102,
+    "artifact_name": "h2-third-cohort-terminal-synthetic-qualification-7fcabcda61c90aaac3ad84e7f53ad5cd6c8c5663",
+    "artifact_sha256": "2727d23a516cbf162b60606ba36932bd4fc1a4942ddc4242a2a03d18a6692e74",
+    "terminal_package_sha256": "50b0422000e52745ebd7654aaeb31e1bd8de9ac497d548376037dd00ba8e5640",
+    "result_sha256": "fbef2ac807f6b36c81d877b5a3b0b5239fa95a5fde0461cae0427bc3171666b0",
+    "qualification_receipt_sha256": "640a837dc95797e292b63dcf61e8d04c0b2f7507d2571c79fd6a08de20fc11ab",
+    "package_receipt_sha256": "9282625814f5219505045045ea2d9ce913abd0c87e3410887e539b38aabed44d",
+    "external_download_reverified": true
+  },
+  "scope": {
+    "production_writer": "scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py::write_result",
+    "covered": [
+      "H2_COMPLETE synthetic result construction",
+      "strict JSON serialization",
+      "filesystem persistence",
+      "independent disk read-back",
+      "terminal stage validation",
+      "deterministic ZIP packaging",
+      "GitHub Actions artifact upload",
+      "external artifact download and digest verification"
+    ],
+    "schema_fixture_note": "The synthetic receipt uses the existing P500 499-species/49,900-row H2_COMPLETE schema only to exercise terminal transport. Those counts are not the third-cohort denominator and authorize no biological inference."
+  },
+  "outcome_firewall": {
+    "synthetic_only": true,
+    "biological_inputs_opened": false,
+    "third_cohort_biological_outcome_opened": false,
+    "P500_measurement_table_read": false,
+    "P500_recovered_H2_read": false,
+    "scientific_claims_authorized": false
+  },
+  "authorization_status": "TERMINAL_TRANSPORT_QUALIFIED_BUT_BIOLOGICAL_PIXEL_OPENING_NOT_YET_AUTHORIZED",
+  "next_gate": "run an outcome-blind fresh-metadata gate for the frozen 500 selected species, freeze the exact species and row denominator that reaches the inherited exact-100 target with no replacement, then issue a one-run biological execution authorization at that exact HEAD"
+}
