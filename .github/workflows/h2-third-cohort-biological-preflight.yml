@@ -38,3 +38,9 @@ jobs:
           python -m pytest -q \
             tests/test_third_cohort_prospective_execution_gate.py \
             tests/test_third_cohort_production_wiring.py
+      - name: Compile production scripts
+        run: |
+          python -m py_compile \
+            scripts/analysis/build_polymorphism_h2_third_cohort_measurement_firewall_20260917.py \
+            scripts/analysis/reassemble_polymorphism_h2_third_cohort_measurement_20260917.py \
+            scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py
