@@ -1,0 +1,121 @@
+{
+  "analysis": "polymorphism_h2_third_cohort_candidate_metadata_acquisition",
+  "capacity": {
+    "authorized_metadata_rows": 49900,
+    "authorized_species": 499,
+    "exact_rows_per_authorized_species": 100,
+    "full100_species": 499,
+    "minimum_full100_species_before_separate_pixel_authorization": 300,
+    "selected_metadata_rows_all_selected_species": 49999
+  },
+  "date_jst": "2026-09-16",
+  "decision": {
+    "biological_pixel_opening_authorized_by_this_gate": false,
+    "no_species_replacement": true,
+    "no_target_relaxation": true,
+    "one_bounded_metadata_draw": true,
+    "pixels_may_be_authorized_in_separate_next_step": true,
+    "verdict": "THIRD_COHORT_METADATA_GATE_PASS"
+  },
+  "execution_head": "f8ee9f65b88e5608a07cd9008f34e48a09abff88",
+  "files": {
+    "authorized_metadata": "data/frozen/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz",
+    "authorized_metadata_sha256": "13b25d72f20ed2b09ebcf3f80e0058aede08474a7e9051f7fb6ce1e521a16290",
+    "authorized_species": "results/polymorphism_h2_third_cohort_candidate_metadata_20260916/authorized_species.csv",
+    "authorized_species_sha256": "36a866b040b835e20539d318b0533bcb905cbe760d23df29e7da6587a054e593",
+    "metadata_all_selected": "data/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz",
+    "metadata_all_selected_sha256": "adec40e29e347b035872f2add95b67011906cb74e28510e6260ed1edbd075711",
+    "protocol_sha256": "3cb1ad1126c460b2b9dd8dd837662023ca252e941dbb84fa3d05e94f5cfc9c59",
+    "species_audit": "results/polymorphism_h2_third_cohort_candidate_metadata_20260916/species_audit.csv",
+    "species_audit_sha256": "c6ab0634adc0c4fa9f726322af24994f880ca19ddc2c6d79be740f2ddf0ab339"
+  },
+  "hard_nonclaims": [
+    "metadata capacity is not flower-colour polymorphism prevalence",
+    "failure to reach 100 fresh rows is not monomorphism",
+    "this gate does not test or estimate the white/non-white H2 axis",
+    "metadata PASS does not itself authorize biological pixel opening"
+  ],
+  "outcome_firewall": {
+    "D_opened": false,
+    "H2_W_opened": false,
+    "H2_vectors_opened": false,
+    "H3_predictors_used": false,
+    "P500_recovered_H2_read": false,
+    "coordinates_used_only_for_sampling": true,
+    "flower_colour_opened": false,
+    "image_pixels_opened": false,
+    "morph_opened": false,
+    "palette_opened": false,
+    "structured_null_opened": false
+  },
+  "prior_id_exclusion": {
+    "sources": [
+      {
+        "path": "data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv",
+        "rows": 86745,
+        "sha256": "f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99",
+        "unique_observation_ids": 86745,
+        "unique_photo_ids": 86745
+      },
+      {
+        "path": "data/frozen/random_photo_first_h9_fresh_metadata_v1.csv",
+        "rows": 2280,
+        "sha256": "111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f",
+        "unique_observation_ids": 2280,
+        "unique_photo_ids": 2280
+      },
+      {
+        "path": "results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz",
+        "rows": 42111,
+        "sha256": "38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
+        "unique_observation_ids": 42111,
+        "unique_photo_ids": 42111
+      },
+      {
+        "path": "data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz",
+        "rows": 49998,
+        "sha256": "a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595",
+        "unique_observation_ids": 49998,
+        "unique_photo_ids": 49998
+      }
+    ],
+    "unique_observation_ids": 178462,
+    "unique_photo_ids": 178462
+  },
+  "protocol": "docs/POLYMORPHISM_H2_THIRD_COHORT_FRESH_METADATA_PROTOCOL_20260916.md",
+  "query": {
+    "allowed_photo_licenses": [
+      "cc0",
+      "cc-by",
+      "cc-by-sa",
+      "cc-by-nc",
+      "cc-by-nc-sa"
+    ],
+    "flowering_term_id": 12,
+    "flowering_term_value_id": 13,
+    "maximum_positional_accuracy_m": 5000,
+    "observer_cap": 2,
+    "one_request_per_species": true,
+    "order_by": "random",
+    "per_page": 200,
+    "quality_grade": "research",
+    "request_interval_seconds": 1.05,
+    "request_retries": 0,
+    "request_timeout_seconds": 45.0,
+    "target_rows_per_species": 100
+  },
+  "selection": {
+    "canonical_selected_csv_sha256": "4ad1191f39068e0fb2229f84361b1004803e24793190566d21e5c474aef2002a",
+    "no_species_replacement": true,
+    "ordered_manifest": "results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv",
+    "ordered_manifest_sha256": "16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59",
+    "selected_species": 500
+  },
+  "status": "complete_fresh_metadata_draw_before_pixels",
+  "transport": {
+    "request_attempts": 500,
+    "request_error_fraction": 0.0,
+    "request_error_fraction_ceiling": 0.05,
+    "request_errors": 0
+  }
+}
