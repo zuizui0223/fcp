@@ -1,0 +1,81 @@
+name: H2 third-cohort terminal synthetic qualification
+
+on:
+  push:
+    branches:
+      - analysis/h2-third-cohort-preopening-20260916
+    paths:
+      - '.github/workflows/h2-third-cohort-terminal-synthetic-qualification.yml'
+      - 'tests/test_h2_third_cohort_terminal_synthetic_qualification.py'
+      - 'scripts/analysis/qualify_polymorphism_h2_terminal_transport_20260916.py'
+      - 'scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py'
+      - 'fcp_pipeline/p500_prospective_execution_gate.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONPATH: .
+
+jobs:
+  qualify-terminal-transport:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install terminal qualification dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy pytest
+      - name: Run terminal regression and qualification tests
+        run: |
+          python -m pytest -q \
+            tests/test_p500_h2_result_serialization.py \
+            tests/test_p500_prospective_execution_gate.py \
+            tests/test_h2_third_cohort_terminal_synthetic_qualification.py
+      - name: Run synthetic-only production-writer qualification
+        run: |
+          rm -rf /tmp/h2-third-cohort-terminal-qualification
+          python scripts/analysis/qualify_polymorphism_h2_terminal_transport_20260916.py \
+            --output-dir /tmp/h2-third-cohort-terminal-qualification
+      - name: Independently read back and validate terminal package
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          from zipfile import ZipFile
+          from fcp_pipeline.p500_prospective_execution_gate import validate_stage_transition
+
+          root = Path('/tmp/h2-third-cohort-terminal-qualification')
+          result = json.loads((root / 'result.json').read_text(encoding='utf-8'))
+          receipt = json.loads((root / 'qualification_receipt.json').read_text(encoding='utf-8'))
+          package = json.loads((root / 'package_receipt.json').read_text(encoding='utf-8'))
+          assert result['synthetic_only'] is True
+          assert result['biological_inputs_opened'] is False
+          assert result['stage'] == 'H2_COMPLETE'
+          validate_stage_transition(result['synthetic_support_stage'], result['stage_receipt'])
+          result_sha = hashlib.sha256((root / 'result.json').read_bytes()).hexdigest()
+          assert receipt['result_sha256'] == result_sha
+          zip_path = root / 'terminal_package.zip'
+          assert package['package_sha256'] == hashlib.sha256(zip_path.read_bytes()).hexdigest()
+          with ZipFile(zip_path, 'r') as archive:
+              assert sorted(archive.namelist()) == ['qualification_receipt.json', 'result.json']
+              archived = json.loads(archive.read('result.json').decode('utf-8'))
+              assert archived == result
+          print('synthetic H2 terminal persistence/read-back/package validation: PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h2-third-cohort-terminal-synthetic-qualification-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/h2-third-cohort-terminal-qualification
