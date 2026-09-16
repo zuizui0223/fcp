@@ -6,6 +6,7 @@ on:
       - analysis/h2-third-cohort-preopening-20260916
     paths:
       - '.github/workflows/h2-third-cohort-biological-preflight.yml'
+      - '.github/workflows/h2-third-cohort-prospective-measurement.yml'
       - 'tests/test_third_cohort_prospective_execution_gate.py'
       - 'tests/test_third_cohort_production_wiring.py'
       - 'fcp_pipeline/third_cohort_prospective_execution_gate.py'
