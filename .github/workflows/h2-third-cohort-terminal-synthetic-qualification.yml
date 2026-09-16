@@ -7,9 +7,11 @@ on:
     paths:
       - '.github/workflows/h2-third-cohort-terminal-synthetic-qualification.yml'
       - 'tests/test_h2_third_cohort_terminal_synthetic_qualification.py'
+      - 'tests/test_h2_third_cohort_selection_freeze.py'
       - 'scripts/analysis/qualify_polymorphism_h2_terminal_transport_20260916.py'
       - 'scripts/analysis/run_polymorphism_h2_p500_prospective_white_axis_20260915.py'
       - 'fcp_pipeline/p500_prospective_execution_gate.py'
+      - 'results/polymorphism_h2_third_cohort_selection_20260916/**'
   workflow_dispatch:
 
 permissions:
@@ -40,6 +42,7 @@ jobs:
           python -m pytest -q \
             tests/test_p500_h2_result_serialization.py \
             tests/test_p500_prospective_execution_gate.py \
+            tests/test_h2_third_cohort_selection_freeze.py \
             tests/test_h2_third_cohort_terminal_synthetic_qualification.py
       - name: Run synthetic-only production-writer qualification
         run: |
