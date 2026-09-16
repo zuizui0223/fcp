@@ -1,0 +1,64 @@
+{
+  "analysis": "polymorphism_h2_third_cohort_preopening_candidate_frame",
+  "biological_outcomes_opened": false,
+  "candidate_pool": {
+    "columns": [
+      "inat_taxon_id",
+      "species",
+      "after_observer_cap"
+    ],
+    "file": "candidate_pool.csv",
+    "minimum_after_observer_cap": 100,
+    "p500_species_overlap": 0,
+    "p500_taxon_overlap": 0,
+    "sha256": "7fc0337074b55a91c0b50773a8d5c3ef82e877074c8b3cacc21f9af58e0ba77e",
+    "species": 3230
+  },
+  "date_jst": "2026-09-16",
+  "lineage": {
+    "P100_species": 3730,
+    "P500_selected_species_excluded_here": 500,
+    "U0_species": 42111,
+    "U100_species": 4730,
+    "legacy_high_depth_species_excluded_before_P100": 1000,
+    "parent_artifact_digest": "sha256:7e43763e3f1d9fa3ff108154dc6ef9443430b70fdb62532e2f6845582d607abb",
+    "parent_artifact_id": 10302477571,
+    "parent_selection_workflow_run": 34708044962,
+    "third_candidate_species": 3230
+  },
+  "next_gate": "freeze a new outcome-blind third-cohort sample from this 3230-species universe, then pass synthetic end-to-end H2 serialization/artifact qualification before biological opening",
+  "outcome_firewall": {
+    "D_opened": false,
+    "H2_W_opened": false,
+    "H3_predictors_read": false,
+    "P500_measurement_table_read": false,
+    "P500_recovered_H2_read": false,
+    "allowed_source_columns": [
+      "after_observer_cap",
+      "inat_taxon_id",
+      "prospective_rank",
+      "selection_hash",
+      "species"
+    ],
+    "flower_colour_opened": false,
+    "morph_opened": false,
+    "output_columns": [
+      "inat_taxon_id",
+      "species",
+      "after_observer_cap"
+    ],
+    "palette_opened": false
+  },
+  "selection_status": "candidate_universe_only_no_third_cohort_sample_selected_yet",
+  "source_files": {
+    "p100": {
+      "expected_sha256": "1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c",
+      "sha256": "1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c"
+    },
+    "p500": {
+      "expected_sha256": "f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4",
+      "sha256": "f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4"
+    }
+  },
+  "status": "PREOUTCOME_ELIGIBILITY_FROZEN"
+}
