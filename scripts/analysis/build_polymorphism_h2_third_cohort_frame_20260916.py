@@ -96,6 +96,22 @@ def derive_candidate_rows(p100_rows: list[dict], p500_rows: list[dict]) -> list[
     return out
 
 
+def select_outcome_blind_sample(rows: list[dict], salt: str, n: int) -> list[dict]:
+    if n < 1 or n > len(rows):
+        raise RuntimeError(f"requested sample size {n} outside candidate count {len(rows)}")
+    ranked = []
+    for row in rows:
+        payload = f"{salt}|{int(row['inat_taxon_id'])}|{row['species']}"
+        item = {k: row[k] for k in OUTPUT_COLUMNS}
+        item["selection_hash"] = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+        ranked.append(item)
+    ranked.sort(key=lambda r: (r["selection_hash"], r["inat_taxon_id"]))
+    selected = ranked[:n]
+    for rank, row in enumerate(selected, start=1):
+        row["prospective_rank"] = rank
+    return selected
+
+
 def write_candidate_csv(path: Path, rows: list[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as fh:
