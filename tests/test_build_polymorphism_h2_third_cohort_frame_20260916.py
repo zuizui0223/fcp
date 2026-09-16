@@ -67,3 +67,18 @@ def test_source_reader_requires_u100_capacity(tmp_path):
     )
     with pytest.raises(RuntimeError, match="below frozen U100 gate"):
         m.read_outcome_blind_source(p)
+
+
+def test_third_sample_selection_is_hash_deterministic_and_not_input_order_dependent():
+    m = load_module()
+    rows = [
+        {"inat_taxon_id": 3, "species": "C c", "after_observer_cap": 140},
+        {"inat_taxon_id": 1, "species": "A a", "after_observer_cap": 100},
+        {"inat_taxon_id": 2, "species": "B b", "after_observer_cap": 120},
+    ]
+    a = m.select_outcome_blind_sample(rows, salt="TEST_SALT", n=2)
+    b = m.select_outcome_blind_sample(list(reversed(rows)), salt="TEST_SALT", n=2)
+    assert a == b
+    assert len(a) == 2
+    assert [r["prospective_rank"] for r in a] == [1, 2]
+    assert all(len(r["selection_hash"]) == 64 for r in a)
