@@ -1,3 +1,4 @@
+import pandas as pd
 import pytest
 
 from fcp_pipeline.third_cohort_prospective_execution_gate import (
@@ -8,6 +9,9 @@ from fcp_pipeline.third_cohort_prospective_execution_gate import (
     MIN_H2_VECTOR_SPECIES,
     MIN_MEASUREMENT_EVALUABLE_SPECIES,
     build_start_record,
+    measurement_batch,
+    measurement_id,
+    validate_authorized_denominator,
     validate_candidate_metadata,
     validate_stage_transition,
 )
@@ -98,3 +102,41 @@ def test_stage_contract_reaches_h2_complete_only_from_passed_support():
     bad["h2_decision"] = "NOT_CONFIRMED"
     with pytest.raises(RuntimeError, match="H2 decision"):
         validate_stage_transition(support, bad)
+
+
+def test_blind_ids_are_deterministic_and_batch_only_0_or_1():
+    a = measurement_id(12345)
+    assert a == measurement_id(12345)
+    assert a != measurement_id(12346)
+    assert a.startswith("FCPH2T3-")
+    assert measurement_batch(a) in {0, 1}
+
+
+def test_authorized_denominator_requires_exact_species_sets_counts_and_unique_ids():
+    species = pd.DataFrame({
+        "species": ["A a", "B b"],
+        "inat_taxon_id": [1, 2],
+    })
+    metadata = pd.DataFrame({
+        "query_species": ["A a", "A a", "B b", "B b"],
+        "inat_taxon_id": [1, 1, 2, 2],
+        "observation_id": [11, 12, 21, 22],
+        "photo_id": [101, 102, 201, 202],
+        "photo_url_large": ["https://x/a.jpg"] * 4,
+        "photo_license": ["cc-by"] * 4,
+        "latitude": [1.0, 2.0, 3.0, 4.0],
+        "longitude": [10.0, 20.0, 30.0, 40.0],
+    })
+    normalized = validate_authorized_denominator(
+        metadata,
+        species,
+        expected_species=2,
+        target_per_species=2,
+    )
+    assert len(normalized) == 4
+    assert normalized["species"].tolist() == ["A a", "A a", "B b", "B b"]
+
+    bad = metadata.copy()
+    bad.loc[3, "photo_id"] = 201
+    with pytest.raises(RuntimeError, match="duplicate photo"):
+        validate_authorized_denominator(bad, species, expected_species=2, target_per_species=2)
