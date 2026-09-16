@@ -1,0 +1,360 @@
+name: Third-cohort prospective H2 location-blind measurement
+
+on:
+  push:
+    branches:
+      - analysis/h2-third-cohort-preopening-20260916
+    paths:
+      - "docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_EXECUTION_AUTHORIZATION_20260917.json"
+
+permissions:
+  contents: read
+
+env:
+  EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
+  EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
+  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+  TARGET_BRANCH: "analysis/h2-third-cohort-preopening-20260916"
+  AUTH_PATH: "docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_EXECUTION_AUTHORIZATION_20260917.json"
+
+concurrency:
+  group: h2-third-cohort-prospective-measurement-20260917
+  cancel-in-progress: false
+
+jobs:
+  authorize-and-build-firewall:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Enforce exact one-shot authorization chronology before pixels
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          test -f "$AUTH_PATH"
+          mapfile -t CHANGED < <(git diff --name-only HEAD^ HEAD)
+          test "${#CHANGED[@]}" -eq 1
+          test "${CHANGED[0]}" = "$AUTH_PATH"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from fcp_pipeline.third_cohort_prospective_execution_gate import validate_authorization
+          auth = json.loads(Path('docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_EXECUTION_AUTHORIZATION_20260917.json').read_text())
+          validate_authorization(auth)
+          assert auth['branch'] == 'analysis/h2-third-cohort-preopening-20260916'
+          print(auth['implementation_parent_head'])
+          PY
+          EXPECTED_PARENT=$(python - <<'PY'
+          import json
+          from pathlib import Path
+          auth = json.loads(Path('docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_EXECUTION_AUTHORIZATION_20260917.json').read_text())
+          print(auth['implementation_parent_head'])
+          PY
+          )
+          test "$(git rev-parse HEAD^)" = "$EXPECTED_PARENT"
+          git fetch origin "$TARGET_BRANCH"
+          if git cat-file -e "origin/$TARGET_BRANCH:results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json" 2>/dev/null; then
+            echo "third-cohort prospective H2 result already exists; rerun forbidden"
+            exit 1
+          fi
+          if git cat-file -e "origin/$TARGET_BRANCH:results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json" 2>/dev/null; then
+            echo "third-cohort prospective measurement result already exists; rerun forbidden"
+            exit 1
+          fi
+      - name: Materialize exact validated legacy measurement machine
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install base package and preflight runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Verify frozen parent metadata receipt and implementation
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from fcp_pipeline.third_cohort_prospective_execution_gate import (
+              AUTHORIZED_METADATA_SHA256, AUTHORIZED_SPECIES_SHA256, validate_candidate_metadata,
+          )
+          def sha(path):
+              return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+          parent = json.loads(Path('results/polymorphism_h2_third_cohort_candidate_metadata_20260916/result.json').read_text())
+          validate_candidate_metadata(parent)
+          assert sha('data/frozen/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz') == AUTHORIZED_METADATA_SHA256
+          assert sha('results/polymorphism_h2_third_cohort_candidate_metadata_20260916/authorized_species.csv') == AUTHORIZED_SPECIES_SHA256
+          PY
+          python -m pytest -q \
+            tests/test_third_cohort_prospective_execution_gate.py \
+            tests/test_third_cohort_production_wiring.py
+          python -m py_compile \
+            scripts/analysis/build_polymorphism_h2_third_cohort_measurement_firewall_20260917.py \
+            scripts/analysis/reassemble_polymorphism_h2_third_cohort_measurement_20260917.py \
+            scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py
+      - name: Build third-cohort location-blind firewall before pixels
+        run: |
+          rm -rf /tmp/h2-third-firewall
+          python scripts/analysis/build_polymorphism_h2_third_cohort_measurement_firewall_20260917.py \
+            --output-dir /tmp/h2-third-firewall \
+            --head-sha "${GITHUB_SHA}" \
+            --branch "${TARGET_BRANCH}" \
+            --known-output-paths-absent
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h2-third-cohort-measurement-firewall-v1
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/h2-third-firewall
+
+  measure-partition:
+    needs: authorize-and-build-firewall
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        measurement_batch: [0, 1]
+        semantic_shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+        compute_partition: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Forbid any workflow or individual-job rerun before acquisition
+        run: test "${GITHUB_RUN_ATTEMPT}" = "1"
+      - name: Materialize exact validated legacy measurement machine
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install exact CPU measurement runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install -e . -r requirements-atlas-roi-v4.txt
+      - name: Download exact EfficientSAM weights
+        run: |
+          rm -rf /tmp/efficient-sam
+          mkdir -p /tmp/efficient-sam
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_encoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/${EFFICIENTSAM_REVISION}/weights/efficient_sam_vitt_decoder.onnx" \
+            --output /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx
+          echo "${EFFICIENTSAM_ENCODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "${EFFICIENTSAM_DECODER_SHA256}  /tmp/efficient-sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+      - uses: actions/download-artifact@v4
+        with:
+          name: h2-third-cohort-measurement-firewall-v1
+          path: /tmp/firewall
+      - name: Acquire exactly one frozen blind partition
+        run: |
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          B=${{ matrix.measurement_batch }}
+          rm -rf /tmp/acquisition
+          python scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            --worker-manifest /tmp/firewall/batch_${B}/worker_packet/measurement_manifest.csv \
+            --acquisition-key /tmp/firewall/batch_${B}/sealed_keys/acquisition_key.csv \
+            --output-dir /tmp/acquisition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+      - name: Remove source-URL and metadata surfaces before colour measurement
+        run: |
+          rm -rf /tmp/blind /tmp/safe-acquisition
+          mkdir -p /tmp/blind/images /tmp/safe-acquisition
+          cp /tmp/acquisition/successful_worker_manifest.csv /tmp/blind/measurement_manifest.csv
+          cp -a /tmp/acquisition/ephemeral_images/. /tmp/blind/images/
+          cp /tmp/acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/selected_blind_manifest.csv
+          cp /tmp/acquisition/acquisition_failures.csv /tmp/safe-acquisition/acquisition_failures.csv
+          cp /tmp/acquisition/acquisition_receipt.csv /tmp/safe-acquisition/acquisition_receipt.csv
+          rm -rf /tmp/firewall /tmp/acquisition
+          test ! -e /tmp/firewall
+          test ! -e /tmp/acquisition
+          ! grep -R -E "photo_url|latitude|longitude|species|observer|taxon" /tmp/blind /tmp/safe-acquisition/selected_blind_manifest.csv /tmp/safe-acquisition/acquisition_receipt.csv
+      - name: Run unchanged ROI-v4 and fixed palette location blind
+        run: |
+          python scripts/analysis/measure_random_photo_first_blind_partition.py \
+            --worker-manifest /tmp/blind/measurement_manifest.csv \
+            --images-dir /tmp/blind/images \
+            --detector-weight data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
+            --efficient-sam-dir /tmp/efficient-sam \
+            --output-csv /tmp/blind_measurement_results.csv
+      - name: Seal exact terminal partition and delete pixels
+        run: |
+          rm -rf /tmp/sealed-partition
+          python scripts/analysis/seal_random_photo_first_measurement_partition.py \
+            --selected-blind-manifest /tmp/safe-acquisition/selected_blind_manifest.csv \
+            --acquisition-failures /tmp/safe-acquisition/acquisition_failures.csv \
+            --measurement-results /tmp/blind_measurement_results.csv \
+            --output-dir /tmp/sealed-partition \
+            --semantic-shard ${{ matrix.semantic_shard }} \
+            --compute-partition ${{ matrix.compute_partition }}
+          B=${{ matrix.measurement_batch }}
+          for F in /tmp/sealed-partition/partition_s*_p*; do
+            BASE=$(basename "$F")
+            mv "$F" "/tmp/sealed-partition/b${B}_${BASE}"
+          done
+          rm -rf /tmp/blind /tmp/efficient-sam /tmp/safe-acquisition /tmp/blind_measurement_results.csv
+          test ! -e /tmp/blind
+          test ! -e /tmp/efficient-sam
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          root = Path('/tmp/sealed-partition')
+          forbidden = {'photo_url','photo_url_large','latitude','longitude','species','observer','observer_id','inat_taxon_id'}
+          csv_files = sorted(root.glob('*.csv'))
+          json_files = sorted(root.glob('*.json'))
+          assert len(csv_files) == len(json_files) == 1
+          with csv_files[0].open(newline='', encoding='utf-8') as fh:
+              header = next(csv.reader(fh), [])
+          assert not forbidden.intersection(header)
+          receipt = json.loads(json_files[0].read_text())
+          assert receipt['source_urls_present'] is False
+          assert receipt['species_present'] is False
+          assert receipt['coordinates_present'] is False
+          print('third_cohort_sealed_partition_firewall=pass')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h2-third-terminal-b${{ matrix.measurement_batch }}-s${{ matrix.semantic_shard }}-p${{ matrix.compute_partition }}
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/sealed-partition
+
+  reassemble-and-test:
+    needs: measure-partition
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Forbid post-pixel rerun or recovery
+        run: test "${GITHUB_RUN_ATTEMPT}" = "1"
+      - name: Materialize exact validated legacy measurement machine
+        run: bash scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh
+      - name: Install analysis runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . scipy
+      - uses: actions/download-artifact@v4
+        with:
+          name: h2-third-cohort-measurement-firewall-v1
+          path: /tmp/firewall
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: h2-third-terminal-*
+          path: /tmp/partition-results
+          merge-multiple: true
+      - name: Require all 256 terminal receipts then open metadata-colour join
+        run: |
+          mkdir -p results/polymorphism_h2_third_cohort_prospective_measurement_20260917
+          python scripts/analysis/reassemble_polymorphism_h2_third_cohort_measurement_20260917.py \
+            --results-dir /tmp/partition-results \
+            --worker-batch0 /tmp/firewall/batch_0/worker_packet/measurement_manifest.csv \
+            --worker-batch1 /tmp/firewall/batch_1/worker_packet/measurement_manifest.csv \
+            --metadata-join-key /tmp/firewall/sealed_keys/metadata_join_key.csv \
+            --firewall-manifest /tmp/firewall/measurement_firewall_manifest.json \
+            --output-csv data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv \
+            --support-csv data/derived/polymorphism_h2_third_cohort_measurement_species_support_v1.csv \
+            --output-json results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json
+      - name: Run only the frozen prospective q_white/W test after support gate
+        run: |
+          python scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py \
+            --measured-csv data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv \
+            --measurement-result results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json \
+            --output-dir results/polymorphism_h2_third_cohort_prospective_white_axis_20260917
+      - name: Independently read back and validate durable terminal result
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from fcp_pipeline.third_cohort_prospective_execution_gate import validate_stage_transition
+          mpath = Path('results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json')
+          hpath = Path('results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json')
+          measurement = json.loads(mpath.read_text())
+          h2 = json.loads(hpath.read_text())
+          assert measurement['schema'] == 'third_cohort_prospective_measurement_result_v1'
+          assert measurement['stage'] == 'SUPPORT_GATE_COMPLETE'
+          assert measurement['persisted_image_pixels'] is False
+          support = measurement['stage_receipts']['support']
+          if measurement['support_decision'] == 'PASS':
+              assert h2['schema'] == 'third_cohort_prospective_h2_result_v1'
+              assert h2['stage'] == 'H2_COMPLETE'
+              validate_stage_transition(support, h2['stage_receipt'])
+              assert h2['decision']['verdict'] in {
+                  'H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED',
+                  'H2_PROSPECTIVE_WHITE_AXIS_NOT_CONFIRMED',
+                  'H2_PROSPECTIVE_NOT_EVALUABLE_VECTOR_SUPPORT',
+              }
+          else:
+              assert h2['stage'] == 'SUPPORT_GATE_COMPLETE'
+              assert h2['decision']['verdict'] == 'H2_PROSPECTIVE_NOT_EVALUABLE_MEASUREMENT_SUPPORT'
+              assert h2['H2_W_computed'] is False
+          print(json.dumps({'measurement_support': measurement['support_decision'], 'h2_verdict': h2['decision']['verdict']}, sort_keys=True))
+          PY
+      - name: Build durable terminal package and verify archive read-back
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from zipfile import ZIP_DEFLATED, ZipFile
+          files = [
+              Path('results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json'),
+              Path('results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json'),
+          ]
+          out = Path('/tmp/h2-third-cohort-terminal-package.zip')
+          with ZipFile(out, 'w', ZIP_DEFLATED) as z:
+              for p in files:
+                  z.write(p, p.as_posix())
+          with ZipFile(out, 'r') as z:
+              for p in files:
+                  assert json.loads(z.read(p.as_posix()).decode()) == json.loads(p.read_text())
+          print('terminal_package_sha256=' + hashlib.sha256(out.read_bytes()).hexdigest())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h2-third-cohort-prospective-result-20260917
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv
+            data/derived/polymorphism_h2_third_cohort_measurement_species_support_v1.csv
+            results/polymorphism_h2_third_cohort_prospective_measurement_20260917
+            results/polymorphism_h2_third_cohort_prospective_white_axis_20260917
+            /tmp/h2-third-cohort-terminal-package.zip
+      - name: Commit immutable prospective measurement and H2 result
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv \
+            data/derived/polymorphism_h2_third_cohort_measurement_species_support_v1.csv \
+            results/polymorphism_h2_third_cohort_prospective_measurement_20260917 \
+            results/polymorphism_h2_third_cohort_prospective_white_axis_20260917
+          git commit -m "complete prospective third-cohort H2 white-axis test"
+          for attempt in 1 2 3 4; do
+            git fetch origin "$TARGET_BRANCH"
+            git rebase "origin/$TARGET_BRANCH"
+            if git push origin "HEAD:$TARGET_BRANCH"; then exit 0; fi
+            sleep $((attempt * 2))
+          done
+          exit 1
