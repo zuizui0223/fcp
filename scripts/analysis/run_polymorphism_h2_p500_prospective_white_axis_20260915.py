@@ -175,6 +175,20 @@ def write_result(out: Path, result: dict) -> None:
     print(json.dumps(result, indent=2, sort_keys=True, allow_nan=False))
 
 
+def repo_display_path(path: Path) -> str:
+    """Return a stable repo-relative display path when possible.
+
+    CLI arguments may arrive as either repository-relative or absolute Paths.  This
+    helper is presentation-only and must not change any scientific input or output.
+    """
+    if not path.is_absolute():
+        return str(path)
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def main() -> int:
     args = parse_args()
     measurement = json.loads(args.measurement_result.read_text(encoding="utf-8"))
@@ -261,7 +275,7 @@ def main() -> int:
         "status": "untouched_prospective_test_of_previously_frozen_axis",
         "stage": "H2_COMPLETE",
         "protocol": str(PROTOCOL.relative_to(ROOT)),
-        "measurement_result": str(args.measurement_result.relative_to(ROOT)),
+        "measurement_result": repo_display_path(args.measurement_result),
         "measurement_support": {k: v for k, v in support.items() if k != "support_stage"},
         "fixed_axis_palette_loadings": {BIO[i]: float(q[i]) for i in range(len(BIO))},
         "statistic": "W = mean_i (u_i dot q_white)^2",
