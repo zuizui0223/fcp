@@ -32,6 +32,15 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def repo_display_path(path: Path) -> str:
+    if not path.is_absolute():
+        return str(path)
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
     p.add_argument("--results-dir", type=Path, required=True)
@@ -243,8 +252,8 @@ def main() -> int:
             "species_support_sha256": sha256_file(args.support_csv),
         },
         "files": {
-            "measured_table": str(args.output_csv.relative_to(ROOT)),
-            "species_support": str(args.support_csv.relative_to(ROOT)),
+            "measured_table": repo_display_path(args.output_csv),
+            "species_support": repo_display_path(args.support_csv),
         },
         "hard_nonclaims": [
             "measurement support is not global polymorphism prevalence",
