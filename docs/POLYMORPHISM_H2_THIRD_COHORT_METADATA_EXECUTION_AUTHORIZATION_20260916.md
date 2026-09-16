@@ -3,9 +3,11 @@
 Date authorized: 2026-09-16 JST
 Status: AUTHORIZED FOR ONE OUTCOME-BLIND METADATA DRAW ONLY
 
-Implementation parent HEAD: `ac5699d81fdfcde6f01422cb1193cc71bb3d957c`
+Implementation parent HEAD: `191c05760c97990388a4eb21ece18069b2c8a2b4`
 
 This authorization permits exactly one GitHub Actions attempt of `.github/workflows/h2-third-cohort-fresh-metadata.yml` on the frozen 500-species third cohort. The authorization commit must differ from the implementation parent by this file only. Any rerun attempt is forbidden and must fail before network requests.
+
+The preceding authorization run `35107243536` failed during the pre-request dependency/test step because `pytest` was not installed. All three frozen fingerprints passed before that failure; the metadata acquisition step was skipped, so zero third-cohort metadata requests were made and no biological or colour outcome was opened. This authorization supersedes that unconsumed technical preflight authorization after the dependency-only workflow repair.
 
 Frozen inputs and fingerprints:
 
