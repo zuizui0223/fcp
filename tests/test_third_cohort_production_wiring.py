@@ -4,6 +4,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FIREWALL = ROOT / "scripts" / "analysis" / "build_polymorphism_h2_third_cohort_measurement_firewall_20260917.py"
 REASSEMBLER = ROOT / "scripts" / "analysis" / "reassemble_polymorphism_h2_third_cohort_measurement_20260917.py"
 H2 = ROOT / "scripts" / "analysis" / "run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py"
+WORKFLOW = ROOT / ".github" / "workflows" / "h2-third-cohort-prospective-measurement.yml"
 
 
 def test_third_cohort_production_scripts_exist_and_do_not_import_p500_gate():
@@ -42,3 +43,19 @@ def test_reassembler_writes_durable_support_stage_receipt():
         '"H2_opened": False',
     ):
         assert needle in text
+
+
+def test_reassembler_uses_safe_repo_display_path_for_relative_cli_outputs():
+    text = REASSEMBLER.read_text(encoding="utf-8")
+    assert "def repo_display_path(" in text
+    assert "repo_display_path(args.output_csv)" in text
+    assert "repo_display_path(args.support_csv)" in text
+    assert "args.output_csv.relative_to(ROOT)" not in text
+    assert "args.support_csv.relative_to(ROOT)" not in text
+
+
+def test_biological_workflow_installs_package_before_importing_authorization_validator():
+    text = WORKFLOW.read_text(encoding="utf-8")
+    install = text.index("Install base package and preflight runtime")
+    validate = text.index("validate_authorization")
+    assert install < validate
