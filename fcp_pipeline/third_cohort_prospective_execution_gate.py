@@ -3,12 +3,16 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from datetime import datetime, timezone
+import hashlib
 from typing import Any
+
+import pandas as pd
 
 METADATA_FREEZE_COMMIT = "ca69930986e39e3ea9b2d2f97ab247045ba9db0b"
 AUTHORIZED_METADATA_SHA256 = "13b25d72f20ed2b09ebcf3f80e0058aede08474a7e9051f7fb6ce1e521a16290"
 AUTHORIZED_SPECIES_SHA256 = "36a866b040b835e20539d318b0533bcb905cbe760d23df29e7da6587a054e593"
 MEASUREMENT_SOURCE_COMMIT = "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a"
+BLIND_SALT = "FCP_H2_THIRD_COHORT_PROSPECTIVE_20260917_V1"
 EXPECTED_SPECIES = 499
 EXPECTED_ROWS = 49_900
 EXPECTED_TERMINAL_PARTITIONS = 256
@@ -28,6 +32,66 @@ STAGES = (
 def _require_bool(value: Any, label: str) -> None:
     if type(value) is not bool:
         raise RuntimeError(f"{label} must be boolean")
+
+
+def measurement_id(photo_id: object) -> str:
+    payload = f"{BLIND_SALT}\x1fphoto\x1f{photo_id}".encode("utf-8")
+    return "FCPH2T3-" + hashlib.sha256(payload).hexdigest().upper()[:24]
+
+
+def measurement_batch(mid: str) -> int:
+    digest = hashlib.sha256(f"fcp-h2-third-batch\x1f{mid}".encode("utf-8")).digest()
+    return int.from_bytes(digest[:8], "big") % 2
+
+
+def validate_authorized_denominator(
+    metadata: pd.DataFrame,
+    authorized_species: pd.DataFrame,
+    *,
+    expected_species: int = EXPECTED_SPECIES,
+    target_per_species: int = 100,
+) -> pd.DataFrame:
+    if expected_species < 1 or target_per_species < 1:
+        raise RuntimeError("expected denominator must be positive")
+    expected_rows = int(expected_species) * int(target_per_species)
+    required = {
+        "inat_taxon_id", "observation_id", "photo_id", "photo_url_large",
+        "photo_license", "latitude", "longitude",
+    }
+    missing = sorted(required - set(metadata.columns))
+    if missing:
+        raise RuntimeError(f"authorized metadata lacks measurement fields: {missing}")
+    sp_col = "query_species" if "query_species" in metadata.columns else "species"
+    if sp_col not in metadata.columns:
+        raise RuntimeError("authorized metadata lacks species identity")
+    if "species" not in authorized_species.columns or "inat_taxon_id" not in authorized_species.columns:
+        raise RuntimeError("authorized species table lacks identity fields")
+
+    x = metadata.copy()
+    x["species"] = x[sp_col].astype(str)
+    x["inat_taxon_id"] = pd.to_numeric(x["inat_taxon_id"], errors="raise").astype("int64")
+    sp = authorized_species[["species", "inat_taxon_id"]].copy()
+    sp["species"] = sp["species"].astype(str)
+    sp["inat_taxon_id"] = pd.to_numeric(sp["inat_taxon_id"], errors="raise").astype("int64")
+
+    if len(x) != expected_rows:
+        raise RuntimeError(f"authorized row denominator mismatch: {len(x)} != {expected_rows}")
+    if len(sp) != expected_species or sp["species"].nunique() != expected_species or sp["inat_taxon_id"].nunique() != expected_species:
+        raise RuntimeError("authorized species denominator or uniqueness mismatch")
+    if x["species"].nunique() != expected_species or x["inat_taxon_id"].nunique() != expected_species:
+        raise RuntimeError("metadata species denominator mismatch")
+    metadata_pairs = set(zip(x["species"], x["inat_taxon_id"], strict=False))
+    species_pairs = set(zip(sp["species"], sp["inat_taxon_id"], strict=False))
+    if metadata_pairs != species_pairs:
+        raise RuntimeError("metadata species set differs from authorized species set")
+    counts = x.groupby(["species", "inat_taxon_id"], observed=True).size()
+    if not (counts.astype(int) == int(target_per_species)).all():
+        raise RuntimeError("not every authorized species has the exact frozen row target")
+    if x["observation_id"].astype(str).duplicated().any():
+        raise RuntimeError("duplicate observation IDs in authorized denominator")
+    if x["photo_id"].astype(str).duplicated().any():
+        raise RuntimeError("duplicate photo IDs in authorized denominator")
+    return x.reset_index(drop=True)
 
 
 def validate_candidate_metadata(candidate: Mapping[str, Any]) -> None:
@@ -206,8 +270,9 @@ def validate_stage_transition(previous: Mapping[str, Any], current: Mapping[str,
 
 
 __all__ = [
-    "AUTHORIZED_METADATA_SHA256", "AUTHORIZED_SPECIES_SHA256", "EXPECTED_ROWS", "EXPECTED_SPECIES",
+    "AUTHORIZED_METADATA_SHA256", "AUTHORIZED_SPECIES_SHA256", "BLIND_SALT", "EXPECTED_ROWS", "EXPECTED_SPECIES",
     "EXPECTED_TERMINAL_PARTITIONS", "MEASUREMENT_SOURCE_COMMIT", "METADATA_FREEZE_COMMIT",
     "MIN_H2_VECTOR_SPECIES", "MIN_MEASUREMENT_EVALUABLE_SPECIES", "STAGES", "build_start_record",
-    "validate_authorization", "validate_candidate_metadata", "validate_stage_transition", "validate_start_record",
+    "measurement_batch", "measurement_id", "validate_authorization", "validate_authorized_denominator",
+    "validate_candidate_metadata", "validate_stage_transition", "validate_start_record",
 ]
