@@ -50,10 +50,10 @@ jobs:
           )
           test "$(git rev-parse HEAD^)" = "$EXPECTED_PARENT"
 
-      - name: Install package
+      - name: Install package and test dependency
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e .
+          python -m pip install -e . pytest
 
       - name: Verify frozen fingerprints and regression tests
         shell: bash
@@ -62,7 +62,7 @@ jobs:
           echo '16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59  results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv' | sha256sum -c -
           echo '3cb1ad1126c460b2b9dd8dd837662023ca252e941dbb84fa3d05e94f5cfc9c59  docs/POLYMORPHISM_H2_THIRD_COHORT_FRESH_METADATA_PROTOCOL_20260916.md' | sha256sum -c -
           echo '5bbc725aa677b1f61b10cdd0eacb371f45dd8ab6748405edcfd76f468076fb54  scripts/acquisition/run_polymorphism_h2_third_cohort_candidate_metadata_20260916.py' | sha256sum -c -
-          pytest -q tests/test_third_cohort_metadata_gate.py tests/test_random_photo_h9_pool.py
+          python -m pytest -q tests/test_third_cohort_metadata_gate.py tests/test_random_photo_h9_pool.py
           python -m py_compile scripts/acquisition/run_polymorphism_h2_third_cohort_candidate_metadata_20260916.py
 
       - name: Run exactly one outcome-blind fresh-metadata draw
