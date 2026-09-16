@@ -1,0 +1,163 @@
+name: h2-third-cohort-fresh-metadata
+
+on:
+  push:
+    branches:
+      - analysis/h2-third-cohort-preopening-20260916
+    paths:
+      - "docs/POLYMORPHISM_H2_THIRD_COHORT_METADATA_EXECUTION_AUTHORIZATION_20260916.md"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: h2-third-cohort-fresh-metadata-20260916
+  cancel-in-progress: false
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Enforce one-shot authorization chronology
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          AUTH='docs/POLYMORPHISM_H2_THIRD_COHORT_METADATA_EXECUTION_AUTHORIZATION_20260916.md'
+          test -f "$AUTH"
+          mapfile -t CHANGED < <(git diff --name-only HEAD^ HEAD)
+          test "${#CHANGED[@]}" -eq 1
+          test "${CHANGED[0]}" = "$AUTH"
+          EXPECTED_PARENT=$(python - <<'PY'
+          import re
+          from pathlib import Path
+          text = Path('docs/POLYMORPHISM_H2_THIRD_COHORT_METADATA_EXECUTION_AUTHORIZATION_20260916.md').read_text()
+          m = re.search(r'Implementation parent HEAD: `([0-9a-f]{40})`', text)
+          if not m:
+              raise SystemExit('authorization missing implementation parent HEAD')
+          print(m.group(1))
+          PY
+          )
+          test "$(git rev-parse HEAD^)" = "$EXPECTED_PARENT"
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+
+      - name: Verify frozen fingerprints and regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59  results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv' | sha256sum -c -
+          echo '3cb1ad1126c460b2b9dd8dd837662023ca252e941dbb84fa3d05e94f5cfc9c59  docs/POLYMORPHISM_H2_THIRD_COHORT_FRESH_METADATA_PROTOCOL_20260916.md' | sha256sum -c -
+          echo '5bbc725aa677b1f61b10cdd0eacb371f45dd8ab6748405edcfd76f468076fb54  scripts/acquisition/run_polymorphism_h2_third_cohort_candidate_metadata_20260916.py' | sha256sum -c -
+          pytest -q tests/test_third_cohort_metadata_gate.py tests/test_random_photo_h9_pool.py
+          python -m py_compile scripts/acquisition/run_polymorphism_h2_third_cohort_candidate_metadata_20260916.py
+
+      - name: Run exactly one outcome-blind fresh-metadata draw
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: python scripts/acquisition/run_polymorphism_h2_third_cohort_candidate_metadata_20260916.py
+
+      - name: Verify sealed denominator and outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+
+          p = Path('results/polymorphism_h2_third_cohort_candidate_metadata_20260916/result.json')
+          r = json.loads(p.read_text())
+          assert r['status'] == 'complete_fresh_metadata_draw_before_pixels'
+          assert r['selection']['selected_species'] == 500
+          assert r['selection']['ordered_manifest_sha256'] == '16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59'
+          assert r['selection']['canonical_selected_csv_sha256'] == '4ad1191f39068e0fb2229f84361b1004803e24793190566d21e5c474aef2002a'
+          assert r['query']['target_rows_per_species'] == 100
+          assert r['query']['observer_cap'] == 2
+          assert r['query']['request_retries'] == 0
+          assert r['prior_id_exclusion']['unique_observation_ids'] == 178462
+          assert r['prior_id_exclusion']['unique_photo_ids'] == 178462
+          assert r['decision']['one_bounded_metadata_draw'] is True
+          assert r['decision']['no_species_replacement'] is True
+          assert r['decision']['no_target_relaxation'] is True
+          assert r['decision']['biological_pixel_opening_authorized_by_this_gate'] is False
+          for key in ['image_pixels_opened','flower_colour_opened','morph_opened','palette_opened','D_opened','H2_vectors_opened','H2_W_opened','structured_null_opened','H3_predictors_used','P500_recovered_H2_read']:
+              assert r['outcome_firewall'][key] is False
+
+          n = r['capacity']['authorized_species']
+          rows = r['capacity']['authorized_metadata_rows']
+          assert n == r['capacity']['full100_species']
+          assert rows == n * 100
+          auth = pd.read_csv(r['files']['authorized_metadata'])
+          if n:
+              counts = auth.groupby('inat_taxon_id').size()
+              assert len(counts) == n
+              assert counts.eq(100).all()
+              assert not auth['observation_id'].duplicated().any()
+              assert not auth['photo_id'].duplicated().any()
+
+          verdict = r['decision']['verdict']
+          err = r['transport']['request_error_fraction']
+          if verdict == 'THIRD_COHORT_METADATA_GATE_PASS':
+              assert err <= 0.05 and n >= 300
+              assert r['decision']['pixels_may_be_authorized_in_separate_next_step'] is True
+          elif verdict == 'THIRD_COHORT_METADATA_TRANSPORT_NOT_EVALUABLE':
+              assert err > 0.05
+              assert r['decision']['pixels_may_be_authorized_in_separate_next_step'] is False
+          elif verdict == 'THIRD_COHORT_METADATA_CAPACITY_NOT_EVALUABLE':
+              assert err <= 0.05 and n < 300
+              assert r['decision']['pixels_may_be_authorized_in_separate_next_step'] is False
+          else:
+              raise AssertionError(verdict)
+          print(json.dumps(r, indent=2, sort_keys=True))
+          PY
+
+      - name: Upload immutable metadata draw
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: h2-third-cohort-fresh-metadata-${{ github.sha }}
+          path: |
+            data/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz
+            data/frozen/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz
+            results/polymorphism_h2_third_cohort_candidate_metadata_20260916/
+          if-no-files-found: warn
+          retention-days: 90
+
+      - name: Commit immutable metadata result
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='analysis/h2-third-cohort-preopening-20260916'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            data/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz \
+            data/frozen/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz \
+            results/polymorphism_h2_third_cohort_candidate_metadata_20260916/
+          if git diff --cached --quiet; then
+            echo 'third-cohort metadata outputs already present'
+            exit 0
+          fi
+          git commit -m 'freeze third-cohort prospective fresh metadata draw'
+          for attempt in 1 2 3 4; do
+            git fetch origin "$BRANCH"
+            git rebase "origin/$BRANCH"
+            if git push origin HEAD:"$BRANCH"; then
+              exit 0
+            fi
+            sleep $((attempt * 2))
+          done
+          exit 1
