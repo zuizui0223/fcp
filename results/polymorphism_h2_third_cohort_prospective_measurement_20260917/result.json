@@ -1,0 +1,107 @@
+{
+  "H2_opened": false,
+  "analysis": "polymorphism_h2_third_cohort_prospective_measurement",
+  "classifiable_rows": 25788,
+  "coordinate_colour_join_opened_after_complete_measurement": true,
+  "date_jst": "2026-09-17",
+  "files": {
+    "measured_table": "data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv",
+    "species_support": "data/derived/polymorphism_h2_third_cohort_measurement_species_support_v1.csv"
+  },
+  "hard_nonclaims": [
+    "measurement support is not global polymorphism prevalence",
+    "nonclassifiable rows are not a fifth biological morph",
+    "measurement failure is not monomorphism",
+    "this receipt does not itself test the frozen white/non-white axis"
+  ],
+  "lineage": {
+    "firewall_manifest_sha256": "72cd3fa25e64b9df3f295397d58315b89d225fcead30fbb19083a4f6a16780b5",
+    "measured_table_sha256": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
+    "protocol_sha256": "9a5ab2aff5151fd2cc79dea384edb4569abbfed768550b93803e287854e3dfe3",
+    "species_support_sha256": "146af92beaf55c54a7fb3b70f608fd175220961bc34af92aab275e18114eddb4"
+  },
+  "measurement_evaluable_species": 377,
+  "minimum_classifiable_photos_per_species": 40,
+  "minimum_measurement_evaluable_species": 250,
+  "nonclassifiable_rows": 24112,
+  "partition_receipts": 256,
+  "persisted_image_pixels": false,
+  "protocol": "docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md",
+  "replacement_rows": 0,
+  "replacement_species": 0,
+  "rows": 49900,
+  "schema": "third_cohort_prospective_measurement_result_v1",
+  "species": 499,
+  "stage": "SUPPORT_GATE_COMPLETE",
+  "stage_receipts": {
+    "firewall": {
+      "candidate_pixels_opened": false,
+      "measurement_ids": 49900,
+      "replacement_rows": 0,
+      "replacement_species": 0,
+      "rows": 49900,
+      "species": 499,
+      "stage": "FIREWALL_FROZEN",
+      "terminal_partitions": 256
+    },
+    "partition": {
+      "persisted_image_pixels": false,
+      "replacement_rows": 0,
+      "replacement_species": 0,
+      "rows": 49900,
+      "species": 499,
+      "stage": "PARTITION_MEASUREMENT_COMPLETE",
+      "terminal_acquisition_rows": 49900,
+      "terminal_measurement_rows": 49900,
+      "terminal_partitions": 256
+    },
+    "reassembly": {
+      "duplicate_measurement_ids": 0,
+      "replacement_rows": 0,
+      "replacement_species": 0,
+      "rows": 49900,
+      "species": 499,
+      "stage": "REASSEMBLY_COMPLETE",
+      "unique_measurement_ids": 49900
+    },
+    "start": {
+      "H2_opened_before_start": false,
+      "authorized_metadata_sha256": "13b25d72f20ed2b09ebcf3f80e0058aede08474a7e9051f7fb6ce1e521a16290",
+      "authorized_species_sha256": "36a866b040b835e20539d318b0533bcb905cbe760d23df29e7da6587a054e593",
+      "branch": "analysis/h2-third-cohort-preopening-20260916",
+      "claim_scope": "forward chronology only; no retrospective certification of unrecorded external access",
+      "created_at_utc": "2026-09-17T03:18:59.925276Z",
+      "flower_colour_opened_before_start": false,
+      "head_sha": "f7582767da237aeb344dfc072452c6daf92e662b",
+      "image_pixels_opened_before_start": false,
+      "known_output_paths_absent": true,
+      "measurement_source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+      "metadata_freeze_commit": "ca69930986e39e3ea9b2d2f97ab247045ba9db0b",
+      "opening_authorized": true,
+      "rows": 49900,
+      "schema": "third_cohort_prospective_execution_start_v1",
+      "species": 499,
+      "stage": "PREOPENING",
+      "working_tree_inputs_verified": true
+    },
+    "support": {
+      "measurement_evaluable_species": 377,
+      "replacement_rows": 0,
+      "replacement_species": 0,
+      "rows": 49900,
+      "species": 499,
+      "stage": "SUPPORT_GATE_COMPLETE",
+      "support_decision": "PASS"
+    }
+  },
+  "status": "complete_third_cohort_location_blind_measurement_and_support_gate",
+  "support_decision": "PASS",
+  "target_rows_per_species": 100,
+  "terminal_result_rows": 49900,
+  "terminal_status_counts": {
+    "classified_four_state_morph": 25788,
+    "not_evaluable_ambiguous_palette_composition": 2618,
+    "not_evaluable_no_biological_palette_mass": 29,
+    "not_evaluable_roi_or_flip_gate": 21465
+  }
+}
