@@ -271,7 +271,10 @@ The manuscript must not claim:
 ## Repository evidence map
 
 - Current claim ledger: `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
-- Paper architecture: `docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260913.md`
+- Paper architecture: `docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md`
+- Figure plan: `docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`
+- Supporting Information map: `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`
+- Literature audit: `docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md`
 - H1 reconciliation: `docs/POLYMORPHISM_H1_EVIDENCE_LEDGER_20260914.md`
 - H2 target freeze: `docs/POLYMORPHISM_H2_WHITE_AXIS_TARGET_FREEZE_20260912.md`
 - Third-cohort protocol: `docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md`
