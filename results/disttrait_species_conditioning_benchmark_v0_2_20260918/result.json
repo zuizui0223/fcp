@@ -1,0 +1,43 @@
+{
+  "schema": "disttrait_species_conditioning_benchmark_v1",
+  "date_jst": "2026-09-18",
+  "role": "synthetic_methods_benchmark_for_between_species_geographic_confounding",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/benchmarks/species_conditioning_benchmark.py",
+    "git_blob_sha": "e2ba49663af7a4aae790412e883b3a7701636409"
+  },
+  "design": {
+    "worlds_per_condition": 40,
+    "species_per_world": 24,
+    "observations_per_species": 18,
+    "spatial_null_permutations": 39,
+    "naive_pooled_pair_sample": 10000,
+    "alpha": 0.05,
+    "null_world": "Species baseline binary-trait frequency changes with geographic species centre; trait state has no within-species spatial dependence.",
+    "signal_world": "Same between-species turnover plus a within-species local spatial effect on trait probability."
+  },
+  "null": {
+    "naive_pooled_false_positive_fraction": 1,
+    "species_conditioned_false_positive_fraction": 0,
+    "naive_pooled_rho_median": 0.5212989618057812,
+    "species_conditioned_mean_rho_median": -0.006260049811736548,
+    "species_conditioned_p_median": 0.6125
+  },
+  "signal": {
+    "naive_pooled_detection_fraction": 1,
+    "species_conditioned_detection_fraction": 1,
+    "species_conditioned_mean_rho_median": 0.21553623493853935,
+    "species_conditioned_p_median": 0.025
+  },
+  "interpretation": {
+    "supported": "In this targeted confounding benchmark, naive pooling systematically mistakes between-species geographic turnover for within-species spatial organization, whereas the species-conditioned matched-null test is calibrated in the null worlds and detects the imposed within-species signal.",
+    "not_supported": [
+      "general superiority over all spatial methods",
+      "universal type-I error calibration",
+      "power calibration across arbitrary effect sizes, missingness, observation imbalance or trait types",
+      "empirical performance outside the simulated failure mode"
+    ]
+  }
+}
