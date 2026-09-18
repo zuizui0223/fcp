@@ -1,0 +1,37 @@
+name: New Phytologist submission guard
+
+on:
+  push:
+    branches:
+      - analysis/h2-third-cohort-preopening-20260916
+    paths:
+      - docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md
+      - docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md
+      - tests/test_polymorphism_new_phytologist_submission.py
+      - .github/workflows/polymorphism-new-phytologist-submission-guard.yml
+  pull_request:
+    paths:
+      - docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md
+      - docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md
+      - tests/test_polymorphism_new_phytologist_submission.py
+      - .github/workflows/polymorphism-new-phytologist-submission-guard.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  submission-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependency
+        run: python -m pip install --upgrade pytest
+
+      - name: Verify New Phytologist submission contract
+        run: python -m pytest tests/test_polymorphism_new_phytologist_submission.py -q
