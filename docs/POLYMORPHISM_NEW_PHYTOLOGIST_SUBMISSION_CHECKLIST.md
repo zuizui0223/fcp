@@ -45,8 +45,8 @@ Date: 2026-09-18 JST
 - [ ] Suggested/excluded reviewers considered if requested.
 - [ ] Main-text length decision closed: current 3,836 words remains below the journal's usual 6,500–7,500-word Full Paper range after restoring replication-critical Methods; do not pad.
 - [ ] Final line numbering / manuscript file conversion completed.
-- [ ] Figure files checked visually at submission size.
-- [ ] Supporting Information legends converted to journal-ready form.
+- [ ] Figure files checked visually at submission size; first QA found and fixed Fig.1 topology, Fig.2 annotation and Fig.3 legend issues, but regenerated artifact still requires re-inspection (`docs/POLYMORPHISM_FIGURE_VISUAL_QA_20260918.md`).
+- [x] Supporting Information legends converted to journal-ready form.
 
 ## Files
 
@@ -58,6 +58,7 @@ Date: 2026-09-18 JST
 - claim ledger: `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
 - SI map: `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`
 - figures: `docs/figures/polymorphism_20260918/`
+- figure visual QA: `docs/POLYMORPHISM_FIGURE_VISUAL_QA_20260918.md`
 
 ## External-input boundary
 
