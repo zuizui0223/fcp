@@ -115,3 +115,59 @@ def test_new_phytologist_figure_and_supporting_legends_are_present() -> None:
     for idx in range(1, 10):
         assert f"**Fig. S{idx}." in text
     assert text.index("## References") < text.index("## Supporting Information")
+
+
+def _section_text(text: str, heading: str, stop_headings: tuple[str, ...]) -> str:
+    start_marker = f"## {heading}"
+    start = text.index(start_marker) + len(start_marker)
+    end = len(text)
+    for stop in stop_headings:
+        marker = f"## {stop}"
+        idx = text.find(marker, start)
+        if idx != -1:
+            end = min(end, idx)
+    return text[start:end]
+
+
+def _declared_word_count(text: str, label: str) -> int:
+    match = re.search(rf"^- {re.escape(label)}: ([0-9,]+) words$", text, flags=re.M)
+    assert match, f"missing declared word count for {label}"
+    return int(match.group(1).replace(",", ""))
+
+
+def test_new_phytologist_front_page_counts_are_live() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+
+    intro = len(words(_section_text(text, "Introduction", ("Materials and Methods",))))
+    methods = len(words(_section_text(text, "Materials and Methods", ("Table 1.", "Results"))))
+    results = len(words(_section_text(text, "Results", ("Discussion",))))
+    discussion = len(words(_section_text(text, "Discussion", ("Acknowledgements",))))
+    main = intro + methods + results + discussion
+
+    assert _declared_word_count(text, "Introduction") == intro
+    assert _declared_word_count(text, "Materials and Methods") == methods
+    assert _declared_word_count(text, "Results") == results
+    assert _declared_word_count(text, "Discussion") == discussion
+    assert _declared_word_count(text, "Main text \(Introduction through Discussion\)") == main
+
+    assert discussion / main <= 0.30
+
+    figure_match = re.search(r"^- Figures: ([0-9]+)$", text, flags=re.M)
+    table_match = re.search(r"^- Tables: ([0-9]+)$", text, flags=re.M)
+    assert figure_match and table_match
+    display_items = int(figure_match.group(1)) + int(table_match.group(1))
+    assert 6 <= display_items <= 8
+
+
+def test_new_phytologist_keywords_are_actually_alphabetical() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    keyword_line = next(
+        line for line in text.splitlines()
+        if line.startswith("**Keywords (alphabetical):**")
+    )
+    keywords = [
+        item.strip()
+        for item in keyword_line.split("**", 2)[-1].split(":", 1)[-1].split(";")
+        if item.strip()
+    ]
+    assert keywords == sorted(keywords, key=str.casefold)
