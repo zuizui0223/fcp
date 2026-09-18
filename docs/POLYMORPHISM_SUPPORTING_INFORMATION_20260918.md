@@ -4,7 +4,21 @@ This document is the compact Supporting Information index for the active flower-
 
 It does not recompute any result. It organizes frozen protocols, machine-readable outputs, figures and provenance into a manuscript-facing evidence map.
 
-## S1. Cohort roles, acquisition lineage and inferential separation
+## S1. Global frame, cohort roles, acquisition lineage and inferential separation
+
+Global opportunity-frame provenance:
+
+- `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`
+- metadata-discovered V1 + cache-resistant V2 union = **42,111 unique iNaturalist species**;
+- discovery grid = 18 × 9 equal-area cells;
+- V2 = 20 metadata-only rounds × 162 cells = **3,240** fixed request attempts;
+- V2 request errors = 0;
+- no image pixels or flower-colour outcomes used to define the species union;
+- high-depth capacity after observer cap: `U100 = 4,730 species`.
+
+The 42,111 frame is an outcome-blind metadata-discovery/opportunity universe, not an estimate of all angiosperm species and not a polymorphism-prevalence denominator.
+
+### Cohort roles
 
 | Cohort / execution | Upstream source | Analyses using it | Biological outcome status | Key denominator |
 |---|---|---|---|---:|
