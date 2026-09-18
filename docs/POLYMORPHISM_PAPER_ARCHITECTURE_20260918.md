@@ -16,9 +16,9 @@ Current figure plan:
 
 ## 1. One-sentence paper
 
-**Species-level flower-colour polymorphism is reproducibly measurable under high-depth observer-disjoint photographic sampling, and a recurrent white-versus-nonwhite colour-space axis identified in the original cohorts was prospectively confirmed in a pre-frozen species-disjoint third cohort from the same iNaturalist opportunity universe.**
+**Species-level flower-colour polymorphism is reproducibly measurable under high-depth observer-disjoint photographic sampling, a recurrent white-versus-nonwhite colour-space axis was prospectively confirmed, and species with greater polymorphism show stronger within-species geographic colour organization across species-disjoint high-depth cohorts.**
 
-The H3 results are retained as bounded alternative-explanation tests: broad tree-wide conservation is not detected in reserve, and the discovery sampled-span association collapses under species-disjoint replication.
+The H3 results then act as bounded alternative-explanation tests: broad tree-wide conservation is not detected in reserve, and the discovery sampled-span association collapses under species-disjoint replication.
 
 ## 2. What changed after the 2026-09-13 architecture
 
@@ -48,24 +48,26 @@ Therefore the paper can now distinguish three evidential stages:
 2. **target discovery/localization** — legacy H2 discovery/reserve;
 3. **untouched prospective confirmation of the already frozen target** — third cohort.
 
-This chronology is the central paper architecture.
+This chronology is the central H2 architecture. A complementary, already frozen D–spatial analysis supplies the main ecological clue: higher D covaries with stronger within-species geographic colour organization, including after sampled-span, clear technical-failure, background and ambiguity checks.
 
 ## 3. Central conceptual move
 
-Most macroecological trait studies reduce each species to one mean or one category. This paper instead treats **within-species trait diversity itself as a continuous species phenotype** and separates three logically distinct questions:
+Most macroecological trait studies reduce each species to one mean or one category. This paper instead treats **within-species trait diversity itself as a continuous species phenotype** and separates four logically distinct questions:
 
 1. **Measurement:** can a species-level polymorphism phenotype be recovered reproducibly from independent observer sets?
 2. **Geometry:** is the within-species variation directionless, or does it repeatedly align with a common colour-space direction?
-3. **Explanation:** do broad phylogenetic or geographic-opportunity predictors account for species differences in that phenotype?
+3. **Spatial organization:** do species with more colour diversity also organize that diversity more strongly across geography?
+4. **Broad explanation:** can species differences in D be reduced to deep ancestry or sampled geographic opportunity?
 
-The evidence is asymmetric:
+The evidence is asymmetric but coherent:
 
 - H1: yes, under the first-frozen observer-disjoint validation rule, with a stricter split-invariance caveat;
 - H2: yes, for a narrow achromatic–chromatic white-versus-nonwhite axis, now prospectively confirmed;
+- spatial organization: yes, as a replicated structural association in discovery and reserve with multiple measurement/background stress tests;
 - H3a: no support for broad tree-wide phylogenetic signal under the frozen reserve test;
 - H3b: the discovery sampled-span association does not replicate.
 
-That asymmetry is the result, not a gap to be rescued.
+This yields a working synthesis of **constrained colour generation plus species-specific spatial maintenance/sorting**, while keeping the maintenance mechanism itself unresolved.
 
 ## 4. Working title
 
@@ -114,13 +116,17 @@ A pre-frozen third cohort completes 49,900 terminal rows from 499 species; 377 s
 Primary 0.10: 158 species, W = 0.51725, p = 0.001.
 Strict 0.20: 86 species, W = 0.53293, p = 0.001.
 
-### Sentence 7 — alternative-explanation filters
+### Sentence 7 — spatial organization
+
+Across the original high-depth cohorts, greater D is associated with stronger within-species geographic colour organization; the reserve relationship persists after sampled-span, clear technical-failure, matched-background and ambiguity-endpoint checks.
+
+### Sentence 8 — alternative-explanation filters
 
 Fresh reserve tests show no detectable broad tree-wide conservation of D, while the discovery sampled-span association collapses to essentially zero; broad ancestry and sampled extent are therefore insufficient as simple explanations under the frozen designs.
 
-### Sentence 8 — conclusion
+### Sentence 9 — conclusion
 
-Within-species flower-colour diversity is measurable as a species phenotype, and its strongest confirmed recurrent geometry in these data is achromatic–chromatic rather than a general hue axis.
+Within-species flower-colour diversity is measurable as a species phenotype, its strongest confirmed recurrent geometry is achromatic–chromatic, and its between-species variation is coupled to species-specific spatial organization rather than explained by sampling extent alone.
 
 ## 6. Introduction spine
 
@@ -154,7 +160,11 @@ Explain chronology explicitly:
 
 This paragraph is now essential because it turns the former weakness into the strongest design feature.
 
-### P5. Alternative-explanation filters
+### P5. Spatial organization before mechanism
+
+Introduce the replicated D–spatial association as the strongest positive ecological clue. Emphasize survival after sampled-span, clear technical-failure, matched-background and ambiguity-endpoint checks, while stating that the association is not causal.
+
+### P6. Alternative-explanation filters
 
 Introduce H3a and H3b as fresh-data tests of two simple explanations for species differences in D: broad ancestry and sampled geographic opportunity. Preserve that H3a is not an equivalence test and H3b uses sampled span, not true range size.
 
@@ -236,11 +246,15 @@ Describe:
 - one-shot/no-rerun contract;
 - durable serialization/read-back validation.
 
-### 7.8 H3a / H3b bounded tests
+### 7.8 Replicated D–spatial organization analysis
+
+Report the previously frozen discovery/reserve D–spatial association and its sampled-span + clear technical-failure, matched-background and ambiguity-endpoint checks. Treat it as a structural correlate and mechanistic clue, not causal evidence.
+
+### 7.9 H3a / H3b bounded tests
 
 Put after H2.
 
-They delimit broad explanation; they are not allowed to rescue or redefine the main positive result.
+They delimit broad explanation; they are not allowed to rescue or redefine the H1/H2 or spatial-organization results.
 
 ## 8. Results order
 
@@ -333,7 +347,8 @@ Main sequence:
 2. observer-disjoint H1;
 3. H2 target discovery/localization;
 4. prospective third-cohort confirmation;
-5. bounded H3 alternative-explanation tests.
+5. replicated D–spatial organization and robustness checks;
+6. bounded H3 alternative-explanation tests.
 
 The key visual separation is Figure 3 versus Figure 4:
 
@@ -367,7 +382,11 @@ Do not infer:
 - climate selection;
 - developmental mechanism.
 
-### D5. Use H3 as alternative-explanation filters
+### D5. Build the mechanistic discussion around spatial organization
+
+Use the replicated D–spatial association as the strongest ecological clue and frame a two-stage working model: recurrently accessible white/nonwhite variation plus species-specific ecological/demographic maintenance or sorting. Explicitly distinguish this synthesis from a demonstrated mechanism.
+
+### D6. Use H3 as alternative-explanation filters
 
 Present the reserve results as showing that broad ancestry is not detectably conserved at the tested scale and that the discovery sampled-span effect collapses out of sample. These results make two simple explanations insufficient without claiming zero phylogenetic or geographic effects.
 
