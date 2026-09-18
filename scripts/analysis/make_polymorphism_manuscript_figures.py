@@ -144,13 +144,15 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
 
     ax = axes[1]
     ax.axis("off")
+    box_style = {"boxstyle": "round,pad=0.5", "facecolor": "white", "edgecolor": "#999999"}
     boxes = [
-        (0.5, 0.86, "42,111-species global frame\nSampling / opportunity universe"),
-        (0.5, 0.62, "Original high-depth source\n500 discovery + 500 reserve\n100 photos per species"),
-        (0.5, 0.38, "D inference after ≥40 classifiable\n369 discovery + 363 reserve"),
-        (0.5, 0.14, "Prospective H2 third cohort\n499 species × 100 rows\n377 measurement-evaluable"),
+        (0.50, 0.88, "42,111-species global frame\nSampling / opportunity universe"),
+        (0.28, 0.58, "Original high-depth source\n500 discovery + 500 reserve\n100 photos per species"),
+        (0.28, 0.22, "D inference after ≥40 classifiable\n369 discovery + 363 reserve"),
+        (0.74, 0.58, "Prospective H2 third cohort\npre-frozen selection + fresh metadata"),
+        (0.74, 0.22, "499 species × 100 rows\n377 measurement-evaluable\n0 replacements"),
     ]
-    for idx, (x, y, text) in enumerate(boxes):
+    for x, y, text in boxes:
         ax.text(
             x,
             y,
@@ -158,17 +160,26 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             transform=ax.transAxes,
             ha="center",
             va="center",
-            fontsize=9.5,
-            bbox={"boxstyle": "round,pad=0.5", "facecolor": "white", "edgecolor": "#999999"},
+            fontsize=8.8,
+            bbox=box_style,
         )
-        if idx < len(boxes) - 1:
-            ax.annotate(
-                "",
-                xy=(0.5, y - 0.105),
-                xytext=(0.5, y - 0.175),
-                xycoords=ax.transAxes,
-                arrowprops={"arrowstyle": "->", "color": "#777777", "lw": 1.2},
-            )
+    # The global frame branches into the legacy validation lane and the
+    # later prospective-confirmation lane; arrows point from source to target.
+    for source, target in [
+        ((0.44, 0.80), (0.31, 0.67)),
+        ((0.56, 0.80), (0.71, 0.67)),
+        ((0.28, 0.48), (0.28, 0.32)),
+        ((0.74, 0.48), (0.74, 0.32)),
+    ]:
+        ax.annotate(
+            "",
+            xy=target,
+            xytext=source,
+            xycoords=ax.transAxes,
+            arrowprops={"arrowstyle": "->", "color": "#777777", "lw": 1.2},
+        )
+    ax.text(0.28, 0.70, "original validation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
+    ax.text(0.74, 0.70, "prospective confirmation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
     panel_label(ax, "B")
 
     fig.tight_layout()
@@ -180,6 +191,10 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         "global_frame_species": 42111,
         "third_cohort_species": 499,
         "third_cohort_measurement_evaluable_species": 377,
+        "layout_contract": {
+            "cohort_topology": "global_frame_branches_to_original_and_third_cohort",
+            "arrow_direction": "top_to_bottom",
+        },
     }
     return files, meta
 
@@ -223,14 +238,31 @@ def figure2(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     for y, (cohort, rho, low, high, ccc), colour in zip(ys, rows, [SECONDARY, PRIMARY], strict=True):
         ax.hlines(y, low, high, color=colour, linewidth=3)
         ax.scatter(rho, y, s=80, color=colour, edgecolor="white", linewidth=0.8, zorder=3)
-        ax.text(high + 0.004, y, f"rho={rho:.3f}; CCC={ccc:.3f}", va="center", fontsize=8.2)
-    ax.axvline(0.80, color=NEUTRAL, linestyle="--", linewidth=1.3, label="Strict floor = 0.80")
+        label_y = y - 0.12 if cohort == "discovery" else y + 0.12
+        ax.text(
+            0.878,
+            label_y,
+            f"rho={rho:.3f}; CCC={ccc:.3f}",
+            ha="right",
+            va="center",
+            fontsize=8.2,
+        )
+    ax.axvline(0.80, color=NEUTRAL, linestyle="--", linewidth=1.3)
+    ax.text(
+        0.802,
+        0.50,
+        "strict floor = 0.80",
+        rotation=90,
+        ha="left",
+        va="center",
+        fontsize=8.0,
+        color=NEUTRAL,
+    )
     ax.set_yticks(ys, ["Discovery", "Reserve"])
-    ax.invert_yaxis()
+    ax.set_ylim(1.30, -0.30)
     ax.set_xlim(0.72, 0.88)
     ax.set_xlabel("Deterministic split Spearman rho")
     ax.set_title("Later prespecified stress test: bootstrap 95% CI")
-    ax.legend(frameon=False, loc="lower right")
     panel_label(ax, "B")
 
     fig.tight_layout()
@@ -242,6 +274,9 @@ def figure2(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         "stress_verdict": strict["decision"]["verdict"],
         "stress_reserve_rho": strict["reserve"]["spearman_D_A_D_B"],
         "stress_floor": 0.80,
+        "layout_contract": {
+            "stress_annotations": "offset_no_legend_overlap",
+        },
     }
     return files, meta
 
@@ -300,15 +335,24 @@ def figure3(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.invert_yaxis()
     ax.set_xlabel("Mean squared alignment with fixed white axis, W")
     ax.set_title("Observed alignment versus structured-null 95% interval")
-    ax.legend(frameon=False, loc="lower right")
+    ax.legend(
+        frameon=False,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.17),
+        ncol=2,
+        borderaxespad=0,
+    )
     panel_label(ax, "B")
 
-    fig.tight_layout()
+    fig.tight_layout(rect=[0, 0.10, 1, 1])
     files = save_pair(fig, output_dir, "polymorphism_figure3_h2_target_localization")
     meta = {
         "status": result["status"],
         "verdict": result["decision"]["verdict"],
         "structured_null_replicates": result["structured_null_replicates"],
+        "layout_contract": {
+            "legend": "outside_below_axis",
+        },
     }
     return files, meta
 
