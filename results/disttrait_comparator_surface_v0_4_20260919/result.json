@@ -1,0 +1,45 @@
+{
+  "schema": "disttrait_comparator_surface_v1",
+  "date_jst": "2026-09-19",
+  "role": "alternative_method_comparison_under_between_species_geographic_confounding",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/benchmarks/comparator_surface.py",
+    "git_blob_sha": "48a24eaf6e9e02d452efd7941335a60471b02f7c"
+  },
+  "cells_file": "results/disttrait_comparator_surface_v0_4_20260919/cells.csv",
+  "comparators": [
+    "naive pooled pairwise Spearman",
+    "equal-species matched-null omnibus",
+    "pair-count-weighted matched-null omnibus",
+    "one-sided one-sample t-test on species-specific rho values"
+  ],
+  "design": {
+    "effect_sizes": [0.0, 0.8, 1.6, 2.4],
+    "observation_imbalance_ratios": [1.0, 4.0],
+    "mcar_missing_fractions": [0.0, 0.25, 0.5],
+    "worlds_per_cell": 40,
+    "species_per_world": 20,
+    "spatial_null_permutations": 39,
+    "alpha": 0.05
+  },
+  "summary": {
+    "max_equal_matched_null_fpr": 0.025,
+    "max_pair_weighted_matched_null_fpr": 0.025,
+    "max_species_rho_ttest_null_fpr": 0.05,
+    "min_naive_null_fpr": 1.0,
+    "effect_0_8_imbalance4_equal_detection_range": [0.35, 0.675],
+    "effect_0_8_imbalance4_pair_weighted_detection_range": [0.325, 0.575],
+    "effect_0_8_imbalance4_ttest_detection_range": [0.35, 0.7]
+  },
+  "interpretation": {
+    "supported": "Species-conditioning is the dominant protection against the deliberately strong between-species geographic confounding in this benchmark. Equal-species and pair-weighted matched-null tests are both calibrated in null cells; equal weighting modestly improves power over pair weighting in several weak-effect imbalanced cells, while a simple one-sample test on species-specific rho values is also reasonably calibrated and competitive in power.",
+    "not_supported": [
+      "matched-null inference is uniquely optimal",
+      "equal species weighting is always more powerful",
+      "one-sample testing of species rho is generally equivalent to matched-null calibration",
+      "superiority over hierarchical spatial models not tested here"
+    ]
+  }
+}
