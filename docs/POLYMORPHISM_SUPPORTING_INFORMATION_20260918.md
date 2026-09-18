@@ -9,6 +9,7 @@ It does not recompute any result. It organizes frozen protocols, machine-readabl
 Global programme/frame provenance:
 
 - `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md` — conceptual relationship between the upstream Repeated Global Flower-Colour Atlas and the current species-level polymorphism estimands;
+- `docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md` — audit separating established statistical components from study-specific sampling, null-model and prospective-confirmation design;
 - `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md` — metadata-discovery and 42,111-species opportunity-frame lineage
 - metadata-discovered V1 + cache-resistant V2 union = **42,111 unique iNaturalist species**;
 - discovery grid = 18 × 9 equal-area cells;
