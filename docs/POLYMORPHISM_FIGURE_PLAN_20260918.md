@@ -165,9 +165,19 @@ The measurement gate is described in the legend/text rather than as an additiona
 
 ---
 
-## Figure 5 — Broad ancestry and sampled extent fail as simple explanations
+## Figure 5 — Spatial organization accompanies D while simple explanations fail
 
-### Panel A — no detectable broad tree-wide conservation
+### Panel A — D tracks within-species geographic organization
+
+Plot the frozen observed partial correlations against their geometry-preserving null intervals:
+
+- discovery, span + clear technical-failure adjusted: partial rho = **0.1266367**, p = **0.007**;
+- reserve, span + clear technical-failure adjusted: partial rho = **0.0992877**, p = **0.025**;
+- reserve matched flower-minus-background: partial rho = **0.1162411**, p = **0.010**.
+
+The reporting source is `results/polymorphism_spatial_organization_clue_20260918/result.json`, which copies previously frozen Step-8/Step-9 values without running a new biological analysis.
+
+### Panel B — no detectable broad tree-wide conservation
 
 Reserve Blomberg K:
 
@@ -177,14 +187,14 @@ Reserve Blomberg K:
 
 Annotate that 0/3 raw-D scenarios had p < 0.05; label this as a bounded non-support result, not an equivalence test.
 
-### Panel B — discovery span effect collapses in reserve
+### Panel C — discovery span effect collapses in reserve
 
 - discovery: rho = **0.1798786**, p = **0.00089996**;
 - reserve: rho = **-0.0025855**, p = **0.9586021**.
 
 Mandatory boundary:
 
-**H3a is not an equivalence test; sampled span is not true biological range size.**
+**The D–spatial association is structural rather than causal; H3a is not an equivalence test; sampled span is not true biological range size.**
 
 ---
 
@@ -233,4 +243,4 @@ Before a figure package is marked submission-ready:
 
 The scientific narrative is:
 
-`Fig.1 phenotype definition -> Fig.2 measurement validity -> Fig.3 target localization -> Fig.4 prospective confirmation -> Fig.5 simple alternative explanations fail fresh-data tests`.
+`Fig.1 phenotype definition -> Fig.2 measurement validity -> Fig.3 target localization -> Fig.4 prospective confirmation -> Fig.5 positive spatial clue + bounded alternative explanations`.
