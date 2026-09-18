@@ -6,7 +6,7 @@
 
 ## Abstract
 
-Flower colour is commonly summarized as a species mean or categorical state, which removes within-species colour diversity from macroecological analyses. We asked whether flower-colour polymorphism can instead be treated as a reproducible species-level phenotype and, if so, whether within-species variation repeatedly follows a common direction in colour space. We began from a 42,111-species flower-colour sampling frame and used species-level high-depth photographic cohorts for hypothesis-specific validation rather than prevalence estimation. Polymorphism was quantified as a continuous four-state diversity score, (D = 1-sum_k p_k^2), over white, yellow/orange, red/pink and blue/purple states. In the species-disjoint reserve cohort, repeated observer-disjoint partitions recovered stable species rankings in D (median Spearman rho = 0.789, 5th percentile = 0.765; median Lin CCC = 0.855), although a later deliberately stricter deterministic split yielded rho = 0.793 and missed a prespecified 0.80 floor. Continuous colour-space analyses of the original discovery and reserve cohorts identified a recurrent white-versus-nonwhite axis beyond a coarse-state-preserving construction null, but that named axis was isolated after the original geometry had been opened. We therefore tested the already frozen axis prospectively in a pre-frozen species-disjoint third cohort drawn from the same iNaturalist opportunity universe. The measurement pipeline completed 49,900 rows from 499 species without replacement; 377 species passed the predeclared measurement-support gate. The fixed white-axis statistic was supported at both the primary 0.10 tier (158 species, W = 0.51725, structured-null p = 0.001) and the stricter 0.20 tier (86 species, W = 0.53293, p = 0.001). Two simple explanations also failed fresh-data tests: D showed no detectable broad tree-wide conservation across three frozen reserve phylogenies, and the discovery association with sampled photographic span collapsed to essentially zero in the species-disjoint reserve. Within-species flower-colour diversity is therefore measurable as a species phenotype under high-information photographic sampling, and its strongest replicated geometric regularity in these data is a recurrent achromatic–chromatic axis rather than a general shared hue direction.
+Flower colour is commonly summarized as a species mean or categorical state, which removes within-species colour diversity from macroecological analyses. We asked whether flower-colour polymorphism can instead be treated as a reproducible species-level phenotype and, if so, whether within-species variation repeatedly follows a common direction in colour space. We began from a 42,111-species flower-colour sampling frame and used species-level high-depth photographic cohorts for hypothesis-specific validation rather than prevalence estimation. Polymorphism was quantified as a continuous four-state diversity score, (D = 1-sum_k p_k^2), over white, yellow/orange, red/pink and blue/purple states. In the species-disjoint reserve cohort, repeated observer-disjoint partitions recovered stable species rankings in D (median Spearman rho = 0.789, 5th percentile = 0.765; median Lin CCC = 0.855), although a later deliberately stricter deterministic split yielded rho = 0.793 and missed a prespecified 0.80 floor. Continuous colour-space analyses of the original discovery and reserve cohorts identified a recurrent white-versus-nonwhite axis beyond a coarse-state-preserving construction null, but that named axis was isolated after the original geometry had been opened. We therefore tested the already frozen axis prospectively in a pre-frozen species-disjoint third cohort drawn from the same iNaturalist opportunity universe. The measurement pipeline completed 49,900 rows from 499 species without replacement; 377 species passed the predeclared measurement-support gate. The fixed white-axis statistic was supported at both the primary 0.10 tier (158 species, W = 0.51725, structured-null p = 0.001) and the stricter 0.20 tier (86 species, W = 0.53293, p = 0.001). Across the original high-depth cohorts, greater D was also associated with stronger within-species geographic colour organization; in reserve this persisted after sampled-span plus clear technical-failure adjustment (partial rho = 0.0993, p = 0.025) and in a matched flower-minus-background contrast (partial rho = 0.1162, p = 0.010). Two simple explanations nevertheless failed fresh-data tests: D showed no detectable broad tree-wide conservation across three frozen reserve phylogenies, and the discovery association with sampled photographic span collapsed to essentially zero in the species-disjoint reserve. Within-species flower-colour diversity is therefore measurable as a species phenotype under high-information photographic sampling, and its strongest replicated geometric regularity in these data is a recurrent achromatic–chromatic axis rather than a general shared hue direction.
 
 **Keywords:** flower colour; polymorphism; intraspecific variation; citizen science; reproducibility; colour space; phylogenetic signal
 
@@ -124,6 +124,12 @@ With 999 randomly generated null worlds, p = 0.001 is the minimum attainable val
 
 The prospective H2 target is supported when the primary tier is evaluable and p < 0.05. The strict 0.20 tier is a pre-specified sensitivity test.
 
+### Complementary test: species-level D and within-species geographic organization
+
+We additionally retain a previously frozen, species-disjoint analysis asking whether species with greater D also show stronger internal geographic colour organization. Within each species, geographic colour organization was quantified from the association between geographic separation and flower-colour dissimilarity under a geometry-preserving spatial null. The reporting-only receipt for the current manuscript reproduces the already frozen Step-8/Step-9 outputs; no model, threshold or null was refitted for this submission.
+
+The main robustness comparison controls for sampled geographic span and the rate of clear ROI/flip technical failures. A matched flower-minus-background spatial response tests whether the association is stronger in flower colour than in local image background structure. Exact D_min4 and D_max4 completions provide uniform endpoint stress tests for ambiguous-palette observations under the frozen four-state model. These analyses test a structural correlate of D, not the causal process maintaining polymorphism.
+
 ### H3a: broad phylogenetic signal
 
 H3a asks whether reserve-cohort D shows broad tree-wide phylogenetic structure. The primary statistic is Blomberg's K, calibrated by 9,999 tip-label permutations on each of three frozen V.PhyloMaker2 placement scenarios (S1, S2 and S3). Reserve is the fresh primary cohort; each scenario retains 341 reserve species.
@@ -184,6 +190,14 @@ The frozen terminal verdict was therefore
 
 This is an untouched prospective test of a previously frozen axis in a species-disjoint cohort. Because the third cohort was drawn from the same iNaturalist source/opportunity universe and processed with the same measurement system, it is not described as an independent-source replication.
 
+### Greater D is associated with stronger within-species geographic colour organization
+
+The positive D–spatial association reproduced across the two species-disjoint high-depth cohorts. The raw association was rho = **0.0892133** (p = **0.034**) in discovery and rho = **0.1016008** (p = **0.025**) in reserve.
+
+After controlling for sampled geographic span and clear ROI/flip technical-failure rate, the geometry-preserving analysis remained positive in discovery (partial rho = **0.1266367**, p = **0.007**) and reserve (partial rho = **0.0992877**, p = **0.025**). In reserve, the matched flower-minus-background response was also positive (partial rho = **0.1162411**, p = **0.010**).
+
+The reserve result remained supported when ambiguous-palette observations were assigned uniformly to the exact diversity-minimizing or diversity-maximizing four-state endpoints. For the primary spatial response, D_min4 gave rho = **0.0970781** (p = **0.029**) and D_max4 gave rho = **0.1252858** (p = **0.008**); for the flower-minus-background response the corresponding p-values were **0.009** and **0.006**. Thus species with greater measured flower-colour diversity tend to show stronger internal geographic organization, but this association does not identify the process that creates or maintains that organization.
+
 ### H3a: no detectable broad tree-wide conservation of D
 
 Reserve Blomberg-K tests were nonsignificant under all three frozen tree-placement scenarios:
@@ -224,6 +238,12 @@ The white-versus-nonwhite geometry is descriptive, not mechanistic. Reviews of f
 
 The construction-preserving null strengthens the claim that the observed alignment is not explained simply by the frozen coarse-state composition and global mapping from coarse states to the nine-colour palette. It does not convert geometric alignment into a causal mechanism.
 
+### Spatial organization is the strongest ecological clue
+
+The replicated association between D and within-species geographic colour organization provides a positive clue about why species differ in polymorphism. Species with greater D are not merely those sampled across larger geographic extents: the reserve sampled-span association with D collapses to zero, whereas the D–spatial-organization relationship persists after sampled-span and clear technical-failure adjustment and remains positive in a matched flower-minus-background contrast. The ambiguity-endpoint analysis further shows that the association is not tied to one arbitrary treatment of unresolved palette compositions.
+
+This result is structural rather than causal. Stronger geographic organization could arise from spatially varying abiotic selection, turnover in pollinator communities, restricted dispersal or gene flow, demographic history, drift, mating-system differences, or combinations of these processes. The current photographs and occurrence geometry cannot distinguish among them. Together with the prospectively confirmed white-versus-nonwhite axis, the evidence suggests a two-stage working model: colour variants are generated along a recurrently accessible achromatic–chromatic direction, while species-specific ecological and demographic processes determine how strongly those variants are maintained or sorted across space. The first component is directly supported by H2; the second is a mechanistic hypothesis motivated by the replicated D–spatial association, not a demonstrated causal pathway.
+
 ### Two simple explanations fail fresh-data tests
 
 The H3 tests sharpen what the species-level phenotype is not trivially reducible to. Reserve D showed no detectable broad tree-wide phylogenetic conservation under any of the three frozen tree placements, while the apparent discovery association with sampled photographic span collapsed essentially to zero in the species-disjoint reserve. Together, these out-of-sample results show that reproducible between-species differences in D are not accounted for by either broad shared ancestry as detectable here or the geographic extent over which photographs happened to be sampled.
@@ -240,7 +260,7 @@ A stronger external validation would apply the same frozen q_white/W estimand an
 
 ### Conclusion
 
-Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling. Across the original discovery/reserve analyses, the strongest recurrent colour-space component localized to a white-versus-nonwhite axis. A pre-frozen species-disjoint third cohort then prospectively confirmed that same axis at both primary and strict admissibility tiers. Fresh reserve tests further showed no detectable broad tree-wide conservation of D and reduced the apparent discovery association with sampled photographic span to essentially zero. The current evidence therefore isolates a robust geometric regularity while making broad ancestry and sampled extent insufficient as simple explanations under the tested designs; its evolutionary and ecological mechanisms remain open.
+Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling. Across the original discovery/reserve analyses, the strongest recurrent colour-space component localized to a white-versus-nonwhite axis, and a pre-frozen species-disjoint third cohort prospectively confirmed that same axis. Species with greater D also show stronger within-species geographic colour organization across the original high-depth cohorts, including after sampled-span, clear technical-failure, background and ambiguity checks. At the same time, fresh reserve tests show no detectable broad tree-wide conservation of D and reduce the apparent discovery association with sampled photographic span to essentially zero. The evidence therefore supports constrained colour geometry plus species-specific spatial organization, while leaving the ecological and evolutionary processes that maintain that organization unresolved.
 
 ---
 
@@ -251,8 +271,9 @@ The manuscript may claim:
 1. observer-disjoint reproducibility of continuous four-state D under the first-frozen high-depth validation rule;
 2. targeted discovery/audit localization of legacy H2 geometry to white versus nonwhite;
 3. untouched prospective species-disjoint confirmation of the already frozen white axis in the third cohort;
-4. non-support for the tested broad phylogenetic-signal claim;
-5. non-replication of the sampled-photographic-span association.
+4. replicated positive association between species-level D and within-species geographic colour organization, with background, technical-failure and ambiguity stress tests;
+5. non-support for the tested broad phylogenetic-signal claim;
+6. non-replication of the sampled-photographic-span association.
 
 The manuscript must not claim:
 
