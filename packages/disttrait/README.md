@@ -12,7 +12,7 @@ The package provides reusable components for:
 - observer-disjoint split-half reliability;
 - Hellinger-transformed two-mode trait geometry;
 - fixed contrast / axis-alignment statistics;
-- construction-preserving row permutation within fixed strata;
+- construction-preserving row permutation within fixed strata and full fixed-contrast structured-null refitting;
 - pairwise great-circle distances;
 - pairwise Jensen-Shannon trait dissimilarity;
 - species-specific spatial organization `rho_i`;
