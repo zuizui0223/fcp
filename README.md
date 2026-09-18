@@ -32,7 +32,7 @@ The prospective H2 result is **species-disjoint within the same iNaturalist sour
 
 ## Retained frozen lanes
 
-The repository also preserves two earlier inferential lanes whose samples, estimands and claims are distinct from the active polymorphism paper.
+The repository also preserves **two frozen inferential lanes** whose samples, estimands and claims are distinct from the active polymorphism paper.
 
 1. **Chapter 1 spatial-photograph lane:** present-day continuous flower-colour observations, within-species spatial organization and cross-species transition geography.
 2. **34-species comparative lane:** occupied climatic-niche breadth versus literature-documented local coexistence or geographic colour differentiation.
@@ -45,6 +45,9 @@ These lanes remain valid provenance and separate papers; they are not pooled wit
 
 - **Manuscript:** [`docs/JBI_CHAPTER1_MANUSCRIPT.md`](docs/JBI_CHAPTER1_MANUSCRIPT.md)
 - **Status:** [`docs/JBI_CHAPTER1_SPATIAL_STATUS.md`](docs/JBI_CHAPTER1_SPATIAL_STATUS.md)
+- **Frozen protocol:** [`docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md`](docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md)
+- **Numerical results:** [`docs/JBI_CHAPTER1_RESULTS.md`](docs/JBI_CHAPTER1_RESULTS.md)
+- **Figure plan:** [`docs/JBI_CHAPTER1_FIGURE_PLAN.md`](docs/JBI_CHAPTER1_FIGURE_PLAN.md)
 
 #### Frozen 34-species comparative lane
 
