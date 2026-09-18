@@ -6,14 +6,15 @@
       "discovery_n": 369,
       "files": {
         "pdf": "polymorphism_figure1_measurement_frame.pdf",
-        "pdf_sha256": "0e4d5c0d4488ec39168f28968de9d5c39bee128017827c296083d6b9a741f2c1",
+        "pdf_sha256": "13ebe39fe63033a384e213a18f080372dc114b161ae57a5235a26f3c1a3361be",
         "png": "polymorphism_figure1_measurement_frame.png",
-        "png_sha256": "068ca34bd0de9a1e432baff811839c05a3fb81eccb638e0534fcb86907dd9cd3"
+        "png_sha256": "cfca46ee27bdec3977d09ab4b3c8cc983a35489a889cc086b66cc979f1313e0e"
       },
       "global_frame_species": 42111,
       "layout_contract": {
         "arrow_direction": "top_to_bottom",
-        "cohort_topology": "global_frame_branches_to_original_and_third_cohort"
+        "cohort_topology": "global_frame_branches_to_original_and_third_cohort",
+        "middle_lane_center_gap_axes": 0.56
       },
       "reserve_n": 363,
       "third_cohort_measurement_evaluable_species": 377,
