@@ -165,9 +165,9 @@ The measurement gate is described in the legend/text rather than as an additiona
 
 ---
 
-## Figure 5 — Broad explanatory tests do not replicate in reserve
+## Figure 5 — Broad ancestry and sampled extent fail as simple explanations
 
-### Panel A — broad phylogenetic signal
+### Panel A — no detectable broad tree-wide conservation
 
 Reserve Blomberg K:
 
@@ -175,16 +175,16 @@ Reserve Blomberg K:
 - S2: K = **0.0601476**, p = **0.4134**;
 - S3: K = **0.0707577**, p = **0.2674**.
 
-Annotate that 0/3 raw-D scenarios had p < 0.05.
+Annotate that 0/3 raw-D scenarios had p < 0.05; label this as a bounded non-support result, not an equivalence test.
 
-### Panel B — sampled photographic span
+### Panel B — discovery span effect collapses in reserve
 
 - discovery: rho = **0.1798786**, p = **0.00089996**;
 - reserve: rho = **-0.0025855**, p = **0.9586021**.
 
 Mandatory boundary:
 
-**Predictor is sampled span, not true biological range size.**
+**H3a is not an equivalence test; sampled span is not true biological range size.**
 
 ---
 
@@ -233,4 +233,4 @@ Before a figure package is marked submission-ready:
 
 The scientific narrative is:
 
-`Fig.1 phenotype definition -> Fig.2 measurement validity -> Fig.3 target localization -> Fig.4 prospective confirmation -> Fig.5 bounded negative explanations`.
+`Fig.1 phenotype definition -> Fig.2 measurement validity -> Fig.3 target localization -> Fig.4 prospective confirmation -> Fig.5 simple alternative explanations fail fresh-data tests`.
