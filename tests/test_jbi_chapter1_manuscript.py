@@ -137,11 +137,13 @@ def test_figure_manifest_is_tied_to_the_same_frozen_decisions() -> None:
     assert len(manifest["outputs"]) == 12
 
 
-def test_readme_separates_the_two_inference_lanes() -> None:
+def test_readme_separates_active_polymorphism_from_legacy_lanes() -> None:
     text = README.read_text(encoding="utf-8")
 
     for token in (
-        "two frozen inferential lanes",
+        "active repository mainline is the species-level flower-colour polymorphism paper",
+        "docs/POLYMORPHISM_MANUSCRIPT.md",
+        "docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md",
         "docs/JBI_CHAPTER1_MANUSCRIPT.md",
         "docs/JBI_CHAPTER1_SPATIAL_STATUS.md",
         "docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md",
@@ -152,4 +154,5 @@ def test_readme_separates_the_two_inference_lanes() -> None:
     ):
         assert token in text
 
-    assert "Their samples, response variables, null models and claims are distinct." in text
+    assert "remain recoverable legacy programmes" in text
+    assert "Their samples, estimands, protocols and claims are distinct" in text
