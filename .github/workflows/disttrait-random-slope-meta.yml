@@ -7,6 +7,8 @@ on:
       - "packages/disttrait/src/disttrait/meta.py"
       - "packages/disttrait/src/disttrait/__init__.py"
       - "packages/disttrait/tests/test_meta.py"
+      - "packages/disttrait/scripts/check_random_slope_meta_receipt.py"
+      - "results/disttrait_random_slope_meta_v0_8_20260919/**"
       - ".github/workflows/disttrait-random-slope-meta.yml"
   pull_request:
     paths:
@@ -14,6 +16,8 @@ on:
       - "packages/disttrait/src/disttrait/meta.py"
       - "packages/disttrait/src/disttrait/__init__.py"
       - "packages/disttrait/tests/test_meta.py"
+      - "packages/disttrait/scripts/check_random_slope_meta_receipt.py"
+      - "results/disttrait_random_slope_meta_v0_8_20260919/**"
       - ".github/workflows/disttrait-random-slope-meta.yml"
 
 permissions:
@@ -41,8 +45,12 @@ jobs:
         run: |
           python packages/disttrait/benchmarks/random_slope_meta_surface.py             > disttrait_random_slope_meta_result.json
 
-      - name: Upload exploratory benchmark
+      - name: Verify frozen v0.8 benchmark receipt
+        run: |
+          python packages/disttrait/scripts/check_random_slope_meta_receipt.py             --observed disttrait_random_slope_meta_result.json             --expected results/disttrait_random_slope_meta_v0_8_20260919/result.json             --cells results/disttrait_random_slope_meta_v0_8_20260919/cells.csv
+
+      - name: Upload benchmark result
         uses: actions/upload-artifact@v4
         with:
-          name: disttrait-random-slope-meta-exploratory
+          name: disttrait-random-slope-meta-v080
           path: disttrait_random_slope_meta_result.json
