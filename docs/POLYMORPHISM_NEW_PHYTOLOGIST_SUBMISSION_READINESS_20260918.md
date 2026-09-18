@@ -207,6 +207,18 @@ Current Data availability text states that a permanent archival DOI/version shou
 
 A Zenodo, institutional repository or equivalent permanent version should be frozen and cited in the final Data availability statement.
 
+### Blocker F — final formatted submission file
+
+The repository source is Markdown. The formal initial-submission manuscript should be exported to a review-ready word-processing/PDF format with:
+
+- 1.5-line spacing;
+- page numbers;
+- continuous line numbering;
+- a consistent font;
+- the completed title-page author/correspondence metadata.
+
+This is a packaging requirement and does not change the frozen scientific content.
+
 ## 8. Current submission decision
 
 **Do not run new biological analyses to improve this submission.**
@@ -215,6 +227,6 @@ The scientific package already contains the highest-value prospective H2 upgrade
 
 The remaining route to a formal New Phytologist submission is:
 
-`author metadata -> acknowledgements/conflicts/contributions -> permanent archive DOI -> final formatted submission file`
+`author metadata -> acknowledgements/conflicts/contributions -> permanent archive DOI -> final formatted submission file (1.5 spacing + page/continuous line numbering)`
 
 No H2 target, threshold, null, cohort or H3 predictor should be reopened during this packaging stage.
