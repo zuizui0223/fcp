@@ -1,0 +1,41 @@
+{
+  "schema": "disttrait_nonflower_synthetic_v0_2_v1",
+  "date_jst": "2026-09-18",
+  "role": "deterministic_nonflower_synthetic_demonstration",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/examples/nonflower_binary_trait.py",
+    "git_blob_sha": "61dcfd46fc8594a01d93c89ce1854ac3696e51cf"
+  },
+  "signal_demo": {
+    "seed": 20260918,
+    "species": 80,
+    "observations_per_species": 60,
+    "construction": "Binary trait probability follows a species-specific logistic spatial gradient; latent spatial strength increases with the species baseline parameter.",
+    "rho_diversity_spatial": 0.8115215262409774,
+    "rho_latent_strength_spatial": 0.8381622128457572,
+    "mean_species_spatial_rho": 0.14635423451889146,
+    "observed_D_min": 0.032777777777777795,
+    "observed_D_max": 0.49944444444444436
+  },
+  "pooled_confounding_demo": {
+    "seed": 123,
+    "species": 40,
+    "observations_per_species": 25,
+    "pooled_pair_sample": 50000,
+    "construction": "Species baseline trait frequency changes with geographic species centre, but within-species trait state is spatially independent by construction.",
+    "naive_pooled_rho": 0.5777755171431866,
+    "species_conditioned_mean_rho": 0.005256711058199496,
+    "species_conditioned_median_rho": 0,
+    "positive_species_fraction": 0.2
+  },
+  "interpretation": {
+    "supported": "The generic package can recover an induced cross-species diversity-spatial relationship without flower-colour assumptions, and species-conditioning prevents strong between-species geographic turnover from being misread as within-species spatial organization in this synthetic example.",
+    "not_supported": [
+      "general superiority over all alternative methods",
+      "calibrated type-I error across arbitrary observation processes",
+      "empirical validity outside the FCP flower-colour application"
+    ]
+  }
+}
