@@ -126,6 +126,8 @@ def spatial_permutation_null(
     """Vertex-permutation null preserving coordinates and complete trait rows."""
     p = _normalize_rows(traits)
     geo = great_circle_pairwise_km(latitude, longitude)
+    if np.ptp(geo) <= 1e-12:
+        raise ValueError("not_evaluable_pair_geometry")
     jsd = jensen_shannon_pairwise(p)
     observed = 0.0 if np.ptp(jsd) <= 1e-15 else _rank_pearson(geo, jsd)
     n = len(p)
@@ -174,9 +176,12 @@ def matched_difference_spatial_permutation_null(
         raise ValueError("focal and background observations must be row-matched")
     n = focal.shape[0]
     geo = great_circle_pairwise_km(latitude, longitude)
+    if np.ptp(geo) <= 1e-12:
+        raise ValueError("not_evaluable_pair_geometry")
     u, v = np.triu_indices(n, k=1)
     difference = focal - background
-    observed = _rank_pearson(geo, difference[u, v])
+    observed_values = difference[u, v]
+    observed = 0.0 if np.ptp(observed_values) <= 1e-15 else _rank_pearson(geo, observed_values)
     null = np.empty(int(n_permutations), dtype=float)
     for idx in range(int(n_permutations)):
         rng = np.random.default_rng(_permutation_seed(seed, key, idx))
