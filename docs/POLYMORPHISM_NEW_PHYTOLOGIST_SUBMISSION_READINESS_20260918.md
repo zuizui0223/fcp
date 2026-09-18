@@ -46,7 +46,7 @@ The official guidelines currently describe Full Papers as usually approximately 
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 111 characters | PASS |
-| Summary <=200 words | 164 words | PASS |
+| Summary <=200 words | 171 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
@@ -70,7 +70,7 @@ The three required editor questions are present.
 
 Measured answer lengths:
 
-1. What hypotheses or questions does this work address? — **36 words**
+1. What hypotheses or questions does this work address? — **40 words**
 2. How does this work advance our current understanding of plant science? — **39 words**
 3. Why is this work important and timely? — **40 words**
 
