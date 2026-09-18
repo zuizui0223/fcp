@@ -49,6 +49,9 @@
   "full_replay_boundary": {
     "raw_100000_row_tables_present_on_clean_main": false,
     "status": "optional artifact-backed integration test required for full H1 raw-data replay",
-    "interpretation": "Always-on fixtures establish algorithmic equivalence. They do not claim a complete raw-data replay of all frozen biological results from the clean submission branch."
+    "interpretation": "Always-on fixtures establish algorithmic equivalence. They do not claim a complete raw-data replay of all frozen biological results from the clean submission branch.",
+    "h1_script": "packages/disttrait/scripts/replay_fcp_h1.py",
+    "h2_observed_w_script": "packages/disttrait/scripts/replay_fcp_h2_observed_w.py",
+    "h2_structured_null_status": "requires row-level palette artifacts and is not part of the clean-main always-on suite"
   }
 }
