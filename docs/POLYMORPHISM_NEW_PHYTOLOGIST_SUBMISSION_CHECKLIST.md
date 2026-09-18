@@ -30,8 +30,10 @@ Date: 2026-09-18 JST
 - [x] One cohort-role table added for six total display items.
 - [x] Data-availability section drafted with archive-DOI placeholder.
 - [x] Presubmission enquiry text drafted.
-- [ ] Submission-contract CI guard GREEN.
-- [ ] Cover letter finalized.
+- [x] Official New Phytologist format audit completed (`docs/POLYMORPHISM_NEW_PHYTOLOGIST_FORMAT_AUDIT_20260918.md`).
+- [x] Cover-letter scientific framing aligned to the three required editor questions (36/36/40 words; each <=50).
+- [ ] Submission-contract CI guard GREEN on the post-audit head.
+- [ ] Cover letter administratively finalized (author/affiliation/email fields remain placeholders).
 - [ ] Permanent archive DOI/version inserted.
 - [ ] Author list finalized.
 - [ ] Affiliations finalized.
@@ -41,6 +43,7 @@ Date: 2026-09-18 JST
 - [ ] Author-contribution statement finalized.
 - [ ] ORCID identifiers collected if required by submission system.
 - [ ] Suggested/excluded reviewers considered if requested.
+- [ ] Main-text length decision closed: current 3,173 words is below the journal's usual 6,500–7,500-word Full Paper range; restore only replication-critical detail, do not pad.
 - [ ] Final line numbering / manuscript file conversion completed.
 - [ ] Figure files checked visually at submission size.
 - [ ] Supporting Information legends converted to journal-ready form.
@@ -50,6 +53,7 @@ Date: 2026-09-18 JST
 - canonical manuscript: `docs/POLYMORPHISM_MANUSCRIPT.md`
 - journal draft: `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`
 - presubmission enquiry: `docs/POLYMORPHISM_NEW_PHYTOLOGIST_PRESUBMISSION_ENQUIRY.md`
+- format audit: `docs/POLYMORPHISM_NEW_PHYTOLOGIST_FORMAT_AUDIT_20260918.md`
 - submission strategy: `docs/POLYMORPHISM_SUBMISSION_STRATEGY_20260918.md`
 - claim ledger: `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
 - SI map: `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`
