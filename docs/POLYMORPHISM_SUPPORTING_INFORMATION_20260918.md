@@ -4,16 +4,18 @@ This document is the compact Supporting Information index for the active flower-
 
 It does not recompute any result. It organizes frozen protocols, machine-readable outputs, figures and provenance into a manuscript-facing evidence map.
 
-## S1. Cohort roles and inferential separation
+## S1. Cohort roles, acquisition lineage and inferential separation
 
-| Cohort / execution | Role | Biological outcome status | Key denominator |
-|---|---|---|---:|
-| Discovery | calibration / target discovery | opened legacy cohort | 369 D-eligible species |
-| Reserve | fresh H1/H3 replication; legacy H2 validation | opened species-disjoint reserve | 363 D-eligible species |
-| P500 | prospective measurement transport | measurement PASS; no durable H2 verdict | 499 species, 49,900 rows; 373 measurement-evaluable |
-| Third cohort | untouched prospective test of frozen q_white/W | H2 confirmed | 499 species, 49,900 rows; 377 measurement-evaluable |
+| Cohort / execution | Upstream source | Analyses using it | Biological outcome status | Key denominator |
+|---|---|---|---|---:|
+| Discovery | Original RGFCA high-depth iNaturalist measurement table; 500 species × 100 raw photos | D; H1 diagnostic; legacy H2 discovery/audit; D–spatial discovery; H3b discovery calibration | opened legacy cohort | 369 D-eligible species |
+| Reserve | Species-disjoint RGFCA complement under the same acquisition contract; 500 species × 100 raw photos | H1 primary; legacy H2 validation; D–spatial replication; H3a; H3b reserve replication | opened species-disjoint reserve | 363 D-eligible species; 341 H3a tips |
+| P500 | Separate prospective high-depth expansion from the 42,111-species opportunity frame | measurement transport only | measurement PASS; no durable H2 verdict | 499 species, 49,900 rows; 373 measurement-evaluable |
+| Third cohort | New species and fresh photo IDs after exclusion of legacy 1,000 species and P500 | untouched prospective q_white/W test | H2 confirmed | 499 species, 49,900 rows; 377 measurement-evaluable |
 
-The discovery, reserve and third cohort are species-disjoint where specified by their frozen selection rules, but all remain within the same iNaturalist source/opportunity universe unless explicitly stated otherwise.
+The original RGFCA discovery/reserve acquisition contract required Research Grade species-rank iNaturalist records with photographs and georeferences, flowering annotation term 12/value 13, positional accuracy <=5 km, unobscured/open coordinates and allowed CC licences. Observer contribution was capped at two photographs per species and deterministic geographic maximin sampling fixed 100 raw photographs per species. No native-range restriction or explicit captive/wild filter was imposed.
+
+Discovery and reserve therefore reuse the same RGFCA measurement resource but answer different species-level polymorphism questions. The third cohort is species- and photo-disjoint from the legacy cohorts where specified, but all cohorts remain within the same iNaturalist source/opportunity universe unless explicitly stated otherwise.
 
 ## S2. H1 observer-disjoint measurement validity
 
