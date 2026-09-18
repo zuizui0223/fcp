@@ -158,6 +158,33 @@ The generic continuous-trait layer gives an equal-taxon mean spatial rho of **0.
 
 This empirical transport is deliberately non-causal. Urban planting, management, age structure, cultivar usage and inventory processes can all contribute to the observed DBH geography. Its role is to show that the package operates unchanged on an external, non-flower continuous trait dataset.
 
+## Second external empirical transport: ShareTrait Gammarus
+
+v0.9 adds a second external continuous-trait transport using the CC-BY-4.0 ShareTraitDatabase and the `Gammarus insensibilis` metabolic-rate dataset linked to Shokri et al. (2022; DOI `10.1242/jeb.244842`).
+
+Frozen fixture:
+
+`packages/disttrait/fixtures/sharetrait_gammarus_metabolic_v1.csv`
+
+The frame contains **375 individuals** from three Adriatic populations with metabolic rate standardized to **Joule/day**. Individuals inherit their population-level site coordinates, so this is a between-population transport rather than fine-scale within-site spatial inference.
+
+Primary analysis:
+
+- trait = `log(metabolic_rate)`;
+- dissimilarity = absolute pairwise log-rate difference;
+- 999 within-species vertex permutations.
+
+Frozen result:
+
+`results/disttrait_gammarus_empirical_v0_9_20260919/result.json`
+
+The result is intentionally **non-supporting**:
+
+- log-rate rho = **-0.00683**, matched-null **p = 0.68**;
+- raw-rate sensitivity rho = **0.01093**, matched-null **p = 0.198**.
+
+This second transport is useful precisely because it does not reproduce the positive street-tree result. The package is being tested for executable generality across external datasets, not used to select only significant biological examples.
+
 ## Direction-heterogeneity / estimand-alignment benchmark
 
 v0.7 adds a continuous-trait benchmark in which the within-species spatial effect may reverse sign among species.
