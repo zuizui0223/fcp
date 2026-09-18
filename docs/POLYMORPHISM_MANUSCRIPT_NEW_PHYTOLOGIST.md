@@ -26,7 +26,7 @@
 - Flower colour is usually reduced to one species state, obscuring within-species diversity. We asked whether flower-colour polymorphism can be measured reproducibly as a species phenotype and whether its variation repeatedly follows a common colour-space direction.
 - A continuous four-state diversity score was validated with observer-disjoint photo sets. Continuous nine-colour geometry was audited in discovery/reserve cohorts, then an already frozen white-versus-nonwhite axis was tested prospectively in a pre-frozen species-disjoint third cohort.
 - Reserve observer-disjoint partitions gave median Spearman rho = 0.789. The third cohort completed 49,900 rows from 499 species; 377 passed the support gate. The frozen axis was supported at the primary tier (158 species, W = 0.51725, p = 0.001) and strict tier (86 species, W = 0.53293, p = 0.001).
-- Within-species flower-colour diversity is reproducibly measurable under high-depth photographic sampling, and its strongest prospectively confirmed recurrent geometry is achromatic–chromatic rather than a general shared hue direction.
+- Within-species flower-colour diversity is reproducibly measurable under high-depth photographic sampling, and its strongest prospectively confirmed recurrent geometry is achromatic–chromatic rather than a general shared hue direction. Fresh reserve tests also make broad ancestry and sampled photographic extent insufficient as simple explanations of species differences in D.
 
 ---
 
@@ -38,7 +38,7 @@ We therefore treat flower-colour polymorphism as a continuous quantity rather th
 
 Amount of variation is not the same as geometry of variation. Two species can have similar D while differing in which colours separate their within-species modes. We therefore ask whether continuous within-species colour displacement is directionless or repeatedly concentrated along a particular colour-space axis. The original discovery and reserve analyses first detected label-free directional concentration and then, through a construction-preserving audit, localized that concentration to a fixed white-versus-equal-nonwhite contrast. Because that named contrast was identified after the original H2 geometry had been opened, those cohorts provide discovery and target-localization evidence rather than an untouched confirmatory test of the named axis.
 
-The decisive H2 test is therefore prospective. Before opening a new biological cohort, we froze the white-versus-nonwhite axis, the W statistic, the admissibility thresholds, the structured null, support gates and one-shot execution contract. We then evaluated that fixed target in a species-disjoint third cohort selected from the same iNaturalist opportunity universe. Finally, we asked whether the resulting species-level polymorphism phenotype shows broad phylogenetic structure or a replicable association with sampled photographic span. These latter analyses are bounded explanatory tests: failure to support them does not negate the measurement or geometry results, and they are not used to search post hoc for alternative predictors.
+The decisive H2 test is therefore prospective. Before opening a new biological cohort, we froze the white-versus-nonwhite axis, the W statistic, the admissibility thresholds, the structured null, support gates and one-shot execution contract. We then evaluated that fixed target in a species-disjoint third cohort selected from the same iNaturalist opportunity universe. Finally, we used two frozen H3 tests as alternative-explanation filters: whether species differences in D show broad tree-wide phylogenetic conservation, and whether an apparent association with sampled photographic span survives species-disjoint replication. These tests ask whether the measurable phenotype can be reduced to two simple features of ancestry or sampling opportunity; they do not search post hoc for replacement predictors.
 
 ---
 
@@ -233,7 +233,7 @@ The frozen terminal verdict was therefore
 
 This is an untouched prospective test of a previously frozen axis in a species-disjoint cohort. Because the third cohort was drawn from the same iNaturalist source/opportunity universe and processed with the same measurement system, it is not described as an independent-source replication.
 
-### H3a: broad phylogenetic signal is not supported
+### H3a: no detectable broad tree-wide conservation of D
 
 Reserve Blomberg-K tests were nonsignificant under all three frozen tree-placement scenarios:
 
@@ -245,7 +245,7 @@ Pagel's lambda was small in each scenario and its tests against lambda = 0 were 
 
 This result closes the tested claim of broad tree-wide signal under the frozen reserve design; it does not imply that phylogeny is irrelevant to flower-colour polymorphism at all evolutionary scales.
 
-### H3b: sampled-span association fails reserve replication
+### H3b: discovery span effect collapses in reserve
 
 Discovery showed a positive association between D and sampled photographic span (n = 369, rho = **0.1798786**, p = **0.00089996**). The species-disjoint reserve did not reproduce that effect (n = 363, rho = **-0.0025855**, p = **0.9586021**). The observer/classifiability-adjusted partial-rank result was likewise near zero (rho = 0.0055187, p = 0.9162042), and S1-S3 rank-PGLS sensitivities were unsupported.
 
@@ -275,11 +275,11 @@ The white-versus-nonwhite geometry is descriptive, not mechanistic. Reviews of f
 
 The construction-preserving null strengthens the claim that the observed alignment is not explained simply by the frozen coarse-state composition and global mapping from coarse states to the nine-colour palette. It does not convert geometric alignment into a causal mechanism.
 
-### Stable geometry without a broad predictor
+### Two simple explanations fail fresh-data tests
 
-The H3 results provide useful limits. Broad reserve phylogenetic signal was unsupported under all three frozen tree placements, and the sampled-span association selected in discovery collapsed essentially to zero in reserve. A stable measurable phenotype and a prospectively confirmed recurrent geometric axis therefore do not require the broad predictors tested here to show corresponding replication.
+The H3 tests sharpen what the species-level phenotype is not trivially reducible to. Reserve D showed no detectable broad tree-wide phylogenetic conservation under any of the three frozen tree placements, while the apparent discovery association with sampled photographic span collapsed essentially to zero in the species-disjoint reserve. Together, these out-of-sample results show that reproducible between-species differences in D are not accounted for by either broad shared ancestry as detectable here or the geographic extent over which photographs happened to be sampled.
 
-These negative tests should not be generalized beyond their estimands. The phylogenetic result does not exclude finer-scale lineage effects, particular clades or repeated evolutionary origins. The span result concerns photographic sampled span, not true biological range size.
+This inference is deliberately bounded. H3a is a non-support result rather than an equivalence test, so it does not establish a zero phylogenetic effect and does not exclude finer-scale lineage effects, particular clades or repeated evolutionary origins. H3b concerns photographic sampled span, not true biological range size.
 
 ### Scope, representativeness and source dependence
 
@@ -291,7 +291,7 @@ A stronger external validation would apply the same frozen q_white/W estimand an
 
 ### Conclusion
 
-Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling. Across the original discovery/reserve analyses, the strongest recurrent colour-space component localized to a white-versus-nonwhite axis. A pre-frozen species-disjoint third cohort then prospectively confirmed that same axis at both primary and strict admissibility tiers. In contrast, broad phylogenetic signal and a discovery association with sampled photographic span were not supported in fresh reserve tests. The current evidence therefore points to a robust geometric regularity in how flower-colour polymorphism is expressed, while leaving its evolutionary and ecological mechanisms open.
+Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling. Across the original discovery/reserve analyses, the strongest recurrent colour-space component localized to a white-versus-nonwhite axis. A pre-frozen species-disjoint third cohort then prospectively confirmed that same axis at both primary and strict admissibility tiers. Fresh reserve tests further showed no detectable broad tree-wide conservation of D and reduced the apparent discovery association with sampled photographic span to essentially zero. The current evidence therefore isolates a robust geometric regularity while making broad ancestry and sampled extent insufficient as simple explanations under the tested designs; its evolutionary and ecological mechanisms remain open.
 
 ---
 
@@ -347,7 +347,7 @@ Literature-use boundaries are frozen in `docs/POLYMORPHISM_LITERATURE_AUDIT_2026
 
 **Figure 4. Prospective species-disjoint confirmation of the frozen white-versus-nonwhite axis.** Structured-null W distributions from 999 frozen null worlds; dashed lines show null medians and solid vertical lines show observed W. (a) Primary 0.10 tier: N = 158, observed W = 0.5172457461, null median = 0.4571428150, 95% interval 0.4358491120–0.4752987776, upper-tail p = 0.001. (b) Strict 0.20 sensitivity: N = 86, observed W = 0.5329282123, null median = 0.4593196659, 95% interval 0.4328679570–0.4867224043, p = 0.001. The prospective cohort completed 49,900 terminal rows from 499 species, with 377 measurement-evaluable species and zero replacements before H2 opening; it is species-disjoint within the same iNaturalist opportunity universe, not an independent-source replication.
 
-**Figure 5. Broad phylogenetic signal and sampled photographic span do not replicate as explanations of D.** (a) Reserve Blomberg K under the three frozen phylogenetic placement scenarios: S1 K = 0.0710190, p = 0.2716; S2 K = 0.0601476, p = 0.4134; S3 K = 0.0707577, p = 0.2674. None passed the prespecified p < 0.05 criterion. (b) Sampled-span association in discovery (rho = 0.1798786, p = 0.00089996) and species-disjoint reserve (rho = -0.0025855, p = 0.9586021). Sampled photographic span is not true biological range size; these negative H3 tests bound explanation and do not negate H1 measurement validity or H2 geometry.
+**Figure 5. Broad ancestry and sampled photographic extent fail as simple explanations of species differences in D.** (a) Reserve Blomberg K under the three frozen phylogenetic placement scenarios: S1 K = 0.0710190, p = 0.2716; S2 K = 0.0601476, p = 0.4134; S3 K = 0.0707577, p = 0.2674. No frozen placement supported detectable broad tree-wide conservation at the prespecified p < 0.05 criterion. (b) The discovery association with sampled span (rho = 0.1798786, p = 0.00089996) collapsed to essentially zero in the species-disjoint reserve (rho = -0.0025855, p = 0.9586021). H3a is not an equivalence test, and sampled photographic span is not true biological range size; the tests therefore reject neither all phylogenetic effects nor all geographic effects, but they make these two broad explanations insufficient under the frozen designs.
 
 ## Supporting Information
 
