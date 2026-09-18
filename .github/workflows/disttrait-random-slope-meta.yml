@@ -1,0 +1,48 @@
+name: disttrait random-slope meta benchmark
+
+on:
+  push:
+    paths:
+      - "packages/disttrait/benchmarks/random_slope_meta_surface.py"
+      - "packages/disttrait/src/disttrait/meta.py"
+      - "packages/disttrait/src/disttrait/__init__.py"
+      - "packages/disttrait/tests/test_meta.py"
+      - ".github/workflows/disttrait-random-slope-meta.yml"
+  pull_request:
+    paths:
+      - "packages/disttrait/benchmarks/random_slope_meta_surface.py"
+      - "packages/disttrait/src/disttrait/meta.py"
+      - "packages/disttrait/src/disttrait/__init__.py"
+      - "packages/disttrait/tests/test_meta.py"
+      - ".github/workflows/disttrait-random-slope-meta.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install disttrait
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait pytest
+
+      - name: Run meta unit tests
+        run: python -m pytest packages/disttrait/tests/test_meta.py -q
+
+      - name: Run random-slope meta surface
+        run: |
+          python packages/disttrait/benchmarks/random_slope_meta_surface.py             > disttrait_random_slope_meta_result.json
+
+      - name: Upload exploratory benchmark
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-random-slope-meta-exploratory
+          path: disttrait_random_slope_meta_result.json
