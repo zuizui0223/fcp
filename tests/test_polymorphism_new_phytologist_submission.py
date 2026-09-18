@@ -94,3 +94,15 @@ def test_manuscripts_have_no_control_character_math_corruption() -> None:
         assert not bad, f"{path.name} contains control characters: {[ord(ch) for ch in bad]}"
         assert "W = mean_i (u_i^T q_white)^2" in text
         assert "p = (1 + #(W_null >= W_obs)) / 1000" in text
+
+
+def test_cover_letter_answers_three_editor_questions_within_50_words() -> None:
+    text = COVER.read_text(encoding="utf-8")
+    matches = re.findall(
+        r"### Question [123][^\n]*\n\n(.+?)(?=\n\n### Question|\n\n## )",
+        text,
+        flags=re.S,
+    )
+    assert len(matches) == 3
+    for answer in matches:
+        assert len(words(answer)) <= 50
