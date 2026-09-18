@@ -48,7 +48,7 @@ def _normalize_rows(matrix: np.ndarray) -> np.ndarray:
     return x / mass[:, None]
 
 
-def jensen_shannon_pairwise(traits: np.ndarray) -> np.ndarray:
+def _jensen_shannon_matrix(traits: np.ndarray) -> np.ndarray:
     p = _normalize_rows(traits)
     a = p[:, None, :]
     b = p[None, :, :]
@@ -56,8 +56,12 @@ def jensen_shannon_pairwise(traits: np.ndarray) -> np.ndarray:
     with np.errstate(divide="ignore", invalid="ignore"):
         kl_a = np.where(a > 0, a * np.log2(a / m), 0.0).sum(axis=2)
         kl_b = np.where(b > 0, b * np.log2(b / m), 0.0).sum(axis=2)
-    jsd = np.clip(0.5 * (kl_a + kl_b), 0.0, 1.0)
-    upper = np.triu_indices(len(p), k=1)
+    return np.clip(0.5 * (kl_a + kl_b), 0.0, 1.0)
+
+
+def jensen_shannon_pairwise(traits: np.ndarray) -> np.ndarray:
+    jsd = _jensen_shannon_matrix(traits)
+    upper = np.triu_indices(len(jsd), k=1)
     return jsd[upper]
 
 
@@ -145,6 +149,40 @@ def spatial_permutation_null(
             perm = rng.permutation(n)
             vals = rank_matrix[perm[u], perm[v]]
             null[idx] = float(vals @ gc / (cnorm * gnorm))
+    return float(observed), null
+
+
+def matched_difference_spatial_permutation_null(
+    latitude: Sequence[float],
+    longitude: Sequence[float],
+    focal_traits: np.ndarray,
+    background_traits: np.ndarray,
+    *,
+    n_permutations: int = 999,
+    seed: int = 0,
+    key: str = "",
+) -> tuple[float, np.ndarray]:
+    """Joint same-observation permutation null for focal-minus-background structure.
+
+    The same vertex permutation is applied to both focal and matched-background
+    observations by permuting the already paired difference matrix. This matches
+    the FCP/RGFCA reserve-control construction.
+    """
+    focal = _jensen_shannon_matrix(focal_traits)
+    background = _jensen_shannon_matrix(background_traits)
+    if focal.shape != background.shape:
+        raise ValueError("focal and background observations must be row-matched")
+    n = focal.shape[0]
+    geo = great_circle_pairwise_km(latitude, longitude)
+    u, v = np.triu_indices(n, k=1)
+    difference = focal - background
+    observed = _rank_pearson(geo, difference[u, v])
+    null = np.empty(int(n_permutations), dtype=float)
+    for idx in range(int(n_permutations)):
+        rng = np.random.default_rng(_permutation_seed(seed, key, idx))
+        p = rng.permutation(n)
+        y = difference[p[u], p[v]]
+        null[idx] = 0.0 if np.ptp(y) <= 1e-15 else _rank_pearson(geo, y)
     return float(observed), null
 
 
