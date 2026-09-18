@@ -8,6 +8,14 @@ import numpy as np
 
 
 @dataclass(frozen=True)
+class AlignmentNullResult:
+    observed: float
+    null: np.ndarray
+    p_upper: float
+    n_species: int
+
+
+@dataclass(frozen=True)
 class TwoModeResult:
     unit_axis: np.ndarray
     cluster_means: np.ndarray
@@ -149,14 +157,79 @@ def permute_rows_within_strata(
     strata: Sequence[object],
     *,
     rng: np.random.Generator,
+    strata_order: Sequence[object] | None = None,
 ) -> np.ndarray:
-    """Permute complete rows within fixed strata, preserving stratum counts."""
+    """Permute complete rows within fixed strata, preserving stratum counts.
+
+    When strata_order is supplied, the RNG is consumed in exactly that order.
+    This permits exact replay of frozen construction-preserving nulls.
+    """
     x = np.asarray(values)
     s = np.asarray(strata, dtype=object)
     if x.ndim < 1 or len(x) != len(s):
         raise ValueError("values and strata must have the same row count")
+    order = list(dict.fromkeys(s.tolist())) if strata_order is None else list(strata_order)
+    observed = set(s.tolist())
+    if set(order) != observed or len(order) != len(observed):
+        raise ValueError("strata_order must contain each observed stratum exactly once")
     out = x.copy()
-    for stratum in dict.fromkeys(s.tolist()):
+    for stratum in order:
         idx = np.flatnonzero(s == stratum)
-        out[idx] = x[rng.permutation(idx)]
+        if len(idx) > 1:
+            out[idx] = x[idx[rng.permutation(len(idx))]]
     return out
+
+
+def structured_alignment_null(
+    compositions: np.ndarray,
+    species: Sequence[object],
+    strata: Sequence[object],
+    contrast: Sequence[float],
+    *,
+    n_permutations: int = 999,
+    seed: int = 0,
+    strata_order: Sequence[object] | None = None,
+) -> AlignmentNullResult:
+    """Construction-preserving fixed-contrast alignment null.
+
+    Species membership is fixed. Complete normalized trait rows are permuted
+    across species only within the supplied strata. Each permuted species is
+    re-fitted with the unchanged deterministic two-mode construction before the
+    fixed-contrast alignment statistic is recalculated.
+    """
+    p = _normalize_rows(compositions)
+    sp = np.asarray(species, dtype=object)
+    st = np.asarray(strata, dtype=object)
+    if len(p) != len(sp) or len(p) != len(st):
+        raise ValueError("compositions, species and strata must have equal row counts")
+    labels = sorted(set(sp.tolist()), key=str)
+    if len(labels) < 1:
+        raise ValueError("at least one species is required")
+    indices = {label: np.flatnonzero(sp == label) for label in labels}
+    if any(len(idx) < 2 for idx in indices.values()):
+        raise ValueError("each species requires at least two rows")
+
+    def axes_from_rows(values: np.ndarray) -> np.ndarray:
+        return np.vstack([two_mode_axis(values[indices[label]]).unit_axis for label in labels])
+
+    observed_axes = axes_from_rows(p)
+    observed = alignment_statistic(observed_axes, contrast)
+
+    rng = np.random.default_rng(int(seed))
+    null = np.empty(int(n_permutations), dtype=float)
+    for i in range(int(n_permutations)):
+        permuted = permute_rows_within_strata(
+            p,
+            st,
+            rng=rng,
+            strata_order=strata_order,
+        )
+        null[i] = alignment_statistic(axes_from_rows(permuted), contrast)
+
+    p_upper = float((1 + np.sum(null >= observed)) / (len(null) + 1))
+    return AlignmentNullResult(
+        observed=float(observed),
+        null=null,
+        p_upper=p_upper,
+        n_species=len(labels),
+    )
