@@ -39,6 +39,7 @@ def test_new_phytologist_defines_rgfca_and_preserves_the_conceptual_pivot() -> N
         "From a repeated global atlas to species-level generality",
         "shared-geography estimand did not provide the positive biological spine retained here",
         "the geographic realization is allowed to remain species-specific",
+        "phenotype space than in geographic space",
     ):
         assert token in text
 
