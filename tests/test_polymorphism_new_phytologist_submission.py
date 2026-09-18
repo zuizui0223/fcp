@@ -30,6 +30,19 @@ def test_new_phytologist_front_matter_and_summary_contract() -> None:
     assert 5 <= len(keywords) <= 8
 
 
+def test_new_phytologist_defines_rgfca_and_preserves_the_conceptual_pivot() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    for token in (
+        "Repeated Global Flower-Colour Atlas (RGFCA)",
+        "shared global boundary geography",
+        "species-level polymorphism amount, colour-space geometry and species-specific spatial organization",
+        "From a repeated global atlas to species-level generality",
+        "shared-geography estimand did not provide the positive biological spine retained here",
+        "the geographic realization is allowed to remain species-specific",
+    ):
+        assert token in text
+
+
 def test_new_phytologist_documents_42111_frame_provenance() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     for token in (
