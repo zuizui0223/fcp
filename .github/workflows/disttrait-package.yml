@@ -33,3 +33,14 @@ jobs:
 
       - name: Run disttrait tests
         run: python -m pytest packages/disttrait/tests -q
+
+      - name: Run external empirical transport
+        run: |
+          python packages/disttrait/examples/sf_street_tree_empirical.py \
+            --output disttrait_sf_empirical_result.json
+
+      - name: Upload empirical transport receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-sf-empirical-transport
+          path: disttrait_sf_empirical_result.json
