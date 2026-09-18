@@ -28,6 +28,7 @@ The decisive upgrade is now complete: a previously frozen white-versus-nonwhite 
 - **Literature audit:** [`docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md`](docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md)
 - **Canonical figures + SHA manifest:** [`docs/figures/polymorphism_20260918/`](docs/figures/polymorphism_20260918/)
 - **Submission strategy:** [`docs/POLYMORPHISM_SUBMISSION_STRATEGY_20260918.md`](docs/POLYMORPHISM_SUBMISSION_STRATEGY_20260918.md)
+- **New Phytologist readiness audit:** [`docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md`](docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md)
 - **New Phytologist working draft:** [`docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md)
 - **H1 reconciliation:** [`docs/POLYMORPHISM_H1_EVIDENCE_LEDGER_20260914.md`](docs/POLYMORPHISM_H1_EVIDENCE_LEDGER_20260914.md)
 - **Frozen white-axis target:** [`docs/POLYMORPHISM_H2_WHITE_AXIS_TARGET_FREEZE_20260912.md`](docs/POLYMORPHISM_H2_WHITE_AXIS_TARGET_FREEZE_20260912.md)
