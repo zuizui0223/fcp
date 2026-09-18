@@ -18,7 +18,7 @@ Can within-species flower-colour polymorphism be measured reproducibly as a spec
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-We validate a continuous polymorphism phenotype across observer-disjoint photographs, localize recurrent colour geometry to a white-versus-nonwhite axis, and prospectively confirm that pre-frozen axis in a species-disjoint third cohort using an unchanged measurement pipeline and construction-controlled null.
+We validate a continuous polymorphism phenotype across observer-disjoint photographs, localize recurrent colour geometry to a white-versus-nonwhite axis, prospectively confirm that frozen axis in a species-disjoint third cohort, and show that broad phylogenetic conservation and sampled geographic extent fail as simple explanations of species differences in D.
 
 ### Question 3 — Why is this work important and timely?
 
@@ -32,7 +32,7 @@ The chronology is central to the manuscript. The original discovery and reserve 
 
 ## Scope boundary
 
-The prospective cohort is species-disjoint but was drawn from the **same iNaturalist opportunity universe** and processed with the same measurement system; it is **not an independent-source replication**. The study does not estimate global polymorphism prevalence and does not identify pigment chemistry, evolutionary direction, pollinator selection or climatic adaptation. Broad tree-wide phylogenetic signal was not supported in the reserve cohort, and a discovery association with sampled photographic span did not replicate.
+The prospective cohort is species-disjoint but was drawn from the **same iNaturalist opportunity universe** and processed with the same measurement system; it is **not an independent-source replication**. The study does not estimate global polymorphism prevalence and does not identify pigment chemistry, evolutionary direction, pollinator selection or climatic adaptation. Fresh reserve tests showed no detectable broad tree-wide phylogenetic conservation of D, while the discovery association with sampled photographic span collapsed essentially to zero. These are bounded alternative-explanation tests, not evidence that all phylogenetic or geographic effects are absent.
 
 The manuscript is accompanied by five main figures, one cohort-role table, a frozen claim ledger, machine-readable prospective results and Supporting Information that records the chain of custody from pre-opening selection through the terminal prospective test.
 
