@@ -134,6 +134,24 @@ The most recent post-architecture manuscript claim-guard run recorded in the Sup
 - run `35299258800`;
 - conclusion: success.
 
+## 5b. Current automated guards
+
+**PASS**
+
+Latest manuscript claim guard:
+
+- workflow run: `35314652195`;
+- job: `105503609508`;
+- result: **8 / 8 tests passed**.
+
+Latest New Phytologist submission-format guard:
+
+- workflow run: `35314606151`;
+- job: `105503472346`;
+- result: **9 / 9 tests passed**.
+
+The submission-format guard now checks live section word counts, Discussion <=30% of main text, 6–8 total display items, alphabetical keywords, four-bullet Summary <=200 words, cover-letter question lengths, required sections and frozen H2 claim boundaries.
+
 ## 6. Literature layer
 
 **PASS for submission drafting**
