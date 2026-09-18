@@ -6,6 +6,8 @@ ROOT = Path(__file__).resolve().parents[1]
 MANUSCRIPT = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md"
 CANONICAL = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT.md"
 COVER = ROOT / "docs" / "POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md"
+RGFCA_INTERPRETATION = ROOT / "docs" / "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md"
+FRAME_PROVENANCE = ROOT / "docs" / "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md"
 
 
 def words(text: str) -> list[str]:
@@ -42,6 +44,32 @@ def test_new_phytologist_defines_rgfca_and_preserves_the_conceptual_pivot() -> N
         "phenotype space than in geographic space",
     ):
         assert token in text
+
+
+def test_rgfca_interpretation_document_preserves_programme_boundary() -> None:
+    assert RGFCA_INTERPRETATION.exists()
+    text = RGFCA_INTERPRETATION.read_text(encoding="utf-8")
+    for token in (
+        "Repeated Global Flower-Colour Atlas",
+        "balanced world-map realizations",
+        "species-conditioned null",
+        "primary recurrent-field G1 concentration: p = 0.070",
+        "species-disjoint commonness: p = 0.856",
+        "The common rule is more evident in phenotype space than in geographic space",
+        "RGFCA created the global sampling/measurement framework",
+        "current paper uses that heterogeneity as the biological object of study",
+    ):
+        assert token in text
+
+    assert FRAME_PROVENANCE.exists()
+    frame = FRAME_PROVENANCE.read_text(encoding="utf-8")
+    for token in (
+        "42,111 species",
+        "U100 = 4,730 species",
+        "third-cohort candidate universe = **3,230 species**",
+        "not a polymorphism-prevalence denominator",
+    ):
+        assert token in frame
 
 
 def test_new_phytologist_documents_42111_frame_provenance() -> None:
