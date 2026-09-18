@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.3 scope
+## v0.4 scope
 
 The package provides reusable components for:
 
@@ -117,6 +117,14 @@ v0.3 adds a broader 24-cell performance surface:
 `results/disttrait_performance_surface_v0_3_20260919/`
 
 It varies within-species effect size (0, 0.8, 1.6, 2.4), species-level observation imbalance (1× vs 4×) and MCAR observation loss (0%, 25%, 50%), with 40 replicate worlds per cell. Across the six null cells the maximum species-conditioned false-positive fraction is **0.025**, while naive pooled inference rejects in **100%** of null worlds under the deliberately strong between-species geographic-confounding design. Conditioned detection rises from **0.225–0.675** at effect 0.8 to **0.75–1.00** at effect 1.6 and **1.00** throughout at effect 2.4.
+
+v0.4 adds an alternative-method comparator surface on the same synthetic worlds:
+
+`results/disttrait_comparator_surface_v0_4_20260919/`
+
+It compares naive pooling, equal-species matched-null inference, pair-count-weighted matched-null inference, and a one-sided one-sample test on species-specific rho values. Under the six null cells, maximum false-positive fractions are **0.025**, **0.025**, and **0.05** for the three species-conditioned summaries respectively, while naive pooling rejects in **100%** of null worlds. Under weak effect (0.8) plus 4× observation imbalance, equal-species matched-null detection spans **0.35–0.675**, compared with **0.325–0.575** for pair weighting and **0.35–0.70** for the simple species-rho t-test.
+
+The interpretation is therefore bounded: species-conditioning is the major protection against between-species geographic confounding; equal species weighting can help under imbalance but is not uniquely optimal, and simple species-level tests can be competitive when their assumptions are adequate.
 
 These benchmarks are targeted demonstrations, not evidence of universal superiority or robustness to missing-not-at-random trait observation.
 
