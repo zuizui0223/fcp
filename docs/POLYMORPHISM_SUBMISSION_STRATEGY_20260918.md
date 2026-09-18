@@ -10,6 +10,12 @@ Current claim ceiling:
 
 - `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
 
+Submission-readiness audit:
+
+- `docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md`
+
+New Phytologist author guidelines rechecked against the official Wiley page on **2026-09-18**.
+
 ## Recommended first shot
 
 ### 1. New Phytologist — Full Paper
