@@ -6,11 +6,15 @@
       "discovery_n": 369,
       "files": {
         "pdf": "polymorphism_figure1_measurement_frame.pdf",
-        "pdf_sha256": "5f96824b01b632fd5b8406cbf2b5bc8002e4e268f7ad4667ab9c243b76133386",
+        "pdf_sha256": "0e4d5c0d4488ec39168f28968de9d5c39bee128017827c296083d6b9a741f2c1",
         "png": "polymorphism_figure1_measurement_frame.png",
-        "png_sha256": "8630f59c4b6fd3809ae0dc9a4f228d412d7d500759093a7764cd9a61b2deac96"
+        "png_sha256": "068ca34bd0de9a1e432baff811839c05a3fb81eccb638e0534fcb86907dd9cd3"
       },
       "global_frame_species": 42111,
+      "layout_contract": {
+        "arrow_direction": "top_to_bottom",
+        "cohort_topology": "global_frame_branches_to_original_and_third_cohort"
+      },
       "reserve_n": 363,
       "third_cohort_measurement_evaluable_species": 377,
       "third_cohort_species": 499
@@ -18,9 +22,12 @@
     "figure2": {
       "files": {
         "pdf": "polymorphism_figure2_h1_reproducibility.pdf",
-        "pdf_sha256": "50cad234667131bad873c0d9b6b4f1459f80df3ec49e00a9e65e2de45b9270ff",
+        "pdf_sha256": "e0a3312cfa17ced51d665a9713e3ab6e5028b18b6811a61538470583b45bbc59",
         "png": "polymorphism_figure2_h1_reproducibility.png",
-        "png_sha256": "066c575d0c22e282da320433899d85a6bf3a37d9b25148ca736571436cbf6ac5"
+        "png_sha256": "5822ab3353895207dc9421e8767befd72c38ee0f6065315ba2e941c6975c2dd8"
+      },
+      "layout_contract": {
+        "stress_annotations": "offset_no_legend_overlap"
       },
       "primary_verdict": "H1_OBSERVER_DISJOINT_D_RELIABILITY_SUPPORTED",
       "reserve_primary_rho_median": 0.7891029925726101,
@@ -32,9 +39,12 @@
     "figure3": {
       "files": {
         "pdf": "polymorphism_figure3_h2_target_localization.pdf",
-        "pdf_sha256": "c440f993babf167c7267f4fdb4b4f341dbac9466e1f93f781b4b75a8bc3f343f",
+        "pdf_sha256": "db3b85851b1c7d6988de809e0e254064fbc910a3aed06ca755842a7e667267fb",
         "png": "polymorphism_figure3_h2_target_localization.png",
-        "png_sha256": "aa6ca9df66d59d75f0eab552b6044bb1462814f81a97395a3954cb9c3b575a54"
+        "png_sha256": "47da9e13dc895755fcdfaf1765b894fc00ba2f5089090068918c9074d3fe8d2a"
+      },
+      "layout_contract": {
+        "legend": "outside_below_axis"
       },
       "status": "targeted_post_audit_decomposition_not_untouched_confirmatory_test",
       "structured_null_replicates": 999,
