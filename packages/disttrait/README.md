@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.2 scope
+## v0.3 scope
 
 The package provides reusable components for:
 
@@ -112,7 +112,13 @@ Under that specific failure mode:
 - species-conditioned matched-null false-positive fraction: **0.00**;
 - species-conditioned signal detection fraction: **1.00**.
 
-The benchmark is intentionally narrow and does not establish universal superiority.
+v0.3 adds a broader 24-cell performance surface:
+
+`results/disttrait_performance_surface_v0_3_20260919/`
+
+It varies within-species effect size (0, 0.8, 1.6, 2.4), species-level observation imbalance (1× vs 4×) and MCAR observation loss (0%, 25%, 50%), with 40 replicate worlds per cell. Across the six null cells the maximum species-conditioned false-positive fraction is **0.025**, while naive pooled inference rejects in **100%** of null worlds under the deliberately strong between-species geographic-confounding design. Conditioned detection rises from **0.225–0.675** at effect 0.8 to **0.75–1.00** at effect 1.6 and **1.00** throughout at effect 2.4.
+
+These benchmarks are targeted demonstrations, not evidence of universal superiority or robustness to missing-not-at-random trait observation.
 
 ## Validation gate for v0.2
 
