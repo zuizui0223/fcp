@@ -1,0 +1,50 @@
+{
+  "schema": "disttrait_model_comparator_surface_v1",
+  "date_jst": "2026-09-19",
+  "role": "model_based_alternative_comparison_under_between_species_geographic_confounding",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/benchmarks/model_comparator_surface.py",
+    "git_blob_sha": "2c7a91d7b203740da81fa2842605f8f375f07b5a"
+  },
+  "cells_file": "results/disttrait_model_comparator_surface_v0_5_20260919/cells.csv",
+  "comparators": [
+    "naive pooled pairwise Spearman",
+    "equal-species matched-null omnibus",
+    "pair-count-weighted matched-null omnibus",
+    "one-sided one-sample t-test on species-specific rho values",
+    "species fixed-intercept logistic profile-LRT"
+  ],
+  "design": {
+    "effect_sizes": [0.0, 0.8, 1.6, 2.4],
+    "observation_imbalance_ratios": [1.0, 4.0],
+    "mcar_missing_fractions": [0.0, 0.25, 0.5],
+    "worlds_per_cell": 40,
+    "species_per_world": 20,
+    "base_observations": 16,
+    "spatial_null_permutations": 39,
+    "naive_pooled_pair_sample": 8000,
+    "alpha": 0.05,
+    "fixed_effect_model": "species-specific intercepts profiled out; common nonnegative within-species local-position slope; one-sided 0.5*chi-square_1 profile-LRT"
+  },
+  "summary": {
+    "max_equal_matched_null_fpr": 0.025,
+    "max_pair_weighted_matched_null_fpr": 0.025,
+    "max_species_rho_ttest_null_fpr": 0.05,
+    "max_fixed_effect_logit_null_fpr": 0.1,
+    "mean_fixed_effect_logit_null_fpr": 0.05,
+    "effect_0_8_fixed_effect_detection_range": [0.975, 1.0],
+    "effect_0_8_equal_detection_range": [0.225, 0.675],
+    "effect_1_6_fixed_effect_detection_range": [1.0, 1.0]
+  },
+  "interpretation": {
+    "supported": "A species fixed-intercept logistic model with a common within-species slope is substantially more powerful than the nonparametric species-conditioned omnibus for the correctly specified binary-logistic data-generating process, while showing approximately nominal average null rejection across the six null cells. The matched-null omnibus remains better calibrated in the worst null cell and makes fewer trait-model assumptions.",
+    "not_supported": [
+      "the fixed-effect logistic comparator is universally superior",
+      "profile-LRT calibration is guaranteed under arbitrary sparse or separated species data",
+      "the matched-null omnibus is inefficient for non-binary or misspecified traits",
+      "model-based and permutation-based methods target identical estimands in all settings"
+    ]
+  }
+}
