@@ -1,0 +1,47 @@
+name: Polymorphism manuscript claim guard
+
+on:
+  push:
+    branches:
+      - analysis/h2-third-cohort-preopening-20260916
+    paths:
+      - README.md
+      - docs/POLYMORPHISM_MANUSCRIPT.md
+      - docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md
+      - docs/POLYMORPHISM_FIGURE_PLAN_20260918.md
+      - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json
+      - results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json
+      - tests/test_polymorphism_manuscript_claims.py
+      - .github/workflows/polymorphism-manuscript-claim-guard.yml
+  pull_request:
+    paths:
+      - README.md
+      - docs/POLYMORPHISM_MANUSCRIPT.md
+      - docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md
+      - docs/POLYMORPHISM_FIGURE_PLAN_20260918.md
+      - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json
+      - results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json
+      - tests/test_polymorphism_manuscript_claims.py
+      - .github/workflows/polymorphism-manuscript-claim-guard.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  claim-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out frozen branch
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependency
+        run: python -m pip install --upgrade pytest
+
+      - name: Verify manuscript claims against frozen results
+        run: python -m pytest tests/test_polymorphism_manuscript_claims.py -q
