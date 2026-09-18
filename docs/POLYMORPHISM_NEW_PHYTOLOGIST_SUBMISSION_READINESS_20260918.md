@@ -73,11 +73,11 @@ The official guidelines currently describe Full Papers as usually approximately 
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
-| Materials and Methods | 2,251 words | RECORDED |
+| Materials and Methods | 2,460 words | RECORDED |
 | Results | 1,025 words | RECORDED |
-| Discussion | 1,207 words | RECORDED |
-| Main text, Introduction–Discussion | 5,024 words | RECORDED |
-| Discussion share of main text | 24.0% | PASS (<30%) |
+| Discussion | 1,298 words | RECORDED |
+| Main text, Introduction–Discussion | 5,324 words | RECORDED |
+| Discussion share of main text | 24.4% | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (guideline range 6–8) |
