@@ -1,0 +1,58 @@
+{
+  "analysis": "polymorphism_h2_third_cohort_outcome_blind_selection",
+  "date_jst": "2026-09-16",
+  "status": "THIRD_COHORT_SELECTION_FROZEN_PREOUTCOME",
+  "protocol": "docs/POLYMORPHISM_H2_THIRD_COHORT_SELECTION_PROTOCOL_20260916.md",
+  "biological_outcomes_opened": false,
+  "lineage": {
+    "U0_species": 42111,
+    "U100_species": 4730,
+    "legacy_high_depth_species_excluded_before_P100": 1000,
+    "P100_species": 3730,
+    "P500_selected_species_excluded": 500,
+    "third_candidate_species": 3230,
+    "third_selected_species": 500
+  },
+  "parent_selection_artifact": {
+    "workflow_run": 34708044962,
+    "artifact_id": 10302477571,
+    "sha256": "7e43763e3f1d9fa3ff108154dc6ef9443430b70fdb62532e2f6845582d607abb",
+    "p100_sha256": "1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c",
+    "p500_sha256": "f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4"
+  },
+  "candidate_universe": {
+    "species": 3230,
+    "canonical_csv_sha256": "7fc0337074b55a91c0b50773a8d5c3ef82e877074c8b3cacc21f9af58e0ba77e",
+    "p500_taxon_overlap": 0,
+    "p500_species_overlap": 0,
+    "minimum_after_observer_cap": 100
+  },
+  "selection": {
+    "species": 500,
+    "salt": "FCP_H2_THIRD_COHORT_20260916_V1",
+    "ordering": "ascending SHA256(salt|inat_taxon_id|species), then integer inat_taxon_id",
+    "canonical_selected_csv_sha256": "4ad1191f39068e0fb2229f84361b1004803e24793190566d21e5c474aef2002a",
+    "ordered_identity_manifest": "selected_species_manifest.tsv",
+    "ordered_identity_manifest_sha256": "16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59",
+    "minimum_after_observer_cap": 100,
+    "maximum_after_observer_cap": 200,
+    "p500_taxon_overlap": 0,
+    "p500_species_overlap": 0
+  },
+  "outcome_firewall": {
+    "flower_colour_opened": false,
+    "morph_opened": false,
+    "D_opened": false,
+    "H2_W_opened": false,
+    "P500_measurement_table_read": false,
+    "P500_recovered_H2_read": false,
+    "H3_predictors_read": false,
+    "selection_inputs": ["inat_taxon_id", "species", "after_observer_cap"]
+  },
+  "chronology": {
+    "durable_selection_receipt": "this commit",
+    "technical_qualification_authorization_status": "NOT_YET_AUTHORIZING_REAL_OPENING",
+    "note": "Any synthetic terminal qualification executed before this durable selection receipt is diagnostic only. The mandatory end-to-end synthetic qualification must be rerun at a descendant commit before one-run biological authorization."
+  },
+  "next_gate": "rerun and persist the synthetic end-to-end terminal qualification at a descendant commit; only then freeze a bounded one-run biological execution authorization"
+}

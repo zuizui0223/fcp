@@ -1,0 +1,31 @@
+{
+  "schema": "polymorphism_publication_figure_source_v1",
+  "date_jst": "2026-09-18",
+  "purpose": "reporting-only source freeze for publication figures; no new inference",
+  "source_artifacts": {
+    "h3a": {
+      "workflow_run_id": 34677042793,
+      "artifact_id": 10292218669,
+      "artifact_digest": "sha256:7f95699149f3111e00b9a095d78ddfa32e1111727d12ff1bb3ce9dc9c1dbd892"
+    },
+    "h3b": {
+      "workflow_run_id": 34677468362,
+      "artifact_id": 10292399238,
+      "artifact_digest": "sha256:34c5e646725f6865e313b17f1b70f2471db8169f443fb0649da83044d654386c"
+    }
+  },
+  "files": {
+    "h3a_species_D.csv": {
+      "sha256": "7fc22dffb2a6fba806ce7e54836b7804ae225a1a807d15ea9ff877d7c4d19cb6",
+      "rows_including_header": 733
+    },
+    "h3a_signal_by_scenario.csv": {
+      "sha256": "8b37b0edcdf0823351aad82d443d2ff6686d3684294855f20900e1770614f986",
+      "rows_including_header": 7
+    },
+    "h3b_span_summary.csv": {
+      "sha256": "a8f58d2cf7282ec8aa55fd5741eb34e9440112fd319710654c4f03c12551460b",
+      "rows_including_header": 3
+    }
+  }
+}

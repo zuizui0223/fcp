@@ -1,0 +1,33 @@
+name: Polymorphism publication figure tests
+
+on:
+  push:
+    branches:
+      - analysis/h2-third-cohort-preopening-20260916
+    paths:
+      - scripts/analysis/make_polymorphism_manuscript_figures.py
+      - tests/test_make_polymorphism_manuscript_figures.py
+      - results/polymorphism_publication_figure_source_20260918/**
+      - results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json
+      - results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.json
+      - results/polymorphism_white_axis_targeted_test_20260912/result.json
+      - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/**
+      - results/polymorphism_h3a_phylogenetic_signal_20260912/frozen_result_manifest.json
+      - .github/workflows/polymorphism-publication-figure-tests.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  figure-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install figure dependencies
+        run: python -m pip install --upgrade pytest pandas numpy matplotlib
+      - name: Run publication figure tests
+        run: python -m pytest tests/test_make_polymorphism_manuscript_figures.py -q

@@ -1,39 +1,43 @@
-# FCP — spatial organization of intraspecific flower-colour variation
+# FCP — flower-colour variation across species and space
 
-This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. `fcp` asks how intraspecific colour diversity is maintained or sorted across space; the complementary [`chun`](https://github.com/zuizui0223/chun) project asks how similar flower-colour states are repeatedly generated through evolutionary time. See [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md).
+This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. `fcp` now contains an active global flower-colour polymorphism mainline together with two older frozen spatial/comparative lanes.
 
-This repository now contains **two frozen inferential lanes that answer different questions and must not be pooled**.
+## Active mainline — global flower-colour polymorphism
 
-1. **Chapter 1 spatial-photograph lane:** Do present-day continuous flower-colour observations show non-random spatial organization within species, and do independent species share the same strongest transition geography?
-2. **34-species comparative lane:** Does occupied climatic niche breadth differ according to whether literature-documented intraspecific flower-colour variation occurs as local within-population coexistence or geographic differentiation among populations?
+The active paper asks two linked questions: **can within-species flower-colour polymorphism be measured reproducibly as a species phenotype, and is that variation geometrically constrained in colour space?**
 
-The first lane uses 1,200 community photographs from six species with a frozen 480/720 calibration–evaluation split. The second uses a checksum-locked literature-derived dataset of 34 species from 25 families. Their samples, response variables, null models and claims are distinct.
+The current frozen result is:
 
-## Start here
+- observer-disjoint high-depth validation supports reproducible species-level polymorphism `D`, while a later stricter deterministic split shows that reliability is not near-perfect or split-invariant;
+- the original discovery/reserve geometry localized to a white-versus-nonwhite achromatic–chromatic axis;
+- an already frozen version of that axis was then tested in a pre-frozen species-disjoint third cohort from the same iNaturalist opportunity universe;
+- third-cohort measurement completed **49,900 rows from 499 species**, with **377** species passing the predeclared measurement-support gate;
+- H2 passed at the primary 0.10 tier (**158 species, W = 0.51725, p = 0.001**) and strict 0.20 tier (**86 species, W = 0.53293, p = 0.001**);
+- frozen verdict: `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`;
+- broad reserve phylogenetic signal and the discovery sampled-span association are not supported as general explanations.
 
-- **Programme position:** [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md)
+The prospective H2 result is **species-disjoint within the same iNaturalist source/opportunity universe**. It is not an independent-source replication, a global prevalence estimate, or a pigment/pollinator/climate mechanism result. The earlier P500 run retains no durable H2 biological verdict and is not rescued retrospectively.
 
-### Chapter 1 — held-out spatial analysis
+### Start here
 
-- **Manuscript draft:** [`docs/JBI_CHAPTER1_MANUSCRIPT.md`](docs/JBI_CHAPTER1_MANUSCRIPT.md)
-- **Current decision and execution status:** [`docs/JBI_CHAPTER1_SPATIAL_STATUS.md`](docs/JBI_CHAPTER1_SPATIAL_STATUS.md)
-- **Frozen protocol:** [`docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md`](docs/JBI_CHAPTER1_SPATIAL_STATE_DISTRIBUTION_PROTOCOL.md)
-- **Numerical results:** [`docs/JBI_CHAPTER1_RESULTS.md`](docs/JBI_CHAPTER1_RESULTS.md)
-- **Figure plan and legends:** [`docs/JBI_CHAPTER1_FIGURE_PLAN.md`](docs/JBI_CHAPTER1_FIGURE_PLAN.md)
-- **Canonical figure products:** [`docs/figures/jbi_ch1_figure_c1_stage_a_global.png`](docs/figures/jbi_ch1_figure_c1_stage_a_global.png) through the C4 and C-S2 products
-- **Figure manifest:** [`docs/supporting/jbi_ch1_figure_manifest_v1.json`](docs/supporting/jbi_ch1_figure_manifest_v1.json)
-- **Boundary CI:** [`.github/workflows/jbi-global-colour-boundaries.yml`](.github/workflows/jbi-global-colour-boundaries.yml)
+- **Canonical manuscript:** [`docs/POLYMORPHISM_MANUSCRIPT.md`](docs/POLYMORPHISM_MANUSCRIPT.md)
+- **New Phytologist submission draft:** [`docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md)
+- **Current claim ledger:** [`docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`](docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md)
+- **Post-confirmation architecture:** [`docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md`](docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md)
+- **Figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
+- **Supporting evidence map:** [`docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`](docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md)
+- **Submission-readiness audit:** [`docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md`](docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md)
+- **Canonical figures:** [`docs/figures/polymorphism_20260918/`](docs/figures/polymorphism_20260918/)
+- **Full analysis-history branch:** `analysis/h2-third-cohort-preopening-20260916`
 
-### Frozen 34-species comparative paper
+## Retained frozen lanes
 
-- **Manuscript:** [`docs/jbi_manuscript.md`](docs/jbi_manuscript.md)
-- **Pipeline and evidence reduction:** [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md)
-- **Figure plan:** [`docs/FIGURE_PLAN.md`](docs/FIGURE_PLAN.md)
-- **Canonical figures:** [`docs/figures/`](docs/figures/)
-- **Supporting Information map:** [`docs/jbi_supporting_information_index.md`](docs/jbi_supporting_information_index.md)
-- **Remaining submission gates:** [`docs/jbi_submission_completion_checklist.md`](docs/jbi_submission_completion_checklist.md)
-- **Canonical frozen input:** [`data/frozen/frozen_34species_five_metric_dataset.csv`](data/frozen/frozen_34species_five_metric_dataset.csv)
-- **Reproduction workflow:** [`.github/workflows/34species-paper.yml`](.github/workflows/34species-paper.yml)
+The repository also preserves two earlier inferential lanes whose samples, estimands and claims are distinct from the active polymorphism paper.
+
+1. **Chapter 1 spatial-photograph lane:** present-day continuous flower-colour observations, within-species spatial organization and cross-species transition geography.
+2. **34-species comparative lane:** occupied climatic-niche breadth versus literature-documented local coexistence or geographic colour differentiation.
+
+These lanes remain valid provenance and separate papers; they are not pooled with the active global polymorphism inference.
 
 ## Chapter 1: frozen photograph analysis
 
