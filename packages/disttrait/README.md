@@ -48,6 +48,19 @@ python packages/disttrait/scripts/replay_fcp_h1.py \
   --expected results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json
 ```
 
+For an H2 observed-W replay when the four legacy delta-vector artifacts are available:
+
+```bash
+python packages/disttrait/scripts/replay_fcp_h2_observed_w.py \
+  --primary-discovery /path/to/primary_0_10_discovery_delta_vectors.csv \
+  --primary-reserve /path/to/primary_0_10_reserve_delta_vectors.csv \
+  --strict-discovery /path/to/strict_0_20_discovery_delta_vectors.csv \
+  --strict-reserve /path/to/strict_0_20_reserve_delta_vectors.csv \
+  --expected results/polymorphism_white_axis_targeted_test_20260912/result.json
+```
+
+The H2 replay checks species denominators and the generic fixed-contrast alignment statistic. It does not reconstruct the 999 construction-preserving null worlds unless the underlying row-level palette artifacts are also supplied.
+
 ## Install from this repository
 
 ```bash
