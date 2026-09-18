@@ -1,117 +1,102 @@
 # Polymorphism main-figure visual QA — 2026-09-18
 
-Status: **REGENERATION REQUIRED — final visual PASS not yet issued**
+Status: **FINAL PASS — submission-size visual QA complete**
 
-This QA inspects the actual generated figure artifact rather than inferring quality from plotting code.
+This QA is based on direct inspection of the freshly regenerated figure artifact after all recorded layout corrections. It supersedes the earlier failed visual inspection of artifact `10526330340`.
 
-## Inspected artifact
+## Final inspected artifact
 
-- workflow run: `35290714346`
-- job: `105432735541`
-- artifact ID: `10526330340`
+- workflow run: `35317018635`
+- job: `105510790410`
+- artifact ID: `10535687927`
 - artifact name: `polymorphism-publication-figures-20260918`
-- artifact digest: `sha256:21bb4004fdad68f3869009497c2ea18550d63368924d6820aeddf3fdf8388383`
-- generating head: `84c9dc2621734023808663241403e462c1732d18`
+- artifact digest: `sha256:94cbdeafcd6cb04dafa8a40376e2433f96df8b61f3bbda361c496a9081bd21c2`
+- generating head: `b394c72b390b0057711fd1b0a1c0ae75bae49bc8`
+- committed generated-figure head: `779446c2d2df6d6ade54bb18661c0d31f483a01b`
 
-The ZIP was opened and the five committed PNG figures were inspected directly.
+The artifact ZIP was opened and all five PNG figures were inspected directly at submission-readable scale. The corresponding PDF outputs were present in the same artifact.
 
-## Figure-by-figure visual audit
+## Correction history
 
-### Figure 1 — FAIL, layout/topology
+The first inspected artifact revealed three presentation problems:
 
-Panel A was readable.
+1. Figure 1 had incorrect cohort topology / arrow direction.
+2. Figure 2 had a stress-test annotation collision.
+3. Figure 3 had a legend/data collision.
 
-Panel B had two substantive visual problems:
+Those findings were encoded in `tests/test_make_polymorphism_manuscript_figures.py` and corrected in the figure generator.
 
-1. the arrowheads in the linear stack pointed upward, opposite to the intended sampling chronology;
-2. the third prospective cohort was displayed downstream of the original D-inference cohort, although it is a separate later branch from the opportunity frame.
+A later fresh artifact showed the intended Figure 1 branching and downward arrows, but the two middle lane boxes were still slightly crowded. A new regression contract was therefore added before the final correction:
 
-Required correction:
+- RED regression commit: `fe3381e5601a76a35f4e0610053a60699385300b`
+- final lane-separation implementation: `b394c72b390b0057711fd1b0a1c0ae75bae49bc8`
+- final `figure-tests`: PASS
+- final `build-figures`: PASS
 
-- branch the global frame top-down into:
-  - original validation lane -> original high-depth source -> D inference;
-  - prospective confirmation lane -> frozen third-cohort selection/fresh metadata -> 499 × 100 / 377 evaluable / zero replacements.
+The final manifest requires `middle_lane_center_gap_axes >= 0.54`; the implemented lane centers are 0.22 and 0.78, giving a gap of 0.56.
 
-### Figure 2 — FAIL, annotation collision
+## Figure-by-figure final audit
 
-Panel A was readable.
+### Figure 1 — PASS
 
-Panel B had overlapping reserve annotations near the rho = 0.80 stress-test floor. The floor legend, reserve rho/CCC label and CI region collided at publication size.
+Panel A is readable.
 
-Required correction:
+Panel B now shows the correct sampling topology:
 
-- remove the in-axis floor legend;
-- label the floor directly;
-- vertically offset discovery/reserve rho/CCC annotations from their CI lines;
-- reserve additional y margin.
+- the 42,111-species opportunity frame branches into two separate lanes;
+- the original validation lane leads to the discovery/reserve high-depth source and D inference;
+- the prospective-confirmation lane leads to the frozen third-cohort selection/fresh metadata and the 499-species terminal cohort;
+- arrows point from source to target, top to bottom;
+- the two lane boxes are visually separated with no material overlap at submission size.
 
-### Figure 3 — FAIL, legend collision
+The displayed third-cohort denominator remains 499 species x 100 rows, 377 measurement-evaluable species, and zero replacements.
 
-Panel A was readable.
+### Figure 2 — PASS
 
-In Panel B, the encoding legend overlapped the strict-reserve data/annotation region.
+The observer-disjoint H1 panels are readable.
 
-Required correction:
+The rho = 0.80 deterministic stress-test floor, confidence interval and rho/CCC annotations no longer collide. The figure continues to distinguish the first-frozen repeated-partition support from the later stricter deterministic stress-test miss.
 
-- move the observed/null encoding legend outside the plotting area below the right axis.
+### Figure 3 — PASS
 
-### Figure 4 — PASS on inspected version
+The legacy H2 localization panels are readable.
 
-The primary and strict prospective structured-null histograms were readable with no material overlap.
+The observed/null encoding legend is outside the data region and does not collide with the strict-reserve result. The panel retains the chronology that the named white-versus-nonwhite target was localized after the original broad geometry had been opened.
 
-Scientific boundary text was visible:
+### Figure 4 — PASS
 
-- species-disjoint prospective confirmation;
-- same iNaturalist opportunity universe;
-- not independent-source replication.
+The prospective primary and strict structured-null panels are readable with no material annotation overlap.
 
-No change requested from this visual audit.
+Frozen values remain unchanged:
 
-### Figure 5 — PASS on inspected version
+- primary: 158 species, W = 0.5172457461, p = 0.001;
+- strict: 86 species, W = 0.5329282123, p = 0.001;
+- measurement-evaluable species = 377;
+- verdict = `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`.
 
-The three H3a scenarios and discovery/reserve H3b contrast were readable.
+The figure retains the required boundary language: species-disjoint prospective confirmation within the same iNaturalist opportunity universe, not independent-source replication.
 
-The sampled-span/non-range boundary was visible.
+### Figure 5 — PASS
 
-No change requested from this visual audit.
+The H3a S1-S3 results and discovery/reserve H3b contrast are readable.
 
-## Regression contract
+The figure retains the boundary that sampled photographic span is not true biological range size and does not overgeneralize the unsupported broad phylogenetic-signal test.
 
-The layout findings are encoded in:
+## Scientific-integrity check
 
-- `tests/test_make_polymorphism_manuscript_figures.py`
+The visual corrections changed layout only.
 
-The generator correction is:
+The final figure manifest continues to report:
 
-- commit `4f2ebe0d227d9f38bcaf51d88c9f60a54ffea599`
-- file: `scripts/analysis/make_polymorphism_manuscript_figures.py`
+- `status = generated_from_frozen_results`;
+- `scientific_claims_changed = false`.
 
-The corrected manifest must report:
+No frozen biological value, threshold, null, cohort, verdict or hard nonclaim was changed during figure QA.
 
-- Figure 1 cohort topology = `global_frame_branches_to_original_and_third_cohort`;
-- Figure 1 arrow direction = `top_to_bottom`;
-- Figure 2 stress annotations = `offset_no_legend_overlap`;
-- Figure 3 legend = `outside_below_axis`.
+## Final decision
 
-## Legend/documentation synchronization
+All conditions for submission-size visual QA are satisfied.
 
-The New Phytologist figure legends have been rewritten to match the implemented two-panel figures rather than the earlier aspirational multi-panel plan.
+**Final figure QA verdict: PASS.**
 
-The canonical plan is now:
-
-- `docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`
-
-## Final PASS rule
-
-Do **not** check off submission-size visual QA until:
-
-1. the corrected generator completes successfully;
-2. a fresh figure artifact is uploaded;
-3. its actual Figure 1–5 PNG/PDF outputs are opened;
-4. Figure 1 has correct branch topology and downward arrows;
-5. Figure 2 has no stress-test annotation collision;
-6. Figure 3 has no legend/data collision;
-7. Figures 4–5 remain readable and scientifically unchanged;
-8. frozen numerical values and hard nonclaims are unchanged.
-
-Until those conditions are met, the submission checklist item “Figure files checked visually at submission size” remains open.
+The New Phytologist checklist item “Figure files checked visually at submission size” may be marked complete.
