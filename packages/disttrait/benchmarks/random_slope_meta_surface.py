@@ -21,6 +21,7 @@ from scipy.stats import spearmanr, t as student_t, ttest_1samp
 from disttrait import (
     continuous_spatial_permutation_null,
     random_effects_from_groups,
+    random_effects_slope_permutation_test,
     species_equal_spatial_omnibus,
 )
 
@@ -32,6 +33,7 @@ WORLDS_PER_CELL = 40
 N_SPECIES = 20
 BASE_OBSERVATIONS = 20
 N_PERMUTATIONS = 39
+META_PERMUTATIONS = 99
 POOLED_PAIR_SAMPLE = 8_000
 ALPHA = 0.05
 
@@ -147,6 +149,12 @@ def run_world(
     common_beta, common_p = _fixed_effect_common_slope_test(model_groups)
 
     meta, slopes = random_effects_from_groups(model_groups)
+    calibrated_meta = random_effects_slope_permutation_test(
+        model_groups,
+        n_permutations=META_PERMUTATIONS,
+        seed=20260919,
+        key=f"world|{seed}",
+    )
 
     x = np.concatenate(all_position)
     y = np.concatenate(all_trait)
@@ -175,6 +183,13 @@ def run_world(
         "meta_heterogeneity_p": float(meta.p_heterogeneity),
         "meta_tau2": float(meta.tau2),
         "meta_omnibus_p": float(meta.p_omnibus),
+        "calibrated_meta_mean_p": float(calibrated_meta.p_mean_permutation),
+        "calibrated_meta_heterogeneity_p": float(
+            calibrated_meta.p_heterogeneity_permutation
+        ),
+        "calibrated_meta_omnibus_p": float(
+            calibrated_meta.p_omnibus_permutation
+        ),
         "species_slope_sd": float(np.std(slope_values, ddof=1)),
     }
 
@@ -225,6 +240,15 @@ def run_benchmark(*, worlds_per_cell: int = WORLDS_PER_CELL) -> dict:
                         "meta_omnibus_detection": float(
                             np.mean(frame["meta_omnibus_p"] < ALPHA)
                         ),
+                        "calibrated_meta_mean_detection": float(
+                            np.mean(frame["calibrated_meta_mean_p"] < ALPHA)
+                        ),
+                        "calibrated_meta_heterogeneity_detection": float(
+                            np.mean(frame["calibrated_meta_heterogeneity_p"] < ALPHA)
+                        ),
+                        "calibrated_meta_omnibus_detection": float(
+                            np.mean(frame["calibrated_meta_omnibus_p"] < ALPHA)
+                        ),
                         "equal_rho_median": float(frame["equal_rho"].median()),
                         "common_slope_beta_median": float(
                             frame["common_slope_beta"].median()
@@ -270,6 +294,15 @@ def run_benchmark(*, worlds_per_cell: int = WORLDS_PER_CELL) -> dict:
             "max_meta_omnibus_null_fpr": float(
                 null["meta_omnibus_detection"].max()
             ),
+            "max_calibrated_meta_mean_null_fpr": float(
+                null["calibrated_meta_mean_detection"].max()
+            ),
+            "max_calibrated_meta_heterogeneity_null_fpr": float(
+                null["calibrated_meta_heterogeneity_detection"].max()
+            ),
+            "max_calibrated_meta_omnibus_null_fpr": float(
+                null["calibrated_meta_omnibus_detection"].max()
+            ),
             "effect_0_4_reversal0_equal_detection_range": detection_range(
                 weak, "equal_matched_detection", 0.0
             ),
@@ -278,6 +311,9 @@ def run_benchmark(*, worlds_per_cell: int = WORLDS_PER_CELL) -> dict:
             ),
             "effect_0_4_reversal0_meta_omnibus_detection_range": detection_range(
                 weak, "meta_omnibus_detection", 0.0
+            ),
+            "effect_0_4_reversal0_calibrated_meta_omnibus_detection_range": detection_range(
+                weak, "calibrated_meta_omnibus_detection", 0.0
             ),
             "effect_0_4_reversal0_5_equal_detection_range": detection_range(
                 weak, "equal_matched_detection", 0.5
@@ -291,11 +327,20 @@ def run_benchmark(*, worlds_per_cell: int = WORLDS_PER_CELL) -> dict:
             "effect_0_4_reversal0_5_meta_omnibus_detection_range": detection_range(
                 weak, "meta_omnibus_detection", 0.5
             ),
+            "effect_0_4_reversal0_5_calibrated_meta_heterogeneity_detection_range": detection_range(
+                weak, "calibrated_meta_heterogeneity_detection", 0.5
+            ),
+            "effect_0_4_reversal0_5_calibrated_meta_omnibus_detection_range": detection_range(
+                weak, "calibrated_meta_omnibus_detection", 0.5
+            ),
             "effect_0_8_reversal0_5_equal_detection_range": detection_range(
                 strong, "equal_matched_detection", 0.5
             ),
             "effect_0_8_reversal0_5_meta_omnibus_detection_range": detection_range(
                 strong, "meta_omnibus_detection", 0.5
+            ),
+            "effect_0_8_reversal0_5_calibrated_meta_omnibus_detection_range": detection_range(
+                strong, "calibrated_meta_omnibus_detection", 0.5
             ),
         },
     }
