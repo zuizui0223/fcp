@@ -56,6 +56,12 @@ A later third-cohort H2 test was constructed from an outcome-blind candidate fra
 
 The high-depth cohort sizes are therefore hypothesis-specific validation denominators. They are not used as estimates of polymorphism prevalence among the 42,111-species frame.
 
+### Photographic measurement and outcome firewall
+
+All high-depth image rows were processed with a frozen location-blind measurement machine rather than by manual selection after outcome inspection. For the prospective third cohort, the inherited machine was pinned to source commit `9fae6ccdf684a46026f72ba12e98de2c5c54bf2a`. It used the unchanged ROI-v4 flower-detection step, EfficientSAM segmentation, a normalized nine-colour flower palette (white, yellow, orange, red, pink, magenta, purple, blue and bronze), the four coarse biological states, and the same ROI, flip and palette-quality gates used in the qualified prospective design. Rows failing these gates were assigned terminal nonclassifiable states; failure never triggered a replacement image or species.
+
+The third-cohort metadata draw was row-disjoint from 178,462 previously used observation IDs and 178,462 previously used photo IDs. Before any candidate pixel was opened, the selected-species manifest and authorized metadata were checksum-verified. Each photo ID was converted deterministically to a blind measurement ID. Measurement workers could access only the measurement ID, image filename and photo licence; species identity, taxon ID, coordinates, observer ID, observation ID and prospective rank remained sealed until all terminal measurements were complete. The 49,900 rows were distributed across two blind batches, 32 semantic shards per batch and four compute partitions per shard, giving 256 terminal partitions with no early stopping. Image pixels and flower masks were not persisted after partition sealing.
+
 ### Image-level biological states and continuous polymorphism score
 
 The frozen biological coarse states are:
@@ -79,7 +85,9 @@ D is interpreted as a continuous within-species colour-diversity phenotype. It i
 
 The primary H1 protocol tests whether D is reproducible when observers, rather than photographs, are separated between estimates. Observer identities and observation counts determine the split; morph labels and D do not. This observer-level separation is motivated by evidence that iNaturalist observations carry an observer process, including specialization and heterogeneous contribution patterns (Di Cecco et al. 2021), rather than behaving as exchangeable photographs from a fully specified sampling design.
 
-The first-frozen primary protocol generated 200 observer-disjoint partitions. The reserve decision rule required adequate paired-species support, a median split Spearman correlation of at least 2/3, and a 5th-percentile correlation of at least 0.5. Lin's concordance correlation coefficient (CCC), absolute differences and Spearman-Brown projected reliability were retained as agreement diagnostics.
+The first-frozen primary protocol generated 200 observer-disjoint partitions. Within each species and partition, observers were kept intact and ordered by the number of measured rows they contributed. Ties were resolved by a frozen SHA256 ordering of seed, species and observer ID. Observers were then greedily assigned to the currently smaller half by all-row count, so balancing used observer identity and sampling effort but never colour labels, classifiability, D, geography or H2/H3 outcomes. A species contributed to a partition-level estimate only when each half retained at least 20 classifiable rows; a >=15-per-half analysis was prespecified as sensitivity only.
+
+For each partition, D was calculated separately in the two observer-disjoint halves and species were compared using Spearman correlation. The reserve decision rule required a median of at least 100 paired species, median split Spearman rho >=2/3 and 5th-percentile rho >=0.5. Lin's concordance correlation coefficient (CCC), absolute differences and Spearman-Brown projected reliability were retained as agreement diagnostics rather than substitute decision statistics.
 
 A later deterministic single-split analysis imposed a stronger rho >= 0.80 criterion. Because that stricter protocol was frozen after the first repeated-partition result had already been opened, it is treated as a deliberately harder stress test rather than as a replacement primary analysis.
 
@@ -91,7 +99,7 @@ H2 uses normalized nine-colour palette coordinates
 [mathrm{white},mathrm{yellow},mathrm{orange},mathrm{red},mathrm{pink},mathrm{magenta},mathrm{purple},mathrm{blue},mathrm{bronze}].
 ]
 
-Within each eligible species, continuous palette rows are transformed into Hellinger space and partitioned by deterministic unlabeled two-means. The resulting two-mode displacement is converted to a unit direction (u_i). Species must also pass a coarse-state second-mode gate and a continuous minor-cluster gate.
+Within each eligible species, each nine-colour composition was first normalized to unit row sum and transformed to Hellinger coordinates by element-wise square root. Deterministic unlabeled two-means was fitted without using the four coarse morph labels. Mean normalized compositions were then calculated for the larger and smaller continuous clusters, and their difference defined the species displacement vector Delta_i. Because the cluster labels are arbitrary, H2 uses the sign-invariant unit axis u_i = Delta_i / ||Delta_i||. Species must also pass a coarse-state second-mode gate and a continuous minor-cluster gate.
 
 Two admissibility tiers are fixed:
 
@@ -132,7 +140,11 @@ The third-cohort test was designed specifically to separate target discovery fro
 - one-shot/no-rerun execution;
 - durable serialization and read-back validation.
 
-All 256 terminal measurement partitions had to complete before the metadata-colour join and H2 stage could open. The support gate was evaluated before W was calculated.
+The fresh metadata stage made exactly one request per frozen selected species under the prespecified acquisition rule. Of 500 selected species, 499 supplied 100 fresh authorized rows and one supplied 99; the latter was excluded before pixel opening with no replacement and no biological interpretation. The resulting pre-pixel denominator was therefore fixed at 499 species and 49,900 rows.
+
+All 256 terminal measurement partitions had to complete before the metadata-colour join and H2 stage could open. Every frozen row had to receive exactly one terminal state. Only rows classified into the four biological coarse states counted toward measurement support; a species was measurement-evaluable at n_classifiable >=40, and at least 250 measurement-evaluable species were required before the H2 statistic could be opened. A failure of this gate was prespecified as underidentification, not evidence against polymorphism or against the white axis.
+
+The prospective run was also required to survive durable terminalization. Calculation of W in memory was not sufficient: the result had to be serialized, read back from disk, validated as an H2_COMPLETE stage, packaged as an artifact and committed immutably. This requirement was qualified synthetically before biological opening to prevent a post-calculation serialization failure from being misclassified as a biological result.
 
 For each tier, the upper-tail Monte Carlo probability is
 
@@ -189,9 +201,11 @@ The later deterministic stress test retained 363 reserve species with zero obser
 
 These results admit D as a reproducible high-depth species phenotype for the subsequent geometry analyses, but they do not estimate global polymorphism prevalence.
 
-### H2 discovery and audit: the recurrent component localizes to white versus nonwhite
+### H2 discovery and audit: recurrent geometry localizes to white versus nonwhite
 
-In the original discovery and reserve cohorts, the fixed white-axis statistic exceeded the construction-preserving structured null at both admissibility tiers.
+The original H2 analysis first established recurrent label-free geometry before naming its biological direction. At the primary 0.10 tier, discovery had 152 vector species with leading-axis concentration lambda1 = **0.541412**; reserve had 129 vector species with lambda1 = **0.535045**. Reserve mean squared projection onto the frozen discovery axis was **0.524157**, and the independently fitted discovery and reserve leading axes had absolute alignment of approximately **0.986**. Discovery concentration and reserve frozen-axis transport each exceeded both the isotropic reference and the subsequent coarse-state-preserving structured null (structured-null p = **0.001** in both cases). The strict 0.20 tier showed the same direction of support.
+
+Audit then localized that recurrent component to white versus nonwhite. In the original discovery and reserve cohorts, the fixed white-axis statistic exceeded the construction-preserving structured null at both admissibility tiers.
 
 At the primary 0.10 tier, discovery contained 152 eligible species with W = **0.514625** (null median 0.430808, p = **0.001**) and reserve contained 129 species with W = **0.514586** (null median 0.466546, p = **0.001**).
 
