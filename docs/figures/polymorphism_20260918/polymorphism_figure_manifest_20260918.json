@@ -1,0 +1,131 @@
+{
+  "date_jst": "2026-09-18",
+  "figures": {
+    "figure1": {
+      "D_source": "results/polymorphism_publication_figure_source_20260918/h3a_species_D.csv",
+      "discovery_n": 369,
+      "files": {
+        "pdf": "polymorphism_figure1_measurement_frame.pdf",
+        "pdf_sha256": "5f96824b01b632fd5b8406cbf2b5bc8002e4e268f7ad4667ab9c243b76133386",
+        "png": "polymorphism_figure1_measurement_frame.png",
+        "png_sha256": "8630f59c4b6fd3809ae0dc9a4f228d412d7d500759093a7764cd9a61b2deac96"
+      },
+      "global_frame_species": 42111,
+      "reserve_n": 363,
+      "third_cohort_measurement_evaluable_species": 377,
+      "third_cohort_species": 499
+    },
+    "figure2": {
+      "files": {
+        "pdf": "polymorphism_figure2_h1_reproducibility.pdf",
+        "pdf_sha256": "50cad234667131bad873c0d9b6b4f1459f80df3ec49e00a9e65e2de45b9270ff",
+        "png": "polymorphism_figure2_h1_reproducibility.png",
+        "png_sha256": "066c575d0c22e282da320433899d85a6bf3a37d9b25148ca736571436cbf6ac5"
+      },
+      "primary_verdict": "H1_OBSERVER_DISJOINT_D_RELIABILITY_SUPPORTED",
+      "reserve_primary_rho_median": 0.7891029925726101,
+      "reserve_primary_rho_q05": 0.7651649940131238,
+      "stress_floor": 0.8,
+      "stress_reserve_rho": 0.7927276933213221,
+      "stress_verdict": "H1_OBSERVER_DISJOINT_D_RELIABILITY_NOT_SUPPORTED"
+    },
+    "figure3": {
+      "files": {
+        "pdf": "polymorphism_figure3_h2_target_localization.pdf",
+        "pdf_sha256": "c440f993babf167c7267f4fdb4b4f341dbac9466e1f93f781b4b75a8bc3f343f",
+        "png": "polymorphism_figure3_h2_target_localization.png",
+        "png_sha256": "aa6ca9df66d59d75f0eab552b6044bb1462814f81a97395a3954cb9c3b575a54"
+      },
+      "status": "targeted_post_audit_decomposition_not_untouched_confirmatory_test",
+      "structured_null_replicates": 999,
+      "verdict": "WHITE_AXIS_TARGETED_SUPPORT_PRIMARY_AND_STRICT"
+    },
+    "figure4": {
+      "files": {
+        "pdf": "polymorphism_figure4_prospective_h2.pdf",
+        "pdf_sha256": "5408f70cc28fbafd2c09de86a38240d6fc1eecf1bfcbdf9cd21f776f161f8a1b",
+        "png": "polymorphism_figure4_prospective_h2.png",
+        "png_sha256": "c022dc87e5eca525cdea7437b098dd3f3e7bf5bd5d3b05c84cf022bbf8267188"
+      },
+      "primary": {
+        "W": 0.5172457461053418,
+        "null_median": 0.45714281500506854,
+        "p": 0.001,
+        "species": 158
+      },
+      "strict": {
+        "W": 0.5329282123135909,
+        "null_median": 0.45931966586726264,
+        "p": 0.001,
+        "species": 86
+      },
+      "support_evaluable_species": 377,
+      "verdict": "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED"
+    },
+    "figure5": {
+      "files": {
+        "pdf": "polymorphism_figure5_explanatory_boundaries.pdf",
+        "pdf_sha256": "43fb1a7a9c913bc22db0f402ae65eecf4a94d2361aabf0bf8dd2c379e35320bc",
+        "png": "polymorphism_figure5_explanatory_boundaries.png",
+        "png_sha256": "b16ae93d8ec0dca10251c214acdd614c128d502b2f429709b94cdcc418d66795"
+      },
+      "h3a": {
+        "reserve_scenarios": {
+          "S1": {
+            "K": 0.071019005,
+            "p": 0.2716
+          },
+          "S2": {
+            "K": 0.0601475598,
+            "p": 0.4134
+          },
+          "S3": {
+            "K": 0.0707576659,
+            "p": 0.2674
+          }
+        },
+        "verdict": "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED"
+      },
+      "h3b": {
+        "discovery_p": 0.0008999550022498,
+        "discovery_rho": 0.179878573301315,
+        "reserve_p": 0.958602069896505,
+        "reserve_rho": -0.0025855470661547,
+        "verdict": "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+      },
+      "spatial_organization": {
+        "discovery_adjusted_p": 0.007,
+        "discovery_adjusted_partial_rho": 0.1266367492856858,
+        "new_biological_analysis": false,
+        "receipt": "results/polymorphism_spatial_organization_clue_20260918/result.json",
+        "reserve_adjusted_p": 0.025,
+        "reserve_adjusted_partial_rho": 0.09928771129095708,
+        "reserve_background_p": 0.01,
+        "reserve_background_partial_rho": 0.1162411363016301
+      }
+    }
+  },
+  "hard_nonclaims": [
+    "high-depth cohorts do not estimate global flower-colour polymorphism prevalence",
+    "third-cohort H2 is species-disjoint within the same iNaturalist opportunity universe, not independent-source replication",
+    "the white/nonwhite axis does not identify pigment chemistry, transition direction, or adaptive mechanism",
+    "H3a non-support does not imply absence of all phylogenetic structure",
+    "sampled photographic span is not true biological range size"
+  ],
+  "reporting_source_manifest_sha256": "f1fe07b75b22b377a1066137f42da90db04e7fa2b586d15887fa714a1ccf8299",
+  "schema": "polymorphism_manuscript_figure_manifest_v1",
+  "scientific_claims_changed": false,
+  "source_artifacts": {
+    "h3a": {
+      "artifact_digest": "sha256:7f95699149f3111e00b9a095d78ddfa32e1111727d12ff1bb3ce9dc9c1dbd892",
+      "artifact_id": 10292218669,
+      "workflow_run_id": 34677042793
+    },
+    "h3b": {
+      "artifact_digest": "sha256:34c5e646725f6865e313b17f1b70f2471db8169f443fb0649da83044d654386c",
+      "artifact_id": 10292399238,
+      "workflow_run_id": 34677468362
+    }
+  },
+  "status": "generated_from_frozen_results"
+}

@@ -1,0 +1,48 @@
+{
+  "analysis": "polymorphism_h3a_phylogenetic_signal",
+  "freeze_date_jst": "2026-09-12",
+  "source_commit": "db2514f622468747a7d5896c2696fcbf13729ef6",
+  "workflow_run_id": 34677042793,
+  "artifact_id": 10292218669,
+  "artifact_name": "polymorphism-h3a-phylogenetic-signal-20260912",
+  "artifact_digest": "sha256:7f95699149f3111e00b9a095d78ddfa32e1111727d12ff1bb3ce9dc9c1dbd892",
+  "file_sha256": {
+    "result.json": "73edde717c094cbe64295ef989ed893086ad3e7679a720bab5b88949d56a6c95",
+    "h3a_signal_by_scenario.csv": "8b37b0edcdf0823351aad82d443d2ff6686d3684294855f20900e1770614f986",
+    "h3a_species_D_and_sensitivity.csv": "a6886021d33f1d44a6182c5b17d42a100d051cd9ed6dbc56f711ebf6cef2eb92",
+    "h3a_K_permutation_nulls.csv.gz": "08a943bb1444ed06156519e7413f5fd39b5b9ec8a00c91a82af1e1463ba572b9"
+  },
+  "cohort_roles": {
+    "discovery": "calibration_retrospective",
+    "reserve": "fresh_primary_replication"
+  },
+  "D_summary": {
+    "discovery": {"n": 369, "median": 0.2003, "mean": 0.2463, "max": 0.7076},
+    "reserve": {"n": 363, "median": 0.1680, "mean": 0.2345, "max": 0.6803}
+  },
+  "reserve_primary": {
+    "S1": {"n_tips": 341, "K": 0.0710190050, "p_K": 0.2716, "lambda": 0.0485656664, "p_lambda0": 0.1656926113, "K_opportunity_residual": 0.0692909657, "p_opportunity": 0.3500},
+    "S2": {"n_tips": 341, "K": 0.0601475598, "p_K": 0.4134, "lambda": 0.0511287826, "p_lambda0": 0.1555141961, "K_opportunity_residual": 0.0653324817, "p_opportunity": 0.2464},
+    "S3": {"n_tips": 341, "K": 0.0707576659, "p_K": 0.2674, "lambda": 0.0474641312, "p_lambda0": 0.1702377597, "K_opportunity_residual": 0.0691557064, "p_opportunity": 0.3510}
+  },
+  "discovery_calibration": {
+    "S1": {"K": 0.1015488618, "p_K": 0.0045},
+    "S2": {"K": 0.0123781802, "p_K": 0.2209},
+    "S3": {"K": 0.0948838322, "p_K": 0.0093},
+    "note": "Discovery is placement-sensitive and its opportunity-adjusted K is non-significant on all S1-S3; it cannot rescue the reserve failure."
+  },
+  "decision": {
+    "reserve_raw_scenarios_p_lt_0_05": 0,
+    "reserve_opportunity_scenarios_p_lt_0_05": 0,
+    "verdict": "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED",
+    "opportunity_robust": false
+  },
+  "interpretation": "The independent reserve cohort does not support broad continuous phylogenetic signal in species-level D under any dated-tree placement scenario. Earlier discovery-cohort genus clustering remains a local taxonomic association, not a replicated tree-wide signal.",
+  "hard_nonclaims": [
+    "Do not claim absence of all taxonomic structure.",
+    "Do not claim that phylogeny is biologically irrelevant.",
+    "Do not reinterpret the reserve null as evidence for ecological causation.",
+    "Do not use discovery-only significance to rescue H3a."
+  ],
+  "next_action": "H3B_PREOUTCOME_COVARIATE_COVERAGE_AUDIT"
+}

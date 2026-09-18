@@ -1,0 +1,99 @@
+{
+  "schema": "polymorphism_spatial_organization_reporting_receipt_v1",
+  "date_jst": "2026-09-18",
+  "role": "reporting_only_synthesis_of_previously_frozen_results",
+  "new_biological_analysis": false,
+  "source": {
+    "branch": "feat/polymorphism-paper-v0-1-post-step9",
+    "pr": 32,
+    "head_sha": "f14186590c11ac24c95e1985077908b732132e96",
+    "files": {
+      "measurement_missingness_step8": {
+        "path": "results/polymorphism_measurement_missingness_step8_analysis_20260910/result.json",
+        "git_blob_sha": "d9e8f741a3db1621463b857710b1e91e2af52c99"
+      },
+      "ambiguity_bounds_step9": {
+        "path": "results/polymorphism_ambiguity_bounds_step9_20260910/result.json",
+        "git_blob_sha": "3e92d8798f17a60900ac3bba8deb76b062a609f1"
+      },
+      "paper_numbers": {
+        "path": "paper/polymorphism_v0_1/paper_numbers.json",
+        "git_blob_sha": "b5fec72fb1f8299fb430b8bcdbaf106ee38d8672"
+      }
+    }
+  },
+  "discovery": {
+    "species": 369,
+    "raw_D_spatial": {
+      "rho": 0.08921325988911004,
+      "p": 0.034
+    },
+    "span_plus_technical_adjusted_primary": {
+      "partial_rho": 0.1266367492856858,
+      "p_upper_geometry_preserving_spatial_null": 0.007,
+      "null_mean": 0.0026675588595903516,
+      "null_q025": -0.09215619575999805,
+      "null_q975": 0.09943793189251277
+    },
+    "ambiguity_endpoints_primary": {
+      "D_min4": {
+        "partial_rho": 0.1335075220567376,
+        "p": 0.006
+      },
+      "D_max4": {
+        "partial_rho": 0.11743792026314592,
+        "p": 0.01
+      }
+    }
+  },
+  "reserve": {
+    "species": 363,
+    "raw_D_spatial": {
+      "rho": 0.10160084472811265,
+      "p": 0.025
+    },
+    "span_plus_technical_adjusted_primary": {
+      "partial_rho": 0.09928771129095708,
+      "p_upper_geometry_preserving_spatial_null": 0.025,
+      "null_mean": -0.00040435499202958597,
+      "null_q025": -0.09608451072458751,
+      "null_q975": 0.09806405905440267
+    },
+    "span_plus_technical_adjusted_flower_minus_background": {
+      "partial_rho": 0.1162411363016301,
+      "p_upper_geometry_preserving_spatial_null": 0.01,
+      "null_mean": -0.007648601350885091,
+      "null_q025": -0.11629326898154593,
+      "null_q975": 0.09602353526909788
+    },
+    "ambiguity_endpoints_primary": {
+      "D_min4": {
+        "partial_rho": 0.09707806726524047,
+        "p": 0.029
+      },
+      "D_max4": {
+        "partial_rho": 0.12528581173891157,
+        "p": 0.008
+      }
+    },
+    "ambiguity_endpoints_flower_minus_background": {
+      "D_min4": {
+        "partial_rho": 0.11629858122358201,
+        "p": 0.009
+      },
+      "D_max4": {
+        "partial_rho": 0.13278517512096266,
+        "p": 0.006
+      }
+    }
+  },
+  "interpretation": {
+    "supported": "Species with greater four-state flower-colour diversity tend to show stronger within-species geographic colour organization in both species-disjoint high-depth cohorts, and the reserve association survives sampled-span plus clear technical-failure adjustment, a matched flower-minus-background contrast, and uniform four-state ambiguity endpoint stress tests.",
+    "not_supported": [
+      "geographic organization causes higher D",
+      "the spatial pattern identifies a particular climate, pollinator, demographic or genetic mechanism",
+      "sampled span is true biological range size",
+      "the result establishes adaptation, gene flow or population genetic differentiation"
+    ]
+  }
+}

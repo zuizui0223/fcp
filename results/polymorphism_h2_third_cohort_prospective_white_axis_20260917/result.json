@@ -1,0 +1,108 @@
+{
+  "H2_W_computed": true,
+  "analysis": "polymorphism_h2_third_cohort_prospective_white_axis",
+  "date_jst": "2026-09-17",
+  "decision": {
+    "primary_confirmed": true,
+    "primary_evaluable": true,
+    "primary_threshold": 0.1,
+    "strict_sensitivity_evaluable": true,
+    "strict_sensitivity_pass": true,
+    "verdict": "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED"
+  },
+  "fixed_axis_palette_loadings": {
+    "blue": -0.11785113019775793,
+    "bronze": -0.11785113019775793,
+    "magenta": -0.11785113019775793,
+    "orange": -0.11785113019775793,
+    "pink": -0.11785113019775793,
+    "purple": -0.11785113019775793,
+    "red": -0.11785113019775793,
+    "white": 0.9428090415820635,
+    "yellow": -0.11785113019775793
+  },
+  "hard_nonclaims": [
+    "does not estimate global flower-colour polymorphism prevalence",
+    "does not establish pigment chemistry or a pigment-loss mechanism",
+    "does not identify evolutionary direction of white/non-white transitions",
+    "does not establish pollinator, climate, or other adaptive causation",
+    "does not support a recurrent non-white hue axis"
+  ],
+  "measurement_result": "results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json",
+  "measurement_support": {
+    "decision": "PASS",
+    "evaluable_species": 377,
+    "minimum_evaluable_species": 250,
+    "pass": true
+  },
+  "protocol": "docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md",
+  "schema": "third_cohort_prospective_h2_result_v1",
+  "stage": "H2_COMPLETE",
+  "stage_receipt": {
+    "h2_decision": "CONFIRMED",
+    "primary_h2_vector_species": 158,
+    "primary_structured_null_p": 0.001,
+    "replacement_rows": 0,
+    "replacement_species": 0,
+    "rows": 49900,
+    "species": 499,
+    "stage": "H2_COMPLETE"
+  },
+  "statistic": "W = mean_i (u_i dot q_white)^2",
+  "status": "untouched_prospective_test_of_previously_frozen_axis",
+  "structured_null": "within third cohort and frozen coarse morph, permute normalized nine-colour rows across already selected H2 species while preserving species x coarse-morph row counts; refit unchanged label-free Hellinger two-means",
+  "thresholds": {
+    "primary_0_10": {
+      "construction_gate_counts": {
+        "H1_coarse_second_pass": 185,
+        "continuous_minor_fraction_pass": 158,
+        "nclass_ge40": 377,
+        "nonzero_delta_pass": 158
+      },
+      "evaluable": true,
+      "isotropic_8d_expectation": 0.125,
+      "minimum_vector_species": 20,
+      "observed_W": 0.5172457461053418,
+      "observed_minus_null_median": 0.06010293110027326,
+      "observed_to_null_median_ratio": 1.1314751739007576,
+      "pass": true,
+      "species": 158,
+      "structured_null_replicates": 999,
+      "structured_null_summary": {
+        "mean": 0.45664389702916275,
+        "q025": 0.4358491119845972,
+        "q50": 0.45714281500506854,
+        "q975": 0.4752987775665408,
+        "sd": 0.01007511890454904
+      },
+      "structured_null_upper_p": 0.001,
+      "threshold": 0.1
+    },
+    "strict_0_20": {
+      "construction_gate_counts": {
+        "H1_coarse_second_pass": 107,
+        "continuous_minor_fraction_pass": 86,
+        "nclass_ge40": 377,
+        "nonzero_delta_pass": 86
+      },
+      "evaluable": true,
+      "isotropic_8d_expectation": 0.125,
+      "minimum_vector_species": 20,
+      "observed_W": 0.5329282123135909,
+      "observed_minus_null_median": 0.07360854644632825,
+      "observed_to_null_median_ratio": 1.1602555952124205,
+      "pass": true,
+      "species": 86,
+      "structured_null_replicates": 999,
+      "structured_null_summary": {
+        "mean": 0.45967400889662496,
+        "q025": 0.43286795703924286,
+        "q50": 0.45931966586726264,
+        "q975": 0.48672240425829794,
+        "sd": 0.013564412756795749
+      },
+      "structured_null_upper_p": 0.001,
+      "threshold": 0.2
+    }
+  }
+}
