@@ -7,6 +7,7 @@ This audit is for the active flower-colour polymorphism paper:
 - `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`
 - `docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md`
 - `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
+- `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`
 
 Current official author-guideline source checked on 2026-09-18:
 
@@ -20,6 +21,8 @@ Current official author-guideline source checked on 2026-09-18:
 The paper's decisive biological claim is frozen as:
 
 `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`
+
+The current manuscript also defines RGFCA as the upstream Repeated Global Flower-Colour Atlas and makes the conceptual pivot explicit: the current positive generality is sought in species-level polymorphism amount, colour-space geometry and species-specific spatial organization rather than in a universal shared geographic boundary.
 
 The current manuscript preserves the required boundary:
 
