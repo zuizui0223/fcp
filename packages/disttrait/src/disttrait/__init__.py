@@ -12,9 +12,11 @@ from .geometry import (
     two_mode_axis,
 )
 from .meta import (
+    PermutationCalibratedSlopeResult,
     RandomEffectsSlopeResult,
     SlopeEstimate,
     random_effects_from_groups,
+    random_effects_slope_permutation_test,
     random_effects_slope_summary,
     species_slope_estimate,
 )
@@ -42,6 +44,7 @@ __all__ = [
     "absolute_pairwise",
     "continuous_spatial_permutation_null",
     "continuous_spatial_rho",
+    "PermutationCalibratedSlopeResult",
     "RandomEffectsSlopeResult",
     "ReliabilityResult",
     "SlopeEstimate",
@@ -60,6 +63,7 @@ __all__ = [
     "partial_distribution_spatial_association",
     "partial_rank_correlation",
     "random_effects_from_groups",
+    "random_effects_slope_permutation_test",
     "random_effects_slope_summary",
     "permute_rows_within_strata",
     "spatial_permutation_null",
