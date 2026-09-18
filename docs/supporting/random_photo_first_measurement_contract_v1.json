@@ -1,0 +1,131 @@
+{
+  "protocol": "random-photo-first-measurement-v1",
+  "status": "frozen_before_any_fresh_candidate_image_pixel",
+  "parent_h1_protocol": "random-photo-first-boundary-persistence-v1",
+  "parent_candidate_pool_protocol": "random-photo-first-candidate-pool-v1",
+  "purpose": "measure the complete one-shot fresh candidate pool location-blindly and convert each admitted flower ROI into one of four species-independent coarse colour states while retaining every failure as structural measurement missingness",
+  "pixel_opening_gate": {
+    "candidate_pool_manifest_required": "docs/supporting/random_photo_first_candidate_pool_manifest_v1.json",
+    "required_candidate_pool_status": "metadata_pool_frozen_before_candidate_image_pixels",
+    "required_gate_field": "premeasurement_h1_gate.pixels_may_open",
+    "required_gate_value": true,
+    "candidate_table_sha256_must_match_manifest": true,
+    "candidate_table_rows_must_match_manifest_count": true,
+    "pr21_terminal_records_are_input": false
+  },
+  "location_blind_worker": {
+    "allowed_inputs": [
+      "measurement_id",
+      "image_filename",
+      "photo_license"
+    ],
+    "forbidden_inputs": [
+      "species",
+      "inat_taxon_id",
+      "observation_id",
+      "photo_id",
+      "photo_url after acquisition",
+      "latitude",
+      "longitude",
+      "observer_id",
+      "observer",
+      "observed_on",
+      "climate",
+      "pollinator"
+    ],
+    "measurement_id_is_salted_hash_of_photo_id": true,
+    "coordinates_join_only_after_complete_measurement": true
+  },
+  "flower_roi": {
+    "role": "reuse independently qualified low-level localization and mask infrastructure only; do not reuse PR21 species/cohort completeness gates or terminal records",
+    "source_repository": "zuizui0223/fcp",
+    "source_branch": "analysis/jbi-global-colour-boundaries-scaleup",
+    "roi_contract_path": "docs/supporting/jbi_atlas_roi_estimator_contract_v4.json",
+    "roi_contract_git_blob_sha": "b043bc83d0d69489f38771e8f4bbe524963b70ea",
+    "roi_protocol": "jbi-atlas-roi-estimator-v4",
+    "trained_weight_sha256": "f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5",
+    "locked_result_path": "data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json",
+    "locked_result_git_blob_sha": "b25425f1f738bcea75cef5f60980332a9857610b",
+    "locked_result_required_status": "pass_roi_v4_locked_test",
+    "locked_result_admitted_fraction": 0.85,
+    "locked_result_detector_precision_iou_0_5": 0.7304474354310658,
+    "locked_result_detector_recall_iou_0_5": 0.7955625990491284,
+    "minimum_union_flower_pixels": 100,
+    "horizontal_flip_mask_iou_minimum": 0.5,
+    "horizontal_flip_colour_delta_e_maximum": 5.0,
+    "species_specific_roi_thresholds": false,
+    "post_candidate_tuning": false
+  },
+  "fixed_palette": {
+    "role": "reuse the generic species-independent Chapter-1 palette anchors, but apply them only to ROI-v4 flower-mask pixels rather than to a whole detection box",
+    "source_commit": "8144856db9525ec40a6f910db22037ce24300a5d",
+    "source_path": "scripts/data/run_jbi_ch1_florence_colour_pilot.py",
+    "source_git_blob_sha": "95a2a33c82e343b15e58d2c6909c288e8cd39397",
+    "distance_space": "CIELAB under the frozen sRGB-to-D65 transform",
+    "reference_rgb": {
+      "white": [245, 245, 245],
+      "yellow": [245, 210, 45],
+      "orange": [235, 130, 35],
+      "red": [195, 40, 45],
+      "pink": [235, 115, 165],
+      "magenta": [180, 45, 145],
+      "purple": [115, 65, 155],
+      "blue": [65, 95, 185],
+      "bronze": [150, 100, 55],
+      "green": [75, 130, 65],
+      "brown": [100, 70, 45],
+      "black": [25, 25, 25]
+    },
+    "nuisance_anchors_excluded_from_biological_denominator": ["green", "brown", "black"],
+    "palette_fitted_to_fresh_candidate_images": false
+  },
+  "coarse_colour_state": {
+    "implementation": "fcp_pipeline/photo_first_measurement.py",
+    "biological_groups": {
+      "white": ["white"],
+      "yellow_orange": ["yellow", "orange", "bronze"],
+      "red_pink": ["red", "pink", "magenta"],
+      "blue_purple": ["blue", "purple"]
+    },
+    "minimum_dominant_fraction": 0.5,
+    "minimum_margin_over_second_group": 0.1,
+    "otherwise": "mixed_uncertain",
+    "mixed_uncertain_is_biological_morph": false,
+    "mixed_uncertain_role": "structural measurement missingness retained at its frozen photo location"
+  },
+  "terminal_photo_states": {
+    "classified_four_state_morph": "one of white, yellow_orange, red_pink, blue_purple",
+    "not_evaluable_insufficient_flower_pixels": "mixed_uncertain",
+    "not_evaluable_no_biological_palette_mass": "mixed_uncertain",
+    "not_evaluable_ambiguous_palette_composition": "mixed_uncertain",
+    "not_evaluable_roi_or_flip_gate": "mixed_uncertain",
+    "image_acquisition_failed": "mixed_uncertain"
+  },
+  "execution": {
+    "measure_complete_frozen_candidate_pool": true,
+    "measurement_shards": 32,
+    "maximum_concurrent_measurement_workers": 8,
+    "download_retries_per_image": 4,
+    "download_timeout_seconds": 60.0,
+    "all_candidate_rows_must_reach_one_terminal_photo_state": true,
+    "replacement_after_failure": false,
+    "early_stopping": false,
+    "favourable_shard_or_subset_selection": false
+  },
+  "h1_handoff": {
+    "measurement_result_rows_must_exactly_equal_frozen_candidate_rows": true,
+    "sealed_metadata_join_opens_only_after_complete_measurement": true,
+    "mixed_uncertain_rows_remain_in_colour_blind_sampling_frame": true,
+    "mixed_uncertain_rows_are_excluded_from_cell_colour_composition": true,
+    "mixed_uncertain_positions_are_fixed_under_species_conditioned_null": true,
+    "no_species_level_or_cohort_level_measurement_completeness_gate": true,
+    "photo_level_evaluability_is_handled_by_edge_opportunity_denominators": true
+  },
+  "outcome_firewall": {
+    "fresh_candidate_pixels_opened_at_contract_freeze": false,
+    "fresh_candidate_colour_measured_at_contract_freeze": false,
+    "fresh_candidate_coordinates_joined_to_colour_at_contract_freeze": false,
+    "climate_opened_at_contract_freeze": false
+  },
+  "claim_ceiling": "measurement method and photo-level evaluability only; no new spatial, climatic, adaptive, or biological flower-colour result"
+}

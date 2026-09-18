@@ -1,0 +1,72 @@
+name: Random photo-first H2 climate concordance
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - analysis/random-photo-first-h2-climate
+    paths:
+      - ".github/workflows/random-photo-first-h2-climate.yml"
+      - "fcp_pipeline/photo_first_h2_climate.py"
+      - "tests/test_photo_first_h2_climate.py"
+      - "docs/supporting/random_photo_first_h2_climate_contract_v1.json"
+      - "data/atlas/environment/climate_ecoregion_source_manifest.json"
+      - "data/atlas/environment/climate_ecoregion_grid_100km.csv"
+      - "data/atlas/environment/climate_ecoregion_grid_250km.csv"
+      - "data/atlas/environment/climate_ecoregion_grid_500km.csv"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: random-photo-first-h2-climate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-h2-preoutcome:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and tests
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Validate frozen H2 contract and environment identity
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          contract = json.loads(Path('docs/supporting/random_photo_first_h2_climate_contract_v1.json').read_text())
+          assert contract['protocol'] == 'random-photo-first-h2-climate-concordance-v1'
+          assert contract['status'] == 'prospectively_frozen_before_h1_biological_outcome_and_before_any_h2_join'
+          assert contract['hierarchical_role']['h2_must_not_rescue_a_non_significant_or_not_evaluable_h1'] is True
+          assert contract['primary_test']['statistic'].startswith('opportunity-weighted Pearson')
+          assert contract['primary_test']['tail'] == 'upper'
+          assert contract['driver_decomposition']['multiplicity'].startswith('Holm')
+          assert contract['environment_source']['colour_or_h1_used_to_select_environment_source'] is False
+
+          manifest = json.loads(Path(contract['environment_source']['source_manifest']).read_text())
+          assert manifest['status'] == 'pass_climate_ecoregion_source_freeze'
+          assert manifest['scaleout_colour_opened'] is False
+          expected = {
+              contract['environment_source']['primary_grid_source']['path']:
+                  contract['environment_source']['primary_grid_source']['content_sha256'],
+          }
+          for row in contract['environment_source']['scale_sensitivities']:
+              expected[row['path']] = row['content_sha256']
+          for path, digest in expected.items():
+              observed = hashlib.sha256(Path(path).read_bytes()).hexdigest()
+              assert observed == digest, (path, observed, digest)
+          print('H2 contract and pre-colour WorldClim identities validated.')
+          PY
+      - name: Run H2 unit tests
+        run: python -m pytest -q tests/test_photo_first_h2_climate.py

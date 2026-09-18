@@ -1,0 +1,34 @@
+{
+  "protocol": "random-photo-first-inaturalist-api-audit-v1",
+  "status": "verified_before_fresh_candidate_api_query",
+  "verified_on": "2026-09-03",
+  "source": "https://api.inaturalist.org/v1/swagger.json",
+  "swagger_version": "1.3.0",
+  "verified_observation_search_parameters": {
+    "photos": "boolean",
+    "rank": "supports species",
+    "term_id": "controlled term filter",
+    "term_value_id": "controlled value filter combined with term_id",
+    "acc_below": "maximum positional accuracy in metres",
+    "photo_license": "array of Creative Commons photo licences",
+    "obscuration": "supports none",
+    "order_by": "supports random",
+    "per_page": "paginated result count",
+    "swlat_swlng_nelat_nelng": "bounding box"
+  },
+  "rate_limit_guidance": {
+    "maximum_requests_per_minute": 100,
+    "requested_target_requests_per_minute_or_lower": 60,
+    "requested_daily_requests_below": 10000,
+    "implemented_request_interval_seconds": 1.05,
+    "planned_candidate_requests": 162
+  },
+  "query_decision": {
+    "filter_obscuration_none_before_random_page": true,
+    "filter_allowed_photo_licenses_before_random_page": true,
+    "reason": "both are outcome-blind metadata eligibility rules; post-query rejection would waste the fixed 200-record cell quota and could create artificial capacity failure",
+    "repeat_same_guards_locally_after_api_response": true
+  },
+  "candidate_pixels_opened": false,
+  "candidate_api_query_executed_by_this_audit": false
+}

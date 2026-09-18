@@ -1,0 +1,60 @@
+{
+  "archive_sha256": {
+    "Ecoregions2017.zip": "be36d6209e443038d02e309f0447c6e7f2a62f5fe60c605ffe90d064952f2a60",
+    "wc2.1_10m_bio.zip": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf"
+  },
+  "available_primary_families": [
+    "macroclimate",
+    "ecoregion"
+  ],
+  "claim_ceiling": "Independent pre-colour climate and ecoregion grids only; terrain, land cover and flower concordance remain unopened.",
+  "extracted_source_sha256": {
+    "Ecoregions2017.dbf": "036987c540eef2dfd6e8a0678f3b85193649b3f63f545463dfcb2fed4f973ab5",
+    "Ecoregions2017.prj": "db2f4b2a30c81a88981162acd3ff4629b86350834194efed1a6650446ccaecf4",
+    "Ecoregions2017.shp": "d564235263d7a2f118cbb4fcb6e7593ef5f8c2f3600604d46047aa2712a83574",
+    "Ecoregions2017.shx": "140342bc19d04a6f1ee11d1099a6c115f8c076f1396c6f2a5a55182471ff4c42",
+    "wc2.1_10m_bio_1.tif": "f61633ffac9d44ed220442b3f7171a06f931726668bfbe9d07d53700b257d8cf",
+    "wc2.1_10m_bio_12.tif": "1e823e951ace0186c6eadd7368b4d0385c8f51cc952282c0f2d640bf7790fea5",
+    "wc2.1_10m_bio_15.tif": "6e16bf2e37752932cdeb2b209d1e06ba1a154ac012c372e56bc98e774cdfa6c6",
+    "wc2.1_10m_bio_4.tif": "a1bacac2f3d645284ee506fdde14226d7c2cafd5997a2af2f802f45e3550ae19"
+  },
+  "not_yet_frozen_primary_families": [
+    "terrain",
+    "land_cover"
+  ],
+  "output_sha256": {
+    "climate_ecoregion_grid_100km.csv": "1c57e13ac3b045ac69c270d31d0dd24886844ba4505b46cafcba2d6403cbafdb",
+    "climate_ecoregion_grid_250km.csv": "d51be4ee91a1bc78c316d2441338fe1ff73513c08df426ec2ad683b30ec72b99",
+    "climate_ecoregion_grid_500km.csv": "1503ac8bb0207ad23062c4e34330ad7575a02a4906a62c9314564fe283961f4c"
+  },
+  "protocol": "jbi-atlas-environmental-overlay-freeze-v1",
+  "scale_results": [
+    {
+      "global_cells": 51200,
+      "scale_km": 100,
+      "source_pixels": 534118,
+      "terrestrial_cells": 15833
+    },
+    {
+      "global_cells": 8192,
+      "scale_km": 250,
+      "source_pixels": 534118,
+      "terrestrial_cells": 3076
+    },
+    {
+      "global_cells": 2048,
+      "scale_km": 500,
+      "source_pixels": 534118,
+      "terrestrial_cells": 956
+    }
+  ],
+  "scaleout_colour_opened": false,
+  "software": {
+    "numpy": "2.2.6",
+    "pyshp": "2.3.1",
+    "python": "3.10.11",
+    "rasterio": "1.4.4"
+  },
+  "source_pixels_with_climate_and_ecoregion": 534118,
+  "status": "pass_climate_ecoregion_source_freeze"
+}
