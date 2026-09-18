@@ -1,0 +1,43 @@
+name: disttrait nonlinear null calibration
+
+on:
+  push:
+    paths:
+      - "packages/disttrait/benchmarks/nonlinear_null_calibration.py"
+      - "packages/disttrait/benchmarks/nonlinear_curvature_surface.py"
+      - ".github/workflows/disttrait-nonlinear-null.yml"
+  pull_request:
+    paths:
+      - "packages/disttrait/benchmarks/nonlinear_null_calibration.py"
+      - "packages/disttrait/benchmarks/nonlinear_curvature_surface.py"
+      - ".github/workflows/disttrait-nonlinear-null.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install disttrait
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait
+
+      - name: Run targeted nonlinear null calibration
+        working-directory: packages/disttrait/benchmarks
+        run: |
+          python nonlinear_null_calibration.py \
+            > ../../../disttrait_nonlinear_null_result.json
+
+      - name: Upload exploratory calibration
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-nonlinear-null-exploratory
+          path: disttrait_nonlinear_null_result.json
