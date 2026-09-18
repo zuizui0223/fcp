@@ -2,11 +2,13 @@
 
 from .diversity import categorical_diversity, gini_simpson
 from .geometry import (
+    AlignmentNullResult,
     TwoModeResult,
     alignment_statistic,
     hellinger_rows,
     one_vs_rest_contrast,
     permute_rows_within_strata,
+    structured_alignment_null,
     two_mode_axis,
 )
 from .reliability import ReliabilityResult, observer_disjoint_reliability
@@ -24,6 +26,7 @@ from .spatial import (
 )
 
 __all__ = [
+    "AlignmentNullResult",
     "AssociationResult",
     "ReliabilityResult",
     "TwoModeResult",
@@ -43,5 +46,6 @@ __all__ = [
     "permute_rows_within_strata",
     "spatial_permutation_null",
     "spatial_rho",
+    "structured_alignment_null",
     "two_mode_axis",
 ]
