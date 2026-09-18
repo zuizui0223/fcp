@@ -108,6 +108,19 @@ def test_manuscript_reports_spatial_clue_without_causal_upgrade() -> None:
         assert token in text
 
 
+def test_claim_ledger_freezes_rgfca_programme_lineage() -> None:
+    text = LEDGER.read_text(encoding="utf-8")
+    for token in (
+        "Repeated Global Flower-Colour Atlas",
+        "primary recurrent-field G1 p = **0.070**",
+        "species-disjoint commonness p = **0.856**",
+        "generality is stronger in **phenotype space than in shared geographic location**",
+        "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md",
+        "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md",
+    ):
+        assert token in text
+
+
 def test_manuscript_preserves_h1_and_h3_boundaries() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
 
