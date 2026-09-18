@@ -67,7 +67,7 @@ def test_rgfca_interpretation_document_preserves_programme_boundary() -> None:
         "42,111 species",
         "U100 = 4,730 species",
         "third-cohort candidate universe = **3,230 species**",
-        "not a polymorphism-prevalence denominator",
+        "not the denominator for estimating global polymorphism prevalence",
     ):
         assert token in frame
 
