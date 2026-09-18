@@ -1,6 +1,6 @@
-# Flower-colour polymorphism figure plan — 2026-09-18
+# Flower-colour polymorphism canonical figure plan — 2026-09-18
 
-This figure plan supersedes the provisional figure architecture in `docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260913.md` where it conflicts with the completed prospective third-cohort H2 result.
+This document describes the **implemented two-panel main figures** after prospective third-cohort H2 confirmation and visual QA. It supersedes the earlier aspirational multi-panel architecture where they differ.
 
 Authoritative claim ledger:
 
@@ -10,190 +10,133 @@ Authoritative prospective H2 result:
 
 - `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
 
-## Figure 1 — From a global frame to a measurable polymorphism phenotype
+Canonical generator:
 
-### A. Sampling architecture
+- `scripts/analysis/make_polymorphism_manuscript_figures.py`
 
-Show the hierarchy without implying prevalence:
+Canonical outputs:
 
-```
-42,111-species global frame
-        ↓ high-depth opportunity / frozen cohort rules
-original discovery source cohort: 500 × 100 photos
-original reserve source cohort:   500 × 100 photos
-        ↓ >=40 classifiable
-discovery D cohort: 369 species
-reserve D cohort:   363 species
+- `docs/figures/polymorphism_20260918/`
 
-third-cohort outcome-blind candidate frame: 3,230 species
-        ↓ deterministic frozen selection
-500 selected
-        ↓ fresh metadata, no replacement
-499 species × 100 rows = 49,900 terminal rows
-        ↓ >=40 classifiable
-377 measurement-evaluable species
-```
+## Figure 1 — A continuous species-level flower-colour polymorphism phenotype
 
-The visual must explicitly label the 42,111 frame as an opportunity/sampling frame, not a prevalence denominator.
+### Panel A — descriptive D distributions
 
-### B. Four biological states and D
+Show discovery and reserve high-depth D distributions:
 
-Show the four frozen states:
+- discovery n = 369;
+- reserve n = 363;
+- dashed cohort medians;
+- `D = 1 - sum_k p_k^2`.
 
-- white;
-- yellow/orange;
-- red/pink;
-- blue/purple.
+Mandatory annotation:
 
-Define
+**High-depth validation cohorts — not a prevalence sample.**
 
-`D = 1 - sum_k p_k^2`.
+No percentage of species is labelled polymorphic.
 
-Show `mixed_uncertain` outside the four-state simplex and label it "not a biological fifth state".
+### Panel B — sampling architecture
 
-### C. D distributions
+The 42,111-species global sampling/opportunity frame is the parent node.
 
-Plot discovery and reserve full-data D distributions for descriptive context only.
+It must branch **top-to-bottom** into two distinct lanes:
 
-Do not annotate a percentage "polymorphic" because the paper does not estimate prevalence.
+1. original validation lane:
+   - original high-depth source: 500 discovery + 500 reserve, 100 photos/species;
+   - >=40 classifiable D inference: 369 discovery + 363 reserve;
+2. prospective confirmation lane:
+   - pre-frozen third-cohort selection + fresh metadata;
+   - 499 species × 100 rows;
+   - 377 measurement-evaluable;
+   - 0 replacements.
 
-### D. Observer-disjoint split logic
-
-Diagram observers assigned to A or B with no observer crossing the split.
-
-Purpose: establish why H1 is a measurement-validity test rather than a simple image resampling exercise.
+The third cohort must **not** appear downstream of the original D-inference cohort.
 
 ---
 
-## Figure 2 — H1: reproducibility across disjoint observers
+## Figure 2 — H1 observer-disjoint reproducibility
 
-### A. Representative split scatter
+### Panel A — first-frozen 200-partition result
 
-Reserve D_A vs D_B with 1:1 line.
+Show q05–median–q95 of split-half Spearman rho for discovery and reserve.
 
-### B. Distribution across 200 frozen partitions
-
-Show reserve Spearman rho across all 200 observer-disjoint partitions.
-
-Required annotations:
+Reserve annotations:
 
 - median rho = **0.7891**;
 - q05 = **0.7652**;
 - q95 = 0.8109;
-- primary median floor = 2/3;
-- primary q05 floor = 0.5.
+- primary median floor = 2/3.
 
-### C. Agreement diagnostics
+The discovery result is displayed for concordance; reserve is the decision cohort.
 
-Show reserve CCC distribution or paired D differences.
+### Panel B — later deterministic stress test
 
-Headline:
+Show deterministic split rho with bootstrap 95% interval for discovery and reserve.
 
-- median CCC = **0.8548**;
-- median Spearman-Brown reliability = **0.8821**.
-
-### D. Later strict stress test
-
-Single clearly separated point/interval:
+Reserve:
 
 - rho = **0.7927**;
-- bootstrap 95% CI = **0.7419–0.8324**;
-- strict floor = 0.80;
-- decision = stress-test not supported.
+- 95% CI = **0.7419–0.8324**;
+- CCC = **0.8474**;
+- strict floor = 0.80.
 
-The panel must visually communicate that the later stress test constrains the claim but does not overwrite the chronologically earlier primary H1 result.
+Annotations must be vertically offset from CI lines and the floor label must not overlap the reserve text.
+
+Visual message:
+
+**primary H1 supported; later stricter stress test constrains the claim but does not overwrite the earlier prospective decision.**
 
 ---
 
-## Figure 3 — H2: how the recurrent axis was identified
+## Figure 3 — H2 target localization in the original cohorts
 
-This figure is the discovery/audit figure. It must not visually imply that q_white was prospectively selected in the original cohorts.
+This is explicitly a discovery/audit figure. It must never make q_white look prospectively chosen in the original cohorts.
 
-### A. Nine-colour continuous representation
+### Panel A — fixed white contrast
 
 Palette order:
 
 `white, yellow, orange, red, pink, magenta, purple, blue, bronze`.
 
-Show Hellinger transformation and deterministic unlabeled two-means.
-
-### B. Species displacement geometry
-
-Illustrate the two-mode displacement vector and unit axis `u_i`.
-
-Show the primary 0.10 and strict 0.20 construction/admissibility gates.
-
-### C. Fixed white contrast
-
 Display
 
 `q_white = normalize([1,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8])`.
 
-Label:
+Mandatory annotation:
 
-**target isolated after the original broad geometry was opened**
+**Named axis isolated after original broad H2 was opened.**
 
-### D. Legacy targeted W results
+### Panel B — legacy targeted W against structured null
 
-Plot observed W against each cohort's structured-null distribution.
+Show observed W as diamonds, structured-null medians as points, and structured-null 95% intervals as horizontal bars.
 
 Primary 0.10:
 
-- discovery: N = 152, W = **0.514625**, p = **0.001**;
-- reserve: N = 129, W = **0.514586**, p = **0.001**.
+- discovery N = 152, W = **0.514625**, p = **0.001**;
+- reserve N = 129, W = **0.514586**, p = **0.001**.
 
 Strict 0.20:
 
-- discovery: N = 75, W = **0.542355**, p = **0.001**;
-- reserve: N = 65, W = **0.510517**, p = **0.008**.
+- discovery N = 75, W = **0.542355**, p = **0.001**;
+- reserve N = 65, W = **0.510517**, p = **0.008**.
 
-### E. Falsification by white-axis removal
+The encoding legend is placed **outside below the right axis** so that it cannot cover the strict-reserve point or its annotation.
 
-Show that construction-controlled directional support collapses after q_white projection.
-
-If space is limited, move the non-white-only diagnostic to Supplement but retain the projection-removal panel in the main figure.
-
-Purpose: establish the narrow target and its retrospective discovery status before the prospective figure.
+Projection-removal and non-white-only falsification are reported in Supporting Information rather than forced into this panel.
 
 ---
 
-## Figure 4 — Prospective third-cohort confirmation of the frozen axis
+## Figure 4 — Prospective confirmation of the pre-frozen achromatic–chromatic axis
 
-This is the paper's decisive biological figure.
+This is the decisive biological figure.
 
-### A. Outcome-blind third-cohort chronology
+The bottom annotation must read:
 
-Use a compact timeline:
+**Species-disjoint prospective confirmation within the same iNaturalist opportunity universe; not an independent-source replication.**
 
-```
-3,230 outcome-blind candidates
-  → frozen deterministic 500-species selection
-  → fresh metadata
-  → 499 × 100 authorized rows
-  → pre-opening technical qualification
-  → one-shot biological run
-  → 256/256 terminal partitions
-  → support gate
-  → H2 opened once
-```
+### Panel A — primary 0.10 tier
 
-Include "0 replacements" and "pixels not persisted".
-
-### B. Measurement-support gate
-
-Show:
-
-- terminal rows = **49,900**;
-- classifiable rows = **25,788**;
-- measurement-evaluable species = **377**;
-- required minimum = 250;
-- support = **PASS**.
-
-Do not show W in this panel; the chronology is support-before-H2.
-
-### C. Primary prospective result
-
-Structured-null distribution for primary 0.10 tier with observed line:
+Histogram of 999 frozen structured-null W values.
 
 - N = **158**;
 - W_obs = **0.5172457461**;
@@ -201,9 +144,7 @@ Structured-null distribution for primary 0.10 tier with observed line:
 - null 95% interval = **0.4358491120–0.4752987776**;
 - p = **0.001**.
 
-### D. Strict prospective sensitivity
-
-Structured-null distribution for 0.20 tier:
+### Panel B — strict 0.20 tier
 
 - N = **86**;
 - W_obs = **0.5329282123**;
@@ -211,104 +152,85 @@ Structured-null distribution for 0.20 tier:
 - null 95% interval = **0.4328679570–0.4867224043**;
 - p = **0.001**.
 
-### E. Cross-cohort summary
+The measurement gate is described in the legend/text rather than as an additional panel:
 
-A compact effect summary for discovery, reserve and third cohort.
-
-Plot W or observed/null-median ratio, but distinguish evidence status:
-
-- discovery/reserve = target localization / post-audit;
-- third cohort = untouched prospective confirmation.
-
-Do not pool p-values or call the three cohorts independent data-source replications.
+- 499 species;
+- 49,900 terminal rows;
+- 25,788 classifiable;
+- 377 measurement-evaluable;
+- support minimum 250;
+- 256/256 partitions;
+- 0 replacements;
+- pixels not persisted.
 
 ---
 
-## Figure 5 — Broad explanatory tests do not replicate
+## Figure 5 — Broad explanatory tests do not replicate in reserve
 
-### A. H3a reserve phylogenetic signal
+### Panel A — broad phylogenetic signal
 
-Three points/intervals for S1-S3 Blomberg K with permutation-null context:
+Reserve Blomberg K:
 
 - S1: K = **0.0710190**, p = **0.2716**;
 - S2: K = **0.0601476**, p = **0.4134**;
 - S3: K = **0.0707577**, p = **0.2674**.
 
-Optional secondary annotation: lambda estimates are near zero and unsupported.
+Annotate that 0/3 raw-D scenarios had p < 0.05.
 
-### B. H3b discovery versus reserve sampled-span association
-
-Place effect estimates side by side:
+### Panel B — sampled photographic span
 
 - discovery: rho = **0.1798786**, p = **0.00089996**;
 - reserve: rho = **-0.0025855**, p = **0.9586021**.
 
-The graphic should emphasize replication contrast, not "significant vs nonsignificant" alone.
+Mandatory boundary:
 
-### C. Interpretation boundary
-
-Small text panel:
-
-- phylogenetic test = broad tree-wide signal only;
-- span predictor = sampled photographic span, not true geographic range;
-- negative H3 results do not negate H1/H2.
+**Predictor is sampled span, not true biological range size.**
 
 ---
 
-## Supplementary figures
+## Supporting figures
 
-### Figure S1 — H1 full partition diagnostics
+### Fig. S1
+Full H1 reserve partition diagnostics.
 
-All 200 reserve partitions; paired species counts, rho, CCC, bias and absolute difference.
+### Fig. S2
+H1 discovery concordance and deterministic stress-test details.
 
-### Figure S2 — H1 discovery concordance and strict split details
+### Fig. S3
+Broad pre-target H2 geometry: leading concentration, frozen-axis reserve transport and discovery–reserve axis alignment.
 
-Discovery repeated partitions plus deterministic stress-test diagnostics.
+### Fig. S4
+Construction-preserving null audit.
 
-### Figure S3 — Broad pre-target H2 geometry
+### Fig. S5
+q_white projection-removal and non-white-only H2 diagnostics.
 
-Leading eigenvalue / axis alignment / reserve transport diagnostics from the original label-free analysis.
+### Fig. S6
+Third-cohort chain of custody: selection, metadata freeze, 256 partitions, support gate and H2_COMPLETE.
 
-### Figure S4 — Structured-null construction audit
+### Fig. S7
+P500 terminal postmortem. Do not reconstruct or display a biological H2 verdict.
 
-Demonstrate which quantities are preserved under the coarse-state-preserving null.
+### Fig. S8
+H3a full sensitivity panel.
 
-### Figure S5 — Residual and non-white-only H2 diagnostics
-
-Full q_white projection-removal results and low-N non-white-only tests.
-
-### Figure S6 — Third-cohort chain of custody
-
-Selection hashes, metadata freeze, 256 partition receipts, support gate and terminal H2 receipt.
-
-### Figure S7 — P500 terminal postmortem
-
-Measurement support passed, but H2 has no durable verdict because serialization failed after calculation. This figure is provenance/chronology only and must not display reconstructed H2 results.
-
-### Figure S8 — H3a full sensitivity panel
-
-Raw D, unbiased D, opportunity-adjusted residuals, K and lambda across S1-S3.
-
-### Figure S9 — H3b full sensitivity panel
-
-Raw, unbiased, partial-rank and rank-PGLS reserve results.
+### Fig. S9
+H3b full sensitivity panel.
 
 ---
 
-## Main-text visual narrative
+## Visual QA contract
 
-The five main figures should read as one argument:
+Before a figure package is marked submission-ready:
 
-```
-Fig. 1  define a species-level polymorphism phenotype
-   ↓
-Fig. 2  show that D survives observer separation
-   ↓
-Fig. 3  identify the narrow white/nonwhite geometric target
-   ↓
-Fig. 4  confirm that already-frozen target prospectively
-   ↓
-Fig. 5  show that broad phylogeny/span do not explain the result
-```
+1. inspect the actual generated PNG/PDF, not only the plotting code;
+2. no annotation, legend or title may obscure a data mark or another label;
+3. cohort-flow arrows must encode the real chronology/topology;
+4. main-text figure legends must match the implemented panel count;
+5. all frozen numerical values must remain unchanged;
+6. both PNG and PDF must be regenerated from the same frozen generator;
+7. the manifest must retain `scientific_claims_changed = false`.
 
-The key transition is Fig. 3 → Fig. 4: **target discovery/audit is visually separated from prospective confirmation**.
+The scientific narrative is:
+
+`Fig.1 phenotype definition -> Fig.2 measurement validity -> Fig.3 target localization -> Fig.4 prospective confirmation -> Fig.5 bounded negative explanations`.
