@@ -18,7 +18,7 @@ Can flower-colour polymorphism be measured reproducibly as a species phenotype, 
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-We validate a continuous polymorphism phenotype, prospectively confirm a recurrent white-versus-nonwhite axis, and show that more polymorphic species are more geographically organized internally. Fresh reserve tests then make broad phylogenetic conservation and sampled geographic extent insufficient as simple explanations.
+Using a global atlas framework originally designed to seek shared geography, we show that cross-species generality lies instead in phenotype space: a reproducible polymorphism phenotype, a prospectively confirmed white-versus-nonwhite axis, and stronger species-specific geographic organization at higher polymorphism.
 
 ### Question 3 — Why is this work important and timely?
 
