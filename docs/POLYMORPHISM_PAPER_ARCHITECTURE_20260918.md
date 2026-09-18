@@ -14,6 +14,25 @@ Current figure plan:
 
 - `docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`
 
+## 0. Programme interpretation — what RGFCA contributes
+
+RGFCA means **Repeated Global Flower-Colour Atlas**. It is the upstream global sampling/measurement framework, not the current paper's final biological claim.
+
+Its original primary question was whether independent species repeatedly place strong within-species flower-colour discontinuities in the same broad geographic regions. The framework contributed repeated equal-area metadata discovery, high-depth fixed-photo sampling, observer caps, geographic maximin selection, location-blind measurement, species-conditioned spatial nulls, paired background controls and species-specific spatial organization estimates.
+
+The key conceptual pivot is:
+
+`shared geography across species -> species-level heterogeneity as the object of study`.
+
+The present paper therefore asks where generality remains after the universal-boundary idea weakens:
+
+- **amount:** reproducible species-level D;
+- **phenotype geometry:** recurrent white-versus-nonwhite axis;
+- **spatial realization:** stronger internal organization in species with higher D;
+- **broad explanation:** not reducible to sampled span or broad tree-wide conservation.
+
+The full provenance/interpretation note is `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`.
+
 ## 1. One-sentence paper
 
 **Species-level flower-colour polymorphism is reproducibly measurable under high-depth observer-disjoint photographic sampling, a recurrent white-versus-nonwhite colour-space axis was prospectively confirmed, and species with greater polymorphism show stronger within-species geographic colour organization across species-disjoint high-depth cohorts.**
