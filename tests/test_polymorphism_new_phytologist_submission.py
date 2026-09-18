@@ -106,3 +106,12 @@ def test_cover_letter_answers_three_editor_questions_within_50_words() -> None:
     assert len(matches) == 3
     for answer in matches:
         assert len(words(answer)) <= 50
+
+
+def test_new_phytologist_figure_and_supporting_legends_are_present() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    for idx in range(1, 6):
+        assert f"**Figure {idx}." in text
+    for idx in range(1, 10):
+        assert f"**Fig. S{idx}." in text
+    assert text.index("## References") < text.index("## Supporting Information")
