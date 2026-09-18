@@ -14,6 +14,7 @@ class TwoModeResult:
     cluster_sizes: tuple[int, int]
     minor_fraction: float
     labels: np.ndarray
+    separation_ratio: float | None
 
 
 def _normalize_rows(matrix: np.ndarray) -> np.ndarray:
@@ -32,50 +33,91 @@ def hellinger_rows(matrix: np.ndarray) -> np.ndarray:
     return np.sqrt(_normalize_rows(matrix))
 
 
-def _initial_farthest_pair(x: np.ndarray) -> tuple[int, int]:
-    diff = x[:, None, :] - x[None, :, :]
-    d2 = np.sum(diff * diff, axis=2)
-    np.fill_diagonal(d2, -np.inf)
-    flat = int(np.argmax(d2))
-    i, j = np.unravel_index(flat, d2.shape)
-    return int(min(i, j)), int(max(i, j))
+def _fcp_initial_pair(x: np.ndarray) -> tuple[int, int, float]:
+    """Frozen FCP initialization: farthest from grand mean, then farthest from it."""
+    grand = x.mean(axis=0)
+    i0 = int(np.argmax(np.sum((x - grand) ** 2, axis=1)))
+    d0 = np.sum((x - x[i0]) ** 2, axis=1)
+    i1 = int(np.argmax(d0))
+    return i0, i1, float(d0[i1])
 
 
-def two_mode_axis(compositions: np.ndarray, *, max_iter: int = 100) -> TwoModeResult:
-    """Fit deterministic unlabeled two-means in Hellinger space."""
+def two_mode_axis(
+    compositions: np.ndarray,
+    *,
+    max_iter: int = 200,
+    eps: float = 1e-12,
+) -> TwoModeResult:
+    """Fit the deterministic unlabeled two-means used by the frozen FCP H2 analysis.
+
+    Clustering is performed on Hellinger-transformed normalized rows. The returned
+    displacement is oriented from the larger cluster to the smaller cluster, as
+    in the FCP implementation. Downstream squared-alignment statistics are sign
+    invariant.
+    """
     p = _normalize_rows(compositions)
     x = np.sqrt(p)
-    i, j = _initial_farthest_pair(x)
-    centers = np.vstack([x[i], x[j]])
-    labels = np.full(len(x), -1, dtype=int)
+    i0, i1, initial_separation = _fcp_initial_pair(x)
 
-    for _ in range(int(max_iter)):
-        d2 = np.sum((x[:, None, :] - centers[None, :, :]) ** 2, axis=2)
-        new_labels = np.argmin(d2, axis=1).astype(int)
-        if len(np.unique(new_labels)) < 2:
-            raise ValueError("two-mode clustering collapsed to one cluster")
-        new_centers = np.vstack([x[new_labels == k].mean(axis=0) for k in (0, 1)])
-        if np.array_equal(new_labels, labels):
-            labels = new_labels
-            centers = new_centers
-            break
-        labels = new_labels
-        centers = new_centers
+    if initial_separation <= float(eps):
+        labels = np.zeros(len(x), dtype=int)
+        labels[len(x) // 2 :] = 1
     else:
-        raise RuntimeError("two-mode clustering did not converge")
+        centers = np.vstack([x[i0], x[i1]])
+        labels = np.full(len(x), -1, dtype=int)
+        for _ in range(int(max_iter)):
+            dist = np.sum((x[:, None, :] - centers[None, :, :]) ** 2, axis=2)
+            new_labels = np.argmin(dist, axis=1).astype(int)
+            if np.all(new_labels == new_labels[0]):
+                only = int(new_labels[0])
+                other = 1 - only
+                far = int(np.argmax(dist[:, only]))
+                new_labels[far] = other
+            if np.array_equal(new_labels, labels):
+                break
+            labels = new_labels
+            for k in (0, 1):
+                members = x[labels == k]
+                if len(members) == 0:
+                    raise RuntimeError("deterministic two-means produced an empty cluster")
+                centers[k] = members.mean(axis=0)
+        else:
+            raise RuntimeError("deterministic two-means did not converge")
 
-    means = np.vstack([p[labels == k].mean(axis=0) for k in (0, 1)])
-    sizes = (int(np.sum(labels == 0)), int(np.sum(labels == 1)))
-    delta = means[1] - means[0]
+    counts = np.bincount(labels, minlength=2)
+    centers_final = np.vstack([x[labels == k].mean(axis=0) for k in (0, 1)])
+    between = float(np.linalg.norm(centers_final[0] - centers_final[1]))
+    within_ss = float(
+        sum(np.sum((x[labels == k] - centers_final[k]) ** 2) for k in (0, 1))
+    )
+    within_rms = float(np.sqrt(within_ss / len(x))) if within_ss > float(eps) else 0.0
+    separation_ratio = None if within_rms <= float(eps) else float(between / within_rms)
+
+    if counts[0] > counts[1]:
+        major, minor = 0, 1
+    elif counts[1] > counts[0]:
+        major, minor = 1, 0
+    else:
+        c0 = p[labels == 0].mean(axis=0)
+        c1 = p[labels == 1].mean(axis=0)
+        # Frozen tie orientation: lexicographically smaller composition is major.
+        if tuple(c0.tolist()) <= tuple(c1.tolist()):
+            major, minor = 0, 1
+        else:
+            major, minor = 1, 0
+
+    means = np.vstack([p[labels == 0].mean(axis=0), p[labels == 1].mean(axis=0)])
+    delta = means[minor] - means[major]
     norm = float(np.linalg.norm(delta))
     if norm <= 1e-15:
         raise ValueError("two-mode displacement has zero norm")
     return TwoModeResult(
         unit_axis=delta / norm,
         cluster_means=means,
-        cluster_sizes=sizes,
-        minor_fraction=float(min(sizes) / len(labels)),
+        cluster_sizes=(int(counts[0]), int(counts[1])),
+        minor_fraction=float(min(counts) / len(labels)),
         labels=labels.copy(),
+        separation_ratio=separation_ratio,
     )
 
 
