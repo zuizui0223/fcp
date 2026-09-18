@@ -6,9 +6,10 @@ It does not recompute any result. It organizes frozen protocols, machine-readabl
 
 ## S1. Global frame, cohort roles, acquisition lineage and inferential separation
 
-Global opportunity-frame provenance:
+Global programme/frame provenance:
 
-- `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`
+- `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md` — conceptual relationship between the upstream Repeated Global Flower-Colour Atlas and the current species-level polymorphism estimands;
+- `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md` — metadata-discovery and 42,111-species opportunity-frame lineage
 - metadata-discovered V1 + cache-resistant V2 union = **42,111 unique iNaturalist species**;
 - discovery grid = 18 × 9 equal-area cells;
 - V2 = 20 metadata-only rounds × 162 cells = **3,240** fixed request attempts;
