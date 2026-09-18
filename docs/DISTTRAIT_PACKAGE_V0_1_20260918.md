@@ -1,6 +1,6 @@
 # disttrait v0.1 package design — 2026-09-18
 
-Status: reusable methods package extracted from the FCP/New Phytologist analysis architecture.
+Status: historical v0.1 design note. Superseded for current package status by `docs/DISTTRAIT_PACKAGE_V0_2_20260918.md`.
 
 ## Goal
 
@@ -105,17 +105,13 @@ The package does not claim invention of Gini-Simpson diversity, Spearman correla
 
 The reusable contribution is the **inference architecture**:
 
-[
-	ext{repeated observations}
-ightarrow
-	ext{validated species-level distribution}
-ightarrow
-	ext{distributional geometry}
-ightarrow
-	ext{species-specific spatial organization}
-ightarrow
-	ext{cross-species inference}.
-]
+```text
+repeated observations
+-> validated species-level distribution
+-> distributional geometry
+-> species-specific spatial organization
+-> cross-species inference
+```
 
 ## Release path
 
