@@ -4,6 +4,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANUSCRIPT = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md"
+CANONICAL = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT.md"
 COVER = ROOT / "docs" / "POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md"
 
 
@@ -81,3 +82,15 @@ def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> N
         "not an independent-source replication",
     ):
         assert token.lower() in text.lower()
+
+
+def test_manuscripts_have_no_control_character_math_corruption() -> None:
+    for path in (CANONICAL, MANUSCRIPT):
+        text = path.read_text(encoding="utf-8")
+        bad = [
+            ch for ch in text
+            if ord(ch) < 32 and ch not in ("\n", "\r")
+        ]
+        assert not bad, f"{path.name} contains control characters: {[ord(ch) for ch in bad]}"
+        assert "W = mean_i (u_i^T q_white)^2" in text
+        assert "p = (1 + #(W_null >= W_obs)) / 1000" in text
