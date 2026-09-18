@@ -187,7 +187,7 @@ The journal-specific manuscript currently cites direct precedents for:
 
 ## 7. Remaining formal-submission blockers
 
-All scientific, claim-integrity, figure-generation and submission-size visual-QA gates are closed. The remaining blockers are administrative/archive/packaging items. Author-specific values must not be inferred from repository metadata.
+All scientific, claim-integrity, figure-generation, submission-size visual-QA and review-document packaging gates are closed. The remaining blockers are administrative metadata and permanent archiving. Author-specific values must not be inferred from repository metadata.
 
 ### Blocker A — authorship metadata
 
@@ -239,17 +239,24 @@ Current Data availability text states that a permanent archival DOI/version shou
 
 A Zenodo, institutional repository or equivalent permanent version should be frozen and cited in the final Data availability statement.
 
-### Blocker F — final formatted submission file
+### Packaging status — review-ready document generated
 
-The repository source is Markdown. The formal initial-submission manuscript should be exported to a review-ready word-processing/PDF format with:
+The technical formatting requirement is **closed for the current placeholder-bearing review draft**.
 
-- 1.5-line spacing;
-- page numbers;
-- continuous line numbering;
-- a consistent font;
-- the completed title-page author/correspondence metadata.
+Final build/QA receipt:
 
-This is a packaging requirement and does not change the frozen scientific content.
+- `docs/POLYMORPHISM_NEW_PHYTOLOGIST_DOCUMENT_QA_20260918.md`
+- polished source commit: `40aac30542313371225f6367e64d26752f77e0ee`
+- build run: `35319622806` — success;
+- artifact ID: `10537005224`;
+- artifact digest: `sha256:84c2b4f450fc0a9dbdd9e66e23b4c664f4410657df14906967353d90494e15d6`;
+- rendered pages: 23;
+- full-page visual QA: PASS;
+- PDF preflight: PASS.
+
+The generated review document has 1.5-line spacing, page numbering, continuous line numbering, a consistent font, Table 1 and Figures 1–5.
+
+A final administrative build is still required **after** author/correspondence metadata, declarations and the permanent archive DOI/version are supplied. This remaining rebuild is mechanical and does not reopen the scientific package.
 
 ## 8. Current submission decision
 
@@ -259,7 +266,7 @@ The scientific package already contains the highest-value prospective H2 upgrade
 
 The remaining route to a formal New Phytologist submission is:
 
-`author metadata -> acknowledgements/conflicts/contributions -> permanent archive DOI -> final formatted submission file (1.5 spacing + page/continuous line numbering)`
+`author metadata -> acknowledgements/conflicts/contributions -> permanent archive DOI -> insert those values -> one final administrative document rebuild`
 
 No further scientific or figure-analysis gate is currently open.
 
