@@ -50,6 +50,7 @@ v0.2 matches the frozen FCP H1 implementation in:
 - `one_vs_rest_contrast`
 - `alignment_statistic`
 - `permute_rows_within_strata`
+- `structured_alignment_null`
 
 v0.2 matches the frozen FCP H2 deterministic two-means construction in:
 
@@ -63,7 +64,7 @@ v0.2 matches the frozen FCP H2 deterministic two-means construction in:
 - lexicographic tie orientation;
 - separation-ratio definition.
 
-The generic package does not hard-code the FCP nine-colour palette or white/non-white target.
+The generic package does not hard-code the FCP nine-colour palette or white/non-white target. `structured_alignment_null` fixes species membership, permutes normalized complete rows across species within user-supplied strata, refits the deterministic two-mode axis for every species in every null world and recalculates the fixed-contrast alignment statistic with a plus-one upper-tail probability.
 
 ### Layer D — species-specific spatial organization
 
