@@ -14,6 +14,29 @@ The authoritative third-cohort measurement/support receipt is:
 
 If this prose conflicts with those machine-readable files, the machine-readable files control.
 
+## 0. Programme lineage — RGFCA versus the current paper
+
+RGFCA means **Repeated Global Flower-Colour Atlas**. It is the upstream global sampling, measurement and species-specific spatial-analysis framework from which the current discovery/reserve resource was inherited; it is not the present paper's final biological claim.
+
+RGFCA originally asked whether independent species repeatedly place strong within-species flower-colour discontinuities in the same broad geographic regions. That shared-geography estimand did not become the positive biological spine of the current paper. The upstream frozen record includes primary recurrent-field G1 p = **0.070** and species-disjoint commonness p = **0.856**, while later sharedness qualification identified a support/identifiability limitation.
+
+The current paper therefore changes the level at which cross-species generality is sought:
+
+- **amount:** reproducible species-level D;
+- **phenotype geometry:** prospectively confirmed white-versus-nonwhite axis;
+- **spatial realization:** stronger species-specific geographic organization at higher D;
+- **broad explanation:** not reducible to sampled geographic span or broad tree-wide phylogenetic conservation.
+
+The supported conceptual interpretation is that generality is stronger in **phenotype space than in shared geographic location** under the tested designs. This does not imply absence of flower-colour biogeography or identify the ecological mechanism maintaining polymorphism.
+
+Canonical programme interpretation:
+
+- `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`
+
+Canonical 42,111-frame provenance:
+
+- `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`
+
 ## 1. Paper mainline
 
 The paper now has three positive/structural contributions and two bounded alternative-explanation results:
