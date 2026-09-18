@@ -114,6 +114,10 @@ Under that specific failure mode:
 
 The benchmark is intentionally narrow and does not establish universal superiority.
 
+## Validation gate for v0.2
+
+The release-candidate gate is the dedicated `disttrait package` workflow. It installs the package from `packages/disttrait`, compiles the public modules, and runs the full package test suite including compact frozen-FCP equivalence fixtures, non-flower generalization tests, and the repeated species-conditioning benchmark.
+
 ## Relationship to FCP
 
 The active New Phytologist manuscript remains an ecological application. `disttrait` is the reusable methods layer.
