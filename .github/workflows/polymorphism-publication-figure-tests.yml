@@ -50,7 +50,7 @@ jobs:
         if: github.actor != 'github-actions[bot]' && ((github.event_name == 'push' && github.ref == 'refs/heads/promotion/polymorphism-paper-20260918') || (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'promotion/polymorphism-paper-20260918'))
         run: |
           git fetch origin promotion/polymorphism-paper-20260918
-          git checkout -B promotion/polymorphism-paper-20260918 origin/polymorphism-paper-20260918
+          git checkout -B promotion/polymorphism-paper-20260918 origin/promotion/polymorphism-paper-20260918
           python scripts/analysis/make_polymorphism_manuscript_figures.py --figure5-only
           if git diff --quiet -- \
             docs/figures/polymorphism_20260918/polymorphism_figure5_explanatory_boundaries.png \
