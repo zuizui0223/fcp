@@ -149,7 +149,7 @@ def run_world(
     common_beta, common_p = _fixed_effect_common_slope_test(model_groups)
 
     meta, slopes = random_effects_from_groups(model_groups)
-    meta_perm = permutation_calibrated_random_effects(
+    meta_perm = random_effects_slope_permutation_test(
         model_groups,
         n_permutations=N_META_PERMUTATIONS,
         seed=2026091908,
