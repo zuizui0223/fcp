@@ -313,24 +313,6 @@ Within-species flower-colour diversity can be measured reproducibly as a continu
 
 Frozen protocols, analysis code, machine-readable results, claim ledgers and canonical figures are versioned in the `zuizui0223/fcp` GitHub repository. The third-cohort prospective result is preserved as an immutable repository commit and GitHub Actions artifact. A permanent archival DOI/version should be added before submission.
 
-## Supporting Information
-
-The current Supporting Information evidence map is:
-
-- `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`
-
-Planned supplementary display items include:
-
-- Fig. S1: full H1 partition diagnostics;
-- Fig. S2: H1 discovery concordance and deterministic stress-test details;
-- Fig. S3: broad pre-target H2 geometry;
-- Fig. S4: construction-preserving null audit;
-- Fig. S5: q_white projection-removal and non-white-only diagnostics;
-- Fig. S6: third-cohort chain of custody;
-- Fig. S7: P500 terminal postmortem;
-- Fig. S8: H3a full sensitivity panel;
-- Fig. S9: H3b full sensitivity panel.
-
 ## References
 
 Di Cecco, G. J., Barve, V., Belitz, M. W., Stucky, B. J., Guralnick, R. P., & Hurlbert, A. H. (2021). Observing the Observers: How Participants Contribute Data to iNaturalist and Implications for Biodiversity Science. *BioScience*, 71(11), 1179–1188. https://doi.org/10.1093/biosci/biab093
@@ -354,3 +336,38 @@ Sapir, Y., Gallagher, M. K., & Senden, E. (2021). What Maintains Flower Colour V
 Warren, J., & Mackenzie, S. (2001). Why are all colour combinations not equally represented as flower-colour polymorphisms? *New Phytologist*, 151, 237–241. https://doi.org/10.1046/j.1469-8137.2001.00159.x
 
 Literature-use boundaries are frozen in `docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md`. These references support background and interpretation; they do not alter the repository's machine-readable empirical results or claim ceiling.
+
+## Figure legends
+
+**Figure 1. From a global sampling frame to a measurable species-level flower-colour polymorphism phenotype.** (a) Sampling architecture from the 42,111-species opportunity frame through the original discovery and reserve source cohorts and the pre-frozen third cohort; high-depth cohorts are validation denominators, not prevalence samples. (b) The four biological coarse states—white, yellow/orange, red/pink and blue/purple—and the continuous diversity score D = 1 - sum_k p_k^2; `mixed_uncertain` is excluded from the biological state set. (c) Descriptive D distributions in the discovery and reserve inferential cohorts. (d) Observer-disjoint splitting, in which no observer contributes photographs to both estimates for a species.
+
+**Figure 2. Observer-disjoint reproducibility of the continuous polymorphism score D.** (a) Representative reserve split-half comparison of D_A and D_B with the 1:1 line. (b) Spearman correlations across 200 first-frozen observer-disjoint partitions; median rho = 0.7891, 5th percentile = 0.7652 and 95th percentile = 0.8109. (c) Agreement diagnostics, including median Lin concordance correlation coefficient (CCC) = 0.8548 and median Spearman–Brown projected reliability = 0.8821. (d) The later deliberately stricter deterministic split yielded rho = 0.7927 (bootstrap 95% CI 0.7419–0.8324) and missed its prespecified 0.80 floor; this stress test constrains but does not overwrite the chronologically earlier primary H1 result.
+
+**Figure 3. Discovery and audit of the recurrent white-versus-nonwhite colour-space target.** (a) Normalized nine-colour palette, Hellinger transformation and deterministic unlabeled two-means used to estimate within-species continuous modes. (b) Species-specific displacement vector Delta_i and sign-invariant unit axis u_i. (c) Fixed white-versus-equal-nonwhite contrast q_white, explicitly labelled as isolated after the original broad H2 geometry had been opened. (d) Legacy targeted W results under the construction-preserving structured null: at the 0.10 tier, discovery N = 152, W = 0.514625, p = 0.001 and reserve N = 129, W = 0.514586, p = 0.001; at the 0.20 tier, discovery N = 75, W = 0.542355, p = 0.001 and reserve N = 65, W = 0.510517, p = 0.008. (e) Projection of q_white from the displacement axes removes construction-controlled excess directional concentration, bounding the supported recurrent geometry to the achromatic–chromatic component.
+
+**Figure 4. Prospective species-disjoint confirmation of the frozen white-versus-nonwhite axis.** (a) Outcome-blind third-cohort chronology from 3,230 candidates through deterministic 500-species selection, fresh metadata, 499 authorized species, pre-opening qualification, one-shot biological execution and 256/256 terminal partitions. (b) Measurement-support gate: 49,900 terminal rows, 25,788 classifiable rows and 377 measurement-evaluable species versus the prespecified minimum of 250; no species or rows were replaced and pixels were not persisted. (c) Primary 0.10 tier: N = 158, observed W = 0.5172457461, structured-null median = 0.4571428150, 95% interval 0.4358491120–0.4752987776 and upper-tail p = 0.001. (d) Strict 0.20 sensitivity: N = 86, observed W = 0.5329282123, null median = 0.4593196659, 95% interval 0.4328679570–0.4867224043 and p = 0.001. (e) Cross-cohort evidence status distinguishes legacy target localization from the untouched prospective third-cohort test; the cohorts are not treated as independent data-source replications.
+
+**Figure 5. Broad phylogenetic signal and sampled photographic span do not replicate as explanations of D.** (a) Reserve Blomberg K under the three frozen phylogenetic placement scenarios: S1 K = 0.0710190, p = 0.2716; S2 K = 0.0601476, p = 0.4134; S3 K = 0.0707577, p = 0.2674. (b) Sampled-span association in discovery (rho = 0.1798786, p = 0.00089996) and species-disjoint reserve (rho = -0.0025855, p = 0.9586021). (c) Inferential boundaries: the phylogenetic analysis tests broad tree-wide signal, sampled span is not true biological range size, and the negative H3 results do not negate H1 measurement validity or H2 geometry.
+
+## Supporting Information
+
+The complete evidence map is provided in `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`.
+
+**Fig. S1.** Full H1 reserve partition diagnostics for all 200 observer-disjoint partitions, including paired-species counts, Spearman rho, CCC, signed bias and absolute D differences.
+
+**Fig. S2.** H1 discovery-cohort concordance together with the later deterministic reserve stress-test diagnostics and its prespecified rho = 0.80 floor.
+
+**Fig. S3.** Broad pre-target H2 geometry in the original cohorts, including leading-axis concentration, discovery-axis reserve transport and discovery–reserve axis alignment.
+
+**Fig. S4.** Construction-preserving H2 null audit showing the quantities preserved when normalized nine-colour rows are permuted within coarse morph while species × coarse-morph row counts remain fixed.
+
+**Fig. S5.** Residual H2 tests after projecting out q_white together with the low-sample non-white-only diagnostics.
+
+**Fig. S6.** Third-cohort chain of custody from deterministic species selection and fresh-metadata freeze through 256 terminal measurement receipts, support-gate completion and the durable H2_COMPLETE result.
+
+**Fig. S7.** P500 execution chronology showing successful measurement support but no durable biological H2 verdict because post-calculation serialization failed before terminal result persistence.
+
+**Fig. S8.** H3a sensitivity analyses across S1–S3 phylogenies for raw D, finite-sample sensitivity, opportunity-adjusted residuals, Blomberg K and Pagel lambda.
+
+**Fig. S9.** H3b sampled-span sensitivities including raw, finite-sample, observer/classifiability-adjusted partial-rank and rank-PGLS reserve analyses.
+
