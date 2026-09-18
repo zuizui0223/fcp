@@ -3,7 +3,9 @@ name: Polymorphism manuscript claim guard
 on:
   push:
     branches:
+      - main
       - analysis/h2-third-cohort-preopening-20260916
+      - promotion/polymorphism-paper-20260918
     paths:
       - README.md
       - docs/POLYMORPHISM_MANUSCRIPT.md

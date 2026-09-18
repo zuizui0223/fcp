@@ -138,7 +138,7 @@ def test_readme_routes_to_active_polymorphism_paper() -> None:
     text = README.read_text(encoding="utf-8")
 
     for token in (
-        "# FCP — Global flower-colour polymorphism",
+        "## Active mainline — global flower-colour polymorphism",
         "docs/POLYMORPHISM_MANUSCRIPT.md",
         "docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md",
         "docs/POLYMORPHISM_FIGURE_PLAN_20260918.md",

@@ -3,7 +3,9 @@ name: Polymorphism publication figure tests
 on:
   push:
     branches:
+      - main
       - analysis/h2-third-cohort-preopening-20260916
+      - promotion/polymorphism-paper-20260918
     paths:
       - scripts/analysis/make_polymorphism_manuscript_figures.py
       - tests/test_make_polymorphism_manuscript_figures.py
@@ -13,6 +15,18 @@ on:
       - results/polymorphism_white_axis_targeted_test_20260912/result.json
       - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/**
       - results/polymorphism_h3a_phylogenetic_signal_20260912/frozen_result_manifest.json
+      - .github/workflows/polymorphism-publication-figure-tests.yml
+  pull_request:
+    paths:
+      - scripts/analysis/make_polymorphism_manuscript_figures.py
+      - tests/test_make_polymorphism_manuscript_figures.py
+      - results/polymorphism_publication_figure_source_20260918/**
+      - results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json
+      - results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.json
+      - results/polymorphism_white_axis_targeted_test_20260912/result.json
+      - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/**
+      - results/polymorphism_h3a_phylogenetic_signal_20260912/frozen_result_manifest.json
+      - docs/POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md
       - .github/workflows/polymorphism-publication-figure-tests.yml
   workflow_dispatch:
 
