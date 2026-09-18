@@ -89,7 +89,7 @@ q_{mathrm{white}} = operatorname{normalize}(1,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8
 For a set of eligible species, the targeted alignment statistic is
 
 [
-W = operatorname{mean}_i (u_i^	op q_{mathrm{white}})^2.
+W = mean_i (u_i^T q_white)^2.
 ]
 
 The original cohorts establish discovery/audit evidence because q_white was fixed only after the broad geometry had been opened. Projection of q_white out of the species displacement vectors is used to test whether a residual recurrent hue direction remains.
@@ -117,7 +117,7 @@ All 256 terminal measurement partitions had to complete before the metadata-colo
 For each tier, the upper-tail Monte Carlo probability is
 
 [
-p = rac{1+#(W_{mathrm{null}}ge W_{mathrm{obs}})}{1000}.
+p = (1 + #(W_null >= W_obs)) / 1000.
 ]
 
 With 999 randomly generated null worlds, p = 0.001 is the minimum attainable value under this plus-one rule; it should be interpreted as the Monte Carlo resolution of the frozen test rather than an exact exhaustive tail probability (Phipson & Smyth 2010).
