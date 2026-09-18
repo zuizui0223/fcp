@@ -1,0 +1,78 @@
+{
+  "schema": "disttrait_random_slope_meta_surface_v1",
+  "date_jst": "2026-09-19",
+  "role": "species_specific_signed_slope_meta_analysis_and_permutation_calibration_benchmark",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/benchmarks/random_slope_meta_surface.py",
+    "git_blob_sha": "7a4d7b9451cd2286abc3737293fb8051bd36a3f3"
+  },
+  "implementation": {
+    "path": "packages/disttrait/src/disttrait/meta.py",
+    "git_blob_sha": "953d821ca35d754480ba101a32c840663e6c49ce"
+  },
+  "cells_file": "results/disttrait_random_slope_meta_v0_8_20260919/cells.csv",
+  "design": {
+    "effect_sizes": [0.0, 0.4, 0.8, 1.2],
+    "reversal_fractions": [0.0, 0.25, 0.5],
+    "mcar_missing_fractions": [0.0, 0.5],
+    "worlds_per_cell": 40,
+    "species_per_world": 20,
+    "observations_per_species_before_missingness": 20,
+    "spatial_null_permutations": 39,
+    "slope_meta_permutations": 99,
+    "alpha": 0.05,
+    "data_generating_process": "continuous Gaussian trait with species-specific baseline linked to geographic species centre plus a signed within-species local linear effect whose sign is reversed in a fixed fraction of species"
+  },
+  "comparators": [
+    "naive pooled pairwise distance-dissimilarity Spearman",
+    "equal-species matched-null distance-dissimilarity omnibus",
+    "one-sided one-sample test on species-specific distance-dissimilarity rho",
+    "species fixed-intercept common signed slope",
+    "analytic DerSimonian-Laird random-effects summary of species-specific signed slopes",
+    "within-species permutation-calibrated random-effects signed-slope mean/Q omnibus"
+  ],
+  "summary": {
+    "max_equal_matched_null_fpr": 0.05,
+    "max_common_slope_null_fpr": 0.1,
+    "max_meta_mean_null_fpr": 0.175,
+    "max_meta_heterogeneity_null_fpr": 0.3,
+    "max_meta_omnibus_null_fpr": 0.3,
+    "max_calibrated_meta_mean_null_fpr": 0.075,
+    "max_calibrated_meta_heterogeneity_null_fpr": 0.075,
+    "max_calibrated_meta_omnibus_null_fpr": 0.05,
+    "effect_0_4_reversal0_equal_detection_range": [0.5, 0.825],
+    "effect_0_4_reversal0_common_slope_detection_range": [1.0, 1.0],
+    "effect_0_4_reversal0_meta_omnibus_detection_range": [1.0, 1.0],
+    "effect_0_4_reversal0_calibrated_meta_omnibus_detection_range": [1.0, 1.0],
+    "effect_0_4_reversal0_5_equal_detection_range": [0.4, 0.9],
+    "effect_0_4_reversal0_5_common_slope_detection_range": [0.025, 0.05],
+    "effect_0_4_reversal0_5_meta_heterogeneity_detection_range": [0.95, 1.0],
+    "effect_0_4_reversal0_5_meta_omnibus_detection_range": [0.95, 1.0],
+    "effect_0_4_reversal0_5_calibrated_meta_heterogeneity_detection_range": [0.75, 1.0],
+    "effect_0_4_reversal0_5_calibrated_meta_omnibus_detection_range": [0.525, 1.0],
+    "effect_0_8_reversal0_5_equal_detection_range": [1.0, 1.0],
+    "effect_0_8_reversal0_5_meta_omnibus_detection_range": [1.0, 1.0],
+    "effect_0_8_reversal0_5_calibrated_meta_omnibus_detection_range": [1.0, 1.0]
+  },
+  "workflow": {
+    "pr": 48,
+    "head_sha": "a8b8a6f3eb52809da1f1a42c752ed7432c188a40",
+    "run_id": 35391979183,
+    "job_id": 105752183293,
+    "artifact_id": 10565558831,
+    "artifact_name": "disttrait-random-slope-meta-exploratory",
+    "conclusion": "success"
+  },
+  "interpretation": {
+    "supported": "Species-specific signed slopes can represent direction heterogeneity, but the usual analytic random-effects mean and Q approximations are anti-conservative in this small-sample/missingness design. Recalibrating the same slope/meta statistics by within-species matched trait permutations restores the combined omnibus to a maximum null rejection fraction of 0.05 and retains substantial power for opposing species-specific directions. This provides a flexible signed-slope complement to the direction-invariant distance-dissimilarity estimand rather than a universally superior replacement.",
+    "not_supported": [
+      "analytic DerSimonian-Laird p-values are calibrated for small per-species samples",
+      "the individual calibrated mean and heterogeneity component tests are each guaranteed to stay below 0.05 in every finite benchmark cell",
+      "random-effects slope meta-analysis is universally superior to matched distance-dissimilarity inference",
+      "the calibrated slope-meta omnibus and distance-dissimilarity omnibus estimate the same biological quantity",
+      "this benchmark validates nonlinear, multivariate or MNAR settings"
+    ]
+  }
+}
