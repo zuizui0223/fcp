@@ -4,7 +4,7 @@ This repository is the **geographic-space arm** of a broader programme on the sp
 
 ## Active mainline — global flower-colour polymorphism
 
-The active paper asks two linked questions: **can within-species flower-colour polymorphism be measured reproducibly as a species phenotype, and is that variation geometrically constrained in colour space?**
+The active paper asks three linked questions: **can within-species flower-colour polymorphism be measured reproducibly as a species phenotype, is that variation geometrically constrained in colour space, and do more polymorphic species organize that variation more strongly across geography?**
 
 The current frozen result is:
 
