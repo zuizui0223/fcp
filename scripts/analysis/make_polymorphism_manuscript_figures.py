@@ -145,12 +145,14 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax = axes[1]
     ax.axis("off")
     box_style = {"boxstyle": "round,pad=0.5", "facecolor": "white", "edgecolor": "#999999"}
+    left_lane_x = 0.22
+    right_lane_x = 0.78
     boxes = [
         (0.50, 0.88, "42,111-species global frame\nSampling / opportunity universe"),
-        (0.28, 0.58, "Original high-depth source\n500 discovery + 500 reserve\n100 photos per species"),
-        (0.28, 0.22, "D inference after ≥40 classifiable\n369 discovery + 363 reserve"),
-        (0.74, 0.58, "Prospective H2 third cohort\npre-frozen selection + fresh metadata"),
-        (0.74, 0.22, "499 species × 100 rows\n377 measurement-evaluable\n0 replacements"),
+        (left_lane_x, 0.58, "Original high-depth source\n500 discovery + 500 reserve\n100 photos per species"),
+        (left_lane_x, 0.22, "D inference after ≥40 classifiable\n369 discovery + 363 reserve"),
+        (right_lane_x, 0.58, "Prospective H2 third cohort\npre-frozen selection + fresh metadata"),
+        (right_lane_x, 0.22, "499 species × 100 rows\n377 measurement-evaluable\n0 replacements"),
     ]
     for x, y, text in boxes:
         ax.text(
@@ -166,10 +168,10 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     # The global frame branches into the legacy validation lane and the
     # later prospective-confirmation lane; arrows point from source to target.
     for source, target in [
-        ((0.44, 0.80), (0.31, 0.67)),
-        ((0.56, 0.80), (0.71, 0.67)),
-        ((0.28, 0.48), (0.28, 0.32)),
-        ((0.74, 0.48), (0.74, 0.32)),
+        ((0.44, 0.80), (0.25, 0.67)),
+        ((0.56, 0.80), (0.75, 0.67)),
+        ((left_lane_x, 0.48), (left_lane_x, 0.32)),
+        ((right_lane_x, 0.48), (right_lane_x, 0.32)),
     ]:
         ax.annotate(
             "",
@@ -178,8 +180,8 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             xycoords=ax.transAxes,
             arrowprops={"arrowstyle": "->", "color": "#777777", "lw": 1.2},
         )
-    ax.text(0.28, 0.70, "original validation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
-    ax.text(0.74, 0.70, "prospective confirmation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
+    ax.text(left_lane_x, 0.70, "original validation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
+    ax.text(right_lane_x, 0.70, "prospective confirmation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
     panel_label(ax, "B")
 
     fig.tight_layout()
@@ -194,6 +196,7 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         "layout_contract": {
             "cohort_topology": "global_frame_branches_to_original_and_third_cohort",
             "arrow_direction": "top_to_bottom",
+            "middle_lane_center_gap_axes": right_lane_x - left_lane_x,
         },
     }
     return files, meta
