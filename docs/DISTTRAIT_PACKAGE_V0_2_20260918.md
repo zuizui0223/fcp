@@ -208,14 +208,37 @@ This demonstrates the estimand distinction that motivated RGFCA/disttrait: betwe
 
 The demonstration does not establish calibrated superiority across arbitrary data-generating processes.
 
-## 9. Next methods-paper gate
+## 9. Repeated species-conditioning benchmark
+
+Executable benchmark:
+
+`packages/disttrait/benchmarks/species_conditioning_benchmark.py`
+
+Frozen receipt:
+
+`results/disttrait_species_conditioning_benchmark_v0_2_20260918/result.json`
+
+The benchmark targets one explicit estimand failure mode. In the null worlds, species baseline trait frequencies turn over geographically among species, but trait state is spatially independent within species. In the signal worlds, an additional within-species spatial effect is imposed.
+
+Across 40 null and 40 signal worlds:
+
+- null naive pooled false-positive fraction = **1.00**;
+- null species-conditioned matched-null false-positive fraction = **0.00**;
+- null median naive pooled rho = **0.5213**;
+- null median species-conditioned mean rho = **-0.0063**;
+- signal species-conditioned detection fraction = **1.00**;
+- signal median species-conditioned mean rho = **0.2155**.
+
+This is evidence for the value of species-conditioning under this specific between-species geographic-confounding design. It is not a universal benchmark against all spatial methods.
+
+## 10. Next methods-paper gate
 
 Before claiming an independent methods paper/package release, add:
 
-1. full artifact-backed equivalence for H1 and selected H2/spatial fixtures;
-2. simulation benchmarks against simpler alternatives;
-3. at least one non-flower demonstration;
-4. calibrated false-positive/power experiments under observation imbalance and missingness;
+1. full artifact-backed equivalence beyond the current H1 and observed-H2 replay hooks;
+2. broader simulation benchmarks beyond the current pooled-confounding case;
+3. false-positive/power surfaces across effect size, observation imbalance and missingness;
+4. at least one non-flower **empirical** demonstration, not only simulation;
 5. standalone repository/package licence and release automation.
 
 At v0.2, the package is a verified reusable implementation layer, not yet a separately validated general methods publication.
