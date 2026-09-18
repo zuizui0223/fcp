@@ -176,7 +176,38 @@ The architecture is intended for repeated individual-level traits beyond flower 
 4. **optional raw-artifact replay** — full H1 result replay when source measurement tables are supplied;
 5. **dedicated package CI** — `.github/workflows/disttrait-package.yml`.
 
-## 8. Next methods-paper gate
+## 8. Non-flower generalization demonstration
+
+Executable example:
+
+`packages/disttrait/examples/nonflower_binary_trait.py`
+
+Frozen result:
+
+`results/disttrait_nonflower_synthetic_v0_2_20260918/result.json`
+
+The example contains no flower-colour representation.
+
+### Induced-signal world
+
+Across 80 synthetic species, an abstract binary-trait spatial gradient is constructed so that species-level diversity and latent spatial strength covary. The generic package recovers:
+
+- rho(diversity, species-specific spatial organization) = **0.8115**;
+- rho(latent spatial strength, recovered spatial organization) = **0.8382**.
+
+### Between-species geographic-confounding world
+
+Across 40 species, baseline trait frequency changes strongly among geographic species centres, but trait state is spatially independent **within each species** by construction.
+
+- naive pooled distance–trait correlation = **0.5778**;
+- species-conditioned mean rho = **0.0053**;
+- species-conditioned median rho = **0.0000**.
+
+This demonstrates the estimand distinction that motivated RGFCA/disttrait: between-species geographic turnover should not be interpreted as within-species spatial organization.
+
+The demonstration does not establish calibrated superiority across arbitrary data-generating processes.
+
+## 9. Next methods-paper gate
 
 Before claiming an independent methods paper/package release, add:
 
