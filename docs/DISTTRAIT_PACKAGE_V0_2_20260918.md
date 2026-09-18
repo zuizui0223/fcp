@@ -127,6 +127,10 @@ When the original artifacts are available, full H1 replay is supported by:
 
 `packages/disttrait/scripts/replay_fcp_h1.py`
 
+Observed H2 fixed-axis alignment can be replayed from the legacy delta-vector artifacts with:
+
+`packages/disttrait/scripts/replay_fcp_h2_observed_w.py`
+
 Example:
 
 ```bash
@@ -136,7 +140,7 @@ python packages/disttrait/scripts/replay_fcp_h1.py \
   --expected results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json
 ```
 
-This recalculates the 200 observer-disjoint partitions from raw rows and checks the main frozen H1 summary statistics.
+This recalculates the 200 observer-disjoint partitions from raw rows and checks the main frozen H1 summary statistics. The H2 replay checks the four primary/strict discovery/reserve species denominators and observed W values against the frozen targeted-result JSON. Full H2 structured-null replay still requires the row-level palette artifacts.
 
 ## 5. What remains application-specific
 
