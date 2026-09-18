@@ -18,9 +18,22 @@ class ReliabilityResult:
     summary: dict[str, float]
 
 
-def _hash64(seed: int, species: str, observer: str) -> int:
-    raw = f"{seed}|{species}|{observer}".encode()
-    return int.from_bytes(hashlib.sha256(raw).digest()[:8], "little")
+def _stable_hash_int(seed: int, species: str, observer: str) -> int:
+    """FCP-compatible deterministic observer tie-break."""
+    text = " | ".join(str(x) for x in (seed, species, observer))
+    return int(hashlib.sha256(text.encode("utf-8")).hexdigest(), 16)
+
+
+def _as_bool(values: pd.Series) -> pd.Series:
+    if pd.api.types.is_bool_dtype(values):
+        return values.fillna(False).astype(bool)
+    return (
+        values.fillna("")
+        .astype(str)
+        .str.strip()
+        .str.casefold()
+        .isin({"true", "1", "yes"})
+    )
 
 
 def _ccc(x: np.ndarray, y: np.ndarray) -> float:
@@ -46,25 +59,32 @@ def _profile_species(
     observer_col: str,
     state_col: str,
     states: Sequence[object],
+    classifiable_col: str | None,
     min_full_classifiable: int,
     minimum_distinct_observers: int,
 ) -> dict[str, list[tuple[str, int, np.ndarray]]]:
     profiles: dict[str, list[tuple[str, int, np.ndarray]]] = {}
     state_index = {state: i for i, state in enumerate(states)}
-    work = frame.loc[frame[observer_col].notna()].copy()
-    work[species_col] = work[species_col].astype(str)
-    work[observer_col] = work[observer_col].astype(str)
+    work = frame.copy()
+    work[species_col] = work[species_col].fillna("").astype(str).str.strip()
+    work[observer_col] = work[observer_col].fillna("").astype(str).str.strip()
+    work = work.loc[work[species_col].ne("") & work[observer_col].ne("")].copy()
+    if classifiable_col is None:
+        work["_disttrait_classifiable"] = work[state_col].isin(states)
+    else:
+        work["_disttrait_classifiable"] = _as_bool(work[classifiable_col]) & work[state_col].isin(states)
 
-    for species, group in work.groupby(species_col, sort=True):
-        classifiable = group[state_col].isin(states)
+    for species, group in work.groupby(species_col, sort=False):
+        classifiable = group["_disttrait_classifiable"]
         if int(classifiable.sum()) < int(min_full_classifiable):
             continue
         if group[observer_col].nunique() < int(minimum_distinct_observers):
             continue
         rows: list[tuple[str, int, np.ndarray]] = []
-        for observer, og in group.groupby(observer_col, sort=True):
+        for observer, og in group.groupby(observer_col, sort=False):
             counts = np.zeros(len(states), dtype=np.int64)
-            for value, n in og[state_col].value_counts(dropna=False).items():
+            class_rows = og.loc[og["_disttrait_classifiable"], state_col]
+            for value, n in class_rows.value_counts(dropna=False).items():
                 if value in state_index:
                     counts[state_index[value]] = int(n)
             rows.append((str(observer), int(len(og)), counts))
@@ -79,7 +99,7 @@ def _partition_counts(
     seed: int,
 ) -> tuple[np.ndarray, np.ndarray]:
     items = [
-        (observer, n_all, counts, _hash64(seed, species, observer))
+        (observer, n_all, counts, _stable_hash_int(seed, species, observer))
         for observer, n_all, counts in profile
     ]
     items.sort(key=lambda z: (-z[1], z[3]))
@@ -111,6 +131,7 @@ def observer_disjoint_reliability(
     observer_col: str,
     state_col: str,
     states: Sequence[object],
+    classifiable_col: str | None = None,
     n_partitions: int = 200,
     base_seed: int = 20260913,
     min_full_classifiable: int = 40,
@@ -124,6 +145,7 @@ def observer_disjoint_reliability(
         observer_col=observer_col,
         state_col=state_col,
         states=states,
+        classifiable_col=classifiable_col,
         min_full_classifiable=min_full_classifiable,
         minimum_distinct_observers=minimum_distinct_observers,
     )
