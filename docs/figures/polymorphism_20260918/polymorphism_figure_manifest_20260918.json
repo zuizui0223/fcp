@@ -65,9 +65,9 @@
     "figure5": {
       "files": {
         "pdf": "polymorphism_figure5_explanatory_boundaries.pdf",
-        "pdf_sha256": "f4f15b7b68e1bf50a0806cdbb878f91265f1f84587175ff0bc97ce139b1da241",
+        "pdf_sha256": "43fb1a7a9c913bc22db0f402ae65eecf4a94d2361aabf0bf8dd2c379e35320bc",
         "png": "polymorphism_figure5_explanatory_boundaries.png",
-        "png_sha256": "4569f31c41bf7ac02d28534a84acc8212afa1255757ec27bdd40eef42741667e"
+        "png_sha256": "b16ae93d8ec0dca10251c214acdd614c128d502b2f429709b94cdcc418d66795"
       },
       "h3a": {
         "reserve_scenarios": {
@@ -92,6 +92,16 @@
         "reserve_p": 0.958602069896505,
         "reserve_rho": -0.0025855470661547,
         "verdict": "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+      },
+      "spatial_organization": {
+        "discovery_adjusted_p": 0.007,
+        "discovery_adjusted_partial_rho": 0.1266367492856858,
+        "new_biological_analysis": false,
+        "receipt": "results/polymorphism_spatial_organization_clue_20260918/result.json",
+        "reserve_adjusted_p": 0.025,
+        "reserve_adjusted_partial_rho": 0.09928771129095708,
+        "reserve_background_p": 0.01,
+        "reserve_background_partial_rho": 0.1162411363016301
       }
     }
   },
