@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.6 scope
+## v0.7 scope
 
 The package provides reusable components for:
 
@@ -157,6 +157,31 @@ Frozen result:
 The generic continuous-trait layer gives an equal-taxon mean spatial rho of **0.09219** with matched-null **p = 0.01**. Across taxa, the association between the SD of log(DBH) and spatial rho is not supported (**rho = -0.186, p = 0.83**). A naive pooled all-pairs analysis gives a small rho (**0.02783**) but an extremely small nominal p because it treats the very large number of pairs as ordinary independent evidence.
 
 This empirical transport is deliberately non-causal. Urban planting, management, age structure, cultivar usage and inventory processes can all contribute to the observed DBH geography. Its role is to show that the package operates unchanged on an external, non-flower continuous trait dataset.
+
+## Direction-heterogeneity / estimand-alignment benchmark
+
+v0.7 adds a continuous-trait benchmark in which the within-species spatial effect may reverse sign among species.
+
+Canonical script:
+
+`packages/disttrait/benchmarks/direction_heterogeneity_surface.py`
+
+Frozen result:
+
+`results/disttrait_direction_heterogeneity_v0_7_20260919/result.json`
+
+The design crosses:
+
+- effect size: 0, 0.4, 0.8, 1.2;
+- fraction of species with reversed signed effect: 0, 0.25, 0.5;
+- MCAR missingness: 0%, 50%;
+- 40 replicate worlds per cell.
+
+When all species share the same direction, the common-slope fixed-effect linear model is more powerful at the weak effect: detection is **1.00** at effect 0.4, compared with **0.45–0.80** for the equal-species matched-null omnibus.
+
+When half the species reverse direction, the common signed slope cancels. At effect 0.4 its detection falls to **0.05–0.10**, whereas the direction-invariant matched-null omnibus retains **0.475–0.90** detection. At effect 0.8 with 50% reversal, matched-null detection is **1.00** in both missingness cells while common-slope detection is only **0.05–0.125**.
+
+This is an **estimand-alignment result**, not proof that the common-slope model is defective. A common signed slope is appropriate when a shared direction is the scientific target. Pairwise dissimilarity is appropriate when the target is spatial organization whose direction may differ among species.
 
 ## Validation gate
 
