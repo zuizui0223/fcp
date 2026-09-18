@@ -39,6 +39,22 @@ The repository also preserves two earlier inferential lanes whose samples, estim
 
 These lanes remain valid provenance and separate papers; they are not pooled with the active global polymorphism inference.
 
+### Retained-lane canonical entry points
+
+#### Chapter 1 spatial-photograph lane
+
+- **Manuscript:** [`docs/JBI_CHAPTER1_MANUSCRIPT.md`](docs/JBI_CHAPTER1_MANUSCRIPT.md)
+- **Status:** [`docs/JBI_CHAPTER1_SPATIAL_STATUS.md`](docs/JBI_CHAPTER1_SPATIAL_STATUS.md)
+
+#### Frozen 34-species comparative lane
+
+- **Manuscript:** [`docs/jbi_manuscript.md`](docs/jbi_manuscript.md)
+- **Pipeline:** [`docs/PIPELINE_34SPECIES.md`](docs/PIPELINE_34SPECIES.md)
+- **Supporting Information:** [`docs/jbi_supporting_information_index.md`](docs/jbi_supporting_information_index.md)
+- **Submission checklist:** [`docs/jbi_submission_completion_checklist.md`](docs/jbi_submission_completion_checklist.md)
+- **Frozen dataset:** [`data/frozen/frozen_34species_five_metric_dataset.csv`](data/frozen/frozen_34species_five_metric_dataset.csv)
+- **Reproduction workflow:** [`.github/workflows/34species-paper.yml`](.github/workflows/34species-paper.yml)
+
 ## Chapter 1: frozen photograph analysis
 
 ### Design
@@ -202,7 +218,7 @@ python -m pip install -e .
 
 ## Repository boundary
 
-Active material must be assigned to one of the two lanes before it is interpreted.
+The retained legacy material below remains assigned to its original lane and must not be pooled with the active polymorphism paper.
 
 ### Chapter 1 spatial lane
 
