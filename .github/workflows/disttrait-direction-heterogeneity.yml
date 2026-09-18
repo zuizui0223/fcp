@@ -1,0 +1,42 @@
+name: disttrait direction heterogeneity benchmark
+
+on:
+  push:
+    paths:
+      - "packages/disttrait/benchmarks/direction_heterogeneity_surface.py"
+      - "packages/disttrait/src/disttrait/**"
+      - ".github/workflows/disttrait-direction-heterogeneity.yml"
+  pull_request:
+    paths:
+      - "packages/disttrait/benchmarks/direction_heterogeneity_surface.py"
+      - "packages/disttrait/src/disttrait/**"
+      - ".github/workflows/disttrait-direction-heterogeneity.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install disttrait
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait
+
+      - name: Run direction-heterogeneity surface
+        run: |
+          python packages/disttrait/benchmarks/direction_heterogeneity_surface.py \
+            > disttrait_direction_heterogeneity_result.json
+
+      - name: Upload benchmark result
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-direction-heterogeneity-v070
+          path: disttrait_direction_heterogeneity_result.json
