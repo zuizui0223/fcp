@@ -1,0 +1,54 @@
+{
+  "schema": "disttrait_fcp_equivalence_manifest_v1",
+  "date_jst": "2026-09-18",
+  "purpose": "Freeze the exact legacy FCP/RGFCA reference implementations and compact algorithm-equivalence fixtures used by disttrait v0.2.",
+  "reference_sources": [
+    {
+      "role": "H1 observer-disjoint reliability",
+      "branch": "analysis/polymorphism-42111-h1-h2-gates-20260912",
+      "path": "scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py",
+      "git_blob_sha": "b4dec0845622b1b10cc062e3ac3374c8887a6578"
+    },
+    {
+      "role": "H2 deterministic Hellinger two-means",
+      "branch": "analysis/polymorphism-42111-h1-h2-gates-20260912",
+      "path": "scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py",
+      "git_blob_sha": "6bec7ee121170195f8795238f797ee7167406b48"
+    },
+    {
+      "role": "H2 fixed white-axis target",
+      "branch": "analysis/polymorphism-42111-h1-h2-gates-20260912",
+      "path": "scripts/analysis/run_polymorphism_white_axis_targeted_test_20260912.py",
+      "git_blob_sha": "3cb1801b31a549f71aef5a228a1fc6bfad742ad5"
+    },
+    {
+      "role": "species-specific distance-colour spatial null",
+      "branch": "analysis/polymorphism-species-attributes-step4b",
+      "path": "scripts/analysis/run_global_rgfca_within_species_spatial_omnibus.py",
+      "git_blob_sha": "80d805efb9734a0892aa3603de50e7f7a401f787"
+    },
+    {
+      "role": "reserve matched-background joint permutation",
+      "branch": "analysis/polymorphism-species-attributes-step4b",
+      "path": "fcp_pipeline/rgfca_reserve_inference.py",
+      "git_blob_sha": "234c4a83f492a6c7c9175861817cde469ec6bdbf"
+    }
+  ],
+  "frozen_result_contracts": {
+    "h1": "results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json",
+    "white_axis": "results/polymorphism_white_axis_targeted_test_20260912/result.json",
+    "spatial_reporting": "results/polymorphism_spatial_organization_clue_20260918/result.json"
+  },
+  "always_on_tests": [
+    "observer-disjoint partition/tie-break/classifiability fixture",
+    "deterministic Hellinger two-means fixture",
+    "generic one-vs-rest contrast equals frozen q_white loadings",
+    "species spatial vertex-permutation null fixture",
+    "matched focal-minus-background joint-permutation null fixture"
+  ],
+  "full_replay_boundary": {
+    "raw_100000_row_tables_present_on_clean_main": false,
+    "status": "optional artifact-backed integration test required for full H1 raw-data replay",
+    "interpretation": "Always-on fixtures establish algorithmic equivalence. They do not claim a complete raw-data replay of all frozen biological results from the clean submission branch."
+  }
+}
