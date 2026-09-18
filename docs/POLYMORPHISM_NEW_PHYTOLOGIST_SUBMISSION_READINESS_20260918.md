@@ -40,6 +40,26 @@ Authoritative/result-reporting files:
 - `results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`
 - `results/polymorphism_spatial_organization_clue_20260918/result.json` (reporting-only synthesis of previously frozen PR #32 results)
 
+## 1b. RGFCA programme-lineage audit
+
+**PASS**
+
+RGFCA is explicitly defined as the upstream **Repeated Global Flower-Colour Atlas**, not as the current paper's final biological claim.
+
+The manuscript and interpretation note now preserve four distinctions:
+
+1. RGFCA's original shared-geography estimand asked whether independent species place strong within-species colour discontinuities in the same broad geographic regions.
+2. The shared-geography result was not promoted into the present paper's positive biological spine; the frozen upstream record includes G1 p = 0.070 and species-disjoint commonness p = 0.856.
+3. The current paper reuses RGFCA's sampling/measurement infrastructure and species-specific spatial outputs, but changes the comparative estimand to species-level polymorphism amount, recurrent colour-space geometry and the D–spatial relationship.
+4. The prospective third cohort uses new species and fresh photo IDs while remaining within the same iNaturalist source/opportunity universe and measurement system.
+
+The resulting conceptual interpretation is bounded to: **cross-species generality is stronger in phenotype space than in shared geographic location under the tested designs**. This does not imply absence of biogeography or identify the ecological mechanism maintaining polymorphism.
+
+Canonical interpretation/provenance:
+
+- `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`
+- `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`
+
 ## 2. New Phytologist Full Paper format audit
 
 The official guidelines currently describe Full Papers as usually approximately 6,500–7,500 words with 6–8 display items and a 200-word bulleted Summary. Initial submissions use free format but should include the required research-paper sections, title/authors/addresses/correspondence information, section word counts, and counts of figures/tables/supporting information. Cover letters must answer three editorial questions in no more than 50 words each.
