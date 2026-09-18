@@ -190,7 +190,36 @@ Interpretation boundary:
 
 This is prospective species-disjoint confirmation within the same iNaturalist opportunity universe, not independent-source replication.
 
-## S5. P500 terminal status
+## S5. Replicated D–spatial organization
+
+Reporting-only machine-readable receipt:
+
+- `results/polymorphism_spatial_organization_clue_20260918/result.json`
+
+The receipt copies already frozen values from PR #32 / `feat/polymorphism-paper-v0-1-post-step9` and records the original Git blob identities. It performs no new biological analysis.
+
+### Core result
+
+| Cohort / response | Observed association | Geometry-preserving p |
+|---|---:|---:|
+| Discovery raw D–spatial | rho = 0.0892133 | 0.034 |
+| Reserve raw D–spatial | rho = 0.1016008 | 0.025 |
+| Discovery, span + clear technical-failure adjusted | partial rho = 0.1266367 | 0.007 |
+| Reserve, span + clear technical-failure adjusted | partial rho = 0.0992877 | 0.025 |
+| Reserve matched flower-minus-background | partial rho = 0.1162411 | 0.010 |
+
+Reserve uniform ambiguity-endpoint stress tests remain supported:
+
+- primary D_min4: rho = 0.0970781, p = 0.029;
+- primary D_max4: rho = 0.1252858, p = 0.008;
+- flower-minus-background D_min4: rho = 0.1162986, p = 0.009;
+- flower-minus-background D_max4: rho = 0.1327852, p = 0.006.
+
+Interpretation boundary:
+
+Greater D is associated with stronger within-species geographic colour organization. This is a replicated structural correlate and mechanistic clue, not evidence that geographic organization causes D or that any particular climate, pollinator, demographic, gene-flow or selection mechanism has been identified.
+
+## S6. P500 terminal status
 
 Canonical postmortem:
 
@@ -208,7 +237,7 @@ However, the H2 calculation failed during post-calculation serialization before 
 
 Therefore P500 supplies neither prospective H2 confirmation nor prospective H2 refutation and is not replayed under the frozen one-shot rule.
 
-## S6. H3a broad phylogenetic-signal boundary
+## S7. H3a broad phylogenetic-signal boundary
 
 Canonical manifest:
 
@@ -234,7 +263,7 @@ Frozen verdict:
 
 This closes only the tested broad tree-wide signal claim.
 
-## S7. H3b sampled-span replication boundary
+## S8. H3b sampled-span replication boundary
 
 Canonical result freeze:
 
@@ -267,7 +296,7 @@ Frozen verdict:
 
 Sampled photographic span is not true biological range size.
 
-## S8. Canonical main-text figures
+## S9. Canonical main-text figures
 
 Generated reporting-only from frozen results:
 
@@ -291,7 +320,7 @@ Figure test:
 
 The figure manifest records PNG/PDF SHA256 values and `scientific_claims_changed = false`.
 
-## S9. Manuscript claim guard
+## S10. Manuscript claim guard
 
 Claim-guard test:
 
@@ -308,7 +337,7 @@ Most recent verified post-architecture README run:
 
 The guard checks the current manuscript, claim ledger, figure plan and README against the frozen third-cohort values and required claim boundaries.
 
-## S10. Literature-positioning audit
+## S11. Literature-positioning audit
 
 Bounded manuscript literature audit:
 
@@ -316,7 +345,7 @@ Bounded manuscript literature audit:
 
 This literature layer supports context and interpretation only. It cannot modify the machine-readable empirical verdicts.
 
-## S11. Hard nonclaims carried into all supplementary material
+## S12. Hard nonclaims carried into all supplementary material
 
 No main-text or supplementary output may claim:
 
