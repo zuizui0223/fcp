@@ -48,7 +48,9 @@ The decisive H2 test is therefore prospective. Before opening a new biological c
 
 ### Global sampling frame and inferential cohorts
 
-The project began from an outcome-blind RGFCA metadata-discovery frame containing **42,111 unique iNaturalist species**. The frame was built before the present polymorphism analyses by combining a one-pass baseline with a cache-resistant repeated global discovery census over an 18 × 9 equal-area grid. Twenty metadata-only V2 rounds made 3,240 fixed cell-level request attempts with zero request errors; V1 observation IDs were excluded from V2, and the deduplicated V1 + V2 species union yielded 42,111 species. No candidate image pixels or flower-colour outcomes were used to define this union. The complete lineage is recorded in `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`.
+The project began from the **Repeated Global Flower-Colour Atlas (RGFCA)**, an upstream image-first framework originally designed to test whether within-species flower-colour discontinuities recur in the same broad geographic regions across species. The present paper inherits RGFCA's outcome-blind species discovery, high-depth sampling and measurement infrastructure but changes the estimand from shared global boundary geography to species-level polymorphism amount, colour-space geometry and species-specific spatial organization.
+
+The outcome-blind RGFCA metadata-discovery frame contained **42,111 unique iNaturalist species**. The frame was built before the present polymorphism analyses by combining a one-pass baseline with a cache-resistant repeated global discovery census over an 18 × 9 equal-area grid. Twenty metadata-only V2 rounds made 3,240 fixed cell-level request attempts with zero request errors; V1 observation IDs were excluded from V2, and the deduplicated V1 + V2 species union yielded 42,111 species. No candidate image pixels or flower-colour outcomes were used to define this union. The complete lineage is recorded in `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`.
 
 A separate metadata-only capacity scan retained all 42,111 species in the universe while quantifying high-depth photo availability after observer capping. Exactly **4,730 species** had capacity for at least 100 retained photographs (`U100`). This capacity is an observation-process property, not a plant trait or evidence of polymorphism. The 42,111-species frame therefore defines the broad opportunity universe rather than a probability sample for estimating global polymorphism prevalence.
 
@@ -298,6 +300,10 @@ The third-cohort result changes the evidential status of this finding. The white
 The white-versus-nonwhite geometry is descriptive, not mechanistic. Reviews of flower-colour polymorphism emphasize that pollinator-mediated selection, abiotic selection, drift, gene flow, mating system and pigment genetics can all contribute in different systems (Sapir et al. 2021; Narbona et al. 2018). These analyses do not identify pigment chemistry, whether white states arise by pigment loss or non-white states by pigment gain, or the evolutionary direction of transitions. They also do not distinguish among developmental, genetic, pollinator-mediated or abiotic mechanisms.
 
 The construction-preserving null strengthens the claim that the observed alignment is not explained simply by the frozen coarse-state composition and global mapping from coarse states to the nine-colour palette. It does not convert geometric alignment into a causal mechanism.
+
+### From a repeated global atlas to species-level generality
+
+The present analysis changes the level at which generality is sought. RGFCA was originally constructed to ask whether different species place strong flower-colour discontinuities in the same broad geographic regions. That shared-geography estimand did not provide the positive biological spine retained here. Instead, the same high-depth framework showed that species-specific spatial organization was measurable even when cross-species boundary geography was weak or unsupported. The current paper therefore treats that heterogeneity itself as the object of study: the common rule is sought in the amount and colour-space geometry of polymorphism, while the geographic realization is allowed to remain species-specific.
 
 ### Spatial organization is the strongest ecological clue
 
