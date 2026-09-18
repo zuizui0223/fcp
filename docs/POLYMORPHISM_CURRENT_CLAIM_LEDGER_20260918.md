@@ -16,15 +16,16 @@ If this prose conflicts with those machine-readable files, the machine-readable 
 
 ## 1. Paper mainline
 
-The paper now has two positive claims and two bounded negative results:
+The paper now has three positive/structural contributions and two bounded alternative-explanation results:
 
 1. **H1 — measurement validity.** The continuous four-state species-level flower-colour polymorphism score
    `D = 1 - sum_k p_k^2` is reproducible across observer-disjoint photo sets under the first-frozen repeated-partition validation rule. A later deliberately stricter deterministic split missed a prespecified rho = 0.80 floor, so near-perfect or split-invariant reliability is not claimed.
 2. **H2 — geometry.** Existing discovery/reserve cohorts localized recurrent within-species colour variation to a white-versus-nonwhite axis after a construction-preserving audit. That axis has now passed an untouched prospective test in a pre-frozen species-disjoint third cohort drawn from the same iNaturalist opportunity universe.
-3. **H3a — phylogeny.** Broad tree-wide phylogenetic signal in D is not supported in the species-disjoint reserve cohort across any of the three frozen tree-placement scenarios.
-4. **H3b — sampled geographic span.** The discovery association between sampled photographic span and D does not replicate in reserve.
+3. **Spatial organization — replicated structural correlate.** Species with greater D also tend to show stronger within-species geographic colour organization. This association replicated in the species-disjoint reserve and survived sampled-span plus clear technical-failure adjustment, a matched flower-minus-background contrast, and uniform ambiguity-endpoint stress tests. It is a structural correlate, not a causal mechanism.
+4. **H3a — phylogeny.** Broad tree-wide phylogenetic signal in D is not supported in the species-disjoint reserve cohort across any of the three frozen tree-placement scenarios.
+5. **H3b — sampled geographic span.** The discovery association between sampled photographic span and D does not replicate in reserve.
 
-The paper is therefore about **measurement + geometry**. It is not a predictor-hunting paper, a global prevalence paper, or a shared-boundary paper.
+The paper is therefore about **measurement + recurrent geometry + spatial organization**, with H3 used to reject two simple broad explanations. It is not a predictor-hunting paper, a global prevalence paper, or a shared-boundary paper.
 
 ## 2. Global frame and sampling boundary
 
@@ -186,7 +187,41 @@ The support gate passed before H2 was opened.
 
 This is a prospective species-disjoint confirmation/transport test **within the same iNaturalist source and opportunity universe**. It is not an independent-source replication.
 
-## 7. H3a — broad phylogenetic signal not supported
+## 7. Replicated spatial organization of D — positive structural clue
+
+Canonical reporting receipt:
+
+- `results/polymorphism_spatial_organization_clue_20260918/result.json`
+
+This receipt is reporting-only and reproduces previously frozen results from PR #32 / `feat/polymorphism-paper-v0-1-post-step9`; it performs no new biological analysis.
+
+Raw discovery and reserve associations:
+
+- discovery: rho(D, within-species spatial organization) = **0.0892133**, p = **0.034**;
+- reserve: rho = **0.1016008**, p = **0.025**.
+
+After controlling for sampled geographic span and the rate of clear ROI/flip technical failures:
+
+- discovery primary partial rho = **0.1266367**, geometry-preserving null p = **0.007**;
+- reserve primary partial rho = **0.0992877**, p = **0.025**;
+- reserve matched flower-minus-background partial rho = **0.1162411**, p = **0.010**.
+
+The reserve result also survives exact uniform ambiguity-endpoint stress tests under the four-state completion model:
+
+- primary D_min4: rho = **0.0970781**, p = **0.029**;
+- primary D_max4: rho = **0.1252858**, p = **0.008**;
+- flower-minus-background D_min4: rho = **0.1162986**, p = **0.009**;
+- flower-minus-background D_max4: rho = **0.1327852**, p = **0.006**.
+
+### Allowed spatial-organization claim
+
+> Species with greater four-state flower-colour diversity tend to show stronger within-species geographic colour organization across the discovery and species-disjoint reserve high-depth cohorts. The reserve association persists after sampled-span and clear technical-failure adjustment, a matched flower-minus-background contrast and uniform ambiguity-endpoint stress tests.
+
+### Scope boundary
+
+This does **not** show that geographic organization causes high D, nor does it identify climate, pollinators, habitat, gene flow, drift, mating system or any other maintenance mechanism. It establishes a replicated spatial correlate that narrows the mechanistic interpretation of the between-species differences in D.
+
+## 8. H3a — broad phylogenetic signal not supported
 
 Canonical source:
 
@@ -204,7 +239,7 @@ Frozen verdict:
 
 This does not imply that phylogeny is biologically irrelevant. It only closes the tested broad tree-wide signal claim under the frozen design.
 
-## 8. H3b — sampled-span association does not replicate
+## 9. H3b — sampled-span association does not replicate
 
 Canonical source:
 
@@ -230,15 +265,15 @@ Frozen verdict:
 
 The frozen predictor is sampled photographic span, not true biological range size.
 
-## 9. Current manuscript claim ceiling
+## 10. Current manuscript claim ceiling
 
 The strongest defensible paper-level statement is now:
 
-> Species-level flower-colour polymorphism can be measured reproducibly from high-depth citizen-science photographs under observer-disjoint validation, although reliability is not split-invariant or near perfect. Existing discovery and reserve cohorts identified a recurrent achromatic–chromatic white-versus-nonwhite axis after a construction-preserving audit. That already frozen axis was then prospectively confirmed in a pre-frozen species-disjoint third cohort drawn from the same iNaturalist opportunity universe, with support at both the primary and stricter admissibility tiers. Broad tree-wide phylogenetic signal and a discovery association with sampled photographic span did not replicate.
+> Species-level flower-colour polymorphism can be measured reproducibly from high-depth citizen-science photographs under observer-disjoint validation, although reliability is not split-invariant or near perfect. Existing discovery and reserve cohorts identified a recurrent achromatic–chromatic white-versus-nonwhite axis after a construction-preserving audit, and that already frozen axis was prospectively confirmed in a pre-frozen species-disjoint third cohort. Across the original high-depth cohorts, species with greater D also show stronger within-species geographic colour organization, including in the reserve after sampled-span, clear technical-failure, background and ambiguity checks. Broad tree-wide phylogenetic conservation is not detected, and the discovery sampled-span association collapses in reserve. The current evidence therefore supports constrained colour geometry plus species-specific spatial organization, while leaving the ecological and evolutionary maintenance mechanism unresolved.
 
 This upgrades the former post-audit H2 claim to a prospective confirmation **for the fixed axis**, while preserving the historical chronology of how the axis was first identified.
 
-## 10. Working title authorization
+## 11. Working title authorization
 
 The prospective third-cohort confirmation permits use of a title centered on the recurrent axis, provided that the abstract and Methods retain the same-source/species-disjoint boundary.
 
@@ -250,7 +285,7 @@ A safer alternative emphasizing measurement:
 
 **Within-species flower-colour polymorphism is reproducible and repeatedly aligned with an achromatic–chromatic axis**
 
-## 11. Hard nonclaims
+## 12. Hard nonclaims
 
 The current evidence does not establish:
 
