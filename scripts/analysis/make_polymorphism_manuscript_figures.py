@@ -449,7 +449,7 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         raise ValueError("H3b frozen verdict not found in canonical result freeze")
 
     fig, axes = plt.subplots(1, 2, figsize=(11.6, 4.6))
-    fig.suptitle("H3: broad explanatory tests do not replicate in reserve", y=1.02, fontweight="bold")
+    fig.suptitle("H3: two simple explanations fail fresh reserve tests", y=1.02, fontweight="bold")
 
     ax = axes[0]
     scenarios = ["S1", "S2", "S3"]
@@ -464,11 +464,11 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.set_ylabel("Reserve Blomberg K")
     ax.set_xlabel("Frozen tree-placement scenario")
     ax.set_ylim(0, max(k) + 0.035)
-    ax.set_title("Broad tree-wide phylogenetic signal")
+    ax.set_title("No detectable broad conservation")
     ax.text(
         0.03,
         0.93,
-        "0/3 raw-D scenarios p < 0.05",
+        "0/3 frozen scenarios p < 0.05\n(non-equivalence test)",
         transform=ax.transAxes,
         ha="left",
         va="top",
@@ -490,11 +490,11 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.set_xticks(x, ["Discovery\ncalibration", "Reserve\nreplication"])
     ax.set_ylabel("Spearman rho(D, sampled span)")
     ax.set_ylim(-0.07, 0.23)
-    ax.set_title("Sampled photographic span")
+    ax.set_title("Discovery span effect collapses in reserve")
     ax.text(
         0.03,
         0.06,
-        "Predictor is sampled span,\nnot true biological range size",
+        "Discovery effect -> ~0 in reserve\n(sampled span != true range size)",
         transform=ax.transAxes,
         ha="left",
         va="bottom",
