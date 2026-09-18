@@ -103,6 +103,7 @@ jobs:
       - name: Run one deterministic metadata recovery shard v2
         env:
           PYTHONUNBUFFERED: "1"
+          SHARD_INDEX: ${{ matrix.shard }}
         run: |
           rm -rf /tmp/rgfca-recovery-shard
           python scripts/acquisition/.run_rgfca_independent_global_axis_metadata_recovery_shard_v2_runtime.py \
@@ -126,10 +127,6 @@ jobs:
           assert m['flower_colour_used'] is False
           assert m['M1_M3_scores_used'] is False
           PY
-        env:
-          PYTHONUNBUFFERED: "1"
-          SHARD_INDEX: ${{ matrix.shard }}
-
       - uses: actions/upload-artifact@v4
         with:
           name: rgfca-axis-recovery-v2-shard-${{ matrix.shard }}
