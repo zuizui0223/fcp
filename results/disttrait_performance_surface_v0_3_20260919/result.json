@@ -1,0 +1,44 @@
+{
+  "schema": "disttrait_performance_surface_v1",
+  "date_jst": "2026-09-19",
+  "role": "synthetic_performance_surface_for_species_conditioned_spatial_inference",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/benchmarks/performance_surface.py",
+    "git_blob_sha": "7ec839d5b6646e86674f929ffcca0589ee69617c"
+  },
+  "cells_file": "results/disttrait_performance_surface_v0_3_20260919/cells.csv",
+  "design": {
+    "effect_sizes": [0.0, 0.8, 1.6, 2.4],
+    "observation_imbalance_ratios": [1.0, 4.0],
+    "mcar_missing_fractions": [0.0, 0.25, 0.5],
+    "worlds_per_cell": 40,
+    "species_per_world": 20,
+    "base_observations_per_species": 16,
+    "spatial_null_permutations": 39,
+    "naive_pooled_pair_sample": 8000,
+    "alpha": 0.05,
+    "between_species_confounding": "species baseline binary-trait frequency changes logistically with geographic species centre in every world",
+    "within_species_signal": "effect_size multiplies standardized local coordinate in the species-level logit",
+    "observation_imbalance": "per-species target observations increase linearly from base_obs to base_obs * imbalance_ratio across species centres",
+    "missingness": "MCAR deletion within species after trait generation; at least 8 observations forced to remain"
+  },
+  "summary": {
+    "null_cells": 6,
+    "max_species_conditioned_null_false_positive_fraction": 0.025,
+    "min_naive_null_false_positive_fraction": 1.0,
+    "effect_0_8_conditioned_detection_range": [0.225, 0.675],
+    "effect_1_6_conditioned_detection_range": [0.75, 1.0],
+    "effect_2_4_conditioned_detection_range": [1.0, 1.0]
+  },
+  "interpretation": {
+    "supported": "Across this targeted surface, species-conditioning controls false positives under strong between-species geographic turnover and shows increasing detection as the imposed within-species effect strengthens; random observation loss reduces power mainly at intermediate effects.",
+    "not_supported": [
+      "universal calibration under all spatial sampling processes",
+      "robustness to missing-not-at-random trait observation",
+      "superiority over every alternative spatial model",
+      "empirical generalization beyond synthetic binary traits"
+    ]
+  }
+}

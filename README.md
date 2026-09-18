@@ -32,10 +32,10 @@ The prospective H2 result is **species-disjoint within the same iNaturalist sour
 The reusable, flower-colour-independent inference layer now lives in:
 
 - **`packages/disttrait/`** — Python package for validated species-level distributional trait inference;
-- **`docs/DISTTRAIT_PACKAGE_V0_2_20260918.md`** — active v0.2 API/equivalence boundary;
+- **`docs/DISTTRAIT_PACKAGE_V0_3_20260919.md`** — active v0.3 validation/performance boundary;
 - **`docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md`** — standard statistics versus study-specific inference architecture.
 
-`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving row permutation, species-specific spatial organization, matched focal-minus-background structure, and distribution–spatial association. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific.
+`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving nulls, species-specific spatial organization, equal-species omnibus inference, matched focal-minus-background structure, and distribution–spatial association. v0.3 additionally freezes a 24-cell false-positive/power surface across effect size, observation imbalance and MCAR observation loss. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific.
 
 ### Start here
 
