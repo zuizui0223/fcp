@@ -22,6 +22,33 @@ The package provides reusable components for:
 
 The package deliberately does **not** claim a new standalone statistic. Most components are established statistics. The reusable contribution is an inference architecture that separates measurement validity, species-level trait distributions, trait geometry, spatial organization, matched nulls, and prospective confirmation.
 
+
+## Install from this repository
+
+```bash
+python -m pip install -e packages/disttrait
+```
+
+## Small API example
+
+```python
+import numpy as np
+from disttrait import gini_simpson, spatial_rho
+
+D = gini_simpson([80, 20])
+
+rho = spatial_rho(
+    latitude=[35.0, 35.5, 36.0, 36.5],
+    longitude=[135.0, 135.5, 136.0, 136.5],
+    traits=np.array([
+        [1.0, 0.0],
+        [0.8, 0.2],
+        [0.2, 0.8],
+        [0.0, 1.0],
+    ]),
+)
+```
+
 ## Relationship to FCP
 
 The active New Phytologist manuscript remains an ecological application. `disttrait` is the reusable methods layer.
