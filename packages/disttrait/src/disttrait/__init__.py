@@ -23,6 +23,7 @@ from .spatial import (
     partial_rank_correlation,
     spatial_permutation_null,
     spatial_rho,
+    species_equal_spatial_omnibus,
 )
 
 __all__ = [
@@ -46,6 +47,7 @@ __all__ = [
     "permute_rows_within_strata",
     "spatial_permutation_null",
     "spatial_rho",
+    "species_equal_spatial_omnibus",
     "structured_alignment_null",
     "two_mode_axis",
 ]
