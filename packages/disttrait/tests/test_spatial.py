@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from disttrait import (
     distribution_spatial_association,
@@ -68,3 +69,18 @@ def test_distribution_spatial_association_and_partial_null():
     )
     assert np.isfinite(partial.observed)
     assert partial.null is not None
+
+
+def test_spatial_edge_cases_match_frozen_fcp_semantics():
+    traits_constant = np.tile([0.5, 0.5], (4, 1))
+    lat = [0.0, 0.0, 0.0, 0.0]
+    lon = [0.0, 1.0, 2.0, 3.0]
+    assert spatial_rho(lat, lon, traits_constant) == 0.0
+
+    with pytest.raises(ValueError, match="not_evaluable_pair_geometry"):
+        spatial_permutation_null(
+            [0.0, 0.0, 0.0, 0.0],
+            [1.0, 1.0, 1.0, 1.0],
+            np.array([[1.0, 0.0], [0.8, 0.2], [0.2, 0.8], [0.0, 1.0]]),
+            n_permutations=3,
+        )
