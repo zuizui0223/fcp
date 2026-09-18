@@ -102,6 +102,18 @@ Frozen receipt:
 
 This is a synthetic demonstration, not a general superiority benchmark.
 
+A repeated 40-null / 40-signal benchmark targeting between-species geographic confounding is also frozen in:
+
+`results/disttrait_species_conditioning_benchmark_v0_2_20260918/result.json`
+
+Under that specific failure mode:
+
+- naive pooled false-positive fraction: **1.00**;
+- species-conditioned matched-null false-positive fraction: **0.00**;
+- species-conditioned signal detection fraction: **1.00**.
+
+The benchmark is intentionally narrow and does not establish universal superiority.
+
 ## Relationship to FCP
 
 The active New Phytologist manuscript remains an ecological application. `disttrait` is the reusable methods layer.
