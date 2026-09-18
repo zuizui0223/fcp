@@ -27,13 +27,15 @@ The current manuscript preserves the required boundary:
 - same iNaturalist opportunity/source universe;
 - same measurement system;
 - not independent-source replication;
+- replicated D–spatial organization presented as a structural correlate, not a causal mechanism;
 - no global prevalence claim;
 - no pigment, transition-direction, pollinator or climate mechanism claim.
 
-Authoritative result files:
+Authoritative/result-reporting files:
 
 - `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
 - `results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`
+- `results/polymorphism_spatial_organization_clue_20260918/result.json` (reporting-only synthesis of previously frozen PR #32 results)
 
 ## 2. New Phytologist Full Paper format audit
 
@@ -44,15 +46,15 @@ The official guidelines currently describe Full Papers as usually approximately 
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 111 characters | PASS |
-| Summary <=200 words | 169 words | PASS |
+| Summary <=200 words | 164 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
-| Introduction | 507 words | RECORDED |
-| Materials and Methods | 1,675 words | RECORDED |
-| Results | 866 words | RECORDED |
-| Discussion | 846 words | RECORDED |
-| Main text, Introduction–Discussion | 3,894 words | RECORDED |
-| Discussion share of main text | 21.7% | PASS (<30%) |
+| Introduction | 541 words | RECORDED |
+| Materials and Methods | 1,822 words | RECORDED |
+| Results | 1,025 words | RECORDED |
+| Discussion | 1,061 words | RECORDED |
+| Main text, Introduction–Discussion | 4,449 words | RECORDED |
+| Discussion share of main text | 23.8% | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (guideline range 6–8) |
@@ -69,7 +71,7 @@ The three required editor questions are present.
 Measured answer lengths:
 
 1. What hypotheses or questions does this work address? — **36 words**
-2. How does this work advance our current understanding of plant science? — **46 words**
+2. How does this work advance our current understanding of plant science? — **39 words**
 3. Why is this work important and timely? — **40 words**
 
 All satisfy the <=50-word rule.
@@ -90,7 +92,7 @@ Present in both PNG and PDF:
 2. Figure 2 — H1 observer-disjoint reproducibility;
 3. Figure 3 — legacy H2 target localization;
 4. Figure 4 — prospective H2 confirmation;
-5. Figure 5 — bounded alternative-explanation tests.
+5. Figure 5 — replicated spatial clue plus bounded alternative-explanation tests.
 
 Canonical manifest:
 
@@ -123,8 +125,9 @@ It records:
 - legacy H2 target localization;
 - third-cohort selection and pre-opening qualification;
 - prospective biological run and immutable result;
+- replicated D–spatial organization reporting receipt and robustness checks;
 - P500 terminal non-verdict;
-- H3a/H3b negative boundaries;
+- H3a/H3b alternative-explanation boundaries;
 - canonical figures;
 - manuscript claim guard;
 - literature-positioning audit.
