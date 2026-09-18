@@ -37,7 +37,7 @@ The repository also preserves **two frozen inferential lanes** whose samples, es
 1. **Chapter 1 spatial-photograph lane:** present-day continuous flower-colour observations, within-species spatial organization and cross-species transition geography.
 2. **34-species comparative lane:** occupied climatic-niche breadth versus literature-documented local coexistence or geographic colour differentiation.
 
-These lanes remain valid provenance and separate papers; they are not pooled with the active global polymorphism inference.
+Their samples, response variables, null models and claims are distinct. These lanes remain valid provenance and separate papers; they are not pooled with the active global polymorphism inference.
 
 ### Retained-lane canonical entry points
 
