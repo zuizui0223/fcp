@@ -3,6 +3,7 @@ import pytest
 
 from disttrait import (
     random_effects_from_groups,
+    random_effects_slope_permutation_test,
     random_effects_slope_summary,
     species_slope_estimate,
 )
@@ -55,3 +56,35 @@ def test_random_effects_from_groups_preserves_signed_species_slopes():
     signs = np.sign([x.slope for x in estimates]).tolist()
     assert signs == [1.0, -1.0, 1.0, -1.0]
     assert result.p_heterogeneity < 0.05
+
+
+def test_permutation_calibrated_meta_detects_shared_signed_effect_reproducibly():
+    x = np.linspace(-1.0, 1.0, 14)
+    noise = 0.08 * np.sin(np.arange(14, dtype=float))
+    groups = [(x, 0.8 * x + noise + 0.02 * i) for i in range(8)]
+    a = random_effects_slope_permutation_test(
+        groups, n_permutations=99, seed=17, key="shared"
+    )
+    b = random_effects_slope_permutation_test(
+        groups, n_permutations=99, seed=17, key="shared"
+    )
+    assert a.p_mean_permutation <= 0.02
+    assert a.p_omnibus_permutation <= 0.04
+    np.testing.assert_array_equal(a.null_random_mean, b.null_random_mean)
+    np.testing.assert_array_equal(a.null_q, b.null_q)
+
+
+def test_permutation_calibrated_meta_detects_opposing_direction_heterogeneity():
+    x = np.linspace(-1.0, 1.0, 14)
+    noise = 0.08 * np.cos(np.arange(14, dtype=float))
+    groups = []
+    for i in range(10):
+        sign = 1.0 if i % 2 == 0 else -1.0
+        groups.append((x, sign * 0.9 * x + noise))
+    result = random_effects_slope_permutation_test(
+        groups, n_permutations=99, seed=23, key="opposing"
+    )
+    assert result.p_mean_permutation > 0.2
+    assert result.p_heterogeneity_permutation <= 0.02
+    assert result.p_omnibus_permutation <= 0.04
+    assert result.observed.tau2 > 0
