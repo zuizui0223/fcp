@@ -32,6 +32,14 @@ The project began from a global flower-colour sampling frame containing 42,111 s
 
 The original high-depth programme measured 100 photographs for each of 1,000 species divided into discovery and reserve source cohorts. After the frozen classifiability rule and a minimum of 40 classifiable photographs per species, the discovery inferential frame contained 369 species and the reserve inferential frame contained 363 species. These cohorts were kept separate for validation and replication.
 
+### Acquisition of the original discovery and reserve high-depth cohorts
+
+The discovery and reserve cohorts inherit the frozen RGFCA iNaturalist acquisition contract rather than a separate flower-polymorphism sampling campaign. Candidate records were required to be iNaturalist Research Grade, species-rank observations with photographs and georeferences, the frozen flowering annotation (term 12, value 13), positional accuracy no worse than 5 km, unobscured/open coordinates and one of five allowed photo licences (CC0, CC BY, CC BY-SA, CC BY-NC or CC BY-NC-SA). Candidate-page and candidate-species selection did not use flower colour, and candidate image pixels remained unopened during acquisition.
+
+Within each species, any one observer contributed at most two retained photographs. Final selection used deterministic geographic maximin sampling to obtain exactly 100 raw photographs per species. The frozen candidate pool therefore contained 1,000 species × 100 photographs. A fixed hash-ranked 500-species measurement budget defined the discovery cohort; the reserve cohort was the species-disjoint complement of the other 500 species from the same frozen candidate pool. Thus discovery and reserve differ in species identity but share the same acquisition rules and raw 100-photo denominator.
+
+The acquisition query did not impose a native-range restriction or an explicit `captive=false` / `wild=true` parameter. Research Grade is therefore treated only as the iNaturalist quality-grade criterion and not as proof that every record represents a native or exclusively wild population. Spatial estimands in this paper refer to the observed community-photograph records.
+
 A later third-cohort H2 test was constructed from an outcome-blind candidate frame that excluded the legacy high-depth species and all P500-selected species. The candidate frame contained 3,230 species. Deterministic hash-based selection froze 500 species before fresh metadata retrieval. Fresh retrieval yielded 499 species with 100 authorized rows each, giving 49,900 rows for the prospective biological execution. No failed species or row was replaced.
 
 The high-depth cohort sizes are therefore hypothesis-specific validation denominators. They are not used as estimates of polymorphism prevalence among the 42,111-species frame.
