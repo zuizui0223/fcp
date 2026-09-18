@@ -13,6 +13,7 @@ SOURCE_MANIFEST = SOURCE_DIR / "manifest.json"
 H2_PROSPECTIVE = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "result.json"
 H2_PRIMARY_NULL = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "primary_0_10_structured_null.csv"
 H2_STRICT_NULL = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "strict_0_20_structured_null.csv"
+SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
 
 
 def sha256(path: Path) -> str:
@@ -57,6 +58,14 @@ def test_prospective_h2_null_arrays_are_complete() -> None:
     assert result["thresholds"]["strict_0_20"]["species"] == 86
 
 
+def test_spatial_reporting_receipt_is_reporting_only_and_frozen() -> None:
+    result = json.loads(SPATIAL.read_text(encoding="utf-8"))
+    assert result["schema"] == "polymorphism_spatial_organization_reporting_receipt_v1"
+    assert result["new_biological_analysis"] is False
+    assert result["reserve"]["span_plus_technical_adjusted_primary"]["partial_rho"] == 0.09928771129095708
+    assert result["reserve"]["span_plus_technical_adjusted_flower_minus_background"]["partial_rho"] == 0.1162411363016301
+
+
 def test_generate_all_publication_figures(tmp_path: Path) -> None:
     module = load_module()
     manifest_path = module.generate_all(ROOT, tmp_path)
@@ -81,6 +90,11 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert manifest["figures"]["figure4"]["primary"]["p"] == 0.001
     assert manifest["figures"]["figure4"]["strict"]["species"] == 86
     assert manifest["figures"]["figure4"]["strict"]["p"] == 0.001
+    assert manifest["figures"]["figure5"]["spatial_organization"]["new_biological_analysis"] is False
+    assert manifest["figures"]["figure5"]["spatial_organization"]["reserve_adjusted_partial_rho"] == 0.09928771129095708
+    assert manifest["figures"]["figure5"]["spatial_organization"]["reserve_adjusted_p"] == 0.025
+    assert manifest["figures"]["figure5"]["spatial_organization"]["reserve_background_partial_rho"] == 0.1162411363016301
+    assert manifest["figures"]["figure5"]["spatial_organization"]["reserve_background_p"] == 0.01
     assert manifest["figures"]["figure5"]["h3a"]["verdict"] == "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED"
     assert manifest["figures"]["figure5"]["h3b"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
 
