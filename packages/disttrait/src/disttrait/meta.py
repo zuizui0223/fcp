@@ -152,17 +152,15 @@ def random_effects_slope_permutation_test(
 ) -> PermutationCalibratedSlopeResult:
     """Calibrate signed-slope mean and heterogeneity by within-species permutation.
 
-    Positions and the complete observed trait values remain fixed within each
-    species; only the assignment of trait values to positions is permuted. Each
-    null world re-estimates species slopes, sampling variances, the random-effects
-    mean and Cochran Q. The two component permutation p-values are combined with
-    a Bonferroni correction.
-
-    At least 39 null worlds are recommended; 99 are used by the v0.8 benchmark
-    so the Bonferroni omnibus can attain values below 0.05.
+    Positions and complete observed trait values stay fixed within species; only
+    trait-to-position assignment is permuted. The implementation is algebraically
+    equivalent to refitting OLS in every null world, but vectorizes the slope and
+    residual-variance calculations for benchmark-scale replay.
     """
-    if int(n_permutations) < 1:
+    nperm = int(n_permutations)
+    if nperm < 1:
         raise ValueError("n_permutations must be positive")
+
     prepared: list[tuple[np.ndarray, np.ndarray]] = []
     for position, trait in groups:
         x = np.asarray(position, dtype=float)
@@ -174,31 +172,55 @@ def random_effects_slope_permutation_test(
         prepared.append((x, y))
 
     observed, _ = random_effects_from_groups(prepared)
-    null_mean = np.empty(int(n_permutations), dtype=float)
-    null_q = np.empty(int(n_permutations), dtype=float)
 
-    for permutation_index in range(int(n_permutations)):
-        slopes: list[float] = []
-        variances: list[float] = []
-        for species_index, (x, y) in enumerate(prepared):
+    k = len(prepared)
+    slopes = np.empty((k, nperm), dtype=float)
+    variances = np.empty((k, nperm), dtype=float)
+
+    for species_index, (x, y) in enumerate(prepared):
+        xc = x - x.mean()
+        yc = y - y.mean()
+        sxx = float(xc @ xc)
+        if sxx <= 1e-15:
+            raise ValueError("position has no within-species variation")
+        syy = float(yc @ yc)
+        df = len(x) - 2
+
+        permuted_y = np.empty((nperm, len(y)), dtype=float)
+        for permutation_index in range(nperm):
             rng = np.random.default_rng(
                 _permutation_seed(seed, key, species_index, permutation_index)
             )
-            permuted = y[rng.permutation(len(y))]
-            estimate = species_slope_estimate(x, permuted)
-            slopes.append(estimate.slope)
-            variances.append(estimate.variance)
-        summary = random_effects_slope_summary(slopes, variances)
-        null_mean[permutation_index] = summary.random_mean
-        null_q[permutation_index] = summary.q
+            permuted_y[permutation_index] = yc[rng.permutation(len(y))]
+
+        beta = (permuted_y @ xc) / sxx
+        sse = np.maximum(0.0, syy - np.square(beta) * sxx)
+        var = np.maximum((sse / df) / sxx, 1e-12)
+        slopes[species_index] = beta
+        variances[species_index] = var
+
+    weights = 1.0 / variances
+    sum_w = weights.sum(axis=0)
+    fixed_mean = (weights * slopes).sum(axis=0) / sum_w
+    q = (weights * np.square(slopes - fixed_mean[None, :])).sum(axis=0)
+    q_df = k - 1
+    c_term = sum_w - np.square(weights).sum(axis=0) / sum_w
+    tau2 = np.where(
+        c_term > 0,
+        np.maximum(0.0, (q - q_df) / c_term),
+        0.0,
+    )
+    random_weights = 1.0 / (variances + tau2[None, :])
+    sum_wr = random_weights.sum(axis=0)
+    null_mean = (random_weights * slopes).sum(axis=0) / sum_wr
 
     p_mean = float(
-        (1 + np.sum(np.abs(null_mean) >= abs(observed.random_mean)))
-        / (len(null_mean) + 1)
+        (1 + np.sum(np.abs(null_mean) >= abs(observed.random_mean) - 1e-15))
+        / (nperm + 1)
     )
     p_heterogeneity = float(
-        (1 + np.sum(null_q >= observed.q))
-        / (len(null_q) + 1)
+        (1 + np.sum(q >= observed.q - 1e-15))
+        / (nperm + 1)
     )
     p_omnibus = float(min(1.0, 2.0 * min(p_mean, p_heterogeneity)))
 
@@ -208,6 +230,5 @@ def random_effects_slope_permutation_test(
         p_heterogeneity_permutation=p_heterogeneity,
         p_omnibus_permutation=p_omnibus,
         null_random_mean=null_mean,
-        null_q=null_q,
+        null_q=q,
     )
-
