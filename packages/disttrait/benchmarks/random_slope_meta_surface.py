@@ -151,7 +151,7 @@ def run_world(
     meta, slopes = random_effects_from_groups(model_groups)
     meta_perm = random_effects_slope_permutation_test(
         model_groups,
-        n_permutations=N_META_PERMUTATIONS,
+        n_permutations=META_PERMUTATIONS,
         seed=2026091908,
         key=f"world|{seed}",
     )
