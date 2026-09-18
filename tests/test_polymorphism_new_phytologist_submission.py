@@ -30,6 +30,24 @@ def test_new_phytologist_front_matter_and_summary_contract() -> None:
     assert 5 <= len(keywords) <= 8
 
 
+def test_new_phytologist_documents_original_rgfca_acquisition_and_analysis_lineage() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    for token in (
+        "Acquisition of the original discovery and reserve high-depth cohorts",
+        "iNaturalist Research Grade",
+        "flowering annotation (term 12, value 13)",
+        "positional accuracy no worse than 5 km",
+        "at most two retained photographs",
+        "deterministic geographic maximin sampling",
+        "1,000 species × 100 photographs",
+        "did not impose a native-range restriction",
+        "Table 1. Data lineage and inferential roles of the high-depth cohorts",
+        "D definition/descriptives; H1 diagnostic; legacy H2 target discovery/audit; D–spatial organization; H3b discovery calibration",
+        "H1 primary reliability; legacy H2 validation; D–spatial replication and robustness; H3a phylogeny; H3b reserve replication",
+    ):
+        assert token in text
+
+
 def test_new_phytologist_required_sections_and_display_items() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     for heading in (
