@@ -1,6 +1,6 @@
 # disttrait methods-paper architecture — 2026-09-19
 
-Status: active architecture after validated v0.8 promotion.
+Status: active architecture after validated v0.9 promotion.
 
 Package:
 
@@ -8,7 +8,7 @@ Package:
 
 Current validated version:
 
-`0.8.0`
+`0.9.0`
 
 ## 1. Paper-level problem
 
@@ -164,6 +164,27 @@ Result:
 
 The purpose is external transport, not causal urban-tree ecology.
 
+### Evidence 6b — a second external transport can be null
+
+A second independent empirical transport uses ShareTrait
+`Gammarus insensibilis` metabolic-rate data:
+
+- 375 individuals;
+- three Adriatic populations;
+- standardized metabolic-rate unit = Joule/day;
+- primary trait = log(metabolic rate);
+- 999 within-species vertex permutations.
+
+Result:
+
+- log-rate spatial rho = **-0.00683**, matched-null p = **0.68**;
+- raw-rate sensitivity rho = **0.01093**, p = **0.198**.
+
+This is non-support for the generic distance–dissimilarity spatial estimand in
+this three-population fixture. That null outcome is useful: the external
+transport layer is not being populated only with datasets that produce
+significance.
+
 ### Evidence 7 — direction heterogeneity changes the estimand
 
 When species share the same signed direction, a common-slope model is highly
@@ -317,11 +338,22 @@ This converts the failed preflight into a methodological result.
 
 ### Figure 5 — external empirical transport
 
-San Francisco trees:
+Two external examples:
+
+**San Francisco trees**
 
 - selected taxa and spatial coverage;
 - per-taxon continuous-trait rho;
-- equal-taxon matched-null result.
+- positive equal-taxon matched-null result.
+
+**ShareTrait Gammarus**
+
+- three sampled populations and 375 individuals;
+- population metabolic-rate distributions;
+- null log-rate and raw-rate matched-permutation results.
+
+Purpose: show transport across unrelated systems and show that the same
+inference layer can produce either support or non-support.
 
 ### Table 1 — method/estimand map
 
@@ -356,11 +388,12 @@ The current package is sufficient for drafting the paper.
 
 The highest-value additions are now:
 
-1. a second external empirical dataset beyond municipal trees;
-2. a nonlinear within-species benchmark;
-3. a multivariate continuous-trait benchmark;
-4. an MNAR observation-process stress test;
-5. standalone package repository/licence/release metadata.
+1. a nonlinear within-species benchmark;
+2. a multivariate continuous-trait benchmark;
+3. an MNAR observation-process stress test;
+4. standalone package repository/licence/release metadata.
+
+A second external empirical dataset is no longer an unmet gate.
 
 These are strengthening steps rather than prerequisites for beginning the
 manuscript.

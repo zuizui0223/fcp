@@ -1,0 +1,53 @@
+name: disttrait Gammarus empirical transport
+
+on:
+  push:
+    paths:
+      - "packages/disttrait/fixtures/sharetrait_gammarus_metabolic_v1.csv"
+      - "packages/disttrait/fixtures/sharetrait_gammarus_metabolic_v1_metadata.json"
+      - "packages/disttrait/examples/sharetrait_gammarus_empirical.py"
+      - "packages/disttrait/scripts/check_gammarus_empirical_receipt.py"
+      - "results/disttrait_gammarus_empirical_v0_9_20260919/**"
+      - ".github/workflows/disttrait-gammarus-transport.yml"
+  pull_request:
+    paths:
+      - "packages/disttrait/fixtures/sharetrait_gammarus_metabolic_v1.csv"
+      - "packages/disttrait/fixtures/sharetrait_gammarus_metabolic_v1_metadata.json"
+      - "packages/disttrait/examples/sharetrait_gammarus_empirical.py"
+      - "packages/disttrait/scripts/check_gammarus_empirical_receipt.py"
+      - "results/disttrait_gammarus_empirical_v0_9_20260919/**"
+      - ".github/workflows/disttrait-gammarus-transport.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  empirical:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install disttrait
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait
+
+      - name: Run ShareTrait Gammarus transport
+        run: |
+          python packages/disttrait/examples/sharetrait_gammarus_empirical.py             > disttrait_gammarus_empirical_result.json
+
+      - name: Verify frozen v0.9 Gammarus receipt
+        run: |
+          python packages/disttrait/scripts/check_gammarus_empirical_receipt.py \
+            --observed disttrait_gammarus_empirical_result.json \
+            --expected results/disttrait_gammarus_empirical_v0_9_20260919/result.json
+
+      - name: Upload empirical result
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-gammarus-empirical-v090
+          path: disttrait_gammarus_empirical_result.json

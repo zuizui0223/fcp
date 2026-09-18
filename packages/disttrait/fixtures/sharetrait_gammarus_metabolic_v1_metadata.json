@@ -1,0 +1,70 @@
+{
+  "schema": "disttrait_sharetrait_gammarus_fixture_v1",
+  "date_jst": "2026-09-19",
+  "role": "external_nonflower_empirical_transport_fixture",
+  "source": {
+    "repository": "ShareTraitProject/ShareTraitDatabase",
+    "commit": "9190652410f782de399ef2d9757a80beffd7a076",
+    "release_doi": "10.5281/zenodo.16537297",
+    "license": "CC-BY-4.0",
+    "source_dataset_id": "TRADAT039",
+    "source_dataset_doi": "https://doi.org/10.17605/OSF.IO/56TNH",
+    "publication_doi": "10.1242/jeb.244842",
+    "source_blobs": {
+      "dataset": "d8a0fc2ba064347b233308c630266cbf927a8f60",
+      "describe": "60aea928cd6a2b96d53af391ece48cf43f1761d9",
+      "measurement": "7c2574bb647c1ffd9785878e6f0ab062b2085d22",
+      "contains": "5d68b37ab7276d3d1601a368d780c293d43bca9c",
+      "population": "b1c2ceb7578927986f85a22aaa92ea69c550df5c",
+      "occurrence": "94027fb125335d28b5787256c490c1113c2cf9e8",
+      "located": "9cf73441f2e8e73331d72ac7ab3f67eee688b4f8"
+    }
+  },
+  "extraction": {
+    "species": "Gammarus_insensibilis",
+    "populations": [
+      "TRAPOP076",
+      "TRAPOP077",
+      "TRAPOP078"
+    ],
+    "trait_type": "metabolic_rate",
+    "trait_unit": "Joule/day",
+    "conditions": [
+      "population belongs to TRADAT039 and one of the three frozen Gammarus populations",
+      "measurement trait_type == metabolic_rate",
+      "measurement trait_unit == Joule/day",
+      "trait_value finite and > 0",
+      "population maps to a finite site latitude/longitude"
+    ]
+  },
+  "denominator": {
+    "rows": 375,
+    "unique_individuals": 375,
+    "populations": {
+      "TRAPOP076": 123,
+      "TRAPOP077": 130,
+      "TRAPOP078": 122
+    },
+    "sites": 3
+  },
+  "sites": [
+    {
+      "site_id": "TRASIT067",
+      "location_label": "Quarantia_Italy",
+      "latitude": 45.763,
+      "longitude": 13.498
+    },
+    {
+      "site_id": "TRASIT068",
+      "location_label": "Lesina_Italy",
+      "latitude": 41.871,
+      "longitude": 15.34
+    },
+    {
+      "site_id": "TRASIT069",
+      "location_label": "Acquatina_Italy",
+      "latitude": 40.444,
+      "longitude": 18.238
+    }
+  ]
+}
