@@ -1,0 +1,90 @@
+{
+  "schema": "disttrait_direction_heterogeneity_surface_v1",
+  "date_jst": "2026-09-19",
+  "role": "continuous_trait_direction_heterogeneity_and_estimand_alignment_benchmark",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/benchmarks/direction_heterogeneity_surface.py",
+    "git_blob_sha": "a9c1639f6d34182819df44aed28197dde3820a37"
+  },
+  "cells_file": "results/disttrait_direction_heterogeneity_v0_7_20260919/cells.csv",
+  "design": {
+    "effect_sizes": [
+      0,
+      0.4,
+      0.8,
+      1.2
+    ],
+    "reversal_fractions": [
+      0,
+      0.25,
+      0.5
+    ],
+    "mcar_missing_fractions": [
+      0,
+      0.5
+    ],
+    "worlds_per_cell": 40,
+    "species_per_world": 20,
+    "observations_per_species_before_missingness": 20,
+    "spatial_null_permutations": 39,
+    "alpha": 0.05,
+    "data_generating_process": "continuous Gaussian trait with species-specific baseline linked to geographic species centre, plus a within-species local linear effect whose sign is reversed in the specified fraction of species"
+  },
+  "comparators": [
+    "naive pooled pairwise Spearman on geographic distance vs absolute trait difference",
+    "equal-species matched-null omnibus of within-species distance-trait rho",
+    "one-sided one-sample t-test on species-specific rho values",
+    "species fixed-intercept linear model with one common signed within-species slope"
+  ],
+  "summary": {
+    "max_equal_matched_null_fpr": 0.05,
+    "max_species_rho_ttest_null_fpr": 0.1,
+    "max_common_slope_null_fpr": 0.1,
+    "min_naive_null_fpr": 1,
+    "effect_0_4_reversal0_equal_detection_range": [
+      0.45,
+      0.8
+    ],
+    "effect_0_4_reversal0_common_slope_detection_range": [
+      1,
+      1
+    ],
+    "effect_0_4_reversal0_5_equal_detection_range": [
+      0.475,
+      0.9
+    ],
+    "effect_0_4_reversal0_5_common_slope_detection_range": [
+      0.05,
+      0.1
+    ],
+    "effect_0_8_reversal0_5_equal_detection_range": [
+      1,
+      1
+    ],
+    "effect_0_8_reversal0_5_common_slope_detection_range": [
+      0.05,
+      0.125
+    ]
+  },
+  "workflow": {
+    "pr": 47,
+    "head_sha": "87309c016a5c6dc9c36a115de432b931750a11a0",
+    "run_id": 35382497935,
+    "job_id": 105721715115,
+    "artifact_id": 10562052579,
+    "artifact_name": "disttrait-direction-heterogeneity-v070",
+    "conclusion": "success"
+  },
+  "interpretation": {
+    "supported": "When all species share the same signed within-species direction, the common-slope fixed-effect model is highly powerful. When half the species reverse direction, the common signed slope cancels while the direction-invariant distance-dissimilarity matched-null statistic retains power. The key distinction is estimand alignment under directional heterogeneity, not universal superiority of one method.",
+    "not_supported": [
+      "the common-slope model is generally invalid",
+      "matched-null inference is always more powerful",
+      "direction-invariant spatial organization and a common signed slope are identical estimands",
+      "all ecological traits should be analysed with absolute pairwise dissimilarity",
+      "this benchmark establishes universal type-I calibration for any method"
+    ]
+  }
+}
