@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.7 scope
+## v0.8 scope
 
 The package provides reusable components for:
 
@@ -182,6 +182,25 @@ When all species share the same direction, the common-slope fixed-effect linear 
 When half the species reverse direction, the common signed slope cancels. At effect 0.4 its detection falls to **0.05–0.10**, whereas the direction-invariant matched-null omnibus retains **0.475–0.90** detection. At effect 0.8 with 50% reversal, matched-null detection is **1.00** in both missingness cells while common-slope detection is only **0.05–0.125**.
 
 This is an **estimand-alignment result**, not proof that the common-slope model is defective. A common signed slope is appropriate when a shared direction is the scientific target. Pairwise dissimilarity is appropriate when the target is spatial organization whose direction may differ among species.
+
+## Permutation-calibrated species-slope meta-analysis
+
+v0.8 adds species-specific signed slopes and a random-effects summary with a matched within-species permutation calibration.
+
+Frozen benchmark:
+
+`results/disttrait_random_slope_meta_v0_8_20260919/`
+
+The first analytic random-effects preflight was deliberately **not** promoted: under 50% MCAR missingness, asymptotic heterogeneity and omnibus false-positive fractions reached **0.30**. Re-estimating species slopes and variances inside 99 matched within-species trait-permutation worlds reduced the calibrated combined omnibus maximum null rejection to **0.05**.
+
+Under weak effect (0.4) with 50% directional reversal:
+
+- common signed-slope detection: **0.025–0.05**;
+- direction-invariant matched-null detection: **0.40–0.90**;
+- calibrated slope-heterogeneity detection: **0.75–1.00**;
+- calibrated slope-meta omnibus detection: **0.525–1.00**.
+
+The interpretation is again estimand-specific. Common slopes target a shared signed response; random-effects slope meta-analysis separates average signed response from directional heterogeneity; pairwise distance-dissimilarity targets spatial organization without requiring a common sign.
 
 ## Validation gate
 
