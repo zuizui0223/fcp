@@ -117,3 +117,40 @@ def test_permutation_calibrated_meta_detects_opposing_slopes_and_is_deterministi
     assert a.p_heterogeneity_permutation <= 0.02
     assert a.p_mean_permutation > 0.2
     assert a.p_omnibus_permutation <= 0.04
+
+
+
+def test_vectorized_permutation_calibration_matches_slow_refit():
+    import hashlib
+
+    x = np.linspace(-1.0, 1.0, 10)
+    groups = [
+        (x, 0.7 * x + np.sin(np.arange(10)) * 0.2),
+        (x, -0.4 * x + np.cos(np.arange(10)) * 0.15),
+        (x, 0.2 * x + np.sin(np.arange(10) / 2) * 0.1),
+    ]
+    fast = random_effects_slope_permutation_test(
+        groups,
+        n_permutations=11,
+        seed=19,
+        key="slow-check",
+    )
+
+    slow_mean = []
+    slow_q = []
+    for j in range(11):
+        estimates = []
+        for i, (position, trait) in enumerate(groups):
+            payload = f"{19}|slow-check|{i}|{j}".encode("utf-8")
+            s = int.from_bytes(hashlib.sha256(payload).digest()[:8], "little")
+            rng = np.random.default_rng(s)
+            estimates.append(species_slope_estimate(position, trait[rng.permutation(len(trait))]))
+        summary = random_effects_slope_summary(
+            [e.slope for e in estimates],
+            [e.variance for e in estimates],
+        )
+        slow_mean.append(summary.random_mean)
+        slow_q.append(summary.q)
+
+    np.testing.assert_allclose(fast.null_random_mean, slow_mean, rtol=0, atol=1e-12)
+    np.testing.assert_allclose(fast.null_q, slow_q, rtol=0, atol=1e-12)
