@@ -44,10 +44,10 @@ Current measured status:
 | Tables | 1 | |
 | Total display items | 6 | PASS |
 | Introduction | 499 words | |
-| Materials and Methods | 1,125 words | |
-| Results | 751 words | |
+| Materials and Methods | 1,675 words | |
+| Results | 864 words | |
 | Discussion | 798 words | |
-| Main text | 3,173 words | EDITORIAL RISK: shorter than usual Full Paper range |
+| Main text | 3,836 words | EDITORIAL RISK: shorter than usual Full Paper range |
 | Discussion share of main text | ~25% | PASS relative to <=30% style preference |
 | Continuous line numbering | not yet applied | PENDING FILE CONVERSION |
 | Author list / affiliations / correspondence | placeholders | EXTERNAL INPUT REQUIRED |
@@ -75,7 +75,7 @@ Administrative header fields remain placeholders and therefore the cover letter 
 
 ## Main-text length decision
 
-The current 3,173-word main text is substantially shorter than the journal's usual 6,500–7,500-word Full Paper range.
+The current 3,836-word main text is substantially shorter than the journal's usual 6,500–7,500-word Full Paper range.
 
 This is not treated as a reason to add generic prose. The defensible route is:
 
