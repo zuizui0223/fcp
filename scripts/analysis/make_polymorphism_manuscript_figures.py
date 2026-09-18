@@ -606,6 +606,7 @@ def generate_all(root: Path, output_dir: Path) -> Path:
             "high-depth cohorts do not estimate global flower-colour polymorphism prevalence",
             "third-cohort H2 is species-disjoint within the same iNaturalist opportunity universe, not independent-source replication",
             "the white/nonwhite axis does not identify pigment chemistry, transition direction, or adaptive mechanism",
+            "the D-spatial association is structural and does not identify a causal maintenance mechanism",
             "H3a non-support does not imply absence of all phylogenetic structure",
             "sampled photographic span is not true biological range size",
         ],
