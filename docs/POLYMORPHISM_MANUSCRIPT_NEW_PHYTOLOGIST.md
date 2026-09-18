@@ -185,7 +185,7 @@ The P500 prospective expansion is retained separately as a measurement-transport
 | Discovery | Measurement calibration and H2 target discovery/audit | 369 D-eligible species | Legacy post-audit localization |
 | Reserve | Fresh H1/H3 replication and legacy H2 validation | 363 D-eligible species | Legacy post-audit validation |
 | P500 | Prospective measurement-pipeline transport | 499 species; 49,900 rows; 373 measurement-evaluable | No durable biological H2 verdict |
-| Third cohort | Untouched prospective test of already frozen q_white/W | 499 species; 49,900 rows; 377 measurement-evaluable | H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED |
+| Third cohort | Untouched prospective test of already frozen q_white/W | 499 species; 49,900 rows; 377 measurement-evaluable | Prospective H2 confirmed |
 
 The third cohort is species-disjoint but remains within the same iNaturalist source/opportunity universe and measurement system; it is not an independent-source replication.
 
@@ -334,8 +334,6 @@ Roberts, D. R., Bahn, V., Ciuti, S., Boyce, M. S., Elith, J., Guillera-Arroita, 
 Sapir, Y., Gallagher, M. K., & Senden, E. (2021). What Maintains Flower Colour Variation within Populations? *Trends in Ecology & Evolution*, 36(6), 507–519. https://doi.org/10.1016/j.tree.2021.01.011
 
 Warren, J., & Mackenzie, S. (2001). Why are all colour combinations not equally represented as flower-colour polymorphisms? *New Phytologist*, 151, 237–241. https://doi.org/10.1046/j.1469-8137.2001.00159.x
-
-Literature-use boundaries are frozen in `docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md`. These references support background and interpretation; they do not alter the repository's machine-readable empirical results or claim ceiling.
 
 ## Figure legends
 
