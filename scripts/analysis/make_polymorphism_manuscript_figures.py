@@ -440,6 +440,7 @@ def figure4(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
 
 
 def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
+    spatial = load_json(root / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json")
     h3a = load_json(root / "results" / "polymorphism_h3a_phylogenetic_signal_20260912" / "frozen_result_manifest.json")
     source_dir = root / "results" / "polymorphism_publication_figure_source_20260918"
     h3b = pd.read_csv(source_dir / "h3b_span_summary.csv")
@@ -447,11 +448,50 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     h3b_verdict = "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
     if h3b_verdict not in h3b_freeze:
         raise ValueError("H3b frozen verdict not found in canonical result freeze")
+    if spatial.get("new_biological_analysis") is not False:
+        raise ValueError("spatial reporting receipt must not introduce new biological analysis")
 
-    fig, axes = plt.subplots(1, 2, figsize=(11.6, 4.6))
-    fig.suptitle("H3: two simple explanations fail fresh reserve tests", y=1.02, fontweight="bold")
+    fig, axes = plt.subplots(1, 3, figsize=(14.4, 4.6))
+    fig.suptitle("What accompanies species differences in flower-colour polymorphism?", y=1.02, fontweight="bold")
 
     ax = axes[0]
+    spatial_rows = [
+        ("Discovery", spatial["discovery"]["span_plus_technical_adjusted_primary"]),
+        ("Reserve", spatial["reserve"]["span_plus_technical_adjusted_primary"]),
+        ("Reserve\nflower - background", spatial["reserve"]["span_plus_technical_adjusted_flower_minus_background"]),
+    ]
+    x = np.arange(len(spatial_rows))
+    obs = np.array([float(row["partial_rho"]) for _, row in spatial_rows])
+    null_mean = np.array([float(row["null_mean"]) for _, row in spatial_rows])
+    q025 = np.array([float(row["null_q025"]) for _, row in spatial_rows])
+    q975 = np.array([float(row["null_q975"]) for _, row in spatial_rows])
+    p_spatial = np.array([float(row["p_upper_geometry_preserving_spatial_null"]) for _, row in spatial_rows])
+    yerr = np.vstack([null_mean - q025, q975 - null_mean])
+    ax.axhline(0, color="#777777", linewidth=1.0)
+    ax.errorbar(
+        x,
+        null_mean,
+        yerr=yerr,
+        fmt="o",
+        color=NEUTRAL,
+        ecolor=LIGHT,
+        elinewidth=5,
+        capsize=0,
+        markersize=5,
+        zorder=1,
+        label="Null mean + 95% interval",
+    )
+    ax.scatter(x, obs, s=78, marker="D", color=PRIMARY, edgecolor="white", linewidth=0.8, zorder=2, label="Observed")
+    for xi, val, pval in zip(x, obs, p_spatial, strict=True):
+        ax.text(xi, val + 0.012, f"rho={val:.3f}\np={pval:.3f}", ha="center", va="bottom", fontsize=8.0)
+    ax.set_xticks(x, [label for label, _ in spatial_rows])
+    ax.set_ylabel("Partial rho(D, spatial organization)")
+    ax.set_ylim(-0.14, 0.18)
+    ax.set_title("More polymorphic species are more spatially organized")
+    ax.legend(frameon=False, loc="lower left", fontsize=7.5)
+    panel_label(ax, "A")
+
+    ax = axes[1]
     scenarios = ["S1", "S2", "S3"]
     k = [float(h3a["reserve_primary"][s]["K"]) for s in scenarios]
     p = [float(h3a["reserve_primary"][s]["p_K"]) for s in scenarios]
@@ -472,12 +512,12 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         transform=ax.transAxes,
         ha="left",
         va="top",
-        fontsize=8.5,
+        fontsize=8.2,
         color=NEUTRAL,
     )
-    panel_label(ax, "A")
+    panel_label(ax, "B")
 
-    ax = axes[1]
+    ax = axes[2]
     order = ["discovery", "reserve"]
     x = np.arange(2)
     vals = [float(h3b.loc[h3b["cohort"].eq(c), "rho_D_span"].iloc[0]) for c in order]
@@ -494,18 +534,28 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.text(
         0.03,
         0.06,
-        "Discovery effect -> ~0 in reserve\n(sampled span != true range size)",
+        "Sampled span != true range size",
         transform=ax.transAxes,
         ha="left",
         va="bottom",
-        fontsize=8.5,
+        fontsize=8.2,
         color=NEUTRAL,
     )
-    panel_label(ax, "B")
+    panel_label(ax, "C")
 
     fig.tight_layout()
     files = save_pair(fig, output_dir, "polymorphism_figure5_explanatory_boundaries")
     meta = {
+        "spatial_organization": {
+            "receipt": "results/polymorphism_spatial_organization_clue_20260918/result.json",
+            "new_biological_analysis": spatial["new_biological_analysis"],
+            "discovery_adjusted_partial_rho": float(spatial["discovery"]["span_plus_technical_adjusted_primary"]["partial_rho"]),
+            "discovery_adjusted_p": float(spatial["discovery"]["span_plus_technical_adjusted_primary"]["p_upper_geometry_preserving_spatial_null"]),
+            "reserve_adjusted_partial_rho": float(spatial["reserve"]["span_plus_technical_adjusted_primary"]["partial_rho"]),
+            "reserve_adjusted_p": float(spatial["reserve"]["span_plus_technical_adjusted_primary"]["p_upper_geometry_preserving_spatial_null"]),
+            "reserve_background_partial_rho": float(spatial["reserve"]["span_plus_technical_adjusted_flower_minus_background"]["partial_rho"]),
+            "reserve_background_p": float(spatial["reserve"]["span_plus_technical_adjusted_flower_minus_background"]["p_upper_geometry_preserving_spatial_null"]),
+        },
         "h3a": {
             "verdict": h3a["decision"]["verdict"],
             "reserve_scenarios": {
