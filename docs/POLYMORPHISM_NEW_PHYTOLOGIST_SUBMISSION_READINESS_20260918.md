@@ -101,6 +101,18 @@ Manifest state:
 - `status = generated_from_frozen_results`
 - `scientific_claims_changed = false`
 
+Final submission-size visual QA also passed on a fresh regenerated artifact:
+
+- workflow run: `35317018635`;
+- job: `105510790410`;
+- artifact ID: `10535687927`;
+- artifact digest: `sha256:94cbdeafcd6cb04dafa8a40376e2433f96df8b61f3bbda361c496a9081bd21c2`;
+- generating head: `b394c72b390b0057711fd1b0a1c0ae75bae49bc8`;
+- committed figure head: `779446c2d2df6d6ade54bb18661c0d31f483a01b`;
+- visual verdict: **PASS for Figures 1–5**.
+
+The final QA is recorded in `docs/POLYMORPHISM_FIGURE_VISUAL_QA_20260918.md`.
+
 Figure 4 contains the decisive prospective result:
 
 - primary: 158 species, W = 0.5172457461, p = 0.001;
@@ -152,6 +164,8 @@ Latest New Phytologist submission-format guard:
 
 The submission-format guard now checks live section word counts, Discussion <=30% of main text, 6–8 total display items, alphabetical keywords, four-bullet Summary <=200 words, cover-letter question lengths, required sections and frozen H2 claim boundaries.
 
+A later repository-boundary repair also closed the only unrelated red check caused by a stale exact-string legacy README test. On commit `eee9bea2eeacdbb5c25c59a9790e29401eae4567`, manuscript consistency, boundary-core, technical qualification, claim guard and submission guard all completed successfully. The repair changed test wording only; it did not alter biological results or manuscript claims.
+
 ## 6. Literature layer
 
 **PASS for submission drafting**
@@ -173,7 +187,7 @@ The journal-specific manuscript currently cites direct precedents for:
 
 ## 7. Remaining formal-submission blockers
 
-These items require author input and must not be inferred from repository metadata.
+All scientific, claim-integrity, figure-generation and submission-size visual-QA gates are closed. The remaining blockers are administrative/archive/packaging items. Author-specific values must not be inferred from repository metadata.
 
 ### Blocker A — authorship metadata
 
@@ -246,5 +260,7 @@ The scientific package already contains the highest-value prospective H2 upgrade
 The remaining route to a formal New Phytologist submission is:
 
 `author metadata -> acknowledgements/conflicts/contributions -> permanent archive DOI -> final formatted submission file (1.5 spacing + page/continuous line numbering)`
+
+No further scientific or figure-analysis gate is currently open.
 
 No H2 target, threshold, null, cohort or H3 predictor should be reopened during this packaging stage.
