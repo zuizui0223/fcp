@@ -23,7 +23,7 @@
 
 ## Summary
 
-- Flower colour is usually reduced to one species state, obscuring within-species diversity. We asked whether flower-colour polymorphism can be measured reproducibly as a species phenotype and whether its variation repeatedly follows a common colour-space direction.
+- Flower colour is usually reduced to one species state, obscuring within-species diversity. We asked whether flower-colour polymorphism is a reproducible species phenotype, whether its variation follows a recurrent colour-space direction, and whether more polymorphic species organize that variation more strongly across geography.
 - A continuous four-state diversity score was validated with observer-disjoint photo sets. Continuous nine-colour geometry was audited in discovery/reserve cohorts, then an already frozen white-versus-nonwhite axis was tested prospectively in a pre-frozen species-disjoint third cohort.
 - Reserve observer-disjoint partitions gave median Spearman rho = 0.789. The third cohort completed 49,900 rows from 499 species; 377 passed the support gate. The frozen axis was supported at the primary tier (158 species, W = 0.51725, p = 0.001) and strict tier (86 species, W = 0.53293, p = 0.001).
 - Within-species flower-colour diversity is reproducibly measurable under high-depth photographic sampling. Its strongest prospectively confirmed recurrent geometry is achromatic–chromatic, and species with greater D also show stronger within-species geographic colour organization; broad ancestry and sampled photographic extent are insufficient as simple explanations.
