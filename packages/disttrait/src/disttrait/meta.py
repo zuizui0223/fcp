@@ -4,7 +4,6 @@ from __future__ import annotations
 import hashlib
 from dataclasses import dataclass
 from collections.abc import Sequence
-import hashlib
 
 import numpy as np
 from scipy.stats import chi2, norm
@@ -40,16 +39,6 @@ class RandomEffectsSlopeResult:
     p_heterogeneity: float
     tau2: float
     p_omnibus: float
-
-
-@dataclass(frozen=True)
-class PermutationRandomEffectsResult:
-    observed: RandomEffectsSlopeResult
-    p_mean_permutation: float
-    p_heterogeneity_permutation: float
-    p_omnibus_permutation: float
-    null_abs_mean_z: np.ndarray
-    null_q: np.ndarray
 
 
 def species_slope_estimate(
@@ -222,76 +211,3 @@ def random_effects_slope_permutation_test(
         null_q=null_q,
     )
 
-
-
-def _permutation_seed(seed: int, key: str, species_index: int, permutation_index: int) -> int:
-    payload = f"{seed}|{key}|{species_index}|{permutation_index}".encode("utf-8")
-    return int.from_bytes(hashlib.sha256(payload).digest()[:8], "little")
-
-
-def permutation_calibrated_random_effects(
-    groups: Sequence[tuple[Sequence[float], Sequence[float]]],
-    *,
-    n_permutations: int = 999,
-    seed: int = 0,
-    key: str = "",
-) -> PermutationRandomEffectsResult:
-    """Matched within-species permutation calibration for signed-slope meta-analysis.
-
-    Coordinates/predictors and each species' complete trait-value multiset are
-    preserved. Trait values are permuted only within species. Each null world
-    re-estimates species slopes, their sampling variances, the random-effects
-    mean, and Cochran's Q. This avoids treating estimated within-species slope
-    variances as known when calibrating the final tests.
-    """
-    prepared: list[tuple[np.ndarray, np.ndarray]] = []
-    for x, y in groups:
-        xv = np.asarray(x, dtype=float)
-        yv = np.asarray(y, dtype=float)
-        if xv.ndim != 1 or yv.shape != xv.shape or len(xv) < 3:
-            raise ValueError("each group must contain equal vectors with at least 3 rows")
-        if np.any(~np.isfinite(xv)) or np.any(~np.isfinite(yv)):
-            raise ValueError("group values must be finite")
-        prepared.append((xv, yv))
-
-    observed, _ = random_effects_from_groups(prepared)
-    observed_mean_z = (
-        abs(observed.random_mean / observed.random_mean_se)
-        if observed.random_mean_se > 0
-        else float("inf")
-    )
-
-    nperm = int(n_permutations)
-    if nperm < 1:
-        raise ValueError("n_permutations must be positive")
-    null_abs_mean_z = np.empty(nperm, dtype=float)
-    null_q = np.empty(nperm, dtype=float)
-
-    for j in range(nperm):
-        estimates: list[SlopeEstimate] = []
-        for i, (xv, yv) in enumerate(prepared):
-            rng = np.random.default_rng(_permutation_seed(seed, key, i, j))
-            estimates.append(species_slope_estimate(xv, yv[rng.permutation(len(yv))]))
-        summary = random_effects_slope_summary(
-            [e.slope for e in estimates],
-            [e.variance for e in estimates],
-        )
-        null_abs_mean_z[j] = abs(summary.random_mean / summary.random_mean_se)
-        null_q[j] = summary.q
-
-    p_mean = float(
-        (1 + np.sum(null_abs_mean_z >= observed_mean_z - 1e-15)) / (nperm + 1)
-    )
-    p_heterogeneity = float(
-        (1 + np.sum(null_q >= observed.q - 1e-15)) / (nperm + 1)
-    )
-    p_omnibus = float(min(1.0, 2.0 * min(p_mean, p_heterogeneity)))
-
-    return PermutationRandomEffectsResult(
-        observed=observed,
-        p_mean_permutation=p_mean,
-        p_heterogeneity_permutation=p_heterogeneity,
-        p_omnibus_permutation=p_omnibus,
-        null_abs_mean_z=null_abs_mean_z,
-        null_q=null_q,
-    )
