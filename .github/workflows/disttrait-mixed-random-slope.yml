@@ -1,0 +1,41 @@
+name: disttrait mixed random-slope benchmark
+
+on:
+  push:
+    paths:
+      - "packages/disttrait/benchmarks/mixed_random_slope_surface.py"
+      - "docs/DISTTRAIT_DLQ_DIAGNOSTIC_20260919.md"
+      - ".github/workflows/disttrait-mixed-random-slope.yml"
+  pull_request:
+    paths:
+      - "packages/disttrait/benchmarks/mixed_random_slope_surface.py"
+      - "docs/DISTTRAIT_DLQ_DIAGNOSTIC_20260919.md"
+      - ".github/workflows/disttrait-mixed-random-slope.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install benchmark dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait statsmodels>=0.14
+
+      - name: Run mixed random-slope surface
+        run: |
+          python packages/disttrait/benchmarks/mixed_random_slope_surface.py             > disttrait_mixed_random_slope_result.json
+
+      - name: Upload exploratory benchmark
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-mixed-random-slope-exploratory
+          path: disttrait_mixed_random_slope_result.json
