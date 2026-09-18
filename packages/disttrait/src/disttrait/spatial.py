@@ -74,6 +74,55 @@ def _rank_pearson(x: np.ndarray, y: np.ndarray) -> float:
     return float(np.dot(xc, yc) / den) if den > 1e-15 else float("nan")
 
 
+def pairwise_absolute_difference(values: Sequence[float]) -> np.ndarray:
+    """Upper-triangle absolute differences for a scalar individual-level trait."""
+    x = np.asarray(values, dtype=float)
+    if x.ndim != 1 or len(x) < 2:
+        raise ValueError("values must be a one-dimensional vector with at least two rows")
+    if np.any(~np.isfinite(x)):
+        raise ValueError("values must be finite")
+    matrix = np.abs(x[:, None] - x[None, :])
+    upper = np.triu_indices(len(x), k=1)
+    return matrix[upper]
+
+
+def spatial_rho_from_distance_matrix(
+    latitude: Sequence[float],
+    longitude: Sequence[float],
+    trait_distance_matrix: np.ndarray,
+) -> float:
+    """Spatial rho for any symmetric observation-by-observation trait distance matrix."""
+    distance = np.asarray(trait_distance_matrix, dtype=float)
+    n = len(latitude)
+    if distance.shape != (n, n):
+        raise ValueError("trait_distance_matrix must have shape (n_observations, n_observations)")
+    if np.any(~np.isfinite(distance)):
+        raise ValueError("trait_distance_matrix must be finite")
+    if not np.allclose(distance, distance.T, atol=1e-12, rtol=0):
+        raise ValueError("trait_distance_matrix must be symmetric")
+    if not np.allclose(np.diag(distance), 0.0, atol=1e-12, rtol=0):
+        raise ValueError("trait_distance_matrix diagonal must be zero")
+    geo = great_circle_pairwise_km(latitude, longitude)
+    upper = np.triu_indices(n, k=1)
+    trait = distance[upper]
+    if np.ptp(geo) <= 1e-12:
+        return float("nan")
+    if np.ptp(trait) <= 1e-15:
+        return 0.0
+    return _rank_pearson(geo, trait)
+
+
+def continuous_spatial_rho(
+    latitude: Sequence[float],
+    longitude: Sequence[float],
+    values: Sequence[float],
+) -> float:
+    """Spatial organization of a scalar trait using absolute pairwise difference."""
+    x = np.asarray(values, dtype=float)
+    distance = np.abs(x[:, None] - x[None, :])
+    return spatial_rho_from_distance_matrix(latitude, longitude, distance)
+
+
 def spatial_rho(
     latitude: Sequence[float],
     longitude: Sequence[float],
@@ -152,6 +201,79 @@ def spatial_permutation_null(
             vals = rank_matrix[perm[u], perm[v]]
             null[idx] = float(vals @ gc / (cnorm * gnorm))
     return float(observed), null
+
+
+def spatial_permutation_null_from_distance_matrix(
+    latitude: Sequence[float],
+    longitude: Sequence[float],
+    trait_distance_matrix: np.ndarray,
+    *,
+    n_permutations: int = 999,
+    seed: int = 0,
+    key: str = "",
+) -> tuple[float, np.ndarray]:
+    """Vertex-permutation null for an arbitrary symmetric trait-distance matrix."""
+    distance = np.asarray(trait_distance_matrix, dtype=float)
+    n = len(latitude)
+    if distance.shape != (n, n):
+        raise ValueError("trait_distance_matrix must have shape (n_observations, n_observations)")
+    if np.any(~np.isfinite(distance)):
+        raise ValueError("trait_distance_matrix must be finite")
+    if not np.allclose(distance, distance.T, atol=1e-12, rtol=0):
+        raise ValueError("trait_distance_matrix must be symmetric")
+    if not np.allclose(np.diag(distance), 0.0, atol=1e-12, rtol=0):
+        raise ValueError("trait_distance_matrix diagonal must be zero")
+
+    geo = great_circle_pairwise_km(latitude, longitude)
+    if np.ptp(geo) <= 1e-12:
+        raise ValueError("not_evaluable_pair_geometry")
+    upper = np.triu_indices(n, k=1)
+    values = distance[upper]
+    observed = 0.0 if np.ptp(values) <= 1e-15 else _rank_pearson(geo, values)
+
+    g_rank = rankdata(geo, method="average")
+    gc = g_rank - g_rank.mean()
+    gnorm = float(np.linalg.norm(gc))
+    null = np.empty(int(n_permutations), dtype=float)
+    u, v = upper
+    for idx in range(int(n_permutations)):
+        rng = np.random.default_rng(_permutation_seed(seed, key, idx))
+        p = rng.permutation(n)
+        y = distance[p[u], p[v]]
+        if np.ptp(y) <= 1e-15:
+            null[idx] = 0.0
+            continue
+        yrank = rankdata(y, method="average")
+        yc = yrank - yrank.mean()
+        ynorm = float(np.linalg.norm(yc))
+        null[idx] = 0.0 if ynorm <= 1e-15 else float(np.dot(gc, yc) / (gnorm * ynorm))
+    return float(observed), null
+
+
+def continuous_spatial_permutation_null(
+    latitude: Sequence[float],
+    longitude: Sequence[float],
+    values: Sequence[float],
+    *,
+    n_permutations: int = 999,
+    seed: int = 0,
+    key: str = "",
+) -> tuple[float, np.ndarray]:
+    """Matched vertex-permutation null for a scalar continuous trait."""
+    x = np.asarray(values, dtype=float)
+    if x.ndim != 1 or len(x) != len(latitude):
+        raise ValueError("values must match the coordinate vectors")
+    if np.any(~np.isfinite(x)):
+        raise ValueError("values must be finite")
+    distance = np.abs(x[:, None] - x[None, :])
+    return spatial_permutation_null_from_distance_matrix(
+        latitude,
+        longitude,
+        distance,
+        n_permutations=n_permutations,
+        seed=seed,
+        key=key,
+    )
 
 
 def matched_difference_spatial_permutation_null(
