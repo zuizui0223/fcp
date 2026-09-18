@@ -18,7 +18,7 @@ Current figure plan:
 
 **Species-level flower-colour polymorphism is reproducibly measurable under high-depth observer-disjoint photographic sampling, and a recurrent white-versus-nonwhite colour-space axis identified in the original cohorts was prospectively confirmed in a pre-frozen species-disjoint third cohort from the same iNaturalist opportunity universe.**
 
-The broad phylogenetic-signal and sampled-span hypotheses remain bounded negative results.
+The H3 results are retained as bounded alternative-explanation tests: broad tree-wide conservation is not detected in reserve, and the discovery sampled-span association collapses under species-disjoint replication.
 
 ## 2. What changed after the 2026-09-13 architecture
 
@@ -114,9 +114,9 @@ A pre-frozen third cohort completes 49,900 terminal rows from 499 species; 377 s
 Primary 0.10: 158 species, W = 0.51725, p = 0.001.
 Strict 0.20: 86 species, W = 0.53293, p = 0.001.
 
-### Sentence 7 — explanatory boundaries
+### Sentence 7 — alternative-explanation filters
 
-Broad reserve phylogenetic signal is unsupported, and the discovery sampled-span association fails reserve replication.
+Fresh reserve tests show no detectable broad tree-wide conservation of D, while the discovery sampled-span association collapses to essentially zero; broad ancestry and sampled extent are therefore insufficient as simple explanations under the frozen designs.
 
 ### Sentence 8 — conclusion
 
@@ -154,9 +154,9 @@ Explain chronology explicitly:
 
 This paragraph is now essential because it turns the former weakness into the strongest design feature.
 
-### P5. Bounded explanatory tests
+### P5. Alternative-explanation filters
 
-Introduce H3a and H3b as separate tests of broad explanation, not prerequisites for H1/H2.
+Introduce H3a and H3b as fresh-data tests of two simple explanations for species differences in D: broad ancestry and sampled geographic opportunity. Preserve that H3a is not an equivalence test and H3b uses sampled span, not true range size.
 
 ## 7. Methods order
 
@@ -333,7 +333,7 @@ Main sequence:
 2. observer-disjoint H1;
 3. H2 target discovery/localization;
 4. prospective third-cohort confirmation;
-5. bounded H3 negative tests.
+5. bounded H3 alternative-explanation tests.
 
 The key visual separation is Figure 3 versus Figure 4:
 
@@ -367,9 +367,9 @@ Do not infer:
 - climate selection;
 - developmental mechanism.
 
-### D5. Use H3 negatives as scope boundaries
+### D5. Use H3 as alternative-explanation filters
 
-Broad phylogenetic signal and sampled photographic span are not supported as general explanations under these tests.
+Present the reserve results as showing that broad ancestry is not detectably conserved at the tested scale and that the discovery sampled-span effect collapses out of sample. These results make two simple explanations insufficient without claiming zero phylogenetic or geographic effects.
 
 ### D6. State the representativeness boundary
 
