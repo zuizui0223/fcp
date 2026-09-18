@@ -83,3 +83,13 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert manifest["figures"]["figure4"]["strict"]["p"] == 0.001
     assert manifest["figures"]["figure5"]["h3a"]["verdict"] == "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED"
     assert manifest["figures"]["figure5"]["h3b"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+
+    f1_layout = manifest["figures"]["figure1"]["layout_contract"]
+    assert f1_layout["cohort_topology"] == "global_frame_branches_to_original_and_third_cohort"
+    assert f1_layout["arrow_direction"] == "top_to_bottom"
+
+    f2_layout = manifest["figures"]["figure2"]["layout_contract"]
+    assert f2_layout["stress_annotations"] == "offset_no_legend_overlap"
+
+    f3_layout = manifest["figures"]["figure3"]["layout_contract"]
+    assert f3_layout["legend"] == "outside_below_axis"
