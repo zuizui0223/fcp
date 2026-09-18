@@ -43,7 +43,7 @@ Date: 2026-09-18 JST
 - [ ] Author-contribution statement finalized.
 - [ ] ORCID identifiers collected if required by submission system.
 - [ ] Suggested/excluded reviewers considered if requested.
-- [ ] Main-text length decision closed: current 3,173 words is below the journal's usual 6,500–7,500-word Full Paper range; restore only replication-critical detail, do not pad.
+- [ ] Main-text length decision closed: current 3,836 words remains below the journal's usual 6,500–7,500-word Full Paper range after restoring replication-critical Methods; do not pad.
 - [ ] Final line numbering / manuscript file conversion completed.
 - [ ] Figure files checked visually at submission size.
 - [ ] Supporting Information legends converted to journal-ready form.
