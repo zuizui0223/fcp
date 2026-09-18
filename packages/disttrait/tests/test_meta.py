@@ -113,7 +113,7 @@ def test_permutation_calibrated_meta_detects_opposing_slopes_and_is_deterministi
         key="fixture",
     )
     np.testing.assert_array_equal(a.null_q, b.null_q)
-    np.testing.assert_array_equal(a.null_abs_mean_z, b.null_abs_mean_z)
+    np.testing.assert_array_equal(a.null_random_mean, b.null_random_mean)
     assert a.p_heterogeneity_permutation <= 0.02
     assert a.p_mean_permutation > 0.2
     assert a.p_omnibus_permutation <= 0.04
