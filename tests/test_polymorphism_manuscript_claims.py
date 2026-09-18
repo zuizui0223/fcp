@@ -79,7 +79,7 @@ def test_manuscript_preserves_h1_and_h3_boundaries() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
 
     for token in (
-        "median split Spearman rho was **0.7891**",
+        "Median split Spearman rho was **0.7891**",
         "5th percentile of **0.7652**",
         "rho = **0.7927**",
         "missed its deliberately stricter prespecified rho = 0.80 floor",
