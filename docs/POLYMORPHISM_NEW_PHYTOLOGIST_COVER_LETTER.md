@@ -14,7 +14,7 @@ We submit the Full Paper, **“A recurrent achromatic–chromatic axis structure
 
 ### Question 1 — What hypotheses or questions does this work address?
 
-Can within-species flower-colour polymorphism be measured reproducibly as a species-level phenotype across many plant species and, once measurement validity is separated from observer effects, does that variation repeatedly align with a common direction in colour space?
+Can flower-colour polymorphism be measured reproducibly as a species phenotype, does it repeatedly align with a common colour-space direction, and do more polymorphic species organize colour variation more strongly across geography rather than merely reflecting sampling extent or broad ancestry?
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
