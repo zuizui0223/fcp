@@ -1,6 +1,7 @@
 """Species-specific signed slopes and random-effects meta-analysis."""
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass
 from collections.abc import Sequence
 
@@ -14,6 +15,16 @@ class SlopeEstimate:
     variance: float
     standard_error: float
     n: int
+
+
+@dataclass(frozen=True)
+class PermutationCalibratedSlopeResult:
+    observed: "RandomEffectsSlopeResult"
+    p_mean_permutation: float
+    p_heterogeneity_permutation: float
+    p_omnibus_permutation: float
+    null_random_mean: np.ndarray
+    null_q: np.ndarray
 
 
 @dataclass(frozen=True)
@@ -65,7 +76,11 @@ def random_effects_slope_summary(
     slopes: Sequence[float],
     variances: Sequence[float],
 ) -> RandomEffectsSlopeResult:
-    """DerSimonian-Laird random-effects summary plus a mean/heterogeneity omnibus.
+    """DerSimonian-Laird random-effects summary with asymptotic component tests.
+
+    The asymptotic p-values are descriptive/model-based and can be imperfect in
+    small or heterogeneous species samples. Use random_effects_slope_permutation_test
+    when a within-species exchangeability null is scientifically appropriate.
 
     The omnibus combines two distinct signed-slope questions:
     (i) whether the average signed slope is nonzero and
@@ -121,3 +136,77 @@ def random_effects_from_groups(
         [x.variance for x in estimates],
     )
     return result, estimates
+
+
+def _permutation_seed(seed: int, key: str, species_index: int, permutation_index: int) -> int:
+    raw = f"{seed}|{key}|{species_index}|{permutation_index}".encode("utf-8")
+    return int.from_bytes(hashlib.sha256(raw).digest()[:8], "little")
+
+
+def random_effects_slope_permutation_test(
+    groups: Sequence[tuple[Sequence[float], Sequence[float]]],
+    *,
+    n_permutations: int = 99,
+    seed: int = 0,
+    key: str = "",
+) -> PermutationCalibratedSlopeResult:
+    """Calibrate signed-slope mean and heterogeneity by within-species permutation.
+
+    Positions and the complete observed trait values remain fixed within each
+    species; only the assignment of trait values to positions is permuted. Each
+    null world re-estimates species slopes, sampling variances, the random-effects
+    mean and Cochran Q. The two component permutation p-values are combined with
+    a Bonferroni correction.
+
+    At least 39 null worlds are recommended; 99 are used by the v0.8 benchmark
+    so the Bonferroni omnibus can attain values below 0.05.
+    """
+    if int(n_permutations) < 1:
+        raise ValueError("n_permutations must be positive")
+    prepared: list[tuple[np.ndarray, np.ndarray]] = []
+    for position, trait in groups:
+        x = np.asarray(position, dtype=float)
+        y = np.asarray(trait, dtype=float)
+        if x.ndim != 1 or y.shape != x.shape or len(x) < 3:
+            raise ValueError("every group must contain equal vectors with at least 3 rows")
+        if np.any(~np.isfinite(x)) or np.any(~np.isfinite(y)):
+            raise ValueError("group values must be finite")
+        prepared.append((x, y))
+
+    observed, _ = random_effects_from_groups(prepared)
+    null_mean = np.empty(int(n_permutations), dtype=float)
+    null_q = np.empty(int(n_permutations), dtype=float)
+
+    for permutation_index in range(int(n_permutations)):
+        slopes: list[float] = []
+        variances: list[float] = []
+        for species_index, (x, y) in enumerate(prepared):
+            rng = np.random.default_rng(
+                _permutation_seed(seed, key, species_index, permutation_index)
+            )
+            permuted = y[rng.permutation(len(y))]
+            estimate = species_slope_estimate(x, permuted)
+            slopes.append(estimate.slope)
+            variances.append(estimate.variance)
+        summary = random_effects_slope_summary(slopes, variances)
+        null_mean[permutation_index] = summary.random_mean
+        null_q[permutation_index] = summary.q
+
+    p_mean = float(
+        (1 + np.sum(np.abs(null_mean) >= abs(observed.random_mean)))
+        / (len(null_mean) + 1)
+    )
+    p_heterogeneity = float(
+        (1 + np.sum(null_q >= observed.q))
+        / (len(null_q) + 1)
+    )
+    p_omnibus = float(min(1.0, 2.0 * min(p_mean, p_heterogeneity)))
+
+    return PermutationCalibratedSlopeResult(
+        observed=observed,
+        p_mean_permutation=p_mean,
+        p_heterogeneity_permutation=p_heterogeneity,
+        p_omnibus_permutation=p_omnibus,
+        null_random_mean=null_mean,
+        null_q=null_q,
+    )
