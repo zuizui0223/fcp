@@ -66,6 +66,18 @@ def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
         assert token.lower() in text.lower()
 
 
+def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    for token in (
+        "Greater D is associated with stronger within-species geographic colour organization",
+        "partial rho = **0.0992877**, p = **0.025**",
+        "partial rho = **0.1162411**, p = **0.010**",
+        "structural rather than causal",
+        "two-stage working model",
+    ):
+        assert token in text
+
+
 def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> None:
     assert COVER.exists(), "New Phytologist cover letter has not been created"
     text = COVER.read_text(encoding="utf-8")
