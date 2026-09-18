@@ -123,7 +123,8 @@ def test_figure_plan_uses_authoritative_prospective_denominators() -> None:
     text = FIGURE_PLAN.read_text(encoding="utf-8")
 
     for token in (
-        "499 species × 100 rows = 49,900",
+        "499 species × 100 rows",
+        "49,900 terminal rows",
         "measurement-evaluable species = **377**",
         "N = **158**",
         "W_obs = **0.5172457461**",
