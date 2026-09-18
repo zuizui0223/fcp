@@ -65,9 +65,9 @@
     "figure5": {
       "files": {
         "pdf": "polymorphism_figure5_explanatory_boundaries.pdf",
-        "pdf_sha256": "f57c7bfeb0504886698673614d666803e35c45108f0b96ee58936300c8f5399e",
+        "pdf_sha256": "f4f15b7b68e1bf50a0806cdbb878f91265f1f84587175ff0bc97ce139b1da241",
         "png": "polymorphism_figure5_explanatory_boundaries.png",
-        "png_sha256": "5f3bb5d3f00bf51da8fef8957a38c73f116abad706a5144f954aa0795b19adc6"
+        "png_sha256": "4569f31c41bf7ac02d28534a84acc8212afa1255757ec27bdd40eef42741667e"
       },
       "h3a": {
         "reserve_scenarios": {
