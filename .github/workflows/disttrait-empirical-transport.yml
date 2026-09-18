@@ -1,20 +1,24 @@
-name: disttrait package
+name: disttrait empirical transport
 
 on:
   push:
     paths:
-      - "packages/disttrait/**"
-      - ".github/workflows/disttrait-package.yml"
+      - "packages/disttrait/src/disttrait/**"
+      - "packages/disttrait/fixtures/sf_street_trees_v1*"
+      - "packages/disttrait/examples/sf_street_tree_empirical.py"
+      - ".github/workflows/disttrait-empirical-transport.yml"
   pull_request:
     paths:
-      - "packages/disttrait/**"
-      - ".github/workflows/disttrait-package.yml"
+      - "packages/disttrait/src/disttrait/**"
+      - "packages/disttrait/fixtures/sf_street_trees_v1*"
+      - "packages/disttrait/examples/sf_street_tree_empirical.py"
+      - ".github/workflows/disttrait-empirical-transport.yml"
 
 permissions:
   contents: read
 
 jobs:
-  test:
+  empirical:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,18 +27,12 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install package and tests
+      - name: Install disttrait
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e packages/disttrait pytest
+          python -m pip install -e packages/disttrait
 
-      - name: Compile package
-        run: python -m compileall -q packages/disttrait/src/disttrait
-
-      - name: Run disttrait tests
-        run: python -m pytest packages/disttrait/tests -q
-
-      - name: Run external empirical transport
+      - name: Run SF street-tree transport
         run: |
           python packages/disttrait/examples/sf_street_tree_empirical.py \
             --output disttrait_sf_empirical_result.json
@@ -48,5 +46,5 @@ jobs:
       - name: Upload empirical transport receipt
         uses: actions/upload-artifact@v4
         with:
-          name: disttrait-sf-empirical-transport
+          name: disttrait-sf-empirical-transport-only
           path: disttrait_sf_empirical_result.json

@@ -32,10 +32,10 @@ The prospective H2 result is **species-disjoint within the same iNaturalist sour
 The reusable, flower-colour-independent inference layer now lives in:
 
 - **`packages/disttrait/`** — Python package for validated species-level distributional trait inference;
-- **`docs/DISTTRAIT_PACKAGE_V0_4_20260919.md`** — active v0.4 validation/comparator boundary;
+- **`docs/DISTTRAIT_PACKAGE_V0_6_20260919.md`** — active v0.6 validation/empirical-transport boundary;
 - **`docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md`** — standard statistics versus study-specific inference architecture.
 
-`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving nulls, species-specific spatial organization, equal-species omnibus inference, matched focal-minus-background structure, and distribution–spatial association. v0.4 includes exact FCP-equivalence fixtures, a 24-cell false-positive/power surface, and an alternative-method comparator benchmark showing that species-conditioning is the main protection against between-species geographic confounding, while equal-species weighting is a useful but not uniquely optimal aggregation choice. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific.
+`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving nulls, categorical and scalar-continuous species-specific spatial organization, equal-species omnibus inference, matched focal-minus-background structure, and distribution–spatial association. v0.6 retains exact FCP-equivalence fixtures, false-positive/power surfaces, species-conditioned and model-based comparator benchmarks, and now adds an external non-flower empirical transport using 1,600 public-domain San Francisco street-tree observations across 20 taxon labels. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific.
 
 ### Start here
 

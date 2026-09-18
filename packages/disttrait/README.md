@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.5 scope
+## v0.6 scope
 
 The package provides reusable components for:
 
@@ -18,7 +18,8 @@ The package provides reusable components for:
 - species-specific spatial organization `rho_i`;
 - matched trait-minus-background spatial organization and joint same-observation permutation nulls;
 - species-level distribution-versus-spatial association;
-- partial-rank adjustment with matched spatial nulls.
+- partial-rank adjustment with matched spatial nulls;
+- scalar continuous-trait spatial inference using absolute pairwise differences.
 
 The package deliberately does **not** claim a new standalone statistic. Most components are established statistics. The reusable contribution is an inference architecture that separates measurement validity, species-level trait distributions, trait geometry, spatial organization, matched nulls, and prospective confirmation.
 
@@ -135,6 +136,27 @@ The added model uses species-specific intercepts with one common nonnegative wit
 The interpretation is a trade-off rather than a winner: a correctly specified response model can gain substantial power, while the matched-null approach is more assumption-light and has more stable worst-cell null behavior in this benchmark.
 
 These benchmarks are targeted demonstrations, not evidence of universal superiority or robustness to missing-not-at-random trait observation.
+
+## External non-flower empirical transport
+
+v0.6 adds a public-domain empirical transport using a fixed snapshot of the San Francisco street-tree inventory, independent of FCP/RGFCA.
+
+- source snapshot: TidyTuesday `2020-01-28/sf_trees.csv`;
+- upstream source: San Francisco Public Works Street Tree List;
+- source Git blob: `bdc06c1297b7dd88bea0df77de4007eaab30198e`;
+- fixed eligible set: 52 taxon labels with >=500 usable DBH+coordinate records;
+- outcome-blind deterministic selection: 20 taxon labels × 80 trees = 1,600 observations;
+- trait: `log(DBH)`;
+- within-taxon dissimilarity: absolute pairwise difference in `log(DBH)`;
+- vertex-permutation nulls: 99 per taxon.
+
+Frozen result:
+
+`results/disttrait_sf_street_tree_empirical_v0_6_20260919/result.json`
+
+The generic continuous-trait layer gives an equal-taxon mean spatial rho of **0.09219** with matched-null **p = 0.01**. Across taxa, the association between the SD of log(DBH) and spatial rho is not supported (**rho = -0.186, p = 0.83**). A naive pooled all-pairs analysis gives a small rho (**0.02783**) but an extremely small nominal p because it treats the very large number of pairs as ordinary independent evidence.
+
+This empirical transport is deliberately non-causal. Urban planting, management, age structure, cultivar usage and inventory processes can all contribute to the observed DBH geography. Its role is to show that the package operates unchanged on an external, non-flower continuous trait dataset.
 
 ## Validation gate
 

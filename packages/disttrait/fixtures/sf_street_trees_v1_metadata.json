@@ -1,0 +1,139 @@
+{
+  "schema": "disttrait_sf_street_tree_subset_v1",
+  "date_jst": "2026-09-19",
+  "role": "external_nonflower_empirical_transport_fixture",
+  "source": {
+    "repository": "rfordatascience/tidytuesday",
+    "path": "data/2020/2020-01-28/sf_trees.csv",
+    "git_blob_sha": "bdc06c1297b7dd88bea0df77de4007eaab30198e",
+    "upstream": "San Francisco Public Works Street Tree List",
+    "upstream_license": "Open Data Commons Public Domain Dedication and License (PDDL) 1.0",
+    "tidytuesday_snapshot_date": "2020-01-28"
+  },
+  "selection": {
+    "taxon_label_rule": "text before :: in source species field",
+    "row_filters": [
+      "dbh > 0",
+      "finite latitude",
+      "finite longitude",
+      "nonblank tree_id",
+      "taxon label has >=2 tokens",
+      "exclude Tree(s)"
+    ],
+    "minimum_valid_rows_per_taxon": 500,
+    "eligible_taxa": 52,
+    "taxon_order": "ascending unsigned FNV-1a hash of DISTTRAIT_SF_SPECIES_V1|taxon_label",
+    "selected_taxa": 20,
+    "individual_order": "ascending unsigned FNV-1a hash of DISTTRAIT_SF_TREE_V1|tree_id within taxon",
+    "selected_individuals_per_taxon": 80,
+    "total_rows": 1600
+  },
+  "selected_taxa": [
+    {
+      "taxon_label": "Agonis flexuosa",
+      "source_valid_n": 731,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Eucalyptus sideroxylon",
+      "source_valid_n": 616,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Platanus x hispanica",
+      "source_valid_n": 10488,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Pinus radiata",
+      "source_valid_n": 1682,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Syagrus romanzoffianum",
+      "source_valid_n": 773,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Metrosideros excelsa",
+      "source_valid_n": 7499,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Callistemon citrinus",
+      "source_valid_n": 2884,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Melaleuca quinquenervia",
+      "source_valid_n": 1293,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Cupressus macrocarpa",
+      "source_valid_n": 1507,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Callistemon viminalis",
+      "source_valid_n": 753,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Laurus nobilis",
+      "source_valid_n": 738,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Ficus retusa nitida",
+      "source_valid_n": 1360,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Liquidambar styraciflua",
+      "source_valid_n": 1240,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Tristaniopsis laurina 'Elegant'",
+      "source_valid_n": 1335,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Lagunaria patersonii",
+      "source_valid_n": 887,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Prunus serrulata 'Kwanzan'",
+      "source_valid_n": 3566,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Ginkgo biloba",
+      "source_valid_n": 2575,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Magnolia grandiflora 'Little Gem'",
+      "source_valid_n": 714,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Ligustrum lucidum",
+      "source_valid_n": 1902,
+      "selected_n": 80
+    },
+    {
+      "taxon_label": "Corymbia ficifolia",
+      "source_valid_n": 3090,
+      "selected_n": 80
+    }
+  ],
+  "claim_boundary": [
+    "external empirical transport demonstration only",
+    "taxon labels are inherited from the source inventory and are not taxonomically revalidated",
+    "DBH and coordinates are operational municipal inventory measurements",
+    "no causal ecological interpretation is assigned"
+  ]
+}

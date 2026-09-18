@@ -89,6 +89,70 @@ def spatial_rho(
     return _rank_pearson(geo, jsd)
 
 
+def absolute_pairwise(values: Sequence[float]) -> np.ndarray:
+    """Absolute pairwise differences for a scalar continuous trait."""
+    x = np.asarray(values, dtype=float)
+    if x.ndim != 1 or len(x) < 2:
+        raise ValueError("values must be a one-dimensional vector with at least two observations")
+    if np.any(~np.isfinite(x)):
+        raise ValueError("values must be finite")
+    diff = np.abs(x[:, None] - x[None, :])
+    upper = np.triu_indices(len(x), k=1)
+    return diff[upper]
+
+
+def continuous_spatial_rho(
+    latitude: Sequence[float],
+    longitude: Sequence[float],
+    values: Sequence[float],
+) -> float:
+    """Spearman association between geographic distance and scalar trait difference."""
+    geo = great_circle_pairwise_km(latitude, longitude)
+    diff = absolute_pairwise(values)
+    if np.ptp(geo) <= 1e-12:
+        return float("nan")
+    if np.ptp(diff) <= 1e-15:
+        return 0.0
+    return _rank_pearson(geo, diff)
+
+
+def continuous_spatial_permutation_null(
+    latitude: Sequence[float],
+    longitude: Sequence[float],
+    values: Sequence[float],
+    *,
+    n_permutations: int = 999,
+    seed: int = 0,
+    key: str = "",
+) -> tuple[float, np.ndarray]:
+    """Vertex-permutation null for a scalar continuous trait.
+
+    Coordinates and the complete multiset of trait values are fixed while the
+    assignment of trait values to observed positions is permuted.
+    """
+    x = np.asarray(values, dtype=float)
+    if x.ndim != 1 or len(x) < 3 or np.any(~np.isfinite(x)):
+        raise ValueError("values must be a finite one-dimensional vector with at least three observations")
+    geo = great_circle_pairwise_km(latitude, longitude)
+    if np.ptp(geo) <= 1e-12:
+        raise ValueError("not_evaluable_pair_geometry")
+
+    n = len(x)
+    upper = np.triu_indices(n, k=1)
+    diff_matrix = np.abs(x[:, None] - x[None, :])
+    observed_values = diff_matrix[upper]
+    observed = 0.0 if np.ptp(observed_values) <= 1e-15 else _rank_pearson(geo, observed_values)
+
+    null = np.empty(int(n_permutations), dtype=float)
+    u, v = upper
+    for idx in range(int(n_permutations)):
+        rng = np.random.default_rng(_permutation_seed(seed, key, idx))
+        p = rng.permutation(n)
+        y = diff_matrix[p[u], p[v]]
+        null[idx] = 0.0 if np.ptp(y) <= 1e-15 else _rank_pearson(geo, y)
+    return float(observed), null
+
+
 def matched_difference_spatial_rho(
     latitude: Sequence[float],
     longitude: Sequence[float],

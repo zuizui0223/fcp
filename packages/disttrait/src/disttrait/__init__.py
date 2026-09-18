@@ -14,6 +14,9 @@ from .geometry import (
 from .reliability import ReliabilityResult, observer_disjoint_reliability
 from .spatial import (
     AssociationResult,
+    absolute_pairwise,
+    continuous_spatial_permutation_null,
+    continuous_spatial_rho,
     distribution_spatial_association,
     great_circle_pairwise_km,
     jensen_shannon_pairwise,
@@ -29,6 +32,9 @@ from .spatial import (
 __all__ = [
     "AlignmentNullResult",
     "AssociationResult",
+    "absolute_pairwise",
+    "continuous_spatial_permutation_null",
+    "continuous_spatial_rho",
     "ReliabilityResult",
     "TwoModeResult",
     "alignment_statistic",
