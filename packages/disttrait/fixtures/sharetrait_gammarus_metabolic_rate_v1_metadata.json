@@ -1,0 +1,72 @@
+{
+  "schema": "disttrait_sharetrait_gammarus_fixture_v1",
+  "frozen_date_jst": "2026-09-19",
+  "purpose": "external non-flower animal physiology empirical transport for disttrait",
+  "source": {
+    "repository": "ShareTraitProject/ShareTraitDatabase",
+    "commit": "9190652410f782de399ef2d9757a80beffd7a076",
+    "license": "CC-BY-4.0",
+    "table_blobs": {
+      "measurement": "7c2574bb647c1ffd9785878e6f0ab062b2085d22",
+      "contains": "5d68b37ab7276d3d1601a368d780c293d43bca9c",
+      "population": "b1c2ceb7578927986f85a22aaa92ea69c550df5c",
+      "occurrence": "94027fb125335d28b5787256c490c1113c2cf9e8",
+      "located": "9cf73441f2e8e73331d72ac7ab3f67eee688b4f8"
+    },
+    "dataset_table_blob": "d8a0fc2ba064347b233308c630266cbf927a8f60",
+    "source_dataset_id": "TRADAT039",
+    "source_dataset_title": "",
+    "source_dataset_doi": "https://doi.org/10.17605/OSF.IO/56TNH",
+    "source_reference": "",
+    "source_trait": "metabolic_rate"
+  },
+  "selection": {
+    "species": "Gammarus_insensibilis",
+    "population_ids": [
+      "TRAPOP076",
+      "TRAPOP077",
+      "TRAPOP078"
+    ],
+    "trait_type": "metabolic_rate",
+    "trait_unit": "Joule/day",
+    "finite_coordinates_required": true,
+    "finite_trait_required": true,
+    "outcome_tuning": false
+  },
+  "fixture": {
+    "rows": 375,
+    "unique_individuals": 375,
+    "populations": {
+      "TRAPOP076": {
+        "n": 123,
+        "site_id": "TRASIT067",
+        "latitude": 45.763,
+        "longitude": 13.498,
+        "min": 0.27,
+        "max": 7.42
+      },
+      "TRAPOP077": {
+        "n": 130,
+        "site_id": "TRASIT068",
+        "latitude": 41.871,
+        "longitude": 15.34,
+        "min": 0.21,
+        "max": 6.18
+      },
+      "TRAPOP078": {
+        "n": 122,
+        "site_id": "TRASIT069",
+        "latitude": 40.444,
+        "longitude": 18.238,
+        "min": 0.2,
+        "max": 6.5
+      }
+    }
+  },
+  "boundary": [
+    "coordinates are population/site coordinates shared by individuals from the same population",
+    "the fixture is not an estimate of global Gammarus physiology",
+    "the fixture is not used to infer causal environmental effects",
+    "source taxonomic and measurement labels are inherited from ShareTrait"
+  ]
+}
