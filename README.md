@@ -1,51 +1,133 @@
-# FCP — Repeated Global Flower-Colour Atlas (RGFCA)
+# FCP — Global flower-colour polymorphism
 
-This repository is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation. `fcp` asks how intraspecific colour diversity is maintained or sorted across space; the complementary [`chun`](https://github.com/zuizui0223/chun) project asks how similar flower-colour states are repeatedly generated through evolutionary time. See [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md).
+This repository's active mainline asks two linked questions: **can within-species flower-colour polymorphism be measured reproducibly as a species phenotype, and is that variation geometrically constrained in colour space?**
 
-The active research mainline is **RGFCA**: image-first measurement of global flower-colour variation, balanced repeated world maps and species-conditioned spatial and ecological inference. The six-species Chapter 1 analysis and 34-species literature comparison are **legacy studies**, retained for provenance and reproduction rather than used as the biological foundation of the new atlas.
+The former shared-boundary / Repeated Global Flower-Colour Atlas (RGFCA) programme is retained for provenance, but it is no longer the positive biological mainline. Its non-support and identifiability limits remain valid historical results.
 
-RGFCA has measured **100,000 photographs from 1,000 species in two separate cohorts**. The discovery inferential frame contains **21,424 classifiable photographs from 369 species**; the prospectively fixed, species-disjoint reserve contains **20,903 photographs from 363 species**. They are not retrospectively pooled for inference. Discovery balanced realizations each use 250 species and 20 photos per species, repeated 200 times with the full schedule preserved in the species-conditioned null. Repetitions measure sampling stability, not additional biological replication.
+## Current paper
 
-Species-conditioning follows observation taxon labels; the frozen image-only estimator pools all retained flower regions, not a verified mask of the focal species alone. Co-photographed flowers can contribute, with an unmeasured contamination rate. See the [measurement scope and qualification limits](docs/RGFCA_ROI_QUALIFICATION_AUDIT.md).
+Working title:
 
-The research objective is an ecologically interpretable observed signal that survives independent validation. **A weak photo-derived distance–colour association replicated in the reserve: mean Spearman rho = 0.02548, permutation p = 0.001**, following the exploratory discovery result (rho = 0.02702, p = 0.001). Observer-pair exclusion and calendar-quarter controls also returned p = 0.001, but the fixed matched flower-minus-background differential returned **rho = 0.00448, p = 0.087**. Thus the flower-specific robust-replication gate **did not pass**; no causal or shared-boundary conclusion follows. Completed non-support decisions remain unchanged: primary G1 concentration `p = 0.070`, species-disjoint commonness `p = 0.856`. See the [complete reserve results](docs/RGFCA_RESERVE_REPLICATION_RESULTS.md), [current status](docs/RGFCA_RESEARCH_STATUS.md), [replication protocol](docs/RGFCA_RESERVE_REPLICATION.md) and [research goal](docs/RGFCA_RESEARCH_GOAL.md).
+**A recurrent achromatic–chromatic axis structures within-species flower-colour polymorphism across plant species**
+
+The current paper separates three inferential layers:
+
+1. **measurement validity** — whether a continuous species-level polymorphism score survives observer separation;
+2. **geometry** — whether within-species colour variation repeatedly follows a fixed direction in colour space;
+3. **bounded explanation** — whether broad phylogenetic signal or sampled photographic span explain that phenotype.
+
+The decisive upgrade is now complete: a previously frozen white-versus-nonwhite axis was tested prospectively in a pre-frozen species-disjoint third cohort drawn from the same iNaturalist opportunity universe and was supported at both the primary and strict tiers.
 
 ## Start here
 
-The discovery matched-background recovery is now **completed but not evaluable**:
-21,339 of 21,424 photographs passed all exact reproduction checks; 85 did not.
-No background-adjusted statistic or p-value was computed, and no successful
-subset was substituted. This is a measurement-reproduction limitation, not a
-negative ecological result. The separate 500-species reserve measurement has
-completed under its unchanged first-decode flower/background protocol. Its full
-256-partition/50,000-row census is verified; 363 species and 20,903 photographs
-meet the fixed inference threshold. All four prespecified tests are complete:
-the directional photo association replicated, but flower specificity did not
-pass the required background control. Unlike the discovery recovery, this
-reserve control was evaluable; its non-support is not proof of no effect or
-of background causation.
-See the [completed recovery audit](docs/RGFCA_BACKGROUND_RECOVERY_COMPLETION.md).
+- **Active manuscript:** [`docs/POLYMORPHISM_MANUSCRIPT.md`](docs/POLYMORPHISM_MANUSCRIPT.md)
+- **Current claim ledger:** [`docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`](docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md)
+- **Current figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
+- **Paper architecture:** [`docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260913.md`](docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260913.md)
+- **H1 reconciliation:** [`docs/POLYMORPHISM_H1_EVIDENCE_LEDGER_20260914.md`](docs/POLYMORPHISM_H1_EVIDENCE_LEDGER_20260914.md)
+- **Frozen white-axis target:** [`docs/POLYMORPHISM_H2_WHITE_AXIS_TARGET_FREEZE_20260912.md`](docs/POLYMORPHISM_H2_WHITE_AXIS_TARGET_FREEZE_20260912.md)
+- **Third-cohort protocol:** [`docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md`](docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md)
+- **Third-cohort result/claim freeze:** [`docs/POLYMORPHISM_H2_THIRD_COHORT_RESULT_AND_MANUSCRIPT_CLAIM_FREEZE_20260917.md`](docs/POLYMORPHISM_H2_THIRD_COHORT_RESULT_AND_MANUSCRIPT_CLAIM_FREEZE_20260917.md)
+- **Machine-readable prospective H2 result:** [`results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`](results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json)
+- **Machine-readable measurement/support receipt:** [`results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`](results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json)
 
-The two frozen inferential lanes retained below are now legacy studies. Their samples, response variables, null models and claims are distinct.
+## Frozen result snapshot
 
-- **Active goal and validation route:** [`docs/RGFCA_RESEARCH_GOAL.md`](docs/RGFCA_RESEARCH_GOAL.md)
-- **Current results, execution and next questions:** [`docs/RGFCA_RESEARCH_STATUS.md`](docs/RGFCA_RESEARCH_STATUS.md)
-- **Active discovery and replication manuscript (flower specificity unresolved):** [`docs/RGFCA_MANUSCRIPT.md`](docs/RGFCA_MANUSCRIPT.md)
-- **Discovery map, effects and figure provenance:** [`docs/RGFCA_PUBLICATION_FIGURES.md`](docs/RGFCA_PUBLICATION_FIGURES.md)
-- **Verified real flower photo bar and source credits:** [`docs/RGFCA_PHOTO_BAR.md`](docs/RGFCA_PHOTO_BAR.md)
-- **Supporting numerical evidence and submission gaps:** [`docs/RGFCA_SUPPORTING_EVIDENCE.md`](docs/RGFCA_SUPPORTING_EVIDENCE.md)
-- **Audited core literature and claim limits:** [image/ecology precedents](docs/RGFCA_IMAGE_ECOLOGY_LITERATURE_AUDIT.md), [statistical interpretation](docs/RGFCA_STATISTICAL_LITERATURE_AUDIT.md)
-- **Core scientific-software citation audit:** [`docs/RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md`](docs/RGFCA_SCIENTIFIC_SOFTWARE_AUDIT.md)
-- **Measurement providers, model identities and reuse limits:** [`docs/RGFCA_MEASUREMENT_PROVIDER_AUDIT.md`](docs/RGFCA_MEASUREMENT_PROVIDER_AUDIT.md)
-- **Training data and limits of flower-region validation:** [JRC source and rights](docs/RGFCA_TRAINING_SOURCE_AUDIT.md), [100-image qualification audit](docs/RGFCA_ROI_QUALIFICATION_AUDIT.md)
-- **New measurement-reference feasibility:** [six source families and completed six-document schema inspection](docs/RGFCA_TARGET_DOMAIN_VALIDATION_FEASIBILITY.md); public annotation access is verified, not focal-petal accuracy or an admitted independent benchmark.
-- **Independent measurement-reference status:** [target definition and source-integrity checks](docs/RGFCA_MEASUREMENT_TARGET_AND_VALIDATION_V2.md). USDA public 100/30 split lists overlap by one filename (union 129). The [completed FlowerMask metadata check](docs/RGFCA_FLOWERMASK_PAIR_METADATA.md#completed-result-metadata-inspected-paired-frame-incomplete) retained all 300 rows: 299 advertise the required pair members; one returned listing lacks `img.png`. Exact source bytes and the unresolved row are preserved. No image/model benchmark or successful-subset score is admitted.
-- **Completed Monarda measurement diagnostic — gate did not pass:** [110-image result and exact retained bundle](docs/RGFCA_MONARDA_REGION_AGREEMENT_RESULTS.md). Pooled region precision was **0.56824** (required 0.70), recall **0.42609** (required 0.35), and median image precision **0.51480** (required 0.70). All images aligned; no runtime failures. This limits localization claims, not evidence of absent biology or a cause of the reserve non-support. The original model/thresholds were unchanged; the [pre-outcome clarification](docs/RGFCA_MONARDA_EXECUTION_AMENDMENT.md) explicitly permits internal CIELAB but no continuous-colour output/analysis.
-- **RGFCA protocol:** [`docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md`](docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md)
-- **Repeated-atlas method:** [`docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md`](docs/REPEATED_GLOBAL_FLOWER_COLOUR_ATLAS_METHOD.md)
-- **Methodological contribution:** [`docs/RGFCA_METHOD_NOVELTY_POSITIONING.md`](docs/RGFCA_METHOD_NOVELTY_POSITIONING.md)
-- **Observation-bias audit:** [`docs/RGFCA_OBSERVATION_BIAS.md`](docs/RGFCA_OBSERVATION_BIAS.md)
-- **Programme position:** [`docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md`](docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md)
+### H1 — observer-disjoint measurement validity
+
+For the first-frozen repeated observer-disjoint reserve test:
+
+- 200 partitions;
+- median paired species = 329;
+- median split Spearman rho = **0.7891**;
+- 5th percentile rho = **0.7652**;
+- median Lin CCC = **0.8548**;
+- median Spearman-Brown reliability = **0.8821**.
+
+A later deliberately stricter deterministic split yielded rho = **0.7927** and missed its prespecified 0.80 floor. The supported claim is reproducibility under the first-frozen validation rule, not near-perfect or split-invariant reliability.
+
+### H2 — recurrent achromatic–chromatic geometry
+
+The original discovery/reserve cohorts localized the recurrent construction-controlled signal to a fixed white-versus-equal-nonwhite contrast. Because that target was isolated after the original broad geometry had been opened, those cohorts are discovery/audit evidence for the named axis.
+
+The prospective third cohort then tested the already frozen axis without retuning:
+
+- outcome-blind candidate frame = 3,230 species;
+- selected before biological opening = 500 species;
+- terminal cohort = **499 species × 100 rows = 49,900 rows**;
+- terminal partitions = **256 / 256**;
+- classifiable rows = **25,788**;
+- measurement-evaluable species = **377** (required >=250);
+- replacements = **0**;
+- support gate = **PASS**.
+
+Primary 0.10 tier:
+
+- vector species = **158**;
+- observed W = **0.5172457461**;
+- structured-null median = **0.4571428150**;
+- p = **0.001**.
+
+Strict 0.20 tier:
+
+- vector species = **86**;
+- observed W = **0.5329282123**;
+- structured-null median = **0.4593196659**;
+- p = **0.001**.
+
+Frozen verdict:
+
+`H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`
+
+This is a **prospective species-disjoint confirmation within the same iNaturalist source/opportunity universe**, not an independent-source replication.
+
+### H3a — broad phylogenetic signal
+
+Reserve Blomberg-K tests were unsupported on all three frozen placement scenarios:
+
+- S1 p = 0.2716;
+- S2 p = 0.4134;
+- S3 p = 0.2674.
+
+Frozen verdict: `H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED`.
+
+### H3b — sampled photographic span
+
+Discovery: rho = 0.1798786, p = 0.00089996.
+
+Species-disjoint reserve: rho = -0.0025855, p = 0.9586021.
+
+Frozen verdict: `H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED`.
+
+## Claim boundaries
+
+The 42,111-species global frame is a sampling/opportunity frame, **not a prevalence denominator**.
+
+The present evidence does not establish:
+
+- global prevalence of flower-colour polymorphism;
+- an independent-source H2 replication;
+- pigment chemistry or pigment-loss/gain mechanism;
+- evolutionary direction of white/nonwhite transitions;
+- pollinator, climate or other adaptive causation;
+- a recurrent non-white hue axis;
+- absence of all phylogenetic structure;
+- irrelevance of true biological range size.
+
+P500 remains a successful prospective measurement-transport exercise with **no durable H2 biological verdict** because its post-calculation serialization failed before a terminal H2 result was written. It is not replayed or retroactively classified.
+
+## Archived RGFCA shared-boundary programme
+
+The earlier Repeated Global Flower-Colour Atlas programme remains available for provenance and negative/identifiability results:
+
+- [research goal](docs/RGFCA_RESEARCH_GOAL.md)
+- [research status](docs/RGFCA_RESEARCH_STATUS.md)
+- [RGFCA manuscript](docs/RGFCA_MANUSCRIPT.md)
+- [reserve replication results](docs/RGFCA_RESERVE_REPLICATION_RESULTS.md)
+- [measurement/qualification limits](docs/RGFCA_ROI_QUALIFICATION_AUDIT.md)
+- [global barrier-atlas protocol](docs/GLOBAL_MONTE_CARLO_BARRIER_ATLAS_PROTOCOL.md)
+
+It must not be mixed into the polymorphism paper as positive evidence for a shared global colour boundary.
 
 ### Legacy: six-species Chapter 1 held-out spatial analysis
 
@@ -232,24 +314,15 @@ python -m pip install -e .
 
 ## Repository boundary
 
-Active RGFCA material belongs to the repeated-atlas research programme described above. Discovery, technical qualification, exploratory inference and independent biological validation have different claims. The two legacy studies below retain their original samples, protocols and results, and are not pooled with RGFCA.
+The active repository mainline is the species-level flower-colour polymorphism paper defined by the frozen H1-H3 ledgers and the prospective third-cohort H2 result.
 
-### Legacy Chapter 1 spatial lane
+A file belongs to the active polymorphism mainline when it supports:
 
-A file belongs here only if it supports:
+1. the 42,111-species sampling/opportunity frame or high-depth cohort construction;
+2. the continuous four-state D phenotype and its observer-disjoint validation;
+3. the label-free H2 geometry, white-axis audit or prospectively frozen q_white/W test;
+4. the prospective third-cohort measurement, support and H2 chain of custody;
+5. the bounded H3a/H3b replication tests;
+6. manuscript, figure, audit or reproducibility products for those analyses.
 
-1. frozen photograph acquisition, calibration or evaluation;
-2. species-conditioned local colour organization;
-3. label-blind transition detectability and shared concentration;
-4. audit, figures or manuscript reporting for those analyses.
-
-### Legacy 34-species comparative lane
-
-A file belongs here only if it supports:
-
-1. discovery and classification of documented flower-colour cases;
-2. construction of the frozen 34-species occupied-climate dataset;
-3. the five comparative niche models and required robustness analyses;
-4. reproduction, audit or submission of that paper.
-
-Historical phase-theory work, unreviewed expanded-set experiments and exploratory geographic-cause overlays are not promoted into either confirmatory main line merely because they remain recoverable in repository history.
+RGFCA shared-boundary work, the six-species Chapter 1 lane and the frozen 34-species comparative paper remain recoverable legacy programmes. Their samples, estimands, protocols and claims are distinct and are not pooled with the active polymorphism inference merely because they coexist in this repository.
