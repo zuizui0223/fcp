@@ -565,6 +565,27 @@ def generate_all(root: Path, output_dir: Path) -> Path:
     return manifest_path
 
 
+def regenerate_figure5_only(root: Path, output_dir: Path) -> Path:
+    """Refresh Figure 5 framing while preserving the frozen numerical bundle."""
+    root = Path(root).resolve()
+    output_dir = Path(output_dir).resolve()
+    configure_matplotlib()
+    validate_reporting_source(root)
+
+    manifest_path = output_dir / "polymorphism_figure_manifest_20260918.json"
+    if not manifest_path.exists():
+        raise FileNotFoundError(manifest_path)
+    manifest = load_json(manifest_path)
+    if manifest.get("schema") != "polymorphism_manuscript_figure_manifest_v1":
+        raise ValueError("unexpected canonical figure-manifest schema")
+
+    files, meta = figure5(root, output_dir)
+    manifest["figures"]["figure5"] = {**meta, "files": files}
+    manifest["scientific_claims_changed"] = False
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return manifest_path
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -578,12 +599,20 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=Path("docs/figures/polymorphism_20260918"),
     )
+    parser.add_argument(
+        "--figure5-only",
+        action="store_true",
+        help="regenerate only Figure 5 and update its canonical manifest entry",
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    manifest = generate_all(args.root, args.output_dir)
+    if args.figure5_only:
+        manifest = regenerate_figure5_only(args.root, args.output_dir)
+    else:
+        manifest = generate_all(args.root, args.output_dir)
     print(f"Wrote frozen polymorphism publication figures and manifest: {manifest}")
 
 
