@@ -191,6 +191,29 @@ def matched_difference_spatial_permutation_null(
     return float(observed), null
 
 
+def species_equal_spatial_omnibus(
+    spatial_observed: Sequence[float],
+    spatial_null: np.ndarray,
+) -> AssociationResult:
+    """Equal-species mean spatial organization against matched null worlds.
+
+    spatial_null has shape (n_species, n_permutations), with column j
+    representing the same matched null world across all species.
+    """
+    observed = np.asarray(spatial_observed, dtype=float)
+    null = np.asarray(spatial_null, dtype=float)
+    if observed.ndim != 1:
+        raise ValueError("spatial_observed must be one-dimensional")
+    if null.ndim != 2 or null.shape[0] != len(observed):
+        raise ValueError("spatial_null must have shape (n_species, n_permutations)")
+    if np.any(~np.isfinite(observed)) or np.any(~np.isfinite(null)):
+        raise ValueError("spatial omnibus inputs must be finite")
+    observed_mean = float(np.mean(observed))
+    null_means = np.mean(null, axis=0)
+    p = float((1 + np.sum(null_means >= observed_mean)) / (len(null_means) + 1))
+    return AssociationResult(observed=observed_mean, p_upper=p, null=null_means)
+
+
 def distribution_spatial_association(
     diversity: Sequence[float],
     spatial_observed: Sequence[float],
