@@ -10,6 +10,7 @@ from disttrait import (
     observer_disjoint_reliability,
     one_vs_rest_contrast,
     spatial_permutation_null,
+    structured_alignment_null,
     two_mode_axis,
 )
 
@@ -155,6 +156,70 @@ def test_h2_two_means_matches_frozen_fcp_algorithm_fixture() -> None:
         rtol=0,
         atol=5e-9,
     )
+
+
+def test_structured_alignment_null_matches_frozen_fcp_construction_fixture() -> None:
+    rows = []
+    species = []
+    strata = []
+    fixture = {
+        "sp1": [
+            ("A", [0.90, 0.07, 0.03]),
+            ("A", [0.85, 0.10, 0.05]),
+            ("A", [0.88, 0.08, 0.04]),
+            ("B", [0.10, 0.45, 0.45]),
+            ("B", [0.08, 0.50, 0.42]),
+            ("B", [0.12, 0.40, 0.48]),
+        ],
+        "sp2": [
+            ("A", [0.75, 0.15, 0.10]),
+            ("A", [0.78, 0.12, 0.10]),
+            ("A", [0.72, 0.18, 0.10]),
+            ("B", [0.20, 0.60, 0.20]),
+            ("B", [0.18, 0.62, 0.20]),
+            ("B", [0.22, 0.58, 0.20]),
+        ],
+        "sp3": [
+            ("A", [0.65, 0.25, 0.10]),
+            ("A", [0.68, 0.22, 0.10]),
+            ("A", [0.62, 0.28, 0.10]),
+            ("B", [0.30, 0.20, 0.50]),
+            ("B", [0.28, 0.22, 0.50]),
+            ("B", [0.32, 0.18, 0.50]),
+        ],
+    }
+    for sp, values in fixture.items():
+        for stratum, composition in values:
+            species.append(sp)
+            strata.append(stratum)
+            rows.append(composition)
+
+    result = structured_alignment_null(
+        np.asarray(rows, dtype=float),
+        species,
+        strata,
+        one_vs_rest_contrast(3, focal_index=0),
+        n_permutations=7,
+        seed=1234,
+        strata_order=["A", "B"],
+    )
+    assert result.n_species == 3
+    assert result.observed == pytest.approx(0.8415894074641564, abs=1e-14)
+    np.testing.assert_allclose(
+        result.null,
+        [
+            0.9795760222919392,
+            0.9546391137953703,
+            0.9761887862595559,
+            0.9954539526745961,
+            0.9970410115104974,
+            0.9887474330894296,
+            0.989360775244641,
+        ],
+        rtol=0,
+        atol=1e-14,
+    )
+    assert result.p_upper == 1.0
 
 
 def test_generic_one_vs_rest_contrast_matches_frozen_q_white() -> None:
