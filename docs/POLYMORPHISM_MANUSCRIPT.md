@@ -138,19 +138,17 @@ The prospective H2 target is supported when the primary tier is evaluable and p 
 
 ### Complementary test: species-level D and within-species geographic organization
 
-We additionally retain a previously frozen, species-disjoint analysis asking whether species with greater D also show stronger internal geographic colour organization. For each species, all retained photograph pairs were used to calculate great-circle geographic distance and flower-colour Jensen–Shannon dissimilarity. Species-specific geographic organization was then summarized as the Spearman correlation
+We additionally retain a previously frozen, species-disjoint analysis asking whether species with greater D also show stronger internal geographic colour organization. For each species, all retained photograph pairs were used to calculate great-circle geographic distance and flower-colour Jensen–Shannon dissimilarity. Species-specific geographic organization was then summarized as
 
-[
-ho_i = mathrm{Spearman}(d^{mathrm{geo}}_{ij}, d^{mathrm{colour}}_{ij}),
-]
+`rho_i = Spearman(d_geo_ij, d_colour_ij)`,
 
-where positive values indicate that geographically more distant photographs tend to be more colour-dissimilar. The original RGFCA spatial randomization preserved species identity, coordinates, the complete pairwise geographic geometry and the multiset of colour vectors, while permuting complete colour vectors among photographs within species. Each species therefore had one observed (ho_i) and 999 matched within-species null values.
+where positive values indicate that geographically more distant photographs tend to be more colour-dissimilar. The original RGFCA spatial randomization preserved species identity, coordinates, the complete pairwise geographic geometry and the multiset of colour vectors, while permuting complete colour vectors among photographs within species. Each species therefore had one observed `rho_i` and 999 matched within-species null values.
 
-The threshold-free D–spatial statistic is the Spearman correlation across species between fixed species-level D and observed (ho_i). For each of the same 999 frozen spatial permutations, D is correlated with the corresponding permuted species-level (ho_i) values; the upper-tail randomization probability is ((1+#{ho_{mathrm{null}}ge ho_{mathrm{obs}}})/1000). No spatial distances, colour distances or permutation assignments were regenerated for the present manuscript.
+The threshold-free D–spatial statistic is the Spearman correlation across species between fixed species-level D and observed `rho_i`. For each of the same 999 frozen spatial permutations, D is correlated with the corresponding permuted species-level `rho_i` values; the upper-tail randomization probability is `(1 + # {rho_null >= rho_obs}) / 1000`. No spatial distances, colour distances or permutation assignments were regenerated for the present manuscript.
 
-The primary robustness analysis uses a partial-rank version of the same statistic. Rank(D) and rank((ho_i)) are separately residualized on an intercept, ranked sampled geographic span and ranked clear ROI/flip technical-failure rate; the reported partial Spearman value is the Pearson correlation of those residuals. The statistic is recalculated for each of the 999 frozen within-species spatial null realizations.
+The primary robustness analysis uses a partial-rank version of the same statistic. Rank(D) and rank(`rho_i`) are separately residualized on an intercept, ranked sampled geographic span and ranked clear ROI/flip technical-failure rate; the reported partial Spearman value is the Pearson correlation of those residuals. The statistic is recalculated for each of the 999 frozen within-species spatial null realizations.
 
-Reserve also provides a matched flower-minus-background response. This is calculated within species as (mathrm{Spearman}(d^{mathrm{geo}}_{ij}, d^{mathrm{flower}}_{ij}-d^{mathrm{background}}_{ij})), using paired flower and background colour measurements from the same photographs and joint same-photo permutations. It is not the difference between separate flower and background Spearman coefficients.
+Reserve also provides a matched flower-minus-background response. This is calculated within species as `Spearman(d_geo_ij, d_flower_ij - d_background_ij)`, using paired flower and background colour measurements from the same photographs and joint same-photo permutations. It is not the difference between separate flower and background Spearman coefficients.
 
 Exact D_min4 and D_max4 completions provide uniform endpoint stress tests for ambiguous-palette observations under the frozen four-state model. The reporting-only receipt for the current manuscript reproduces these already frozen Step-8/Step-9 outputs; no model, threshold, distance metric or null was refitted for this submission. These analyses test a structural correlate of D, not the causal process maintaining polymorphism.
 
