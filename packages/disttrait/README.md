@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.1 scope
+## v0.2 scope
 
 The package provides reusable components for:
 
@@ -16,12 +16,37 @@ The package provides reusable components for:
 - pairwise great-circle distances;
 - pairwise Jensen-Shannon trait dissimilarity;
 - species-specific spatial organization `rho_i`;
-- matched trait-minus-background spatial organization;
+- matched trait-minus-background spatial organization and joint same-observation permutation nulls;
 - species-level distribution-versus-spatial association;
 - partial-rank adjustment with matched spatial nulls.
 
 The package deliberately does **not** claim a new standalone statistic. Most components are established statistics. The reusable contribution is an inference architecture that separates measurement validity, species-level trait distributions, trait geometry, spatial organization, matched nulls, and prospective confirmation.
 
+
+## FCP equivalence status
+
+v0.2 adds compact exact-equivalence fixtures against the frozen FCP/RGFCA implementations for:
+
+- observer-disjoint partitioning, classifiability and split-half reliability;
+- deterministic Hellinger two-means and mode orientation;
+- the generic one-vs-rest contrast versus the frozen nine-dimensional `q_white`;
+- species-specific distance-trait vertex-permutation nulls;
+- matched focal-minus-background joint-permutation nulls.
+
+Reference source Git blobs and result contracts are frozen in:
+
+`packages/disttrait/fixtures/fcp_equivalence_manifest.json`
+
+The clean submission branch does not include the original 100,000-row discovery/reserve measurement tables. Therefore the always-on tests establish **algorithmic equivalence**, not a complete raw-data replay of every biological result.
+
+For a full H1 replay when the original measured tables are available:
+
+```bash
+python packages/disttrait/scripts/replay_fcp_h1.py \
+  --discovery /path/to/global_monte_carlo_measured_photos_v1.csv \
+  --reserve /path/to/rgfca_reserve_replication_measured_photos_v1.csv \
+  --expected results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json
+```
 
 ## Install from this repository
 
