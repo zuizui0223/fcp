@@ -30,6 +30,20 @@ def test_new_phytologist_front_matter_and_summary_contract() -> None:
     assert 5 <= len(keywords) <= 8
 
 
+def test_new_phytologist_documents_42111_frame_provenance() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    for token in (
+        "42,111 unique iNaturalist species",
+        "18 × 9 equal-area grid",
+        "Twenty metadata-only V2 rounds",
+        "3,240 fixed cell-level request attempts",
+        "No candidate image pixels or flower-colour outcomes were used",
+        "4,730 species",
+        "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md",
+    ):
+        assert token in text
+
+
 def test_new_phytologist_documents_original_rgfca_acquisition_and_analysis_lineage() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     for token in (
