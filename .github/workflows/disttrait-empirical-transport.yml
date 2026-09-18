@@ -37,6 +37,12 @@ jobs:
           python packages/disttrait/examples/sf_street_tree_empirical.py \
             --output disttrait_sf_empirical_result.json
 
+      - name: Verify empirical transport receipt
+        run: |
+          python packages/disttrait/scripts/check_sf_empirical_receipt.py \
+            --observed disttrait_sf_empirical_result.json \
+            --expected results/disttrait_sf_street_tree_empirical_v0_6_20260919/result.json
+
       - name: Upload empirical transport receipt
         uses: actions/upload-artifact@v4
         with:
