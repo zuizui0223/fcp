@@ -11,6 +11,15 @@ from .geometry import (
     structured_alignment_null,
     two_mode_axis,
 )
+from .meta import (
+    PermutationCalibratedSlopeResult,
+    RandomEffectsSlopeResult,
+    SlopeEstimate,
+    random_effects_from_groups,
+    random_effects_slope_permutation_test,
+    random_effects_slope_summary,
+    species_slope_estimate,
+)
 from .reliability import ReliabilityResult, observer_disjoint_reliability
 from .spatial import (
     AssociationResult,
@@ -35,7 +44,10 @@ __all__ = [
     "absolute_pairwise",
     "continuous_spatial_permutation_null",
     "continuous_spatial_rho",
+    "PermutationCalibratedSlopeResult",
+    "RandomEffectsSlopeResult",
     "ReliabilityResult",
+    "SlopeEstimate",
     "TwoModeResult",
     "alignment_statistic",
     "categorical_diversity",
@@ -50,9 +62,13 @@ __all__ = [
     "one_vs_rest_contrast",
     "partial_distribution_spatial_association",
     "partial_rank_correlation",
+    "random_effects_from_groups",
+    "random_effects_slope_permutation_test",
+    "random_effects_slope_summary",
     "permute_rows_within_strata",
     "spatial_permutation_null",
     "spatial_rho",
+    "species_slope_estimate",
     "species_equal_spatial_omnibus",
     "structured_alignment_null",
     "two_mode_axis",
