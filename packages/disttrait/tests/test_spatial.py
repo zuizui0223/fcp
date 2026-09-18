@@ -9,6 +9,7 @@ from disttrait import (
     partial_distribution_spatial_association,
     spatial_permutation_null,
     spatial_rho,
+    species_equal_spatial_omnibus,
 )
 
 
@@ -84,3 +85,16 @@ def test_spatial_edge_cases_match_frozen_fcp_semantics():
             np.array([[1.0, 0.0], [0.8, 0.2], [0.2, 0.8], [0.0, 1.0]]),
             n_permutations=3,
         )
+
+
+def test_species_equal_spatial_omnibus_uses_matched_null_columns():
+    observed = np.array([0.2, 0.3, 0.4])
+    null = np.array([
+        [0.0, 0.1, 0.2],
+        [0.0, 0.1, 0.2],
+        [0.0, 0.1, 0.2],
+    ])
+    result = species_equal_spatial_omnibus(observed, null)
+    assert result.observed == pytest.approx(0.3)
+    np.testing.assert_allclose(result.null, [0.0, 0.1, 0.2])
+    assert result.p_upper == pytest.approx(0.25)
