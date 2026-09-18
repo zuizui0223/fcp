@@ -148,7 +148,7 @@ def test_new_phytologist_front_page_counts_are_live() -> None:
     assert _declared_word_count(text, "Materials and Methods") == methods
     assert _declared_word_count(text, "Results") == results
     assert _declared_word_count(text, "Discussion") == discussion
-    assert _declared_word_count(text, "Main text \(Introduction through Discussion\)") == main
+    assert _declared_word_count(text, "Main text (Introduction through Discussion)") == main
 
     assert discussion / main <= 0.30
 
