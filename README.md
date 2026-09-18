@@ -29,6 +29,7 @@ The prospective H2 result is **species-disjoint within the same iNaturalist sour
 
 ### Start here
 
+- **RGFCA → polymorphism interpretation:** [`docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`](docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md)
 - **Canonical manuscript:** [`docs/POLYMORPHISM_MANUSCRIPT.md`](docs/POLYMORPHISM_MANUSCRIPT.md)
 - **New Phytologist submission draft:** [`docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md)
 - **Current claim ledger:** [`docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`](docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md)
