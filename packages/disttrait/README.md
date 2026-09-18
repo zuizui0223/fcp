@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.4 scope
+## v0.5 scope
 
 The package provides reusable components for:
 
@@ -126,9 +126,17 @@ It compares naive pooling, equal-species matched-null inference, pair-count-weig
 
 The interpretation is therefore bounded: species-conditioning is the major protection against between-species geographic confounding; equal species weighting can help under imbalance but is not uniquely optimal, and simple species-level tests can be competitive when their assumptions are adequate.
 
+v0.5 adds a model-based species-conditioned comparator on the same 24 cells:
+
+`results/disttrait_model_comparator_surface_v0_5_20260919/`
+
+The added model uses species-specific intercepts with one common nonnegative within-species logistic slope and a one-sided profile-likelihood ratio test. Under the correctly specified binary-logistic data-generating process, weak-effect detection is **0.975–1.00**, compared with **0.225–0.675** for the equal-species matched-null omnibus. Across null cells, the fixed-effect logistic mean false-positive fraction is **0.05**, but its worst cell reaches **0.10**; the matched-null omnibus remains at or below **0.025** in every null cell.
+
+The interpretation is a trade-off rather than a winner: a correctly specified response model can gain substantial power, while the matched-null approach is more assumption-light and has more stable worst-cell null behavior in this benchmark.
+
 These benchmarks are targeted demonstrations, not evidence of universal superiority or robustness to missing-not-at-random trait observation.
 
-## Validation gate for v0.2
+## Validation gate
 
 The release-candidate gate is the dedicated `disttrait package` workflow. It installs the package from `packages/disttrait`, compiles the public modules, and runs the full package test suite including compact frozen-FCP equivalence fixtures, non-flower generalization tests, and the repeated species-conditioning benchmark.
 
