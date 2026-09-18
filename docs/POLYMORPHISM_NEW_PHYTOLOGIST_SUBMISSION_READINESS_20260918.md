@@ -44,15 +44,15 @@ The official guidelines currently describe Full Papers as usually approximately 
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 111 characters | PASS |
-| Summary <=200 words | 149 words | PASS |
+| Summary <=200 words | 169 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
-| Introduction | 499 words | RECORDED |
+| Introduction | 507 words | RECORDED |
 | Materials and Methods | 1,675 words | RECORDED |
-| Results | 864 words | RECORDED |
-| Discussion | 798 words | RECORDED |
-| Main text, Introduction–Discussion | 3,836 words | RECORDED |
-| Discussion share of main text | 20.8% | PASS (<30%) |
+| Results | 866 words | RECORDED |
+| Discussion | 846 words | RECORDED |
+| Main text, Introduction–Discussion | 3,894 words | RECORDED |
+| Discussion share of main text | 21.7% | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (guideline range 6–8) |
@@ -69,7 +69,7 @@ The three required editor questions are present.
 Measured answer lengths:
 
 1. What hypotheses or questions does this work address? — **36 words**
-2. How does this work advance our current understanding of plant science? — **36 words**
+2. How does this work advance our current understanding of plant science? — **46 words**
 3. Why is this work important and timely? — **40 words**
 
 All satisfy the <=50-word rule.
@@ -90,7 +90,7 @@ Present in both PNG and PDF:
 2. Figure 2 — H1 observer-disjoint reproducibility;
 3. Figure 3 — legacy H2 target localization;
 4. Figure 4 — prospective H2 confirmation;
-5. Figure 5 — explanatory boundaries.
+5. Figure 5 — bounded alternative-explanation tests.
 
 Canonical manifest:
 
