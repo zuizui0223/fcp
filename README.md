@@ -32,10 +32,11 @@ The prospective H2 result is **species-disjoint within the same iNaturalist sour
 The reusable, flower-colour-independent inference layer now lives in:
 
 - **`packages/disttrait/`** — Python package for validated species-level distributional trait inference;
-- **`docs/DISTTRAIT_PACKAGE_V0_7_20260919.md`** — active v0.7 validation/direction-heterogeneity boundary;
+- **`docs/DISTTRAIT_PACKAGE_V0_8_20260919.md`** — active v0.8 permutation-calibrated random-slope/meta boundary;
+- **`docs/DISTTRAIT_METHODS_PAPER_ARCHITECTURE_20260919.md`** — standalone methods-paper claim/evidence architecture;
 - **`docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md`** — standard statistics versus study-specific inference architecture.
 
-`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving nulls, categorical and scalar-continuous species-specific spatial organization, equal-species omnibus inference, matched focal-minus-background structure, and distribution–spatial association. v0.7 retains exact FCP-equivalence fixtures, false-positive/power and model-comparator surfaces, the external 1,600-tree non-flower empirical transport, and adds a direction-heterogeneity benchmark showing that common signed-slope models and direction-invariant distance–dissimilarity analyses answer different cross-species questions. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific.
+`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving nulls, categorical and scalar-continuous species-specific spatial organization, equal-species omnibus inference, matched focal-minus-background structure, distribution–spatial association, and species-specific signed-slope random-effects summaries. v0.8 retains exact FCP-equivalence fixtures, false-positive/power and model-comparator surfaces, the external 1,600-tree non-flower empirical transport and the direction-heterogeneity benchmark, and adds matched within-species permutation calibration for random-slope/meta inference after the uncalibrated asymptotic preflight showed inflated null rejection under small per-species samples. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific.
 
 ### Start here
 
