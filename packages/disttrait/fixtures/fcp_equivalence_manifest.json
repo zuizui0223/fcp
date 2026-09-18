@@ -43,6 +43,7 @@
     "observer-disjoint partition/tie-break/classifiability fixture",
     "deterministic Hellinger two-means fixture",
     "generic one-vs-rest contrast equals frozen q_white loadings",
+    "full construction-preserving fixed-contrast structured null fixture",
     "species spatial vertex-permutation null fixture",
     "matched focal-minus-background joint-permutation null fixture"
   ],
