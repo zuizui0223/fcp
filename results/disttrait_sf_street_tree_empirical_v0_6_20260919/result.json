@@ -1,0 +1,53 @@
+{
+  "schema": "disttrait_sf_street_tree_empirical_receipt_v1",
+  "date_jst": "2026-09-19",
+  "role": "external_nonflower_empirical_transport",
+  "package_candidate": "disttrait 0.6.0",
+  "biological_claim": false,
+  "source": {
+    "repository": "rfordatascience/tidytuesday",
+    "path": "data/2020/2020-01-28/sf_trees.csv",
+    "git_blob_sha": "bdc06c1297b7dd88bea0df77de4007eaab30198e",
+    "upstream": "San Francisco Public Works Street Tree List",
+    "upstream_license": "Open Data Commons Public Domain Dedication and License (PDDL) 1.0",
+    "snapshot_date": "2020-01-28"
+  },
+  "fixture": {
+    "path": "packages/disttrait/fixtures/sf_street_trees_v1.csv",
+    "metadata": "packages/disttrait/fixtures/sf_street_trees_v1_metadata.json",
+    "taxa": 20,
+    "observations_per_taxon": 80,
+    "observations": 1600,
+    "eligible_source_taxa_ge500": 52
+  },
+  "analysis": {
+    "trait": "natural-log DBH",
+    "within_taxon_dissimilarity": "absolute difference in log(DBH)",
+    "permutations_per_taxon": 99,
+    "species_conditioned_mean_rho": 0.09219463190718608,
+    "species_conditioned_p_upper": 0.01,
+    "spread_spatial_rho": -0.18646616541353384,
+    "spread_spatial_p_upper": 0.83,
+    "naive_pooled_rho": 0.027827206571494206,
+    "naive_pooled_p": 1.677830601915801e-217
+  },
+  "workflow": {
+    "pr": 46,
+    "head_sha": "1127be4b66beefa10bf65199c0ed71c017d227dc",
+    "run_id": 35381530119,
+    "job_id": 105718578832,
+    "artifact_id": 10563155571,
+    "artifact_name": "disttrait-sf-empirical-transport-only",
+    "conclusion": "success"
+  },
+  "interpretation": {
+    "supported": "The generic continuous-trait spatial layer transports unchanged to an external, non-flower municipal tree inventory and detects positive within-taxon geographic organization of log(DBH) under a matched vertex-permutation null.",
+    "not_supported": [
+      "DBH variation amount predicts stronger spatial organization across taxa",
+      "the observed spatial organization is caused by ecology rather than planting, management, age structure or inventory processes",
+      "naive pooled and species-conditioned statistics estimate the same target",
+      "taxon labels in the municipal inventory are taxonomically validated species concepts",
+      "this single empirical dataset establishes universal external validity"
+    ]
+  }
+}
