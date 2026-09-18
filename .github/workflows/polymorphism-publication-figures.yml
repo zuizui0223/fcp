@@ -60,6 +60,8 @@ jobs:
             echo "No figure changes to commit."
           else
             git commit -m "Generate frozen polymorphism publication figures [skip ci]"
+            git fetch origin analysis/h2-third-cohort-preopening-20260916
+            git rebase origin/analysis/h2-third-cohort-preopening-20260916
             git push origin HEAD:analysis/h2-third-cohort-preopening-20260916
           fi
 
