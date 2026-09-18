@@ -149,12 +149,6 @@ def run_world(
     common_beta, common_p = _fixed_effect_common_slope_test(model_groups)
 
     meta, slopes = random_effects_from_groups(model_groups)
-    meta_perm = random_effects_slope_permutation_test(
-        model_groups,
-        n_permutations=META_PERMUTATIONS,
-        seed=2026091908,
-        key=f"world|{seed}",
-    )
     calibrated_meta = random_effects_slope_permutation_test(
         model_groups,
         n_permutations=META_PERMUTATIONS,
@@ -246,15 +240,6 @@ def run_benchmark(*, worlds_per_cell: int = WORLDS_PER_CELL) -> dict:
                         "meta_omnibus_detection": float(
                             np.mean(frame["meta_omnibus_p"] < ALPHA)
                         ),
-                        "meta_perm_mean_detection": float(
-                            np.mean(frame["meta_perm_mean_p"] < ALPHA)
-                        ),
-                        "meta_perm_heterogeneity_detection": float(
-                            np.mean(frame["meta_perm_heterogeneity_p"] < ALPHA)
-                        ),
-                        "meta_perm_omnibus_detection": float(
-                            np.mean(frame["meta_perm_omnibus_p"] < ALPHA)
-                        ),
                         "calibrated_meta_mean_detection": float(
                             np.mean(frame["calibrated_meta_mean_p"] < ALPHA)
                         ),
@@ -309,15 +294,6 @@ def run_benchmark(*, worlds_per_cell: int = WORLDS_PER_CELL) -> dict:
             "max_meta_omnibus_null_fpr": float(
                 null["meta_omnibus_detection"].max()
             ),
-            "max_meta_perm_mean_null_fpr": float(
-                null["meta_perm_mean_detection"].max()
-            ),
-            "max_meta_perm_heterogeneity_null_fpr": float(
-                null["meta_perm_heterogeneity_detection"].max()
-            ),
-            "max_meta_perm_omnibus_null_fpr": float(
-                null["meta_perm_omnibus_detection"].max()
-            ),
             "max_calibrated_meta_mean_null_fpr": float(
                 null["calibrated_meta_mean_detection"].max()
             ),
@@ -336,9 +312,6 @@ def run_benchmark(*, worlds_per_cell: int = WORLDS_PER_CELL) -> dict:
             "effect_0_4_reversal0_meta_omnibus_detection_range": detection_range(
                 weak, "meta_omnibus_detection", 0.0
             ),
-            "effect_0_4_reversal0_meta_perm_omnibus_detection_range": detection_range(
-                weak, "meta_perm_omnibus_detection", 0.0
-            ),
             "effect_0_4_reversal0_calibrated_meta_omnibus_detection_range": detection_range(
                 weak, "calibrated_meta_omnibus_detection", 0.0
             ),
@@ -354,12 +327,6 @@ def run_benchmark(*, worlds_per_cell: int = WORLDS_PER_CELL) -> dict:
             "effect_0_4_reversal0_5_meta_omnibus_detection_range": detection_range(
                 weak, "meta_omnibus_detection", 0.5
             ),
-            "effect_0_4_reversal0_5_meta_perm_heterogeneity_detection_range": detection_range(
-                weak, "meta_perm_heterogeneity_detection", 0.5
-            ),
-            "effect_0_4_reversal0_5_meta_perm_omnibus_detection_range": detection_range(
-                weak, "meta_perm_omnibus_detection", 0.5
-            ),
             "effect_0_4_reversal0_5_calibrated_meta_heterogeneity_detection_range": detection_range(
                 weak, "calibrated_meta_heterogeneity_detection", 0.5
             ),
@@ -371,9 +338,6 @@ def run_benchmark(*, worlds_per_cell: int = WORLDS_PER_CELL) -> dict:
             ),
             "effect_0_8_reversal0_5_meta_omnibus_detection_range": detection_range(
                 strong, "meta_omnibus_detection", 0.5
-            ),
-            "effect_0_8_reversal0_5_meta_perm_omnibus_detection_range": detection_range(
-                strong, "meta_perm_omnibus_detection", 0.5
             ),
             "effect_0_8_reversal0_5_calibrated_meta_omnibus_detection_range": detection_range(
                 strong, "calibrated_meta_omnibus_detection", 0.5
