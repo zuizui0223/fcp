@@ -5,11 +5,15 @@ on:
     paths:
       - "packages/disttrait/benchmarks/direction_heterogeneity_surface.py"
       - "packages/disttrait/src/disttrait/**"
+      - "packages/disttrait/scripts/check_direction_heterogeneity_receipt.py"
+      - "results/disttrait_direction_heterogeneity_v0_7_20260919/**"
       - ".github/workflows/disttrait-direction-heterogeneity.yml"
   pull_request:
     paths:
       - "packages/disttrait/benchmarks/direction_heterogeneity_surface.py"
       - "packages/disttrait/src/disttrait/**"
+      - "packages/disttrait/scripts/check_direction_heterogeneity_receipt.py"
+      - "results/disttrait_direction_heterogeneity_v0_7_20260919/**"
       - ".github/workflows/disttrait-direction-heterogeneity.yml"
 
 permissions:
@@ -34,6 +38,13 @@ jobs:
         run: |
           python packages/disttrait/benchmarks/direction_heterogeneity_surface.py \
             > disttrait_direction_heterogeneity_result.json
+
+      - name: Verify frozen v0.7 benchmark receipt
+        run: |
+          python packages/disttrait/scripts/check_direction_heterogeneity_receipt.py \
+            --observed disttrait_direction_heterogeneity_result.json \
+            --expected results/disttrait_direction_heterogeneity_v0_7_20260919/result.json \
+            --cells results/disttrait_direction_heterogeneity_v0_7_20260919/cells.csv
 
       - name: Upload benchmark result
         uses: actions/upload-artifact@v4
