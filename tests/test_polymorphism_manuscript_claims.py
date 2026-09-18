@@ -11,6 +11,7 @@ FIGURE_PLAN = ROOT / "docs" / "POLYMORPHISM_FIGURE_PLAN_20260918.md"
 README = ROOT / "README.md"
 H2 = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "result.json"
 MEASUREMENT = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_measurement_20260917" / "result.json"
+SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
 
 
 def load_json(path: Path) -> dict:
@@ -71,6 +72,38 @@ def test_manuscript_reports_authoritative_third_cohort_values() -> None:
         "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
         "species-disjoint third cohort",
         "same iNaturalist opportunity universe",
+    ):
+        assert token in text
+
+
+def test_spatial_organization_receipt_preserves_frozen_positive_clue() -> None:
+    result = load_json(SPATIAL)
+    assert result["new_biological_analysis"] is False
+    assert result["source"]["pr"] == 32
+    assert result["source"]["head_sha"] == "f14186590c11ac24c95e1985077908b732132e96"
+
+    assert result["discovery"]["raw_D_spatial"]["rho"] == pytest.approx(0.08921325988911004)
+    assert result["discovery"]["raw_D_spatial"]["p"] == pytest.approx(0.034)
+    assert result["reserve"]["raw_D_spatial"]["rho"] == pytest.approx(0.10160084472811265)
+    assert result["reserve"]["raw_D_spatial"]["p"] == pytest.approx(0.025)
+
+    reserve = result["reserve"]
+    assert reserve["span_plus_technical_adjusted_primary"]["partial_rho"] == pytest.approx(0.09928771129095708)
+    assert reserve["span_plus_technical_adjusted_primary"]["p_upper_geometry_preserving_spatial_null"] == pytest.approx(0.025)
+    assert reserve["span_plus_technical_adjusted_flower_minus_background"]["partial_rho"] == pytest.approx(0.1162411363016301)
+    assert reserve["span_plus_technical_adjusted_flower_minus_background"]["p_upper_geometry_preserving_spatial_null"] == pytest.approx(0.01)
+    assert reserve["ambiguity_endpoints_primary"]["D_min4"]["p"] == pytest.approx(0.029)
+    assert reserve["ambiguity_endpoints_primary"]["D_max4"]["p"] == pytest.approx(0.008)
+
+
+def test_manuscript_reports_spatial_clue_without_causal_upgrade() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    for token in (
+        "Greater D is associated with stronger within-species geographic colour organization",
+        "partial rho = **0.0992877**, p = **0.025**",
+        "partial rho = **0.1162411**, p = **0.010**",
+        "structural rather than causal",
+        "cannot distinguish among them",
     ):
         assert token in text
 
