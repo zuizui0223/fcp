@@ -4,6 +4,14 @@ This repository is the **geographic-space arm** of a broader programme on the sp
 
 ## Active mainline — global flower-colour polymorphism
 
+### What RGFCA was, and what changed
+
+**RGFCA = Repeated Global Flower-Colour Atlas.** It was the upstream image-first sampling and measurement programme that asked whether independent plant species repeatedly place strong within-species flower-colour discontinuities in the same broad geographic regions. Its core design used balanced repeated world-map realizations, equal-species weighting, geographic opportunity correction and species-conditioned colour permutations.
+
+The shared-geography estimand did not become the positive core of the present paper: the primary recurrent-field test was not supported at the prespecified level, cross-species boundary commonness did not transfer, and later sharedness qualification exposed an identifiability limitation. What did remain strongly useful was the infrastructure and the species-specific heterogeneity: globally broad species discovery, high-depth discovery/reserve cohorts, location-blind colour measurement, paired background controls and per-species spatial-organization statistics.
+
+The current paper therefore changes the level of generality from **a shared place on the world map** to **shared structure in phenotype space plus species-specific spatial organization**. A full interpretation is frozen in `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`.
+
 The active paper asks three linked questions: **can within-species flower-colour polymorphism be measured reproducibly as a species phenotype, is that variation geometrically constrained in colour space, and do more polymorphic species organize that variation more strongly across geography?**
 
 The current frozen result is:
