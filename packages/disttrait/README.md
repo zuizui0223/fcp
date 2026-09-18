@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.8 scope
+## v0.9 scope
 
 The package provides reusable components for:
 
