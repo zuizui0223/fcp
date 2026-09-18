@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from disttrait import (
-    permutation_calibrated_random_effects,
+    random_effects_slope_permutation_test,
     random_effects_from_groups,
     random_effects_slope_permutation_test,
     random_effects_slope_summary,
@@ -100,13 +100,13 @@ def test_permutation_calibrated_meta_detects_opposing_slopes_and_is_deterministi
         (x, 0.9 * x + 0.1 * np.cos(np.arange(20) / 2)),
         (x, -0.9 * x + 0.1 * np.sin(np.arange(20) / 2)),
     ]
-    a = permutation_calibrated_random_effects(
+    a = random_effects_slope_permutation_test(
         groups,
         n_permutations=99,
         seed=7,
         key="fixture",
     )
-    b = permutation_calibrated_random_effects(
+    b = random_effects_slope_permutation_test(
         groups,
         n_permutations=99,
         seed=7,
