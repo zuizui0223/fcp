@@ -140,6 +140,28 @@ def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
         assert token.lower() in text.lower()
 
 
+def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    for token in (
+        "all retained photograph pairs were used to calculate great-circle geographic distance and flower-colour Jensen–Shannon dissimilarity",
+        "rho_i = Spearman(d_geo_ij, d_colour_ij)",
+        "999 matched within-species null values",
+        "(1 + # {rho_null >= rho_obs}) / 1000",
+        "Rank(D) and rank(`rho_i`) are separately residualized",
+        "Spearman(d_geo_ij, d_flower_ij - d_background_ij)",
+        "It is not the difference between separate flower and background Spearman coefficients",
+        "The methodological contribution is architectural rather than a claim to a new standalone statistic",
+    ):
+        assert token in text
+
+    methods_audit = ROOT / "docs" / "POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md"
+    assert methods_audit.exists()
+    audit = methods_audit.read_text(encoding="utf-8")
+    assert "Standard or widely used components" in audit
+    assert "Study-specific design choices" in audit
+    assert "The paper should not claim a wholly new statistical method" in audit
+
+
 def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     for token in (
