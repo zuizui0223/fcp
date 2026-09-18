@@ -1,0 +1,44 @@
+name: disttrait empirical transport
+
+on:
+  push:
+    paths:
+      - "packages/disttrait/examples/castor_empirical_transport.py"
+      - "packages/disttrait/src/disttrait/spatial.py"
+      - "packages/disttrait/src/disttrait/__init__.py"
+      - ".github/workflows/disttrait-empirical-transport.yml"
+  pull_request:
+    paths:
+      - "packages/disttrait/examples/castor_empirical_transport.py"
+      - "packages/disttrait/src/disttrait/spatial.py"
+      - "packages/disttrait/src/disttrait/__init__.py"
+      - ".github/workflows/disttrait-empirical-transport.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  empirical-transport:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install disttrait
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait
+
+      - name: Run pinned external Ricinus transport
+        run: |
+          python packages/disttrait/examples/castor_empirical_transport.py --output /tmp/castor_result.json
+          cat /tmp/castor_result.json
+
+      - name: Upload empirical transport receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-castor-empirical-transport
+          path: /tmp/castor_result.json
