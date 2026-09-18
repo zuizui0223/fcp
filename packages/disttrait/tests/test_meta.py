@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from disttrait import (
+    permutation_calibrated_random_effects,
     random_effects_from_groups,
     random_effects_slope_permutation_test,
     random_effects_slope_summary,
@@ -88,3 +89,31 @@ def test_permutation_calibrated_meta_detects_opposing_direction_heterogeneity():
     assert result.p_heterogeneity_permutation <= 0.02
     assert result.p_omnibus_permutation <= 0.04
     assert result.observed.tau2 > 0
+
+
+
+def test_permutation_calibrated_meta_detects_opposing_slopes_and_is_deterministic():
+    x = np.linspace(-1.0, 1.0, 20)
+    groups = [
+        (x, 1.0 * x + 0.1 * np.sin(np.arange(20))),
+        (x, -1.0 * x + 0.1 * np.cos(np.arange(20))),
+        (x, 0.9 * x + 0.1 * np.cos(np.arange(20) / 2)),
+        (x, -0.9 * x + 0.1 * np.sin(np.arange(20) / 2)),
+    ]
+    a = permutation_calibrated_random_effects(
+        groups,
+        n_permutations=99,
+        seed=7,
+        key="fixture",
+    )
+    b = permutation_calibrated_random_effects(
+        groups,
+        n_permutations=99,
+        seed=7,
+        key="fixture",
+    )
+    np.testing.assert_array_equal(a.null_q, b.null_q)
+    np.testing.assert_array_equal(a.null_abs_mean_z, b.null_abs_mean_z)
+    assert a.p_heterogeneity_permutation <= 0.02
+    assert a.p_mean_permutation > 0.2
+    assert a.p_omnibus_permutation <= 0.04
