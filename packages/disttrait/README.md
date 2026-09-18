@@ -87,6 +87,21 @@ rho = spatial_rho(
 )
 ```
 
+## Non-flower demonstration
+
+`packages/disttrait/examples/nonflower_binary_trait.py` uses an abstract binary trait with no flower-colour assumptions.
+
+Two deterministic examples are frozen:
+
+- **signal recovery:** induced species-level diversity–spatial association, rho = **0.812**;
+- **pooled confounding:** naive pooled geographic analysis gives rho = **0.578** even though within-species spatial dependence is absent by construction, while the species-conditioned mean rho is **0.005**.
+
+Frozen receipt:
+
+`results/disttrait_nonflower_synthetic_v0_2_20260918/result.json`
+
+This is a synthetic demonstration, not a general superiority benchmark.
+
 ## Relationship to FCP
 
 The active New Phytologist manuscript remains an ecological application. `disttrait` is the reusable methods layer.
