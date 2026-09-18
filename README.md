@@ -14,7 +14,8 @@ The current frozen result is:
 - third-cohort measurement completed **49,900 rows from 499 species**, with **377** species passing the predeclared measurement-support gate;
 - H2 passed at the primary 0.10 tier (**158 species, W = 0.51725, p = 0.001**) and strict 0.20 tier (**86 species, W = 0.53293, p = 0.001**);
 - frozen verdict: `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`;
-- broad reserve phylogenetic signal and the discovery sampled-span association are not supported as general explanations.
+- across the original high-depth discovery/reserve cohorts, greater D is also associated with stronger within-species geographic colour organization; the reserve association survives sampled-span plus clear technical-failure adjustment, a matched flower-minus-background contrast and ambiguity-endpoint stress tests;
+- broad reserve phylogenetic signal and the discovery sampled-span association are not supported as simple general explanations.
 
 The prospective H2 result is **species-disjoint within the same iNaturalist source/opportunity universe**. It is not an independent-source replication, a global prevalence estimate, or a pigment/pollinator/climate mechanism result. The earlier P500 run retains no durable H2 biological verdict and is not rescued retrospectively.
 
