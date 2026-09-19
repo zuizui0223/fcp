@@ -4,10 +4,14 @@ on:
   push:
     paths:
       - "packages/disttrait/benchmarks/nonlinear_curvature_surface.py"
+      - "packages/disttrait/scripts/check_nonlinear_curvature_receipt.py"
+      - "results/disttrait_nonlinear_curvature_v0_11_20260919/**"
       - ".github/workflows/disttrait-nonlinear-curvature.yml"
   pull_request:
     paths:
       - "packages/disttrait/benchmarks/nonlinear_curvature_surface.py"
+      - "packages/disttrait/scripts/check_nonlinear_curvature_receipt.py"
+      - "results/disttrait_nonlinear_curvature_v0_11_20260919/**"
       - ".github/workflows/disttrait-nonlinear-curvature.yml"
 
 permissions:
@@ -32,8 +36,12 @@ jobs:
         run: |
           python packages/disttrait/benchmarks/nonlinear_curvature_surface.py             > disttrait_nonlinear_curvature_result.json
 
-      - name: Upload exploratory benchmark
+      - name: Verify frozen v0.11 benchmark receipt
+        run: |
+          python packages/disttrait/scripts/check_nonlinear_curvature_receipt.py             --observed disttrait_nonlinear_curvature_result.json             --expected results/disttrait_nonlinear_curvature_v0_11_20260919/result.json             --cells results/disttrait_nonlinear_curvature_v0_11_20260919/cells.csv
+
+      - name: Upload benchmark result
         uses: actions/upload-artifact@v4
         with:
-          name: disttrait-nonlinear-curvature-exploratory
+          name: disttrait-nonlinear-curvature-v011
           path: disttrait_nonlinear_curvature_result.json
