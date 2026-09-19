@@ -1,6 +1,6 @@
 # disttrait methods-paper architecture — 2026-09-19
 
-Status: active architecture after validated v0.11 promotion.
+Status: active architecture after validated v0.12 promotion.
 
 Package:
 
@@ -8,7 +8,7 @@ Package:
 
 Current validated version:
 
-`0.11.0`
+`0.12.0`
 
 ## 1. Paper-level problem
 
@@ -281,6 +281,45 @@ The lesson is:
 > estimand retains spatial-organization information when nonlinear response
 > signs differ among species.
 
+### Evidence 11 — multivariate orientation heterogeneity changes the estimand
+
+v0.12 extends the generic continuous-trait layer to complete multivariate trait
+vectors. Two-dimensional response vectors are shared, spread across half the
+trait-space circle, or balanced across the full circle.
+
+Across effect-zero cells:
+
+- equal-species multivariate matched-null maximum rejection = **0.05**;
+- common signed multivariate-vector maximum rejection = **0.05**;
+- naive pooled rejection = **1.00** in every null cell.
+
+At effect size 0.4 with shared orientation:
+
+- matched-null detection = **0.975–1.00**;
+- common-vector detection = **1.00**.
+
+At effect size 0.4 with orientations spread over the full circle:
+
+- matched-null detection = **0.95–1.00**;
+- common-vector detection = **0.075**.
+
+At effect size 0.8 under full orientation spread:
+
+- matched-null detection = **1.00**;
+- common-vector detection = **0.10–0.25**.
+
+The result extends the linear and nonlinear direction-heterogeneity results into
+multivariate trait space:
+
+> a shared signed multivariate response vector is efficient when species share
+> orientation, whereas complete-row distance–dissimilarity retains spatial
+> organization when equally strong species responses point in different
+> multivariate directions.
+
+Complete trait rows, not individual dimensions, are permuted. This preserves
+the observed covariance/dependence structure among trait dimensions under the
+matched null.
+
 ## 4. Recommended paper story
 
 ### Question 1
@@ -340,6 +379,16 @@ scientific target. If species can express equally strong organization with
 opposite curvature or other shape reversals, a direction-invariant
 dissimilarity estimand answers a different and often more stable question.
 
+### Question 8
+
+**What if the phenotype is multivariate and species respond in different
+trait-space directions?**
+
+Answer: preserve complete multivariate observations and define a biologically
+defensible trait-space distance. A common response vector is appropriate when
+orientation itself is shared; a multivariate distance–dissimilarity estimand
+targets strength of organization without requiring common orientation.
+
 ## 5. Main claim
 
 A defensible one-sentence claim is:
@@ -370,6 +419,7 @@ Do not claim:
 - robustness to arbitrary MNAR sampling;
 - causal interpretation of the San Francisco tree result;
 - that every opportunistic dataset supports a stable species-level phenotype.
+- that Euclidean distance is the optimal multivariate dissimilarity for every trait system.
 
 ## 7. Proposed display structure
 
@@ -409,14 +459,16 @@ validity of the process that generated the observed rows.
 
 ### Figure 3 — assumption/estimand trade-offs
 
-Three panels:
+Four panels:
 
 - correctly specified binary-logistic model versus matched-null inference;
 - shared linear direction versus 50% direction reversal;
-- shared quadratic curvature versus 50% curvature reversal.
+- shared quadratic curvature versus 50% curvature reversal;
+- shared multivariate response orientation versus full-circle orientation
+  heterogeneity.
 
 Purpose: show that the preferred method depends on the target estimand and on
-whether species share the signed response form.
+whether species share the signed response form or trait-space orientation.
 
 ### Figure 4 — calibration of flexible species slopes
 
@@ -476,17 +528,20 @@ Alternatives:
 
 ## 9. Remaining gates before external methods-paper submission
 
-The current package is sufficient for drafting the paper.
+The scientific benchmark stack is now sufficient for drafting the paper.
 
-The highest-value additions are now:
+The previously listed nonlinear and multivariate benchmark gaps have been
+closed in v0.11 and v0.12. The MNAR observation-process boundary has also been
+stress-tested, and two external empirical transports are frozen.
 
-1. a multivariate continuous-trait benchmark;
-2. standalone package repository/licence/release metadata.
+The principal remaining pre-release task is now **software distribution
+infrastructure**:
 
-The MNAR observation-process gap has been stress-tested in v0.10. Arbitrary
-MNAR robustness remains a hard nonclaim rather than an unmet benchmark.
+1. standalone package repository or a clearly versioned release surface;
+2. explicit package licence;
+3. citation metadata;
+4. tagged release / archival DOI;
+5. release automation and install verification outside the monorepo.
 
-A second external empirical dataset is no longer an unmet gate.
-
-These are strengthening steps rather than prerequisites for beginning the
-manuscript.
+These are software-release and reproducibility gates rather than missing
+scientific benchmark classes.

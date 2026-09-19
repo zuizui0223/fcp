@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.11 scope
+## v0.12 scope
 
 The package provides reusable components for:
 
@@ -19,7 +19,7 @@ The package provides reusable components for:
 - matched trait-minus-background spatial organization and joint same-observation permutation nulls;
 - species-level distribution-versus-spatial association;
 - partial-rank adjustment with matched spatial nulls;
-- scalar continuous-trait spatial inference using absolute pairwise differences.
+- scalar continuous-trait spatial inference using absolute pairwise differences.\n- multivariate continuous-trait spatial inference using Euclidean pairwise distances with complete-row permutations.
 
 The package deliberately does **not** claim a new standalone statistic. Most components are established statistics. The reusable contribution is an inference architecture that separates measurement validity, species-level trait distributions, trait geometry, spatial organization, matched nulls, and prospective confirmation.
 
@@ -311,6 +311,50 @@ Across the six null cells, the largest observed rejection fractions in 40
 worlds are **0.075** for matched-null, **0.10** for the common linear model and
 **0.075** for the common quadratic model. These finite simulation frequencies
 are not treated as universal calibration guarantees.
+
+## Multivariate continuous-trait orientation benchmark
+
+v0.12 adds complete-row multivariate spatial inference and a 24-cell
+orientation-heterogeneity benchmark:
+
+`results/disttrait_multivariate_orientation_v0_12_20260919/`
+
+The benchmark uses a two-dimensional continuous trait with strong
+between-species geographic turnover and a within-species response vector whose
+orientation spans 0, half, or all of the trait-space circle.
+
+Across the six effect-zero cells:
+
+- maximum matched-null rejection = **0.05**;
+- maximum common-vector rejection = **0.05**;
+- naive pooled rejection = **1.00** in every null cell.
+
+With effect size 0.4 and a shared response orientation:
+
+- matched-null detection = **0.975–1.00**;
+- common-vector detection = **1.00**.
+
+With the same effect size but response orientations spread across the full
+trait-space circle:
+
+- matched-null detection = **0.95–1.00**;
+- common-vector detection = **0.075**.
+
+At effect size 0.8 under full orientation spread:
+
+- matched-null detection = **1.00**;
+- common-vector detection = **0.10–0.25**.
+
+The interpretation is estimand-specific. A common signed multivariate vector is
+appropriate when species share response orientation. Euclidean
+distance-dissimilarity asks whether individuals become more different in trait
+space with geographic separation and therefore remains informative when
+species-specific response vectors cancel in the cross-species mean.
+
+Complete multivariate rows are the permutation unit; covariance among trait
+dimensions is preserved within observations. The package does not rescale
+dimensions automatically, so biologically justified standardization remains an
+application responsibility.
 
 ## Validation gate
 

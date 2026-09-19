@@ -1,0 +1,96 @@
+{
+  "schema": "disttrait_multivariate_orientation_surface_v1",
+  "date_jst": "2026-09-19",
+  "role": "multivariate_continuous_trait_orientation_heterogeneity_benchmark",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/benchmarks/multivariate_orientation_surface.py",
+    "git_blob_sha": "34f7a143f13dc1323b24194b0e416ffa7c741aa8"
+  },
+  "implementation": {
+    "spatial_api_blob_sha": "f16f7e22a53135ce9cc27d5bcc220e1800f8efce",
+    "multivariate_test_blob_sha": "1c8fcb668266d4763b27a8b6fa38b84d8aa83831",
+    "complete_multivariate_rows_are_permutation_unit": true
+  },
+  "cells_file": "results/disttrait_multivariate_orientation_v0_12_20260919/cells.csv",
+  "design": {
+    "effect_sizes": [
+      0,
+      0.4,
+      0.8,
+      1.2
+    ],
+    "orientation_spreads": [
+      0,
+      0.5,
+      1
+    ],
+    "mcar_missing_fractions": [
+      0,
+      0.5
+    ],
+    "worlds_per_cell": 40,
+    "species_per_world": 20,
+    "observations_per_species_before_missingness": 20,
+    "trait_dimensions": 2,
+    "noise_sd": 0.55,
+    "spatial_null_permutations": 39,
+    "naive_pooled_pair_sample": 8000,
+    "alpha": 0.05,
+    "data_generating_process": "two-dimensional Gaussian trait with species baseline linked to geographic centre plus a within-species local linear response vector whose orientation spans an increasing fraction of the trait-space circle"
+  },
+  "comparators": [
+    "naive pooled pairwise Spearman on geographic distance vs Euclidean trait distance",
+    "equal-species matched-null omnibus of within-species geographic distance vs Euclidean trait distance",
+    "species fixed-intercept common signed multivariate response vector tested by a two-degree-of-freedom Wald statistic"
+  ],
+  "summary": {
+    "max_equal_matched_null_fpr": 0.05,
+    "max_common_vector_null_fpr": 0.05,
+    "min_naive_null_fpr": 1,
+    "effect_0_4_spread0_equal_detection_range": [
+      0.975,
+      1
+    ],
+    "effect_0_4_spread0_common_detection_range": [
+      1,
+      1
+    ],
+    "effect_0_4_spread1_equal_detection_range": [
+      0.95,
+      1
+    ],
+    "effect_0_4_spread1_common_detection_range": [
+      0.075,
+      0.075
+    ],
+    "effect_0_8_spread1_equal_detection_range": [
+      1,
+      1
+    ],
+    "effect_0_8_spread1_common_detection_range": [
+      0.1,
+      0.25
+    ]
+  },
+  "exploratory_workflow": {
+    "pr": 53,
+    "head_sha": "0595fe35254d0b1e7336a6611ec690b17f07b388",
+    "run_id": 35412417908,
+    "job_id": 105814495686,
+    "artifact_id": 10573828639,
+    "artifact_name": "disttrait-multivariate-orientation-exploratory",
+    "conclusion": "success"
+  },
+  "interpretation": {
+    "supported": "Complete-row multivariate matched-null inference remains calibrated in the effect-zero cells and detects within-species trait-space organization when species response vectors differ in orientation. A common signed multivariate response vector is highly efficient when orientations are shared, but loses power when directions span the full trait-space circle and cancel in the cross-species mean. The distinction is estimand alignment, not universal superiority.",
+    "not_supported": [
+      "Euclidean trait distance is optimal for every multivariate phenotype",
+      "common multivariate response models are inappropriate when species share a response direction",
+      "the observed 0.05 maximum null rejection fractions are universal type-I error guarantees",
+      "multivariate matched-null inference identifies which trait dimensions cause spatial organization",
+      "this benchmark validates arbitrary high-dimensional, nonlinear or MNAR multivariate processes"
+    ]
+  }
+}
