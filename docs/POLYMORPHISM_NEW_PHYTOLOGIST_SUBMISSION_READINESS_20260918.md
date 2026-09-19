@@ -68,16 +68,16 @@ The official guidelines currently describe Full Papers as usually approximately 
 
 | Requirement | Current state | Decision |
 |---|---:|---|
-| Title approximately <=130 characters | 111 characters | PASS |
-| Summary <=200 words | 171 words | PASS |
+| Title approximately <=130 characters | 104 characters | PASS |
+| Summary <=200 words | 197 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
-| Materials and Methods | 2,460 words | RECORDED |
+| Materials and Methods | 2,548 words | RECORDED |
 | Results | 1,025 words | RECORDED |
 | Discussion | 1,298 words | RECORDED |
-| Main text, Introduction–Discussion | 5,324 words | RECORDED |
-| Discussion share of main text | 24.4% | PASS (<30%) |
+| Main text, Introduction–Discussion | 5,412 words | RECORDED |
+| Discussion share of main text | 24.0% | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (guideline range 6–8) |
@@ -166,15 +166,15 @@ The most recent post-architecture manuscript claim-guard run recorded in the Sup
 
 Latest manuscript claim guard:
 
-- workflow run: `35314652195`;
-- job: `105503609508`;
-- result: **8 / 8 tests passed**.
+- workflow run: `35473321596`;
+- job: `105978139288`;
+- result: **11 / 11 tests passed**.
 
 Latest New Phytologist submission-format guard:
 
-- workflow run: `35314606151`;
-- job: `105503472346`;
-- result: **9 / 9 tests passed**.
+- workflow run: `35473408061`;
+- job: `105978367747`;
+- result: **15 / 15 tests passed**.
 
 The submission-format guard now checks live section word counts, Discussion <=30% of main text, 6–8 total display items, alphabetical keywords, four-bullet Summary <=200 words, cover-letter question lengths, required sections and frozen H2 claim boundaries.
 
