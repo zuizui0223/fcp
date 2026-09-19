@@ -145,9 +145,11 @@ def multivariate_spatial_permutation_null(
 ) -> tuple[float, np.ndarray]:
     """Vertex-permutation null preserving complete multivariate trait rows.
 
-    Coordinates and the complete multivariate row vectors are fixed. Each null
-    world permutes whole row vectors among observed positions, preserving the
-    within-row covariance/dependence structure across trait dimensions.
+    Coordinates and complete multivariate row vectors are fixed. Because a
+    vertex permutation preserves the full multiset of pairwise trait distances,
+    pairwise distance ranks are computed once and then re-indexed for each null
+    world. This is algebraically equivalent to re-ranking every permuted world
+    but substantially faster for repeated benchmark use.
     """
     x = np.asarray(values, dtype=float)
     if x.ndim != 2 or x.shape[0] < 3 or x.shape[1] < 1:
@@ -161,25 +163,33 @@ def multivariate_spatial_permutation_null(
 
     n = len(x)
     upper = np.triu_indices(n, k=1)
+    u, v = upper
     diff = x[:, None, :] - x[None, :, :]
     distance_matrix = np.sqrt(np.sum(np.square(diff), axis=2))
     observed_values = distance_matrix[upper]
-    observed = (
-        0.0
-        if np.ptp(observed_values) <= 1e-15
-        else _rank_pearson(geo, observed_values)
-    )
+
+    if np.ptp(observed_values) <= 1e-15:
+        return 0.0, np.zeros(int(n_permutations), dtype=float)
+
+    geo_rank = rankdata(geo, method="average")
+    trait_rank = rankdata(observed_values, method="average")
+    gc = geo_rank - geo_rank.mean()
+    tc = trait_rank - trait_rank.mean()
+    gnorm = float(np.linalg.norm(gc))
+    tnorm = float(np.linalg.norm(tc))
+    observed = float(np.dot(gc, tc) / (gnorm * tnorm))
+
+    rank_matrix = np.zeros((n, n), dtype=float)
+    rank_matrix[upper] = trait_rank
+    rank_matrix[(v, u)] = trait_rank
 
     null = np.empty(int(n_permutations), dtype=float)
-    u, v = upper
     for idx in range(int(n_permutations)):
         rng = np.random.default_rng(_permutation_seed(seed, key, idx))
         p = rng.permutation(n)
-        y = distance_matrix[p[u], p[v]]
-        null[idx] = (
-            0.0 if np.ptp(y) <= 1e-15 else _rank_pearson(geo, y)
-        )
-    return float(observed), null
+        ranks = rank_matrix[p[u], p[v]]
+        null[idx] = float(np.dot(gc, ranks) / (gnorm * tnorm))
+    return observed, null
 
 
 def continuous_spatial_rho(
