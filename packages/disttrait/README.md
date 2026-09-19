@@ -360,6 +360,20 @@ application responsibility.
 
 The release-candidate gate is the dedicated `disttrait package` workflow. It installs the package from `packages/disttrait`, compiles the public modules, and runs the full package test suite including compact frozen-FCP equivalence fixtures, non-flower generalization tests, and the repeated species-conditioning benchmark.
 
+## Release status
+
+The validated in-repository package version is **0.12.0**.
+
+Release engineering files:
+
+- `CHANGELOG.md` — version history;
+- `RELEASING.md` — external-release checklist and unresolved ownership choices;
+- `.github/workflows/disttrait-release-check.yml` — sdist/wheel build, Twine
+  validation and fresh-environment install smoke test.
+
+The package licence, final author/maintainer metadata and standalone repository
+are intentionally not guessed here and remain explicit release decisions.
+
 ## Relationship to FCP
 
 The active New Phytologist manuscript remains an ecological application. `disttrait` is the reusable methods layer.
