@@ -34,11 +34,11 @@ MECHANISMS = ("mcar", "trait_only", "position_only", "joint_trait_position")
 STRENGTHS = (0.8, 1.6)
 WORLDS_PER_CELL = 40
 N_SPECIES = 20
-LATENT_OBSERVATIONS = 80
+LATENT_OBSERVATIONS = 100
 N_PERMUTATIONS = 39
 POOLED_PAIR_SAMPLE = 8000
 ALPHA = 0.05
-SELECTION_INTERCEPT = -0.35
+SELECTION_INTERCEPT = 0.20
 
 
 def _one_hot_binary(values: np.ndarray) -> np.ndarray:
