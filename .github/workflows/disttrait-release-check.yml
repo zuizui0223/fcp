@@ -38,6 +38,39 @@ jobs:
       - name: Validate distribution metadata
         run: python -m twine check disttrait-dist/*
 
+      - name: Verify MIT licence is packaged
+        run: |
+          python - <<'PY'
+          import tarfile
+          import zipfile
+          from pathlib import Path
+
+          dist = Path("disttrait-dist")
+          sdist = next(dist.glob("*.tar.gz"))
+          wheel = next(dist.glob("*.whl"))
+
+          with tarfile.open(sdist, "r:gz") as tf:
+              names = tf.getnames()
+              license_names = [n for n in names if n.endswith("/LICENSE")]
+              assert license_names, "LICENSE missing from sdist"
+              text = tf.extractfile(license_names[0]).read().decode("utf-8")
+              assert text.startswith("MIT License")
+              assert "disttrait contributors" in text
+
+          with zipfile.ZipFile(wheel) as zf:
+              names = zf.namelist()
+              license_names = [
+                  n for n in names
+                  if n.endswith("/LICENSE") or "/licenses/LICENSE" in n
+              ]
+              assert license_names, "LICENSE missing from wheel"
+              text = zf.read(license_names[0]).decode("utf-8")
+              assert text.startswith("MIT License")
+              assert "disttrait contributors" in text
+
+          print("disttrait MIT licence packaging: PASS")
+          PY
+
       - name: Install wheel into a fresh virtual environment
         run: |
           python -m venv /tmp/disttrait-release-venv
