@@ -116,6 +116,20 @@ Validated dry-run record:
 - fresh-environment wheel install/import: success;
 - candidate archive: success.
 
+## 4b. Public-release metadata automation
+
+The remaining ownership choices are now separated from metadata rendering.
+
+Added tooling:
+
+- `packages/disttrait/release_metadata.example.toml` — explicit release-decision schema;
+- `scripts/release/finalize_disttrait_release_metadata.py` — validates the completed metadata and generates `CITATION.cff`, final `pyproject.toml` authors/maintainers/licence/repository fields, and `RELEASE_METADATA.json`;
+- `scripts/release/check_disttrait_public_release.py` — hard public-release gate that refuses placeholders, missing licence text, FCP-monorepo repository URLs or version drift;
+- `.github/workflows/disttrait-release-metadata-tooling.yml` — validates the finalizer/gate on isolated test metadata without choosing a real licence;
+- `.github/workflows/disttrait-public-release-gate.yml` — manual/final-metadata gate for the actual public release.
+
+The automation deliberately does not create a licence choice, infer authorship, or create a GitHub repository.
+
 ## 5. Remaining public-release blockers
 
 Only decisions that should not be guessed remain:
