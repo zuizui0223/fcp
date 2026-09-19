@@ -276,7 +276,7 @@ Licence: CC BY 4.0.
 Milad Shokri, Francesco Cozzoli, Fabio Vignes, Marco Bertoli,
 Elisabetta Pizzul & Alberto Basset. "Metabolic rate and climate change across
 latitudes: evidence of mass-dependent responses in aquatic amphipods."
-Journal of Experimental Biology 225:j eb244842.
+Journal of Experimental Biology 225:jeb244842.
 
 DOI: `10.1242/jeb.244842`
 
