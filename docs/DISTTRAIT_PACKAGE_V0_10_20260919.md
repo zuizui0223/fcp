@@ -1,10 +1,10 @@
 # disttrait v0.10 package status — 2026-09-19
 
-Status: validation candidate with explicit observation-process / MNAR stress testing.
+Status: validated in-repository candidate with explicit observation-process / MNAR stress testing.
 
 Package: packages/disttrait/
 
-Candidate version: 0.10.0
+Validated version: 0.10.0
 
 ## 1. New in v0.10
 
@@ -173,3 +173,17 @@ The highest-value remaining strengthening steps are now:
 3. standalone package repository/licence/release metadata.
 
 MNAR is no longer an untested gap, but arbitrary MNAR robustness remains a hard nonclaim.
+
+## 11. Validation record
+
+PR #51 validated the frozen v0.10 benchmark and the full package regression stack.
+
+- MNAR workflow run: 35411114924
+- MNAR workflow job: 105810802560
+- MNAR artifact: 10574617440
+- MNAR conclusion: success
+- full disttrait package workflow run: 35411114922
+- full package job: 105810802396
+- full package conclusion: success
+
+The final MNAR workflow regenerated all 8 benchmark cells and passed the frozen receipt checker. The full package workflow also passed compilation, the complete package test suite, the external empirical transport, and its frozen receipt verification.
