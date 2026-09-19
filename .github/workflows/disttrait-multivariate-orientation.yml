@@ -1,0 +1,48 @@
+name: disttrait multivariate orientation benchmark
+
+on:
+  push:
+    paths:
+      - "packages/disttrait/benchmarks/multivariate_orientation_surface.py"
+      - "packages/disttrait/src/disttrait/spatial.py"
+      - "packages/disttrait/src/disttrait/__init__.py"
+      - "packages/disttrait/tests/test_multivariate.py"
+      - ".github/workflows/disttrait-multivariate-orientation.yml"
+  pull_request:
+    paths:
+      - "packages/disttrait/benchmarks/multivariate_orientation_surface.py"
+      - "packages/disttrait/src/disttrait/spatial.py"
+      - "packages/disttrait/src/disttrait/__init__.py"
+      - "packages/disttrait/tests/test_multivariate.py"
+      - ".github/workflows/disttrait-multivariate-orientation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install disttrait
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait pytest
+
+      - name: Run multivariate unit tests
+        run: python -m pytest packages/disttrait/tests/test_multivariate.py -q
+
+      - name: Run multivariate orientation surface
+        run: |
+          python packages/disttrait/benchmarks/multivariate_orientation_surface.py             > disttrait_multivariate_orientation_result.json
+
+      - name: Upload exploratory benchmark
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-multivariate-orientation-exploratory
+          path: disttrait_multivariate_orientation_result.json
