@@ -1,6 +1,6 @@
 # disttrait 0.12.0 release readiness — 2026-09-19
 
-Status: distribution artifacts validated; ownership/release metadata remains intentionally unresolved.
+Status: distribution artifacts validated; MIT licence resolved; authorship and standalone-repository metadata remain unresolved.
 
 Package:
 
@@ -68,7 +68,6 @@ These are not technical failures.
 
 They require explicit ownership/release decisions:
 
-- software licence;
 - final author/maintainer names and ordering;
 - final `CITATION.cff`;
 - standalone repository name and visibility;
@@ -80,9 +79,25 @@ The current GitHub connector does not expose repository creation, so a
 standalone repository cannot be created from this chat with the available
 GitHub actions.
 
+## 3a. Licence decision
+
+The software licence is now explicitly fixed as **MIT**.
+
+Canonical package licence:
+
+`packages/disttrait/LICENSE`
+
+Package metadata now includes:
+
+- `license = { file = "LICENSE" }`;
+- PyPI classifier `License :: OSI Approved :: MIT License`;
+- release-template SPDX identifier `MIT`.
+
+The copyright line uses `disttrait contributors`, avoiding a premature claim about final author or maintainer ordering.
+
 ## 4. Safe release sequence
 
-1. choose licence and author/maintainer metadata;
+1. finalize author/maintainer metadata;
 2. create the standalone repository;
 3. copy the validated `packages/disttrait/` tree plus relevant CI and frozen
    equivalence provenance;
