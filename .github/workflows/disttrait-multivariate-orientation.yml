@@ -7,6 +7,8 @@ on:
       - "packages/disttrait/src/disttrait/spatial.py"
       - "packages/disttrait/src/disttrait/__init__.py"
       - "packages/disttrait/tests/test_multivariate.py"
+      - "packages/disttrait/scripts/check_multivariate_orientation_receipt.py"
+      - "results/disttrait_multivariate_orientation_v0_12_20260919/**"
       - ".github/workflows/disttrait-multivariate-orientation.yml"
   pull_request:
     paths:
@@ -14,6 +16,8 @@ on:
       - "packages/disttrait/src/disttrait/spatial.py"
       - "packages/disttrait/src/disttrait/__init__.py"
       - "packages/disttrait/tests/test_multivariate.py"
+      - "packages/disttrait/scripts/check_multivariate_orientation_receipt.py"
+      - "results/disttrait_multivariate_orientation_v0_12_20260919/**"
       - ".github/workflows/disttrait-multivariate-orientation.yml"
 
 permissions:
@@ -41,8 +45,12 @@ jobs:
         run: |
           python packages/disttrait/benchmarks/multivariate_orientation_surface.py             > disttrait_multivariate_orientation_result.json
 
-      - name: Upload exploratory benchmark
+      - name: Verify frozen v0.12 benchmark receipt
+        run: |
+          python packages/disttrait/scripts/check_multivariate_orientation_receipt.py             --observed disttrait_multivariate_orientation_result.json             --expected results/disttrait_multivariate_orientation_v0_12_20260919/result.json             --cells results/disttrait_multivariate_orientation_v0_12_20260919/cells.csv
+
+      - name: Upload benchmark result
         uses: actions/upload-artifact@v4
         with:
-          name: disttrait-multivariate-orientation-exploratory
+          name: disttrait-multivariate-orientation-v012
           path: disttrait_multivariate_orientation_result.json
