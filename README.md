@@ -32,11 +32,11 @@ The prospective H2 result is **species-disjoint within the same iNaturalist sour
 The reusable, flower-colour-independent inference layer now lives in:
 
 - **`packages/disttrait/`** — Python package for validated species-level distributional trait inference;
-- **`docs/DISTTRAIT_PACKAGE_V0_10_20260919.md`** — active v0.10 package status with two empirical transports and explicit MNAR observation-process stress testing;
+- **`docs/DISTTRAIT_PACKAGE_V0_11_20260919.md`** — active v0.11 package status with empirical transport, MNAR stress testing and nonlinear estimand benchmarks;
 - **`docs/DISTTRAIT_METHODS_PAPER_ARCHITECTURE_20260919.md`** — standalone methods-paper claim/evidence architecture;
 - **`docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md`** — standard statistics versus study-specific inference architecture.
 
-`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving nulls, categorical and scalar-continuous species-specific spatial organization, equal-species omnibus inference, matched focal-minus-background structure, distribution–spatial association, and species-specific signed-slope random-effects summaries. v0.10 retains exact FCP-equivalence fixtures, false-positive/power and model-comparator surfaces, permutation-calibrated slope/meta inference, two external non-flower empirical transports, and an explicit MNAR stress test showing that conditional matched-null calibration does not solve unmeasured trait-by-location observation selection. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific.
+`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving nulls, categorical and scalar-continuous species-specific spatial organization, equal-species omnibus inference, matched focal-minus-background structure, distribution–spatial association, and species-specific signed-slope random-effects summaries. v0.11 retains exact FCP-equivalence fixtures, false-positive/power and model-comparator surfaces, permutation-calibrated slope/meta inference, two external non-flower empirical transports, explicit MNAR observation-process stress testing, and a nonlinear curvature benchmark showing that shared nonlinear response models and direction-invariant spatial-organization estimands answer different questions when curvature direction varies among species. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific.
 
 ### Start here
 
