@@ -8,7 +8,7 @@ AUDIT = ROOT / "docs" / "DISTTRAIT_METHODS_LITERATURE_AUDIT_20260919.md"
 
 def test_disttrait_methods_manuscript_has_audited_literature_and_clean_notation() -> None:
     raw = MANUSCRIPT.read_bytes()
-    assert b"\\r" not in raw
+    assert 13 not in raw
 
     text = raw.decode("utf-8")
     required = (
