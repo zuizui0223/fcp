@@ -1,6 +1,6 @@
 # disttrait methods-paper architecture — 2026-09-19
 
-Status: active architecture after validated v0.10 promotion.
+Status: active architecture after validated v0.11 promotion.
 
 Package:
 
@@ -8,7 +8,7 @@ Package:
 
 Current validated version:
 
-`0.10.0`
+`0.11.0`
 
 ## 1. Paper-level problem
 
