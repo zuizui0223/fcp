@@ -1,6 +1,6 @@
 # New Phytologist cover letter — working draft
 
-**Manuscript title:** A recurrent achromatic–chromatic axis structures within-species flower-colour polymorphism across plant species
+**Manuscript title:** Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species
 
 **Article type:** Full Paper
 
@@ -10,7 +10,7 @@
 
 Dear Editors of *New Phytologist*,
 
-We submit the Full Paper, **“A recurrent achromatic–chromatic axis structures within-species flower-colour polymorphism across plant species,”** for consideration in *New Phytologist*.
+We submit the Full Paper, **“Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species,”** for consideration in *New Phytologist*.
 
 ### Question 1 — What hypotheses or questions does this work address?
 
