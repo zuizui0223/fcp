@@ -535,13 +535,23 @@ closed in v0.11 and v0.12. The MNAR observation-process boundary has also been
 stress-tested, and two external empirical transports are frozen.
 
 The principal remaining pre-release task is now **software distribution
-infrastructure**:
+infrastructure**.
 
-1. standalone package repository or a clearly versioned release surface;
-2. explicit package licence;
-3. citation metadata;
-4. tagged release / archival DOI;
-5. release automation and install verification outside the monorepo.
+Resolved:
+
+- package licence = **MIT**;
+- build of sdist/wheel;
+- Twine metadata validation;
+- fresh-environment wheel install verification;
+- standalone export tooling.
+
+Still requiring explicit release decisions or external release actions:
+
+1. final author / maintainer names and ordering;
+2. standalone package repository URL and visibility;
+3. final citation metadata generated from those names;
+4. tagged standalone release and archival DOI;
+5. optional package-index publication.
 
 These are software-release and reproducibility gates rather than missing
 scientific benchmark classes.
