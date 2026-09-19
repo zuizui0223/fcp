@@ -101,6 +101,87 @@ def absolute_pairwise(values: Sequence[float]) -> np.ndarray:
     return diff[upper]
 
 
+def euclidean_pairwise(values: np.ndarray) -> np.ndarray:
+    """Euclidean pairwise distances for a continuous multivariate trait.
+
+    Rows are individual observations and columns are trait dimensions. The
+    function does not rescale columns; callers should standardize dimensions
+    upstream when units are not directly comparable.
+    """
+    x = np.asarray(values, dtype=float)
+    if x.ndim != 2 or x.shape[0] < 2 or x.shape[1] < 1:
+        raise ValueError("values must have shape (n>=2, p>=1)")
+    if np.any(~np.isfinite(x)):
+        raise ValueError("values must be finite")
+    diff = x[:, None, :] - x[None, :, :]
+    distance = np.sqrt(np.sum(np.square(diff), axis=2))
+    upper = np.triu_indices(len(x), k=1)
+    return distance[upper]
+
+
+def multivariate_spatial_rho(
+    latitude: Sequence[float],
+    longitude: Sequence[float],
+    values: np.ndarray,
+) -> float:
+    """Spearman association between geographic distance and Euclidean trait distance."""
+    geo = great_circle_pairwise_km(latitude, longitude)
+    diff = euclidean_pairwise(values)
+    if np.ptp(geo) <= 1e-12:
+        return float("nan")
+    if np.ptp(diff) <= 1e-15:
+        return 0.0
+    return _rank_pearson(geo, diff)
+
+
+def multivariate_spatial_permutation_null(
+    latitude: Sequence[float],
+    longitude: Sequence[float],
+    values: np.ndarray,
+    *,
+    n_permutations: int = 999,
+    seed: int = 0,
+    key: str = "",
+) -> tuple[float, np.ndarray]:
+    """Vertex-permutation null preserving complete multivariate trait rows.
+
+    Coordinates and the complete multivariate row vectors are fixed. Each null
+    world permutes whole row vectors among observed positions, preserving the
+    within-row covariance/dependence structure across trait dimensions.
+    """
+    x = np.asarray(values, dtype=float)
+    if x.ndim != 2 or x.shape[0] < 3 or x.shape[1] < 1:
+        raise ValueError("values must have shape (n>=3, p>=1)")
+    if np.any(~np.isfinite(x)):
+        raise ValueError("values must be finite")
+
+    geo = great_circle_pairwise_km(latitude, longitude)
+    if np.ptp(geo) <= 1e-12:
+        raise ValueError("not_evaluable_pair_geometry")
+
+    n = len(x)
+    upper = np.triu_indices(n, k=1)
+    diff = x[:, None, :] - x[None, :, :]
+    distance_matrix = np.sqrt(np.sum(np.square(diff), axis=2))
+    observed_values = distance_matrix[upper]
+    observed = (
+        0.0
+        if np.ptp(observed_values) <= 1e-15
+        else _rank_pearson(geo, observed_values)
+    )
+
+    null = np.empty(int(n_permutations), dtype=float)
+    u, v = upper
+    for idx in range(int(n_permutations)):
+        rng = np.random.default_rng(_permutation_seed(seed, key, idx))
+        p = rng.permutation(n)
+        y = distance_matrix[p[u], p[v]]
+        null[idx] = (
+            0.0 if np.ptp(y) <= 1e-15 else _rank_pearson(geo, y)
+        )
+    return float(observed), null
+
+
 def continuous_spatial_rho(
     latitude: Sequence[float],
     longitude: Sequence[float],
