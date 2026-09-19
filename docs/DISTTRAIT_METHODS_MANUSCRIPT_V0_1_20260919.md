@@ -254,7 +254,7 @@ On the same synthetic worlds we compare:
 - naive pooled pairwise Spearman analysis;
 - equal-species matched-null aggregation;
 - pair-count-weighted matched-null aggregation;
-- a one-sided one-sample test of species-specific (ho_i);
+- a one-sided one-sample test of species-specific `rho_i`;
 - a species fixed-intercept logistic model.
 
 This benchmark separates the effect of species-conditioning from the effect of
