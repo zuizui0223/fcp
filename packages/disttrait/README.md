@@ -63,6 +63,10 @@ python packages/disttrait/scripts/replay_fcp_h2_observed_w.py \
 
 The H2 replay checks species denominators and the generic fixed-contrast alignment statistic. It does not reconstruct the 999 construction-preserving null worlds unless the underlying row-level palette artifacts are also supplied.
 
+## License
+
+`disttrait` is licensed under the **MIT License**. The package-local licence text is in `LICENSE`.
+
 ## Public-release metadata workflow
 
 The monorepo intentionally does not guess software ownership metadata. A complete
@@ -73,7 +77,7 @@ template is provided at:
 For a public standalone release:
 
 1. copy it to `release_metadata.toml`;
-2. fill the licence SPDX identifier, ordered authors/maintainers, and standalone
+2. keep the frozen licence identifier `MIT`, and fill the ordered authors/maintainers and standalone
    repository URL;
 3. place the selected full licence text in `LICENSE`;
 4. set `release.release_ready = true`;
