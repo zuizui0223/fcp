@@ -1,0 +1,47 @@
+name: disttrait nonlinear curvature benchmark
+
+on:
+  push:
+    paths:
+      - "packages/disttrait/benchmarks/nonlinear_curvature_surface.py"
+      - "packages/disttrait/scripts/check_nonlinear_curvature_receipt.py"
+      - "results/disttrait_nonlinear_curvature_v0_11_20260919/**"
+      - ".github/workflows/disttrait-nonlinear-curvature.yml"
+  pull_request:
+    paths:
+      - "packages/disttrait/benchmarks/nonlinear_curvature_surface.py"
+      - "packages/disttrait/scripts/check_nonlinear_curvature_receipt.py"
+      - "results/disttrait_nonlinear_curvature_v0_11_20260919/**"
+      - ".github/workflows/disttrait-nonlinear-curvature.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install disttrait
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait
+
+      - name: Run nonlinear curvature surface
+        run: |
+          python packages/disttrait/benchmarks/nonlinear_curvature_surface.py             > disttrait_nonlinear_curvature_result.json
+
+      - name: Verify frozen v0.11 benchmark receipt
+        run: |
+          python packages/disttrait/scripts/check_nonlinear_curvature_receipt.py             --observed disttrait_nonlinear_curvature_result.json             --expected results/disttrait_nonlinear_curvature_v0_11_20260919/result.json             --cells results/disttrait_nonlinear_curvature_v0_11_20260919/cells.csv
+
+      - name: Upload benchmark result
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-nonlinear-curvature-v011
+          path: disttrait_nonlinear_curvature_result.json

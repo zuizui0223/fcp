@@ -1,0 +1,64 @@
+{
+  "schema": "disttrait_nonlinear_curvature_surface_v1",
+  "date_jst": "2026-09-19",
+  "role": "nonlinear_within_species_estimand_alignment_benchmark",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/benchmarks/nonlinear_curvature_surface.py",
+    "git_blob_sha": "17fd913824a5a478a6c965c092f0ecc58a765161"
+  },
+  "cells_file": "results/disttrait_nonlinear_curvature_v0_11_20260919/cells.csv",
+  "design": {
+    "effect_sizes": [0.0, 0.4, 0.8, 1.2],
+    "curvature_reversal_fractions": [0.0, 0.25, 0.5],
+    "mcar_missing_fractions": [0.0, 0.5],
+    "worlds_per_cell": 40,
+    "species_per_world": 20,
+    "observations_per_species_before_missingness": 24,
+    "noise_sd": 0.35,
+    "spatial_null_permutations": 39,
+    "naive_pooled_pair_sample": 8000,
+    "alpha": 0.05,
+    "data_generating_process": "continuous Gaussian trait with species baseline linked to geographic centre plus a centered quadratic local-position effect whose curvature sign is reversed in the specified fraction of species"
+  },
+  "comparators": [
+    "naive pooled pairwise Spearman on geographic distance vs absolute trait difference",
+    "equal-species matched-null omnibus of within-species distance-trait rho",
+    "species fixed-intercept common linear slope",
+    "species fixed-intercept common quadratic curvature"
+  ],
+  "summary": {
+    "max_equal_matched_null_fpr": 0.075,
+    "max_linear_null_fpr": 0.1,
+    "max_quadratic_null_fpr": 0.075,
+    "min_naive_null_fpr": 1.0,
+    "effect_0_4_reversal0_equal_detection_range": [0.1, 0.375],
+    "effect_0_4_reversal0_linear_detection_range": [0.0, 0.025],
+    "effect_0_4_reversal0_quadratic_detection_range": [1.0, 1.0],
+    "effect_0_4_reversal0_5_equal_detection_range": [0.15, 0.35],
+    "effect_0_4_reversal0_5_quadratic_detection_range": [0.025, 0.05],
+    "effect_0_8_reversal0_5_equal_detection_range": [0.85, 1.0],
+    "effect_0_8_reversal0_5_quadratic_detection_range": [0.0, 0.075]
+  },
+  "exploratory_workflow": {
+    "pr": 52,
+    "head_sha": "bacecf2d02a9ec14c2528a8827444d6f9d7fb625",
+    "run_id": 35411479558,
+    "job_id": 105811816819,
+    "artifact_id": 10574022355,
+    "artifact_name": "disttrait-nonlinear-curvature-exploratory",
+    "conclusion": "success"
+  },
+  "interpretation": {
+    "supported": "Under a shared quadratic within-species response, the correctly specified common quadratic model is substantially more powerful than direction-invariant distance-dissimilarity inference, while a common linear slope has little power. When half the species reverse curvature sign, the common quadratic coefficient cancels and loses power, whereas the distance-dissimilarity matched-null statistic retains substantial power because it targets strength of spatial trait organization rather than a shared curvature sign. Method performance follows estimand alignment rather than a universal ranking.",
+    "not_supported": [
+      "matched-null inference is always more powerful than nonlinear models",
+      "a common quadratic model is inappropriate when species share curvature direction",
+      "the observed maximum null rejection fractions from 40 worlds are universal type-I error rates",
+      "a maximum matched-null null rejection fraction of 0.075 in one 40-world cell demonstrates systematic anti-conservative calibration",
+      "absolute pairwise trait difference is optimal for every nonlinear phenotype",
+      "the benchmark covers arbitrary nonlinear functions, multivariate traits or MNAR observation processes"
+    ]
+  }
+}

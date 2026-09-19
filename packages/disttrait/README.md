@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.10 scope
+## v0.11 scope
 
 The package provides reusable components for:
 
@@ -271,6 +271,46 @@ The supported boundary is therefore explicit:
 > processes that depend jointly on trait and location.
 
 This is why v0.10 does **not** claim robustness to arbitrary MNAR sampling.
+
+## Nonlinear within-species benchmark
+
+v0.11 adds a continuous-trait curvature benchmark:
+
+`results/disttrait_nonlinear_curvature_v0_11_20260919/`
+
+The data-generating process uses a centered quadratic local-position effect
+within species. Curvature sign is shared by all species, reversed in 25%, or
+reversed in 50% of species.
+
+Compared methods:
+
+- naive pooled pairwise analysis;
+- equal-species matched-null distance-dissimilarity;
+- species fixed-intercept common linear slope;
+- species fixed-intercept common quadratic curvature.
+
+Under a weak shared curvature effect (0.4):
+
+- correctly specified quadratic detection = **1.00**;
+- matched-null detection = **0.10–0.375**;
+- common linear detection = **0–0.025**.
+
+When 50% of species reverse curvature sign:
+
+- weak-effect common quadratic detection falls to **0.025–0.05**;
+- matched-null detection remains **0.15–0.35**;
+- at effect 0.8, matched-null detection is **0.85–1.00** while common
+  quadratic detection is **0–0.075**.
+
+The result is an estimand-alignment result rather than a method ranking.
+A correctly specified common nonlinear model is highly efficient when species
+share curvature direction. Distance-dissimilarity remains informative when
+species are spatially organized but the sign of nonlinear curvature differs.
+
+Across the six null cells, the largest observed rejection fractions in 40
+worlds are **0.075** for matched-null, **0.10** for the common linear model and
+**0.075** for the common quadratic model. These finite simulation frequencies
+are not treated as universal calibration guarantees.
 
 ## Validation gate
 
