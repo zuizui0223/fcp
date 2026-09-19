@@ -291,8 +291,18 @@ def figure5() -> list[str]:
     ax.set_xticks(x, labels)
     ax.set_ylabel("Observed spatial rho")
     ax.set_title("External transport can be positive or non-supporting")
+    y_low = min(rho) - 0.02
+    y_high = max(rho) + 0.025
+    ax.set_ylim(y_low, y_high)
     for xi, yi, pi in zip(x, rho, p, strict=True):
-        ax.annotate(f"p={pi:.3g}", (xi, yi), xytext=(0, 10), textcoords="offset points", ha="center")
+        offset = -18 if yi == max(rho) else 10
+        ax.annotate(
+            f"p={pi:.3g}",
+            (xi, yi),
+            xytext=(0, offset),
+            textcoords="offset points",
+            ha="center",
+        )
     return save_figure(fig, "disttrait_figure5_empirical_transport")
 
 
