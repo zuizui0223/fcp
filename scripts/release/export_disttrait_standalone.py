@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Export a standalone disttrait release-candidate tree from the FCP monorepo.
 
-This is an internal dry-run exporter. It deliberately does not invent licence,
-authorship, citation metadata, a standalone repository URL or package-index
-credentials.
+This is an internal dry-run exporter. The package licence is already fixed as
+MIT. The exporter does not invent authorship, citation metadata, a standalone
+repository URL or package-index credentials.
 """
 from __future__ import annotations
 
@@ -23,6 +23,7 @@ ROOT_FILES = (
     "README.md",
     "CHANGELOG.md",
     "RELEASING.md",
+    "LICENSE",
 )
 
 COPY_DIRS = (
@@ -131,9 +132,9 @@ The standalone candidate intentionally excludes monorepo regression tests that
 read frozen FCP/result receipts by relative repository paths. Those upstream
 tests remain part of the source-repository validation contract.
 
-No claim is made that this candidate is ready for public release until software
-licence, authorship/maintainer metadata, citation metadata and repository
-location are frozen.
+No claim is made that this candidate is ready for public release until
+authorship/maintainer metadata, citation metadata and repository location are
+frozen. The package software licence is already fixed as MIT.
 """
     (out / "PROVENANCE.md").write_text(provenance, encoding="utf-8")
 
@@ -142,7 +143,6 @@ location are frozen.
 The following items require an explicit ownership/release decision and are not
 filled by automation:
 
-- software licence;
 - final package authors and maintainer ordering;
 - final CITATION.cff;
 - standalone repository name and visibility;
@@ -166,7 +166,6 @@ the first public standalone release.
         "source_commit": args.source_sha,
         "release_ready": False,
         "reason_not_release_ready": [
-            "software licence not frozen",
             "author/maintainer metadata not frozen",
             "CITATION.cff not frozen",
             "standalone repository location not frozen",
