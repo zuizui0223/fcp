@@ -38,14 +38,27 @@ observations.
 ## Introduction
 
 Comparative ecology often compresses a species to a single trait value. That
-representation is convenient, but it discards the within-species distribution
-that is increasingly visible in community-science photographs, monitoring
-programmes, museum records and other repeated individual observations. When the
-scientific question concerns intraspecific trait variation, the statistical
-problem is not simply how to calculate another species mean. It is how to
-construct and validate a species-level distributional phenotype while
-preserving the distinction between variation among species and organization
-within species.
+representation is convenient, but it discards within-species variation that can
+be ecologically substantial (Bolnick et al. 2011; Siefert et al. 2015).
+Distributional and probabilistic trait frameworks likewise motivate retaining
+variation among individuals rather than representing every species by one
+point estimate (Carmona et al. 2016; Carmona 2019). Repeated
+community-science photographs, monitoring programmes, museum records and other
+individual-level sources make such distributions increasingly observable.
+When the scientific question concerns intraspecific trait variation, the
+statistical problem is therefore not simply how to calculate another species
+mean. It is how to construct and validate a species-level distributional
+phenotype while preserving the distinction between variation among species and
+organization within species.
+
+Opportunistic observations also carry an observation process. Citizen-science
+datasets can contain heterogeneous effort, error and sampling bias (Bird et al.
+2014), and participant behaviour itself can structure data contributed to
+platforms such as iNaturalist (Di Cecco et al. 2021). For image-derived colour,
+direct comparisons with controlled measurements show both useful biological
+signal and additional uncontrolled variation, motivating explicit validation
+rather than an assumption that large sample size alone solves measurement error
+(Laitly et al. 2021).
 
 This distinction becomes especially important for spatial data. Suppose species
 differ geographically in both occurrence and baseline phenotype. Pooling
@@ -115,12 +128,10 @@ spatial stage.
 
 ### 2. Species-level distributional traits
 
-For categorical observations with category proportions (p_k), species-level
+For categorical observations with category proportions `p_k`, species-level
 diversity is summarized by Gini–Simpson diversity,
 
-[
-D = 1 - \sum_k p_k^2.
-]
+`D = 1 - sum_k(p_k^2)`.
 
 The implementation accepts either category counts or proportions.
 
@@ -146,17 +157,19 @@ provided, full-row observer balancing and deterministic hash-based tie breaking.
 
 ### 4. Species-conditioned spatial organization
 
-For species (i), let (d^{geo}_{jk}) be pairwise geographic distance among
-observations and (d^{trait}_{jk}) their pairwise trait dissimilarity. The core
+For species `i`, let `d_geo[j,k]` be pairwise geographic distance among
+observations and `d_trait[j,k]` their pairwise trait dissimilarity. The core
 species-level statistic is
 
-[
-\rho_i = \mathrm{Spearman}
-(d^{geo}_{jk}, d^{trait}_{jk}).
-]
+`rho_i = Spearman(d_geo[j,k], d_trait[j,k])`.
 
 Positive values indicate that geographically more separated individuals tend
-to be more dissimilar in the chosen trait representation.
+to be more dissimilar in the chosen trait representation. The statistic is a
+distance–distance association, so its interpretation is deliberately limited
+to a hypothesis expressed in terms of pairwise dissimilarities rather than as a
+generic substitute for regression. This distinction follows longstanding
+cautions about using Mantel-family distance tests as general spatial models
+(Legendre & Fortin 2010; Guillot & Rousset 2013).
 
 For categorical/compositional traits, the default dissimilarity is
 Jensen–Shannon divergence. For a scalar continuous trait, the default is
@@ -173,10 +186,11 @@ among observed positions within species. This breaks the trait–position
 association while retaining the observed sampling geometry, trait distribution
 and within-row dependence among multivariate dimensions.
 
-Each species therefore has one observed (ho_i) and a matched set of null
+Each species therefore has one observed `rho_i` and a matched set of null
 values. Cross-species evidence can be aggregated by taking the equal-species
 mean in the observed data and in each matched null world. The upper-tail
-Monte Carlo probability is calculated with the plus-one rule.
+Monte Carlo probability is calculated with the plus-one rule
+(Phipson & Smyth 2010).
 
 Equal species weighting is treated as a robust default rather than a universal
 optimum. Separate benchmarks compare equal weighting with pair-count weighting
@@ -196,11 +210,14 @@ implemented by within-species demeaning. A common quadratic model adds a
 centered squared-position term.
 
 For direction heterogeneity, one signed slope is estimated for each species.
-Those slopes and their sampling variances are summarized by a random-effects
-meta-analysis. Because the usual large-sample normal and chi-square calibration
-proved anti-conservative in the benchmark, the final mean and heterogeneity
-statistics are recalibrated by matched within-species permutation of complete
-trait values.
+Those slopes and their sampling variances are summarized with a
+DerSimonian–Laird random-effects model (DerSimonian & Laird 1986;
+Viechtbauer 2010). Random-effects inference can be sensitive to small numbers
+of units and heterogeneous precision, so large-sample calibration should not be
+assumed automatically (Röver et al. 2015). In our benchmark the usual
+normal/chi-square calibration was anti-conservative; the final mean and
+heterogeneity statistics are therefore recalibrated by matched within-species
+permutation of complete trait values.
 
 For two-dimensional continuous traits, a common signed multivariate response
 vector is estimated after removing species intercepts. Its performance is
@@ -259,7 +276,7 @@ The species-specific slope benchmark uses the same direction-heterogeneity
 worlds. The initial analytic random-effects calibration is retained as a
 diagnostic failure. Final inference uses 99 within-species matched
 trait-permutation worlds, re-estimating species slopes, their variances, the
-random-effects mean, Cochran (Q) and (	au^2) in every null world.
+random-effects mean, Cochran `Q` and `tau^2` in every null world.
 
 ### 12. Observation-process stress test
 
