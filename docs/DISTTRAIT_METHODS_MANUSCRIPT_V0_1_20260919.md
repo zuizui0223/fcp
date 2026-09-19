@@ -643,20 +643,93 @@ Columns:
 - demonstrated strength;
 - demonstrated limitation.
 
-## Reference work remaining before submission
+## References
 
-External literature references are intentionally not finalized in this v0.1
-draft. Before journal submission, the introduction and discussion require a
-source audit covering at minimum:
+Bird TJ, Bates AE, Lefcheck JS, Hill NA, Thomson RJ, Edgar GJ,
+Stuart-Smith RD, Wotherspoon S, Krkosek M, Stuart-Smith JF, Pecl GT,
+Barrett N & Frusher S (2014). Statistical solutions for error and bias in
+global citizen science datasets. *Biological Conservation* 173:144–154.
+https://doi.org/10.1016/j.biocon.2013.07.037
 
-- intraspecific trait variation / trait-distribution ecology;
-- opportunistic and community-science observation bias;
-- permutation/randomization inference;
-- spatial trait dissimilarity and distance-based methods;
-- hierarchical/random-slope comparative models;
-- multivariate trait-distance choices;
-- conditional versus observation-process inference.
+Bolnick DI, Amarasekare P, Araújo MS, Bürger R, Levine JM, Novak M,
+Rudolf VHW, Schreiber SJ, Urban MC & Vasseur DA (2011). Why intraspecific
+trait variation matters in community ecology. *Trends in Ecology & Evolution*
+26:183–192. https://doi.org/10.1016/j.tree.2011.01.009
 
-The external empirical data sources already frozen in the repository must also
-be cited in the final reference list, including the San Francisco Public Works
-street-tree source and the ShareTrait / Shokri et al. Gammarus records.
+Carmona CP (2019). Trait probability density (TPD): measuring functional
+diversity across scales based on TPD with R. *Ecology* 100:e02876.
+https://doi.org/10.1002/ecy.2876
+
+Carmona CP, de Bello F, Mason NWH & Lepš J (2016). Traits Without Borders:
+Integrating Functional Diversity Across Scales. *Trends in Ecology & Evolution*
+31:382–394. https://doi.org/10.1016/j.tree.2016.02.003
+
+DerSimonian R & Laird N (1986). Meta-analysis in clinical trials.
+*Controlled Clinical Trials* 7:177–188.
+https://doi.org/10.1016/0197-2456(86)90046-2
+
+Di Cecco GJ, Barve V, Belitz MW, Stucky BJ, Guralnick RP & Hurlbert AH
+(2021). Observing the Observers: How Participants Contribute Data to iNaturalist
+and Implications for Biodiversity Science. *BioScience* 71:1179–1188.
+https://doi.org/10.1093/biosci/biab093
+
+Gower JC (1971). A General Coefficient of Similarity and Some of Its
+Properties. *Biometrics* 27:857–871. https://doi.org/10.2307/2528823
+
+Guillot G & Rousset F (2013). Dismantling the Mantel tests.
+*Methods in Ecology and Evolution* 4:336–344.
+https://doi.org/10.1111/2041-210x.12018
+
+Laitly A, Callaghan CT, Delhey K & Cornwell WK (2021). Is color data from
+citizen science photographs reliable for biodiversity research?
+*Ecology and Evolution* 11:4071–4083.
+https://doi.org/10.1002/ece3.7307
+
+Legendre P & Fortin M-J (2010). Comparison of the Mantel test and alternative
+approaches for detecting complex multivariate relationships in the spatial
+analysis of genetic data. *Molecular Ecology Resources* 10:831–844.
+https://doi.org/10.1111/j.1755-0998.2010.02866.x
+
+Martorelli I, Olivier BG, Cuxart-Erruz R, Leiva FP, Berg MP, Ellers J &
+Verberk WCEP (2025). ShareTraitDatabase v1.0.0. Zenodo.
+https://doi.org/10.5281/zenodo.16537297
+
+Phipson B & Smyth GK (2010). Permutation P-values Should Never Be Zero:
+Calculating Exact P-values When Permutations Are Randomly Drawn.
+*Statistical Applications in Genetics and Molecular Biology* 9:Article 39.
+https://doi.org/10.2202/1544-6115.1585
+
+Röver C, Knapp G & Friede T (2015). Hartung-Knapp-Sidik-Jonkman approach
+and its modification for random-effects meta-analysis with few studies.
+*BMC Medical Research Methodology* 15:99.
+https://doi.org/10.1186/s12874-015-0091-1
+
+San Francisco Public Works. *Street Tree List / Street Tree Inventory*.
+Historical municipal open-data source; frozen 2020 snapshot used by the
+disttrait fixture. Open Data Commons PDDL 1.0.
+
+Shokri M, Cozzoli F, Vignes F, Bertoli M, Pizzul E & Basset A (2022).
+Metabolic rate and climate change across latitudes: evidence of mass-dependent
+responses in aquatic amphipods. *Journal of Experimental Biology*
+225:jeb244842. https://doi.org/10.1242/jeb.244842
+Data: https://doi.org/10.17605/OSF.IO/56TNH
+
+Siefert A et al. (2015). A global meta-analysis of the relative extent of
+intraspecific trait variation in plant communities. *Ecology Letters*
+18:1406–1419. https://doi.org/10.1111/ele.12508
+
+Viechtbauer W (2010). Conducting Meta-Analyses in R with the metafor Package.
+*Journal of Statistical Software* 36(3):1–48.
+https://doi.org/10.18637/jss.v036.i03
+
+## Reference audit status
+
+The literature-to-claim mapping is frozen in
+`docs/DISTTRAIT_METHODS_LITERATURE_AUDIT_20260919.md`.
+
+Remaining reference work is editorial rather than conceptual: adapt formatting
+to the selected journal, verify whether that journal requires full author lists,
+and add journal-specific software/data citation fields. Benchmark performance
+claims remain supported by frozen repository receipts rather than by external
+literature.
+
