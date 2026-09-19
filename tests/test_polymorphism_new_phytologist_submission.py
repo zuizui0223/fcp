@@ -128,6 +128,7 @@ def test_new_phytologist_required_sections_and_display_items() -> None:
 
 def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
+    normalized = text.replace("**", "")
     for token in (
         "49,900",
         "377",
@@ -140,7 +141,7 @@ def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
         "not an independent-source replication",
         "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
     ):
-        assert token.lower() in text.lower()
+        assert token.lower() in normalized.lower()
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
