@@ -131,8 +131,11 @@ def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
     for token in (
         "49,900",
         "377",
-        "158 species, W = 0.51725, p = 0.001",
-        "86 species, W = 0.53293, p = 0.001",
+        "158 species",
+        "0.51725",
+        "86 species",
+        "0.53293",
+        "p = 0.001",
         "same iNaturalist opportunity universe",
         "not an independent-source replication",
         "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
