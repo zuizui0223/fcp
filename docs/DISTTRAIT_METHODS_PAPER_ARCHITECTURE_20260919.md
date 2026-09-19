@@ -223,6 +223,38 @@ This is the strongest general methods result after v0.8:
 
 > model flexibility and test calibration are separate problems.
 
+### Evidence 9 — conditional calibration is not protection from joint MNAR selection
+
+v0.10 keeps the latent within-species biological process null and changes only
+the observation mechanism.
+
+Across MCAR, trait-only and position-only selection:
+
+- all benchmark cells retain 40/40 evaluable worlds;
+- equal-species matched-null rejection remains at or below **0.05**;
+- species-level spatial rho remains near zero.
+
+When observation depends jointly on trait state and local position:
+
+- equal-species matched-null rejection rises to **0.80–1.00**;
+- species fixed-effect logistic rejection is **1.00**;
+- the observed rows acquire mean absolute within-species trait-position
+  correlations of **0.21–0.32**.
+
+This should not be described as ordinary type-I error inflation conditional on
+the observed sample. The observation process has created real association among
+the retained rows.
+
+The methods lesson is:
+
+> matched randomization calibrates the statistic to the observed rows and
+> observed sampling geometry; it cannot identify a counterfactual latent
+> biological null after an unmeasured trait-by-location observation process has
+> changed which rows are present.
+
+Thus observation-process validity and inferential calibration are separate
+problems.
+
 ## 4. Recommended paper story
 
 ### Question 1
@@ -263,15 +295,26 @@ Answer: asymptotic calibration should be checked rather than assumed.
 Species-conditioned matched randomization can calibrate final statistics to the
 observed sampling geometry when the exchangeability null is appropriate.
 
+### Question 6
+
+**What does matched randomization not solve?**
+
+Answer: it conditions on the observations that exist. If observation itself
+depends jointly on trait and location, the observed sample can contain spatial
+trait structure that neither permutation nor a parametric response model can
+attribute uniquely to biology versus selection without additional
+observation-process information.
+
 ## 5. Main claim
 
 A defensible one-sentence claim is:
 
 > **Species-conditioning is the key inferential step for separating
 > within-species trait organization from between-species geographic turnover;
-> matched randomization provides an assumption-light calibration route, while
-> model-based signed-response methods offer complementary power and
-> interpretation when their estimands and assumptions are appropriate.**
+> matched randomization provides an assumption-light calibration route
+> conditional on the observed sample, while model-based signed-response methods
+> offer complementary power and interpretation when their estimands and
+> assumptions are appropriate.**
 
 A slightly broader architecture claim is:
 
@@ -306,9 +349,9 @@ Cartoon/simulation showing:
 
 Purpose: make the confounding problem immediately visible.
 
-### Figure 2 — calibration and power surface
+### Figure 2 — calibration, power and observation-process boundary
 
-Effect size × missingness × imbalance.
+Panels A–B: effect size × missingness × imbalance.
 
 Compare:
 
@@ -316,6 +359,18 @@ Compare:
 - equal-species matched-null;
 - pair-weighted matched-null;
 - species-rho test.
+
+Panel C: observation-process stress test.
+
+Compare:
+
+- MCAR;
+- trait-only selection;
+- position-only selection;
+- joint trait-by-position selection.
+
+Purpose: separate conditional calibration of the inferential machinery from
+validity of the process that generated the observed rows.
 
 ### Figure 3 — assumption/estimand trade-offs
 
@@ -390,8 +445,10 @@ The highest-value additions are now:
 
 1. a nonlinear within-species benchmark;
 2. a multivariate continuous-trait benchmark;
-3. an MNAR observation-process stress test;
-4. standalone package repository/licence/release metadata.
+3. standalone package repository/licence/release metadata.
+
+The MNAR observation-process gap has been stress-tested in v0.10. Arbitrary
+MNAR robustness remains a hard nonclaim rather than an unmet benchmark.
 
 A second external empirical dataset is no longer an unmet gate.
 
