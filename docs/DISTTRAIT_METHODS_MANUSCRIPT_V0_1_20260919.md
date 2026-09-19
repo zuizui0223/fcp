@@ -315,11 +315,12 @@ response vector.
 
 #### San Francisco street trees
 
-A fixed historical snapshot of the San Francisco street-tree inventory is used
-as an external non-flower continuous-trait application. The frozen fixture
+A fixed historical snapshot of the San Francisco Public Works street-tree
+inventory is used as an external non-flower continuous-trait application
+(San Francisco Public Works, historical Street Tree List). The frozen fixture
 contains 20 taxon labels and 80 observations per taxon. The trait is
-(log(DBH)), and pairwise trait dissimilarity is absolute difference in
-(log(DBH)). Each taxon uses 99 matched vertex permutations.
+`log(DBH)`, and pairwise trait dissimilarity is absolute difference in
+`log(DBH)`. Each taxon uses 99 matched vertex permutations.
 
 This dataset is used as a transport validation rather than as a causal analysis
 of urban tree size.
@@ -327,12 +328,13 @@ of urban tree size.
 #### ShareTrait Gammarus
 
 A second external transport uses ShareTraitDatabase
-`Gammarus insensibilis` metabolic-rate data linked to source dataset
-TRADAT039. The fixture contains 375 individuals from three Adriatic
-populations, all measured in Joule/day. The primary trait is log metabolic rate,
-with 999 within-species vertex permutations. Individuals inherit their sampled
-population coordinates, so this example represents between-population rather
-than fine-scale within-site geography.
+`Gammarus insensibilis` metabolic-rate data (Martorelli et al. 2025) linked
+to source dataset TRADAT039 and the study of Shokri et al. (2022). The fixture
+contains 375 individuals from three Adriatic populations, all measured in
+Joule/day. The primary trait is log metabolic rate, with 999 within-species
+vertex permutations. Individuals inherit their sampled population coordinates,
+so this example represents between-population rather than fine-scale
+within-site geography.
 
 ### 16. Software and reproducibility
 
@@ -511,19 +513,23 @@ sample, both a permutation test and a parametric response model can detect that
 association. Additional observation-process information is required to decide
 whether it reflects biology, observation or both.
 
-This boundary is particularly relevant to opportunistic data. Observer
-restrictions, fixed sampling budgets, matched controls, outcome-blind
-acquisition and validation against external data can reduce some forms of
-feedback, but they do not prove the absence of every outcome-dependent
-observation process.
+This boundary is particularly relevant to opportunistic data, where sampling
+effort and participant behaviour can be strongly structured (Bird et al. 2014;
+Di Cecco et al. 2021). Observer restrictions, fixed sampling budgets, matched
+controls, outcome-blind acquisition and validation against external data can
+reduce some forms of feedback, but they do not prove the absence of every
+outcome-dependent observation process.
 
 ### Flexible models still require finite-sample calibration checks
 
 The failed analytic random-effects preflight provides a useful caution. Allowing
 species-specific slopes solved the structural limitation of a common slope, but
 the usual large-sample mean and heterogeneity tests were anti-conservative under
-small per-species samples and missingness. Recalibrating those same statistics
-by matched within-species permutation restored the combined benchmark behavior.
+small per-species samples and missingness. This is consistent with the broader
+meta-analytic literature showing that uncertainty in heterogeneity and unequal
+precision can compromise nominal inference when few units contribute
+(Röver et al. 2015). Recalibrating those same statistics by matched
+within-species permutation restored the combined benchmark behavior.
 
 Thus model flexibility and inferential calibration should be considered
 separately. A more flexible model does not automatically imply a better
@@ -537,8 +543,11 @@ different dissimilarities but share the same species-conditioned logic.
 
 The multivariate benchmark also highlights an application responsibility.
 Euclidean distance is meaningful only after the analyst has decided how trait
-dimensions should be scaled and combined. The package deliberately does not
-hide that decision behind automatic standardization.
+dimensions should be scaled and combined. Alternative resemblance
+constructions exist for other data structures (e.g. Gower 1971), underscoring
+that metric choice is part of the estimand rather than a purely technical
+default. The package deliberately does not hide that decision behind automatic
+standardization.
 
 ### External transport is validation of execution, not a universal ecological pattern
 
@@ -566,9 +575,13 @@ and calibration.
 
 The framework also does not guarantee universal type-I error control,
 robustness to arbitrary MNAR observation, optimal trait-space metrics or
-superiority over hierarchical models, GAMs or Gaussian processes. The benchmark
-suite instead maps specific conditions under which different estimands and
-assumptions become informative.
+superiority over hierarchical models, GAMs or Gaussian processes. Nor should
+its distance–distance statistic be read as a claim that generic Mantel-style
+permutation resolves spatial autocorrelation; known limitations of simple and
+partial Mantel tests remain relevant warnings about mismatched hypotheses and
+null models (Legendre & Fortin 2010; Guillot & Rousset 2013). The benchmark
+suite instead validates the specific species-conditioned permutation schemes
+implemented here under explicit data-generating processes.
 
 ## Conclusions
 
