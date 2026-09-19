@@ -173,8 +173,23 @@ Exploratory frozen-result run:
 - artifact: `10573828639`;
 - conclusion: success.
 
-The final workflow regenerates all 24 cells and verifies them against the frozen
-v0.12 receipt.
+Final frozen-receipt validation:
+
+- PR #53;
+- head: `d7d8c731f84fee8ee6db750122f650cc184665f5`;
+- multivariate workflow run: `35412655687`;
+- multivariate job: `105815170087`;
+- artifact: `10573988767` (`disttrait-multivariate-orientation-v012`);
+- receipt checker: success;
+- multivariate conclusion: success;
+- full package workflow run: `35412655648`;
+- full package job: `105815169954`;
+- full package conclusion: success.
+
+The final workflow regenerated all 24 cells and verified them against the frozen
+v0.12 receipt. The full package workflow also passed installation, compilation,
+the complete test suite, external empirical transport and frozen empirical
+receipt verification.
 
 ## 11. Methods-paper state after v0.12
 
