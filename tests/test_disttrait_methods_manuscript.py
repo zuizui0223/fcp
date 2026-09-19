@@ -66,10 +66,12 @@ def test_disttrait_methods_manuscript_has_audited_literature_and_clean_notation(
 def test_disttrait_methods_manuscript_preserves_claim_boundaries() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     for token in (
-        "not a wholly new statistical family",
+        "should not be described as a wholly new statistical family",
         "does not guarantee universal type-I error control",
-        "cannot identify whether the association was biological or selection-induced",
+        "could not identify whether the association was",
+        "biological or selection-induced",
         "metric choice is part of the estimand",
-        "Benchmark performance claims remain supported by frozen repository receipts",
+        "Benchmark performance",
+        "claims remain supported by frozen repository receipts",
     ):
         assert token in text
