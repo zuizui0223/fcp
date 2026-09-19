@@ -1,4 +1,4 @@
-# A recurrent achromatic–chromatic axis structures within-species flower-colour polymorphism across plant species
+# Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species
 
 **New Phytologist Full Paper — submission-format working draft**
 
@@ -9,12 +9,12 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 171 words
+- Summary: 197 words
 - Introduction: 541 words
-- Materials and Methods: 2,460 words
+- Materials and Methods: 2,548 words
 - Results: 1,025 words
 - Discussion: 1,298 words
-- Main text (Introduction through Discussion): 5,324 words
+- Main text (Introduction through Discussion): 5,412 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -23,10 +23,10 @@
 
 ## Summary
 
-- Flower colour is usually reduced to one species state, obscuring within-species diversity. We asked whether flower-colour polymorphism is a reproducible species phenotype, whether its variation follows a recurrent colour-space direction, and whether more polymorphic species organize that variation more strongly across geography.
-- A continuous four-state diversity score was validated with observer-disjoint photo sets. Continuous nine-colour geometry was audited in discovery/reserve cohorts, then an already frozen white-versus-nonwhite axis was tested prospectively in a pre-frozen species-disjoint third cohort.
-- Reserve observer-disjoint partitions gave median Spearman rho = 0.789. The third cohort completed 49,900 rows from 499 species; 377 passed the support gate. The frozen axis was supported at the primary tier (158 species, W = 0.51725, p = 0.001) and strict tier (86 species, W = 0.53293, p = 0.001).
-- Within-species flower-colour diversity is reproducibly measurable under high-depth photographic sampling. Its strongest prospectively confirmed recurrent geometry is achromatic–chromatic, and species with greater D also show stronger within-species geographic colour organization; broad ancestry and sampled photographic extent are insufficient as simple explanations.
+- Flower colour is commonly reduced to a species mean or categorical state, obscuring within-species diversity. We ask whether within-species flower-colour diversity can be measured reproducibly as a species phenotype, whether its variation repeatedly follows a common colour-space direction, and whether that diversity is geographically organized within species.
+- We quantified diversity as a continuous four-state score, D, and analysed continuous nine-colour geometry in separate discovery and reserve cohorts. After those analyses localized recurrent geometry to a white-versus-nonwhite contrast, we froze that axis and tested it prospectively in a species-disjoint third cohort from the same iNaturalist opportunity universe.
+- Observer-disjoint reserve partitions recovered stable species rankings in D (median Spearman rho = 0.789). The frozen axis was supported prospectively in 158 species (W = 0.517, p = 0.001). Greater D was also associated with stronger within-species geographic colour organization after sampled-span and technical-failure adjustment; fresh reserve tests did not support broad tree-wide conservation or a sampled-span explanation of D.
+- Within-species flower-colour diversity is reproducibly measurable under high-depth photographic sampling. Across plant species, its strongest prospectively confirmed geometric regularity is recurrent achromatic–chromatic variation rather than a general shared hue direction; the geographic realization remains species-specific, without assigning a causal mechanism.
 
 ---
 
@@ -42,9 +42,9 @@ The decisive H2 test is therefore prospective. Before opening a new biological c
 
 ---
 
----
-
 ## Materials and Methods
+
+At a high level, the workflow asks whether repeated photographs can define a stable within-species colour phenotype and whether the direction of variation recurs across species. For each species, photographs were processed by a location-blind measurement pipeline; the resulting colour-state frequencies define D, while continuous nine-colour measurements define a species displacement vector. We then compare D or displacement geometry across species under observer-disjoint replication, construction-preserving nulls and a prospectively frozen third-cohort test. Geographic information enters only in the complementary spatial-organization analysis, after the colour phenotype has been defined.
 
 ### Global sampling frame and inferential cohorts
 
@@ -359,7 +359,7 @@ Within-species flower-colour diversity can be measured reproducibly as a continu
 
 ## Data availability
 
-Frozen protocols, analysis code, machine-readable results, claim ledgers and canonical figures are versioned in the `zuizui0223/fcp` GitHub repository. The third-cohort prospective result is preserved as an immutable repository commit and GitHub Actions artifact. A permanent archival DOI/version should be added before submission.
+Frozen protocols, analysis code, machine-readable results, claim ledgers and canonical figures are versioned in the `zuizui0223/fcp` GitHub repository. The analytical procedures developed for this study were subsequently generalized within the repository as `disttrait 0.12.0`; the biological results reported in this manuscript were generated with the study-specific frozen pipeline described here, not with `disttrait`. The third-cohort prospective result is preserved as an immutable repository commit and GitHub Actions artifact. A permanent archival DOI/version should be added before submission.
 
 ## References
 
