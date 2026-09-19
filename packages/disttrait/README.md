@@ -19,7 +19,8 @@ The package provides reusable components for:
 - matched trait-minus-background spatial organization and joint same-observation permutation nulls;
 - species-level distribution-versus-spatial association;
 - partial-rank adjustment with matched spatial nulls;
-- scalar continuous-trait spatial inference using absolute pairwise differences.\n- multivariate continuous-trait spatial inference using Euclidean pairwise distances with complete-row permutations.
+- scalar continuous-trait spatial inference using absolute pairwise differences.
+- multivariate continuous-trait spatial inference using Euclidean pairwise distances with complete-row permutations.
 
 The package deliberately does **not** claim a new standalone statistic. Most components are established statistics. The reusable contribution is an inference architecture that separates measurement validity, species-level trait distributions, trait geometry, spatial organization, matched nulls, and prospective confirmation.
 
@@ -61,6 +62,28 @@ python packages/disttrait/scripts/replay_fcp_h2_observed_w.py \
 ```
 
 The H2 replay checks species denominators and the generic fixed-contrast alignment statistic. It does not reconstruct the 999 construction-preserving null worlds unless the underlying row-level palette artifacts are also supplied.
+
+## Public-release metadata workflow
+
+The monorepo intentionally does not guess software ownership metadata. A complete
+template is provided at:
+
+`release_metadata.example.toml`
+
+For a public standalone release:
+
+1. copy it to `release_metadata.toml`;
+2. fill the licence SPDX identifier, ordered authors/maintainers, and standalone
+   repository URL;
+3. place the selected full licence text in `LICENSE`;
+4. set `release.release_ready = true`;
+5. run `scripts/release/finalize_disttrait_release_metadata.py` from the FCP
+   source repository;
+6. run the public-release gate before tagging.
+
+The finalizer renders `CITATION.cff`, author/maintainer/license metadata in
+`pyproject.toml`, final repository URLs, and `RELEASE_METADATA.json`. It
+refuses placeholders and does not choose a licence or authorship automatically.
 
 ## Install from this repository
 
