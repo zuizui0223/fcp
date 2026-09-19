@@ -1,0 +1,64 @@
+{
+  "schema": "disttrait_mnar_observation_surface_v1",
+  "date_jst": "2026-09-19",
+  "role": "observation_process_stress_test_under_latent_within_species_null",
+  "biological_data_used": false,
+  "flower_colour_used": false,
+  "script": {
+    "path": "packages/disttrait/benchmarks/mnar_observation_surface.py",
+    "git_blob_sha": "5a60631282f2cdaec0adab84b8ceeab7eae91785"
+  },
+  "cells_file": "results/disttrait_mnar_observation_v0_10_20260919/cells.csv",
+  "design": {
+    "mechanisms": [
+      "mcar",
+      "trait_only",
+      "position_only",
+      "joint_trait_position"
+    ],
+    "strengths": [0.8, 1.6],
+    "worlds_per_cell": 40,
+    "species_per_world": 20,
+    "latent_observations_per_species": 100,
+    "selection_intercept": 0.2,
+    "spatial_null_permutations": 39,
+    "naive_pooled_pair_sample": 8000,
+    "minimum_retained_rows_per_species": 8,
+    "alpha": 0.05,
+    "latent_biological_null": "Within every species, binary trait state is independent of local position before the observation process. Species baseline trait frequencies vary geographically among species.",
+    "mcar": "Selection probability is independent of trait and local position.",
+    "trait_only": "Selection probability depends on trait state only.",
+    "position_only": "Selection probability depends on local position only.",
+    "joint_trait_position": "Selection probability depends on the interaction between trait state and local position, so conditioning on observation can induce within-species trait-position association."
+  },
+  "summary": {
+    "minimum_evaluable_worlds": 40,
+    "max_equal_rejection_nonjoint": 0.05,
+    "max_fixed_logit_rejection_nonjoint": 0.1,
+    "joint_equal_rejection_range": [0.8, 1.0],
+    "joint_fixed_logit_rejection_range": [1.0, 1.0],
+    "joint_observed_abs_state_position_rho_range": [
+      0.2097949475605593,
+      0.322208380014798
+    ]
+  },
+  "exploratory_workflow": {
+    "pr": 51,
+    "head_sha": "70e9a4d80bdcb52f2611f8a011468ce9376a394b",
+    "run_id": 35410870197,
+    "job_id": 105810092981,
+    "artifact_id": 10574272249,
+    "artifact_name": "disttrait-mnar-observation-exploratory",
+    "conclusion": "success"
+  },
+  "interpretation": {
+    "supported": "When the latent trait is spatially independent within species, species-conditioned matched-null inference remains near nominal rejection under MCAR, trait-only selection and position-only selection in this benchmark. When observation depends jointly on trait state and position, the observed sample itself acquires within-species trait-position association; both matched-null and species-fixed logistic analyses then reject frequently. Matched randomization calibrates inference conditional on the observed rows and sampling geometry, but cannot reconstruct or remove unmeasured outcome-by-location selection that changed which rows were observed.",
+    "not_supported": [
+      "universal robustness to missing-not-at-random observation",
+      "interpreting joint-selection rejection as a conventional type-I calibration failure conditional on the observed sample",
+      "claiming matched permutation can identify whether observed spatial organization is biological or selection-induced without additional observation-process information",
+      "claiming model-based fixed-effect logistic inference solves joint trait-by-position selection",
+      "claiming trait-only or position-only missingness is harmless under every data-generating process"
+    ]
+  }
+}
