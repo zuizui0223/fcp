@@ -19,7 +19,7 @@ Current validated package version: **0.12.0**
 
 These items are intentionally **not guessed by automation**:
 
-- [ ] choose the package software licence;
+- [x] package software licence fixed as **MIT**;
 - [ ] confirm package authors / maintainers and ordering;
 - [ ] choose the standalone GitHub repository name/visibility;
 - [ ] create the standalone repository (the current GitHub connector does not
@@ -50,7 +50,7 @@ values.
 
 ## Recommended first external release sequence
 
-1. resolve licence and author metadata;
+1. finalize author / maintainer metadata;
 2. copy `packages/disttrait/` plus its tests/examples/benchmarks into the
    standalone repository;
 3. preserve the FCP equivalence manifest and source Git SHAs;
@@ -59,5 +59,5 @@ values.
 6. archive the tag and record the DOI;
 7. only then enable an authenticated PyPI publishing workflow.
 
-No package-index credentials should be added before the licence/authorship and
-repository decisions are frozen.
+No package-index credentials should be added before authorship and repository
+decisions are frozen.
