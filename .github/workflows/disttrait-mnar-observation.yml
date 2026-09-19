@@ -1,0 +1,47 @@
+name: disttrait MNAR observation stress test
+
+on:
+  push:
+    paths:
+      - "packages/disttrait/benchmarks/mnar_observation_surface.py"
+      - "packages/disttrait/scripts/check_mnar_observation_receipt.py"
+      - "results/disttrait_mnar_observation_v0_10_20260919/**"
+      - ".github/workflows/disttrait-mnar-observation.yml"
+  pull_request:
+    paths:
+      - "packages/disttrait/benchmarks/mnar_observation_surface.py"
+      - "packages/disttrait/scripts/check_mnar_observation_receipt.py"
+      - "results/disttrait_mnar_observation_v0_10_20260919/**"
+      - ".github/workflows/disttrait-mnar-observation.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install disttrait
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e packages/disttrait
+
+      - name: Run MNAR stress test
+        run: |
+          python packages/disttrait/benchmarks/mnar_observation_surface.py             > disttrait_mnar_observation_result.json
+
+      - name: Verify frozen v0.10 benchmark receipt
+        run: |
+          python packages/disttrait/scripts/check_mnar_observation_receipt.py             --observed disttrait_mnar_observation_result.json             --expected results/disttrait_mnar_observation_v0_10_20260919/result.json             --cells results/disttrait_mnar_observation_v0_10_20260919/cells.csv
+
+      - name: Upload benchmark result
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-mnar-observation-v010
+          path: disttrait_mnar_observation_result.json

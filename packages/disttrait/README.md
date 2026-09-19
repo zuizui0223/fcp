@@ -4,7 +4,7 @@
 
 It extracts the general inferential core used by the FCP flower-colour polymorphism study without hard-coding flower colours, iNaturalist, or the RGFCA world-map application.
 
-## v0.9 scope
+## v0.10 scope
 
 The package provides reusable components for:
 
@@ -228,6 +228,49 @@ Under weak effect (0.4) with 50% directional reversal:
 - calibrated slope-meta omnibus detection: **0.525–1.00**.
 
 The interpretation is again estimand-specific. Common slopes target a shared signed response; random-effects slope meta-analysis separates average signed response from directional heterogeneity; pairwise distance-dissimilarity targets spatial organization without requiring a common sign.
+
+## MNAR observation-process stress test
+
+v0.10 adds a latent-null observation-process benchmark:
+
+`results/disttrait_mnar_observation_v0_10_20260919/`
+
+The latent biological process contains **no within-species trait-position
+association**. Before analysis, rows are selected under four mechanisms:
+
+- MCAR;
+- trait-only selection;
+- position-only selection;
+- joint trait-by-position selection.
+
+The benchmark uses 20 species, 100 latent observations/species, 40 worlds per
+cell and two selection strengths.
+
+All 8 cells retain **40/40 evaluable worlds**.
+
+Under MCAR, trait-only and position-only selection:
+
+- maximum equal-species matched-null rejection = **0.05**;
+- observed species-level spatial rho remains near zero.
+
+Under joint trait-by-position selection:
+
+- matched-null rejection = **0.80–1.00**;
+- species fixed-effect logistic rejection = **1.00**;
+- mean absolute observed state-position rho rises to **0.21–0.32**.
+
+This is not interpreted as an ordinary type-I calibration failure conditional
+on the observed sample. Joint selection has changed the observed sample so that
+trait and position are genuinely associated among retained rows.
+
+The supported boundary is therefore explicit:
+
+> matched within-species randomization calibrates inference conditional on the
+> observed sampling geometry and observed trait multiset; it cannot, by itself,
+> distinguish biological spatial organization from unmeasured observation
+> processes that depend jointly on trait and location.
+
+This is why v0.10 does **not** claim robustness to arbitrary MNAR sampling.
 
 ## Validation gate
 
