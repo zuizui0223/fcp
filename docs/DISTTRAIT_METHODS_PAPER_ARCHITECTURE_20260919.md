@@ -255,6 +255,32 @@ The methods lesson is:
 Thus observation-process validity and inferential calibration are separate
 problems.
 
+### Evidence 10 — nonlinear response shape is another estimand choice
+
+v0.11 generates a centered quadratic within-species response.
+
+When all species share curvature direction at weak effect 0.4:
+
+- correctly specified common quadratic detection = **1.00**;
+- distance-dissimilarity matched-null detection = **0.10–0.375**;
+- common linear detection = **0–0.025**.
+
+When half the species reverse curvature direction:
+
+- weak-effect common quadratic detection falls to **0.025–0.05**;
+- distance-dissimilarity matched-null remains **0.15–0.35**;
+- at effect 0.8, matched-null detection is **0.85–1.00** while common
+  quadratic detection is **0–0.075**.
+
+This extends the direction-heterogeneity result beyond linear slopes.
+
+The lesson is:
+
+> a correctly specified nonlinear model is highly efficient when species share
+> the modeled response shape, while a direction-invariant dissimilarity
+> estimand retains spatial-organization information when nonlinear response
+> signs differ among species.
+
 ## 4. Recommended paper story
 
 ### Question 1
@@ -304,6 +330,15 @@ depends jointly on trait and location, the observed sample can contain spatial
 trait structure that neither permutation nor a parametric response model can
 attribute uniquely to biology versus selection without additional
 observation-process information.
+
+### Question 7
+
+**What if the within-species response is nonlinear?**
+
+Answer: use a nonlinear model when the shared response shape is itself the
+scientific target. If species can express equally strong organization with
+opposite curvature or other shape reversals, a direction-invariant
+dissimilarity estimand answers a different and often more stable question.
 
 ## 5. Main claim
 
@@ -374,12 +409,14 @@ validity of the process that generated the observed rows.
 
 ### Figure 3 — assumption/estimand trade-offs
 
-Two panels:
+Three panels:
 
 - correctly specified binary-logistic model versus matched-null inference;
-- shared direction versus 50% direction reversal for continuous traits.
+- shared linear direction versus 50% direction reversal;
+- shared quadratic curvature versus 50% curvature reversal.
 
-Purpose: show that the preferred method depends on the target estimand.
+Purpose: show that the preferred method depends on the target estimand and on
+whether species share the signed response form.
 
 ### Figure 4 — calibration of flexible species slopes
 
@@ -443,9 +480,8 @@ The current package is sufficient for drafting the paper.
 
 The highest-value additions are now:
 
-1. a nonlinear within-species benchmark;
-2. a multivariate continuous-trait benchmark;
-3. standalone package repository/licence/release metadata.
+1. a multivariate continuous-trait benchmark;
+2. standalone package repository/licence/release metadata.
 
 The MNAR observation-process gap has been stress-tested in v0.10. Arbitrary
 MNAR robustness remains a hard nonclaim rather than an unmet benchmark.
