@@ -1,10 +1,10 @@
 # disttrait v0.11 package status — 2026-09-19
 
-Status: validation candidate with nonlinear within-species estimand benchmark.
+Status: validated in-repository candidate with nonlinear within-species estimand benchmark.
 
 Package: packages/disttrait/
 
-Candidate version: 0.11.0
+Validated version: 0.11.0
 
 ## 1. New in v0.11
 
@@ -145,3 +145,17 @@ The highest-value remaining additions are now:
 2. standalone package repository/licence/release metadata.
 
 Arbitrary nonlinear functions remain outside the benchmark claim; v0.11 tests one interpretable quadratic family rather than every possible nonlinear process.
+
+## 10. Validation record
+
+PR #52 validated the frozen v0.11 benchmark and the full package regression stack.
+
+- nonlinear benchmark workflow run: 35411824021
+- nonlinear benchmark job: 105812801990
+- nonlinear benchmark artifact: 10574278860
+- nonlinear benchmark conclusion: success
+- full disttrait package workflow run: 35411824022
+- full package job: 105812802108
+- full package conclusion: success
+
+The final nonlinear workflow regenerated all 24 cells and passed the frozen receipt checker. The full package workflow passed compilation, the complete package test suite, external empirical transport and frozen receipt verification.
