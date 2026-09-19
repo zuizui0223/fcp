@@ -1,4 +1,4 @@
-# A recurrent achromatic–chromatic axis structures within-species flower-colour polymorphism across plant species
+# Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species
 
 **Working manuscript draft — 2026-09-18**
 
