@@ -615,33 +615,88 @@ with Twine and installed successfully in a fresh Python environment. Final
 public-release metadata, standalone repository location, software licence and
 citation metadata remain to be frozen before external package publication.
 
-## Figures planned
+## Figures
 
-1. **Estimand/confounding problem** — pooled between-species turnover versus
-   null within-species organization.
-2. **Calibration/power/observation-process boundary** — performance surface plus
-   joint-MNAR stress test.
-3. **Estimand trade-offs** — binary response model, linear direction,
-   nonlinear curvature and multivariate orientation.
-4. **Flexible species slopes and calibration** — analytic versus matched
-   permutation calibration.
-5. **External transport** — San Francisco trees and ShareTrait Gammarus.
+Canonical reporting-only generator:
 
-## Table planned
+`scripts/analysis/make_disttrait_methods_figures.py`
 
-**Table 1. Method–estimand map**
+Display manifest and frozen Table 1:
 
-Columns:
+`docs/figures/disttrait_methods_20260919/`
 
-- method;
-- within-species conditioning;
-- direction-sensitive;
-- trait representation;
-- distributional assumptions;
-- calibration;
-- target estimand;
-- demonstrated strength;
-- demonstrated limitation.
+Validated figure artifact:
+
+- PR #55;
+- workflow run `35417532675`;
+- job `105828945021`;
+- artifact `10576197828` (`disttrait-methods-displays-v012`);
+- conclusion: success.
+
+**Figure 1. Pooling can answer the wrong level of organization.** Rejection or
+detection fractions from the frozen between-species-confounding benchmark. In
+null worlds, species baseline trait frequency turns over geographically while
+there is no within-species spatial dependence: naive pooled inference rejects
+in 1.00 of worlds, whereas the species-conditioned matched-null analysis
+rejects in 0.00. In signal worlds both methods detect the imposed signal. The
+figure is intended to identify the confounding target, not to establish a
+universal failure rate for every pooled analysis.
+
+**Figure 2. Calibration, power and the observation-process boundary.** The
+upper block reports species-conditioned detection fractions across the frozen
+effect-size, observation-imbalance and MCAR-loss surface. The lower block
+reports matched-null rejection under MCAR, trait-only, position-only and joint
+trait-by-position observation mechanisms. Non-joint observation mechanisms
+remain at or below 0.05 in the tested cells, whereas joint trait-by-position
+selection produces 0.80–1.00 rejection because the observed rows themselves
+contain induced trait–position association.
+
+**Figure 3. Method performance follows the target estimand.** Detection
+fractions compare the matched-null distance/dissimilarity estimand with the
+response-model comparator appropriate to each frozen benchmark. Shared binary,
+linear, quadratic and multivariate responses favour correctly aligned response
+models. When linear direction, quadratic curvature or multivariate orientation
+varies among species, common signed parameters can cancel while
+distance/dissimilarity organization remains detectable. These are differences
+in estimand alignment rather than a universal ranking of methods.
+
+**Figure 4. Flexible species slopes still require calibration.** Maximum null
+rejection fractions are shown for the analytic random-effects mean,
+heterogeneity and combined tests, followed by their matched-permutation
+calibrated versions. The same display includes weak-effect 50%-reversal
+detection for the common slope, distance/dissimilarity matched-null statistic,
+calibrated slope heterogeneity and calibrated slope-meta omnibus. Analytic
+heterogeneity and omnibus rejection reached 0.30 in the failed preflight;
+permutation calibration reduced the combined omnibus maximum to 0.05 while
+retaining high heterogeneity power.
+
+**Figure 5. External transport can be positive or non-supporting.** The first
+point shows the equal-taxon mean spatial rho for the San Francisco street-tree
+log-DBH transport (rho = 0.09219, matched-null p = 0.01). The second and third
+points show the ShareTrait *Gammarus insensibilis* log-rate and raw-rate
+transports (rho = -0.00683, p = 0.68; rho = 0.01093, p = 0.198). The street-tree
+value is a 20-taxon aggregate whereas the Gammarus values are one-species
+three-population statistics, so the display demonstrates executable transport
+rather than a direct ecological effect-size comparison.
+
+## Table 1. Method–estimand map
+
+| Method | Species-conditioned? | Direction-sensitive? | Calibration | Primary estimand | Main limitation |
+|---|---|---|---|---|---|
+| Naive pooled pairwise | No | No | Nominal correlation test | Pooled turnover + within-species structure | Cannot isolate within-species organization |
+| Equal-species matched-null | Yes | No | Matched vertex permutation | Mean strength of within-species spatial organization | Conditional on observed rows; metric choice matters |
+| Pair-weighted matched-null | Yes | No | Matched vertex permutation | Pair-weighted spatial organization | High-depth species receive greater inferential weight |
+| Species-rho one-sample test | Yes | No | One-sample t reference | Mean species spatial rho | Reference distribution may be fragile |
+| Fixed-intercept logistic common slope | Yes | Yes | Profile likelihood ratio | Shared signed binary response | Heterogeneous directions can lose target alignment |
+| Fixed-intercept continuous common slope | Yes | Yes | OLS/t reference | Shared signed linear response | Opposing slopes cancel |
+| Common quadratic curvature | Yes | Yes | OLS/t reference | Shared curvature sign and magnitude | Opposing curvature cancels |
+| Common multivariate response vector | Yes | Yes | Multivariate Wald test | Shared signed response vector | Different orientations cancel |
+| Species-specific slope random effects | Yes | Yes | Analytic large-sample reference | Mean slope + slope heterogeneity | Anti-conservative in the small-sample benchmark |
+| Permutation-calibrated slope/meta omnibus | Yes | Yes | Matched within-species trait permutation | Average signed response and/or directional heterogeneity | Different estimand from distance-dissimilarity; heavier computation |
+
+The full table, including trait representation, model assumptions and benchmark
+role, is frozen at
+`docs/figures/disttrait_methods_20260919/disttrait_table1_method_estimand_map.csv`.
 
 ## References
 

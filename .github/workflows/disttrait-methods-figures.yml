@@ -1,0 +1,78 @@
+name: disttrait methods figures
+
+on:
+  push:
+    paths:
+      - "scripts/analysis/make_disttrait_methods_figures.py"
+      - "docs/DISTTRAIT_METHODS_FIGURE_PLAN_20260919.md"
+      - "results/disttrait_species_conditioning_benchmark_v0_2_20260918/**"
+      - "results/disttrait_performance_surface_v0_3_20260919/**"
+      - "results/disttrait_model_comparator_surface_v0_5_20260919/**"
+      - "results/disttrait_direction_heterogeneity_v0_7_20260919/**"
+      - "results/disttrait_random_slope_meta_v0_8_20260919/**"
+      - "results/disttrait_mnar_observation_v0_10_20260919/**"
+      - "results/disttrait_nonlinear_curvature_v0_11_20260919/**"
+      - "results/disttrait_multivariate_orientation_v0_12_20260919/**"
+      - "results/disttrait_sf_street_tree_empirical_v0_6_20260919/**"
+      - "results/disttrait_gammarus_empirical_v0_9_20260919/**"
+      - ".github/workflows/disttrait-methods-figures.yml"
+  pull_request:
+    paths:
+      - "scripts/analysis/make_disttrait_methods_figures.py"
+      - "docs/DISTTRAIT_METHODS_FIGURE_PLAN_20260919.md"
+      - "results/disttrait_species_conditioning_benchmark_v0_2_20260918/**"
+      - "results/disttrait_performance_surface_v0_3_20260919/**"
+      - "results/disttrait_model_comparator_surface_v0_5_20260919/**"
+      - "results/disttrait_direction_heterogeneity_v0_7_20260919/**"
+      - "results/disttrait_random_slope_meta_v0_8_20260919/**"
+      - "results/disttrait_mnar_observation_v0_10_20260919/**"
+      - "results/disttrait_nonlinear_curvature_v0_11_20260919/**"
+      - "results/disttrait_multivariate_orientation_v0_12_20260919/**"
+      - "results/disttrait_sf_street_tree_empirical_v0_6_20260919/**"
+      - "results/disttrait_gammarus_empirical_v0_9_20260919/**"
+      - ".github/workflows/disttrait-methods-figures.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  figures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install reporting dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas matplotlib
+
+      - name: Generate canonical methods-paper displays
+        run: python scripts/analysis/make_disttrait_methods_figures.py
+
+      - name: Verify display manifest
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("docs/figures/disttrait_methods_20260919")
+          manifest = json.loads((root / "manifest.json").read_text())
+          assert manifest["package_version"] == "0.12.0"
+          assert manifest["role"] == "reporting_only_from_frozen_receipts"
+          assert len(manifest["outputs"]) == 11
+          for name in manifest["outputs"]:
+              path = root / name
+              assert path.exists(), name
+              assert path.stat().st_size > 0, name
+          print("disttrait methods display manifest: PASS")
+          PY
+
+      - name: Upload methods-paper displays
+        uses: actions/upload-artifact@v4
+        with:
+          name: disttrait-methods-displays-v012
+          path: docs/figures/disttrait_methods_20260919/

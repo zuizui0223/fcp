@@ -1,0 +1,45 @@
+{
+  "claim_boundary": [
+    "no simulation or biological inference is rerun by this generator",
+    "finite benchmark rejection fractions are not universal type-I error guarantees",
+    "model-based and distance-dissimilarity methods can target different estimands",
+    "external empirical examples are transport validations, not causal analyses"
+  ],
+  "date_jst": "2026-09-19",
+  "outputs": [
+    "disttrait_figure1_pooling.png",
+    "disttrait_figure1_pooling.pdf",
+    "disttrait_figure2_calibration_boundary.png",
+    "disttrait_figure2_calibration_boundary.pdf",
+    "disttrait_figure3_estimand_alignment.png",
+    "disttrait_figure3_estimand_alignment.pdf",
+    "disttrait_figure4_meta_calibration.png",
+    "disttrait_figure4_meta_calibration.pdf",
+    "disttrait_figure5_empirical_transport.png",
+    "disttrait_figure5_empirical_transport.pdf",
+    "disttrait_table1_method_estimand_map.csv"
+  ],
+  "package_version": "0.12.0",
+  "role": "reporting_only_from_frozen_receipts",
+  "schema": "disttrait_methods_display_manifest_v1",
+  "workflow": {
+    "pr": 55,
+    "run_id": 35417532675,
+    "job_id": 105828945021,
+    "artifact_id": 10576197828,
+    "artifact_name": "disttrait-methods-displays-v012",
+    "conclusion": "success"
+  },
+  "source_sha256": {
+    "conditioning": "3c644c12a7c661279ae18bf0b68d9bbf58ba7c4eff069b2011826fbd4bae886b",
+    "direction": "2b00be4ecbc255ca9fb47b5eb92fba20e7f4750b90a722b0cfaedc9bbbe140fe",
+    "gammarus": "f554037e78d616ed248d9aa91b218d9a1ea2bf53bb0f8a75a9e36e7bf52f8112",
+    "meta": "9c79fffd474be7e4d135ff6c0c367c67078b566e77408156fdd0c033afae3a8e",
+    "mnar": "5a0eda5fe2da1391bac6dcfdab4b5c97b08d80dbc3b8e72ca182346d2ba2f65b",
+    "model": "a2bb1f4b458a5f12374e4e20afa03c8432e87ae39d1a87a831b7857613af268e",
+    "multivariate": "7d49e3bc63e009d4c445df2429b072ae5e92b11d75fb9a3b8471038b0e15abf2",
+    "nonlinear": "d590b29cdca0abe7a740839ded73cff24ea64e18fb5c9841b14407cde3facbc0",
+    "performance": "175ba7972bcd09aee78ca79010e87fba12b8cf9b2a97c95d406b7e9064123670",
+    "sf": "640093185cf392409b3075f4b8cb5c4a1de519f8eedb885a5ccf1b66fe69a2f0"
+  }
+}
