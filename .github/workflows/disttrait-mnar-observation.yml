@@ -4,10 +4,14 @@ on:
   push:
     paths:
       - "packages/disttrait/benchmarks/mnar_observation_surface.py"
+      - "packages/disttrait/scripts/check_mnar_observation_receipt.py"
+      - "results/disttrait_mnar_observation_v0_10_20260919/**"
       - ".github/workflows/disttrait-mnar-observation.yml"
   pull_request:
     paths:
       - "packages/disttrait/benchmarks/mnar_observation_surface.py"
+      - "packages/disttrait/scripts/check_mnar_observation_receipt.py"
+      - "results/disttrait_mnar_observation_v0_10_20260919/**"
       - ".github/workflows/disttrait-mnar-observation.yml"
 
 permissions:
@@ -32,8 +36,12 @@ jobs:
         run: |
           python packages/disttrait/benchmarks/mnar_observation_surface.py             > disttrait_mnar_observation_result.json
 
-      - name: Upload exploratory benchmark
+      - name: Verify frozen v0.10 benchmark receipt
+        run: |
+          python packages/disttrait/scripts/check_mnar_observation_receipt.py             --observed disttrait_mnar_observation_result.json             --expected results/disttrait_mnar_observation_v0_10_20260919/result.json             --cells results/disttrait_mnar_observation_v0_10_20260919/cells.csv
+
+      - name: Upload benchmark result
         uses: actions/upload-artifact@v4
         with:
-          name: disttrait-mnar-observation-exploratory
+          name: disttrait-mnar-observation-v010
           path: disttrait_mnar_observation_result.json
