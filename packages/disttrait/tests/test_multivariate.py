@@ -1,8 +1,12 @@
+import hashlib
+
 import numpy as np
+from scipy.stats import spearmanr
 
 from disttrait import (
     continuous_spatial_rho,
     euclidean_pairwise,
+    great_circle_pairwise_km,
     multivariate_spatial_permutation_null,
     multivariate_spatial_rho,
 )
@@ -79,3 +83,52 @@ def test_complete_rows_are_the_permutation_unit():
     )
     assert np.isfinite(null).all()
     assert len(null) == 7
+
+
+def test_optimized_multivariate_null_matches_direct_reranking():
+    lat = [0.0] * 6
+    lon = [0.0, 0.7, 1.9, 3.1, 4.8, 6.0]
+    values = np.array([
+        [0.0, 0.0],
+        [0.2, -0.1],
+        [0.5, 0.4],
+        [0.9, 0.2],
+        [1.4, 1.1],
+        [1.8, 0.7],
+    ])
+    seed = 31
+    key = "equivalence"
+    n_permutations = 13
+
+    observed, optimized = multivariate_spatial_permutation_null(
+        lat,
+        lon,
+        values,
+        n_permutations=n_permutations,
+        seed=seed,
+        key=key,
+    )
+
+    geo = great_circle_pairwise_km(lat, lon)
+    u, v = np.triu_indices(len(values), k=1)
+    direct_observed = spearmanr(
+        geo,
+        np.linalg.norm(values[u] - values[v], axis=1),
+    ).statistic
+    direct = []
+    for idx in range(n_permutations):
+        payload = f"{seed}|{key}|{idx}".encode()
+        permutation_seed = int.from_bytes(
+            hashlib.sha256(payload).digest()[:8],
+            "little",
+        )
+        p = np.random.default_rng(permutation_seed).permutation(len(values))
+        direct.append(
+            spearmanr(
+                geo,
+                np.linalg.norm(values[p[u]] - values[p[v]], axis=1),
+            ).statistic
+        )
+
+    assert observed == direct_observed
+    np.testing.assert_allclose(optimized, direct, rtol=0, atol=2e-15)
