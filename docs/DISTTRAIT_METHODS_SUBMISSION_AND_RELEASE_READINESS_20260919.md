@@ -103,6 +103,19 @@ Monorepo regression tests that require frozen FCP/result receipts are deliberate
 
 The standalone dry-run is not a public release. It deliberately fails the conceptual public-release gate until ownership metadata is resolved.
 
+Validated dry-run record:
+
+- PR #56;
+- workflow run `35417843905`;
+- job `105829812507`;
+- artifact `10575954565` (`disttrait-standalone-0.12.0-candidate`);
+- export: success;
+- self-contained tests: success;
+- sdist/wheel build: success;
+- Twine validation: success;
+- fresh-environment wheel install/import: success;
+- candidate archive: success.
+
 ## 5. Remaining public-release blockers
 
 Only decisions that should not be guessed remain:
