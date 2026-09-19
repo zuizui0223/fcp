@@ -179,7 +179,7 @@ def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> N
     text = COVER.read_text(encoding="utf-8")
     for token in (
         "New Phytologist",
-        "A recurrent achromatic–chromatic axis structures within-species flower-colour polymorphism across plant species",
+        "Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species",
         "49,900",
         "377",
         "158",
