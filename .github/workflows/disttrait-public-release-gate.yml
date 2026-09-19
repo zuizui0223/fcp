@@ -1,0 +1,37 @@
+name: disttrait public release gate
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "packages/disttrait/release_metadata.toml"
+      - "packages/disttrait/LICENSE"
+      - "packages/disttrait/CITATION.cff"
+      - "packages/disttrait/RELEASE_METADATA.json"
+      - "packages/disttrait/pyproject.toml"
+
+permissions:
+  contents: read
+
+jobs:
+  release-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Require finalized release metadata
+        run: |
+          test -f packages/disttrait/release_metadata.toml
+          python scripts/release/check_disttrait_public_release.py             --metadata packages/disttrait/release_metadata.toml             --package-dir packages/disttrait
+
+      - name: Build and validate public candidate
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build twine
+          rm -rf disttrait-public-dist
+          python -m build packages/disttrait --outdir disttrait-public-dist
+          python -m twine check disttrait-public-dist/*
