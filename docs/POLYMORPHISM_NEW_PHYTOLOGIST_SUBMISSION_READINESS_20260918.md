@@ -69,7 +69,7 @@ The official guidelines currently describe Full Papers as usually approximately 
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 114 characters | PASS |
-| Summary <=200 words | 155 words | PASS |
+| Summary <=200 words | 164 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
