@@ -98,7 +98,7 @@ The null applies one common vertex permutation to the paired focal/control obser
 
 These implement the general form of the FCP D-spatial analysis, including reuse of matched species-level spatial null realizations and rank-residualized controls.
 
-## 3. Exact-equivalence evidence
+## 3. Compact-fixture equivalence evidence
 
 Manifest:
 
@@ -122,7 +122,7 @@ The manifest records exact source branches, file paths and Git blob SHAs for the
 
 The clean submission main branch intentionally does not contain the original 100,000-row discovery/reserve measured-photo tables.
 
-Therefore the always-on equivalence suite establishes **algorithmic equivalence** of the portable methods layer, not a full raw-data replay of every biological result.
+Therefore the always-on suite establishes exact agreement on the **compact frozen fixtures** used by those tests, not guaranteed bitwise or numerical identity for every real-data configuration. An actual-data audit of the third-cohort H2 path found small W differences at floating-point/two-means tie boundaries while leaving the inferential conclusion unchanged. The study-specific frozen implementation remains authoritative for manuscript estimates.
 
 When the original artifacts are available, full H1 replay is supported by:
 
@@ -173,7 +173,7 @@ The architecture is intended for repeated individual-level traits beyond flower 
 
 1. **unit tests** — basic mathematical behavior;
 2. **synthetic integration tests** — reliability and spatial associations;
-3. **frozen FCP algorithm-equivalence tests** — exact compact fixtures;
+3. **frozen FCP compact-fixture agreement tests** — exact agreement on the tested compact cases;
 4. **optional raw-artifact replay** — full H1 result replay when source measurement tables are supplied;
 5. **dedicated package CI** — `.github/workflows/disttrait-package.yml`.
 
