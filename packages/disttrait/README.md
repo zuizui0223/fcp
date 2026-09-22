@@ -41,6 +41,17 @@ Reference source Git blobs and result contracts are frozen in:
 
 The clean submission branch does not include the original 100,000-row discovery/reserve measurement tables. Therefore the always-on tests establish **algorithmic equivalence**, not a complete raw-data replay of every biological result.
 
+### Full-data numerical-identity boundary
+
+The compact fixtures establish equivalence for the tested contracts, but `disttrait` should **not** be described as a bitwise numerical reproducer of every frozen FCP analysis. A post-confirmatory audit on the immutable third-cohort H2 artifact found:
+
+- frozen study-specific W = **0.5172457461**;
+- `disttrait.two_mode_axis` over the same frozen 158 species = **0.5183899565**.
+
+The difference is small enough that the scientific decision is unchanged, but it is real. The generic implementation defensively normalizes input rows; the frozen FCP loader had already normalized them. For nearly tied farthest-point initializations, the extra floating-point normalization can change the deterministic argmax and lead two-means to a different local partition. The largest audited discrepancy was *Cirsium vulgare* (absolute axis cosine **0.6333**; frozen cluster sizes 5/45 versus renormalized 11/39); *Vicia benghalensis* showed a smaller near-tie shift (|cosine| **0.9830**; 5/44 versus 6/43).
+
+Accordingly, the frozen study-specific pipeline and immutable biological result files control manuscript numbers. `disttrait` is a later general-purpose implementation of the same estimand/architecture, not the numerical provenance layer for this paper.
+
 For a full H1 replay when the original measured tables are available:
 
 ```bash
