@@ -11,7 +11,7 @@ FIGURE_PLAN = ROOT / "docs" / "POLYMORPHISM_FIGURE_PLAN_20260918.md"
 README = ROOT / "README.md"
 H2 = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "result.json"
 MEASUREMENT = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_measurement_20260917" / "result.json"
-SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
+SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"\nVALIDITY = ROOT / "results" / "polymorphism_h2_postconfirmatory_validity_audit_20260922" / "result.json"
 
 
 def load_json(path: Path) -> dict:
@@ -64,16 +64,32 @@ def test_manuscript_reports_authoritative_third_cohort_values() -> None:
         "49,900",
         "377",
         "158",
-        "0.5172457461",
-        "0.4571428150",
+        "0.517",
+        "0.457",
         "86",
-        "0.5329282123",
-        "0.4593196659",
+        "0.533",
+        "0.459",
         "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
         "species-disjoint third cohort",
         "same iNaturalist opportunity universe",
+        "excess continuous alignment",
+        "brightness/exposure",
     ):
         assert token in text
+
+
+def test_postconfirmatory_h2_validity_audit_does_not_rewrite_frozen_verdict() -> None:
+    audit = load_json(VALIDITY)
+    assert audit["role"] == "post_confirmatory_validity_diagnostic"
+    assert audit["changes_frozen_h2_verdict"] is False
+    assert audit["frozen_h2"]["observed_W"] == pytest.approx(0.5172457461053418)
+    assert audit["frozen_h2"]["structured_null_median"] == pytest.approx(0.45714281500506854)
+    assert audit["white_involvement"]["white_in_primary_or_secondary_coarse_morph_n"] == 137
+    assert audit["gate_reapplied_null"]["starting_coarse_gate_species"] == 185
+    assert audit["gate_reapplied_null"]["median_W"] == pytest.approx(0.4474950370983093)
+    assert audit["background_white_proxy"]["species_with_both_states"] == 461
+    assert audit["background_white_proxy"]["wilcoxon_two_sided_p"] == pytest.approx(4.554529382155807e-12)
+    assert audit["direct_highlight_control"]["third_cohort_executed"] is False
 
 
 def test_spatial_organization_receipt_preserves_frozen_positive_clue() -> None:
