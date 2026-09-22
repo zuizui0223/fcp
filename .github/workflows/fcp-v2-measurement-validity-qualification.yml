@@ -1,0 +1,46 @@
+name: FCP v2 measurement-validity qualification
+
+on:
+  push:
+    branches:
+      - analysis/fcp-v2-measurement-validity-20260923
+    paths:
+      - "fcp_pipeline/measurement_validity_v2.py"
+      - "docs/FCP_V2_MEASUREMENT_VALIDITY_PROGRAM_20260923.md"
+      - "docs/supporting/fcp_v2_measurement_validity_contract_v1.json"
+      - "tests/test_measurement_validity_v2.py"
+      - ".github/workflows/fcp-v2-measurement-validity-qualification.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install qualification dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas pytest
+      - name: Compile measurement-validity helper
+        run: python -m py_compile fcp_pipeline/measurement_validity_v2.py
+      - name: Run synthetic qualification
+        run: pytest -q tests/test_measurement_validity_v2.py
+      - name: Confirm no fresh biological pixels/results entered the branch
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          forbidden_roots = [
+              Path("data/derived/fcp_v2"),
+              Path("results/fcp_v2"),
+          ]
+          found = [str(p) for root in forbidden_roots if root.exists() for p in root.rglob("*") if p.is_file()]
+          assert not found, f"fresh biological v2 artifacts opened before qualification: {found[:20]}"
+          print("pre-pixel firewall: PASS")
+          PY
