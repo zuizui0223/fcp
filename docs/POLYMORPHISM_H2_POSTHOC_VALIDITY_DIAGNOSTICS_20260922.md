@@ -2,7 +2,7 @@
 
 Status: **POST-CONFIRMATORY VALIDITY / ROBUSTNESS AUDIT; FROZEN H2 VERDICT UNCHANGED**
 
-This note records diagnostics performed after the third-cohort H2 result was opened. They do **not** replace, rerun, rescue or redefine the prospective H2 decision. The frozen terminal verdict remains `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`. Their purpose is to state more precisely what that verdict establishes and what measurement validity remains unresolved.
+Reproduction script for the artifact-reconstructable components:\n\n- `scripts/analysis/audit_polymorphism_h2_posthoc_validity_20260922.py`\n\nThis note records diagnostics performed after the third-cohort H2 result was opened. They do **not** replace, rerun, rescue or redefine the prospective H2 decision. The frozen terminal verdict remains `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`. Their purpose is to state more precisely what that verdict establishes and what measurement validity remains unresolved.
 
 ## 1. What the confirmatory statistic actually adds
 
