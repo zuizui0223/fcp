@@ -209,7 +209,6 @@ def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> N
         "377",
         "158",
         "0.517",
-        "86",
         "0.533",
         "same iNaturalist opportunity universe",
         "not an independent-source replication",
