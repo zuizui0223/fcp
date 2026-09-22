@@ -94,7 +94,7 @@ The three required editor questions are present.
 Measured answer lengths:
 
 1. What hypotheses or questions does this work address? — **40 words**
-2. How does this work advance our current understanding of plant science? — **38 words**
+2. How does this work advance our current understanding of plant science? — **37 words**
 3. Why is this work important and timely? — **40 words**
 
 All satisfy the <=50-word rule.
