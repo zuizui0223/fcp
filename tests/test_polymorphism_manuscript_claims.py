@@ -11,7 +11,8 @@ FIGURE_PLAN = ROOT / "docs" / "POLYMORPHISM_FIGURE_PLAN_20260918.md"
 README = ROOT / "README.md"
 H2 = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "result.json"
 MEASUREMENT = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_measurement_20260917" / "result.json"
-SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"\nVALIDITY = ROOT / "results" / "polymorphism_h2_postconfirmatory_validity_audit_20260922" / "result.json"
+SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
+VALIDITY = ROOT / "results" / "polymorphism_h2_postconfirmatory_validity_audit_20260922" / "result.json"
 
 
 def load_json(path: Path) -> dict:
