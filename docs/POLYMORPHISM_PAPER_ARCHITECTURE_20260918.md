@@ -92,7 +92,7 @@ This yields a working synthesis of **constrained colour generation plus species-
 
 Primary:
 
-**Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species**
+**Within-species flower-colour variation shows excess achromatic–chromatic alignment beyond coarse morph composition**
 
 Safer alternative:
 
