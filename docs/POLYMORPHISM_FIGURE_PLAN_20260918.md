@@ -132,7 +132,7 @@ This is the decisive biological figure.
 
 The bottom annotation must read:
 
-**Species-disjoint prospective confirmation within the same iNaturalist opportunity universe; not an independent-source replication.**
+**Species-disjoint prospective test of excess alignment within the same iNaturalist opportunity universe; not an independent-source replication.**
 
 ### Panel A — primary 0.10 tier
 
