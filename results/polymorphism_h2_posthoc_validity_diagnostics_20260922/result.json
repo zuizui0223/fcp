@@ -1,0 +1,108 @@
+{
+  "schema": "polymorphism_h2_posthoc_validity_diagnostics_v1",
+  "date_jst": "2026-09-22",
+  "role": "post_confirmatory_validity_and_robustness_diagnostics",
+  "confirmatory_verdict_changed": false,
+  "frozen_verdict": "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
+  "third_cohort_source": {
+    "workflow_run": 35177668182,
+    "artifact_id": 10496492307,
+    "immutable_result_commit": "7e538e5c51c05a7cc47b2fcf53eea92634c8a863",
+    "rows": 49900,
+    "species": 499,
+    "primary_vector_species": 158
+  },
+  "inferential_decomposition": {
+    "isotropic_8d_expectation": 0.125,
+    "frozen_structured_null_median": 0.45714281500506854,
+    "frozen_observed_W": 0.5172457461053418,
+    "observed_to_null_median_ratio": 1.1314751739007576,
+    "interpretation": "The confirmatory contrast is the excess alignment above a coarse-state-preserving structured null, not the full distance from isotropy."
+  },
+  "white_in_coarse_modes": {
+    "primary_species": 158,
+    "species_with_white_as_primary_or_secondary_coarse_morph": 137,
+    "fraction": 0.8670886075949367,
+    "mean_species_W_contribution_white_in_coarse_modes": 0.5622106742357358,
+    "mean_species_W_contribution_no_white_in_coarse_modes": 0.22390311973086738,
+    "provenance": "independently recomputed from the immutable primary_0_10_delta_vectors.csv artifact"
+  },
+  "gate_reapplied_structured_null": {
+    "status": "post_confirmatory_robustness_only",
+    "coarse_gate_species": 185,
+    "null_replicates": 299,
+    "seed": 20260915,
+    "observed_W": 0.5172457461053418,
+    "null_mean": 0.44758331027053005,
+    "null_median": 0.4474950370983093,
+    "null_q025": 0.42898610175646507,
+    "null_q975": 0.46957950639993823,
+    "plus_one_upper_p": 0.0033333333333333335,
+    "null_vector_species_min": 166,
+    "null_vector_species_median": 176,
+    "null_vector_species_max": 183,
+    "interpretation": "Reapplying the continuous minor-cluster gate inside each null world does not weaken the result; the frozen conditional null is slightly more conservative in median W."
+  },
+  "background_white_proxy": {
+    "status": "posthoc_proxy_not_direct_exposure_test",
+    "sample_species": 461,
+    "median_background_white_fraction_white_classified": 0.0692,
+    "median_background_white_fraction_nonwhite_classified": 0.0553,
+    "species_fraction_same_direction": 0.664,
+    "wilcoxon_p": 4.6e-12,
+    "provenance": "reported real-data reanalysis on an auxiliary background-available sample; the third-cohort terminal artifact does not contain background palette fractions or persisted pixels, so this statistic is not independently reconstructable from the confirmatory artifact alone",
+    "interpretation": "Consistent with an exposure/context or ROI-contamination contribution, but also compatible with biological habitat/background differences; does not prove overexposure."
+  },
+  "prospective_highlight_control": {
+    "protocol": "docs/POLYMORPHISM_H2_P500_WHITE_MEASUREMENT_CONTROL_PROTOCOL_20260913.md",
+    "metrics": [
+      "clip_fraction",
+      "near_clip_fraction",
+      "luminance_q99"
+    ],
+    "executed_on_third_cohort": false,
+    "executed_on_p500": false,
+    "consequence": "Digital highlight/exposure confounding remains unresolved. The structured null cannot diagnose an artifact that acts upstream by creating or enriching the coarse white state because it conditions on coarse-state composition."
+  },
+  "disttrait_full_data_audit": {
+    "status": "posthoc_numerical_equivalence_check",
+    "frozen_W": 0.5172457461053418,
+    "disttrait_two_mode_axis_W": 0.5183899565314756,
+    "bitwise_equivalent": false,
+    "notable_near_tie_species": {
+      "Cirsium vulgare": {
+        "absolute_axis_cosine": 0.6333183131935558,
+        "frozen_cluster_sizes": [
+          5,
+          45
+        ],
+        "renormalized_cluster_sizes": [
+          11,
+          39
+        ],
+        "frozen_species_W_contribution": 0.0787312409889957,
+        "renormalized_species_W_contribution": 0.270523200895578
+      },
+      "Vicia benghalensis": {
+        "absolute_axis_cosine": 0.9830180706225755,
+        "frozen_cluster_sizes": [
+          5,
+          44
+        ],
+        "renormalized_cluster_sizes": [
+          6,
+          43
+        ],
+        "frozen_species_W_contribution": 0.06973791704656794,
+        "renormalized_species_W_contribution": 0.058731204469116866
+      }
+    },
+    "interpretation": "disttrait shares the estimand and algorithmic structure but is not a bitwise reproducer of the frozen biological pipeline; the manuscript's frozen study-specific values control."
+  },
+  "claim_boundary": [
+    "These diagnostics do not replace or rerun the frozen prospective decision.",
+    "H2 supports excess alignment relative to the prespecified structured null.",
+    "H2 does not establish that the coarse white state itself is free of exposure, background-context, or ROI-related measurement confounding.",
+    "Exact biological W values are controlled by the frozen study-specific pipeline; manuscript reporting should use sensible rounded precision."
+  ]
+}
