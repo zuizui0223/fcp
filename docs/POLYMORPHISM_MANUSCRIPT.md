@@ -136,6 +136,10 @@ With 999 randomly generated null worlds, p = 0.001 is the minimum attainable val
 
 The prospective H2 target is supported when the primary tier is evaluable and p < 0.05. The strict 0.20 tier is a pre-specified sensitivity test.
 
+### Post-confirmatory H2 validity diagnostics
+
+After the prospective result had been terminalized, we performed three explicitly post-confirmatory diagnostics that cannot replace or redefine the frozen H2 decision. First, we decomposed the primary W relative to the isotropic expectation and the coarse-state-preserving structured-null baseline, and summarized per-species W contributions according to whether white occurred among the two leading coarse states. Second, to assess the observed-set gate asymmetry, we started from the 185 species passing the coarse-state gate and generated 299 additional structured-null worlds with the continuous minor-cluster threshold reapplied after every refit; the frozen primary seed was retained. Third, we assessed a separate background-bearing sample as an indirect exposure/context proxy by comparing background white fraction between white- and nonwhite-classified images within species. This proxy cannot distinguish digital exposure from biological background differences, framing or mask leakage. The successful third-cohort run did not retain image pixels, masks or background palette fractions, so the previously specified clip_fraction, near_clip_fraction and luminance_q99 highlight diagnostics cannot be reconstructed from its sealed artifact without image reacquisition.
+
 ### Complementary test: species-level D and within-species geographic organization
 
 We additionally retain a previously frozen, species-disjoint analysis asking whether species with greater D also show stronger internal geographic colour organization. For each species, all retained photograph pairs were used to calculate great-circle geographic distance and flower-colour Jensen–Shannon dissimilarity. Species-specific geographic organization was then summarized as
