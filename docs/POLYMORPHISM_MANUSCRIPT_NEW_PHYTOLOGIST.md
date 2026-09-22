@@ -11,10 +11,10 @@
 **Word counts (current working draft):**
 - Summary: 155 words
 - Introduction: 541 words
-- Materials and Methods: 2,548 words
+- Materials and Methods: 2,721 words
 - Results: 1,336 words
 - Discussion: 1,384 words
-- Main text (Introduction through Discussion): 5,809 words
+- Main text (Introduction through Discussion): 5,982 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -167,6 +167,10 @@ p = (1 + #(W_null >= W_obs)) / 1000.
 With 999 randomly generated null worlds, p = 0.001 is the minimum attainable value under this plus-one rule; it should be interpreted as the Monte Carlo resolution of the frozen test rather than an exact exhaustive tail probability (Phipson & Smyth 2010).
 
 The prospective H2 target is supported when the primary tier is evaluable and p < 0.05. The strict 0.20 tier is a pre-specified sensitivity test.
+
+### Post-confirmatory H2 validity diagnostics
+
+After the prospective result had been terminalized, we performed three explicitly post-confirmatory diagnostics that cannot replace or redefine the frozen H2 decision. First, we decomposed the primary W relative to the isotropic expectation and the coarse-state-preserving structured-null baseline, and summarized per-species W contributions according to whether white occurred among the two leading coarse states. Second, to assess the observed-set gate asymmetry, we started from the 185 species passing the coarse-state gate and generated 299 additional structured-null worlds with the continuous minor-cluster threshold reapplied after every refit; the frozen primary seed was retained. Third, we assessed a separate background-bearing sample as an indirect exposure/context proxy by comparing background white fraction between white- and nonwhite-classified images within species. This proxy cannot distinguish digital exposure from biological background differences, framing or mask leakage. The successful third-cohort run did not retain image pixels, masks or background palette fractions, so the previously specified clip_fraction, near_clip_fraction and luminance_q99 highlight diagnostics cannot be reconstructed from its sealed artifact without image reacquisition.
 
 ### Complementary test: species-level D and within-species geographic organization
 
