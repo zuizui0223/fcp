@@ -27,7 +27,7 @@ The key conceptual pivot is:
 The present paper therefore asks where generality remains after the universal-boundary idea weakens:
 
 - **amount:** reproducible species-level D;
-- **phenotype geometry:** recurrent white-versus-nonwhite axis;
+- **phenotype geometry:** excess white-versus-nonwhite alignment beyond a coarse-state-preserving construction baseline;
 - **spatial realization:** stronger internal organization in species with higher D;
 - **broad explanation:** not reducible to sampled span or broad tree-wide conservation.
 
@@ -35,7 +35,7 @@ The full provenance/interpretation note is `docs/RGFCA_TO_POLYMORPHISM_INTERPRET
 
 ## 1. One-sentence paper
 
-**Species-level flower-colour polymorphism is reproducibly measurable under high-depth observer-disjoint photographic sampling, a recurrent white-versus-nonwhite colour-space axis was prospectively confirmed, and species with greater polymorphism show stronger within-species geographic colour organization across species-disjoint high-depth cohorts.**
+**Species-level flower-colour diversity is reproducibly measurable under high-depth observer-disjoint photographic sampling, a species-disjoint prospective cohort shows excess white-versus-nonwhite alignment beyond a coarse-state-preserving null, and species with greater diversity show stronger within-species geographic colour organization across species-disjoint high-depth cohorts.**
 
 The H3 results then act as bounded alternative-explanation tests: broad tree-wide conservation is not detected in reserve, and the discovery sampled-span association collapses under species-disjoint replication.
 
@@ -65,7 +65,7 @@ Therefore the paper can now distinguish three evidential stages:
 
 1. **measurement validation** — H1;
 2. **target discovery/localization** — legacy H2 discovery/reserve;
-3. **untouched prospective confirmation of the already frozen target** — third cohort.
+3. **untouched prospective confirmation of excess alignment with the already frozen target relative to the structured null** — third cohort.
 
 This chronology is the central H2 architecture. A complementary, already frozen D–spatial analysis supplies the main ecological clue: higher D covaries with stronger within-species geographic colour organization, including after sampled-span, clear technical-failure, background and ambiguity checks.
 
@@ -81,24 +81,24 @@ Most macroecological trait studies reduce each species to one mean or one catego
 The evidence is asymmetric but coherent:
 
 - H1: yes, under the first-frozen observer-disjoint validation rule, with a stricter split-invariance caveat;
-- H2: yes, for a narrow achromatic–chromatic white-versus-nonwhite axis, now prospectively confirmed;
+- H2: yes, for excess alignment with a narrow achromatic–chromatic white-versus-nonwhite axis relative to the frozen coarse-state-preserving null; white-state exposure/background validity remains unresolved;
 - spatial organization: yes, as a replicated structural association in discovery and reserve with multiple measurement/background stress tests;
 - H3a: no support for broad tree-wide phylogenetic signal under the frozen reserve test;
 - H3b: the discovery sampled-span association does not replicate.
 
-This yields a working synthesis of **constrained colour generation plus species-specific spatial maintenance/sorting**, while keeping the maintenance mechanism itself unresolved.
+This yields a working synthesis of **bounded colour-space geometry plus species-specific spatial organization**. It does not establish colour-generation mechanism, and post-confirmatory diagnostics leave digital exposure/background-context confounding of the measured coarse white state unresolved.
 
 ## 4. Working title
 
 Primary:
 
-**Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species**
+**Within-species flower-colour variation shows achromatic–chromatic alignment beyond coarse colour-state composition**
 
 Safer alternative:
 
 **Within-species flower-colour polymorphism is reproducible and repeatedly aligned with an achromatic–chromatic axis**
 
-The primary title is now allowed because the already frozen axis passed the untouched prospective third-cohort test.
+The primary title is bounded to the construction-controlled inferential contrast: observed alignment exceeded a coarse-state-preserving structured null. It should not imply that the white state itself has been independently validated as artifact-free.
 
 Do not use language implying:
 
