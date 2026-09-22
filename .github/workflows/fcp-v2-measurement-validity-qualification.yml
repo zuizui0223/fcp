@@ -11,6 +11,8 @@ on:
       - "tests/test_measurement_validity_v2.py"
       - "scripts/analysis/select_fcp_v2_measurement_validity_species_20260923.py"
       - "tests/test_fcp_v2_species_selection.py"
+      - "scripts/acquisition/run_fcp_v2_fresh_metadata_terminalization_20260923.py"
+      - "tests/test_fcp_v2_fresh_metadata_terminalization.py"
       - ".github/workflows/fcp-v2-measurement-validity-qualification.yml"
 
 permissions:
@@ -34,8 +36,9 @@ jobs:
         run: |
           python -m py_compile fcp_pipeline/measurement_validity_v2.py
           python -m py_compile scripts/analysis/select_fcp_v2_measurement_validity_species_20260923.py
+          python -m py_compile scripts/acquisition/run_fcp_v2_fresh_metadata_terminalization_20260923.py
       - name: Run synthetic qualification
-        run: PYTHONPATH=. pytest -q tests/test_measurement_validity_v2.py tests/test_fcp_v2_species_selection.py
+        run: PYTHONPATH=. pytest -q tests/test_measurement_validity_v2.py tests/test_fcp_v2_species_selection.py tests/test_fcp_v2_fresh_metadata_terminalization.py
       - name: Confirm no fresh biological pixels/results entered the branch
         run: |
           python - <<'PY'
