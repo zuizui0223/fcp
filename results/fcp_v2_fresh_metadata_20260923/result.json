@@ -1,0 +1,119 @@
+{
+  "date_jst": "2026-09-23",
+  "files": {
+    "authorized_metadata_400x100.csv.gz": {
+      "bytes": 4110742,
+      "sha256": "5cedb8581dd5da60006df8e9c939c318e94d21ff536b06c61d40d587f8800e0f"
+    },
+    "panel_N_all_fresh_metadata.csv.gz": {
+      "bytes": 3079134,
+      "sha256": "8694c8116ac31aeb2313310307e369e78e304cec3614a97d2d65bc360f3010f0"
+    },
+    "panel_N_species_audit.csv": {
+      "bytes": 18104,
+      "sha256": "eb2ccb405f3d5da900eca0585a33fa0862d7a870b23a96e4a9f1ef0b0632991d"
+    },
+    "panel_N_terminal_metadata.csv.gz": {
+      "bytes": 2057742,
+      "sha256": "bd82f96762ec10cf69a13612eca7e58e02d3c91bdf9619f290f8b1fa7be6d67f"
+    },
+    "panel_N_terminal_species.csv": {
+      "bytes": 13222,
+      "sha256": "665d156d912cd2190a813c1c3c67affe72dd32b8cd496328beaa60a5fc6956a7"
+    },
+    "panel_P_all_fresh_metadata.csv.gz": {
+      "bytes": 3079449,
+      "sha256": "92402610a7edf1f717aee4e0ba2ea9688fd3ce5d4c4b4cd808ba4cb3ba3a446a"
+    },
+    "panel_P_species_audit.csv": {
+      "bytes": 18025,
+      "sha256": "64ca324121fe888039dd1cf1c5b78583f9f5a49f10a1dee55ee201dbe218467a"
+    },
+    "panel_P_terminal_metadata.csv.gz": {
+      "bytes": 2053588,
+      "sha256": "08c4774f94d9198851063ac1b83b72b7fcfa20d628ea4e44fdd37c8bc534890b"
+    },
+    "panel_P_terminal_species.csv": {
+      "bytes": 13151,
+      "sha256": "9781a277541273268f37d8fbb03e9ff019a68deebd3c89597dcc217338e36a9f"
+    },
+    "terminal_species_manifest.tsv": {
+      "bytes": 26155,
+      "sha256": "ea7a24d8a7abc7f1dcfa7e388acc2eef61307ba29a63f6828b823cfd99b50668"
+    }
+  },
+  "no_rescue": {
+    "metadata_rerun_allowed": false,
+    "queue_extension_allowed": false,
+    "queue_reordering_allowed": false,
+    "species_replacement_after_pixel_opening_allowed": false
+  },
+  "outcome_firewall": {
+    "D_opened": false,
+    "H3_predictors_opened": false,
+    "flower_colour_opened": false,
+    "image_pixels_opened": false,
+    "morph_opened": false,
+    "palette_opened": false,
+    "q_white_or_W_opened": false,
+    "spatial_colour_outcome_opened": false
+  },
+  "panels": {
+    "N": {
+      "full100_species_in_queue": 299,
+      "panel": "N",
+      "pass": true,
+      "queue_species": 300,
+      "request_attempts": 300,
+      "request_error_fraction": 0,
+      "request_error_fraction_ceiling": 0.05,
+      "request_errors": 0,
+      "target_rows_per_species": 100,
+      "target_species": 200,
+      "terminal_rows": 20000,
+      "terminal_species": 200
+    },
+    "P": {
+      "full100_species_in_queue": 299,
+      "panel": "P",
+      "pass": true,
+      "queue_species": 300,
+      "request_attempts": 300,
+      "request_error_fraction": 0,
+      "request_error_fraction_ceiling": 0.05,
+      "request_errors": 0,
+      "target_rows_per_species": 100,
+      "target_species": 200,
+      "terminal_rows": 20000,
+      "terminal_species": 200
+    }
+  },
+  "prior_id_exclusion": {
+    "unique_observation_ids": 228362,
+    "unique_photo_ids": 228362,
+    "source_sha256": [
+      "f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99",
+      "111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f",
+      "38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
+      "a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595",
+      "13b25d72f20ed2b09ebcf3f80e0058aede08474a7e9051f7fb6ce1e521a16290"
+    ]
+  },
+  "schema": "fcp_v2_fresh_metadata_terminalization_v1",
+  "status": "FCP_V2_FRESH_METADATA_PASS",
+  "terminal": {
+    "rows": 40000,
+    "species": 400,
+    "target_rows": 40000,
+    "target_species": 400
+  },
+  "workflow_provenance": {
+    "run_id": 35798104597,
+    "artifact_id": 10725735599,
+    "artifact_name": "fcp-v2-fresh-metadata-terminal-20260923",
+    "artifact_digest": "sha256:247c09eee70fe56e381536d96ce090293e11d9f2924f27f45274850076be40b0",
+    "original_job_conclusion": "failure_only_due_to_non_fast_forward_result_commit_after_branch_advanced",
+    "metadata_draw_step_conclusion": "success",
+    "artifact_upload_step_conclusion": "success"
+  }
+}
