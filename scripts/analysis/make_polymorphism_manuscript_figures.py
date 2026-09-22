@@ -413,7 +413,7 @@ def figure4(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     fig.text(
         0.5,
         -0.01,
-        "Species-disjoint prospective confirmation within the same iNaturalist opportunity universe; not an independent-source replication.",
+        "Species-disjoint prospective test of excess alignment within the same iNaturalist opportunity universe; not an independent-source replication.",
         ha="center",
         fontsize=8.5,
         color=NEUTRAL,
