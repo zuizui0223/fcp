@@ -1,0 +1,129 @@
+name: Recover third-cohort highlight terminal decision
+
+on:
+  push:
+    branches:
+      - analysis/third-cohort-highlight-validity-20260922
+    paths:
+      - docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_RECOVERY_AUTHORIZATION_20260923.json
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: third-cohort-highlight-terminal-recovery-20260923
+  cancel-in-progress: false
+
+env:
+  TECHNICAL_RUN_ID: "35687421896"
+  TECHNICAL_ARTIFACT: third-cohort-highlight-technical-seal-v1
+  TECHNICAL_ARTIFACT_ID: "10709490106"
+  TECHNICAL_ARTIFACT_DIGEST: "sha256:adbca1112ba0635623bd056e21286a369d71f9a1cddbe38a920262d4630c64e3"
+  BIOLOGICAL_RUN_ID: "35177668182"
+  BIOLOGICAL_ARTIFACT: h2-third-cohort-prospective-result-20260917
+
+jobs:
+  recover-terminal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate recovery authorization and immutable technical source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          p=Path("docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_RECOVERY_AUTHORIZATION_20260923.json")
+          x=json.loads(p.read_text())
+          parent=subprocess.check_output(["git","rev-parse","HEAD^"],text=True).strip()
+          assert x["status"]=="AUTHORIZED_TERMINAL_RECOVERY_ONLY"
+          assert x["frozen_parent_sha"]==parent, (x["frozen_parent_sha"],parent)
+          assert x["technical_run_id"]==35687421896
+          assert x["technical_artifact_id"]==10709490106
+          assert x["reacquire_images"] is False
+          assert x["recompute_high_clip_set"] is False
+          assert x["change_thresholds"] is False
+          assert x["change_h2_estimand"] is False
+          print("recovery authorization: PASS")
+          PY
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${TECHNICAL_ARTIFACT_ID}" > /tmp/technical_artifact.json
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          x=json.loads(Path("/tmp/technical_artifact.json").read_text())
+          assert str(x["id"])==os.environ["TECHNICAL_ARTIFACT_ID"]
+          assert x["name"]==os.environ["TECHNICAL_ARTIFACT"]
+          assert x["digest"]==os.environ["TECHNICAL_ARTIFACT_DIGEST"]
+          assert x["expired"] is False
+          assert x["workflow_run"]["id"]==int(os.environ["TECHNICAL_RUN_ID"])
+          print("technical artifact identity: PASS")
+          PY
+      - name: Install terminal-analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy statsmodels
+          python -m py_compile scripts/analysis/run_third_cohort_highlight_validity_20260922.py
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.TECHNICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.TECHNICAL_ARTIFACT }}
+          path: /tmp/technical-seal
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.BIOLOGICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.BIOLOGICAL_ARTIFACT }}
+          path: /tmp/biological
+      - name: Verify sealed technical census before outcome join
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("/tmp/technical-seal/technical_summary.json").read_text())
+          assert x["status"]=="response_blind_high_clip_set_frozen"
+          assert x["rows"]==49900
+          assert x["partition_receipts"]==256
+          assert x["biological_outcomes_opened"] is False
+          assert Path("/tmp/technical-seal/high_clip_ids.csv").is_file()
+          assert Path("/tmp/technical-seal/technical_table.csv.gz").is_file()
+          assert Path("/tmp/technical-seal/sealed_join_key.csv").is_file()
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - name: Run terminal coupling and H2 sensitivity from sealed artifacts only
+        run: |
+          rm -rf results/polymorphism_h2_third_cohort_highlight_validity_20260922
+          python scripts/analysis/run_third_cohort_highlight_validity_20260922.py             --technical-seal-dir /tmp/technical-seal             --biological-artifact-dir /tmp/biological             --output-dir results/polymorphism_h2_third_cohort_highlight_validity_20260922
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json")
+          x=json.loads(p.read_text())
+          assert x["schema"]=="third_cohort_highlight_validity_result_v1"
+          assert x["decision"]["state"] in {"CLEAR","FLAGGED","INDETERMINATE"}
+          assert x["confirmatory_verdict_changed"] is False
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: third-cohort-highlight-validity-terminal-recovery-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_h2_third_cohort_highlight_validity_20260922
+      - name: Commit immutable terminal result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json
+          git commit -m "Record recovered third-cohort highlight validity result"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
