@@ -1,0 +1,18 @@
+{
+  "schema": "third_cohort_highlight_execution_authorization_v1",
+  "date_jst": "2026-09-22",
+  "status": "AUTHORIZED_ONE_SHOT",
+  "branch": "analysis/third-cohort-highlight-validity-20260922",
+  "frozen_parent_sha": "04c82d33f01649ee8736e9cffae57a17aff4df82",
+  "protocol": "docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_VALIDITY_PROTOCOL_20260922.md",
+  "authorized_species": 499,
+  "authorized_rows": 49900,
+  "authorized_metadata_sha256": "13b25d72f20ed2b09ebcf3f80e0058aede08474a7e9051f7fb6ce1e521a16290",
+  "metadata_artifact_id": 10451429156,
+  "biological_result_artifact_id": 10496492307,
+  "measurement_source_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+  "biological_outcomes_may_open_before_technical_seal": false,
+  "replacement_allowed": false,
+  "additional_control_after_terminal_result_allowed": false,
+  "authorized_terminal_states": ["CLEAR", "FLAGGED", "INDETERMINATE"]
+}

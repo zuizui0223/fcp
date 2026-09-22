@@ -1,0 +1,21 @@
+{
+  "schema": "third_cohort_highlight_terminal_recovery_authorization_v1",
+  "date_jst": "2026-09-23",
+  "status": "AUTHORIZED_TERMINAL_RECOVERY_ONLY",
+  "branch": "analysis/third-cohort-highlight-validity-20260922",
+  "frozen_parent_sha": "460de0aa031f113d6d3bf828b06a23d26d814017",
+  "failed_original_run_id": 35687421896,
+  "failed_job": "couple-and-sensitivity",
+  "failure_reason": "terminal artifact path ambiguity: two result.json files",
+  "technical_run_id": 35687421896,
+  "technical_artifact_id": 10709490106,
+  "technical_artifact_name": "third-cohort-highlight-technical-seal-v1",
+  "technical_artifact_digest": "sha256:adbca1112ba0635623bd056e21286a369d71f9a1cddbe38a920262d4630c64e3",
+  "technical_rows": 49900,
+  "technical_partitions": 256,
+  "reacquire_images": false,
+  "recompute_high_clip_set": false,
+  "change_thresholds": false,
+  "change_h2_estimand": false,
+  "allowed_action": "resolve biological artifact paths and run terminal coupling/H2 sensitivity once from already sealed artifacts"
+}
