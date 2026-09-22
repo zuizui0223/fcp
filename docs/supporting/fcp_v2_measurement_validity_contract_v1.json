@@ -22,8 +22,9 @@
   "biological_outcomes_open_before_technical_seal": false,
   "source_identity": {
     "persist_source_sha256": true,
-    "persist_image_bytes_in_execution_artifact": true,
-    "replacement_after_pixel_opening": false
+    "persist_image_bytes_in_execution_artifact": false,
+    "replacement_after_pixel_opening": false,
+    "two_pass_reacquisition_with_sha_match": true
   },
   "exposure": {
     "ev_levels": [
@@ -128,5 +129,29 @@
     "queue_extension_after_metadata_results": false,
     "species_replacement_after_pixel_opening": false,
     "biological_outcomes_used": false
+  },
+  "technical_strata": {
+    "high_flower_near_clip": "base_flower_near_clip_fraction > max(0.01, q95 among available rows)",
+    "high_background_near_clip": "base_background_near_clip_fraction > max(0.01, q95 among available rows)",
+    "low_flower_background_lab_separation": "base_flower_background_lab_distance < q05 among available rows",
+    "roi_unstable_fixed": "base_horizontal_flip_mask_iou < 0.5 OR base_horizontal_flip_colour_delta_e > 5.0 OR base ROI not admitted",
+    "heavy_prompt_unstable": "heavy subset only: jitter_mask_iou_min < 0.5 OR jitter_colour_delta_e_max > 5.0"
+  },
+  "compute_allocation": {
+    "all_terminal_images": [
+      "base ROI-v4 technical measurement",
+      "flower/background exposure and Lab summaries",
+      "horizontal-flip diagnostics",
+      "fixed-mask EV -1,-0.5,0,+0.5,+1 technical summaries"
+    ],
+    "heavy_subset": {
+      "rows_per_species": 20,
+      "selection": "SHA256(FCP_V2_HEAVY_COUNTERFACTUAL_20260923|panel|inat_taxon_id|photo_id), first 20 within species",
+      "analyses": [
+        "full-pipeline EV -1,-0.5,+0.5,+1",
+        "mid-grey background neutralization",
+        "7-prompt deterministic ROI jitter"
+      ]
+    }
   }
 }
