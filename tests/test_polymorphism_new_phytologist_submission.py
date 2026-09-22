@@ -9,6 +9,8 @@ COVER = ROOT / "docs" / "POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md"
 RGFCA_INTERPRETATION = ROOT / "docs" / "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md"
 FRAME_PROVENANCE = ROOT / "docs" / "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md"
 VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_20260922" / "result.json"
+HIGHLIGHT = ROOT / "results" / "polymorphism_h2_third_cohort_highlight_validity_20260922" / "result.json"
+ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md"
 
 
 def words(text: str) -> list[str]:
@@ -151,16 +153,36 @@ def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
 def test_new_phytologist_preserves_postconfirmatory_validity_boundary() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     result = __import__("json").loads(VALIDITY.read_text(encoding="utf-8"))
+    highlight = __import__("json").loads(HIGHLIGHT.read_text(encoding="utf-8"))
     assert result["confirmatory_verdict_changed"] is False
     assert result["inferential_decomposition"]["frozen_observed_W"] == 0.5172457461053418
     assert result["gate_reapplied_structured_null"]["plus_one_upper_p"] == 1 / 300
     assert result["background_white_proxy"]["sample_species"] == 461
-    assert result["prospective_highlight_control"]["executed_on_third_cohort"] is False
+
+    assert highlight["confirmatory_verdict_changed"] is False
+    assert highlight["decision"]["state"] == "INDETERMINATE"
+    assert highlight["source_identity"]["source_drift_rows"] == 0
+    assert highlight["source_identity"]["reacquisition_failed_rows"] == 0
+    assert highlight["high_clip"]["rows"] == 2205
+    assert highlight["coupling_model"]["odds_ratio"] == __import__("pytest").approx(1.4444932850227639)
+    assert highlight["coupling_model"]["or_ci_low"] == __import__("pytest").approx(1.3893320695404507)
+    assert highlight["coupling_model"]["or_ci_high"] == __import__("pytest").approx(1.5018445886490097)
+    assert highlight["h2_high_clip_sensitivity"]["vector_species"] == 142
+    assert highlight["h2_high_clip_sensitivity"]["vector_retention"] == __import__("pytest").approx(142 / 158)
+    assert highlight["h2_high_clip_sensitivity"]["observed_W"] == __import__("pytest").approx(0.5034282974026532)
+    assert highlight["h2_high_clip_sensitivity"]["structured_null_upper_p"] == __import__("pytest").approx(0.001)
+    assert highlight["h2_high_clip_sensitivity"]["support"] is True
+    assert ADJUDICATION.exists()
+
     for token in (
         "increment above a coarse-state-preserving construction baseline",
         "137 (86.7%)",
-        "0.0692 versus 0.0553",
-        "cannot detect an artifact that acts upstream",
+        "OR = **1.444**",
+        "95% CI **1.389–1.502**",
+        "142",
+        "89.9%",
+        "INDETERMINATE",
+        "exposure-coupled rather than artifact-cleared",
         "not a bitwise numerical reproducer",
     ):
         assert token in text
@@ -212,6 +234,8 @@ def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> N
         "0.533",
         "same iNaturalist opportunity universe",
         "not an independent-source replication",
+        "1.444",
+        "INDETERMINATE",
     ):
         assert token.lower() in text.lower()
 
