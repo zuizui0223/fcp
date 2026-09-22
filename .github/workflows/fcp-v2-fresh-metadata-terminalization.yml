@@ -1,0 +1,162 @@
+name: FCP v2 one-shot fresh-metadata terminalization
+
+on:
+  push:
+    branches:
+      - analysis/fcp-v2-measurement-validity-20260923
+    paths:
+      - docs/FCP_V2_FRESH_METADATA_EXECUTION_AUTHORIZATION_20260923.json
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-v2-fresh-metadata-20260923
+  cancel-in-progress: false
+
+env:
+  HISTORICAL_SHA: f7582767da237aeb344dfc072452c6daf92e662b
+  EXPECTED_PRIOR_IDS: "228362"
+
+jobs:
+  fresh-metadata:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate authorization chronology
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          p=Path("docs/FCP_V2_FRESH_METADATA_EXECUTION_AUTHORIZATION_20260923.json")
+          x=json.loads(p.read_text())
+          parent=subprocess.check_output(["git","rev-parse","HEAD^"],text=True).strip()
+          assert x["status"]=="AUTHORIZED_ONE_SHOT_METADATA_ONLY"
+          assert x["frozen_parent_sha"]==parent, (x["frozen_parent_sha"],parent)
+          assert x["queue_species_per_panel"]==300
+          assert x["terminal_species_per_panel"]==200
+          assert x["rows_per_terminal_species"]==100
+          assert x["expected_prior_observation_ids"]==228362
+          assert x["expected_prior_photo_ids"]==228362
+          assert x["image_pixels_may_be_opened"] is False
+          assert x["biological_outcomes_may_be_read"] is False
+          assert x["rerun_allowed"] is False
+          print("authorization chronology: PASS")
+          PY
+
+      - name: Install metadata-gate dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas pytest
+
+      - name: Re-run synthetic pre-pixel qualification
+        run: |
+          PYTHONPATH=. python -m py_compile             fcp_pipeline/random_photo_h9_pool.py             fcp_pipeline/random_photo_pool.py             fcp_pipeline/third_cohort_metadata_gate.py             scripts/acquisition/run_fcp_v2_fresh_metadata_terminalization_20260923.py
+          PYTHONPATH=. pytest -q             tests/test_measurement_validity_v2.py             tests/test_fcp_v2_species_selection.py             tests/test_fcp_v2_fresh_metadata_terminalization.py
+
+      - name: Validate frozen queue identities
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path("results/fcp_v2_species_queue_20260923")
+          x=json.loads((root/"result.json").read_text())
+          assert x["status"]=="OUTCOME_BLIND_METADATA_QUEUE_FROZEN"
+          assert x["queue_counts"]=={"N":300,"P":300}
+          assert x["terminal_target_per_panel_after_fresh_metadata"]==200
+          for panel in ("P","N"):
+              p=root/f"panel_{panel}_candidate_queue.csv"
+              h=hashlib.sha256(p.read_bytes()).hexdigest()
+              assert h==x["queue_sha256"][panel], (panel,h,x["queue_sha256"][panel])
+          assert x["image_pixels_opened"] is False
+          assert x["biological_outcomes_read"] is False
+          print("frozen queues: PASS")
+          PY
+
+      - name: Materialize read-only prior-ID exclusion sources
+        run: |
+          git fetch --no-tags --depth=1 origin "${HISTORICAL_SHA}"
+          rm -rf /tmp/fcp-v2-historical
+          mkdir -p /tmp/fcp-v2-historical
+          git archive "${HISTORICAL_SHA}"             data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv             data/frozen/random_photo_first_h9_fresh_metadata_v1.csv             results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz             data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz             data/frozen/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz             | tar -x -C /tmp/fcp-v2-historical
+
+      - name: Verify 228,362-ID exclusion union before requests
+        run: |
+          PYTHONPATH=. python - <<'PY'
+          from pathlib import Path
+          from scripts.acquisition.run_fcp_v2_fresh_metadata_terminalization_20260923 import load_exclusion_union
+          root=Path("/tmp/fcp-v2-historical")
+          paths=[
+              root/"data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv",
+              root/"data/frozen/random_photo_first_h9_fresh_metadata_v1.csv",
+              root/"results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz",
+              root/"data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz",
+              root/"data/frozen/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz",
+          ]
+          obs,photo,audit=load_exclusion_union(paths)
+          assert len(obs)==228362 and len(photo)==228362
+          print("prior-ID exclusion union: PASS")
+          PY
+
+      - name: Execute one bounded metadata draw
+        id: draw
+        run: |
+          rm -rf results/fcp_v2_fresh_metadata_20260923
+          set +e
+          PYTHONPATH=. python scripts/acquisition/run_fcp_v2_fresh_metadata_terminalization_20260923.py             --panel-p-queue results/fcp_v2_species_queue_20260923/panel_P_candidate_queue.csv             --panel-n-queue results/fcp_v2_species_queue_20260923/panel_N_candidate_queue.csv             --exclusion-source /tmp/fcp-v2-historical/data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv             --exclusion-source /tmp/fcp-v2-historical/data/frozen/random_photo_first_h9_fresh_metadata_v1.csv             --exclusion-source /tmp/fcp-v2-historical/results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz             --exclusion-source /tmp/fcp-v2-historical/data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz             --exclusion-source /tmp/fcp-v2-historical/data/frozen/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz             --output-dir results/fcp_v2_fresh_metadata_20260923
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Require a durable terminal metadata result
+        run: |
+          test -f results/fcp_v2_fresh_metadata_20260923/result.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("results/fcp_v2_fresh_metadata_20260923/result.json").read_text())
+          assert x["status"] in {"FCP_V2_FRESH_METADATA_PASS","FCP_V2_UNDERIDENTIFIED_PREPIXEL"}
+          assert x["outcome_firewall"]["image_pixels_opened"] is False
+          assert x["outcome_firewall"]["flower_colour_opened"] is False
+          assert x["no_rescue"]["metadata_rerun_allowed"] is False
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-v2-fresh-metadata-terminal-20260923
+          if-no-files-found: error
+          retention-days: 90
+          path: results/fcp_v2_fresh_metadata_20260923
+
+      - name: Commit terminal metadata result before gate conclusion
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/fcp_v2_fresh_metadata_20260923
+          git commit -m "Record FCP v2 fresh-metadata terminal result"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Enforce terminal gate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("results/fcp_v2_fresh_metadata_20260923/result.json").read_text())
+          if x["status"]!="FCP_V2_FRESH_METADATA_PASS":
+              raise SystemExit("FCP v2 fresh-metadata gate is terminally underidentified")
+          assert x["terminal"]["species"]==400
+          assert x["terminal"]["rows"]==40000
+          assert x["panels"]["P"]["terminal_species"]==200
+          assert x["panels"]["N"]["terminal_species"]==200
+          print("FCP v2 fresh-metadata terminalization: PASS")
+          PY
