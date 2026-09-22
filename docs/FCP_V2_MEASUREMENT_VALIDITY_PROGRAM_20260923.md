@@ -76,9 +76,13 @@ Purpose: ensure technical conclusions are not specific to previously successful 
 - target: 200 species × 100 rows/species;
 - no replacement after pixel opening.
 
-The complete target is therefore **400 species / 40,000 fresh images**, subject to a pre-pixel metadata availability gate. If either panel cannot meet its fixed denominator before pixel opening, v2 is underidentified and stops rather than replacing species after biological measurement.
+The complete terminal target is therefore **400 species / 40,000 fresh images**, subject to a pre-pixel metadata availability gate.
 
-The target of 100 rows/species preserves direct comparability with the v1 high-depth measurement design. The equal 200/200 panel split is a design choice, not a biological prevalence estimate.
+Before any fresh-image metadata retrieval, each panel freezes an ordered **300-species candidate queue** using SHA256 ranking from identity/capacity metadata only. Fresh metadata are then queried in queue order. For each panel, the first 200 queued species that supply exactly 100 fresh eligible photo IDs after exclusion of every previously used photo ID become the terminal panel. This is a pre-pixel availability gate, not biological replacement. If fewer than 200 species qualify within the frozen first 300 ranks, v2 stops as underidentified; the queue is not extended after seeing availability.
+
+No image pixels are opened while the terminal 200/200 species sets are being constructed. No species may be replaced after pixel opening.
+
+The target of 100 rows/species preserves direct comparability with the v1 high-depth measurement design. The equal 200/200 panel split and 300-species pre-pixel queues are design choices, not biological prevalence estimates.
 
 ## 4. Measurement-first chronology
 
