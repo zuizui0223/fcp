@@ -1,0 +1,116 @@
+{
+  "schema": "fcp_v2_measurement_validity_contract_v1",
+  "date_jst": "2026-09-23",
+  "status": "FROZEN_BEFORE_FRESH_COHORT_PIXEL_OPENING",
+  "panels": {
+    "P": {
+      "role": "paired_species_fresh_image_transport",
+      "target_species": 200,
+      "target_rows_per_species": 100
+    },
+    "N": {
+      "role": "novel_species_measurement_generalization",
+      "target_species": 200,
+      "target_rows_per_species": 100
+    }
+  },
+  "target_total_species": 400,
+  "target_total_rows": 40000,
+  "technical_workers_receive_species": false,
+  "technical_workers_receive_coordinates": false,
+  "technical_workers_receive_observer": false,
+  "biological_outcomes_open_before_technical_seal": false,
+  "source_identity": {
+    "persist_source_sha256": true,
+    "persist_image_bytes_in_execution_artifact": true,
+    "replacement_after_pixel_opening": false
+  },
+  "exposure": {
+    "ev_levels": [
+      -1,
+      -0.5,
+      0,
+      0.5,
+      1
+    ],
+    "transform_space": "linear_light_srgb",
+    "fixed_mask_counterfactual": true,
+    "full_pipeline_counterfactual": true,
+    "metrics": [
+      "clip_fraction",
+      "near_clip_fraction",
+      "clip_fraction_r",
+      "clip_fraction_g",
+      "clip_fraction_b",
+      "luminance_q01",
+      "luminance_q10",
+      "luminance_q50",
+      "luminance_q90",
+      "luminance_q99",
+      "dynamic_range_q99_minus_q01",
+      "black_fraction"
+    ]
+  },
+  "background": {
+    "neutral_rgb_srgb": [
+      128,
+      128,
+      128
+    ],
+    "full_pipeline_neutralization": true,
+    "metrics": [
+      "background_effective_pixels",
+      "background_L_mean",
+      "background_a_mean",
+      "background_b_mean",
+      "background_luminance_q01",
+      "background_luminance_q50",
+      "background_luminance_q99",
+      "background_clip_fraction",
+      "background_near_clip_fraction",
+      "flower_background_luminance_contrast",
+      "flower_background_lab_distance"
+    ]
+  },
+  "roi": {
+    "translation_fraction": [
+      -0.05,
+      0.05
+    ],
+    "scale_fraction": [
+      -0.1,
+      0.1
+    ],
+    "include_unperturbed": true,
+    "random_jitter": false,
+    "metrics": [
+      "detector_box_count",
+      "flower_effective_pixels",
+      "mask_area_fraction",
+      "horizontal_flip_mask_iou",
+      "horizontal_flip_colour_delta_e",
+      "prompt_jitter_iou_min",
+      "prompt_jitter_iou_median",
+      "prompt_jitter_colour_delta_e_max",
+      "mask_boundary_fraction"
+    ]
+  },
+  "downstream_estimands": [
+    "MV1_image_invariance",
+    "MV2_D_invariance",
+    "MV3_H2_geometry_invariance",
+    "MV4_spatial_measurement_sensitivity"
+  ],
+  "fixed_q_white": true,
+  "ecological_predictors_allowed": false,
+  "no_rescue_rules": [
+    "no_new_exposure_levels_after_outcome_opening",
+    "no_new_clipping_thresholds_after_outcome_opening",
+    "no_alternative_neutral_background_after_outcome_opening",
+    "no_alternative_roi_jitter_after_outcome_opening",
+    "no_species_replacement_after_pixel_opening",
+    "no_q_white_refit",
+    "no_h2_null_retuning",
+    "no_ecological_predictor_rescue"
+  ]
+}
