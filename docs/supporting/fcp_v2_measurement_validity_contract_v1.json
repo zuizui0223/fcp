@@ -112,5 +112,21 @@
     "no_q_white_refit",
     "no_h2_null_retuning",
     "no_ecological_predictor_rescue"
-  ]
+  ],
+  "selection": {
+    "salt": "FCP_V2_MEASUREMENT_VALIDITY_20260923_V1",
+    "queue_per_panel": 300,
+    "terminal_target_per_panel": 200,
+    "identity_fields": [
+      "inat_taxon_id",
+      "species",
+      "after_observer_cap"
+    ],
+    "fresh_metadata_order": "frozen_queue_rank",
+    "fresh_photo_rows_per_terminal_species": 100,
+    "require_exclusion_of_all_previously_used_photo_ids": true,
+    "queue_extension_after_metadata_results": false,
+    "species_replacement_after_pixel_opening": false,
+    "biological_outcomes_used": false
+  }
 }
