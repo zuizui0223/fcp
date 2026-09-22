@@ -204,8 +204,6 @@ The P500 prospective expansion is retained separately as a measurement-transport
 
 ---
 
----
-
 ## Table 1. Data lineage and inferential roles of the high-depth cohorts
 
 | Cohort / execution | Upstream data source | Analyses using it | Key denominator | Inferential role |
@@ -346,8 +344,6 @@ A stronger external validation would apply the same frozen q_white/W estimand an
 ### Conclusion
 
 Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling. In a pre-frozen species-disjoint third cohort, continuous colour displacement showed excess alignment with the fixed white-versus-nonwhite axis relative to a coarse-state-preserving structured null. That increment is robust to reapplying the continuous-cluster gate within null worlds, but digital exposure/background-context confounding of the coarse white state remains unresolved. Species with greater D also show stronger within-species geographic colour organization across the original high-depth cohorts, including after sampled-span, technical-failure, background and ambiguity checks. The evidence therefore supports bounded geometric regularity plus species-specific spatial organization without identifying the ecological, evolutionary or image-formation processes responsible for the measured white states.
-
----
 
 ---
 
