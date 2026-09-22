@@ -1,6 +1,6 @@
 # New Phytologist submission readiness audit — 2026-09-18
 
-Status: **scientific package ready; administrative metadata still blocks formal submission.**
+Status: **scientific package ready with an explicit post-confirmatory white-state measurement-validity limitation; administrative metadata still blocks formal submission.**
 
 This audit is for the active flower-colour polymorphism paper:
 
@@ -32,13 +32,36 @@ The current manuscript preserves the required boundary:
 - not independent-source replication;
 - replicated D–spatial organization presented as a structural correlate, not a causal mechanism;
 - no global prevalence claim;
-- no pigment, transition-direction, pollinator or climate mechanism claim.
+- no pigment, transition-direction, pollinator or climate mechanism claim;
+- prospective H2 interpreted as excess continuous alignment beyond the coarse-composition structured baseline;
+- post-confirmatory brightness/exposure-related white-state risk disclosed without rewriting the frozen H2 verdict.
 
 Authoritative/result-reporting files:
 
 - `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
 - `results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`
 - `results/polymorphism_spatial_organization_clue_20260918/result.json` (reporting-only synthesis of previously frozen PR #32 results)
+- `results/polymorphism_h2_postconfirmatory_validity_audit_20260922/result.json` (post-confirmatory validity/robustness audit; frozen H2 verdict unchanged)
+
+## 1a. Post-confirmatory H2 white-state validity audit
+
+**DISCLOSED LIMITATION; DIRECT DIGITAL-HIGHLIGHT CONTROL NOT RUN**
+
+Canonical audit:
+
+- `docs/POLYMORPHISM_H2_POSTCONFIRMATORY_VALIDITY_AUDIT_20260922.md`
+- `results/polymorphism_h2_postconfirmatory_validity_audit_20260922/result.json`
+
+The audit establishes four points without modifying the prospective decision:
+
+1. the primary H2 test is an increment over a structured construction baseline (observed W = 0.517; structured-null median = 0.457; isotropic 0.125 is descriptive context only);
+2. white is one of the two leading coarse morphs in 137/158 primary H2 species, with mean species alignment 0.562 versus 0.224 otherwise;
+3. reapplying the continuous-minor gate within each of 299 null worlds gives median W = 0.4475 and minimum attainable p = 0.00333, so the frozen fixed-species null is not anti-conservative under this diagnostic;
+4. a separately frozen background-enabled reserve resource reproduces a within-species background-white association (461 paired species; medians 0.0692 vs 0.0553; 66.4% same direction; Wilcoxon p = 4.55e-12).
+
+The background result is a **proxy**, not a direct exposure measurement. Biological background differences, framing and ROI/mask leakage remain alternatives. The earlier P500 clipping/luminance protocol was never executed for this third cohort and cannot retrospectively become part of the prospective gate.
+
+The manuscript now reports this limitation in Summary, Results and Discussion. A future exact-image highlight analysis, if performed, must remain post hoc and cannot change the frozen H2 verdict.
 
 ## 1b. RGFCA programme-lineage audit
 
@@ -68,16 +91,16 @@ The official guidelines currently describe Full Papers as usually approximately 
 
 | Requirement | Current state | Decision |
 |---|---:|---|
-| Title approximately <=130 characters | 104 characters | PASS |
-| Summary <=200 words | 197 words | PASS |
+| Title approximately <=130 characters | 114 characters | PASS |
+| Summary <=200 words | 174 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
 | Materials and Methods | 2,548 words | RECORDED |
-| Results | 1,025 words | RECORDED |
-| Discussion | 1,298 words | RECORDED |
-| Main text, Introduction–Discussion | 5,412 words | RECORDED |
-| Discussion share of main text | 24.0% | PASS (<30%) |
+| Results | 1,352 words | RECORDED |
+| Discussion | 1,514 words | RECORDED |
+| Main text, Introduction–Discussion | 5,955 words | RECORDED |
+| Discussion share of main text | 25.4% | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (guideline range 6–8) |
@@ -114,7 +137,7 @@ Present in both PNG and PDF:
 1. Figure 1 — measurement frame;
 2. Figure 2 — H1 observer-disjoint reproducibility;
 3. Figure 3 — legacy H2 target localization;
-4. Figure 4 — prospective H2 confirmation;
+4. Figure 4 — prospective H2 excess alignment beyond the coarse-composition structured baseline;
 5. Figure 5 — replicated spatial clue plus bounded alternative-explanation tests.
 
 Canonical manifest:
@@ -128,8 +151,8 @@ Manifest state:
 
 Figure 4 contains the decisive prospective result:
 
-- primary: 158 species, W = 0.5172457461, p = 0.001;
-- strict: 86 species, W = 0.5329282123, p = 0.001;
+- primary: 158 species, W = 0.517 (exact machine value 0.5172457461), structured-null median = 0.457, p = 0.001;
+- strict: 86 species, W = 0.533 (exact machine value 0.5329282123), structured-null median = 0.459, p = 0.001;
 - support-evaluable species = 377;
 - verdict = `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`.
 
@@ -267,10 +290,10 @@ This is a packaging requirement and does not change the frozen scientific conten
 
 **Do not run new biological analyses to improve this submission.**
 
-The scientific package already contains the highest-value prospective H2 upgrade identified in the earlier architecture.
+The scientific package already contains the highest-value prospective H2 upgrade identified in the earlier architecture and now discloses the post-confirmatory white-state measurement-validity audit. Do not retune or rerun the frozen H2 test.
 
 The remaining route to a formal New Phytologist submission is:
 
 `author metadata -> acknowledgements/conflicts/contributions -> permanent archive DOI -> final formatted submission file (1.5 spacing + page/continuous line numbering)`
 
-No H2 target, threshold, null, cohort or H3 predictor should be reopened during this packaging stage.
+No H2 target, threshold, null, cohort or H3 predictor should be reopened during this packaging stage. A direct clipping/luminance refetch, if pursued, is a post hoc validity analysis only and must not be used to rewrite the prospective decision.
