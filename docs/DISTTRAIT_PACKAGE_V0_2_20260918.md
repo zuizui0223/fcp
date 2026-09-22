@@ -98,7 +98,7 @@ The null applies one common vertex permutation to the paired focal/control obser
 
 These implement the general form of the FCP D-spatial analysis, including reuse of matched species-level spatial null realizations and rank-residualized controls.
 
-## 3. Exact-equivalence evidence
+## 3. Compact-fixture equivalence evidence
 
 Manifest:
 
@@ -123,6 +123,10 @@ The manifest records exact source branches, file paths and Git blob SHAs for the
 The clean submission main branch intentionally does not contain the original 100,000-row discovery/reserve measured-photo tables.
 
 Therefore the always-on equivalence suite establishes **algorithmic equivalence** of the portable methods layer, not a full raw-data replay of every biological result.
+
+A later full-data audit of the third-cohort H2 artifact also shows that this boundary is numerical, not merely archival. The frozen study-specific pipeline gives W = **0.5172457461**, whereas `disttrait.two_mode_axis` over the same 158 species gives W = **0.5183899565**. Defensive re-normalization in the generic package can perturb nearly tied farthest-point initializations and lead deterministic two-means to a different local partition. The largest audited case was *Cirsium vulgare* (|axis cosine| **0.6333**; frozen cluster sizes 5/45 versus renormalized 11/39), with a smaller shift in *Vicia benghalensis* (|cosine| **0.9830**; 5/44 versus 6/43).
+
+Thus `disttrait` generalizes the estimand and inference architecture, but the frozen study-specific code/result artifacts remain the numerical provenance for the biological manuscript.
 
 When the original artifacts are available, full H1 replay is supported by:
 
