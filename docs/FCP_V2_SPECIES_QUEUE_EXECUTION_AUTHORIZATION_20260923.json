@@ -1,0 +1,24 @@
+{
+  "schema": "fcp_v2_species_queue_execution_authorization_v1",
+  "date_jst": "2026-09-23",
+  "status": "AUTHORIZED_OUTCOME_BLIND_QUEUE_FREEZE",
+  "branch": "analysis/fcp-v2-measurement-validity-20260923",
+  "frozen_parent_sha": "c0da22825faca601229c9f9e854e6f44d6d60f23",
+  "queue_per_panel": 300,
+  "terminal_target_per_panel": 200,
+  "u100_source_commit": "7665d1fe38d7146925b8f3450ed3cb5c2736195a",
+  "legacy_source_commit": "7665d1fe38d7146925b8f3450ed3cb5c2736195a",
+  "p500_source_commit": "1875c6238c0c8d1c775907cdddfff5bacdfe9470",
+  "third_source_path": "results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv",
+  "biological_outcomes_may_be_read": false,
+  "image_pixels_may_be_opened": false,
+  "selection_fields": [
+    "inat_taxon_id",
+    "species",
+    "after_observer_cap"
+  ],
+  "selection_salt": "FCP_V2_MEASUREMENT_VALIDITY_20260923_V1",
+  "fresh_metadata_terminalization_rule": "first 200 species per frozen 300-species queue with exactly 100 fresh eligible photo IDs after excluding all previously used photo IDs",
+  "queue_extension_after_metadata_results": false,
+  "species_replacement_after_pixel_opening": false
+}
