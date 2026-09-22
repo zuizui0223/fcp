@@ -12,6 +12,7 @@ README = ROOT / "README.md"
 H2 = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "result.json"
 MEASUREMENT = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_measurement_20260917" / "result.json"
 SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
+VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_20260922" / "result.json"
 
 
 def load_json(path: Path) -> dict:
@@ -64,17 +65,34 @@ def test_manuscript_reports_authoritative_third_cohort_values() -> None:
         "49,900",
         "377",
         "158",
-        "0.5172457461",
-        "0.4571428150",
+        "0.517",
+        "0.457",
         "86",
-        "0.5329282123",
-        "0.4593196659",
+        "0.533",
+        "0.459",
+        "excess alignment",
+        "exposure/background-context confounding",
         "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
         "species-disjoint third cohort",
         "same iNaturalist opportunity universe",
     ):
         assert token in text
 
+
+
+def test_postconfirmatory_validity_receipt_preserves_frozen_verdict_and_caveat() -> None:
+    result = load_json(VALIDITY)
+    assert result["confirmatory_verdict_changed"] is False
+    assert result["frozen_verdict"] == "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED"
+    assert result["white_in_coarse_modes"]["species_with_white_as_primary_or_secondary_coarse_morph"] == 137
+    assert result["gate_reapplied_structured_null"]["null_replicates"] == 299
+    assert result["gate_reapplied_structured_null"]["null_median"] == pytest.approx(0.4474950370983093)
+    assert result["gate_reapplied_structured_null"]["plus_one_upper_p"] == pytest.approx(1 / 300)
+    assert result["background_white_proxy"]["sample_species"] == 461
+    assert result["background_white_proxy"]["wilcoxon_p"] == pytest.approx(4.6e-12)
+    assert result["prospective_highlight_control"]["executed_on_third_cohort"] is False
+    assert result["disttrait_full_data_audit"]["bitwise_equivalent"] is False
+    assert result["disttrait_full_data_audit"]["disttrait_two_mode_axis_W"] == pytest.approx(0.5183899565314756)
 
 def test_spatial_organization_receipt_preserves_frozen_positive_clue() -> None:
     result = load_json(SPATIAL)
