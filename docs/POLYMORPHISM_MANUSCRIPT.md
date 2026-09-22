@@ -1,4 +1,4 @@
-# Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species
+# Within-species flower-colour variation shows excess achromatic–chromatic alignment beyond coarse morph composition
 
 **Working manuscript draft — 2026-09-18**
 
