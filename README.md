@@ -21,11 +21,11 @@ The current frozen result is:
 - an already frozen version of that axis was then tested in a pre-frozen species-disjoint third cohort from the same iNaturalist opportunity universe;
 - third-cohort measurement completed **49,900 rows from 499 species**, with **377** species passing the predeclared measurement-support gate;
 - H2 passed at the primary 0.10 tier (**158 species, W = 0.517 versus structured-null median 0.457, p = 0.001**) and strict 0.20 tier (**86 species, W = 0.533, p = 0.001**); the confirmatory quantity is the increment above the coarse-state-preserving null;
-- frozen verdict: `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`; post-confirmatory diagnostics do not change that verdict but leave digital exposure/background-context confounding of the coarse white state unresolved;
+- frozen verdict: `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`; a one-shot direct highlight control subsequently found near-clipping coupled to white classification (OR 1.444, 95% CI 1.389–1.502), while response-blind high-clip exclusion retained H2 support (142 vectors, W = 0.503, p = 0.001); the executable validity gate remained `INDETERMINATE` because vector retention was 89.9%, just below the prespecified 90%;
 - across the original high-depth discovery/reserve cohorts, greater D is also associated with stronger within-species geographic colour organization; the reserve association survives sampled-span plus clear technical-failure adjustment, a matched flower-minus-background contrast and ambiguity-endpoint stress tests;
 - broad reserve phylogenetic signal and the discovery sampled-span association are not supported as simple general explanations.
 
-The prospective H2 result is **species-disjoint within the same iNaturalist source/opportunity universe**. It supports excess alignment relative to the frozen structured null; it does not by itself validate the origin of the coarse white state. A post hoc background-white proxy is compatible with exposure/scene-brightness or ROI effects but is not diagnostic, so the result is not described as artifact-free. It is not an independent-source replication, a global prevalence estimate, or a pigment/pollinator/climate mechanism result. The earlier P500 run retains no durable H2 biological verdict and is not rescued retrospectively.
+The prospective H2 result is **species-disjoint within the same iNaturalist source/opportunity universe**. It supports excess alignment relative to the frozen structured null; it does not by itself validate the origin of the coarse white state. The later direct highlight control shows that the measured white state is exposure-coupled rather than artifact-cleared: its entire OR interval lies above the predeclared negligible-coupling upper bound, even though H2 remains supported after high-clip exclusion. The terminal machine state is retained as `INDETERMINATE` because the sensitivity preserved 142/158 vectors (89.9%) rather than the frozen 90% requirement. It is not an independent-source replication, a global prevalence estimate, or a pigment/pollinator/climate mechanism result. The earlier P500 run retains no durable H2 biological verdict and is not rescued retrospectively.
 
 ### Reusable methods package
 
@@ -48,6 +48,7 @@ The reusable, flower-colour-independent inference layer now lives in:
 - **Figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
 - **Supporting evidence map:** [`docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`](docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md)
 - **Post-confirmatory H2 validity audit:** [`docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`](docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md)
+- **Direct highlight-control adjudication:** [`docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`](docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md)
 - **Submission-readiness audit:** [`docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md`](docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md)
 - **Canonical figures:** [`docs/figures/polymorphism_20260918/`](docs/figures/polymorphism_20260918/)
 - **Full analysis-history branch:** `analysis/h2-third-cohort-preopening-20260916`
