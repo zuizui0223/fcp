@@ -47,6 +47,6 @@ def test_worker_schema_has_no_biological_or_location_identity() -> None:
         "photo_license",
         "heavy_counterfactual",
     )
-    forbidden = ("species", "taxon", "photo_id", "latitude", "longitude", "observer", "morph", "D", "W")
+    forbidden = ("species", "taxon", "photo_id", "latitude", "longitude", "observer", "morph", "q_white", "spatial_outcome")
     for field in m.WORKER_FIELDS:
         assert not any(token.casefold() in field.casefold() for token in forbidden)
