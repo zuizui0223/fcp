@@ -210,28 +210,69 @@ The support gate passed before H2 was opened.
 
 This is a prospective species-disjoint confirmation/transport test **within the same iNaturalist source and opportunity universe**. It is not an independent-source replication.
 
-## 6b. Post-confirmatory H2 validity and robustness diagnostics
+## 6b. Post-confirmatory H2 validity and direct highlight control
 
-Canonical audit:
+Canonical sources:
 
 - `docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`
 - `results/polymorphism_h2_posthoc_validity_diagnostics_20260922/result.json`
+- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_VALIDITY_PROTOCOL_20260922.md`
+- `results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json`
+- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`
 
-These diagnostics were performed after the prospective result was opened and **do not alter the frozen verdict or test definition**.
+These analyses were performed after the prospective H2 result was opened and **do not alter the frozen prospective H2 verdict or estimand**.
 
-Key findings:
+### Construction and gate diagnostics
 
 - isotropic expectation = **0.125**;
 - frozen structured-null median = **0.457143**;
 - observed W = **0.517246**;
 - 137/158 primary vector species have white as one of the two leading coarse morphs;
 - mean per-species white-axis contribution = **0.5622** for those species versus **0.2239** for the 21 without white among their two leading coarse morphs;
-- a 299-replicate null that re-applies the continuous minor-cluster gate has median **0.447495**, 95% interval **0.428986–0.469580**, plus-one p = **0.00333**; this is slightly less conservative than the frozen conditional null;
-- a post hoc background-white proxy in an auxiliary 461-species sample is higher for white-classified than nonwhite-classified images (median 0.0692 versus 0.0553; 66.4% of species in the same within-species direction; paired Wilcoxon p = 4.6 × 10^-12).
+- a 299-replicate null that re-applies the continuous minor-cluster gate has median **0.447495**, 95% interval **0.428986–0.469580**, plus-one p = **0.00333**.
 
-The background proxy does not prove overexposure: biological background differences, scene brightness and ROI contamination remain alternatives. However, the prespecified non-circular digital-highlight control (`clip_fraction`, `near_clip_fraction`, `luminance_q99`) was not executed on the third cohort, and its terminal artifact retained no pixels/background palette fractions. Exposure/background-context confounding of the measured coarse white state therefore remains **unresolved**.
+### Direct one-shot digital-highlight control
 
-The structured null cannot clear this risk because it conditions on coarse-state composition; an artifact that acts upstream by creating or enriching a coarse white state is carried into the null.
+The third-cohort direct validity control reacquired the complete frozen 49,900-row denominator before opening biological outcomes.
+
+- reacquired rows = **49,900 / 49,900**;
+- acquisition failures = **0**;
+- source-byte drift = **0**;
+- highlight metrics available = **44,098** rows;
+- response-blind high-clip threshold = near_clip_fraction > **0.4933450501**;
+- high-clip rows = **2,205**;
+- coupling model = **23,320 rows / 461 species**;
+- OR per one within-species SD near-clip increase = **1.444493**;
+- 95% CI = **1.389332–1.501845**.
+
+The complete OR interval lies above the predeclared negligible-coupling upper boundary of **1.25**. Therefore the measured coarse white state is directly demonstrated to be exposure-coupled; it must not be described as artifact-free.
+
+### High-clip-exclusion H2 sensitivity
+
+After removing the response-blind high-clip set:
+
+- primary vector species = **142**;
+- retention = **142 / 158 = 0.898734 (89.9%)**;
+- W = **0.503428**;
+- structured-null median = **0.453801**;
+- structured-null p = **0.001**;
+- H2 support = **retained**.
+
+The sensitivity retained one fewer vector than the >=143 vectors required for the frozen 0.90 retention threshold.
+
+### Decision-precedence boundary
+
+The frozen prose protocol contains a FLAGGED clause when the complete coupling-model CI lies outside OR [0.80, 1.25]. The frozen executable, however, checks <0.90 H2-vector retention before reaching that coupling-CI branch. Both were frozen before reacquisition.
+
+The generated terminal machine state therefore remains:
+
+`INDETERMINATE`
+
+and is **not retrospectively recoded** after seeing the outcome.
+
+The scientific interpretation is nevertheless fixed:
+
+> Near-clipping is substantially coupled to frozen white classification within species. Removing the response-blind high-clip set does not remove H2 support, but the measured coarse white state cannot be treated as cleared of image-exposure effects. The H2 claim is therefore retained only as excess alignment conditional on the measured colour-state construction, not as proof of a purely biological white-versus-nonwhite axis.
 
 ## 7. Replicated spatial organization of D — positive structural clue
 
