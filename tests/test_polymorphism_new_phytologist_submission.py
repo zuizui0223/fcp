@@ -8,6 +8,7 @@ CANONICAL = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT.md"
 COVER = ROOT / "docs" / "POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md"
 RGFCA_INTERPRETATION = ROOT / "docs" / "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md"
 FRAME_PROVENANCE = ROOT / "docs" / "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md"
+VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_20260922" / "result.json"
 
 
 def words(text: str) -> list[str]:
@@ -133,16 +134,36 @@ def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
         "49,900",
         "377",
         "158 species",
-        "0.5172457461",
+        "0.517",
         "86 species",
-        "0.5329282123",
+        "0.533",
         "p = 0.001",
+        "structured-null median of 0.457",
+        "exposure/background-context confounding remains unresolved",
         "same iNaturalist opportunity universe",
         "not an independent-source replication",
         "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
     ):
         assert token.lower() in normalized.lower()
 
+
+
+def test_new_phytologist_preserves_postconfirmatory_validity_boundary() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    result = __import__("json").loads(VALIDITY.read_text(encoding="utf-8"))
+    assert result["confirmatory_verdict_changed"] is False
+    assert result["inferential_decomposition"]["frozen_observed_W"] == 0.5172457461053418
+    assert result["gate_reapplied_structured_null"]["plus_one_upper_p"] == 1 / 300
+    assert result["background_white_proxy"]["sample_species"] == 461
+    assert result["prospective_highlight_control"]["executed_on_third_cohort"] is False
+    for token in (
+        "increment above a coarse-state-preserving construction baseline",
+        "137 (86.7%)",
+        "0.0692 versus 0.0553",
+        "cannot detect an artifact that acts upstream",
+        "not a bitwise numerical reproducer",
+    ):
+        assert token in text
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
@@ -183,13 +204,13 @@ def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> N
     text = COVER.read_text(encoding="utf-8")
     for token in (
         "New Phytologist",
-        "Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species",
+        "Within-species flower-colour variation shows achromatic–chromatic alignment beyond coarse colour-state composition",
         "49,900",
         "377",
         "158",
-        "0.51725",
+        "0.517",
         "86",
-        "0.53293",
+        "0.533",
         "same iNaturalist opportunity universe",
         "not an independent-source replication",
     ):
