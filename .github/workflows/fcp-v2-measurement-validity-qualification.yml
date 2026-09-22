@@ -31,7 +31,7 @@ jobs:
       - name: Compile measurement-validity helper
         run: python -m py_compile fcp_pipeline/measurement_validity_v2.py
       - name: Run synthetic qualification
-        run: pytest -q tests/test_measurement_validity_v2.py
+        run: PYTHONPATH=. pytest -q tests/test_measurement_validity_v2.py
       - name: Confirm no fresh biological pixels/results entered the branch
         run: |
           python - <<'PY'
