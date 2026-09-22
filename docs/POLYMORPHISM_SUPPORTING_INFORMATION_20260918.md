@@ -208,14 +208,17 @@ Interpretation boundary:
 
 This is prospective species-disjoint confirmation within the same iNaturalist opportunity universe, not independent-source replication. The confirmatory contrast is observed W versus the coarse-state-preserving structured null; it does not establish that the coarse white state itself is artifact-free.
 
-## S4b. Post-confirmatory H2 validity and robustness audit
+## S4b. Post-confirmatory H2 validity and direct highlight audit
 
-Canonical audit:
+Canonical sources:
 
 - `docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`
 - `results/polymorphism_h2_posthoc_validity_diagnostics_20260922/result.json`
+- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_VALIDITY_PROTOCOL_20260922.md`
+- `results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json`
+- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`
 
-These analyses were performed after the frozen third-cohort verdict and do not replace its decision rule.
+These analyses were performed after the frozen third-cohort H2 verdict and do not replace its prospective decision rule.
 
 ### Inferential decomposition
 
@@ -244,25 +247,46 @@ A 299-replicate post-confirmatory sensitivity re-applied the continuous minor-cl
 
 The median is lower than the frozen conditional-null median (0.457143), so the frozen null is slightly more conservative with respect to this gate asymmetry.
 
-### White-state exposure/background proxy
+### Direct digital-highlight control
 
-The previously frozen non-circular digital-highlight control (`clip_fraction`, `near_clip_fraction`, `luminance_q99`) was not executed on the third cohort. The immutable third-cohort artifact contains no persisted pixels or background palette fractions.
+The one-shot direct control reacquired all frozen third-cohort image rows before joining biological outcomes.
 
-A separate post hoc auxiliary background-available sample (461 species) gave:
+| Quantity | Value |
+|---|---:|
+| Frozen reacquisition rows | 49,900 |
+| Acquisition failures | 0 |
+| Source-byte drift | 0 |
+| Highlight metrics available | 44,098 |
+| High-clip threshold | near_clip_fraction > 0.4933450501 |
+| High-clip rows | 2,205 |
+| Coupling-model rows | 23,320 |
+| Coupling-model species | 461 |
+| OR per 1 within-species SD near-clip | 1.444493 |
+| 95% CI | 1.389332–1.501845 |
 
-- white-classified images: median background white fraction **0.0692**;
-- nonwhite-classified images: **0.0553**;
-- species with the same within-species direction: **66.4%**;
-- paired Wilcoxon **p = 4.6 × 10^-12**.
+The entire confidence interval is above the predeclared negligible-coupling upper bound of 1.25. This is direct evidence that white classification is coupled to digital highlight exposure within species.
 
-This is compatible with digital exposure/scene-brightness or ROI-contamination effects but also with biological background differences. It is not a direct exposure test. Because the structured null conditions on the measured coarse states, it cannot falsify an artifact acting upstream on white classification. Exposure/background-context confounding therefore remains unresolved.
+### High-clip exclusion sensitivity
+
+After removing the response-blind high-clip set:
+
+- vector species = **142 / 158 (89.9%)**;
+- W = **0.503428**;
+- structured-null median = **0.453801**;
+- structured-null p = **0.001**;
+- H2 support remains **positive**.
+
+The frozen executable required >=90% retention (>=143 vectors) for the sensitivity gate to clear. Because 142 vectors remained, its generated terminal state was `INDETERMINATE`.
+
+The separately frozen prose protocol contains a FLAGGED coupling clause because the complete OR interval exceeds 1.25. Since the prose clause and executable precedence were both frozen before outcome opening, the machine state is not retrospectively recoded. The empirical interpretation is reported directly: exposure coupling is present, while H2 excess alignment survives high-clip exclusion.
 
 ### disttrait audit
 
 The later generic `disttrait` implementation is not bitwise identical to the frozen study-specific H2 code on the full third-cohort data:
 
 - frozen W = **0.5172457461**;
-- `disttrait.two_mode_axis` W = **0.5183899565**.
+- `disttrait.two_mode_axis` W = **0.5183899565**;
+- `disttrait.structured_alignment_null` observed route = **0.5157982982**.
 
 Near-tied deterministic initializations can switch after defensive row renormalization. The paper's numerical results therefore remain controlled by the frozen study-specific pipeline.
 
