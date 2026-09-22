@@ -1,0 +1,95 @@
+name: Freeze FCP v2 outcome-blind species queues
+
+on:
+  push:
+    branches:
+      - analysis/fcp-v2-measurement-validity-20260923
+    paths:
+      - docs/FCP_V2_SPECIES_QUEUE_EXECUTION_AUTHORIZATION_20260923.json
+
+permissions:
+  contents: write
+
+env:
+  U100_SOURCE_COMMIT: "7665d1fe38d7146925b8f3450ed3cb5c2736195a"
+  U100_SOURCE_BLOB: "cf09ee716fe15caad5b8a97081bbb1ecd4bce7f5"
+  LEGACY_SOURCE_COMMIT: "7665d1fe38d7146925b8f3450ed3cb5c2736195a"
+  LEGACY_SOURCE_BLOB: "dad55cdfdb9842247c6dfd115779199a9592b4f6"
+  P500_SOURCE_COMMIT: "1875c6238c0c8d1c775907cdddfff5bacdfe9470"
+  P500_SOURCE_BLOB: "b4470f27a7942768d9f336591f8f4c70d31aee14"
+  THIRD_SOURCE_BLOB: "56cf1f43ce9cb847c5970b32321f34cfaa1d634f"
+
+jobs:
+  freeze-queues:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate authorization chronology
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          p=Path("docs/FCP_V2_SPECIES_QUEUE_EXECUTION_AUTHORIZATION_20260923.json")
+          x=json.loads(p.read_text())
+          parent=subprocess.check_output(["git","rev-parse","HEAD^"],text=True).strip()
+          assert x["status"]=="AUTHORIZED_OUTCOME_BLIND_QUEUE_FREEZE"
+          assert x["frozen_parent_sha"]==parent, (x["frozen_parent_sha"], parent)
+          assert x["queue_per_panel"]==300
+          assert x["terminal_target_per_panel"]==200
+          assert x["biological_outcomes_may_be_read"] is False
+          assert x["image_pixels_may_be_opened"] is False
+          print("queue authorization chronology: PASS")
+          PY
+      - name: Install metadata-only dependency
+        run: python -m pip install --upgrade pip && python -m pip install pandas
+      - name: Materialize fixed identity/capacity sources
+        run: |
+          git fetch --no-tags --depth=1 origin "${U100_SOURCE_COMMIT}"
+          git fetch --no-tags --depth=1 origin "${P500_SOURCE_COMMIT}"
+          test "$(git rev-parse "${U100_SOURCE_COMMIT}:data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv")" = "${U100_SOURCE_BLOB}"
+          test "$(git rev-parse "${LEGACY_SOURCE_COMMIT}:data/frozen/global_monte_carlo_candidate_species_audit_v1.csv")" = "${LEGACY_SOURCE_BLOB}"
+          test "$(git rev-parse "${P500_SOURCE_COMMIT}:results/polymorphism_h2_p500_candidate_metadata_20260913/species_audit.csv")" = "${P500_SOURCE_BLOB}"
+          test "$(git rev-parse "HEAD:results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv")" = "${THIRD_SOURCE_BLOB}"
+          mkdir -p /tmp/fcpv2
+          git show "${U100_SOURCE_COMMIT}:data/frozen/global_monte_carlo_capacity_scan_selected_species_v3.csv" > /tmp/fcpv2/u100.csv
+          git show "${LEGACY_SOURCE_COMMIT}:data/frozen/global_monte_carlo_candidate_species_audit_v1.csv" > /tmp/fcpv2/legacy.csv
+          git show "${P500_SOURCE_COMMIT}:results/polymorphism_h2_p500_candidate_metadata_20260913/species_audit.csv" > /tmp/fcpv2/p500.csv
+          cp results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv /tmp/fcpv2/third.tsv
+      - name: Freeze P/N species queues from metadata only
+        run: |
+          rm -rf results/fcp_v2_species_queue_20260923
+          python scripts/analysis/select_fcp_v2_species_queues_20260923.py             --u100 /tmp/fcpv2/u100.csv             --legacy /tmp/fcpv2/legacy.csv             --p500 /tmp/fcpv2/p500.csv             --third /tmp/fcpv2/third.tsv             --output-dir results/fcp_v2_species_queue_20260923
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("results/fcp_v2_species_queue_20260923/result.json").read_text())
+          assert x["status"]=="OUTCOME_BLIND_METADATA_QUEUE_FROZEN"
+          assert x["biological_outcomes_read"] is False
+          assert x["image_pixels_opened"] is False
+          assert x["queue_counts"]=={"P":300,"N":300}
+          assert x["terminal_target_per_panel_after_fresh_metadata"]==200
+          assert x["input_counts"]["U100"]==4730
+          assert x["input_counts"]["legacy"]==1000
+          assert x["input_counts"]["P500"]==500
+          assert x["input_counts"]["third"]==500
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-v2-outcome-blind-species-queues-20260923
+          if-no-files-found: error
+          retention-days: 90
+          path: results/fcp_v2_species_queue_20260923
+      - name: Commit frozen queues
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/fcp_v2_species_queue_20260923
+          git commit -m "Freeze FCP v2 outcome-blind species queues"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
