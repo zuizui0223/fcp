@@ -1,0 +1,23 @@
+{
+  "schema": "polymorphism_h2_background_white_proxy_summary_v1",
+  "date_jst": "2026-09-22",
+  "role": "post_hoc_exposure_proxy_summary",
+  "source_scope": "separate background-bearing diagnostic sample; not the third prospective cohort",
+  "row_level_source_committed_in_repository": false,
+  "species": 461,
+  "white_classified_background_white_fraction_median": 0.0692,
+  "nonwhite_classified_background_white_fraction_median": 0.0553,
+  "species_fraction_with_white_greater_than_nonwhite_background_white_fraction": 0.664,
+  "paired_wilcoxon_p": 4.6e-12,
+  "interpretation": {
+    "supported": "white-classified flower images tend to co-occur with whiter image backgrounds in this separate diagnostic sample",
+    "not_identified": [
+      "digital overexposure as the cause",
+      "physical sensor saturation",
+      "whether biological habitat/background differences explain the association",
+      "whether flower-mask leakage explains the association",
+      "the magnitude of exposure coupling in the third prospective cohort"
+    ]
+  },
+  "claim_boundary": "This proxy is consistent with exposure/background coupling but is not a direct exposure test and does not replace the frozen prospective H2 analysis."
+}
