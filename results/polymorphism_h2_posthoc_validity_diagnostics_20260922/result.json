@@ -97,7 +97,17 @@
         "renormalized_species_W_contribution": 0.058731204469116866
       }
     },
-    "interpretation": "disttrait shares the estimand and algorithmic structure but is not a bitwise reproducer of the frozen biological pipeline; the manuscript's frozen study-specific values control."
+    "interpretation": "disttrait shares the estimand and algorithmic structure but is not a bitwise reproducer of the frozen biological pipeline; the manuscript's frozen study-specific values control.",
+    "disttrait_structured_alignment_observed_W": 0.5157982982353345,
+    "structured_path_near_tie_species": {
+      "Geranium reuteri": {
+        "absolute_axis_cosine": 0.6866974869820318
+      },
+      "Vicia benghalensis": {
+        "absolute_axis_cosine": 0.9830180706225755
+      }
+    },
+    "cause": "Near-tied farthest-point initialization can change under floating-point re-normalization and array reduction layout; specieswise and combined structured-null routes need not choose the same near-tied seeds."
   },
   "claim_boundary": [
     "These diagnostics do not replace or rerun the frozen prospective decision.",
