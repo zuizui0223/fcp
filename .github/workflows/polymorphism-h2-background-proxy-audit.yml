@@ -1,0 +1,73 @@
+name: H2 post-confirmatory validity audit
+
+on:
+  push:
+    branches:
+      - main
+      - analysis/h2-white-validity-audit-20260922
+    paths:
+      - ".github/workflows/polymorphism-h2-background-proxy-audit.yml"
+      - "scripts/analysis/audit_polymorphism_background_white_proxy_20260922.py"
+      - "scripts/analysis/audit_polymorphism_h2_posthoc_validity_20260922.py"
+      - "results/polymorphism_h2_postconfirmatory_validity_audit_20260922/result.json"
+      - "docs/POLYMORPHISM_H2_POSTCONFIRMATORY_VALIDITY_AUDIT_20260922.md"
+  pull_request:
+    paths:
+      - ".github/workflows/polymorphism-h2-background-proxy-audit.yml"
+      - "scripts/analysis/audit_polymorphism_background_white_proxy_20260922.py"
+      - "scripts/analysis/audit_polymorphism_h2_posthoc_validity_20260922.py"
+      - "results/polymorphism_h2_postconfirmatory_validity_audit_20260922/result.json"
+      - "docs/POLYMORPHISM_H2_POSTCONFIRMATORY_VALIDITY_AUDIT_20260922.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-background-proxy:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install analysis dependencies
+        run: python -m pip install pandas scipy
+      - name: Compile post-confirmatory audit scripts
+        run: |
+          python -m py_compile             scripts/analysis/audit_polymorphism_background_white_proxy_20260922.py             scripts/analysis/audit_polymorphism_h2_posthoc_validity_20260922.py
+      - name: Materialize frozen reserve row table from source commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=f14186590c11ac24c95e1985077908b732132e96
+          git fetch --depth=1 origin "$SRC"
+          git show "$SRC:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/reserve.csv
+          test "$(wc -l < /tmp/reserve.csv)" -gt 40000
+      - name: Recompute background-white proxy
+        run: |
+          python scripts/analysis/audit_polymorphism_background_white_proxy_20260922.py             --reserve-csv /tmp/reserve.csv             --output-json /tmp/background_proxy.json
+      - name: Verify committed audit receipt
+        run: |
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+          obs=json.loads(Path('/tmp/background_proxy.json').read_text())
+          audit=json.loads(Path('results/polymorphism_h2_postconfirmatory_validity_audit_20260922/result.json').read_text())
+          exp=audit['background_white_proxy']
+          assert exp['species_with_both_states'] == obs['species_with_both_states'] == 461
+          for key in (
+              'median_white_classified',
+              'median_nonwhite_classified',
+              'fraction_species_white_gt_nonwhite',
+              'median_within_species_difference',
+              'wilcoxon_statistic',
+              'wilcoxon_two_sided_p',
+          ):
+              assert math.isclose(float(exp[key]), float(obs[key]), rel_tol=0, abs_tol=1e-15), (key, exp[key], obs[key])
+          assert audit['changes_frozen_h2_verdict'] is False
+          assert audit['direct_highlight_control']['third_cohort_executed'] is False
+          print('postconfirmatory_background_proxy_receipt=pass')
+          PY

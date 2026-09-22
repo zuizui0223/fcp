@@ -379,3 +379,58 @@ No main-text or supplementary output may claim:
 - a durable P500 biological H2 verdict.
 
 If a future document conflicts with a committed machine-readable result, the machine-readable result controls.
+
+
+## S10. Post-confirmatory white-axis validity audit
+
+This section is explicitly **post-confirmatory** and does not modify the frozen third-cohort H2 decision.
+
+Canonical audit:
+
+- `docs/POLYMORPHISM_H2_POSTCONFIRMATORY_VALIDITY_AUDIT_20260922.md`
+- `results/polymorphism_h2_postconfirmatory_validity_audit_20260922/result.json`
+
+### H2 reference decomposition
+
+Primary 0.10 tier:
+
+- isotropic eight-dimensional expectation: **0.125**;
+- frozen coarse-morph-composition-preserving structured-null median: **0.457143**;
+- observed W: **0.517246**;
+- observed / structured-null median: **1.1315**;
+- frozen upper-tail p: **0.001**.
+
+The inferential claim is the excess above the structured baseline, not the difference from isotropy alone.
+
+### White involvement
+
+Among the 158 primary H2 species:
+
+- white is a primary or secondary coarse morph in **137 / 158 (86.7%)**;
+- mean species-level `(u_i · q_white)^2`: **0.5622** when white is involved;
+- mean when white is not one of the two leading coarse morphs: **0.2239**.
+
+### Gate-reapplied structured-null diagnostic
+
+Starting from the 185 species passing the coarse 0.10 gate, the continuous minor-cluster gate was reapplied in each of 299 null worlds:
+
+- median W = **0.447495**;
+- 95% empirical interval = **0.428986–0.469580**;
+- retained species = **166–183**, median 176;
+- upper-tail p = **0.00333** (minimum attainable).
+
+Because the frozen null median is higher (0.457143), the frozen conditional null is not anti-conservative under this diagnostic.
+
+### Background-white proxy
+
+From the pre-existing background-enabled reserve row table at source commit `f14186590c11ac24c95e1985077908b732132e96`, species-paired median background-white fractions were compared for white versus nonwhite classifiable images:
+
+- paired species = **461**;
+- white-classified median across species = **0.069210**;
+- nonwhite median = **0.055301**;
+- fraction with white > nonwhite = **66.38%**;
+- paired Wilcoxon p = **4.55 × 10^-12**.
+
+This proxy is compatible with brightness/exposure coupling but is not a direct exposure measurement; biological background differences, framing and ROI/mask leakage remain alternatives.
+
+The previously frozen P500 digital-highlight protocol (`clip_fraction`, `near_clip_fraction`, `luminance_q99`) was not executed for the third cohort. Any future exact-image refetch would be a post hoc validity analysis.
