@@ -7,7 +7,7 @@ MANUSCRIPT = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md"
 CANONICAL = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT.md"
 COVER = ROOT / "docs" / "POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md"
 RGFCA_INTERPRETATION = ROOT / "docs" / "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md"
-FRAME_PROVENANCE = ROOT / "docs" / "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md"
+FRAME_PROVENANCE = ROOT / "docs" / "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md"\nH2_VALIDITY_AUDIT = ROOT / "docs" / "POLYMORPHISM_H2_POSTCONFIRMATORY_VALIDITY_AUDIT_20260922.md"\nH2_VALIDITY_RESULT = ROOT / "results" / "polymorphism_h2_postconfirmatory_validity_audit_20260922" / "result.json"
 
 
 def words(text: str) -> list[str]:
@@ -133,15 +133,41 @@ def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
         "49,900",
         "377",
         "158 species",
-        "0.5172457461",
+        "0.517",
+        "0.457",
         "86 species",
-        "0.5329282123",
+        "0.533",
+        "0.459",
         "p = 0.001",
+        "excess continuous alignment",
         "same iNaturalist opportunity universe",
         "not an independent-source replication",
         "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
+        "brightness/exposure",
     ):
         assert token.lower() in normalized.lower()
+
+    assert H2_VALIDITY_AUDIT.exists()
+    assert H2_VALIDITY_RESULT.exists()
+
+
+def test_h2_postconfirmatory_validity_boundary_is_explicit() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    audit = H2_VALIDITY_AUDIT.read_text(encoding="utf-8")
+    for token in (
+        "137 of 158 species",
+        "0.562",
+        "0.224",
+        "0.4475",
+        "461",
+        "0.0692",
+        "0.0553",
+        "4.55 × 10^-12",
+        "does not replace or alter the frozen H2 decision",
+    ):
+        assert token in text or token in audit
+    assert "not a direct exposure test" in text.lower()
+    assert "coarse-morph-composition-preserving" in text.lower()
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
@@ -183,13 +209,14 @@ def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> N
     text = COVER.read_text(encoding="utf-8")
     for token in (
         "New Phytologist",
-        "Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species",
+        "Within-species flower-colour variation shows excess achromatic–chromatic alignment beyond coarse morph composition",
         "49,900",
         "377",
         "158",
-        "0.51725",
+        "0.517",
+        "0.457",
         "86",
-        "0.53293",
+        "0.533",
         "same iNaturalist opportunity universe",
         "not an independent-source replication",
     ):
