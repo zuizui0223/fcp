@@ -141,7 +141,7 @@ def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
         "0.533",
         "p = 0.001",
         "structured-null median of 0.457",
-        "exposure/background-context confounding remains unresolved",
+        "exposure-coupled rather than artifact-cleared",
         "same iNaturalist opportunity universe",
         "not an independent-source replication",
         "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
@@ -177,7 +177,7 @@ def test_new_phytologist_preserves_postconfirmatory_validity_boundary() -> None:
     for token in (
         "increment above a coarse-state-preserving construction baseline",
         "137 (86.7%)",
-        "OR = **1.444**",
+        "**1.444** (95% CI **1.389–1.502**)",
         "95% CI **1.389–1.502**",
         "142",
         "89.9%",
