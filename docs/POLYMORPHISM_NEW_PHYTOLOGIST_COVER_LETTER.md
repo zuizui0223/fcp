@@ -1,6 +1,6 @@
 # New Phytologist cover letter — working draft
 
-**Manuscript title:** Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species
+**Manuscript title:** Within-species flower-colour variation shows excess achromatic–chromatic alignment beyond coarse morph composition
 
 **Article type:** Full Paper
 
@@ -10,7 +10,7 @@
 
 Dear Editors of *New Phytologist*,
 
-We submit the Full Paper, **“Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species,”** for consideration in *New Phytologist*.
+We submit the Full Paper, **“Within-species flower-colour variation shows excess achromatic–chromatic alignment beyond coarse morph composition,”** for consideration in *New Phytologist*.
 
 ### Question 1 — What hypotheses or questions does this work address?
 
@@ -18,7 +18,7 @@ Can flower-colour polymorphism be measured reproducibly as a species phenotype, 
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-Using a global atlas framework originally designed to seek shared geography, we show that cross-species generality lies instead in phenotype space: a reproducible polymorphism phenotype, a prospectively confirmed white-versus-nonwhite axis, and stronger species-specific geographic organization at higher polymorphism.
+Using a global atlas framework originally designed to seek shared geography, we show that cross-species generality lies instead in phenotype space: reproducible species-level diversity, prospective excess achromatic–chromatic alignment beyond a composition-preserving baseline, and stronger species-specific geographic organization at higher diversity.
 
 ### Question 3 — Why is this work important and timely?
 
@@ -26,7 +26,7 @@ Community-science imagery can now sample trait distributions at macroecological 
 
 ## Key result and evidential chronology
 
-The prospective cohort completed **49,900** terminal measurements from 499 species, with **377** species passing the predeclared measurement-support gate. The already frozen white-versus-nonwhite direction was supported at both the primary tier (**158** species, W = **0.51725**, structured-null p = 0.001) and the prespecified stricter tier (**86** species, W = **0.53293**, p = 0.001). No species were replaced and the axis, statistic, thresholds and null construction were not refitted after biological opening. The terminal verdict was `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`.
+The prospective cohort completed **49,900** terminal measurements from 499 species, with **377** species passing the predeclared measurement-support gate. At the primary tier, **158** species gave W = **0.517** against a coarse-morph-composition-preserving structured-null median of **0.457** (p = 0.001); the stricter tier gave W = **0.533** (p = 0.001). Thus the prospective result is excess continuous alignment beyond the construction baseline, not departure from isotropy alone. No species were replaced and the frozen axis, statistic, thresholds or null construction were refitted after biological opening.
 
 The chronology is central to the manuscript. The original discovery and reserve cohorts localized the recurrent construction-controlled geometry to a fixed white-versus-nonwhite axis only after the broad geometry had been opened. We therefore treated those analyses as target discovery/localization, froze the axis and inferential machinery, and tested the target prospectively in a new species-disjoint cohort.
 
@@ -34,7 +34,7 @@ A complementary frozen analysis provides the main ecological clue: greater speci
 
 ## Scope boundary
 
-The prospective cohort is species-disjoint but was drawn from the **same iNaturalist opportunity universe** and processed with the same measurement system; it is **not an independent-source replication**. The study does not estimate global polymorphism prevalence and does not identify pigment chemistry, evolutionary direction, pollinator selection or climatic adaptation. Fresh reserve tests showed no detectable broad tree-wide phylogenetic conservation of D, while the discovery association with sampled photographic span collapsed essentially to zero. These are bounded alternative-explanation tests, not evidence that all phylogenetic or geographic effects are absent.
+The prospective cohort is species-disjoint but was drawn from the **same iNaturalist opportunity universe** and processed with the same measurement system; it is **not an independent-source replication**. The study does not estimate global polymorphism prevalence and does not identify pigment chemistry, evolutionary direction, pollinator selection or climatic adaptation. A post-confirmatory background-white diagnostic identifies brightness/exposure-related white classification as an unresolved measurement-validity alternative, but does not establish exposure as the cause. Fresh reserve tests showed no detectable broad tree-wide phylogenetic conservation of D, while the discovery association with sampled photographic span collapsed essentially to zero.
 
 The manuscript is accompanied by five main figures, one cohort-role table, a frozen claim ledger, machine-readable prospective results and Supporting Information that records the chain of custody from pre-opening selection through the terminal prospective test.
 
