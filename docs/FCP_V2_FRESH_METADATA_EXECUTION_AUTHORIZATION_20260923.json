@@ -1,0 +1,20 @@
+{
+  "schema": "fcp_v2_fresh_metadata_execution_authorization_v1",
+  "date_jst": "2026-09-23",
+  "status": "AUTHORIZED_ONE_SHOT_METADATA_ONLY",
+  "branch": "analysis/fcp-v2-measurement-validity-20260923",
+  "frozen_parent_sha": "3a219524e6cf3bc6ad9256d50f6c9a75294eb4ae",
+  "protocol": "docs/FCP_V2_FRESH_METADATA_TERMINALIZATION_PROTOCOL_20260923.md",
+  "queue_species_per_panel": 300,
+  "terminal_species_per_panel": 200,
+  "rows_per_terminal_species": 100,
+  "expected_prior_observation_ids": 228362,
+  "expected_prior_photo_ids": 228362,
+  "historical_exclusion_source_commit": "f7582767da237aeb344dfc072452c6daf92e662b",
+  "image_pixels_may_be_opened": false,
+  "biological_outcomes_may_be_read": false,
+  "queue_extension_allowed": false,
+  "queue_reordering_allowed": false,
+  "species_replacement_after_pixel_opening": false,
+  "rerun_allowed": false
+}
