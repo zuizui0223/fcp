@@ -26,7 +26,7 @@
 - Flower colour is commonly reduced to a species mean, obscuring within-species variation. We ask whether repeated photographs recover a reproducible species phenotype and whether continuous colour displacement shows recurrent geometry across species.
 - We quantified four-state diversity D, audited nine-colour geometry in discovery/reserve cohorts, and prospectively tested a pre-frozen white-versus-nonwhite axis in a species-disjoint third cohort. The structured null preserved species × coarse-state counts and coarse-state-specific palette distributions.
 - Observer-disjoint reserve partitions recovered stable D rankings (median Spearman rho = 0.789). In the third cohort, 158 species gave W = 0.517 versus structured-null median 0.457 (1.13-fold; p = 0.001). Thus the confirmed quantity is excess white-axis alignment conditional on coarse colour-state composition; reapplying the continuous-cluster gate within null worlds retained support.
-- Continuous colour displacement therefore showed prospective excess achromatic–chromatic alignment beyond coarse colour-state composition, while direct digital-highlight confounding of the measured white state remains unresolved. Greater D also remained associated with stronger within-species geographic colour organization in the independent high-depth discovery/reserve cohorts.
+- Continuous colour displacement therefore showed prospective excess achromatic–chromatic alignment beyond coarse colour-state composition. Direct digital-highlight testing remains pending, so exposure/background-context confounding remains unresolved. Greater D also remained associated with stronger within-species geographic colour organization in the independent high-depth discovery/reserve cohorts.
 
 ---
 
