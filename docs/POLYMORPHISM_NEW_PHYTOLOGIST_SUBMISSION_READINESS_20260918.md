@@ -68,16 +68,16 @@ The official guidelines currently describe Full Papers as usually approximately 
 
 | Requirement | Current state | Decision |
 |---|---:|---|
-| Title approximately <=130 characters | 104 characters | PASS |
-| Summary <=200 words | 197 words | PASS |
+| Title approximately <=130 characters | 114 characters | PASS |
+| Summary <=200 words | 155 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
 | Materials and Methods | 2,548 words | RECORDED |
-| Results | 1,025 words | RECORDED |
-| Discussion | 1,298 words | RECORDED |
-| Main text, Introduction–Discussion | 5,412 words | RECORDED |
-| Discussion share of main text | 24.0% | PASS (<30%) |
+| Results | 1,336 words | RECORDED |
+| Discussion | 1,384 words | RECORDED |
+| Main text, Introduction–Discussion | 5,809 words | RECORDED |
+| Discussion share of main text | 23.8% | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (guideline range 6–8) |
@@ -166,15 +166,15 @@ The most recent post-architecture manuscript claim-guard run recorded in the Sup
 
 Latest manuscript claim guard:
 
-- workflow run: `35473321596`;
-- job: `105978139288`;
-- result: **11 / 11 tests passed**.
+- workflow run: `35685150890`;
+- job: `106610288776`;
+- result: **12 / 12 tests passed**.
 
 Latest New Phytologist submission-format guard:
 
-- workflow run: `35473408061`;
-- job: `105978367747`;
-- result: **15 / 15 tests passed**.
+- workflow run: `35685189547`;
+- job: `106610402285`;
+- result: **16 / 16 tests passed**.
 
 The submission-format guard now checks live section word counts, Discussion <=30% of main text, 6–8 total display items, alphabetical keywords, four-bullet Summary <=200 words, cover-letter question lengths, required sections and frozen H2 claim boundaries.
 
@@ -196,6 +196,25 @@ The journal-specific manuscript currently cites direct precedents for:
 - iNaturalist observer structure;
 - validation design;
 - Monte Carlo p-value resolution.
+
+## 6b. H2 construction/exposure validity audit
+
+**ADDRESSED FOR SUBMISSION; EXPOSURE CONFOUNDING NOT CLEARED**
+
+Canonical audit:
+
+- `docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`
+- `results/polymorphism_h2_posthoc_validity_diagnostics_20260922/result.json`
+
+The manuscript now makes the inferential decomposition explicit: primary observed W = 0.517 versus structured-null median 0.457, with isotropic expectation 0.125. The prospective claim is therefore the increment above the coarse-state-preserving baseline.
+
+A 299-replicate post-confirmatory null that re-applies the continuous minor-cluster gate retains support (median 0.4475; plus-one p = 0.00333), showing that the frozen conditional null is not anti-conservative with respect to this gate asymmetry.
+
+A background-white proxy in an auxiliary 461-species sample is associated with white classification (median background white fraction 0.0692 versus 0.0553; 66.4% same within-species direction; paired Wilcoxon p = 4.6e-12). This does not prove overexposure, but the prespecified direct digital-highlight metrics were not run on the third cohort and cannot be reconstructed from the terminal artifact because pixels/background palette fractions were not persisted.
+
+Accordingly, the manuscript does **not** claim an artifact-free white state. Exposure/background-context confounding is explicitly retained as an unresolved limitation. The frozen confirmatory verdict is unchanged.
+
+The later `disttrait 0.12.0` package is also now described as a related general-purpose implementation rather than a numerical reproducer of the biological analysis. Full-data audit W = 0.518390 versus frozen W = 0.517246; frozen study-specific artifacts control manuscript numbers.
 
 ## 7. Remaining formal-submission blockers
 
