@@ -20,23 +20,23 @@ The current frozen result is:
 - the original discovery/reserve geometry localized to a white-versus-nonwhite achromatic–chromatic axis;
 - an already frozen version of that axis was then tested in a pre-frozen species-disjoint third cohort from the same iNaturalist opportunity universe;
 - third-cohort measurement completed **49,900 rows from 499 species**, with **377** species passing the predeclared measurement-support gate;
-- H2 passed at the primary 0.10 tier (**158 species, W = 0.51725, p = 0.001**) and strict 0.20 tier (**86 species, W = 0.53293, p = 0.001**);
-- frozen verdict: `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`;
+- H2 passed at the primary 0.10 tier (**158 species, W = 0.517 versus structured-null median 0.457, p = 0.001**) and strict 0.20 tier (**86 species, W = 0.533, p = 0.001**); the confirmatory quantity is the increment above the coarse-state-preserving null;
+- frozen verdict: `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`; post-confirmatory diagnostics do not change that verdict but leave digital exposure/background-context confounding of the coarse white state unresolved;
 - across the original high-depth discovery/reserve cohorts, greater D is also associated with stronger within-species geographic colour organization; the reserve association survives sampled-span plus clear technical-failure adjustment, a matched flower-minus-background contrast and ambiguity-endpoint stress tests;
 - broad reserve phylogenetic signal and the discovery sampled-span association are not supported as simple general explanations.
 
-The prospective H2 result is **species-disjoint within the same iNaturalist source/opportunity universe**. It is not an independent-source replication, a global prevalence estimate, or a pigment/pollinator/climate mechanism result. The earlier P500 run retains no durable H2 biological verdict and is not rescued retrospectively.
+The prospective H2 result is **species-disjoint within the same iNaturalist source/opportunity universe**. It supports excess alignment relative to the frozen structured null; it does not by itself validate the origin of the coarse white state. A post hoc background-white proxy is compatible with exposure/scene-brightness or ROI effects but is not diagnostic, so the result is not described as artifact-free. It is not an independent-source replication, a global prevalence estimate, or a pigment/pollinator/climate mechanism result. The earlier P500 run retains no durable H2 biological verdict and is not rescued retrospectively.
 
 ### Reusable methods package
 
 The reusable, flower-colour-independent inference layer now lives in:
 
 - **`packages/disttrait/`** — Python package for validated species-level distributional trait inference;
-- **`docs/DISTTRAIT_PACKAGE_V0_11_20260919.md`** — active v0.11 package status with empirical transport, MNAR stress testing and nonlinear estimand benchmarks;
+- **`docs/DISTTRAIT_PACKAGE_V0_12_20260919.md`** — active v0.12 package status with empirical transport, MNAR stress testing, nonlinear and multivariate estimand benchmarks;
 - **`docs/DISTTRAIT_METHODS_PAPER_ARCHITECTURE_20260919.md`** — standalone methods-paper claim/evidence architecture;
 - **`docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md`** — standard statistics versus study-specific inference architecture.
 
-`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving nulls, categorical and scalar-continuous species-specific spatial organization, equal-species omnibus inference, matched focal-minus-background structure, distribution–spatial association, and species-specific signed-slope random-effects summaries. v0.12 retains exact FCP-equivalence fixtures, false-positive/power and model-comparator surfaces, permutation-calibrated slope/meta inference, two external non-flower empirical transports, explicit MNAR observation-process stress testing, and nonlinear plus multivariate orientation benchmarks showing that shared signed-response models and direction-invariant spatial-organization estimands answer different questions when species responses differ in shape or trait-space direction. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific.
+`disttrait` currently exposes categorical diversity, observer-disjoint reliability, Hellinger/two-mode geometry, fixed-contrast alignment, construction-preserving nulls, categorical and scalar-continuous species-specific spatial organization, equal-species omnibus inference, matched focal-minus-background structure, distribution–spatial association, and species-specific signed-slope random-effects summaries. v0.12 retains compact FCP-equivalence fixtures, false-positive/power and model-comparator surfaces, permutation-calibrated slope/meta inference, two external non-flower empirical transports, explicit MNAR observation-process stress testing, and nonlinear plus multivariate orientation benchmarks showing that shared signed-response models and direction-invariant spatial-organization estimands answer different questions when species responses differ in shape or trait-space direction. Flower-colour acquisition/segmentation and the frozen white/non-white target remain application-specific. `disttrait` shares the estimand/architecture but is not a bitwise numerical reproducer of the frozen biological H2 pipeline; the study-specific result artifacts control manuscript numbers.
 
 ### Start here
 
@@ -47,6 +47,7 @@ The reusable, flower-colour-independent inference layer now lives in:
 - **Post-confirmation architecture:** [`docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md`](docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md)
 - **Figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
 - **Supporting evidence map:** [`docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`](docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md)
+- **Post-confirmatory H2 validity audit:** [`docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`](docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md)
 - **Submission-readiness audit:** [`docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md`](docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md)
 - **Canonical figures:** [`docs/figures/polymorphism_20260918/`](docs/figures/polymorphism_20260918/)
 - **Full analysis-history branch:** `analysis/h2-third-cohort-preopening-20260916`
