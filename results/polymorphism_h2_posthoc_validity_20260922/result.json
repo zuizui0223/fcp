@@ -1,0 +1,59 @@
+{
+  "changes_frozen_h2_verdict": false,
+  "date_jst": "2026-09-22",
+  "disttrait_numerical_audit": {
+    "disttrait_specieswise_two_mode_W": 0.5183899565314756,
+    "disttrait_structured_alignment_observed_W": 0.5157982982353345,
+    "frozen_W": 0.5172457461053418,
+    "interpretation": "disttrait is a later generic implementation and is not a bitwise reproducer of the frozen biological H2 pipeline in near-tied two-means initializations",
+    "specieswise_sensitive": [
+      {
+        "abs_axis_cosine_to_frozen": 0.6333183131935559,
+        "species": "Cirsium vulgare"
+      },
+      {
+        "abs_axis_cosine_to_frozen": 0.9830180706225755,
+        "species": "Vicia benghalensis"
+      }
+    ],
+    "structured_path_sensitive": [
+      {
+        "abs_axis_cosine_to_frozen": 0.6866974869820318,
+        "species": "Geranium reuteri"
+      },
+      {
+        "abs_axis_cosine_to_frozen": 0.9830180706225755,
+        "species": "Vicia benghalensis"
+      }
+    ]
+  },
+  "gate_reapplied_structured_null": {
+    "null_mean": 0.44758331027053005,
+    "null_median": 0.4474950370983093,
+    "null_q025": 0.42898610175646507,
+    "null_q975": 0.46957950639993823,
+    "null_values_ge_observed": 0,
+    "replicates": 299,
+    "retained_species_max": 183,
+    "retained_species_median": 176.0,
+    "retained_species_min": 166,
+    "seed": 20260915,
+    "starting_species_after_coarse_gate": 185,
+    "upper_p_plus_one": 0.0033333333333333335
+  },
+  "role": "post_confirmatory_validity_and_robustness_diagnostic_only",
+  "schema": "polymorphism_h2_posthoc_validity_diagnostic_v1",
+  "source": {
+    "biological_result_commit": "7e538e5c51c05a7cc47b2fcf53eea92634c8a863",
+    "third_cohort_artifact_id": 10496492307,
+    "third_cohort_rows": 49900,
+    "image_pixels_persisted": false
+  },
+  "white_in_top_two_coarse_morphs": {
+    "fraction": 0.8670886075949367,
+    "mean_species_contribution_W_white_included": 0.5622106742357357,
+    "mean_species_contribution_W_white_not_included": 0.22390311973086738,
+    "species_total": 158,
+    "species_with_white": 137
+  }
+}
