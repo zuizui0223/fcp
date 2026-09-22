@@ -175,6 +175,13 @@ def find_one(root:Path,name:str)->Path:
         raise RuntimeError(f"expected one {name}, found {len(hits)}")
     return hits[0]
 
+def find_suffix(root:Path,suffix:str)->Path:
+    suffix=suffix.replace("\\\\","/").lstrip("/")
+    hits=[p for p in root.rglob("*") if p.is_file() and p.as_posix().endswith(suffix)]
+    if len(hits)!=1:
+        raise RuntimeError(f"expected one suffix {suffix}, found {len(hits)}")
+    return hits[0]
+
 def main()->None:
     p=argparse.ArgumentParser()
     p.add_argument("--technical-seal-dir",type=Path,required=True)
@@ -187,8 +194,14 @@ def main()->None:
     high=pd.read_csv(args.technical_seal_dir/"high_clip_ids.csv",dtype={"measurement_id":str})
     tech_summary=json.loads((args.technical_seal_dir/"technical_summary.json").read_text())
 
-    measured=pd.read_csv(find_one(args.biological_artifact_dir,"polymorphism_h2_third_cohort_measured_photos_v1.csv"))
-    frozen_result=json.loads(find_one(args.biological_artifact_dir,"result.json").read_text())
+    measured=pd.read_csv(find_suffix(
+        args.biological_artifact_dir,
+        "data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv",
+    ))
+    frozen_result=json.loads(find_suffix(
+        args.biological_artifact_dir,
+        "results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json",
+    ).read_text())
     if len(measured)!=49_900 or measured["photo_id"].nunique()!=49_900:
         raise RuntimeError("biological artifact denominator drift")
     if frozen_result.get("decision",{}).get("verdict")!="H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED":
