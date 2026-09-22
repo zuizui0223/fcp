@@ -1,4 +1,4 @@
-# Within-species flower-colour polymorphism recurs along an achromatic–chromatic axis across plant species
+# Within-species flower-colour variation shows achromatic–chromatic alignment beyond coarse colour-state composition
 
 **New Phytologist Full Paper — submission-format working draft**
 
@@ -9,12 +9,12 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 197 words
+- Summary: 155 words
 - Introduction: 541 words
 - Materials and Methods: 2,548 words
-- Results: 1,025 words
-- Discussion: 1,298 words
-- Main text (Introduction through Discussion): 5,412 words
+- Results: 1,336 words
+- Discussion: 1,384 words
+- Main text (Introduction through Discussion): 5,809 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -23,10 +23,10 @@
 
 ## Summary
 
-- Flower colour is commonly reduced to a species mean or categorical state, obscuring within-species diversity. We ask whether within-species flower-colour diversity can be measured reproducibly as a species phenotype, whether its variation repeatedly follows a common colour-space direction, and whether that diversity is geographically organized within species.
-- We quantified diversity as a continuous four-state score, D, and analysed continuous nine-colour geometry in separate discovery and reserve cohorts. After those analyses localized recurrent geometry to a white-versus-nonwhite contrast, we froze that axis and tested it prospectively in a species-disjoint third cohort from the same iNaturalist opportunity universe.
-- Observer-disjoint reserve partitions recovered stable species rankings in D (median Spearman rho = 0.789). The frozen axis was supported prospectively in 158 species (W = 0.517, p = 0.001). Greater D was also associated with stronger within-species geographic colour organization after sampled-span and technical-failure adjustment; fresh reserve tests did not support broad tree-wide conservation or a sampled-span explanation of D.
-- Within-species flower-colour diversity is reproducibly measurable under high-depth photographic sampling. Across plant species, its strongest prospectively confirmed geometric regularity is recurrent achromatic–chromatic variation rather than a general shared hue direction; the geographic realization remains species-specific, without assigning a causal mechanism.
+- Flower colour is commonly reduced to a species mean, obscuring within-species variation. We ask whether repeated photographs recover a reproducible species phenotype and whether continuous colour displacement shows recurrent geometry across species.
+- We quantified four-state diversity D, audited nine-colour geometry in discovery/reserve cohorts, and prospectively tested a pre-frozen white-versus-nonwhite axis in a species-disjoint third cohort. The structured null preserved species × coarse-state counts and coarse-state-specific palette distributions.
+- Observer-disjoint reserve partitions recovered stable D rankings (median Spearman rho = 0.789). In the third cohort, 158 species gave W = 0.517 versus structured-null median 0.457 (1.13-fold; p = 0.001). Thus the confirmed quantity is excess white-axis alignment conditional on coarse colour-state composition; reapplying the continuous-cluster gate within null worlds retained support.
+- A post hoc background-white proxy was associated with white classification, so exposure/background-context confounding remains unresolved. Greater D nevertheless remained associated with stronger within-species geographic colour organization in the independent high-depth discovery/reserve cohorts.
 
 ---
 
@@ -251,15 +251,23 @@ Of the 49,900 rows, **25,788** were classifiable into the four biological states
 
 ### Prospective third-cohort H2: the frozen white axis is confirmed
 
-At the primary 0.10 tier, **158** species produced admissible nonzero displacement vectors. Observed W was **0.5172457461**. Across 999 structured-null worlds, the null median was **0.4571428150** and the 95% interval was **0.4358491120–0.4752987776**. Observed W was 1.1315 times the null median, with upper-tail p = **0.001**.
+At the primary 0.10 tier, **158** species produced admissible nonzero displacement vectors. Observed W was **0.517**. Across 999 structured-null worlds, the null median was **0.457** and the 95% interval was **0.436–0.475**. Observed W was 1.13 times the null median, with upper-tail p = **0.001**.
 
-At the strict 0.20 tier, **86** species were eligible. Observed W was **0.5329282123**, compared with a null median of **0.4593196659** and a 95% interval of **0.4328679570–0.4867224043**. Observed W was 1.1603 times the null median, again with p = **0.001**.
+At the strict 0.20 tier, **86** species were eligible. Observed W was **0.533**, compared with a null median of **0.459** and a 95% interval of **0.433–0.487**. Observed W was 1.16 times the null median, again with p = **0.001**.
 
 The frozen terminal verdict was therefore
 
 `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`.
 
 This is an untouched prospective test of a previously frozen axis in a species-disjoint cohort. Because the third cohort was drawn from the same iNaturalist source/opportunity universe and processed with the same measurement system, it is not described as an independent-source replication.
+
+### What the prospective H2 contrast confirms, and post hoc validity diagnostics
+
+The structured-null baseline was itself strongly white-axis aligned: the isotropic eight-dimensional expectation is 0.125, whereas the frozen primary structured-null median was **0.457** and observed W was **0.517**. The confirmatory result therefore concerns the **increment above a coarse-state-preserving construction baseline**, not the entire difference from isotropy. Of the 158 primary vector species, **137 (86.7%)** had white as one of their two leading coarse morphs; their mean per-species white-axis contribution was 0.562, compared with 0.224 among the remaining 21 species.
+
+A post-confirmatory null diagnostic re-applied the continuous minor-cluster gate within each of 299 structured-null worlds, starting from the 185 species that passed the coarse-state gate. The null median was **0.447** (95% interval **0.429–0.470**; plus-one p = **0.0033**), lower than the frozen conditional-null median of 0.457. Thus the preregistered null was slightly more conservative with respect to this gate asymmetry.
+
+Measurement validity of the coarse white state is less completely resolved. A previously frozen digital-highlight protocol specified non-circular exposure diagnostics, but it was not executed on the third cohort, whose terminal artifact retained neither image pixels nor background palette fractions. In a separate post hoc background-available sample of 461 species, images classified as white flowers had a higher median background white fraction than nonwhite-classified images (0.0692 versus 0.0553); 66.4% of species showed the same within-species direction (paired Wilcoxon p = 4.6 × 10^-12). This proxy is consistent with exposure/scene-brightness or ROI-contamination effects, but it can also arise from biological background differences and does not diagnose overexposure. Because the structured null conditions on coarse-state composition, it cannot detect an artifact that acts upstream by creating or enriching the measured white state. We therefore treat digital exposure/background-context confounding as unresolved and do not describe the prospective result as artifact-free.
 
 ### Greater D is associated with stronger within-species geographic colour organization
 
@@ -289,8 +297,6 @@ The frozen verdict was `H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED`.
 
 ---
 
----
-
 ## Discussion
 
 ### A measurable phenotype before a mechanism
@@ -305,13 +311,13 @@ The methodological contribution is architectural rather than a claim to a new st
 
 The strongest positive biological result is geometric. The original discovery/reserve analyses showed that the recurrent construction-controlled component of within-species colour variation was overwhelmingly associated with a white-versus-nonwhite direction. White-versus-pigmented flower-colour combinations have historical precedent in floristic and experimental work, including observations that some anthocyanin-associated white/pigmented combinations are disproportionately represented in particular floras (Warren & Mackenzie 2001), but that precedent does not specify the mechanism of the present axis. Removing that axis eliminated the excess directional concentration, and the remaining non-white geometry did not support a shared hue direction.
 
-The third-cohort result changes the evidential status of this finding. The white-axis target was no longer chosen after looking at the new cohort: the species selection, measurement support rule, q_white, W, thresholds and structured null were fixed before biological opening. The primary and strict tests both returned p = 0.001, with observed W well above their null distributions. The axis is therefore not merely a retrospective description of the first two cohorts; it transported prospectively to a new species-disjoint cohort from the same opportunity universe.
+The third-cohort result changes the evidential status of this finding, but in a specific way. The white-axis target was no longer chosen after looking at the new cohort: species selection, measurement support, q_white, W, thresholds and the structured null were fixed before biological opening. At the primary tier, observed W = 0.517 exceeded a structured-null median of 0.457 (p = 0.001). Because that null already preserves coarse-state composition and is itself far above the isotropic expectation of 0.125, the prospectively confirmed quantity is **excess achromatic–chromatic alignment conditional on the measured coarse colour states**, not the existence of white-versus-nonwhite coarse combinations per se.
 
 ### What the achromatic–chromatic axis does not identify
 
 The white-versus-nonwhite geometry is descriptive, not mechanistic. Reviews of flower-colour polymorphism emphasize that pollinator-mediated selection, abiotic selection, drift, gene flow, mating system and pigment genetics can all contribute in different systems (Sapir et al. 2021; Narbona et al. 2018). These analyses do not identify pigment chemistry, whether white states arise by pigment loss or non-white states by pigment gain, or the evolutionary direction of transitions. They also do not distinguish among developmental, genetic, pollinator-mediated or abiotic mechanisms.
 
-The construction-preserving null strengthens the claim that the observed alignment is not explained simply by the frozen coarse-state composition and global mapping from coarse states to the nine-colour palette. It does not convert geometric alignment into a causal mechanism.
+The construction-preserving null asks whether continuous within-species geometry adds alignment after the frozen coarse-state composition and its palette mapping are held fixed. It therefore controls a construction baseline but does not validate the origin of the coarse white state itself. In particular, an exposure, scene-brightness or segmentation artifact that acts upstream by making an image more likely to enter the white state is conditioned on by this null rather than falsified by it. The post hoc background-white proxy makes that measurement-validity limitation explicit, while not establishing that exposure caused the observed white classifications.
 
 ### From a repeated global atlas to species-level generality
 
@@ -321,7 +327,7 @@ The present analysis changes the level at which generality is sought. RGFCA was 
 
 The replicated association between D and within-species geographic colour organization provides a positive clue about why species differ in polymorphism. Species with greater D are not merely those sampled across larger geographic extents: the reserve sampled-span association with D collapses to zero, whereas the D–spatial-organization relationship persists after sampled-span and clear technical-failure adjustment and remains positive in a matched flower-minus-background contrast. The ambiguity-endpoint analysis further shows that the association is not tied to one arbitrary treatment of unresolved palette compositions.
 
-This result is structural rather than causal. Stronger geographic organization could arise from spatially varying abiotic selection, turnover in pollinator communities, restricted dispersal or gene flow, demographic history, drift, mating-system differences, or combinations of these processes. The current photographs and occurrence geometry cannot distinguish among them. Together with the prospectively confirmed white-versus-nonwhite axis, the evidence suggests a two-stage working model: colour variants are generated along a recurrently accessible achromatic–chromatic direction, while species-specific ecological and demographic processes determine how strongly those variants are maintained or sorted across space. The first component is directly supported by H2; the second is a mechanistic hypothesis motivated by the replicated D–spatial association, not a demonstrated causal pathway.
+This result is structural rather than causal. Stronger geographic organization could arise from spatially varying abiotic selection, turnover in pollinator communities, restricted dispersal or gene flow, demographic history, drift, mating-system differences, or combinations of these processes. The current photographs and occurrence geometry cannot distinguish among them. Together with the prospective H2 result, the evidence suggests a two-stage working model: measured within-species colour variation contains an achromatic–chromatic component stronger than expected from coarse-state composition alone, while species-specific ecological and demographic processes may determine how strongly measured variants are maintained or sorted across space. The first statement is the bounded geometric inference supported by H2; the second remains a mechanistic hypothesis motivated by the replicated D–spatial association. Neither statement establishes that the measured coarse white state is free of image-exposure or background-context effects.
 
 ### Two simple explanations fail fresh-data tests
 
@@ -339,7 +345,7 @@ A stronger external validation would apply the same frozen q_white/W estimand an
 
 ### Conclusion
 
-Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling. Across the original discovery/reserve analyses, the strongest recurrent colour-space component localized to a white-versus-nonwhite axis, and a pre-frozen species-disjoint third cohort prospectively confirmed that same axis. Species with greater D also show stronger within-species geographic colour organization across the original high-depth cohorts, including after sampled-span, clear technical-failure, background and ambiguity checks. At the same time, fresh reserve tests show no detectable broad tree-wide conservation of D and reduce the apparent discovery association with sampled photographic span to essentially zero. The evidence therefore supports constrained colour geometry plus species-specific spatial organization, while leaving the ecological and evolutionary processes that maintain that organization unresolved.
+Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling. In a pre-frozen species-disjoint third cohort, continuous colour displacement showed excess alignment with the fixed white-versus-nonwhite axis relative to a coarse-state-preserving structured null. That increment is robust to reapplying the continuous-cluster gate within null worlds, but digital exposure/background-context confounding of the coarse white state remains unresolved. Species with greater D also show stronger within-species geographic colour organization across the original high-depth cohorts, including after sampled-span, technical-failure, background and ambiguity checks. The evidence therefore supports bounded geometric regularity plus species-specific spatial organization without identifying the ecological, evolutionary or image-formation processes responsible for the measured white states.
 
 ---
 
@@ -359,7 +365,7 @@ Within-species flower-colour diversity can be measured reproducibly as a continu
 
 ## Data availability
 
-Frozen protocols, analysis code, machine-readable results, claim ledgers and canonical figures are versioned in the `zuizui0223/fcp` GitHub repository. The analytical procedures developed for this study were subsequently generalized within the repository as `disttrait 0.12.0`; the biological results reported in this manuscript were generated with the study-specific frozen pipeline described here, not with `disttrait`. The third-cohort prospective result is preserved as an immutable repository commit and GitHub Actions artifact. A permanent archival DOI/version should be added before submission.
+Frozen protocols, analysis code, machine-readable results, claim ledgers and canonical figures are versioned in the `zuizui0223/fcp` GitHub repository. A related general-purpose implementation, `disttrait 0.12.0`, was developed subsequently. It shares the estimand and algorithmic structure but is not a bitwise numerical reproducer of the frozen study-specific H2 implementation; the biological results and numerical values reported here were generated only with the frozen study-specific pipeline. The third-cohort prospective result is preserved as an immutable repository commit and GitHub Actions artifact. A permanent archival DOI/version should be added before submission.
 
 ## References
 
@@ -393,7 +399,7 @@ Literature-use boundaries are frozen in `docs/POLYMORPHISM_LITERATURE_AUDIT_2026
 
 **Figure 3. Discovery and audit of the recurrent white-versus-nonwhite colour-space target in the original cohorts.** (a) Loadings of the fixed zero-sum q_white contrast: white is opposed to the equal mean of the eight non-white palette coordinates. The panel explicitly records that this named axis was isolated only after the original broad H2 geometry had been opened. (b) Legacy targeted W values (diamonds) against the median (points) and 95% interval (bars) of the construction-preserving structured null. Primary 0.10: discovery N = 152, W = 0.514625, p = 0.001; reserve N = 129, W = 0.514586, p = 0.001. Strict 0.20: discovery N = 75, W = 0.542355, p = 0.001; reserve N = 65, W = 0.510517, p = 0.008. Projection-removal and non-white-only falsification diagnostics are reported in Supporting Information.
 
-**Figure 4. Prospective species-disjoint confirmation of the frozen white-versus-nonwhite axis.** Structured-null W distributions from 999 frozen null worlds; dashed lines show null medians and solid vertical lines show observed W. (a) Primary 0.10 tier: N = 158, observed W = 0.5172457461, null median = 0.4571428150, 95% interval 0.4358491120–0.4752987776, upper-tail p = 0.001. (b) Strict 0.20 sensitivity: N = 86, observed W = 0.5329282123, null median = 0.4593196659, 95% interval 0.4328679570–0.4867224043, p = 0.001. The prospective cohort completed 49,900 terminal rows from 499 species, with 377 measurement-evaluable species and zero replacements before H2 opening; it is species-disjoint within the same iNaturalist opportunity universe, not an independent-source replication.
+**Figure 4. Prospective species-disjoint confirmation of the frozen white-versus-nonwhite axis.** Structured-null W distributions from 999 frozen null worlds; dashed lines show null medians and solid vertical lines show observed W. (a) Primary 0.10 tier: N = 158, observed W = 0.517, null median = 0.457, 95% interval 0.436–0.475, upper-tail p = 0.001. (b) Strict 0.20 sensitivity: N = 86, observed W = 0.533, null median = 0.459, 95% interval 0.433–0.487, p = 0.001. The prospective cohort completed 49,900 terminal rows from 499 species, with 377 measurement-evaluable species and zero replacements before H2 opening; it is species-disjoint within the same iNaturalist opportunity universe, not an independent-source replication.
 
 **Figure 5. Spatial organization accompanies species-level polymorphism while two simple explanations fail fresh-data tests.** (a) Observed D–spatial-organization partial correlations (diamonds) against the mean and 95% interval of the frozen geometry-preserving null for discovery, reserve and the reserve matched flower-minus-background response. Observed partial rho = 0.1266367 (p = 0.007), 0.0992877 (p = 0.025) and 0.1162411 (p = 0.010), respectively. (b) Reserve Blomberg K under the three frozen phylogenetic placement scenarios: S1 K = 0.0710190, p = 0.2716; S2 K = 0.0601476, p = 0.4134; S3 K = 0.0707577, p = 0.2674. No frozen placement supported detectable broad tree-wide conservation at p < 0.05; this is not an equivalence test. (c) The discovery association with sampled span (rho = 0.1798786, p = 0.00089996) collapsed to essentially zero in the species-disjoint reserve (rho = -0.0025855, p = 0.9586021). Sampled photographic span is not true biological range size.
 
