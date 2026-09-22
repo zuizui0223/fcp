@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import math
 from pathlib import Path
@@ -13,16 +14,25 @@ import pandas as pd
 from PIL import Image, ImageOps
 from skimage.color import rgb2lab
 
-from fcp_pipeline.measurement_validity_v2 import (
-    EV_LEVELS,
-    apply_exposure_ev,
-    exposure_metrics,
-    frozen_prompt_jitter_set,
-    mask_boundary_fraction,
-    mask_iou,
-    neutralize_background,
-    relative_luminance,
-)
+# Load the v2 technical helper as a standalone module so importing it does not
+# populate the fcp_pipeline package before the exact historical ROI source root
+# is inserted into sys.path below.
+_HELPER_PATH = Path(__file__).resolve().parents[2] / "fcp_pipeline" / "measurement_validity_v2.py"
+_HELPER_SPEC = importlib.util.spec_from_file_location("fcp_v2_measurement_helper", _HELPER_PATH)
+if _HELPER_SPEC is None or _HELPER_SPEC.loader is None:
+    raise RuntimeError("cannot load frozen v2 measurement helper")
+_HELPER = importlib.util.module_from_spec(_HELPER_SPEC)
+sys.modules[_HELPER_SPEC.name] = _HELPER
+_HELPER_SPEC.loader.exec_module(_HELPER)
+
+EV_LEVELS = _HELPER.EV_LEVELS
+apply_exposure_ev = _HELPER.apply_exposure_ev
+exposure_metrics = _HELPER.exposure_metrics
+frozen_prompt_jitter_set = _HELPER.frozen_prompt_jitter_set
+mask_boundary_fraction = _HELPER.mask_boundary_fraction
+mask_iou = _HELPER.mask_iou
+neutralize_background = _HELPER.neutralize_background
+relative_luminance = _HELPER.relative_luminance
 
 HEAVY_EV_LEVELS = (-1.0, -0.5, 0.5, 1.0)
 HIGH_BACKGROUND_LUMINANCE = 0.90
