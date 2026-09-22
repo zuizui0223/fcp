@@ -73,11 +73,11 @@ The official guidelines currently describe Full Papers as usually approximately 
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
-| Materials and Methods | 2,548 words | RECORDED |
+| Materials and Methods | 2,721 words | RECORDED |
 | Results | 1,336 words | RECORDED |
 | Discussion | 1,384 words | RECORDED |
-| Main text, Introduction–Discussion | 5,809 words | RECORDED |
-| Discussion share of main text | 23.8% | PASS (<30%) |
+| Main text, Introduction–Discussion | 5,982 words | RECORDED |
+| Discussion share of main text | 23.1% | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (guideline range 6–8) |
@@ -166,14 +166,14 @@ The most recent post-architecture manuscript claim-guard run recorded in the Sup
 
 Latest manuscript claim guard:
 
-- workflow run: `35685150890`;
-- job: `106610288776`;
+- workflow run: `35686530502`;
+- job: `106614442429`;
 - result: **12 / 12 tests passed**.
 
 Latest New Phytologist submission-format guard:
 
-- workflow run: `35685189547`;
-- job: `106610402285`;
+- workflow run: `35686506788`;
+- job: `106614369521`;
 - result: **16 / 16 tests passed**.
 
 The submission-format guard now checks live section word counts, Discussion <=30% of main text, 6–8 total display items, alphabetical keywords, four-bullet Summary <=200 words, cover-letter question lengths, required sections and frozen H2 claim boundaries.
