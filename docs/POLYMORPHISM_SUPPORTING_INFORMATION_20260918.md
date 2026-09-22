@@ -206,7 +206,65 @@ Frozen terminal verdict:
 
 Interpretation boundary:
 
-This is prospective species-disjoint confirmation within the same iNaturalist opportunity universe, not independent-source replication.
+This is prospective species-disjoint confirmation within the same iNaturalist opportunity universe, not independent-source replication. The confirmatory contrast is observed W versus the coarse-state-preserving structured null; it does not establish that the coarse white state itself is artifact-free.
+
+## S4b. Post-confirmatory H2 validity and robustness audit
+
+Canonical audit:
+
+- `docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`
+- `results/polymorphism_h2_posthoc_validity_diagnostics_20260922/result.json`
+
+These analyses were performed after the frozen third-cohort verdict and do not replace its decision rule.
+
+### Inferential decomposition
+
+| Quantity | Value |
+|---|---:|
+| Isotropic 8-D expectation | 0.125 |
+| Frozen structured-null median | 0.457143 |
+| Observed W | 0.517246 |
+| Observed / null median | 1.1315 |
+| Primary vector species | 158 |
+| White among primary/secondary coarse morphs | 137 / 158 (86.7%) |
+| Mean species contribution, white included | 0.5622 |
+| Mean species contribution, white absent | 0.2239 |
+
+Thus the frozen prospective test establishes excess alignment beyond a coarse-state-preserving baseline rather than the full observed alignment relative to isotropy.
+
+### Gate-reapplied null
+
+A 299-replicate post-confirmatory sensitivity re-applied the continuous minor-cluster gate in every null world, starting from the 185 coarse-gate species.
+
+- median W = **0.447495**;
+- mean W = **0.447583**;
+- 95% interval = **0.428986–0.469580**;
+- plus-one upper-tail p = **0.00333**;
+- retained vector species = 166–183, median 176.
+
+The median is lower than the frozen conditional-null median (0.457143), so the frozen null is slightly more conservative with respect to this gate asymmetry.
+
+### White-state exposure/background proxy
+
+The previously frozen non-circular digital-highlight control (`clip_fraction`, `near_clip_fraction`, `luminance_q99`) was not executed on the third cohort. The immutable third-cohort artifact contains no persisted pixels or background palette fractions.
+
+A separate post hoc auxiliary background-available sample (461 species) gave:
+
+- white-classified images: median background white fraction **0.0692**;
+- nonwhite-classified images: **0.0553**;
+- species with the same within-species direction: **66.4%**;
+- paired Wilcoxon **p = 4.6 × 10^-12**.
+
+This is compatible with digital exposure/scene-brightness or ROI-contamination effects but also with biological background differences. It is not a direct exposure test. Because the structured null conditions on the measured coarse states, it cannot falsify an artifact acting upstream on white classification. Exposure/background-context confounding therefore remains unresolved.
+
+### disttrait audit
+
+The later generic `disttrait` implementation is not bitwise identical to the frozen study-specific H2 code on the full third-cohort data:
+
+- frozen W = **0.5172457461**;
+- `disttrait.two_mode_axis` W = **0.5183899565**.
+
+Near-tied deterministic initializations can switch after defensive row renormalization. The paper's numerical results therefore remain controlled by the frozen study-specific pipeline.
 
 ## S5. Replicated D–spatial organization
 
@@ -376,6 +434,8 @@ No main-text or supplementary output may claim:
 - absence of all phylogenetic structure;
 - irrelevance of true biological range size;
 - near-perfect or split-invariant H1 reliability;
-- a durable P500 biological H2 verdict.
+- a durable P500 biological H2 verdict;
+- that the coarse white state is free of digital exposure, background-context or ROI-contamination effects;
+- numerical identity between the frozen biological H2 implementation and the later generic disttrait package.
 
 If a future document conflicts with a committed machine-readable result, the machine-readable result controls.
