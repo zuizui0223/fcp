@@ -1,0 +1,84 @@
+{
+  "schema": "polymorphism_h2_postconfirmatory_validity_audit_v1",
+  "date_jst": "2026-09-22",
+  "role": "post_confirmatory_validity_diagnostic",
+  "changes_frozen_h2_verdict": false,
+  "frozen_h2": {
+    "result_path": "results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json",
+    "artifact_id": 10496492307,
+    "artifact_digest": "sha256:319c040aaffc30d3cd97dcbcc217409e75010ec0f67bcc86c6bb82d8275779c7",
+    "species": 158,
+    "observed_W": 0.5172457461053418,
+    "isotropic_8d_expectation": 0.125,
+    "structured_null_median": 0.45714281500506854,
+    "structured_null_q025": 0.4358491119845972,
+    "structured_null_q975": 0.4752987775665408,
+    "structured_null_upper_p": 0.001,
+    "observed_to_null_median_ratio": 1.1314751739007576,
+    "interpretation": "The prospective test supports excess continuous white-axis alignment beyond the coarse-morph-composition-preserving construction baseline; isotropy is descriptive context, not the decisive reference."
+  },
+  "white_involvement": {
+    "white_in_primary_or_secondary_coarse_morph_n": 137,
+    "h2_species_n": 158,
+    "fraction": 0.8670886075949367,
+    "mean_species_alignment_white_involved": 0.5622106742357358,
+    "mean_species_alignment_nonwhite_involved": 0.22390311973086738,
+    "calculation": "species alignment = (u_i dot q_white)^2, recomputed from the frozen primary delta-vector table"
+  },
+  "gate_reapplied_null": {
+    "role": "post_confirmatory_robustness_only",
+    "starting_coarse_gate_species": 185,
+    "null_replicates": 299,
+    "seed": 20260915,
+    "continuous_minor_gate_reapplied_each_null": true,
+    "median_W": 0.4474950370983093,
+    "mean_W": 0.44758331027053005,
+    "q025": 0.42898610175646507,
+    "q975": 0.46957950639993823,
+    "retained_species_median": 176,
+    "retained_species_min": 166,
+    "retained_species_max": 183,
+    "upper_p": 0.0033333333333333335,
+    "minimum_attainable_p": 0.0033333333333333335,
+    "conclusion": "The frozen fixed-selected-species null is not anti-conservative relative to reapplying the continuous-minor gate; its median W is higher (0.457143 vs 0.447495)."
+  },
+  "background_white_proxy": {
+    "role": "posthoc_proxy_not_direct_exposure_measurement",
+    "source_commit": "f14186590c11ac24c95e1985077908b732132e96",
+    "source_path": "data/derived/rgfca_reserve_replication_measured_photos_v1.csv",
+    "workflow_run": 35673190275,
+    "job": 106574032963,
+    "definition": "For each species with both white and nonwhite classifiable images, compute the median background white fraction separately for white and nonwhite images; background white fraction = background_palette_count_white/background_effective_pixels.",
+    "species_with_both_states": 461,
+    "median_white_classified": 0.0692101807898192,
+    "median_nonwhite_classified": 0.05530124992417036,
+    "fraction_species_white_gt_nonwhite": 0.6637744034707158,
+    "median_within_species_difference": 0.0170291094423458,
+    "wilcoxon_statistic": 33444,
+    "wilcoxon_two_sided_p": 4.554529382155807e-12,
+    "interpretation": "Compatible with brightness/exposure coupling but not diagnostic of it; biological habitat/background differences and ROI/mask leakage remain alternatives."
+  },
+  "direct_highlight_control": {
+    "third_cohort_executed": false,
+    "historical_p500_protocol_frozen": true,
+    "historical_protocol_path": "docs/POLYMORPHISM_H2_P500_WHITE_MEASUREMENT_CONTROL_PROTOCOL_20260913.md (historical PR #33)",
+    "metrics": [
+      "clip_fraction",
+      "near_clip_fraction",
+      "luminance_q99"
+    ],
+    "interpretation": "The historical P500 validity protocol was not executed and cannot be retrospectively treated as a prospective gate for the third cohort. Any image refetch/highlight analysis is post hoc."
+  },
+  "disttrait_boundary": {
+    "manuscript_estimates_generated_with_disttrait": false,
+    "numerical_identity_claim_allowed": false,
+    "note": "Actual-data audit found small W differences among frozen and disttrait paths at floating-point/two-means tie boundaries; conclusions were unchanged. The manuscript therefore treats disttrait as a later generalization, not a numerically identical replay engine."
+  },
+  "hard_nonclaims": [
+    "does not overturn or rerun the frozen prospective H2 decision",
+    "does not establish physical camera overexposure or sensor saturation",
+    "does not establish that the white axis is a measurement artifact",
+    "does not establish biological reflectance, pigment chemistry, or evolutionary direction",
+    "does not convert post hoc robustness analyses into prospective evidence"
+  ]
+}
