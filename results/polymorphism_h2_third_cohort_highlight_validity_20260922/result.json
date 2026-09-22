@@ -1,0 +1,78 @@
+{
+  "claim_boundary": [
+    "This is post-confirmatory validity control, not a replacement confirmatory test.",
+    "No alternative clipping threshold, technical predictor, H2 axis, or rescue analysis is authorized after this result."
+  ],
+  "confirmatory_verdict_changed": false,
+  "coupling_model": {
+    "beta": 0.36775859226174784,
+    "estimable": true,
+    "odds_ratio": 1.4444932850227639,
+    "or_ci_high": 1.5018445886490097,
+    "or_ci_low": 1.3893320695404507,
+    "rows": 23320,
+    "se": 0.019865408969814948,
+    "species": 461,
+    "within_species_standardization_ddof": 0
+  },
+  "date_jst": "2026-09-22",
+  "decision": {
+    "minimum_vector_retention": 0.9,
+    "or_equivalence_interval": [
+      0.8,
+      1.25
+    ],
+    "reasons": [
+      "h2_vector_retention_below_0.90"
+    ],
+    "state": "INDETERMINATE"
+  },
+  "frozen_h2_verdict": "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
+  "h2_high_clip_sensitivity": {
+    "evaluable": true,
+    "gates": {
+      "coarse_second_pass": 169,
+      "continuous_minor_pass": 142,
+      "nclass_ge40": 361,
+      "nonzero_delta_pass": 142
+    },
+    "observed_W": 0.5034282974026532,
+    "structured_null_median": 0.45380064270402765,
+    "structured_null_q025": 0.434395481400294,
+    "structured_null_q975": 0.47386526949222363,
+    "structured_null_replicates": 999,
+    "structured_null_upper_p": 0.001,
+    "support": true,
+    "vector_retention": 0.8987341772151899,
+    "vector_species": 142
+  },
+  "high_clip": {
+    "rows": 2205,
+    "rule": "near_clip_fraction > max(0.01, q95)",
+    "threshold": 0.493345050051201
+  },
+  "role": "one_shot_post_confirmatory_measurement_validity_control",
+  "schema": "third_cohort_highlight_validity_result_v1",
+  "source_identity": {
+    "comparable_rows": 49900,
+    "reacquisition_failed_rows": 0,
+    "source_drift_rows": 0
+  },
+  "technical_seal": {
+    "acquired_rows": 49900,
+    "acquisition_failed_rows": 0,
+    "biological_outcomes_opened": false,
+    "high_clip_rows": 2205,
+    "high_clip_rule": "near_clip_fraction > max(0.01, q95)",
+    "high_clip_threshold": 0.493345050051201,
+    "highlight_metrics_available_rows": 44098,
+    "highlight_metrics_unavailable_rows": 5802,
+    "morph_opened": false,
+    "near_clip_q95": 0.493345050051201,
+    "partition_receipts": 256,
+    "rows": 49900,
+    "schema": "third_cohort_highlight_technical_seal_v1",
+    "species_opened": false,
+    "status": "response_blind_high_clip_set_frozen"
+  }
+}
