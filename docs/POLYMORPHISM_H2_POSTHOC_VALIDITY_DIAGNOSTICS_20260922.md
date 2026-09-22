@@ -69,7 +69,8 @@ The row-level source used for this auxiliary background proxy is not contained i
 A full-data post hoc audit also tested the later generic `disttrait` implementation against the frozen third-cohort pipeline.
 
 - frozen study-specific W: **0.5172457461**;
-- `disttrait.two_mode_axis` over the same frozen 158 species: **0.5183899565**.
+- `disttrait.two_mode_axis` over the same frozen 158 species: **0.5183899565**;
+- `disttrait.structured_alignment_null` observed route: **0.5157982982**.
 
 The difference arises because `disttrait` defensively renormalizes rows that the frozen FCP loader had already normalized. In near-tied deterministic initializations, floating-point perturbations can change the farthest-point argmax and hence the converged two-means partition.
 
@@ -77,6 +78,8 @@ Two notable cases are:
 
 - *Cirsium vulgare*: |axis cosine| = **0.6333**; frozen cluster sizes 5/45 versus renormalized 11/39;
 - *Vicia benghalensis*: |axis cosine| = **0.9830**; frozen 5/44 versus renormalized 6/43.
+
+The combined structured-null observed path is also sensitive to a near tie in *Geranium reuteri* (absolute axis cosine to the frozen solution **0.6867**). Thus the small full-cohort W discrepancy is route-dependent as well as species-dependent.
 
 The scientific decision is unchanged, but `disttrait` is not a bitwise reproducer of the frozen biological H2 pipeline. It should be described as a later general-purpose implementation sharing the estimand and algorithmic structure. The frozen study-specific pipeline and immutable result artifact control the numerical values reported for this paper.
 
