@@ -1,0 +1,41 @@
+{
+  "biological_outcomes_read": false,
+  "candidate_counts": {
+    "novel_current_U100_after_all_used_exclusions": 2730,
+    "paired_current_U100": 1000
+  },
+  "date_jst": "2026-09-23",
+  "fresh_metadata_rule": "Within each frozen queue, retrieve metadata only in queue order and freeze the first 200 species with exactly 100 fresh eligible photo IDs after excluding every previously used photo ID. Stop before pixel opening.",
+  "image_pixels_opened": false,
+  "input_counts": {
+    "P500": 500,
+    "U100": 4730,
+    "legacy": 1000,
+    "third": 500,
+    "used_total": 2000
+  },
+  "no_rescue": [
+    "no biological outcome may enter queue construction",
+    "no queue reordering after fresh metadata retrieval",
+    "no expansion beyond rank 300 without a new pre-pixel protocol",
+    "no species replacement after pixel opening"
+  ],
+  "queue_counts": {
+    "N": 300,
+    "P": 300
+  },
+  "queue_per_panel": 300,
+  "queue_sha256": {
+    "N": "f2ee787bda61776ae52983c6b9d03c0232294974870cca7b33868f9bf050bff1",
+    "P": "6a3c7171988f0400a053ff181cdbfa9a04a3caecc9f6deaf88ee21a9404c3349"
+  },
+  "salt": "FCP_V2_MEASUREMENT_VALIDITY_20260923_V1",
+  "schema": "fcp_v2_species_queue_v1",
+  "selection_inputs_used": [
+    "inat_taxon_id",
+    "species",
+    "after_observer_cap"
+  ],
+  "status": "OUTCOME_BLIND_METADATA_QUEUE_FROZEN",
+  "terminal_target_per_panel_after_fresh_metadata": 200
+}
