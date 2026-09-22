@@ -38,8 +38,33 @@ jobs:
           p='/tmp/reserve.csv'
           df=pd.read_csv(p)
           cols=df.columns.tolist()
+          import numpy as np
+          from scipy.stats import wilcoxon
           print('columns=' + repr(cols))
           print('background_candidates=' + repr([c for c in cols if 'background' in c.lower()]))
           print('white_candidates=' + repr([c for c in cols if 'white' in c.lower()]))
           print('morph_counts=' + repr(df.get('morph', pd.Series(dtype=str)).value_counts(dropna=False).to_dict()))
+          morphs={'white','yellow_orange','red_pink','blue_purple'}
+          x=df[df['morph'].isin(morphs)].copy()
+          x=x[pd.to_numeric(x['background_effective_pixels'],errors='coerce')>0].copy()
+          x['bg_white']=pd.to_numeric(x['background_palette_count_white'],errors='coerce')/pd.to_numeric(x['background_effective_pixels'],errors='coerce')
+          x=x[np.isfinite(x['bg_white'])].copy()
+          print('image_medians=' + repr({'white':float(x.loc[x.morph=='white','bg_white'].median()),'nonwhite':float(x.loc[x.morph!='white','bg_white'].median()),'n_white':int((x.morph=='white').sum()),'n_nonwhite':int((x.morph!='white').sum())}))
+          for aggname in ['mean','median']:
+              if aggname=='mean':
+                  g=x.assign(is_white=x.morph.eq('white')).groupby(['species','is_white'])['bg_white'].mean().unstack()
+              else:
+                  g=x.assign(is_white=x.morph.eq('white')).groupby(['species','is_white'])['bg_white'].median().unstack()
+              g=g.dropna(subset=[False,True])
+              d=g[True]-g[False]
+              w=wilcoxon(g[True],g[False],alternative='two-sided',zero_method='wilcox')
+              print(aggname+'_species_paired=' + repr({
+                  'n_species':int(len(g)),
+                  'white_median_across_species':float(g[True].median()),
+                  'nonwhite_median_across_species':float(g[False].median()),
+                  'fraction_white_gt_nonwhite':float((d>0).mean()),
+                  'median_difference':float(d.median()),
+                  'wilcoxon_statistic':float(w.statistic),
+                  'wilcoxon_p':float(w.pvalue),
+              }))
           PY
