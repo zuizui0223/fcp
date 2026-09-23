@@ -96,3 +96,55 @@ def test_hellinger_identical_palette_is_zero() -> None:
     m = load_module()
     p = np.array([[0.5, 0.5] + [0.0] * 7], dtype=float)
     assert m._hellinger_rows(p, p)[0] == pytest.approx(0.0)
+
+
+def test_four_colour_collapse_matches_frozen_groups() -> None:
+    m = load_module()
+    row = {c: 0.0 for c in m.FRACTIONS}
+    row["flower_fraction_white"] = 0.1
+    row["flower_fraction_yellow"] = 0.1
+    row["flower_fraction_orange"] = 0.1
+    row["flower_fraction_bronze"] = 0.1
+    row["flower_fraction_red"] = 0.1
+    row["flower_fraction_pink"] = 0.1
+    row["flower_fraction_magenta"] = 0.1
+    row["flower_fraction_blue"] = 0.15
+    row["flower_fraction_purple"] = 0.15
+    x = m._four_colour_matrix(pd.DataFrame([row]))
+    assert x.shape == (1, 4)
+    assert x[0].tolist() == pytest.approx([0.1, 0.3, 0.3, 0.3])
+
+
+def test_spatial_rho_detects_ordered_colour_change() -> None:
+    m = load_module()
+    latitude = np.array([0.0, 1.0, 2.0, 3.0])
+    longitude = np.zeros(4)
+    t = np.array([0.0, 0.25, 0.75, 1.0])
+    traits = np.column_stack([1.0 - t, t, np.zeros(4), np.zeros(4)])
+    rho = m._spatial_rho(latitude, longitude, traits)
+    assert rho > 0.9
+
+
+def test_spatial_pair_identity_has_zero_change() -> None:
+    m = load_module()
+    baseline = pd.DataFrame(
+        {
+            "condition_id": ["baseline", "baseline"],
+            "panel": ["P", "P"],
+            "species": ["A a", "B b"],
+            "n_classifiable": [40, 40],
+            "spatial_rho": [0.1, 0.4],
+        }
+    )
+    other = baseline.copy()
+    other["condition_id"] = "fixed_ev_p0_5"
+    result = m._spatial_pair_summary(
+        baseline,
+        other,
+        scope="P",
+        condition_id="fixed_ev_p0_5",
+    )
+    assert result["species"] == 2
+    assert result["spearman_rho"] == pytest.approx(1.0)
+    assert result["lin_ccc"] == pytest.approx(1.0)
+    assert result["signed_spatial_rho_change"]["mean"] == pytest.approx(0.0)
