@@ -1,0 +1,43 @@
+{
+  "acquired_rows": 40000,
+  "acquisition_failed_rows": 0,
+  "biological_outcomes_opened": false,
+  "heavy_counterfactual_rows": 8000,
+  "morph_opened": false,
+  "partition_receipts": 256,
+  "q_white_or_W_opened": false,
+  "rows": 40000,
+  "schema": "fcp_v2_technical_seal_v1",
+  "species_opened": false,
+  "status": "RESPONSE_BLIND_TECHNICAL_SEAL_FROZEN",
+  "technical_metrics_available_rows": 34616,
+  "technical_metrics_unavailable_rows": 5384,
+  "technical_strata": {
+    "heavy_prompt_unstable": {
+      "evaluable_rows": 6885,
+      "jitter_delta_e_max": 5.0,
+      "jitter_iou_min": 0.5,
+      "rows": 174
+    },
+    "high_background_near_clip": {
+      "q95": 0.04023481790371865,
+      "rows": 1731,
+      "threshold": 0.04023481790371865
+    },
+    "high_flower_near_clip": {
+      "q95": 0.4882349239590143,
+      "rows": 1731,
+      "threshold": 0.4882349239590143
+    },
+    "low_flower_background_lab_separation": {
+      "rows": 1731,
+      "threshold_q05": 19.771139619074987
+    },
+    "roi_unstable_fixed": {
+      "flip_delta_e_max": 5.0,
+      "flip_iou_min": 0.5,
+      "rows": 12599
+    }
+  },
+  "technical_table_sha256": "f757c90eddcb00f43d504a2ae6ccaeff4639d7ce468f231bc3b75675d66440e9"
+}
