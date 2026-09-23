@@ -265,13 +265,47 @@ Heavy-subset perturbations are not promoted to the original H2 species-level W t
 
 ### MV4 — spatial measurement sensitivity
 
-Only after MV1–MV3 are terminalized:
+MV4 reuses the original FCP/RGFCA species statistic without a new spatial null:
 
-- calculate the existing species-specific spatial colour-organization statistic on baseline v2 measurements;
-- compare it with the same statistic after response-blind technical-stratum exclusions;
-- retain flower-minus-background sensitivity where available.
+`rho_i = Spearman(d_geo_ij, JSD_colour_ij)`.
 
-No new climate, pollinator, habitat or range predictor enters v2.
+The colour vector is the same four-component continuous representation used by the frozen RGFCA spatial statistic:
+
+- white = white palette fraction;
+- yellow_orange = yellow + orange + bronze;
+- red_pink = red + pink + magenta;
+- blue_purple = blue + purple.
+
+For each condition, only rows classified into one of the four biological states enter the spatial statistic, and a species requires at least **40 classifiable rows**. All unordered retained photograph pairs are used. Constant colour-distance geometry gives rho = 0; non-informative geographic geometry is non-evaluable. No spatial permutation null is generated in v2.
+
+Primary MV4 conditions are:
+
+1. baseline;
+2. fixed-mask EV -0.5 and +0.5;
+3. fixed-mask EV -1.0 and +1.0 as stress contrasts;
+4. each already frozen baseline technical-stratum exclusion;
+5. the union of the primary technical-stratum exclusions.
+
+For each condition and for scopes all / Panel P / Panel N report:
+
+- evaluable species;
+- baseline and condition species-specific rho;
+- common-species Spearman rank agreement;
+- Lin concordance;
+- signed and absolute change in rho;
+- calibration intercept and slope.
+
+Also report, descriptively and without a new randomization test:
+
+`Spearman(D_i, rho_i)`
+
+for baseline and each all-row condition among species evaluable for both D and rho. The change in this cross-species association is a measurement-sensitivity diagnostic only; no p-value is generated.
+
+Heavy-subset full-pipeline/background/ROI perturbations contain only 20 preselected rows/species and therefore are **not** used for the primary species-specific spatial statistic. They may be summarized only at the image/technical-displacement level under MV1/MV3a.
+
+Matched flower-minus-background spatial inference is not reconstructed from Pass B because v2 does not biologically classify background pixels. Background influence is instead handled prospectively through the frozen background technical channels and neutralization counterfactual.
+
+No new climate, pollinator, habitat, range or phylogenetic predictor enters MV4.
 
 ## 8. Technical-stratum analyses
 
