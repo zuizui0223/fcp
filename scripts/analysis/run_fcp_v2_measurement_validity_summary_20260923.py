@@ -66,6 +66,174 @@ def _qwhite() -> np.ndarray:
     return q / np.linalg.norm(q)
 
 
+def _four_colour_matrix(frame: pd.DataFrame) -> np.ndarray:
+    """Collapse the frozen nine biological palette fractions to the original four-group vector."""
+    p = _normalize_palette(frame[FRACTIONS].to_numpy(float))
+    return np.column_stack(
+        [
+            p[:, 0],
+            p[:, 1] + p[:, 2] + p[:, 8],
+            p[:, 3] + p[:, 4] + p[:, 5],
+            p[:, 6] + p[:, 7],
+        ]
+    )
+
+
+def _great_circle_pairwise_km(latitude: np.ndarray, longitude: np.ndarray) -> np.ndarray:
+    lat = np.deg2rad(np.asarray(latitude, dtype=float))
+    lon = np.deg2rad(np.asarray(longitude, dtype=float))
+    if lat.ndim != 1 or lon.ndim != 1 or lat.shape != lon.shape or len(lat) < 2:
+        raise ValueError("latitude/longitude vectors are invalid")
+    if np.any(~np.isfinite(lat)) or np.any(~np.isfinite(lon)):
+        raise ValueError("coordinates must be finite")
+    c = np.cos(lat)
+    xyz = np.column_stack([c * np.cos(lon), c * np.sin(lon), np.sin(lat)])
+    dot = np.clip(xyz @ xyz.T, -1.0, 1.0)
+    d = np.arccos(dot) * 6371.0088
+    return d[np.triu_indices(len(lat), k=1)]
+
+
+def _jensen_shannon_pairwise(traits: np.ndarray) -> np.ndarray:
+    p = np.asarray(traits, dtype=float)
+    if p.ndim != 2 or p.shape[0] < 2 or p.shape[1] != 4:
+        raise ValueError("four-colour traits must have shape (n>=2, 4)")
+    if np.any(~np.isfinite(p)) or np.any(p < 0):
+        raise ValueError("four-colour traits must be finite and nonnegative")
+    mass = p.sum(axis=1)
+    if np.any(mass <= 0):
+        raise ValueError("four-colour rows must have positive mass")
+    p = p / mass[:, None]
+    a = p[:, None, :]
+    b = p[None, :, :]
+    m = 0.5 * (a + b)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        ka = np.where(a > 0, a * np.log2(a / m), 0.0).sum(axis=2)
+        kb = np.where(b > 0, b * np.log2(b / m), 0.0).sum(axis=2)
+    jsd = np.clip(0.5 * (ka + kb), 0.0, 1.0)
+    return jsd[np.triu_indices(len(p), k=1)]
+
+
+def _spatial_rho(latitude: np.ndarray, longitude: np.ndarray, traits: np.ndarray) -> float:
+    geo = _great_circle_pairwise_km(latitude, longitude)
+    colour = _jensen_shannon_pairwise(traits)
+    if np.ptp(geo) <= 1e-12:
+        return float("nan")
+    if np.ptp(colour) <= 1e-15:
+        return 0.0
+    return float(spearmanr(geo, colour).statistic)
+
+
+def _species_spatial(frame: pd.DataFrame, condition_id: str) -> pd.DataFrame:
+    x = frame.loc[
+        frame["condition_id"].astype(str).eq(condition_id)
+        & _is_classifiable(frame)
+    ].copy()
+    rows = []
+    for (panel, species), g in x.groupby(["panel", "species"], sort=True):
+        n = int(len(g))
+        if n < N_CLASSIFIABLE_MIN:
+            continue
+        lat = pd.to_numeric(g["latitude"], errors="coerce").to_numpy(float)
+        lon = pd.to_numeric(g["longitude"], errors="coerce").to_numpy(float)
+        if not np.isfinite(lat).all() or not np.isfinite(lon).all():
+            continue
+        traits = _four_colour_matrix(g)
+        if np.any(traits.sum(axis=1) <= 0):
+            continue
+        try:
+            rho = _spatial_rho(lat, lon, traits)
+        except ValueError:
+            continue
+        if not np.isfinite(rho):
+            continue
+        rows.append(
+            {
+                "condition_id": condition_id,
+                "panel": str(panel),
+                "species": str(species),
+                "n_classifiable": n,
+                "spatial_rho": float(rho),
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def _spatial_pair_summary(
+    baseline: pd.DataFrame,
+    other: pd.DataFrame,
+    *,
+    scope: str,
+    condition_id: str,
+) -> dict:
+    a = baseline if scope == "all" else baseline.loc[baseline["panel"].eq(scope)]
+    b = other if scope == "all" else other.loc[other["panel"].eq(scope)]
+    pair = a[["species", "spatial_rho"]].merge(
+        b[["species", "spatial_rho"]],
+        on="species",
+        how="inner",
+        suffixes=("_baseline", "_condition"),
+        validate="one_to_one",
+    )
+    if len(pair) == 0:
+        return {"scope": scope, "condition_id": condition_id, "species": 0}
+    x = pair["spatial_rho_baseline"].to_numpy(float)
+    y = pair["spatial_rho_condition"].to_numpy(float)
+    intercept, slope = _calibration(x, y)
+    diff = y - x
+    return {
+        "scope": scope,
+        "condition_id": condition_id,
+        "species": int(len(pair)),
+        "spearman_rho": (
+            float(spearmanr(x, y).statistic) if len(pair) >= 2 else float("nan")
+        ),
+        "lin_ccc": _ccc(x, y),
+        "calibration_intercept": intercept,
+        "calibration_slope": slope,
+        "signed_spatial_rho_change": _summary_numeric(diff),
+        "absolute_spatial_rho_change": _summary_numeric(np.abs(diff)),
+    }
+
+
+def _D_spatial_descriptive(
+    D_table: pd.DataFrame,
+    spatial_table: pd.DataFrame,
+    *,
+    scope: str,
+    condition_id: str,
+) -> dict:
+    d = D_table.loc[D_table["condition_id"].eq(condition_id)].copy()
+    s = spatial_table.loc[spatial_table["condition_id"].eq(condition_id)].copy()
+    if scope != "all":
+        d = d.loc[d["panel"].eq(scope)]
+        s = s.loc[s["panel"].eq(scope)]
+    pair = d[["species", "D"]].merge(
+        s[["species", "spatial_rho"]],
+        on="species",
+        how="inner",
+        validate="one_to_one",
+    )
+    if len(pair) < 2:
+        return {
+            "scope": scope,
+            "condition_id": condition_id,
+            "species": int(len(pair)),
+            "spearman_D_spatial_rho": float("nan"),
+        }
+    return {
+        "scope": scope,
+        "condition_id": condition_id,
+        "species": int(len(pair)),
+        "spearman_D_spatial_rho": float(
+            spearmanr(
+                pair["D"].to_numpy(float),
+                pair["spatial_rho"].to_numpy(float),
+            ).statistic
+        ),
+        "p_value_generated": False,
+    }
+
+
 def _ccc(x: np.ndarray, y: np.ndarray) -> float:
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
@@ -650,7 +818,7 @@ def main() -> None:
     if set(strata["measurement_id"]) != set(join_key["measurement_id"]):
         raise RuntimeError("technical strata and join key IDs differ")
 
-    required_join = {"measurement_id", "panel", "species"}
+    required_join = {"measurement_id", "panel", "species", "latitude", "longitude"}
     if not required_join.issubset(join_key.columns):
         raise RuntimeError("sealed join key lacks species/panel")
     if join_key["species"].nunique() != 400:
@@ -669,7 +837,7 @@ def main() -> None:
         raise RuntimeError("biological output contains non-byte-matched rows")
 
     biological = biological.merge(
-        join_key[["measurement_id", "panel", "species"]],
+        join_key[["measurement_id", "panel", "species", "latitude", "longitude"]],
         on="measurement_id",
         how="inner",
         validate="many_to_one",
@@ -876,9 +1044,75 @@ def main() -> None:
         indent=2,
     )
 
+    # MV4 spatial measurement sensitivity. This reuses the frozen FCP/RGFCA
+    # species statistic: all unordered photo pairs, great-circle distance,
+    # Jensen-Shannon divergence of the continuous four-group colour vectors,
+    # classifiable rows only, >=40 rows/species. No new permutation null.
+    spatial_tables = []
+    spatial_summaries = []
+    for condition_id in allrow_conditions:
+        table = _species_spatial(analysis_frame, condition_id)
+        if len(table):
+            spatial_tables.append(table)
+    spatial_all = (
+        pd.concat(spatial_tables, ignore_index=True)
+        if spatial_tables
+        else pd.DataFrame()
+    )
+    spatial_all.to_csv(
+        out / "mv4_species_spatial_by_condition.csv",
+        index=False,
+        lineterminator="\n",
+    )
+    baseline_spatial = (
+        spatial_all.loc[spatial_all["condition_id"].eq("baseline")]
+        if len(spatial_all)
+        else pd.DataFrame()
+    )
+    for condition_id in allrow_conditions:
+        if condition_id == "baseline":
+            continue
+        other = (
+            spatial_all.loc[spatial_all["condition_id"].eq(condition_id)]
+            if len(spatial_all)
+            else pd.DataFrame()
+        )
+        for scope in ("all", "P", "N"):
+            spatial_summaries.append(
+                _spatial_pair_summary(
+                    baseline_spatial,
+                    other,
+                    scope=scope,
+                    condition_id=condition_id,
+                )
+            )
+    pd.DataFrame(spatial_summaries).to_json(
+        out / "mv4_spatial_invariance_summary.json",
+        orient="records",
+        indent=2,
+    )
+
+    D_spatial_rows = []
+    if len(spatial_all) and len(D_all):
+        for condition_id in allrow_conditions:
+            for scope in ("all", "P", "N"):
+                D_spatial_rows.append(
+                    _D_spatial_descriptive(
+                        D_all,
+                        spatial_all,
+                        scope=scope,
+                        condition_id=condition_id,
+                    )
+                )
+    pd.DataFrame(D_spatial_rows).to_json(
+        out / "mv4_D_spatial_descriptive.json",
+        orient="records",
+        indent=2,
+    )
+
     result = {
         "schema": "fcp_v2_measurement_validity_summary_v1",
-        "status": "COMPLETE_MV1_MV2_MV3_WITHOUT_NEW_NULL",
+        "status": "COMPLETE_MV1_MV2_MV3_MV4_WITHOUT_NEW_NULL",
         "source_identity": {
             "terminal_rows": int(len(terminal)),
             "source_byte_matched_rows": int(
@@ -897,6 +1131,8 @@ def main() -> None:
         "mv1_conditions": condition_ids,
         "mv2_conditions": allrow_conditions,
         "mv3_q_white": _qwhite().tolist(),
+        "mv4_conditions": allrow_conditions,
+        "mv4_spatial_definition": "Spearman(all-pair great-circle distance, JSD of frozen four-group continuous colour vector), classifiable rows only, >=40/species",
         "new_null_distribution_generated": False,
         "prior_D_transport": prior_transport,
         "hard_boundaries": [
@@ -904,6 +1140,8 @@ def main() -> None:
             "No new structured null family.",
             "Heavy 20-row/species counterfactuals are not promoted to the original H2 W test.",
             "Technical strata were frozen before biological opening.",
+            "MV4 generates no new spatial permutation null or p-value.",
+            "Heavy 20-row/species perturbations are not used for primary MV4 spatial rho.",
         ],
     }
     (out / "result.json").write_text(
