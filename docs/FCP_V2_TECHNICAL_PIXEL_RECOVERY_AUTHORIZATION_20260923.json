@@ -3,10 +3,10 @@
   "date_jst": "2026-09-23",
   "status": "AUTHORIZED_TECHNICAL_EXECUTION_RECOVERY",
   "branch": "analysis/fcp-v2-measurement-validity-20260923",
-  "frozen_parent_sha": "99c837a81e16c8891bead5d32d2322777d360e0f",
-  "failed_run_id": 35799996758,
-  "failure_class": "infrastructure_import_packaging_before_technical_measurement",
-  "failure_detail": "historical ROI package lacked an __init__.py shim in /tmp/frozen, so Python resolved current checkout fcp_pipeline and could not import flower_roi_v4",
+  "frozen_parent_sha": "3ede54c52d3510abe59bb2085da6caf77ecec8c2",
+  "failed_run_id": 35800536231,
+  "failure_class": "infrastructure_python_package_shadowing_before_reacquisition",
+  "failure_detail": "recovery smoke test ran from the checkout, so sys.path[0] resolved the current fcp_pipeline before PYTHONPATH=/tmp/frozen; technical workers failed before image reacquisition",
   "technical_metrics_generated_in_failed_run": false,
   "biological_outcomes_opened_in_failed_run": false,
   "metadata_run_id": 35798104597,
@@ -36,6 +36,6 @@
   "changed_species_or_photo_denominator": false,
   "changed_heavy_subset_rule": false,
   "changed_technical_strata": false,
-  "recovery_change_only": "historical ROI package import shim",
+  "recovery_change_only": "run frozen ROI import smoke test outside the checkout and assert module provenance under /tmp/frozen",
   "replacement_allowed": false
 }
