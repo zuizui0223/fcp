@@ -776,7 +776,26 @@ def main() -> None:
                 flush=True,
             )
 
-    frame = pd.DataFrame(rows)
+    output_columns = [
+        "measurement_id",
+        "condition_id",
+        "condition_family",
+        "condition_value",
+        "heavy_counterfactual",
+        "morph",
+        "measurement_status",
+        "counterfactual_status",
+        "roi_status",
+        "failure_reasons",
+        "image_sha256",
+        "mask_pixels",
+        "flower_effective_pixels",
+        "background_effective_pixels",
+        "horizontal_flip_mask_iou",
+        "horizontal_flip_colour_delta_e",
+        *[f"flower_fraction_{name}" for name in BIOLOGICAL_PALETTE],
+    ]
+    frame = pd.DataFrame(rows).reindex(columns=output_columns)
     if frame.empty and len(worker):
         raise RuntimeError("Pass-B biological worker produced no rows")
     if len(frame):
