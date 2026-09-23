@@ -213,27 +213,55 @@ Report:
 
 Panel P additionally compares **fresh baseline v2 D** with the already frozen earlier D for the same species. That comparison is a transport diagnostic, not a redefinition of H1.
 
-### MV3 — q_white geometry invariance
+### MV3 — q_white measurement geometry
 
 The axis remains fixed:
 
 `q_white = normalize([1,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8])`.
 
-The v2 measurement question is the stability of observed W under technical perturbation.
+MV3 has two distinct measurement-validity components.
+
+#### MV3a — direction of the technical perturbation itself
+
+For every same-image baseline/counterfactual pair with nonzero biological-palette displacement,
+
+`d_tech = palette_counterfactual - palette_baseline`
+
+and
+
+`u_tech = d_tech / ||d_tech||`.
+
+Report
+
+`T_white = (u_tech dot q_white)^2`.
+
+This asks directly whether an **artificial exposure/background/ROI perturbation moves the measured flower palette preferentially along the same white-versus-nonwhite direction used by H2**.
+
+Report T_white for:
+
+- fixed-mask EV ±0.5 and ±1.0 on the all-row cohort;
+- full-pipeline EV on the heavy subset;
+- background neutralization on the heavy subset;
+- each ROI-jitter variant on the heavy subset.
+
+Report equal-image and equal-species summaries, the fraction of nonzero technical displacements, and signed change in the white palette coordinate. No null distribution is constructed.
+
+#### MV3b — species-level H2 estimand invariance
 
 For each all-row condition report:
 
 - coarse-state gate species;
-- continuous-vector species;
+- continuous-vector species under the unchanged primary 0.10 rules;
 - observed W;
 - paired per-species squared-projection contribution;
-- paired ΔW from baseline among common vector species.
+- paired ΔW from baseline among common vector species;
+- cosine agreement of baseline versus counterfactual species Delta vectors.
 
 No new structured null family is introduced in v2.
 
 The original frozen H2 null remains provenance only; v2 asks sensitivity of the already defined estimand to measurement perturbation.
 
-Heavy-subset full-pipeline/background/ROI W-like summaries are explicitly labelled **20-row/species measurement sensitivities**, not replacements for the all-row H2 estimand.
+Heavy-subset perturbations are not promoted to the original H2 species-level W test because they contain only 20 preselected rows/species. Their q_white result is MV3a technical-displacement alignment, not a replacement H2 analysis.
 
 ### MV4 — spatial measurement sensitivity
 
