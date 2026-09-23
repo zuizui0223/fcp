@@ -1,0 +1,53 @@
+name: FCP v2 biological-pass prep qualification
+
+on:
+  push:
+    branches:
+      - analysis/fcp-v2-biological-pass-prep-20260923
+    paths:
+      - "docs/FCP_V2_BIOLOGICAL_PASS_PROTOCOL_20260923.md"
+      - "scripts/analysis/build_fcp_v2_biological_firewall_20260923.py"
+      - "scripts/acquisition/acquire_fcp_v2_biological_partition_20260923.py"
+      - "scripts/analysis/measure_fcp_v2_biological_partition_20260923.py"
+      - "scripts/analysis/finalize_fcp_v2_biological_partition_20260923.py"
+      - "tests/test_fcp_v2_biological_firewall.py"
+      - "tests/test_fcp_v2_biological_finalizer.py"
+      - ".github/workflows/fcp-v2-biological-pass-prep-qualification.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  qualify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install prep dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas pillow pytest scikit-image
+      - name: Compile Pass-B code
+        run: |
+          python -m py_compile scripts/analysis/build_fcp_v2_biological_firewall_20260923.py
+          python -m py_compile scripts/acquisition/acquire_fcp_v2_biological_partition_20260923.py
+          python -m py_compile scripts/analysis/measure_fcp_v2_biological_partition_20260923.py
+          python -m py_compile scripts/analysis/finalize_fcp_v2_biological_partition_20260923.py
+      - name: Run synthetic Pass-B qualification
+        run: |
+          PYTHONPATH=. pytest -q             tests/test_fcp_v2_biological_firewall.py             tests/test_fcp_v2_biological_finalizer.py
+      - name: Confirm preparation branch opens no v2 biological result
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          forbidden = [
+              Path("results/fcp_v2_biological"),
+              Path("results/fcp_v2_measurement_validity"),
+          ]
+          found=[str(p) for root in forbidden if root.exists() for p in root.rglob("*") if p.is_file()]
+          assert not found, found
+          print("Pass-B preparation firewall: PASS")
+          PY
