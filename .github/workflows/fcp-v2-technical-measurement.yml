@@ -169,7 +169,16 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install "torch==2.11.0" "torchvision==0.26.0" --index-url https://download.pytorch.org/whl/cpu
           python -m pip install -r /tmp/frozen/requirements-atlas-roi-v4.txt pandas numpy pillow
+          cd /tmp
           PYTHONPATH=/tmp/frozen python - <<'PY'
+          from pathlib import Path
+          import fcp_pipeline
+          from fcp_pipeline import flower_roi_v4, flower_roi_v4_runtime
+          root = Path("/tmp/frozen").resolve()
+          for module in (fcp_pipeline, flower_roi_v4, flower_roi_v4_runtime):
+              module_path = Path(module.__file__).resolve()
+              assert module_path.is_relative_to(root), (module.__name__, module_path, root)
+              print(f"{module.__name__} -> {module_path}")
           from fcp_pipeline.flower_roi_v4 import validate_roi_v4_contract
           from fcp_pipeline.flower_roi_v4_runtime import FrozenFlowerColourEstimator
           print("historical ROI package import: PASS")
