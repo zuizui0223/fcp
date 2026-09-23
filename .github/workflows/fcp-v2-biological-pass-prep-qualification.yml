@@ -14,6 +14,8 @@ on:
       - "tests/test_fcp_v2_biological_finalizer.py"
       - "scripts/analysis/run_fcp_v2_measurement_validity_summary_20260923.py"
       - "tests/test_fcp_v2_measurement_validity_summary.py"
+      - "scripts/analysis/reassemble_fcp_v2_biological_pass_20260923.py"
+      - "tests/test_fcp_v2_biological_reassembly.py"
       - ".github/workflows/fcp-v2-biological-pass-prep-qualification.yml"
 
 permissions:
@@ -39,10 +41,12 @@ jobs:
           python -m py_compile scripts/analysis/measure_fcp_v2_biological_partition_20260923.py
           python -m py_compile scripts/analysis/finalize_fcp_v2_biological_partition_20260923.py
           python -m py_compile scripts/analysis/run_fcp_v2_measurement_validity_summary_20260923.py
+          python -m py_compile scripts/analysis/reassemble_fcp_v2_biological_pass_20260923.py
       - name: Run synthetic Pass-B qualification
         run: |
           PYTHONPATH=. pytest -q             tests/test_fcp_v2_biological_firewall.py             tests/test_fcp_v2_biological_finalizer.py \
-            tests/test_fcp_v2_measurement_validity_summary.py
+            tests/test_fcp_v2_measurement_validity_summary.py \
+            tests/test_fcp_v2_biological_reassembly.py
       - name: Confirm preparation branch opens no v2 biological result
         run: |
           python - <<'PY'
