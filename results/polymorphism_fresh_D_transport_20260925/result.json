@@ -1,0 +1,36 @@
+{
+  "schema": "polymorphism_fresh_D_transport_v1",
+  "date_jst": "2026-09-25",
+  "role": "post_h1_fresh_image_same_measurement_system_transport",
+  "source_branch": "analysis/fcp-v2-biological-pass-prep-20260923",
+  "source_commit": "b14fb7635fa4ef72887fad25524eb4941ec6e149",
+  "source_result": "results/fcp_v2_measurement_validity_20260923/result.json",
+  "source_workflow_run_id": 35941316633,
+  "source_artifact_id": 10836260454,
+  "source_artifact_name": "fcp-v2-biological-and-validity-result-v1",
+  "source_artifact_digest": "sha256:8c83ca3d4b5d548c5ce345bb6108068e463a837258558a4286ddc9879b9e100d",
+  "overlap_species": 136,
+  "comparison": "fresh_v2_baseline_D_minus_prior_frozen_D",
+  "spearman_rho": 0.9681064161858759,
+  "lin_ccc": 0.9720478011581966,
+  "calibration_intercept": 0.010682093579046684,
+  "calibration_slope": 0.96909589220185,
+  "signed_D_change_fresh_minus_prior": {
+    "mean": 0.003167996552004538,
+    "median": 0,
+    "q025": -0.09009461683774429,
+    "q975": 0.10385959773875036
+  },
+  "absolute_D_change": {
+    "mean": 0.027631941426158983,
+    "median": 0.014761943866009125,
+    "q025": 0,
+    "q975": 0.10771584245585382
+  },
+  "boundaries": [
+    "Fresh image IDs and a separate measurement execution were used.",
+    "The source/opportunity universe and image-measurement system remained iNaturalist/FCP.",
+    "This is not independent-source replication.",
+    "This receipt imports only D transport into the current manuscript; FCP v2 counterfactual H2/MV3/MV4 results remain outside the current paper."
+  ]
+}
