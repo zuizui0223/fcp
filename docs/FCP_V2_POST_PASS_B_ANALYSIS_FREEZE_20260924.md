@@ -1,9 +1,9 @@
 # FCP v2 post-Pass-B MV1–MV4 analysis freeze
 
 Date frozen: 2026-09-24 JST  
-Status: **FROZEN BEFORE ANY PASS-B BIOLOGICAL RESULT ARTIFACT EXISTS**
+Status: **IMPLEMENTATION FROZEN WITHOUT INSPECTING PASS-B OUTCOMES; BINDING ESTIMANDS WERE ALREADY FROZEN PRE-PIXEL ON 2026-09-23**
 
-This document operationalizes the already frozen FCP v2 measurement-validity programme. It does not add a new ecological hypothesis, change any counterfactual, or authorize rescue analyses.
+This document operationalizes the already frozen FCP v2 measurement-validity programme. The binding MV1–MV4 questions, counterfactuals, technical strata, q_white constraint, and no-rescue rules were frozen on 2026-09-23 before fresh v2 pixels opened. This implementation file was committed after Pass-B execution had started but before any Pass-B result artifact was available or inspected. Therefore any implementation detail stated here that was not explicit in the 2026-09-23 programme is descriptive/operational, not a newly elevated confirmatory threshold. It does not add a new ecological hypothesis, change any counterfactual, or authorize rescue analyses.
 
 ## Required handoff
 
