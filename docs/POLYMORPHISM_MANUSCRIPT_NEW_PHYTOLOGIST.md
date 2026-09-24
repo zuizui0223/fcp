@@ -9,12 +9,12 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 179 words
+- Summary: 176 words
 - Introduction: 541 words
 - Materials and Methods: 2,943 words
 - Results: 1,520 words
-- Discussion: 1,565 words
-- Main text (Introduction through Discussion): 6,569 words
+- Discussion: 1,675 words
+- Main text (Introduction through Discussion): 6,679 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -26,7 +26,7 @@
 - Flower colour is commonly reduced to a species mean, obscuring within-species variation. We ask whether repeated photographs recover a reproducible species phenotype and whether continuous colour displacement shows recurrent geometry across species.
 - We quantified four-state diversity D, audited nine-colour geometry in discovery/reserve cohorts, and prospectively tested a pre-frozen white-versus-nonwhite axis in a species-disjoint third cohort. The structured null preserved species × coarse-state counts and coarse-state-specific palette distributions.
 - Observer-disjoint reserve partitions recovered stable D rankings (median Spearman rho = 0.789), and a later fresh-image execution retained strong D agreement across 136 overlapping species (Spearman rho = 0.968; Lin CCC = 0.972). In the third cohort, 158 species gave W = 0.517 versus structured-null median 0.457 (1.13-fold; p = 0.001).
-- A one-shot direct highlight control found that near-clipping was positively coupled to white classification within species (OR = 1.44, 95% CI 1.39–1.50). Removing the response-blind high-clip set retained H2 support (W = 0.503, p = 0.001), but retained 142/158 vectors (89.9%), just below the prespecified 90% threshold; the executable validity gate therefore remained INDETERMINATE.
+- Greater D was also associated with stronger species-specific geographic colour organization across independent high-depth cohorts, supporting a contrast between recurrent phenotype-space geometry and contingent spatial realization. A direct highlight control nevertheless showed that white classification is exposure-coupled (OR = 1.44, 95% CI 1.39–1.50), so the achromatic–chromatic result is not interpreted as artifact-free.
 
 ---
 
@@ -335,11 +335,13 @@ At the same time, this coupling does not account for the full H2 result. Removin
 
 The present analysis changes the level at which generality is sought. RGFCA was originally constructed to ask whether different species place strong flower-colour discontinuities in the same broad geographic regions. That shared-geography estimand did not provide the positive biological spine retained here. Instead, the same high-depth framework showed that species-specific spatial organization was measurable even when cross-species boundary geography was weak or unsupported. The current paper therefore treats that heterogeneity itself as the object of study: the common rule is sought in the amount and colour-space geometry of polymorphism, while the geographic realization is allowed to remain species-specific. In this sense, the strongest cross-species generality is more evident in **phenotype space than in geographic space**: species repeatedly use a similar achromatic–chromatic direction of variation, but they need not express or maintain that variation in the same places.
 
+Ecologically, this asymmetry suggests a hierarchy of generality rather than a single universal map. The set of phenotypic contrasts repeatedly expressed within species may be more constrained than the ecological settings in which those contrasts are sorted across landscapes. Spatially varying abiotic conditions, pollinator assemblages, dispersal and gene flow, demographic history and drift could therefore produce different geographic mosaics while acting on a partly shared phenotypic repertoire. The present data do not distinguish among those mechanisms, but they show why a recurrent trait-space axis need not imply recurrent geographic boundaries.
+
 ### Spatial organization is the strongest ecological clue
 
 The replicated association between D and within-species geographic colour organization provides a positive clue about why species differ in polymorphism. Species with greater D are not merely those sampled across larger geographic extents: the reserve sampled-span association with D collapses to zero, whereas the D–spatial-organization relationship persists after sampled-span and clear technical-failure adjustment and remains positive in a matched flower-minus-background contrast. The ambiguity-endpoint analysis further shows that the association is not tied to one arbitrary treatment of unresolved palette compositions.
 
-This result is structural rather than causal. Stronger geographic organization could arise from spatially varying abiotic selection, turnover in pollinator communities, restricted dispersal or gene flow, demographic history, drift, mating-system differences, or combinations of these processes. The current photographs and occurrence geometry cannot distinguish among them. Together with the prospective H2 result, the evidence suggests a two-stage working model: measured within-species colour variation contains an achromatic–chromatic component stronger than expected from coarse-state composition alone, while species-specific ecological and demographic processes may determine how strongly measured variants are maintained or sorted across space. The first statement is the bounded geometric inference supported by H2; the second remains a mechanistic hypothesis motivated by the replicated D–spatial association. Neither statement establishes that the measured coarse white state is free of image-exposure or background-context effects.
+This result is structural rather than causal. Stronger geographic organization could arise from spatially varying abiotic selection, turnover in pollinator communities, restricted dispersal or gene flow, demographic history, drift, mating-system differences, or combinations of these processes. The current photographs and occurrence geometry cannot distinguish among them. Together with the prospective H2 result, however, the evidence supports a useful ecological decomposition: **what varies** is partly recurrent across species, whereas **where that variation is sorted** is species-specific. Measured within-species colour variation contains an achromatic–chromatic component stronger than expected from coarse-state composition alone, while local ecological and demographic processes may determine how strongly those variants are maintained or spatially segregated. The first statement is the bounded geometric inference supported by H2; the second remains a mechanistic hypothesis motivated by the replicated D–spatial association. Neither statement establishes that the measured coarse white state is free of image-exposure or background-context effects.
 
 ### Two simple explanations fail fresh-data tests
 
@@ -357,7 +359,7 @@ A stronger external validation would apply the same frozen q_white/W estimand an
 
 ### Conclusion
 
-Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling, including strong transport of D across a fresh photo set and separate execution within the same measurement system. In a pre-frozen species-disjoint third cohort, continuous colour displacement showed excess alignment with the fixed white-versus-nonwhite axis relative to a coarse-state-preserving structured null. A direct one-shot highlight control subsequently detected substantial within-species coupling between near-clipping and white classification, while removing the response-blind high-clip set still retained H2 support (W = 0.503, p = 0.001). Because that sensitivity retained 89.9% rather than the prespecified 90% of primary vectors, the executable validity gate remained INDETERMINATE. Species with greater D also show stronger within-species geographic colour organization across the original high-depth cohorts. The evidence therefore supports bounded geometric regularity plus species-specific spatial organization, while the measured coarse white state must be interpreted as exposure-coupled rather than artifact-cleared.
+Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling, including strong transport of D across a fresh photo set and separate execution within the same measurement system. In a pre-frozen species-disjoint third cohort, continuous colour displacement showed excess alignment with the fixed white-versus-nonwhite axis relative to a coarse-state-preserving structured null, and species with greater D also showed stronger within-species geographic colour organization across the original high-depth cohorts. The ecological message is therefore not that plant species share one global flower-colour boundary, but that a recurrent direction of phenotypic variation is realized through species-specific spatial mosaics. This pattern is consistent with shared constraints on the phenotypic contrasts available to variation combined with contingent local ecological and demographic sorting, although the responsible mechanisms remain unresolved. A direct highlight control further requires caution: the measured coarse white state is exposure-coupled rather than artifact-cleared, even though high-clip exclusion retained H2 support.
 
 ---
 
