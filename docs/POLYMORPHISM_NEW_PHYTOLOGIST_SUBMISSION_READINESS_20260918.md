@@ -39,6 +39,7 @@ Authoritative/result-reporting files:
 - `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
 - `results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`
 - `results/polymorphism_spatial_organization_clue_20260918/result.json` (reporting-only synthesis of previously frozen PR #32 results)
+- `results/polymorphism_fresh_D_transport_20260925/result.json` (bounded fresh-image/same-system D transport receipt)
 
 ## 1b. RGFCA programme-lineage audit
 
@@ -69,15 +70,15 @@ The official guidelines currently describe Full Papers as usually approximately 
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 114 characters | PASS |
-| Summary <=200 words | 164 words | PASS |
+| Summary <=200 words | 179 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
-| Materials and Methods | 2,721 words | RECORDED |
-| Results | 1,336 words | RECORDED |
-| Discussion | 1,384 words | RECORDED |
-| Main text, Introduction–Discussion | 5,982 words | RECORDED |
-| Discussion share of main text | 23.1% | PASS (<30%) |
+| Materials and Methods | 2,943 words | RECORDED |
+| Results | 1,520 words | RECORDED |
+| Discussion | 1,565 words | RECORDED |
+| Main text, Introduction–Discussion | 6,569 words | RECORDED |
+| Discussion share of main text | 23.8% | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (guideline range 6–8) |
@@ -85,7 +86,7 @@ The official guidelines currently describe Full Papers as usually approximately 
 | Figure legends 1–5 | present | PASS |
 | Supporting legends S1–S9 | present | PASS |
 
-The main text is shorter than the journal's usual 6,500–7,500-word region. This is not itself a formal failure: the guideline describes a usual range rather than a minimum. Do not add filler solely to approach the range. Any expansion should improve biological framing, methodological reproducibility or interpretation.
+The main text is now **6,569 words**, inside the journal's usual approximately 6,500–7,500-word region without adding a new display item or expanding the H2 inferential scope.
 
 ## 3. Cover-letter audit
 
@@ -94,7 +95,7 @@ The three required editor questions are present.
 Measured answer lengths:
 
 1. What hypotheses or questions does this work address? — **40 words**
-2. How does this work advance our current understanding of plant science? — **37 words**
+2. How does this work advance our current understanding of plant science? — **42 words**
 3. Why is this work important and timely? — **40 words**
 
 All satisfy the <=50-word rule.
@@ -166,15 +167,15 @@ The most recent post-architecture manuscript claim-guard run recorded in the Sup
 
 Latest manuscript claim guard:
 
-- workflow run: `35686530502`;
-- job: `106614442429`;
-- result: **12 / 12 tests passed**.
+- workflow run: `36067418680`;
+- job: `107860316824`;
+- result: **13 / 13 tests passed**.
 
 Latest New Phytologist submission-format guard:
 
-- workflow run: `35686506788`;
-- job: `106614369521`;
-- result: **16 / 16 tests passed**.
+- workflow run: `36067370508`;
+- job: `107860161850`;
+- result: **17 / 17 tests passed**.
 
 The submission-format guard now checks live section word counts, Discussion <=30% of main text, 6–8 total display items, alphabetical keywords, four-bullet Summary <=200 words, cover-letter question lengths, required sections and frozen H2 claim boundaries.
 
@@ -199,22 +200,45 @@ The journal-specific manuscript currently cites direct precedents for:
 
 ## 6b. H2 construction/exposure validity audit
 
-**ADDRESSED FOR SUBMISSION; EXPOSURE CONFOUNDING NOT CLEARED**
+**ADDRESSED FOR SUBMISSION; WHITE STATE REMAINS EXPOSURE-COUPLED**
 
 Canonical audit:
 
 - `docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`
 - `results/polymorphism_h2_posthoc_validity_diagnostics_20260922/result.json`
+- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_VALIDITY_PROTOCOL_20260922.md`
+- `results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json`
+- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`
 
-The manuscript now makes the inferential decomposition explicit: primary observed W = 0.517 versus structured-null median 0.457, with isotropic expectation 0.125. The prospective claim is therefore the increment above the coarse-state-preserving baseline.
+The manuscript makes the inferential decomposition explicit: primary observed W = 0.517 versus structured-null median 0.457, with isotropic expectation 0.125. The prospective claim is therefore the increment above the coarse-state-preserving baseline.
 
-A 299-replicate post-confirmatory null that re-applies the continuous minor-cluster gate retains support (median 0.4475; plus-one p = 0.00333), showing that the frozen conditional null is not anti-conservative with respect to this gate asymmetry.
+A 299-replicate post-confirmatory null that re-applies the continuous minor-cluster gate retains support (median 0.4475; plus-one p = 0.00333).
 
-A background-white proxy in an auxiliary 461-species sample is associated with white classification (median background white fraction 0.0692 versus 0.0553; 66.4% same within-species direction; paired Wilcoxon p = 4.6e-12). This does not prove overexposure, but the prespecified direct digital-highlight metrics were not run on the third cohort and cannot be reconstructed from the terminal artifact because pixels/background palette fractions were not persisted.
+The subsequent one-shot direct highlight control reacquired all 49,900 frozen third-cohort rows with **zero source-byte drift**. Within species, near-clipping was positively coupled to frozen white classification (OR = **1.444**, 95% CI **1.389–1.502**), with the full interval above the prespecified negligible-coupling upper bound of 1.25. Removing the response-blind high-clip set still retained H2 support (142 vectors, W = **0.503**, p = **0.001**), but vector retention was 89.9%, just below the frozen 90% executable threshold; the machine state therefore remained `INDETERMINATE`.
 
-Accordingly, the manuscript does **not** claim an artifact-free white state. Exposure/background-context confounding is explicitly retained as an unresolved limitation. The frozen confirmatory verdict is unchanged.
+Accordingly, the manuscript does **not** claim an artifact-free white state. Its bounded conclusion is that excess achromatic–chromatic alignment persists after high-clip exclusion, while the measured coarse white state is demonstrably exposure-coupled.
 
-The later `disttrait 0.12.0` package is also now described as a related general-purpose implementation rather than a numerical reproducer of the biological analysis. Full-data audit W = 0.518390 versus frozen W = 0.517246; frozen study-specific artifacts control manuscript numbers.
+The later `disttrait 0.12.0` package is described as a related general-purpose implementation rather than a numerical reproducer of the biological analysis. Frozen study-specific artifacts control manuscript numbers.
+
+## 6c. Fresh-image D transport
+
+**ADDED AS BOUNDED H1 STRENGTHENING; BROADER FCP v2 REMAINS OUTSIDE THIS PAPER**
+
+Canonical receipt:
+
+- `results/polymorphism_fresh_D_transport_20260925/result.json`
+
+Across **136** species evaluable in both the earlier frozen analysis and a later fresh-image execution under the same FCP/iNaturalist measurement system:
+
+- Spearman rho = **0.9681**;
+- Lin CCC = **0.9720**;
+- calibration slope = **0.9691**;
+- median absolute D change = **0.0148**;
+- mean signed fresh-minus-prior change = **+0.0032**.
+
+The manuscript imports only this compact D-transport result because it directly strengthens H1. The broader FCP v2 counterfactual battery (MV1–MV4, including technical q_white displacement and W sensitivity) remains reserved for a separate measurement-validity paper. The submission guard explicitly fails if `T_white`, the 335,994-row v2 biological dataset, or the full-pipeline exposure analysis enters the current manuscript.
+
+The fresh D result is **same-source/same-measurement-system transport**, not independent-source replication.
 
 ## 7. Remaining formal-submission blockers
 
