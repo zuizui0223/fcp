@@ -13,8 +13,8 @@
 - Introduction: 541 words
 - Materials and Methods: 2,943 words
 - Results: 1,520 words
-- Discussion: 1,675 words
-- Main text (Introduction through Discussion): 6,679 words
+- Discussion: 1,680 words
+- Main text (Introduction through Discussion): 6,684 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -341,7 +341,7 @@ Ecologically, this asymmetry suggests a hierarchy of generality rather than a si
 
 The replicated association between D and within-species geographic colour organization provides a positive clue about why species differ in polymorphism. Species with greater D are not merely those sampled across larger geographic extents: the reserve sampled-span association with D collapses to zero, whereas the D–spatial-organization relationship persists after sampled-span and clear technical-failure adjustment and remains positive in a matched flower-minus-background contrast. The ambiguity-endpoint analysis further shows that the association is not tied to one arbitrary treatment of unresolved palette compositions.
 
-This result is structural rather than causal. Stronger geographic organization could arise from spatially varying abiotic selection, turnover in pollinator communities, restricted dispersal or gene flow, demographic history, drift, mating-system differences, or combinations of these processes. The current photographs and occurrence geometry cannot distinguish among them. Together with the prospective H2 result, however, the evidence supports a useful ecological decomposition: **what varies** is partly recurrent across species, whereas **where that variation is sorted** is species-specific. Measured within-species colour variation contains an achromatic–chromatic component stronger than expected from coarse-state composition alone, while local ecological and demographic processes may determine how strongly those variants are maintained or spatially segregated. The first statement is the bounded geometric inference supported by H2; the second remains a mechanistic hypothesis motivated by the replicated D–spatial association. Neither statement establishes that the measured coarse white state is free of image-exposure or background-context effects.
+This result is structural rather than causal. Stronger geographic organization could arise from spatially varying abiotic selection, turnover in pollinator communities, restricted dispersal or gene flow, demographic history, drift, mating-system differences, or combinations of these processes. The current photographs and occurrence geometry cannot distinguish among them. Together with the prospective H2 result, however, the evidence supports a **two-stage working model** and a useful ecological decomposition: **what varies** is partly recurrent across species, whereas **where that variation is sorted** is species-specific. Measured within-species colour variation contains an achromatic–chromatic component stronger than expected from coarse-state composition alone, while local ecological and demographic processes may determine how strongly those variants are maintained or spatially segregated. The first statement is the bounded geometric inference supported by H2; the second remains a mechanistic hypothesis motivated by the replicated D–spatial association. Neither statement establishes that the measured coarse white state is free of image-exposure or background-context effects.
 
 ### Two simple explanations fail fresh-data tests
 
