@@ -70,14 +70,14 @@ The official guidelines currently describe Full Papers as usually approximately 
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 114 characters | PASS |
-| Summary <=200 words | 179 words | PASS |
+| Summary <=200 words | 176 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
 | Materials and Methods | 2,943 words | RECORDED |
 | Results | 1,520 words | RECORDED |
-| Discussion | 1,565 words | RECORDED |
-| Main text, Introduction–Discussion | 6,569 words | RECORDED |
+| Discussion | 1,680 words | RECORDED |
+| Main text, Introduction–Discussion | 6,684 words | RECORDED |
 | Discussion share of main text | 23.8% | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
