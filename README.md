@@ -16,7 +16,7 @@ The active paper asks three linked questions: **can within-species flower-colour
 
 The current frozen result is:
 
-- observer-disjoint high-depth validation supports reproducible species-level polymorphism `D`, while a later stricter deterministic split shows that reliability is not near-perfect or split-invariant;
+- observer-disjoint high-depth validation supports reproducible species-level polymorphism `D`; a later fresh-image execution across 136 overlapping species gives Spearman rho 0.968 and Lin CCC 0.972 within the same measurement system, while a stricter deterministic split still shows that reliability is not near-perfect or split-invariant;
 - the original discovery/reserve geometry localized to a white-versus-nonwhite achromatic–chromatic axis;
 - an already frozen version of that axis was then tested in a pre-frozen species-disjoint third cohort from the same iNaturalist opportunity universe;
 - third-cohort measurement completed **49,900 rows from 499 species**, with **377** species passing the predeclared measurement-support gate;
@@ -48,6 +48,7 @@ The reusable, flower-colour-independent inference layer now lives in:
 - **Figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
 - **Supporting evidence map:** [`docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`](docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md)
 - **Post-confirmatory H2 validity audit:** [`docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`](docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md)
+- **Fresh-image D transport receipt:** [`results/polymorphism_fresh_D_transport_20260925/result.json`](results/polymorphism_fresh_D_transport_20260925/result.json)
 - **Direct highlight-control adjudication:** [`docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`](docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md)
 - **Submission-readiness audit:** [`docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md`](docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md)
 - **Canonical figures:** [`docs/figures/polymorphism_20260918/`](docs/figures/polymorphism_20260918/)
