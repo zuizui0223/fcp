@@ -1,0 +1,20 @@
+{
+  "baseline_rows": 39999,
+  "biological_condition_rows": 335994,
+  "heavy_counterfactual_rows_frozen": 8000,
+  "image_acquisition_failed_rows": 1,
+  "new_null_generated": false,
+  "partition_receipts": 256,
+  "replacement_rows": 0,
+  "schema": "fcp_v2_biological_reassembly_v1",
+  "source_byte_drift_rows": 0,
+  "source_byte_matched_rows": 39999,
+  "species_join_opened_after_complete_reassembly": true,
+  "species_sealed_until_complete_reassembly": 400,
+  "status": "COMPLETE_PASS_B_TERMINAL_REASSEMBLY",
+  "terminal_rows": 40000,
+  "terminal_status_counts": {
+    "biological_measurement_complete": 39999,
+    "image_acquisition_failed": 1
+  }
+}

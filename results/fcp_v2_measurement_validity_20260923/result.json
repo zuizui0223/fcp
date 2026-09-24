@@ -1,0 +1,105 @@
+{
+  "biological_rows": 335994,
+  "hard_boundaries": [
+    "No q_white refit.",
+    "No new structured null family.",
+    "Heavy 20-row/species counterfactuals are not promoted to the original H2 W test.",
+    "Technical strata were frozen before biological opening.",
+    "MV4 generates no new spatial permutation null or p-value.",
+    "Heavy 20-row/species perturbations are not used for primary MV4 spatial rho."
+  ],
+  "mv1_conditions": [
+    "fixed_ev_m0_5",
+    "fixed_ev_m1_0",
+    "fixed_ev_p0_0",
+    "fixed_ev_p0_5",
+    "fixed_ev_p1_0",
+    "full_ev_m0_5",
+    "full_ev_m1_0",
+    "full_ev_p0_5",
+    "full_ev_p1_0",
+    "jitter_base",
+    "jitter_scale_m10",
+    "jitter_scale_p10",
+    "jitter_x_m5",
+    "jitter_x_p5",
+    "jitter_y_m5",
+    "jitter_y_p5",
+    "neutral_bg"
+  ],
+  "mv2_conditions": [
+    "baseline",
+    "fixed_ev_m0_5",
+    "fixed_ev_m1_0",
+    "fixed_ev_p0_0",
+    "fixed_ev_p0_5",
+    "fixed_ev_p1_0",
+    "baseline_excl_high_background_near_clip",
+    "baseline_excl_high_flower_near_clip",
+    "baseline_excl_low_lab_separation",
+    "baseline_excl_roi_unstable",
+    "baseline_excl_union_primary_technical"
+  ],
+  "mv3_q_white": [
+    0.9428090415820635,
+    -0.11785113019775793,
+    -0.11785113019775793,
+    -0.11785113019775793,
+    -0.11785113019775793,
+    -0.11785113019775793,
+    -0.11785113019775793,
+    -0.11785113019775793,
+    -0.11785113019775793
+  ],
+  "mv4_conditions": [
+    "baseline",
+    "fixed_ev_m0_5",
+    "fixed_ev_m1_0",
+    "fixed_ev_p0_0",
+    "fixed_ev_p0_5",
+    "fixed_ev_p1_0",
+    "baseline_excl_high_background_near_clip",
+    "baseline_excl_high_flower_near_clip",
+    "baseline_excl_low_lab_separation",
+    "baseline_excl_roi_unstable",
+    "baseline_excl_union_primary_technical"
+  ],
+  "mv4_spatial_definition": "Spearman(all-pair great-circle distance, JSD of frozen four-group continuous colour vector), classifiable rows only, >=40/species",
+  "new_null_distribution_generated": false,
+  "panels": {
+    "N": 200,
+    "P": 200
+  },
+  "prior_D_transport": {
+    "absolute_D_change": {
+      "mean": 0.027631941426158983,
+      "median": 0.014761943866009125,
+      "n": 136,
+      "q025": 0.0,
+      "q975": 0.10771584245585382
+    },
+    "calibration_intercept": 0.010682093579046684,
+    "calibration_slope": 0.96909589220185,
+    "lin_ccc": 0.9720478011581966,
+    "signed_D_change_fresh_minus_prior": {
+      "mean": 0.003167996552004538,
+      "median": 0.0,
+      "n": 136,
+      "q025": -0.09009461683774429,
+      "q975": 0.10385959773875036
+    },
+    "spearman_rho": 0.9681064161858759,
+    "species": 136
+  },
+  "schema": "fcp_v2_measurement_validity_summary_v1",
+  "source_identity": {
+    "source_byte_matched_rows": 39999,
+    "terminal_rows": 40000,
+    "terminal_status_counts": {
+      "biological_measurement_complete": 39999,
+      "image_acquisition_failed": 1
+    }
+  },
+  "species": 400,
+  "status": "COMPLETE_MV1_MV2_MV3_MV4_WITHOUT_NEW_NULL"
+}
