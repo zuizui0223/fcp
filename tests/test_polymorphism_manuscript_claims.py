@@ -9,6 +9,7 @@ MANUSCRIPT = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT.md"
 LEDGER = ROOT / "docs" / "POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md"
 FIGURE_PLAN = ROOT / "docs" / "POLYMORPHISM_FIGURE_PLAN_20260918.md"
 README = ROOT / "README.md"
+D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
 H2 = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "result.json"
 MEASUREMENT = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_measurement_20260917" / "result.json"
 SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
@@ -137,6 +138,27 @@ def test_claim_ledger_freezes_rgfca_programme_lineage() -> None:
         "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md",
     ):
         assert token in text
+
+
+
+def test_manuscript_adds_fresh_D_transport_without_importing_v2_counterfactuals() -> None:
+    import json
+
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    result = json.loads(D_TRANSPORT.read_text(encoding="utf-8"))
+
+    assert result["overlap_species"] == 136
+    assert result["spearman_rho"] == pytest.approx(0.9681064161858759)
+    assert result["lin_ccc"] == pytest.approx(0.9720478011581966)
+    assert result["calibration_slope"] == pytest.approx(0.96909589220185)
+    assert result["absolute_D_change"]["median"] == pytest.approx(0.014761943866009125)
+
+    for token in ("136", "0.968", "0.972", "0.969", "0.0148", "fresh-image"):
+        assert token.lower() in text.lower()
+
+    assert "T_white" not in text
+    assert "335,994" not in text
+    assert "full-pipeline exposure" not in text.lower()
 
 
 def test_manuscript_preserves_h1_and_h3_boundaries() -> None:
