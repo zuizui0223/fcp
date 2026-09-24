@@ -1,0 +1,128 @@
+name: FCP v2 frozen MV1-MV3 analysis
+
+on:
+  push:
+    branches:
+      - analysis/fcp-v2-biological-pass-20260924
+    paths:
+      - docs/FCP_V2_MV1_MV3_EXECUTION_AUTHORIZATION_20260924.json
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-v2-mv1-mv3-20260924
+  cancel-in-progress: false
+
+env:
+  TECHNICAL_RUN_ID: "35804592921"
+  TECHNICAL_SEAL_ARTIFACT: fcp-v2-technical-seal-v1
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Enforce post-Pass-B analysis authorization chronology
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          AUTH=docs/FCP_V2_MV1_MV3_EXECUTION_AUTHORIZATION_20260924.json
+          mapfile -t CHANGED < <(git diff --name-only HEAD^ HEAD)
+          test "${#CHANGED[@]}" -eq 1
+          test "${CHANGED[0]}" = "$AUTH"
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          x=json.loads(Path("docs/FCP_V2_MV1_MV3_EXECUTION_AUTHORIZATION_20260924.json").read_text())
+          assert x["status"]=="AUTHORIZED_FCP_V2_MV1_MV3"
+          assert x["technical_run_id"]==35804592921
+          assert x["biological_rows"]==40000
+          assert x["biological_partitions"]==256
+          assert x["biological_pass_status"]=="BIOLOGICAL_PASS_B_SEALED"
+          assert x["replacement_rows"]==0
+          assert subprocess.check_output(["git","rev-parse","HEAD^"],text=True).strip()==x["implementation_parent_sha"]
+          PY
+          BIO_ID=$(python -c 'import json;print(json.load(open("'"$AUTH"'"))["biological_seal_artifact_id"])')
+          gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${BIO_ID}" > /tmp/bio_artifact.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          auth=json.loads(Path("docs/FCP_V2_MV1_MV3_EXECUTION_AUTHORIZATION_20260924.json").read_text())
+          art=json.loads(Path("/tmp/bio_artifact.json").read_text())
+          assert art["id"]==auth["biological_seal_artifact_id"]
+          assert art["name"]==auth["biological_seal_artifact_name"]
+          assert art["digest"]==auth["biological_seal_artifact_digest"]
+          assert art["workflow_run"]["id"]==auth["biological_run_id"]
+          assert art["expired"] is False
+          PY
+
+      - name: Install analysis runtime
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy
+          python -m py_compile scripts/analysis/analyze_fcp_v2_mv1_mv3_20260924.py
+
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.TECHNICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.TECHNICAL_SEAL_ARTIFACT }}
+          path: /tmp/technical-seal
+
+      - name: Resolve biological seal identity
+        id: bio
+        run: |
+          AUTH=docs/FCP_V2_MV1_MV3_EXECUTION_AUTHORIZATION_20260924.json
+          echo "run_id=$(python -c 'import json;print(json.load(open("'"$AUTH"'"))["biological_run_id"])')" >> "$GITHUB_OUTPUT"
+          echo "artifact=$(python -c 'import json;print(json.load(open("'"$AUTH"'"))["biological_seal_artifact_name"])')" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.bio.outputs.run_id }}
+          github-token: ${{ github.token }}
+          name: ${{ steps.bio.outputs.artifact }}
+          path: /tmp/biological-seal
+
+      - name: Run frozen MV1-MV3 summaries
+        run: |
+          rm -rf /tmp/mv-result
+          python scripts/analysis/analyze_fcp_v2_mv1_mv3_20260924.py             --biological-seal-dir /tmp/biological-seal             --technical-seal-dir /tmp/technical-seal             --output-dir /tmp/mv-result
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("/tmp/mv-result/result.json").read_text())
+          assert x["schema"]=="fcp_v2_mv1_mv3_result_v1"
+          assert x["rows"]==40000
+          assert x["no_rescue"] is True
+          assert x["MV4"]["status"]=="DEFERRED_TO_EXISTING_SPATIAL_STATISTIC_REUSE"
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-v2-mv1-mv3-result-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/mv-result
+
+      - name: Commit immutable MV1-MV3 result
+        run: |
+          mkdir -p results/fcp_v2_mv1_mv3_20260924
+          cp /tmp/mv-result/result.json results/fcp_v2_mv1_mv3_20260924/result.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/fcp_v2_mv1_mv3_20260924/result.json
+          git commit -m "Record FCP v2 MV1-MV3 result"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
