@@ -3,7 +3,7 @@
   "date_jst": "2026-09-24",
   "status": "AUTHORIZED_FCP_V2_BIOLOGICAL_PASS_B",
   "branch": "analysis/fcp-v2-biological-pass-20260924",
-  "implementation_parent_sha": "0fb17e5e0535885f8f43c523e53d0634a9182ed3",
+  "implementation_parent_sha": "a6e79799410100e4e24ab9db4206541e77cb0bde",
   "technical_run_id": 35804592921,
   "technical_run_conclusion": "success",
   "technical_rows": 40000,
@@ -45,5 +45,11 @@
     "MV2",
     "MV3",
     "MV4"
-  ]
+  ],
+  "recovery_from_run_id": 35941656646,
+  "recovery_failure_class": "pre_biological_readback_canonicalization_only",
+  "recovery_failure_detail": "technical artifact identities passed; failure occurred while recomputing the in-memory canonical technical-table digest from a pandas CSV readback, before Pass B worker artifacts or biological acquisition existed",
+  "biological_pixels_opened_in_failed_run": false,
+  "biological_outcomes_opened_in_failed_run": false,
+  "recovery_change_only": "validate exact technical artifact identity/digest plus frozen logical technical_table_sha256 and row/ID/source-SHA census; do not reserialize the persisted CSV to reproduce the pre-persistence canonical digest"
 }
