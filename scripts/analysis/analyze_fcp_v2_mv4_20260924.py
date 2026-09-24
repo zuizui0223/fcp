@@ -137,6 +137,21 @@ def summarize(panel: pd.DataFrame,null: np.ndarray) -> dict:
     }
 
 
+def panel_descriptive(table: pd.DataFrame) -> dict:
+    if len(table)<2:
+        return {"species":int(len(table)),"rho_D_spatial":None}
+    d=rankdata(table["D"].to_numpy(float),method="average")
+    y=rankdata(table["spatial_observed_rho"].to_numpy(float),method="average")
+    dc=d-d.mean(); yc=y-y.mean()
+    den=float(np.linalg.norm(dc)*np.linalg.norm(yc))
+    return {
+        "species":int(len(table)),
+        "rho_D_spatial":float(dc@yc/den) if den>1e-15 else None,
+        "median_D":float(table["D"].median()),
+        "median_spatial_rho":float(table["spatial_observed_rho"].median()),
+    }
+
+
 def run_condition(df: pd.DataFrame, condition: str) -> dict:
     rows=[]; nulls=[]
     for species,g in df.groupby("species",sort=True):
@@ -159,8 +174,8 @@ def run_condition(df: pd.DataFrame, condition: str) -> dict:
     overall=summarize(table,null) if len(table) else {"evaluable":False,"species":0}
     panels={}
     for label in ("P","N"):
-        idx=np.flatnonzero(table["panel"].astype(str).to_numpy()==label) if len(table) else np.array([],int)
-        panels[label]=summarize(table.iloc[idx].reset_index(drop=True),null[idx]) if len(idx) else {"evaluable":False,"species":0}
+        sub=table.loc[table["panel"].astype(str).eq(label)].reset_index(drop=True) if len(table) else pd.DataFrame()
+        panels[label]=panel_descriptive(sub) if len(sub) else {"species":0,"rho_D_spatial":None}
     return {
         "condition":condition,
         "eligible_species":int(len(table)),
