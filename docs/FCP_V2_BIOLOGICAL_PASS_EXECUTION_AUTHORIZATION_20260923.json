@@ -1,0 +1,68 @@
+{
+  "schema": "fcp_v2_biological_pass_execution_authorization_v1",
+  "date_jst": "2026-09-24",
+  "status": "AUTHORIZED_AFTER_RESPONSE_BLIND_TECHNICAL_SEAL",
+  "branch": "analysis/fcp-v2-biological-pass-prep-20260923",
+  "frozen_parent_sha": "efed36e31d327933e64f82c76e55a31c5c55ec3c",
+  "protocol": "docs/FCP_V2_BIOLOGICAL_PASS_PROTOCOL_20260923.md",
+  "metadata_run_id": 35798104597,
+  "metadata_artifact_id": 10725735599,
+  "metadata_artifact_name": "fcp-v2-fresh-metadata-terminal-20260923",
+  "metadata_artifact_digest": "sha256:247c09eee70fe56e381536d96ce090293e11d9f2924f27f45274850076be40b0",
+  "metadata_terminal_species": 400,
+  "metadata_terminal_rows": 40000,
+  "authorized_metadata_sha256": "5cedb8581dd5da60006df8e9c939c318e94d21ff536b06c61d40d587f8800e0f",
+  "technical_run_id": 35804592921,
+  "technical_artifact_id": 10779593467,
+  "technical_artifact_name": "fcp-v2-technical-seal-v1",
+  "technical_artifact_digest": "sha256:e57b83c55f65bb14c131d8cdb2502b8abe7335dbd597b97df35dfb27c190de7d",
+  "technical_status": "RESPONSE_BLIND_TECHNICAL_SEAL_FROZEN",
+  "technical_rows": 40000,
+  "technical_metrics_available_rows": 34616,
+  "technical_metrics_unavailable_rows": 5384,
+  "technical_table_sha256": "f757c90eddcb00f43d504a2ae6ccaeff4639d7ce468f231bc3b75675d66440e9",
+  "technical_biological_outcomes_opened": false,
+  "technical_species_opened": false,
+  "technical_morph_opened": false,
+  "technical_q_white_or_W_opened": false,
+  "heavy_counterfactual_rows": 8000,
+  "source_roi_commit": "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a",
+  "source_sha_match_required": true,
+  "new_null_family_authorized": false,
+  "q_white_refit_authorized": false,
+  "new_ecological_predictor_authorized": false,
+  "species_replacement_authorized": false,
+  "photo_replacement_authorized": false,
+  "biological_pass_components": [
+    "MV1",
+    "MV2",
+    "MV3a",
+    "MV3b",
+    "MV4"
+  ],
+  "technical_strata_frozen": {
+    "high_flower_near_clip": {
+      "threshold": 0.4882349239590143,
+      "rows": 1731
+    },
+    "high_background_near_clip": {
+      "threshold": 0.04023481790371865,
+      "rows": 1731
+    },
+    "low_flower_background_lab_separation": {
+      "threshold_q05": 19.771139619074987,
+      "rows": 1731
+    },
+    "roi_unstable_fixed": {
+      "flip_iou_min": 0.5,
+      "flip_delta_e_max": 5,
+      "rows": 12599
+    },
+    "heavy_prompt_unstable": {
+      "evaluable_rows": 6885,
+      "jitter_iou_min": 0.5,
+      "jitter_delta_e_max": 5,
+      "rows": 174
+    }
+  }
+}
