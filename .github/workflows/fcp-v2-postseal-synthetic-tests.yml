@@ -7,6 +7,8 @@ on:
     paths:
       - scripts/analysis/analyze_fcp_v2_mv1_mv3_20260924.py
       - scripts/analysis/analyze_fcp_v2_mv4_20260924.py
+      - scripts/analysis/run_fcp_v2_mv4_shard_20260924.py
+      - scripts/analysis/finalize_fcp_v2_mv4_20260924.py
       - tests/test_fcp_v2_postseal_analysis.py
       - .github/workflows/fcp-v2-postseal-synthetic-tests.yml
 
@@ -28,5 +30,7 @@ jobs:
           python -m pip install numpy pandas scipy pytest
       - name: Compile and test frozen post-seal analysis
         run: |
-          python -m py_compile             scripts/analysis/analyze_fcp_v2_mv1_mv3_20260924.py             scripts/analysis/analyze_fcp_v2_mv4_20260924.py
+          python -m py_compile             scripts/analysis/analyze_fcp_v2_mv1_mv3_20260924.py             scripts/analysis/analyze_fcp_v2_mv4_20260924.py \
+            scripts/analysis/run_fcp_v2_mv4_shard_20260924.py \
+            scripts/analysis/finalize_fcp_v2_mv4_20260924.py
           pytest -q tests/test_fcp_v2_postseal_analysis.py
