@@ -11,6 +11,7 @@ FRAME_PROVENANCE = ROOT / "docs" / "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918
 VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_20260922" / "result.json"
 HIGHLIGHT = ROOT / "results" / "polymorphism_h2_third_cohort_highlight_validity_20260922" / "result.json"
 ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md"
+D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
 
 
 def words(text: str) -> list[str]:
@@ -129,6 +130,40 @@ def test_new_phytologist_required_sections_and_display_items() -> None:
     assert "- Tables: 1" in text
 
 
+
+def test_new_phytologist_imports_only_bounded_fresh_D_transport() -> None:
+    import json
+    import pytest
+
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    canonical = CANONICAL.read_text(encoding="utf-8")
+    result = json.loads(D_TRANSPORT.read_text(encoding="utf-8"))
+
+    assert result["overlap_species"] == 136
+    assert result["spearman_rho"] == pytest.approx(0.9681064161858759)
+    assert result["lin_ccc"] == pytest.approx(0.9720478011581966)
+    assert result["calibration_slope"] == pytest.approx(0.96909589220185)
+    assert result["absolute_D_change"]["median"] == pytest.approx(0.014761943866009125)
+
+    for manuscript in (text, canonical):
+        for token in (
+            "136",
+            "0.968",
+            "0.972",
+            "0.969",
+            "0.0148",
+            "fresh-image",
+            "not independent-source replication",
+        ):
+            assert token.lower() in manuscript.lower()
+
+        # FCP v2 remains a separate measurement-validity study. The current
+        # paper imports only the D transport receipt.
+        assert "T_white" not in manuscript
+        assert "335,994" not in manuscript
+        assert "full-pipeline exposure" not in manuscript.lower()
+
+
 def test_new_phytologist_draft_preserves_frozen_h2_claim() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     normalized = text.replace("**", "")
@@ -182,6 +217,8 @@ def test_new_phytologist_preserves_postconfirmatory_validity_boundary() -> None:
         "142",
         "89.9%",
         "INDETERMINATE",
+        "0.968",
+        "0.972",
         "exposure-coupled rather than artifact-cleared",
         "not a bitwise numerical reproducer",
     ):
