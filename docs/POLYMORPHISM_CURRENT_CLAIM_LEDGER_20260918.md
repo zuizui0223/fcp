@@ -42,7 +42,7 @@ Canonical 42,111-frame provenance:
 The paper now has three positive/structural contributions and two bounded alternative-explanation results:
 
 1. **H1 — measurement validity.** The continuous four-state species-level flower-colour polymorphism score
-   `D = 1 - sum_k p_k^2` is reproducible across observer-disjoint photo sets under the first-frozen repeated-partition validation rule. A later deliberately stricter deterministic split missed a prespecified rho = 0.80 floor, so near-perfect or split-invariant reliability is not claimed.
+   `D = 1 - sum_k p_k^2` is reproducible across observer-disjoint photo sets under the first-frozen repeated-partition validation rule. A later fresh-image execution also reproduced earlier D estimates across 136 overlapping species (Spearman rho 0.968; Lin CCC 0.972), while a deliberately stricter deterministic observer split missed a prespecified rho = 0.80 floor. Thus D shows strong fresh-image/same-system transport without implying near-perfect split reliability or independent-source replication.
 2. **H2 — geometry.** Existing discovery/reserve cohorts localized recurrent within-species colour variation to a white-versus-nonwhite axis after a construction-preserving audit. In the pre-frozen species-disjoint third cohort, observed alignment exceeded the already white-aligned coarse-state-preserving structured null. The confirmatory quantity is therefore the increment above that construction baseline, not the entire white-axis signal relative to isotropy.
 3. **Spatial organization — replicated structural correlate.** Species with greater D also tend to show stronger within-species geographic colour organization. This association replicated in the species-disjoint reserve and survived sampled-span plus clear technical-failure adjustment, a matched flower-minus-background contrast, and uniform ambiguity-endpoint stress tests. It is a structural correlate, not a causal mechanism.
 4. **H3a — phylogeny.** Broad tree-wide phylogenetic signal in D is not supported in the species-disjoint reserve cohort across any of the three frozen tree-placement scenarios.
@@ -63,6 +63,7 @@ The 42,111-species frame and later opportunity subsets define where high-depth s
 Canonical source:
 
 - `docs/POLYMORPHISM_H1_EVIDENCE_LEDGER_20260914.md`
+- `results/polymorphism_fresh_D_transport_20260925/result.json`
 
 Primary first-frozen repeated observer-disjoint validation in reserve:
 
@@ -91,7 +92,7 @@ The stricter test required rho >= 0.80 and therefore returned:
 
 ### Allowed H1 claim
 
-> The continuous four-state polymorphism score D was reproducible across repeated observer-disjoint partitions under the first-frozen reserve validation rule (median split rho 0.789; 5th percentile 0.765; median CCC 0.855). A later deliberately stricter deterministic split yielded rho 0.793 and missed a prespecified 0.80 floor, so near-perfect or split-invariant reliability is not claimed.
+> The continuous four-state polymorphism score D was reproducible across repeated observer-disjoint partitions under the first-frozen reserve validation rule (median split rho 0.789; 5th percentile 0.765; median CCC 0.855). In a later fresh-image execution within the same iNaturalist/FCP measurement system, 136 overlapping species showed Spearman rho 0.968, Lin CCC 0.972, calibration slope 0.969 and median absolute D change 0.0148. This strengthens same-system transport of D but is not independent-source replication; near-perfect or split-invariant reliability is not claimed.
 
 ## 4. H2 — legacy discovery/reserve localization
 
