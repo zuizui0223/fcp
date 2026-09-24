@@ -54,22 +54,47 @@ def main() -> None:
     if len(strata) != EXPECTED_ROWS or strata["measurement_id"].nunique() != EXPECTED_ROWS:
         raise RuntimeError("technical strata census drift")
 
+    def as_bool(s: pd.Series) -> pd.Series:
+        return s.fillna("").astype(str).str.strip().str.casefold().isin({"true", "1", "yes"})
+
+    heavy_join = join[["measurement_id", "heavy_counterfactual"]].copy()
+    heavy_strata = strata[["measurement_id", "heavy_counterfactual"]].copy()
+    heavy_bio = biological[["measurement_id", "heavy_counterfactual"]].copy()
+    check = heavy_join.merge(
+        heavy_strata,
+        on="measurement_id",
+        how="inner",
+        validate="one_to_one",
+        suffixes=("_join", "_strata"),
+    ).merge(
+        heavy_bio,
+        on="measurement_id",
+        how="inner",
+        validate="one_to_one",
+    )
+    if len(check) != EXPECTED_ROWS:
+        raise RuntimeError("heavy-counterfactual consistency join lost rows")
+    if not (
+        as_bool(check["heavy_counterfactual_join"]).equals(as_bool(check["heavy_counterfactual_strata"]))
+        and as_bool(check["heavy_counterfactual_join"]).equals(as_bool(check["heavy_counterfactual"]))
+    ):
+        raise RuntimeError("heavy-counterfactual membership drift across sealed surfaces")
+
     joined = join.merge(
-        strata,
+        strata.drop(columns=["heavy_counterfactual"]),
         on="measurement_id",
         how="inner",
         validate="one_to_one",
     ).merge(
-        biological,
+        biological.drop(columns=["heavy_counterfactual"]),
         on="measurement_id",
         how="inner",
         validate="one_to_one",
-        suffixes=("", "_bio"),
     )
     if len(joined) != EXPECTED_ROWS:
         raise RuntimeError("post-measurement biological join lost rows")
 
-    heavy = joined["heavy_counterfactual"].fillna("").astype(str).str.casefold().isin({"true", "1", "yes"})
+    heavy = as_bool(joined["heavy_counterfactual"])
     if int(heavy.sum()) != EXPECTED_HEAVY:
         raise RuntimeError("heavy-counterfactual denominator drift after biological opening")
 
