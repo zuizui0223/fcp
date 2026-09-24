@@ -142,10 +142,11 @@ def run_condition(df: pd.DataFrame, condition: str) -> dict:
     for species,g in df.groupby("species",sort=True):
         if len(g)!=100:
             raise RuntimeError(f"{species}: frozen 100-row denominator drift")
+        exact=g["source_identity_status"].astype(str).eq("exact_source_sha_match")
         if condition=="base":
-            analysis=g
+            analysis=g.loc[exact].copy()
         elif condition=="roi_stable_only":
-            analysis=g.loc[~as_bool(g["stratum_roi_unstable_fixed"])].copy()
+            analysis=g.loc[exact & ~as_bool(g["stratum_roi_unstable_fixed"])].copy()
         else:
             raise ValueError(condition)
         result=species_spatial(g,analysis,species=str(species),key_suffix=condition)
@@ -189,10 +190,9 @@ def main() -> None:
     if len(df)!=40000 or df["species"].nunique()!=400:
         raise RuntimeError("biological table denominator drift")
     exact=df["source_identity_status"].astype(str).eq("exact_source_sha_match")
-    work=df.loc[exact].copy()
 
-    base=run_condition(work,"base")
-    stable=run_condition(work,"roi_stable_only")
+    base=run_condition(df,"base")
+    stable=run_condition(df,"roi_stable_only")
 
     out=args.output_dir
     out.mkdir(parents=True,exist_ok=True)
