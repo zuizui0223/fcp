@@ -18,11 +18,11 @@ Can flower-colour polymorphism be measured reproducibly as a species phenotype, 
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-Using a global atlas framework originally designed to seek shared geography, we show that the strongest cross-species regularity lies instead in phenotype space: within-species colour variation repeatedly follows an achromatic–chromatic direction, while its geographic realization remains species-specific. More diverse species also show stronger within-species geographic colour organization, linking the amount of polymorphism to how it is arranged across landscapes.
+Using a global atlas framework originally designed to seek shared geography, we show that cross-species regularity is stronger in phenotype space: within-species colour variation repeatedly follows an achromatic–chromatic direction, whereas its geographic realization remains species-specific. More diverse species also show stronger geographic colour organization.
 
 ### Question 3 — Why is this work important and timely?
 
-Flower-colour polymorphism has usually been studied within populations or species, whereas global comparative work tends to compress species to one colour value. This study connects those scales by showing a recurrent direction of within-species phenotypic variation without requiring species to share the same geographic boundary, suggesting that broad phenotypic constraint and local ecological contingency can coexist.
+Flower-colour polymorphism is usually studied within populations, while global comparative work compresses species to one colour value. By linking these scales, we show that recurrent phenotypic constraint can coexist with species-specific spatial realization, providing a new ecological view of how intraspecific floral variation is organized across plants.
 
 ## Key result and evidential chronology
 
