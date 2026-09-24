@@ -131,20 +131,31 @@ def D_table(df: pd.DataFrame,prefix: str,min_n: int=1) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def spearman(x: np.ndarray,y: np.ndarray) -> float:
+def finite_or_none(value: float) -> float | None:
+    v=float(value)
+    return v if np.isfinite(v) else None
+
+
+def describe_numeric(s: pd.Series) -> dict:
+    if len(s)==0:
+        return {}
+    return {str(k): finite_or_none(v) for k,v in s.describe().to_dict().items()}
+
+
+def spearman(x: np.ndarray,y: np.ndarray) -> float | None:
     rx=pd.Series(x).rank(method="average").to_numpy(float)
     ry=pd.Series(y).rank(method="average").to_numpy(float)
-    return float(np.corrcoef(rx,ry)[0,1]) if len(x)>1 else float("nan")
+    return finite_or_none(np.corrcoef(rx,ry)[0,1]) if len(x)>1 else None
 
 
-def ccc(x: np.ndarray,y: np.ndarray) -> float:
+def ccc(x: np.ndarray,y: np.ndarray) -> float | None:
     x=np.asarray(x,float); y=np.asarray(y,float)
     if len(x)<2:
-        return float("nan")
+        return None
     vx=float(np.var(x,ddof=1)); vy=float(np.var(y,ddof=1))
     cov=float(np.cov(x,y,ddof=1)[0,1])
     denom=vx+vy+(float(np.mean(x))-float(np.mean(y)))**2
-    return float(2*cov/denom) if denom>0 else float("nan")
+    return finite_or_none(2*cov/denom) if denom>0 else None
 
 
 def D_comparison(df: pd.DataFrame,prefix: str) -> dict:
@@ -157,8 +168,8 @@ def D_comparison(df: pd.DataFrame,prefix: str) -> dict:
         delta=y-x
         out[label]={
             "paired_species":int(len(sub)),
-            "spearman_rho":spearman(x,y) if len(sub)>1 else None,
-            "ccc":ccc(x,y) if len(sub)>1 else None,
+            "spearman_rho":spearman(x,y),
+            "ccc":ccc(x,y),
             "mean_absolute_D_difference":float(np.mean(np.abs(delta))) if len(sub) else None,
             "median_absolute_D_difference":float(np.median(np.abs(delta))) if len(sub) else None,
             "signed_mean_D_difference_cf_minus_base":float(np.mean(delta)) if len(sub) else None,
@@ -300,8 +311,8 @@ def main() -> None:
             "mean_absolute_D_difference":float(np.mean(np.abs(delta))) if len(j) else None,
             "median_absolute_D_difference":float(np.median(np.abs(delta))) if len(j) else None,
             "signed_mean_D_difference_cf_minus_base":float(np.mean(delta)) if len(j) else None,
-            "base_classifiable_n_distribution":base_h["n_classifiable"].describe().to_dict() if len(base_h) else {},
-            "counterfactual_classifiable_n_distribution":cf_h["n_classifiable"].describe().to_dict() if len(cf_h) else {},
+            "base_classifiable_n_distribution":describe_numeric(base_h["n_classifiable"]),
+            "counterfactual_classifiable_n_distribution":describe_numeric(cf_h["n_classifiable"]),
         }
 
     mv3={"all_row":{},"technical_strata_exclusion":{}}
