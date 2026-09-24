@@ -9,12 +9,12 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 180 words
-- Introduction: 541 words
-- Materials and Methods: 2,852 words
-- Results: 1,433 words
-- Discussion: 1,493 words
-- Main text (Introduction through Discussion): 6,319 words
+- Summary: 179 words
+- Introduction: 542 words
+- Materials and Methods: 2,944 words
+- Results: 1,521 words
+- Discussion: 1,566 words
+- Main text (Introduction through Discussion): 6,573 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -25,7 +25,7 @@
 
 - Flower colour is commonly reduced to a species mean, obscuring within-species variation. We ask whether repeated photographs recover a reproducible species phenotype and whether continuous colour displacement shows recurrent geometry across species.
 - We quantified four-state diversity D, audited nine-colour geometry in discovery/reserve cohorts, and prospectively tested a pre-frozen white-versus-nonwhite axis in a species-disjoint third cohort. The structured null preserved species × coarse-state counts and coarse-state-specific palette distributions.
-- Observer-disjoint reserve partitions recovered stable D rankings (median Spearman rho = 0.789). In the third cohort, 158 species gave W = 0.517 versus structured-null median 0.457 (1.13-fold; p = 0.001). Thus the confirmed quantity is excess white-axis alignment conditional on coarse colour-state composition; reapplying the continuous-cluster gate within null worlds retained support.
+- Observer-disjoint reserve partitions recovered stable D rankings (median Spearman rho = 0.789), and a later fresh-image execution retained strong D agreement across 136 overlapping species (Spearman rho = 0.968; Lin CCC = 0.972). In the third cohort, 158 species gave W = 0.517 versus structured-null median 0.457 (1.13-fold; p = 0.001).
 - A one-shot direct highlight control found that near-clipping was positively coupled to white classification within species (OR = 1.44, 95% CI 1.39–1.50). Removing the response-blind high-clip set retained H2 support (W = 0.503, p = 0.001), but retained 142/158 vectors (89.9%), just below the prespecified 90% threshold; the executable validity gate therefore remained INDETERMINATE.
 
 ---
@@ -102,6 +102,8 @@ The first-frozen primary protocol generated 200 observer-disjoint partitions. Wi
 For each partition, D was calculated separately in the two observer-disjoint halves and species were compared using Spearman correlation. The reserve decision rule required a median of at least 100 paired species, median split Spearman rho >=2/3 and 5th-percentile rho >=0.5. Lin's concordance correlation coefficient (CCC), absolute differences and Spearman-Brown projected reliability were retained as agreement diagnostics rather than substitute decision statistics.
 
 A later deterministic single-split analysis imposed a stronger rho >= 0.80 criterion. Because that stricter protocol was frozen after the first repeated-partition result had already been opened, it is treated as a deliberately harder stress test rather than as a replacement primary analysis.
+
+After H1 had been completed, we also retained a narrowly scoped fresh-image transport check for D. A later metadata-frozen run remeasured 100 fresh photo IDs per species under the same frozen four-state D definition and FCP image-measurement system. For species evaluable in both the earlier estimate and the fresh baseline, we compared D using Spearman rank correlation, Lin concordance, linear calibration and absolute change. This post-H1 check does not alter the original H1 decision and is not an independent-source replication because the source/opportunity universe and measurement system remain the same.
 
 ### H2: continuous colour geometry in the original cohorts
 
@@ -231,6 +233,8 @@ The first-frozen repeated-partition H1 test supported observer-disjoint reproduc
 
 The later deterministic stress test retained 363 reserve species with zero observer leakage and yielded rho = **0.7927** (bootstrap 95% interval **0.7419–0.8324**) and CCC = **0.8474**. This split missed its deliberately stricter prespecified rho = 0.80 floor by 0.0073. We therefore retain the first-frozen H1 support while explicitly rejecting a claim of near-perfect or split-invariant reliability.
 
+The later fresh-image transport check provided a stronger same-system replication of D. Among **136** species evaluable in both the earlier frozen analysis and the fresh execution, D showed Spearman rho = **0.9681**, Lin CCC = **0.9720**, and a calibration slope of **0.9691**. The median absolute change in D was **0.0148**, while mean signed fresh-minus-prior change was **+0.0032**. Thus the between-species ordering and scale of D transported strongly across a fresh photo set and a separate measurement execution within the same iNaturalist/FCP measurement system.
+
 These results admit D as a reproducible high-depth species phenotype for the subsequent geometry analyses, but they do not estimate global polymorphism prevalence.
 
 ### H2 discovery and audit: recurrent geometry localizes to white versus nonwhite
@@ -307,7 +311,7 @@ The frozen verdict was `H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED`.
 
 ### A measurable phenotype before a mechanism
 
-The first result is methodological but biologically consequential: within-species flower-colour diversity can be summarized as a continuous species-level phenotype that is reproducible across completely disjoint observer sets under the first-frozen high-depth validation design. This does not mean that D is measured without error. The stricter deterministic split deliberately exposes that limitation: an observed rho of 0.793 is strong enough to preserve broad species ordering but not strong enough to justify claims of near-perfect or split-invariant reliability.
+The first result is methodological but biologically consequential: within-species flower-colour diversity can be summarized as a continuous species-level phenotype that is reproducible across completely disjoint observer sets under the first-frozen high-depth validation design. A later fresh-image execution strengthens that interpretation: 136 overlapping species retained very high D agreement across a new photo set and separate run (Spearman rho = 0.968; Lin CCC = 0.972), indicating that D transport is not limited to one observer partition. This does not mean that D is measured without error or independently validated across imaging systems. The stricter deterministic split deliberately exposes within-run uncertainty, while the fresh transport check still uses the same iNaturalist/FCP measurement system.
 
 This distinction matters for macroecological work with citizen-science photographs. Repeated observations can recover more than a modal species colour, but the reliability of the derived distribution should be tested directly rather than assumed from sample size alone. That caution is consistent with direct evaluations of colour information in citizen-science photographs and with broader evidence that observer behaviour is part of the iNaturalist observation process (Laitly et al. 2021; Di Cecco et al. 2021).
 
@@ -347,13 +351,13 @@ This inference is deliberately bounded. H3a is a non-support result rather than 
 
 The 42,111-species frame gives the analysis broad taxonomic opportunity, but the high-depth cohorts are selected for repeated-observation support and are not a probability sample of global plant diversity. The paper therefore does not estimate the prevalence of flower-colour polymorphism.
 
-Likewise, the third cohort is species-disjoint and prospectively tested, but it comes from the same iNaturalist source/opportunity universe and uses the same measurement system as the earlier cohorts. Validation structure should match the intended generalization claim rather than being treated as generically independent (Roberts et al. 2017). The strongest current wording is prospective species-disjoint confirmation or transport of the frozen axis, not independent-source replication.
+Likewise, the third cohort is species-disjoint and prospectively tested, but it comes from the same iNaturalist source/opportunity universe and uses the same measurement system as the earlier cohorts. The fresh-image D transport check also remains within that same source and measurement system. Validation structure should match the intended generalization claim rather than being treated as generically independent (Roberts et al. 2017). The strongest current wording is fresh-image/same-system transport for D and prospective species-disjoint confirmation for the frozen H2 axis, not independent-source replication.
 
 A stronger external validation would apply the same frozen q_white/W estimand and support rules to an independently generated image source, curated field dataset or another measurement system without retuning the axis.
 
 ### Conclusion
 
-Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling. In a pre-frozen species-disjoint third cohort, continuous colour displacement showed excess alignment with the fixed white-versus-nonwhite axis relative to a coarse-state-preserving structured null. A direct one-shot highlight control subsequently detected substantial within-species coupling between near-clipping and white classification, while removing the response-blind high-clip set still retained H2 support (W = 0.503, p = 0.001). Because that sensitivity retained 89.9% rather than the prespecified 90% of primary vectors, the executable validity gate remained INDETERMINATE. Species with greater D also show stronger within-species geographic colour organization across the original high-depth cohorts. The evidence therefore supports bounded geometric regularity plus species-specific spatial organization, while the measured coarse white state must be interpreted as exposure-coupled rather than artifact-cleared.
+Within-species flower-colour diversity can be measured reproducibly as a continuous species phenotype under high-depth photographic sampling, including strong transport of D across a fresh photo set and separate execution within the same measurement system. In a pre-frozen species-disjoint third cohort, continuous colour displacement showed excess alignment with the fixed white-versus-nonwhite axis relative to a coarse-state-preserving structured null. A direct one-shot highlight control subsequently detected substantial within-species coupling between near-clipping and white classification, while removing the response-blind high-clip set still retained H2 support (W = 0.503, p = 0.001). Because that sensitivity retained 89.9% rather than the prespecified 90% of primary vectors, the executable validity gate remained INDETERMINATE. Species with greater D also show stronger within-species geographic colour organization across the original high-depth cohorts. The evidence therefore supports bounded geometric regularity plus species-specific spatial organization, while the measured coarse white state must be interpreted as exposure-coupled rather than artifact-cleared.
 
 ---
 
@@ -371,7 +375,7 @@ Within-species flower-colour diversity can be measured reproducibly as a continu
 
 ## Data availability
 
-Frozen protocols, analysis code, machine-readable results, claim ledgers and canonical figures are versioned in the `zuizui0223/fcp` GitHub repository. The direct highlight-control result is preserved at `results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json`, with protocol/executable precedence documented in `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`. A related general-purpose implementation, `disttrait 0.12.0`, was developed subsequently. It shares the estimand and algorithmic structure but is not a bitwise numerical reproducer of the frozen study-specific H2 implementation; the biological results and numerical values reported here were generated only with the frozen study-specific pipeline. The third-cohort prospective result is preserved as an immutable repository commit and GitHub Actions artifact. A permanent archival DOI/version should be added before submission.
+Frozen protocols, analysis code, machine-readable results, claim ledgers and canonical figures are versioned in the `zuizui0223/fcp` GitHub repository. The direct highlight-control result is preserved at `results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json`, with protocol/executable precedence documented in `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`. The fresh-image D transport imported into H1 is preserved as the compact receipt `results/polymorphism_fresh_D_transport_20260925/result.json`; the broader FCP v2 counterfactual measurement-validity programme remains outside this manuscript. A related general-purpose implementation, `disttrait 0.12.0`, was developed subsequently. It shares the estimand and algorithmic structure but is not a bitwise numerical reproducer of the frozen study-specific H2 implementation; the biological results and numerical values reported here were generated only with the frozen study-specific pipeline. The third-cohort prospective result is preserved as an immutable repository commit and GitHub Actions artifact. A permanent archival DOI/version should be added before submission.
 
 ## References
 
