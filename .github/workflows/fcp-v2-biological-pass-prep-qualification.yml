@@ -17,6 +17,7 @@ on:
       - "scripts/analysis/reassemble_fcp_v2_biological_pass_20260923.py"
       - "tests/test_fcp_v2_biological_reassembly.py"
       - ".github/workflows/fcp-v2-biological-pass-prep-qualification.yml"
+      - ".github/workflows/fcp-v2-biological-pass.yml"
 
 permissions:
   contents: read
