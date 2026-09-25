@@ -1,0 +1,38 @@
+{
+  "schema":"fcp_floral_specific_decoupling_preflight_v1",
+  "status":"PLEIOTROPIC_COST_COMPARISON_NOT_AUTHORIZED",
+  "source_workflow_run":36115123763,
+  "source_artifact_id":10854887153,
+  "source_artifact_digest":"sha256:9503ebc0a3e91e7747f82f73f209841648436c988935431d3913af4c814e9a92",
+  "strict_registry_instances":6,
+  "strict_registry_species":5,
+  "strict_registry_families":5,
+  "classes":[
+    {
+      "architecture_class":"DEC",
+      "strict_instances":3,
+      "families":3,
+      "minimum_instances":5,
+      "minimum_families":3,
+      "class_gate_pass":false,
+      "instances":["IP_W","PARRYA_CHS","GYMN_MYB"]
+    },
+    {
+      "architecture_class":"SYS",
+      "strict_instances":3,
+      "families":3,
+      "minimum_instances":5,
+      "minimum_families":3,
+      "class_gate_pass":false,
+      "instances":["IP_A","MIM_DFR","GLOSS_DFR"]
+    }
+  ],
+  "unresolved_instances":3,
+  "decision":"Do not open a new comparative pleiotropic-cost outcome panel and do not lower the 5-instance threshold.",
+  "next_step":"Expand only the molecular architecture registry with additional directly resolved natural white/pigmented mechanism instances.",
+  "hard_nonclaims":[
+    "coverage failure is not evidence against floral-specific decoupling",
+    "regulatory architecture is not equivalent to absence of pleiotropy",
+    "structural mutation is not equivalent to systemic effect without extra-floral evidence"
+  ]
+}
