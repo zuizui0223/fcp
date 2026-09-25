@@ -1,0 +1,14 @@
+{
+  "schema":"fcp_temperature_sign_heterogeneity_case_matrix_v1",
+  "status":"descriptive_cross_system_mechanistic_synthesis",
+  "systems":4,
+  "white_associated_with_warmer_conditions":["Moricandia arvensis","Parrya nudicaulis"],
+  "pigmented_associated_with_or_advantaged_by_warmer_conditions":["Ophiorrhiza japonica","Ipomoea purpurea A locus"],
+  "interpretation":"Temperature interacts with pigment genotype/pathway architecture, but its phenotypic or fitness sign is not universal across natural systems.",
+  "mechanistic_modifier_hypothesis":"Tissue specificity and pathway position of pigment loss can reverse the fitness consequences of thermal stress: floral-specific regulatory suppression can permit white flowers while preserving extra-floral flavonoid functions, whereas systemic early-pathway nulls can make white genotypes heat-sensitive.",
+  "hard_nonclaims":[
+    "four systems are mechanistic case studies, not an unbiased meta-analysis",
+    "no cross-system sign p-value is reported",
+    "does not establish temperature as the universal driver of FCP white/nonwhite geometry"
+  ]
+}

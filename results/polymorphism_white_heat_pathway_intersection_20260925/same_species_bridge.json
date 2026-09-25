@@ -1,0 +1,37 @@
+{
+  "schema":"fcp_white_heat_same_species_bridge_v1",
+  "status":"post_result_mechanistic_triangulation",
+  "same_species_bridges":[
+    {
+      "species":"Parrya nudicaulis",
+      "temperature_result":"white-flower frequency increases with growing-season temperature across natural populations",
+      "molecular_result":"white petals show an early anthocyanin-pathway blockage with petal-specific regulatory downregulation near CHS",
+      "direction":"warmer -> more white",
+      "strength":"strongest natural ecology-to-molecular bridge",
+      "doi":"10.1371/journal.pone.0018230"
+    },
+    {
+      "species":"Moricandia arvensis",
+      "temperature_result":"elevated temperature produces reversible white summer flowers",
+      "molecular_result":"anthocyanins are lost from summer white flowers while UV-absorbing flavonoids/phenolics increase",
+      "direction":"hotter -> white",
+      "strength":"direct plastic heat-to-pigment bridge",
+      "doi":"10.1002/ajb2.70096"
+    },
+    {
+      "species":"Ipomoea purpurea",
+      "temperature_result":"temperature modulates anthocyanin content and transcript levels in natural flowering-season data",
+      "molecular_result":"natural pale/albino variants affect CHS/bHLH components of the same anthocyanin network",
+      "direction":"not universally whitening; the principal anthocyanin showed a positive field-temperature association",
+      "strength":"same-network thermosensitivity counterexample showing context dependence",
+      "doi":"10.1111/j.1365-294X.2009.04288.x"
+    }
+  ],
+  "interpretation":"Temperature can act on the same pigment network that recurrent natural white variants perturb, but the sign and strength of temperature effects are context dependent. Parrya provides the clearest natural same-species bridge between warmer environments, white frequency, and an anthocyanin-pathway regulatory mechanism.",
+  "model":"genotype/pathway state × thermal environment -> pigment-network flux -> floral chromatic endpoint",
+  "hard_nonclaims":[
+    "does not make BIO5 a replicated universal FCP driver",
+    "Parrya's geographic temperature association alone does not prove temperature is the selective agent",
+    "Ipomoea demonstrates that temperature effects on anthocyanin need not have the same sign across systems"
+  ]
+}

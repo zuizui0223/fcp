@@ -1,0 +1,11 @@
+node,FCP_natural_white_support,heat_flower_support,FCP_examples,heat_examples,intersection_class
+MYB,yes,yes,"Gymnadenia rhellicani;Pleione limprichtii;Silene littorea","Lilium spp.;Chrysanthemum morifolium",explicit_overlap
+CHS,yes,yes,"Ipomoea purpurea;Parrya nudicaulis","Antirrhinum majus;Lilium spp.;Chrysanthemum morifolium;Rosa Jaguar",explicit_overlap
+F3H,yes,yes,"Silene littorea","Antirrhinum majus;Lilium spp.",explicit_overlap
+ANS,yes,yes,"Gymnadenia rhellicani;Pleione limprichtii","Antirrhinum majus;Chrysanthemum morifolium",explicit_overlap
+UFGT,yes,yes,"Pleione limprichtii","Antirrhinum majus;Chrysanthemum morifolium",explicit_overlap
+FLS,yes,no_explicit_selected_primary,"Pleione limprichtii","Moricandia arvensis shows phenolic/flavonol rerouting without a gene-specific FLS result",pathway_compatible_not_node_overlap
+bHLH,yes,no_explicit_selected_primary,"Ipomoea purpurea;Pleione limprichtii","",FCP_only_in_selected_evidence
+WD40,yes,no_explicit_selected_primary,"Pleione limprichtii","",FCP_only_in_selected_evidence
+CHI,no,yes,"","Antirrhinum majus",heat_only_in_selected_evidence
+DFR,no,yes,"","Antirrhinum majus;Lilium spp.;Chrysanthemum morifolium;Rosa Jaguar",heat_only_in_selected_evidence

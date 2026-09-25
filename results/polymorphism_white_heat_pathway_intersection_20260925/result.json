@@ -1,0 +1,32 @@
+{
+  "schema": "fcp_white_heat_pathway_intersection_v1",
+  "status": "post_result_mechanistic_triangulation",
+  "confirmatory": false,
+  "fcp_normalized_node_classes": 8,
+  "heat_direct_node_classes_selected_primary_literature": 7,
+  "explicit_overlap_nodes": ["MYB","CHS","F3H","ANS","UFGT"],
+  "explicit_overlap_count": 5,
+  "fraction_of_fcp_nodes_with_direct_heat_overlap": 0.625,
+  "jaccard_descriptive": 0.5,
+  "no_enrichment_test_reason": "Anthocyanin pathway nodes and heat studies are not an exchangeable random universe; heat commonly affects multiple linked pathway nodes, so a post hoc hypergeometric p-value would overstate evidence.",
+  "direct_heat_white_plasticity_example": {
+    "species": "Moricandia arvensis",
+    "doi": "10.1002/ajb2.70096",
+    "result": "elevated-temperature summer flowers are white; anthocyanins occur in spring flowers while summer flowers accumulate UV-absorbing flavonoids/phenolics"
+  },
+  "primary_heat_sources": [
+    {"system":"Antirrhinum majus","doi":"10.1016/j.scienta.2021.110510","nodes":["CHS","CHI","F3H","DFR","ANS","UFGT"]},
+    {"system":"Lilium spp.","doi":"10.1016/j.scienta.2011.09.030","nodes":["MYB","CHS","F3H","DFR"]},
+    {"system":"Chrysanthemum morifolium","doi":"10.1038/s41438-021-00675-z","nodes":["MYB","CHS","DFR","ANS","UFGT"]},
+    {"system":"Rosa Jaguar","doi":"10.1016/S0168-9452(02)00417-X","nodes":["CHS","DFR"]}
+  ],
+  "working_model": "Genetic/regulatory perturbations and thermal repression can independently reduce or reroute flux through overlapping pigment-network nodes and converge on pale/achromatic floral phenotypes.",
+  "why_bio5_nonreplication_is_not_a_contradiction": "Published heat responses are conditional on genotype, developmental stage and light environment; therefore heat can be a real molecular perturbation without generating a universal cross-species BIO5 main effect.",
+  "next_decisive_test": "natural colour genotype/morph x temperature common-garden experiment with pigment chemistry and targeted pathway expression; primary estimand is genotype/morph-by-temperature interaction",
+  "hard_nonclaims": [
+    "does not rescue the failed legacy BIO5 replication",
+    "does not prove heat generated the global H2 white/nonwhite geometry",
+    "does not establish a universal anthocyanin mechanism across betalain or carotenoid systems",
+    "does not establish nonwhite-to-white evolutionary transition asymmetry"
+  ]
+}

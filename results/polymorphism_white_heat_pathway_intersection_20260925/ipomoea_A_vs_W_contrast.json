@@ -1,0 +1,24 @@
+{
+  "schema":"fcp_ipomoea_same_species_white_locus_contrast_v1",
+  "status":"literature_mechanistic_synthesis",
+  "species":"Ipomoea purpurea",
+  "shared_endpoint":"white floral phenotype",
+  "W_locus":{
+    "mechanism":"nonfunctional R2R3-MYB regulator IpMYB1",
+    "architecture":"regulatory",
+    "natural_frequency":"common polymorphism; reported up to approximately 0.5 allele frequency in reviews and 0-43% white-petal phenotype in Del Valle Table S1 source synthesis",
+    "deleterious_pleiotropy":"no comparable established deleterious fitness burden identified despite extensive study"
+  },
+  "A_locus":{
+    "mechanism":"CHS-D structural loss/disruption",
+    "architecture":"early structural flavonoid-pathway lesion with extra-floral pigmentation effects",
+    "natural_frequency":"exceptionally rare",
+    "heat_cost":"aa homozygotes show reduced male and female fertilization success versus AA at high but not low temperature"
+  },
+  "interpretation":"Within one species and a similar white floral endpoint, regulatory versus early structural pathway architecture tracks a large difference in natural frequency and documented pleiotropic cost, consistent with floral-specific pigment decoupling.",
+  "hard_nonclaims":[
+    "does not prove the W locus has zero pleiotropy",
+    "does not treat allele frequency and phenotype frequency as identical quantities",
+    "does not establish architecture as the sole cause of frequency differences"
+  ]
+}

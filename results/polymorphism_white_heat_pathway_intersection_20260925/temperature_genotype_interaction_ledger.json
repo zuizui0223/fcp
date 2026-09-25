@@ -1,0 +1,38 @@
+{
+  "schema":"fcp_white_temperature_genotype_interaction_ledger_v1",
+  "date_jst":"2026-09-25",
+  "systems":[
+    {
+      "species":"Moricandia arvensis",
+      "interaction_type":"within-genotype thermal plasticity",
+      "result":"hotter summer strongly reduces floral cyanidin and summer-white flowers downregulate overlapping pigment-network nodes",
+      "doi":"10.1038/s41467-020-17875-1"
+    },
+    {
+      "species":"Ipomoea purpurea",
+      "interaction_type":"pigment genotype x experimental temperature fitness",
+      "result":"CHS-null white genotype has approximately 24-26% lower fertilization success than pigmented genotype in high-temperature conditions, not at low temperature",
+      "doi":"10.1046/j.1365-294x.2003.01786.x"
+    },
+    {
+      "species":"Parrya nudicaulis",
+      "interaction_type":"natural thermal cline plus known pigment mechanism",
+      "result":"white frequency increases with growing-season temperature; white petals show strong CHS downregulation",
+      "doi":"10.1371/journal.pone.0018230"
+    },
+    {
+      "species":"Ophiorrhiza japonica",
+      "interaction_type":"natural colour morph x thermal condition",
+      "result":"pink morph is associated with warmer conditions and white with colder/winter conditions; direction opposes universal hotter-to-white rule",
+      "doi":"10.3389/fpls.2024.1495112"
+    }
+  ],
+  "general_hypothesis":"pigment-network genotype/regulatory state x temperature, not a universal temperature main effect",
+  "prediction":"cross-species variance in genotype/morph-by-temperature interactions should be substantial and linked to the affected pigment-network node",
+  "hard_nonclaims":[
+    "does not establish a universal direction of temperature-driven colour change",
+    "does not rescue failed cross-cohort BIO5 replication",
+    "Parrya climate association remains observational",
+    "Ipomoea experiment tests fitness consequences rather than heat-induced flower whitening"
+  ]
+}

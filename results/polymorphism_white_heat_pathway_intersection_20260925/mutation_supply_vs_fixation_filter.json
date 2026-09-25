@@ -1,0 +1,21 @@
+{
+  "schema":"fcp_mutation_supply_vs_fixation_filter_synthesis_v1",
+  "status":"mechanistic_synthesis",
+  "published_spontaneous_white_mutation_spectrum":{
+    "total":69,
+    "functional_core_enzyme":29,
+    "cis_regulatory_core_enzyme":8,
+    "transcription_factor":32,
+    "source":"Wessinger & Rausher 2012 synthesis of Streisfeld & Rausher"
+  },
+  "working_model":"broad mutation supply -> tissue/pathway architecture -> pleiotropic burden -> ecological performance -> persistence/frequency/fixation",
+  "within_species_support":["Silene littorea PAL versus WAL","Ipomoea purpurea W versus A loci"],
+  "cross_species_support":"Del Valle et al. Table S1 PAL versus WAL frequency-scale separation",
+  "temperature_role":"context-dependent ecological/physiological filter interacting with pigment architecture, not universal cause",
+  "hard_nonclaims":[
+    "does not estimate mutation rates directly",
+    "does not establish an unbiased global fixation odds ratio",
+    "does not imply all white flowers have low pleiotropy",
+    "does not establish evolutionary direction of the FCP white/nonwhite axis"
+  ]
+}
