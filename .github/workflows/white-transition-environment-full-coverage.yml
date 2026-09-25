@@ -1,0 +1,103 @@
+name: White transition environment full-coverage screen
+
+on:
+  push:
+    branches:
+      - analysis/white-transition-mechanism-v1-20260925
+    paths:
+      - 'scripts/analysis/run_white_environment_full_coverage_20260925.py'
+      - 'docs/WHITE_TRANSITION_MECHANISM_PROTOCOL_20260925.md'
+      - '.github/workflows/white-transition-environment-full-coverage.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  screen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      THIRD_COHORT_ARTIFACT_ID: '10496492307'
+      HIGHLIGHT_ARTIFACT_ID: '10709490106'
+      WORLDCLIM_URL: 'https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy scikit-learn rasterio
+
+      - name: Download immutable third-cohort measurement artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/h2
+          curl -fL --retry 4 \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${THIRD_COHORT_ARTIFACT_ID}/zip" \
+            -o /tmp/h2.zip
+          unzip -q /tmp/h2.zip -d /tmp/h2
+          test -f /tmp/h2/home/runner/work/fcp/fcp/data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv
+
+      - name: Download frozen highlight-control technical seal
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/highlight
+          curl -fL --retry 4 \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${HIGHLIGHT_ARTIFACT_ID}/zip" \
+            -o /tmp/highlight.zip
+          unzip -q /tmp/highlight.zip -d /tmp/highlight
+          test -f /tmp/highlight/high_clip_ids.csv
+          test -f /tmp/highlight/sealed_join_key.csv
+
+      - name: Download official WorldClim 2.1 bioclimatic rasters
+        run: |
+          mkdir -p /tmp/worldclim
+          curl -fL --retry 4 "${WORLDCLIM_URL}" -o /tmp/worldclim.zip
+          sha256sum /tmp/worldclim.zip | tee /tmp/worldclim_archive_sha256.txt
+          unzip -q /tmp/worldclim.zip -d /tmp/worldclim
+          for i in 1 4 5 6 7 12 14 15 17; do
+            test -f "/tmp/worldclim/wc2.1_10m_bio_${i}.tif"
+          done
+
+      - name: Run full-coverage white-environment screen
+        run: |
+          python scripts/analysis/run_white_environment_full_coverage_20260925.py \
+            --measured /tmp/h2/home/runner/work/fcp/fcp/data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv \
+            --high-clip-ids /tmp/highlight/high_clip_ids.csv \
+            --sealed-join-key /tmp/highlight/sealed_join_key.csv \
+            --worldclim-dir /tmp/worldclim \
+            --outdir results/white_environment_full_coverage_20260925
+          cp /tmp/worldclim_archive_sha256.txt results/white_environment_full_coverage_20260925/
+
+      - name: Sanity-check result receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/white_environment_full_coverage_20260925/result.json')
+          x=json.loads(p.read_text())
+          assert x['status']=='complete'
+          assert x['primary_contrast']=='white_vs_anthocyanic'
+          assert x['counts']['climate_complete_rows'] > 10000
+          assert x['counts']['climate_complete_species'] > 100
+          print(json.dumps(x['counts'], indent=2))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: white-environment-full-coverage-20260925
+          path: results/white_environment_full_coverage_20260925/
+          if-no-files-found: error
+          retention-days: 90
