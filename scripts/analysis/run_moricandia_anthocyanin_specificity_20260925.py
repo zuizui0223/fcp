@@ -101,29 +101,45 @@ def main():
         })
     w=pd.DataFrame(rows).sort_values("Individual").reset_index(drop=True)
 
-    if (w[["cyanidin_mild","cyanidin_hot","flavonol_mild","flavonol_hot"]]<=0).any().any():
-        bad=w.loc[(w[["cyanidin_mild","cyanidin_hot","flavonol_mild","flavonol_hot"]]<=0).any(axis=1)]
-        raise SystemExit(f"nonpositive trait values block log-ratio analysis: {bad.to_dict('records')}")
+    nonpositive_mask=(w[["cyanidin_mild","cyanidin_hot","flavonol_mild","flavonol_hot"]]<=0).any(axis=1)
+    log_ratio_estimable=not bool(nonpositive_mask.any())
+    bad=w.loc[nonpositive_mask].copy()
 
-    w["cyanidin_hot_over_mild"]=w.cyanidin_hot/w.cyanidin_mild
-    w["flavonol_hot_over_mild"]=w.flavonol_hot/w.flavonol_mild
-    w["log_ratio_cyanidin"]=np.log(w.cyanidin_hot_over_mild)
-    w["log_ratio_flavonol"]=np.log(w.flavonol_hot_over_mild)
-    w["branch_specificity_B"]=w.log_ratio_cyanidin-w.log_ratio_flavonol
-
-    B=w.branch_specificity_B.to_numpy(float)
-    wr1=wilcoxon(B,zero_method="wilcox",alternative="less")
-    wr2=wilcoxon(B,zero_method="wilcox",alternative="two-sided")
-    nonzero=B[B!=0]
-    successes=int((nonzero<0).sum())
-    sign=binomtest(successes,len(nonzero),0.5,alternative="greater")
-
-    support=bool(
-        len(w)==15 and
-        float(np.median(B))<0 and
-        int((B<0).sum())>=12 and
-        float(wr1.pvalue)<0.05
-    )
+    branch={
+        "definition":"log(cyanidin_hot/cyanidin_mild) - log(flavonol_hot/flavonol_mild)",
+        "estimable":bool(log_ratio_estimable),
+        "nonpositive_rows":bad.to_dict("records"),
+    }
+    support=False
+    if log_ratio_estimable:
+        w["cyanidin_hot_over_mild"]=w.cyanidin_hot/w.cyanidin_mild
+        w["flavonol_hot_over_mild"]=w.flavonol_hot/w.flavonol_mild
+        w["log_ratio_cyanidin"]=np.log(w.cyanidin_hot_over_mild)
+        w["log_ratio_flavonol"]=np.log(w.flavonol_hot_over_mild)
+        w["branch_specificity_B"]=w.log_ratio_cyanidin-w.log_ratio_flavonol
+        B=w.branch_specificity_B.to_numpy(float)
+        wr1=wilcoxon(B,zero_method="wilcox",alternative="less")
+        wr2=wilcoxon(B,zero_method="wilcox",alternative="two-sided")
+        nonzero=B[B!=0]
+        successes=int((nonzero<0).sum())
+        sign=binomtest(successes,len(nonzero),0.5,alternative="greater")
+        branch.update({
+            "mean_B":float(np.mean(B)),
+            "median_B":float(np.median(B)),
+            "individuals_B_lt_0":int((B<0).sum()),
+            "fraction_B_lt_0":float((B<0).mean()),
+            "wilcoxon_one_sided_p_B_lt_0":float(wr1.pvalue),
+            "wilcoxon_two_sided_p":float(wr2.pvalue),
+            "sign_test_directional_p":float(sign.pvalue),
+        })
+        support=bool(
+            len(w)==15 and
+            float(np.median(B))<0 and
+            int((B<0).sum())>=12 and
+            float(wr1.pvalue)<0.05
+        )
+    else:
+        branch["reason"]="Frozen log-ratio primary is undefined because at least one measured cyanidin/flavonol mean equals zero; no pseudocount or replacement statistic is introduced after opening the data."
 
     result={
         "schema":"fcp_moricandia_anthocyanin_branch_specificity_v1",
@@ -134,16 +150,7 @@ def main():
         "n_individuals":int(len(w)),
         "cyanidin":trait_summary(w,"cyanidin"),
         "flavonol":trait_summary(w,"flavonol"),
-        "branch_specificity":{
-            "definition":"log(cyanidin_hot/cyanidin_mild) - log(flavonol_hot/flavonol_mild)",
-            "mean_B":float(np.mean(B)),
-            "median_B":float(np.median(B)),
-            "individuals_B_lt_0":int((B<0).sum()),
-            "fraction_B_lt_0":float((B<0).mean()),
-            "wilcoxon_one_sided_p_B_lt_0":float(wr1.pvalue),
-            "wilcoxon_two_sided_p":float(wr2.pvalue),
-            "sign_test_directional_p":float(sign.pvalue),
-        },
+        "branch_specificity":branch,
         "verdict":"ANTHOCYANIN_BRANCH_SPECIFIC_HEAT_RESPONSE_SUPPORTED" if support else "ANTHOCYANIN_BRANCH_SPECIFICITY_NOT_SUPPORTED_UNDER_THIS_TEST",
         "interpretation":"A negative branch-specificity contrast means anthocyanin declines proportionally more strongly than UV-absorbing flavonols under hotter summer conditions with the stated summer photoperiod held constant.",
         "hard_nonclaims":[
