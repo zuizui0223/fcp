@@ -1,0 +1,39 @@
+{
+  "schema":"fcp_white_mechanism_evidence_ladder_v1",
+  "status":"mechanistic_synthesis",
+  "tiers":{
+    "phenotype_geometry":"H2 prospective white/nonwhite alignment confirmed",
+    "molecular_convergence":"at least five natural systems converge on anthocyanin/flavonoid network nodes",
+    "environmental_access":"Moricandia thermal treatment accesses overlapping network nodes and suppresses cyanidin",
+    "within_species_decoupling":{
+      "species":"Silene littorea",
+      "PAL_positive_median_percent":15.5,
+      "WAL_positive_median_percent":0.21,
+      "ratio":73.80952380952381,
+      "PAL_min_percent":8.0,
+      "WAL_max_percent":0.86
+    },
+    "crossspecies_frequency":{
+      "PAL_instances":13,
+      "WAL_instances":13,
+      "PAL_median_lower_bound_percent":5.0,
+      "WAL_median_numeric_upper_bound_percent":0.1,
+      "conservative_ratio":50.0,
+      "PAL_instances_lower_bound_above_max_WAL":7,
+      "max_quantified_WAL_percent":1.4
+    }
+  },
+  "working_mechanism":"many-to-one pigment-network accessibility plus floral/branch-specific decoupling as a persistence filter",
+  "strict_comparative_gap":{
+    "DEC_instances":3,
+    "SYS_instances":3,
+    "required_each":5,
+    "pleiotropic_cost_comparison_authorized":false
+  },
+  "hard_nonclaims":[
+    "not an unbiased angiosperm-wide meta-analysis",
+    "does not prove tissue restriction alone causes persistence",
+    "does not rescue failed BIO5 replication",
+    "does not establish repeated nonwhite-to-white evolutionary direction"
+  ]
+}
