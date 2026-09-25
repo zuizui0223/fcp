@@ -18,11 +18,11 @@ Can flower-colour polymorphism be measured reproducibly as a species phenotype, 
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-Using a global atlas framework originally designed to seek shared geography, we show that cross-species regularity is stronger in phenotype space: within-species colour variation repeatedly follows an achromatic–chromatic direction, whereas its geographic realization remains species-specific. More diverse species also show stronger geographic colour organization.
+Using a global atlas framework originally designed to seek shared geography, we show that cross-species regularity is strongest in phenotype space: within-species colour variation repeatedly follows an achromatic–chromatic direction, while current data do not resolve whether geographic realization is shared or species-specific. More diverse species show stronger within-species geographic organization.
 
 ### Question 3 — Why is this work important and timely?
 
-Flower-colour polymorphism is usually studied within populations, while global comparative work compresses species to one colour value. By linking these scales, we show that recurrent phenotypic constraint can coexist with species-specific spatial realization, providing a new ecological view of how intraspecific floral variation is organized across plants.
+Flower-colour polymorphism is usually studied within populations, while global comparative work compresses species to one colour value. By linking these scales, we show that recurrent phenotypic geometry can coexist with measurable spatial organization while leaving cross-species map sharing open, motivating mechanistic tests of pigment-network accessibility and ecological sorting.
 
 ## Key result and evidential chronology
 
@@ -32,7 +32,7 @@ The prospective cohort completed **49,900** terminal measurements from 499 speci
 
 The chronology is central to the manuscript. The original discovery and reserve cohorts localized the recurrent construction-controlled geometry to a fixed white-versus-nonwhite axis only after the broad geometry had been opened. We therefore treated those analyses as target discovery/localization, froze the axis and inferential machinery, and tested the target prospectively in a new species-disjoint cohort.
 
-A complementary frozen analysis provides the main ecological clue: greater species-level D is associated with stronger within-species geographic colour organization in both original cohorts. In reserve, the relationship persists after sampled-span and clear technical-failure adjustment (partial rho = 0.0993, p = 0.025), remains positive for a matched flower-minus-background response (rho = 0.1162, p = 0.010), and survives uniform ambiguity-endpoint stress tests. Taken together with H2, this yields the central biological contrast of the paper: **what varies is partly recurrent across species, whereas where that variation is sorted is species-specific**. We interpret this as a structural ecological pattern, not as evidence for one universal causal mechanism.
+A complementary frozen analysis provides the main ecological clue: greater species-level D is associated with stronger within-species geographic colour organization in both original cohorts. In reserve, the relationship persists after sampled-span and clear technical-failure adjustment (partial rho = 0.0993, p = 0.025), remains positive for a matched flower-minus-background response (rho = 0.1162, p = 0.010), and survives uniform ambiguity-endpoint stress tests. Taken together with H2, this yields the central biological contrast of the paper: **what varies is partly recurrent across species, whereas whether where that variation is sorted is shared or species-specific remains unresolved**. We interpret this as a structural ecological pattern and an open spatial question, not as evidence for one universal causal mechanism.
 
 ## Scope boundary
 
