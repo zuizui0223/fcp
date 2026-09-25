@@ -1,0 +1,23 @@
+{
+  "schema": "fcp_white_pollinator_coverage_v1",
+  "status": "coverage_complete",
+  "role": "outcome_blind_coverage_only",
+  "plant_frame_species": 499,
+  "live_api_warning": "GloBI live/API results are unstable and are not authorized for final biological inference; passing dimensions must be rebuilt from a stable versioned release.",
+  "query_cap_per_species_orientation": 512,
+  "queries_total": 1996,
+  "queries_technically_valid": 1996,
+  "queries_truncated": 180,
+  "P0_query_integrity": {"pass": true, "species_all_four_valid": 499, "required_fraction": 0.95},
+  "P1_broad_pollinator_identifiability": {"pass": true, "species_with_any_pollinator": 423, "species_with_ge3_pollinator_taxa": 356, "requirements": ">=100 any; >=60 with >=3 taxa"},
+  "P2_multiguild_identifiability": {"pass": true, "species_with_ge2_primary_guilds": 335, "requirement": ">=40"},
+  "P3_hawkmoth_identifiability": {"pass": true, "species_with_sphingidae": 68, "covered_species_without_sphingidae": 355, "requirements": ">=20 each; non-detection is not biological absence"},
+  "P4_spatial_identifiability": {"pass": true, "species_ge10_georeferenced_and_ge2_cells": 295, "of_these_species_with_ge2_guilds": 275, "requirements": ">=50 spatial; >=30 spatial multi-guild"},
+  "guild_species_counts": {"aves":56,"bee":358,"chiroptera":0,"coleoptera":218,"diptera":261,"lepidoptera":331,"other_hymenoptera":180},
+  "hard_nonclaims": [
+    "coverage does not establish pollinator preference",
+    "coverage does not establish pollinator-driven evolution",
+    "coverage does not identify pigmented-to-white transition direction",
+    "missing GloBI records are not pollinator absence"
+  ]
+}
