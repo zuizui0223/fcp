@@ -1,0 +1,43 @@
+{
+  "schema":"fcp_silene_decoupling_natural_persistence_v1",
+  "status":"complete",
+  "source_workflow_run":36116752694,
+  "source_artifact_id":10855008295,
+  "source_artifact_digest":"sha256:e7da4cef5332b63a27380db7361e90d85307b8bc19caf5f14750557cc7953dee",
+  "source":"Supplementary Table S2, Del Valle et al. 2019, DOI 10.1186/s12870-019-2082-6",
+  "surveyed_populations":21,
+  "phenotypes":{
+    "PAL":{
+      "population_year_observations":40,
+      "populations_ever_positive":2,
+      "positive_population_years":6,
+      "positive_frequency_min_percent":8.0,
+      "positive_frequency_median_percent":15.5,
+      "positive_frequency_max_percent":21.0,
+      "populations_positive_at_least_3_years":2
+    },
+    "WAL":{
+      "population_year_observations":42,
+      "populations_ever_positive":9,
+      "positive_population_years":17,
+      "positive_frequency_min_percent":0.05,
+      "positive_frequency_median_percent":0.21,
+      "positive_frequency_max_percent":0.86,
+      "populations_positive_at_least_3_years":3
+    }
+  },
+  "persistent_PAL_populations":{
+    "Louro":[21.0,9.0,8.0],
+    "Barra":[20.0,14.0,17.0]
+  },
+  "descriptive_contrast":{
+    "PAL_over_WAL_positive_median_ratio":73.80952380952381,
+    "all_positive_PAL_frequencies_exceed_max_positive_WAL":true
+  },
+  "interpretation":"Within Silene littorea, petal-restricted anthocyanin-loss whites are geographically restricted but locally common and repeatedly persistent, whereas whole-plant anthocyanin-loss whites occur in more populations but remain below 1% in every positive population-year.",
+  "hard_nonclaims":[
+    "post-publication reproduction, not independent confirmation",
+    "does not prove tissue restriction itself causally causes higher PAL frequency",
+    "natural frequency can also reflect demography, mutation rate, selection and spatial history"
+  ]
+}
