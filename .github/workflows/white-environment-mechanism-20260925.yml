@@ -7,6 +7,7 @@ on:
     paths:
       - docs/POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md
       - scripts/analysis/run_white_environment_mechanism_20260925.py
+      - scripts/analysis/run_white_environment_observer_sensitivity_20260925.py
       - .github/workflows/white-environment-mechanism-20260925.yml
 
 permissions:
@@ -33,6 +34,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install pandas numpy scipy statsmodels rasterio
           python -m py_compile scripts/analysis/run_white_environment_mechanism_20260925.py
+          python -m py_compile scripts/analysis/run_white_environment_observer_sensitivity_20260925.py
       - uses: actions/download-artifact@v4
         with:
           repository: ${{ github.repository }}
@@ -63,6 +65,10 @@ jobs:
           test -n "$MEASURED"
           rm -rf results/polymorphism_white_environment_mechanism_20260925
           python scripts/analysis/run_white_environment_mechanism_20260925.py             --measured "$MEASURED"             --technical-table /tmp/technical/technical_table.csv.gz             --join-key /tmp/technical/sealed_join_key.csv             --high-clip-ids /tmp/technical/high_clip_ids.csv             --bio-dir /tmp/worldclim/bio             --srad-dir /tmp/worldclim/srad             --outdir results/polymorphism_white_environment_mechanism_20260925
+      - name: Run posthoc observer-paired sensitivity
+        run: |
+          MEASURED="$(find /tmp/biological -type f -name 'polymorphism_h2_third_cohort_measured_photos_v1.csv' -print -quit)"
+          python scripts/analysis/run_white_environment_observer_sensitivity_20260925.py             --measured "$MEASURED"             --technical-table /tmp/technical/technical_table.csv.gz             --join-key /tmp/technical/sealed_join_key.csv             --high-clip-ids /tmp/technical/high_clip_ids.csv             --bio-dir /tmp/worldclim/bio             --srad-dir /tmp/worldclim/srad             --outdir results/polymorphism_white_environment_mechanism_20260925
       - name: Validate result contract
         run: |
           python - <<'PY'
@@ -74,7 +80,11 @@ jobs:
           assert x['status']=='complete'
           assert x['eligible_species']>=100
           assert [r['variable'] for r in x['results']]==['bio5','bio14','srad_mean']
+          s=json.loads(Path('results/polymorphism_white_environment_mechanism_20260925/observer_paired_sensitivity.json').read_text())
+          assert s['schema']=='fcp_white_environment_observer_sensitivity_v1'
+          assert s['status']=='complete'
           print(json.dumps(x,indent=2,sort_keys=True))
+          print(json.dumps(s,indent=2,sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
