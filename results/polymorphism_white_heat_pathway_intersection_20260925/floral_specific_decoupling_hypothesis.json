@@ -1,0 +1,18 @@
+{
+  "schema":"fcp_floral_specific_pigment_decoupling_hypothesis_v1",
+  "status":"working_hypothesis_post_result",
+  "core_model":"floral or anthocyanin-branch-specific pigment reduction permits recurrent white floral phenotypes while limiting pleiotropic loss of extra-floral flavonoid functions",
+  "strongest_anchors":[
+    "Parrya nudicaulis petal-specific CHS downregulation with leaves/sepals spared",
+    "Ipomoea purpurea systemic CHS-null white genotype shows high-temperature fertilization cost",
+    "Ipomoea purpurea regulatory W-locus white allele occurs at substantially higher natural frequency than the structural A-locus white allele",
+    "Moricandia arvensis hotter treatment strongly reduces cyanidin while kaempferol-equivalent flavonol is largely maintained"
+  ],
+  "predictions":["regulatory/tissue-specific enrichment","pleiotropic-cost gradient","environment-by-genotype interaction","plastic white phenotypes preserve alternative flavonoids","petal-biased expression differences"],
+  "hard_nonclaims":[
+    "not yet a comparative enrichment result",
+    "does not prove regulatory alleles always have lower pleiotropic cost",
+    "does not rescue the failed cross-cohort BIO5 replication",
+    "does not establish nonwhite-to-white evolutionary transition asymmetry"
+  ]
+}
