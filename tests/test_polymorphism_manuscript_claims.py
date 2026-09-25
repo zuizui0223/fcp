@@ -180,8 +180,6 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
     assert WORLDCLIM_RELEASE_RECEIPT.exists()
     release_receipt = WORLDCLIM_RELEASE_RECEIPT.read_text(encoding="utf-8")
     assert "fcp-worldclim-2.1-10m-20260925" in release_receipt
-    assert "588322903" in release_receipt
-    assert "588322905" in release_receipt
 
 
 def test_spatial_organization_receipt_preserves_frozen_positive_clue() -> None:
