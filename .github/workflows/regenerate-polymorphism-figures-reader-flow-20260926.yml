@@ -37,6 +37,14 @@ jobs:
           python scripts/analysis/make_polymorphism_manuscript_figures.py --root . --output-dir docs/figures/polymorphism_20260918
       - name: Re-run tests against regenerated package
         run: python -m pytest tests/test_make_polymorphism_manuscript_figures.py -q
+      - uses: actions/upload-artifact@v4
+        with:
+          name: figure1-reader-flow-qa
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            docs/figures/polymorphism_20260918/polymorphism_figure1_measurement_frame.png
+            docs/figures/polymorphism_20260918/polymorphism_figure1_measurement_frame.pdf
       - name: Commit regenerated figure outputs
         run: |
           git config user.name "github-actions[bot]"
