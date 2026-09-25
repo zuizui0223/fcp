@@ -1,0 +1,15 @@
+{
+  "schema": "fcp_white_bee_coverage_v2",
+  "status": "COVERAGE_GATE_PASS",
+  "outcome_blind": true,
+  "source": "Noori et al. 2026 curated GloBI v3.1 / Zenodo 18303036 / GloBI_Curated.csv",
+  "plant_name_field": "plant_species",
+  "decoder": "utf-8 with replacement of invalid bytes; exact matching uses normalized species strings",
+  "fcp_species_total": 499,
+  "curated_rows_scanned": 981982,
+  "curated_unique_plant_names_normalized": 12699,
+  "exact_matched_species": 346,
+  "coverage_fraction": 0.6933867735470942,
+  "minimum_required_species": 100,
+  "hard_boundary": "No flower-colour outcome was read. Coverage alone cannot support or reject pollinator causation."
+}
