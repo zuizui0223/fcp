@@ -1,0 +1,41 @@
+{
+  "schema":"fcp_ipomoea_chs_heat_genotype_interaction_v1",
+  "status":"published_factorial_experiment_synthesis",
+  "species":"Ipomoea purpurea",
+  "source":{
+    "doi":"10.1046/j.1365-294x.2003.01786.x",
+    "title":"Analysis of a chalcone synthase mutant in Ipomoea purpurea reveals a novel function for flavonoids: amelioration of heat stress"
+  },
+  "genetic_perturbation":{
+    "locus":"A / CHS-D",
+    "white_genotype":"aa",
+    "pigmented_genotype":"AA",
+    "mechanism":"Ac/Ds insertion prevents transcription of a functional CHS-D copy; aa plants are white and strongly flavonoid-deficient"
+  },
+  "design":{
+    "background_control":"two partially inbred lines generated so AA and aa backgrounds were randomized apart from linked loci",
+    "factorial_factors":["temperature","light","maternal genotype","paternal genotype","experimental line"],
+    "low_temperature_C":"27 day / 18 night",
+    "high_temperature_C":"36 day / 24 night for first 2 weeks, then 32 day / 20 night",
+    "fertilization_pairs":1342,
+    "water_stress_control":"humidity and twice-daily saturation watering used to minimize drought confounding"
+  },
+  "genotype_by_temperature_results":{
+    "maternal_genotype_x_maternal_temperature":{"F":7.32,"p":0.0069},
+    "paternal_genotype_x_maternal_temperature":{"F":4.85,"p":0.0278},
+    "maternal_white_high_temperature_effect":"aa recipients approximately 26% lower fertilization success than AA at high temperature; similar at low temperature",
+    "paternal_white_high_temperature_effect":"aa pollen approximately 24% lower fertilization success than AA on high-temperature recipients; no genotype effect on low-temperature recipients"
+  },
+  "flower_number":{
+    "genotype_x_temperature":{"F":8.77,"p":0.0065},
+    "direction":"aa produced fewer flowers than AA at low temperature, but the genotypes were similar at high temperature; this endpoint does not show the same white-specific high-temperature disadvantage as fertilization"
+  },
+  "interpretation":"Loss of an early flavonoid-pathway node changes the fitness response to high temperature. The pigment pathway is therefore not merely an output of thermal environment; pathway state also changes thermal performance.",
+  "link_to_moricandia":"Moricandia provides the complementary causal direction: greater thermal severity under fixed summer photoperiod lowers floral anthocyanin. Together the systems support bidirectional coupling between temperature and pigment-network state.",
+  "hard_nonclaims":[
+    "does not imply high temperature universally favors white flowers; in this experiment high temperature selectively penalizes the CHS-null white genotype",
+    "does not imply all white morphs are whole-plant CHS knockouts",
+    "does not rescue the failed FCP cross-cohort BIO5 association",
+    "published synthesis rather than new raw-data reanalysis"
+  ]
+}
