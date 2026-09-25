@@ -55,4 +55,6 @@ jobs:
             exit 0
           fi
           git commit -m "Regenerate Figure 1 with secondary-flow chronology"
+          git fetch origin revision/np-figure1-reader-flow-20260926
+          git rebase origin/revision/np-figure1-reader-flow-20260926
           git push origin HEAD:revision/np-figure1-reader-flow-20260926
