@@ -29,26 +29,26 @@ jobs:
       - name: Download published Source Data
         run: |
           mkdir -p /tmp/moricandia
-          curl -L --fail --retry 5 --retry-delay 2 \
-            'https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17875-1/MediaObjects/41467_2020_17875_MOESM11_ESM.xlsx' \
-            -o /tmp/moricandia/source_data.xlsx
+          curl -L --fail --retry 5 --retry-delay 2             'https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17875-1/MediaObjects/41467_2020_17875_MOESM11_ESM.xlsx'             -o /tmp/moricandia/source_data.xlsx
           test -s /tmp/moricandia/source_data.xlsx
       - name: Run fixed within-individual dose analysis
         run: |
           rm -rf results/polymorphism_moricandia_temperature_dose_20260925
-          python scripts/analysis/run_moricandia_temperature_dose_20260925.py \
-            --source-data /tmp/moricandia/source_data.xlsx \
-            --outdir results/polymorphism_moricandia_temperature_dose_20260925
+          python scripts/analysis/run_moricandia_temperature_dose_20260925.py             --source-data /tmp/moricandia/source_data.xlsx             --outdir results/polymorphism_moricandia_temperature_dose_20260925
       - name: Validate
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
           x=json.loads(Path('results/polymorphism_moricandia_temperature_dose_20260925/result.json').read_text())
-          assert x['schema']=='fcp_moricandia_temperature_dose_v1'
+          assert x['schema']=='fcp_moricandia_temperature_dose_reanalysis_v1'
           assert x['status']=='complete'
-          assert x['sequence_counts']=={'mild_then_hot':15,'mild_then_recovery':14,'spring_control_then_hot':14}
-          assert x['primary']['n_individuals']==15
+          assert x['source_sequence_counts']=={
+            'mild_to_hot':15,
+            'mild_to_spring':14,
+            'spring_to_hot':14
+          }
+          assert x['primary_mild_to_hot']['n_individuals']==15
           print(json.dumps(x,indent=2,sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
