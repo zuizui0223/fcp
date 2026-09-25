@@ -1,0 +1,47 @@
+name: WorldClim archive checksum freeze
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/worldclim-archive-checksum-freeze-20260925.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checksum:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download exact WorldClim 2.1 archives
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/worldclim/bio /tmp/worldclim/srad out
+          curl -L --fail --retry 5 --retry-delay 3             'https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip'             -o /tmp/worldclim/wc2.1_10m_bio.zip
+          curl -L --fail --retry 5 --retry-delay 3             'https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip'             -o /tmp/worldclim/wc2.1_10m_srad.zip
+          unzip -q /tmp/worldclim/wc2.1_10m_bio.zip -d /tmp/worldclim/bio
+          unzip -q /tmp/worldclim/wc2.1_10m_srad.zip -d /tmp/worldclim/srad
+      - name: Freeze archive and analysis-file checksums
+        run: |
+          set -euo pipefail
+          {
+            echo "schema=fcp_worldclim_2_1_10m_checksum_freeze_v1"
+            echo "date_jst=2026-09-25"
+            echo "source_bio=https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip"
+            echo "source_srad=https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip"
+            echo
+            sha256sum /tmp/worldclim/wc2.1_10m_bio.zip
+            sha256sum /tmp/worldclim/wc2.1_10m_srad.zip
+            sha256sum /tmp/worldclim/bio/wc2.1_10m_bio_5.tif
+            sha256sum /tmp/worldclim/bio/wc2.1_10m_bio_14.tif
+            for f in /tmp/worldclim/srad/wc2.1_10m_srad_*.tif; do sha256sum "$f"; done
+          } | sed 's#/tmp/worldclim/##g' | tee out/worldclim_checksums.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: worldclim-2-1-10m-checksum-freeze-v1
+          retention-days: 90
+          if-no-files-found: error
+          path: out/worldclim_checksums.txt
