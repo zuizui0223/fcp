@@ -21,6 +21,7 @@ def one_sequence(g: pd.DataFrame):
     order={"First":1,"Second":2,"Third":3}
     q=(g.groupby(["Period","Season","weighted.temp"],as_index=False)
          .agg(cyanidin=("Cyanidin","mean"),
+              kaempferol=("Kaempferol","mean"),
               n_flowers=("Cyanidin","size")))
     q["ord"]=q["Period"].map(order)
     q=q.sort_values("ord")
@@ -28,8 +29,8 @@ def one_sequence(g: pd.DataFrame):
         return None
     return tuple(float(x) for x in q["weighted.temp"]), q
 
-def paired_block(pm: pd.DataFrame, ids, p1: str, p2: str, alternative: str):
-    w=pm.loc[pm.Individual.isin(ids)].pivot(index="Individual",columns="Period",values="cyanidin")
+def paired_metric(pm: pd.DataFrame, ids, p1: str, p2: str, value_col: str, alternative: str):
+    w=pm.loc[pm.Individual.isin(ids)].pivot(index="Individual",columns="Period",values=value_col)
     w=w.dropna(subset=[p1,p2])
     start=w[p1].astype(float)
     end=w[p2].astype(float)
@@ -45,6 +46,7 @@ def paired_block(pm: pd.DataFrame, ids, p1: str, p2: str, alternative: str):
         successes=max(int((nonzero<0).sum()),int((nonzero>0).sum()))
     sign=binomtest(successes,int(len(nonzero)),0.5,alternative="greater") if len(nonzero) else None
     return {
+        "metric":value_col,
         "n_individuals":int(len(delta)),
         "mean_start":float(start.mean()),
         "mean_end":float(end.mean()),
@@ -71,17 +73,19 @@ def main():
     out=Path(a.outdir); out.mkdir(parents=True,exist_ok=True)
 
     raw=pd.read_excel(a.source_data,sheet_name="Figure 3F-J",engine="openpyxl")
-    required={"Individual","Period","Season","Cyanidin","weighted.temp"}
+    required={"Individual","Period","Season","Cyanidin","Kaempferol","weighted.temp"}
     missing=required-set(raw.columns)
     if missing:
         raise SystemExit(f"missing columns {sorted(missing)}")
     d=raw[list(required)].copy()
-    for c in ["Individual","Cyanidin","weighted.temp"]:
+    for c in ["Individual","Cyanidin","Kaempferol","weighted.temp"]:
         d[c]=pd.to_numeric(d[c],errors="coerce")
-    d=d.dropna(subset=["Individual","Period","Cyanidin","weighted.temp"]).copy()
+    d=d.dropna(subset=["Individual","Period","Cyanidin","Kaempferol","weighted.temp"]).copy()
 
     pm=(d.groupby(["Individual","Period","Season","weighted.temp"],as_index=False)
-          .agg(cyanidin=("Cyanidin","mean"),n_flowers=("Cyanidin","size")))
+          .agg(cyanidin=("Cyanidin","mean"),
+               kaempferol=("Kaempferol","mean"),
+               n_flowers=("Cyanidin","size")))
 
     seqs={}
     for ind,g in d.groupby("Individual"):
@@ -103,13 +107,25 @@ def main():
     if len(mild_hot)<10 or len(mild_spring)<10 or len(spring_hot)<10:
         raise SystemExit(f"unexpected sequence support: mild_hot={len(mild_hot)}, mild_spring={len(mild_spring)}, spring_hot={len(spring_hot)}")
 
-    primary=paired_block(pm,mild_hot,"Second","Third","less")
-    reversal=paired_block(pm,mild_spring,"Second","Third","greater")
-    spring_to_hot=paired_block(pm,spring_hot,"Second","Third","less")
+    primary=paired_metric(pm,mild_hot,"Second","Third","cyanidin","less")
+    reversal=paired_metric(pm,mild_spring,"Second","Third","cyanidin","greater")
+    spring_to_hot=paired_metric(pm,spring_hot,"Second","Third","cyanidin","less")
+
+    # Secondary branch-specificity control in the exact same 15-individual
+    # mild->hot contrast. Kaempferol is a flavonol measure from the same source
+    # sheet and serves as a pathway-branch comparator, not a rescue endpoint.
+    kaemp_mild_hot=paired_metric(pm,mild_hot,"Second","Third","kaempferol","two-sided")
+
+    w=pm.loc[pm.Individual.isin(mild_hot)].pivot(index="Individual",columns="Period",values=["cyanidin","kaempferol"])
+    frac_mild=w[("cyanidin","Second")]/(w[("cyanidin","Second")]+w[("kaempferol","Second")])
+    frac_hot=w[("cyanidin","Third")]/(w[("cyanidin","Third")]+w[("kaempferol","Third")])
+    frac_delta=(frac_hot-frac_mild).dropna()
+    frac_test=wilcoxon(frac_delta.to_numpy(float),zero_method="wilcox",alternative="less")
+    frac_two=wilcoxon(frac_delta.to_numpy(float),zero_method="wilcox",alternative="two-sided")
 
     def deltas(ids):
-        w=pm.loc[pm.Individual.isin(ids)].pivot(index="Individual",columns="Period",values="cyanidin")
-        return (w["Third"]-w["Second"]).dropna().astype(float)
+        z=pm.loc[pm.Individual.isin(ids)].pivot(index="Individual",columns="Period",values="cyanidin")
+        return (z["Third"]-z["Second"]).dropna().astype(float)
 
     dh=deltas(mild_hot)
     dr=deltas(mild_spring)
@@ -132,6 +148,20 @@ def main():
             "spring_to_hot":len(spring_hot),
         },
         "primary_mild_to_hot":primary,
+        "secondary_flavonol_branch_control":{
+            **kaemp_mild_hot,
+            "interpretation":"Kaempferol does not show the large parallel decline seen for cyanidin in the same mild-to-hot individuals; this is consistent with branch-specific anthocyanin suppression rather than a generic loss of all measured flavonoids."
+        },
+        "secondary_cyanidin_fraction_of_measured_flavonoids":{
+            "n_individuals":int(len(frac_delta)),
+            "mean_fraction_mild":float(frac_mild.mean()),
+            "mean_fraction_hot":float(frac_hot.mean()),
+            "mean_delta_hot_minus_mild":float(frac_delta.mean()),
+            "median_delta_hot_minus_mild":float(frac_delta.median()),
+            "individuals_decreasing":int((frac_delta<0).sum()),
+            "wilcoxon_one_sided_p":float(frac_test.pvalue),
+            "wilcoxon_two_sided_p":float(frac_two.pvalue),
+        },
         "reversal_mild_to_spring":reversal,
         "spring_to_hot":spring_to_hot,
         "period2_to_period3_change_mild_hot_vs_mild_spring":{
@@ -141,15 +171,16 @@ def main():
             "mean_change_mild_to_spring":float(dr.mean()),
         },
         "temperature_dose_support":support,
-        "interpretation":"Within the source-data subgroup measured at mild-summer and then hotter-summer conditions under the same stated summer photoperiod, cyanidin declines further at the hotter temperature. Reversal and spring-to-hot sequences provide order/context checks.",
+        "interpretation":"Within the source-data subgroup measured at mild-summer and then hotter-summer conditions under the same stated summer photoperiod, cyanidin declines further at the hotter temperature while the measured flavonol comparator remains broadly stable. Reversal and spring-to-hot sequences provide order/context checks.",
         "hard_nonclaims":[
             "post-publication and post-preflight, not an untouched confirmatory test",
             "does not rescue the failed cross-cohort FCP BIO5 replication",
             "sequential mild-to-hot measurements can still contain period/order carryover",
+            "kaempferol stability does not prove every flavonoid branch is unchanged",
             "does not prove all white-flower systems are thermally plastic",
         ],
     }
-    pm.to_csv(out/"individual_period_cyanidin_means.csv",index=False)
+    pm.to_csv(out/"individual_period_pigment_means.csv",index=False)
     (out/"result.json").write_text(json.dumps(result,indent=2)+"\n")
     print(json.dumps(result,indent=2))
 
