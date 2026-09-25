@@ -1,0 +1,143 @@
+{
+  "analysis": "polymorphism_h3a_phylogenetic_signal",
+  "date_jst": "2026-09-12",
+  "protocol": "docs/POLYMORPHISM_H3A_PHYLOGENETIC_SIGNAL_PROTOCOL_20260912.md",
+  "outcome_opened": true,
+  "D_definition": "1 - sum_k p_k^2 over white/yellow_orange/red_pink/blue_purple among frozen global_classifiable rows; n_classifiable >= 40",
+  "discovery_role": "calibration_retrospective",
+  "reserve_role": "fresh_primary_replication",
+  "species_disjoint": true,
+  "permutation": {
+    "randomized_tip_maps": 9999,
+    "denominator": 10000,
+    "implementation": "phytools phylosig nsim=10000 includes observed map as sim.K[1]; frozen p=(1 + randomized null >= observed)/10000"
+  },
+  "D_summary": {
+    "discovery": {
+      "n": 369,
+      "D_min": 0,
+      "D_median": 0.2003,
+      "D_mean": 0.2463,
+      "D_max": 0.7076,
+      "n_classifiable_min": 40,
+      "n_classifiable_median": 56,
+      "n_classifiable_max": 86
+    },
+    "reserve": {
+      "n": 363,
+      "D_min": 0,
+      "D_median": 0.168,
+      "D_mean": 0.2345,
+      "D_max": 0.6803,
+      "n_classifiable_min": 40,
+      "n_classifiable_median": 56,
+      "n_classifiable_max": 92
+    }
+  },
+  "scenario_results": {
+    "1": [
+      {
+        "cohort": "discovery",
+        "scenario": "S1",
+        "n_tips": 368,
+        "K_raw": 0.1015,
+        "p_K_raw": 0.0045,
+        "lambda_raw": 0.2376,
+        "LR_lambda0": 30.8125,
+        "p_lambda0": 2.842e-08,
+        "K_D_unbiased": 0.1017,
+        "K_opportunity_residual": 0.0542,
+        "p_K_opportunity_residual": 0.4832
+      }
+    ],
+    "2": [
+      {
+        "cohort": "discovery",
+        "scenario": "S2",
+        "n_tips": 368,
+        "K_raw": 0.0124,
+        "p_K_raw": 0.2209,
+        "lambda_raw": 0.2355,
+        "LR_lambda0": 31.5417,
+        "p_lambda0": 1.9521e-08,
+        "K_D_unbiased": 0.0125,
+        "K_opportunity_residual": 0.0008,
+        "p_K_opportunity_residual": 0.9587
+      }
+    ],
+    "3": [
+      {
+        "cohort": "discovery",
+        "scenario": "S3",
+        "n_tips": 368,
+        "K_raw": 0.0949,
+        "p_K_raw": 0.0093,
+        "lambda_raw": 0.2362,
+        "LR_lambda0": 30.7446,
+        "p_lambda0": 2.9433e-08,
+        "K_D_unbiased": 0.095,
+        "K_opportunity_residual": 0.053,
+        "p_K_opportunity_residual": 0.4912
+      }
+    ],
+    "4": [
+      {
+        "cohort": "reserve",
+        "scenario": "S1",
+        "n_tips": 341,
+        "K_raw": 0.071,
+        "p_K_raw": 0.2716,
+        "lambda_raw": 0.0486,
+        "LR_lambda0": 1.9215,
+        "p_lambda0": 0.1657,
+        "K_D_unbiased": 0.0712,
+        "K_opportunity_residual": 0.0693,
+        "p_K_opportunity_residual": 0.35
+      }
+    ],
+    "5": [
+      {
+        "cohort": "reserve",
+        "scenario": "S2",
+        "n_tips": 341,
+        "K_raw": 0.0601,
+        "p_K_raw": 0.4134,
+        "lambda_raw": 0.0511,
+        "LR_lambda0": 2.0173,
+        "p_lambda0": 0.1555,
+        "K_D_unbiased": 0.0603,
+        "K_opportunity_residual": 0.0653,
+        "p_K_opportunity_residual": 0.2464
+      }
+    ],
+    "6": [
+      {
+        "cohort": "reserve",
+        "scenario": "S3",
+        "n_tips": 341,
+        "K_raw": 0.0708,
+        "p_K_raw": 0.2674,
+        "lambda_raw": 0.0475,
+        "LR_lambda0": 1.8808,
+        "p_lambda0": 0.1702,
+        "K_D_unbiased": 0.071,
+        "K_opportunity_residual": 0.0692,
+        "p_K_opportunity_residual": 0.351
+      }
+    ]
+  },
+  "decision": {
+    "reserve_raw_scenarios_p_lt_0_05": 0,
+    "reserve_opportunity_scenarios_p_lt_0_05": 0,
+    "verdict": "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED",
+    "opportunity_robust": false,
+    "label": "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED"
+  },
+  "package_versions": {
+    "R": "R version 4.6.1 (2026-06-24)",
+    "ape": "5.8.1",
+    "phytools": "2.5.2",
+    "jsonlite": "2.0.0"
+  },
+  "hard_nonclaim": "Phylogenetic signal is not a causal mechanism, adaptive conservatism, genetic basis, gain/loss reconstruction, or pollination/life-form mechanism."
+}

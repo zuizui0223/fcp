@@ -9,6 +9,7 @@ on:
       - scripts/analysis/run_white_environment_mechanism_20260925.py
       - scripts/analysis/run_white_environment_observer_sensitivity_20260925.py
       - .github/workflows/white-environment-mechanism-20260925.yml
+      - archive/fcp_submission_20260925/worldclim_checksums.txt
 
 permissions:
   contents: read
@@ -54,11 +55,27 @@ jobs:
           mkdir -p /tmp/worldclim/bio /tmp/worldclim/srad
           curl -L --fail --retry 5 --retry-delay 3             https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip             -o /tmp/worldclim/bio.zip
           curl -L --fail --retry 5 --retry-delay 3             https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip             -o /tmp/worldclim/srad.zip
+          echo '00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf  /tmp/worldclim/bio.zip' | sha256sum -c -
+          echo 'c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026  /tmp/worldclim/srad.zip' | sha256sum -c -
           unzip -q /tmp/worldclim/bio.zip -d /tmp/worldclim/bio
           unzip -q /tmp/worldclim/srad.zip -d /tmp/worldclim/srad
           test -f /tmp/worldclim/bio/wc2.1_10m_bio_5.tif
           test -f /tmp/worldclim/bio/wc2.1_10m_bio_14.tif
           test -f /tmp/worldclim/srad/wc2.1_10m_srad_01.tif
+          echo '32e02d85868734c32547da70cf9c620f4739a3cf5dbc4f2b751e16ebb2338ae1  /tmp/worldclim/bio/wc2.1_10m_bio_5.tif' | sha256sum -c -
+          echo 'a759ceb007d02574128148af7f47ab578b18a07e2f5624725d7f222c3c457812  /tmp/worldclim/bio/wc2.1_10m_bio_14.tif' | sha256sum -c -
+          echo 'ab33df4e45c1dba45f5571974147deca2ca46d4b03c727647bfdfb1cc4011a23  /tmp/worldclim/srad/wc2.1_10m_srad_01.tif' | sha256sum -c -
+          echo '96347549785e234fc51c0f274fadef03ed2b8fba55f6a7a713bba7f468d615b9  /tmp/worldclim/srad/wc2.1_10m_srad_02.tif' | sha256sum -c -
+          echo 'b6f4e2a3d7ee0e4fecdb72197339b01a2c9bede4d7219a6d5cac4bdc80afe177  /tmp/worldclim/srad/wc2.1_10m_srad_03.tif' | sha256sum -c -
+          echo '13b8ecf5534f4cc5e7a236ec0f818b6d285cb367863c263ccc0e8c8106704a8d  /tmp/worldclim/srad/wc2.1_10m_srad_04.tif' | sha256sum -c -
+          echo 'c5cbd31e0baa98d333ef44927bb13ea466c1ce011f5e646c828bc9898061b895  /tmp/worldclim/srad/wc2.1_10m_srad_05.tif' | sha256sum -c -
+          echo 'd9208d92ef30d17a10883d2dbf3839ab931013a5369a664f805d7e3530f43b2a  /tmp/worldclim/srad/wc2.1_10m_srad_06.tif' | sha256sum -c -
+          echo 'ad15bc20a8935e3b2075ea334a5f92a15736c71f0efb8b37efed915b2ee4c2f4  /tmp/worldclim/srad/wc2.1_10m_srad_07.tif' | sha256sum -c -
+          echo '72112c677237e193c719a0d8485947263f3813bed26e8dac6fefc825f5fd4606  /tmp/worldclim/srad/wc2.1_10m_srad_08.tif' | sha256sum -c -
+          echo 'c23063da7ba6e361bba119a06ab7342a83f7488d27bc8cfedbf9fb6fec5b2d10  /tmp/worldclim/srad/wc2.1_10m_srad_09.tif' | sha256sum -c -
+          echo 'fdef8e183cb8737885e8155e0fba11ffabf2ce2def6d34c29ca8217fc10f0898  /tmp/worldclim/srad/wc2.1_10m_srad_10.tif' | sha256sum -c -
+          echo 'f58c944ef564cb32248ee9a75a0e61df3c85043bf913f988a59dbed37d16cec9  /tmp/worldclim/srad/wc2.1_10m_srad_11.tif' | sha256sum -c -
+          echo 'cf61b7d37f32d14ec218c0ad71bdc1942837b2bfb658229729fed3875a6039cd  /tmp/worldclim/srad/wc2.1_10m_srad_12.tif' | sha256sum -c -
       - name: Run frozen environmental mechanism test
         run: |
           MEASURED="$(find /tmp/biological -type f -name 'polymorphism_h2_third_cohort_measured_photos_v1.csv' -print -quit)"

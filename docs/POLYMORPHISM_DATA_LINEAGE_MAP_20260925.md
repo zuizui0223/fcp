@@ -23,7 +23,7 @@ The phrase third cohort therefore refers to one physical 499-species / 49,900-ro
 
 - A — protocol and result are on main; exact input is on main or recoverable from an immutable Git commit with a frozen hash.
 - A- — all numerical results and exact source Git objects are frozen, but main carries a reporting receipt rather than the complete original analysis tree.
-- B — exact result/protocol is traceable, but one or more essential intermediate inputs are stored only in a time-limited Actions artifact or an external versioned archive and should be copied to the permanent submission archive.
+- B — one or more essential intermediate inputs remain available only through a time-limited artifact. No current headline analysis remains in this class after the 2026-09-25 artifact freeze.
 
 ## Claim-to-data routing table
 
@@ -36,12 +36,12 @@ The phrase third cohort therefore refers to one physical 499-species / 49,900-ro
 | Prospective H2 cohort selection | new species, no biological outcomes | docs/POLYMORPHISM_H2_THIRD_COHORT_SELECTION_PROTOCOL_20260916.md | results/polymorphism_h2_third_cohort_selection_20260916/result.json and selected_species_manifest.tsv | selected-manifest SHA256 16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59; selection-freeze commit 2768b2dd0f8baf4ed1185a1b64c1060768b36c00; candidate-universe CSV hash 7fc0337074b55a91c0b50773a8d5c3ef82e877074c8b3cacc21f9af58e0ba77e | A |
 | Prospective H2 measurement | same new cohort | docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md | results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json | immutable result commit 7e538e5c51c05a7cc47b2fcf53eea92634c8a863; measured table data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv, frozen SHA256 57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186; final artifact 10496492307, digest sha256:319c040aaffc30d3cd97dcbcc217409e75010ec0f67bcc86c6bb82d8275779c7 | A |
 | Prospective H2 white-axis confirmation | same new cohort, before later mechanism work | same prospective protocol and result/claim freeze | results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json; docs/POLYMORPHISM_H2_THIRD_COHORT_RESULT_AND_MANUSCRIPT_CLAIM_FREEZE_20260917.md | reads the measured table above after support gate; result points back to the measurement receipt | A |
-| Direct highlight validity | same prospective H2 cohort, reacquired post-H2 | docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_VALIDITY_PROTOCOL_20260922.md | results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json | technical-seal workflow 35687421896; artifact 10709490106, digest sha256:adbca1112ba0635623bd056e21286a369d71f9a1cddbe38a920262d4630c64e3 | B |
-| Secondary BIO5/BIO14/solar analysis | same prospective H2 cohort, after H2 terminalization | docs/POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md | results/polymorphism_white_environment_mechanism_20260925/result.json and result_receipt.json | biological artifact from run 35177668182; highlight seal from run 35687421896; WorldClim 2.1 10-arc-minute BIO and SRAD archives downloaded by .github/workflows/white-environment-mechanism-20260925.yml | B |
-| BIO5 species-disjoint transport | legacy discovery/reserve | docs/POLYMORPHISM_LEGACY_WHITE_BIO5_REPLICATION_PROTOCOL_20260925.md | results/polymorphism_legacy_white_bio5_replication_20260925/result.json | exact legacy rows recovered with git show from source commit 5142f7951af0dde5364bb047a566d67e8c479e51 and hashes verified; WorldClim 2.1 BIO5 downloaded by frozen workflow | B |
+| Direct highlight validity | same prospective H2 cohort, reacquired post-H2 | docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_VALIDITY_PROTOCOL_20260922.md | results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json | original run 35687421896 / artifact 10709490106; exact technical_table, sealed_join_key, high_clip_ids and summary are now copied into archive/fcp_submission_20260925/highlight with per-file SHA256 in ARCHIVE_MANIFEST.md | A |
+| Secondary BIO5/BIO14/solar analysis | same prospective H2 cohort, after H2 terminalization | docs/POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md | results/polymorphism_white_environment_mechanism_20260925/result.json and result_receipt.json | measured rows recoverable from immutable H2 commit; exact highlight inputs are Git-archived; WorldClim 2.1 BIO/SRAD archive and TIF SHA256 are frozen in archive/fcp_submission_20260925/worldclim_checksums.txt and enforced by the workflow | A- |
+| BIO5 species-disjoint transport | legacy discovery/reserve | docs/POLYMORPHISM_LEGACY_WHITE_BIO5_REPLICATION_PROTOCOL_20260925.md | results/polymorphism_legacy_white_bio5_replication_20260925/result.json | exact legacy rows recovered with git show from source commit 5142f7951af0dde5364bb047a566d67e8c479e51 and hashes verified; WorldClim BIO zip and BIO5 TIF SHA256 are frozen and enforced by the workflow | A- |
 | D–spatial organization | legacy discovery/reserve | frozen upstream analysis; current main carries reporting-only synthesis | results/polymorphism_spatial_organization_clue_20260918/result.json | source branch feat/polymorphism-paper-v0-1-post-step9, head f14186590c11ac24c95e1985077908b732132e96; source result paths and Git blob SHAs are enumerated inside the reporting receipt | A- |
-| H3a phylogenetic signal | legacy D + frozen S1/S2/S3 trees | docs/POLYMORPHISM_H3A_PHYLOGENETIC_SIGNAL_PROTOCOL_20260912.md | results/polymorphism_h3a_phylogenetic_signal_20260912/frozen_result_manifest.json | source commit db2514f622468747a7d5896c2696fcbf13729ef6; run 34677042793 artifact 10292218669; tree preflight run 34676531258 artifact 10292662493; covariate preflight run 34676855989 artifact 10292767459 | B |
-| H3b sampled-span replication | legacy D + frozen pre-outcome sampled-span panel | docs/POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md | results/polymorphism_h3b_reserve_span_20260912/result.json; docs/POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md | execution head ff1eac2ec1378465d5027184d507cb597c67be27; run 34677468362; artifact 10292399238, digest sha256:34c5e646725f6865e313b17f1b70f2471db8169f443fb0649da83044d654386c; uses H3a pre-outcome covariate/tree artifacts and exact legacy row hashes | B |
+| H3a phylogenetic signal | legacy D + frozen S1/S2/S3 trees | docs/POLYMORPHISM_H3A_PHYLOGENETIC_SIGNAL_PROTOCOL_20260912.md | results/polymorphism_h3a_phylogenetic_signal_20260912/frozen_result_manifest.json | original artifacts 10292218669 / 10292662493 / 10292767459 are copied byte-for-byte into archive/fcp_submission_20260925/h3a_signal, h3a_tree and h3a_covariate; archive manifest records all SHA256 values | A |
+| H3b sampled-span replication | legacy D + frozen pre-outcome sampled-span panel | docs/POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md | results/polymorphism_h3b_reserve_span_20260912/result.json; docs/POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md | execution head ff1eac2ec1378465d5027184d507cb597c67be27; full original artifact 10292399238 is copied into archive/fcp_submission_20260925/h3b, including the 20,000-permutation null table and PGLS output | A |
 | P500 measurement transport / failed H2 terminalization | separate prospective expansion | P500 frozen protocols and postmortem | docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md | complete measurement chain retained in postmortem; no durable biological H2 result exists and no replay may inherit prospective status | A- |
 
 ## What is and is not physically stored on main
@@ -56,27 +56,20 @@ That is acceptable only because the paper now records exact recovery routes:
 
 A filename in a protocol should therefore never be interpreted as meaning that the file is currently present on main.
 
-## Remaining archival risks before submission
+## Remaining archival risk before submission
 
-### 1. Time-limited GitHub Actions artifacts
+### Resolved: expiring Actions artifacts
 
-Some exact intermediate objects are currently preserved only as Actions artifacts:
-- third-cohort highlight technical seal;
-- H3a S1/S2/S3 tree/preflight outputs;
-- H3a pre-outcome sampling-opportunity panel;
-- full H3b permutation-null and PGLS outputs.
+The exact highlight, H3a and H3b intermediate files were copied byte-for-byte from their original GitHub Actions artifacts into archive/fcp_submission_20260925. ARCHIVE_MANIFEST.md records the source run/artifact IDs and per-file SHA256 values. Their reproducibility no longer depends on Actions retention.
 
-These artifacts currently have retention expiries. Before final submission/Zenodo release, copy the exact artifact contents into the permanent archive or another non-expiring versioned store and record their SHA256 values.
+### WorldClim bytes are checksum-pinned but not mirrored in Git
 
-### 2. WorldClim archive bit identity
+A dedicated checksum run (workflow 36128342064, artifact 10860398758) downloaded the same WorldClim 2.1 10-arc-minute archives used by the rerun analyses and froze:
+- BIO zip SHA256: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf;
+- SRAD zip SHA256: c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026;
+- BIO5, BIO14 and all 12 SRAD TIFF SHA256 values in archive/fcp_submission_20260925/worldclim_checksums.txt.
 
-The BIO5 analyses pin WorldClim 2.1, 10 arc-minute and the exact download URLs in the committed workflows. The original workflows did not record a SHA256 for the downloaded WorldClim zip archives. The scientific version is traceable, but a future bit-for-bit replay still depends on the provider serving the same v2.1 files.
-
-Before archival release, retain the exact BIO and SRAD archives used for the frozen analyses, or record their archive/file checksums in the permanent release manifest.
-
-### 3. H3a/H3b artifact-only intermediate panels
-
-The compact decisions are on main, but the exact tree files and pre-outcome sampled-span panel are artifact-backed. These should be archived with the submission bundle.
+The environmental workflows now verify these hashes before analysis, so silent provider-side replacement causes a hard failure. For provider-independent bit-for-bit replay, the final Zenodo/release bundle should additionally mirror the two WorldClim zip archives themselves. This is now the only material external-byte archival gap in the headline analysis chain.
 
 ## Reader shortcut
 

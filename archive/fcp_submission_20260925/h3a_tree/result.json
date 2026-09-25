@@ -1,0 +1,102 @@
+{
+  "analysis": "polymorphism_h3a_phylogeny_preflight",
+  "date_jst": "2026-09-12",
+  "D_association_computed": false,
+  "phylogenetic_signal_computed": false,
+  "discovery_eligible_species": 369,
+  "reserve_eligible_species": 363,
+  "species_disjoint": true,
+  "union_species": 732,
+  "family_resolved_species": 708,
+  "backbone_direct_species": 504,
+  "preflight_usable_species": 709,
+  "family_unresolved_and_not_backbone": 23,
+  "backbone": "GBOTB.extended.LCVP",
+  "node_table": "nodes.info.1.LCVP",
+  "seed": 20260912,
+  "placement_status_counts": {
+    "bind": 205,
+    "prune": 504
+  },
+  "coverage": {
+    "1": [
+      {
+        "scenario": "S1",
+        "cohort": "discovery",
+        "eligible_species": 369,
+        "retained_tips": 368,
+        "coverage": 0.9973,
+        "gate_coverage_0_90": true,
+        "gate_min_250": true,
+        "gate_pass": true
+      }
+    ],
+    "2": [
+      {
+        "scenario": "S1",
+        "cohort": "reserve",
+        "eligible_species": 363,
+        "retained_tips": 341,
+        "coverage": 0.9394,
+        "gate_coverage_0_90": true,
+        "gate_min_250": true,
+        "gate_pass": true
+      }
+    ],
+    "3": [
+      {
+        "scenario": "S2",
+        "cohort": "discovery",
+        "eligible_species": 369,
+        "retained_tips": 368,
+        "coverage": 0.9973,
+        "gate_coverage_0_90": true,
+        "gate_min_250": true,
+        "gate_pass": true
+      }
+    ],
+    "4": [
+      {
+        "scenario": "S2",
+        "cohort": "reserve",
+        "eligible_species": 363,
+        "retained_tips": 341,
+        "coverage": 0.9394,
+        "gate_coverage_0_90": true,
+        "gate_min_250": true,
+        "gate_pass": true
+      }
+    ],
+    "5": [
+      {
+        "scenario": "S3",
+        "cohort": "discovery",
+        "eligible_species": 369,
+        "retained_tips": 368,
+        "coverage": 0.9973,
+        "gate_coverage_0_90": true,
+        "gate_min_250": true,
+        "gate_pass": true
+      }
+    ],
+    "6": [
+      {
+        "scenario": "S3",
+        "cohort": "reserve",
+        "eligible_species": 363,
+        "retained_tips": 341,
+        "coverage": 0.9394,
+        "gate_coverage_0_90": true,
+        "gate_min_250": true,
+        "gate_pass": true
+      }
+    ]
+  },
+  "coverage_gate_all_scenarios_both_cohorts": true,
+  "package": {
+    "version": "0.1.0",
+    "remote_sha": null,
+    "remote_repo": null
+  },
+  "next_action": "H3A_SIGNAL_ANALYSIS_ALLOWED"
+}

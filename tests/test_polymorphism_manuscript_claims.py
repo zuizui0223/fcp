@@ -156,11 +156,18 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
     ):
         assert token in lineage
 
-    assert audit["status"] == "TRACEABLE_WITH_ARCHIVAL_GAPS"
+    assert audit["status"] == "TRACEABLE_WITH_EXTERNAL_WORLDCLIM_BYTES_NOT_MIRRORED"
     assert audit["headline_assessment"]["exact_legacy_inputs_recoverable_from_immutable_git"] is True
     assert audit["headline_assessment"]["exact_third_cohort_input_recoverable_from_immutable_git_and_artifact"] is True
-    assert audit["headline_assessment"]["artifact_only_intermediates_require_permanent_archive"] is True
-    assert audit["headline_assessment"]["worldclim_original_archive_sha256_recorded"] is False
+    assert audit["headline_assessment"]["artifact_only_intermediates_require_permanent_archive"] is False
+    assert audit["headline_assessment"]["worldclim_original_archive_sha256_recorded"] is True
+    assert audit["headline_assessment"]["worldclim_checksum_enforced_by_workflows"] is True
+    assert audit["headline_assessment"]["worldclim_bytes_mirrored_in_git"] is False
+    assert audit["grades"]["highlight_validity"] == "A"
+    assert audit["grades"]["H3a"] == "A"
+    assert audit["grades"]["H3b"] == "A"
+    assert audit["grades"]["secondary_BIO5"] == "A-"
+    assert audit["grades"]["BIO5_transport"] == "A-"
 
     assert "pre-specified secondary BIO5 association in the prospective H2 cohort" in manuscript
     assert "one physical 499-species / 49,900-row measurement dataset used in two chronologically distinct ways" in manuscript

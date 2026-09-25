@@ -1,0 +1,89 @@
+name: Freeze expiring FCP artifacts into git
+
+on:
+  push:
+    branches:
+      - revision/np-permanent-archive-prep-20260925
+    paths:
+      - .github/workflows/freeze-fcp-expiring-artifacts-20260925.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: revision/np-permanent-archive-prep-20260925
+          fetch-depth: 1
+      - name: Download frozen Actions artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          root="archive/fcp_submission_20260925"
+          rm -rf "$root"
+          mkdir -p "$root"/{highlight,h3a_tree,h3a_covariate,h3a_signal,h3b}
+
+          gh run download 35687421896 --repo "${{ github.repository }}"             --name third-cohort-highlight-technical-seal-v1 --dir "$root/highlight"
+
+          gh run download 34676531258 --repo "${{ github.repository }}"             --name polymorphism-h3a-phylogeny-preflight-20260912 --dir "$root/h3a_tree"
+
+          gh run download 34676855989 --repo "${{ github.repository }}"             --name polymorphism-h3a-covariate-preflight-20260912 --dir "$root/h3a_covariate"
+
+          gh run download 34677042793 --repo "${{ github.repository }}"             --name polymorphism-h3a-phylogenetic-signal-20260912 --dir "$root/h3a_signal"
+
+          gh run download 34677468362 --repo "${{ github.repository }}"             --name polymorphism-h3b-reserve-span-20260912 --dir "$root/h3b"
+
+      - name: Write permanent archive manifest
+        run: |
+          set -euo pipefail
+          root="archive/fcp_submission_20260925"
+          {
+            echo "# FCP submission artifact freeze — 2026-09-25"
+            echo
+            echo "These files were copied byte-for-byte from the original GitHub Actions artifacts before expiry."
+            echo
+            echo "## Source artifacts"
+            echo
+            echo "- highlight technical seal: run 35687421896, artifact 10709490106, digest sha256:adbca1112ba0635623bd056e21286a369d71f9a1cddbe38a920262d4630c64e3"
+            echo "- H3a phylogeny preflight: run 34676531258, artifact 10292662493, digest sha256:fa0a896f1ef1622c71f9425986d30c47306f6702f7800d4f7eae872561b62d25"
+            echo "- H3a covariate preflight: run 34676855989, artifact 10292767459, digest sha256:14331752df8b654a810cdfb6323ccc0a268bcfea3e5ed603d2191deeb4915480"
+            echo "- H3a signal: run 34677042793, artifact 10292218669, digest sha256:7f95699149f3111e00b9a095d78ddfa32e1111727d12ff1bb3ce9dc9c1dbd892"
+            echo "- H3b reserve span: run 34677468362, artifact 10292399238, digest sha256:34c5e646725f6865e313b17f1b70f2471db8169f443fb0649da83044d654386c"
+            echo
+            echo "## File SHA256"
+            echo
+            find "$root" -type f ! -name ARCHIVE_MANIFEST.md -print0 | sort -z | xargs -0 sha256sum
+          } > "$root/ARCHIVE_MANIFEST.md"
+
+      - name: Verify known frozen hashes
+        run: |
+          set -euo pipefail
+          root="archive/fcp_submission_20260925"
+          echo 'ce4a2ede815dbe0eb2407d3d9ebb58d0218d85ece85ea1b9ab58e00e7dd84d19  archive/fcp_submission_20260925/h3a_tree/h3a_s1.tre' | sha256sum -c -
+          echo '384c9d1bcde150ac200d7006703de55ebfee6f83fc9108bb9b7c02cee3107abb  archive/fcp_submission_20260925/h3a_tree/h3a_s2.tre' | sha256sum -c -
+          echo '9a25eb77d87e7a698697f8c4835f8c24e98ee3c8bfc7c02d317f46090e382c26  archive/fcp_submission_20260925/h3a_tree/h3a_s3.tre' | sha256sum -c -
+          echo 'c45b436ef01394845cfc5a22807a086f589abdfdc1a8e97ea0ac14cd704fa2a7  archive/fcp_submission_20260925/h3a_covariate/sampling_opportunity_preoutcome.csv' | sha256sum -c -
+          echo '77cb37bdd905a4172df0d94899704b3f486b2fba639f552dbc7da7921dd4bbc7  archive/fcp_submission_20260925/highlight/high_clip_ids.csv' | sha256sum -c -
+          echo '7f118c1f56f0a59eef0cb78968efae1326633991b5e04326de4e89e149f366d4  archive/fcp_submission_20260925/highlight/sealed_join_key.csv' | sha256sum -c -
+          echo '967a163a0cf6740bbbb797483d10a6727bb3786f77f55a2a28cda5562d1916c3  archive/fcp_submission_20260925/highlight/technical_summary.json' | sha256sum -c -
+          echo 'b4c3f3067a00c474d50c85a0176409b7eae2bd61ac20d42a0ad86c07c9aa4a87  archive/fcp_submission_20260925/highlight/technical_table.csv.gz' | sha256sum -c -
+
+      - name: Commit frozen artifact contents
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add archive/fcp_submission_20260925
+          if git diff --cached --quiet; then
+            echo "No archive changes"
+            exit 0
+          fi
+          git commit -m "Freeze expiring FCP submission artifacts"
+          git push origin HEAD:revision/np-permanent-archive-prep-20260925
