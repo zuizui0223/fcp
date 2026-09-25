@@ -1,0 +1,72 @@
+{
+  "schema": "white_seasonal_proxy_diagnostic_v1",
+  "status": "complete",
+  "date_jst": "2026-09-25",
+  "inference_status": "posthoc_exploratory_diagnostic_after_warm_side_partial_climate_signal_opened",
+  "inputs": {
+    "third_cohort_measured_artifact_run": 35177668182,
+    "third_cohort_measured_artifact_id": 10496492307,
+    "measured_sha256": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
+    "highlight_technical_run": 35687421896,
+    "highlight_technical_artifact_id": 10709490106,
+    "high_clip_ids_sha256": "77cb37bdd905a4172df0d94899704b3f486b2fba639f552dbc7da7921dd4bbc7",
+    "sealed_join_key_sha256": "7f118c1f56f0a59eef0cb78968efae1326633991b5e04326de4e89e149f366d4"
+  },
+  "counts": {"post_highclip_classifiable_rows": 24310, "species": 499, "high_clip_ids": 2205},
+  "summer_index": "cosine proximity to day 196 in the Northern Hemisphere or day 15 in the Southern Hemisphere; +1 local midsummer, -1 local midwinter",
+  "primary": {
+    "contrast": "white_vs_anthocyanic",
+    "n_species": 152,
+    "mean_effect_sd": 0.10302349750364809,
+    "bootstrap_ci": [0.029737252839024245, 0.17257609015332348],
+    "positive_species": 93,
+    "negative_species": 59,
+    "sign_p": 0.00723454262172994,
+    "sign_p_holm_two_proxies": 0.01446908524345988
+  },
+  "specificity": {
+    "white_vs_yellow_orange_summer_index": {
+      "n_species": 139,
+      "mean_effect_sd": 0.02707912252974249,
+      "bootstrap_ci": [-0.05302421456133497, 0.108536173078911],
+      "positive_species": 73,
+      "negative_species": 66,
+      "sign_p": 0.610973689956024
+    }
+  },
+  "sensitivity": {
+    "outside_tropics_white_vs_anthocyanic": {
+      "n_species": 137,
+      "mean_effect_sd": 0.10734202920800709,
+      "bootstrap_ci": [0.03071288611868682, 0.18301216141945703],
+      "positive_species": 84,
+      "negative_species": 53,
+      "sign_p": 0.0101141700218243
+    },
+    "northern_white_vs_anthocyanic": {
+      "n_species": 117,
+      "mean_effect_sd": 0.0707207120565931,
+      "bootstrap_ci": [-0.015860395080977443, 0.15577387888467203],
+      "positive_species": 66,
+      "negative_species": 51,
+      "sign_p": 0.19534905940457842
+    },
+    "southern_white_vs_anthocyanic": {
+      "n_species": 31,
+      "mean_effect_sd": 0.2221412948599737,
+      "bootstrap_ci": [0.09189619826886174, 0.3486940231520212],
+      "positive_species": 23,
+      "negative_species": 8,
+      "sign_p": 0.010673840530216694
+    }
+  },
+  "interpretation": "Across the full high-clip-excluded third cohort, white records are closer to local midsummer than red/pink+blue/purple records within species; no corresponding shift is detected for white versus yellow/orange. This is consistent with a thermal/phenological sorting candidate but is not measured temperature.",
+  "hard_nonclaims": [
+    "calendar summer proximity is not measured temperature",
+    "association can reflect morph phenology or correlated geography rather than thermal causation",
+    "does not establish pigmented-to-white evolutionary direction",
+    "does not test pollinator causation",
+    "does not modify the frozen New Phytologist manuscript"
+  ],
+  "files": {"proxy_summary": "proxy_summary.csv", "sensitivity_summary": "sensitivity_summary.csv"}
+}
