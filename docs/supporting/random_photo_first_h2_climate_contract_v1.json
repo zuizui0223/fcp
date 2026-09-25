@@ -1,0 +1,93 @@
+{
+  "protocol": "random-photo-first-h2-climate-concordance-v1",
+  "status": "prospectively_frozen_before_h1_biological_outcome_and_before_any_h2_join",
+  "parent_h1_protocol": "random-photo-first-boundary-persistence-v1",
+  "question_h2": "Are recurrent flower-colour transition edges concentrated where independently frozen macroclimate changes more strongly?",
+  "hierarchical_role": {
+    "h2_may_be_computed_after_h1_is_evaluable": true,
+    "confirmatory_h2_claim_requires_h1_global_p_upper_below": 0.05,
+    "h2_must_not_rescue_a_non_significant_or_not_evaluable_h1": true,
+    "if_h1_does_not_pass": "retain H2 only as a labelled diagnostic with no climate-mechanism claim"
+  },
+  "environment_source": {
+    "provider": "WorldClim 2.1 10 arc-minute bioclimatic variables, aggregated in the pre-colour atlas environment freeze",
+    "source_manifest": "data/atlas/environment/climate_ecoregion_source_manifest.json",
+    "source_manifest_git_blob_sha": "b96bf0ae58a030cfa99f4203d919989c887e7387",
+    "source_archive_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
+    "variables": {
+      "bio1": "annual mean temperature",
+      "bio4": "temperature seasonality",
+      "bio12": "annual precipitation",
+      "bio15": "precipitation seasonality"
+    },
+    "primary_grid_source": {
+      "scale_km": 250,
+      "path": "data/atlas/environment/climate_ecoregion_grid_250km.csv",
+      "git_blob_sha": "8427948c1e7ca980ea31f0d3987fbc1384ffecb6",
+      "content_sha256": "d51be4ee91a1bc78c316d2441338fe1ff73513c08df426ec2ad683b30ec72b99"
+    },
+    "scale_sensitivities": [
+      {
+        "scale_km": 100,
+        "path": "data/atlas/environment/climate_ecoregion_grid_100km.csv",
+        "git_blob_sha": "bf60bae5c9e42e7d6ce3c4a224f12e9dff123e6c",
+        "content_sha256": "1c57e13ac3b045ac69c270d31d0dd24886844ba4505b46cafcba2d6403cbafdb"
+      },
+      {
+        "scale_km": 500,
+        "path": "data/atlas/environment/climate_ecoregion_grid_500km.csv",
+        "git_blob_sha": "c055134731fcffc81cc5bda46cda1a376f125f63",
+        "content_sha256": "1503ac8bb0207ad23062c4e34330ad7575a02a4906a62c9314564fe283961f4c"
+      }
+    ],
+    "colour_or_h1_used_to_select_environment_source": false
+  },
+  "h1_grid_aggregation": {
+    "target_grid": "the exact H1 equal-area longitude by sin(latitude) grid",
+    "primary_n_lon": 18,
+    "primary_n_sinlat": 9,
+    "source_cell_assignment": "assign each frozen climate-grid centroid to the H1 equal-area cell containing that centroid",
+    "climate_summary_per_h1_cell": "arithmetic mean of each BIO variable across source cells; source grid cells are equal-area",
+    "realm_and_biome_summary": "deterministic modal label; exact count ties resolved lexicographically",
+    "standardization": "z-score each BIO variable across all H1 cells with complete four-variable climate coverage, before any flower-colour join",
+    "candidate_photo_density_used_for_climate_aggregation": false,
+    "colour_used_for_climate_aggregation": false
+  },
+  "primary_edge_predictor": {
+    "name": "multivariate_climate_distance",
+    "definition": "sqrt(mean((zBIO_j_i - zBIO_j_j)^2)) across BIO1, BIO4, BIO12 and BIO15",
+    "directional_hypothesis": "larger climate distance predicts larger recurrent-boundary persistence"
+  },
+  "primary_test": {
+    "response": "H1 edge persistence",
+    "weights": "H1 edge opportunity count",
+    "statistic": "opportunity-weighted Pearson correlation between persistence and multivariate climate distance",
+    "supported_edges": "edges with H1 opportunity > 0 and finite complete climate on both cells",
+    "minimum_supported_edges": 20,
+    "null": "reuse each of the same 999 H1 within-species morph permutations; recompute edge persistence under the frozen H1 sampling plan and correlate with the fixed climate-distance vector",
+    "tail": "upper",
+    "monte_carlo_p": "(1 + number(null_statistic >= observed_statistic)) / (999 + 1)",
+    "alpha": 0.05
+  },
+  "driver_decomposition": {
+    "role": "secondary decomposition after the single multivariate primary test",
+    "predictors": [
+      "absolute_z_difference_bio1",
+      "absolute_z_difference_bio4",
+      "absolute_z_difference_bio12",
+      "absolute_z_difference_bio15"
+    ],
+    "statistic": "same opportunity-weighted Pearson correlation",
+    "null": "same matched H1 permutation persistence maps",
+    "multiplicity": "Holm family-wise correction across the four BIO axes",
+    "confirmatory_driver_language_requires_multivariate_primary_pass": true
+  },
+  "predeclared_sensitivities": {
+    "climate_source_scales_km": [100, 250, 500],
+    "within_dominant_biome_edges": true,
+    "within_dominant_realm_edges": true,
+    "same_primary_direction_and_null": true,
+    "sensitivities_do_not_replace_the_primary_250km_global_result": true
+  },
+  "claim_ceiling": "A passing hierarchical H1 followed by H2 supports concordance between recurrent flower-colour transition geography and macroclimate contrast. It does not by itself identify selection, adaptation, pigment biochemistry, pollinator causation, or a unique climate variable as causal."
+}
