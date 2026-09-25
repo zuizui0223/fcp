@@ -1,0 +1,54 @@
+name: Silene PAL versus WAL persistence reanalysis
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_silene_decoupling_persistence_20260925.py
+      - .github/workflows/silene-decoupling-persistence-20260925.yml
+      - docs/POLYMORPHISM_SILENE_DECOUPLING_REPROTOCOL_20260925.md
+
+permissions:
+  contents: read
+
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy python-docx
+          python -m py_compile scripts/analysis/run_silene_decoupling_persistence_20260925.py
+      - name: Download Supplementary Table S2
+        run: |
+          mkdir -p /tmp/silene
+          curl -L --fail --retry 5 --retry-delay 2 'https://media.springernature.com/original/springer-static/esm/art%3A10.1186%2Fs12870-019-2082-6/MediaObjects/12870_2019_2082_MOESM2_ESM.docx' -o /tmp/silene/table_s2.docx
+          test -s /tmp/silene/table_s2.docx
+      - name: Reanalyse PAL and WAL persistence
+        run: |
+          rm -rf results/polymorphism_silene_decoupling_persistence_20260925
+          python scripts/analysis/run_silene_decoupling_persistence_20260925.py --docx /tmp/silene/table_s2.docx --outdir results/polymorphism_silene_decoupling_persistence_20260925
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('results/polymorphism_silene_decoupling_persistence_20260925/result.json').read_text())
+          assert x['schema']=='fcp_silene_decoupling_natural_persistence_v1'
+          assert x['status']=='complete'
+          assert x['surveyed_populations']==21
+          assert set(x['phenotypes'])=={'PAL','WAL'}
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: silene-decoupling-persistence-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_silene_decoupling_persistence_20260925
