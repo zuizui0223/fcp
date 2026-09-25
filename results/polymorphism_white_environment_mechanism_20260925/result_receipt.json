@@ -1,0 +1,60 @@
+{
+  "schema": "fcp_white_environment_mechanism_result_receipt_v1",
+  "status": "complete",
+  "source_workflow_run": 36101574640,
+  "source_artifact_id": 10848504388,
+  "source_artifact_digest": "sha256:b4907c3529ebae2913ee109c2f8ec9e3d7e20a283bbc970c3bb94742d7a5c4be",
+  "role": "reporting receipt for prospectively frozen E1-E3 white-environment test; does not modify frozen New Phytologist manuscript",
+  "primary_panel": {
+    "rows": 12581,
+    "species": 281,
+    "eligibility": ">=5 white and >=5 nonwhite classifiable rows after frozen high-clip exclusion and highlight availability"
+  },
+  "results": [
+    {
+      "variable": "BIO5",
+      "prediction": "warmer maximum temperature -> more white",
+      "median_delta_white_minus_nonwhite_SD": 0.0690112924805198,
+      "mean_delta_white_minus_nonwhite_SD": 0.07028852096946592,
+      "predicted_direction_fraction": 0.5729537366548043,
+      "wilcoxon_p": 0.01181622349122839,
+      "wilcoxon_holm_p": 0.03544867047368517,
+      "conditional_logit_OR_per_within_species_SD": 1.073475,
+      "conditional_logit_p": 0.000919,
+      "mechanism_gate_pass": true
+    },
+    {
+      "variable": "BIO14",
+      "prediction": "wetter driest month -> more white",
+      "median_delta_white_minus_nonwhite_SD": -0.018724,
+      "wilcoxon_holm_p": 0.692259,
+      "conditional_logit_OR_per_within_species_SD": 0.993209,
+      "conditional_logit_p": 0.748545,
+      "mechanism_gate_pass": false
+    },
+    {
+      "variable": "mean_solar_radiation",
+      "prediction": "greater long-term radiation -> less white",
+      "median_delta_white_minus_nonwhite_SD": -0.006827,
+      "wilcoxon_holm_p": 0.692259,
+      "conditional_logit_OR_per_within_species_SD": 0.987149,
+      "conditional_logit_p": 0.543872,
+      "mechanism_gate_pass": false
+    }
+  ],
+  "bio5_species_jackknife": {
+    "leave_one_species_out_wilcoxon_p_min": 0.008662942672485323,
+    "leave_one_species_out_wilcoxon_p_max": 0.015205019926721176,
+    "leave_one_species_out_median_delta_min": 0.06838509587777511,
+    "leave_one_species_out_median_delta_max": 0.06977426508523685,
+    "interpretation": "BIO5 species-level signal is not dependent on any single species."
+  },
+  "interpretation_boundary": [
+    "supports a recurrent broad-scale association of measured white state with warmer long-term environments within species under this design",
+    "does not establish pigmented-to-white evolutionary direction",
+    "does not establish heat as causal selection",
+    "does not identify molecular pigment-loss mechanism",
+    "does not establish pollinator causation",
+    "measured white remains exposure-coupled; primary model uses frozen high-clip exclusion and continuous near-clip adjustment"
+  ]
+}

@@ -1,0 +1,94 @@
+name: White environment mechanism v1
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - docs/POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md
+      - scripts/analysis/run_white_environment_mechanism_20260925.py
+      - scripts/analysis/run_white_environment_observer_sensitivity_20260925.py
+      - .github/workflows/white-environment-mechanism-20260925.yml
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  BIOLOGICAL_RUN_ID: "35177668182"
+  BIOLOGICAL_ARTIFACT: h2-third-cohort-prospective-result-20260917
+  TECHNICAL_RUN_ID: "35687421896"
+  TECHNICAL_ARTIFACT: third-cohort-highlight-technical-seal-v1
+
+jobs:
+  white-environment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install analysis dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy statsmodels rasterio
+          python -m py_compile scripts/analysis/run_white_environment_mechanism_20260925.py
+          python -m py_compile scripts/analysis/run_white_environment_observer_sensitivity_20260925.py
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.BIOLOGICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.BIOLOGICAL_ARTIFACT }}
+          path: /tmp/biological
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.TECHNICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.TECHNICAL_ARTIFACT }}
+          path: /tmp/technical
+      - name: Download frozen external environment
+        run: |
+          mkdir -p /tmp/worldclim/bio /tmp/worldclim/srad
+          curl -L --fail --retry 5 --retry-delay 3             https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip             -o /tmp/worldclim/bio.zip
+          curl -L --fail --retry 5 --retry-delay 3             https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip             -o /tmp/worldclim/srad.zip
+          unzip -q /tmp/worldclim/bio.zip -d /tmp/worldclim/bio
+          unzip -q /tmp/worldclim/srad.zip -d /tmp/worldclim/srad
+          test -f /tmp/worldclim/bio/wc2.1_10m_bio_5.tif
+          test -f /tmp/worldclim/bio/wc2.1_10m_bio_14.tif
+          test -f /tmp/worldclim/srad/wc2.1_10m_srad_01.tif
+      - name: Run frozen environmental mechanism test
+        run: |
+          MEASURED="$(find /tmp/biological -type f -name 'polymorphism_h2_third_cohort_measured_photos_v1.csv' -print -quit)"
+          test -n "$MEASURED"
+          rm -rf results/polymorphism_white_environment_mechanism_20260925
+          python scripts/analysis/run_white_environment_mechanism_20260925.py             --measured "$MEASURED"             --technical-table /tmp/technical/technical_table.csv.gz             --join-key /tmp/technical/sealed_join_key.csv             --high-clip-ids /tmp/technical/high_clip_ids.csv             --bio-dir /tmp/worldclim/bio             --srad-dir /tmp/worldclim/srad             --outdir results/polymorphism_white_environment_mechanism_20260925
+      - name: Run posthoc observer-paired sensitivity
+        run: |
+          MEASURED="$(find /tmp/biological -type f -name 'polymorphism_h2_third_cohort_measured_photos_v1.csv' -print -quit)"
+          python scripts/analysis/run_white_environment_observer_sensitivity_20260925.py             --measured "$MEASURED"             --technical-table /tmp/technical/technical_table.csv.gz             --join-key /tmp/technical/sealed_join_key.csv             --high-clip-ids /tmp/technical/high_clip_ids.csv             --bio-dir /tmp/worldclim/bio             --srad-dir /tmp/worldclim/srad             --outdir results/polymorphism_white_environment_mechanism_20260925
+      - name: Validate result contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/polymorphism_white_environment_mechanism_20260925/result.json')
+          x=json.loads(p.read_text())
+          assert x['schema']=='fcp_white_environment_mechanism_v1'
+          assert x['status']=='complete'
+          assert x['eligible_species']>=100
+          assert [r['variable'] for r in x['results']]==['bio5','bio14','srad_mean']
+          s=json.loads(Path('results/polymorphism_white_environment_mechanism_20260925/observer_paired_sensitivity.json').read_text())
+          assert s['schema']=='fcp_white_environment_observer_sensitivity_v2'
+          assert s['status']=='complete'
+          print(json.dumps(x,indent=2,sort_keys=True))
+          print(json.dumps(s,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: white-environment-mechanism-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_white_environment_mechanism_20260925
