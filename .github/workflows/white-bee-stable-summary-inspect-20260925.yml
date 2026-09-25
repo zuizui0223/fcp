@@ -22,8 +22,15 @@ jobs:
           test -s /tmp/GloBI_bee_plant_Interactions_Summary.csv
           sha256sum /tmp/GloBI_bee_plant_Interactions_Summary.csv
           head -n 6 /tmp/GloBI_bee_plant_Interactions_Summary.csv
+          curl -L --fail --retry 5 --retry-delay 3 -r 0-16383 \
+            'https://zenodo.org/records/18303036/files/GloBI_Curated.csv?download=1' \
+            -o /tmp/GloBI_Curated_head.csv
+          echo '--- GloBI_Curated header ---'
+          head -n 3 /tmp/GloBI_Curated_head.csv
       - uses: actions/upload-artifact@v4
         with:
           name: noori-2026-bee-summary-schema
           retention-days: 30
-          path: /tmp/GloBI_bee_plant_Interactions_Summary.csv
+          path: |
+            /tmp/GloBI_bee_plant_Interactions_Summary.csv
+            /tmp/GloBI_Curated_head.csv
