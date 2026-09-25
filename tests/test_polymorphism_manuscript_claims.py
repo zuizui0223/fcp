@@ -163,8 +163,8 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
     assert audit["headline_assessment"]["worldclim_original_archive_sha256_recorded"] is False
 
     assert "pre-specified secondary BIO5 association in the prospective H2 cohort" in manuscript
-    assert "Prospective H2 cohort" in manuscript
-    assert "Secondary environmental follow-up" in manuscript
+    assert "one physical 499-species / 49,900-row measurement dataset used in two chronologically distinct ways" in manuscript
+    assert "Only after H2 was terminalized" in manuscript
     assert h3b["decision"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
 
 
