@@ -39,7 +39,35 @@ dup_ott <- usable$ott_id[duplicated(usable$ott_id) | duplicated(usable$ott_id, f
 usable <- usable[!(usable$ott_id %in% dup_ott), , drop=FALSE]
 if (nrow(usable) < 150) stop(sprintf("too few exact OpenTree matches: %d", nrow(usable)))
 
-tr <- tol_induced_subtree(ott_ids=usable$ott_id, label_format="id")
+# OpenTree TNRS can return an OTT id that the induced-tree endpoint reports as pruned.
+# Handle this outcome-blind taxonomy-availability case mechanically: remove only OTT ids
+# explicitly named by the API as pruned, record them, and retry without changing any
+# biological state threshold or estimability gate.
+pruned_ids <- integer(0)
+remaining_ott <- usable$ott_id
+repeat {
+  ans <- tryCatch(
+    list(tree=tol_induced_subtree(ott_ids=remaining_ott, label_format="id"), error=NULL),
+    error=function(e) list(tree=NULL,error=conditionMessage(e))
+  )
+  if (!is.null(ans$tree)) {
+    tr <- ans$tree
+    break
+  }
+  msg <- ans$error
+  hits <- regmatches(msg, gregexpr("ott[0-9]+", msg))[[1]]
+  if (length(hits)==0 || identical(hits,-1)) stop(paste("OpenTree induced_subtree failed:",msg))
+  ids <- unique(as.integer(sub("^ott","",hits)))
+  ids <- ids[ids %in% remaining_ott]
+  if (length(ids)==0) stop(paste("OpenTree induced_subtree failed without removable OTT id:",msg))
+  pruned_ids <- unique(c(pruned_ids,ids))
+  remaining_ott <- setdiff(remaining_ott,ids)
+  if (length(remaining_ott)<150) stop(sprintf("too few OpenTree ids after API-pruned exclusions: %d",length(remaining_ott)))
+}
+if (length(pruned_ids)) {
+  write.csv(data.frame(ott_id=pruned_ids),file.path(outdir,"opentree_api_pruned_ids.csv"),row.names=FALSE)
+  usable <- usable[usable$ott_id %in% remaining_ott,,drop=FALSE]
+}
 write.tree(tr, file=file.path(outdir,"opentree_induced_topology_ott.tre"))
 extract_ott <- function(x) as.integer(sub("^ott", "", x))
 tip_ott <- vapply(tr$tip.label, extract_ott, integer(1))
