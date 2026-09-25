@@ -1,0 +1,95 @@
+name: polymorphism-h3b-reserve-span
+
+on:
+  push:
+    branches:
+      - analysis/polymorphism-42111-h1-h2-gates-20260912
+    paths:
+      - "scripts/analysis/run_polymorphism_h3b_reserve_span_20260912.R"
+      - "docs/POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md"
+      - ".github/workflows/polymorphism-h3b-reserve-span.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  replicate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+
+      - name: Install dependencies without repository scan
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: any::sessioninfo
+          extra-packages: |
+            any::ape
+            any::jsonlite
+            any::phylolm
+          cache-version: h3b-span-v1
+
+      - name: Download frozen pre-outcome trees and covariates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/h3a-tree /tmp/h3a-cov /tmp/h3a-tree-exact
+          mkdir -p /tmp/h3a-tree /tmp/h3a-cov /tmp/h3a-tree-exact
+          gh run download 34676531258 --repo zuizui0223/fcp --name polymorphism-h3a-phylogeny-preflight-20260912 --dir /tmp/h3a-tree
+          gh run download 34676855989 --repo zuizui0223/fcp --name polymorphism-h3a-covariate-preflight-20260912 --dir /tmp/h3a-cov
+          for f in h3a_s1.tre h3a_s2.tre h3a_s3.tre; do
+            test "$(find /tmp/h3a-tree -name "$f" | wc -l)" -eq 1
+            cp "$(find /tmp/h3a-tree -name "$f")" "/tmp/h3a-tree-exact/$f"
+          done
+          test "$(find /tmp/h3a-cov -name sampling_opportunity_preoutcome.csv | wc -l)" -eq 1
+          cp "$(find /tmp/h3a-cov -name sampling_opportunity_preoutcome.csv)" /tmp/h3a-covariates.csv
+
+      - name: Verify frozen predictor/data inputs before association
+        run: |
+          set -euo pipefail
+          echo 'ce4a2ede815dbe0eb2407d3d9ebb58d0218d85ece85ea1b9ab58e00e7dd84d19  /tmp/h3a-tree-exact/h3a_s1.tre' | sha256sum -c -
+          echo '384c9d1bcde150ac200d7006703de55ebfee6f83fc9108bb9b7c02cee3107abb  /tmp/h3a-tree-exact/h3a_s2.tre' | sha256sum -c -
+          echo '9a25eb77d87e7a698697f8c4835f8c24e98ee3c8bfc7c02d317f46090e382c26  /tmp/h3a-tree-exact/h3a_s3.tre' | sha256sum -c -
+          echo 'c45b436ef01394845cfc5a22807a086f589abdfdc1a8e97ea0ac14cd704fa2a7  /tmp/h3a-covariates.csv' | sha256sum -c -
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  data/derived/global_monte_carlo_measured_photos_v1.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  data/derived/rgfca_reserve_replication_measured_photos_v1.csv' | sha256sum -c -
+
+      - name: Syntax parse
+        run: Rscript -e 'parse(file="scripts/analysis/run_polymorphism_h3b_reserve_span_20260912.R")'
+
+      - name: Run reserve replication
+        run: |
+          Rscript scripts/analysis/run_polymorphism_h3b_reserve_span_20260912.R \
+            --tree-root /tmp/h3a-tree-exact \
+            --covariate /tmp/h3a-covariates.csv
+
+      - name: Verify decision receipt
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('results/polymorphism_h3b_reserve_span_20260912/result.json').read_text())
+          assert r['hypothesis_status'] == 'discovery_selected_reserve_fresh_replication'
+          assert r['reserve_primary']['n'] == 363
+          assert len(r['reserve_rank_pgls']) == 3
+          print(json.dumps(r['decision'], indent=2))
+          PY
+
+      - name: Upload H3b result
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: polymorphism-h3b-reserve-span-20260912
+          path: results/polymorphism_h3b_reserve_span_20260912
+          if-no-files-found: error
+          retention-days: 90
