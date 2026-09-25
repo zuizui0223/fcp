@@ -1,0 +1,39 @@
+{
+  "schema": "fcp_silene_decoupling_natural_frequency_v1",
+  "status": "complete",
+  "role": "post_publication_public_table_reproduction",
+  "source_workflow_run": 36116792624,
+  "source_artifact_id": 10855363049,
+  "source_artifact_digest": "sha256:3935036138198eb10114aad6a0460a3ca1492732026cb53ed82f5d655d9135cd",
+  "source": "Del Valle et al. 2019 BMC Plant Biology 19:496; Supplementary Table S2",
+  "doi": "10.1186/s12870-019-2082-6",
+  "surveyed_populations": 21,
+  "phenotypes": {
+    "PAL": {
+      "population_years_observed": 40,
+      "population_years_positive": 6,
+      "populations_ever_positive": 2,
+      "positive_frequency_min_percent": 8.0,
+      "positive_frequency_median_percent": 15.5,
+      "positive_frequency_max_percent": 21.0,
+      "populations_positive_ge_2_years": 2,
+      "populations_positive_ge_3_years": 2
+    },
+    "WAL": {
+      "population_years_observed": 42,
+      "population_years_positive": 17,
+      "populations_ever_positive": 9,
+      "positive_frequency_min_percent": 0.05,
+      "positive_frequency_median_percent": 0.21,
+      "positive_frequency_max_percent": 0.86,
+      "populations_positive_ge_2_years": 4,
+      "populations_positive_ge_3_years": 3
+    }
+  },
+  "published_pattern_reproduced": true,
+  "hard_nonclaims": [
+    "post-publication reproduction, not independent confirmation",
+    "does not prove tissue restriction is the sole cause of PAL persistence",
+    "rounded percentages are not converted into inferred individual counts"
+  ]
+}
