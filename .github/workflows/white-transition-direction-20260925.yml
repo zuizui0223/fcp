@@ -1,0 +1,100 @@
+name: White transition direction v1
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - docs/POLYMORPHISM_WHITE_TRANSITION_DIRECTION_PROTOCOL_20260925.md
+      - scripts/analysis/run_white_transition_direction_20260925.R
+      - .github/workflows/white-transition-direction-20260925.yml
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  BIOLOGICAL_RUN_ID: "35177668182"
+  BIOLOGICAL_ARTIFACT: h2-third-cohort-prospective-result-20260917
+
+jobs:
+  transition-direction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Python dependencies
+        run: python -m pip install pandas
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+      - name: Install R packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::rotl
+            any::jsonlite
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.BIOLOGICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.BIOLOGICAL_ARTIFACT }}
+          path: /tmp/biological
+      - name: Build frozen endpoint-state table
+        run: |
+          MEASURED="$(find /tmp/biological -type f -name 'polymorphism_h2_third_cohort_measured_photos_v1.csv' -print -quit)"
+          test -n "$MEASURED"
+          python - "$MEASURED" <<'PY'
+          import sys, pandas as pd
+          p=sys.argv[1]
+          d=pd.read_csv(p,low_memory=False)
+          g=d['global_classifiable']
+          keep=(g.astype(str).str.strip().str.lower().isin({'true','1','yes','y'})
+                & d['morph'].isin(['white','yellow_orange','red_pink','blue_purple']))
+          x=(d.loc[keep].groupby('species')
+               .agg(n_classifiable=('morph','size'),
+                    n_white=('morph',lambda s:int((s=='white').sum())))
+               .reset_index())
+          x=x.loc[x.n_classifiable.ge(40)].copy()
+          x['white_fraction']=x.n_white/x.n_classifiable
+          x['state']='mixed'
+          x.loc[x.white_fraction.le(0.10),'state']='nonwhite_dominant'
+          x.loc[x.white_fraction.ge(0.90),'state']='white_dominant'
+          x.to_csv('/tmp/endpoint_states.csv',index=False)
+          endpoints=x.loc[x.state.ne('mixed')]
+          print(x.state.value_counts())
+          assert len(endpoints)>=150
+          assert (endpoints.state=='nonwhite_dominant').sum()>=50
+          assert (endpoints.state=='white_dominant').sum()>=50
+          PY
+      - name: Run OpenTree directional transition analysis
+        run: |
+          mkdir -p results/polymorphism_white_transition_direction_20260925
+          Rscript scripts/analysis/run_white_transition_direction_20260925.R             --dataset /tmp/endpoint_states.csv             --outdir results/polymorphism_white_transition_direction_20260925             --replicates 100             --seed 20260925
+      - name: Validate result contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('results/polymorphism_white_transition_direction_20260925/result.json')
+          x=json.loads(p.read_text())
+          assert x['schema']=='fcp_white_transition_direction_v1'
+          assert x['status'] in {
+            'NONWHITE_TO_WHITE_ASYMMETRY_SUPPORTED',
+            'DIRECTIONAL_ASYMMETRY_NOT_SUPPORTED_UNDER_THIS_TEST'
+          }
+          assert x['induced_tree_species']>=150
+          assert x['completed_replicates']>=80
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: white-transition-direction-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_white_transition_direction_20260925

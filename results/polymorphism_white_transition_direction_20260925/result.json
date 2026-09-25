@@ -1,0 +1,50 @@
+{
+  "schema": "fcp_white_transition_direction_v1",
+  "status": "DIRECTIONAL_ASYMMETRY_NOT_SUPPORTED_UNDER_THIS_TEST",
+  "requested_endpoint_species": 199,
+  "exact_nonapproximate_tnrs_matches": 196,
+  "induced_tree_species": 196,
+  "state_counts": {
+    "nonwhite_dominant": 116,
+    "white_dominant": 80
+  },
+  "replicates_requested": 100,
+  "completed_replicates": 100,
+  "median_q_nonwhite_to_white": 30.7002,
+  "median_q_white_to_nonwhite": 43.7073,
+  "median_rate_ratio": 0.7007,
+  "rate_ratio_q025": 0.694,
+  "rate_ratio_q975": 0.7108,
+  "fraction_rate_ratio_gt1": 0,
+  "median_lrt_p": 0.0468,
+  "fraction_lrt_p_lt_0_05": 0.73,
+  "tree": "OpenTree induced topology; random polytomy resolution; Grafen power=1 branch lengths",
+  "sensitivity_005_095": {
+    "status": "complete",
+    "endpoint_counts": {
+      "nonwhite_dominant": 87,
+      "white_dominant": 53
+    },
+    "completed_replicates": 100,
+    "median_rate_ratio": 0.6286,
+    "fraction_rate_ratio_gt1": 0,
+    "median_lrt_p": 0.0352,
+    "fraction_lrt_p_lt_0_05": 1
+  },
+  "source_workflow_run": 36106832334,
+  "source_artifact_id": 10851441350,
+  "source_artifact_digest": "sha256:aa5bf269a67a7afd19e2d197ecf4c9d67b872d70641139ca7b72b5d6ab676305",
+  "interpretation_boundary": [
+    "The prespecified nonwhite-to-white asymmetry gate failed.",
+    "All 100 primary topology resolutions had q(nonwhite->white)/q(white->nonwhite) < 1.",
+    "The opposite direction is descriptive under this opened dataset because no reverse-direction confirmation gate was prespecified.",
+    "The recurrent white/nonwhite axis should not be described as a confirmed repeated pigmented-to-white evolutionary transition."
+  ],
+  "hard_nonclaims": [
+    "does not estimate absolute evolutionary rates",
+    "does not establish within-population mutation direction",
+    "does not identify anthocyanin loss as the molecular mechanism",
+    "does not establish heat or pollinator causation",
+    "does not establish the ancestral flower colour of angiosperms"
+  ]
+}
