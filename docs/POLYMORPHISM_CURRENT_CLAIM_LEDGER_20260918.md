@@ -275,6 +275,46 @@ The scientific interpretation is nevertheless fixed:
 
 > Near-clipping is substantially coupled to frozen white classification within species. Removing the response-blind high-clip set does not remove H2 support, but the measured coarse white state cannot be treated as cleared of image-exposure effects. The H2 claim is therefore retained only as excess alignment conditional on the measured colour-state construction, not as proof of a purely biological white-versus-nonwhite axis.
 
+## 6c. Post-confirmatory environmental clue — BIO5 passes in the third cohort but does not transport
+
+This analysis was specified after the prospective H2 result had been opened and therefore cannot alter H2 or be described as part of its untouched confirmation.
+
+In the third cohort, after the response-blind high-clip exclusion:
+- eligible species = **281**;
+- median within-species white-minus-nonwhite BIO5 contrast = **+0.0690113 SD**;
+- species-level Wilcoxon p = **0.0118162**;
+- Holm-adjusted p across BIO5, BIO14 and mean solar radiation = **0.0354487**;
+- species-stratified conditional OR per one within-species SD BIO5 = **1.073475**;
+- 95% CI = **1.029395–1.119441**;
+- p = **0.0009188**;
+- frozen BIO5 mechanism gate = **PASS**.
+
+BIO14 and mean solar radiation did not pass their frozen gates.
+
+A later fixed BIO5-only transport test in the original species-disjoint cohorts failed the joint replication rule.
+
+**Discovery**
+- 271 eligible species;
+- median contrast = **-0.006777 SD**;
+- species-level p = **0.743252**;
+- conditional OR = **1.033114**, p = **0.130829**.
+
+**Reserve**
+- 260 eligible species;
+- median contrast = **+0.066165 SD**;
+- species-level p = **0.054067**;
+- conditional OR = **1.048240**, p = **0.031950**.
+
+Frozen transport verdict:
+
+`LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST`.
+
+Allowed interpretation:
+
+> The third cohort supports a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the association does not transport as a common cross-cohort rule.
+
+This is an environmental sorting association, not causal heat selection, and it remains within the same iNaturalist/FCP source and measurement system.
+
 ## 7. Replicated spatial organization of D — positive structural clue
 
 Canonical reporting receipt:
@@ -382,6 +422,7 @@ The current evidence does not establish:
 - pigment chemistry or pigment-loss/gain mechanism;
 - direction of evolutionary transitions between white and non-white states;
 - pollinator, climate, habitat, or other adaptive causation;
+- a universal or replicated BIO5–white effect across cohorts;
 - whether geographic realization is shared or species-specific across species;
 - a recurrent non-white hue axis;
 - absence of all phylogenetic or taxonomic structure;
