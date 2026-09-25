@@ -30,21 +30,19 @@ The decisive H2 test is therefore prospective. Before opening a new biological c
 
 The project began from the **Repeated Global Flower-Colour Atlas (RGFCA)**, an upstream image-first framework originally designed to test whether within-species flower-colour discontinuities recur in the same broad geographic regions across species. The present paper inherits RGFCA's outcome-blind species discovery, high-depth sampling and measurement infrastructure but changes the estimand from shared global boundary geography to species-level polymorphism amount, colour-space geometry and within-species spatial organization.
 
-The outcome-blind RGFCA metadata-discovery frame contained **42,111 unique iNaturalist species**. The frame was built before the present polymorphism analyses by combining a one-pass baseline with a cache-resistant repeated global discovery census over an 18 × 9 equal-area grid. Twenty metadata-only V2 rounds made 3,240 fixed cell-level request attempts with zero request errors; V1 observation IDs were excluded from V2, and the deduplicated V1 + V2 species union yielded 42,111 species. No candidate image pixels or flower-colour outcomes were used to define this union. The complete lineage is recorded in `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`.
+The outcome-blind RGFCA metadata-discovery frame contained **42,111 unique iNaturalist species**, obtained before the present analyses from an 18 × 9 equal-area global census with cache-resistant repeated metadata discovery. No candidate image pixels or flower-colour outcomes entered this union. Full discovery counts and hashes are given in `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`.
 
-A separate metadata-only capacity scan retained all 42,111 species in the universe while quantifying high-depth photo availability after observer capping. Exactly **4,730 species** had capacity for at least 100 retained photographs (`U100`). This capacity is an observation-process property, not a plant trait or evidence of polymorphism. The 42,111-species frame therefore defines the broad opportunity universe rather than a probability sample for estimating global polymorphism prevalence.
+A metadata-only capacity scan identified **4,730 species** with at least 100 retained photographs after observer capping (`U100`). This is an observation-capacity subset, not a biological polymorphism subset; the 42,111-species frame is an opportunity universe rather than a prevalence sample.
 
 The original high-depth programme measured 100 photographs for each of 1,000 species divided into discovery and reserve source cohorts. After the frozen classifiability rule and a minimum of 40 classifiable photographs per species, the discovery inferential frame contained 369 species and the reserve inferential frame contained 363 species. These cohorts were kept separate for validation and replication.
 
 ### Acquisition of the original discovery and reserve high-depth cohorts
 
-The discovery and reserve cohorts inherit the frozen RGFCA iNaturalist acquisition contract rather than a separate flower-polymorphism sampling campaign. Candidate records were required to be iNaturalist Research Grade, species-rank observations with photographs and georeferences, the frozen flowering annotation (term 12, value 13), positional accuracy no worse than 5 km, unobscured/open coordinates and one of five allowed photo licences (CC0, CC BY, CC BY-SA, CC BY-NC or CC BY-NC-SA). Candidate-page and candidate-species selection did not use flower colour, and candidate image pixels remained unopened during acquisition.
-
-Within each species, any one observer contributed at most two retained photographs. Final selection used deterministic geographic maximin sampling to obtain exactly 100 raw photographs per species. The frozen candidate pool therefore contained 1,000 species × 100 photographs. A fixed hash-ranked 500-species measurement budget defined the discovery cohort; the reserve cohort was the species-disjoint complement of the other 500 species from the same frozen candidate pool. Thus discovery and reserve differ in species identity but share the same acquisition rules and raw 100-photo denominator.
+Discovery and reserve inherited the frozen RGFCA acquisition contract: Research Grade species-rank iNaturalist observations with photographs, georeferences, flowering annotation, positional accuracy <=5 km, open coordinates and allowed CC licences. Selection was colour-blind. Each observer contributed at most two retained photographs per species, and deterministic geographic maximin sampling fixed 100 photographs per species. A hash-ranked 500-species budget defined discovery; the other 500 species formed the species-disjoint reserve. Full acquisition fields and licences are listed in Supporting Information.
 
 The acquisition query did not impose a native-range restriction or an explicit `captive=false` / `wild=true` parameter. Research Grade is therefore treated only as the iNaturalist quality-grade criterion and not as proof that every record represents a native or exclusively wild population. Spatial estimands in this paper refer to the observed community-photograph records.
 
-A later third-cohort H2 test was constructed from an outcome-blind candidate frame that excluded the legacy high-depth species and all P500-selected species. The candidate frame contained 3,230 species. Deterministic hash-based selection froze 500 species before fresh metadata retrieval. Fresh retrieval yielded 499 species with 100 authorized rows each, giving 49,900 rows for the prospective biological execution. No failed species or row was replaced.
+For prospective H2, an outcome-blind 3,230-species candidate frame excluded all legacy and P500 species. Deterministic hash selection froze 500 species before fresh retrieval; 499 supplied 100 authorized rows, giving 49,900 rows with no replacement.
 
 The high-depth cohort sizes are therefore hypothesis-specific validation denominators. They are not used as estimates of polymorphism prevalence among the 42,111-species frame.
 
@@ -110,21 +108,7 @@ The original cohorts establish discovery/audit evidence because q_white was fixe
 
 ### Prospective third-cohort H2 confirmation
 
-The third-cohort test was designed specifically to separate target discovery from confirmation. Before biological opening, the following were fixed:
-
-- the 500-species deterministic selection rule;
-- fresh metadata retrieval and no-replacement rule;
-- the location-blind measurement pipeline;
-- minimum 40 classifiable rows per measurement-evaluable species;
-- minimum 250 measurement-evaluable species for the support gate;
-- q_white;
-- W;
-- the 0.10 primary and 0.20 strict tiers;
-- the construction-preserving structured null;
-- 999 null repetitions;
-- the no-axis-refit rule;
-- one-shot/no-rerun execution;
-- durable serialization and read-back validation.
+The third-cohort test separated target discovery from confirmation. Before biological opening we fixed species selection and no-replacement rules, the location-blind pipeline, the >=40-row species gate, the >=250-species support gate, q_white, W, the 0.10/0.20 tiers, the construction-preserving 999-replicate null, no axis refitting, one-shot execution and durable result validation.
 
 All 256 terminal measurement partitions had to complete before the metadata-colour join and H2 stage could open. The support gate was evaluated before W was calculated.
 
