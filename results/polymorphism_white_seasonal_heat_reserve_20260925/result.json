@@ -1,0 +1,52 @@
+{
+  "schema": "fcp_white_seasonal_heat_reserve_v1",
+  "status": "RESERVE_SEASONAL_HEAT_NOT_CONFIRMED",
+  "reserve_species": 260,
+  "reserve_rows": 11618,
+  "species_level": {
+    "median_delta": 0.07818787720443851,
+    "mean_delta": 0.08360913620086277,
+    "fraction_gt0": 0.5923076923076923,
+    "wilcoxon_p": 0.0024228559916548726
+  },
+  "species_model": {
+    "OR_seasonal": 1.0952904258460772,
+    "p_seasonal": 0.00004510883584622409,
+    "OR_BIO5": 1.062846005680691,
+    "p_BIO5": 0.006277085503270609,
+    "OR_background_white": 1.0579262920553933,
+    "p_background_white": 0.011725428819617493,
+    "OR_nuisance": 1.1030284021395,
+    "p_nuisance": 0.000010992948665135621
+  },
+  "same_cell_model": {
+    "n_rows": 698,
+    "n_strata": 201,
+    "n_species": 82,
+    "OR_seasonal": 1.2866678257915627,
+    "p_seasonal": 0.1297107413371713,
+    "OR_background_white": 1.3649353937028297,
+    "p_background_white": 0.0002588341037033068,
+    "OR_nuisance": 1.1734878897765,
+    "p_nuisance": 0.05494363319145651
+  },
+  "decision_components": {
+    "species_level": true,
+    "species_model": true,
+    "same_cell": false
+  },
+  "source_workflow_run": 36107747620,
+  "source_artifact_id": 10851826868,
+  "source_artifact_digest": "sha256:44019b13c5940cf4e108afc3946a3fd7d5ef34612e5d1d651e8694449cf4aadc",
+  "interpretation_boundary": [
+    "Species-level and species-stratified seasonal heat associations replicated in a species-disjoint reserve cohort.",
+    "The prespecified same-cell local gate failed (p=0.1297), so the full confirmation verdict remains negative.",
+    "Across two species-disjoint cohorts, the evidence is consistent with broad geographic/phenological heat sorting but not a demonstrated within-site seasonal heat effect."
+  ],
+  "hard_nonclaims": [
+    "same iNaturalist/measurement programme, not independent-source replication",
+    "does not establish temperature-induced plasticity",
+    "does not establish selection or pigment mechanism",
+    "does not establish evolutionary transition direction"
+  ]
+}
