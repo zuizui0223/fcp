@@ -1,0 +1,9 @@
+node,matched_significant_DEG_rows,median_logFC_summer_vs_spring,node_direction,representative_gene_or_class
+MYB,1,-4.056,summer_down,MYB90
+CHS,1,-1.293,summer_down,CHS3/CHS
+F3H,0,,not_in_significant_DEG_table,F3H
+ANS,0,,not_in_significant_DEG_table,ANS
+UFGT_UGT,4,-1.5315,summer_down,U75C1/U78D2
+FLS,0,,not_in_significant_DEG_table,FLS
+bHLH,0,,not_in_significant_DEG_table,bHLH
+WD40_TTG1,1,-1.411,summer_down,TTG1
