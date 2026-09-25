@@ -1,0 +1,101 @@
+{
+  "schema": "fcp_white_environment_observer_sensitivity_v2",
+  "status": "complete",
+  "role": "posthoc sensitivity after the primary WorldClim mechanism result was opened; cannot upgrade or redefine the prospective gate",
+  "paired_design": "only species-observer strata containing both white and nonwhite outcomes; strongest observer control but greatly contracts geographic/environmental range",
+  "observer_balanced_design": "average environment first within species x observer x colour, then compare colour means across observers; retains broad between-observer geography while equalizing observer weight",
+  "paired_results": [
+    {
+      "variable": "bio5",
+      "role": "posthoc_observer_paired_sensitivity",
+      "paired_observer_strata": 144,
+      "n_species": 106,
+      "median_delta": 0.0,
+      "mean_delta": -0.11103425296282525,
+      "positive_fraction": 0.4056603773584906,
+      "wilcoxon_two_sided_p": 0.4849619155258311,
+      "sign_two_sided_p": 0.0644635919894938,
+      "estimable": true,
+      "beta": -0.23998985779298754,
+      "OR_per_within_species_SD": 0.7866358392496202,
+      "ci_low": 0.5439402335298645,
+      "ci_high": 1.1376175275292997,
+      "p": 0.2023098045472006,
+      "near_clip_beta": 0.5488934906396026,
+      "near_clip_p": 0.0005800734350963345
+    },
+    {
+      "variable": "bio14",
+      "role": "posthoc_observer_paired_sensitivity",
+      "paired_observer_strata": 144,
+      "n_species": 106,
+      "median_delta": 0.0,
+      "mean_delta": -0.01601229954337635,
+      "positive_fraction": 0.330188679245283,
+      "wilcoxon_two_sided_p": 0.5741071632197852,
+      "sign_two_sided_p": 0.0006060762772090588,
+      "estimable": true,
+      "beta": -0.06476492661771147,
+      "OR_per_within_species_SD": 0.9372877688884184,
+      "ci_low": 0.583761107591288,
+      "ci_high": 1.5049107422259183,
+      "p": 0.7886316050199754,
+      "near_clip_beta": 0.5517804858596421,
+      "near_clip_p": 0.0005405789820168059
+    },
+    {
+      "variable": "srad_mean",
+      "role": "posthoc_observer_paired_sensitivity",
+      "paired_observer_strata": 144,
+      "n_species": 106,
+      "median_delta": 0.0,
+      "mean_delta": 0.007183841086344813,
+      "positive_fraction": 0.4056603773584906,
+      "wilcoxon_two_sided_p": 0.754131128779684,
+      "sign_two_sided_p": 0.0644635919894938,
+      "estimable": true,
+      "beta": 0.12771281817721092,
+      "OR_per_within_species_SD": 1.136226652197258,
+      "ci_low": 0.6787903281317327,
+      "ci_high": 1.9019289928845928,
+      "p": 0.6270340571444626,
+      "near_clip_beta": 0.5613773738058476,
+      "near_clip_p": 0.0005038202236115097
+    }
+  ],
+  "observer_balanced_results": [
+    {
+      "variable": "bio5",
+      "role": "posthoc_observer_balanced_broad_range_sensitivity",
+      "minimum_observers_per_colour": 3,
+      "n_species": 352,
+      "median_delta": 0.05409791430882366,
+      "mean_delta": 0.05572605363342186,
+      "positive_fraction": 0.5539772727272727,
+      "wilcoxon_two_sided_p": 0.0749642018520577,
+      "sign_two_sided_p": 0.04844321725850443
+    },
+    {
+      "variable": "bio14",
+      "role": "posthoc_observer_balanced_broad_range_sensitivity",
+      "minimum_observers_per_colour": 3,
+      "n_species": 352,
+      "median_delta": -3.083952846181001e-18,
+      "mean_delta": -0.013177638632139358,
+      "positive_fraction": 0.5,
+      "wilcoxon_two_sided_p": 0.7070526907395429,
+      "sign_two_sided_p": 1.0
+    },
+    {
+      "variable": "srad_mean",
+      "role": "posthoc_observer_balanced_broad_range_sensitivity",
+      "minimum_observers_per_colour": 3,
+      "n_species": 352,
+      "median_delta": -0.004180377273522341,
+      "mean_delta": -0.014292553061214157,
+      "positive_fraction": 0.4943181818181818,
+      "wilcoxon_two_sided_p": 0.4678467452078189,
+      "sign_two_sided_p": 0.8729886044078242
+    }
+  ]
+}
