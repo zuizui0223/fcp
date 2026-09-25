@@ -1,0 +1,43 @@
+{
+  "schema": "fcp_white_heat_mechanism_ledger_v1",
+  "date_jst": "2026-09-25",
+  "current_model": "genetic/regulatory perturbation and thermal perturbation can converge on overlapping pigment-network nodes and a pale/achromatic floral endpoint",
+  "evidence": {
+    "recurrent_white_nonwhite_geometry": "supported",
+    "nonwhite_to_white_transition_asymmetry": "not_supported",
+    "universal_BIO5_driver": "not_supported",
+    "universal_pollinator_driver": "not_supported",
+    "natural_pigment_network_convergence": {
+      "status": "supported_as_systematic_mechanistic_synthesis",
+      "verified_natural_systems": 5
+    },
+    "moricandia_temperature_dose": {
+      "status": "strong_direct_within_species_evidence",
+      "n_mild_to_hot": 15,
+      "cyanidin_hot_over_mild": 0.28053172259131526,
+      "percent_reduction": 71.94682774086847,
+      "individuals_decreasing": 13,
+      "paired_two_sided_p": 0.0008544921875
+    },
+    "moricandia_pathway_overlap": {
+      "status": "strong_mechanistic_compatibility",
+      "represented_fcp_nodes": ["MYB","CHS","UFGT_UGT","WD40_TTG1"],
+      "represented_nodes_summer_down": 4,
+      "represented_nodes_total": 4
+    },
+    "moricandia_branch_specificity": {
+      "formal_status": "not_supported_under_frozen_test_due_to_zero_values",
+      "cyanidin_hot_over_mild": 0.28053172259131526,
+      "flavonol_hot_over_mild": 0.9785030545783766,
+      "cyanidin_p": 0.0008544921875,
+      "flavonol_p": 0.67877197265625
+    }
+  },
+  "next_decisive_estimand": "natural colour genotype/morph by temperature interaction",
+  "hard_nonclaims": [
+    "does not rescue failed cross-cohort BIO5 replication",
+    "does not establish universal thermal whitening",
+    "does not establish universal anthocyanin causation across all pigment systems",
+    "does not establish recurrent nonwhite-to-white evolutionary direction"
+  ]
+}
