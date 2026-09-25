@@ -23,6 +23,7 @@ BIO5_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_LEGACY_WHITE_BIO5_REPLICATION_PROT
 H3B_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md"
 H3B_RESULT = ROOT / "results" / "polymorphism_h3b_reserve_span_20260912" / "result.json"
 WORLDCLIM_RELEASE_RECEIPT = ROOT / "archive" / "fcp_submission_20260925" / "WORLDCLIM_RELEASE_RECEIPT.md"
+NP_PROVENANCE_RELEASE_RECEIPT = ROOT / "archive" / "fcp_submission_20260925" / "NP_PROVENANCE_RELEASE_RECEIPT.md"
 
 
 def load_json(path: Path) -> dict:
@@ -157,7 +158,7 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
     ):
         assert token in lineage
 
-    assert audit["status"] == "TRACEABLE_WITH_PERMANENT_GIT_AND_RELEASE_ARCHIVES"
+    assert audit["status"] == "TRACEABLE_WITH_SELF_CONTAINED_PROVENANCE_SNAPSHOT"
     assert audit["headline_assessment"]["exact_legacy_inputs_recoverable_from_immutable_git"] is True
     assert audit["headline_assessment"]["exact_third_cohort_input_recoverable_from_immutable_git_and_artifact"] is True
     assert audit["headline_assessment"]["artifact_only_intermediates_require_permanent_archive"] is False
@@ -166,6 +167,10 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
     assert audit["headline_assessment"]["worldclim_bytes_mirrored_in_git"] is False
     assert audit["headline_assessment"]["worldclim_bytes_archived_in_release"] is True
     assert audit["headline_assessment"]["all_headline_inputs_permanently_recoverable"] is True
+    assert audit["headline_assessment"]["self_contained_provenance_release"] is True
+    assert audit["headline_assessment"]["self_contained_provenance_includes_measured_tables"] is True
+    assert audit["headline_assessment"]["self_contained_provenance_includes_worldclim_bytes"] is True
+    assert audit["headline_assessment"]["self_contained_provenance_includes_headline_intermediates"] is True
     assert audit["grades"]["highlight_validity"] == "A"
     assert audit["grades"]["H3a"] == "A"
     assert audit["grades"]["H3b"] == "A"
@@ -180,6 +185,18 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
     assert WORLDCLIM_RELEASE_RECEIPT.exists()
     release_receipt = WORLDCLIM_RELEASE_RECEIPT.read_text(encoding="utf-8")
     assert "fcp-worldclim-2.1-10m-20260925" in release_receipt
+
+    assert NP_PROVENANCE_RELEASE_RECEIPT.exists()
+    np_receipt = NP_PROVENANCE_RELEASE_RECEIPT.read_text(encoding="utf-8")
+    assert audit["critical_sources"]["provenance_release_tag"] == "fcp-np-provenance-20260926"
+    assert audit["critical_sources"]["provenance_release_id"] == 396980815
+    assert audit["critical_sources"]["provenance_release_source_commit"] == "f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2"
+    assert audit["critical_sources"]["provenance_asset_id"] == 589464278
+    assert audit["critical_sources"]["provenance_asset_bytes"] == 113156301
+    assert audit["critical_sources"]["provenance_asset_sha256"] == "cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7"
+    assert audit["critical_sources"]["provenance_packaged_files"] == 145
+    assert "fcp-np-provenance-20260926" in np_receipt
+    assert "Packaged files: 145" in np_receipt
 
 
 def test_spatial_organization_receipt_preserves_frozen_positive_clue() -> None:
