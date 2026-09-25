@@ -29,19 +29,21 @@ matches <- tnrs_match_names(d$species, context_name="Land plants", do_approximat
 write.csv(matches, file.path(outdir,"tnrs_matches.csv"), row.names=FALSE)
 if (!all(c("search_string","ott_id") %in% names(matches))) stop("unexpected TNRS columns")
 if (!"is_approximate_match" %in% names(matches)) matches$is_approximate_match <- FALSE
-matches$search_norm <- trimws(as.character(matches$search_string))
+matches$search_norm <- tolower(trimws(as.character(matches$search_string)))
+d$query_norm <- tolower(trimws(as.character(d$species)))
+input_map <- setNames(d$species, d$query_norm)
+matches$input_species <- unname(input_map[matches$search_norm])
 matches$ott_id <- suppressWarnings(as.integer(matches$ott_id))
-usable <- matches[!is.na(matches$ott_id) & !matches$is_approximate_match, , drop=FALSE]
+usable <- matches[!is.na(matches$ott_id) & !matches$is_approximate_match & !is.na(matches$input_species), , drop=FALSE]
 dup_ott <- usable$ott_id[duplicated(usable$ott_id) | duplicated(usable$ott_id, fromLast=TRUE)]
 usable <- usable[!(usable$ott_id %in% dup_ott), , drop=FALSE]
-usable <- usable[usable$search_norm %in% d$species, , drop=FALSE]
 if (nrow(usable) < 150) stop(sprintf("too few exact OpenTree matches: %d", nrow(usable)))
 
 tr <- tol_induced_subtree(ott_ids=usable$ott_id, label_format="id")
 write.tree(tr, file=file.path(outdir,"opentree_induced_topology_ott.tre"))
 extract_ott <- function(x) as.integer(sub("^ott", "", x))
 tip_ott <- vapply(tr$tip.label, extract_ott, integer(1))
-map <- setNames(usable$search_norm, as.character(usable$ott_id))
+map <- setNames(usable$input_species, as.character(usable$ott_id))
 tip_names <- unname(map[as.character(tip_ott)])
 if (any(is.na(tip_names))) stop("failed to map all tips")
 tr$tip.label <- gsub(" ", "_", tip_names, fixed=TRUE)
