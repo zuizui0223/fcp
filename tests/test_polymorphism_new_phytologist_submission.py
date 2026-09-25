@@ -41,11 +41,11 @@ def test_new_phytologist_defines_rgfca_and_preserves_the_conceptual_pivot() -> N
     for token in (
         "Repeated Global Flower-Colour Atlas (RGFCA)",
         "shared global boundary geography",
-        "species-level polymorphism amount, colour-space geometry and species-specific spatial organization",
+        "species-level polymorphism amount, colour-space geometry and within-species spatial organization",
         "From a repeated global atlas to species-level generality",
         "shared-geography estimand did not provide the positive biological spine retained here",
-        "the geographic realization is allowed to remain species-specific",
-        "phenotype space than in geographic space",
+        "whether its spatial realization is common, partially shared or species-specific remains open",
+        "Cross-species generality is established most clearly in **phenotype space**",
     ):
         assert token in text
 
@@ -59,9 +59,9 @@ def test_rgfca_interpretation_document_preserves_programme_boundary() -> None:
         "species-conditioned null",
         "primary recurrent-field G1 concentration: p = 0.070",
         "species-disjoint commonness: p = 0.856",
-        "The common rule is more evident in phenotype space than in geographic space",
+        "whether those spatial patterns share a common map across species remains unresolved",
         "RGFCA created the global sampling/measurement framework",
-        "current paper uses that heterogeneity as the biological object of study",
+        "current paper uses within-species spatial organization as a comparative trait while leaving shared-versus-species-specific mapping open",
     ):
         assert token in text
 
@@ -253,7 +253,11 @@ def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> No
         "partial rho = **0.0992877**, p = **0.025**",
         "partial rho = **0.1162411**, p = **0.010**",
         "structural rather than causal",
-        "two-stage working model",
+        "two-layer ecological question",
+        "Wessinger & Rausher 2012",
+        "Lacey 2026",
+        "Narbona et al. 2026",
+        "shared pigment-network architecture",
     ):
         assert token in text
 
