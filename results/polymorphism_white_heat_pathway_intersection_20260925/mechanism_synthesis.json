@@ -1,0 +1,39 @@
+{
+  "schema":"fcp_white_mechanism_synthesis_20260925_v1",
+  "status":"working_mechanism_supported_by_triangulation",
+  "new_phytologist_manuscript_changed":false,
+  "evidence_layers":{
+    "recurrent_white_nonwhite_geometry":"supported",
+    "nonwhite_to_white_transition_asymmetry":"not_supported",
+    "universal_BIO5_driver":"not_supported",
+    "universal_pollinator_driver":"not_supported",
+    "natural_pigment_pathway_convergence":"supported_as_mechanistic_synthesis",
+    "heat_FCP_node_overlap":{"status":"supported_descriptively","overlap_nodes":["MYB","CHS","F3H","ANS","UFGT"],"overlap_count":5,"fcp_nodes_total":8},
+    "moricandia_temperature_dose":{
+      "status":"supported_post_publication",
+      "n":15,
+      "mild_mean_cyanidin":1.8927119725666668,
+      "hot_mean_cyanidin":0.5309657500333332,
+      "percent_mean_reduction":71.94682774086847,
+      "fraction_individuals_decreasing":0.8666666666666667,
+      "paired_one_sided_p":0.00042724609375
+    },
+    "moricandia_reversal":{
+      "status":"supported",
+      "n":14,
+      "mild_mean_cyanidin":1.2363227688571428,
+      "spring_return_mean_cyanidin":4.708495098678571,
+      "fold_increase":3.808467511304597,
+      "paired_one_sided_p":0.00030517578125
+    },
+    "moricandia_FCP_nodes_in_significant_DEG_table":{
+      "represented":4,
+      "summer_down":4,
+      "nodes":["MYB90","CHS","U75C1/U78D2","TTG1/WD40"]
+    }
+  },
+  "working_model":"genetic/regulatory state x thermal environment -> pigment-network flux -> white/pale versus pigmented floral phenotype",
+  "expected_generality":"shared network accessibility, not a universal positive temperature coefficient",
+  "next_primary_estimand":"natural colour genotype/morph x temperature interaction",
+  "claim_ceiling":"mechanistic triangulation; does not prove heat generated the global H2 geometry"
+}
