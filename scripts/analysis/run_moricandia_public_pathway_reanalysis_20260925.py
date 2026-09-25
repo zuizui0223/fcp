@@ -11,11 +11,11 @@ import numpy as np
 import pandas as pd
 
 NODE_PATTERNS = {
-    "MYB": re.compile(r"(?:\\b(?:MYB90|MYB75|MYB113|MYB114|PAP1|PAP2)\\b|R2R3[- _]?MYB)", re.I),
+    "MYB": re.compile(r"(?:\b(?:MYB90|MYB75|MYB113|MYB114|PAP1|PAP2)\b|R2R3[- _]?MYB)", re.I),
     "CHS": re.compile(r"(?:\bCHS\b|chalcone synthase)", re.I),
     "F3H": re.compile(r"(?:\bF3H\b|flavanone[- _]?3[- _]?hydroxylase)", re.I),
     "ANS": re.compile(r"(?:\bANS\b|anthocyanidin synthase)", re.I),
-    "UFGT_UGT": re.compile(r"(?:\\bUFGT\\b|\\bU78D2\\b|\\bU75C1\\b)", re.I),
+    "UFGT_UGT": re.compile(r"(?:\bUFGT\b|\bU78D2\b|\bU75C1\b)", re.I),
     "FLS": re.compile(r"(?:\bFLS\b|flavonol synthase)", re.I),
     "bHLH": re.compile(r"(?:\bbHLH\b|basic helix[- _]?loop[- _]?helix)", re.I),
     "WD40_TTG1": re.compile(r"(?:\bWD40\b|\bTTG1\b|transparent testa glabra\s*1)", re.I),
