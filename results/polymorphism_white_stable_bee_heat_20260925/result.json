@@ -1,0 +1,51 @@
+{
+  "schema": "fcp_white_stable_bee_heat_v1",
+  "status": "complete",
+  "role": "pre_specified_joint_heat_bee_discriminator_after_white_outcome_already_known",
+  "workflow_run": 36105413871,
+  "artifact_id": 10850813548,
+  "preflight": {
+    "schema": "fcp_white_stable_bee_preflight_v1",
+    "flower_species": 499,
+    "bee_matched_species": 332,
+    "filtered_bee_records": 24139,
+    "candidate_radii": [50, 100, 250, 500],
+    "radius_summary": [
+      {"radius_km": 50, "qualified_species": 20, "species_evaluated": 332},
+      {"radius_km": 100, "qualified_species": 39, "species_evaluated": 332},
+      {"radius_km": 250, "qualified_species": 92, "species_evaluated": 332},
+      {"radius_km": 500, "qualified_species": 154, "species_evaluated": 332}
+    ],
+    "chosen_radius_km": 500,
+    "rule": "smallest radius with >=100 species having >=20 flower coordinates and >=50% flower coordinates with >=3 same-plant local bee interaction records",
+    "morph_opened": false
+  },
+  "biological_rows": 7693,
+  "biological_species": 255,
+  "model_B1_heat_plus_local_bee_richness": {
+    "status": "complete",
+    "n_species": 167,
+    "n_rows": 5836,
+    "wz_bio5": {"beta": 0.1288922037704783, "OR": 1.13756749206974, "ci_low": 1.0607845306978925, "ci_high": 1.2199082486265833, "p": 0.0003003465976248477},
+    "wz_log_local_bee_richness": {"beta": -0.05539215182773709, "OR": 0.9461140548399649, "ci_low": 0.8775959355471381, "ci_high": 1.019981711979613, "p": 0.14868941525237325, "holm_pollinator_p": 0.2973788305047465},
+    "wz_near_clip_fraction": {"beta": 0.26137333291752113, "OR": 1.2987124270387347, "ci_low": 1.2097824014243754, "ci_high": 1.3941796195406757, "p": 5.11494608862743e-13}
+  },
+  "model_B2_heat_plus_bombus_fraction_plus_richness": {
+    "status": "complete",
+    "n_species": 136,
+    "n_rows": 4828,
+    "wz_bio5": {"beta": 0.14369120909722577, "OR": 1.1545275458729274, "ci_low": 1.0687156747703628, "ci_high": 1.247229628652892, "p": 0.00026580300524041455},
+    "wz_local_bombus_fraction": {"beta": 0.018565444940890262, "OR": 1.0187388542920746, "ci_low": 0.9409053816282564, "ci_high": 1.1030108590178795, "p": 0.6470673927337298, "holm_pollinator_p": 0.6470673927337298},
+    "wz_log_local_bee_richness": {"beta": -0.07446116198013453, "OR": 0.9282435244993594, "ci_low": 0.8573160343088956, "ci_high": 1.0050389894662122, "p": 0.0663486689332466},
+    "wz_near_clip_fraction": {"beta": 0.29094248398196787, "OR": 1.337687643270784, "ci_low": 1.236717396961958, "ci_high": 1.4469014791536783, "p": 3.703596541476125e-13}
+  },
+  "species_audit_local_bee_richness": {"n_species": 87, "median_delta": 0.0, "mean_delta": -0.04999927965571992, "positive_fraction": 0.3793103448275862, "wilcoxon_two_sided_p": 0.23897040151479132, "status": "complete"},
+  "species_audit_local_bombus_fraction": {"n_species": 74, "median_delta": 0.0, "mean_delta": 0.03966860489553043, "positive_fraction": 0.47297297297297297, "wilcoxon_two_sided_p": 0.7832915611084353, "status": "complete"},
+  "hard_nonclaims": [
+    "not untouched confirmation because white outcomes and prior BIO5 result already existed",
+    "interaction record density is not pollination effectiveness",
+    "does not measure non-bee pollinator guilds",
+    "does not establish pigmented-to-white transition direction",
+    "does not establish causal selection"
+  ]
+}
