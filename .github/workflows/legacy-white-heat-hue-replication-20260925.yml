@@ -1,0 +1,68 @@
+name: Legacy white heat hue replication
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_LEGACY_WHITE_HEAT_HUE_REPLICATION_PROTOCOL_20260925.md
+      - scripts/analysis/run_legacy_white_heat_hue_replication_20260925.py
+      - .github/workflows/legacy-white-heat-hue-replication-20260925.yml
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  RES_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+
+jobs:
+  replicate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy statsmodels rasterio
+          python -m py_compile scripts/analysis/run_legacy_white_heat_hue_replication_20260925.py
+      - name: Recover immutable legacy row tables
+        run: |
+          git fetch --no-tags --depth=1 origin "$SOURCE_SHA"
+          git show "$SOURCE_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/discovery.csv
+          git show "$SOURCE_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/reserve.csv
+          echo "$DISC_SHA256  /tmp/discovery.csv" | sha256sum -c -
+          echo "$RES_SHA256  /tmp/reserve.csv" | sha256sum -c -
+      - name: Download WorldClim BIO5
+        run: |
+          mkdir -p /tmp/worldclim
+          curl -L --fail --retry 5 --retry-delay 3 https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip -o /tmp/worldclim/bio.zip
+          unzip -q /tmp/worldclim/bio.zip -d /tmp/worldclim
+          test -f /tmp/worldclim/wc2.1_10m_bio_5.tif
+      - name: Run fixed legacy hue replication
+        run: |
+          rm -rf results/polymorphism_legacy_white_heat_hue_replication_20260925
+          python scripts/analysis/run_legacy_white_heat_hue_replication_20260925.py \
+            --discovery /tmp/discovery.csv --reserve /tmp/reserve.csv \
+            --bio5 /tmp/worldclim/wc2.1_10m_bio_5.tif \
+            --outdir results/polymorphism_legacy_white_heat_hue_replication_20260925
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('results/polymorphism_legacy_white_heat_hue_replication_20260925/result.json').read_text())
+          assert x['schema']=='fcp_legacy_white_heat_hue_replication_v1'
+          assert x['status']=='complete'
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: legacy-white-heat-hue-replication-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_legacy_white_heat_hue_replication_20260925
