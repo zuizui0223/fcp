@@ -114,7 +114,7 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     if d.groupby("cohort").size().to_dict() != expected:
         raise ValueError("unexpected H1/H3 D cohort sizes in reporting source")
 
-    fig, axes = plt.subplots(1, 2, figsize=(11.6, 5.15), gridspec_kw={"width_ratios": [1.25, 1.0]})
+    fig, axes = plt.subplots(1, 2, figsize=(12.2, 5.15), gridspec_kw={"width_ratios": [1.08, 1.12]})
     fig.suptitle("A continuous species-level flower-colour polymorphism phenotype", y=1.02, fontweight="bold")
 
     ax = axes[0]
@@ -153,10 +153,10 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     }
     boxes = [
         (0.50, 0.90, "42,111-species global frame\nSampling / opportunity universe"),
-        (0.28, 0.61, "Original high-depth source\n500 discovery + 500 reserve\n100 photos per species"),
-        (0.28, 0.25, "D inference after ≥40 classifiable\n369 discovery + 363 reserve"),
-        (0.74, 0.61, "Prospective H2 third cohort\npre-frozen selection + fresh metadata"),
-        (0.74, 0.31, "499 species × 100 rows\n377 measurement-evaluable\nH2 confirmation"),
+        (0.23, 0.61, "Original high-depth source\n500 discovery + 500 reserve\n100 photos per species"),
+        (0.23, 0.25, "D inference after ≥40 classifiable\n369 discovery + 363 reserve"),
+        (0.78, 0.61, "Prospective H2 third cohort\npre-frozen selection\n+ fresh metadata"),
+        (0.78, 0.31, "499 species × 100 rows\n377 measurement-evaluable\nH2 confirmation"),
     ]
     for x, y, text in boxes:
         ax.text(
@@ -172,10 +172,10 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
 
     # Solid arrows encode the pre-frozen sampling / confirmation chain.
     for source, target in [
-        ((0.44, 0.82), (0.31, 0.70)),
-        ((0.56, 0.82), (0.71, 0.70)),
-        ((0.28, 0.51), (0.28, 0.35)),
-        ((0.74, 0.51), (0.74, 0.41)),
+        ((0.44, 0.82), (0.27, 0.70)),
+        ((0.56, 0.82), (0.74, 0.70)),
+        ((0.23, 0.51), (0.23, 0.35)),
+        ((0.78, 0.51), (0.78, 0.41)),
     ]:
         ax.annotate(
             "",
@@ -189,7 +189,7 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     # terminalized. A dashed box / arrow keeps that secondary chronology
     # visually distinct from untouched prospective confirmation.
     ax.text(
-        0.74,
+        0.78,
         0.065,
         "Later secondary follow-up\nhighlight validity + BIO5/BIO14/SRAD\nnot part of prospective H2",
         transform=ax.transAxes,
@@ -201,13 +201,13 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     )
     ax.annotate(
         "",
-        xy=(0.74, 0.145),
-        xytext=(0.74, 0.22),
+        xy=(0.78, 0.145),
+        xytext=(0.78, 0.22),
         xycoords=ax.transAxes,
         arrowprops={"arrowstyle": "->", "color": "#777777", "lw": 1.1, "linestyle": "--"},
     )
-    ax.text(0.28, 0.73, "original validation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
-    ax.text(0.74, 0.73, "prospective confirmation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
+    ax.text(0.23, 0.73, "original validation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
+    ax.text(0.78, 0.73, "prospective confirmation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
     panel_label(ax, "B")
 
     fig.tight_layout()
