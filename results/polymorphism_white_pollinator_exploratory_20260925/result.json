@@ -1,0 +1,58 @@
+{
+  "schema": "fcp_white_pollinator_exploratory_v1",
+  "status": "complete",
+  "role": "post_outcome_exploratory_pollinator_screen",
+  "strict_species": 217,
+  "source_warning": "multi-guild predictor data came from frozen live/API GloBI queries; use as exploratory evidence only",
+  "stable_bee_coverage": {
+    "source": "Noori et al. 2026 curated GloBI v3.1 / Zenodo 18303036",
+    "fcp_species_total": 499,
+    "exact_matched_species": 346,
+    "coverage_fraction": 0.6933867735470942
+  },
+  "results": [
+    {
+      "predictor": "has_sphingidae",
+      "prediction_direction": 1,
+      "n_species": 217,
+      "beta": -0.449179,
+      "OR": 0.638152,
+      "ci_low": 0.374150,
+      "ci_high": 1.088434,
+      "clustered_p": 0.099163,
+      "species_equal_beta": -0.607828,
+      "species_equal_p": 0.104751
+    },
+    {
+      "predictor": "z_bee_frac",
+      "prediction_direction": -1,
+      "n_species": 217,
+      "beta": -0.233216,
+      "OR": 0.791982,
+      "ci_low": 0.623781,
+      "ci_high": 1.005539,
+      "clustered_p": 0.055537,
+      "species_equal_beta": -0.246841,
+      "species_equal_p": 0.154161
+    },
+    {
+      "predictor": "z_lep_frac",
+      "prediction_direction": 1,
+      "n_species": 217,
+      "beta": -0.003994,
+      "OR": 0.996014,
+      "ci_low": 0.788121,
+      "ci_high": 1.258747,
+      "clustered_p": 0.973328,
+      "species_equal_beta": -0.009197,
+      "species_equal_p": 0.957412
+    }
+  ],
+  "hard_nonclaims": [
+    "not confirmatory because flower-colour outcomes were already open",
+    "live GloBI query output is not a stable final inference source",
+    "non-detection is not pollinator absence",
+    "does not establish pigmented-to-white transition direction",
+    "does not establish pollinator causation"
+  ]
+}
