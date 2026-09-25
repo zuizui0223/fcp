@@ -254,7 +254,7 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
         for token in (
             "### Post-confirmatory environmental filter and BIO5 transport test",
             "### A prospective third-cohort BIO5 association does not transport across the legacy cohorts",
-            "Holm-adjusted p = **0.0354**",
+            "**Holm-adjusted p = 0.0354**",
             "OR = **1.073**",
             "p = **0.000919**",
             "p = **0.743**",
