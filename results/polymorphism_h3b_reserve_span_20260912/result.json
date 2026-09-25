@@ -1,0 +1,51 @@
+{
+  "analysis": "polymorphism_h3b_reserve_span",
+  "date_jst": "2026-09-12",
+  "protocol": "docs/POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md",
+  "hypothesis_status": "discovery_selected_reserve_fresh_replication",
+  "predictor": "log1p(maximum_span_km_all_measured)",
+  "predictor_guard": "sampled span from all 100 measured rows; not true range size",
+  "permutations": 20000,
+  "discovery_calibration": {
+    "n": 369,
+    "rho": 0.1799,
+    "p_two_sided": 0.0009,
+    "rho_D_unbiased": 0.1797,
+    "p_D_unbiased": 0.0008,
+    "partial_rho": 0.1585,
+    "partial_p": 0.0027
+  },
+  "reserve_primary": {
+    "n": 363,
+    "rho": -0.0026,
+    "p_two_sided": 0.9586,
+    "rho_D_unbiased": -0.0024,
+    "p_D_unbiased": 0.9629,
+    "partial_rho": 0.0055,
+    "partial_p": 0.9162
+  },
+  "reserve_rank_pgls": {
+    "S1": {"n_tips":341,"beta_span_rank":-0.0056,"se_span_rank":0.0516,"z_span_rank":-0.1084,"p_span_rank":0.9137,"lambda":1e-7},
+    "S2": {"n_tips":341,"beta_span_rank":-0.0056,"se_span_rank":0.0516,"z_span_rank":-0.1084,"p_span_rank":0.9137,"lambda":1e-7},
+    "S3": {"n_tips":341,"beta_span_rank":-0.0056,"se_span_rank":0.0516,"z_span_rank":-0.1084,"p_span_rank":0.9137,"lambda":1e-7}
+  },
+  "decision": {
+    "primary_positive": false,
+    "primary_p_lt_0_05": false,
+    "opportunity_robust": false,
+    "verdict": "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED",
+    "label": "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+  },
+  "source_workflow_run": 34677468362,
+  "source_artifact_id": 10292399238,
+  "source_artifact_digest": "sha256:34c5e646725f6865e313b17f1b70f2471db8169f443fb0649da83044d654386c",
+  "source_head_sha": "ff1eac2ec1378465d5027184d507cb597c67be27",
+  "package_versions": {
+    "R": "R version 4.6.1 (2026-06-24)",
+    "ape": "5.8.1",
+    "phylolm": "2.6.5",
+    "jsonlite": "2.0.0"
+  },
+  "hard_nonclaim": "Sampled geographic span is observational opportunity/geography, not true range size or a causal environmental mechanism.",
+  "archival_note": "This compact result was restored from GitHub Actions artifact 10292399238; full permutation-null and PGLS CSVs remain in that artifact and should be included in the permanent submission archive."
+}

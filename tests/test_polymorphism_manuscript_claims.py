@@ -16,6 +16,12 @@ SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" /
 VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_20260922" / "result.json"
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
+LINEAGE_MAP = ROOT / "docs" / "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md"
+LINEAGE_AUDIT = ROOT / "results" / "polymorphism_data_lineage_audit_20260925" / "result.json"
+WHITE_ENV_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md"
+BIO5_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_LEGACY_WHITE_BIO5_REPLICATION_PROTOCOL_20260925.md"
+H3B_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md"
+H3B_RESULT = ROOT / "results" / "polymorphism_h3b_reserve_span_20260912" / "result.json"
 
 
 def load_json(path: Path) -> dict:
@@ -120,6 +126,46 @@ def test_bio5_secondary_claim_keeps_positive_third_cohort_and_failed_transport_t
 
     assert "universal or replicated BIO5" in ledger
     assert "does not support a common cross-cohort BIO5 rule" in manuscript
+
+
+
+def test_reader_can_route_each_major_claim_to_provenance() -> None:
+    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
+    lineage = LINEAGE_MAP.read_text(encoding="utf-8")
+    audit = load_json(LINEAGE_AUDIT)
+    h3b = load_json(H3B_RESULT)
+
+    for path in (
+        LINEAGE_MAP,
+        LINEAGE_AUDIT,
+        WHITE_ENV_PROTOCOL,
+        BIO5_PROTOCOL,
+        H3B_PROTOCOL,
+        H3B_RESULT,
+    ):
+        assert path.exists()
+
+    for token in (
+        "one physical 499-species / 49,900-row measurement cohort",
+        "untouched prospective H2 confirmation",
+        "post-H2 secondary validity/environmental analyses",
+        "5142f7951af0dde5364bb047a566d67e8c479e51",
+        "7e538e5c51c05a7cc47b2fcf53eea92634c8a863",
+        "10496492307",
+        "10292399238",
+    ):
+        assert token in lineage
+
+    assert audit["status"] == "TRACEABLE_WITH_ARCHIVAL_GAPS"
+    assert audit["headline_assessment"]["exact_legacy_inputs_recoverable_from_immutable_git"] is True
+    assert audit["headline_assessment"]["exact_third_cohort_input_recoverable_from_immutable_git_and_artifact"] is True
+    assert audit["headline_assessment"]["artifact_only_intermediates_require_permanent_archive"] is True
+    assert audit["headline_assessment"]["worldclim_original_archive_sha256_recorded"] is False
+
+    assert "pre-specified secondary BIO5 association in the prospective H2 cohort" in manuscript
+    assert "one physical 499-species / 49,900-row measurement dataset used in two chronologically distinct ways" in manuscript
+    assert "Only after H2 was terminalized" in manuscript
+    assert h3b["decision"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
 
 
 def test_spatial_organization_receipt_preserves_frozen_positive_clue() -> None:

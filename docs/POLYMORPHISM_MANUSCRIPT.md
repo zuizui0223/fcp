@@ -186,6 +186,8 @@ The analysis is governed by frozen protocols, machine-readable result files, inp
 
 The P500 prospective expansion is retained separately as a measurement-transport result. Its H2 calculation failed during post-calculation serialization before a durable biological H2 result was written. Under the one-shot contract, P500 supplies neither confirmation nor refutation of H2 and is not replayed for prospective status.
 
+For clarity, the prospective H2 cohort is one physical 499-species / 49,900-row measurement dataset used in two chronologically distinct ways. It first supplied the untouched H2 confirmation. Only after H2 was terminalized were those measured rows reused for post-confirmatory highlight validity and the pre-specified environmental follow-up. Those later analyses are secondary and cannot alter the prospective status of H2.
+
 ---
 
 ## Results
@@ -240,13 +242,13 @@ The subsequent one-shot direct digital-highlight control completed all **49,900*
 
 Removing the response-blind high-clip set retained strong H2 support: **142** primary-tier vectors, W = **0.503**, structured-null median = **0.454**, p = **0.001**. This is **89.9%** retention of the original 158 vectors, one vector below the prespecified >=90% threshold. Because the frozen executable checked retention before its coupling-CI branch, the terminal machine state remained **INDETERMINATE**. The separately frozen prose protocol would satisfy its FLAGGED coupling clause because the complete OR interval exceeds 1.25. We therefore do not recode the machine state after outcome opening; instead, we report that near-clipping is substantially coupled to white classification while the excess H2 alignment persists after response-blind high-clip exclusion.
 
-### A prospective third-cohort BIO5 association does not transport across the legacy cohorts
+### A pre-specified secondary BIO5 association in the prospective H2 cohort does not transport
 
 The post-confirmatory environmental-filter test retained **281** third-cohort species and 12,583 rows after the response-blind high-clip exclusion. BIO5 was the only one of the three frozen environmental predictions to pass its full gate. The median within-species white-minus-nonwhite BIO5 contrast was **+0.0690 SD**; 57.3% of species had a positive contrast. The species-level Wilcoxon p-value was 0.0118 and remained significant after Holm correction across BIO5, BIO14 and solar radiation (**Holm-adjusted p = 0.0354**). In the species-stratified conditional logistic model, a one-SD within-species increase in BIO5 was associated with OR = **1.073** for white classification (95% CI **1.029–1.119**, p = **0.000919**) after continuous near-clip adjustment. BIO14 and mean solar radiation did not pass their frozen gates (Holm-adjusted p = 0.692 for each).
 
 The fixed species-disjoint BIO5 transport test did not reproduce that association across both original high-depth cohorts. In discovery, **271** eligible species had a median contrast of **-0.0068 SD** (Wilcoxon p = **0.743**), and the species-stratified estimate was OR = **1.033** (95% CI 0.990–1.078, p = **0.131**). In reserve, **260** species had a directionally concordant median contrast of **+0.0662 SD**, but the species-level test missed the frozen criterion (p = **0.0541**); the row-level model was positive (OR = **1.048**, 95% CI 1.004–1.094, p = **0.0319**). Because both cohorts were required to pass at both inferential levels, the frozen transport verdict was LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST.
 
-Thus the third cohort provides a prospectively specified, within-cohort association between white states and warmer maximum-temperature environments, but the effect does not support a common cross-cohort BIO5 rule.
+Thus this pre-specified secondary analysis of the prospective H2 cohort provides a within-cohort association between white states and warmer maximum-temperature environments, but the effect does not support a common cross-cohort BIO5 rule.
 
 ### Greater D is associated with stronger within-species geographic colour organization
 
@@ -304,7 +306,7 @@ This coupling does not explain away the full H2 result. Removing all 2,205 respo
 
 One biological clue is genetic and developmental accessibility. Anthocyanin-based floral pigmentation can be reduced by loss or downregulation at multiple structural and regulatory points in the pathway, so several distinct molecular changes can converge on pale or white petals. Evolutionary analyses of flower colour have likewise emphasized that pigment loss can be produced through multiple structural, cis-regulatory and transcription-factor routes, with the evolutionary contribution of those routes shaped by pleiotropic costs (Wessinger & Rausher 2012). The recurrent achromatic–chromatic direction observed here is therefore **consistent with** a many-to-one accessibility bias in pigment production. It does not establish that the measured white state is always anthocyanin-deficient, nor does the sign-invariant H2 statistic identify whether evolutionary transitions run from pigmented to white or in the reverse direction.
 
-Our own post-confirmatory environmental test provides a direct but bounded ecological clue. In the prospectively specified third-cohort analysis, white records occupied warmer BIO5 environments within species (median contrast +0.069 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073 per within-species SD, p = 0.000919). That association did not transport under the frozen species-disjoint replication rule: discovery was essentially null (p = 0.743), and reserve was directionally similar but missed the species-level criterion (p = 0.0541). Temperature is therefore not supported as a universal cross-species driver of the recurrent axis.
+Our own post-confirmatory environmental test provides a direct but bounded ecological clue. In a pre-specified secondary analysis of the prospective H2 cohort, white records occupied warmer BIO5 environments within species (median contrast +0.069 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073 per within-species SD, p = 0.000919). That association did not transport under the frozen species-disjoint replication rule: discovery was essentially null (p = 0.743), and reserve was directionally similar but missed the species-level criterion (p = 0.0541). Temperature is therefore not supported as a universal cross-species driver of the recurrent axis.
 
 The cohort dependence is nevertheless biologically interpretable rather than requiring temperature to be irrelevant. High temperature often reduces floral anthocyanin accumulation, but the magnitude and even phenotypic consequences of that response depend strongly on genotype, developmental stage, light and other environmental context (Lacey 2026). In *Moricandia arvensis*, elevated summer temperature is associated with a reversible shift from lilac to white flowers, loss of detectable floral anthocyanins and increased accumulation of UV-absorbing flavonoids and other phenolics (Narbona et al. 2026). Together, these results make thermal repression one plausible context-dependent route into the same pigment network that can generate an achromatic endpoint. The relevant generality may therefore lie in a shared pigment-network architecture on which different genetic and environmental perturbations act, rather than in one universal BIO5 coefficient.
 
@@ -370,6 +372,7 @@ The manuscript must not claim:
 ## Repository evidence map
 
 - Current claim ledger: `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
+- Claim-to-input lineage map: `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`
 - Paper architecture: `docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md`
 - Figure plan: `docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`
 - Supporting Information map: `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`

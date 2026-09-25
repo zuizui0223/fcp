@@ -14,6 +14,14 @@ ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_
 D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
+LINEAGE_MAP = ROOT / "docs" / "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md"
+WHITE_ENV_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md"
+WHITE_ENV_SCRIPT = ROOT / "scripts" / "analysis" / "run_white_environment_mechanism_20260925.py"
+BIO5_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_LEGACY_WHITE_BIO5_REPLICATION_PROTOCOL_20260925.md"
+BIO5_SCRIPT = ROOT / "scripts" / "analysis" / "run_legacy_white_bio5_replication_20260925.py"
+H3B_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md"
+H3B_SCRIPT = ROOT / "scripts" / "analysis" / "run_polymorphism_h3b_reserve_span_20260912.R"
+H3B_RESULT = ROOT / "results" / "polymorphism_h3b_reserve_span_20260912" / "result.json"
 
 
 def words(text: str) -> list[str]:
@@ -253,7 +261,7 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
     for manuscript in (text, canonical):
         for token in (
             "### Post-confirmatory environmental filter and BIO5 transport test",
-            "### A prospective third-cohort BIO5 association does not transport across the legacy cohorts",
+            "### A pre-specified secondary BIO5 association in the prospective H2 cohort does not transport",
             "**Holm-adjusted p = 0.0354**",
             "OR = **1.073**",
             "p = **0.000919**",
@@ -266,6 +274,56 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
 
     assert "Temperature is therefore not supported as a universal cross-species driver" in text
     assert "rather than in one universal BIO5 coefficient" in text
+
+
+
+def test_submission_data_lineage_is_reader_traceable() -> None:
+    import json
+
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    lineage = LINEAGE_MAP.read_text(encoding="utf-8")
+
+    for path in (
+        LINEAGE_MAP,
+        WHITE_ENV_PROTOCOL,
+        WHITE_ENV_SCRIPT,
+        BIO5_PROTOCOL,
+        BIO5_SCRIPT,
+        H3B_PROTOCOL,
+        H3B_SCRIPT,
+        H3B_RESULT,
+    ):
+        assert path.exists(), f"missing reader-traceable provenance file: {path}"
+
+    for token in (
+        "Prospective H2 cohort",
+        "Secondary environmental follow-up",
+        "one physical 499-species measurement dataset used in two chronologically distinct ways",
+        "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md",
+    ):
+        assert token in text
+
+    for token in (
+        "5142f7951af0dde5364bb047a566d67e8c479e51",
+        "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+        "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+        "7e538e5c51c05a7cc47b2fcf53eea92634c8a863",
+        "10496492307",
+        "10709490106",
+        "10292218669",
+        "10292662493",
+        "10292767459",
+        "10292399238",
+        "post-H2 secondary validity/environmental analyses",
+        "Time-limited GitHub Actions artifacts",
+        "WorldClim archive bit identity",
+    ):
+        assert token in lineage
+
+    h3b = json.loads(H3B_RESULT.read_text(encoding="utf-8"))
+    assert h3b["decision"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+    assert h3b["source_workflow_run"] == 34677468362
+    assert h3b["source_artifact_id"] == 10292399238
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:

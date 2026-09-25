@@ -1,0 +1,47 @@
+{
+  "schema":"fcp_polymorphism_data_lineage_audit_v1",
+  "date_jst":"2026-09-25",
+  "status":"TRACEABLE_WITH_ARCHIVAL_GAPS",
+  "headline_assessment":{
+    "narrative_flow":"clear_after_explicit_separation_of_prospective_H2_and_secondary_BIO5",
+    "main_branch_raw_data_complete":false,
+    "exact_legacy_inputs_recoverable_from_immutable_git":true,
+    "exact_third_cohort_input_recoverable_from_immutable_git_and_artifact":true,
+    "artifact_only_intermediates_require_permanent_archive":true,
+    "worldclim_version_pinned":true,
+    "worldclim_original_archive_sha256_recorded":false
+  },
+  "grades":{
+    "global_frame":"A-",
+    "H1":"A",
+    "legacy_H2":"A",
+    "prospective_H2":"A",
+    "highlight_validity":"B",
+    "secondary_BIO5":"B",
+    "BIO5_transport":"B",
+    "spatial_organization":"A-",
+    "H3a":"B",
+    "H3b":"B",
+    "P500":"A-"
+  },
+  "critical_sources":{
+    "legacy_source_commit":"5142f7951af0dde5364bb047a566d67e8c479e51",
+    "legacy_discovery_sha256":"ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "legacy_reserve_sha256":"0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third_cohort_result_commit":"7e538e5c51c05a7cc47b2fcf53eea92634c8a863",
+    "third_cohort_measured_sha256":"57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
+    "third_cohort_final_artifact":10496492307,
+    "highlight_technical_artifact":10709490106,
+    "spatial_source_commit":"f14186590c11ac24c95e1985077908b732132e96",
+    "h3a_signal_artifact":10292218669,
+    "h3a_tree_artifact":10292662493,
+    "h3a_covariate_artifact":10292767459,
+    "h3b_execution_head":"ff1eac2ec1378465d5027184d507cb597c67be27",
+    "h3b_artifact":10292399238
+  },
+  "required_pre_submission_archival_actions":[
+    "archive expiring Actions artifacts used for highlight validity and H3a/H3b",
+    "archive or checksum the exact WorldClim 2.1 BIO/SRAD files used by the environmental analyses",
+    "include this lineage map in the permanent release"
+  ]
+}

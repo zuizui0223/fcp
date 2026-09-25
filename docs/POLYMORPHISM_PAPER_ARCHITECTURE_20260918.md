@@ -14,6 +14,10 @@ Current figure plan:
 
 - `docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`
 
+Reader-facing data lineage map:
+
+- `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`
+
 ## 0. Programme interpretation — what RGFCA contributes
 
 RGFCA means **Repeated Global Flower-Colour Atlas**. It is the upstream global sampling/measurement framework, not the current paper's final biological claim.
@@ -145,7 +149,7 @@ Fresh reserve tests show no detectable broad tree-wide conservation of D, while 
 
 ### Sentence 9 — conclusion
 
-Within-species flower-colour diversity is measurable as a species phenotype, its strongest confirmed recurrent geometry is achromatic–chromatic, and its between-species variation is coupled to species-specific spatial organization rather than explained by sampling extent alone.
+Within-species flower-colour diversity is measurable as a species phenotype, its strongest confirmed recurrent geometry is achromatic–chromatic, and greater diversity is accompanied by stronger within-species geographic organization; whether those spatial patterns share a common map across species remains unresolved.
 
 ## 6. Introduction spine
 
