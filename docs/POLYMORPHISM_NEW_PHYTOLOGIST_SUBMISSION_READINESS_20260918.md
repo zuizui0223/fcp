@@ -1,15 +1,16 @@
-# New Phytologist submission readiness audit — 2026-09-18
+# New Phytologist submission readiness audit — 2026-09-25
 
-Status: **scientific package ready; administrative metadata still blocks formal submission.**
+Status: **scientific, narrative and provenance package ready; administrative metadata, permanent external archive DOI, and final formatted submission file remain.**
 
-This audit is for the active flower-colour polymorphism paper:
+Active submission files:
 
 - `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`
 - `docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md`
 - `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
-- `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`
+- `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`
+- `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`
 
-Current official author-guideline source checked on 2026-09-18:
+Official guideline source rechecked on 2026-09-25:
 
 - New Phytologist Author Guidelines:
   `https://nph.onlinelibrary.wiley.com/hub/journal/14698137/about/author-guidelines`
@@ -18,91 +19,191 @@ Current official author-guideline source checked on 2026-09-18:
 
 **PASS**
 
-The paper's decisive biological claim is frozen as:
+The decisive biological result remains:
 
 `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`
 
-The current manuscript also defines RGFCA as the upstream Repeated Global Flower-Colour Atlas and makes the conceptual pivot explicit: the current positive generality is sought in species-level polymorphism amount, colour-space geometry and species-specific spatial organization rather than in a universal shared geographic boundary.
+The evidential sequence is now explicit:
 
-The current manuscript preserves the required boundary:
+1. **Measurement validity** — species-level four-state diversity D is reproducible under the first-frozen observer-disjoint rule and transports strongly across a later fresh image set within the same measurement system.
+2. **Target discovery/localization** — the original discovery/reserve cohorts localize recurrent continuous colour geometry to a white-versus-nonwhite axis, but that named axis is retrospective in those cohorts.
+3. **Untouched prospective confirmation** — a separately selected species-disjoint H2 cohort tests the already frozen q_white/W target with unchanged gates and structured null.
+4. **Post-H2 validity/environment follow-up** — only after prospective H2 terminalization are the same physical third-cohort rows reused for highlight validity and the pre-specified BIO5/BIO14/solar analysis.
+5. **Spatial organization** — greater D is associated with stronger within-species geographic colour organization; current RGFCA identifiability does not decide whether cross-species spatial realization is shared, partly shared or species-specific.
+6. **Alternative-explanation filters** — broad reserve phylogenetic signal is unsupported and the discovery sampled-span association fails species-disjoint replication.
 
-- species-disjoint prospective confirmation;
-- same iNaturalist opportunity/source universe;
-- same measurement system;
-- not independent-source replication;
-- replicated D–spatial organization presented as a structural correlate, not a causal mechanism;
-- no global prevalence claim;
-- no pigment, transition-direction, pollinator or climate mechanism claim.
+### Required claim boundaries
 
-Authoritative/result-reporting files:
+The manuscript explicitly preserves:
 
-- `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
-- `results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`
-- `results/polymorphism_spatial_organization_clue_20260918/result.json` (reporting-only synthesis of previously frozen PR #32 results)
-- `results/polymorphism_fresh_D_transport_20260925/result.json` (bounded fresh-image/same-system D transport receipt)
+- species-disjoint prospective H2 confirmation, but not independent-source replication;
+- no global polymorphism-prevalence claim;
+- no evolutionary transition-direction claim;
+- no universal pigment mechanism;
+- no pollinator causation;
+- no universal climate causation;
+- no claim that cross-species geographic maps are species-specific;
+- measured coarse white remains exposure-coupled rather than artifact-cleared.
 
-## 1b. RGFCA programme-lineage audit
+### Secondary BIO5 result
+
+The secondary environmental result is reported rather than hidden:
+
+- third-cohort eligible species = **281**;
+- median white-minus-nonwhite BIO5 contrast = **+0.0690 SD**;
+- Holm-adjusted p = **0.0354**;
+- conditional OR = **1.073**, p = **0.000919**.
+
+But the later fixed species-disjoint transport rule fails:
+
+- discovery species-level p = **0.743**;
+- reserve species-level p = **0.0541**;
+- verdict = `LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST`.
+
+Temperature is therefore discussed as a context-dependent mechanistic clue, not a universal driver.
+
+## 2. Narrative clarity
 
 **PASS**
 
-RGFCA is explicitly defined as the upstream **Repeated Global Flower-Colour Atlas**, not as the current paper's final biological claim.
+The manuscript now distinguishes physical datasets from inferential uses.
 
-The manuscript and interpretation note now preserve four distinctions:
+### Legacy resource
 
-1. RGFCA's original shared-geography estimand asked whether independent species place strong within-species colour discontinuities in the same broad geographic regions.
-2. The shared-geography result was not promoted into the present paper's positive biological spine; the frozen upstream record includes G1 p = 0.070 and species-disjoint commonness p = 0.856.
-3. The current paper reuses RGFCA's sampling/measurement infrastructure and species-specific spatial outputs, but changes the comparative estimand to species-level polymorphism amount, recurrent colour-space geometry and the D–spatial relationship.
-4. The prospective third cohort uses new species and fresh photo IDs while remaining within the same iNaturalist source/opportunity universe and measurement system.
+Discovery and reserve are species-disjoint halves of the original high-depth RGFCA measurement resource and support H1, legacy H2, spatial organization and H3 under different frozen roles.
 
-The resulting conceptual interpretation is bounded to: **cross-species generality is stronger in phenotype space than in shared geographic location under the tested designs**. This does not imply absence of biogeography or identify the ecological mechanism maintaining polymorphism.
+### Prospective H2 cohort
 
-Canonical interpretation/provenance:
+One physical dataset:
 
-- `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`
-- `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`
+- 499 species;
+- 49,900 terminal rows;
+- 377 measurement-evaluable species.
 
-## 2. New Phytologist Full Paper format audit
+Two chronological uses:
 
-The official guidelines currently describe Full Papers as usually approximately 6,500–7,500 words with 6–8 display items and a 200-word bulleted Summary. Initial submissions use free format but should include the required research-paper sections, title/authors/addresses/correspondence information, section word counts, and counts of figures/tables/supporting information. Cover letters must answer three editorial questions in no more than 50 words each.
+1. untouched prospective H2 confirmation;
+2. only later, post-H2 secondary highlight/environment analyses.
+
+The manuscript Table 1 and Supporting Information display these as separate inferential executions, preventing BIO5 from being mistaken for part of the untouched prospective H2 design.
+
+## 3. Full Paper format audit
+
+The current New Phytologist guidance describes Full Papers as usually approximately 6,500–7,500 words with 6–8 display items and a 200-word bulleted Summary. Initial submissions require the standard research-paper sections, 1.5-line spacing, page and continuous line numbering, title/author/correspondence metadata, section word counts, and 5–8 keywords. Cover letters answer three editorial questions in no more than 50 words each.
 
 ### Current manuscript measurements
 
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 114 characters | PASS |
-| Summary <=200 words | 176 words | PASS |
+| Summary <=200 words | 180 words | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | 541 words | RECORDED |
-| Materials and Methods | 2,943 words | RECORDED |
-| Results | 1,520 words | RECORDED |
-| Discussion | 1,680 words | RECORDED |
-| Main text, Introduction–Discussion | 6,684 words | RECORDED |
-| Discussion share of main text | 23.8% | PASS (<30%) |
+| Materials and Methods | 2,858 words | RECORDED |
+| Results | 1,807 words | RECORDED |
+| Discussion | 2,087 words | RECORDED |
+| Main text, Introduction–Discussion | **7,293 words** | PASS |
+| Discussion share | **28.6%** | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
-| Total display items | 6 | PASS (guideline range 6–8) |
-| Required article sections | present | PASS |
+| Total display items | 6 | PASS (usual 6–8) |
+| Required sections | present | PASS |
 | Figure legends 1–5 | present | PASS |
 | Supporting legends S1–S9 | present | PASS |
 
-The main text is now **6,569 words**, inside the journal's usual approximately 6,500–7,500-word region without adding a new display item or expanding the H2 inferential scope.
+The previous 7,712-word version was trimmed by moving acquisition/firewall implementation detail to Supporting Information and the data-lineage map. Statistical decision rules and numerical results were not removed.
 
-## 3. Cover-letter audit
+## 4. Cover-letter audit
 
-The three required editor questions are present.
+**PASS**
 
-Measured answer lengths:
+Current answer lengths:
 
 1. What hypotheses or questions does this work address? — **40 words**
-2. How does this work advance our current understanding of plant science? — **42 words**
-3. Why is this work important and timely? — **40 words**
+2. How does this work advance our current understanding of plant science? — **49 words**
+3. Why is this work important and timely? — **48 words**
 
 All satisfy the <=50-word rule.
 
-The cover letter also preserves the same-source/species-disjoint boundary and does not overstate H2 as independent-source replication.
+## 5. Data lineage and reproducibility
 
-## 4. Figure package
+**PASS, with one external-byte archival action remaining**
+
+Reader-facing routing map:
+
+- `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`
+
+Machine-readable audit:
+
+- `results/polymorphism_data_lineage_audit_20260925/result.json`
+
+Permanent Git archive:
+
+- `archive/fcp_submission_20260925/`
+
+### Current traceability grades
+
+| Component | Grade | Reason |
+|---|---|---|
+| H1 | A | protocol/result plus immutable legacy input hashes |
+| Legacy H2 | A | protocol/result plus immutable legacy inputs |
+| Prospective H2 | A | selection, protocol, result, immutable measured table/hash and terminal artifact |
+| Highlight validity | A | exact former Actions-only technical inputs now copied into Git |
+| H3a | A | exact trees, pre-outcome covariate panel, signal outputs and permutation nulls copied into Git |
+| H3b | A | exact pre-outcome inputs and full permutation/PGLS outputs copied into Git |
+| Spatial organization | A- | reporting receipt points to immutable source commit/blobs |
+| Secondary BIO5 | A- | biological/technical inputs fixed; WorldClim bytes checksum-pinned but not Git-mirrored |
+| BIO5 transport | A- | legacy inputs fixed; WorldClim bytes checksum-pinned but not Git-mirrored |
+
+### Expiring Actions artifacts
+
+**Resolved.**
+
+The exact files formerly dependent on Actions retention are now committed byte-for-byte under:
+
+- `archive/fcp_submission_20260925/highlight/`
+- `archive/fcp_submission_20260925/h3a_tree/`
+- `archive/fcp_submission_20260925/h3a_covariate/`
+- `archive/fcp_submission_20260925/h3a_signal/`
+- `archive/fcp_submission_20260925/h3b/`
+
+Source run/artifact IDs and per-file SHA256 values are recorded in:
+
+- `archive/fcp_submission_20260925/ARCHIVE_MANIFEST.md`
+
+### WorldClim byte identity
+
+A dedicated checksum run froze the current exact WorldClim 2.1 10-arc-minute archives and analysis rasters:
+
+- BIO zip SHA256: `00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf`
+- SRAD zip SHA256: `c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026`
+
+BIO5, BIO14 and all 12 SRAD TIFF hashes are stored in:
+
+- `archive/fcp_submission_20260925/worldclim_checksums.txt`
+
+The environmental workflows now hard-fail if downloaded bytes do not match the frozen checksums.
+
+### Remaining provenance action
+
+For provider-independent bit-for-bit replay, mirror the two checksum-pinned WorldClim zip archives themselves in the final Zenodo/institutional release. This is the only material external-byte gap remaining in the headline chain.
+
+## 6. Automated guards
+
+**PASS on the archival-hardening revision merged to main**
+
+The latest verified revision passed:
+
+- New Phytologist submission guard;
+- polymorphism manuscript claim guard;
+- WorldClim checksum freeze;
+- checksum-enforced third-cohort white-environment rerun;
+- checksum-enforced legacy BIO5 transport rerun.
+
+The reruns reproduce the same frozen BIO5 positive third-cohort result and the same legacy transport failure.
+
+## 7. Figure package
 
 **PASS**
 
@@ -110,210 +211,90 @@ Canonical figure directory:
 
 `docs/figures/polymorphism_20260918/`
 
-Present in both PNG and PDF:
+Main display sequence:
 
-1. Figure 1 — measurement frame;
-2. Figure 2 — H1 observer-disjoint reproducibility;
-3. Figure 3 — legacy H2 target localization;
-4. Figure 4 — prospective H2 confirmation;
-5. Figure 5 — replicated spatial clue plus bounded alternative-explanation tests.
+1. measurement frame;
+2. H1 observer-disjoint reproducibility;
+3. legacy H2 target localization;
+4. prospective H2 confirmation;
+5. spatial organization plus bounded alternative-explanation tests.
 
-Canonical manifest:
+Main figures = 5; main tables = 1; total display items = 6.
 
-`docs/figures/polymorphism_20260918/polymorphism_figure_manifest_20260918.json`
+No new BIO5 main figure is required. BIO5 remains a concise secondary result in text/SI so that the manuscript's visual spine remains measurement -> discovery -> prospective confirmation -> spatial ecology.
 
-Manifest state:
-
-- `status = generated_from_frozen_results`
-- `scientific_claims_changed = false`
-
-Figure 4 contains the decisive prospective result:
-
-- primary: 158 species, W = 0.5172457461, p = 0.001;
-- strict: 86 species, W = 0.5329282123, p = 0.001;
-- support-evaluable species = 377;
-- verdict = `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`.
-
-## 5. Supporting Information and evidence chain
-
-**PASS**
-
-Supporting evidence map:
-
-`docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`
-
-It records:
-
-- cohort roles;
-- H1 chronology;
-- legacy H2 target localization;
-- third-cohort selection and pre-opening qualification;
-- prospective biological run and immutable result;
-- replicated D–spatial organization reporting receipt and robustness checks;
-- P500 terminal non-verdict;
-- H3a/H3b alternative-explanation boundaries;
-- canonical figures;
-- manuscript claim guard;
-- literature-positioning audit.
-
-The most recent post-architecture manuscript claim-guard run recorded in the Supporting Information is:
-
-- run `35299258800`;
-- conclusion: success.
-
-## 5b. Current automated guards
-
-**PASS**
-
-Latest manuscript claim guard:
-
-- workflow run: `36067418680`;
-- job: `107860316824`;
-- result: **13 / 13 tests passed**.
-
-Latest New Phytologist submission-format guard:
-
-- workflow run: `36067370508`;
-- job: `107860161850`;
-- result: **17 / 17 tests passed**.
-
-The submission-format guard now checks live section word counts, Discussion <=30% of main text, 6–8 total display items, alphabetical keywords, four-bullet Summary <=200 words, cover-letter question lengths, required sections and frozen H2 claim boundaries.
-
-## 6. Literature layer
+## 8. Literature and mechanistic interpretation
 
 **PASS for submission drafting**
 
-Canonical audit:
+The literature layer remains interpretation-only and cannot alter frozen empirical results.
 
-`docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md`
+The Discussion may state that the recurrent achromatic–chromatic axis is consistent with many-to-one accessibility of floral pigment networks and that temperature can be one context-dependent input into such networks.
 
-The literature layer is restricted to background and interpretation. It does not modify the frozen empirical claim ceiling.
+It must continue to state that:
 
-The journal-specific manuscript currently cites direct precedents for:
+- H2 is sign-invariant and does not identify pigmented -> white evolutionary direction;
+- the third-cohort BIO5 association failed cross-cohort transport;
+- no universal thermal whitening rule is established;
+- the measured white state remains exposure-coupled.
 
-- intraspecific trait variation;
-- flower-colour polymorphism;
-- image-derived colour measurement;
-- iNaturalist observer structure;
-- validation design;
-- Monte Carlo p-value resolution.
+## 9. Remaining formal-submission blockers
 
-## 6b. H2 construction/exposure validity audit
+These require author/external input rather than new biological analysis.
 
-**ADDRESSED FOR SUBMISSION; WHITE STATE REMAINS EXPOSURE-COUPLED**
+### A. Authorship metadata
 
-Canonical audit:
-
-- `docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`
-- `results/polymorphism_h2_posthoc_validity_diagnostics_20260922/result.json`
-- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_VALIDITY_PROTOCOL_20260922.md`
-- `results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json`
-- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`
-
-The manuscript makes the inferential decomposition explicit: primary observed W = 0.517 versus structured-null median 0.457, with isotropic expectation 0.125. The prospective claim is therefore the increment above the coarse-state-preserving baseline.
-
-A 299-replicate post-confirmatory null that re-applies the continuous minor-cluster gate retains support (median 0.4475; plus-one p = 0.00333).
-
-The subsequent one-shot direct highlight control reacquired all 49,900 frozen third-cohort rows with **zero source-byte drift**. Within species, near-clipping was positively coupled to frozen white classification (OR = **1.444**, 95% CI **1.389–1.502**), with the full interval above the prespecified negligible-coupling upper bound of 1.25. Removing the response-blind high-clip set still retained H2 support (142 vectors, W = **0.503**, p = **0.001**), but vector retention was 89.9%, just below the frozen 90% executable threshold; the machine state therefore remained `INDETERMINATE`.
-
-Accordingly, the manuscript does **not** claim an artifact-free white state. Its bounded conclusion is that excess achromatic–chromatic alignment persists after high-clip exclusion, while the measured coarse white state is demonstrably exposure-coupled.
-
-The later `disttrait 0.12.0` package is described as a related general-purpose implementation rather than a numerical reproducer of the biological analysis. Frozen study-specific artifacts control manuscript numbers.
-
-## 6c. Fresh-image D transport
-
-**ADDED AS BOUNDED H1 STRENGTHENING; BROADER FCP v2 REMAINS OUTSIDE THIS PAPER**
-
-Canonical receipt:
-
-- `results/polymorphism_fresh_D_transport_20260925/result.json`
-
-Across **136** species evaluable in both the earlier frozen analysis and a later fresh-image execution under the same FCP/iNaturalist measurement system:
-
-- Spearman rho = **0.9681**;
-- Lin CCC = **0.9720**;
-- calibration slope = **0.9691**;
-- median absolute D change = **0.0148**;
-- mean signed fresh-minus-prior change = **+0.0032**.
-
-The manuscript imports only this compact D-transport result because it directly strengthens H1. The broader FCP v2 counterfactual battery (MV1–MV4, including technical q_white displacement and W sensitivity) remains reserved for a separate measurement-validity paper. The submission guard explicitly fails if `T_white`, the 335,994-row v2 biological dataset, or the full-pipeline exposure analysis enters the current manuscript.
-
-The fresh D result is **same-source/same-measurement-system transport**, not independent-source replication.
-
-## 7. Remaining formal-submission blockers
-
-These items require author input and must not be inferred from repository metadata.
-
-### Blocker A — authorship metadata
-
-Current placeholders:
-
-- `[AUTHOR LIST TO CONFIRM]`
-- `[AFFILIATIONS TO INSERT]`
-- `[NAME / EMAIL TO INSERT]`
-
-Required before submission:
+Current placeholders remain for:
 
 - final author order;
 - full institutional affiliations;
-- corresponding author name and email;
-- corresponding-author ORCID.
+- corresponding author name/email;
+- ORCIDs.
 
-### Blocker B — acknowledgements/funding
+### B. Acknowledgements and funding
 
-Current placeholder:
+Complete:
 
-`[TO COMPLETE BEFORE SUBMISSION: funding, institutional support, data-provider acknowledgements, and individual contributions that do not meet authorship criteria.]`
-
-Required:
-
-- funding sources and grant numbers where applicable;
-- institutional or technical support;
+- funding sources/grant numbers;
+- institutional/technical support;
 - data/provider acknowledgements;
 - non-author contributions.
 
-### Blocker C — competing interests
+### C. Competing interests
 
-Current placeholder:
+A final declaration is required.
 
-`[TO CONFIRM BEFORE SUBMISSION.]`
+### D. Author contributions
 
-A final declaration is required even if the answer is no competing interests.
+Complete after final authorship is frozen.
 
-### Blocker D — author contributions
+### E. Permanent external archive DOI
 
-Current placeholder:
+Create the final Zenodo/institutional release and include:
 
-`[TO COMPLETE AFTER FINAL AUTHOR LIST.]`
+- the repository submission state;
+- `archive/fcp_submission_20260925/`;
+- the two checksum-pinned WorldClim zip archives;
+- the final archive manifest/checksums.
 
-This must be completed only after final authorship is known.
+Add the DOI/version to Data availability.
 
-### Blocker E — permanent archive
+### F. Final formatted submission file
 
-Current Data availability text states that a permanent archival DOI/version should be added before submission.
-
-A Zenodo, institutional repository or equivalent permanent version should be frozen and cited in the final Data availability statement.
-
-### Blocker F — final formatted submission file
-
-The repository source is Markdown. The formal initial-submission manuscript should be exported to a review-ready word-processing/PDF format with:
+Export the frozen manuscript to a review-ready DOCX/PDF with:
 
 - 1.5-line spacing;
 - page numbers;
 - continuous line numbering;
-- a consistent font;
-- the completed title-page author/correspondence metadata.
+- consistent font;
+- completed title-page metadata.
 
-This is a packaging requirement and does not change the frozen scientific content.
-
-## 8. Current submission decision
+## 10. Submission decision
 
 **Do not run new biological analyses to improve this submission.**
 
-The scientific package already contains the highest-value prospective H2 upgrade identified in the earlier architecture.
+The scientific and provenance packages are sufficient for submission. The remaining path is:
 
-The remaining route to a formal New Phytologist submission is:
+`author metadata -> acknowledgements/conflicts/contributions -> mirror WorldClim bytes + permanent DOI -> final formatted DOCX/PDF -> submit`
 
-`author metadata -> acknowledgements/conflicts/contributions -> permanent archive DOI -> final formatted submission file (1.5 spacing + page/continuous line numbering)`
-
-No H2 target, threshold, null, cohort or H3 predictor should be reopened during this packaging stage.
+No H2 target, threshold, null, cohort definition, BIO5 predictor family or H3 predictor should be reopened during packaging.
