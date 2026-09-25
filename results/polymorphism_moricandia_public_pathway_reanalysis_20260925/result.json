@@ -1,0 +1,44 @@
+{
+  "schema": "fcp_moricandia_public_pathway_reanalysis_v1",
+  "status": "complete",
+  "role": "post_publication_reproducibility_and_mechanistic_triangulation",
+  "source_workflow_run": 36111542385,
+  "source_artifact_id": 10853442476,
+  "source_artifact_digest": "sha256:080674de37ab7570b75d010d1681ed8189e6c4c58b1b60136e1fc7d353b02a19",
+  "bioproject": "PRJNA604514",
+  "fcp_nodes_total": 8,
+  "fcp_nodes_found_in_public_deg_workbook": 4,
+  "fcp_nodes_with_machine_readable_logFC": 4,
+  "fcp_nodes_with_median_summer_down": 4,
+  "fcp_nodes_with_any_FDR_lt_0_05_summer_down_transcript": 4,
+  "node_results": {
+    "MYB": {"gene": "MYB90", "logFC_summer_vs_spring": -4.056, "FDR": 4.81e-11},
+    "CHS": {"gene": "CHS3/CHS", "logFC_summer_vs_spring": -1.293, "FDR": 0.034},
+    "UFGT_UGT": {
+      "genes": ["U75C1", "U78D2"],
+      "logFC_values": [-4.125, -2.133, -0.93, -0.807],
+      "median_logFC_summer_vs_spring": -1.5315,
+      "all_listed_FDR_lt_0_05": true
+    },
+    "WD40_TTG1": {"gene": "TTG1", "logFC_summer_vs_spring": -1.411, "FDR": 0.0279}
+  },
+  "fcp_nodes_not_present_in_significant_deg_table": ["F3H", "ANS", "FLS", "bHLH"],
+  "context_pathway_downregulated": {
+    "PAL": [-1.134, -1.162, -1.11],
+    "4CL": [-3.087, -1.245, -4.555],
+    "DFR": [-3.164]
+  },
+  "interpretation": [
+    "Every FCP white-state node class that is represented in the published significant-DEG table is downregulated in experimental summer-white flowers.",
+    "The overlap spans both structural pathway entry (CHS), glycosylation/output (U75C1/U78D2), and regulatory layers (MYB90, TTG1).",
+    "Additional anthocyanin-pathway context genes PAL, 4CL and DFR are also significantly lower in summer-white flowers.",
+    "F3H, ANS, FLS and bHLH are absent from the significant-DEG table; absence is not evidence of unchanged expression."
+  ],
+  "comparison_semantics": "summer relative to spring; negative logFC = lower expression in summer-white flowers",
+  "hard_nonclaims": [
+    "not an outcome-blind confirmation because the published paper already reports pathway repression",
+    "temperature and photoperiod changed together in the paired RNA-seq comparison",
+    "does not rescue the failed cross-cohort BIO5 replication",
+    "does not establish identical orthology or causal nucleotide changes across FCP systems"
+  ]
+}
