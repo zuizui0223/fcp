@@ -1,0 +1,70 @@
+name: White pollinator stable spatial preflight
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - docs/POLYMORPHISM_WHITE_POLLINATOR_STABLE_SPATIAL_PREFLIGHT_20260925.md
+      - scripts/analysis/build_white_pollinator_stable_spatial_preflight_20260925.py
+      - .github/workflows/white-pollinator-stable-spatial-preflight-20260925.yml
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  BIOLOGICAL_RUN_ID: "35177668182"
+  BIOLOGICAL_ARTIFACT: h2-third-cohort-prospective-result-20260917
+  GLOBI_URL: "https://zenodo.org/records/18064921/files/interactions.tsv.gz?download=1"
+  GLOBI_MD5: "7c12420410e0fea43608308c387fa89c"
+
+jobs:
+  stable-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy
+          python -m py_compile scripts/analysis/build_white_pollinator_stable_spatial_preflight_20260925.py
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.BIOLOGICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.BIOLOGICAL_ARTIFACT }}
+          path: /tmp/biological
+      - name: Download immutable GloBI v3 interaction table
+        run: |
+          curl -L --fail --retry 5 --retry-delay 5 "$GLOBI_URL" -o /tmp/globi-interactions.tsv.gz
+          echo "$GLOBI_MD5  /tmp/globi-interactions.tsv.gz" | md5sum -c -
+      - name: Run outcome-blind stable spatial preflight
+        run: |
+          MEASURED="$(find /tmp/biological -type f -name 'polymorphism_h2_third_cohort_measured_photos_v1.csv' -print -quit)"
+          test -n "$MEASURED"
+          rm -rf results/polymorphism_white_pollinator_stable_spatial_preflight_20260925
+          python scripts/analysis/build_white_pollinator_stable_spatial_preflight_20260925.py             --measured "$MEASURED"             --globi-tsv-gz /tmp/globi-interactions.tsv.gz             --expected-md5 "$GLOBI_MD5"             --outdir results/polymorphism_white_pollinator_stable_spatial_preflight_20260925
+      - name: Validate preflight contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('results/polymorphism_white_pollinator_stable_spatial_preflight_20260925/stable_spatial_preflight_summary.json').read_text())
+          assert x['schema']=='fcp_white_pollinator_stable_spatial_preflight_v1'
+          assert x['role']=='outcome_blind_spatial_preflight'
+          assert x['plant_frame_species']==499
+          assert x['stable_source']['observed_md5']==x['stable_source']['expected_md5']
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: white-pollinator-stable-spatial-preflight-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_white_pollinator_stable_spatial_preflight_20260925
