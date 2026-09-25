@@ -1,0 +1,24 @@
+{
+  "schema":"fcp_silene_pal_wal_tissue_chemistry_receipt_v1",
+  "status":"published_table_receipt",
+  "source":"Del Valle et al. 2019 BMC Plant Biology 19:496, Table 1 and Results, DOI 10.1186/s12870-019-2082-6",
+  "Barra":{
+    "petal_anthocyanin_mg_g_FW":{"fully_pigmented":1.65,"PAL":0.03,"WAL":0.02},
+    "calyx_anthocyanin_mg_g_FW":{"fully_pigmented":0.28,"PAL":0.35,"WAL":"<0.01"},
+    "leaf_anthocyanin_mg_g_FW":{"fully_pigmented":"<0.01","PAL":0.02,"WAL":"not_detected"},
+    "stem_anthocyanin_mg_g_FW":{"fully_pigmented":0.29,"PAL":0.18,"WAL":"not_detected"},
+    "petal_flavones_mg_g_FW":{"fully_pigmented":92.5,"PAL":95.2,"WAL":100.9},
+    "calyx_flavones_mg_g_FW":{"fully_pigmented":7.56,"PAL":9.23,"WAL":9.31},
+    "leaf_flavones_mg_g_FW":{"fully_pigmented":5.32,"PAL":4.73,"WAL":8.76},
+    "stem_flavones_mg_g_FW":{"fully_pigmented":4.11,"PAL":4.55,"WAL":4.05}
+  },
+  "interpretation":[
+    "PAL and WAL both lose petal anthocyanin, but PAL retains anthocyanin in photosynthetic calyx/stem tissues while WAL does not.",
+    "Flavone production remains broadly present in both white phenotypes.",
+    "This establishes the tissue boundary used by the PAL-versus-WAL persistence comparison."
+  ],
+  "hard_nonclaims":[
+    "published-table transcription, not an independent remeasurement",
+    "does not by itself establish that photosynthetic-tissue anthocyanin retention causes PAL persistence"
+  ]
+}
