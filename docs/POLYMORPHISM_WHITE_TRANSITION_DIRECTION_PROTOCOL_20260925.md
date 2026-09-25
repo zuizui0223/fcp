@@ -25,7 +25,8 @@ Biological state source:
 Phylogeny source:
 - Open Tree of Life taxonomy and induced topology queried after state definitions are frozen;
 - only exact, non-approximate TNRS matches are used;
-- duplicated OTT IDs are excluded rather than merged.
+- duplicated OTT IDs are excluded rather than merged;
+- TNRS-resolved OTT IDs that are explicitly reported as pruned from the current OpenTree synthetic tree are excluded outcome-blind and recorded before the tree-coverage gate is applied.
 
 ## Tree uncertainty
 
