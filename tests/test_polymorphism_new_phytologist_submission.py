@@ -26,6 +26,7 @@ H3B_RESULT = ROOT / "results" / "polymorphism_h3b_reserve_span_20260912" / "resu
 ARCHIVE_ROOT = ROOT / "archive" / "fcp_submission_20260925"
 WORLDCLIM_CHECKSUMS = ARCHIVE_ROOT / "worldclim_checksums.txt"
 WORLDCLIM_RELEASE_RECEIPT = ARCHIVE_ROOT / "WORLDCLIM_RELEASE_RECEIPT.md"
+NP_PROVENANCE_RELEASE_RECEIPT = ARCHIVE_ROOT / "NP_PROVENANCE_RELEASE_RECEIPT.md"
 
 
 def words(text: str) -> list[str]:
@@ -378,6 +379,38 @@ def test_submission_data_lineage_is_reader_traceable() -> None:
     assert h3b["decision"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
     assert h3b["source_workflow_run"] == 34677468362
     assert h3b["source_artifact_id"] == 10292399238
+
+
+
+def test_self_contained_np_provenance_release_is_exposed_to_readers() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    supporting = SUPPORTING.read_text(encoding="utf-8")
+    lineage = LINEAGE_MAP.read_text(encoding="utf-8")
+
+    assert NP_PROVENANCE_RELEASE_RECEIPT.exists()
+    receipt = NP_PROVENANCE_RELEASE_RECEIPT.read_text(encoding="utf-8")
+
+    required = (
+        "fcp-np-provenance-20260926",
+        "f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2",
+        "113,156,301",
+        "145 files",
+        "cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7",
+        "NP_PROVENANCE_RELEASE_RECEIPT.md",
+    )
+    for token in required:
+        assert token in text
+        assert token in supporting or token == "145 files"
+        assert token in lineage or token == "145 files"
+
+    for token in (
+        "fcp-np-provenance-20260926",
+        "Source commit: f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2",
+        "Asset bytes: 113156301",
+        "Asset SHA256: cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7",
+        "Packaged files: 145",
+    ):
+        assert token in receipt
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
