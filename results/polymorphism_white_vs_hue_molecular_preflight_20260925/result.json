@@ -1,0 +1,25 @@
+{
+  "schema": "fcp_white_vs_hue_molecular_preflight_v1",
+  "status": "MOLECULAR_CONTRAST_COVERAGE_FAIL",
+  "source_workflow_run": 36109111537,
+  "source_artifact_id": 10852054511,
+  "source_artifact_digest": "sha256:882b35861258cde6d5f55fe139236e26716c4c530718606642c352f3685da2c8",
+  "source": "resolved natural-FCP literature queue only; molecular audit results not read",
+  "natural_fcp_species": 111,
+  "high_confidence_species": 97,
+  "high_confidence_state_counts": {
+    "unresolved": 58,
+    "white_plus_nonwhite": 26,
+    "nonwhite_multicolour": 13
+  },
+  "minimum_per_comparison_group": 20,
+  "white_plus_nonwhite_species": 26,
+  "nonwhite_multicolour_species": 13,
+  "unresolved_species": 58,
+  "decision": "Do not run the prespecified symmetric molecular contrast and do not lower the 20-species gate after opening this preflight.",
+  "hard_nonclaims": [
+    "absence of white terminology is not evidence that a species lacks white flowers",
+    "unresolved species are never assigned to the nonwhite control group",
+    "this preflight contains no molecular-mechanism outcome"
+  ]
+}
