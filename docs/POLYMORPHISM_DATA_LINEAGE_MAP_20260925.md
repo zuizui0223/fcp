@@ -83,13 +83,14 @@ No headline analysis now depends solely on an expiring Actions artifact or on a 
 Readers who do not want to reconstruct the chain from multiple historical Git objects can use the packaged provenance release:
 
 - release tag: `fcp-np-provenance-20260926`;
+- release URL: `https://github.com/zuizui0223/fcp/releases/tag/fcp-np-provenance-20260926`;
 - release ID: `396980815`;
 - source commit: `f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2`;
 - asset: `fcp-np-provenance-20260926.tar.gz`;
 - asset ID: `589464278`;
-- bytes: `113156301`;
+- bytes: **113,156,301** (`113156301` raw);
 - SHA256: `cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7`;
-- packaged files: `145`;
+- packaged files: **145 files**;
 - per-file checksum manifest: `FILE_SHA256SUMS.txt`;
 - canonical receipt: `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`.
 
