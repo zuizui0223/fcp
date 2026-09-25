@@ -1,0 +1,107 @@
+{
+  "schema": "white_environment_exact_cell_partial_screen_v1",
+  "date_jst": "2026-09-25",
+  "status": "complete",
+  "role": "exploratory_partial_exact_cell_screen_opened_before_full_coverage_protocol",
+  "source_geometry": "exact WorldClim 2.1 10-arc-minute grid-cell overlap with prior JBI climate rebuild artifact",
+  "inputs": {
+    "third_cohort_measured_artifact_run": 35177668182,
+    "third_cohort_measured_artifact_id": 10496492307,
+    "measured_sha256": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
+    "highlight_technical_run": 35687421896,
+    "highlight_technical_artifact_id": 10709490106,
+    "high_clip_ids_sha256": "77cb37bdd905a4172df0d94899704b3f486b2fba639f552dbc7da7921dd4bbc7",
+    "sealed_join_key_sha256": "7f118c1f56f0a59eef0cb78968efae1326633991b5e04326de4e89e149f366d4",
+    "jbi_climate_rebuild_run": 32926741272,
+    "jbi_climate_artifact_id": 9591964772,
+    "occupied_cells_sha256": "305d296cf8b0151457a19f64c385ce6324beef78d304d221578c5e8a6139b3a8"
+  },
+  "counts": {
+    "classifiable_four_state_rows_before_high_clip_exclusion": 25788,
+    "high_clip_ids": 2205,
+    "classifiable_four_state_rows_after_high_clip_exclusion": 24310,
+    "exact_cell_matched_rows": 10597,
+    "exact_cell_matched_species": 493,
+    "coverage_fraction_of_post_highclip_classifiable_rows": 0.43591114767585354,
+    "matched_state_counts": {
+      "white": 5167,
+      "yellow_orange": 3106,
+      "blue_purple": 1374,
+      "red_pink": 950
+    }
+  },
+  "primary_contrast": "white_vs_anthocyanic",
+  "analysis": {
+    "min_rows_per_state_per_species": 5,
+    "species_bootstraps": 9999,
+    "seed": 20260925,
+    "effect": "within-species standardized climate mean(white) - mean(comparison)",
+    "species_weighting": "equal",
+    "multiplicity": "Holm across nine BIO variables within each contrast; Holm across PC1-PC3 within each contrast",
+    "pca_explained_variance_ratio": [
+      0.4709467622893441,
+      0.2818113791923851,
+      0.17336916049749268
+    ]
+  },
+  "headline_partial_findings": {
+    "white_vs_anthocyanic_bio1": {
+      "n_species": 68,
+      "mean_effect_sd": 0.13751648120774487,
+      "bootstrap_ci": [0.035072046626331066, 0.23583356392688135],
+      "sign_p": 0.01033766119369546,
+      "sign_p_holm": 0.09303895074325914
+    },
+    "white_vs_anthocyanic_bio5": {
+      "n_species": 68,
+      "mean_effect_sd": 0.1571217130705144,
+      "bootstrap_ci": [0.03493432579521014, 0.2786414310803027],
+      "sign_p": 0.02052693371370707,
+      "sign_p_holm": 0.1436885359959495
+    },
+    "white_vs_anthocyanic_bio12": {
+      "n_species": 68,
+      "mean_effect_sd": -0.08250363657001832,
+      "bootstrap_ci": [-0.17555993040567436, 0.015744999008305813],
+      "sign_p": 0.01033766119369546,
+      "sign_p_holm": 0.09303895074325914
+    },
+    "white_vs_anthocyanic_pca": {
+      "PC1": {
+        "n_species": 68,
+        "mean_effect_sd": 0.00749202395606644,
+        "bootstrap_ci": [-0.10068112677426477, 0.11243769574717781],
+        "sign_p": 0.9035973456835127,
+        "sign_p_holm": 0.9035973456835127
+      },
+      "PC2": {
+        "n_species": 68,
+        "mean_effect_sd": 0.118810562901385,
+        "bootstrap_ci": [0.004051109702956339, 0.22925555847778586],
+        "sign_p": 0.038460053348927506,
+        "sign_p_holm": 0.07692010669785501
+      },
+      "PC3": {
+        "n_species": 68,
+        "mean_effect_sd": 0.12145602165635916,
+        "bootstrap_ci": [0.011381237232686574, 0.23098122054625983],
+        "sign_p": 0.02052693371370707,
+        "sign_p_holm": 0.06158080114112121
+      }
+    }
+  },
+  "interpretation": "partial coverage suggests a repeated within-species warm-side placement of white relative to red/pink+blue/purple, with weaker lower-annual-precipitation placement; no corresponding generic white-vs-yellow/orange shift. No individual BIO sign test survives Holm across nine variables.",
+  "hard_nonclaims": [
+    "partial exact-cell overlap is not a representative full-coverage analysis",
+    "no individual BIO variable clears the frozen Holm multiplicity criterion in the primary contrast",
+    "does not identify pigmented-to-white evolutionary direction",
+    "does not establish climatic causation or anthocyanin loss",
+    "does not test pollinator causation",
+    "does not modify the frozen New Phytologist manuscript"
+  ],
+  "files": {
+    "metric_summary": "metric_summary.csv",
+    "pca_summary": "pca_summary.csv",
+    "pca_loadings": "pca_loadings.csv"
+  }
+}
