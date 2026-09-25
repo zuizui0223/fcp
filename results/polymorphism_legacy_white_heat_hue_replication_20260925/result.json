@@ -1,0 +1,36 @@
+{
+  "schema":"fcp_legacy_white_heat_hue_replication_v1",
+  "status":"complete",
+  "source_workflow_run":36112965551,
+  "source_artifact_id":10854121029,
+  "source_artifact_digest":"sha256:d0ebb6ace0cde85a31cd9b182c265d20185f1b5199f1741c4cc070defd31e7bf",
+  "anthocyanin_proxy_transport_verdict":"ANTHOCYANIN_PROXY_TRANSPORT_NOT_SUPPORTED_UNDER_THIS_TEST",
+  "hue_specificity_transport_verdict":"HUE_SPECIFICITY_TRANSPORT_NOT_SUPPORTED_UNDER_THIS_TEST",
+  "discovery":{
+    "anthocyanin_proxy":{"n_species":134,"median_delta":0.038948884013229094,"fraction_positive":0.5447761194029851,"wilcoxon_one_sided_greater_p":0.24384072933327033},
+    "yellow_orange":{"n_species":139,"median_delta":-0.07256917645080217,"wilcoxon_two_sided_p":0.207890878290666},
+    "direct_specificity":{"n_species":23,"estimable":false},
+    "row_level_anthocyanin_proxy":{"OR":1.0624656360241862,"p":0.04446256518136951},
+    "same_observer_anthocyanin_proxy":{"n_species":31,"OR":1.3627366046586384,"p":0.3652794039524656}
+  },
+  "reserve":{
+    "anthocyanin_proxy":{"n_species":142,"median_delta":0.027565079116989764,"fraction_positive":0.528169014084507,"wilcoxon_one_sided_greater_p":0.1311314550235284},
+    "yellow_orange":{"n_species":135,"median_delta":0.0647925833518299,"wilcoxon_two_sided_p":0.15984018348299234},
+    "direct_specificity":{"n_species":28,"estimable":false},
+    "row_level_anthocyanin_proxy":{"OR":1.026714860762054,"p":0.36352530521362947},
+    "same_observer_anthocyanin_proxy":{"n_species":44,"OR":1.2110255203446143,"p":0.5736778763608477}
+  },
+  "interpretation":[
+    "The third-cohort white-versus-red/pink+blue/purple BIO5 pattern does not transport under the frozen two-cohort gate.",
+    "Both legacy species-level anthocyanin-proxy contrasts point weakly positive but are nonsignificant.",
+    "The direct hue-specificity panels remain below the frozen 30-species support gate in both cohorts.",
+    "The third-cohort hue result is retained as a cohort-specific mechanistic clue, not a general FCP rule."
+  ],
+  "hard_nonclaims":[
+    "post-result species-disjoint replication, not untouched confirmation",
+    "coarse hue groups are pigment proxies, not chemical measurements",
+    "legacy cohorts lack direct highlight technical control",
+    "does not change the failed overall BIO5 replication verdict",
+    "does not establish causal heat selection"
+  ]
+}
