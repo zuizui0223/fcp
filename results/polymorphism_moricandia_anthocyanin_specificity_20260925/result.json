@@ -1,0 +1,60 @@
+{
+  "schema": "fcp_moricandia_anthocyanin_branch_specificity_v1",
+  "status": "complete",
+  "role": "post_publication_mechanistic_specificity_followup",
+  "source_workflow_run": 36113068480,
+  "source_artifact_id": 10853513415,
+  "source_artifact_digest": "sha256:9cebdc53c02e4e97829cc1968a998c8ba8475fec52019f3b67d8481635fd2604",
+  "source_sheet": "Figure 3F-J",
+  "flavonol_source_column": "Kaempferol",
+  "n_individuals": 15,
+  "cyanidin": {
+    "mean_mild": 1.8927119725666668,
+    "mean_hot": 0.5309657500333332,
+    "cohort_mean_hot_over_mild": 0.28053172259131526,
+    "mean_delta_hot_minus_mild": -1.3617462225333337,
+    "median_delta_hot_minus_mild": -1.1361610435,
+    "individuals_decreasing": 13,
+    "individuals_increasing": 2,
+    "two_sided_wilcoxon_p": 0.0008544921875
+  },
+  "flavonol": {
+    "mean_mild": 58.438463017,
+    "mean_hot": 57.18221456699999,
+    "cohort_mean_hot_over_mild": 0.9785030545783766,
+    "mean_delta_hot_minus_mild": -1.2562484499999973,
+    "median_delta_hot_minus_mild": -4.041810334999994,
+    "individuals_decreasing": 8,
+    "individuals_increasing": 7,
+    "two_sided_wilcoxon_p": 0.67877197265625
+  },
+  "branch_specificity": {
+    "definition": "log(cyanidin_hot/cyanidin_mild) - log(flavonol_hot/flavonol_mild)",
+    "estimable": false,
+    "nonpositive_rows": [
+      {
+        "Individual": 70.0,
+        "cyanidin_mild": 0.0,
+        "cyanidin_hot": 0.0099236395,
+        "flavonol_mild": 69.12148631,
+        "flavonol_hot": 65.079675975
+      },
+      {
+        "Individual": 85.0,
+        "cyanidin_mild": 1.1361610435,
+        "cyanidin_hot": 0.0,
+        "flavonol_mild": 56.34393109,
+        "flavonol_hot": 62.937962215
+      }
+    ],
+    "reason": "Frozen log-ratio primary is undefined because at least one measured cyanidin/flavonol mean equals zero; no pseudocount or replacement statistic is introduced after opening the data."
+  },
+  "verdict": "ANTHOCYANIN_BRANCH_SPECIFICITY_NOT_SUPPORTED_UNDER_THIS_TEST",
+  "interpretation": "Formal branch specificity is not estimable under the frozen log-ratio rule. Descriptively, hotter summer conditions reduce cyanidin far more strongly than UV-absorbing flavonols.",
+  "hard_nonclaims": [
+    "post-publication and not an untouched confirmatory test",
+    "does not directly measure metabolic flux with isotope tracing",
+    "does not rescue the failed cross-cohort BIO5 replication",
+    "does not establish that all natural white-flower systems are thermally plastic"
+  ]
+}
