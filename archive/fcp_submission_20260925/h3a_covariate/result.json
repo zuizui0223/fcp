@@ -1,0 +1,45 @@
+{
+  "analysis": "polymorphism_h3a_covariate_preflight",
+  "date_jst": "2026-09-12",
+  "definitions": {
+    "n_images": "all measured rows per species; no outcome/classifiability filtering",
+    "n_observers": "distinct non-empty observer_id among all measured rows per species",
+    "sampled_geographic_span": "exact maximum pairwise haversine great-circle distance (km) among all rows with finite latitude and longitude; Earth radius 6371.0088 km"
+  },
+  "outcome_firewall": {
+    "D_computed": false,
+    "association_computed": false,
+    "columns_read": [
+      "species",
+      "observer_id",
+      "latitude",
+      "longitude"
+    ],
+    "fine_state_read": false,
+    "global_classifiable_read": false,
+    "morph_read": false
+  },
+  "panel_sha256": "c45b436ef01394845cfc5a22807a086f589abdfdc1a8e97ea0ac14cd704fa2a7",
+  "source_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "reserve": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  },
+  "summary": {
+    "discovery": {
+      "fewer_than_two_georeferenced_species": 0,
+      "n_images_nonmissing": 500,
+      "n_observers_nonmissing": 500,
+      "span_nonmissing": 500,
+      "species_rows": 500,
+      "zero_observer_species": 0
+    },
+    "reserve": {
+      "fewer_than_two_georeferenced_species": 0,
+      "n_images_nonmissing": 500,
+      "n_observers_nonmissing": 500,
+      "span_nonmissing": 500,
+      "species_rows": 500,
+      "zero_observer_species": 0
+    }
+  }
+}

@@ -1,0 +1,7 @@
+"scenario","cohort","eligible_species","retained_tips","coverage","gate_coverage_0_90","gate_min_250","gate_pass"
+"S1","discovery",369,368,0.997289972899729,TRUE,TRUE,TRUE
+"S1","reserve",363,341,0.939393939393939,TRUE,TRUE,TRUE
+"S2","discovery",369,368,0.997289972899729,TRUE,TRUE,TRUE
+"S2","reserve",363,341,0.939393939393939,TRUE,TRUE,TRUE
+"S3","discovery",369,368,0.997289972899729,TRUE,TRUE,TRUE
+"S3","reserve",363,341,0.939393939393939,TRUE,TRUE,TRUE

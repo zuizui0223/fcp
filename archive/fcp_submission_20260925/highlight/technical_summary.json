@@ -1,0 +1,17 @@
+{
+  "acquired_rows": 49900,
+  "acquisition_failed_rows": 0,
+  "biological_outcomes_opened": false,
+  "high_clip_rows": 2205,
+  "high_clip_rule": "near_clip_fraction > max(0.01, q95)",
+  "high_clip_threshold": 0.493345050051201,
+  "highlight_metrics_available_rows": 44098,
+  "highlight_metrics_unavailable_rows": 5802,
+  "morph_opened": false,
+  "near_clip_q95": 0.493345050051201,
+  "partition_receipts": 256,
+  "rows": 49900,
+  "schema": "third_cohort_highlight_technical_seal_v1",
+  "species_opened": false,
+  "status": "response_blind_high_clip_set_frozen"
+}
