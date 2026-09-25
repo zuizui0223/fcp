@@ -37,8 +37,8 @@ The phrase third cohort therefore refers to one physical 499-species / 49,900-ro
 | Prospective H2 measurement | same new cohort | docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md | results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json | immutable result commit 7e538e5c51c05a7cc47b2fcf53eea92634c8a863; measured table data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv, frozen SHA256 57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186; final artifact 10496492307, digest sha256:319c040aaffc30d3cd97dcbcc217409e75010ec0f67bcc86c6bb82d8275779c7 | A |
 | Prospective H2 white-axis confirmation | same new cohort, before later mechanism work | same prospective protocol and result/claim freeze | results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json; docs/POLYMORPHISM_H2_THIRD_COHORT_RESULT_AND_MANUSCRIPT_CLAIM_FREEZE_20260917.md | reads the measured table above after support gate; result points back to the measurement receipt | A |
 | Direct highlight validity | same prospective H2 cohort, reacquired post-H2 | docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_VALIDITY_PROTOCOL_20260922.md | results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json | original run 35687421896 / artifact 10709490106; exact technical_table, sealed_join_key, high_clip_ids and summary are now copied into archive/fcp_submission_20260925/highlight with per-file SHA256 in ARCHIVE_MANIFEST.md | A |
-| Secondary BIO5/BIO14/solar analysis | same prospective H2 cohort, after H2 terminalization | docs/POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md | results/polymorphism_white_environment_mechanism_20260925/result.json and result_receipt.json | measured rows recoverable from immutable H2 commit; exact highlight inputs are Git-archived; WorldClim 2.1 BIO/SRAD archive and TIF SHA256 are frozen in archive/fcp_submission_20260925/worldclim_checksums.txt and enforced by the workflow | A- |
-| BIO5 species-disjoint transport | legacy discovery/reserve | docs/POLYMORPHISM_LEGACY_WHITE_BIO5_REPLICATION_PROTOCOL_20260925.md | results/polymorphism_legacy_white_bio5_replication_20260925/result.json | exact legacy rows recovered with git show from source commit 5142f7951af0dde5364bb047a566d67e8c479e51 and hashes verified; WorldClim BIO zip and BIO5 TIF SHA256 are frozen and enforced by the workflow | A- |
+| Secondary BIO5/BIO14/solar analysis | same prospective H2 cohort, after H2 terminalization | docs/POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md | results/polymorphism_white_environment_mechanism_20260925/result.json and result_receipt.json | measured rows recoverable from immutable H2 commit; exact highlight inputs are Git-archived; exact WorldClim 2.1 BIO/SRAD zip bytes are archived as release assets under tag fcp-worldclim-2.1-10m-20260925, with zip/TIF SHA256 frozen in Git and enforced by the workflow | A |
+| BIO5 species-disjoint transport | legacy discovery/reserve | docs/POLYMORPHISM_LEGACY_WHITE_BIO5_REPLICATION_PROTOCOL_20260925.md | results/polymorphism_legacy_white_bio5_replication_20260925/result.json | exact legacy rows recovered with git show from source commit 5142f7951af0dde5364bb047a566d67e8c479e51 and hashes verified; exact WorldClim BIO zip bytes are archived in release fcp-worldclim-2.1-10m-20260925 and BIO/BIO5 hashes are enforced by the workflow | A |
 | D–spatial organization | legacy discovery/reserve | frozen upstream analysis; current main carries reporting-only synthesis | results/polymorphism_spatial_organization_clue_20260918/result.json | source branch feat/polymorphism-paper-v0-1-post-step9, head f14186590c11ac24c95e1985077908b732132e96; source result paths and Git blob SHAs are enumerated inside the reporting receipt | A- |
 | H3a phylogenetic signal | legacy D + frozen S1/S2/S3 trees | docs/POLYMORPHISM_H3A_PHYLOGENETIC_SIGNAL_PROTOCOL_20260912.md | results/polymorphism_h3a_phylogenetic_signal_20260912/frozen_result_manifest.json | original artifacts 10292218669 / 10292662493 / 10292767459 are copied byte-for-byte into archive/fcp_submission_20260925/h3a_signal, h3a_tree and h3a_covariate; archive manifest records all SHA256 values | A |
 | H3b sampled-span replication | legacy D + frozen pre-outcome sampled-span panel | docs/POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md | results/polymorphism_h3b_reserve_span_20260912/result.json; docs/POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md | execution head ff1eac2ec1378465d5027184d507cb597c67be27; full original artifact 10292399238 is copied into archive/fcp_submission_20260925/h3b, including the 20,000-permutation null table and PGLS output | A |
@@ -56,20 +56,27 @@ That is acceptable only because the paper now records exact recovery routes:
 
 A filename in a protocol should therefore never be interpreted as meaning that the file is currently present on main.
 
-## Remaining archival risk before submission
+## External-byte archival status
 
 ### Resolved: expiring Actions artifacts
 
 The exact highlight, H3a and H3b intermediate files were copied byte-for-byte from their original GitHub Actions artifacts into archive/fcp_submission_20260925. ARCHIVE_MANIFEST.md records the source run/artifact IDs and per-file SHA256 values. Their reproducibility no longer depends on Actions retention.
 
-### WorldClim bytes are checksum-pinned but not mirrored in Git
+### Resolved: WorldClim provider dependence
 
-A dedicated checksum run (workflow 36128342064, artifact 10860398758) downloaded the same WorldClim 2.1 10-arc-minute archives used by the rerun analyses and froze:
-- BIO zip SHA256: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf;
-- SRAD zip SHA256: c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026;
-- BIO5, BIO14 and all 12 SRAD TIFF SHA256 values in archive/fcp_submission_20260925/worldclim_checksums.txt.
+The exact WorldClim 2.1 10-arc-minute input archives used by the environmental analyses are now mirrored as GitHub Release assets under tag:
 
-The environmental workflows now verify these hashes before analysis, so silent provider-side replacement causes a hard failure. For provider-independent bit-for-bit replay, the final Zenodo/release bundle should additionally mirror the two WorldClim zip archives themselves. This is now the only material external-byte archival gap in the headline analysis chain.
+fcp-worldclim-2.1-10m-20260925
+
+Release assets:
+- wc2.1_10m_bio.zip — 49,869,449 bytes — SHA256 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf;
+- wc2.1_10m_srad.zip — 16,233,364 bytes — SHA256 c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026.
+
+The release receipt is archive/fcp_submission_20260925/WORLDCLIM_RELEASE_RECEIPT.md. The committed checksum manifest also contains BIO5, BIO14 and all 12 monthly SRAD TIFF hashes, and the analysis workflows hard-fail on checksum mismatch.
+
+The release itself is operationally mutable, but the canonical byte identity is immutable at the manuscript level because the required SHA256 values are committed in Git and checked before analysis. A replaced release asset would therefore be detected.
+
+No headline analysis now depends solely on an expiring Actions artifact or on a remote provider serving unchanged bytes.
 
 ## Reader shortcut
 

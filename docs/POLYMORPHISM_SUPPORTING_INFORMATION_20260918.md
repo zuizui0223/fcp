@@ -332,6 +332,8 @@ Interpretation boundary:
 
 The third cohort contains a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the effect does not transport as a common rule across the original species-disjoint cohorts. This is consistent with context-dependent environmental sorting and does not establish causal heat selection, a universal temperature effect, or independence from the known exposure coupling of the white classifier.
 
+WorldClim provenance: exact BIO/SRAD input archives are mirrored under release tag `fcp-worldclim-2.1-10m-20260925`; checksum authority is `archive/fcp_submission_20260925/worldclim_checksums.txt`.
+
 ## S5. Replicated D–spatial organization
 
 Reporting-only machine-readable receipt:

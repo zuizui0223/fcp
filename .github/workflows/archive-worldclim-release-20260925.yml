@@ -1,0 +1,90 @@
+name: Archive WorldClim bytes to release
+
+on:
+  push:
+    branches:
+      - revision/worldclim-release-archive-20260925
+    paths:
+      - .github/workflows/archive-worldclim-release-20260925.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  RELEASE_TAG: fcp-worldclim-2.1-10m-20260925
+  BIO_SHA256: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+  SRAD_SHA256: c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026
+
+jobs:
+  archive:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: revision/worldclim-release-archive-20260925
+          fetch-depth: 1
+
+      - name: Download exact WorldClim 2.1 archives
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/worldclim
+          curl -L --fail --retry 5 --retry-delay 3             'https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip'             -o /tmp/worldclim/wc2.1_10m_bio.zip
+          curl -L --fail --retry 5 --retry-delay 3             'https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip'             -o /tmp/worldclim/wc2.1_10m_srad.zip
+          echo "$BIO_SHA256  /tmp/worldclim/wc2.1_10m_bio.zip" | sha256sum -c -
+          echo "$SRAD_SHA256  /tmp/worldclim/wc2.1_10m_srad.zip" | sha256sum -c -
+          stat -c '%n %s bytes' /tmp/worldclim/*.zip
+
+      - name: Create or update archival release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if ! gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release create "$RELEASE_TAG"               --repo "${{ github.repository }}"               --target main               --title "FCP WorldClim 2.1 10m frozen inputs (2026-09-25)"               --notes "Byte-frozen WorldClim 2.1 10 arc-minute input archives used by the FCP white-environment/BIO5 analyses. SHA256 values are enforced by the committed workflows and recorded in archive/fcp_submission_20260925/worldclim_checksums.txt. These assets are provenance inputs, not new biological results."
+          fi
+          gh release upload "$RELEASE_TAG"             /tmp/worldclim/wc2.1_10m_bio.zip             /tmp/worldclim/wc2.1_10m_srad.zip             --repo "${{ github.repository }}"             --clobber
+
+      - name: Write release receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p archive/fcp_submission_20260925
+          bio_size="$(stat -c '%s' /tmp/worldclim/wc2.1_10m_bio.zip)"
+          srad_size="$(stat -c '%s' /tmp/worldclim/wc2.1_10m_srad.zip)"
+          release_url="$(gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" --json url --jq .url)"
+          {
+            echo "# WorldClim release receipt — 2026-09-25"
+            echo
+            echo "Release tag: $RELEASE_TAG"
+            echo
+            echo "Release URL: $release_url"
+            echo
+            echo "Frozen assets:"
+            echo
+            echo "- wc2.1_10m_bio.zip"
+            echo "  - bytes: $bio_size"
+            echo "  - SHA256: $BIO_SHA256"
+            echo "  - source: https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip"
+            echo "- wc2.1_10m_srad.zip"
+            echo "  - bytes: $srad_size"
+            echo "  - SHA256: $SRAD_SHA256"
+            echo "  - source: https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip"
+            echo
+            echo "The release copies were checksum-verified before upload. The committed white-environment and legacy-BIO5 workflows reject downloaded archives or analysis TIFFs whose SHA256 differs from the frozen manifest."
+          } > archive/fcp_submission_20260925/WORLDCLIM_RELEASE_RECEIPT.md
+
+      - name: Commit release receipt
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add archive/fcp_submission_20260925/WORLDCLIM_RELEASE_RECEIPT.md
+          if git diff --cached --quiet; then
+            echo "Receipt already current"
+            exit 0
+          fi
+          git commit -m "Record permanent WorldClim release archive"
+          git push origin HEAD:revision/worldclim-release-archive-20260925

@@ -1,7 +1,7 @@
 {
   "schema": "fcp_polymorphism_data_lineage_audit_v1",
   "date_jst": "2026-09-25",
-  "status": "TRACEABLE_WITH_EXTERNAL_WORLDCLIM_BYTES_NOT_MIRRORED",
+  "status": "TRACEABLE_WITH_PERMANENT_GIT_AND_RELEASE_ARCHIVES",
   "headline_assessment": {
     "narrative_flow": "clear_after_explicit_separation_of_prospective_H2_and_secondary_BIO5",
     "main_branch_raw_data_complete": false,
@@ -11,7 +11,9 @@
     "worldclim_version_pinned": true,
     "worldclim_original_archive_sha256_recorded": true,
     "worldclim_bytes_mirrored_in_git": false,
-    "worldclim_checksum_enforced_by_workflows": true
+    "worldclim_checksum_enforced_by_workflows": true,
+    "worldclim_bytes_archived_in_release": true,
+    "all_headline_inputs_permanently_recoverable": true
   },
   "grades": {
     "global_frame": "A-",
@@ -19,8 +21,8 @@
     "legacy_H2": "A",
     "prospective_H2": "A",
     "highlight_validity": "A",
-    "secondary_BIO5": "A-",
-    "BIO5_transport": "A-",
+    "secondary_BIO5": "A",
+    "BIO5_transport": "A",
     "spatial_organization": "A-",
     "H3a": "A",
     "H3b": "A",
@@ -44,10 +46,16 @@
     "worldclim_checksum_run": 36128342064,
     "worldclim_checksum_artifact": 10860398758,
     "worldclim_bio_zip_sha256": "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
-    "worldclim_srad_zip_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026"
+    "worldclim_srad_zip_sha256": "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026",
+    "worldclim_release_tag": "fcp-worldclim-2.1-10m-20260925",
+    "worldclim_release_id": 396587932,
+    "worldclim_bio_asset_id": 588322903,
+    "worldclim_srad_asset_id": 588322905,
+    "worldclim_bio_bytes": 49869449,
+    "worldclim_srad_bytes": 16233364
   },
   "required_pre_submission_archival_actions": [
-    "mirror the checksum-pinned WorldClim 2.1 BIO and SRAD zip archives in the permanent Zenodo/release bundle for provider-independent byte replay",
-    "include archive/fcp_submission_20260925 and this lineage map in the permanent release"
+    "include archive/fcp_submission_20260925 and this lineage map in the permanent manuscript release/Zenodo record",
+    "preserve the committed SHA256 values as the authority for any mirrored external asset"
   ]
 }
