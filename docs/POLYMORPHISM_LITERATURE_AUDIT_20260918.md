@@ -255,3 +255,60 @@ In particular, literature plausibility cannot establish:
 - transition direction;
 - pollinator/climate causation;
 - independent-source replication.
+
+
+## 8. Post-audit mechanistic addendum — pigment accessibility and temperature
+
+Date added: 2026-09-25 JST.
+
+These sources were added after the original 2026-09-18 literature-positioning audit because the manuscript Discussion was revised to include a bounded mechanistic interpretation of the recurrent achromatic–chromatic axis and the post-confirmatory BIO5 result. They support interpretation only and do not alter any frozen empirical result.
+
+### Wessinger & Rausher 2012 — multiple molecular routes and pleiotropic constraint
+
+**Wessinger, C. A., & Rausher, M. D. (2012).**  
+*Lessons from flower colour evolution on targets of selection.*  
+*Journal of Experimental Botany*, 63(16), 5741–5749.  
+DOI: 10.1093/jxb/ers267.
+
+Permitted use:
+- support the general statement that floral pigment loss can arise through multiple structural and regulatory routes;
+- support the idea that pleiotropic consequences influence which molecular routes contribute to flower-colour evolution.
+
+Not permitted:
+- infer that the present white/nonwhite axis is caused by one anthocyanin mechanism;
+- infer evolutionary transition direction from the present sign-invariant H2 statistic.
+
+### Lacey 2026 — temperature dependence of floral colour
+
+**Lacey, E. P. (2026).**  
+*Temperature and the evolution of flower color: A review.*  
+*American Journal of Botany*, 113(1), e70106.  
+DOI: 10.1002/ajb2.70106.
+
+Permitted use:
+- support the general statement that floral anthocyanin and colour responses to temperature are widespread but context-dependent;
+- motivate genotype, developmental-stage, light and other environmental modifiers.
+
+Not permitted:
+- convert the third-cohort BIO5 association into a universal temperature effect;
+- treat literature plausibility as replication of the FCP environmental result.
+
+### Narbona et al. 2026 — direct heat-linked white floral plasticity
+
+**Narbona, E., Perfectti, F., González-Megías, A., Navarro, L., del Valle, J. C., Armas, C., & Gómez, J. M. (2026).**  
+*Heat drastically alters floral color and pigment composition without affecting flower conspicuousness.*  
+*American Journal of Botany*, 113(1), e70096.  
+DOI: 10.1002/ajb2.70096.
+
+Permitted use:
+- provide a concrete within-species example in which warmer conditions are associated with a reversible lilac-to-white floral phenotype and altered anthocyanin/flavonoid composition;
+- demonstrate mechanistic compatibility between thermal perturbation and an achromatic floral endpoint.
+
+Not permitted:
+- claim that *Moricandia* proves the cause of the global FCP H2 geometry;
+- claim that all natural white-flower polymorphisms are thermally induced.
+
+### Combined manuscript boundary
+
+The manuscript may therefore state that the positive third-cohort BIO5 association is biologically compatible with temperature acting on floral pigment networks, while emphasizing that the fixed discovery/reserve transport test failed. The correct synthesis is **context-dependent thermal access to a recurrent pigment-network endpoint**, not a universal high-temperature whitening rule.
+
