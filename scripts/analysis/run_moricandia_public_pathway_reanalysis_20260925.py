@@ -11,11 +11,11 @@ import numpy as np
 import pandas as pd
 
 NODE_PATTERNS = {
-    "MYB": re.compile(r"(?:\bMYB(?:90)?\b|R2R3[- _]?MYB)", re.I),
+    "MYB": re.compile(r"(?:\\b(?:MYB90|MYB75|MYB113|MYB114|PAP1|PAP2)\\b|R2R3[- _]?MYB)", re.I),
     "CHS": re.compile(r"(?:\bCHS\b|chalcone synthase)", re.I),
     "F3H": re.compile(r"(?:\bF3H\b|flavanone[- _]?3[- _]?hydroxylase)", re.I),
     "ANS": re.compile(r"(?:\bANS\b|anthocyanidin synthase)", re.I),
-    "UFGT_UGT": re.compile(r"(?:\bUFGT\b|\bU78D2\b|\bU75C1\b|UDP[- _]?(?:glucose|glycosyl|glucosyl)[- _]?.{0,30}transferase)", re.I),
+    "UFGT_UGT": re.compile(r"(?:\\bUFGT\\b|\\bU78D2\\b|\\bU75C1\\b)", re.I),
     "FLS": re.compile(r"(?:\bFLS\b|flavonol synthase)", re.I),
     "bHLH": re.compile(r"(?:\bbHLH\b|basic helix[- _]?loop[- _]?helix)", re.I),
     "WD40_TTG1": re.compile(r"(?:\bWD40\b|\bTTG1\b|transparent testa glabra\s*1)", re.I),
@@ -52,9 +52,8 @@ def stringify_row(row):
     return ["" if pd.isna(x) else str(x) for x in row.tolist()]
 
 
-def nearest_header(df: pd.DataFrame, row_idx: int, max_back: int = 40):
-    start = max(0, row_idx - max_back)
-    for h in range(row_idx - 1, start - 1, -1):
+def nearest_header(df: pd.DataFrame, row_idx: int):
+    for h in range(row_idx - 1, -1, -1):
         vals = stringify_row(df.iloc[h])
         joined = " | ".join(vals)
         score = int(bool(LOGFC_RX.search(joined))) + int(bool(FDR_RX.search(joined))) + int(bool(P_RX.search(joined)))
