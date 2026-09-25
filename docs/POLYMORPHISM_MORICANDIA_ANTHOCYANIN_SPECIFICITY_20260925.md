@@ -32,9 +32,9 @@ Primary anthocyanin trait:
 - `Cyanidin` concentration (cyanidin-3-glucoside equivalents per fresh weight).
 
 Comparator branch:
-- the unique source-data column whose name contains `flavonol` (case-insensitive), corresponding to UV-absorbing flavonols / kaempferol-3-glucoside equivalents per fresh weight.
+- the published Source Data column `Kaempferol`, corresponding to the UV-absorbing flavonol comparator used in the source table.
 
-The script must fail if no unique flavonol column is present.
+The script must fail unless exactly one `Kaempferol`/flavonol comparator column is present. This label correction was made after the first workflow failed because the source column was named `Kaempferol`; the frozen statistic, sample, thresholds and direction were not changed.
 
 ## Primary branch-specificity statistic
 
