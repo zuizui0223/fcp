@@ -6,9 +6,9 @@
       "discovery_n": 369,
       "files": {
         "pdf": "polymorphism_figure1_measurement_frame.pdf",
-        "pdf_sha256": "04fb9f1be510cede38c3aa1985735a80978d2b0ffd147984bf7de273fad0bac0",
+        "pdf_sha256": "ceb64eaf2fc856b6e10c5476411cee87ebea1cd393b3d71d91f184fd5dcd343d",
         "png": "polymorphism_figure1_measurement_frame.png",
-        "png_sha256": "dbfb3b7fb53504358665acb74ce9e809de5271983b5f60d97479b1820ad49a9f"
+        "png_sha256": "4eb5245cf15c958318b0e3ada32b83c2e964047f417670857b62082b173595cb"
       },
       "global_frame_species": 42111,
       "layout_contract": {
