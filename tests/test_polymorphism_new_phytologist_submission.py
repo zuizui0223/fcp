@@ -12,6 +12,8 @@ VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_2026
 HIGHLIGHT = ROOT / "results" / "polymorphism_h2_third_cohort_highlight_validity_20260922" / "result.json"
 ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md"
 D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
+WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
+BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
 
 
 def words(text: str) -> list[str]:
@@ -223,6 +225,48 @@ def test_new_phytologist_preserves_postconfirmatory_validity_boundary() -> None:
         "not a bitwise numerical reproducer",
     ):
         assert token in text
+
+
+def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> None:
+    import json
+    import pytest
+
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    canonical = CANONICAL.read_text(encoding="utf-8")
+    env = json.loads(WHITE_ENV.read_text(encoding="utf-8"))
+    transport = json.loads(BIO5_TRANSPORT.read_text(encoding="utf-8"))
+
+    bio5 = next(x for x in env["results"] if x["variable"] == "bio5")
+    assert env["eligible_species"] == 281
+    assert bio5["median_delta_white_minus_nonwhite_SD"] == pytest.approx(0.0690112924805198)
+    assert bio5["wilcoxon_holm_p"] == pytest.approx(0.03544867047368517)
+    assert bio5["OR_per_within_species_SD"] == pytest.approx(1.073474538999635)
+    assert bio5["p"] == pytest.approx(0.0009188036770296888)
+    assert bio5["mechanism_gate_pass"] is True
+
+    assert transport["verdict"] == "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST"
+    assert transport["discovery"]["eligible_species"] == 271
+    assert transport["discovery"]["species_level"]["wilcoxon_two_sided_p"] == pytest.approx(0.7432522901921289)
+    assert transport["reserve"]["eligible_species"] == 260
+    assert transport["reserve"]["species_level"]["wilcoxon_two_sided_p"] == pytest.approx(0.054066696426422846)
+
+    for manuscript in (text, canonical):
+        for token in (
+            "### Post-confirmatory environmental filter and BIO5 transport test",
+            "### A prospective third-cohort BIO5 association does not transport across the legacy cohorts",
+            "Holm-adjusted p = **0.0354**",
+            "OR = **1.073**",
+            "p = **0.000919**",
+            "p = **0.743**",
+            "p = **0.0541**",
+            "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST",
+            "does not support a common cross-cohort BIO5 rule",
+        ):
+            assert token in manuscript
+
+    assert "Temperature is therefore not supported as a universal cross-species driver" in text
+    assert "rather than in one universal BIO5 coefficient" in text
+
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
