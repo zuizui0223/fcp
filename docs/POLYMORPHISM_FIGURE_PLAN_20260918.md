@@ -48,7 +48,10 @@ It must branch **top-to-bottom** into two distinct lanes:
    - pre-frozen third-cohort selection + fresh metadata;
    - 499 species × 100 rows;
    - 377 measurement-evaluable;
-   - 0 replacements.
+   - H2 confirmation with 0 replacements;
+   - only **after H2 terminalization**, a dashed downstream box reuses the same physical rows for highlight validity and the pre-specified BIO5/BIO14/SRAD follow-up.
+
+Solid arrows encode the untouched sampling/confirmation chain. The post-H2 secondary reuse must be shown with a **dashed** arrow and explicitly labelled **not part of prospective H2**.
 
 The third cohort must **not** appear downstream of the original D-inference cohort.
 
