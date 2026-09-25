@@ -1,0 +1,53 @@
+name: Silene cross-species PAL WAL frequency synthesis
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_SILENE_CROSS_SPECIES_DECOUPLING_S1_20260925.md
+      - scripts/analysis/run_silene_cross_species_pal_wal_20260925.py
+      - .github/workflows/silene-cross-species-pal-wal-20260925.yml
+
+permissions:
+  contents: read
+
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy python-docx
+          python -m py_compile scripts/analysis/run_silene_cross_species_pal_wal_20260925.py
+      - name: Download Supplementary Table S1
+        run: |
+          mkdir -p /tmp/silene
+          curl -L --fail --retry 5 --retry-delay 2 'https://media.springernature.com/original/springer-static/esm/art%3A10.1186%2Fs12870-019-2082-6/MediaObjects/12870_2019_2082_MOESM1_ESM.docx' -o /tmp/silene/table_s1.docx
+          test -s /tmp/silene/table_s1.docx
+      - name: Run conservative frequency-scale synthesis
+        run: |
+          rm -rf results/polymorphism_silene_cross_species_pal_wal_20260925
+          python scripts/analysis/run_silene_cross_species_pal_wal_20260925.py --docx /tmp/silene/table_s1.docx --outdir results/polymorphism_silene_cross_species_pal_wal_20260925
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('results/polymorphism_silene_cross_species_pal_wal_20260925/result.json').read_text())
+          assert x['schema']=='fcp_silene_cross_species_pal_wal_frequency_v1'
+          assert x['status']=='complete'
+          assert x['PAL']['species']==13 and x['WAL']['species']==13
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: silene-cross-species-pal-wal-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_silene_cross_species_pal_wal_20260925
