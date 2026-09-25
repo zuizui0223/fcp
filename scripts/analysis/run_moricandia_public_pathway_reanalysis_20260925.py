@@ -187,7 +187,7 @@ def main():
         "schema": "fcp_moricandia_public_pathway_reanalysis_v1",
         "status": "complete",
         "role": "post_publication_reproducibility_and_mechanistic_triangulation",
-        "diagnostic_note": "The initial two-workbook pass found no FCP nodes because Supplementary Dataset 2 was a GO-enrichment table. This rerun mechanically scans all six public supplementary datasets plus Source Data.",
+        "diagnostic_note": "The initial two-workbook pass found no FCP nodes because Supplementary Dataset 2 was a GO-enrichment table. The all-workbook rerun located the DEG table, and this corrected pass fixes two parser issues without changing the frozen 8-node panel: persistent header detection and restriction of broad MYB/UGT aliases to pigment-relevant classes.",
         "fcp_node_panel": list(NODE_PATTERNS),
         "fcp_nodes_total": len(NODE_PATTERNS),
         "fcp_nodes_found_in_public_workbooks": found,
