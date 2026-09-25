@@ -34,3 +34,17 @@ d7fadae50a3e12794978f5ff6eea3e08bdbe7a0e485a49f48b44bdd5f9ea8f79  archive/fcp_su
 7f118c1f56f0a59eef0cb78968efae1326633991b5e04326de4e89e149f366d4  archive/fcp_submission_20260925/highlight/sealed_join_key.csv
 967a163a0cf6740bbbb797483d10a6727bb3786f77f55a2a28cda5562d1916c3  archive/fcp_submission_20260925/highlight/technical_summary.json
 b4c3f3067a00c474d50c85a0176409b7eae2bd61ac20d42a0ad86c07c9aa4a87  archive/fcp_submission_20260925/highlight/technical_table.csv.gz
+
+
+## External WorldClim checksum freeze
+
+WorldClim 2.1 10-arc-minute bytes are not committed to Git because the SRAD archive is large. Their exact current byte identity was frozen by workflow run 36128342064 / artifact 10860398758 and is recorded in:
+
+- archive/fcp_submission_20260925/worldclim_checksums.txt
+
+Key archive hashes:
+
+- wc2.1_10m_bio.zip: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+- wc2.1_10m_srad.zip: c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026
+
+The white-environment and legacy-BIO5 workflows verify the zip and analysis-TIFF hashes before fitting any model. Final Zenodo/release packaging should mirror the two zip archives themselves for provider-independent byte replay.
