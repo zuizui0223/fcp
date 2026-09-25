@@ -299,7 +299,6 @@ def test_submission_data_lineage_is_reader_traceable() -> None:
         "Prospective H2 cohort",
         "Secondary environmental follow-up",
         "one physical 499-species measurement dataset used in two chronologically distinct ways",
-        "post-H2 secondary validity/environmental analyses",
         "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md",
     ):
         assert token in text
@@ -315,6 +314,7 @@ def test_submission_data_lineage_is_reader_traceable() -> None:
         "10292662493",
         "10292767459",
         "10292399238",
+        "post-H2 secondary validity/environmental analyses",
         "Time-limited GitHub Actions artifacts",
         "WorldClim archive bit identity",
     ):
