@@ -1,96 +1,78 @@
 # White/pigmented proximal-mechanism audit status — 2026-09-25
 
-## Third-cohort targeted search
+## Current conclusion
 
-The fixed OpenAlex audit completed successfully in workflow run **36106047401** (artifact **10850239977**).
+The strongest commonality is now **proximal pathway convergence, not a universal ecological cause and not a universal evolutionary direction**.
 
-- target species: 281
-- fixed OpenAlex requests: 94
-- failed requests: 0
-- candidate works: 186
-- species with any candidate: 64
-- automated candidate A species: 2
-- automated candidate B species: 1
-- species with temperature-linked candidate text: 10
+Across the natural-FCP literature screen, at least **five independent natural systems** have direct molecular/biochemical evidence that white or strongly depigmented floral morphs map to reduced, blocked or rerouted anthocyanin/flavonoid pathway output:
 
-Automated tiers were navigation aids only.
+1. *Gymnadenia rhellicani* — R2R3-MYB stop variant -> altered ANS expression -> reduced cyanidin;
+2. *Ipomoea purpurea* — naturally occurring CHS loss-of-function and bHLH regulatory variants;
+3. *Parrya nudicaulis* — petal-specific CHS downregulation / cis-regulatory control;
+4. *Pleione limprichtii* — FLS / ANS / UFGT and candidate MBW-network expression differences;
+5. *Silene littorea* — >42-fold F3h expression difference with candidate Myb1a regulation and matching flavonoid-profile evidence.
 
-## Natural-FCP expansion
+The five systems do **not** implicate one universal gene. They instead converge on the same biochemical network at different structural and regulatory levels.
 
-The follow-up literature-derived natural-polymorphism panel completed in workflow run **36106592537** (artifact **10852105007**, digest `sha256:79077be039562e1e418a19a0037e61d5753617936e7f3de47a540d46eb8acab5`).
+## Evidence strength is not identical across the five systems
 
-- natural-FCP species: **111**
-- high-confidence literature-supported species: **97**
-- candidate works: **252**
-- species with candidates: **51**
-- high-confidence species with candidates: **44**
-- automated candidate A species: **7**
-- automated candidate B species: **3**
+- *Gymnadenia* and *Ipomoea* provide especially direct genetic evidence.
+- *Parrya* provides strong regulatory evidence at the pathway threshold.
+- *Pleione* and *Silene* provide transcriptomic/metabolomic convergence with candidate regulators; these should not be described as if one causal nucleotide change had been proven.
 
-The A/B automation was then manually adjudicated at the species level. Nine unique species entered manual review because *Vicia faba* appeared in both A and B.
+Machine-readable manual review is split into:
+- `results/polymorphism_natural_fcp_pigment_audit_20260925/manual_adjudication.csv` — initial A/B review;
+- `results/polymorphism_natural_fcp_pigment_audit_20260925/candidate_c_rescue_adjudication.csv` — manual recovery of strong candidate-C cases.
 
-## Strict natural molecular Tier A
+## Important biological bounds
 
-Three species pass the strict boundary of (i) natural population / naturally occurring colour variation and (ii) direct proximal molecular evidence.
+### Betalain counterexample
 
-### 1. Ipomoea purpurea
+*Abronia fragrans* is a natural white/pink system in a betalain-producing lineage. Therefore **anthocyanin loss cannot be promoted to a universal angiosperm white-flower mechanism**.
 
-Naturally occurring albino and pale/ivory colour variants implicate more than one lesion in the anthocyanin pathway:
+The defensible higher-level statement is:
 
-- **CHS loss-of-function** can produce albino flowers;
-- **bHLH regulatory disruption** reduces expression of downstream anthocyanin structural genes.
+> Multiple molecular routes repeatedly reduce or reroute floral pigment output, often through the anthocyanin/flavonoid network in anthocyanic taxa, producing a recurrent achromatic endpoint.
 
-Interpretation: different mutations can converge on reduced floral pigmentation through the same biosynthetic network.
+### Heat can act directly in at least one system
 
-### 2. Parrya nudicaulis
+*Moricandia arvensis* provides a separate natural abiotic-plasticity example: spring flowers are lilac whereas summer flowers are white, and the colour/pigment shift is heat-linked.
 
-A widespread natural purple-white polymorphism across Alaska has direct expression evidence implicating **petal-specific CHS downregulation / cis-regulatory control** near the threshold of the anthocyanin biosynthetic pathway.
+This matters because it shows that a white endpoint can arise by **plastic pigment regulation**, not only by inherited pathway lesions.
 
-Interpretation: white flowers can arise through regulatory reduction of pathway flux rather than obligatory coding loss of a pathway enzyme.
+It does not rescue the global heat mechanism gate. The FCP third-cohort tests show:
+- broad long-term BIO5 association with white states;
+- strong species-level/stratified seasonal-heat association;
+- but failure of the prespecified local same-cell seasonal-heat criterion and weak same-observer/local-distance robustness.
 
-### 3. Pleione limprichtii
+Therefore heat remains a plausible modifier or context-dependent cause, not a universal global explanation.
 
-Natural Huanglong populations contain rose-purple, pink and white individuals. Metabolomic and transcriptomic analyses implicate:
+## Pollinator discrimination
 
-- **PlFLS** in white formation;
-- **PlANS / PlUFGT** in pigmented-flower intensity;
-- a candidate **MYB-bHLH-WD40 regulatory complex** in colour variation.
+Independent pollinator tests do not identify a common global pollinator cause:
+- Sphingidae and Lepidoptera predictions were unsupported;
+- effort-adjusted bee breadth was unsupported;
+- stable local bee richness/Bombus predictors did not explain away BIO5.
 
-Interpretation: the white endpoint again maps to altered anthocyanin/flavonoid pathway allocation and regulation, but through a different specific molecular route.
+The *Gymnadenia* case shows that pollinators can maintain a colour polymorphism in a particular system, but that is **system-specific mechanism evidence**, not a global white-flower rule.
 
-## Other manually adjudicated candidates
+## Evolutionary direction is separate and negative
 
-- **Boechera stricta**: strong natural ecological evidence. Drought can induce pigmentation in white-flowered lineages and colour has a genetic component, but the audited study does not identify a proximal causal pigment gene. Keep as ecological mechanism evidence, not molecular Tier A.
-- **Silene littorea**: natural floral anthocyanin/flavonoid variation is directly measured, but no single causal white-state gene is resolved. Biochemical Tier B only.
-- **Abronia fragrans**: natural white/pink polymorphism and ecological selection evidence, but the pigment system is **betalain**, not anthocyanin. This is an important bound against claiming a universal anthocyanin mechanism.
-- **Digitalis purpurea**: genome/pigment-pathway resource in an ornamental context; strict natural white/pigmented segregation is not established by the audited evidence.
-- **Medicago sativa**: white-purple transcriptomic/metabolomic comparison is mechanistically interesting, but strict wild natural-population provenance is unresolved for this cultivated species.
-- **Vicia faba**: TT8/TTG1 genetics are direct but come from crop/breeding systems; excluded from strict natural-FCP evidence.
+The independent OpenTree endpoint test retained 196 species (116 nonwhite-dominant, 80 white-dominant). Across all 100 topology resolutions:
 
-Machine-readable adjudication is stored in `results/polymorphism_natural_fcp_pigment_audit_20260925/manual_adjudication.csv`.
+- median q(nonwhite -> white) / q(white -> nonwhite) = **0.701**;
+- fraction with ratio > 1 = **0**;
+- the prespecified nonwhite->white asymmetry gate failed.
 
-## Current synthesis
+Therefore the recurrent white/nonwhite axis must **not** be rewritten as a confirmed repeated pigmented->white evolutionary transition.
 
-The strongest proximal-mechanism statement is now:
+## Working two-level model
 
-> **Natural white/pigmented flower-colour polymorphisms repeatedly map to reduced or rerouted pigment-pathway output, with multiple distinct regulatory or structural routes converging on the achromatic endpoint.**
+The current evidence supports:
 
-For anthocyanic taxa, the verified examples converge on the anthocyanin/flavonoid network, but **not on one universal gene**. The *Abronia* betalain case prevents promotion of “anthocyanin loss” to a universal angiosperm white-flower mechanism.
+1. **phenotypic accessibility / proximal convergence** — many molecular or regulatory routes can alter pigment-pathway output and reach an achromatic endpoint;
+2. **context-dependent ecological sorting/maintenance** — temperature, herbivory, pollinators and other agents can favor or induce colour states in particular systems, but no single global ecological driver is confirmed.
 
-This molecular convergence is compatible with the New Phytologist paper's recurrent white/non-white phenotype-space axis, but it remains a separate mechanism line. It does not establish evolutionary transition direction: the independent OpenTree endpoint test did **not** support recurrent nonwhite→white asymmetry.
-
-## Ecological discrimination remains separate
-
-The current ecological tests do not identify one universal selective cause:
-
-- long-term BIO5 shows a broad-scale white-state sorting association;
-- local/same-observer diagnostics weaken a universal local heat-selection interpretation;
-- the prospective seasonal-heat full gate fails narrowly at the same-cell test;
-- stable bee-community predictors do not explain the broad BIO5 association.
-
-Thus the current best two-level model is:
-
-1. **proximal accessibility:** multiple molecular routes can repeatedly alter pigment-pathway output and reach a white/achromatic phenotype;
-2. **ecological sorting:** temperature and other local factors may alter where white states occur or persist, but no universal pollinator or environmental selective cause is confirmed.
+This is stronger than the original “pollinator versus environment” dichotomy because it explains why the same white/nonwhite phenotype-space axis can recur even when the selective context differs among species.
 
 The frozen New Phytologist manuscript remains unchanged.
