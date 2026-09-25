@@ -133,7 +133,8 @@ def test_claim_ledger_freezes_rgfca_programme_lineage() -> None:
         "Repeated Global Flower-Colour Atlas",
         "primary recurrent-field G1 p = **0.070**",
         "species-disjoint commonness p = **0.856**",
-        "generality is stronger in **phenotype space than in shared geographic location**",
+        "cross-species generality is established in **phenotype space**",
+        "whether geographic realization is shared or species-specific across species",
         "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md",
         "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md",
     ):
