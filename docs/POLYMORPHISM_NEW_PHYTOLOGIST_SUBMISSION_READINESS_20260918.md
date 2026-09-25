@@ -1,6 +1,6 @@
 # New Phytologist submission readiness audit — 2026-09-25
 
-Status: **scientific, narrative and provenance package ready; administrative metadata, final citable archive DOI, and final formatted submission file remain.**
+Status: **scientific, narrative and reproducibility/provenance package ready; administrative author metadata and the final formatted submission file remain. A DOI-bearing mirror may be added for citation but is no longer required to make the numerical evidence chain recoverable.**
 
 Active submission files:
 
@@ -202,6 +202,27 @@ Canonical receipt:
 
 The committed SHA256 manifest defines canonical byte identity and the analysis workflows enforce those hashes before fitting.
 
+### Self-contained manuscript provenance snapshot
+
+**Resolved.**
+
+A single end-to-end verification package is available under GitHub Release tag:
+
+`fcp-np-provenance-20260926`
+
+- source commit: `f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2`
+- release ID: `396980815`
+- asset: `fcp-np-provenance-20260926.tar.gz`
+- asset ID: `589464278`
+- bytes: **113,156,301**
+- packaged files: **145**
+- SHA256: `cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7`
+- receipt: `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`
+
+The package contains the active manuscript/SI/figures, frozen protocols/results/code/tests, exact legacy discovery/reserve measured tables, the exact prospective-H2 measured table, historical spatial receipts, fresh-D provenance, permanent highlight/H3 inputs and the checksum-pinned WorldClim BIO/SRAD archives. A per-file SHA256 manifest is included.
+
+This closes the scientific data-lineage packaging task. A later Zenodo/institutional DOI mirror would provide a citation identifier, not missing analytical evidence.
+
 
 ## 6. Automated guards
 
@@ -282,16 +303,9 @@ A final declaration is required.
 
 Complete after final authorship is frozen.
 
-### E. Permanent external archive DOI
+### E. DOI-bearing mirror for citation
 
-Create the final Zenodo/institutional release and include:
-
-- the repository submission state;
-- `archive/fcp_submission_20260925/`;
-- the two checksum-pinned WorldClim zip archives;
-- the final archive manifest/checksums.
-
-Add the DOI/version to Data availability.
+The complete verification bytes are already frozen in GitHub releases and the self-contained provenance snapshot above. A Zenodo/institutional mirror may be registered to provide a DOI for long-term citation. If registered before submission, add that DOI/version to Data availability; it does not require rerunning or changing any analysis.
 
 ### F. Final formatted submission file
 
@@ -309,6 +323,6 @@ Export the frozen manuscript to a review-ready DOCX/PDF with:
 
 The scientific and provenance packages are sufficient for submission. The remaining path is:
 
-`author metadata -> acknowledgements/conflicts/contributions -> mirror WorldClim bytes + permanent DOI -> final formatted DOCX/PDF -> submit`
+`author metadata -> acknowledgements/conflicts/contributions -> optional DOI-bearing mirror -> final formatted DOCX/PDF -> submit`
 
 No H2 target, threshold, null, cohort definition, BIO5 predictor family or H3 predictor should be reopened during packaging.
