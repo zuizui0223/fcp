@@ -59,24 +59,41 @@ def derive_fcp(measured,technical,join_key,high_clip,bio5):
 
 def scan_globi(path,focal,chunksize=150000):
     header=pd.read_csv(path,nrows=0)
-    required={"plant_species","scientificName","plant_family"}
+    required={"plant_species","plant_family"}
     missing=required-set(header.columns)
     if missing:
         raise SystemExit(f"GloBI missing required columns: {sorted(missing)}")
+    # Zenodo v3.1 renamed the bee-name field relative to the authors' internal
+    # analysis scripts. Resolve only an explicitly bee/species semantic column;
+    # this is schema adaptation, not biological model selection.
+    bee_exact=[
+      "scientificName","bee_species","bee_scientific_name","bee_species_name",
+      "bee_name","bee_taxon_name","targetTaxonName"
+    ]
+    bee_col=next((x for x in bee_exact if x in header.columns),None)
+    if bee_col is None:
+        semantic=[
+          x for x in header.columns
+          if "bee" in x.lower() and ("species" in x.lower() or "scientific" in x.lower() or "taxon" in x.lower())
+        ]
+        if len(semantic)==1:
+            bee_col=semantic[0]
+    if bee_col is None:
+        raise SystemExit(f"Could not identify unique bee species column. GloBI columns: {list(header.columns)}")
     n_records=defaultdict(int)
     bees=defaultdict(set)
     families=defaultdict(set)
     matched_rows=0
-    for chunk in pd.read_csv(path,usecols=["plant_species","scientificName","plant_family"],chunksize=chunksize,low_memory=False):
+    for chunk in pd.read_csv(path,usecols=["plant_species",bee_col,"plant_family"],chunksize=chunksize,low_memory=False):
         chunk["plant_species"]=chunk.plant_species.astype(str).str.strip()
         q=chunk[chunk.plant_species.isin(focal)].copy()
         if q.empty:
             continue
-        q=q[q.scientificName.notna()]
+        q=q[q[bee_col].notna()]
         matched_rows += len(q)
         for sp,g in q.groupby("plant_species",sort=False):
             n_records[sp]+=len(g)
-            bees[sp].update(x for x in g.scientificName.astype(str).str.strip() if x and x.lower()!="nan")
+            bees[sp].update(x for x in g[bee_col].astype(str).str.strip() if x and x.lower()!="nan")
             families[sp].update(x for x in g.plant_family.dropna().astype(str).str.strip() if x and x.lower()!="nan")
     rows=[]
     for sp in sorted(focal):
