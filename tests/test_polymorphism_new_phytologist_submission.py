@@ -22,6 +22,8 @@ BIO5_SCRIPT = ROOT / "scripts" / "analysis" / "run_legacy_white_bio5_replication
 H3B_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_H3B_RESERVE_SPAN_PROTOCOL_20260912.md"
 H3B_SCRIPT = ROOT / "scripts" / "analysis" / "run_polymorphism_h3b_reserve_span_20260912.R"
 H3B_RESULT = ROOT / "results" / "polymorphism_h3b_reserve_span_20260912" / "result.json"
+ARCHIVE_ROOT = ROOT / "archive" / "fcp_submission_20260925"
+WORLDCLIM_CHECKSUMS = ARCHIVE_ROOT / "worldclim_checksums.txt"
 
 
 def words(text: str) -> list[str]:
@@ -315,10 +317,29 @@ def test_submission_data_lineage_is_reader_traceable() -> None:
         "10292767459",
         "10292399238",
         "post-H2 secondary validity/environmental analyses",
-        "Time-limited GitHub Actions artifacts",
-        "WorldClim archive bit identity",
+        "Resolved: expiring Actions artifacts",
+        "WorldClim bytes are checksum-pinned but not mirrored in Git",
     ):
         assert token in lineage
+
+    for archived in (
+        ARCHIVE_ROOT / "highlight" / "technical_table.csv.gz",
+        ARCHIVE_ROOT / "highlight" / "sealed_join_key.csv",
+        ARCHIVE_ROOT / "highlight" / "high_clip_ids.csv",
+        ARCHIVE_ROOT / "h3a_tree" / "h3a_s1.tre",
+        ARCHIVE_ROOT / "h3a_tree" / "h3a_s2.tre",
+        ARCHIVE_ROOT / "h3a_tree" / "h3a_s3.tre",
+        ARCHIVE_ROOT / "h3a_covariate" / "sampling_opportunity_preoutcome.csv",
+        ARCHIVE_ROOT / "h3a_signal" / "h3a_K_permutation_nulls.csv.gz",
+        ARCHIVE_ROOT / "h3b" / "h3b_span_permutation_nulls.csv",
+        WORLDCLIM_CHECKSUMS,
+    ):
+        assert archived.exists(), f"missing permanently frozen archive input: {archived}"
+
+    checksum_text = WORLDCLIM_CHECKSUMS.read_text(encoding="utf-8")
+    assert "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf  wc2.1_10m_bio.zip" in checksum_text
+    assert "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026  wc2.1_10m_srad.zip" in checksum_text
+    assert "32e02d85868734c32547da70cf9c620f4739a3cf5dbc4f2b751e16ebb2338ae1  bio/wc2.1_10m_bio_5.tif" in checksum_text
 
     h3b = json.loads(H3B_RESULT.read_text(encoding="utf-8"))
     assert h3b["decision"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
