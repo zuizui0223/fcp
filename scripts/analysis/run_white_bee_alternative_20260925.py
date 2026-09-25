@@ -58,7 +58,7 @@ def derive_fcp(measured,technical,join_key,high_clip,bio5):
     return s
 
 def scan_globi(path,focal,chunksize=150000):
-    header=pd.read_csv(path,nrows=0)
+    header=pd.read_csv(path,nrows=0,encoding="utf-8",encoding_errors="replace")
     required={"plant_species","plant_family"}
     missing=required-set(header.columns)
     if missing:
@@ -84,7 +84,7 @@ def scan_globi(path,focal,chunksize=150000):
     bees=defaultdict(set)
     families=defaultdict(set)
     matched_rows=0
-    for chunk in pd.read_csv(path,usecols=["plant_species",bee_col,"plant_family"],chunksize=chunksize,low_memory=False):
+    for chunk in pd.read_csv(path,usecols=["plant_species",bee_col,"plant_family"],chunksize=chunksize,low_memory=False,encoding="utf-8",encoding_errors="replace"):
         chunk["plant_species"]=chunk.plant_species.astype(str).str.strip()
         q=chunk[chunk.plant_species.isin(focal)].copy()
         if q.empty:
