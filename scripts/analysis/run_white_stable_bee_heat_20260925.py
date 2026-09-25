@@ -42,7 +42,7 @@ def sample_raster(path, lon, lat):
 def load_bees(path, plant_names):
     cols=["bee_species","bee_genus","plant_species","x","y","coordinated","plant_level"]
     pieces=[]
-    for chunk in pd.read_csv(path,usecols=cols,chunksize=150000,low_memory=False):
+    for chunk in pd.read_csv(path,usecols=cols,chunksize=150000,low_memory=False,encoding="utf-8",encoding_errors="replace"):
         keep=chunk.plant_species.astype(str).isin(plant_names)
         keep &= chunk.plant_level.astype(str).eq("species_level")
         keep &= bool_series(chunk.coordinated)
