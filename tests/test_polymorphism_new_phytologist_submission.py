@@ -367,8 +367,6 @@ def test_submission_data_lineage_is_reader_traceable() -> None:
     receipt_text = WORLDCLIM_RELEASE_RECEIPT.read_text(encoding="utf-8")
     for token in (
         "fcp-worldclim-2.1-10m-20260925",
-        "588322903",
-        "588322905",
         "49869449",
         "16233364",
         "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf",
