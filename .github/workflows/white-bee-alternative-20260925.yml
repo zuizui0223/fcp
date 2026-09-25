@@ -1,0 +1,88 @@
+name: White bee alternative v1
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - docs/POLYMORPHISM_WHITE_BEE_ALTERNATIVE_PROTOCOL_20260925.md
+      - scripts/analysis/run_white_bee_alternative_20260925.py
+      - .github/workflows/white-bee-alternative-20260925.yml
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  BIOLOGICAL_RUN_ID: "35177668182"
+  BIOLOGICAL_ARTIFACT: h2-third-cohort-prospective-result-20260917
+  TECHNICAL_RUN_ID: "35687421896"
+  TECHNICAL_ARTIFACT: third-cohort-highlight-technical-seal-v1
+  GLOBI_MD5: a8e280aad62f2f6d99ff00f84ef30cd1
+  OUTDIR: results/polymorphism_white_bee_alternative_20260925
+
+jobs:
+  bee-alternative:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy statsmodels rasterio
+          python -m py_compile scripts/analysis/run_white_bee_alternative_20260925.py
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.BIOLOGICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.BIOLOGICAL_ARTIFACT }}
+          path: /tmp/biological
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.TECHNICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.TECHNICAL_ARTIFACT }}
+          path: /tmp/technical
+      - name: Download immutable curated GloBI v3.1
+        run: |
+          curl -L --fail --retry 6 --retry-delay 5             'https://zenodo.org/records/18303036/files/GloBI_Curated.csv?download=1'             -o /tmp/GloBI_Curated.csv
+          echo "${GLOBI_MD5}  /tmp/GloBI_Curated.csv" | md5sum -c -
+          ls -lh /tmp/GloBI_Curated.csv
+      - name: Download WorldClim BIO5
+        run: |
+          mkdir -p /tmp/worldclim/bio
+          curl -L --fail --retry 5 --retry-delay 3             https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip             -o /tmp/worldclim/bio.zip
+          unzip -q /tmp/worldclim/bio.zip -d /tmp/worldclim/bio
+          test -f /tmp/worldclim/bio/wc2.1_10m_bio_5.tif
+      - name: Run frozen bee-alternative test
+        run: |
+          MEASURED="$(find /tmp/biological -type f -name 'polymorphism_h2_third_cohort_measured_photos_v1.csv' -print -quit)"
+          test -n "$MEASURED"
+          rm -rf "$OUTDIR"
+          python scripts/analysis/run_white_bee_alternative_20260925.py             --measured "$MEASURED"             --technical-table /tmp/technical/technical_table.csv.gz             --join-key /tmp/technical/sealed_join_key.csv             --high-clip-ids /tmp/technical/high_clip_ids.csv             --bio5 /tmp/worldclim/bio/wc2.1_10m_bio_5.tif             --globi /tmp/GloBI_Curated.csv             --outdir "$OUTDIR"
+      - name: Validate result contract
+        run: |
+          python - <<'PY'
+          import json, os
+          x=json.load(open(os.environ['OUTDIR']+'/result.json'))
+          assert x['schema']=='fcp_white_bee_alternative_v1'
+          assert x['status'] in {
+            'BEE_BREADTH_SUPPORTED',
+            'BEE_BREADTH_NOT_SUPPORTED_UNDER_THIS_TEST',
+            'not_estimable'
+          }
+          assert x['globi_missing_semantics'].startswith('unmatched') if x['status']!='not_estimable' else True
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: white-bee-alternative-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: ${{ env.OUTDIR }}
