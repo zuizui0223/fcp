@@ -1,6 +1,6 @@
 # New Phytologist submission readiness audit — 2026-09-25
 
-Status: **scientific, narrative and provenance package ready; administrative metadata, permanent external archive DOI, and final formatted submission file remain.**
+Status: **scientific, narrative and provenance package ready; administrative metadata, final citable archive DOI, and final formatted submission file remain.**
 
 Active submission files:
 
@@ -128,7 +128,7 @@ All satisfy the <=50-word rule.
 
 ## 5. Data lineage and reproducibility
 
-**PASS, with one external-byte archival action remaining**
+**PASS — all headline analysis inputs are permanently recoverable through Git history or checksum-verified release assets**
 
 Reader-facing routing map:
 
@@ -153,8 +153,8 @@ Permanent Git archive:
 | H3a | A | exact trees, pre-outcome covariate panel, signal outputs and permutation nulls copied into Git |
 | H3b | A | exact pre-outcome inputs and full permutation/PGLS outputs copied into Git |
 | Spatial organization | A- | reporting receipt points to immutable source commit/blobs |
-| Secondary BIO5 | A- | biological/technical inputs fixed; WorldClim bytes checksum-pinned but not Git-mirrored |
-| BIO5 transport | A- | legacy inputs fixed; WorldClim bytes checksum-pinned but not Git-mirrored |
+| Secondary BIO5 | A | biological/technical inputs fixed; exact WorldClim BIO/SRAD zip bytes mirrored as checksum-verified release assets |
+| BIO5 transport | A | legacy inputs fixed; exact WorldClim BIO zip mirrored as checksum-verified release asset |
 
 ### Expiring Actions artifacts
 
@@ -185,9 +185,23 @@ BIO5, BIO14 and all 12 SRAD TIFF hashes are stored in:
 
 The environmental workflows now hard-fail if downloaded bytes do not match the frozen checksums.
 
-### Remaining provenance action
+### WorldClim permanent byte archive
 
-For provider-independent bit-for-bit replay, mirror the two checksum-pinned WorldClim zip archives themselves in the final Zenodo/institutional release. This is the only material external-byte gap remaining in the headline chain.
+**Resolved.**
+
+The checksum-pinned WorldClim 2.1 10-arc-minute archives are mirrored under GitHub Release tag:
+
+`fcp-worldclim-2.1-10m-20260925`
+
+- BIO asset ID: `588322903`, 49,869,449 bytes, SHA256 `00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf`
+- SRAD asset ID: `588322905`, 16,233,364 bytes, SHA256 `c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026`
+
+Canonical receipt:
+
+- `archive/fcp_submission_20260925/WORLDCLIM_RELEASE_RECEIPT.md`
+
+The committed SHA256 manifest defines canonical byte identity and the analysis workflows enforce those hashes before fitting.
+
 
 ## 6. Automated guards
 
