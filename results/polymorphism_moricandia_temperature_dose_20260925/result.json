@@ -1,0 +1,68 @@
+{
+  "schema": "fcp_moricandia_temperature_dose_reanalysis_v1",
+  "status": "complete",
+  "role": "post_publication_post_preflight_temperature_dose_reanalysis",
+  "source_workflow_run": 36112172492,
+  "source_artifact_id": 10853109244,
+  "source_artifact_digest": "sha256:93ff26c56dc84c550ad4e5c96c90aed9d6e9e9e0ee57d23bda7791a6b8e5f4f6",
+  "independent_calculation_note": "A second workflow produced the same numerical result and failed only because its validator expected an obsolete schema name.",
+  "source_sheet": "Figure 3F-J",
+  "temperature_sequences_celsius": {
+    "mild_to_hot": [14.16666667, 23.75, 28.75],
+    "mild_to_spring": [14.16666667, 23.75, 14.16666667],
+    "spring_to_hot": [14.16666667, 14.16666667, 28.75]
+  },
+  "source_sequence_counts": {
+    "mild_to_hot": 15,
+    "mild_to_spring": 14,
+    "spring_to_hot": 14
+  },
+  "primary_mild_to_hot": {
+    "n_individuals": 15,
+    "mean_cyanidin_mild": 1.8927119725666668,
+    "mean_cyanidin_hot": 0.5309657500333332,
+    "hot_over_mild_ratio": 0.28053172259131526,
+    "percent_reduction_in_mean": 71.94682774086847,
+    "mean_delta_hot_minus_mild": -1.3617462225333337,
+    "median_delta_hot_minus_mild": -1.1361610435,
+    "individuals_decreasing": 13,
+    "individuals_increasing": 2,
+    "fraction_decreasing": 0.8666666666666667,
+    "wilcoxon_one_sided_p_hot_less_mild": 0.00042724609375,
+    "wilcoxon_two_sided_p": 0.0008544921875,
+    "sign_test_directional_p": 0.003692626953125
+  },
+  "reversal_mild_to_spring": {
+    "n_individuals": 14,
+    "mean_cyanidin_mild": 1.2363227688571428,
+    "mean_cyanidin_spring_return": 4.708495098678571,
+    "spring_return_over_mild_ratio": 3.808467511304597,
+    "individuals_increasing": 12,
+    "individuals_decreasing": 2,
+    "wilcoxon_one_sided_p_spring_greater_mild": 0.00030517578125,
+    "wilcoxon_two_sided_p": 0.0006103515625
+  },
+  "spring_to_hot": {
+    "n_individuals": 14,
+    "mean_cyanidin_spring": 5.690446313785714,
+    "mean_cyanidin_hot": 0.17867389364285716,
+    "hot_over_spring_ratio": 0.031398924405982104,
+    "individuals_decreasing": 14,
+    "wilcoxon_one_sided_p_hot_less_spring": 0.00006103515625
+  },
+  "period_order_check": {
+    "comparison": "period2-to-period3 cyanidin change: mild->hot versus mild->spring return",
+    "mannwhitney_two_sided_p": 0.00003718346726238004,
+    "mean_change_mild_to_hot": -1.3617462225333337,
+    "mean_change_mild_to_spring": 3.4721723298214293
+  },
+  "temperature_dose_support": true,
+  "mechanistic_interpretation": "In Moricandia, greater thermal severity under the same stated summer photoperiod strongly depresses floral anthocyanin, and returning plants toward spring conditions restores anthocyanin. Together with summer-white downregulation of MYB90, CHS, U75C1/U78D2 and TTG1, this creates a direct within-species bridge from thermal environment to the pigment network and achromatic phenotype.",
+  "hard_nonclaims": [
+    "post-publication and post-preflight, not an untouched confirmatory test",
+    "does not rescue the failed cross-cohort FCP BIO5 replication",
+    "the mild-to-hot subset is sequential and can retain period/order carryover, although the reversal sequence argues strongly against a generic third-period decline",
+    "does not prove all natural white-flower systems are thermally plastic",
+    "does not establish a universal positive temperature effect across species"
+  ]
+}

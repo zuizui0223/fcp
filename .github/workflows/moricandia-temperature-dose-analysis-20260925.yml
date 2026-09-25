@@ -1,0 +1,59 @@
+name: Moricandia temperature dose analysis
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - docs/POLYMORPHISM_MORICANDIA_TEMPERATURE_DOSE_20260925.md
+      - scripts/analysis/run_moricandia_temperature_dose_20260925.py
+      - .github/workflows/moricandia-temperature-dose-analysis-20260925.yml
+
+permissions:
+  contents: read
+
+jobs:
+  analyse:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas numpy scipy openpyxl
+          python -m py_compile scripts/analysis/run_moricandia_temperature_dose_20260925.py
+      - name: Download published Source Data
+        run: |
+          mkdir -p /tmp/moricandia
+          curl -L --fail --retry 5 --retry-delay 2             'https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17875-1/MediaObjects/41467_2020_17875_MOESM11_ESM.xlsx'             -o /tmp/moricandia/source_data.xlsx
+          test -s /tmp/moricandia/source_data.xlsx
+      - name: Run fixed within-individual dose analysis
+        run: |
+          rm -rf results/polymorphism_moricandia_temperature_dose_20260925
+          python scripts/analysis/run_moricandia_temperature_dose_20260925.py             --source-data /tmp/moricandia/source_data.xlsx             --outdir results/polymorphism_moricandia_temperature_dose_20260925
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('results/polymorphism_moricandia_temperature_dose_20260925/result.json').read_text())
+          assert x['schema']=='fcp_moricandia_temperature_dose_reanalysis_v1'
+          assert x['status']=='complete'
+          assert x['source_sequence_counts']=={
+            'mild_to_hot':15,
+            'mild_to_spring':14,
+            'spring_to_hot':14
+          }
+          assert x['primary_mild_to_hot']['n_individuals']==15
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: moricandia-temperature-dose-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_moricandia_temperature_dose_20260925

@@ -1,0 +1,31 @@
+{
+  "schema": "fcp_moricandia_anthocyanin_specificity_postopen_robustness_v1",
+  "status": "descriptive_post_open_only",
+  "can_rescue_primary": false,
+  "reason_for_secondary": "The frozen log-ratio primary was undefined because two individuals had zero cyanidin means; no pseudocount was introduced.",
+  "zero_safe_metric": "(hot - mild) / (hot + mild)",
+  "cyanidin": {
+    "mean_symmetric_change": -0.5293426019286642,
+    "median_symmetric_change": -0.6725023687096565
+  },
+  "kaempferol": {
+    "mean_symmetric_change": -0.007445602059251452,
+    "median_symmetric_change": -0.03011755089286404
+  },
+  "cyanidin_minus_kaempferol": {
+    "mean_difference": -0.5218969998694126,
+    "median_difference": -0.6895295690534761,
+    "individuals_negative": 12,
+    "n_individuals": 15,
+    "fraction_negative": 0.8,
+    "wilcoxon_one_sided_p_less_than_zero": 0.005126953125,
+    "wilcoxon_two_sided_p": 0.01025390625,
+    "sign_test_directional_p": 0.017578125
+  },
+  "interpretation": "Post-open descriptive robustness is consistent with cyanidin being suppressed proportionally more strongly than the kaempferol-equivalent flavonol branch under hotter summer conditions.",
+  "hard_nonclaims": [
+    "post hoc secondary metric chosen after the primary became non-estimable",
+    "cannot change the frozen primary verdict",
+    "does not directly demonstrate isotope-traced metabolic flux"
+  ]
+}
