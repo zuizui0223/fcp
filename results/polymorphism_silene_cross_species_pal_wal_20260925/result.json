@@ -1,31 +1,53 @@
 {
-  "schema":"fcp_silene_cross_species_pal_wal_frequency_v1",
-  "status":"complete",
-  "role":"post_publication_cross_species_descriptive_reproduction",
-  "source_workflow_run":36117198661,
-  "source_artifact_id":10855304421,
-  "source_artifact_digest":"sha256:0747f39dc2d20a8c3a0cae915efa76153bfe36290f54d779908ad733777a1eca",
-  "source":"Supplementary Table S1, Del Valle et al. 2019",
-  "doi":"10.1186/s12870-019-2082-6",
-  "PAL":{
-    "species":13,
-    "numeric_species":13,
-    "documented_max_frequency_min_percent":10.0,
-    "documented_max_frequency_median_percent":43.0,
-    "documented_max_frequency_max_percent":100.0
+  "schema": "fcp_silene_cross_species_pal_wal_frequency_v1",
+  "status": "complete",
+  "role": "post_publication_cross_species_descriptive_reproduction",
+  "source_workflow_run": 36117898833,
+  "source_artifact_id": 10856270134,
+  "source_artifact_digest": "sha256:26c6484124bfc8ecbd7fbf2df3cde638156279a5a9c31d14bdf32460c12a3a5d",
+  "source": "Supplementary Table S1, Del Valle et al. 2019",
+  "doi": "10.1186/s12870-019-2082-6",
+  "PAL": {
+    "species": 13,
+    "numeric_species": 13,
+    "documented_max_frequency_min_percent": 10.0,
+    "documented_max_frequency_median_percent": 43.0,
+    "documented_max_frequency_max_percent": 100.0
   },
-  "WAL":{
-    "species":13,
-    "numeric_species":9,
-    "qualitative_rare_species":4,
-    "numeric_upper_bound_min_percent":0.001,
-    "numeric_upper_bound_median_percent":0.1,
-    "numeric_upper_bound_max_percent":1.4,
-    "greenhouse_flagged_numeric_species":1
+  "WAL": {
+    "species": 13,
+    "numeric_species": 9,
+    "qualitative_rare_species": 4,
+    "numeric_upper_bound_min_percent": 0.001,
+    "numeric_upper_bound_median_percent": 0.1,
+    "numeric_upper_bound_max_percent": 1.4,
+    "greenhouse_flagged_numeric_species": 1
   },
-  "frequency_scale_separated":true,
-  "conservative_separation_factor_min_PALmax_over_max_WALupper":7.142857142857143,
-  "hard_nonclaims":[
+  "frequency_scale_separated": true,
+  "conservative_separation_factor_min_PALmax_over_max_WALupper": 7.142857142857143,
+  "postopen_published_only_non_greenhouse_sensitivity": {
+    "role": "post-open descriptive robustness; cannot alter the primary source-table summary",
+    "filter": "reference contains a published numeric citation [..] and greenhouse_flag is false",
+    "PAL": {
+      "species": 11,
+      "numeric_species": 11,
+      "qualitative_rare_species": 0,
+      "numeric_min_upper_percent": 10.0,
+      "numeric_median_upper_percent": 43.0,
+      "numeric_max_upper_percent": 100.0
+    },
+    "WAL": {
+      "species": 11,
+      "numeric_species": 7,
+      "qualitative_rare_species": 4,
+      "numeric_min_upper_percent": 0.001,
+      "numeric_median_upper_percent": 0.1,
+      "numeric_max_upper_percent": 1.4
+    },
+    "frequency_scale_separated": true,
+    "conservative_separation_factor": 7.142857142857143
+  },
+  "hard_nonclaims": [
     "source studies differ in survey design and effort",
     "qualitative rare entries are not converted to numbers",
     "censored <x values are retained as upper bounds",
