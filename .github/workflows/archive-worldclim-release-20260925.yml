@@ -55,26 +55,26 @@ jobs:
           bio_size="$(stat -c '%s' /tmp/worldclim/wc2.1_10m_bio.zip)"
           srad_size="$(stat -c '%s' /tmp/worldclim/wc2.1_10m_srad.zip)"
           release_url="$(gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" --json url --jq .url)"
-          cat > archive/fcp_submission_20260925/WORLDCLIM_RELEASE_RECEIPT.md <<EOF
-          # WorldClim release receipt — 2026-09-25
-
-          Release tag: `$RELEASE_TAG`
-
-          Release URL: $release_url
-
-          Frozen assets:
-
-          - `wc2.1_10m_bio.zip`
-            - bytes: $bio_size
-            - SHA256: `$BIO_SHA256`
-            - source: https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip
-          - `wc2.1_10m_srad.zip`
-            - bytes: $srad_size
-            - SHA256: `$SRAD_SHA256`
-            - source: https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip
-
-          The release copies were checksum-verified before upload. The committed white-environment and legacy-BIO5 workflows reject downloaded archives or analysis TIFFs whose SHA256 differs from the frozen manifest.
-          EOF
+          {
+            echo "# WorldClim release receipt — 2026-09-25"
+            echo
+            echo "Release tag: $RELEASE_TAG"
+            echo
+            echo "Release URL: $release_url"
+            echo
+            echo "Frozen assets:"
+            echo
+            echo "- wc2.1_10m_bio.zip"
+            echo "  - bytes: $bio_size"
+            echo "  - SHA256: $BIO_SHA256"
+            echo "  - source: https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip"
+            echo "- wc2.1_10m_srad.zip"
+            echo "  - bytes: $srad_size"
+            echo "  - SHA256: $SRAD_SHA256"
+            echo "  - source: https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip"
+            echo
+            echo "The release copies were checksum-verified before upload. The committed white-environment and legacy-BIO5 workflows reject downloaded archives or analysis TIFFs whose SHA256 differs from the frozen manifest."
+          } > archive/fcp_submission_20260925/WORLDCLIM_RELEASE_RECEIPT.md
 
       - name: Commit release receipt
         run: |
