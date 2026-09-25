@@ -22,13 +22,13 @@ Its original primary question was whether independent species repeatedly place s
 
 The key conceptual pivot is:
 
-`shared geography across species -> species-level heterogeneity as the object of study`.
+`shared geography across species -> within-species organization and recurrent phenotype geometry as the object of study, while shared-versus-species-specific mapping remains unresolved`.
 
 The present paper therefore asks where generality remains after the universal-boundary idea weakens:
 
 - **amount:** reproducible species-level D;
 - **phenotype geometry:** excess white-versus-nonwhite alignment beyond a coarse-state-preserving construction baseline;
-- **spatial realization:** stronger internal organization in species with higher D;
+- **spatial organization:** stronger internal organization in species with higher D; whether the same map is shared across species remains unresolved;
 - **broad explanation:** not reducible to sampled span or broad tree-wide conservation.
 
 The full provenance/interpretation note is `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`.
@@ -86,7 +86,7 @@ The evidence is asymmetric but coherent:
 - H3a: no support for broad tree-wide phylogenetic signal under the frozen reserve test;
 - H3b: the discovery sampled-span association does not replicate.
 
-This yields a working synthesis of **bounded colour-space geometry plus species-specific spatial organization**. It does not establish colour-generation mechanism, and post-confirmatory diagnostics leave digital exposure/background-context confounding of the measured coarse white state unresolved.
+This yields a working synthesis of **bounded colour-space geometry plus measurable within-species spatial organization, with cross-species map sharing unresolved**. A post-confirmatory third-cohort BIO5 association supplies a secondary ecological clue, but its later species-disjoint transport test failed; temperature is therefore treated as context-dependent rather than universal. The analysis still does not establish colour-generation mechanism, and post-confirmatory diagnostics leave digital exposure/background-context confounding of the measured coarse white state unresolved.
 
 ## 4. Working title
 
@@ -343,7 +343,23 @@ Verdict:
 
 `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`.
 
-### Result 5 — broad predictors do not replicate
+### Result 5 — BIO5 is positive in the third cohort but fails species-disjoint transport
+
+Third-cohort secondary environmental filter:
+- 281 eligible species;
+- median white-minus-nonwhite BIO5 contrast = +0.0690 SD;
+- Holm-adjusted p = 0.0354;
+- conditional OR = 1.073, p = 0.000919;
+- BIO14 and mean solar radiation unsupported.
+
+Fixed BIO5 transport:
+- discovery species-level p = 0.743;
+- reserve species-level p = 0.0541;
+- verdict = `LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST`.
+
+Interpretation: context-dependent environmental association, not a universal driver.
+
+### Result 6 — broad predictors do not replicate
 
 H3a reserve K:
 
@@ -391,25 +407,23 @@ The legacy cohorts identified the target; the third cohort tests it without targ
 
 This is the manuscript's strongest inferential upgrade.
 
-### D4. Keep mechanism open
+### D4. Keep mechanism bounded
 
-Do not infer:
+Do not infer a demonstrated universal pigment pathway, transition direction, pollinator selection, climate selection or developmental mechanism. However, the Discussion may use independently sourced literature to ask why an achromatic–chromatic axis could be repeatedly accessible, provided all wording remains "consistent with" rather than causal.
 
-- pigment pathway;
-- transition direction;
-- pollinator selection;
-- climate selection;
-- developmental mechanism.
+### D5. Use BIO5 as a context-dependent mechanistic clue
 
-### D5. Build the mechanistic discussion around spatial organization
+Report both sides together: the third-cohort BIO5 gate passed, but discovery/reserve transport failed. Connect that pattern to temperature-sensitive anthocyanin/flavonoid regulation as a mechanistic possibility, not as a universal driver.
 
-Use the replicated D–spatial association as the strongest ecological clue and frame a two-stage working model: recurrently accessible white/nonwhite variation plus species-specific ecological/demographic maintenance or sorting. Explicitly distinguish this synthesis from a demonstrated mechanism.
+### D6. Keep the spatial map question open
 
-### D6. Use H3 as alternative-explanation filters
+Use the replicated D–spatial association as evidence that more diverse species have stronger within-species geographic organization. Do not upgrade weak/non-supported shared-boundary tests into evidence for species-specific maps. The correct question is whether recurrent phenotype geometry is realized through shared, partly shared or species-specific spatial patterns; current RGFCA identifiability does not decide among them.
+
+### D7. Use H3 as alternative-explanation filters
 
 Present the reserve results as showing that broad ancestry is not detectably conserved at the tested scale and that the discovery sampled-span effect collapses out of sample. These results make two simple explanations insufficient without claiming zero phylogenetic or geographic effects.
 
-### D6. State the representativeness boundary
+### D8. State the representativeness boundary
 
 The third cohort is species-disjoint but not source-independent.
 
@@ -429,7 +443,8 @@ Must retain:
 - third-cohort pre-opening design;
 - support gate;
 - prospective W result;
-- concise H3 negatives.
+- concise H3 negatives;
+- concise post-confirmatory BIO5 result and failed transport boundary.
 
 ### Supplement/repository
 
@@ -466,6 +481,8 @@ Do not claim:
 - pigment loss/gain;
 - evolutionary direction;
 - adaptive causation;
+- universal or replicated BIO5 effect;
+- a shared or species-specific cross-species spatial map;
 - recurrent non-white hue geometry;
 - absence of all phylogenetic structure;
 - irrelevance of biological range;

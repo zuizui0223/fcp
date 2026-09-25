@@ -27,7 +27,7 @@ The 42,111 frame is an outcome-blind metadata-discovery/opportunity universe, no
 | Discovery | Original RGFCA high-depth iNaturalist measurement table; 500 species × 100 raw photos | D; H1 diagnostic; legacy H2 discovery/audit; D–spatial discovery; H3b discovery calibration | opened legacy cohort | 369 D-eligible species |
 | Reserve | Species-disjoint RGFCA complement under the same acquisition contract; 500 species × 100 raw photos | H1 primary; legacy H2 validation; D–spatial replication; H3a; H3b reserve replication | opened species-disjoint reserve | 363 D-eligible species; 341 H3a tips |
 | P500 | Separate prospective high-depth expansion from the 42,111-species opportunity frame | measurement transport only | measurement PASS; no durable H2 verdict | 499 species, 49,900 rows; 373 measurement-evaluable |
-| Third cohort | New species and fresh photo IDs after exclusion of legacy 1,000 species and P500 | untouched prospective q_white/W test | H2 confirmed | 499 species, 49,900 rows; 377 measurement-evaluable |
+| Third cohort | New species and fresh photo IDs after exclusion of legacy 1,000 species and P500 | untouched prospective q_white/W test; later post-confirmatory environmental filter | H2 confirmed; secondary BIO5/BIO14/solar test cannot alter H2 | 499 species, 49,900 rows; 377 measurement-evaluable |
 
 The original RGFCA discovery/reserve acquisition contract required Research Grade species-rank iNaturalist records with photographs and georeferences, flowering annotation term 12/value 13, positional accuracy <=5 km, unobscured/open coordinates and allowed CC licences. Observer contribution was capped at two photographs per species and deterministic geographic maximin sampling fixed 100 raw photographs per species. No native-range restriction or explicit captive/wild filter was imposed.
 
@@ -290,6 +290,45 @@ The later generic `disttrait` implementation is not bitwise identical to the fro
 
 Near-tied deterministic initializations can switch after defensive row renormalization. The paper's numerical results therefore remain controlled by the frozen study-specific pipeline.
 
+## S4c. Post-confirmatory environmental filter and BIO5 transport
+
+Machine-readable third-cohort environmental result:
+
+- `results/polymorphism_white_environment_mechanism_20260925/result.json`
+
+Machine-readable legacy BIO5 transport result:
+
+- `results/polymorphism_legacy_white_bio5_replication_20260925/result.json`
+
+This analysis was specified after the prospective H2 result had been terminalized. It is therefore a secondary mechanistic/ecological analysis and cannot alter the frozen H2 verdict.
+
+### Third-cohort environmental filter
+
+After response-blind high-clip exclusion:
+
+| Variable | Eligible species | Median white-minus-nonwhite contrast | Holm-adjusted species-level p | Conditional OR per within-species SD | Conditional p | Frozen gate |
+|---|---:|---:|---:|---:|---:|---|
+| BIO5 | 281 | +0.0690 SD | 0.0354 | 1.073 | 0.000919 | PASS |
+| BIO14 | 281 | -0.0187 SD | 0.692 | 0.993 | 0.749 | FAIL |
+| Mean solar radiation | 281 | -0.00683 SD | 0.692 | 0.987 | 0.544 | FAIL |
+
+BIO5 was therefore the only prespecified environmental variable to pass the third-cohort mechanism gate.
+
+### Species-disjoint BIO5 transport
+
+| Cohort | Eligible species | Median white-minus-nonwhite BIO5 contrast | Species-level p | Conditional OR | Conditional p | Primary support |
+|---|---:|---:|---:|---:|---:|---|
+| Discovery | 271 | -0.0068 SD | 0.743 | 1.033 | 0.131 | false |
+| Reserve | 260 | +0.0662 SD | 0.0541 | 1.048 | 0.0319 | false |
+
+Frozen transport verdict:
+
+`LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST`.
+
+Interpretation boundary:
+
+The third cohort contains a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the effect does not transport as a common rule across the original species-disjoint cohorts. This is consistent with context-dependent environmental sorting and does not establish causal heat selection, a universal temperature effect, or independence from the known exposure coupling of the white classifier.
+
 ## S5. Replicated D–spatial organization
 
 Reporting-only machine-readable receipt:
@@ -454,6 +493,7 @@ No main-text or supplementary output may claim:
 - pigment chemistry or pigment-loss/gain mechanism;
 - evolutionary direction of white/nonwhite transitions;
 - pollinator, climate or other adaptive causation;
+- a universal or replicated BIO5–white association across cohorts;
 - a recurrent non-white hue axis;
 - absence of all phylogenetic structure;
 - irrelevance of true biological range size;

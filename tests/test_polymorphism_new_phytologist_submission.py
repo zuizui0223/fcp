@@ -12,6 +12,8 @@ VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_2026
 HIGHLIGHT = ROOT / "results" / "polymorphism_h2_third_cohort_highlight_validity_20260922" / "result.json"
 ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md"
 D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
+WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
+BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
 
 
 def words(text: str) -> list[str]:
@@ -41,11 +43,11 @@ def test_new_phytologist_defines_rgfca_and_preserves_the_conceptual_pivot() -> N
     for token in (
         "Repeated Global Flower-Colour Atlas (RGFCA)",
         "shared global boundary geography",
-        "species-level polymorphism amount, colour-space geometry and species-specific spatial organization",
+        "species-level polymorphism amount, colour-space geometry and within-species spatial organization",
         "From a repeated global atlas to species-level generality",
         "shared-geography estimand did not provide the positive biological spine retained here",
-        "the geographic realization is allowed to remain species-specific",
-        "phenotype space than in geographic space",
+        "whether its spatial realization is common, partially shared or species-specific remains open",
+        "Cross-species generality is established most clearly in **phenotype space**",
     ):
         assert token in text
 
@@ -59,9 +61,9 @@ def test_rgfca_interpretation_document_preserves_programme_boundary() -> None:
         "species-conditioned null",
         "primary recurrent-field G1 concentration: p = 0.070",
         "species-disjoint commonness: p = 0.856",
-        "The common rule is more evident in phenotype space than in geographic space",
+        "whether those spatial patterns share a common map across species remains unresolved",
         "RGFCA created the global sampling/measurement framework",
-        "current paper uses that heterogeneity as the biological object of study",
+        "current paper uses within-species spatial organization as a comparative trait while leaving shared-versus-species-specific mapping open",
     ):
         assert token in text
 
@@ -224,6 +226,48 @@ def test_new_phytologist_preserves_postconfirmatory_validity_boundary() -> None:
     ):
         assert token in text
 
+
+def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> None:
+    import json
+    import pytest
+
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    canonical = CANONICAL.read_text(encoding="utf-8")
+    env = json.loads(WHITE_ENV.read_text(encoding="utf-8"))
+    transport = json.loads(BIO5_TRANSPORT.read_text(encoding="utf-8"))
+
+    bio5 = next(x for x in env["results"] if x["variable"] == "bio5")
+    assert env["eligible_species"] == 281
+    assert bio5["median_delta_white_minus_nonwhite_SD"] == pytest.approx(0.0690112924805198)
+    assert bio5["wilcoxon_holm_p"] == pytest.approx(0.03544867047368517)
+    assert bio5["OR_per_within_species_SD"] == pytest.approx(1.073474538999635)
+    assert bio5["p"] == pytest.approx(0.0009188036770296888)
+    assert bio5["mechanism_gate_pass"] is True
+
+    assert transport["verdict"] == "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST"
+    assert transport["discovery"]["eligible_species"] == 271
+    assert transport["discovery"]["species_level"]["wilcoxon_two_sided_p"] == pytest.approx(0.7432522901921289)
+    assert transport["reserve"]["eligible_species"] == 260
+    assert transport["reserve"]["species_level"]["wilcoxon_two_sided_p"] == pytest.approx(0.054066696426422846)
+
+    for manuscript in (text, canonical):
+        for token in (
+            "### Post-confirmatory environmental filter and BIO5 transport test",
+            "### A prospective third-cohort BIO5 association does not transport across the legacy cohorts",
+            "**Holm-adjusted p = 0.0354**",
+            "OR = **1.073**",
+            "p = **0.000919**",
+            "p = **0.743**",
+            "p = **0.0541**",
+            "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST",
+            "does not support a common cross-cohort BIO5 rule",
+        ):
+            assert token in manuscript
+
+    assert "Temperature is therefore not supported as a universal cross-species driver" in text
+    assert "rather than in one universal BIO5 coefficient" in text
+
+
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     for token in (
@@ -253,7 +297,11 @@ def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> No
         "partial rho = **0.0992877**, p = **0.025**",
         "partial rho = **0.1162411**, p = **0.010**",
         "structural rather than causal",
-        "two-stage working model",
+        "two-layer ecological question",
+        "Wessinger & Rausher 2012",
+        "Lacey 2026",
+        "Narbona et al. 2026",
+        "shared pigment-network architecture",
     ):
         assert token in text
 

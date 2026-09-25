@@ -1,0 +1,83 @@
+{
+  "schema": "fcp_legacy_white_bio5_replication_v1",
+  "status": "complete",
+  "verdict": "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST",
+  "source_commit": "5142f7951af0dde5364bb047a566d67e8c479e51",
+  "source_workflow_run": 36108600755,
+  "source_artifact_id": 10852317518,
+  "source_artifact_digest": "sha256:e8e0c7053177775f34010377ba93dd896b45690454f550ca379c51112cb6cb94",
+  "predictor": "WorldClim 2.1 10 arc-minute BIO5",
+  "prediction": "white records occupy higher BIO5 within species",
+  "discovery": {
+    "cohort": "discovery",
+    "classifiable_rows_with_bio5": 25374,
+    "eligible_species": 271,
+    "estimable": true,
+    "species_level": {
+      "median_delta_white_minus_nonwhite_SD": -0.006777258577964757,
+      "mean_delta_white_minus_nonwhite_SD": 0.014753262379928621,
+      "fraction_delta_gt_0": 0.4907749077490775,
+      "wilcoxon_two_sided_p": 0.7432522901921289
+    },
+    "species_stratified_model": {
+      "n_rows": 12628,
+      "n_species": 271,
+      "beta": 0.03257717373407447,
+      "OR_per_within_species_SD": 1.033113619303275,
+      "ci_low": 0.9903618780469907,
+      "ci_high": 1.0777108590798061,
+      "p": 0.13082876559925802
+    },
+    "species_observer_sensitivity": {
+      "n_rows": 192,
+      "n_species": 71,
+      "OR_per_within_species_SD": 1.3484227566242293,
+      "ci_low": 0.8801074088726774,
+      "ci_high": 2.065934126052932,
+      "p": 0.16965943407290152
+    },
+    "primary_support": false
+  },
+  "reserve": {
+    "cohort": "reserve",
+    "classifiable_rows_with_bio5": 24882,
+    "eligible_species": 260,
+    "estimable": true,
+    "species_level": {
+      "median_delta_white_minus_nonwhite_SD": 0.06616507736441997,
+      "mean_delta_white_minus_nonwhite_SD": 0.04561700702919882,
+      "fraction_delta_gt_0": 0.5538461538461539,
+      "wilcoxon_two_sided_p": 0.054066696426422846
+    },
+    "species_stratified_model": {
+      "n_rows": 11616,
+      "n_species": 260,
+      "beta": 0.04711239933670698,
+      "OR_per_within_species_SD": 1.0482398239192952,
+      "ci_low": 1.0040723013804098,
+      "ci_high": 1.0943502046015041,
+      "p": 0.03194995941596091
+    },
+    "species_observer_sensitivity": {
+      "n_rows": 188,
+      "n_species": 67,
+      "OR_per_within_species_SD": 1.615042985712977,
+      "ci_low": 0.9876548969069849,
+      "ci_high": 2.6409668537757853,
+      "p": 0.056069837462354
+    },
+    "primary_support": false
+  },
+  "interpretation_boundary": [
+    "The third-cohort BIO5 association does not replicate under the frozen two-cohort species-level gate.",
+    "Discovery is essentially null.",
+    "Reserve is directionally concordant but misses the species-level p<0.05 criterion despite a positive photo-level conditional estimate.",
+    "BIO5 should not be described as a common or universal environmental cause of the recurrent white/nonwhite axis."
+  ],
+  "hard_nonclaims": [
+    "does not establish causal heat selection",
+    "does not distinguish genetic from plastic white states",
+    "does not remove known image-exposure coupling of the coarse white classifier",
+    "same iNaturalist and measurement system, so this is species-disjoint transport rather than independent-source causation"
+  ]
+}

@@ -14,6 +14,8 @@ H2 = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_202
 MEASUREMENT = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_measurement_20260917" / "result.json"
 SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
 VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_20260922" / "result.json"
+WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
+BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
 
 
 def load_json(path: Path) -> dict:
@@ -95,6 +97,31 @@ def test_postconfirmatory_validity_receipt_preserves_frozen_verdict_and_caveat()
     assert result["disttrait_full_data_audit"]["bitwise_equivalent"] is False
     assert result["disttrait_full_data_audit"]["disttrait_two_mode_axis_W"] == pytest.approx(0.5183899565314756)
 
+
+def test_bio5_secondary_claim_keeps_positive_third_cohort_and_failed_transport_together() -> None:
+    env = load_json(WHITE_ENV)
+    transport = load_json(BIO5_TRANSPORT)
+    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
+    ledger = LEDGER.read_text(encoding="utf-8")
+
+    bio5 = next(x for x in env["results"] if x["variable"] == "bio5")
+    assert bio5["mechanism_gate_pass"] is True
+    assert bio5["wilcoxon_holm_p"] == pytest.approx(0.03544867047368517)
+    assert bio5["OR_per_within_species_SD"] == pytest.approx(1.073474538999635)
+    assert transport["verdict"] == "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST"
+    assert transport["discovery"]["primary_support"] is False
+    assert transport["reserve"]["primary_support"] is False
+
+    for text in (manuscript, ledger):
+        assert "281" in text
+        assert "0.0354" in text or "0.0354487" in text
+        assert "1.073" in text
+        assert "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST" in text
+
+    assert "universal or replicated BIO5" in ledger
+    assert "does not support a common cross-cohort BIO5 rule" in manuscript
+
+
 def test_spatial_organization_receipt_preserves_frozen_positive_clue() -> None:
     result = load_json(SPATIAL)
     assert result["new_biological_analysis"] is False
@@ -133,7 +160,8 @@ def test_claim_ledger_freezes_rgfca_programme_lineage() -> None:
         "Repeated Global Flower-Colour Atlas",
         "primary recurrent-field G1 p = **0.070**",
         "species-disjoint commonness p = **0.856**",
-        "generality is stronger in **phenotype space than in shared geographic location**",
+        "cross-species generality is established in **phenotype space**",
+        "whether geographic realization is shared or species-specific across species",
         "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md",
         "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md",
     ):

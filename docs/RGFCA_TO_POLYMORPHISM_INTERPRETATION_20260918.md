@@ -62,10 +62,12 @@ These results do not establish absence of flower-colour biogeography. They show 
 
 ## 4. The key pivot
 
-RGFCA revealed an important asymmetry:
+RGFCA revealed an important asymmetry in what could be estimated:
 
-- **shared geographic location across species** was weak or unsupported;
-- **species-specific spatial organization** was measurable and heterogeneous.
+- **shared geographic location across species** was weak or unsupported and later shown to be limited by power/identifiability;
+- **within-species spatial organization** was measurable and heterogeneous.
+
+The second point does not establish that species occupy different spatial maps. It only establishes that geographic colour organization can be estimated separately within species.
 
 The active polymorphism paper changes the estimand from:
 
@@ -137,13 +139,13 @@ The strongest generality is not a common geographic boundary shared by many spec
 
 - a reproducible species-level amount of flower-colour diversity;
 - a recurrent white-versus-nonwhite achromatic–chromatic geometry;
-- a positive relationship between the amount of diversity and the strength of species-specific geographic organization.
+- a positive relationship between the amount of diversity and the strength of within-species geographic organization.
 
 A concise conceptual interpretation is therefore:
 
-> **The common rule is more evident in phenotype space than in geographic space. Species repeatedly use a similar achromatic–chromatic direction of flower-colour variation, but the locations and processes that maintain or sort that variation are species-specific.**
+> **The recurrent rule is established in phenotype space. Geographic colour organization is measurable within species, but whether those spatial patterns share a common map across species remains unresolved under the current identifiability limits.**
 
-This interpretation does not identify the maintenance mechanism. Climate, pollinator turnover, gene flow, dispersal, drift, demographic history and mating system remain candidate processes rather than demonstrated causes.
+This interpretation does not identify the maintenance mechanism. Climate, pollinator turnover, gene flow, dispersal, drift, demographic history and mating system remain candidate processes rather than demonstrated causes, and they could generate shared, partly shared or species-specific spatial patterns.
 
 ## 8. Relation to the current paper's two kinds of contribution
 
@@ -172,7 +174,7 @@ The current paper extracts biological regularities from that infrastructure:
 
 - within-species flower-colour diversity differs reproducibly among species;
 - the recurrent colour-space geometry is white versus non-white;
-- more polymorphic species show stronger species-specific geographic colour organization;
+- more polymorphic species show stronger within-species geographic colour organization;
 - these differences are not simply explained by sampled geographic span or broad tree-wide phylogenetic conservation.
 
 ## 9. Claim boundary
@@ -181,4 +183,4 @@ Do not describe the current paper as if RGFCA had demonstrated a universal globa
 
 The supported relation is the reverse:
 
-> RGFCA created the global sampling/measurement framework and showed that species-specific spatial information was recoverable even when cross-species shared geography was not. The current paper uses that heterogeneity as the biological object of study.
+> RGFCA created the global sampling/measurement framework and showed that within-species spatial information was recoverable even when cross-species shared geography was not identifiable strongly enough for a positive claim. The current paper uses within-species spatial organization as a comparative trait while leaving shared-versus-species-specific mapping open.
