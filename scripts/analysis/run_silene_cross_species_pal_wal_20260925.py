@@ -93,7 +93,7 @@ def main():
     max_wal=float(np.max(walupper))
     separated=bool(min_pal>max_wal)
 
-    published=d.loc[d.reference.astype(str).str.contains(r"\\[",regex=True) & ~d.greenhouse_flag.astype(bool)].copy()
+    published=d.loc[d.reference.astype(str).str.contains("[",regex=False) & ~d.greenhouse_flag.astype(bool)].copy()
     pub_summary={}
     for cls in ["PAL","WAL"]:
         q=published.loc[published.architecture_class.eq(cls)].copy()
