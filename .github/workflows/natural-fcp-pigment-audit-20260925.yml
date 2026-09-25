@@ -1,0 +1,52 @@
+name: Natural FCP pigment mechanism audit
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/literature/run_natural_fcp_pigment_audit_20260925.py
+      - .github/workflows/natural-fcp-pigment-audit-20260925.yml
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas
+          python -m py_compile scripts/literature/run_natural_fcp_pigment_audit_20260925.py
+      - name: Run natural-FCP pigment audit
+        env:
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+        run: |
+          test -s data/resolved_inputs/global_flower_colour_review_queue_resolved.csv
+          rm -rf results/polymorphism_natural_fcp_pigment_audit_20260925
+          python scripts/literature/run_natural_fcp_pigment_audit_20260925.py             --resolved-queue data/resolved_inputs/global_flower_colour_review_queue_resolved.csv             --outdir results/polymorphism_natural_fcp_pigment_audit_20260925
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('results/polymorphism_natural_fcp_pigment_audit_20260925/result.json').read_text())
+          assert x['schema']=='fcp_natural_polymorphism_pigment_audit_v1'
+          assert x['status']=='complete'
+          assert x['natural_fcp_species']>0
+          assert x['manual_verification_required'] is True
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: natural-fcp-pigment-audit-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_natural_fcp_pigment_audit_20260925

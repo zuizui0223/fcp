@@ -1,0 +1,20 @@
+{
+  "schema": "fcp_white_pigment_targeted_audit_v1",
+  "status": "complete",
+  "workflow_run": 36106047401,
+  "artifact_id": 10850239977,
+  "target_species": 281,
+  "requests_used": 94,
+  "failed_requests": 0,
+  "candidate_works": 186,
+  "species_with_any_candidate": 64,
+  "species_with_candidate_A": 2,
+  "species_with_candidate_B": 1,
+  "species_with_temperature_candidate": 10,
+  "manual_verification_required": true,
+  "hard_nonclaims": [
+    "automated tiers are navigation aids, not verified mechanism evidence",
+    "not a random sample of all angiosperms",
+    "does not infer evolutionary transition direction"
+  ]
+}
