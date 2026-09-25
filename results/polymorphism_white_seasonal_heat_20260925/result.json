@@ -1,0 +1,57 @@
+{
+  "schema": "fcp_white_seasonal_heat_v1",
+  "status": "SEASONAL_HEAT_ASSOCIATION_NOT_SUPPORTED_UNDER_THIS_TEST",
+  "role": "prospectively specified seasonal-heat discrimination after long-term BIO5 association was opened",
+  "primary_species": 281,
+  "primary_rows": 12583,
+  "species_level": {
+    "median_delta_white_minus_nonwhite_SD": 0.1148257227218491,
+    "mean_delta_white_minus_nonwhite_SD": 0.1053094841487387,
+    "fraction_delta_gt_0": 0.604982206405694,
+    "wilcoxon_two_sided_p": 0.00012638180772957662
+  },
+  "species_stratified_model": {
+    "n_rows": 12581,
+    "n_strata": 281,
+    "n_species": 281,
+    "beta_seasonal": 0.11889725978496168,
+    "OR_seasonal": 1.1262542007452596,
+    "p_seasonal": 5.430072348296041e-8,
+    "beta_BIO5": 0.09452841409518951,
+    "OR_BIO5": 1.099140393769068,
+    "p_BIO5": 0.000014643192481684212,
+    "beta_near_clip": 0.34038429624258143,
+    "p_near_clip": 2.25604174244466e-53
+  },
+  "same_cell_local_model": {
+    "n_rows": 1084,
+    "n_strata": 238,
+    "n_species": 98,
+    "beta_seasonal": 0.3424424343551828,
+    "OR_seasonal": 1.4083832768371505,
+    "p_seasonal": 0.054995029083428286,
+    "beta_near_clip": 0.290238073103414,
+    "p_near_clip": 0.00011179267497144105
+  },
+  "decision_components": {
+    "species_level_positive": true,
+    "species_stratified_positive": true,
+    "same_cell_positive": false
+  },
+  "source_workflow_run": 36107309171,
+  "source_artifact_id": 10851427865,
+  "source_artifact_digest": "sha256:c5f7c91d8c512a6f4ea8c6180f8b915b66129c93bbee5a1e94bba9aa6f064842",
+  "interpretation_boundary": [
+    "The prespecified full gate failed because the same-cell local p-value was 0.054995, above 0.05.",
+    "Species-level and species-stratified tests strongly favored hotter flowering months for white observations.",
+    "The local same-cell estimate was in the predicted direction but cannot be promoted to support by changing the threshold or cell definition.",
+    "A species-disjoint cohort is required for a fresh confirmation."
+  ],
+  "hard_nonclaims": [
+    "WorldClim monthly values are climatology, not weather in the observation year",
+    "does not establish temperature-induced plastic colour change",
+    "does not establish selection on pigment chemistry",
+    "does not establish pigmented-to-white evolutionary direction",
+    "does not establish pollinator causation"
+  ]
+}
