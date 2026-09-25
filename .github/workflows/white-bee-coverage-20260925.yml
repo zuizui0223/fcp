@@ -1,0 +1,69 @@
+name: White bee coverage audit
+
+on:
+  pull_request:
+    branches:
+      - analysis/white-environment-result-20260925
+    paths:
+      - docs/POLYMORPHISM_WHITE_BEE_COVERAGE_PROTOCOL_20260925.md
+      - scripts/analysis/audit_white_bee_coverage_20260925.py
+      - .github/workflows/white-bee-coverage-20260925.yml
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  BIOLOGICAL_RUN_ID: "35177668182"
+  BIOLOGICAL_ARTIFACT: h2-third-cohort-prospective-result-20260917
+
+jobs:
+  coverage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas
+          python -m py_compile scripts/analysis/audit_white_bee_coverage_20260925.py
+      - uses: actions/download-artifact@v4
+        with:
+          repository: ${{ github.repository }}
+          run-id: ${{ env.BIOLOGICAL_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: ${{ env.BIOLOGICAL_ARTIFACT }}
+          path: /tmp/biological
+      - name: Download independent bee summary
+        run: |
+          curl -L --fail --retry 5 --retry-delay 3             'https://zenodo.org/records/18303036/files/GloBI_bee_plant_Interactions_Summary.csv?download=1'             -o /tmp/GloBI_bee_plant_Interactions_Summary.csv
+          test -s /tmp/GloBI_bee_plant_Interactions_Summary.csv
+          head -n 2 /tmp/GloBI_bee_plant_Interactions_Summary.csv
+      - name: Run outcome-blind coverage gate
+        run: |
+          MEASURED="$(find /tmp/biological -type f -name 'polymorphism_h2_third_cohort_measured_photos_v1.csv' -print -quit)"
+          test -n "$MEASURED"
+          rm -rf results/polymorphism_white_bee_coverage_20260925
+          python scripts/analysis/audit_white_bee_coverage_20260925.py             --measured "$MEASURED"             --bee-summary /tmp/GloBI_bee_plant_Interactions_Summary.csv             --outdir results/polymorphism_white_bee_coverage_20260925
+      - name: Validate outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('results/polymorphism_white_bee_coverage_20260925/result.json').read_text())
+          assert x['schema']=='fcp_white_bee_coverage_v1'
+          assert x['outcome_blind'] is True
+          assert x['fcp_species_total']==499
+          assert x['status'] in {'COVERAGE_GATE_PASS','NOT_ESTIMABLE_CURRENT_BEE_DATASET'}
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: white-bee-coverage-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_white_bee_coverage_20260925
