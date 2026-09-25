@@ -1,0 +1,29 @@
+name: Inspect stable bee summary
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/white-bee-stable-summary-inspect-20260925.yml
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Noori et al. 2026 stable summary
+        run: |
+          curl -L --fail --retry 5 --retry-delay 3             'https://zenodo.org/records/18303036/files/GloBI_bee_plant_Interactions_Summary.csv?download=1'             -o /tmp/GloBI_bee_plant_Interactions_Summary.csv
+          test -s /tmp/GloBI_bee_plant_Interactions_Summary.csv
+          sha256sum /tmp/GloBI_bee_plant_Interactions_Summary.csv
+          head -n 6 /tmp/GloBI_bee_plant_Interactions_Summary.csv
+      - uses: actions/upload-artifact@v4
+        with:
+          name: noori-2026-bee-summary-schema
+          retention-days: 30
+          path: /tmp/GloBI_bee_plant_Interactions_Summary.csv
