@@ -1,18 +1,20 @@
-name: Moricandia temperature dose preflight
+name: Moricandia temperature dose reanalysis
 
 on:
   pull_request:
     branches:
       - main
     paths:
+      - docs/POLYMORPHISM_MORICANDIA_TEMPERATURE_DOSE_REANALYSIS_20260925.md
       - scripts/analysis/preflight_moricandia_temperature_dose_20260925.py
+      - scripts/analysis/run_moricandia_temperature_dose_20260925.py
       - .github/workflows/moricandia-temperature-dose-20260925.yml
 
 permissions:
   contents: read
 
 jobs:
-  preflight:
+  analyse:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -23,7 +25,9 @@ jobs:
       - name: Install
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pandas openpyxl
+          python -m pip install pandas numpy scipy openpyxl
+          python -m py_compile scripts/analysis/preflight_moricandia_temperature_dose_20260925.py
+          python -m py_compile scripts/analysis/run_moricandia_temperature_dose_20260925.py
       - name: Download published Source Data
         run: |
           mkdir -p /tmp/moricandia
@@ -31,15 +35,38 @@ jobs:
             'https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17875-1/MediaObjects/41467_2020_17875_MOESM11_ESM.xlsx' \
             -o /tmp/moricandia/source_data.xlsx
           test -s /tmp/moricandia/source_data.xlsx
-      - name: Inspect Figure 3F-J source-data schema
+      - name: Reconfirm Figure 3F-J schema
         run: |
           rm -rf results/polymorphism_moricandia_temperature_dose_preflight_20260925
           python scripts/analysis/preflight_moricandia_temperature_dose_20260925.py \
             --source-data /tmp/moricandia/source_data.xlsx \
             --outdir results/polymorphism_moricandia_temperature_dose_preflight_20260925
+      - name: Run temperature-dose analysis
+        run: |
+          rm -rf results/polymorphism_moricandia_temperature_dose_20260925
+          python scripts/analysis/run_moricandia_temperature_dose_20260925.py \
+            --source-data /tmp/moricandia/source_data.xlsx \
+            --outdir results/polymorphism_moricandia_temperature_dose_20260925
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('results/polymorphism_moricandia_temperature_dose_20260925/result.json').read_text())
+          assert x['schema']=='fcp_moricandia_temperature_dose_reanalysis_v1'
+          assert x['status']=='complete'
+          assert x['source_sequence_counts']=={
+            'mild_to_hot':15,
+            'mild_to_spring':14,
+            'spring_to_hot':14,
+          }
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
       - uses: actions/upload-artifact@v4
         with:
-          name: moricandia-temperature-dose-preflight-v1
+          name: moricandia-temperature-dose-v1
           if-no-files-found: error
           retention-days: 90
-          path: results/polymorphism_moricandia_temperature_dose_preflight_20260925
+          path: |
+            results/polymorphism_moricandia_temperature_dose_preflight_20260925
+            results/polymorphism_moricandia_temperature_dose_20260925
