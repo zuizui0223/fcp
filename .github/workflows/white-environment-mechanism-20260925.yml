@@ -81,7 +81,7 @@ jobs:
           assert x['eligible_species']>=100
           assert [r['variable'] for r in x['results']]==['bio5','bio14','srad_mean']
           s=json.loads(Path('results/polymorphism_white_environment_mechanism_20260925/observer_paired_sensitivity.json').read_text())
-          assert s['schema']=='fcp_white_environment_observer_sensitivity_v1'
+          assert s['schema']=='fcp_white_environment_observer_sensitivity_v2'
           assert s['status']=='complete'
           print(json.dumps(x,indent=2,sort_keys=True))
           print(json.dumps(s,indent=2,sort_keys=True))
