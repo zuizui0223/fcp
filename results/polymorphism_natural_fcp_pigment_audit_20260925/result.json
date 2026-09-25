@@ -14,19 +14,31 @@
   "candidate_A_species": 7,
   "candidate_B_species": 3,
   "manual_adjudication_unique_species": 9,
-  "strict_verified_natural_molecular_A_species": 3,
-  "strict_verified_species": [
+  "strict_verified_natural_molecular_A_species_from_initial_AB": 3,
+  "candidate_C_manual_rescue_species": 2,
+  "verified_natural_molecular_evidence_species_total": 5,
+  "verified_natural_molecular_species": [
+    "Gymnadenia rhellicani",
     "Ipomoea purpurea",
     "Parrya nudicaulis",
-    "Pleione limprichtii"
+    "Pleione limprichtii",
+    "Silene littorea"
   ],
+  "causal_certainty_note": "The five systems differ in causal resolution. Gymnadenia and Ipomoea include especially direct genetic evidence; Parrya has strong regulatory evidence; Pleione and Silene provide transcriptomic/metabolomic pathway evidence with candidate regulators rather than one universally proven causal mutation.",
   "proximal_convergence": {
-    "summary": "Verified natural molecular cases converge on modulation or disruption of anthocyanin-pathway flux, but not on one universal gene.",
+    "summary": "Independent natural systems repeatedly converge on reduced, blocked, or rerouted anthocyanin/flavonoid pathway output when white or strongly depigmented floral morphs occur, but they do so through different genes and regulatory levels.",
     "examples": {
+      "Gymnadenia rhellicani": "R2R3-MYB stop variant alters ANS expression and cyanidin",
       "Ipomoea purpurea": "naturally occurring albino/pale variants implicate CHS loss-of-function and bHLH regulatory variation",
       "Parrya nudicaulis": "natural purple-white polymorphism implicates petal-specific CHS downregulation / cis-regulatory control",
-      "Pleione limprichtii": "natural rose-purple/pink/white populations implicate FLS, ANS, UFGT and MBW-network expression"
+      "Pleione limprichtii": "natural rose-purple/pink/white populations implicate FLS, ANS, UFGT and MBW-network expression",
+      "Silene littorea": "white petals show strong F3h downregulation with candidate Myb1a regulation and matching flavonoid-profile blockage"
     }
+  },
+  "direct_abiotic_plasticity_example": {
+    "species": "Moricandia arvensis",
+    "result": "natural spring lilac versus summer white floral dimorphism linked experimentally/biochemically to heat-driven pigment change",
+    "role": "shows that environmental heat can generate a white phenotype plastically in at least one system; it is not evidence for a universal inherited white-state transition"
   },
   "important_counterexamples_or_bounds": [
     "Abronia fragrans is a natural white/pink system involving betalain rather than anthocyanin pigmentation.",
@@ -35,8 +47,9 @@
   ],
   "interpretation": [
     "The evidence supports recurrent proximal convergence on reducing or rerouting pigment-pathway output in several natural anthocyanic systems.",
-    "It does not support a single universal white-flower gene.",
-    "It does not establish nonwhite-to-white evolutionary direction.",
-    "It does not establish pollinator or temperature causation."
+    "The convergence is pathway-level, not one universal white-flower gene.",
+    "The independent OpenTree test does not support recurrent nonwhite-to-white transition asymmetry.",
+    "Pollinator predictors are not supported as a common global explanation under the tested datasets.",
+    "Temperature remains a plausible ecological/plasticity modifier, but the global/local confirmation gates do not establish universal heat causation."
   ]
 }
