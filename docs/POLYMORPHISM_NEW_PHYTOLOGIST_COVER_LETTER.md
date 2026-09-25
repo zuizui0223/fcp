@@ -18,7 +18,7 @@ Can flower-colour polymorphism be measured reproducibly as a species phenotype, 
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-Using a global atlas framework originally designed to seek shared geography, we show that cross-species regularity is strongest in phenotype space: within-species colour variation repeatedly follows an achromatic–chromatic direction, while current data do not resolve whether geographic realization is shared or species-specific. More diverse species show stronger within-species geographic organization.
+Using a global atlas framework originally designed to seek shared geography, we show that cross-species regularity is strongest in phenotype space: within-species variation repeatedly follows an achromatic–chromatic direction, while current data do not resolve whether geographic realization is shared or species-specific. More diverse species show stronger geographic organization.
 
 ### Question 3 — Why is this work important and timely?
 
