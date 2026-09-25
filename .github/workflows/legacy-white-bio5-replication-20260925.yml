@@ -8,6 +8,7 @@ on:
       - docs/POLYMORPHISM_LEGACY_WHITE_BIO5_REPLICATION_PROTOCOL_20260925.md
       - scripts/analysis/run_legacy_white_bio5_replication_20260925.py
       - .github/workflows/legacy-white-bio5-replication-20260925.yml
+      - archive/fcp_submission_20260925/worldclim_checksums.txt
 
 permissions:
   contents: read
@@ -44,8 +45,10 @@ jobs:
         run: |
           mkdir -p /tmp/worldclim
           curl -L --fail --retry 5 --retry-delay 3             https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip             -o /tmp/worldclim/bio.zip
+          echo '00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf  /tmp/worldclim/bio.zip' | sha256sum -c -
           unzip -q /tmp/worldclim/bio.zip -d /tmp/worldclim
           test -f /tmp/worldclim/wc2.1_10m_bio_5.tif
+          echo '32e02d85868734c32547da70cf9c620f4739a3cf5dbc4f2b751e16ebb2338ae1  /tmp/worldclim/wc2.1_10m_bio_5.tif' | sha256sum -c -
       - name: Run fixed replication
         run: |
           rm -rf results/polymorphism_legacy_white_bio5_replication_20260925
