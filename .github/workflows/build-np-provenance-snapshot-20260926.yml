@@ -159,11 +159,12 @@ jobs:
           sha256sum "$package" > "$out/fcp-np-provenance-20260926.tar.gz.sha256"
           cp "$stage/FILE_SHA256SUMS.txt" "$out/FILE_SHA256SUMS.txt"
 
-          tar -tzf "$package" | grep -q './repository/docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md'
-          tar -tzf "$package" | grep -q './raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv'
-          tar -tzf "$package" | grep -q './raw_inputs/third_cohort/polymorphism_h2_third_cohort_measured_photos_v1.csv'
-          tar -tzf "$package" | grep -q './external/worldclim/wc2.1_10m_bio.zip'
-          tar -tzf "$package" | grep -q './repository/archive/fcp_submission_20260925/h3b/h3b_span_permutation_nulls.csv'
+          tar -tzf "$package" > "$out/package_contents.txt"
+          grep -Fxq './repository/docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/polymorphism_h2_third_cohort_measured_photos_v1.csv' "$out/package_contents.txt"
+          grep -Fxq './external/worldclim/wc2.1_10m_bio.zip' "$out/package_contents.txt"
+          grep -Fxq './repository/archive/fcp_submission_20260925/h3b/h3b_span_permutation_nulls.csv' "$out/package_contents.txt"
 
           stat -c '%n %s bytes' "$package"
           cat "$out/fcp-np-provenance-20260926.tar.gz.sha256"
