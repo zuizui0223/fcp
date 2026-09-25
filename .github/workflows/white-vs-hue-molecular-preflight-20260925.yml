@@ -1,0 +1,48 @@
+name: White vs hue molecular preflight
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/literature/build_white_vs_hue_molecular_preflight_20260925.py
+      - .github/workflows/white-vs-hue-molecular-preflight-20260925.yml
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pandas
+          python -m py_compile scripts/literature/build_white_vs_hue_molecular_preflight_20260925.py
+      - name: Run source-text-only preflight
+        run: |
+          rm -rf results/polymorphism_white_vs_hue_molecular_preflight_20260925
+          python scripts/literature/build_white_vs_hue_molecular_preflight_20260925.py             --resolved-queue data/resolved_inputs/global_flower_colour_review_queue_resolved.csv             --outdir results/polymorphism_white_vs_hue_molecular_preflight_20260925             --min-per-group 20
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('results/polymorphism_white_vs_hue_molecular_preflight_20260925/result.json').read_text())
+          assert x['schema']=='fcp_white_vs_hue_molecular_preflight_v1'
+          assert x['status'] in {'MOLECULAR_CONTRAST_COVERAGE_PASS','MOLECULAR_CONTRAST_COVERAGE_FAIL'}
+          assert x['natural_fcp_species']>0
+          print(json.dumps(x,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: white-vs-hue-molecular-preflight-v1
+          if-no-files-found: error
+          retention-days: 90
+          path: results/polymorphism_white_vs_hue_molecular_preflight_20260925
