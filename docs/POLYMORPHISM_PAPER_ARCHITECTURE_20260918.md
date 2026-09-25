@@ -14,6 +14,10 @@ Current figure plan:
 
 - `docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`
 
+Reader-facing data lineage map:
+
+- `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`
+
 ## 0. Programme interpretation — what RGFCA contributes
 
 RGFCA means **Repeated Global Flower-Colour Atlas**. It is the upstream global sampling/measurement framework, not the current paper's final biological claim.
