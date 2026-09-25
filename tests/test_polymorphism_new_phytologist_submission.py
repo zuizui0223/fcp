@@ -8,6 +8,7 @@ CANONICAL = ROOT / "docs" / "POLYMORPHISM_MANUSCRIPT.md"
 COVER = ROOT / "docs" / "POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md"
 RGFCA_INTERPRETATION = ROOT / "docs" / "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md"
 FRAME_PROVENANCE = ROOT / "docs" / "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md"
+SUPPORTING = ROOT / "docs" / "POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md"
 VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_20260922" / "result.json"
 HIGHLIGHT = ROOT / "results" / "polymorphism_h2_third_cohort_highlight_validity_20260922" / "result.json"
 ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md"
@@ -90,34 +91,53 @@ def test_rgfca_interpretation_document_preserves_programme_boundary() -> None:
 
 def test_new_phytologist_documents_42111_frame_provenance() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
+    frame = FRAME_PROVENANCE.read_text(encoding="utf-8")
+
+    # Main text keeps the inferential frame concise.
     for token in (
         "42,111 unique iNaturalist species",
-        "18 × 9 equal-area grid",
-        "Twenty metadata-only V2 rounds",
-        "3,240 fixed cell-level request attempts",
-        "No candidate image pixels or flower-colour outcomes were used",
         "4,730 species",
         "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md",
     ):
         assert token in text
 
+    # Exact discovery implementation belongs to the provenance record.
+    for token in (
+        "18 × 9 equal-area global grid",
+        "20 metadata-only rounds",
+        "3,240 request attempts",
+        "No candidate image pixels or flower-colour outcomes were used",
+    ):
+        assert token in frame
+
 
 def test_new_phytologist_documents_original_rgfca_acquisition_and_analysis_lineage() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
+    supporting = SUPPORTING.read_text(encoding="utf-8")
+
+    # Main text preserves the acquisition logic and cohort roles without
+    # repeating every API/license field.
     for token in (
         "Acquisition of the original discovery and reserve high-depth cohorts",
-        "iNaturalist Research Grade",
-        "flowering annotation (term 12, value 13)",
-        "positional accuracy no worse than 5 km",
-        "at most two retained photographs",
+        "Research Grade species-rank iNaturalist observations",
+        "Selection was colour-blind",
         "deterministic geographic maximin sampling",
-        "1,000 species × 100 photographs",
-        "did not impose a native-range restriction",
         "Table 1. Data lineage and inferential roles of the high-depth cohorts",
         "D definition/descriptives; H1 diagnostic; legacy H2 target discovery/audit; D–spatial organization; H3b discovery calibration",
         "H1 primary reliability; legacy H2 validation; D–spatial replication and robustness; H3a phylogeny; H3b reserve replication",
     ):
         assert token in text
+
+    # Exact acquisition fields stay mandatory in SI.
+    for token in (
+        "Research Grade species-rank iNaturalist records",
+        "flowering annotation term 12/value 13",
+        "positional accuracy <=5 km",
+        "Observer contribution was capped at two photographs per species",
+        "deterministic geographic maximin sampling fixed 100 raw photographs per species",
+        "No native-range restriction or explicit captive/wild filter was imposed",
+    ):
+        assert token in supporting
 
 
 def test_new_phytologist_required_sections_and_display_items() -> None:
