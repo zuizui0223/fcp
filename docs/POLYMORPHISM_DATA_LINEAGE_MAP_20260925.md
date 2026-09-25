@@ -78,6 +78,26 @@ The release itself is operationally mutable, but the canonical byte identity is 
 
 No headline analysis now depends solely on an expiring Actions artifact or on a remote provider serving unchanged bytes.
 
+## Unified self-contained provenance snapshot
+
+Readers who do not want to reconstruct the chain from multiple historical Git objects can use the packaged provenance release:
+
+- release tag: `fcp-np-provenance-20260926`;
+- release URL: `https://github.com/zuizui0223/fcp/releases/tag/fcp-np-provenance-20260926`;
+- release ID: `396980815`;
+- source commit: `f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2`;
+- asset: `fcp-np-provenance-20260926.tar.gz`;
+- asset ID: `589464278`;
+- bytes: **113,156,301** (`113156301` raw);
+- SHA256: `cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7`;
+- packaged files: **145 files**;
+- per-file checksum manifest: `FILE_SHA256SUMS.txt`;
+- canonical receipt: `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`.
+
+The package includes the exact legacy discovery/reserve measured tables, the exact prospective-H2 measured table, historical spatial receipts, the fresh-D source receipt/artifact, the permanent highlight/H3 intermediate archive, the checksum-pinned WorldClim BIO/SRAD archives, the active manuscript/SI/figures, protocols, machine-readable results, relevant analysis code and regression guards.
+
+This package is a reproducibility snapshot of the current evidence chain, not a claim that author metadata or journal submission status is final.
+
 ## Reader shortcut
 
 For a reader who wants to verify only the paper's headline logic:

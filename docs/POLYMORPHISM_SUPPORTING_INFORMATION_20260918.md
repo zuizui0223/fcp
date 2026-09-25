@@ -4,6 +4,8 @@ This document is the compact Supporting Information index for the active flower-
 
 A direct claim-to-input routing table is maintained at `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`.
 
+A self-contained verification bundle is preserved under release tag `fcp-np-provenance-20260926` (https://github.com/zuizui0223/fcp/releases/tag/fcp-np-provenance-20260926; source commit `f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2`). The 113,156,301-byte archive contains 145 files and has SHA256 `cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7`; the canonical receipt is `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`.
+
 It does not recompute any result. It organizes frozen protocols, machine-readable outputs, figures and provenance into a manuscript-facing evidence map.
 
 ## S1. Global frame, cohort roles, acquisition lineage and inferential separation
