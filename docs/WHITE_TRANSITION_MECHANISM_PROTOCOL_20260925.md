@@ -2,6 +2,8 @@
 
 Status: **exploratory full-coverage test frozen after a partial exact-cell screen was opened**.
 
+Execution branch: `analysis/white-transition-mechanism-v1-20260925`.
+
 This work is intentionally isolated from the submission-ready New Phytologist manuscript. It must not alter the frozen H2 claim, figures, thresholds, or submission guards.
 
 ## Biological question
