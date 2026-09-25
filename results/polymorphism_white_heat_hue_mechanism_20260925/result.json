@@ -1,0 +1,76 @@
+{
+  "schema": "fcp_white_heat_hue_mechanism_discriminator_v1",
+  "status": "complete",
+  "role": "post_confirmatory_mechanism_discrimination",
+  "source_workflow_run": 36112654974,
+  "source_artifact_id": 10853588646,
+  "source_artifact_digest": "sha256:b3af41a72673ac09ad7e49268603f765feeb05be7e29b957384fda1ee3952bc2",
+  "hue_definitions": {
+    "white": ["white"],
+    "anthocyanin_associated_proxy": ["red_pink", "blue_purple"],
+    "yellow_orange_comparator": ["yellow_orange"]
+  },
+  "anthocyanin_proxy": {
+    "n_species": 152,
+    "minimum_required": 100,
+    "estimable": true,
+    "median_delta": 0.10067939659679004,
+    "mean_delta": 0.08656154198863947,
+    "fraction_positive": 0.6052631578947368,
+    "wilcoxon_one_sided_greater_p": 0.013264543639768438,
+    "wilcoxon_two_sided_p": 0.026529087279536876
+  },
+  "yellow_orange_comparator": {
+    "n_species": 139,
+    "minimum_required": 50,
+    "estimable": true,
+    "median_delta": -0.003807386175917989,
+    "mean_delta": 0.024772266725694415,
+    "fraction_positive": 0.49640287769784175,
+    "wilcoxon_one_sided_greater_p": 0.3241092775975763,
+    "wilcoxon_two_sided_p": 0.6482185551951526
+  },
+  "direct_specificity_delta_A_minus_Y": {
+    "n_species": 29,
+    "minimum_required": 30,
+    "estimable": false,
+    "median_delta": 0.06915088282296844,
+    "mean_delta": 0.16832637020079036,
+    "fraction_positive": 0.5862068965517241,
+    "wilcoxon_one_sided_greater_p_descriptive_only": 0.08787177875638008,
+    "wilcoxon_two_sided_p_descriptive_only": 0.17574355751276016
+  },
+  "row_level_anthocyanin_proxy": {
+    "n_species": 152,
+    "n_rows": 6739,
+    "OR_BIO5_per_within_species_SD": 1.0952425686715557,
+    "ci_low": 1.035364852870218,
+    "ci_high": 1.1585831611966364,
+    "p_BIO5": 0.001516104932022271
+  },
+  "row_level_yellow_orange": {
+    "n_species": 139,
+    "n_rows": 5441,
+    "OR_BIO5_per_within_species_SD": 1.025018393247675,
+    "ci_low": 0.960936239031017,
+    "ci_high": 1.0933740073696319,
+    "p_BIO5": 0.4531207624180672
+  },
+  "interpretation_gate": {
+    "anthocyanin_proxy_positive": true,
+    "specificity_positive": false,
+    "specificity_reason": "direct overlap panel had 29 species, one below the frozen 30-species minimum; descriptive direct-difference p=0.0879"
+  },
+  "interpretation": [
+    "Within the third cohort, the warmer-white association is concentrated in the white-versus-red/pink+blue/purple comparison and is absent in the white-versus-yellow/orange comparison.",
+    "This pattern is mechanistically compatible with anthocyanin-pathway thermal sensitivity.",
+    "The prespecified direct specificity gate is not estimable and therefore the result cannot be promoted to confirmed anthocyanin-specific heat sorting.",
+    "The failed discovery/reserve overall BIO5 replication remains unchanged."
+  ],
+  "hard_nonclaims": [
+    "coarse hue groups are pigment-system proxies rather than chemical measurements",
+    "does not establish causal heat selection",
+    "does not rescue the failed legacy BIO5 replication",
+    "does not establish universal anthocyanin causation or evolutionary transition direction"
+  ]
+}
