@@ -93,6 +93,24 @@ def main():
     max_wal=float(np.max(walupper))
     separated=bool(min_pal>max_wal)
 
+    published=d.loc[d.reference.astype(str).str.contains(r"\\[",regex=True) & ~d.greenhouse_flag.astype(bool)].copy()
+    pub_summary={}
+    for cls in ["PAL","WAL"]:
+        q=published.loc[published.architecture_class.eq(cls)].copy()
+        num=q.loc[q.numeric].copy()
+        pub_summary[cls]={
+            "species":int(len(q)),
+            "numeric_species":int(len(num)),
+            "qualitative_rare_species":int(q.qualitative_frequency.notna().sum()),
+            "numeric_min_upper_percent":float(num.reported_max_or_upper.min()) if len(num) else None,
+            "numeric_median_upper_percent":float(num.reported_max_or_upper.median()) if len(num) else None,
+            "numeric_max_upper_percent":float(num.reported_max_or_upper.max()) if len(num) else None
+        }
+    pub_sep=bool(
+        pub_summary["PAL"]["numeric_min_upper_percent"] >
+        pub_summary["WAL"]["numeric_max_upper_percent"]
+    )
+
     result={
       "schema":"fcp_silene_cross_species_pal_wal_frequency_v1",
       "status":"complete",
@@ -117,6 +135,17 @@ def main():
       },
       "frequency_scale_separated":separated,
       "conservative_separation_factor_min_PALmax_over_max_WALupper":float(min_pal/max_wal),
+      "postopen_published_only_non_greenhouse_sensitivity":{
+        "role":"post-open descriptive robustness; cannot alter the primary source-table summary",
+        "filter":"reference contains a published numeric citation [..] and greenhouse_flag is false",
+        "PAL":pub_summary["PAL"],
+        "WAL":pub_summary["WAL"],
+        "frequency_scale_separated":pub_sep,
+        "conservative_separation_factor":float(
+            pub_summary["PAL"]["numeric_min_upper_percent"]/
+            pub_summary["WAL"]["numeric_max_upper_percent"]
+        )
+      },
       "interpretation":[
         "All 13 PAL systems in the source table have a documented maximum white frequency of at least 10%.",
         "Every numerically reported WAL system has an upper frequency bound at or below 1.4%; four additional WAL systems are reported qualitatively as rare or extremely rare.",
