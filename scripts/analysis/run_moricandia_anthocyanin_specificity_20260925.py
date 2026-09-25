@@ -20,9 +20,12 @@ def close(x, y):
     return abs(float(x) - float(y)) <= TOL
 
 def find_flavonol_column(columns):
-    hits=[c for c in columns if re.search(r"flavonol",str(c),re.I)]
+    # Source Data reports UV-absorbing flavonols as kaempferol-3-glucoside
+    # equivalents. Accept only these two semantic aliases; this is a parser
+    # correction and does not change the frozen biological comparator.
+    hits=[c for c in columns if re.search(r"(?:flavonol|kaempferol)",str(c),re.I)]
     if len(hits)!=1:
-        raise RuntimeError(f"expected exactly one flavonol column, found {hits}")
+        raise RuntimeError(f"expected exactly one flavonol/kaempferol column, found {hits}; columns={list(columns)}")
     return hits[0]
 
 def one_sequence(g: pd.DataFrame):
