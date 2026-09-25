@@ -1,0 +1,25 @@
+name: Export JBI canonical assets
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/export-jbi-canonical-assets.yml'
+
+jobs:
+  export:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: canonical-jbi-assets
+          path: |
+            docs/figures/figure1_geographic_context.png
+            docs/figures/figure2_five_metric_forest.png
+            docs/figures/figure3_raw_species_metrics.png
+            docs/figures/figure4_leave_one_family_out.png
+            docs/figures/figure5_inference_method_sensitivity.png
+            docs/figures/figureS1_34_species_distribution_context.png
+            docs/figures/figureS2_power_precision_design.png
+            docs/supporting/jbi_gbif_doi_bundle/jbi_gbif_exact_occurrence_subset.csv.gz
+          if-no-files-found: error
