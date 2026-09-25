@@ -1,0 +1,42 @@
+{
+  "schema": "fcp_natural_polymorphism_pigment_audit_v1",
+  "status": "complete",
+  "source_workflow_run": 36106592537,
+  "source_artifact_id": 10852105007,
+  "source_artifact_digest": "sha256:79077be039562e1e418a19a0037e61d5753617936e7f3de47a540d46eb8acab5",
+  "natural_fcp_species": 111,
+  "high_confidence_species": 97,
+  "requests_used": 38,
+  "failed_requests": 0,
+  "candidate_works": 252,
+  "species_with_candidates": 51,
+  "high_confidence_species_with_candidates": 44,
+  "candidate_A_species": 7,
+  "candidate_B_species": 3,
+  "manual_adjudication_unique_species": 9,
+  "strict_verified_natural_molecular_A_species": 3,
+  "strict_verified_species": [
+    "Ipomoea purpurea",
+    "Parrya nudicaulis",
+    "Pleione limprichtii"
+  ],
+  "proximal_convergence": {
+    "summary": "Verified natural molecular cases converge on modulation or disruption of anthocyanin-pathway flux, but not on one universal gene.",
+    "examples": {
+      "Ipomoea purpurea": "naturally occurring albino/pale variants implicate CHS loss-of-function and bHLH regulatory variation",
+      "Parrya nudicaulis": "natural purple-white polymorphism implicates petal-specific CHS downregulation / cis-regulatory control",
+      "Pleione limprichtii": "natural rose-purple/pink/white populations implicate FLS, ANS, UFGT and MBW-network expression"
+    }
+  },
+  "important_counterexamples_or_bounds": [
+    "Abronia fragrans is a natural white/pink system involving betalain rather than anthocyanin pigmentation.",
+    "Boechera stricta provides strong natural ecological and plasticity evidence but not a resolved proximal molecular white-state mechanism.",
+    "Digitalis purpurea, Medicago sativa and Vicia faba candidate papers do not satisfy the strict natural-population molecular-evidence boundary used here."
+  ],
+  "interpretation": [
+    "The evidence supports recurrent proximal convergence on reducing or rerouting pigment-pathway output in several natural anthocyanic systems.",
+    "It does not support a single universal white-flower gene.",
+    "It does not establish nonwhite-to-white evolutionary direction.",
+    "It does not establish pollinator or temperature causation."
+  ]
+}
