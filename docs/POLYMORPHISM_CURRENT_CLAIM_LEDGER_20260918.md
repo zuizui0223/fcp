@@ -24,10 +24,10 @@ The current paper therefore changes the level at which cross-species generality 
 
 - **amount:** reproducible species-level D;
 - **phenotype geometry:** prospectively confirmed excess alignment with a frozen white-versus-nonwhite axis relative to a coarse-state-preserving null;
-- **spatial realization:** stronger species-specific geographic organization at higher D;
+- **spatial organization:** stronger within-species geographic organization at higher D; shared versus species-specific cross-species mapping remains unresolved;
 - **broad explanation:** not reducible to sampled geographic span or broad tree-wide phylogenetic conservation.
 
-The supported conceptual interpretation is that generality is stronger in **phenotype space than in shared geographic location** under the tested designs. This does not imply absence of flower-colour biogeography or identify the ecological mechanism maintaining polymorphism.
+The supported conceptual interpretation is that cross-species generality is established in **phenotype space**, whereas the tested designs do not resolve whether spatial realization is shared, partly shared or species-specific. This does not imply absence of flower-colour biogeography or identify the ecological mechanism maintaining polymorphism.
 
 Canonical programme interpretation:
 
@@ -382,6 +382,7 @@ The current evidence does not establish:
 - pigment chemistry or pigment-loss/gain mechanism;
 - direction of evolutionary transitions between white and non-white states;
 - pollinator, climate, habitat, or other adaptive causation;
+- whether geographic realization is shared or species-specific across species;
 - a recurrent non-white hue axis;
 - absence of all phylogenetic or taxonomic structure;
 - irrelevance of true geographic range size;
