@@ -49,26 +49,18 @@ def safe_float(x):
 
 
 def stringify_row(row):
-    vals = []
-    for x in row.tolist():
-        if pd.isna(x):
-            vals.append("")
-        else:
-            vals.append(str(x))
-    return vals
+    return ["" if pd.isna(x) else str(x) for x in row.tolist()]
 
 
-def nearest_header(df: pd.DataFrame, row_idx: int, max_back: int = 25):
+def nearest_header(df: pd.DataFrame, row_idx: int, max_back: int = 40):
     start = max(0, row_idx - max_back)
-    best = None
     for h in range(row_idx - 1, start - 1, -1):
         vals = stringify_row(df.iloc[h])
         joined = " | ".join(vals)
         score = int(bool(LOGFC_RX.search(joined))) + int(bool(FDR_RX.search(joined))) + int(bool(P_RX.search(joined)))
         if score > 0:
-            best = (h, vals)
-            break
-    return best
+            return h, vals
+    return None
 
 
 def locate_col(headers, rx):
@@ -77,10 +69,12 @@ def locate_col(headers, rx):
 
 
 def load_workbook(path: Path):
-    return pd.read_excel(path, sheet_name=None, header=None, engine="openpyxl")
+    engine = "xlrd" if path.suffix.lower() == ".xls" else "openpyxl"
+    return pd.read_excel(path, sheet_name=None, header=None, engine=engine)
 
 
-def scan_workbook(path: Path, source_label: str):
+def scan_workbook(path: Path):
+    source_label = path.stem
     sheets = load_workbook(path)
     manifest = []
     matches = []
@@ -88,6 +82,7 @@ def scan_workbook(path: Path, source_label: str):
     for sheet, df in sheets.items():
         manifest.append({
             "source": source_label,
+            "file_name": path.name,
             "sheet": str(sheet),
             "rows": int(df.shape[0]),
             "cols": int(df.shape[1]),
@@ -112,6 +107,7 @@ def scan_workbook(path: Path, source_label: str):
             for node in hit_nodes:
                 matches.append({
                     "source": source_label,
+                    "file_name": path.name,
                     "sheet": str(sheet),
                     "excel_row": int(ridx + 1),
                     "header_excel_row": int(header_row + 1) if header_row is not None else np.nan,
@@ -120,8 +116,8 @@ def scan_workbook(path: Path, source_label: str):
                     "logFC_summer_vs_spring": logfc,
                     "FDR_or_adjusted_p": fdr,
                     "p_value": pval,
-                    "row_text": joined[:6000],
-                    "header_text": " | ".join(headers)[:4000],
+                    "row_text": joined[:8000],
+                    "header_text": " | ".join(headers)[:5000],
                 })
     return pd.DataFrame(manifest), pd.DataFrame(matches)
 
@@ -129,9 +125,8 @@ def scan_workbook(path: Path, source_label: str):
 def summarize(matches: pd.DataFrame):
     out = []
     for node in NODE_PATTERNS:
-        q = matches[(matches.panel == "FCP") & (matches.node == node)].copy()
+        q = matches[(matches.panel == "FCP") & (matches.node == node)].copy() if len(matches) else pd.DataFrame()
         vals = pd.to_numeric(q.logFC_summer_vs_spring, errors="coerce").dropna().to_numpy(float) if len(q) else np.array([])
-        fdr = pd.to_numeric(q.FDR_or_adjusted_p, errors="coerce") if len(q) else pd.Series(dtype=float)
         if len(vals):
             med = float(np.median(vals))
             direction = "summer_down" if med < 0 else "summer_up" if med > 0 else "zero"
@@ -156,18 +151,26 @@ def summarize(matches: pd.DataFrame):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--supp2", required=True)
-    p.add_argument("--source-data", required=True)
+    p.add_argument("--workbooks", nargs="+", required=True)
     p.add_argument("--outdir", required=True)
     a = p.parse_args()
 
     out = Path(a.outdir)
     out.mkdir(parents=True, exist_ok=True)
 
-    m1, x1 = scan_workbook(Path(a.supp2), "supplementary_dataset_2")
-    m2, x2 = scan_workbook(Path(a.source_data), "source_data")
-    manifest = pd.concat([m1, m2], ignore_index=True)
-    matches = pd.concat([x1, x2], ignore_index=True) if len(x1) or len(x2) else pd.DataFrame()
+    manifests = []
+    match_frames = []
+    for raw in a.workbooks:
+        path = Path(raw)
+        m, x = scan_workbook(path)
+        manifests.append(m)
+        if len(x):
+            match_frames.append(x)
+
+    manifest = pd.concat(manifests, ignore_index=True)
+    matches = pd.concat(match_frames, ignore_index=True) if match_frames else pd.DataFrame(
+        columns=["source","file_name","sheet","excel_row","header_excel_row","node","panel","logFC_summer_vs_spring","FDR_or_adjusted_p","p_value","row_text","header_text"]
+    )
 
     manifest.to_csv(out / "workbook_manifest.csv", index=False)
     matches.to_csv(out / "all_pathway_matches.csv", index=False)
@@ -184,17 +187,15 @@ def main():
         "schema": "fcp_moricandia_public_pathway_reanalysis_v1",
         "status": "complete",
         "role": "post_publication_reproducibility_and_mechanistic_triangulation",
+        "diagnostic_note": "The initial two-workbook pass found no FCP nodes because Supplementary Dataset 2 was a GO-enrichment table. This rerun mechanically scans all six public supplementary datasets plus Source Data.",
         "fcp_node_panel": list(NODE_PATTERNS),
         "fcp_nodes_total": len(NODE_PATTERNS),
         "fcp_nodes_found_in_public_workbooks": found,
         "fcp_nodes_with_machine_readable_logFC": readable,
         "fcp_nodes_with_median_summer_down": down,
         "fcp_nodes_with_any_significant_summer_down_transcript": sig_down,
-        "comparison_semantics": "summer relative to spring; negative logFC means lower in summer-white flowers",
-        "workbooks": [
-            "41467_2020_17875_MOESM5_ESM.xlsx",
-            "41467_2020_17875_MOESM11_ESM.xlsx",
-        ],
+        "comparison_semantics": "summer relative to spring; negative logFC means lower in summer-white flowers when the workbook exposes a fold-change column",
+        "workbooks": [Path(x).name for x in a.workbooks],
         "bioproject": "PRJNA604514",
         "hard_nonclaims": [
             "not an outcome-blind confirmation because the paper already reports anthocyanin-pathway repression",
