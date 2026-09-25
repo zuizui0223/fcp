@@ -16,11 +16,14 @@ FCP species identities:
 Independent bee–plant source:
 - Noori et al. 2026 curated GloBI bee–plant dataset;
 - Zenodo record `18303036`, version 3.1;
-- use `GloBI_bee_plant_Interactions_Summary.csv` for the first coverage audit.
+- use the full `GloBI_Curated.csv` interaction table;
+- the authors' published cleaning code identifies `plant_species` as the harmonized WCVP-based plant-species field and `scientificName` as the bee-species field.
+
+The small `GloBI_bee_plant_Interactions_Summary.csv` is explicitly excluded because it is bee-centric (one row per bee with counts of associated plant taxa) and cannot measure plant-species coverage.
 
 ## Name matching
 
-The audit selects the summary column with the largest exact normalized overlap with the frozen FCP species-name set. Selection uses species identity only.
+Primary coverage uses the curated `plant_species` field.
 
 Normalization:
 - trim whitespace;
@@ -30,10 +33,12 @@ Normalization:
 - no fuzzy matching;
 - no synonym rescue in the primary coverage count.
 
+The 612 MB table is read in chunks and only `plant_species` is loaded.
+
 ## Gate
 
 A species-level bee mechanism test may proceed only if:
-- >=100 of the 499 frozen third-cohort species have exact species-name coverage in the independent bee summary.
+- >=100 of the 499 frozen third-cohort species have exact species-name coverage in the independent bee interaction table.
 
 If the exact gate fails:
 - report `NOT_ESTIMABLE_CURRENT_BEE_DATASET`;
