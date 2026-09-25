@@ -10,49 +10,47 @@ def norm(x):
 def main():
     p=argparse.ArgumentParser()
     p.add_argument('--measured',required=True)
-    p.add_argument('--bee-summary',required=True)
+    p.add_argument('--bee-curated',required=True)
     p.add_argument('--outdir',required=True)
+    p.add_argument('--chunksize',type=int,default=200000)
     a=p.parse_args()
     out=Path(a.outdir); out.mkdir(parents=True,exist_ok=True)
 
     fcp=pd.read_csv(a.measured,usecols=['species'])
     species=sorted(set(fcp.species.dropna().astype(str)))
     species_norm={norm(x):x for x in species}
+    target=set(species_norm)
 
-    bee=pd.read_csv(a.bee_summary,low_memory=False)
-    candidates=[]
-    for c in bee.columns:
-        s=bee[c]
-        if s.dtype!='object': continue
-        vals=set(norm(x) for x in s.dropna().astype(str))
-        overlap=sorted(set(species_norm).intersection(vals))
-        candidates.append({
-            'column':c,
-            'n_nonmissing':int(s.notna().sum()),
-            'n_unique_normalized':int(len(vals)),
-            'exact_overlap':int(len(overlap)),
-        })
-    candidates=sorted(candidates,key=lambda r:(-r['exact_overlap'],r['column']))
-    if not candidates: raise SystemExit('no string columns in bee summary')
-    best=candidates[0]
-    selected=best['column']
-    vals=set(norm(x) for x in bee[selected].dropna().astype(str))
-    matched=sorted(species_norm[x] for x in set(species_norm).intersection(vals))
-    coverage=len(matched)
+    header=pd.read_csv(a.bee_curated,nrows=0)
+    if 'plant_species' not in header.columns:
+        raise SystemExit(f"curated GloBI missing plant_species; columns={list(header.columns)}")
+
+    matched=set()
+    all_plants=set()
+    scanned_rows=0
+    for chunk in pd.read_csv(a.bee_curated,usecols=['plant_species'],chunksize=a.chunksize,low_memory=False):
+        scanned_rows += len(chunk)
+        vals=set(norm(x) for x in chunk['plant_species'].dropna().astype(str))
+        all_plants.update(vals)
+        matched.update(target.intersection(vals))
+
+    matched_names=sorted(species_norm[x] for x in matched)
+    coverage=len(matched_names)
     status='COVERAGE_GATE_PASS' if coverage>=100 else 'NOT_ESTIMABLE_CURRENT_BEE_DATASET'
 
-    pd.DataFrame({'species':matched}).to_csv(out/'exact_matched_species.csv',index=False)
-    pd.DataFrame(candidates).to_csv(out/'candidate_name_columns.csv',index=False)
+    pd.DataFrame({'species':matched_names}).to_csv(out/'exact_matched_species.csv',index=False)
     result={
-      'schema':'fcp_white_bee_coverage_v1',
+      'schema':'fcp_white_bee_coverage_v2',
       'status':status,
       'outcome_blind':True,
+      'source':'Noori et al. 2026 curated GloBI v3.1 / Zenodo 18303036 / GloBI_Curated.csv',
+      'plant_name_field':'plant_species',
       'fcp_species_total':len(species),
-      'selected_summary_name_column':selected,
+      'curated_rows_scanned':int(scanned_rows),
+      'curated_unique_plant_names_normalized':int(len(all_plants)),
       'exact_matched_species':coverage,
       'coverage_fraction':coverage/len(species) if species else None,
       'minimum_required_species':100,
-      'candidate_columns_top10':candidates[:10],
       'hard_boundary':'No flower-colour outcome was read. Coverage alone cannot support or reject pollinator causation.'
     }
     (out/'result.json').write_text(json.dumps(result,indent=2)+'\n')
