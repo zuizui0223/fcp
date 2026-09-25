@@ -1,0 +1,28 @@
+{
+  "schema": "fcp_white_pathway_many_to_one_synthesis_v1",
+  "status": "descriptive_mechanistic_synthesis",
+  "verified_natural_systems": 5,
+  "species": [
+    "Gymnadenia rhellicani",
+    "Ipomoea purpurea",
+    "Parrya nudicaulis",
+    "Pleione limprichtii",
+    "Silene littorea"
+  ],
+  "mechanistic_route_classes": [
+    "structural loss-of-function",
+    "regulatory loss-of-function",
+    "pathway-gene downregulation",
+    "pathway rerouting / differential flux"
+  ],
+  "convergence_level": "pigment-pathway output rather than one universal gene",
+  "many_to_one_interpretation": "Distinct genetic and regulatory perturbations at multiple positions in the anthocyanin/flavonoid network can converge on reduced chromatic pigmentation, providing a mechanistic accessibility explanation for recurrent white/nonwhite phenotype-space geometry.",
+  "important_bounds": [
+    "five systems are a literature-verified mechanistic subset, not a random sample of angiosperms",
+    "evidence strength differs among systems",
+    "Abronia fragrans provides a betalain-system counterexample to universal anthocyanin causation",
+    "the OpenTree test does not support a recurrent nonwhite-to-white evolutionary direction",
+    "environmental and pollinator comparative tests do not support one universal ecological driver"
+  ],
+  "claim_ceiling": "supports pathway-level many-to-one accessibility as a working mechanism; does not prove that this mechanism alone generated the global H2 geometry"
+}
