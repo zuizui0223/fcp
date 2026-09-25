@@ -24,26 +24,30 @@ jobs:
       - name: Install
         run: |
           python -m pip install --upgrade pip
-          python -m pip install pandas numpy openpyxl
+          python -m pip install pandas numpy openpyxl xlrd
           python -m py_compile scripts/analysis/run_moricandia_public_pathway_reanalysis_20260925.py
-      - name: Download published public workbooks
+      - name: Download all published supplementary datasets and source data
         run: |
           mkdir -p /tmp/moricandia
-          curl -L --fail --retry 5 --retry-delay 2 \
-            'https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17875-1/MediaObjects/41467_2020_17875_MOESM5_ESM.xlsx' \
-            -o /tmp/moricandia/supp2.xlsx
-          curl -L --fail --retry 5 --retry-delay 2 \
-            'https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17875-1/MediaObjects/41467_2020_17875_MOESM11_ESM.xlsx' \
-            -o /tmp/moricandia/source_data.xlsx
-          test -s /tmp/moricandia/supp2.xlsx
-          test -s /tmp/moricandia/source_data.xlsx
-          file /tmp/moricandia/supp2.xlsx /tmp/moricandia/source_data.xlsx
-      - name: Run frozen node audit
+          base='https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-020-17875-1/MediaObjects'
+          for n in 4 5 6 7 8; do
+            curl -L --fail --retry 5 --retry-delay 2 "$base/41467_2020_17875_MOESM${n}_ESM.xlsx" -o "/tmp/moricandia/MOESM${n}.xlsx"
+          done
+          curl -L --fail --retry 5 --retry-delay 2 "$base/41467_2020_17875_MOESM9_ESM.xls" -o /tmp/moricandia/MOESM9.xls
+          curl -L --fail --retry 5 --retry-delay 2 "$base/41467_2020_17875_MOESM11_ESM.xlsx" -o /tmp/moricandia/MOESM11.xlsx
+          for f in /tmp/moricandia/*; do test -s "$f"; file "$f"; done
+      - name: Run frozen all-workbook node audit
         run: |
           rm -rf results/polymorphism_moricandia_public_pathway_reanalysis_20260925
           python scripts/analysis/run_moricandia_public_pathway_reanalysis_20260925.py \
-            --supp2 /tmp/moricandia/supp2.xlsx \
-            --source-data /tmp/moricandia/source_data.xlsx \
+            --workbooks \
+              /tmp/moricandia/MOESM4.xlsx \
+              /tmp/moricandia/MOESM5.xlsx \
+              /tmp/moricandia/MOESM6.xlsx \
+              /tmp/moricandia/MOESM7.xlsx \
+              /tmp/moricandia/MOESM8.xlsx \
+              /tmp/moricandia/MOESM9.xls \
+              /tmp/moricandia/MOESM11.xlsx \
             --outdir results/polymorphism_moricandia_public_pathway_reanalysis_20260925
       - name: Validate
         run: |
@@ -54,6 +58,7 @@ jobs:
           assert x['schema']=='fcp_moricandia_public_pathway_reanalysis_v1'
           assert x['status']=='complete'
           assert x['fcp_nodes_total']==8
+          assert len(x['workbooks'])==7
           print(json.dumps(x,indent=2,sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
