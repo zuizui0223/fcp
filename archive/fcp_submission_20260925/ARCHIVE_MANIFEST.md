@@ -48,3 +48,22 @@ Key archive hashes:
 - wc2.1_10m_srad.zip: c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026
 
 The white-environment and legacy-BIO5 workflows verify the zip and analysis-TIFF hashes before fitting any model. Final Zenodo/release packaging should mirror the two zip archives themselves for provider-independent byte replay.
+
+
+## Permanent WorldClim release assets
+
+Release tag: fcp-worldclim-2.1-10m-20260925
+Release ID: 396587932
+
+- wc2.1_10m_bio.zip
+  - asset ID: 588322903
+  - bytes: 49,869,449
+  - SHA256: 00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf
+- wc2.1_10m_srad.zip
+  - asset ID: 588322905
+  - bytes: 16,233,364
+  - SHA256: c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026
+
+Canonical receipt: archive/fcp_submission_20260925/WORLDCLIM_RELEASE_RECEIPT.md
+
+The SHA256 values committed in Git define canonical byte identity. Any later release-asset replacement with different bytes is invalid for reproducing the frozen analyses.
