@@ -1,7 +1,7 @@
 {
   "schema": "fcp_polymorphism_data_lineage_audit_v1",
   "date_jst": "2026-09-25",
-  "status": "TRACEABLE_WITH_PERMANENT_GIT_AND_RELEASE_ARCHIVES",
+  "status": "TRACEABLE_WITH_SELF_CONTAINED_PROVENANCE_SNAPSHOT",
   "headline_assessment": {
     "narrative_flow": "clear_after_explicit_separation_of_prospective_H2_and_secondary_BIO5",
     "main_branch_raw_data_complete": false,
@@ -13,7 +13,11 @@
     "worldclim_bytes_mirrored_in_git": false,
     "worldclim_checksum_enforced_by_workflows": true,
     "worldclim_bytes_archived_in_release": true,
-    "all_headline_inputs_permanently_recoverable": true
+    "all_headline_inputs_permanently_recoverable": true,
+    "self_contained_provenance_release": true,
+    "self_contained_provenance_includes_measured_tables": true,
+    "self_contained_provenance_includes_worldclim_bytes": true,
+    "self_contained_provenance_includes_headline_intermediates": true
   },
   "grades": {
     "global_frame": "A-",
@@ -52,10 +56,19 @@
     "worldclim_bio_asset_id": 588322903,
     "worldclim_srad_asset_id": 588322905,
     "worldclim_bio_bytes": 49869449,
-    "worldclim_srad_bytes": 16233364
+    "worldclim_srad_bytes": 16233364,
+    "provenance_release_tag": "fcp-np-provenance-20260926",
+    "provenance_release_id": 396980815,
+    "provenance_release_source_commit": "f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2",
+    "provenance_asset_id": 589464278,
+    "provenance_asset_name": "fcp-np-provenance-20260926.tar.gz",
+    "provenance_asset_bytes": 113156301,
+    "provenance_asset_sha256": "cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7",
+    "provenance_packaged_files": 145,
+    "provenance_receipt": "archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md"
   },
   "required_pre_submission_archival_actions": [
-    "include archive/fcp_submission_20260925 and this lineage map in the permanent manuscript release/Zenodo record",
-    "preserve the committed SHA256 values as the authority for any mirrored external asset"
+    "optionally register a DOI-bearing archive for journal citation; the current GitHub provenance release already contains the self-contained verification inputs",
+    "preserve the committed provenance-package and input SHA256 values as the authority for any future mirror"
   ]
 }
