@@ -108,3 +108,10 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
 
     f3_layout = manifest["figures"]["figure3"]["layout_contract"]
     assert f3_layout["legend"] == "outside_below_axis"
+
+    f4_layout = manifest["figures"]["figure4"]["layout_contract"]
+    assert f4_layout["same_universe_nonreplication_note"] == "caption_not_plot_field"
+
+    f5_layout = manifest["figures"]["figure5"]["layout_contract"]
+    assert f5_layout["panel_widths"] == "spatial_primary_wide"
+    assert f5_layout["tree_scenarios"] == "unconnected_discrete_points"
