@@ -5,17 +5,18 @@ This repository is organized around the **active New Phytologist flower-colour p
 ## Start here
 
 1. **Submission manuscript:** [`docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md)
-2. **Reproducibility contract:** [`CURRENT_PAPER_REPRODUCIBILITY.md`](CURRENT_PAPER_REPRODUCIBILITY.md)
-3. **Claim-to-input lineage:** [`docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`](docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md)
-4. **Frozen claim ledger:** [`docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`](docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md)
-5. **Supporting Information map:** [`docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`](docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md)
-6. **Figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
-7. **Canonical figures:** [`docs/figures/polymorphism_20260918/`](docs/figures/polymorphism_20260918/)
-8. **Current provenance receipt:** [`archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`](archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md)
+2. **Canonical manuscript:** [`docs/POLYMORPHISM_MANUSCRIPT.md`](docs/POLYMORPHISM_MANUSCRIPT.md)
+3. **Reproducibility contract:** [`CURRENT_PAPER_REPRODUCIBILITY.md`](CURRENT_PAPER_REPRODUCIBILITY.md)
+4. **Claim-to-input lineage:** [`docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`](docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md)
+5. **Frozen claim ledger:** [`docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`](docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md)
+6. **Supporting Information map:** [`docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`](docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md)
+7. **Figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
+8. **Canonical figures:** [`docs/figures/polymorphism_20260918/`](docs/figures/polymorphism_20260918/)
+9. **Current provenance receipt:** [`archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`](archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md)
 
 ## Active mainline — global flower-colour polymorphism
 
-The paper treats within-species flower-colour diversity as a species-level phenotype, validates its reproducibility, tests a prospectively frozen achromatic–chromatic colour-space alignment in a species-disjoint third cohort, and relates polymorphism amount to within-species geographic colour organization. The frozen prospective verdict is `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`. The third-cohort confirmation is species-disjoint within the same iNaturalist opportunity universe but is **not an independent-source replication**. The manuscript keeps that confirmation separate from later technical-validity and environmental follow-ups. Machine-readable frozen results and the lineage map control numerical interpretation when prose and artifacts differ.
+The paper treats within-species flower-colour diversity as a species-level phenotype, validates its reproducibility, tests a prospectively frozen achromatic–chromatic colour-space alignment in a species-disjoint third cohort, and relates polymorphism amount to within-species geographic colour organization. The frozen prospective verdict is `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`. The 42,111-species global metadata frame is an opportunity frame, **not a denominator for global polymorphism prevalence**. The third-cohort confirmation is species-disjoint within the same iNaturalist opportunity universe but is **not an independent-source replication**. The separate P500 expansion has **no durable H2 biological verdict** and is not used to rescue or refute the prospective confirmation. The manuscript keeps that confirmation separate from later technical-validity and environmental follow-ups. Machine-readable frozen results and the lineage map control numerical interpretation when prose and artifacts differ.
 
 ## Reproducibility boundary
 
