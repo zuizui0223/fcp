@@ -35,7 +35,9 @@ The tag is the stable reader entry point. The **Git-tracked receipt** is the aut
 
 `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`
 
-The snapshot is rebuilt when the current manuscript/evidence surface changes. Refreshing the package does not recompute or upgrade biological results; it repackages the already frozen evidence at the new repository head. Previous receipt identities remain recoverable in Git history.
+The snapshot is rebuilt when the current manuscript/evidence surface changes. Refreshing the package does not recompute or upgrade biological results; it repackages the already frozen evidence at the new repository head. Previous receipt identities remain audit-visible in Git history.
+
+The receipt is deliberately stored **outside** the tar.gz it identifies. It is written only after the final package byte count and SHA256 are known, so a refreshed package cannot contain a stale copy of its own receipt.
 
 ## Immutable large-input routes
 
