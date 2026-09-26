@@ -266,7 +266,7 @@ The frozen verdict was `H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED`.
 
 ## Discussion
 
-The study yields two advances that should be kept conceptually separate. **Methodologically**, repeated community-science photographs can be turned into a comparative within-species trait distribution only after the distribution itself is shown to be reproducible and after target discovery is separated from confirmation. **Ecologically**, the resulting distributions are not arbitrary: variation shows cross-species regularity in phenotype space, and species with more colour diversity also tend to show stronger within-species geographic organization. The first advance establishes an inferential unit; the second asks what biological structure that unit contains.
+Two advances should be separated. **Methodologically**, the study validates repeated-photo within-species distributions as comparative traits while separating target discovery from confirmation. **Ecologically**, those distributions show cross-species regularity in phenotype space and stronger geographic organization in species with greater colour diversity. The first establishes the inferential unit; the second identifies biological structure within it.
 
 ### From species means to validated within-species distributions
 
