@@ -8,6 +8,13 @@ A self-contained verification bundle is maintained under release tag `fcp-np-pro
 
 It does not recompute any result. It organizes frozen protocols, machine-readable outputs, figures and provenance into a manuscript-facing evidence map.
 
+### Discussion-only PAL/WAL maintenance evidence
+
+- Within-*Silene littorea* persistence receipt: `results/polymorphism_silene_decoupling_persistence_20260925/result.json`.
+- Cross-species interval/censoring-aware receipt: `results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json`.
+- Source: Del Valle et al. (2019), Supplementary Tables S2 and S1, respectively.
+- These analyses are post-publication descriptive reanalyses; literature ascertainment, heterogeneous survey effort and censored/qualitative frequency reporting preclude an unbiased meta-analytic or causal interpretation.
+
 ## S1. Global frame, cohort roles, acquisition lineage and inferential separation
 
 Global programme/frame provenance:
