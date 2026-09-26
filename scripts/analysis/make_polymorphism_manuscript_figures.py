@@ -195,7 +195,7 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         transform=ax.transAxes,
         ha="center",
         va="center",
-        fontsize=7.3,
+        fontsize=8.0,
         color=NEUTRAL,
         bbox=secondary_box_style,
     )
@@ -232,31 +232,46 @@ def figure2(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     repeated = load_json(root / "results" / "polymorphism_h1_observer_disjoint_reliability_20260913" / "result.json")
     strict = load_json(root / "results" / "polymorphism_h1_observer_disjoint_D_reliability_20260913" / "result.json")
 
-    fig, axes = plt.subplots(1, 2, figsize=(11.5, 4.5))
-    fig.suptitle("H1: observer-disjoint reproducibility of the polymorphism score", y=1.02, fontweight="bold")
+    fig, axes = plt.subplots(1, 2, figsize=(11.5, 3.35))
+    fig.suptitle("H1: observer-disjoint reproducibility of the polymorphism score", y=1.03, fontweight="bold")
 
     ax = axes[0]
     cohorts = ["discovery", "reserve"]
-    ys = np.arange(2)
+    # Keep the two cohorts visually close: this is an interval comparison,
+    # not a two-level vertical scale.
+    ys = np.array([0.42, 0.58])
     for y, cohort, colour in zip(ys, cohorts, [SECONDARY, PRIMARY], strict=True):
         s = repeated[cohort]["primary20"]
         ax.hlines(y, s["rho_q05"], s["rho_q95"], color=colour, linewidth=3)
         ax.scatter(s["rho_median"], y, s=80, color=colour, edgecolor="white", linewidth=0.8, zorder=3)
         ax.text(s["rho_q95"] + 0.005, y, f"median {s['rho_median']:.3f}", va="center", fontsize=8.5)
-    ax.axvline(repeated["primary_gate"]["minimum_median_split_rho"], color=NEUTRAL, linestyle="--", linewidth=1.2)
+    primary_floor = repeated["primary_gate"]["minimum_median_split_rho"]
+    ax.axvline(primary_floor, color=NEUTRAL, linestyle="--", linewidth=1.2)
+    ax.text(
+        primary_floor + 0.002,
+        0.50,
+        "primary floor = 2/3",
+        rotation=90,
+        ha="left",
+        va="center",
+        fontsize=7.9,
+        color=NEUTRAL,
+    )
+    reserve_q05 = float(repeated["reserve"]["primary20"]["rho_q05"])
+    ax.text(
+        reserve_q05,
+        ys[1] + 0.045,
+        f"q05={reserve_q05:.3f}",
+        ha="center",
+        va="top",
+        fontsize=7.8,
+        color=NEUTRAL,
+    )
     ax.set_yticks(ys, ["Discovery", "Reserve"])
-    ax.invert_yaxis()
+    ax.set_ylim(0.68, 0.32)
     ax.set_xlim(0.63, 0.86)
     ax.set_xlabel("Observer-disjoint split Spearman rho")
     ax.set_title("200 frozen partitions: q05–median–q95")
-    ax.text(
-        0.02,
-        0.05,
-        "Primary median floor = 2/3\nReserve q05 = 0.765",
-        transform=ax.transAxes,
-        fontsize=8.5,
-        color=NEUTRAL,
-    )
     panel_label(ax, "A")
 
     ax = axes[1]
@@ -267,7 +282,7 @@ def figure2(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     for y, (cohort, rho, low, high, ccc), colour in zip(ys, rows, [SECONDARY, PRIMARY], strict=True):
         ax.hlines(y, low, high, color=colour, linewidth=3)
         ax.scatter(rho, y, s=80, color=colour, edgecolor="white", linewidth=0.8, zorder=3)
-        label_y = y - 0.12 if cohort == "discovery" else y + 0.12
+        label_y = y - 0.035 if cohort == "discovery" else y + 0.035
         ax.text(
             0.878,
             label_y,
@@ -288,7 +303,7 @@ def figure2(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         color=NEUTRAL,
     )
     ax.set_yticks(ys, ["Discovery", "Reserve"])
-    ax.set_ylim(1.30, -0.30)
+    ax.set_ylim(0.68, 0.32)
     ax.set_xlim(0.72, 0.88)
     ax.set_xlabel("Deterministic split Spearman rho")
     ax.set_title("Later prespecified stress test: bootstrap 95% CI")
@@ -326,14 +341,15 @@ def figure3(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.set_ylabel("Fixed q_white loading")
     ax.set_title("White versus equal mean of eight non-white coordinates")
     ax.text(
-        0.02,
-        0.96,
+        0.98,
+        0.95,
         "Named axis isolated after\noriginal broad H2 was opened",
         transform=ax.transAxes,
-        ha="left",
+        ha="right",
         va="top",
-        fontsize=8.5,
+        fontsize=8.3,
         color=NEUTRAL,
+        bbox={"boxstyle": "round,pad=0.25", "facecolor": "white", "edgecolor": "#DDDDDD", "alpha": 0.95},
     )
     panel_label(ax, "A")
 
@@ -439,15 +455,10 @@ def figure4(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     )
     panel_label(axes[0], "A")
     panel_label(axes[1], "B")
-    fig.text(
-        0.5,
-        -0.01,
-        "Species-disjoint prospective test of excess alignment within the same iNaturalist opportunity universe; not an independent-source replication.",
-        ha="center",
-        fontsize=8.5,
-        color=NEUTRAL,
-    )
-    fig.tight_layout(rect=[0, 0.04, 1, 1])
+    # The same-universe / non-independent-source boundary belongs in the
+    # manuscript caption; keeping it out of the plotting field improves
+    # legibility after journal-width reduction.
+    fig.tight_layout()
     files = save_pair(fig, output_dir, "polymorphism_figure4_prospective_h2")
     meta = {
         "verdict": result["decision"]["verdict"],
@@ -463,6 +474,9 @@ def figure4(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             "W": float(strict["observed_W"]),
             "null_median": float(strict["structured_null_summary"]["q50"]),
             "p": float(strict["structured_null_upper_p"]),
+        },
+        "layout_contract": {
+            "same_universe_nonreplication_note": "caption_not_plot_field",
         },
     }
     return files, meta
@@ -480,7 +494,12 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     if spatial.get("new_biological_analysis") is not False:
         raise ValueError("spatial reporting receipt must not introduce new biological analysis")
 
-    fig, axes = plt.subplots(1, 3, figsize=(14.4, 4.6))
+    fig, axes = plt.subplots(
+        1,
+        3,
+        figsize=(14.4, 4.45),
+        gridspec_kw={"width_ratios": [1.45, 0.85, 0.95]},
+    )
     fig.suptitle("What accompanies species differences in flower-colour polymorphism?", y=1.02, fontweight="bold")
 
     ax = axes[0]
@@ -516,7 +535,7 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.set_xticks(x, [label for label, _ in spatial_rows])
     ax.set_ylabel("Partial rho(D, spatial organization)")
     ax.set_ylim(-0.14, 0.18)
-    ax.set_title("More polymorphic species are more spatially organized")
+    ax.set_title("Higher D accompanies stronger spatial organization")
     ax.legend(frameon=False, loc="lower left", fontsize=7.5)
     panel_label(ax, "A")
 
@@ -526,7 +545,6 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     p = [float(h3a["reserve_primary"][s]["p_K"]) for s in scenarios]
     x = np.arange(3)
     ax.scatter(x, k, s=100, color=SECONDARY, edgecolor="white", linewidth=0.8)
-    ax.plot(x, k, color=SECONDARY, linewidth=1.2, alpha=0.7)
     for xi, kval, pval in zip(x, k, p, strict=True):
         ax.text(xi, kval + 0.004, f"p={pval:.4f}", ha="center", va="bottom", fontsize=8.5)
     ax.set_xticks(x, scenarios)
@@ -563,7 +581,7 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.text(
         0.03,
         0.06,
-        "Sampled span != true range size",
+        "Sampled photographic span is not biological range size",
         transform=ax.transAxes,
         ha="left",
         va="bottom",
@@ -598,6 +616,10 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             "discovery_p": ps[0],
             "reserve_rho": vals[1],
             "reserve_p": ps[1],
+        },
+        "layout_contract": {
+            "panel_widths": "spatial_primary_wide",
+            "tree_scenarios": "unconnected_discrete_points",
         },
     }
     return files, meta
