@@ -3,7 +3,7 @@ name: Regenerate polymorphism figures for reader-flow revision
 on:
   push:
     branches:
-      - revision/publication-figure-polish-20260926
+      - revision/np-figure1-reader-flow-20260926
     paths:
       - scripts/analysis/make_polymorphism_manuscript_figures.py
       - tests/test_make_polymorphism_manuscript_figures.py
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: revision/publication-figure-polish-20260926
+          ref: revision/np-figure1-reader-flow-20260926
           fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
@@ -55,6 +55,6 @@ jobs:
             exit 0
           fi
           git commit -m "Regenerate Figure 1 with secondary-flow chronology"
-          git fetch origin revision/publication-figure-polish-20260926
-          git rebase origin/revision/publication-figure-polish-20260926
-          git push origin HEAD:revision/publication-figure-polish-20260926
+          git fetch origin revision/np-figure1-reader-flow-20260926
+          git rebase origin/revision/np-figure1-reader-flow-20260926
+          git push origin HEAD:revision/np-figure1-reader-flow-20260926
