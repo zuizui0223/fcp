@@ -10,11 +10,11 @@
 
 **Word counts (current working draft):**
 - Summary: 180 words
-- Introduction: 651 words
+- Introduction: 652 words
 - Materials and Methods: 2,858 words
 - Results: 1,807 words
 - Discussion: 2,306 words
-- Main text (Introduction through Discussion): 7,622 words
+- Main text (Introduction through Discussion): 7,623 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -40,7 +40,7 @@ Scaling that comparison first requires a measurement problem to be solved. Commu
 
 This design allows two ecological alternatives to be distinguished. If flower-colour variation is largely idiosyncratic across species, continuous displacement should not repeatedly concentrate along the same phenotype-space direction. If common developmental, genetic or functional constraints make some contrasts more accessible than others, a recurrent axis may appear even when the ecological causes differ among species. Independently, if larger D mainly reflects sampling breadth or unstructured noise, it need not be associated with geographic organization; if ecological or demographic sorting contributes to species differences in D, more diverse species may also show stronger within-species spatial structure without requiring the same geographic boundary or environmental driver across species.
 
-We test these ideas in chronologically separated stages. Original discovery and reserve cohorts first identified label-free directional concentration and localized its construction-controlled component to a fixed white-versus-equal-nonwhite contrast; because that target was named after the original geometry was opened, those cohorts provide discovery and localization rather than prospective evidence. We then froze the axis, statistic, admissibility thresholds, structured null, support gates and one-shot execution contract before evaluating it in a species-disjoint third cohort. Separately, we test whether species with greater D show stronger within-species geographic colour organization, and use frozen phylogenetic and sampled-span tests as alternative-explanation filters. The study therefore has two distinct aims: **methodologically**, to establish when repeated photographs support a validated species-level distributional trait; and **ecologically**, to ask whether cross-species generality resides in what phenotypic contrast varies and in how strongly that variation is geographically sorted, rather than necessarily in one universal driver or one shared map.
+We test these ideas in chronologically separated stages. Original discovery and reserve cohorts first identified label-free directional concentration and localized its construction-controlled component to a fixed white-versus-equal-nonwhite contrast; because that target was named after the original geometry was opened, those cohorts provide discovery and target-localization evidence rather than prospective confirmation. We then froze the axis, statistic, admissibility thresholds, structured null, support gates and one-shot execution contract before evaluating it in a species-disjoint third cohort. Separately, we test whether species with greater D show stronger within-species geographic colour organization, and use frozen phylogenetic and sampled-span tests as alternative-explanation filters. The study therefore has two distinct aims: **methodologically**, to establish when repeated photographs support a validated species-level distributional trait; and **ecologically**, to ask whether cross-species generality resides in what phenotypic contrast varies and in how strongly that variation is geographically sorted, rather than necessarily in one universal driver or one shared map.
 
 ---
 
