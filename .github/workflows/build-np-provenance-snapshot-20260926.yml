@@ -108,6 +108,11 @@ jobs:
             copy_path "$p"
           done
 
+          # The receipt is generated only after the package is uploaded.
+          # Excluding the previous receipt avoids a stale self-reference inside
+          # the package that the new receipt is meant to identify.
+          rm -f "$stage/repository/archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md"
+
           while IFS= read -r -d '' p; do copy_path "$p"; done < <(
             find docs -maxdepth 1 -type f \(               -name 'POLYMORPHISM_H1*' -o               -name 'POLYMORPHISM_H2*' -o               -name 'POLYMORPHISM_H3*' -o               -name 'POLYMORPHISM_WHITE_ENVIRONMENT*' -o               -name 'POLYMORPHISM_LEGACY_WHITE_BIO5*'             \) -print0
           )

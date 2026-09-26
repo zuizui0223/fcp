@@ -14,7 +14,9 @@ Release tag:
 
 The release tag is the stable reader entry point, while the Git-tracked receipt at `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md` defines the exact current asset identity. When the active manuscript, figures, current result surface, relevant analysis code/tests or reproducibility routing changes, the build workflow regenerates the deterministic package from that repository head, replaces the release asset and records its source commit, byte count, SHA256 and file count in the receipt.
 
-Refreshing the package **does not recompute, alter or upgrade any frozen biological result**. The immutable raw-input commits and checksums below remain unchanged. Earlier package identities remain recoverable from Git history through earlier receipt revisions.
+Refreshing the package **does not recompute, alter or upgrade any frozen biological result**. The immutable raw-input commits and checksums below remain unchanged. Earlier receipt identities remain audit-visible in Git history.
+
+The canonical receipt is intentionally **not embedded inside the tar.gz it identifies**. The workflow writes that receipt only after the package bytes and SHA256 are known, preventing a stale/self-referential receipt from being carried inside a newly refreshed package. The release tag is the current-snapshot asset container; the Git-tracked receipt defines the exact current bytes.
 
 ## Self-contained inputs added at package time
 
