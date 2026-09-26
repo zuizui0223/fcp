@@ -1,0 +1,23 @@
+{
+  "metadata_status": "DRAFT_REQUIRES_AUTHOR_APPROVAL",
+  "title": "Within-species flower-colour variation shows achromatic–chromatic alignment beyond coarse colour-state composition",
+  "upload_type": "dataset",
+  "description": "Self-contained data, code, frozen protocols, results, figures and provenance archive supporting the New Phytologist manuscript on cross-species structure of within-species flower-colour variation. The archive preserves the exact measured inputs and checksum-pinned environmental inputs required to audit the frozen numerical claims.",
+  "creators": [],
+  "keywords": [
+    "flower colour",
+    "intraspecific variation",
+    "polymorphism",
+    "citizen science",
+    "achromatic-chromatic axis",
+    "spatial organization"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/zuizui0223/fcp",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "notes": "Do not publish until creator order, ORCIDs, affiliations, licence and final author approvals are confirmed."
+}
