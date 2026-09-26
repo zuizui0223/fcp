@@ -357,7 +357,7 @@ The manuscript must not claim:
 
 - Current claim ledger: `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
 - Claim-to-input lineage map: `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`
-- Self-contained provenance release: `fcp-np-provenance-20260926` — https://github.com/zuizui0223/fcp/releases/tag/fcp-np-provenance-20260926 — 113,156,301 bytes, 145 files, SHA256 `cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7`
+- Self-contained provenance release: `fcp-np-provenance-20260926` — https://github.com/zuizui0223/fcp/releases/tag/fcp-np-provenance-20260926 — current source commit, asset byte count, SHA256 and packaged-file count are recorded in `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`
 - Paper architecture: `docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md`
 - Figure plan: `docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`
 - Supporting Information map: `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`
