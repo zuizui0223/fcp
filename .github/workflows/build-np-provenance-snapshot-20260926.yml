@@ -4,12 +4,62 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md
+      - README.md
+      - CURRENT_PAPER_REPRODUCIBILITY.md
+      - docs/POLYMORPHISM_MANUSCRIPT*.md
+      - docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md
+      - docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md
+      - docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md
+      - docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md
+      - docs/POLYMORPHISM_FIGURE_PLAN_20260918.md
+      - docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md
+      - docs/POLYMORPHISM_H1*.md
+      - docs/POLYMORPHISM_H2*.md
+      - docs/POLYMORPHISM_H3*.md
+      - docs/POLYMORPHISM_WHITE_ENVIRONMENT*.md
+      - docs/POLYMORPHISM_LEGACY_WHITE_BIO5*.md
+      - docs/figures/polymorphism_20260918/**
+      - results/polymorphism_*/**
+      - scripts/analysis/*polymorphism*
+      - scripts/analysis/run_white_environment*
+      - scripts/analysis/run_legacy_white_bio5*
+      - tests/test_polymorphism*
+      - tests/test_make_polymorphism_manuscript_figures.py
+      - .github/workflows/*polymorphism*
+      - .github/workflows/white-environment*
+      - .github/workflows/legacy-white-bio5*
+      - .github/workflows/*worldclim*
+      - .github/workflows/freeze-fcp-expiring-artifacts-20260925.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
   push:
     branches: [main]
     paths:
-      - docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md
+      - README.md
+      - CURRENT_PAPER_REPRODUCIBILITY.md
+      - docs/POLYMORPHISM_MANUSCRIPT*.md
+      - docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md
+      - docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md
+      - docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md
+      - docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md
+      - docs/POLYMORPHISM_FIGURE_PLAN_20260918.md
+      - docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md
+      - docs/POLYMORPHISM_H1*.md
+      - docs/POLYMORPHISM_H2*.md
+      - docs/POLYMORPHISM_H3*.md
+      - docs/POLYMORPHISM_WHITE_ENVIRONMENT*.md
+      - docs/POLYMORPHISM_LEGACY_WHITE_BIO5*.md
+      - docs/figures/polymorphism_20260918/**
+      - results/polymorphism_*/**
+      - scripts/analysis/*polymorphism*
+      - scripts/analysis/run_white_environment*
+      - scripts/analysis/run_legacy_white_bio5*
+      - tests/test_polymorphism*
+      - tests/test_make_polymorphism_manuscript_figures.py
+      - .github/workflows/*polymorphism*
+      - .github/workflows/white-environment*
+      - .github/workflows/legacy-white-bio5*
+      - .github/workflows/*worldclim*
+      - .github/workflows/freeze-fcp-expiring-artifacts-20260925.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
   workflow_dispatch:
 
@@ -54,7 +104,7 @@ jobs:
             fi
           }
 
-          for p in             docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md             docs/POLYMORPHISM_MANUSCRIPT.md             docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md             docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md             docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md             docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md             docs/POLYMORPHISM_FIGURE_PLAN_20260918.md             docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md             docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md             docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md             docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md             docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md             docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md             docs/figures/polymorphism_20260918             archive/fcp_submission_20260925; do
+          for p in             README.md             CURRENT_PAPER_REPRODUCIBILITY.md             docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md             docs/POLYMORPHISM_MANUSCRIPT.md             docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md             docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md             docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md             docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md             docs/POLYMORPHISM_FIGURE_PLAN_20260918.md             docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md             docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md             docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md             docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md             docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md             docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md             docs/figures/polymorphism_20260918             archive/fcp_submission_20260925; do
             copy_path "$p"
           done
 
