@@ -3,7 +3,7 @@ name: Regenerate polymorphism figures for reader-flow revision
 on:
   push:
     branches:
-      - revision/np-figure1-reader-flow-20260926
+      - revision/publication-figure-polish-20260926
     paths:
       - scripts/analysis/make_polymorphism_manuscript_figures.py
       - tests/test_make_polymorphism_manuscript_figures.py
