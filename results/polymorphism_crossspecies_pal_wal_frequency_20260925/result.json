@@ -1,0 +1,40 @@
+{
+  "schema":"fcp_crossspecies_pal_wal_frequency_v1",
+  "status":"complete",
+  "source_workflow_run":36117286788,
+  "source_artifact_id":10855596712,
+  "source_artifact_digest":"sha256:9f74ff93ad38f1deda8d22b68458eae51d8b92f59d124c42b841b7776a7aed3d",
+  "source":"Supplementary Table S1, Del Valle et al. 2019, DOI 10.1186/s12870-019-2082-6",
+  "PAL":{
+    "instances":13,
+    "source_taxonomic_groups":8,
+    "lower_bound_median_percent":5.0,
+    "upper_bound_median_percent":43.0,
+    "minimum_upper_endpoint_percent":10.0,
+    "maximum_upper_endpoint_percent":100.0,
+    "instances_lower_bound_above_max_quantified_WAL":7
+  },
+  "WAL":{
+    "instances_total":13,
+    "instances_natural_non_greenhouse":12,
+    "source_taxonomic_groups":9,
+    "numeric_natural_instances":8,
+    "numeric_upper_bound_median_percent":0.1,
+    "numeric_upper_bound_max_percent":1.4,
+    "qualitative_rare_instances":3,
+    "qualitative_extremely_rare_instances":1,
+    "excluded_greenhouse_instances":1
+  },
+  "descriptive_contrast":{
+    "PAL_median_lower_bound_over_WAL_median_upper_bound":50.0,
+    "PAL_minimum_upper_endpoint_over_WAL_maximum_upper_bound":7.142857142857143,
+    "all_PAL_upper_endpoints_above_max_quantified_WAL":true
+  },
+  "interpretation":"Across the literature systems assembled in Table S1, petal-restricted anthocyanin-loss polymorphisms commonly attain multi-percent to high frequencies, whereas quantified whole-plant anthocyanin-loss variants are bounded at low single-percent or lower frequencies and additional cases are described as rare/extremely rare.",
+  "hard_nonclaims":[
+    "post-publication literature synthesis, not an unbiased species sample",
+    "does not prove tissue restriction causally causes higher frequency",
+    "source family labels are preserved as printed and not taxonomically corrected",
+    "qualitative WAL frequencies are not numerically imputed"
+  ]
+}

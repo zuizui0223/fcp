@@ -409,6 +409,44 @@ def test_self_contained_np_provenance_release_is_exposed_to_readers() -> None:
     assert len(source_line.removeprefix("Source commit: ").strip()) == 40
     assert len(sha_line.removeprefix("Asset SHA256: ").strip()) == 64
 
+def test_discussion_adds_bounded_pal_wal_maintenance_and_moricandia_chronology() -> None:
+    import json
+    import pytest
+
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    pal = json.loads((ROOT / "results" / "polymorphism_silene_decoupling_persistence_20260925" / "result.json").read_text(encoding="utf-8"))
+    cross = json.loads((ROOT / "results" / "polymorphism_crossspecies_pal_wal_frequency_20260925" / "result.json").read_text(encoding="utf-8"))
+
+    assert pal["phenotypes"]["PAL"]["positive_frequency_median_percent"] == pytest.approx(15.5)
+    assert pal["phenotypes"]["WAL"]["positive_frequency_median_percent"] == pytest.approx(0.21)
+    assert cross["PAL"]["lower_bound_median_percent"] == pytest.approx(5.0)
+    assert cross["WAL"]["numeric_upper_bound_median_percent"] == pytest.approx(0.1)
+    assert cross["WAL"]["numeric_upper_bound_max_percent"] == pytest.approx(1.4)
+
+    for token in (
+        "petal anthocyanin-loss (PAL)",
+        "whole-plant anthocyanin-loss (WAL)",
+        "median 15.5%",
+        "median 0.21%",
+        "median PAL lower bound was 5%",
+        "0.1% median WAL upper bound",
+        "maintenance filter",
+        "literature sample is ascertained and heterogeneous",
+        "Gómez et al. 2020",
+        "Narbona et al. 2026",
+        "Lacey 2026",
+    ):
+        assert token in text
+
+    for reference in (
+        "10.1186/s12870-019-2082-6",
+        "10.1038/s41467-020-17875-1",
+        "10.1002/ajb2.70096",
+        "10.1002/ajb2.70106",
+    ):
+        assert reference in text
+
+
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     for token in (
