@@ -165,6 +165,69 @@ A single-species pipeline does not validate the current multispecies measurement
 
 ---
 
+## 7a. Comparative flower-colour macroecology has mainly compared aggregated species or community colour traits
+
+**Dalrymple, R. L., Kemp, D. J., Flores-Moreno, H., Laffan, S. W., White, T. E., Hemmings, F. A., & Moles, A. T. (2020).**
+*Macroecological patterns in flower colour are shaped by both biotic and abiotic factors.*
+New Phytologist 228: 1972–1985.
+DOI: 10.1111/nph.16737.
+
+### Supports
+
+The study compares quantitative floral colour traits across 339 species and broad environmental gradients, demonstrating that flower-colour macroecology can identify biotic and abiotic correlates at broad scales.
+
+### Allowed manuscript use
+
+Use as the clearest comparator for the existing many-species tradition: broad comparative flower-colour work has largely summarized species/community colour traits rather than treating each species' within-species colour distribution, its geometry and its spatial organization as the comparative object.
+
+### Does not support
+
+It does not imply that all previous macroecological work ignored intraspecific variation, and it does not validate the present D or H2 estimands.
+
+---
+
+## 7b. Genus-scale comparative work links local polymorphism processes to broader incidence, but within a restricted lineage and colour contrast
+
+**Carlson, J. E., & Holsinger, K. E. (2015).**
+*Extrapolating from local ecological processes to genus-wide patterns in colour polymorphism in South African Protea.*
+Proceedings of the Royal Society B 282: 20150583.
+DOI: 10.1098/rspb.2015.0583.
+
+### Supports
+
+Across 31 bird-pollinated *Protea* species, environmental breadth and local morph-frequency patterns were related to species-level polymorphism or monomorphism. This is important precedent that mechanisms observed within species can be asked comparatively across a lineage.
+
+### Allowed manuscript use
+
+Use to avoid an inflated "first comparative polymorphism study" claim. Position the present work instead as a broader multispecies test of the amount, phenotype-space geometry and geographic organization of within-species colour variation.
+
+### Does not support
+
+Do not describe the current study as the first cross-species ecological analysis of flower-colour polymorphism.
+
+---
+
+## 7c. Citizen-science mapping of geographic flower-colour polymorphism has direct single-species precedent
+
+**Surmacz, B. (2023).**
+*Spatial patterns of flower colour variation in native and introduced ranges of Convolvulus arvensis (Convolvulaceae) revealed by citizen-science data and machine learning.*
+Plant Biology 25: 681–686.
+DOI: 10.1111/plb.13537.
+
+### Supports
+
+The paper uses iNaturalist images and machine learning to map white/pink morph frequencies across the native and introduced ranges of a single species, showing that community-science photography can reveal large-scale geographic structure in flower-colour polymorphism.
+
+### Allowed manuscript use
+
+Use together with McKenzie et al. (2026) to establish that high-throughput geographic flower-colour phenotyping has strong single-species precedents. The present gap is therefore not "using iNaturalist for flower colour" but moving from single-species maps to validated cross-species comparison of within-species distributions.
+
+### Does not support
+
+It does not validate a multispecies recurrent axis or the present D–spatial association.
+
+---
+
 ## 8. iNaturalist observations have an observer process that must be treated as part of sampling
 
 **Di Cecco, G. J., Barve, V., Belitz, M. W., Stucky, B. J., Guralnick, R. P., & Hurlbert, A. H. (2021).**
