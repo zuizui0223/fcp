@@ -1,0 +1,166 @@
+name: Build New Phytologist submission / Zenodo candidate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_SUBMISSION_PACKAGE_MANIFEST_20260926.md
+      - docs/POLYMORPHISM_ZENODO_METADATA_DRAFT_20260926.json
+      - .github/workflows/build-np-submission-package-20260926.yml
+  push:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_SUBMISSION_PACKAGE_MANIFEST_20260926.md
+      - docs/POLYMORPHISM_ZENODO_METADATA_DRAFT_20260926.json
+      - .github/workflows/build-np-submission-package-20260926.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  CANDIDATE_TAG: fcp-np-submission-candidate-20260926
+  PROVENANCE_TAG: fcp-np-provenance-20260926
+  PROVENANCE_SHA256: cc34a67ecc9a6d15f04661d1a26a946586dfc50a9a7c4edd3ca3ede21db87cfb
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install packaging tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zip
+
+      - name: Stage journal-facing package
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_submission"
+          rm -rf "$stage"
+          mkdir -p "$stage"/{journal,figures,supporting,archive,metadata}
+
+          cp docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md "$stage/journal/manuscript_new_phytologist.md"
+          cp docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md "$stage/journal/cover_letter.md"
+          cp docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md "$stage/journal/submission_readiness_audit.md"
+
+          cp docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md "$stage/supporting/supporting_information.md"
+          cp docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md "$stage/supporting/claim_ledger.md"
+          cp docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md "$stage/supporting/data_lineage_map.md"
+          cp docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md "$stage/supporting/provenance_release_manifest.md"
+          cp CURRENT_PAPER_REPRODUCIBILITY.md "$stage/supporting/CURRENT_PAPER_REPRODUCIBILITY.md"
+
+          cp docs/POLYMORPHISM_ZENODO_METADATA_DRAFT_20260926.json "$stage/metadata/ZENODO_METADATA_DRAFT.json"
+          cp docs/POLYMORPHISM_SUBMISSION_PACKAGE_MANIFEST_20260926.md "$stage/metadata/SUBMISSION_PACKAGE_MANIFEST.md"
+
+          cp docs/figures/polymorphism_20260918/polymorphism_figure_manifest_20260918.json "$stage/figures/"
+          for n in 1 2 3 4 5; do
+            cp docs/figures/polymorphism_20260918/polymorphism_figure${n}_*.pdf "$stage/figures/"
+            cp docs/figures/polymorphism_20260918/polymorphism_figure${n}_*.png "$stage/figures/"
+          done
+
+          cat > "$stage/metadata/AUTHOR_METADATA_REQUIRED.md" <<'EOF'
+          # Author-controlled metadata required before public Zenodo release
+          - final author list and order
+          - corresponding author and email
+          - exact affiliations
+          - ORCIDs
+          - funding / grant numbers
+          - acknowledgements
+          - competing interests
+          - CRediT roles
+          - archive licence
+          EOF
+
+          cat > "$stage/README.md" <<EOF
+          # FCP New Phytologist submission / archive package
+          source_commit=$GITHUB_SHA
+          scientific_results_recomputed=false
+          zenodo_publication_gate=BLOCKED_PENDING_AUTHOR_METADATA
+
+          The journal-facing ZIP contains the manuscript, cover letter, five main figures,
+          Supporting Information and audit routing. The Zenodo-ready tarball additionally
+          contains the exact self-contained provenance archive.
+          EOF
+
+      - name: Add exact provenance archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_submission"
+          gh release download "$PROVENANCE_TAG" --repo "${{ github.repository }}" \
+            --pattern 'fcp-np-provenance-20260926.tar.gz' \
+            --pattern 'fcp-np-provenance-20260926.tar.gz.sha256' \
+            --pattern 'FILE_SHA256SUMS.txt' \
+            --dir "$stage/archive"
+          echo "$PROVENANCE_SHA256  $stage/archive/fcp-np-provenance-20260926.tar.gz" | sha256sum -c -
+          mv "$stage/archive/FILE_SHA256SUMS.txt" "$stage/archive/PROVENANCE_FILE_SHA256SUMS.txt"
+
+      - name: Build packages and checksums
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_submission"
+          out="$RUNNER_TEMP/fcp_submission_release"
+          mkdir -p "$out"
+
+          (
+            cd "$stage"
+            find . -type f ! -name PACKAGE_SHA256SUMS.txt -print0 | LC_ALL=C sort -z | xargs -0 sha256sum > PACKAGE_SHA256SUMS.txt
+          )
+
+          (
+            cd "$stage"
+            zip -q -r "$out/fcp-new-phytologist-submission-20260926.zip" \
+              journal figures supporting metadata README.md PACKAGE_SHA256SUMS.txt
+          )
+
+          tar --sort=name --mtime='UTC 2026-09-26 00:00:00' \
+            --owner=0 --group=0 --numeric-owner -C "$stage" -cf - . \
+            | gzip -n -9 > "$out/fcp-zenodo-ready-20260926.tar.gz"
+
+          (
+            cd "$out"
+            sha256sum fcp-new-phytologist-submission-20260926.zip \
+              fcp-zenodo-ready-20260926.tar.gz > fcp-release-sha256-20260926.txt
+          )
+
+          grep -R -n -F \
+            -e '[AUTHOR' -e '[AFFILIATION' -e '[NAME' -e '[EMAIL' \
+            -e 'TO CONFIRM' -e 'TO COMPLETE' \
+            "$stage/journal" > "$out/author_metadata_gate.txt" || true
+          test -s "$out/author_metadata_gate.txt"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-np-submission-candidate-${{ github.sha }}
+          retention-days: 30
+          compression-level: 0
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/fcp_submission_release/fcp-new-phytologist-submission-20260926.zip
+            ${{ runner.temp }}/fcp_submission_release/fcp-zenodo-ready-20260926.tar.gz
+            ${{ runner.temp }}/fcp_submission_release/fcp-release-sha256-20260926.txt
+            ${{ runner.temp }}/fcp_submission_release/author_metadata_gate.txt
+
+      - name: Publish GitHub submission candidate release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/fcp_submission_release"
+          if gh release view "$CANDIDATE_TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release delete "$CANDIDATE_TAG" --repo "${{ github.repository }}" --yes --cleanup-tag
+          fi
+          gh release create "$CANDIDATE_TAG" \
+            --repo "${{ github.repository }}" \
+            --target "$GITHUB_SHA" \
+            --title "FCP New Phytologist submission / Zenodo candidate (2026-09-26)" \
+            --notes "Frozen journal-facing and Zenodo-ready package. Scientific results are unchanged. Public Zenodo publication is intentionally gated until final author order, ORCIDs, affiliations, funding, acknowledgements, competing interests, CRediT roles and archive licence are approved."
+          gh release upload "$CANDIDATE_TAG" \
+            "$out/fcp-new-phytologist-submission-20260926.zip" \
+            "$out/fcp-zenodo-ready-20260926.tar.gz" \
+            "$out/fcp-release-sha256-20260926.txt" \
+            "$out/author_metadata_gate.txt" \
+            --repo "${{ github.repository }}"
