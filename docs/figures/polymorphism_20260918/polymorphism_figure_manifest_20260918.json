@@ -6,9 +6,9 @@
       "discovery_n": 369,
       "files": {
         "pdf": "polymorphism_figure1_measurement_frame.pdf",
-        "pdf_sha256": "ceb64eaf2fc856b6e10c5476411cee87ebea1cd393b3d71d91f184fd5dcd343d",
+        "pdf_sha256": "9e125d160203536bddbd33d7d6bc830cf831bb1eb4d23ff0439daf1e3d3e34e5",
         "png": "polymorphism_figure1_measurement_frame.png",
-        "png_sha256": "4eb5245cf15c958318b0e3ada32b83c2e964047f417670857b62082b173595cb"
+        "png_sha256": "2f5a3f44fabbcb316c2157cc7b133500b256679da655afffc0d22190b2dddbaa"
       },
       "global_frame_species": 42111,
       "layout_contract": {
@@ -23,9 +23,9 @@
     "figure2": {
       "files": {
         "pdf": "polymorphism_figure2_h1_reproducibility.pdf",
-        "pdf_sha256": "e0a3312cfa17ced51d665a9713e3ab6e5028b18b6811a61538470583b45bbc59",
+        "pdf_sha256": "4cd90838c5c2dc67fb13d835df0d654e9a521e9b5c1cdbf88464d2fc75a052e7",
         "png": "polymorphism_figure2_h1_reproducibility.png",
-        "png_sha256": "5822ab3353895207dc9421e8767befd72c38ee0f6065315ba2e941c6975c2dd8"
+        "png_sha256": "86dcf9596d75b291c9a822d045029f8913472150717db08816034c217973024a"
       },
       "layout_contract": {
         "stress_annotations": "offset_no_legend_overlap"
@@ -40,9 +40,9 @@
     "figure3": {
       "files": {
         "pdf": "polymorphism_figure3_h2_target_localization.pdf",
-        "pdf_sha256": "db3b85851b1c7d6988de809e0e254064fbc910a3aed06ca755842a7e667267fb",
+        "pdf_sha256": "ff5649ca9fe67fcaf96476216cc6d8608f356bff2bcd3aca6739fedc7449218d",
         "png": "polymorphism_figure3_h2_target_localization.png",
-        "png_sha256": "47da9e13dc895755fcdfaf1765b894fc00ba2f5089090068918c9074d3fe8d2a"
+        "png_sha256": "9e51673828bdd84364802f40abefac19fd2df1323c9fff6b0669b93afcdf83ed"
       },
       "layout_contract": {
         "legend": "outside_below_axis"
@@ -54,9 +54,12 @@
     "figure4": {
       "files": {
         "pdf": "polymorphism_figure4_prospective_h2.pdf",
-        "pdf_sha256": "58fb0ec8ab8f250930d9d83ac8bc8736f7057d6443852c86c2667a861563397a",
+        "pdf_sha256": "1364793a226e5f8950c9253e982ef9bc7c203778a42f20d04aeb4552af18b9af",
         "png": "polymorphism_figure4_prospective_h2.png",
-        "png_sha256": "2f330a95e62bfa84a80f388790091ac47f071e8173a62432db7f31b087bb587c"
+        "png_sha256": "c0a84a3a74b55246d4b15c423ba539763ee1e2b37afec93f35527badb5b88949"
+      },
+      "layout_contract": {
+        "same_universe_nonreplication_note": "caption_not_plot_field"
       },
       "primary": {
         "W": 0.5172457461053418,
@@ -76,9 +79,9 @@
     "figure5": {
       "files": {
         "pdf": "polymorphism_figure5_explanatory_boundaries.pdf",
-        "pdf_sha256": "43fb1a7a9c913bc22db0f402ae65eecf4a94d2361aabf0bf8dd2c379e35320bc",
+        "pdf_sha256": "92112c575c36eaa866297dd0a7dafc917dba64882b7ef286e804bf0586eed542",
         "png": "polymorphism_figure5_explanatory_boundaries.png",
-        "png_sha256": "b16ae93d8ec0dca10251c214acdd614c128d502b2f429709b94cdcc418d66795"
+        "png_sha256": "ecc0a4029990e12e08a153be726ee384ab088a4c1b1880e674ddd5b1c11729cf"
       },
       "h3a": {
         "reserve_scenarios": {
@@ -103,6 +106,10 @@
         "reserve_p": 0.958602069896505,
         "reserve_rho": -0.0025855470661547,
         "verdict": "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+      },
+      "layout_contract": {
+        "panel_widths": "spatial_primary_wide",
+        "tree_scenarios": "unconnected_discrete_points"
       },
       "spatial_organization": {
         "discovery_adjusted_p": 0.007,
