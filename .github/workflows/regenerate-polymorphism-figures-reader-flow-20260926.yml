@@ -1,0 +1,60 @@
+name: Regenerate polymorphism figures for reader-flow revision
+
+on:
+  push:
+    branches:
+      - revision/np-figure1-reader-flow-20260926
+    paths:
+      - scripts/analysis/make_polymorphism_manuscript_figures.py
+      - tests/test_make_polymorphism_manuscript_figures.py
+      - docs/POLYMORPHISM_FIGURE_PLAN_20260918.md
+      - docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md
+      - .github/workflows/regenerate-polymorphism-figures-reader-flow-20260926.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: revision/np-figure1-reader-flow-20260926
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: python -m pip install --upgrade pytest pandas numpy matplotlib
+      - name: Run figure tests
+        run: python -m pytest tests/test_make_polymorphism_manuscript_figures.py -q
+      - name: Regenerate canonical figure package
+        run: |
+          rm -rf docs/figures/polymorphism_20260918
+          python scripts/analysis/make_polymorphism_manuscript_figures.py --root . --output-dir docs/figures/polymorphism_20260918
+      - name: Re-run tests against regenerated package
+        run: python -m pytest tests/test_make_polymorphism_manuscript_figures.py -q
+      - uses: actions/upload-artifact@v4
+        with:
+          name: figure1-reader-flow-qa
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            docs/figures/polymorphism_20260918/polymorphism_figure1_measurement_frame.png
+            docs/figures/polymorphism_20260918/polymorphism_figure1_measurement_frame.pdf
+      - name: Commit regenerated figure outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/figures/polymorphism_20260918
+          if git diff --cached --quiet; then
+            echo "No figure changes"
+            exit 0
+          fi
+          git commit -m "Regenerate Figure 1 with secondary-flow chronology"
+          git fetch origin revision/np-figure1-reader-flow-20260926
+          git rebase origin/revision/np-figure1-reader-flow-20260926
+          git push origin HEAD:revision/np-figure1-reader-flow-20260926

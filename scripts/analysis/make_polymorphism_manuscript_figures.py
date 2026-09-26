@@ -114,7 +114,7 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     if d.groupby("cohort").size().to_dict() != expected:
         raise ValueError("unexpected H1/H3 D cohort sizes in reporting source")
 
-    fig, axes = plt.subplots(1, 2, figsize=(11.6, 4.7), gridspec_kw={"width_ratios": [1.25, 1.0]})
+    fig, axes = plt.subplots(1, 2, figsize=(12.2, 5.15), gridspec_kw={"width_ratios": [1.08, 1.12]})
     fig.suptitle("A continuous species-level flower-colour polymorphism phenotype", y=1.02, fontweight="bold")
 
     ax = axes[0]
@@ -145,12 +145,18 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax = axes[1]
     ax.axis("off")
     box_style = {"boxstyle": "round,pad=0.5", "facecolor": "white", "edgecolor": "#999999"}
+    secondary_box_style = {
+        "boxstyle": "round,pad=0.45",
+        "facecolor": "white",
+        "edgecolor": "#999999",
+        "linestyle": "--",
+    }
     boxes = [
-        (0.50, 0.88, "42,111-species global frame\nSampling / opportunity universe"),
-        (0.28, 0.58, "Original high-depth source\n500 discovery + 500 reserve\n100 photos per species"),
-        (0.28, 0.22, "D inference after ≥40 classifiable\n369 discovery + 363 reserve"),
-        (0.74, 0.58, "Prospective H2 third cohort\npre-frozen selection + fresh metadata"),
-        (0.74, 0.22, "499 species × 100 rows\n377 measurement-evaluable\n0 replacements"),
+        (0.50, 0.90, "42,111-species global frame\nSampling / opportunity universe"),
+        (0.23, 0.61, "Original high-depth source\n500 discovery + 500 reserve\n100 photos per species"),
+        (0.23, 0.25, "D inference after ≥40 classifiable\n369 discovery + 363 reserve"),
+        (0.78, 0.61, "Prospective H2 third cohort\npre-frozen selection\n+ fresh metadata"),
+        (0.78, 0.31, "499 species × 100 rows\n377 measurement-evaluable\nH2 confirmation"),
     ]
     for x, y, text in boxes:
         ax.text(
@@ -160,16 +166,16 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             transform=ax.transAxes,
             ha="center",
             va="center",
-            fontsize=8.8,
+            fontsize=8.6,
             bbox=box_style,
         )
-    # The global frame branches into the legacy validation lane and the
-    # later prospective-confirmation lane; arrows point from source to target.
+
+    # Solid arrows encode the pre-frozen sampling / confirmation chain.
     for source, target in [
-        ((0.44, 0.80), (0.31, 0.67)),
-        ((0.56, 0.80), (0.71, 0.67)),
-        ((0.28, 0.48), (0.28, 0.32)),
-        ((0.74, 0.48), (0.74, 0.32)),
+        ((0.44, 0.82), (0.27, 0.70)),
+        ((0.56, 0.82), (0.74, 0.70)),
+        ((0.23, 0.51), (0.23, 0.35)),
+        ((0.78, 0.51), (0.78, 0.41)),
     ]:
         ax.annotate(
             "",
@@ -178,8 +184,30 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             xycoords=ax.transAxes,
             arrowprops={"arrowstyle": "->", "color": "#777777", "lw": 1.2},
         )
-    ax.text(0.28, 0.70, "original validation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
-    ax.text(0.74, 0.70, "prospective confirmation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
+
+    # The same physical third-cohort rows were reused only after H2 had
+    # terminalized. A dashed box / arrow keeps that secondary chronology
+    # visually distinct from untouched prospective confirmation.
+    ax.text(
+        0.78,
+        0.065,
+        "Later secondary follow-up\nhighlight validity + BIO5/BIO14/SRAD\nnot part of prospective H2",
+        transform=ax.transAxes,
+        ha="center",
+        va="center",
+        fontsize=7.3,
+        color=NEUTRAL,
+        bbox=secondary_box_style,
+    )
+    ax.annotate(
+        "",
+        xy=(0.78, 0.145),
+        xytext=(0.78, 0.22),
+        xycoords=ax.transAxes,
+        arrowprops={"arrowstyle": "->", "color": "#777777", "lw": 1.1, "linestyle": "--"},
+    )
+    ax.text(0.23, 0.73, "original validation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
+    ax.text(0.78, 0.73, "prospective confirmation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
     panel_label(ax, "B")
 
     fig.tight_layout()
@@ -194,6 +222,7 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         "layout_contract": {
             "cohort_topology": "global_frame_branches_to_original_and_third_cohort",
             "arrow_direction": "top_to_bottom",
+            "secondary_followup": "dashed_post_h2_reuse_of_third_cohort",
         },
     }
     return files, meta

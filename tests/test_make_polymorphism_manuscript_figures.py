@@ -101,6 +101,7 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     f1_layout = manifest["figures"]["figure1"]["layout_contract"]
     assert f1_layout["cohort_topology"] == "global_frame_branches_to_original_and_third_cohort"
     assert f1_layout["arrow_direction"] == "top_to_bottom"
+    assert f1_layout["secondary_followup"] == "dashed_post_h2_reuse_of_third_cohort"
 
     f2_layout = manifest["figures"]["figure2"]["layout_contract"]
     assert f2_layout["stress_annotations"] == "offset_no_legend_overlap"

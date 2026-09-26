@@ -10,7 +10,7 @@ This repository is the **geographic-space arm** of a broader programme on the sp
 
 The shared-geography estimand did not become the positive core of the present paper: the primary recurrent-field test was not supported at the prespecified level, cross-species boundary commonness did not transfer, and later sharedness qualification exposed an identifiability limitation. What did remain strongly useful was the infrastructure and the species-specific heterogeneity: globally broad species discovery, high-depth discovery/reserve cohorts, location-blind colour measurement, paired background controls and per-species spatial-organization statistics.
 
-The current paper therefore changes the level of generality from **a shared place on the world map** to **shared structure in phenotype space plus species-specific spatial organization**. A full interpretation is frozen in `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`.
+The current paper therefore changes the level of generality from **a shared place on the world map** to **shared structure in phenotype space plus measurable within-species spatial organization**. Whether those spatial patterns share a common map across species remains unresolved under the current identifiability limits. A full interpretation is frozen in `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`.
 
 The active paper asks three linked questions: **can within-species flower-colour polymorphism be measured reproducibly as a species phenotype, is that variation geometrically constrained in colour space, and do more polymorphic species organize that variation more strongly across geography?**
 
