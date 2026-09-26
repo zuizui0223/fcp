@@ -546,7 +546,11 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     x = np.arange(3)
     ax.scatter(x, k, s=100, color=SECONDARY, edgecolor="white", linewidth=0.8)
     for xi, kval, pval in zip(x, k, p, strict=True):
-        ax.text(xi, kval + 0.004, f"p={pval:.4f}", ha="center", va="bottom", fontsize=8.5)
+        # Nudge S1 inward so its p-value remains clear of the y-axis after
+        # journal-width reduction; scenarios remain unordered/discrete.
+        label_x = xi + 0.06 if xi == 0 else xi
+        label_ha = "left" if xi == 0 else "center"
+        ax.text(label_x, kval + 0.004, f"p={pval:.4f}", ha=label_ha, va="bottom", fontsize=8.5)
     ax.set_xticks(x, scenarios)
     ax.set_ylabel("Reserve Blomberg K")
     ax.set_xlabel("Frozen tree-placement scenario")

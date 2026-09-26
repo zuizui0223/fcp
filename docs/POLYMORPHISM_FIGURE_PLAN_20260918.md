@@ -1,6 +1,6 @@
 # Flower-colour polymorphism canonical figure plan — 2026-09-18
 
-This document describes the **implemented two-panel main figures** after prospective third-cohort H2 confirmation and visual QA. It supersedes the earlier aspirational multi-panel architecture where they differ.
+This document describes the **implemented main figures** after prospective third-cohort H2 confirmation and visual QA. It supersedes the earlier aspirational multi-panel architecture where they differ.
 
 Authoritative claim ledger:
 
@@ -133,9 +133,11 @@ Projection-removal and non-white-only falsification are reported in Supporting I
 
 This is the decisive biological figure.
 
-The bottom annotation must read:
+The figure caption must state:
 
 **Species-disjoint prospective test of excess alignment within the same iNaturalist opportunity universe; not an independent-source replication.**
+
+This boundary is intentionally kept out of the plotting field so the decisive null-versus-observed comparison remains legible at journal width.
 
 ### Panel A — primary 0.10 tier
 
@@ -172,6 +174,8 @@ The measurement gate is described in the legend/text rather than as an additiona
 
 ### Panel A — D tracks within-species geographic organization
 
+This is the positive biological result and receives the widest panel in the three-panel layout.
+
 Plot the frozen observed partial correlations against their geometry-preserving null intervals:
 
 - discovery, span + clear technical-failure adjusted: partial rho = **0.1266367**, p = **0.007**;
@@ -183,6 +187,8 @@ The reporting source is `results/polymorphism_spatial_organization_clue_20260918
 ### Panel B — no detectable broad tree-wide conservation
 
 Reserve Blomberg K:
+
+The three tree-placement scenarios are displayed as **unconnected discrete points**; no line joins S1–S3 because they are alternative frozen scenarios, not an ordered trajectory.
 
 - S1: K = **0.0710190**, p = **0.2716**;
 - S2: K = **0.0601476**, p = **0.4134**;
@@ -242,7 +248,9 @@ Before a figure package is marked submission-ready:
 4. main-text figure legends must match the implemented panel count;
 5. all frozen numerical values must remain unchanged;
 6. both PNG and PDF must be regenerated from the same frozen generator;
-7. the manifest must retain `scientific_claims_changed = false`.
+7. the manifest must retain `scientific_claims_changed = false`;
+8. long inferential boundary statements belong in the caption when placing them inside the plotting field reduces legibility;
+9. alternative tree-placement scenarios must not be connected by a line that implies an ordered continuum.
 
 The scientific narrative is:
 
