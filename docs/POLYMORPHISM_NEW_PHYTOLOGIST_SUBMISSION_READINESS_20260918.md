@@ -206,22 +206,16 @@ The committed SHA256 manifest defines canonical byte identity and the analysis w
 
 **Resolved.**
 
-A single end-to-end verification package is available under GitHub Release tag:
+A single end-to-end verification package is maintained under GitHub Release tag:
 
 `fcp-np-provenance-20260926`
 
-- source commit: `f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2`
-- release ID: `396980815`
 - asset: `fcp-np-provenance-20260926.tar.gz`
-- asset ID: `589464278`
-- bytes: **113,156,301**
-- packaged files: **145**
-- SHA256: `cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7`
 - receipt: `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`
 
-The package contains the active manuscript/SI/figures, frozen protocols/results/code/tests, exact legacy discovery/reserve measured tables, the exact prospective-H2 measured table, historical spatial receipts, fresh-D provenance, permanent highlight/H3 inputs and the checksum-pinned WorldClim BIO/SRAD archives. A per-file SHA256 manifest is included.
+The Git-tracked receipt records the source commit, asset byte count, SHA256 and packaged-file count for the currently published package. The package contains the active manuscript/SI/figures, frozen protocols/results/code/tests, exact legacy discovery/reserve measured tables, the exact prospective-H2 measured table, historical spatial receipts, fresh-D provenance, permanent highlight/H3 inputs and the checksum-pinned WorldClim BIO/SRAD archives. A per-file SHA256 manifest is included.
 
-This closes the scientific data-lineage packaging task. A later Zenodo/institutional DOI mirror would provide a citation identifier, not missing analytical evidence.
+The package is refreshed when the active manuscript/evidence surface changes; a refresh repackages frozen evidence and does not alter biological results. A later Zenodo/institutional DOI mirror would provide a citation identifier, not missing analytical evidence.
 
 
 ## 6. Automated guards

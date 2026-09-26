@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fcp-pipeline"
 version = "0.1.0"
-description = "Reproducible evidence and comparative-analysis helpers for the frozen 34-species flower-colour paper"
+description = "Reproducible flower-colour polymorphism analyses with archived comparative pipelines"
 requires-python = ">=3.11"
 dependencies = [
   "numpy>=1.26",

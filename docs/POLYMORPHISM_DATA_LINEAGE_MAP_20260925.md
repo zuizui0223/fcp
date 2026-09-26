@@ -84,15 +84,11 @@ Readers who do not want to reconstruct the chain from multiple historical Git ob
 
 - release tag: `fcp-np-provenance-20260926`;
 - release URL: `https://github.com/zuizui0223/fcp/releases/tag/fcp-np-provenance-20260926`;
-- release ID: `396980815`;
-- source commit: `f21a2bd5bf98dc087cf13d6a3ee9ba40d9016fb2`;
 - asset: `fcp-np-provenance-20260926.tar.gz`;
-- asset ID: `589464278`;
-- bytes: **113,156,301** (`113156301` raw);
-- SHA256: `cb7d3b4b42ec9df52eb8d7ce60dee6362e76b2f3e6f4207820081407cedaebc7`;
-- packaged files: **145 files**;
-- per-file checksum manifest: `FILE_SHA256SUMS.txt`;
-- canonical receipt: `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`.
+- per-file checksum manifest inside the asset: `FILE_SHA256SUMS.txt`;
+- canonical current-asset receipt: `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`.
+
+The Git-tracked receipt is authoritative for the **currently published** package source commit, asset byte count, SHA256 and packaged-file count. The snapshot is regenerated when the active manuscript/evidence surface changes, so those package-instance values are intentionally not duplicated here. Earlier receipt revisions in Git history preserve prior package identities.
 
 The package includes the exact legacy discovery/reserve measured tables, the exact prospective-H2 measured table, historical spatial receipts, the fresh-D source receipt/artifact, the permanent highlight/H3 intermediate archive, the checksum-pinned WorldClim BIO/SRAD archives, the active manuscript/SI/figures, protocols, machine-readable results, relevant analysis code and regression guards.
 

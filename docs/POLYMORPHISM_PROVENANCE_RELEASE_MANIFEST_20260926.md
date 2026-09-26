@@ -10,6 +10,12 @@ Release tag:
 
 `fcp-np-provenance-20260926`
 
+## Snapshot refresh contract
+
+The release tag is the stable reader entry point, while the Git-tracked receipt at `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md` defines the exact current asset identity. When the active manuscript, figures, current result surface, relevant analysis code/tests or reproducibility routing changes, the build workflow regenerates the deterministic package from that repository head, replaces the release asset and records its source commit, byte count, SHA256 and file count in the receipt.
+
+Refreshing the package **does not recompute, alter or upgrade any frozen biological result**. The immutable raw-input commits and checksums below remain unchanged. Earlier package identities remain recoverable from Git history through earlier receipt revisions.
+
 ## Self-contained inputs added at package time
 
 The release workflow recovers and checksum-verifies the large measured tables that are intentionally not carried on current main:
