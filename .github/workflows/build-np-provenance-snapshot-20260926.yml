@@ -77,6 +77,7 @@ env:
   THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
   SPATIAL_SHA: "f14186590c11ac24c95e1985077908b732132e96"
   FRESH_D_SHA: "b14fb7635fa4ef72887fad25524eb4941ec6e149"
+  FRESH_D_MANIFEST_SHA256: "de6f5558f83e2667fe90198aa46ecf320f6e8e5f6d28480adf0687e95f5754e6"
   MEASUREMENT_SHA: "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a"
   H3A_SHA: "db2514f622468747a7d5896c2696fcbf13729ef6"
   WORLDCLIM_TAG: fcp-worldclim-2.1-10m-20260925
@@ -256,7 +257,31 @@ jobs:
           set -euo pipefail
           stage="$RUNNER_TEMP/fcp_np_provenance"
           mkdir -p "$stage/external/fresh_D_transport"
-          gh run download 35941316633 --repo "${{ github.repository }}"             --name fcp-v2-biological-and-validity-result-v1             --dir "$stage/external/fresh_D_transport"
+
+          if gh run download 35941316633 --repo "${{ github.repository }}" \
+            --name fcp-v2-biological-and-validity-result-v1 \
+            --dir "$stage/external/fresh_D_transport"; then
+            echo "fresh_D_source=actions_artifact"
+          else
+            echo "Actions artifact unavailable; recovering frozen bytes from existing provenance release"
+            prev="$RUNNER_TEMP/previous_provenance"
+            rm -rf "$prev"
+            mkdir -p "$prev"
+            gh release download "$RELEASE_TAG" --repo "${{ github.repository }}" \
+              --pattern 'fcp-np-provenance-20260926.tar.gz' --dir "$prev"
+            mkdir -p "$prev/extracted"
+            tar -xzf "$prev/fcp-np-provenance-20260926.tar.gz" -C "$prev/extracted" \
+              ./external/fresh_D_transport
+            cp -a "$prev/extracted/external/fresh_D_transport/." "$stage/external/fresh_D_transport/"
+            echo "fresh_D_source=permanent_provenance_release"
+          fi
+
+          (
+            cd "$stage"
+            find external/fresh_D_transport -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum
+          ) > "$RUNNER_TEMP/fresh_D_manifest.txt"
+          echo "$FRESH_D_MANIFEST_SHA256  $RUNNER_TEMP/fresh_D_manifest.txt" | sha256sum -c -
+
           git fetch --no-tags --depth=1 origin "$FRESH_D_SHA"
           mkdir -p "$stage/historical/fresh_D_transport"
           git show "$FRESH_D_SHA:results/fcp_v2_measurement_validity_20260923/result.json" > "$stage/historical/fresh_D_transport/source_result.json"
