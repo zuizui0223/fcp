@@ -1,0 +1,133 @@
+name: Polymorphism historical reproducibility replay
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - CURRENT_PAPER_REPRODUCIBILITY.md
+      - docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md
+      - .github/workflows/polymorphism-reproducibility-replay.yml
+      - .github/workflows/build-np-provenance-snapshot-20260926.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LEGACY_SHA: 5142f7951af0dde5364bb047a566d67e8c479e51
+  THIRD_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install frozen-analysis runtime
+        run: python -m pip install --upgrade numpy pandas scipy
+
+      - name: Materialize historical inputs and exact analysis code
+        run: |
+          set -euo pipefail
+          repro="$RUNNER_TEMP/repro"
+          rm -rf "$repro"
+          mkdir -p "$repro"/{data/derived,scripts/analysis,fcp_pipeline,docs,results}
+
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > "$repro/data/derived/global_monte_carlo_measured_photos_v1.csv"
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > "$repro/data/derived/rgfca_reserve_replication_measured_photos_v1.csv"
+          git show "$LEGACY_SHA:scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py" > "$repro/scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py"
+          git show "$LEGACY_SHA:scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py" > "$repro/scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py"
+          git show "$LEGACY_SHA:scripts/analysis/run_polymorphism_delta_geometry_structured_null_20260912.py" > "$repro/scripts/analysis/run_polymorphism_delta_geometry_structured_null_20260912.py"
+          git show "$LEGACY_SHA:scripts/analysis/run_polymorphism_white_axis_targeted_test_20260912.py" > "$repro/scripts/analysis/run_polymorphism_white_axis_targeted_test_20260912.py"
+
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          git show "$THIRD_SHA:scripts/analysis/run_polymorphism_h1_observer_disjoint_D_reliability_20260913.py" > "$repro/scripts/analysis/run_polymorphism_h1_observer_disjoint_D_reliability_20260913.py"
+          git show "$THIRD_SHA:scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py" > "$repro/scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py"
+          git show "$THIRD_SHA:scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py" > "$repro/scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py"
+          git show "$THIRD_SHA:scripts/analysis/run_polymorphism_delta_geometry_structured_null_20260912.py" > "$repro/scripts/analysis/run_polymorphism_delta_geometry_structured_null_20260912.py"
+          git show "$THIRD_SHA:fcp_pipeline/third_cohort_prospective_execution_gate.py" > "$repro/fcp_pipeline/third_cohort_prospective_execution_gate.py"
+          touch "$repro/fcp_pipeline/__init__.py"
+          mkdir -p "$repro/docs"
+          git show "$THIRD_SHA:docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md" > "$repro/docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md"
+          mkdir -p "$repro/results/polymorphism_h2_third_cohort_prospective_measurement_20260917"
+          git show "$THIRD_SHA:results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json" > "$repro/results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json"
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > "$repro/data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv"
+
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  '"$repro"'/data/derived/global_monte_carlo_measured_photos_v1.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  '"$repro"'/data/derived/rgfca_reserve_replication_measured_photos_v1.csv' | sha256sum -c -
+          echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$repro"'/data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv' | sha256sum -c -
+
+      - name: Replay H1 repeated observer-disjoint reliability
+        working-directory: ${{ runner.temp }}/repro
+        run: python scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py
+
+      - name: Replay H1 deterministic stress test
+        working-directory: ${{ runner.temp }}/repro
+        run: python scripts/analysis/run_polymorphism_h1_observer_disjoint_D_reliability_20260913.py
+
+      - name: Replay legacy H2 target localization
+        working-directory: ${{ runner.temp }}/repro
+        run: |
+          python scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py
+          python scripts/analysis/run_polymorphism_white_axis_targeted_test_20260912.py
+
+      - name: Replay prospective third-cohort H2
+        working-directory: ${{ runner.temp }}/repro
+        run: |
+          python scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py \
+            --measured-csv data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv \
+            --measurement-result results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json \
+            --output-dir results/polymorphism_h2_third_cohort_prospective_white_axis_20260917
+
+      - name: Compare replayed headline results with current frozen results
+        env:
+          REPRO: ${{ runner.temp }}/repro
+        run: |
+          python - <<'PY'
+          import json
+          import math
+          import os
+          from pathlib import Path
+
+          repo = Path.cwd()
+          repro = Path(os.environ["REPRO"])
+
+          pairs = [
+              ("results/polymorphism_h1_observer_disjoint_reliability_20260913/result.json", "H1 repeated"),
+              ("results/polymorphism_h1_observer_disjoint_D_reliability_20260913/result.json", "H1 stress"),
+              ("results/polymorphism_white_axis_targeted_test_20260912/result.json", "legacy H2 target"),
+              ("results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json", "prospective H2"),
+          ]
+
+          def compare(a, b, path="root"):
+              if isinstance(a, dict) and isinstance(b, dict):
+                  if set(a) != set(b):
+                      raise AssertionError(f"{path}: key mismatch {set(a)^set(b)}")
+                  for k in a:
+                      compare(a[k], b[k], f"{path}.{k}")
+              elif isinstance(a, list) and isinstance(b, list):
+                  if len(a) != len(b):
+                      raise AssertionError(f"{path}: length mismatch")
+                  for i, (x, y) in enumerate(zip(a, b)):
+                      compare(x, y, f"{path}[{i}]")
+              elif isinstance(a, float) or isinstance(b, float):
+                  if not (math.isclose(float(a), float(b), rel_tol=0, abs_tol=1e-12) or (math.isnan(float(a)) and math.isnan(float(b)))):
+                      raise AssertionError(f"{path}: {a} != {b}")
+              else:
+                  if a != b:
+                      raise AssertionError(f"{path}: {a!r} != {b!r}")
+
+          for rel, label in pairs:
+              current = json.loads((repo / rel).read_text())
+              replay = json.loads((repro / rel).read_text())
+              compare(current, replay, label)
+              print(f"{label}: EXACT_JSON_MATCH_WITH_1E-12_FLOAT_TOLERANCE")
+          PY
