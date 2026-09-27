@@ -54,6 +54,16 @@ Exact WorldClim 2.1 10-arc-minute inputs are mirrored under release tag `fcp-wor
 
 Raster-level hashes are frozen in `archive/fcp_submission_20260925/worldclim_checksums.txt`.
 
+## Reproducibility levels
+
+The paper distinguishes three levels of reproducibility.
+
+1. **Numerical inference replay from frozen measured tables — supported.** Exact legacy discovery/reserve and prospective-H2 measured tables are byte-frozen, and the historical H1/H2 execution code is recovered from immutable Git commits. The workflow `.github/workflows/polymorphism-reproducibility-replay.yml` reruns the repeated observer-disjoint H1 test, the deterministic H1 stress test, the legacy white-axis target analysis, and the prospective third-cohort H2 test, then compares the replayed machine-readable results against the current frozen result JSONs.
+2. **Current evidence/package verification — supported.** The provenance tarball contains the frozen measured tables, machine-readable results, historical execution-code snapshot, permanent H3/highlight intermediate archive, checksum-pinned WorldClim bytes, current figures and regression guards. Every file in the tarball is covered by `FILE_SHA256SUMS.txt`.
+3. **Pixel-level remeasurement from the original community photographs — source-locked but not fully self-contained.** The exact location-blind measurement source commit, ROI-v4 contracts, model identities and measurement code are frozen, but candidate image pixels/masks were intentionally not persisted. Third-party EfficientSAM weights and the trained ROI-v4 detector are identified by exact revisions/SHA256 values rather than duplicated in the provenance package. Therefore the paper's numerical analyses are exactly replayable from the frozen measured tables, whereas future raw-image remeasurement additionally depends on reacquiring the authorized source images and the hash-pinned model weights.
+
+The second and third levels should not be conflated: preserving measured rows is sufficient to reproduce the paper's statistical results, but it is not a claim that every original pixel can be reconstructed indefinitely.
+
 ## Active Actions surface
 
 Only current-paper preservation, claim guards, figure regeneration and bounded follow-up workflows live in `.github/workflows/`. Historical workflows are stored under `archive/workflows/` so GitHub Actions does not execute them automatically.
@@ -70,6 +80,9 @@ python -m pytest \
   tests/test_polymorphism_new_phytologist_submission.py \
   tests/test_make_polymorphism_manuscript_figures.py \
   tests/test_repository_layout.py -q
+
+# GitHub Actions additionally performs a historical-code numerical replay:
+# .github/workflows/polymorphism-reproducibility-replay.yml
 ```
 
 The provenance package itself is produced by `.github/workflows/build-np-provenance-snapshot-20260926.yml`, which recovers immutable large inputs, verifies hashes, adds checksum-pinned WorldClim bytes, writes a deterministic archive, updates the release asset and records the resulting identity in the Git-tracked receipt.
