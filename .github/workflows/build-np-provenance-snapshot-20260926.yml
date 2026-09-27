@@ -77,6 +77,8 @@ env:
   THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
   SPATIAL_SHA: "f14186590c11ac24c95e1985077908b732132e96"
   FRESH_D_SHA: "b14fb7635fa4ef72887fad25524eb4941ec6e149"
+  MEASUREMENT_SHA: "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a"
+  H3A_SHA: "db2514f622468747a7d5896c2696fcbf13729ef6"
   WORLDCLIM_TAG: fcp-worldclim-2.1-10m-20260925
 
 jobs:
@@ -163,6 +165,90 @@ jobs:
           test "$(git hash-object "$stage/historical/spatial/polymorphism_ambiguity_bounds_step9_result.json")" = "3e92d8798f17a60900ac3bba8deb76b062a609f1"
           test "$(git hash-object "$stage/historical/spatial/paper_numbers.json")" = "b5fec72fb1f8299fb430b8bcdbaf106ee38d8672"
 
+      - name: Recover exact historical execution code
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_np_provenance"
+          root="$stage/historical_code"
+          mkdir -p "$root"
+
+          copy_from_git() {
+            local sha="$1"
+            local rel="$2"
+            local group="$3"
+            local dest="$root/$group/$rel"
+            mkdir -p "$(dirname "$dest")"
+            git show "$sha:$rel" > "$dest"
+          }
+
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA"
+          for rel in \
+            scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py \
+            scripts/analysis/run_polymorphism_delta_geometry_validation_20260912.py \
+            scripts/analysis/run_polymorphism_delta_geometry_structured_null_20260912.py \
+            scripts/analysis/run_polymorphism_white_axis_targeted_test_20260912.py \
+            .github/workflows/polymorphism-h1-observer-disjoint-reliability.yml \
+            .github/workflows/polymorphism-h2-white-axis-targeted.yml; do
+            copy_from_git "$LEGACY_SHA" "$rel" legacy
+          done
+
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+          for rel in \
+            scripts/analysis/run_polymorphism_h1_observer_disjoint_D_reliability_20260913.py \
+            scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py \
+            scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh \
+            fcp_pipeline/third_cohort_prospective_execution_gate.py \
+            .github/workflows/h2-third-cohort-prospective-measurement.yml; do
+            copy_from_git "$THIRD_SHA" "$rel" prospective_h2
+          done
+
+          git fetch --no-tags --depth=1 origin "$MEASUREMENT_SHA"
+          for rel in \
+            fcp_pipeline/flower_roi_v4.py \
+            fcp_pipeline/flower_roi_v4_runtime.py \
+            fcp_pipeline/photo_first_measurement.py \
+            fcp_pipeline/photo_first_measurement_execution.py \
+            scripts/acquisition/acquire_random_photo_first_measurement_partition.py \
+            scripts/analysis/measure_random_photo_first_blind_partition.py \
+            scripts/analysis/seal_random_photo_first_measurement_partition.py \
+            docs/supporting/random_photo_first_measurement_contract_v1.json \
+            docs/supporting/random_photo_first_measurement_execution_v1.json \
+            docs/supporting/jbi_atlas_roi_estimator_contract_v4.json \
+            data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json \
+            requirements-atlas-roi-v4.txt; do
+            copy_from_git "$MEASUREMENT_SHA" "$rel" measurement_machine
+          done
+
+          git fetch --no-tags --depth=1 origin "$SPATIAL_SHA"
+          for rel in \
+            scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py \
+            scripts/analysis/run_polymorphism_ambiguity_bounds_step9_20260910.py \
+            scripts/analysis/run_polymorphism_spatial_span_adjusted_null_step6b_20260910.py; do
+            copy_from_git "$SPATIAL_SHA" "$rel" spatial
+          done
+
+          git fetch --no-tags --depth=1 origin "$H3A_SHA"
+          copy_from_git "$H3A_SHA" scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R h3a
+
+          cat > "$root/README.md" <<EOF
+          # Historical execution-code snapshot
+
+          These files are copied byte-for-byte from the immutable commits that generated or defined
+          the paper's headline H1/H2/spatial/H3 analyses.
+
+          legacy_source_commit=$LEGACY_SHA
+          prospective_h2_source_commit=$THIRD_SHA
+          measurement_machine_source_commit=$MEASUREMENT_SHA
+          spatial_source_commit=$SPATIAL_SHA
+          h3a_source_commit=$H3A_SHA
+
+          The image-measurement code and contracts are preserved here. Third-party EfficientSAM
+          ONNX weights and the trained ROI-v4 detector are not duplicated in this package; their
+          exact revisions/SHA256 identities are frozen in the included ROI-v4 contract and source
+          Git commit. The paper's numerical analyses are reproducible from the frozen measured
+          tables without reacquiring image pixels.
+          EOF
+
       - name: Recover fresh-D transport source artifact
         env:
           GH_TOKEN: ${{ github.token }}
@@ -202,6 +288,8 @@ jobs:
           third_cohort_source_commit=$THIRD_SHA
           spatial_source_commit=$SPATIAL_SHA
           fresh_D_source_commit=$FRESH_D_SHA
+          measurement_machine_source_commit=$MEASUREMENT_SHA
+          h3a_source_commit=$H3A_SHA
           worldclim_release_tag=$WORLDCLIM_TAG
           EOF
 
@@ -226,6 +314,11 @@ jobs:
           grep -Fxq './repository/archive/fcp_submission_20260925/h3b/h3b_span_permutation_nulls.csv' "$out/package_contents.txt"
           grep -Fxq './repository/results/polymorphism_silene_decoupling_persistence_20260925/result.json' "$out/package_contents.txt"
           grep -Fxq './repository/results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json' "$out/package_contents.txt"
+          grep -Fxq './historical_code/legacy/scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py' "$out/package_contents.txt"
+          grep -Fxq './historical_code/prospective_h2/scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py' "$out/package_contents.txt"
+          grep -Fxq './historical_code/measurement_machine/fcp_pipeline/photo_first_measurement.py' "$out/package_contents.txt"
+          grep -Fxq './historical_code/spatial/scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py' "$out/package_contents.txt"
+          grep -Fxq './historical_code/h3a/scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R' "$out/package_contents.txt"
 
           stat -c '%n %s bytes' "$package"
           cat "$out/fcp-np-provenance-20260926.tar.gz.sha256"
@@ -285,7 +378,7 @@ jobs:
 
           Packaged files: $file_count
 
-          The package contains the current manuscript evidence tree plus exact legacy and prospective-H2 measured inputs and the checksum-pinned WorldClim archives. Machine-readable frozen results remain authoritative over prose.
+          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, historical headline-analysis execution code, and checksum-pinned WorldClim archives. Machine-readable frozen results remain authoritative over prose.
           EOF
 
           git config user.name "github-actions[bot]"
