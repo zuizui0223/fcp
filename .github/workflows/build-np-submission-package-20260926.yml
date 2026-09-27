@@ -6,12 +6,20 @@ on:
     paths:
       - docs/POLYMORPHISM_SUBMISSION_PACKAGE_MANIFEST_20260926.md
       - docs/POLYMORPHISM_ZENODO_METADATA_DRAFT_20260926.json
+      - docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md
+      - docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md
+      - CURRENT_PAPER_REPRODUCIBILITY.md
+      - archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md
       - .github/workflows/build-np-submission-package-20260926.yml
   push:
     branches: [main]
     paths:
       - docs/POLYMORPHISM_SUBMISSION_PACKAGE_MANIFEST_20260926.md
       - docs/POLYMORPHISM_ZENODO_METADATA_DRAFT_20260926.json
+      - docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md
+      - docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md
+      - CURRENT_PAPER_REPRODUCIBILITY.md
+      - archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md
       - .github/workflows/build-np-submission-package-20260926.yml
   workflow_dispatch:
 
@@ -21,7 +29,6 @@ permissions:
 env:
   CANDIDATE_TAG: fcp-np-submission-candidate-20260926
   PROVENANCE_TAG: fcp-np-provenance-20260926
-  PROVENANCE_SHA256: cc34a67ecc9a6d15f04661d1a26a946586dfc50a9a7c4edd3ca3ede21db87cfb
 
 jobs:
   package:
@@ -48,6 +55,7 @@ jobs:
           cp docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md "$stage/supporting/claim_ledger.md"
           cp docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md "$stage/supporting/data_lineage_map.md"
           cp docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md "$stage/supporting/provenance_release_manifest.md"
+          cp docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md "$stage/supporting/reproducibility_audit.md"
           cp CURRENT_PAPER_REPRODUCIBILITY.md "$stage/supporting/CURRENT_PAPER_REPRODUCIBILITY.md"
 
           cp docs/POLYMORPHISM_ZENODO_METADATA_DRAFT_20260926.json "$stage/metadata/ZENODO_METADATA_DRAFT.json"
@@ -94,8 +102,19 @@ jobs:
             --pattern 'fcp-np-provenance-20260926.tar.gz.sha256' \
             --pattern 'FILE_SHA256SUMS.txt' \
             --dir "$stage/archive"
-          echo "$PROVENANCE_SHA256  $stage/archive/fcp-np-provenance-20260926.tar.gz" | sha256sum -c -
+
+          receipt="archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md"
+          expected_sha="$(awk '/^Asset SHA256:/ {print $3}' "$receipt")"
+          expected_source="$(awk '/^Source commit:/ {print $3}' "$receipt")"
+          test "${#expected_sha}" -eq 64
+          test "${#expected_source}" -eq 40
+
+          actual_sha="$(sha256sum "$stage/archive/fcp-np-provenance-20260926.tar.gz" | awk '{print $1}')"
+          test "$actual_sha" = "$expected_sha"
+          echo "$expected_sha  $stage/archive/fcp-np-provenance-20260926.tar.gz" | sha256sum -c -
+
           mv "$stage/archive/FILE_SHA256SUMS.txt" "$stage/archive/PROVENANCE_FILE_SHA256SUMS.txt"
+          cp "$receipt" "$stage/archive/NP_PROVENANCE_RELEASE_RECEIPT.md"
 
       - name: Build packages and checksums
         run: |
