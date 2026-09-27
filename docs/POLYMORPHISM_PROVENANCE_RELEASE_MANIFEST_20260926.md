@@ -72,6 +72,7 @@ The package includes:
 - relevant GitHub Actions workflow definitions;
 - exact historical H1/H2 execution source;
 - fuller frozen D–spatial Step 5/6/8/9 scripts and intermediate outputs;
+- permanent copies of the exact discovery/reserve 999-permutation spatial-null artifacts from Actions runs `34088925008` and `34178957447`;
 - exact ROI-v4 / fixed-palette measurement implementation;
 - trained ROI-v4 detector byte, SHA256 `f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5`;
 - exact EfficientSAM encoder/decoder ONNX weights from revision `d525f622e6f640acf5a0fc37c7ca1f243da5bde0`, checksum-verified;
@@ -86,12 +87,13 @@ The workflow:
 3. verifies their frozen SHA256 values;
 4. recovers exact historical H1/H2/spatial execution source and the frozen image-measurement code;
 5. embeds and verifies the ROI-v4 detector byte, EfficientSAM ONNX weights and authorized source-photo metadata;
-6. downloads the checksum-pinned WorldClim release assets and verifies them;
-7. copies the repository evidence set into a staging tree;
-8. writes a complete per-file SHA256 manifest;
-9. creates a deterministic tar.gz with sorted paths, fixed mtime, numeric owner/group;
-10. uploads the tar.gz and SHA256 manifest to the provenance release;
-11. records a release receipt on main.
+6. copies the exact discovery/reserve spatial-null artifact families before Actions retention expiry, with fallback to the previous permanent provenance release on later rebuilds;
+7. downloads the checksum-pinned WorldClim release assets and verifies them;
+8. copies the repository evidence set into a staging tree;
+9. writes a complete per-file SHA256 manifest;
+10. creates a deterministic tar.gz with sorted paths, fixed mtime, numeric owner/group;
+11. uploads the tar.gz and SHA256 manifest to the provenance release;
+12. records a release receipt on main.
 
 ## Authority
 
