@@ -4,14 +4,14 @@ Release tag: fcp-np-provenance-20260926
 
 Release URL: https://github.com/zuizui0223/fcp/releases/tag/fcp-np-provenance-20260926
 
-Source commit: 8f5186c22e8fe0e6b8994b2bf78b1621490ffc49
+Source commit: f9ed7f57944d5eb331621b33ae0ca067351ac871
 
 Asset: fcp-np-provenance-20260926.tar.gz
 
-Asset bytes: 113194965
+Asset bytes: 113267614
 
-Asset SHA256: cc34a67ecc9a6d15f04661d1a26a946586dfc50a9a7c4edd3ca3ede21db87cfb
+Asset SHA256: 116d26c9959325f5abec6dce97945df26115761140fd21ede88bb04d9011bbd5
 
-Packaged files: 154
+Packaged files: 183
 
-The package contains the current manuscript evidence tree plus exact legacy and prospective-H2 measured inputs and the checksum-pinned WorldClim archives. Machine-readable frozen results remain authoritative over prose.
+The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, historical headline-analysis execution code, and checksum-pinned WorldClim archives. Machine-readable frozen results remain authoritative over prose.
