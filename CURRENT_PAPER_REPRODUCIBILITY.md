@@ -24,6 +24,7 @@ Repository cleanup must not alter a frozen numerical result, biological decision
 - submission-readiness audit: `docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md`
 - provenance package manifest: `docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md`
 - current provenance receipt: `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`
+- reproducibility-level audit: `docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md`
 
 ## Self-contained snapshot
 
@@ -39,6 +40,8 @@ The snapshot is rebuilt when the current manuscript/evidence surface changes. Re
 
 The receipt is deliberately stored **outside** the tar.gz it identifies. It is written only after the final package byte count and SHA256 are known, so a refreshed package cannot contain a stale copy of its own receipt.
 
+The package now also carries exact historical H1/H2/spatial execution source, the frozen ROI-v4 measurement implementation, detector and EfficientSAM weights, and the prospective authorized source-photo metadata. This removes the previous need to navigate historical branches merely to obtain the executable analysis/measurement code.
+
 ## Immutable large-input routes
 
 | Input | Immutable source | SHA256 |
@@ -53,6 +56,15 @@ Exact WorldClim 2.1 10-arc-minute inputs are mirrored under release tag `fcp-wor
 - SRAD archive SHA256: `c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026`
 
 Raster-level hashes are frozen in `archive/fcp_submission_20260925/worldclim_checksums.txt`.
+
+## Reproducibility levels
+
+- **Frozen measured tables → headline analyses:** CI-recomputed from the exact historical execution tree by `.github/workflows/verify-np-core-reproduction-20260927.yml`.
+- **Historical analysis / image-measurement code:** packaged in the self-contained provenance asset with exact commit identities and model-weight hashes.
+- **Environmental inputs:** exact WorldClim archives are mirrored and checksum-enforced.
+- **Raw source images:** not persisted by design. Photo IDs, frozen source URLs and per-row image SHA256 values are preserved, so reacquired bytes can be validated while the provider still serves them. If those bytes disappear, exact pixel-level reconstruction is not possible from the archive alone.
+
+The reproducibility claim is therefore strong from frozen measured tables onward and code-complete for the measurement machine, but it is not a claim that raw third-party image bytes are permanently archived.
 
 ## Active Actions surface
 
@@ -72,4 +84,4 @@ python -m pytest \
   tests/test_repository_layout.py -q
 ```
 
-The provenance package itself is produced by `.github/workflows/build-np-provenance-snapshot-20260926.yml`, which recovers immutable large inputs, verifies hashes, adds checksum-pinned WorldClim bytes, writes a deterministic archive, updates the release asset and records the resulting identity in the Git-tracked receipt.
+The provenance package itself is produced by `.github/workflows/build-np-provenance-snapshot-20260926.yml`, which recovers immutable large inputs, exact historical execution source, the frozen image-measurement implementation/model bytes, source-photo metadata, checksum-pinned WorldClim bytes, writes a deterministic archive, updates the release asset and records the resulting identity in the Git-tracked receipt. Core H1/H2 recomputation is independently checked by `.github/workflows/verify-np-core-reproduction-20260927.yml`.
