@@ -286,8 +286,39 @@ jobs:
           curl --fail --location --retry 4 --retry-delay 2 \
             "https://raw.githubusercontent.com/yformer/EfficientSAM/$EFFICIENTSAM_REVISION/weights/efficient_sam_vitt_decoder.onnx" \
             --output "$stage/external/measurement_runtime/efficient_sam/efficient_sam_vitt_decoder.onnx"
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/$EFFICIENTSAM_REVISION/LICENSE" \
+            --output "$stage/external/measurement_runtime/efficient_sam/LICENSE-Apache-2.0.txt"
           echo "$EFFICIENTSAM_ENCODER_SHA256  $stage/external/measurement_runtime/efficient_sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
           echo "$EFFICIENTSAM_DECODER_SHA256  $stage/external/measurement_runtime/efficient_sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+
+          cat > "$stage/THIRD_PARTY_MODEL_NOTICES.md" <<EOF
+          # Third-party / derived model notices
+
+          ## EfficientSAM
+          The EfficientSAM source and ONNX weights mirrored here come from revision:
+          $EFFICIENTSAM_REVISION
+
+          Upstream repository: https://github.com/yformer/EfficientSAM
+          Upstream licence: Apache License 2.0
+          A copy of the upstream licence is stored beside the ONNX files.
+
+          ## ROI-v4 flower detector
+          The archived ROI-v4 detector byte was trained within FCP using the JRC Flower
+          Detection dataset. The dataset-specific provider notice applies CC BY 4.0 to the
+          dataset and requires attribution and identification of changes.
+
+          Dataset citation:
+          European Commission, Joint Research Centre. Flower Detection [Dataset].
+          DOI: 10.2905/JRC.2XJ67GR
+
+          Source licence notice:
+          https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/DRLL/flower_detection/copyright.txt
+
+          The project audit does not resolve whether the trained detector is itself adapted
+          material under CC BY 4.0. This archive therefore preserves the source attribution
+          and does not purport to relicense the detector under any blanket FCP archive licence.
+          EOF
 
           # Preserve the complete frozen spatial execution surface behind the reporting receipt.
           git archive "$SPATIAL_SHA" \
@@ -419,6 +450,8 @@ jobs:
           grep -Fxq './historical_code/measurement_machine/data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt' "$out/package_contents.txt"
           grep -Fxq './external/measurement_runtime/efficient_sam/efficient_sam_vitt_encoder.onnx' "$out/package_contents.txt"
           grep -Fxq './external/measurement_runtime/efficient_sam/efficient_sam_vitt_decoder.onnx' "$out/package_contents.txt"
+          grep -Fxq './external/measurement_runtime/efficient_sam/LICENSE-Apache-2.0.txt' "$out/package_contents.txt"
+          grep -Fxq './THIRD_PARTY_MODEL_NOTICES.md' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/third_cohort/source_metadata/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz' "$out/package_contents.txt"
           grep -Fxq './historical_code/spatial/scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py' "$out/package_contents.txt"
           grep -Fxq './historical_code/spatial_full/scripts/analysis/run_polymorphism_ambiguity_bounds_step9_20260910.py' "$out/package_contents.txt"
