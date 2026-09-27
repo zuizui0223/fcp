@@ -82,7 +82,7 @@ jobs:
       - name: Replay prospective third-cohort H2
         working-directory: ${{ runner.temp }}/repro
         run: |
-          python scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py \
+          PYTHONPATH=. python scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py \
             --measured-csv data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv \
             --measurement-result results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json \
             --output-dir results/polymorphism_h2_third_cohort_prospective_white_axis_20260917
