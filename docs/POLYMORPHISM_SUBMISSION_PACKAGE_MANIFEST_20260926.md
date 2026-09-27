@@ -8,7 +8,7 @@ It does **not** alter or recompute any biological result. The authoritative self
 
 - release tag: `fcp-np-provenance-20260926`
 - asset: `fcp-np-provenance-20260926.tar.gz`
-- expected SHA256: `cc34a67ecc9a6d15f04661d1a26a946586dfc50a9a7c4edd3ca3ede21db87cfb`
+- exact current SHA256 and source commit: read from `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md` at package-build time
 
 ## Generated release candidate
 
@@ -58,4 +58,4 @@ These fields must not be inferred from repository history.
 
 The candidate package may be uploaded to a draft Zenodo deposition for byte verification, but **do not publish/mint the final version DOI until the author metadata above are approved**.
 
-The final Zenodo version should archive the exact `fcp-zenodo-ready-20260926.tar.gz` bytes or a later package built by the same workflow after author metadata are finalized.
+The final Zenodo version should archive the exact `fcp-zenodo-ready-20260926.tar.gz` bytes or a later package built by the same workflow after author metadata are finalized. The embedded provenance asset is verified against the live Git-tracked receipt, so a refreshed evidence package cannot silently leave the Zenodo candidate pinned to an obsolete provenance SHA256.
