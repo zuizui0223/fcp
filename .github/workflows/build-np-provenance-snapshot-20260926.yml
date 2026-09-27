@@ -86,6 +86,8 @@ env:
   EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
   EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
   EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+  DISC_SPATIAL_RUN_ID: "34088925008"
+  RES_SPATIAL_RUN_ID: "34178957447"
   H3A_SHA: "db2514f622468747a7d5896c2696fcbf13729ef6"
   WORLDCLIM_TAG: fcp-worldclim-2.1-10m-20260925
 
@@ -388,6 +390,46 @@ jobs:
           mkdir -p "$stage/historical/fresh_D_transport"
           git show "$FRESH_D_SHA:results/fcp_v2_measurement_validity_20260923/result.json" > "$stage/historical/fresh_D_transport/source_result.json"
 
+      - name: Permanently recover expiring spatial-null artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_np_provenance"
+          target="$stage/external/spatial_null_artifacts"
+          rm -rf "$target"
+          mkdir -p "$target/discovery" "$target/reserve"
+
+          if gh run download "$DISC_SPATIAL_RUN_ID" --repo "${{ github.repository }}" --dir "$target/discovery" \
+            && gh run download "$RES_SPATIAL_RUN_ID" --repo "${{ github.repository }}" --dir "$target/reserve"; then
+            echo "spatial_null_source=actions_artifacts"
+            gh api "repos/${{ github.repository }}/actions/runs/$DISC_SPATIAL_RUN_ID/artifacts?per_page=100" \
+              > "$target/discovery_artifact_manifest.json"
+            gh api "repos/${{ github.repository }}/actions/runs/$RES_SPATIAL_RUN_ID/artifacts?per_page=100" \
+              > "$target/reserve_artifact_manifest.json"
+          else
+            echo "Spatial-null Actions artifacts unavailable; recovering from permanent provenance release"
+            rm -rf "$target"
+            prev="$RUNNER_TEMP/previous_spatial_provenance"
+            rm -rf "$prev"
+            mkdir -p "$prev/extracted"
+            gh release download "$RELEASE_TAG" --repo "${{ github.repository }}" \
+              --pattern 'fcp-np-provenance-20260926.tar.gz' --dir "$prev"
+            tar -xzf "$prev/fcp-np-provenance-20260926.tar.gz" -C "$prev/extracted" \
+              ./external/spatial_null_artifacts
+            cp -a "$prev/extracted/external/spatial_null_artifacts" "$target"
+            echo "spatial_null_source=permanent_provenance_release"
+          fi
+
+          test "$(find "$target/discovery" -maxdepth 1 -type d -name 'global-rgfca-within-species-omnibus-shard-*' | wc -l)" -eq 20
+          test -f "$target/discovery/global-rgfca-within-species-spatial-omnibus-full-v1/species_results.csv"
+          test "$(find "$target/discovery" -type f -name species_rho_permutations.csv | wc -l)" -eq 20
+
+          test "$(find "$target/reserve" -maxdepth 1 -type d -name 'reserve-inference-shard-*' | wc -l)" -eq 20
+          test -f "$target/reserve/rgfca-reserve-replication-full-result-v1/result.json"
+          test "$(find "$target/reserve" -type f -name null_arrays.npy | wc -l)" -eq 20
+          test "$(find "$target/reserve" -type f -name receipt.json | wc -l)" -eq 20
+
       - name: Add exact WorldClim release inputs
         env:
           GH_TOKEN: ${{ github.token }}
@@ -417,8 +459,9 @@ jobs:
           spatial_source_commit=$SPATIAL_SHA
           authorized_metadata_sha256=$AUTHORIZED_METADATA_SHA256
           efficient_sam_revision=$EFFICIENTSAM_REVISION
+          discovery_spatial_null_run=$DISC_SPATIAL_RUN_ID
+          reserve_spatial_null_run=$RES_SPATIAL_RUN_ID
           fresh_D_source_commit=$FRESH_D_SHA
-          measurement_machine_source_commit=$MEASUREMENT_SHA
           h3a_source_commit=$H3A_SHA
           worldclim_release_tag=$WORLDCLIM_TAG
           EOF
@@ -455,6 +498,8 @@ jobs:
           grep -Fxq './raw_inputs/third_cohort/source_metadata/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz' "$out/package_contents.txt"
           grep -Fxq './historical_code/spatial/scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py' "$out/package_contents.txt"
           grep -Fxq './historical_code/spatial_full/scripts/analysis/run_polymorphism_ambiguity_bounds_step9_20260910.py' "$out/package_contents.txt"
+          grep -Fxq './external/spatial_null_artifacts/discovery/global-rgfca-within-species-omnibus-shard-0/species_rho_permutations.csv' "$out/package_contents.txt"
+          grep -Fxq './external/spatial_null_artifacts/reserve/reserve-inference-shard-0/null_arrays.npy' "$out/package_contents.txt"
           grep -Fxq './historical_code/h3a/scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R' "$out/package_contents.txt"
           grep -Fxq './RAW_IMAGE_REPRODUCIBILITY_LIMIT.md' "$out/package_contents.txt"
 
@@ -516,7 +561,7 @@ jobs:
 
           Packaged files: $file_count
 
-          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, historical H1/H2/spatial execution code, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
+          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, historical H1/H2/spatial execution code, permanent discovery/reserve spatial-null arrays, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
           EOF
 
           git config user.name "github-actions[bot]"
