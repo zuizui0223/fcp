@@ -24,6 +24,7 @@ Repository cleanup must not alter a frozen numerical result, biological decision
 - submission-readiness audit: `docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md`
 - provenance package manifest: `docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md`
 - current provenance receipt: `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`
+- reproducibility audit: `docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md`
 
 ## Self-contained snapshot
 
@@ -58,11 +59,12 @@ Raster-level hashes are frozen in `archive/fcp_submission_20260925/worldclim_che
 
 The paper distinguishes three levels of reproducibility.
 
-1. **Numerical inference replay from frozen measured tables — supported.** Exact legacy discovery/reserve and prospective-H2 measured tables are byte-frozen, and the historical H1/H2 execution code is recovered from immutable Git commits. The workflow `.github/workflows/polymorphism-reproducibility-replay.yml` reruns the repeated observer-disjoint H1 test, the deterministic H1 stress test, the legacy white-axis target analysis, and the prospective third-cohort H2 test, then compares the replayed machine-readable results against the current frozen result JSONs.
+1. **Numerical inference replay from frozen measured tables — demonstrated.** Exact legacy discovery/reserve and prospective-H2 measured tables are byte-frozen. Workflow `.github/workflows/polymorphism-reproducibility-replay.yml` reran the repeated observer-disjoint H1 test, deterministic H1 stress test, legacy white-axis target analysis and prospective third-cohort H2 from their historical code. Run `36324187508` reproduced all four frozen JSON results with absolute floating-point tolerance `1e-12`.
 2. **Current evidence/package verification — supported.** The provenance tarball contains the frozen measured tables, machine-readable results, historical execution-code snapshot, permanent H3/highlight intermediate archive, checksum-pinned WorldClim bytes, current figures and regression guards. Every file in the tarball is covered by `FILE_SHA256SUMS.txt`.
-3. **Pixel-level remeasurement from the original community photographs — source-locked but not fully self-contained.** The exact location-blind measurement source commit, ROI-v4 contracts, model identities and measurement code are frozen, but candidate image pixels/masks were intentionally not persisted. Third-party EfficientSAM weights and the trained ROI-v4 detector are identified by exact revisions/SHA256 values rather than duplicated in the provenance package. Therefore the paper's numerical analyses are exactly replayable from the frozen measured tables, whereas future raw-image remeasurement additionally depends on reacquiring the authorized source images and the hash-pinned model weights.
+3. **Image-measurement implementation reconstruction — self-contained after byte completion.** The archive contains the exact ROI-v4 / fixed-palette measurement source, the trained ROI-v4 detector byte, the exact EfficientSAM encoder/decoder ONNX weights, and the frozen third-cohort source-photo metadata. Every model/input byte added at packaging is SHA256-verified.
+4. **Raw source-image reconstruction — intentionally not guaranteed.** Candidate image pixels/masks were deleted after partition sealing. Frozen photo IDs/source URLs and per-row `image_sha256` values allow future reacquired bytes to be verified while the external provider still serves them, but the archive cannot reconstruct provider bytes that later disappear or change.
 
-The second and third levels should not be conflated: preserving measured rows is sufficient to reproduce the paper's statistical results, but it is not a claim that every original pixel can be reconstructed indefinitely.
+These levels should not be conflated: the paper's statistical results are directly replayable and the measurement implementation/model bytes are archived, but no claim is made that every original third-party image byte can be reconstructed indefinitely.
 
 ## Active Actions surface
 
@@ -85,4 +87,4 @@ python -m pytest \
 # .github/workflows/polymorphism-reproducibility-replay.yml
 ```
 
-The provenance package itself is produced by `.github/workflows/build-np-provenance-snapshot-20260926.yml`, which recovers immutable large inputs, verifies hashes, adds checksum-pinned WorldClim bytes, writes a deterministic archive, updates the release asset and records the resulting identity in the Git-tracked receipt.
+The provenance package itself is produced by `.github/workflows/build-np-provenance-snapshot-20260926.yml`, which recovers immutable large inputs and historical execution source, embeds and verifies the image-measurement detector/EfficientSAM bytes and frozen source-photo metadata, adds checksum-pinned WorldClim bytes, writes a deterministic archive, updates the release asset and records the resulting identity in the Git-tracked receipt.
