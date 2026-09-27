@@ -34,6 +34,10 @@ The release workflow recovers and checksum-verifies the large measured tables th
   - source commit: `7e538e5c51c05a7cc47b2fcf53eea92634c8a863`
   - source path: `data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv`
   - SHA256: `57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186`
+- prospective H2 authorized source metadata
+  - source commit: `7e538e5c51c05a7cc47b2fcf53eea92634c8a863`
+  - SHA256: `13b25d72f20ed2b09ebcf3f80e0058aede08474a7e9051f7fb6ce1e521a16290`
+  - contains the frozen photo IDs and source URLs used for the one-shot acquisition
 
 The exact WorldClim inputs are copied from the already frozen release `fcp-worldclim-2.1-10m-20260925`:
 
@@ -65,7 +69,12 @@ The package includes:
 - the exact highlight/H3a/H3b artifact freeze under `archive/fcp_submission_20260925`;
 - relevant polymorphism/environment analysis scripts;
 - relevant manuscript/provenance regression tests;
-- relevant GitHub Actions workflow definitions.
+- relevant GitHub Actions workflow definitions;
+- exact historical H1/H2 execution source from commit `7e538e5c...`;
+- exact historical D–spatial execution scripts and frozen Step 5/6/8/9 outputs from commit `f1418659...`;
+- the exact ROI-v4 / palette measurement source from commit `9fae6ccd...`;
+- the ROI-v4 detector weight and the exact EfficientSAM encoder/decoder ONNX weights, all checksum-verified;
+- the exact prospective authorized source metadata needed for best-effort source-photo reacquisition.
 
 ## Packaging rules
 
@@ -74,12 +83,14 @@ The workflow:
 1. checks out the exact source commit;
 2. recovers the three measured tables from their immutable source commits;
 3. verifies their frozen SHA256 values;
-4. downloads the checksum-pinned WorldClim release assets and verifies them;
-5. copies the repository evidence set into a staging tree;
-6. writes a complete per-file SHA256 manifest;
-7. creates a deterministic tar.gz with sorted paths, fixed mtime, numeric owner/group;
-8. uploads the tar.gz and SHA256 manifest to the provenance release;
-9. records a release receipt on main.
+4. recovers the exact historical H1/H2/spatial execution source and frozen image-measurement code/model bytes;
+5. recovers and verifies the exact prospective source-photo metadata and mirrors the checksum-pinned EfficientSAM weights;
+6. downloads the checksum-pinned WorldClim release assets and verifies them;
+7. copies the repository evidence set into a staging tree;
+8. writes a complete per-file SHA256 manifest;
+9. creates a deterministic tar.gz with sorted paths, fixed mtime, numeric owner/group;
+10. uploads the tar.gz and SHA256 manifest to the provenance release;
+11. records a release receipt on main.
 
 ## Authority
 
@@ -91,3 +102,8 @@ This snapshot does not upgrade any inferential claim. In particular:
 - BIO5 remains positive in the secondary third-cohort analysis but non-replicated under the fixed legacy transport rule;
 - shared versus species-specific geographic mapping remains unresolved;
 - exposure coupling of measured white remains a stated limitation.
+
+
+## Raw-image reproducibility boundary
+
+The archive does not contain the original iNaturalist image pixels because the frozen prospective protocol explicitly deleted pixels and masks after partition sealing. It instead preserves the exact source-photo IDs/URLs, per-row image SHA256 values, acquisition code, image-measurement implementation, detector weight and EfficientSAM weights. Reacquired bytes can therefore be verified when still available, but the archive does not guarantee future bit-for-bit reconstruction if the external image provider no longer serves the original bytes.
