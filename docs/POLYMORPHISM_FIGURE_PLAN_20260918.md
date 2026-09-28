@@ -1,6 +1,6 @@
 # Flower-colour polymorphism canonical figure plan — 2026-09-18
 
-This document describes the **implemented main figures** after prospective third-cohort H2 confirmation and visual QA. It supersedes the earlier aspirational multi-panel architecture where they differ.
+This document describes the **implemented main figures** after prospective-confirmation H2 and visual QA. It supersedes the earlier aspirational multi-panel architecture where they differ.
 
 Authoritative claim ledger:
 
@@ -96,7 +96,7 @@ Validation:
 - CCC = **0.8474**;
 - strict floor = 0.80.
 
-Annotations must be vertically offset from CI lines and the floor label must not overlap the reserve text.
+Annotations must be vertically offset from CI lines and the floor label must not overlap the validation text.
 
 Visual message:
 
@@ -209,7 +209,7 @@ The three tree-placement scenarios are displayed as **unconnected discrete point
 
 Annotate that 0/3 raw-D scenarios had p < 0.05; label this as a bounded non-support result, not an equivalence test.
 
-### Panel C — discovery span effect collapses in reserve
+### Panel C — discovery span effect collapses in validation
 
 - discovery: rho = **0.1798786**, p = **0.00089996**;
 - validation: rho = **-0.0025855**, p = **0.9586021**.
@@ -223,7 +223,7 @@ Mandatory boundary:
 ## Supporting figures
 
 ### Fig. S1
-Full H1 reserve partition diagnostics.
+Full H1 validation partition diagnostics.
 
 ### Fig. S2
 H1 discovery concordance and deterministic stress-test details.
@@ -240,10 +240,8 @@ q_white projection-removal and non-white-only H2 diagnostics.
 ### Fig. S6
 Prospective-confirmation chain of custody: selection, metadata freeze, 256 partitions, support gate and H2_COMPLETE.
 
-### Fig. S7
-P500 terminal postmortem. Do not reconstruct or display a biological H2 verdict.
 
-### Fig. S8
+### Fig. S7
 H3a full sensitivity panel.
 
 ### Fig. S8
@@ -267,4 +265,4 @@ Before a figure package is marked submission-ready:
 
 The scientific narrative is:
 
-`Fig.1 phenotype definition -> Fig.2 measurement validity -> Fig.3 target localization -> Fig.4 prospective confirmation -> Fig.5 positive spatial clue + bounded alternative explanations`.
+`Fig.1 data provenance + phenotype definition -> Fig.2 measurement validity -> Fig.3 target localization -> Fig.4 prospective confirmation -> Fig.5 positive spatial clue + bounded alternative explanations`.
