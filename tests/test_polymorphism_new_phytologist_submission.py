@@ -17,6 +17,7 @@ D_FINITE = ROOT / "results" / "polymorphism_D_finite_sample_sensitivity_20260928
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
 WHITE_ENV_OBSERVER = ROOT / "results" / "polymorphism_white_environment_observer_sensitivity_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
+PAL_WAL_OVERLAP = ROOT / "results" / "polymorphism_pal_wal_h2_overlap_20260928" / "result.json"
 LINEAGE_MAP = ROOT / "docs" / "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md"
 WHITE_ENV_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md"
 WHITE_ENV_SCRIPT = ROOT / "scripts" / "analysis" / "run_white_environment_mechanism_20260925.py"
@@ -449,6 +450,35 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
         "10.1002/ajb2.70106",
     ):
         assert reference in text
+
+
+
+def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
+    import json
+    import pytest
+
+    overlap = json.loads(PAL_WAL_OVERLAP.read_text(encoding="utf-8"))
+    supporting = SUPPORTING.read_text(encoding="utf-8")
+
+    assert overlap["status"] == "complete"
+    assert overlap["overlap"]["counts"]["discovery"] == 0
+    assert overlap["overlap"]["counts"]["reserve"] == 2
+    assert overlap["overlap"]["counts"]["prospective_selected"] == 0
+    assert overlap["overlap"]["counts"]["PAL_overlap"] == 2
+    assert overlap["overlap"]["counts"]["WAL_overlap"] == 0
+    assert overlap["decision"]["pal_vs_wal_bridge_estimable"] is False
+
+    reserve = {row["species"]: row for row in overlap["overlap"]["reserve_D_eligible"]}
+    assert reserve["Gymnadenia rhellicani"]["D"] == pytest.approx(0.65153691467969)
+    assert reserve["Silene gallica"]["D"] == pytest.approx(0.234404536862004)
+
+    for token in (
+        "no PAL-versus-WAL comparison of D or H2 geometry is estimable",
+        "Gymnadenia rhellicani",
+        "Silene gallica",
+        "WAL overlap was zero",
+    ):
+        assert token in supporting
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
