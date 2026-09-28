@@ -1,0 +1,53 @@
+{
+  "schema": "fcp_pal_wal_h2_overlap_feasibility_v1",
+  "date_jst": "2026-09-28",
+  "status": "complete",
+  "role": "bridge-analysis feasibility audit; no inferential PAL-versus-WAL test is permitted from this overlap",
+  "pal_wal_source": {
+    "source_artifact_id": 10855596712,
+    "source_artifact_name": "crossspecies-pal-wal-frequency-v1",
+    "source_artifact_digest": "sha256:9f74ff93ad38f1deda8d22b68458eae51d8b92f59d124c42b841b7776a7aed3d",
+    "registry_rows": 26,
+    "unique_species_names": 25
+  },
+  "fcp_sources": {
+    "discovery_reserve_D": "results/polymorphism_publication_figure_source_20260918/h3a_species_D.csv",
+    "prospective_selection": "results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv"
+  },
+  "overlap": {
+    "discovery_D_eligible": [],
+    "reserve_D_eligible": [
+      {
+        "species": "Gymnadenia rhellicani",
+        "pal_wal_class": "PAL",
+        "n_classifiable": 59,
+        "D": 0.65153691467969
+      },
+      {
+        "species": "Silene gallica",
+        "pal_wal_class": "PAL",
+        "n_classifiable": 46,
+        "D": 0.234404536862004
+      }
+    ],
+    "prospective_selected": [],
+    "counts": {
+      "discovery": 0,
+      "reserve": 2,
+      "prospective_selected": 0,
+      "unique_overlap": 2,
+      "PAL_overlap": 2,
+      "WAL_overlap": 0
+    }
+  },
+  "decision": {
+    "pal_vs_wal_bridge_estimable": false,
+    "reason": "Only two overlapping D-eligible species were found and both are PAL; there is no WAL comparator and no prospective overlap."
+  },
+  "hard_nonclaims": [
+    "the two PAL overlaps do not validate the recurrent white-axis mechanism",
+    "their D values are descriptive only",
+    "absence of WAL overlap is a sampling fact, not evidence that WAL systems lack flower-colour variation",
+    "no PAL-versus-WAL inferential comparison is estimable in the current FCP high-depth cohorts"
+  ]
+}
