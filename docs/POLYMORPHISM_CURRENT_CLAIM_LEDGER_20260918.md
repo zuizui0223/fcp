@@ -372,17 +372,11 @@ The strongest defensible paper-level statement is now:
 
 This upgrades the former post-audit H2 claim to a prospective confirmation **of excess alignment with the fixed axis relative to the frozen structured null**, while preserving both the discovery chronology and the unresolved white-state measurement-validity boundary.
 
-## 10. Working title authorization
+## 10. Current title
 
-The prospective-confirmation result permits a title centered on achromatic–chromatic alignment only if it makes the construction-controlled nature of the inference clear.
+**Within-species flower-colour variation shows recurrent achromatic–chromatic geometry across plant species**
 
-Preferred working title:
-
-**Within-species flower-colour variation shows achromatic–chromatic alignment beyond coarse colour-state composition**
-
-A safer alternative emphasizing measurement:
-
-**Within-species flower-colour variation is reproducible and shows excess achromatic–chromatic alignment**
+This wording centers the prospectively confirmed recurrent phenotype-space geometry. The construction-controlled inferential boundary is carried explicitly in the Summary, Results and Discussion: the confirmed quantity is excess alignment relative to the coarse-state-preserving structured null, not an artifact-free white phenotype or a universal mechanism.
 
 ## 11. Hard nonclaims
 
