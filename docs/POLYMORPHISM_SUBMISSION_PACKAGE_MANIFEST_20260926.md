@@ -8,7 +8,8 @@ It does **not** alter or recompute any biological result. The authoritative self
 
 - release tag: `fcp-np-provenance-20260926`
 - asset: `fcp-np-provenance-20260926.tar.gz`
-- exact current SHA256 and source commit: read from `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md` at package-build time
+- exact embedded SHA256: verified against the release-side `fcp-np-provenance-20260926.tar.gz.sha256` file at package-build time
+- source commit: read from `PROVENANCE_SOURCE.txt` inside the verified tarball
 
 ## Generated release candidate
 
@@ -58,4 +59,4 @@ These fields must not be inferred from repository history.
 
 The candidate package may be uploaded to a draft Zenodo deposition for byte verification, but **do not publish/mint the final version DOI until the author metadata above are approved**.
 
-The final Zenodo version should archive the exact `fcp-zenodo-ready-20260926.tar.gz` bytes or a later package built by the same workflow after author metadata are finalized. The embedded provenance asset is verified against the live Git-tracked receipt, so a refreshed evidence package cannot silently leave the Zenodo candidate pinned to an obsolete provenance SHA256.
+The final Zenodo version should archive the exact `fcp-zenodo-ready-20260926.tar.gz` bytes or a later package built by the same workflow after author metadata are finalized. Pull-request dry runs verify the currently published provenance tarball against its own release-side SHA256. On main, the submission/Zenodo candidate is built only after the provenance workflow completes successfully, preventing the candidate from racing a provenance refresh.
