@@ -731,40 +731,7 @@ jobs:
           package="$out/fcp-np-provenance-20260926.tar.gz"
           package_sha="$(sha256sum "$package" | awk '{print $1}')"
           package_bytes="$(stat -c '%s' "$package")"
-          file_count="$(tar -tzf "$package" | grep -v '/
-          cat > archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md <<EOF
-          # New Phytologist provenance release receipt — 2026-09-26
-
-          Release tag: $RELEASE_TAG
-
-          Release URL: $release_url
-
-          Source commit: $SOURCE_SHA
-
-          Asset: fcp-np-provenance-20260926.tar.gz
-
-          Asset bytes: $package_bytes
-
-          Asset SHA256: $package_sha
-
-          Packaged files: $file_count
-
-          The package contains the current manuscript evidence tree, exact discovery/validation and prospective-confirmation measured inputs, the frozen 42,111-species opportunity frame, the prior high-depth exclusion inputs needed to reconstruct the 3,230-species prospective candidate frame, prospective-confirmation selection inputs, frozen H1/H2/spatial execution code, permanent discovery/validation spatial-null arrays, frozen secondary climate/H3 artifacts and replay environments, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
-          EOF
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md
-          if git diff --cached --quiet; then
-            echo "Receipt already current"
-            exit 0
-          fi
-          git commit -m "Record New Phytologist provenance release"
-          if ! git push origin HEAD:main; then
-            echo "A newer main commit arrived while writing the receipt; leaving this run successful and letting the newer provenance run publish the current receipt."
-            exit 0
-          fi
- | wc -l)"
+          file_count="$(tar -tzf "$package" | grep -v '/$' | wc -l)"
 
           git fetch --no-tags origin main
           remote_sha="$(git rev-parse origin/main)"
@@ -802,4 +769,7 @@ jobs:
             exit 0
           fi
           git commit -m "Record New Phytologist provenance release"
-          git push origin HEAD:main
+          if ! git push origin HEAD:main; then
+            echo "A newer main commit arrived while writing the receipt; leaving this run successful and letting the newer provenance run publish the current receipt."
+            exit 0
+          fi
