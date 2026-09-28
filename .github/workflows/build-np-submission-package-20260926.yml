@@ -64,6 +64,7 @@ jobs:
           cp docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md "$stage/archive/submission_readiness_audit.md"
           cp docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md "$stage/archive/current_claim_ledger.md"
           cp docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md "$stage/archive/secondary_mechanism_evidence_ledger.md"
+          cp docs/POLYMORPHISM_PAL_WAL_TAXONOMIC_ALIAS_AUDIT_20260928.md "$stage/archive/pal_wal_taxonomic_alias_audit.md"
           cp CURRENT_PAPER_REPRODUCIBILITY.md "$stage/archive/current_reproducibility_contract.md"
           cp docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md "$stage/archive/provenance_release_manifest.md"
           cp docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md "$stage/archive/reproducibility_audit.md"
