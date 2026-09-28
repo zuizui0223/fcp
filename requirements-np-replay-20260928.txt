@@ -1,0 +1,7 @@
+# Exact direct runtime used by the successful 2026-09-28 historical replay.
+# GitHub Actions runner: Python 3.12.14
+numpy==2.5.3
+pandas==3.0.6
+scipy==1.18.1
+python-dateutil==2.9.0.post0
+six==1.17.0
