@@ -10,6 +10,8 @@ It does not recompute any result. It organizes frozen protocols, machine-readabl
 
 ### Secondary PAL/WAL maintenance evidence
 
+Evidence-status ledger: `docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md`.
+
 - Within-*Silene littorea* persistence receipt: `results/polymorphism_silene_decoupling_persistence_20260925/result.json`.
 - Cross-species interval/censoring-aware receipt: `results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json`.
 - Source: Del Valle et al. (2019), Supplementary Tables S2 and S1, respectively.
