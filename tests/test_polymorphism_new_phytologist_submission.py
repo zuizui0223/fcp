@@ -406,6 +406,7 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
     for token in (
         "petal anthocyanin-loss (PAL)",
         "Whole-plant anthocyanin-loss (WAL)",
+        "HPLC-DAD-MS^n tissue profiling",
         "median **15.5%**",
         "median **0.21%**",
         "### Secondary PAL/WAL persistence reanalysis",
