@@ -22,31 +22,41 @@ Scaling that comparison first requires a measurement problem to be solved. Commu
 
 This design allows two ecological alternatives to be distinguished. If flower-colour variation is largely idiosyncratic across species, continuous displacement should not repeatedly concentrate along the same phenotype-space direction. If common developmental, genetic or functional constraints make some contrasts more accessible than others, a recurrent axis may appear even when the ecological causes differ among species. Independently, if larger D mainly reflects sampling breadth or unstructured noise, it need not be associated with geographic organization; if ecological or demographic sorting contributes to species differences in D, more diverse species may also show stronger within-species spatial structure without requiring the same geographic boundary or environmental driver across species.
 
-We test these ideas in chronologically separated stages. Original discovery and reserve cohorts first identified label-free directional concentration and localized its construction-controlled component to a fixed white-versus-equal-nonwhite contrast; because that target was named after the original geometry was opened, those cohorts provide discovery and target-localization evidence rather than prospective confirmation. We then froze the axis, statistic, admissibility thresholds, structured null, support gates and one-shot execution contract before evaluating it in a species-disjoint third cohort. Separately, we test whether species with greater D show stronger within-species geographic colour organization, and use frozen phylogenetic and sampled-span tests as alternative-explanation filters. The study therefore has two distinct aims: **methodologically**, to establish when repeated photographs support a validated species-level distributional trait; and **ecologically**, to ask whether cross-species generality resides in what phenotypic contrast varies and in how strongly that variation is geographically sorted, rather than necessarily in one universal driver or one shared map.
+The design is deliberately sequential because each stage solves a different inferential problem. An outcome-blind global metadata frame first defines which species could have entered before flower colour is examined. A 1,000-species high-depth resource is then split into discovery and species-disjoint validation so that a within-species diversity phenotype can be tested for reproducibility and recurrent colour-space structure can be discovered without treating discovery as confirmation. Because the white-versus-nonwhite axis was identified only after those original data were opened, the axis, statistic, thresholds and structured null are then frozen and tested in a newly sampled species- and photo-disjoint prospective confirmation cohort. Finally, phylogeny, sampled photographic span and climate are added as targeted annotations or follow-up tests to evaluate alternative explanations rather than as new flower-colour cohorts. The study therefore has two distinct aims: **methodologically**, to establish when repeated photographs support a validated species-level distributional trait; and **ecologically**, to ask whether cross-species generality resides in what phenotypic contrast varies and in how strongly that variation is geographically sorted, rather than necessarily in one universal driver or one shared map.
 
 ---
 
 ## Methods
 
-### Global sampling frame and inferential cohorts
+### Study design, data provenance and inferential necessity
 
-The project began from the **Repeated Global Flower-Colour Atlas (RGFCA)**, an upstream image-first framework originally designed to test whether within-species flower-colour discontinuities recur in the same broad geographic regions across species. The present paper inherits RGFCA's outcome-blind species discovery, high-depth sampling and measurement infrastructure but changes the estimand from shared global boundary geography to species-level polymorphism amount, colour-space geometry and within-species spatial organization.
+The paper uses two sequential high-depth image resources derived from a common outcome-blind iNaturalist sampling frame: **100,000 photographs from 1,000 species for discovery and species-disjoint validation**, followed by **49,900 newly sampled photographs from 499 species for prospective confirmation**. Later technical, climatic and phylogenetic analyses annotate these resources rather than constituting additional biological flower-colour cohorts.
 
-The outcome-blind RGFCA metadata-discovery frame contained **42,111 unique iNaturalist species**, obtained before the present analyses from an 18 × 9 equal-area global census with cache-resistant repeated metadata discovery. No candidate image pixels or flower-colour outcomes entered this union. Full discovery counts and hashes are given in `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`.
+#### Global outcome-blind opportunity frame
 
-A metadata-only capacity scan identified **4,730 species** with at least 100 retained photographs after observer capping (`U100`). This is an observation-capacity subset, not a biological polymorphism subset; the 42,111-species frame is an opportunity universe rather than a prevalence sample.
+Metadata-only discovery across an 18 × 9 equal-area global grid identified **42,111 unique iNaturalist species** before candidate image pixels or flower-colour outcomes were opened. A capacity scan identified **4,730 species** with at least 100 retainable photographs after observer capping.
 
-The original high-depth programme measured 100 photographs for each of 1,000 species divided into discovery and reserve source cohorts. After the frozen classifiability rule and a minimum of 40 classifiable photographs per species, the discovery inferential frame contained 369 species and the reserve inferential frame contained 363 species. These cohorts were kept separate for validation and replication.
+This stage is necessary because the candidate universe must be defined independently of the phenotype being studied; otherwise visually striking or already-known polymorphic species could be preferentially admitted. The 42,111-species frame is therefore a sampling opportunity frame, not a flower-colour dataset and not a denominator for global polymorphism prevalence.
 
-### Acquisition of the original discovery and reserve high-depth cohorts
+#### Discovery and species-disjoint validation
 
-Discovery and reserve inherited the frozen RGFCA acquisition contract: Research Grade species-rank iNaturalist observations with photographs, georeferences, flowering annotation, positional accuracy <=5 km, open coordinates and allowed CC licences. Selection was colour-blind. Each observer contributed at most two retained photographs per species, and deterministic geographic maximin sampling fixed 100 photographs per species. A hash-ranked 500-species budget defined discovery; the other 500 species formed the species-disjoint reserve. Full acquisition fields and licences are listed in Supporting Information.
+The first high-depth resource contained **1,000 species × 100 photographs = 100,000 photographs**, split into 500 discovery and 500 species-disjoint validation species. Acquisition used fixed Research Grade, flowering, georeferencing, positional-accuracy and licence filters, a maximum of two retained photographs per observer per species, and deterministic geographic maximin sampling. After the frozen classifiability rule, **369 discovery** and **363 validation** species entered D-based inference.
 
-The acquisition query did not impose a native-range restriction or an explicit `captive=false` / `wild=true` parameter. Research Grade is therefore treated only as the iNaturalist quality-grade criterion and not as proof that every record represents a native or exclusively wild population. Spatial estimands in this paper refer to the observed community-photograph records.
+High-depth sampling is necessary because a within-species distribution cannot be estimated from one or a few images. The species split is separately necessary because a pattern discovered in one set of species is not out-of-sample validation. Discovery identifies candidate structure; validation tests reliability and spatial associations on different species.
 
-For prospective H2, an outcome-blind 3,230-species candidate frame excluded all legacy and P500 species. Deterministic hash selection froze 500 species before fresh retrieval; 499 supplied 100 authorized rows, giving 49,900 rows with no replacement.
+A later fresh-image transport check sampled new photo IDs and remeasured D under the same frozen system; **136 species** were evaluable in both executions. This step is necessary because observer-disjoint splits still draw from the original image resource, whereas fresh photographs test transport to a new sample and execution.
 
-The high-depth cohort sizes are therefore hypothesis-specific validation denominators. They are not used as estimates of polymorphism prevalence among the 42,111-species frame.
+#### Prospective confirmation
+
+The white-versus-nonwhite target was identified only after the original geometry was opened. All species used in prior high-depth executions were therefore excluded before prospective selection, leaving an outcome-blind **3,230-species candidate frame**. Deterministic selection froze 500 species; fresh retrieval yielded **499 species × 100 photographs = 49,900 new photographs** with no replacement.
+
+A new species- and photo-disjoint cohort is necessary because a data-derived target cannot acquire prospective confirmatory status by being retested in the data that generated it. Before new biological outcomes were opened, the axis, W statistic, thresholds, structured null, support gates and one-shot execution rules were frozen.
+
+#### Technical and explanatory annotations
+
+After H2 terminalization, the prospective cohort was reacquired for response-blind highlight metrics and annotated with WorldClim 2.1 climate variables. The validation cohort was linked to V.PhyloMaker2 tree placements, while sampled photographic span comes directly from frozen coordinates.
+
+These steps are necessary to test different alternative explanations: highlight metrics bound exposure-related measurement coupling, climate tests a simple abiotic explanation and its transportability, and phylogeny tests broad shared ancestry. Because they are annotations or post-confirmatory analyses, they cannot retroactively strengthen the prospective H2 test.
 
 ### Image-level biological states and continuous polymorphism score
 
@@ -69,7 +79,7 @@ D is interpreted as a continuous within-species colour-diversity phenotype. It i
 
 ### H1: observer-disjoint reproducibility
 
-The primary H1 protocol tests whether D is reproducible when observers, rather than photographs, are separated between estimates. Observer identities and observation counts determine the split; morph labels and D do not. This observer-level separation is motivated by evidence that iNaturalist observations carry an observer process, including specialization and heterogeneous contribution patterns (Di Cecco et al. 2021), rather than behaving as exchangeable photographs from a fully specified sampling design.
+A comparative species-level phenotype must be repeatable across observation subsets rather than being an artefact of who photographed the species; large sample size alone does not establish that reliability. The primary H1 protocol tests whether D is reproducible when observers, rather than photographs, are separated between estimates. Observer identities and observation counts determine the split; morph labels and D do not. This observer-level separation is motivated by evidence that iNaturalist observations carry an observer process, including specialization and heterogeneous contribution patterns (Di Cecco et al. 2021), rather than behaving as exchangeable photographs from a fully specified sampling design.
 
 The first-frozen primary protocol generated 200 observer-disjoint partitions. The reserve decision rule required adequate paired-species support, a median split Spearman correlation of at least 2/3, and a 5th-percentile correlation of at least 0.5. Lin's concordance correlation coefficient (CCC), absolute differences and Spearman-Brown projected reliability were retained as agreement diagnostics.
 
@@ -77,9 +87,9 @@ A later deterministic single-split analysis imposed a stronger rho >= 0.80 crite
 
 After H1 had been completed, we retained a narrowly scoped fresh-image transport check for D. A later metadata-frozen run remeasured 100 fresh photo IDs per species under the same frozen four-state D definition and FCP image-measurement system. For species evaluable in both the earlier estimate and the fresh baseline, D was compared using Spearman rank correlation, Lin concordance, linear calibration and absolute change. This does not alter the original H1 decision and is not an independent-source replication because the source/opportunity universe and measurement system remain the same.
 
-### H2: continuous colour geometry in the original cohorts
+### H2: discovery of recurrent continuous colour geometry
 
-H2 uses normalized nine-colour palette coordinates
+This stage is deliberately label-free at the clustering step because imposing a white-versus-nonwhite contrast from the start would build the expected answer into the analysis. H2 uses normalized nine-colour palette coordinates
 
 [
 [mathrm{white},mathrm{yellow},mathrm{orange},mathrm{red},mathrm{pink},mathrm{magenta},mathrm{purple},mathrm{blue},mathrm{bronze}].
@@ -94,7 +104,7 @@ Two admissibility tiers are fixed:
 
 The original broad geometry was evaluated under both isotropic and construction-preserving references. The decisive construction-preserving structured null permutes normalized nine-colour rows across already selected H2 species within each frozen coarse morph while preserving every species × coarse-morph row count, then refits the same unlabeled two-means construction.
 
-Audit of the original discovery/reserve geometry localized the supported recurrent component to the fixed white-versus-equal-nonwhite unit contrast
+Audit of the original discovery/validation geometry localized the supported recurrent component to the fixed white-versus-equal-nonwhite unit contrast
 
 [
 q_{mathrm{white}} = operatorname{normalize}(1,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8,-1/8).
@@ -108,9 +118,9 @@ W = mean_i (u_i^T q_white)^2.
 
 The original cohorts establish discovery/audit evidence because q_white was fixed only after the broad geometry had been opened. Projection of q_white out of the species displacement vectors is used to test whether a residual recurrent hue direction remains.
 
-### Prospective third-cohort H2 confirmation
+### Prospective H2 confirmation in newly sampled species
 
-The third-cohort test separated target discovery from confirmation. Before biological opening we fixed species selection and no-replacement rules, the location-blind pipeline, the >=40-row species gate, the >=250-species support gate, q_white, W, the 0.10/0.20 tiers, the construction-preserving 999-replicate null, no axis refitting, one-shot execution and durable result validation.
+Because the white-versus-nonwhite target was selected after the original geometry was opened, a newly sampled species/photo cohort is required to separate confirmation from target discovery. The prospective confirmation test separated target discovery from confirmation. Before biological opening we fixed species selection and no-replacement rules, the location-blind pipeline, the >=40-row species gate, the >=250-species support gate, q_white, W, the 0.10/0.20 tiers, the construction-preserving 999-replicate null, no axis refitting, one-shot execution and durable result validation.
 
 All 256 terminal measurement partitions had to complete before the metadata-colour join and H2 stage could open. The support gate was evaluated before W was calculated.
 
@@ -136,7 +146,7 @@ After the prospective H2 result had been terminalized and the response-blind hig
 
 Three environmental predictions formed the fixed family: WorldClim 2.1 maximum temperature of the warmest month (BIO5; white expected at warmer sites), precipitation of the driest month (BIO14; white expected at wetter dry-season sites), and mean long-term solar radiation (white expected at lower-radiation sites). For each variable, values were standardized within species and the primary species-level contrast was mean environment for white rows minus mean environment for non-white rows. Two-sided Wilcoxon signed-rank probabilities were Holm-adjusted across the three variables. A conditional logistic regression stratified by species provided row-level corroboration, with the environmental predictor and within-species standardized near_clip_fraction entered together. The frozen mechanism gate required at least 100 estimable species, the prespecified species-level direction, Holm-adjusted p < 0.05, and a same-direction conditional-logistic coefficient with p < 0.05.
 
-After the third-cohort BIO5 result had been opened, we froze a single-predictor species-disjoint transport test in the original discovery and reserve high-depth cohorts. The legacy row tables were recovered from their immutable source commit and sampled against the same WorldClim 2.1 BIO5 raster. Within each cohort, species required at least five white and five non-white rows. The same within-species standardized BIO5 contrast and species-stratified conditional logistic model were applied. Replication support required both discovery and reserve to show a positive species-level median contrast with p < 0.05 and a positive conditional-logistic coefficient with p < 0.05. This transport test remains within the same iNaturalist/FCP measurement system and is not an independent-source causal test.
+After the third-cohort BIO5 result had been opened, we froze a single-predictor species-disjoint transport test in the original discovery and validation high-depth cohorts. The legacy row tables were recovered from their immutable source commit and sampled against the same WorldClim 2.1 BIO5 raster. Within each cohort, species required at least five white and five non-white rows. The same within-species standardized BIO5 contrast and species-stratified conditional logistic model were applied. Replication support required both discovery and validation to show a positive species-level median contrast with p < 0.05 and a positive conditional-logistic coefficient with p < 0.05. This transport test remains within the same iNaturalist/FCP measurement system and is not an independent-source causal test.
 
 ### Complementary test: species-level D and within-species geographic organization
 
@@ -190,7 +200,7 @@ These results admit D as a reproducible high-depth species phenotype for the sub
 
 ### H2 discovery and audit: the recurrent component localizes to white versus nonwhite
 
-In the original discovery and reserve cohorts, the fixed white-axis statistic exceeded the construction-preserving structured null at both admissibility tiers.
+In the original discovery and validation cohorts, the fixed white-axis statistic exceeded the construction-preserving structured null at both admissibility tiers.
 
 At the primary 0.10 tier, discovery contained 152 eligible species with W = **0.514625** (null median 0.430808, p = **0.001**) and reserve contained 129 species with W = **0.514586** (null median 0.466546, p = **0.001**).
 
@@ -278,7 +288,7 @@ The methodological contribution is architectural rather than a claim to a new st
 
 ### Cross-species regularity in phenotype space
 
-The strongest positive biological result is geometric. The original discovery/reserve analyses showed that the recurrent construction-controlled component of within-species colour variation was overwhelmingly associated with a white-versus-nonwhite direction. White-versus-pigmented flower-colour combinations have historical precedent in floristic and experimental work, including observations that some anthocyanin-associated white/pigmented combinations are disproportionately represented in particular floras (Warren & Mackenzie 2001), but that precedent does not specify the mechanism of the present axis. Removing that axis eliminated the excess directional concentration, and the remaining non-white geometry did not support a shared hue direction.
+The strongest positive biological result is geometric. The original discovery/validation analyses showed that the recurrent construction-controlled component of within-species colour variation was overwhelmingly associated with a white-versus-nonwhite direction. White-versus-pigmented flower-colour combinations have historical precedent in floristic and experimental work, including observations that some anthocyanin-associated white/pigmented combinations are disproportionately represented in particular floras (Warren & Mackenzie 2001), but that precedent does not specify the mechanism of the present axis. Removing that axis eliminated the excess directional concentration, and the remaining non-white geometry did not support a shared hue direction.
 
 The third-cohort result changes the evidential status of this finding, but in a specific way. Species selection, measurement support, q_white, W, thresholds and the structured null were fixed before biological opening. At the primary tier, observed W = 0.517 exceeded a structured-null median of 0.457 (p = 0.001). Because that null already preserves coarse-state composition and is itself far above the isotropic expectation of 0.125, the prospectively confirmed quantity is **excess achromatic–chromatic alignment conditional on the measured coarse colour states**, not the existence of white-versus-nonwhite coarse combinations per se.
 
@@ -342,7 +352,7 @@ The manuscript may claim:
 4. replicated positive association between species-level D and within-species geographic colour organization, with background, technical-failure and ambiguity stress tests;
 5. non-support for the tested broad phylogenetic-signal claim;
 6. non-replication of the sampled-photographic-span association;
-7. a post-confirmatory third-cohort BIO5–white association that passed its frozen within-cohort gate but failed the later species-disjoint discovery/reserve transport rule.
+7. a post-confirmatory third-cohort BIO5–white association that passed its frozen within-cohort gate but failed the later species-disjoint discovery/validation transport rule.
 
 The manuscript must not claim:
 
