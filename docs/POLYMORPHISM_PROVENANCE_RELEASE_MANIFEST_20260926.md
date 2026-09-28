@@ -91,7 +91,7 @@ The package includes:
 - BIO5/environment protocols;
 - P500 terminal postmortem;
 - all headline machine-readable result directories;
-- publication figure source data and the five current manuscript figures;
+- publication figure source data, the five current main figures and Fig. S9 secondary-mechanism figure;
 - the exact highlight/H3a/H3b artifact freeze under `archive/fcp_submission_20260925`;
 - original complete BIO5 and legacy-BIO5 result artifacts under `external/secondary_original_artifacts`;
 - relevant polymorphism/environment analysis scripts;
