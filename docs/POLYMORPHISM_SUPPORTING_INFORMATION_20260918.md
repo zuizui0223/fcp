@@ -444,6 +444,7 @@ Generated reporting-only from frozen results:
 - `docs/figures/polymorphism_20260918/polymorphism_figure3_h2_target_localization.{png,pdf}`
 - `docs/figures/polymorphism_20260918/polymorphism_figure4_prospective_h2.{png,pdf}`
 - `docs/figures/polymorphism_20260918/polymorphism_figure5_explanatory_boundaries.{png,pdf}`
+- `docs/figures/polymorphism_20260918/polymorphism_figureS9_secondary_mechanism_evidence.{png,pdf}`
 
 Canonical figure manifest:
 
