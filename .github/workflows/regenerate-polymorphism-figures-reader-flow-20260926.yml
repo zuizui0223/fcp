@@ -53,6 +53,8 @@ jobs:
             docs/figures/polymorphism_20260918/polymorphism_figure4_prospective_h2.pdf
             docs/figures/polymorphism_20260918/polymorphism_figure5_explanatory_boundaries.png
             docs/figures/polymorphism_20260918/polymorphism_figure5_explanatory_boundaries.pdf
+            docs/figures/polymorphism_20260918/polymorphism_figureS9_secondary_mechanism_evidence.png
+            docs/figures/polymorphism_20260918/polymorphism_figureS9_secondary_mechanism_evidence.pdf
       - name: Commit regenerated figure outputs
         run: |
           git config user.name "github-actions[bot]"
