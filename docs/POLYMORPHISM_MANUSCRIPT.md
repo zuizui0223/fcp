@@ -248,11 +248,11 @@ Thus this pre-specified secondary analysis of the prospective H2 cohort provides
 
 ### Greater D is associated with stronger within-species geographic colour organization
 
-The positive D–spatial association reproduced across the two species-disjoint high-depth cohorts. The raw association was rho = **0.0892133** (p = **0.034**) in discovery and rho = **0.1016008** (p = **0.025**) in reserve.
+The positive D–spatial association reproduced across the two species-disjoint high-depth cohorts. The raw association was rho = **0.0892133** (p = **0.034**) in discovery and rho = **0.1016008** (p = **0.025**) in validation.
 
-After controlling for sampled geographic span and clear ROI/flip technical-failure rate, the geometry-preserving analysis remained positive in discovery (partial rho = **0.1266367**, p = **0.007**) and reserve (partial rho = **0.0992877**, p = **0.025**). In reserve, the matched flower-minus-background response was also positive (partial rho = **0.1162411**, p = **0.010**).
+After controlling for sampled geographic span and clear ROI/flip technical-failure rate, the geometry-preserving analysis remained positive in discovery (partial rho = **0.1266367**, p = **0.007**) and validation (partial rho = **0.0992877**, p = **0.025**). In validation, the matched flower-minus-background response was also positive (partial rho = **0.1162411**, p = **0.010**).
 
-The reserve result remained supported when ambiguous-palette observations were assigned uniformly to the exact diversity-minimizing or diversity-maximizing four-state endpoints. For the primary spatial response, D_min4 gave rho = **0.0970781** (p = **0.029**) and D_max4 gave rho = **0.1252858** (p = **0.008**); for the flower-minus-background response the corresponding p-values were **0.009** and **0.006**. Thus species with greater measured flower-colour diversity tend to show stronger internal geographic organization, but this association does not identify the process that creates or maintains that organization.
+The validation result remained supported when ambiguous-palette observations were assigned uniformly to the exact diversity-minimizing or diversity-maximizing four-state endpoints. For the primary spatial response, D_min4 gave rho = **0.0970781** (p = **0.029**) and D_max4 gave rho = **0.1252858** (p = **0.008**); for the flower-minus-background response the corresponding p-values were **0.009** and **0.006**. Thus species with greater measured flower-colour diversity tend to show stronger internal geographic organization, but this association does not identify the process that creates or maintains that organization.
 
 ### H3a: no detectable broad tree-wide conservation of D
 
@@ -264,9 +264,9 @@ Validation-cohort Blomberg-K tests were nonsignificant under all three frozen tr
 
 Pagel's lambda was small in each scenario and its tests against lambda = 0 were also unsupported. Opportunity-adjusted K sensitivities remained nonsignificant. The frozen verdict was `H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED`.
 
-This result closes the tested claim of broad tree-wide signal under the frozen reserve design; it does not imply that phylogeny is irrelevant to flower-colour polymorphism at all evolutionary scales.
+This result closes the tested claim of broad tree-wide signal under the frozen validation-cohort design; it does not imply that phylogeny is irrelevant to flower-colour polymorphism at all evolutionary scales.
 
-### H3b: discovery span effect collapses in reserve
+### H3b: discovery span effect collapses in validation
 
 Discovery showed a positive association between D and sampled photographic span (n = 369, rho = **0.1798786**, p = **0.00089996**). The species-disjoint validation cohort did not reproduce that effect (n = 363, rho = **-0.0025855**, p = **0.9586021**). The observer/classifiability-adjusted partial-rank result was likewise near zero (rho = 0.0055187, p = 0.9162042), and S1-S3 rank-PGLS sensitivities were unsupported.
 
@@ -306,7 +306,7 @@ One biological clue is genetic and developmental accessibility. Anthocyanin-base
 
 Accessibility alone does not explain why an achromatic phenotype persists. Reanalysis of Del Valle et al. (2019) Supplementary Tables S1–S2 found that petal anthocyanin-loss (PAL) whites in *Silene littorea* reached 8–21% when present (median 15.5%), whereas whole-plant anthocyanin-loss (WAL) whites remained at 0.05–0.86% (median 0.21%); across 13 PAL and 13 WAL systems, the median PAL lower bound was 5% versus a 0.1% median WAL upper bound. Together with the source biochemistry, this is consistent with a maintenance filter in which flower-restricted pigment loss preserves extra-floral anthocyanin functions, but the literature sample is ascertained and heterogeneous, so the contrast is descriptive rather than an unbiased meta-analysis or causal test.
 
-Our own post-confirmatory environmental test provides a direct but bounded ecological clue. In a pre-specified secondary analysis of the prospective H2 cohort, white records occupied warmer BIO5 environments within species (median contrast +0.069 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073 per within-species SD, p = 0.000919). That association did not transport under the frozen species-disjoint replication rule: discovery was essentially null (p = 0.743), and reserve was directionally similar but missed the species-level criterion (p = 0.0541). Temperature is therefore not supported as a universal cross-species driver of the recurrent axis.
+Our own post-confirmatory environmental test provides a direct but bounded ecological clue. In a pre-specified secondary analysis of the prospective H2 cohort, white records occupied warmer BIO5 environments within species (median contrast +0.069 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073 per within-species SD, p = 0.000919). That association did not transport under the frozen species-disjoint replication rule: discovery was essentially null (p = 0.743), and validation was directionally similar but missed the species-level criterion (p = 0.0541). Temperature is therefore not supported as a universal cross-species driver of the recurrent axis.
 
 The cohort dependence is nevertheless biologically interpretable rather than requiring temperature to be irrelevant. High temperature often reduces floral anthocyanin accumulation, but the magnitude and even phenotypic consequences of that response depend strongly on genotype, developmental stage, light and other environmental context (Lacey 2026). In *Moricandia arvensis*, controlled spring-to-summer treatments had already shown that temperature and photoperiod can trigger a reversible within-individual shift from lilac to white flowers (Gómez et al. 2020). A later pigment study showed that white summer flowers lack detectable anthocyanins while accumulating UV-absorbing flavonoids and other phenolics (Narbona et al. 2026). Together, these results make thermal repression one plausible context-dependent route into the same pigment network that can generate an achromatic endpoint. The relevant generality may therefore lie in a shared pigment-network architecture on which different genetic and environmental perturbations act, rather than in one universal BIO5 coefficient.
 
@@ -324,7 +324,7 @@ This result is structural rather than causal. Stronger geographic organization c
 
 ### Two simple explanations fail fresh-data tests
 
-The H3 tests sharpen what the species-level phenotype is not trivially reducible to. Reserve D showed no detectable broad tree-wide phylogenetic conservation under any of the three frozen tree placements, while the apparent discovery association with sampled photographic span collapsed essentially to zero in the species-disjoint validation cohort. Together, these out-of-sample results show that reproducible between-species differences in D are not accounted for by either broad shared ancestry as detectable here or the geographic extent over which photographs happened to be sampled.
+The H3 tests sharpen what the species-level phenotype is not trivially reducible to. Validation-cohort D showed no detectable broad tree-wide phylogenetic conservation under any of the three frozen tree placements, while the apparent discovery association with sampled photographic span collapsed essentially to zero in the species-disjoint validation cohort. Together, these out-of-sample results show that reproducible between-species differences in D are not accounted for by either broad shared ancestry as detectable here or the geographic extent over which photographs happened to be sampled.
 
 This inference is deliberately bounded. H3a is a non-support result rather than an equivalence test, so it does not establish a zero phylogenetic effect and does not exclude finer-scale lineage effects, particular clades or repeated evolutionary origins. H3b concerns photographic sampled span, not true biological range size.
 
@@ -338,7 +338,7 @@ A stronger external validation would apply the same frozen q_white/W estimand an
 
 ### Conclusion
 
-The methodological advance is not a new diversity statistic but a validated route from repeated photographs to a comparative within-species trait distribution: observer-disjoint reproducibility, location-blind measurement, construction-preserving nulls and prospective species-disjoint confirmation are treated as separate inferential stages. The ecological advance is that cross-species generality appears at two levels. First, continuous within-species colour displacement shows excess achromatic–chromatic alignment relative to a coarse-state-preserving null. Second, species with greater four-state colour diversity also show stronger within-species geographic organization across the original high-depth cohorts, even though sampled photographic span does not explain that pattern in reserve. Together these results suggest that **what varies** can show a recurrent cross-species structure while **where that variation is sorted** remains potentially context dependent and is not resolved as a common or species-specific map here. Broad tree-wide phylogenetic conservation is not detected under the tested scenarios, and a post-confirmatory BIO5 association fails species-disjoint transport, arguing against two simple universal explanations. The biological interpretation remains bounded by the direct highlight control: the measured coarse white state is exposure-coupled rather than artifact-cleared, although high-clip exclusion retains excess H2 alignment.
+The methodological advance is not a new diversity statistic but a validated route from repeated photographs to a comparative within-species trait distribution: observer-disjoint reproducibility, location-blind measurement, construction-preserving nulls and prospective species-disjoint confirmation are treated as separate inferential stages. The ecological advance is that cross-species generality appears at two levels. First, continuous within-species colour displacement shows excess achromatic–chromatic alignment relative to a coarse-state-preserving null. Second, species with greater four-state colour diversity also show stronger within-species geographic organization across the original high-depth cohorts, even though sampled photographic span does not explain that pattern in validation. Together these results suggest that **what varies** can show a recurrent cross-species structure while **where that variation is sorted** remains potentially context dependent and is not resolved as a common or species-specific map here. Broad tree-wide phylogenetic conservation is not detected under the tested scenarios, and a post-confirmatory BIO5 association fails species-disjoint transport, arguing against two simple universal explanations. The biological interpretation remains bounded by the direct highlight control: the measured coarse white state is exposure-coupled rather than artifact-cleared, although high-clip exclusion retains excess H2 alignment.
 
 ---
 
@@ -352,7 +352,7 @@ The manuscript may claim:
 4. replicated positive association between species-level D and within-species geographic colour organization, with background, technical-failure and ambiguity stress tests;
 5. non-support for the tested broad phylogenetic-signal claim;
 6. non-replication of the sampled-photographic-span association;
-7. a post-confirmatory third-cohort BIO5–white association that passed its frozen within-cohort gate but failed the later species-disjoint discovery/validation transport rule.
+7. a post-confirmatory prospective-cohort BIO5–white association that passed its frozen within-cohort gate but failed the later species-disjoint discovery/validation transport rule.
 
 The manuscript must not claim:
 
@@ -382,15 +382,15 @@ The manuscript must not claim:
 - Discussion-only *Silene littorea* PAL/WAL persistence receipt: `results/polymorphism_silene_decoupling_persistence_20260925/result.json`
 - Discussion-only cross-species PAL/WAL frequency receipt: `results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json`
 - H2 target freeze: `docs/POLYMORPHISM_H2_WHITE_AXIS_TARGET_FREEZE_20260912.md`
-- Third-cohort protocol: `docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md`
-- Third-cohort result/claim freeze: `docs/POLYMORPHISM_H2_THIRD_COHORT_RESULT_AND_MANUSCRIPT_CLAIM_FREEZE_20260917.md`
+- Prospective-confirmation protocol: `docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md`
+- Prospective-confirmation result/claim freeze: `docs/POLYMORPHISM_H2_THIRD_COHORT_RESULT_AND_MANUSCRIPT_CLAIM_FREEZE_20260917.md`
 - Post-confirmatory validity diagnostics: `docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`
-- Third-cohort measurement result: `results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`
-- Third-cohort H2 result: `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
+- Prospective-confirmation measurement result: `results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`
+- Prospective-confirmation H2 result: `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
 - H3a protocol/result manifest: `docs/POLYMORPHISM_H3A_PHYLOGENETIC_SIGNAL_PROTOCOL_20260912.md`, `results/polymorphism_h3a_phylogenetic_signal_20260912/frozen_result_manifest.json`
 - H3b result freeze: `docs/POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md`
-- Third-cohort environmental-filter receipt: `results/polymorphism_white_environment_mechanism_20260925/result.json`
-- Legacy BIO5 transport receipt: `results/polymorphism_legacy_white_bio5_replication_20260925/result.json`
+- Prospective-cohort environmental-filter receipt: `results/polymorphism_white_environment_mechanism_20260925/result.json`
+- BIO5 transport receipt: `results/polymorphism_legacy_white_bio5_replication_20260925/result.json`
 
 ## References
 
