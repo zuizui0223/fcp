@@ -43,6 +43,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Record package source identity
+        run: echo "PACKAGE_SOURCE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
 
       - uses: actions/setup-python@v5
         with:
@@ -141,8 +146,11 @@ jobs:
           provenance_source="$(tar -xOzf "$stage/archive/fcp-np-provenance-20260926.tar.gz" ./PROVENANCE_SOURCE.txt)"
           source_commit="$(printf '%s\n' "$provenance_source" | awk -F= '$1=="source_commit" {print $2}')"
           test "${#source_commit}" -eq 40
-          printf 'release_tag=%s\nasset_sha256=%s\nsource_commit=%s\n' \
-            "$PROVENANCE_TAG" "$expected_sha" "$source_commit" \
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            test "$source_commit" = "$PACKAGE_SOURCE_SHA"
+          fi
+          printf 'release_tag=%s\nasset_sha256=%s\nsource_commit=%s\npackage_source_commit=%s\n' \
+            "$PROVENANCE_TAG" "$expected_sha" "$source_commit" "$PACKAGE_SOURCE_SHA" \
             > "$stage/archive/PROVENANCE_RELEASE_IDENTITY.txt"
 
           mv "$stage/archive/FILE_SHA256SUMS.txt" "$stage/archive/PROVENANCE_FILE_SHA256SUMS.txt"
