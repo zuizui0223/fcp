@@ -80,6 +80,7 @@ The package includes:
 - active New Phytologist manuscript;
 - canonical manuscript;
 - Supporting Information evidence map;
+- secondary mechanism evidence ledger separating study-derived BIO5/PAL-WAL analyses from source-derived biochemical/molecular context;
 - cover letter;
 - claim ledger;
 - paper architecture and figure plan;
