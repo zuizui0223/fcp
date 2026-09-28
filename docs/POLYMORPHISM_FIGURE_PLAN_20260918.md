@@ -259,7 +259,8 @@ Two-panel reporting-only figure generated from frozen secondary results.
 - visual message: a positive within-cohort association exists, but it does not transport as a common cross-cohort rule.
 
 **Panel B — biochemically anchored PAL/WAL persistence contrast**
-- phenotype definition is supported by HPLC-DAD-MS^n tissue profiles: PAL lacks anthocyanins in petals but retains them in photosynthetic tissues, whereas WAL lacks anthocyanins in both;
+- *S. littorea* phenotype definition is supported by HPLC-DAD-MS^n tissue profiles: PAL lacks anthocyanins in petals but retains them in photosynthetic tissues, whereas WAL lacks anthocyanins in both;
+- cross-system entries retain Del Valle et al. Table S1 classifications and are not independently tissue-profiled by the current study;
 - *Silene littorea* PAL median positive frequency = 15.5% (8–21%);
 - *S. littorea* WAL median = 0.21% (0.05–0.86%);
 - cross-system PAL median lower bound = 5%;
