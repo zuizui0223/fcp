@@ -92,11 +92,15 @@ The package includes:
 - all headline machine-readable result directories;
 - publication figure source data and the five current manuscript figures;
 - the exact highlight/H3a/H3b artifact freeze under `archive/fcp_submission_20260925`;
+- original complete BIO5 and legacy-BIO5 result artifacts under `external/secondary_original_artifacts`;
 - relevant polymorphism/environment analysis scripts;
 - relevant manuscript/provenance regression tests;
 - relevant GitHub Actions workflow definitions;
 - exact historical H1/H2 and third-cohort candidate-frame execution source;
-- pinned successful replay environment: Python 3.12.14 plus `requirements-np-replay-20260928.txt`;
+- exact historical H3a and H3b execution source;
+- pinned successful primary replay environment: Python 3.12.14 plus `requirements-np-replay-20260928.txt`;
+- pinned successful BIO5 replay environment: Python 3.11.16 plus `requirements-np-bio5-replay-20260928.txt`;
+- original complete BIO5/BIO14/SRAD and legacy-BIO5 result artifacts, copied before Actions expiry;
 - fuller frozen D–spatial Step 5/6/8/9 scripts and intermediate outputs;
 - permanent copies of the exact discovery/reserve 999-permutation spatial-null artifacts from Actions runs `34088925008` and `34178957447`;
 - exact ROI-v4 / fixed-palette measurement implementation;
