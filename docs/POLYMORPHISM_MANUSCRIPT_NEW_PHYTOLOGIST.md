@@ -284,7 +284,7 @@ The fixed species-disjoint BIO5 transport test did not reproduce that associatio
 
 Thus this pre-specified secondary analysis of the prospective H2 cohort provides a within-cohort association between white states and warmer maximum-temperature environments, but the effect does not support a common cross-cohort BIO5 rule (Fig. S9a).
 
-### Biochemically defined flower-restricted anthocyanin loss reaches higher reported natural frequencies
+### Biochemically anchored flower-restricted anthocyanin loss reaches higher reported natural frequencies
 
 To test whether tissue restriction could plausibly influence the persistence of achromatic phenotypes, we reanalysed the frequency tables of Del Valle et al. (2019). Crucially, PAL and WAL are not visual labels alone in that source study: HPLC-DAD-MS^n tissue profiling showed petal anthocyanin-loss (PAL), with anthocyanins absent from petals but retained in photosynthetic tissues. Whole-plant anthocyanin-loss (WAL) lacked anthocyanins in both petals and photosynthetic tissues; flavone production was retained across phenotypes. Within *Silene littorea*, PAL whites were recorded at **8–21%** when present (median **15.5%**) across six positive population-years in two populations, both observed positive for at least three years. WAL whites occurred in more populations but remained at **0.05–0.86%** in every positive population-year (median **0.21%**). Every positive PAL frequency exceeded the maximum positive WAL frequency.
 
@@ -473,5 +473,5 @@ The complete evidence map is provided in `docs/POLYMORPHISM_SUPPORTING_INFORMATI
 
 **Fig. S8.** H3b sampled-span sensitivities including raw, finite-sample, observer/classifiability-adjusted partial-rank and rank-PGLS validation analyses.
 
-**Fig. S9.** Secondary empirical mechanism evidence. (a) Within-species white-minus-nonwhite BIO5 contrasts in the prospective cohort and fixed discovery/validation transport tests. (b) Descriptive PAL/WAL natural-frequency contrasts within *Silene littorea* and across the Del Valle et al. (2019) literature table; PAL and WAL are biochemically defined anthocyanin phenotypes in the source study using HPLC-DAD-MS^n tissue profiles, not visual white-flower labels alone. These panels constrain mechanism without establishing universal causation.
+**Fig. S9.** Secondary empirical mechanism evidence. (a) Within-species white-minus-nonwhite BIO5 contrasts in the prospective cohort and fixed discovery/validation transport tests. (b) Descriptive PAL/WAL natural-frequency contrasts within *Silene littorea* and across the Del Valle et al. (2019) literature table; within *S. littorea*, PAL and WAL are distinguished by HPLC-DAD-MS^n tissue profiles rather than visual white-flower labels alone, whereas the cross-system entries retain the source table's phenotype classifications. These panels constrain mechanism without establishing universal causation.
 
