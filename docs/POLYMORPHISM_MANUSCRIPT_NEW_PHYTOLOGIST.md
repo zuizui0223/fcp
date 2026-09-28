@@ -11,10 +11,10 @@
 **Word counts (current working draft):**
 - Summary: 176 words
 - Introduction: 725 words
-- Materials and Methods: 2,265 words
-- Results: 2,205 words
-- Discussion: 1,637 words
-- Main text (Introduction through Discussion): 6,832 words
+- Materials and Methods: 2,345 words
+- Results: 2,325 words
+- Discussion: 1,702 words
+- Main text (Introduction through Discussion): 7,097 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -26,7 +26,7 @@
 - Flower colour is commonly reduced to a species mean, obscuring within-species variation. We ask whether within-species colour distributions are reproducible comparative traits, whether variation occupies recurrent directions in colour space, and whether more diverse species are more strongly organized geographically.
 - We analysed 100,000 photographs from 1,000 discovery–validation species and then prospectively tested a pre-frozen white-versus-nonwhite axis in 49,900 newly sampled photographs from 499 species. A construction-preserving null retained species × coarse-state counts and coarse-state-specific palette distributions.
 - Observer-disjoint validation recovered stable D rankings (median Spearman rho = 0.789), and fresh-image transport across 136 overlapping species was strong (rho = 0.968; Lin CCC = 0.972). In the prospective test, 158 species gave W = 0.517 versus null median 0.457 (p = 0.001).
-- Greater D was associated with stronger within-species geographic colour organization. Secondary analyses suggested bounded filters: white states occupied warmer BIO5 environments within the prospective cohort but not consistently across cohorts, and flower-restricted anthocyanin-loss phenotypes reached higher reported natural frequencies than whole-plant loss. White classification remained exposure-coupled (OR = 1.44), limiting mechanistic interpretation.
+- Greater D was associated with stronger within-species geographic colour organization. Secondary analyses suggested bounded filters: white states occupied warmer BIO5 environments in the primary prospective analysis, but the association weakened under observer controls and did not transport consistently across cohorts; flower-restricted anthocyanin-loss phenotypes reached higher reported natural frequencies than whole-plant loss. White classification remained exposure-coupled (OR = 1.44), limiting mechanistic interpretation.
 
 
 ---
@@ -163,6 +163,8 @@ A recurrent phenotype-space axis does not identify why it recurs. After H2 termi
 
 After the prospective BIO5 result was opened, the same fixed BIO5 contrast was transported to the original discovery and validation cohorts. Support required both cohorts to show the prespecified positive species-level and conditional-logistic results. This tests a simple abiotic explanation and whether it generalizes; it is not an independent-source causal test.
 
+Two post hoc observer sensitivities then bounded the prospective BIO5 association. The observer-paired design retained only species-observer strata containing both white and non-white outcomes, providing the strongest observer control at the cost of sharply contracting geographic and environmental range. The observer-balanced design first averaged environment within species × observer × colour and then compared colour means across observers, retaining broader geography while equalizing observer weight. These analyses were opened after the primary environmental result and cannot upgrade or redefine its frozen gate.
+
 ### Secondary PAL/WAL persistence reanalysis
 
 To ask whether tissue restriction could plausibly influence the persistence of achromatic pigment-loss phenotypes, we performed a descriptive reanalysis of Del Valle et al. (2019) Supplementary Tables S2 and S1. This analysis was secondary and post-publication; it was not an untouched confirmatory test.
@@ -276,13 +278,15 @@ The direct one-shot digital-highlight control completed all 49,900 frozen reacqu
 
 Removing the response-blind high-clip set did not remove H2 support. The sensitivity retained **142** primary-tier vectors, with W = **0.503**, structured-null median = **0.454**, and upper-tail p = **0.001**. This corresponds to **89.9%** retention of the original 158 vectors, one vector below the prespecified >=90% requirement. The frozen executable checked this retention criterion before its coupling-CI branch and therefore returned the terminal machine state **INDETERMINATE**. The separately frozen prose protocol would classify the coupling interval itself as a FLAGGED condition because its complete 95% CI exceeds 1.25. Because both the prose rule and executable precedence were frozen before reacquisition, we do not recode the terminal machine state after observing the result. Instead, we report the two facts directly: near-clipping is substantially coupled to white classification, while excess H2 alignment remains supported after removal of the response-blind high-clip set.
 
-### White states occupy warmer BIO5 environments in the prospective cohort, but the association does not transport
+### The prospective BIO5 association is observer-sensitive and does not transport as a common rule
 
 The post-confirmatory environmental-filter test retained **281** prospective-cohort species and 12,583 rows after the response-blind high-clip exclusion. BIO5 was the only one of the three frozen environmental predictions to pass its full gate. The median within-species white-minus-nonwhite BIO5 contrast was **+0.0690 SD**; 57.3% of species had a positive contrast. The species-level Wilcoxon p-value was 0.0118 and remained significant after Holm correction across BIO5, BIO14 and solar radiation (**Holm-adjusted p = 0.0354**). In the species-stratified conditional logistic model, a one-SD within-species increase in BIO5 was associated with OR = **1.073** for white classification (95% CI **1.029–1.119**, p = **0.000919**) after continuous near-clip adjustment. BIO14 and mean solar radiation did not pass their frozen gates (Holm-adjusted p = 0.692 for each).
 
+Post hoc observer controls weakened that BIO5 signal. In the strict observer-paired design, **106 species** contributed 144 species-observer strata containing both colour states; the median BIO5 contrast was **0.000 SD** (Wilcoxon p = **0.485**) and the conditional estimate reversed direction without statistical support (OR = **0.787**, 95% CI **0.544–1.138**, p = **0.202**). In the broader observer-balanced design, **352 species** retained a positive median contrast of **+0.0541 SD**, but the Wilcoxon test was not significant (p = **0.0750**; sign test p = **0.0484**). These sensitivities were post hoc and do not overwrite the frozen within-cohort gate, but they show that the magnitude and support of the BIO5 association depend on observer conditioning.
+
 The fixed species-disjoint BIO5 transport test did not reproduce that association across both original high-depth cohorts. In discovery, **271** eligible species had a median contrast of **-0.0068 SD** (Wilcoxon p = **0.743**), and the species-stratified estimate was OR = **1.033** (95% CI 0.990–1.078, p = **0.131**). In validation, **260** species had a directionally concordant median contrast of **+0.0662 SD**, but the species-level test missed the frozen criterion (p = **0.0541**); the row-level model was positive (OR = **1.048**, 95% CI 1.004–1.094, p = **0.0319**). Because both cohorts were required to pass at both inferential levels, the prespecified transport criterion was not met.
 
-Thus this pre-specified secondary analysis of the prospective H2 cohort provides a within-cohort association between white states and warmer maximum-temperature environments, but the effect does not support a common cross-cohort BIO5 rule (Fig. S9a).
+Thus the frozen primary prospective analysis provides a within-cohort association between white states and warmer maximum-temperature environments, but post hoc observer controls weaken that association and the fixed transport test does not support a common cross-cohort BIO5 rule (Fig. S9a).
 
 ### Biochemically anchored flower-restricted anthocyanin loss reaches higher reported natural frequencies
 
@@ -346,7 +350,7 @@ One plausible source of recurrence is genetic and developmental accessibility. A
 
 Two secondary empirical results narrow the mechanistic interpretation. First, the PAL/WAL reanalysis shows that flower-restricted anthocyanin-loss phenotypes can reach substantially higher natural frequencies than whole-plant loss phenotypes, consistent with a maintenance filter in which tissue restriction avoids some extra-floral costs. Because the source systems are ascertained and heterogeneous, this remains descriptive rather than causal or meta-analytic.
 
-Second, the environmental follow-up gives a context-dependent abiotic clue. White records occupied warmer BIO5 environments within the prospective cohort (median contrast +0.069 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073, p = 0.000919), but the association failed the frozen species-disjoint transport rule: discovery was null (p = 0.743) and validation missed the species-level criterion (p = 0.0541). Temperature is therefore not supported as a universal cross-species driver. This fits evidence that thermal effects on floral pigmentation are context dependent (Lacey 2026) and that *Moricandia arvensis* can shift reversibly from lilac to white while losing detectable anthocyanins under summer conditions (Gómez et al. 2020; Narbona et al. 2026). Generality may therefore lie in shared pigment-network architecture acted on by different genetic and environmental perturbations, rather than in one universal BIO5 coefficient.
+Second, the environmental follow-up gives a context-dependent abiotic clue rather than a robust temperature rule. White records occupied warmer BIO5 environments in the frozen primary prospective analysis (median contrast +0.069 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073, p = 0.000919), but the signal weakened when observer identity was controlled more aggressively: the observer-paired sensitivity was null (median 0.000 SD; p = 0.485; OR = 0.787, p = 0.202), while the observer-balanced contrast remained positive but marginal by Wilcoxon (median +0.054 SD; p = 0.075). The association also failed the frozen species-disjoint transport rule: discovery was null (p = 0.743) and validation missed the species-level criterion (p = 0.0541). Temperature is therefore not supported as a universal cross-species driver, and some of the within-cohort signal may reflect observer-associated geographic sampling. This fits evidence that thermal effects on floral pigmentation are context dependent (Lacey 2026) and that *Moricandia arvensis* can shift reversibly from lilac to white while losing detectable anthocyanins under summer conditions (Gómez et al. 2020; Narbona et al. 2026). Generality may therefore lie in shared pigment-network architecture acted on by different genetic and environmental perturbations, rather than in one universal BIO5 coefficient.
 
 ### From a repeated global atlas to species-level generality: what varies versus where it is sorted
 
@@ -473,5 +477,5 @@ The complete evidence map is provided in `docs/POLYMORPHISM_SUPPORTING_INFORMATI
 
 **Fig. S8.** H3b sampled-span sensitivities including raw, finite-sample, observer/classifiability-adjusted partial-rank and rank-PGLS validation analyses.
 
-**Fig. S9.** Secondary empirical mechanism evidence. (a) Within-species white-minus-nonwhite BIO5 contrasts in the prospective cohort and fixed discovery/validation transport tests. (b) Descriptive PAL/WAL natural-frequency contrasts within *Silene littorea* and across the Del Valle et al. (2019) literature table; within *S. littorea*, PAL and WAL are distinguished by HPLC-DAD-MS^n tissue profiles rather than visual white-flower labels alone, whereas the cross-system entries retain the source table's phenotype classifications. These panels constrain mechanism without establishing universal causation.
+**Fig. S9.** Secondary empirical mechanism evidence. (a) Primary prospective, observer-balanced and observer-paired within-species white-minus-nonwhite BIO5 contrasts together with fixed discovery/validation transport tests. (b) Descriptive PAL/WAL natural-frequency contrasts within *Silene littorea* and across the Del Valle et al. (2019) literature table; within *S. littorea*, PAL and WAL are distinguished by HPLC-DAD-MS^n tissue profiles rather than visual white-flower labels alone, whereas the cross-system entries retain the source table's phenotype classifications. These panels constrain mechanism without establishing universal causation.
 
