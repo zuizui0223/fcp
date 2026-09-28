@@ -134,7 +134,7 @@ Machine-readable frozen results and input SHA256 values remain authoritative ove
 This snapshot does not upgrade any inferential claim. In particular:
 
 - prospective H2 remains separate from post-H2 BIO5;
-- BIO5 remains positive in the secondary third-cohort analysis but non-replicated under the fixed legacy transport rule;
+- BIO5 remains positive in the frozen primary secondary analysis but is weakened by post hoc observer sensitivities and non-replicated under the fixed legacy transport rule;
 - shared versus species-specific geographic mapping remains unresolved;
 - exposure coupling of measured white remains a stated limitation.
 
