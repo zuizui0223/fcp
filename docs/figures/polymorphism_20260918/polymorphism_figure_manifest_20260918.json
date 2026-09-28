@@ -6,16 +6,19 @@
       "discovery_n": 369,
       "files": {
         "pdf": "polymorphism_figure1_measurement_frame.pdf",
-        "pdf_sha256": "9e125d160203536bddbd33d7d6bc830cf831bb1eb4d23ff0439daf1e3d3e34e5",
+        "pdf_sha256": "79681001e7c7235277cd872a5ec8726356b776744e935497b9417d56467b2736",
         "png": "polymorphism_figure1_measurement_frame.png",
-        "png_sha256": "2f5a3f44fabbcb316c2157cc7b133500b256679da655afffc0d22190b2dddbaa"
+        "png_sha256": "76fb746513adf9fabc76bb70cc99848d1b667de8bea824445019a93e04072762"
       },
       "global_frame_species": 42111,
+      "high_depth_capable_species": 4730,
       "layout_contract": {
         "arrow_direction": "top_to_bottom",
-        "cohort_topology": "global_frame_branches_to_original_and_third_cohort",
-        "secondary_followup": "dashed_post_h2_reuse_of_third_cohort"
+        "cohort_topology": "inferential_sequence_not_nested_samples",
+        "secondary_followup": "dashed_post_h2_annotations",
+        "stage_necessity": "shown_in_each_stage_box"
       },
+      "prospective_candidate_species": 3230,
       "reserve_n": 363,
       "third_cohort_measurement_evaluable_species": 377,
       "third_cohort_species": 499
@@ -23,9 +26,9 @@
     "figure2": {
       "files": {
         "pdf": "polymorphism_figure2_h1_reproducibility.pdf",
-        "pdf_sha256": "4cd90838c5c2dc67fb13d835df0d654e9a521e9b5c1cdbf88464d2fc75a052e7",
+        "pdf_sha256": "8c44c25250dfc7d2c48a98cb1c5c9318cd94021e32439d1353e90c75ab7b09f1",
         "png": "polymorphism_figure2_h1_reproducibility.png",
-        "png_sha256": "86dcf9596d75b291c9a822d045029f8913472150717db08816034c217973024a"
+        "png_sha256": "a54d6d7f768820019aa2bbd498fd37e904125c5422016b66d52d0dc8ee08b65b"
       },
       "layout_contract": {
         "stress_annotations": "offset_no_legend_overlap"
@@ -40,9 +43,9 @@
     "figure3": {
       "files": {
         "pdf": "polymorphism_figure3_h2_target_localization.pdf",
-        "pdf_sha256": "ff5649ca9fe67fcaf96476216cc6d8608f356bff2bcd3aca6739fedc7449218d",
+        "pdf_sha256": "ff9c49c51901e23a11d587a18da6f1ea308868628b7bde637bd18502e551751d",
         "png": "polymorphism_figure3_h2_target_localization.png",
-        "png_sha256": "9e51673828bdd84364802f40abefac19fd2df1323c9fff6b0669b93afcdf83ed"
+        "png_sha256": "01b5a146c905d4338623c47a68e1eeb486242d8a9457017a6d69ffe0ac6e4b3b"
       },
       "layout_contract": {
         "legend": "outside_below_axis"
@@ -79,9 +82,9 @@
     "figure5": {
       "files": {
         "pdf": "polymorphism_figure5_explanatory_boundaries.pdf",
-        "pdf_sha256": "92112c575c36eaa866297dd0a7dafc917dba64882b7ef286e804bf0586eed542",
+        "pdf_sha256": "848c532a84303144ddf869a1859a6ec608d44a0e670d4076c0ce361d18df0322",
         "png": "polymorphism_figure5_explanatory_boundaries.png",
-        "png_sha256": "ecc0a4029990e12e08a153be726ee384ab088a4c1b1880e674ddd5b1c11729cf"
+        "png_sha256": "35fe48a55ec3b32522497c613d000bd24fd8b1032605b637e59fd1a29a4d843e"
       },
       "h3a": {
         "reserve_scenarios": {
@@ -125,7 +128,7 @@
   },
   "hard_nonclaims": [
     "high-depth cohorts do not estimate global flower-colour polymorphism prevalence",
-    "third-cohort H2 is species-disjoint within the same iNaturalist opportunity universe, not independent-source replication",
+    "prospective H2 is species-disjoint within the same iNaturalist opportunity universe, not independent-source replication",
     "the white/nonwhite axis does not identify pigment chemistry, transition direction, or adaptive mechanism",
     "the D-spatial association is structural and does not identify a causal maintenance mechanism",
     "H3a non-support does not imply absence of all phylogenetic structure",
