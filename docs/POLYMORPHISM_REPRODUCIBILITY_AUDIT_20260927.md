@@ -25,6 +25,8 @@ Run `36373083779` additionally replayed the ecological D–spatial chain from th
 
 Step 5/5b reproduced exactly at `1e-12`; the complete chain passed a numerical identity gate of absolute `1e-10` / relative `1e-12`, chosen only to tolerate machine-level geodesic floating-point differences (the observed discrepancy that motivated it was ~3e-12 km).
 
+A third replay, run `36379690691`, independently reran the secondary ecological analyses. The third-cohort BIO5/BIO14/SRAD models, observer-paired/balanced sensitivities and legacy BIO5 transport matched their original successful artifacts. H3a/H3b reran under the recorded R/package versions; the archived H3 permutation-null, summary and PGLS tables were reproduced byte-for-byte.
+
 This audit distinguishes that demonstrated numerical reproducibility from the stronger question of whether the original third-party image bytes can always be reconstructed.
 
 ## Four reproducibility levels
@@ -32,7 +34,7 @@ This audit distinguishes that demonstrated numerical reproducibility from the st
 | Level | Question | Status |
 |---|---|---|
 | R1 | Can exact frozen inputs and outputs be recovered? | **PASS** |
-| R2 | Can headline H1/H2 analyses be recomputed from frozen measured tables? | **PASS — independently replayed** |
+| R2 | Can the manuscript's main and secondary inferential analyses be recomputed from frozen evidence? | **PASS — H1/H2, D–spatial, BIO5 sequence and H3 independently replayed** |
 | R3 | Can the image-measurement implementation be reconstructed from the archive? | **PASS after byte-completion revision** |
 | R4 | Can every original source image pixel be regenerated from the archive alone? | **NO — intentionally not claimed** |
 
@@ -65,6 +67,33 @@ Successful replay run `36324187508` reported:
 - `prospective H2: EXACT_JSON_MATCH_WITH_1E-12_FLOAT_TOLERANCE`
 
 This is direct evidence of computational reproducibility rather than only provenance bookkeeping. The replay workflow is now pinned to Python 3.12.14 with `requirements-np-replay-20260928.txt`, matching the package versions used in the successful replay.
+
+## R2b — demonstrated secondary ecological replay
+
+Run `36379690691` used the permanent provenance release as the evidence source.
+
+### Environmental sequence
+
+The replay used Python 3.11.16 and the exact successful pip environment frozen in `requirements-np-bio5-replay-20260928.txt`.
+
+It reran:
+
+- the third-cohort white/non-white BIO5, BIO14 and mean-SRAD analysis;
+- observer-paired and observer-balanced sensitivity analyses;
+- the legacy discovery/reserve BIO5 species-disjoint transport test.
+
+The replayed JSON objects matched at absolute `1e-10` / relative `1e-12`, and all original CSV tables matched under the same numeric tolerance with exact non-numeric identity.
+
+### H3 alternative-explanation filters
+
+The replay installed the package versions recorded inside the original H3 result JSONs:
+
+- H3a: R 4.6.1, ape 5.8.1, phytools 2.5.2, jsonlite 2.0.0;
+- H3b: R 4.6.1, ape 5.8.1, phylolm 2.6.5, jsonlite 2.0.0.
+
+The H3 result JSONs matched at absolute `1e-9` / relative `1e-11`. More strongly, the H3a permutation-null/summary tables and H3b permutation-null/summary/PGLS tables reproduced their archived SHA256 values byte-for-byte.
+
+Thus the H3 negative results and failed legacy BIO5 transport are computationally reproduced, not merely copied historical decisions.
 
 ## R3 — image-measurement implementation bytes
 

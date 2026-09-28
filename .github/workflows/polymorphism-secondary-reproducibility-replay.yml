@@ -1,0 +1,355 @@
+name: Polymorphism secondary-analysis reproducibility replay
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - requirements-np-bio5-replay-20260928.txt
+      - CURRENT_PAPER_REPRODUCIBILITY.md
+      - docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md
+      - docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md
+      - docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md
+      - docs/POLYMORPHISM_SECONDARY_REPLAY_ENVIRONMENT_20260928.md
+      - .github/workflows/polymorphism-secondary-reproducibility-replay.yml
+      - .github/workflows/build-np-provenance-snapshot-20260926.yml
+      - scripts/analysis/run_white_environment_mechanism_20260925.py
+      - scripts/analysis/run_white_environment_observer_sensitivity_20260925.py
+      - scripts/analysis/run_legacy_white_bio5_replication_20260925.py
+      - scripts/analysis/run_polymorphism_h3b_reserve_span_20260912.R
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PROVENANCE_TAG: fcp-np-provenance-20260926
+  WHITE_ENV_RUN_ID: "36128744659"
+  WHITE_ENV_ARTIFACT: "white-environment-mechanism-v1"
+  LEGACY_BIO5_RUN_ID: "36128744674"
+  LEGACY_BIO5_ARTIFACT: "legacy-white-bio5-replication-v1"
+
+jobs:
+  bio5-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMEXPR_NUM_THREADS: "1"
+      PYTHONHASHSEED: "0"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+
+      - name: Install exact original Python environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+
+      - name: Recover current permanent provenance package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/bio5_replay"
+          rm -rf "$root"
+          mkdir -p "$root/provenance" "$root/input" "$root/expected/white" "$root/expected/legacy" "$root/out"
+
+          gh release download "$PROVENANCE_TAG" --repo "${{ github.repository }}" \
+            --pattern 'fcp-np-provenance-20260926.tar.gz' \
+            --pattern 'fcp-np-provenance-20260926.tar.gz.sha256' \
+            --dir "$root/provenance"
+
+          sidecar="$root/provenance/fcp-np-provenance-20260926.tar.gz.sha256"
+          expected_sha="$(awk 'NF {print $1; exit}' "$sidecar")"
+          echo "$expected_sha  $root/provenance/fcp-np-provenance-20260926.tar.gz" | sha256sum -c -
+
+          tar -xzf "$root/provenance/fcp-np-provenance-20260926.tar.gz" -C "$root/input" \
+            ./raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv \
+            ./raw_inputs/legacy/rgfca_reserve_replication_measured_photos_v1.csv \
+            ./raw_inputs/third_cohort/polymorphism_h2_third_cohort_measured_photos_v1.csv \
+            ./repository/archive/fcp_submission_20260925/highlight/technical_table.csv.gz \
+            ./repository/archive/fcp_submission_20260925/highlight/sealed_join_key.csv \
+            ./repository/archive/fcp_submission_20260925/highlight/high_clip_ids.csv \
+            ./external/worldclim/wc2.1_10m_bio.zip \
+            ./external/worldclim/wc2.1_10m_srad.zip
+
+          echo 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4  '"$root"'/input/raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv' | sha256sum -c -
+          echo '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  '"$root"'/input/raw_inputs/legacy/rgfca_reserve_replication_measured_photos_v1.csv' | sha256sum -c -
+          echo '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186  '"$root"'/input/raw_inputs/third_cohort/polymorphism_h2_third_cohort_measured_photos_v1.csv' | sha256sum -c -
+          echo '00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf  '"$root"'/input/external/worldclim/wc2.1_10m_bio.zip' | sha256sum -c -
+          echo 'c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026  '"$root"'/input/external/worldclim/wc2.1_10m_srad.zip' | sha256sum -c -
+
+          mkdir -p "$root/worldclim/bio" "$root/worldclim/srad"
+          unzip -q "$root/input/external/worldclim/wc2.1_10m_bio.zip" -d "$root/worldclim/bio"
+          unzip -q "$root/input/external/worldclim/wc2.1_10m_srad.zip" -d "$root/worldclim/srad"
+
+      - name: Recover original BIO5 result artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/bio5_replay"
+
+          if gh run download "$WHITE_ENV_RUN_ID" --repo "${{ github.repository }}" \
+            --name "$WHITE_ENV_ARTIFACT" --dir "$root/expected/white"; then
+            echo "white_expected_source=actions_artifact"
+          else
+            tar -xzf "$root/provenance/fcp-np-provenance-20260926.tar.gz" -C "$root/expected/white" \
+              ./external/secondary_original_artifacts/white_environment
+            cp -a "$root/expected/white/external/secondary_original_artifacts/white_environment/." "$root/expected/white/"
+            echo "white_expected_source=permanent_provenance"
+          fi
+
+          if gh run download "$LEGACY_BIO5_RUN_ID" --repo "${{ github.repository }}" \
+            --name "$LEGACY_BIO5_ARTIFACT" --dir "$root/expected/legacy"; then
+            echo "legacy_expected_source=actions_artifact"
+          else
+            tar -xzf "$root/provenance/fcp-np-provenance-20260926.tar.gz" -C "$root/expected/legacy" \
+              ./external/secondary_original_artifacts/legacy_bio5
+            cp -a "$root/expected/legacy/external/secondary_original_artifacts/legacy_bio5/." "$root/expected/legacy/"
+            echo "legacy_expected_source=permanent_provenance"
+          fi
+
+          test -f "$root/expected/white/result.json"
+          test -f "$root/expected/white/observer_paired_sensitivity.json"
+          test -f "$root/expected/legacy/result.json"
+
+      - name: Replay third-cohort environmental analysis
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/bio5_replay"
+          measured="$root/input/raw_inputs/third_cohort/polymorphism_h2_third_cohort_measured_photos_v1.csv"
+          technical="$root/input/repository/archive/fcp_submission_20260925/highlight"
+
+          python scripts/analysis/run_white_environment_mechanism_20260925.py \
+            --measured "$measured" \
+            --technical-table "$technical/technical_table.csv.gz" \
+            --join-key "$technical/sealed_join_key.csv" \
+            --high-clip-ids "$technical/high_clip_ids.csv" \
+            --bio-dir "$root/worldclim/bio" \
+            --srad-dir "$root/worldclim/srad" \
+            --outdir "$root/out/white"
+
+          python scripts/analysis/run_white_environment_observer_sensitivity_20260925.py \
+            --measured "$measured" \
+            --technical-table "$technical/technical_table.csv.gz" \
+            --join-key "$technical/sealed_join_key.csv" \
+            --high-clip-ids "$technical/high_clip_ids.csv" \
+            --bio-dir "$root/worldclim/bio" \
+            --srad-dir "$root/worldclim/srad" \
+            --outdir "$root/out/white"
+
+      - name: Replay legacy BIO5 transport
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/bio5_replay"
+          python scripts/analysis/run_legacy_white_bio5_replication_20260925.py \
+            --discovery "$root/input/raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv" \
+            --reserve "$root/input/raw_inputs/legacy/rgfca_reserve_replication_measured_photos_v1.csv" \
+            --bio5 "$root/worldclim/bio/wc2.1_10m_bio_5.tif" \
+            --outdir "$root/out/legacy"
+
+      - name: Compare replayed BIO5 outputs with original artifacts
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/bio5_replay"
+          python - <<'PY'
+          import json, math, os
+          from pathlib import Path
+          import pandas as pd
+          import numpy as np
+
+          root=Path(os.environ["RUNNER_TEMP"])/"bio5_replay"
+
+          max_json_diff=[0.0,""]
+          def compare(a,b,path="root"):
+              if isinstance(a,dict) and isinstance(b,dict):
+                  assert set(a)==set(b), f"{path}: key mismatch {set(a)^set(b)}"
+                  for k in a: compare(a[k],b[k],f"{path}.{k}")
+              elif isinstance(a,list) and isinstance(b,list):
+                  assert len(a)==len(b), f"{path}: length mismatch"
+                  for i,(x,y) in enumerate(zip(a,b)): compare(x,y,f"{path}[{i}]")
+              elif isinstance(a,(int,float)) or isinstance(b,(int,float)):
+                  if a is None or b is None:
+                      assert a==b, f"{path}: {a} != {b}"
+                  else:
+                      af,bf=float(a),float(b)
+                      if math.isnan(af) and math.isnan(bf):
+                          return
+                      diff=abs(af-bf)
+                      if diff>max_json_diff[0]:
+                          max_json_diff[:]=[diff,path]
+                      assert math.isclose(af,bf,rel_tol=1e-10,abs_tol=1e-8), f"{path}: {a} != {b}; diff={diff}"
+              else:
+                  assert a==b, f"{path}: {a!r} != {b!r}"
+
+          for rel,label in [
+              ("result.json","white environment"),
+              ("observer_paired_sensitivity.json","observer sensitivity"),
+          ]:
+              a=json.loads((root/"expected/white"/rel).read_text())
+              b=json.loads((root/"out/white"/rel).read_text())
+              compare(a,b,label)
+              print(f"{label}: JSON_MATCH_ABS_1E-8_REL_1E-10")
+
+          a=json.loads((root/"expected/legacy/result.json").read_text())
+          b=json.loads((root/"out/legacy/result.json").read_text())
+          compare(a,b,"legacy BIO5")
+          print("legacy BIO5: JSON_MATCH_ABS_1E-8_REL_1E-10")
+
+          csv_pairs=[
+              (root/"expected/white/environment_mechanism_models.csv",root/"out/white/environment_mechanism_models.csv"),
+              (root/"expected/white/species_environment_deltas.csv",root/"out/white/species_environment_deltas.csv"),
+              (root/"expected/white/observer_paired_sensitivity.csv",root/"out/white/observer_paired_sensitivity.csv"),
+              (root/"expected/white/observer_paired_species_deltas.csv",root/"out/white/observer_paired_species_deltas.csv"),
+              (root/"expected/white/observer_balanced_sensitivity.csv",root/"out/white/observer_balanced_sensitivity.csv"),
+              (root/"expected/white/observer_balanced_species_deltas.csv",root/"out/white/observer_balanced_species_deltas.csv"),
+              (root/"expected/legacy/species_bio5_deltas.csv",root/"out/legacy/species_bio5_deltas.csv"),
+          ]
+          for a_path,b_path in csv_pairs:
+              a=pd.read_csv(a_path)
+              b=pd.read_csv(b_path)
+              assert list(a.columns)==list(b.columns), f"{a_path.name}: columns differ"
+              assert a.shape==b.shape, f"{a_path.name}: shape differs"
+              for c in a.columns:
+                  if pd.api.types.is_numeric_dtype(a[c]) and pd.api.types.is_numeric_dtype(b[c]):
+                      aa=a[c].to_numpy(float); bb=b[c].to_numpy(float)
+                      finite=np.isfinite(aa)&np.isfinite(bb)
+                      if finite.any():
+                          d=float(np.max(np.abs(aa[finite]-bb[finite])))
+                          if d>max_json_diff[0]:
+                              max_json_diff[:]=[d,f"{a_path.name}:{c}"]
+                      assert np.allclose(aa,bb,rtol=1e-10,atol=1e-8,equal_nan=True), f"{a_path.name}:{c}"
+                  else:
+                      assert a[c].fillna("").astype(str).tolist()==b[c].fillna("").astype(str).tolist(), f"{a_path.name}:{c}"
+              print(f"{a_path.name}: TABLE_MATCH")
+          print(f"maximum_numeric_difference={max_json_diff[0]:.12g} at {max_json_diff[1]}")
+          PY
+
+  h3-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.6.1"
+          use-public-rspm: true
+
+      - name: Install exact recorded H3 package versions
+        run: |
+          Rscript - <<'RS'
+          install.packages("remotes", repos="https://cloud.r-project.org")
+          remotes::install_version("jsonlite", version="2.0.0", repos="https://cloud.r-project.org", upgrade="never")
+          remotes::install_version("ape", version="5.8-1", repos="https://cloud.r-project.org", upgrade="never")
+          remotes::install_version("phytools", version="2.5-2", repos="https://cloud.r-project.org", upgrade="never")
+          remotes::install_version("phylolm", version="2.6.5", repos="https://cloud.r-project.org", upgrade="never")
+          stopifnot(
+            as.character(packageVersion("ape")) == "5.8.1",
+            as.character(packageVersion("phytools")) == "2.5.2",
+            as.character(packageVersion("phylolm")) == "2.6.5",
+            as.character(packageVersion("jsonlite")) == "2.0.0"
+          )
+          sessionInfo()
+          RS
+
+      - name: Recover permanent H3 inputs and exact H3a source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/h3_replay"
+          rm -rf "$root"
+          mkdir -p "$root/provenance" "$root/repro"/{data/derived,scripts/analysis,results} "$root/input"
+
+          gh release download "$PROVENANCE_TAG" --repo "${{ github.repository }}" \
+            --pattern 'fcp-np-provenance-20260926.tar.gz' \
+            --pattern 'fcp-np-provenance-20260926.tar.gz.sha256' \
+            --dir "$root/provenance"
+
+          expected_sha="$(awk 'NF {print $1; exit}' "$root/provenance/fcp-np-provenance-20260926.tar.gz.sha256")"
+          echo "$expected_sha  $root/provenance/fcp-np-provenance-20260926.tar.gz" | sha256sum -c -
+
+          tar -xzf "$root/provenance/fcp-np-provenance-20260926.tar.gz" -C "$root/input" \
+            ./raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv \
+            ./raw_inputs/legacy/rgfca_reserve_replication_measured_photos_v1.csv \
+            ./repository/archive/fcp_submission_20260925/h3a_tree \
+            ./repository/archive/fcp_submission_20260925/h3a_covariate \
+            ./repository/archive/fcp_submission_20260925/h3a_signal \
+            ./repository/archive/fcp_submission_20260925/h3b \
+            ./historical_code/h3a/scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R
+
+          cp "$root/input/raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv" "$root/repro/data/derived/"
+          cp "$root/input/raw_inputs/legacy/rgfca_reserve_replication_measured_photos_v1.csv" "$root/repro/data/derived/"
+          cp "$root/input/historical_code/h3a/scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R" "$root/repro/scripts/analysis/"
+          cp scripts/analysis/run_polymorphism_h3b_reserve_span_20260912.R "$root/repro/scripts/analysis/"
+
+      - name: Replay H3a and H3b
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/h3_replay"
+          tree="$root/input/repository/archive/fcp_submission_20260925/h3a_tree"
+          cov="$root/input/repository/archive/fcp_submission_20260925/h3a_covariate/sampling_opportunity_preoutcome.csv"
+
+          Rscript "$root/repro/scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R" \
+            --tree-root "$tree" --covariate "$cov"
+          Rscript "$root/repro/scripts/analysis/run_polymorphism_h3b_reserve_span_20260912.R" \
+            --tree-root "$tree" --covariate "$cov"
+
+      - name: Compare H3 replay with permanently archived originals
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/h3_replay"
+          python - <<'PY'
+          import json, math, os
+          from pathlib import Path
+          root=Path(os.environ["RUNNER_TEMP"])/"h3_replay"
+
+          def compare(a,b,path="root"):
+              if isinstance(a,dict) and isinstance(b,dict):
+                  assert set(a)==set(b), f"{path}: key mismatch {set(a)^set(b)}"
+                  for k in a: compare(a[k],b[k],f"{path}.{k}")
+              elif isinstance(a,list) and isinstance(b,list):
+                  assert len(a)==len(b), f"{path}: length mismatch"
+                  for i,(x,y) in enumerate(zip(a,b)): compare(x,y,f"{path}[{i}]")
+              elif isinstance(a,(int,float)) or isinstance(b,(int,float)):
+                  if a is None or b is None:
+                      assert a==b, f"{path}: {a} != {b}"
+                  else:
+                      af,bf=float(a),float(b)
+                      assert (math.isclose(af,bf,rel_tol=1e-11,abs_tol=1e-9)
+                              or (math.isnan(af) and math.isnan(bf))), f"{path}: {a} != {b}"
+              else:
+                  assert a==b, f"{path}: {a!r} != {b!r}"
+
+          pairs=[
+            (
+              root/"input/repository/archive/fcp_submission_20260925/h3a_signal/result.json",
+              root/"repro/results/polymorphism_h3a_phylogenetic_signal_20260912/result.json",
+              "H3a"
+            ),
+            (
+              root/"input/repository/archive/fcp_submission_20260925/h3b/result.json",
+              root/"repro/results/polymorphism_h3b_reserve_span_20260912/result.json",
+              "H3b"
+            ),
+          ]
+          for a_path,b_path,label in pairs:
+              compare(json.loads(a_path.read_text()),json.loads(b_path.read_text()),label)
+              print(f"{label}: JSON_MATCH_ABS_1E-9_REL_1E-11")
+          PY
+
+          echo '08a943bb1444ed06156519e7413f5fd39b5b9ec8a00c91a82af1e1463ba572b9  '"$root"'/repro/results/polymorphism_h3a_phylogenetic_signal_20260912/h3a_K_permutation_nulls.csv.gz' | sha256sum -c -
+          echo '8b37b0edcdf0823351aad82d443d2ff6686d3684294855f20900e1770614f986  '"$root"'/repro/results/polymorphism_h3a_phylogenetic_signal_20260912/h3a_signal_by_scenario.csv' | sha256sum -c -
+          echo 'a6886021d33f1d44a6182c5b17d42a100d051cd9ed6dbc56f711ebf6cef2eb92  '"$root"'/repro/results/polymorphism_h3a_phylogenetic_signal_20260912/h3a_species_D_and_sensitivity.csv' | sha256sum -c -
+
+          echo '004e393318bc815172f7486e87988955e719f620979a12798a2cd40187f700b0  '"$root"'/repro/results/polymorphism_h3b_reserve_span_20260912/h3b_span_permutation_nulls.csv' | sha256sum -c -
+          echo 'a8f58d2cf7282ec8aa55fd5741eb34e9440112fd319710654c4f03c12551460b  '"$root"'/repro/results/polymorphism_h3b_reserve_span_20260912/h3b_span_summary.csv' | sha256sum -c -
+          echo '869be3187c78c08a3e9456db7496c52f9dc6c31de73952b795ef4aea536be6fe  '"$root"'/repro/results/polymorphism_h3b_reserve_span_20260912/reserve_rank_pgls_s1_s3.csv' | sha256sum -c -
