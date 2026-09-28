@@ -114,14 +114,14 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     if d.groupby("cohort").size().to_dict() != expected:
         raise ValueError("unexpected H1/H3 D cohort sizes in reporting source")
 
-    fig, axes = plt.subplots(1, 2, figsize=(12.2, 5.15), gridspec_kw={"width_ratios": [1.08, 1.12]})
-    fig.suptitle("A continuous species-level flower-colour polymorphism phenotype", y=1.02, fontweight="bold")
+    fig, axes = plt.subplots(1, 2, figsize=(12.4, 5.3), gridspec_kw={"width_ratios": [1.0, 1.22]})
+    fig.suptitle("From outcome-blind opportunity frame to prospective confirmation", y=1.02, fontweight="bold")
 
     ax = axes[0]
     bins = np.linspace(0, 0.72, 25)
     for cohort, colour, label in [
         ("discovery", SECONDARY, "Discovery (n=369)"),
-        ("reserve", PRIMARY, "Reserve (n=363)"),
+        ("reserve", PRIMARY, "Validation (n=363)"),
     ]:
         vals = d.loc[d["cohort"].eq(cohort), "D"].to_numpy(dtype=float)
         ax.hist(vals, bins=bins, density=True, histtype="step", linewidth=2.0, color=colour, label=label)
@@ -133,7 +133,7 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.text(
         0.98,
         0.96,
-        "High-depth validation cohorts\nnot a prevalence sample",
+        "High-depth cohorts\nnot a prevalence sample",
         transform=ax.transAxes,
         ha="right",
         va="top",
@@ -144,19 +144,18 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
 
     ax = axes[1]
     ax.axis("off")
-    box_style = {"boxstyle": "round,pad=0.5", "facecolor": "white", "edgecolor": "#999999"}
+    box_style = {"boxstyle": "round,pad=0.42", "facecolor": "white", "edgecolor": "#999999"}
     secondary_box_style = {
-        "boxstyle": "round,pad=0.45",
+        "boxstyle": "round,pad=0.40",
         "facecolor": "white",
         "edgecolor": "#999999",
         "linestyle": "--",
     }
     boxes = [
-        (0.50, 0.90, "42,111-species global frame\nSampling / opportunity universe"),
-        (0.23, 0.61, "Original high-depth source\n500 discovery + 500 reserve\n100 photos per species"),
-        (0.23, 0.25, "D inference after ≥40 classifiable\n369 discovery + 363 reserve"),
-        (0.78, 0.61, "Prospective H2 third cohort\npre-frozen selection\n+ fresh metadata"),
-        (0.78, 0.31, "499 species × 100 rows\n377 measurement-evaluable\nH2 confirmation"),
+        (0.50, 0.92, "Stage 0 | Outcome-blind frame\n42,111 species; 4,730 high-depth-capable\nWHY: define candidates before colour"),
+        (0.50, 0.70, "Stage 1 | Discovery + validation\n500 × 100 photos each; D eligible 369 + 363\nWHY: estimate distributions and hold out species"),
+        (0.50, 0.49, "Freeze recurrent target after discovery\nwhite ↔ non-white; W + structured null\nWHY: discovery is not confirmation"),
+        (0.50, 0.27, "Stage 2 | Prospective confirmation\n3,230 unused candidates → 500 frozen → 499 × 100 new photos\n377 evaluable; primary H2 n=158\nWHY: untouched species/photo test"),
     ]
     for x, y, text in boxes:
         ax.text(
@@ -166,16 +165,14 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             transform=ax.transAxes,
             ha="center",
             va="center",
-            fontsize=8.6,
+            fontsize=7.9,
             bbox=box_style,
         )
 
-    # Solid arrows encode the pre-frozen sampling / confirmation chain.
     for source, target in [
-        ((0.44, 0.82), (0.27, 0.70)),
-        ((0.56, 0.82), (0.74, 0.70)),
-        ((0.23, 0.51), (0.23, 0.35)),
-        ((0.78, 0.51), (0.78, 0.41)),
+        ((0.50, 0.84), (0.50, 0.78)),
+        ((0.50, 0.61), (0.50, 0.57)),
+        ((0.50, 0.40), (0.50, 0.36)),
     ]:
         ax.annotate(
             "",
@@ -185,29 +182,34 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             arrowprops={"arrowstyle": "->", "color": "#777777", "lw": 1.2},
         )
 
-    # The same physical third-cohort rows were reused only after H2 had
-    # terminalized. A dashed box / arrow keeps that secondary chronology
-    # visually distinct from untouched prospective confirmation.
     ax.text(
-        0.78,
+        0.50,
         0.065,
-        "Later secondary follow-up\nhighlight validity + BIO5/BIO14/SRAD\nnot part of prospective H2",
+        "Stage 3 | Post-H2 annotations\nhighlight + climate + phylogeny\nWHY: bound measurement artifacts and alternative explanations",
         transform=ax.transAxes,
         ha="center",
         va="center",
-        fontsize=8.0,
+        fontsize=7.8,
         color=NEUTRAL,
         bbox=secondary_box_style,
     )
     ax.annotate(
         "",
-        xy=(0.78, 0.145),
-        xytext=(0.78, 0.22),
+        xy=(0.50, 0.125),
+        xytext=(0.50, 0.17),
         xycoords=ax.transAxes,
         arrowprops={"arrowstyle": "->", "color": "#777777", "lw": 1.1, "linestyle": "--"},
     )
-    ax.text(0.23, 0.73, "original validation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
-    ax.text(0.78, 0.73, "prospective confirmation lane", transform=ax.transAxes, ha="center", fontsize=7.8, color=NEUTRAL)
+    ax.text(
+        0.98,
+        0.99,
+        "Inferential sequence — cohorts are not nested samples",
+        transform=ax.transAxes,
+        ha="right",
+        va="top",
+        fontsize=7.6,
+        color=NEUTRAL,
+    )
     panel_label(ax, "B")
 
     fig.tight_layout()
@@ -217,16 +219,18 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         "discovery_n": 369,
         "reserve_n": 363,
         "global_frame_species": 42111,
+        "high_depth_capable_species": 4730,
+        "prospective_candidate_species": 3230,
         "third_cohort_species": 499,
         "third_cohort_measurement_evaluable_species": 377,
         "layout_contract": {
-            "cohort_topology": "global_frame_branches_to_original_and_third_cohort",
+            "cohort_topology": "inferential_sequence_not_nested_samples",
             "arrow_direction": "top_to_bottom",
-            "secondary_followup": "dashed_post_h2_reuse_of_third_cohort",
+            "stage_necessity": "shown_in_each_stage_box",
+            "secondary_followup": "dashed_post_h2_annotations",
         },
     }
     return files, meta
-
 
 def figure2(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     repeated = load_json(root / "results" / "polymorphism_h1_observer_disjoint_reliability_20260913" / "result.json")
@@ -267,7 +271,7 @@ def figure2(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         fontsize=7.8,
         color=NEUTRAL,
     )
-    ax.set_yticks(ys, ["Discovery", "Reserve"])
+    ax.set_yticks(ys, ["Discovery", "Validation"])
     ax.set_ylim(0.68, 0.32)
     ax.set_xlim(0.63, 0.86)
     ax.set_xlabel("Observer-disjoint split Spearman rho")
@@ -302,7 +306,7 @@ def figure2(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         fontsize=8.0,
         color=NEUTRAL,
     )
-    ax.set_yticks(ys, ["Discovery", "Reserve"])
+    ax.set_yticks(ys, ["Discovery", "Validation"])
     ax.set_ylim(0.68, 0.32)
     ax.set_xlim(0.72, 0.88)
     ax.set_xlabel("Deterministic split Spearman rho")
@@ -361,7 +365,7 @@ def figure3(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
             s = tier[cohort]
             entries.append(
                 {
-                    "label": f"{tier_label}\n{cohort.capitalize()}",
+                    "label": f"{tier_label}\n{("Validation" if cohort == "reserve" else "Discovery")}",
                     "observed": float(s["observed_mean_squared_white_axis_alignment"]),
                     "median": float(s["structured_null_summary"]["q50"]),
                     "low": float(s["structured_null_summary"]["q025"]),
@@ -505,8 +509,8 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax = axes[0]
     spatial_rows = [
         ("Discovery", spatial["discovery"]["span_plus_technical_adjusted_primary"]),
-        ("Reserve", spatial["reserve"]["span_plus_technical_adjusted_primary"]),
-        ("Reserve\nflower - background", spatial["reserve"]["span_plus_technical_adjusted_flower_minus_background"]),
+        ("Validation", spatial["reserve"]["span_plus_technical_adjusted_primary"]),
+        ("Validation\nflower - background", spatial["reserve"]["span_plus_technical_adjusted_flower_minus_background"]),
     ]
     x = np.arange(len(spatial_rows))
     obs = np.array([float(row["partial_rho"]) for _, row in spatial_rows])
@@ -552,7 +556,7 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         label_ha = "left" if xi == 0 else "center"
         ax.text(label_x, kval + 0.004, f"p={pval:.4f}", ha=label_ha, va="bottom", fontsize=8.5)
     ax.set_xticks(x, scenarios)
-    ax.set_ylabel("Reserve Blomberg K")
+    ax.set_ylabel("Validation Blomberg K")
     ax.set_xlabel("Frozen tree-placement scenario")
     ax.set_ylim(0, max(k) + 0.035)
     ax.set_title("No detectable broad conservation")
@@ -578,10 +582,10 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     for xi, val, pval in zip(x, vals, ps, strict=True):
         offset = 0.012 if val >= 0 else -0.012
         ax.text(xi, val + offset, f"rho={val:.3f}\np={pval:.4f}", ha="center", va="bottom" if val >= 0 else "top", fontsize=8.5)
-    ax.set_xticks(x, ["Discovery\ncalibration", "Reserve\nreplication"])
+    ax.set_xticks(x, ["Discovery\ncalibration", "Validation\nreplication"])
     ax.set_ylabel("Spearman rho(D, sampled span)")
     ax.set_ylim(-0.07, 0.23)
-    ax.set_title("Discovery span effect collapses in reserve")
+    ax.set_title("Discovery span effect collapses in validation")
     ax.text(
         0.03,
         0.06,
@@ -659,7 +663,7 @@ def generate_all(root: Path, output_dir: Path) -> Path:
         },
         "hard_nonclaims": [
             "high-depth cohorts do not estimate global flower-colour polymorphism prevalence",
-            "third-cohort H2 is species-disjoint within the same iNaturalist opportunity universe, not independent-source replication",
+            "prospective H2 is species-disjoint within the same iNaturalist opportunity universe, not independent-source replication",
             "the white/nonwhite axis does not identify pigment chemistry, transition direction, or adaptive mechanism",
             "the D-spatial association is structural and does not identify a causal maintenance mechanism",
             "H3a non-support does not imply absence of all phylogenetic structure",
