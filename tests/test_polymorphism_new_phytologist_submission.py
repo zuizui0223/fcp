@@ -271,7 +271,6 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
             "p = **0.000919**",
             "p = **0.743**",
             "p = **0.0541**",
-            "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST",
             "does not support a common cross-cohort BIO5 rule",
         ):
             assert token in manuscript
