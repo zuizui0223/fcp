@@ -68,6 +68,8 @@ jobs:
             cp docs/figures/polymorphism_20260918/polymorphism_figure${n}_*.pdf "$stage/figures/"
             cp docs/figures/polymorphism_20260918/polymorphism_figure${n}_*.png "$stage/figures/"
           done
+          cp docs/figures/polymorphism_20260918/polymorphism_figureS9_secondary_mechanism_evidence.pdf "$stage/figures/"
+          cp docs/figures/polymorphism_20260918/polymorphism_figureS9_secondary_mechanism_evidence.png "$stage/figures/"
 
           cat > "$stage/metadata/AUTHOR_METADATA_REQUIRED.md" <<'EOF'
           # Author-controlled metadata required before public Zenodo release
