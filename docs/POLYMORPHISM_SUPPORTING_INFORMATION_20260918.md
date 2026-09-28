@@ -131,25 +131,7 @@ The named q_white target was isolated after the original broad H2 geometry had b
 
 ## S4. Prospective-confirmation H2 chain of custody
 
-Selection protocol:
-
-- `docs/POLYMORPHISM_H2_THIRD_COHORT_SELECTION_PROTOCOL_20260916.md`
-
-Prospective measurement protocol:
-
-- `docs/POLYMORPHISM_H2_THIRD_COHORT_PROSPECTIVE_MEASUREMENT_PROTOCOL_20260917.md`
-
-Result/claim freeze:
-
-- `docs/POLYMORPHISM_H2_THIRD_COHORT_RESULT_AND_MANUSCRIPT_CLAIM_FREEZE_20260917.md`
-
-Machine-readable support result:
-
-- `results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`
-
-Machine-readable H2 result:
-
-- `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
+The exact protocol and machine-readable result identities are routed through the current data-lineage map and self-contained provenance snapshot. The reader-facing quantities needed to verify selection, technical qualification and the terminal H2 result are reported below.
 
 ### Outcome-blind selection
 
@@ -222,15 +204,7 @@ This is prospective species-disjoint confirmation within the same iNaturalist op
 
 ## S4b. Post-confirmatory H2 validity and direct highlight audit
 
-Canonical sources:
-
-- `docs/POLYMORPHISM_H2_POSTHOC_VALIDITY_DIAGNOSTICS_20260922.md`
-- `results/polymorphism_h2_posthoc_validity_diagnostics_20260922/result.json`
-- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_VALIDITY_PROTOCOL_20260922.md`
-- `results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json`
-- `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`
-
-These analyses were performed after the frozen prospective-confirmation H2 verdict and do not replace its prospective decision rule.
+Exact protocol/result identifiers are preserved in the data-lineage map and provenance snapshot. The analyses below were performed after the frozen prospective-confirmation H2 verdict and do not replace its prospective decision rule.
 
 ### Inferential decomposition
 
@@ -304,13 +278,7 @@ Near-tied deterministic initializations can switch after defensive row renormali
 
 ## S4c. Post-confirmatory environmental filter and BIO5 transport
 
-Machine-readable prospective-cohort environmental result:
-
-- `results/polymorphism_white_environment_mechanism_20260925/result.json`
-
-Machine-readable BIO5 transport result:
-
-- `results/polymorphism_legacy_white_bio5_replication_20260925/result.json`
+Machine-readable environmental and transport result identities are routed through the current data-lineage map and provenance snapshot.
 
 This analysis was specified after the prospective H2 result had been terminalized. It is therefore a secondary mechanistic/ecological analysis and cannot alter the frozen H2 verdict.
 
@@ -333,9 +301,9 @@ BIO5 was therefore the only prespecified environmental variable to pass the pros
 | Discovery | 271 | -0.0068 SD | 0.743 | 1.033 | 0.131 | false |
 | Validation | 260 | +0.0662 SD | 0.0541 | 1.048 | 0.0319 | false |
 
-Frozen transport verdict:
+Frozen transport decision:
 
-`LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST`.
+**Not supported under the prespecified cross-cohort rule.**
 
 Interpretation boundary:
 
@@ -349,7 +317,7 @@ Reporting-only machine-readable receipt:
 
 - `results/polymorphism_spatial_organization_clue_20260918/result.json`
 
-The receipt copies already frozen values from PR #32 / `feat/polymorphism-paper-v0-1-post-step9` and records the original Git blob identities. It performs no new biological analysis.
+The reporting receipt copies previously frozen values and performs no new biological analysis.
 
 ### Core result
 
@@ -400,11 +368,7 @@ This closes only the tested broad tree-wide signal claim.
 
 ## S7. H3b sampled-span replication boundary
 
-Canonical result freeze:
-
-- `docs/POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md`
-
-Workflow provenance:
+The exact result/protocol identity is routed in the data-lineage map. Workflow provenance:
 
 - run: `34677468362`
 - artifact ID: `10292399238`
