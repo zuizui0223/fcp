@@ -258,7 +258,8 @@ Two-panel reporting-only figure generated from frozen secondary results.
 - validation transport: median +0.0662 SD, p = 0.0541;
 - visual message: a positive within-cohort association exists, but it does not transport as a common cross-cohort rule.
 
-**Panel B — PAL/WAL persistence contrast**
+**Panel B — biochemically anchored PAL/WAL persistence contrast**
+- phenotype definition is supported by HPLC-DAD-MS^n tissue profiles: PAL lacks anthocyanins in petals but retains them in photosynthetic tissues, whereas WAL lacks anthocyanins in both;
 - *Silene littorea* PAL median positive frequency = 15.5% (8–21%);
 - *S. littorea* WAL median = 0.21% (0.05–0.86%);
 - cross-system PAL median lower bound = 5%;
