@@ -460,23 +460,31 @@ def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
     overlap = json.loads(PAL_WAL_OVERLAP.read_text(encoding="utf-8"))
     supporting = SUPPORTING.read_text(encoding="utf-8")
 
+    assert overlap["schema"] == "fcp_pal_wal_h2_overlap_feasibility_v2"
     assert overlap["status"] == "complete"
     assert overlap["overlap"]["counts"]["discovery"] == 0
-    assert overlap["overlap"]["counts"]["reserve"] == 2
+    assert overlap["overlap"]["counts"]["reserve_natural_frequency_context"] == 4
     assert overlap["overlap"]["counts"]["prospective_selected"] == 0
-    assert overlap["overlap"]["counts"]["PAL_overlap"] == 2
-    assert overlap["overlap"]["counts"]["WAL_overlap"] == 0
+    assert overlap["overlap"]["counts"]["PAL_natural_overlap"] == 2
+    assert overlap["overlap"]["counts"]["WAL_natural_overlap"] == 2
+    assert overlap["overlap"]["counts"]["WAL_greenhouse_only_overlap"] == 1
     assert overlap["decision"]["pal_vs_wal_bridge_estimable"] is False
 
-    reserve = {row["species"]: row for row in overlap["overlap"]["reserve_D_eligible"]}
+    reserve = {row["resolved_species"]: row for row in overlap["overlap"]["reserve_D_eligible_all_registry_contexts"]}
     assert reserve["Gymnadenia rhellicani"]["D"] == pytest.approx(0.65153691467969)
     assert reserve["Silene gallica"]["D"] == pytest.approx(0.234404536862004)
+    assert reserve["Delphinium nuttallianum"]["D"] == pytest.approx(0.165925925925926)
+    assert reserve["Silene dioica"]["D"] == pytest.approx(0.205515088449532)
+    assert reserve["Erythranthe guttata"]["frequency_context"] == "greenhouse_excluded_from_natural_panel"
 
     for token in (
-        "no PAL-versus-WAL comparison of D or H2 geometry is estimable",
+        "no inferential PAL-versus-WAL comparison of D or H2 geometry is estimable",
         "Gymnadenia rhellicani",
         "Silene gallica",
-        "WAL overlap was zero",
+        "D. nuttallianum",
+        "S. dioica",
+        "greenhouse-only",
+        "two PAL and two natural-context WAL overlaps",
     ):
         assert token in supporting
 
