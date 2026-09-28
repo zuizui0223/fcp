@@ -22,6 +22,21 @@ The canonical receipt is intentionally **not embedded inside the tar.gz it ident
 
 The release workflow recovers and checksum-verifies the large measured tables that are intentionally not carried on current main:
 
+The release workflow also freezes the outcome-blind sampling lineage that precedes those measured tables:
+
+- complete 42,111-species opportunity frame
+  - source commit: `7e538e5c51c05a7cc47b2fcf53eea92634c8a863`
+  - SHA256: `5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc`
+- four prior-ID exclusion sources used before third-cohort selection
+  - H9 exclusion ledger: `f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99`
+  - H9 fresh metadata: `111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f`
+  - 42,111 breadth-measurement panel: `38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605`
+  - P500 candidate metadata: `a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595`
+- third-cohort selected-species manifest
+  - SHA256: `16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59`
+- complete third-cohort candidate metadata
+  - SHA256: `adec40e29e347b035872f2add95b67011906cb74e28510e6260ed1edbd075711`
+
 - legacy discovery measured rows
   - source commit: `5142f7951af0dde5364bb047a566d67e8c479e51`
   - source path: `data/derived/global_monte_carlo_measured_photos_v1.csv`
