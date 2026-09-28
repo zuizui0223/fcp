@@ -41,6 +41,8 @@ The following repository-management surfaces are **not** included in the journal
 
 ## Publication gate
 
+Before any candidate archive is staged, the packaging workflow re-runs the New Phytologist submission guard and the manuscript claim guard on the exact packaging commit. Candidate generation therefore fails closed if either manuscript contract is red, even when the upstream provenance snapshot itself succeeded.
+
 The package is **scientifically frozen but administratively incomplete**.
 
 Before a public Zenodo deposition is published, author approval is required for:
