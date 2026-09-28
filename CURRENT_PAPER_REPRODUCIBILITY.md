@@ -57,9 +57,9 @@ Raster-level hashes are frozen in `archive/fcp_submission_20260925/worldclim_che
 
 ## Reproducibility levels
 
-The paper distinguishes three levels of reproducibility.
+The paper distinguishes four levels of reproducibility.
 
-1. **Numerical inference replay from frozen measured tables — demonstrated.** Exact legacy discovery/reserve and prospective-H2 measured tables are byte-frozen. Workflow `.github/workflows/polymorphism-reproducibility-replay.yml` reruns the repeated observer-disjoint H1 test, deterministic H1 stress test, legacy white-axis target analysis and prospective third-cohort H2. Run `36324187508` reproduced all four frozen JSON results at absolute tolerance `1e-12`. Run `36373083779` additionally replayed the D–spatial Step 5/5b/6/8/9 chain from the original 999-permutation null arrays and passed the frozen-result comparison. The replay runtime is pinned by `requirements-np-replay-20260928.txt` under Python 3.12.14.
+1. **Numerical inference replay from frozen measured tables — demonstrated.** Exact legacy discovery/reserve and prospective-H2 measured tables are byte-frozen. Workflow `.github/workflows/polymorphism-reproducibility-replay.yml` reruns the repeated observer-disjoint H1 test, deterministic H1 stress test, legacy white-axis target analysis and prospective third-cohort H2. Run `36324187508` reproduced all four frozen JSON results at absolute tolerance `1e-12`. Run `36373083779` additionally replayed the D–spatial Step 5/5b/6/8/9 chain from the original 999-permutation null arrays and passed the frozen-result comparison. The primary replay runtime is pinned by `requirements-np-replay-20260928.txt` under Python 3.12.14. Secondary analyses are independently replayed by `.github/workflows/polymorphism-secondary-reproducibility-replay.yml`: run `36379690691` reproduced the third-cohort BIO5/BIO14/SRAD result, observer sensitivities and legacy BIO5 transport (three JSON objects plus seven CSV tables), and replayed H3a/H3b under their recorded R/package versions. H3a/H3b JSONs matched at absolute `1e-9` / relative `1e-11`, while the archived H3 permutation and PGLS outputs reproduced their original SHA256 values exactly.
 2. **Secondary ecological-analysis replay — demonstrated.** Workflow `.github/workflows/polymorphism-secondary-reproducibility-replay.yml` reruns the third-cohort BIO5/BIO14/SRAD analysis, its observer sensitivities, the legacy BIO5 transport test, and H3a/H3b. Run `36379690691` reproduced the BIO5 JSON/tables from the original successful artifacts and reproduced H3a/H3b under their recorded R/package versions; the H3 permutation/PGLS tables matched the archived SHA256 identities byte-for-byte. The BIO5 Python environment is frozen in `requirements-np-bio5-replay-20260928.txt` under Python 3.11.16.
 3. **Outcome-blind sampling lineage and current evidence/package verification — supported.** The provenance tarball contains the exact 42,111-species opportunity frame, permanent P100/P500 selection bytes, deterministically reconstructed 3,230-species candidate frame, all four prior-ID exclusion sources, selected/candidate/authorized third-cohort metadata, the frozen measured tables, machine-readable results, historical execution-code snapshot, permanent H3/highlight intermediate archive, checksum-pinned WorldClim bytes, current figures and regression guards. Every file in the tarball is covered by `FILE_SHA256SUMS.txt`.
 4. **Image-measurement implementation reconstruction — self-contained after byte completion.** The archive contains the exact ROI-v4 / fixed-palette measurement source, the trained ROI-v4 detector byte, the exact EfficientSAM encoder/decoder ONNX weights, and the frozen third-cohort source-photo metadata. Every model/input byte added at packaging is SHA256-verified.
@@ -84,8 +84,9 @@ python -m pytest \
   tests/test_make_polymorphism_manuscript_figures.py \
   tests/test_repository_layout.py -q
 
-# GitHub Actions additionally performs a historical-code numerical replay:
+# GitHub Actions additionally performs historical-code numerical replays:
 # .github/workflows/polymorphism-reproducibility-replay.yml
+# .github/workflows/polymorphism-secondary-reproducibility-replay.yml
 # .github/workflows/polymorphism-secondary-reproducibility-replay.yml
 ```
 
