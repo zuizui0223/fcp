@@ -48,9 +48,12 @@ jobs:
           cp docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md "$stage/supporting/supporting_information.md"
           cp docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md "$stage/supporting/claim_ledger.md"
           cp docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md "$stage/supporting/data_lineage_map.md"
-          cp docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md "$stage/supporting/provenance_release_manifest.md"
-          cp docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md "$stage/supporting/reproducibility_audit.md"
           cp CURRENT_PAPER_REPRODUCIBILITY.md "$stage/supporting/CURRENT_PAPER_REPRODUCIBILITY.md"
+
+          # Deep provenance/audit documents belong to the archive surface, not
+          # the journal-facing ZIP. They remain available in the Zenodo-ready bundle.
+          cp docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md "$stage/archive/provenance_release_manifest.md"
+          cp docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md "$stage/archive/reproducibility_audit.md"
 
           cp docs/POLYMORPHISM_ZENODO_METADATA_DRAFT_20260926.json "$stage/metadata/ZENODO_METADATA_DRAFT.json"
           cp docs/POLYMORPHISM_SUBMISSION_PACKAGE_MANIFEST_20260926.md "$stage/metadata/SUBMISSION_PACKAGE_MANIFEST.md"
