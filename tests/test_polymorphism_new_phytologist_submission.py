@@ -266,7 +266,7 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
     for manuscript in (text, canonical):
         for token in (
             "### Post-confirmatory environmental filter and BIO5 transport test",
-            "### A pre-specified secondary BIO5 association in the prospective H2 cohort does not transport",
+            "### White states occupy warmer BIO5 environments in the prospective cohort, but the association does not transport",
             "**Holm-adjusted p = 0.0354**",
             "OR = **1.073**",
             "p = **0.000919**",
@@ -405,7 +405,7 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
 
     for token in (
         "petal anthocyanin-loss (PAL)",
-        "whole-plant anthocyanin-loss (WAL)",
+        "Whole-plant anthocyanin-loss (WAL)",
         "median 15.5%",
         "median 0.21%",
         "### A secondary reanalysis links flower-restricted pigment loss to higher natural frequencies",
