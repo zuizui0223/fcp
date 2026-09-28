@@ -17,6 +17,7 @@ D_FINITE = ROOT / "results" / "polymorphism_D_finite_sample_sensitivity_20260928
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
 WHITE_ENV_OBSERVER = ROOT / "results" / "polymorphism_white_environment_observer_sensitivity_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
+SILENE_MOLECULAR = ROOT / "results" / "polymorphism_silene_molecular_anchor_20260928" / "result.json"
 PAL_WAL_OVERLAP = ROOT / "results" / "polymorphism_pal_wal_h2_overlap_20260928" / "result.json"
 LINEAGE_MAP = ROOT / "docs" / "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md"
 WHITE_ENV_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md"
@@ -406,6 +407,40 @@ def test_self_contained_np_provenance_release_is_exposed_to_readers() -> None:
     sha_line = next(line for line in receipt.splitlines() if line.startswith("Asset SHA256: "))
     assert len(source_line.removeprefix("Source commit: ").strip()) == 40
     assert len(sha_line.removeprefix("Asset SHA256: ").strip()) == 64
+
+def test_silene_molecular_anchor_is_quantitative_and_bounded() -> None:
+    import json
+    import pytest
+
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    molecular = json.loads(SILENE_MOLECULAR.read_text(encoding="utf-8"))
+
+    assert molecular["role"].startswith("structured quantitative extraction")
+    assert molecular["source"]["doi"] == "10.3389/fpls.2016.00204"
+    assert molecular["source"]["molecular_design"].startswith("mRNA-seq of nine")
+    assert molecular["bud_expression"]["shared_significant_locus_in_both_pigmented_vs_white_contrasts"] == "F3h1"
+    assert molecular["bud_expression"]["shared_F3h1_fold_changes"]["dark_vs_white"] == pytest.approx(49.0)
+    assert molecular["bud_expression"]["shared_F3h1_fold_changes"]["light_vs_white"] == pytest.approx(42.2)
+    assert molecular["bud_expression"]["dark_vs_white_significant"][2]["locus"] == "Myb1a"
+    assert molecular["bud_expression"]["dark_vs_white_significant"][2]["fold_change_pigmented_over_white"] == pytest.approx(5.1)
+    assert molecular["sequence_evidence"]["F3h1_SNPs_in_reported_UTR_CDS_table"] == 0
+    assert molecular["sequence_evidence"]["expanded_sequence_survey_individuals"] == 38
+    assert molecular["sequence_evidence"]["consistent_colour_differentiating_SNP_after_expansion"] is False
+    assert molecular["derived_synthesis"]["causal_variant_identified"] is False
+
+    for token in (
+        "### Secondary *Silene littorea* molecular-anchor extraction",
+        "### Published molecular data anchor the *Silene* PAL phenotype near F3h1/Myb1a",
+        "F3h1 expression was **49.0×** higher",
+        "**42.2×** higher in light-pink than white buds",
+        "**Myb1a** was **5.1×** higher",
+        "**F3h1 had zero SNPs**",
+        "expanded sequencing of **38 individuals**",
+        "not molecular validation of the cross-species H2 axis",
+        "10.3389/fpls.2016.00204",
+    ):
+        assert token in text
+
 
 def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() -> None:
     import json
