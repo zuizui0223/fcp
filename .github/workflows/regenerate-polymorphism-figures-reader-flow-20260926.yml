@@ -1,9 +1,9 @@
-name: Regenerate polymorphism figures for reader-flow revision
+name: Regenerate current polymorphism manuscript figures
 
 on:
   push:
     branches:
-      - revision/np-figure1-reader-flow-20260926
+      - main
     paths:
       - scripts/analysis/make_polymorphism_manuscript_figures.py
       - tests/test_make_polymorphism_manuscript_figures.py
@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: revision/np-figure1-reader-flow-20260926
+          ref: main
           fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
@@ -54,7 +54,7 @@ jobs:
             echo "No figure changes"
             exit 0
           fi
-          git commit -m "Regenerate Figure 1 with secondary-flow chronology"
-          git fetch origin revision/np-figure1-reader-flow-20260926
-          git rebase origin/revision/np-figure1-reader-flow-20260926
-          git push origin HEAD:revision/np-figure1-reader-flow-20260926
+          git commit -m "Regenerate current polymorphism manuscript figures"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
