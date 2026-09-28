@@ -411,7 +411,7 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
         "median **0.21%**",
         "### Secondary PAL/WAL persistence reanalysis",
         "Published pigment-loss frequency tables",
-        "### Biochemically defined flower-restricted anthocyanin loss reaches higher reported natural frequencies",
+        "### Biochemically anchored flower-restricted anthocyanin loss reaches higher reported natural frequencies",
         "median PAL lower bound was **5%**",
         "median numeric WAL upper bound was **0.1%**",
         "maintenance filter",
