@@ -637,43 +637,52 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
 def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     env = load_json(root / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json")
     transport = load_json(root / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json")
+    observer = load_json(root / "results" / "polymorphism_white_environment_observer_sensitivity_20260925" / "result.json")
     silene = load_json(root / "results" / "polymorphism_silene_decoupling_persistence_20260925" / "result.json")
     cross = load_json(root / "results" / "polymorphism_crossspecies_pal_wal_frequency_20260925" / "result.json")
 
     bio5 = next(x for x in env["results"] if x["variable"] == "bio5")
+    paired_bio5 = next(x for x in observer["paired_results"] if x["variable"] == "bio5")
+    balanced_bio5 = next(x for x in observer["observer_balanced_results"] if x["variable"] == "bio5")
 
-    fig, axes = plt.subplots(1, 2, figsize=(12.0, 4.7), gridspec_kw={"width_ratios": [1.05, 1.0]})
+    fig, axes = plt.subplots(1, 2, figsize=(13.2, 4.7), gridspec_kw={"width_ratios": [1.25, 1.0]})
     fig.suptitle("Secondary empirical clues to achromatic-state persistence and environmental sorting", y=1.02, fontweight="bold")
 
     ax = axes[0]
-    labels = ["Prospective", "Discovery", "Validation"]
+    labels = ["Prospective\nprimary", "Observer-\nbalanced", "Observer-\npaired", "Discovery\ntransport", "Validation\ntransport"]
     deltas = [
         float(bio5["median_delta_white_minus_nonwhite_SD"]),
+        float(balanced_bio5["median_delta"]),
+        float(paired_bio5["median_delta"]),
         float(transport["discovery"]["species_level"]["median_delta_white_minus_nonwhite_SD"]),
         float(transport["reserve"]["species_level"]["median_delta_white_minus_nonwhite_SD"]),
     ]
     pvals = [
         float(bio5["wilcoxon_holm_p"]),
+        float(balanced_bio5["wilcoxon_two_sided_p"]),
+        float(paired_bio5["wilcoxon_two_sided_p"]),
         float(transport["discovery"]["species_level"]["wilcoxon_two_sided_p"]),
         float(transport["reserve"]["species_level"]["wilcoxon_two_sided_p"]),
     ]
     ns = [
         int(bio5["n_species_delta"]),
+        int(balanced_bio5["n_species"]),
+        int(paired_bio5["n_species"]),
         int(transport["discovery"]["eligible_species"]),
         int(transport["reserve"]["eligible_species"]),
     ]
-    colours = [SUPPORT, SECONDARY, PRIMARY]
-    x = np.arange(3)
+    colours = [SUPPORT, SECONDARY, NEUTRAL, LIGHT, LIGHT]
+    x = np.arange(5)
     ax.axhline(0, color="#777777", linewidth=1.0)
-    ax.bar(x, deltas, color=colours, width=0.58)
+    ax.bar(x, deltas, color=colours, width=0.62)
     for xi, delta, pval, n in zip(x, deltas, pvals, ns, strict=True):
         offset = 0.007 if delta >= 0 else -0.007
         va = "bottom" if delta >= 0 else "top"
-        ax.text(xi, delta + offset, f"n={n}\np={pval:.4f}", ha="center", va=va, fontsize=8.2)
+        ax.text(xi, delta + offset, f"n={n}\np={pval:.3f}", ha="center", va=va, fontsize=7.4)
     ax.set_xticks(x, labels)
     ax.set_ylabel("Median within-species white − nonwhite BIO5 (SD)")
     ax.set_ylim(-0.045, 0.105)
-    ax.set_title("BIO5 association appears in the prospective cohort\nbut does not transport as a common rule")
+    ax.set_title("BIO5 is positive in the frozen primary analysis\nbut observer-sensitive and non-transporting")
     ax.text(
         0.02,
         0.04,
@@ -737,6 +746,11 @@ def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str],
             "prospective_median_delta_SD": float(bio5["median_delta_white_minus_nonwhite_SD"]),
             "prospective_holm_p": float(bio5["wilcoxon_holm_p"]),
             "prospective_conditional_OR": float(bio5["OR_per_within_species_SD"]),
+            "observer_balanced_median_delta_SD": float(balanced_bio5["median_delta"]),
+            "observer_balanced_wilcoxon_p": float(balanced_bio5["wilcoxon_two_sided_p"]),
+            "observer_paired_median_delta_SD": float(paired_bio5["median_delta"]),
+            "observer_paired_wilcoxon_p": float(paired_bio5["wilcoxon_two_sided_p"]),
+            "observer_paired_conditional_OR": float(paired_bio5["OR_per_within_species_SD"]),
             "discovery_median_delta_SD": float(transport["discovery"]["species_level"]["median_delta_white_minus_nonwhite_SD"]),
             "discovery_p": float(transport["discovery"]["species_level"]["wilcoxon_two_sided_p"]),
             "validation_median_delta_SD": float(transport["reserve"]["species_level"]["median_delta_white_minus_nonwhite_SD"]),
