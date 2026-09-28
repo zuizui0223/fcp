@@ -76,6 +76,7 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
         "polymorphism_figure3_h2_target_localization",
         "polymorphism_figure4_prospective_h2",
         "polymorphism_figure5_explanatory_boundaries",
+        "polymorphism_figureS9_secondary_mechanism_evidence",
     ]
     for stem in expected_stems:
         png = tmp_path / f"{stem}.png"
@@ -97,6 +98,16 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert manifest["figures"]["figure5"]["spatial_organization"]["reserve_background_p"] == 0.01
     assert manifest["figures"]["figure5"]["h3a"]["verdict"] == "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED"
     assert manifest["figures"]["figure5"]["h3b"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+
+    s9 = manifest["figures"]["supplementary_figure9"]
+    assert s9["bio5"]["prospective_holm_p"] == 0.03544867047368517
+    assert s9["bio5"]["discovery_p"] == 0.7432522901921289
+    assert s9["bio5"]["validation_p"] == 0.054066696426422846
+    assert s9["pal_wal"]["silene_PAL_median_percent"] == 15.5
+    assert s9["pal_wal"]["silene_WAL_median_percent"] == 0.21
+    assert s9["pal_wal"]["cross_PAL_lower_bound_median_percent"] == 5.0
+    assert s9["pal_wal"]["cross_WAL_upper_bound_median_percent"] == 0.1
+    assert s9["claim_boundary"] == "bounded_secondary_empirical_evidence_not_universal_causation"
 
     f1_layout = manifest["figures"]["figure1"]["layout_contract"]
     assert f1_layout["cohort_topology"] == "inferential_sequence_not_nested_samples"
