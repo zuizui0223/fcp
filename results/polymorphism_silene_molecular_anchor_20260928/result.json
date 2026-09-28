@@ -1,0 +1,71 @@
+{
+  "schema": "fcp_silene_molecular_anchor_v1",
+  "date_jst": "2026-09-28",
+  "status": "complete",
+  "role": "structured quantitative extraction of published transcriptomic and biochemical evidence; not a raw-RNA reanalysis and not an independent experiment",
+  "source": {
+    "citation": "Casimiro-Soriguer et al. 2016, Frontiers in Plant Science 7:204",
+    "doi": "10.3389/fpls.2016.00204",
+    "pmid": 26973662,
+    "pmcid": "PMC4770042",
+    "study_scope": "Silene littorea, one polymorphic population; dark-pink, light-pink and white petals across bud/opening/anthesis stages",
+    "molecular_design": "mRNA-seq of nine morph-by-stage samples; 29 anthocyanin-biosynthetic-pathway-related loci",
+    "extraction_rule": "record all source-reported p<0.05 bud-stage pairwise expression contrasts involving white petals, plus significant dark-vs-light regulatory contrasts; record source-reported sequence and HPLC evidence relevant to the inferred F3h blockage"
+  },
+  "bud_expression": {
+    "dark_vs_white_significant": [
+      {"locus": "F3h1", "fold_change_pigmented_over_white": 49.0, "p": 0.039, "class": "structural"},
+      {"locus": "C4h2", "fold_change_pigmented_over_white": 36.2, "p": 0.013, "class": "structural"},
+      {"locus": "Myb1a", "fold_change_pigmented_over_white": 5.1, "p": 0.009, "class": "regulatory"}
+    ],
+    "light_vs_white_significant": [
+      {"locus": "F3h1", "fold_change_pigmented_over_white": 42.2, "p": 0.049, "class": "structural"},
+      {"locus": "F3primeh", "fold_change_pigmented_over_white": 4.5, "p": 0.047, "class": "structural"}
+    ],
+    "dark_vs_light_significant_regulators": [
+      {"locus": "Myb1a", "fold_change_dark_over_light": 4.2, "p": 0.021},
+      {"locus": "Myb3", "fold_change_dark_over_light": 0.3, "p": 0.033}
+    ],
+    "shared_significant_locus_in_both_pigmented_vs_white_contrasts": "F3h1",
+    "shared_F3h1_fold_changes": {"dark_vs_white": 49.0, "light_vs_white": 42.2}
+  },
+  "sequence_evidence": {
+    "ABP_loci_screened": 29,
+    "SNPs_reported_across_ABP_loci": 622,
+    "F3h1_SNPs_in_reported_UTR_CDS_table": 0,
+    "Ans_colour_associated_SNPs_initially_reported": 9,
+    "Ans_colour_associated_SNP_character": "synonymous",
+    "expanded_sequence_survey_individuals": 38,
+    "consistent_colour_differentiating_SNP_after_expansion": false
+  },
+  "petal_biochemistry": {
+    "primary_anthocyanin": "cyanidin derivatives",
+    "pairwise_white_vs_light_p": {
+      "cyanidin": 0.046,
+      "rutin": 0.001,
+      "quercetin": 0.015,
+      "isovitexin": 0.002
+    },
+    "pairwise_white_vs_dark_p": {
+      "cyanidin": 0.001,
+      "rutin": 0.002,
+      "quercetin": 0.108,
+      "isovitexin": 0.022
+    },
+    "intermediates_reported_significantly_lower_in_white": ["rutin", "quercetin", "isovitexin"]
+  },
+  "derived_synthesis": {
+    "F3h1_is_only_locus_significant_in_both_pigmented_vs_white_bud_contrasts": true,
+    "source_evidence_consistent_with_regulatory_block_near_F3h1": true,
+    "candidate_regulator": "Myb1a",
+    "causal_variant_identified": false
+  },
+  "claim_ceiling": "The published Silene littorea experiment provides quantitative transcriptomic and biochemical evidence consistent with a petal-specific regulatory blockage near F3h1/Myb1a. It anchors the PAL persistence contrast mechanistically but does not establish the molecular basis of the cross-species FCP white axis.",
+  "hard_nonclaims": [
+    "not a raw-read reanalysis",
+    "not independent replication",
+    "single-species single-population molecular anchor",
+    "does not prove Myb1a is the causal mutation",
+    "does not establish F3h1/Myb1a as a universal mechanism of white flowers or H2"
+  ]
+}
