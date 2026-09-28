@@ -18,42 +18,55 @@ Canonical outputs:
 
 - `docs/figures/polymorphism_20260918/`
 
-## Figure 1 — A continuous species-level flower-colour polymorphism phenotype
+## Figure 1 — Data provenance and inferential necessity
 
 ### Panel A — descriptive D distributions
 
-Show discovery and reserve high-depth D distributions:
+Show the high-depth **discovery** and **species-disjoint validation** D distributions:
 
 - discovery n = 369;
-- reserve n = 363;
+- validation n = 363;
 - dashed cohort medians;
 - `D = 1 - sum_k p_k^2`.
 
 Mandatory annotation:
 
-**High-depth validation cohorts — not a prevalence sample.**
+**High-depth cohorts — not a prevalence sample.**
 
 No percentage of species is labelled polymorphic.
 
-### Panel B — sampling architecture
+### Panel B — inferential sequence
 
-The 42,111-species global sampling/opportunity frame is the parent node.
+Show a single top-to-bottom inferential sequence. The boxes are **not nested samples**; they explain why each stage exists.
 
-It must branch **top-to-bottom** into two distinct lanes:
+1. **Stage 0 — outcome-blind opportunity frame**
+   - 42,111 metadata-discovered species;
+   - 4,730 species capable of >=100 retained photographs;
+   - necessity: define candidate species before flower colour is examined.
+2. **Stage 1 — discovery + validation**
+   - 500 discovery × 100 photos;
+   - 500 validation × 100 photos;
+   - 369 + 363 D-eligible species;
+   - necessity: estimate within-species distributions deeply and hold out species for validation.
+3. **Target freeze after discovery**
+   - fixed white-versus-nonwhite axis, W statistic and structured null;
+   - necessity: a data-derived target cannot be called confirmatory in the data that generated it.
+4. **Stage 2 — prospective confirmation**
+   - 3,230 unused eligible candidates after prior exclusions;
+   - 500 species frozen outcome-blind;
+   - 499 species × 100 newly sampled photographs;
+   - 377 measurement-evaluable; 158 primary-H2 species;
+   - necessity: untouched species/photo test of the frozen target.
+5. **Stage 3 — post-H2 annotations**
+   - highlight validity, climate and phylogeny;
+   - necessity: bound image-formation effects and simple alternative explanations;
+   - dashed styling because these analyses do not create or upgrade the prospective H2 confirmation.
 
-1. original validation lane:
-   - original high-depth source: 500 discovery + 500 reserve, 100 photos/species;
-   - >=40 classifiable D inference: 369 discovery + 363 reserve;
-2. prospective confirmation lane:
-   - pre-frozen third-cohort selection + fresh metadata;
-   - 499 species × 100 rows;
-   - 377 measurement-evaluable;
-   - H2 confirmation with 0 replacements;
-   - only **after H2 terminalization**, a dashed downstream box reuses the same physical rows for highlight validity and the pre-specified BIO5/BIO14/SRAD follow-up.
+Solid arrows encode the inferential sequence through prospective H2. The post-H2 annotation box is dashed.
 
-Solid arrows encode the untouched sampling/confirmation chain. The post-H2 secondary reuse must be shown with a **dashed** arrow and explicitly labelled **not part of prospective H2**.
+Mandatory top-right note:
 
-The third cohort must **not** appear downstream of the original D-inference cohort.
+**Inferential sequence — cohorts are not nested samples.**
 
 ---
 
@@ -61,22 +74,22 @@ The third cohort must **not** appear downstream of the original D-inference coho
 
 ### Panel A — first-frozen 200-partition result
 
-Show q05–median–q95 of split-half Spearman rho for discovery and reserve.
+Show q05–median–q95 of split-half Spearman rho for discovery and validation.
 
-Reserve annotations:
+Validation annotations:
 
 - median rho = **0.7891**;
 - q05 = **0.7652**;
 - q95 = 0.8109;
 - primary median floor = 2/3.
 
-The discovery result is displayed for concordance; reserve is the decision cohort.
+The discovery result is displayed for concordance; validation is the decision cohort.
 
 ### Panel B — later deterministic stress test
 
-Show deterministic split rho with bootstrap 95% interval for discovery and reserve.
+Show deterministic split rho with bootstrap 95% interval for discovery and validation.
 
-Reserve:
+Validation:
 
 - rho = **0.7927**;
 - 95% CI = **0.7419–0.8324**;
@@ -116,14 +129,14 @@ Show observed W as diamonds, structured-null medians as points, and structured-n
 Primary 0.10:
 
 - discovery N = 152, W = **0.514625**, p = **0.001**;
-- reserve N = 129, W = **0.514586**, p = **0.001**.
+- validation N = 129, W = **0.514586**, p = **0.001**.
 
 Strict 0.20:
 
 - discovery N = 75, W = **0.542355**, p = **0.001**;
-- reserve N = 65, W = **0.510517**, p = **0.008**.
+- validation N = 65, W = **0.510517**, p = **0.008**.
 
-The encoding legend is placed **outside below the right axis** so that it cannot cover the strict-reserve point or its annotation.
+The encoding legend is placed **outside below the right axis** so that it cannot cover the strict-validation point or its annotation.
 
 Projection-removal and non-white-only falsification are reported in Supporting Information rather than forced into this panel.
 
@@ -179,14 +192,14 @@ This is the positive biological result and receives the widest panel in the thre
 Plot the frozen observed partial correlations against their geometry-preserving null intervals:
 
 - discovery, span + clear technical-failure adjusted: partial rho = **0.1266367**, p = **0.007**;
-- reserve, span + clear technical-failure adjusted: partial rho = **0.0992877**, p = **0.025**;
-- reserve matched flower-minus-background: partial rho = **0.1162411**, p = **0.010**.
+- validation, span + clear technical-failure adjusted: partial rho = **0.0992877**, p = **0.025**;
+- validation matched flower-minus-background: partial rho = **0.1162411**, p = **0.010**.
 
 The reporting source is `results/polymorphism_spatial_organization_clue_20260918/result.json`, which copies previously frozen Step-8/Step-9 values without running a new biological analysis.
 
 ### Panel B — no detectable broad tree-wide conservation
 
-Reserve Blomberg K:
+Validation-cohort Blomberg K:
 
 The three tree-placement scenarios are displayed as **unconnected discrete points**; no line joins S1–S3 because they are alternative frozen scenarios, not an ordered trajectory.
 
@@ -199,7 +212,7 @@ Annotate that 0/3 raw-D scenarios had p < 0.05; label this as a bounded non-supp
 ### Panel C — discovery span effect collapses in reserve
 
 - discovery: rho = **0.1798786**, p = **0.00089996**;
-- reserve: rho = **-0.0025855**, p = **0.9586021**.
+- validation: rho = **-0.0025855**, p = **0.9586021**.
 
 Mandatory boundary:
 
@@ -216,7 +229,7 @@ Full H1 reserve partition diagnostics.
 H1 discovery concordance and deterministic stress-test details.
 
 ### Fig. S3
-Broad pre-target H2 geometry: leading concentration, frozen-axis reserve transport and discovery–reserve axis alignment.
+Broad pre-target H2 geometry: leading concentration, frozen-axis validation transport and discovery–validation axis alignment.
 
 ### Fig. S4
 Construction-preserving null audit.
@@ -225,7 +238,7 @@ Construction-preserving null audit.
 q_white projection-removal and non-white-only H2 diagnostics.
 
 ### Fig. S6
-Third-cohort chain of custody: selection, metadata freeze, 256 partitions, support gate and H2_COMPLETE.
+Prospective-confirmation chain of custody: selection, metadata freeze, 256 partitions, support gate and H2_COMPLETE.
 
 ### Fig. S7
 P500 terminal postmortem. Do not reconstruct or display a biological H2 verdict.
@@ -233,7 +246,7 @@ P500 terminal postmortem. Do not reconstruct or display a biological H2 verdict.
 ### Fig. S8
 H3a full sensitivity panel.
 
-### Fig. S9
+### Fig. S8
 H3b full sensitivity panel.
 
 ---
