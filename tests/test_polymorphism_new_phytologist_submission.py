@@ -13,6 +13,7 @@ VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_2026
 HIGHLIGHT = ROOT / "results" / "polymorphism_h2_third_cohort_highlight_validity_20260922" / "result.json"
 ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md"
 D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
+D_FINITE = ROOT / "results" / "polymorphism_D_finite_sample_sensitivity_20260928" / "result.json"
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
 LINEAGE_MAP = ROOT / "docs" / "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md"
@@ -570,3 +571,27 @@ def test_new_phytologist_keywords_are_actually_alphabetical() -> None:
         if item.strip()
     ]
     assert keywords == sorted(keywords, key=str.casefold)
+
+
+def test_new_phytologist_explains_and_stress_tests_gini_simpson_D() -> None:
+    import json
+    import pytest
+
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    result = json.loads(D_FINITE.read_text(encoding="utf-8"))
+
+    assert result["rank_stability"]["validation"]["spearman_raw_vs_corrected"] == pytest.approx(0.999978412058831)
+    assert result["D_spatial"]["validation_primary"]["corrected"]["p_upper_geometry_preserving_spatial_null"] == pytest.approx(0.025)
+
+    for token in (
+        "Gini–Simpson diversity",
+        "probability that two observations belong to different colour states",
+        "D_{\\mathrm{corr}}",
+        "40/39 = 1.0256",
+        "### Finite-sample correction does not alter D-based conclusions",
+        "0.999977",
+        "0.999978",
+        "0.099561",
+        "0.116155",
+    ):
+        assert token in text
