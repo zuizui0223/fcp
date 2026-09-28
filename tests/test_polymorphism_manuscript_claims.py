@@ -124,7 +124,7 @@ def test_bio5_secondary_claim_keeps_positive_third_cohort_and_failed_transport_t
         assert "281" in text
         assert "0.0354" in text or "0.0354487" in text
         assert "1.073" in text
-        assert "LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST" in text
+        assert "does not support a common cross-cohort BIO5 rule" in text
 
     assert "universal or replicated BIO5" in ledger
     assert "does not support a common cross-cohort BIO5 rule" in manuscript
