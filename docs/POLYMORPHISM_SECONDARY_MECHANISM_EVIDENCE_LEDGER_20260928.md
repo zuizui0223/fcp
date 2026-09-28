@@ -76,6 +76,8 @@ An unbiased cross-species effect size, equal mutation rates, or causal proof tha
 
 Machine-readable feasibility receipt:
 - `results/polymorphism_pal_wal_h2_overlap_20260928/result.json`.
+Taxonomic crosswalk audit:
+- `docs/POLYMORPHISM_PAL_WAL_TAXONOMIC_ALIAS_AUDIT_20260928.md`.
 
 A taxonomy-aware cross-reference preserved the 25 source strings but separately resolved current accepted-name matches. The natural-frequency bridge subset yielded:
 - discovery D-eligible overlap = 0;
