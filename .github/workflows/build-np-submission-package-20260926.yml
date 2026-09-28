@@ -91,7 +91,7 @@ jobs:
           scientific_results_recomputed=false
           zenodo_publication_gate=BLOCKED_PENDING_AUTHOR_METADATA
 
-          The journal-facing ZIP contains only the manuscript, cover letter, five main figures,
+          The journal-facing ZIP contains only the manuscript, cover letter, five main figures plus Fig. S9,
           Supporting Information and the current data-lineage map. Internal audit, metadata and
           deep provenance documents are restricted to the Zenodo-ready archive surface.
           EOF
