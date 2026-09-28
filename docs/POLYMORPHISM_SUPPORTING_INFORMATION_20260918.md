@@ -45,6 +45,37 @@ The high-depth image acquisition contract required Research Grade species-rank i
 
 The central inferential sequence is therefore **outcome-blind frame → discovery/validation → target freeze → prospective confirmation**. Highlight, climate and phylogenetic data are annotations of those image resources, not additional independent flower-colour cohorts.
 
+
+### Finite-sample sensitivity of Gini–Simpson D
+
+Machine-readable reporting receipt:
+
+- `results/polymorphism_D_finite_sample_sensitivity_20260928/result.json`
+
+Raw D is the primary estimand. The sensitivity uses
+
+[
+D_{\mathrm{corr}} = 1-\sum_k\frac{n_k(n_k-1)}{n(n-1)}
+= D\frac{n}{n-1}.
+]
+
+Under independent multinomial sampling this is the finite-sample-corrected Gini–Simpson estimator; it targets plug-in bias only and does not correct observational representativeness or image/classification error. With n >= 40, the largest possible multiplier is 1.0256; median n was 56 in both high-depth cohorts.
+
+| Quantity | Discovery | Validation |
+|---|---:|---:|
+| Species | 369 | 363 |
+| n_classifiable, median (min–max) | 56 (40–86) | 56 (40–92) |
+| Spearman(raw D, corrected D) | 0.999977 | 0.999978 |
+| Mean absolute D change | 0.00486 | 0.00469 |
+| Maximum absolute D change | 0.01646 | 0.01740 |
+| D–spatial adjusted partial rho, raw | 0.126637 | 0.099288 |
+| D–spatial adjusted partial rho, corrected | 0.126256 | 0.099561 |
+| Geometry-preserving p, raw / corrected | 0.007 / 0.007 | 0.025 / 0.025 |
+
+In validation, the matched flower-minus-background result was likewise unchanged (raw partial rho = 0.116241, corrected = 0.116155; p = 0.010 for both). The sampled-span replication remained absent after correction (raw rho = -0.0026, p = 0.9586; corrected rho = -0.0024, p = 0.9629). Validation Blomberg-K effect sizes were also nearly unchanged: S1 0.071019 → 0.071224, S2 0.060148 → 0.060262 and S3 0.070758 → 0.070962.
+
+Thus finite-sample correction does not alter the substantive D-based conclusions.
+
 ## S2. H1 observer-disjoint measurement validity
 
 Canonical protocol:
