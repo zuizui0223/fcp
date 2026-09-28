@@ -270,7 +270,7 @@ A later fixed BIO5-only transport test in the original species-disjoint cohorts 
 - species-level p = **0.743252**;
 - conditional OR = **1.033114**, p = **0.130829**.
 
-**Reserve**
+**Validation**
 - 260 eligible species;
 - median contrast = **+0.066165 SD**;
 - species-level p = **0.054067**;
@@ -294,18 +294,18 @@ Canonical reporting receipt:
 
 This receipt is reporting-only and reproduces previously frozen results from PR #32 / `feat/polymorphism-paper-v0-1-post-step9`; it performs no new biological analysis.
 
-Raw discovery and reserve associations:
+Raw discovery and validation associations:
 
 - discovery: rho(D, within-species spatial organization) = **0.0892133**, p = **0.034**;
-- reserve: rho = **0.1016008**, p = **0.025**.
+- validation: rho = **0.1016008**, p = **0.025**.
 
 After controlling for sampled geographic span and the rate of clear ROI/flip technical failures:
 
 - discovery primary partial rho = **0.1266367**, geometry-preserving null p = **0.007**;
-- reserve primary partial rho = **0.0992877**, p = **0.025**;
-- reserve matched flower-minus-background partial rho = **0.1162411**, p = **0.010**.
+- validation primary partial rho = **0.0992877**, p = **0.025**;
+- validation matched flower-minus-background partial rho = **0.1162411**, p = **0.010**.
 
-The reserve result also survives exact uniform ambiguity-endpoint stress tests under the four-state completion model:
+The validation result also survives exact uniform ambiguity-endpoint stress tests under the four-state completion model:
 
 - primary D_min4: rho = **0.0970781**, p = **0.029**;
 - primary D_max4: rho = **0.1252858**, p = **0.008**;
@@ -314,7 +314,7 @@ The reserve result also survives exact uniform ambiguity-endpoint stress tests u
 
 ### Allowed spatial-organization claim
 
-> Species with greater four-state flower-colour diversity tend to show stronger within-species geographic colour organization across the discovery and species-disjoint validation cohort high-depth cohorts. The reserve association persists after sampled-span and clear technical-failure adjustment, a matched flower-minus-background contrast and uniform ambiguity-endpoint stress tests.
+> Species with greater four-state flower-colour diversity tend to show stronger within-species geographic colour organization across the discovery and species-disjoint validation high-depth cohorts. The validation association persists after sampled-span and clear technical-failure adjustment, a matched flower-minus-background contrast and uniform ambiguity-endpoint stress tests.
 
 ### Scope boundary
 
@@ -326,7 +326,7 @@ Canonical source:
 
 - `results/polymorphism_h3a_phylogenetic_signal_20260912/frozen_result_manifest.json`
 
-Reserve retains 341 tips on each frozen S1-S3 placement scenario.
+Validation retains 341 tips on each frozen S1-S3 placement scenario.
 
 - S1: K = **0.0710190**, p = **0.2716**; lambda = 0.04857, p(lambda=0) = 0.1657; opportunity-adjusted p = 0.3500.
 - S2: K = **0.0601476**, p = **0.4134**; lambda = 0.05113, p(lambda=0) = 0.1555; opportunity-adjusted p = 0.2464.
@@ -368,13 +368,13 @@ The frozen predictor is sampled photographic span, not true biological range siz
 
 The strongest defensible paper-level statement is now:
 
-> Species-level flower-colour diversity can be measured reproducibly from high-depth citizen-science photographs under observer-disjoint validation, although reliability is not split-invariant or near perfect. In a pre-frozen species-disjoint prospective confirmation cohort, continuous colour displacement showed excess alignment with the frozen white-versus-nonwhite axis relative to a coarse-state-preserving structured null. The increment is robust to reapplying the continuous-cluster gate within null worlds, but digital exposure/background-context confounding of the measured coarse white state remains unresolved. Across the original high-depth cohorts, species with greater D also show stronger within-species geographic colour organization. Broad tree-wide phylogenetic conservation is not detected, and the discovery sampled-span association collapses in reserve.
+> Species-level flower-colour diversity can be measured reproducibly from high-depth citizen-science photographs under observer-disjoint validation, although reliability is not split-invariant or near perfect. In a pre-frozen species-disjoint prospective confirmation cohort, continuous colour displacement showed excess alignment with the frozen white-versus-nonwhite axis relative to a coarse-state-preserving structured null. The increment is robust to reapplying the continuous-cluster gate within null worlds, but digital exposure/background-context confounding of the measured coarse white state remains unresolved. Across the original high-depth cohorts, species with greater D also show stronger within-species geographic colour organization. Broad tree-wide phylogenetic conservation is not detected, and the discovery sampled-span association collapses in validation.
 
 This upgrades the former post-audit H2 claim to a prospective confirmation **of excess alignment with the fixed axis relative to the frozen structured null**, while preserving both the discovery chronology and the unresolved white-state measurement-validity boundary.
 
 ## 10. Working title authorization
 
-The prospective third-cohort result permits a title centered on achromatic–chromatic alignment only if it makes the construction-controlled nature of the inference clear.
+The prospective-confirmation result permits a title centered on achromatic–chromatic alignment only if it makes the construction-controlled nature of the inference clear.
 
 Preferred working title:
 
@@ -401,4 +401,4 @@ The current evidence does not establish:
 - near-perfect or split-invariant H1 reliability;
 - that the coarse white state is free of digital exposure, scene-background or ROI-contamination effects.
 
-No post-confirmatory analysis may change q_white, W, construction/admissibility gates, the structured null, cohort definition, or decision rule and still be described as the untouched prospective third-cohort test.
+No post-confirmatory analysis may change q_white, W, construction/admissibility gates, the structured null, cohort definition, or decision rule and still be described as the untouched prospective-confirmation test.
