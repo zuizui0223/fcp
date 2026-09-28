@@ -101,7 +101,8 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     f1_layout = manifest["figures"]["figure1"]["layout_contract"]
     assert f1_layout["cohort_topology"] == "inferential_sequence_not_nested_samples"
     assert f1_layout["arrow_direction"] == "top_to_bottom"
-    assert f1_layout["stage_necessity"] == "shown_in_each_stage_box"\n    assert f1_layout["secondary_followup"] == "dashed_post_h2_annotations"
+    assert f1_layout["stage_necessity"] == "shown_in_each_stage_box"
+    assert f1_layout["secondary_followup"] == "dashed_post_h2_annotations"
 
     f2_layout = manifest["figures"]["figure2"]["layout_contract"]
     assert f2_layout["stress_annotations"] == "offset_no_legend_overlap"
