@@ -10,6 +10,7 @@ on:
       - .github/workflows/**
       - archive/workflows/**
       - tests/test_repository_layout.py
+      - tests/test_upstream_spatial_reaudit.py
   pull_request:
     branches: [main]
     paths:
@@ -19,6 +20,7 @@ on:
       - .github/workflows/**
       - archive/workflows/**
       - tests/test_repository_layout.py
+      - tests/test_upstream_spatial_reaudit.py
   workflow_dispatch:
 
 permissions:
@@ -32,5 +34,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Verify active-paper repository boundary
-        run: python tests/test_repository_layout.py
+      - name: Verify active-paper and archived-workflow boundaries
+        run: |
+          python tests/test_repository_layout.py
+          python tests/test_upstream_spatial_reaudit.py
