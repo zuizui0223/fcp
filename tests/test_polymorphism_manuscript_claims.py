@@ -84,7 +84,7 @@ def test_manuscript_reports_authoritative_third_cohort_values() -> None:
         "excess alignment",
         "exposure/background-context confounding",
         "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
-        "species-disjoint third cohort",
+        "species-disjoint prospective confirmation cohort",
         "same iNaturalist opportunity universe",
     ):
         assert token in text
@@ -148,9 +148,9 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
         assert path.exists()
 
     for token in (
-        "one physical 499-species / 49,900-row measurement cohort",
+        "one physical 499-species / 49,900-row measurement dataset",
         "untouched prospective H2 confirmation",
-        "post-H2 secondary validity/environmental analyses",
+        "post-confirmatory highlight-validity and environmental analyses",
         "5142f7951af0dde5364bb047a566d67e8c479e51",
         "7e538e5c51c05a7cc47b2fcf53eea92634c8a863",
         "10496492307",
@@ -236,20 +236,20 @@ def test_manuscript_reports_spatial_clue_without_causal_upgrade() -> None:
         assert token in text
 
 
-def test_claim_ledger_freezes_rgfca_programme_lineage() -> None:
+def test_claim_ledger_exposes_current_data_architecture() -> None:
     text = LEDGER.read_text(encoding="utf-8")
     for token in (
-        "Repeated Global Flower-Colour Atlas",
-        "primary recurrent-field G1 p = **0.070**",
-        "species-disjoint commonness p = **0.856**",
-        "cross-species generality is established in **phenotype space**",
-        "whether geographic realization is shared or species-specific across species",
-        "RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md",
-        "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md",
+        "Reader-facing data architecture and inferential necessity",
+        "42,111-species candidate universe",
+        "Discovery + species-disjoint validation",
+        "Prospective confirmation",
+        "Post-confirmatory annotations",
+        "measurement validity → recurrent phenotype-space geometry → prospective confirmation",
     ):
         assert token in text
 
-
+    assert "P500" not in text
+    assert "primary recurrent-field G1" not in text
 
 def test_manuscript_adds_fresh_D_transport_without_importing_v2_counterfactuals() -> None:
     import json
@@ -296,30 +296,26 @@ def test_claim_boundary_is_explicit_in_manuscript_ledger_and_readme() -> None:
         assert "not an independent-source replication" in text.lower() or "not described as an independent-source replication" in text.lower()
         assert "global" in text.lower()
         assert "prevalence" in text.lower()
+        assert "P500" not in text
 
-    assert "P500 supplies neither confirmation nor refutation of H2" in manuscript
-    assert "P500 supplies **no durable confirmatory evidence for or against H2**" in ledger
-    assert "no durable H2 biological verdict" in readme
+    assert "Prospective confirmation" in ledger
+    assert "Current evidence surface" in readme
 
-
-def test_legacy_post_audit_and_prospective_confirmation_are_separated() -> None:
+def test_discovery_and_prospective_confirmation_are_separated() -> None:
     manuscript = MANUSCRIPT.read_text(encoding="utf-8").lower()
     ledger = LEDGER.read_text(encoding="utf-8").lower()
 
-    for text in (manuscript, ledger):
-        assert "after the original" in text or "after the broad" in text
-        assert "prospective" in text
-        assert "species-disjoint" in text
-
-    assert "those cohorts provide discovery and target-localization evidence" in manuscript
-    assert "untouched prospective confirmation" in ledger
-
+    assert "a data-derived target cannot acquire prospective confirmatory status" in manuscript
+    assert "untouched prospective confirmation" in manuscript
+    assert "prospective confirmation" in ledger
+    assert "species-disjoint" in manuscript
+    assert "species-disjoint" in ledger
 
 def test_figure_plan_uses_authoritative_prospective_denominators() -> None:
     text = FIGURE_PLAN.read_text(encoding="utf-8")
 
     for token in (
-        "499 species × 100 rows",
+        "499 species × 100 newly sampled photographs",
         "49,900 terminal rows",
         "377 measurement-evaluable",
         "N = **158**",
@@ -334,12 +330,15 @@ def test_readme_routes_to_active_polymorphism_paper() -> None:
     text = README.read_text(encoding="utf-8")
 
     for token in (
-        "## Active mainline — global flower-colour polymorphism",
-        "docs/POLYMORPHISM_MANUSCRIPT.md",
+        "# FCP — within-species flower-colour variation",
+        "## Current evidence surface",
+        "docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md",
+        "CURRENT_PAPER_REPRODUCIBILITY.md",
         "docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md",
         "docs/POLYMORPHISM_FIGURE_PLAN_20260918.md",
-        "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED",
     ):
         assert token in text
 
     assert "The active research mainline is **RGFCA**" not in text
+    assert "P500" not in text
+
