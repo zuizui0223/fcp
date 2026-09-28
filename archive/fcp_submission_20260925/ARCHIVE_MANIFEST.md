@@ -9,6 +9,7 @@ These files were copied byte-for-byte from the original GitHub Actions artifacts
 - H3a covariate preflight: run 34676855989, artifact 10292767459, digest sha256:14331752df8b654a810cdfb6323ccc0a268bcfea3e5ed603d2191deeb4915480
 - H3a signal: run 34677042793, artifact 10292218669, digest sha256:7f95699149f3111e00b9a095d78ddfa32e1111727d12ff1bb3ce9dc9c1dbd892
 - H3b reserve span: run 34677468362, artifact 10292399238, digest sha256:34c5e646725f6865e313b17f1b70f2471db8169f443fb0649da83044d654386c
+- D finite-sample / spatial sensitivity source: immutable commit `f14186590c11ac24c95e1985077908b732132e96`, original Git blob `d9e8f741a3db1621463b857710b1e91e2af52c99`; byte-identical mirror at `archive/fcp_submission_20260925/d_finite_sample/step8_frozen_result.json` has the same Git blob SHA.
 
 ## File SHA256
 
