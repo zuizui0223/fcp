@@ -12,9 +12,9 @@
 - Summary: 176 words
 - Introduction: 725 words
 - Materials and Methods: 2,265 words
-- Results: 2,206 words
+- Results: 2,205 words
 - Discussion: 1,637 words
-- Main text (Introduction through Discussion): 6,833 words
+- Main text (Introduction through Discussion): 6,832 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -284,7 +284,7 @@ The fixed species-disjoint BIO5 transport test did not reproduce that associatio
 
 Thus this pre-specified secondary analysis of the prospective H2 cohort provides a within-cohort association between white states and warmer maximum-temperature environments, but the effect does not support a common cross-cohort BIO5 rule (Fig. S9a).
 
-### A secondary reanalysis links flower-restricted pigment loss to higher natural frequencies
+### Biochemically defined flower-restricted anthocyanin loss reaches higher reported natural frequencies
 
 To test whether tissue restriction could plausibly influence the persistence of achromatic phenotypes, we reanalysed the frequency tables of Del Valle et al. (2019). Crucially, PAL and WAL are not visual labels alone in that source study: HPLC-DAD-MS^n tissue profiling showed petal anthocyanin-loss (PAL), with anthocyanins absent from petals but retained in photosynthetic tissues. Whole-plant anthocyanin-loss (WAL) lacked anthocyanins in both petals and photosynthetic tissues; flavone production was retained across phenotypes. Within *Silene littorea*, PAL whites were recorded at **8–21%** when present (median **15.5%**) across six positive population-years in two populations, both observed positive for at least three years. WAL whites occurred in more populations but remained at **0.05–0.86%** in every positive population-year (median **0.21%**). Every positive PAL frequency exceeded the maximum positive WAL frequency.
 
