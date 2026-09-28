@@ -11,6 +11,7 @@ This ledger separates the evidential status of the secondary BIO5 and anthocyani
 **Primary source artifacts**
 - `results/polymorphism_white_environment_mechanism_20260925/result.json`
 - `results/polymorphism_legacy_white_bio5_replication_20260925/result.json`
+- `results/polymorphism_white_environment_observer_sensitivity_20260925/result.json`
 - `docs/POLYMORPHISM_SECONDARY_REPLAY_ENVIRONMENT_20260928.md`
 
 **Prospective cohort**
@@ -23,13 +24,18 @@ This ledger separates the evidential status of the secondary BIO5 and anthocyani
 - conditional p = 0.0009188;
 - frozen within-cohort BIO5 gate = PASS.
 
+**Observer sensitivities**
+- observer-paired: 106 species / 144 paired species-observer strata; median delta = 0.000 SD; Wilcoxon p = 0.484962; conditional OR = 0.786636 (95% CI 0.543940–1.137618), p = 0.202310;
+- observer-balanced: 352 species; median delta = +0.054098 SD; Wilcoxon p = 0.074964; sign-test p = 0.048443.
+- status: post hoc after the primary environmental result; cannot upgrade or redefine the frozen gate.
+
 **Transport**
 - discovery species-level median contrast = -0.006777 SD, p = 0.743252;
 - validation species-level median contrast = +0.066165 SD, p = 0.054067;
 - frozen joint cross-cohort transport rule = NOT SUPPORTED.
 
 **Allowed claim**
-White states were associated with warmer BIO5 environments within the prospective cohort, but BIO5 is not supported as a common cross-cohort rule.
+White states were associated with warmer BIO5 environments in the frozen primary prospective analysis, but the association is observer-sensitive and BIO5 is not supported as a common cross-cohort rule.
 
 **Not demonstrated**
 Causal heat selection, adaptive causation, or a universal temperature effect.
