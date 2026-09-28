@@ -72,6 +72,22 @@ Flower-restricted anthocyanin-loss phenotypes reach substantially higher reporte
 **Not demonstrated**
 An unbiased cross-species effect size, equal mutation rates, or causal proof that tissue restriction alone raises natural frequency.
 
+### B2. Direct bridge to the FCP image cohorts is not estimable
+
+Machine-readable feasibility receipt:
+- `results/polymorphism_pal_wal_h2_overlap_20260928/result.json`.
+
+Cross-referencing the 25 unique PAL/WAL species names against the current D-eligible discovery/reserve table and the 500 frozen prospective selections yielded:
+- discovery D-eligible overlap = 0;
+- reserve D-eligible overlap = 2;
+- prospective selected overlap = 0;
+- PAL overlap = 2;
+- WAL overlap = 0.
+
+The two overlapping reserve species are *Gymnadenia rhellicani* (PAL; D = 0.6515) and *Silene gallica* (PAL; D = 0.2344). Their D values are descriptive only.
+
+**Decision:** no PAL-versus-WAL bridge test to H2 or D is estimable because there is no WAL comparator and no prospective overlap. The PAL/WAL evidence therefore remains a bounded external mechanistic clue rather than a direct molecular validation of the recurrent white-axis result.
+
 ---
 
 ## C. PAL/WAL biochemical phenotype definition
