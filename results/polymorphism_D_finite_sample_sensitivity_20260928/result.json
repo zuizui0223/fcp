@@ -143,7 +143,7 @@
       "K_corrected": 0.0709624481161725
     }
   },
-  "conclusion": "Finite-sample correction has negligible effect on species rankings and does not change the support status of the main D-spatial result, the sampled-span replication result, or the broad phylogenetic effect-size pattern.",
+  "conclusion": "Finite-sample correction has negligible effect on species rankings, does not change the support status of the main D-spatial or sampled-span results, and leaves validation Blomberg-K effect sizes essentially unchanged. The H3a decision remains defined by the prespecified raw-D permutation test.",
   "hard_nonclaims": [
     "The correction does not make the iNaturalist sample a probability sample of natural populations.",
     "The correction does not address image-exposure coupling, observer effects, or classification error.",
