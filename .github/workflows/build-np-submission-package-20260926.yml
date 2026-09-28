@@ -44,6 +44,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install submission-gate test dependency
+        run: python -m pip install --upgrade pytest
+
+      - name: Fail closed on manuscript and claim guards
+        run: |
+          set -euo pipefail
+          python -m pytest \
+            tests/test_polymorphism_new_phytologist_submission.py \
+            tests/test_polymorphism_manuscript_claims.py -q
+
       - name: Install packaging tools
         run: sudo apt-get update -qq && sudo apt-get install -y -qq zip
 
