@@ -8,12 +8,21 @@ A self-contained verification bundle is maintained under release tag `fcp-np-pro
 
 It does not recompute any result. It organizes frozen protocols, machine-readable outputs, figures and provenance into a manuscript-facing evidence map.
 
-### Discussion-only PAL/WAL maintenance evidence
+### Secondary PAL/WAL maintenance evidence
 
 - Within-*Silene littorea* persistence receipt: `results/polymorphism_silene_decoupling_persistence_20260925/result.json`.
 - Cross-species interval/censoring-aware receipt: `results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json`.
 - Source: Del Valle et al. (2019), Supplementary Tables S2 and S1, respectively.
-- These analyses are post-publication descriptive reanalyses; literature ascertainment, heterogeneous survey effort and censored/qualitative frequency reporting preclude an unbiased meta-analytic or causal interpretation.
+
+| Contrast | PAL | WAL |
+|---|---:|---:|
+| *S. littorea* positive-frequency median | 15.5% | 0.21% |
+| *S. littorea* positive-frequency range | 8–21% | 0.05–0.86% |
+| Cross-system instances | 13 | 13 |
+| Cross-system median bound used for comparison | lower bound 5% | numeric upper bound 0.1% |
+| Largest quantified WAL upper bound | — | 1.4% |
+
+In *S. littorea*, every positive PAL frequency exceeded the maximum positive WAL frequency. Across the 13+13 literature systems, 7/13 PAL lower bounds exceeded the 1.4% maximum quantified WAL upper bound, and every PAL upper endpoint exceeded it. These analyses are descriptive reanalyses; literature ascertainment, heterogeneous survey effort and censored/qualitative frequency reporting preclude an unbiased meta-analytic or causal interpretation.
 
 ## S1. Data sources, selection and inferential necessity
 
