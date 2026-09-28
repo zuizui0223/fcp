@@ -633,6 +633,126 @@ def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     return files, meta
 
 
+
+def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
+    env = load_json(root / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json")
+    transport = load_json(root / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json")
+    silene = load_json(root / "results" / "polymorphism_silene_decoupling_persistence_20260925" / "result.json")
+    cross = load_json(root / "results" / "polymorphism_crossspecies_pal_wal_frequency_20260925" / "result.json")
+
+    bio5 = next(x for x in env["results"] if x["variable"] == "bio5")
+
+    fig, axes = plt.subplots(1, 2, figsize=(12.0, 4.7), gridspec_kw={"width_ratios": [1.05, 1.0]})
+    fig.suptitle("Secondary empirical clues to achromatic-state persistence and environmental sorting", y=1.02, fontweight="bold")
+
+    ax = axes[0]
+    labels = ["Prospective", "Discovery", "Validation"]
+    deltas = [
+        float(bio5["median_delta_white_minus_nonwhite_SD"]),
+        float(transport["discovery"]["species_level"]["median_delta_white_minus_nonwhite_SD"]),
+        float(transport["reserve"]["species_level"]["median_delta_white_minus_nonwhite_SD"]),
+    ]
+    pvals = [
+        float(bio5["wilcoxon_holm_p"]),
+        float(transport["discovery"]["species_level"]["wilcoxon_two_sided_p"]),
+        float(transport["reserve"]["species_level"]["wilcoxon_two_sided_p"]),
+    ]
+    ns = [
+        int(bio5["n_species_delta"]),
+        int(transport["discovery"]["eligible_species"]),
+        int(transport["reserve"]["eligible_species"]),
+    ]
+    colours = [SUPPORT, SECONDARY, PRIMARY]
+    x = np.arange(3)
+    ax.axhline(0, color="#777777", linewidth=1.0)
+    ax.bar(x, deltas, color=colours, width=0.58)
+    for xi, delta, pval, n in zip(x, deltas, pvals, ns, strict=True):
+        offset = 0.007 if delta >= 0 else -0.007
+        va = "bottom" if delta >= 0 else "top"
+        ax.text(xi, delta + offset, f"n={n}\np={pval:.4f}", ha="center", va=va, fontsize=8.2)
+    ax.set_xticks(x, labels)
+    ax.set_ylabel("Median within-species white − nonwhite BIO5 (SD)")
+    ax.set_ylim(-0.045, 0.105)
+    ax.set_title("BIO5 association appears in the prospective cohort\nbut does not transport as a common rule")
+    ax.text(
+        0.02,
+        0.04,
+        f"Prospective conditional OR = {float(bio5['OR_per_within_species_SD']):.3f}\n"
+        f"Holm-adjusted p = {float(bio5['wilcoxon_holm_p']):.4f}",
+        transform=ax.transAxes,
+        ha="left",
+        va="bottom",
+        fontsize=8.2,
+        color=NEUTRAL,
+    )
+    panel_label(ax, "A")
+
+    ax = axes[1]
+    x = np.array([0, 1, 2.4, 3.4])
+    y = np.array([
+        float(silene["phenotypes"]["PAL"]["positive_frequency_median_percent"]),
+        float(silene["phenotypes"]["WAL"]["positive_frequency_median_percent"]),
+        float(cross["PAL"]["lower_bound_median_percent"]),
+        float(cross["WAL"]["numeric_upper_bound_median_percent"]),
+    ])
+    labels = ["Silene\nPAL", "Silene\nWAL", "Cross-system\nPAL lower", "Cross-system\nWAL upper"]
+    colours = [PRIMARY, SECONDARY, PRIMARY, SECONDARY]
+    ax.scatter(x, y, s=90, color=colours, edgecolor="white", linewidth=0.8, zorder=3)
+
+    pal_min = float(silene["phenotypes"]["PAL"]["positive_frequency_min_percent"])
+    pal_max = float(silene["phenotypes"]["PAL"]["positive_frequency_max_percent"])
+    wal_min = float(silene["phenotypes"]["WAL"]["positive_frequency_min_percent"])
+    wal_max = float(silene["phenotypes"]["WAL"]["positive_frequency_max_percent"])
+    ax.vlines(0, pal_min, pal_max, color=PRIMARY, linewidth=3, alpha=0.65)
+    ax.vlines(1, wal_min, wal_max, color=SECONDARY, linewidth=3, alpha=0.65)
+
+    wal_cross_max = float(cross["WAL"]["numeric_upper_bound_max_percent"])
+    ax.axhline(wal_cross_max, color=NEUTRAL, linestyle="--", linewidth=1.0)
+    ax.text(3.55, wal_cross_max, f"max quantified WAL upper bound = {wal_cross_max:.1f}%", ha="right", va="bottom", fontsize=7.8, color=NEUTRAL)
+
+    for xi, yi in zip(x, y, strict=True):
+        ax.text(xi, yi * 1.25, f"{yi:g}%", ha="center", va="bottom", fontsize=8.3)
+
+    ax.set_yscale("log")
+    ax.set_ylim(0.03, 60)
+    ax.set_xticks(x, labels)
+    ax.set_ylabel("Reported natural frequency (%)")
+    ax.set_title("Flower-restricted pigment loss reaches\nhigher reported natural frequencies")
+    ax.text(
+        0.02,
+        0.04,
+        "Descriptive literature reanalysis;\nnot an unbiased meta-analysis",
+        transform=ax.transAxes,
+        ha="left",
+        va="bottom",
+        fontsize=8.2,
+        color=NEUTRAL,
+    )
+    panel_label(ax, "B")
+
+    fig.tight_layout()
+    files = save_pair(fig, output_dir, "polymorphism_figureS9_secondary_mechanism_evidence")
+    meta = {
+        "bio5": {
+            "prospective_median_delta_SD": float(bio5["median_delta_white_minus_nonwhite_SD"]),
+            "prospective_holm_p": float(bio5["wilcoxon_holm_p"]),
+            "prospective_conditional_OR": float(bio5["OR_per_within_species_SD"]),
+            "discovery_median_delta_SD": float(transport["discovery"]["species_level"]["median_delta_white_minus_nonwhite_SD"]),
+            "discovery_p": float(transport["discovery"]["species_level"]["wilcoxon_two_sided_p"]),
+            "validation_median_delta_SD": float(transport["reserve"]["species_level"]["median_delta_white_minus_nonwhite_SD"]),
+            "validation_p": float(transport["reserve"]["species_level"]["wilcoxon_two_sided_p"]),
+        },
+        "pal_wal": {
+            "silene_PAL_median_percent": float(silene["phenotypes"]["PAL"]["positive_frequency_median_percent"]),
+            "silene_WAL_median_percent": float(silene["phenotypes"]["WAL"]["positive_frequency_median_percent"]),
+            "cross_PAL_lower_bound_median_percent": float(cross["PAL"]["lower_bound_median_percent"]),
+            "cross_WAL_upper_bound_median_percent": float(cross["WAL"]["numeric_upper_bound_median_percent"]),
+            "cross_WAL_max_upper_bound_percent": float(cross["WAL"]["numeric_upper_bound_max_percent"]),
+        },
+        "claim_boundary": "bounded_secondary_empirical_evidence_not_universal_causation",
+    }
+    return files, meta
+
 def generate_all(root: Path, output_dir: Path) -> Path:
     root = Path(root).resolve()
     output_dir = Path(output_dir).resolve()
@@ -644,6 +764,7 @@ def generate_all(root: Path, output_dir: Path) -> Path:
     f3_files, f3_meta = figure3(root, output_dir)
     f4_files, f4_meta = figure4(root, output_dir)
     f5_files, f5_meta = figure5(root, output_dir)
+    s9_files, s9_meta = supplementary_figure9(root, output_dir)
 
     manifest = {
         "schema": "polymorphism_manuscript_figure_manifest_v1",
@@ -660,6 +781,7 @@ def generate_all(root: Path, output_dir: Path) -> Path:
             "figure3": {**f3_meta, "files": f3_files},
             "figure4": {**f4_meta, "files": f4_files},
             "figure5": {**f5_meta, "files": f5_files},
+            "supplementary_figure9": {**s9_meta, "files": s9_files},
         },
         "hard_nonclaims": [
             "high-depth cohorts do not estimate global flower-colour polymorphism prevalence",
