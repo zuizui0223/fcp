@@ -276,9 +276,9 @@ A later fixed BIO5-only transport test in the original species-disjoint cohorts 
 - species-level p = **0.054067**;
 - conditional OR = **1.048240**, p = **0.031950**.
 
-Frozen transport verdict:
+Frozen transport decision:
 
-`LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST`.
+**Not supported under the prespecified cross-cohort rule.**
 
 Allowed interpretation:
 
