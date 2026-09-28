@@ -25,6 +25,13 @@ on:
 permissions:
   contents: write
 
+# All runs replace the same fixed candidate release tag. Serialize them so
+# concurrent push/workflow_run events cannot delete or recreate that release
+# underneath one another.
+concurrency:
+  group: fcp-np-submission-candidate-release
+  cancel-in-progress: false
+
 env:
   CANDIDATE_TAG: fcp-np-submission-candidate-20260926
   PROVENANCE_TAG: fcp-np-provenance-20260926
