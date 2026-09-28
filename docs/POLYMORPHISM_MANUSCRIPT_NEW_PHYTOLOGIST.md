@@ -60,7 +60,7 @@ Before the focal flower-colour analyses, metadata-only discovery across an 18 ×
 
 #### Stage 1 — discovery and species-disjoint validation image cohorts
 
-The first high-depth image resource contained **1,000 species × 100 photographs = 100,000 photographs**. A hash-ranked 500-species set formed the **discovery cohort** and the remaining 500 species formed the species-disjoint **validation cohort** (called `reserve` in some frozen result files).
+The first high-depth image resource contained **1,000 species × 100 photographs = 100,000 photographs**. A hash-ranked 500-species set formed the **discovery cohort** and the remaining 500 species formed the species-disjoint **validation cohort**.
 
 Photographs followed a fixed acquisition contract: Research Grade species-rank iNaturalist observations with photographs, georeferences, flowering annotation, positional accuracy <=5 km, open coordinates and permitted CC licences. Selection was colour-blind. Each observer contributed at most two retained photographs per species, and deterministic geographic maximin sampling fixed 100 photographs per species. After the frozen classifiability rule and a minimum of 40 classifiable photographs per species, **369 discovery species** and **363 validation species** entered D-based inference.
 
