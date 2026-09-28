@@ -741,10 +741,17 @@ jobs:
             echo "::error::Superseded provenance run: source=$SOURCE_SHA current=$remote_sha; refusing to publish a stale permanent release."
             exit 1
           fi
-          if ! gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
-            gh release create "$RELEASE_TAG"               --repo "${{ github.repository }}"               --target "$SOURCE_SHA"               --title "FCP New Phytologist provenance snapshot (2026-09-26)"               --notes "Self-contained provenance snapshot for the active FCP flower-colour polymorphism manuscript. Includes the current manuscript/SI/figures, frozen protocols and results, exact discovery/validation and prospective-confirmation measured tables recovered from immutable commits, permanent validity/H3 archives, and checksum-pinned WorldClim 2.1 input archives. This is a reproducibility snapshot, not a statement of final submission status."
+          if gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release delete "$RELEASE_TAG" --repo "${{ github.repository }}" --yes --cleanup-tag
           fi
-          gh release upload "$RELEASE_TAG"             "$out/fcp-np-provenance-20260926.tar.gz"             "$out/fcp-np-provenance-20260926.tar.gz.sha256"             "$out/FILE_SHA256SUMS.txt"             --repo "${{ github.repository }}" --clobber
+          gh release create "$RELEASE_TAG" \
+            "$out/fcp-np-provenance-20260926.tar.gz" \
+            "$out/fcp-np-provenance-20260926.tar.gz.sha256" \
+            "$out/FILE_SHA256SUMS.txt" \
+            --repo "${{ github.repository }}" \
+            --target "$SOURCE_SHA" \
+            --title "FCP New Phytologist provenance snapshot (2026-09-26)" \
+            --notes "Self-contained provenance snapshot for the active FCP flower-colour polymorphism manuscript. Includes the current manuscript/SI/figures, frozen protocols and results, exact discovery/validation and prospective-confirmation measured tables recovered from immutable commits, permanent validity/H3 archives, and checksum-pinned WorldClim 2.1 input archives. This is a reproducibility snapshot, not a statement of final submission status."
 
       - name: Commit release receipt
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
