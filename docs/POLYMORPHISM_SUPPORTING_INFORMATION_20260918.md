@@ -8,6 +8,27 @@ A self-contained verification bundle is maintained under release tag `fcp-np-pro
 
 It does not recompute any result. It organizes frozen protocols, machine-readable outputs, figures and provenance into a manuscript-facing evidence map.
 
+### Secondary *Silene littorea* molecular anchor
+
+Machine-readable structured extraction:
+- `results/polymorphism_silene_molecular_anchor_20260928/result.json`.
+
+Source:
+- Casimiro-Soriguer et al. (2016), doi:10.3389/fpls.2016.00204.
+
+The current study did not re-run the raw RNA-seq. It deterministically extracted the source-reported quantitative evidence most directly relevant to petal-specific anthocyanin loss: all p<0.05 bud-stage pigmented-versus-white ABP expression contrasts, significant dark-versus-light regulatory contrasts, the expanded sequence follow-up and petal HPLC results.
+
+Key extracted results:
+- F3h1 dark/white = **49.0×**, p = **0.039**;
+- F3h1 light/white = **42.2×**, p = **0.049**;
+- Myb1a dark/white = **5.1×**, p = **0.009**;
+- F3h1 is the only locus significant in both pigmented-versus-white bud contrasts;
+- the reported F3h1 sequence table contains zero SNPs;
+- expanded sequencing of 38 individuals did not identify a SNP consistently differentiating colour morphs;
+- petal HPLC differences in rutin, quercetin and isovitexin are concordant with a blockage near F3h1.
+
+This provides a source-derived single-species molecular anchor for the PAL interpretation. It does not establish a causal Myb1a mutation or the molecular basis of the cross-species H2 white axis.
+
 ### Secondary PAL/WAL maintenance evidence
 
 Evidence-status ledger: `docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md`.
