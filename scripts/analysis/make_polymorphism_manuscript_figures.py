@@ -152,8 +152,8 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         "linestyle": "--",
     }
     boxes = [
-        (0.50, 0.87, "Stage 0 | Outcome-blind frame\n42,111 species; 4,730 high-depth-capable\nWHY: define candidates before colour"),
-        (0.50, 0.70, "Stage 1 | Discovery + validation\n500 × 100 photos each; D eligible 369 + 363\nWHY: estimate distributions and hold out species"),
+        (0.50, 0.87, "Stage 0 | Outcome-blind frame\niNaturalist metadata: 42,111 species; 4,730 high-depth-capable\nWHY: define candidates before colour"),
+        (0.50, 0.70, "Stage 1 | Discovery + validation\niNaturalist images: 500 × 100 photos each; D eligible 369 + 363\nWHY: estimate distributions and hold out species"),
         (0.50, 0.49, "Freeze recurrent target after discovery\nwhite ↔ non-white; W + structured null\nWHY: discovery is not confirmation"),
         (0.50, 0.27, "Stage 2 | Prospective confirmation\n3,230 unused candidates → 500 frozen → 499 × 100 new photos\n377 evaluable; primary H2 n=158\nWHY: untouched species/photo test"),
     ]
@@ -185,7 +185,7 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
     ax.text(
         0.50,
         0.065,
-        "Stage 3 | Post-H2 annotations\nhighlight + climate + phylogeny\nWHY: bound measurement artifacts and alternative explanations",
+        "Stage 3 | Post-H2 annotations\nimage highlight + WorldClim 2.1 + V.PhyloMaker2\nWHY: bound measurement artifacts and alternative explanations",
         transform=ax.transAxes,
         ha="center",
         va="center",
