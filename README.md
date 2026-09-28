@@ -23,7 +23,7 @@ The active manuscript keeps measurement validation, prospective confirmation, ge
 
 ## Current evidence surface
 
-The manuscript uses high-depth, species-level repeated photographs with location-blind colour measurement and observer-disjoint validation. A species-disjoint prospective cohort tests a pre-frozen white-versus-nonwhite colour-space axis under a construction-preserving null. Separate analyses quantify within-species geographic colour organization and bounded environmental associations.
+The manuscript uses high-depth, species-level repeated photographs with location-blind colour measurement and observer-disjoint validation. A species-disjoint prospective cohort tests a pre-frozen white-versus-nonwhite colour-space axis under a construction-preserving null. Separate analyses quantify within-species geographic colour organization and bounded environmental associations. The prospective cohort uses new species and photographs but remains within the same iNaturalist source and measurement system, so it is not an independent-source replication.
 
 The 42,111-species metadata frame is an **opportunity frame**, not a denominator for global polymorphism prevalence. Claims are controlled by the frozen machine-readable results, protocols, claim ledger, and data-lineage map linked above.
 
