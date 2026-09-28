@@ -175,6 +175,51 @@ jobs:
           test "$(git hash-object "$stage/historical/spatial/polymorphism_ambiguity_bounds_step9_result.json")" = "3e92d8798f17a60900ac3bba8deb76b062a609f1"
           test "$(git hash-object "$stage/historical/spatial/paper_numbers.json")" = "b5fec72fb1f8299fb430b8bcdbaf106ee38d8672"
 
+      - name: Recover outcome-blind opportunity frame and third-cohort exclusion inputs
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_np_provenance"
+          mkdir -p \
+            "$stage/raw_inputs/opportunity_frame" \
+            "$stage/raw_inputs/third_cohort/exclusion" \
+            "$stage/raw_inputs/third_cohort/selection"
+
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+
+          git show "$THIRD_SHA:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" \
+            > "$stage/raw_inputs/opportunity_frame/global_monte_carlo_species_discovery_combined_v2_species_v1.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$stage"'/raw_inputs/opportunity_frame/global_monte_carlo_species_discovery_combined_v2_species_v1.csv' | sha256sum -c -
+
+          git show "$THIRD_SHA:data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv" \
+            > "$stage/raw_inputs/third_cohort/exclusion/random_photo_first_h9_exclusion_ledger_v1.csv"
+          echo 'f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99  '"$stage"'/raw_inputs/third_cohort/exclusion/random_photo_first_h9_exclusion_ledger_v1.csv' | sha256sum -c -
+
+          git show "$THIRD_SHA:data/frozen/random_photo_first_h9_fresh_metadata_v1.csv" \
+            > "$stage/raw_inputs/third_cohort/exclusion/random_photo_first_h9_fresh_metadata_v1.csv"
+          echo '111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f  '"$stage"'/raw_inputs/third_cohort/exclusion/random_photo_first_h9_fresh_metadata_v1.csv' | sha256sum -c -
+
+          git show "$THIRD_SHA:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" \
+            > "$stage/raw_inputs/third_cohort/exclusion/rgfca_42111_species_breadth_measured.csv.gz"
+          echo '38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605  '"$stage"'/raw_inputs/third_cohort/exclusion/rgfca_42111_species_breadth_measured.csv.gz' | sha256sum -c -
+
+          git show "$THIRD_SHA:data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz" \
+            > "$stage/raw_inputs/third_cohort/exclusion/polymorphism_h2_p500_candidate_metadata_v1.csv.gz"
+          echo 'a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595  '"$stage"'/raw_inputs/third_cohort/exclusion/polymorphism_h2_p500_candidate_metadata_v1.csv.gz' | sha256sum -c -
+
+          git show "$THIRD_SHA:results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv" \
+            > "$stage/raw_inputs/third_cohort/selection/selected_species_manifest.tsv"
+          echo '16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59  '"$stage"'/raw_inputs/third_cohort/selection/selected_species_manifest.tsv' | sha256sum -c -
+
+          git show "$THIRD_SHA:data/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz" \
+            > "$stage/raw_inputs/third_cohort/selection/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz"
+          echo 'adec40e29e347b035872f2add95b67011906cb74e28510e6260ed1edbd075711  '"$stage"'/raw_inputs/third_cohort/selection/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz' | sha256sum -c -
+
+          git show "$THIRD_SHA:results/polymorphism_h2_third_cohort_candidate_metadata_20260916/result.json" \
+            > "$stage/raw_inputs/third_cohort/selection/candidate_metadata_result.json"
+          git show "$THIRD_SHA:results/polymorphism_h2_third_cohort_candidate_metadata_20260916/species_audit.csv" \
+            > "$stage/raw_inputs/third_cohort/selection/species_audit.csv"
+          echo 'c6ab0634adc0c4fa9f726322af24994f880ca19ddc2c6d79be740f2ddf0ab339  '"$stage"'/raw_inputs/third_cohort/selection/species_audit.csv' | sha256sum -c -
+
       - name: Recover exact historical execution code
         run: |
           set -euo pipefail
@@ -427,7 +472,7 @@ jobs:
 
           test "$(find "$target/reserve" -maxdepth 1 -type d -name 'reserve-inference-shard-*' | wc -l)" -eq 20
           test -f "$target/reserve/rgfca-reserve-replication-full-result-v1/result.json"
-          test "$(find "$target/reserve" -type f -name null_arrays.npy | wc -l)" -eq 20
+          test "$(find "$target/reserve" -type f -name null.npz | wc -l)" -eq 20
           test "$(find "$target/reserve" -type f -name receipt.json | wc -l)" -eq 20
 
       - name: Add exact WorldClim release inputs
@@ -482,6 +527,9 @@ jobs:
           tar -tzf "$package" > "$out/package_contents.txt"
           grep -Fxq './repository/docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/opportunity_frame/global_monte_carlo_species_discovery_combined_v2_species_v1.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/exclusion/random_photo_first_h9_exclusion_ledger_v1.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/selection/selected_species_manifest.tsv' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/third_cohort/polymorphism_h2_third_cohort_measured_photos_v1.csv' "$out/package_contents.txt"
           grep -Fxq './external/worldclim/wc2.1_10m_bio.zip' "$out/package_contents.txt"
           grep -Fxq './repository/archive/fcp_submission_20260925/h3b/h3b_span_permutation_nulls.csv' "$out/package_contents.txt"
@@ -499,7 +547,7 @@ jobs:
           grep -Fxq './historical_code/spatial/scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py' "$out/package_contents.txt"
           grep -Fxq './historical_code/spatial_full/scripts/analysis/run_polymorphism_ambiguity_bounds_step9_20260910.py' "$out/package_contents.txt"
           grep -Fxq './external/spatial_null_artifacts/discovery/global-rgfca-within-species-omnibus-shard-0/species_rho_permutations.csv' "$out/package_contents.txt"
-          grep -Fxq './external/spatial_null_artifacts/reserve/reserve-inference-shard-0/null_arrays.npy' "$out/package_contents.txt"
+          grep -Fxq './external/spatial_null_artifacts/reserve/reserve-inference-shard-0/null.npz' "$out/package_contents.txt"
           grep -Fxq './historical_code/h3a/scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R' "$out/package_contents.txt"
           grep -Fxq './RAW_IMAGE_REPRODUCIBILITY_LIMIT.md' "$out/package_contents.txt"
 
@@ -561,7 +609,7 @@ jobs:
 
           Packaged files: $file_count
 
-          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, historical H1/H2/spatial execution code, permanent discovery/reserve spatial-null arrays, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
+          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, the frozen 42,111-species opportunity frame, third-cohort exclusion/selection inputs, historical H1/H2/spatial execution code, permanent discovery/reserve spatial-null arrays, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
           EOF
 
           git config user.name "github-actions[bot]"
