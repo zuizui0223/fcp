@@ -477,5 +477,5 @@ The complete evidence map is provided in `docs/POLYMORPHISM_SUPPORTING_INFORMATI
 
 **Fig. S8.** H3b sampled-span sensitivities including raw, finite-sample, observer/classifiability-adjusted partial-rank and rank-PGLS validation analyses.
 
-**Fig. S9.** Secondary empirical mechanism evidence. (a) Within-species white-minus-nonwhite BIO5 contrasts in the prospective cohort and fixed discovery/validation transport tests. (b) Descriptive PAL/WAL natural-frequency contrasts within *Silene littorea* and across the Del Valle et al. (2019) literature table. These panels constrain mechanism without establishing universal causation.
+**Fig. S9.** Secondary empirical mechanism evidence. (a) Within-species white-minus-nonwhite BIO5 contrasts in the prospective cohort and fixed discovery/validation transport tests. (b) Descriptive PAL/WAL natural-frequency contrasts within *Silene littorea* and across the Del Valle et al. (2019) literature table; PAL and WAL are biochemically defined anthocyanin phenotypes in the source study using HPLC-DAD-MS^n tissue profiles, not visual white-flower labels alone. These panels constrain mechanism without establishing universal causation.
 
