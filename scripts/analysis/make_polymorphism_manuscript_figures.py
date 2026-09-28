@@ -210,7 +210,7 @@ def figure1(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
         fontsize=7.6,
         color=NEUTRAL,
     )
-    panel_label(ax, "B")
+    panel_label(ax, "C")
 
     fig.tight_layout()
     files = save_pair(fig, output_dir, "polymorphism_figure1_measurement_frame")
@@ -638,6 +638,7 @@ def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str],
     env = load_json(root / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json")
     transport = load_json(root / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json")
     observer = load_json(root / "results" / "polymorphism_white_environment_observer_sensitivity_20260925" / "result.json")
+    molecular = load_json(root / "results" / "polymorphism_silene_molecular_anchor_20260928" / "result.json")
     silene = load_json(root / "results" / "polymorphism_silene_decoupling_persistence_20260925" / "result.json")
     cross = load_json(root / "results" / "polymorphism_crossspecies_pal_wal_frequency_20260925" / "result.json")
 
@@ -645,8 +646,8 @@ def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str],
     paired_bio5 = next(x for x in observer["paired_results"] if x["variable"] == "bio5")
     balanced_bio5 = next(x for x in observer["observer_balanced_results"] if x["variable"] == "bio5")
 
-    fig, axes = plt.subplots(1, 2, figsize=(13.2, 4.7), gridspec_kw={"width_ratios": [1.25, 1.0]})
-    fig.suptitle("Secondary empirical clues to achromatic-state persistence and environmental sorting", y=1.02, fontweight="bold")
+    fig, axes = plt.subplots(1, 3, figsize=(17.2, 4.8), gridspec_kw={"width_ratios": [1.35, 1.0, 1.0]})
+    fig.suptitle("Secondary molecular, persistence and environmental evidence", y=1.02, fontweight="bold")
 
     ax = axes[0]
     labels = ["Prospective\nprimary", "Observer-\nbalanced", "Observer-\npaired", "Discovery\ntransport", "Validation\ntransport"]
@@ -697,6 +698,38 @@ def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str],
     panel_label(ax, "A")
 
     ax = axes[1]
+    molecular_rows = [
+        ("F3h1\nD/W", molecular["bud_expression"]["dark_vs_white_significant"][0]),
+        ("C4h2\nD/W", molecular["bud_expression"]["dark_vs_white_significant"][1]),
+        ("Myb1a\nD/W", molecular["bud_expression"]["dark_vs_white_significant"][2]),
+        ("F3h1\nL/W", molecular["bud_expression"]["light_vs_white_significant"][0]),
+        ("F3′h\nL/W", molecular["bud_expression"]["light_vs_white_significant"][1]),
+    ]
+    x = np.arange(len(molecular_rows))
+    fold = np.array([float(row["fold_change_pigmented_over_white"]) for _, row in molecular_rows])
+    p_mol = np.array([float(row["p"]) for _, row in molecular_rows])
+    bar_colours = [PRIMARY, SECONDARY, SUPPORT, PRIMARY, SECONDARY]
+    ax.bar(x, fold, color=bar_colours, width=0.65)
+    for xi, value, pval in zip(x, fold, p_mol, strict=True):
+        ax.text(xi, value * 1.08, f"{value:g}×\np={pval:.3f}", ha="center", va="bottom", fontsize=7.5)
+    ax.set_xticks(x, [label for label, _ in molecular_rows])
+    ax.set_ylabel("Published bud-stage fold change\n(pigmented / white)")
+    ax.set_yscale("log")
+    ax.set_ylim(3, 90)
+    ax.set_title("Published Silene RNA-seq localizes a\npetal regulatory anchor near F3h1/Myb1a")
+    ax.text(
+        0.02,
+        0.04,
+        "All source-reported p < 0.05\npigmented-vs-white bud contrasts",
+        transform=ax.transAxes,
+        ha="left",
+        va="bottom",
+        fontsize=7.8,
+        color=NEUTRAL,
+    )
+    panel_label(ax, "B")
+
+    ax = axes[2]
     x = np.array([0, 1, 2.4, 3.4])
     y = np.array([
         float(silene["phenotypes"]["PAL"]["positive_frequency_median_percent"]),
@@ -755,6 +788,16 @@ def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str],
             "discovery_p": float(transport["discovery"]["species_level"]["wilcoxon_two_sided_p"]),
             "validation_median_delta_SD": float(transport["reserve"]["species_level"]["median_delta_white_minus_nonwhite_SD"]),
             "validation_p": float(transport["reserve"]["species_level"]["wilcoxon_two_sided_p"]),
+        },
+        "molecular_anchor": {
+            "source_doi": molecular["source"]["doi"],
+            "F3h1_dark_vs_white_fold": float(molecular["bud_expression"]["shared_F3h1_fold_changes"]["dark_vs_white"]),
+            "F3h1_light_vs_white_fold": float(molecular["bud_expression"]["shared_F3h1_fold_changes"]["light_vs_white"]),
+            "F3h1_shared_significant": bool(molecular["derived_synthesis"]["F3h1_is_only_locus_significant_in_both_pigmented_vs_white_bud_contrasts"]),
+            "Myb1a_dark_vs_white_fold": float(molecular["bud_expression"]["dark_vs_white_significant"][2]["fold_change_pigmented_over_white"]),
+            "expanded_sequence_survey_individuals": int(molecular["sequence_evidence"]["expanded_sequence_survey_individuals"]),
+            "causal_variant_identified": bool(molecular["derived_synthesis"]["causal_variant_identified"]),
+            "role": molecular["role"],
         },
         "pal_wal": {
             "silene_PAL_median_percent": float(silene["phenotypes"]["PAL"]["positive_frequency_median_percent"]),
