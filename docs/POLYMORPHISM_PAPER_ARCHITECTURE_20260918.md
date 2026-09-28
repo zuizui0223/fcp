@@ -74,11 +74,11 @@ The confirmatory contrast is observed W relative to a construction-preserving st
 
 ## 5. Results spine
 
-### Result 1 — D is reproducible
+### Result 1 — D is reproducible and finite-sample robust
 
-Observer-disjoint validation supports repeatable between-species D rankings, and fresh-image transport is strong across 136 overlapping species.
+Observer-disjoint validation supports repeatable between-species D rankings, and fresh-image transport is strong across 136 overlapping species. Finite-sample correction leaves species rankings essentially unchanged (raw-versus-corrected Spearman rho > 0.99997 in both high-depth cohorts) and preserves the D–spatial, sampled-span and phylogenetic sensitivity conclusions.
 
-Interpretation: repeated photographs can support a comparative within-species distributional trait, while measurement remains imperfect and same-system.
+Interpretation: repeated photographs can support a comparative within-species distributional trait, while measurement remains imperfect and same-system. The small plug-in bias of raw Gini–Simpson D is not driving the paper's D-based results.
 
 ### Result 2 — recurrent geometry is achromatic–chromatic
 
@@ -99,14 +99,19 @@ The association is positive in discovery and species-disjoint validation and rem
 
 Interpretation: greater measured diversity is spatially organized rather than explained simply by broader sampled photographic extent.
 
-### Alternative-explanation boundaries
+### Secondary empirical mechanism evidence and alternative-explanation boundaries
 
+Two secondary results provide bounded biological clues about why an achromatic endpoint may recur:
+
+- a descriptive reanalysis of Del Valle et al. (2019) shows markedly higher natural frequencies for petal anthocyanin-loss than whole-plant anthocyanin-loss phenotypes, consistent with differential persistence when pigment loss is flower-restricted;
+- white records occupy warmer BIO5 environments within the prospective cohort, but that association does not transport as a common cross-cohort rule, supporting context-dependent rather than universal temperature sorting.
+
+Additional boundaries are:
 - no detectable broad tree-wide phylogenetic conservation under the tested validation design;
 - the discovery sampled-span association collapses in validation;
-- a prospective-cohort BIO5 association does not transport as a common cross-cohort rule;
 - direct highlight analysis shows that coarse white classification is exposure-coupled.
 
-These results constrain interpretation rather than serving as additional headline discoveries.
+These secondary results constrain mechanism without establishing a universal cause of the prospective H2 geometry.
 
 ## 6. Discussion logic
 
@@ -114,7 +119,7 @@ The Discussion follows one hierarchy.
 
 1. **Validated distributional trait:** repeated photographs recover species differences in within-species colour diversity.
 2. **What varies:** cross-species regularity is strongest along an achromatic–chromatic phenotype-space direction.
-3. **Why it may recur:** multiple genetic/developmental routes can converge on achromatic phenotypes, while persistence can depend on pleiotropy and ecological context.
+3. **Why it may recur:** multiple genetic/developmental routes can converge on achromatic phenotypes; PAL/WAL frequency contrasts support differential persistence as one filter, while BIO5 results support context-dependent environmental sorting rather than one universal driver.
 4. **Where it is sorted:** greater D is associated with stronger within-species geographic organization, but the present data do not identify one common map or causal maintenance mechanism.
 5. **What simple explanations do not suffice:** broad phylogenetic conservation, sampled photographic span and one universal BIO5 effect are unsupported under the tested designs.
 6. **Scope:** source dependence and exposure coupling bound the biological interpretation.
