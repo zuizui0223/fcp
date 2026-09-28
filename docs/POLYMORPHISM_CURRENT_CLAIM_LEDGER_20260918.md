@@ -266,6 +266,12 @@ In the prospective confirmation cohort, after the response-blind high-clip exclu
 
 BIO14 and mean solar radiation did not pass their frozen gates.
 
+Post hoc observer sensitivities weaken the prospective BIO5 result:
+- observer-paired design: 106 species / 144 paired species-observer strata, median BIO5 contrast = **0.000 SD**, Wilcoxon p = **0.484962**, conditional OR = **0.786636** (95% CI **0.543940–1.137618**), p = **0.202310**;
+- observer-balanced design: 352 species, median BIO5 contrast = **+0.054098 SD**, Wilcoxon p = **0.074964**, sign-test p = **0.048443**.
+
+These were opened after the primary environmental result. They do not overwrite the frozen within-cohort gate, but they show observer-conditioning sensitivity.
+
 A later fixed BIO5-only transport test in the original species-disjoint cohorts failed the joint replication rule.
 
 **Discovery**
@@ -286,9 +292,9 @@ Frozen transport decision:
 
 Allowed interpretation:
 
-> The prospective confirmation cohort supports a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the result does not support a common cross-cohort BIO5 rule.
+> The frozen primary prospective analysis supports a within-cohort association between white states and warmer BIO5 environments, but post hoc observer controls weaken that association and the result does not support a common cross-cohort BIO5 rule.
 
-This is an environmental sorting association, not causal heat selection, and it remains within the same iNaturalist/FCP source and measurement system.
+This is an observer-sensitive environmental sorting association, not causal heat selection, and it remains within the same iNaturalist/FCP source and measurement system.
 
 ## 6. Replicated spatial organization of D — positive structural clue
 
