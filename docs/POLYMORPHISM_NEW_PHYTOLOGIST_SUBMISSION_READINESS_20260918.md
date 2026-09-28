@@ -39,7 +39,7 @@ The manuscript explicitly preserves:
 - no claim that cross-species geographic maps are species-specific;
 - measured coarse white remains exposure-coupled rather than artifact-cleared.
 
-The secondary BIO5 association is reported but does not transport under its frozen rule: discovery p = **0.743**, validation p = **0.0541**, verdict `LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST`. Temperature is therefore a context-dependent clue, not a universal driver.
+The secondary BIO5 association is reported but does not transport under its frozen rule: discovery p = **0.743**, validation p = **0.0541**. The prespecified cross-cohort transport criterion was therefore not met. Temperature is a context-dependent clue, not a universal driver.
 
 ## 2. Narrative and data-lineage clarity
 
