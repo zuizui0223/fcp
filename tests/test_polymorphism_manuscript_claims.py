@@ -10,6 +10,7 @@ LEDGER = ROOT / "docs" / "POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md"
 FIGURE_PLAN = ROOT / "docs" / "POLYMORPHISM_FIGURE_PLAN_20260918.md"
 README = ROOT / "README.md"
 D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
+D_FINITE = ROOT / "results" / "polymorphism_D_finite_sample_sensitivity_20260928" / "result.json"
 H2 = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "result.json"
 MEASUREMENT = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_measurement_20260917" / "result.json"
 SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
@@ -342,3 +343,38 @@ def test_readme_routes_to_active_polymorphism_paper() -> None:
     assert "The active research mainline is **RGFCA**" not in text
     assert "P500" not in text
 
+
+
+def test_D_finite_sample_correction_is_negligible_and_preserves_spatial_result() -> None:
+    result = load_json(D_FINITE)
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+
+    assert result["schema"] == "fcp_D_finite_sample_sensitivity_v1"
+    assert result["new_biological_analysis"] is False
+    assert result["eligibility"]["minimum_classifiable_rows"] == 40
+    assert result["eligibility"]["maximum_multiplier_at_minimum_n"] == pytest.approx(40 / 39)
+
+    assert result["rank_stability"]["discovery"]["spearman_raw_vs_corrected"] == pytest.approx(0.9999771229856009)
+    assert result["rank_stability"]["validation"]["spearman_raw_vs_corrected"] == pytest.approx(0.999978412058831)
+
+    assert result["D_spatial"]["discovery"]["corrected"]["observed_partial_spearman"] == pytest.approx(0.12625557764975637)
+    assert result["D_spatial"]["discovery"]["corrected"]["p_upper_geometry_preserving_spatial_null"] == pytest.approx(0.007)
+    assert result["D_spatial"]["validation_primary"]["corrected"]["observed_partial_spearman"] == pytest.approx(0.09956082052007892)
+    assert result["D_spatial"]["validation_primary"]["corrected"]["p_upper_geometry_preserving_spatial_null"] == pytest.approx(0.025)
+    assert result["D_spatial"]["validation_flower_minus_background"]["corrected"]["observed_partial_spearman"] == pytest.approx(0.11615467037458962)
+    assert result["D_spatial"]["validation_flower_minus_background"]["corrected"]["p_upper_geometry_preserving_spatial_null"] == pytest.approx(0.01)
+
+    assert result["H3b_sampled_span"]["validation"]["corrected"]["rho"] == pytest.approx(-0.0024)
+    assert result["H3b_sampled_span"]["validation"]["corrected"]["p"] == pytest.approx(0.9629)
+
+    for token in (
+        "Gini–Simpson",
+        "finite-sample-corrected",
+        "0.999977",
+        "0.999978",
+        "0.126256",
+        "0.099561",
+        "0.116155",
+        "finite-sample bias",
+    ):
+        assert token in text
