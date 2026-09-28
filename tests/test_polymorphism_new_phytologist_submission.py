@@ -437,6 +437,7 @@ def test_silene_molecular_anchor_is_quantitative_and_bounded() -> None:
         "**F3h1 had zero SNPs**",
         "expanded sequencing of **38 individuals**",
         "not molecular validation of H2",
+        "source-derived evidence, not raw-read reanalysis or replication",
         "10.3389/fpls.2016.00204",
     ):
         assert token in text
@@ -470,7 +471,7 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
         "median PAL lower bound was **5%**",
         "median numeric WAL upper bound was **0.1%**",
         "maintenance filter",
-        "source systems are ascertained and heterogeneous",
+        "ascertained, heterogeneous literature sample",
         "Gómez et al. 2020",
         "Narbona et al. 2026",
         "Lacey 2026",
