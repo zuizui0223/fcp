@@ -406,8 +406,8 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
     for token in (
         "petal anthocyanin-loss (PAL)",
         "Whole-plant anthocyanin-loss (WAL)",
-        "median 15.5%",
-        "median 0.21%",
+        "median **15.5%**",
+        "median **0.21%**",
         "### A secondary reanalysis links flower-restricted pigment loss to higher natural frequencies",
         "median PAL lower bound was **5%**",
         "median numeric WAL upper bound was **0.1%**",
