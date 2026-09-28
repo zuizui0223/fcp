@@ -100,7 +100,16 @@ For a species with class proportions (p_k) over the four biological states, we c
 D = 1 - sum_k p_k^2.
 ]
 
-D is interpreted as a continuous within-species colour-diversity phenotype. It is not converted to a global binary polymorphic/monomorphic outcome for the primary analyses.
+D is the Gini–Simpson diversity of the four frozen biological colour states (Simpson 1949). It combines richness and evenness and has a direct probability interpretation: under independent draws from the observed state distribution, D is the probability that two observations belong to different colour states. Because every species is represented on the same four-state scale, D provides a common bounded measure of the amount of within-species colour diversity. It is not converted to a global binary polymorphic/monomorphic outcome for the primary analyses.
+
+Raw D remains the primary estimand. To assess finite-sample plug-in bias, we additionally use the finite-sample-corrected sensitivity
+
+[
+D_{\mathrm{corr}} = 1-\sum_k \frac{n_k(n_k-1)}{n(n-1)}
+= D\frac{n}{n-1}.
+]
+
+Under independent multinomial sampling this correction targets the finite-sample bias of the plug-in Gini–Simpson estimator. It does not correct community-science sampling representativeness, observer effects, image formation or classifiability. With the frozen eligibility rule n >= 40, the largest possible multiplier is 40/39 = 1.0256.
 
 ### H1: observer-disjoint reproducibility
 
@@ -209,6 +218,12 @@ The later deterministic stress test retained 363 validation species with zero ob
 The later fresh-image transport check provided a stronger same-system replication of D. Among **136** species evaluable in both the earlier frozen analysis and the fresh execution, D showed Spearman rho = **0.9681**, Lin CCC = **0.9720**, and a calibration slope of **0.9691**. The median absolute change in D was **0.0148**, while mean signed fresh-minus-prior change was **+0.0032**. Thus the between-species ordering and scale of D transported strongly across a fresh photo set and a separate measurement execution within the same iNaturalist/FCP measurement system.
 
 These results admit D as a reproducible high-depth species phenotype for the subsequent geometry analyses, but they do not estimate global polymorphism prevalence.
+
+### Finite-sample correction does not alter D-based conclusions
+
+Finite-sample correction had negligible influence on the species-level phenotype. Raw and corrected D rankings were almost identical in discovery (Spearman rho = **0.999977**) and validation (**0.999978**); mean absolute changes were **0.00486** and **0.00469**, respectively. The primary D–spatial result was unchanged after correction: discovery partial rho changed from 0.126637 to **0.126256** with p = **0.007**, and validation from 0.099288 to **0.099561** with p = **0.025**. The validation flower-minus-background sensitivity likewise remained supported (corrected partial rho = **0.116155**, p = **0.010**).
+
+The sampled-span conclusion was also unchanged (validation raw rho = -0.0026, p = 0.9586; corrected rho = **-0.0024**, p = **0.9629**), and corrected validation Blomberg-K effect sizes remained nearly identical to raw values across S1-S3. Thus the main D-based conclusions are not explained by finite-sample bias in the plug-in diversity estimator.
 
 ### H2 discovery and audit: recurrent geometry localizes to white versus nonwhite
 
@@ -389,6 +404,8 @@ Palacio, F. X., Graco-Roza, C., de Bello, F., & Carmona, C. P. (2025). Integrati
 Phipson, B., & Smyth, G. K. (2010). Permutation P-values should never be zero: calculating exact P-values when permutations are randomly drawn. *Statistical Applications in Genetics and Molecular Biology*, 9, Article 39. https://doi.org/10.2202/1544-6115.1585
 
 Roberts, D. R., Bahn, V., Ciuti, S., Boyce, M. S., Elith, J., Guillera-Arroita, G., Hauenstein, S., Lahoz-Monfort, J. J., Schröder, B., Thuiller, W., Warton, D. I., Wintle, B. A., Hartig, F., & Dormann, C. F. (2017). Cross-validation strategies for data with temporal, spatial, hierarchical, or phylogenetic structure. *Ecography*, 40, 913–929. https://doi.org/10.1111/ecog.02881
+
+Simpson, E. H. (1949). Measurement of Diversity. *Nature*, 163, 688. https://doi.org/10.1038/163688a0
 
 Sapir, Y., Gallagher, M. K., & Senden, E. (2021). What Maintains Flower Colour Variation within Populations? *Trends in Ecology & Evolution*, 36(6), 507–519. https://doi.org/10.1016/j.tree.2021.01.011
 
