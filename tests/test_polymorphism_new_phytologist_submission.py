@@ -51,45 +51,29 @@ def test_new_phytologist_front_matter_and_summary_contract() -> None:
     assert 5 <= len(keywords) <= 8
 
 
-def test_new_phytologist_defines_rgfca_and_preserves_the_conceptual_pivot() -> None:
+def test_new_phytologist_explains_current_data_architecture_and_necessity() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     for token in (
-        "Repeated Global Flower-Colour Atlas (RGFCA)",
-        "shared global boundary geography",
-        "species-level polymorphism amount, colour-space geometry and within-species spatial organization",
-        "From a repeated global atlas to species-level generality",
-        "shared-geography estimand did not provide the positive biological spine retained here",
-        "whether its spatial realization is common, partially shared or species-specific remains open",
-        "Cross-species generality is established most clearly in **phenotype space**",
+        "Study design, data provenance and why each stage was required",
+        "Stage 0 — global outcome-blind opportunity frame",
+        "Stage 1 — discovery and species-disjoint validation image cohorts",
+        "Stage 2 — prospective species-disjoint confirmation cohort",
+        "Stage 3 — targeted technical and ecological annotations",
+        "A new species- and photo-disjoint cohort was therefore necessary",
+        "These are alternative-explanation and mechanism filters",
     ):
         assert token in text
 
-
-def test_rgfca_interpretation_document_preserves_programme_boundary() -> None:
-    assert RGFCA_INTERPRETATION.exists()
-    text = RGFCA_INTERPRETATION.read_text(encoding="utf-8")
-    for token in (
-        "Repeated Global Flower-Colour Atlas",
-        "balanced world-map realizations",
-        "species-conditioned null",
-        "primary recurrent-field G1 concentration: p = 0.070",
-        "species-disjoint commonness: p = 0.856",
-        "whether those spatial patterns share a common map across species remains unresolved",
-        "RGFCA created the global sampling/measurement framework",
-        "current paper uses within-species spatial organization as a comparative trait while leaving shared-versus-species-specific mapping open",
-    ):
-        assert token in text
-
+def test_frame_provenance_preserves_sampling_boundary() -> None:
     assert FRAME_PROVENANCE.exists()
     frame = FRAME_PROVENANCE.read_text(encoding="utf-8")
     for token in (
         "42,111 species",
         "U100 = 4,730 species",
-        "third-cohort candidate universe = **3,230 species**",
+        "No candidate image pixels or flower-colour outcomes were used",
         "not the denominator for estimating global polymorphism prevalence",
     ):
         assert token in frame
-
 
 def test_new_phytologist_documents_42111_frame_provenance() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
@@ -97,7 +81,7 @@ def test_new_phytologist_documents_42111_frame_provenance() -> None:
 
     # Main text keeps the inferential frame concise.
     for token in (
-        "42,111 unique iNaturalist species",
+        "42,111 unique iNaturalist plant species",
         "4,730 species",
         "POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md",
     ):
@@ -113,34 +97,30 @@ def test_new_phytologist_documents_42111_frame_provenance() -> None:
         assert token in frame
 
 
-def test_new_phytologist_documents_original_rgfca_acquisition_and_analysis_lineage() -> None:
+def test_new_phytologist_documents_acquisition_lineage_and_stage_roles() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
     supporting = SUPPORTING.read_text(encoding="utf-8")
 
-    # Main text preserves the acquisition logic and cohort roles without
-    # repeating every API/license field.
     for token in (
-        "Acquisition of the original discovery and reserve high-depth cohorts",
         "Research Grade species-rank iNaturalist observations",
         "Selection was colour-blind",
         "deterministic geographic maximin sampling",
-        "Table 1. Data lineage and inferential roles of the high-depth cohorts",
-        "D definition/descriptives; H1 diagnostic; legacy H2 target discovery/audit; D–spatial organization; H3b discovery calibration",
-        "H1 primary reliability; legacy H2 validation; D–spatial replication and robustness; H3a phylogeny; H3b reserve replication",
+        "Table 1. Data sources, lineage and inferential necessity",
+        "Discovery image cohort",
+        "Species-disjoint validation image cohort",
+        "Prospective confirmation cohort",
+        "Why it was required",
     ):
         assert token in text
 
-    # Exact acquisition fields stay mandatory in SI.
     for token in (
         "Research Grade species-rank iNaturalist records",
-        "flowering annotation term 12/value 13",
         "positional accuracy <=5 km",
         "Observer contribution was capped at two photographs per species",
         "deterministic geographic maximin sampling fixed 100 raw photographs per species",
         "No native-range restriction or explicit captive/wild filter was imposed",
     ):
         assert token in supporting
-
 
 def test_new_phytologist_required_sections_and_display_items() -> None:
     text = MANUSCRIPT.read_text(encoding="utf-8")
@@ -320,9 +300,9 @@ def test_submission_data_lineage_is_reader_traceable() -> None:
         assert path.exists(), f"missing reader-traceable provenance file: {path}"
 
     for token in (
-        "Prospective H2 cohort",
-        "Secondary environmental follow-up",
-        "one physical 499-species measurement dataset used in two chronologically distinct ways",
+        "Prospective confirmation cohort",
+        "Highlight-validity reacquisition",
+        "Climate annotation",
         "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md",
     ):
         assert token in text
@@ -338,7 +318,7 @@ def test_submission_data_lineage_is_reader_traceable() -> None:
         "10292662493",
         "10292767459",
         "10292399238",
-        "post-H2 secondary validity/environmental analyses",
+        "post-confirmatory highlight-validity and environmental analyses",
         "Resolved: expiring Actions artifacts",
         "Resolved: WorldClim provider dependence",
         "fcp-worldclim-2.1-10m-20260925",
