@@ -717,11 +717,11 @@ def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str],
     ax.set_ylim(0.03, 60)
     ax.set_xticks(x, labels)
     ax.set_ylabel("Reported natural frequency (%)")
-    ax.set_title("Flower-restricted pigment loss reaches\nhigher reported natural frequencies")
+    ax.set_title("Biochemically defined flower-restricted loss reaches\nhigher reported natural frequencies")
     ax.text(
         0.02,
         0.04,
-        "Descriptive literature reanalysis;\nnot an unbiased meta-analysis",
+        "PAL/WAL are HPLC-DAD-MS$^n$ tissue-profiled phenotypes;\ndescriptive reanalysis, not an unbiased meta-analysis",
         transform=ax.transAxes,
         ha="left",
         va="bottom",
@@ -748,6 +748,7 @@ def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str],
             "cross_PAL_lower_bound_median_percent": float(cross["PAL"]["lower_bound_median_percent"]),
             "cross_WAL_upper_bound_median_percent": float(cross["WAL"]["numeric_upper_bound_median_percent"]),
             "cross_WAL_max_upper_bound_percent": float(cross["WAL"]["numeric_upper_bound_max_percent"]),
+            "phenotype_anchor": "HPLC-DAD-MSn_tissue_profiled_anthocyanin_phenotypes",
         },
         "claim_boundary": "bounded_secondary_empirical_evidence_not_universal_causation",
     }
