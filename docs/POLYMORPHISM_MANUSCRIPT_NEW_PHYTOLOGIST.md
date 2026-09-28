@@ -11,10 +11,10 @@
 **Word counts (current working draft):**
 - Summary: 176 words
 - Introduction: 725 words
-- Materials and Methods: 2,447 words
-- Results: 2,557 words
-- Discussion: 1,818 words
-- Main text (Introduction through Discussion): 7,547 words
+- Materials and Methods: 2,426 words
+- Results: 2,531 words
+- Discussion: 1,776 words
+- Main text (Introduction through Discussion): 7,458 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -167,7 +167,7 @@ Two post hoc observer sensitivities then bounded the prospective BIO5 associatio
 
 ### Secondary *Silene littorea* molecular-anchor extraction
 
-To place the PAL persistence result on an explicit molecular pathway without relabelling published experiments as new data, we performed a structured quantitative extraction from Casimiro-Soriguer et al. (2016). The source experiment used mRNA-seq on nine morph-by-developmental-stage samples and evaluated 29 anthocyanin-biosynthetic-pathway-related loci. We recorded all source-reported p<0.05 bud-stage expression contrasts involving white petals, significant dark-versus-light regulatory contrasts, the expanded sequence follow-up, and the reported petal HPLC contrasts. The extraction rule and values are frozen in `results/polymorphism_silene_molecular_anchor_20260928/result.json`. This is source-derived quantitative evidence, not raw-read reanalysis or independent replication.
+To place PAL persistence on an explicit molecular pathway, we structured reported results from Casimiro-Soriguer et al. (2016), whose experiment used mRNA-seq on nine morph × stage samples and 29 anthocyanin-pathway loci. We extracted all p<0.05 bud-stage contrasts involving white petals, significant dark-versus-light regulatory contrasts, the expanded sequence follow-up and petal HPLC. Values and rules are frozen in `results/polymorphism_silene_molecular_anchor_20260928/result.json`; this is source-derived evidence, not raw-read reanalysis or replication.
 
 ### Secondary PAL/WAL persistence reanalysis
 
@@ -297,7 +297,7 @@ Thus the frozen primary prospective analysis provides a within-cohort associatio
 
 The structured extraction of the published *S. littorea* bud-stage transcriptome identified **F3h1** as the only locus significantly higher in both pigmented-versus-white contrasts among the 29 ABP-related loci examined. F3h1 expression was **49.0×** higher in dark-pink than white buds (p = **0.039**) and **42.2×** higher in light-pink than white buds (p = **0.049**). In the regulatory layer, **Myb1a** was **5.1×** higher in dark-pink than white buds (p = **0.009**) and **4.2×** higher in dark-pink than light-pink buds (p = **0.021**). Other significant pigmented-versus-white loci were C4h2 (36.2×, p = 0.013) and F3′h (4.5×, p = 0.047).
 
-The sequence evidence points away from a simple identified coding lesion. Across 29 ABP-related loci the source study reported 622 SNPs, but **F3h1 had zero SNPs** in the reported UTR/CDS table. Nine initially colour-associated *Ans* SNPs were synonymous, and expanded sequencing of **38 individuals** found no SNP that consistently differentiated colour morphs. Petal HPLC independently showed cyanidin derivatives and significant white-versus-pigmented differences in flavonoid intermediates including rutin, quercetin and isovitexin. Taken together, the published molecular and biochemical measurements are consistent with a regulatory blockage near F3h1, potentially involving Myb1a, but do not identify a causal mutation. This is a single-species molecular anchor for the PAL interpretation, not molecular validation of the cross-species H2 axis (Fig. S9b).
+Sequence evidence did not identify a simple coding lesion: the source reported 622 SNPs across 29 ABP loci, but **F3h1 had zero SNPs** in the reported UTR/CDS table. Nine colour-associated *Ans* SNPs were synonymous, and expanded sequencing of **38 individuals** found no consistently colour-differentiating SNP. Petal HPLC showed cyanidin derivatives and white-versus-pigmented differences in rutin, quercetin and isovitexin. Together these measurements are consistent with a regulatory blockage near F3h1, potentially involving Myb1a, but identify no causal mutation. This is a single-species PAL anchor, not molecular validation of H2 (Fig. S9b).
 
 ### Biochemically anchored flower-restricted anthocyanin loss reaches higher reported natural frequencies
 
@@ -359,7 +359,7 @@ At the same time, this coupling does not account for the full H2 result. Removin
 
 One plausible source of recurrence is genetic and developmental accessibility. Anthocyanin-based pigmentation can be reduced through multiple structural and regulatory changes, allowing distinct molecular routes to converge on pale or white petals; the realized routes are shaped by pleiotropic costs (Wessinger & Rausher 2012). The recurrent achromatic–chromatic direction is therefore consistent with a many-to-one accessibility bias, but H2 neither establishes anthocyanin deficiency nor identifies transition direction.
 
-Two linked secondary evidence layers sharpen the pigment-pathway interpretation without making it universal. In *S. littorea*, the published transcriptome places the high-frequency PAL phenotype near a regulatory blockage: F3h1 is the only locus significantly downregulated in white buds relative to both pigmented morphs (>42-fold), Myb1a also differs strongly, no causal colour-differentiating SNP survives the expanded sequence survey, and petal HPLC is concordant with a blockage near F3h. Our PAL/WAL frequency reanalysis then adds an ecological persistence layer: flower-restricted anthocyanin-loss phenotypes reach substantially higher reported natural frequencies than whole-plant loss phenotypes. Together these observations are consistent with an accessibility-and-maintenance filter in which regulatory, tissue-restricted pigment loss can generate white petals while preserving extra-floral anthocyanin function. The molecular experiment is a single-species source study and the frequency systems are ascertained and heterogeneous, so neither establishes a universal mechanism for H2.
+Two linked evidence layers sharpen the pigment-pathway interpretation. In *S. littorea*, F3h1 is >42-fold lower in white buds than both pigmented morphs, Myb1a also differs, no causal colour-differentiating SNP survives expanded sequencing, and petal HPLC is concordant with an F3h-region blockage. Our PAL/WAL reanalysis adds persistence: flower-restricted loss reaches much higher reported natural frequencies than whole-plant loss. Together these observations fit an accessibility-and-maintenance filter in which tissue-restricted regulatory change can generate white petals while retaining extra-floral anthocyanin function. The molecular experiment is single-species and the frequency systems are ascertained, so neither establishes a universal H2 mechanism.
 
 Second, the environmental follow-up gives a context-dependent abiotic clue rather than a robust temperature rule. White records occupied warmer BIO5 environments in the frozen primary prospective analysis (median contrast +0.069 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073, p = 0.000919), but the signal weakened when observer identity was controlled more aggressively: the observer-paired sensitivity was null (median 0.000 SD; p = 0.485; OR = 0.787, p = 0.202), while the observer-balanced contrast remained positive but marginal by Wilcoxon (median +0.054 SD; p = 0.075). The association also failed the frozen species-disjoint transport rule: discovery was null (p = 0.743) and validation missed the species-level criterion (p = 0.0541). Temperature is therefore not supported as a universal cross-species driver, and some of the within-cohort signal may reflect observer-associated geographic sampling. This fits evidence that thermal effects on floral pigmentation are context dependent (Lacey 2026) and that *Moricandia arvensis* can shift reversibly from lilac to white while losing detectable anthocyanins under summer conditions (Gómez et al. 2020; Narbona et al. 2026). Generality may therefore lie in shared pigment-network architecture acted on by different genetic and environmental perturbations, rather than in one universal BIO5 coefficient.
 
