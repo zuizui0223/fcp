@@ -1,0 +1,152 @@
+{
+  "schema": "fcp_D_finite_sample_sensitivity_v1",
+  "date_jst": "2026-09-28",
+  "role": "reporting_only_aggregation_of_previously_frozen_sensitivities",
+  "new_biological_analysis": false,
+  "estimand": {
+    "primary": "raw Gini-Simpson D = 1 - sum_k p_k^2",
+    "finite_sample_corrected": "D_corrected = D * n_classifiable / (n_classifiable - 1)",
+    "interpretation": "Under independent multinomial sampling, the correction removes finite-sample plug-in bias in Gini-Simpson diversity. It does not correct community-science sampling representativeness, observer bias, image formation, or classifiability."
+  },
+  "eligibility": {
+    "minimum_classifiable_rows": 40,
+    "maximum_multiplier_at_minimum_n": 1.0256410256410255
+  },
+  "source_identity": {
+    "frozen_step8_commit": "f14186590c11ac24c95e1985077908b732132e96",
+    "frozen_step8_blob_sha": "d9e8f741a3db1621463b857710b1e91e2af52c99",
+    "mirrored_step8_path": "archive/fcp_submission_20260925/d_finite_sample/step8_frozen_result.json",
+    "species_sensitivity_path": "archive/fcp_submission_20260925/h3a_signal/h3a_species_D_and_sensitivity.csv",
+    "species_sensitivity_blob_sha": "e942ee4ff831d2a8cc3f0cb001ddfd1c75e61d5b",
+    "h3a_scenario_path": "archive/fcp_submission_20260925/h3a_signal/h3a_signal_by_scenario.csv",
+    "h3a_scenario_blob_sha": "95c3b65097e0a26706f96b4f948df61e4f764f3d",
+    "h3b_result_path": "results/polymorphism_h3b_reserve_span_20260912/result.json",
+    "h3b_result_blob_sha": "fd2fc2b73614080b8caaad75bf4380afa9031e17"
+  },
+  "rank_stability": {
+    "discovery": {
+      "species": 369,
+      "n_classifiable": {
+        "min": 40,
+        "median": 56,
+        "max": 86
+      },
+      "correction_multiplier_at_median_n": 1.018181818181818,
+      "spearman_raw_vs_corrected": 0.9999771229856009,
+      "pearson_raw_vs_corrected": 0.9999889819208351,
+      "mean_absolute_change": 0.0048643855588324045,
+      "max_absolute_change": 0.01645685181625911
+    },
+    "validation": {
+      "species": 363,
+      "n_classifiable": {
+        "min": 40,
+        "median": 56,
+        "max": 92
+      },
+      "correction_multiplier_at_median_n": 1.018181818181818,
+      "spearman_raw_vs_corrected": 0.999978412058831,
+      "pearson_raw_vs_corrected": 0.9999888347524805,
+      "mean_absolute_change": 0.004688190041495281,
+      "max_absolute_change": 0.017403846153846048
+    }
+  },
+  "D_spatial": {
+    "discovery": {
+      "raw": {
+        "null_mean": 0.0026675588595903516,
+        "null_q025": -0.09215619575999805,
+        "null_q975": 0.09943793189251277,
+        "observed_partial_spearman": 0.1266367492856858,
+        "p_upper_geometry_preserving_spatial_null": 0.007,
+        "positive_supported_at_0_05": true
+      },
+      "corrected": {
+        "null_mean": 0.002651722513930104,
+        "null_q025": -0.09200015895133129,
+        "null_q975": 0.099182988739102,
+        "observed_partial_spearman": 0.12625557764975637,
+        "p_upper_geometry_preserving_spatial_null": 0.007,
+        "positive_supported_at_0_05": true
+      }
+    },
+    "validation_primary": {
+      "raw": {
+        "null_mean": -0.00040435499202958597,
+        "null_q025": -0.09608451072458751,
+        "null_q975": 0.09806405905440267,
+        "observed_partial_spearman": 0.09928771129095708,
+        "p_upper_geometry_preserving_spatial_null": 0.025,
+        "positive_supported_at_0_05": true
+      },
+      "corrected": {
+        "null_mean": -0.00042304064812609025,
+        "null_q025": -0.09573361280110815,
+        "null_q975": 0.0979349528017907,
+        "observed_partial_spearman": 0.09956082052007892,
+        "p_upper_geometry_preserving_spatial_null": 0.025,
+        "positive_supported_at_0_05": true
+      }
+    },
+    "validation_flower_minus_background": {
+      "raw": {
+        "null_mean": -0.007648601350885091,
+        "null_q025": -0.11629326898154593,
+        "null_q975": 0.09602353526909788,
+        "observed_partial_spearman": 0.1162411363016301,
+        "p_upper_geometry_preserving_spatial_null": 0.01,
+        "positive_supported_at_0_05": true
+      },
+      "corrected": {
+        "null_mean": -0.007658501131809671,
+        "null_q025": -0.11621943143178728,
+        "null_q975": 0.09631645075104145,
+        "observed_partial_spearman": 0.11615467037458962,
+        "p_upper_geometry_preserving_spatial_null": 0.01,
+        "positive_supported_at_0_05": true
+      }
+    }
+  },
+  "H3b_sampled_span": {
+    "discovery": {
+      "raw": {
+        "rho": 0.1799,
+        "p": 0.0009
+      },
+      "corrected": {
+        "rho": 0.1797,
+        "p": 0.0008
+      }
+    },
+    "validation": {
+      "raw": {
+        "rho": -0.0026,
+        "p": 0.9586
+      },
+      "corrected": {
+        "rho": -0.0024,
+        "p": 0.9629
+      }
+    }
+  },
+  "H3a_effect_size_sensitivity": {
+    "S1": {
+      "K_raw": 0.071019005025099,
+      "K_corrected": 0.071224280948145
+    },
+    "S2": {
+      "K_raw": 0.0601475597708986,
+      "K_corrected": 0.0602622694454869
+    },
+    "S3": {
+      "K_raw": 0.0707576659115146,
+      "K_corrected": 0.0709624481161725
+    }
+  },
+  "conclusion": "Finite-sample correction has negligible effect on species rankings and does not change the support status of the main D-spatial result, the sampled-span replication result, or the broad phylogenetic effect-size pattern.",
+  "hard_nonclaims": [
+    "The correction does not make the iNaturalist sample a probability sample of natural populations.",
+    "The correction does not address image-exposure coupling, observer effects, or classification error.",
+    "The correction is a sensitivity analysis and does not replace raw D as the primary estimand."
+  ]
+}
