@@ -71,17 +71,17 @@ The current New Phytologist guidance describes Full Papers as usually approximat
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | **725 words** | RECORDED |
-| Materials and Methods | **2,265 words** | RECORDED |
-| Results | **2,162 words** | RECORDED |
-| Discussion | **1,637 words** | RECORDED |
-| Main text, Introduction–Discussion | **6,789 words** | PASS (within usual 6,500–7,500 range) |
-| Discussion share | **24.1%** | PASS (<30%) |
+| Materials and Methods | **2,407 words** | RECORDED |
+| Results | **2,538 words** | RECORDED |
+| Discussion | **1,772 words** | RECORDED |
+| Main text, Introduction–Discussion | **7,442 words** | PASS (within usual 6,500–7,500 range) |
+| Discussion share | **23.8%** | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (usual 6–8) |
 | Required sections | present | PASS |
 | Figure legends 1–5 | present | PASS |
-| Supporting legends S1–S8 | present | PASS |
+| Supporting legends S1–S9 | present | PASS |
 
 The data-provenance rewrite initially expanded the manuscript. Duplicate implementation detail was then removed while preserving each stage's source, selection logic, inferential necessity and claim boundary. Finite-sample D sensitivity, the bounded *S. littorea* molecular anchor and PAL/WAL persistence result are now reported explicitly; the main text is maintained within the journal's usual Full Paper range.
 
@@ -126,6 +126,9 @@ Permanent Git archive:
 | Spatial organization | A- | reporting receipt points to immutable source commit/blobs |
 | Secondary BIO5 | A | biological/technical inputs fixed; exact WorldClim BIO/SRAD zip bytes mirrored as checksum-verified release assets |
 | BIO5 transport | A | discovery/validation inputs fixed; exact WorldClim BIO zip mirrored as checksum-verified release asset |
+| *S. littorea* molecular anchor | A- | DOI-pinned source-derived quantitative extraction with machine-readable RNA-seq/sequence/HPLC values; not raw-read reanalysis |
+| PAL/WAL persistence | A- | deterministic parsing of published supplementary frequency tables with explicit censoring/ascertainment boundary |
+| PAL/WAL × FCP bridge audit | A | taxonomy-resolved machine-readable feasibility audit; sparse overlap correctly closes inference |
 
 ### Expiring Actions artifacts
 
@@ -202,6 +205,8 @@ The latest verified revision passed:
 - checksum-enforced BIO5 transport rerun.
 
 The reruns reproduce the same frozen primary BIO5 result, the same observer-sensitivity outputs, and the same transport failure.
+
+The submission/Zenodo candidate workflow is additionally fail-closed: before staging any journal ZIP or archive it re-runs both `tests/test_polymorphism_new_phytologist_submission.py` and `tests/test_polymorphism_manuscript_claims.py` on the exact packaging commit. A green provenance run alone is therefore insufficient to publish a candidate if either manuscript guard is red.
 
 ## 7. Figure package
 
