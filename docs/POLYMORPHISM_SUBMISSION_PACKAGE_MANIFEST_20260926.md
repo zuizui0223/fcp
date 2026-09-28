@@ -37,7 +37,7 @@ The journal ZIP is intentionally minimal:
 - main Figure 1–5 PDF and PNG files, Fig. S9 PDF and PNG, plus the figure manifest
 - journal-only SHA256 manifest
 
-The following repository-management surfaces are **not** included in the journal ZIP: submission-readiness audit, claim ledger, secondary mechanism evidence ledger, provenance-release manifest, reproducibility audit, Zenodo metadata draft, package manifest, and the deep self-contained provenance tarball. They remain available in the Zenodo-ready archive layer.
+The following repository-management surfaces are **not** included in the journal ZIP: submission-readiness audit, claim ledger, secondary mechanism evidence ledger, PAL/WAL taxonomic-alias audit, provenance-release manifest, reproducibility audit, Zenodo metadata draft, package manifest, and the deep self-contained provenance tarball. They remain available in the Zenodo-ready archive layer.
 
 ## Publication gate
 
