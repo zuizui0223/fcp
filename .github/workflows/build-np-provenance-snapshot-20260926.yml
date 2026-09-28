@@ -563,13 +563,17 @@ jobs:
           worldclim_release_tag=$WORLDCLIM_TAG
           EOF
 
+          # FILE_COUNT.txt records the final number of files in the tarball,
+          # including FILE_COUNT.txt and FILE_SHA256SUMS.txt themselves.
+          base_file_count="$(find "$stage" -type f ! -name FILE_COUNT.txt ! -name FILE_SHA256SUMS.txt | wc -l)"
+          file_count="$((base_file_count + 2))"
+          echo "$file_count" > "$stage/FILE_COUNT.txt"
+
+          # Checksum every final payload file except the checksum manifest itself.
           (
             cd "$stage"
             find . -type f ! -name FILE_SHA256SUMS.txt -print0 | LC_ALL=C sort -z | xargs -0 sha256sum > FILE_SHA256SUMS.txt
           )
-
-          file_count="$(find "$stage" -type f | wc -l)"
-          echo "$file_count" > "$stage/FILE_COUNT.txt"
 
           package="$out/fcp-np-provenance-20260926.tar.gz"
           tar --sort=name --mtime='UTC 2026-09-26 00:00:00' --owner=0 --group=0 --numeric-owner             -C "$stage" -cf - . | gzip -n -9 > "$package"
@@ -577,6 +581,8 @@ jobs:
           cp "$stage/FILE_SHA256SUMS.txt" "$out/FILE_SHA256SUMS.txt"
 
           tar -tzf "$package" > "$out/package_contents.txt"
+          actual_file_count="$(grep -v '/$' "$out/package_contents.txt" | wc -l)"
+          test "$actual_file_count" -eq "$file_count"
           grep -Fxq './repository/docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/opportunity_frame/global_monte_carlo_species_discovery_combined_v2_species_v1.csv' "$out/package_contents.txt"
