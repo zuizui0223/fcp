@@ -108,6 +108,13 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert s9["bio5"]["observer_paired_conditional_OR"] == 0.7866358392496202
     assert s9["bio5"]["discovery_p"] == 0.7432522901921289
     assert s9["bio5"]["validation_p"] == 0.054066696426422846
+    assert s9["molecular_anchor"]["source_doi"] == "10.3389/fpls.2016.00204"
+    assert s9["molecular_anchor"]["F3h1_dark_vs_white_fold"] == 49.0
+    assert s9["molecular_anchor"]["F3h1_light_vs_white_fold"] == 42.2
+    assert s9["molecular_anchor"]["F3h1_shared_significant"] is True
+    assert s9["molecular_anchor"]["Myb1a_dark_vs_white_fold"] == 5.1
+    assert s9["molecular_anchor"]["expanded_sequence_survey_individuals"] == 38
+    assert s9["molecular_anchor"]["causal_variant_identified"] is False
     assert s9["pal_wal"]["silene_PAL_median_percent"] == 15.5
     assert s9["pal_wal"]["silene_WAL_median_percent"] == 0.21
     assert s9["pal_wal"]["cross_PAL_lower_bound_median_percent"] == 5.0
