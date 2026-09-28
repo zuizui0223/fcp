@@ -1,4 +1,4 @@
-# Within-species flower-colour variation shows achromatic–chromatic alignment beyond coarse colour-state composition
+# Within-species flower-colour variation shows recurrent achromatic–chromatic geometry across plant species
 
 **Canonical current manuscript — synchronized with the New Phytologist submission draft**
 
@@ -9,7 +9,7 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 183 words
+- Summary: 179 words
 - Introduction: 725 words
 - Materials and Methods: 1,894 words
 - Results: 1,809 words
@@ -23,10 +23,11 @@
 
 ## Summary
 
-- Flower colour is commonly reduced to a species mean, obscuring within-species variation. We ask whether repeated photographs recover a reproducible species phenotype and whether continuous colour displacement shows recurrent geometry across species.
-- We quantified four-state diversity D in a 1,000-species discovery–validation resource and then prospectively tested a pre-frozen white-versus-nonwhite axis in a new species-disjoint confirmation cohort. The structured null preserved species × coarse-state counts and coarse-state-specific palette distributions.
-- Observer-disjoint validation partitions recovered stable D rankings (median Spearman rho = 0.789), and a later fresh-image execution retained strong D agreement across 136 overlapping species (Spearman rho = 0.968; Lin CCC = 0.972). In the prospective confirmation cohort, 158 species gave W = 0.517 versus structured-null median 0.457 (1.13-fold; p = 0.001).
-- Greater D was also associated with stronger within-species geographic colour organization across species-disjoint high-depth cohorts. That result does not show whether those spatial patterns share a common map across species. A direct highlight control nevertheless showed that white classification is exposure-coupled (OR = 1.44, 95% CI 1.39–1.50), so the achromatic–chromatic result is not interpreted as artifact-free.
+- Flower colour is commonly reduced to a species mean, obscuring within-species variation. We ask whether within-species colour distributions are reproducible comparative traits, whether variation occupies recurrent directions in colour space, and whether more diverse species are more strongly organized geographically.
+- We analysed 100,000 photographs from 1,000 discovery–validation species and then prospectively tested a pre-frozen white-versus-nonwhite axis in 49,900 newly sampled photographs from 499 species. A construction-preserving null retained species × coarse-state counts and coarse-state-specific palette distributions.
+- Observer-disjoint validation recovered stable D rankings (median Spearman rho = 0.789), and fresh-image transport across 136 overlapping species was strong (rho = 0.968; Lin CCC = 0.972). In the prospective test, 158 species gave W = 0.517 versus null median 0.457 (p = 0.001).
+- Greater D was also associated with stronger within-species geographic colour organization in species-disjoint high-depth cohorts. The result does not establish a shared geographic map or mechanism. White classification was exposure-coupled (OR = 1.44, 95% CI 1.39–1.50), so the achromatic–chromatic signal is interpreted as bounded geometric regularity rather than artifact-free biological colour.
+
 
 ---
 
