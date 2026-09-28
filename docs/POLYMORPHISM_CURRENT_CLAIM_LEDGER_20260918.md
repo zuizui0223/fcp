@@ -4,38 +4,26 @@ Date: 2026-09-18 JST
 
 This ledger supersedes `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260916.md` for manuscript claim-status purposes.
 
-The authoritative third-cohort biological result is:
+The authoritative prospective-confirmation biological result is:
 
 - `results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/result.json`
 
-The authoritative third-cohort measurement/support receipt is:
+The authoritative prospective-confirmation measurement/support receipt is:
 
 - `results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json`
 
 If this prose conflicts with those machine-readable files, the machine-readable files control.
 
-## 0. Programme lineage — RGFCA versus the current paper
+## 0. Reader-facing data architecture and inferential necessity
 
-RGFCA means **Repeated Global Flower-Colour Atlas**. It is the upstream global sampling, measurement and species-specific spatial-analysis framework from which the current discovery/reserve resource was inherited; it is not the present paper's final biological claim.
+The current paper uses one explicit inferential sequence.
 
-RGFCA originally asked whether independent species repeatedly place strong within-species flower-colour discontinuities in the same broad geographic regions. That shared-geography estimand did not become the positive biological spine of the current paper. The upstream frozen record includes primary recurrent-field G1 p = **0.070** and species-disjoint commonness p = **0.856**, while later sharedness qualification identified a support/identifiability limitation.
+1. **Outcome-blind opportunity frame.** Metadata-only iNaturalist discovery defines a 42,111-species candidate universe before flower colour is examined; 4,730 species can support >=100 retained photographs after observer capping. This stage is required to keep species entry independent of the focal phenotype and is not a prevalence denominator.
+2. **Discovery + species-disjoint validation.** A fixed high-depth resource contains 500 discovery and 500 validation species with 100 photographs per species. This stage is required both to estimate within-species distributions rather than modal colours and to separate pattern discovery from validation on different species.
+3. **Prospective confirmation.** Because the white-versus-nonwhite axis was identified after the original geometry was opened, that axis, W statistic, admissibility thresholds and structured null were frozen before newly sampled species and photographs were opened. A 3,230-species unused candidate frame yielded 499 species × 100 new photographs after outcome-blind selection. This fresh cohort is required for the named axis to have prospective confirmatory status.
+4. **Post-confirmatory annotations.** Highlight metrics, WorldClim variables, phylogenetic placements and sampled span test measurement coupling and simple alternative explanations. These analyses constrain interpretation but do not create or upgrade the prospective H2 confirmation.
 
-The current paper therefore changes the level at which cross-species generality is sought:
-
-- **amount:** reproducible species-level D;
-- **phenotype geometry:** prospectively confirmed excess alignment with a frozen white-versus-nonwhite axis relative to a coarse-state-preserving null;
-- **spatial organization:** stronger within-species geographic organization at higher D; shared versus species-specific cross-species mapping remains unresolved;
-- **broad explanation:** not reducible to sampled geographic span or broad tree-wide phylogenetic conservation.
-
-The supported conceptual interpretation is that cross-species generality is established in **phenotype space**, whereas the tested designs do not resolve whether spatial realization is shared, partly shared or species-specific. This does not imply absence of flower-colour biogeography or identify the ecological mechanism maintaining polymorphism.
-
-Canonical programme interpretation:
-
-- `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md`
-
-Canonical 42,111-frame provenance:
-
-- `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`
+The paper's public story is therefore **measurement validity → recurrent phenotype-space geometry → prospective confirmation → geographic organization and bounded alternative explanations**.
 
 ## 1. Paper mainline
 
@@ -43,10 +31,10 @@ The paper now has three positive/structural contributions and two bounded altern
 
 1. **H1 — measurement validity.** The continuous four-state species-level flower-colour polymorphism score
    `D = 1 - sum_k p_k^2` is reproducible across observer-disjoint photo sets under the first-frozen repeated-partition validation rule. A later fresh-image execution also reproduced earlier D estimates across 136 overlapping species (Spearman rho 0.968; Lin CCC 0.972), while a deliberately stricter deterministic observer split missed a prespecified rho = 0.80 floor. Thus D shows strong fresh-image/same-system transport without implying near-perfect split reliability or independent-source replication.
-2. **H2 — geometry.** Existing discovery/reserve cohorts localized recurrent within-species colour variation to a white-versus-nonwhite axis after a construction-preserving audit. In the pre-frozen species-disjoint third cohort, observed alignment exceeded the already white-aligned coarse-state-preserving structured null. The confirmatory quantity is therefore the increment above that construction baseline, not the entire white-axis signal relative to isotropy.
-3. **Spatial organization — replicated structural correlate.** Species with greater D also tend to show stronger within-species geographic colour organization. This association replicated in the species-disjoint reserve and survived sampled-span plus clear technical-failure adjustment, a matched flower-minus-background contrast, and uniform ambiguity-endpoint stress tests. It is a structural correlate, not a causal mechanism.
-4. **H3a — phylogeny.** Broad tree-wide phylogenetic signal in D is not supported in the species-disjoint reserve cohort across any of the three frozen tree-placement scenarios.
-5. **H3b — sampled geographic span.** The discovery association between sampled photographic span and D does not replicate in reserve.
+2. **H2 — geometry.** Existing discovery/validation cohorts localized recurrent within-species colour variation to a white-versus-nonwhite axis after a construction-preserving audit. In the pre-frozen species-disjoint prospective confirmation cohort, observed alignment exceeded the already white-aligned coarse-state-preserving structured null. The confirmatory quantity is therefore the increment above that construction baseline, not the entire white-axis signal relative to isotropy.
+3. **Spatial organization — replicated structural correlate.** Species with greater D also tend to show stronger within-species geographic colour organization. This association replicated in the species-disjoint validation cohort and survived sampled-span plus clear technical-failure adjustment, a matched flower-minus-background contrast, and uniform ambiguity-endpoint stress tests. It is a structural correlate, not a causal mechanism.
+4. **H3a — phylogeny.** Broad tree-wide phylogenetic signal in D is not supported in the species-disjoint validation cohort cohort across any of the three frozen tree-placement scenarios.
+5. **H3b — sampled geographic span.** The discovery association between sampled photographic span and D does not replicate in validation.
 
 The paper is therefore about **measurement + recurrent geometry + spatial organization**, with H3 used to reject two simple broad explanations. It is not a predictor-hunting paper, a global prevalence paper, or a shared-boundary paper.
 
@@ -65,7 +53,7 @@ Canonical source:
 - `docs/POLYMORPHISM_H1_EVIDENCE_LEDGER_20260914.md`
 - `results/polymorphism_fresh_D_transport_20260925/result.json`
 
-Primary first-frozen repeated observer-disjoint validation in reserve:
+Primary first-frozen repeated observer-disjoint validation in the validation cohort:
 
 - 200 partitions;
 - median paired species = 329;
@@ -80,7 +68,7 @@ Frozen primary verdict:
 
 Later deterministic stress test:
 
-- reliability-eligible reserve species = 363;
+- reliability-eligible validation species = 363;
 - observer leakage = 0;
 - Spearman rho = **0.792727693**;
 - bootstrap 95% interval = **0.741867914–0.832365877**;
@@ -92,9 +80,9 @@ The stricter test required rho >= 0.80 and therefore returned:
 
 ### Allowed H1 claim
 
-> The continuous four-state polymorphism score D was reproducible across repeated observer-disjoint partitions under the first-frozen reserve validation rule (median split rho 0.789; 5th percentile 0.765; median CCC 0.855). In a later fresh-image execution within the same iNaturalist/FCP measurement system, 136 overlapping species showed Spearman rho 0.968, Lin CCC 0.972, calibration slope 0.969 and median absolute D change 0.0148. This strengthens same-system transport of D but is not independent-source replication; near-perfect or split-invariant reliability is not claimed.
+> The continuous four-state polymorphism score D was reproducible across repeated observer-disjoint partitions under the first-frozen validation-cohort rule (median split rho 0.789; 5th percentile 0.765; median CCC 0.855). In a later fresh-image execution within the same iNaturalist/FCP measurement system, 136 overlapping species showed Spearman rho 0.968, Lin CCC 0.972, calibration slope 0.969 and median absolute D change 0.0148. This strengthens same-system transport of D but is not independent-source replication; near-perfect or split-invariant reliability is not claimed.
 
-## 4. H2 — legacy discovery/reserve localization
+## 4. H2 — discovery/validation target localization
 
 Canonical pre-prospective sources:
 
@@ -115,37 +103,20 @@ under the frozen coarse-state-preserving structured null:
 Primary 0.10 tier:
 
 - discovery: N = 152, W = **0.514625**, null median = 0.430808, p = **0.001**;
-- reserve: N = 129, W = **0.514586**, null median = 0.466546, p = **0.001**.
+- validation: N = 129, W = **0.514586**, null median = 0.466546, p = **0.001**.
 
 Strict 0.20 tier:
 
 - discovery: N = 75, W = **0.542355**, null median = 0.443626, p = **0.001**;
-- reserve: N = 65, W = **0.510517**, null median = 0.469943, p = **0.008**.
+- validation: N = 65, W = **0.510517**, null median = 0.469943, p = **0.008**.
 
 After projection of q_white, residual directional concentration no longer exceeds the construction-preserving null. The non-white-only diagnostic likewise does not support a recurrent hue direction.
 
 ### Chronology boundary
 
-The specific white/nonwhite axis was isolated after the broad H2 geometry had already been opened in the original discovery/reserve cohorts. Those cohorts therefore supply discovery/audit/target-localization evidence, not untouched prospective confirmation of the named axis.
+The specific white/nonwhite axis was isolated after the broad H2 geometry had already been opened in the original discovery/validation cohorts. Those cohorts therefore supply discovery/audit/target-localization evidence, not untouched prospective confirmation of the named axis.
 
-## 5. P500 — closed prospective measurement transport, no durable H2 verdict
-
-Canonical status:
-
-- `docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md`
-- `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260916.md`
-
-P500 carried a separately frozen 499-species / 49,900-photo expansion through all 256 location-blind measurement partitions and passed its predeclared support gate with 373 evaluable species.
-
-Its H2 calculation reached an in-memory validated terminal object but failed during post-calculation JSON serialization before a durable H2 result was written.
-
-Therefore:
-
-- P500 supports **measurement-pipeline transport**;
-- P500 supplies **no durable confirmatory evidence for or against H2**;
-- P500 must not be replayed or retrospectively reclassified as an untouched prospective H2 test.
-
-## 6. H2 — untouched prospective third-cohort confirmation
+## 5. H2 — prospective confirmation in newly sampled species
 
 Canonical sources:
 
@@ -205,13 +176,13 @@ The support gate passed before H2 was opened.
 
 ### Allowed H2 main claim
 
-> In a pre-frozen species-disjoint third cohort drawn from the same iNaturalist opportunity universe, continuous within-species colour displacement showed excess alignment with the previously specified white-versus-nonwhite axis relative to the unchanged coarse-state-preserving structured null. At the primary tier, W = 0.517 versus null median 0.457 (158 species; p = 0.001); the strict tier also passed.
+> In a pre-frozen species-disjoint prospective confirmation cohort drawn from the same iNaturalist opportunity universe, continuous within-species colour displacement showed excess alignment with the previously specified white-versus-nonwhite axis relative to the unchanged coarse-state-preserving structured null. At the primary tier, W = 0.517 versus null median 0.457 (158 species; p = 0.001); the strict tier also passed.
 
 ### Scope boundary
 
 This is a prospective species-disjoint confirmation/transport test **within the same iNaturalist source and opportunity universe**. It is not an independent-source replication.
 
-## 6b. Post-confirmatory H2 validity and direct highlight control
+## 5b. Post-confirmatory H2 validity and direct highlight control
 
 Canonical sources:
 
@@ -234,7 +205,7 @@ These analyses were performed after the prospective H2 result was opened and **d
 
 ### Direct one-shot digital-highlight control
 
-The third-cohort direct validity control reacquired the complete frozen 49,900-row denominator before opening biological outcomes.
+The prospective-cohort direct validity control reacquired the complete frozen 49,900-row denominator before opening biological outcomes.
 
 - reacquired rows = **49,900 / 49,900**;
 - acquisition failures = **0**;
@@ -275,11 +246,11 @@ The scientific interpretation is nevertheless fixed:
 
 > Near-clipping is substantially coupled to frozen white classification within species. Removing the response-blind high-clip set does not remove H2 support, but the measured coarse white state cannot be treated as cleared of image-exposure effects. The H2 claim is therefore retained only as excess alignment conditional on the measured colour-state construction, not as proof of a purely biological white-versus-nonwhite axis.
 
-## 6c. Post-confirmatory environmental clue — BIO5 passes in the third cohort but does not transport
+## 5c. Post-confirmatory environmental clue — BIO5 passes in the prospective cohort but does not transport
 
 This analysis was specified after the prospective H2 result had been opened and therefore cannot alter H2 or be described as part of its untouched confirmation.
 
-In the third cohort, after the response-blind high-clip exclusion:
+In the prospective confirmation cohort, after the response-blind high-clip exclusion:
 - eligible species = **281**;
 - median within-species white-minus-nonwhite BIO5 contrast = **+0.0690113 SD**;
 - species-level Wilcoxon p = **0.0118162**;
@@ -311,11 +282,11 @@ Frozen transport verdict:
 
 Allowed interpretation:
 
-> The third cohort supports a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the association does not transport as a common cross-cohort rule.
+> The prospective confirmation cohort supports a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the association does not transport as a common cross-cohort rule.
 
 This is an environmental sorting association, not causal heat selection, and it remains within the same iNaturalist/FCP source and measurement system.
 
-## 7. Replicated spatial organization of D — positive structural clue
+## 6. Replicated spatial organization of D — positive structural clue
 
 Canonical reporting receipt:
 
@@ -343,13 +314,13 @@ The reserve result also survives exact uniform ambiguity-endpoint stress tests u
 
 ### Allowed spatial-organization claim
 
-> Species with greater four-state flower-colour diversity tend to show stronger within-species geographic colour organization across the discovery and species-disjoint reserve high-depth cohorts. The reserve association persists after sampled-span and clear technical-failure adjustment, a matched flower-minus-background contrast and uniform ambiguity-endpoint stress tests.
+> Species with greater four-state flower-colour diversity tend to show stronger within-species geographic colour organization across the discovery and species-disjoint validation cohort high-depth cohorts. The reserve association persists after sampled-span and clear technical-failure adjustment, a matched flower-minus-background contrast and uniform ambiguity-endpoint stress tests.
 
 ### Scope boundary
 
 This does **not** show that geographic organization causes high D, nor does it identify climate, pollinators, habitat, gene flow, drift, mating system or any other maintenance mechanism. It establishes a replicated spatial correlate that narrows the mechanistic interpretation of the between-species differences in D.
 
-## 8. H3a — broad phylogenetic signal not supported
+## 7. H3a — broad phylogenetic signal not supported
 
 Canonical source:
 
@@ -367,7 +338,7 @@ Frozen verdict:
 
 This does not imply that phylogeny is biologically irrelevant. It only closes the tested broad tree-wide signal claim under the frozen design.
 
-## 9. H3b — sampled-span association does not replicate
+## 8. H3b — sampled-span association does not replicate
 
 Canonical source:
 
@@ -379,7 +350,7 @@ Discovery calibration:
 - Spearman rho(D, log1p sampled span) = **0.1798786**;
 - p = **0.00089996**.
 
-Fresh reserve replication:
+Fresh validation replication:
 
 - n = 363;
 - rho = **-0.0025855**;
@@ -393,15 +364,15 @@ Frozen verdict:
 
 The frozen predictor is sampled photographic span, not true biological range size.
 
-## 10. Current manuscript claim ceiling
+## 9. Current manuscript claim ceiling
 
 The strongest defensible paper-level statement is now:
 
-> Species-level flower-colour diversity can be measured reproducibly from high-depth citizen-science photographs under observer-disjoint validation, although reliability is not split-invariant or near perfect. In a pre-frozen species-disjoint third cohort, continuous colour displacement showed excess alignment with the frozen white-versus-nonwhite axis relative to a coarse-state-preserving structured null. The increment is robust to reapplying the continuous-cluster gate within null worlds, but digital exposure/background-context confounding of the measured coarse white state remains unresolved. Across the original high-depth cohorts, species with greater D also show stronger within-species geographic colour organization. Broad tree-wide phylogenetic conservation is not detected, and the discovery sampled-span association collapses in reserve.
+> Species-level flower-colour diversity can be measured reproducibly from high-depth citizen-science photographs under observer-disjoint validation, although reliability is not split-invariant or near perfect. In a pre-frozen species-disjoint prospective confirmation cohort, continuous colour displacement showed excess alignment with the frozen white-versus-nonwhite axis relative to a coarse-state-preserving structured null. The increment is robust to reapplying the continuous-cluster gate within null worlds, but digital exposure/background-context confounding of the measured coarse white state remains unresolved. Across the original high-depth cohorts, species with greater D also show stronger within-species geographic colour organization. Broad tree-wide phylogenetic conservation is not detected, and the discovery sampled-span association collapses in reserve.
 
 This upgrades the former post-audit H2 claim to a prospective confirmation **of excess alignment with the fixed axis relative to the frozen structured null**, while preserving both the discovery chronology and the unresolved white-state measurement-validity boundary.
 
-## 11. Working title authorization
+## 10. Working title authorization
 
 The prospective third-cohort result permits a title centered on achromatic–chromatic alignment only if it makes the construction-controlled nature of the inference clear.
 
@@ -413,7 +384,7 @@ A safer alternative emphasizing measurement:
 
 **Within-species flower-colour variation is reproducible and shows excess achromatic–chromatic alignment**
 
-## 12. Hard nonclaims
+## 11. Hard nonclaims
 
 The current evidence does not establish:
 
