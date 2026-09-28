@@ -729,8 +729,8 @@ jobs:
           git fetch --no-tags origin main
           remote_sha="$(git rev-parse origin/main)"
           if [ "$remote_sha" != "$SOURCE_SHA" ]; then
-            echo "Superseded provenance run: source=$SOURCE_SHA current=$remote_sha; skipping permanent release update."
-            exit 0
+            echo "::error::Superseded provenance run: source=$SOURCE_SHA current=$remote_sha; refusing to publish a stale permanent release."
+            exit 1
           fi
           if ! gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
             gh release create "$RELEASE_TAG"               --repo "${{ github.repository }}"               --target "$SOURCE_SHA"               --title "FCP New Phytologist provenance snapshot (2026-09-26)"               --notes "Self-contained provenance snapshot for the active FCP flower-colour polymorphism manuscript. Includes the current manuscript/SI/figures, frozen protocols and results, exact discovery/validation and prospective-confirmation measured tables recovered from immutable commits, permanent validity/H3 archives, and checksum-pinned WorldClim 2.1 input archives. This is a reproducibility snapshot, not a statement of final submission status."
@@ -753,8 +753,8 @@ jobs:
           git fetch --no-tags origin main
           remote_sha="$(git rev-parse origin/main)"
           if [ "$remote_sha" != "$SOURCE_SHA" ]; then
-            echo "Superseded provenance run: source=$SOURCE_SHA current=$remote_sha; skipping receipt commit."
-            exit 0
+            echo "::error::Superseded provenance run: source=$SOURCE_SHA current=$remote_sha; refusing to report stale provenance as successful."
+            exit 1
           fi
 
           mkdir -p archive/fcp_submission_20260925
@@ -787,6 +787,6 @@ jobs:
           fi
           git commit -m "Record New Phytologist provenance release"
           if ! git push origin HEAD:main; then
-            echo "A newer main commit arrived while writing the receipt; leaving this run successful and letting the newer provenance run publish the current receipt."
-            exit 0
+            echo "::error::A newer main commit arrived while writing the receipt; failing closed so no submission candidate can be built from stale provenance."
+            exit 1
           fi
