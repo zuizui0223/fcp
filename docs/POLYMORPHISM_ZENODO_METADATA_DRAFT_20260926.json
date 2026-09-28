@@ -1,8 +1,8 @@
 {
   "metadata_status": "DRAFT_REQUIRES_AUTHOR_APPROVAL",
-  "title": "Within-species flower-colour variation shows achromatic–chromatic alignment beyond coarse colour-state composition",
+  "title": "Within-species flower-colour variation shows recurrent achromatic–chromatic geometry across plant species",
   "upload_type": "dataset",
-  "description": "Data, code, frozen protocols, results, figures and provenance archive supporting the New Phytologist manuscript on cross-species structure of within-species flower-colour variation. The archive is self-contained for replay of the frozen statistical analyses from checksum-verified measured tables, includes the exact historical analysis code and image-measurement model bytes, and preserves source-photo identities/hashes. Original third-party iNaturalist image pixels were intentionally not persisted, so future pixel-level reacquisition depends on provider availability.",
+  "description": "Data, code, frozen protocols, results, figures and provenance archive supporting the New Phytologist manuscript on cross-species structure of within-species flower-colour variation. The archive is self-contained for replay of the frozen statistical analyses from checksum-verified measured tables, includes the exact frozen analysis code and image-measurement model bytes, and preserves source-photo identities/hashes. Original third-party iNaturalist image pixels were intentionally not persisted, so future pixel-level reacquisition depends on provider availability.",
   "creators": [],
   "keywords": [
     "flower colour",
