@@ -437,7 +437,7 @@ def test_silene_molecular_anchor_is_quantitative_and_bounded() -> None:
         "**F3h1 had zero SNPs**",
         "expanded sequencing of **38 individuals**",
         "not molecular validation of H2",
-        "source-derived evidence, not raw-read reanalysis or replication",
+        "The frozen extraction is source-derived, not raw-read reanalysis or replication",
         "10.3389/fpls.2016.00204",
     ):
         assert token in text
