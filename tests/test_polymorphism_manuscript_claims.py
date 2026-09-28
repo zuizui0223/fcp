@@ -178,7 +178,7 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
     assert audit["grades"]["secondary_BIO5"] == "A"
     assert audit["grades"]["BIO5_transport"] == "A"
 
-    assert "pre-specified secondary BIO5 association in the prospective H2 cohort" in manuscript
+    assert "White states occupy warmer BIO5 environments in the prospective cohort, but the association does not transport" in manuscript
     assert "one physical 499-species / 49,900-row measurement dataset used in two chronologically distinct ways" in manuscript
     assert "Only after H2 was terminalized" in manuscript
     assert h3b["decision"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
