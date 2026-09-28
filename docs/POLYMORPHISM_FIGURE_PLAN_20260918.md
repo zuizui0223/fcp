@@ -122,7 +122,7 @@ Mandatory annotation:
 
 **Named axis isolated after original broad H2 was opened.**
 
-### Panel B — legacy targeted W against structured null
+### Panel B — original-cohort targeted W against structured null
 
 Show observed W as diamonds, structured-null medians as points, and structured-null 95% intervals as horizontal bars.
 
