@@ -124,6 +124,31 @@
         "reserve_background_p": 0.01,
         "reserve_background_partial_rho": 0.1162411363016301
       }
+    },
+    "supplementary_figure9": {
+      "bio5": {
+        "discovery_median_delta_SD": -0.006777258577964757,
+        "discovery_p": 0.7432522901921289,
+        "prospective_conditional_OR": 1.073474538999635,
+        "prospective_holm_p": 0.03544867047368517,
+        "prospective_median_delta_SD": 0.0690112924805198,
+        "validation_median_delta_SD": 0.06616507736441997,
+        "validation_p": 0.054066696426422846
+      },
+      "claim_boundary": "bounded_secondary_empirical_evidence_not_universal_causation",
+      "files": {
+        "pdf": "polymorphism_figureS9_secondary_mechanism_evidence.pdf",
+        "pdf_sha256": "aa66fe2184aeb7e671a32f4ae0f7cb8caa4621e29b135b4e2b50589466926deb",
+        "png": "polymorphism_figureS9_secondary_mechanism_evidence.png",
+        "png_sha256": "f1e4c69836258debf56780fca6326a72437a08619d209353910e2a6cb2cc2334"
+      },
+      "pal_wal": {
+        "cross_PAL_lower_bound_median_percent": 5.0,
+        "cross_WAL_max_upper_bound_percent": 1.4,
+        "cross_WAL_upper_bound_median_percent": 0.1,
+        "silene_PAL_median_percent": 15.5,
+        "silene_WAL_median_percent": 0.21
+      }
     }
   },
   "hard_nonclaims": [
