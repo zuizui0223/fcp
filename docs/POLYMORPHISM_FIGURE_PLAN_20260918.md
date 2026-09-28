@@ -250,7 +250,7 @@ H3b full sensitivity panel.
 
 ### Fig. S9 — bounded mechanism evidence
 
-Two-panel reporting-only figure generated from frozen secondary results.
+Three-panel reporting-only figure generated from frozen or source-reported secondary evidence.
 
 **Panel A — BIO5 sorting, observer sensitivity and transport**
 - prospective primary cohort: median within-species white-minus-nonwhite BIO5 = +0.0690 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073;
@@ -260,7 +260,15 @@ Two-panel reporting-only figure generated from frozen secondary results.
 - validation transport: median +0.0662 SD, p = 0.0541;
 - visual message: the frozen primary within-cohort association is observer-sensitive and does not transport as a common cross-cohort rule.
 
-**Panel B — biochemically anchored PAL/WAL persistence contrast**
+**Panel B — published *Silene* molecular anchor**
+- structured extraction from Casimiro-Soriguer et al. (2016), not raw-read reanalysis;
+- plot all source-reported p<0.05 bud-stage pigmented-versus-white expression contrasts among 29 ABP-related loci;
+- dark/white: F3h1 49.0× (p = 0.039), C4h2 36.2× (p = 0.013), Myb1a 5.1× (p = 0.009);
+- light/white: F3h1 42.2× (p = 0.049), F3′h 4.5× (p = 0.047);
+- F3h1 is the only locus significant in both pigmented-versus-white comparisons;
+- visual message: one high-frequency PAL system has a quantified regulatory-pathway anchor near F3h1/Myb1a, but this is not cross-species molecular validation.
+
+**Panel C — biochemically anchored PAL/WAL persistence contrast**
 - *S. littorea* phenotype definition is supported by HPLC-DAD-MS^n tissue profiles: PAL lacks anthocyanins in petals but retains them in photosynthetic tissues, whereas WAL lacks anthocyanins in both;
 - cross-system entries retain Del Valle et al. Table S1 classifications and are not independently tissue-profiled by the current study;
 - *Silene littorea* PAL median positive frequency = 15.5% (8–21%);
