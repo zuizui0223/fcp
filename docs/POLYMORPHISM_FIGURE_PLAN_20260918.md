@@ -252,11 +252,13 @@ H3b full sensitivity panel.
 
 Two-panel reporting-only figure generated from frozen secondary results.
 
-**Panel A — BIO5 sorting and transport**
-- prospective cohort: median within-species white-minus-nonwhite BIO5 = +0.0690 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073;
+**Panel A — BIO5 sorting, observer sensitivity and transport**
+- prospective primary cohort: median within-species white-minus-nonwhite BIO5 = +0.0690 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073;
+- observer-balanced sensitivity: median +0.0541 SD, Wilcoxon p = 0.0750;
+- observer-paired sensitivity: median 0.000 SD, Wilcoxon p = 0.485; conditional OR = 0.787;
 - discovery transport: median -0.0068 SD, p = 0.743;
 - validation transport: median +0.0662 SD, p = 0.0541;
-- visual message: a positive within-cohort association exists, but it does not transport as a common cross-cohort rule.
+- visual message: the frozen primary within-cohort association is observer-sensitive and does not transport as a common cross-cohort rule.
 
 **Panel B — biochemically anchored PAL/WAL persistence contrast**
 - *S. littorea* phenotype definition is supported by HPLC-DAD-MS^n tissue profiles: PAL lacks anthocyanins in petals but retains them in photosynthetic tissues, whereas WAL lacks anthocyanins in both;
