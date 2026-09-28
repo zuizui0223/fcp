@@ -138,14 +138,15 @@
       "claim_boundary": "bounded_secondary_empirical_evidence_not_universal_causation",
       "files": {
         "pdf": "polymorphism_figureS9_secondary_mechanism_evidence.pdf",
-        "pdf_sha256": "aa66fe2184aeb7e671a32f4ae0f7cb8caa4621e29b135b4e2b50589466926deb",
+        "pdf_sha256": "64f18b6fa85a088d27d2e2c545a0f824546d3fc35e7ddc7b961a7889fbef28f8",
         "png": "polymorphism_figureS9_secondary_mechanism_evidence.png",
-        "png_sha256": "f1e4c69836258debf56780fca6326a72437a08619d209353910e2a6cb2cc2334"
+        "png_sha256": "01655ed952ba9d4572cb27f62ba0472feb65dd07291ef6e645c9b28e29200d3a"
       },
       "pal_wal": {
         "cross_PAL_lower_bound_median_percent": 5.0,
         "cross_WAL_max_upper_bound_percent": 1.4,
         "cross_WAL_upper_bound_median_percent": 0.1,
+        "phenotype_anchor": "HPLC-DAD-MSn_tissue_profiled_anthocyanin_phenotypes",
         "silene_PAL_median_percent": 15.5,
         "silene_WAL_median_percent": 0.21
       }
