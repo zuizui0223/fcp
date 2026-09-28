@@ -39,7 +39,7 @@ The manuscript explicitly preserves:
 - no claim that cross-species geographic maps are species-specific;
 - measured coarse white remains exposure-coupled rather than artifact-cleared.
 
-The secondary BIO5 association is reported but does not transport under its frozen rule: discovery p = **0.743**, validation p = **0.0541**. The prespecified cross-cohort transport criterion was therefore not met. Temperature is a context-dependent clue, not a universal driver.
+The frozen primary secondary BIO5 association is reported, but it is observer-sensitive and does not transport under its frozen cross-cohort rule. Observer-paired p = **0.485** (OR = **0.787**, p = **0.202**), observer-balanced Wilcoxon p = **0.0750**, discovery transport p = **0.743**, and validation transport p = **0.0541**. Temperature is therefore a context-dependent clue, not a universal driver.
 
 ## 2. Narrative and data-lineage clarity
 
@@ -199,7 +199,7 @@ The latest verified revision passed:
 - checksum-enforced prospective-cohort white-environment rerun;
 - checksum-enforced BIO5 transport rerun.
 
-The reruns reproduce the same frozen BIO5 positive prospective-cohort result and the same transport failure.
+The reruns reproduce the same frozen primary BIO5 result, the same observer-sensitivity outputs, and the same transport failure.
 
 ## 7. Figure package
 
@@ -232,7 +232,7 @@ The Discussion may state that the recurrent achromatic–chromatic axis is consi
 It must continue to state that:
 
 - H2 is sign-invariant and does not identify pigmented -> white evolutionary direction;
-- the prospective-cohort BIO5 association failed cross-cohort transport;
+- the prospective-cohort BIO5 association weakens under observer controls and fails cross-cohort transport;
 - no universal thermal whitening rule is established;
 - the measured white state remains exposure-coupled.
 
