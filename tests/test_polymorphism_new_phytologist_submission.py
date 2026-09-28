@@ -494,6 +494,7 @@ def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
 
     overlap = json.loads(PAL_WAL_OVERLAP.read_text(encoding="utf-8"))
     supporting = SUPPORTING.read_text(encoding="utf-8")
+    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
 
     assert overlap["schema"] == "fcp_pal_wal_h2_overlap_feasibility_v2"
     assert overlap["status"] == "complete"
@@ -522,6 +523,12 @@ def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
         "two PAL and two natural-context WAL overlaps",
     ):
         assert token in supporting
+
+    for token in (
+        "A taxonomy-resolved overlap audit found only **two PAL and two natural-context WAL species**",
+        "No PAL-versus-WAL test of D or H2 geometry was therefore estimable",
+    ):
+        assert token in manuscript
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
