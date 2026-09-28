@@ -42,7 +42,44 @@ Causal heat selection, adaptive causation, or a universal temperature effect.
 
 ---
 
-## B. PAL/WAL natural-frequency contrast
+## B. *Silene littorea* molecular anchor
+
+**Status:** source-derived quantitative molecular evidence structured by the current study; not a raw-read reanalysis.
+
+**Machine-readable extraction**
+- `results/polymorphism_silene_molecular_anchor_20260928/result.json`.
+
+**Source**
+- Casimiro-Soriguer et al. (2016), doi:10.3389/fpls.2016.00204.
+- mRNA-seq of nine morph × developmental-stage samples.
+- 29 anthocyanin-biosynthetic-pathway-related loci.
+
+**Bud-stage expression**
+- dark pink versus white: F3h1 = **49.0×**, p = **0.039**; C4h2 = **36.2×**, p = **0.013**; Myb1a = **5.1×**, p = **0.009**;
+- light pink versus white: F3h1 = **42.2×**, p = **0.049**; F3′h = **4.5×**, p = **0.047**;
+- F3h1 is the only locus significant in both pigmented-versus-white bud contrasts;
+- dark versus light regulatory contrasts also include Myb1a = **4.2×**, p = **0.021** and Myb3 = 0.3×, p = 0.033.
+
+**Sequence evidence**
+- 622 SNPs reported across the 29 ABP-related loci;
+- F3h1 has zero SNPs in the reported UTR/CDS table;
+- nine initially colour-associated *Ans* SNPs are synonymous;
+- expanded sequencing of 38 individuals found no SNP that consistently differentiated colour morphs.
+
+**Petal biochemistry**
+- cyanidin derivatives are the primary anthocyanins;
+- source-reported white-versus-pigmented differences include rutin, quercetin and isovitexin;
+- the source authors interpret transcriptomic and biochemical evidence as consistent with a blockage near F3h1, potentially mediated by Myb1a.
+
+**Allowed claim**
+One high-frequency *S. littorea* PAL system has quantitative transcriptomic and biochemical evidence consistent with a petal-specific regulatory blockage near F3h1/Myb1a.
+
+**Not demonstrated**
+A causal Myb1a mutation, raw-read independent reanalysis, cross-species generality, or molecular validation of H2.
+
+---
+
+## C. PAL/WAL natural-frequency contrast
 
 **Status:** study-derived descriptive reanalysis of published supplementary frequency tables.
 
@@ -72,7 +109,7 @@ Flower-restricted anthocyanin-loss phenotypes reach substantially higher reporte
 **Not demonstrated**
 An unbiased cross-species effect size, equal mutation rates, or causal proof that tissue restriction alone raises natural frequency.
 
-### B2. Direct bridge to the FCP image cohorts is not estimable
+### C2. Direct bridge to the FCP image cohorts is not estimable
 
 Machine-readable feasibility receipt:
 - `results/polymorphism_pal_wal_h2_overlap_20260928/result.json`.
@@ -94,7 +131,7 @@ Descriptively, the two PAL D values have median 0.443 and the two natural-contex
 
 ---
 
-## C. PAL/WAL biochemical phenotype definition
+## D. PAL/WAL biochemical phenotype definition
 
 **Status:** peer-reviewed source-derived empirical anchor; not newly recalculated from the public frequency tables.
 
@@ -112,25 +149,24 @@ Calling the HPLC phenotype contrast a newly generated molecular dataset of the c
 
 ---
 
-## D. F3H / SlMyb1a pathway evidence
+## E. F3H / SlMyb1a evidence-status boundary
 
-**Status:** source-derived molecular/transcriptomic context only.
-
-The prior Silene literature links petal-specific anthocyanin loss to regulatory change near the anthocyanin pathway, including F3H / SlMyb1a. The repository has not independently re-estimated this molecular result from raw transcriptomic data.
+The quantitative F3h1/Myb1a values now appear in Results only as a structured extraction of the published *S. littorea* experiment. The underlying RNA-seq and HPLC measurements remain source-derived.
 
 **Allowed manuscript role**
-Mechanistic context in the Introduction/Discussion for why tissue-specific pigment loss is biologically plausible.
+A source-derived single-species molecular anchor that is reported quantitatively in Results and linked to the PAL persistence reanalysis.
 
 **Not allowed**
-Reporting F3H / SlMyb1a as a new molecular result of this study or as causal proof for the cross-species white/nonwhite axis.
+Calling the extraction a new transcriptome analysis, claiming Myb1a is the causal mutation, or treating F3h1/Myb1a as the molecular basis of the cross-species white/nonwhite axis.
 
 ---
 
 ## Evidence hierarchy used by the manuscript
 
-1. **Study-derived tested result:** BIO5 within-cohort association and failed transport.
-2. **Study-derived reanalysis:** PAL/WAL natural-frequency contrast.
-3. **Source-derived empirical anchor:** HPLC-DAD-MS^n tissue phenotype definition.
-4. **Source-derived mechanistic context:** F3H / SlMyb1a pathway evidence.
+1. **Study-derived tested result:** BIO5 within-cohort association, observer sensitivities and failed transport.
+2. **Source-derived quantitative molecular anchor:** structured extraction of published *S. littorea* RNA-seq/sequence/HPLC results.
+3. **Study-derived reanalysis:** PAL/WAL natural-frequency contrast.
+4. **Source-derived empirical anchor:** HPLC-DAD-MS^n tissue phenotype definition for *S. littorea* PAL/WAL.
+5. **Feasibility audit:** taxonomy-aware PAL/WAL × FCP overlap showing no estimable direct bridge.
 
-This hierarchy permits BIO5 and PAL/WAL to appear in Results while preserving the inferential boundary around source-derived biochemical and molecular evidence.
+This hierarchy permits BIO5, the *S. littorea* molecular anchor and PAL/WAL persistence to appear in Results while preserving the boundary between current-study analyses and source-derived molecular measurements.
