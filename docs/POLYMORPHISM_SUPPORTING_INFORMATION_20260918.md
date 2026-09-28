@@ -27,6 +27,8 @@ Evidence-status ledger: `docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_2
 
 In *S. littorea*, every positive PAL frequency exceeded the maximum positive WAL frequency. Across the 13+13 literature systems, 7/13 PAL lower bounds exceeded the 1.4% maximum quantified WAL upper bound, and every PAL upper endpoint exceeded it. These analyses are descriptive reanalyses; literature ascertainment, heterogeneous survey effort and censored/qualitative frequency reporting preclude an unbiased meta-analytic or causal interpretation.
 
+A direct PAL/WAL-to-FCP bridge was also audited rather than assumed. Across the 25 unique species in the source registry, overlap with the D-eligible high-depth cohorts comprised only two reserve species, both PAL (*Gymnadenia rhellicani*, D = 0.6515; *Silene gallica*, D = 0.2344); discovery overlap was zero, prospective selected overlap was zero and WAL overlap was zero. Consequently no PAL-versus-WAL comparison of D or H2 geometry is estimable. Machine-readable receipt: `results/polymorphism_pal_wal_h2_overlap_20260928/result.json`.
+
 ## S1. Data sources, selection and inferential necessity
 
 Primary provenance documents:
