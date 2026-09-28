@@ -292,7 +292,7 @@ Canonical reporting receipt:
 
 - `results/polymorphism_spatial_organization_clue_20260918/result.json`
 
-This receipt is reporting-only and reproduces previously frozen results from PR #32 / `feat/polymorphism-paper-v0-1-post-step9`; it performs no new biological analysis.
+This receipt is reporting-only and reproduces previously frozen results; it performs no new biological analysis.
 
 Raw discovery and validation associations:
 
