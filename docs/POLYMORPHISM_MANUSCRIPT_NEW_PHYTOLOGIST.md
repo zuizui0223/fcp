@@ -163,6 +163,14 @@ A recurrent phenotype-space axis does not identify why it recurs. After H2 termi
 
 After the prospective BIO5 result was opened, the same fixed BIO5 contrast was transported to the original discovery and validation cohorts. Support required both cohorts to show the prespecified positive species-level and conditional-logistic results. This tests a simple abiotic explanation and whether it generalizes; it is not an independent-source causal test.
 
+### Secondary PAL/WAL persistence reanalysis
+
+To ask whether tissue restriction could plausibly influence the persistence of achromatic pigment-loss phenotypes, we performed a descriptive reanalysis of Del Valle et al. (2019) Supplementary Tables S2 and S1. This analysis was secondary and post-publication; it was not an untouched confirmatory test.
+
+For *Silene littorea* Table S2, frequencies of petal anthocyanin-loss (PAL) and whole-plant anthocyanin-loss (WAL) phenotypes were parsed across 21 populations and five survey years. For each phenotype we summarized positive population-years, the number of populations ever positive, positive-frequency range and median, and persistence across repeated years. Zero values remained zero and missing cells were not imputed.
+
+For the cross-system Table S1 comparison, all **13 PAL** and **13 WAL** entries were retained in the source registry. Exact numeric frequencies were represented as [x,x], reported ranges as [a,b], and WAL entries reported as <x as censored intervals [0,x]. Qualitative “rare” or “extremely rare” WAL entries were retained without numeric imputation, and an explicitly greenhouse WAL entry was excluded from the natural numeric panel while remaining in the source registry. We report PAL lower- and upper-bound summaries, WAL numeric upper-bound summaries and counts of conservative interval separations. No cross-system p-value is used because study ascertainment, survey effort and reporting format are heterogeneous. The analysis tests a **differential-persistence plausibility** prediction; it does not estimate mutation rates or establish that tissue restriction causally raises natural frequency.
+
 ### Complementary test: species-level D and within-species geographic organization
 
 To distinguish structured geographic variation from unstructured colour noise or broader photographic coverage, **all retained photograph pairs were used to calculate great-circle geographic distance and flower-colour Jensen–Shannon dissimilarity**. Species-level organization was
@@ -201,6 +209,7 @@ Frozen protocols, machine-readable results, input hashes and no-rescue rules gov
 | Highlight-validity reacquisition | Reacquisition of the same 49,900 prospective rows after H2 terminalization; response-blind exposure metrics frozen before joining white outcomes | 49,900 reacquisitions; highlight metrics for 44,098 rows | Quantify whether white classification is coupled to image exposure, which the H2 biological null cannot establish | Post-confirmatory measurement-validity bound |
 | Climate annotation | WorldClim 2.1 BIO5, BIO14 and solar radiation assigned to prospective-cohort coordinates; fixed BIO5 transport to discovery/validation cohorts | 281 species and 12,583 rows in the primary environmental panel | Test a simple abiotic explanation and whether it transports across species-disjoint cohorts | Secondary mechanism/alternative-explanation test |
 | Phylogenetic annotation | V.PhyloMaker2 S1–S3 placements joined to validation-cohort D | 341 validation species | Test whether broad shared ancestry accounts for between-species D differences | Alternative-explanation filter |
+| Published pigment-loss frequency tables | Del Valle et al. (2019) Supplementary Tables S2 and S1; deterministic descriptive parsing | 21 *S. littorea* populations; 13 PAL + 13 WAL literature systems | Ask whether flower-restricted pigment loss can persist at higher natural frequencies than whole-plant loss | Secondary descriptive mechanism evidence |
 
 The central sampling logic is therefore **frame → discovery/validation → frozen target → prospective confirmation**. The later highlight, climate and phylogenetic analyses answer different validity or explanatory questions and do not create additional independent flower-colour cohorts. The prospective confirmation cohort remains within the same iNaturalist opportunity universe and measurement system, so it is species- and photo-disjoint confirmation rather than independent-source replication.
 
