@@ -4,7 +4,7 @@ Status: reporting-only provenance note for the active flower-colour polymorphism
 
 ## Purpose
 
-Document how the 42,111-species global opportunity frame used by the current polymorphism paper was constructed upstream in RGFCA, and distinguish that metadata-discovery universe from the later high-depth inferential cohorts.
+Document how the 42,111-species global opportunity frame used by the current polymorphism paper was constructed before flower-colour outcomes were opened, and distinguish that metadata-discovery universe from the later high-depth inferential cohorts.
 
 ## Upstream source state
 
@@ -22,11 +22,7 @@ Source Git objects:
 
 ## Species-discovery design
 
-The original RGFCA metadata discovery used an 18 × 9 equal-area global grid (162 cells). The original one-pass baseline produced 8,989 species and was retained as round 0 rather than treated as the complete species frame.
-
-Before new colour pixels were opened, species discovery was expanded with 20 metadata-only rounds over the same 162-cell grid. Each cell-round attempted one 200-record iNaturalist page using the same research-grade, flowering-annotation, georeferenced, positional-accuracy and licence filters as the original atlas. This produced 3,240 fixed fresh request attempts.
-
-A technical audit showed that adjacent random-page requests could be nearly duplicated by upstream page persistence. The valid V1 discoveries were retained, but V1 odd/even overlap was not treated as evidence of independent repeated discovery. A cache-resistant V2 was therefore frozen using stable ID ordering, deterministic cell-specific pages and explicit exclusion of V1 observation IDs.
+Metadata discovery used an 18 × 9 equal-area global grid (162 cells). An initial pass produced 8,989 species and was retained as a baseline rather than treated as the complete frame. Before any new colour pixels were opened, discovery was expanded with 20 metadata-only rounds across the same grid, using the same research-grade, flowering-annotation, georeferencing, positional-accuracy and licence filters. To prevent repeated metadata pages from being counted as independent discovery, the expansion used stable ID ordering, deterministic cell-specific pages and explicit exclusion of previously returned observation IDs. Across the 162 cells this produced 3,240 fixed request attempts.
 
 The completed V2 manifest records:
 
@@ -81,18 +77,18 @@ This is an observation-capacity subset, not a biological polymorphism subset.
 
 The 42,111-species frame is used as a broad outcome-blind opportunity universe. It is not the denominator for estimating global polymorphism prevalence.
 
-The original discovery/reserve polymorphism cohorts came from the earlier frozen RGFCA 1,000-species high-depth resource and are not a random sample of the 42,111 species.
+The discovery and validation cohorts use a frozen 1,000-species high-depth resource and are not a random sample of the 42,111 species.
 
-For the later prospective H2 expansion:
+For prospective confirmation, all species already allocated to earlier high-depth sampling or selection were excluded before the new draw:
 
-- U0 = 42,111 species;
-- U100 = 4,730 species;
-- exclude legacy high-depth discovery/reserve = 1,000 species;
-- P100 = 3,730 species;
-- exclude all prospectively selected P500 species = 500;
-- third-cohort candidate universe = **3,230 species**;
-- deterministically select 500 species outcome-blind;
+- global opportunity frame = 42,111 species;
+- high-depth-capable subset (>=100 retained photographs) = 4,730 species;
+- previously allocated high-depth species excluded = 1,500 species;
+- untouched prospective-confirmation candidate universe = **3,230 species**;
+- 500 species selected deterministically and outcome-blind;
 - fresh metadata yielded 499 authorized species with exactly 100 rows each.
+
+This exclusion step was necessary to make the confirmation cohort species-disjoint from all earlier high-depth allocations before new flower-colour outcomes were opened.
 
 ## Claim boundary
 
