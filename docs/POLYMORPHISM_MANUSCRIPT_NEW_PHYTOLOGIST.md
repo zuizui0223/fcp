@@ -13,8 +13,8 @@
 - Introduction: 725 words
 - Materials and Methods: 2,345 words
 - Results: 2,327 words
-- Discussion: 1,702 words
-- Main text (Introduction through Discussion): 7,099 words
+- Discussion: 1,722 words
+- Main text (Introduction through Discussion): 7,119 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -378,7 +378,7 @@ A stronger external validation would apply the same frozen q_white/W estimand an
 
 ### Conclusion
 
-The methodological advance is not a new diversity statistic but a validated route from repeated photographs to a comparative within-species trait distribution: observer-disjoint reproducibility, location-blind measurement, construction-preserving nulls and prospective species-disjoint confirmation are treated as separate inferential stages. The ecological advance is that cross-species generality appears at two levels. First, continuous within-species colour displacement shows excess achromatic–chromatic alignment relative to a coarse-state-preserving null. Second, species with greater four-state colour diversity also show stronger within-species geographic organization across the original high-depth cohorts, even though sampled photographic span does not explain that pattern in validation. Together these results suggest that **what varies** can show a recurrent cross-species structure while **where that variation is sorted** remains potentially context dependent and is not resolved as a common or species-specific map here. Broad tree-wide phylogenetic conservation is not detected under the tested scenarios, and a post-confirmatory BIO5 association fails species-disjoint transport, arguing against two simple universal explanations. The biological interpretation remains bounded by the direct highlight control: the measured coarse white state is exposure-coupled rather than artifact-cleared, although high-clip exclusion retains excess H2 alignment.
+The methodological advance is not a new diversity statistic but a validated route from repeated photographs to a comparative within-species trait distribution: observer-disjoint reproducibility, location-blind measurement, construction-preserving nulls and prospective species-disjoint confirmation are treated as separate inferential stages. The ecological advance is that cross-species generality appears at two levels. First, continuous within-species colour displacement shows excess achromatic–chromatic alignment relative to a coarse-state-preserving null. Second, species with greater four-state colour diversity also show stronger within-species geographic organization across the original high-depth cohorts, even though sampled photographic span does not explain that pattern in validation. Together these results suggest that **what varies** can show a recurrent cross-species structure while **where that variation is sorted** remains potentially context dependent and is not resolved as a common or species-specific map here. Secondary mechanism evidence is bounded rather than universal: the PAL/WAL frequency contrast is consistent with differential persistence of flower-restricted anthocyanin loss, whereas the BIO5 association weakens under observer controls and fails species-disjoint transport. Broad tree-wide phylogenetic conservation is not detected under the tested scenarios. The biological interpretation remains bounded by the direct highlight control: the measured coarse white state is exposure-coupled rather than artifact-cleared, although high-clip exclusion retains excess H2 alignment.
 
 ---
 
