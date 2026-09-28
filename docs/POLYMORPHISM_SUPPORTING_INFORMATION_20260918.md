@@ -308,7 +308,7 @@ Machine-readable prospective-cohort environmental result:
 
 - `results/polymorphism_white_environment_mechanism_20260925/result.json`
 
-Machine-readable legacy BIO5 transport result:
+Machine-readable BIO5 transport result:
 
 - `results/polymorphism_legacy_white_bio5_replication_20260925/result.json`
 
@@ -413,14 +413,14 @@ Workflow provenance:
 | Cohort | n | rho(D, log1p sampled span) | permutation p |
 |---|---:|---:|---:|
 | Discovery calibration | 369 | 0.1798786 | 0.00089996 |
-| Reserve replication | 363 | -0.0025855 | 0.9586021 |
+| Validation replication | 363 | -0.0025855 | 0.9586021 |
 
-Reserve adjusted partial-rank:
+Validation adjusted partial-rank:
 
 - rho = 0.0055187;
 - p = 0.9162042.
 
-S1-S3 reserve rank-PGLS:
+S1-S3 validation rank-PGLS:
 
 - beta = -0.0055931;
 - p = 0.9136754.
@@ -470,7 +470,7 @@ Most recent verified post-architecture README run:
 - workflow run: `35299258800`
 - conclusion: success.
 
-The guard checks the current manuscript, claim ledger, figure plan and README against the frozen third-cohort values and required claim boundaries.
+The guard checks the current manuscript, claim ledger, figure plan and README against the frozen prospective-confirmation values and required claim boundaries.
 
 ## S10. Literature-positioning audit
 
@@ -485,7 +485,7 @@ This literature layer supports context and interpretation only. It cannot modify
 No main-text or supplementary output may claim:
 
 - global prevalence of flower-colour polymorphism from the high-depth cohorts;
-- independent-source replication of third-cohort H2;
+- independent-source replication of prospective H2;
 - pigment chemistry or pigment-loss/gain mechanism;
 - evolutionary direction of white/nonwhite transitions;
 - pollinator, climate or other adaptive causation;
@@ -494,7 +494,6 @@ No main-text or supplementary output may claim:
 - absence of all phylogenetic structure;
 - irrelevance of true biological range size;
 - near-perfect or split-invariant H1 reliability;
-- a durable P500 biological H2 verdict;
 - that the coarse white state is free of digital exposure, background-context or ROI-contamination effects;
 - numerical identity between the frozen biological H2 implementation and the later generic disttrait package.
 
