@@ -16,7 +16,7 @@ It does **not** alter or recompute any biological result. The authoritative self
 The packaging workflow produces three top-level assets:
 
 1. `fcp-new-phytologist-submission-20260926.zip`
-   - journal-facing manuscript, cover letter, five main figures, Supporting Information, current claim/data-lineage routing, metadata gate and package checksums.
+   - journal-facing manuscript, cover letter, five main figures, Supporting Information, current data-lineage map and journal-only checksums.
 2. `fcp-zenodo-ready-20260926.tar.gz`
    - the journal-facing package plus the exact self-contained provenance tarball.
 3. `fcp-release-sha256-20260926.txt`
@@ -28,15 +28,16 @@ Candidate GitHub release tag:
 
 ## Journal-facing contents
 
+The journal ZIP is intentionally minimal:
+
 - `docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`
 - `docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md`
 - `docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md`
-- main Figure 1–5 PDF and PNG files plus the frozen figure manifest
-- `docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`
 - `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md`
-- `CURRENT_PAPER_REPRODUCIBILITY.md`
+- main Figure 1–5 PDF and PNG files plus the figure manifest
+- journal-only SHA256 manifest
 
-Deep provenance reconstruction documents (`POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md` and `POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md`) are intentionally excluded from the journal-facing ZIP. They remain in the Zenodo-ready archive surface together with the self-contained provenance tarball.
+The following repository-management surfaces are **not** included in the journal ZIP: submission-readiness audit, claim ledger, provenance-release manifest, reproducibility audit, Zenodo metadata draft, package manifest, and the deep self-contained provenance tarball. They remain available in the Zenodo-ready archive layer.
 
 ## Publication gate
 
