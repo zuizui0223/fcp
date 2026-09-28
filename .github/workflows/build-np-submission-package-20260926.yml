@@ -43,15 +43,14 @@ jobs:
 
           cp docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md "$stage/journal/manuscript_new_phytologist.md"
           cp docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md "$stage/journal/cover_letter.md"
-          cp docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md "$stage/journal/submission_readiness_audit.md"
-
           cp docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md "$stage/supporting/supporting_information.md"
-          cp docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md "$stage/supporting/claim_ledger.md"
           cp docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md "$stage/supporting/data_lineage_map.md"
-          cp CURRENT_PAPER_REPRODUCIBILITY.md "$stage/supporting/CURRENT_PAPER_REPRODUCIBILITY.md"
 
-          # Deep provenance/audit documents belong to the archive surface, not
-          # the journal-facing ZIP. They remain available in the Zenodo-ready bundle.
+          # Internal audit/provenance surfaces are preserved for the archive
+          # but deliberately excluded from the journal-facing ZIP.
+          cp docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md "$stage/archive/submission_readiness_audit.md"
+          cp docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md "$stage/archive/current_claim_ledger.md"
+          cp CURRENT_PAPER_REPRODUCIBILITY.md "$stage/archive/current_reproducibility_contract.md"
           cp docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md "$stage/archive/provenance_release_manifest.md"
           cp docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md "$stage/archive/reproducibility_audit.md"
 
@@ -83,9 +82,9 @@ jobs:
           scientific_results_recomputed=false
           zenodo_publication_gate=BLOCKED_PENDING_AUTHOR_METADATA
 
-          The journal-facing ZIP contains the manuscript, cover letter, five main figures,
-          Supporting Information and audit routing. The Zenodo-ready tarball additionally
-          contains the exact self-contained provenance archive.
+          The journal-facing ZIP contains only the manuscript, cover letter, five main figures,
+          Supporting Information and the current data-lineage map. Internal audit, metadata and
+          deep provenance documents are restricted to the Zenodo-ready archive surface.
           EOF
 
       - name: Add exact provenance archive
@@ -126,13 +125,18 @@ jobs:
 
           (
             cd "$stage"
-            find . -type f ! -name PACKAGE_SHA256SUMS.txt -print0 | LC_ALL=C sort -z | xargs -0 sha256sum > PACKAGE_SHA256SUMS.txt
+            find . -type f ! -name PACKAGE_SHA256SUMS.txt ! -name JOURNAL_SHA256SUMS.txt -print0 \
+              | LC_ALL=C sort -z | xargs -0 sha256sum > PACKAGE_SHA256SUMS.txt
+
+            find journal figures supporting -type f -print0 \
+              | LC_ALL=C sort -z | xargs -0 sha256sum > JOURNAL_SHA256SUMS.txt
+            sha256sum README.md >> JOURNAL_SHA256SUMS.txt
           )
 
           (
             cd "$stage"
             zip -q -r "$out/fcp-new-phytologist-submission-20260926.zip" \
-              journal figures supporting metadata README.md PACKAGE_SHA256SUMS.txt
+              journal figures supporting README.md JOURNAL_SHA256SUMS.txt
           )
 
           tar --sort=name --mtime='UTC 2026-09-26 00:00:00' \
