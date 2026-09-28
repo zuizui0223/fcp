@@ -9,7 +9,7 @@
 **Corresponding author:** [NAME / EMAIL TO INSERT]
 
 **Word counts (current working draft):**
-- Summary: 179 words
+- Summary: 176 words
 - Introduction: 725 words
 - Materials and Methods: 2,265 words
 - Results: 2,162 words
