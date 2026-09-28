@@ -35,6 +35,9 @@ on:
       - .github/workflows/freeze-fcp-expiring-artifacts-20260925.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
       - requirements-np-replay-20260928.txt
+      - requirements-np-bio5-replay-20260928.txt
+      - docs/POLYMORPHISM_SECONDARY_REPLAY_ENVIRONMENT_20260928.md
+      - .github/workflows/polymorphism-secondary-reproducibility-replay.yml
   push:
     branches: [main]
     paths:
@@ -69,6 +72,9 @@ on:
       - .github/workflows/freeze-fcp-expiring-artifacts-20260925.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
       - requirements-np-replay-20260928.txt
+      - requirements-np-bio5-replay-20260928.txt
+      - docs/POLYMORPHISM_SECONDARY_REPLAY_ENVIRONMENT_20260928.md
+      - .github/workflows/polymorphism-secondary-reproducibility-replay.yml
   workflow_dispatch:
 
 permissions:
@@ -93,6 +99,11 @@ env:
   PARENT_SELECTION_RUN_ID: "34708044962"
   PARENT_SELECTION_ARTIFACT: "polymorphism-h2-prospective-u100-selection-20260913"
   H3A_SHA: "db2514f622468747a7d5896c2696fcbf13729ef6"
+  H3B_SHA: "ff1eac2ec1378465d5027184d507cb597c67be27"
+  WHITE_ENV_RUN_ID: "36128744659"
+  WHITE_ENV_ARTIFACT: "white-environment-mechanism-v1"
+  LEGACY_BIO5_RUN_ID: "36128744674"
+  LEGACY_BIO5_ARTIFACT: "legacy-white-bio5-replication-v1"
   WORLDCLIM_TAG: fcp-worldclim-2.1-10m-20260925
 
 jobs:
@@ -124,7 +135,7 @@ jobs:
             fi
           }
 
-          for p in             README.md             requirements-np-replay-20260928.txt             CURRENT_PAPER_REPRODUCIBILITY.md             docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md             docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md             docs/POLYMORPHISM_MANUSCRIPT.md             docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md             docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md             docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md             docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md             docs/POLYMORPHISM_FIGURE_PLAN_20260918.md             docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md             docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md             docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md             docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md             docs/POLYMORPHISM_SILENE_DECOUPLING_EVIDENCE_SYNTHESIS_20260925.md             docs/POLYMORPHISM_CROSSSPECIES_PAL_WAL_ANALYSIS_20260925.md             docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md             docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md             docs/figures/polymorphism_20260918             archive/fcp_submission_20260925; do
+          for p in             README.md             requirements-np-replay-20260928.txt             requirements-np-bio5-replay-20260928.txt             CURRENT_PAPER_REPRODUCIBILITY.md             docs/POLYMORPHISM_SECONDARY_REPLAY_ENVIRONMENT_20260928.md             docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md             docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md             docs/POLYMORPHISM_MANUSCRIPT.md             docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md             docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md             docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md             docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md             docs/POLYMORPHISM_FIGURE_PLAN_20260918.md             docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md             docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md             docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md             docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md             docs/POLYMORPHISM_SILENE_DECOUPLING_EVIDENCE_SYNTHESIS_20260925.md             docs/POLYMORPHISM_CROSSSPECIES_PAL_WAL_ANALYSIS_20260925.md             docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md             docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md             docs/figures/polymorphism_20260918             archive/fcp_submission_20260925; do
             copy_path "$p"
           done
 
@@ -292,6 +303,9 @@ jobs:
           git fetch --no-tags --depth=1 origin "$H3A_SHA"
           copy_from_git "$H3A_SHA" scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R h3a
 
+          git fetch --no-tags --depth=1 origin "$H3B_SHA"
+          copy_from_git "$H3B_SHA" scripts/analysis/run_polymorphism_h3b_reserve_span_20260912.R h3b
+
           cat > "$root/README.md" <<EOF
           # Historical execution-code snapshot
 
@@ -303,6 +317,7 @@ jobs:
           measurement_machine_source_commit=$MEASUREMENT_SHA
           spatial_source_commit=$SPATIAL_SHA
           h3a_source_commit=$H3A_SHA
+          h3b_source_commit=$H3B_SHA
 
           The image-measurement code, contracts and trained ROI-v4 detector are preserved here.
           The exact EfficientSAM ONNX files are mirrored separately under external/measurement_runtime
@@ -483,6 +498,50 @@ jobs:
           mkdir -p "$stage/historical/fresh_D_transport"
           git show "$FRESH_D_SHA:results/fcp_v2_measurement_validity_20260923/result.json" > "$stage/historical/fresh_D_transport/source_result.json"
 
+      - name: Permanently recover original BIO5 analysis artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_np_provenance"
+          root="$stage/external/secondary_original_artifacts"
+          rm -rf "$root"
+          mkdir -p "$root/white_environment" "$root/legacy_bio5"
+
+          white_ok=false
+          legacy_ok=false
+          if gh run download "$WHITE_ENV_RUN_ID" --repo "${{ github.repository }}" \
+            --name "$WHITE_ENV_ARTIFACT" --dir "$root/white_environment"; then
+            white_ok=true
+          fi
+          if gh run download "$LEGACY_BIO5_RUN_ID" --repo "${{ github.repository }}" \
+            --name "$LEGACY_BIO5_ARTIFACT" --dir "$root/legacy_bio5"; then
+            legacy_ok=true
+          fi
+
+          if [ "$white_ok" != true ] || [ "$legacy_ok" != true ]; then
+            echo "One or more BIO5 artifacts unavailable; recovering from permanent provenance release"
+            prev="$RUNNER_TEMP/previous_secondary_provenance"
+            rm -rf "$prev"
+            mkdir -p "$prev/extracted"
+            gh release download "$RELEASE_TAG" --repo "${{ github.repository }}" \
+              --pattern 'fcp-np-provenance-20260926.tar.gz' --dir "$prev"
+            tar -xzf "$prev/fcp-np-provenance-20260926.tar.gz" -C "$prev/extracted" \
+              ./external/secondary_original_artifacts
+            if [ "$white_ok" != true ]; then
+              cp -a "$prev/extracted/external/secondary_original_artifacts/white_environment/." "$root/white_environment/"
+            fi
+            if [ "$legacy_ok" != true ]; then
+              cp -a "$prev/extracted/external/secondary_original_artifacts/legacy_bio5/." "$root/legacy_bio5/"
+            fi
+          fi
+
+          test -f "$root/white_environment/result.json"
+          test -f "$root/white_environment/observer_paired_sensitivity.json"
+          test -f "$root/white_environment/environment_mechanism_models.csv"
+          test -f "$root/legacy_bio5/result.json"
+          test -f "$root/legacy_bio5/species_bio5_deltas.csv"
+
       - name: Permanently recover expiring spatial-null artifacts
         env:
           GH_TOKEN: ${{ github.token }}
@@ -560,6 +619,11 @@ jobs:
           replay_requirements=requirements-np-replay-20260928.txt
           fresh_D_source_commit=$FRESH_D_SHA
           h3a_source_commit=$H3A_SHA
+          h3b_source_commit=$H3B_SHA
+          bio5_replay_python=3.11.16
+          bio5_replay_requirements=requirements-np-bio5-replay-20260928.txt
+          white_environment_original_run=$WHITE_ENV_RUN_ID
+          legacy_bio5_original_run=$LEGACY_BIO5_RUN_ID
           worldclim_release_tag=$WORLDCLIM_TAG
           EOF
 
@@ -610,6 +674,10 @@ jobs:
           grep -Fxq './external/spatial_null_artifacts/discovery/global-rgfca-within-species-omnibus-shard-0/species_rho_permutations.csv' "$out/package_contents.txt"
           grep -Fxq './external/spatial_null_artifacts/reserve/reserve-inference-shard-0/null.npz' "$out/package_contents.txt"
           grep -Fxq './historical_code/h3a/scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R' "$out/package_contents.txt"
+          grep -Fxq './historical_code/h3b/scripts/analysis/run_polymorphism_h3b_reserve_span_20260912.R' "$out/package_contents.txt"
+          grep -Fxq './external/secondary_original_artifacts/white_environment/observer_paired_sensitivity.json' "$out/package_contents.txt"
+          grep -Fxq './external/secondary_original_artifacts/legacy_bio5/species_bio5_deltas.csv' "$out/package_contents.txt"
+          grep -Fxq './repository/requirements-np-bio5-replay-20260928.txt' "$out/package_contents.txt"
           grep -Fxq './RAW_IMAGE_REPRODUCIBILITY_LIMIT.md' "$out/package_contents.txt"
 
           stat -c '%n %s bytes' "$package"
@@ -670,7 +738,7 @@ jobs:
 
           Packaged files: $file_count
 
-          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, the frozen 42,111-species opportunity frame, permanent P100/P500 parent selection plus reconstructed 3,230-species candidate frame, third-cohort exclusion/selection inputs, historical H1/H2/spatial execution code, permanent discovery/reserve spatial-null arrays, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
+          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, the frozen 42,111-species opportunity frame, permanent P100/P500 parent selection plus reconstructed 3,230-species candidate frame, third-cohort exclusion/selection inputs, historical H1/H2/spatial execution code, permanent discovery/reserve spatial-null arrays, permanent original BIO5/H3 artifacts and replay environments, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
           EOF
 
           git config user.name "github-actions[bot]"
