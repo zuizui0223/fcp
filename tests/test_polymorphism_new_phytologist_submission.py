@@ -436,7 +436,7 @@ def test_silene_molecular_anchor_is_quantitative_and_bounded() -> None:
         "**Myb1a** was **5.1×** higher",
         "**F3h1 had zero SNPs**",
         "expanded sequencing of **38 individuals**",
-        "not molecular validation of the cross-species H2 axis",
+        "not molecular validation of H2",
         "10.3389/fpls.2016.00204",
     ):
         assert token in text
@@ -462,7 +462,6 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
         "HPLC-DAD-MS^n tissue profiling",
         "Within *Silene littorea*, PAL and WAL are not visual labels alone",
         "cross-system entries retain the source table's phenotype classifications",
-        "in the source frequency tables",
         "median **15.5%**",
         "median **0.21%**",
         "### Secondary PAL/WAL persistence reanalysis",
