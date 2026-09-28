@@ -19,100 +19,69 @@ Official guideline source rechecked on 2026-09-25:
 
 **PASS**
 
-The decisive biological result remains:
+The current manuscript has one reader-facing inferential sequence:
 
-`H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`
+1. **Outcome-blind opportunity frame** — metadata-only iNaturalist discovery defines 42,111 candidate species before flower colour is examined; 4,730 can support >=100 retained photographs.
+2. **Discovery + species-disjoint validation** — 500 + 500 species, 100 photographs per species, provide the high-depth resource for D reliability, target discovery/localization and replicated spatial organization.
+3. **Prospective confirmation** — because the white-versus-nonwhite target was identified only after the original geometry was opened, the target and inference machinery were frozen before 499 previously unused species and 49,900 new photographs were measured.
+4. **Post-confirmatory annotations** — highlight metrics, WorldClim climate and phylogenetic placements test measurement coupling and simple alternative explanations without upgrading the prospective H2 status.
 
-The evidential sequence is now explicit:
-
-1. **Measurement validity** — species-level four-state diversity D is reproducible under the first-frozen observer-disjoint rule and transports strongly across a later fresh image set within the same measurement system.
-2. **Target discovery/localization** — the original discovery/reserve cohorts localize recurrent continuous colour geometry to a white-versus-nonwhite axis, but that named axis is retrospective in those cohorts.
-3. **Untouched prospective confirmation** — a separately selected species-disjoint H2 cohort tests the already frozen q_white/W target with unchanged gates and structured null.
-4. **Post-H2 validity/environment follow-up** — only after prospective H2 terminalization are the same physical third-cohort rows reused for highlight validity and the pre-specified BIO5/BIO14/solar analysis.
-5. **Spatial organization** — greater D is associated with stronger within-species geographic colour organization; current RGFCA identifiability does not decide whether cross-species spatial realization is shared, partly shared or species-specific.
-6. **Alternative-explanation filters** — broad reserve phylogenetic signal is unsupported and the discovery sampled-span association fails species-disjoint replication.
+The decisive biological result remains `H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED`. The ecological mainline is **measurement validity → recurrent phenotype-space geometry → prospective confirmation → geographic organization**, with phylogeny, sampled span and climate treated as bounded explanatory filters.
 
 ### Required claim boundaries
 
 The manuscript explicitly preserves:
 
-- species-disjoint prospective H2 confirmation, but not independent-source replication;
+- species- and photo-disjoint prospective H2 confirmation, but not independent-source replication;
 - no global polymorphism-prevalence claim;
 - no evolutionary transition-direction claim;
-- no universal pigment mechanism;
-- no pollinator causation;
-- no universal climate causation;
+- no universal pigment, pollinator or climate mechanism;
 - no claim that cross-species geographic maps are species-specific;
 - measured coarse white remains exposure-coupled rather than artifact-cleared.
 
-### Secondary BIO5 result
+The secondary BIO5 association is reported but does not transport under its frozen rule: discovery p = **0.743**, validation p = **0.0541**, verdict `LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST`. Temperature is therefore a context-dependent clue, not a universal driver.
 
-The secondary environmental result is reported rather than hidden:
-
-- third-cohort eligible species = **281**;
-- median white-minus-nonwhite BIO5 contrast = **+0.0690 SD**;
-- Holm-adjusted p = **0.0354**;
-- conditional OR = **1.073**, p = **0.000919**.
-
-But the later fixed species-disjoint transport rule fails:
-
-- discovery species-level p = **0.743**;
-- reserve species-level p = **0.0541**;
-- verdict = `LEGACY_BIO5_WHITE_REPLICATION_NOT_SUPPORTED_UNDER_THIS_TEST`.
-
-Temperature is therefore discussed as a context-dependent mechanistic clue, not a universal driver.
-
-## 2. Narrative clarity
+## 2. Narrative and data-lineage clarity
 
 **PASS**
 
-The manuscript now distinguishes physical datasets from inferential uses.
+The manuscript now explains every data resource with the same four questions: **where it came from, how it was selected, why the step was necessary, and what it can establish**.
 
-### Legacy resource
+The physical flower-colour resources are deliberately simple:
 
-Discovery and reserve are species-disjoint halves of the original high-depth RGFCA measurement resource and support H1, legacy H2, spatial organization and H3 under different frozen roles.
+- **100,000 photographs / 1,000 species** for discovery and species-disjoint validation;
+- **49,900 new photographs / 499 species** for prospective confirmation.
 
-### Prospective H2 cohort
+Fresh-image D transport remeasures new photo IDs under the same system. Highlight, climate and phylogenetic data are annotations or reacquisitions of these resources, not additional independent biological cohorts. Development-only execution history is retained in repository provenance rather than presented as part of the manuscript cohort architecture.
 
-One physical dataset:
-
-- 499 species;
-- 49,900 terminal rows;
-- 377 measurement-evaluable species.
-
-Two chronological uses:
-
-1. untouched prospective H2 confirmation;
-2. only later, post-H2 secondary highlight/environment analyses.
-
-The manuscript Table 1 and Supporting Information display these as separate inferential executions, preventing BIO5 from being mistaken for part of the untouched prospective H2 design.
+Table 1 is now titled **“Data sources, lineage and inferential necessity”**, and Figure 1 shows the same sequence visually: outcome-blind frame → discovery/validation → target freeze → prospective confirmation → dashed post-H2 annotations.
 
 ## 3. Full Paper format audit
 
-The current New Phytologist guidance describes Full Papers as usually approximately 6,500–7,500 words with 6–8 display items and a 200-word bulleted Summary. Initial submissions require the standard research-paper sections, 1.5-line spacing, page and continuous line numbering, title/author/correspondence metadata, section word counts, and 5–8 keywords. Cover letters answer three editorial questions in no more than 50 words each.
+The current New Phytologist guidance describes Full Papers as usually approximately 6,500–7,500 words with 6–8 display items and a 200-word bulleted Summary.
 
 ### Current manuscript measurements
 
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 114 characters | PASS |
-| Summary <=200 words | 180 words | PASS |
+| Summary <=200 words | **183 words** | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
-| Introduction | 541 words | RECORDED |
-| Materials and Methods | 2,858 words | RECORDED |
-| Results | 1,807 words | RECORDED |
-| Discussion | 2,087 words | RECORDED |
-| Main text, Introduction–Discussion | **7,293 words** | PASS |
-| Discussion share | **28.6%** | PASS (<30%) |
+| Introduction | **725 words** | RECORDED |
+| Materials and Methods | **2,582 words** | RECORDED |
+| Results | **1,809 words** | RECORDED |
+| Discussion | **2,148 words** | RECORDED |
+| Main text, Introduction–Discussion | **7,264 words** | PASS |
+| Discussion share | **29.6%** | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (usual 6–8) |
 | Required sections | present | PASS |
 | Figure legends 1–5 | present | PASS |
-| Supporting legends S1–S9 | present | PASS |
+| Supporting legends S1–S8 | present | PASS |
 
-The previous 7,712-word version was trimmed by moving acquisition/firewall implementation detail to Supporting Information and the data-lineage map. Statistical decision rules and numerical results were not removed.
+The data-provenance rewrite initially expanded the manuscript, but implementation-history detail was moved back to Supporting Information while retaining the source, selection logic and inferential necessity of every main stage. The current version is again within the usual Full Paper length range without changing any frozen numerical result or decision rule.
 
 ## 4. Cover-letter audit
 
