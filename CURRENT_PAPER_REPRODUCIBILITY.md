@@ -1,6 +1,6 @@
 # Current paper reproducibility contract
 
-This file is the shortest supported route for reproducing or auditing the **active New Phytologist FCP manuscript** without navigating the repository's historical development surface.
+This file is the shortest supported route for reproducing or auditing the **active New Phytologist FCP manuscript**.
 
 ## Authority order
 
@@ -61,7 +61,7 @@ The paper distinguishes five levels of reproducibility.
 
 1. **Core numerical inference replay from frozen measured tables — demonstrated.** Exact legacy discovery/reserve and prospective-H2 measured tables are byte-frozen. Workflow `.github/workflows/polymorphism-reproducibility-replay.yml` reruns repeated observer-disjoint H1, deterministic H1 stress, legacy white-axis localization, prospective third-cohort H2, and the D–spatial Step 5/5b/6/8/9 chain. The H1/H2 JSONs reproduce at absolute tolerance `1e-12`; the spatial chain passes absolute `1e-10` / relative `1e-12`. The runtime is pinned by `requirements-np-replay-20260928.txt` under Python 3.12.14.
 2. **Secondary ecological-analysis replay — demonstrated.** Workflow `.github/workflows/polymorphism-secondary-reproducibility-replay.yml` reruns the third-cohort BIO5/BIO14/SRAD analysis, observer-paired/balanced sensitivities, legacy BIO5 transport, and H3a/H3b. Stable cross-run verification is run `36380786248`. BIO5-family outputs pass absolute `1e-8` / relative `1e-10`; this tolerance is intentionally wider than machine epsilon because a separate runner exposed a conditional-logit CI difference of about `1.1e-10` despite identical software versions and decisions. H3a/H3b JSONs pass absolute `1e-9` / relative `1e-11`, and all six archived H3 permutation/summary/PGLS output files reproduce their original SHA256 values exactly. The BIO5 Python environment is pinned in `requirements-np-bio5-replay-20260928.txt`; H3 direct package versions are recorded in `docs/POLYMORPHISM_SECONDARY_REPLAY_ENVIRONMENT_20260928.md`.
-3. **Outcome-blind sampling lineage and evidence/package reconstruction — supported.** The provenance tarball contains the exact 42,111-species opportunity frame, permanent P100/P500 selection bytes, deterministically reconstructed 3,230-species candidate frame, all four prior-ID exclusion sources, selected/candidate/authorized third-cohort metadata, the frozen measured tables, historical execution source, permanent spatial null arrays, original BIO5/H3 artifacts, checksum-pinned WorldClim bytes, figures and regression guards. Every final payload file is covered by `FILE_SHA256SUMS.txt`.
+3. **Outcome-blind sampling lineage and evidence/package reconstruction — supported.** The provenance tarball contains the exact 42,111-species opportunity frame, permanent P100/P500 selection bytes, deterministically reconstructed 3,230-species candidate frame, all four prior-ID exclusion sources, selected/candidate/authorized third-cohort metadata, the frozen measured tables, frozen execution source, permanent spatial null arrays, original BIO5/H3 artifacts, checksum-pinned WorldClim bytes, figures and regression guards. Every final payload file is covered by `FILE_SHA256SUMS.txt`.
 4. **Image-measurement implementation reconstruction — self-contained after byte completion.** The archive contains the exact ROI-v4 / fixed-palette measurement source, trained ROI-v4 detector byte, exact EfficientSAM encoder/decoder ONNX weights, and frozen third-cohort source-photo metadata. Every model/input byte added at packaging is SHA256-verified.
 5. **Raw source-image reconstruction — intentionally not guaranteed.** Candidate image pixels/masks were deleted after partition sealing. Frozen photo IDs/source URLs and per-row `image_sha256` values allow future reacquired bytes to be verified while the external provider still serves them, but the archive cannot reconstruct provider bytes that later disappear or change.
 
@@ -69,7 +69,7 @@ These levels should not be conflated. The named core and secondary statistical a
 
 ## Active Actions surface
 
-Only current-paper preservation, claim guards, figure regeneration and bounded follow-up workflows live in `.github/workflows/`. Historical workflows are stored under `archive/workflows/` so GitHub Actions does not execute them automatically.
+Only current-paper preservation, claim guards, figure regeneration and bounded follow-up workflows live in `.github/workflows/`. Provenance-only workflow definitions are retained under `archive/workflows/` and are not executed automatically.
 
 The repository-layout guard fails if a legacy `jbi-*`, `disttrait-*`, P500 acquisition, or old manuscript-consistency workflow reappears in the active Actions directory without an explicit repository-layout change.
 
@@ -84,9 +84,9 @@ python -m pytest \
   tests/test_make_polymorphism_manuscript_figures.py \
   tests/test_repository_layout.py -q
 
-# GitHub Actions additionally performs historical-code numerical replays:
+# GitHub Actions additionally performs frozen numerical replays:
 # .github/workflows/polymorphism-reproducibility-replay.yml
 # .github/workflows/polymorphism-secondary-reproducibility-replay.yml
 ```
 
-The provenance package itself is produced by `.github/workflows/build-np-provenance-snapshot-20260926.yml`, which recovers immutable large inputs and historical execution source, embeds and verifies the image-measurement detector/EfficientSAM bytes and frozen source-photo metadata, adds checksum-pinned WorldClim bytes, writes a deterministic archive, updates the release asset and records the resulting identity in the Git-tracked receipt.
+The provenance package itself is produced by `.github/workflows/build-np-provenance-snapshot-20260926.yml`, which recovers immutable large inputs and frozen execution source, embeds and verifies the image-measurement detector/EfficientSAM bytes and frozen source-photo metadata, adds checksum-pinned WorldClim bytes, writes a deterministic archive, updates the release asset and records the resulting identity in the Git-tracked receipt.
