@@ -20,8 +20,6 @@ The prospective confirmation cohort is one physical 499-species / 49,900-row mea
 - first, untouched prospective H2 confirmation;
 - only after H2 terminalization, post-confirmatory highlight-validity and environmental analyses.
 
-A separate prior high-depth execution that did not yield a durable biological H2 endpoint is retained below only for provenance. It is not part of the reader-facing inferential cohort architecture.
-
 ## Traceability grades
 
 - A — protocol and result are on main; exact input is on main or recoverable from an immutable Git commit with a frozen hash.
