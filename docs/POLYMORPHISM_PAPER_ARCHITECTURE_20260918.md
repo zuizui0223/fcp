@@ -101,8 +101,9 @@ Interpretation: greater measured diversity is spatially organized rather than ex
 
 ### Secondary empirical mechanism evidence and alternative-explanation boundaries
 
-Two secondary results provide bounded biological clues about why an achromatic endpoint may recur:
+Three secondary evidence layers provide bounded biological clues about why an achromatic endpoint may recur:
 
+- structured extraction of Casimiro-Soriguer et al. (2016) shows that one high-frequency *S. littorea* PAL system has a quantitative transcriptomic/HPLC anchor near F3h1/Myb1a regulation, without identifying a causal mutation;
 - a descriptive reanalysis of Del Valle et al. (2019) shows markedly higher natural frequencies for petal anthocyanin-loss than whole-plant anthocyanin-loss phenotypes, consistent with differential persistence when pigment loss is flower-restricted;
 - white records occupy warmer BIO5 environments in the frozen primary prospective analysis, but the signal weakens under observer controls and does not transport as a common cross-cohort rule; BIO5 is therefore an observer-sensitive contextual clue, not robust evidence for temperature sorting.
 
@@ -119,7 +120,7 @@ The Discussion follows one hierarchy.
 
 1. **Validated distributional trait:** repeated photographs recover species differences in within-species colour diversity.
 2. **What varies:** cross-species regularity is strongest along an achromatic–chromatic phenotype-space direction.
-3. **Why it may recur:** multiple genetic/developmental routes can converge on achromatic phenotypes; PAL/WAL frequency contrasts support differential persistence as one filter, while the observer-sensitive, nontransporting BIO5 result remains only a contextual environmental clue.
+3. **Why it may recur:** one *S. littorea* PAL system is quantitatively anchored near F3h1/Myb1a regulation; PAL/WAL frequencies support differential persistence as a second filter; observer-sensitive, nontransporting BIO5 remains only a contextual environmental clue.
 4. **Where it is sorted:** greater D is associated with stronger within-species geographic organization, but the present data do not identify one common map or causal maintenance mechanism.
 5. **What simple explanations do not suffice:** broad phylogenetic conservation, sampled photographic span and one universal BIO5 effect are unsupported under the tested designs.
 6. **Scope:** source dependence and exposure coupling bound the biological interpretation.
