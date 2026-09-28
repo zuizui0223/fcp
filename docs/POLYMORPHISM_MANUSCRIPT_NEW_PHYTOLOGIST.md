@@ -282,13 +282,13 @@ The post-confirmatory environmental-filter test retained **281** prospective-coh
 
 The fixed species-disjoint BIO5 transport test did not reproduce that association across both original high-depth cohorts. In discovery, **271** eligible species had a median contrast of **-0.0068 SD** (Wilcoxon p = **0.743**), and the species-stratified estimate was OR = **1.033** (95% CI 0.990–1.078, p = **0.131**). In validation, **260** species had a directionally concordant median contrast of **+0.0662 SD**, but the species-level test missed the frozen criterion (p = **0.0541**); the row-level model was positive (OR = **1.048**, 95% CI 1.004–1.094, p = **0.0319**). Because both cohorts were required to pass at both inferential levels, the prespecified transport criterion was not met.
 
-Thus this pre-specified secondary analysis of the prospective H2 cohort provides a within-cohort association between white states and warmer maximum-temperature environments, but the effect does not support a common cross-cohort BIO5 rule.
+Thus this pre-specified secondary analysis of the prospective H2 cohort provides a within-cohort association between white states and warmer maximum-temperature environments, but the effect does not support a common cross-cohort BIO5 rule (Fig. S9a).
 
 ### A secondary reanalysis links flower-restricted pigment loss to higher natural frequencies
 
 To test whether tissue restriction could plausibly influence the persistence of achromatic phenotypes, we reanalysed the frequency tables of Del Valle et al. (2019). Within *Silene littorea*, petal anthocyanin-loss (PAL) whites were recorded at **8–21%** when present (median **15.5%**) across six positive population-years in two populations, both observed positive for at least three years. Whole-plant anthocyanin-loss (WAL) whites occurred in more populations but remained at **0.05–0.86%** in every positive population-year (median **0.21%**). Every positive PAL frequency exceeded the maximum positive WAL frequency.
 
-The broader literature table gave the same qualitative contrast. Across **13 PAL** and **13 WAL** systems, the median PAL lower bound was **5%**, whereas the median numeric WAL upper bound was **0.1%** and the largest quantified WAL upper bound was **1.4%**. Seven of 13 PAL lower bounds exceeded that 1.4% maximum, and every PAL upper endpoint exceeded it. These are descriptive reanalyses of an ascertained, heterogeneous literature sample with censored and qualitative frequency reporting; they do not estimate an unbiased cross-species effect or prove that tissue restriction itself causes higher frequency. They do, however, provide empirical support for differential persistence of flower-restricted versus whole-plant pigment-loss phenotypes.
+The broader literature table gave the same qualitative contrast. Across **13 PAL** and **13 WAL** systems, the median PAL lower bound was **5%**, whereas the median numeric WAL upper bound was **0.1%** and the largest quantified WAL upper bound was **1.4%**. Seven of 13 PAL lower bounds exceeded that 1.4% maximum, and every PAL upper endpoint exceeded it. These are descriptive reanalyses of an ascertained, heterogeneous literature sample with censored and qualitative frequency reporting; they do not estimate an unbiased cross-species effect or prove that tissue restriction itself causes higher frequency. They do, however, provide empirical support for differential persistence of flower-restricted versus whole-plant pigment-loss phenotypes (Fig. S9b).
 
 ### Greater D is associated with stronger within-species geographic colour organization
 
@@ -472,4 +472,6 @@ The complete evidence map is provided in `docs/POLYMORPHISM_SUPPORTING_INFORMATI
 **Fig. S7.** H3a sensitivity analyses across S1–S3 phylogenies for raw D, finite-sample sensitivity, opportunity-adjusted residuals, Blomberg K and Pagel lambda.
 
 **Fig. S8.** H3b sampled-span sensitivities including raw, finite-sample, observer/classifiability-adjusted partial-rank and rank-PGLS validation analyses.
+
+**Fig. S9.** Secondary empirical mechanism evidence. (a) Within-species white-minus-nonwhite BIO5 contrasts in the prospective cohort and fixed discovery/validation transport tests. (b) Descriptive PAL/WAL natural-frequency contrasts within *Silene littorea* and across the Del Valle et al. (2019) literature table. These panels constrain mechanism without establishing universal causation.
 
