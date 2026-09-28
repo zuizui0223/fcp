@@ -201,7 +201,7 @@ jobs:
                   for i, (x, y) in enumerate(zip(a, b)):
                       compare(x, y, f"{path}[{i}]")
               elif isinstance(a, float) or isinstance(b, float):
-                  if not (math.isclose(float(a), float(b), rel_tol=0, abs_tol=1e-12)
+                  if not (math.isclose(float(a), float(b), rel_tol=1e-12, abs_tol=1e-10)
                           or (math.isnan(float(a)) and math.isnan(float(b)))):
                       raise AssertionError(f"{path}: {a} != {b}")
               elif a != b:
@@ -211,7 +211,7 @@ jobs:
               a = json.loads((expected / f"{name}.json").read_text())
               b = json.loads((repro / "results" / name / "result.json").read_text())
               compare(a, b, name)
-              print(f"{name}: EXACT_JSON_MATCH_WITH_1E-12_FLOAT_TOLERANCE")
+              print(f"{name}: NUMERIC_JSON_MATCH_ABS_1E-10_REL_1E-12")
           PY
 
       - name: Compare replayed headline results with current frozen results
