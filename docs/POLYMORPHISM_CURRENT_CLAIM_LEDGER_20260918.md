@@ -40,6 +40,8 @@ Finite-sample sensitivity is also closed. The primary raw Gini–Simpson D remai
 
 The paper is therefore about **measurement + recurrent geometry + spatial organization**, with H3 used to reject two simple broad explanations. It is not a predictor-hunting paper, a global prevalence paper, or a shared-boundary paper.
 
+Secondary empirical mechanism evidence is retained as bounded support rather than promoted to causal explanation. The prospective environmental panel shows a within-cohort BIO5–white association that fails cross-cohort transport. Separately, reanalysis of Del Valle et al. (2019) shows substantially higher observed frequencies for petal anthocyanin-loss (PAL) than whole-plant anthocyanin-loss (WAL): *S. littorea* medians 15.5% versus 0.21%, and across 13 PAL / 13 WAL systems a 5% median PAL lower bound versus a 0.1% median numeric WAL upper bound. These patterns support context-dependent environmental sorting and differential persistence as plausible filters, not universal causes of H2.
+
 ## 2. Global frame and sampling boundary
 
 The global flower-colour sampling frame contains 42,111 species.
