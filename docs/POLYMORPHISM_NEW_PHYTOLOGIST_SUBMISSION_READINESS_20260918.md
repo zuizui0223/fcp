@@ -65,7 +65,7 @@ The current New Phytologist guidance describes Full Papers as usually approximat
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 105 characters | PASS |
-| Summary <=200 words | **179 words** | PASS |
+| Summary <=200 words | **176 words** | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | **725 words** | RECORDED |
