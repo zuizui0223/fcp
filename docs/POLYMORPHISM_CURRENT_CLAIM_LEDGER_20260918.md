@@ -282,7 +282,7 @@ Frozen transport decision:
 
 Allowed interpretation:
 
-> The prospective confirmation cohort supports a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the association does not transport as a common cross-cohort rule.
+> The prospective confirmation cohort supports a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the result does not support a common cross-cohort BIO5 rule.
 
 This is an environmental sorting association, not causal heat selection, and it remains within the same iNaturalist/FCP source and measurement system.
 
