@@ -5,6 +5,10 @@ on:
     branches: [main]
     paths:
       - requirements-np-bio5-replay-20260928.txt
+      - CURRENT_PAPER_REPRODUCIBILITY.md
+      - docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md
+      - docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md
+      - docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md
       - docs/POLYMORPHISM_SECONDARY_REPLAY_ENVIRONMENT_20260928.md
       - .github/workflows/polymorphism-secondary-reproducibility-replay.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
