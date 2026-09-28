@@ -76,7 +76,7 @@ Del Valle et al. (2019; doi:10.1186/s12870-019-2082-6) used HPLC-DAD-MS^n tissue
 - PAL: anthocyanins absent from petals but retained in photosynthetic tissues;
 - WAL: anthocyanins absent from petals and photosynthetic tissues.
 
-The current study uses this published biochemical definition to interpret the frequency reanalysis. The frequency analysis is therefore not based on visual white-flower labels alone.
+The current study uses this published biochemical definition to interpret the *S. littorea* frequency reanalysis. That within-species contrast is therefore not based on visual white-flower labels alone. The 13 PAL / 13 WAL cross-system entries come from the source paper's compiled Table S1 classifications and were not independently tissue-profiled by the current study.
 
 **Allowed manuscript role**
 Methods/Results phenotype definition and evidential anchor for the PAL/WAL frequency contrast.
