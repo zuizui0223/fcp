@@ -15,7 +15,7 @@ Evidence-status ledger: `docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_2
 - Within-*Silene littorea* persistence receipt: `results/polymorphism_silene_decoupling_persistence_20260925/result.json`.
 - Cross-species interval/censoring-aware receipt: `results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json`.
 - Source: Del Valle et al. (2019), Supplementary Tables S2 and S1, respectively.
-- Biochemical anchor: in that study, HPLC-DAD-MS^n profiling of petals, calyces, leaves and stems distinguished petal anthocyanin-loss (PAL; anthocyanins absent from petals but retained in photosynthetic tissues) from whole-plant anthocyanin-loss (WAL; anthocyanins absent from petals and photosynthetic tissues). The frequency reanalysis therefore compares biochemically defined anthocyanin phenotypes rather than visual white-flower labels alone.
+- Biochemical anchor: in *S. littorea*, HPLC-DAD-MS^n profiling of petals, calyces, leaves and stems distinguished petal anthocyanin-loss (PAL; anthocyanins absent from petals but retained in photosynthetic tissues) from whole-plant anthocyanin-loss (WAL; anthocyanins absent from petals and photosynthetic tissues). The *S. littorea* frequency contrast is therefore biochemically anchored rather than based on visual white-flower labels alone. The cross-system Table S1 entries retain the source paper's PAL/WAL classifications; those systems were not independently re-profiled by the current study.
 
 | Contrast | PAL | WAL |
 |---|---:|---:|
