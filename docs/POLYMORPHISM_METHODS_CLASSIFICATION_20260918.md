@@ -10,7 +10,7 @@ Separate standard statistical components from study-specific design choices in t
 
 The paper uses several established methods without claiming methodological novelty for them individually:
 
-- Gini–Simpson diversity: `D = 1 - sum p_k^2`;
+- Gini–Simpson diversity: `D = 1 - sum p_k^2`, with `D * n/(n-1)` as a finite-sample sensitivity;
 - Spearman rank correlation;
 - Lin-style concordance correlation coefficient;
 - Spearman–Brown reliability projection;
