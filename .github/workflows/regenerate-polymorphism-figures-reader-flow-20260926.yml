@@ -39,12 +39,20 @@ jobs:
         run: python -m pytest tests/test_make_polymorphism_manuscript_figures.py -q
       - uses: actions/upload-artifact@v4
         with:
-          name: figure1-reader-flow-qa
+          name: current-paper-figure-qa
           if-no-files-found: error
           retention-days: 30
           path: |
             docs/figures/polymorphism_20260918/polymorphism_figure1_measurement_frame.png
             docs/figures/polymorphism_20260918/polymorphism_figure1_measurement_frame.pdf
+            docs/figures/polymorphism_20260918/polymorphism_figure2_h1_reproducibility.png
+            docs/figures/polymorphism_20260918/polymorphism_figure2_h1_reproducibility.pdf
+            docs/figures/polymorphism_20260918/polymorphism_figure3_h2_target_localization.png
+            docs/figures/polymorphism_20260918/polymorphism_figure3_h2_target_localization.pdf
+            docs/figures/polymorphism_20260918/polymorphism_figure4_prospective_h2.png
+            docs/figures/polymorphism_20260918/polymorphism_figure4_prospective_h2.pdf
+            docs/figures/polymorphism_20260918/polymorphism_figure5_explanatory_boundaries.png
+            docs/figures/polymorphism_20260918/polymorphism_figure5_explanatory_boundaries.pdf
       - name: Commit regenerated figure outputs
         run: |
           git config user.name "github-actions[bot]"
