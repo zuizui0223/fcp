@@ -1,6 +1,12 @@
 name: Build New Phytologist submission / Zenodo candidate
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_SUBMISSION_PACKAGE_MANIFEST_20260926.md
+      - docs/POLYMORPHISM_ZENODO_METADATA_DRAFT_20260926.json
+      - .github/workflows/build-np-submission-package-20260926.yml
   pull_request:
     branches: [main]
     paths:
