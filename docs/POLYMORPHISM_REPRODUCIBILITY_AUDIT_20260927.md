@@ -2,7 +2,7 @@
 
 ## Conclusion
 
-The active New Phytologist paper is reproducible at the level required to regenerate its frozen statistical claims from the archived measured tables, and the outcome-blind sampling lineage is now preserved from the 42,111-species opportunity frame through the prospective cohort.
+The active New Phytologist paper has demonstrated computational replay for its core H1/H2 and D–spatial analyses and for the named BIO5/H3 ecological filters. Supporting controls that are not part of those replay workflows are byte-frozen with explicit provenance boundaries. The outcome-blind sampling lineage is preserved from the 42,111-species opportunity frame through the prospective cohort.
 
 Two historical replay checks were executed using exact historical input tables and analysis code.
 
@@ -25,7 +25,7 @@ Run `36373083779` additionally replayed the ecological D–spatial chain from th
 
 Step 5/5b reproduced exactly at `1e-12`; the complete chain passed a numerical identity gate of absolute `1e-10` / relative `1e-12`, chosen only to tolerate machine-level geodesic floating-point differences (the observed discrepancy that motivated it was ~3e-12 km).
 
-A third replay, run `36379690691`, independently reran the secondary ecological analyses. The third-cohort BIO5/BIO14/SRAD models, observer-paired/balanced sensitivities and legacy BIO5 transport matched their original successful artifacts. H3a/H3b reran under the recorded R/package versions; the archived H3 permutation-null, summary and PGLS tables were reproduced byte-for-byte.
+Secondary replay was independently verified across runners. Run `36379690691` first reproduced the third-cohort BIO5/BIO14/SRAD models, observer-paired/balanced sensitivities, legacy BIO5 transport, and H3a/H3b. A later runner revealed only optimizer-level conditional-logit floating-point variation: one observed CI bound differed by about `1.14e-10`. The stable cross-run contract therefore uses absolute `1e-8` / relative `1e-10` for BIO5-family numerical fields. Run `36380786248` passes that contract. H3a/H3b rerun under the recorded R/package versions; their archived permutation-null, summary and PGLS tables reproduce byte-for-byte.
 
 This audit distinguishes that demonstrated numerical reproducibility from the stronger question of whether the original third-party image bytes can always be reconstructed.
 
@@ -34,9 +34,27 @@ This audit distinguishes that demonstrated numerical reproducibility from the st
 | Level | Question | Status |
 |---|---|---|
 | R1 | Can exact frozen inputs and outputs be recovered? | **PASS** |
-| R2 | Can the manuscript's main and secondary inferential analyses be recomputed from frozen evidence? | **PASS — H1/H2, D–spatial, BIO5 sequence and H3 independently replayed** |
+| R2 | Can the named core and secondary analysis chains be recomputed from frozen evidence? | **PASS — H1/H2, D–spatial, BIO5 sequence and H3 independently replayed** |
 | R3 | Can the image-measurement implementation be reconstructed from the archive? | **PASS after byte-completion revision** |
 | R4 | Can every original source image pixel be regenerated from the archive alone? | **NO — intentionally not claimed** |
+
+## Replay coverage matrix
+
+| Component | Permanent inputs/code | Independent replay in this audit | Current status |
+|---|---|---|---|
+| H1 repeated + deterministic stress | yes | yes | PASS |
+| Legacy H2 white-axis localization | yes | yes | PASS |
+| Prospective third-cohort H2 | yes | yes | PASS |
+| D–spatial Steps 5/5b/6/8/9 | yes, including original 999-permutation null families | yes | PASS |
+| Third-cohort BIO5/BIO14/SRAD + observer sensitivities | yes | yes | PASS at abs 1e-8 / rel 1e-10 |
+| Legacy BIO5 transport | yes | yes | PASS at abs 1e-8 / rel 1e-10 |
+| H3a phylogenetic signal | yes | yes | PASS; output SHA256 reproduced |
+| H3b sampled-span replication | yes | yes | PASS; output SHA256 reproduced |
+| Direct highlight-control reacquisition | technical table/join/high-clip outputs and analysis code are permanent | statistical artifact preserved; original pixel reacquisition is not archive-self-contained | BOUNDED |
+| Fresh-image D transport imported into H1 | compact receipt, source result and transport artifact are permanent | not independently rerun inside this manuscript repository | FROZEN PROVENANCE |
+| Discussion-only PAL/WAL maintenance reanalyses | scripts/results versioned | not part of the primary replay contract | SUPPORTING ONLY |
+
+This matrix is the ceiling on the phrase "replayed": it applies only to rows marked **yes** in the independent-replay column.
 
 ## R1 — exact evidence bytes
 
@@ -82,7 +100,7 @@ It reran:
 - observer-paired and observer-balanced sensitivity analyses;
 - the legacy discovery/reserve BIO5 species-disjoint transport test.
 
-The replayed JSON objects matched at absolute `1e-10` / relative `1e-12`, and all original CSV tables matched under the same numeric tolerance with exact non-numeric identity.
+The stable cross-run gate is absolute `1e-8` / relative `1e-10`, with exact non-numeric identity. A first runner passed a tighter `1e-10` gate, but a second runner exposed a harmless ~`1.14e-10` conditional-logit CI difference despite identical pinned Python/package versions; the wider gate prevents CPU/BLAS-level optimizer noise from being mistaken for scientific non-reproducibility.
 
 ### H3 alternative-explanation filters
 
@@ -134,6 +152,6 @@ The manuscript and archive must not describe the project as permanently self-con
 
 The defensible statement is:
 
-> The frozen measured tables, headline inferential analyses, null-model outputs, figures and environmental inputs are computationally reproducible from the archived evidence package. The exact image-measurement code and model weights are archived, and frozen source-photo identities plus per-row image hashes permit byte validation when original provider bytes remain available. Because raw source image pixels were intentionally not persisted, future bit-for-bit reconstruction of the original image-acquisition stage is not guaranteed.
+> The named H1/H2, D–spatial, BIO5 and H3 analysis chains are computationally replayable from the archived evidence package under their recorded numerical tolerances, while supporting controls retain the provenance status shown in the coverage matrix. The exact image-measurement code and model weights are archived, and frozen source-photo identities plus per-row image hashes permit byte validation when original provider bytes remain available. Because raw source image pixels were intentionally not persisted, future bit-for-bit reconstruction of the original image-acquisition stage is not guaranteed.
 
 No stronger raw-image claim is needed for the paper.
