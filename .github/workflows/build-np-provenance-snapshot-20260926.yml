@@ -165,7 +165,7 @@ jobs:
             find .github/workflows -maxdepth 1 -type f \(               -name '*polymorphism*' -o               -name 'white-environment*' -o               -name 'legacy-white-bio5*' -o               -name '*worldclim*' -o               -name 'freeze-fcp-expiring-artifacts-20260925.yml'             \) -print0
           )
 
-      - name: Recover immutable measured tables and historical spatial receipts
+      - name: Recover immutable measured tables and frozen spatial receipts
         run: |
           set -euo pipefail
           stage="$RUNNER_TEMP/fcp_np_provenance"
@@ -190,7 +190,7 @@ jobs:
           test "$(git hash-object "$stage/historical/spatial/polymorphism_ambiguity_bounds_step9_result.json")" = "3e92d8798f17a60900ac3bba8deb76b062a609f1"
           test "$(git hash-object "$stage/historical/spatial/paper_numbers.json")" = "b5fec72fb1f8299fb430b8bcdbaf106ee38d8672"
 
-      - name: Recover outcome-blind opportunity frame and third-cohort exclusion inputs
+      - name: Recover opportunity frame and prospective-confirmation exclusion inputs
         run: |
           set -euo pipefail
           stage="$RUNNER_TEMP/fcp_np_provenance"
@@ -235,7 +235,7 @@ jobs:
             > "$stage/raw_inputs/third_cohort/selection/species_audit.csv"
           echo 'c6ab0634adc0c4fa9f726322af24994f880ca19ddc2c6d79be740f2ddf0ab339  '"$stage"'/raw_inputs/third_cohort/selection/species_audit.csv' | sha256sum -c -
 
-      - name: Recover exact historical execution code
+      - name: Recover exact frozen execution code
         run: |
           set -euo pipefail
           stage="$RUNNER_TEMP/fcp_np_provenance"
@@ -326,7 +326,7 @@ jobs:
           from the frozen measured tables without reacquiring image pixels.
           EOF
 
-      - name: Permanently recover P100/P500 parent selection and reconstruct 3,230-species frame
+      - name: Recover prior high-depth exclusion inputs and reconstruct 3,230-species frame
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -498,7 +498,7 @@ jobs:
           mkdir -p "$stage/historical/fresh_D_transport"
           git show "$FRESH_D_SHA:results/fcp_v2_measurement_validity_20260923/result.json" > "$stage/historical/fresh_D_transport/source_result.json"
 
-      - name: Permanently recover original BIO5 analysis artifacts
+      - name: Recover frozen secondary climate-analysis artifacts
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -542,7 +542,7 @@ jobs:
           test -f "$root/legacy_bio5/result.json"
           test -f "$root/legacy_bio5/species_bio5_deltas.csv"
 
-      - name: Permanently recover expiring spatial-null artifacts
+      - name: Recover frozen spatial-null artifacts
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -706,7 +706,7 @@ jobs:
           set -euo pipefail
           out="$RUNNER_TEMP/fcp_np_release"
           if ! gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
-            gh release create "$RELEASE_TAG"               --repo "${{ github.repository }}"               --target "$SOURCE_SHA"               --title "FCP New Phytologist provenance snapshot (2026-09-26)"               --notes "Self-contained provenance snapshot for the active FCP flower-colour polymorphism manuscript. Includes the current manuscript/SI/figures, frozen protocols and results, exact legacy and prospective-H2 measured tables recovered from immutable commits, permanent highlight/H3 archives, and checksum-pinned WorldClim 2.1 input archives. This is a reproducibility snapshot, not a statement of final submission status."
+            gh release create "$RELEASE_TAG"               --repo "${{ github.repository }}"               --target "$SOURCE_SHA"               --title "FCP New Phytologist provenance snapshot (2026-09-26)"               --notes "Self-contained provenance snapshot for the active FCP flower-colour polymorphism manuscript. Includes the current manuscript/SI/figures, frozen protocols and results, exact discovery/validation and prospective-confirmation measured tables recovered from immutable commits, permanent validity/H3 archives, and checksum-pinned WorldClim 2.1 input archives. This is a reproducibility snapshot, not a statement of final submission status."
           fi
           gh release upload "$RELEASE_TAG"             "$out/fcp-np-provenance-20260926.tar.gz"             "$out/fcp-np-provenance-20260926.tar.gz.sha256"             "$out/FILE_SHA256SUMS.txt"             --repo "${{ github.repository }}" --clobber
 
@@ -741,7 +741,7 @@ jobs:
 
           Packaged files: $file_count
 
-          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, the frozen 42,111-species opportunity frame, permanent P100/P500 parent selection plus reconstructed 3,230-species candidate frame, third-cohort exclusion/selection inputs, historical H1/H2/spatial execution code, permanent discovery/reserve spatial-null arrays, permanent original BIO5/H3 artifacts and replay environments, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
+          The package contains the current manuscript evidence tree, exact discovery/validation and prospective-confirmation measured inputs, the frozen 42,111-species opportunity frame, the prior high-depth exclusion inputs needed to reconstruct the 3,230-species prospective candidate frame, prospective-confirmation selection inputs, frozen H1/H2/spatial execution code, permanent discovery/validation spatial-null arrays, frozen secondary climate/H3 artifacts and replay environments, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
           EOF
 
           git config user.name "github-actions[bot]"
