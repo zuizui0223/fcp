@@ -1,53 +1,120 @@
 {
-  "schema": "fcp_pal_wal_h2_overlap_feasibility_v1",
+  "schema": "fcp_pal_wal_h2_overlap_feasibility_v2",
   "date_jst": "2026-09-28",
   "status": "complete",
-  "role": "bridge-analysis feasibility audit; no inferential PAL-versus-WAL test is permitted from this overlap",
+  "role": "taxonomy-aware bridge-analysis feasibility audit; no inferential PAL-versus-WAL test is permitted from this overlap",
   "pal_wal_source": {
     "source_artifact_id": 10855596712,
     "source_artifact_name": "crossspecies-pal-wal-frequency-v1",
     "source_artifact_digest": "sha256:9f74ff93ad38f1deda8d22b68458eae51d8b92f59d124c42b841b7776a7aed3d",
     "registry_rows": 26,
-    "unique_species_names": 25
+    "unique_source_species_strings": 25,
+    "source_strings_preserved": true
   },
   "fcp_sources": {
     "discovery_reserve_D": "results/polymorphism_publication_figure_source_20260918/h3a_species_D.csv",
     "prospective_selection": "results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv"
   },
+  "taxonomic_resolution": [
+    {
+      "source_species": "Gymnadenia rhellicani",
+      "resolved_species": "Gymnadenia rhellicani",
+      "pal_wal_class": "PAL",
+      "match_type": "exact",
+      "frequency_context": "natural",
+      "fcp_match": {"where": "reserve", "n_classifiable": 59, "D": 0.65153691467969}
+    },
+    {
+      "source_species": "Silene gallica",
+      "resolved_species": "Silene gallica",
+      "pal_wal_class": "PAL",
+      "match_type": "exact",
+      "frequency_context": "natural",
+      "fcp_match": {"where": "reserve", "n_classifiable": 46, "D": 0.234404536862004}
+    },
+    {
+      "source_species": "Delphinium nelsonii",
+      "resolved_species": "Delphinium nuttallianum",
+      "pal_wal_class": "WAL",
+      "match_type": "accepted_synonym",
+      "taxonomic_authority": "ITIS / POWO",
+      "frequency_context": "natural",
+      "source_frequency": "<0.1%",
+      "fcp_match": {"where": "reserve", "n_classifiable": 45, "D": 0.165925925925926}
+    },
+    {
+      "source_species": "Mimulus guttatus",
+      "resolved_species": "Erythranthe guttata",
+      "pal_wal_class": "WAL",
+      "match_type": "accepted_synonym",
+      "taxonomic_authority": "POWO",
+      "frequency_context": "greenhouse_excluded_from_natural_panel",
+      "source_frequency": "0.08%",
+      "fcp_match": {"where": "reserve", "n_classifiable": 60, "D": 0.0}
+    },
+    {
+      "source_species": "Silene dioca",
+      "resolved_species": "Silene dioica",
+      "pal_wal_class": "WAL",
+      "match_type": "orthographic_candidate_resolved_to_accepted_name",
+      "taxonomic_authority": "POWO accepts Silene dioica; source string retained unchanged",
+      "frequency_context": "natural_qualitative",
+      "source_frequency": "rare",
+      "fcp_match": {"where": "reserve", "n_classifiable": 62, "D": 0.205515088449532}
+    },
+    {
+      "source_species": "Mimulis lewisii",
+      "resolved_species": "Erythranthe lewisii",
+      "pal_wal_class": "WAL",
+      "match_type": "source_orthographic_candidate_plus_accepted_synonym",
+      "taxonomic_authority": "POWO accepts Erythranthe lewisii and lists Mimulus lewisii as a synonym; source string retained unchanged",
+      "frequency_context": "natural_qualitative",
+      "source_frequency": "rare",
+      "fcp_match": null
+    }
+  ],
   "overlap": {
     "discovery_D_eligible": [],
-    "reserve_D_eligible": [
-      {
-        "species": "Gymnadenia rhellicani",
-        "pal_wal_class": "PAL",
-        "n_classifiable": 59,
-        "D": 0.65153691467969
-      },
-      {
-        "species": "Silene gallica",
-        "pal_wal_class": "PAL",
-        "n_classifiable": 46,
-        "D": 0.234404536862004
-      }
+    "reserve_D_eligible_all_registry_contexts": [
+      {"source_species": "Gymnadenia rhellicani", "resolved_species": "Gymnadenia rhellicani", "pal_wal_class": "PAL", "match_type": "exact", "frequency_context": "natural", "n_classifiable": 59, "D": 0.65153691467969},
+      {"source_species": "Silene gallica", "resolved_species": "Silene gallica", "pal_wal_class": "PAL", "match_type": "exact", "frequency_context": "natural", "n_classifiable": 46, "D": 0.234404536862004},
+      {"source_species": "Delphinium nelsonii", "resolved_species": "Delphinium nuttallianum", "pal_wal_class": "WAL", "match_type": "accepted_synonym", "frequency_context": "natural", "n_classifiable": 45, "D": 0.165925925925926},
+      {"source_species": "Mimulus guttatus", "resolved_species": "Erythranthe guttata", "pal_wal_class": "WAL", "match_type": "accepted_synonym", "frequency_context": "greenhouse_excluded_from_natural_panel", "n_classifiable": 60, "D": 0.0},
+      {"source_species": "Silene dioca", "resolved_species": "Silene dioica", "pal_wal_class": "WAL", "match_type": "orthographic_candidate_resolved_to_accepted_name", "frequency_context": "natural_qualitative", "n_classifiable": 62, "D": 0.205515088449532}
+    ],
+    "natural_frequency_bridge_subset": [
+      {"source_species": "Gymnadenia rhellicani", "resolved_species": "Gymnadenia rhellicani", "pal_wal_class": "PAL", "D": 0.65153691467969},
+      {"source_species": "Silene gallica", "resolved_species": "Silene gallica", "pal_wal_class": "PAL", "D": 0.234404536862004},
+      {"source_species": "Delphinium nelsonii", "resolved_species": "Delphinium nuttallianum", "pal_wal_class": "WAL", "D": 0.165925925925926},
+      {"source_species": "Silene dioca", "resolved_species": "Silene dioica", "pal_wal_class": "WAL", "D": 0.205515088449532}
     ],
     "prospective_selected": [],
     "counts": {
       "discovery": 0,
-      "reserve": 2,
+      "reserve_all_registry_contexts": 5,
+      "reserve_natural_frequency_context": 4,
       "prospective_selected": 0,
-      "unique_overlap": 2,
-      "PAL_overlap": 2,
-      "WAL_overlap": 0
+      "PAL_natural_overlap": 2,
+      "WAL_natural_overlap": 2,
+      "WAL_greenhouse_only_overlap": 1
+    },
+    "descriptive_D_only": {
+      "PAL_natural_values": [0.65153691467969, 0.234404536862004],
+      "WAL_natural_values": [0.165925925925926, 0.205515088449532],
+      "PAL_natural_median": 0.442970725770847,
+      "WAL_natural_median": 0.185720507187729,
+      "inferential_test_permitted": false
     }
   },
   "decision": {
     "pal_vs_wal_bridge_estimable": false,
-    "reason": "Only two overlapping D-eligible species were found and both are PAL; there is no WAL comparator and no prospective overlap."
+    "reason": "After taxonomic resolution, the natural-frequency bridge contains only two PAL and two WAL species, all in the reserve cohort, with no discovery or prospective overlap. This is inadequate for an inferential PAL-versus-WAL test or a direct validation of H2."
   },
   "hard_nonclaims": [
-    "the two PAL overlaps do not validate the recurrent white-axis mechanism",
-    "their D values are descriptive only",
-    "absence of WAL overlap is a sampling fact, not evidence that WAL systems lack flower-colour variation",
-    "no PAL-versus-WAL inferential comparison is estimable in the current FCP high-depth cohorts"
+    "the four natural-context overlaps do not validate the recurrent white-axis mechanism",
+    "their D values are descriptive only and are not an inferential PAL-versus-WAL comparison",
+    "the Mimulus guttatus / Erythranthe guttata source entry is greenhouse and is excluded from the natural-frequency bridge subset",
+    "taxonomic resolution does not modify the source-table strings or the original PAL/WAL frequency analysis",
+    "absence of broader overlap is a sampling fact, not evidence about the biology of non-overlapping PAL/WAL systems"
   ]
 }
