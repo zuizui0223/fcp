@@ -1,6 +1,6 @@
 # New Phytologist cover letter — working draft
 
-**Manuscript title:** Within-species flower-colour variation shows achromatic–chromatic alignment beyond coarse colour-state composition
+**Manuscript title:** Within-species flower-colour variation shows recurrent achromatic–chromatic geometry across plant species
 
 **Article type:** Full Paper
 
@@ -10,7 +10,7 @@
 
 Dear Editors of *New Phytologist*,
 
-We submit the Full Paper, **“Within-species flower-colour variation shows achromatic–chromatic alignment beyond coarse colour-state composition,”** for consideration in *New Phytologist*.
+We submit the Full Paper, **“Within-species flower-colour variation shows recurrent achromatic–chromatic geometry across plant species,”** for consideration in *New Phytologist*.
 
 ### Question 1 — What hypotheses or questions does this work address?
 
