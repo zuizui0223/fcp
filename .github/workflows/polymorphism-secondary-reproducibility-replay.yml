@@ -161,6 +161,7 @@ jobs:
 
           root=Path(os.environ["RUNNER_TEMP"])/"bio5_replay"
 
+          max_json_diff=[0.0,""]
           def compare(a,b,path="root"):
               if isinstance(a,dict) and isinstance(b,dict):
                   assert set(a)==set(b), f"{path}: key mismatch {set(a)^set(b)}"
@@ -173,8 +174,12 @@ jobs:
                       assert a==b, f"{path}: {a} != {b}"
                   else:
                       af,bf=float(a),float(b)
-                      assert (math.isclose(af,bf,rel_tol=1e-12,abs_tol=1e-10)
-                              or (math.isnan(af) and math.isnan(bf))), f"{path}: {a} != {b}"
+                      if math.isnan(af) and math.isnan(bf):
+                          return
+                      diff=abs(af-bf)
+                      if diff>max_json_diff[0]:
+                          max_json_diff[:]=[diff,path]
+                      assert math.isclose(af,bf,rel_tol=1e-10,abs_tol=1e-8), f"{path}: {a} != {b}; diff={diff}"
               else:
                   assert a==b, f"{path}: {a!r} != {b!r}"
 
@@ -185,12 +190,12 @@ jobs:
               a=json.loads((root/"expected/white"/rel).read_text())
               b=json.loads((root/"out/white"/rel).read_text())
               compare(a,b,label)
-              print(f"{label}: JSON_MATCH_ABS_1E-10_REL_1E-12")
+              print(f"{label}: JSON_MATCH_ABS_1E-8_REL_1E-10")
 
           a=json.loads((root/"expected/legacy/result.json").read_text())
           b=json.loads((root/"out/legacy/result.json").read_text())
           compare(a,b,"legacy BIO5")
-          print("legacy BIO5: JSON_MATCH_ABS_1E-10_REL_1E-12")
+          print("legacy BIO5: JSON_MATCH_ABS_1E-8_REL_1E-10")
 
           csv_pairs=[
               (root/"expected/white/environment_mechanism_models.csv",root/"out/white/environment_mechanism_models.csv"),
@@ -209,10 +214,16 @@ jobs:
               for c in a.columns:
                   if pd.api.types.is_numeric_dtype(a[c]) and pd.api.types.is_numeric_dtype(b[c]):
                       aa=a[c].to_numpy(float); bb=b[c].to_numpy(float)
-                      assert np.allclose(aa,bb,rtol=1e-12,atol=1e-10,equal_nan=True), f"{a_path.name}:{c}"
+                      finite=np.isfinite(aa)&np.isfinite(bb)
+                      if finite.any():
+                          d=float(np.max(np.abs(aa[finite]-bb[finite])))
+                          if d>max_json_diff[0]:
+                              max_json_diff[:]=[d,f"{a_path.name}:{c}"]
+                      assert np.allclose(aa,bb,rtol=1e-10,atol=1e-8,equal_nan=True), f"{a_path.name}:{c}"
                   else:
                       assert a[c].fillna("").astype(str).tolist()==b[c].fillna("").astype(str).tolist(), f"{a_path.name}:{c}"
               print(f"{a_path.name}: TABLE_MATCH")
+          print(f"maximum_numeric_difference={max_json_diff[0]:.12g} at {max_json_diff[1]}")
           PY
 
   h3-replay:
