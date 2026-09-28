@@ -80,7 +80,8 @@ The package includes:
 - active New Phytologist manuscript;
 - canonical manuscript;
 - Supporting Information evidence map;
-- secondary mechanism evidence ledger separating study-derived BIO5/PAL-WAL analyses from source-derived biochemical/molecular context;
+- secondary mechanism evidence ledger separating study-derived BIO5/PAL-WAL analyses from source-derived biochemical/molecular measurements;
+- structured *Silene littorea* molecular-anchor receipt extracting published F3h1/Myb1a RNA-seq, sequence and HPLC evidence without relabelling it as raw-read reanalysis;
 - PAL/WAL × FCP taxonomy-aware overlap-feasibility receipt showing that the direct bridge remains not estimable (natural subset: two PAL + two WAL reserve overlaps, zero discovery/prospective overlap; greenhouse-only WAL tracked separately);
 - cover letter;
 - claim ledger;
