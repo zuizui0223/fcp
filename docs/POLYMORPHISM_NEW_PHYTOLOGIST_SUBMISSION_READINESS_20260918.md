@@ -69,11 +69,11 @@ The current New Phytologist guidance describes Full Papers as usually approximat
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
 | Introduction | **725 words** | RECORDED |
-| Materials and Methods | **2,582 words** | RECORDED |
+| Materials and Methods | **1,894 words** | RECORDED |
 | Results | **1,809 words** | RECORDED |
-| Discussion | **2,148 words** | RECORDED |
-| Main text, Introduction–Discussion | **7,264 words** | PASS |
-| Discussion share | **29.6%** | PASS (<30%) |
+| Discussion | **1,671 words** | RECORDED |
+| Main text, Introduction–Discussion | **6,099 words** | RECORDED — concise relative to the usual range |
+| Discussion share | **27.4%** | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (usual 6–8) |
@@ -81,7 +81,7 @@ The current New Phytologist guidance describes Full Papers as usually approximat
 | Figure legends 1–5 | present | PASS |
 | Supporting legends S1–S8 | present | PASS |
 
-The data-provenance rewrite initially expanded the manuscript, but implementation-history detail was moved back to Supporting Information while retaining the source, selection logic and inferential necessity of every main stage. The current version is again within the usual Full Paper length range without changing any frozen numerical result or decision rule.
+The data-provenance rewrite initially expanded the manuscript. Duplicate implementation detail was then removed while preserving, for every main stage, its source, selection logic, inferential necessity and claim boundary. The resulting main text is shorter than the journal's stated usual range, but retains the complete Full Paper structure and all frozen numerical results and decision rules.
 
 ## 4. Cover-letter audit
 
@@ -115,15 +115,15 @@ Permanent Git archive:
 
 | Component | Grade | Reason |
 |---|---|---|
-| H1 | A | protocol/result plus immutable legacy input hashes |
-| Legacy H2 | A | protocol/result plus immutable legacy inputs |
+| H1 | A | protocol/result plus immutable discovery/validation input hashes |
+| Original-cohort H2 target localization | A | protocol/result plus immutable discovery/validation inputs |
 | Prospective H2 | A | selection, protocol, result, immutable measured table/hash and terminal artifact |
 | Highlight validity | A | exact former Actions-only technical inputs now copied into Git |
 | H3a | A | exact trees, pre-outcome covariate panel, signal outputs and permutation nulls copied into Git |
 | H3b | A | exact pre-outcome inputs and full permutation/PGLS outputs copied into Git |
 | Spatial organization | A- | reporting receipt points to immutable source commit/blobs |
 | Secondary BIO5 | A | biological/technical inputs fixed; exact WorldClim BIO/SRAD zip bytes mirrored as checksum-verified release assets |
-| BIO5 transport | A | legacy inputs fixed; exact WorldClim BIO zip mirrored as checksum-verified release asset |
+| BIO5 transport | A | discovery/validation inputs fixed; exact WorldClim BIO zip mirrored as checksum-verified release asset |
 
 ### Expiring Actions artifacts
 
@@ -182,7 +182,7 @@ A single end-to-end verification package is maintained under GitHub Release tag:
 - asset: `fcp-np-provenance-20260926.tar.gz`
 - receipt: `archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`
 
-The Git-tracked receipt records the source commit, asset byte count, SHA256 and packaged-file count for the currently published package. The package contains the active manuscript/SI/figures, frozen protocols/results/code/tests, exact legacy discovery/reserve measured tables, the exact prospective-H2 measured table, historical spatial receipts, fresh-D provenance, permanent highlight/H3 inputs and the checksum-pinned WorldClim BIO/SRAD archives. A per-file SHA256 manifest is included.
+The Git-tracked receipt records the source commit, asset byte count, SHA256 and packaged-file count for the currently published package. The package contains the active manuscript/SI/figures, frozen protocols/results/code/tests, exact discovery/validation measured tables, the exact prospective-H2 measured table, frozen spatial receipts, fresh-D provenance, permanent highlight/H3 inputs and the checksum-pinned WorldClim BIO/SRAD archives. A per-file SHA256 manifest is included.
 
 The package is refreshed when the active manuscript/evidence surface changes; a refresh repackages frozen evidence and does not alter biological results. A later Zenodo/institutional DOI mirror would provide a citation identifier, not missing analytical evidence.
 
@@ -196,10 +196,10 @@ The latest verified revision passed:
 - New Phytologist submission guard;
 - polymorphism manuscript claim guard;
 - WorldClim checksum freeze;
-- checksum-enforced third-cohort white-environment rerun;
-- checksum-enforced legacy BIO5 transport rerun.
+- checksum-enforced prospective-cohort white-environment rerun;
+- checksum-enforced BIO5 transport rerun.
 
-The reruns reproduce the same frozen BIO5 positive third-cohort result and the same legacy transport failure.
+The reruns reproduce the same frozen BIO5 positive prospective-cohort result and the same transport failure.
 
 ## 7. Figure package
 
@@ -213,7 +213,7 @@ Main display sequence:
 
 1. measurement frame;
 2. H1 observer-disjoint reproducibility;
-3. legacy H2 target localization;
+3. original-cohort H2 target localization;
 4. prospective H2 confirmation;
 5. spatial organization plus bounded alternative-explanation tests.
 
@@ -232,7 +232,7 @@ The Discussion may state that the recurrent achromatic–chromatic axis is consi
 It must continue to state that:
 
 - H2 is sign-invariant and does not identify pigmented -> white evolutionary direction;
-- the third-cohort BIO5 association failed cross-cohort transport;
+- the prospective-cohort BIO5 association failed cross-cohort transport;
 - no universal thermal whitening rule is established;
 - the measured white state remains exposure-coupled.
 
