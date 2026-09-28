@@ -77,6 +77,10 @@ on:
       - .github/workflows/polymorphism-secondary-reproducibility-replay.yml
   workflow_dispatch:
 
+concurrency:
+  group: np-provenance-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   actions: read
@@ -705,6 +709,12 @@ jobs:
         run: |
           set -euo pipefail
           out="$RUNNER_TEMP/fcp_np_release"
+          git fetch --no-tags origin main
+          remote_sha="$(git rev-parse origin/main)"
+          if [ "$remote_sha" != "$SOURCE_SHA" ]; then
+            echo "Superseded provenance run: source=$SOURCE_SHA current=$remote_sha; skipping permanent release update."
+            exit 0
+          fi
           if ! gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
             gh release create "$RELEASE_TAG"               --repo "${{ github.repository }}"               --target "$SOURCE_SHA"               --title "FCP New Phytologist provenance snapshot (2026-09-26)"               --notes "Self-contained provenance snapshot for the active FCP flower-colour polymorphism manuscript. Includes the current manuscript/SI/figures, frozen protocols and results, exact discovery/validation and prospective-confirmation measured tables recovered from immutable commits, permanent validity/H3 archives, and checksum-pinned WorldClim 2.1 input archives. This is a reproducibility snapshot, not a statement of final submission status."
           fi
@@ -721,7 +731,47 @@ jobs:
           package="$out/fcp-np-provenance-20260926.tar.gz"
           package_sha="$(sha256sum "$package" | awk '{print $1}')"
           package_bytes="$(stat -c '%s' "$package")"
-          file_count="$(tar -tzf "$package" | grep -v '/$' | wc -l)"
+          file_count="$(tar -tzf "$package" | grep -v '/
+          cat > archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md <<EOF
+          # New Phytologist provenance release receipt — 2026-09-26
+
+          Release tag: $RELEASE_TAG
+
+          Release URL: $release_url
+
+          Source commit: $SOURCE_SHA
+
+          Asset: fcp-np-provenance-20260926.tar.gz
+
+          Asset bytes: $package_bytes
+
+          Asset SHA256: $package_sha
+
+          Packaged files: $file_count
+
+          The package contains the current manuscript evidence tree, exact discovery/validation and prospective-confirmation measured inputs, the frozen 42,111-species opportunity frame, the prior high-depth exclusion inputs needed to reconstruct the 3,230-species prospective candidate frame, prospective-confirmation selection inputs, frozen H1/H2/spatial execution code, permanent discovery/validation spatial-null arrays, frozen secondary climate/H3 artifacts and replay environments, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
+          EOF
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md
+          if git diff --cached --quiet; then
+            echo "Receipt already current"
+            exit 0
+          fi
+          git commit -m "Record New Phytologist provenance release"
+          if ! git push origin HEAD:main; then
+            echo "A newer main commit arrived while writing the receipt; leaving this run successful and letting the newer provenance run publish the current receipt."
+            exit 0
+          fi
+ | wc -l)"
+
+          git fetch --no-tags origin main
+          remote_sha="$(git rev-parse origin/main)"
+          if [ "$remote_sha" != "$SOURCE_SHA" ]; then
+            echo "Superseded provenance run: source=$SOURCE_SHA current=$remote_sha; skipping receipt commit."
+            exit 0
+          fi
 
           mkdir -p archive/fcp_submission_20260925
           cat > archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md <<EOF
