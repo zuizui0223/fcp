@@ -6,9 +6,9 @@
       "discovery_n": 369,
       "files": {
         "pdf": "polymorphism_figure1_measurement_frame.pdf",
-        "pdf_sha256": "a9f8c70abe28f83bf723f4a2b0f0913a417677b39ee1f1f7b72454bf56f92ca0",
+        "pdf_sha256": "b16721095b74f96cca57f7e116b20ec8705416bba07d6d95631e37fc05baf8d5",
         "png": "polymorphism_figure1_measurement_frame.png",
-        "png_sha256": "1ffeed8ca806c5699e0c4475a7c587cd3ccb57b291aec8b9ee38493a7e00b922"
+        "png_sha256": "ac5cc7667b7b0716542b50b853b7c2cfb73958c1f247be6761eb5221fef3cff2"
       },
       "global_frame_species": 42111,
       "high_depth_capable_species": 4730,
@@ -143,9 +143,19 @@
       "claim_boundary": "bounded_secondary_empirical_evidence_not_universal_causation",
       "files": {
         "pdf": "polymorphism_figureS9_secondary_mechanism_evidence.pdf",
-        "pdf_sha256": "bf08db8ef2364d06903f1882f69a4b6e94d78741db5781a780bf83fa49ede8fa",
+        "pdf_sha256": "cdfa88aeced51f9a1782fea2d48bb312839cefb18cdac6d9868f785a2f51a952",
         "png": "polymorphism_figureS9_secondary_mechanism_evidence.png",
-        "png_sha256": "7aee70f28dab72903f2ac600f76737a3cac24462f6a797ca5669b6d7bdcbff81"
+        "png_sha256": "2a0e9a1cc0b6814e7361baecdb33a365af51b9a37b12f5a00ba42fdcad0bc360"
+      },
+      "molecular_anchor": {
+        "F3h1_dark_vs_white_fold": 49.0,
+        "F3h1_light_vs_white_fold": 42.2,
+        "F3h1_shared_significant": true,
+        "Myb1a_dark_vs_white_fold": 5.1,
+        "causal_variant_identified": false,
+        "expanded_sequence_survey_individuals": 38,
+        "role": "structured quantitative extraction of published transcriptomic and biochemical evidence; not a raw-RNA reanalysis and not an independent experiment",
+        "source_doi": "10.3389/fpls.2016.00204"
       },
       "pal_wal": {
         "cross_PAL_lower_bound_median_percent": 5.0,
