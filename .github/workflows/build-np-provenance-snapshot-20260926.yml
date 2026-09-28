@@ -641,7 +641,10 @@ jobs:
 
           package="$out/fcp-np-provenance-20260926.tar.gz"
           tar --sort=name --mtime='UTC 2026-09-26 00:00:00' --owner=0 --group=0 --numeric-owner             -C "$stage" -cf - . | gzip -n -9 > "$package"
-          sha256sum "$package" > "$out/fcp-np-provenance-20260926.tar.gz.sha256"
+          (
+            cd "$out"
+            sha256sum fcp-np-provenance-20260926.tar.gz > fcp-np-provenance-20260926.tar.gz.sha256
+          )
           cp "$stage/FILE_SHA256SUMS.txt" "$out/FILE_SHA256SUMS.txt"
 
           tar -tzf "$package" > "$out/package_contents.txt"
