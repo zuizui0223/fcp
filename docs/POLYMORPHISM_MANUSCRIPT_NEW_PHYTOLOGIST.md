@@ -13,8 +13,8 @@
 - Introduction: 725 words
 - Materials and Methods: 2,582 words
 - Results: 1,809 words
-- Discussion: 2,221 words
-- Main text (Introduction through Discussion): 7,337 words
+- Discussion: 2,148 words
+- Main text (Introduction through Discussion): 7,264 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -306,8 +306,6 @@ The frozen verdict was `H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED`.
 ### From species means to validated within-species distributions
 
 The first result is methodological but biologically consequential: within-species flower-colour diversity can be summarized as a continuous species-level phenotype that is reproducible across completely disjoint observer sets under the first-frozen high-depth validation design. A later fresh-image execution strengthens that interpretation: 136 overlapping species retained very high D agreement across a new photo set and separate run (Spearman rho = 0.968; Lin CCC = 0.972), indicating that D transport is not limited to one observer partition. This does not mean that D is measured without error or independently validated across imaging systems. The stricter deterministic split deliberately exposes within-run uncertainty, while the fresh transport check still uses the same iNaturalist/FCP measurement system.
-
-This distinction matters for macroecological work with citizen-science photographs. Repeated observations can recover more than a modal species colour, but the reliability of the derived distribution should be tested directly rather than assumed from sample size alone. That caution is consistent with direct evaluations of colour information in citizen-science photographs and with broader evidence that observer behaviour is part of the iNaturalist observation process (Laitly et al. 2021; Di Cecco et al. 2021).
 
 The methodological contribution is architectural rather than a claim to a new standalone statistic. Gini–Simpson diversity, rank correlations, Hellinger transformation, two-means clustering, Jensen–Shannon divergence, permutation tests and phylogenetic signal statistics are established tools. What is specific to this study is their assembly around fixed high-depth species sampling, observer-disjoint validation, location-blind image measurement, explicit technical-versus-ambiguous missingness, construction-preserving nulls and a new species/photo-disjoint prospective confirmation cohort. This design treats a within-species phenotype distribution as a species-level comparative trait while keeping measurement validity, target discovery and confirmation as separate inferential stages.
 
