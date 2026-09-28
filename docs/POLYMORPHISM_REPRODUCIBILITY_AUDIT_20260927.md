@@ -2,16 +2,28 @@
 
 ## Conclusion
 
-The active New Phytologist paper is reproducible at the level required to regenerate its frozen statistical claims from the archived measured tables.
+The active New Phytologist paper is reproducible at the level required to regenerate its frozen statistical claims from the archived measured tables, and the outcome-blind sampling lineage is now preserved from the 42,111-species opportunity frame through the prospective cohort.
 
-A separate historical replay was executed in GitHub Actions (run `36324187508`) using the exact historical input tables and analysis code. It independently reproduced:
+Two historical replay checks were executed using exact historical input tables and analysis code.
+
+Run `36324187508` independently reproduced:
 
 - H1 repeated observer-disjoint reliability;
 - H1 deterministic stress test;
 - legacy H2 white-axis target localization; and
 - prospective third-cohort H2.
 
-All four replayed JSON result objects matched the current frozen outputs with absolute floating-point tolerance `1e-12`.
+All four JSON result objects matched the frozen outputs at absolute floating-point tolerance `1e-12`.
+
+Run `36373083779` additionally replayed the ecological D–spatial chain from the original 999-permutation discovery/reserve null arrays:
+
+- discovery Step 5;
+- reserve Step 5b;
+- sampled-span adjusted Step 6;
+- technical-failure adjusted Step 8; and
+- four-state ambiguity endpoint Step 9.
+
+Step 5/5b reproduced exactly at `1e-12`; the complete chain passed a numerical identity gate of absolute `1e-10` / relative `1e-12`, chosen only to tolerate machine-level geodesic floating-point differences (the observed discrepancy that motivated it was ~3e-12 km).
 
 This audit distinguishes that demonstrated numerical reproducibility from the stronger question of whether the original third-party image bytes can always be reconstructed.
 
@@ -26,8 +38,12 @@ This audit distinguishes that demonstrated numerical reproducibility from the st
 
 ## R1 — exact evidence bytes
 
-The provenance package contains or checksum-verifies:
+The provenance package contains or checksum-verifies the full sampling-to-inference chain, including:
 
+- complete 42,111-species outcome-blind opportunity frame, SHA256 `5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc`;
+- P100 3,730-species parent pool and frozen P500, permanently recovered from original artifact `10302477571`;
+- reconstructed 3,230-species third-cohort candidate frame, SHA256 `7fc0337074b55a91c0b50773a8d5c3ef82e877074c8b3cacc21f9af58e0ba77e`;
+- four exact prior-ID exclusion inputs, selected 500-species manifest, candidate 49,999-row metadata and authorized 49,900-row metadata;
 - legacy discovery measured rows, SHA256 `ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4`;
 - legacy reserve measured rows, SHA256 `0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6`;
 - prospective third-cohort measured rows, SHA256 `57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186`;
@@ -48,7 +64,7 @@ Successful replay run `36324187508` reported:
 - `legacy H2 target: EXACT_JSON_MATCH_WITH_1E-12_FLOAT_TOLERANCE`
 - `prospective H2: EXACT_JSON_MATCH_WITH_1E-12_FLOAT_TOLERANCE`
 
-This is direct evidence of computational reproducibility rather than only provenance bookkeeping.
+This is direct evidence of computational reproducibility rather than only provenance bookkeeping. The replay workflow is now pinned to Python 3.12.14 with `requirements-np-replay-20260928.txt`, matching the package versions used in the successful replay.
 
 ## R3 — image-measurement implementation bytes
 
