@@ -337,6 +337,20 @@ After response-blind high-clip exclusion:
 
 BIO5 was therefore the only prespecified environmental variable to pass the prospective-cohort mechanism gate.
 
+### Post hoc observer sensitivities
+
+These analyses were performed only after the primary environmental result was opened and therefore cannot alter its frozen gate.
+
+| Sensitivity | Species / strata | Median BIO5 contrast | Wilcoxon p | Conditional OR | Conditional p | Interpretation |
+|---|---:|---:|---:|---:|---:|---|
+| Observer-paired | 106 species / 144 paired species-observer strata | 0.000 SD | 0.485 | 0.787 (95% CI 0.544–1.138) | 0.202 | null under strongest observer control |
+| Observer-balanced | 352 species | +0.0541 SD | 0.0750 | — | — | positive direction, weaker statistical support |
+
+The observer-balanced sign test was p = 0.0484. Together, these sensitivities show that the prospective BIO5 association is not invariant to observer conditioning.
+
+Machine-readable receipt:
+- `results/polymorphism_white_environment_observer_sensitivity_20260925/result.json`.
+
 ### Species-disjoint BIO5 transport
 
 | Cohort | Eligible species | Median white-minus-nonwhite BIO5 contrast | Species-level p | Conditional OR | Conditional p | Primary support |
@@ -350,7 +364,7 @@ Frozen transport decision:
 
 Interpretation boundary:
 
-The prospective confirmation cohort contains a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the effect does not transport as a common rule across the original species-disjoint cohorts. This is consistent with context-dependent environmental sorting and does not establish causal heat selection, a universal temperature effect, or independence from the known exposure coupling of the white classifier.
+The frozen primary prospective analysis contains a within-cohort association between white states and warmer BIO5 environments, but the association weakens under observer controls and does not transport as a common rule across the original species-disjoint cohorts. This is consistent with context-dependent environmental sorting and does not establish causal heat selection, a universal temperature effect, or independence from the known exposure coupling of the white classifier.
 
 WorldClim provenance: exact BIO/SRAD input archives are mirrored under release tag `fcp-worldclim-2.1-10m-20260925`; checksum authority is `archive/fcp_submission_20260925/worldclim_checksums.txt`.
 
