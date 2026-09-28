@@ -77,16 +77,18 @@ An unbiased cross-species effect size, equal mutation rates, or causal proof tha
 Machine-readable feasibility receipt:
 - `results/polymorphism_pal_wal_h2_overlap_20260928/result.json`.
 
-Cross-referencing the 25 unique PAL/WAL species names against the current D-eligible discovery/reserve table and the 500 frozen prospective selections yielded:
+A taxonomy-aware cross-reference preserved the 25 source strings but separately resolved current accepted-name matches. The natural-frequency bridge subset yielded:
 - discovery D-eligible overlap = 0;
-- reserve D-eligible overlap = 2;
+- reserve D-eligible overlap = 4;
 - prospective selected overlap = 0;
-- PAL overlap = 2;
-- WAL overlap = 0.
+- PAL natural overlap = 2;
+- WAL natural overlap = 2.
 
-The two overlapping reserve species are *Gymnadenia rhellicani* (PAL; D = 0.6515) and *Silene gallica* (PAL; D = 0.2344). Their D values are descriptive only.
+The PAL overlaps are *Gymnadenia rhellicani* (D = 0.6515) and *Silene gallica* (D = 0.2344). The WAL overlaps are source *Delphinium nelsonii* resolved to accepted *D. nuttallianum* (D = 0.1659) and source *Silene dioca* resolved as an orthographic candidate to accepted *S. dioica* (D = 0.2055). Source *Mimulus guttatus* resolves to *Erythranthe guttata* (D = 0.0000) but its Table S1 frequency is greenhouse-only and remains excluded from the natural-frequency bridge. Source *Mimulis lewisii* resolves taxonomically to *Erythranthe lewisii* but has no FCP cohort overlap.
 
-**Decision:** no PAL-versus-WAL bridge test to H2 or D is estimable because there is no WAL comparator and no prospective overlap. The PAL/WAL evidence therefore remains a bounded external mechanistic clue rather than a direct molecular validation of the recurrent white-axis result.
+Descriptively, the two PAL D values have median 0.443 and the two natural-context WAL values median 0.186. These four values are not an inferential comparison.
+
+**Decision:** no PAL-versus-WAL bridge test to H2 or D is estimable. After taxonomic resolution there are only two PAL and two natural-context WAL overlaps, all in the reserve cohort, with no discovery or prospective overlap. The PAL/WAL evidence therefore remains a bounded external mechanistic clue rather than a direct molecular validation of the recurrent white-axis result.
 
 ---
 
