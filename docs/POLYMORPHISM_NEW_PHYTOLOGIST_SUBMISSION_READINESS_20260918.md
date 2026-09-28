@@ -41,6 +41,8 @@ The manuscript explicitly preserves:
 
 The frozen primary secondary BIO5 association is reported, but it is observer-sensitive and does not transport under its frozen cross-cohort rule. Observer-paired p = **0.485** (OR = **0.787**, p = **0.202**), observer-balanced Wilcoxon p = **0.0750**, discovery transport p = **0.743**, and validation transport p = **0.0541**. Temperature is therefore a context-dependent clue, not a universal driver.
 
+The molecular layer is likewise bounded: `results/polymorphism_silene_molecular_anchor_20260928/result.json` is a structured extraction of published *S. littorea* RNA-seq/sequence/HPLC results, not raw-read reanalysis. It may support a single-species F3h1/Myb1a regulatory anchor for PAL, but not a universal molecular mechanism or direct validation of H2.
+
 ## 2. Narrative and data-lineage clarity
 
 **PASS**
@@ -81,7 +83,7 @@ The current New Phytologist guidance describes Full Papers as usually approximat
 | Figure legends 1–5 | present | PASS |
 | Supporting legends S1–S8 | present | PASS |
 
-The data-provenance rewrite initially expanded the manuscript. Duplicate implementation detail was then removed while preserving each stage's source, selection logic, inferential necessity and claim boundary. Finite-sample D sensitivity and the bounded PAL/WAL secondary result are now reported explicitly; the main text remains within the journal's usual Full Paper range.
+The data-provenance rewrite initially expanded the manuscript. Duplicate implementation detail was then removed while preserving each stage's source, selection logic, inferential necessity and claim boundary. Finite-sample D sensitivity, the bounded *S. littorea* molecular anchor and PAL/WAL persistence result are now reported explicitly; the main text is maintained within the journal's usual Full Paper range.
 
 ## 4. Cover-letter audit
 
@@ -219,7 +221,7 @@ Main display sequence:
 
 Main figures = 5; main tables = 1; total display items = 6.
 
-No new BIO5 main figure is required. BIO5 remains a concise secondary result in text/SI so that the manuscript's visual spine remains measurement -> discovery -> prospective confirmation -> spatial ecology.
+No mechanism panel is promoted to the main-figure spine. BIO5, the *S. littorea* molecular anchor and PAL/WAL persistence remain together in Fig. S9 so the main visual sequence remains measurement -> discovery -> prospective confirmation -> spatial ecology.
 
 ## 8. Literature and mechanistic interpretation
 
@@ -227,7 +229,7 @@ No new BIO5 main figure is required. BIO5 remains a concise secondary result in 
 
 The literature layer remains interpretation-only and cannot alter frozen empirical results.
 
-The Discussion may state that the recurrent achromatic–chromatic axis is consistent with many-to-one accessibility of floral pigment networks and that temperature can be one context-dependent input into such networks.
+The Discussion may state that the recurrent achromatic–chromatic axis is consistent with many-to-one accessibility of floral pigment networks. It may quantitatively report the source-derived *S. littorea* F3h1/Myb1a anchor, while keeping that evidence single-species and noncausal; temperature remains only an observer-sensitive contextual input.
 
 It must continue to state that:
 
