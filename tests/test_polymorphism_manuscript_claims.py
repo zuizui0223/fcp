@@ -152,6 +152,7 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
         "one physical 499-species / 49,900-row measurement dataset",
         "untouched prospective H2 confirmation",
         "post-confirmatory highlight-validity and environmental analyses",
+        "results/polymorphism_white_environment_observer_sensitivity_20260925/result.json",
         "5142f7951af0dde5364bb047a566d67e8c479e51",
         "7e538e5c51c05a7cc47b2fcf53eea92634c8a863",
         "10496492307",
@@ -178,7 +179,7 @@ def test_reader_can_route_each_major_claim_to_provenance() -> None:
     assert audit["grades"]["secondary_BIO5"] == "A"
     assert audit["grades"]["BIO5_transport"] == "A"
 
-    assert "White states occupy warmer BIO5 environments in the prospective cohort, but the association does not transport" in manuscript
+    assert "The prospective BIO5 association is observer-sensitive and does not transport as a common rule" in manuscript
     assert "one physical 499-species / 49,900-row measurement dataset used in two chronologically distinct ways" in manuscript
     assert "Only after H2 was terminalized" in manuscript
     assert h3b["decision"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
