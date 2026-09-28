@@ -11,16 +11,9 @@ on:
       - CURRENT_PAPER_REPRODUCIBILITY.md
       - archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md
       - .github/workflows/build-np-submission-package-20260926.yml
-  push:
-    branches: [main]
-    paths:
-      - docs/POLYMORPHISM_SUBMISSION_PACKAGE_MANIFEST_20260926.md
-      - docs/POLYMORPHISM_ZENODO_METADATA_DRAFT_20260926.json
-      - docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md
-      - docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md
-      - CURRENT_PAPER_REPRODUCIBILITY.md
-      - archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md
-      - .github/workflows/build-np-submission-package-20260926.yml
+  workflow_run:
+    workflows: ["Build New Phytologist provenance snapshot"]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
@@ -32,6 +25,7 @@ env:
 
 jobs:
   package:
+    if: github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -103,18 +97,22 @@ jobs:
             --pattern 'FILE_SHA256SUMS.txt' \
             --dir "$stage/archive"
 
-          receipt="archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md"
-          expected_sha="$(awk '/^Asset SHA256:/ {print $3}' "$receipt")"
-          expected_source="$(awk '/^Source commit:/ {print $3}' "$receipt")"
+          sidecar="$stage/archive/fcp-np-provenance-20260926.tar.gz.sha256"
+          expected_sha="$(awk 'NF {print $1; exit}' "$sidecar")"
           test "${#expected_sha}" -eq 64
-          test "${#expected_source}" -eq 40
 
           actual_sha="$(sha256sum "$stage/archive/fcp-np-provenance-20260926.tar.gz" | awk '{print $1}')"
           test "$actual_sha" = "$expected_sha"
           echo "$expected_sha  $stage/archive/fcp-np-provenance-20260926.tar.gz" | sha256sum -c -
 
+          provenance_source="$(tar -xOzf "$stage/archive/fcp-np-provenance-20260926.tar.gz" ./PROVENANCE_SOURCE.txt)"
+          source_commit="$(printf '%s\n' "$provenance_source" | awk -F= '$1=="source_commit" {print $2}')"
+          test "${#source_commit}" -eq 40
+          printf 'release_tag=%s\nasset_sha256=%s\nsource_commit=%s\n' \
+            "$PROVENANCE_TAG" "$expected_sha" "$source_commit" \
+            > "$stage/archive/PROVENANCE_RELEASE_IDENTITY.txt"
+
           mv "$stage/archive/FILE_SHA256SUMS.txt" "$stage/archive/PROVENANCE_FILE_SHA256SUMS.txt"
-          cp "$receipt" "$stage/archive/NP_PROVENANCE_RELEASE_RECEIPT.md"
 
       - name: Build packages and checksums
         run: |
@@ -163,7 +161,7 @@ jobs:
             ${{ runner.temp }}/fcp_submission_release/author_metadata_gate.txt
 
       - name: Publish GitHub submission candidate release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -174,7 +172,7 @@ jobs:
           fi
           gh release create "$CANDIDATE_TAG" \
             --repo "${{ github.repository }}" \
-            --target "$GITHUB_SHA" \
+            --target "$(git rev-parse HEAD)" \
             --title "FCP New Phytologist submission / Zenodo candidate (2026-09-26)" \
             --notes "Frozen journal-facing and Zenodo-ready package. Scientific results are unchanged. Public Zenodo publication is intentionally gated until final author order, ORCIDs, affiliations, funding, acknowledgements, competing interests, CRediT roles and archive licence are approved."
           gh release upload "$CANDIDATE_TAG" \
