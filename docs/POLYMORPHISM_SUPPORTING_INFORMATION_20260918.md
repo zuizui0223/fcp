@@ -15,35 +15,35 @@ It does not recompute any result. It organizes frozen protocols, machine-readabl
 - Source: Del Valle et al. (2019), Supplementary Tables S2 and S1, respectively.
 - These analyses are post-publication descriptive reanalyses; literature ascertainment, heterogeneous survey effort and censored/qualitative frequency reporting preclude an unbiased meta-analytic or causal interpretation.
 
-## S1. Global frame, cohort roles, acquisition lineage and inferential separation
+## S1. Data sources, selection and inferential necessity
 
-Global programme/frame provenance:
+Primary provenance documents:
 
-- `docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md` — conceptual relationship between the upstream Repeated Global Flower-Colour Atlas and the current species-level polymorphism estimands;
-- `docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md` — audit separating established statistical components from study-specific sampling, null-model and prospective-confirmation design;
-- `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md` — metadata-discovery and 42,111-species opportunity-frame lineage
-- metadata-discovered V1 + cache-resistant V2 union = **42,111 unique iNaturalist species**;
-- discovery grid = 18 × 9 equal-area cells;
-- V2 = 20 metadata-only rounds × 162 cells = **3,240** fixed request attempts;
-- V2 request errors = 0;
-- no image pixels or flower-colour outcomes used to define the species union;
-- high-depth capacity after observer cap: `U100 = 4,730 species`.
+- `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md` — outcome-blind global opportunity-frame lineage;
+- `docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md` — separation of established statistical components from study-specific sampling, null-model and prospective-confirmation design;
+- `docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md` — claim-to-input routing, immutable commits, hashes and archive routes.
 
-The 42,111 frame is an outcome-blind metadata-discovery/opportunity universe, not an estimate of all angiosperm species and not a polymorphism-prevalence denominator.
+### Global opportunity frame
 
-### Cohort roles
+Metadata-only iNaturalist discovery across an 18 × 9 equal-area grid produced **42,111 unique species** before candidate image pixels or flower-colour outcomes were opened. A capacity scan identified **4,730 species** with >=100 retainable photographs after observer capping.
 
-| Cohort / execution | Upstream source | Analyses using it | Biological outcome status | Key denominator |
-|---|---|---|---|---:|
-| Discovery | Original RGFCA high-depth iNaturalist measurement table; 500 species × 100 raw photos | D; H1 diagnostic; legacy H2 discovery/audit; D–spatial discovery; H3b discovery calibration | opened legacy cohort | 369 D-eligible species |
-| Reserve | Species-disjoint RGFCA complement under the same acquisition contract; 500 species × 100 raw photos | H1 primary; legacy H2 validation; D–spatial replication; H3a; H3b reserve replication | opened species-disjoint reserve | 363 D-eligible species; 341 H3a tips |
-| P500 | Separate prospective high-depth expansion from the 42,111-species opportunity frame | measurement transport only | measurement PASS; no durable H2 verdict | 499 species, 49,900 rows; 373 measurement-evaluable |
-| Prospective H2 cohort | New species and fresh photo IDs after exclusion of legacy 1,000 species and P500 | untouched prospective q_white/W test | H2 confirmed | 499 species, 49,900 rows; 377 measurement-evaluable |
-| Secondary environmental follow-up | Reuses the same prospective-H2 measured rows only after H2 terminalization | highlight validity; pre-specified BIO5/BIO14/solar filter | secondary only; cannot alter H2 | 281 species in primary environmental panel |
+**Necessity:** the candidate universe must be defined independently of flower colour so visually conspicuous or previously known polymorphic species are not preferentially admitted. The frame is a sampling opportunity universe, not a flower-colour dataset and not a polymorphism-prevalence denominator.
 
-The original RGFCA discovery/reserve acquisition contract required Research Grade species-rank iNaturalist records with photographs and georeferences, flowering annotation term 12/value 13, positional accuracy <=5 km, unobscured/open coordinates and allowed CC licences. Observer contribution was capped at two photographs per species and deterministic geographic maximin sampling fixed 100 raw photographs per species. No native-range restriction or explicit captive/wild filter was imposed.
+### Image resources and annotations
 
-Discovery and reserve therefore reuse the same RGFCA measurement resource but answer different species-level polymorphism questions. The prospective H2 cohort is species- and photo-disjoint from the legacy cohorts where specified, but all cohorts remain within the same iNaturalist source/opportunity universe unless explicitly stated otherwise. Its later environmental analysis reuses the same physical measured cohort after H2 terminalization and has a separate inferential role.
+| Data resource | Source / selection | Scale | Why required | Role |
+|---|---|---:|---|---|
+| Discovery cohort | Fixed high-depth iNaturalist acquisition; colour-blind filters, observer cap, geographic maximin sampling | 500 species × 100 photos; 369 D-eligible | Estimate within-species distributions deeply enough for hypothesis discovery | Discovery/calibration |
+| Species-disjoint validation cohort | Same acquisition contract, different 500 species | 500 species × 100 photos; 363 D-eligible | Test reliability and spatial associations on species not used for discovery | Validation within same source system |
+| Fresh-image D transport | New iNaturalist photo IDs, same frozen measurement system | 136 species evaluable in both executions | Test transport beyond the original observer partitions to a fresh image sample | Same-source transport |
+| Prospective confirmation cohort | Previously used high-depth species excluded; 500 species frozen outcome-blind from 3,230 candidates; no replacement | 499 species × 100 photos = 49,900; 377 measurement-evaluable | The white axis was data-derived in the first resource, so a new species/photo cohort was needed for prospective confirmation | Primary H2 confirmation |
+| Highlight-validity reacquisition | Same 49,900 prospective rows reacquired only after H2 terminalization | 44,098 rows with highlight metrics | Quantify image-exposure coupling of the measured white state | Post-confirmatory validity bound |
+| Climate annotation | WorldClim 2.1 BIO5, BIO14 and solar radiation joined to prospective-cohort coordinates; BIO5 transported to discovery/validation | 281 species, 12,583 rows in primary panel | Test a simple abiotic explanation and whether it generalizes | Secondary explanatory test |
+| Phylogenetic annotation | V.PhyloMaker2 S1–S3 placements joined to validation D | 341 validation species | Test broad shared ancestry as an alternative explanation | Alternative-explanation filter |
+
+The high-depth image acquisition contract required Research Grade species-rank iNaturalist records with photographs and georeferences, flowering annotation, positional accuracy <=5 km, unobscured/open coordinates and allowed CC licences. Observer contribution was capped at two photographs per species and deterministic geographic maximin sampling fixed 100 raw photographs per species. No native-range restriction or explicit captive/wild filter was imposed.
+
+The central inferential sequence is therefore **outcome-blind frame → discovery/validation → target freeze → prospective confirmation**. Highlight, climate and phylogenetic data are annotations of those image resources, not additional independent flower-colour cohorts.
 
 ## S2. H1 observer-disjoint measurement validity
 
@@ -65,7 +65,7 @@ Workflow provenance:
 - artifact ID: `10302466831`
 - artifact digest: `sha256:19185ad9160b24ba47ef8d99a33d952ab5f5b6b62243ff756d41917bfc587c53`
 
-### Primary reserve result
+### Primary validation-cohort result
 
 | Quantity | Frozen value |
 |---|---:|
@@ -85,14 +85,14 @@ Frozen primary verdict:
 
 Later strict deterministic stress test:
 
-- reserve rho = 0.792727693;
+- validation rho = 0.792727693;
 - bootstrap 95% CI = 0.741867914–0.832365877;
 - strict floor = 0.80;
 - strict verdict = not supported.
 
 The later stress test constrains the claim; it does not rewrite the chronologically earlier primary H1 result.
 
-## S3. Legacy H2 target localization
+## S3. Discovery/validation H2 target localization
 
 Target freeze:
 
@@ -114,22 +114,22 @@ Statistic:
 
 `W = mean_i (u_i dot q_white)^2`
 
-### Legacy targeted result
+### Original-cohort targeted result
 
 | Tier | Cohort | Species | Observed W | Null median | Upper-tail p |
 |---|---|---:|---:|---:|---:|
 | 0.10 | Discovery | 152 | 0.514625 | 0.430808 | 0.001 |
-| 0.10 | Reserve | 129 | 0.514586 | 0.466546 | 0.001 |
+| 0.10 | Validation | 129 | 0.514586 | 0.466546 | 0.001 |
 | 0.20 | Discovery | 75 | 0.542355 | 0.443626 | 0.001 |
-| 0.20 | Reserve | 65 | 0.510517 | 0.469943 | 0.008 |
+| 0.20 | Validation | 65 | 0.510517 | 0.469943 | 0.008 |
 
-Frozen legacy verdict:
+Frozen targeted-test verdict:
 
 `WHITE_AXIS_TARGETED_SUPPORT_PRIMARY_AND_STRICT`
 
 The named q_white target was isolated after the original broad H2 geometry had been opened. These rows are therefore target-localization evidence, not untouched prospective confirmation.
 
-## S4. Third-cohort prospective H2 chain of custody
+## S4. Prospective-confirmation H2 chain of custody
 
 Selection protocol:
 
@@ -230,7 +230,7 @@ Canonical sources:
 - `results/polymorphism_h2_third_cohort_highlight_validity_20260922/result.json`
 - `docs/POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md`
 
-These analyses were performed after the frozen third-cohort H2 verdict and do not replace its prospective decision rule.
+These analyses were performed after the frozen prospective-confirmation H2 verdict and do not replace its prospective decision rule.
 
 ### Inferential decomposition
 
@@ -261,7 +261,7 @@ The median is lower than the frozen conditional-null median (0.457143), so the f
 
 ### Direct digital-highlight control
 
-The one-shot direct control reacquired all frozen third-cohort image rows before joining biological outcomes.
+The one-shot direct control reacquired all frozen prospective-cohort image rows before joining biological outcomes.
 
 | Quantity | Value |
 |---|---:|
@@ -294,7 +294,7 @@ The separately frozen prose protocol contains a FLAGGED coupling clause because 
 
 ### disttrait audit
 
-The later generic `disttrait` implementation is not bitwise identical to the frozen study-specific H2 code on the full third-cohort data:
+The later generic `disttrait` implementation is not bitwise identical to the frozen study-specific H2 code on the full prospective-cohort data:
 
 - frozen W = **0.5172457461**;
 - `disttrait.two_mode_axis` W = **0.5183899565**;
@@ -304,7 +304,7 @@ Near-tied deterministic initializations can switch after defensive row renormali
 
 ## S4c. Post-confirmatory environmental filter and BIO5 transport
 
-Machine-readable third-cohort environmental result:
+Machine-readable prospective-cohort environmental result:
 
 - `results/polymorphism_white_environment_mechanism_20260925/result.json`
 
@@ -314,7 +314,7 @@ Machine-readable legacy BIO5 transport result:
 
 This analysis was specified after the prospective H2 result had been terminalized. It is therefore a secondary mechanistic/ecological analysis and cannot alter the frozen H2 verdict.
 
-### Third-cohort environmental filter
+### Prospective-cohort environmental filter
 
 After response-blind high-clip exclusion:
 
@@ -324,14 +324,14 @@ After response-blind high-clip exclusion:
 | BIO14 | 281 | -0.0187 SD | 0.692 | 0.993 | 0.749 | FAIL |
 | Mean solar radiation | 281 | -0.00683 SD | 0.692 | 0.987 | 0.544 | FAIL |
 
-BIO5 was therefore the only prespecified environmental variable to pass the third-cohort mechanism gate.
+BIO5 was therefore the only prespecified environmental variable to pass the prospective-cohort mechanism gate.
 
 ### Species-disjoint BIO5 transport
 
 | Cohort | Eligible species | Median white-minus-nonwhite BIO5 contrast | Species-level p | Conditional OR | Conditional p | Primary support |
 |---|---:|---:|---:|---:|---:|---|
 | Discovery | 271 | -0.0068 SD | 0.743 | 1.033 | 0.131 | false |
-| Reserve | 260 | +0.0662 SD | 0.0541 | 1.048 | 0.0319 | false |
+| Validation | 260 | +0.0662 SD | 0.0541 | 1.048 | 0.0319 | false |
 
 Frozen transport verdict:
 
@@ -339,7 +339,7 @@ Frozen transport verdict:
 
 Interpretation boundary:
 
-The third cohort contains a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the effect does not transport as a common rule across the original species-disjoint cohorts. This is consistent with context-dependent environmental sorting and does not establish causal heat selection, a universal temperature effect, or independence from the known exposure coupling of the white classifier.
+The prospective confirmation cohort contains a prospectively specified within-cohort association between white states and warmer BIO5 environments, but the effect does not transport as a common rule across the original species-disjoint cohorts. This is consistent with context-dependent environmental sorting and does not establish causal heat selection, a universal temperature effect, or independence from the known exposure coupling of the white classifier.
 
 WorldClim provenance: exact BIO/SRAD input archives are mirrored under release tag `fcp-worldclim-2.1-10m-20260925`; checksum authority is `archive/fcp_submission_20260925/worldclim_checksums.txt`.
 
@@ -356,12 +356,12 @@ The receipt copies already frozen values from PR #32 / `feat/polymorphism-paper-
 | Cohort / response | Observed association | Geometry-preserving p |
 |---|---:|---:|
 | Discovery raw D–spatial | rho = 0.0892133 | 0.034 |
-| Reserve raw D–spatial | rho = 0.1016008 | 0.025 |
+| Validation raw D–spatial | rho = 0.1016008 | 0.025 |
 | Discovery, span + clear technical-failure adjusted | partial rho = 0.1266367 | 0.007 |
-| Reserve, span + clear technical-failure adjusted | partial rho = 0.0992877 | 0.025 |
-| Reserve matched flower-minus-background | partial rho = 0.1162411 | 0.010 |
+| Validation, span + clear technical-failure adjusted | partial rho = 0.0992877 | 0.025 |
+| Validation matched flower-minus-background | partial rho = 0.1162411 | 0.010 |
 
-Reserve uniform ambiguity-endpoint stress tests remain supported:
+Validation-cohort uniform ambiguity-endpoint stress tests remain supported:
 
 - primary D_min4: rho = 0.0970781, p = 0.029;
 - primary D_max4: rho = 0.1252858, p = 0.008;
@@ -372,25 +372,7 @@ Interpretation boundary:
 
 Greater D is associated with stronger within-species geographic colour organization. This is a replicated structural correlate and mechanistic clue, not evidence that geographic organization causes D or that any particular climate, pollinator, demographic, gene-flow or selection mechanism has been identified.
 
-## S6. P500 terminal status
-
-Canonical postmortem:
-
-- `docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md`
-
-P500 completed prospective measurement transport:
-
-- 499 species;
-- 49,900 rows;
-- 256/256 measurement partitions;
-- 373 measurement-evaluable species;
-- support gate PASS.
-
-However, the H2 calculation failed during post-calculation serialization before a durable terminal H2 result was written.
-
-Therefore P500 supplies neither prospective H2 confirmation nor prospective H2 refutation and is not replayed under the frozen one-shot rule.
-
-## S7. H3a broad phylogenetic-signal boundary
+## S6. H3a broad phylogenetic-signal boundary
 
 Canonical manifest:
 
@@ -402,7 +384,7 @@ Workflow provenance:
 - artifact ID: `10292218669`
 - artifact digest: `sha256:7f95699149f3111e00b9a095d78ddfa32e1111727d12ff1bb3ce9dc9c1dbd892`
 
-Reserve has 341 retained tips in each S1-S3 placement scenario.
+The validation cohort has 341 retained tips in each S1-S3 placement scenario.
 
 | Scenario | K | p(K) | lambda | p(lambda=0) | opportunity-adjusted p |
 |---|---:|---:|---:|---:|---:|
@@ -416,7 +398,7 @@ Frozen verdict:
 
 This closes only the tested broad tree-wide signal claim.
 
-## S8. H3b sampled-span replication boundary
+## S7. H3b sampled-span replication boundary
 
 Canonical result freeze:
 
@@ -449,7 +431,7 @@ Frozen verdict:
 
 Sampled photographic span is not true biological range size.
 
-## S9. Canonical main-text figures
+## S8. Canonical main-text figures
 
 Generated reporting-only from frozen results:
 
@@ -473,7 +455,7 @@ Figure test:
 
 The figure manifest records PNG/PDF SHA256 values and `scientific_claims_changed = false`.
 
-## S10. Manuscript claim guard
+## S9. Manuscript claim guard
 
 Claim-guard test:
 
@@ -490,7 +472,7 @@ Most recent verified post-architecture README run:
 
 The guard checks the current manuscript, claim ledger, figure plan and README against the frozen third-cohort values and required claim boundaries.
 
-## S11. Literature-positioning audit
+## S10. Literature-positioning audit
 
 Bounded manuscript literature audit:
 
@@ -498,7 +480,7 @@ Bounded manuscript literature audit:
 
 This literature layer supports context and interpretation only. It cannot modify the machine-readable empirical verdicts.
 
-## S12. Hard nonclaims carried into all supplementary material
+## S11. Hard nonclaims carried into all supplementary material
 
 No main-text or supplementary output may claim:
 
