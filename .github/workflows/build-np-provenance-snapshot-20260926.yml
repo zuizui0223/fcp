@@ -34,6 +34,7 @@ on:
       - .github/workflows/*worldclim*
       - .github/workflows/freeze-fcp-expiring-artifacts-20260925.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
+      - requirements-np-replay-20260928.txt
   push:
     branches: [main]
     paths:
@@ -67,6 +68,7 @@ on:
       - .github/workflows/*worldclim*
       - .github/workflows/freeze-fcp-expiring-artifacts-20260925.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
+      - requirements-np-replay-20260928.txt
   workflow_dispatch:
 
 permissions:
@@ -88,6 +90,8 @@ env:
   EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
   DISC_SPATIAL_RUN_ID: "34088925008"
   RES_SPATIAL_RUN_ID: "34178957447"
+  PARENT_SELECTION_RUN_ID: "34708044962"
+  PARENT_SELECTION_ARTIFACT: "polymorphism-h2-prospective-u100-selection-20260913"
   H3A_SHA: "db2514f622468747a7d5896c2696fcbf13729ef6"
   WORLDCLIM_TAG: fcp-worldclim-2.1-10m-20260925
 
@@ -120,7 +124,7 @@ jobs:
             fi
           }
 
-          for p in             README.md             CURRENT_PAPER_REPRODUCIBILITY.md             docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md             docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md             docs/POLYMORPHISM_MANUSCRIPT.md             docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md             docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md             docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md             docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md             docs/POLYMORPHISM_FIGURE_PLAN_20260918.md             docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md             docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md             docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md             docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md             docs/POLYMORPHISM_SILENE_DECOUPLING_EVIDENCE_SYNTHESIS_20260925.md             docs/POLYMORPHISM_CROSSSPECIES_PAL_WAL_ANALYSIS_20260925.md             docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md             docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md             docs/figures/polymorphism_20260918             archive/fcp_submission_20260925; do
+          for p in             README.md             requirements-np-replay-20260928.txt             CURRENT_PAPER_REPRODUCIBILITY.md             docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md             docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md             docs/POLYMORPHISM_MANUSCRIPT.md             docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md             docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md             docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md             docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md             docs/POLYMORPHISM_FIGURE_PLAN_20260918.md             docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md             docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md             docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md             docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md             docs/POLYMORPHISM_SILENE_DECOUPLING_EVIDENCE_SYNTHESIS_20260925.md             docs/POLYMORPHISM_CROSSSPECIES_PAL_WAL_ANALYSIS_20260925.md             docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md             docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md             docs/figures/polymorphism_20260918             archive/fcp_submission_20260925; do
             copy_path "$p"
           done
 
@@ -251,6 +255,8 @@ jobs:
           for rel in \
             scripts/analysis/run_polymorphism_h1_observer_disjoint_D_reliability_20260913.py \
             scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py \
+            scripts/analysis/build_polymorphism_h2_third_cohort_frame_20260916.py \
+            scripts/acquisition/run_polymorphism_h2_third_cohort_candidate_metadata_20260916.py \
             scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh \
             fcp_pipeline/third_cohort_prospective_execution_gate.py \
             .github/workflows/h2-third-cohort-prospective-measurement.yml; do
@@ -304,6 +310,48 @@ jobs:
           raw_inputs/third_cohort/source_metadata. The paper's numerical analyses are reproducible
           from the frozen measured tables without reacquiring image pixels.
           EOF
+
+      - name: Permanently recover P100/P500 parent selection and reconstruct 3,230-species frame
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_np_provenance"
+          parent="$stage/raw_inputs/third_cohort/parent_u100_selection"
+          candidate="$stage/raw_inputs/third_cohort/candidate_frame"
+          rm -rf "$parent" "$candidate"
+          mkdir -p "$parent" "$candidate"
+
+          if gh run download "$PARENT_SELECTION_RUN_ID" --repo "${{ github.repository }}" \
+            --name "$PARENT_SELECTION_ARTIFACT" --dir "$parent"; then
+            echo "parent_selection_source=actions_artifact"
+          else
+            echo "Parent selection artifact unavailable; recovering from permanent provenance release"
+            prev="$RUNNER_TEMP/previous_parent_selection"
+            rm -rf "$prev"
+            mkdir -p "$prev/extracted"
+            gh release download "$RELEASE_TAG" --repo "${{ github.repository }}" \
+              --pattern 'fcp-np-provenance-20260926.tar.gz' --dir "$prev"
+            tar -xzf "$prev/fcp-np-provenance-20260926.tar.gz" -C "$prev/extracted" \
+              ./raw_inputs/third_cohort/parent_u100_selection \
+              ./raw_inputs/third_cohort/candidate_frame
+            cp -a "$prev/extracted/raw_inputs/third_cohort/parent_u100_selection/." "$parent/"
+            cp -a "$prev/extracted/raw_inputs/third_cohort/candidate_frame/." "$candidate/"
+            echo "parent_selection_source=permanent_provenance_release"
+          fi
+
+          echo '1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c  '"$parent"'/p100_outcome_blind_pool.csv' | sha256sum -c -
+          echo 'f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4  '"$parent"'/p500_frozen_selection.csv' | sha256sum -c -
+
+          if [ ! -f "$candidate/candidate_pool.csv" ]; then
+            python "$stage/historical_code/prospective_h2/scripts/analysis/build_polymorphism_h2_third_cohort_frame_20260916.py" \
+              --p100 "$parent/p100_outcome_blind_pool.csv" \
+              --p500 "$parent/p500_frozen_selection.csv" \
+              --out-dir "$candidate"
+          fi
+
+          echo '7fc0337074b55a91c0b50773a8d5c3ef82e877074c8b3cacc21f9af58e0ba77e  '"$candidate"'/candidate_pool.csv' | sha256sum -c -
+          test "$(($(wc -l < "$candidate/candidate_pool.csv") - 1))" -eq 3230
 
       - name: Complete image-measurement and spatial reproducibility bytes
         run: |
@@ -506,6 +554,10 @@ jobs:
           efficient_sam_revision=$EFFICIENTSAM_REVISION
           discovery_spatial_null_run=$DISC_SPATIAL_RUN_ID
           reserve_spatial_null_run=$RES_SPATIAL_RUN_ID
+          parent_selection_run=$PARENT_SELECTION_RUN_ID
+          parent_selection_artifact=$PARENT_SELECTION_ARTIFACT
+          replay_python=3.12.14
+          replay_requirements=requirements-np-replay-20260928.txt
           fresh_D_source_commit=$FRESH_D_SHA
           h3a_source_commit=$H3A_SHA
           worldclim_release_tag=$WORLDCLIM_TAG
@@ -530,6 +582,9 @@ jobs:
           grep -Fxq './raw_inputs/opportunity_frame/global_monte_carlo_species_discovery_combined_v2_species_v1.csv' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/third_cohort/exclusion/random_photo_first_h9_exclusion_ledger_v1.csv' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/third_cohort/selection/selected_species_manifest.tsv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/parent_u100_selection/p100_outcome_blind_pool.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/parent_u100_selection/p500_frozen_selection.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/candidate_frame/candidate_pool.csv' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/third_cohort/polymorphism_h2_third_cohort_measured_photos_v1.csv' "$out/package_contents.txt"
           grep -Fxq './external/worldclim/wc2.1_10m_bio.zip' "$out/package_contents.txt"
           grep -Fxq './repository/archive/fcp_submission_20260925/h3b/h3b_span_permutation_nulls.csv' "$out/package_contents.txt"
@@ -609,7 +664,7 @@ jobs:
 
           Packaged files: $file_count
 
-          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, the frozen 42,111-species opportunity frame, third-cohort exclusion/selection inputs, historical H1/H2/spatial execution code, permanent discovery/reserve spatial-null arrays, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
+          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, the frozen 42,111-species opportunity frame, permanent P100/P500 parent selection plus reconstructed 3,230-species candidate frame, third-cohort exclusion/selection inputs, historical H1/H2/spatial execution code, permanent discovery/reserve spatial-null arrays, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
           EOF
 
           git config user.name "github-actions[bot]"
