@@ -8,6 +8,7 @@ on:
       - docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md
       - .github/workflows/polymorphism-reproducibility-replay.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
+      - requirements-np-replay-20260928.txt
   workflow_dispatch:
 
 permissions:
@@ -33,10 +34,12 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.12.14"
 
       - name: Install frozen-analysis runtime
-        run: python -m pip install --upgrade numpy pandas scipy
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-np-replay-20260928.txt
 
       - name: Materialize historical inputs and exact analysis code
         run: |
