@@ -81,7 +81,7 @@ The package includes:
 - canonical manuscript;
 - Supporting Information evidence map;
 - secondary mechanism evidence ledger separating study-derived BIO5/PAL-WAL analyses from source-derived biochemical/molecular context;
-- PAL/WAL × FCP overlap-feasibility receipt showing that the direct bridge is not estimable (two PAL reserve overlaps, zero WAL and zero prospective overlap);
+- PAL/WAL × FCP taxonomy-aware overlap-feasibility receipt showing that the direct bridge remains not estimable (natural subset: two PAL + two WAL reserve overlaps, zero discovery/prospective overlap; greenhouse-only WAL tracked separately);
 - cover letter;
 - claim ledger;
 - paper architecture and figure plan;
