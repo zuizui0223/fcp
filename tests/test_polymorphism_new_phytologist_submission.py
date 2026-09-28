@@ -15,6 +15,7 @@ ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_
 D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
 D_FINITE = ROOT / "results" / "polymorphism_D_finite_sample_sensitivity_20260928" / "result.json"
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
+WHITE_ENV_OBSERVER = ROOT / "results" / "polymorphism_white_environment_observer_sensitivity_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
 LINEAGE_MAP = ROOT / "docs" / "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md"
 WHITE_ENV_PROTOCOL = ROOT / "docs" / "POLYMORPHISM_WHITE_ENVIRONMENT_MECHANISM_PROTOCOL_20260925.md"
@@ -248,6 +249,7 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
     canonical = CANONICAL.read_text(encoding="utf-8")
     env = json.loads(WHITE_ENV.read_text(encoding="utf-8"))
     transport = json.loads(BIO5_TRANSPORT.read_text(encoding="utf-8"))
+    observer = json.loads(WHITE_ENV_OBSERVER.read_text(encoding="utf-8"))
 
     bio5 = next(x for x in env["results"] if x["variable"] == "bio5")
     assert env["eligible_species"] == 281
@@ -263,20 +265,35 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
     assert transport["reserve"]["eligible_species"] == 260
     assert transport["reserve"]["species_level"]["wilcoxon_two_sided_p"] == pytest.approx(0.054066696426422846)
 
+    paired_bio5 = next(x for x in observer["paired_results"] if x["variable"] == "bio5")
+    balanced_bio5 = next(x for x in observer["observer_balanced_results"] if x["variable"] == "bio5")
+    assert paired_bio5["n_species"] == 106
+    assert paired_bio5["median_delta"] == pytest.approx(0.0)
+    assert paired_bio5["wilcoxon_two_sided_p"] == pytest.approx(0.4849619155258311)
+    assert paired_bio5["OR_per_within_species_SD"] == pytest.approx(0.7866358392496202)
+    assert balanced_bio5["n_species"] == 352
+    assert balanced_bio5["median_delta"] == pytest.approx(0.05409791430882366)
+    assert balanced_bio5["wilcoxon_two_sided_p"] == pytest.approx(0.0749642018520577)
+
     for manuscript in (text, canonical):
         for token in (
             "### Post-confirmatory environmental filter and BIO5 transport test",
-            "### White states occupy warmer BIO5 environments in the prospective cohort, but the association does not transport",
+            "### The prospective BIO5 association is observer-sensitive and does not transport as a common rule",
             "**Holm-adjusted p = 0.0354**",
             "OR = **1.073**",
             "p = **0.000919**",
             "p = **0.743**",
             "p = **0.0541**",
+            "median BIO5 contrast was **0.000 SD**",
+            "OR = **0.787**",
+            "p = **0.0750**",
+            "observer conditioning",
             "does not support a common cross-cohort BIO5 rule",
         ):
             assert token in manuscript
 
     assert "Temperature is therefore not supported as a universal cross-species driver" in text
+    assert "some of the within-cohort signal may reflect observer-associated geographic sampling" in text
     assert "rather than in one universal BIO5 coefficient" in text
 
 
