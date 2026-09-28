@@ -53,6 +53,7 @@ GitHub Actions additionally replay the frozen primary and secondary numerical an
 | `tests/test_polymorphism_*` | Claim, figure and submission regression guards |
 | `archive/fcp_submission_20260925/` | Immutable provenance inputs, checksums and release receipts |
 | `.github/workflows/` | Current manuscript validation and reproducibility workflows |
+| `archive/workflows/` | Historical and superseded workflows retained for provenance but inactive in Actions |
 
 ## Reproducibility boundary
 
