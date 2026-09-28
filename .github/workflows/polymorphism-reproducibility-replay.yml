@@ -8,14 +8,20 @@ on:
       - docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md
       - .github/workflows/polymorphism-reproducibility-replay.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
+      - requirements-np-replay-20260928.txt
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 env:
   LEGACY_SHA: 5142f7951af0dde5364bb047a566d67e8c479e51
   THIRD_SHA: 7e538e5c51c05a7cc47b2fcf53eea92634c8a863
+  SPATIAL_SHA: f14186590c11ac24c95e1985077908b732132e96
+  DISC_SPATIAL_RUN_ID: "34088925008"
+  RES_SPATIAL_RUN_ID: "34178957447"
+  PROVENANCE_TAG: fcp-np-provenance-20260926
 
 jobs:
   replay:
@@ -28,10 +34,12 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.12.14"
 
       - name: Install frozen-analysis runtime
-        run: python -m pip install --upgrade numpy pandas scipy
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-np-replay-20260928.txt
 
       - name: Materialize historical inputs and exact analysis code
         run: |
@@ -86,6 +94,128 @@ jobs:
             --measured-csv data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv \
             --measurement-result results/polymorphism_h2_third_cohort_prospective_measurement_20260917/result.json \
             --output-dir results/polymorphism_h2_third_cohort_prospective_white_axis_20260917
+
+      - name: Materialize D-spatial historical code and frozen dependencies
+        run: |
+          set -euo pipefail
+          repro="$RUNNER_TEMP/repro"
+          expected="$RUNNER_TEMP/spatial_expected"
+          rm -rf "$expected"
+          mkdir -p "$expected"
+
+          git fetch --no-tags --depth=1 origin "$SPATIAL_SHA"
+          git archive "$SPATIAL_SHA" \
+            scripts/analysis/run_polymorphism_spatial_subset_step5_20260909.py \
+            scripts/analysis/run_polymorphism_spatial_reserve_step5b_20260909.py \
+            scripts/analysis/run_polymorphism_spatial_span_adjusted_step6_20260910.py \
+            scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py \
+            scripts/analysis/run_polymorphism_ambiguity_bounds_step9_20260910.py \
+            results/polymorphism_species_attributes_step4_association_20260910 \
+            results/polymorphism_measurement_missingness_step8_preflight_20260910 \
+            results/polymorphism_genus_adjustment_decomposition_step7b_20260910 \
+            results/polymorphism_genus_replication_step7_20260910 \
+            | tar -x -C "$repro"
+
+          for name in \
+            polymorphism_spatial_subset_step5_20260909 \
+            polymorphism_spatial_reserve_step5b_20260909 \
+            polymorphism_spatial_span_adjusted_step6_20260910 \
+            polymorphism_measurement_missingness_step8_analysis_20260910 \
+            polymorphism_ambiguity_bounds_step9_20260910; do
+            git show "$SPATIAL_SHA:results/$name/result.json" > "$expected/$name.json"
+          done
+
+      - name: Recover frozen D-spatial null arrays
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          repro="$RUNNER_TEMP/repro"
+          root="$repro/spatial_artifacts"
+          rm -rf "$root"
+          mkdir -p "$root/discovery" "$root/reserve"
+
+          if gh run download "$DISC_SPATIAL_RUN_ID" --repo "${{ github.repository }}" --dir "$root/discovery" \
+            && gh run download "$RES_SPATIAL_RUN_ID" --repo "${{ github.repository }}" --dir "$root/reserve"; then
+            echo "spatial_replay_source=actions_artifacts"
+          else
+            echo "Spatial Actions artifacts unavailable; using permanent provenance release"
+            prev="$RUNNER_TEMP/spatial_provenance"
+            rm -rf "$prev"
+            mkdir -p "$prev/extracted"
+            gh release download "$PROVENANCE_TAG" --repo "${{ github.repository }}" \
+              --pattern 'fcp-np-provenance-20260926.tar.gz' --dir "$prev"
+            tar -xzf "$prev/fcp-np-provenance-20260926.tar.gz" -C "$prev/extracted" \
+              ./external/spatial_null_artifacts
+            cp -a "$prev/extracted/external/spatial_null_artifacts/discovery/." "$root/discovery/"
+            cp -a "$prev/extracted/external/spatial_null_artifacts/reserve/." "$root/reserve/"
+            echo "spatial_replay_source=permanent_provenance_release"
+          fi
+
+          test "$(find "$root/discovery" -maxdepth 1 -type d -name 'global-rgfca-within-species-omnibus-shard-*' | wc -l)" -eq 20
+          test "$(find "$root/reserve" -maxdepth 1 -type d -name 'reserve-inference-shard-*' | wc -l)" -eq 20
+
+      - name: Replay D-spatial discovery and reserve chain
+        working-directory: ${{ runner.temp }}/repro
+        run: |
+          set -euo pipefail
+          python scripts/analysis/run_polymorphism_spatial_subset_step5_20260909.py \
+            --artifact-root spatial_artifacts/discovery
+          python scripts/analysis/run_polymorphism_spatial_reserve_step5b_20260909.py \
+            --artifact-root spatial_artifacts/reserve
+          python scripts/analysis/run_polymorphism_spatial_span_adjusted_step6_20260910.py
+          python scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py \
+            --discovery-artifact-root spatial_artifacts/discovery \
+            --reserve-artifact-root spatial_artifacts/reserve
+          python scripts/analysis/run_polymorphism_ambiguity_bounds_step9_20260910.py \
+            --discovery-artifact-root spatial_artifacts/discovery \
+            --reserve-artifact-root spatial_artifacts/reserve
+
+      - name: Compare replayed D-spatial results with frozen historical outputs
+        env:
+          REPRO: ${{ runner.temp }}/repro
+          EXPECTED: ${{ runner.temp }}/spatial_expected
+        run: |
+          python - <<'PY'
+          import json
+          import math
+          import os
+          from pathlib import Path
+
+          repro = Path(os.environ["REPRO"])
+          expected = Path(os.environ["EXPECTED"])
+          names = [
+              "polymorphism_spatial_subset_step5_20260909",
+              "polymorphism_spatial_reserve_step5b_20260909",
+              "polymorphism_spatial_span_adjusted_step6_20260910",
+              "polymorphism_measurement_missingness_step8_analysis_20260910",
+              "polymorphism_ambiguity_bounds_step9_20260910",
+          ]
+
+          def compare(a, b, path="root"):
+              if isinstance(a, dict) and isinstance(b, dict):
+                  if set(a) != set(b):
+                      raise AssertionError(f"{path}: key mismatch {set(a)^set(b)}")
+                  for k in a:
+                      compare(a[k], b[k], f"{path}.{k}")
+              elif isinstance(a, list) and isinstance(b, list):
+                  if len(a) != len(b):
+                      raise AssertionError(f"{path}: length mismatch")
+                  for i, (x, y) in enumerate(zip(a, b)):
+                      compare(x, y, f"{path}[{i}]")
+              elif isinstance(a, float) or isinstance(b, float):
+                  if not (math.isclose(float(a), float(b), rel_tol=1e-12, abs_tol=1e-10)
+                          or (math.isnan(float(a)) and math.isnan(float(b)))):
+                      raise AssertionError(f"{path}: {a} != {b}")
+              elif a != b:
+                  raise AssertionError(f"{path}: {a!r} != {b!r}")
+
+          for name in names:
+              a = json.loads((expected / f"{name}.json").read_text())
+              b = json.loads((repro / "results" / name / "result.json").read_text())
+              compare(a, b, name)
+              print(f"{name}: NUMERIC_JSON_MATCH_ABS_1E-10_REL_1E-12")
+          PY
 
       - name: Compare replayed headline results with current frozen results
         env:

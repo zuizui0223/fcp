@@ -10,6 +10,7 @@ on:
       - docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md
       - docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md
       - docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md
+      - docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md
       - docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md
       - docs/POLYMORPHISM_FIGURE_PLAN_20260918.md
       - docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md
@@ -33,6 +34,7 @@ on:
       - .github/workflows/*worldclim*
       - .github/workflows/freeze-fcp-expiring-artifacts-20260925.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
+      - requirements-np-replay-20260928.txt
   push:
     branches: [main]
     paths:
@@ -42,6 +44,7 @@ on:
       - docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md
       - docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md
       - docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md
+      - docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md
       - docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md
       - docs/POLYMORPHISM_FIGURE_PLAN_20260918.md
       - docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md
@@ -65,6 +68,7 @@ on:
       - .github/workflows/*worldclim*
       - .github/workflows/freeze-fcp-expiring-artifacts-20260925.yml
       - .github/workflows/build-np-provenance-snapshot-20260926.yml
+      - requirements-np-replay-20260928.txt
   workflow_dispatch:
 
 permissions:
@@ -79,6 +83,15 @@ env:
   FRESH_D_SHA: "b14fb7635fa4ef72887fad25524eb4941ec6e149"
   FRESH_D_MANIFEST_SHA256: "de6f5558f83e2667fe90198aa46ecf320f6e8e5f6d28480adf0687e95f5754e6"
   MEASUREMENT_SHA: "9fae6ccdf684a46026f72ba12e98de2c5c54bf2a"
+  AUTHORIZED_METADATA_SHA256: "13b25d72f20ed2b09ebcf3f80e0058aede08474a7e9051f7fb6ce1e521a16290"
+  AUTHORIZED_SPECIES_SHA256: "36a866b040b835e20539d318b0533bcb905cbe760d23df29e7da6587a054e593"
+  EFFICIENTSAM_REVISION: "d525f622e6f640acf5a0fc37c7ca1f243da5bde0"
+  EFFICIENTSAM_ENCODER_SHA256: "84ed466ffcc5c1f8d08409bc34a23bb364ab2c15e402cb12d4335a42be0e0951"
+  EFFICIENTSAM_DECODER_SHA256: "a62f8fa5ea080447c0689418d69e58f1e83e0b7adf9c142e2bd9bcc8045c0b11"
+  DISC_SPATIAL_RUN_ID: "34088925008"
+  RES_SPATIAL_RUN_ID: "34178957447"
+  PARENT_SELECTION_RUN_ID: "34708044962"
+  PARENT_SELECTION_ARTIFACT: "polymorphism-h2-prospective-u100-selection-20260913"
   H3A_SHA: "db2514f622468747a7d5896c2696fcbf13729ef6"
   WORLDCLIM_TAG: fcp-worldclim-2.1-10m-20260925
 
@@ -111,7 +124,7 @@ jobs:
             fi
           }
 
-          for p in             README.md             CURRENT_PAPER_REPRODUCIBILITY.md             docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md             docs/POLYMORPHISM_MANUSCRIPT.md             docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md             docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md             docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md             docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md             docs/POLYMORPHISM_FIGURE_PLAN_20260918.md             docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md             docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md             docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md             docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md             docs/POLYMORPHISM_SILENE_DECOUPLING_EVIDENCE_SYNTHESIS_20260925.md             docs/POLYMORPHISM_CROSSSPECIES_PAL_WAL_ANALYSIS_20260925.md             docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md             docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md             docs/figures/polymorphism_20260918             archive/fcp_submission_20260925; do
+          for p in             README.md             requirements-np-replay-20260928.txt             CURRENT_PAPER_REPRODUCIBILITY.md             docs/POLYMORPHISM_REPRODUCIBILITY_AUDIT_20260927.md             docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md             docs/POLYMORPHISM_MANUSCRIPT.md             docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_COVER_LETTER.md             docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md             docs/POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md             docs/POLYMORPHISM_PAPER_ARCHITECTURE_20260918.md             docs/POLYMORPHISM_FIGURE_PLAN_20260918.md             docs/POLYMORPHISM_LITERATURE_AUDIT_20260918.md             docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md             docs/POLYMORPHISM_METHODS_CLASSIFICATION_20260918.md             docs/POLYMORPHISM_NEW_PHYTOLOGIST_SUBMISSION_READINESS_20260918.md             docs/POLYMORPHISM_PROVENANCE_RELEASE_MANIFEST_20260926.md             docs/POLYMORPHISM_SILENE_DECOUPLING_EVIDENCE_SYNTHESIS_20260925.md             docs/POLYMORPHISM_CROSSSPECIES_PAL_WAL_ANALYSIS_20260925.md             docs/RGFCA_TO_POLYMORPHISM_INTERPRETATION_20260918.md             docs/P500_PROSPECTIVE_TERMINAL_POSTMORTEM_20260916.md             docs/figures/polymorphism_20260918             archive/fcp_submission_20260925; do
             copy_path "$p"
           done
 
@@ -166,6 +179,51 @@ jobs:
           test "$(git hash-object "$stage/historical/spatial/polymorphism_ambiguity_bounds_step9_result.json")" = "3e92d8798f17a60900ac3bba8deb76b062a609f1"
           test "$(git hash-object "$stage/historical/spatial/paper_numbers.json")" = "b5fec72fb1f8299fb430b8bcdbaf106ee38d8672"
 
+      - name: Recover outcome-blind opportunity frame and third-cohort exclusion inputs
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_np_provenance"
+          mkdir -p \
+            "$stage/raw_inputs/opportunity_frame" \
+            "$stage/raw_inputs/third_cohort/exclusion" \
+            "$stage/raw_inputs/third_cohort/selection"
+
+          git fetch --no-tags --depth=1 origin "$THIRD_SHA"
+
+          git show "$THIRD_SHA:data/frozen/global_monte_carlo_species_discovery_combined_v2_species_v1.csv" \
+            > "$stage/raw_inputs/opportunity_frame/global_monte_carlo_species_discovery_combined_v2_species_v1.csv"
+          echo '5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc  '"$stage"'/raw_inputs/opportunity_frame/global_monte_carlo_species_discovery_combined_v2_species_v1.csv' | sha256sum -c -
+
+          git show "$THIRD_SHA:data/frozen/random_photo_first_h9_exclusion_ledger_v1.csv" \
+            > "$stage/raw_inputs/third_cohort/exclusion/random_photo_first_h9_exclusion_ledger_v1.csv"
+          echo 'f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99  '"$stage"'/raw_inputs/third_cohort/exclusion/random_photo_first_h9_exclusion_ledger_v1.csv' | sha256sum -c -
+
+          git show "$THIRD_SHA:data/frozen/random_photo_first_h9_fresh_metadata_v1.csv" \
+            > "$stage/raw_inputs/third_cohort/exclusion/random_photo_first_h9_fresh_metadata_v1.csv"
+          echo '111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f  '"$stage"'/raw_inputs/third_cohort/exclusion/random_photo_first_h9_fresh_metadata_v1.csv' | sha256sum -c -
+
+          git show "$THIRD_SHA:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" \
+            > "$stage/raw_inputs/third_cohort/exclusion/rgfca_42111_species_breadth_measured.csv.gz"
+          echo '38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605  '"$stage"'/raw_inputs/third_cohort/exclusion/rgfca_42111_species_breadth_measured.csv.gz' | sha256sum -c -
+
+          git show "$THIRD_SHA:data/frozen/polymorphism_h2_p500_candidate_metadata_v1.csv.gz" \
+            > "$stage/raw_inputs/third_cohort/exclusion/polymorphism_h2_p500_candidate_metadata_v1.csv.gz"
+          echo 'a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595  '"$stage"'/raw_inputs/third_cohort/exclusion/polymorphism_h2_p500_candidate_metadata_v1.csv.gz' | sha256sum -c -
+
+          git show "$THIRD_SHA:results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv" \
+            > "$stage/raw_inputs/third_cohort/selection/selected_species_manifest.tsv"
+          echo '16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59  '"$stage"'/raw_inputs/third_cohort/selection/selected_species_manifest.tsv' | sha256sum -c -
+
+          git show "$THIRD_SHA:data/frozen/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz" \
+            > "$stage/raw_inputs/third_cohort/selection/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz"
+          echo 'adec40e29e347b035872f2add95b67011906cb74e28510e6260ed1edbd075711  '"$stage"'/raw_inputs/third_cohort/selection/polymorphism_h2_third_cohort_candidate_metadata_v1.csv.gz' | sha256sum -c -
+
+          git show "$THIRD_SHA:results/polymorphism_h2_third_cohort_candidate_metadata_20260916/result.json" \
+            > "$stage/raw_inputs/third_cohort/selection/candidate_metadata_result.json"
+          git show "$THIRD_SHA:results/polymorphism_h2_third_cohort_candidate_metadata_20260916/species_audit.csv" \
+            > "$stage/raw_inputs/third_cohort/selection/species_audit.csv"
+          echo 'c6ab0634adc0c4fa9f726322af24994f880ca19ddc2c6d79be740f2ddf0ab339  '"$stage"'/raw_inputs/third_cohort/selection/species_audit.csv' | sha256sum -c -
+
       - name: Recover exact historical execution code
         run: |
           set -euo pipefail
@@ -197,6 +255,8 @@ jobs:
           for rel in \
             scripts/analysis/run_polymorphism_h1_observer_disjoint_D_reliability_20260913.py \
             scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py \
+            scripts/analysis/build_polymorphism_h2_third_cohort_frame_20260916.py \
+            scripts/acquisition/run_polymorphism_h2_third_cohort_candidate_metadata_20260916.py \
             scripts/analysis/materialize_random_photo_first_h9_measurement_infrastructure.sh \
             fcp_pipeline/third_cohort_prospective_execution_gate.py \
             .github/workflows/h2-third-cohort-prospective-measurement.yml; do
@@ -216,6 +276,7 @@ jobs:
             docs/supporting/random_photo_first_measurement_execution_v1.json \
             docs/supporting/jbi_atlas_roi_estimator_contract_v4.json \
             data/atlas/qualification/roi_v4_locked_test/jrc_roi_v4_locked_test_result.json \
+            data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt \
             requirements-atlas-roi-v4.txt; do
             copy_from_git "$MEASUREMENT_SHA" "$rel" measurement_machine
           done
@@ -243,11 +304,147 @@ jobs:
           spatial_source_commit=$SPATIAL_SHA
           h3a_source_commit=$H3A_SHA
 
-          The image-measurement code and contracts are preserved here. Third-party EfficientSAM
-          ONNX weights and the trained ROI-v4 detector are not duplicated in this package; their
-          exact revisions/SHA256 identities are frozen in the included ROI-v4 contract and source
-          Git commit. The paper's numerical analyses are reproducible from the frozen measured
-          tables without reacquiring image pixels.
+          The image-measurement code, contracts and trained ROI-v4 detector are preserved here.
+          The exact EfficientSAM ONNX files are mirrored separately under external/measurement_runtime
+          and checksum-verified. Frozen source-photo metadata are preserved under
+          raw_inputs/third_cohort/source_metadata. The paper's numerical analyses are reproducible
+          from the frozen measured tables without reacquiring image pixels.
+          EOF
+
+      - name: Permanently recover P100/P500 parent selection and reconstruct 3,230-species frame
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_np_provenance"
+          parent="$stage/raw_inputs/third_cohort/parent_u100_selection"
+          candidate="$stage/raw_inputs/third_cohort/candidate_frame"
+          rm -rf "$parent" "$candidate"
+          mkdir -p "$parent" "$candidate"
+
+          if gh run download "$PARENT_SELECTION_RUN_ID" --repo "${{ github.repository }}" \
+            --name "$PARENT_SELECTION_ARTIFACT" --dir "$parent"; then
+            echo "parent_selection_source=actions_artifact"
+          else
+            echo "Parent selection artifact unavailable; recovering from permanent provenance release"
+            prev="$RUNNER_TEMP/previous_parent_selection"
+            rm -rf "$prev"
+            mkdir -p "$prev/extracted"
+            gh release download "$RELEASE_TAG" --repo "${{ github.repository }}" \
+              --pattern 'fcp-np-provenance-20260926.tar.gz' --dir "$prev"
+            tar -xzf "$prev/fcp-np-provenance-20260926.tar.gz" -C "$prev/extracted" \
+              ./raw_inputs/third_cohort/parent_u100_selection \
+              ./raw_inputs/third_cohort/candidate_frame
+            cp -a "$prev/extracted/raw_inputs/third_cohort/parent_u100_selection/." "$parent/"
+            cp -a "$prev/extracted/raw_inputs/third_cohort/candidate_frame/." "$candidate/"
+            echo "parent_selection_source=permanent_provenance_release"
+          fi
+
+          echo '1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c  '"$parent"'/p100_outcome_blind_pool.csv' | sha256sum -c -
+          echo 'f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4  '"$parent"'/p500_frozen_selection.csv' | sha256sum -c -
+
+          if [ ! -f "$candidate/candidate_pool.csv" ]; then
+            python "$stage/historical_code/prospective_h2/scripts/analysis/build_polymorphism_h2_third_cohort_frame_20260916.py" \
+              --p100 "$parent/p100_outcome_blind_pool.csv" \
+              --p500 "$parent/p500_frozen_selection.csv" \
+              --out-dir "$candidate"
+          fi
+
+          echo '7fc0337074b55a91c0b50773a8d5c3ef82e877074c8b3cacc21f9af58e0ba77e  '"$candidate"'/candidate_pool.csv' | sha256sum -c -
+          test "$(($(wc -l < "$candidate/candidate_pool.csv") - 1))" -eq 3230
+
+      - name: Complete image-measurement and spatial reproducibility bytes
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_np_provenance"
+
+          mkdir -p \
+            "$stage/raw_inputs/third_cohort/source_metadata" \
+            "$stage/external/measurement_runtime/efficient_sam" \
+            "$stage/historical_code/spatial_full"
+
+          # Validate the detector byte that was copied from the frozen measurement source.
+          echo 'f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5  '"$stage"'/historical_code/measurement_machine/data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt' | sha256sum -c -
+
+          # Preserve the exact one-shot source-photo denominator used by prospective H2.
+          git show "$THIRD_SHA:data/frozen/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz" \
+            > "$stage/raw_inputs/third_cohort/source_metadata/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz"
+          git show "$THIRD_SHA:results/polymorphism_h2_third_cohort_candidate_metadata_20260916/authorized_species.csv" \
+            > "$stage/raw_inputs/third_cohort/source_metadata/authorized_species.csv"
+          echo "$AUTHORIZED_METADATA_SHA256  $stage/raw_inputs/third_cohort/source_metadata/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz" | sha256sum -c -
+          echo "$AUTHORIZED_SPECIES_SHA256  $stage/raw_inputs/third_cohort/source_metadata/authorized_species.csv" | sha256sum -c -
+
+          # Mirror the exact EfficientSAM weights instead of relying on future upstream availability.
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/$EFFICIENTSAM_REVISION/weights/efficient_sam_vitt_encoder.onnx" \
+            --output "$stage/external/measurement_runtime/efficient_sam/efficient_sam_vitt_encoder.onnx"
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/$EFFICIENTSAM_REVISION/weights/efficient_sam_vitt_decoder.onnx" \
+            --output "$stage/external/measurement_runtime/efficient_sam/efficient_sam_vitt_decoder.onnx"
+          curl --fail --location --retry 4 --retry-delay 2 \
+            "https://raw.githubusercontent.com/yformer/EfficientSAM/$EFFICIENTSAM_REVISION/LICENSE" \
+            --output "$stage/external/measurement_runtime/efficient_sam/LICENSE-Apache-2.0.txt"
+          echo "$EFFICIENTSAM_ENCODER_SHA256  $stage/external/measurement_runtime/efficient_sam/efficient_sam_vitt_encoder.onnx" | sha256sum -c -
+          echo "$EFFICIENTSAM_DECODER_SHA256  $stage/external/measurement_runtime/efficient_sam/efficient_sam_vitt_decoder.onnx" | sha256sum -c -
+
+          cat > "$stage/THIRD_PARTY_MODEL_NOTICES.md" <<EOF
+          # Third-party / derived model notices
+
+          ## EfficientSAM
+          The EfficientSAM source and ONNX weights mirrored here come from revision:
+          $EFFICIENTSAM_REVISION
+
+          Upstream repository: https://github.com/yformer/EfficientSAM
+          Upstream licence: Apache License 2.0
+          A copy of the upstream licence is stored beside the ONNX files.
+
+          ## ROI-v4 flower detector
+          The archived ROI-v4 detector byte was trained within FCP using the JRC Flower
+          Detection dataset. The dataset-specific provider notice applies CC BY 4.0 to the
+          dataset and requires attribution and identification of changes.
+
+          Dataset citation:
+          European Commission, Joint Research Centre. Flower Detection [Dataset].
+          DOI: 10.2905/JRC.2XJ67GR
+
+          Source licence notice:
+          https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/DRLL/flower_detection/copyright.txt
+
+          The project audit does not resolve whether the trained detector is itself adapted
+          material under CC BY 4.0. This archive therefore preserves the source attribution
+          and does not purport to relicense the detector under any blanket FCP archive licence.
+          EOF
+
+          # Preserve the complete frozen spatial execution surface behind the reporting receipt.
+          git archive "$SPATIAL_SHA" \
+            scripts/analysis/run_polymorphism_spatial_subset_step5_20260909.py \
+            scripts/analysis/run_polymorphism_spatial_reserve_step5b_20260909.py \
+            scripts/analysis/run_polymorphism_spatial_span_adjusted_step6_20260910.py \
+            scripts/analysis/run_polymorphism_spatial_span_adjusted_null_step6b_20260910.py \
+            scripts/analysis/run_polymorphism_measurement_missingness_step8_preflight_20260910.py \
+            scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py \
+            scripts/analysis/run_polymorphism_ambiguity_bounds_step9_20260910.py \
+            results/polymorphism_spatial_subset_step5_20260909 \
+            results/polymorphism_spatial_reserve_step5b_20260909 \
+            results/polymorphism_spatial_span_adjusted_step6_20260910 \
+            results/polymorphism_spatial_span_adjusted_null_step6b_20260910 \
+            results/polymorphism_measurement_missingness_step8_analysis_20260910 \
+            results/polymorphism_ambiguity_bounds_step9_20260910 \
+            | tar -x -C "$stage/historical_code/spatial_full"
+
+          cat > "$stage/RAW_IMAGE_REPRODUCIBILITY_LIMIT.md" <<EOF
+          # Raw-image reproducibility boundary
+
+          Exact source image pixels and flower masks were intentionally not persisted by the
+          prospective measurement protocol.
+
+          This package preserves the frozen photo IDs/source URLs, per-row image SHA256 values,
+          exact acquisition/measurement code, the ROI-v4 detector byte, and the exact EfficientSAM
+          ONNX weights.
+
+          If the original provider still serves the frozen bytes, future reacquisition can be
+          validated against image_sha256. If those provider bytes disappear or change, exact
+          historical pixel-to-measurement reconstruction is not possible from this archive alone.
           EOF
 
       - name: Recover fresh-D transport source artifact
@@ -286,6 +483,46 @@ jobs:
           mkdir -p "$stage/historical/fresh_D_transport"
           git show "$FRESH_D_SHA:results/fcp_v2_measurement_validity_20260923/result.json" > "$stage/historical/fresh_D_transport/source_result.json"
 
+      - name: Permanently recover expiring spatial-null artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          stage="$RUNNER_TEMP/fcp_np_provenance"
+          target="$stage/external/spatial_null_artifacts"
+          rm -rf "$target"
+          mkdir -p "$target/discovery" "$target/reserve"
+
+          if gh run download "$DISC_SPATIAL_RUN_ID" --repo "${{ github.repository }}" --dir "$target/discovery" \
+            && gh run download "$RES_SPATIAL_RUN_ID" --repo "${{ github.repository }}" --dir "$target/reserve"; then
+            echo "spatial_null_source=actions_artifacts"
+            gh api "repos/${{ github.repository }}/actions/runs/$DISC_SPATIAL_RUN_ID/artifacts?per_page=100" \
+              > "$target/discovery_artifact_manifest.json"
+            gh api "repos/${{ github.repository }}/actions/runs/$RES_SPATIAL_RUN_ID/artifacts?per_page=100" \
+              > "$target/reserve_artifact_manifest.json"
+          else
+            echo "Spatial-null Actions artifacts unavailable; recovering from permanent provenance release"
+            rm -rf "$target"
+            prev="$RUNNER_TEMP/previous_spatial_provenance"
+            rm -rf "$prev"
+            mkdir -p "$prev/extracted"
+            gh release download "$RELEASE_TAG" --repo "${{ github.repository }}" \
+              --pattern 'fcp-np-provenance-20260926.tar.gz' --dir "$prev"
+            tar -xzf "$prev/fcp-np-provenance-20260926.tar.gz" -C "$prev/extracted" \
+              ./external/spatial_null_artifacts
+            cp -a "$prev/extracted/external/spatial_null_artifacts" "$target"
+            echo "spatial_null_source=permanent_provenance_release"
+          fi
+
+          test "$(find "$target/discovery" -maxdepth 1 -type d -name 'global-rgfca-within-species-omnibus-shard-*' | wc -l)" -eq 20
+          test -f "$target/discovery/global-rgfca-within-species-spatial-omnibus-full-v1/species_results.csv"
+          test "$(find "$target/discovery" -type f -name species_rho_permutations.csv | wc -l)" -eq 20
+
+          test "$(find "$target/reserve" -maxdepth 1 -type d -name 'reserve-inference-shard-*' | wc -l)" -eq 20
+          test -f "$target/reserve/rgfca-reserve-replication-full-result-v1/result.json"
+          test "$(find "$target/reserve" -type f -name null.npz | wc -l)" -eq 20
+          test "$(find "$target/reserve" -type f -name receipt.json | wc -l)" -eq 20
+
       - name: Add exact WorldClim release inputs
         env:
           GH_TOKEN: ${{ github.token }}
@@ -311,9 +548,17 @@ jobs:
           release_tag=$RELEASE_TAG
           legacy_source_commit=$LEGACY_SHA
           third_cohort_source_commit=$THIRD_SHA
-          spatial_source_commit=$SPATIAL_SHA
-          fresh_D_source_commit=$FRESH_D_SHA
           measurement_machine_source_commit=$MEASUREMENT_SHA
+          spatial_source_commit=$SPATIAL_SHA
+          authorized_metadata_sha256=$AUTHORIZED_METADATA_SHA256
+          efficient_sam_revision=$EFFICIENTSAM_REVISION
+          discovery_spatial_null_run=$DISC_SPATIAL_RUN_ID
+          reserve_spatial_null_run=$RES_SPATIAL_RUN_ID
+          parent_selection_run=$PARENT_SELECTION_RUN_ID
+          parent_selection_artifact=$PARENT_SELECTION_ARTIFACT
+          replay_python=3.12.14
+          replay_requirements=requirements-np-replay-20260928.txt
+          fresh_D_source_commit=$FRESH_D_SHA
           h3a_source_commit=$H3A_SHA
           worldclim_release_tag=$WORLDCLIM_TAG
           EOF
@@ -334,6 +579,12 @@ jobs:
           tar -tzf "$package" > "$out/package_contents.txt"
           grep -Fxq './repository/docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/legacy/global_monte_carlo_measured_photos_v1.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/opportunity_frame/global_monte_carlo_species_discovery_combined_v2_species_v1.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/exclusion/random_photo_first_h9_exclusion_ledger_v1.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/selection/selected_species_manifest.tsv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/parent_u100_selection/p100_outcome_blind_pool.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/parent_u100_selection/p500_frozen_selection.csv' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/candidate_frame/candidate_pool.csv' "$out/package_contents.txt"
           grep -Fxq './raw_inputs/third_cohort/polymorphism_h2_third_cohort_measured_photos_v1.csv' "$out/package_contents.txt"
           grep -Fxq './external/worldclim/wc2.1_10m_bio.zip' "$out/package_contents.txt"
           grep -Fxq './repository/archive/fcp_submission_20260925/h3b/h3b_span_permutation_nulls.csv' "$out/package_contents.txt"
@@ -342,8 +593,18 @@ jobs:
           grep -Fxq './historical_code/legacy/scripts/analysis/run_polymorphism_h1_observer_disjoint_reliability_20260913.py' "$out/package_contents.txt"
           grep -Fxq './historical_code/prospective_h2/scripts/analysis/run_polymorphism_h2_third_cohort_prospective_white_axis_20260917.py' "$out/package_contents.txt"
           grep -Fxq './historical_code/measurement_machine/fcp_pipeline/photo_first_measurement.py' "$out/package_contents.txt"
+          grep -Fxq './historical_code/measurement_machine/data/atlas/qualification/roi_v4_training/jrc_yolo11n_last_v4.pt' "$out/package_contents.txt"
+          grep -Fxq './external/measurement_runtime/efficient_sam/efficient_sam_vitt_encoder.onnx' "$out/package_contents.txt"
+          grep -Fxq './external/measurement_runtime/efficient_sam/efficient_sam_vitt_decoder.onnx' "$out/package_contents.txt"
+          grep -Fxq './external/measurement_runtime/efficient_sam/LICENSE-Apache-2.0.txt' "$out/package_contents.txt"
+          grep -Fxq './THIRD_PARTY_MODEL_NOTICES.md' "$out/package_contents.txt"
+          grep -Fxq './raw_inputs/third_cohort/source_metadata/polymorphism_h2_third_cohort_authorized_metadata_v1.csv.gz' "$out/package_contents.txt"
           grep -Fxq './historical_code/spatial/scripts/analysis/run_polymorphism_measurement_missingness_step8_analysis_20260910.py' "$out/package_contents.txt"
+          grep -Fxq './historical_code/spatial_full/scripts/analysis/run_polymorphism_ambiguity_bounds_step9_20260910.py' "$out/package_contents.txt"
+          grep -Fxq './external/spatial_null_artifacts/discovery/global-rgfca-within-species-omnibus-shard-0/species_rho_permutations.csv' "$out/package_contents.txt"
+          grep -Fxq './external/spatial_null_artifacts/reserve/reserve-inference-shard-0/null.npz' "$out/package_contents.txt"
           grep -Fxq './historical_code/h3a/scripts/analysis/run_polymorphism_h3a_phylogenetic_signal_20260912.R' "$out/package_contents.txt"
+          grep -Fxq './RAW_IMAGE_REPRODUCIBILITY_LIMIT.md' "$out/package_contents.txt"
 
           stat -c '%n %s bytes' "$package"
           cat "$out/fcp-np-provenance-20260926.tar.gz.sha256"
@@ -403,7 +664,7 @@ jobs:
 
           Packaged files: $file_count
 
-          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, historical headline-analysis execution code, and checksum-pinned WorldClim archives. Machine-readable frozen results remain authoritative over prose.
+          The package contains the current manuscript evidence tree, exact legacy and prospective-H2 measured inputs, the frozen 42,111-species opportunity frame, permanent P100/P500 parent selection plus reconstructed 3,230-species candidate frame, third-cohort exclusion/selection inputs, historical H1/H2/spatial execution code, permanent discovery/reserve spatial-null arrays, frozen source-photo metadata, ROI-v4 and EfficientSAM model bytes, and checksum-pinned WorldClim archives. Raw source image pixels were intentionally not persisted; machine-readable frozen results remain authoritative over prose.
           EOF
 
           git config user.name "github-actions[bot]"

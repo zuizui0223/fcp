@@ -22,6 +22,31 @@ The canonical receipt is intentionally **not embedded inside the tar.gz it ident
 
 The release workflow recovers and checksum-verifies the large measured tables that are intentionally not carried on current main:
 
+The release workflow also freezes the outcome-blind sampling lineage that precedes those measured tables:
+
+- complete 42,111-species opportunity frame
+  - source commit: `7e538e5c51c05a7cc47b2fcf53eea92634c8a863`
+  - SHA256: `5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc`
+- four prior-ID exclusion sources used before third-cohort selection
+  - H9 exclusion ledger: `f9a6894740e9974399c055f92cba237be8ada41707d84e1807ba61b902c91b99`
+  - H9 fresh metadata: `111d0f964618c0c3df749a6e4bd29f834214cda5d7a2d9bda7d43cdc9dbf4c6f`
+  - 42,111 breadth-measurement panel: `38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605`
+  - P500 candidate metadata: `a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595`
+- third-cohort selected-species manifest
+  - SHA256: `16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59`
+- parent P100 / P500 outcome-blind selection artifact
+  - original run: `34708044962`
+  - artifact: `10302477571` (`polymorphism-h2-prospective-u100-selection-20260913`)
+  - artifact digest: `sha256:7e43763e3f1d9fa3ff108154dc6ef9443430b70fdb62532e2f6845582d607abb`
+  - P100 SHA256: `1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c`
+  - P500 SHA256: `f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4`
+- deterministically reconstructed third-cohort candidate frame
+  - 3,230 species
+  - builder: historical `build_polymorphism_h2_third_cohort_frame_20260916.py`
+  - SHA256: `7fc0337074b55a91c0b50773a8d5c3ef82e877074c8b3cacc21f9af58e0ba77e`
+- complete third-cohort candidate metadata
+  - SHA256: `adec40e29e347b035872f2add95b67011906cb74e28510e6260ed1edbd075711`
+
 - legacy discovery measured rows
   - source commit: `5142f7951af0dde5364bb047a566d67e8c479e51`
   - source path: `data/derived/global_monte_carlo_measured_photos_v1.csv`
@@ -34,6 +59,10 @@ The release workflow recovers and checksum-verifies the large measured tables th
   - source commit: `7e538e5c51c05a7cc47b2fcf53eea92634c8a863`
   - source path: `data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv`
   - SHA256: `57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186`
+- prospective H2 authorized source metadata
+  - source commit: `7e538e5c51c05a7cc47b2fcf53eea92634c8a863`
+  - SHA256: `13b25d72f20ed2b09ebcf3f80e0058aede08474a7e9051f7fb6ce1e521a16290`
+  - contains the frozen photo IDs/source URLs used for the one-shot acquisition
 
 The exact WorldClim inputs are copied from the already frozen release `fcp-worldclim-2.1-10m-20260925`:
 
@@ -65,7 +94,15 @@ The package includes:
 - the exact highlight/H3a/H3b artifact freeze under `archive/fcp_submission_20260925`;
 - relevant polymorphism/environment analysis scripts;
 - relevant manuscript/provenance regression tests;
-- relevant GitHub Actions workflow definitions.
+- relevant GitHub Actions workflow definitions;
+- exact historical H1/H2 and third-cohort candidate-frame execution source;
+- pinned successful replay environment: Python 3.12.14 plus `requirements-np-replay-20260928.txt`;
+- fuller frozen D–spatial Step 5/6/8/9 scripts and intermediate outputs;
+- permanent copies of the exact discovery/reserve 999-permutation spatial-null artifacts from Actions runs `34088925008` and `34178957447`;
+- exact ROI-v4 / fixed-palette measurement implementation;
+- trained ROI-v4 detector byte, SHA256 `f1aaeec4664fe2c178e5cf2bc1f508977bef3e4aa7b40613026cb8ae3de789d5`;
+- exact EfficientSAM encoder/decoder ONNX weights from revision `d525f622e6f640acf5a0fc37c7ca1f243da5bde0`, checksum-verified;
+- frozen third-cohort source-photo metadata for byte-validated reacquisition.
 
 ## Packaging rules
 
@@ -74,12 +111,16 @@ The workflow:
 1. checks out the exact source commit;
 2. recovers the three measured tables from their immutable source commits;
 3. verifies their frozen SHA256 values;
-4. downloads the checksum-pinned WorldClim release assets and verifies them;
-5. copies the repository evidence set into a staging tree;
-6. writes a complete per-file SHA256 manifest;
-7. creates a deterministic tar.gz with sorted paths, fixed mtime, numeric owner/group;
-8. uploads the tar.gz and SHA256 manifest to the provenance release;
-9. records a release receipt on main.
+4. recovers exact historical H1/H2/spatial execution source and the frozen image-measurement code;
+5. embeds and verifies the ROI-v4 detector byte, EfficientSAM ONNX weights and authorized source-photo metadata;
+6. permanently copies the original P100/P500 selection artifact and reconstructs/validates the exact 3,230-species candidate frame, with fallback to the previous permanent provenance release on later rebuilds;
+7. copies the exact discovery/reserve spatial-null artifact families before Actions retention expiry, with fallback to the previous permanent provenance release on later rebuilds;
+8. downloads the checksum-pinned WorldClim release assets and verifies them;
+9. copies the repository evidence set into a staging tree;
+10. writes a complete per-file SHA256 manifest;
+11. creates a deterministic tar.gz with sorted paths, fixed mtime, numeric owner/group;
+12. uploads the tar.gz and SHA256 manifest to the provenance release;
+13. records a release receipt on main.
 
 ## Authority
 
@@ -91,3 +132,8 @@ This snapshot does not upgrade any inferential claim. In particular:
 - BIO5 remains positive in the secondary third-cohort analysis but non-replicated under the fixed legacy transport rule;
 - shared versus species-specific geographic mapping remains unresolved;
 - exposure coupling of measured white remains a stated limitation.
+
+
+## Raw-image reproducibility boundary
+
+The archive does not contain the original iNaturalist image pixels because the prospective protocol explicitly deleted pixels and masks after partition sealing. It does preserve the frozen photo IDs/source URLs, per-row image SHA256 values, exact acquisition/measurement code, ROI-v4 detector byte and EfficientSAM weights. Reacquired bytes can therefore be validated while still available, but exact historical pixel reconstruction is not guaranteed if the external provider no longer serves those bytes.
