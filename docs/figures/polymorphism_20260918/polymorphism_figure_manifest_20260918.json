@@ -129,6 +129,11 @@
       "bio5": {
         "discovery_median_delta_SD": -0.006777258577964757,
         "discovery_p": 0.7432522901921289,
+        "observer_balanced_median_delta_SD": 0.05409791430882366,
+        "observer_balanced_wilcoxon_p": 0.0749642018520577,
+        "observer_paired_conditional_OR": 0.7866358392496202,
+        "observer_paired_median_delta_SD": 0.0,
+        "observer_paired_wilcoxon_p": 0.4849619155258311,
         "prospective_conditional_OR": 1.073474538999635,
         "prospective_holm_p": 0.03544867047368517,
         "prospective_median_delta_SD": 0.0690112924805198,
@@ -138,9 +143,9 @@
       "claim_boundary": "bounded_secondary_empirical_evidence_not_universal_causation",
       "files": {
         "pdf": "polymorphism_figureS9_secondary_mechanism_evidence.pdf",
-        "pdf_sha256": "4bc7bd56b30bb9a64e97b6b7cfba3e8a04d2568b80519f0a25705195822b0ac1",
+        "pdf_sha256": "bf08db8ef2364d06903f1882f69a4b6e94d78741db5781a780bf83fa49ede8fa",
         "png": "polymorphism_figureS9_secondary_mechanism_evidence.png",
-        "png_sha256": "2578b65101f7dc5fb4a099596a37ccb0e4bbbb662f5dee45f47c8184f957a4c3"
+        "png_sha256": "7aee70f28dab72903f2ac600f76737a3cac24462f6a797ca5669b6d7bdcbff81"
       },
       "pal_wal": {
         "cross_PAL_lower_bound_median_percent": 5.0,
