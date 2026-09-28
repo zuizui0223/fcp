@@ -34,6 +34,16 @@ The release workflow also freezes the outcome-blind sampling lineage that preced
   - P500 candidate metadata: `a2339a3eba7bec8c29e726edc8c71a64a1a98b5cad4367764f7466c436e9f595`
 - third-cohort selected-species manifest
   - SHA256: `16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59`
+- parent P100 / P500 outcome-blind selection artifact
+  - original run: `34708044962`
+  - artifact: `10302477571` (`polymorphism-h2-prospective-u100-selection-20260913`)
+  - artifact digest: `sha256:7e43763e3f1d9fa3ff108154dc6ef9443430b70fdb62532e2f6845582d607abb`
+  - P100 SHA256: `1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c`
+  - P500 SHA256: `f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4`
+- deterministically reconstructed third-cohort candidate frame
+  - 3,230 species
+  - builder: historical `build_polymorphism_h2_third_cohort_frame_20260916.py`
+  - SHA256: `7fc0337074b55a91c0b50773a8d5c3ef82e877074c8b3cacc21f9af58e0ba77e`
 - complete third-cohort candidate metadata
   - SHA256: `adec40e29e347b035872f2add95b67011906cb74e28510e6260ed1edbd075711`
 
@@ -85,7 +95,8 @@ The package includes:
 - relevant polymorphism/environment analysis scripts;
 - relevant manuscript/provenance regression tests;
 - relevant GitHub Actions workflow definitions;
-- exact historical H1/H2 execution source;
+- exact historical H1/H2 and third-cohort candidate-frame execution source;
+- pinned successful replay environment: Python 3.12.14 plus `requirements-np-replay-20260928.txt`;
 - fuller frozen D–spatial Step 5/6/8/9 scripts and intermediate outputs;
 - permanent copies of the exact discovery/reserve 999-permutation spatial-null artifacts from Actions runs `34088925008` and `34178957447`;
 - exact ROI-v4 / fixed-palette measurement implementation;
@@ -102,13 +113,14 @@ The workflow:
 3. verifies their frozen SHA256 values;
 4. recovers exact historical H1/H2/spatial execution source and the frozen image-measurement code;
 5. embeds and verifies the ROI-v4 detector byte, EfficientSAM ONNX weights and authorized source-photo metadata;
-6. copies the exact discovery/reserve spatial-null artifact families before Actions retention expiry, with fallback to the previous permanent provenance release on later rebuilds;
-7. downloads the checksum-pinned WorldClim release assets and verifies them;
-8. copies the repository evidence set into a staging tree;
-9. writes a complete per-file SHA256 manifest;
-10. creates a deterministic tar.gz with sorted paths, fixed mtime, numeric owner/group;
-11. uploads the tar.gz and SHA256 manifest to the provenance release;
-12. records a release receipt on main.
+6. permanently copies the original P100/P500 selection artifact and reconstructs/validates the exact 3,230-species candidate frame, with fallback to the previous permanent provenance release on later rebuilds;
+7. copies the exact discovery/reserve spatial-null artifact families before Actions retention expiry, with fallback to the previous permanent provenance release on later rebuilds;
+8. downloads the checksum-pinned WorldClim release assets and verifies them;
+9. copies the repository evidence set into a staging tree;
+10. writes a complete per-file SHA256 manifest;
+11. creates a deterministic tar.gz with sorted paths, fixed mtime, numeric owner/group;
+12. uploads the tar.gz and SHA256 manifest to the provenance release;
+13. records a release receipt on main.
 
 ## Authority
 
