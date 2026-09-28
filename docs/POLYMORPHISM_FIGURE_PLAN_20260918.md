@@ -40,11 +40,11 @@ No percentage of species is labelled polymorphic.
 Show a single top-to-bottom inferential sequence. The boxes are **not nested samples**; they explain why each stage exists.
 
 1. **Stage 0 — outcome-blind opportunity frame**
-   - 42,111 metadata-discovered species;
+   - iNaturalist metadata: 42,111 metadata-discovered species;
    - 4,730 species capable of >=100 retained photographs;
    - necessity: define candidate species before flower colour is examined.
 2. **Stage 1 — discovery + validation**
-   - 500 discovery × 100 photos;
+   - iNaturalist images: 500 discovery × 100 photos;
    - 500 validation × 100 photos;
    - 369 + 363 D-eligible species;
    - necessity: estimate within-species distributions deeply and hold out species for validation.
@@ -58,7 +58,7 @@ Show a single top-to-bottom inferential sequence. The boxes are **not nested sam
    - 377 measurement-evaluable; 158 primary-H2 species;
    - necessity: untouched species/photo test of the frozen target.
 5. **Stage 3 — post-H2 annotations**
-   - highlight validity, climate and phylogeny;
+   - image-highlight reacquisition, WorldClim 2.1 climate and V.PhyloMaker2 phylogeny;
    - necessity: bound image-formation effects and simple alternative explanations;
    - dashed styling because these analyses do not create or upgrade the prospective H2 confirmation.
 
