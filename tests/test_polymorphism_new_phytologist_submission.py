@@ -389,7 +389,7 @@ def test_self_contained_np_provenance_release_is_exposed_to_readers() -> None:
     assert len(source_line.removeprefix("Source commit: ").strip()) == 40
     assert len(sha_line.removeprefix("Asset SHA256: ").strip()) == 64
 
-def test_discussion_adds_bounded_pal_wal_maintenance_and_moricandia_chronology() -> None:
+def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() -> None:
     import json
     import pytest
 
@@ -408,10 +408,11 @@ def test_discussion_adds_bounded_pal_wal_maintenance_and_moricandia_chronology()
         "whole-plant anthocyanin-loss (WAL)",
         "median 15.5%",
         "median 0.21%",
-        "median PAL lower bound was 5%",
-        "0.1% median WAL upper bound",
+        "### A secondary reanalysis links flower-restricted pigment loss to higher natural frequencies",
+        "median PAL lower bound was **5%**",
+        "median numeric WAL upper bound was **0.1%**",
         "maintenance filter",
-        "literature sample is ascertained and heterogeneous",
+        "source systems are ascertained and heterogeneous",
         "Gómez et al. 2020",
         "Narbona et al. 2026",
         "Lacey 2026",
