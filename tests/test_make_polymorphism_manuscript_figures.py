@@ -101,6 +101,11 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
 
     s9 = manifest["figures"]["supplementary_figure9"]
     assert s9["bio5"]["prospective_holm_p"] == 0.03544867047368517
+    assert s9["bio5"]["observer_balanced_median_delta_SD"] == 0.05409791430882366
+    assert s9["bio5"]["observer_balanced_wilcoxon_p"] == 0.0749642018520577
+    assert s9["bio5"]["observer_paired_median_delta_SD"] == 0.0
+    assert s9["bio5"]["observer_paired_wilcoxon_p"] == 0.4849619155258311
+    assert s9["bio5"]["observer_paired_conditional_OR"] == 0.7866358392496202
     assert s9["bio5"]["discovery_p"] == 0.7432522901921289
     assert s9["bio5"]["validation_p"] == 0.054066696426422846
     assert s9["pal_wal"]["silene_PAL_median_percent"] == 15.5
