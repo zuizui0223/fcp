@@ -107,7 +107,7 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert s9["pal_wal"]["silene_WAL_median_percent"] == 0.21
     assert s9["pal_wal"]["cross_PAL_lower_bound_median_percent"] == 5.0
     assert s9["pal_wal"]["cross_WAL_upper_bound_median_percent"] == 0.1
-    assert s9["pal_wal"]["phenotype_anchor"] == "HPLC-DAD-MSn_tissue_profiled_anthocyanin_phenotypes"
+    assert s9["pal_wal"]["phenotype_anchor"] == "silene_HPLC_DAD_MSn_tissue_profiles_crosssystem_source_classified"
     assert s9["claim_boundary"] == "bounded_secondary_empirical_evidence_not_universal_causation"
 
     f1_layout = manifest["figures"]["figure1"]["layout_contract"]
