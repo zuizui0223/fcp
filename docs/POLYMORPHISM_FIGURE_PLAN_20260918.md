@@ -247,6 +247,26 @@ H3a full sensitivity panel.
 ### Fig. S8
 H3b full sensitivity panel.
 
+
+### Fig. S9 — bounded mechanism evidence
+
+Two-panel reporting-only figure generated from frozen secondary results.
+
+**Panel A — BIO5 sorting and transport**
+- prospective cohort: median within-species white-minus-nonwhite BIO5 = +0.0690 SD; Holm-adjusted p = 0.0354; conditional OR = 1.073;
+- discovery transport: median -0.0068 SD, p = 0.743;
+- validation transport: median +0.0662 SD, p = 0.0541;
+- visual message: a positive within-cohort association exists, but it does not transport as a common cross-cohort rule.
+
+**Panel B — PAL/WAL persistence contrast**
+- *Silene littorea* PAL median positive frequency = 15.5% (8–21%);
+- *S. littorea* WAL median = 0.21% (0.05–0.86%);
+- cross-system PAL median lower bound = 5%;
+- cross-system WAL median numeric upper bound = 0.1%, maximum quantified upper bound = 1.4%;
+- visual message: flower-restricted pigment loss can reach substantially higher reported natural frequencies, but the source literature is ascertained and heterogeneous.
+
+Hard boundary: **secondary empirical evidence, not a universal causal explanation of H2.**
+
 ---
 
 ## Visual QA contract
