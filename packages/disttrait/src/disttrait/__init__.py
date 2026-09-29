@@ -21,7 +21,7 @@ from .meta import (
     species_slope_estimate,
 )
 from .reliability import ReliabilityResult, observer_disjoint_reliability
-from .turnover import InteractionBetaResult, interaction_beta_partition, turnover_rho
+from .turnover import InteractionBetaResult, TurnoverNullResult, interaction_beta_partition, null_centered_turnover_rho, turnover_rho
 from .spatial import (
     AssociationResult,
     absolute_pairwise,
@@ -45,6 +45,7 @@ from .spatial import (
 __all__ = [
     "AlignmentNullResult",
     "InteractionBetaResult",
+    "TurnoverNullResult",
     "AssociationResult",
     "absolute_pairwise",
     "continuous_spatial_permutation_null",
@@ -65,6 +66,7 @@ __all__ = [
     "jensen_shannon_pairwise",
     "matched_difference_spatial_permutation_null",
     "matched_difference_spatial_rho",
+    "null_centered_turnover_rho",
     "multivariate_spatial_permutation_null",
     "multivariate_spatial_rho",
     "observer_disjoint_reliability",
