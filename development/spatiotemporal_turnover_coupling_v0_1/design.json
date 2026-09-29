@@ -1,0 +1,215 @@
+{
+  "version": "v0.1",
+  "status": "DEVELOPMENT_CONTRACT_NO_BIOLOGICAL_OUTCOMES_OPENED",
+  "programme_name": "Spatiotemporal turnover coupling",
+  "repository_role": "Cross-program development lane only; not part of the active FCP New Phytologist manuscript.",
+  "central_question": "Do the same biological properties predict how rapidly phenotypic and interaction information is lost across evolutionary time and geographic space?",
+  "conceptual_units": {
+    "panel": "A lineage-defined set of focal species analyzed under one response domain and one source contract.",
+    "focal_species": "A species contributing spatially replicated observations within a panel.",
+    "local_network": "An observed site/time interaction network, not a predicted metaweb."
+  },
+  "response_axes": [
+    {
+      "id": "T_TRAIT",
+      "name": "trait temporal memory loss",
+      "distance_axis": "phylogenetic distance among focal species within a panel",
+      "state": "same homologous trait variable measured at species level",
+      "response": "trait dissimilarity above a frequency/measurement null as phylogenetic distance increases",
+      "primary_summary": "lambda_trait_time",
+      "sign_convention": "larger positive lambda = faster temporal loss / lability",
+      "minimum_panel_eligibility": {
+        "focal_species_with_trait_and_tree": 20,
+        "nonzero_trait_variance": true,
+        "branch_lengths_required": true
+      }
+    },
+    {
+      "id": "S_TRAIT",
+      "name": "trait spatial turnover",
+      "distance_axis": "geographic distance among observations/sites within focal species",
+      "state": "the same trait variable used in T_TRAIT",
+      "response": "within-species trait dissimilarity as geographic distance increases",
+      "primary_summary": "median lambda_trait_space across eligible focal species",
+      "sign_convention": "larger positive lambda = faster spatial turnover",
+      "minimum_panel_eligibility": {
+        "spatially_replicated_species": 5,
+        "observations_per_species": 10,
+        "distinct_sites_per_species": 3,
+        "geographic_span_km_per_species": 50
+      }
+    },
+    {
+      "id": "T_INT",
+      "name": "interaction temporal memory loss",
+      "distance_axis": "phylogenetic distance among focal species within a panel",
+      "state": "observed interaction-partner profile after partner taxonomy harmonization",
+      "response": "partner-profile dissimilarity as focal-species phylogenetic distance increases",
+      "primary_summary": "lambda_interaction_time",
+      "sign_convention": "larger positive lambda = faster loss of partner identity across evolution",
+      "minimum_panel_eligibility": {
+        "focal_species_with_partner_profile_and_tree": 20,
+        "interactions_per_species": 5,
+        "branch_lengths_required": true
+      }
+    },
+    {
+      "id": "S_INT",
+      "name": "interaction spatial rewiring",
+      "distance_axis": "geographic distance among local networks for the same focal species",
+      "state": "observed local partner profile",
+      "response": "partner-profile turnover among sites, decomposed into partner availability turnover and rewiring among co-occurring partners",
+      "primary_summary": "median lambda_interaction_space_rewiring across eligible focal species",
+      "sign_convention": "larger positive lambda = faster geographic rewiring",
+      "minimum_panel_eligibility": {
+        "spatially_replicated_species": 5,
+        "local_networks_per_species": 3,
+        "interactions_per_local_network": 3,
+        "geographic_span_km_per_species": 50
+      }
+    }
+  ],
+  "primary_predictor_families": [
+    {
+      "id": "P1_CONTEXT_HETEROGENEITY",
+      "role": "coupler",
+      "definition": "Within-panel heterogeneity in the abiotic and biotic contexts experienced by focal taxa, computed without using any turnover response.",
+      "operationalization": {
+        "trait_arm": "environmental heterogeneity across georeferenced trait observations/ranges",
+        "interaction_arm": "partner-community opportunity heterogeneity across local networks"
+      },
+      "frozen_direction": "higher heterogeneity -> faster temporal and faster spatial turnover",
+      "expected_signs": {
+        "T_TRAIT": "+",
+        "S_TRAIT": "+",
+        "T_INT": "+",
+        "S_INT": "+"
+      }
+    },
+    {
+      "id": "P2_SPECIALIZATION",
+      "role": "potential decoupler",
+      "definition": "Narrowness of ecological or partner use, standardized within taxonomic/source panel before cross-panel synthesis.",
+      "operationalization": {
+        "trait_arm": "habitat/resource niche breadth from independent occurrence/trait metadata",
+        "interaction_arm": "effective partner breadth from an observation-effort-corrected partner profile"
+      },
+      "frozen_direction": "specialization may strengthen temporal retention while increasing local sensitivity to partner replacement; opposite axis effects are allowed and are the prediction.",
+      "expected_signs": {
+        "T_TRAIT": "-",
+        "S_TRAIT": "0_or_+",
+        "T_INT": "-",
+        "S_INT": "+"
+      }
+    },
+    {
+      "id": "P3_MOBILITY_DISPERSAL",
+      "role": "potential decoupler",
+      "definition": "Taxon-appropriate movement/dispersal capacity from an external trait source, standardized within major taxonomic group.",
+      "operationalization": {
+        "examples": [
+          "bird hand-wing index or migration strategy",
+          "mammal home-range/movement proxy",
+          "plant dispersal syndrome or seed-mass-linked dispersal proxy only if frozen before response opening"
+        ]
+      },
+      "frozen_direction": "higher mobility should reduce geographic turnover more strongly than evolutionary turnover.",
+      "expected_signs": {
+        "T_TRAIT": "0",
+        "S_TRAIT": "-",
+        "T_INT": "0_or_-",
+        "S_INT": "-"
+      }
+    }
+  ],
+  "primary_tests": [
+    {
+      "id": "H1_TRAIT_COUPLING",
+      "test": "Across eligible lineage panels, Spearman(lambda_trait_time, lambda_trait_space)",
+      "direction": "positive",
+      "interpretation": "Do phenotypically labile lineages in evolutionary time also turn over rapidly across geographic space?"
+    },
+    {
+      "id": "H2_INTERACTION_COUPLING",
+      "test": "Across eligible lineage panels, Spearman(lambda_interaction_time, lambda_interaction_space_rewiring)",
+      "direction": "positive",
+      "interpretation": "Do lineages that rapidly change interaction partners across evolution also rewire rapidly across geography?"
+    },
+    {
+      "id": "H3_COMMON_PREDICTORS",
+      "test": "Multivariate/hierarchical comparison of predictor coefficients across the four response axes",
+      "interpretation": "Which biological properties are common couplers and which systematically decouple time from space?"
+    },
+    {
+      "id": "H4_TRAIT_INTERACTION_ALIGNMENT",
+      "test": "Only in panels with all four responses: compare trait and interaction turnover signatures without treating missing cells as zero.",
+      "interpretation": "Does phenotypic lability covary with interaction lability within the same biological lineages?"
+    }
+  ],
+  "null_and_bias_rules": {
+    "trait_space": "Permute complete trait observations among observed coordinates within focal species while preserving sampling geometry and measurement rows.",
+    "interaction_time": "Condition on focal and partner marginal observation opportunity; partner richness alone may not create phylogenetic memory.",
+    "interaction_space": "Partition total network beta diversity into species/partner turnover and rewiring; the primary S_INT response is rewiring conditional on co-occurrence/opportunity, not raw network dissimilarity.",
+    "source_effort": "No interaction database record count is interpreted as preference without a source-specific effort model or bounded binary-presence estimand.",
+    "taxonomy": "No post-outcome synonym expansion or taxonomic broadening.",
+    "missingness": "A missing response cell is NOT_EVALUABLE, never zero."
+  },
+  "initial_source_candidates": {
+    "trait_arm": [
+      {
+        "source": "Tundra Trait Team v1",
+        "role": "primary feasibility candidate",
+        "evidence": "~91,970 measurements, 978 vascular plant species, >99% georeferenced, mostly individual-level",
+        "public": true,
+        "status": "SOURCE_SCHEMA_PREFLIGHT_NEEDED",
+        "url": "https://tundratraitteam.github.io/",
+        "doi": "10.1111/geb.12821"
+      },
+      {
+        "source": "AVONET + spatially repeated bird trait source",
+        "role": "external taxonomic generalization",
+        "status": "HOLD_UNTIL_SPATIAL_WITHIN_SPECIES_TRAIT_SOURCE_QUALIFIES"
+      }
+    ],
+    "interaction_arm": [
+      {
+        "source": "Mangal",
+        "role": "primary local-network candidate",
+        "evidence": "ecological interaction network database with network-level metadata",
+        "public": true,
+        "status": "NETWORK_METADATA_PREFLIGHT_NEEDED",
+        "url": "https://mangal.io/"
+      },
+      {
+        "source": "Global Biotic Interactions / rglobi",
+        "role": "broad spatial-temporal interaction source and transport candidate",
+        "evidence": "spatial-temporal species interaction records searchable by location, interaction type and taxon",
+        "public": true,
+        "status": "EFFORT_AND_LOCAL_NETWORK_RECONSTRUCTION_PREFLIGHT_NEEDED",
+        "url": "https://www.globalbioticinteractions.org/"
+      }
+    ]
+  },
+  "eligibility_sequence": [
+    "source identity and immutable version",
+    "physical schema and taxonomy",
+    "panel construction without biological turnover responses",
+    "minimum coverage for both time and space within an arm",
+    "predictor availability from external sources",
+    "null-model self-detectability",
+    "only then open turnover outcomes"
+  ],
+  "anti_fishing": {
+    "no_retrospective_search_for_more_predictors": true,
+    "max_primary_predictor_families": 3,
+    "no_response_driven_trait_choice": true,
+    "no_response_driven_interaction_type_choice": true,
+    "interaction_types_must_be_prespecified_per_source": true
+  },
+  "relation_to_existing_projects": {
+    "CHUN": "proof of concept for evolutionary-time phenotype memory; not an input response unless used only in a later declared transport analysis",
+    "FCP": "proof of concept for geographic phenotype organization and reusable spatial estimators; active paper science remains unchanged",
+    "IWE": "interaction-timing meta-analysis; conceptually relevant but not counted as a turnover replicate",
+    "TTF": "qualification/abstention methodology can be reused, but this programme is biological rather than a TTF methods paper"
+  }
+}
