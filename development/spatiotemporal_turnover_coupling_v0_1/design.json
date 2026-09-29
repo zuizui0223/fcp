@@ -211,5 +211,22 @@
     "FCP": "proof of concept for geographic phenotype organization and reusable spatial estimators; active paper science remains unchanged",
     "IWE": "interaction-timing meta-analysis; conceptually relevant but not counted as a turnover replicate",
     "TTF": "qualification/abstention methodology can be reused, but this programme is biological rather than a TTF methods paper"
+  },
+  "primary_trait_family": {
+    "selection_basis": "Coverage + biological complementarity, frozen before any temporal/spatial turnover coefficient is computed.",
+    "traits": [
+      "Leaf area per leaf dry mass (specific leaf area, SLA)",
+      "Leaf dry mass per leaf fresh mass (Leaf dry matter content, LDMC)",
+      "Plant height, vegetative",
+      "Leaf nitrogen (N) content per leaf dry mass"
+    ],
+    "rationale": "Four complementary axes: acquisitive leaf economics, tissue dry-matter strategy, stature, and nutrient economics. All passed the paired source coverage gate.",
+    "no_postoutcome_trait_substitution": true
+  },
+  "mangal_interaction_type_admission": {
+    "stage": "response-blind metadata coverage only",
+    "rule": "For each Mangal interaction type and directed role (from/to), retain as a candidate only if >=20 reference taxa each occur in >=3 georeferenced networks. Rank by repeated-taxon count, then network count, then lexical type/role; admit at most 3 candidate type-role families before any partner-turnover statistic is computed.",
+    "max_candidate_type_role_families": 3,
+    "turnover_values_used_for_selection": false
   }
 }
