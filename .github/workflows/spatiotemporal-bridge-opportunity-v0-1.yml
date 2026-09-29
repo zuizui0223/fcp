@@ -1,0 +1,63 @@
+name: CHUN-FCP spatiotemporal bridge opportunity v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/spatiotemporal_bridge_opportunity_design_v0_1.json'
+      - 'scripts/analysis/audit_spatiotemporal_bridge_opportunity_v0_1.py'
+      - '.github/workflows/spatiotemporal-bridge-opportunity-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Recover frozen outcome-blind candidate frame
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/bridge"
+          mkdir -p "$root/extract"
+          gh release download fcp-np-provenance-20260926             --repo "${{ github.repository }}"             --pattern 'fcp-np-provenance-20260926.tar.gz'             --dir "$root"
+          tar -xzf "$root/fcp-np-provenance-20260926.tar.gz" -C "$root/extract"             ./raw_inputs/third_cohort/candidate_frame/candidate_pool.csv             ./raw_inputs/third_cohort/selection/selected_species_manifest.tsv
+          echo '7fc0337074b55a91c0b50773a8d5c3ef82e877074c8b3cacc21f9af58e0ba77e  '"$root"'/extract/raw_inputs/third_cohort/candidate_frame/candidate_pool.csv' | sha256sum -c -
+          echo '16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59  '"$root"'/extract/raw_inputs/third_cohort/selection/selected_species_manifest.tsv' | sha256sum -c -
+
+      - name: Run metadata-only opportunity audit
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/bridge"
+          mkdir -p build/spatiotemporal_bridge_v0_1
+          python scripts/analysis/audit_spatiotemporal_bridge_opportunity_v0_1.py             --candidate "$root/extract/raw_inputs/third_cohort/candidate_frame/candidate_pool.csv"             --third-selected "$root/extract/raw_inputs/third_cohort/selection/selected_species_manifest.tsv"             --out-json build/spatiotemporal_bridge_v0_1/result.json             --out-selection build/spatiotemporal_bridge_v0_1/selected_species.tsv
+
+      - name: Validate outcome firewall
+        run: |
+          python - <<'PY'
+          import json
+          p='build/spatiotemporal_bridge_v0_1/result.json'
+          x=json.load(open(p))
+          assert x['outcome_blind'] is True
+          assert x['forbidden_outcomes_opened'] is False
+          assert x['bridge_outcome_computed'] is False
+          assert x['candidate_species']==3230
+          assert x['prior_third_selected_species']==500
+          assert x['unused_u100_species']==2730
+          assert x['target_temporal_clades']==28
+          assert x['status'] in {
+            'PASS_PROSPECTIVE_SPATIOTEMPORAL_BRIDGE_OPPORTUNITY',
+            'HOLD_INSUFFICIENT_FRESH_CLADE_COVERAGE'
+          }
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spatiotemporal-bridge-opportunity-v0-1
+          path: build/spatiotemporal_bridge_v0_1/
