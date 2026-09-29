@@ -10,6 +10,21 @@ The study asks three linked questions:
 
 The active manuscript keeps measurement validation, prospective confirmation, geographic structure, and environmental follow-up analyses as distinct inferential layers.
 
+## Programme position
+
+FCP is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation.
+
+Its temporal sister is [CHUN](https://github.com/zuizui0223/chun), whose current cross-radiation programme asks how flower-colour identity retains lineage history as evolutionary divergence accumulates and whether that history is carried at one universal phenotype resolution.
+
+The shared empirical pattern is:
+
+> **Flower-colour variation is locally or conditionally structured in both space and time, but one universal global template is not supported.**
+
+- **Time / CHUN:** recent relatives generally retain excess colour similarity, while the phenotype resolution carrying that history differs among radiations and finer history can remain hidden inside broader phenotype classes.
+- **Space / FCP:** nearby observations can be more colour-similar within species, while independent species do not support one confirmed universal geography of their strongest transitions.
+
+The two projects are sister analyses, not a pooled dataset or one common estimator. The programme-level framing and claim boundaries are documented in docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md.
+
 ## Start here
 
 1. **Manuscript:** [`docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md`](docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md)
