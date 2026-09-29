@@ -8,47 +8,13 @@ A self-contained verification bundle is maintained under release tag `fcp-np-pro
 
 It does not recompute any result. It organizes frozen protocols, machine-readable outputs, figures and provenance into a manuscript-facing evidence map.
 
-### Secondary *Silene littorea* molecular anchor
+## How to read this Supporting Information
 
-Machine-readable structured extraction:
-- `results/polymorphism_silene_molecular_anchor_20260928/result.json`.
+The reader-facing order mirrors the paper's inferential chronology:
 
-Source:
-- Casimiro-Soriguer et al. (2016), doi:10.3389/fpls.2016.00204.
+**sampling frame -> measurement validity -> geometry discovery -> prospective confirmation -> post-confirmatory validity/environment -> spatial organization -> alternative explanations -> bounded mechanism evidence.**
 
-The current study did not re-run the raw RNA-seq. It deterministically extracted the source-reported quantitative evidence most directly relevant to petal-specific anthocyanin loss: all p<0.05 bud-stage pigmented-versus-white ABP expression contrasts, significant dark-versus-light regulatory contrasts, the expanded sequence follow-up and petal HPLC results.
-
-Key extracted results:
-- F3h1 dark/white = **49.0×**, p = **0.039**;
-- F3h1 light/white = **42.2×**, p = **0.049**;
-- Myb1a dark/white = **5.1×**, p = **0.009**;
-- F3h1 is the only locus significant in both pigmented-versus-white bud contrasts;
-- the reported F3h1 sequence table contains zero SNPs;
-- expanded sequencing of 38 individuals did not identify a SNP consistently differentiating colour morphs;
-- petal HPLC differences in rutin, quercetin and isovitexin are concordant with a blockage near F3h1.
-
-This provides a source-derived single-species molecular anchor for the PAL interpretation. It does not establish a causal Myb1a mutation or the molecular basis of the cross-species H2 white axis.
-
-### Secondary PAL/WAL maintenance evidence
-
-Evidence-status ledger: `docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md`.
-
-- Within-*Silene littorea* persistence receipt: `results/polymorphism_silene_decoupling_persistence_20260925/result.json`.
-- Cross-species interval/censoring-aware receipt: `results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json`.
-- Source: Del Valle et al. (2019), Supplementary Tables S2 and S1, respectively.
-- Biochemical anchor: in *S. littorea*, HPLC-DAD-MS^n profiling of petals, calyces, leaves and stems distinguished petal anthocyanin-loss (PAL; anthocyanins absent from petals but retained in photosynthetic tissues) from whole-plant anthocyanin-loss (WAL; anthocyanins absent from petals and photosynthetic tissues). The *S. littorea* frequency contrast is therefore biochemically anchored rather than based on visual white-flower labels alone. The cross-system Table S1 entries retain the source paper's PAL/WAL classifications; those systems were not independently re-profiled by the current study.
-
-| Contrast | PAL | WAL |
-|---|---:|---:|
-| *S. littorea* positive-frequency median | 15.5% | 0.21% |
-| *S. littorea* positive-frequency range | 8–21% | 0.05–0.86% |
-| Cross-system instances | 13 | 13 |
-| Cross-system median bound used for comparison | lower bound 5% | numeric upper bound 0.1% |
-| Largest quantified WAL upper bound | — | 1.4% |
-
-In *S. littorea*, every positive PAL frequency exceeded the maximum positive WAL frequency. Across the 13+13 literature systems, 7/13 PAL lower bounds exceeded the 1.4% maximum quantified WAL upper bound, and every PAL upper endpoint exceeded it. These analyses are descriptive reanalyses; literature ascertainment, heterogeneous survey effort and censored/qualitative frequency reporting preclude an unbiased meta-analytic or causal interpretation.
-
-A direct PAL/WAL-to-FCP bridge was also audited rather than assumed. Taxonomy-aware resolution preserved the source strings while matching accepted names. The natural-frequency subset overlaps only four D-eligible reserve species: PAL *Gymnadenia rhellicani* (D = 0.6515) and *Silene gallica* (D = 0.2344), plus WAL source *Delphinium nelsonii* resolved to *D. nuttallianum* (D = 0.1659) and source *Silene dioca* resolved as an orthographic candidate to accepted *S. dioica* (D = 0.2055). Discovery overlap and prospective selected overlap are both zero. *Mimulus guttatus* resolves to *Erythranthe guttata* (D = 0) but its source frequency is greenhouse-only and is excluded from the natural-frequency bridge. With only two PAL and two natural-context WAL overlaps, all in one reserve cohort, no inferential PAL-versus-WAL comparison of D or H2 geometry is estimable. Machine-readable receipt: `results/polymorphism_pal_wal_h2_overlap_20260928/result.json`. Taxonomic crosswalk: `docs/POLYMORPHISM_PAL_WAL_TAXONOMIC_ALIAS_AUDIT_20260928.md`.
+Workflow IDs, immutable hashes and release receipts are retained where they establish provenance, but they are not additional biological results. The self-contained release bundle remains the deeper reproducibility layer.
 
 ## S1. Data sources, selection and inferential necessity
 
@@ -475,7 +441,53 @@ Frozen verdict:
 
 Sampled photographic span is not true biological range size.
 
-## S8. Canonical main-text figures
+## S8. Bounded secondary mechanism evidence
+
+These analyses occur after the main measurement, confirmation and spatial results. They constrain biological interpretation but do not upgrade the prospective H2 test or provide a direct molecular bridge to the cross-species H2 geometry.
+
+### Secondary *Silene littorea* molecular anchor
+
+Machine-readable structured extraction:
+- `results/polymorphism_silene_molecular_anchor_20260928/result.json`.
+
+Source:
+- Casimiro-Soriguer et al. (2016), doi:10.3389/fpls.2016.00204.
+
+The current study did not re-run the raw RNA-seq. It deterministically extracted the source-reported quantitative evidence most directly relevant to petal-specific anthocyanin loss: all p<0.05 bud-stage pigmented-versus-white ABP expression contrasts, significant dark-versus-light regulatory contrasts, the expanded sequence follow-up and petal HPLC results.
+
+Key extracted results:
+- F3h1 dark/white = **49.0×**, p = **0.039**;
+- F3h1 light/white = **42.2×**, p = **0.049**;
+- Myb1a dark/white = **5.1×**, p = **0.009**;
+- F3h1 is the only locus significant in both pigmented-versus-white bud contrasts;
+- the reported F3h1 sequence table contains zero SNPs;
+- expanded sequencing of 38 individuals did not identify a SNP consistently differentiating colour morphs;
+- petal HPLC differences in rutin, quercetin and isovitexin are concordant with a blockage near F3h1.
+
+This provides a source-derived single-species molecular anchor for the PAL interpretation. It does not establish a causal Myb1a mutation or the molecular basis of the cross-species H2 white axis.
+
+### Secondary PAL/WAL maintenance evidence
+
+Evidence-status ledger: `docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md`.
+
+- Within-*Silene littorea* persistence receipt: `results/polymorphism_silene_decoupling_persistence_20260925/result.json`.
+- Cross-species interval/censoring-aware receipt: `results/polymorphism_crossspecies_pal_wal_frequency_20260925/result.json`.
+- Source: Del Valle et al. (2019), Supplementary Tables S2 and S1, respectively.
+- Biochemical anchor: in *S. littorea*, HPLC-DAD-MS^n profiling of petals, calyces, leaves and stems distinguished petal anthocyanin-loss (PAL; anthocyanins absent from petals but retained in photosynthetic tissues) from whole-plant anthocyanin-loss (WAL; anthocyanins absent from petals and photosynthetic tissues). The *S. littorea* frequency contrast is therefore biochemically anchored rather than based on visual white-flower labels alone. The cross-system Table S1 entries retain the source paper's PAL/WAL classifications; those systems were not independently re-profiled by the current study.
+
+| Contrast | PAL | WAL |
+|---|---:|---:|
+| *S. littorea* positive-frequency median | 15.5% | 0.21% |
+| *S. littorea* positive-frequency range | 8–21% | 0.05–0.86% |
+| Cross-system instances | 13 | 13 |
+| Cross-system median bound used for comparison | lower bound 5% | numeric upper bound 0.1% |
+| Largest quantified WAL upper bound | — | 1.4% |
+
+In *S. littorea*, every positive PAL frequency exceeded the maximum positive WAL frequency. Across the 13+13 literature systems, 7/13 PAL lower bounds exceeded the 1.4% maximum quantified WAL upper bound, and every PAL upper endpoint exceeded it. These analyses are descriptive reanalyses; literature ascertainment, heterogeneous survey effort and censored/qualitative frequency reporting preclude an unbiased meta-analytic or causal interpretation.
+
+A direct PAL/WAL-to-FCP bridge was also audited rather than assumed. Taxonomy-aware resolution preserved the source strings while matching accepted names. The natural-frequency subset overlaps only four D-eligible reserve species: PAL *Gymnadenia rhellicani* (D = 0.6515) and *Silene gallica* (D = 0.2344), plus WAL source *Delphinium nelsonii* resolved to *D. nuttallianum* (D = 0.1659) and source *Silene dioca* resolved as an orthographic candidate to accepted *S. dioica* (D = 0.2055). Discovery overlap and prospective selected overlap are both zero. *Mimulus guttatus* resolves to *Erythranthe guttata* (D = 0) but its source frequency is greenhouse-only and is excluded from the natural-frequency bridge. With only two PAL and two natural-context WAL overlaps, all in one reserve cohort, no inferential PAL-versus-WAL comparison of D or H2 geometry is estimable. Machine-readable receipt: `results/polymorphism_pal_wal_h2_overlap_20260928/result.json`. Taxonomic crosswalk: `docs/POLYMORPHISM_PAL_WAL_TAXONOMIC_ALIAS_AUDIT_20260928.md`.
+
+## S9. Canonical main-text figures
 
 Generated reporting-only from frozen results:
 
@@ -500,7 +512,7 @@ Figure test:
 
 The figure manifest records PNG/PDF SHA256 values and `scientific_claims_changed = false`.
 
-## S9. Manuscript claim guard
+## S10. Manuscript claim guard
 
 Claim-guard test:
 
@@ -517,7 +529,7 @@ Most recent verified post-architecture README run:
 
 The guard checks the current manuscript, claim ledger, figure plan and README against the frozen prospective-confirmation values and required claim boundaries.
 
-## S10. Literature-positioning audit
+## S11. Literature-positioning audit
 
 Bounded manuscript literature audit:
 
@@ -525,7 +537,7 @@ Bounded manuscript literature audit:
 
 This literature layer supports context and interpretation only. It cannot modify the machine-readable empirical verdicts.
 
-## S11. Hard nonclaims carried into all supplementary material
+## S12. Hard nonclaims carried into all supplementary material
 
 No main-text or supplementary output may claim:
 
