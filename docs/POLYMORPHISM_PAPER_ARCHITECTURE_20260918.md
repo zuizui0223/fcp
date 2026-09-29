@@ -12,7 +12,7 @@ Authoritative surfaces:
 
 ## 1. Paper in one sentence
 
-Across high-depth community-science image cohorts, within-species flower-colour variation behaves as a reproducible comparative trait, shows recurrent achromatic–chromatic geometry in a prospective species-disjoint test, and is more strongly geographically organized in species with greater colour diversity.
+Treating species as phenotype distributions rather than mean colours reveals three separable dimensions of intraspecific flower-colour variation—amount, direction and geographic organization: the distributional trait is reproducible, its displacement repeatedly contains an achromatic–chromatic component, and greater diversity is associated with stronger spatial organization.
 
 ## 2. Questions
 
@@ -22,7 +22,7 @@ The paper asks three linked questions:
 2. **Does within-species colour displacement repeatedly occupy a common direction in phenotype space?**
 3. **Is greater colour diversity associated with stronger within-species geographic organization?**
 
-The first establishes the inferential unit. The second tests cross-species regularity in phenotype space. The third asks whether the amount of variation is spatially structured rather than merely broad or noisy.
+Together these questions decompose intraspecific trait variation into **amount** (D), **direction** (continuous displacement geometry) and **organization** (within-species geographic structure). The first establishes the inferential unit, the second tests cross-species regularity in phenotype space, and the third asks whether greater variation is ecologically structured rather than merely broad or noisy.
 
 ## 3. Data architecture and why each stage exists
 
@@ -127,7 +127,7 @@ The Discussion follows one hierarchy.
 
 The ecological synthesis is:
 
-**what varies shows recurrent cross-species structure; where that variation is sorted remains context dependent and unresolved as a universal map.**
+**what varies shows recurrent cross-species structure; where that variation is sorted remains context dependent. More generally, shared geometry of intraspecific variation can persist without a universal environmental coefficient or geographic map.**
 
 ## 7. Figure sequence
 
