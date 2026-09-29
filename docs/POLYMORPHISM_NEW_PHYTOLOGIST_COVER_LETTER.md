@@ -18,11 +18,11 @@ Can flower-colour polymorphism be measured reproducibly as a species phenotype, 
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-Across an outcome-blind 42,111-species opportunity frame, we analyse 100,000 high-depth discovery/validation photographs and 49,900 new prospective-confirmation photographs. Within-species colour variation is reproducible across species, recurrently aligned along an achromatic–chromatic axis, and more geographically organized in more diverse species.
+We move comparative ecology from species means to validated within-species phenotype distributions. Across 149,900 photographs, we separate the amount, direction and geographic organization of flower-colour variation: displacement repeatedly aligns along an achromatic–chromatic axis, and more diverse species show stronger spatial organization.
 
 ### Question 3 — Why is this work important and timely?
 
-Flower-colour polymorphism is usually studied within populations, while global comparative work compresses species to one colour value. By linking these scales, we show that recurrent phenotypic geometry can coexist with measurable spatial organization while leaving cross-species map sharing open, motivating mechanistic tests of pigment-network accessibility and ecological sorting.
+Flower-colour polymorphism is usually studied within populations, while macroecology compresses species to mean traits. Treating polymorphism as intraspecific trait variation reveals a general principle: species can share the geometry of variation even when the environmental coefficients and geographic maps organizing that variation are context dependent.
 
 ## Key result and evidential chronology
 
