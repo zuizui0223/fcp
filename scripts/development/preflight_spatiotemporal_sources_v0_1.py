@@ -93,8 +93,8 @@ def mangal(out:Path,max_pages:int=100):
     geo=0; dated=0; both=0; dataset_ids=set(); fields=set()
     for n in nets:
         fields.update(n.keys())
-        lat=n.get('latitude'); lon=n.get('longitude'); date=n.get('date')
-        g=present(lat) and present(lon); d=present(date)
+        geom=n.get('geom'); date=n.get('date')
+        g=present(geom); d=present(date)
         geo+=int(g); dated+=int(d); both+=int(g and d)
         ds=n.get('dataset_id')
         if ds is None and isinstance(n.get('dataset'),dict): ds=n['dataset'].get('id')
@@ -108,6 +108,7 @@ def mangal(out:Path,max_pages:int=100):
       'networks_with_coordinates_and_date':both,
       'distinct_dataset_ids_observed':len(dataset_ids),
       'fields_observed':sorted(fields),
+      'coordinate_field':'geom',
       'gate':{'networks_with_coordinates_min':100,'networks_with_coordinates_and_date_min':50},
       'interaction_values_opened':False,
       'rewiring_computed':False,
