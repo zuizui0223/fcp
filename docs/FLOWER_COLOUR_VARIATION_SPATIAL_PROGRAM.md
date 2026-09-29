@@ -21,40 +21,104 @@ The two repositories are complementary analyses, not a pooled dataset or a share
 
 ## The spatial question in FCP
 
-The central question is:
+The current spatial programme asks three linked questions:
 
-> **Once intraspecific flower-colour variation exists, is it maintained as local coexistence or expressed as geographic differentiation among populations, and how does that spatial organization relate to occupied climatic niche breadth?**
+1. **Is within-species flower-colour variation a reproducible species-level comparative trait?**
+2. **Does that variation repeatedly occupy common directions in phenotype space across species?**
+3. **When variation is greater, is it also more strongly organized geographically?**
 
-The distinction is biological rather than merely descriptive.
+A complementary held-out continuous-colour analysis asks the stronger map-level question:
 
-- **Within-population flower-colour polymorphism** requires documented coexistence of discrete colour variants in the same population.
-- **Geographically structured flower-colour variation** requires differentiation among populations or regions without retained evidence of local coexistence.
+> **After preserving each species' observed geographic support, are neighbouring observations more colour-similar than expected, and do independent species place their strongest transitions in one shared global geography?**
 
-Those two states can arise under different combinations of selection, migration, drift, demographic history, frequency dependence, microenvironmental heterogeneity, and spatially varying environments.
+This separates **local organization** from **global coincidence**.
 
 ## Why this is a space problem rather than a generic flower-colour paper
 
-`fcp` does not ask why a particular colour exists or which pigment gene produced it. It asks how already-existing intraspecific colour diversity is **arranged geographically**.
+`fcp` does not primarily ask why a particular hue exists. It asks how within-species colour diversity is expressed across geographic observations and populations.
 
-The primary response is therefore not colour itself, but the spatial configuration of colour variation:
+The current programme therefore distinguishes several spatial quantities:
 
-`local coexistence <-> geographic differentiation`
+- **diversity:** how much within-species colour variation is present;
+- **local organization:** whether nearby observations are more similar than expected under species-conditioned random labelling;
+- **geographic sorting:** whether greater colour diversity is associated with stronger within-species spatial organization;
+- **global coincidence:** whether different species place their strongest transitions in the same geographic cells.
 
-The current frozen 34-species analysis then asks whether species-level occupied climatic niche breadth differs between those spatial states.
+These quantities need not agree.
 
-This makes `fcp` a comparative study of **maintenance and spatial sorting**, rather than a study of the evolutionary origin of pigment states.
+A species can have high colour diversity without a strong geographic mosaic, and several species can each be spatially structured without sharing one global transition boundary.
 
 ## Current empirical answer
 
-The current 34-species comparison contains 20 within-population and 14 geographically structured cases across 25 plant families.
+### Large comparative image programme
 
-Across all five climatic-niche summaries, point estimates indicate lower odds of geographically structured flower-colour variation toward broader sampled occupied climatic niches. Moisture breadth shows the largest observed contrast, but multiplicity-adjusted, phylogenetic and finite-sample analyses do not support a uniquely established moisture mechanism.
+The active New Phytologist analysis is based on deep repeated community-science sampling rather than the earlier 34-species literature comparison.
 
-The appropriate programme-level interpretation is therefore:
+Its main sampling layers include:
 
-> **The spatial organization of intraspecific flower-colour variation is associated with ecological breadth in a direction more consistent with broad occupancy accompanying local maintenance than with a simple expectation that broader climatic gradients necessarily produce more geographic colour sorting.**
+- 500 discovery species × 100 photographs, with 369 D-eligible species;
+- a species-disjoint validation cohort of another 500 species × 100 photographs, with 363 D-eligible species;
+- fresh-image transport in 136 overlapping evaluable species;
+- a separate prospective test of a frozen achromatic–chromatic axis using 49,900 newly sampled photographs from 499 species.
 
-This remains a comparative spatial pattern. It is not a morph-specific climatic adaptation test and does not identify a unique maintenance mechanism.
+Within-species colour diversity is reproducible enough to behave as a comparative species-level trait. Observer-disjoint validation recovered stable species rankings, and fresh-image transport was strong.
+
+The prospective common-axis test also passed its structured-null gate:
+
+- retained prospective species = 158;
+- observed alignment W = 0.517;
+- structured-null median = 0.457;
+- P = 0.001.
+
+Thus the recurrent component of within-species variation is concentrated partly along an achromatic–chromatic direction, beyond what is induced by the coarse-state construction itself.
+
+### Spatial organization of diversity
+
+Greater within-species colour diversity is associated with stronger geographic colour organization in both original cohorts.
+
+In the species-disjoint validation analysis, the relationship remains supported after sampled-span and clear technical-failure adjustment:
+
+- partial rho = 0.0993, P = 0.025;
+- flower-minus-background sensitivity rho = 0.1162, P = 0.010.
+
+The association also survives finite-sample and ambiguity stress tests.
+
+The supported interpretation is a **replicated structural correlate**: more diverse species tend to have more geographically organized colour variation.
+
+It is not evidence that geographic organization causes diversity, nor does it identify one climatic, pollinator, demographic, gene-flow or selection mechanism.
+
+### Direct held-out local-structure test
+
+A separate six-species held-out continuous-colour analysis tests spatial organization directly at the observation-neighbourhood level.
+
+Stage A supports local organization:
+
+- 720 held-out photographs;
+- primary five-nearest-neighbour standardized clustering deficit = 2.311;
+- permutation P = 0.0113;
+- the result retains direction at k = 3 and k = 8.
+
+Thus neighbouring observations are more colour-similar than expected after conditioning on each species' sampled geography.
+
+Stage B asks whether independent species concentrate their strongest relative transitions in one shared global geography.
+
+The frozen primary test does not reject that null:
+
+- opportunity-weighted concentration excess = 1.4389 SD;
+- upper-tail P = 0.0906;
+- neighbouring support choices do not yield a stable confirmatory pattern.
+
+The spatial conclusion is therefore:
+
+> **Within-species flower-colour variation is recurrently organized in geographic space, but the geography of that organization is species dependent rather than demonstrably governed by one universal global transition map.**
+
+### Historical 34-species ecological-breadth layer
+
+The earlier 34-species literature-based comparison remains a bounded secondary spatial layer, not the current empirical backbone.
+
+Its direction is more consistent with broader sampled occupied climatic niches accompanying local maintenance than with a simple rule that broader climatic gradients necessarily produce stronger geographic sorting.
+
+That analysis does not identify a unique climatic mechanism.
 
 ## Relation to CHUN: the temporal arm
 
@@ -113,11 +177,15 @@ A later synthesis could test whether the same biological properties that acceler
 
 This programme framing does not change the current FCP inferential boundary:
 
+- the 42,111-species metadata frame is an opportunity frame, not a prevalence denominator;
+- community-science image sampling is not a complete census of within-species colour states;
+- the prospective species cohort remains within the same broad iNaturalist measurement system and is not independent-source replication;
+- greater D associated with stronger spatial organization is a structural correlate, not a causal mechanism;
 - occupied climatic niche breadth is not fundamental physiological tolerance;
 - species-level climate summaries are not morph-specific niches;
-- the observed direction is not proof of climatic causation;
 - local coexistence does not imply one specific balancing-selection mechanism;
 - geographic differentiation does not imply local adaptation;
+- local spatial organization does not imply one shared global transition boundary;
 - `fcp` and `chun` are not one pooled analysis.
 
 The value of the connection is conceptual: **the time paper asks how historical organization is retained or lost as lineages diverge; the space paper asks how contemporary variation is organized geographically. Both find structured variation without evidence for one universal global template.**
