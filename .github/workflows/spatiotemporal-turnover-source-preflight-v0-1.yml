@@ -37,17 +37,28 @@ jobs:
         run: |
           python scripts/development/preflight_spatiotemporal_sources_v0_1.py mangal             --out build/spatiotemporal_turnover_preflight/mangal_preflight.json
 
+      - name: Mangal interaction type-role coverage preflight
+        run: |
+          python scripts/development/preflight_mangal_interaction_coverage_v0_1.py \
+            --out build/spatiotemporal_turnover_preflight/mangal_interaction_coverage.json
+
       - name: Validate firewalls
         run: |
           python - <<'PY'
           import json
           t=json.load(open('build/spatiotemporal_turnover_preflight/ttt_preflight.json'))
           m=json.load(open('build/spatiotemporal_turnover_preflight/mangal_preflight.json'))
+          mi=json.load(open('build/spatiotemporal_turnover_preflight/mangal_interaction_coverage.json'))
           assert t['outcomes_computed'] is False
           assert m['interaction_values_opened'] is False
           assert m['rewiring_computed'] is False
+          assert mi['partner_similarity_computed'] is False
+          assert mi['rewiring_computed'] is False
+          assert mi['temporal_memory_computed'] is False
+          assert mi['selection_uses_turnover_outcomes'] is False
           assert t['status'] in {'TTT_PAIRED_SOURCE_PREFLIGHT_PASS','HOLD_TTT_NO_TRAIT_PASSES_PAIRED_SOURCE_GATE'}
           assert m['status'] in {'MANGAL_NETWORK_METADATA_PREFLIGHT_PASS','HOLD_MANGAL_NETWORK_METADATA_COVERAGE'}
+          assert mi['status'] in {'MANGAL_INTERACTION_ROLE_COVERAGE_PASS','HOLD_MANGAL_NO_TYPE_ROLE_PASSES_COVERAGE'}
           PY
 
       - uses: actions/upload-artifact@v4
