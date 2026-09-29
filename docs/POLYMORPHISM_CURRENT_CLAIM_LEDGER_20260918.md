@@ -382,6 +382,24 @@ The strongest defensible paper-level statement is now:
 
 This upgrades the former post-audit H2 claim to a prospective confirmation **of excess alignment with the fixed axis relative to the frozen structured null**, while preserving both the discovery chronology and the unresolved white-state measurement-validity boundary.
 
+## 9a. Allowed ecological synthesis — intraspecific variation as a distributional comparative trait
+
+This is an interpretation of the frozen results, not an additional statistical test.
+
+The paper may explicitly distinguish three properties of intraspecific flower-colour variation:
+
+- **amount** — four-state diversity D;
+- **direction** — continuous within-species displacement geometry;
+- **organization** — within-species geographic structure.
+
+The allowed general synthesis is:
+
+> Cross-species generality can reside in the geometry of intraspecific variation even when the environmental coefficients and geographic maps that organize that variation are context dependent.
+
+Flower-colour polymorphism is a useful model for this distributional view because discrete morph frequencies, continuous colour displacement and geographic sorting can be measured within one trait system, with pigment-pathway evidence providing bounded developmental interpretation.
+
+This synthesis does **not** establish a universal ecological driver, a shared geographic map, a universal pigment mechanism, or causal coupling between D and geographic organization.
+
 ## 10. Current title
 
 **Within-species flower-colour variation shows recurrent achromatic–chromatic geometry across plant species**
