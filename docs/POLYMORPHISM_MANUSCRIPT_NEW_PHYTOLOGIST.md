@@ -13,8 +13,8 @@
 - Introduction: 744 words
 - Materials and Methods: 2,424 words
 - Results: 2,538 words
-- Discussion: 1,726 words
-- Main text (Introduction through Discussion): 7,432 words
+- Discussion: 1,781 words
+- Main text (Introduction through Discussion): 7,487 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -376,6 +376,8 @@ The present data do not resolve whether geographic colour boundaries themselves 
 The replicated D–spatial association shows that species with greater measured colour diversity also tend to have stronger internal geographic organization. This is not explained by sampled span in validation, persists after sampled-span and technical-failure adjustment, remains positive in a matched flower-minus-background contrast, and survives ambiguity-endpoint stress tests.
 
 The result is structural rather than causal. Spatially varying abiotic selection, pollinator turnover, restricted dispersal or gene flow, demographic history, drift and mating-system differences could all contribute. Together with H2, it supports a **two-layer ecological question**: **what varies** shows recurrent cross-species structure, whereas **where that variation is sorted** remains unresolved and potentially context dependent.
+
+These results also show what is lost when species are represented by means. A mean colour cannot distinguish a broad but unstructured distribution from a geographically partitioned polymorphism, while D alone does not identify the direction of variation. Comparative analyses of ITV therefore benefit from retaining **amount, direction and spatial organization** as separate ecological properties.
 
 ### Two simple explanations fail fresh-data tests
 
