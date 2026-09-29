@@ -1,0 +1,55 @@
+{
+  "version": "v0.1",
+  "status": "MANGAL_METADATA_GEOMETRY_PREFLIGHT_COMPLETE",
+  "checked_on": "2026-09-29",
+  "workflow_run": 36562913212,
+  "workflow_job": 109387805342,
+  "design": "data/mangal_spatiotemporal_metadata_preflight_design_v0_1.json",
+  "source": "Mangal API v2",
+  "firewall": {
+    "allowed_endpoints_used": [
+      "dataset",
+      "network"
+    ],
+    "forbidden_endpoints_used": [],
+    "taxon_identities_opened": false,
+    "interaction_edges_opened": false,
+    "trait_values_opened": false,
+    "environment_values_opened": false
+  },
+  "totals": {
+    "datasets": 175,
+    "networks": 1487
+  },
+  "geometry_gate": {
+    "min_public_networks": 5,
+    "min_georeferenced_public_networks": 5,
+    "min_distinct_locations": 5,
+    "passing_datasets": 5,
+    "passing": [
+      {
+        "dataset_id": 15,
+        "dataset_name": "havens_1992"
+      },
+      {
+        "dataset_id": 6,
+        "dataset_name": "kolpelke_et_al_2017"
+      },
+      {
+        "dataset_id": 72,
+        "dataset_name": "hadfield_2014"
+      },
+      {
+        "dataset_id": 75,
+        "dataset_name": "ricciardi_2010"
+      },
+      {
+        "dataset_id": 179,
+        "dataset_name": "bartomeus_2005"
+      }
+    ]
+  },
+  "full_interaction_spatial_admission_authorized": false,
+  "next_gate": "freeze and execute node/taxonomy-only repeated-taxon support audit on the five geometry-qualified datasets",
+  "interpretation": "Five Mangal datasets have enough public georeferenced network replication to justify a taxonomy-only support audit. Geometry alone does not establish standardized sampling effort, repeated focal taxa, or interaction rewiring estimability."
+}
