@@ -9,6 +9,7 @@ SOURCES=ROOT/"data"/"spatiotemporal_predictor_source_verification_v0_1.json"
 TUNDRA=ROOT/"data"/"spatiotemporal_trait_geometry_calibration_tundra_v0_1.json"
 NAMESPACE=ROOT/"results"/"globi_specialization_namespace_independence_v0_1"/"result.json"
 CITATION=ROOT/"results"/"globi_citation_source_exclusion_v0_1"/"result.json"
+ELIGIBILITY=ROOT/"results"/"spatiotemporal_predictor_eligibility_v0_1"/"result.json"
 
 
 def test_predictor_family_and_independence_contract():
@@ -85,3 +86,15 @@ def test_globi_source_independence_preflights_are_bounded():
     assert x["interaction_rows_opened"] is False
     assert x["taxon_identities_opened"] is False
     assert x["partner_entropy_computed"] is False
+
+
+def test_predictor_eligibility_result_is_partial_not_overpromoted():
+    x=json.loads(ELIGIBILITY.read_text())
+    assert x["status"]=="SPATIOTEMPORAL_PREDICTOR_ELIGIBILITY_PARTIAL_PASS"
+    assert x["context_heterogeneity"]["status"]=="PASS_SOURCE_ROUTE"
+    assert x["ecological_specialization"]["status"]=="PASS_SOURCE_EXCLUSION_MECHANISM_SUPPORT_AUDIT_PENDING"
+    assert x["ecological_specialization"]["interaction_rows_opened"] is False
+    assert x["ecological_specialization"]["specialization_values_computed"] is False
+    assert x["dispersal_mobility"]["status"]=="HOLD_NO_PINNED_SOURCE_INDEPENDENT_DIRECT_DISPERSAL_MEASURE"
+    assert x["generalized_turnover_outcomes_opened"] is False
+    assert x["current_fcp_manuscript_changed"] is False
