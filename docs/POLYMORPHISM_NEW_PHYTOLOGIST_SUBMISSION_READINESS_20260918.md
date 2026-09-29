@@ -67,15 +67,15 @@ The current New Phytologist guidance describes Full Papers as usually approximat
 | Requirement | Current state | Decision |
 |---|---:|---|
 | Title approximately <=130 characters | 105 characters | PASS |
-| Summary <=200 words | **176 words** | PASS |
+| Summary <=200 words | **181 words** | PASS |
 | Summary structure | 4 bullets | PASS |
 | Keywords | 6, alphabetical | PASS |
-| Introduction | **725 words** | RECORDED |
-| Materials and Methods | **2,407 words** | RECORDED |
+| Introduction | **744 words** | RECORDED |
+| Materials and Methods | **2,424 words** | RECORDED |
 | Results | **2,538 words** | RECORDED |
-| Discussion | **1,772 words** | RECORDED |
-| Main text, Introduction–Discussion | **7,442 words** | PASS (within usual 6,500–7,500 range) |
-| Discussion share | **23.8%** | PASS (<30%) |
+| Discussion | **1,726 words** | RECORDED |
+| Main text, Introduction–Discussion | **7,432 words** | PASS (within usual 6,500–7,500 range) |
+| Discussion share | **23.2%** | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (usual 6–8) |
@@ -83,7 +83,7 @@ The current New Phytologist guidance describes Full Papers as usually approximat
 | Figure legends 1–5 | present | PASS |
 | Supporting legends S1–S9 | present | PASS |
 
-The data-provenance rewrite initially expanded the manuscript. Duplicate implementation detail was then removed while preserving each stage's source, selection logic, inferential necessity and claim boundary. Finite-sample D sensitivity, the bounded *S. littorea* molecular anchor and PAL/WAL persistence result are now reported explicitly; the main text is maintained within the journal's usual Full Paper range.
+The final narrative treats flower-colour polymorphism explicitly as intraspecific trait variation, separating **amount, phenotype-space direction and geographic organization** while preserving each stage's source, selection logic, inferential necessity and claim boundary. Finite-sample D sensitivity and bounded molecular/persistence evidence remain explicit; the main text stays within the journal's usual Full Paper range.
 
 ## 4. Cover-letter audit
 
