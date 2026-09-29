@@ -228,5 +228,28 @@
     "rule": "For each Mangal interaction type and directed role (from/to), retain as a candidate only if >=20 reference taxa each occur in >=3 georeferenced networks. Rank by repeated-taxon count, then network count, then lexical type/role; admit at most 3 candidate type-role families before any partner-turnover statistic is computed.",
     "max_candidate_type_role_families": 3,
     "turnover_values_used_for_selection": false
+  },
+  "primary_interaction_families": {
+    "selection_basis": "Biological complementarity plus response-blind source coverage, frozen before any partner-similarity or rewiring outcome is computed.",
+    "families": [
+      {
+        "interaction_type": "mutualism",
+        "focal_role": "either",
+        "direction_handling": "undirected; both endpoints enter one focal-taxon pool"
+      },
+      {
+        "interaction_type": "predation",
+        "focal_role": "from",
+        "direction_handling": "use Mangal directed source role only; biological predator-label interpretation requires separate schema verification"
+      },
+      {
+        "interaction_type": "parasitism",
+        "focal_role": "from",
+        "direction_handling": "use Mangal directed source role only; biological parasite-label interpretation requires separate schema verification"
+      }
+    ],
+    "excluded_primary_type": "herbivory",
+    "exclusion_reason": "Did not pass the frozen >=20 taxa each observed in >=3 networks coverage gate in the initial metadata preflight.",
+    "no_postoutcome_type_substitution": true
   }
 }
