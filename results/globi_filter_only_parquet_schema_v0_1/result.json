@@ -1,0 +1,46 @@
+{
+  "version": "v0.1",
+  "status": "PASS_GLOBI_PARQUET_SCHEMA_REQUIRED_ROLES_PRESENT",
+  "workflow_run": 36624015738,
+  "workflow_job": 109596250609,
+  "source": {
+    "zenodo_record": 22691479,
+    "version": "0.11",
+    "file": "interactions.parquet",
+    "bytes": 2375721521,
+    "md5": "8212776b7ba0c4fa8de26a00b5ce8595"
+  },
+  "column_count": 93,
+  "required_role_columns": {
+    "dataset_identity": [
+      "sourceNamespace"
+    ],
+    "source_citation": [
+      "referenceCitation",
+      "referenceDoi",
+      "sourceCitation",
+      "sourceDOI"
+    ],
+    "focal_taxon": [
+      "sourceTaxonSpeciesName",
+      "sourceTaxonSpeciesId"
+    ],
+    "partner_taxon": [
+      "targetTaxonSpeciesName",
+      "targetTaxonSpeciesId"
+    ],
+    "interaction_type": [
+      "interactionTypeName"
+    ]
+  },
+  "forbidden_available_columns_not_opened_in_filter_only_scan": [
+    "decimalLatitude",
+    "decimalLongitude",
+    "eventDate"
+  ],
+  "rows_opened": false,
+  "taxon_values_opened": false,
+  "interaction_values_opened": false,
+  "specialization_values_computed": false,
+  "next_gate": "Freeze exact projection and filter-only aggregate support query."
+}
