@@ -7,6 +7,8 @@ CONTRACT=ROOT/"data"/"spatiotemporal_predictor_independence_contract_v0_1.json"
 MATRIX=ROOT/"data"/"spatiotemporal_predictor_source_matrix_v0_1.csv"
 SOURCES=ROOT/"data"/"spatiotemporal_predictor_source_verification_v0_1.json"
 TUNDRA=ROOT/"data"/"spatiotemporal_trait_geometry_calibration_tundra_v0_1.json"
+NAMESPACE=ROOT/"results"/"globi_specialization_namespace_independence_v0_1"/"result.json"
+CITATION=ROOT/"results"/"globi_citation_source_exclusion_v0_1"/"result.json"
 
 
 def test_predictor_family_and_independence_contract():
@@ -64,3 +66,22 @@ def test_source_metadata_and_calibration_boundaries():
     assert t["physical_support"]["traits_passing_paired_source_gate"]==14
     assert t["biological_turnover_outcomes_opened"] is False
     assert "not automatically" in t["predictor_boundary"]
+
+
+def test_globi_source_independence_preflights_are_bounded():
+    n=json.loads(NAMESPACE.read_text())
+    assert n["status"]=="GLOBI_SPECIALIZATION_NAMESPACE_PREFLIGHT_COMPLETE"
+    assert n["mangal_like_namespaces"]==["globalbioticinteractions/mangal"]
+    assert n["interaction_rows_opened"] is False
+    assert n["taxon_identities_opened"] is False
+    assert n["specialization_values_computed"] is False
+
+    x=json.loads(CITATION.read_text())
+    assert x["status"]=="GLOBI_CITATION_EXCLUSION_MECHANISM_VERIFIED_FOR_CURRENT_MANGAL_CALIBRATION_DOIS"
+    assert x["all_current_response_dois_found"] is True
+    assert x["response_doi_match_counts"]["hadfield_2014"] >= 1
+    assert x["response_doi_match_counts"]["havens_1992"] >= 1
+    assert x["response_doi_match_counts"]["ricciardi_2010"] >= 1
+    assert x["interaction_rows_opened"] is False
+    assert x["taxon_identities_opened"] is False
+    assert x["partner_entropy_computed"] is False
