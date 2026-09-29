@@ -5,6 +5,7 @@ import json
 ROOT=Path(__file__).resolve().parents[1]
 DESIGN=ROOT/"data"/"spatiotemporal_memory_turnover_design_v0_1.json"
 MATRIX=ROOT/"data"/"spatiotemporal_memory_turnover_source_matrix_v0_1.csv"
+PRED=ROOT/"data"/"spatiotemporal_memory_turnover_predictor_matrix_v0_2.csv"
 
 
 def load():
@@ -93,3 +94,19 @@ def test_current_papers_are_not_modified_by_programme_design():
     d=load()
     assert d["current_paper_science_changed"] is False
     assert d["motivating_anchors"]["use_as_generalization_evidence"] is False
+
+
+def test_predictor_matrix_is_complete_and_preoutcome():
+    rows=list(csv.DictReader(PRED.open()))
+    assert len(rows)==12
+    keys={(r["response_id"],r["predictor_id"]) for r in rows}
+    assert keys=={(a,b) for a in ("TT","TS","IT","IS") for b in ("CH","ES","DM")}
+    expected={
+        ("TT","CH"):"positive",("TS","CH"):"positive",("IT","CH"):"positive",("IS","CH"):"positive",
+        ("TT","ES"):"negative",("TS","ES"):"positive",("IT","ES"):"negative",("IS","ES"):"positive",
+        ("TT","DM"):"no_directional_primary",("TS","DM"):"negative",
+        ("IT","DM"):"no_directional_primary",("IS","DM"):"negative",
+    }
+    for r in rows:
+        assert r["status"]=="PREOUTCOME_FROZEN"
+        assert r["expected_direction"]==expected[(r["response_id"],r["predictor_id"])]
