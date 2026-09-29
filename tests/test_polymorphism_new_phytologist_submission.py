@@ -68,6 +68,40 @@ def test_new_phytologist_explains_current_data_architecture_and_necessity() -> N
     ):
         assert token in text
 
+def test_itv_framing_and_reader_chronology_are_explicit() -> None:
+    text = MANUSCRIPT.read_text(encoding="utf-8")
+    supporting = SUPPORTING.read_text(encoding="utf-8")
+
+    for token in (
+        "Species means can erase the structure of intraspecific trait variation",
+        "how much",
+        "which phenotypic directions",
+        "how the variants are arranged geographically",
+        "Flower-colour polymorphism is unusually suited to this distributional view",
+        "each stage removes a different inferential failure mode",
+        "Phenotype-space generality without a universal geographic map",
+        "treating species as distributions rather than mean phenotypes",
+    ):
+        assert token in text
+
+    assert "An upstream shared-boundary analysis did not yield" not in text
+
+    order = (
+        "## S1. Data sources, selection and inferential necessity",
+        "## S2. H1 observer-disjoint measurement validity",
+        "## S3. Discovery/validation H2 target localization",
+        "## S4. Prospective-confirmation H2 chain of custody",
+        "## S5. Replicated D–spatial organization",
+        "## S6. H3a broad phylogenetic-signal boundary",
+        "## S7. H3b sampled-span replication boundary",
+        "## S8. Bounded secondary mechanism evidence",
+        "## S9. Canonical main-text figures",
+    )
+    positions = [supporting.index(token) for token in order]
+    assert positions == sorted(positions)
+    assert "sampling frame -> measurement validity -> geometry discovery -> prospective confirmation" in supporting
+
+
 def test_frame_provenance_preserves_sampling_boundary() -> None:
     assert FRAME_PROVENANCE.exists()
     frame = FRAME_PROVENANCE.read_text(encoding="utf-8")
