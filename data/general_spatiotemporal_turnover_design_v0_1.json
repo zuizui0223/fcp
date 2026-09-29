@@ -1,0 +1,152 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GENERAL_SPATIOTEMPORAL_TURNOVER_SOURCE_AUDIT",
+  "frozen_on": "2026-09-29",
+  "repository_role": "FCP development lane only; not part of the active New Phytologist manuscript and not a modification of CHUN Evolution Letters v0.3.",
+  "programme_question": "Do the same biological properties predict how rapidly biological information is lost across evolutionary time and geographic space, for both organismal traits and biotic interaction identities?",
+  "focal_unit": "one biologically coherent radiation/system; temporal and spatial summaries are aggregated to the system level before cross-system inference",
+  "response_vector": {
+    "trait_time": {
+      "symbol": "lambda_trait_time",
+      "question": "How rapidly does trait similarity above a system-specific null decay with relative phylogenetic divergence?",
+      "similarity": "Gower similarity for mixed traits or 1 - standardized Euclidean distance for continuous-only traits, fixed before outcomes within each trait family",
+      "distance": "relative patristic distance scaled within radiation to [0,1]",
+      "sign": "larger lambda = faster evolutionary memory loss",
+      "minimum_design": "at least 20 focal taxa with one frozen phylogeny and a common trait representation"
+    },
+    "trait_space": {
+      "symbol": "lambda_trait_space",
+      "question": "How rapidly does trait similarity decline across geographic separation within the same radiation?",
+      "similarity": "same trait representation as trait_time; repeated population/individual measurements only",
+      "distance": "great-circle distance or a frozen landscape distance; one primary distance chosen before trait outcomes",
+      "sign": "larger lambda = faster spatial turnover",
+      "minimum_design": "at least 5 focal species with at least 20 georeferenced trait observations each, or an equivalently prequalified repeated-population design"
+    },
+    "interaction_time": {
+      "symbol": "lambda_interaction_time",
+      "question": "How rapidly does partner-profile similarity decline with focal-species phylogenetic divergence?",
+      "similarity": "1 - Jensen-Shannon divergence between normalized partner profiles after a frozen partner-opportunity rule",
+      "opportunity_control": "phylogenetic pair is evaluable only under a frozen shared-partner-opportunity frame or a null preserving partner availability",
+      "sign": "larger lambda = faster evolutionary loss of interaction identity",
+      "minimum_design": "at least 20 focal taxa with interaction profiles and an evaluable partner-opportunity model"
+    },
+    "interaction_space": {
+      "symbol": "lambda_interaction_space",
+      "question": "How rapidly do realized interaction identities turn over across geography?",
+      "total_turnover": "interaction beta diversity across spatial networks",
+      "required_decomposition": [
+        "species_turnover_component",
+        "rewiring_among_cooccurring_species"
+      ],
+      "primary_component": "rewiring_among_cooccurring_species",
+      "sign": "larger lambda = faster geographic interaction turnover/rewiring",
+      "minimum_design": "at least 5 spatially distinct networks or population interaction samples with comparable effort semantics"
+    }
+  },
+  "predictors": {
+    "context_heterogeneity": {
+      "id": "P1",
+      "role": "shared accelerator",
+      "definition": "pre-outcome composite of abiotic heterogeneity and partner-opportunity heterogeneity; both components must be available, standardized within system, and averaged with equal weight; no one-component renormalization",
+      "primary_prediction": {
+        "lambda_trait_time": "+",
+        "lambda_trait_space": "+",
+        "lambda_interaction_time": "+",
+        "lambda_interaction_space": "+"
+      },
+      "interpretation": "systems exposed to more heterogeneous abiotic and biotic contexts should lose state identity faster in both time and space"
+    },
+    "specialization": {
+      "id": "P2",
+      "role": "interaction-conservatism / vulnerability decoupler",
+      "definition": "effective specialization = 1 - normalized partner/niche entropy, computed from an outcome-independent or separately frozen resource/partner frame",
+      "primary_prediction": {
+        "lambda_trait_time": "no directional primary prediction",
+        "lambda_trait_space": "no directional primary prediction",
+        "lambda_interaction_time": "-",
+        "lambda_interaction_space_rewiring": "-",
+        "lambda_interaction_space_species_turnover_component": "+ under partner-pool turnover"
+      },
+      "interpretation": "specialists should conserve partner identity and show less rewiring among co-occurring partners, while being more exposed to partner replacement"
+    },
+    "dispersal_mobility": {
+      "id": "P3",
+      "role": "spatial buffer / time-space decoupler",
+      "definition": "independently measured movement or dispersal-capacity axis, standardized within major taxonomic group; no proxy chosen after response inspection",
+      "primary_prediction": {
+        "lambda_trait_time": "no directional primary prediction",
+        "lambda_trait_space": "-",
+        "lambda_interaction_time": "no directional primary prediction",
+        "lambda_interaction_space": "-"
+      },
+      "interpretation": "greater movement should homogenize geography without necessarily erasing phylogenetic memory"
+    }
+  },
+  "fixed_strata": {
+    "interaction_type": [
+      "mutualism",
+      "antagonism",
+      "mixed_or_other"
+    ],
+    "rule": "interaction type is a predeclared stratum/moderator, not a fourth free predictor",
+    "rationale": "prior work already shows phylogenetic signal can differ between antagonistic and mutualistic networks; the programme tests whether time-space coupling differs as well"
+  },
+  "system_admission": {
+    "tier_A_full_linked_system": {
+      "requirements": [
+        "all four response estimands physically recoverable",
+        "all three predictor axes frozen before response fitting",
+        "taxon identity crosswalk exact or predeclared",
+        "temporal and spatial data refer to the same focal radiation",
+        "interaction spatial turnover can be decomposed into species turnover and rewiring",
+        "sampling effort/opportunity semantics are explicit",
+        "no response-driven source substitution"
+      ]
+    },
+    "tier_B_domain_pair": {
+      "requirements": [
+        "both temporal and spatial responses available within either trait domain or interaction domain",
+        "all predictors required for the declared hypothesis available before response fitting",
+        "cannot be promoted as full four-response evidence"
+      ]
+    }
+  },
+  "programme_gate": {
+    "trait_domain_min_independent_systems": 12,
+    "interaction_domain_min_independent_systems": 12,
+    "trait_domain_min_major_taxonomic_groups": 3,
+    "interaction_domain_min_interaction_types": 2,
+    "full_general_law_requires_both_domains": true,
+    "failure_action": "HOLD; do not lower system counts or broaden response definitions after seeing outcomes"
+  },
+  "primary_tests": {
+    "T1_shared_context_acceleration": "Across systems, P1 context heterogeneity has a positive effect on both time and space loss rates in both response domains.",
+    "T2_time_space_coupling": "Within each response domain, system-level temporal loss rate positively covaries with spatial turnover after the three predictors are frozen.",
+    "T3_specialization_decoupling": "P2 specialization predicts slower interaction-memory loss and lower rewiring, but a larger species-turnover component under partner replacement.",
+    "T4_mobility_decoupling": "P3 mobility predicts weaker spatial turnover with no required temporal-memory effect.",
+    "T5_interaction_type_modification": "The T2/T3 interaction-domain relationships may differ between mutualistic and antagonistic strata; direction is not chosen post hoc."
+  },
+  "nulls_and_controls": {
+    "trait_null": "preserve trait marginal distribution and declared phylogenetic/spatial opportunity while breaking trait-to-distance assignment",
+    "interaction_time_null": "preserve focal degree/partner availability under the frozen opportunity model",
+    "interaction_space_null": "preserve local species pools and link totals; rewiring tested only among co-occurring species",
+    "source_identity": "study/network/database identity is clustered; multiple networks from one programme are not independent systems"
+  },
+  "hard_nonclaims": [
+    "flower colour is not the target trait class",
+    "phylogenetic signal in ecological networks is not claimed as novel",
+    "spatial interaction turnover is not equated with rewiring",
+    "species turnover is not interpreted as partner switching",
+    "one universal turnover constant is not assumed",
+    "trait and interaction responses are not pooled at the row level",
+    "a system failing any opportunity or effort gate is not treated as a zero effect"
+  ],
+  "relation_to_existing_programmes": {
+    "CHUN": "proof-of-concept temporal memory axis for one phenotype family",
+    "FCP": "proof-of-concept geographic organization axis and reusable disttrait machinery",
+    "IWE": "interaction-phenology evidence source, not automatically an eligible turnover system",
+    "TTF": "qualification/abstention methods context only",
+    "active_FCP_manuscript_changed": false,
+    "frozen_CHUN_EL_v0_3_changed": false
+  }
+}
