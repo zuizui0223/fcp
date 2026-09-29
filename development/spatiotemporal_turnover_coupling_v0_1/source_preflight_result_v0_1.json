@@ -1,0 +1,96 @@
+{
+  "version": "v0.1",
+  "status": "SPATIOTEMPORAL_SOURCE_ELIGIBILITY_PASS_BOTH_ARMS",
+  "workflow_run": 36573691484,
+  "job": 109423734622,
+  "biological_turnover_outcomes_opened": false,
+  "trait_arm": {
+    "source": "Tundra Trait Team archived v1",
+    "source_repository": "ShrubHub/TraitHub",
+    "observed_source_head": "d652de7c03bab3f70bbfa42e59bee2f7d6c0d952",
+    "cleaned_dataset_git_blob_sha": "60a4c4808f87567b73f59838a0976c739a0e3c26",
+    "rows": 91970,
+    "traits_seen": 18,
+    "traits_passing_paired_source_gate": 14,
+    "paired_source_gate": {
+      "minimum_species_total": 20,
+      "minimum_spatial_eligible_species": 5,
+      "minimum_observations_per_species": 10,
+      "minimum_sites_per_species": 3,
+      "minimum_geographic_span_km": 50
+    },
+    "primary_traits": [
+      {
+        "trait": "Leaf area per leaf dry mass (specific leaf area, SLA)",
+        "species_total": 899,
+        "spatial_eligible_species": 88
+      },
+      {
+        "trait": "Leaf dry mass per leaf fresh mass (Leaf dry matter content, LDMC)",
+        "species_total": 754,
+        "spatial_eligible_species": 64
+      },
+      {
+        "trait": "Plant height, vegetative",
+        "species_total": 643,
+        "spatial_eligible_species": 79
+      },
+      {
+        "trait": "Leaf nitrogen (N) content per leaf dry mass",
+        "species_total": 399,
+        "spatial_eligible_species": 34
+      }
+    ]
+  },
+  "interaction_arm": {
+    "source": "Mangal API v2",
+    "networks": 487,
+    "networks_with_geometry": 487,
+    "networks_with_date": 472,
+    "networks_with_geometry_and_date": 472,
+    "datasets_observed": 30,
+    "node_rows": 38939,
+    "interaction_rows": 144989,
+    "fixed_primary_families": [
+      {
+        "interaction_type": "mutualism",
+        "focal_role": "either",
+        "reference_taxa_in_ge3_networks": 305,
+        "coverage_gate": true
+      },
+      {
+        "interaction_type": "predation",
+        "focal_role": "from",
+        "reference_taxa_in_ge3_networks": 132,
+        "coverage_gate": true
+      },
+      {
+        "interaction_type": "parasitism",
+        "focal_role": "from",
+        "reference_taxa_in_ge3_networks": 40,
+        "coverage_gate": true
+      }
+    ],
+    "all_primary_families_pass": true
+  },
+  "next_gate": {
+    "name": "PHYLOGENY_AND_EXTERNAL_PREDICTOR_ELIGIBILITY",
+    "requirements": [
+      "dated or otherwise biologically interpretable branch-length phylogeny for lineage panels",
+      "response-blind panel construction",
+      "P1 context heterogeneity source available",
+      "P2 specialization source available",
+      "P3 mobility/dispersal source available or explicitly NOT_EVALUABLE for that taxonomic arm",
+      "self-detectability before turnover outcome opening"
+    ]
+  },
+  "hard_nonclaims": [
+    "source coverage does not imply time-space coupling",
+    "no temporal memory coefficient has been computed",
+    "no spatial turnover coefficient has been computed",
+    "no interaction rewiring coefficient has been computed",
+    "Mangal record counts are not interaction preference or strength"
+  ],
+  "active_fcp_manuscript_changed": false,
+  "chun_el_v0_3_changed": false
+}
