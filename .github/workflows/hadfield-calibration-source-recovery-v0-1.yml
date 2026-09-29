@@ -1,0 +1,45 @@
+name: Hadfield exact-source recovery v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/hadfield_calibration_source_recovery_design_v0_1.json'
+      - 'scripts/analysis/recover_hadfield_calibration_source_v0_1.py'
+      - '.github/workflows/hadfield-calibration-source-recovery-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recover only authoritative Dryad bytes
+        run: |
+          mkdir -p build/hadfield_source_recovery_v0_1
+          python scripts/analysis/recover_hadfield_calibration_source_v0_1.py \
+            --out-dir build/hadfield_source_recovery_v0_1
+      - name: Validate source firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/hadfield_source_recovery_v0_1/result.json'))
+          assert x['third_party_mirror_used'] is False
+          assert x['substitute_source_used'] is False
+          assert x['biological_values_analyzed'] is False
+          assert x['calibration_outcome_opened'] is False
+          assert x['required_file_count']==3
+          assert x['status'] in {
+            'HADFIELD_EXACT_SOURCE_BYTES_RECOVERED',
+            'HOLD_HADFIELD_EXACT_SOURCE_BYTES_INACCESSIBLE'
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hadfield-source-recovery-v0-1
+          path: build/hadfield_source_recovery_v0_1/
