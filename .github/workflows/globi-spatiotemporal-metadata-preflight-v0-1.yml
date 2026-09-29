@@ -1,0 +1,49 @@
+name: GloBI spatiotemporal metadata preflight v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/globi_spatiotemporal_metadata_preflight_design_v0_1.json'
+      - 'scripts/analysis/audit_globi_spatiotemporal_metadata_preflight_v0_1.py'
+      - '.github/workflows/globi-spatiotemporal-metadata-preflight-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download exact stable dataset index only
+        run: |
+          set -euo pipefail
+          mkdir -p build/globi_v0_1
+          curl --fail --location --retry 4 --retry-delay 2             'https://zenodo.org/records/22691479/files/datasets.tsv?download=1'             -o build/globi_v0_1/datasets.tsv
+          echo '6b5191180e9bbfdb7867ff2fdef3e2e305f78cfe6f6405209e455497a06e30c4  build/globi_v0_1/datasets.tsv' | sha256sum -c -
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit dataset-level metadata only
+        run: |
+          python scripts/analysis/audit_globi_spatiotemporal_metadata_preflight_v0_1.py             --datasets build/globi_v0_1/datasets.tsv             --design data/globi_spatiotemporal_metadata_preflight_design_v0_1.json             --out build/globi_v0_1/result.json
+      - name: Enforce response firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_v0_1/result.json'))
+          assert x['interaction_rows_opened'] is False
+          assert x['taxon_identities_opened'] is False
+          assert x['biological_outcome_computed'] is False
+          assert x['full_interaction_outcome_opening_authorized'] is False
+          assert x['dataset_rows'] >= 10
+          assert x['status'] in {
+            'PASS_GLOBI_DATASET_INDEX_GEOMETRY_METADATA',
+            'HOLD_GLOBI_DATASET_INDEX_LACKS_GEOMETRY_TIME_METADATA'
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-spatiotemporal-metadata-preflight-v0-1
+          path: build/globi_v0_1/
