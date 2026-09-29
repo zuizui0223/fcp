@@ -1,0 +1,53 @@
+name: GloBI filter-only row support v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/globi_filter_only_row_support_design_v0_1.json'
+      - 'results/globi_filter_only_parquet_schema_v0_1/result.json'
+      - 'scripts/analysis/audit_globi_filter_only_row_support_v0_1.py'
+      - '.github/workflows/globi-filter-only-row-support-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  support:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install filter-only runtime
+        run: python -m pip install duckdb
+      - name: Scan exact frozen projection and source filters only
+        run: |
+          mkdir -p build/globi_filter_only_support_v0_1
+          python scripts/analysis/audit_globi_filter_only_row_support_v0_1.py \
+            --url 'https://zenodo.org/api/records/22691479/files/interactions.parquet/content' \
+            --out build/globi_filter_only_support_v0_1/result.json
+      - name: Validate response firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_filter_only_support_v0_1/result.json'))
+          assert x['persisted_focal_taxon_names'] is False
+          assert x['persisted_partner_taxon_names'] is False
+          assert x['latitude_opened'] is False
+          assert x['longitude_opened'] is False
+          assert x['event_date_opened'] is False
+          assert x['specialization_values_computed'] is False
+          assert x['partner_entropy_computed'] is False
+          assert x['turnover_computed'] is False
+          assert x['status'] in {
+            'FILTER_ONLY_SUPPORT_PASS_SPECIALIZATION_VALUE_STILL_SEALED',
+            'HOLD_INSUFFICIENT_INDEPENDENT_GLOBI_PARTNER_SUPPORT'
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-filter-only-row-support-v0-1
+          path: build/globi_filter_only_support_v0_1/result.json
