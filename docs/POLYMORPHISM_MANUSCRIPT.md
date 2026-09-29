@@ -381,6 +381,8 @@ The replicated D–spatial association shows that species with greater measured 
 
 The result is structural rather than causal. Spatially varying abiotic selection, pollinator turnover, restricted dispersal or gene flow, demographic history, drift and mating-system differences could all contribute. Together with H2, it supports a **two-layer ecological question**: **what varies** shows recurrent cross-species structure, whereas **where that variation is sorted** remains unresolved and potentially context dependent.
 
+These results also show what is lost when species are represented by means. A mean colour cannot distinguish a broad but unstructured distribution from a geographically partitioned polymorphism, while D alone does not identify the direction of variation. Comparative analyses of ITV therefore benefit from retaining **amount, direction and spatial organization** as separate ecological properties.
+
 ### Two simple explanations fail fresh-data tests
 
 The H3 tests sharpen what the species-level phenotype is not trivially reducible to. Validation-cohort D showed no detectable broad tree-wide phylogenetic conservation under any of the three frozen tree placements, while the apparent discovery association with sampled photographic span collapsed essentially to zero in the species-disjoint validation cohort. Together, these out-of-sample results show that reproducible between-species differences in D are not accounted for by either broad shared ancestry as detectable here or the geographic extent over which photographs happened to be sampled.
