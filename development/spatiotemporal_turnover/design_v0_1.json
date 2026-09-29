@@ -1,0 +1,181 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_GENERAL_SPATIOTEMPORAL_TURNOVER_DESIGN_PREOUTCOME",
+  "programme_name": "Spatiotemporal turnover of traits and biotic interactions",
+  "programme_role": "CROSS_PROGRAM_DEVELOPMENT_LANE_NOT_CURRENT_FCP_MANUSCRIPT",
+  "central_question": "Do the same biological properties predict how rapidly phenotypic and interaction information is lost across evolutionary time and geographic space?",
+  "general_principle_under_test": "Biological organization may be locally persistent without one universal global template; cross-system predictors can create coupling or decoupling between temporal and spatial turnover.",
+  "canonical_direction": "All four primary responses are oriented so larger values mean faster turnover or faster loss of similarity with separation.",
+  "responses": {
+    "trait_time": {
+      "id": "TT",
+      "label": "trait temporal turnover",
+      "unit": "one biological radiation/system",
+      "separation": "pairwise phylogenetic distance among focal taxa",
+      "dissimilarity": "predeclared trait dissimilarity among focal taxa",
+      "estimand": "turnover_rho(phylogenetic_distance, trait_dissimilarity)",
+      "minimum_within_system_support": "at least 20 focal taxa with >=80% trait coverage and branch-length phylogeny",
+      "flower_colour_required": false
+    },
+    "trait_space": {
+      "id": "TS",
+      "label": "trait spatial turnover",
+      "unit": "one biological radiation/system summarized from species-level spatial responses",
+      "separation": "within-species geographic distance",
+      "dissimilarity": "individual-level or population-level trait dissimilarity",
+      "estimand": "median species-specific turnover_rho(geographic_distance, trait_dissimilarity)",
+      "minimum_within_system_support": "at least 5 focal species, each with >=40 georeferenced trait observations and nondegenerate spatial support",
+      "flower_colour_required": false
+    },
+    "interaction_time": {
+      "id": "IT",
+      "label": "interaction temporal turnover",
+      "unit": "one biological radiation/system",
+      "separation": "pairwise phylogenetic distance among focal taxa",
+      "dissimilarity": "Jensen-Shannon or source-appropriate dissimilarity of normalized partner profiles",
+      "estimand": "turnover_rho(phylogenetic_distance, partner_profile_dissimilarity)",
+      "minimum_within_system_support": "at least 20 focal taxa with partner profiles, >=5 observed interactions per retained focal taxon, and branch-length phylogeny",
+      "opportunity_rule": "partner availability/metaweb definition must be frozen before response calculation",
+      "flower_colour_required": false
+    },
+    "interaction_space": {
+      "id": "IS",
+      "label": "interaction spatial turnover",
+      "unit": "one replicated local-network system",
+      "separation": "pairwise geographic distance among local networks",
+      "dissimilarity": "additive binary interaction beta decomposition",
+      "primary_component": "beta_os rewiring among shared species",
+      "required_diagnostic": "beta_st species-turnover component",
+      "total": "beta_wn = beta_st + beta_os",
+      "estimand": "turnover_rho(geographic_distance, beta_os); report beta_st and beta_wn separately",
+      "minimum_within_system_support": "at least 6 georeferenced local networks with aligned guild definitions and occurrence-aware species presence when available",
+      "flower_colour_required": false
+    }
+  },
+  "predictors": {
+    "abiotic_breadth": {
+      "id": "AB",
+      "label": "abiotic niche breadth",
+      "biological_role": "buffering/generalism across physical environments",
+      "measurement": "pre-outcome occurrence-derived multivariate climatic breadth, standardized within taxonomic/guild frame",
+      "forbidden_measurement": "do not derive from the focal response trait or interaction turnover outcome",
+      "primary_prediction": {
+        "TT": "negative",
+        "TS": "negative",
+        "IT": "negative",
+        "IS": "negative"
+      },
+      "interpretation": "Broader abiotic tolerance should buffer state replacement across both axes if one common breadth mechanism operates."
+    },
+    "biotic_specialization": {
+      "id": "BS",
+      "label": "biotic specialization",
+      "biological_role": "dependence on a narrow partner/resource set",
+      "measurement": "pre-outcome effective partner/resource breadth from an independent metaweb, training period, or external interaction source",
+      "forbidden_measurement": "do not calculate specialization from the same local networks used to define the focal IS response unless a disjoint training split was frozen",
+      "primary_prediction": {
+        "TT": "negative",
+        "TS": "positive",
+        "IT": "negative",
+        "IS": "positive"
+      },
+      "interpretation": "Specialization is a predeclared decoupler: it can conserve lineage-specific states through time yet increase sensitivity to local partner replacement in space."
+    },
+    "mobility": {
+      "id": "MO",
+      "label": "mobility or dispersal capacity",
+      "biological_role": "mixing across geographic space",
+      "measurement": "guild-specific dispersal/mobility proxy frozen before outcomes and standardized within guild",
+      "forbidden_measurement": "do not use observed focal spatial turnover as a mobility proxy",
+      "primary_prediction": {
+        "TT": "no_directional_primary",
+        "TS": "negative",
+        "IT": "no_directional_primary",
+        "IS": "negative"
+      },
+      "interpretation": "Mobility is a spatial-decoupling control: strong spatial homogenization need not imply stronger evolutionary memory."
+    }
+  },
+  "interaction_type_moderator": {
+    "frozen_levels": [
+      "mutualistic",
+      "antagonistic",
+      "trophic",
+      "host_parasite_or_parasitoid",
+      "other_prespecified"
+    ],
+    "role": "predeclared effect modifier, not a fourth predictor",
+    "primary_test": "two-sided heterogeneity in predictor effects among interaction types",
+    "prior_art_note": "Phylogenetic constraints have been reported to differ between antagonistic and mutualistic networks; no universal ordering is assumed here."
+  },
+  "primary_cross_axis_tests": [
+    {
+      "id": "C_TRAIT_AB",
+      "question": "Does abiotic breadth affect trait turnover with the same sign in evolutionary time and geographic space?",
+      "slopes": [
+        "TT~AB",
+        "TS~AB"
+      ],
+      "success_rule": "both standardized slopes have the frozen negative direction and the time-space slope contrast is estimable"
+    },
+    {
+      "id": "C_INTERACTION_AB",
+      "question": "Does abiotic breadth affect interaction turnover with the same sign in evolutionary time and geographic space?",
+      "slopes": [
+        "IT~AB",
+        "IS~AB"
+      ],
+      "success_rule": "both standardized slopes have the frozen negative direction and the time-space slope contrast is estimable"
+    },
+    {
+      "id": "D_SPECIALIZATION",
+      "question": "Does biotic specialization decouple temporal retention from spatial turnover?",
+      "slopes": [
+        "TT~BS",
+        "TS~BS",
+        "IT~BS",
+        "IS~BS"
+      ],
+      "success_rule": "temporal slopes are negative while spatial slopes are positive in the predeclared domain"
+    },
+    {
+      "id": "D_MOBILITY",
+      "question": "Is mobility primarily a spatial homogenizer rather than a universal temporal-memory predictor?",
+      "slopes": [
+        "TS~MO",
+        "IS~MO"
+      ],
+      "secondary_slopes": [
+        "TT~MO",
+        "IT~MO"
+      ],
+      "success_rule": "spatial slopes are negative; temporal slopes are reported without directional rescue"
+    }
+  ],
+  "inference": {
+    "response_standardization": "within response type across independent systems before cross-response comparison",
+    "system_dependence": "one biological system/radiation is one independent unit; nested species, sites, years, trees, or sensitivity codings do not become independent systems",
+    "model_family": "multivariate system-level meta-regression with response-type-specific slopes and system random effect when data permit",
+    "missing_cells": "allowed, but direct time-space coupling for a domain requires systems measured on both corresponding responses",
+    "no_global_score": "do not collapse four responses into one universal turnover score unless a later pre-outcome identifiability test supports that reduction",
+    "interaction_space_boundary": "beta_os is primary for rewiring; beta_st is mandatory to distinguish rewiring from species replacement"
+  },
+  "admission_gates": {
+    "gate0_source_identity": "exact public source/version/file identity before biological response access",
+    "gate1_response_geometry": "minimum within-system support and nondegenerate distance/dissimilarity geometry",
+    "gate2_predictor_independence": "predictor measurement cannot reuse the focal response surface unless a disjoint training design was frozen",
+    "gate3_cross_axis_pairing": "time-space coupling requires paired system identity, not unrelated pooled systems",
+    "gate4_known_truth_calibration": "simulation must calibrate false-positive rate and detectability for the planned number of systems before confirmatory biological outcome opening",
+    "gate5_stop_rule": "failed source/support/calibration gates terminate as HOLD; do not lower thresholds after outcomes are seen"
+  },
+  "proof_of_concept_only": {
+    "CHUN": "trait-time proof of concept for temporal memory and phenotype-resolution heterogeneity; not evidence for the general four-response law",
+    "FCP": "trait-space proof of concept for spatial organization and non-universal global geography; not evidence for the general four-response law"
+  },
+  "governance": {
+    "current_FCP_manuscript_changed": false,
+    "frozen_CHUN_EL_v0_3_changed": false,
+    "flower_colour_as_required_domain": false,
+    "biological_outcomes_opened_by_this_design": false
+  }
+}
