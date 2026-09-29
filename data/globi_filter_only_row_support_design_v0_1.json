@@ -1,0 +1,87 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GLOBI_FILTER_ONLY_ROW_SCAN",
+  "parent_schema": "results/globi_filter_only_parquet_schema_v0_1/result.json",
+  "source": {
+    "zenodo_record": 22691479,
+    "version": "0.11",
+    "file": "interactions.parquet",
+    "bytes": 2375721521,
+    "md5": "8212776b7ba0c4fa8de26a00b5ce8595",
+    "url": "https://zenodo.org/api/records/22691479/files/interactions.parquet/content"
+  },
+  "exact_projection": [
+    "sourceNamespace",
+    "referenceDoi",
+    "sourceDOI",
+    "referenceCitation",
+    "sourceCitation",
+    "sourceTaxonSpeciesName",
+    "sourceTaxonSpeciesId",
+    "targetTaxonSpeciesName",
+    "targetTaxonSpeciesId",
+    "interactionTypeName"
+  ],
+  "explicitly_forbidden_projection": [
+    "decimalLatitude",
+    "decimalLongitude",
+    "eventDate",
+    "sourceOccurrenceId",
+    "targetOccurrenceId",
+    "sourceLifeStageName",
+    "targetLifeStageName",
+    "sourceBodyPartName",
+    "targetBodyPartName"
+  ],
+  "exclusion_rule": {
+    "namespace_exact_case_insensitive": "globalbioticinteractions/mangal",
+    "response_source_dois": [
+      "10.1126/science.257.5073.1107",
+      "10.1086/674445",
+      "10.1007/s10641-010-9606-0"
+    ],
+    "doi_match_fields": [
+      "referenceDoi",
+      "sourceDOI",
+      "referenceCitation",
+      "sourceCitation"
+    ],
+    "logic": "exclude row if namespace matches OR any normalized DOI string occurs in any DOI/citation field",
+    "frozen_before_row_scan": true
+  },
+  "retained_support_definition": {
+    "focal_identity": "prefer sourceTaxonSpeciesId when nonempty; otherwise sourceTaxonSpeciesName",
+    "partner_identity": "prefer targetTaxonSpeciesId when nonempty; otherwise targetTaxonSpeciesName",
+    "eligible_focal_taxon": "at least 10 retained rows and at least 2 distinct retained partners within interactionTypeName",
+    "outputs": [
+      "total rows scanned",
+      "excluded namespace rows",
+      "excluded DOI rows",
+      "excluded union rows",
+      "remaining rows",
+      "distinct focal taxa and partner taxa",
+      "eligible focal taxa total and by interactionTypeName",
+      "SHA256 of sorted eligible focal identity set; do not persist focal names"
+    ]
+  },
+  "no_biological_effect_outputs": [
+    "partner entropy",
+    "specialization score",
+    "partner profile dissimilarity",
+    "geographic turnover",
+    "phylogenetic turnover",
+    "rewiring",
+    "time-space coupling"
+  ],
+  "support_gate": {
+    "minimum_eligible_focal_taxa_total": 20,
+    "pass": "FILTER_ONLY_SUPPORT_PASS_SPECIALIZATION_VALUE_STILL_SEALED",
+    "fail": "HOLD_INSUFFICIENT_INDEPENDENT_GLOBI_PARTNER_SUPPORT"
+  },
+  "governance": {
+    "source_filter_cannot_change_after_scan": true,
+    "specialization_computation_authorized": false,
+    "generalized_turnover_outcomes_opened": false,
+    "current_fcp_manuscript_changed": false
+  }
+}
