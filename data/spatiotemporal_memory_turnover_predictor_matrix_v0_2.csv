@@ -1,0 +1,13 @@
+response_id,response_label,predictor_id,predictor_label,analysis_role,expected_direction,biological_reading,status
+TT,trait temporal turnover,CH,context heterogeneity,PRIMARY_COMMON_DRIVER,positive,"more heterogeneous contexts accelerate trait-state turnover across evolutionary separation",PREOUTCOME_FROZEN
+TS,trait spatial turnover,CH,context heterogeneity,PRIMARY_COMMON_DRIVER,positive,"more heterogeneous contexts accelerate within-species trait turnover across geographic separation",PREOUTCOME_FROZEN
+IT,interaction temporal turnover,CH,context heterogeneity,PRIMARY_COMMON_DRIVER,positive,"more heterogeneous partner or abiotic contexts accelerate partner-profile turnover across evolutionary separation",PREOUTCOME_FROZEN
+IS,interaction spatial turnover,CH,context heterogeneity,PRIMARY_COMMON_DRIVER,positive,"more heterogeneous contexts accelerate rewiring among shared species across geographic separation",PREOUTCOME_FROZEN
+TT,trait temporal turnover,ES,ecological specialization,PRIMARY_DECOUPLER,negative,"specialization can preserve lineage-specific trait syndromes through evolutionary time",PREOUTCOME_FROZEN
+TS,trait spatial turnover,ES,ecological specialization,PRIMARY_DECOUPLER,positive,"specialization can amplify spatial turnover when local opportunity changes",PREOUTCOME_FROZEN
+IT,interaction temporal turnover,ES,ecological specialization,PRIMARY_DECOUPLER,negative,"specialization can preserve lineage-specific partner structure through evolutionary time",PREOUTCOME_FROZEN
+IS,interaction spatial turnover,ES,ecological specialization,PRIMARY_DECOUPLER,positive,"specialization can amplify rewiring when local partner opportunity changes",PREOUTCOME_FROZEN
+TT,trait temporal turnover,DM,dispersal mobility,SECONDARY_DECOUPLER,no_directional_primary,"mobility is not granted a temporal-memory effect by assumption",PREOUTCOME_FROZEN
+TS,trait spatial turnover,DM,dispersal mobility,SECONDARY_DECOUPLER,negative,"greater spatial mixing reduces geographic trait turnover",PREOUTCOME_FROZEN
+IT,interaction temporal turnover,DM,dispersal mobility,SECONDARY_DECOUPLER,no_directional_primary,"mobility is not granted an interaction-memory effect by assumption",PREOUTCOME_FROZEN
+IS,interaction spatial turnover,DM,dispersal mobility,SECONDARY_DECOUPLER,negative,"greater spatial mixing reduces geographic rewiring",PREOUTCOME_FROZEN
