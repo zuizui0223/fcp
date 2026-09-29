@@ -1,0 +1,5 @@
+source_id,arm,source_name,public,role,current_status,minimum_next_gate,canonical_url_or_doi
+TTT_V1,trait,Tundra Trait Team v1,yes,primary_feasibility,SOURCE_SCHEMA_PREFLIGHT_NEEDED,"verify exact downloadable version; trait/site/species columns; quantify species with >=10 records at >=3 sites and >=50 km span",https://doi.org/10.1111/geb.12821
+MANGAL,interaction,Mangal,yes,primary_local_network,NETWORK_METADATA_PREFLIGHT_NEEDED,"enumerate networks with coordinates/date; identify repeated focal taxa across >=3 local networks; freeze interaction types",https://mangal.io/
+GLOBI,interaction,Global Biotic Interactions,yes,broad_transport,EFFORT_AND_LOCAL_NETWORK_RECONSTRUCTION_PREFLIGHT_NEEDED,"audit georeferenced/date completeness and source-level sampling units; do not treat raw record counts as preference",https://www.globalbioticinteractions.org/
+AVONET_EXT,trait,AVONET plus independent spatial trait data,yes,external_generalization,HOLD_UNTIL_SPATIAL_SOURCE,"find individual/population-level repeated bird trait measurements before admission",https://doi.org/10.1111/ele.13898
