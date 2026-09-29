@@ -1,0 +1,45 @@
+name: Mangal spatiotemporal metadata preflight v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/mangal_spatiotemporal_metadata_preflight_design_v0_1.json'
+      - 'scripts/analysis/audit_mangal_spatiotemporal_metadata_preflight_v0_1.py'
+      - '.github/workflows/mangal-spatiotemporal-metadata-preflight-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run metadata-only Mangal preflight
+        run: |
+          mkdir -p build/mangal_spatiotemporal_preflight_v0_1
+          python scripts/analysis/audit_mangal_spatiotemporal_metadata_preflight_v0_1.py \
+            --out build/mangal_spatiotemporal_preflight_v0_1/result.json
+      - name: Validate firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/mangal_spatiotemporal_preflight_v0_1/result.json'))
+          assert x['allowed_endpoints_used']==['dataset','network']
+          assert x['forbidden_endpoints_used']==[]
+          assert x['taxon_identities_opened'] is False
+          assert x['interaction_edges_opened'] is False
+          assert x['trait_values_opened'] is False
+          assert x['environment_values_opened'] is False
+          assert x['full_interaction_spatial_admission_authorized'] is False
+          assert x['datasets_total']>0
+          assert x['networks_total']>0
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mangal-spatiotemporal-metadata-preflight-v0-1
+          path: build/mangal_spatiotemporal_preflight_v0_1/
