@@ -35,12 +35,6 @@ def main()->int:
     con.execute("SET threads=4")
     con.execute("SET memory_limit='6GB'")
 
-    doi_pred=" OR ".join([
-        "lower(coalesce(referenceDoi,'')) LIKE '%"+d.lower()+"%'",
-        "lower(coalesce(sourceDOI,'')) LIKE '%"+d.lower()+"%'",
-        "lower(coalesce(referenceCitation,'')) LIKE '%"+d.lower()+"%'",
-        "lower(coalesce(sourceCitation,'')) LIKE '%"+d.lower()+"%'"
-    ] for d in [])
     # Flatten the frozen DOI × field family deterministically.
     clauses=[]
     for d in DOIS:
@@ -56,7 +50,8 @@ def main()->int:
         "targetTaxonSpeciesName","targetTaxonSpeciesId","interactionTypeName"
       FROM read_parquet(?)
     """
-    con.execute("CREATE OR REPLACE TEMP VIEW projected AS "+scan,[a.url])
+    escaped_url=a.url.replace("'","''")
+    con.execute("CREATE OR REPLACE TEMP VIEW projected AS "+scan.replace("read_parquet(?)",f"read_parquet('{escaped_url}')"))
     con.execute(f"""
       CREATE OR REPLACE TEMP VIEW flagged AS
       SELECT *,
