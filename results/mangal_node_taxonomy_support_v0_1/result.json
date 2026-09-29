@@ -1,0 +1,84 @@
+{
+  "version": "v0.1",
+  "status": "MANGAL_NODE_TAXONOMY_SUPPORT_AUDIT_COMPLETE",
+  "workflow_run": 36563346448,
+  "workflow_job": 109389246194,
+  "design": "data/mangal_node_taxonomy_support_design_v0_1.json",
+  "parent_result": "results/mangal_spatiotemporal_metadata_preflight_v0_1/result.json",
+  "allowed_endpoints_used": [
+    "network",
+    "node"
+  ],
+  "forbidden_endpoints_used": [],
+  "taxon_identities_opened": true,
+  "taxon_names_persisted": false,
+  "interaction_edges_opened": false,
+  "trait_values_opened": false,
+  "environment_values_opened": false,
+  "dataset_results": [
+    {
+      "dataset_id": 15,
+      "georeferenced_public_networks_audited": 50,
+      "species_level_unique_taxa": 104,
+      "species_repeated_ge2_networks": 83,
+      "species_repeated_ge3_networks": 67,
+      "species_repeated_ge5_networks": 49,
+      "species_taxonomy_id_set_sha256": "b439f4a5a5172a64cb7fe392e186d8e7f4bd243cb601fe442adfad18fbf9058c",
+      "repeated_species_id_set_sha256": "6d90ff9c906029d63be9b1663be009f5c7aeb8ca216f4344b644b439a5405c04",
+      "necessary_node_support_pass": true
+    },
+    {
+      "dataset_id": 6,
+      "georeferenced_public_networks_audited": 783,
+      "species_level_unique_taxa": 0,
+      "species_repeated_ge2_networks": 0,
+      "species_repeated_ge3_networks": 0,
+      "species_repeated_ge5_networks": 0,
+      "species_taxonomy_id_set_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "repeated_species_id_set_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "necessary_node_support_pass": false
+    },
+    {
+      "dataset_id": 72,
+      "georeferenced_public_networks_audited": 51,
+      "species_level_unique_taxa": 297,
+      "species_repeated_ge2_networks": 220,
+      "species_repeated_ge3_networks": 163,
+      "species_repeated_ge5_networks": 109,
+      "species_taxonomy_id_set_sha256": "def3ed84f19d32f046fd16ee640da4a388dea8a0e0437cabccddf2aa824062ac",
+      "repeated_species_id_set_sha256": "bd670e4b6bdbf5ded5ef388919d995be3a24379664497923bedb7e84e7a5e4df",
+      "necessary_node_support_pass": true
+    },
+    {
+      "dataset_id": 75,
+      "georeferenced_public_networks_audited": 16,
+      "species_level_unique_taxa": 15,
+      "species_repeated_ge2_networks": 13,
+      "species_repeated_ge3_networks": 11,
+      "species_repeated_ge5_networks": 10,
+      "species_taxonomy_id_set_sha256": "f4fcf9e0aaebf409f0f8405141c47e85ca0890ae4458f8b617a0ecd43251cbf0",
+      "repeated_species_id_set_sha256": "5109c465785be4545512006bc1136459cb3765c5d26612203aaa2f1da087a3f2",
+      "necessary_node_support_pass": true
+    },
+    {
+      "dataset_id": 179,
+      "georeferenced_public_networks_audited": 12,
+      "species_level_unique_taxa": 8,
+      "species_repeated_ge2_networks": 6,
+      "species_repeated_ge3_networks": 4,
+      "species_repeated_ge5_networks": 1,
+      "species_taxonomy_id_set_sha256": "ab80b1d4f6caebd83057531d9e51087f4e7512ca05ac1ebbc374a7da58343c4b",
+      "repeated_species_id_set_sha256": "f699e0df8e99f0bef5c4164755544adbc35630948e5795fa4dd9b03d0344cace",
+      "necessary_node_support_pass": false
+    }
+  ],
+  "necessary_support_passing_datasets": 3,
+  "necessary_support_passing_dataset_ids": [
+    15,
+    72,
+    75
+  ],
+  "full_interaction_spatial_admission_authorized": false,
+  "next_gate": "source/reference-level focal-guild, interaction-type and sampling-effort semantics",
+  "interpretation": "Three datasets pass the necessary repeated-species support ceiling. No interaction edge or turnover response has been opened."
+}
