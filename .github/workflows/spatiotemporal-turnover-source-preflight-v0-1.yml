@@ -1,0 +1,58 @@
+name: Spatiotemporal turnover source preflight v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'development/spatiotemporal_turnover_coupling_v0_1/**'
+      - 'scripts/development/preflight_spatiotemporal_sources_v0_1.py'
+      - '.github/workflows/spatiotemporal-turnover-source-preflight-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recover archived Tundra Trait Team v1
+        run: |
+          set -euo pipefail
+          git clone --depth=1 https://github.com/ShrubHub/TraitHub.git "$RUNNER_TEMP/TraitHub"
+          test -f "$RUNNER_TEMP/TraitHub/data_clean/TTT_cleaned_dataset.csv"
+          test -f "$RUNNER_TEMP/TraitHub/scripts/TTT_cleaning_script.R"
+          git -C "$RUNNER_TEMP/TraitHub" rev-parse HEAD > build_ttt_head.txt
+
+      - name: TTT paired time-space coverage preflight
+        run: |
+          mkdir -p build/spatiotemporal_turnover_preflight
+          python scripts/development/preflight_spatiotemporal_sources_v0_1.py ttt             --csv "$RUNNER_TEMP/TraitHub/data_clean/TTT_cleaned_dataset.csv"             --out build/spatiotemporal_turnover_preflight/ttt_preflight.json
+
+      - name: Mangal network metadata preflight
+        run: |
+          python scripts/development/preflight_spatiotemporal_sources_v0_1.py mangal             --out build/spatiotemporal_turnover_preflight/mangal_preflight.json
+
+      - name: Validate firewalls
+        run: |
+          python - <<'PY'
+          import json
+          t=json.load(open('build/spatiotemporal_turnover_preflight/ttt_preflight.json'))
+          m=json.load(open('build/spatiotemporal_turnover_preflight/mangal_preflight.json'))
+          assert t['outcomes_computed'] is False
+          assert m['interaction_values_opened'] is False
+          assert m['rewiring_computed'] is False
+          assert t['status'] in {'TTT_PAIRED_SOURCE_PREFLIGHT_PASS','HOLD_TTT_NO_TRAIT_PASSES_PAIRED_SOURCE_GATE'}
+          assert m['status'] in {'MANGAL_NETWORK_METADATA_PREFLIGHT_PASS','HOLD_MANGAL_NETWORK_METADATA_COVERAGE'}
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: spatiotemporal-turnover-source-preflight-v0-1
+          path: |
+            build/spatiotemporal_turnover_preflight/
+            build_ttt_head.txt
