@@ -73,9 +73,9 @@ The current New Phytologist guidance describes Full Papers as usually approximat
 | Introduction | **744 words** | RECORDED |
 | Materials and Methods | **2,424 words** | RECORDED |
 | Results | **2,538 words** | RECORDED |
-| Discussion | **1,726 words** | RECORDED |
-| Main text, Introduction–Discussion | **7,432 words** | PASS (within usual 6,500–7,500 range) |
-| Discussion share | **23.2%** | PASS (<30%) |
+| Discussion | **1,781 words** | RECORDED |
+| Main text, Introduction–Discussion | **7,487 words** | PASS (within usual 6,500–7,500 range) |
+| Discussion share | **23.8%** | PASS (<30%) |
 | Main figures | 5 | PASS |
 | Main tables | 1 | PASS |
 | Total display items | 6 | PASS (usual 6–8) |
