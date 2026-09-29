@@ -1,0 +1,43 @@
+name: Spatiotemporal memory-turnover programme v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'data/spatiotemporal_memory_turnover_design_v0_1.json'
+      - 'data/spatiotemporal_memory_turnover_source_matrix_v0_1.csv'
+      - 'docs/SPATIOTEMPORAL_MEMORY_TURNOVER_PROGRAM_V0_1.md'
+      - 'tests/test_spatiotemporal_memory_turnover_program_v0_1.py'
+      - 'tests/test_spatiotemporal_memory_turnover_source_qualification_v0_1.py'
+      - 'data/mangal_source_semantics_audit_v0_1.json'
+      - 'results/mangal_node_taxonomy_support_v0_1/result.json'
+      - 'data/spatiotemporal_memory_turnover_source_verification_v0_1.json'
+      - '.github/workflows/spatiotemporal-memory-turnover-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test runtime
+        run: python -m pip install pytest
+      - name: Run frozen programme contract tests
+        run: |
+          python -m pytest \
+            tests/test_spatiotemporal_memory_turnover_program_v0_1.py \
+            tests/test_spatiotemporal_memory_turnover_source_qualification_v0_1.py -q
+      - name: Confirm biological outcomes remain unopened
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/spatiotemporal_memory_turnover_design_v0_1.json'))
+          assert d['status']=='FROZEN_BEFORE_GENERALIZED_TRAIT_OR_INTERACTION_OUTCOME_OPENING'
+          assert d['current_paper_science_changed'] is False
+          assert d['motivating_anchors']['use_as_generalization_evidence'] is False
+          PY

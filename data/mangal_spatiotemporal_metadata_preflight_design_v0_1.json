@@ -1,0 +1,59 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_MANGAL_NODE_OR_INTERACTION_OPENING",
+  "frozen_on": "2026-09-29",
+  "parent_contract": "data/spatiotemporal_memory_turnover_design_v0_1.json",
+  "source": "Mangal API v2",
+  "base_url": "https://mangal.io/api/v2",
+  "allowed_endpoints": [
+    "dataset",
+    "network"
+  ],
+  "forbidden_endpoints": [
+    "node",
+    "interaction",
+    "trait",
+    "environment"
+  ],
+  "allowed_fields": {
+    "dataset": [
+      "id",
+      "name",
+      "date",
+      "public",
+      "ref_id"
+    ],
+    "network": [
+      "id",
+      "name",
+      "date",
+      "geom",
+      "description",
+      "public",
+      "all_interactions",
+      "dataset_id"
+    ]
+  },
+  "forbidden_content": [
+    "taxon identities",
+    "edge identities",
+    "interaction types at edge level",
+    "interaction values",
+    "trait values",
+    "environment values"
+  ],
+  "geometry_gate": {
+    "min_public_networks": 5,
+    "min_georeferenced_public_networks": 5,
+    "require_distinct_coordinates": true,
+    "min_distinct_locations": 5
+  },
+  "completeness_annotation": {
+    "field": "all_interactions",
+    "role": "metadata annotation only; not a substitute for sampling-effort validation",
+    "full_spatial_admission_requires_later_effort_semantics": true
+  },
+  "next_gate_if_geometry_passes": "freeze a node/taxonomy-only repeated-focal-taxon audit before opening any interactions",
+  "current_outcome_opening_authorized": false,
+  "current_fcp_manuscript_changed": false
+}

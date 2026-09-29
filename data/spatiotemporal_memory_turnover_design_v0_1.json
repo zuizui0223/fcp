@@ -1,0 +1,171 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GENERALIZED_TRAIT_OR_INTERACTION_OUTCOME_OPENING",
+  "frozen_on": "2026-09-29",
+  "programme_name": "Spatiotemporal memory-turnover programme",
+  "repository_role": "cross-program development lane hosted in fcp; intended for later independent paper/repository if source qualification succeeds",
+  "motivating_anchors": {
+    "chun": "evolutionary-time proof of concept: phenotype similarity decays with relative phylogenetic divergence and carrying resolution is radiation-specific",
+    "fcp": "geographic-space proof of concept: within-species phenotype is locally organized without one universal global transition map",
+    "use_as_generalization_evidence": false
+  },
+  "core_question": "Do the same biological properties predict how rapidly biological state information is lost across evolutionary time and geographic space, and does the same architecture extend from organismal traits to biotic interactions?",
+  "canonical_response": {
+    "name": "null_centered_turnover_rho",
+    "definition": "delta_rho = Spearman(separation, state_dissimilarity) - mean(Spearman under the axis-specific frozen null)",
+    "direction": "larger positive delta_rho means faster turnover / faster memory loss with increasing separation",
+    "comparability_rule": "effect size, not null z-score, is the cross-system response; null SD is retained only as an informativeness diagnostic",
+    "axis_scaling": {
+      "evolutionary_time": "relative patristic separation normalized within the declared system; absolute-time claims require an independently dated tree",
+      "geographic_space": "great-circle distance; rank correlation makes absolute distance units irrelevant to the primary effect"
+    }
+  },
+  "response_matrix": {
+    "trait_time": {
+      "state": "one predeclared trait, continuous or categorical, evaluated separately rather than concatenating arbitrary traits",
+      "unit": "clade × trait",
+      "dissimilarity": "absolute standardized difference for scalar continuous traits; 0/1 mismatch for categorical traits; Euclidean only for biologically predeclared multivariate trait modules",
+      "separation": "relative patristic distance among species",
+      "null": "permute complete species-level trait states among eligible tips within the clade",
+      "aggregation": "one effect per clade × trait"
+    },
+    "trait_space": {
+      "state": "the same predeclared trait used in trait_time",
+      "unit": "clade × trait, built from repeated georeferenced measurements within species",
+      "dissimilarity": "same trait dissimilarity definition as trait_time",
+      "separation": "great-circle distance among measurements within species",
+      "null": "permute complete trait rows among observed coordinates within species",
+      "aggregation": "estimate one within-species delta_rho, then equal-species median within clade × trait; species are not pseudo-replicates of evolutionary time"
+    },
+    "interaction_time": {
+      "state": "availability-conditioned partner profile of a focal taxon",
+      "unit": "network programme/dataset × focal guild",
+      "dissimilarity": "Jensen-Shannon distance of normalized partner profiles after applying the predeclared co-opportunity rule",
+      "separation": "relative patristic distance among focal taxa",
+      "null": "permute complete partner-profile rows among focal taxa within the admissible co-opportunity stratum, preserving each profile's degree/weight distribution",
+      "aggregation": "one effect per network programme × focal guild"
+    },
+    "interaction_space": {
+      "state": "pairwise interaction realization across replicated sites/networks",
+      "unit": "network programme/dataset × interaction type",
+      "dissimilarity": "primary = rewiring component among species jointly available to the compared networks; total interaction beta diversity and species-turnover component are retained separately",
+      "separation": "great-circle distance among network locations",
+      "null": "site-label/edge realization null that preserves the frozen local species/partner opportunity sets and declared interaction marginals",
+      "aggregation": "one effect per network programme × interaction type"
+    }
+  },
+  "interaction_decomposition": {
+    "required": true,
+    "components": [
+      "species_turnover",
+      "rewiring_among_shared_species",
+      "total_interaction_turnover"
+    ],
+    "primary_for_cross_axis_coupling": "rewiring_among_shared_species",
+    "reason": "interaction turnover caused only by partner disappearance is not equivalent to changed partner choice among available species"
+  },
+  "biological_predictors": {
+    "context_heterogeneity": {
+      "role": "primary common driver",
+      "concept": "heterogeneity in abiotic conditions and/or biotic partner opportunity experienced by the declared system",
+      "prediction": "higher heterogeneity predicts larger turnover effects on both evolutionary-time and geographic-space axes",
+      "measurement_rule": "freeze one source-derived standardized heterogeneity score per system before response effects are opened; do not select among alternative climate/biotic heterogeneity metrics by outcome fit"
+    },
+    "ecological_specialization": {
+      "role": "primary decoupling candidate",
+      "concept": "narrow realized environmental/partner breadth",
+      "prediction": "specialization may strengthen temporal retention while amplifying spatial turnover when local opportunity changes; therefore an opposite-sign time/space coefficient is a predeclared biologically meaningful outcome, not a failure",
+      "measurement_rule": "use source-native breadth or entropy metrics; harmonize sign so higher = more specialized"
+    },
+    "dispersal_mobility": {
+      "role": "secondary decoupling candidate",
+      "concept": "capacity for spatial mixing among local contexts",
+      "prediction": "higher mobility should reduce geographic turnover more strongly than evolutionary-time turnover",
+      "measurement_rule": "taxon-group-specific proxies are z-scored only within declared taxonomic groups; no raw-unit pooling across plants, insects, birds or mammals"
+    }
+  },
+  "primary_hypotheses": {
+    "H1_common_coupling": {
+      "test": "Across eligible systems, null-centered turnover in evolutionary time positively covaries with null-centered turnover in geographic space.",
+      "strata": [
+        "traits",
+        "interactions"
+      ],
+      "pooling_rule": "estimate trait and interaction strata separately first; combine only in a hierarchical synthesis after both have >=12 independent system units"
+    },
+    "H2_context_common_driver": {
+      "test": "The predeclared context-heterogeneity predictor has coefficients in the same positive quadrant for time and space turnover.",
+      "decision_geometry": "joint bivariate coefficient region; do not replace with two separately cherry-picked univariate significant tests"
+    },
+    "H3_specialization_decoupling": {
+      "test": "Specialization is allowed to occupy a predeclared opposite-sign time/space quadrant; this tests whether the same biological property can systematically decouple rather than couple the two axes."
+    },
+    "H4_interaction_generalization": {
+      "test": "After species-turnover opportunity is removed, interaction rewiring shows a time-space coupling architecture analogous to organismal trait turnover.",
+      "interaction_type_moderator": "mutualistic vs antagonistic/consumer-resource source labels are frozen before outcomes; interaction type is a moderator, not a source-selection criterion"
+    }
+  },
+  "eligibility_gates": {
+    "trait_system": {
+      "temporal_min_species": 20,
+      "spatial_min_species_with_repeated_measurements": 8,
+      "spatial_min_georeferenced_records_per_species": 20,
+      "spatial_min_unique_cells_per_species": 5,
+      "cell_size_km": 25,
+      "requirement": "same trait definition and taxonomic crosswalk must support both time and space arms; otherwise the system may inform one arm but not H1/H2"
+    },
+    "interaction_system": {
+      "temporal_min_focal_taxa": 20,
+      "temporal_min_partner_support_per_focal_taxon": 3,
+      "spatial_min_networks": 5,
+      "spatial_min_georeferenced_networks": 5,
+      "spatial_min_repeated_focal_taxa": 10,
+      "requirement": "network programme must expose taxon identities, interaction type, replicated network/site identity, and geography before edge outcomes are admitted"
+    },
+    "informativeness": {
+      "required": true,
+      "rule": "before biological response opening, run known-truth simulations on the observed support geometry and require median absolute recovery error <=0.10 in delta_rho and >=80% directional recovery for a benchmark delta_rho=0.15",
+      "no_posthoc_relaxation": true
+    }
+  },
+  "source_order": {
+    "trait_primary": [
+      "BIEN_4_2",
+      "AUSTRAITS_OPEN_RELEASE"
+    ],
+    "trait_hold": [
+      "TRY_V7_CURRENT_DOWNLOAD_HOLD"
+    ],
+    "interaction_primary": [
+      "MANGAL_CURATED_NETWORKS"
+    ],
+    "interaction_external": [
+      "GLOBI_STABLE_ZENODO"
+    ],
+    "phylogeny": {
+      "plants": "dated vascular-plant megatree such as V.PhyloMaker2/GBOTB, with attachment status tracked and sensitivity excluding taxonomy-inserted tips",
+      "nonplants": "source-specific dated trees preferred; Open Tree may be used for taxonomy/crosswalk but not treated as calibrated time without valid branch lengths"
+    }
+  },
+  "finite_family_rule": {
+    "max_primary_trait_sources": 2,
+    "max_primary_interaction_sources": 2,
+    "source_switch_allowed_only_after": [
+      "access_hold",
+      "schema_hold",
+      "crosswalk_hold",
+      "support_geometry_hold",
+      "informativeness_hold"
+    ],
+    "source_switch_forbidden_after": "biological turnover outcome opened"
+  },
+  "hard_nonclaims": [
+    "no universal turnover law is assumed",
+    "no claim that temporal and spatial turnover are generated by the same mechanism unless the common-driver tests pass",
+    "no claim that network turnover equals rewiring unless species turnover is explicitly removed",
+    "no pooling of null z-scores as biological effect sizes",
+    "no treating species within one clade/network programme as independent macroevolutionary replicates",
+    "no use of current CHUN/FCP flower-colour outcomes to choose generalized traits, networks or predictors"
+  ],
+  "current_paper_science_changed": false
+}
