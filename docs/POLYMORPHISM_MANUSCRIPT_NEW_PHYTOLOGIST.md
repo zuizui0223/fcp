@@ -11,10 +11,10 @@
 **Word counts (current working draft):**
 - Summary: 181 words
 - Introduction: 744 words
-- Materials and Methods: 2,424 words
+- Materials and Methods: 2,361 words
 - Results: 2,538 words
-- Discussion: 1,781 words
-- Main text (Introduction through Discussion): 7,487 words
+- Discussion: 1,739 words
+- Main text (Introduction through Discussion): 7,382 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -55,27 +55,27 @@ The study uses two sequential high-depth image resources from a common outcome-b
 
 #### Stage 0 — global outcome-blind opportunity frame
 
-Metadata-only discovery across an 18 × 9 equal-area grid identified **42,111 unique iNaturalist plant species** before candidate image pixels or flower-colour outcomes were opened; **4,730 species** could supply at least 100 retained photographs after observer capping. This stage was required to define candidate species independently of the focal phenotype and therefore avoid outcome-dependent species assembly. The 42,111-species set is a sampling opportunity frame, not a flower-colour dataset or a denominator for global polymorphism prevalence. Full filters, request counts and hashes are in `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`.
+Metadata-only discovery across an 18 × 9 equal-area grid identified **42,111 unique iNaturalist plant species** before candidate image pixels or flower-colour outcomes were opened; **4,730 species** could supply at least 100 retained photographs after observer capping. This outcome-blind frame prevents species assembly around the focal phenotype. It is a sampling opportunity frame, not a flower-colour dataset or prevalence denominator. Full filters and hashes are in `docs/POLYMORPHISM_42111_FRAME_PROVENANCE_20260918.md`.
 
 #### Stage 1 — discovery and species-disjoint validation image cohorts
 
 The first resource contained **500 discovery + 500 validation species**, each with 100 photographs. Acquisition used Research Grade species-rank iNaturalist observations with photographs, georeferences, flowering annotation, positional accuracy <=5 km, open coordinates and permitted CC licences. Selection was colour-blind, each observer contributed at most two retained photographs per species, and deterministic geographic maximin sampling fixed 100 photographs per species. With the frozen >=40-classifiable rule, **369 discovery** and **363 validation** species entered D-based inference.
 
-This stage was required because within-species diversity needs repeated observations, while the species-disjoint split separates pattern discovery from validation on different species. No native-range restriction or explicit captive/wild filter was imposed; spatial estimands therefore refer to the observed community-photograph records.
+Repeated observations estimate within-species diversity, while the species-disjoint split separates discovery from validation on different species. No native-range restriction or explicit captive/wild filter was imposed; spatial estimands therefore refer to the observed community-photograph records.
 
 #### Stage 1b — fresh-image transport of the D phenotype
 
-A later same-system transport check sampled fresh photo IDs and remeasured D under the frozen four-state definition; **136 species** were evaluable in both executions. This step was required because observer-disjoint splitting still uses the original image resource, whereas fresh images test transport to a new photograph set. It is not independent-source replication.
+A later same-system transport check used fresh photo IDs and the frozen four-state D definition; **136 species** were evaluable in both executions. Fresh images test transport beyond the original photo set, but not independent-source replication.
 
 #### Stage 2 — prospective species-disjoint confirmation cohort
 
-The white-versus-nonwhite axis was localized only after the original geometry was opened. All previously used high-depth species were therefore excluded, leaving an outcome-blind **3,230-species candidate frame**; 500 species were frozen by deterministic hash selection and fresh retrieval yielded **499 species × 100 photographs = 49,900 new photographs**, with no replacement.
+The white-versus-nonwhite axis was localized only after the original geometry was opened. Excluding all previously used high-depth species left an outcome-blind **3,230-species candidate frame**; deterministic hash selection froze 500 species and fresh retrieval yielded **499 species × 100 photographs = 49,900 new photographs**, with no replacement.
 
-**A new species- and photo-disjoint cohort was therefore necessary** because a data-derived target cannot be prospectively confirmed in the data that generated it. Before biological opening we froze the axis, W statistic, admissibility thresholds, structured null, support gates and one-shot execution rules. The cohort remains within the same iNaturalist source and measurement system, so it is prospective species-disjoint confirmation rather than independent-source replication.
+**A new species- and photo-disjoint cohort was therefore necessary** because a data-derived target cannot be prospectively confirmed in its discovery data. Before biological opening we froze the axis, W statistic, thresholds, structured null, support gates and one-shot execution rules. Because the cohort uses the same iNaturalist source and measurement system, it is prospective species-disjoint confirmation rather than independent-source replication.
 
 #### Stage 3 — targeted technical and ecological annotations
 
-After H2 terminalization, the prospective photographs were reacquired for response-blind highlight metrics and annotated with **WorldClim 2.1 BIO5, BIO14 and solar radiation**; the validation cohort was linked to **V.PhyloMaker2** placements, and sampled span was calculated from frozen coordinates. Highlight metrics test image-exposure coupling, climate tests a simple abiotic explanation and its transportability, and phylogeny tests broad shared ancestry. **These are alternative-explanation and mechanism filters**; they constrain interpretation but cannot retroactively strengthen prospective H2.
+After H2 terminalization, prospective photographs were reacquired for response-blind highlight metrics and annotated with **WorldClim 2.1 BIO5, BIO14 and solar radiation**; validation was linked to **V.PhyloMaker2**, and sampled span came from frozen coordinates. Highlight, climate and phylogeny test image exposure, a simple abiotic explanation and broad ancestry. **These are alternative-explanation and mechanism filters**; they cannot retroactively strengthen prospective H2.
 
 ### Photographic measurement and outcome firewall
 
@@ -341,7 +341,7 @@ The frozen verdict was `H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED`.
 
 ### From species means to validated within-species distributions
 
-The first result is methodological but biologically consequential: within-species flower-colour diversity can be summarized as a continuous species-level phenotype that is reproducible across completely disjoint observer sets under the first-frozen high-depth validation design. A later fresh-image execution strengthens that interpretation: 136 overlapping species retained very high D agreement across a new photo set and separate run (Spearman rho = 0.968; Lin CCC = 0.972), indicating that D transport is not limited to one observer partition. This does not mean that D is measured without error or independently validated across imaging systems. The stricter deterministic split deliberately exposes within-run uncertainty, while the fresh transport check still uses the same iNaturalist/FCP measurement system.
+The first result is methodological but biologically consequential: within-species flower-colour diversity is reproducible across disjoint observer sets under the first-frozen validation design. Fresh-image remeasurement of 136 overlapping species gave very high D agreement (Spearman rho = 0.968; Lin CCC = 0.972), showing transport beyond one observer partition. D is nevertheless imperfectly measured: the stricter deterministic split exposes within-run uncertainty, and fresh transport remains within the same iNaturalist/FCP measurement system.
 
 The methodological contribution is architectural rather than a claim to a new standalone statistic. Gini–Simpson diversity, rank correlations, Hellinger transformation, two-means clustering, Jensen–Shannon divergence, permutation tests and phylogenetic signal statistics are established tools. What is specific to this study is their assembly around fixed high-depth species sampling, observer-disjoint validation, location-blind image measurement, explicit technical-versus-ambiguous missingness, construction-preserving nulls and a new species/photo-disjoint prospective confirmation cohort. This design treats a within-species phenotype distribution as a species-level comparative trait while keeping measurement validity, target discovery and confirmation as separate inferential stages.
 
