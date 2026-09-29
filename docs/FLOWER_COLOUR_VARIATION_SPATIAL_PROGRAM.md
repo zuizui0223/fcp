@@ -10,12 +10,12 @@ The umbrella question is:
 
 Within that programme:
 
-- **`chun` — evolutionary time:** asks how similar visible flower-colour states are repeatedly generated through evolutionary history and whether those repeated phenotypes replay the same molecular transition;
-- **`fcp` — geographic space:** asks how intraspecific flower-colour variation is organized once it exists — as local within-population coexistence or as geographic differentiation among populations.
+- **`chun` — evolutionary time:** asks how long flower-colour states retain lineage history as lineages diverge, whether that memory depends on phenotypic resolution, and whether finer evolutionary history can remain hidden inside broader phenotype classes;
+- **`fcp` — geographic space:** asks how intraspecific flower-colour variation is organized once it exists — as local within-population coexistence, continuous local spatial structure, or geographic differentiation among populations.
 
-The conceptual sequence is:
+The two axes are deliberately parallel rather than one being treated as a causal continuation of the other:
 
-`generation through time -> establishment/persistence -> organization in space`
+`historical organization across evolutionary time <-> phenotypic organization across geographic space`
 
 The two repositories are complementary analyses, not a pooled dataset or a shared model.
 
@@ -58,26 +58,33 @@ This remains a comparative spatial pattern. It is not a morph-specific climatic 
 
 ## Relation to CHUN: the temporal arm
 
-The `chun` project asks an upstream question:
+The current `chun` project asks:
 
-> **How are similar flower-colour states repeatedly generated through evolutionary time, and how repeatable is the underlying molecular transition?**
+> **How long does flower-colour identity retain lineage history as evolutionary divergence accumulates, and at what phenotypic resolution is that history expressed?**
 
-That temporal question is distinct from the `fcp` question. A lineage may repeatedly generate a colour state without maintaining polymorphism within populations; conversely, a species may maintain several colour variants locally regardless of how many times those states arose in deeper evolutionary history.
+The temporal arm now has two linked empirical results. First, exact visible colour generally retains excess similarity among shallower relatives and loses that excess with increasing relative divergence. Second, the phenotypic scale carrying the strongest historical signal is not universal: different radiations favour coarse, fine, tied or no-signal profiles, and finer lineage structure can remain hidden inside a broad phenotype class.
 
-The two papers therefore separate two steps that are often conflated:
+This makes the relation to `fcp` more symmetric than the earlier generation-versus-maintenance framing suggested.
 
-| Research axis | `chun` | `fcp` |
+| Research axis | `chun` — time | `fcp` — space |
 |---|---|---|
-| Primary dimension | evolutionary time | geographic space |
-| Primary process | generation / mechanistic recurrence | maintenance / spatial sorting |
-| Main comparison | repeated phenotype vs repeated mechanism | local coexistence vs geographic differentiation |
-| Main unit | evolutionary transition / lineage | species with intraspecific variation |
-| Ecology enters as | filtering and persistence after generation | correlate of spatial organization |
-| Current causal ceiling | no robust branch-specific cause | no morph-specific climatic cause |
+| Primary dimension | relative evolutionary divergence | geographic separation / neighbourhood |
+| Primary question | how much lineage history remains, and at what phenotype scale? | how is within-species variation geographically organized? |
+| Local structure | recent relatives retain excess colour similarity; fine states can remain organized within coarse states | neighbouring observations can be more colour-similar than expected |
+| Global-template test | no universal privileged phenotype resolution across radiations | no confirmed universal global transition boundary across species |
+| Main unit | radiation / clade | species / population / observation neighbourhood |
+| Heterogeneity | memory strength and resolution differ among radiations | spatial organization and transition geography differ among species |
+| Current causal ceiling | no established ecological or developmental driver of memory decay/realization | no established universal climatic or maintenance mechanism |
+
+The shared programme-level pattern is therefore:
+
+> **Flower-colour variation is repeatedly structured at local or lineage-conditioned scales, but that structure is not governed by one universal global template across either evolutionary time or geographic space.**
+
+This is a conceptual synthesis, not a pooled statistical result. The two repositories use different units, data sources and estimands.
 
 A concise programme label is:
 
-> **Spatiotemporal structure of flower-colour variation: repeated generation through evolutionary history and local coexistence versus geographic differentiation in space.**
+> **Spatiotemporal organization of flower-colour variation: historical memory through evolutionary time and local organization across geographic space.**
 
 ## Terminology
 
@@ -89,15 +96,18 @@ This terminology is especially important when linking `fcp` to `chun`, because l
 
 ## What the two-axis programme adds
 
-Treating time and space separately makes three distinct biological questions visible:
+Treating time and space as sister axes makes four distinct biological questions visible:
 
-1. **Generation:** how does a flower-colour state arise, and is its molecular implementation repeatable through evolutionary time?
-2. **Persistence:** which generated states establish and remain in lineages or populations?
-3. **Spatial organization:** when variation persists within a species, is it maintained locally or sorted geographically?
+1. **Temporal retention:** how rapidly does exact flower-colour identity lose excess similarity as lineages diverge?
+2. **Phenotypic depth:** at what resolution does lineage history remain visible, and can fine history persist inside a broad phenotype class?
+3. **Spatial organization:** when colour variation exists within a species, is it locally clustered, locally coexisting, or geographically differentiated?
+4. **Template versus contingency:** is there one common resolution or geographic boundary governing that structure, or is organization radiation- and species-specific?
 
-`chun` currently concentrates on the first question and exposes the gap between molecular accessibility and long-term persistence. `fcp` concentrates on the third question and tests a macroecological correlate of local coexistence versus geographic sorting.
+The current answer is strikingly parallel. In `chun`, historical structure is recurrent but the privileged phenotype scale is not universal. In `fcp`, local spatial organization is detectable but a common global transition geography is not confirmed.
 
-A future synthesis could ask whether properties of the evolutionary-generation process predict the spatial organization of variation, but that would require new harmonized data. The current papers should remain analytically separate.
+This motivates a programme-level principle — **structured variation without a universal global template** — while keeping the empirical papers analytically separate.
+
+A later synthesis could test whether the same biological properties that accelerate temporal memory loss also increase spatial turnover or geographic sorting. That requires genuinely harmonized lineage-level and population-level data and is not inferred from the present separate datasets.
 
 ## Claim boundaries
 
@@ -110,4 +120,4 @@ This programme framing does not change the current FCP inferential boundary:
 - geographic differentiation does not imply local adaptation;
 - `fcp` and `chun` are not one pooled analysis.
 
-The value of the connection is conceptual: **one paper asks where flower-colour variation comes from through time; the other asks how it is arranged once present in space.**
+The value of the connection is conceptual: **the time paper asks how historical organization is retained or lost as lineages diverge; the space paper asks how contemporary variation is organized geographically. Both find structured variation without evidence for one universal global template.**
