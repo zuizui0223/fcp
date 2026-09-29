@@ -3,11 +3,15 @@ name: General spatiotemporal turnover development v0.1
 on:
   pull_request:
     paths:
-      - 'development/spatiotemporal_turnover/**'
+      - 'data/spatiotemporal_memory_turnover_*'
+      - 'data/mangal_*'
+      - 'docs/SPATIOTEMPORAL_MEMORY_TURNOVER_*'
+      - 'results/mangal_*'
       - 'packages/disttrait/src/disttrait/turnover.py'
       - 'packages/disttrait/src/disttrait/__init__.py'
       - 'packages/disttrait/tests/test_turnover.py'
       - 'scripts/analysis/validate_spatiotemporal_turnover_design_v0_1.py'
+      - 'tests/test_spatiotemporal_memory_turnover_*'
       - '.github/workflows/spatiotemporal-turnover-development-v0-1.yml'
   workflow_dispatch:
 
@@ -22,11 +26,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install disttrait test runtime
+      - name: Install test runtime
         run: |
           python -m pip install -e packages/disttrait
           python -m pip install pytest
-      - name: Validate frozen four-response design
+      - name: Validate canonical programme state
         run: python scripts/analysis/validate_spatiotemporal_turnover_design_v0_1.py
       - name: Test turnover primitives
         run: pytest -q packages/disttrait/tests/test_turnover.py
+      - name: Test programme and source gates
+        run: |
+          pytest -q             tests/test_spatiotemporal_memory_turnover_program_v0_1.py             tests/test_spatiotemporal_memory_turnover_source_qualification_v0_1.py
