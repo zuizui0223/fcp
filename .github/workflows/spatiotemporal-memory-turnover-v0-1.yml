@@ -7,6 +7,10 @@ on:
       - 'data/spatiotemporal_memory_turnover_source_matrix_v0_1.csv'
       - 'docs/SPATIOTEMPORAL_MEMORY_TURNOVER_PROGRAM_V0_1.md'
       - 'tests/test_spatiotemporal_memory_turnover_program_v0_1.py'
+      - 'tests/test_spatiotemporal_memory_turnover_source_qualification_v0_1.py'
+      - 'data/mangal_source_semantics_audit_v0_1.json'
+      - 'results/mangal_node_taxonomy_support_v0_1/result.json'
+      - 'data/spatiotemporal_memory_turnover_source_verification_v0_1.json'
       - '.github/workflows/spatiotemporal-memory-turnover-v0-1.yml'
   workflow_dispatch:
 
@@ -24,7 +28,10 @@ jobs:
       - name: Install test runtime
         run: python -m pip install pytest
       - name: Run frozen programme contract tests
-        run: python -m pytest tests/test_spatiotemporal_memory_turnover_program_v0_1.py -q
+        run: |
+          python -m pytest \
+            tests/test_spatiotemporal_memory_turnover_program_v0_1.py \
+            tests/test_spatiotemporal_memory_turnover_source_qualification_v0_1.py -q
       - name: Confirm biological outcomes remain unopened
         run: |
           python - <<'PY'
