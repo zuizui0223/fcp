@@ -1,0 +1,5 @@
+response_id,response_family,time_or_space,state_unit,primary_metric,min_panel_species,min_spatial_species,min_observations_per_spatial_species,min_sites_per_spatial_species,branch_lengths_required,primary_bias_control,eligibility_status
+T_TRAIT,trait,time,species trait,lambda_trait_time,20,0,0,0,yes,measurement/frequency null,DESIGN_READY
+S_TRAIT,trait,space,within-species trait observations,median_lambda_trait_space,0,5,10,3,no,within-species complete-row spatial permutation,DESIGN_READY
+T_INT,interaction,time,interaction partner profile,lambda_interaction_time,20,0,0,0,yes,partner opportunity + marginal degree control,DESIGN_READY
+S_INT,interaction,space,local partner profile,median_lambda_interaction_space_rewiring,0,5,3,3,no,rewiring separated from partner/species turnover,DESIGN_READY
