@@ -1,0 +1,54 @@
+{
+  "version": "v0.1",
+  "status": "PREDICTOR_SOURCE_METADATA_VERIFIED_PREOUTCOME",
+  "checked_on": "2026-09-30",
+  "sources": {
+    "GBIF": {
+      "official_docs": "https://techdocs.gbif.org/en/openapi/v1/occurrence",
+      "role": "response-independent occurrence geometry / occupancy sampling",
+      "current_status": "AVAILABLE",
+      "note": "Occurrence search and asynchronous downloads are supported. Bulk downloads require a registered account."
+    },
+    "CHELSA_V2_1": {
+      "official_page": "https://www.chelsa-climate.org/datasets/chelsa_climatologies",
+      "version": "2.1",
+      "role": "response-independent abiotic context values",
+      "current_status": "AVAILABLE",
+      "note": "Global kilometer-scale climatologies; the predictor contract freezes a finite variable set before outcomes."
+    },
+    "GLOBI": {
+      "official_data_page": "https://www.globalbioticinteractions.org/data",
+      "stable_archive_doi": "10.5281/zenodo.3950589",
+      "pinned_preflight_record": 22691479,
+      "pinned_preflight_version": "0.11",
+      "role": "biotic partner specialization predictor",
+      "current_status": "AVAILABLE_BUT_RESPONSE_SOURCE_EXCLUSION_NOT_YET_PROVEN",
+      "note": "Stable integrated products retain dataset citations; source overlap with Mangal must be excluded before specialization is computed."
+    },
+    "TRY_V7": {
+      "official_page": "https://www.try-db.org/",
+      "released_on": "2026-09-04",
+      "trait_records": 22860407,
+      "plant_taxa": 306701,
+      "role": "possible future independent plant mobility/dispersal predictor source",
+      "current_status": "HOLD_DOWNLOAD_ACCESS_NOTICE",
+      "note": "TRY news reported downloads unavailable after an access-rights update on 2026-09-23; do not depend on this route until access recovers."
+    },
+    "BIEN_4_2": {
+      "official_page": "https://bien.nceas.ucsb.edu/bien/biendata/",
+      "occurrence_records": 284466171,
+      "trait_observations": 25932454,
+      "standardized_traits": 54,
+      "role": "primary trait-response source family member, not predictor source for the same focal trait",
+      "current_status": "AVAILABLE"
+    },
+    "AUSTRAITS": {
+      "pinned_candidate_record": "10.5281/zenodo.11188867",
+      "pinned_candidate_version": "6.0.0",
+      "role": "independent trait-response transport candidate",
+      "current_status": "AVAILABLE_CANDIDATE_NOT_YET_ADMITTED"
+    }
+  },
+  "generalized_turnover_outcomes_opened": false,
+  "current_fcp_manuscript_changed": false
+}
