@@ -6,6 +6,9 @@ on:
       - 'data/spatiotemporal_bridge_opportunity_design_v0_1.json'
       - 'scripts/analysis/audit_spatiotemporal_bridge_opportunity_v0_1.py'
       - '.github/workflows/spatiotemporal-bridge-opportunity-v0-1.yml'
+      - 'results/spatiotemporal_bridge_opportunity_v0_1/result.json'
+      - 'docs/SPATIOTEMPORAL_BRIDGE_OPPORTUNITY_V0_1.md'
+      - 'tests/test_spatiotemporal_bridge_opportunity_v0_1.py'
   workflow_dispatch:
 
 permissions:
@@ -55,6 +58,23 @@ jobs:
             'PASS_PROSPECTIVE_SPATIOTEMPORAL_BRIDGE_OPPORTUNITY',
             'HOLD_INSUFFICIENT_FRESH_CLADE_COVERAGE'
           }
+          PY
+
+      - name: Guard committed HOLD against post-hoc relaxation
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/spatiotemporal_bridge_opportunity_design_v0_1.json'))
+          r=json.load(open('results/spatiotemporal_bridge_opportunity_v0_1/result.json'))
+          assert d['qualification']['minimum_unused_species_per_clade']==5
+          assert d['qualification']['minimum_qualifying_clades']==12
+          assert d['qualification']['minimum_total_selected_species']==60
+          assert r['status']=='HOLD_INSUFFICIENT_FRESH_CLADE_COVERAGE'
+          assert r['qualification']['observed_n_qualifying_clades']==10
+          assert r['qualification']['gate_pass'] is False
+          assert r['decision']['threshold_relaxation']=='PROHIBITED'
+          assert r['decision']['existing_sparse_bridge_correlation']=='DO_NOT_RUN'
+          assert r['decision']['new_bridge_selection']=='DO_NOT_SELECT'
           PY
 
       - uses: actions/upload-artifact@v4
