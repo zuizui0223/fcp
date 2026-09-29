@@ -23,11 +23,20 @@ jobs:
           python-version: '3.12'
       - name: Install filter-only runtime
         run: python -m pip install duckdb
+      - name: Download pinned interaction parquet as one verified byte object
+        run: |
+          set -euo pipefail
+          mkdir -p build/globi_filter_only_support_v0_1/source
+          curl --fail --location --retry 12 --retry-all-errors --retry-delay 10 \
+            --continue-at - \
+            'https://zenodo.org/records/22691479/files/interactions.parquet?download=1' \
+            -o build/globi_filter_only_support_v0_1/source/interactions.parquet
+          echo '8212776b7ba0c4fa8de26a00b5ce8595  build/globi_filter_only_support_v0_1/source/interactions.parquet' | md5sum -c -
+          test "$(stat -c%s build/globi_filter_only_support_v0_1/source/interactions.parquet)" -eq 2375721521
       - name: Scan exact frozen projection and source filters only
         run: |
-          mkdir -p build/globi_filter_only_support_v0_1
           python scripts/analysis/audit_globi_filter_only_row_support_v0_1.py \
-            --url 'https://zenodo.org/api/records/22691479/files/interactions.parquet/content' \
+            --url 'build/globi_filter_only_support_v0_1/source/interactions.parquet' \
             --out build/globi_filter_only_support_v0_1/result.json
       - name: Validate response firewall
         run: |
