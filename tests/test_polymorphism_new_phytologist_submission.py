@@ -78,7 +78,7 @@ def test_itv_framing_and_reader_chronology_are_explicit() -> None:
         "which phenotypic directions",
         "how the variants are arranged geographically",
         "Flower-colour polymorphism is unusually suited to this distributional view",
-        "each stage removes a different inferential failure mode",
+        "each stage addresses a different inferential failure mode",
         "Phenotype-space generality without a universal geographic map",
         "treating species as distributions rather than mean phenotypes",
     ):
