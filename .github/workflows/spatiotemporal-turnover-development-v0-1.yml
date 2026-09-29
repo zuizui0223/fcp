@@ -1,0 +1,32 @@
+name: General spatiotemporal turnover development v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'development/spatiotemporal_turnover/**'
+      - 'packages/disttrait/src/disttrait/turnover.py'
+      - 'packages/disttrait/src/disttrait/__init__.py'
+      - 'packages/disttrait/tests/test_turnover.py'
+      - 'scripts/analysis/validate_spatiotemporal_turnover_design_v0_1.py'
+      - '.github/workflows/spatiotemporal-turnover-development-v0-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install disttrait test runtime
+        run: |
+          python -m pip install -e packages/disttrait
+          python -m pip install pytest
+      - name: Validate frozen four-response design
+        run: python scripts/analysis/validate_spatiotemporal_turnover_design_v0_1.py
+      - name: Test turnover primitives
+        run: pytest -q packages/disttrait/tests/test_turnover.py
