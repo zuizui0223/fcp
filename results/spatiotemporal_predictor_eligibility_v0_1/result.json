@@ -1,0 +1,38 @@
+{
+  "version": "v0.1",
+  "status": "SPATIOTEMPORAL_PREDICTOR_ELIGIBILITY_PARTIAL_PASS",
+  "parent_contract": "data/spatiotemporal_predictor_independence_contract_v0_1.json",
+  "context_heterogeneity": {
+    "status": "PASS_SOURCE_ROUTE",
+    "sources": [
+      "GBIF",
+      "CHELSA v2.1"
+    ],
+    "outcome_independence": "PASS_BY_DESIGN",
+    "next_gate": "Freeze exact occurrence sampling and climate extraction geometry for each admitted system before turnover outcomes."
+  },
+  "ecological_specialization": {
+    "status": "PASS_SOURCE_EXCLUSION_MECHANISM_SUPPORT_AUDIT_PENDING",
+    "source": "GloBI stable versioned archive",
+    "namespace_gate": "PASS_EXPLICIT_GLOBALBIOTICINTERACTIONS_MANGAL_NAMESPACE_FOUND",
+    "citation_gate": "PASS_ALL_3_CURRENT_MANGAL_CALIBRATION_DOIS_FOUND",
+    "interaction_rows_opened": false,
+    "specialization_values_computed": false,
+    "next_gate": "Filter-only GloBI interaction-row audit using namespace/source DOI exclusions; record excluded-row counts and remaining focal-taxon support before computing any partner entropy."
+  },
+  "dispersal_mobility": {
+    "status": "HOLD_NO_PINNED_SOURCE_INDEPENDENT_DIRECT_DISPERSAL_MEASURE",
+    "primary_plant_panel_authorized": false,
+    "postoutcome_proxy_substitution_prohibited": true
+  },
+  "trait_geometry_calibration": {
+    "status": "PASS_CALIBRATION_ONLY",
+    "source": "Tundra Trait Team archived v1",
+    "traits_passing_support_gate": 14,
+    "role": "estimator/support geometry calibration only"
+  },
+  "generalized_turnover_outcomes_opened": false,
+  "current_fcp_manuscript_changed": false,
+  "chun_science_changed": false,
+  "decision": "Proceed to predictor-support/filter audits and trait-panel/phylogeny qualification. Do not open TT/TS/IT/IS yet."
+}

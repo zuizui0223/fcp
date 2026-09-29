@@ -1,0 +1,47 @@
+name: GloBI citation source exclusion v0.1
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/analysis/audit_globi_citation_source_exclusion_v0_1.py'
+      - '.github/workflows/globi-citation-source-exclusion-v0-1.yml'
+      - 'results/globi_specialization_namespace_independence_v0_1/result.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download pinned GloBI citation metadata
+        run: |
+          set -euo pipefail
+          mkdir -p build/globi_citation_source_exclusion_v0_1
+          curl --fail --location --retry 4 --retry-delay 2             'https://zenodo.org/records/22691479/files/citations.tsv.gz?download=1'             -o build/globi_citation_source_exclusion_v0_1/citations.tsv.gz
+      - name: Audit source DOI exclusion machinery
+        run: |
+          python scripts/analysis/audit_globi_citation_source_exclusion_v0_1.py             --citations build/globi_citation_source_exclusion_v0_1/citations.tsv.gz             --out build/globi_citation_source_exclusion_v0_1/result.json
+      - name: Validate firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('build/globi_citation_source_exclusion_v0_1/result.json'))
+          assert x['interaction_rows_opened'] is False
+          assert x['taxon_identities_opened'] is False
+          assert x['partner_entropy_computed'] is False
+          assert x['rows'] > 0
+          assert x['status'] in {
+            'GLOBI_CITATION_EXCLUSION_MECHANISM_VERIFIED_FOR_CURRENT_MANGAL_CALIBRATION_DOIS',
+            'HOLD_GLOBI_CITATION_METADATA_DOES_NOT_RESOLVE_ALL_CURRENT_MANGAL_DOIS'
+          }
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: globi-citation-source-exclusion-v0-1
+          path: build/globi_citation_source_exclusion_v0_1/result.json
