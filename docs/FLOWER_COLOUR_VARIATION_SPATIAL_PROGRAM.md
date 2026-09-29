@@ -173,6 +173,28 @@ This motivates a programme-level principle — **structured variation without a 
 
 A later synthesis could test whether the same biological properties that accelerate temporal memory loss also increase spatial turnover or geographic sorting. That requires genuinely harmonized lineage-level and population-level data and is not inferred from the present separate datasets.
 
+## Direct bridge to CHUN: current feasibility
+
+The conceptual sister-paper relation has now been tested for whether it can support a direct cross-scale analysis with the currently available high-depth species pool.
+
+Existing discovery/validation overlap with the 28 CHUN common temporal clades is too sparse for a defensible clade-level bridge, so no retrospective correlation was run.
+
+A separate outcome-blind prospective qualification used the frozen unused U100 species pool and required, before any new colour or spatial response was opened:
+
+- at least 5 unused U100 species per temporal clade;
+- at least 12 qualifying temporal clades;
+- no post-hoc taxonomic broadening or threshold relaxation.
+
+After removing all species allocated to the legacy, P500 and third prospective cohorts, 2,730 unused U100 species remained. Of these, 127 matched one of the 28 CHUN temporal clades by exact genus identity, but only 10 clades had at least 5 unused species.
+
+The terminal decision is therefore:
+
+> **HOLD_INSUFFICIENT_FRESH_CLADE_COVERAGE**
+
+No new bridge cohort was selected and no CHUN temporal effect was correlated with FCP spatial outcomes.
+
+This preserves the distinction between a strong conceptual temporal–spatial parallel and an as-yet untested claim of direct cross-scale coupling.
+
 ## Claim boundaries
 
 This programme framing does not change the current FCP inferential boundary:
