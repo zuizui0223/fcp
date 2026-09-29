@@ -92,6 +92,30 @@ def test_manuscript_reports_authoritative_third_cohort_values() -> None:
 
 
 
+def test_itv_distributional_synthesis_stays_bounded() -> None:
+    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
+    ledger = LEDGER.read_text(encoding="utf-8")
+
+    for token in (
+        "structure of intraspecific variation",
+        "amount",
+        "direction",
+        "organization",
+        "treating species as distributions rather than mean phenotypes",
+    ):
+        assert token in manuscript
+
+    for token in (
+        "Allowed ecological synthesis — intraspecific variation as a distributional comparative trait",
+        "amount",
+        "direction",
+        "organization",
+        "Cross-species generality can reside in the geometry of intraspecific variation",
+        "does **not** establish a universal ecological driver",
+    ):
+        assert token in ledger
+
+
 def test_postconfirmatory_validity_receipt_preserves_frozen_verdict_and_caveat() -> None:
     result = load_json(VALIDITY)
     assert result["confirmatory_verdict_changed"] is False
