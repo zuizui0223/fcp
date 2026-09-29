@@ -95,6 +95,32 @@ def main():
         key=lambda r:(-r['reference_taxa_in_ge3_networks'],-r['georeferenced_networks'],r['interaction_type'],r['role'])
     )
     admitted=ranked[:3]
+    # Fixed primary families, frozen before any turnover outcome.
+    primary_specs=[
+        {'interaction_type':'mutualism','focal_role':'either'},
+        {'interaction_type':'predation','focal_role':'from'},
+        {'interaction_type':'parasitism','focal_role':'from'},
+    ]
+    primary=[]
+    for spec in primary_specs:
+        typ=spec['interaction_type']; role=spec['focal_role']
+        if role=='either':
+            merged=defaultdict(set)
+            for side in ('from','to'):
+                for tid,nets in taxon_networks.get((typ,side),{}).items():
+                    merged[tid].update(nets)
+            mapping=merged
+        else:
+            mapping=taxon_networks.get((typ,role),{})
+        repeated=[tid for tid,nets in mapping.items() if len(nets)>=3]
+        primary.append({
+            'interaction_type':typ,
+            'focal_role':role,
+            'reference_taxa_total':len(mapping),
+            'reference_taxa_in_ge3_networks':len(repeated),
+            'coverage_gate':len(repeated)>=20,
+        })
+
     result={
       'version':'v0.1',
       'status':'MANGAL_INTERACTION_ROLE_COVERAGE_PASS' if admitted else 'HOLD_MANGAL_NO_TYPE_ROLE_PASSES_COVERAGE',
@@ -111,6 +137,8 @@ def main():
       },
       'type_role_coverage':rows,
       'admitted_candidate_type_role_families':admitted,
+      'primary_family_coverage':primary,
+      'all_primary_families_pass':all(x['coverage_gate'] for x in primary),
       'partner_similarity_computed':False,
       'rewiring_computed':False,
       'temporal_memory_computed':False,
