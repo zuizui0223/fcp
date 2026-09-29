@@ -1,0 +1,114 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GENERALIZED_TURNOVER_OUTCOME_OPENING",
+  "frozen_on": "2026-09-30",
+  "parent_design": "data/spatiotemporal_memory_turnover_design_v0_1.json",
+  "purpose": "Freeze response-independent measurement routes for the three biological predictor families before any generalized trait/interactions turnover outcome is opened.",
+  "predictor_families": {
+    "context_heterogeneity": {
+      "canonical_name": "abiotic_context_heterogeneity",
+      "role": "PRIMARY_COMMON_DRIVER",
+      "source_stack": [
+        {
+          "source": "GBIF occurrence data",
+          "role": "response-independent occurrence geometry / occupancy sampling"
+        },
+        {
+          "source": "CHELSA v2.1",
+          "role": "response-independent climate values"
+        }
+      ],
+      "primary_definition": "Median pairwise Euclidean distance in a predeclared standardized CHELSA climate space, calculated on response-independent occupied locations; trait systems use equal-species aggregation and interaction systems use network-site aggregation.",
+      "climate_variables": [
+        "BIO5",
+        "BIO10",
+        "BIO12",
+        "BIO15",
+        "climate_moisture_index"
+      ],
+      "no_metric_selection": true,
+      "no_response_data_allowed": true,
+      "expected_direction": {
+        "TT": "positive",
+        "TS": "positive",
+        "IT": "positive",
+        "IS": "positive"
+      },
+      "current_status": "ELIGIBLE_SOURCE_ROUTE"
+    },
+    "ecological_specialization": {
+      "canonical_name": "biotic_partner_specialization",
+      "role": "PRIMARY_DECOUPLER",
+      "source_stack": [
+        {
+          "source": "GloBI stable versioned archive",
+          "role": "partner identity/weight source independent of primary trait data and independent of Mangal after source exclusion"
+        }
+      ],
+      "primary_definition": "1 - normalized Shannon entropy of the focal taxon's partner distribution within the frozen interaction class; higher values mean more specialized.",
+      "minimum_partner_records": 10,
+      "minimum_distinct_partners": 2,
+      "independence_rule": {
+        "trait_response": "GloBI partner records are allowed because trait outcomes come from independent trait datasets.",
+        "mangal_interaction_response": "All GloBI records traceable to the same Mangal dataset, source DOI, or source namespace as the response system must be excluded before specialization is computed.",
+        "failure_state": "HOLD_SPECIALIZATION_SOURCE_NOT_INDEPENDENT"
+      },
+      "expected_direction": {
+        "TT": "negative",
+        "TS": "positive",
+        "IT": "negative",
+        "IS": "positive"
+      },
+      "current_status": "ELIGIBLE_IN_PRINCIPLE_REQUIRES_GLOBI_SOURCE_EXCLUSION_AUDIT"
+    },
+    "dispersal_mobility": {
+      "canonical_name": "direct_dispersal_or_mobility_capacity",
+      "role": "SECONDARY_DECOUPLER",
+      "primary_definition": "Use a direct, source-native dispersal/mobility measurement or validated taxon-group-specific proxy pinned before outcomes; do not manufacture one universal cross-taxon index.",
+      "plant_primary_panel": {
+        "current_status": "HOLD_NO_PINNED_SOURCE_INDEPENDENT_DIRECT_DISPERSAL_MEASURE",
+        "forbidden_rescue": [
+          "do not substitute vegetative plant height after seeing turnover outcomes",
+          "do not substitute seed mass after seeing turnover outcomes",
+          "do not create an outcome-optimized PC of correlated plant traits"
+        ]
+      },
+      "future_transport_examples": [
+        {
+          "taxon": "birds",
+          "source": "AVONET or another pinned direct morphology/mobility source",
+          "status": "FUTURE_ONLY"
+        },
+        {
+          "taxon": "mammals",
+          "source": "source-specific movement/dispersal database",
+          "status": "FUTURE_ONLY"
+        }
+      ],
+      "expected_direction": {
+        "TT": "no_directional_primary",
+        "TS": "negative",
+        "IT": "no_directional_primary",
+        "IS": "negative"
+      },
+      "current_status": "HOLD_PRIMARY_PLANT_PANEL"
+    }
+  },
+  "response_independence_rules": {
+    "TT": "Predictors may use occurrence/climate/interaction/mobility sources but never focal trait values used in trait-time response.",
+    "TS": "Predictors may use occurrence/climate/interaction/mobility sources, but climate extraction must use an occurrence sample independent of the focal trait measurement coordinates when feasible; sensitivity may reuse geometry only, never focal trait values.",
+    "IT": "Predictors must not use partner-profile rows that enter the interaction-time response.",
+    "IS": "Predictors must not use the Mangal edges or network weights that enter rewiring response; same-source specialization is forbidden."
+  },
+  "shared_predictor_requirement": {
+    "context_heterogeneity": "Must be available for both time and space effects within a system before H2 common-driver inference.",
+    "ecological_specialization": "Must be available independently for both time and space effects within a system before H3 decoupling inference.",
+    "dispersal_mobility": "May be NOT_EVALUABLE without invalidating H1/H2/H3; it is secondary and cannot be replaced post-outcome."
+  },
+  "predictor_missingness": {
+    "no_imputation_from_response": true,
+    "no_source_switch_after_response_opening": true,
+    "system_is_excluded_from_predictor_specific_test_not_from_other_predeclared_tests": true
+  },
+  "current_science_changed": false
+}
