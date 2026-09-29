@@ -20,6 +20,15 @@ from scipy.stats import rankdata
 
 
 @dataclass(frozen=True)
+class TurnoverNullResult:
+    observed_rho: float
+    null_mean_rho: float
+    delta_rho: float
+    p_upper: float
+    null_rho: np.ndarray
+
+
+@dataclass(frozen=True)
 class InteractionBetaResult:
     beta_wn: float
     beta_st: float
@@ -67,6 +76,38 @@ def turnover_rho(
     if np.ptp(y) <= 1e-15:
         return 0.0
     return _rank_pearson(x, y)
+
+
+def null_centered_turnover_rho(
+    separation: Sequence[float],
+    dissimilarity: Sequence[float],
+    null_dissimilarities: np.ndarray,
+) -> TurnoverNullResult:
+    """Return null-centered distance-turnover effect on a common rho scale.
+
+    Each row of null_dissimilarities must be one null world on the same
+    pairwise geometry as dissimilarity. The biological effect is delta_rho:
+    observed Spearman rho minus the mean null rho. Null SD is intentionally
+    not used as the cross-system biological effect size.
+    """
+    observed = turnover_rho(separation, dissimilarity)
+    null = np.asarray(null_dissimilarities, dtype=float)
+    y = np.asarray(dissimilarity, dtype=float)
+    if null.ndim != 2 or null.shape[1] != len(y) or null.shape[0] < 1:
+        raise ValueError("null_dissimilarities must have shape (n_null>=1, n_pairs)")
+    if np.any(~np.isfinite(null)):
+        raise ValueError("null dissimilarities must be finite")
+    null_rho = np.asarray([turnover_rho(separation, row) for row in null], dtype=float)
+    mean = float(np.mean(null_rho))
+    delta = float(observed - mean)
+    p_upper = float((1 + np.sum(null_rho >= observed)) / (len(null_rho) + 1))
+    return TurnoverNullResult(
+        observed_rho=float(observed),
+        null_mean_rho=mean,
+        delta_rho=delta,
+        p_upper=p_upper,
+        null_rho=null_rho,
+    )
 
 
 def _sorensen_binary(a: np.ndarray, b: np.ndarray) -> tuple[float, int, int, int]:
