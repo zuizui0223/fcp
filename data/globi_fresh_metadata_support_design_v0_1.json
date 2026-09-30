@@ -1,0 +1,116 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_CARNIDIET_CROPPOL_METADATA_VALUE_OPENING",
+  "frozen_on": "2026-09-30",
+  "parent_semantics": "data/globi_frozen12_source_semantics_audit_v0_1.json",
+  "candidates": {
+    "CARNIDIET": {
+      "repository": "globalbioticinteractions/CarniDIET-Database",
+      "commit": "ddafdc8caeca3ab1a09a30774ef4afaf4acf8fd0",
+      "data_path": "Version 1.0/CarniDIET 1.0.csv",
+      "data_blob_sha": "9d80fdb42d50d07260dda9b13a7bf9d0b9cd0dac",
+      "safe_columns": [
+        "scientificNameCarni",
+        "startYear",
+        "endYear",
+        "startMonth",
+        "endMonth",
+        "season",
+        "verbatimLocality",
+        "decimalLatitude",
+        "decimalLongitude",
+        "samplingProtocol",
+        "methodQuantification",
+        "sourcePrimaryReference",
+        "sampleSizeScatStomachTissue",
+        "sampleSizeKillsPreyItems"
+      ],
+      "forbidden_columns": [
+        "scientificNamePrey",
+        "percentage",
+        "percentageError"
+      ],
+      "local_unit_key": [
+        "sourcePrimaryReference",
+        "verbatimLocality",
+        "decimalLatitude",
+        "decimalLongitude",
+        "startYear",
+        "endYear",
+        "samplingProtocol",
+        "methodQuantification"
+      ],
+      "focal_taxon_column": "scientificNameCarni",
+      "method_columns": [
+        "samplingProtocol",
+        "methodQuantification"
+      ]
+    },
+    "CROPPOL": {
+      "repository": "globalbioticinteractions/OBservData",
+      "commit": "ebc9ae9f7fb6de2b05a9f408769e5f1e8982ca22",
+      "field_path": "Final_Data/CropPol_field_level_data.csv",
+      "field_blob_sha": "cd19a354741ac40428e6b94aa1ec2ee596ff0547",
+      "sampling_path": "Final_Data/CropPol_sampling_data.csv",
+      "sampling_blob_sha": "b7ab3fd92da0be5e8ec41b6ada50c2da7d4756c2",
+      "safe_field_columns": [
+        "study_id",
+        "site_id",
+        "crop",
+        "latitude",
+        "longitude",
+        "sampling_year"
+      ],
+      "safe_sampling_columns": [
+        "study_id",
+        "site_id",
+        "sampling_method",
+        "total_sampled_area",
+        "total_sampled_time",
+        "total_sampled_flowers"
+      ],
+      "forbidden_sampling_columns": [
+        "pollinator",
+        "abundance"
+      ],
+      "local_unit_key": [
+        "study_id",
+        "site_id"
+      ],
+      "focal_taxon_column": "crop",
+      "method_columns": [
+        "sampling_method"
+      ]
+    }
+  },
+  "support_gate": {
+    "temporal_min_focal_taxa": 20,
+    "spatial_min_georeferenced_local_units": 5,
+    "spatial_min_repeated_focal_taxa": 10,
+    "repeated_focal_min_local_units": 3,
+    "minimum_local_units_with_method_metadata": 5
+  },
+  "pass_definition": "Candidate advances only if all support gates pass using safe metadata projections. PASS does not authorize partner identity or interaction outcome opening.",
+  "output_allowed": [
+    "counts",
+    "nonmissing fractions",
+    "method-stratum counts",
+    "hashed focal-taxon set",
+    "hashed local-unit set",
+    "gate decisions"
+  ],
+  "output_forbidden": [
+    "focal taxon names",
+    "coordinates",
+    "dates",
+    "partner identities",
+    "interaction weights"
+  ],
+  "governance": {
+    "no_threshold_relaxation": true,
+    "partner_values_not_used": true,
+    "generalized_turnover_outcomes_opened": false,
+    "current_fcp_manuscript_changed": false,
+    "chun_el_v0_3_changed": false
+  }
+}
