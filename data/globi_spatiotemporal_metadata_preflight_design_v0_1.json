@@ -1,0 +1,44 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GLOBI_DATASET_INDEX_OPENING",
+  "checked_source_on": "2026-09-29",
+  "source": {
+    "name": "Global Biotic Interactions interpreted data products",
+    "zenodo_record": 22691479,
+    "version": "0.11",
+    "published": "2026-09-10",
+    "dataset_index_file": "datasets.tsv",
+    "dataset_index_sha256": "6b5191180e9bbfdb7867ff2fdef3e2e305f78cfe6f6405209e455497a06e30c4",
+    "dataset_index_url": "https://zenodo.org/records/22691479/files/datasets.tsv?download=1",
+    "interaction_file_sha256": "021a206a1459bcca7e251c73f5bd180fc3ac342a09c499855fe42e21fc09edcf",
+    "interaction_rows_open_authorized": false
+  },
+  "allowed_opening": {
+    "files": [
+      "datasets.tsv"
+    ],
+    "persisted_fields": "dataset-level identifiers/URLs/citations and schema/header only",
+    "biological_taxon_identities": false,
+    "interaction_edges": false,
+    "interaction_weights": false,
+    "coordinates_from_interaction_rows": false,
+    "dates_from_interaction_rows": false
+  },
+  "qualification_question": "Does the stable dataset index itself expose enough dataset-level geometry/time metadata to identify candidate studies before any interaction row is opened?",
+  "pass_rule": {
+    "minimum_datasets": 10,
+    "require_dataset_identity_field": true,
+    "require_any_geometry_or_time_field_in_dataset_index": true,
+    "note": "If geometry/time fields are absent from the dataset index, terminate this stage as HOLD and design a narrower original-source metadata audit; do not open integrated interaction rows merely to rescue the gate."
+  },
+  "finite_family_context": {
+    "previous_source": "MANGAL_CURATED_NETWORKS",
+    "previous_terminal": "SOURCE_FAMILY_EXHAUSTED_NO_FRESH_FULL_PAIR",
+    "current_source": "GLOBI_STABLE_ZENODO"
+  },
+  "governance": {
+    "generalized_turnover_outcomes_opened": false,
+    "current_fcp_manuscript_changed": false,
+    "chun_el_v0_3_changed": false
+  }
+}
