@@ -1,0 +1,18 @@
+{
+  "version": "v0.1",
+  "status": "FROZEN_BEFORE_GLOBI_FRESH_REWIRING_STRUCTURE_AUDIT",
+  "frozen_on": "2026-09-30",
+  "parent_result": "results/globi_fresh_metadata_support_v0_1/result.json",
+  "question": "Do the fresh CarniDIET/CropPol local-unit designs contain enough multi-focal network structure for binary interaction rewiring to be structurally identifiable before partner identities are opened?",
+  "rationale": "With one focal species per local unit, any shared partner observed in both units has the same sole focal edge, so binary within-network rewiring collapses and apparent interaction turnover is dominated by partner/species turnover.",
+  "safe_inputs": "same focal/site/time/method projections authorized by globi_fresh_metadata_support_design_v0_1.json",
+  "gate": {
+    "minimum_local_units_with_at_least_2_focal_taxa": 5,
+    "minimum_focal_taxa_participating_in_multifocal_units": 10,
+    "minimum_focal_pairs_repeated_in_at_least_2_units": 5
+  },
+  "pass_meaning": "Necessary focal-side structural support only. PASS still does not authorize partner columns; partner-side shared-opportunity and estimator informativeness must later pass.",
+  "hold_meaning": "Primary binary rewiring response is structurally unidentifiable under the frozen local-unit definition. Do not replace it with total interaction turnover or weighted diet change under the same confirmatory label.",
+  "no_posthoc_relaxation": true,
+  "generalized_outcomes_opened": false
+}
