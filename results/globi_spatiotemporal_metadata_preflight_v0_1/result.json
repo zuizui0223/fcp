@@ -1,0 +1,40 @@
+{
+  "version": "v0.1",
+  "status": "HOLD_GLOBI_DATASET_INDEX_LACKS_GEOMETRY_TIME_METADATA",
+  "checked_on": "2026-09-29",
+  "design": "data/globi_spatiotemporal_metadata_preflight_design_v0_1.json",
+  "source": {
+    "zenodo_record": 22691479,
+    "version": "0.11",
+    "published": "2026-09-10",
+    "dataset_index_file": "datasets.tsv",
+    "dataset_index_sha256": "6b5191180e9bbfdb7867ff2fdef3e2e305f78cfe6f6405209e455497a06e30c4"
+  },
+  "dataset_index": {
+    "rows": 458,
+    "header": [
+      "namespace"
+    ],
+    "geometry_fields": [],
+    "time_fields": [],
+    "namespace_field": "namespace",
+    "geometry_time_gate_pass": false
+  },
+  "firewall": {
+    "interaction_rows_opened": false,
+    "taxon_identities_opened": false,
+    "interaction_weights_opened": false,
+    "biological_outcome_computed": false,
+    "full_interaction_outcome_opening_authorized": false
+  },
+  "decision": {
+    "integrated_interaction_rows_may_be_opened_to_rescue_gate": false,
+    "next_gate": "Freeze a bounded original-source or dataset-cache metadata audit using dataset identities only; remain within GloBI P2 and do not inspect interaction records.",
+    "source_switch": false,
+    "interpretation": "The stable GloBI dataset index establishes a large source universe but contains only dataset namespaces. It cannot by itself qualify repeated geographic/time network geometry. This is a schema HOLD, not evidence against the biological hypothesis."
+  },
+  "science_changes": {
+    "current_fcp_manuscript": false,
+    "chun_el_v0_3": false
+  }
+}
