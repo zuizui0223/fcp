@@ -1,0 +1,125 @@
+{
+  "version": "v0.1",
+  "status": "GLOBI_FROZEN12_SOURCE_SEMANTICS_AUDIT_COMPLETE_TWO_FRESH_METADATA_CANDIDATES",
+  "audited_on": "2026-09-30",
+  "parent_census": "results/globi_original_source_schema_census_v0_1/result.json",
+  "allowed_material": [
+    "README.md",
+    "globi.json",
+    "source citation metadata"
+  ],
+  "forbidden_material": [
+    "source data rows",
+    "interaction rows",
+    "target-taxon values",
+    "interaction weights",
+    "coordinate values",
+    "date values",
+    "turnover outcomes"
+  ],
+  "classifications": [
+    {
+      "repository": "globalbioticinteractions/CarniDIET-Database",
+      "status": "ADVANCE_FRESH_METADATA_GEOMETRY_SUPPORT_AUDIT",
+      "interaction_type": "predation/diet",
+      "source_doi": "10.1111/geb.13296",
+      "focal_taxa_reported": 103,
+      "rationale": "Population-level carnivore diet compositions are explicitly organized by site and time. The schema exposes focal carnivore identity, locality, latitude/longitude, dates/seasons, sampling protocol, quantification method and sample-size fields. Sampling comparability and repeated-focal support still require a metadata-only audit."
+    },
+    {
+      "repository": "globalbioticinteractions/OBservData",
+      "status": "ADVANCE_FRESH_METADATA_GEOMETRY_SUPPORT_AUDIT",
+      "interaction_type": "crop-pollinator mutualism",
+      "source_doi": "10.1002/ecy.3614",
+      "rationale": "CropPol exposes field/study/site identities, field coordinates and sampling year, while pollinator sampling metadata expose method, sampled area/time/flowers and abundance. A metadata-only joined support audit is required before any pollinator identity or interaction outcome is opened."
+    },
+    {
+      "repository": "globalbioticinteractions/bmpo",
+      "status": "HOLD_SAMPLING_NONCOMPARABLE_FOR_REWIRING",
+      "interaction_type": "host-parasite",
+      "source_doi": "10.1038/s41597-023-02636-8",
+      "rationale": "The source integrates multiple parasite-host databases for spatial association analysis. Presence associations and locations do not by themselves define comparable local-network opportunity or standardized sampling needed for rewiring."
+    },
+    {
+      "repository": "globalbioticinteractions/brose-gateway",
+      "status": "RETROSPECTIVE_CALIBRATION_ONLY",
+      "interaction_type": "consumer-resource food webs",
+      "source_doi": "10.1038/s41559-019-0899-x",
+      "rationale": "GATEWAy compiles food webs and traits across ecosystems and the associated publication already analyzes food-web architecture as a function of predator traits. It can calibrate the pipeline but is not clean fresh generalized evidence."
+    },
+    {
+      "repository": "globalbioticinteractions/fricke2020",
+      "status": "RETROSPECTIVE_CALIBRATION_ONLY",
+      "interaction_type": "plant-frugivore",
+      "source_doi": "10.1038/s41586-020-2640-y",
+      "rationale": "The source publication explicitly analyzes homogenization of the global plant-frugivore meta-network, so spatial network organization is already outcome-exposed."
+    },
+    {
+      "repository": "globalbioticinteractions/globalamfungi",
+      "status": "HOLD_INTERACTION_SEMANTICS",
+      "interaction_type": "AMF-host/co-occurrence",
+      "source_doi": "10.1111/nph.19283",
+      "rationale": "Metabarcoding fungal occurrences are linked to dominant plant fields and study samples. These mappings do not establish a standardized realized pairwise host-interaction network suitable for rewiring."
+    },
+    {
+      "repository": "globalbioticinteractions/globalfungi",
+      "status": "HOLD_INTERACTION_SEMANTICS",
+      "interaction_type": "fungal occurrence with vegetation context",
+      "source_doi": "10.1038/s41597-020-0567-7",
+      "rationale": "GlobalFungi is an occurrence/metabarcoding database. Dominant vegetation and sample context are not equivalent to observed pairwise biotic interactions or partner opportunity."
+    },
+    {
+      "repository": "globalbioticinteractions/limbu2025",
+      "status": "HOLD_INTERACTION_SEMANTICS",
+      "interaction_type": "AMF host/co-occurrence",
+      "source_doi": "10.1073/pnas.2505059122",
+      "rationale": "The source is a climate-linked AMF spore-trait/biogeography dataset; Host and dominant-plant fields do not define complete repeated local networks with a defensible co-opportunity denominator."
+    },
+    {
+      "repository": "globalbioticinteractions/osal-ar",
+      "status": "HOLD_SAMPLING_NONCOMPARABLE_FOR_REWIRING",
+      "interaction_type": "museum specimen association",
+      "source_identity": "Ohio State Acarology Laboratory collection",
+      "rationale": "Museum collecting-unit associations have location/date metadata but are opportunistic specimen records rather than standardized local interaction-network samples."
+    },
+    {
+      "repository": "globalbioticinteractions/pollination_catalogue",
+      "status": "HOLD_SAMPLING_NONCOMPARABLE_DEPRECATED_CONFIG",
+      "interaction_type": "plant-pollinator catalogue",
+      "source_identity": "Chile pollination literature catalogue",
+      "rationale": "This is a literature catalogue spanning 120 publications with heterogeneous sampling, and the GloBI configuration itself is marked deprecated. It cannot define one comparable spatial rewiring design."
+    },
+    {
+      "repository": "globalbioticinteractions/russo2022",
+      "status": "RETROSPECTIVE_CALIBRATION_ONLY",
+      "interaction_type": "plant-flower visitor",
+      "source_doi": "10.1002/ece3.9347",
+      "data_doi": "10.5061/dryad.kwh70rz47",
+      "rationale": "The source has excellent site, effort and time metadata, but the associated paper already analyzes plant-pollinator network diversity. Retain for calibration/transport after a fresh primary system, not as untouched generalized evidence."
+    },
+    {
+      "repository": "globalbioticinteractions/scar",
+      "status": "HOLD_SAMPLING_NONCOMPARABLE_FOR_REWIRING",
+      "interaction_type": "Southern Ocean predator diet",
+      "data_doi": "10.5281/zenodo.7796465",
+      "rationale": "The integrated diet/energetics database spans heterogeneous source studies, locations and observation methods. It does not yet provide a common local-network sampling denominator for spatial rewiring."
+    }
+  ],
+  "fresh_candidates": [
+    "globalbioticinteractions/CarniDIET-Database",
+    "globalbioticinteractions/OBservData"
+  ],
+  "retrospective_calibration": [
+    "globalbioticinteractions/brose-gateway",
+    "globalbioticinteractions/fricke2020",
+    "globalbioticinteractions/russo2022"
+  ],
+  "fresh_candidate_count": 2,
+  "source_switch": false,
+  "interaction_rows_opened": false,
+  "biological_outcomes_opened": false,
+  "next_gate": "Freeze and run focal-taxon/site/time/sampling-metadata-only support audits for CarniDIET and CropPol. Target partner identities and interaction weights remain sealed.",
+  "no_posthoc_substitution": true,
+  "current_fcp_manuscript_changed": false,
+  "chun_el_v0_3_changed": false
+}
