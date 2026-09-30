@@ -1,0 +1,61 @@
+{
+  "version": "v0.1",
+  "status": "RETROSPECTIVE_TRAIT_SOURCE_CALIBRATION_ONLY",
+  "recorded_on": "2026-09-30",
+  "provenance": {
+    "superseded_branch": "development/spatiotemporal-turnover-coupling-v0-1",
+    "branch_head": "8c9d23a4b0fc99bfd0e6305525dc70ec78c49fad",
+    "original_workflow_run": 36573691484,
+    "original_job": 109423734622,
+    "original_result_blob_sha": "cf5315af55fc5c039dda17c02c5422bc6d6ccaf0"
+  },
+  "source": {
+    "name": "Tundra Trait Team archived v1",
+    "repository": "ShrubHub/TraitHub",
+    "observed_source_head": "d652de7c03bab3f70bbfa42e59bee2f7d6c0d952",
+    "cleaned_dataset_git_blob_sha": "60a4c4808f87567b73f59838a0976c739a0e3c26",
+    "rows": 91970,
+    "traits_seen": 18
+  },
+  "physical_support_gate": {
+    "minimum_species_total": 20,
+    "minimum_spatial_eligible_species": 5,
+    "minimum_observations_per_species": 10,
+    "minimum_sites_per_species": 3,
+    "minimum_geographic_span_km": 50,
+    "traits_passing": 14
+  },
+  "calibration_traits": [
+    {
+      "trait": "Leaf area per leaf dry mass (specific leaf area, SLA)",
+      "species_total": 899,
+      "spatial_eligible_species": 88
+    },
+    {
+      "trait": "Leaf dry mass per leaf fresh mass (Leaf dry matter content, LDMC)",
+      "species_total": 754,
+      "spatial_eligible_species": 64
+    },
+    {
+      "trait": "Plant height, vegetative",
+      "species_total": 643,
+      "spatial_eligible_species": 79
+    },
+    {
+      "trait": "Leaf nitrogen (N) content per leaf dry mass",
+      "species_total": 399,
+      "spatial_eligible_species": 34
+    }
+  ],
+  "interpretation": "Non-flower-colour plant traits can satisfy a joint physical support requirement for both phylogenetic-time and within-species geographic analyses. Because source values were already opened on the superseded development branch, this result calibrates feasibility only and cannot count as prospective evidence for time-space coupling.",
+  "prohibited_uses": [
+    "do not count as prospective replication",
+    "do not use the four listed traits as outcome-selected primary generalized traits",
+    "do not replace the frozen BIEN/AusTraits primary source order",
+    "do not infer any time-space coupling from source coverage"
+  ],
+  "turnover_outcomes_computed": false,
+  "generalized_predictors_fitted": false,
+  "current_fcp_manuscript_changed": false,
+  "chun_el_v0_3_changed": false
+}
