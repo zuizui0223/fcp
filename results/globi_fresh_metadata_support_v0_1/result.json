@@ -1,0 +1,51 @@
+{
+  "version": "v0.1",
+  "status": "PASS_GLOBI_FRESH_METADATA_SUPPORT_CANDIDATE",
+  "workflow_run": 36670020681,
+  "workflow_job": 109742833287,
+  "design": "data/globi_fresh_metadata_support_design_v0_1.json",
+  "candidates": {
+    "CARNIDIET": {
+      "source_repository": "globalbioticinteractions/CarniDIET-Database",
+      "source_commit": "ddafdc8caeca3ab1a09a30774ef4afaf4acf8fd0",
+      "source_data_blob_sha": "9d80fdb42d50d07260dda9b13a7bf9d0b9cd0dac",
+      "focal_taxa": 103,
+      "local_units": 1774,
+      "georeferenced_local_units": 1741,
+      "repeated_focal_taxa_ge3": 82,
+      "local_units_with_method_metadata": 1774,
+      "support_gate_pass": true
+    },
+    "CROPPOL": {
+      "source_repository": "globalbioticinteractions/OBservData",
+      "source_commit": "ebc9ae9f7fb6de2b05a9f408769e5f1e8982ca22",
+      "field_blob_sha": "cd19a354741ac40428e6b94aa1ec2ee596ff0547",
+      "sampling_blob_sha": "b7ab3fd92da0be5e8ec41b6ada50c2da7d4756c2",
+      "focal_taxa": 48,
+      "local_units": 3448,
+      "georeferenced_local_units": 3076,
+      "repeated_focal_taxa_ge3": 44,
+      "local_units_with_method_metadata": 2534,
+      "support_gate_pass": true
+    }
+  },
+  "passing_candidate_count": 2,
+  "passing_candidates": [
+    "CARNIDIET",
+    "CROPPOL"
+  ],
+  "firewall": {
+    "safe_metadata_columns_projected": true,
+    "partner_columns_used": false,
+    "partner_values_persisted": false,
+    "interaction_weights_used": false,
+    "turnover_outcomes_computed": false,
+    "focal_names_persisted": false,
+    "coordinate_values_persisted": false,
+    "date_values_persisted": false
+  },
+  "interpretation": "Both frozen fresh candidates have enough focal-taxon breadth, georeferenced local replication, repeated focal taxa and method metadata to justify the next pre-outcome gate. This does not establish rewiring, evolutionary interaction memory, or time-space coupling.",
+  "next_gate": "Freeze exact local-network reconstruction, phylogeny and external predictor eligibility for CarniDIET and CropPol before any partner column is admitted.",
+  "current_fcp_manuscript_changed": false,
+  "chun_el_v0_3_changed": false
+}
