@@ -1,0 +1,81 @@
+{
+  "version": "v0.3",
+  "status": "FROZEN_BEFORE_GENERALIZED_PREDICTOR_VALUES_OR_TURNOVER_OUTCOMES",
+  "frozen_on": "2026-09-30",
+  "parent_design": "data/spatiotemporal_memory_turnover_design_v0_1.json",
+  "purpose": "Prevent response-derived predictor leakage in the three predeclared biological predictor families.",
+  "predictor_rules": {
+    "context_heterogeneity": {
+      "primary_role": "PRIMARY_COMMON_DRIVER",
+      "allowed_sources": [
+        "abiotic environment measured independently at declared occurrence/network coordinates",
+        "partner-opportunity or community-composition data independent of realized focal interaction edges"
+      ],
+      "forbidden_sources": [
+        "turnover response itself",
+        "same realized focal interaction edges summarized into heterogeneity",
+        "post-outcome choice among multiple environmental metrics"
+      ],
+      "primary_direction": {
+        "TT": "positive",
+        "TS": "positive",
+        "IT": "positive",
+        "IS": "positive"
+      }
+    },
+    "ecological_specialization": {
+      "primary_role": "PRIMARY_DECOUPLER",
+      "allowed_sources": [
+        "source-native external diet/host/habitat breadth",
+        "independent trait database",
+        "strictly disjoint baseline interaction sample frozen before response networks"
+      ],
+      "forbidden_sources": [
+        "partner entropy or degree calculated from the same interaction edges used to estimate IT or IS",
+        "specialization metric chosen after seeing turnover effects"
+      ],
+      "primary_direction": {
+        "TT": "negative",
+        "TS": "positive",
+        "IT": "negative",
+        "IS": "positive"
+      }
+    },
+    "dispersal_mobility": {
+      "primary_role": "SECONDARY_DECOUPLER",
+      "allowed_sources": [
+        "independent published mobility/dispersal trait",
+        "taxon-group-specific externally validated proxy frozen before responses"
+      ],
+      "forbidden_sources": [
+        "geographic turnover response",
+        "range size estimated from the same response observations when used as a mobility substitute",
+        "cross-taxon raw-unit pooling"
+      ],
+      "primary_direction": {
+        "TT": "no_directional_primary",
+        "TS": "negative",
+        "IT": "no_directional_primary",
+        "IS": "negative"
+      }
+    }
+  },
+  "cross_response_rule": {
+    "same_predictor_definition_required_within_system": true,
+    "source_independence_required": true,
+    "predictor_missingness_may_reduce_systems_but_not_trigger_replacement_predictor_search": true,
+    "common_driver_test_requires_joint_time_space_model": true
+  },
+  "interaction_rule": {
+    "primary_IS_response": "rewiring_among_shared_species",
+    "species_turnover_component": "mandatory diagnostic",
+    "total_network_turnover": "mandatory diagnostic",
+    "interaction_type": "pre-outcome moderator only"
+  },
+  "governance": {
+    "no_fourth_predictor_without_new_programme_version": true,
+    "no_postoutcome_metric_substitution": true,
+    "current_fcp_manuscript_changed": false,
+    "chun_el_v0_3_changed": false
+  }
+}
