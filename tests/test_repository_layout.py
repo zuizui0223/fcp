@@ -36,9 +36,30 @@ REQUIRED_CURRENT_FILES = (
     "archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md",
 )
 
+FORBIDDEN_TURNOVER_GLOBS = (
+    ".github/workflows/*globi*",
+    ".github/workflows/*spatiotemporal*",
+    "archive/workflows/spatiotemporal/**/*.yml",
+    "data/spatiotemporal_memory_turnover*",
+    "data/spatiotemporal_predictor*",
+    "data/spatiotemporal_bridge_opportunity*",
+    "data/mangal_*",
+    "docs/SPATIOTEMPORAL_*",
+    "docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md",
+    "results/spatiotemporal_*",
+    "results/mangal_*",
+    "results/globi_*",
+    "scripts/analysis/audit_spatiotemporal_bridge_*",
+    "scripts/analysis/audit_mangal_*",
+    "scripts/analysis/audit_globi_*",
+    "tests/test_spatiotemporal_*",
+)
+
+
 def test_current_paper_entrypoints_are_stable() -> None:
     for rel in REQUIRED_CURRENT_FILES:
         assert (ROOT / rel).exists(), rel
+
 
 def test_active_actions_surface_is_intentionally_small() -> None:
     names = {p.name for p in ACTIVE.glob("*.yml")}
@@ -49,6 +70,7 @@ def test_active_actions_surface_is_intentionally_small() -> None:
     assert "p500-prospective-location-blind-measurement.yml" not in names
     assert "manuscript-consistency.yml" not in names
 
+
 def test_historical_workflows_are_preserved_but_inactive() -> None:
     archived = list(ARCHIVE.rglob("*.yml"))
     assert len(archived) >= 75
@@ -56,6 +78,18 @@ def test_historical_workflows_are_preserved_but_inactive() -> None:
     assert len(list((ARCHIVE / "disttrait").glob("*.yml"))) >= 13
     assert (ARCHIVE / "literature" / "global-literature-discovery.yml").exists()
     assert (ARCHIVE / "p500" / "p500-prospective-location-blind-measurement.yml").exists()
+
+
+def test_generalized_turnover_programme_stays_out_of_fcp() -> None:
+    leaked = []
+    for pattern in FORBIDDEN_TURNOVER_GLOBS:
+        leaked.extend(
+            str(path.relative_to(ROOT))
+            for path in ROOT.glob(pattern)
+            if path.is_file()
+        )
+    assert not leaked, sorted(set(leaked))
+
 
 def test_root_routes_reader_to_current_reproducibility_contract() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -65,8 +99,10 @@ def test_root_routes_reader_to_current_reproducibility_contract() -> None:
         "POLYMORPHISM_DATA_LINEAGE_MAP_20260925.md",
         "archive/workflows/",
         "NP_PROVENANCE_RELEASE_RECEIPT.md",
+        "zuizui0223/turnover",
     ):
         assert token in readme
+
 
 def test_provenance_builder_tracks_current_paper_surface() -> None:
     workflow = (ACTIVE / "build-np-provenance-snapshot-20260926.yml").read_text(encoding="utf-8")
