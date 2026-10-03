@@ -10,20 +10,9 @@ The study asks three linked questions:
 
 The active manuscript keeps measurement validation, prospective confirmation, geographic structure, and environmental follow-up analyses as distinct inferential layers.
 
-## Programme position
+## Repository scope
 
-FCP is the **geographic-space arm** of a broader programme on the spatiotemporal organization of flower-colour variation.
-
-Its temporal sister is [CHUN](https://github.com/zuizui0223/chun), whose current cross-radiation programme asks how flower-colour identity retains lineage history as evolutionary divergence accumulates and whether that history is carried at one universal phenotype resolution.
-
-The shared empirical pattern is:
-
-> **Flower-colour variation is locally or conditionally structured in both space and time, but one universal global template is not supported.**
-
-- **Time / CHUN:** recent relatives generally retain excess colour similarity, while the phenotype resolution carrying that history differs among radiations and finer history can remain hidden inside broader phenotype classes.
-- **Space / FCP:** nearby observations can be more colour-similar within species, while independent species do not support one confirmed universal geography of their strongest transitions.
-
-The two projects are sister analyses, not a pooled dataset or one common estimator. The programme-level framing and claim boundaries are documented in docs/FLOWER_COLOUR_VARIATION_SPATIAL_PROGRAM.md.
+This repository is the paper-facing FCP analysis surface. The generalized trait/interaction **spatiotemporal turnover** programme now lives in [`zuizui0223/turnover`](https://github.com/zuizui0223/turnover) and is intentionally excluded from the active FCP manuscript, workflows, results, tests, and development documents here. Earlier pre-split development remains recoverable from Git history.
 
 ## Start here
 
@@ -35,6 +24,7 @@ The two projects are sister analyses, not a pooled dataset or one common estimat
 6. **Frozen claim ledger:** [`docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md`](docs/POLYMORPHISM_CURRENT_CLAIM_LEDGER_20260918.md)
 7. **Figure plan:** [`docs/POLYMORPHISM_FIGURE_PLAN_20260918.md`](docs/POLYMORPHISM_FIGURE_PLAN_20260918.md)
 8. **Secondary mechanism evidence hierarchy:** [`docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md`](docs/POLYMORPHISM_SECONDARY_MECHANISM_EVIDENCE_LEDGER_20260928.md)
+9. **Frozen provenance release receipt:** [`archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md`](archive/fcp_submission_20260925/NP_PROVENANCE_RELEASE_RECEIPT.md)
 
 ## Current evidence surface
 
@@ -68,7 +58,7 @@ GitHub Actions additionally replay the frozen primary and secondary numerical an
 | `tests/test_polymorphism_*` | Claim, figure and submission regression guards |
 | `archive/fcp_submission_20260925/` | Immutable provenance inputs, checksums and release receipts |
 | `.github/workflows/` | Current manuscript validation and reproducibility workflows |
-| `archive/workflows/` | Historical and superseded workflows retained for provenance but inactive in Actions |
+| `archive/workflows/` | Historical and superseded paper workflows retained for provenance but inactive in Actions |
 
 ## Reproducibility boundary
 
