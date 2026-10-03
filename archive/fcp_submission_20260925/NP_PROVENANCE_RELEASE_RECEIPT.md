@@ -4,13 +4,13 @@ Release tag: fcp-np-provenance-20260926
 
 Release URL: https://github.com/zuizui0223/fcp/releases/tag/fcp-np-provenance-20260926
 
-Source commit: 2260d97462fe11a800cc7c7a4a42a88223044f31
+Source commit: c3c774224f8eaa6ee089913bb4902d118f31e80d
 
 Asset: fcp-np-provenance-20260926.tar.gz
 
-Asset bytes: 198309410
+Asset bytes: 198309438
 
-Asset SHA256: f5233bfa44c2f978ec80ddb0702e576e1ef5ba604a49b0df0947f24da36307e4
+Asset SHA256: 2c5e9e5722f87d7832828593229320698c3ada42e66b8073d852d576f4c91709
 
 Packaged files: 400
 
