@@ -386,7 +386,7 @@ This upgrades the former post-audit H2 claim to a prospective confirmation **of 
 
 This is an interpretation of the frozen results, not an additional statistical test.
 
-Distributional ITV frameworks already establish that species need not be represented by a single mean trait value. The contribution here is narrower and empirical: the paper distinguishes three properties of the **same within-species distribution** and tests whether they carry different cross-species information:
+Distributional ITV frameworks already establish that species need not be represented by a single mean trait value. Earlier work also separates ITV magnitude from hierarchical/spatial structure, and trait-space studies show that including ITV can change axes defined across species. The contribution here is narrower and empirical: the paper tests whether three properties of the **same within-species distribution** carry different cross-species information:
 
 - **amount** — four-state diversity D;
 - **direction** — continuous within-species displacement geometry;
@@ -398,7 +398,7 @@ The allowed general synthesis is:
 
 In the present system these properties are nonredundant: direction shows recurrent cross-species achromatic–chromatic structure, while amount is positively associated with geographic organization. Flower-colour polymorphism is a useful model for this decomposition because discrete morph frequencies, continuous colour displacement and geographic sorting can be measured within one trait system, with pigment-pathway evidence providing bounded developmental interpretation.
 
-This synthesis does **not** claim the first distributional treatment of ITV and does **not** establish a universal ecological driver, a shared geographic map, a universal pigment mechanism, or causal coupling between D and geographic organization.
+This synthesis does **not** claim the first distributional treatment of ITV, the first separation of ITV magnitude from spatial structure, or the first demonstration that ITV can affect trait-space axes. It does **not** establish a universal ecological driver, a shared geographic map, a universal pigment mechanism, or causal coupling between D and geographic organization.
 
 ## 10. Current title
 
