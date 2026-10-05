@@ -10,11 +10,11 @@
 
 **Word counts (current working draft):**
 - Summary: 181 words
-- Introduction: 744 words
+- Introduction: 756 words
 - Materials and Methods: 2,361 words
 - Results: 2,538 words
-- Discussion: 1,739 words
-- Main text (Introduction through Discussion): 7,382 words
+- Discussion: 1,813 words
+- Main text (Introduction through Discussion): 7,468 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
