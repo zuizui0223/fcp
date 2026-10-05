@@ -13,8 +13,8 @@
 - Introduction: 756 words
 - Materials and Methods: 2,361 words
 - Results: 2,538 words
-- Discussion: 1,813 words
-- Main text (Introduction through Discussion): 7,468 words
+- Discussion: 1,816 words
+- Main text (Introduction through Discussion): 7,471 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -399,7 +399,7 @@ A stronger external validation would apply the same frozen q_white/W estimand an
 
 ### Conclusion
 
-The methodological advance is a validated route from repeated observations to a comparative within-species trait distribution: measurement reproducibility, location-blind phenotype construction, target discovery and prospective confirmation are treated as separate inferential stages. The ecological advance is that cross-species generality appears in the **structure of intraspecific variation**. Continuous within-species colour displacement shows excess achromatic–chromatic alignment, while species with greater four-state diversity also show stronger geographic organization of that variation even though sampled photographic span does not explain the pattern in validation. Thus **what varies** can be recurrent across species even when **where it is sorted** and the environmental coefficient that sorts it are context dependent. Bounded *S. littorea* molecular and PAL/WAL persistence evidence is consistent with a many-to-one pigment-network accessibility and maintenance filter, whereas BIO5 does not transport as a universal rule and broad tree-wide phylogenetic conservation is not detected. The measured coarse white state remains exposure-coupled, although high-clip exclusion retains excess H2 alignment. More generally, these results extend the distributional view of ITV by showing that a within-species distribution has empirically separable ecological properties: **amount, direction and geographic organization need not carry the same information**. In this system, the strongest cross-species regularity lies in phenotype-space direction and in the coupling between diversity amount and spatial organization, not in a universal environmental coefficient.
+The methodological advance is a validated route from repeated observations to a comparative within-species trait distribution: measurement reproducibility, location-blind phenotype construction, target discovery and prospective confirmation are treated as separate inferential stages. The ecological advance is that cross-species generality appears in the **structure of intraspecific variation**. Continuous within-species colour displacement shows excess achromatic–chromatic alignment, while species with greater four-state diversity also show stronger geographic organization of that variation even though sampled photographic span does not explain the pattern in validation. Thus **what varies** can be recurrent across species even when **where it is sorted** and the environmental coefficient that sorts it are context dependent. Bounded *S. littorea* molecular and PAL/WAL persistence evidence is consistent with a many-to-one pigment-network accessibility and maintenance filter, whereas BIO5 does not transport as a universal rule and broad tree-wide phylogenetic conservation is not detected. The measured coarse white state remains exposure-coupled, although high-clip exclusion retains excess H2 alignment. More generally, **treating species as distributions rather than mean phenotypes** is necessary but not sufficient: a within-species distribution has empirically separable ecological properties, and **amount, direction and geographic organization need not carry the same information**. In this system, the strongest cross-species regularity lies in phenotype-space direction and in the coupling between diversity amount and spatial organization, not in a universal environmental coefficient.
 
 ---
 
