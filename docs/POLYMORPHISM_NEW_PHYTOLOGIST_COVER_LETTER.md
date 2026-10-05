@@ -18,11 +18,11 @@ Can flower-colour polymorphism be measured reproducibly as a species phenotype, 
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-We move comparative ecology from species means to validated within-species phenotype distributions. Across 149,900 photographs, we separate the amount, direction and geographic organization of flower-colour variation: displacement repeatedly aligns along an achromatic–chromatic axis, and more diverse species show stronger spatial organization.
+We extend distributional approaches to intraspecific trait variation by separating three properties of the same within-species phenotype distribution—amount, direction and geographic organization—and asking whether they carry distinct cross-species information. Across 149,900 photographs, displacement repeatedly aligns along an achromatic–chromatic axis, while more diverse species show stronger spatial organization.
 
 ### Question 3 — Why is this work important and timely?
 
-Flower-colour polymorphism is usually studied within populations, while macroecology compresses species to mean traits. Treating polymorphism as intraspecific trait variation reveals a general principle: species can share the geometry of variation even when the environmental coefficients and geographic maps organizing that variation are context dependent.
+Flower-colour polymorphism is usually studied within populations, while broad comparative analyses often compress species to scalar summaries. Our results show that retaining the distribution is not enough unless its properties are distinguished: species can share the **direction** of variation, and variation **amount** can covary with spatial **organization**, even when the environmental coefficients and geographic maps organizing that variation are context dependent.
 
 ## Key result and evidential chronology
 
