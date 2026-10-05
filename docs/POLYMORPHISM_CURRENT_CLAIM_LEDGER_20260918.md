@@ -386,7 +386,7 @@ This upgrades the former post-audit H2 claim to a prospective confirmation **of 
 
 This is an interpretation of the frozen results, not an additional statistical test.
 
-The paper may explicitly distinguish three properties of intraspecific flower-colour variation:
+Distributional ITV frameworks already establish that species need not be represented by a single mean trait value. The contribution here is narrower and empirical: the paper distinguishes three properties of the **same within-species distribution** and tests whether they carry different cross-species information:
 
 - **amount** — four-state diversity D;
 - **direction** — continuous within-species displacement geometry;
@@ -396,9 +396,9 @@ The allowed general synthesis is:
 
 > Cross-species generality can reside in the geometry of intraspecific variation even when the environmental coefficients and geographic maps that organize that variation are context dependent.
 
-Flower-colour polymorphism is a useful model for this distributional view because discrete morph frequencies, continuous colour displacement and geographic sorting can be measured within one trait system, with pigment-pathway evidence providing bounded developmental interpretation.
+In the present system these properties are nonredundant: direction shows recurrent cross-species achromatic–chromatic structure, while amount is positively associated with geographic organization. Flower-colour polymorphism is a useful model for this decomposition because discrete morph frequencies, continuous colour displacement and geographic sorting can be measured within one trait system, with pigment-pathway evidence providing bounded developmental interpretation.
 
-This synthesis does **not** establish a universal ecological driver, a shared geographic map, a universal pigment mechanism, or causal coupling between D and geographic organization.
+This synthesis does **not** claim the first distributional treatment of ITV and does **not** establish a universal ecological driver, a shared geographic map, a universal pigment mechanism, or causal coupling between D and geographic organization.
 
 ## 10. Current title
 
