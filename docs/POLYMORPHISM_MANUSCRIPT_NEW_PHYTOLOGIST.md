@@ -10,11 +10,11 @@
 
 **Word counts (current working draft):**
 - Summary: 181 words
-- Introduction: 757 words
+- Introduction: 789 words
 - Materials and Methods: 2,361 words
 - Results: 2,538 words
-- Discussion: 1,816 words
-- Main text (Introduction through Discussion): 7,472 words
+- Discussion: 1,853 words
+- Main text (Introduction through Discussion): 7,541 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -35,7 +35,7 @@
 
 Flower-colour research has developed along two complementary scales that rarely meet. Comparative macroecology asks how floral colour differs among species and environments, typically representing a species or community by mean, dominant or otherwise aggregated colour traits (Dalrymple et al. 2020). Flower-colour polymorphism research instead asks why distinct morphs coexist or replace one another within particular species and populations, where pollinators, abiotic selection, drift, gene flow and mating system can all matter (Narbona et al. 2018; Sapir et al. 2021). Genus-level work in *Protea* has shown that local ecological gradients can scale to broader differences in polymorphism incidence (Carlson & Holsinger 2015), while recent citizen-science studies have mapped range-wide colour variation at high throughput within individual species (Surmacz 2023; McKenzie et al. 2026). A less-tested comparative question lies between these traditions: **does the distribution of within-species flower-colour variation itself show repeatable structure across many species?**
 
-That gap matters because intraspecific trait variation has at least three separable properties: **how much** variation a species contains, **which phenotypic directions** that variation occupies, and **how the variants are arranged geographically**. These need not covary: equal diversity can be geographically intermixed or partitioned into mosaics and clines, and species with similar diversity can vary along different phenotype-space contrasts. Distributional ITV frameworks already represent species as probability densities or individual-level trait distributions rather than fixed mean values (Carmona et al. 2019; Palacio et al. 2025). What remains less tested is whether distinct properties of the same within-species distribution—its **amount, direction and geographic organization**—carry independent, repeatable cross-species structure. Flower-colour polymorphism is unusually suited to this distributional view because discrete morph frequencies, continuous colour displacement and geographic sorting can be measured within one trait system, while pigment pathways provide a bounded route to developmental interpretation.
+That gap matters because intraspecific trait variation has at least three separable properties: **how much** variation a species contains, **which phenotypic directions** that variation occupies, and **how the variants are arranged geographically**. These need not covary: equal diversity can be geographically intermixed or partitioned into mosaics and clines, and species with similar diversity can vary along different phenotype-space contrasts. Distributional ITV frameworks already represent species as probability densities or individual-level trait distributions rather than fixed mean values (Carmona et al. 2019; Palacio et al. 2025). Earlier work also separated ITV magnitude from hierarchical and spatial structure (Albert et al. 2010), and recent trait-space analyses tested how including ITV rotates axes defined across species (Puglielli et al. 2024). Our question is complementary but different: **does within-species displacement direction itself recur across many species, and does variation amount covary with within-species geographic organization?** Flower-colour polymorphism is unusually suited to this distributional view because discrete morph frequencies, continuous colour displacement and geographic sorting can be measured within one trait system, while pigment pathways provide a bounded route to developmental interpretation.
 
 Scaling that comparison first requires a measurement problem to be solved. Community-science photographs offer repeated individuals across broad spatial extents, but image conditions and observer behaviour can create apparent within-species diversity even when the underlying biological distribution is stable (Laitly et al. 2021; Di Cecco et al. 2021). Our methodological contribution is therefore not a new diversity index or clustering algorithm. It is an inferential architecture for treating a repeatedly sampled within-species distribution as a comparative species trait: fixed high-depth sampling, observer-disjoint validation, location-blind measurement, explicit technical missingness, construction-preserving nulls, and separation of target discovery from a species-disjoint prospective confirmation cohort. For four frozen biological colour states—white, yellow/orange, red/pink and blue/purple—we summarize the amount of within-species diversity as (D = 1-sum_k p_k^2), while retaining continuous nine-colour information to study the geometry of variation.
 
@@ -377,7 +377,7 @@ The replicated D–spatial association shows that species with greater measured 
 
 The result is structural rather than causal. Spatially varying abiotic selection, pollinator turnover, restricted dispersal or gene flow, demographic history, drift and mating-system differences could all contribute. Together with H2, it supports a **two-layer ecological question**: **what varies** shows recurrent cross-species structure, whereas **where that variation is sorted** remains unresolved and potentially context dependent.
 
-These results also show what is lost when species are represented by a mean or by a single scalar measure of variability. Distributional ITV approaches already establish the value of retaining within-species trait distributions; the present result adds an empirical decomposition of the **same distribution** into **amount, direction and spatial organization**. Those properties are nonredundant here: direction carries recurrent cross-species phenotype-space geometry, whereas amount is positively associated with geographic organization. A mean colour cannot distinguish a broad but unstructured distribution from a geographically partitioned polymorphism, and D alone cannot identify which phenotype-space contrast is varying.
+These results also show what is lost when species are represented by a mean or by a single scalar measure of variability. Prior ITV studies already distinguish variation magnitude from hierarchical or spatial structure, and trait-space studies show that including ITV can alter the orientation of axes defined across species (Albert et al. 2010; Puglielli et al. 2024). The contribution here is not those ingredients separately. It is the joint cross-species test of whether **within-species displacement direction itself recurs**, and whether variation **amount covaries with within-species geographic organization**. Those properties are nonredundant here: direction carries recurrent cross-species phenotype-space geometry, whereas amount is positively associated with geographic organization. A mean colour cannot distinguish a broad but unstructured distribution from a geographically partitioned polymorphism, and D alone cannot identify which phenotype-space contrast is varying.
 
 ### Two simple explanations fail fresh-data tests
 
@@ -421,6 +421,8 @@ The original third-party iNaturalist image pixels and flower masks were intentio
 
 ## References
 
+Albert, C. H., Thuiller, W., Yoccoz, N. G., Soudant, A., Boucher, F., Saccone, P., & Lavorel, S. (2010). Intraspecific functional variability: extent, structure and sources of variation. *Journal of Ecology*, 98, 604–613. https://doi.org/10.1111/j.1365-2745.2010.01651.x
+
 Carlson, J. E., & Holsinger, K. E. (2015). Extrapolating from local ecological processes to genus-wide patterns in colour polymorphism in South African *Protea*. *Proceedings of the Royal Society B: Biological Sciences*, 282, 20150583. https://doi.org/10.1098/rspb.2015.0583
 
 Carmona, C. P., de Bello, F., Mason, N. W. H., & Lepš, J. (2019). Trait probability density (TPD): measuring functional diversity across scales based on TPD with R. *Ecology*, 100(12), e02876. https://doi.org/10.1002/ecy.2876
@@ -440,6 +442,8 @@ McKenzie, P. F., Church, S. H., & Hopkins, R. (2026). High-Throughput iNaturalis
 Narbona, E., Wang, H., Ortiz, P. L., Arista, M., & Imbert, E. (2018). Flower colour polymorphism in the Mediterranean Basin: occurrence, maintenance and implications for speciation. *Plant Biology*, 20(Suppl. 1), 8–20. https://doi.org/10.1111/plb.12575
 
 Palacio, F. X., Graco-Roza, C., de Bello, F., & Carmona, C. P. (2025). Integrating intraspecific trait variability in functional diversity: An overview of methods and a guide for ecologists. *Ecological Monographs*, 95(2), e70024. https://doi.org/10.1002/ecm.70024
+
+Puglielli, G., Bricca, A., Chelli, S., et al. (2024). Intraspecific variability of leaf form and function across habitat types. *Ecology Letters*, 27, e14396. https://doi.org/10.1111/ele.14396
 
 Phipson, B., & Smyth, G. K. (2010). Permutation P-values should never be zero: calculating exact P-values when permutations are randomly drawn. *Statistical Applications in Genetics and Molecular Biology*, 9, Article 39. https://doi.org/10.2202/1544-6115.1585
 
