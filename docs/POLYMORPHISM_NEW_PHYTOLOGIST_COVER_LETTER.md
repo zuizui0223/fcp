@@ -18,7 +18,7 @@ Can flower-colour polymorphism be measured reproducibly as a species phenotype, 
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-We extend distributional ITV approaches by separating three properties of the same distribution—amount, direction and geographic organization—and asking whether they carry distinct cross-species information. Across 149,900 photographs, displacement repeatedly aligns along an achromatic–chromatic axis, while more diverse species show stronger spatial organization.
+Building on prior work on ITV magnitude, spatial structure and trait-space effects, we test whether within-species displacement direction itself recurs across species and whether variation amount covaries with geographic organization. Across 149,900 photographs, direction repeatedly aligns achromatic–chromatic, while greater amount predicts stronger spatial organization.
 
 ### Question 3 — Why is this work important and timely?
 
