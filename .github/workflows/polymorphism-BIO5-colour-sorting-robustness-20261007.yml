@@ -1,4 +1,5 @@
 name: FCP BIO5 colour sorting robustness
+# Frozen robustness rerun after provenance-based background availability correction.
 
 on:
   pull_request:
