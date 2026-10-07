@@ -440,8 +440,10 @@ Mean local depletion was also supported at **25, 100 and 250 km in all three coh
 | Different-observer pairs only | 0.01998, p=.005 | 0.01690, p=.005 | 0.01457, p=.005 |
 | Nonwhite-only three-state | 0.01947, p=.005 | 0.00729, p=.025 | 0.00891, p=.040 |
 | Continuous nine-colour JSD | 0.01518, p=.005 | 0.01366, p=.005 | 0.01301, p=.005 |
+| Quarter-stratified composition null | 0.02287, p=.005 | 0.02061, p=.005 | 0.01560, p=.005 |
+| Cross-year local pairs | 0.02095, p=.005 | 0.01437, p=.005 | 0.01377, p=.005 |
 
-Thus geographic local homogeneity is not restricted to same-observer comparisons, the exposure-sensitive white state or the four coarse categories.
+Thus geographic local homogeneity is not restricted to same-observer comparisons, the exposure-sensitive white state, the four coarse categories, calendar-quarter composition or same-year sampling.
 
 The stronger cross-species claim that high-D species are always more strongly locally partitioned is **not** supported at the fixed 50-km discovery–validation criterion: discovery rho=0.0390 (p=.135), validation rho=0.1171 (p=.025), third rho=0.1118 (p=.005). That relationship is scale dependent and is not promoted to a primary claim.
 
