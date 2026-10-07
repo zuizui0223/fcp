@@ -46,7 +46,7 @@ def load(path,cohort):
     if sha256(path)!=SHA[cohort]: raise RuntimeError(f"{cohort} sha mismatch")
     d=pd.read_csv(path,low_memory=False)
     colour_cols=THIRD_COLOUR if cohort=="third" else LEGACY_COLOUR
-    req={"inat_taxon_id","species","photo_id","observer_id","latitude","longitude","morph","global_classifiable",*colour_cols}
+    req={"inat_taxon_id","species","photo_id","observer_id","latitude","longitude","observed_on","morph","global_classifiable",*colour_cols}
     miss=sorted(req-set(d.columns))
     if miss: raise RuntimeError(f"{cohort} missing {miss}")
     d=d.loc[as_bool(d.global_classifiable)&d.morph.astype(str).isin(MORPHS)].copy()
@@ -97,6 +97,87 @@ def summarize_continuous(d,cohort):
     rows=[]; nulls=[]
     for _,g in d.groupby("inat_taxon_id",sort=True):
         row,nul=continuous_species_test(g,cohort)
+        if row is not None:
+            rows.append(row); nulls.append(nul)
+    if not rows: return {"evaluable":False,"n_species":0},pd.DataFrame()
+    df=pd.DataFrame(rows); mat=np.vstack(nulls); nd=mat.mean(axis=0)
+    obs=float(df.depletion.mean())
+    p=float((1+np.count_nonzero(nd>=obs))/(PERMUTATIONS+1))
+    return {"evaluable":True,"n_species":int(len(df)),"mean_depletion":obs,
+            "median_depletion":float(df.depletion.median()),
+            "positive_species_fraction":float(np.mean(df.depletion>0)),
+            "null_mean":float(nd.mean()),"null_q025":float(np.quantile(nd,.025)),
+            "null_q975":float(np.quantile(nd,.975)),"p_upper":p,
+            "supported":bool(obs>0 and p<.05)},df
+
+
+def quarter_stratified_species_test(g,cohort):
+    gg=g.dropna(subset=["latitude","longitude","observed_on"]).copy()
+    if len(gg)<40: return None,None
+    dates=pd.to_datetime(gg.observed_on,errors="coerce")
+    gg=gg.loc[dates.notna()].copy()
+    dates=pd.to_datetime(gg.observed_on,errors="raise")
+    if len(gg)<40: return None,None
+    gg=gg.assign(_quarter=dates.dt.quarter.to_numpy())
+    gg=gg.sort_values("photo_id",kind="stable").reset_index(drop=True)
+    labels=pd.Categorical(gg.morph.astype(str),categories=MORPHS).codes.astype(np.int8)
+    quarters=gg._quarter.to_numpy(int)
+    n=len(gg); u,v=np.triu_indices(n,k=1)
+    dist=geo(gg.latitude.to_numpy(float),gg.longitude.to_numpy(float))[u,v]
+    mask=dist<=RADIUS
+    if int(mask.sum())<MIN_LOCAL_PAIRS: return None,None
+    uu=u[mask]; vv=v[mask]
+    D_pair=float(np.mean(labels[u]!=labels[v]))
+    D_local=float(np.mean(labels[uu]!=labels[vv]))
+    dep=D_pair-D_local
+    rng=np.random.default_rng(seed(cohort,int(gg.inat_taxon_id.iloc[0]),"quarter_stratified"))
+    null=np.empty(PERMUTATIONS,float)
+    groups=[np.flatnonzero(quarters==q) for q in sorted(np.unique(quarters))]
+    for i in range(PERMUTATIONS):
+        p=labels.copy()
+        for idx in groups:
+            p[idx]=rng.permutation(labels[idx])
+        null[i]=D_pair-float(np.mean(p[uu]!=p[vv]))
+    if np.ptp(null)<=1e-15:
+        return None,None
+    return {
+        "cohort":cohort,"mode":"quarter_stratified","inat_taxon_id":int(gg.inat_taxon_id.iloc[0]),
+        "species":str(gg.species.iloc[0]),"n_rows":int(n),"n_local_pairs":int(mask.sum()),
+        "D_pair":D_pair,"D_local":D_local,"depletion":dep
+    },null
+
+def crossyear_species_test(g,cohort):
+    gg=g.dropna(subset=["latitude","longitude","observed_on"]).copy()
+    if len(gg)<40: return None,None
+    dates=pd.to_datetime(gg.observed_on,errors="coerce")
+    gg=gg.loc[dates.notna()].copy()
+    dates=pd.to_datetime(gg.observed_on,errors="raise")
+    if len(gg)<40: return None,None
+    gg=gg.assign(_year=dates.dt.year.to_numpy())
+    gg=gg.sort_values("photo_id",kind="stable").reset_index(drop=True)
+    labels=pd.Categorical(gg.morph.astype(str),categories=MORPHS).codes.astype(np.int8)
+    years=gg._year.to_numpy(int)
+    n=len(gg); u,v=np.triu_indices(n,k=1)
+    dist=geo(gg.latitude.to_numpy(float),gg.longitude.to_numpy(float))[u,v]
+    mask=(dist<=RADIUS)&(years[u]!=years[v])
+    if int(mask.sum())<MIN_LOCAL_PAIRS: return None,None
+    uu=u[mask]; vv=v[mask]
+    D_pair=float(np.mean(labels[u]!=labels[v]))
+    D_local=float(np.mean(labels[uu]!=labels[vv]))
+    dep=D_pair-D_local
+    rng=np.random.default_rng(seed(cohort,int(gg.inat_taxon_id.iloc[0]),"crossyear"))
+    perms=np.stack([rng.permutation(labels) for _ in range(PERMUTATIONS)])
+    null=D_pair-np.mean(perms[:,uu]!=perms[:,vv],axis=1)
+    return {
+        "cohort":cohort,"mode":"crossyear","inat_taxon_id":int(gg.inat_taxon_id.iloc[0]),
+        "species":str(gg.species.iloc[0]),"n_rows":int(n),"n_local_pairs":int(mask.sum()),
+        "D_pair":D_pair,"D_local":D_local,"depletion":dep
+    },null
+
+def summarize_custom(d,cohort,fn):
+    rows=[]; nulls=[]
+    for _,g in d.groupby("inat_taxon_id",sort=True):
+        row,nul=fn(g,cohort)
         if row is not None:
             rows.append(row); nulls.append(nul)
     if not rows: return {"evaluable":False,"n_species":0},pd.DataFrame()
@@ -172,7 +253,10 @@ def run(path,cohort):
     r1,d1=summarize(d,cohort,"different_observer")
     r2,d2=summarize(d,cohort,"nonwhite_only")
     r3,d3=summarize_continuous(d,cohort)
-    return {"R1_different_observer":r1,"R2_nonwhite_only":r2,"R3_continuous_nine_colour":r3},pd.concat([d1,d2,d3],ignore_index=True)
+    r4,d4=summarize_custom(d,cohort,quarter_stratified_species_test)
+    r5,d5=summarize_custom(d,cohort,crossyear_species_test)
+    return {"R1_different_observer":r1,"R2_nonwhite_only":r2,"R3_continuous_nine_colour":r3,
+            "R4_quarter_stratified_null":r4,"R5_crossyear_local_pairs":r5},pd.concat([d1,d2,d3,d4,d5],ignore_index=True)
 
 def main():
     ap=argparse.ArgumentParser()
@@ -190,7 +274,9 @@ def main():
       "cross_cohort":{
         "different_observer_supported_all_three":bool(all(x["R1_different_observer"].get("supported",False) for x in (dr,vr,tr))),
         "nonwhite_only_supported_all_three":bool(all(x["R2_nonwhite_only"].get("supported",False) for x in (dr,vr,tr))),
-        "continuous_nine_colour_supported_all_three":bool(all(x["R3_continuous_nine_colour"].get("supported",False) for x in (dr,vr,tr)))
+        "continuous_nine_colour_supported_all_three":bool(all(x["R3_continuous_nine_colour"].get("supported",False) for x in (dr,vr,tr))),
+        "quarter_stratified_supported_all_three":bool(all(x["R4_quarter_stratified_null"].get("supported",False) for x in (dr,vr,tr))),
+        "crossyear_supported_all_three":bool(all(x["R5_crossyear_local_pairs"].get("supported",False) for x in (dr,vr,tr)))
       },
       "hard_nonclaims":["does not establish adaptation","does not distinguish genetic from plastic differentiation","post hoc robustness audit"]
     }
