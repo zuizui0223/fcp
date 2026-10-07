@@ -3,59 +3,105 @@
   "date_jst": "2026-10-07",
   "role": "posthoc_falsification_audit_of_50km_local_depletion",
   "source": {
-    "initial_workflow_run_id": 37613185067,
-    "initial_artifact_id": 11479605510,
-    "initial_artifact_digest": "sha256:c30e7c542ada21303233e39f47fe64bf82b8cbb0279999197c8392a2ffb44b04"
+    "terminal_workflow_run_id": 37617513074,
+    "terminal_artifact_id": 11480593349,
+    "terminal_artifact_digest": "sha256:ac1e4254d7619f344cf7bd2f7dad8760b2e09c1ce75c8c23c1d0d3a896359873",
+    "head_sha": "c733da329ad041b382dfe697799f78536ab4b680"
   },
   "confirmatory_decisions_changed": false,
   "radius_km": 50,
   "discovery": {
     "R1_different_observer": {
-      "mean_depletion": 0.019981,
+      "n_species": 166,
+      "mean_depletion": 0.019980866415168427,
       "p_upper": 0.005,
       "supported": true
     },
     "R2_nonwhite_only": {
-      "mean_depletion": 0.019472,
+      "n_species": 89,
+      "mean_depletion": 0.019471841378842236,
       "p_upper": 0.005,
       "supported": true
     },
     "R3_continuous_nine_colour": {
-      "mean_depletion": 0.0151847,
+      "n_species": 166,
+      "mean_depletion": 0.015184703121368371,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R4_quarter_stratified_null": {
+      "n_species": 149,
+      "mean_depletion": 0.022871518529617083,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R5_crossyear_local_pairs": {
+      "n_species": 155,
+      "mean_depletion": 0.020953299282672654,
       "p_upper": 0.005,
       "supported": true
     }
   },
   "validation": {
     "R1_different_observer": {
-      "mean_depletion": 0.016903,
+      "n_species": 177,
+      "mean_depletion": 0.0169025878188881,
       "p_upper": 0.005,
       "supported": true
     },
     "R2_nonwhite_only": {
-      "mean_depletion": 0.007291,
+      "n_species": 84,
+      "mean_depletion": 0.007290998285851101,
       "p_upper": 0.025,
       "supported": true
     },
     "R3_continuous_nine_colour": {
-      "mean_depletion": 0.0136639,
+      "n_species": 181,
+      "mean_depletion": 0.013663936346159561,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R4_quarter_stratified_null": {
+      "n_species": 164,
+      "mean_depletion": 0.020608584556936718,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R5_crossyear_local_pairs": {
+      "n_species": 167,
+      "mean_depletion": 0.014370979853746092,
       "p_upper": 0.005,
       "supported": true
     }
   },
   "third": {
     "R1_different_observer": {
-      "mean_depletion": 0.01457,
+      "n_species": 203,
+      "mean_depletion": 0.014569727228806438,
       "p_upper": 0.005,
       "supported": true
     },
     "R2_nonwhite_only": {
-      "mean_depletion": 0.008907,
+      "n_species": 91,
+      "mean_depletion": 0.008907293583100415,
       "p_upper": 0.04,
       "supported": true
     },
     "R3_continuous_nine_colour": {
-      "mean_depletion": 0.0130078,
+      "n_species": 204,
+      "mean_depletion": 0.013007816982787692,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R4_quarter_stratified_null": {
+      "n_species": 192,
+      "mean_depletion": 0.015602727164645091,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R5_crossyear_local_pairs": {
+      "n_species": 194,
+      "mean_depletion": 0.013768445127874894,
       "p_upper": 0.005,
       "supported": true
     }
@@ -64,17 +110,14 @@
     "different_observer_supported_all_three": true,
     "nonwhite_only_supported_all_three": true,
     "continuous_nine_colour_supported_all_three": true,
-    "quarter_stratified_supported_all_three": null,
-    "crossyear_supported_all_three": null
+    "quarter_stratified_supported_all_three": true,
+    "crossyear_supported_all_three": true
   },
-  "pending_terminal_tests": [
-    "R4 calendar-quarter-stratified composition null",
-    "R5 cross-year local pairs"
-  ],
-  "claim_ceiling": "Geographic local homogeneity is robust to observer identity, removal of white states and continuous-colour representation. Temporal robustness remains pending in this receipt.",
+  "claim_ceiling": "Geographic local homogeneity is robust to observer identity, removal of white states, continuous-colour representation, calendar-quarter composition and cross-year local-pair restriction. These falsification tests still do not identify the evolutionary mechanism.",
   "hard_nonclaims": [
     "does not establish adaptation",
     "does not distinguish genetic differentiation from plasticity",
+    "does not exclude drift, dispersal limitation or colonisation history",
     "post hoc falsification audit"
   ]
 }
