@@ -12,7 +12,7 @@ It does not recompute any result. It organizes frozen protocols, machine-readabl
 
 The reader-facing order mirrors the paper's inferential chronology:
 
-**sampling frame -> measurement validity -> geometry discovery -> prospective confirmation -> post-confirmatory validity/environment -> spatial organization -> alternative explanations -> bounded mechanism evidence.**
+**sampling frame -> measurement validity -> geometry discovery/prospective confirmation -> geographic allocation of ITV -> spatial-process decomposition -> alternative explanations -> bounded mechanism evidence.**
 
 Workflow IDs, immutable hashes and release receipts are retained where they establish provenance, but they are not additional biological results. The self-contained release bundle remains the deeper reproducibility layer.
 
@@ -44,7 +44,7 @@ Metadata-only iNaturalist discovery across an 18 × 9 equal-area grid produced *
 
 The high-depth image acquisition contract required Research Grade species-rank iNaturalist records with photographs and georeferences, flowering annotation, positional accuracy <=5 km, unobscured/open coordinates and allowed CC licences. Observer contribution was capped at two photographs per species and deterministic geographic maximin sampling fixed 100 raw photographs per species. No native-range restriction or explicit captive/wild filter was imposed.
 
-The central inferential sequence is therefore **outcome-blind frame → discovery/validation → target freeze → prospective confirmation**. Highlight, climate and phylogenetic data are annotations of those image resources, not additional independent flower-colour cohorts.
+The central data chronology remains **outcome-blind frame → discovery/validation → target freeze → prospective confirmation**. The later distributed-polymorphism and IBD/IBE-like analyses are explicitly post-outcome analyses applied across these frozen cohorts; highlight, climate and phylogenetic data are annotations rather than additional independent flower-colour cohorts.
 
 
 ### Finite-sample sensitivity of Gini–Simpson D
