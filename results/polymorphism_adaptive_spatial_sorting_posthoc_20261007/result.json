@@ -1,0 +1,100 @@
+{
+  "schema": "fcp_adaptive_spatial_sorting_posthoc_reporting_receipt_v1",
+  "date_jst": "2026-10-07",
+  "role": "post_outcome_ecological_screen",
+  "source": {
+    "workflow_run_id": 37610473720,
+    "artifact_id": 11477087591,
+    "artifact_digest": "sha256:502ffbd87f668d59deb99f199abdd370cb5951180dd2412148f2692973f29875",
+    "head_sha": "1392f21aeefe69993be738c06d5ebe30bed07c96"
+  },
+  "confirmatory_decisions_changed": false,
+  "primary_multivariate_joint_verdict": "NOT_JOINTLY_REPLICATED",
+  "screen": {
+    "environmental_heterogeneity_vs_D": {
+      "discovery": {
+        "multivariate": {
+          "rho": 0.04296547056559438,
+          "p": 0.208
+        },
+        "bio5": {
+          "rho": 0.06036798940684923,
+          "p": 0.128
+        },
+        "bio14": {
+          "rho": -0.039240025875764036,
+          "p": 0.776
+        },
+        "srad": {
+          "rho": 0.13304362134883083,
+          "p": 0.004
+        }
+      },
+      "validation": {
+        "multivariate": {
+          "rho": 0.09901123228582596,
+          "p": 0.029
+        },
+        "bio5": {
+          "rho": 0.13184509315283657,
+          "p": 0.007
+        },
+        "bio14": {
+          "rho": -0.004389377416552609,
+          "p": 0.546
+        },
+        "srad": {
+          "rho": 0.15241603037371967,
+          "p": 0.001
+        }
+      }
+    },
+    "environment_colour_sorting_given_geography": {
+      "discovery": {
+        "multivariate": {
+          "mean_partial_rho": 0.007813271479369775,
+          "p": 0.02
+        },
+        "bio5": {
+          "mean_partial_rho": 0.006394261716083733,
+          "p": 0.025
+        },
+        "bio14": {
+          "mean_partial_rho": 0.0005757130494251345,
+          "p": 0.44
+        },
+        "srad": {
+          "mean_partial_rho": 0.006850797859782554,
+          "p": 0.015
+        }
+      },
+      "validation": {
+        "multivariate": {
+          "mean_partial_rho": 0.003808927210371717,
+          "p": 0.105
+        },
+        "bio5": {
+          "mean_partial_rho": 0.008162663494930833,
+          "p": 0.005
+        },
+        "bio14": {
+          "mean_partial_rho": 0.001546383216734777,
+          "p": 0.3
+        },
+        "srad": {
+          "mean_partial_rho": 0.0005201578826490943,
+          "p": 0.475
+        }
+      }
+    }
+  },
+  "selected_for_fixed_third_cohort_transport": [
+    "solar heterogeneity versus D",
+    "BIO5 distance versus colour distance conditional on geography"
+  ],
+  "hard_nonclaims": [
+    "screen is post hoc",
+    "multivariate adaptive-sorting hypothesis failed joint replication",
+    "no fitness or local-adaptation inference"
+  ]
+}
