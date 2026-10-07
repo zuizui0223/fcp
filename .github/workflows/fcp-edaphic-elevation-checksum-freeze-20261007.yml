@@ -1,0 +1,61 @@
+name: Freeze FCP edaphic and elevation inputs
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/fcp-edaphic-elevation-checksum-freeze-20261007.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download WorldClim elevation and SoilGrids 5-km inputs
+        run: |
+          set -euo pipefail
+          out=/tmp/fcp_edaphic_freeze
+          mkdir -p "$out/soil" "$out/worldclim"
+
+          curl -L --fail --retry 5 --retry-delay 3 \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_elev.zip \
+            -o "$out/worldclim/wc2.1_10m_elev.zip"
+
+          props=(phh2o soc nitrogen cec bdod cfvo clay sand wv0033 wv1500)
+          depths=(0-5cm 5-15cm 15-30cm)
+          for prop in "${props[@]}"; do
+            mkdir -p "$out/soil/$prop"
+            for depth in "${depths[@]}"; do
+              file="${prop}_${depth}_mean_5000.tif"
+              url="https://files.isric.org/soilgrids/latest/data_aggregated/5000m/${prop}/${file}"
+              echo "Downloading $url"
+              curl -L --fail --retry 5 --retry-delay 3 "$url" -o "$out/soil/$prop/$file"
+            done
+          done
+
+      - name: Record immutable byte identities
+        run: |
+          set -euo pipefail
+          out=/tmp/fcp_edaphic_freeze
+          {
+            echo "schema=fcp_edaphic_elevation_input_freeze_v1"
+            echo "date_jst=2026-10-07"
+            echo "soilgrids_source=https://files.isric.org/soilgrids/latest/data_aggregated/5000m"
+            echo "worldclim_elev_source=https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_elev.zip"
+            echo
+            (cd "$out" && find soil worldclim -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum)
+          } > "$out/FCP_EDAPHIC_ELEVATION_SHA256.txt"
+          cat "$out/FCP_EDAPHIC_ELEVATION_SHA256.txt"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-edaphic-elevation-input-freeze-20261007
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_edaphic_freeze/FCP_EDAPHIC_ELEVATION_SHA256.txt
