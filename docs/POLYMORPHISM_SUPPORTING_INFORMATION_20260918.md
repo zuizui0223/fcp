@@ -399,11 +399,11 @@ For every species, the diagnostic then preserved the observed coordinates and th
 
 | Equal-structure setting | Replicates | Mean of species-mean rho | Mean D–rho | D–rho range | Replicates >= observed D–rho |
 |---|---:|---:|---:|---:|---:|
-| k = 4 | 100 | 0.02922 | -0.0400 | -0.1564 to +0.05795 | 0 |
-| k = 6 | 25 | 0.01375 | -0.0222 | -0.08350 to +0.05237 | 0 |
-| k = 10 | 25 | 0.00428 | -0.0181 | -0.1608 to +0.1096 | 1 |
+| k = 4 | 100 | 0.02890 | -0.0359 | -0.1454 to +0.05371 | 0 |
+| k = 6 | 25 | 0.01350 | -0.0197 | -0.07924 to +0.04803 | 0 |
+| k = 10 | 25 | 0.00423 | -0.0178 | -0.1592 to +0.1081 | 1 |
 
-The **k = 4** setting is the primary diagnostic comparison because its mean spatial rho (0.02922) is closest to the observed validation mean (0.02548). None of its 100 replicates reached the observed cross-species D–rho of 0.1016. Across all sensitivity settings, one of 150 replicates reached or exceeded the observed association.
+The **k = 4** setting is the primary diagnostic comparison because its mean spatial rho (0.02890) is closest to the observed validation mean (0.02548). None of its 100 replicates reached the observed cross-species D–rho of 0.1016. Across all sensitivity settings, one of 150 replicates reached or exceeded the observed association.
 
 This result argues against the narrow explanation that the observed positive D–spatial association arises simply because different D values create different measurement opportunity under this linear-gradient equal-structure process. It is **not** a preregistered test, does not justify a universal claim that high-D species are “disproportionately geographically partitioned”, and does not cover patchy, threshold, multimodal or environmentally warped spatial structures. The frozen discovery/validation D–spatial decisions remain unchanged.
 
