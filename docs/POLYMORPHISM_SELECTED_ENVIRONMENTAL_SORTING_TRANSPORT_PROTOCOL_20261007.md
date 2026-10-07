@@ -36,6 +36,19 @@ BIO14 and solar did not satisfy this replicated criterion.
 
 No other environmental variable is eligible for the third-cohort transport.
 
+## Storage-schema implementation note
+
+The first execution attempt failed before any target statistic was computed because the third-cohort table does not store the legacy pre-grouped `colour_*` vectors. It stores the nine frozen biological `flower_fraction_*` coordinates.
+
+The target estimand is unchanged. For the four-state BIO5-sorting transport, the third-cohort script reconstructs the frozen biological groups deterministically:
+
+- white = white;
+- yellow/orange = yellow + orange + bronze;
+- red/pink = red + pink + magenta;
+- blue/purple = blue + purple.
+
+The continuous-colour sensitivity uses the nine `flower_fraction_*` coordinates directly. This amendment is a storage-schema correction made before any third-cohort transport result was opened.
+
 ## Third-cohort target A — solar heterogeneity versus D
 
 Use the frozen prospective-confirmation measured table from commit `7e538e5c51c05a7cc47b2fcf53eea92634c8a863`, SHA256 `57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186`.
