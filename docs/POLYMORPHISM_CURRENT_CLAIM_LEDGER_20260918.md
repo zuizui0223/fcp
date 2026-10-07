@@ -296,6 +296,12 @@ Allowed interpretation:
 
 This is an observer-sensitive environmental sorting association, not causal heat selection, and it remains within the same iNaturalist/FCP source and measurement system.
 
+### Evidence-placement boundary
+
+- **BIO5 is an empirical result of the present study** and remains in the main Results, with its observer sensitivity and failed cross-cohort transport reported alongside it.
+- **F3h1/Myb1a expression and HPLC evidence are published results from Casimiro-Soriguer et al. (2016)** and belong in Discussion as single-species mechanistic context, not as a present-study molecular result.
+- **The PAL/WAL frequency comparison is the present study's reanalysis of published tables** and is reported in Supporting Information Section S8; main text may cite its bounded interpretation but not elevate it to a primary result.
+
 ## 6. Replicated spatial organization of D — positive structural clue
 
 Canonical reporting receipt:
@@ -396,7 +402,7 @@ The allowed general synthesis is:
 
 > Cross-species generality can reside in the geometry of intraspecific variation even when the environmental coefficients and geographic maps that organize that variation are context dependent.
 
-In the present system these properties are nonredundant: direction shows recurrent cross-species achromatic–chromatic structure, while amount is positively associated with geographic organization. Flower-colour polymorphism is a useful model for this decomposition because discrete morph frequencies, continuous colour displacement and geographic sorting can be measured within one trait system, with pigment-pathway evidence providing bounded developmental interpretation.
+In the present system these properties are nonredundant: direction shows recurrent cross-species achromatic–chromatic structure, while amount is positively associated with geographic organization. BIO5 supplies a present-study ecological-sorting result, whereas published pigment-pathway evidence is used only for bounded developmental interpretation and the PAL/WAL reanalysis remains supplementary.
 
 This synthesis does **not** claim the first distributional treatment of ITV, the first separation of ITV magnitude from spatial structure, or the first demonstration that ITV can affect trait-space axes. It does **not** establish a universal ecological driver, a shared geographic map, a universal pigment mechanism, or causal coupling between D and geographic organization.
 
