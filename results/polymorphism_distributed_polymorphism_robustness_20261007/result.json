@@ -1,0 +1,80 @@
+{
+  "schema": "fcp_distributed_polymorphism_robustness_reporting_receipt_v1",
+  "date_jst": "2026-10-07",
+  "role": "posthoc_falsification_audit_of_50km_local_depletion",
+  "source": {
+    "initial_workflow_run_id": 37613185067,
+    "initial_artifact_id": 11479605510,
+    "initial_artifact_digest": "sha256:c30e7c542ada21303233e39f47fe64bf82b8cbb0279999197c8392a2ffb44b04"
+  },
+  "confirmatory_decisions_changed": false,
+  "radius_km": 50,
+  "discovery": {
+    "R1_different_observer": {
+      "mean_depletion": 0.019981,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R2_nonwhite_only": {
+      "mean_depletion": 0.019472,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R3_continuous_nine_colour": {
+      "mean_depletion": 0.0151847,
+      "p_upper": 0.005,
+      "supported": true
+    }
+  },
+  "validation": {
+    "R1_different_observer": {
+      "mean_depletion": 0.016903,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R2_nonwhite_only": {
+      "mean_depletion": 0.007291,
+      "p_upper": 0.025,
+      "supported": true
+    },
+    "R3_continuous_nine_colour": {
+      "mean_depletion": 0.0136639,
+      "p_upper": 0.005,
+      "supported": true
+    }
+  },
+  "third": {
+    "R1_different_observer": {
+      "mean_depletion": 0.01457,
+      "p_upper": 0.005,
+      "supported": true
+    },
+    "R2_nonwhite_only": {
+      "mean_depletion": 0.008907,
+      "p_upper": 0.04,
+      "supported": true
+    },
+    "R3_continuous_nine_colour": {
+      "mean_depletion": 0.0130078,
+      "p_upper": 0.005,
+      "supported": true
+    }
+  },
+  "cross_cohort": {
+    "different_observer_supported_all_three": true,
+    "nonwhite_only_supported_all_three": true,
+    "continuous_nine_colour_supported_all_three": true,
+    "quarter_stratified_supported_all_three": null,
+    "crossyear_supported_all_three": null
+  },
+  "pending_terminal_tests": [
+    "R4 calendar-quarter-stratified composition null",
+    "R5 cross-year local pairs"
+  ],
+  "claim_ceiling": "Geographic local homogeneity is robust to observer identity, removal of white states and continuous-colour representation. Temporal robustness remains pending in this receipt.",
+  "hard_nonclaims": [
+    "does not establish adaptation",
+    "does not distinguish genetic differentiation from plasticity",
+    "post hoc falsification audit"
+  ]
+}
