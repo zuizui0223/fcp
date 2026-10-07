@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: fcp-full-gradient-partition-${{ github.ref }}
+  group: fcp-full-gradient-partition-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 
 permissions:
