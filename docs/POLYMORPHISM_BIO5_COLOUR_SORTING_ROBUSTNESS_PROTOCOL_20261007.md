@@ -49,7 +49,9 @@ Use the continuous nine-colour flower representation. A species is evaluable onl
 
 Within each species calculate partial Spearman(BIO5 difference, colour dissimilarity | geographic distance) across same-observer pairs.
 
-For the null, independently swap or retain the two colour rows within each two-photo observer block for each permutation, preserving observer membership, coordinates, BIO5 values and each observer's colour-row multiset.
+For the null, permute the **within-observer pair colour dissimilarities among the eligible observer pairs within each species**, while leaving each pair's geographic distance and BIO5 difference fixed. This preserves the empirical distribution of same-observer colour differences and tests whether those differences are specifically aligned with the environmental differences sampled by the corresponding observers.
+
+A within-observer vertex swap is not used because with the two-photo observer cap it leaves the sole within-observer pair distance unchanged and would produce a degenerate null. This correction is frozen before R3 outcomes are evaluated.
 
 199 deterministic permutations are used.
 
