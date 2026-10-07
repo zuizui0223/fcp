@@ -630,7 +630,7 @@ def test_D_spatial_equal_structure_diagnostic_is_posthoc_and_bounded() -> None:
         "0.0254826061",
         "0.1016008447",
         "k = 4",
-        "0/100",
+        "None of its 100 replicates",
         "one of 150",
         "does not justify a universal claim",
     ):
