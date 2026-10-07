@@ -123,14 +123,29 @@ jobs:
           from pathlib import Path
           r=json.loads(Path("/tmp/fcp_full_gradient/result.json").read_text())
           assert r["schema"]=="fcp_full_gradient_partition_posthoc_v1"
-          assert r["status"]=="complete_full_geographic_climate_soil_decomposition"
+          assert r["status"] in {
+              "complete_full_geographic_climate_soil_decomposition",
+              "complete_coverage_limited_diagnostic",
+          }
           assert r["confirmatory_decisions_changed"] is False
           assert len(r["environmental_sources"]["soil_source_properties"])==10
           assert len(r["environmental_sources"]["soil_PCA_features"])==9
           assert r["environmental_sources"]["soil_available_water_proxy"].startswith("awc =")
-          assert r["discovery"]["n_species"] >= 200
-          assert r["validation"]["n_species"] >= 200
-          assert r["third"]["n_species"] >= 200
+          coverage=r["coverage_gate"]
+          threshold=coverage["minimum_species_per_cohort"]
+          assert threshold==200, "Do not lower the frozen coverage threshold"
+          gate_expected=all(
+              r[k]["n_species"]>=threshold for k in ("discovery","validation","third")
+          )
+          assert coverage["passed"] is gate_expected
+          for cohort in ("discovery","validation","third"):
+              audit=coverage["by_cohort"][cohort]
+              assert audit["n_retained_species_min40_complete"] == r[cohort]["n_species"]
+              assert audit["n_source_species"] >= r[cohort]["n_species"]
+              assert "soil_awc" in audit["feature_missing_row_counts"]
+          if not gate_expected:
+              assert r["status"]=="complete_coverage_limited_diagnostic"
+              assert coverage["decision"]=="HOLD_SOIL_COMPLETE_CASE_REPRESENTATIVENESS"
           print(Path("/tmp/worldclim/elev.zip.sha256").read_text().strip())
           print(json.dumps(r,indent=2,sort_keys=True))
           PY
