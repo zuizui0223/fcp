@@ -447,6 +447,7 @@ def test_silene_molecular_anchor_is_quantitative_and_bounded() -> None:
     import pytest
 
     text = MANUSCRIPT.read_text(encoding="utf-8")
+    supporting = SUPPORTING.read_text(encoding="utf-8")
     molecular = json.loads(SILENE_MOLECULAR.read_text(encoding="utf-8"))
 
     assert molecular["role"].startswith("structured quantitative extraction")
@@ -462,19 +463,27 @@ def test_silene_molecular_anchor_is_quantitative_and_bounded() -> None:
     assert molecular["sequence_evidence"]["consistent_colour_differentiating_SNP_after_expansion"] is False
     assert molecular["derived_synthesis"]["causal_variant_identified"] is False
 
+    # Detailed extraction belongs in SI, not in the main empirical Results.
     for token in (
-        "### Secondary *Silene littorea* molecular-anchor extraction",
-        "### Published molecular data anchor the *Silene* PAL phenotype near F3h1/Myb1a",
-        "F3h1 expression was **49.0×** higher",
-        "**42.2×** higher in light-pink than white buds",
-        "**Myb1a** was **5.1×** higher",
-        "**F3h1 had zero SNPs**",
-        "expanded sequencing of **38 individuals**",
-        "not molecular validation of H2",
-        "The frozen extraction is source-derived, not raw-read reanalysis or replication",
+        "### Secondary *Silene littorea* molecular anchor",
+        "F3h1 dark/white = **49.0×**",
+        "F3h1 light/white = **42.2×**",
+        "Myb1a dark/white = **5.1×**",
+        "expanded sequencing of 38 individuals",
         "10.3389/fpls.2016.00204",
     ):
+        assert token in supporting
+
+    for token in (
+        "Published work provides one mechanistic example rather than a result of the present molecular study",
+        "Casimiro-Soriguer et al. (2016)",
+        "reported >42-fold lower F3h1 expression in white than pigmented buds",
+        "without identifying a simple causal coding mutation",
+    ):
         assert token in text
+
+    assert "### Published molecular data anchor the *Silene* PAL phenotype near F3h1/Myb1a" not in text
+    assert "### Secondary *Silene littorea* molecular-anchor extraction" not in text
 
 
 def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() -> None:
@@ -482,6 +491,7 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
     import pytest
 
     text = MANUSCRIPT.read_text(encoding="utf-8")
+    supporting = SUPPORTING.read_text(encoding="utf-8")
     pal = json.loads((ROOT / "results" / "polymorphism_silene_decoupling_persistence_20260925" / "result.json").read_text(encoding="utf-8"))
     cross = json.loads((ROOT / "results" / "polymorphism_crossspecies_pal_wal_frequency_20260925" / "result.json").read_text(encoding="utf-8"))
 
@@ -491,35 +501,28 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
     assert cross["WAL"]["numeric_upper_bound_median_percent"] == pytest.approx(0.1)
     assert cross["WAL"]["numeric_upper_bound_max_percent"] == pytest.approx(1.4)
 
+    # Full methods and quantitative reanalysis stay supplementary.
     for token in (
-        "petal anthocyanin-loss (PAL)",
-        "Whole-plant anthocyanin-loss (WAL)",
-        "HPLC-DAD-MS^n tissue profiling",
-        "Within *Silene littorea*, PAL and WAL are not visual labels alone",
-        "cross-system entries retain the source table's phenotype classifications",
-        "median **15.5%**",
-        "median **0.21%**",
-        "### Secondary PAL/WAL persistence reanalysis",
-        "Published pigment-loss frequency tables",
-        "### Biochemically anchored flower-restricted anthocyanin loss reaches higher reported natural frequencies",
-        "median PAL lower bound was **5%**",
-        "median numeric WAL upper bound was **0.1%**",
-        "maintenance filter",
-        "ascertained, heterogeneous literature sample",
-        "Gómez et al. 2020",
-        "Narbona et al. 2026",
-        "Lacey 2026",
+        "### Secondary PAL/WAL maintenance evidence",
+        "HPLC-DAD-MS^n profiling",
+        "15.5%",
+        "0.21%",
+        "lower bound 5%",
+        "numeric upper bound 0.1%",
+        "These analyses are descriptive reanalyses",
+        "no inferential PAL-versus-WAL comparison of D or H2 geometry is estimable",
+    ):
+        assert token in supporting
+
+    for token in (
+        "We additionally reanalysed published PAL/WAL frequency tables from Del Valle et al. (2019)",
+        "full methods, numerical results and ascertainment limits are reported in Supporting Information (Section S8)",
+        "not a direct molecular bridge to the present H2 geometry",
     ):
         assert token in text
 
-    for reference in (
-        "10.1186/s12870-019-2082-6",
-        "10.1038/s41467-020-17875-1",
-        "10.1002/ajb2.70096",
-        "10.1002/ajb2.70106",
-    ):
-        assert reference in text
-
+    assert "### Biochemically anchored flower-restricted anthocyanin loss reaches higher reported natural frequencies" not in text
+    assert "### Secondary PAL/WAL persistence reanalysis" not in text
 
 
 def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
@@ -558,11 +561,7 @@ def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
     ):
         assert token in supporting
 
-    for token in (
-        "A taxonomy-resolved overlap audit found only **two PAL and two natural-context WAL species**",
-        "No PAL-versus-WAL test of D or H2 geometry was therefore estimable",
-    ):
-        assert token in manuscript
+    assert "not a direct molecular bridge to the present H2 geometry" in manuscript
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
@@ -596,9 +595,9 @@ def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> No
         "structural rather than causal",
         "two-layer ecological question",
         "Wessinger & Rausher 2012",
-        "Lacey 2026",
-        "Narbona et al. 2026",
-        "shared pigment-network architecture",
+        "heterogeneous ecological sorting tendency",
+        "Published work provides one mechanistic example",
+        "Supporting Information (Section S8)",
     ):
         assert token in text
 
