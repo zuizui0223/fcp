@@ -98,19 +98,21 @@ def test_itv_distributional_synthesis_stays_bounded() -> None:
 
     for token in (
         "structure of intraspecific variation",
-        "amount",
-        "direction",
-        "organization",
+        "species-wide sampled colour-state diversity",
+        "within-species displacement direction",
+        "geographic organization",
         "treating species as distributions rather than mean phenotypes",
+        "not a within-population polymorphism measure",
     ):
         assert token in manuscript
 
     for token in (
         "Allowed ecological synthesis — intraspecific variation as a distributional comparative trait",
-        "amount",
+        "overall sampled diversity",
         "direction",
         "organization",
         "Cross-species generality can reside in the geometry of intraspecific variation",
+        "D is not interpreted as local ITV magnitude or as a variance partition",
         "does **not** establish a universal ecological driver",
     ):
         assert token in ledger
