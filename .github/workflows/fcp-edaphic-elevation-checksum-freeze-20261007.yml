@@ -39,7 +39,7 @@ jobs:
               url="https://files.isric.org/soilgrids/latest/data_aggregated/5000m/${prop}/${file}"
               echo "Downloading $url"
               curl -L --fail --retry 5 --retry-delay 3 "$url" -o "$out/soil/$prop/$file"
-              expected="$(awk -v f="$file" '$2==f {print $1}' "$out/soil/$prop/official_checksum.sha256.txt")"
+              expected="$(awk -v f="$file" '{name=$NF; sub(/^\\*/, "", name); if(name==f) print $1}' "$out/soil/$prop/official_checksum.sha256.txt")"
               if [ -z "$expected" ]; then
                 echo "::error::No SoilGrids official checksum found for $prop/$file"
                 exit 1
