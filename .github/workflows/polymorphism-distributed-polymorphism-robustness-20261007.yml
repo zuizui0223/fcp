@@ -1,0 +1,69 @@
+name: FCP distributed polymorphism robustness
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_DISTRIBUTED_POLYMORPHISM_ROBUSTNESS_PROTOCOL_20261007.md
+      - scripts/analysis/run_polymorphism_distributed_polymorphism_robustness_20261007.py
+      - .github/workflows/polymorphism-distributed-polymorphism-robustness-20261007.yml
+  workflow_dispatch:
+
+concurrency:
+  group: fcp-distributed-polymorphism-robustness-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+
+jobs:
+  robustness:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install runtime
+        run: python -m pip install numpy==2.4.6 pandas==3.0.6 scipy==1.17.1
+      - name: Recover immutable measured tables
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/third.csv
+          echo "$DISC_SHA256  /tmp/discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/third.csv" | sha256sum -c -
+      - name: Run robustness audit
+        run: |
+          rm -rf /tmp/fcp_dist_robust
+          python scripts/analysis/run_polymorphism_distributed_polymorphism_robustness_20261007.py             --discovery /tmp/discovery.csv             --validation /tmp/validation.csv             --third /tmp/third.csv             --outdir /tmp/fcp_dist_robust
+      - name: Validate
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_dist_robust/result.json").read_text())
+          assert r["schema"]=="fcp_distributed_polymorphism_robustness_v1"
+          assert r["status"]=="complete_posthoc_robustness_audit"
+          assert r["confirmatory_decisions_changed"] is False
+          print(json.dumps(r,indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-distributed-polymorphism-robustness-20261007
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_dist_robust/
