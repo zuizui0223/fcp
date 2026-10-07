@@ -74,9 +74,9 @@ def test_itv_framing_and_reader_chronology_are_explicit() -> None:
 
     for token in (
         "Species means can erase the structure of intraspecific trait variation",
-        "how much",
-        "which phenotypic directions",
-        "how the variants are arranged geographically",
+        "overall sampled state diversity",
+        "phenotypic directions of within-species displacement",
+        "geographic arrangement of those states",
         "Flower-colour polymorphism is unusually suited to this distributional view",
         "each stage addresses a different inferential failure mode",
         "Phenotype-space generality without a universal geographic map",
@@ -593,7 +593,7 @@ def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> No
         "partial rho = **0.0992877**, p = **0.025**",
         "partial rho = **0.1162411**, p = **0.010**",
         "structural rather than causal",
-        "two-layer ecological question",
+        "not a within-population polymorphism measure",
         "Wessinger & Rausher 2012",
         "heterogeneous ecological sorting tendency",
         "Published work provides one mechanistic example",
@@ -722,7 +722,7 @@ def test_new_phytologist_explains_and_stress_tests_gini_simpson_D() -> None:
 
     for token in (
         "Gini–Simpson diversity",
-        "probability that two observations belong to different colour states",
+        "probability that two retained observations belong to different colour states",
         "D_{\\mathrm{corr}}",
         "40/39 = 1.0256",
         "### Finite-sample correction does not alter D-based conclusions",
