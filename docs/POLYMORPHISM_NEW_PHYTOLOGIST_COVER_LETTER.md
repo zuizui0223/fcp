@@ -14,15 +14,15 @@ We submit the Full Paper, **“Within-species flower-colour variation shows recu
 
 ### Question 1 — What hypotheses or questions does this work address?
 
-Can flower-colour polymorphism be measured reproducibly as a species phenotype, does it repeatedly align with a common colour-space direction, and do more polymorphic species organize colour variation more strongly across geography rather than merely reflecting sampling extent or broad ancestry?
+Can species-wide flower-colour distributions be measured reproducibly, does within-species displacement repeatedly align with a common colour-space direction, and is greater sampled colour-state diversity associated with stronger geographic organization rather than merely sampling extent or broad ancestry?
 
 ### Question 2 — How does this work advance our current understanding of plant science?
 
-Building on prior distributional ITV work, we test whether within-species displacement direction itself recurs across species and whether species-wide sampled colour-state diversity covaries with geographic organization. Across 149,900 photographs, displacement repeatedly aligns achromatic–chromatic, while greater overall sampled diversity accompanies stronger spatial organization.
+Building on distributional ITV work, we show that within-species displacement direction itself recurs across species. Across 149,900 photographs, displacement repeatedly aligns achromatic–chromatic, while greater species-wide sampled colour-state diversity accompanies stronger geographic organization. The recurrent direction is prospectively confirmed in previously unused species.
 
 ### Question 3 — Why is this work important and timely?
 
-Flower-colour polymorphism is usually studied within populations, while comparative analyses often compress species to scalar summaries. We show that overall sampled diversity, displacement **direction** and spatial **organization** carry different information: species can share variation direction even when geographic sorting and environmental associations are context dependent.
+Flower-colour adaptation need not be predictable because all species share one selective agent. Our results instead suggest that predictability may reside in a recurrent **response direction** through phenotype space: ecological sorting can vary among species while achromatic–chromatic displacement repeatedly reappears.
 
 ## Key result and evidential chronology
 
@@ -32,7 +32,7 @@ The prospective cohort completed **49,900** terminal measurements from 499 speci
 
 The chronology is central to the manuscript. The original discovery and validation cohorts localized the recurrent construction-controlled geometry to a fixed white-versus-nonwhite axis only after the broad geometry had been opened. We therefore treated those analyses as target discovery/localization, froze the axis and inferential machinery, and tested the target prospectively in a new species-disjoint cohort.
 
-A complementary frozen analysis provides the main ecological clue: greater species-wide sampled four-state diversity D is associated with stronger within-species geographic colour organization in both original cohorts. D can combine local coexistence with differentiation among sampled locations; the spatial analysis tests how strongly those observed colour states are geographically organized. In validation, the relationship persists after sampled-span and clear technical-failure adjustment (partial rho = 0.0993, p = 0.025), remains positive for a matched flower-minus-background response (rho = 0.1162, p = 0.010), and survives uniform ambiguity-endpoint stress tests. Taken together with H2, this yields the central biological contrast of the paper: **what varies is partly recurrent across species, whereas whether where that variation is sorted is shared or species-specific remains unresolved**. We interpret this as a structural ecological pattern and an open spatial question, not as evidence for one universal causal mechanism.
+A complementary frozen analysis provides the main ecological clue: greater species-wide sampled four-state diversity D is associated with stronger within-species geographic colour organization in both original cohorts. D can combine local coexistence with differentiation among sampled locations; the spatial analysis tests how strongly those observed colour states are geographically organized. In validation, the relationship persists after sampled-span and clear technical-failure adjustment (partial rho = 0.0993, p = 0.025), remains positive for a matched flower-minus-background response (rho = 0.1162, p = 0.010), and survives uniform ambiguity-endpoint stress tests. Taken together with H2, this yields the central biological contrast of the paper: **what varies is partly recurrent across species, whereas where that variation is sorted remains context dependent**. This suggests a testable evolutionary hypothesis: ecological agents may differ among species while their effects repeatedly project onto a shared, biologically accessible phenotype-space direction.
 
 ## Scope boundary
 
