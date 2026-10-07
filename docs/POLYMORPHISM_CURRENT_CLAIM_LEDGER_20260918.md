@@ -330,11 +330,11 @@ The validation result also survives exact uniform ambiguity-endpoint stress test
 
 ### Allowed spatial-organization claim
 
-> Species with greater four-state flower-colour diversity tend to show stronger within-species geographic colour organization across the discovery and species-disjoint validation high-depth cohorts. The validation association persists after sampled-span and clear technical-failure adjustment, a matched flower-minus-background contrast and uniform ambiguity-endpoint stress tests.
+> Species with greater **species-wide sampled four-state colour diversity** tend to show stronger within-species geographic colour organization across the discovery and species-disjoint validation high-depth cohorts. D summarizes the retained range-wide sample and can combine local coexistence with differentiation among sampled locations. The validation association persists after sampled-span and clear technical-failure adjustment, a matched flower-minus-background contrast and uniform ambiguity-endpoint stress tests.
 
 ### Scope boundary
 
-This does **not** show that geographic organization causes high D, nor does it identify climate, pollinators, habitat, gene flow, drift, mating system or any other maintenance mechanism. It establishes a replicated spatial correlate that narrows the mechanistic interpretation of the between-species differences in D.
+This does **not** show that geographic organization causes high D, nor does it identify climate, pollinators, habitat, gene flow, drift, mating system or any other maintenance mechanism. The frozen spatial null tests organization relative to an unstructured assignment; it does not test equal-strength true spatial processes across different D values. It establishes a replicated spatial correlate that narrows the mechanistic interpretation of the between-species differences in D.
 
 ## 7. H3a — broad phylogenetic signal not supported
 
@@ -394,7 +394,7 @@ This is an interpretation of the frozen results, not an additional statistical t
 
 Distributional ITV frameworks already establish that species need not be represented by a single mean trait value. Earlier work also separates ITV magnitude from hierarchical/spatial structure, and trait-space studies show that including ITV can change axes defined across species. The contribution here is narrower and empirical: the paper tests whether three properties of the **same within-species distribution** carry different cross-species information:
 
-- **amount** — four-state diversity D;
+- **overall sampled diversity** — species-wide four-state diversity D;
 - **direction** — continuous within-species displacement geometry;
 - **organization** — within-species geographic structure.
 
@@ -402,7 +402,7 @@ The allowed general synthesis is:
 
 > Cross-species generality can reside in the geometry of intraspecific variation even when the environmental coefficients and geographic maps that organize that variation are context dependent.
 
-In the present system these properties are nonredundant: direction shows recurrent cross-species achromatic–chromatic structure, while amount is positively associated with geographic organization. BIO5 supplies a present-study ecological-sorting result, whereas published pigment-pathway evidence is used only for bounded developmental interpretation and the PAL/WAL reanalysis remains supplementary.
+In the present system these properties are nonredundant: direction shows recurrent cross-species achromatic–chromatic structure, while species-wide sampled diversity is positively associated with geographic organization. D is not interpreted as local ITV magnitude or as a variance partition. BIO5 supplies a present-study ecological-sorting result, whereas published pigment-pathway evidence is used only for bounded developmental interpretation and the PAL/WAL reanalysis remains supplementary.
 
 This synthesis does **not** claim the first distributional treatment of ITV, the first separation of ITV magnitude from spatial structure, or the first demonstration that ITV can affect trait-space axes. It does **not** establish a universal ecological driver, a shared geographic map, a universal pigment mechanism, or causal coupling between D and geographic organization.
 
