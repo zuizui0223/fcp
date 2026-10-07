@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   regenerate:
@@ -59,15 +60,27 @@ jobs:
             docs/figures/polymorphism_20260918/polymorphism_figureS9_secondary_mechanism_evidence.png
             docs/figures/polymorphism_20260918/polymorphism_figureS9_secondary_mechanism_evidence.pdf
       - name: Commit regenerated figure outputs
+        id: commit_figures
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/figures/polymorphism_20260918
           if git diff --cached --quiet; then
             echo "No figure changes"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -m "Regenerate current polymorphism manuscript figures"
           git fetch origin main
           git rebase origin/main
           git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger fresh provenance snapshot after figure commit
+        if: steps.commit_figures.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run build-np-provenance-snapshot-20260926.yml \
+            --repo "zuizui0223/fcp" \
+            --ref main
