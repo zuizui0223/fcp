@@ -41,7 +41,7 @@ SoilGrids source properties:
 - volumetric water content at 33 kPa (`wv0033`);
 - volumetric water content at 1500 kPa (`wv1500`).
 
-Silt is omitted because clay + sand + silt are compositionally closed; retaining all three would duplicate one degree of freedom.
+The soil PCA uses nine nonredundant features: pH, SOC, nitrogen, CEC, bulk density, coarse fragments, clay, sand and an available-water proxy `wv0033 - wv1500`. Silt is omitted because clay + sand + silt are compositionally closed; retaining all three would duplicate one degree of freedom. The two water-content layers are not entered separately into the PCA because their difference is the ecologically interpretable retained-water-capacity contrast.
 
 For every property use the official SoilGrids mean maps for:
 - 0–5 cm;
