@@ -487,151 +487,123 @@ def figure4(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
 
 
 def figure5(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
-    spatial = load_json(root / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json")
-    h3a = load_json(root / "results" / "polymorphism_h3a_phylogenetic_signal_20260912" / "frozen_result_manifest.json")
-    source_dir = root / "results" / "polymorphism_publication_figure_source_20260918"
-    h3b = pd.read_csv(source_dir / "h3b_span_summary.csv")
-    h3b_freeze = (root / "docs" / "POLYMORPHISM_H3B_RESERVE_SPAN_RESULT_FREEZE_20260912.md").read_text(encoding="utf-8")
-    h3b_verdict = "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
-    if h3b_verdict not in h3b_freeze:
-        raise ValueError("H3b frozen verdict not found in canonical result freeze")
-    if spatial.get("new_biological_analysis") is not False:
-        raise ValueError("spatial reporting receipt must not introduce new biological analysis")
+    distributed = load_json(root / "results" / "polymorphism_distributed_polymorphism_posthoc_20261007" / "result.json")
+    robustness = load_json(root / "results" / "polymorphism_distributed_polymorphism_robustness_20261007" / "result.json")
+    ibd_ibe = load_json(root / "results" / "polymorphism_phenotypic_IBD_IBE_posthoc_20261007" / "result.json")
 
-    fig, axes = plt.subplots(
-        1,
-        3,
-        figsize=(14.4, 4.45),
-        gridspec_kw={"width_ratios": [1.45, 0.85, 0.95]},
-    )
-    fig.suptitle("What accompanies species differences in flower-colour polymorphism?", y=1.02, fontweight="bold")
+    cohorts = ["discovery", "validation", "third"]
+    labels = ["Discovery", "Validation", "Third cohort"]
 
+    fig, axes = plt.subplots(1, 3, figsize=(14.8, 4.6), gridspec_kw={"width_ratios": [1.0, 1.35, 1.0]})
+    fig.suptitle("Species-wide flower-colour variation is geographically partitioned", y=1.02, fontweight="bold")
+
+    # Panel A: primary 50-km local depletion.
     ax = axes[0]
-    spatial_rows = [
-        ("Discovery", spatial["discovery"]["span_plus_technical_adjusted_primary"]),
-        ("Validation", spatial["reserve"]["span_plus_technical_adjusted_primary"]),
-        ("Validation\nflower - background", spatial["reserve"]["span_plus_technical_adjusted_flower_minus_background"]),
-    ]
-    x = np.arange(len(spatial_rows))
-    obs = np.array([float(row["partial_rho"]) for _, row in spatial_rows])
-    null_mean = np.array([float(row["null_mean"]) for _, row in spatial_rows])
-    q025 = np.array([float(row["null_q025"]) for _, row in spatial_rows])
-    q975 = np.array([float(row["null_q975"]) for _, row in spatial_rows])
-    p_spatial = np.array([float(row["p_upper_geometry_preserving_spatial_null"]) for _, row in spatial_rows])
-    yerr = np.vstack([null_mean - q025, q975 - null_mean])
+    x = np.arange(3)
+    dep = np.array([float(distributed["primary"][co]["mean_local_depletion"]) for co in cohorts])
     ax.axhline(0, color="#777777", linewidth=1.0)
-    ax.errorbar(
-        x,
-        null_mean,
-        yerr=yerr,
-        fmt="o",
-        color=NEUTRAL,
-        ecolor=LIGHT,
-        elinewidth=5,
-        capsize=0,
-        markersize=5,
-        zorder=1,
-        label="Null mean + 95% interval",
+    ax.bar(x, dep, color=[SECONDARY, PRIMARY, SUPPORT], width=0.60)
+    for xi, co, val in zip(x, cohorts, dep, strict=True):
+        n = int(distributed["primary"][co]["n_species"])
+        pval = float(distributed["primary"][co]["p_upper"])
+        ax.text(xi, val + 0.0012, f"n={n}\np={pval:.3f}", ha="center", va="bottom", fontsize=8.0)
+    ax.set_xticks(x, labels)
+    ax.set_ylabel("Species-wide minus local pair diversity")
+    ax.set_ylim(0, max(dep) * 1.38)
+    ax.set_title("Local diversity is depleted at 50 km")
+    ax.text(
+        0.03, 0.95,
+        "25, 100 and 250 km:\nsame direction in all cohorts",
+        transform=ax.transAxes, ha="left", va="top", fontsize=7.8, color=NEUTRAL,
     )
-    ax.scatter(x, obs, s=78, marker="D", color=PRIMARY, edgecolor="white", linewidth=0.8, zorder=2, label="Observed")
-    for xi, val, pval in zip(x, obs, p_spatial, strict=True):
-        ax.text(xi, val + 0.012, f"rho={val:.3f}\np={pval:.3f}", ha="center", va="bottom", fontsize=8.0)
-    ax.set_xticks(x, [label for label, _ in spatial_rows])
-    ax.set_ylabel("Partial rho(D, spatial organization)")
-    ax.set_ylim(-0.14, 0.18)
-    ax.set_title("Higher D accompanies stronger spatial organization")
-    ax.legend(frameon=False, loc="lower left", fontsize=7.5)
     panel_label(ax, "A")
 
+    # Panel B: falsification tests.
     ax = axes[1]
-    scenarios = ["S1", "S2", "S3"]
-    k = [float(h3a["reserve_primary"][s]["K"]) for s in scenarios]
-    p = [float(h3a["reserve_primary"][s]["p_K"]) for s in scenarios]
-    x = np.arange(3)
-    ax.scatter(x, k, s=100, color=SECONDARY, edgecolor="white", linewidth=0.8)
-    for xi, kval, pval in zip(x, k, p, strict=True):
-        # Nudge S1 inward so its p-value remains clear of the y-axis after
-        # journal-width reduction; scenarios remain unordered/discrete.
-        label_x = xi + 0.06 if xi == 0 else xi
-        label_ha = "left" if xi == 0 else "center"
-        ax.text(label_x, kval + 0.004, f"p={pval:.4f}", ha=label_ha, va="bottom", fontsize=8.5)
-    ax.set_xticks(x, scenarios)
-    ax.set_ylabel("Validation Blomberg K")
-    ax.set_xlabel("Frozen tree-placement scenario")
-    ax.set_ylim(0, max(k) + 0.035)
-    ax.set_title("No detectable broad conservation")
-    ax.text(
-        0.03,
-        0.93,
-        "0/3 frozen scenarios p < 0.05\n(non-equivalence test)",
-        transform=ax.transAxes,
-        ha="left",
-        va="top",
-        fontsize=8.2,
-        color=NEUTRAL,
-    )
+    tests = [
+        ("Different\nobserver", "R1_different_observer"),
+        ("Nonwhite\nonly", "R2_nonwhite_only"),
+        ("Continuous\n9-colour", "R3_continuous_nine_colour"),
+    ]
+    offsets = [-0.22, 0.0, 0.22]
+    for offset, co, label, colour in zip(offsets, cohorts, labels, [SECONDARY, PRIMARY, SUPPORT], strict=True):
+        vals = [float(robustness[co][key]["mean_depletion"]) for _, key in tests]
+        xs = np.arange(len(tests)) + offset
+        ax.scatter(xs, vals, s=70, color=colour, edgecolor="white", linewidth=0.8, label=label, zorder=3)
+        for xx, val, (_, key) in zip(xs, vals, tests, strict=True):
+            pval = float(robustness[co][key]["p_upper"])
+            ax.text(xx, val + 0.0012, f"{pval:.3f}", ha="center", va="bottom", fontsize=6.9)
+    ax.axhline(0, color="#777777", linewidth=1.0)
+    ax.set_xticks(np.arange(len(tests)), [t[0] for t in tests])
+    ax.set_ylabel("Mean local depletion")
+    ax.set_ylim(0, 0.0255)
+    ax.set_title("Partitioning survives measurement falsifications")
+    ax.legend(frameon=False, loc="upper right", fontsize=7.2)
+    ax.text(0.03, 0.04, "Labels above points are matched-null p", transform=ax.transAxes,
+            ha="left", va="bottom", fontsize=7.2, color=NEUTRAL)
     panel_label(ax, "B")
 
+    # Panel C: phenotypic IBD versus IBE-like structure.
     ax = axes[2]
-    order = ["discovery", "reserve"]
-    x = np.arange(2)
-    vals = [float(h3b.loc[h3b["cohort"].eq(c), "rho_D_span"].iloc[0]) for c in order]
-    ps = [float(h3b.loc[h3b["cohort"].eq(c), "p_D_span"].iloc[0]) for c in order]
+    width = 0.34
+    x = np.arange(3)
+    ibd = np.array([float(ibd_ibe["cohorts"][co]["IBD_like"]["mean_partial_rho"]) for co in cohorts])
+    ibe = np.array([float(ibd_ibe["cohorts"][co]["IBE_like"]["mean_partial_rho"]) for co in cohorts])
+    ax.bar(x - width/2, ibd, width=width, color=PRIMARY, label="IBD-like")
+    ax.bar(x + width/2, ibe, width=width, color=SECONDARY, label="BIO5 IBE-like")
+    for xi, co, a, b in zip(x, cohorts, ibd, ibe, strict=True):
+        p_ibd = float(ibd_ibe["cohorts"][co]["IBD_like"]["p"])
+        p_ibe = float(ibd_ibe["cohorts"][co]["IBE_like"]["p"])
+        ax.text(xi-width/2, a+0.0010, f"p={p_ibd:.3f}", ha="center", va="bottom", fontsize=6.7, rotation=90)
+        ax.text(xi+width/2, b+0.0010, f"p={p_ibe:.3f}", ha="center", va="bottom", fontsize=6.7, rotation=90)
     ax.axhline(0, color="#777777", linewidth=1.0)
-    ax.bar(x, vals, color=[SECONDARY, PRIMARY], width=0.55)
-    for xi, val, pval in zip(x, vals, ps, strict=True):
-        offset = 0.012 if val >= 0 else -0.012
-        ax.text(xi, val + offset, f"rho={val:.3f}\np={pval:.4f}", ha="center", va="bottom" if val >= 0 else "top", fontsize=8.5)
-    ax.set_xticks(x, ["Discovery\ncalibration", "Validation\nreplication"])
-    ax.set_ylabel("Spearman rho(D, sampled span)")
-    ax.set_ylim(-0.07, 0.23)
-    ax.set_title("Discovery span effect collapses in validation")
-    ax.text(
-        0.03,
-        0.06,
-        "Sampled photographic span is not biological range size",
-        transform=ax.transAxes,
-        ha="left",
-        va="bottom",
-        fontsize=8.2,
-        color=NEUTRAL,
-    )
+    ax.set_xticks(x, labels)
+    ax.set_ylabel("Equal-species mean partial rho")
+    ax.set_ylim(0, max(ibd) * 1.38)
+    ax.set_title("Geographic distance dominates a smaller BIO5 residual")
+    ax.legend(frameon=False, loc="upper right", fontsize=7.2)
     panel_label(ax, "C")
 
     fig.tight_layout()
     files = save_pair(fig, output_dir, "polymorphism_figure5_explanatory_boundaries")
     meta = {
-        "spatial_organization": {
-            "receipt": "results/polymorphism_spatial_organization_clue_20260918/result.json",
-            "new_biological_analysis": spatial["new_biological_analysis"],
-            "discovery_adjusted_partial_rho": float(spatial["discovery"]["span_plus_technical_adjusted_primary"]["partial_rho"]),
-            "discovery_adjusted_p": float(spatial["discovery"]["span_plus_technical_adjusted_primary"]["p_upper_geometry_preserving_spatial_null"]),
-            "reserve_adjusted_partial_rho": float(spatial["reserve"]["span_plus_technical_adjusted_primary"]["partial_rho"]),
-            "reserve_adjusted_p": float(spatial["reserve"]["span_plus_technical_adjusted_primary"]["p_upper_geometry_preserving_spatial_null"]),
-            "reserve_background_partial_rho": float(spatial["reserve"]["span_plus_technical_adjusted_flower_minus_background"]["partial_rho"]),
-            "reserve_background_p": float(spatial["reserve"]["span_plus_technical_adjusted_flower_minus_background"]["p_upper_geometry_preserving_spatial_null"]),
+        "distributed_polymorphism": {
+            "receipt": "results/polymorphism_distributed_polymorphism_posthoc_20261007/result.json",
+            "primary_radius_km": 50,
+            "discovery_depletion": float(distributed["primary"]["discovery"]["mean_local_depletion"]),
+            "discovery_p": float(distributed["primary"]["discovery"]["p_upper"]),
+            "validation_depletion": float(distributed["primary"]["validation"]["mean_local_depletion"]),
+            "validation_p": float(distributed["primary"]["validation"]["p_upper"]),
+            "third_depletion": float(distributed["primary"]["third"]["mean_local_depletion"]),
+            "third_p": float(distributed["primary"]["third"]["p_upper"]),
+            "multiscale_all_three": bool(all(distributed["multiscale_local_depletion_supported_all_three"].values())),
         },
-        "h3a": {
-            "verdict": h3a["decision"]["verdict"],
-            "reserve_scenarios": {
-                s: {"K": float(h3a["reserve_primary"][s]["K"]), "p": float(h3a["reserve_primary"][s]["p_K"])}
-                for s in scenarios
+        "robustness": {
+            "receipt": "results/polymorphism_distributed_polymorphism_robustness_20261007/result.json",
+            "different_observer_all_three": bool(robustness["cross_cohort"]["different_observer_supported_all_three"]),
+            "nonwhite_only_all_three": bool(robustness["cross_cohort"]["nonwhite_only_supported_all_three"]),
+            "continuous_nine_colour_all_three": bool(robustness["cross_cohort"]["continuous_nine_colour_supported_all_three"]),
+        },
+        "ibd_ibe": {
+            "receipt": "results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json",
+            "IBE_like_all_three": bool(ibd_ibe["replication"]["IBE_like_all_three"]),
+            "IBD_like_all_three": bool(ibd_ibe["replication"]["IBD_like_all_three"]),
+            "IBE_stronger_than_IBD_all_three": bool(ibd_ibe["replication"]["IBE_stronger_than_IBD_all_three"]),
+            "cohorts": {
+                co: {
+                    "IBD_like": float(ibd_ibe["cohorts"][co]["IBD_like"]["mean_partial_rho"]),
+                    "IBE_like": float(ibd_ibe["cohorts"][co]["IBE_like"]["mean_partial_rho"]),
+                }
+                for co in cohorts
             },
         },
-        "h3b": {
-            "verdict": h3b_verdict,
-            "discovery_rho": vals[0],
-            "discovery_p": ps[0],
-            "reserve_rho": vals[1],
-            "reserve_p": ps[1],
-        },
         "layout_contract": {
-            "panel_widths": "spatial_primary_wide",
-            "tree_scenarios": "unconnected_discrete_points",
+            "panel_A": "three_cohort_local_depletion",
+            "panel_B": "three_falsification_tests_across_three_cohorts",
+            "panel_C": "paired_IBD_IBE_effects",
         },
     }
     return files, meta
-
 
 
 def supplementary_figure9(root: Path, output_dir: Path) -> tuple[dict[str, str], dict]:
