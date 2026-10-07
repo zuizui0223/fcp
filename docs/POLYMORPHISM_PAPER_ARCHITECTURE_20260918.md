@@ -12,7 +12,7 @@ Authoritative surfaces:
 
 ## 1. Paper in one sentence
 
-Treating species as phenotype distributions rather than mean colours reveals three separable dimensions of intraspecific flower-colour variation—amount, direction and geographic organization: the distributional trait is reproducible, its displacement repeatedly contains an achromatic–chromatic component, and greater diversity is associated with stronger spatial organization.
+Treating species as phenotype distributions rather than mean colours reveals nonredundant structure in species-wide sampled flower-colour diversity, within-species displacement direction and geographic organization: the sampled distribution is reproducible, its displacement repeatedly contains an achromatic–chromatic component, and species with greater overall sampled colour-state diversity show stronger spatial organization.
 
 ## 2. Questions
 
@@ -20,9 +20,9 @@ The paper asks three linked questions:
 
 1. **Is within-species flower-colour variation reproducible as a species-level comparative trait?**
 2. **Does within-species colour displacement repeatedly occupy a common direction in phenotype space?**
-3. **Is greater colour diversity associated with stronger within-species geographic organization?**
+3. **Is greater species-wide sampled colour-state diversity associated with stronger within-species geographic organization?**
 
-Together these questions decompose intraspecific trait variation into **amount** (D), **direction** (continuous displacement geometry) and **organization** (within-species geographic structure). The first establishes the inferential unit, the second tests cross-species regularity in phenotype space, and the third asks whether greater variation is ecologically structured rather than merely broad or noisy.
+Together these questions distinguish **overall sampled colour-state diversity** (D), **direction** (continuous within-species displacement geometry) and **organization** (within-species geographic structure). D is not a within-population polymorphism measure: it can combine local coexistence with differentiation among sampled locations.
 
 ## 3. Data architecture and why each stage exists
 
@@ -60,7 +60,7 @@ For species-level state frequencies (p_k),
 D = 1 - sum_k p_k^2.
 ]
 
-D measures the amount of within-species colour diversity.
+D measures species-wide sampled colour-state diversity across retained observations; it can reflect local coexistence, differentiation among sampled locations, or both.
 
 ### Continuous colour geometry
 
@@ -97,7 +97,7 @@ Interpretation: the confirmed quantity is **excess achromatic–chromatic alignm
 
 The association is positive in discovery and species-disjoint validation and remains supported after sampled-span, technical-failure, background and ambiguity checks.
 
-Interpretation: greater measured diversity is spatially organized rather than explained simply by broader sampled photographic extent.
+Interpretation: species with greater overall sampled colour-state diversity also tend to show stronger geographic organization; this association is not explained simply by broader sampled photographic extent and does not by itself partition D into within- versus among-location components.
 
 ### Result 4 — BIO5 provides a heterogeneous ecological-sorting signal
 
@@ -120,7 +120,7 @@ Additional boundaries are:
 
 The Discussion follows one hierarchy.
 
-1. **Validated distributional trait:** repeated photographs recover species differences in within-species colour diversity.
+1. **Validated distributional trait:** repeated photographs recover species differences in species-wide sampled colour-state diversity.
 2. **What varies:** cross-species regularity is strongest along an achromatic–chromatic phenotype-space direction.
 3. **Where it is sorted:** greater D is associated with stronger within-species geographic organization.
 4. **Ecological explanation tested with our data:** BIO5 contributes a weak, heterogeneous white-versus-nonwhite sorting tendency rather than a universal temperature rule.
