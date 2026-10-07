@@ -80,49 +80,53 @@
       "verdict": "H2_PROSPECTIVE_WHITE_AXIS_CONFIRMED"
     },
     "figure5": {
+      "distributed_polymorphism": {
+        "discovery_depletion": 0.020529254583812922,
+        "discovery_p": 0.005,
+        "multiscale_all_three": true,
+        "primary_radius_km": 50,
+        "receipt": "results/polymorphism_distributed_polymorphism_posthoc_20261007/result.json",
+        "third_depletion": 0.01468491968437185,
+        "third_p": 0.005,
+        "validation_depletion": 0.018672971642749295,
+        "validation_p": 0.005
+      },
       "files": {
         "pdf": "polymorphism_figure5_explanatory_boundaries.pdf",
-        "pdf_sha256": "848c532a84303144ddf869a1859a6ec608d44a0e670d4076c0ce361d18df0322",
+        "pdf_sha256": "e0967c2e124232221c382bcd5a03b62fe06cf5ea89f4b09a1299b208390d58a2",
         "png": "polymorphism_figure5_explanatory_boundaries.png",
-        "png_sha256": "35fe48a55ec3b32522497c613d000bd24fd8b1032605b637e59fd1a29a4d843e"
+        "png_sha256": "ae9668f26485524293fae1f23210ae68ded73d46a839694241fd881c4cb8623a"
       },
-      "h3a": {
-        "reserve_scenarios": {
-          "S1": {
-            "K": 0.071019005,
-            "p": 0.2716
+      "ibd_ibe": {
+        "IBD_like_all_three": true,
+        "IBE_like_all_three": true,
+        "IBE_stronger_than_IBD_all_three": false,
+        "cohorts": {
+          "discovery": {
+            "IBD_like": 0.027604435157351816,
+            "IBE_like": 0.00925022014281929
           },
-          "S2": {
-            "K": 0.0601475598,
-            "p": 0.4134
+          "third": {
+            "IBD_like": 0.022245645655123027,
+            "IBE_like": 0.0101876235922715
           },
-          "S3": {
-            "K": 0.0707576659,
-            "p": 0.2674
+          "validation": {
+            "IBD_like": 0.024142065902525225,
+            "IBE_like": 0.00825562350468484
           }
         },
-        "verdict": "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED"
-      },
-      "h3b": {
-        "discovery_p": 0.0008999550022498,
-        "discovery_rho": 0.179878573301315,
-        "reserve_p": 0.958602069896505,
-        "reserve_rho": -0.0025855470661547,
-        "verdict": "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+        "receipt": "results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json"
       },
       "layout_contract": {
-        "panel_widths": "spatial_primary_wide",
-        "tree_scenarios": "unconnected_discrete_points"
+        "panel_A": "three_cohort_local_depletion",
+        "panel_B": "three_falsification_tests_across_three_cohorts",
+        "panel_C": "paired_IBD_IBE_effects"
       },
-      "spatial_organization": {
-        "discovery_adjusted_p": 0.007,
-        "discovery_adjusted_partial_rho": 0.1266367492856858,
-        "new_biological_analysis": false,
-        "receipt": "results/polymorphism_spatial_organization_clue_20260918/result.json",
-        "reserve_adjusted_p": 0.025,
-        "reserve_adjusted_partial_rho": 0.09928771129095708,
-        "reserve_background_p": 0.01,
-        "reserve_background_partial_rho": 0.1162411363016301
+      "robustness": {
+        "continuous_nine_colour_all_three": true,
+        "different_observer_all_three": true,
+        "nonwhite_only_all_three": true,
+        "receipt": "results/polymorphism_distributed_polymorphism_robustness_20261007/result.json"
       }
     },
     "supplementary_figure9": {
