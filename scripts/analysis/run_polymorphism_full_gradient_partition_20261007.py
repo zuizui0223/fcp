@@ -58,7 +58,7 @@ MASTER_SEED = 2026100757
 SHA = {
     "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
     "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
-    "third": "57630fc9f281bce94c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
 }
 
 
