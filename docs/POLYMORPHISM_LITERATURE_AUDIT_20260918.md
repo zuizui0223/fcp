@@ -392,3 +392,133 @@ The manuscript may therefore state that the positive third-cohort BIO5 associati
 
 At the broader evolutionary level, the manuscript may pose the hypothesis that **different ecological agents can repeatedly project variation onto a shared accessible response direction**, because prior work shows that flower-colour evolution can follow predictable pathway-level routes. This remains interpretation: the present study establishes recurrent phenotype-space geometry, not shared molecular causation, adaptive convergence or universality across angiosperms.
 
+
+
+## Spatial ITV / distributed-polymorphism prior-art boundary — 2026-10-07 update
+
+### Narbona et al. 2018 — geographic structure of flower-colour polymorphism
+
+**Narbona, E., Wang, H., Ortiz, P. L., Arista, M., & Imbert, E. (2018).**  
+*Flower colour polymorphism in the Mediterranean Basin: occurrence, maintenance and implications for speciation.*  
+*Plant Biology*, 20(S1), 8–20.  
+DOI: 10.1111/plb.12575.
+
+Source-supported points:
+- defines classical FCP at the within-population level;
+- reviews pollinator selection, non-pollinator selection, drift, gene flow, selfing and clonal reproduction as maintenance mechanisms;
+- explicitly reports that Mediterranean FCP species are mainly composed of monomorphic populations plus fewer polymorphic populations, producing clinal or mosaic morph-frequency patterns;
+- links geographic FCP variation to possible speciation consequences.
+
+Novelty boundary:
+- the present study must **not** claim that geographic mosaics/clines in FCP are newly discovered;
+- the comparative contribution is testing local depletion relative to each species' exact range-wide composition with one common high-depth design and composition-preserving null across hundreds of species and three species-disjoint cohorts.
+
+### Sapir et al. 2021 — mechanisms maintaining within-population colour variation
+
+**Sapir, Y., Gallagher, M. K., & Senden, E. (2021).**  
+*What Maintains Flower Colour Variation within Populations?*  
+*Trends in Ecology & Evolution*, 36, 507–519.  
+DOI: 10.1016/j.tree.2021.01.011.
+
+Source-supported points:
+- flower-colour variation is useful for studying processes maintaining phenotypic diversity;
+- balancing selection through multiple/opposing/fluctuating selective agents is a major research tradition;
+- nonpollinator selection can be important;
+- neutral processes remain plausible and comparatively under-tested.
+
+Use in FCP:
+- motivates keeping selection, drift and nonpollinator processes as alternatives;
+- supports the claim that identifying **where ITV resides** is prior to identifying the maintenance mechanism.
+
+### Delph & Kelly 2014 — scale dependence of balancing selection
+
+**Delph, L. F., & Kelly, J. K. (2014).**  
+*On the importance of balancing selection in plants.*  
+*New Phytologist*, 201, 45–56.  
+DOI: 10.1111/nph.12441.
+
+Source-supported points:
+- spatial and temporal heterogeneity can maintain genetic variation;
+- limited migration can expand conditions for spatially maintained polymorphism;
+- the same regime can be locally purifying while maintaining variation at the whole-species scale;
+- the review explicitly distinguishes negative frequency-dependent maintenance within populations from spatially varying selection maintaining adaptive polymorphism among populations.
+
+Use in FCP:
+- supplies the evolutionary interpretation for distributed polymorphism;
+- does **not** permit calling geographic local depletion adaptive without fitness/genetic evidence.
+
+### Schemske & Bierzychudek 2007 — what converts a colour cline into local-adaptation evidence
+
+**Schemske, D. W., & Bierzychudek, P. (2007).**  
+*Spatial differentiation for flower color in the desert annual Linanthus parryae: was Wright right?*  
+*Evolution*, 61, 2528–2543.  
+DOI: 10.1111/j.1558-5646.2007.00219.x.
+
+Source-supported point:
+- the study directly contrasts drift/IBD explanations with natural selection for a sharp flower-colour cline using field evidence.
+
+Use in FCP:
+- benchmark for the evidence missing from the current comparative photographs;
+- FCP can identify clinal/mosaic-like comparative structure, but fitness or equivalent population-genetic evidence is required for local adaptation.
+
+### Wang & Bradburd 2014; Sexton et al. 2014 — IBD versus IBE framing
+
+**Wang, I. J., & Bradburd, G. S. (2014).** *Isolation by environment.* *Molecular Ecology*, 23, 5649–5662. DOI: 10.1111/mec.12938.
+
+**Sexton, J. P., Hangartner, S. B., & Hoffmann, A. A. (2014).** *Genetic isolation by environment or distance: which pattern of gene flow is most common?* *Evolution*, 68, 1–15. DOI: 10.1111/evo.12258.
+
+Use boundary:
+- their concepts concern genetic/gene-flow structure;
+- FCP may borrow only the **logic** of environment-associated divergence after geographic distance control;
+- the manuscript must use “phenotypic IBE-like” and must not call the photograph result genetic IBE.
+
+### Bradshaw & Schemske 2003; Hopkins 2013 — route from colour divergence to reproductive isolation
+
+**Bradshaw, H. D. Jr & Schemske, D. W. (2003).**  
+*Allele substitution at a flower colour locus produces a pollinator shift in monkeyflowers.*  
+*Nature*, 426, 176–178. DOI: 10.1038/nature02106.
+
+**Hopkins, R. (2013).**  
+*Reinforcement in plants.*  
+*New Phytologist*, 197, 1095–1103. DOI: 10.1111/nph.12119.
+
+Source-supported points:
+- flower-colour alleles can alter pollinator use and hence reproductive isolation;
+- flower-colour divergence can participate in reinforcement in systems such as Phlox.
+
+Use in FCP:
+- establishes why geographic flower-colour differentiation can matter for diversification;
+- the present image data do not measure pollinator-mediated assortative mating, hybridisation or gene flow, so speciation remains a forward hypothesis.
+
+### McKenzie et al. 2026 — community-science precedent for geographic colour divergence
+
+**McKenzie, P. F., Church, S. H., & Hopkins, R. (2026).**  
+*High-Throughput iNaturalist Image Analysis Reveals Flower Color Divergence in Monarda fistulosa.*  
+*The American Naturalist*, 208, 101–109.  
+DOI: 10.1086/739413.
+
+Source-supported point:
+- >40,000 community-science photographs recover geographic flower-colour divergence within a widespread species.
+
+Novelty boundary:
+- community-science detection of range-wide flower-colour divergence is not new;
+- FCP's contribution is the repeated cross-species test of geographic allocation of ITV under a common null, not the first image-based spatial colour analysis.
+
+### Lacey 2026 and Narbona et al. 2026 — abiotic and plastic routes
+
+**Lacey, E. P. (2026).** *Temperature and the evolution of flower color: A review.* *American Journal of Botany*, 113, e70106. DOI: 10.1002/ajb2.70106.
+
+**Narbona, E. et al. (2026).** *Heat drastically alters floral color and pigment composition without affecting flower conspicuousness.* *American Journal of Botany*, 113, e70096. DOI: 10.1002/ajb2.70096.
+
+Use boundary:
+- temperature can contribute to geographic flower-colour patterns and colour can be temperature-sensitive/plastic;
+- the Moricandia study specifically demonstrates that heat-associated colour change can involve pigment reconfiguration while floral conspicuousness is retained;
+- this makes plasticity a serious alternative to genetic local adaptation for any FCP environment–colour association.
+
+## Resulting novelty statement
+
+The defensible spatial novelty is:
+
+> Population studies and reviews already show that flower-colour morph frequencies can form geographic clines and mosaics, and recent community-science work can recover geographic colour divergence within individual species. The present contribution is a standardized cross-species test showing that, conditional on each species' exact sampled colour composition, local conspecific samples are repeatedly more colour-homogeneous than expected across hundreds of species and independent species cohorts.
+
+This is stronger and safer than claiming the discovery of geographic FCP itself.
