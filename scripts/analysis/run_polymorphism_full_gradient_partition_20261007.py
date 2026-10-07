@@ -36,7 +36,8 @@ LEGACY_COLS = [f"palette_count_{x}" for x in BIO9]
 THIRD_COLS = [f"flower_fraction_{x}" for x in BIO9]
 
 CLIMATE = [f"bio{i}" for i in range(1, 20)] + ["srad_mean"]
-SOIL_RAW = ["phh2o", "soc", "nitrogen", "cec", "bdod", "cfvo", "clay", "sand", "wv0033", "wv1500"]\nSOIL = ["phh2o", "soc", "nitrogen", "cec", "bdod", "cfvo", "clay", "sand", "awc"]
+SOIL_RAW = ["phh2o", "soc", "nitrogen", "cec", "bdod", "cfvo", "clay", "sand", "wv0033", "wv1500"]
+SOIL = ["phh2o", "soc", "nitrogen", "cec", "bdod", "cfvo", "clay", "sand", "awc"]
 SOIL_LOG1P = {"soc", "nitrogen", "cec", "cfvo"}
 SOIL_CONVERSION = {
     "phh2o": 10.0,
@@ -185,7 +186,9 @@ def attach_soil(d: pd.DataFrame, soil_dir: Path) -> pd.DataFrame:
     d = d.copy()
     lon = pd.to_numeric(d["longitude"], errors="coerce").to_numpy(float)
     lat = pd.to_numeric(d["latitude"], errors="coerce").to_numpy(float)
-    raw_values = {}\n    for prop in SOIL_RAW:\n        layers = []
+    raw_values = {}
+    for prop in SOIL_RAW:
+        layers = []
         weights = []
         for depth, thickness in SOIL_DEPTHS:
             path = soil_dir / prop / f"{prop}_{depth}_mean_5000.tif"
@@ -199,7 +202,12 @@ def attach_soil(d: pd.DataFrame, soil_dir: Path) -> pd.DataFrame:
         value = value / SOIL_CONVERSION[prop]
         if prop in SOIL_LOG1P:
             value = np.where(np.isfinite(value) & (value >= 0), np.log1p(value), np.nan)
-        raw_values[prop] = value\n    for prop in ["phh2o", "soc", "nitrogen", "cec", "bdod", "cfvo", "clay", "sand"]:\n        d[f"soil_{prop}"] = raw_values[prop]\n    awc = raw_values["wv0033"] - raw_values["wv1500"]\n    d["soil_awc"] = np.where(np.isfinite(awc) & (awc >= 0), awc, np.nan)\n    return d
+        raw_values[prop] = value
+    for prop in ["phh2o", "soc", "nitrogen", "cec", "bdod", "cfvo", "clay", "sand"]:
+        d[f"soil_{prop}"] = raw_values[prop]
+    awc = raw_values["wv0033"] - raw_values["wv1500"]
+    d["soil_awc"] = np.where(np.isfinite(awc) & (awc >= 0), awc, np.nan)
+    return d
 
 
 def fit_standardized_pca(x: np.ndarray, names: list[str], *, block_scale: np.ndarray | None = None) -> dict:
@@ -548,7 +556,9 @@ def main() -> int:
             "climate": "WorldClim 2.1 BIO1-BIO19 + mean monthly solar radiation",
             "elevation": "WorldClim 2.1 10-minute elevation",
             "soil": "SoilGrids 2.0 5-km aggregated mean predictions, thickness-weighted 0-30 cm",
-            "soil_source_properties": SOIL_RAW,\n            "soil_PCA_features": SOIL,\n            "soil_available_water_proxy": "awc = thickness-weighted wv0033 - thickness-weighted wv1500",
+            "soil_source_properties": SOIL_RAW,
+            "soil_PCA_features": SOIL,
+            "soil_available_water_proxy": "awc = thickness-weighted wv0033 - thickness-weighted wv1500",
             "soil_log1p_properties": sorted(SOIL_LOG1P),
         },
         "PCA": {
@@ -612,7 +622,8 @@ def main() -> int:
     out = args.outdir
     out.mkdir(parents=True, exist_ok=True)
     pd.concat([ddf, vdf, tdf], ignore_index=True).to_csv(out / "species_full_gradient_metrics.csv", index=False)
-    (out / "result.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    (out / "result.json").write_text(json.dumps(result, indent=2) + "
+", encoding="utf-8")
     print(json.dumps(result, indent=2))
     return 0
 
