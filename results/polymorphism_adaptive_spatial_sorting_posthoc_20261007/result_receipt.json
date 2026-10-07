@@ -1,0 +1,61 @@
+{
+  "schema": "fcp_adaptive_spatial_sorting_posthoc_reporting_receipt_v1",
+  "date_jst": "2026-10-07",
+  "status": "complete_posthoc_ecological_diagnostic",
+  "source_run_id": 37608400458,
+  "source_artifact_id": 11476615352,
+  "source_artifact_digest": "sha256:98cb5f04f6eb46a55dc6466e08ff788ecf31615ee179426d5f10e66f7ef12060",
+  "confirmatory_decisions_changed": false,
+  "primary_multivariate_joint_verdict": "POSTHOC_ADAPTIVE_SORTING_PATTERN_NOT_JOINTLY_REPLICATED",
+  "discovery": {
+    "multivariate_heterogeneity_D": {
+      "rho": 0.04296547056559438,
+      "p": 0.208
+    },
+    "multivariate_env_colour_given_geo": {
+      "mean_partial_rho": 0.007813271479369775,
+      "p": 0.02
+    },
+    "bio5_env_colour_given_geo": {
+      "mean_partial_rho": 0.006394261716083733,
+      "p": 0.025,
+      "holm_across_three_single_variables": 0.05
+    },
+    "srad_heterogeneity_D": {
+      "rho": 0.13304362134883083,
+      "p": 0.004,
+      "holm_across_three_single_variables": 0.012
+    }
+  },
+  "validation": {
+    "multivariate_heterogeneity_D": {
+      "rho": 0.09901123228582596,
+      "p": 0.029
+    },
+    "multivariate_env_colour_given_geo": {
+      "mean_partial_rho": 0.003808927210371717,
+      "p": 0.105
+    },
+    "bio5_env_colour_given_geo": {
+      "mean_partial_rho": 0.008162663494930833,
+      "p": 0.005,
+      "holm_across_three_single_variables": 0.015
+    },
+    "srad_heterogeneity_D": {
+      "rho": 0.15241603037371967,
+      "p": 0.001,
+      "holm_across_three_single_variables": 0.003
+    }
+  },
+  "selected_for_fixed_third_cohort_transport": [
+    "BIO5 distance versus colour distance conditional on geography",
+    "solar-radiation heterogeneity versus species-wide D"
+  ],
+  "selection_rule": "Only single-variable sensitivities positive in both discovery and validation and supported after Holm correction across BIO5/BIO14/SRAD within endpoint and cohort.",
+  "hard_nonclaims": [
+    "joint multivariate adaptive-sorting hypothesis did not replicate",
+    "single-variable findings are post hoc screening results",
+    "no fitness or local-adaptation inference",
+    "genetic differentiation and phenotypic plasticity are not distinguished"
+  ]
+}
