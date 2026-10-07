@@ -12,6 +12,10 @@ on:
       - .github/workflows/polymorphism-D-spatial-equal-structure-posthoc-20261007.yml
   workflow_dispatch:
 
+concurrency:
+  group: d-spatial-equal-structure-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
