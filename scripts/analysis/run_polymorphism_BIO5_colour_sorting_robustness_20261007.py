@@ -192,7 +192,9 @@ def prepare_cohort(path: Path, cohort: str, bio5_path: Path, *, third: bool) -> 
     if third:
         required = base | set(THIRD_FRACTIONS)
     else:
-        required = base | {f"palette_count_{x}" for x in ALL12} | {f"background_palette_count_{x}" for x in ALL12}
+        required = base | {f"palette_count_{x}" for x in ALL12}
+        if cohort == "validation":
+            required |= {f"background_palette_count_{x}" for x in ALL12}
     missing = sorted(required - set(d.columns))
     if missing:
         raise RuntimeError(f"{cohort}: missing required columns {missing}")
@@ -261,7 +263,7 @@ def run_cohort(d: pd.DataFrame, cohort: str, *, third: bool) -> tuple[dict, pd.D
         })
         r3_nulls.append(nul3)
 
-        if not third:
+        if cohort == "validation":
             flower12 = pairwise_jsd(g[[f"palette_count_{x}" for x in ALL12]].to_numpy(float))
             back12 = pairwise_jsd(g[[f"background_palette_count_{x}" for x in ALL12]].to_numpy(float))
             differential = flower12 - back12
@@ -278,10 +280,18 @@ def run_cohort(d: pd.DataFrame, cohort: str, *, third: bool) -> tuple[dict, pd.D
         "R1_continuous_nine_colour": aggregate_species(r1_rows, r1_nulls, "r1"),
         "R3_same_observer_pair": aggregate_species(r3_rows, r3_nulls, "r3"),
     }
-    if third:
-        result["R2_flower_minus_background"] = {"evaluable": False, "reason": "third-cohort frozen measured table has no matched background palette"}
-    else:
+    if cohort == "validation":
         result["R2_flower_minus_background"] = aggregate_species(r2_rows, r2_nulls, "r2")
+    elif cohort == "discovery":
+        result["R2_flower_minus_background"] = {
+            "evaluable": False,
+            "reason": "historical discovery matched-background recovery was frozen as not evaluable: 21339/21424 exact rows, 85 failures"
+        }
+    else:
+        result["R2_flower_minus_background"] = {
+            "evaluable": False,
+            "reason": "third-cohort frozen measured table has no matched background palette"
+        }
 
     details = pd.DataFrame(r1_rows).merge(pd.DataFrame(r3_rows), on=["inat_taxon_id", "species"], how="outer")
     if r2_rows:
@@ -311,10 +321,7 @@ def main() -> int:
         and vr["R1_continuous_nine_colour"].get("supported_at_0_05", False)
         and tr["R1_continuous_nine_colour"].get("supported_at_0_05", False)
     )
-    R2_both = bool(
-        dr["R2_flower_minus_background"].get("supported_at_0_05", False)
-        and vr["R2_flower_minus_background"].get("supported_at_0_05", False)
-    )
+    R2_validation = bool(vr["R2_flower_minus_background"].get("supported_at_0_05", False))
     R3_all = bool(
         all(x["R3_same_observer_pair"].get("n_species", 0) >= 50 for x in (dr, vr, tr))
         and all(x["R3_same_observer_pair"].get("supported_at_0_05", False) for x in (dr, vr, tr))
@@ -331,12 +338,13 @@ def main() -> int:
         "third": tr,
         "cross_cohort_summary": {
             "R1_continuous_nine_colour_supported_all_three": R1_all,
-            "R2_flower_minus_background_supported_discovery_validation": R2_both,
+            "R2_flower_minus_background_supported_validation": R2_validation,
+            "R2_discovery_evaluable": False,
             "R3_same_observer_pair_supported_all_three_with_min50_species": R3_all,
         },
         "interpretation": {
             "if_R1": "BIO5-associated flower-colour turnover is not restricted to the coarse four-state classifier.",
-            "if_R2": "In the original 1000 species, BIO5-associated flower-colour turnover exceeds same-image background colour structure under the matched differential.",
+            "if_R2": "In validation, BIO5-associated flower-colour turnover exceeds same-image background colour structure under the matched differential; discovery background inference remains unavailable by its historical fail-closed rule.",
             "if_R3": "The BIO5-colour association persists using only within-observer photo pairs, reducing observer/camera confounding.",
             "hard_nonclaims": [
                 "post hoc robustness audit",
