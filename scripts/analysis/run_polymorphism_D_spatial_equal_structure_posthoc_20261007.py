@@ -264,13 +264,15 @@ def main() -> int:
             "design": "Preserve each species' observed coordinates and exact colour-vector multiset; order vectors by first classical-MDS coordinate of pairwise JSD and assign them along the first spatial principal axis plus species-specific deterministic Gaussian noise with the same k for every species.",
             "master_seed": MASTER_SEED,
             "k_interpretation": "Larger k adds more noise and therefore weaker common spatial ordering.",
+            "primary_diagnostic_k": 4.0,
+            "primary_diagnostic_reason": "k=4 gives the closest mean species rho to the observed validation mean among the prespecified diagnostic settings.",
             "summaries": summaries,
             "all_replicates_below_observed_D_rho": bool((~sims["exceeds_observed_D_rho"]).all()),
             "total_replicates": int(len(sims)),
             "total_replicates_at_or_above_observed": int(sims["exceeds_observed_D_rho"].sum()),
         },
         "interpretation": {
-            "supported": "Under this linear-gradient equal-structure diagnostic, giving every validation species the same ordering rule does not reproduce the observed positive cross-species association between species-wide sampled colour-state diversity D and within-species spatial rho.",
+            "supported": "At the observation-strength-matched k=4 setting, 0/100 equal-structure replicates reached the observed D-rho association; across all 150 diagnostic replicates, 1 reached or exceeded it. This argues against a simple D-dependent measurement-opportunity explanation under this linear-gradient process family, but does not exclude other equal-strength spatial processes.",
             "not_supported": [
                 "a confirmatory test of the D-spatial mechanism",
                 "proof that high-D species are disproportionately geographically partitioned under every possible spatial process",
