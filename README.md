@@ -2,13 +2,14 @@
 
 This repository contains the current **New Phytologist** manuscript and reproducible analysis for a comparative study of within-species flower-colour variation.
 
-The study asks three linked questions:
+The study asks four linked questions:
 
-1. Can repeated community-science photographs recover a reproducible species-level flower-colour phenotype?
-2. Does continuous within-species colour displacement repeatedly align along a common achromatic–chromatic axis across species?
-3. Is the amount of within-species colour diversity associated with stronger geographic colour organization?
+1. Can repeated community-science photographs recover a reproducible species-wide flower-colour distribution?
+2. When a species is colour-variable across its range, does that variation coexist locally or is it partitioned among geographic localities?
+3. Does geographic colour turnover contain only distance/history structure, or also a nonredundant environment-associated component?
+4. Does continuous within-species colour displacement repeatedly align along a common achromatic–chromatic direction?
 
-The active manuscript keeps measurement validation, prospective confirmation, geographic structure, and environmental follow-up analyses as distinct inferential layers.
+The active manuscript keeps measurement validation, geographic allocation of ITV, spatial-process decomposition and prospective phenotype-space confirmation as distinct inferential layers.
 
 ## Repository scope
 
@@ -28,7 +29,7 @@ This repository is the paper-facing FCP analysis surface. The generalized trait/
 
 ## Current evidence surface
 
-The manuscript uses high-depth, species-level repeated photographs with location-blind colour measurement and observer-disjoint validation. Four-state diversity is summarized by Gini–Simpson D; a finite-sample-corrected sensitivity leaves species rankings and the main D–spatial conclusions essentially unchanged. A species-disjoint prospective cohort tests a pre-frozen white-versus-nonwhite colour-space axis under a construction-preserving null. Secondary evidence is bounded but now spans mechanism layers: published *S. littorea* RNA-seq/HPLC provides a quantitative F3h1/Myb1a anchor for one PAL system, PAL/WAL persistence tables provide a frequency contrast, and an observer-sensitive BIO5 signal does not transport as a common cross-cohort rule. The prospective cohort uses new species and photographs but remains within the same iNaturalist source and measurement system, so it is not an independent-source replication.
+The manuscript uses high-depth, species-level repeated photographs with location-blind colour measurement and observer-disjoint validation. Its strongest current ecological pattern is **distributed polymorphism**: at a fixed 50-km scale, nearby conspecific observations are less colour-diverse than expected from each species' exact range-wide colour composition in discovery, validation and the third cohort. This persists after excluding same-observer pairs, removing white records and using continuous nine-colour distances. Continuous colour turnover contains a larger IBD-like component and a smaller BIO5-associated phenotypic IBE-like residual, but the latter fails stricter background/observer controls and is not treated as local adaptation. Separately, a species-disjoint prospective cohort confirms excess alignment with a pre-frozen achromatic–chromatic axis under a construction-preserving null. The prospective cohort remains within the same iNaturalist source and measurement system, so it is not an independent-source replication.
 
 The 42,111-species metadata frame is an **opportunity frame**, not a denominator for global polymorphism prevalence. Claims are controlled by the frozen machine-readable results, protocols, claim ledger, and data-lineage map linked above.
 
