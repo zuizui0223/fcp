@@ -443,7 +443,7 @@ Sampled photographic span is not true biological range size.
 
 ## S8. Bounded secondary mechanism evidence
 
-These analyses occur after the main measurement, confirmation and spatial results. They constrain biological interpretation but do not upgrade the prospective H2 test or provide a direct molecular bridge to the cross-species H2 geometry.
+This section deliberately houses evidence that is **not part of the main empirical Results spine**. The *Silene littorea* transcriptomic/HPLC evidence is published work used as mechanistic context, whereas the PAL/WAL frequency comparison is the present study's descriptive reanalysis of published tables. Main text cites their bounded interpretation in Discussion only. Neither layer upgrades the prospective H2 test or provides a direct molecular bridge to the cross-species H2 geometry.
 
 ### Secondary *Silene littorea* molecular anchor
 
