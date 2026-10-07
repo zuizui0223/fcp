@@ -486,6 +486,78 @@ def cohort_analysis(d: pd.DataFrame, cohort: str, climate_pca: dict, soil_pca: d
     }, df
 
 
+def missingness_audit(d: pd.DataFrame, cohort: str) -> dict:
+    """Describe complete-case attrition without changing frozen eligibility."""
+    colour_cols = THIRD_COLS if cohort == "third" else LEGACY_COLS
+    soil_cols = [f"soil_{x}" for x in SOIL]
+    components = {
+        "climate": CLIMATE,
+        "soil": soil_cols,
+        "elevation": ["elevation_m"],
+        "coordinates": ["latitude", "longitude"],
+        "flower_colour": colour_cols,
+    }
+    mask = {}
+    for name, columns in components.items():
+        mask[name] = np.isfinite(d[columns].to_numpy(float)).all(axis=1)
+    full = np.logical_and.reduce(list(mask.values()))
+    src_counts = d.groupby("inat_taxon_id").size()
+    full_counts = pd.Series(full, index=d.index).groupby(d["inat_taxon_id"]).sum()
+    retained = set(full_counts[full_counts >= 40].index.tolist())
+    source_species = set(src_counts.index.tolist())
+    if not retained.issubset(source_species):
+        raise RuntimeError("complete species not subset of source species")
+
+    # Compare diversity and latitude for retained versus excluded species.
+    traits = []
+    for taxon, g in d.groupby("inat_taxon_id", sort=True):
+        counts = g["morph"].value_counts()
+        probabilities = np.array(
+            [counts.get(m, 0) / len(g) for m in MORPHS], dtype=float
+        )
+        traits.append({
+            "taxon": int(taxon),
+            "retained": bool(taxon in retained),
+            "D": float(1 - np.sum(probabilities ** 2)),
+            "absolute_latitude": float(np.nanmedian(
+                np.abs(pd.to_numeric(g["latitude"], errors="coerce").to_numpy(float))
+            )),
+        })
+    traits = pd.DataFrame(traits)
+    by_retention = {}
+    for label, subset in [("retained", traits[traits.retained]),
+                          ("excluded", traits[~traits.retained])]:
+        by_retention[label] = {
+            "n_species": int(len(subset)),
+            "median_D": float(subset["D"].median()) if len(subset) else None,
+            "median_absolute_latitude": float(subset["absolute_latitude"].median())
+                if len(subset) else None,
+        }
+
+    return {
+        "cohort": cohort,
+        "n_source_species": int(len(source_species)),
+        "n_source_rows": int(len(d)),
+        "n_complete_rows": int(np.count_nonzero(full)),
+        "complete_row_fraction": float(np.mean(full)),
+        "n_retained_species_min40_complete": int(len(retained)),
+        "retained_species_fraction": float(len(retained) / len(source_species)),
+        "block_valid_row_counts": {
+            name: int(np.count_nonzero(valid)) for name, valid in mask.items()
+        },
+        "block_valid_row_fractions": {
+            name: float(np.mean(valid)) for name, valid in mask.items()
+        },
+        "feature_missing_row_counts": {
+            col: int(np.count_nonzero(~np.isfinite(
+                pd.to_numeric(d[col], errors="coerce").to_numpy(float)
+            )))
+            for col in CLIMATE + soil_cols + ["elevation_m"]
+        },
+        "species_comparison": by_retention,
+    }
+
+
 def pca_summary(pca: dict) -> dict:
     k = pca["k95"]
     pcs = []
@@ -541,17 +613,46 @@ def main() -> int:
         d = add_pca_scores(d, combined_cols, combined_pca, "abiotic")
         enriched[cohort] = d
 
+    coverage = {
+        cohort: missingness_audit(d, cohort) for cohort, d in enriched.items()
+    }
     disc, ddf = cohort_analysis(enriched["discovery"], "discovery", climate_pca, soil_pca, combined_pca)
     val, vdf = cohort_analysis(enriched["validation"], "validation", climate_pca, soil_pca, combined_pca)
     third, tdf = cohort_analysis(enriched["third"], "third", climate_pca, soil_pca, combined_pca)
+
+    min_species_gate = 200
+    gate_passed = all(
+        item["n_retained_species_min40_complete"] >= min_species_gate
+        for item in coverage.values()
+    )
+    if any(
+        coverage[k]["n_retained_species_min40_complete"] != n
+        for k, n in (("discovery", disc["n_species"]),
+                     ("validation", val["n_species"]),
+                     ("third", third["n_species"]))
+    ):
+        raise RuntimeError("coverage diagnostics disagree with analysis cohort sizes")
 
     A_names = ["distance", "latitude", "elevation", "climate", "soil"]
     B_names = ["distance", "latitude", "elevation", "abiotic"]
     result = {
         "schema": "fcp_full_gradient_partition_posthoc_v1",
         "date_jst": "2026-10-07",
-        "status": "complete_full_geographic_climate_soil_decomposition",
+        "status": ("complete_full_geographic_climate_soil_decomposition"
+                   if gate_passed else "complete_coverage_limited_diagnostic"),
         "confirmatory_decisions_changed": False,
+        "coverage_gate": {
+            "minimum_species_per_cohort": min_species_gate,
+            "passed": bool(gate_passed),
+            "decision": ("COMPLETE_CASE_SCOPE_ELIGIBLE"
+                         if gate_passed else "HOLD_SOIL_COMPLETE_CASE_REPRESENTATIVENESS"),
+            "interpretation_ceiling": (
+                "post hoc complete-case pattern only; do not claim a general "
+                "climate/soil/latitude/elevation absence or a replicated "
+                "population-wide null until coverage is resolved"
+            ) if not gate_passed else "post hoc observational associations only",
+            "by_cohort": coverage,
+        },
         "environmental_sources": {
             "climate": "WorldClim 2.1 BIO1-BIO19 + mean monthly solar radiation",
             "elevation": "WorldClim 2.1 10-minute elevation",
@@ -622,6 +723,9 @@ def main() -> int:
     out = args.outdir
     out.mkdir(parents=True, exist_ok=True)
     pd.concat([ddf, vdf, tdf], ignore_index=True).to_csv(out / "species_full_gradient_metrics.csv", index=False)
+    (out / "coverage_audit.json").write_text(
+        json.dumps(result["coverage_gate"], indent=2) + "\n", encoding="utf-8"
+    )
     (out / "result.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(result, indent=2))
     return 0
