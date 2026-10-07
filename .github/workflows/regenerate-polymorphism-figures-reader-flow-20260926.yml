@@ -9,6 +9,9 @@ on:
       - tests/test_make_polymorphism_manuscript_figures.py
       - docs/POLYMORPHISM_FIGURE_PLAN_20260918.md
       - docs/POLYMORPHISM_MANUSCRIPT_NEW_PHYTOLOGIST.md
+      - results/polymorphism_distributed_polymorphism_posthoc_20261007/result.json
+      - results/polymorphism_distributed_polymorphism_robustness_20261007/result.json
+      - results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json
       - .github/workflows/regenerate-polymorphism-figures-reader-flow-20260926.yml
   workflow_dispatch:
 
