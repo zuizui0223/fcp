@@ -32,7 +32,7 @@ EXPECTED_SPECIES = 363
 EXPECTED_OBS_MEAN_RHO = 0.025482606069841617
 EXPECTED_OBS_D_RHO = 0.10160084472811265
 MASTER_SEED = 2026100701
-DEFAULT_DESIGN = {4.0: 8, 6.0: 4, 10.0: 4}
+DEFAULT_DESIGN = {4.0: 200, 6.0: 100, 10.0: 100}
 
 
 def file_sha256(path: Path) -> str:
@@ -125,6 +125,7 @@ def stable_seed(species: str, k: float, replicate: int) -> int:
 
 def impose_equal_structure(
     colours: np.ndarray,
+    colour_order: np.ndarray,
     geo_pair: np.ndarray,
     spatial_score: np.ndarray,
     *,
@@ -132,13 +133,10 @@ def impose_equal_structure(
     k: float,
     replicate: int,
 ) -> float:
-    jsd = pairwise_jsd_matrix(colours)
-    phenotype_score = colour_axis(jsd)
     rng = np.random.default_rng(stable_seed(species, k, replicate))
     latent = spatial_score + float(k) * rng.standard_normal(len(spatial_score))
 
     position_order = np.argsort(latent, kind="stable")
-    colour_order = np.argsort(phenotype_score, kind="stable")
     assigned = np.empty_like(colours)
     assigned[position_order] = colours[colour_order]
 
@@ -189,6 +187,7 @@ def main() -> int:
         cache[int(taxon)] = {
             "species": species,
             "colours": colours,
+            "colour_order": np.argsort(colour_axis(jsd), kind="stable"),
             "geo_pair": geo_pair,
             "spatial_score": spatial_axis(lat, lon),
         }
@@ -209,6 +208,7 @@ def main() -> int:
                 item = cache[int(row.inat_taxon_id)]
                 rhos.append(impose_equal_structure(
                     item["colours"],
+                    item["colour_order"],
                     item["geo_pair"],
                     item["spatial_score"],
                     species=item["species"],
@@ -235,6 +235,7 @@ def main() -> int:
             "mean_spearman_D_rho": float(g["spearman_D_rho"].mean()),
             "max_spearman_D_rho": float(g["spearman_D_rho"].max()),
             "replicates_at_or_above_observed": int(g["exceeds_observed_D_rho"].sum()),
+            "empirical_upper_exceedance_fraction": float(g["exceeds_observed_D_rho"].mean()),
         })
 
     out = args.outdir
@@ -263,6 +264,8 @@ def main() -> int:
             "k_interpretation": "Larger k adds more noise and therefore weaker common spatial ordering.",
             "summaries": summaries,
             "all_replicates_below_observed_D_rho": bool((~sims["exceeds_observed_D_rho"]).all()),
+            "total_replicates": int(len(sims)),
+            "total_replicates_at_or_above_observed": int(sims["exceeds_observed_D_rho"].sum()),
         },
         "interpretation": {
             "supported": "Under this linear-gradient equal-structure diagnostic, giving every validation species the same ordering rule does not reproduce the observed positive cross-species association between species-wide sampled colour-state diversity D and within-species spatial rho.",
