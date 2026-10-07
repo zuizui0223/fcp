@@ -40,7 +40,7 @@ The prospective cohort is species-disjoint but was drawn from the **same iNatura
 
 The distributed-polymorphism analyses are explicitly post hoc, although they reproduce across three species-disjoint cohorts and multiple falsification tests. They establish **geographic partitioning of phenotype variation**, not local adaptation. The photographs do not measure fitness, neutral population structure, reciprocal-transplant performance or gene flow, so spatially varying selection cannot be separated from drift, dispersal limitation, colonisation history or phenotypic plasticity.
 
-The prospective achromatic–chromatic test remains species-disjoint but within the same iNaturalist opportunity universe and measurement system. The coarse white state is exposure-coupled rather than artifact-cleared. The BIO5 IBE-like residual is technically bounded and is not used as causal evidence.
+The prospective achromatic–chromatic test remains species-disjoint but within the same iNaturalist opportunity universe and measurement system. The coarse white state is exposure-coupled rather than artifact-cleared: the direct near-clip control gave OR = **1.444**, and the frozen executable validity state remained **INDETERMINATE** after high-clip exclusion narrowly missed its vector-retention gate. The BIO5 IBE-like residual is technically bounded and is not used as causal evidence.
 
 The manuscript is accompanied by five main figures, one data-provenance and inferential-necessity table, a frozen claim ledger, machine-readable prospective results and Supporting Information that records the chain of custody from pre-opening selection through the terminal prospective test.
 
