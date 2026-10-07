@@ -183,40 +183,62 @@ The measurement gate is described in the legend/text rather than as an additiona
 
 ---
 
-## Figure 5 — Spatial organization accompanies D while simple explanations fail
+## Figure 5 — Species-wide flower-colour variation is geographically partitioned
 
-### Panel A — species-wide sampled colour diversity D tracks geographic organization
+This is now the main ecological figure.
 
-This is the positive biological result and receives the widest panel in the three-panel layout. D summarizes overall sampled four-state diversity across retained observations; it is not a within-population polymorphism measure.
+### Panel A — local diversity is depleted relative to species-wide composition
 
-Plot the frozen observed partial correlations against their geometry-preserving null intervals:
+Show the equal-species mean four-state pairwise diversity at the 50-km primary scale as species-wide versus local, or equivalently show local-depletion effect sizes with matched-null intervals.
 
-- discovery, span + clear technical-failure adjusted: partial rho = **0.1266367**, p = **0.007**;
-- validation, span + clear technical-failure adjusted: partial rho = **0.0992877**, p = **0.025**;
-- validation matched flower-minus-background: partial rho = **0.1162411**, p = **0.010**.
+Primary results:
 
-The reporting source is `results/polymorphism_spatial_organization_clue_20260918/result.json`, which copies previously frozen Step-8/Step-9 values without running a new biological analysis.
+- discovery: n = **166**, mean depletion = **0.02053**, p = **0.005**;
+- validation: n = **181**, mean depletion = **0.01867**, p = **0.005**;
+- third cohort: n = **204**, mean depletion = **0.01468**, p = **0.005**.
 
-### Panel B — no detectable broad tree-wide conservation
+A small inset or annotation may state that the same direction is supported at 25, 100 and 250 km in all three cohorts.
 
-Validation-cohort Blomberg K:
+The null preserves each species' coordinates and exact colour-state composition, so the panel directly asks whether species-wide variation is geographically allocated rather than locally mixed at random.
 
-The three tree-placement scenarios are displayed as **unconnected discrete points**; no line joins S1–S3 because they are alternative frozen scenarios, not an ordered trajectory.
+### Panel B — falsification tests preserve distributed polymorphism
 
-- S1: K = **0.0710190**, p = **0.2716**;
-- S2: K = **0.0601476**, p = **0.4134**;
-- S3: K = **0.0707577**, p = **0.2674**.
+At 50 km plot mean local-depletion effects for three representations/controls in each cohort:
 
-Annotate that 0/3 raw-D scenarios had p < 0.05; label this as a bounded non-support result, not an equivalence test.
+1. **different-observer pairs only**
+   - discovery 0.01998, p = 0.005;
+   - validation 0.01690, p = 0.005;
+   - third 0.01457, p = 0.005.
 
-### Panel C — discovery span effect collapses in validation
+2. **nonwhite-only three-state analysis**
+   - discovery 0.01947, p = 0.005;
+   - validation 0.00729, p = 0.025;
+   - third 0.00891, p = 0.040.
 
-- discovery: rho = **0.1798786**, p = **0.00089996**;
-- validation: rho = **-0.0025855**, p = **0.9586021**.
+3. **continuous nine-colour JSD**
+   - discovery 0.01518, p = 0.005;
+   - validation 0.01366, p = 0.005;
+   - third 0.01301, p = 0.005.
 
-Mandatory boundary:
+Calendar-quarter-stratified and cross-year controls are added to SI once terminal.
 
-**The D–spatial association is structural rather than causal; D can combine local coexistence with among-location differentiation; H3a is not an equivalence test; sampled span is not true biological range size.**
+### Panel C — geographic distance dominates a smaller BIO5-associated residual
+
+Compare equal-species mean partial-rank effects in the continuous nine-colour analysis:
+
+| Cohort | IBD-like: colour ~ geography \| BIO5 | IBE-like: colour ~ BIO5 \| geography |
+|---|---:|---:|
+| Discovery | **0.02760**, p=.005 | **0.00925**, p=.005 |
+| Validation | **0.02414**, p=.005 | **0.00826**, p=.010 |
+| Third | **0.02225**, p=.005 | **0.01019**, p=.005 |
+
+The panel must visually make clear that IBD-like > IBE-like in all three cohorts.
+
+Mandatory interpretation boundary:
+
+**The BIO5 component is phenotypic and technically bounded: validation flower-minus-background and strict same-observer sensitivities do not support a flower-specific, observer-independent environmental effect. Neither component establishes local adaptation.**
+
+H3 phylogenetic and sampled-span panels move to Supporting Information.
 
 ---
 
