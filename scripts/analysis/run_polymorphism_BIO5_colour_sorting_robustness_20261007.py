@@ -119,15 +119,43 @@ def vertex_null(
 ) -> tuple[float, np.ndarray]:
     n = distance.shape[0]
     u, v = np.triu_indices(n, k=1)
-    obs = partial_rank_vectors(geo_pair, env_pair, distance[u, v])
+    y = distance[u, v]
+    obs = partial_rank_vectors(geo_pair, env_pair, y)
     if not np.isfinite(obs):
         return np.nan, np.full(PERMUTATIONS, np.nan)
 
+    # Rank once: a vertex permutation only reorders the same pairwise colour
+    # values, so their tie-aware ranks can be permuted directly.
+    gr = rankdata(geo_pair, method="average")
+    er = rankdata(env_pair, method="average")
+    yr = rankdata(y, method="average")
+    gc = gr - gr.mean()
+    g2 = float(np.dot(gc, gc))
+    ec = er - er.mean()
+    eb = 0.0 if g2 <= 1e-15 else float(np.dot(gc, ec) / g2)
+    eres = ec - eb * gc
+    enorm = float(np.linalg.norm(eres))
+    if enorm <= 1e-14:
+        return np.nan, np.full(PERMUTATIONS, np.nan)
+
+    rank_matrix = np.zeros_like(distance, dtype=float)
+    rank_matrix[u, v] = yr
+    rank_matrix[v, u] = yr
+
     rng = np.random.default_rng(stable_seed("vertex", cohort, taxon, representation))
+    perms = np.stack([rng.permutation(n) for _ in range(PERMUTATIONS)])
     null = np.empty(PERMUTATIONS, float)
-    for i in range(PERMUTATIONS):
-        p = rng.permutation(n)
-        null[i] = partial_rank_vectors(geo_pair, env_pair, distance[p[u], p[v]])
+    batch = 32
+    for start in range(0, PERMUTATIONS, batch):
+        stop = min(PERMUTATIONS, start + batch)
+        pp = perms[start:stop]
+        vals = rank_matrix[pp[:, u], pp[:, v]]
+        center = vals - vals.mean(axis=1, keepdims=True)
+        beta = np.zeros(stop - start) if g2 <= 1e-15 else (center @ gc) / g2
+        resid = center - beta[:, None] * gc
+        norm = np.linalg.norm(resid, axis=1)
+        num = resid @ eres
+        null[start:stop] = np.where(norm <= 1e-14, 0.0, num / (norm * enorm))
     return obs, null
 
 
@@ -153,10 +181,27 @@ def same_observer_pair_test(
     if not np.isfinite(observed):
         return np.nan, np.full(PERMUTATIONS, np.nan), int(mask.sum())
 
+    # Pair-level permutation preserves the observed same-observer colour-
+    # difference distribution while breaking its alignment to each observer's
+    # environmental/geographic pair.
+    gr = rankdata(geo, method="average")
+    er = rankdata(env, method="average")
+    yr = rankdata(colour, method="average")
+    gc = gr - gr.mean()
+    g2 = float(np.dot(gc, gc))
+    ec = er - er.mean()
+    eb = 0.0 if g2 <= 1e-15 else float(np.dot(gc, ec) / g2)
+    eres = ec - eb * gc
+    enorm = float(np.linalg.norm(eres))
     rng = np.random.default_rng(stable_seed("same_observer_pairs", cohort, taxon))
     null = np.empty(PERMUTATIONS, float)
     for i in range(PERMUTATIONS):
-        null[i] = partial_rank_vectors(geo, env, colour[rng.permutation(len(colour))])
+        yc = yr[rng.permutation(len(yr))]
+        yc = yc - yc.mean()
+        yb = 0.0 if g2 <= 1e-15 else float(np.dot(gc, yc) / g2)
+        yres = yc - yb * gc
+        ynorm = float(np.linalg.norm(yres))
+        null[i] = 0.0 if ynorm <= 1e-14 or enorm <= 1e-14 else float(np.dot(eres, yres) / (enorm * ynorm))
     return observed, null, int(mask.sum())
 
 
