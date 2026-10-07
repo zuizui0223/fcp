@@ -14,7 +14,9 @@ from scipy.stats import rankdata, spearmanr
 
 EARTH_RADIUS_KM = 6371.0088
 MORPHS = ["white", "yellow_orange", "red_pink", "blue_purple"]
-COARSE = ["colour_white", "colour_yellow_orange", "colour_red_pink", "colour_blue_purple"]
+BIO = ["white", "yellow", "orange", "red", "pink", "magenta", "purple", "blue", "bronze"]
+FRACTIONS = [f"flower_fraction_{x}" for x in BIO]
+COARSE = ["coarse_white", "coarse_yellow_orange", "coarse_red_pink", "coarse_blue_purple"]
 THIRD_SHA256 = "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
 VERTEX_PERMUTATIONS = 199
 HET_PERMUTATIONS = 999
@@ -84,6 +86,28 @@ def D_from_morphs(morph: pd.Series) -> float:
     c = morph.astype(str).value_counts()
     p = np.array([c.get(m, 0) / len(morph) for m in MORPHS], float)
     return float(1.0 - np.sum(p * p))
+
+
+def add_coarse_vectors_from_fractions(d: pd.DataFrame) -> pd.DataFrame:
+    """Reconstruct the frozen four biological colour groups from nine palette fractions."""
+    x = d.copy()
+    mass = x[FRACTIONS].to_numpy(float).sum(axis=1)
+    if np.any(~np.isfinite(mass)) or np.any(mass <= 0):
+        raise RuntimeError("invalid third-cohort flower fractions")
+    # The third cohort stores the normalized nine biological palette fractions
+    # rather than the legacy pre-grouped colour_* vectors.
+    x["coarse_white"] = x["flower_fraction_white"]
+    x["coarse_yellow_orange"] = (
+        x["flower_fraction_yellow"] + x["flower_fraction_orange"] + x["flower_fraction_bronze"]
+    )
+    x["coarse_red_pink"] = (
+        x["flower_fraction_red"] + x["flower_fraction_pink"] + x["flower_fraction_magenta"]
+    )
+    x["coarse_blue_purple"] = x["flower_fraction_blue"] + x["flower_fraction_purple"]
+    cmass = x[COARSE].to_numpy(float).sum(axis=1)
+    if np.max(np.abs(cmass - mass)) > 1e-10:
+        raise RuntimeError("coarse reconstruction does not preserve biological palette mass")
+    return x
 
 
 def residualize_rank(y: np.ndarray, covariates: list[np.ndarray]) -> np.ndarray:
@@ -225,13 +249,13 @@ def main() -> int:
 
     d = pd.read_csv(args.third, low_memory=False)
     required = {"inat_taxon_id", "species", "photo_id", "observer_id", "latitude", "longitude",
-                "morph", "global_classifiable", *COARSE}
+                "morph", "global_classifiable", *FRACTIONS}
     miss = sorted(required - set(d.columns))
     if miss:
         raise RuntimeError(f"missing required columns: {miss}")
 
     keep = as_bool(d["global_classifiable"]) & d["morph"].isin(MORPHS)
-    d = d.loc[keep].copy()
+    d = add_coarse_vectors_from_fractions(d.loc[keep].copy())
     counts = d.groupby("inat_taxon_id").size()
     d = d.loc[d["inat_taxon_id"].isin(counts[counts >= 40].index)].copy()
     d = d.sort_values(["inat_taxon_id", "photo_id"], kind="stable").reset_index(drop=True)
@@ -242,9 +266,9 @@ def main() -> int:
     srad_paths = [args.srad_dir / f"wc2.1_10m_srad_{m:02d}.tif" for m in range(1, 13)]
     d["srad"] = sample_srad_mean(srad_paths, lon, lat)
 
-    flower_cols = sorted([c for c in d.columns if c.startswith("palette_count_")])
-    bg_cols = [f"background_{c}" for c in flower_cols]
-    have_background = bool(flower_cols) and all(c in d.columns for c in bg_cols)
+    flower_cols = FRACTIONS
+    bg_cols = []
+    have_background = False
 
     species_table = []
     sorting_rows = []
@@ -280,14 +304,10 @@ def main() -> int:
         srow["coarse_four_state"] = obs
         nulls["coarse_four_state"].append(nul)
 
-        if flower_cols:
-            flower = pairwise_jsd(g[flower_cols].to_numpy(float))
-            obs, nul = partial_sorting_with_null(flower, geo_pair, bio_pair, seed_parts=("flower", int(taxon)))
-            srow["flower_palette"] = obs
-            nulls["flower_palette"].append(nul)
-        else:
-            srow["flower_palette"] = np.nan
-            nulls["flower_palette"].append(np.full(VERTEX_PERMUTATIONS, np.nan))
+        flower = pairwise_jsd(g[flower_cols].to_numpy(float))
+        obs, nul = partial_sorting_with_null(flower, geo_pair, bio_pair, seed_parts=("flower", int(taxon)))
+        srow["flower_palette"] = obs
+        nulls["flower_palette"].append(nul)
 
         if have_background:
             flower = pairwise_jsd(g[flower_cols].to_numpy(float))
@@ -366,6 +386,8 @@ def main() -> int:
         },
         "technical_sensitivity_status": {
             "flower_palette_columns": int(len(flower_cols)),
+            "flower_palette_representation": "nine frozen biological flower_fraction_* coordinates",
+            "coarse_reconstruction": "white; yellow+orange+bronze; red+pink+magenta; blue+purple",
             "matched_background_available": bool(have_background),
             "sensitivities_cannot_rescue_primary": True,
         },
