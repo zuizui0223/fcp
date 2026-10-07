@@ -334,9 +334,9 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
         ):
             assert token in manuscript
 
-    assert "heterogeneous ecological sorting tendency" in text
-    assert "not a single temperature rule shared by all species" in text
-    assert "failed the frozen cross-cohort transport rule" in text
+    assert "candidate correlate of spatial colour turnover" in text
+    assert "not an established cause of the recurrent phenotype-space axis" in text
+    assert "does not support a common cross-cohort BIO5 rule" in text
 
 
 
