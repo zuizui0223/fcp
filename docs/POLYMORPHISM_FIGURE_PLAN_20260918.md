@@ -185,9 +185,9 @@ The measurement gate is described in the legend/text rather than as an additiona
 
 ## Figure 5 — Spatial organization accompanies D while simple explanations fail
 
-### Panel A — D tracks within-species geographic organization
+### Panel A — species-wide sampled colour diversity D tracks geographic organization
 
-This is the positive biological result and receives the widest panel in the three-panel layout.
+This is the positive biological result and receives the widest panel in the three-panel layout. D summarizes overall sampled four-state diversity across retained observations; it is not a within-population polymorphism measure.
 
 Plot the frozen observed partial correlations against their geometry-preserving null intervals:
 
@@ -216,7 +216,7 @@ Annotate that 0/3 raw-D scenarios had p < 0.05; label this as a bounded non-supp
 
 Mandatory boundary:
 
-**The D–spatial association is structural rather than causal; H3a is not an equivalence test; sampled span is not true biological range size.**
+**The D–spatial association is structural rather than causal; D can combine local coexistence with among-location differentiation; H3a is not an equivalence test; sampled span is not true biological range size.**
 
 ---
 

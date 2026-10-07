@@ -384,7 +384,34 @@ Validation-cohort uniform ambiguity-endpoint stress tests remain supported:
 
 Interpretation boundary:
 
-Greater D is associated with stronger within-species geographic colour organization. This is a replicated structural correlate and mechanistic clue, not evidence that geographic organization causes D or that any particular climate, pollinator, demographic, gene-flow or selection mechanism has been identified.
+D summarizes species-wide sampled four-state colour diversity and can combine local coexistence with differentiation among sampled locations. Greater D is associated with stronger within-species geographic colour organization in both species-disjoint cohorts. This is a replicated structural correlate, not a variance partition and not evidence that geographic organization causes D or that any particular climate, pollinator, demographic, gene-flow or selection mechanism has been identified. The frozen vertex-permutation null tests geographic organization against an unstructured assignment; an equal-strength spatial-process measurement-opportunity question is treated separately as a post hoc diagnostic below.
+
+### Post hoc equal-structure measurement-opportunity diagnostic
+
+The frozen D–spatial test does not ask whether species with different D values would yield different measured spatial rho if their **true spatial ordering strength were held constant**. We therefore added a post-outcome diagnostic on the 363-species validation cohort. This diagnostic does not alter any frozen decision.
+
+The diagnostic first reproduced the frozen validation quantities directly from the photo-level measured table:
+
+- mean species spatial rho = **0.0254826061**;
+- Spearman(D, species spatial rho) = **0.1016008447**.
+
+For every species, the diagnostic then preserved the observed coordinates and the exact multiset of observed four-state colour vectors. Colour vectors were ordered by the first classical-MDS coordinate of their pairwise Jensen–Shannon dissimilarities and assigned along the first spatial principal axis plus deterministic Gaussian rank noise. The same noise parameter k was applied to every species within a replicate; larger k gives weaker common spatial ordering.
+
+| Equal-structure setting | Replicates | Mean of species-mean rho | Mean D–rho | D–rho range | Replicates >= observed D–rho |
+|---|---:|---:|---:|---:|---:|
+| k = 4 | 100 | 0.02890 | -0.0359 | -0.1454 to +0.05371 | 0 |
+| k = 6 | 25 | 0.01350 | -0.0197 | -0.07924 to +0.04803 | 0 |
+| k = 10 | 25 | 0.00423 | -0.0178 | -0.1592 to +0.1081 | 1 |
+
+The **k = 4** setting is the primary diagnostic comparison because its mean spatial rho (0.02890) is closest to the observed validation mean (0.02548). None of its 100 replicates reached the observed cross-species D–rho of 0.1016. Across all sensitivity settings, one of 150 replicates reached or exceeded the observed association.
+
+This result argues against the narrow explanation that the observed positive D–spatial association arises simply because different D values create different measurement opportunity under this linear-gradient equal-structure process. It is **not** a preregistered test, does not justify a universal claim that high-D species are “disproportionately geographically partitioned”, and does not cover patchy, threshold, multimodal or environmentally warped spatial structures. The frozen discovery/validation D–spatial decisions remain unchanged.
+
+Canonical implementation and receipt:
+- `scripts/analysis/run_polymorphism_D_spatial_equal_structure_posthoc_20261007.py`;
+- `results/polymorphism_D_spatial_equal_structure_posthoc_20261007/result.json`.
+
+The reporting receipt records the exact measured-table SHA256, canonical workflow run **37564518153**, artifact **11457707244**, artifact digest and the fact that confirmatory decisions are unchanged.
 
 ## S6. H3a broad phylogenetic-signal boundary
 
@@ -443,7 +470,7 @@ Sampled photographic span is not true biological range size.
 
 ## S8. Bounded secondary mechanism evidence
 
-These analyses occur after the main measurement, confirmation and spatial results. They constrain biological interpretation but do not upgrade the prospective H2 test or provide a direct molecular bridge to the cross-species H2 geometry.
+This section deliberately houses evidence that is **not part of the main empirical Results spine**. The *Silene littorea* transcriptomic/HPLC evidence is published work used as mechanistic context, whereas the PAL/WAL frequency comparison is the present study's descriptive reanalysis of published tables. Main text cites their bounded interpretation in Discussion only. Neither layer upgrades the prospective H2 test or provides a direct molecular bridge to the cross-species H2 geometry.
 
 ### Secondary *Silene littorea* molecular anchor
 

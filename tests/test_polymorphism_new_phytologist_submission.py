@@ -14,6 +14,7 @@ HIGHLIGHT = ROOT / "results" / "polymorphism_h2_third_cohort_highlight_validity_
 ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md"
 D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
 D_FINITE = ROOT / "results" / "polymorphism_D_finite_sample_sensitivity_20260928" / "result.json"
+D_EQUAL_STRUCTURE = ROOT / "results" / "polymorphism_D_spatial_equal_structure_posthoc_20261007" / "result.json"
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
 WHITE_ENV_OBSERVER = ROOT / "results" / "polymorphism_white_environment_observer_sensitivity_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
@@ -74,9 +75,9 @@ def test_itv_framing_and_reader_chronology_are_explicit() -> None:
 
     for token in (
         "Species means can erase the structure of intraspecific trait variation",
-        "how much",
-        "which phenotypic directions",
-        "how the variants are arranged geographically",
+        "overall sampled state diversity",
+        "phenotypic directions of within-species displacement",
+        "geographic arrangement of those states",
         "Flower-colour polymorphism is unusually suited to this distributional view",
         "each stage addresses a different inferential failure mode",
         "Phenotype-space generality without a universal geographic map",
@@ -328,9 +329,9 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
         ):
             assert token in manuscript
 
-    assert "Temperature is therefore not supported as a universal cross-species driver" in text
-    assert "some of the within-cohort signal may reflect observer-associated geographic sampling" in text
-    assert "rather than in one universal BIO5 coefficient" in text
+    assert "heterogeneous ecological sorting tendency" in text
+    assert "not a single temperature rule shared by all species" in text
+    assert "failed the frozen cross-cohort transport rule" in text
 
 
 
@@ -447,6 +448,7 @@ def test_silene_molecular_anchor_is_quantitative_and_bounded() -> None:
     import pytest
 
     text = MANUSCRIPT.read_text(encoding="utf-8")
+    supporting = SUPPORTING.read_text(encoding="utf-8")
     molecular = json.loads(SILENE_MOLECULAR.read_text(encoding="utf-8"))
 
     assert molecular["role"].startswith("structured quantitative extraction")
@@ -462,19 +464,27 @@ def test_silene_molecular_anchor_is_quantitative_and_bounded() -> None:
     assert molecular["sequence_evidence"]["consistent_colour_differentiating_SNP_after_expansion"] is False
     assert molecular["derived_synthesis"]["causal_variant_identified"] is False
 
+    # Detailed extraction belongs in SI, not in the main empirical Results.
     for token in (
-        "### Secondary *Silene littorea* molecular-anchor extraction",
-        "### Published molecular data anchor the *Silene* PAL phenotype near F3h1/Myb1a",
-        "F3h1 expression was **49.0×** higher",
-        "**42.2×** higher in light-pink than white buds",
-        "**Myb1a** was **5.1×** higher",
-        "**F3h1 had zero SNPs**",
-        "expanded sequencing of **38 individuals**",
-        "not molecular validation of H2",
-        "The frozen extraction is source-derived, not raw-read reanalysis or replication",
+        "### Secondary *Silene littorea* molecular anchor",
+        "F3h1 dark/white = **49.0×**",
+        "F3h1 light/white = **42.2×**",
+        "Myb1a dark/white = **5.1×**",
+        "expanded sequencing of 38 individuals",
         "10.3389/fpls.2016.00204",
     ):
+        assert token in supporting
+
+    for token in (
+        "Published work provides one mechanistic example rather than a result of the present molecular study",
+        "Casimiro-Soriguer et al. (2016)",
+        "reported >42-fold lower F3h1 expression in white than pigmented buds",
+        "without identifying a simple causal coding mutation",
+    ):
         assert token in text
+
+    assert "### Published molecular data anchor the *Silene* PAL phenotype near F3h1/Myb1a" not in text
+    assert "### Secondary *Silene littorea* molecular-anchor extraction" not in text
 
 
 def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() -> None:
@@ -482,6 +492,7 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
     import pytest
 
     text = MANUSCRIPT.read_text(encoding="utf-8")
+    supporting = SUPPORTING.read_text(encoding="utf-8")
     pal = json.loads((ROOT / "results" / "polymorphism_silene_decoupling_persistence_20260925" / "result.json").read_text(encoding="utf-8"))
     cross = json.loads((ROOT / "results" / "polymorphism_crossspecies_pal_wal_frequency_20260925" / "result.json").read_text(encoding="utf-8"))
 
@@ -491,35 +502,28 @@ def test_secondary_pal_wal_result_and_moricandia_interpretation_are_bounded() ->
     assert cross["WAL"]["numeric_upper_bound_median_percent"] == pytest.approx(0.1)
     assert cross["WAL"]["numeric_upper_bound_max_percent"] == pytest.approx(1.4)
 
+    # Full methods and quantitative reanalysis stay supplementary.
     for token in (
-        "petal anthocyanin-loss (PAL)",
-        "Whole-plant anthocyanin-loss (WAL)",
-        "HPLC-DAD-MS^n tissue profiling",
-        "Within *Silene littorea*, PAL and WAL are not visual labels alone",
-        "cross-system entries retain the source table's phenotype classifications",
-        "median **15.5%**",
-        "median **0.21%**",
-        "### Secondary PAL/WAL persistence reanalysis",
-        "Published pigment-loss frequency tables",
-        "### Biochemically anchored flower-restricted anthocyanin loss reaches higher reported natural frequencies",
-        "median PAL lower bound was **5%**",
-        "median numeric WAL upper bound was **0.1%**",
-        "maintenance filter",
-        "ascertained, heterogeneous literature sample",
-        "Gómez et al. 2020",
-        "Narbona et al. 2026",
-        "Lacey 2026",
+        "### Secondary PAL/WAL maintenance evidence",
+        "HPLC-DAD-MS^n profiling",
+        "15.5%",
+        "0.21%",
+        "lower bound 5%",
+        "numeric upper bound 0.1%",
+        "These analyses are descriptive reanalyses",
+        "no inferential PAL-versus-WAL comparison of D or H2 geometry is estimable",
+    ):
+        assert token in supporting
+
+    for token in (
+        "We additionally reanalysed published PAL/WAL frequency tables from Del Valle et al. (2019)",
+        "full methods, numerical results and ascertainment limits are reported in Supporting Information (Section S8)",
+        "not a direct molecular bridge to the present H2 geometry",
     ):
         assert token in text
 
-    for reference in (
-        "10.1186/s12870-019-2082-6",
-        "10.1038/s41467-020-17875-1",
-        "10.1002/ajb2.70096",
-        "10.1002/ajb2.70106",
-    ):
-        assert reference in text
-
+    assert "### Biochemically anchored flower-restricted anthocyanin loss reaches higher reported natural frequencies" not in text
+    assert "### Secondary PAL/WAL persistence reanalysis" not in text
 
 
 def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
@@ -558,11 +562,7 @@ def test_pal_wal_bridge_is_explicitly_not_estimable() -> None:
     ):
         assert token in supporting
 
-    for token in (
-        "A taxonomy-resolved overlap audit found only **two PAL and two natural-context WAL species**",
-        "No PAL-versus-WAL test of D or H2 geometry was therefore estimable",
-    ):
-        assert token in manuscript
+    assert "not a direct molecular bridge to the present H2 geometry" in manuscript
 
 
 def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_scope() -> None:
@@ -594,13 +594,50 @@ def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> No
         "partial rho = **0.0992877**, p = **0.025**",
         "partial rho = **0.1162411**, p = **0.010**",
         "structural rather than causal",
-        "two-layer ecological question",
+        "not a within-population polymorphism measure",
         "Wessinger & Rausher 2012",
-        "Lacey 2026",
-        "Narbona et al. 2026",
-        "shared pigment-network architecture",
+        "heterogeneous ecological sorting tendency",
+        "Published work provides one mechanistic example",
+        "Supporting Information (Section S8)",
     ):
         assert token in text
+
+
+def test_D_spatial_equal_structure_diagnostic_is_posthoc_and_bounded() -> None:
+    import json
+    import pytest
+
+    result = json.loads(D_EQUAL_STRUCTURE.read_text(encoding="utf-8"))
+    supporting = SUPPORTING.read_text(encoding="utf-8")
+    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
+
+    assert result["status"] == "complete_posthoc_diagnostic"
+    assert result["confirmatory_decisions_changed"] is False
+    assert result["source"]["eligible_species"] == 363
+    assert result["source"]["measured_table_sha256"] == "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+    assert result["observed_reproduction"]["mean_species_rho"] == pytest.approx(0.025482606069841627)
+    assert result["observed_reproduction"]["spearman_D_rho"] == pytest.approx(0.10160084472811265)
+    assert result["simulation"]["primary_diagnostic_k"] == pytest.approx(4.0)
+    k4 = next(x for x in result["simulation"]["summaries"] if x["k"] == 4.0)
+    assert k4["replicates"] == 100
+    assert k4["mean_of_mean_species_rho"] == pytest.approx(0.028901458347453942)
+    assert k4["replicates_at_or_above_observed"] == 0
+    assert result["simulation"]["total_replicates"] == 150
+    assert result["simulation"]["total_replicates_at_or_above_observed"] == 1
+
+    for token in (
+        "Post hoc equal-structure measurement-opportunity diagnostic",
+        "0.0254826061",
+        "0.1016008447",
+        "k = 4",
+        "None of its 100 replicates",
+        "one of 150",
+        "does not justify a universal claim",
+    ):
+        assert token in supporting
+
+    assert "post hoc diagnostic in Supporting Information" in manuscript
+    assert "disproportionately geographically partitioned" not in manuscript.lower()
 
 
 def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> None:
@@ -723,7 +760,7 @@ def test_new_phytologist_explains_and_stress_tests_gini_simpson_D() -> None:
 
     for token in (
         "Gini–Simpson diversity",
-        "probability that two observations belong to different colour states",
+        "probability that two retained observations belong to different colour states",
         "D_{\\mathrm{corr}}",
         "40/39 = 1.0256",
         "### Finite-sample correction does not alter D-based conclusions",

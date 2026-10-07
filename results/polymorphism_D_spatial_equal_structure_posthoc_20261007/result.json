@@ -1,0 +1,79 @@
+{
+  "schema": "fcp_D_spatial_equal_structure_posthoc_reporting_receipt_v1",
+  "date_jst": "2026-10-07",
+  "status": "complete_posthoc_diagnostic",
+  "role": "post_outcome_measurement_opportunity_diagnostic",
+  "confirmatory_decisions_changed": false,
+  "cohort": "species-disjoint validation",
+  "source": {
+    "measured_table_sha256": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "eligible_species": 363,
+    "workflow_run_id": 37564518153,
+    "workflow_head_sha": "ea880aa8cb2a26ebc935860f39afe467ae63330e",
+    "artifact_id": 11457707244,
+    "artifact_name": "polymorphism-D-spatial-equal-structure-posthoc-20261007",
+    "artifact_digest": "sha256:0a6bf08d02f09f75dbf0d0a30492c884a440c3f97c9435e7612f0293eb3b9e8a",
+    "implementation": "scripts/analysis/run_polymorphism_D_spatial_equal_structure_posthoc_20261007.py"
+  },
+  "observed_reproduction": {
+    "mean_species_rho": 0.025482606069841627,
+    "spearman_D_rho": 0.10160084472811265,
+    "matches_frozen_values": true
+  },
+  "simulation": {
+    "design": "Preserve each species' observed coordinates and exact colour-vector multiset; order vectors by first classical-MDS coordinate of pairwise JSD and assign them along the first spatial principal axis plus species-specific deterministic Gaussian noise with the same k for every species.",
+    "master_seed": 2026100701,
+    "k_interpretation": "Larger k adds more noise and therefore weaker common spatial ordering.",
+    "primary_diagnostic_k": 4,
+    "primary_diagnostic_reason": "k=4 gives the closest mean species rho to the observed validation mean among the prespecified diagnostic settings.",
+    "summaries": [
+      {
+        "k": 4,
+        "replicates": 100,
+        "mean_of_mean_species_rho": 0.028901458347453942,
+        "min_spearman_D_rho": -0.14542376655919523,
+        "mean_spearman_D_rho": -0.03585955204947572,
+        "max_spearman_D_rho": 0.053713899145940124,
+        "replicates_at_or_above_observed": 0,
+        "empirical_upper_exceedance_fraction": 0
+      },
+      {
+        "k": 6,
+        "replicates": 25,
+        "mean_of_mean_species_rho": 0.013496313308569752,
+        "min_spearman_D_rho": -0.07923936617747045,
+        "mean_spearman_D_rho": -0.019707377052244436,
+        "max_spearman_D_rho": 0.04803074042667991,
+        "replicates_at_or_above_observed": 0,
+        "empirical_upper_exceedance_fraction": 0
+      },
+      {
+        "k": 10,
+        "replicates": 25,
+        "mean_of_mean_species_rho": 0.004231873022440738,
+        "min_spearman_D_rho": -0.159167843424779,
+        "mean_spearman_D_rho": -0.01775094906713081,
+        "max_spearman_D_rho": 0.10813083713461565,
+        "replicates_at_or_above_observed": 1,
+        "empirical_upper_exceedance_fraction": 0.04
+      }
+    ],
+    "all_replicates_below_observed_D_rho": false,
+    "total_replicates": 150,
+    "total_replicates_at_or_above_observed": 1
+  },
+  "interpretation": {
+    "supported": "At the observation-strength-matched k=4 setting, 0/100 equal-structure replicates reached the observed D-rho association; across all 150 diagnostic replicates, 1 reached or exceeded it. This argues against a simple D-dependent measurement-opportunity explanation under this linear-gradient process family, but does not exclude other equal-strength spatial processes.",
+    "not_supported": [
+      "a confirmatory test of the D-spatial mechanism",
+      "proof that high-D species are disproportionately geographically partitioned under every possible spatial process",
+      "a causal explanation of geographic colour structure"
+    ]
+  },
+  "limitations": [
+    "post hoc diagnostic specified after the observed D-spatial result",
+    "one spatial process family only: a linear principal-axis gradient plus Gaussian rank noise",
+    "does not test patchy, threshold, multimodal or environmentally warped spatial structures",
+    "simulation replicates are diagnostic rather than a preregistered Monte Carlo p-value"
+  ]
+}
