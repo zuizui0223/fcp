@@ -1,0 +1,59 @@
+{
+  "schema": "fcp_BIO5_colour_sorting_robustness_reporting_receipt_v1",
+  "date_jst": "2026-10-07",
+  "role": "posthoc_technical_robustness_audit",
+  "source": {
+    "workflow_run_id": 37612689896,
+    "artifact_id": 11478750307,
+    "artifact_digest": "sha256:e32e4f6ede4021a92fddff1e0cc8369ec9c008d99c6f92f8eea44ea2c887aa07"
+  },
+  "confirmatory_decisions_changed": false,
+  "continuous_nine_colour": {
+    "discovery": {
+      "n_species": 369,
+      "mean_partial_rho": 0.00925022014281929,
+      "p": 0.005
+    },
+    "validation": {
+      "n_species": 363,
+      "mean_partial_rho": 0.00825562350468484,
+      "p": 0.015
+    },
+    "third": {
+      "n_species": 377,
+      "mean_partial_rho": 0.01018762359109971,
+      "p": 0.005
+    },
+    "supported_all_three": true
+  },
+  "flower_minus_background_validation": {
+    "n_species": 363,
+    "mean_partial_rho": -0.0032814778046222556,
+    "p": 0.82,
+    "supported": false
+  },
+  "same_observer_pair": {
+    "discovery": {
+      "n_species": 50,
+      "mean_partial_rho": -0.15380833771140384,
+      "p": 0.995
+    },
+    "validation": {
+      "n_species": 49,
+      "mean_partial_rho": -0.07368957857011912,
+      "p": 0.89
+    },
+    "third": {
+      "n_species": 56,
+      "mean_partial_rho": -0.0633045529634247,
+      "p": 0.83
+    },
+    "supported_all_three": false
+  },
+  "claim_ceiling": "BIO5-associated colour turnover is reproducible in the continuous flower-colour measurements, but current matched-background and same-observer controls do not establish it as flower-specific or observer-independent.",
+  "hard_nonclaims": [
+    "do not call this local adaptation",
+    "do not call BIO5 causal",
+    "do not use this to rescue the failed signed white-versus-BIO5 transport"
+  ]
+}
