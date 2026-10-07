@@ -622,8 +622,7 @@ def main() -> int:
     out = args.outdir
     out.mkdir(parents=True, exist_ok=True)
     pd.concat([ddf, vdf, tdf], ignore_index=True).to_csv(out / "species_full_gradient_metrics.csv", index=False)
-    (out / "result.json").write_text(json.dumps(result, indent=2) + "
-", encoding="utf-8")
+    (out / "result.json").write_text(json.dumps(result, indent=2) + "\\n", encoding="utf-8")
     print(json.dumps(result, indent=2))
     return 0
 
