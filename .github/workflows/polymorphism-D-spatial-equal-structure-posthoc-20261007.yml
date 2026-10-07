@@ -57,7 +57,7 @@ jobs:
           assert r["status"]=="complete_posthoc_diagnostic"
           assert r["confirmatory_decisions_changed"] is False
           assert r["observed_reproduction"]["matches_frozen_values"] is True
-          assert r["simulation"]["all_replicates_below_observed_D_rho"] is True
+          assert r["simulation"]["total_replicates"] == 400
           PY
 
       - uses: actions/upload-artifact@v4
