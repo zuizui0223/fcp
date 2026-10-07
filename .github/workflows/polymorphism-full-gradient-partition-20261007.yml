@@ -123,7 +123,9 @@ jobs:
           assert r["schema"]=="fcp_full_gradient_partition_posthoc_v1"
           assert r["status"]=="complete_full_geographic_climate_soil_decomposition"
           assert r["confirmatory_decisions_changed"] is False
-          assert len(r["environmental_sources"]["soil_properties"])==10
+          assert len(r["environmental_sources"]["soil_source_properties"])==10
+          assert len(r["environmental_sources"]["soil_PCA_features"])==9
+          assert r["environmental_sources"]["soil_available_water_proxy"].startswith("awc =")
           assert r["discovery"]["n_species"] >= 200
           assert r["validation"]["n_species"] >= 200
           assert r["third"]["n_species"] >= 200
