@@ -201,3 +201,40 @@ Even a strong combined abiotic result is not:
 SoilGrids is a modelled global soil product and is not a local soil measurement at the photographed plant. WorldClim elevation/climate are likewise macroenvironmental surfaces.
 
 Pollinator assemblages, herbivory, direct UV-B exposure, land use, demographic history and neutral population-genetic structure remain unmeasured.
+
+
+## Soil coverage and representativeness gate
+
+A minimum of **200 analysed species in each cohort** was defined before the
+complete-case outcomes were inspected. The first execution passed raster and
+numeric computation but retained 172 discovery, 173 validation and 180 third
+cohort species, so that gate **failed**.
+
+The original 200-species requirement is retained unchanged. The subsequent
+workflow stores a machine-readable `coverage_audit.json` with:
+
+- original D-evaluable species and observation counts;
+- number and fraction of complete rows and eligible species;
+- missingness of each individual climate, elevation and soil feature;
+- species-level diversity D and absolute-latitude distributions in retained
+  and excluded species.
+
+If any cohort has fewer than 200 analysed species, the machine outcome is
+`HOLD_SOIL_COMPLETE_CASE_REPRESENTATIVENESS`. The workflow may finish
+successfully as an **audit**, but its estimates remain
+`complete_coverage_limited_diagnostic`, not evidence for the absence of
+soil or environmental structuring among the full species sets.
+
+Neither the 200-species gate nor the originally defined nine soil features
+may be changed after seeing the outcomes to obtain a preferred result.
+Additional soil-coverage recovery or a reduced-feature model would require a
+separately labelled sensitivity route, with complete-case matching to the
+original macroclimate-only baseline.
+
+## Geographic-gradient interpretation
+
+The latitude and elevation predictors are **absolute pairwise differences**.
+Their partial correlations test whether colour dissimilarity increases with
+the magnitude of latitudinal or elevational separation, not whether flower
+colour changes specifically northward/southward, upslope/downslope or
+according to a signed climate response.
