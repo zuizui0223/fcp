@@ -14,6 +14,7 @@ HIGHLIGHT = ROOT / "results" / "polymorphism_h2_third_cohort_highlight_validity_
 ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_ADJUDICATION_20260923.md"
 D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
 D_FINITE = ROOT / "results" / "polymorphism_D_finite_sample_sensitivity_20260928" / "result.json"
+D_EQUAL_STRUCTURE = ROOT / "results" / "polymorphism_D_spatial_equal_structure_posthoc_20261007" / "result.json"
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
 WHITE_ENV_OBSERVER = ROOT / "results" / "polymorphism_white_environment_observer_sensitivity_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
@@ -600,6 +601,43 @@ def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> No
         "Supporting Information (Section S8)",
     ):
         assert token in text
+
+
+def test_D_spatial_equal_structure_diagnostic_is_posthoc_and_bounded() -> None:
+    import json
+    import pytest
+
+    result = json.loads(D_EQUAL_STRUCTURE.read_text(encoding="utf-8"))
+    supporting = SUPPORTING.read_text(encoding="utf-8")
+    manuscript = MANUSCRIPT.read_text(encoding="utf-8")
+
+    assert result["status"] == "complete_posthoc_diagnostic"
+    assert result["confirmatory_decisions_changed"] is False
+    assert result["source"]["eligible_species"] == 363
+    assert result["source"]["measured_table_sha256"] == "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+    assert result["observed_reproduction"]["mean_species_rho"] == pytest.approx(0.025482606069841627)
+    assert result["observed_reproduction"]["spearman_D_rho"] == pytest.approx(0.10160084472811265)
+    assert result["simulation"]["primary_diagnostic_k"] == pytest.approx(4.0)
+    k4 = next(x for x in result["simulation"]["summaries"] if x["k"] == 4.0)
+    assert k4["replicates"] == 100
+    assert k4["mean_of_mean_species_rho"] == pytest.approx(0.028901458347453942)
+    assert k4["replicates_at_or_above_observed"] == 0
+    assert result["simulation"]["total_replicates"] == 150
+    assert result["simulation"]["total_replicates_at_or_above_observed"] == 1
+
+    for token in (
+        "Post hoc equal-structure measurement-opportunity diagnostic",
+        "0.0254826061",
+        "0.1016008447",
+        "k = 4",
+        "0/100",
+        "one of 150",
+        "does not justify a universal claim",
+    ):
+        assert token in supporting
+
+    assert "post hoc diagnostic in Supporting Information" in manuscript
+    assert "disproportionately geographically partitioned" not in manuscript.lower()
 
 
 def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> None:
