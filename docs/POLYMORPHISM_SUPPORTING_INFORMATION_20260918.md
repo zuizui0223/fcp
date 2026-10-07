@@ -384,7 +384,7 @@ Validation-cohort uniform ambiguity-endpoint stress tests remain supported:
 
 Interpretation boundary:
 
-Greater D is associated with stronger within-species geographic colour organization. This is a replicated structural correlate and mechanistic clue, not evidence that geographic organization causes D or that any particular climate, pollinator, demographic, gene-flow or selection mechanism has been identified.
+D summarizes species-wide sampled four-state colour diversity and can combine local coexistence with differentiation among sampled locations. Greater D is associated with stronger within-species geographic colour organization in both species-disjoint cohorts. This is a replicated structural correlate, not a variance partition and not evidence that geographic organization causes D or that any particular climate, pollinator, demographic, gene-flow or selection mechanism has been identified. The frozen vertex-permutation null tests geographic organization against an unstructured assignment; an equal-strength spatial-process measurement-opportunity question is treated separately as a post hoc diagnostic below.
 
 ## S6. H3a broad phylogenetic-signal boundary
 
