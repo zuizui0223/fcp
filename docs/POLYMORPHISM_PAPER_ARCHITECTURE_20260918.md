@@ -132,6 +132,10 @@ The ecological synthesis is:
 
 **what varies shows recurrent cross-species structure; where that variation is sorted remains context dependent. More generally, shared geometry of intraspecific variation can persist without a universal environmental coefficient or geographic map.**
 
+The evolutionary interpretation is explicitly hypothesis-level:
+
+**different ecological agents may repeatedly project variation onto a shared, biologically accessible response direction. Thus predictability of flower-colour adaptation may reside in response space rather than in one universal selective agent.**
+
 ## 7. Figure sequence
 
 1. **Figure 1:** data provenance, sampling scale and why each inferential stage exists.
