@@ -19,7 +19,7 @@
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
 
-**Keywords (alphabetical):** achromatic–chromatic axis; citizen science; flower colour; intraspecific variation; polymorphism; prospective confirmation
+**Keywords (alphabetical):** citizen science; distributed polymorphism; flower colour; geographic variation; intraspecific variation; polymorphism
 
 ## Summary
 
