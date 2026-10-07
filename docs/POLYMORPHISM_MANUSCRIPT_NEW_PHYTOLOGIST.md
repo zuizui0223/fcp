@@ -12,9 +12,9 @@
 - Summary: 194 words
 - Introduction: 805 words
 - Materials and Methods: 2,451 words
-- Results: 2,613 words
-- Discussion: 2,308 words
-- Main text (Introduction through Discussion): 8,177 words
+- Results: 2,663 words
+- Discussion: 2,319 words
+- Main text (Introduction through Discussion): 8,238 words
 - Figures: 5
 - Tables: 1
 - Supporting Information: evidence map + planned supplementary figures/tables
@@ -318,7 +318,7 @@ The validation result remained supported under exact uniform ambiguity-endpoint 
 
 The distance-decay result does not by itself say whether range-wide diversity reflects local coexistence or differentiation among localities. A post-outcome composition-preserving test addressed this directly. At the fixed 50-km primary scale, nearby observations contained less four-state colour diversity than expected from each species' exact overall colour composition in all three species-disjoint cohorts. Mean species-wide minus local pairwise diversity was **0.02053** in discovery (n = 166), **0.01867** in validation (n = 181) and **0.01468** in the third cohort (n = 204); the matched vertex-null upper-tail p-value was **0.005** in each cohort. Local depletion was also supported at 25, 100 and 250 km in all three cohorts.
 
-The result survived three direct falsification tests at 50 km. After excluding all same-observer photo pairs, mean depletion remained **0.01998**, **0.01690** and **0.01457** in discovery, validation and the third cohort, respectively (p = **0.005** in each). Removing every white observation and analysing only yellow/orange, red/pink and blue/purple retained positive depletion in all three cohorts (0.01947, p = 0.005; 0.00729, p = 0.025; 0.00891, p = 0.040). Replacing coarse states with continuous nine-colour Jensen–Shannon dissimilarity also retained local homogeneity (mean species-wide minus local JSD = **0.01518**, **0.01366** and **0.01301**; p = **0.005** in each cohort). Thus the geographic partitioning is not restricted to the exposure-coupled white classifier, coarse morph assignment or same-observer photo pairs.
+The result survived five direct falsification tests at 50 km. After excluding all same-observer photo pairs, mean depletion remained **0.01998**, **0.01690** and **0.01457** in discovery, validation and the third cohort, respectively (p = **0.005** in each). Removing every white observation and analysing only yellow/orange, red/pink and blue/purple retained positive depletion in all three cohorts (0.01947, p = 0.005; 0.00729, p = 0.025; 0.00891, p = 0.040). Replacing coarse states with continuous nine-colour Jensen–Shannon dissimilarity also retained local homogeneity (mean species-wide minus local JSD = **0.01518**, **0.01366** and **0.01301**; p = **0.005** in each cohort). Calendar-quarter-stratified label permutations likewise retained local depletion in discovery, validation and the third cohort (**0.02287**, **0.02061**, **0.01560**; p = **0.005** in each), as did restricting local comparisons to photographs from different years (**0.02095**, **0.01437**, **0.01377**; p = **0.005** in each). Thus the geographic partitioning is not restricted to the exposure-coupled white classifier, coarse morph assignment, same-observer photo pairs, calendar-quarter composition or same-year sampling.
 
 A stronger claim that higher-D species allocate a larger fraction of their diversity among localities was not scale invariant. At 50 km the D–depletion correlation was unsupported in discovery (rho = 0.0390, p = 0.135) but positive in validation (rho = 0.1171, p = 0.025) and the third cohort (rho = 0.1118, p = 0.005). We therefore treat **local depletion itself**, rather than a universal D–partitioning slope, as the replicated result.
 
@@ -360,7 +360,7 @@ The methodological contribution is architectural rather than a claim to a new st
 
 ### Species-wide flower-colour ITV is distributed among localities
 
-The clearest ecological result is not simply that flower colour is spatially autocorrelated. It is that **range-wide colour diversity is systematically depleted at local spatial scales relative to each species' own composition**. This result reproduced in three species-disjoint cohorts, across four spatial radii, after removing same-observer pairs, after removing every white record, and with continuous nine-colour distances. The pattern therefore resembles a distributed polymorphism: a species can be variable across its range while local neighbourhoods are more homogeneous than the range-wide phenotype pool.
+The clearest ecological result is not simply that flower colour is spatially autocorrelated. It is that **range-wide colour diversity is systematically depleted at local spatial scales relative to each species' own composition**. This result reproduced in three species-disjoint cohorts, across four spatial radii, after removing same-observer pairs, after removing every white record, with continuous nine-colour distances, after conditioning the null on calendar quarter, and among cross-year local pairs. The pattern therefore resembles a distributed polymorphism: a species can be variable across its range while local neighbourhoods are more homogeneous than the range-wide phenotype pool.
 
 This comparative result extends a pattern previously emphasized from population-level flower-colour studies. Narbona et al. (2018) noted that Mediterranean FCP species often contain many monomorphic populations and fewer polymorphic populations, producing geographic clines or mosaics. The present analysis does not identify populations a priori, but it reaches a closely related conclusion from a broad, common sampling design: **species-wide ITV and local ITV are not interchangeable**. A species mean erases the variation; a species-wide diversity scalar retains the variation but still erases where it resides.
 
