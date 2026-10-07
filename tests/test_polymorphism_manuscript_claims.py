@@ -14,6 +14,9 @@ D_FINITE = ROOT / "results" / "polymorphism_D_finite_sample_sensitivity_20260928
 H2 = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "result.json"
 MEASUREMENT = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_measurement_20260917" / "result.json"
 SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
+DISTRIBUTED = ROOT / "results" / "polymorphism_distributed_polymorphism_posthoc_20261007" / "result.json"
+IBD_IBE = ROOT / "results" / "polymorphism_phenotypic_IBD_IBE_posthoc_20261007" / "result.json"
+BIO5_SORT_ROBUST = ROOT / "results" / "polymorphism_BIO5_colour_sorting_robustness_20261007" / "result.json"
 VALIDITY = ROOT / "results" / "polymorphism_h2_posthoc_validity_diagnostics_20260922" / "result.json"
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
@@ -97,23 +100,20 @@ def test_itv_distributional_synthesis_stays_bounded() -> None:
     ledger = LEDGER.read_text(encoding="utf-8")
 
     for token in (
-        "structure of intraspecific variation",
-        "species-wide sampled colour-state diversity",
-        "within-species displacement direction",
-        "geographic organization",
-        "treating species as distributions rather than mean phenotypes",
-        "not a within-population polymorphism measure",
+        "where does that variation actually reside?",
+        "distributed-polymorphism",
+        "Species-wide flower-colour ITV is distributed among localities",
+        "phenotypic IBE-like",
+        "A complementary cross-species regularity in phenotype space",
     ):
         assert token in manuscript
 
     for token in (
-        "Allowed ecological synthesis — intraspecific variation as a distributional comparative trait",
-        "overall sampled diversity",
-        "direction",
-        "organization",
-        "Cross-species generality can reside in the geometry of intraspecific variation",
-        "D is not interpreted as local ITV magnitude or as a variance partition",
-        "does **not** establish a universal ecological driver",
+        "Allowed ecological synthesis — ITV as a geographically distributed species property",
+        "spatial allocation",
+        "phenotypic IBE-like",
+        "A species-wide ITV value can conceal a distributed polymorphism",
+        "do not prove local adaptation",
     ):
         assert token in ledger
 
@@ -272,7 +272,7 @@ def test_claim_ledger_exposes_current_data_architecture() -> None:
         "Discovery + species-disjoint validation",
         "Prospective confirmation",
         "Post-confirmatory annotations",
-        "measurement validity → recurrent phenotype-space geometry → prospective confirmation",
+        "measurement validity → geographic allocation of ITV → bounded spatial-process decomposition → complementary prospective phenotype-space confirmation",
     ):
         assert token in text
 
