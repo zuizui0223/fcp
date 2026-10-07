@@ -124,7 +124,7 @@ def stable_seed(species: str, k: float, replicate: int) -> int:
 
 
 def impose_equal_structure(
-    colours: np.ndarray,
+    jsd: np.ndarray,
     colour_order: np.ndarray,
     geo_pair: np.ndarray,
     spatial_score: np.ndarray,
@@ -137,11 +137,13 @@ def impose_equal_structure(
     latent = spatial_score + float(k) * rng.standard_normal(len(spatial_score))
 
     position_order = np.argsort(latent, kind="stable")
-    assigned = np.empty_like(colours)
-    assigned[position_order] = colours[colour_order]
+    assignment = np.empty(len(position_order), dtype=int)
+    assignment[position_order] = colour_order
 
-    sim_jsd = pairwise_jsd_matrix(assigned)
-    u, v = np.triu_indices(len(assigned), k=1)
+    # Reassignment only permutes the observed colour-vector multiset, so its
+    # pairwise JSD matrix is the same frozen matrix with rows/columns permuted.
+    sim_jsd = jsd[np.ix_(assignment, assignment)]
+    u, v = np.triu_indices(len(assignment), k=1)
     return direct_rho(geo_pair, sim_jsd[u, v])
 
 
@@ -186,7 +188,7 @@ def main() -> int:
         })
         cache[int(taxon)] = {
             "species": species,
-            "colours": colours,
+            "jsd": jsd,
             "colour_order": np.argsort(colour_axis(jsd), kind="stable"),
             "geo_pair": geo_pair,
             "spatial_score": spatial_axis(lat, lon),
@@ -207,7 +209,7 @@ def main() -> int:
             for row in species_df.itertuples(index=False):
                 item = cache[int(row.inat_taxon_id)]
                 rhos.append(impose_equal_structure(
-                    item["colours"],
+                    item["jsd"],
                     item["colour_order"],
                     item["geo_pair"],
                     item["spatial_score"],
