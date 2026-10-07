@@ -40,7 +40,9 @@ jobs:
           python-version: "3.11.16"
 
       - name: Install raster-analysis runtime
-        run: python -m pip install -r requirements-np-bio5-replay-20260928.txt
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m py_compile scripts/analysis/run_polymorphism_full_gradient_partition_20261007.py
 
       - name: Recover immutable measured tables
         run: |
