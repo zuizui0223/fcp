@@ -407,10 +407,11 @@ The **k = 4** setting is the primary diagnostic comparison because its mean spat
 
 This result argues against the narrow explanation that the observed positive D–spatial association arises simply because different D values create different measurement opportunity under this linear-gradient equal-structure process. It is **not** a preregistered test, does not justify a universal claim that high-D species are “disproportionately geographically partitioned”, and does not cover patchy, threshold, multimodal or environmentally warped spatial structures. The frozen discovery/validation D–spatial decisions remain unchanged.
 
-Canonical implementation:
-- `scripts/analysis/run_polymorphism_D_spatial_equal_structure_posthoc_20261007.py`.
+Canonical implementation and receipt:
+- `scripts/analysis/run_polymorphism_D_spatial_equal_structure_posthoc_20261007.py`;
+- `results/polymorphism_D_spatial_equal_structure_posthoc_20261007/result.json`.
 
-The machine-readable reporting receipt records the exact source SHA, workflow/artifact identity and the fact that confirmatory decisions are unchanged.
+The reporting receipt records the exact measured-table SHA256, canonical workflow run **37564518153**, artifact **11457707244**, artifact digest and the fact that confirmatory decisions are unchanged.
 
 ## S6. H3a broad phylogenetic-signal boundary
 
