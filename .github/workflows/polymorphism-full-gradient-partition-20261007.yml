@@ -91,7 +91,7 @@ jobs:
               curl -L --fail --retry 5 --retry-delay 3 \
                 "$SOIL_BASE/$prop/$file" \
                 -o "$root/$prop/$file"
-              expected="$(awk -v f="$file" '$2==f {print $1}' "$root/$prop/checksum.sha256.txt")"
+              expected="$(awk -v f="$file" '{name=$NF; sub(/^\\*/, "", name); if(name==f) print $1}' "$root/$prop/checksum.sha256.txt")"
               if [ -z "$expected" ]; then
                 echo "::error::No official checksum found for $prop/$file"
                 cat "$root/$prop/checksum.sha256.txt"
