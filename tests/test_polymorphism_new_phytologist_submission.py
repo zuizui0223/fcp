@@ -612,12 +612,12 @@ def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> No
 
     for token in (
         "Species-wide flower-colour diversity is geographically partitioned",
-        "mean depletion = **0.02053**",
-        "mean depletion = **0.01867**",
-        "mean depletion = **0.01468**",
+        "was **0.02053** in discovery",
+        "**0.01867** in validation",
+        "**0.01468** in the third cohort",
         "Geographic colour turnover contains both IBD-like and bounded IBE-like components",
         "The BIO5 component is technically bounded",
-        "not that temperature-driven local adaptation has been demonstrated",
+        "not evidence of local adaptation",
         "Possible developmental accessibility of the achromatic–chromatic axis",
         "Supporting Information (Section S8)",
     ):
@@ -657,7 +657,9 @@ def test_D_spatial_equal_structure_diagnostic_is_posthoc_and_bounded() -> None:
     ):
         assert token in supporting
 
-    assert "post hoc diagnostic in Supporting Information" in manuscript
+    # The equal-structure analysis remains an SI-only post hoc diagnostic after
+    # the manuscript was reframed around direct local-depletion evidence.
+    assert "Post hoc equal-structure measurement-opportunity diagnostic" in supporting
     assert "disproportionately geographically partitioned" not in manuscript.lower()
 
 
