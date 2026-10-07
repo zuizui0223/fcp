@@ -99,20 +99,22 @@ The association is positive in discovery and species-disjoint validation and rem
 
 Interpretation: greater measured diversity is spatially organized rather than explained simply by broader sampled photographic extent.
 
-### Secondary empirical mechanism evidence and alternative-explanation boundaries
+### Result 4 — BIO5 provides a heterogeneous ecological-sorting signal
 
-Three secondary evidence layers provide bounded biological clues about why an achromatic endpoint may recur:
+In the prospective cohort, white records occurred in warmer BIO5 environments in 57.3% of evaluable species; the frozen within-cohort test passed, but stronger observer conditioning weakened the signal and the fixed cross-cohort transport rule did not pass.
 
-- structured extraction of Casimiro-Soriguer et al. (2016) shows that one high-frequency *S. littorea* PAL system has a quantitative transcriptomic/HPLC anchor near F3h1/Myb1a regulation, without identifying a causal mutation;
-- a descriptive reanalysis of Del Valle et al. (2019) shows markedly higher natural frequencies for petal anthocyanin-loss than whole-plant anthocyanin-loss phenotypes, consistent with differential persistence when pigment loss is flower-restricted;
-- white records occupy warmer BIO5 environments in the frozen primary prospective analysis, but the signal weakens under observer controls and does not transport as a common cross-cohort rule; BIO5 is therefore an observer-sensitive contextual clue, not robust evidence for temperature sorting.
+Interpretation: temperature is supported as a **heterogeneous ecological-sorting tendency**, not as a universal determinant of the recurrent achromatic–chromatic axis.
+
+### Mechanistic context belongs in Discussion and Supporting Information
+
+Published *Silene littorea* transcriptomic/HPLC results from Casimiro-Soriguer et al. (2016) are used only in Discussion as a single-species example of pigment-network accessibility. They are not presented as a result of the present molecular study.
+
+The descriptive PAL/WAL frequency reanalysis based on Del Valle et al. (2019) is reported in Supporting Information Section S8. Main text uses it only as bounded supporting context; it is not a primary Results layer and no direct PAL/WAL-to-H2 bridge is estimable.
 
 Additional boundaries are:
 - no detectable broad tree-wide phylogenetic conservation under the tested validation design;
 - the discovery sampled-span association collapses in validation;
 - direct highlight analysis shows that coarse white classification is exposure-coupled.
-
-These secondary results constrain mechanism without establishing a universal cause of the prospective H2 geometry.
 
 ## 6. Discussion logic
 
@@ -120,10 +122,11 @@ The Discussion follows one hierarchy.
 
 1. **Validated distributional trait:** repeated photographs recover species differences in within-species colour diversity.
 2. **What varies:** cross-species regularity is strongest along an achromatic–chromatic phenotype-space direction.
-3. **Why it may recur:** one *S. littorea* PAL system is quantitatively anchored near F3h1/Myb1a regulation; PAL/WAL frequencies support differential persistence as a second filter; observer-sensitive, nontransporting BIO5 remains only a contextual environmental clue.
-4. **Where it is sorted:** greater D is associated with stronger within-species geographic organization, but the present data do not identify one common map or causal maintenance mechanism.
-5. **What simple explanations do not suffice:** broad phylogenetic conservation, sampled photographic span and one universal BIO5 effect are unsupported under the tested designs.
-6. **Scope:** source dependence and exposure coupling bound the biological interpretation.
+3. **Where it is sorted:** greater D is associated with stronger within-species geographic organization.
+4. **Ecological explanation tested with our data:** BIO5 contributes a weak, heterogeneous white-versus-nonwhite sorting tendency rather than a universal temperature rule.
+5. **Mechanistic interpretation from prior evidence:** published *S. littorea* molecular work provides a concrete pigment-network example; the PAL/WAL reanalysis remains Supporting Information.
+6. **What simple explanations do not suffice:** broad phylogenetic conservation, sampled photographic span and one universal BIO5 effect are unsupported under the tested designs.
+7. **Scope:** source dependence and exposure coupling bound the biological interpretation.
 
 The ecological synthesis is:
 
