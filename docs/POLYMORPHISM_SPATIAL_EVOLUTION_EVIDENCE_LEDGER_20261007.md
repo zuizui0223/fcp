@@ -58,7 +58,9 @@ At 50 km the local-depletion result remains positive in all three cohorts when:
 
 1. all same-observer photo pairs are excluded;
 2. all white observations are removed and only yellow/orange, red/pink and blue/purple remain;
-3. coarse states are abandoned and continuous nine-colour Jensen–Shannon dissimilarity is used.
+3. coarse states are abandoned and continuous nine-colour Jensen–Shannon dissimilarity is used;
+4. label permutations are constrained within calendar quarters;
+5. local comparisons are restricted to photographs from different years.
 
 Different-observer depletion:
 - discovery 0.01998, p=.005;
@@ -75,9 +77,17 @@ Continuous nine-colour local depletion:
 - validation 0.01366, p=.005;
 - third 0.01301, p=.005.
 
-Seasonal and cross-year falsification tests are recorded separately when complete.
+Quarter-stratified composition null:
+- discovery 0.02287, p=.005;
+- validation 0.02061, p=.005;
+- third 0.01560, p=.005.
 
-**Interpretation:** geographic partitioning is not restricted to the exposure-coupled white classifier, not restricted to four coarse categories, and is not generated simply by comparing photos from the same observer.
+Cross-year local pairs:
+- discovery 0.02095, p=.005;
+- validation 0.01437, p=.005;
+- third 0.01377, p=.005.
+
+**Interpretation:** geographic partitioning is not restricted to the exposure-coupled white classifier, four coarse categories, same-observer clustering, calendar-quarter composition or same-year sampling.
 
 ### E3 — species with higher D are more strongly locally partitioned
 
