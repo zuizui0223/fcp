@@ -1,0 +1,62 @@
+{
+  "schema": "fcp_selected_environmental_sorting_transport_reporting_receipt_v1",
+  "date_jst": "2026-10-07",
+  "status": "complete_fixed_species_disjoint_posthoc_transport",
+  "confirmatory_decisions_changed": false,
+  "chronology": {
+    "screening_source": "500-species discovery + 500-species validation post hoc environmental-sorting screen",
+    "target_selection_rule": "Only single-variable sensitivities positive in both discovery and validation and supported after Holm correction across BIO5/BIO14/SRAD within endpoint and cohort.",
+    "target_A": "solar-radiation heterogeneity versus species-wide D",
+    "target_B": "BIO5 distance versus flower-colour distance conditional on geographic distance",
+    "third_cohort_status": "fixed species-disjoint post hoc transport; not untouched prospective confirmation",
+    "first_execution": "failed before target statistics because third-cohort storage schema uses nine flower_fraction_* coordinates rather than legacy colour_* vectors",
+    "schema_correction": "four frozen biological groups reconstructed deterministically from nine fractions before successful execution"
+  },
+  "source": {
+    "third_commit": "7e538e5c51c05a7cc47b2fcf53eea92634c8a863",
+    "measured_sha256": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
+    "workflow_run_id": 37609604174,
+    "job_id": 112753935869,
+    "artifact_id": 11476990965,
+    "artifact_digest": "sha256:86ec4c5b6f727abcdfbc772c142d71fc605a460a44a1a38f5a6ef92d680f6864"
+  },
+  "eligible_species": 377,
+  "target_A_solar_heterogeneity_vs_D": {
+    "partial_spearman": 0.017113121333315523,
+    "p_upper": 0.382,
+    "supported_raw_0_05": false,
+    "conclusion": "does not transport"
+  },
+  "target_B_BIO5_colour_sorting": {
+    "coarse_four_state": {
+      "equal_species_mean_partial_rho": 0.006307128628747479,
+      "median_species_partial_rho": 0.0015211432560223647,
+      "positive_species_fraction": 0.5145888594164456,
+      "matched_vertex_p_upper": 0.03,
+      "supported_raw_0_05": true,
+      "holm_across_target_A_and_B": 0.06
+    },
+    "continuous_nine_colour": {
+      "equal_species_mean_partial_rho": 0.01018762359109971,
+      "median_species_partial_rho": 0.006035583088849847,
+      "positive_species_fraction": 0.5437665782493368,
+      "matched_vertex_p_upper": 0.005,
+      "supported_raw_0_05": true
+    },
+    "matched_background": {
+      "evaluable": false,
+      "reason": "third-cohort frozen measured table contains no matched background palette representation"
+    },
+    "conclusion": "BIO5-associated colour sorting transports as the selected target; the joint claim that both selected environmental signatures transport is not supported."
+  },
+  "joint_verdict": "BIO5_COLOUR_SORTING_TRANSPORTS_BUT_SOLAR_HETEROGENEITY_D_DOES_NOT",
+  "allowed_interpretation": "Warm-season temperature differences repeatedly organize flower-colour turnover within species beyond geographic distance, without implying a universal direction of colour response.",
+  "hard_nonclaims": [
+    "not untouched prospective confirmation",
+    "does not measure fitness or demonstrate local adaptation",
+    "does not distinguish genetic differentiation from phenotypic plasticity",
+    "does not prove BIO5 is causal",
+    "does not establish a common direction of flower-colour response",
+    "solar heterogeneity does not explain species-wide D in the third cohort"
+  ]
+}

@@ -15,6 +15,10 @@ ADJUDICATION = ROOT / "docs" / "POLYMORPHISM_H2_THIRD_COHORT_HIGHLIGHT_DECISION_
 D_TRANSPORT = ROOT / "results" / "polymorphism_fresh_D_transport_20260925" / "result.json"
 D_FINITE = ROOT / "results" / "polymorphism_D_finite_sample_sensitivity_20260928" / "result.json"
 D_EQUAL_STRUCTURE = ROOT / "results" / "polymorphism_D_spatial_equal_structure_posthoc_20261007" / "result.json"
+DISTRIBUTED = ROOT / "results" / "polymorphism_distributed_polymorphism_posthoc_20261007" / "result.json"
+DISTRIBUTED_ROBUST = ROOT / "results" / "polymorphism_distributed_polymorphism_robustness_20261007" / "result.json"
+IBD_IBE = ROOT / "results" / "polymorphism_phenotypic_IBD_IBE_posthoc_20261007" / "result.json"
+BIO5_SORT_ROBUST = ROOT / "results" / "polymorphism_BIO5_colour_sorting_robustness_20261007" / "result.json"
 WHITE_ENV = ROOT / "results" / "polymorphism_white_environment_mechanism_20260925" / "result.json"
 WHITE_ENV_OBSERVER = ROOT / "results" / "polymorphism_white_environment_observer_sensitivity_20260925" / "result.json"
 BIO5_TRANSPORT = ROOT / "results" / "polymorphism_legacy_white_bio5_replication_20260925" / "result.json"
@@ -74,14 +78,13 @@ def test_itv_framing_and_reader_chronology_are_explicit() -> None:
     supporting = SUPPORTING.read_text(encoding="utf-8")
 
     for token in (
-        "Species means can erase the structure of intraspecific trait variation",
-        "overall sampled state diversity",
-        "phenotypic directions of within-species displacement",
-        "geographic arrangement of those states",
-        "Flower-colour polymorphism is unusually suited to this distributional view",
-        "each stage addresses a different inferential failure mode",
-        "Phenotype-space generality without a universal geographic map",
-        "treating species as distributions rather than mean phenotypes",
+        "when a species is variable in flower colour across its range, where does that variation actually reside?",
+        "distributed-polymorphism",
+        "phenotypic IBE-like",
+        "species-wide flower-colour ITV is often distributed among geographic localities",
+        "Species-wide flower-colour ITV is distributed among localities",
+        "Geographic separation dominates, with a smaller candidate environmental component",
+        "A complementary cross-species regularity in phenotype space",
     ):
         assert token in text
 
@@ -93,6 +96,8 @@ def test_itv_framing_and_reader_chronology_are_explicit() -> None:
         "## S3. Discovery/validation H2 target localization",
         "## S4. Prospective-confirmation H2 chain of custody",
         "## S5. Replicated D–spatial organization",
+        "## S5a. Distributed polymorphism: local diversity is depleted relative to species-wide composition",
+        "## S5b. Phenotypic IBD versus IBE-like decomposition",
         "## S6. H3a broad phylogenetic-signal boundary",
         "## S7. H3b sampled-span replication boundary",
         "## S8. Bounded secondary mechanism evidence",
@@ -100,7 +105,7 @@ def test_itv_framing_and_reader_chronology_are_explicit() -> None:
     )
     positions = [supporting.index(token) for token in order]
     assert positions == sorted(positions)
-    assert "sampling frame -> measurement validity -> geometry discovery -> prospective confirmation" in supporting
+    assert "distributed" in supporting.lower()
 
 
 def test_frame_provenance_preserves_sampling_boundary() -> None:
@@ -329,9 +334,9 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
         ):
             assert token in manuscript
 
-    assert "heterogeneous ecological sorting tendency" in text
-    assert "not a single temperature rule shared by all species" in text
-    assert "failed the frozen cross-cohort transport rule" in text
+    assert "candidate correlate of spatial colour turnover" in text
+    assert "not an established cause of the recurrent phenotype-space axis" in text
+    assert "does not support a common cross-cohort BIO5 rule" in text
 
 
 
@@ -588,16 +593,32 @@ def test_new_phytologist_documents_exact_D_spatial_method_and_methodological_sco
 
 
 def test_new_phytologist_spatial_clue_is_reported_without_causal_upgrade() -> None:
+    import json
+    import pytest
+
     text = MANUSCRIPT.read_text(encoding="utf-8")
+    distributed = json.loads(DISTRIBUTED.read_text(encoding="utf-8"))
+    ibd = json.loads(IBD_IBE.read_text(encoding="utf-8"))
+    robust = json.loads(BIO5_SORT_ROBUST.read_text(encoding="utf-8"))
+
+    assert distributed["schema"] == "fcp_distributed_polymorphism_posthoc_reporting_receipt_v1"
+    assert distributed["primary"]["discovery"]["mean_local_depletion"] == pytest.approx(0.020529254583812922)
+    assert distributed["primary"]["validation"]["mean_local_depletion"] == pytest.approx(0.018672971642749295)
+    assert distributed["primary"]["third"]["mean_local_depletion"] == pytest.approx(0.01468491968437185)
+    assert ibd["replication"]["IBE_like_all_three"] is True
+    assert ibd["replication"]["IBD_like_all_three"] is True
+    assert ibd["replication"]["IBE_stronger_than_IBD_all_three"] is False
+    assert robust["flower_minus_background_validation"]["p"] == pytest.approx(0.82)
+
     for token in (
-        "Greater D is associated with stronger within-species geographic colour organization",
-        "partial rho = **0.0992877**, p = **0.025**",
-        "partial rho = **0.1162411**, p = **0.010**",
-        "structural rather than causal",
-        "not a within-population polymorphism measure",
-        "Wessinger & Rausher 2012",
-        "heterogeneous ecological sorting tendency",
-        "Published work provides one mechanistic example",
+        "Species-wide flower-colour diversity is geographically partitioned",
+        "was **0.02053** in discovery",
+        "**0.01867** in validation",
+        "**0.01468** in the third cohort",
+        "Geographic colour turnover contains both IBD-like and bounded IBE-like components",
+        "The BIO5 component is technically bounded",
+        "not evidence of local adaptation",
+        "Possible developmental accessibility of the achromatic–chromatic axis",
         "Supporting Information (Section S8)",
     ):
         assert token in text
@@ -636,7 +657,9 @@ def test_D_spatial_equal_structure_diagnostic_is_posthoc_and_bounded() -> None:
     ):
         assert token in supporting
 
-    assert "post hoc diagnostic in Supporting Information" in manuscript
+    # The equal-structure analysis remains an SI-only post hoc diagnostic after
+    # the manuscript was reframed around direct local-depletion evidence.
+    assert "Post hoc equal-structure measurement-opportunity diagnostic" in supporting
     assert "disproportionately geographically partitioned" not in manuscript.lower()
 
 
@@ -645,7 +668,7 @@ def test_new_phytologist_cover_letter_exists_and_preserves_claim_boundary() -> N
     text = COVER.read_text(encoding="utf-8")
     for token in (
         "New Phytologist",
-        "Within-species flower-colour variation shows recurrent achromatic–chromatic geometry across plant species",
+        "Species-wide flower-colour variation is geographically partitioned across plant species",
         "49,900",
         "377",
         "158",

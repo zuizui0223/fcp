@@ -12,17 +12,18 @@ Authoritative surfaces:
 
 ## 1. Paper in one sentence
 
-Treating species as phenotype distributions rather than mean colours reveals nonredundant structure in species-wide sampled flower-colour diversity, within-species displacement direction and geographic organization: the sampled distribution is reproducible, its displacement repeatedly contains an achromatic–chromatic component, and species with greater overall sampled colour-state diversity show stronger spatial organization.
+Species-wide flower-colour ITV is repeatedly **geographically partitioned** across plant species: nearby conspecific observations are more colour-homogeneous than expected from each species' own colour composition, while geographic turnover contains a dominant IBD-like component and a smaller technically bounded environmental component; a separate prospective test shows that phenotype-space displacement also recurrently contains an achromatic–chromatic component.
 
 ## 2. Questions
 
-The paper asks three linked questions:
+The paper asks four linked questions:
 
-1. **Is within-species flower-colour variation reproducible as a species-level comparative trait?**
-2. **Does within-species colour displacement repeatedly occupy a common direction in phenotype space?**
-3. **Is greater species-wide sampled colour-state diversity associated with stronger within-species geographic organization?**
+1. **Can species-wide flower-colour distributions be measured reproducibly?**
+2. **Does range-wide colour diversity reside as local coexistence, or is it distributed among geographic localities?**
+3. **Is geographic colour turnover explained only by distance/history, or do environmental differences add nonredundant IBE-like structure?**
+4. **Does within-species colour displacement repeatedly occupy a common direction in phenotype space?**
 
-Together these questions distinguish **overall sampled colour-state diversity** (D), **direction** (continuous within-species displacement geometry) and **organization** (within-species geographic structure). D is not a within-population polymorphism measure: it can combine local coexistence with differentiation among sampled locations.
+Together these questions distinguish **overall sampled diversity**, **spatial allocation**, **spatial process** and **phenotype-space direction**. D is not a within-population polymorphism measure: it can combine local coexistence with differentiation among sampled locations.
 
 ## 3. Data architecture and why each stage exists
 
@@ -74,85 +75,96 @@ The confirmatory contrast is observed W relative to a construction-preserving st
 
 ## 5. Results spine
 
-### Result 1 — D is reproducible and finite-sample robust
+### Result 1 — species-wide D is measurable and reproducible
 
-Observer-disjoint validation supports repeatable between-species D rankings, and fresh-image transport is strong across 136 overlapping species. Finite-sample correction leaves species rankings essentially unchanged (raw-versus-corrected Spearman rho > 0.99997 in both high-depth cohorts) and preserves the D–spatial, sampled-span and phylogenetic sensitivity conclusions.
+Observer-disjoint validation and fresh-image transport show that repeated photographs recover stable between-species differences in species-wide sampled four-state diversity. This establishes the comparative distribution before asking where it is spatially allocated.
 
-Interpretation: repeated photographs can support a comparative within-species distributional trait, while measurement remains imperfect and same-system. The small plug-in bias of raw Gini–Simpson D is not driving the paper's D-based results.
+### Result 2 — species-wide flower-colour ITV is geographically partitioned
 
-### Result 2 — recurrent geometry is achromatic–chromatic
+At the fixed post hoc 50-km scale, local pairwise diversity is lower than expected from each species' exact overall colour composition in discovery, validation and the third cohort:
 
-The original cohorts localize recurrent continuous displacement to a white-versus-nonwhite direction. After that target is frozen, a new species- and photo-disjoint prospective cohort confirms excess alignment relative to the coarse-state-preserving structured null.
+- discovery: depletion = **0.02053**, p = **0.005**;
+- validation: depletion = **0.01867**, p = **0.005**;
+- third: depletion = **0.01468**, p = **0.005**.
 
-Primary prospective result:
+The result is also supported at 25, 100 and 250 km in all three cohorts.
 
-- n = 158 species;
-- W = 0.517;
-- structured-null median = 0.457;
-- p = 0.001.
+Direct falsification tests remain positive across all three cohorts after:
+- excluding same-observer pairs;
+- removing all white records;
+- replacing coarse states with continuous nine-colour distances.
 
-Interpretation: the confirmed quantity is **excess achromatic–chromatic alignment beyond the measured coarse-state construction baseline**.
+Interpretation: range-wide FCP is often a **distributed polymorphism**, not unrestricted local mixing of all species-wide variants.
 
-### Result 3 — greater D accompanies stronger geographic organization
+### Result 3 — geographic turnover contains both IBD-like and bounded IBE-like components
 
-The association is positive in discovery and species-disjoint validation and remains supported after sampled-span, technical-failure, background and ambiguity checks.
+Continuous nine-colour turnover shows positive unique geographic and BIO5-associated components in discovery, validation and the third cohort. The IBD-like component is larger in every cohort.
 
-Interpretation: species with greater overall sampled colour-state diversity also tend to show stronger geographic organization; this association is not explained simply by broader sampled photographic extent and does not by itself partition D into within- versus among-location components.
+The BIO5 component is not promoted to adaptive causation because:
+- validation flower-minus-background response is unsupported;
+- strict same-observer-pair sensitivities are unsupported.
 
-### Result 4 — BIO5 provides a heterogeneous ecological-sorting signal
+Interpretation: geography is the dominant structured component; a smaller environmental residual is a candidate, technically bounded sorting signal.
 
-In the prospective cohort, white records occurred in warmer BIO5 environments in 57.3% of evaluable species; the frozen within-cohort test passed, but stronger observer conditioning weakened the signal and the fixed cross-cohort transport rule did not pass.
+### Result 4 — recurrent phenotype-space geometry is achromatic–chromatic
 
-Interpretation: temperature is supported as a **heterogeneous ecological-sorting tendency**, not as a universal determinant of the recurrent achromatic–chromatic axis.
+The original cohorts localize recurrent continuous displacement to a white-versus-nonwhite direction. After that target is frozen, a new species- and photo-disjoint prospective cohort confirms excess alignment relative to the coarse-state-preserving structured null:
 
-### Mechanistic context belongs in Discussion and Supporting Information
+- n = 158;
+- W = **0.517**;
+- null median = **0.457**;
+- p = **0.001**.
 
-Published *Silene littorea* transcriptomic/HPLC results from Casimiro-Soriguer et al. (2016) are used only in Discussion as a single-species example of pigment-network accessibility. They are not presented as a result of the present molecular study.
+Interpretation: the confirmed quantity is excess achromatic–chromatic alignment beyond the measured coarse-state construction baseline.
 
-The descriptive PAL/WAL frequency reanalysis based on Del Valle et al. (2019) is reported in Supporting Information Section S8. Main text uses it only as bounded supporting context; it is not a primary Results layer and no direct PAL/WAL-to-H2 bridge is estimable.
+### Result 5 — simple universal explanations fail
 
-Additional boundaries are:
-- no detectable broad tree-wide phylogenetic conservation under the tested validation design;
-- the discovery sampled-span association collapses in validation;
-- direct highlight analysis shows that coarse white classification is exposure-coupled.
+- Broad environmental heterogeneity does not transport as a general explanation for species-wide D.
+- A universal signed warm-to-white BIO5 rule is unsupported across cohorts.
+- Broad tree-wide phylogenetic conservation is not detected under the tested validation design.
+- The discovery sampled-span association collapses in validation.
+- Coarse white classification remains exposure-coupled.
+
+Mechanistic molecular context remains in Discussion/SI and does not upgrade the ecological results.
 
 ## 6. Discussion logic
 
-The Discussion follows one hierarchy.
+The Discussion follows this hierarchy.
 
-1. **Validated distributional trait:** repeated photographs recover species differences in species-wide sampled colour-state diversity.
-2. **What varies:** cross-species regularity is strongest along an achromatic–chromatic phenotype-space direction.
-3. **Where it is sorted:** greater D is associated with stronger within-species geographic organization.
-4. **Ecological explanation tested with our data:** BIO5 contributes a weak, heterogeneous white-versus-nonwhite sorting tendency rather than a universal temperature rule.
-5. **Mechanistic interpretation from prior evidence:** published *S. littorea* molecular work provides a concrete pigment-network example; the PAL/WAL reanalysis remains Supporting Information.
-6. **What simple explanations do not suffice:** broad phylogenetic conservation, sampled photographic span and one universal BIO5 effect are unsupported under the tested designs.
-7. **Scope:** source dependence and exposure coupling bound the biological interpretation.
+1. **Validated distributional trait:** species-wide colour distributions can be measured reproducibly.
+2. **Where ITV resides:** range-wide flower-colour diversity is locally depleted and therefore geographically distributed.
+3. **Evolutionary process boundary:** IBD-like structure is stronger than the bounded BIO5-associated residual; selection, gene flow, drift, history and plasticity remain competing mechanisms.
+4. **What varies:** a separate prospective test confirms recurrent achromatic–chromatic displacement geometry.
+5. **What current data cannot establish:** local adaptation requires fitness/genetic evidence; reproductive isolation requires mating/gene-flow evidence.
+6. **Mechanistic context:** published pigment-network work supplies developmental plausibility only.
 
 The ecological synthesis is:
 
-**what varies shows recurrent cross-species structure; where that variation is sorted remains context dependent. More generally, shared geometry of intraspecific variation can persist without a universal environmental coefficient or geographic map.**
+**species-wide flower-colour ITV is not merely individual noise or ubiquitous local coexistence; a reproducible component is distributed among geographic localities.**
 
-The evolutionary interpretation is explicitly hypothesis-level:
+The evolutionary interpretation is deliberately bounded:
 
-**different ecological agents may repeatedly project variation onto a shared, biologically accessible response direction. Thus predictability of flower-colour adaptation may reside in response space rather than in one universal selective agent.**
+**spatially varying selection is one biologically plausible generator of distributed FCP, but the present comparative photographs identify the pattern rather than proving adaptation.**
 
 ## 7. Figure sequence
 
-1. **Figure 1:** data provenance, sampling scale and why each inferential stage exists.
+1. **Figure 1:** data provenance, sampling scale and inferential chronology.
 2. **Figure 2:** observer-disjoint reproducibility of D.
-3. **Figure 3:** localization of the white-versus-nonwhite target in the original cohorts.
+3. **Figure 3:** localization of the achromatic–chromatic target in the original cohorts.
 4. **Figure 4:** prospective confirmation of the frozen achromatic–chromatic axis.
-5. **Figure 5:** positive D–spatial association plus bounded phylogenetic and sampled-span alternatives.
+5. **Figure 5:** distributed polymorphism and spatial process — local depletion across cohorts, robustness diagnostics, and IBD-like versus IBE-like turnover.
+
+Phylogenetic and sampled-span negative tests move to Supporting Information.
 
 This sequence mirrors the manuscript logic:
 
-`define → validate → discover → confirm → interpret`
+`measure → locate ITV geographically → decompose spatial process → retain complementary phenotype geometry`
 
 ## 8. Current title
 
-**Within-species flower-colour variation shows recurrent achromatic–chromatic geometry across plant species**
+**Species-wide flower-colour variation is geographically partitioned across plant species**
 
-The title emphasizes the positive biological result without implying a universal mechanism, a shared geographic map, or independent-source replication. The structured-null boundary is stated explicitly in the Summary, Results and Discussion.
+The title centers the most replicated ecological pattern: local colour diversity is depleted relative to each species' own range-wide composition in three species-disjoint cohorts and survives observer, white-state and continuous-colour falsification tests. It does not imply that the partitioning is adaptive.
 
 ## 9. Hard nonclaims
 

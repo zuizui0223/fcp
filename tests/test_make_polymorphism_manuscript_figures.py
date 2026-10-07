@@ -14,6 +14,9 @@ H2_PROSPECTIVE = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_wh
 H2_PRIMARY_NULL = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "primary_0_10_structured_null.csv"
 H2_STRICT_NULL = ROOT / "results" / "polymorphism_h2_third_cohort_prospective_white_axis_20260917" / "strict_0_20_structured_null.csv"
 SPATIAL = ROOT / "results" / "polymorphism_spatial_organization_clue_20260918" / "result.json"
+DISTRIBUTED = ROOT / "results" / "polymorphism_distributed_polymorphism_posthoc_20261007" / "result.json"
+DISTRIBUTED_ROBUST = ROOT / "results" / "polymorphism_distributed_polymorphism_robustness_20261007" / "result.json"
+IBD_IBE = ROOT / "results" / "polymorphism_phenotypic_IBD_IBE_posthoc_20261007" / "result.json"
 
 
 def sha256(path: Path) -> str:
@@ -91,13 +94,24 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert manifest["figures"]["figure4"]["primary"]["p"] == 0.001
     assert manifest["figures"]["figure4"]["strict"]["species"] == 86
     assert manifest["figures"]["figure4"]["strict"]["p"] == 0.001
-    assert manifest["figures"]["figure5"]["spatial_organization"]["new_biological_analysis"] is False
-    assert manifest["figures"]["figure5"]["spatial_organization"]["reserve_adjusted_partial_rho"] == 0.09928771129095708
-    assert manifest["figures"]["figure5"]["spatial_organization"]["reserve_adjusted_p"] == 0.025
-    assert manifest["figures"]["figure5"]["spatial_organization"]["reserve_background_partial_rho"] == 0.1162411363016301
-    assert manifest["figures"]["figure5"]["spatial_organization"]["reserve_background_p"] == 0.01
-    assert manifest["figures"]["figure5"]["h3a"]["verdict"] == "H3A_PHYLOGENETIC_SIGNAL_NOT_SUPPORTED"
-    assert manifest["figures"]["figure5"]["h3b"]["verdict"] == "H3B_SAMPLED_SPAN_REPLICATION_NOT_SUPPORTED"
+    f5 = manifest["figures"]["figure5"]
+    assert f5["distributed_polymorphism"]["primary_radius_km"] == 50
+    assert f5["distributed_polymorphism"]["discovery_depletion"] == 0.020529254583812922
+    assert f5["distributed_polymorphism"]["validation_depletion"] == 0.018672971642749295
+    assert f5["distributed_polymorphism"]["third_depletion"] == 0.01468491968437185
+    assert f5["distributed_polymorphism"]["discovery_p"] == 0.005
+    assert f5["distributed_polymorphism"]["validation_p"] == 0.005
+    assert f5["distributed_polymorphism"]["third_p"] == 0.005
+    assert f5["distributed_polymorphism"]["multiscale_all_three"] is True
+    assert f5["robustness"]["different_observer_all_three"] is True
+    assert f5["robustness"]["nonwhite_only_all_three"] is True
+    assert f5["robustness"]["continuous_nine_colour_all_three"] is True
+    assert f5["ibd_ibe"]["IBE_like_all_three"] is True
+    assert f5["ibd_ibe"]["IBD_like_all_three"] is True
+    assert f5["ibd_ibe"]["IBE_stronger_than_IBD_all_three"] is False
+    assert f5["ibd_ibe"]["cohorts"]["discovery"]["IBD_like"] == 0.027604435157351816
+    assert f5["ibd_ibe"]["cohorts"]["validation"]["IBE_like"] == 0.00825562350468484
+    assert f5["ibd_ibe"]["cohorts"]["third"]["IBE_like"] == 0.0101876235922715
 
     s9 = manifest["figures"]["supplementary_figure9"]
     assert s9["bio5"]["prospective_holm_p"] == 0.03544867047368517
@@ -138,5 +152,6 @@ def test_generate_all_publication_figures(tmp_path: Path) -> None:
     assert f4_layout["same_universe_nonreplication_note"] == "caption_not_plot_field"
 
     f5_layout = manifest["figures"]["figure5"]["layout_contract"]
-    assert f5_layout["panel_widths"] == "spatial_primary_wide"
-    assert f5_layout["tree_scenarios"] == "unconnected_discrete_points"
+    assert f5_layout["panel_A"] == "three_cohort_local_depletion"
+    assert f5_layout["panel_B"] == "three_falsification_tests_across_three_cohorts"
+    assert f5_layout["panel_C"] == "paired_IBD_IBE_effects"

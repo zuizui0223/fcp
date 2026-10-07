@@ -1,0 +1,37 @@
+{
+  "schema": "fcp_selected_environmental_sorting_transport_reporting_receipt_v1",
+  "date_jst": "2026-10-07",
+  "role": "fixed_species_disjoint_posthoc_transport_after_500_plus_500_screen",
+  "source": {
+    "workflow_run_id": 37610473614,
+    "artifact_id": 11477067548,
+    "artifact_digest": "sha256:ac1f36a85f29581468218a45fb46c1d343ed493ae36ceb7f13fc582c3f2d2af2",
+    "third_cohort_sha256": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "confirmatory_decisions_changed": false,
+  "eligible_species": 377,
+  "target_A_solar_heterogeneity_vs_D": {
+    "partial_spearman": 0.017113121333315467,
+    "p_upper": 0.382,
+    "supported": false
+  },
+  "target_B_BIO5_colour_sorting": {
+    "coarse_four_state": {
+      "mean_partial_rho": 0.006307128629158091,
+      "p_upper": 0.03,
+      "holm_across_two_selected_targets": 0.06,
+      "supported_raw": true
+    },
+    "continuous_nine_colour": {
+      "mean_partial_rho": 0.0101876235922715,
+      "p_upper": 0.005,
+      "supported_raw": true
+    }
+  },
+  "verdict": "BIO5_COLOUR_SORTING_TRANSPORTS_RAW_BUT_SOLAR_HETEROGENEITY_D_DOES_NOT",
+  "hard_nonclaims": [
+    "not untouched prospective confirmation",
+    "BIO5 technical robustness must be evaluated separately",
+    "no causal temperature or fitness inference"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "schema": "fcp_phenotypic_IBD_IBE_posthoc_reporting_receipt_v1",
+  "date_jst": "2026-10-07",
+  "role": "posthoc_continuous_colour_IBD_IBE_like_decomposition",
+  "source": {
+    "workflow_run_id": 37612689886,
+    "artifact_id": 11477944762,
+    "artifact_digest": "sha256:ade391c77202bd4f5d23a6cbe2c5aba9a4c21395f41999036a199d170c3c6c3f"
+  },
+  "confirmatory_decisions_changed": false,
+  "environment": "WorldClim 2.1 BIO5",
+  "colour_representation": "continuous nine-colour biological palette JSD",
+  "cohorts": {
+    "discovery": {
+      "n_species": 369,
+      "IBE_like": {
+        "mean_partial_rho": 0.00925022014281929,
+        "p": 0.005
+      },
+      "IBD_like": {
+        "mean_partial_rho": 0.027604435157351816,
+        "p": 0.005
+      },
+      "mean_IBE_minus_IBD": -0.018354215014532525,
+      "mean_unique_env_R2": 0.004583384092284083,
+      "mean_unique_geo_R2": 0.006426002676974897
+    },
+    "validation": {
+      "n_species": 363,
+      "IBE_like": {
+        "mean_partial_rho": 0.00825562350468484,
+        "p": 0.01
+      },
+      "IBD_like": {
+        "mean_partial_rho": 0.024142065902525225,
+        "p": 0.005
+      },
+      "mean_IBE_minus_IBD": -0.01588644239784039,
+      "mean_unique_env_R2": 0.004484886286569096,
+      "mean_unique_geo_R2": 0.007156331011187952
+    },
+    "third": {
+      "n_species": 377,
+      "IBE_like": {
+        "mean_partial_rho": 0.0101876235922715,
+        "p": 0.005
+      },
+      "IBD_like": {
+        "mean_partial_rho": 0.022245645655123027,
+        "p": 0.005
+      },
+      "mean_IBE_minus_IBD": -0.012058022062851526,
+      "mean_unique_env_R2": 0.0045642166776362686,
+      "mean_unique_geo_R2": 0.007101899658432377
+    }
+  },
+  "replication": {
+    "IBE_like_all_three": true,
+    "IBD_like_all_three": true,
+    "IBE_stronger_than_IBD_all_three": false
+  },
+  "supported_claim": "Geographic flower-colour turnover contains both a larger IBD-like component and a smaller nonredundant BIO5-associated IBE-like component in all three cohorts.",
+  "technical_boundary": "IBE-like association is phenotypic, not genetic, and must be interpreted with the separate background/observer robustness audit.",
+  "hard_nonclaims": [
+    "not genetic isolation by environment",
+    "not causal temperature selection",
+    "not local adaptation",
+    "cannot distinguish genetic differentiation from plasticity"
+  ]
+}

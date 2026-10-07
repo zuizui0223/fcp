@@ -1,0 +1,62 @@
+{
+  "schema": "fcp_distributed_polymorphism_posthoc_reporting_receipt_v1",
+  "date_jst": "2026-10-07",
+  "role": "posthoc_local_vs_specieswide_diversity_test",
+  "source": {
+    "workflow_run_id": 37612689806,
+    "artifact_id": 11477889613,
+    "artifact_digest": "sha256:151c9bf16858cd6759363882a7e203809f9d401d254e9c88650c003fb1fd2463"
+  },
+  "confirmatory_decisions_changed": false,
+  "primary_radius_km": 50,
+  "primary": {
+    "discovery": {
+      "n_species": 166,
+      "mean_specieswide_pair_diversity": 0.22139471031306737,
+      "mean_local_pair_diversity": 0.20086545572925446,
+      "mean_local_depletion": 0.020529254583812922,
+      "p_upper": 0.005
+    },
+    "validation": {
+      "n_species": 181,
+      "mean_specieswide_pair_diversity": 0.22866216076753232,
+      "mean_local_pair_diversity": 0.2099891891247831,
+      "mean_local_depletion": 0.018672971642749295,
+      "p_upper": 0.005
+    },
+    "third": {
+      "n_species": 204,
+      "mean_specieswide_pair_diversity": 0.2482035979589538,
+      "mean_local_pair_diversity": 0.233518678274582,
+      "mean_local_depletion": 0.01468491968437185,
+      "p_upper": 0.005
+    }
+  },
+  "multiscale_local_depletion_supported_all_three": {
+    "km25": true,
+    "km50": true,
+    "km100": true,
+    "km250": true
+  },
+  "D_vs_local_depletion_primary_50km": {
+    "discovery": {
+      "rho": 0.039001490411117626,
+      "p": 0.135
+    },
+    "validation": {
+      "rho": 0.11711946651084168,
+      "p": 0.025
+    },
+    "third": {
+      "rho": 0.1118123461336332,
+      "p": 0.005
+    },
+    "replicated_500_plus_500": false
+  },
+  "supported_claim": "Species-wide flower-colour diversity is geographically partitioned: nearby conspecific observations are more colour-homogeneous than expected from each species' fixed overall colour composition.",
+  "hard_nonclaims": [
+    "does not identify selection, drift, dispersal or plasticity",
+    "D-to-partitioning coupling is scale dependent",
+    "does not establish local adaptation"
+  ]
+}

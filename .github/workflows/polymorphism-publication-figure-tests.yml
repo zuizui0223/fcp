@@ -15,6 +15,9 @@ on:
       - results/polymorphism_white_axis_targeted_test_20260912/result.json
       - results/polymorphism_h2_third_cohort_prospective_white_axis_20260917/**
       - results/polymorphism_h3a_phylogenetic_signal_20260912/frozen_result_manifest.json
+      - results/polymorphism_distributed_polymorphism_posthoc_20261007/result.json
+      - results/polymorphism_distributed_polymorphism_robustness_20261007/result.json
+      - results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json
       - .github/workflows/polymorphism-publication-figure-tests.yml
   pull_request:
     paths:

@@ -12,7 +12,7 @@ It does not recompute any result. It organizes frozen protocols, machine-readabl
 
 The reader-facing order mirrors the paper's inferential chronology:
 
-**sampling frame -> measurement validity -> geometry discovery -> prospective confirmation -> post-confirmatory validity/environment -> spatial organization -> alternative explanations -> bounded mechanism evidence.**
+**sampling frame -> measurement validity -> geometry discovery/prospective confirmation -> geographic allocation of ITV -> spatial-process decomposition -> alternative explanations -> bounded mechanism evidence.**
 
 Workflow IDs, immutable hashes and release receipts are retained where they establish provenance, but they are not additional biological results. The self-contained release bundle remains the deeper reproducibility layer.
 
@@ -44,7 +44,7 @@ Metadata-only iNaturalist discovery across an 18 × 9 equal-area grid produced *
 
 The high-depth image acquisition contract required Research Grade species-rank iNaturalist records with photographs and georeferences, flowering annotation, positional accuracy <=5 km, unobscured/open coordinates and allowed CC licences. Observer contribution was capped at two photographs per species and deterministic geographic maximin sampling fixed 100 raw photographs per species. No native-range restriction or explicit captive/wild filter was imposed.
 
-The central inferential sequence is therefore **outcome-blind frame → discovery/validation → target freeze → prospective confirmation**. Highlight, climate and phylogenetic data are annotations of those image resources, not additional independent flower-colour cohorts.
+The central data chronology remains **outcome-blind frame → discovery/validation → target freeze → prospective confirmation**. The later distributed-polymorphism and IBD/IBE-like analyses are explicitly post-outcome analyses applied across these frozen cohorts; highlight, climate and phylogenetic data are annotations rather than additional independent flower-colour cohorts.
 
 
 ### Finite-sample sensitivity of Gini–Simpson D
@@ -412,6 +412,81 @@ Canonical implementation and receipt:
 - `results/polymorphism_D_spatial_equal_structure_posthoc_20261007/result.json`.
 
 The reporting receipt records the exact measured-table SHA256, canonical workflow run **37564518153**, artifact **11457707244**, artifact digest and the fact that confirmatory decisions are unchanged.
+
+## S5a. Distributed polymorphism: local diversity is depleted relative to species-wide composition
+
+Canonical reporting receipt:
+
+- `results/polymorphism_distributed_polymorphism_posthoc_20261007/result.json`
+
+The analysis was defined after the earlier D–spatial result and is therefore post hoc. It tests a different estimand: whether nearby observations are more homogeneous than expected **conditional on each species' exact overall colour composition**.
+
+### Primary 50-km result
+
+| Cohort | Evaluable species | Species-wide pair diversity | Local pair diversity | Mean depletion | Matched p |
+|---|---:|---:|---:|---:|---:|
+| Discovery | 166 | 0.22139 | 0.20087 | **0.02053** | **0.005** |
+| Validation | 181 | 0.22866 | 0.20999 | **0.01867** | **0.005** |
+| Third cohort | 204 | 0.24820 | 0.23352 | **0.01468** | **0.005** |
+
+The matched vertex null fixes coordinates, sample size and every species' exact coarse-state counts. Therefore the positive depletion does not arise simply because a high-D species has more possible mismatched pairs.
+
+Mean local depletion was also supported at **25, 100 and 250 km in all three cohorts**.
+
+### Direct falsification tests at 50 km
+
+| Test | Discovery | Validation | Third cohort |
+|---|---:|---:|---:|
+| Different-observer pairs only | 0.01998, p=.005 | 0.01690, p=.005 | 0.01457, p=.005 |
+| Nonwhite-only three-state | 0.01947, p=.005 | 0.00729, p=.025 | 0.00891, p=.040 |
+| Continuous nine-colour JSD | 0.01518, p=.005 | 0.01366, p=.005 | 0.01301, p=.005 |
+| Quarter-stratified composition null | 0.02287, p=.005 | 0.02061, p=.005 | 0.01560, p=.005 |
+| Cross-year local pairs | 0.02095, p=.005 | 0.01437, p=.005 | 0.01377, p=.005 |
+
+Thus geographic local homogeneity is not restricted to same-observer comparisons, the exposure-sensitive white state, the four coarse categories, calendar-quarter composition or same-year sampling.
+
+The stronger cross-species claim that high-D species are always more strongly locally partitioned is **not** supported at the fixed 50-km discovery–validation criterion: discovery rho=0.0390 (p=.135), validation rho=0.1171 (p=.025), third rho=0.1118 (p=.005). That relationship is scale dependent and is not promoted to a primary claim.
+
+Interpretation boundary:
+
+> The replicated result is **distributed polymorphism**: species-wide flower-colour variation is allocated among geographic localities. The test does not identify selection, gene flow, drift, history or plasticity as the cause.
+
+## S5b. Phenotypic IBD versus IBE-like decomposition
+
+Canonical reporting receipts:
+
+- `results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json`
+- `results/polymorphism_BIO5_colour_sorting_robustness_20261007/result.json`
+- `results/polymorphism_selected_environmental_sorting_transport_20261007/result.json`
+
+For each species, continuous nine-colour Jensen–Shannon dissimilarity was related symmetrically to geographic distance and absolute BIO5 difference.
+
+| Cohort | IBD-like: colour ~ geography \| BIO5 | IBE-like: colour ~ BIO5 \| geography | IBE - IBD |
+|---|---:|---:|---:|
+| Discovery | **0.02760**, p=.005 | **0.00925**, p=.005 | -0.01835 |
+| Validation | **0.02414**, p=.005 | **0.00826**, p=.010 | -0.01589 |
+| Third cohort | **0.02225**, p=.005 | **0.01019**, p=.005 | -0.01206 |
+
+Both components are positive in all three species-disjoint cohorts, but the IBD-like component is larger in every cohort. Descriptive commonality partitioning likewise assigns more unique rank variance to geography than to BIO5.
+
+### Technical ceiling on the IBE-like component
+
+The positive BIO5 residual is reproducible in continuous flower-colour measurements, but stronger technical controls do not establish it as a flower-specific environmental response:
+
+- validation flower-minus-background: mean partial rho = **-0.00328**, p = **0.82**;
+- same-observer-pair discovery: -0.1538, p=.995;
+- same-observer-pair validation: -0.0737, p=.89;
+- same-observer-pair third cohort: -0.0633, p=.83.
+
+Accordingly, the manuscript uses **phenotypic IBE-like** only as a bounded diagnostic. It is not genetic IBE, and it does not demonstrate local adaptation.
+
+### Environmental heterogeneity does not generally explain total D
+
+A multivariate climate-heterogeneity prediction did not replicate from discovery to validation. Solar-radiation heterogeneity was positive in the 500+500 screen, but fixed transport to the third cohort failed (partial rho = **0.0171**, p = **0.382**). The paper therefore does not infer that broad climatic heterogeneity generally generates species-wide flower-colour diversity.
+
+### Relationship to the earlier signed BIO5 result
+
+The earlier post-confirmatory prediction that warmer environments should specifically favour the white state passed within the third cohort but weakened under observer controls and failed the frozen discovery/validation transport rule. The newer unsigned BIO5-distance result asks a different question: whether colour changes **somehow** along temperature differences, irrespective of direction. Even that result remains technically bounded by the controls above.
 
 ## S6. H3a broad phylogenetic-signal boundary
 
