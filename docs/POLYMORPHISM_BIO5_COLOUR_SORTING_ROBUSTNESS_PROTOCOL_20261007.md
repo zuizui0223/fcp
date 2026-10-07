@@ -27,17 +27,19 @@ Inference uses 199 matched vertex permutations of complete flower-colour rows am
 
 **R1 robustness support:** positive equal-species mean and matched-vertex p < 0.05 in discovery, validation and third cohort.
 
-## R2 — matched flower-minus-background control in discovery and validation
+## R2 — matched flower-minus-background control in validation
 
-The third frozen measured table contains no matched background palette representation, so this control is evaluable only in the original discovery/validation resources.
+Background availability is asymmetric for historical reasons. The discovery matched-background recovery was previously frozen as **not evaluable** because only 21,339/21,424 rows reproduced the exact original ROI/flower palette; 85 rows failed and the fail-closed protocol forbade inference. The third frozen measured table also contains no matched background palette representation. Validation, however, stores the matched flower/background palette counts used in its frozen spatial control.
 
-For each legacy photo use all 12 frozen palette-count anchors for both flower and same-image background. Calculate pairwise flower JSD and background JSD, then use:
+R2 is therefore a **validation-only technical sensitivity**. It cannot be promoted to a discovery–validation replication.
+
+For each validation photo use all 12 frozen palette-count anchors for both flower and same-image background. Calculate pairwise flower JSD and background JSD, then use:
 
 `colour differential = flower JSD - background JSD`.
 
 Test partial Spearman(BIO5 difference, colour differential | geographic distance) with the same matched vertex permutation applied jointly to the flower/background observation row.
 
-**R2 robustness support:** positive equal-species mean and matched-vertex p < 0.05 in both discovery and validation.
+**R2 robustness support:** positive equal-species mean and matched-vertex p < 0.05 in validation.
 
 Failure does not erase the coarse/continuous signal, but it would prevent claiming that BIO5-associated turnover clearly exceeds same-image background structure.
 
