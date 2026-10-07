@@ -328,9 +328,9 @@ def test_new_phytologist_reports_bounded_bio5_result_and_failed_transport() -> N
         ):
             assert token in manuscript
 
-    assert "Temperature is therefore not supported as a universal cross-species driver" in text
-    assert "some of the within-cohort signal may reflect observer-associated geographic sampling" in text
-    assert "rather than in one universal BIO5 coefficient" in text
+    assert "heterogeneous ecological sorting tendency" in text
+    assert "not a single temperature rule shared by all species" in text
+    assert "failed the frozen cross-cohort transport rule" in text
 
 
 
