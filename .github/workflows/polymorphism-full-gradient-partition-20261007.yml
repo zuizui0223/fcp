@@ -1,0 +1,141 @@
+name: FCP full geographic climate soil gradient partition
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_FULL_GRADIENT_PARTITION_PROTOCOL_20261007.md
+      - scripts/analysis/run_polymorphism_full_gradient_partition_20261007.py
+      - .github/workflows/polymorphism-full-gradient-partition-20261007.yml
+  workflow_dispatch:
+
+concurrency:
+  group: fcp-full-gradient-partition-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  BIO_ZIP_SHA256: "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf"
+  SRAD_ZIP_SHA256: "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026"
+  SOIL_BASE: "https://files.isric.org/soilgrids/latest/data_aggregated/5000m"
+
+jobs:
+  full-gradient:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+
+      - name: Install raster-analysis runtime
+        run: python -m pip install -r requirements-np-bio5-replay-20260928.txt
+
+      - name: Recover immutable measured tables
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/third.csv
+          echo "$DISC_SHA256  /tmp/discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/third.csv" | sha256sum -c -
+
+      - name: Recover checksum-pinned WorldClim climate and elevation
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/worldclim/bio /tmp/worldclim/srad /tmp/worldclim/elev
+          curl -L --fail --retry 5 --retry-delay 3 \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip \
+            -o /tmp/worldclim/bio.zip
+          curl -L --fail --retry 5 --retry-delay 3 \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip \
+            -o /tmp/worldclim/srad.zip
+          curl -L --fail --retry 5 --retry-delay 3 \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_elev.zip \
+            -o /tmp/worldclim/elev.zip
+          echo "$BIO_ZIP_SHA256  /tmp/worldclim/bio.zip" | sha256sum -c -
+          echo "$SRAD_ZIP_SHA256  /tmp/worldclim/srad.zip" | sha256sum -c -
+          sha256sum /tmp/worldclim/elev.zip | tee /tmp/worldclim/elev.zip.sha256
+          unzip -q /tmp/worldclim/bio.zip -d /tmp/worldclim/bio
+          unzip -q /tmp/worldclim/srad.zip -d /tmp/worldclim/srad
+          unzip -q /tmp/worldclim/elev.zip -d /tmp/worldclim/elev
+          test -f /tmp/worldclim/elev/wc2.1_10m_elev.tif
+
+      - name: Recover and verify SoilGrids 5-km topsoil inputs
+        run: |
+          set -euo pipefail
+          root=/tmp/soilgrids
+          mkdir -p "$root"
+          props=(phh2o soc nitrogen cec bdod cfvo clay sand wv0033 wv1500)
+          depths=(0-5cm 5-15cm 15-30cm)
+          for prop in "${props[@]}"; do
+            mkdir -p "$root/$prop"
+            curl -L --fail --retry 5 --retry-delay 3 \
+              "$SOIL_BASE/$prop/checksum.sha256.txt" \
+              -o "$root/$prop/checksum.sha256.txt"
+            for depth in "${depths[@]}"; do
+              file="${prop}_${depth}_mean_5000.tif"
+              curl -L --fail --retry 5 --retry-delay 3 \
+                "$SOIL_BASE/$prop/$file" \
+                -o "$root/$prop/$file"
+              expected="$(awk -v f="$file" '$2==f {print $1}' "$root/$prop/checksum.sha256.txt")"
+              if [ -z "$expected" ]; then
+                echo "::error::No official checksum found for $prop/$file"
+                cat "$root/$prop/checksum.sha256.txt"
+                exit 1
+              fi
+              echo "$expected  $root/$prop/$file" | sha256sum -c -
+            done
+          done
+
+      - name: Run full gradient decomposition
+        run: |
+          rm -rf /tmp/fcp_full_gradient
+          python scripts/analysis/run_polymorphism_full_gradient_partition_20261007.py \
+            --discovery /tmp/discovery.csv \
+            --validation /tmp/validation.csv \
+            --third /tmp/third.csv \
+            --bio-dir /tmp/worldclim/bio \
+            --srad-dir /tmp/worldclim/srad \
+            --elevation /tmp/worldclim/elev/wc2.1_10m_elev.tif \
+            --soil-dir /tmp/soilgrids \
+            --outdir /tmp/fcp_full_gradient
+
+      - name: Validate analysis boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_full_gradient/result.json").read_text())
+          assert r["schema"]=="fcp_full_gradient_partition_posthoc_v1"
+          assert r["status"]=="complete_full_geographic_climate_soil_decomposition"
+          assert r["confirmatory_decisions_changed"] is False
+          assert len(r["environmental_sources"]["soil_properties"])==10
+          assert r["discovery"]["n_species"] >= 200
+          assert r["validation"]["n_species"] >= 200
+          assert r["third"]["n_species"] >= 200
+          print(Path("/tmp/worldclim/elev.zip.sha256").read_text().strip())
+          print(json.dumps(r,indent=2,sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-full-gradient-partition-20261007
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            /tmp/fcp_full_gradient/
+            /tmp/worldclim/elev.zip.sha256
