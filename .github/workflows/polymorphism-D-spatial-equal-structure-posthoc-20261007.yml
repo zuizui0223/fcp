@@ -1,0 +1,67 @@
+name: Post hoc D-spatial equal-structure diagnostic
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_polymorphism_D_spatial_equal_structure_posthoc_20261007.py
+      - results/polymorphism_D_spatial_equal_structure_posthoc_20261007/**
+      - docs/POLYMORPHISM_SUPPORTING_INFORMATION_20260918.md
+      - docs/POLYMORPHISM_MANUSCRIPT*.md
+      - tests/test_polymorphism_new_phytologist_submission.py
+      - .github/workflows/polymorphism-D-spatial-equal-structure-posthoc-20261007.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.14"
+
+      - name: Install frozen replay dependencies
+        run: python -m pip install -r requirements-np-replay-20260928.txt
+
+      - name: Recover frozen validation measured table
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA"
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/reserve.csv
+          echo "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6  /tmp/reserve.csv" | sha256sum -c -
+
+      - name: Run equal-structure diagnostic
+        run: |
+          rm -rf /tmp/equal_structure
+          python scripts/analysis/run_polymorphism_D_spatial_equal_structure_posthoc_20261007.py \
+            --reserve /tmp/reserve.csv \
+            --outdir /tmp/equal_structure
+
+      - name: Validate diagnostic boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/equal_structure/result.json").read_text())
+          assert r["status"]=="complete_posthoc_diagnostic"
+          assert r["confirmatory_decisions_changed"] is False
+          assert r["observed_reproduction"]["matches_frozen_values"] is True
+          assert r["simulation"]["all_replicates_below_observed_D_rho"] is True
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: polymorphism-D-spatial-equal-structure-posthoc-20261007
+          path: /tmp/equal_structure/
+          retention-days: 30
