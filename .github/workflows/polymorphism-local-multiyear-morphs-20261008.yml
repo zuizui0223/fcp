@@ -8,6 +8,8 @@ on:
       - tests/test_polymorphism_local_multiyear_morphs_20261008.py
       - scripts/analysis/run_polymorphism_moricandia_seasonal_control_20261008.py
       - tests/test_polymorphism_moricandia_seasonal_control_20261008.py
+      - scripts/analysis/run_polymorphism_local_contemporaneity_20261008.py
+      - tests/test_polymorphism_local_contemporaneity_20261008.py
       - docs/POLYMORPHISM_LOCAL_MULTIYEAR_MORPH_PROTOCOL_20261008.md
       - .github/workflows/polymorphism-local-multiyear-morphs-20261008.yml
   workflow_dispatch:
@@ -40,7 +42,8 @@ jobs:
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
           python -m pip install pytest==8.4.2
           python -m py_compile scripts/analysis/run_polymorphism_local_multiyear_morphs_20261008.py
-          python -m pytest tests/test_polymorphism_local_multiyear_morphs_20261008.py tests/test_polymorphism_moricandia_seasonal_control_20261008.py -q
+          python -m py_compile scripts/analysis/run_polymorphism_local_contemporaneity_20261008.py
+          python -m pytest tests/test_polymorphism_local_multiyear_morphs_20261008.py tests/test_polymorphism_moricandia_seasonal_control_20261008.py tests/test_polymorphism_local_contemporaneity_20261008.py -q
 
       - name: Retrieve and verify immutable photo measurements
         run: |
@@ -67,6 +70,14 @@ jobs:
             --validation /tmp/fcp_val.csv \
             --outdir /tmp/fcp_local_multiyear
 
+      - name: Compare same-year short-window floral morph co-observations
+        run: |
+          python scripts/analysis/run_polymorphism_local_contemporaneity_20261008.py \
+            --discovery /tmp/fcp_disc.csv \
+            --validation /tmp/fcp_val.csv \
+            --third /tmp/fcp_third.csv \
+            --prior-species /tmp/fcp_local_multiyear/species_multiyear_morph_evidence.csv \
+            --outdir /tmp/fcp_contemporaneity
       - name: Enforce denominator and historical-claim boundary
         run: |
           python - <<'PY'
@@ -83,6 +94,25 @@ jobs:
           assert m['n_classifiable_target_photos']>0, 'Expected 2026-10-08 audit taxon must not disappear'
           assert m['result_status'] in {'positive_control_evaluable','not_estimable_positive_control'}
 
+          q=json.loads(Path('/tmp/fcp_contemporaneity/result.json').read_text())
+          assert q['schema']=='fcp_local_within_year_temporal_overlap_posthoc_v1'
+          assert q['status']=='complete_source_verified_descriptive_screen'
+          assert q['confirmatory_decisions_changed'] is False
+          assert set(q['cohorts'])==set(r['cohorts'])
+          for k in q['cohorts']:
+              assert q['cohorts'][k]['n_evaluable_species']==r['cohorts'][k]['n_species_classifiable']
+              for scenario, value in q['cohorts'][k]['scales'].items():
+                  assert (value['n_strict_wc_two_photos_two_observers_each']
+                          <=value['n_species_wc_globally_eligible_and_four_photo_opportunity'])
+                  assert (value['prior_multiyear_with_strict_contemporaneous_wc']
+                          <=value['prior_strict_multiyear_recurrence_species'])
+                  assert (value['prior_multiyear_without_contemporaneous_opportunity']
+                          +value['prior_multiyear_with_contemporaneous_photographic_opportunity']
+                          ==value['prior_strict_multiyear_recurrence_species'])
+                  assert sum(value[z] for z in ('paired_eligible_both_contemporaneous',
+                      'paired_eligible_only_wc_contemporaneous',
+                      'paired_eligible_only_hue_contemporaneous',
+                      'paired_eligible_neither_contemporaneous'))==value['n_species_both_comparisons_and_opportunity']
           for cohort in r['cohorts'].values():
               assert cohort['n_species_classifiable']>0
               assert cohort['n_both_comparisons_available']<=cohort['n_white_plus_nonwhite_5_each']
@@ -98,4 +128,6 @@ jobs:
           name: fcp-local-multiyear-morphs-20261008
           if-no-files-found: error
           retention-days: 30
-          path: /tmp/fcp_local_multiyear/
+          path: |
+            /tmp/fcp_local_multiyear/
+            /tmp/fcp_contemporaneity/
