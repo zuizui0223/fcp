@@ -84,6 +84,11 @@ def test_no_within_species_gradients_from_only_species_turnover():
     assert c["bands"]["30–45°"]["n_species_with_min8_photos_in_bin_even_without_outside_opportunity"]==1
     assert c["bands"]["0–15°"]["n_informative_species"]==0
     assert c["bands"]["30–45°"]["status"]=="NO_WITHIN_SPECIES_BAND_OPPORTUNITY"
+    # A pure species-turnover map *does* show white vs coloured geography.
+    # That descriptive contrast cannot be misreported as within-species FCP.
+    assert c["bands"]["0–15°"]["descriptive_species_equal_white_fraction_all_band_species"]==1
+    assert c["bands"]["30–45°"]["descriptive_species_equal_white_fraction_all_band_species"]==0
+    assert c["bands"]["0–15°"]["descriptive_between_band_species_turnover_confounding"] is True
 
 
 def test_noninformative_species_excluded_from_effect_but_retained_as_coverage():
