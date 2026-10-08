@@ -28,7 +28,7 @@
   "qualification_type": "SYNTHETIC_ONLY_NO_NEW_PHOTO_PIXEL_OPENING",
   "schema": "fcp_next2000_synthetic_end_to_end_qualification_v1",
   "selected_species_count": 2000,
-  "synthetic_artifact_zip_sha256": "ab99b0467ad6733eff63725ecdc9026ec2f37b0eee41110eb6ed68a41f7677bd",
+  "synthetic_artifact_zip_sha256": "e96f3945e0c5ee1a6ab98988c34a7f1d022c936684378772749d0cdac800b670",
   "synthetic_primary_effects": {
     "all": {
       "mean_excess": 0.506068805566293,
