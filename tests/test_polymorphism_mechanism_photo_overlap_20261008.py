@@ -83,6 +83,9 @@ def test_photo_morph_gates_do_not_infer_pigment_genotype():
     assert s["photo_50km_white_nonwhite_pairs"]==12*48
     assert not s["photo_white_state_chemically_confirmed"]
     assert not s["in_pop_fitness_genotype_mapped_to_source_images"]
+    assert len(s["white_photo_id_review_queue"])==12
+    assert len(s["nonwhite_photo_id_review_queue"])==12
+    assert all(isinstance(x,str) for x in s["white_photo_id_review_queue"])
 
 
 def test_geographic_separation_can_create_two_morphs_without_local_mix():
