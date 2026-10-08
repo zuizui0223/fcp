@@ -6,6 +6,8 @@ on:
     paths:
       - scripts/analysis/run_polymorphism_local_multiyear_morphs_20261008.py
       - tests/test_polymorphism_local_multiyear_morphs_20261008.py
+      - scripts/analysis/run_polymorphism_moricandia_seasonal_control_20261008.py
+      - tests/test_polymorphism_moricandia_seasonal_control_20261008.py
       - docs/POLYMORPHISM_LOCAL_MULTIYEAR_MORPH_PROTOCOL_20261008.md
       - .github/workflows/polymorphism-local-multiyear-morphs-20261008.yml
   workflow_dispatch:
@@ -38,7 +40,7 @@ jobs:
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
           python -m pip install pytest==8.4.2
           python -m py_compile scripts/analysis/run_polymorphism_local_multiyear_morphs_20261008.py
-          python -m pytest tests/test_polymorphism_local_multiyear_morphs_20261008.py -q
+          python -m pytest tests/test_polymorphism_local_multiyear_morphs_20261008.py tests/test_polymorphism_moricandia_seasonal_control_20261008.py -q
 
       - name: Retrieve and verify immutable photo measurements
         run: |
@@ -59,6 +61,12 @@ jobs:
             --third /tmp/fcp_third.csv \
             --outdir /tmp/fcp_local_multiyear
 
+      - name: Run literature-defined seasonal phenotype positive control
+        run: |
+          python scripts/analysis/run_polymorphism_moricandia_seasonal_control_20261008.py \
+            --validation /tmp/fcp_val.csv \
+            --outdir /tmp/fcp_local_multiyear
+
       - name: Enforce denominator and historical-claim boundary
         run: |
           python - <<'PY'
@@ -69,6 +77,12 @@ jobs:
           assert r['confirmatory_decisions_changed'] is False
           assert r['status']=='complete'
           assert set(r['cohorts'])=={'discovery','validation','third'}
+          m=json.loads(Path('/tmp/fcp_local_multiyear/moricandia_seasonal_control.json').read_text())
+          assert m['schema']=='fcp_moricandia_seasonal_positive_control_posthoc_v1'
+          assert m['confirmatory_decisions_changed'] is False
+          assert m['n_classifiable_target_photos']>0, 'Expected 2026-10-08 audit taxon must not disappear'
+          assert m['result_status'] in {'positive_control_evaluable','not_estimable_positive_control'}
+
           for cohort in r['cohorts'].values():
               assert cohort['n_species_classifiable']>0
               assert cohort['n_both_comparisons_available']<=cohort['n_white_plus_nonwhite_5_each']
