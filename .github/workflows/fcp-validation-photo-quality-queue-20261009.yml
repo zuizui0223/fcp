@@ -77,6 +77,11 @@ jobs:
           assert d['original_10km_gate']=='HOLD_UNCHANGED'
           assert d['n_images_inspected']==0 and d['n_colour_labels_measured']==0
           assert d['n_candidate_species_required_to_pass_for_gate']==20
+          assert d['n_species_with_no_spare_photo_in_one_or_more_required_years']==10
+          assert d['n_species_with_spare_photo_in_every_required_year']==15
+          species=list(csv.DictReader(open('/tmp/fcp_validation_quality/candidate_species_quality_review.csv')))
+          assert len(species)==25 and all(v['species_quality_review_status']=='UNREVIEWED' for v in species)
+          assert sum(int(v['min_spare_metadata_photos_any_year'])==0 for v in species)==10
           photos=list(csv.DictReader(open('/tmp/fcp_validation_quality/candidate_photo_quality_review.csv')))
           assert len(photos)==115 and len({p['photo_id'] for p in photos})==115
           assert len({p['observation_id'] for p in photos})==115
