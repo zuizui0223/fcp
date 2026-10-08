@@ -1,0 +1,687 @@
+{
+  "schema": "fcp_local_within_year_temporal_overlap_posthoc_v1",
+  "date_jst": "2026-10-08",
+  "status": "complete_source_verified_descriptive_screen",
+  "role": "retrospective_local_phenological_contemporaneity_not_fitness",
+  "source_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "confirmatory_decisions_changed": false,
+  "pre_outcome_thresholds": false,
+  "primary_scale": {
+    "maximum_pair_distance_km": 10,
+    "maximum_pair_date_gap_days": 14
+  },
+  "scales_diameter_km": [
+    10,
+    25,
+    50
+  ],
+  "scales_gap_days": [
+    14,
+    30
+  ],
+  "minimums": {
+    "global_classifiable": 40,
+    "global_per_comparison_arm": 5,
+    "strict_near_contemporaneous_per_arm": 2,
+    "distinct_observers_per_arm": 2,
+    "necessary_colour_blind_same_window_photos": 4
+  },
+  "hard_nonclaims": [
+    "within 10/25/50 km photographs are not a verified natural mating population",
+    "two visible states near same dates and places do not identify genetic segregation",
+    "seasonal plasticity can overlap among individuals or microhabitats",
+    "ageing, flower developmental stage, image exposure and observer/site errors remain",
+    "seasonal segregation can also occur between genetically distinct colour morphs",
+    "selected spatial maximin photo sample has poor local site-year density",
+    "no direction of adaptation, fitness, pollinator selection, or pigment chemistry",
+    "all colours are photographic classes, not anthocyanin or UV measurements",
+    "results post-date main discovery; not independent-source replication"
+  ],
+  "cohorts": {
+    "discovery": {
+      "n_evaluable_species": 369,
+      "n_white_colour_global_at_least_five_each": 184,
+      "n_two_nonwhite_hues_global_at_least_five_each": 55,
+      "n_both_global_state_comparisons_eligible": 34,
+      "scales": {
+        "d10_t14": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 2,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 0,
+          "n_independent_observer_wc_pair": 8,
+          "n_independent_observer_hue_pair": 0,
+          "n_strict_wc_two_photos_two_observers_each": 1,
+          "n_strict_hue_two_photos_two_observers_each": 0,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 0,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 0.5,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Navarretia heterodoxa",
+              "inat_taxon_id": 57209
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 4,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 2,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 2,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 1
+        },
+        "d10_t30": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 5,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 0,
+          "n_independent_observer_wc_pair": 15,
+          "n_independent_observer_hue_pair": 2,
+          "n_strict_wc_two_photos_two_observers_each": 1,
+          "n_strict_hue_two_photos_two_observers_each": 0,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 0,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 0.2,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Navarretia heterodoxa",
+              "inat_taxon_id": 57209
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 4,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 3,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 1,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 2
+        },
+        "d25_t14": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 6,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 1,
+          "n_independent_observer_wc_pair": 19,
+          "n_independent_observer_hue_pair": 2,
+          "n_strict_wc_two_photos_two_observers_each": 2,
+          "n_strict_hue_two_photos_two_observers_each": 0,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 1,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 1,
+          "conditional_wc_given_minimal_photo_opportunity": 0.3333333333333333,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Navarretia heterodoxa",
+              "inat_taxon_id": 57209
+            },
+            {
+              "species": "Sambucus mexicana",
+              "inat_taxon_id": 1203426
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 11,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 2,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 9,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 1
+        },
+        "d25_t30": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 12,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 3,
+          "n_independent_observer_wc_pair": 30,
+          "n_independent_observer_hue_pair": 7,
+          "n_strict_wc_two_photos_two_observers_each": 2,
+          "n_strict_hue_two_photos_two_observers_each": 0,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 2,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 2,
+          "conditional_wc_given_minimal_photo_opportunity": 0.16666666666666666,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Navarretia heterodoxa",
+              "inat_taxon_id": 57209
+            },
+            {
+              "species": "Sambucus mexicana",
+              "inat_taxon_id": 1203426
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 11,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 5,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 6,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 4
+        },
+        "d50_t14": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 11,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 4,
+          "n_independent_observer_wc_pair": 28,
+          "n_independent_observer_hue_pair": 8,
+          "n_strict_wc_two_photos_two_observers_each": 3,
+          "n_strict_hue_two_photos_two_observers_each": 1,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 2,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 1,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 1,
+          "conditional_wc_given_minimal_photo_opportunity": 0.2727272727272727,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Navarretia heterodoxa",
+              "inat_taxon_id": 57209
+            },
+            {
+              "species": "Sambucus mexicana",
+              "inat_taxon_id": 1203426
+            },
+            {
+              "species": "Tinantia erecta",
+              "inat_taxon_id": 153994
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 20,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 7,
+          "prior_multiyear_with_strict_contemporaneous_wc": 3,
+          "prior_multiyear_without_contemporaneous_opportunity": 13,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 4
+        },
+        "d50_t30": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 17,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 6,
+          "n_independent_observer_wc_pair": 40,
+          "n_independent_observer_hue_pair": 15,
+          "n_strict_wc_two_photos_two_observers_each": 4,
+          "n_strict_hue_two_photos_two_observers_each": 1,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 4,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 1,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 3,
+          "conditional_wc_given_minimal_photo_opportunity": 0.23529411764705882,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Navarretia heterodoxa",
+              "inat_taxon_id": 57209
+            },
+            {
+              "species": "Sambucus mexicana",
+              "inat_taxon_id": 1203426
+            },
+            {
+              "species": "Thysanocarpus curvipes",
+              "inat_taxon_id": 58088
+            },
+            {
+              "species": "Tinantia erecta",
+              "inat_taxon_id": 153994
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 20,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 11,
+          "prior_multiyear_with_strict_contemporaneous_wc": 4,
+          "prior_multiyear_without_contemporaneous_opportunity": 9,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 7
+        }
+      }
+    },
+    "validation": {
+      "n_evaluable_species": 363,
+      "n_white_colour_global_at_least_five_each": 167,
+      "n_two_nonwhite_hues_global_at_least_five_each": 51,
+      "n_both_global_state_comparisons_eligible": 36,
+      "scales": {
+        "d10_t14": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 1,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 2,
+          "n_independent_observer_wc_pair": 9,
+          "n_independent_observer_hue_pair": 3,
+          "n_strict_wc_two_photos_two_observers_each": 1,
+          "n_strict_hue_two_photos_two_observers_each": 0,
+          "n_wc_strict_in_multiple_years_somewhere": 0,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 0,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 1,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Lomatium columbianum",
+              "inat_taxon_id": 164720
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 4,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 1,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 3,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 0
+        },
+        "d10_t30": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 2,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 2,
+          "n_independent_observer_wc_pair": 12,
+          "n_independent_observer_hue_pair": 3,
+          "n_strict_wc_two_photos_two_observers_each": 1,
+          "n_strict_hue_two_photos_two_observers_each": 0,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 0,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 0.5,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Lomatium columbianum",
+              "inat_taxon_id": 164720
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 4,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 2,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 2,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 1
+        },
+        "d25_t14": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 4,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 2,
+          "n_independent_observer_wc_pair": 20,
+          "n_independent_observer_hue_pair": 4,
+          "n_strict_wc_two_photos_two_observers_each": 1,
+          "n_strict_hue_two_photos_two_observers_each": 0,
+          "n_wc_strict_in_multiple_years_somewhere": 0,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 0,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 0.25,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Lomatium columbianum",
+              "inat_taxon_id": 164720
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 10,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 1,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 9,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 0
+        },
+        "d25_t30": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 4,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 3,
+          "n_independent_observer_wc_pair": 28,
+          "n_independent_observer_hue_pair": 4,
+          "n_strict_wc_two_photos_two_observers_each": 1,
+          "n_strict_hue_two_photos_two_observers_each": 1,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 0,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 0.25,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Lomatium columbianum",
+              "inat_taxon_id": 164720
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 10,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 2,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 8,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 1
+        },
+        "d50_t14": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 6,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 4,
+          "n_independent_observer_wc_pair": 32,
+          "n_independent_observer_hue_pair": 6,
+          "n_strict_wc_two_photos_two_observers_each": 1,
+          "n_strict_hue_two_photos_two_observers_each": 0,
+          "n_wc_strict_in_multiple_years_somewhere": 0,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 1,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 1,
+          "conditional_wc_given_minimal_photo_opportunity": 0.16666666666666666,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Lomatium columbianum",
+              "inat_taxon_id": 164720
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 28,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 4,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 24,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 3
+        },
+        "d50_t30": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 11,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 6,
+          "n_independent_observer_wc_pair": 40,
+          "n_independent_observer_hue_pair": 10,
+          "n_strict_wc_two_photos_two_observers_each": 1,
+          "n_strict_hue_two_photos_two_observers_each": 1,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 2,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 0,
+          "paired_eligible_neither_contemporaneous": 2,
+          "conditional_wc_given_minimal_photo_opportunity": 0.09090909090909091,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Lomatium columbianum",
+              "inat_taxon_id": 164720
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 28,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 6,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 22,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 5
+        }
+      }
+    },
+    "third": {
+      "n_evaluable_species": 377,
+      "n_white_colour_global_at_least_five_each": 196,
+      "n_two_nonwhite_hues_global_at_least_five_each": 60,
+      "n_both_global_state_comparisons_eligible": 41,
+      "scales": {
+        "d10_t14": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 9,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 2,
+          "n_independent_observer_wc_pair": 14,
+          "n_independent_observer_hue_pair": 4,
+          "n_strict_wc_two_photos_two_observers_each": 1,
+          "n_strict_hue_two_photos_two_observers_each": 1,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 2,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 1,
+          "paired_eligible_only_hue_contemporaneous": 1,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 0.1111111111111111,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Allium cratericola",
+              "inat_taxon_id": 59078
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 8,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 4,
+          "prior_multiyear_with_strict_contemporaneous_wc": 1,
+          "prior_multiyear_without_contemporaneous_opportunity": 4,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 3
+        },
+        "d10_t30": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 13,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 3,
+          "n_independent_observer_wc_pair": 20,
+          "n_independent_observer_hue_pair": 4,
+          "n_strict_wc_two_photos_two_observers_each": 3,
+          "n_strict_hue_two_photos_two_observers_each": 3,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 2,
+          "n_species_both_comparisons_and_opportunity": 3,
+          "paired_eligible_both_contemporaneous": 1,
+          "paired_eligible_only_wc_contemporaneous": 0,
+          "paired_eligible_only_hue_contemporaneous": 2,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 0.23076923076923078,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Allium cratericola",
+              "inat_taxon_id": 59078
+            },
+            {
+              "species": "Lachenalia peersii",
+              "inat_taxon_id": 588412
+            },
+            {
+              "species": "Leschenaultia biloba",
+              "inat_taxon_id": 1598897
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 8,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 6,
+          "prior_multiyear_with_strict_contemporaneous_wc": 2,
+          "prior_multiyear_without_contemporaneous_opportunity": 2,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 4
+        },
+        "d25_t14": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 13,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 2,
+          "n_independent_observer_wc_pair": 33,
+          "n_independent_observer_hue_pair": 6,
+          "n_strict_wc_two_photos_two_observers_each": 3,
+          "n_strict_hue_two_photos_two_observers_each": 1,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 2,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 1,
+          "paired_eligible_only_hue_contemporaneous": 1,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 0.23076923076923078,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Allium cratericola",
+              "inat_taxon_id": 59078
+            },
+            {
+              "species": "Lachenalia peersii",
+              "inat_taxon_id": 588412
+            },
+            {
+              "species": "Leschenaultia biloba",
+              "inat_taxon_id": 1598897
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 21,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 9,
+          "prior_multiyear_with_strict_contemporaneous_wc": 3,
+          "prior_multiyear_without_contemporaneous_opportunity": 12,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 6
+        },
+        "d25_t30": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 18,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 4,
+          "n_independent_observer_wc_pair": 45,
+          "n_independent_observer_hue_pair": 7,
+          "n_strict_wc_two_photos_two_observers_each": 4,
+          "n_strict_hue_two_photos_two_observers_each": 3,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 2,
+          "n_species_both_comparisons_and_opportunity": 4,
+          "paired_eligible_both_contemporaneous": 1,
+          "paired_eligible_only_wc_contemporaneous": 1,
+          "paired_eligible_only_hue_contemporaneous": 2,
+          "paired_eligible_neither_contemporaneous": 0,
+          "conditional_wc_given_minimal_photo_opportunity": 0.2222222222222222,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Allium cratericola",
+              "inat_taxon_id": 59078
+            },
+            {
+              "species": "Cyclamen graecum",
+              "inat_taxon_id": 482866
+            },
+            {
+              "species": "Lachenalia peersii",
+              "inat_taxon_id": 588412
+            },
+            {
+              "species": "Leschenaultia biloba",
+              "inat_taxon_id": 1598897
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 21,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 13,
+          "prior_multiyear_with_strict_contemporaneous_wc": 4,
+          "prior_multiyear_without_contemporaneous_opportunity": 8,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 9
+        },
+        "d50_t14": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 19,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 4,
+          "n_independent_observer_wc_pair": 49,
+          "n_independent_observer_hue_pair": 10,
+          "n_strict_wc_two_photos_two_observers_each": 4,
+          "n_strict_hue_two_photos_two_observers_each": 1,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 0,
+          "n_species_both_comparisons_and_opportunity": 4,
+          "paired_eligible_both_contemporaneous": 0,
+          "paired_eligible_only_wc_contemporaneous": 1,
+          "paired_eligible_only_hue_contemporaneous": 1,
+          "paired_eligible_neither_contemporaneous": 2,
+          "conditional_wc_given_minimal_photo_opportunity": 0.21052631578947367,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Allium cratericola",
+              "inat_taxon_id": 59078
+            },
+            {
+              "species": "Erysimum franciscanum",
+              "inat_taxon_id": 57402
+            },
+            {
+              "species": "Lachenalia peersii",
+              "inat_taxon_id": 588412
+            },
+            {
+              "species": "Leschenaultia biloba",
+              "inat_taxon_id": 1598897
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 43,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 13,
+          "prior_multiyear_with_strict_contemporaneous_wc": 4,
+          "prior_multiyear_without_contemporaneous_opportunity": 30,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 9
+        },
+        "d50_t30": {
+          "n_species_wc_globally_eligible_and_four_photo_opportunity": 27,
+          "n_species_hue_globally_eligible_and_four_photo_opportunity": 8,
+          "n_independent_observer_wc_pair": 66,
+          "n_independent_observer_hue_pair": 12,
+          "n_strict_wc_two_photos_two_observers_each": 9,
+          "n_strict_hue_two_photos_two_observers_each": 3,
+          "n_wc_strict_in_multiple_years_somewhere": 1,
+          "n_hue_strict_in_multiple_years_somewhere": 2,
+          "n_species_both_comparisons_and_opportunity": 6,
+          "paired_eligible_both_contemporaneous": 1,
+          "paired_eligible_only_wc_contemporaneous": 2,
+          "paired_eligible_only_hue_contemporaneous": 2,
+          "paired_eligible_neither_contemporaneous": 1,
+          "conditional_wc_given_minimal_photo_opportunity": 0.3333333333333333,
+          "comparison_role": "observational opportunity-gated counts; NOT adaptation, population polymorphism, or genotype",
+          "example_wc_species_unvalidated": [
+            {
+              "species": "Allium cratericola",
+              "inat_taxon_id": 59078
+            },
+            {
+              "species": "Caladenia latifolia",
+              "inat_taxon_id": 204850
+            },
+            {
+              "species": "Chylismia cardiophylla",
+              "inat_taxon_id": 76332
+            },
+            {
+              "species": "Cyclamen graecum",
+              "inat_taxon_id": 482866
+            },
+            {
+              "species": "Erysimum franciscanum",
+              "inat_taxon_id": 57402
+            },
+            {
+              "species": "Lachenalia peersii",
+              "inat_taxon_id": 588412
+            },
+            {
+              "species": "Leschenaultia biloba",
+              "inat_taxon_id": 1598897
+            },
+            {
+              "species": "Oxalis ciliaris",
+              "inat_taxon_id": 566867
+            },
+            {
+              "species": "Pimelea flava",
+              "inat_taxon_id": 552999
+            }
+          ],
+          "prior_strict_multiyear_recurrence_species": 43,
+          "prior_multiyear_with_contemporaneous_photographic_opportunity": 19,
+          "prior_multiyear_with_strict_contemporaneous_wc": 9,
+          "prior_multiyear_without_contemporaneous_opportunity": 24,
+          "prior_multiyear_with_opportunity_but_no_strict_wc": 10
+        }
+      }
+    }
+  },
+  "execution_provenance": {
+    "workflow_run_id": 37726271920,
+    "job_id": 113145046596,
+    "code_commit": "4f0d7452da85d307cfa062595c2deb547f43e1bb",
+    "artifact_id": 11529017879,
+    "artifact_digest": "sha256:f065b560c8a2b569f8d447e953c4d3e92322d43836f1b0245ef3ce18f69075b1",
+    "source": "recovered full JSON from successful Actions stdout",
+    "original_input_source_sha256": {
+      "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+      "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+      "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+    }
+  }
+}
