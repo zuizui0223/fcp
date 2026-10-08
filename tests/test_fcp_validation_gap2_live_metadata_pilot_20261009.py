@@ -14,8 +14,13 @@ from audit_fcp_validation_gap2_live_metadata_pilot_20261009 import (
 )
 
 def requirement(year,required,found,error=False,trunc=False):
-    return {"year":year,"required":required,"found":found,
+    return {"target_year":year,"required":required,"found":found,
             "api_error":error,"pagination_incomplete":trunc}
+
+def test_metadata_query_envelope_matches_aggregation_schema():
+    row=requirement(2021,1,1)
+    assert "target_year" in row and "year" not in row
+    assert decide_species([row,requirement(2023,1,1)])=="POSSIBLE_COMPLETE_METADATA_ONLY"
 
 def test_both_years_need_two_distinct_observer_candidates():
     assert decide_species([requirement(2021,1,1),requirement(2023,1,1)])=="POSSIBLE_COMPLETE_METADATA_ONLY"
