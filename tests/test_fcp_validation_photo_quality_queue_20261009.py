@@ -53,7 +53,8 @@ class QualityQueueTests(unittest.TestCase):
 
     def test_no_year_reassignment_or_replacement(self):
         b=copy.deepcopy(self.queue)
-        row=next(x for x in b if x["cohort"]=="validation" and int(x["priority_tier"])==1)
+        tid=str(next(x for x in self.gap1 if x["query_status"]=="ELIGIBLE_PUBLIC_METADATA_CANDIDATE_EXISTS")["inat_taxon_id"])
+        row=next(x for x in b if x["cohort"]=="validation" and int(x["priority_tier"])==1 and str(x["inat_taxon_id"])==tid)
         row["target_year"]="1910"
         with self.assertRaises(ValueError):
             assemble(self.gap1,self.gap2,self.status,b)
