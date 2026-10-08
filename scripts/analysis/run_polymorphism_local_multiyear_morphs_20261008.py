@@ -257,8 +257,14 @@ def describe(df: pd.DataFrame, cohort: str) -> dict:
     }
     for diameter in DIAMETERS_KM:
         pre=f"diameter_{int(diameter)}km_"
-        wc=df[pre+"white_nonwhite_multi_year_two_observers"].astype(bool)
-        hh=df[pre+"two_nonwhite_hues_multi_year_two_observers"].astype(bool)
+        # Keep per-species eligibility identical between all local readouts
+        # and the matched two-category comparison; >=3 local photos alone
+        # must not admit a species failing the global >=5/arm gate.
+        qualified_wc=df.white_plus_nonwhite_5_each.astype(bool)
+        qualified_hh=df.two_nonwhite_hues_5_each.astype(bool)
+        wc=df[pre+"white_nonwhite_multi_year_two_observers"].astype(bool) & qualified_wc
+        hh=df[pre+"two_nonwhite_hues_multi_year_two_observers"].astype(bool) & qualified_hh
+        local_wc=df[pre+"white_nonwhite_same_neighborhood"].astype(bool) & qualified_wc
         a=int((wc & hh & df.both_comparisons_available).sum())
         b=int((wc & ~hh & df.both_comparisons_available).sum())
         c=int((~wc & hh & df.both_comparisons_available).sum())
@@ -266,11 +272,20 @@ def describe(df: pd.DataFrame, cohort: str) -> dict:
         p_exact=float(binomtest(min(b,c),b+c,0.5,alternative="two-sided").pvalue) if b+c>0 else None
         out["diameters_km"][str(int(diameter))]={
             "n_white_nonwhite_neighborhood_with_both_labels_at_least_3":int(
-                df[pre+"white_nonwhite_same_neighborhood"].sum()),
+                local_wc.sum()),
+            "n_white_nonwhite_globally_eligible":int(qualified_wc.sum()),
+            "n_two_hue_globally_eligible":int(qualified_hh.sum()),
+            "conditional_strict_recurrence_fraction_white_nonwhite":float(
+                wc.sum()/qualified_wc.sum()) if qualified_wc.sum() else None,
+            "conditional_strict_recurrence_fraction_two_nonwhite_hues":float(
+                hh.sum()/qualified_hh.sum()) if qualified_hh.sum() else None,
+            "conditional_strict_given_both_labels_cooccur_nearby":float(
+                wc.sum()/local_wc.sum()) if local_wc.sum() else None,
             "n_white_nonwhite_strict_multiyear_two_observers":int(wc.sum()),
             "n_nonwhite_hue_strict_multiyear_two_observers":int(hh.sum()),
             "n_white_nonwhite_two_years_without_observer_gate":int(
-                df[pre+"white_nonwhite_two_years_not_observer_strict"].sum()),
+                (df[pre+"white_nonwhite_two_years_not_observer_strict"].astype(bool) &
+                 qualified_wc).sum()),
             "joint_opportunity_exact_mcnemar":{
                 "n_matched_species":int(len(both)),
                 "both_types_recur":a,"only_white_plus_nonwhite_recur":b,
