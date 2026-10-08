@@ -69,3 +69,20 @@ Photo-anchored circles with radius 5 km are a conservative implementation of a 1
 After seeing the first HOLD, a separate method-sensitivity script, `scripts/analysis/audit_fcp_exact_10km_siteyear_opportunity_20261008.py`, was introduced. It exhaustively tests **existence** of a four-photo minimal witness: two observer-distinct photograph pairs, one per year, with all six between-photo distances <=10 km and exactly the same month. The existence test is mathematically sufficient and necessary for the *minimum four-photo* year-month requirement, but does not identify a sampled genetic population or optimize for >2 years. It neither changes the original sampling rule nor serves as a prospectively registered confirmation. It must be evaluated from checked Actions outputs, not asserted before execution.
 
 Regardless of geometric sensitivity, a retrospective year-anomaly flower-colour association still lacks field-verified genetic morph identity, observation-level camera/illumination matching, and a genotype-aware local change design.
+
+
+### Terminal exact-diameter diagnostic — verified, does not rescue coverage
+
+After the original anchor-HOLD, the four-photo minimal-witness exact 10-km geometric sensitivity passed its seven additional synthetic tests and source-identity replay in [Actions 37792424151](https://github.com/zuizui0223/fcp/actions/runs/37792424151); checked artifact `11557705349` (SHA256 `245c3cea172fd1fb97e3ca863752470416a62079464fe2cebaf34d2c9968bbf5`). Permanent [numerical receipt](../results/fcp_exact_10km_siteyear_opportunity_20261008/terminal_geometry_receipt.json).
+
+| Cohort | Original conservative anchor at 10km | Exhaustive exact FOUR-photo witness at 10km | Geometric undercount corrected | Meets 30-species exploratory threshold? |
+|---|---:|---:|---:|---|
+| Discovery | 10 | 19 | +9 | No |
+| Validation | 10 | 12 | +2 | No |
+| Third | 20 | 23 | +3 | No |
+
+This exposes a real **geometry-induced undercount of 14 species** in the original conservative anchor screen; the corrected minimum-witness existence calculation still falls short of 30 eligible species in **every** cohort. The original anchor-based precommitted HOLD is unmodified. Even under the retrospectively strengthened exact test, the species-pool and within-site photographs cannot sustain the proposed cross-cohort comparative same-site yearly anomaly analysis.
+
+**Terminal ecological verdict:** the historical maximin-style, high-depth iNaturalist photograph resource is strong for comparing flower-colour organization across a sampled range, but too sparse in independently observed, strictly repeated local year×month windows for this distinct causal-environmental question. The extent to which the sampling algorithm versus underlying photographer opportunity caused low coverage was not itself decomposed. No absence of climatic effects, genetic polymorphism or selection is established.
+
+**Next data-design boundary:** any climate anomaly test must begin from a separately collected or predesignated repeated-*site* sample, not enlarge the locality diameter after seeing 10-km failures, or repurpose old same-provider classes as untouched prospective replication. Required are site/year/month/observer windows with enough photos, camera exposure controls, repeated source plants or genotype identities, and matched year-specific climate covariates. With the current frozen photo sample, **do not download ERA5-Land for the blocked three-cohort same-site test**.
