@@ -7,11 +7,13 @@ on:
       - scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py
       - scripts/analysis/audit_fcp_global_white_balance_20261008.py
       - scripts/analysis/audit_fcp_global_white_balance_genus_20261008.py
-      - scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py
+      - scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py scripts/analysis/audit_fcp_global_white_fixed_photo_depth_20261008.py
+      - scripts/analysis/audit_fcp_global_white_fixed_photo_depth_20261008.py
       - tests/test_fcp_all42111_measured_geography_20261008.py
       - tests/test_fcp_global_white_balance_20261008.py
       - tests/test_fcp_global_white_balance_genus_20261008.py
       - tests/test_fcp_global_white_between_within_species_20261008.py
+      - tests/test_fcp_global_white_fixed_photo_depth_20261008.py
       - docs/FCP_ALL42111_ALREADY_MEASURED_GEOGRAPHY_SYNTHESIS_PROTOCOL_20261008.md
       - .github/workflows/fcp-all42111-existing-measured-geography-synthesis-20261008.yml
   workflow_dispatch:
@@ -44,7 +46,7 @@ jobs:
           python -m pip install pytest==8.4.2
           python -m py_compile scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py scripts/analysis/audit_fcp_global_white_balance_20261008.py
           python -m py_compile scripts/analysis/audit_fcp_global_white_balance_genus_20261008.py scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py
-          python -m pytest tests/test_fcp_all42111_measured_geography_20261008.py tests/test_fcp_global_white_balance_20261008.py tests/test_fcp_global_white_balance_genus_20261008.py tests/test_fcp_global_white_between_within_species_20261008.py -q
+          python -m pytest tests/test_fcp_all42111_measured_geography_20261008.py tests/test_fcp_global_white_balance_20261008.py tests/test_fcp_global_white_balance_genus_20261008.py tests/test_fcp_global_white_between_within_species_20261008.py tests/test_fcp_global_white_fixed_photo_depth_20261008.py -q
       - name: Reopen completed actual photo measurements, not original images
         run: |
           set -euo pipefail
@@ -81,6 +83,12 @@ jobs:
           python scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py \
             --taxon-cell /tmp/fcp_premeasured_source/taxon_cell.csv.gz \
             --outdir /tmp/fcp_42111_white_species_partition
+
+      - name: Correct finite-photo detection opportunity behind the apparent global 50:50 white balance
+        run: |
+          python scripts/analysis/audit_fcp_global_white_fixed_photo_depth_20261008.py \
+            --original-species-regions /tmp/fcp_42111_white_species_partition/species_region_photo_white_counts.csv.gz \
+            --outdir /tmp/fcp_42111_white_fixed_depth
 
       - name: Audit all three distinct inferential populations and missingness
         run: |
@@ -136,7 +144,17 @@ jobs:
                           x['n_species_with_both_white_and_nonwhite_in_sampled_cells'])==x['n_species']
                   assert 0<=x['fraction_species_with_both_observed_states']<=1
           assert d['confirmatory_decisions_changed'] is False
-          print('EXISTING_SOURCE_42111_SPECIES_WHITE_BETWEEN_WITHIN_AND_GLOBAL_GEOGRAPHY_AUDITED')
+          depth=json.loads(Path('/tmp/fcp_42111_white_fixed_depth/result.json').read_text())
+          assert depth['schema']=='fcp_all42111_white_50_50_fixed_photo_depth_sensitivity_v1'
+          assert depth['status']=='RETROSPECTIVE_EQUAL_FIVE_PHOTO_DETECTION_OPPORTUNITY_DIAGNOSTIC'
+          assert depth['standardized_photo_depth']==5
+          assert len(depth['results'])==8
+          for r in depth['results']:
+              if r['n_species']>0:
+                  assert 0<=r['expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos']<=1
+                  assert r['expected_fraction_species_showing_both_colours_in_exactly_5_of_their_existing_photos']<=r['observed_fraction_species_with_both_colours_at_all_available_depth']+1e-12
+          assert depth['confirmatory_decisions_changed'] is False
+          print('GLOBAL_PHOTO_WHITE_HALF_SOURCE_AND_EQUAL_FIVE_PHOTO_DETECTION_AUDITED')
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -148,3 +166,4 @@ jobs:
             /tmp/fcp_42111_white_balance/
             /tmp/fcp_42111_genus_white_balance/
             /tmp/fcp_42111_white_species_partition/
+            /tmp/fcp_42111_white_fixed_depth/
