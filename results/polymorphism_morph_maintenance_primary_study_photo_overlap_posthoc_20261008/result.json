@@ -39,7 +39,33 @@
       "photo_neighborhood_50km_pairs": 6,
       "photo_50km_white_nonwhite_pairs": 3,
       "photo_white_state_chemically_confirmed": false,
-      "in_pop_fitness_genotype_mapped_to_source_images": false
+      "in_pop_fitness_genotype_mapped_to_source_images": false,
+      "white_photo_id_review_queue": [
+        "15918873",
+        "21325090",
+        "406856076",
+        "409871766",
+        "513669491",
+        "520834883",
+        "525229330",
+        "651978944",
+        "670851677",
+        "676688828"
+      ],
+      "nonwhite_photo_id_review_queue": [
+        "109618284",
+        "111136248",
+        "130930863",
+        "133149749",
+        "133527802",
+        "18777254",
+        "3381716",
+        "35832458",
+        "384353086",
+        "384386978",
+        "384463653",
+        "387372672"
+      ]
     },
     {
       "species": "Castilleja coccinea",
@@ -66,7 +92,22 @@
       "photo_neighborhood_50km_pairs": 34,
       "photo_50km_white_nonwhite_pairs": 0,
       "photo_white_state_chemically_confirmed": false,
-      "in_pop_fitness_genotype_mapped_to_source_images": false
+      "in_pop_fitness_genotype_mapped_to_source_images": false,
+      "white_photo_id_review_queue": [],
+      "nonwhite_photo_id_review_queue": [
+        "105590895",
+        "106173623",
+        "119876933",
+        "128246695",
+        "128665791",
+        "129756870",
+        "131736707",
+        "133296327",
+        "133577442",
+        "134915216",
+        "134939431",
+        "149648508"
+      ]
     },
     {
       "species": "Moricandia arvensis",
@@ -93,7 +134,35 @@
       "photo_neighborhood_50km_pairs": 94,
       "photo_50km_white_nonwhite_pairs": 49,
       "photo_white_state_chemically_confirmed": false,
-      "in_pop_fitness_genotype_mapped_to_source_images": false
+      "in_pop_fitness_genotype_mapped_to_source_images": false,
+      "white_photo_id_review_queue": [
+        "140904877",
+        "167432082",
+        "175243676",
+        "235987633",
+        "238054072",
+        "244070532",
+        "258955330",
+        "258971647",
+        "262578641",
+        "263850609",
+        "267053463",
+        "280889478"
+      ],
+      "nonwhite_photo_id_review_queue": [
+        "116176974",
+        "121496842",
+        "178459489",
+        "184146880",
+        "242347543",
+        "249202342",
+        "254181618",
+        "269089468",
+        "361101897",
+        "361253351",
+        "454483493",
+        "460539674"
+      ]
     }
   ],
   "source_species_any_sample": [
@@ -193,15 +262,19 @@
   },
   "source_registry_sha256": "6f597849f8ef577d72be3f972f42ace3f6ce636c95c118493f5e93d6f879c90b",
   "execution_provenance": {
-    "workflow_run_id": 37751360157,
-    "job_id": 113225109768,
-    "evaluated_commit": "b15abd6ccc8ad345531bd2ca541e6a213d9a0d92",
-    "artifact_id": 11538710320,
-    "artifact_digest": "sha256:fb07a48c23bc0b0a5051850d229cfb212166ecfc1cf0e16d11cae0bca9136521",
-    "source": "successful GitHub Actions source SHA check, unit tests, original measured photo files and stdout",
-    "synthetic_tests": [
-      "7 passed in 0.32s"
+    "workflow_run_id": 37751963212,
+    "job_id": 113227274910,
+    "evaluated_commit": "4731ded55678d7569042f2216eeee5c1650db2aa",
+    "source_sha256_verified": true,
+    "photo_page_image_review_completed": false,
+    "original_selected_photo_ids_preserved": true,
+    "photo_image_status": "photo IDs available as a deterministic review queue; no source photo image or independent colour assessment was fetched in this analysis",
+    "source": "full successful GitHub Actions JSON stdout, original three fixed photo SHA256, synthetic tests",
+    "artifact_id": 11538576983,
+    "artifact_digest": "sha256:a4c1100d8c18f531cbfa3a3894e77803ebc3628f4e5c344438ad4ff83989e4d6",
+    "tests": [
+      "7 passed in 0.28s"
     ],
-    "frozen_previous_FCP_findings_untouched": true
+    "frozen_paper_decisions_unchanged": true
   }
 }
