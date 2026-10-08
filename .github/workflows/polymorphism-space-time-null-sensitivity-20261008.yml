@@ -1,0 +1,58 @@
+name: FCP space-time null sensitivity audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/audit_polymorphism_space_time_null_sensitivity_20261008.py
+      - tests/test_polymorphism_space_time_null_sensitivity_20261008.py
+      - docs/POLYMORPHISM_CALENDAR_CONDITIONING_ATTENUATION_AUDIT_20261008.md
+      - .github/workflows/polymorphism-space-time-null-sensitivity-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Run synthetic failure-mode checks
+        run: |
+          python -m pip install pytest==8.4.2
+          python -m pytest tests/test_polymorphism_space_time_null_sensitivity_20261008.py -q
+      - name: Recompute sensitivity with no source mutation
+        run: |
+          python scripts/analysis/audit_polymorphism_space_time_null_sensitivity_20261008.py \
+            --source results/polymorphism_specieswide_space_season_posthoc_20261008/result.json \
+            --output /tmp/fcp_space_time_null_sensitivity/result.json
+      - name: Validate retrospective inference boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("/tmp/fcp_space_time_null_sensitivity/result.json").read_text())
+          assert d["schema"]=="fcp_space_time_null_sensitivity_posthoc_v1"
+          assert d["confirmatory_decisions_changed"] is False
+          for cohort in ("discovery","validation","third"):
+              for policy in ("all","different_observer"):
+                  r=d["comparisons"][cohort][policy]
+                  assert r["n_species_same_across_conditions"] > 0
+                  assert r["month_permutation_upper_p"] == 0.005
+                  assert r["yearmonth_permutation_upper_p"] == 0.005
+                  assert r["yearmonth_positive_lower_bound"] is True
+                  assert r["relative_attenuation_unconditional_to_month"] is not None
+                  assert r["relative_attenuation_unconditional_to_yearmonth"] is not None
+          print("Six cohort/policy sensitivity comparisons validated; no causal partition claimed.")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-space-time-null-sensitivity-20261008
+          retention-days: 30
+          if-no-files-found: error
+          path: /tmp/fcp_space_time_null_sensitivity/result.json
