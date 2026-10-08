@@ -30,3 +30,6 @@ No cross-source pooling of incompatibly defined autonomous reproduction, genetic
 
 ### Deliverables
 Separate source-backed JSON and per-species opportunity CSV, synthetic tests enforcing the trait-family distinctions, and reproducible GitHub Actions that retrieve and verify the external repository commit and the original FCP image measurement SHA values. The current manuscript H1/H2/frozen geography remains unchanged.
+
+### Source-confirmed Rodger name mapping correction (before first complete result)
+The public island source implementation src/island_v2/rodger_2021_autofertility_checkpoint.py explicitly normalizes the original Rodger S3 genus.species field by replacing underscores with spaces. This primary-source mapping is now fixed by column name in our code; generic taxon fields are not tried and no result-favourable column search is allowed. The checkpoint also treats any nonmissing negative or invalid pollinator-exclusion measurement as invalid for that source row. The feasibility script has been aligned to this measured-evidence rule; observed numerical zero remains valid evidence of absent autonomous production.

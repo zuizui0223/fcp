@@ -117,15 +117,13 @@ def file_summary(path:Path) -> tuple[pd.DataFrame,dict]:
 
 def get_source_names(df:pd.DataFrame,source:str) -> tuple[pd.Series,str]:
     if source=="rodger":
-        # Rodger original source contains several candidate taxon labels in
-        # differing GBIF/WFO fields. Deliberately STOP instead of picking
-        # whichever boosts overlap. Source schema mapping is a separate review.
-        patterns=("species","scientific_name","taxon_name","species_name","plant_species")
-        candidates=[c for c in df.columns if str(c).strip().casefold().replace(" ","_") in patterns]
-        if len(candidates)==1:
-            col=candidates[0]
-            return df[col].map(binomial),str(col)
-        return pd.Series([""]*len(df),index=df.index,dtype="string"),"HOLD_MANUAL_TAXON_COLUMN_MAPPING"
+        # Source authorial mapping is fixed by island checkpoint:
+        # src/island_v2/rodger_2021_autofertility_checkpoint.py
+        #   selection["submitted_species"] = selection["genus.species"]...
+        # Do not select raw 'taxon', fuzzy synonyms or max-overlap columns.
+        if "genus.species" in df.columns:
+            return df["genus.species"].map(binomial),"genus.species"
+        return pd.Series([""]*len(df),index=df.index,dtype="string"),"HOLD_MISSING_SOURCE_DEFINED_GENUS_SPECIES"
     if source=="goodwillie":
         for name in ("Genus species","Genus Species","genus species"):
             if name in df.columns:
@@ -169,7 +167,12 @@ def direct_trait_info(df:pd.DataFrame,source:str) -> dict:
                     "measurement_type":"autonomous_fruit_seed_after_pollinator_exclusion",
                     "status":"HOLD_SOURCE_SCHEMA_NO_AUTO_COLUMNS"}
         au=df[auto].apply(pd.to_numeric,errors="coerce")
-        measured=(au.notna()&(au>=0)).any(axis=1)
+        # Island's original checkpoint rejects an entire source row if ANY
+        # declared nonmissing exclusion measurement is negative or nonnumeric.
+        raw=df[auto].fillna("").astype(str).apply(lambda col:col.str.strip())
+        valid_entry=raw.apply(lambda col:~col.str.casefold().isin(("", "na", "nan", "none")))
+        valid_numeric=(~valid_entry | (au.notna()&(au>=0))).all(axis=1)
+        measured=(au.notna()&(au>=0)).any(axis=1) & valid_numeric
         return {"measured_mask":measured,"measurement_column":";".join(auto),
                 "measurement_type":"autonomous_fruit_seed_after_pollinator_exclusion",
                 "n_measured_positive_or_zero_rows":int(measured.sum())}
@@ -254,7 +257,7 @@ def summarize_overlap(photos:pd.DataFrame,trait_dfs:dict[str,pd.DataFrame]) -> t
             "high-depth iNaturalist photographs are not unbiased world angiosperm prevalence of genetic colour polymorphism",
             "photo-derived white states are exposed to clipping and are not verified anthocyanin-loss genotypes",
             "a reproductive trait association would not prove net selective trade-off or balancing selection",
-            "unresolved Rodger taxon name schema must never be auto-selected to maximize overlap",
+            "Rodger source-defined genus.species field is used; ambiguous raw taxon or unverified synonyms never replace it",
             "no paper manuscript H1/H2 or prior photo geography decision is overwritten",
         ],
         "confirmatory_decisions_changed":False,

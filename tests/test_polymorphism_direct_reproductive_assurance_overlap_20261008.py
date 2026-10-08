@@ -65,17 +65,24 @@ def test_razanajatovo_autofertility_does_not_impute_self_compatibility():
 
 
 def test_rodger_requires_explicit_exclusion_outcome_and_unambiguous_taxon():
-    d=pd.DataFrame({"species":["Silene littorea","Moricandia arvensis"],
-                    "auto.fruit":["0","0.55"]})
+    d=pd.DataFrame({"genus.species":["Silene_littorea","Moricandia_arvensis"],
+                    "taxon":["authored name","another synonym"],
+                    "auto.fs.x":["0","0.55"]})
     names,col=m.get_source_names(d,"rodger")
     a=m.direct_trait_info(d,"rodger")
-    assert col=="species"
+    assert col=="genus.species"
     assert set(names)=={"Silene littorea","Moricandia arvensis"}
     assert a["measured_mask"].tolist()==[True,True]
-    d["taxon_name"]=d["species"]
+    d["taxon_name"]=d["taxon"]
     x,col=m.get_source_names(d,"rodger")
-    assert col=="HOLD_MANUAL_TAXON_COLUMN_MAPPING"
+    assert col=="genus.species"
+    assert x.tolist()==names.tolist()
+    d=d.drop(columns="genus.species")
+    x,col=m.get_source_names(d,"rodger")
+    assert col=="HOLD_MISSING_SOURCE_DEFINED_GENUS_SPECIES"
     assert x.eq("").all()
+    bad=pd.DataFrame({"auto.fs.x":["0","0.55"],"auto.spfr.x":["-0.02","invalid"]})
+    assert not m.direct_trait_info(bad,"rodger")["measured_mask"].any()
 
 
 def test_direct_trait_overlap_does_not_promote_selection_and_requires_coverage():
@@ -92,7 +99,7 @@ def test_direct_trait_overlap_does_not_promote_selection_and_requires_coverage()
         "Self-compatibility_index_FS":["1","1"],
         "Self-compatibility_index_SFL":["NA","NA"]
     })
-    x=pd.DataFrame({"species":["Moricandia arvensis"],"auto.seed":[0.4]})
+    x=pd.DataFrame({"genus.species":["Moricandia_arvensis"],"auto.fs.x":[0.4]})
     out,ledger=m.summarize_overlap(p,{"rodger":x,"goodwillie":g,"razanajatovo":r})
     assert out["source_photo_species_total"]==3
     assert out["source_trait_panels"]["goodwillie"]["n_fcp_species_measured_trait_overlap"]==2
@@ -104,7 +111,7 @@ def test_direct_trait_overlap_does_not_promote_selection_and_requires_coverage()
 
 
 def test_empty_direct_measurement_does_not_count_species():
-    x=pd.DataFrame({"species":["Silene littorea"],"auto.fruit":["NA"]})
+    x=pd.DataFrame({"genus.species":["Silene_littorea"],"auto.fs.x":["NA"]})
     p=photos()
     r,tab=m.summarize_overlap(p,{"rodger":x})
     assert r["source_trait_panels"]["rodger"]["n_fcp_species_any_named_source_overlap"]==1
