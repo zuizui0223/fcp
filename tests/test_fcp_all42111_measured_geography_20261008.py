@@ -66,7 +66,7 @@ def test_pair_conditional_observed_discordance_and_missingness_bounds(monkeypatc
 def test_missing_label_cannot_be_called_same_colour():
     x=demo_pairs()
     x.loc[1,"pair_state"]="same"
-    with pytest.raises(RuntimeError,match="Pair state"):
+    with pytest.raises(RuntimeError,match="pair-state status conflict"):
         m.pair_metrics(x)
 
 
