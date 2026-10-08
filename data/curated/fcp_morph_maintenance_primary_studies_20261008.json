@@ -44,7 +44,11 @@
         "pink_autonomous_selfed_fruit_percent": 20,
         "white_autonomous_selfed_seed_percent": 20,
         "pink_autonomous_selfed_seed_percent": 12
-      }
+      },
+      "focal_literature_contrast_contains_white": true,
+      "focal_literature_genetically_based_white_colour_supported": true,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "Study has a genetic white/pigmented component, but no independently linked source photo genotype"
     },
     {
       "species": "Boechera stricta",
@@ -71,7 +75,11 @@
         "common_garden_H2": 0.6,
         "well_watered_white_fecundity_advantage_p": 0.016,
         "drought_white_lineage_purple_flower_odds_ratio": 3.03
-      }
+      },
+      "focal_literature_contrast_contains_white": true,
+      "focal_literature_genetically_based_white_colour_supported": true,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "Study has a genetic white/pigmented component, but no independently linked source photo genotype"
     },
     {
       "species": "Dactylorhiza sambucina",
@@ -92,7 +100,11 @@
       "measurements": {
         "synthetic_arrays": 10,
         "transplanted_plants_approx": 600
-      }
+      },
+      "focal_literature_contrast_contains_white": false,
+      "focal_literature_genetically_based_white_colour_supported": false,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "Focal study contrasts nonwhite forms; a white photo label cannot automatically be identified with the source morphs"
     },
     {
       "species": "Iris lutescens",
@@ -115,7 +127,11 @@
         "individuals_genotyped": 1120,
         "populations": 41,
         "microsatellites": 8
-      }
+      },
+      "focal_literature_contrast_contains_white": false,
+      "focal_literature_genetically_based_white_colour_supported": false,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "Focal study contrasts nonwhite forms; a white photo label cannot automatically be identified with the source morphs"
     },
     {
       "species": "Linanthus parryae",
@@ -132,7 +148,11 @@
       "unresolved": [
         "whether corolla colour itself or linked loci are direct targets"
       ],
-      "measurements": {}
+      "measurements": {},
+      "focal_literature_contrast_contains_white": true,
+      "focal_literature_genetically_based_white_colour_supported": true,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "Study has a genetic white/pigmented component, but no independently linked source photo genotype"
     },
     {
       "species": "Castilleja coccinea",
@@ -151,7 +171,11 @@
         "red vs yellow bract colours are not white vs anthocyanin-loss petals",
         "fitness outcome not a universal colour effect"
       ],
-      "measurements": {}
+      "measurements": {},
+      "focal_literature_contrast_contains_white": false,
+      "focal_literature_genetically_based_white_colour_supported": false,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "Focal study contrasts nonwhite forms; a white photo label cannot automatically be identified with the source morphs"
     },
     {
       "species": "Abronia fragrans",
@@ -170,7 +194,11 @@
         "specific molecular or fitness crossover not demonstrated across all traits",
         "betalain chemistry not anthocyanin"
       ],
-      "measurements": {}
+      "measurements": {},
+      "focal_literature_contrast_contains_white": true,
+      "focal_literature_genetically_based_white_colour_supported": true,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "Study has a genetic white/pigmented component, but no independently linked source photo genotype"
     },
     {
       "species": "Leptosiphon parviflorus",
@@ -190,7 +218,11 @@
       ],
       "measurements": {
         "field_sites": 21
-      }
+      },
+      "focal_literature_contrast_contains_white": true,
+      "focal_literature_genetically_based_white_colour_supported": false,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "White visible morph described; stable segregation and biochemical identity not directly verified by the current source material"
     },
     {
       "species": "Moricandia arvensis",
@@ -209,7 +241,11 @@
       "unresolved": [
         "not segregating floral pigment genotypes"
       ],
-      "measurements": {}
+      "measurements": {},
+      "focal_literature_contrast_contains_white": true,
+      "focal_literature_genetically_based_white_colour_supported": false,
+      "focal_literature_within_individual_seasonal_plasticity": true,
+      "focal_white_morph_status_source_note": "Published white photos are seasonal within-genotype phenotype, not segregating colour alleles"
     },
     {
       "species": "Raphanus sativus",
@@ -226,7 +262,11 @@
       "unresolved": [
         "pollinator preferences do not by themselves establish stable morph selection equilibrium"
       ],
-      "measurements": {}
+      "measurements": {},
+      "focal_literature_contrast_contains_white": true,
+      "focal_literature_genetically_based_white_colour_supported": false,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "White visible morph described; stable segregation and biochemical identity not directly verified by the current source material"
     },
     {
       "species": "Ipomoea purpurea",
@@ -245,7 +285,11 @@
       "unresolved": [
         "not an isolated leaf/flower anthocyanin energetic cost measure"
       ],
-      "measurements": {}
+      "measurements": {},
+      "focal_literature_contrast_contains_white": true,
+      "focal_literature_genetically_based_white_colour_supported": true,
+      "focal_literature_within_individual_seasonal_plasticity": false,
+      "focal_white_morph_status_source_note": "Study has a genetic white/pigmented component, but no independently linked source photo genotype"
     }
   ]
 }

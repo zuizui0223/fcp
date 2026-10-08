@@ -38,3 +38,7 @@ Do not sum evidence across noncommensurate fitness variables, infer the rate of 
 ### Delivered analysis
 
 The audit script scripts/analysis/run_polymorphism_mechanism_photo_overlap_20261008.py checks primary source identity and source-photo SHA256, summarizes selected systems in the three original photo cohorts, and writes result.json and study_system_photo_overlap.csv. Synthetic tests check taxon-name misidentification, photo vs pigment/genotype separation and cohort disjointness. This is a causal feasibility diagnosis, not another post hoc ecological fitness test.
+
+### Source-morph semantic negative control (added before final execution)
+
+Even exact species-name matches are not comparable if the original study concerns purple-vs-yellow forms, red-vs-yellow *bracts*, or within-genotype summer white plasticity. The registry therefore carries a separate, source-derived boolean for whether the focal published morph contrast includes white, whether genetically based white variation was demonstrated in that study, and whether white is expressed as a seasonal single-individual state. Every matched source photo row publishes these indicators alongside unreviewed photo-visible white counts. **A published white form plus a white-photo label STILL does not establish the photographed individual's biochemical or genetic identity.** Fail closed on absent source-phenotype declarations. Neither missing white in the focal study contrast nor a photo-white label can prove a source population lacks a rare white morph; direct reinspection would be needed.

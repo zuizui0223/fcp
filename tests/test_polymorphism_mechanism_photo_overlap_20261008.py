@@ -26,6 +26,10 @@ def registry(n=8):
             "source_doi":[f"10.1234/synthetic{i}"],
             "demonstrated":["synthetic outcome"],
             "unresolved":["genetics"],
+            "focal_literature_contrast_contains_white":True,
+            "focal_literature_genetically_based_white_colour_supported":False,
+            "focal_literature_within_individual_seasonal_plasticity":False,
+            "focal_white_morph_status_source_note":"synthetic phenotype without genotype",
         } for i in range(n)]
     }
 
@@ -113,6 +117,9 @@ def test_exact_registry_join_never_fills_missing_fitness_or_synonyms():
     assert out["n_literature_species_ge40_classifiable"]==3
     assert out["n_literature_species_ge5_white_and_ge5_nonwhite"]==2
     assert out["n_true_morph_genotype_chemistry_photo_links"]==0
+    assert out["n_white_nonwhite_photo_systems_with_white_in_paper_focal_palette"]==2
+    assert out["n_white_nonwhite_photo_systems_with_source_documented_genetic_white"]==0
+    assert len(out["verified_photo_overlap_rows"])==3
     assert not out["direct_biochemical_genotype_fitness_bridge_estimable"]
     assert "Genus2 species" not in out["source_species_any_sample"]
     assert len(table)==3

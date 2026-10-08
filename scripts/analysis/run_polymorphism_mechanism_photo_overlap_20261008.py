@@ -75,6 +75,13 @@ def registry_check(path: Path) -> dict:
             raise ValueError("Missing scientific inferential limits")
         if not s.get("evidence_role") or not s.get("mechanism"):
             raise ValueError("Unspecified evidence type")
+        for attribute in ("focal_literature_contrast_contains_white",
+                          "focal_literature_genetically_based_white_colour_supported",
+                          "focal_literature_within_individual_seasonal_plasticity"):
+            if not isinstance(s.get(attribute),bool):
+                raise ValueError(f"Missing validated focal phenotype status: {name}/{attribute}")
+        if not s.get("focal_white_morph_status_source_note"):
+            raise ValueError("Primary organism/photo phenotype mismatch must be documented")
         doi=s.get("source_doi", [])
         if not doi or any(not str(v).startswith(allowed_prefix) for v in doi):
             raise ValueError(f"DOI must identify source: {name}")
@@ -177,6 +184,10 @@ def join_panel(registry: dict, dframes: dict[str,pd.DataFrame]) -> tuple[dict,pd
                 "literature_evidence_role":record["evidence_role"],
                 "primary_study_dois":";".join(record["source_doi"]),
                 "cohort":cohort,
+                "focal_literature_white_colour":record["focal_literature_contrast_contains_white"],
+                "source_white_genetic_evidence":record["focal_literature_genetically_based_white_colour_supported"],
+                "focal_seasonal_within_genotype_change":record["focal_literature_within_individual_seasonal_plasticity"],
+                "source_white_morph_note":record["focal_white_morph_status_source_note"],
                 **stats,
             })
         if len(present)>1:
@@ -187,6 +198,13 @@ def join_panel(registry: dict, dframes: dict[str,pd.DataFrame]) -> tuple[dict,pd
     eligible=details.loc[details.meets_40_photo_eligibility] if len(details) else details
     wmatched=eligible.loc[eligible.meets_5_white_and_5_nonwhite] if len(eligible) else eligible
     photo_true_morph_validated=0 # Not available in measured tables; cannot set using source literature.
+    semantic=(
+        details.loc[details.meets_5_white_and_5_nonwhite] if len(details) else details
+    )
+    n_white_source_focal=int(semantic.focal_literature_white_colour.sum()) if len(semantic) else 0
+    n_white_source_genetic=int(semantic.source_white_genetic_evidence.sum()) if len(semantic) else 0
+    n_white_unstudied=int((~semantic.focal_literature_white_colour).sum()) if len(semantic) else 0
+    n_plastic_focal=int(semantic.focal_seasonal_within_genotype_change.sum()) if len(semantic) else 0
     out={
         "schema":"fcp_morph_maintenance_primary_study_photo_overlap_v1",
         "date_jst":"2026-10-08",
@@ -199,6 +217,11 @@ def join_panel(registry: dict, dframes: dict[str,pd.DataFrame]) -> tuple[dict,pd
         "n_literature_species_ge40_classifiable":len(eligible),
         "n_literature_species_ge5_white_and_ge5_nonwhite":len(wmatched),
         "n_true_morph_genotype_chemistry_photo_links":photo_true_morph_validated,
+        "n_white_nonwhite_photo_systems_with_white_in_paper_focal_palette":n_white_source_focal,
+        "n_white_nonwhite_photo_systems_with_source_documented_genetic_white":n_white_source_genetic,
+        "n_white_nonwhite_photo_systems_whose_published_focal_palette_does_not_include_white":n_white_unstudied,
+        "n_white_nonwhite_photo_systems_with_seasonal_within_plant_colour":n_plastic_focal,
+        "verified_photo_overlap_rows":details.to_dict(orient="records") if len(details) else [],
         "source_species_any_sample":matches,
         "source_species_ge40":sorted(set(eligible.species)) if len(eligible) else [],
         "source_species_white_nonwhite":sorted(set(wmatched.species)) if len(wmatched) else [],
