@@ -164,7 +164,7 @@ def species_analysis(g:pd.DataFrame,cohort:str) -> tuple[dict,dict]:
 
 
 def bootstrap_means(vals:np.ndarray,key:object) -> list[float] | None:
-    if len(vals)<3:return None
+    if len(vals)==0:return None
     rng=np.random.default_rng(rng_seed("bootstrap",key))
     samples=vals[rng.integers(0,len(vals),(N_BOOT,len(vals)))].mean(axis=1)
     return [float(x) for x in np.quantile(samples,[.025,.975])]
