@@ -1,0 +1,99 @@
+name: FCP comparative geography conditional on flowering month
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_polymorphism_specieswide_space_season_20261008.py
+      - tests/test_polymorphism_specieswide_space_season_20261008.py
+      - docs/POLYMORPHISM_SPECIESWIDE_SPACE_SEASON_PROTOCOL_20261008.md
+      - .github/workflows/polymorphism-specieswide-space-season-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-species-space-season-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: '5142f7951af0dde5364bb047a566d67e8c479e51'
+  THIRD_SHA: '7e538e5c51c05a7cc47b2fcf53eea92634c8a863'
+  DISC_SHA256: 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4'
+  VAL_SHA256: '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6'
+  THIRD_SHA256: '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186'
+
+jobs:
+  geographic-over-season:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+
+      - name: Install frozen analysis runtime, syntactic and synthetic tests
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/run_polymorphism_specieswide_space_season_20261008.py
+          python -m pytest tests/test_polymorphism_specieswide_space_season_20261008.py -q
+
+      - name: Materialize and verify immutable three-cohort photo tables
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/fcp_d.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/fcp_v.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/fcp_t.csv
+          echo "$DISC_SHA256  /tmp/fcp_d.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/fcp_v.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/fcp_t.csv" | sha256sum -c -
+
+      - name: Compare specieswide geographic colour allocation after calendar adjustment
+        run: |
+          python scripts/analysis/run_polymorphism_specieswide_space_season_20261008.py \
+            --discovery /tmp/fcp_d.csv \
+            --validation /tmp/fcp_v.csv \
+            --third /tmp/fcp_t.csv \
+            --outdir /tmp/fcp_species_space_season
+
+      - name: Enforce uncertainty and generality gates without reclassifying old paper
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path('/tmp/fcp_species_space_season/result.json').read_text())
+          assert q['schema']=='fcp_generalizable_space_vs_observed_season_posthoc_v1'
+          assert q['confirmatory_decisions_changed'] is False
+          assert q['same_photo_provider_and_colour_classifier'] is True
+          assert q['cohort_species_are_disjoint'] is True
+          assert q['minimum_n_species_per_cohort']==80
+          assert q['number_of_permutations']==199
+          assert set(q['cohorts'])=={'discovery','validation','third'}
+          scores=[]
+          for name,c in q['cohorts'].items():
+              assert c['n_source_species_40_classifiable']>0
+              assert len(c['scenarios'])==8
+              for label,v in c['scenarios'].items():
+                  assert v['n_species']<=c['n_source_species_40_classifiable']
+                  if v['estimable']:
+                      assert 0<=v['permutation_p_upper']<=1
+                      assert len(v['species_bootstrap_95CI_excess'])==2
+                      assert v['meets_frozen_80_species_coverage_gate']==(v['n_species']>=80)
+                      assert abs(v['mean_observed_local_depletion']-v['mean_season_stratified_null_depletion']-v['mean_excess_over_season_stratified_null'])<1e-9
+              for policy in ('all','different_observer'):
+                  v=c['scenarios'][f'month__{policy}']
+                  scores.append(v.get('meets_frozen_80_species_coverage_gate',False) and v.get('permutation_p_upper',1)<0.05 and v.get('mean_excess_over_season_stratified_null',0)>0)
+          assert q['cross_cohort_monthly_qualified_both_policies'] is all(scores)
+          print('GEOGRAPHY_AFTER_MONTH_RESULT_AUDITED_NO_FROZEN_DECISIONS_CHANGED')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-species-space-season-20261008
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_species_space_season/
