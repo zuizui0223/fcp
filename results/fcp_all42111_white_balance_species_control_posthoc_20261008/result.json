@@ -1,0 +1,237 @@
+{
+  "schema": "fcp_global42111_photo_white_balance_versus_species_turnover_audit_v1",
+  "date_jst": "2026-10-08",
+  "status": "SOURCE_VERIFIED_RETROSPECTIVE_WHITE_BALANCE_DESCRIPTION",
+  "origin_global_measured_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
+  "source_taxon_cell_SHA256": "7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e",
+  "original_species_universe": 42111,
+  "observed_taxon_cell_rows": 85337,
+  "region_white_balance": [
+    {
+      "region": "low_0_30",
+      "n_taxa_with_any_cell": 29993,
+      "n_taxa_with_classifiable_cells": 14784,
+      "n_taxa_with_ge3_classifiable_cells": 1119,
+      "n_taxon_cell_rows": 50776,
+      "n_classifiable_cell": 21705,
+      "n_unclassifiable_cell": 29071,
+      "white_classified_cells": 10069,
+      "coloured_classified_cells": 11636,
+      "fraction_white_all_classified_cell_records": 0.463902326652845,
+      "difference_from_0p5_all_classified_cell_records": -0.036097673347155024,
+      "NO_assumption_all_cell_white_frequency_bound": [
+        0.1983023475657791,
+        0.7708366157239641
+      ],
+      "species_equal_mean_white_fraction_within_region": 0.45747853231551067,
+      "species_bootstrap_CI_95_species_equal_white_fraction": [
+        0.4499122242408463,
+        0.46575738773138253
+      ],
+      "n_observed_species_with_white_plus_coloured_cells_within_region": 933,
+      "n_strict_ge3_classifiable_cell_species_with_both_colors": 568,
+      "source_is_observer_photo_morph_not_genetic_fitness": true
+    },
+    {
+      "region": "middle_30_60",
+      "n_taxa_with_any_cell": 15745,
+      "n_taxa_with_classifiable_cells": 8833,
+      "n_taxa_with_ge3_classifiable_cells": 707,
+      "n_taxon_cell_rows": 25264,
+      "n_classifiable_cell": 12500,
+      "n_unclassifiable_cell": 12764,
+      "white_classified_cells": 5875,
+      "coloured_classified_cells": 6625,
+      "fraction_white_all_classified_cell_records": 0.47,
+      "difference_from_0p5_all_classified_cell_records": -0.030000000000000027,
+      "NO_assumption_all_cell_white_frequency_bound": [
+        0.2325443318556048,
+        0.7377691576947435
+      ],
+      "species_equal_mean_white_fraction_within_region": 0.4752416691890822,
+      "species_bootstrap_CI_95_species_equal_white_fraction": [
+        0.4648560406127201,
+        0.4853702345524207
+      ],
+      "n_observed_species_with_white_plus_coloured_cells_within_region": 514,
+      "n_strict_ge3_classifiable_cell_species_with_both_colors": 273,
+      "source_is_observer_photo_morph_not_genetic_fitness": true
+    },
+    {
+      "region": "high_60_90",
+      "n_taxa_with_any_cell": 3457,
+      "n_taxa_with_classifiable_cells": 2369,
+      "n_taxa_with_ge3_classifiable_cells": 577,
+      "n_taxon_cell_rows": 9297,
+      "n_classifiable_cell": 4870,
+      "n_unclassifiable_cell": 4427,
+      "white_classified_cells": 2430,
+      "coloured_classified_cells": 2440,
+      "fraction_white_all_classified_cell_records": 0.4989733059548255,
+      "difference_from_0p5_all_classified_cell_records": -0.0010266940451745254,
+      "NO_assumption_all_cell_white_frequency_bound": [
+        0.26137463697967084,
+        0.7375497472302893
+      ],
+      "species_equal_mean_white_fraction_within_region": 0.4947388969550219,
+      "species_bootstrap_CI_95_species_equal_white_fraction": [
+        0.47597249796542745,
+        0.5130875836442532
+      ],
+      "n_observed_species_with_white_plus_coloured_cells_within_region": 325,
+      "n_strict_ge3_classifiable_cell_species_with_both_colors": 231,
+      "source_is_observer_photo_morph_not_genetic_fitness": true
+    }
+  ],
+  "same_species_paired_region_contrasts": [
+    {
+      "region_a": "low_0_30",
+      "region_b": "middle_30_60",
+      "min_classifiable_cell_images_each_region": 1,
+      "n_matched_species": 1824,
+      "n_observed_mixed_white_and_coloured_in_either_region": 378,
+      "n_observed_mixed_white_and_coloured_in_both_regions": 68,
+      "species_equal_white_difference_region_b_minus_region_a": 0.003827349543318838,
+      "species_paired_bootstrap_95CI": [
+        -0.015887236779755554,
+        0.0219563717820308
+      ],
+      "species_fraction_positive_white_change": 0.16721491228070176,
+      "species_fraction_negative_white_change": 0.16557017543859648,
+      "species_fraction_equal_photo_white_fraction": 0.6672149122807017,
+      "n_species_positive_photo_white_change": 305,
+      "n_species_negative_photo_white_change": 302,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "claim_limits": "paired species-controlled photographic contrast, not within-individual plasticity or adaptation; measurement origin, observer, source photo dates and clipped whites still confound"
+    },
+    {
+      "region_a": "low_0_30",
+      "region_b": "middle_30_60",
+      "min_classifiable_cell_images_each_region": 3,
+      "n_matched_species": 168,
+      "n_observed_mixed_white_and_coloured_in_either_region": 114,
+      "n_observed_mixed_white_and_coloured_in_both_regions": 43,
+      "species_equal_white_difference_region_b_minus_region_a": 0.0030910722037388277,
+      "species_paired_bootstrap_95CI": [
+        -0.031845437677046215,
+        0.036443518690804644
+      ],
+      "species_fraction_positive_white_change": 0.32142857142857145,
+      "species_fraction_negative_white_change": 0.3333333333333333,
+      "species_fraction_equal_photo_white_fraction": 0.34523809523809523,
+      "n_species_positive_photo_white_change": 54,
+      "n_species_negative_photo_white_change": 56,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "claim_limits": "paired species-controlled photographic contrast, not within-individual plasticity or adaptation; measurement origin, observer, source photo dates and clipped whites still confound"
+    },
+    {
+      "region_a": "low_0_30",
+      "region_b": "high_60_90",
+      "min_classifiable_cell_images_each_region": 1,
+      "n_matched_species": 278,
+      "n_observed_mixed_white_and_coloured_in_either_region": 71,
+      "n_observed_mixed_white_and_coloured_in_both_regions": 11,
+      "species_equal_white_difference_region_b_minus_region_a": 0.008350093369251955,
+      "species_paired_bootstrap_95CI": [
+        -0.033807121884909655,
+        0.05261050495919122
+      ],
+      "species_fraction_positive_white_change": 0.18345323741007194,
+      "species_fraction_negative_white_change": 0.17625899280575538,
+      "species_fraction_equal_photo_white_fraction": 0.6402877697841727,
+      "n_species_positive_photo_white_change": 51,
+      "n_species_negative_photo_white_change": 49,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "claim_limits": "paired species-controlled photographic contrast, not within-individual plasticity or adaptation; measurement origin, observer, source photo dates and clipped whites still confound"
+    },
+    {
+      "region_a": "low_0_30",
+      "region_b": "high_60_90",
+      "min_classifiable_cell_images_each_region": 3,
+      "n_matched_species": 42,
+      "n_observed_mixed_white_and_coloured_in_either_region": 25,
+      "n_observed_mixed_white_and_coloured_in_both_regions": 7,
+      "species_equal_white_difference_region_b_minus_region_a": -0.02055232983028014,
+      "species_paired_bootstrap_95CI": [
+        -0.09252081582438723,
+        0.0477891025037764
+      ],
+      "species_fraction_positive_white_change": 0.30952380952380953,
+      "species_fraction_negative_white_change": 0.2857142857142857,
+      "species_fraction_equal_photo_white_fraction": 0.40476190476190477,
+      "n_species_positive_photo_white_change": 13,
+      "n_species_negative_photo_white_change": 12,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "claim_limits": "paired species-controlled photographic contrast, not within-individual plasticity or adaptation; measurement origin, observer, source photo dates and clipped whites still confound"
+    },
+    {
+      "region_a": "middle_30_60",
+      "region_b": "high_60_90",
+      "min_classifiable_cell_images_each_region": 1,
+      "n_matched_species": 1295,
+      "n_observed_mixed_white_and_coloured_in_either_region": 400,
+      "n_observed_mixed_white_and_coloured_in_both_regions": 77,
+      "species_equal_white_difference_region_b_minus_region_a": 0.017787428144571002,
+      "species_paired_bootstrap_95CI": [
+        -0.001546754832469117,
+        0.03848030749816463
+      ],
+      "species_fraction_positive_white_change": 0.2023166023166023,
+      "species_fraction_negative_white_change": 0.18455598455598454,
+      "species_fraction_equal_photo_white_fraction": 0.6131274131274131,
+      "n_species_positive_photo_white_change": 262,
+      "n_species_negative_photo_white_change": 239,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "claim_limits": "paired species-controlled photographic contrast, not within-individual plasticity or adaptation; measurement origin, observer, source photo dates and clipped whites still confound"
+    },
+    {
+      "region_a": "middle_30_60",
+      "region_b": "high_60_90",
+      "min_classifiable_cell_images_each_region": 3,
+      "n_matched_species": 249,
+      "n_observed_mixed_white_and_coloured_in_either_region": 139,
+      "n_observed_mixed_white_and_coloured_in_both_regions": 53,
+      "species_equal_white_difference_region_b_minus_region_a": -0.0013981723319072715,
+      "species_paired_bootstrap_95CI": [
+        -0.028411846130219624,
+        0.024186708539118168
+      ],
+      "species_fraction_positive_white_change": 0.26506024096385544,
+      "species_fraction_negative_white_change": 0.26104417670682734,
+      "species_fraction_equal_photo_white_fraction": 0.4738955823293173,
+      "n_species_positive_photo_white_change": 66,
+      "n_species_negative_photo_white_change": 65,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "claim_limits": "paired species-controlled photographic contrast, not within-individual plasticity or adaptation; measurement origin, observer, source photo dates and clipped whites still confound"
+    }
+  ],
+  "same_species_region_photo_diversity": "number of image colours observed in region, not genetic morph coexistence in one mating population",
+  "what_half_white_means": "approx 50% is conditional on source photographs whose ROI was classifiable, among regionally sampled taxon-cell anchors; NOT 50:50 within a species, or selected white/pigmented genotypes in a population",
+  "diagnostic_distinctions": [
+    "taxon-cell-weighted share differs from species-equal within-region share when widespread species repeat across cells",
+    "species-equal within-region still compares different species pools; paired crossregion contrasts constrain species identity",
+    "rare-white photo non-detection does not prove regional absence of white morphs",
+    "unclassified photo outcomes can be white or coloured; absolute no-assumption bounds are wide",
+    "observer/light exposure coupling can falsely raise source photo-white classification",
+    "different geographic cell photos may sample separate populations and even nonhomologous floral organs",
+    "a photo-derived 50:50 ratio is not an ecological balancing-selection equilibrium"
+  ],
+  "confirmatory_decisions_changed": false,
+  "species_region_ledger_SHA256": "2ee1bc6ad5fcea8848f2aea38b75e89bb04fdf8d47992bb8c5def2946bdc9768",
+  "crossregion_matched_species_ledger_SHA256": "009c7a31cae36fcaad80fb5700d20f656269ddad19dd2fdc152c15fe19067434",
+  "execution_receipt": {
+    "origin": "completed original source-SHA-verified GitHub Actions JSON stdout",
+    "workflow_run_id": 37774888984,
+    "job_id": 113303147365,
+    "workflow_source_commit": "013b79e1d8eb57f5ba145f64328a6c3d0b46f6e1",
+    "measured_external_source_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
+    "measured_external_sha256_validated": true,
+    "synthetic_tests": [
+      "13 passed in 0.47s"
+    ],
+    "artifact_id": 11549442504,
+    "artifact_digest": "sha256:5e91f53ef4b85cef04a02ab3cbbb010f39793ea642bf26537772389cda334de0",
+    "historic_H1_H2_and_manuscript_unchanged": true,
+    "posthoc_discovery_not_new_independent_confirmation": true
+  }
+}
