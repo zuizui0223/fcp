@@ -94,9 +94,12 @@ def test_nonexchangeable_month_only_is_not_claimed_as_benefit_cost():
     assert row["W_all__eligible"]
     assert not row["W_all__identifiable"]
     assert row["W_all__excess_V2"]==0
+    # The nonwhite hues occur in the SAME month but different sites.
+    # Month-conditioning removes the white/season artefact without erasing
+    # valid nonwhite-hue geographic sorting.
     assert row["hue_lead_next__eligible"]
-    assert not row["hue_lead_next__identifiable"]
-    assert row["hue_lead_next__excess_V2"]==0
+    assert row["hue_lead_next__identifiable"]
+    assert row["hue_lead_next__excess_V2"]>0
 
 
 def test_cramer_variance_normalizes_sample_frequency():
