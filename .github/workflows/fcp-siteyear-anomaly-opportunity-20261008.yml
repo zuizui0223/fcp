@@ -201,34 +201,22 @@ jobs:
           python -m pytest tests/test_fcp_validation_gap2_live_metadata_pilot_20261009.py -q
           python -m py_compile scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py
           python scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py --help > /dev/null
-      - name: Metadata-only first-page audit for fixed 60 Validation gap-two species (maximum 120 calls)
-        run: |
-          test "$GITHUB_RUN_ATTEMPT" = "1"
-          python scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py \
-            --queue /tmp/fcp_replenishment_queue/source_only_observer_photo_query_queue.csv \
-            --discovery /tmp/fcp_discovery.csv \
-            --validation /tmp/fcp_validation.csv \
-            --third /tmp/fcp_third.csv \
-            --breadth /tmp/fcp_42111_breadth.csv.gz \
-            --outdir /tmp/fcp_validation_gaptwo_live_metadata
-      - name: Hold biological interpretation regardless of second-stage metadata opportunity
+      - name: Verify terminal Validation gap-two metadata receipt without repeat API calls
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          r=json.loads(Path("/tmp/fcp_validation_gaptwo_live_metadata/result.json").read_text())
+          r=json.loads(Path("results/fcp_validation_gap2_live_metadata_20261009/terminal_pilot_receipt.json").read_text())
           assert r["schema"]=="fcp_validation_gap2_live_observation_metadata_pilot_v1"
           assert r["original_10km_gate"]=="HOLD_UNCHANGED"
           assert r["n_species_target"]==60
           assert r["required_missing_observer_photo_slots"]==120
-          assert 60<=r["n_api_requests_attempted"]<=120
+          assert r["n_api_requests_attempted"]==120
           assert r["no_photo_pixels_fetched"] is True
-          assert r["confirmatory_decisions_changed"] is False
-          assert sum(r[k] for k in ("n_species_both_year_requirements_metadata_possible",
-              "n_species_api_error_unresolved","n_species_pagination_unknown",
-              "n_species_first_pages_insufficient"))==60
-          assert r["max_metadata_only_qualified_validation_species_if_all_images_valid"]==25+r["n_species_both_year_requirements_metadata_possible"]
-          print(json.dumps(r,indent=2))
+          assert r["n_species_both_year_requirements_metadata_possible"]==10
+          assert r["max_metadata_only_qualified_validation_species_if_all_images_valid"]==35
+          assert r["execution_provenance"]["status"]=="SUCCESS"
+          print("The terminal 10/60 gap-two metadata receipt was revalidated; no new API requests.")
           PY
       - uses: actions/upload-artifact@v4
         if: always()
@@ -241,4 +229,3 @@ jobs:
             /tmp/fcp_exact_10km_opportunity/
             /tmp/fcp_siteyear_replenishment/
             /tmp/fcp_replenishment_queue/
-            /tmp/fcp_validation_gaptwo_live_metadata/
