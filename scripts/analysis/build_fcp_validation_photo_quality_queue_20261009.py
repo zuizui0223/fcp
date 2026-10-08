@@ -130,6 +130,11 @@ def assemble(gap1: list, gap2: list, statuses: list, queue: list) -> dict:
                 "year_requirements": requirements,
                 "species_quality_pass": None, "photo_review_completed": False
             })
+    # Opportunity-only redundancy: this is NOT a photo-quality outcome.
+    species_with_no_spare = sum(
+        any(year["metadata_candidates"] == year["required"]
+            for year in sp["year_requirements"].values()) for sp in species
+    )
     photos.sort(key=lambda x: (x["gap_class"], int(x["inat_taxon_id"]), x["target_year"], int(x["photo_id"])))
     species.sort(key=lambda x: (x["gap_class"], int(x["inat_taxon_id"])))
     if (len(species), len(photos)) != (25, 115):
@@ -151,6 +156,8 @@ def assemble(gap1: list, gap2: list, statuses: list, queue: list) -> dict:
         "max_metadata_ceiling_validation_species": 35,
         "n_candidate_species_required_to_pass_for_gate": 20,
         "n_candidate_species_allowed_to_fail": 5,
+        "n_species_with_no_spare_photo_in_one_or_more_required_years": species_with_no_spare,
+        "n_species_with_spare_photo_in_every_required_year": len(species)-species_with_no_spare,
         "notes": [
             "Photo metadata only: review entire 115 ID ledger without morphology-based replacement",
             "A gap-two species requires every missing calendar-year cell to pass image quality checks",
@@ -174,6 +181,25 @@ def main():
         w = csv.DictWriter(f, fieldnames=COLUMNS)
         w.writeheader()
         w.writerows(d["photo_candidates"])
+    with (a.outdir / "candidate_species_quality_review.csv").open("w", encoding="utf-8", newline="") as f:
+        cols=("inat_taxon_id","species","gap_class","calendar_month","source_anchor_photo_id",
+              "n_missing_year_cells","required_new_observer_slots","metadata_candidate_photos",
+              "min_spare_metadata_photos_any_year","source_year_requirements",
+              "species_quality_review_status")
+        w=csv.DictWriter(f,fieldnames=cols); w.writeheader()
+        for sp in d["species"]:
+            yr=sp["year_requirements"]
+            w.writerow({
+                "inat_taxon_id":sp["inat_taxon_id"],"species":sp["species"],
+                "gap_class":sp["gap_class"],"calendar_month":sp["calendar_month"],
+                "source_anchor_photo_id":sp["source_anchor_photo_id"],
+                "n_missing_year_cells":len(yr),
+                "required_new_observer_slots":sum(v["required"] for v in yr.values()),
+                "metadata_candidate_photos":sum(v["metadata_candidates"] for v in yr.values()),
+                "min_spare_metadata_photos_any_year":min(v["metadata_candidates"]-v["required"] for v in yr.values()),
+                "source_year_requirements":json.dumps(yr,sort_keys=True),
+                "species_quality_review_status":"UNREVIEWED",
+            })
     print(json.dumps({key: d[key] for key in ("schema", "n_candidate_species", "n_photo_ids",
                                               "n_images_inspected", "original_10km_gate")}, sort_keys=True))
 
