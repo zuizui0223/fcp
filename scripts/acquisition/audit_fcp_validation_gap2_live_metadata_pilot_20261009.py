@@ -143,13 +143,13 @@ def run(queue_file:Path,sources:dict[str,Path],breadth:Path,outdir:Path,
             z["error_class"]=type(e).__name__
         technical.append(z)
         with progress.open("a",encoding="utf-8") as fp:
-            fp.write(json.dumps(z,sort_keys=True)+"\\n")
+            fp.write(json.dumps(z,sort_keys=True)+"\n")
         if i+1<len(q):
             sleep(MIN_INTERVAL_SECONDS)
     if len(technical)!=len(q):
         raise RuntimeError("Incomplete metadata collection cannot be aggregated")
     (outdir/"technical_all_queries_completed.json").write_text(
-        json.dumps(technical,indent=2,sort_keys=True)+"\\n",encoding="utf-8")
+        json.dumps(technical,indent=2,sort_keys=True)+"\n",encoding="utf-8")
     print("FCP_GAP2_ALL_METADATA_QUERY_RESPONSES_DURABLY_WRITTEN",flush=True)
     by_species={}
     for tid in sorted(q.inat_taxon_id.astype(str).unique(),key=int):
