@@ -51,6 +51,25 @@ jobs:
           assert d.observation_id.nunique()==42111
           print('42111_ORIGINAL_SOURCE_PHOTO_IDENTITIES_FROZEN_NO_PIXEL_ACCESS')
           PY
+      - name: Smoke-test first 100 original source IDs against the corrected API route
+        run: |
+          python - <<'PY'
+          import importlib.util
+          from pathlib import Path
+          p=Path('scripts/acquisition/resolve_fcp_all42111_existing_photo_metadata_20261008.py')
+          spec=importlib.util.spec_from_file_location('fcp_original_resolver',p)
+          module=importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(module)
+          frozen=module.original_photo_manifest(Path('results/fcp_all42111_archived_photo_id_20261008/one_source_photo_id_per_each_42111_species.csv.gz'))
+          assert len(frozen)==42111
+          ids=frozen.observation_id.iloc[:100].astype(int).tolist()
+          returned=module.fetch_api_batch(ids)
+          recovered={int(x.get('id')) for x in returned.get('results',[]) if x.get('id') is not None}
+          assert len(recovered)>=1, 'The new list-ID route returned no original observations; never execute 422 large batches'
+          assert recovered.issubset(set(ids)), 'Source API response contained unrequested IDs'
+          print(f'ORIGINAL_100_ID_BATCH_API_TRANSPORT_OK_RETRIEVED_{len(recovered)}')
+          PY
+
       - name: One safe batch-API source-metadata pass over all 42111 archived photo IDs
         run: |
           set -euo pipefail

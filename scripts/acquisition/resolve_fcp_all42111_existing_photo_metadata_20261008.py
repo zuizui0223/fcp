@@ -15,6 +15,7 @@ import os
 import time
 from pathlib import Path
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 import pandas as pd
@@ -27,14 +28,18 @@ TIMEOUT_SECONDS=45
 RETRIES=1
 ALLOWED_LICENSES=frozenset(["cc0","cc-by","cc-by-sa","cc-by-nc","cc-by-nc-sa"])
 UA="zuizui0223-fcp-whole42111-original-photo-metadata/1.0 (github.com/zuizui0223/fcp)"
-URL_PREFIX="https://api.inaturalist.org/v1/observations/"
+URL_PREFIX="https://api.inaturalist.org/v1/observations"
+TRANSPORT_RECOVERY_OF_RUN=37762416621
+# The /observations/{comma-separated-ids} route may reject >30 IDs (422).
+# The documented ID search query accepts longer lists with per_page=200.
 ALLOWED_STATUSES=frozenset([
     "VALID_SOURCE_PHOTO_URL_AND_LICENSE",
     "OBSERVATION_ID_NOT_RETURNED",
     "ORIGINAL_PHOTO_ID_MISSING",
     "PHOTO_LICENSE_NOT_ALLOWED",
     "PHOTO_URL_MISSING",
-    "SOURCE_API_QUERY_FAILURE"
+    "SOURCE_API_QUERY_FAILURE",
+    "TAXON_IDENTITY_MISMATCH"
 ])
 
 
@@ -111,6 +116,11 @@ def decode_batch(source:pd.DataFrame,payload:dict)->list[dict]:
             except (TypeError,ValueError):
                 pass
         item["source_taxon_identity_match"]=item["returned_taxon_id"]==int(row.inat_taxon_id)
+        # A different current source taxon must NOT be counted as
+        # verified colour evidence for the immutable historical species.
+        if not item["source_taxon_identity_match"]:
+            item["photo_url_status"]="TAXON_IDENTITY_MISMATCH"
+            out.append(item);continue
         photos=obs.get("photos") or []
         matching=[]
         for photo in photos:
@@ -142,7 +152,7 @@ def fetch_api_batch(observation_ids:list[int], *,rate_sleep=time.sleep)->dict:
         raise ValueError("Unexpected iNaturalist batch size")
     if len(set(observation_ids))!=len(observation_ids):
         raise ValueError("No duplicate observation IDs may enter API request")
-    url=URL_PREFIX + ",".join(str(int(x)) for x in observation_ids)
+    url=URL_PREFIX + "?" + urlencode({"per_page":200, "id":",".join(str(int(x)) for x in observation_ids)})
     err=None
     for attempt in range(RETRIES+1):
         if attempt:
@@ -231,7 +241,9 @@ def main()->None:
         "status":"WHOLE_SOURCE_PHOTO_URL_LICENCE_RESOLVED_WITH_MISSINGNESS",
         "original_single_photo_species":EXPECTED_SPECIES,
         "original_archive_single_photo_identity_sha256":FROZEN_IDENTITIES_SHA256,
-        "api_endpoint":"GET /v1/observations/id1,id2,... in batches of 100",
+        "api_endpoint":"GET /v1/observations?per_page=200&id=id1,id2,... in batches of 100",
+        "technical_only_transport_recovery_of_failed_run":TRANSPORT_RECOVERY_OF_RUN,
+        "technical_failure_of_previous_endpoint":"421 of 422 source batches failed on the comma-separated IDs path; route replaced without changing selected photo identities",
         "api_requests_rate_policy":"<=1 batch per 1.2 seconds; bounded 1 retry; follows bulk observation-ID recommendations",
         "original_photo_identity_unchanged":True,
         "downloaded_image_pixels":False,
