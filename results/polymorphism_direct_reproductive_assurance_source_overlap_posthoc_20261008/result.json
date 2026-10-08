@@ -1,0 +1,226 @@
+{
+  "schema": "fcp_direct_reproductive_assurance_trait_overlap_v1",
+  "date_jst": "2026-10-08",
+  "status": "complete_source_overlap_feasibility",
+  "role": "same_species_independent_direct_mating_trait_coverage_not_causal_selection",
+  "island_source_pin": {
+    "source_repo": "zuizui0223/island",
+    "commit_sha": "92f007797fbbcb3c6743a4ffb2628fa609329499",
+    "rodger_gz_sha256": "fa745c578f3537933fafedc1d36b4ea266348cd83d7f6cbb231c253b0f348d3f",
+    "rodger_original_rows": 1528,
+    "sources": {
+      "rodger": {
+        "doi": "10.1126/sciadv.abd3524",
+        "trait": "autonomous seed/fruit production without pollinators"
+      },
+      "goodwillie": {
+        "doi": "10.1146/annurev.ecolsys.36.091704.175539",
+        "trait": "multilocus natural-population genetic outcrossing rate"
+      },
+      "razanajatovo": {
+        "doi": "10.1038/ncomms13313",
+        "trait": "experimentally measured autofertility index or self-compatibility index"
+      }
+    }
+  },
+  "photo_source_pin": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "source_photo_species_total": 1109,
+  "source_photo_species_by_cohort": {
+    "discovery": 369,
+    "validation": 363,
+    "third": 377
+  },
+  "source_trait_panels": {
+    "goodwillie": {
+      "taxonomic_name_column": "Genus species",
+      "n_source_rows": 469,
+      "n_exact_species_names": 341,
+      "n_species_with_direct_measurement": 307,
+      "n_fcp_species_any_named_source_overlap": 30,
+      "n_fcp_species_measured_trait_overlap": 27,
+      "n_fcp_white_chromatic_photo_species_measured_trait_overlap": 15,
+      "n_measured_overlap_by_cohort": {
+        "discovery": 7,
+        "validation": 13,
+        "third": 7
+      },
+      "n_measured_white_chromatic_overlap_by_cohort": {
+        "discovery": 4,
+        "validation": 7,
+        "third": 4
+      },
+      "measurement": {
+        "measurement_column": "Mean-tm",
+        "measurement_type": "genetic_outcrossing_fraction_0_to_1",
+        "n_natural_measured_rows": 406
+      },
+      "photo_colour_trait_association_eligible": false
+    },
+    "razanajatovo": {
+      "taxonomic_name_column": "Species",
+      "n_source_rows": 1890,
+      "n_exact_species_names": 1732,
+      "n_species_with_direct_measurement": 846,
+      "n_fcp_species_any_named_source_overlap": 83,
+      "n_fcp_species_measured_trait_overlap": 38,
+      "n_fcp_white_chromatic_photo_species_measured_trait_overlap": 23,
+      "n_measured_overlap_by_cohort": {
+        "discovery": 16,
+        "validation": 12,
+        "third": 10
+      },
+      "n_measured_white_chromatic_overlap_by_cohort": {
+        "discovery": 10,
+        "validation": 5,
+        "third": 8
+      },
+      "measurement": {
+        "measurement_column": "Autofertility_index_FS;Autofertility_index_SFL",
+        "measurement_type": "autofertility_index_not_self_compatibility",
+        "n_direct_autofertility_rows": 893,
+        "n_self_compatibility_only_rows": 372
+      },
+      "photo_colour_trait_association_eligible": false
+    },
+    "rodger": {
+      "taxonomic_name_column": "genus.species",
+      "n_source_rows": 1528,
+      "n_exact_species_names": 1174,
+      "n_species_with_direct_measurement": 1174,
+      "n_fcp_species_any_named_source_overlap": 44,
+      "n_fcp_species_measured_trait_overlap": 44,
+      "n_fcp_white_chromatic_photo_species_measured_trait_overlap": 21,
+      "n_measured_overlap_by_cohort": {
+        "discovery": 14,
+        "validation": 16,
+        "third": 14
+      },
+      "n_measured_white_chromatic_overlap_by_cohort": {
+        "discovery": 9,
+        "validation": 5,
+        "third": 7
+      },
+      "measurement": {
+        "measurement_column": "auto.fs.x;auto.spfr.x;auto.spofl.x;auto.spofr.x;auto.spfl.x;auto.spp.x",
+        "measurement_type": "autonomous_fruit_seed_after_pollinator_exclusion",
+        "n_measured_positive_or_zero_rows": 1528
+      },
+      "photo_colour_trait_association_eligible": false
+    }
+  },
+  "minimums": {
+    "source_photo_species": 40,
+    "white_and_nonwhite_photo_counts_each": 5,
+    "direct_trait_total": 80,
+    "direct_trait_per_cohort": 20,
+    "white_chromatic_per_cohort": 8
+  },
+  "all_sources_direct_trait_overlap_status": "HOLD_NO_SUFFICIENT_INDEPENDENT_SPECIES_COHORT_COVERAGE",
+  "hard_nonclaims": [
+    "reported self-compatibility is not autonomous selfing; no phenotype proxy replaces measured outcome",
+    "population mean outcrossing rate is not autonomous bagging reproduction and is a species-level aggregate",
+    "these direct breeding traits are not white-vs-pigmented morph-specific fitness payoffs",
+    "case-assembled literature datasets have biased taxonomic/ecological coverage",
+    "exact binomial matching without validated synonyms gives conservative lower-bound name overlap",
+    "high-depth iNaturalist photographs are not unbiased world angiosperm prevalence of genetic colour polymorphism",
+    "photo-derived white states are exposed to clipping and are not verified anthocyanin-loss genotypes",
+    "a reproductive trait association would not prove net selective trade-off or balancing selection",
+    "Rodger source-defined genus.species field is used; ambiguous raw taxon or unverified synonyms never replace it",
+    "no paper manuscript H1/H2 or prior photo geography decision is overwritten"
+  ],
+  "confirmatory_decisions_changed": false,
+  "original_external_file_inventory": {
+    "goodwillie": {
+      "n_rows": 469,
+      "columns": [
+        "source_row_number",
+        "Reference",
+        "PubYear",
+        "Family",
+        "Genus",
+        "species",
+        "Genus species",
+        "Monocot/Dicot/Gymno",
+        "Lform(0=ann,1=Hper,2=Wper)",
+        "Pollination(0=anim,1=wind,2=water)",
+        "MarkerType",
+        "nMarkers",
+        "PopType (0=natural, 1= experimental, 2=seed orchard, 3=agricultural)",
+        "nPops(t)",
+        "Mean-tm",
+        "Mean ts",
+        "Upper-tm",
+        "Where-t",
+        "nPops(F)",
+        "Mech of selfing",
+        "Use for t & F?",
+        "Mean-F",
+        "Lower-F",
+        "Upper-F",
+        "Where-F",
+        "Reference.1"
+      ],
+      "header_sha256": "6505706b9e9c23ed5d8f8d56f0d43cf8ead76a9d08bd4bde9c46da03342ffff1",
+      "source_file_sha256": "7e2a72856f85f9f7db25b9d3888248b575f4502a0d1713407592fb1c95d5fbff"
+    },
+    "razanajatovo": {
+      "n_rows": 1890,
+      "columns": [
+        "Data_source",
+        "Species",
+        "Family",
+        "Self-compatibility_index_FS",
+        "Self-compatibility_index_SFL",
+        "Autofertility_index_FS",
+        "Autofertility_index_SFL",
+        "Annual_Biennial",
+        "Listed_in_GloNAF",
+        "Number_GloNAF_Regions",
+        "Number_Native_Regions"
+      ],
+      "header_sha256": "352fae6af69dbe28b2aa06ab3b861b252cdc6ab7c4cc2b0b6f7f7b224057a2a0",
+      "source_file_sha256": "e030e1053d0c0b5a73ecc9a4dde3b26ba3fab20f8bb65cd61d01f4883800547b"
+    },
+    "rodger": {
+      "n_rows": 1528,
+      "columns": [
+        "source_row",
+        "pc.unique.number",
+        "source.dataset",
+        "study",
+        "year.publication",
+        "year.study.estimate",
+        "taxon",
+        "genus.species",
+        "TPL.family",
+        "alien",
+        "auto.fs.x",
+        "auto.spfr.x",
+        "auto.spofl.x",
+        "auto.spofr.x",
+        "auto.spfl.x",
+        "auto.spp.x"
+      ],
+      "header_sha256": "27f094993b8bb8e4f89bb99c637c9d8a2cf0db1d7ec88f483bfa523c17fd5052",
+      "source_file_sha256": "fa745c578f3537933fafedc1d36b4ea266348cd83d7f6cbb231c253b0f348d3f"
+    }
+  },
+  "execution_receipt": {
+    "workflow_run_id": 37754332413,
+    "job_id": 113235033281,
+    "evaluated_commit": "dad6dbbeb31405ed1f85855fe250711b2c9f977f",
+    "artifact_id": 11539227632,
+    "artifact_digest": "sha256:bf58647d35cdc9ef2019e100cbb527c13b847ff170e6c954cef47a550c382d2d",
+    "synthetic_tests": [
+      "6 passed in 0.39s"
+    ],
+    "source_original_three_photo_SHA256_verified": true,
+    "independent_source_commit_pinned": true,
+    "science_verdict": "HOLD_NO_SUFFICIENT_INDEPENDENT_SPECIES_COHORT_COVERAGE",
+    "causal_fitness_claims_promoted": false
+  }
+}
