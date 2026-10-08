@@ -6,6 +6,9 @@ on:
     paths:
       - scripts/analysis/run_polymorphism_white_chromatic_clines_20261008.py
       - tests/test_polymorphism_white_chromatic_clines_20261008.py
+      - scripts/analysis/run_polymorphism_global_geography_bands_20261008.py
+      - tests/test_polymorphism_global_geography_bands_20261008.py
+      - docs/POLYMORPHISM_GLOBAL_GEOGRAPHY_BAND_ATLAS_PROTOCOL_20261008.md
       - docs/POLYMORPHISM_WHITE_CHROMATIC_CLINES_PROTOCOL_20261008.md
       - .github/workflows/polymorphism-white-chromatic-clines-20261008.yml
   workflow_dispatch:
@@ -39,7 +42,8 @@ jobs:
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
           python -m pip install pytest==8.4.2
           python -m py_compile scripts/analysis/run_polymorphism_white_chromatic_clines_20261008.py
-          python -m pytest tests/test_polymorphism_white_chromatic_clines_20261008.py -q
+          python -m py_compile scripts/analysis/run_polymorphism_global_geography_bands_20261008.py
+          python -m pytest tests/test_polymorphism_white_chromatic_clines_20261008.py tests/test_polymorphism_global_geography_bands_20261008.py -q
 
       - name: Recover SHA256-frozen three image cohorts
         run: |
@@ -72,6 +76,15 @@ jobs:
             --elevation /tmp/fcp_elevation/wc2.1_10m_elev.tif \
             --outdir /tmp/fcp_white_chromatic_clines
 
+      - name: Analyse absolute-latitude and elevation band geography across species
+        run: |
+          python scripts/analysis/run_polymorphism_global_geography_bands_20261008.py \
+            --discovery /tmp/fcp_discovery.csv \
+            --validation /tmp/fcp_validation.csv \
+            --third /tmp/fcp_third.csv \
+            --elevation /tmp/fcp_elevation/wc2.1_10m_elev.tif \
+            --outdir /tmp/fcp_global_geography_atlas
+
       - name: Check inferential boundaries and result shape
         run: |
           python - <<'PY'
@@ -86,7 +99,24 @@ jobs:
               assert c["primary_high_absolute_latitude_chromatic"]["estimable"], k
               assert c["primary_high_elevation_chromatic"]["estimable"], k
               assert c["n_species_both_types"] <= c["n_species_white_plus_colour_at_least_5_each"], k
-          print("COHORTS_ESTIMABLE_AND_FROZEN_RESULTS_UNCHANGED")
+          g=json.loads(Path("/tmp/fcp_global_geography_atlas/result.json").read_text())
+          assert g["schema"]=="fcp_geographic_latitude_elevation_band_atlas_v1"
+          assert g["confirmatory_decisions_changed"] is False
+          assert set(g["cohorts"])=={"discovery","validation","third"}
+          assert set(g["cross_cohort_band_sign_check"])=={"absolute_latitude","elevation"}
+          for cohort,c in g["cohorts"].items():
+              assert set(c) == {"absolute_latitude","elevation","hemisphere_coverage_descriptive"}
+              for axis,nbands in (("absolute_latitude",5),("elevation",4)):
+                  band=c[axis]["bands"]
+                  assert len(band)==nbands
+                  assert c[axis]["n_source_40_classifiable_species"]==r["cohorts"][cohort]["n_species_eligible_global"]
+                  for record in band.values():
+                      assert record["n_informative_species"] <= record.get("n_species_with_min8_photos_in_bin_even_without_outside_opportunity",0)
+                      if record["n_informative_species"]>0:
+                          assert len(record["bootstrap_95CI_white_deviation"])==2
+                          assert len(record["bootstrap_95CI_D_deviation"])==2
+                          assert record["minimum_25_species_pass"]==(record["n_informative_species"]>=25)
+          print("GEOGRAPHIC_ATLAS_SOURCE_AND_BAND_COUNTS_AUDITED_NO_FROZEN_RESULTS_CHANGED")
           PY
 
       - uses: actions/upload-artifact@v4
@@ -94,4 +124,6 @@ jobs:
           name: fcp-white-chromatic-clines-20261008
           if-no-files-found: error
           retention-days: 30
-          path: /tmp/fcp_white_chromatic_clines/
+          path: |
+            /tmp/fcp_white_chromatic_clines/
+            /tmp/fcp_global_geography_atlas/
