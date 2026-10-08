@@ -51,7 +51,7 @@
           "red_pink": 2693,
           "blue_purple": 1678
         },
-        "species_equal_within_region_photo_colour_fraction_conditional": {
+        "taxon_cell_weighted_colour_fraction_conditional": {
           "white": 0.463902326652845,
           "yellow_orange": 0.3347155033402442,
           "red_pink": 0.12407279428703064,
@@ -73,7 +73,7 @@
           "red_pink": 1268,
           "blue_purple": 1172
         },
-        "species_equal_within_region_photo_colour_fraction_conditional": {
+        "taxon_cell_weighted_colour_fraction_conditional": {
           "white": 0.47,
           "yellow_orange": 0.3348,
           "red_pink": 0.10144,
@@ -95,7 +95,7 @@
           "red_pink": 382,
           "blue_purple": 490
         },
-        "species_equal_within_region_photo_colour_fraction_conditional": {
+        "taxon_cell_weighted_colour_fraction_conditional": {
           "white": 0.4989733059548255,
           "yellow_orange": 0.3219712525667351,
           "red_pink": 0.07843942505133471,
@@ -209,18 +209,18 @@
   "confirmatory_decisions_changed": false,
   "cell_support_csv_SHA256": "bee44623e216e455cd5ea760209cf299c2653d162d9731a00250db044077843a",
   "execution_receipt": {
-    "origin": "completed original source-SHA-verified GitHub Actions JSON stdout",
-    "workflow_run_id": 37774888984,
-    "job_id": 113303147365,
-    "workflow_source_commit": "013b79e1d8eb57f5ba145f64328a6c3d0b46f6e1",
-    "measured_external_source_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
-    "measured_external_sha256_validated": true,
-    "synthetic_tests": [
-      "13 passed in 0.47s"
+    "origin": "successfully source-SHA-verified original 2026-09 measurement replay; no new image pixel access",
+    "workflow_run_id": 37777080395,
+    "job_id": 113310570810,
+    "workflow_source_commit": "c95f637a8e0b8c7f0959c46af9114e417f74a27f",
+    "image_measurement_source_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
+    "original_image_measurement_shas_verified": true,
+    "tests": [
+      "13 passed in 0.65s"
     ],
-    "artifact_id": 11549442504,
-    "artifact_digest": "sha256:5e91f53ef4b85cef04a02ab3cbbb010f39793ea642bf26537772389cda334de0",
-    "historic_H1_H2_and_manuscript_unchanged": true,
-    "posthoc_discovery_not_new_independent_confirmation": true
+    "artifact_id": 11550306882,
+    "artifact_digest": "sha256:c89ffe8d548453aebb2262156e251985d9339e0458f9114ace137c500d2c8e63",
+    "authoritatively_retrospective_not_an_independent_confirmation": true,
+    "original_paper_claims_not_reclassified": true
   }
 }

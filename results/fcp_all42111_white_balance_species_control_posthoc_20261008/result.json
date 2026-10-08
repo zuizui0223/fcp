@@ -220,18 +220,18 @@
   "species_region_ledger_SHA256": "2ee1bc6ad5fcea8848f2aea38b75e89bb04fdf8d47992bb8c5def2946bdc9768",
   "crossregion_matched_species_ledger_SHA256": "009c7a31cae36fcaad80fb5700d20f656269ddad19dd2fdc152c15fe19067434",
   "execution_receipt": {
-    "origin": "completed original source-SHA-verified GitHub Actions JSON stdout",
-    "workflow_run_id": 37774888984,
-    "job_id": 113303147365,
-    "workflow_source_commit": "013b79e1d8eb57f5ba145f64328a6c3d0b46f6e1",
-    "measured_external_source_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
-    "measured_external_sha256_validated": true,
-    "synthetic_tests": [
-      "13 passed in 0.47s"
+    "origin": "successfully source-SHA-verified original 2026-09 measurement replay; no new image pixel access",
+    "workflow_run_id": 37777080395,
+    "job_id": 113310570810,
+    "workflow_source_commit": "c95f637a8e0b8c7f0959c46af9114e417f74a27f",
+    "image_measurement_source_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
+    "original_image_measurement_shas_verified": true,
+    "tests": [
+      "13 passed in 0.65s"
     ],
-    "artifact_id": 11549442504,
-    "artifact_digest": "sha256:5e91f53ef4b85cef04a02ab3cbbb010f39793ea642bf26537772389cda334de0",
-    "historic_H1_H2_and_manuscript_unchanged": true,
-    "posthoc_discovery_not_new_independent_confirmation": true
+    "artifact_id": 11550306882,
+    "artifact_digest": "sha256:c89ffe8d548453aebb2262156e251985d9339e0458f9114ace137c500d2c8e63",
+    "authoritatively_retrospective_not_an_independent_confirmation": true,
+    "original_paper_claims_not_reclassified": true
   }
 }
