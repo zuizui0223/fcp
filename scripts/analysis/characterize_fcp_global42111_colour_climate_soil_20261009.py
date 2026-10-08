@@ -77,6 +77,32 @@ def cell_id(latitude:np.ndarray,longitude:np.ndarray)->np.ndarray:
     return result
 
 
+def region_coverage(all_species:pd.DataFrame)->pd.DataFrame:
+    """Include ALL original 42111 source taxa, even geolocation/classification missing."""
+    d=all_species.copy()
+    classified=(d.morph.isin(COLOURS)&d.measurement_status.eq("classified_four_state_morph"))
+    loc=d.site_geo_status.eq("VALID_PUBLIC_ORIGINAL_PHOTO_POINT")
+    abslat=pd.to_numeric(d.latitude,errors="coerce").abs()
+    region=np.select(
+        [loc & abslat.lt(30), loc & abslat.ge(30)&abslat.lt(60),
+         loc & abslat.ge(60)&abslat.le(90)],
+        ["0_30","30_60","60_90"],
+        default="NO_EXACT_PUBLIC_GEO",
+    )
+    d["source_latitude_region"]=region
+    d["classified"]=classified
+    d["climate_complete"]=loc & d.environment_climate_complete.astype(bool)
+    d["soil_complete"]=loc & d.environment_soil_complete.astype(bool)
+    d["all_complete"]=d.climate_complete & d.soil_complete & d.wc_elevation_m.notna()
+    return d.groupby("source_latitude_region",sort=True).agg(
+        source_species=("inat_taxon_id","size"),
+        classified_flower_photo=("classified","sum"),
+        climate_complete_species=("climate_complete","sum"),
+        soil_complete_species=("soil_complete","sum"),
+        all_environment_complete_species=("all_complete","sum"),
+    ).reset_index()
+
+
 def split_loss(data:pd.DataFrame,group_by:str)->dict:
     from sklearn.model_selection import GroupKFold
     from sklearn.preprocessing import StandardScaler
@@ -193,7 +219,11 @@ def main():
     a=p.parse_args()
     d=pd.read_csv(a.species_breadth_with_abiotic,low_memory=False)
     report,profile=run(d)
+    coverage=region_coverage(d)
+    if int(coverage.source_species.sum())!=42111:
+        raise RuntimeError('The source-wide latitude/environment missingness denominator drifted')
     a.outdir.mkdir(parents=True,exist_ok=True)
+    coverage.to_csv(a.outdir/'original_42111_source_latitude_environment_coverage.csv',index=False)
     (a.outdir/"result.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n",encoding="utf-8")
     profile.to_csv(a.outdir/"species_equal_flower_colour_environmental_profiles.csv",index=False)
     print(json.dumps(report,indent=2,sort_keys=True),flush=True)
