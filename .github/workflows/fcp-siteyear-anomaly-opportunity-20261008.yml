@@ -107,6 +107,35 @@ jobs:
               assert v["n_extra_exact_geometry"] == v["n_exact10"]-a
           print("Exact geometry sensitivity computed; original gate remains unchanged.")
           PY
+      - name: Check photo-observer replenishment mathematical shortfall
+        run: python -m pytest tests/test_fcp_siteyear_replenishment_gap_20261008.py -q
+      - name: Compute existing two-year/month opportunity and missing-observer slots
+        run: |
+          python scripts/analysis/audit_fcp_siteyear_replenishment_gap_20261008.py \
+            --discovery /tmp/fcp_discovery.csv \
+            --validation /tmp/fcp_validation.csv \
+            --third /tmp/fcp_third.csv \
+            --outdir /tmp/fcp_siteyear_replenishment
+      - name: Validate original HOLD and pure shortfall rather than claimed photo availability
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("/tmp/fcp_siteyear_replenishment/result.json").read_text())
+          old=json.loads(Path("/tmp/fcp_siteyear_opportunity/result.json").read_text())
+          assert d["schema"]=="fcp_same_siteyear_same_month_replenishment_gap_v1"
+          assert d["original_10km_eligibility_hold_unchanged"] is True
+          assert d["confirmatory_decisions_changed"] is False
+          assert d["original_all_cohorts_gate_hold"] is True
+          for cohort in ("discovery","validation","third"):
+              c=d["cohorts"][cohort]
+              assert c["n_original_photo_anchor_eligible_gap0"]==old["cohorts"][cohort]["radii"]["r10"]["n_species_eligible"]
+              n=c["source_species"]
+              assert c["n_geographically_year_month_repeatable"]<=n
+              assert c["n_no_repeated_year_month_anchored_candidate"]==n-c["n_geographically_year_month_repeatable"]
+              assert sum(c["minimal_additional_observer_photo_slots_histogram"].values())==c["n_geographically_year_month_repeatable"]
+          print("Missing observer-photo slots only; frozen 10km historical HOLD unchanged.")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: fcp-siteyear-same-month-opportunity-20261008
@@ -115,3 +144,4 @@ jobs:
           path: |
             /tmp/fcp_siteyear_opportunity/
             /tmp/fcp_exact_10km_opportunity/
+            /tmp/fcp_siteyear_replenishment/
