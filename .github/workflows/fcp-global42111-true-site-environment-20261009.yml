@@ -42,9 +42,11 @@ jobs:
       - name: Pinned environmental runtime plus source denominator tests
         run: |
           set -euo pipefail
-          python -m pip install numpy==2.1.3 pandas==2.2.3 rasterio==1.4.3 pytest==8.4.2
+          python -m pip install numpy==2.1.3 pandas==2.2.3 rasterio==1.4.3 scikit-learn==1.6.1 pytest==8.4.2
           python -m pytest tests/test_fcp_global42111_true_site_climate_soil_20261009.py -q
           python -m py_compile scripts/analysis/attach_fcp_global42111_true_site_climate_soil_20261009.py
+          python -m py_compile scripts/analysis/characterize_fcp_global42111_colour_climate_soil_20261009.py
+          python -m pytest tests/test_fcp_global42111_colour_climate_soil_characterization_20261009.py -q
       - name: Restore exactly original image-measured metadata, not pixels
         run: |
           set -euo pipefail
@@ -139,6 +141,32 @@ jobs:
           assert r["taxon_cell_classifiable_by_covariate"]["environment_all_complete"]<=39075
           print('FCP_WORLD_42111_REAL_ABIOTIC_INPUT_COMPLETE', json.dumps(r,sort_keys=True))
           PY
+      - name: Compare species-equal flower-colour ecology across geography, climate, soil with genus/cell holdout
+        run: |
+          python scripts/analysis/characterize_fcp_global42111_colour_climate_soil_20261009.py \
+            --species-breadth-with-abiotic /tmp/fcp42111_real_site_abiotic/breadth_flower_colour_climate_soil.csv.gz \
+            --outdir /tmp/fcp42111_global_colour_abiotic_characterization
+      - name: Validate noncausal blocked predictive comparisons and full 42111 species denominator
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp42111_global_colour_abiotic_characterization/result.json').read_text())
+          assert d['schema']=='fcp_global42111_colour_climate_soil_predictive_characterization_v1'
+          assert d['global_original_species_denominator']==42111
+          assert d['global_one_photo_classified_species_denominator']==18457
+          assert d['historical_source_completeness']['source_taxa']==42111
+          assert d['historical_source_completeness']['original_colour_classifiable_taxa']==18457
+          assert d['n_full_abiotic_colour_sample']>=1000
+          assert d['identical_complete_case_rows_for_every_model'] is True
+          assert d['photo_colour_outcomes_reclassified'] is False
+          assert d['spatial_cell_centroid_as_plant_soil'] is False
+          assert {x['heldout_group'] for x in d['models']}=={'genus','site_cell_162'}
+          for x in d['models']:
+              assert set(x['feature_families'])=={'GEO','GEO_CLIMATE','GEO_CLIMATE_SOIL'}
+              assert all(v['n_species_same_tested']==d['n_full_abiotic_colour_sample'] for v in x['feature_families'].values())
+          print('GLOBAL_42111_ECOLOGICAL_PHOTO_ASSOCIATIONS_NONCAUSAL_SPATIAL_AND_GENUS_HOLDOUT_VERIFIED')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: fcp-global42111-original-photo-real-site-climate-soil-20261009
@@ -146,6 +174,7 @@ jobs:
           if-no-files-found: error
           path: |
             /tmp/fcp42111_real_site_abiotic/
+            /tmp/fcp42111_global_colour_abiotic_characterization/
             /tmp/fcp_worldclim/elev.zip.sha256
       - name: Preserve original-source environmental covariates and coverage on analysis PR only
         env:
@@ -159,7 +188,10 @@ jobs:
           test ! -e "$root/result.json"
           mkdir -p "$root"
           cp /tmp/fcp42111_real_site_abiotic/* "$root/"
-          git add "$root"
+          model_root=results/fcp_global42111_colour_climate_soil_characterization_20261009
+          mkdir -p "$model_root"
+          cp /tmp/fcp42111_global_colour_abiotic_characterization/* "$model_root/"
+          git add "$root" "$model_root"
           if git diff --cached --quiet; then
             echo "::error::No source-backed climate-soil results were produced"; exit 1
           fi
