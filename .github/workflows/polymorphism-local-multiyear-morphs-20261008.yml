@@ -1,0 +1,87 @@
+name: FCP local multiyear morph observation audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_polymorphism_local_multiyear_morphs_20261008.py
+      - tests/test_polymorphism_local_multiyear_morphs_20261008.py
+      - docs/POLYMORPHISM_LOCAL_MULTIYEAR_MORPH_PROTOCOL_20261008.md
+      - .github/workflows/polymorphism-local-multiyear-morphs-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-local-multiyear-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: '5142f7951af0dde5364bb047a566d67e8c479e51'
+  THIRD_SHA: '7e538e5c51c05a7cc47b2fcf53eea92634c8a863'
+  DISC_SHA256: 'ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4'
+  VAL_SHA256: '0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6'
+  THIRD_SHA256: '57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186'
+
+jobs:
+  recurrence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Install tested dependencies and run synthetic safeguards
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/run_polymorphism_local_multiyear_morphs_20261008.py
+          python -m pytest tests/test_polymorphism_local_multiyear_morphs_20261008.py -q
+
+      - name: Retrieve and verify immutable photo measurements
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/fcp_disc.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/fcp_val.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/fcp_third.csv
+          echo "$DISC_SHA256  /tmp/fcp_disc.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/fcp_val.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/fcp_third.csv" | sha256sum -c -
+
+      - name: Quantify local multiyear photo morph recurrence
+        run: |
+          python scripts/analysis/run_polymorphism_local_multiyear_morphs_20261008.py \
+            --discovery /tmp/fcp_disc.csv \
+            --validation /tmp/fcp_val.csv \
+            --third /tmp/fcp_third.csv \
+            --outdir /tmp/fcp_local_multiyear
+
+      - name: Enforce denominator and historical-claim boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/fcp_local_multiyear/result.json').read_text())
+          assert r['schema']=='fcp_local_multiyear_morph_observation_posthoc_v1'
+          assert r['confirmatory_decisions_changed'] is False
+          assert r['status']=='complete'
+          assert set(r['cohorts'])=={'discovery','validation','third'}
+          for cohort in r['cohorts'].values():
+              assert cohort['n_species_classifiable']>0
+              assert cohort['n_both_comparisons_available']<=cohort['n_white_plus_nonwhite_5_each']
+              assert cohort['n_both_comparisons_available']<=cohort['n_two_nonwhite_hues_5_each']
+              for km in ('10','25','50'):
+                  gate=cohort['diameters_km'][km]['joint_opportunity_exact_mcnemar']
+                  assert sum(gate[x] for x in ('both_types_recur','only_white_plus_nonwhite_recur','only_two_nonwhite_hues_recur','neither_recur'))==gate['n_matched_species']
+          print('MULTIYEAR_MORPH_EVIDENCE_VERIFIED_NO_FROZEN_CLAIMS_CHANGED')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-local-multiyear-morphs-20261008
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_local_multiyear/
