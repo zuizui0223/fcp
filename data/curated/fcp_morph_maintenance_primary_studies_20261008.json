@@ -79,8 +79,7 @@
       "mechanism": "negative_frequency_dependent_pollinator_visitation",
       "photo_contrast": "purple_vs_yellow",
       "source_doi": [
-        "10.1073/pnas.101.20.7839",
-        "10.1073/pnas.101.21.8263"
+        "10.1073/pnas.111162598"
       ],
       "evidence_role": "experimentally_manipulated_morph_frequency_pollinator_function",
       "demonstrated": [
@@ -145,7 +144,8 @@
       ],
       "evidence_role": "heritability_habitat_populations_common_garden_fitness",
       "demonstrated": [
-        "heritable floral bract color associated with habitat segregation and fitness contrasts"
+        "heritable floral bract color associated with habitat segregation and fitness contrasts",
+        "common garden red morph lower fitness than yellow in the experiment"
       ],
       "unresolved": [
         "red vs yellow bract colours are not white vs anthocyanin-loss petals",
@@ -159,7 +159,7 @@
       "mechanism": "betalain_pigment_and_reproductive_display_antagonist_coupling",
       "photo_contrast": "white_vs_pink_betalain",
       "source_doi": [
-        "10.1002/ajb2.70141"
+        "10.1002/ajb2.70142"
       ],
       "evidence_role": "flower_count_genetics_environment_and_transplant_damage",
       "demonstrated": [
