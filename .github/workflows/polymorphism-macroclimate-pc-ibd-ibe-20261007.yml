@@ -1,0 +1,111 @@
+name: FCP macroclimate PC IBD versus IBE
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/POLYMORPHISM_MACROCLIMATE_PC_IBD_IBE_PROTOCOL_20261007.md
+      - scripts/analysis/run_polymorphism_macroclimate_PC_IBD_IBE_20261007.py
+      - .github/workflows/polymorphism-macroclimate-pc-ibd-ibe-20261007.yml
+  workflow_dispatch:
+
+concurrency:
+  group: fcp-macroclimate-pc-ibd-ibe-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  BIO_ZIP_SHA256: "00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf"
+  SRAD_ZIP_SHA256: "c72ee7f4f9a0eb4b5f6cd7a003eddc05bda22a2e5666d968ed4e817fd36b9026"
+
+jobs:
+  macroclimate-pc:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+
+      - name: Install frozen raster-analysis runtime
+        run: python -m pip install -r requirements-np-bio5-replay-20260928.txt
+
+      - name: Recover immutable measured tables
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/third.csv
+          echo "$DISC_SHA256  /tmp/discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/third.csv" | sha256sum -c -
+
+      - name: Recover checksum-pinned WorldClim macroclimate archives
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/worldclim/bio /tmp/worldclim/srad
+          curl -L --fail --retry 5 --retry-delay 3 \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip \
+            -o /tmp/worldclim/bio.zip
+          curl -L --fail --retry 5 --retry-delay 3 \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip \
+            -o /tmp/worldclim/srad.zip
+          echo "$BIO_ZIP_SHA256  /tmp/worldclim/bio.zip" | sha256sum -c -
+          echo "$SRAD_ZIP_SHA256  /tmp/worldclim/srad.zip" | sha256sum -c -
+          unzip -q /tmp/worldclim/bio.zip -d /tmp/worldclim/bio
+          unzip -q /tmp/worldclim/srad.zip -d /tmp/worldclim/srad
+          for i in $(seq 1 19); do
+            test -f "/tmp/worldclim/bio/wc2.1_10m_bio_${i}.tif"
+          done
+          for m in $(seq -w 1 12); do
+            test -f "/tmp/worldclim/srad/wc2.1_10m_srad_${m}.tif"
+          done
+
+      - name: Run discovery-fitted macroclimate PC decomposition
+        run: |
+          rm -rf /tmp/fcp_macroclimate_pc
+          python scripts/analysis/run_polymorphism_macroclimate_PC_IBD_IBE_20261007.py \
+            --discovery /tmp/discovery.csv \
+            --validation /tmp/validation.csv \
+            --third /tmp/third.csv \
+            --bio-dir /tmp/worldclim/bio \
+            --srad-dir /tmp/worldclim/srad \
+            --bio5-result results/polymorphism_phenotypic_IBD_IBE_posthoc_20261007/result.json \
+            --outdir /tmp/fcp_macroclimate_pc
+
+      - name: Validate fixed analysis boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_macroclimate_pc/result.json").read_text())
+          assert r["schema"]=="fcp_macroclimate_PC_IBD_IBE_posthoc_v1"
+          assert r["status"]=="complete_fixed_multivariate_macroclimate_decomposition"
+          assert r["confirmatory_decisions_changed"] is False
+          assert r["environment"]["n_variables"]==20
+          assert r["environment"]["fit_cohort"]=="discovery only"
+          assert r["environment"]["k_pc80"] <= r["environment"]["k_pc90"] <= r["environment"]["k_pc95"] <= 20
+          assert r["discovery"]["n_species"] >= 300
+          assert r["validation"]["n_species"] >= 300
+          assert r["third"]["n_species"] >= 300
+          print(json.dumps(r,indent=2,sort_keys=True))
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-macroclimate-pc-ibd-ibe-20261007
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_macroclimate_pc/
