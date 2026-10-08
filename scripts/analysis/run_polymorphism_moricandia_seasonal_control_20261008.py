@@ -199,7 +199,7 @@ def main():
         raise RuntimeError("Validation measured-table source hash mismatch")
     r=analyze(pd.read_csv(args.validation,low_memory=False))
     args.outdir.mkdir(parents=True,exist_ok=True)
-    (args.outdir/"mor_icandia_seasonal_control.json").write_text(
+    (args.outdir/"moricandia_seasonal_control.json").write_text(
         json.dumps(r,indent=2,ensure_ascii=False)+"\n")
     print(json.dumps(r,indent=2,ensure_ascii=False))
 
