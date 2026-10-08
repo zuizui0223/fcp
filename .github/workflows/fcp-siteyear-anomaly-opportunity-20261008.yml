@@ -78,9 +78,40 @@ jobs:
           assert r["next_action"] == ("qualify_independent_anomaly_input_and_hold_photo_exposure_checks" if gate else "HOLD_10KM_REPEATED_SITE_YEAR_MONTH_PHOTO_OPPORTUNITY")
           print(json.dumps({c:{k:d["radii"][k]["n_species_eligible"] for k in ("r10","r25","r50")} for c,d in r["cohorts"].items()}, indent=2))
           PY
+      - name: Test exhaustive 4-photo 10km geometric witness sensitivity
+        run: python -m pytest tests/test_fcp_exact_10km_siteyear_opportunity_20261008.py -q
+      - name: Diagnose conservative-anchor geometry without changing HOLD
+        run: |
+          python scripts/analysis/audit_fcp_exact_10km_siteyear_opportunity_20261008.py \
+            --discovery /tmp/fcp_discovery.csv \
+            --validation /tmp/fcp_validation.csv \
+            --third /tmp/fcp_third.csv \
+            --outdir /tmp/fcp_exact_10km_opportunity
+      - name: Guard original and geometric estimands separately
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          original=json.loads(Path("/tmp/fcp_siteyear_opportunity/result.json").read_text())
+          exact=json.loads(Path("/tmp/fcp_exact_10km_opportunity/result.json").read_text())
+          assert original["primary_10km_all_cohort_feasibility_pass"] is False
+          assert exact["schema"] == "fcp_exact_10km_siteyear_opportunity_sensitivity_v1"
+          assert exact["confirmatory_decisions_changed"] is False
+          assert exact["original_anchor_hold_unchanged"] is True
+          assert exact["original_all_cohort_gate_hold"] is True
+          for c in ("discovery","validation","third"):
+              a=original["cohorts"][c]["radii"]["r10"]["n_species_eligible"]
+              v=exact["cohorts"][c]
+              assert v["n_anchor10"] == a
+              assert v["n_exact10"] >= a
+              assert v["n_extra_exact_geometry"] == v["n_exact10"]-a
+          print("Exact geometry sensitivity computed; original gate remains unchanged.")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: fcp-siteyear-same-month-opportunity-20261008
           retention-days: 30
           if-no-files-found: error
-          path: /tmp/fcp_siteyear_opportunity/
+          path: |
+            /tmp/fcp_siteyear_opportunity/
+            /tmp/fcp_exact_10km_opportunity/
