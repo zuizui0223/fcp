@@ -1,0 +1,231 @@
+name: FCP matched site-year-month photo opportunity audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/FCP_SITEYEAR_SAME_MONTH_CLIMATE_PREFLIGHT_20261008.md
+      - scripts/analysis/audit_fcp_siteyear_same_month_opportunity_20261008.py
+      - tests/test_fcp_siteyear_same_month_opportunity_20261008.py
+      - scripts/analysis/audit_fcp_exact_10km_siteyear_opportunity_20261008.py
+      - tests/test_fcp_exact_10km_siteyear_opportunity_20261008.py
+      - scripts/analysis/audit_fcp_siteyear_replenishment_gap_20261008.py
+      - tests/test_fcp_siteyear_replenishment_gap_20261008.py
+      - scripts/analysis/build_fcp_replenishment_metadata_query_queue_20261008.py
+      - tests/test_fcp_replenishment_metadata_query_queue_20261008.py
+      - scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py
+      - tests/test_fcp_validation_gap1_live_metadata_pilot_20261008.py
+      - scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py
+      - tests/test_fcp_validation_gap2_live_metadata_pilot_20261009.py
+      - results/fcp_validation_gap1_live_metadata_20261008/terminal_pilot_receipt.json
+      - .github/workflows/fcp-siteyear-anomaly-opportunity-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-siteyear-anomaly-opportunity-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install lightweight metadata runtime
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp_siteyear_same_month_opportunity_20261008.py
+      - name: Test local opportunities on deliberately misleading synthetic photos
+        run: python -m pytest tests/test_fcp_siteyear_same_month_opportunity_20261008.py -q
+      - name: Recover unchanged measured source photographs
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/fcp_discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/fcp_validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/fcp_third.csv
+          echo "$DISC_SHA256  /tmp/fcp_discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/fcp_validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/fcp_third.csv" | sha256sum -c -
+      - name: Compute label-blind repeated-site/year same-month feasibility
+        run: |
+          python scripts/analysis/audit_fcp_siteyear_same_month_opportunity_20261008.py \
+            --discovery /tmp/fcp_discovery.csv \
+            --validation /tmp/fcp_validation.csv \
+            --third /tmp/fcp_third.csv \
+            --outdir /tmp/fcp_siteyear_opportunity
+      - name: Confirm no biological result or adaptive claim was produced
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_siteyear_opportunity/result.json").read_text())
+          assert r["schema"]=="fcp_siteyear_same_month_photo_opportunity_v1"
+          assert r["status"]=="coverage_only_no_climate_outcomes"
+          assert r["confirmatory_decisions_changed"] is False
+          assert r["primary_radius_km"]==10
+          assert r["sensitivity_radii_km"]==[25,50]
+          expected={"discovery":369,"validation":363,"third":377}
+          for cohort,n in expected.items():
+              d=r["cohorts"][cohort]
+              assert d["source_species"]==n
+              assert d["n_species_source_classifiable_40"]==n
+              assert 0<=d["radii"]["r10"]["n_species_eligible"]<=d["radii"]["r25"]["n_species_eligible"]<=d["radii"]["r50"]["n_species_eligible"]<=n
+          gate=all(r["cohorts"][c]["radii"]["r10"]["n_species_eligible"]>=30 for c in expected)
+          assert r["primary_10km_all_cohort_feasibility_pass"] is gate
+          assert r["next_action"] == ("qualify_independent_anomaly_input_and_hold_photo_exposure_checks" if gate else "HOLD_10KM_REPEATED_SITE_YEAR_MONTH_PHOTO_OPPORTUNITY")
+          print(json.dumps({c:{k:d["radii"][k]["n_species_eligible"] for k in ("r10","r25","r50")} for c,d in r["cohorts"].items()}, indent=2))
+          PY
+      - name: Test exhaustive 4-photo 10km geometric witness sensitivity
+        run: python -m pytest tests/test_fcp_exact_10km_siteyear_opportunity_20261008.py -q
+      - name: Diagnose conservative-anchor geometry without changing HOLD
+        run: |
+          python scripts/analysis/audit_fcp_exact_10km_siteyear_opportunity_20261008.py \
+            --discovery /tmp/fcp_discovery.csv \
+            --validation /tmp/fcp_validation.csv \
+            --third /tmp/fcp_third.csv \
+            --outdir /tmp/fcp_exact_10km_opportunity
+      - name: Guard original and geometric estimands separately
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          original=json.loads(Path("/tmp/fcp_siteyear_opportunity/result.json").read_text())
+          exact=json.loads(Path("/tmp/fcp_exact_10km_opportunity/result.json").read_text())
+          assert original["primary_10km_all_cohort_feasibility_pass"] is False
+          assert exact["schema"] == "fcp_exact_10km_siteyear_opportunity_sensitivity_v1"
+          assert exact["confirmatory_decisions_changed"] is False
+          assert exact["original_anchor_hold_unchanged"] is True
+          assert exact["original_all_cohort_gate_hold"] is True
+          for c in ("discovery","validation","third"):
+              a=original["cohorts"][c]["radii"]["r10"]["n_species_eligible"]
+              v=exact["cohorts"][c]
+              assert v["n_anchor10"] == a
+              assert v["n_exact10"] >= a
+              assert v["n_extra_exact_geometry"] == v["n_exact10"]-a
+          print("Exact geometry sensitivity computed; original gate remains unchanged.")
+          PY
+      - name: Check photo-observer replenishment mathematical shortfall
+        run: python -m pytest tests/test_fcp_siteyear_replenishment_gap_20261008.py -q
+      - name: Compute existing two-year/month opportunity and missing-observer slots
+        run: |
+          python scripts/analysis/audit_fcp_siteyear_replenishment_gap_20261008.py \
+            --discovery /tmp/fcp_discovery.csv \
+            --validation /tmp/fcp_validation.csv \
+            --third /tmp/fcp_third.csv \
+            --outdir /tmp/fcp_siteyear_replenishment
+      - name: Validate original HOLD and pure shortfall rather than claimed photo availability
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("/tmp/fcp_siteyear_replenishment/result.json").read_text())
+          old=json.loads(Path("/tmp/fcp_siteyear_opportunity/result.json").read_text())
+          assert d["schema"]=="fcp_same_siteyear_same_month_replenishment_gap_v1"
+          assert d["original_10km_eligibility_hold_unchanged"] is True
+          assert d["confirmatory_decisions_changed"] is False
+          assert d["original_all_cohorts_gate_hold"] is True
+          for cohort in ("discovery","validation","third"):
+              c=d["cohorts"][cohort]
+              assert c["n_original_photo_anchor_eligible_gap0"]==old["cohorts"][cohort]["radii"]["r10"]["n_species_eligible"]
+              n=c["source_species"]
+              assert c["n_geographically_year_month_repeatable"]<=n
+              assert c["n_no_repeated_year_month_anchored_candidate"]==n-c["n_geographically_year_month_repeatable"]
+              assert sum(c["minimal_additional_observer_photo_slots_histogram"].values())==c["n_geographically_year_month_repeatable"]
+          print("Missing observer-photo slots only; frozen 10km historical HOLD unchanged.")
+          PY
+      - name: Test frozen observer-photo metadata queue selection
+        run: python -m pytest tests/test_fcp_replenishment_metadata_query_queue_20261008.py -q
+      - name: Build all gap-1/gap-2 source-only metadata-check targets (NO API calls)
+        run: |
+          python scripts/analysis/build_fcp_replenishment_metadata_query_queue_20261008.py \
+            --source-csv /tmp/fcp_siteyear_replenishment/per_species_label_blind_siteyear_gap.csv \
+            --source-receipt results/fcp_same_siteyear_replenishment_gap_20261008/terminal_gap_receipt.json \
+            --outdir /tmp/fcp_replenishment_queue
+      - name: Enforce 92+171 source candidates and original unresolved HOLD
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path("/tmp/fcp_replenishment_queue/result.json").read_text())
+          assert a["schema"] == "fcp_replenishment_metadata_check_queue_v1"
+          assert a["original_hold_unchanged"] is True
+          assert a["confirmatory_decisions_changed"] is False
+          assert a["n_gap1_species"] == 92 and a["n_gap2_species"] == 171
+          assert a["minimum_hypothetical_new_photo_slots_for_all_three_cohorts"] == 50
+          assert a["status"] == "HISTORIC_PHOTO_METADATA_CHECK_QUEUE_ONLY_NO_API_REQUESTS"
+          print("No photo metadata requested, no new colour outcomes opened, historic HOLD retained.")
+          PY
+      - name: Synthetic tests for bounded live Validation metadata-only pilot
+        run: |
+          python -m pytest tests/test_fcp_validation_gap1_live_metadata_pilot_20261008.py -q
+          python -m py_compile scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py
+          python scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py --help > /dev/null
+
+      - name: Restore original 42111 breadth photo identities for prior-use exclusion
+        run: |
+          set -euo pipefail
+          git show "$THIRD_SHA:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" > /tmp/fcp_42111_breadth.csv.gz
+          echo '38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605  /tmp/fcp_42111_breadth.csv.gz' | sha256sum -c -
+
+      - name: Preserve previously validated Validation gap-one result without repeating its API calls
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("results/fcp_validation_gap1_live_metadata_20261008/terminal_pilot_receipt.json")
+          r=json.loads(p.read_text())
+          assert r["schema"] == "fcp_validation_gap1_live_observation_metadata_pilot_v1"
+          assert r["n_api_requests_attempted"]==22
+          assert r["n_metadata_candidate_species"]==15
+          assert r["n_first_page_no_candidate_species"]==7
+          assert r["original_10km_gate"]=="HOLD_UNCHANGED"
+          assert r["execution_provenance"]["source_verified"] is True
+          print("Validation gap-one 15/22 is a frozen historical source check; API not re-queried.")
+          PY
+      - name: Check all 60 gap-two taxa and distinct-observer year requirements in synthetic tests
+        run: |
+          python -m pytest tests/test_fcp_validation_gap2_live_metadata_pilot_20261009.py -q
+          python -m py_compile scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py
+          python scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py --help > /dev/null
+      - name: Verify terminal Validation gap-two metadata receipt without repeat API calls
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("results/fcp_validation_gap2_live_metadata_20261009/terminal_pilot_receipt.json").read_text())
+          assert r["schema"]=="fcp_validation_gap2_live_observation_metadata_pilot_v1"
+          assert r["original_10km_gate"]=="HOLD_UNCHANGED"
+          assert r["n_species_target"]==60
+          assert r["required_missing_observer_photo_slots"]==120
+          assert r["n_api_requests_attempted"]==120
+          assert r["no_photo_pixels_fetched"] is True
+          assert r["n_species_both_year_requirements_metadata_possible"]==10
+          assert r["max_metadata_only_qualified_validation_species_if_all_images_valid"]==35
+          assert r["execution_provenance"]["status"]=="SUCCESS"
+          print("The terminal 10/60 gap-two metadata receipt was revalidated; no new API requests.")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp-siteyear-same-month-opportunity-20261008
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            /tmp/fcp_siteyear_opportunity/
+            /tmp/fcp_exact_10km_opportunity/
+            /tmp/fcp_siteyear_replenishment/
+            /tmp/fcp_replenishment_queue/

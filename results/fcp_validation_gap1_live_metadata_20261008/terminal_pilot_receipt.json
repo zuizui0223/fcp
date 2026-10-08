@@ -1,0 +1,55 @@
+{
+  "breadth_exclusion_sha256": "38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
+  "date_jst": "2026-10-08",
+  "eligible_metadata_is_NOT_classifiable_flower_photo": true,
+  "hard_nonclaims": [
+    "live metadata is not a usable flowering image nor a genetically segregating morph",
+    "the one-page capped search cannot rule out unused photos on later pages",
+    "photo licenses and current taxon assignment may have changed since historical freezing",
+    "no photographs or colour labels are opened, and no 2000+730 prospective taxa are queried",
+    "photographic site/year does not identify the same plant nor adaptation",
+    "original precommitted 10km sample coverage HOLD remains in force"
+  ],
+  "max_requests": 22,
+  "n_api_error_species": 0,
+  "n_api_requests_attempted": 22,
+  "n_first_page_no_candidate_species": 7,
+  "n_metadata_candidate_species": 15,
+  "n_query_target_species": 22,
+  "n_truncated_unknown_species": 0,
+  "original_10km_gate": "HOLD_UNCHANGED",
+  "queue_sha256": "a69df5ad49cc8cabde2217fdd7e792b57e9ce972abebefd37b044b3fd5e60bb0",
+  "schema": "fcp_validation_gap1_live_observation_metadata_pilot_v1",
+  "source_cohort_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  },
+  "status": "POSTHOC_LIVE_METADATA_ONLY_NOT_IMAGE_CLASSIFICATION",
+  "strict_query": {
+    "exclude_all_original_three_cohorts_and_42111_breadth_photo_ids": true,
+    "live_photo_pixels_opened": false,
+    "max_anchor_distance_km": 5,
+    "max_position_accuracy_m": 5000,
+    "observer_must_differ_from_original_year": true,
+    "same_species_taxon_ID": true,
+    "same_year_month": true
+  },
+  "execution_provenance": {
+    "workflow_run_id": 37798611129,
+    "job_id": 113384520171,
+    "artifact_id": 11558978651,
+    "artifact_digest": "sha256:8ac04d7408b714d7b1cd9945414ffed8c322d3ae035e93881952c92934536db7",
+    "source_commit": "202872f5ce16b63a745a7e3b2f8cca55757ec1a7",
+    "source_verified": true,
+    "tests": "8+7+8+6+8 = 37 synthetic tests passed"
+  },
+  "derived_feasibility": {
+    "original_validation_qualified_source_species": 10,
+    "metadata_only_candidates": 15,
+    "max_potential_validation_species_if_all_images_classifiable": 25,
+    "frozen_species_gate": 30,
+    "minimum_other_species_needed_even_in_best_case": 5,
+    "gap_one_only_cannot_reach_gate": true
+  }
+}

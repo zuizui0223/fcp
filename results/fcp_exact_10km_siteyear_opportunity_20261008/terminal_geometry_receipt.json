@@ -1,0 +1,67 @@
+{
+  "any_exact_geometry_witness": true,
+  "cohorts": {
+    "discovery": {
+      "exploratory_30_species_exact_gate_pass": false,
+      "n_anchor10": 10,
+      "n_exact10": 19,
+      "n_extra_exact_geometry": 9,
+      "n_original_highdepth_species": 369,
+      "n_rows_source_classified": 21424,
+      "n_rows_valid_date": 21400,
+      "n_species_any_valid_date": 369,
+      "n_species_source_classifiable_40": 369,
+      "original_30_species_anchor_gate_pass": false
+    },
+    "third": {
+      "exploratory_30_species_exact_gate_pass": false,
+      "n_anchor10": 20,
+      "n_exact10": 23,
+      "n_extra_exact_geometry": 3,
+      "n_original_highdepth_species": 377,
+      "n_rows_source_classified": 22144,
+      "n_rows_valid_date": 22120,
+      "n_species_any_valid_date": 377,
+      "n_species_source_classifiable_40": 377,
+      "original_30_species_anchor_gate_pass": false
+    },
+    "validation": {
+      "exploratory_30_species_exact_gate_pass": false,
+      "n_anchor10": 10,
+      "n_exact10": 12,
+      "n_extra_exact_geometry": 2,
+      "n_original_highdepth_species": 363,
+      "n_rows_source_classified": 20903,
+      "n_rows_valid_date": 20879,
+      "n_species_any_valid_date": 363,
+      "n_species_source_classifiable_40": 363,
+      "original_30_species_anchor_gate_pass": false
+    }
+  },
+  "confirmatory_decisions_changed": false,
+  "date_jst": "2026-10-08",
+  "diameter_km": 10,
+  "exact_four_photo_existence_check": true,
+  "hard_nonclaims": [
+    "exact witness tests existence of at least one valid 4-photo combination, not overall site abundance",
+    "the original precommitted anchor-based 10km >=30 per cohort gate remains HOLD",
+    "reanalysis after first HOLD is retrospective and cannot be advertised as independent confirmation",
+    "two source observers may have photographed the same plant; individual identity unknown",
+    "source classifiability and photo selection are not neutral independent natural-population sampling",
+    "no same-year specific climate or phenotype association was evaluated"
+  ],
+  "original_all_cohort_gate_hold": true,
+  "original_anchor_hold_unchanged": true,
+  "schema": "fcp_exact_10km_siteyear_opportunity_sensitivity_v1",
+  "status": "post_outcome_geometry_sensitivity_not_new_confirmatory_gate",
+  "execution_provenance": {
+    "workflow_run_id": 37792424151,
+    "job_id": 113363191540,
+    "head_sha": "a6ba141a289b011259ac4e614efa5f115d441588",
+    "artifact_id": 11557705349,
+    "artifact_digest": "sha256:245c3cea172fd1fb97e3ca863752470416a62079464fe2cebaf34d2c9968bbf5",
+    "status": "success",
+    "source": "GitHub Actions final verified result.json stdout",
+    "test_status": "initial 8 and exact-geometry 7 synthetic tests passed"
+  }
+}

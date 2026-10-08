@@ -1,0 +1,58 @@
+{
+  "breadth_exclusion_sha256": "38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
+  "confirmatory_decisions_changed": false,
+  "could_cross_30_using_only_found_metadata": true,
+  "date_jst": "2026-10-09",
+  "frozen_validation_gap1_metadata_candidate_species": 15,
+  "frozen_validation_species_threshold": 30,
+  "max_api_requests": 120,
+  "max_metadata_only_qualified_validation_species_if_all_images_valid": 35,
+  "n_api_requests_attempted": 120,
+  "n_species_api_error_unresolved": 0,
+  "n_species_both_year_requirements_metadata_possible": 10,
+  "n_species_first_pages_insufficient": 50,
+  "n_species_pagination_unknown": 0,
+  "n_species_target": 60,
+  "no_photo_pixels_fetched": true,
+  "nonclaims": [
+    "Current metadata candidates are not independently validated flowering images or genetic colour morphs",
+    "The original 10km source-only sample qualification remains HOLD",
+    "A source-photo-year/month anchor is not a known individual or genetic population",
+    "No additional 2000+730 prospective species or future flower-colour outcomes are examined",
+    "No climate anomalies, pigments, photographic exposure or plant fitness are inferred",
+    "First-page-only search with observer/photo-ID exclusion may miss later eligible records"
+  ],
+  "original_10km_gate": "HOLD_UNCHANGED",
+  "previously_qualified_anchor10_species": 10,
+  "queue_sha256": "a69df5ad49cc8cabde2217fdd7e792b57e9ce972abebefd37b044b3fd5e60bb0",
+  "required_missing_observer_photo_slots": 120,
+  "schema": "fcp_validation_gap2_live_observation_metadata_pilot_v1",
+  "source_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  },
+  "source_validation_species": 363,
+  "status": "POSTHOC_METADATA_ONLY_NOT_BIOLOGICAL_OUTCOME",
+  "execution_provenance": {
+    "workflow_run_id": 37801452055,
+    "job_id": 113394735879,
+    "head_commit": "4c0490228cce43fdb5674ed04560719d36a9de2b",
+    "artifact_id": 11561291901,
+    "artifact_digest": "sha256:8ca425141ff669d81702b94e4f30f5bb0c1ca5cb4e05cee8fd56ea2314e7c3ea",
+    "status": "SUCCESS",
+    "n_synthetic_tests": 45,
+    "source": "GitHub Actions verified result.json stdout"
+  },
+  "derived_quality_gate": {
+    "metadata_candidate_species_from_gap1": 15,
+    "metadata_candidate_species_from_gap2": 10,
+    "original_source_anchor_species": 10,
+    "total_metadata_ceiling": 35,
+    "required_source_plus_verified_photo_species": 30,
+    "minimum_successful_photo_quality_validations_among_25": 20,
+    "maximum_failed_or_unusable_candidate_species": 5,
+    "min_quality_pass_fraction": 0.8,
+    "biological_hold_unchanged": true
+  }
+}
