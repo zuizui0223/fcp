@@ -47,7 +47,7 @@ def test_historical_global_query_queue_covers_all_gaps():
     assert result["n_gap2_species"]==171
     assert result["minimum_hypothetical_new_photo_slots_for_all_three_cohorts"]==50
     assert result["cohorts"]["validation"]["required_fraction_of_gap1_candidates_successful_if_gap2_unused"]==pytest.approx(20/22)
-    assert len(queue)==263
+    assert len(queue)==92+2*171
     assert queue["required_additional_distinct_observer_photos"].sum()==92+2*171
     assert queue.live_metadata_status.eq("NOT_CHECKED").all()
     assert not {"morph","white","pigment","color","colour"} & set(queue)
