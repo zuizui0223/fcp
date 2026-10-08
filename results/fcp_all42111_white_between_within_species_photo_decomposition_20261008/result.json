@@ -1,0 +1,688 @@
+{
+  "schema": "fcp_global42111_white_near_half_between_within_species_photo_decomposition_v1",
+  "date_jst": "2026-10-08",
+  "status": "RETROSPECTIVE_SOURCE_FROZEN_PHOTO_VARIANCE_AND_DETECTION",
+  "input_SHA256": "7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e",
+  "original_species_frame": 42111,
+  "original_measured_taxon_cell_frame": 85337,
+  "regions_plus_world": [
+    "ALL_GLOBAL",
+    "low_0_30",
+    "middle_30_60",
+    "high_60_90"
+  ],
+  "minimum_classifiable_per_species_sensitivity": [
+    2,
+    3,
+    5,
+    10
+  ],
+  "breakdown": [
+    {
+      "n_species": 5809,
+      "n_classifiable_photo_taxon_cell_records": 22045,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.47430256293944206,
+      "fraction_white_species_equal": 0.47339373586292277,
+      "photo_weighted_between_species_variance": 0.16743522239767922,
+      "photo_weighted_within_species_variance": 0.08190441933083813,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.6715146506065125,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.6587728941413072,
+        0.684974485471396
+      ],
+      "species_equal_between_species_variance": 0.17764475032048865,
+      "species_equal_within_species_variance": 0.0716473563881794,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.7125967711769183,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.7022562577070941,
+        0.7237164104559244
+      ],
+      "n_species_with_white_only_in_sampled_cells": 1771,
+      "n_species_with_nonwhite_only_in_sampled_cells": 2065,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 1973,
+      "fraction_species_with_both_observed_states": 0.3396453778619384,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.3275951110346015,
+        0.35135995868479947
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 1574,
+      "fraction_species_in_25_to_75_percent_range": 0.2709588569461181,
+      "n_species_with_0_or_100_percent_sampled_white": 3836,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "ALL_GLOBAL",
+      "minimum_classifiable_distinct_cells_per_species": 2,
+      "n_species_observed_any_cell": 42111,
+      "n_species_with_at_least_one_classifiable_cell": 22839,
+      "n_opportunity_taxon_cells": 85337,
+      "n_classifiable_taxon_cells_any_depth": 39075,
+      "n_missing_photo_classifications": 46262
+    },
+    {
+      "n_species": 2706,
+      "n_classifiable_photo_taxon_cell_records": 15839,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.4793863248942484,
+      "fraction_white_species_equal": 0.48722993777816637,
+      "photo_weighted_between_species_variance": 0.1582761986823438,
+      "photo_weighted_within_species_variance": 0.09129887771629058,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.634182711536214,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.6175430809743988,
+        0.6495440574012493
+      ],
+      "species_equal_between_species_variance": 0.16245721625034268,
+      "species_equal_within_species_variance": 0.08737970926050781,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.650253023720015,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.6363258061369016,
+        0.6647436280344693
+      ],
+      "n_species_with_white_only_in_sampled_cells": 699,
+      "n_species_with_nonwhite_only_in_sampled_cells": 753,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 1254,
+      "fraction_species_with_both_observed_states": 0.4634146341463415,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.4449371766444937,
+        0.48080192165558017
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 855,
+      "fraction_species_in_25_to_75_percent_range": 0.31596452328159647,
+      "n_species_with_0_or_100_percent_sampled_white": 1452,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "ALL_GLOBAL",
+      "minimum_classifiable_distinct_cells_per_species": 3,
+      "n_species_observed_any_cell": 42111,
+      "n_species_with_at_least_one_classifiable_cell": 22839,
+      "n_opportunity_taxon_cells": 85337,
+      "n_classifiable_taxon_cells_any_depth": 39075,
+      "n_missing_photo_classifications": 46262
+    },
+    {
+      "n_species": 1165,
+      "n_classifiable_photo_taxon_cell_records": 10706,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.47431346908275734,
+      "fraction_white_species_equal": 0.4833569770767254,
+      "photo_weighted_between_species_variance": 0.15324926332736458,
+      "photo_weighted_within_species_variance": 0.09609093880207294,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.61461915093744,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.590555544319671,
+        0.6373660510559085
+      ],
+      "species_equal_between_species_variance": 0.15286602940357794,
+      "species_equal_within_species_variance": 0.09685698038439741,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.6121423473686594,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.5887335794873173,
+        0.6326634117850916
+      ],
+      "n_species_with_white_only_in_sampled_cells": 231,
+      "n_species_with_nonwhite_only_in_sampled_cells": 255,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 679,
+      "fraction_species_with_both_observed_states": 0.582832618025751,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.5562231759656653,
+        0.6146351931330472
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 280,
+      "fraction_species_in_25_to_75_percent_range": 0.24034334763948498,
+      "n_species_with_0_or_100_percent_sampled_white": 486,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "ALL_GLOBAL",
+      "minimum_classifiable_distinct_cells_per_species": 5,
+      "n_species_observed_any_cell": 42111,
+      "n_species_with_at_least_one_classifiable_cell": 22839,
+      "n_opportunity_taxon_cells": 85337,
+      "n_classifiable_taxon_cells_any_depth": 39075,
+      "n_missing_photo_classifications": 46262
+    },
+    {
+      "n_species": 366,
+      "n_classifiable_photo_taxon_cell_records": 5624,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.45092460881934565,
+      "fraction_white_species_equal": 0.45179917306558487,
+      "photo_weighted_between_species_variance": 0.1533768341936097,
+      "photo_weighted_within_species_variance": 0.09421477178685604,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.6194750972523305,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.5821513720166982,
+        0.653233336663948
+      ],
+      "species_equal_between_species_variance": 0.15318312142800494,
+      "species_equal_within_species_variance": 0.0944935588548336,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.6184801946355017,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.5825061553139028,
+        0.6528915987718282
+      ],
+      "n_species_with_white_only_in_sampled_cells": 47,
+      "n_species_with_nonwhite_only_in_sampled_cells": 68,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 251,
+      "fraction_species_with_both_observed_states": 0.6857923497267759,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.6366120218579235,
+        0.73224043715847
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 73,
+      "fraction_species_in_25_to_75_percent_range": 0.1994535519125683,
+      "n_species_with_0_or_100_percent_sampled_white": 115,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "ALL_GLOBAL",
+      "minimum_classifiable_distinct_cells_per_species": 10,
+      "n_species_observed_any_cell": 42111,
+      "n_species_with_at_least_one_classifiable_cell": 22839,
+      "n_opportunity_taxon_cells": 85337,
+      "n_classifiable_taxon_cells_any_depth": 39075,
+      "n_missing_photo_classifications": 46262
+    },
+    {
+      "n_species": 2567,
+      "n_classifiable_photo_taxon_cell_records": 9488,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.4756534569983137,
+      "fraction_white_species_equal": 0.47033993835313975,
+      "photo_weighted_between_species_variance": 0.1584401900903395,
+      "photo_weighted_within_species_variance": 0.09096705575352756,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.6352669889531823,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.6160700573084102,
+        0.65577363098508
+      ],
+      "species_equal_between_species_variance": 0.17103658935394533,
+      "species_equal_within_species_variance": 0.07808369138915917,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.6865622856708327,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.6709574423006871,
+        0.7027312471714265
+      ],
+      "n_species_with_white_only_in_sampled_cells": 744,
+      "n_species_with_nonwhite_only_in_sampled_cells": 890,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 933,
+      "fraction_species_with_both_observed_states": 0.3634592910011687,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.3443708609271523,
+        0.3813790416828983
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 762,
+      "fraction_species_in_25_to_75_percent_range": 0.29684456564082584,
+      "n_species_with_0_or_100_percent_sampled_white": 1634,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "low_0_30",
+      "minimum_classifiable_distinct_cells_per_species": 2,
+      "n_species_observed_any_cell": 29993,
+      "n_species_with_at_least_one_classifiable_cell": 14784,
+      "n_opportunity_taxon_cells": 50776,
+      "n_classifiable_taxon_cells_any_depth": 21705,
+      "n_missing_photo_classifications": 29071
+    },
+    {
+      "n_species": 1119,
+      "n_classifiable_photo_taxon_cell_records": 6592,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.4833131067961165,
+      "fraction_white_species_equal": 0.486025577973646,
+      "photo_weighted_between_species_variance": 0.14647588239655698,
+      "photo_weighted_within_species_variance": 0.10324566519864525,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.5865568422393166,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.5579896553800741,
+        0.6122270709570369
+      ],
+      "species_equal_between_species_variance": 0.1522257737989386,
+      "species_equal_within_species_variance": 0.0975789417300908,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.6093791042997694,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.5830404032486458,
+        0.6329652999927153
+      ],
+      "n_species_with_white_only_in_sampled_cells": 263,
+      "n_species_with_nonwhite_only_in_sampled_cells": 288,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 568,
+      "fraction_species_with_both_observed_states": 0.5075960679177838,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.4771671134941912,
+        0.5371313672922251
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 397,
+      "fraction_species_in_25_to_75_percent_range": 0.354781054512958,
+      "n_species_with_0_or_100_percent_sampled_white": 551,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "low_0_30",
+      "minimum_classifiable_distinct_cells_per_species": 3,
+      "n_species_observed_any_cell": 29993,
+      "n_species_with_at_least_one_classifiable_cell": 14784,
+      "n_opportunity_taxon_cells": 50776,
+      "n_classifiable_taxon_cells_any_depth": 21705,
+      "n_missing_photo_classifications": 29071
+    },
+    {
+      "n_species": 486,
+      "n_classifiable_photo_taxon_cell_records": 4481,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.4831510823476903,
+      "fraction_white_species_equal": 0.48634284311216014,
+      "photo_weighted_between_species_variance": 0.13971192778273767,
+      "photo_weighted_within_species_variance": 0.11000418619120798,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.5594830287856979,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.5223302590042289,
+        0.5978060372826276
+      ],
+      "species_equal_between_species_variance": 0.1403101619551455,
+      "species_equal_within_species_variance": 0.10950332011059542,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.5616596862383171,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.5280880810090038,
+        0.5948223479086134
+      ],
+      "n_species_with_white_only_in_sampled_cells": 90,
+      "n_species_with_nonwhite_only_in_sampled_cells": 88,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 308,
+      "fraction_species_with_both_observed_states": 0.6337448559670782,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.5925925925925926,
+        0.6748971193415638
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 137,
+      "fraction_species_in_25_to_75_percent_range": 0.28189300411522633,
+      "n_species_with_0_or_100_percent_sampled_white": 178,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "low_0_30",
+      "minimum_classifiable_distinct_cells_per_species": 5,
+      "n_species_observed_any_cell": 29993,
+      "n_species_with_at_least_one_classifiable_cell": 14784,
+      "n_opportunity_taxon_cells": 50776,
+      "n_classifiable_taxon_cells_any_depth": 21705,
+      "n_missing_photo_classifications": 29071
+    },
+    {
+      "n_species": 157,
+      "n_classifiable_photo_taxon_cell_records": 2382,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.47019311502938704,
+      "fraction_white_species_equal": 0.4675179628357212,
+      "photo_weighted_between_species_variance": 0.14061004510808484,
+      "photo_weighted_within_species_variance": 0.10850150450026379,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.5644461099019733,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.5074299590321024,
+        0.6220525801394231
+      ],
+      "species_equal_between_species_variance": 0.14170622520199982,
+      "species_equal_within_species_variance": 0.10723869205965861,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.5692272280982412,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.516558306508051,
+        0.6259720768466683
+      ],
+      "n_species_with_white_only_in_sampled_cells": 21,
+      "n_species_with_nonwhite_only_in_sampled_cells": 23,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 113,
+      "fraction_species_with_both_observed_states": 0.7197452229299363,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.6493630573248408,
+        0.7898089171974523
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 39,
+      "fraction_species_in_25_to_75_percent_range": 0.2484076433121019,
+      "n_species_with_0_or_100_percent_sampled_white": 44,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "low_0_30",
+      "minimum_classifiable_distinct_cells_per_species": 10,
+      "n_species_observed_any_cell": 29993,
+      "n_species_with_at_least_one_classifiable_cell": 14784,
+      "n_opportunity_taxon_cells": 50776,
+      "n_classifiable_taxon_cells_any_depth": 21705,
+      "n_missing_photo_classifications": 29071
+    },
+    {
+      "n_species": 1828,
+      "n_classifiable_photo_taxon_cell_records": 5495,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.4638762511373976,
+      "fraction_white_species_equal": 0.47691994745468486,
+      "photo_weighted_between_species_variance": 0.18154949792053302,
+      "photo_weighted_within_species_variance": 0.06714557684757867,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.7300084172950086,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.7100393387659975,
+        0.7505204870352294
+      ],
+      "species_equal_between_species_variance": 0.18744586427059712,
+      "species_equal_within_species_variance": 0.0620214469039084,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.7513844735331933,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.732099806863352,
+        0.7698480438903178
+      ],
+      "n_species_with_white_only_in_sampled_cells": 619,
+      "n_species_with_nonwhite_only_in_sampled_cells": 695,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 514,
+      "fraction_species_with_both_observed_states": 0.2811816192560175,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.2614606126914661,
+        0.3014223194748359
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 440,
+      "fraction_species_in_25_to_75_percent_range": 0.24070021881838075,
+      "n_species_with_0_or_100_percent_sampled_white": 1314,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "middle_30_60",
+      "minimum_classifiable_distinct_cells_per_species": 2,
+      "n_species_observed_any_cell": 15745,
+      "n_species_with_at_least_one_classifiable_cell": 8833,
+      "n_opportunity_taxon_cells": 25264,
+      "n_classifiable_taxon_cells_any_depth": 12500,
+      "n_missing_photo_classifications": 12764
+    },
+    {
+      "n_species": 707,
+      "n_classifiable_photo_taxon_cell_records": 3253,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.44574239163848756,
+      "fraction_white_species_equal": 0.45588354165086836,
+      "photo_weighted_between_species_variance": 0.17067586453942463,
+      "photo_weighted_within_species_variance": 0.07638024739546412,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.690838462577303,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.6594916426085012,
+        0.7209730804078619
+      ],
+      "species_equal_between_species_variance": 0.17291200551384028,
+      "species_equal_within_species_variance": 0.07514173258888902,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.6970747824095691,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.6666864517865932,
+        0.7283439169002862
+      ],
+      "n_species_with_white_only_in_sampled_cells": 190,
+      "n_species_with_nonwhite_only_in_sampled_cells": 244,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 273,
+      "fraction_species_with_both_observed_states": 0.38613861386138615,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.3492927864214993,
+        0.42298444130127294
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 199,
+      "fraction_species_in_25_to_75_percent_range": 0.2814710042432815,
+      "n_species_with_0_or_100_percent_sampled_white": 434,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "middle_30_60",
+      "minimum_classifiable_distinct_cells_per_species": 3,
+      "n_species_observed_any_cell": 15745,
+      "n_species_with_at_least_one_classifiable_cell": 8833,
+      "n_opportunity_taxon_cells": 25264,
+      "n_classifiable_taxon_cells_any_depth": 12500,
+      "n_missing_photo_classifications": 12764
+    },
+    {
+      "n_species": 254,
+      "n_classifiable_photo_taxon_cell_records": 1752,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.4337899543378995,
+      "fraction_white_species_equal": 0.4493818790570759,
+      "photo_weighted_between_species_variance": 0.16629833899871668,
+      "photo_weighted_within_species_variance": 0.07931789085470595,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.6770657586347582,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.6285426959428666,
+        0.7251489946165294
+      ],
+      "species_equal_between_species_variance": 0.16771258953163848,
+      "species_equal_within_species_variance": 0.07972521630056904,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.6777969476716411,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.6285642318994326,
+        0.7237403468568154
+      ],
+      "n_species_with_white_only_in_sampled_cells": 56,
+      "n_species_with_nonwhite_only_in_sampled_cells": 77,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 121,
+      "fraction_species_with_both_observed_states": 0.4763779527559055,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.4094488188976378,
+        0.5433070866141733
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 47,
+      "fraction_species_in_25_to_75_percent_range": 0.18503937007874016,
+      "n_species_with_0_or_100_percent_sampled_white": 133,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "middle_30_60",
+      "minimum_classifiable_distinct_cells_per_species": 5,
+      "n_species_observed_any_cell": 15745,
+      "n_species_with_at_least_one_classifiable_cell": 8833,
+      "n_opportunity_taxon_cells": 25264,
+      "n_classifiable_taxon_cells_any_depth": 12500,
+      "n_missing_photo_classifications": 12764
+    },
+    {
+      "n_species": 33,
+      "n_classifiable_photo_taxon_cell_records": 380,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.35,
+      "fraction_white_species_equal": 0.345362591953501,
+      "photo_weighted_between_species_variance": 0.16121171591566327,
+      "photo_weighted_within_species_variance": 0.06628828408433672,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.7086229271018166,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.5483763860880807,
+        0.8177872473793585
+      ],
+      "species_equal_between_species_variance": 0.1603419720316873,
+      "species_equal_within_species_variance": 0.06574530000097331,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.7092038865793573,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.5491622407733787,
+        0.817606635393584
+      ],
+      "n_species_with_white_only_in_sampled_cells": 5,
+      "n_species_with_nonwhite_only_in_sampled_cells": 12,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 16,
+      "fraction_species_with_both_observed_states": 0.48484848484848486,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.30303030303030304,
+        0.6666666666666666
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 5,
+      "fraction_species_in_25_to_75_percent_range": 0.15151515151515152,
+      "n_species_with_0_or_100_percent_sampled_white": 17,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "middle_30_60",
+      "minimum_classifiable_distinct_cells_per_species": 10,
+      "n_species_observed_any_cell": 15745,
+      "n_species_with_at_least_one_classifiable_cell": 8833,
+      "n_opportunity_taxon_cells": 25264,
+      "n_classifiable_taxon_cells_any_depth": 12500,
+      "n_missing_photo_classifications": 12764
+    },
+    {
+      "n_species": 1052,
+      "n_classifiable_photo_taxon_cell_records": 3553,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.5009850830284267,
+      "fraction_white_species_equal": 0.49623236396050074,
+      "photo_weighted_between_species_variance": 0.18184578622598555,
+      "photo_weighted_within_species_variance": 0.06815324338544153,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.727385968292069,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.7009563783744103,
+        0.7531382881780242
+      ],
+      "species_equal_between_species_variance": 0.18494246763236485,
+      "species_equal_within_species_variance": 0.065043337286309,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.739811877288516,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.714595598230976,
+        0.7633961781800639
+      ],
+      "n_species_with_white_only_in_sampled_cells": 362,
+      "n_species_with_nonwhite_only_in_sampled_cells": 365,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 325,
+      "fraction_species_with_both_observed_states": 0.30893536121673004,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.2813688212927757,
+        0.33840304182509506
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 261,
+      "fraction_species_in_25_to_75_percent_range": 0.24809885931558937,
+      "n_species_with_0_or_100_percent_sampled_white": 727,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "high_60_90",
+      "minimum_classifiable_distinct_cells_per_species": 2,
+      "n_species_observed_any_cell": 3457,
+      "n_species_with_at_least_one_classifiable_cell": 2369,
+      "n_opportunity_taxon_cells": 9297,
+      "n_classifiable_taxon_cells_any_depth": 4870,
+      "n_missing_photo_classifications": 4427
+    },
+    {
+      "n_species": 577,
+      "n_classifiable_photo_taxon_cell_records": 2603,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.5086438724548598,
+      "fraction_white_species_equal": 0.5095952285726982,
+      "photo_weighted_between_species_variance": 0.1749546827204348,
+      "photo_weighted_within_species_variance": 0.07497060074854926,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.700027945520553,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.667905436959566,
+        0.7305230956835759
+      ],
+      "species_equal_between_species_variance": 0.17204728891065318,
+      "species_equal_within_species_variance": 0.0778606426779845,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.688442690942089,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.654050704936974,
+        0.7194413215330756
+      ],
+      "n_species_with_white_only_in_sampled_cells": 181,
+      "n_species_with_nonwhite_only_in_sampled_cells": 165,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 231,
+      "fraction_species_with_both_observed_states": 0.4003466204506066,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.3621317157712305,
+        0.44194107452339687
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 167,
+      "fraction_species_in_25_to_75_percent_range": 0.28942807625649913,
+      "n_species_with_0_or_100_percent_sampled_white": 346,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "high_60_90",
+      "minimum_classifiable_distinct_cells_per_species": 3,
+      "n_species_observed_any_cell": 3457,
+      "n_species_with_at_least_one_classifiable_cell": 2369,
+      "n_opportunity_taxon_cells": 9297,
+      "n_classifiable_taxon_cells_any_depth": 4870,
+      "n_missing_photo_classifications": 4427
+    },
+    {
+      "n_species": 205,
+      "n_classifiable_photo_taxon_cell_records": 1362,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.5102790014684288,
+      "fraction_white_species_equal": 0.5135924238363263,
+      "photo_weighted_between_species_variance": 0.18095273144711324,
+      "photo_weighted_within_species_variance": 0.06894161068169878,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.724116960414567,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.6759218457284131,
+        0.7712055419632706
+      ],
+      "species_equal_between_species_variance": 0.17771886800516237,
+      "species_equal_within_species_variance": 0.07209637800909131,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.711401208855853,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.6620539358184446,
+        0.758817188426861
+      ],
+      "n_species_with_white_only_in_sampled_cells": 61,
+      "n_species_with_nonwhite_only_in_sampled_cells": 53,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 91,
+      "fraction_species_with_both_observed_states": 0.44390243902439025,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.375609756097561,
+        0.5170731707317073
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 27,
+      "fraction_species_in_25_to_75_percent_range": 0.13170731707317074,
+      "n_species_with_0_or_100_percent_sampled_white": 114,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "high_60_90",
+      "minimum_classifiable_distinct_cells_per_species": 5,
+      "n_species_observed_any_cell": 3457,
+      "n_species_with_at_least_one_classifiable_cell": 2369,
+      "n_opportunity_taxon_cells": 9297,
+      "n_classifiable_taxon_cells_any_depth": 4870,
+      "n_missing_photo_classifications": 4427
+    },
+    {
+      "n_species": 19,
+      "n_classifiable_photo_taxon_cell_records": 222,
+      "status": "OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY",
+      "fraction_white_classified_photo_weighted": 0.44594594594594594,
+      "fraction_white_species_equal": 0.4312415654520917,
+      "photo_weighted_between_species_variance": 0.21161384877601092,
+      "photo_weighted_within_species_variance": 0.03546431046431047,
+      "photo_weighted_between_species_share_of_observed_photo_variance": 0.8564652150018003,
+      "photo_weighted_between_species_share_bootstrap_95CI": [
+        0.716952869764437,
+        0.9532099552021144
+      ],
+      "species_equal_between_species_variance": 0.20739769724321183,
+      "species_equal_within_species_variance": 0.037874580435309176,
+      "species_equal_between_species_share_of_observed_photo_variance": 0.8455814868529435,
+      "species_equal_between_species_share_bootstrap_95CI": [
+        0.6963389332938085,
+        0.9554848902108901
+      ],
+      "n_species_with_white_only_in_sampled_cells": 6,
+      "n_species_with_nonwhite_only_in_sampled_cells": 7,
+      "n_species_with_both_white_and_nonwhite_in_sampled_cells": 6,
+      "fraction_species_with_both_observed_states": 0.3157894736842105,
+      "mixed_species_fraction_bootstrap_95CI": [
+        0.10526315789473684,
+        0.5263157894736842
+      ],
+      "n_species_with_observed_white_fraction_between_25_and_75_percent": 2,
+      "fraction_species_in_25_to_75_percent_range": 0.10526315789473684,
+      "n_species_with_0_or_100_percent_sampled_white": 13,
+      "estimator_boundary": "Descriptive variance of observed binary photo classifications. Finite images inflate apparent between-species variation; cells are not mating populations; colour categories not alleles.",
+      "region": "high_60_90",
+      "minimum_classifiable_distinct_cells_per_species": 10,
+      "n_species_observed_any_cell": 3457,
+      "n_species_with_at_least_one_classifiable_cell": 2369,
+      "n_opportunity_taxon_cells": 9297,
+      "n_classifiable_taxon_cells_any_depth": 4870,
+      "n_missing_photo_classifications": 4427
+    }
+  ],
+  "photo_white_state": "classified source photo white versus three other classified source colour categories pooled; NOT white versus pigmented genetic morph",
+  "main_question": "Does globally ~half white among classified photos imply that sampled individual species have white and coloured flowers at ~half frequency? Answer requires species-level photo variance and detection sensitivity, not aggregate ratio alone.",
+  "inference_limits": [
+    "species repeatedly appearing in different cells are not replicate independent populations",
+    "all-white or all-coloured after two or three photos is not verified natural species monomorphism",
+    "observed within-species white+nonwhite in separated cells is not verified same-population sympatry",
+    "finite per-species photo sampling itself biases between-species variance upward",
+    "photo colour white/nonwhite depends on exposure, ROI, pigment chemistry and image classification",
+    "observer/site/plant phenology and true species genotype are not separated in this atlas",
+    "these already observed historical source photos cannot be reused as new prospective 2000+730 taxa colour confirmation",
+    "this is not a null test of balancing selection, nor evidence that biological costs/benefits are equal"
+  ],
+  "confirmatory_decisions_changed": false,
+  "species_region_photo_summary_SHA256": "52d732b9bbd7e9c2292232e1328b48dca175dd34ca71e901d04b9e3d9fcc7fee",
+  "execution_receipt": {
+    "run_id": 37779119830,
+    "job_id": 113317434675,
+    "checked_code_sha": "f8cd602950ccceea14b1d9153adf3dc9242e6d51",
+    "source_sha256_verified": true,
+    "number_tests": "26 passed",
+    "artifact_id": 11550748325,
+    "artifact_digest": "sha256:1d026edfefac23a1e58d93bf7d60c90ee83bdf92936dd5e186f73c0e547741ee",
+    "materialized_from": "completed Actions JSON stdout; source measurement binary 85,337 exact rows; photo colour labels unchanged",
+    "old_FCP_inference_reclassified": false,
+    "evidence_level": "post-outcome observational geographic-photo composition diagnosis"
+  }
+}

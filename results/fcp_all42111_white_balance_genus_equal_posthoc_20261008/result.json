@@ -1,0 +1,193 @@
+{
+  "schema": "fcp_global42111_genus_equal_white_geography_sensitivity_v1",
+  "date_jst": "2026-10-08",
+  "status": "RETROSPECTIVE_SOURCE_VERIFIED_GENUS_BALANCE_NOT_PHYLOGENETIC_MODEL",
+  "original_source_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
+  "source_breadth_SHA256": "38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
+  "source_taxon_cell_SHA256": "7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e",
+  "historical_species_n": 42111,
+  "historical_taxon_cell_n": 85337,
+  "genus_equal_regional_white_balance": [
+    {
+      "region": "low_0_30",
+      "status": "DESCRIPTIVE_GENUS_EQUAL_WHITE_FRACTION",
+      "n_species_classifiable": 14784,
+      "n_genera_classifiable": 4224,
+      "mean_species_equal_photo_white_fraction": 0.45747853231551067,
+      "mean_genus_equal_photo_white_fraction": 0.48366361686359893,
+      "genus_cluster_bootstrap_95CI": [
+        0.4701734790811754,
+        0.49584569801087186
+      ],
+      "absolute_difference_genus_equal_minus_species_equal": 0.026185084548088267,
+      "max_species_per_genus": 153,
+      "largest_genus_species_share": 0.010349025974025974,
+      "n_genera_with_more_than_one_photo_species": 2031,
+      "n_white_fraction_exactly_half_genus_means": 356,
+      "biological_limit": "equal genus weight mitigates variable sampled genus richness, but not phylogenetic covariance, source missingness, image clipping or inherited morph frequencies"
+    },
+    {
+      "region": "middle_30_60",
+      "status": "DESCRIPTIVE_GENUS_EQUAL_WHITE_FRACTION",
+      "n_species_classifiable": 8833,
+      "n_genera_classifiable": 2327,
+      "mean_species_equal_photo_white_fraction": 0.4752416691890822,
+      "mean_genus_equal_photo_white_fraction": 0.5129336493726124,
+      "genus_cluster_bootstrap_95CI": [
+        0.4950581895447908,
+        0.5306586400230827
+      ],
+      "absolute_difference_genus_equal_minus_species_equal": 0.037691980183530205,
+      "max_species_per_genus": 89,
+      "largest_genus_species_share": 0.010075851918940337,
+      "n_genera_with_more_than_one_photo_species": 1168,
+      "n_white_fraction_exactly_half_genus_means": 178,
+      "biological_limit": "equal genus weight mitigates variable sampled genus richness, but not phylogenetic covariance, source missingness, image clipping or inherited morph frequencies"
+    },
+    {
+      "region": "high_60_90",
+      "status": "DESCRIPTIVE_GENUS_EQUAL_WHITE_FRACTION",
+      "n_species_classifiable": 2369,
+      "n_genera_classifiable": 750,
+      "mean_species_equal_photo_white_fraction": 0.4947388969550219,
+      "mean_genus_equal_photo_white_fraction": 0.5312996416786642,
+      "genus_cluster_bootstrap_95CI": [
+        0.5001091214002336,
+        0.5614922851166468
+      ],
+      "absolute_difference_genus_equal_minus_species_equal": 0.03656074472364229,
+      "max_species_per_genus": 48,
+      "largest_genus_species_share": 0.020261713803292527,
+      "n_genera_with_more_than_one_photo_species": 358,
+      "n_white_fraction_exactly_half_genus_means": 48,
+      "biological_limit": "equal genus weight mitigates variable sampled genus richness, but not phylogenetic covariance, source missingness, image clipping or inherited morph frequencies"
+    }
+  ],
+  "genus_equal_paired_within_species_latitude_differences": [
+    {
+      "region_a": "low_0_30",
+      "region_b": "middle_30_60",
+      "minimum_classifiable_taxon_cells_each_region": 1,
+      "n_matched_species": 1824,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "n_matched_genera": 961,
+      "species_equal_paired_photo_white_delta": 0.003827349543318838,
+      "genus_equal_paired_photo_white_delta": 0.0031583053284559588,
+      "bootstrap_CI_95_genus_cluster": [
+        -0.020843558402980536,
+        0.02666380661443632
+      ],
+      "fraction_genera_with_positive_paired_white_change": 0.2133194588969823,
+      "fraction_genera_with_negative_paired_white_change": 0.2081165452653486,
+      "no_assumption_of_independent_congeneric_species": true
+    },
+    {
+      "region_a": "low_0_30",
+      "region_b": "middle_30_60",
+      "minimum_classifiable_taxon_cells_each_region": 3,
+      "n_matched_species": 168,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "n_matched_genera": 128,
+      "species_equal_paired_photo_white_delta": 0.0030910722037388277,
+      "genus_equal_paired_photo_white_delta": 0.0017232702341816574,
+      "bootstrap_CI_95_genus_cluster": [
+        -0.034465531592710104,
+        0.039053556952743394
+      ],
+      "fraction_genera_with_positive_paired_white_change": 0.34375,
+      "fraction_genera_with_negative_paired_white_change": 0.34375,
+      "no_assumption_of_independent_congeneric_species": true
+    },
+    {
+      "region_a": "low_0_30",
+      "region_b": "high_60_90",
+      "minimum_classifiable_taxon_cells_each_region": 1,
+      "n_matched_species": 278,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "n_matched_genera": 201,
+      "species_equal_paired_photo_white_delta": 0.008350093369251955,
+      "genus_equal_paired_photo_white_delta": -0.007336095858700232,
+      "bootstrap_CI_95_genus_cluster": [
+        -0.05518477811124631,
+        0.04004108500705677
+      ],
+      "fraction_genera_with_positive_paired_white_change": 0.1691542288557214,
+      "fraction_genera_with_negative_paired_white_change": 0.19900497512437812,
+      "no_assumption_of_independent_congeneric_species": true
+    },
+    {
+      "region_a": "low_0_30",
+      "region_b": "high_60_90",
+      "minimum_classifiable_taxon_cells_each_region": 3,
+      "n_matched_species": 42,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "n_matched_genera": 37,
+      "species_equal_paired_photo_white_delta": -0.02055232983028014,
+      "genus_equal_paired_photo_white_delta": -0.027311819431384644,
+      "bootstrap_CI_95_genus_cluster": [
+        -0.10444016882875579,
+        0.04502747876389179
+      ],
+      "fraction_genera_with_positive_paired_white_change": 0.2972972972972973,
+      "fraction_genera_with_negative_paired_white_change": 0.32432432432432434,
+      "no_assumption_of_independent_congeneric_species": true
+    },
+    {
+      "region_a": "middle_30_60",
+      "region_b": "high_60_90",
+      "minimum_classifiable_taxon_cells_each_region": 1,
+      "n_matched_species": 1295,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "n_matched_genera": 561,
+      "species_equal_paired_photo_white_delta": 0.017787428144571002,
+      "genus_equal_paired_photo_white_delta": 0.010553117319126391,
+      "bootstrap_CI_95_genus_cluster": [
+        -0.017490305414314785,
+        0.03734067860261304
+      ],
+      "fraction_genera_with_positive_paired_white_change": 0.26737967914438504,
+      "fraction_genera_with_negative_paired_white_change": 0.2620320855614973,
+      "no_assumption_of_independent_congeneric_species": true
+    },
+    {
+      "region_a": "middle_30_60",
+      "region_b": "high_60_90",
+      "minimum_classifiable_taxon_cells_each_region": 3,
+      "n_matched_species": 249,
+      "status": "EXPLORATORY_SAME_SPECIES_CROSS_REGION_AVAILABLE",
+      "n_matched_genera": 174,
+      "species_equal_paired_photo_white_delta": -0.0013981723319072715,
+      "genus_equal_paired_photo_white_delta": 0.002093441892292468,
+      "bootstrap_CI_95_genus_cluster": [
+        -0.026019555024583755,
+        0.033316780468360924
+      ],
+      "fraction_genera_with_positive_paired_white_change": 0.28735632183908044,
+      "fraction_genera_with_negative_paired_white_change": 0.3103448275862069,
+      "no_assumption_of_independent_congeneric_species": true
+    }
+  ],
+  "source_terminology": "species-grouped by the original genus token; not a resolved phylogenetic tree",
+  "limitations": [
+    "photo white may be overexposure, not white anthocyanin-deficient alleles",
+    "any-photo and classifiability denominator not random globally",
+    "genus labels are not independent phylogenetic contrasts",
+    "species regional sampling and within-genus sampling differ globally",
+    "no direct genetic FCP, morph frequency, adaptation, net selection or opposing fitness costs inferred"
+  ],
+  "confirmatory_decisions_changed": false,
+  "genus_region_row_ledger_SHA256": "7efb7f37901d2e4bad233cd251553d7ef0c17be7dd63bf62717478052068072e",
+  "execution_receipt": {
+    "workflow_run_id": 37777839919,
+    "job_id": 113313093013,
+    "evaluated_sha": "194bd84759ef2becb05e9cd5b65b729c2f3e8fd5",
+    "success": true,
+    "tests": [
+      "19 passed in 0.71s"
+    ],
+    "source": "GitHub Actions green job, SHA256 checked 42,111 species breadth and 85,337 taxon-cell source, 19 unit tests",
+    "artifact_id": 11550701862,
+    "artifact_digest": "sha256:a867fab93823da19317a65e228a4fccc08f5cc376f8b032d3042648d79ed6d2c",
+    "frozen_manuscript_results_modified": false
+  }
+}

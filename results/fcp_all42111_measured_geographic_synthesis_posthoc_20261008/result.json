@@ -1,0 +1,226 @@
+{
+  "schema": "fcp_all42111_existing_measured_phenotype_geography_synthesis_v1",
+  "date_jst": "2026-10-08",
+  "status": "EXISTING_REAL_IMAGE_MEASUREMENT_GLOBAL_AND_REGIONAL_AUDITED",
+  "role": "integrated_source-frozen_discovery_not_independent_new_image_confirmation",
+  "origin_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
+  "input_SHA256": {
+    "breadth": "38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
+    "taxon_cell": "7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e",
+    "crosscell_pairs": "26755316b2cbd07e1e2241eb4ddc1cddc85219fd7e96424df8c14df32575a4d2"
+  },
+  "original_species_denominator": 42111,
+  "breadth_single_original_photo_per_species": {
+    "species_source_rows": 42111,
+    "species_four_colour_classifiable": 18457,
+    "unclassifiable": 23654,
+    "colour_counts": {
+      "white": 8597,
+      "yellow_orange": 6323,
+      "red_pink": 2001,
+      "blue_purple": 1536
+    },
+    "conditional_colour_fractions": {
+      "white": 0.46578533889581186,
+      "yellow_orange": 0.34258005092918675,
+      "red_pink": 0.10841415181232053,
+      "blue_purple": 0.08322045836268083
+    }
+  },
+  "regional_taxon_cell_measurement": {
+    "all_taxon_cell_rows": 85337,
+    "classified_taxon_cell_rows": 39075,
+    "occupied_cells": 128,
+    "original_equal_area_grid": {
+      "longitude_sections": 18,
+      "sin_latitude_sections": 9,
+      "total_world_cells": 162
+    },
+    "abs_latitude_regions": [
+      {
+        "region": "low_0_30",
+        "taxon_cell_opportunities": 50776,
+        "distinct_observed_species": 29993,
+        "classified_taxon_cell": 21705,
+        "unclassified_taxon_cell": 29071,
+        "classified_fraction": 0.427465731841815,
+        "occupied_equal_area_cells": 77,
+        "colours_among_classified": {
+          "white": 10069,
+          "yellow_orange": 7265,
+          "red_pink": 2693,
+          "blue_purple": 1678
+        },
+        "taxon_cell_weighted_colour_fraction_conditional": {
+          "white": 0.463902326652845,
+          "yellow_orange": 0.3347155033402442,
+          "red_pink": 0.12407279428703064,
+          "blue_purple": 0.07730937571988021
+        },
+        "population_claim_boundary": "taxon-cell anchors are NOT equal-weight species globally; some species appear in multiple cells"
+      },
+      {
+        "region": "middle_30_60",
+        "taxon_cell_opportunities": 25264,
+        "distinct_observed_species": 15745,
+        "classified_taxon_cell": 12500,
+        "unclassified_taxon_cell": 12764,
+        "classified_fraction": 0.4947751741608613,
+        "occupied_equal_area_cells": 28,
+        "colours_among_classified": {
+          "white": 5875,
+          "yellow_orange": 4185,
+          "red_pink": 1268,
+          "blue_purple": 1172
+        },
+        "taxon_cell_weighted_colour_fraction_conditional": {
+          "white": 0.47,
+          "yellow_orange": 0.3348,
+          "red_pink": 0.10144,
+          "blue_purple": 0.09376
+        },
+        "population_claim_boundary": "taxon-cell anchors are NOT equal-weight species globally; some species appear in multiple cells"
+      },
+      {
+        "region": "high_60_90",
+        "taxon_cell_opportunities": 9297,
+        "distinct_observed_species": 3457,
+        "classified_taxon_cell": 4870,
+        "unclassified_taxon_cell": 4427,
+        "classified_fraction": 0.5238248897493816,
+        "occupied_equal_area_cells": 23,
+        "colours_among_classified": {
+          "white": 2430,
+          "yellow_orange": 1568,
+          "red_pink": 382,
+          "blue_purple": 490
+        },
+        "taxon_cell_weighted_colour_fraction_conditional": {
+          "white": 0.4989733059548255,
+          "yellow_orange": 0.3219712525667351,
+          "red_pink": 0.07843942505133471,
+          "blue_purple": 0.10061601642710473
+        },
+        "population_claim_boundary": "taxon-cell anchors are NOT equal-weight species globally; some species appear in multiple cells"
+      }
+    ],
+    "note": "colour fractions across repeat-cell photos are not a worldwide species-equal estimator"
+  },
+  "observer_disjoint_crosscell_morph_comparison": {
+    "n_not_assignable_pair_midpoints": 27,
+    "n_fixed_pairs": 13416,
+    "n_identified_pairs": 3196,
+    "n_discordant_pairs": 797,
+    "regional_and_global_descriptive": [
+      {
+        "region": "low_0_30",
+        "fixed_observer_disjoint_species_pairs": 5785,
+        "both_photos_classified": 1168,
+        "same_photo_colour": 828,
+        "discordant_photo_colour": 340,
+        "one_or_both_unclassifiable": 4617,
+        "discordance_fraction_among_both_classified": 0.2910958904109589,
+        "species_bootstrap_95CI_conditional": [
+          0.2662671232876712,
+          0.3167808219178082
+        ],
+        "no_assumption_full_fixed_pair_discordance_bounds": [
+          0.058772687986171135,
+          0.8568712186689714
+        ],
+        "n_observed_species_in_region": 5785,
+        "eligible_for_representative_regional_comparison": true,
+        "geographic_region_assignment": "great circle midpoint of TWO different frozen equal-area cell centroids"
+      },
+      {
+        "region": "middle_30_60",
+        "fixed_observer_disjoint_species_pairs": 6269,
+        "both_photos_classified": 1646,
+        "same_photo_colour": 1271,
+        "discordant_photo_colour": 375,
+        "one_or_both_unclassifiable": 4623,
+        "discordance_fraction_among_both_classified": 0.2278250303766707,
+        "species_bootstrap_95CI_conditional": [
+          0.20835358444714458,
+          0.24848116646415552
+        ],
+        "no_assumption_full_fixed_pair_discordance_bounds": [
+          0.05981815281544106,
+          0.7972563407241985
+        ],
+        "n_observed_species_in_region": 6269,
+        "eligible_for_representative_regional_comparison": true,
+        "geographic_region_assignment": "great circle midpoint of TWO different frozen equal-area cell centroids"
+      },
+      {
+        "region": "high_60_90",
+        "fixed_observer_disjoint_species_pairs": 1335,
+        "both_photos_classified": 374,
+        "same_photo_colour": 293,
+        "discordant_photo_colour": 81,
+        "one_or_both_unclassifiable": 961,
+        "discordance_fraction_among_both_classified": 0.21657754010695188,
+        "species_bootstrap_95CI_conditional": [
+          0.17647058823529413,
+          0.25935828877005346
+        ],
+        "no_assumption_full_fixed_pair_discordance_bounds": [
+          0.060674157303370786,
+          0.7805243445692884
+        ],
+        "n_observed_species_in_region": 1335,
+        "eligible_for_representative_regional_comparison": true,
+        "geographic_region_assignment": "great circle midpoint of TWO different frozen equal-area cell centroids"
+      },
+      {
+        "region": "ALL",
+        "fixed_observer_disjoint_species_pairs": 13416,
+        "both_photos_classified": 3196,
+        "same_photo_colour": 2399,
+        "discordant_photo_colour": 797,
+        "one_or_both_unclassifiable": 10220,
+        "discordance_fraction_among_both_classified": 0.24937421777221527,
+        "species_bootstrap_95CI_conditional": [
+          0.23435544430538172,
+          0.2644086357947434
+        ],
+        "no_assumption_full_fixed_pair_discordance_bounds": [
+          0.0594066785927251,
+          0.8211836612999404
+        ],
+        "n_observed_species_in_region": 13416,
+        "eligible_for_representative_regional_comparison": true,
+        "geographic_region_assignment": "great circle midpoint of TWO different frozen equal-area cell centroids"
+      }
+    ],
+    "prior_selected_pair_frame": true,
+    "all_intervals_conditional_on_both_photos_classified": true
+  },
+  "hard_nonclaims": [
+    "only coarse photographed floral colours; not genetic or biochemical polymorphism prevalence",
+    "one original photo/species identifies a visible state, not dominant species morph",
+    "the repeated cell table has different species weight per cell and cannot replace single-photo species-equal global composition",
+    "only 3196 of 13416 observer-disjoint pairs were both classifiable; absence of a colour difference among the other 10220 is unknown",
+    "regional differences can reflect species turnover, observer effort, taxonomic composition, image exposure, and biased classification",
+    "the source data overlap prior 42111 and 1499 discovery work; these are NOT a prospectively independent confirmation set",
+    "geographic distance and photo differences cannot identify natural selection, fitness balancing or white pigment synthesis costs",
+    "the 42111 species are a citizen-science discovery frame, not every flowering species globally"
+  ],
+  "confirmatory_decisions_changed": false,
+  "cell_support_csv_SHA256": "bee44623e216e455cd5ea760209cf299c2653d162d9731a00250db044077843a",
+  "execution_receipt": {
+    "origin": "successfully source-SHA-verified original 2026-09 measurement replay; no new image pixel access",
+    "workflow_run_id": 37777080395,
+    "job_id": 113310570810,
+    "workflow_source_commit": "c95f637a8e0b8c7f0959c46af9114e417f74a27f",
+    "image_measurement_source_commit": "2b5390ea74f8d196012499d2d35dd477f9795938",
+    "original_image_measurement_shas_verified": true,
+    "tests": [
+      "13 passed in 0.65s"
+    ],
+    "artifact_id": 11550306882,
+    "artifact_digest": "sha256:c89ffe8d548453aebb2262156e251985d9339e0458f9114ace137c500d2c8e63",
+    "authoritatively_retrospective_not_an_independent_confirmation": true,
+    "original_paper_claims_not_reclassified": true
+  }
+}
