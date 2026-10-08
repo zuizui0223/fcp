@@ -86,3 +86,16 @@ This exposes a real **geometry-induced undercount of 14 species** in the origina
 **Terminal ecological verdict:** the historical maximin-style, high-depth iNaturalist photograph resource is strong for comparing flower-colour organization across a sampled range, but too sparse in independently observed, strictly repeated local year×month windows for this distinct causal-environmental question. The extent to which the sampling algorithm versus underlying photographer opportunity caused low coverage was not itself decomposed. No absence of climatic effects, genetic polymorphism or selection is established.
 
 **Next data-design boundary:** any climate anomaly test must begin from a separately collected or predesignated repeated-*site* sample, not enlarge the locality diameter after seeing 10-km failures, or repurpose old same-provider classes as untouched prospective replication. Required are site/year/month/observer windows with enough photos, camera exposure controls, repeated source plants or genotype identities, and matched year-specific climate covariates. With the current frozen photo sample, **do not download ERA5-Land for the blocked three-cohort same-site test**.
+
+
+## Follow-on data-recruitment gap audit (outcome blind; NOT a re-test of spatial or climate effects)
+
+After both 10-km tests remained HOLD (conservative anchors 10/10/20, exact four-photo witness 19/12/23), the study next asks a different *feasibility* question: **for the existing frozen high-depth species, where are there already two photographed years of the same month in a 10km neighbourhood, but too few observer-disjoint photos per year?**
+
+The additional `scripts/analysis/audit_fcp_siteyear_replenishment_gap_20261008.py` searches only source-photo-centered 5-km anchor circles and only **years that already have actual dated photographs**. For two years in the same exact month, it computes a theoretical observer-photo slot shortfall
+`max(0, 2 - n_observers_in_year_A) + max(0, 2 - n_observers_in_year_B)`.
+The minimum over anchors, calendar months and source-observed year pairs is reported, while species without a two-year/month photographic anchor are separately coded *not observable in the current source*. All photo-colour labels have been dropped before selecting locations and dates; individual photo and observation IDs remain historically source-verified.
+
+A gap of one is a **mathematical recruitment target**, NOT evidence that the missing observation exists, that the corresponding species colour is genetically variable, or that climate explains its variation. The chosen site and date may be biased by source participation and photography. Because the source photograph-selection design maximized geographic coverage, this is specifically a *supplemental site-first observational* requirement for existing taxa, not an independent confirmation cohort.
+
+The original ≥30-per-cohort 10-km source-only gate remains HOLD, regardless of results. No new iNaturalist requests or images are fetched, and no future 2,000+730 taxon allocation is opened by this audit. Results are to be interpreted only after the additional pinned CI succeeds and commits a count receipt.
