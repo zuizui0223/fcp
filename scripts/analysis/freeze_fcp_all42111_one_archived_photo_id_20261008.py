@@ -94,14 +94,19 @@ def freeze_photo_identifiers(species:pd.DataFrame, evidence:pd.DataFrame)->tuple
     unresolved=[]
     for taxon in ids_order:
         group=grouped.get_group(int(taxon))
-        opt=group.loc[
-            ~group.photo_id.isin(used_photos)&
-            ~group.observation_id.isin(used_obs)
-        ]
-        if not len(opt):
+        # Python's constant-time set membership per candidate avoids
+        # repeatedly converting a 42k-element used-ID set inside pandas.isin,
+        # which otherwise grows approximately quadratically with the atlas.
+        selected=None
+        for record in group.itertuples(index=False):
+            pid=int(record.photo_id)
+            oid=int(record.observation_id)
+            if pid not in used_photos and oid not in used_obs:
+                selected=record._asdict()
+                break
+        if selected is None:
             unresolved.append(int(taxon))
             continue
-        selected=opt.iloc[0].to_dict()
         used_obs.add(int(selected["observation_id"]))
         used_photos.add(int(selected["photo_id"]))
         chosen.append(selected)
