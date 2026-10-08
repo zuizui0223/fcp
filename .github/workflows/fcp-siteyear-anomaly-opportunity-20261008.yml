@@ -170,6 +170,7 @@ jobs:
         run: |
           python -m pytest tests/test_fcp_validation_gap1_live_metadata_pilot_20261008.py -q
           python -m py_compile scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py
+          python scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py --help > /dev/null
 
       - name: Restore original 42111 breadth photo identities for prior-use exclusion
         run: |
