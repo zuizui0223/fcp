@@ -1,0 +1,85 @@
+{
+  "schema": "fcp_complete_42111_photo_opportunity_nested_inference_v1",
+  "date_jst": "2026-10-08",
+  "status": "COMPLETE_WORLD_SPECIES_FRAME_METADATA_ONLY_NO_IMAGE_PIXELS",
+  "full_species_discovery_frame": 42111,
+  "source_sha256": {
+    "species": "5d871bd1f1190c68fd513bb527e6c93de1606dc35ff8cfff5f6187850dc382cc",
+    "capacity": "12d94100d6343597aa2b87670555e801ce0681f4b69e3ad634fa6d80409008e8",
+    "photo_discovery_index_v1": "b60a8b1b98fcf6745344d6acc394bb6ff905b9d5bded134031402892ff2efa2e",
+    "photo_discovery_index_v2": "d7f08601ccc4d7dc9ff1943ea3e58ed903b9759277f7b536bc7423bc08189b3a"
+  },
+  "full_atlas_species_coverage": "ALL 42111, INCLUDING NO-ELIGIBLE-PHOTO",
+  "photo_measurement_started_by_this_workflow": false,
+  "colour_and_fitness_outcome_opened": false,
+  "nested_photo_depth_opportunity": {
+    "photo_depth_threshold_counts": {
+      "1": 41322,
+      "2": 33944,
+      "5": 24612,
+      "10": 18301,
+      "20": 12985,
+      "30": 10330,
+      "40": 8753,
+      "50": 7632,
+      "60": 6770,
+      "80": 5558,
+      "100": 4730
+    },
+    "source_taxa_with_ge1_eligible_photo": 41322,
+    "source_taxa_with_no_current_eligible_photo": 789,
+    "photographic_preprocessing_plan_by_max_per_species": {
+      "1": {
+        "number_of_species_with_at_least_one_photo": 41322,
+        "sum_of_possible_nested_photo_rows": 41322,
+        "species_reaching_all_requested_rows": 41322
+      },
+      "5": {
+        "number_of_species_with_at_least_one_photo": 41322,
+        "sum_of_possible_nested_photo_rows": 156242,
+        "species_reaching_all_requested_rows": 24612
+      },
+      "20": {
+        "number_of_species_with_at_least_one_photo": 41322,
+        "sum_of_possible_nested_photo_rows": 408405,
+        "species_reaching_all_requested_rows": 12985
+      },
+      "40": {
+        "number_of_species_with_at_least_one_photo": 41322,
+        "sum_of_possible_nested_photo_rows": 616657,
+        "species_reaching_all_requested_rows": 8753
+      },
+      "100": {
+        "number_of_species_with_at_least_one_photo": 41322,
+        "sum_of_possible_nested_photo_rows": 993004,
+        "species_reaching_all_requested_rows": 4730
+      }
+    },
+    "species_geographic_cell_counts": {
+      "min": 1,
+      "median": 1.0,
+      "max": 70,
+      "n_2plus_cells": 13564
+    },
+    "n_world_equal_area_cells": 162
+  },
+  "recorded_full_species_ledger_SHA256": "732fc760492656e79e5e99b17c8acb471f0a25cf33b07c8af72dfaa1d623aa77",
+  "observation_scope_interpretation": {
+    "n_ge1": "species with any historical photo opportunity; image colour not necessarily classifiable",
+    "n_ge5": "screened visible colour occurrence only; failure to see rare morph not natural monomorphism",
+    "n_ge20": "comparative visible-colour diversity has broad but imperfect photographic support",
+    "n_ge40": "candidate species for minimum measured within-species ITV",
+    "n_ge100": "candidate species for higher-depth geographic colour association, not necessarily enough local photo pairs"
+  },
+  "claim_limits": [
+    "metadata-only observer-capped photo availability is not actual measured flower-colour photos",
+    "zero-photo species remain in the denominator as NOT OBSERVED, not white/monomorphic",
+    "single-photo species yield no within-species colour variation estimates",
+    "two or five photo labels cannot reliably prove the absence of rare flower colour variants",
+    "presence in >1 equal-area cell is not proof of photographed reproductive populations or ecological adaptation",
+    "the 42111 species are an outcome-blind iNaturalist discovered opportunity frame, not all world angiosperms",
+    "primary benefit-cost/selection mechanisms, genotypes and white anthocyanin absence are not measured"
+  ],
+  "confirmed_global_photo_colour_prevalence_estimable_now": false,
+  "confirmatory_decisions_changed": false
+}
