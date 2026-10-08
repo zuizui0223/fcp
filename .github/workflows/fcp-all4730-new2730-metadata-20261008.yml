@@ -110,7 +110,7 @@ jobs:
       - name: FIRST AND ONLY public metadata fetch for this fixed species shard
         run: |
           set -euo pipefail
-          python scripts/acquisition/fcp_all4730_new2730_metadata_shard_20261008.py \
+          PYTHONPATH="$GITHUB_WORKSPACE" python scripts/acquisition/fcp_all4730_new2730_metadata_shard_20261008.py \
             --primary results/fcp_next2000_prospective_preopening_20261008/prospective_selected_2000_species.tsv \
             --replication results/fcp_next2000_prospective_preopening_20261008/prospective_reserve_730_species.tsv \
             --exclusion-dir /tmp/fcp_all4730_old_id_exclusions \
