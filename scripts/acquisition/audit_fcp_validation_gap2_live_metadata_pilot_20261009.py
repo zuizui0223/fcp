@@ -42,7 +42,7 @@ def decide_species(requirements: list[dict]) -> str:
         raise ValueError("Species missing required year/month slots")
     if sum(int(x["required"]) for x in requirements) != TARGET_GAP:
         raise ValueError("Not a frozen two-slot species")
-    if len(set(int(x["year"]) for x in requirements)) != len(requirements):
+    if len(set(int(x["target_year"]) for x in requirements)) != len(requirements):
         raise ValueError("Repeated target year")
     if any(x.get("api_error") for x in requirements):
         return "API_ERROR_UNRESOLVED"
@@ -89,6 +89,12 @@ def run(queue_file:Path,sources:dict[str,Path],breadth:Path,outdir:Path,
     q=check_queue(pd.read_csv(queue_file,low_memory=False))
     old_obs,old_photos=source_exclusions(sources,breadth)
     source,_=load_photo_opportunity(sources[COHORT],COHORT)
+    # Persist every metadata response before aggregation, so late analysis errors
+    # never discard API work or turn queried photo IDs into unknown negatives.
+    outdir.mkdir(parents=True,exist_ok=True)
+    progress=outdir/"technical_query_progress.jsonl"
+    if progress.exists():
+        raise RuntimeError("Pre-existing partial metadata output: do not silently repeat requests")
     technical=[]
     for i,row in enumerate(q.itertuples(index=False)):
         lat,lon,existing=anchor_context_gap2(source,row)
@@ -136,8 +142,15 @@ def run(queue_file:Path,sources:dict[str,Path],breadth:Path,outdir:Path,
             z["query_status"]="API_ERROR_UNRESOLVED"
             z["error_class"]=type(e).__name__
         technical.append(z)
+        with progress.open("a",encoding="utf-8") as fp:
+            fp.write(json.dumps(z,sort_keys=True)+"\\n")
         if i+1<len(q):
             sleep(MIN_INTERVAL_SECONDS)
+    if len(technical)!=len(q):
+        raise RuntimeError("Incomplete metadata collection cannot be aggregated")
+    (outdir/"technical_all_queries_completed.json").write_text(
+        json.dumps(technical,indent=2,sort_keys=True)+"\\n",encoding="utf-8")
+    print("FCP_GAP2_ALL_METADATA_QUERY_RESPONSES_DURABLY_WRITTEN",flush=True)
     by_species={}
     for tid in sorted(q.inat_taxon_id.astype(str).unique(),key=int):
         slots=[x for x in technical if x["inat_taxon_id"]==tid]
