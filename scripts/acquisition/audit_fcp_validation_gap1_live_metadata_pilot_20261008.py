@@ -100,7 +100,7 @@ def public_coordinates(item:dict)->tuple[float,float]|None:
 def qualify(item:dict,*,taxon_id:int,year:int,month:int,
             anchor_lat:float,anchor_lon:float,existing_observers:set[str],
             banned_obs:set[str],banned_photos:set[str])->list[dict]:
-    if not isinstance(item,dict) or str(item.get("taxon",{}).get("id"))!=str(taxon_id):
+    if not isinstance(item,dict) or not isinstance(item.get("taxon"),dict) or str(item["taxon"].get("id"))!=str(taxon_id):
         return []
     if item.get("captive") is True:
         return []
