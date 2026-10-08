@@ -191,14 +191,26 @@ def analyse(d: pd.DataFrame,cohort: str,axis: str) -> tuple[dict,pd.DataFrame]:
     mixed_null=np.zeros((k,PERMUTATIONS),float)
     species_supported=np.zeros(k,int)
     photos_in_bin=np.zeros(k,int)
+    # Descriptive geography includes species observed in just one band; it
+    # must NEVER be mistaken for a within-species altitude/latitude effect.
+    band_descriptive=[[] for _ in range(k)]
     for taxon, group in d.groupby("inat_taxon_id",sort=True):
         values=(np.abs(group.latitude.to_numpy(float)) if axis=="absolute_latitude"
                 else group.elevation_m.to_numpy(float))
         photo_bins=region_assignments(values,axis)
         for i in range(k):
-            if int((photo_bins==i).sum())>=MIN_PHOTOS_IN_BAND:
+            count=int((photo_bins==i).sum())
+            if count>=MIN_PHOTOS_IN_BAND:
                 species_supported[i]+=1
-                photos_in_bin[i]+=int((photo_bins==i).sum())
+                photos_in_bin[i]+=count
+                morphs=group.morph.astype(str).to_numpy()[photo_bins==i]
+                c=np.bincount(pd.Categorical(morphs,categories=MORPHS).codes,
+                              minlength=len(MORPHS))
+                band_descriptive[i].append({
+                    "white":float(c[0]/count),
+                    "diversity":pair_diversity(c),
+                    "white_colour_mixed":bool(c[0]>=3 and int(c[1:].sum())>=3),
+                })
         values_rows,nul,n_mix=species_band_metrics(
             values,group.morph.astype(str).to_numpy(),axis,
             nperm=PERMUTATIONS,seed=rng_seed(cohort,axis,int(taxon)))
@@ -221,6 +233,20 @@ def analyse(d: pd.DataFrame,cohort: str,axis: str) -> tuple[dict,pd.DataFrame]:
         val=summarize_band(payload,nul,mixed,cohort,axis,i)
         val["n_species_with_min8_photos_in_bin_even_without_outside_opportunity"]=int(species_supported[i])
         val["n_photos_in_species_with_min8_in_bin"]=int(photos_in_bin[i])
+        if band_descriptive[i]:
+            tab=pd.DataFrame(band_descriptive[i])
+            val["descriptive_species_equal_white_fraction_all_band_species"]=float(
+                tab.white.mean())
+            val["descriptive_species_equal_fourstate_D_all_band_species"]=float(
+                tab.diversity.mean())
+            val["descriptive_observed_white_colour_mixed_species_all_band_species"]=int(
+                tab.white_colour_mixed.sum())
+            val["descriptive_between_band_species_turnover_confounding"]=True
+        else:
+            val["descriptive_species_equal_white_fraction_all_band_species"]=None
+            val["descriptive_species_equal_fourstate_D_all_band_species"]=None
+            val["descriptive_observed_white_colour_mixed_species_all_band_species"]=0
+            val["descriptive_between_band_species_turnover_confounding"]=True
         by_band[name]=val
     # Multiplicity over all coverage-eligible latitude or elevation bins,
     # separately for white and full four-state diversity.
