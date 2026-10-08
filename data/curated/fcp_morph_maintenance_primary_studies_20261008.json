@@ -1,0 +1,251 @@
+{
+  "schema": "fcp_morph_maintenance_primary_study_registry_v1",
+  "date_jst": "2026-10-08",
+  "status": "purposive_verified_study_panel_not_unbiased_systematic_sample",
+  "target": "Assess overlap of organism-level ecological maintenance evidence with FCP photographic source taxa",
+  "provenance": "Source-driven biological evidence curated separately from FCP photographic outcomes; study roles refer to evidence type, not pooled selection effects",
+  "hard_nonclaims": [
+    "no population-wide biological prevalence or tradeoff frequency inference from purposive case panel",
+    "different study systems measure incompatible morph identities, traits, endpoints and treatments",
+    "morph colour may be indirect correlate of selected flower-number/vegetative traits",
+    "natural FCP means heritable morphs in a mating population; photographs measure only image colour classes",
+    "literature mechanisms are not direct field fitness outcomes for species absent from the photo frame",
+    "published photos/photo iNaturalist can contain cultivation/organ/exposure effects",
+    "no novel fitness, genetic molecular or population data generated"
+  ],
+  "systems": [
+    {
+      "species": "Silene littorea",
+      "family": "Caryophyllaceae",
+      "mechanism": "trait_correlated_selection_and_autonomous_selfing",
+      "photo_contrast": "white_vs_pink",
+      "source_doi": [
+        "10.3389/fpls.2020.588383",
+        "10.1111/plb.13209",
+        "10.1186/s12870-019-2082-6"
+      ],
+      "evidence_role": "within_species_multi_population_fitness_path_plus_bagging_pollination_plus_organ_specific_pigment",
+      "demonstrated": [
+        "Barra flower-colour correlated indirect female fitness via flower number estimate +0.418 p=.022",
+        "Melide corresponding indirect effect -0.257 p=.064 (borderline not significant)",
+        "pink pollinator favoured; white autonomous selfing reproductive assurance",
+        "petal-anthocyanin-only white vs whole-plant-loss biochemical phenotype"
+      ],
+      "unresolved": [
+        "between-population causal sign reversal not experimentally verified",
+        "the energetic cost of pigment alone is not isolated"
+      ],
+      "measurements": {
+        "Barra_indirect_female_seed_fitness_path_estimate": 0.418,
+        "Barra_indirect_female_seed_fitness_path_p": 0.022,
+        "Melide_indirect_female_seed_fitness_path_estimate": -0.257,
+        "Melide_indirect_female_seed_fitness_path_p": 0.064,
+        "white_autonomous_selfed_fruit_percent": 27,
+        "pink_autonomous_selfed_fruit_percent": 20,
+        "white_autonomous_selfed_seed_percent": 20,
+        "pink_autonomous_selfed_seed_percent": 12
+      }
+    },
+    {
+      "species": "Boechera stricta",
+      "family": "Brassicaceae",
+      "mechanism": "water_and_herbivore_dependent_correlated_fitness",
+      "photo_contrast": "white_vs_purple",
+      "source_doi": [
+        "10.1111/nph.14998"
+      ],
+      "evidence_role": "heritable_morph_common_garden_glasshouse_and_herbivore_choice",
+      "demonstrated": [
+        "pigmented flower source plants lower foliar damage in nature/gardens",
+        "glasshouse white flower phenotype advantage in well-watered treatment",
+        "drought can induce colour in lines descended from white plants",
+        "colour heritability reported"
+      ],
+      "unresolved": [
+        "pigment metabolic resource cost unisolated",
+        "fitness crossover not verified across all field gardens"
+      ],
+      "measurements": {
+        "pigmented_zero_leaf_damage_odds_ratio": 2.08,
+        "leaf_damage_pigmented_vs_white_exponentiated_coefficient": 0.532,
+        "common_garden_H2": 0.6,
+        "well_watered_white_fecundity_advantage_p": 0.016,
+        "drought_white_lineage_purple_flower_odds_ratio": 3.03
+      }
+    },
+    {
+      "species": "Dactylorhiza sambucina",
+      "family": "Orchidaceae",
+      "mechanism": "negative_frequency_dependent_pollinator_visitation",
+      "photo_contrast": "purple_vs_yellow",
+      "source_doi": [
+        "10.1073/pnas.101.20.7839",
+        "10.1073/pnas.101.21.8263"
+      ],
+      "evidence_role": "experimentally_manipulated_morph_frequency_pollinator_function",
+      "demonstrated": [
+        "synthetic arrays in natural pollinator habitat manipulated purple/yellow morph proportions and detected rare-morph advantage in pollinia/fruit reproduction"
+      ],
+      "unresolved": [
+        "experimental arrays used transplanted plants at a site without naturally resident Dactylorhiza sambucina",
+        "not white pigmentation or pigment production cost"
+      ],
+      "measurements": {
+        "synthetic_arrays": 10,
+        "transplanted_plants_approx": 600
+      }
+    },
+    {
+      "species": "Iris lutescens",
+      "family": "Iridaceae",
+      "mechanism": "gene_flow_drift_and_possible_selection",
+      "photo_contrast": "purple_vs_yellow",
+      "source_doi": [
+        "10.1093/aob/mcw036"
+      ],
+      "evidence_role": "population_genetics_and_natural_morph_frequency",
+      "demonstrated": [
+        "1120 individuals from 41 populations genotyped at eight microsatellite loci",
+        "Spain sharp purple/yellow transition associated with limited migration and drift",
+        "French polymorphic populations with isolation-by-distance and adjacent population gene flow"
+      ],
+      "unresolved": [
+        "selection not excluded and fitness directly unmeasured"
+      ],
+      "measurements": {
+        "individuals_genotyped": 1120,
+        "populations": 41,
+        "microsatellites": 8
+      }
+    },
+    {
+      "species": "Linanthus parryae",
+      "family": "Polemoniaceae",
+      "mechanism": "divergent_abiotic_selection_plus_historical_timing",
+      "photo_contrast": "white_vs_blue",
+      "source_doi": [
+        "10.1111/j.1558-5646.2007.00219.x"
+      ],
+      "evidence_role": "reciprocal_transplant_plus_neutral_genetic_cline",
+      "demonstrated": [
+        "white/blue cline out of proportion to neutral marker divergence with reciprocal-transplant resident morph reproductive benefit"
+      ],
+      "unresolved": [
+        "whether corolla colour itself or linked loci are direct targets"
+      ],
+      "measurements": {}
+    },
+    {
+      "species": "Castilleja coccinea",
+      "family": "Orobanchaceae",
+      "mechanism": "spatially_heterogeneous_selection_on_floral_bract_color",
+      "photo_contrast": "red_vs_yellow_bracts",
+      "source_doi": [
+        "10.1002/ajb2.70094"
+      ],
+      "evidence_role": "heritability_habitat_populations_common_garden_fitness",
+      "demonstrated": [
+        "heritable floral bract color associated with habitat segregation and fitness contrasts"
+      ],
+      "unresolved": [
+        "red vs yellow bract colours are not white vs anthocyanin-loss petals",
+        "fitness outcome not a universal colour effect"
+      ],
+      "measurements": {}
+    },
+    {
+      "species": "Abronia fragrans",
+      "family": "Nyctaginaceae",
+      "mechanism": "betalain_pigment_and_reproductive_display_antagonist_coupling",
+      "photo_contrast": "white_vs_pink_betalain",
+      "source_doi": [
+        "10.1002/ajb2.70141"
+      ],
+      "evidence_role": "flower_count_genetics_environment_and_transplant_damage",
+      "demonstrated": [
+        "less-pigmented flowers associated with greater floral display but no corresponding reproductive advantage",
+        "transplants show morph/site-dependent herbivore and florivore differences"
+      ],
+      "unresolved": [
+        "specific molecular or fitness crossover not demonstrated across all traits",
+        "betalain chemistry not anthocyanin"
+      ],
+      "measurements": {}
+    },
+    {
+      "species": "Leptosiphon parviflorus",
+      "family": "Polemoniaceae",
+      "mechanism": "abiotic_stress_correlated_morph_frequency",
+      "photo_contrast": "white_vs_pink",
+      "source_doi": [
+        "10.1002/ajb2.70018"
+      ],
+      "evidence_role": "21_population_soil_climate_and_citizen_science_association",
+      "demonstrated": [
+        "pink frequency higher in serpentine, hotter and more drought-stressed sites",
+        "iNaturalist supportive association with UV and climatic water deficit"
+      ],
+      "unresolved": [
+        "no replicated reciprocal fitness cross-over or selection coefficient measured"
+      ],
+      "measurements": {
+        "field_sites": 21
+      }
+    },
+    {
+      "species": "Moricandia arvensis",
+      "family": "Brassicaceae",
+      "mechanism": "indirectly_maintained_seasonal_plasticity",
+      "photo_contrast": "spring_lilac_vs_summer_white",
+      "source_doi": [
+        "10.1038/s41467-020-17875-1",
+        "10.1093/evlett/qrae017"
+      ],
+      "evidence_role": "same_genotype_seasonal_phenotypic_switch_and_flowering_fitness",
+      "demonstrated": [
+        "same individual can make lilac spring flowers and white summer flowers",
+        "seasonal floral change can be maladaptive while summer flowering is beneficial"
+      ],
+      "unresolved": [
+        "not segregating floral pigment genotypes"
+      ],
+      "measurements": {}
+    },
+    {
+      "species": "Raphanus sativus",
+      "family": "Brassicaceae",
+      "mechanism": "pollinator_behavior_for_four_flower_colour_forms",
+      "photo_contrast": "white_yellow_pink_bronze",
+      "source_doi": [
+        "10.1002/j.1537-2197.1987.tb08595.x"
+      ],
+      "evidence_role": "behavioural_pollinator_choice_not_morph_fitness_equilibrium",
+      "demonstrated": [
+        "pollinator visits studied in experimental arrays contrasting four natural petal colour forms"
+      ],
+      "unresolved": [
+        "pollinator preferences do not by themselves establish stable morph selection equilibrium"
+      ],
+      "measurements": {}
+    },
+    {
+      "species": "Ipomoea purpurea",
+      "family": "Convolvulaceae",
+      "mechanism": "pollinator_and_mating_system_association",
+      "photo_contrast": "white_vs_coloured_and_pink_vs_blue",
+      "source_doi": [
+        "10.1086/284609",
+        "10.1111/j.1558-5646.1985.tb05690.x"
+      ],
+      "evidence_role": "floral_colour_genetic_loci_and_mating_pattern_studies",
+      "demonstrated": [
+        "multiple genetic flower-colour axes including white versus pigmented and pink versus blue",
+        "flower colour loci can influence pollinator response and mating"
+      ],
+      "unresolved": [
+        "not an isolated leaf/flower anthocyanin energetic cost measure"
+      ],
+      "measurements": {}
+    }
+  ]
+}
