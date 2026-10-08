@@ -96,3 +96,18 @@ def test_invalid_years_and_observer_missingness_do_not_pass():
     d=fixture()
     d["year"]=np.nan
     assert not m.strict_anchor_neighborhoods(d,25)["white_nonwhite_multi_year_two_observers"]
+
+
+def test_strict_local_recurrence_not_admitted_without_global_five_each():
+    d=fixture()
+    # Four white photos, split across two years and two observers; enough for
+    # anchor recurrence but below the >=5 photographed-white global entry gate.
+    d.loc[d.index[:12], "morph"]="red_pink"
+    d.loc[[0,1,6,7], "morph"]="white"
+    a=m.strict_anchor_neighborhoods(d,10)
+    assert a["white_nonwhite_multi_year_two_observers"]
+    row=m.summarize_species(d)
+    assert not row["white_plus_nonwhite_5_each"]
+    report=m.describe(pd.DataFrame([row]),"synthetic")
+    assert report["diameters_km"]["10"]["n_white_nonwhite_strict_multiyear_two_observers"]==0
+    assert report["diameters_km"]["10"]["n_white_nonwhite_neighborhood_with_both_labels_at_least_3"]==0
