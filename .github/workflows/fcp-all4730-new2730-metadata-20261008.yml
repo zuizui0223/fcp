@@ -59,12 +59,14 @@ jobs:
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
           python -m pip install pytest==8.4.2
           git fetch --no-tags --depth=1 origin "$THIRD_SHA"
-          mkdir -p /tmp/fcp_prior_runtime/fcp_pipeline
-          touch /tmp/fcp_prior_runtime/fcp_pipeline/__init__.py
+          # The checked-out repository already owns package fcp_pipeline;
+          # materialize the historical modules IN that package on this
+          # ephemeral Actions runner, not in a second PYTHONPATH directory.
+          mkdir -p fcp_pipeline
           for src in random_photo_h9_pool.py random_photo_pool.py shared_transition_surface.py; do
-            git show "$THIRD_SHA:fcp_pipeline/$src" > "/tmp/fcp_prior_runtime/fcp_pipeline/$src"
+            git show "$THIRD_SHA:fcp_pipeline/$src" > "fcp_pipeline/$src"
           done
-          PYTHONPATH=/tmp/fcp_prior_runtime python -m pytest tests/test_fcp_all4730_new2730_metadata_20261008.py -q
+          python -m pytest tests/test_fcp_all4730_new2730_metadata_20261008.py -q
 
   metadata-shard:
     needs: metadata-preflight
@@ -88,10 +90,12 @@ jobs:
           test "$GITHUB_RUN_ATTEMPT" = '1'
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
           git fetch --no-tags --depth=1 origin "$THIRD_SHA"
-          mkdir -p /tmp/fcp_prior_runtime/fcp_pipeline
-          touch /tmp/fcp_prior_runtime/fcp_pipeline/__init__.py
+          # The checked-out repository already owns package fcp_pipeline;
+          # materialize the historical modules IN that package on this
+          # ephemeral Actions runner, not in a second PYTHONPATH directory.
+          mkdir -p fcp_pipeline
           for src in random_photo_h9_pool.py random_photo_pool.py shared_transition_surface.py; do
-            git show "$THIRD_SHA:fcp_pipeline/$src" > "/tmp/fcp_prior_runtime/fcp_pipeline/$src"
+            git show "$THIRD_SHA:fcp_pipeline/$src" > "fcp_pipeline/$src"
           done
       - name: Restore ALL original photograph ID exclusions (without photo pixels)
         run: |
@@ -106,7 +110,7 @@ jobs:
       - name: FIRST AND ONLY public metadata fetch for this fixed species shard
         run: |
           set -euo pipefail
-          PYTHONPATH=/tmp/fcp_prior_runtime python scripts/acquisition/fcp_all4730_new2730_metadata_shard_20261008.py \
+          python scripts/acquisition/fcp_all4730_new2730_metadata_shard_20261008.py \
             --primary results/fcp_next2000_prospective_preopening_20261008/prospective_selected_2000_species.tsv \
             --replication results/fcp_next2000_prospective_preopening_20261008/prospective_reserve_730_species.tsv \
             --exclusion-dir /tmp/fcp_all4730_old_id_exclusions \
