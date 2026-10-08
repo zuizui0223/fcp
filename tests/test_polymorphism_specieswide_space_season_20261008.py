@@ -74,7 +74,7 @@ def test_colour_constant_null_not_informative():
         x=mod.species_test(g,"synthetic",scenario,policy)
         assert x is not None
         assert not x[0]["conditional_identifiable"]
-        assert x[0]["excess_over_stratified_null"] == 0
+        assert abs(x[0]["excess_over_stratified_null"]) < 1e-12
 
 
 def test_observer_filter_and_partial_dates():
@@ -108,7 +108,7 @@ def test_month_year_can_be_separately_unidentified():
     x=mod.species_test(g,"synthetic","year_month","all")
     assert x is not None
     assert not x[0]["conditional_identifiable"]
-    assert x[0]["excess_over_stratified_null"] == 0
+    assert abs(x[0]["excess_over_stratified_null"]) < 1e-12
 
 
 def test_reproducibility_and_cohort_mean():
