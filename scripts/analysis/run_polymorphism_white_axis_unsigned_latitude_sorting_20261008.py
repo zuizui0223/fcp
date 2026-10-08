@@ -231,6 +231,7 @@ def main():
         "schema":"fcp_white_vs_nonwhite_hue_unsigned_latitude_sorting_posthoc_v1",
         "date_jst":"2026-10-08",
         "status":"complete",
+        "confirmatory_decisions_changed":False,
         "role":"retrospective_morph_axis_specific_geographical_sorting_not_benefit_cost_selection",
         "source_measured_SHA256":PHOTO_SHA256,
         "n_perm_fixed_per_species":N_PERM,
