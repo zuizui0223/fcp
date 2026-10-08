@@ -5,7 +5,9 @@ on:
     branches: [main]
     paths:
       - scripts/analysis/build_fcp_all42111_nested_species_atlas_20261008.py
+      - scripts/analysis/freeze_fcp_all42111_one_archived_photo_id_20261008.py
       - tests/test_fcp_all42111_nested_species_atlas_20261008.py
+      - tests/test_fcp_all42111_one_archived_photo_id_20261008.py
       - docs/FCP_ALL42111_WHOLE_GLOBAL_FRAME_PROTOCOL_20261008.md
       - .github/workflows/fcp-all42111-global-frame-20261008.yml
   workflow_dispatch:
@@ -39,8 +41,8 @@ jobs:
         run: |
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
           python -m pip install pytest==8.4.2
-          python -m py_compile scripts/analysis/build_fcp_all42111_nested_species_atlas_20261008.py
-          python -m pytest tests/test_fcp_all42111_nested_species_atlas_20261008.py -q
+          python -m py_compile scripts/analysis/build_fcp_all42111_nested_species_atlas_20261008.py scripts/analysis/freeze_fcp_all42111_one_archived_photo_id_20261008.py
+          python -m pytest tests/test_fcp_all42111_nested_species_atlas_20261008.py tests/test_fcp_all42111_one_archived_photo_id_20261008.py -q
       - name: Retrieve EXACT original 42111 taxa, all source capacity, 162-cell observation indices
         run: |
           set -euo pipefail
@@ -66,6 +68,15 @@ jobs:
             --links-v1 /tmp/fcp_all42111_source/discovery_v1_cells.csv.gz \
             --links-v2 /tmp/fcp_all42111_source/discovery_v2_cells.csv.gz \
             --outdir /tmp/fcp_all42111_world
+      - name: Select one existing archived photo identity per each of all 42111 species
+        run: |
+          python scripts/analysis/freeze_fcp_all42111_one_archived_photo_id_20261008.py \
+            --species /tmp/fcp_all42111_source/42111_species.csv \
+            --capacity /tmp/fcp_all42111_source/42111_photo_capacity.csv \
+            --links-v1 /tmp/fcp_all42111_source/discovery_v1_cells.csv.gz \
+            --links-v2 /tmp/fcp_all42111_source/discovery_v2_cells.csv.gz \
+            --outdir /tmp/fcp_all42111_archived_photo_id
+
       - name: Verify whole denominator and block fictional measured morphology
         run: |
           python - <<'PY'
@@ -89,14 +100,27 @@ jobs:
           assert len(table)==42111 and table.inat_taxon_id.nunique()==42111
           assert table.atlas_label_status.eq('NOT_MEASURED_FROM_THIS_METADATA').all()
           assert not table.genetic_FCP_polymorphism_validated.any()
-          print('ALL_42111_SPECIES_HONEST_OPPORTUNITY_AND_GEOGRAPHIC_DENOMINATOR_AUDITED')
+          archived=Path('/tmp/fcp_all42111_archived_photo_id')
+          id_report=json.loads((archived/'result.json').read_text())
+          assert id_report['schema']=='fcp_all42111_preexisting_archived_single_photo_id_manifest_v1'
+          assert id_report['species_counts']['n_all_world_species']==42111
+          assert id_report['species_counts']['n_distinct_archived_photo_IDs']==42111
+          assert id_report['species_counts']['n_original_archived_photo_ids_even_when_later_capacity_zero']==789
+          assert id_report['new_image_pixels_opened'] is False
+          assert id_report['colour_labels_or_pigment_processed'] is False
+          photos=pd.read_csv(archived/'one_source_photo_id_per_each_42111_species.csv.gz')
+          assert len(photos)==42111 and photos.photo_id.nunique()==42111
+          assert photos.inat_taxon_id.nunique()==42111
+          print('ALL_42111_SPECIES_GEOGRAPHY_AND_ONE_ORIGINAL_PHOTO_ID_AUDITED_NO_PIXELS_OPENED')
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: fcp-all42111-global-opportunity-20261008
           if-no-files-found: error
           retention-days: 90
-          path: /tmp/fcp_all42111_world/
+          path: |
+            /tmp/fcp_all42111_world/
+            /tmp/fcp_all42111_archived_photo_id/
       - name: Preserve source-backed global 42111 species ledger on branch
         env:
           HEAD_REF: ${{ github.head_ref || github.ref_name }}
@@ -108,7 +132,10 @@ jobs:
           output='results/fcp_all42111_world_species_opportunity_20261008'
           mkdir -p "$output"
           cp /tmp/fcp_all42111_world/* "$output/"
-          git add "$output"
+          archived="results/fcp_all42111_archived_photo_id_20261008"
+          mkdir -p "$archived"
+          cp /tmp/fcp_all42111_archived_photo_id/* "$archived/"
+          git add "$output" "$archived"
           if git diff --cached --quiet; then
             echo 'Already frozen exactly identical full species atlas'
           else
