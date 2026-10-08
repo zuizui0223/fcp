@@ -1,0 +1,1657 @@
+{
+  "schema": "fcp_geographic_latitude_elevation_band_atlas_v1",
+  "date_jst": "2026-10-08",
+  "status": "complete",
+  "role": "retrospective_species_equal_geographical_description_and_within_species_permutation_diagnostic",
+  "confirmatory_decisions_changed": false,
+  "source_measured_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "elevation_raster_sha256": "b89becfdece8b61f4c28ea779e4a979d6729672dd99e870c8732026d5a9823aa",
+  "latitude_band_edges_degrees": [
+    0,
+    15,
+    30,
+    45,
+    60,
+    90
+  ],
+  "elevation_bands_m": [
+    "below 250",
+    "250–1000",
+    "1000–2000",
+    "2000+"
+  ],
+  "minimum_photo_counts": {
+    "species_global": 40,
+    "in_band": 8,
+    "outside_band": 8,
+    "band_informative_species": 25
+  },
+  "sampling_design": "species-equal in each bin; requires repeated locations of SAME species, not species turnover across bins",
+  "permutations": 199,
+  "source_system": "iNaturalist same classifier, three species-disjoint cohorts",
+  "hard_nonclaims": [
+    "the photographic species frame is not an unbiased world flora census",
+    "the number of species in a latitude/elevation band is NOT the incidence of natural floral polymorphism",
+    "visible white has demonstrable exposure coupling; cannot be read as biochemical anthocyanin absence",
+    "WorldClim 10-minute elevation is not the individual plant's field elevation",
+    "the hemisphere-specific display changes species composition and is descriptive only",
+    "band-level deviations can reflect observer/site/phenology confounding or historical spatial structure",
+    "genus balance is not a species phylogenetic covariance correction",
+    "a band with fewer than 25 informative species is coverage limited, NOT evidence of no effect",
+    "no genetic polymorphism, adaptive selection, pollinator preference, or causal high-altitude pigmentation claimed"
+  ],
+  "cohorts": {
+    "discovery": {
+      "absolute_latitude": {
+        "n_source_40_classifiable_species": 369,
+        "axis": "absolute_latitude",
+        "bands": {
+          "0–15°": {
+            "n_informative_species": 17,
+            "n_genera": 15,
+            "n_classifiable_photo_records": 302,
+            "n_observed_photo_white_colour_mixed_species": 8,
+            "fraction_observed_white_colour_mixed_species": 0.47058823529411764,
+            "null_expected_mixed_species": 0.515814365947384,
+            "mean_species_equal_white_fraction_in_band": 0.41624051978495613,
+            "mean_species_equal_fourstate_D_in_band": 0.38427505266878786,
+            "mean_white_deviation_vs_specieswide": -0.028801493465396726,
+            "mean_D_deviation_vs_specieswide": 0.02207403884330105,
+            "mean_genus_balanced_white_deviation": -0.029042251152359692,
+            "mean_genus_balanced_D_deviation": 0.020365825288115886,
+            "bootstrap_95CI_white_deviation": [
+              -0.07044804609826333,
+              0.011809671792815519
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.025483444607152805,
+              0.06759114595541468
+            ],
+            "null_white_sd": 0.021919352279943526,
+            "null_D_sd": 0.02509157599997558,
+            "permutation_p_two_sided_unadjusted": [
+              0.2,
+              0.43
+            ],
+            "minimum_25_species_pass": false,
+            "status": "HOLD_SPARSE_WITHIN_SPECIES_BAND_OPPORTUNITY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 20,
+            "n_photos_in_species_with_min8_in_bin": 443,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.3701316270617997,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.3697730509806799,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 10,
+            "descriptive_between_band_species_turnover_confounding": true
+          },
+          "15–30°": {
+            "n_informative_species": 62,
+            "n_genera": 55,
+            "n_classifiable_photo_records": 1364,
+            "n_observed_photo_white_colour_mixed_species": 29,
+            "fraction_observed_white_colour_mixed_species": 0.46774193548387094,
+            "null_expected_mixed_species": 0.43921218998216893,
+            "mean_species_equal_white_fraction_in_band": 0.43619937013739907,
+            "mean_species_equal_fourstate_D_in_band": 0.28866577728284815,
+            "mean_white_deviation_vs_specieswide": 0.013746488601669871,
+            "mean_D_deviation_vs_specieswide": -0.002450956910758707,
+            "mean_genus_balanced_white_deviation": 0.015348813570050057,
+            "mean_genus_balanced_D_deviation": -0.005907382789765727,
+            "bootstrap_95CI_white_deviation": [
+              -0.004041319757226649,
+              0.03244093871610981
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.026135292822711775,
+              0.020066291798512614
+            ],
+            "null_white_sd": 0.008313702167218879,
+            "null_D_sd": 0.011083445415391267,
+            "permutation_p_two_sided_unadjusted": [
+              0.1,
+              0.76
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 82,
+            "n_photos_in_species_with_min8_in_bin": 2525,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4469372098948367,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.27584988847438774,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 41,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_absolute_latitude_bands_p_white": 0.275,
+            "maxT_across_absolute_latitude_bands_p_D": 0.97
+          },
+          "30–45°": {
+            "n_informative_species": 173,
+            "n_genera": 135,
+            "n_classifiable_photo_records": 5342,
+            "n_observed_photo_white_colour_mixed_species": 74,
+            "fraction_observed_white_colour_mixed_species": 0.4277456647398844,
+            "null_expected_mixed_species": 0.42434716937287603,
+            "mean_species_equal_white_fraction_in_band": 0.43049497154330135,
+            "mean_species_equal_fourstate_D_in_band": 0.23709499005108978,
+            "mean_white_deviation_vs_specieswide": 0.005817985592483018,
+            "mean_D_deviation_vs_specieswide": -0.008241870157137218,
+            "mean_genus_balanced_white_deviation": 0.006856034520196644,
+            "mean_genus_balanced_D_deviation": -0.0037881464309077527,
+            "bootstrap_95CI_white_deviation": [
+              -0.004463461977158312,
+              0.016279209096902954
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.021710028771482304,
+              0.004507680546821473
+            ],
+            "null_white_sd": 0.004208560400057806,
+            "null_D_sd": 0.005405773733880368,
+            "permutation_p_two_sided_unadjusted": [
+              0.215,
+              0.125
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 293,
+            "n_photos_in_species_with_min8_in_bin": 12033,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.44988360427851787,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.24154177069226263,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 151,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_absolute_latitude_bands_p_white": 0.47,
+            "maxT_across_absolute_latitude_bands_p_D": 0.3
+          },
+          "45–60°": {
+            "n_informative_species": 143,
+            "n_genera": 112,
+            "n_classifiable_photo_records": 4237,
+            "n_observed_photo_white_colour_mixed_species": 70,
+            "fraction_observed_white_colour_mixed_species": 0.48951048951048953,
+            "null_expected_mixed_species": 0.47341603120497594,
+            "mean_species_equal_white_fraction_in_band": 0.426079738777489,
+            "mean_species_equal_fourstate_D_in_band": 0.24801276125658517,
+            "mean_white_deviation_vs_specieswide": -0.005415915942789896,
+            "mean_D_deviation_vs_specieswide": 0.004030034919339187,
+            "mean_genus_balanced_white_deviation": -0.007661250828988743,
+            "mean_genus_balanced_D_deviation": 0.004989091406956816,
+            "bootstrap_95CI_white_deviation": [
+              -0.014077388496224912,
+              0.004218140693820369
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.009603128176146029,
+              0.017623517825349416
+            ],
+            "null_white_sd": 0.004205753080248691,
+            "null_D_sd": 0.006164122948664273,
+            "permutation_p_two_sided_unadjusted": [
+              0.205,
+              0.505
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 166,
+            "n_photos_in_species_with_min8_in_bin": 5448,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.43394396315853817,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.24680058508915179,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 86,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_absolute_latitude_bands_p_white": 0.53,
+            "maxT_across_absolute_latitude_bands_p_D": 0.84
+          },
+          "60–90°": {
+            "n_informative_species": 18,
+            "n_genera": 17,
+            "n_classifiable_photo_records": 316,
+            "n_observed_photo_white_colour_mixed_species": 5,
+            "fraction_observed_white_colour_mixed_species": 0.2777777777777778,
+            "null_expected_mixed_species": 0.2638190954773869,
+            "mean_species_equal_white_fraction_in_band": 0.37305338694227586,
+            "mean_species_equal_fourstate_D_in_band": 0.23239075340779905,
+            "mean_white_deviation_vs_specieswide": -0.04480116046598807,
+            "mean_D_deviation_vs_specieswide": -0.013882626297512258,
+            "mean_genus_balanced_white_deviation": -0.05123881091769711,
+            "mean_genus_balanced_D_deviation": -0.016142152065185395,
+            "bootstrap_95CI_white_deviation": [
+              -0.08449652830957571,
+              -0.004844459231296734
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.0602118012572307,
+              0.03586722741987793
+            ],
+            "null_white_sd": 0.019932595998962778,
+            "null_D_sd": 0.028437183890665903,
+            "permutation_p_two_sided_unadjusted": [
+              0.035,
+              0.615
+            ],
+            "minimum_25_species_pass": false,
+            "status": "HOLD_SPARSE_WITHIN_SPECIES_BAND_OPPORTUNITY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 18,
+            "n_photos_in_species_with_min8_in_bin": 316,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.37305338694227586,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.23239075340779905,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 5,
+            "descriptive_between_band_species_turnover_confounding": true
+          }
+        },
+        "n_bands_eligible_with_25_species": 3
+      },
+      "elevation": {
+        "n_source_40_classifiable_species": 369,
+        "axis": "elevation",
+        "bands": {
+          "<250 m": {
+            "n_informative_species": 265,
+            "n_genera": 196,
+            "n_classifiable_photo_records": 8792,
+            "n_observed_photo_white_colour_mixed_species": 129,
+            "fraction_observed_white_colour_mixed_species": 0.4867924528301887,
+            "null_expected_mixed_species": 0.5200341329287949,
+            "mean_species_equal_white_fraction_in_band": 0.4694642264366398,
+            "mean_species_equal_fourstate_D_in_band": 0.24971101473822577,
+            "mean_white_deviation_vs_specieswide": 0.0025575507010454864,
+            "mean_D_deviation_vs_specieswide": -0.006046960166963556,
+            "mean_genus_balanced_white_deviation": 0.0023715496694681018,
+            "mean_genus_balanced_D_deviation": -0.007688401852580757,
+            "bootstrap_95CI_white_deviation": [
+              -0.003418050975839165,
+              0.008599679626428637
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.012179065426599153,
+              0.0010761263979130779
+            ],
+            "null_white_sd": 0.0027436685367231263,
+            "null_D_sd": 0.0037320416309393175,
+            "permutation_p_two_sided_unadjusted": [
+              0.38,
+              0.145
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 297,
+            "n_photos_in_species_with_min8_in_bin": 10466,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.466271689120556,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.24905463422163543,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 148,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.825,
+            "maxT_across_elevation_bands_p_D": 0.395
+          },
+          "250–1000 m": {
+            "n_informative_species": 293,
+            "n_genera": 211,
+            "n_classifiable_photo_records": 6225,
+            "n_observed_photo_white_colour_mixed_species": 98,
+            "fraction_observed_white_colour_mixed_species": 0.33447098976109213,
+            "null_expected_mixed_species": 0.3518445469669165,
+            "mean_species_equal_white_fraction_in_band": 0.4477799480613769,
+            "mean_species_equal_fourstate_D_in_band": 0.2473520785408941,
+            "mean_white_deviation_vs_specieswide": 0.0007293886803877398,
+            "mean_D_deviation_vs_specieswide": -0.002244941618078819,
+            "mean_genus_balanced_white_deviation": 0.0016712596705453896,
+            "mean_genus_balanced_D_deviation": -0.0024667610412914287,
+            "bootstrap_95CI_white_deviation": [
+              -0.008265156919976802,
+              0.008467577078364758
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.013803611487388488,
+              0.009112818786448637
+            ],
+            "null_white_sd": 0.003675558051020175,
+            "null_D_sd": 0.005216245491285689,
+            "permutation_p_two_sided_unadjusted": [
+              0.815,
+              0.575
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 295,
+            "n_photos_in_species_with_min8_in_bin": 6326,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.44802006177832676,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.24711931988329325,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 98,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 1,
+            "maxT_across_elevation_bands_p_D": 0.945
+          },
+          "1000–2000 m": {
+            "n_informative_species": 105,
+            "n_genera": 87,
+            "n_classifiable_photo_records": 2194,
+            "n_observed_photo_white_colour_mixed_species": 32,
+            "fraction_observed_white_colour_mixed_species": 0.3047619047619048,
+            "null_expected_mixed_species": 0.33094041636755206,
+            "mean_species_equal_white_fraction_in_band": 0.4081049301800137,
+            "mean_species_equal_fourstate_D_in_band": 0.22680659301780304,
+            "mean_white_deviation_vs_specieswide": 0.010322997467360496,
+            "mean_D_deviation_vs_specieswide": -0.01361206280140894,
+            "mean_genus_balanced_white_deviation": 0.012740089052276157,
+            "mean_genus_balanced_D_deviation": -0.013570391570873412,
+            "bootstrap_95CI_white_deviation": [
+              -0.0036423368101126145,
+              0.024068968221262955
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.03396376482033206,
+              0.004165837883112606
+            ],
+            "null_white_sd": 0.0059419638519561955,
+            "null_D_sd": 0.00860756322912902,
+            "permutation_p_two_sided_unadjusted": [
+              0.06,
+              0.08
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 107,
+            "n_photos_in_species_with_min8_in_bin": 2318,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4165894233814283,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2269544544857436,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 34,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.2,
+            "maxT_across_elevation_bands_p_D": 0.265
+          },
+          "≥2000 m": {
+            "n_informative_species": 43,
+            "n_genera": 37,
+            "n_classifiable_photo_records": 1084,
+            "n_observed_photo_white_colour_mixed_species": 19,
+            "fraction_observed_white_colour_mixed_species": 0.4418604651162791,
+            "null_expected_mixed_species": 0.44641813719761586,
+            "mean_species_equal_white_fraction_in_band": 0.37852810662189895,
+            "mean_species_equal_fourstate_D_in_band": 0.25379973234552344,
+            "mean_white_deviation_vs_specieswide": -0.0050026390570904735,
+            "mean_D_deviation_vs_specieswide": 0.008397871490534455,
+            "mean_genus_balanced_white_deviation": -0.009259257826057375,
+            "mean_genus_balanced_D_deviation": 0.012702184815000043,
+            "bootstrap_95CI_white_deviation": [
+              -0.025034469806886155,
+              0.013563252332051651
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.020784519744558385,
+              0.04102572753192757
+            ],
+            "null_white_sd": 0.009282150540515543,
+            "null_D_sd": 0.012715044200454316,
+            "permutation_p_two_sided_unadjusted": [
+              0.585,
+              0.5
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 47,
+            "n_photos_in_species_with_min8_in_bin": 1264,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.38203942488868925,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2584152210563088,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 23,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.96,
+            "maxT_across_elevation_bands_p_D": 0.94
+          }
+        },
+        "n_bands_eligible_with_25_species": 4
+      },
+      "hemisphere_coverage_descriptive": [
+        {
+          "hemisphere": "N",
+          "band": "0–15°",
+          "n_species_with_at_least_8_photos": 14,
+          "n_photos_in_supported_species": 236,
+          "mean_species_equal_photo_white_fraction": 0.3000879081236224,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "15–30°",
+          "n_species_with_at_least_8_photos": 65,
+          "n_photos_in_supported_species": 2081,
+          "mean_species_equal_photo_white_fraction": 0.47819883620281123,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "30–45°",
+          "n_species_with_at_least_8_photos": 249,
+          "n_photos_in_supported_species": 9558,
+          "mean_species_equal_photo_white_fraction": 0.45093054757785034,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "45–60°",
+          "n_species_with_at_least_8_photos": 164,
+          "n_photos_in_supported_species": 5369,
+          "mean_species_equal_photo_white_fraction": 0.4276692605175538,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "60–90°",
+          "n_species_with_at_least_8_photos": 18,
+          "n_photos_in_supported_species": 316,
+          "mean_species_equal_photo_white_fraction": 0.37305338694227586,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "0–15°",
+          "n_species_with_at_least_8_photos": 9,
+          "n_photos_in_supported_species": 143,
+          "mean_species_equal_photo_white_fraction": 0.3467690691374902,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "15–30°",
+          "n_species_with_at_least_8_photos": 21,
+          "n_photos_in_supported_species": 344,
+          "mean_species_equal_photo_white_fraction": 0.35410160555450243,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "30–45°",
+          "n_species_with_at_least_8_photos": 64,
+          "n_photos_in_supported_species": 2330,
+          "mean_species_equal_photo_white_fraction": 0.4077752905072731,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "45–60°",
+          "n_species_with_at_least_8_photos": 2,
+          "n_photos_in_supported_species": 59,
+          "mean_species_equal_photo_white_fraction": 0.87322695035461,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        }
+      ]
+    },
+    "validation": {
+      "absolute_latitude": {
+        "n_source_40_classifiable_species": 363,
+        "axis": "absolute_latitude",
+        "bands": {
+          "0–15°": {
+            "n_informative_species": 24,
+            "n_genera": 21,
+            "n_classifiable_photo_records": 362,
+            "n_observed_photo_white_colour_mixed_species": 6,
+            "fraction_observed_white_colour_mixed_species": 0.25,
+            "null_expected_mixed_species": 0.28685092127303186,
+            "mean_species_equal_white_fraction_in_band": 0.4073062532681408,
+            "mean_species_equal_fourstate_D_in_band": 0.2566072564257682,
+            "mean_white_deviation_vs_specieswide": -0.006687999607622162,
+            "mean_D_deviation_vs_specieswide": -0.01690605401008105,
+            "mean_genus_balanced_white_deviation": -0.004126579247980269,
+            "mean_genus_balanced_D_deviation": -0.017373833210193076,
+            "bootstrap_95CI_white_deviation": [
+              -0.031526303480520164,
+              0.01610430561980237
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.04579066711594897,
+              0.014496130836690836
+            ],
+            "null_white_sd": 0.015484630971423543,
+            "null_D_sd": 0.024624911925888514,
+            "permutation_p_two_sided_unadjusted": [
+              0.605,
+              0.495
+            ],
+            "minimum_25_species_pass": false,
+            "status": "HOLD_SPARSE_WITHIN_SPECIES_BAND_OPPORTUNITY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 24,
+            "n_photos_in_species_with_min8_in_bin": 362,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4073062532681408,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2566072564257682,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 6,
+            "descriptive_between_band_species_turnover_confounding": true
+          },
+          "15–30°": {
+            "n_informative_species": 73,
+            "n_genera": 65,
+            "n_classifiable_photo_records": 1950,
+            "n_observed_photo_white_colour_mixed_species": 31,
+            "fraction_observed_white_colour_mixed_species": 0.4246575342465753,
+            "null_expected_mixed_species": 0.41446960831555035,
+            "mean_species_equal_white_fraction_in_band": 0.42966311934784607,
+            "mean_species_equal_fourstate_D_in_band": 0.22434605487680245,
+            "mean_white_deviation_vs_specieswide": 0.01835231887409851,
+            "mean_D_deviation_vs_specieswide": -0.015085637832890427,
+            "mean_genus_balanced_white_deviation": 0.01883927385278462,
+            "mean_genus_balanced_D_deviation": -0.014605915154489703,
+            "bootstrap_95CI_white_deviation": [
+              0.003917267087172836,
+              0.03258143355059577
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.034709020959338005,
+              0.0027725518866393815
+            ],
+            "null_white_sd": 0.005995345414023165,
+            "null_D_sd": 0.007760292501093195,
+            "permutation_p_two_sided_unadjusted": [
+              0.015,
+              0.045
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 84,
+            "n_photos_in_species_with_min8_in_bin": 2563,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4251800920181387,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.224994018780223,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 38,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_absolute_latitude_bands_p_white": 0.015,
+            "maxT_across_absolute_latitude_bands_p_D": 0.15
+          },
+          "30–45°": {
+            "n_informative_species": 178,
+            "n_genera": 145,
+            "n_classifiable_photo_records": 5287,
+            "n_observed_photo_white_colour_mixed_species": 68,
+            "fraction_observed_white_colour_mixed_species": 0.38202247191011235,
+            "null_expected_mixed_species": 0.41513748517870247,
+            "mean_species_equal_white_fraction_in_band": 0.45679924503079583,
+            "mean_species_equal_fourstate_D_in_band": 0.23168217714319528,
+            "mean_white_deviation_vs_specieswide": -0.0015658163383001774,
+            "mean_D_deviation_vs_specieswide": -0.003863237927690851,
+            "mean_genus_balanced_white_deviation": -0.0041672517126180204,
+            "mean_genus_balanced_D_deviation": -0.0012359420865498561,
+            "bootstrap_95CI_white_deviation": [
+              -0.01142626958389416,
+              0.008429239256329178
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.015086298826705827,
+              0.007277078129739457
+            ],
+            "null_white_sd": 0.004095376412616587,
+            "null_D_sd": 0.005495684446914104,
+            "permutation_p_two_sided_unadjusted": [
+              0.725,
+              0.465
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 298,
+            "n_photos_in_species_with_min8_in_bin": 11900,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4648119968669871,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.23666990900046697,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 149,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_absolute_latitude_bands_p_white": 0.955,
+            "maxT_across_absolute_latitude_bands_p_D": 0.795
+          },
+          "45–60°": {
+            "n_informative_species": 134,
+            "n_genera": 108,
+            "n_classifiable_photo_records": 4063,
+            "n_observed_photo_white_colour_mixed_species": 61,
+            "fraction_observed_white_colour_mixed_species": 0.4552238805970149,
+            "null_expected_mixed_species": 0.44404860121503037,
+            "mean_species_equal_white_fraction_in_band": 0.4736557031596923,
+            "mean_species_equal_fourstate_D_in_band": 0.24534020112814736,
+            "mean_white_deviation_vs_specieswide": -0.008447016924232593,
+            "mean_D_deviation_vs_specieswide": 0.00425901007010435,
+            "mean_genus_balanced_white_deviation": -0.01011319632375518,
+            "mean_genus_balanced_D_deviation": 0.004578901917162531,
+            "bootstrap_95CI_white_deviation": [
+              -0.017134456385236176,
+              0.00018143906502355927
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.007375549720699887,
+              0.014676681445439016
+            ],
+            "null_white_sd": 0.004276545037935757,
+            "null_D_sd": 0.005578275526631077,
+            "permutation_p_two_sided_unadjusted": [
+              0.065,
+              0.53
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 155,
+            "n_photos_in_species_with_min8_in_bin": 5243,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4681241943826082,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.24161784579329876,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 73,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_absolute_latitude_bands_p_white": 0.175,
+            "maxT_across_absolute_latitude_bands_p_D": 0.86
+          },
+          "60–90°": {
+            "n_informative_species": 15,
+            "n_genera": 15,
+            "n_classifiable_photo_records": 251,
+            "n_observed_photo_white_colour_mixed_species": 1,
+            "fraction_observed_white_colour_mixed_species": 0.06666666666666667,
+            "null_expected_mixed_species": 0.2482412060301507,
+            "mean_species_equal_white_fraction_in_band": 0.5491495823017563,
+            "mean_species_equal_fourstate_D_in_band": 0.19092756968581442,
+            "mean_white_deviation_vs_specieswide": -0.015303851985190393,
+            "mean_D_deviation_vs_specieswide": -0.03007883805999155,
+            "mean_genus_balanced_white_deviation": -0.015303851985190397,
+            "mean_genus_balanced_D_deviation": -0.03007883805999155,
+            "bootstrap_95CI_white_deviation": [
+              -0.055393257665563266,
+              0.01832674529166261
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.09096148500163659,
+              0.04194599031762609
+            ],
+            "null_white_sd": 0.015434034625381315,
+            "null_D_sd": 0.025155910573539934,
+            "permutation_p_two_sided_unadjusted": [
+              0.245,
+              0.265
+            ],
+            "minimum_25_species_pass": false,
+            "status": "HOLD_SPARSE_WITHIN_SPECIES_BAND_OPPORTUNITY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 15,
+            "n_photos_in_species_with_min8_in_bin": 251,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.5491495823017563,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.19092756968581442,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 1,
+            "descriptive_between_band_species_turnover_confounding": true
+          }
+        },
+        "n_bands_eligible_with_25_species": 3
+      },
+      "elevation": {
+        "n_source_40_classifiable_species": 363,
+        "axis": "elevation",
+        "bands": {
+          "<250 m": {
+            "n_informative_species": 254,
+            "n_genera": 205,
+            "n_classifiable_photo_records": 7888,
+            "n_observed_photo_white_colour_mixed_species": 106,
+            "fraction_observed_white_colour_mixed_species": 0.41732283464566927,
+            "null_expected_mixed_species": 0.43184426067344606,
+            "mean_species_equal_white_fraction_in_band": 0.45507664481172544,
+            "mean_species_equal_fourstate_D_in_band": 0.22488371986277675,
+            "mean_white_deviation_vs_specieswide": 0.000323717546919031,
+            "mean_D_deviation_vs_specieswide": -0.007746716939181295,
+            "mean_genus_balanced_white_deviation": -0.00047648563506890227,
+            "mean_genus_balanced_D_deviation": -0.008923975755387632,
+            "bootstrap_95CI_white_deviation": [
+              -0.005379436003708512,
+              0.006589461578551366
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.016830784822822485,
+              0.00010526771515752632
+            ],
+            "null_white_sd": 0.0025341406325579646,
+            "null_D_sd": 0.0039130646854104575,
+            "permutation_p_two_sided_unadjusted": [
+              0.935,
+              0.055
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 293,
+            "n_photos_in_species_with_min8_in_bin": 9979,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4672428610227139,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2283734035770275,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 129,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.995,
+            "maxT_across_elevation_bands_p_D": 0.175
+          },
+          "250–1000 m": {
+            "n_informative_species": 290,
+            "n_genera": 223,
+            "n_classifiable_photo_records": 6352,
+            "n_observed_photo_white_colour_mixed_species": 94,
+            "fraction_observed_white_colour_mixed_species": 0.32413793103448274,
+            "null_expected_mixed_species": 0.33167561947669383,
+            "mean_species_equal_white_fraction_in_band": 0.45401807722428045,
+            "mean_species_equal_fourstate_D_in_band": 0.23187062472275916,
+            "mean_white_deviation_vs_specieswide": 0.0017254525496582546,
+            "mean_D_deviation_vs_specieswide": -0.0011244903460431925,
+            "mean_genus_balanced_white_deviation": 0.0030940511654456823,
+            "mean_genus_balanced_D_deviation": 0.0017490529086803901,
+            "bootstrap_95CI_white_deviation": [
+              -0.005838637629916094,
+              0.009379303790738891
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.012757672826683063,
+              0.010495548353416472
+            ],
+            "null_white_sd": 0.003167032361505874,
+            "null_D_sd": 0.004537040970008476,
+            "permutation_p_two_sided_unadjusted": [
+              0.61,
+              0.805
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 293,
+            "n_photos_in_species_with_min8_in_bin": 6505,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4512660360891064,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.23314706147691946,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 96,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.97,
+            "maxT_across_elevation_bands_p_D": 1
+          },
+          "1000–2000 m": {
+            "n_informative_species": 115,
+            "n_genera": 95,
+            "n_classifiable_photo_records": 2436,
+            "n_observed_photo_white_colour_mixed_species": 37,
+            "fraction_observed_white_colour_mixed_species": 0.3217391304347826,
+            "null_expected_mixed_species": 0.3575704610006555,
+            "mean_species_equal_white_fraction_in_band": 0.46822068762182817,
+            "mean_species_equal_fourstate_D_in_band": 0.2529732049010653,
+            "mean_white_deviation_vs_specieswide": 0.0027808396507250383,
+            "mean_D_deviation_vs_specieswide": 0.00038106810280281734,
+            "mean_genus_balanced_white_deviation": -0.0008067328266639043,
+            "mean_genus_balanced_D_deviation": 0.00710924381838603,
+            "bootstrap_95CI_white_deviation": [
+              -0.014803678938626077,
+              0.02002982134164937
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.01905019154889951,
+              0.01997714828677425
+            ],
+            "null_white_sd": 0.006377250004301093,
+            "null_D_sd": 0.009299313365540119,
+            "permutation_p_two_sided_unadjusted": [
+              0.73,
+              0.995
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 116,
+            "n_photos_in_species_with_min8_in_bin": 2492,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4728049920388813,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2507924014105388,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 37,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.985,
+            "maxT_across_elevation_bands_p_D": 1
+          },
+          "≥2000 m": {
+            "n_informative_species": 39,
+            "n_genera": 36,
+            "n_classifiable_photo_records": 723,
+            "n_observed_photo_white_colour_mixed_species": 15,
+            "fraction_observed_white_colour_mixed_species": 0.38461538461538464,
+            "null_expected_mixed_species": 0.3834557402396598,
+            "mean_species_equal_white_fraction_in_band": 0.4896833227242971,
+            "mean_species_equal_fourstate_D_in_band": 0.30738543432212195,
+            "mean_white_deviation_vs_specieswide": 0.033267999168877564,
+            "mean_D_deviation_vs_specieswide": 0.022359700414248097,
+            "mean_genus_balanced_white_deviation": 0.03262383094535,
+            "mean_genus_balanced_D_deviation": 0.02148482716002341,
+            "bootstrap_95CI_white_deviation": [
+              0.004253506482325032,
+              0.06327017053399303
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.015119175717879607,
+              0.0620178076892044
+            ],
+            "null_white_sd": 0.013136747029808011,
+            "null_D_sd": 0.01793140562906944,
+            "permutation_p_two_sided_unadjusted": [
+              0.015,
+              0.225
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 41,
+            "n_photos_in_species_with_min8_in_bin": 847,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.46579633137189247,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2923910228917746,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 15,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.04,
+            "maxT_across_elevation_bands_p_D": 0.58
+          }
+        },
+        "n_bands_eligible_with_25_species": 4
+      },
+      "hemisphere_coverage_descriptive": [
+        {
+          "hemisphere": "N",
+          "band": "0–15°",
+          "n_species_with_at_least_8_photos": 10,
+          "n_photos_in_supported_species": 135,
+          "mean_species_equal_photo_white_fraction": 0.28165242165242166,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "15–30°",
+          "n_species_with_at_least_8_photos": 65,
+          "n_photos_in_supported_species": 1914,
+          "mean_species_equal_photo_white_fraction": 0.4402744836399554,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "30–45°",
+          "n_species_with_at_least_8_photos": 255,
+          "n_photos_in_supported_species": 9508,
+          "mean_species_equal_photo_white_fraction": 0.46134746052546,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "45–60°",
+          "n_species_with_at_least_8_photos": 151,
+          "n_photos_in_supported_species": 5157,
+          "mean_species_equal_photo_white_fraction": 0.4552147818659869,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "60–90°",
+          "n_species_with_at_least_8_photos": 15,
+          "n_photos_in_supported_species": 251,
+          "mean_species_equal_photo_white_fraction": 0.5491495823017563,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "0–15°",
+          "n_species_with_at_least_8_photos": 8,
+          "n_photos_in_supported_species": 90,
+          "mean_species_equal_photo_white_fraction": 0.5506715506715507,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "15–30°",
+          "n_species_with_at_least_8_photos": 27,
+          "n_photos_in_supported_species": 535,
+          "mean_species_equal_photo_white_fraction": 0.39169187503860675,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "30–45°",
+          "n_species_with_at_least_8_photos": 69,
+          "n_photos_in_supported_species": 2257,
+          "mean_species_equal_photo_white_fraction": 0.45368716560778105,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "45–60°",
+          "n_species_with_at_least_8_photos": 4,
+          "n_photos_in_supported_species": 60,
+          "mean_species_equal_photo_white_fraction": 0.8875,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        }
+      ]
+    },
+    "third": {
+      "absolute_latitude": {
+        "n_source_40_classifiable_species": 377,
+        "axis": "absolute_latitude",
+        "bands": {
+          "0–15°": {
+            "n_informative_species": 15,
+            "n_genera": 15,
+            "n_classifiable_photo_records": 314,
+            "n_observed_photo_white_colour_mixed_species": 6,
+            "fraction_observed_white_colour_mixed_species": 0.4,
+            "null_expected_mixed_species": 0.411390284757119,
+            "mean_species_equal_white_fraction_in_band": 0.31528429189953694,
+            "mean_species_equal_fourstate_D_in_band": 0.27748273406328283,
+            "mean_white_deviation_vs_specieswide": -0.009776787188475515,
+            "mean_D_deviation_vs_specieswide": -0.005882535488980795,
+            "mean_genus_balanced_white_deviation": -0.009776787188475515,
+            "mean_genus_balanced_D_deviation": -0.005882535488980791,
+            "bootstrap_95CI_white_deviation": [
+              -0.05812211091787644,
+              0.04360634554890748
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.05516637200849619,
+              0.04791200809697527
+            ],
+            "null_white_sd": 0.01886806108268813,
+            "null_D_sd": 0.024377688185122315,
+            "permutation_p_two_sided_unadjusted": [
+              0.58,
+              0.86
+            ],
+            "minimum_25_species_pass": false,
+            "status": "HOLD_SPARSE_WITHIN_SPECIES_BAND_OPPORTUNITY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 15,
+            "n_photos_in_species_with_min8_in_bin": 314,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.31528429189953694,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.27748273406328283,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 6,
+            "descriptive_between_band_species_turnover_confounding": true
+          },
+          "15–30°": {
+            "n_informative_species": 59,
+            "n_genera": 53,
+            "n_classifiable_photo_records": 1573,
+            "n_observed_photo_white_colour_mixed_species": 31,
+            "fraction_observed_white_colour_mixed_species": 0.5254237288135594,
+            "null_expected_mixed_species": 0.5482497231922324,
+            "mean_species_equal_white_fraction_in_band": 0.4326793178145246,
+            "mean_species_equal_fourstate_D_in_band": 0.28748502404847215,
+            "mean_white_deviation_vs_specieswide": 0.0024041632234023842,
+            "mean_D_deviation_vs_specieswide": -0.003406590829388146,
+            "mean_genus_balanced_white_deviation": -0.0002763240176045759,
+            "mean_genus_balanced_D_deviation": -0.004492881695301615,
+            "bootstrap_95CI_white_deviation": [
+              -0.013192975579562434,
+              0.01839069018590666
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.026107361228833163,
+              0.020405197706725164
+            ],
+            "null_white_sd": 0.008404959121071226,
+            "null_D_sd": 0.00931831585319332,
+            "permutation_p_two_sided_unadjusted": [
+              0.78,
+              0.655
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 69,
+            "n_photos_in_species_with_min8_in_bin": 2138,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4370739843954343,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2839422837688907,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 36,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_absolute_latitude_bands_p_white": 0.98,
+            "maxT_across_absolute_latitude_bands_p_D": 0.975
+          },
+          "30–45°": {
+            "n_informative_species": 177,
+            "n_genera": 151,
+            "n_classifiable_photo_records": 5561,
+            "n_observed_photo_white_colour_mixed_species": 68,
+            "fraction_observed_white_colour_mixed_species": 0.384180790960452,
+            "null_expected_mixed_species": 0.41927149873662095,
+            "mean_species_equal_white_fraction_in_band": 0.44720836481726717,
+            "mean_species_equal_fourstate_D_in_band": 0.2407208546429382,
+            "mean_white_deviation_vs_specieswide": -0.011952465179246191,
+            "mean_D_deviation_vs_specieswide": 0.001221031555772208,
+            "mean_genus_balanced_white_deviation": -0.011170797291464345,
+            "mean_genus_balanced_D_deviation": 0.0022467523642180688,
+            "bootstrap_95CI_white_deviation": [
+              -0.020163362301669853,
+              -0.0032819300776729793
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.007504712704817185,
+              0.010082672089075553
+            ],
+            "null_white_sd": 0.003805863841227717,
+            "null_D_sd": 0.0048388134236897595,
+            "permutation_p_two_sided_unadjusted": [
+              0.01,
+              0.79
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 329,
+            "n_photos_in_species_with_min8_in_bin": 13944,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4593421827658554,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2540025041000841,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 172,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_absolute_latitude_bands_p_white": 0.01,
+            "maxT_across_absolute_latitude_bands_p_D": 0.975
+          },
+          "45–60°": {
+            "n_informative_species": 145,
+            "n_genera": 125,
+            "n_classifiable_photo_records": 4308,
+            "n_observed_photo_white_colour_mixed_species": 54,
+            "fraction_observed_white_colour_mixed_species": 0.3724137931034483,
+            "null_expected_mixed_species": 0.3719979206376711,
+            "mean_species_equal_white_fraction_in_band": 0.46623735514817205,
+            "mean_species_equal_fourstate_D_in_band": 0.21463613707824797,
+            "mean_white_deviation_vs_specieswide": 0.007430642710287146,
+            "mean_D_deviation_vs_specieswide": -0.0020254734389250507,
+            "mean_genus_balanced_white_deviation": 0.0077342354730059095,
+            "mean_genus_balanced_D_deviation": -0.00362622913981614,
+            "bootstrap_95CI_white_deviation": [
+              -0.0026518451198735654,
+              0.017577163805280852
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.013216318627638087,
+              0.009233745367119559
+            ],
+            "null_white_sd": 0.004639995921863884,
+            "null_D_sd": 0.005349390236578272,
+            "permutation_p_two_sided_unadjusted": [
+              0.135,
+              0.65
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 156,
+            "n_photos_in_species_with_min8_in_bin": 4855,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.46681902937530767,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.21814278569302226,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 61,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_absolute_latitude_bands_p_white": 0.3,
+            "maxT_across_absolute_latitude_bands_p_D": 0.955
+          },
+          "60–90°": {
+            "n_informative_species": 13,
+            "n_genera": 13,
+            "n_classifiable_photo_records": 239,
+            "n_observed_photo_white_colour_mixed_species": 3,
+            "fraction_observed_white_colour_mixed_species": 0.23076923076923078,
+            "null_expected_mixed_species": 0.14495554696559718,
+            "mean_species_equal_white_fraction_in_band": 0.42241946088099935,
+            "mean_species_equal_fourstate_D_in_band": 0.13692280504021398,
+            "mean_white_deviation_vs_specieswide": 0.008172521308564626,
+            "mean_D_deviation_vs_specieswide": 0.01361053367316567,
+            "mean_genus_balanced_white_deviation": 0.008172521308564627,
+            "mean_genus_balanced_D_deviation": 0.01361053367316567,
+            "bootstrap_95CI_white_deviation": [
+              -0.015318450050707139,
+              0.041011093805646895
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.022019974320987037,
+              0.04796477269549367
+            ],
+            "null_white_sd": 0.012570262556457726,
+            "null_D_sd": 0.021779220706240478,
+            "permutation_p_two_sided_unadjusted": [
+              0.485,
+              0.44
+            ],
+            "minimum_25_species_pass": false,
+            "status": "HOLD_SPARSE_WITHIN_SPECIES_BAND_OPPORTUNITY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 14,
+            "n_photos_in_species_with_min8_in_bin": 311,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4081196581196581,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.1521817283108716,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 4,
+            "descriptive_between_band_species_turnover_confounding": true
+          }
+        },
+        "n_bands_eligible_with_25_species": 3
+      },
+      "elevation": {
+        "n_source_40_classifiable_species": 377,
+        "axis": "elevation",
+        "bands": {
+          "<250 m": {
+            "n_informative_species": 287,
+            "n_genera": 221,
+            "n_classifiable_photo_records": 9459,
+            "n_observed_photo_white_colour_mixed_species": 155,
+            "fraction_observed_white_colour_mixed_species": 0.5400696864111498,
+            "null_expected_mixed_species": 0.5133857440512667,
+            "mean_species_equal_white_fraction_in_band": 0.4602783788482889,
+            "mean_species_equal_fourstate_D_in_band": 0.2599677909012942,
+            "mean_white_deviation_vs_specieswide": 0.0021519195053324083,
+            "mean_D_deviation_vs_specieswide": 0.0023704969476400625,
+            "mean_genus_balanced_white_deviation": 0.00013648240407661415,
+            "mean_genus_balanced_D_deviation": 0.001784231161521494,
+            "bootstrap_95CI_white_deviation": [
+              -0.002838064323291803,
+              0.006968677411394048
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.004288328637201005,
+              0.007959036207671506
+            ],
+            "null_white_sd": 0.002782482548023885,
+            "null_D_sd": 0.0031933586878495194,
+            "permutation_p_two_sided_unadjusted": [
+              0.395,
+              0.455
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 316,
+            "n_photos_in_species_with_min8_in_bin": 11033,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.46781531771036233,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2602663903623474,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 175,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.86,
+            "maxT_across_elevation_bands_p_D": 0.885
+          },
+          "250–1000 m": {
+            "n_informative_species": 314,
+            "n_genera": 241,
+            "n_classifiable_photo_records": 6779,
+            "n_observed_photo_white_colour_mixed_species": 122,
+            "fraction_observed_white_colour_mixed_species": 0.3885350318471338,
+            "null_expected_mixed_species": 0.38968728995294954,
+            "mean_species_equal_white_fraction_in_band": 0.44818705025603933,
+            "mean_species_equal_fourstate_D_in_band": 0.25029422225647935,
+            "mean_white_deviation_vs_specieswide": -0.0030422295912053586,
+            "mean_D_deviation_vs_specieswide": -0.0038439493470492636,
+            "mean_genus_balanced_white_deviation": -0.0017508390127283732,
+            "mean_genus_balanced_D_deviation": -0.005591035282612136,
+            "bootstrap_95CI_white_deviation": [
+              -0.009962906339684056,
+              0.003151746125521238
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.013498378154347268,
+              0.005977942437893342
+            ],
+            "null_white_sd": 0.0036040638365233838,
+            "null_D_sd": 0.004580169202245053,
+            "permutation_p_two_sided_unadjusted": [
+              0.37,
+              0.405
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 315,
+            "n_photos_in_species_with_min8_in_bin": 6824,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.4471169679095474,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.2513723326299477,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 123,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.8,
+            "maxT_across_elevation_bands_p_D": 0.84
+          },
+          "1000–2000 m": {
+            "n_informative_species": 106,
+            "n_genera": 92,
+            "n_classifiable_photo_records": 2240,
+            "n_observed_photo_white_colour_mixed_species": 31,
+            "fraction_observed_white_colour_mixed_species": 0.29245283018867924,
+            "null_expected_mixed_species": 0.2818336967858159,
+            "mean_species_equal_white_fraction_in_band": 0.39080586625399927,
+            "mean_species_equal_fourstate_D_in_band": 0.21549416682798012,
+            "mean_white_deviation_vs_specieswide": -0.0046678341531789635,
+            "mean_D_deviation_vs_specieswide": -0.01732936648692994,
+            "mean_genus_balanced_white_deviation": -0.004510960636361804,
+            "mean_genus_balanced_D_deviation": -0.015234548677537412,
+            "bootstrap_95CI_white_deviation": [
+              -0.019675848826037262,
+              0.01027002756724782
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.037321867037372475,
+              0.0013243373173109762
+            ],
+            "null_white_sd": 0.0065559376836436785,
+            "null_D_sd": 0.008749122618284082,
+            "permutation_p_two_sided_unadjusted": [
+              0.39,
+              0.055
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 108,
+            "n_photos_in_species_with_min8_in_bin": 2330,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.3932909428048511,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.21559897570438502,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 31,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 0.845,
+            "maxT_across_elevation_bands_p_D": 0.19
+          },
+          "≥2000 m": {
+            "n_informative_species": 35,
+            "n_genera": 34,
+            "n_classifiable_photo_records": 819,
+            "n_observed_photo_white_colour_mixed_species": 9,
+            "fraction_observed_white_colour_mixed_species": 0.2571428571428571,
+            "null_expected_mixed_species": 0.27264895908111986,
+            "mean_species_equal_white_fraction_in_band": 0.3836227361306019,
+            "mean_species_equal_fourstate_D_in_band": 0.20017012009865848,
+            "mean_white_deviation_vs_specieswide": 0.0016833599535905615,
+            "mean_D_deviation_vs_specieswide": 0.0019034231119845972,
+            "mean_genus_balanced_white_deviation": 0.0017885168293621388,
+            "mean_genus_balanced_D_deviation": 0.0016869929696546164,
+            "bootstrap_95CI_white_deviation": [
+              -0.018570149379636566,
+              0.024752089008592687
+            ],
+            "bootstrap_95CI_D_deviation": [
+              -0.02912191866825822,
+              0.027511771751532927
+            ],
+            "null_white_sd": 0.00972666262985413,
+            "null_D_sd": 0.013351189639617367,
+            "permutation_p_two_sided_unadjusted": [
+              0.88,
+              0.945
+            ],
+            "minimum_25_species_pass": true,
+            "status": "COVERAGE_ELIGIBLE_EXPLORATORY",
+            "n_species_with_min8_photos_in_bin_even_without_outside_opportunity": 37,
+            "n_photos_in_species_with_min8_in_bin": 948,
+            "descriptive_species_equal_white_fraction_all_band_species": 0.3845447472435035,
+            "descriptive_species_equal_fourstate_D_all_band_species": 0.20362733034820552,
+            "descriptive_observed_white_colour_mixed_species_all_band_species": 11,
+            "descriptive_between_band_species_turnover_confounding": true,
+            "maxT_across_elevation_bands_p_white": 1,
+            "maxT_across_elevation_bands_p_D": 1
+          }
+        },
+        "n_bands_eligible_with_25_species": 4
+      },
+      "hemisphere_coverage_descriptive": [
+        {
+          "hemisphere": "N",
+          "band": "0–15°",
+          "n_species_with_at_least_8_photos": 13,
+          "n_photos_in_supported_species": 173,
+          "mean_species_equal_photo_white_fraction": 0.3176411195641965,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "15–30°",
+          "n_species_with_at_least_8_photos": 59,
+          "n_photos_in_supported_species": 1719,
+          "mean_species_equal_photo_white_fraction": 0.4281197304627544,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "30–45°",
+          "n_species_with_at_least_8_photos": 292,
+          "n_photos_in_supported_species": 11627,
+          "mean_species_equal_photo_white_fraction": 0.4547111593784958,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "45–60°",
+          "n_species_with_at_least_8_photos": 155,
+          "n_photos_in_supported_species": 4823,
+          "mean_species_equal_photo_white_fraction": 0.4632122265360058,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "N",
+          "band": "60–90°",
+          "n_species_with_at_least_8_photos": 14,
+          "n_photos_in_supported_species": 311,
+          "mean_species_equal_photo_white_fraction": 0.4081196581196581,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "0–15°",
+          "n_species_with_at_least_8_photos": 8,
+          "n_photos_in_supported_species": 105,
+          "mean_species_equal_photo_white_fraction": 0.2662878787878788,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "15–30°",
+          "n_species_with_at_least_8_photos": 19,
+          "n_photos_in_supported_species": 350,
+          "mean_species_equal_photo_white_fraction": 0.3681743882231557,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "30–45°",
+          "n_species_with_at_least_8_photos": 58,
+          "n_photos_in_supported_species": 2207,
+          "mean_species_equal_photo_white_fraction": 0.45239074776750615,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        },
+        {
+          "hemisphere": "S",
+          "band": "45–60°",
+          "n_species_with_at_least_8_photos": 1,
+          "n_photos_in_supported_species": 15,
+          "mean_species_equal_photo_white_fraction": 1,
+          "only_descriptive_not_a_between_species_adaptation_test": true
+        }
+      ]
+    }
+  },
+  "cross_cohort_band_sign_check": {
+    "absolute_latitude": {
+      "0–15°": {
+        "white": {
+          "coverage_at_least_25_each_cohort": false,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            17,
+            24,
+            15
+          ],
+          "cohort_observed_deviation": [
+            -0.028801493465396726,
+            -0.006687999607622162,
+            -0.009776787188475515
+          ],
+          "status": "HOLD_COVERAGE"
+        },
+        "D": {
+          "coverage_at_least_25_each_cohort": false,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            17,
+            24,
+            15
+          ],
+          "cohort_observed_deviation": [
+            0.02207403884330105,
+            -0.01690605401008105,
+            -0.005882535488980795
+          ],
+          "status": "HOLD_COVERAGE"
+        }
+      },
+      "15–30°": {
+        "white": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": true,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            62,
+            73,
+            59
+          ],
+          "cohort_observed_deviation": [
+            0.013746488601669871,
+            0.01835231887409851,
+            0.0024041632234023842
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        },
+        "D": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": true,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            62,
+            73,
+            59
+          ],
+          "cohort_observed_deviation": [
+            -0.002450956910758707,
+            -0.015085637832890427,
+            -0.003406590829388146
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        }
+      },
+      "30–45°": {
+        "white": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            173,
+            178,
+            177
+          ],
+          "cohort_observed_deviation": [
+            0.005817985592483018,
+            -0.0015658163383001774,
+            -0.011952465179246191
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        },
+        "D": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            173,
+            178,
+            177
+          ],
+          "cohort_observed_deviation": [
+            -0.008241870157137218,
+            -0.003863237927690851,
+            0.001221031555772208
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        }
+      },
+      "45–60°": {
+        "white": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            143,
+            134,
+            145
+          ],
+          "cohort_observed_deviation": [
+            -0.005415915942789896,
+            -0.008447016924232593,
+            0.007430642710287146
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        },
+        "D": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            143,
+            134,
+            145
+          ],
+          "cohort_observed_deviation": [
+            0.004030034919339187,
+            0.00425901007010435,
+            -0.0020254734389250507
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        }
+      },
+      "60–90°": {
+        "white": {
+          "coverage_at_least_25_each_cohort": false,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            18,
+            15,
+            13
+          ],
+          "cohort_observed_deviation": [
+            -0.04480116046598807,
+            -0.015303851985190393,
+            0.008172521308564626
+          ],
+          "status": "HOLD_COVERAGE"
+        },
+        "D": {
+          "coverage_at_least_25_each_cohort": false,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            18,
+            15,
+            13
+          ],
+          "cohort_observed_deviation": [
+            -0.013882626297512258,
+            -0.03007883805999155,
+            0.01361053367316567
+          ],
+          "status": "HOLD_COVERAGE"
+        }
+      }
+    },
+    "elevation": {
+      "<250 m": {
+        "white": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": true,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            265,
+            254,
+            287
+          ],
+          "cohort_observed_deviation": [
+            0.0025575507010454864,
+            0.000323717546919031,
+            0.0021519195053324083
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        },
+        "D": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            265,
+            254,
+            287
+          ],
+          "cohort_observed_deviation": [
+            -0.006046960166963556,
+            -0.007746716939181295,
+            0.0023704969476400625
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        }
+      },
+      "250–1000 m": {
+        "white": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            293,
+            290,
+            314
+          ],
+          "cohort_observed_deviation": [
+            0.0007293886803877398,
+            0.0017254525496582546,
+            -0.0030422295912053586
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        },
+        "D": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": true,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            293,
+            290,
+            314
+          ],
+          "cohort_observed_deviation": [
+            -0.002244941618078819,
+            -0.0011244903460431925,
+            -0.0038439493470492636
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        }
+      },
+      "1000–2000 m": {
+        "white": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            105,
+            115,
+            106
+          ],
+          "cohort_observed_deviation": [
+            0.010322997467360496,
+            0.0027808396507250383,
+            -0.0046678341531789635
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        },
+        "D": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            105,
+            115,
+            106
+          ],
+          "cohort_observed_deviation": [
+            -0.01361206280140894,
+            0.00038106810280281734,
+            -0.01732936648692994
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        }
+      },
+      "≥2000 m": {
+        "white": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": false,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            43,
+            39,
+            35
+          ],
+          "cohort_observed_deviation": [
+            -0.0050026390570904735,
+            0.033267999168877564,
+            0.0016833599535905615
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        },
+        "D": {
+          "coverage_at_least_25_each_cohort": true,
+          "signed_effect_identical_across_three_cohorts": true,
+          "maxT_significant_each_cohort": false,
+          "cohort_informative_species": [
+            43,
+            39,
+            35
+          ],
+          "cohort_observed_deviation": [
+            0.008397871490534455,
+            0.022359700414248097,
+            0.0019034231119845972
+          ],
+          "status": "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"
+        }
+      }
+    }
+  },
+  "execution_provenance": {
+    "workflow_run_id": 37739944082,
+    "job_id": 113188091383,
+    "head_commit": "9a4e2019854f77a020cedd94693be048f7e5216f",
+    "artifact_id": 11533940496,
+    "artifact_digest": "sha256:c3a9a6d9f859fe8fceb566c4b6593b67c8046f8c7bc5d0ca145a0b8676d3fe0c",
+    "source": "full completed stdout of Actions; retained artifact contains result.json and per-species CSV",
+    "synthetic_tests": [
+      "12 passed in 0.42s"
+    ],
+    "frozen_existing_paper_results_changed": false
+  }
+}
