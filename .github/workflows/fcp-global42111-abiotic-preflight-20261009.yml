@@ -10,6 +10,8 @@ on:
       - tests/test_fcp_global42111_abiotic_join_preflight_20261009.py
       - scripts/analysis/recover_fcp_global42111_original_photo_coordinates_20261009.py
       - tests/test_fcp_global42111_original_photo_coordinates_20261009.py
+      - scripts/analysis/attach_fcp_global42111_true_site_climate_soil_20261009.py
+      - tests/test_fcp_global42111_true_site_climate_soil_20261009.py
       - docs/FCP_GLOBAL42111_ABIOTIC_ATLAS_PROTOCOL_20261009.md
       - .github/workflows/fcp-global42111-abiotic-preflight-20261009.yml
   workflow_dispatch:
@@ -46,6 +48,8 @@ jobs:
           python -m pytest tests/test_fcp_global42111_abiotic_join_preflight_20261009.py -q
           python -m py_compile scripts/analysis/recover_fcp_global42111_original_photo_coordinates_20261009.py
           python -m pytest tests/test_fcp_global42111_original_photo_coordinates_20261009.py -q
+          python -m py_compile scripts/analysis/attach_fcp_global42111_true_site_climate_soil_20261009.py
+          python -m pytest tests/test_fcp_global42111_true_site_climate_soil_20261009.py -q
       - name: Load original 42111, 85337, 13416 photograph measurement tables
         run: |
           set -euo pipefail
