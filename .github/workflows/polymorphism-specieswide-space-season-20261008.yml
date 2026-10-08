@@ -82,7 +82,9 @@ jobs:
                   if v['estimable']:
                       assert 0<=v['permutation_p_upper']<=1
                       assert len(v['species_bootstrap_95CI_excess'])==2
-                      assert v['meets_frozen_80_species_coverage_gate']==(v['n_species']>=80)
+                      assert v['n_identifiable_species']+v['n_nonidentified_species_kept']==v['n_species']
+                      assert v['meets_frozen_80_species_coverage_gate']==(v['n_identifiable_species']>=80)
+                      assert v['n_identifiable_species']<=v['n_species']
                       assert abs(v['mean_observed_local_depletion']-v['mean_season_stratified_null_depletion']-v['mean_excess_over_season_stratified_null'])<1e-9
               for policy in ('all','different_observer'):
                   v=c['scenarios'][f'month__{policy}']

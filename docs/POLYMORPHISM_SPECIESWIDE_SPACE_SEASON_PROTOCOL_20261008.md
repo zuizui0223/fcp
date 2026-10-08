@@ -15,7 +15,7 @@ Prior art: Narbona et al. (2018, Plant Biology, DOI 10.1111/plb.12575) described
 
 - Original 100,000 photos across 1,000 sampled species, split into discovery and validation groups, plus a fresh 49,900-photo / 499-species prospective image resource.
 - Reopen only source-frozen measured tables at exact SHA256; never replace missing photos or change the established New Phytologist confirmatory H1/H2 verdicts.
-- Eligible species: >=40 classifiable photographs with parseable dates (1990–2026), >=30 conspecific photo pairs within 50 km. Stratum-conditional modes require at least 10 image positions belonging to within-stratum photo sets that have >1 photo and >1 colour state (ensures a nondegenerate restricted null).
+- Eligible species: >=40 classifiable photographs with parseable dates (1990–2026), >=30 conspecific photo pairs within 50 km. All species with sufficient date/coordinate/local-pair information remain in the **inclusive cross-species estimand**. Stratum-conditional modes additionally classify whether at least 10 rows lie in groups with >1 photo and >1 colour state and the restricted null is nondegenerate. Species with deterministic calendar-composition nulls remain in the overall mean with **zero identifiable additional geographic excess** instead of being outcome-dependently dropped; this is a conservative measurement convention, not evidence of biological absence. The identified-only mean is reported as a separate sensitivity.
 - Main *species-level* estimand for species i: Delta_i = D_all,i - D_local,i, where D is pairwise coarse visible-colour discordance. Compare Delta_i to the conditional expectation from within-species, within-time-stratum exchangeability. Compute equal-species mean excess over this restricted null for each of the three cohorts separately. A prospective probability sample of all flowering plants is NOT claimed.
 - Every photo colour category is held fixed in total within each species; no white/pink/blue observations may be introduced, substituted or inferred.
 
@@ -32,7 +32,7 @@ Use 199 fixed-seed label permutations per stratum/cohort/species, preserving com
 
 ### Explicit generality gates
 
-No cross-species rule can be claimed if any cohort has <80 exchangeable and geographically evaluable species for the primary month-conditioned mode. An observational monthly-partition generality candidate requires, in **all three species-disjoint cohorts**, both local-pair policies to show:
+No cross-species rule can be claimed if any cohort has <80 **conditionally identifiable** species for the primary month-conditioned mode. The all-geographically-evaluable denominator (including fixed-calendar/no-swap species with zero incremental identifiable excess) is the default cross-species estimand, and the identified-only estimate is a sensitivity. We explicitly report n_identifiable/n_evaluable to expose whether the conditional population is a selective minority. An observational monthly-partition generality candidate requires, in **all three species-disjoint cohorts**, both local-pair policies to show:
 - >=80 estimable species,
 - positive mean local depletion beyond the exact month-preserving null,
 - permutation upper-tail P<0.05.

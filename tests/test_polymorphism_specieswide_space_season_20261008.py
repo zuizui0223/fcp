@@ -62,14 +62,19 @@ def test_season_only_signal_not_called_residual_space_structure():
     b=mod.species_test(g,"synthetic","month","all")
     # Month-specific photographs carry a single fixed colour per stratum:
     # no label exchange opportunity; result must be HOLD, not "null proved".
-    assert b is None
+    assert b is not None
+    assert not b[0]["conditional_identifiable"]
+    assert b[0]["excess_over_stratified_null"] == 0
     assert a[0]["observed_local_depletion"]<0.05
 
 
 def test_colour_constant_null_not_informative():
     g=sample(mechanism="constant")
-    assert mod.species_test(g,"synthetic","month","all") is None
-    assert mod.species_test(g,"synthetic","year_month","different_observer") is None
+    for scenario, policy in [("month","all"),("year_month","different_observer")]:
+        x=mod.species_test(g,"synthetic",scenario,policy)
+        assert x is not None
+        assert not x[0]["conditional_identifiable"]
+        assert x[0]["excess_over_stratified_null"] == 0
 
 
 def test_observer_filter_and_partial_dates():
@@ -100,7 +105,10 @@ def test_month_year_can_be_separately_unidentified():
     # years retains 20+20 matches; strict month×year cannot permute labels.
     g["year"]=pd.Series(np.arange(80)+1900,dtype="Int64")
     assert mod.species_test(g,"synthetic","month","all") is not None
-    assert mod.species_test(g,"synthetic","year_month","all") is None
+    x=mod.species_test(g,"synthetic","year_month","all")
+    assert x is not None
+    assert not x[0]["conditional_identifiable"]
+    assert x[0]["excess_over_stratified_null"] == 0
 
 
 def test_reproducibility_and_cohort_mean():
@@ -112,6 +120,8 @@ def test_reproducibility_and_cohort_mean():
     assert np.array_equal(a[1],b[1])
     s=mod.summarize([a[0]],[a[1]],"synthetic","month","different_observer")
     assert s["n_species"]==1
+    assert s["n_identifiable_species"]==1
+    assert s["n_nonidentified_species_kept"]==0
     assert s["status"]=="coverage_limited_diagnostic_only"
     assert s["mean_excess_over_season_stratified_null"]>0
     assert s["permutation_p_upper"]<=0.05
@@ -121,4 +131,26 @@ def test_empty_mode_is_not_promoted_to_result():
     x=mod.summarize([],[],"synthetic","month","all")
     assert not x["estimable"]
     assert not x["meets_frozen_80_species_coverage_gate"]
-    assert x["status"]=="not_estimable_no_exchangeable_photo_coverage"
+    assert x["status"]=="not_estimable_no_geographic_photo_coverage"
+
+
+def test_nonexchangeable_month_is_retained_in_inclusive_mean():
+    # Two species: one geographically separated by morph regardless of month,
+    # the other has morph solely controlled by month. The latter must contribute
+    # exactly zero additional geographic signal, not be dropped from denominator.
+    g1=sample(mechanism="space")
+    g2=sample(mechanism="time").copy()
+    g2["inat_taxon_id"]=45
+    yes=mod.species_test(g1,"synthetic","month","all")
+    no=mod.species_test(g2,"synthetic","month","all")
+    assert yes is not None and no is not None
+    assert yes[0]["conditional_identifiable"]
+    assert not no[0]["conditional_identifiable"]
+    d=mod.summarize([yes[0],no[0]],[yes[1],no[1]],"synthetic","month","all")
+    assert d["n_species"]==2
+    assert d["n_identifiable_species"]==1
+    assert d["n_nonidentified_species_kept"]==1
+    assert d["mean_excess_over_season_stratified_null"]>0
+    assert abs(2*d["mean_excess_over_season_stratified_null"]-
+               d["mean_identifiable_subset_excess_sensitivity"])<1e-10
+    assert not d["meets_frozen_80_species_coverage_gate"]

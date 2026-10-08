@@ -166,23 +166,31 @@ def species_test(
     ua, va = ii[mask], jj[mask]
     groups = groups_for(g, stratum)
     swappable = effective_swap_rows(labels, groups)
-    if stratum != "unconditional" and swappable < MIN_EXCHANGEABLE_ROWS:
-        return None
+    # Do not exclude calendar-defined species that have no exchangeable colour
+    # states: excluding them selects specifically for unexplained phenology
+    # and can inflate a cross-species "geography beyond season" estimate.
     D_all = float(np.mean(labels[ii] != labels[jj]))
     D_local = float(np.mean(labels[ua] != labels[va]))
     observed_depletion = D_all - D_local
     rng = np.random.default_rng(
         stable_seed("species", cohort, int(g.inat_taxon_id.iloc[0]), stratum, pair_policy)
     )
-    conditional_local = np.empty(permutations, float)
-    for b in range(permutations):
-        perm = permute_strata(labels, groups, rng)
-        conditional_local[b] = float(np.mean(perm[ua] != perm[va]))
-    expected_depletion = D_all-conditional_local
-    if not np.isfinite(expected_depletion).all():
-        raise ValueError("Non-finite seasonal null")
-    if stratum != "unconditional" and np.ptp(expected_depletion) < 1e-12:
-        return None
+    if swappable < MIN_EXCHANGEABLE_ROWS:
+        expected_depletion = np.full(permutations, observed_depletion, float)
+        identifiable = False
+    else:
+        conditional_local = np.empty(permutations, float)
+        for b in range(permutations):
+            perm = permute_strata(labels, groups, rng)
+            conditional_local[b] = float(np.mean(perm[ua] != perm[va]))
+        expected_depletion = D_all-conditional_local
+        if not np.isfinite(expected_depletion).all():
+            raise ValueError("Non-finite seasonal null")
+        identifiable = bool(np.ptp(expected_depletion) >= 1e-12)
+        if not identifiable:
+            # A deterministic stratum-constrained null cannot identify
+            # a residual beyond observed calendar colour composition.
+            expected_depletion[:] = observed_depletion
     row = {
         "cohort": cohort,
         "species": str(g.species.iloc[0]),
@@ -194,6 +202,8 @@ def species_test(
         "n_geographic_local_pairs": int(mask.sum()),
         "n_strata": len(groups),
         "n_effectively_swappable_rows": swappable,
+        "conditional_identifiable": bool(identifiable),
+        "nonidentified_fixed_calendar_or_colour": bool(not identifiable),
         "D_pair_all": D_all,
         "D_local_pairs": D_local,
         "observed_local_depletion": observed_depletion,
@@ -208,10 +218,12 @@ def species_test(
 def summarize(rows: list[dict], nulls: list[np.ndarray],
               cohort: str, stratum: str, policy: str) -> dict:
     if not rows:
-        return {"estimable": False, "n_species": 0, "meets_frozen_80_species_coverage_gate": False, "reason": "no_eligible_photo_coverage", "status": "not_estimable_no_exchangeable_photo_coverage"}
+        return {"estimable": False, "n_species": 0, "n_identifiable_species": 0, "n_nonidentified_species_kept": 0, "meets_frozen_80_species_coverage_gate": False, "reason": "no_geographically_evaluable_photo_coverage", "status": "not_estimable_no_geographic_photo_coverage"}
     df = pd.DataFrame(rows)
     mat = np.vstack(nulls)
     excess = df.excess_over_stratified_null.to_numpy(float)
+    identified = df.loc[df.conditional_identifiable, "excess_over_stratified_null"].to_numpy(float)
+    n_identifiable = int(len(identified))
     observed = float(df.observed_local_depletion.mean())
     mean_null = mat.mean(axis=0)
     center = float(mean_null.mean())
@@ -228,10 +240,15 @@ def summarize(rows: list[dict], nulls: list[np.ndarray],
     return {
         "estimable": True,
         "n_species": int(len(df)),
+        "n_identifiable_species": n_identifiable,
+        "n_nonidentified_species_kept": int(len(df)-n_identifiable),
+        "fraction_species_identifiable": float(n_identifiable/len(df)),
         "n_genera": int(len(genus)),
         "mean_observed_local_depletion": observed,
         "mean_season_stratified_null_depletion": center,
         "mean_excess_over_season_stratified_null": float(excess.mean()),
+        "mean_identifiable_subset_excess_sensitivity": (float(identified.mean()) if n_identifiable else None),
+        "nonidentified_species_residual_convention": "retained with exact zero additional geographic effect under nonexchangeable time-stratified null; do not call biology zero",
         "species_bootstrap_95CI_excess": [
             float(x) for x in np.quantile(boot, [0.025, 0.975])
         ],
@@ -248,11 +265,11 @@ def summarize(rows: list[dict], nulls: list[np.ndarray],
             (len(mean_null)+1)
         ),
         "n_permutations": len(mean_null),
-        "meets_frozen_80_species_coverage_gate": bool(len(df) >= MIN_COHORT_SPECIES),
+        "meets_frozen_80_species_coverage_gate": bool(n_identifiable >= MIN_COHORT_SPECIES),
         "null_mode": "shuffle visible photo morphs within fixed species-specific calendar time strata",
         "status": (
             "exploratory_coverage_qualified"
-            if len(df) >= MIN_COHORT_SPECIES
+            if n_identifiable >= MIN_COHORT_SPECIES
             else "coverage_limited_diagnostic_only"
         ),
     }
@@ -308,7 +325,8 @@ def main() -> None:
         "month_year_is_conservative_coverage_diagnostic":True,
         "hard_nonclaims":[
             "not a census of world flower-colour polymorphism prevalence",
-            "only species with >=40 classifiable dated photos and >=30 local photo pairs are tested",
+            "only species with >=40 classifiable dated photos and >=30 local photo pairs are geographically evaluable",
+            "the inclusive residual denominator retains time-stratum nonexchangeable species with exactly zero additional identified effect; this is not evidence biological effect equals zero",
             "within-calendar-month label permutation does not eliminate all phenology confounding",
             "calendar-month and month-year temporal groups do not measure flowering fitness or selection",
             "one species may have local groups at very different locations and different habitats",
