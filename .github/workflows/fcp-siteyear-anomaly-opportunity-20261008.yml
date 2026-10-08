@@ -7,6 +7,10 @@ on:
       - docs/FCP_SITEYEAR_SAME_MONTH_CLIMATE_PREFLIGHT_20261008.md
       - scripts/analysis/audit_fcp_siteyear_same_month_opportunity_20261008.py
       - tests/test_fcp_siteyear_same_month_opportunity_20261008.py
+      - scripts/analysis/audit_fcp_exact_10km_siteyear_opportunity_20261008.py
+      - tests/test_fcp_exact_10km_siteyear_opportunity_20261008.py
+      - scripts/analysis/audit_fcp_siteyear_replenishment_gap_20261008.py
+      - tests/test_fcp_siteyear_replenishment_gap_20261008.py
       - .github/workflows/fcp-siteyear-anomaly-opportunity-20261008.yml
   workflow_dispatch:
 
