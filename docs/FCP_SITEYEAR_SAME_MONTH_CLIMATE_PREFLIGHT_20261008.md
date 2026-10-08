@@ -48,3 +48,24 @@ python scripts/analysis/audit_fcp_siteyear_same_month_opportunity_20261008.py \
 ```
 
 The workflow re-fetches exact historical Git commits and verifies each input's SHA256. Results become verified observational coverage *only after* tests, input hashes and receipt checks succeed.
+
+
+## Terminal original anchor-based result (source-verified, 2026-10-08)
+
+GitHub Actions run [37787901739](https://github.com/zuizui0223/fcp/actions/runs/37787901739), job `113347305008`, passed 8 synthetic tests, all 3 original photo SHA256 checks and full result validation; artifact `11556301126`, SHA256 `c959bc3ced3921a8a9d63289cb190523b8bf5aa777b31c1827f13cb868d35e8a`. Frozen human- and machine-readable results are preserved at `results/fcp_siteyear_same_month_opportunity_20261008/terminal_coverage_receipt.json`.
+
+| Cohort | Original >=40 photo species | 10-km photo-centred half-radius anchor | 25-km diameter | 50-km diameter |
+|---|---:|---:|---:|---:|
+| Discovery | 369 | 10 | 43 | 66 |
+| Validation | 363 | 10 | 22 | 50 |
+| Third | 377 | 20 | 40 | 81 |
+
+All original 10-km precommitted **30 eligible species per cohort** gates **FAILED**. `HOLD_10KM_REPEATED_SITE_YEAR_MONTH_PHOTO_OPPORTUNITY` is the terminal decision for the originally frozen conservative anchored definition. The 25-km and 50-km findings cannot rescue it. This is an observation-coverage HOLD, not proof of zero interannual climate effects or biologically stable flower colour.
+
+### Separate exploratory geometry check, not an amended primary threshold
+
+Photo-anchored circles with radius 5 km are a conservative implementation of a 10-km site *diameter*. Four photographed locations can have maximum pairwise distance <10 km yet no photograph within 5 km of every other photograph. This could lead to a method-driven false-negative coverage classification for an otherwise valid same-month, different-year, two-observer candidate site.
+
+After seeing the first HOLD, a separate method-sensitivity script, `scripts/analysis/audit_fcp_exact_10km_siteyear_opportunity_20261008.py`, was introduced. It exhaustively tests **existence** of a four-photo minimal witness: two observer-distinct photograph pairs, one per year, with all six between-photo distances <=10 km and exactly the same month. The existence test is mathematically sufficient and necessary for the *minimum four-photo* year-month requirement, but does not identify a sampled genetic population or optimize for >2 years. It neither changes the original sampling rule nor serves as a prospectively registered confirmation. It must be evaluated from checked Actions outputs, not asserted before execution.
+
+Regardless of geometric sensitivity, a retrospective year-anomaly flower-colour association still lacks field-verified genetic morph identity, observation-level camera/illumination matching, and a genotype-aware local change design.
