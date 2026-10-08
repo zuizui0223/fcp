@@ -25,6 +25,8 @@
   "max_metadata_ceiling_validation_species": 35,
   "n_candidate_species_required_to_pass_for_gate": 20,
   "n_candidate_species_allowed_to_fail": 5,
+  "n_species_with_no_spare_photo_in_one_or_more_required_years": 10,
+  "n_species_with_spare_photo_in_every_required_year": 15,
   "notes": [
     "Photo metadata only: review entire 115 ID ledger without morphology-based replacement",
     "A gap-two species requires every missing calendar-year cell to pass image quality checks",

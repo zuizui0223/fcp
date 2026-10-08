@@ -1,0 +1,26 @@
+inat_taxon_id,species,gap_class,calendar_month,source_anchor_photo_id,n_missing_year_cells,required_new_observer_slots,metadata_candidate_photos,min_spare_metadata_photos_any_year,source_year_requirements,species_quality_review_status
+54453,Ferocactus cylindraceus,1,3,32675463,1,1,4,3,"{""2017"": {""metadata_candidates"": 4, ""required"": 1}}",UNREVIEWED
+55443,Trifolium lupinaster,1,6,139231045,1,1,2,1,"{""2021"": {""metadata_candidates"": 2, ""required"": 1}}",UNREVIEWED
+58039,Stephanomeria exigua,1,5,278892795,1,1,3,2,"{""2023"": {""metadata_candidates"": 3, ""required"": 1}}",UNREVIEWED
+75326,Aliciella latifolia,1,4,266714445,1,1,2,1,"{""2024"": {""metadata_candidates"": 2, ""required"": 1}}",UNREVIEWED
+75956,Calycoseris wrightii,1,3,109511722,1,1,1,0,"{""2020"": {""metadata_candidates"": 1, ""required"": 1}}",UNREVIEWED
+79095,Sidalcea sparsifolia,1,4,257043356,1,1,9,8,"{""2026"": {""metadata_candidates"": 9, ""required"": 1}}",UNREVIEWED
+166061,Palafoxia texana,1,4,252855814,1,1,2,1,"{""2024"": {""metadata_candidates"": 2, ""required"": 1}}",UNREVIEWED
+168976,Silene rotundifolia,1,6,281420445,1,1,1,0,"{""2019"": {""metadata_candidates"": 1, ""required"": 1}}",UNREVIEWED
+321030,Kunzea capitata,1,10,439930357,1,1,1,0,"{""2022"": {""metadata_candidates"": 1, ""required"": 1}}",UNREVIEWED
+358187,Globularia repens,1,6,522472467,1,1,1,0,"{""2024"": {""metadata_candidates"": 1, ""required"": 1}}",UNREVIEWED
+366692,Olearia arborescens,1,1,345948277,1,1,2,1,"{""2025"": {""metadata_candidates"": 2, ""required"": 1}}",UNREVIEWED
+366715,Pimelea prostrata,1,11,448441629,1,1,2,1,"{""2025"": {""metadata_candidates"": 2, ""required"": 1}}",UNREVIEWED
+511287,Wahlenbergia capensis,1,9,104801882,1,1,1,0,"{""2022"": {""metadata_candidates"": 1, ""required"": 1}}",UNREVIEWED
+543632,Campanula giesekiana,1,8,545886743,1,1,6,5,"{""2026"": {""metadata_candidates"": 6, ""required"": 1}}",UNREVIEWED
+1550566,Cochemiea grahamii,1,3,176028164,1,1,2,1,"{""2020"": {""metadata_candidates"": 2, ""required"": 1}}",UNREVIEWED
+57087,Cicendia quadrangularis,2,3,184604202,2,2,11,2,"{""2022"": {""metadata_candidates"": 3, ""required"": 1}, ""2026"": {""metadata_candidates"": 8, ""required"": 1}}",UNREVIEWED
+60955,Ericameria ericoides,2,1,421083006,2,2,17,5,"{""2020"": {""metadata_candidates"": 6, ""required"": 1}, ""2026"": {""metadata_candidates"": 11, ""required"": 1}}",UNREVIEWED
+78847,Rhododendron columbianum,2,6,398520477,2,2,9,3,"{""2024"": {""metadata_candidates"": 5, ""required"": 1}, ""2026"": {""metadata_candidates"": 4, ""required"": 1}}",UNREVIEWED
+161657,Delphinium bicolor,2,6,133423280,2,2,13,0,"{""2021"": {""metadata_candidates"": 12, ""required"": 1}, ""2022"": {""metadata_candidates"": 1, ""required"": 1}}",UNREVIEWED
+162093,Drosera brevifolia,2,3,264583673,2,2,3,0,"{""2019"": {""metadata_candidates"": 1, ""required"": 1}, ""2020"": {""metadata_candidates"": 2, ""required"": 1}}",UNREVIEWED
+164076,Ipomoea amnicola,2,10,240891785,2,2,2,0,"{""2022"": {""metadata_candidates"": 1, ""required"": 1}, ""2023"": {""metadata_candidates"": 1, ""required"": 1}}",UNREVIEWED
+353887,Schelhammera undulata,2,10,100807036,2,2,4,0,"{""2020"": {""metadata_candidates"": 1, ""required"": 1}, ""2022"": {""metadata_candidates"": 3, ""required"": 1}}",UNREVIEWED
+415330,Philotheca spicata,2,8,617143553,2,2,7,2,"{""2025"": {""metadata_candidates"": 3, ""required"": 1}, ""2026"": {""metadata_candidates"": 4, ""required"": 1}}",UNREVIEWED
+524900,Argentina pacifica,2,5,503946001,2,2,7,2,"{""2025"": {""metadata_candidates"": 3, ""required"": 1}, ""2026"": {""metadata_candidates"": 4, ""required"": 1}}",UNREVIEWED
+1415101,Cleomella lutea,2,5,198258960,2,2,3,0,"{""2022"": {""metadata_candidates"": 2, ""required"": 1}, ""2023"": {""metadata_candidates"": 1, ""required"": 1}}",UNREVIEWED
