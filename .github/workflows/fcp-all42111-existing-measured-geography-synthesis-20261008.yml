@@ -7,9 +7,11 @@ on:
       - scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py
       - scripts/analysis/audit_fcp_global_white_balance_20261008.py
       - scripts/analysis/audit_fcp_global_white_balance_genus_20261008.py
+      - scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py
       - tests/test_fcp_all42111_measured_geography_20261008.py
       - tests/test_fcp_global_white_balance_20261008.py
       - tests/test_fcp_global_white_balance_genus_20261008.py
+      - tests/test_fcp_global_white_between_within_species_20261008.py
       - docs/FCP_ALL42111_ALREADY_MEASURED_GEOGRAPHY_SYNTHESIS_PROTOCOL_20261008.md
       - .github/workflows/fcp-all42111-existing-measured-geography-synthesis-20261008.yml
   workflow_dispatch:
@@ -41,8 +43,8 @@ jobs:
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
           python -m pip install pytest==8.4.2
           python -m py_compile scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py scripts/analysis/audit_fcp_global_white_balance_20261008.py
-          python -m py_compile scripts/analysis/audit_fcp_global_white_balance_genus_20261008.py
-          python -m pytest tests/test_fcp_all42111_measured_geography_20261008.py tests/test_fcp_global_white_balance_20261008.py tests/test_fcp_global_white_balance_genus_20261008.py -q
+          python -m py_compile scripts/analysis/audit_fcp_global_white_balance_genus_20261008.py scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py
+          python -m pytest tests/test_fcp_all42111_measured_geography_20261008.py tests/test_fcp_global_white_balance_20261008.py tests/test_fcp_global_white_balance_genus_20261008.py tests/test_fcp_global_white_between_within_species_20261008.py -q
       - name: Reopen completed actual photo measurements, not original images
         run: |
           set -euo pipefail
@@ -73,6 +75,12 @@ jobs:
             --breadth /tmp/fcp_premeasured_source/breadth.csv.gz \
             --taxon-cell /tmp/fcp_premeasured_source/taxon_cell.csv.gz \
             --outdir /tmp/fcp_42111_genus_white_balance
+
+      - name: Decompose global white balance between repeated species and within sampled species
+        run: |
+          python scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py \
+            --taxon-cell /tmp/fcp_premeasured_source/taxon_cell.csv.gz \
+            --outdir /tmp/fcp_42111_white_species_partition
 
       - name: Audit all three distinct inferential populations and missingness
         run: |
@@ -115,7 +123,20 @@ jobs:
           assert len(z['genus_equal_paired_within_species_latitude_differences'])==6
           assert z['confirmatory_decisions_changed'] is False
           assert all(q['n_genera_classifiable']>0 for q in z['genus_equal_regional_white_balance'])
-          print('EXISTING_SOURCE_42111_REAL_PHOTO_GLOBAL_REGIONAL_SPECIES_EQUAL_AND_GENUS_BALANCE_AUDITED')
+          d=json.loads(Path('/tmp/fcp_42111_white_species_partition/result.json').read_text())
+          assert d['schema']=='fcp_global42111_white_near_half_between_within_species_photo_decomposition_v1'
+          assert d['original_measured_taxon_cell_frame']==85337
+          assert len(d['breakdown'])==16
+          assert d['breakdown'][0]['region']=='ALL_GLOBAL'
+          assert all(x['n_species']>=0 for x in d['breakdown'])
+          for x in d['breakdown']:
+              if x['status']=='OBSERVED_PHOTO_VARIANCE_DECOMPOSED_NOT_POPULATION_MORPH_FREQUENCY':
+                  assert (x['n_species_with_white_only_in_sampled_cells']+
+                          x['n_species_with_nonwhite_only_in_sampled_cells']+
+                          x['n_species_with_both_white_and_nonwhite_in_sampled_cells'])==x['n_species']
+                  assert 0<=x['fraction_species_with_both_observed_states']<=1
+          assert d['confirmatory_decisions_changed'] is False
+          print('EXISTING_SOURCE_42111_SPECIES_WHITE_BETWEEN_WITHIN_AND_GLOBAL_GEOGRAPHY_AUDITED')
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -126,3 +147,4 @@ jobs:
             /tmp/fcp_42111_measured_synthesis/
             /tmp/fcp_42111_white_balance/
             /tmp/fcp_42111_genus_white_balance/
+            /tmp/fcp_42111_white_species_partition/
