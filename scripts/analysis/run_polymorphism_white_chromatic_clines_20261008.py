@@ -179,6 +179,14 @@ def summarize_effect(entries: list[dict], predictor: str, cohort: str) -> dict:
     df = pd.DataFrame([(r["genus"], r["delta"]) for r in entries
                        if r["predictor"] == predictor], columns=["genus", "delta"])
     genus = df.groupby("genus").delta.mean()
+    # Post hoc genus-level sign flip: conservatively change direction by genus,
+    # rather than treating all photo locations/species as independent lineages.
+    genus_values = genus.to_numpy(float)
+    rng_genus = np.random.default_rng(seed_for("genus-signflip", cohort, predictor))
+    signflips = rng_genus.choice((-1, 1), size=(9999, len(genus_values)))
+    genus_null = (signflips @ genus_values)/len(genus_values)
+    genus_obs = float(np.mean(genus_values))
+    genus_p_positive = float((1+np.count_nonzero(genus_null>=genus_obs))/10000)
     return {
         "estimable": True, "n_species": int(len(vals)), "n_genera": int(len(genus)),
         "mean_delta_chromatic_minus_white_within_species_sd": obs,
@@ -186,6 +194,8 @@ def summarize_effect(entries: list[dict], predictor: str, cohort: str) -> dict:
         "fraction_species_positive": float((vals > 0).mean()),
         "species_bootstrap_95CI_mean": [float(x) for x in np.quantile(draws, [0.025, 0.975])],
         "mean_genus_balanced_delta_sd": float(genus.mean()),
+        "genus_signflip_p_positive": genus_p_positive,
+        "genus_signflip_role": "posthoc genus-blocked sign-direction sensitivity, not full phylogenetic correction",
         "within_species_vertex_permutation_p_positive": p_upper,
         "within_species_vertex_permutation_p_two_sided": p_two,
         "null_mean": float(null_means.mean()),
@@ -212,6 +222,12 @@ def analyze(d: pd.DataFrame, cohort: str) -> tuple[dict, pd.DataFrame]:
             "genus": str(g.genus.iloc[0]), "cohort": cohort,
             "n_classifiable": len(g), "n_white": n_white, "n_colour": n_colour,
             "white_plus_colour": n_white >= MIN_MORPH_PHOTOS and n_colour >= MIN_MORPH_PHOTOS,
+            "white_with_one_nonwhite_hue_at_least_5_each": (n_white >= MIN_MORPH_PHOTOS
+                and coloured_hues >= 1),
+            "dominant_top_two_white_nonwhite": (
+                "white" in set(counts.sort_values(ascending=False, kind="stable").head(2).index)
+                and int(np.sort(counts.to_numpy())[-2]) >= MIN_MORPH_PHOTOS
+            ),
             "two_nonwhite_hues": coloured_hues >= 2,
             "abs_lat_span_degrees": float(g.abs_lat.max()-g.abs_lat.min()),
             "elevation_span_m": float(g.elevation_m.max()-g.elevation_m.min()) if g.elevation_m.notna().any() else None,
@@ -257,9 +273,33 @@ def analyze(d: pd.DataFrame, cohort: str) -> tuple[dict, pd.DataFrame]:
     local = species.loc[species.local_eligible.fillna(False)]
     wc_ratios = pd.to_numeric(local["local_white_chromatic_ratio"], errors="coerce").dropna()
     hue_ratios = pd.to_numeric(local["local_nonwhite_hue_ratio"], errors="coerce").dropna()
+    # Paired within-species comparison guards against comparing two compositionally
+    # distinct sets of species and local photographic opportunities.
+    local_pair = local.loc[
+        pd.to_numeric(local["local_white_chromatic_ratio"], errors="coerce").notna()
+        & pd.to_numeric(local["local_nonwhite_hue_ratio"], errors="coerce").notna()
+    ].copy()
+    differences = (local_pair["local_white_chromatic_ratio"]
+                   - local_pair["local_nonwhite_hue_ratio"]).to_numpy(float)
+    if len(differences) >= 5:
+        rng_p = np.random.default_rng(seed_for("pair-ratio", cohort))
+        boot = differences[rng_p.integers(0,len(differences),
+                                          size=(1999,len(differences)))].mean(axis=1)
+        paired_ci = [float(v) for v in np.quantile(boot,[0.025,0.975])]
+        paired_mean = float(differences.mean())
+        # Only a secondary *exploratory* blocked-pair sign test, never adaptive proof.
+        sign = rng_p.choice((-1,1), size=(9999,len(differences)))
+        null = (sign @ differences)/len(differences)
+        paired_p_two = float((1+np.count_nonzero(np.abs(null)>=abs(paired_mean)))/10000)
+    else:
+        paired_ci, paired_mean, paired_p_two = None, None, None
     result = {
         "n_species_eligible_global": int(len(species)),
         "n_species_white_plus_colour_at_least_5_each": int(species.white_plus_colour.sum()),
+        "n_species_white_plus_one_nonwhite_hue_at_least_5_each": int(
+            species.white_with_one_nonwhite_hue_at_least_5_each.sum()),
+        "n_species_dominant_pair_white_nonwhite_at_least_5_each": int(
+            species.dominant_top_two_white_nonwhite.sum()),
         "n_species_two_nonwhite_hues_at_least_5_each": int(species.two_nonwhite_hues.sum()),
         "n_species_both_types": int((species.white_plus_colour & species.two_nonwhite_hues).sum()),
         "n_species_white_colour_only": int((species.white_plus_colour & ~species.two_nonwhite_hues).sum()),
@@ -272,6 +312,13 @@ def analyze(d: pd.DataFrame, cohort: str) -> tuple[dict, pd.DataFrame]:
             "median_species_ratio_white_chromatic": float(wc_ratios.median()) if len(wc_ratios) else None,
             "n_with_nonwhite_hue_ratio_estimable": int(len(hue_ratios)),
             "mean_species_ratio_nonwhite_hue_observed_to_fixed_composition_expected": float(hue_ratios.mean()) if len(hue_ratios) else None,
+            "paired_species_white_colour_minus_nonwhite_hue": {
+                "n_species_with_both_ratios_estimable": int(len(differences)),
+                "mean_within_species_difference": paired_mean,
+                "species_bootstrap_95CI": paired_ci,
+                "paired_signflip_two_sided_p_exploratory": paired_p_two,
+                "limitation": "coarse hues and varying expected discordances; no claim of morph-specific adaptation",
+            },
         },
         "primary_high_absolute_latitude_chromatic": lat,
         "primary_high_elevation_chromatic": alt,
