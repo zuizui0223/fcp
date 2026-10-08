@@ -1,0 +1,20 @@
+{
+  "by_photo_metadata_status": {
+    "EXACT_SOURCE_PHOTO_PUBLIC_COORDINATE_AVAILABLE": 1000
+  },
+  "confirmatory_decisions_changed": false,
+  "n_exact_source_photo_coordinates": 1000,
+  "n_failed_request_batches": 0,
+  "n_original_measured_source_species": 42111,
+  "n_original_measured_taxon_cell": 85337,
+  "n_photo_metadata_targets": 1000,
+  "n_pilot_original_cells": 128,
+  "n_requests": 10,
+  "no_climate_or_soil_effect_estimated": true,
+  "no_new_species_or_photo_identity_selection": true,
+  "no_photo_pixels_opened": true,
+  "original_162_equal_area_cell_ids_not_centroind_imputed": true,
+  "outcome_labels_not_used_for_selection": true,
+  "schema": "fcp_global42111_photo_ID_public_coordinates_pilot_v1",
+  "status": "PUBLIC_METADATA_LOCATION_RECOVERY_NOT_ENVIRONMENT_EFFECT"
+}
