@@ -1,0 +1,97 @@
+name: FCP white-chromatic signed latitude and elevation clines
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/run_polymorphism_white_chromatic_clines_20261008.py
+      - tests/test_polymorphism_white_chromatic_clines_20261008.py
+      - docs/POLYMORPHISM_WHITE_CHROMATIC_CLINES_PROTOCOL_20261008.md
+      - .github/workflows/polymorphism-white-chromatic-clines-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-white-chromatic-clines-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  ELEV_ZIP_SHA256: "6a9f4e9a37f289d594ed1567b63be344a4dacf247f0b69756e81df031087e3bd"
+
+jobs:
+  directional-clines:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.14"
+      - name: Install pinned analysis dependencies
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/run_polymorphism_white_chromatic_clines_20261008.py
+          python -m pytest tests/test_polymorphism_white_chromatic_clines_20261008.py -q
+
+      - name: Recover SHA256-frozen three image cohorts
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/fcp_discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/fcp_validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/fcp_third.csv
+          echo "$DISC_SHA256  /tmp/fcp_discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/fcp_validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/fcp_third.csv" | sha256sum -c -
+
+      - name: Recover checksum-pinned coarse WorldClim 2.1 elevation
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_elevation
+          curl -L --fail --retry 4 --retry-delay 3 \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_elev.zip \
+            -o /tmp/fcp_elevation/elev.zip
+          echo "$ELEV_ZIP_SHA256  /tmp/fcp_elevation/elev.zip" | sha256sum -c -
+          unzip -q /tmp/fcp_elevation/elev.zip -d /tmp/fcp_elevation
+          test -f /tmp/fcp_elevation/wc2.1_10m_elev.tif
+
+      - name: Analyse image-based visible morph gradients and local mixing
+        run: |
+          python scripts/analysis/run_polymorphism_white_chromatic_clines_20261008.py \
+            --discovery /tmp/fcp_discovery.csv \
+            --validation /tmp/fcp_validation.csv \
+            --third /tmp/fcp_third.csv \
+            --elevation /tmp/fcp_elevation/wc2.1_10m_elev.tif \
+            --outdir /tmp/fcp_white_chromatic_clines
+
+      - name: Check inferential boundaries and result shape
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_white_chromatic_clines/result.json").read_text())
+          assert r["schema"]=="fcp_white_chromatic_clines_posthoc_v1"
+          assert r["confirmatory_decisions_changed"] is False
+          assert set(r["cohorts"])=={"discovery","validation","third"}
+          for k,c in r["cohorts"].items():
+              assert c["n_species_eligible_global"] > 0, k
+              assert c["primary_high_absolute_latitude_chromatic"]["estimable"], k
+              assert c["primary_high_elevation_chromatic"]["estimable"], k
+              assert c["n_species_both_types"] <= c["n_species_white_plus_colour_at_least_5_each"], k
+          print("COHORTS_ESTIMABLE_AND_FROZEN_RESULTS_UNCHANGED")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-white-chromatic-clines-20261008
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_white_chromatic_clines/
