@@ -99,3 +99,23 @@ The minimum over anchors, calendar months and source-observed year pairs is repo
 A gap of one is a **mathematical recruitment target**, NOT evidence that the missing observation exists, that the corresponding species colour is genetically variable, or that climate explains its variation. The chosen site and date may be biased by source participation and photography. Because the source photograph-selection design maximized geographic coverage, this is specifically a *supplemental site-first observational* requirement for existing taxa, not an independent confirmation cohort.
 
 The original ≥30-per-cohort 10-km source-only gate remains HOLD, regardless of results. No new iNaturalist requests or images are fetched, and no future 2,000+730 taxon allocation is opened by this audit. Results are to be interpreted only after the additional pinned CI succeeds and commits a count receipt.
+
+
+## Verified replenishment shortfall results (2026-10-08)
+
+The source-SHA checked [GitHub Actions run 37793952964](https://github.com/zuizui0223/fcp/actions/runs/37793952964) completed the original eight, exact-geometry seven, and missing-observer-slot eight synthetic tests (**23 passed**), and emitted the label-blind site/year/month gap ledger as artifact `11558485103` (SHA256 `d2a2627d92243350bdc11cce8afc034d5bd77aeac7de2b332d89767a087898ee`). The durable outcome-limited [JSON receipt](../results/fcp_same_siteyear_replenishment_gap_20261008/terminal_gap_receipt.json) is extracted verbatim from the successful source-verified workflow output.
+
+| Species cohort | >=40 classified-photo source taxa | Already anchored 10km complete (gap 0) | Same-month/year-local gap 1 observer-photo | Gap 2 | No repeated year/month 10km source-photograph anchor |
+|---|---:|---:|---:|---:|---:|
+| Discovery | 369 | 10 | 37 | 49 | 273 |
+| Validation | 363 | 10 | 22 | 60 | 271 |
+| Third | 377 | 20 | 33 | 62 | 262 |
+| **Total** | **1,109** | **40** | **92** | **171** | **806** |
+
+The **303** species with an already observed repeat-year/month 10km photo anchor are **historical observation opportunities**, not 303 naturally polymorphic species. The gap-1 class contributes 37/22/33 candidate taxa across the three source-disjoint cohorts. Starting from the original anchored 10/10/20, the minimum hypothetical supplement to reach 30/30/30 is **20/20/10 = 50 additional independently observed photograph slots**, respectively, provided their source-year/month/locality and photo-classifiability constraints are satisfied. It is only a lower bound on future acquisition workload, **not** an observed count of unused images. In particular, Validation needs 20 successful gap-1 completions out of just 22 candidate species (**90.9%**) unless it also recovers gap-2 candidates, making that cohort the immediate limiting case. The three cohorts cannot be combined to bypass the per-cohort gate.
+
+Photo-colour outcomes were excluded from this **metadata-only locality selection** after the historically fixed classifiability stage. New historic photographs have not been fetched. The precommitted original sample sufficiency decision remains **HOLD**, because candidate slots have not been filled and repeated photograph neighbourhoods do not establish common genotypes, pollinator selection, plant fitness or adaptive maintenance.
+
+### Data collection order, explicitly not a biological confirmation
+
+(1) Retain the three source-disjoint original taxon cohorts, years, months, observation opportunity and anchored source-only localities. (2) First check availability of *distinct unused observation/photo IDs* from other observers for all 92 gap-1 species (not only the 50 easiest hindsight successes). (3) If Validation in particular remains <30, assess the 60 pre-existing gap-2 candidates under an explicitly labelled secondary recruitment plan. (4) Validate actual photo licence, coordinate accuracy, plant/flower visibility, imaging and wild/population identity independently, and do not replace failures based on new colour. (5) Only after measured photos and year-specific climate are separately qualified may an environmental association be attempted, with the original source-dependent design and noncausal limitations preserved. No unexposed 2,000+730-taxon prospective species or photo identities should be reused as this retrospective recruitment pool.
