@@ -15,6 +15,9 @@ on:
       - tests/test_fcp_replenishment_metadata_query_queue_20261008.py
       - scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py
       - tests/test_fcp_validation_gap1_live_metadata_pilot_20261008.py
+      - scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py
+      - tests/test_fcp_validation_gap2_live_metadata_pilot_20261009.py
+      - results/fcp_validation_gap1_live_metadata_20261008/terminal_pilot_receipt.json
       - .github/workflows/fcp-siteyear-anomaly-opportunity-20261008.yml
   workflow_dispatch:
 
@@ -178,29 +181,53 @@ jobs:
           git show "$THIRD_SHA:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" > /tmp/fcp_42111_breadth.csv.gz
           echo '38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605  /tmp/fcp_42111_breadth.csv.gz' | sha256sum -c -
 
-      - name: One-page one-request Validation gap-one metadata pilot (22 species ONLY)
+      - name: Preserve previously validated Validation gap-one result without repeating its API calls
         run: |
-          python scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py \
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("results/fcp_validation_gap1_live_metadata_20261008/terminal_pilot_receipt.json")
+          r=json.loads(p.read_text())
+          assert r["schema"] == "fcp_validation_gap1_live_observation_metadata_pilot_v1"
+          assert r["n_api_requests_attempted"]==22
+          assert r["n_metadata_candidate_species"]==15
+          assert r["n_first_page_no_candidate_species"]==7
+          assert r["original_10km_gate"]=="HOLD_UNCHANGED"
+          assert r["execution_provenance"]["source_verified"] is True
+          print("Validation gap-one 15/22 is a frozen historical source check; API not re-queried.")
+          PY
+      - name: Check all 60 gap-two taxa and distinct-observer year requirements in synthetic tests
+        run: |
+          python -m pytest tests/test_fcp_validation_gap2_live_metadata_pilot_20261009.py -q
+          python -m py_compile scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py
+          python scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py --help > /dev/null
+      - name: Metadata-only first-page audit for fixed 60 Validation gap-two species (maximum 120 calls)
+        run: |
+          test "$GITHUB_RUN_ATTEMPT" = "1"
+          python scripts/acquisition/audit_fcp_validation_gap2_live_metadata_pilot_20261009.py \
             --queue /tmp/fcp_replenishment_queue/source_only_observer_photo_query_queue.csv \
             --discovery /tmp/fcp_discovery.csv \
             --validation /tmp/fcp_validation.csv \
             --third /tmp/fcp_third.csv \
             --breadth /tmp/fcp_42111_breadth.csv.gz \
-            --outdir /tmp/fcp_validation_gapone_live_metadata
-
-      - name: Validate no new images, no new colour outcome and preserve original HOLD
+            --outdir /tmp/fcp_validation_gaptwo_live_metadata
+      - name: Hold biological interpretation regardless of second-stage metadata opportunity
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          r=json.loads(Path("/tmp/fcp_validation_gapone_live_metadata/result.json").read_text())
-          assert r["schema"]=="fcp_validation_gap1_live_observation_metadata_pilot_v1"
+          r=json.loads(Path("/tmp/fcp_validation_gaptwo_live_metadata/result.json").read_text())
+          assert r["schema"]=="fcp_validation_gap2_live_observation_metadata_pilot_v1"
           assert r["original_10km_gate"]=="HOLD_UNCHANGED"
-          assert r["n_api_requests_attempted"]==22
-          assert r["n_query_target_species"]==22
-          assert r["eligible_metadata_is_NOT_classifiable_flower_photo"] is True
-          assert r["strict_query"]["live_photo_pixels_opened"] is False
-          assert r["n_metadata_candidate_species"] + r["n_api_error_species"] + r["n_truncated_unknown_species"] + r["n_first_page_no_candidate_species"] == 22
+          assert r["n_species_target"]==60
+          assert r["required_missing_observer_photo_slots"]==120
+          assert 60<=r["n_api_requests_attempted"]<=120
+          assert r["no_photo_pixels_fetched"] is True
+          assert r["confirmatory_decisions_changed"] is False
+          assert sum(r[k] for k in ("n_species_both_year_requirements_metadata_possible",
+              "n_species_api_error_unresolved","n_species_pagination_unknown",
+              "n_species_first_pages_insufficient"))==60
+          assert r["max_metadata_only_qualified_validation_species_if_all_images_valid"]==25+r["n_species_both_year_requirements_metadata_possible"]
           print(json.dumps(r,indent=2))
           PY
       - uses: actions/upload-artifact@v4
@@ -213,4 +240,4 @@ jobs:
             /tmp/fcp_exact_10km_opportunity/
             /tmp/fcp_siteyear_replenishment/
             /tmp/fcp_replenishment_queue/
-            /tmp/fcp_validation_gapone_live_metadata/
+            /tmp/fcp_validation_gaptwo_live_metadata/
