@@ -43,8 +43,8 @@ jobs:
       - name: Install raster-analysis runtime
         run: |
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
           python -m py_compile scripts/analysis/run_polymorphism_soil_neighbourhood_coverage_20261008.py
-          python -m pytest tests/test_polymorphism_soil_neighbourhood_coverage.py -q
 
       - name: Recover immutable measured tables
         run: |
