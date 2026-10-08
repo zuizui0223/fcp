@@ -1,0 +1,207 @@
+{
+  "schema": "fcp_morph_maintenance_primary_study_photo_overlap_v1",
+  "date_jst": "2026-10-08",
+  "status": "complete_photo_overlap_diagnostic",
+  "role": "prevalence_inference_prohibited_source_mechanism_bridge_feasibility",
+  "n_independent_literature_species": 11,
+  "n_verified_primary_study_dois": 15,
+  "n_literature_species_any_measured_photo_cohort": 3,
+  "n_literature_species_ge40_classifiable": 3,
+  "n_literature_species_ge5_white_and_ge5_nonwhite": 2,
+  "n_true_morph_genotype_chemistry_photo_links": 0,
+  "n_white_nonwhite_photo_systems_with_white_in_paper_focal_palette": 1,
+  "n_white_nonwhite_photo_systems_with_source_documented_genetic_white": 0,
+  "n_white_nonwhite_photo_systems_whose_published_focal_palette_does_not_include_white": 1,
+  "n_white_nonwhite_photo_systems_with_seasonal_within_plant_colour": 1,
+  "verified_photo_overlap_rows": [
+    {
+      "species": "Dactylorhiza sambucina",
+      "family": "Orchidaceae",
+      "literature_mechanism": "negative_frequency_dependent_pollinator_visitation",
+      "literature_evidence_role": "experimentally_manipulated_morph_frequency_pollinator_function",
+      "primary_study_dois": "10.1073/pnas.111162598",
+      "cohort": "validation",
+      "focal_literature_white_colour": false,
+      "source_white_genetic_evidence": false,
+      "focal_seasonal_within_genotype_change": false,
+      "source_white_morph_note": "Focal study contrasts nonwhite forms; a white photo label cannot automatically be identified with the source morphs",
+      "observed_in_photo_candidate_cohort": true,
+      "source_photo_rows": 100,
+      "n_classifiable_georeferenced": 40,
+      "n_photo_white": 10,
+      "n_photo_nonwhite": 30,
+      "n_hue_categories_with_at_least_5_photos": 2,
+      "n_distinct_visible_states_at_least_5": 3,
+      "meets_40_photo_eligibility": true,
+      "meets_5_white_and_5_nonwhite": true,
+      "meets_5_white_and_one_specific_nonwhite_hue": true,
+      "meets_two_nonwhite_hues_each_5": true,
+      "photo_neighborhood_50km_pairs": 6,
+      "photo_50km_white_nonwhite_pairs": 3,
+      "photo_white_state_chemically_confirmed": false,
+      "in_pop_fitness_genotype_mapped_to_source_images": false
+    },
+    {
+      "species": "Castilleja coccinea",
+      "family": "Orobanchaceae",
+      "literature_mechanism": "spatially_heterogeneous_selection_on_floral_bract_color",
+      "literature_evidence_role": "heritability_habitat_populations_common_garden_fitness",
+      "primary_study_dois": "10.1002/ajb2.70094",
+      "cohort": "third",
+      "focal_literature_white_colour": false,
+      "source_white_genetic_evidence": false,
+      "focal_seasonal_within_genotype_change": false,
+      "source_white_morph_note": "Focal study contrasts nonwhite forms; a white photo label cannot automatically be identified with the source morphs",
+      "observed_in_photo_candidate_cohort": true,
+      "source_photo_rows": 100,
+      "n_classifiable_georeferenced": 55,
+      "n_photo_white": 0,
+      "n_photo_nonwhite": 55,
+      "n_hue_categories_with_at_least_5_photos": 2,
+      "n_distinct_visible_states_at_least_5": 2,
+      "meets_40_photo_eligibility": true,
+      "meets_5_white_and_5_nonwhite": false,
+      "meets_5_white_and_one_specific_nonwhite_hue": false,
+      "meets_two_nonwhite_hues_each_5": true,
+      "photo_neighborhood_50km_pairs": 34,
+      "photo_50km_white_nonwhite_pairs": 0,
+      "photo_white_state_chemically_confirmed": false,
+      "in_pop_fitness_genotype_mapped_to_source_images": false
+    },
+    {
+      "species": "Moricandia arvensis",
+      "family": "Brassicaceae",
+      "literature_mechanism": "indirectly_maintained_seasonal_plasticity",
+      "literature_evidence_role": "same_genotype_seasonal_phenotypic_switch_and_flowering_fitness",
+      "primary_study_dois": "10.1038/s41467-020-17875-1;10.1093/evlett/qrae017",
+      "cohort": "validation",
+      "focal_literature_white_colour": true,
+      "source_white_genetic_evidence": false,
+      "focal_seasonal_within_genotype_change": true,
+      "source_white_morph_note": "Published white photos are seasonal within-genotype phenotype, not segregating colour alleles",
+      "observed_in_photo_candidate_cohort": true,
+      "source_photo_rows": 100,
+      "n_classifiable_georeferenced": 53,
+      "n_photo_white": 36,
+      "n_photo_nonwhite": 17,
+      "n_hue_categories_with_at_least_5_photos": 2,
+      "n_distinct_visible_states_at_least_5": 3,
+      "meets_40_photo_eligibility": true,
+      "meets_5_white_and_5_nonwhite": true,
+      "meets_5_white_and_one_specific_nonwhite_hue": true,
+      "meets_two_nonwhite_hues_each_5": true,
+      "photo_neighborhood_50km_pairs": 94,
+      "photo_50km_white_nonwhite_pairs": 49,
+      "photo_white_state_chemically_confirmed": false,
+      "in_pop_fitness_genotype_mapped_to_source_images": false
+    }
+  ],
+  "source_species_any_sample": [
+    "Castilleja coccinea",
+    "Dactylorhiza sambucina",
+    "Moricandia arvensis"
+  ],
+  "source_species_ge40": [
+    "Castilleja coccinea",
+    "Dactylorhiza sambucina",
+    "Moricandia arvensis"
+  ],
+  "source_species_white_nonwhite": [
+    "Dactylorhiza sambucina",
+    "Moricandia arvensis"
+  ],
+  "by_mechanism_source_systems": {
+    "Silene littorea": {
+      "mechanism": "trait_correlated_selection_and_autonomous_selfing",
+      "evidence_role": "within_species_multi_population_fitness_path_plus_bagging_pollination_plus_organ_specific_pigment",
+      "matched_photo_cohorts": []
+    },
+    "Boechera stricta": {
+      "mechanism": "water_and_herbivore_dependent_correlated_fitness",
+      "evidence_role": "heritable_morph_common_garden_glasshouse_and_herbivore_choice",
+      "matched_photo_cohorts": []
+    },
+    "Dactylorhiza sambucina": {
+      "mechanism": "negative_frequency_dependent_pollinator_visitation",
+      "evidence_role": "experimentally_manipulated_morph_frequency_pollinator_function",
+      "matched_photo_cohorts": [
+        "validation"
+      ]
+    },
+    "Iris lutescens": {
+      "mechanism": "gene_flow_drift_and_possible_selection",
+      "evidence_role": "population_genetics_and_natural_morph_frequency",
+      "matched_photo_cohorts": []
+    },
+    "Linanthus parryae": {
+      "mechanism": "divergent_abiotic_selection_plus_historical_timing",
+      "evidence_role": "reciprocal_transplant_plus_neutral_genetic_cline",
+      "matched_photo_cohorts": []
+    },
+    "Castilleja coccinea": {
+      "mechanism": "spatially_heterogeneous_selection_on_floral_bract_color",
+      "evidence_role": "heritability_habitat_populations_common_garden_fitness",
+      "matched_photo_cohorts": [
+        "third"
+      ]
+    },
+    "Abronia fragrans": {
+      "mechanism": "betalain_pigment_and_reproductive_display_antagonist_coupling",
+      "evidence_role": "flower_count_genetics_environment_and_transplant_damage",
+      "matched_photo_cohorts": []
+    },
+    "Leptosiphon parviflorus": {
+      "mechanism": "abiotic_stress_correlated_morph_frequency",
+      "evidence_role": "21_population_soil_climate_and_citizen_science_association",
+      "matched_photo_cohorts": []
+    },
+    "Moricandia arvensis": {
+      "mechanism": "indirectly_maintained_seasonal_plasticity",
+      "evidence_role": "same_genotype_seasonal_phenotypic_switch_and_flowering_fitness",
+      "matched_photo_cohorts": [
+        "validation"
+      ]
+    },
+    "Raphanus sativus": {
+      "mechanism": "pollinator_behavior_for_four_flower_colour_forms",
+      "evidence_role": "behavioural_pollinator_choice_not_morph_fitness_equilibrium",
+      "matched_photo_cohorts": []
+    },
+    "Ipomoea purpurea": {
+      "mechanism": "pollinator_and_mating_system_association",
+      "evidence_role": "floral_colour_genetic_loci_and_mating_pattern_studies",
+      "matched_photo_cohorts": []
+    }
+  },
+  "direct_biochemical_genotype_fitness_bridge_estimable": false,
+  "minimum_mechanism_matched_species_for_bridge": 6,
+  "minimum_phenotype_biochemical_genotype_validated_links": 3,
+  "hard_nonclaims": [
+    "this is a purposive and historically studied sample, never worldwide frequency of selection mechanisms",
+    "a photo colour class does not match the published organism colour variant without independently inspecting organ/colour/white clipping",
+    "white/coloured photographs do not establish heritable morphs, fitness, plant age or population genotype",
+    "absence from 1500 candidate species does not imply absence from natural flowering plants",
+    "genetic white pigment loss and environmentally plastic seasonal whitening are distinct mechanisms",
+    "photo-local mixture within 50km does not prove a polymorphic interbreeding population",
+    "across primary articles, different fitness pathways cannot be summed or pooled as one causal effect"
+  ],
+  "confirmatory_decisions_changed": false,
+  "photo_cohort_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "source_registry_sha256": "6f597849f8ef577d72be3f972f42ace3f6ce636c95c118493f5e93d6f879c90b",
+  "execution_provenance": {
+    "workflow_run_id": 37751360157,
+    "job_id": 113225109768,
+    "evaluated_commit": "b15abd6ccc8ad345531bd2ca541e6a213d9a0d92",
+    "artifact_id": 11538710320,
+    "artifact_digest": "sha256:fb07a48c23bc0b0a5051850d229cfb212166ecfc1cf0e16d11cae0bca9136521",
+    "source": "successful GitHub Actions source SHA check, unit tests, original measured photo files and stdout",
+    "synthetic_tests": [
+      "7 passed in 0.32s"
+    ],
+    "frozen_previous_FCP_findings_untouched": true
+  }
+}
