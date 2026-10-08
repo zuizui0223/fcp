@@ -58,3 +58,26 @@ def test_holm_two_axis_and_residualization():
     y = 20 + 3*x + np.sin(x)
     resid = mod.residualize(y, x)
     assert np.isclose(np.corrcoef(resid, x)[0, 1], 0.0, atol=1e-10)
+
+
+def test_symmetric_morph_gates_and_paired_local_readout():
+    # Four different visible categories pass >=5 photos each, and both local
+    # white/nonwhite and nonwhite hue differences can be estimated per species.
+    n = 40
+    labels = ["white"]*10 + ["red_pink"]*10 + ["blue_purple"]*10 + ["yellow_orange"]*10
+    lat = 10 + np.linspace(0, 0.1, n)
+    d = pd.DataFrame({
+        "latitude": lat, "abs_lat": np.abs(lat), "longitude": np.zeros(n),
+        "elevation_m": 100 + np.arange(n)*5.0,
+        "morph": labels, "inat_taxon_id": np.repeat(123, n),
+        "species": ["Example species"]*n, "genus": ["Example"]*n,
+        "cohort": ["synthetic"]*n,
+    })
+    result, per_species = mod.analyze(d, "synthetic")
+    assert result["n_species_white_plus_one_nonwhite_hue_at_least_5_each"] == 1
+    assert result["n_species_two_nonwhite_hues_at_least_5_each"] == 1
+    assert result["n_species_dominant_pair_white_nonwhite_at_least_5_each"] == 1
+    assert result["local_50km"]["paired_species_white_colour_minus_nonwhite_hue"]["n_species_with_both_ratios_estimable"] == 1
+    assert result["primary_high_elevation_chromatic"]["n_genera"] == 1
+    assert 0 <= result["primary_high_elevation_chromatic"]["genus_signflip_p_positive"] <= 1
+    assert int(per_species.iloc[0].n_white) == 10
