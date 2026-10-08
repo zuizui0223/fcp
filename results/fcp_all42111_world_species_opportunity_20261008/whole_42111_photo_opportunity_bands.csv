@@ -1,0 +1,9 @@
+photo_opportunity_band,n_species,n_species_with_2plus_geocells,med_geographic_cells,historical_photo_capacity_sum
+0_no_metadata_eligible_photos,789,15,1.0,0
+100_plus_photos,4730,3801,3.0,748713
+10_to_19_photos,5316,2116,1.0,73314
+1_photo,7378,67,1.0,7378
+20_to_39_photos,4232,2095,1.0,117832
+2_to_4_photos,9332,1344,1.0,25804
+40_to_99_photos,4023,2379,2.0,253467
+5_to_9_photos,6311,1747,1.0,42209
