@@ -48,6 +48,12 @@ Using within-species photographs <=50 km apart, report observed local white-colo
 
 A biologically strong final argument would jointly explain the *origin of white states*, the *spatial placement of morph frequencies* and their *persistence within mating populations*. None of those three steps follows solely from a macroecological latitudinal effect.
 
+## Matched-composition robustness of the white/pigmented incidence comparison
+
+The initial contrast between white+any-nonwhite and two different nonwhite hues is asymmetric: the former can pool three nonwhite colour categories to exceed the minimum. We additionally require the same >=5 *per category*: white >=5 and at least one individual nonwhite hue >=5 versus two distinct nonwhite hues each >=5. These counts may overlap. A further descriptive category asks whether white is among the two most abundant colour labels, with the second label >=5. These are photo-based and have no wild-population prevalence interpretation.
+
+Within the **same species with estimable opportunities for both discordance types**, compare the observed/expected white-vs-nonwhite local pair ratio against the observed/expected different-nonwhite-hue local pair ratio. Paired mean difference, bootstrap uncertainty and a retrospective paired signflip test are reported, without promoting the test as independent or prospective. Genus-blocked signed nulls are similarly added as secondary sensitivities for the signed latitude/elevation contrasts. None of these overcome exposure or phylogenetic confounding.
+
 ## Hard inferential limits
 
 The image-based coarse white classifier is **known to be exposure-coupled** in the third cohort (source: current H2 highlight-audit result), and this workflow does not have a complete direct highlight/reflectance control in all three cohorts. The sampled species are not globally representative; neither the WorldClim 10-minute elevation nor recorded mean climate equals the plant's immediate environment. Colour/photo associations cannot determine genotype, UV absorbance, pigment chemistry, selection coefficient, fitness or fitness-mediated local adaptation.
