@@ -16,6 +16,10 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
+import sys
+
+# Standalone CLI must locate sibling analysis modules without PYTHONPATH setup.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "analysis"))
 
 import numpy as np
 import pandas as pd
