@@ -1,0 +1,108 @@
+name: Resolve all 42111 original FCP photo URLs and licences in safe API batches
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/acquisition/resolve_fcp_all42111_existing_photo_metadata_20261008.py
+      - tests/test_fcp_all42111_original_photo_url_resolution_20261008.py
+      - .github/workflows/fcp-all42111-original-photo-url-resolution-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fcp-all42111-source-photo-id-urls-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ORIGINAL_42111_PHOTO_ID_SHA256: 'aa179ac271be2731cf1fdd00f305999b765cd7680b358554b75fd9d9372091ba'
+
+jobs:
+  resolve-original-photo-source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Synthetic negative controls for 42111 id-locked source photo/licence resolution
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/acquisition/resolve_fcp_all42111_existing_photo_metadata_20261008.py
+          python -m pytest tests/test_fcp_all42111_original_photo_url_resolution_20261008.py -q
+      - name: Require source-wide EXACT archived photo/observation identities before API access
+        run: |
+          set -euo pipefail
+          path='results/fcp_all42111_archived_photo_id_20261008/one_source_photo_id_per_each_42111_species.csv.gz'
+          echo "$ORIGINAL_42111_PHOTO_ID_SHA256  $path" | sha256sum -c -
+          python - <<'PY'
+          import pandas as pd
+          p='results/fcp_all42111_archived_photo_id_20261008/one_source_photo_id_per_each_42111_species.csv.gz'
+          d=pd.read_csv(p,usecols=['inat_taxon_id','photo_id','observation_id'])
+          assert len(d)==42111
+          assert d.inat_taxon_id.nunique()==42111
+          assert d.photo_id.nunique()==42111
+          assert d.observation_id.nunique()==42111
+          print('42111_ORIGINAL_SOURCE_PHOTO_IDENTITIES_FROZEN_NO_PIXEL_ACCESS')
+          PY
+      - name: One safe batch-API source-metadata pass over all 42111 archived photo IDs
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          test ! -e results/fcp_all42111_original_photo_url_resolution_20261008/result.json
+          python scripts/acquisition/resolve_fcp_all42111_existing_photo_metadata_20261008.py \
+            --frozen-photo-identities results/fcp_all42111_archived_photo_id_20261008/one_source_photo_id_per_each_42111_species.csv.gz \
+            --outdir /tmp/fcp_all42111_original_source_urls
+      - name: Validate source URL, licence and missingness without botanical outcome inference
+        run: |
+          python - <<'PY'
+          import json,pandas as pd
+          from pathlib import Path
+          d=Path('/tmp/fcp_all42111_original_source_urls')
+          j=json.loads((d/'result.json').read_text())
+          assert j['schema']=='fcp_all42111_first_historical_photo_source_URL_resolution_v1'
+          assert j['original_single_photo_species']==42111
+          assert j['original_photo_identity_unchanged']
+          assert j['source_photo_URL_workload']['n_original_source_species']==42111
+          assert j['source_photo_URL_workload']['n_observation_batches']==422
+          assert sum(j['source_photo_URL_workload']['species_by_current_original_photo_URL_status'].values())==42111
+          assert j['downloaded_image_pixels'] is False
+          assert j['classified_flower_colour'] is False
+          assert j['confirmatory_decisions_changed'] is False
+          x=pd.read_csv(d/'whole_42111_original_photo_URL_license_audit.csv.gz')
+          assert x.inat_taxon_id.nunique()==42111 and len(x)==42111
+          assert x.photo_id.nunique()==42111
+          print('42111_ORIGINAL_PHOTO_URLS_LICENSES_AND_FAILED_OBSERVATIONS_RECORDED_NO_FLORAL_COLOUR_OPENED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-all42111-original-photo-url-license-evidence
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/fcp_all42111_original_source_urls/
+      - name: Archive every resolved/unresolved original URL and present licensing status
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-all42111-global-coverage-20261008'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          dest='results/fcp_all42111_original_photo_url_resolution_20261008'
+          mkdir -p "$dest"
+          cp /tmp/fcp_all42111_original_source_urls/* "$dest/"
+          git add "$dest"
+          if git diff --cached --quiet; then
+            echo 'Original 42111 photo source URL ledger already frozen'
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Freeze all 42111 historical photo URLs and source licensing without opening image pixels'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
