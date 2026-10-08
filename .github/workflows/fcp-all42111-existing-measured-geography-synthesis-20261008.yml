@@ -5,7 +5,9 @@ on:
     branches: [main]
     paths:
       - scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py
+      - scripts/analysis/audit_fcp_global_white_balance_20261008.py
       - tests/test_fcp_all42111_measured_geography_20261008.py
+      - tests/test_fcp_global_white_balance_20261008.py
       - docs/FCP_ALL42111_ALREADY_MEASURED_GEOGRAPHY_SYNTHESIS_PROTOCOL_20261008.md
       - .github/workflows/fcp-all42111-existing-measured-geography-synthesis-20261008.yml
   workflow_dispatch:
@@ -36,8 +38,8 @@ jobs:
         run: |
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
           python -m pip install pytest==8.4.2
-          python -m py_compile scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py
-          python -m pytest tests/test_fcp_all42111_measured_geography_20261008.py -q
+          python -m py_compile scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py scripts/analysis/audit_fcp_global_white_balance_20261008.py
+          python -m pytest tests/test_fcp_all42111_measured_geography_20261008.py tests/test_fcp_global_white_balance_20261008.py -q
       - name: Reopen completed actual photo measurements, not original images
         run: |
           set -euo pipefail
@@ -56,6 +58,12 @@ jobs:
             --taxon-cell /tmp/fcp_premeasured_source/taxon_cell.csv.gz \
             --crosscell-pairs /tmp/fcp_premeasured_source/crosscell_pairs.csv.gz \
             --outdir /tmp/fcp_42111_measured_synthesis
+      - name: Audit white-vs-coloured half-ratio across all photos, species-equal means, and matched species
+        run: |
+          python scripts/analysis/audit_fcp_global_white_balance_20261008.py \
+            --taxon-cell /tmp/fcp_premeasured_source/taxon_cell.csv.gz \
+            --outdir /tmp/fcp_42111_white_balance
+
       - name: Audit all three distinct inferential populations and missingness
         run: |
           python - <<'PY'
@@ -81,11 +89,22 @@ jobs:
           assert p['n_discordant_pairs']==797
           assert len(p['regional_and_global_descriptive'])==4
           assert p['regional_and_global_descriptive'][-1]['region']=='ALL'
-          print('EXISTING_SOURCE_42111_REAL_PHOTO_GLOBAL_AND_REGIONAL_FINDING_AUDITED')
+          w=json.loads(Path('/tmp/fcp_42111_white_balance/result.json').read_text())
+          assert w['schema']=='fcp_global42111_photo_white_balance_versus_species_turnover_audit_v1'
+          assert w['status']=='SOURCE_VERIFIED_RETROSPECTIVE_WHITE_BALANCE_DESCRIPTION'
+          assert w['observed_taxon_cell_rows']==85337
+          assert len(w['region_white_balance'])==3
+          assert sum(r['n_taxon_cell_rows'] for r in w['region_white_balance'])==85337
+          assert sum(r['n_classifiable_cell'] for r in w['region_white_balance'])==39075
+          assert len(w['same_species_paired_region_contrasts'])==6
+          assert w['confirmatory_decisions_changed'] is False
+          print('EXISTING_SOURCE_42111_REAL_PHOTO_GLOBAL_AND_REGIONAL_AND_WHITE_5050_AUDITED')
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: fcp-42111-verified-measured-geographic-synthesis
           if-no-files-found: error
           retention-days: 90
-          path: /tmp/fcp_42111_measured_synthesis/
+          path: |
+            /tmp/fcp_42111_measured_synthesis/
+            /tmp/fcp_42111_white_balance/
