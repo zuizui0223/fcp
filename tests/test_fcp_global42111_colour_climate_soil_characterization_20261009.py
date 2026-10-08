@@ -82,3 +82,11 @@ def test_missing_site_geo_is_not_rescued_by_value_synthesis(global_source):
     out,a=M.photo_equal_frame(global_source)
     assert out.inat_taxon_id.min()==2
     assert a["photo_classifiable_but_geolocated_missing"]==1
+
+
+def test_original_all_42111_photo_opportunity_coverage_regions(global_source):
+    x=M.region_coverage(global_source)
+    assert int(x.source_species.sum())==42111
+    assert int(x.classified_flower_photo.sum())==18457
+    assert int(x.all_environment_complete_species.sum())==1600
+    assert set(x.source_latitude_region).issubset({"0_30","30_60","60_90","NO_EXACT_PUBLIC_GEO"})
