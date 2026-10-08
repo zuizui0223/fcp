@@ -67,7 +67,7 @@ jobs:
             --taxon-cell /tmp/fcp_premeasured_source/taxon_cell.csv.gz \
             --outdir /tmp/fcp_42111_white_balance
 
-      - name: Sensitivity: give every genus equal weight, including paired regional contrasts
+      - name: "Sensitivity - give every genus equal weight, including paired regional contrasts"
         run: |
           python scripts/analysis/audit_fcp_global_white_balance_genus_20261008.py \
             --breadth /tmp/fcp_premeasured_source/breadth.csv.gz \
