@@ -111,3 +111,23 @@ def test_strict_local_recurrence_not_admitted_without_global_five_each():
     report=m.describe(pd.DataFrame([row]),"synthetic")
     assert report["diameters_km"]["10"]["n_white_nonwhite_strict_multiyear_two_observers"]==0
     assert report["diameters_km"]["10"]["n_white_nonwhite_neighborhood_with_both_labels_at_least_3"]==0
+
+
+def test_opportunity_exists_without_any_colour_mixing():
+    # Same-site photos can have enough time/observer coverage even when only
+    # red photos occur; do not confuse absence of mixing with absent effort.
+    d=fixture()
+    d["morph"]="red_pink"
+    r=m.strict_anchor_neighborhoods(d,25)
+    assert r["has_minimum_six_photo_anchor"]
+    assert r["has_minimum_six_photo_metadata_opportunity"]
+    assert not r["white_nonwhite_same_neighborhood"]
+    assert not r["white_nonwhite_multi_year_two_observers"]
+
+
+def test_missing_observer_suppresses_metadata_opportunity():
+    d=fixture()
+    d["observer"]=""
+    r=m.strict_anchor_neighborhoods(d,25)
+    assert r["has_minimum_six_photo_anchor"]
+    assert not r["has_minimum_six_photo_metadata_opportunity"]
