@@ -1,0 +1,2130 @@
+{
+  "schema": "fcp_latitudinal_region_spatial_depletion_posthoc_v1",
+  "date_jst": "2026-10-08",
+  "status": "complete_source_verified",
+  "role": "retrospective_cross_species_region_conditional_geography",
+  "confirmatory_decisions_changed": false,
+  "source_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "same_provider_same_photo_colour_measurement": true,
+  "species_disjoint_across_three_cohorts": true,
+  "radius_km": 50,
+  "primary_bands": "low 0-30 degrees; middle 30-60; high 60-90 absolute latitude",
+  "sensitivity_bands": "tropical 0-23.5; extratropical 23.5-60; high 60-90",
+  "regional_species_classifiable_min_global": 40,
+  "minimum_dated_photos_within_region": 20,
+  "minimum_pair_opportunity_each": "at least 30 <=50km and at least 30 >50km conspecific photographed pairs WITHIN the SAME region",
+  "minimum_identifiable_species_per_band": 25,
+  "minimum_geo_species_per_band": 30,
+  "permutations": 199,
+  "species_bootstraps": 999,
+  "hard_nonclaims": [
+    "sampled photos and their sites are not an unbiased worldwide biological population census",
+    "low-latitude 0-30 degrees includes subtropical photo sites and is not purely tropical",
+    "photo-space <=50km regions are not genetically demonstrated mating populations",
+    "regional comparison is within exactly the same species' regional photos, not between species in different climates",
+    "photo dates and month-controlled labels do not identify flowering individual age or season in opposite hemisphere",
+    "different species may occur in more than one region; do not treat between-region comparisons as independent tests",
+    "a month-nonexchangeable regional null contributes zero IDENTIFIABLE extra structure, not biologically absent structure",
+    "northern and southern hemisphere sampling, citizen-science effort and temperate species representation can differ",
+    "white photo classification has known exposure association, with no direct tissue pigment or reflectance control",
+    "neither selection, genetics, UV protection, pollinator role, nor lineage-specific evolutionary mechanisms are estimated",
+    "only same-image-provider three-cohort result; does not establish all-angiosperm world generality"
+  ],
+  "source_coverage": {
+    "discovery": {
+      "n_species_classifiable_40": 369,
+      "n_classifiable_photo_rows": 21424,
+      "n_dated_photo_rows": 21400,
+      "n_species_at_least_40_dated": 368,
+      "n_northern_hemisphere_photos": 18200,
+      "n_southern_hemisphere_photos": 3224
+    },
+    "validation": {
+      "n_species_classifiable_40": 363,
+      "n_classifiable_photo_rows": 20903,
+      "n_dated_photo_rows": 20879,
+      "n_species_at_least_40_dated": 363,
+      "n_northern_hemisphere_photos": 17552,
+      "n_southern_hemisphere_photos": 3351
+    },
+    "third": {
+      "n_species_classifiable_40": 377,
+      "n_classifiable_photo_rows": 22144,
+      "n_dated_photo_rows": 22120,
+      "n_species_at_least_40_dated": 376,
+      "n_northern_hemisphere_photos": 19161,
+      "n_southern_hemisphere_photos": 2983
+    }
+  },
+  "cohorts": {
+    "discovery": {
+      "schemes": {
+        "primary": {
+          "regions": {
+            "low_0_30": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 133,
+                "n_species_with_at_least_20_dated_region_photos": 59,
+                "n_region_photos": 3174,
+                "n_dated_region_photos": 3174,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 33,
+                  "n_calendar_identifiable_species": 24,
+                  "n_nonidentifiable_kept": 9,
+                  "n_genera": 30,
+                  "n_local_pairs_across_species": 7763,
+                  "n_distant_pairs_across_species": 38027,
+                  "mean_observed_local_depletion": 0.005495352151975876,
+                  "mean_calendar_null_depletion": 0.004940941502418683,
+                  "mean_residual_depletion": 0.0005544106495571914,
+                  "mean_identifiable_subset_residual": 0.0007623146431411399,
+                  "fraction_species_residual_positive": 0.36363636363636365,
+                  "species_bootstrap_95CI": [
+                    -0.013880193328289006,
+                    0.01742126003891896
+                  ],
+                  "genus_balanced_mean": -0.0006984936322269131,
+                  "permutation_upper_p_unadjusted": 0.47,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 33,
+                  "n_calendar_identifiable_species": 24,
+                  "n_nonidentifiable_kept": 9,
+                  "n_genera": 30,
+                  "n_local_pairs_across_species": 7699,
+                  "n_distant_pairs_across_species": 38000,
+                  "mean_observed_local_depletion": 0.004605204299227281,
+                  "mean_calendar_null_depletion": 0.004857447322028523,
+                  "mean_residual_depletion": -0.000252243022801242,
+                  "mean_identifiable_subset_residual": -0.0003468341563517066,
+                  "fraction_species_residual_positive": 0.3333333333333333,
+                  "species_bootstrap_95CI": [
+                    -0.01646178509319458,
+                    0.016801217416538228
+                  ],
+                  "genus_balanced_mean": -0.00145758706047748,
+                  "permutation_upper_p_unadjusted": 0.475,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 33,
+                  "n_calendar_identifiable_species": 10,
+                  "n_nonidentifiable_kept": 23,
+                  "n_genera": 30,
+                  "n_local_pairs_across_species": 7763,
+                  "n_distant_pairs_across_species": 38027,
+                  "mean_observed_local_depletion": 0.005495352151975876,
+                  "mean_calendar_null_depletion": 0.006424995279987748,
+                  "mean_residual_depletion": -0.0009296431280118714,
+                  "mean_identifiable_subset_residual": -0.0030678223224391747,
+                  "fraction_species_residual_positive": 0.12121212121212122,
+                  "species_bootstrap_95CI": [
+                    -0.009440730925185983,
+                    0.00932820503585115
+                  ],
+                  "genus_balanced_mean": -0.003538952967456551,
+                  "permutation_upper_p_unadjusted": 0.56,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 33,
+                  "n_calendar_identifiable_species": 10,
+                  "n_nonidentifiable_kept": 23,
+                  "n_genera": 30,
+                  "n_local_pairs_across_species": 7699,
+                  "n_distant_pairs_across_species": 38000,
+                  "mean_observed_local_depletion": 0.004605204299227281,
+                  "mean_calendar_null_depletion": 0.006283862809456851,
+                  "mean_residual_depletion": -0.00167865851022957,
+                  "mean_identifiable_subset_residual": -0.005539573083757579,
+                  "fraction_species_residual_positive": 0.12121212121212122,
+                  "species_bootstrap_95CI": [
+                    -0.011393364052814783,
+                    0.008025194102477472
+                  ],
+                  "genus_balanced_mean": -0.004134759293959819,
+                  "permutation_upper_p_unadjusted": 0.675,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "middle_30_60": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 347,
+                "n_species_with_at_least_20_dated_region_photos": 322,
+                "n_region_photos": 17785,
+                "n_dated_region_photos": 17764,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 134,
+                  "n_calendar_identifiable_species": 112,
+                  "n_nonidentifiable_kept": 22,
+                  "n_genera": 113,
+                  "n_local_pairs_across_species": 34499,
+                  "n_distant_pairs_across_species": 194588,
+                  "mean_observed_local_depletion": 0.024606881729866525,
+                  "mean_calendar_null_depletion": 0.002902197570384022,
+                  "mean_residual_depletion": 0.021704684159482502,
+                  "mean_identifiable_subset_residual": 0.025968104262237994,
+                  "fraction_species_residual_positive": 0.5223880597014925,
+                  "species_bootstrap_95CI": [
+                    0.012051429808619524,
+                    0.03341380143523803
+                  ],
+                  "genus_balanced_mean": 0.02001339075211696,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 134,
+                  "n_calendar_identifiable_species": 112,
+                  "n_nonidentifiable_kept": 22,
+                  "n_genera": 113,
+                  "n_local_pairs_across_species": 34243,
+                  "n_distant_pairs_across_species": 194398,
+                  "mean_observed_local_depletion": 0.02425790712669704,
+                  "mean_calendar_null_depletion": 0.003040288858022344,
+                  "mean_residual_depletion": 0.021217618268674698,
+                  "mean_identifiable_subset_residual": 0.02538536471430722,
+                  "fraction_species_residual_positive": 0.5223880597014925,
+                  "species_bootstrap_95CI": [
+                    0.011152770355884162,
+                    0.03163014749523655
+                  ],
+                  "genus_balanced_mean": 0.01980476987437128,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 134,
+                  "n_calendar_identifiable_species": 78,
+                  "n_nonidentifiable_kept": 56,
+                  "n_genera": 113,
+                  "n_local_pairs_across_species": 34499,
+                  "n_distant_pairs_across_species": 194588,
+                  "mean_observed_local_depletion": 0.024606881729866525,
+                  "mean_calendar_null_depletion": 0.009902437502692246,
+                  "mean_residual_depletion": 0.014704444227174276,
+                  "mean_identifiable_subset_residual": 0.025261481108222475,
+                  "fraction_species_residual_positive": 0.3582089552238806,
+                  "species_bootstrap_95CI": [
+                    0.0059527901099677,
+                    0.024369942875264172
+                  ],
+                  "genus_balanced_mean": 0.011870237446640298,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 134,
+                  "n_calendar_identifiable_species": 78,
+                  "n_nonidentifiable_kept": 56,
+                  "n_genera": 113,
+                  "n_local_pairs_across_species": 34243,
+                  "n_distant_pairs_across_species": 194398,
+                  "mean_observed_local_depletion": 0.02425790712669704,
+                  "mean_calendar_null_depletion": 0.009666997713714962,
+                  "mean_residual_depletion": 0.014590909412982078,
+                  "mean_identifiable_subset_residual": 0.02506643411973844,
+                  "fraction_species_residual_positive": 0.34328358208955223,
+                  "species_bootstrap_95CI": [
+                    0.006093789556219144,
+                    0.02339182921371062
+                  ],
+                  "genus_balanced_mean": 0.011836480410289134,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "high_60_90": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 69,
+                "n_species_with_at_least_20_dated_region_photos": 6,
+                "n_region_photos": 465,
+                "n_dated_region_photos": 462,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 37,
+                  "n_distant_pairs_across_species": 704,
+                  "mean_observed_local_depletion": 0.004996899733741844,
+                  "mean_calendar_null_depletion": 0.006898298620065354,
+                  "mean_residual_depletion": -0.0019013988863235097,
+                  "mean_identifiable_subset_residual": -0.0019013988863235097,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.0019013988863235097,
+                    -0.0019013988863235097
+                  ],
+                  "genus_balanced_mean": -0.0019013988863235097,
+                  "permutation_upper_p_unadjusted": 0.58,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 37,
+                  "n_distant_pairs_across_species": 702,
+                  "mean_observed_local_depletion": 0.004996899733741844,
+                  "mean_calendar_null_depletion": 0.014639708371525357,
+                  "mean_residual_depletion": -0.009642808637783513,
+                  "mean_identifiable_subset_residual": -0.009642808637783513,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.009642808637783513,
+                    -0.009642808637783513
+                  ],
+                  "genus_balanced_mean": -0.009642808637783513,
+                  "permutation_upper_p_unadjusted": 0.595,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 0,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 37,
+                  "n_distant_pairs_across_species": 704,
+                  "mean_observed_local_depletion": 0.004996899733741844,
+                  "mean_calendar_null_depletion": 0.004996899733741844,
+                  "mean_residual_depletion": 0,
+                  "mean_identifiable_subset_residual": null,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0
+                  ],
+                  "genus_balanced_mean": 0,
+                  "permutation_upper_p_unadjusted": 1,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 0,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 37,
+                  "n_distant_pairs_across_species": 702,
+                  "mean_observed_local_depletion": 0.004996899733741844,
+                  "mean_calendar_null_depletion": 0.004996899733741844,
+                  "mean_residual_depletion": 0,
+                  "mean_identifiable_subset_residual": null,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0
+                  ],
+                  "genus_balanced_mean": 0,
+                  "permutation_upper_p_unadjusted": 1,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            }
+          }
+        },
+        "geographic_tropics_sensitivity": {
+          "regions": {
+            "tropical_0_23p5": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 80,
+                "n_species_with_at_least_20_dated_region_photos": 30,
+                "n_region_photos": 1488,
+                "n_dated_region_photos": 1488,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 12,
+                  "n_calendar_identifiable_species": 10,
+                  "n_nonidentifiable_kept": 2,
+                  "n_genera": 11,
+                  "n_local_pairs_across_species": 1377,
+                  "n_distant_pairs_across_species": 13350,
+                  "mean_observed_local_depletion": 0.007171496503667204,
+                  "mean_calendar_null_depletion": 0.0028126926912863024,
+                  "mean_residual_depletion": 0.004358803812380903,
+                  "mean_identifiable_subset_residual": 0.005230564574857081,
+                  "fraction_species_residual_positive": 0.3333333333333333,
+                  "species_bootstrap_95CI": [
+                    -0.0232458460183194,
+                    0.04025727241332802
+                  ],
+                  "genus_balanced_mean": 0.0074146434398725865,
+                  "permutation_upper_p_unadjusted": 0.425,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 12,
+                  "n_calendar_identifiable_species": 10,
+                  "n_nonidentifiable_kept": 2,
+                  "n_genera": 11,
+                  "n_local_pairs_across_species": 1355,
+                  "n_distant_pairs_across_species": 13344,
+                  "mean_observed_local_depletion": 0.006849862594121399,
+                  "mean_calendar_null_depletion": 0.004927340175596917,
+                  "mean_residual_depletion": 0.0019225224185244812,
+                  "mean_identifiable_subset_residual": 0.0023070269022293774,
+                  "fraction_species_residual_positive": 0.3333333333333333,
+                  "species_bootstrap_95CI": [
+                    -0.0273681383316981,
+                    0.03502806008670882
+                  ],
+                  "genus_balanced_mean": 0.005997207993303438,
+                  "permutation_upper_p_unadjusted": 0.475,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 12,
+                  "n_calendar_identifiable_species": 5,
+                  "n_nonidentifiable_kept": 7,
+                  "n_genera": 11,
+                  "n_local_pairs_across_species": 1377,
+                  "n_distant_pairs_across_species": 13350,
+                  "mean_observed_local_depletion": 0.007171496503667204,
+                  "mean_calendar_null_depletion": 0.018903858435376505,
+                  "mean_residual_depletion": -0.011732361931709298,
+                  "mean_identifiable_subset_residual": -0.028157668636102317,
+                  "fraction_species_residual_positive": 0.08333333333333333,
+                  "species_bootstrap_95CI": [
+                    -0.02582285977814584,
+                    0.0002904178024851645
+                  ],
+                  "genus_balanced_mean": -0.012542429394931004,
+                  "permutation_upper_p_unadjusted": 0.875,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 12,
+                  "n_calendar_identifiable_species": 5,
+                  "n_nonidentifiable_kept": 7,
+                  "n_genera": 11,
+                  "n_local_pairs_across_species": 1355,
+                  "n_distant_pairs_across_species": 13344,
+                  "mean_observed_local_depletion": 0.006849862594121399,
+                  "mean_calendar_null_depletion": 0.02319476215563595,
+                  "mean_residual_depletion": -0.016344899561514553,
+                  "mean_identifiable_subset_residual": -0.03922775894763493,
+                  "fraction_species_residual_positive": 0.08333333333333333,
+                  "species_bootstrap_95CI": [
+                    -0.032181731629502386,
+                    -0.0009836416123169059
+                  ],
+                  "genus_balanced_mean": -0.017297287807235998,
+                  "permutation_upper_p_unadjusted": 0.935,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "extratropical_23p5_60": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 364,
+                "n_species_with_at_least_20_dated_region_photos": 347,
+                "n_region_photos": 19471,
+                "n_dated_region_photos": 19450,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 152,
+                  "n_calendar_identifiable_species": 126,
+                  "n_nonidentifiable_kept": 26,
+                  "n_genera": 127,
+                  "n_local_pairs_across_species": 40841,
+                  "n_distant_pairs_across_species": 230361,
+                  "mean_observed_local_depletion": 0.02161926156875557,
+                  "mean_calendar_null_depletion": 0.002501736207775047,
+                  "mean_residual_depletion": 0.019117525360980523,
+                  "mean_identifiable_subset_residual": 0.023062411546579675,
+                  "fraction_species_residual_positive": 0.5,
+                  "species_bootstrap_95CI": [
+                    0.01028766474568613,
+                    0.02911483041995748
+                  ],
+                  "genus_balanced_mean": 0.017606429777336577,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 152,
+                  "n_calendar_identifiable_species": 126,
+                  "n_nonidentifiable_kept": 26,
+                  "n_genera": 127,
+                  "n_local_pairs_across_species": 40550,
+                  "n_distant_pairs_across_species": 230137,
+                  "mean_observed_local_depletion": 0.021268356060230153,
+                  "mean_calendar_null_depletion": 0.0029565324658874788,
+                  "mean_residual_depletion": 0.01831182359434267,
+                  "mean_identifiable_subset_residual": 0.022090453859841954,
+                  "fraction_species_residual_positive": 0.4934210526315789,
+                  "species_bootstrap_95CI": [
+                    0.00930168472280664,
+                    0.027521619321886057
+                  ],
+                  "genus_balanced_mean": 0.01687127604009017,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 152,
+                  "n_calendar_identifiable_species": 84,
+                  "n_nonidentifiable_kept": 68,
+                  "n_genera": 127,
+                  "n_local_pairs_across_species": 40841,
+                  "n_distant_pairs_across_species": 230361,
+                  "mean_observed_local_depletion": 0.02161926156875557,
+                  "mean_calendar_null_depletion": 0.007480917392812657,
+                  "mean_residual_depletion": 0.014138344175942914,
+                  "mean_identifiable_subset_residual": 0.025583670413610992,
+                  "fraction_species_residual_positive": 0.34868421052631576,
+                  "species_bootstrap_95CI": [
+                    0.00636396064955353,
+                    0.02222218145107795
+                  ],
+                  "genus_balanced_mean": 0.01175764404962994,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 152,
+                  "n_calendar_identifiable_species": 84,
+                  "n_nonidentifiable_kept": 68,
+                  "n_genera": 127,
+                  "n_local_pairs_across_species": 40550,
+                  "n_distant_pairs_across_species": 230137,
+                  "mean_observed_local_depletion": 0.021268356060230153,
+                  "mean_calendar_null_depletion": 0.007692586088834401,
+                  "mean_residual_depletion": 0.013575769971395752,
+                  "mean_identifiable_subset_residual": 0.024565678995858983,
+                  "fraction_species_residual_positive": 0.32894736842105265,
+                  "species_bootstrap_95CI": [
+                    0.005596216269021134,
+                    0.021376316849884315
+                  ],
+                  "genus_balanced_mean": 0.011367059042386976,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "high_60_90": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 69,
+                "n_species_with_at_least_20_dated_region_photos": 6,
+                "n_region_photos": 465,
+                "n_dated_region_photos": 462,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 37,
+                  "n_distant_pairs_across_species": 704,
+                  "mean_observed_local_depletion": 0.004996899733741844,
+                  "mean_calendar_null_depletion": 0.010701096392712372,
+                  "mean_residual_depletion": -0.005704196658970527,
+                  "mean_identifiable_subset_residual": -0.005704196658970527,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.005704196658970527,
+                    -0.005704196658970527
+                  ],
+                  "genus_balanced_mean": -0.005704196658970527,
+                  "permutation_upper_p_unadjusted": 0.605,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 37,
+                  "n_distant_pairs_across_species": 702,
+                  "mean_observed_local_depletion": 0.004996899733741844,
+                  "mean_calendar_null_depletion": 0.015182965196189216,
+                  "mean_residual_depletion": -0.010186065462447371,
+                  "mean_identifiable_subset_residual": -0.010186065462447371,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.010186065462447371,
+                    -0.010186065462447371
+                  ],
+                  "genus_balanced_mean": -0.010186065462447371,
+                  "permutation_upper_p_unadjusted": 0.58,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 0,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 37,
+                  "n_distant_pairs_across_species": 704,
+                  "mean_observed_local_depletion": 0.004996899733741844,
+                  "mean_calendar_null_depletion": 0.004996899733741844,
+                  "mean_residual_depletion": 0,
+                  "mean_identifiable_subset_residual": null,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0
+                  ],
+                  "genus_balanced_mean": 0,
+                  "permutation_upper_p_unadjusted": 1,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 0,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 37,
+                  "n_distant_pairs_across_species": 702,
+                  "mean_observed_local_depletion": 0.004996899733741844,
+                  "mean_calendar_null_depletion": 0.004996899733741844,
+                  "mean_residual_depletion": 0,
+                  "mean_identifiable_subset_residual": null,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0
+                  ],
+                  "genus_balanced_mean": 0,
+                  "permutation_upper_p_unadjusted": 1,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "validation": {
+      "schemes": {
+        "primary": {
+          "regions": {
+            "low_0_30": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 146,
+                "n_species_with_at_least_20_dated_region_photos": 63,
+                "n_region_photos": 3123,
+                "n_dated_region_photos": 3123,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 27,
+                  "n_calendar_identifiable_species": 19,
+                  "n_nonidentifiable_kept": 8,
+                  "n_genera": 26,
+                  "n_local_pairs_across_species": 4262,
+                  "n_distant_pairs_across_species": 26375,
+                  "mean_observed_local_depletion": 0.013088221252180244,
+                  "mean_calendar_null_depletion": 0.0036348580940799,
+                  "mean_residual_depletion": 0.009453363158100346,
+                  "mean_identifiable_subset_residual": 0.013433726593089966,
+                  "fraction_species_residual_positive": 0.4074074074074074,
+                  "species_bootstrap_95CI": [
+                    -0.008529066087072166,
+                    0.029279959860643773
+                  ],
+                  "genus_balanced_mean": 0.008198870099413209,
+                  "permutation_upper_p_unadjusted": 0.135,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 27,
+                  "n_calendar_identifiable_species": 19,
+                  "n_nonidentifiable_kept": 8,
+                  "n_genera": 26,
+                  "n_local_pairs_across_species": 4220,
+                  "n_distant_pairs_across_species": 26353,
+                  "mean_observed_local_depletion": 0.014126539359180092,
+                  "mean_calendar_null_depletion": 0.004554364712973372,
+                  "mean_residual_depletion": 0.00957217464620672,
+                  "mean_identifiable_subset_residual": 0.013602563970925335,
+                  "fraction_species_residual_positive": 0.4444444444444444,
+                  "species_bootstrap_95CI": [
+                    -0.009949546764097834,
+                    0.029337094672341343
+                  ],
+                  "genus_balanced_mean": 0.0082789298135601,
+                  "permutation_upper_p_unadjusted": 0.125,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 27,
+                  "n_calendar_identifiable_species": 5,
+                  "n_nonidentifiable_kept": 22,
+                  "n_genera": 26,
+                  "n_local_pairs_across_species": 4262,
+                  "n_distant_pairs_across_species": 26375,
+                  "mean_observed_local_depletion": 0.013088221252180244,
+                  "mean_calendar_null_depletion": 0.012354501913873266,
+                  "mean_residual_depletion": 0.0007337193383069802,
+                  "mean_identifiable_subset_residual": 0.003962084426857691,
+                  "fraction_species_residual_positive": 0.037037037037037035,
+                  "species_bootstrap_95CI": [
+                    -0.004014289052787844,
+                    0.007267486430683289
+                  ],
+                  "genus_balanced_mean": 0.0010087555144473197,
+                  "permutation_upper_p_unadjusted": 0.415,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 27,
+                  "n_calendar_identifiable_species": 5,
+                  "n_nonidentifiable_kept": 22,
+                  "n_genera": 26,
+                  "n_local_pairs_across_species": 4220,
+                  "n_distant_pairs_across_species": 26353,
+                  "mean_observed_local_depletion": 0.014126539359180092,
+                  "mean_calendar_null_depletion": 0.013043119203885184,
+                  "mean_residual_depletion": 0.0010834201552949096,
+                  "mean_identifiable_subset_residual": 0.0058504688385925116,
+                  "fraction_species_residual_positive": 0.037037037037037035,
+                  "species_bootstrap_95CI": [
+                    -0.002816135253267332,
+                    0.007203922781679236
+                  ],
+                  "genus_balanced_mean": 0.0011324212464016827,
+                  "permutation_upper_p_unadjusted": 0.365,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "middle_30_60": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 352,
+                "n_species_with_at_least_20_dated_region_photos": 321,
+                "n_region_photos": 17404,
+                "n_dated_region_photos": 17381,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 150,
+                  "n_calendar_identifiable_species": 124,
+                  "n_nonidentifiable_kept": 26,
+                  "n_genera": 129,
+                  "n_local_pairs_across_species": 26576,
+                  "n_distant_pairs_across_species": 214198,
+                  "mean_observed_local_depletion": 0.015903840608642278,
+                  "mean_calendar_null_depletion": -0.0003448190018106363,
+                  "mean_residual_depletion": 0.016248659610452913,
+                  "mean_identifiable_subset_residual": 0.019655636625547878,
+                  "fraction_species_residual_positive": 0.49333333333333335,
+                  "species_bootstrap_95CI": [
+                    0.006249088980023131,
+                    0.027234059711047146
+                  ],
+                  "genus_balanced_mean": 0.015640970906982687,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 149,
+                  "n_calendar_identifiable_species": 123,
+                  "n_nonidentifiable_kept": 26,
+                  "n_genera": 128,
+                  "n_local_pairs_across_species": 26270,
+                  "n_distant_pairs_across_species": 211907,
+                  "mean_observed_local_depletion": 0.014980651922798181,
+                  "mean_calendar_null_depletion": -0.0002520623404126414,
+                  "mean_residual_depletion": 0.015232714263210823,
+                  "mean_identifiable_subset_residual": 0.018452637603401725,
+                  "fraction_species_residual_positive": 0.4966442953020134,
+                  "species_bootstrap_95CI": [
+                    0.004920260128730382,
+                    0.025563443774879163
+                  ],
+                  "genus_balanced_mean": 0.014614098183029823,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 150,
+                  "n_calendar_identifiable_species": 90,
+                  "n_nonidentifiable_kept": 60,
+                  "n_genera": 129,
+                  "n_local_pairs_across_species": 26576,
+                  "n_distant_pairs_across_species": 214198,
+                  "mean_observed_local_depletion": 0.015903840608642278,
+                  "mean_calendar_null_depletion": 0.007626304693716224,
+                  "mean_residual_depletion": 0.00827753591492605,
+                  "mean_identifiable_subset_residual": 0.013795893191543415,
+                  "fraction_species_residual_positive": 0.3466666666666667,
+                  "species_bootstrap_95CI": [
+                    0.0018130209121290572,
+                    0.014982313831977541
+                  ],
+                  "genus_balanced_mean": 0.008518833004825966,
+                  "permutation_upper_p_unadjusted": 0.01,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 149,
+                  "n_calendar_identifiable_species": 89,
+                  "n_nonidentifiable_kept": 60,
+                  "n_genera": 128,
+                  "n_local_pairs_across_species": 26270,
+                  "n_distant_pairs_across_species": 211907,
+                  "mean_observed_local_depletion": 0.014980651922798181,
+                  "mean_calendar_null_depletion": 0.00785920441810675,
+                  "mean_residual_depletion": 0.007121447504691431,
+                  "mean_identifiable_subset_residual": 0.011922423350550824,
+                  "fraction_species_residual_positive": 0.35570469798657717,
+                  "species_bootstrap_95CI": [
+                    0.0012443182172066402,
+                    0.013719765646958731
+                  ],
+                  "genus_balanced_mean": 0.007350254880126585,
+                  "permutation_upper_p_unadjusted": 0.01,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "high_60_90": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 57,
+                "n_species_with_at_least_20_dated_region_photos": 5,
+                "n_region_photos": 376,
+                "n_dated_region_photos": 375,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 86,
+                  "n_distant_pairs_across_species": 1240,
+                  "mean_observed_local_depletion": -0.05173804763408048,
+                  "mean_calendar_null_depletion": -0.05249765964763662,
+                  "mean_residual_depletion": 0.0007596120135561421,
+                  "mean_identifiable_subset_residual": 0.0007596120135561421,
+                  "fraction_species_residual_positive": 1,
+                  "species_bootstrap_95CI": [
+                    0.0007596120135561421,
+                    0.0007596120135561421
+                  ],
+                  "genus_balanced_mean": 0.0007596120135561421,
+                  "permutation_upper_p_unadjusted": 0.66,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 83,
+                  "n_distant_pairs_across_species": 1237,
+                  "mean_observed_local_depletion": -0.05636119137182215,
+                  "mean_calendar_null_depletion": -0.05720880292355673,
+                  "mean_residual_depletion": 0.0008476115517345797,
+                  "mean_identifiable_subset_residual": 0.0008476115517345797,
+                  "fraction_species_residual_positive": 1,
+                  "species_bootstrap_95CI": [
+                    0.0008476115517345797,
+                    0.0008476115517345797
+                  ],
+                  "genus_balanced_mean": 0.0008476115517345797,
+                  "permutation_upper_p_unadjusted": 0.645,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 86,
+                  "n_distant_pairs_across_species": 1240,
+                  "mean_observed_local_depletion": -0.05173804763408048,
+                  "mean_calendar_null_depletion": -0.053607861821295615,
+                  "mean_residual_depletion": 0.0018698141872151366,
+                  "mean_identifiable_subset_residual": 0.0018698141872151366,
+                  "fraction_species_residual_positive": 1,
+                  "species_bootstrap_95CI": [
+                    0.0018698141872151366,
+                    0.0018698141872151366
+                  ],
+                  "genus_balanced_mean": 0.0018698141872151366,
+                  "permutation_upper_p_unadjusted": 0.7,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 83,
+                  "n_distant_pairs_across_species": 1237,
+                  "mean_observed_local_depletion": -0.05636119137182215,
+                  "mean_calendar_null_depletion": -0.055392492455554054,
+                  "mean_residual_depletion": -0.0009686989162680931,
+                  "mean_identifiable_subset_residual": -0.0009686989162680931,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.0009686989162680931,
+                    -0.0009686989162680931
+                  ],
+                  "genus_balanced_mean": -0.0009686989162680931,
+                  "permutation_upper_p_unadjusted": 0.72,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            }
+          }
+        },
+        "geographic_tropics_sensitivity": {
+          "regions": {
+            "tropical_0_23p5": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 70,
+                "n_species_with_at_least_20_dated_region_photos": 31,
+                "n_region_photos": 1361,
+                "n_dated_region_photos": 1361,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 7,
+                  "n_calendar_identifiable_species": 3,
+                  "n_nonidentifiable_kept": 4,
+                  "n_genera": 7,
+                  "n_local_pairs_across_species": 1315,
+                  "n_distant_pairs_across_species": 8969,
+                  "mean_observed_local_depletion": 0.0035033639035010116,
+                  "mean_calendar_null_depletion": 0.0017884219711677759,
+                  "mean_residual_depletion": 0.001714941932333237,
+                  "mean_identifiable_subset_residual": 0.00400153117544422,
+                  "fraction_species_residual_positive": 0.2857142857142857,
+                  "species_bootstrap_95CI": [
+                    -0.02100955085988951,
+                    0.02289130806718746
+                  ],
+                  "genus_balanced_mean": 0.001714941932333237,
+                  "permutation_upper_p_unadjusted": 0.47,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 6,
+                  "n_calendar_identifiable_species": 3,
+                  "n_nonidentifiable_kept": 3,
+                  "n_genera": 6,
+                  "n_local_pairs_across_species": 1276,
+                  "n_distant_pairs_across_species": 8616,
+                  "mean_observed_local_depletion": 0.003402910177032053,
+                  "mean_calendar_null_depletion": 0.0031977067407752743,
+                  "mean_residual_depletion": 0.00020520343625677825,
+                  "mean_identifiable_subset_residual": 0.0004104068725135565,
+                  "fraction_species_residual_positive": 0.3333333333333333,
+                  "species_bootstrap_95CI": [
+                    -0.02695799439184875,
+                    0.024497618710060228
+                  ],
+                  "genus_balanced_mean": 0.0002052034362567771,
+                  "permutation_upper_p_unadjusted": 0.535,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 7,
+                  "n_calendar_identifiable_species": 2,
+                  "n_nonidentifiable_kept": 5,
+                  "n_genera": 7,
+                  "n_local_pairs_across_species": 1315,
+                  "n_distant_pairs_across_species": 8969,
+                  "mean_observed_local_depletion": 0.0035033639035010116,
+                  "mean_calendar_null_depletion": 0.0064262163729997554,
+                  "mean_residual_depletion": -0.002922852469498745,
+                  "mean_identifiable_subset_residual": -0.010229983643245608,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.008283506672189217,
+                    0
+                  ],
+                  "genus_balanced_mean": -0.002922852469498745,
+                  "permutation_upper_p_unadjusted": 0.63,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 6,
+                  "n_calendar_identifiable_species": 2,
+                  "n_nonidentifiable_kept": 4,
+                  "n_genera": 6,
+                  "n_local_pairs_across_species": 1276,
+                  "n_distant_pairs_across_species": 8616,
+                  "mean_observed_local_depletion": 0.003402910177032053,
+                  "mean_calendar_null_depletion": 0.007334423972592697,
+                  "mean_residual_depletion": -0.003931513795560645,
+                  "mean_identifiable_subset_residual": -0.011794541386681935,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.011159180675077941,
+                    0
+                  ],
+                  "genus_balanced_mean": -0.003931513795560645,
+                  "permutation_upper_p_unadjusted": 0.665,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "extratropical_23p5_60": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 361,
+                "n_species_with_at_least_20_dated_region_photos": 348,
+                "n_region_photos": 19166,
+                "n_dated_region_photos": 19143,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 169,
+                  "n_calendar_identifiable_species": 142,
+                  "n_nonidentifiable_kept": 27,
+                  "n_genera": 145,
+                  "n_local_pairs_across_species": 30394,
+                  "n_distant_pairs_across_species": 259652,
+                  "mean_observed_local_depletion": 0.016005313999801485,
+                  "mean_calendar_null_depletion": 0.0002636975484025241,
+                  "mean_residual_depletion": 0.01574161645139896,
+                  "mean_identifiable_subset_residual": 0.018734740706242422,
+                  "fraction_species_residual_positive": 0.4970414201183432,
+                  "species_bootstrap_95CI": [
+                    0.006203840316032596,
+                    0.026328536670478016
+                  ],
+                  "genus_balanced_mean": 0.014737018798570199,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 168,
+                  "n_calendar_identifiable_species": 141,
+                  "n_nonidentifiable_kept": 27,
+                  "n_genera": 144,
+                  "n_local_pairs_across_species": 30045,
+                  "n_distant_pairs_across_species": 257330,
+                  "mean_observed_local_depletion": 0.015278237547982867,
+                  "mean_calendar_null_depletion": 0.0008183649375516712,
+                  "mean_residual_depletion": 0.014459872610431199,
+                  "mean_identifiable_subset_residual": 0.017228784386896748,
+                  "fraction_species_residual_positive": 0.4880952380952381,
+                  "species_bootstrap_95CI": [
+                    0.005075626707667054,
+                    0.025850724656042493
+                  ],
+                  "genus_balanced_mean": 0.013396648367318227,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 169,
+                  "n_calendar_identifiable_species": 103,
+                  "n_nonidentifiable_kept": 66,
+                  "n_genera": 145,
+                  "n_local_pairs_across_species": 30394,
+                  "n_distant_pairs_across_species": 259652,
+                  "mean_observed_local_depletion": 0.016005313999801485,
+                  "mean_calendar_null_depletion": 0.007128371887406691,
+                  "mean_residual_depletion": 0.008876942112394794,
+                  "mean_identifiable_subset_residual": 0.014565079776647763,
+                  "fraction_species_residual_positive": 0.3609467455621302,
+                  "species_bootstrap_95CI": [
+                    0.002840261712297534,
+                    0.015263205357012965
+                  ],
+                  "genus_balanced_mean": 0.00857556142083313,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 168,
+                  "n_calendar_identifiable_species": 102,
+                  "n_nonidentifiable_kept": 66,
+                  "n_genera": 144,
+                  "n_local_pairs_across_species": 30045,
+                  "n_distant_pairs_across_species": 257330,
+                  "mean_observed_local_depletion": 0.015278237547982867,
+                  "mean_calendar_null_depletion": 0.007461291393666438,
+                  "mean_residual_depletion": 0.00781694615431643,
+                  "mean_identifiable_subset_residual": 0.012874970136521174,
+                  "fraction_species_residual_positive": 0.35119047619047616,
+                  "species_bootstrap_95CI": [
+                    0.0017337031382365592,
+                    0.014490689429645796
+                  ],
+                  "genus_balanced_mean": 0.007366790296586989,
+                  "permutation_upper_p_unadjusted": 0.01,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "high_60_90": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 57,
+                "n_species_with_at_least_20_dated_region_photos": 5,
+                "n_region_photos": 376,
+                "n_dated_region_photos": 375,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 86,
+                  "n_distant_pairs_across_species": 1240,
+                  "mean_observed_local_depletion": -0.05173804763408048,
+                  "mean_calendar_null_depletion": -0.05051098207372053,
+                  "mean_residual_depletion": -0.0012270655603599454,
+                  "mean_identifiable_subset_residual": -0.0012270655603599454,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.0012270655603599454,
+                    -0.0012270655603599454
+                  ],
+                  "genus_balanced_mean": -0.0012270655603599454,
+                  "permutation_upper_p_unadjusted": 0.705,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 83,
+                  "n_distant_pairs_across_species": 1237,
+                  "mean_observed_local_depletion": -0.05636119137182215,
+                  "mean_calendar_null_depletion": -0.05496868667968676,
+                  "mean_residual_depletion": -0.0013925046921353865,
+                  "mean_identifiable_subset_residual": -0.0013925046921353865,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.0013925046921353865,
+                    -0.0013925046921353865
+                  ],
+                  "genus_balanced_mean": -0.0013925046921353865,
+                  "permutation_upper_p_unadjusted": 0.675,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 86,
+                  "n_distant_pairs_across_species": 1240,
+                  "mean_observed_local_depletion": -0.05173804763408048,
+                  "mean_calendar_null_depletion": -0.05302354488779087,
+                  "mean_residual_depletion": 0.0012854972537103895,
+                  "mean_identifiable_subset_residual": 0.0012854972537103895,
+                  "fraction_species_residual_positive": 1,
+                  "species_bootstrap_95CI": [
+                    0.0012854972537103895,
+                    0.0012854972537103895
+                  ],
+                  "genus_balanced_mean": 0.0012854972537103895,
+                  "permutation_upper_p_unadjusted": 0.7,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 1,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 0,
+                  "n_genera": 1,
+                  "n_local_pairs_across_species": 83,
+                  "n_distant_pairs_across_species": 1237,
+                  "mean_observed_local_depletion": -0.05636119137182215,
+                  "mean_calendar_null_depletion": -0.054908142997420015,
+                  "mean_residual_depletion": -0.0014530483744021327,
+                  "mean_identifiable_subset_residual": -0.0014530483744021327,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.0014530483744021327,
+                    -0.0014530483744021327
+                  ],
+                  "genus_balanced_mean": -0.0014530483744021327,
+                  "permutation_upper_p_unadjusted": 0.71,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "third": {
+      "schemes": {
+        "primary": {
+          "regions": {
+            "low_0_30": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 131,
+                "n_species_with_at_least_20_dated_region_photos": 53,
+                "n_region_photos": 2660,
+                "n_dated_region_photos": 2659,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 25,
+                  "n_calendar_identifiable_species": 20,
+                  "n_nonidentifiable_kept": 5,
+                  "n_genera": 24,
+                  "n_local_pairs_across_species": 3634,
+                  "n_distant_pairs_across_species": 28102,
+                  "mean_observed_local_depletion": 0.019095226984553196,
+                  "mean_calendar_null_depletion": -0.005817155923098773,
+                  "mean_residual_depletion": 0.024912382907651968,
+                  "mean_identifiable_subset_residual": 0.031140478634564955,
+                  "fraction_species_residual_positive": 0.6,
+                  "species_bootstrap_95CI": [
+                    0.0055121151350237,
+                    0.04631761458001694
+                  ],
+                  "genus_balanced_mean": 0.026171290272431775,
+                  "permutation_upper_p_unadjusted": 0.015,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 25,
+                  "n_calendar_identifiable_species": 20,
+                  "n_nonidentifiable_kept": 5,
+                  "n_genera": 24,
+                  "n_local_pairs_across_species": 3589,
+                  "n_distant_pairs_across_species": 28083,
+                  "mean_observed_local_depletion": 0.019466444296498676,
+                  "mean_calendar_null_depletion": -0.006120319381238575,
+                  "mean_residual_depletion": 0.025586763677737247,
+                  "mean_identifiable_subset_residual": 0.03198345459717156,
+                  "fraction_species_residual_positive": 0.52,
+                  "species_bootstrap_95CI": [
+                    0.005670390766373611,
+                    0.04649285819493305
+                  ],
+                  "genus_balanced_mean": 0.02700468025893055,
+                  "permutation_upper_p_unadjusted": 0.015,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 25,
+                  "n_calendar_identifiable_species": 8,
+                  "n_nonidentifiable_kept": 17,
+                  "n_genera": 24,
+                  "n_local_pairs_across_species": 3634,
+                  "n_distant_pairs_across_species": 28102,
+                  "mean_observed_local_depletion": 0.019095226984553196,
+                  "mean_calendar_null_depletion": 0.01592046314818468,
+                  "mean_residual_depletion": 0.0031747638363685206,
+                  "mean_identifiable_subset_residual": 0.009921136988651626,
+                  "fraction_species_residual_positive": 0.2,
+                  "species_bootstrap_95CI": [
+                    -0.0036562708651852057,
+                    0.012502567073261665
+                  ],
+                  "genus_balanced_mean": 0.0033070456628838756,
+                  "permutation_upper_p_unadjusted": 0.255,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 25,
+                  "n_calendar_identifiable_species": 8,
+                  "n_nonidentifiable_kept": 17,
+                  "n_genera": 24,
+                  "n_local_pairs_across_species": 3589,
+                  "n_distant_pairs_across_species": 28083,
+                  "mean_observed_local_depletion": 0.019466444296498676,
+                  "mean_calendar_null_depletion": 0.015553656727622359,
+                  "mean_residual_depletion": 0.003912787568876317,
+                  "mean_identifiable_subset_residual": 0.012227461152738489,
+                  "fraction_species_residual_positive": 0.24,
+                  "species_bootstrap_95CI": [
+                    -0.0029469796460740642,
+                    0.013260409560595437
+                  ],
+                  "genus_balanced_mean": 0.0040758203842461635,
+                  "permutation_upper_p_unadjusted": 0.205,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "middle_30_60": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 368,
+                "n_species_with_at_least_20_dated_region_photos": 342,
+                "n_region_photos": 19079,
+                "n_dated_region_photos": 19059,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 178,
+                  "n_calendar_identifiable_species": 148,
+                  "n_nonidentifiable_kept": 30,
+                  "n_genera": 147,
+                  "n_local_pairs_across_species": 41136,
+                  "n_distant_pairs_across_species": 266022,
+                  "mean_observed_local_depletion": 0.012051380194226961,
+                  "mean_calendar_null_depletion": 0.0027035895668883034,
+                  "mean_residual_depletion": 0.009347790627338658,
+                  "mean_identifiable_subset_residual": 0.0112426130517992,
+                  "fraction_species_residual_positive": 0.43820224719101125,
+                  "species_bootstrap_95CI": [
+                    0.0024303486786476053,
+                    0.016987221849549025
+                  ],
+                  "genus_balanced_mean": 0.0063203627544064075,
+                  "permutation_upper_p_unadjusted": 0.01,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.05
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 177,
+                  "n_calendar_identifiable_species": 148,
+                  "n_nonidentifiable_kept": 29,
+                  "n_genera": 146,
+                  "n_local_pairs_across_species": 40772,
+                  "n_distant_pairs_across_species": 262761,
+                  "mean_observed_local_depletion": 0.011805473202373816,
+                  "mean_calendar_null_depletion": 0.0019345409108335772,
+                  "mean_residual_depletion": 0.009870932291540237,
+                  "mean_identifiable_subset_residual": 0.011805101456774474,
+                  "fraction_species_residual_positive": 0.480225988700565,
+                  "species_bootstrap_95CI": [
+                    0.002517565395399108,
+                    0.01760708394585129
+                  ],
+                  "genus_balanced_mean": 0.0067511434507350745,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 178,
+                  "n_calendar_identifiable_species": 107,
+                  "n_nonidentifiable_kept": 71,
+                  "n_genera": 147,
+                  "n_local_pairs_across_species": 41136,
+                  "n_distant_pairs_across_species": 266022,
+                  "mean_observed_local_depletion": 0.012051380194226961,
+                  "mean_calendar_null_depletion": 0.0044950800558541905,
+                  "mean_residual_depletion": 0.007556300138372773,
+                  "mean_identifiable_subset_residual": 0.012570293688134145,
+                  "fraction_species_residual_positive": 0.38202247191011235,
+                  "species_bootstrap_95CI": [
+                    0.0017537168655644606,
+                    0.013049656443102424
+                  ],
+                  "genus_balanced_mean": 0.0062934932959489015,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 177,
+                  "n_calendar_identifiable_species": 107,
+                  "n_nonidentifiable_kept": 70,
+                  "n_genera": 146,
+                  "n_local_pairs_across_species": 40772,
+                  "n_distant_pairs_across_species": 262761,
+                  "mean_observed_local_depletion": 0.011805473202373816,
+                  "mean_calendar_null_depletion": 0.004394904837615368,
+                  "mean_residual_depletion": 0.007410568364758448,
+                  "mean_identifiable_subset_residual": 0.01225860374357238,
+                  "fraction_species_residual_positive": 0.4011299435028249,
+                  "species_bootstrap_95CI": [
+                    0.001750974291374626,
+                    0.012714931848956718
+                  ],
+                  "genus_balanced_mean": 0.006197519646323996,
+                  "permutation_upper_p_unadjusted": 0.01,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "high_60_90": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 50,
+                "n_species_with_at_least_20_dated_region_photos": 5,
+                "n_region_photos": 405,
+                "n_dated_region_photos": 402,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 2,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 2,
+                  "n_local_pairs_across_species": 259,
+                  "n_distant_pairs_across_species": 3172,
+                  "mean_observed_local_depletion": 0.0937290409121395,
+                  "mean_calendar_null_depletion": 0.027430883458203152,
+                  "mean_residual_depletion": 0.06629815745393636,
+                  "mean_identifiable_subset_residual": 0.13259631490787271,
+                  "fraction_species_residual_positive": 0.5,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0.13259631490787271
+                  ],
+                  "genus_balanced_mean": 0.06629815745393636,
+                  "permutation_upper_p_unadjusted": 0.055,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 2,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 2,
+                  "n_local_pairs_across_species": 257,
+                  "n_distant_pairs_across_species": 3163,
+                  "mean_observed_local_depletion": 0.09652546149379498,
+                  "mean_calendar_null_depletion": 0.02644350810267832,
+                  "mean_residual_depletion": 0.07008195339111667,
+                  "mean_identifiable_subset_residual": 0.14016390678223334,
+                  "fraction_species_residual_positive": 0.5,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0.14016390678223334
+                  ],
+                  "genus_balanced_mean": 0.07008195339111667,
+                  "permutation_upper_p_unadjusted": 0.045,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 2,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 2,
+                  "n_local_pairs_across_species": 259,
+                  "n_distant_pairs_across_species": 3172,
+                  "mean_observed_local_depletion": 0.0937290409121395,
+                  "mean_calendar_null_depletion": 0.05247275950510431,
+                  "mean_residual_depletion": 0.04125628140703519,
+                  "mean_identifiable_subset_residual": 0.08251256281407038,
+                  "fraction_species_residual_positive": 0.5,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0.08251256281407038
+                  ],
+                  "genus_balanced_mean": 0.04125628140703519,
+                  "permutation_upper_p_unadjusted": 0.09,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 2,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 2,
+                  "n_local_pairs_across_species": 257,
+                  "n_distant_pairs_across_species": 3163,
+                  "mean_observed_local_depletion": 0.09652546149379498,
+                  "mean_calendar_null_depletion": 0.05040560044357745,
+                  "mean_residual_depletion": 0.04611986105021754,
+                  "mean_identifiable_subset_residual": 0.09223972210043507,
+                  "fraction_species_residual_positive": 0.5,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0.09223972210043507
+                  ],
+                  "genus_balanced_mean": 0.04611986105021754,
+                  "permutation_upper_p_unadjusted": 0.07,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            }
+          }
+        },
+        "geographic_tropics_sensitivity": {
+          "regions": {
+            "tropical_0_23p5": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 59,
+                "n_species_with_at_least_20_dated_region_photos": 19,
+                "n_region_photos": 1031,
+                "n_dated_region_photos": 1031,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 5,
+                  "n_calendar_identifiable_species": 4,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 5,
+                  "n_local_pairs_across_species": 555,
+                  "n_distant_pairs_across_species": 9328,
+                  "mean_observed_local_depletion": 0.01567128075911959,
+                  "mean_calendar_null_depletion": -0.011191068931961404,
+                  "mean_residual_depletion": 0.026862349691080995,
+                  "mean_identifiable_subset_residual": 0.03357793711385124,
+                  "fraction_species_residual_positive": 0.6,
+                  "species_bootstrap_95CI": [
+                    -0.012983223202627306,
+                    0.06510251388174464
+                  ],
+                  "genus_balanced_mean": 0.026862349691080995,
+                  "permutation_upper_p_unadjusted": 0.15,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 5,
+                  "n_calendar_identifiable_species": 4,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 5,
+                  "n_local_pairs_across_species": 545,
+                  "n_distant_pairs_across_species": 9321,
+                  "mean_observed_local_depletion": 0.016230159762880485,
+                  "mean_calendar_null_depletion": -0.013297651674478689,
+                  "mean_residual_depletion": 0.029527811437359174,
+                  "mean_identifiable_subset_residual": 0.03690976429669897,
+                  "fraction_species_residual_positive": 0.6,
+                  "species_bootstrap_95CI": [
+                    -0.017579963308606523,
+                    0.07609294669596176
+                  ],
+                  "genus_balanced_mean": 0.029527811437359174,
+                  "permutation_upper_p_unadjusted": 0.125,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 5,
+                  "n_calendar_identifiable_species": 2,
+                  "n_nonidentifiable_kept": 3,
+                  "n_genera": 5,
+                  "n_local_pairs_across_species": 555,
+                  "n_distant_pairs_across_species": 9328,
+                  "mean_observed_local_depletion": 0.01567128075911959,
+                  "mean_calendar_null_depletion": 0.033995540948957674,
+                  "mean_residual_depletion": -0.018324260189838085,
+                  "mean_identifiable_subset_residual": -0.04581065047459521,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.04715591848129537,
+                    0
+                  ],
+                  "genus_balanced_mean": -0.018324260189838085,
+                  "permutation_upper_p_unadjusted": 0.885,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 5,
+                  "n_calendar_identifiable_species": 2,
+                  "n_nonidentifiable_kept": 3,
+                  "n_genera": 5,
+                  "n_local_pairs_across_species": 545,
+                  "n_distant_pairs_across_species": 9321,
+                  "mean_observed_local_depletion": 0.016230159762880485,
+                  "mean_calendar_null_depletion": 0.03177093180490881,
+                  "mean_residual_depletion": -0.015540772042028325,
+                  "mean_identifiable_subset_residual": -0.03885193010507081,
+                  "fraction_species_residual_positive": 0,
+                  "species_bootstrap_95CI": [
+                    -0.040854842393787116,
+                    0
+                  ],
+                  "genus_balanced_mean": -0.015540772042028325,
+                  "permutation_upper_p_unadjusted": 0.83,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "extratropical_23p5_60": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 375,
+                "n_species_with_at_least_20_dated_region_photos": 362,
+                "n_region_photos": 20708,
+                "n_dated_region_photos": 20687,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 197,
+                  "n_calendar_identifiable_species": 167,
+                  "n_nonidentifiable_kept": 30,
+                  "n_genera": 160,
+                  "n_local_pairs_across_species": 45242,
+                  "n_distant_pairs_across_species": 309753,
+                  "mean_observed_local_depletion": 0.013143006284321456,
+                  "mean_calendar_null_depletion": 0.0017091923280639224,
+                  "mean_residual_depletion": 0.01143381395625753,
+                  "mean_identifiable_subset_residual": 0.013487792511273855,
+                  "fraction_species_residual_positive": 0.48223350253807107,
+                  "species_bootstrap_95CI": [
+                    0.0042123150066824865,
+                    0.01874330346062886
+                  ],
+                  "genus_balanced_mean": 0.007540972321483488,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 195,
+                  "n_calendar_identifiable_species": 166,
+                  "n_nonidentifiable_kept": 29,
+                  "n_genera": 158,
+                  "n_local_pairs_across_species": 44808,
+                  "n_distant_pairs_across_species": 305948,
+                  "mean_observed_local_depletion": 0.012899976764492348,
+                  "mean_calendar_null_depletion": 0.0010690093625371241,
+                  "mean_residual_depletion": 0.011830967401955224,
+                  "mean_identifiable_subset_residual": 0.01389782315289921,
+                  "fraction_species_residual_positive": 0.49743589743589745,
+                  "species_bootstrap_95CI": [
+                    0.0041976769396931575,
+                    0.019337567862648255
+                  ],
+                  "genus_balanced_mean": 0.008130238519395623,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 0.03
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 197,
+                  "n_calendar_identifiable_species": 118,
+                  "n_nonidentifiable_kept": 79,
+                  "n_genera": 160,
+                  "n_local_pairs_across_species": 45242,
+                  "n_distant_pairs_across_species": 309753,
+                  "mean_observed_local_depletion": 0.013143006284321456,
+                  "mean_calendar_null_depletion": 0.005139456930163555,
+                  "mean_residual_depletion": 0.0080035493541579,
+                  "mean_identifiable_subset_residual": 0.01336185782007717,
+                  "fraction_species_residual_positive": 0.3756345177664975,
+                  "species_bootstrap_95CI": [
+                    0.0023702318069749673,
+                    0.013408926082154871
+                  ],
+                  "genus_balanced_mean": 0.006446415561698909,
+                  "permutation_upper_p_unadjusted": 0.01,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 195,
+                  "n_calendar_identifiable_species": 118,
+                  "n_nonidentifiable_kept": 77,
+                  "n_genera": 158,
+                  "n_local_pairs_across_species": 44808,
+                  "n_distant_pairs_across_species": 305948,
+                  "mean_observed_local_depletion": 0.012899976764492348,
+                  "mean_calendar_null_depletion": 0.004802300991801342,
+                  "mean_residual_depletion": 0.008097675772691005,
+                  "mean_identifiable_subset_residual": 0.013381752336226661,
+                  "fraction_species_residual_positive": 0.38461538461538464,
+                  "species_bootstrap_95CI": [
+                    0.0026793141901375783,
+                    0.013333684681270245
+                  ],
+                  "genus_balanced_mean": 0.006449968666839286,
+                  "permutation_upper_p_unadjusted": 0.005,
+                  "coverage_pass": true,
+                  "status": "REGIONAL_ESTIMABLE_EXPLORATORY",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            },
+            "high_60_90": {
+              "opportunity": {
+                "n_species_with_any_region_photos": 50,
+                "n_species_with_at_least_20_dated_region_photos": 5,
+                "n_region_photos": 405,
+                "n_dated_region_photos": 402,
+                "minimum_region_photos_per_species": 20
+              },
+              "scenarios": {
+                "month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 2,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 2,
+                  "n_local_pairs_across_species": 259,
+                  "n_distant_pairs_across_species": 3172,
+                  "mean_observed_local_depletion": 0.0937290409121395,
+                  "mean_calendar_null_depletion": 0.02753138597076597,
+                  "mean_residual_depletion": 0.06619765494137353,
+                  "mean_identifiable_subset_residual": 0.13239530988274706,
+                  "fraction_species_residual_positive": 0.5,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0.13239530988274706
+                  ],
+                  "genus_balanced_mean": 0.06619765494137353,
+                  "permutation_upper_p_unadjusted": 0.035,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 2,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 2,
+                  "n_local_pairs_across_species": 257,
+                  "n_distant_pairs_across_species": 3163,
+                  "mean_observed_local_depletion": 0.09652546149379498,
+                  "mean_calendar_null_depletion": 0.019681510193670194,
+                  "mean_residual_depletion": 0.0768439513001248,
+                  "mean_identifiable_subset_residual": 0.1536879026002496,
+                  "fraction_species_residual_positive": 0.5,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0.1536879026002496
+                  ],
+                  "genus_balanced_mean": 0.0768439513001248,
+                  "permutation_upper_p_unadjusted": 0.035,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero",
+                  "holm_p_across_3regions_x_2observers": 1
+                },
+                "year_month__all": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 2,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 2,
+                  "n_local_pairs_across_species": 259,
+                  "n_distant_pairs_across_species": 3172,
+                  "mean_observed_local_depletion": 0.0937290409121395,
+                  "mean_calendar_null_depletion": 0.05063021344145272,
+                  "mean_residual_depletion": 0.04309882747068678,
+                  "mean_identifiable_subset_residual": 0.08619765494137356,
+                  "fraction_species_residual_positive": 0.5,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0.08619765494137356
+                  ],
+                  "genus_balanced_mean": 0.04309882747068678,
+                  "permutation_upper_p_unadjusted": 0.04,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                },
+                "year_month__different_observer": {
+                  "estimable": true,
+                  "n_geographically_evaluable_species": 2,
+                  "n_calendar_identifiable_species": 1,
+                  "n_nonidentifiable_kept": 1,
+                  "n_genera": 2,
+                  "n_local_pairs_across_species": 257,
+                  "n_distant_pairs_across_species": 3163,
+                  "mean_observed_local_depletion": 0.09652546149379498,
+                  "mean_calendar_null_depletion": 0.0509283484116055,
+                  "mean_residual_depletion": 0.045597113082189486,
+                  "mean_identifiable_subset_residual": 0.09119422616437897,
+                  "fraction_species_residual_positive": 0.5,
+                  "species_bootstrap_95CI": [
+                    0,
+                    0.09119422616437897
+                  ],
+                  "genus_balanced_mean": 0.045597113082189486,
+                  "permutation_upper_p_unadjusted": 0.07,
+                  "coverage_pass": false,
+                  "status": "HOLD_LIMITED_REGION_OR_CONDITIONAL_SUPPORT",
+                  "nonidentifiable_convention": "no within-stratum reassignment => exact zero identified additional geographic effect, not biological zero"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "cross_cohort": {
+    "primary": {
+      "low_0_30": {
+        "cohort_geographic_photo_species": [
+          33,
+          27,
+          25
+        ],
+        "cohort_calendar_identifiable_species": [
+          24,
+          19,
+          20
+        ],
+        "cohort_month_conditioned_effect": [
+          0.0005544106495571914,
+          0.009453363158100346,
+          0.024912382907651968
+        ],
+        "all_cohorts_minimum_30geo_25identified": false,
+        "month_conditioned_positive_replication_supported": false,
+        "status": "HOLD_REGION_COVERAGE"
+      },
+      "middle_30_60": {
+        "cohort_geographic_photo_species": [
+          134,
+          150,
+          178
+        ],
+        "cohort_calendar_identifiable_species": [
+          112,
+          124,
+          148
+        ],
+        "cohort_month_conditioned_effect": [
+          0.021704684159482502,
+          0.016248659610452913,
+          0.009347790627338658
+        ],
+        "all_cohorts_minimum_30geo_25identified": true,
+        "month_conditioned_positive_replication_supported": false,
+        "status": "NOT_SUPPORTED_AS_REPEATED_REGIONAL_STRUCTURE"
+      },
+      "high_60_90": {
+        "cohort_geographic_photo_species": [
+          1,
+          1,
+          2
+        ],
+        "cohort_calendar_identifiable_species": [
+          1,
+          1,
+          1
+        ],
+        "cohort_month_conditioned_effect": [
+          -0.0019013988863235097,
+          0.0007596120135561421,
+          0.06629815745393636
+        ],
+        "all_cohorts_minimum_30geo_25identified": false,
+        "month_conditioned_positive_replication_supported": false,
+        "status": "HOLD_REGION_COVERAGE"
+      }
+    },
+    "geographic_tropics_sensitivity": {
+      "tropical_0_23p5": {
+        "cohort_geographic_photo_species": [
+          12,
+          7,
+          5
+        ],
+        "cohort_calendar_identifiable_species": [
+          10,
+          3,
+          4
+        ],
+        "cohort_month_conditioned_effect": [
+          0.004358803812380903,
+          0.001714941932333237,
+          0.026862349691080995
+        ],
+        "all_cohorts_minimum_30geo_25identified": false,
+        "month_conditioned_positive_replication_supported": false,
+        "status": "HOLD_REGION_COVERAGE"
+      },
+      "extratropical_23p5_60": {
+        "cohort_geographic_photo_species": [
+          152,
+          169,
+          197
+        ],
+        "cohort_calendar_identifiable_species": [
+          126,
+          142,
+          167
+        ],
+        "cohort_month_conditioned_effect": [
+          0.019117525360980523,
+          0.01574161645139896,
+          0.01143381395625753
+        ],
+        "all_cohorts_minimum_30geo_25identified": true,
+        "month_conditioned_positive_replication_supported": true,
+        "status": "SUPPORT_SAME_SOURCE_REGIONAL_GEOGRAPHIC_STRUCTURE"
+      },
+      "high_60_90": {
+        "cohort_geographic_photo_species": [
+          1,
+          1,
+          2
+        ],
+        "cohort_calendar_identifiable_species": [
+          1,
+          1,
+          1
+        ],
+        "cohort_month_conditioned_effect": [
+          -0.005704196658970527,
+          -0.0012270655603599454,
+          0.06619765494137353
+        ],
+        "all_cohorts_minimum_30geo_25identified": false,
+        "month_conditioned_positive_replication_supported": false,
+        "status": "HOLD_REGION_COVERAGE"
+      }
+    }
+  },
+  "execution_provenance": {
+    "workflow_run_id": 37742381444,
+    "job_id": 113195842823,
+    "code_commit": "f8da0608818b623ce2711d113ca03608f32c23e8",
+    "artifact_id": 11533404822,
+    "artifact_digest": "sha256:18b8847c1c7411fbb237823cf9e0bc77f9a517563891a70131300be4f0a3a5ec",
+    "status": "SUCCESS",
+    "source": "three fixed-SHA photo tables, successful GitHub Actions full JSON stdout",
+    "suite": [
+      "11 passed in 0.75s"
+    ],
+    "confirmatory_results_untouched": true
+  }
+}
