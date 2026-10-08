@@ -11,6 +11,8 @@ on:
       - tests/test_fcp_exact_10km_siteyear_opportunity_20261008.py
       - scripts/analysis/audit_fcp_siteyear_replenishment_gap_20261008.py
       - tests/test_fcp_siteyear_replenishment_gap_20261008.py
+      - scripts/analysis/build_fcp_replenishment_metadata_query_queue_20261008.py
+      - tests/test_fcp_replenishment_metadata_query_queue_20261008.py
       - .github/workflows/fcp-siteyear-anomaly-opportunity-20261008.yml
   workflow_dispatch:
 
@@ -140,6 +142,28 @@ jobs:
               assert sum(c["minimal_additional_observer_photo_slots_histogram"].values())==c["n_geographically_year_month_repeatable"]
           print("Missing observer-photo slots only; frozen 10km historical HOLD unchanged.")
           PY
+      - name: Test frozen observer-photo metadata queue selection
+        run: python -m pytest tests/test_fcp_replenishment_metadata_query_queue_20261008.py -q
+      - name: Build all gap-1/gap-2 source-only metadata-check targets (NO API calls)
+        run: |
+          python scripts/analysis/build_fcp_replenishment_metadata_query_queue_20261008.py \
+            --source-csv /tmp/fcp_siteyear_replenishment/per_species_label_blind_siteyear_gap.csv \
+            --source-receipt results/fcp_same_siteyear_replenishment_gap_20261008/terminal_gap_receipt.json \
+            --outdir /tmp/fcp_replenishment_queue
+      - name: Enforce 92+171 source candidates and original unresolved HOLD
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a=json.loads(Path("/tmp/fcp_replenishment_queue/result.json").read_text())
+          assert a["schema"] == "fcp_replenishment_metadata_check_queue_v1"
+          assert a["original_hold_unchanged"] is True
+          assert a["confirmatory_decisions_changed"] is False
+          assert a["n_gap1_species"] == 92 and a["n_gap2_species"] == 171
+          assert a["minimum_hypothetical_new_photo_slots_for_all_three_cohorts"] == 50
+          assert a["status"] == "HISTORIC_PHOTO_METADATA_CHECK_QUEUE_ONLY_NO_API_REQUESTS"
+          print("No photo metadata requested, no new colour outcomes opened, historic HOLD retained.")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: fcp-siteyear-same-month-opportunity-20261008
@@ -149,3 +173,4 @@ jobs:
             /tmp/fcp_siteyear_opportunity/
             /tmp/fcp_exact_10km_opportunity/
             /tmp/fcp_siteyear_replenishment/
+            /tmp/fcp_replenishment_queue/
