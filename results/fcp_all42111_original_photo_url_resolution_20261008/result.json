@@ -1,0 +1,35 @@
+{
+  "schema": "fcp_all42111_first_historical_photo_source_URL_resolution_v1",
+  "date_jst": "2026-10-08",
+  "status": "WHOLE_SOURCE_PHOTO_URL_LICENCE_RESOLVED_WITH_MISSINGNESS",
+  "original_single_photo_species": 42111,
+  "original_archive_single_photo_identity_sha256": "aa179ac271be2731cf1fdd00f305999b765cd7680b358554b75fd9d9372091ba",
+  "api_endpoint": "GET /v1/observations/id1,id2,... in batches of 100",
+  "api_requests_rate_policy": "<=1 batch per 1.2 seconds; bounded 1 retry; follows bulk observation-ID recommendations",
+  "original_photo_identity_unchanged": true,
+  "downloaded_image_pixels": false,
+  "classified_flower_colour": false,
+  "new_external_photo_substitution": false,
+  "source_photo_URL_workload": {
+    "n_original_source_species": 42111,
+    "n_observation_batches": 422,
+    "expected_n_batches": 422,
+    "n_failed_batches": 421,
+    "species_by_current_original_photo_URL_status": {
+      "OBSERVATION_ID_NOT_RETURNED": 0,
+      "ORIGINAL_PHOTO_ID_MISSING": 0,
+      "PHOTO_LICENSE_NOT_ALLOWED": 0,
+      "PHOTO_URL_MISSING": 0,
+      "SOURCE_API_QUERY_FAILURE": 42100,
+      "VALID_SOURCE_PHOTO_URL_AND_LICENSE": 11
+    },
+    "n_url_and_license_verified": 11,
+    "n_url_and_license_verified_original_capacity_zero": 0,
+    "n_name_id_mismatches_in_source_taxonomy": 42100
+  },
+  "URL_licence_ledger_SHA256": "9431b114546ffe3309f54cd72227e7773015d86a8164301486d2a0d1bbf11080",
+  "external_photo_licence_consent_required_per_original_asset": true,
+  "historical_photo_not_independent_species_confirmation": true,
+  "run_completion_does_not_authorize_image_pixel_download": true,
+  "confirmatory_decisions_changed": false
+}
