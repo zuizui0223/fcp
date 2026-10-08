@@ -29,3 +29,12 @@ The next independent step, if explicitly conducted, is an image-level *quality* 
 ## Reproducibility
 
 `.github/workflows/fcp-validation-photo-quality-queue-20261009.yml` downloads only the two checked historical **GitHub Actions artifacts**, never contacts the iNaturalist API or opens image pixels. Input SHA checks, tampering regression tests, and output-denominator gates run before the queue is uploaded and frozen. Results are stored under `results/fcp_validation_photo_quality_queue_20261009/` only if validation passes.
+
+
+## Repeated-year fragility diagnostic (metadata only)
+
+The fixed 25 candidate species divide into **10 with zero spare photographs in one or more required source-year windows** (five gap-one, five gap-two) and **15 with at least one extra public-metadata photograph in every required year** (10 gap-one, five gap-two). This is a source-opportunity property, not a prediction of quality or genetic polymorphism. A species with a zero-spare year becomes unqualified under this fixed queue if any necessary photograph fails quality review; a spare-photo species may still fail if all alternates are unusable.
+
+The extra file `candidate_species_quality_review.csv` reports the original month, source site-photo anchor, missing year cells, required observer slots, raw available metadata photo counts and minimum spare count. Review all 115 frozen candidate-photo IDs; do not modify the selected species set based on flower colour outcomes.
+
+For the 30-species target, at least 20 of the 25 species must pass full year-specific photo quality checks. Therefore even if all 15 currently spare-supported species pass, at least five of the 10 no-spare species must also pass. This is a worst-case planning observation, not a measured quality pass probability.
