@@ -1,0 +1,858 @@
+{
+  "schema": "fcp_local_multiyear_morph_observation_posthoc_v1",
+  "date_jst": "2026-10-08",
+  "status": "complete",
+  "role": "exploratory_multiobserver_multiyear_photo_evidence_not_fitness",
+  "confirmatory_decisions_changed": false,
+  "frozen_measured_source_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "time_window_years": [
+    1990,
+    2026
+  ],
+  "neighborhood_geometry": "anchor-centered circles of half stated diameter; photo-pair maximum <= stated diameter",
+  "minimums": {
+    "classifiable_per_species": 40,
+    "each_morph_species_eligibility": 5,
+    "each_morph_neighborhood": 3,
+    "years_per_morph_in_neighborhood": 2,
+    "independent_observers_per_morph_in_neighborhood": 2,
+    "paired_temporal_discordance_pairs_per_year_stratum": 10
+  },
+  "hard_nonclaims": [
+    "photo white is not chemically verified absence of pigment and is exposure-coupled",
+    "within-diameter photos do not establish members of one naturally mating population",
+    "repeated independent observers do not cure site-specific photography or garden biases",
+    "photo dates do not establish age or lineage or individual independence",
+    "different photographs across years are not recurrence of the same genotype",
+    "year-specific photo counts are not an annual census of morph frequencies",
+    "no fluctuating selection, adaptive maintenance or fitness from these data",
+    "cross-cohort pattern replication remains within the same photo platform"
+  ],
+  "cohorts": {
+    "discovery": {
+      "n_species_classifiable": 369,
+      "n_white_plus_nonwhite_5_each": 184,
+      "n_two_nonwhite_hues_5_each": 55,
+      "n_both_comparisons_available": 34,
+      "n_white_nonwhite_global_multiyear": 184,
+      "n_species_any_valid_observation_year": 369,
+      "n_species_at_least_two_observation_years": 369,
+      "diameters_km": {
+        "10": {
+          "n_white_nonwhite_neighborhood_with_both_labels_at_least_3": 4,
+          "n_white_nonwhite_globally_eligible": 184,
+          "n_two_hue_globally_eligible": 55,
+          "n_species_any_six_photo_neighborhood": 33,
+          "n_white_nonwhite_eligible_with_six_photo_neighborhood": 14,
+          "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity": 14,
+          "strict_recurrence_given_minimum_neighborhood_metadata_opportunity": 0.2857142857142857,
+          "exploratory_example_species_with_strict_recurrence": [
+            {
+              "species": "Navarretia heterodoxa",
+              "inat_taxon_id": 57209,
+              "n_classifiable": 65,
+              "diameter_10km_n_white_nonwhite_anchors": 46
+            },
+            {
+              "species": "Aciphylla glacialis",
+              "inat_taxon_id": 541375,
+              "n_classifiable": 79,
+              "diameter_10km_n_white_nonwhite_anchors": 30
+            },
+            {
+              "species": "Conospermum caeruleum",
+              "inat_taxon_id": 932013,
+              "n_classifiable": 57,
+              "diameter_10km_n_white_nonwhite_anchors": 13
+            },
+            {
+              "species": "Pimelea serpyllifolia",
+              "inat_taxon_id": 526712,
+              "n_classifiable": 53,
+              "diameter_10km_n_white_nonwhite_anchors": 10
+            }
+          ],
+          "examples_unverified_wild_population_status": true,
+          "conditional_strict_recurrence_fraction_white_nonwhite": 0.021739130434782608,
+          "conditional_strict_recurrence_fraction_two_nonwhite_hues": 0,
+          "conditional_strict_given_both_labels_cooccur_nearby": 1,
+          "n_white_nonwhite_strict_multiyear_two_observers": 4,
+          "n_nonwhite_hue_strict_multiyear_two_observers": 0,
+          "n_white_nonwhite_two_years_without_observer_gate": 4,
+          "joint_opportunity_exact_mcnemar": {
+            "n_matched_species": 34,
+            "both_types_recur": 0,
+            "only_white_plus_nonwhite_recur": 0,
+            "only_two_nonwhite_hues_recur": 0,
+            "neither_recur": 34,
+            "exact_two_sided_p_exploratory": null,
+            "interpretation": "paired within-species capability, not equal global colour frequencies"
+          }
+        },
+        "25": {
+          "n_white_nonwhite_neighborhood_with_both_labels_at_least_3": 12,
+          "n_white_nonwhite_globally_eligible": 184,
+          "n_two_hue_globally_eligible": 55,
+          "n_species_any_six_photo_neighborhood": 80,
+          "n_white_nonwhite_eligible_with_six_photo_neighborhood": 32,
+          "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity": 32,
+          "strict_recurrence_given_minimum_neighborhood_metadata_opportunity": 0.34375,
+          "exploratory_example_species_with_strict_recurrence": [
+            {
+              "species": "Navarretia heterodoxa",
+              "inat_taxon_id": 57209,
+              "n_classifiable": 65,
+              "diameter_25km_n_white_nonwhite_anchors": 49
+            },
+            {
+              "species": "Aciphylla glacialis",
+              "inat_taxon_id": 541375,
+              "n_classifiable": 79,
+              "diameter_25km_n_white_nonwhite_anchors": 48
+            },
+            {
+              "species": "Conospermum caeruleum",
+              "inat_taxon_id": 932013,
+              "n_classifiable": 57,
+              "diameter_25km_n_white_nonwhite_anchors": 33
+            },
+            {
+              "species": "Pimelea serpyllifolia",
+              "inat_taxon_id": 526712,
+              "n_classifiable": 53,
+              "diameter_25km_n_white_nonwhite_anchors": 23
+            },
+            {
+              "species": "Acacia linifolia",
+              "inat_taxon_id": 321056,
+              "n_classifiable": 48,
+              "diameter_25km_n_white_nonwhite_anchors": 11
+            },
+            {
+              "species": "Myosotis latifolia",
+              "inat_taxon_id": 49132,
+              "n_classifiable": 76,
+              "diameter_25km_n_white_nonwhite_anchors": 7
+            },
+            {
+              "species": "Cneoridium dumosum",
+              "inat_taxon_id": 76402,
+              "n_classifiable": 50,
+              "diameter_25km_n_white_nonwhite_anchors": 5
+            },
+            {
+              "species": "Solanum crispum",
+              "inat_taxon_id": 406068,
+              "n_classifiable": 51,
+              "diameter_25km_n_white_nonwhite_anchors": 3
+            },
+            {
+              "species": "Aquilegia coerulea",
+              "inat_taxon_id": 501742,
+              "n_classifiable": 44,
+              "diameter_25km_n_white_nonwhite_anchors": 2
+            },
+            {
+              "species": "Conoclinium betonicifolium",
+              "inat_taxon_id": 273992,
+              "n_classifiable": 73,
+              "diameter_25km_n_white_nonwhite_anchors": 1
+            },
+            {
+              "species": "Erythranthe erubescens",
+              "inat_taxon_id": 771871,
+              "n_classifiable": 45,
+              "diameter_25km_n_white_nonwhite_anchors": 1
+            }
+          ],
+          "examples_unverified_wild_population_status": true,
+          "conditional_strict_recurrence_fraction_white_nonwhite": 0.059782608695652176,
+          "conditional_strict_recurrence_fraction_two_nonwhite_hues": 0.07272727272727272,
+          "conditional_strict_given_both_labels_cooccur_nearby": 0.9166666666666666,
+          "n_white_nonwhite_strict_multiyear_two_observers": 11,
+          "n_nonwhite_hue_strict_multiyear_two_observers": 4,
+          "n_white_nonwhite_two_years_without_observer_gate": 11,
+          "joint_opportunity_exact_mcnemar": {
+            "n_matched_species": 34,
+            "both_types_recur": 0,
+            "only_white_plus_nonwhite_recur": 2,
+            "only_two_nonwhite_hues_recur": 2,
+            "neither_recur": 30,
+            "exact_two_sided_p_exploratory": 1,
+            "interpretation": "paired within-species capability, not equal global colour frequencies"
+          }
+        },
+        "50": {
+          "n_white_nonwhite_neighborhood_with_both_labels_at_least_3": 19,
+          "n_white_nonwhite_globally_eligible": 184,
+          "n_two_hue_globally_eligible": 55,
+          "n_species_any_six_photo_neighborhood": 119,
+          "n_white_nonwhite_eligible_with_six_photo_neighborhood": 47,
+          "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity": 47,
+          "strict_recurrence_given_minimum_neighborhood_metadata_opportunity": 0.40425531914893614,
+          "exploratory_example_species_with_strict_recurrence": [
+            {
+              "species": "Aciphylla glacialis",
+              "inat_taxon_id": 541375,
+              "n_classifiable": 79,
+              "diameter_50km_n_white_nonwhite_anchors": 55
+            },
+            {
+              "species": "Navarretia heterodoxa",
+              "inat_taxon_id": 57209,
+              "n_classifiable": 65,
+              "diameter_50km_n_white_nonwhite_anchors": 54
+            },
+            {
+              "species": "Conospermum caeruleum",
+              "inat_taxon_id": 932013,
+              "n_classifiable": 57,
+              "diameter_50km_n_white_nonwhite_anchors": 37
+            },
+            {
+              "species": "Cneoridium dumosum",
+              "inat_taxon_id": 76402,
+              "n_classifiable": 50,
+              "diameter_50km_n_white_nonwhite_anchors": 30
+            },
+            {
+              "species": "Pimelea serpyllifolia",
+              "inat_taxon_id": 526712,
+              "n_classifiable": 53,
+              "diameter_50km_n_white_nonwhite_anchors": 30
+            },
+            {
+              "species": "Solanum crispum",
+              "inat_taxon_id": 406068,
+              "n_classifiable": 51,
+              "diameter_50km_n_white_nonwhite_anchors": 21
+            },
+            {
+              "species": "Myosotis latifolia",
+              "inat_taxon_id": 49132,
+              "n_classifiable": 76,
+              "diameter_50km_n_white_nonwhite_anchors": 20
+            },
+            {
+              "species": "Acacia linifolia",
+              "inat_taxon_id": 321056,
+              "n_classifiable": 48,
+              "diameter_50km_n_white_nonwhite_anchors": 19
+            },
+            {
+              "species": "Erythranthe erubescens",
+              "inat_taxon_id": 771871,
+              "n_classifiable": 45,
+              "diameter_50km_n_white_nonwhite_anchors": 17
+            },
+            {
+              "species": "Aquilegia coerulea",
+              "inat_taxon_id": 501742,
+              "n_classifiable": 44,
+              "diameter_50km_n_white_nonwhite_anchors": 10
+            },
+            {
+              "species": "Conoclinium betonicifolium",
+              "inat_taxon_id": 273992,
+              "n_classifiable": 73,
+              "diameter_50km_n_white_nonwhite_anchors": 10
+            },
+            {
+              "species": "Thysanocarpus curvipes",
+              "inat_taxon_id": 58088,
+              "n_classifiable": 59,
+              "diameter_50km_n_white_nonwhite_anchors": 9
+            }
+          ],
+          "examples_unverified_wild_population_status": true,
+          "conditional_strict_recurrence_fraction_white_nonwhite": 0.10326086956521739,
+          "conditional_strict_recurrence_fraction_two_nonwhite_hues": 0.14545454545454545,
+          "conditional_strict_given_both_labels_cooccur_nearby": 1,
+          "n_white_nonwhite_strict_multiyear_two_observers": 19,
+          "n_nonwhite_hue_strict_multiyear_two_observers": 8,
+          "n_white_nonwhite_two_years_without_observer_gate": 19,
+          "joint_opportunity_exact_mcnemar": {
+            "n_matched_species": 34,
+            "both_types_recur": 1,
+            "only_white_plus_nonwhite_recur": 4,
+            "only_two_nonwhite_hues_recur": 2,
+            "neither_recur": 27,
+            "exact_two_sided_p_exploratory": 0.6875,
+            "interpretation": "paired within-species capability, not equal global colour frequencies"
+          }
+        }
+      },
+      "distance_matched_cross_year_vs_same_year": {
+        "n_species_evaluable": 138,
+        "mean_species_delta_discordance": 0.004268226340127204,
+        "median_species_delta_discordance": 0,
+        "bootstrap_95CI": [
+          -0.00984364958239995,
+          0.01851136224675127
+        ],
+        "fraction_positive": 0.47101449275362317,
+        "estimand": "cross-year minus same-year white/nonwhite pair discordance, different observers; distance-binned 0-10,10-25,25-50 km",
+        "limitation": "year-observer-site confounding and pair dependence remain; not selection or phenotypic stability proof"
+      }
+    },
+    "validation": {
+      "n_species_classifiable": 363,
+      "n_white_plus_nonwhite_5_each": 167,
+      "n_two_nonwhite_hues_5_each": 51,
+      "n_both_comparisons_available": 36,
+      "n_white_nonwhite_global_multiyear": 167,
+      "n_species_any_valid_observation_year": 363,
+      "n_species_at_least_two_observation_years": 363,
+      "diameters_km": {
+        "10": {
+          "n_white_nonwhite_neighborhood_with_both_labels_at_least_3": 3,
+          "n_white_nonwhite_globally_eligible": 167,
+          "n_two_hue_globally_eligible": 51,
+          "n_species_any_six_photo_neighborhood": 26,
+          "n_white_nonwhite_eligible_with_six_photo_neighborhood": 8,
+          "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity": 8,
+          "strict_recurrence_given_minimum_neighborhood_metadata_opportunity": 0.375,
+          "exploratory_example_species_with_strict_recurrence": [
+            {
+              "species": "Lomatium columbianum",
+              "inat_taxon_id": 164720,
+              "n_classifiable": 61,
+              "diameter_10km_n_white_nonwhite_anchors": 43
+            },
+            {
+              "species": "Collinsia tinctoria",
+              "inat_taxon_id": 51850,
+              "n_classifiable": 44,
+              "diameter_10km_n_white_nonwhite_anchors": 17
+            },
+            {
+              "species": "Palafoxia texana",
+              "inat_taxon_id": 166061,
+              "n_classifiable": 69,
+              "diameter_10km_n_white_nonwhite_anchors": 12
+            }
+          ],
+          "examples_unverified_wild_population_status": true,
+          "conditional_strict_recurrence_fraction_white_nonwhite": 0.017964071856287425,
+          "conditional_strict_recurrence_fraction_two_nonwhite_hues": 0,
+          "conditional_strict_given_both_labels_cooccur_nearby": 1,
+          "n_white_nonwhite_strict_multiyear_two_observers": 3,
+          "n_nonwhite_hue_strict_multiyear_two_observers": 0,
+          "n_white_nonwhite_two_years_without_observer_gate": 3,
+          "joint_opportunity_exact_mcnemar": {
+            "n_matched_species": 36,
+            "both_types_recur": 0,
+            "only_white_plus_nonwhite_recur": 0,
+            "only_two_nonwhite_hues_recur": 0,
+            "neither_recur": 36,
+            "exact_two_sided_p_exploratory": null,
+            "interpretation": "paired within-species capability, not equal global colour frequencies"
+          }
+        },
+        "25": {
+          "n_white_nonwhite_neighborhood_with_both_labels_at_least_3": 10,
+          "n_white_nonwhite_globally_eligible": 167,
+          "n_two_hue_globally_eligible": 51,
+          "n_species_any_six_photo_neighborhood": 64,
+          "n_white_nonwhite_eligible_with_six_photo_neighborhood": 26,
+          "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity": 26,
+          "strict_recurrence_given_minimum_neighborhood_metadata_opportunity": 0.34615384615384615,
+          "exploratory_example_species_with_strict_recurrence": [
+            {
+              "species": "Lomatium columbianum",
+              "inat_taxon_id": 164720,
+              "n_classifiable": 61,
+              "diameter_25km_n_white_nonwhite_anchors": 46
+            },
+            {
+              "species": "Palafoxia texana",
+              "inat_taxon_id": 166061,
+              "n_classifiable": 69,
+              "diameter_25km_n_white_nonwhite_anchors": 18
+            },
+            {
+              "species": "Collinsia tinctoria",
+              "inat_taxon_id": 51850,
+              "n_classifiable": 44,
+              "diameter_25km_n_white_nonwhite_anchors": 17
+            },
+            {
+              "species": "Philotheca spicata",
+              "inat_taxon_id": 415330,
+              "n_classifiable": 49,
+              "diameter_25km_n_white_nonwhite_anchors": 7
+            },
+            {
+              "species": "Pigea calycina",
+              "inat_taxon_id": 977347,
+              "n_classifiable": 55,
+              "diameter_25km_n_white_nonwhite_anchors": 6
+            },
+            {
+              "species": "Scaevola nitida",
+              "inat_taxon_id": 550645,
+              "n_classifiable": 46,
+              "diameter_25km_n_white_nonwhite_anchors": 3
+            },
+            {
+              "species": "Salvia longispicata",
+              "inat_taxon_id": 286995,
+              "n_classifiable": 50,
+              "diameter_25km_n_white_nonwhite_anchors": 2
+            },
+            {
+              "species": "Moricandia arvensis",
+              "inat_taxon_id": 165527,
+              "n_classifiable": 53,
+              "diameter_25km_n_white_nonwhite_anchors": 1
+            },
+            {
+              "species": "Schelhammera undulata",
+              "inat_taxon_id": 353887,
+              "n_classifiable": 47,
+              "diameter_25km_n_white_nonwhite_anchors": 1
+            }
+          ],
+          "examples_unverified_wild_population_status": true,
+          "conditional_strict_recurrence_fraction_white_nonwhite": 0.05389221556886228,
+          "conditional_strict_recurrence_fraction_two_nonwhite_hues": 0.0196078431372549,
+          "conditional_strict_given_both_labels_cooccur_nearby": 0.9,
+          "n_white_nonwhite_strict_multiyear_two_observers": 9,
+          "n_nonwhite_hue_strict_multiyear_two_observers": 1,
+          "n_white_nonwhite_two_years_without_observer_gate": 9,
+          "joint_opportunity_exact_mcnemar": {
+            "n_matched_species": 36,
+            "both_types_recur": 0,
+            "only_white_plus_nonwhite_recur": 2,
+            "only_two_nonwhite_hues_recur": 1,
+            "neither_recur": 33,
+            "exact_two_sided_p_exploratory": 1,
+            "interpretation": "paired within-species capability, not equal global colour frequencies"
+          }
+        },
+        "50": {
+          "n_white_nonwhite_neighborhood_with_both_labels_at_least_3": 28,
+          "n_white_nonwhite_globally_eligible": 167,
+          "n_two_hue_globally_eligible": 51,
+          "n_species_any_six_photo_neighborhood": 118,
+          "n_white_nonwhite_eligible_with_six_photo_neighborhood": 53,
+          "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity": 53,
+          "strict_recurrence_given_minimum_neighborhood_metadata_opportunity": 0.5094339622641509,
+          "exploratory_example_species_with_strict_recurrence": [
+            {
+              "species": "Lomatium columbianum",
+              "inat_taxon_id": 164720,
+              "n_classifiable": 61,
+              "diameter_50km_n_white_nonwhite_anchors": 49
+            },
+            {
+              "species": "Palafoxia texana",
+              "inat_taxon_id": 166061,
+              "n_classifiable": 69,
+              "diameter_50km_n_white_nonwhite_anchors": 30
+            },
+            {
+              "species": "Pigea calycina",
+              "inat_taxon_id": 977347,
+              "n_classifiable": 55,
+              "diameter_50km_n_white_nonwhite_anchors": 29
+            },
+            {
+              "species": "Philotheca spicata",
+              "inat_taxon_id": 415330,
+              "n_classifiable": 49,
+              "diameter_50km_n_white_nonwhite_anchors": 22
+            },
+            {
+              "species": "Scaevola nitida",
+              "inat_taxon_id": 550645,
+              "n_classifiable": 46,
+              "diameter_50km_n_white_nonwhite_anchors": 19
+            },
+            {
+              "species": "Schelhammera undulata",
+              "inat_taxon_id": 353887,
+              "n_classifiable": 47,
+              "diameter_50km_n_white_nonwhite_anchors": 19
+            },
+            {
+              "species": "Collinsia tinctoria",
+              "inat_taxon_id": 51850,
+              "n_classifiable": 44,
+              "diameter_50km_n_white_nonwhite_anchors": 17
+            },
+            {
+              "species": "Frasera fastigiata",
+              "inat_taxon_id": 163075,
+              "n_classifiable": 40,
+              "diameter_50km_n_white_nonwhite_anchors": 17
+            },
+            {
+              "species": "Moricandia arvensis",
+              "inat_taxon_id": 165527,
+              "n_classifiable": 53,
+              "diameter_50km_n_white_nonwhite_anchors": 15
+            },
+            {
+              "species": "Viola cornuta",
+              "inat_taxon_id": 209347,
+              "n_classifiable": 52,
+              "diameter_50km_n_white_nonwhite_anchors": 14
+            },
+            {
+              "species": "Matelea edwardsensis",
+              "inat_taxon_id": 165190,
+              "n_classifiable": 42,
+              "diameter_50km_n_white_nonwhite_anchors": 12
+            },
+            {
+              "species": "Salvia longispicata",
+              "inat_taxon_id": 286995,
+              "n_classifiable": 50,
+              "diameter_50km_n_white_nonwhite_anchors": 9
+            }
+          ],
+          "examples_unverified_wild_population_status": true,
+          "conditional_strict_recurrence_fraction_white_nonwhite": 0.16167664670658682,
+          "conditional_strict_recurrence_fraction_two_nonwhite_hues": 0.0784313725490196,
+          "conditional_strict_given_both_labels_cooccur_nearby": 0.9642857142857143,
+          "n_white_nonwhite_strict_multiyear_two_observers": 27,
+          "n_nonwhite_hue_strict_multiyear_two_observers": 4,
+          "n_white_nonwhite_two_years_without_observer_gate": 27,
+          "joint_opportunity_exact_mcnemar": {
+            "n_matched_species": 36,
+            "both_types_recur": 1,
+            "only_white_plus_nonwhite_recur": 4,
+            "only_two_nonwhite_hues_recur": 0,
+            "neither_recur": 31,
+            "exact_two_sided_p_exploratory": 0.125,
+            "interpretation": "paired within-species capability, not equal global colour frequencies"
+          }
+        }
+      },
+      "distance_matched_cross_year_vs_same_year": {
+        "n_species_evaluable": 140,
+        "mean_species_delta_discordance": 0.011350969257990227,
+        "median_species_delta_discordance": 0.006443129224431137,
+        "bootstrap_95CI": [
+          -0.0025298539419444364,
+          0.02542746174417066
+        ],
+        "fraction_positive": 0.5214285714285715,
+        "estimand": "cross-year minus same-year white/nonwhite pair discordance, different observers; distance-binned 0-10,10-25,25-50 km",
+        "limitation": "year-observer-site confounding and pair dependence remain; not selection or phenotypic stability proof"
+      }
+    },
+    "third": {
+      "n_species_classifiable": 377,
+      "n_white_plus_nonwhite_5_each": 196,
+      "n_two_nonwhite_hues_5_each": 60,
+      "n_both_comparisons_available": 41,
+      "n_white_nonwhite_global_multiyear": 196,
+      "n_species_any_valid_observation_year": 377,
+      "n_species_at_least_two_observation_years": 377,
+      "diameters_km": {
+        "10": {
+          "n_white_nonwhite_neighborhood_with_both_labels_at_least_3": 8,
+          "n_white_nonwhite_globally_eligible": 196,
+          "n_two_hue_globally_eligible": 60,
+          "n_species_any_six_photo_neighborhood": 40,
+          "n_white_nonwhite_eligible_with_six_photo_neighborhood": 23,
+          "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity": 23,
+          "strict_recurrence_given_minimum_neighborhood_metadata_opportunity": 0.34782608695652173,
+          "exploratory_example_species_with_strict_recurrence": [
+            {
+              "species": "Boechera breweri",
+              "inat_taxon_id": 75779,
+              "n_classifiable": 47,
+              "diameter_10km_n_white_nonwhite_anchors": 41
+            },
+            {
+              "species": "Pimelea flava",
+              "inat_taxon_id": 552999,
+              "n_classifiable": 66,
+              "diameter_10km_n_white_nonwhite_anchors": 35
+            },
+            {
+              "species": "Allium cratericola",
+              "inat_taxon_id": 59078,
+              "n_classifiable": 51,
+              "diameter_10km_n_white_nonwhite_anchors": 34
+            },
+            {
+              "species": "Geranium reuteri",
+              "inat_taxon_id": 450399,
+              "n_classifiable": 43,
+              "diameter_10km_n_white_nonwhite_anchors": 31
+            },
+            {
+              "species": "Erysimum franciscanum",
+              "inat_taxon_id": 57402,
+              "n_classifiable": 63,
+              "diameter_10km_n_white_nonwhite_anchors": 19
+            },
+            {
+              "species": "Armeria pungens",
+              "inat_taxon_id": 342019,
+              "n_classifiable": 60,
+              "diameter_10km_n_white_nonwhite_anchors": 12
+            },
+            {
+              "species": "Lachenalia peersii",
+              "inat_taxon_id": 588412,
+              "n_classifiable": 42,
+              "diameter_10km_n_white_nonwhite_anchors": 4
+            },
+            {
+              "species": "Oxalis tenuifolia",
+              "inat_taxon_id": 591292,
+              "n_classifiable": 53,
+              "diameter_10km_n_white_nonwhite_anchors": 4
+            }
+          ],
+          "examples_unverified_wild_population_status": true,
+          "conditional_strict_recurrence_fraction_white_nonwhite": 0.04081632653061224,
+          "conditional_strict_recurrence_fraction_two_nonwhite_hues": 0.06666666666666667,
+          "conditional_strict_given_both_labels_cooccur_nearby": 1,
+          "n_white_nonwhite_strict_multiyear_two_observers": 8,
+          "n_nonwhite_hue_strict_multiyear_two_observers": 4,
+          "n_white_nonwhite_two_years_without_observer_gate": 8,
+          "joint_opportunity_exact_mcnemar": {
+            "n_matched_species": 41,
+            "both_types_recur": 3,
+            "only_white_plus_nonwhite_recur": 0,
+            "only_two_nonwhite_hues_recur": 0,
+            "neither_recur": 38,
+            "exact_two_sided_p_exploratory": null,
+            "interpretation": "paired within-species capability, not equal global colour frequencies"
+          }
+        },
+        "25": {
+          "n_white_nonwhite_neighborhood_with_both_labels_at_least_3": 20,
+          "n_white_nonwhite_globally_eligible": 196,
+          "n_two_hue_globally_eligible": 60,
+          "n_species_any_six_photo_neighborhood": 91,
+          "n_white_nonwhite_eligible_with_six_photo_neighborhood": 42,
+          "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity": 42,
+          "strict_recurrence_given_minimum_neighborhood_metadata_opportunity": 0.47619047619047616,
+          "exploratory_example_species_with_strict_recurrence": [
+            {
+              "species": "Pimelea flava",
+              "inat_taxon_id": 552999,
+              "n_classifiable": 66,
+              "diameter_25km_n_white_nonwhite_anchors": 47
+            },
+            {
+              "species": "Boechera breweri",
+              "inat_taxon_id": 75779,
+              "n_classifiable": 47,
+              "diameter_25km_n_white_nonwhite_anchors": 41
+            },
+            {
+              "species": "Allium cratericola",
+              "inat_taxon_id": 59078,
+              "n_classifiable": 51,
+              "diameter_25km_n_white_nonwhite_anchors": 34
+            },
+            {
+              "species": "Geranium reuteri",
+              "inat_taxon_id": 450399,
+              "n_classifiable": 43,
+              "diameter_25km_n_white_nonwhite_anchors": 32
+            },
+            {
+              "species": "Euphrasia collina",
+              "inat_taxon_id": 323350,
+              "n_classifiable": 69,
+              "diameter_25km_n_white_nonwhite_anchors": 26
+            },
+            {
+              "species": "Erysimum franciscanum",
+              "inat_taxon_id": 57402,
+              "n_classifiable": 63,
+              "diameter_25km_n_white_nonwhite_anchors": 24
+            },
+            {
+              "species": "Oxalis tenuifolia",
+              "inat_taxon_id": 591292,
+              "n_classifiable": 53,
+              "diameter_25km_n_white_nonwhite_anchors": 23
+            },
+            {
+              "species": "Lachenalia peersii",
+              "inat_taxon_id": 588412,
+              "n_classifiable": 42,
+              "diameter_25km_n_white_nonwhite_anchors": 15
+            },
+            {
+              "species": "Cyclamen graecum",
+              "inat_taxon_id": 482866,
+              "n_classifiable": 61,
+              "diameter_25km_n_white_nonwhite_anchors": 14
+            },
+            {
+              "species": "Armeria pungens",
+              "inat_taxon_id": 342019,
+              "n_classifiable": 60,
+              "diameter_25km_n_white_nonwhite_anchors": 12
+            },
+            {
+              "species": "Agastache urticifolia",
+              "inat_taxon_id": 63316,
+              "n_classifiable": 53,
+              "diameter_25km_n_white_nonwhite_anchors": 10
+            },
+            {
+              "species": "Oxalis ciliaris",
+              "inat_taxon_id": 566867,
+              "n_classifiable": 53,
+              "diameter_25km_n_white_nonwhite_anchors": 10
+            }
+          ],
+          "examples_unverified_wild_population_status": true,
+          "conditional_strict_recurrence_fraction_white_nonwhite": 0.10204081632653061,
+          "conditional_strict_recurrence_fraction_two_nonwhite_hues": 0.08333333333333333,
+          "conditional_strict_given_both_labels_cooccur_nearby": 1,
+          "n_white_nonwhite_strict_multiyear_two_observers": 20,
+          "n_nonwhite_hue_strict_multiyear_two_observers": 5,
+          "n_white_nonwhite_two_years_without_observer_gate": 20,
+          "joint_opportunity_exact_mcnemar": {
+            "n_matched_species": 41,
+            "both_types_recur": 3,
+            "only_white_plus_nonwhite_recur": 1,
+            "only_two_nonwhite_hues_recur": 0,
+            "neither_recur": 37,
+            "exact_two_sided_p_exploratory": 1,
+            "interpretation": "paired within-species capability, not equal global colour frequencies"
+          }
+        },
+        "50": {
+          "n_white_nonwhite_neighborhood_with_both_labels_at_least_3": 43,
+          "n_white_nonwhite_globally_eligible": 196,
+          "n_two_hue_globally_eligible": 60,
+          "n_species_any_six_photo_neighborhood": 138,
+          "n_white_nonwhite_eligible_with_six_photo_neighborhood": 70,
+          "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity": 70,
+          "strict_recurrence_given_minimum_neighborhood_metadata_opportunity": 0.5857142857142857,
+          "exploratory_example_species_with_strict_recurrence": [
+            {
+              "species": "Pimelea flava",
+              "inat_taxon_id": 552999,
+              "n_classifiable": 66,
+              "diameter_50km_n_white_nonwhite_anchors": 49
+            },
+            {
+              "species": "Erysimum franciscanum",
+              "inat_taxon_id": 57402,
+              "n_classifiable": 63,
+              "diameter_50km_n_white_nonwhite_anchors": 44
+            },
+            {
+              "species": "Boechera breweri",
+              "inat_taxon_id": 75779,
+              "n_classifiable": 47,
+              "diameter_50km_n_white_nonwhite_anchors": 41
+            },
+            {
+              "species": "Euphrasia collina",
+              "inat_taxon_id": 323350,
+              "n_classifiable": 69,
+              "diameter_50km_n_white_nonwhite_anchors": 39
+            },
+            {
+              "species": "Oxalis tenuifolia",
+              "inat_taxon_id": 591292,
+              "n_classifiable": 53,
+              "diameter_50km_n_white_nonwhite_anchors": 37
+            },
+            {
+              "species": "Allium cratericola",
+              "inat_taxon_id": 59078,
+              "n_classifiable": 51,
+              "diameter_50km_n_white_nonwhite_anchors": 34
+            },
+            {
+              "species": "Geranium reuteri",
+              "inat_taxon_id": 450399,
+              "n_classifiable": 43,
+              "diameter_50km_n_white_nonwhite_anchors": 33
+            },
+            {
+              "species": "Lachenalia peersii",
+              "inat_taxon_id": 588412,
+              "n_classifiable": 42,
+              "diameter_50km_n_white_nonwhite_anchors": 31
+            },
+            {
+              "species": "Armeria pungens",
+              "inat_taxon_id": 342019,
+              "n_classifiable": 60,
+              "diameter_50km_n_white_nonwhite_anchors": 26
+            },
+            {
+              "species": "Cyclamen graecum",
+              "inat_taxon_id": 482866,
+              "n_classifiable": 61,
+              "diameter_50km_n_white_nonwhite_anchors": 24
+            },
+            {
+              "species": "Oxalis ciliaris",
+              "inat_taxon_id": 566867,
+              "n_classifiable": 53,
+              "diameter_50km_n_white_nonwhite_anchors": 24
+            },
+            {
+              "species": "Chylismia cardiophylla",
+              "inat_taxon_id": 76332,
+              "n_classifiable": 61,
+              "diameter_50km_n_white_nonwhite_anchors": 22
+            }
+          ],
+          "examples_unverified_wild_population_status": true,
+          "conditional_strict_recurrence_fraction_white_nonwhite": 0.20918367346938777,
+          "conditional_strict_recurrence_fraction_two_nonwhite_hues": 0.15,
+          "conditional_strict_given_both_labels_cooccur_nearby": 0.9534883720930233,
+          "n_white_nonwhite_strict_multiyear_two_observers": 41,
+          "n_nonwhite_hue_strict_multiyear_two_observers": 9,
+          "n_white_nonwhite_two_years_without_observer_gate": 41,
+          "joint_opportunity_exact_mcnemar": {
+            "n_matched_species": 41,
+            "both_types_recur": 6,
+            "only_white_plus_nonwhite_recur": 6,
+            "only_two_nonwhite_hues_recur": 0,
+            "neither_recur": 29,
+            "exact_two_sided_p_exploratory": 0.03125,
+            "interpretation": "paired within-species capability, not equal global colour frequencies"
+          }
+        }
+      },
+      "distance_matched_cross_year_vs_same_year": {
+        "n_species_evaluable": 159,
+        "mean_species_delta_discordance": -0.00021394286085086342,
+        "median_species_delta_discordance": 0,
+        "bootstrap_95CI": [
+          -0.01349304247250369,
+          0.012974020711154577
+        ],
+        "fraction_positive": 0.4528301886792453,
+        "estimand": "cross-year minus same-year white/nonwhite pair discordance, different observers; distance-binned 0-10,10-25,25-50 km",
+        "limitation": "year-observer-site confounding and pair dependence remain; not selection or phenotypic stability proof"
+      }
+    }
+  },
+  "reporting_receipt": {
+    "workflow_run_id": 37724716640,
+    "job_id": 113140301995,
+    "head_sha": "ddde318d1bd737f837871e98dea2faafe4eb0d8e",
+    "artifact_id": 11527242982,
+    "artifact_digest": "sha256:fb179ea9e7a94b03aa22dd052bfbcd255036ef156f5a15f8919e1732ccc1c5c5",
+    "source_file": "result.json",
+    "per_species_artifact": "species_multiyear_morph_evidence.csv",
+    "status": "recovered_from_green_workflow_stdout",
+    "exact_historical_claims_unchanged": true
+  }
+}
