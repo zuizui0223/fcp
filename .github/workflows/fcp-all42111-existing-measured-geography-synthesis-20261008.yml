@@ -1,0 +1,91 @@
+name: Reconcile existing 42111 measured FCP colour and geographic evidence
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py
+      - tests/test_fcp_all42111_measured_geography_20261008.py
+      - docs/FCP_ALL42111_ALREADY_MEASURED_GEOGRAPHY_SYNTHESIS_PROTOCOL_20261008.md
+      - .github/workflows/fcp-all42111-existing-measured-geography-synthesis-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-all42111-measured-synthesis-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_COMMIT: '2b5390ea74f8d196012499d2d35dd477f9795938'
+  BREADTH_SHA: '38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605'
+  GEO_SHA: '7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e'
+  PAIR_SHA: 'a5d8e677a87fc3b0771413bbb5b2aa40a1b2242acb4156813ae986518ffa7e4f'
+
+jobs:
+  three-scale-world-colour:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Install pinned source-backed statistical and synthetic validation
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py
+          python -m pytest tests/test_fcp_all42111_measured_geography_20261008.py -q
+      - name: Reopen completed actual photo measurements, not original images
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_premeasured_source
+          git fetch --no-tags --depth=1 origin "$SOURCE_COMMIT"
+          git show "$SOURCE_COMMIT:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" > /tmp/fcp_premeasured_source/breadth.csv.gz
+          git show "$SOURCE_COMMIT:results/rgfca_42111_taxon_cell_measurement_step8g_20260911/taxon_cell_measured_85337.csv.gz" > /tmp/fcp_premeasured_source/taxon_cell.csv.gz
+          git show "$SOURCE_COMMIT:results/rgfca_42111_crosscell_discordance_step8g_20260911/crosscell_discordance_pairs_13416.csv.gz" > /tmp/fcp_premeasured_source/crosscell_pairs.csv.gz
+          echo "$BREADTH_SHA  /tmp/fcp_premeasured_source/breadth.csv.gz" | sha256sum -c -
+          echo "$GEO_SHA  /tmp/fcp_premeasured_source/taxon_cell.csv.gz" | sha256sum -c -
+          echo "$PAIR_SHA  /tmp/fcp_premeasured_source/crosscell_pairs.csv.gz" | sha256sum -c -
+      - name: Complete source-grounded global colour, regions and observer-disjoint crosscell summary
+        run: |
+          python scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py \
+            --breadth /tmp/fcp_premeasured_source/breadth.csv.gz \
+            --taxon-cell /tmp/fcp_premeasured_source/taxon_cell.csv.gz \
+            --crosscell-pairs /tmp/fcp_premeasured_source/crosscell_pairs.csv.gz \
+            --outdir /tmp/fcp_42111_measured_synthesis
+      - name: Audit all three distinct inferential populations and missingness
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          j=json.loads(Path('/tmp/fcp_42111_measured_synthesis/result.json').read_text())
+          assert j['schema']=='fcp_all42111_existing_measured_phenotype_geography_synthesis_v1'
+          assert j['confirmatory_decisions_changed'] is False
+          assert j['status']=='EXISTING_REAL_IMAGE_MEASUREMENT_GLOBAL_AND_REGIONAL_AUDITED'
+          assert j['original_species_denominator']==42111
+          b=j['breadth_single_original_photo_per_species']
+          assert b['species_four_colour_classifiable']==18457
+          assert b['unclassifiable']==23654
+          assert b['colour_counts']=={'white':8597,'yellow_orange':6323,'red_pink':2001,'blue_purple':1536}
+          a=j['regional_taxon_cell_measurement']
+          assert a['all_taxon_cell_rows']==85337
+          assert a['classified_taxon_cell_rows']==39075
+          assert a['occupied_cells']==128
+          assert len(a['abs_latitude_regions'])==3
+          assert sum(r['taxon_cell_opportunities'] for r in a['abs_latitude_regions'])==85337
+          p=j['observer_disjoint_crosscell_morph_comparison']
+          assert p['n_fixed_pairs']==13416 and p['n_identified_pairs']==3196
+          assert p['n_discordant_pairs']==797
+          assert len(p['regional_and_global_descriptive'])==4
+          assert p['regional_and_global_descriptive'][-1]['region']=='ALL'
+          print('EXISTING_SOURCE_42111_REAL_PHOTO_GLOBAL_AND_REGIONAL_FINDING_AUDITED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-verified-measured-geographic-synthesis
+          if-no-files-found: error
+          retention-days: 90
+          path: /tmp/fcp_42111_measured_synthesis/
