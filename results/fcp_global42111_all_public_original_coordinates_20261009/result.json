@@ -1,0 +1,202 @@
+{
+  "actual_climate_soil_rasters_sampled": false,
+  "confirmatory_decisions_changed": false,
+  "n_breadth_original_images_with_public_points": 42038,
+  "n_distinct_original_observation_IDs": 100543,
+  "n_orig_source_photo_missing_or_unusable_point": 195,
+  "n_orig_source_photo_public_point_geolocated": 100348,
+  "n_original_distinct_photo_IDs": 100543,
+  "n_taxon_cell_original_images_with_public_points": 85161,
+  "n_total_api_requests": 1010,
+  "n_total_batch_errors": 0,
+  "never_infer_unclassified_flower_as_monomorphic": true,
+  "new_image_pixels_opened": false,
+  "original_species_denominator": 42111,
+  "original_taxon_cell_denominator": 85337,
+  "photo_metadata_status_counts": {
+    "CULTIVATED_NOT_WILD": 53,
+    "CURRENT_PUBLIC_POSITION_OUTSIDE_HISTORICAL_EQUAL_AREA_CELL": 1,
+    "EXACT_ORIGINAL_PHOTO_MISSING": 5,
+    "NO_UNOBSCURED_PUBLIC_COORDINATES": 31,
+    "SOURCE_OBSERVATION_NOT_RETURNED": 14,
+    "SOURCE_TAXON_IDENTITY_MISMATCH": 91,
+    "VALID_PUBLIC_ORIGINAL_PHOTO_POINT": 100348
+  },
+  "photo_morph_labels_never_opened_for_selection": true,
+  "schema": "fcp_global42111_original_public_geocoordinates_full_sealed_v1",
+  "source_shard_receipts": [
+    {
+      "colour_results_unopened": true,
+      "images_unopened": true,
+      "n_100_ID_api_requests": 125,
+      "n_batch_errors": 0,
+      "n_exact_photo_public_geocoordinates": 12427,
+      "n_original_observations_queried": 12454,
+      "n_source_original_photos": 12454,
+      "schema": "fcp_global42111_original_photo_full_public_coordinates_v1",
+      "shard_index": 0,
+      "shards": 8,
+      "source_run_id": 37855050150,
+      "source_state_counts": {
+        "CULTIVATED_NOT_WILD": 4,
+        "EXACT_ORIGINAL_PHOTO_MISSING": 1,
+        "NO_UNOBSCURED_PUBLIC_COORDINATES": 5,
+        "SOURCE_TAXON_IDENTITY_MISMATCH": 17,
+        "VALID_PUBLIC_ORIGINAL_PHOTO_POINT": 12427
+      },
+      "type": "SHARD_METADATA_ONLY"
+    },
+    {
+      "colour_results_unopened": true,
+      "images_unopened": true,
+      "n_100_ID_api_requests": 125,
+      "n_batch_errors": 0,
+      "n_exact_photo_public_geocoordinates": 12402,
+      "n_original_observations_queried": 12424,
+      "n_source_original_photos": 12424,
+      "schema": "fcp_global42111_original_photo_full_public_coordinates_v1",
+      "shard_index": 1,
+      "shards": 8,
+      "source_run_id": 37855050150,
+      "source_state_counts": {
+        "CULTIVATED_NOT_WILD": 10,
+        "CURRENT_PUBLIC_POSITION_OUTSIDE_HISTORICAL_EQUAL_AREA_CELL": 1,
+        "NO_UNOBSCURED_PUBLIC_COORDINATES": 1,
+        "SOURCE_OBSERVATION_NOT_RETURNED": 1,
+        "SOURCE_TAXON_IDENTITY_MISMATCH": 9,
+        "VALID_PUBLIC_ORIGINAL_PHOTO_POINT": 12402
+      },
+      "type": "SHARD_METADATA_ONLY"
+    },
+    {
+      "colour_results_unopened": true,
+      "images_unopened": true,
+      "n_100_ID_api_requests": 126,
+      "n_batch_errors": 0,
+      "n_exact_photo_public_geocoordinates": 12490,
+      "n_original_observations_queried": 12516,
+      "n_source_original_photos": 12516,
+      "schema": "fcp_global42111_original_photo_full_public_coordinates_v1",
+      "shard_index": 2,
+      "shards": 8,
+      "source_run_id": 37855050150,
+      "source_state_counts": {
+        "CULTIVATED_NOT_WILD": 9,
+        "NO_UNOBSCURED_PUBLIC_COORDINATES": 5,
+        "SOURCE_OBSERVATION_NOT_RETURNED": 2,
+        "SOURCE_TAXON_IDENTITY_MISMATCH": 10,
+        "VALID_PUBLIC_ORIGINAL_PHOTO_POINT": 12490
+      },
+      "type": "SHARD_METADATA_ONLY"
+    },
+    {
+      "colour_results_unopened": true,
+      "images_unopened": true,
+      "n_100_ID_api_requests": 128,
+      "n_batch_errors": 0,
+      "n_exact_photo_public_geocoordinates": 12708,
+      "n_original_observations_queried": 12736,
+      "n_source_original_photos": 12736,
+      "schema": "fcp_global42111_original_photo_full_public_coordinates_v1",
+      "shard_index": 3,
+      "shards": 8,
+      "source_run_id": 37855050150,
+      "source_state_counts": {
+        "CULTIVATED_NOT_WILD": 5,
+        "EXACT_ORIGINAL_PHOTO_MISSING": 1,
+        "NO_UNOBSCURED_PUBLIC_COORDINATES": 5,
+        "SOURCE_OBSERVATION_NOT_RETURNED": 3,
+        "SOURCE_TAXON_IDENTITY_MISMATCH": 14,
+        "VALID_PUBLIC_ORIGINAL_PHOTO_POINT": 12708
+      },
+      "type": "SHARD_METADATA_ONLY"
+    },
+    {
+      "colour_results_unopened": true,
+      "images_unopened": true,
+      "n_100_ID_api_requests": 125,
+      "n_batch_errors": 0,
+      "n_exact_photo_public_geocoordinates": 12463,
+      "n_original_observations_queried": 12481,
+      "n_source_original_photos": 12481,
+      "schema": "fcp_global42111_original_photo_full_public_coordinates_v1",
+      "shard_index": 4,
+      "shards": 8,
+      "source_run_id": 37855050150,
+      "source_state_counts": {
+        "CULTIVATED_NOT_WILD": 6,
+        "EXACT_ORIGINAL_PHOTO_MISSING": 1,
+        "NO_UNOBSCURED_PUBLIC_COORDINATES": 1,
+        "SOURCE_OBSERVATION_NOT_RETURNED": 1,
+        "SOURCE_TAXON_IDENTITY_MISMATCH": 9,
+        "VALID_PUBLIC_ORIGINAL_PHOTO_POINT": 12463
+      },
+      "type": "SHARD_METADATA_ONLY"
+    },
+    {
+      "colour_results_unopened": true,
+      "images_unopened": true,
+      "n_100_ID_api_requests": 126,
+      "n_batch_errors": 0,
+      "n_exact_photo_public_geocoordinates": 12508,
+      "n_original_observations_queried": 12535,
+      "n_source_original_photos": 12535,
+      "schema": "fcp_global42111_original_photo_full_public_coordinates_v1",
+      "shard_index": 5,
+      "shards": 8,
+      "source_run_id": 37855050150,
+      "source_state_counts": {
+        "CULTIVATED_NOT_WILD": 3,
+        "NO_UNOBSCURED_PUBLIC_COORDINATES": 7,
+        "SOURCE_OBSERVATION_NOT_RETURNED": 2,
+        "SOURCE_TAXON_IDENTITY_MISMATCH": 15,
+        "VALID_PUBLIC_ORIGINAL_PHOTO_POINT": 12508
+      },
+      "type": "SHARD_METADATA_ONLY"
+    },
+    {
+      "colour_results_unopened": true,
+      "images_unopened": true,
+      "n_100_ID_api_requests": 127,
+      "n_batch_errors": 0,
+      "n_exact_photo_public_geocoordinates": 12666,
+      "n_original_observations_queried": 12691,
+      "n_source_original_photos": 12691,
+      "schema": "fcp_global42111_original_photo_full_public_coordinates_v1",
+      "shard_index": 6,
+      "shards": 8,
+      "source_run_id": 37855050150,
+      "source_state_counts": {
+        "CULTIVATED_NOT_WILD": 10,
+        "EXACT_ORIGINAL_PHOTO_MISSING": 2,
+        "NO_UNOBSCURED_PUBLIC_COORDINATES": 3,
+        "SOURCE_OBSERVATION_NOT_RETURNED": 3,
+        "SOURCE_TAXON_IDENTITY_MISMATCH": 7,
+        "VALID_PUBLIC_ORIGINAL_PHOTO_POINT": 12666
+      },
+      "type": "SHARD_METADATA_ONLY"
+    },
+    {
+      "colour_results_unopened": true,
+      "images_unopened": true,
+      "n_100_ID_api_requests": 128,
+      "n_batch_errors": 0,
+      "n_exact_photo_public_geocoordinates": 12684,
+      "n_original_observations_queried": 12706,
+      "n_source_original_photos": 12706,
+      "schema": "fcp_global42111_original_photo_full_public_coordinates_v1",
+      "shard_index": 7,
+      "shards": 8,
+      "source_run_id": 37855050150,
+      "source_state_counts": {
+        "CULTIVATED_NOT_WILD": 6,
+        "NO_UNOBSCURED_PUBLIC_COORDINATES": 4,
+        "SOURCE_OBSERVATION_NOT_RETURNED": 2,
+        "SOURCE_TAXON_IDENTITY_MISMATCH": 10,
+        "VALID_PUBLIC_ORIGINAL_PHOTO_POINT": 12684
+      },
+      "type": "SHARD_METADATA_ONLY"
+    }
+  ],
+  "status": "ORIGINAL_PHOTO_PUBLIC_COORDINATE_METADATA_SEALED_NO_CLIMATE_TEST"
+}

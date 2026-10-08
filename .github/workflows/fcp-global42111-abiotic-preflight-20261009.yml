@@ -1,0 +1,136 @@
+name: FCP 42111 measured colour x climate soil geographic preflight
+
+on:
+  pull_request:
+    branches:
+      - main
+      - analysis/fcp-global42111-phenotype-geography-synthesis-20261008
+    paths:
+      - scripts/analysis/audit_fcp_global42111_abiotic_join_preflight_20261009.py
+      - tests/test_fcp_global42111_abiotic_join_preflight_20261009.py
+      - scripts/analysis/recover_fcp_global42111_original_photo_coordinates_20261009.py
+      - tests/test_fcp_global42111_original_photo_coordinates_20261009.py
+      - scripts/analysis/attach_fcp_global42111_true_site_climate_soil_20261009.py
+      - tests/test_fcp_global42111_true_site_climate_soil_20261009.py
+      - docs/FCP_GLOBAL42111_ABIOTIC_ATLAS_PROTOCOL_20261009.md
+      - .github/workflows/fcp-global42111-abiotic-preflight-20261009.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-42111-abiotic-source-preflight-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MEASURED_SHA: '2b5390ea74f8d196012499d2d35dd477f9795938'
+  INDEX_COMMIT: '7665d1fe38d7146925b8f3450ed3cb5c2736195a'
+  INDEX_V1_SHA: 'b60a8b1b98fcf6745344d6acc394bb6ff905b9d5bded134031402892ff2efa2e'
+  INDEX_V2_SHA: 'd7f08601ccc4d7dc9ff1943ea3e58ed903b9759277f7b536bc7423bc08189b3a'
+  BREADTH_SHA: '38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605'
+  CELL_SHA: '7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e'
+  PAIR_SHA: '26755316b2cbd07e1e2241eb4ddc1cddc85219fd7e96424df8c14df32575a4d2'
+
+jobs:
+  audit-old-photo-and-location-schema:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Install audit-only tabular runtime
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp_global42111_abiotic_join_preflight_20261009.py
+          python -m pytest tests/test_fcp_global42111_abiotic_join_preflight_20261009.py -q
+          python -m py_compile scripts/analysis/recover_fcp_global42111_original_photo_coordinates_20261009.py
+          python -m pytest tests/test_fcp_global42111_original_photo_coordinates_20261009.py -q
+          python -m py_compile scripts/analysis/attach_fcp_global42111_true_site_climate_soil_20261009.py
+          python -m pytest tests/test_fcp_global42111_true_site_climate_soil_20261009.py -q
+      - name: Load original 42111, 85337, 13416 photograph measurement tables
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$MEASURED_SHA"
+          mkdir -p /tmp/fcp42111_abiotic_origin
+          git show "$MEASURED_SHA:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" > /tmp/fcp42111_abiotic_origin/breadth.csv.gz
+          git show "$MEASURED_SHA:results/rgfca_42111_taxon_cell_measurement_step8g_20260911/taxon_cell_measured_85337.csv.gz" > /tmp/fcp42111_abiotic_origin/taxon_cell.csv.gz
+          git show "$MEASURED_SHA:results/rgfca_42111_crosscell_discordance_step8g_20260911/crosscell_discordance_pairs_13416.csv.gz" > /tmp/fcp42111_abiotic_origin/pairs.csv.gz
+          echo "$BREADTH_SHA  /tmp/fcp42111_abiotic_origin/breadth.csv.gz" | sha256sum -c -
+          echo "$CELL_SHA  /tmp/fcp42111_abiotic_origin/taxon_cell.csv.gz" | sha256sum -c -
+          echo "$PAIR_SHA  /tmp/fcp42111_abiotic_origin/pairs.csv.gz" | sha256sum -c -
+      - name: Audit actual geolocated photo positions and stable denominators
+        run: |
+          python scripts/analysis/audit_fcp_global42111_abiotic_join_preflight_20261009.py \
+            --breadth /tmp/fcp42111_abiotic_origin/breadth.csv.gz \
+            --taxon-cell /tmp/fcp42111_abiotic_origin/taxon_cell.csv.gz \
+            --pairs /tmp/fcp42111_abiotic_origin/pairs.csv.gz \
+            --outdir /tmp/fcp42111_abiotic_preflight
+      - name: Verify this is not an environmental effect or a dataset expansion claim
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp42111_abiotic_preflight/result.json").read_text())
+          assert r["schema"]=="fcp_global42111_climate_soil_join_preflight_v1"
+          assert r["status"]=="SOURCE_SCHEMA_AND_SPATIAL_OPPORTUNITY_AUDIT_ONLY"
+          assert r["n_original_taxa"]==42111
+          assert r["n_original_taxon_cell_records"]==85337
+          assert r["n_original_observer_disjoint_pairs"]==13416
+          assert r["n_breadth_colour_classified"]==18457
+          assert r["n_taxon_cell_colour_classified"]==39075
+          assert r["n_occupied_cells"]==128
+          assert r["global_climate_soil_covariates_computed"] is False
+          assert r["historical_fcp_manuscript_modified"] is False
+          assert r["prospective_new_2000_730_outcome_opened"] is False
+          for role in r["layers"]:
+              c=role["coordinate_audit"]
+              assert c["n_valid"] + c["n_missing"] == role["n_rows"]
+              assert c["n_conflicting_coord_alias_rows"] in (None,0)
+          print("GLOBAL_42111_PHOTO_SOURCE_LOCATION_SCHEMA_AND_CLIMATE_SOIL_JOIN_READINESS_VERIFIED")
+          PY
+      - name: Recover original observation-index photo geography from BOTH historical discovery scans
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$INDEX_COMMIT"
+          git show "$INDEX_COMMIT:data/frozen/global_monte_carlo_species_discovery_observation_index_v1.csv.gz" > /tmp/fcp42111_abiotic_origin/index_v1.csv.gz
+          git show "$INDEX_COMMIT:data/frozen/global_monte_carlo_species_discovery_v2_observation_index_v1.csv.gz" > /tmp/fcp42111_abiotic_origin/index_v2.csv.gz
+          echo "$INDEX_V1_SHA  /tmp/fcp42111_abiotic_origin/index_v1.csv.gz" | sha256sum -c -
+          echo "$INDEX_V2_SHA  /tmp/fcp42111_abiotic_origin/index_v2.csv.gz" | sha256sum -c -
+      - name: Recover exact observed source photo coordinates or explicit MISSING without centroid substitution
+        run: |
+          python scripts/analysis/recover_fcp_global42111_original_photo_coordinates_20261009.py \
+            --breadth /tmp/fcp42111_abiotic_origin/breadth.csv.gz \
+            --taxon-cell /tmp/fcp42111_abiotic_origin/taxon_cell.csv.gz \
+            --index-v1 /tmp/fcp42111_abiotic_origin/index_v1.csv.gz \
+            --index-v2 /tmp/fcp42111_abiotic_origin/index_v2.csv.gz \
+            --outdir /tmp/fcp42111_original_photo_locations
+      - name: Enforce genuine point-coordinate accounting before WorldClim SoilGrids
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp42111_original_photo_locations/result.json").read_text())
+          assert r["schema"]=="fcp_global42111_original_photo_coordinate_recovery_v1"
+          assert r["n_breadth_species_denominator"]==42111
+          assert r["n_taxon_cell_denominator"]==85337
+          assert r["confirmatory_decisions_changed"] is False
+          assert r["no_environment_raster_sampled"] is True
+          assert r["no_new_pixels_or_photo_labels"] is True
+          for name,total in (("breadth",42111),("taxon_cell",85337)):
+              x=r[name]
+              assert x["n_measured_photo_records"]==total
+              assert x["n_recorded_coordinate_valid_and_original_cell_consistent"]<=x["n_matched_index_id_triples"]<=total
+              assert x["n_not_point_sampleable"]+x["n_recorded_coordinate_valid_and_original_cell_consistent"]==total
+          print("SOURCE_EXACT_PHOTO_COORDINATE_VALIDATED_OR_MISSING_NO_CENTROID_SUBSTITUTION")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-global-abiotic-join-preflight
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp42111_abiotic_preflight/
+            /tmp/fcp42111_original_photo_locations/

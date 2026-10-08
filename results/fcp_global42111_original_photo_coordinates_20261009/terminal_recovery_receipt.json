@@ -1,0 +1,86 @@
+{
+  "breadth": {
+    "n_matched_correct_taxon_cell": 42111,
+    "n_matched_index_id_triples": 42111,
+    "n_measured_four_state_and_point_sampleable": 0,
+    "n_measured_photo_records": 42111,
+    "n_not_point_sampleable": 42111,
+    "n_recorded_coordinate_valid_and_original_cell_consistent": 0,
+    "n_source_cell_coordinate_mismatch": 0
+  },
+  "confirmatory_decisions_changed": false,
+  "hard_nonclaims": [
+    "An equal-area cell centroid must never be attached as the observed plant soil location",
+    "If archived metadata lacks coordinates, no site-scale climate or soil estimates can be reported",
+    "Photo coordinates when valid are citizen-science sites, not measured root-zone edaphic conditions",
+    "No inferred plant genotype, population allele frequency or environmental adaptation",
+    "Original 42111 one-photo per species and 85337 repeated taxon-cell denominators remain separate"
+  ],
+  "n_breadth_species_denominator": 42111,
+  "n_taxon_cell_denominator": 85337,
+  "no_environment_raster_sampled": true,
+  "no_new_pixels_or_photo_labels": true,
+  "role": "source_identity_and_coordinate_coverage_only_no_climate_soil_effect",
+  "schema": "fcp_global42111_original_photo_coordinate_recovery_v1",
+  "source_historical_measured_sha": {
+    "breadth": "38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
+    "taxon_cell": "7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e"
+  },
+  "source_historical_photo_index_sha": {
+    "index_v1": "b60a8b1b98fcf6745344d6acc394bb6ff905b9d5bded134031402892ff2efa2e",
+    "index_v2": "d7f08601ccc4d7dc9ff1943ea3e58ed903b9759277f7b536bc7423bc08189b3a"
+  },
+  "source_index_metadata": {
+    "combined": {
+      "n_ambiguous_rows_unusable": 0,
+      "n_rows_with_valid_coordinate": 0,
+      "n_source_index_rows": 656116,
+      "n_unique_stable_photo_identity_triples": 364772
+    },
+    "v1": {
+      "columns": [
+        "round_id",
+        "cell_id",
+        "observation_id",
+        "photo_id",
+        "species",
+        "inat_taxon_id"
+      ],
+      "coordinate_source_fields": null,
+      "n_index_photo_rows": 437759,
+      "n_valid_coordinate_values": 0
+    },
+    "v2": {
+      "columns": [
+        "round_id",
+        "page",
+        "cell_id",
+        "observation_id",
+        "photo_id",
+        "species",
+        "inat_taxon_id"
+      ],
+      "coordinate_source_fields": null,
+      "n_index_photo_rows": 218357,
+      "n_valid_coordinate_values": 0
+    }
+  },
+  "status": "ORIGINAL_SOURCE_POINT_LOCATION_RECOVERY_AUDITED",
+  "taxon_cell": {
+    "n_matched_correct_taxon_cell": 85337,
+    "n_matched_index_id_triples": 85337,
+    "n_measured_four_state_and_point_sampleable": 0,
+    "n_measured_photo_records": 85337,
+    "n_not_point_sampleable": 85337,
+    "n_recorded_coordinate_valid_and_original_cell_consistent": 0,
+    "n_source_cell_coordinate_mismatch": 0
+  },
+  "execution_provenance": {
+    "github_actions_run_id": 37855050150,
+    "job_id": 113577255833,
+    "artifact_id": 11582794787,
+    "artifact_sha256": "ebfc58cd88f2f9bc42823a8b5111e296c1146f7306f5156176735725ee4ea736",
+    "source_head_commit": "427a45783cadbf2f30d8d1a64e7c69f9a6e6da6a",
+    "all_tests_passed": true
+  }
+}

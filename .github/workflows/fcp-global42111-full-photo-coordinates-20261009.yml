@@ -1,0 +1,171 @@
+name: Recover all original 42111 FCP photo locations for climate and soil
+
+on:
+  pull_request:
+    branches:
+      - main
+      - analysis/fcp-global42111-phenotype-geography-synthesis-20261008
+    paths:
+      - scripts/acquisition/recover_fcp_global42111_all_original_photo_public_geocoordinates_20261009.py
+      - tests/test_fcp_global42111_all_original_photo_public_geocoordinates_20261009.py
+      - .github/workflows/fcp-global42111-full-photo-coordinates-20261009.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: fcp-global42111-original-photo-geocoordinates-one-shot
+  cancel-in-progress: false
+
+jobs:
+  manifest:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Confirm no previously sealed coordinates and source role unchanged
+        run: |
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_EVENT_NAME" = "pull_request"
+          test ! -e results/fcp_global42111_all_public_original_coordinates_20261009/result.json
+      - name: Synthetic immutable source and no-new-image tests
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m pytest tests/test_fcp_global42111_all_original_photo_public_geocoordinates_20261009.py -q
+          python -m py_compile scripts/acquisition/recover_fcp_global42111_all_original_photo_public_geocoordinates_20261009.py
+      - name: Download previously SHA-verified measured original ID source tables only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 37855050150 --repo "$GITHUB_REPOSITORY" \
+            --name fcp-42111-global-abiotic-join-preflight \
+            --dir /tmp/fcp42111_original_measured_ID_source
+      - name: Freeze EXACT 42111 breadth plus 85337 taxon-cell original observations
+        run: |
+          python scripts/acquisition/recover_fcp_global42111_all_original_photo_public_geocoordinates_20261009.py \
+            --mode manifest \
+            --breadth /tmp/fcp42111_original_measured_ID_source/fcp42111_original_photo_locations/breadth_source_matched_photo_positions.csv.gz \
+            --taxon-cell /tmp/fcp42111_original_measured_ID_source/fcp42111_original_photo_locations/taxon_cell_source_matched_photo_positions.csv.gz \
+            --outdir /tmp/fcp_full_photo_manifest
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp42111_full_original_photo_ID_manifest_20261009
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_full_photo_manifest/
+
+  geo-shard:
+    needs: manifest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Install metadata-only runtime
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: fcp42111_full_original_photo_ID_manifest_20261009
+          path: /tmp/fcp_full_photo_manifest
+      - name: Fixed source-ID shard only with <=100 per request and <=1 request per 1.2s
+        run: |
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          python scripts/acquisition/recover_fcp_global42111_all_original_photo_public_geocoordinates_20261009.py \
+            --mode shard \
+            --manifest /tmp/fcp_full_photo_manifest/frozen_original_measured_photo_manifest.csv.gz \
+            --shard-index ${{ matrix.shard }} \
+            --outdir /tmp/fcp_global42111_public_coordinates_shard
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fcp42111_geo_source_shard_${{ matrix.shard }}
+          retention-days: 90
+          if-no-files-found: warn
+          path: /tmp/fcp_global42111_public_coordinates_shard/
+
+  seal:
+    needs: geo-shard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Reconstruct immutable complete 42111/85337 identity denominator
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3
+      - uses: actions/download-artifact@v4
+        with:
+          name: fcp42111_full_original_photo_ID_manifest_20261009
+          path: /tmp/fcp_full_photo_manifest
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: fcp42111_geo_source_shard_*
+          merge-multiple: true
+          path: /tmp/fcp_geo_shards
+      - name: Seal original public coordinates, missingness and exact photo identities
+        run: |
+          python scripts/acquisition/recover_fcp_global42111_all_original_photo_public_geocoordinates_20261009.py \
+            --mode seal \
+            --manifest /tmp/fcp_full_photo_manifest/frozen_original_measured_photo_manifest.csv.gz \
+            --shard-root /tmp/fcp_geo_shards \
+            --outdir /tmp/fcp_42111_final_public_coordinates
+      - name: Protect exact original species and all originally measured photo sets
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_42111_final_public_coordinates/result.json").read_text())
+          assert r["schema"]=="fcp_global42111_original_public_geocoordinates_full_sealed_v1"
+          assert r["original_species_denominator"]==42111
+          assert r["original_taxon_cell_denominator"]==85337
+          assert r["n_breadth_original_images_with_public_points"]<=42111
+          assert r["n_taxon_cell_original_images_with_public_points"]<=85337
+          assert r["n_orig_source_photo_public_point_geolocated"]+r["n_orig_source_photo_missing_or_unusable_point"]==r["n_original_distinct_photo_IDs"]
+          assert r["photo_morph_labels_never_opened_for_selection"] is True
+          assert r["new_image_pixels_opened"] is False
+          assert r["actual_climate_soil_rasters_sampled"] is False
+          assert r["confirmatory_decisions_changed"] is False
+          print('ALL_ORIGINAL_GLOBAL_FCP_PUBLIC_POINT_IDENTITY_RECOVERED_NO_IMAGE_RECLASSIFICATION')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-verified-public-original-geocoordinates-20261009
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_42111_final_public_coordinates/
+      - name: Commit checked metadata-only photo coordinates for later soil climate extraction
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-abiotic-atlas-20261009'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          out="results/fcp_global42111_all_public_original_coordinates_20261009"
+          test ! -e "$out/result.json"
+          mkdir -p "$out"
+          cp /tmp/fcp_42111_final_public_coordinates/* "$out/"
+          git add "$out"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Seal public site coordinates for original 42111 species and 85337 taxon cells'
+          git push origin "HEAD:refs/heads/$HEAD_REF"
