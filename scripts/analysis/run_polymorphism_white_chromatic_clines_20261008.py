@@ -225,6 +225,18 @@ def analyze(d: pd.DataFrame, cohort: str) -> tuple[dict, pd.DataFrame]:
             if fit is not None:
                 effects.append({"predictor": predictor, "delta": fit[0], "null": fit[1],
                                 "genus": row["genus"]})
+        # Sensitivity: omit yellow/orange because visible hues do not share one pigment chemistry.
+        # Red/pink/blue/purple are still only photographic pigment-compatible proxies.
+        rb = g.loc[g.morph.isin(("white", "red_pink", "blue_purple"))]
+        rb_chrom = rb.morph.to_numpy() != "white"
+        for predictor in ("abs_lat", "elevation_m"):
+            fit_rb = species_delta(rb[predictor].to_numpy(float), rb_chrom,
+                                   MIN_AXIS_SPAN[predictor],
+                                   rng=np.random.default_rng(seed_for(cohort,taxon_id,"rb",predictor)))
+            row[f"rb_{predictor}_delta_sd"] = None if fit_rb is None else fit_rb[0]
+            if fit_rb is not None:
+                effects.append({"predictor": f"rb_{predictor}", "delta": fit_rb[0],
+                                "null": fit_rb[1], "genus": row["genus"]})
         # A noninferential collinearity check; do not promote to an independent primary test.
         alt_resid = residualize(g.elevation_m.to_numpy(float), g.abs_lat.to_numpy(float))
         sens = species_delta(alt_resid, chrom, 25.0,
@@ -263,6 +275,11 @@ def analyze(d: pd.DataFrame, cohort: str) -> tuple[dict, pd.DataFrame]:
         },
         "primary_high_absolute_latitude_chromatic": lat,
         "primary_high_elevation_chromatic": alt,
+        "sensitivity_red_pink_blue_purple_vs_white": {
+            "high_abs_latitude": summarize_effect(effects, "rb_abs_lat", cohort),
+            "high_elevation": summarize_effect(effects, "rb_elevation_m", cohort),
+            "role": "secondary descriptive red/blue hue comparison, not biochemical anthocyanin verification",
+        },
         "sensitivity_latitude_adjusted_elevation": {
             "n_species": int(species.elevation_resid_lat_delta_sd.notna().sum()),
             "mean_species_delta_sd": float(species.elevation_resid_lat_delta_sd.mean())
