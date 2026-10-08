@@ -20,7 +20,7 @@ FROZEN_SOURCE_COMMIT="2b5390ea74f8d196012499d2d35dd477f9795938"
 FILES_SHA={
     "breadth":"38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605",
     "taxon_cell":"7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e",
-    "crosscell_pairs":"a5d8e677a87fc3b0771413bbb5b2aa40a1b2242acb4156813ae986518ffa7e4f",
+    "crosscell_pairs":"26755316b2cbd07e1e2241eb4ddc85219fd7e96424df8c14df32575a4d2",
 }
 MORPHS=("white","yellow_orange","red_pink","blue_purple")
 N_WORLD_SPECIES=42111
