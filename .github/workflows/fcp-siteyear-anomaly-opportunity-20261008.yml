@@ -1,0 +1,86 @@
+name: FCP matched site-year-month photo opportunity audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - docs/FCP_SITEYEAR_SAME_MONTH_CLIMATE_PREFLIGHT_20261008.md
+      - scripts/analysis/audit_fcp_siteyear_same_month_opportunity_20261008.py
+      - tests/test_fcp_siteyear_same_month_opportunity_20261008.py
+      - .github/workflows/fcp-siteyear-anomaly-opportunity-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-siteyear-anomaly-opportunity-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install lightweight metadata runtime
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp_siteyear_same_month_opportunity_20261008.py
+      - name: Test local opportunities on deliberately misleading synthetic photos
+        run: python -m pytest tests/test_fcp_siteyear_same_month_opportunity_20261008.py -q
+      - name: Recover unchanged measured source photographs
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/fcp_discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/fcp_validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/fcp_third.csv
+          echo "$DISC_SHA256  /tmp/fcp_discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/fcp_validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/fcp_third.csv" | sha256sum -c -
+      - name: Compute label-blind repeated-site/year same-month feasibility
+        run: |
+          python scripts/analysis/audit_fcp_siteyear_same_month_opportunity_20261008.py \
+            --discovery /tmp/fcp_discovery.csv \
+            --validation /tmp/fcp_validation.csv \
+            --third /tmp/fcp_third.csv \
+            --outdir /tmp/fcp_siteyear_opportunity
+      - name: Confirm no biological result or adaptive claim was produced
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_siteyear_opportunity/result.json").read_text())
+          assert r["schema"]=="fcp_siteyear_same_month_photo_opportunity_v1"
+          assert r["status"]=="coverage_only_no_climate_outcomes"
+          assert r["confirmatory_decisions_changed"] is False
+          assert r["primary_radius_km"]==10
+          assert r["sensitivity_radii_km"]==[25,50]
+          expected={"discovery":369,"validation":363,"third":377}
+          for cohort,n in expected.items():
+              d=r["cohorts"][cohort]
+              assert d["source_species"]==n
+              assert d["n_species_source_classifiable_40"]==n
+              assert 0<=d["radii"]["r10"]["n_species_eligible"]<=d["radii"]["r25"]["n_species_eligible"]<=d["radii"]["r50"]["n_species_eligible"]<=n
+          gate=all(r["cohorts"][c]["radii"]["r10"]["n_species_eligible"]>=30 for c in expected)
+          assert r["primary_10km_all_cohort_feasibility_pass"] is gate
+          assert r["next_action"] == ("qualify_independent_anomaly_input_and_hold_photo_exposure_checks" if gate else "HOLD_10KM_REPEATED_SITE_YEAR_MONTH_PHOTO_OPPORTUNITY")
+          print(json.dumps({c:{k:d["radii"][k]["n_species_eligible"] for k in ("r10","r25","r50")} for c,d in r["cohorts"].items()}, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-siteyear-same-month-opportunity-20261008
+          retention-days: 30
+          if-no-files-found: error
+          path: /tmp/fcp_siteyear_opportunity/
