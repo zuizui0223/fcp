@@ -112,6 +112,8 @@ def strict_anchor_neighborhoods(g: pd.DataFrame, diameter: float) -> dict:
     any_temporal_white_nonwhite = False
     n_anchors_white_nonwhite = 0
     n_anchors_two_hues = 0
+    n_anchors_six_photos = 0
+    n_anchors_metadata_opportunity = 0
     best_wc_observers=0
     for a in range(len(g)):
         # Restriction is conservative: all included photo coordinates within
@@ -119,6 +121,12 @@ def strict_anchor_neighborhoods(g: pd.DataFrame, diameter: float) -> dict:
         near = dist[a] <= diameter/2
         if int(near.sum()) < 2*MIN_ANCHOR_MORPH:
             continue
+        n_anchors_six_photos += 1
+        available = near & np.isfinite(years) & (observers != "")
+        if (int(available.sum()) >= 2*MIN_ANCHOR_MORPH and
+            len(np.unique(years[available])) >= MIN_DISTINCT_YEARS and
+            len(np.unique(observers[available])) >= MIN_DISTINCT_OBSERVERS):
+            n_anchors_metadata_opportunity += 1
         white = near & (groups == "white")
         coloured = near & (groups != "white")
         count_white, count_coloured = int(white.sum()), int(coloured.sum())
@@ -149,6 +157,9 @@ def strict_anchor_neighborhoods(g: pd.DataFrame, diameter: float) -> dict:
     return {
         "n_white_nonwhite_anchors": n_anchors_white_nonwhite,
         "n_nonwhite_hue_anchors": n_anchors_two_hues,
+        "has_minimum_six_photo_anchor":bool(n_anchors_six_photos),
+        "has_minimum_six_photo_metadata_opportunity":bool(n_anchors_metadata_opportunity),
+        "n_six_photo_anchors":n_anchors_six_photos,
         "white_nonwhite_same_neighborhood": bool(any_white_nonwhite),
         "two_nonwhite_hues_same_neighborhood": bool(any_two_hues),
         "white_nonwhite_multi_year_two_observers": bool(evidence_white_nonwhite),
@@ -265,6 +276,15 @@ def describe(df: pd.DataFrame, cohort: str) -> dict:
         wc=df[pre+"white_nonwhite_multi_year_two_observers"].astype(bool) & qualified_wc
         hh=df[pre+"two_nonwhite_hues_multi_year_two_observers"].astype(bool) & qualified_hh
         local_wc=df[pre+"white_nonwhite_same_neighborhood"].astype(bool) & qualified_wc
+        six_any=df[pre+"has_minimum_six_photo_anchor"].astype(bool)
+        meta_opp=df[pre+"has_minimum_six_photo_metadata_opportunity"].astype(bool)
+        wc_with_opp=qualified_wc & meta_opp
+        # Outcome-derived candidate names are unverified as wild plants.
+        example_wc=df.loc[wc,[ "species", "inat_taxon_id", "n_classifiable",
+                                pre+"n_white_nonwhite_anchors"]].copy()
+        example_wc=example_wc.sort_values(
+            [pre+"n_white_nonwhite_anchors","species"],
+            ascending=[False,True],kind="stable").head(12)
         a=int((wc & hh & df.both_comparisons_available).sum())
         b=int((wc & ~hh & df.both_comparisons_available).sum())
         c=int((~wc & hh & df.both_comparisons_available).sum())
@@ -275,6 +295,16 @@ def describe(df: pd.DataFrame, cohort: str) -> dict:
                 local_wc.sum()),
             "n_white_nonwhite_globally_eligible":int(qualified_wc.sum()),
             "n_two_hue_globally_eligible":int(qualified_hh.sum()),
+            "n_species_any_six_photo_neighborhood":int(six_any.sum()),
+            "n_white_nonwhite_eligible_with_six_photo_neighborhood":int(
+                (qualified_wc & six_any).sum()),
+            "n_white_nonwhite_eligible_with_six_photo_multiobserver_year_opportunity":int(
+                wc_with_opp.sum()),
+            "strict_recurrence_given_minimum_neighborhood_metadata_opportunity":float(
+                wc.sum()/wc_with_opp.sum()) if wc_with_opp.sum() else None,
+            "exploratory_example_species_with_strict_recurrence":example_wc.to_dict(
+                orient="records"),
+            "examples_unverified_wild_population_status":True,
             "conditional_strict_recurrence_fraction_white_nonwhite":float(
                 wc.sum()/qualified_wc.sum()) if qualified_wc.sum() else None,
             "conditional_strict_recurrence_fraction_two_nonwhite_hues":float(
