@@ -290,6 +290,33 @@ def main() -> None:
         out["cohorts"][cohort]={"absolute_latitude":a,"elevation":e,
                                 "hemisphere_coverage_descriptive":hemisphere_coverage(d)}
         details.extend([dr,er])
+    # Three species-disjoint same-provider cohorts must agree before any
+    # exploratory geographic band is presented as a recurring pattern.
+    cross={}
+    for axis in EDGES:
+        cross[axis]={}
+        for name in NAMES[axis]:
+            cross[axis][name]={}
+            for metric,delta_key in (("white","mean_white_deviation_vs_specieswide"),
+                                     ("D","mean_D_deviation_vs_specieswide")):
+                values=[out["cohorts"][c][axis]["bands"][name] for c in PHOTO_SHA256]
+                enough=all(v["minimum_25_species_pass"] for v in values)
+                signs=[np.sign(v[delta_key]) for v in values] if enough else []
+                aligned=bool(enough and all(z==signs[0] and z!=0 for z in signs))
+                corrected=all(v.get(f"maxT_across_{axis}_bands_p_{metric}",1)>=0 and
+                              v.get(f"maxT_across_{axis}_bands_p_{metric}",1)<.05
+                              for v in values) if enough else False
+                cross[axis][name][metric]={
+                    "coverage_at_least_25_each_cohort":bool(enough),
+                    "signed_effect_identical_across_three_cohorts":aligned,
+                    "maxT_significant_each_cohort":bool(corrected),
+                    "cohort_informative_species":[v["n_informative_species"] for v in values],
+                    "cohort_observed_deviation":[v.get(delta_key) for v in values],
+                    "status":("HOLD_COVERAGE" if not enough else
+                              "CROSS_COHORT_EXPLORATORY_ASSOCIATION" if aligned and corrected else
+                              "NOT_REPLICATED_AS_SIGNED_BAND_GRADIENT"),
+                }
+    out["cross_cohort_band_sign_check"]=cross
     pd.concat(details,ignore_index=True).to_csv(args.outdir/"species_geographic_band_estimates.csv",index=False)
     (args.outdir/"result.json").write_text(json.dumps(out,indent=2,ensure_ascii=False)+"\n")
     print(json.dumps(out,indent=2,ensure_ascii=False))
