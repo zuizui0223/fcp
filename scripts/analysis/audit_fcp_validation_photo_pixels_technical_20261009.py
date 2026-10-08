@@ -36,7 +36,7 @@ DOWNLOAD_TIMEOUT_SEC = 10
 
 
 def git_blob_sha(raw: bytes) -> str:
-    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\\0" + raw).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
 
 
 def read_frozen_candidates(path: Path) -> list[dict]:
@@ -216,8 +216,8 @@ def main():
     records=read_frozen_candidates(args.queue)
     report,items=analyse(records)
     args.outdir.mkdir(parents=True,exist_ok=True)
-    (args.outdir/"result.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\\n",encoding="utf-8")
-    (args.outdir/"photo_technical_diagnostics.json").write_text(json.dumps(items,indent=2,sort_keys=True)+"\\n",encoding="utf-8")
+    (args.outdir/"result.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+    (args.outdir/"photo_technical_diagnostics.json").write_text(json.dumps(items,indent=2,sort_keys=True)+"\n",encoding="utf-8")
     with (args.outdir/"photo_technical_diagnostics.csv").open("w",newline="",encoding="utf-8") as f:
         names=sorted({k for row in items for k in row})
         w=csv.DictWriter(f,fieldnames=names)
