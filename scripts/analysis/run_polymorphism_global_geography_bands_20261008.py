@@ -127,7 +127,7 @@ def summarize_band(rows: list[dict], null_values: np.ndarray, mixed_null: np.nda
                    cohort: str, axis: str, idx: int) -> dict:
     n=len(rows)
     if n==0:
-        return {"n_informative_species":0,"status":"NO_WITHIN_SPECIES_BAND_OPPORTUNITY"}
+        return {"n_informative_species":0,"n_genera":0,"minimum_25_species_pass":False,"status":"NO_WITHIN_SPECIES_BAND_OPPORTUNITY"}
     df=pd.DataFrame(rows)
     mat=np.asarray(null_values,float)
     if mat.shape!=(PERMUTATIONS,2):
