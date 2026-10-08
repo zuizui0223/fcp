@@ -13,6 +13,8 @@ on:
       - tests/test_fcp_siteyear_replenishment_gap_20261008.py
       - scripts/analysis/build_fcp_replenishment_metadata_query_queue_20261008.py
       - tests/test_fcp_replenishment_metadata_query_queue_20261008.py
+      - scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py
+      - tests/test_fcp_validation_gap1_live_metadata_pilot_20261008.py
       - .github/workflows/fcp-siteyear-anomaly-opportunity-20261008.yml
   workflow_dispatch:
 
@@ -164,6 +166,42 @@ jobs:
           assert a["status"] == "HISTORIC_PHOTO_METADATA_CHECK_QUEUE_ONLY_NO_API_REQUESTS"
           print("No photo metadata requested, no new colour outcomes opened, historic HOLD retained.")
           PY
+      - name: Synthetic tests for bounded live Validation metadata-only pilot
+        run: |
+          python -m pytest tests/test_fcp_validation_gap1_live_metadata_pilot_20261008.py -q
+          python -m py_compile scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py
+
+      - name: Restore original 42111 breadth photo identities for prior-use exclusion
+        run: |
+          set -euo pipefail
+          git show "$THIRD_SHA:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" > /tmp/fcp_42111_breadth.csv.gz
+          echo '38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605  /tmp/fcp_42111_breadth.csv.gz' | sha256sum -c -
+
+      - name: One-page one-request Validation gap-one metadata pilot (22 species ONLY)
+        run: |
+          python scripts/acquisition/audit_fcp_validation_gap1_live_metadata_pilot_20261008.py \
+            --queue /tmp/fcp_replenishment_queue/source_only_observer_photo_query_queue.csv \
+            --discovery /tmp/fcp_discovery.csv \
+            --validation /tmp/fcp_validation.csv \
+            --third /tmp/fcp_third.csv \
+            --breadth /tmp/fcp_42111_breadth.csv.gz \
+            --outdir /tmp/fcp_validation_gapone_live_metadata
+
+      - name: Validate no new images, no new colour outcome and preserve original HOLD
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp_validation_gapone_live_metadata/result.json").read_text())
+          assert r["schema"]=="fcp_validation_gap1_live_observation_metadata_pilot_v1"
+          assert r["original_10km_gate"]=="HOLD_UNCHANGED"
+          assert r["n_api_requests_attempted"]==22
+          assert r["n_query_target_species"]==22
+          assert r["eligible_metadata_is_NOT_classifiable_flower_photo"] is True
+          assert r["strict_query"]["live_photo_pixels_opened"] is False
+          assert r["n_metadata_candidate_species"] + r["n_api_error_species"] + r["n_truncated_unknown_species"] + r["n_first_page_no_candidate_species"] == 22
+          print(json.dumps(r,indent=2))
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: fcp-siteyear-same-month-opportunity-20261008
@@ -174,3 +212,4 @@ jobs:
             /tmp/fcp_exact_10km_opportunity/
             /tmp/fcp_siteyear_replenishment/
             /tmp/fcp_replenishment_queue/
+            /tmp/fcp_validation_gapone_live_metadata/
