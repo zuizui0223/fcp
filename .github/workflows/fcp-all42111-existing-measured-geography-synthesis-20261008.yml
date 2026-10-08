@@ -7,7 +7,7 @@ on:
       - scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py
       - scripts/analysis/audit_fcp_global_white_balance_20261008.py
       - scripts/analysis/audit_fcp_global_white_balance_genus_20261008.py
-      - scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py scripts/analysis/audit_fcp_global_white_fixed_photo_depth_20261008.py
+      - scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py
       - scripts/analysis/audit_fcp_global_white_fixed_photo_depth_20261008.py
       - tests/test_fcp_all42111_measured_geography_20261008.py
       - tests/test_fcp_global_white_balance_20261008.py
@@ -45,7 +45,7 @@ jobs:
           python -m pip install -r requirements-np-bio5-replay-20260928.txt
           python -m pip install pytest==8.4.2
           python -m py_compile scripts/analysis/synthesize_fcp_all42111_measured_geography_20261008.py scripts/analysis/audit_fcp_global_white_balance_20261008.py
-          python -m py_compile scripts/analysis/audit_fcp_global_white_balance_genus_20261008.py scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py
+          python -m py_compile scripts/analysis/audit_fcp_global_white_balance_genus_20261008.py scripts/analysis/audit_fcp_global_white_between_within_species_20261008.py scripts/analysis/audit_fcp_global_white_fixed_photo_depth_20261008.py
           python -m pytest tests/test_fcp_all42111_measured_geography_20261008.py tests/test_fcp_global_white_balance_20261008.py tests/test_fcp_global_white_balance_genus_20261008.py tests/test_fcp_global_white_between_within_species_20261008.py tests/test_fcp_global_white_fixed_photo_depth_20261008.py -q
       - name: Reopen completed actual photo measurements, not original images
         run: |
