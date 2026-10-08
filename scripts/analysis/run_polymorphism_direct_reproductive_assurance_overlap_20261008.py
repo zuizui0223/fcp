@@ -29,7 +29,7 @@ EXTERNAL_PIN = {
     "sources": {
         "rodger": {"doi": "10.1126/sciadv.abd3524", "trait": "autonomous seed/fruit production without pollinators"},
         "goodwillie": {"doi": "10.1146/annurev.ecolsys.36.091704.175539", "trait": "multilocus natural-population genetic outcrossing rate"},
-        "razanajatovo": {"doi": "10.1038/ncomms13357", "trait": "experimentally measured autofertility index or self-compatibility index"},
+        "razanajatovo": {"doi": "10.1038/ncomms13313", "trait": "experimentally measured autofertility index or self-compatibility index"},
     }
 }
 PHOTO_STATES = ("white", "yellow_orange", "red_pink", "blue_purple")
