@@ -20,9 +20,9 @@ def source():
     return pd.DataFrame([
         {"inat_taxon_id":1,"cell_id":75,"morph":"white","measurement_status":"classified_four_state_morph"},
         {"inat_taxon_id":1,"cell_id":77,"morph":"white","measurement_status":"classified_four_state_morph"},
-        {"inat_taxon_id":1,"cell_id":95,"morph":"red_pink","measurement_status":"classified_four_state_morph"},
+        {"inat_taxon_id":1,"cell_id":20,"morph":"red_pink","measurement_status":"classified_four_state_morph"},
         {"inat_taxon_id":2,"cell_id":76,"morph":"white","measurement_status":"classified_four_state_morph"},
-        {"inat_taxon_id":2,"cell_id":96,"morph":"white","measurement_status":"classified_four_state_morph"},
+        {"inat_taxon_id":2,"cell_id":21,"morph":"white","measurement_status":"classified_four_state_morph"},
         {"inat_taxon_id":3,"cell_id":75,"morph":"mixed_uncertain","measurement_status":"not_evaluable_roi_or_flip_gate"},
     ])
 
