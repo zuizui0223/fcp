@@ -74,7 +74,10 @@ jobs:
         run: |
           set -euo pipefail
           test "$GITHUB_RUN_ATTEMPT" = '1'
-          test ! -e results/fcp_all42111_original_photo_url_resolution_20261008/result.json
+          # Preserve original failed /observations/{100 ids} transport as
+          # historical evidence; v2 is a separate corrected-endpoint artifact.
+          test -e results/fcp_all42111_original_photo_url_resolution_20261008/result.json
+          test ! -e results/fcp_all42111_original_photo_url_recovery_v2_20261008/result.json
           python scripts/acquisition/resolve_fcp_all42111_existing_photo_metadata_20261008.py \
             --frozen-photo-identities results/fcp_all42111_archived_photo_id_20261008/one_source_photo_id_per_each_42111_species.csv.gz \
             --outdir /tmp/fcp_all42111_original_source_urls
@@ -90,6 +93,12 @@ jobs:
           assert j['original_photo_identity_unchanged']
           assert j['source_photo_URL_workload']['n_original_source_species']==42111
           assert j['source_photo_URL_workload']['n_observation_batches']==422
+          # This is a transport-quality audit. A green GitHub job alone must
+          # never hide 421/422 API errors like the failed first attempt.
+          assert j['technical_only_transport_recovery_of_failed_run']==37762416621
+          assert j['source_photo_URL_workload']['n_failed_batches']<=21, 'API transport not fit for whole-world inference'
+          assert j['source_photo_URL_workload']['n_url_and_license_verified']>=1000, 'No usable original photo URL population'
+          assert j['api_endpoint'].startswith('GET /v1/observations?')
           assert sum(j['source_photo_URL_workload']['species_by_current_original_photo_URL_status'].values())==42111
           assert j['downloaded_image_pixels'] is False
           assert j['classified_flower_colour'] is False
@@ -113,7 +122,7 @@ jobs:
           test "$HEAD_REF" = 'analysis/fcp-all42111-global-coverage-20261008'
           git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
           git reset --hard "origin/$HEAD_REF"
-          dest='results/fcp_all42111_original_photo_url_resolution_20261008'
+          dest='results/fcp_all42111_original_photo_url_recovery_v2_20261008'
           mkdir -p "$dest"
           cp /tmp/fcp_all42111_original_source_urls/* "$dest/"
           git add "$dest"
