@@ -1,0 +1,103 @@
+name: FCP NEXT-2000 synthetic terminal prequalification (NO image data)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/qualify_fcp_next2000_synthetic_20261008.py
+      - tests/test_fcp_next2000_synthetic_technical_20261008.py
+      - .github/workflows/fcp-next2000-synthetic-qualification-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: next2000-synthetic-only-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FROZEN_HISTORICAL_ENGINE_COMMIT: '969c67d274868b5dc4e8c2c8c9fa5d1f1beb5527'
+  ENGINE_BLOB_SHA: 'c7b277c249fc6121302b35ce2960e2003cfd0930'
+  FROZEN_MANIFEST_SHA: 'e1301095533dfa755c1588cc550522bf31aabaef632083e265a138f0e3af6d2a'
+
+jobs:
+  synthetic-only-engine:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Install existing environment and test synthetic input controls
+        run: |
+          python -m pip install -r requirements-np-bio5-replay-20260928.txt
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/qualify_fcp_next2000_synthetic_20261008.py
+          python -m pytest tests/test_fcp_next2000_synthetic_technical_20261008.py -q
+
+      - name: Verify pinned earlier discovery engine source and new cohort hash
+        run: |
+          set -euo pipefail
+          f='results/fcp_next2000_prospective_preopening_20261008/prospective_selected_2000_species.tsv'
+          echo "$FROZEN_MANIFEST_SHA  $f" | sha256sum -c -
+          git fetch --no-tags --depth=1 origin "$FROZEN_HISTORICAL_ENGINE_COMMIT"
+          git show "$FROZEN_HISTORICAL_ENGINE_COMMIT:scripts/analysis/run_polymorphism_specieswide_space_season_20261008.py" \
+            > /tmp/fcp_historical_month_geo_engine.py
+          test "$(git hash-object /tmp/fcp_historical_month_geo_engine.py)" = "$ENGINE_BLOB_SHA"
+
+      - name: Execute complete synthetic spatial/season/observer and terminal JSON+ZIP readback
+        run: |
+          python scripts/analysis/qualify_fcp_next2000_synthetic_20261008.py \
+            --analysis-engine /tmp/fcp_historical_month_geo_engine.py \
+            --prospective-manifest results/fcp_next2000_prospective_preopening_20261008/prospective_selected_2000_species.tsv \
+            --outdir /tmp/fcp_next2000_synthetic_qualification
+
+      - name: Verify no original or new colour pixels were opened
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=Path('/tmp/fcp_next2000_synthetic_qualification')
+          j=json.loads((d/'technical_execution_receipt.json').read_text())
+          assert j['schema']=='fcp_next2000_synthetic_end_to_end_qualification_v1'
+          assert j['technical_qualification_result']=='PASS_SYNTHETIC_SERIALIZATION_AND_ARTIFACT_PACKAGING'
+          assert j['artifact_reopened_and_validated']
+          assert j['selected_species_count']==2000
+          assert j['engine_permutations']==199 and j['engine_bootstrap']==1999
+          assert all(j['all_checks'].values())
+          assert not any(j['outcome_firewall'].values())
+          assert j['biological_pixel_opening_authorized_by_this_receipt'] is False
+          assert (d/'synthetic_technical_artifact.zip').stat().st_size>100
+          print('SYNTHETIC_E2E_COMPLETE_SERIALIZATION_AND_ARTIFACT_REOPENED_NO_BIOLOGICAL_OPENING')
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-next2000-synthetic-terminal-check-20261008
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_next2000_synthetic_qualification/
+
+      - name: Commit terminal synthetic-only qualification as separate evidence ledger
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-next2000-prospective-preopening-20261008'
+          dest='results/fcp_next2000_synthetic_qualification_20261008'
+          mkdir -p "$dest"
+          cp /tmp/fcp_next2000_synthetic_qualification/technical*.json "$dest/"
+          git add "$dest"
+          if git diff --cached --quiet; then
+            echo 'Frozen technical evidence is already committed'
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal NEXT-2000 synthetic-only geographic FCP terminal check before photos'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi

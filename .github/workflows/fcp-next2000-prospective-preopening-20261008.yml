@@ -1,0 +1,121 @@
+name: Freeze FCP new 2000 prospective species before photo outcomes
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/freeze_fcp_next2000_species_preopening_20261008.py
+      - tests/test_fcp_next2000_species_preopening_20261008.py
+      - docs/FCP_NEXT2000_PROSPECTIVE_INDEPENDENT_CONFIRMATION_PROTOCOL_20261008.md
+      - .github/workflows/fcp-next2000-prospective-preopening-20261008.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: fcp-next2000-preopening-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FROZEN_THIRD_SHA: '7e538e5c51c05a7cc47b2fcf53eea92634c8a863'
+  PARENT_SELECTION_RUN_ID: '34708044962'
+  PARENT_SELECTION_ARTIFACT: 'polymorphism-h2-prospective-u100-selection-20260913'
+  P100_SHA: '1473aad680fe2fa84903c5e11ee104fd0eceef828957f16c2ef1a35f9dd6993c'
+  P500_SHA: 'f54d07fb2338a20a3f92808b58f0ebc948ab0d5af3cb01fb26702f861184b7a4'
+  THIRD_MANIFEST_SHA: '16db6a2fc265f0ab20e7dae4e6f9058b907f5c19af3ddab5b6077797dd1def59'
+
+jobs:
+  preopen-metadata-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12.14'
+      - name: Prove no-photo/cross-cohort source firewall using synthetic tests
+        run: |
+          python -m pip install pytest==8.4.2
+          python -m py_compile scripts/analysis/freeze_fcp_next2000_species_preopening_20261008.py
+          python -m pytest tests/test_fcp_next2000_species_preopening_20261008.py -q
+
+      - name: Fetch only original outcome-blind species allocation from archived run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_next2000_parent
+          gh run download "$PARENT_SELECTION_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "$PARENT_SELECTION_ARTIFACT" --dir /tmp/fcp_next2000_parent
+          echo "$P100_SHA  /tmp/fcp_next2000_parent/p100_outcome_blind_pool.csv" | sha256sum -c -
+          echo "$P500_SHA  /tmp/fcp_next2000_parent/p500_frozen_selection.csv" | sha256sum -c -
+          git fetch --no-tags --depth=1 origin "$FROZEN_THIRD_SHA"
+          git show "$FROZEN_THIRD_SHA:results/polymorphism_h2_third_cohort_selection_20260916/selected_species_manifest.tsv" \
+            > /tmp/fcp_next2000_parent/third_selected_manifest.tsv
+          echo "$THIRD_MANIFEST_SHA  /tmp/fcp_next2000_parent/third_selected_manifest.tsv" | sha256sum -c -
+
+      - name: Reconstruct 3230 and freeze untouched 2730 as 2000 confirmation plus 730 reserve
+        run: |
+          python scripts/analysis/freeze_fcp_next2000_species_preopening_20261008.py \
+            --p100 /tmp/fcp_next2000_parent/p100_outcome_blind_pool.csv \
+            --p500 /tmp/fcp_next2000_parent/p500_frozen_selection.csv \
+            --third-manifest /tmp/fcp_next2000_parent/third_selected_manifest.tsv \
+            --outdir /tmp/fcp_next2000_outcome_blind
+
+      - name: Verify result, disjointness and the 2000+730 allocation
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          root=Path('/tmp/fcp_next2000_outcome_blind')
+          j=json.loads((root/'preopening_result.json').read_text())
+          assert j['schema']=='fcp_next2000_prospective_outcome_blind_allocation_v1'
+          assert j['status']=='METADATA_ONLY_COHORT_SELECTION_FROZEN_NO_BIOLOGICAL_OPENING'
+          assert j['original_u100_metadata_capacity_species']==4730
+          assert j['source_candidate_species_3230']==3230
+          assert j['unused_capacity_species_after_all_allocations']==2730
+          assert j['new_prospective_sampled_species']==2000
+          assert j['permanently_unopened_reserve_species']==730
+          assert j['potential_total_photographed_species_if_all_new_sample_successful']==3499
+          assert j['selected_2000_no_prior_taxon_overlap']
+          assert j['reserve_730_no_prior_or_selected_overlap']
+          assert not any(j['biological_outcome_state'].values())
+          for fname,n in [('prospective_selected_2000_species.tsv',2000),('prospective_reserve_730_species.tsv',730)]:
+              with (root/fname).open(newline='',encoding='utf-8') as fh:
+                  a=list(csv.DictReader(fh,delimiter='\t'))
+              assert len(a)==n and len({x['inat_taxon_id'] for x in a})==n
+              assert all(int(x['after_observer_cap'])>=100 for x in a)
+          print('INDEPENDENT_NEW_2000_SPECIES_FROZEN_NO_NEW_COLOUR_OR_FITNESS_DATA_OPENED')
+          PY
+
+      - name: Upload exact frozen metadata species manifest before further studies
+        uses: actions/upload-artifact@v4
+        with:
+          name: fcp-next2000-prospective-outcome-blind-20261008
+          if-no-files-found: error
+          retention-days: 30
+          path: /tmp/fcp_next2000_outcome_blind/
+
+      - name: Commit only metadata-only selection files on this analysis branch
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-next2000-prospective-preopening-20261008'
+          target='results/fcp_next2000_prospective_preopening_20261008'
+          mkdir -p "$target"
+          cp /tmp/fcp_next2000_outcome_blind/* "$target/"
+          git add "$target"
+          if git diff --cached --quiet; then
+            echo 'Previously frozen identical species manifest is already tracked'
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Freeze next 2000 new FCP species and 730 untouched reserve without opening colours'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
