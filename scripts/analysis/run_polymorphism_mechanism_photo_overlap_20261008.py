@@ -153,6 +153,12 @@ def one_species_photo_summary(g: pd.DataFrame) -> dict:
         "photo_50km_white_nonwhite_pairs":local_white_chromatic,
         "photo_white_state_chemically_confirmed":False,
         "in_pop_fitness_genotype_mapped_to_source_images":False,
+        # Photo IDs only: a deterministic audit queue, not new classification
+        # or a source-verified proof that this image shows a flower organ.
+        "white_photo_id_review_queue":sorted(
+            u.loc[u.morph=="white","photo_id"].astype(str).tolist())[:12],
+        "nonwhite_photo_id_review_queue":sorted(
+            u.loc[u.morph!="white","photo_id"].astype(str).tolist())[:12],
     }
 
 
