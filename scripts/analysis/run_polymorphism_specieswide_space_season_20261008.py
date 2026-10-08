@@ -208,7 +208,7 @@ def species_test(
 def summarize(rows: list[dict], nulls: list[np.ndarray],
               cohort: str, stratum: str, policy: str) -> dict:
     if not rows:
-        return {"estimable": False, "n_species": 0, "reason": "no_eligible_photo_coverage"}
+        return {"estimable": False, "n_species": 0, "meets_frozen_80_species_coverage_gate": False, "reason": "no_eligible_photo_coverage", "status": "not_estimable_no_exchangeable_photo_coverage"}
     df = pd.DataFrame(rows)
     mat = np.vstack(nulls)
     excess = df.excess_over_stratified_null.to_numpy(float)
