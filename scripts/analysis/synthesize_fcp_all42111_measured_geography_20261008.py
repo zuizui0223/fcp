@@ -112,7 +112,7 @@ def region_cell_stats(frame:pd.DataFrame)->tuple[list[dict],pd.DataFrame]:
             "classified_fraction":float(v/n) if n else None,
             "occupied_equal_area_cells":int(g.cell_id.nunique()),
             "colours_among_classified":{k:int(counts[k]) for k in MORPHS},
-            "species_equal_within_region_photo_colour_fraction_conditional":{
+            "taxon_cell_weighted_colour_fraction_conditional":{
                 k:float(counts[k]/v) if v else None for k in MORPHS
             },
             "population_claim_boundary":"taxon-cell anchors are NOT equal-weight species globally; some species appear in multiple cells",
