@@ -1,0 +1,70 @@
+{
+  "date_jst": "2026-10-09",
+  "distance_caps_km_precommitted_all_tested": [
+    250.0,
+    500.0
+  ],
+  "frozen_climate_photo_moisture_increment_results": {
+    "250": {
+      "group_colour_composition_preserved_in_every_null": true,
+      "n_colour_classes_in_source": 4,
+      "n_null_gain_greater_than_observed": 1,
+      "n_null_permutations": 199,
+      "n_original_genera": 184,
+      "n_original_genus_cell_groups": 217,
+      "n_original_photo_species": 872,
+      "n_source_photo_geographic_cells": 51,
+      "null_2p5_50_97p5": [
+        -0.00133431117270034,
+        0.00142568002854267,
+        0.005938258331523272
+      ],
+      "null_label_shuffle_scope": "EXACT_SAME_GENUS_AND_SAME_ORIGINAL_162_CELL_ONLY",
+      "null_maximum_gain": 0.009390824788596071,
+      "null_mean_gain": 0.0016543423779537382,
+      "null_sd_gain": 0.001922784666100348,
+      "observed_moisture_added_multiclass_brier_gain": 0.008598034415982893,
+      "one_sided_permutation_p_source_conditional": 0.01,
+      "same_fitted_method_refit_for_every_null": true,
+      "test_fold_assignments_preserved_in_every_null": true
+    },
+    "500": {
+      "group_colour_composition_preserved_in_every_null": true,
+      "n_colour_classes_in_source": 4,
+      "n_null_gain_greater_than_observed": 2,
+      "n_null_permutations": 199,
+      "n_original_genera": 306,
+      "n_original_genus_cell_groups": 417,
+      "n_original_photo_species": 1761,
+      "n_source_photo_geographic_cells": 69,
+      "null_2p5_50_97p5": [
+        -0.00030389306803254353,
+        0.0014396606385259558,
+        0.004031399307371386
+      ],
+      "null_label_shuffle_scope": "EXACT_SAME_GENUS_AND_SAME_ORIGINAL_162_CELL_ONLY",
+      "null_maximum_gain": 0.006296123294941056,
+      "null_mean_gain": 0.001601775129149481,
+      "null_sd_gain": 0.0012168012833121374,
+      "observed_moisture_added_multiclass_brier_gain": 0.005115260801465297,
+      "one_sided_permutation_p_source_conditional": 0.015,
+      "same_fitted_method_refit_for_every_null": true,
+      "test_fold_assignments_preserved_in_every_null": true
+    }
+  },
+  "hard_nonclaims": [
+    "A positive permutation calibrated association among congeneric photos is not causal climate selection",
+    "Permutation is conditional on the original local genus-cell group and its complete-case source-photo sampling",
+    "Overlapping 250km and 500km original sources are NOT independent evidence replications",
+    "One photo per species, geographic range and within-cell environment still confound phenotypic biology",
+    "199 permutations yield only 0.005 resolution for one-sided source-conditional p-values"
+  ],
+  "original_climate_complete_species": 18413,
+  "original_global_source_taxa": 42111,
+  "original_photo_colour_classified_source_taxa": 18457,
+  "permutations_precommitted": 199,
+  "schema": "fcp_global42111_local_congener_moisture_permutation_null_v1",
+  "source_covid_photo_pixels_or_new_labels_opened": false,
+  "source_groups_chosen_before_photo_colour_permutation": true,
+  "status": "HISTORICAL_SOURCE_WITHINGROUP_LABEL_SHUFFLE_CALIBRATION"
+}
