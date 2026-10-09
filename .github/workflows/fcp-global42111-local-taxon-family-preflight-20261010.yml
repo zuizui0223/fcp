@@ -47,7 +47,6 @@ jobs:
         run: |
           set -euo pipefail
           echo "Audit run attempt ${GITHUB_RUN_ATTEMPT}; immutable successful source result is the only repeat gate"
-          test ! -e results/fcp_global42111_original_local_taxonomy_20261010/result.json
           gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
             --name "$SOURCE_ARTIFACT" --dir /tmp/fcp_original_phylogeny_taxon_source
           source="$(find /tmp/fcp_original_phylogeny_taxon_source -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
@@ -70,9 +69,15 @@ jobs:
           PY
       - name: Taxon-ID-only 59 bounded public family/genus lookup batches, fail closed on synonym changes
         run: |
-          python scripts/acquisition/freeze_fcp_global42111_local_phylogeny_taxonomy_20261010.py \
-            --original-breadth-abiotic /tmp/fcp_orig42111_photo_taxonomy.csv.gz \
-            --outdir /tmp/fcp_local_original_1761_family
+          if test -s results/fcp_global42111_original_local_taxonomy_20261010/result.json; then
+            echo 'Previous source-verified 1761 taxon family audit exists: reuse, NEVER requery iNaturalist'
+            mkdir -p /tmp/fcp_local_original_1761_family
+            cp results/fcp_global42111_original_local_taxonomy_20261010/* /tmp/fcp_local_original_1761_family/
+          else
+            python scripts/acquisition/freeze_fcp_global42111_local_phylogeny_taxonomy_20261010.py \
+              --original-breadth-abiotic /tmp/fcp_orig42111_photo_taxonomy.csv.gz \
+              --outdir /tmp/fcp_local_original_1761_family
+          fi
       - name: Verify exact original taxon IDs and no phylogenetic coefficient
         run: |
           python - <<'PY'
