@@ -46,7 +46,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          test "$GITHUB_RUN_ATTEMPT" = 1
+          echo "Audit run attempt ${GITHUB_RUN_ATTEMPT}; immutable successful source result is the only repeat gate"
           test ! -e results/fcp_global42111_original_local_taxonomy_20261010/result.json
           gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
             --name "$SOURCE_ARTIFACT" --dir /tmp/fcp_original_phylogeny_taxon_source
