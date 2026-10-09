@@ -1,0 +1,133 @@
+name: FCP 42111 colour-blind exchangeable-neighborhood photo Brier audit
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-local-congeners-20261009
+    paths:
+      - scripts/analysis/audit_fcp_global42111_microspatial_subset_scoring_20261009.py
+      - tests/test_fcp_global42111_microspatial_subset_scoring_20261009.py
+      - docs/FCP_GLOBAL42111_MICROSPATIAL_SUBSET_SCORING_20261009.md
+      - .github/workflows/fcp-global42111-microspatial-subset-scoring-20261009.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-original42111-spatially-exchangeable-photo-subset-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ORIGINAL_SOURCE_RUN: '37861582446'
+  ORIGINAL_SOURCE_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+
+jobs:
+  source-photo-nearby-prediction:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Exact original photographed Brier reproduction and colour-blind fixed microgroups
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp_global42111_microspatial_subset_scoring_20261009.py
+          python -m pytest tests/test_fcp_global42111_microspatial_subset_scoring_20261009.py -q
+          python -m pytest tests/test_fcp_global42111_microspatial_photo_shuffle_20261009.py -q
+      - name: Retrieve original one-photo-per-species FCP climate metadata, no new images or grids
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$ORIGINAL_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$ORIGINAL_SOURCE_ARTIFACT" --dir /tmp/fcp_original42111_micro_subsets
+          source="$(find /tmp/fcp_original42111_micro_subsets -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$source"
+          cp "$source" /tmp/fcp_original42111_micro_subset_source.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          found=[]
+          for path in Path('/tmp/fcp_original42111_micro_subsets').rglob('result.json'):
+              x=json.loads(path.read_text())
+              if x.get('schema')=='fcp_global42111_original_photo_climate_soil_attachment_v1':
+                  found.append(x)
+          assert len(found)==1
+          x=found[0]
+          assert x['original_species_count']==42111
+          assert x['n_unique_original_photo_IDs']==100543
+          assert x['breadth_classifiable_by_covariate']['environment_climate_complete']==18413
+          assert not x['new_colour_label_or_photo_pixel_opened']
+          PY
+      - name: Audit same fixed full-cohort models while scoring only source-photo multispecies microregions
+        run: |
+          python scripts/analysis/audit_fcp_global42111_microspatial_subset_scoring_20261009.py \
+            --original-breadth-abiotic /tmp/fcp_original42111_micro_subset_source.csv.gz \
+            --outdir /tmp/fcp_original_photo_micro_subset_null
+      - name: Protect 250/500 x 50/100 original photo opportunities and matched conditional nulls
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp_original_photo_micro_subset_null/result.json').read_text())
+          assert d['schema']=='fcp_global42111_original_nearby_exchangeable_photo_subset_null_v1'
+          assert d['original_source_species']==42111
+          assert d['original_colour_classifiable_source_species']==18457
+          assert d['original_climate_complete_photo_species']==18413
+          assert d['original_distance_caps_km']==[250,500]
+          assert d['original_nearby_complete_link_caps_km']==[50,100]
+          assert d['source_four_state_labels_are_original_and_never_remeasured']
+          assert d['colour_blind_microgroup_eval_eligibility_fixed_before_permutation']
+          assert d['same_observed_model_as_previously_frozen_250_500_cohort']
+          for cap,n in [('250',872),('500',1761)]:
+              c=d['source_original_cohorts'][cap]
+              assert c['source_species']==n
+              assert set(c['outcome_blind_microgroup_scoring'])=={'50','100'}
+              for near in ('50','100'):
+                  v=c['outcome_blind_microgroup_scoring'][near]
+                  assert v['source_original_photo_species']==n
+                  assert v['test_species_selection_uses_only_original_photo_coordinates_and_species_ID']
+                  assert v['no_photo_colour_class_used_to_select_scoring_subset']
+                  assert v['same_original_complete_cohort_fit_for_all_subset_evaluations']
+                  assert v['microgroup_four_colour_composition_preserved_per_null']
+                  if v['status']=='SOURCE_COLOR_BLIND_MICRONEIGHBORHOOD_SCORING_AND_NULL':
+                      assert v['n_fixed_null_model_refits']==199
+                      assert v['n_original_evaluation_photo_ids_in_multispecies_microgroups']>=100
+                      assert .005<=v['permutation_p']<=1
+                  else:
+                      assert v['status']=='HOLD_INSUFFICIENT_COLOUR_BLIND_MULTISPECIES_PHOTO_NEIGHBORHOODS'
+                      assert v['n_fixed_null_model_refits']==0
+                      assert v['permutation_p'] is None
+          print('FCP_MICROGEO_SOURCE_PHOTO_BLIND_SCORING_NULL_OR_HOLD_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp42111-original-photo-micro-neighborhood-subset-20261009
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_original_photo_micro_subset_null/
+      - name: Seal source-original photograph spatially exchangeable evaluation receipt
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-microspatial-label-null-20261009'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          dest=results/fcp_global42111_microspatial_photo_subset_null_20261009
+          mkdir -p "$dest"
+          cp /tmp/fcp_original_photo_micro_subset_null/* "$dest/"
+          git add "$dest"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal source photo colour-blind local exchangeable evaluation null with true micro-geographical structure'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
