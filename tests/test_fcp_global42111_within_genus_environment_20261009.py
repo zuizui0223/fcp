@@ -93,6 +93,14 @@ def test_heldout_cell_and_genus_sample_is_identical_between_models(source):
     assert all(q["n_same_source_test_species"]==n for q in out["brier_score_models"].values())
     assert out["brier_score_models"]["GENUS_BASELINE"]["heldout_multiclass_brier"]>=0
     assert len(out["fixed_fold_incremental_gains"]["climate_beyond_genus_geography"]["source_cell_block_bootstrap_95CI"])==2
+    for k in out["fixed_fold_incremental_gains"]:
+        row=out["fixed_fold_incremental_gains"][k]
+        assert len(row["genus_equal_source_cell_bootstrap_95CI"])==2
+        assert len(row["genus_equal_genus_cluster_bootstrap_95CI"])==2
+        assert row["n_genera_in_genus_equal_sensitivity"]==out["n_distinct_source_genera_in_evaluation"]
+        assert 0<=row["fraction_evaluated_genera_with_positive_increment"]<=1
+    for m in out["brier_score_models"].values():
+        assert m["heldout_genus_equal_multiclass_brier"]>=0
 
 
 def test_mismatched_soil_never_imputed_into_model(source):
