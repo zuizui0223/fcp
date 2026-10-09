@@ -16,6 +16,10 @@ import time
 import urllib.request
 import urllib.error
 from pathlib import Path
+import sys
+
+# Standalone acquisition CLI needs the sibling source-frozen analysis modules.
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"analysis"))
 
 import pandas as pd
 
