@@ -40,3 +40,16 @@ An unmeasured critical alternative remains: geographic climate may also affect w
 - [Global 42,111 sampled species and original 85,337 geographic taxon-cell ecological atlas PR #138](https://github.com/zuizui0223/fcp/pull/138).
 
 All analyses are retrospective and retain the old FCP photograph image classifications, source photo IDs and original environmental rasters. The original New Phytologist 1,499 high-depth H1/H2 analyses and unexposed preselected 2,000+730 study remain unchanged.
+
+
+## Direct negative control: precipitation vs source PHOTO CLASSIFIABILITY
+
+Completed original photo ascertainment diagnosis from [source-verified Actions 37888767069](https://github.com/zuizui0223/fcp/actions/runs/37888767069), 6 synthetic tests, and [machine result](../results/fcp_global42111_photo_classifiability_moisture_control_20261009/result.json). The binary response is **original flower ROI four-state CLASSIFIABLE or not**, NOT whether the biological species' flower is white/pigmented.
+
+- Source-wide original photo denominator preserved: **42,111** nominal taxa, **18,457** photo-classifiable, **23,654** photo-unclassifiable.
+- **42,014** source photos have climate+altitude available (18,413 classified, 23,601 unclassified); **33,810** train-genus-supported heldout photo opportunities. Unique BIO12/BIO15 precipitation increment beyond genus+geography+BIO1/BIO5: **+0.0000363 binary Brier**, 95% fixed geographic-cell bootstrap **[−0.0000488,+0.0001274]** — NOT supported. Unique BIO1/BIO5 thermal increment: **+0.0001728**, 95% **[+0.0000419,+0.0002999]** — very small positive classification-success predictability.
+- **32,231** original source photos with full soil+climate+altitude available (14,136 classified, 18,095 unclassified); **24,731** in train-genus-supported spatially held-out photos. Unique rainfall-classifiability increment **+0.0000543**, CI **[−0.0000735,+0.0001729]** — NOT supported. Soil increment on classifiability also spans zero.
+
+**Interpretation:** The source photograph-classifiability negative control does **not** show an independent rainfall classification-success signal analogous to the small rainfall/photo-colour association among classified *different congeneric species*. This weakens the simple explanation that wet places merely yield more classifiable flower photos. However, the same assay cannot test **colour-dependent unclassifiability** (true flower colour is unknowable for original 23,654 unsuccessful images), residual geography/taxonomy/photography confounding, gene flow, pigment physiology, or environmental selection. Binary classification-success Brier improvements are not numerically comparable to multiclass colour Brier improvements.
+
+The supported ecological claim remains **retrospective, source-photographic and scale-conditional**, not experimental: a subtle precipitation-associated visible flower-colour signal among sampled different species within a genus, no robust precipitation predictor of single-pair within-species spatial photo-colour mismatch, and no simple independent precipitation prediction of overall ROI classification success. No claim that climatic selection occurred during speciation is warranted.
