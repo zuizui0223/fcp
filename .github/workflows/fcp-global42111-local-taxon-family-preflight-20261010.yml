@@ -1,0 +1,124 @@
+name: FCP 42111 old local congener exact source taxonomy family preflight
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-microspatial-label-null-20261009
+    paths:
+      - scripts/acquisition/freeze_fcp_global42111_local_phylogeny_taxonomy_20261010.py
+      - tests/test_fcp_global42111_local_phylogeny_taxonomy_20261010.py
+      - docs/FCP_GLOBAL42111_LOCAL_PHYLOGENY_TAXONOMY_20261010.md
+      - .github/workflows/fcp-global42111-local-taxon-family-preflight-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp42111-frozen-1761-taxa-public-phylogeny-family-one-shot-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_RUN: '37861582446'
+  SOURCE_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+
+jobs:
+  source-original-species-family:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Unit guard exact source taxonomy vs family ambiguity, no image requests
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m py_compile scripts/acquisition/freeze_fcp_global42111_local_phylogeny_taxonomy_20261010.py
+          python -m pytest tests/test_fcp_global42111_local_phylogeny_taxonomy_20261010.py -q
+      - name: Only frozen original already exposed flower source photos and taxon IDs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test ! -e results/fcp_global42111_original_local_taxonomy_20261010/result.json
+          gh run download "$SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$SOURCE_ARTIFACT" --dir /tmp/fcp_original_phylogeny_taxon_source
+          source="$(find /tmp/fcp_original_phylogeny_taxon_source -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$source"
+          cp "$source" /tmp/fcp_orig42111_photo_taxonomy.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          items=[]
+          for p in Path('/tmp/fcp_original_phylogeny_taxon_source').rglob('result.json'):
+              q=json.loads(p.read_text())
+              if q.get('schema')=='fcp_global42111_original_photo_climate_soil_attachment_v1':
+                  items.append(q)
+          assert len(items)==1
+          q=items[0]
+          assert q['original_species_count']==42111
+          assert q['n_unique_original_photo_IDs']==100543
+          assert q['breadth_classifiable_by_covariate']['environment_climate_complete']==18413
+          assert not q['new_colour_label_or_photo_pixel_opened']
+          PY
+      - name: Taxon-ID-only 59 bounded public family/genus lookup batches, fail closed on synonym changes
+        run: |
+          python scripts/acquisition/freeze_fcp_global42111_local_phylogeny_taxonomy_20261010.py \
+            --original-breadth-abiotic /tmp/fcp_orig42111_photo_taxonomy.csv.gz \
+            --outdir /tmp/fcp_local_original_1761_family
+      - name: Verify exact original taxon IDs and no phylogenetic coefficient
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import pandas as pd
+          p=Path('/tmp/fcp_local_original_1761_family')
+          r=json.loads((p/'result.json').read_text())
+          x=pd.read_csv(p/'original_local_species_family_genus.csv')
+          m=pd.read_csv(p/'source_original_fixed_taxa_before_API.csv')
+          assert r['schema']=='fcp_42111_local_source_taxonomy_family_1761_v1'
+          assert r['original_global_photo_species_denominator']==42111
+          assert r['original_local_500km_species_denominator']==1761
+          assert r['original_local_250km_species_denominator']==872
+          assert len(x)==len(m)==1761
+          assert x.inat_taxon_id.is_unique and m.inat_taxon_id.is_unique
+          assert set(x.inat_taxon_id)==set(m.inat_taxon_id)
+          assert r['n_current_taxonomy_api_batches']==59
+          assert r['phylogenetic_tree_created'] is False
+          assert r['phylogenetic_environmental_effect_estimated'] is False
+          assert r['source_photo_colour_used_in_family_assignment'] is False
+          assert r['original_species_not_replaced_with_current_taxon_synonyms'] is True
+          assert r['n_500km_ready_exact_original_species_family_genus']+r['n_500km_taxonomy_unresolved']==1761
+          assert r['n_250km_ready_exact_original_species_family_genus']+r['n_250km_taxonomy_unresolved']==872
+          print('FCP_1761_ORIGINAL_SOURCE_TAXON_ID_FAMILY_GENUS_COVERAGE_AUDITED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-local-1761-original-taxon-families-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_local_original_1761_family/
+      - name: Commit family/genus source matching metadata, never photo colours or tree scores
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-phylogeny-coverage-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_original_local_taxonomy_20261010
+          mkdir -p "$folder"
+          cp /tmp/fcp_local_original_1761_family/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal original FCP 1761 local photographed species family and genus taxonomy identification'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
