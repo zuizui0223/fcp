@@ -1,0 +1,128 @@
+name: FCP 42111 within-genus flower-colour climate/soil composition audit
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-abiotic-join-execution-20261009
+    paths:
+      - scripts/analysis/test_fcp_global42111_within_genus_environment_20261009.py
+      - tests/test_fcp_global42111_within_genus_environment_20261009.py
+      - docs/FCP_GLOBAL42111_WITHIN_GENUS_ENVIRONMENT_20261009.md
+      - .github/workflows/fcp-global42111-within-genus-environment-20261009.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp42111-genus-adjusted-environment-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FROZEN_REAL_SITE_SOURCE_RUN: '37861582446'
+  FROZEN_REAL_SITE_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+
+jobs:
+  original-genus-conditional:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Install reproducible source-only statistical dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scikit-learn==1.6.1 pytest==8.4.2
+          python -m py_compile scripts/analysis/test_fcp_global42111_within_genus_environment_20261009.py
+          python -m pytest tests/test_fcp_global42111_within_genus_environment_20261009.py -q
+      - name: Reopen ONLY completed original flower-photo environmental metadata, no API or raster requests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$FROZEN_REAL_SITE_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$FROZEN_REAL_SITE_ARTIFACT" --dir /tmp/fcp_global_genus_source
+          f="$(find /tmp/fcp_global_genus_source -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$f"
+          cp "$f" /tmp/fcp_genus_breadth_source.csv.gz
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          reports=[]
+          for f in Path('/tmp/fcp_global_genus_source').rglob('result.json'):
+              z=json.loads(f.read_text())
+              if z.get('schema')=='fcp_global42111_original_photo_climate_soil_attachment_v1':
+                  reports.append(z)
+          assert len(reports)==1
+          z=reports[0]
+          assert z['original_species_count']==42111
+          assert z['original_taxon_cell_count']==85337
+          assert z['breadth_classifiable_by_covariate']['environment_climate_complete']==18413
+          assert z['breadth_classifiable_by_covariate']['environment_all_complete']==14136
+          assert z['new_colour_label_or_photo_pixel_opened'] is False
+          assert z['geographic_cell_centroid_imputation'] is False
+          print('FCP_ORIGINAL_18413_CLIMATE_14136_SOIL_PHOTO_POPULATIONS_SOURCE_CHECKED')
+          PY
+      - name: Separate species turnover between genera from across-species differences WITHIN genera
+        run: |
+          python scripts/analysis/test_fcp_global42111_within_genus_environment_20261009.py \
+            --original-breadth-abiotic /tmp/fcp_genus_breadth_source.csv.gz \
+            --outdir /tmp/fcp_global42111_withingenus_environment
+      - name: Protect train-only genus means, true site, original species/photo denominators
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp_global42111_withingenus_environment/result.json').read_text())
+          assert d['schema']=='fcp_global42111_within_genus_compositional_vs_climate_soil_v1'
+          assert d['original_global_species_denominator']==42111
+          assert d['original_historic_colour_classifiable']==18457
+          assert d['original_source_photo_coverage']['source_classified_climate_complete']==18413
+          assert d['original_source_photo_coverage']['source_classified_climate_soil_complete']==14136
+          assert d['no_photo_pixels_or_new_colour_labels_opened'] is True
+          assert d['no_environment_soil_imputation_or_cell_centroid_as_site'] is True
+          assert d['old_fcp_highdepth_and_new_independent_species_unchanged'] is True
+          for key,expected in [('climate_only_population',18413),('soil_complete_population',14136)]:
+              z=d[key]
+              assert z['schema']=='fcp_global42111_train_genus_only_within_genus_cell_holdout_v1'
+              assert z['source_species_in_pool']==expected
+              assert z['same_exact_species_and_cell_folds_for_all_feature_families'] is True
+              assert z['genus_means_estimated_only_from_training_source_species'] is True
+              assert 100<=z['source_species_with_train_observed_genus_and_min_two_training_species']<=expected
+              counts={q['n_same_source_test_species'] for q in z['brier_score_models'].values()}
+              assert counts=={z['source_species_with_train_observed_genus_and_min_two_training_species']}
+              assert all(len(g['source_cell_block_bootstrap_95CI'])==2
+                         for g in z['fixed_fold_incremental_gains'].values())
+          assert 'GENUS_GEO_CLIMATE_SOIL' not in d['climate_only_population']['brier_score_models']
+          assert 'GENUS_GEO_CLIMATE_SOIL' in d['soil_complete_population']['brier_score_models']
+          print('GLOBAL_PHOTO_CLIMATE_SIGNAL_WITHIN_GENUS_VS_LINEAGE_COMPOSITION_GUARD_PASSED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-within-genus-original-photo-environment-20261009
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_global42111_withingenus_environment/
+      - name: Commit only source-derived numerical analysis receipt on exploration PR
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-withingenus-abiotic-20261009'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_within_genus_photo_environment_20261009
+          mkdir -p "$folder"
+          cp /tmp/fcp_global42111_withingenus_environment/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal original 42111 flower photos: genus-controlled spatially heldout climate and soil ecology'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
