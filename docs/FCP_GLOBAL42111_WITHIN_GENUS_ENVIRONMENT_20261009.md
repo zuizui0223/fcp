@@ -43,3 +43,19 @@ Report the number of source species whose genus is train-estimable; source singl
 - **Any model:** one photo per species and inferred local modelled soil are not genetic genotype, real mating population, pigment biosynthesis, pollinator-mediated selection or fitness.
 
 The older 1,499 species high-depth original H1/H2/IBD/New Phytologist paper and independently future-selected 2,000+730 source outcomes are preserved without reinterpretation.
+
+
+## Reproducible first result and genus-richness sensitivity
+
+The original within-genus analysis passed [GitHub Actions 37887625768](https://github.com/zuizui0223/fcp/actions/runs/37887625768) with 7 synthetic tests and historical source checks and saved its [real-source output](../results/fcp_global42111_within_genus_photo_environment_20261009/result.json).
+
+| Source cohort | Held-out species with >=2 training congeneric species | Original genera represented | Genus + geography Brier | Add climate Brier | Climate predictive Brier improvement, 95% source cell resampling |
+|---|---:|---:|---:|---:|---|
+| 18,413 source climate-complete original photographs | **13,307** | 1,417 | 0.535220 | 0.533756 | **+0.001465** [0.001005, 0.001994] |
+| 14,136 source climate+soil-complete photographs | **9,498** | 1,122 | 0.546710 | 0.545509 | **+0.001201** [0.000623, 0.001843] |
+
+The soil-complete source five SoilGrids predictors added Brier improvement **−0.000340** with 95% cell resampling interval [−0.000990, +0.000242]; not positively supported.
+
+**Additional posthoc sensitivity being audited:** give every evaluated original genus an equal aggregate weight over the identical held-out predictions to determine whether a few speciose genera dominate. Use both original cell-block and genus-cluster bootstrap intervals and report the fraction of tested genera whose fixed forecasts improve. This changes no original source photos, classifications, geographic folds, selected environmental variables or training algorithm, only reporting weights. It is not new independent evolutionary confirmation.
+
+The three inference levels remain distinct: all-source **between-genera and between-species** photographic association, **between different species within a nominal genus** environmental association, and **within-species two photographed localities** colour-difference association. The genus-conditioned result is not direct proof of inherited flower-colour differences, selection, adaptation or taxonomic causal turnover.
