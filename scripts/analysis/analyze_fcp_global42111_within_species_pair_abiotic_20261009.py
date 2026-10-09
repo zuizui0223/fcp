@@ -112,7 +112,8 @@ def join_origins(pairs:pd.DataFrame,env:pd.DataFrame)->tuple[pd.DataFrame,dict]:
     for feature in (ELEV,*CLIMATE,*SOIL):
         current["delta_"+feature]=(pd.to_numeric(current[f"{feature}_1"],errors="coerce")-
                                     pd.to_numeric(current[f"{feature}_2"],errors="coerce")).abs()
-    current["delta_elevation_m"]=current["delta_wc_elevation_m"]\n    current["delta_abs_latitude"]=(pd.to_numeric(current.latitude_1,errors="coerce").abs()-
+    current["delta_elevation_m"]=current["delta_wc_elevation_m"]
+    current["delta_abs_latitude"]=(pd.to_numeric(current.latitude_1,errors="coerce").abs()-
                                    pd.to_numeric(current.latitude_2,errors="coerce").abs()).abs()
     havegeo=pos & current[["latitude_1","longitude_1","latitude_2","longitude_2"]].notna().all(axis=1)
     current["geodesic_distance_km"]=np.nan
