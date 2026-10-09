@@ -94,9 +94,9 @@ def color_and_environment_atlas(source:pd.DataFrame)->tuple[dict,pd.DataFrame,pd
             row["n_real_photo_"+x]=int(len(n))
         rows.append(row)
     grid=pd.DataFrame(rows).sort_values("cell_id").reset_index(drop=True)
-    if len(grid)!=162 or int(grid.source_taxon_cell_rows.sum())!=85337:
+    if len(grid)!=162 or int(grid.source_taxon_cell_rows.sum())!=N_SOURCE:
         raise RuntimeError("Global cell atlas has missing source records")
-    if int(grid.n_four_state_classified.sum())!=39075:
+    if int(grid.n_four_state_classified.sum())!=N_CLASSIFIED:
         raise RuntimeError("Classified photograph denominator does not reproduce original global result")
     if int(grid.n_source_all_abiotic_complete.sum())!=int(allcomplete.sum()):
         raise RuntimeError("Real-site environmental coverage changed while mapping")
