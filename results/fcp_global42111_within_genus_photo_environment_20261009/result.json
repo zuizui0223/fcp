@@ -8,7 +8,7 @@
         "n_same_source_test_species": 13307
       },
       "GENUS_GEO": {
-        "heldout_genus_equal_multiclass_brier": 0.5668121803790112,
+        "heldout_genus_equal_multiclass_brier": 0.5668121803790113,
         "heldout_multiclass_brier": 0.5352201206539798,
         "n_same_source_test_species": 13307
       },
@@ -23,39 +23,39 @@
       "climate_beyond_genus_geography": {
         "fraction_evaluated_genera_with_positive_increment": 0.49894142554693016,
         "genus_equal_genus_cluster_bootstrap_95CI": [
-          0.0023554347182481784,
-          0.004345896415917423
+          0.0023554347182481897,
+          0.004345896415917435
         ],
-        "genus_equal_heldout_brier_reduction": 0.0032913031403018775,
+        "genus_equal_heldout_brier_reduction": 0.0032913031403018858,
         "genus_equal_source_cell_bootstrap_95CI": [
-          0.002430710185102552,
-          0.004262899300554868
+          0.0024307101851025726,
+          0.004262899300554881
         ],
-        "mean_heldout_brier_reduction": 0.0014645630677890627,
+        "mean_heldout_brier_reduction": 0.0014645630677890677,
         "n_genera_in_genus_equal_sensitivity": 1417,
         "positive_gain_supported_by_bootstrap": true,
         "source_cell_block_bootstrap_95CI": [
-          0.001004948280147335,
-          0.0019937332103662107
+          0.0010049482801473368,
+          0.001993733210366216
         ]
       },
       "geo_beyond_genus": {
         "fraction_evaluated_genera_with_positive_increment": 0.4940014114326041,
         "genus_equal_genus_cluster_bootstrap_95CI": [
-          0.0038292256532116817,
+          0.00382922565321168,
           0.005467306847229083
         ],
-        "genus_equal_heldout_brier_reduction": 0.0046650614759280425,
+        "genus_equal_heldout_brier_reduction": 0.004665061475928038,
         "genus_equal_source_cell_bootstrap_95CI": [
-          0.0038478323004251624,
-          0.005509043651498588
+          0.0038478323004251594,
+          0.005509043651498583
         ],
-        "mean_heldout_brier_reduction": 0.002529479664061205,
+        "mean_heldout_brier_reduction": 0.0025294796640612047,
         "n_genera_in_genus_equal_sensitivity": 1417,
         "positive_gain_supported_by_bootstrap": true,
         "source_cell_block_bootstrap_95CI": [
           0.0020226492965873116,
-          0.0031395368786989934
+          0.0031395368786989943
         ]
       }
     },
@@ -160,7 +160,7 @@
         "n_same_source_test_species": 9498
       },
       "GENUS_GEO_CLIMATE_SOIL": {
-        "heldout_genus_equal_multiclass_brier": 0.56246271574434,
+        "heldout_genus_equal_multiclass_brier": 0.5624627157443399,
         "heldout_multiclass_brier": 0.5458495572050153,
         "n_same_source_test_species": 9498
       }
@@ -170,58 +170,58 @@
       "climate_beyond_genus_geography": {
         "fraction_evaluated_genera_with_positive_increment": 0.48663101604278075,
         "genus_equal_genus_cluster_bootstrap_95CI": [
-          0.0012486262606266414,
-          0.0033350833434646395
+          0.0012486262606266412,
+          0.003335083343464646
         ],
-        "genus_equal_heldout_brier_reduction": 0.002250008637474255,
+        "genus_equal_heldout_brier_reduction": 0.002250008637474258,
         "genus_equal_source_cell_bootstrap_95CI": [
-          0.0011057791141772181,
-          0.003604606714081208
+          0.001105779114177222,
+          0.0036046067140812115
         ],
-        "mean_heldout_brier_reduction": 0.0012012033247605146,
+        "mean_heldout_brier_reduction": 0.0012012033247605198,
         "n_genera_in_genus_equal_sensitivity": 1122,
         "positive_gain_supported_by_bootstrap": true,
         "source_cell_block_bootstrap_95CI": [
-          0.0006231631051079814,
-          0.0018431140756580437
+          0.000623163105107989,
+          0.0018431140756580485
         ]
       },
       "geo_beyond_genus": {
         "fraction_evaluated_genera_with_positive_increment": 0.49910873440285203,
         "genus_equal_genus_cluster_bootstrap_95CI": [
-          0.004626328253051939,
-          0.00725780747135491
+          0.004626328253051938,
+          0.007257807471354904
         ],
-        "genus_equal_heldout_brier_reduction": 0.005839268996792019,
+        "genus_equal_heldout_brier_reduction": 0.005839268996792016,
         "genus_equal_source_cell_bootstrap_95CI": [
-          0.004633019027080633,
-          0.007261951476209419
+          0.004633019027080635,
+          0.007261951476209415
         ],
-        "mean_heldout_brier_reduction": 0.0029286862861910624,
+        "mean_heldout_brier_reduction": 0.0029286862861910594,
         "n_genera_in_genus_equal_sensitivity": 1122,
         "positive_gain_supported_by_bootstrap": true,
         "source_cell_block_bootstrap_95CI": [
-          0.002349959836684689,
-          0.003535380667278107
+          0.0023499598366846877,
+          0.0035353806672781046
         ]
       },
       "soil_beyond_genus_geography_climate": {
         "fraction_evaluated_genera_with_positive_increment": 0.4215686274509804,
         "genus_equal_genus_cluster_bootstrap_95CI": [
-          0.00012995678175394457,
-          0.0014470466213186725
+          0.00012995678175394443,
+          0.001447046621318682
         ],
-        "genus_equal_heldout_brier_reduction": 0.00081147276863241,
+        "genus_equal_heldout_brier_reduction": 0.000811472768632413,
         "genus_equal_source_cell_bootstrap_95CI": [
-          -8.229011563137864e-05,
-          0.0016774035019843853
+          -8.229011563137822e-05,
+          0.0016774035019843873
         ],
-        "mean_heldout_brier_reduction": -0.00034046488256666565,
+        "mean_heldout_brier_reduction": -0.00034046488256666635,
         "n_genera_in_genus_equal_sensitivity": 1122,
         "positive_gain_supported_by_bootstrap": false,
         "source_cell_block_bootstrap_95CI": [
-          -0.0009896331458752728,
-          0.00024194513943356748
+          -0.000989633145875273,
+          0.00024194513943356374
         ]
       }
     },
