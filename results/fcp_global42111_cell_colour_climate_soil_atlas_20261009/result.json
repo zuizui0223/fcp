@@ -1,0 +1,32 @@
+{
+  "all_unclassifiable_photo_records_preserved": true,
+  "causal_adaptation_claim": false,
+  "hard_nonclaims": [
+    "Cell composition is one photo per original taxon-cell, not a natural within-species colour-frequency map",
+    "Region totals include repeated source species; they are NOT equal-species global flower-colour prevalence",
+    "Environment medians are from true photographed locations in each cell, not geometric centroids",
+    "No photo classification or taxonomy/observer bias is eliminated by making a map",
+    "Cell-colour associations can reflect species turnover, missing photos and unequal recording effort"
+  ],
+  "n_classified_and_full_abiotic": 27032,
+  "n_original_source_occupied_cells": 128,
+  "n_source_all_abiotic_complete": 59222,
+  "n_source_climate_complete": 85073,
+  "n_source_real_geo_site": 85161,
+  "n_source_soil_complete": 59224,
+  "n_world_equal_area_cells": 162,
+  "new_flower_pixels_or_colors_reclassified": false,
+  "original_42111_species_breadth_denominator_kept_separate": true,
+  "original_equal_area_centroids_display_only": true,
+  "original_taxon_cell_photo_colour_counts": {
+    "blue_purple": 3340,
+    "red_pink": 4343,
+    "white": 18374,
+    "yellow_orange": 13018
+  },
+  "schema": "fcp_global42111_original_taxon_cell_colour_and_abiotic_atlas_v1",
+  "site_rasters_sampled_at_true_photo_coordinates_only": true,
+  "source_four_state_colour_classifiable": 39075,
+  "source_taxon_cell_denominator": 85337,
+  "status": "GEOGRAPHIC_ORIGINAL_PHOTO_COLOUR_COMPOSITION_AND_TRUE_SITE_ABIOTIC_DESCRIPTIVE"
+}
