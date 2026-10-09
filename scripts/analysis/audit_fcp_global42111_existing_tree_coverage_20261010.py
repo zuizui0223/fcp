@@ -128,10 +128,7 @@ def run(source:pd.DataFrame,paths:dict[str,Path],strict:bool=True)->dict:
             "name_matching":"EXACT_CANONICAL_BINOMIAL_WITH_UNDERSCORE_SPACE_ONLY",
             "existing_tree_coverage":evaluate_coverage(c,original_tips),
         }
-    allpass=all(x["exact_tip_coverage_passed_conservative_gate"]
-                for c in cohorts.values() for x in c["existing_tree_coverage"].values()
-                if "h3a" in next(k for k,v in c["existing_tree_coverage"].items() if v is x))
-    # More interpretable explicit gate: only S1-S3 have old tree coverage
+    # Only old S1-S3 matched species tips can satisfy the minimum tree gate.
     min_h3a=all(cohorts[c]["existing_tree_coverage"][f"h3a_s{i}"]["exact_tip_coverage_passed_conservative_gate"]
                  for c in ("250","500") for i in (1,2,3))
     return {
