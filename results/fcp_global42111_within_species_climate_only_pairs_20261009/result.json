@@ -28,11 +28,11 @@
   "models": [
     {
       "bootstrap_explanation": "Conditional group bootstrap of fixed out-of-fold prediction losses; no fold/model refitting, no confirmation or causal inference",
-      "climate_delta_outofgroup_logloss": -0.00031977144660880674,
+      "climate_delta_outofgroup_logloss": -0.0007103502971160002,
       "group": "genus",
       "group_bootstrap_95CI_logloss_gain_climate": [
-        -0.0017563160054751522,
-        0.0011926779020669923
+        -0.002090475355387238,
+        0.0008367936323280236
       ],
       "group_bootstrap_95CI_logloss_gain_soil": null,
       "models": {
@@ -40,73 +40,73 @@
           "fold_diagnostics": [
             {
               "fold": 0,
-              "heldout_log_loss": 0.5570723305512391,
+              "heldout_log_loss": 0.5408736897658462,
               "n_heldout_groups": 293,
               "n_test": 637
             },
             {
               "fold": 1,
-              "heldout_log_loss": 0.5555132033984218,
+              "heldout_log_loss": 0.5828279219913184,
               "n_heldout_groups": 293,
               "n_test": 637
             },
             {
               "fold": 2,
-              "heldout_log_loss": 0.586762667387985,
+              "heldout_log_loss": 0.5602890126535297,
               "n_heldout_groups": 292,
               "n_test": 636
             },
             {
               "fold": 3,
-              "heldout_log_loss": 0.559129173312479,
+              "heldout_log_loss": 0.5434982251599154,
               "n_heldout_groups": 292,
               "n_test": 636
             },
             {
               "fold": 4,
-              "heldout_log_loss": 0.5530536119979373,
+              "heldout_log_loss": 0.5839531372930657,
               "n_heldout_groups": 293,
               "n_test": 636
             }
           ],
-          "heldout_AUC": 0.48789190895429185,
-          "heldout_log_loss": 0.562302417675084
+          "heldout_AUC": 0.4916026956252306,
+          "heldout_log_loss": 0.562288122330941
         },
         "GEOGRAPHY_CLIMATE": {
           "fold_diagnostics": [
             {
               "fold": 0,
-              "heldout_log_loss": 0.5582158058310446,
+              "heldout_log_loss": 0.5418081760950476,
               "n_heldout_groups": 293,
               "n_test": 637
             },
             {
               "fold": 1,
-              "heldout_log_loss": 0.5575553047483801,
+              "heldout_log_loss": 0.5832715559354527,
               "n_heldout_groups": 293,
               "n_test": 637
             },
             {
               "fold": 2,
-              "heldout_log_loss": 0.5872443230576921,
+              "heldout_log_loss": 0.5590376552601867,
               "n_heldout_groups": 292,
               "n_test": 636
             },
             {
               "fold": 3,
-              "heldout_log_loss": 0.5577161003595085,
+              "heldout_log_loss": 0.5450583883078643,
               "n_heldout_groups": 292,
               "n_test": 636
             },
             {
               "fold": 4,
-              "heldout_log_loss": 0.5523943066867822,
+              "heldout_log_loss": 0.5858180297008942,
               "n_heldout_groups": 293,
               "n_test": 636
             }
           ],
-          "heldout_AUC": 0.5047730851311469,
-          "heldout_log_loss": 0.5626221891216928
+          "heldout_AUC": 0.4974264665129215,
+          "heldout_log_loss": 0.5629984726280571
         }
       },
       "n_coincident_source_colour_pairs": 2389,
@@ -118,11 +118,11 @@
     },
     {
       "bootstrap_explanation": "Conditional group bootstrap of fixed out-of-fold prediction losses; no fold/model refitting, no confirmation or causal inference",
-      "climate_delta_outofgroup_logloss": -0.0005744855729245342,
+      "climate_delta_outofgroup_logloss": -0.0005744855729245351,
       "group": "pair_midpoint_cell_162",
       "group_bootstrap_95CI_logloss_gain_climate": [
-        -0.002057951957030453,
-        0.0009762359183748762
+        -0.0020579519570304533,
+        0.0009762359183748774
       ],
       "group_bootstrap_95CI_logloss_gain_soil": null,
       "models": {
@@ -148,7 +148,7 @@
             },
             {
               "fold": 3,
-              "heldout_log_loss": 0.5852031360824187,
+              "heldout_log_loss": 0.5852031360824186,
               "n_heldout_groups": 28,
               "n_test": 636
             },
@@ -178,7 +178,7 @@
             },
             {
               "fold": 2,
-              "heldout_log_loss": 0.5461857679195361,
+              "heldout_log_loss": 0.546185767919536,
               "n_heldout_groups": 28,
               "n_test": 636
             },
