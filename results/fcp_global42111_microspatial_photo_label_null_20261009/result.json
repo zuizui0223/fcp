@@ -19,14 +19,14 @@
           "n_source_genus_cell_groups": 217,
           "n_source_species_in_informatively_shufflable_microgroups": 442,
           "null_count_ge_observed": 34,
-          "null_mean": 0.0061492970482968715,
+          "null_mean": 0.006149297048296872,
           "null_q025_q500_q975": [
-            0.0018381063325286348,
-            0.006057680166041548,
-            0.012173196999220369
+            0.001838106332528637,
+            0.006057680166041551,
+            0.012173196999220377
           ],
           "null_std": 0.0026566220148904,
-          "observed_moisture_brier_gain": 0.008598034415982893,
+          "observed_moisture_brier_gain": 0.008598034415982891,
           "original_genus_cell_colour_counts_always_preserved": true,
           "p_value": 0.175,
           "source_test_fold_assignments_unchanged": true,
@@ -48,14 +48,14 @@
           "n_source_genus_cell_groups": 217,
           "n_source_species_in_informatively_shufflable_microgroups": 314,
           "null_count_ge_observed": 69,
-          "null_mean": 0.008012878117706908,
+          "null_mean": 0.008012878117706906,
           "null_q025_q500_q975": [
-            0.00485570702584752,
-            0.007828190185054925,
+            0.004855707025847517,
+            0.007828190185054927,
             0.01151523914896565
           ],
-          "null_std": 0.0016938589989590226,
-          "observed_moisture_brier_gain": 0.008598034415982893,
+          "null_std": 0.0016938589989590233,
+          "observed_moisture_brier_gain": 0.008598034415982891,
           "original_genus_cell_colour_counts_always_preserved": true,
           "p_value": 0.35,
           "source_test_fold_assignments_unchanged": true,
@@ -64,7 +64,7 @@
       },
       "n_original_genus_cell_groups": 217,
       "n_original_source_photos": 872,
-      "previously_frozen_observed_moisture_gain": 0.008598034415982893
+      "previously_frozen_observed_moisture_gain": 0.008598034415982891
     },
     "500": {
       "microgeographic_diagnostics": {
@@ -84,14 +84,14 @@
           "n_source_genus_cell_groups": 417,
           "n_source_species_in_informatively_shufflable_microgroups": 746,
           "null_count_ge_observed": 58,
-          "null_mean": 0.004208915037367755,
+          "null_mean": 0.004208915037367758,
           "null_q025_q500_q975": [
-            0.0011110939048548278,
-            0.003978807058809237,
-            0.0070717859569444175
+            0.0011110939048548261,
+            0.003978807058809238,
+            0.007071785956944421
           ],
-          "null_std": 0.0015107832314709146,
-          "observed_moisture_brier_gain": 0.005115260801465297,
+          "null_std": 0.0015107832314709153,
+          "observed_moisture_brier_gain": 0.005115260801465296,
           "original_genus_cell_colour_counts_always_preserved": true,
           "p_value": 0.295,
           "source_test_fold_assignments_unchanged": true,
@@ -113,14 +113,14 @@
           "n_source_genus_cell_groups": 417,
           "n_source_species_in_informatively_shufflable_microgroups": 505,
           "null_count_ge_observed": 175,
-          "null_mean": 0.0062851277126524715,
+          "null_mean": 0.006285127712652474,
           "null_q025_q500_q975": [
-            0.004208041653318707,
-            0.006242416196735846,
+            0.004208041653318711,
+            0.006242416196735852,
             0.008702789771319315
           ],
-          "null_std": 0.0010920832947039594,
-          "observed_moisture_brier_gain": 0.005115260801465297,
+          "null_std": 0.00109208329470396,
+          "observed_moisture_brier_gain": 0.005115260801465296,
           "original_genus_cell_colour_counts_always_preserved": true,
           "p_value": 0.88,
           "source_test_fold_assignments_unchanged": true,
@@ -129,7 +129,7 @@
       },
       "n_original_genus_cell_groups": 417,
       "n_original_source_photos": 1761,
-      "previously_frozen_observed_moisture_gain": 0.005115260801465297
+      "previously_frozen_observed_moisture_gain": 0.005115260801465296
     }
   },
   "date_jst": "2026-10-09",
