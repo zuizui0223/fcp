@@ -39,6 +39,7 @@ jobs:
           set -euo pipefail
           python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
           python -m py_compile scripts/acquisition/freeze_fcp_global42111_local_phylogeny_taxonomy_20261010.py
+          python scripts/acquisition/freeze_fcp_global42111_local_phylogeny_taxonomy_20261010.py --help > /dev/null
           python -m pytest tests/test_fcp_global42111_local_phylogeny_taxonomy_20261010.py -q
       - name: Only frozen original already exposed flower source photos and taxon IDs
         env:
