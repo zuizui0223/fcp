@@ -59,3 +59,15 @@ The soil-complete source five SoilGrids predictors added Brier improvement **−
 **Additional posthoc sensitivity being audited:** give every evaluated original genus an equal aggregate weight over the identical held-out predictions to determine whether a few speciose genera dominate. Use both original cell-block and genus-cluster bootstrap intervals and report the fraction of tested genera whose fixed forecasts improve. This changes no original source photos, classifications, geographic folds, selected environmental variables or training algorithm, only reporting weights. It is not new independent evolutionary confirmation.
 
 The three inference levels remain distinct: all-source **between-genera and between-species** photographic association, **between different species within a nominal genus** environmental association, and **within-species two photographed localities** colour-difference association. The genus-conditioned result is not direct proof of inherited flower-colour differences, selection, adaptation or taxonomic causal turnover.
+
+
+## Outcome-exposed temperature-versus-moisture block ablation
+
+After the within-genus genus-equal sensitivity was observed, the remaining four original WorldClim predictors are evaluated as two **fixed 2-variable groups**, for mechanistic prioritization only:
+
+- **Thermal block**: BIO1 mean annual temperature and BIO5 maximum warmest-month temperature.
+- **Moisture block**: BIO12 annual precipitation and BIO15 precipitation seasonality.
+
+The soil-unrestricted 18,413 taxon sample and the original soil-complete 14,136 taxon sample are separately assessed with the same source species, identical geographic-cell folds, unchanged train-only genus intercepts, geographic/altitude predictors and four-state photo-colour response. The thermal-block incremental value is the difference in heldout Brier between genus+geography+moisture and all four climate predictors; the moisture-block incremental value compares genus+geography+temperature against the same full climate model. Report species-equal and genus-equal increments with both source-cell and genus-cluster resampling.
+
+Important: this is **post hoc** block attribution under correlated long-term predictors and photographs of unknown genotype/fitness. Temperature and moisture are not orthogonal, so their unique effects need not sum to the full four-variable climate gain. An apparent positive block cannot establish thermal selection, pigmentation physiology or pollinator-mediated adaptation.
