@@ -112,3 +112,27 @@ def test_out_of_genus_and_spatial_fold_same_fixed_pairs():
         assert set(ans["models"])==set(M.FAMILIES)
         assert len(ans["group_bootstrap_95CI_logloss_gain_soil"])==2
         assert np.isfinite(ans["soil_increment_outofgroup_logloss"])
+
+
+def test_climate_only_restores_soil_missing_original_pairs_without_replacement(original_pair_fixture):
+    pairs,env=original_pair_fixture
+    env.loc[0,"soil_pH"]=np.nan
+    env.loc[0,"environment_soil_complete"]=False
+    env.loc[0,"environment_all_complete"]=False
+    small,cover=M.join_origins(pairs,env,require_soil=True)
+    broader,clim_cover=M.join_origins(pairs,env,require_soil=False)
+    assert len(small)==3
+    assert len(broader)==4
+    assert clim_cover["n_classified_pairs_all_geo_climate"]==4
+    assert clim_cover["n_classified_pairs_all_geo_climate_soil"]==3
+    assert clim_cover["n_selected_original_pairs_for_current_test"]==4
+    assert "GEOGRAPHY_CLIMATE_SOIL" not in {"GEOGRAPHY","GEOGRAPHY_CLIMATE"}
+
+
+def test_climate_only_below_sample_gate_preserves_denominators(original_pair_fixture):
+    p,e=original_pair_fixture
+    report=M.analyze(p,e,climate_only=True)
+    assert report["schema"]=="fcp_42111_same_species_crosscell_colour_discordance_climate_only_v1"
+    assert report["status"]=="HOLD_SOURCE_PAIR_CLIMATE_COMPLETE_COVERAGE_OR_COLOUR_CLASS"
+    assert report["coverage"]["n_original_pairs_missing_classified_response"]==2
+    assert report["coverage"]["n_classified_pairs_all_geo_climate"]==4
