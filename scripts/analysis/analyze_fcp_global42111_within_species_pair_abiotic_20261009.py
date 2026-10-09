@@ -92,7 +92,7 @@ def join_origins(pairs:pd.DataFrame,env:pd.DataFrame)->tuple[pd.DataFrame,dict]:
         raise ValueError("Claimed valid original site has no latitude")
     current=pairs.copy()
     for side in (1,2):
-        keymaps={k:f"{k}_{side}" for k in KEY}
+        keymaps={k:(k if k=="inat_taxon_id" else f"{k}_{side}") for k in KEY}
         columns=list(KEY)+sorted(needs)
         root=env[columns].rename(columns={**keymaps,**{k:f"{k}_{side}" for k in needs}})
         current=current.merge(root,on=list(keymaps.values()),how="left",validate="one_to_one",indicator=f"_join_{side}")
