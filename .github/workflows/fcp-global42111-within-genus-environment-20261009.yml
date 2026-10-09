@@ -102,6 +102,13 @@ jobs:
                   assert len(g['genus_equal_genus_cluster_bootstrap_95CI'])==2
                   assert g['n_genera_in_genus_equal_sensitivity']==z['n_distinct_source_genera_in_evaluation']
               assert z['equal_genus_weight_secondary_sensitivity'] is True
+              assert z['climate_block_ablation_temperature']==['wc_bio1','wc_bio5']
+              assert z['climate_block_ablation_moisture']==['wc_bio12','wc_bio15']
+              assert z['climate_block_ablation_inference_status'].startswith('RETROSPECTIVE')
+              for ablation in ('unique_temperature_block_beyond_geo_moisture',
+                               'unique_moisture_block_beyond_geo_temperature'):
+                  assert ablation in z['fixed_fold_incremental_gains']
+                  assert len(z['fixed_fold_incremental_gains'][ablation]['source_cell_block_bootstrap_95CI'])==2
               assert all('heldout_genus_equal_multiclass_brier' in m for m in z['brier_score_models'].values())
           assert 'GENUS_GEO_CLIMATE_SOIL' not in d['climate_only_population']['brier_score_models']
           assert 'GENUS_GEO_CLIMATE_SOIL' in d['soil_complete_population']['brier_score_models']
