@@ -74,7 +74,7 @@ summarize<-function(x) {
        n_direct_lcvp_genera_with_at_least_two_source_species=sum(tab>=2L),
        n_local_genus_cell_groups_with_at_least_two_direct_tips=sum(loc>=2L),
        n_taxa_genus_family_supported_but_synthetic_tip_required=sum(x$phylogeny_placement_status=="GENUS_FAMILY_IN_LCVP_SYNTHETIC_NOT_DIRECT"),
-       n_taxa_with_missing_or_conflicted_family_genus=sum(!x$status=="EXACT_SPECIES_FAMILY_GENUS_READY"),
+       n_taxa_with_missing_or_conflicted_family_genus=sum(x$status!="EXACT_SPECIES_FAMILY_GENUS_READY"),
        direct_tip_fraction=mean(yes),
        original_500km_cohort_coverage_gate_pass=FALSE)
 }
@@ -101,7 +101,7 @@ json<-list(schema="fcp_global42111_local_congener_LCVP_direct_backbone_coverage_
  status="DIRECT_MEGA_TREE_EXACT_SPECIES_TIP_READINESS_NOT_COLOUR_EFFECT",
  original_source_1761_taxa=1761L, original_source_872_nested_taxa=872L,
  backbone="GBOTB.extended.LCVP", source_tree_n_tips=length(GBOTB.extended.LCVP$tip.label),
- 500km=allstats, 250km=inner,
+ cohorts=list(km500=allstats,km250=inner),
  source_taxon_colour_labels_read=FALSE, source_photo_pixels_read=FALSE,
  source_42111_global_population_unmodified=TRUE,
  n_source_photo_labels_remeasured=0L,
