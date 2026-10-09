@@ -8,7 +8,13 @@ import pandas as pd
 import pytest
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"scripts"/"analysis"))
-import test_fcp_global42111_within_genus_environment_20261009 as M
+# Load the analysis file explicitly: this test module shares a test_ prefix.
+import importlib.util
+SCRIPT=Path(__file__).resolve().parents[1]/"scripts"/"analysis"/"test_fcp_global42111_within_genus_environment_20261009.py"
+SPEC=importlib.util.spec_from_file_location("fcp_within_genus_analysis_source",SCRIPT)
+assert SPEC is not None and SPEC.loader is not None
+M=importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(M)
 
 
 @pytest.fixture
