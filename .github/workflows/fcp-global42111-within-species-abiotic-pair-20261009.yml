@@ -1,0 +1,170 @@
+name: FCP global photo-colour within-species climate-soil pair contrasts
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-abiotic-atlas-20261009
+    paths:
+      - scripts/analysis/analyze_fcp_global42111_within_species_pair_abiotic_20261009.py
+      - tests/test_fcp_global42111_within_species_pair_abiotic_20261009.py
+      - docs/FCP_GLOBAL42111_WITHIN_SPECIES_PAIR_ABIOTIC_20261009.md
+      - .github/workflows/fcp-global42111-within-species-abiotic-pair-20261009.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp42111-within-original-photo-pair-abiotic-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_COMMIT: '2b5390ea74f8d196012499d2d35dd477f9795938'
+  PAIR_SHA256: '26755316b2cbd07e1e2241eb4ddc1cddc85219fd7e96424df8c14df32575a4d2'
+  ENVIRONMENT_RUN_ID: '37861582446'
+  ENVIRONMENT_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+
+jobs:
+  source-fixed-pair-ecology:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Install pinned original-photo statistical runtime, run fail-closed tests
+        run: |
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 pytest==8.4.2
+          python -m py_compile scripts/analysis/analyze_fcp_global42111_within_species_pair_abiotic_20261009.py
+          python -m pytest tests/test_fcp_global42111_within_species_pair_abiotic_20261009.py -q
+      - name: Recover exact original 13416 fixed photographed pair IDs and colours
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_orig_photo_pairs
+          git fetch --no-tags --depth=1 origin "$SOURCE_COMMIT"
+          git show "$SOURCE_COMMIT:results/rgfca_42111_crosscell_discordance_step8g_20260911/crosscell_discordance_pairs_13416.csv.gz" > /tmp/fcp_orig_photo_pairs/pairs.csv.gz
+          echo "$PAIR_SHA256  /tmp/fcp_orig_photo_pairs/pairs.csv.gz" | sha256sum -c -
+      - name: Reuse already checked 100543 original photo environmental covariates (no raster redownload)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$ENVIRONMENT_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "$ENVIRONMENT_ARTIFACT" --dir /tmp/fcp_orig_photo_environment
+          find /tmp/fcp_orig_photo_environment -name 'all_original_photo_site_abiotic_coverage.csv.gz' -print
+          count="$(find /tmp/fcp_orig_photo_environment -name 'all_original_photo_site_abiotic_coverage.csv.gz' | wc -l)"
+          test "$count" -eq 1
+          resolved="$(find /tmp/fcp_orig_photo_environment -name 'all_original_photo_site_abiotic_coverage.csv.gz' -print -quit)"
+          test -s "$resolved"
+          cp "$resolved" /tmp/fcp_orig_photo_pairs/photo_env.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          matches=list(Path('/tmp/fcp_orig_photo_environment').rglob('result.json'))
+          relevant=[]
+          for p in matches:
+              j=json.loads(p.read_text())
+              if j.get('schema')=='fcp_global42111_original_photo_climate_soil_attachment_v1':
+                  relevant.append(j)
+          assert len(relevant)==1, 'Exact original environmental result receipt unavailable'
+          d=relevant[0]
+          assert d['original_species_count']==42111 and d['original_taxon_cell_count']==85337
+          assert d['n_unique_original_photo_IDs']==100543
+          assert d['n_source_photo_positions_valid']==100348
+          assert d['new_colour_label_or_photo_pixel_opened'] is False
+          PY
+      - name: Compare same-source photographed within-species colour discordance to geographic climate and soil differences
+        run: |
+          python scripts/analysis/analyze_fcp_global42111_within_species_pair_abiotic_20261009.py \
+            --pairs /tmp/fcp_orig_photo_pairs/pairs.csv.gz \
+            --photo-environment /tmp/fcp_orig_photo_pairs/photo_env.csv.gz \
+            --outdir /tmp/fcp_global_pair_abiotic
+      - name: Independently test geography versus climate in all classifiable 2-site pairs, without soil complete-case selection
+        run: |
+          python scripts/analysis/analyze_fcp_global42111_within_species_pair_abiotic_20261009.py \
+            --pairs /tmp/fcp_orig_photo_pairs/pairs.csv.gz \
+            --photo-environment /tmp/fcp_orig_photo_pairs/photo_env.csv.gz \
+            --climate-only \
+            --outdir /tmp/fcp_global_pair_climate_only
+      - name: Validate climate-only estimand and original frozen pair denominators
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('/tmp/fcp_global_pair_climate_only/result.json').read_text())
+          a=json.loads(Path('/tmp/fcp_global_pair_abiotic/result.json').read_text())
+          assert x['schema']=='fcp_42111_same_species_crosscell_colour_discordance_climate_only_v1'
+          assert x['fixed_photo_pair_denominator']==a['fixed_photo_pair_denominator']==13416
+          assert x['original_classifiable_pairs']==a['original_classifiable_pairs']==3196
+          assert x['original_colour_discordant_pairs']==a['original_colour_discordant_pairs']==797
+          assert x['coverage']['n_original_pairs_missing_classified_response']==10220
+          assert x['coverage']['n_classified_pairs_all_geo_climate_soil']==a['coverage']['n_classified_pairs_all_geo_climate_soil']
+          assert x['coverage']['n_classified_pairs_all_geo_climate']>=a['coverage']['n_classified_pairs_all_geo_climate_soil']
+          assert x['coverage']['n_selected_original_pairs_for_current_test']>=a['coverage']['n_selected_original_pairs_for_current_test']
+          assert x['no_species_cell_centroid_used_for_abiotic_location']
+          assert x['no_new_colour_pixel_or_prospective_species_opened']
+          assert x['original_fcp_manuscript_decisions_changed'] is False
+          if x['status']=='SOURCE_PAIRS_GENUS_AND_SPATIAL_BLOCKED_CLIMATE_ONLY_DIAGNOSTIC':
+              assert {z['group'] for z in x['models']}=={'genus','pair_midpoint_cell_162'}
+              assert all(set(z['models'])=={'GEOGRAPHY','GEOGRAPHY_CLIMATE'} for z in x['models'])
+              assert all(z['soil_increment_outofgroup_logloss'] is None for z in x['models'])
+          else:
+              assert x['status']=='HOLD_SOURCE_PAIR_CLIMATE_COMPLETE_COVERAGE_OR_COLOUR_CLASS'
+          print('SOURCE_ONLY_ALL_CLIMATE_COMPLETE_SPECIES_PAIRS_WITHOUT_SOIL_BIAS_CHECKED')
+          PY
+      - name: Validate all original photo IDs / classification gaps and blocked inference
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp_global_pair_abiotic/result.json').read_text())
+          assert d['schema']=='fcp_42111_same_species_crosscell_colour_discordance_abiotic_v1'
+          assert d['fixed_photo_pair_denominator']==13416
+          assert d['original_classifiable_pairs']==3196
+          assert d['original_colour_discordant_pairs']==797
+          assert d['coverage']['n_original_pairs_missing_classified_response']==10220
+          assert d['no_species_cell_centroid_used_for_abiotic_location']
+          assert d['no_new_colour_pixel_or_prospective_species_opened']
+          assert d['original_fcp_manuscript_decisions_changed'] is False
+          if d['status']=='SOURCE_PAIRS_GENUS_AND_SPATIAL_BLOCKED_ENVIRONMENT_DIAGNOSTIC':
+              assert d['coverage']['n_classified_pairs_all_geo_climate_soil']>=300
+              assert {v['group'] for v in d['models']}=={'genus','pair_midpoint_cell_162'}
+          else:
+              assert d['status']=='HOLD_SOURCE_PAIR_SOIL_COMPLETE_COVERAGE_OR_COLOUR_CLASS'
+          print("ORIGINAL_13416_SOURCE_PHOTO_PAIR_GEO_CLIMATE_SOIL_INFERENCE_GATES_VERIFIED")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-within-species-photo-abiotic-20261009
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp_global_pair_abiotic/
+            /tmp/fcp_global_pair_climate_only/
+      - name: Commit source-verified pair ecology results (not old manuscript)
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-abiotic-join-execution-20261009'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_within_species_abiotic_pairs_20261009
+          mkdir -p "$folder"
+          cp /tmp/fcp_global_pair_abiotic/* "$folder/"
+          climate_folder=results/fcp_global42111_within_species_climate_only_pairs_20261009
+          mkdir -p "$climate_folder"
+          cp /tmp/fcp_global_pair_climate_only/* "$climate_folder/"
+          git add "$folder" "$climate_folder"
+          if git diff --cached --quiet; then
+            echo 'Identical checked source result exists'
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal original 13416 matched species photographed colour discordance versus true climate soil differences'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi

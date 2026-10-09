@@ -1,0 +1,5 @@
+source_latitude_region,source_species,classified_flower_photo,climate_complete_species,soil_complete_species,all_environment_complete_species
+0_30,21588,8649,21568,16924,16923
+30_60,19919,9499,19915,15032,15032
+60_90,531,276,531,276,276
+NO_EXACT_PUBLIC_GEO,73,33,0,0,0

@@ -1,0 +1,285 @@
+{
+  "all_original_photo_rows_preserved_in_source": true,
+  "class_counts_complete_case": {
+    "blue_purple": 1204,
+    "red_pink": 1612,
+    "white": 6532,
+    "yellow_orange": 4788
+  },
+  "date_jst": "2026-10-09",
+  "global_one_photo_classified_species_denominator": 18457,
+  "global_original_species_denominator": 42111,
+  "historical_source_completeness": {
+    "classified_complete_soil_fraction": 0.7658882808690469,
+    "geo_climate_soil_eligible_classified": 14136,
+    "geo_plus_climate_eligible_classified": 18413,
+    "geo_plus_soil_eligible_classified": 14136,
+    "original_colour_classifiable_taxa": 18457,
+    "original_colour_unclassifiable_taxa": 23654,
+    "photo_classifiable_but_geolocated_missing": 33,
+    "source_photo_geolocated": 42038,
+    "source_taxa": 42111
+  },
+  "identical_complete_case_rows_for_every_model": true,
+  "interpretation_limits": [
+    "One source photo of a species is not the species modal or allelic flower colour",
+    "Out-of-genus and out-of-cell validation exposes species turnover or spatial portability; not local adaptation",
+    "Environmental covariates are long-term means and 5km modelled topsoil, not experimental exposures",
+    "Complete-case soil coverage is observationally selected and cannot represent all original 42111 taxa",
+    "A positive predictive log-loss gain neither implies a true fitness effect nor causal soil pigment selection",
+    "FCP old 1499 species and new 2000+730 prospective cohorts were not changed"
+  ],
+  "models": [
+    {
+      "climate_predictive_gain_logloss_reduction": 0.003812842407401984,
+      "feature_families": {
+        "GEO": {
+          "heldout_fold_diagnostics": [
+            {
+              "fold": 0,
+              "log_loss": 1.1762453220369655,
+              "n_heldout_groups": 789,
+              "n_test": 2828
+            },
+            {
+              "fold": 1,
+              "log_loss": 1.1747805055877532,
+              "n_heldout_groups": 788,
+              "n_test": 2827
+            },
+            {
+              "fold": 2,
+              "log_loss": 1.1614341114171147,
+              "n_heldout_groups": 788,
+              "n_test": 2827
+            },
+            {
+              "fold": 3,
+              "log_loss": 1.1923336757527614,
+              "n_heldout_groups": 788,
+              "n_test": 2827
+            },
+            {
+              "fold": 4,
+              "log_loss": 1.1862150452795832,
+              "n_heldout_groups": 789,
+              "n_test": 2827
+            }
+          ],
+          "n_species_same_tested": 14136,
+          "pooled_heldout_accuracy": 0.46137521222410866,
+          "pooled_heldout_log_loss": 1.1782015936157146
+        },
+        "GEO_CLIMATE": {
+          "heldout_fold_diagnostics": [
+            {
+              "fold": 0,
+              "log_loss": 1.173696370091268,
+              "n_heldout_groups": 789,
+              "n_test": 2828
+            },
+            {
+              "fold": 1,
+              "log_loss": 1.171519231167804,
+              "n_heldout_groups": 788,
+              "n_test": 2827
+            },
+            {
+              "fold": 2,
+              "log_loss": 1.1567198265732068,
+              "n_heldout_groups": 788,
+              "n_test": 2827
+            },
+            {
+              "fold": 3,
+              "log_loss": 1.185768051355787,
+              "n_heldout_groups": 788,
+              "n_test": 2827
+            },
+            {
+              "fold": 4,
+              "log_loss": 1.1842405217707659,
+              "n_heldout_groups": 789,
+              "n_test": 2827
+            }
+          ],
+          "n_species_same_tested": 14136,
+          "pooled_heldout_accuracy": 0.4605263157894737,
+          "pooled_heldout_log_loss": 1.1743887512083127
+        },
+        "GEO_CLIMATE_SOIL": {
+          "heldout_fold_diagnostics": [
+            {
+              "fold": 0,
+              "log_loss": 1.172539321458719,
+              "n_heldout_groups": 789,
+              "n_test": 2828
+            },
+            {
+              "fold": 1,
+              "log_loss": 1.172764871881682,
+              "n_heldout_groups": 788,
+              "n_test": 2827
+            },
+            {
+              "fold": 2,
+              "log_loss": 1.1559066958499933,
+              "n_heldout_groups": 788,
+              "n_test": 2827
+            },
+            {
+              "fold": 3,
+              "log_loss": 1.1848651630882252,
+              "n_heldout_groups": 788,
+              "n_test": 2827
+            },
+            {
+              "fold": 4,
+              "log_loss": 1.1864563104048167,
+              "n_heldout_groups": 789,
+              "n_test": 2827
+            }
+          ],
+          "n_species_same_tested": 14136,
+          "pooled_heldout_accuracy": 0.4576259196378042,
+          "pooled_heldout_log_loss": 1.174506333377726
+        }
+      },
+      "heldout_group": "genus",
+      "heldout_species": 14136,
+      "interpretation": "Predictive association among SAME soil-complete classified photos, not an experimental ecological mechanism",
+      "n_independent_heldout_groups": 3942,
+      "soil_gain_positive_in_all_folds": false,
+      "soil_increment_predictive_gain_logloss_reduction": -0.00011758216941326616
+    },
+    {
+      "climate_predictive_gain_logloss_reduction": 0.004156906919285497,
+      "feature_families": {
+        "GEO": {
+          "heldout_fold_diagnostics": [
+            {
+              "fold": 0,
+              "log_loss": 1.1885542647046965,
+              "n_heldout_groups": 21,
+              "n_test": 2828
+            },
+            {
+              "fold": 1,
+              "log_loss": 1.165014868985747,
+              "n_heldout_groups": 20,
+              "n_test": 2827
+            },
+            {
+              "fold": 2,
+              "log_loss": 1.1593980268714765,
+              "n_heldout_groups": 21,
+              "n_test": 2827
+            },
+            {
+              "fold": 3,
+              "log_loss": 1.1754479551123607,
+              "n_heldout_groups": 21,
+              "n_test": 2827
+            },
+            {
+              "fold": 4,
+              "log_loss": 1.1979965090807845,
+              "n_heldout_groups": 20,
+              "n_test": 2827
+            }
+          ],
+          "n_species_same_tested": 14136,
+          "pooled_heldout_accuracy": 0.46187040181097905,
+          "pooled_heldout_log_loss": 1.177283122343469
+        },
+        "GEO_CLIMATE": {
+          "heldout_fold_diagnostics": [
+            {
+              "fold": 0,
+              "log_loss": 1.1860928080378508,
+              "n_heldout_groups": 21,
+              "n_test": 2828
+            },
+            {
+              "fold": 1,
+              "log_loss": 1.1579495835996267,
+              "n_heldout_groups": 20,
+              "n_test": 2827
+            },
+            {
+              "fold": 2,
+              "log_loss": 1.15583159041137,
+              "n_heldout_groups": 21,
+              "n_test": 2827
+            },
+            {
+              "fold": 3,
+              "log_loss": 1.1718646902057899,
+              "n_heldout_groups": 21,
+              "n_test": 2827
+            },
+            {
+              "fold": 4,
+              "log_loss": 1.1938878181692119,
+              "n_heldout_groups": 20,
+              "n_test": 2827
+            }
+          ],
+          "n_species_same_tested": 14136,
+          "pooled_heldout_accuracy": 0.45996038483305035,
+          "pooled_heldout_log_loss": 1.1731262154241835
+        },
+        "GEO_CLIMATE_SOIL": {
+          "heldout_fold_diagnostics": [
+            {
+              "fold": 0,
+              "log_loss": 1.1865191591737583,
+              "n_heldout_groups": 21,
+              "n_test": 2828
+            },
+            {
+              "fold": 1,
+              "log_loss": 1.1605672102466442,
+              "n_heldout_groups": 20,
+              "n_test": 2827
+            },
+            {
+              "fold": 2,
+              "log_loss": 1.1563135160428384,
+              "n_heldout_groups": 21,
+              "n_test": 2827
+            },
+            {
+              "fold": 3,
+              "log_loss": 1.172390523922683,
+              "n_heldout_groups": 21,
+              "n_test": 2827
+            },
+            {
+              "fold": 4,
+              "log_loss": 1.1939201638580108,
+              "n_heldout_groups": 20,
+              "n_test": 2827
+            }
+          ],
+          "n_species_same_tested": 14136,
+          "pooled_heldout_accuracy": 0.4601018675721562,
+          "pooled_heldout_log_loss": 1.1739430043661416
+        }
+      },
+      "heldout_group": "site_cell_162",
+      "heldout_species": 14136,
+      "interpretation": "Predictive association among SAME soil-complete classified photos, not an experimental ecological mechanism",
+      "n_independent_heldout_groups": 103,
+      "soil_gain_positive_in_all_folds": false,
+      "soil_increment_predictive_gain_logloss_reduction": -0.0008167889419581353
+    }
+  ],
+  "n_full_abiotic_colour_sample": 14136,
+  "n_genera_complete": 3942,
+  "n_source_photo_cells_complete": 103,
+  "photo_colour_outcomes_reclassified": false,
+  "schema": "fcp_global42111_colour_climate_soil_predictive_characterization_v1",
+  "spatial_cell_centroid_as_plant_soil": false,
+  "status": "SOURCE_PHOTO_SPECIES_EQUAL_ENVIRONMENTAL_ASSOCIATION_ONLY"
+}

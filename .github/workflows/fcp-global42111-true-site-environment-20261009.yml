@@ -1,0 +1,201 @@
+name: FCP 42111 full real-photo climate and soil extraction
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-abiotic-atlas-20261009
+    paths:
+      - .github/workflows/fcp-global42111-true-site-environment-20261009.yml
+      - scripts/analysis/attach_fcp_global42111_true_site_climate_soil_20261009.py
+      - tests/test_fcp_global42111_true_site_climate_soil_20261009.py
+      - docs/FCP_GLOBAL42111_TRUE_SITE_ENVIRONMENT_20261009.md
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: fcp-global42111-true-photo-site-climate-soil-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MEASURED_SOURCE: '2b5390ea74f8d196012499d2d35dd477f9795938'
+  BREADTH_SHA256: '38aa42123b4e9b05753020ff1a3b050f4d14dbd3de3194557ead90b75c0cc605'
+  GEO_SHA256: '7fddcf3449fbcdbaba63d857e4028636e30d2b330a6b39c01c67d42b0470140e'
+  COORD_SOURCE_RUN_ID: '37855900891'
+  COORD_SOURCE_ARTIFACT: 'fcp-42111-verified-public-original-geocoordinates-20261009'
+  BIO_ZIP_SHA256: '00513224583665ec0f2f955a4ec252730c4deb2004cce9e793492a3f26df4dcf'
+  SOIL_BASE: 'https://files.isric.org/soilgrids/latest/data_aggregated/5000m'
+
+jobs:
+  full-original-photo-abiotic-attachment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Pinned environmental runtime plus source denominator tests
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 rasterio==1.4.3 scikit-learn==1.6.1 pytest==8.4.2
+          python -m pytest tests/test_fcp_global42111_true_site_climate_soil_20261009.py -q
+          python -m py_compile scripts/analysis/attach_fcp_global42111_true_site_climate_soil_20261009.py
+          python -m py_compile scripts/analysis/characterize_fcp_global42111_colour_climate_soil_20261009.py
+          python -m pytest tests/test_fcp_global42111_colour_climate_soil_characterization_20261009.py -q
+      - name: Restore exactly original image-measured metadata, not pixels
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_original_measured
+          git fetch --no-tags --depth=1 origin "$MEASURED_SOURCE"
+          git show "$MEASURED_SOURCE:results/rgfca_42111_breadth_measurement_step8f_20260911/rgfca_42111_species_breadth_measured.csv.gz" > /tmp/fcp_original_measured/breadth.csv.gz
+          git show "$MEASURED_SOURCE:results/rgfca_42111_taxon_cell_measurement_step8g_20260911/taxon_cell_measured_85337.csv.gz" > /tmp/fcp_original_measured/taxon_cell.csv.gz
+          echo "$BREADTH_SHA256  /tmp/fcp_original_measured/breadth.csv.gz" | sha256sum -c -
+          echo "$GEO_SHA256  /tmp/fcp_original_measured/taxon_cell.csv.gz" | sha256sum -c -
+      - name: Download original photo source point coordinates from ONE completed checked run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_final_coordinate_source
+          gh run download "$COORD_SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "$COORD_SOURCE_ARTIFACT" --dir /tmp/fcp_final_coordinate_source
+          test -f /tmp/fcp_final_coordinate_source/all_original_measured_photo_public_coordinates.csv.gz
+          test -f /tmp/fcp_final_coordinate_source/result.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('/tmp/fcp_final_coordinate_source/result.json').read_text())
+          assert x['schema']=='fcp_global42111_original_public_geocoordinates_full_sealed_v1'
+          assert x['original_species_denominator']==42111
+          assert x['original_taxon_cell_denominator']==85337
+          assert x['photo_morph_labels_never_opened_for_selection'] is True
+          assert x['new_image_pixels_opened'] is False
+          assert x['n_total_batch_errors']==0, 'Unresolved source metadata failures would create a biased full-population completeness sample'
+          print('FCP_42111_SOURCE_POINT_COVERAGE', x['n_orig_source_photo_public_point_geolocated'])
+          PY
+      - name: Fetch official byte-pinned WorldClim 2.1 BIO1-19 and elevation
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_worldclim/bio /tmp/fcp_worldclim/elevation
+          curl -fLsS --retry 5 --retry-delay 4 \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip \
+            -o /tmp/fcp_worldclim/bio.zip
+          echo "$BIO_ZIP_SHA256  /tmp/fcp_worldclim/bio.zip" | sha256sum -c -
+          unzip -q /tmp/fcp_worldclim/bio.zip -d /tmp/fcp_worldclim/bio
+          curl -fLsS --retry 5 --retry-delay 4 \
+            https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_elev.zip \
+            -o /tmp/fcp_worldclim/elev.zip
+          sha256sum /tmp/fcp_worldclim/elev.zip | tee /tmp/fcp_worldclim/elev.zip.sha256
+          unzip -q /tmp/fcp_worldclim/elev.zip -d /tmp/fcp_worldclim/elevation
+          for i in 1 5 12 15; do test -s "/tmp/fcp_worldclim/bio/wc2.1_10m_bio_${i}.tif"; done
+          test -s /tmp/fcp_worldclim/elevation/wc2.1_10m_elev.tif
+      - name: Fetch official SHA256 verified ISRIC SoilGrids 5km 0-30cm 6 properties
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/fcp_soilgrids
+          properties=(phh2o soc nitrogen clay wv0033 wv1500)
+          depths=(0-5cm 5-15cm 15-30cm)
+          for p in "${properties[@]}"; do
+            mkdir -p "/tmp/fcp_soilgrids/$p"
+            curl -fLsS --retry 5 --retry-delay 4 "$SOIL_BASE/$p/checksum.sha256.txt" \
+              -o "/tmp/fcp_soilgrids/$p/checksum.sha256.txt"
+            for d in "${depths[@]}"; do
+              fname="${p}_${d}_mean_5000.tif"
+              curl -fLsS --retry 5 --retry-delay 4 "$SOIL_BASE/$p/$fname" \
+                -o "/tmp/fcp_soilgrids/$p/$fname"
+              exp="$(awk -v fn="$fname" '{n=$NF; sub(/^\\*/, "", n); if(n==fn) print $1}' "/tmp/fcp_soilgrids/$p/checksum.sha256.txt")"
+              if [ -z "$exp" ]; then echo "::error::Soil source did not provide checksum for $p/$fname"; exit 1; fi
+              echo "$exp  /tmp/fcp_soilgrids/$p/$fname" | sha256sum -c -
+            done
+          done
+      - name: Attach site-level original environment and retain every missing/photo-unclassifiable record
+        run: |
+          python scripts/analysis/attach_fcp_global42111_true_site_climate_soil_20261009.py \
+            --original-coordinates /tmp/fcp_final_coordinate_source/all_original_measured_photo_public_coordinates.csv.gz \
+            --breadth /tmp/fcp_original_measured/breadth.csv.gz \
+            --taxon-cell /tmp/fcp_original_measured/taxon_cell.csv.gz \
+            --bio-dir /tmp/fcp_worldclim/bio \
+            --elevation /tmp/fcp_worldclim/elevation/wc2.1_10m_elev.tif \
+            --soil-dir /tmp/fcp_soilgrids \
+            --outdir /tmp/fcp42111_real_site_abiotic
+      - name: Audit all species and taxa-region records are retained and missingness preserved
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("/tmp/fcp42111_real_site_abiotic/result.json").read_text())
+          assert r["schema"]=="fcp_global42111_original_photo_climate_soil_attachment_v1"
+          assert r["status"]=="ENVIRONMENTAL_COVARIATES_ATTACHED_NO_CAUSAL_COLOUR_MODEL"
+          assert r["original_species_count"]==42111
+          assert r["original_taxon_cell_count"]==85337
+          assert r["new_colour_label_or_photo_pixel_opened"] is False
+          assert r["geographic_cell_centroid_imputation"] is False
+          assert r["all_original_unclassified_photo_rows_preserved"] is True
+          assert r["source_photo_environment"]["environment_all_complete"]<=r["n_source_photo_positions_valid"]
+          assert r["breadth_classifiable_by_covariate"]["environment_all_complete"]<=18457
+          assert r["taxon_cell_classifiable_by_covariate"]["environment_all_complete"]<=39075
+          print('FCP_WORLD_42111_REAL_ABIOTIC_INPUT_COMPLETE', json.dumps(r,sort_keys=True))
+          PY
+      - name: Compare species-equal flower-colour ecology across geography, climate, soil with genus/cell holdout
+        run: |
+          python scripts/analysis/characterize_fcp_global42111_colour_climate_soil_20261009.py \
+            --species-breadth-with-abiotic /tmp/fcp42111_real_site_abiotic/breadth_flower_colour_climate_soil.csv.gz \
+            --outdir /tmp/fcp42111_global_colour_abiotic_characterization
+      - name: Validate noncausal blocked predictive comparisons and full 42111 species denominator
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp42111_global_colour_abiotic_characterization/result.json').read_text())
+          assert d['schema']=='fcp_global42111_colour_climate_soil_predictive_characterization_v1'
+          assert d['global_original_species_denominator']==42111
+          assert d['global_one_photo_classified_species_denominator']==18457
+          assert d['historical_source_completeness']['source_taxa']==42111
+          assert d['historical_source_completeness']['original_colour_classifiable_taxa']==18457
+          assert d['n_full_abiotic_colour_sample']>=1000
+          assert d['identical_complete_case_rows_for_every_model'] is True
+          assert d['photo_colour_outcomes_reclassified'] is False
+          assert d['spatial_cell_centroid_as_plant_soil'] is False
+          assert {x['heldout_group'] for x in d['models']}=={'genus','site_cell_162'}
+          for x in d['models']:
+              assert set(x['feature_families'])=={'GEO','GEO_CLIMATE','GEO_CLIMATE_SOIL'}
+              assert all(v['n_species_same_tested']==d['n_full_abiotic_colour_sample'] for v in x['feature_families'].values())
+          print('GLOBAL_42111_ECOLOGICAL_PHOTO_ASSOCIATIONS_NONCAUSAL_SPATIAL_AND_GENUS_HOLDOUT_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-original-photo-real-site-climate-soil-20261009
+          retention-days: 90
+          if-no-files-found: error
+          path: |
+            /tmp/fcp42111_real_site_abiotic/
+            /tmp/fcp42111_global_colour_abiotic_characterization/
+            /tmp/fcp_worldclim/elev.zip.sha256
+      - name: Preserve original-source environmental covariates and coverage on analysis PR only
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-abiotic-join-execution-20261009'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          root=results/fcp_global42111_true_photo_climate_soil_20261009
+          test ! -e "$root/result.json"
+          mkdir -p "$root"
+          cp /tmp/fcp42111_real_site_abiotic/* "$root/"
+          model_root=results/fcp_global42111_colour_climate_soil_characterization_20261009
+          mkdir -p "$model_root"
+          cp /tmp/fcp42111_global_colour_abiotic_characterization/* "$model_root/"
+          git add "$root" "$model_root"
+          if git diff --cached --quiet; then
+            echo "::error::No source-backed climate-soil results were produced"; exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Seal original 42111 species and 85337 cells with source-matched WorldClim SoilGrids covariates'
+          git push origin "HEAD:refs/heads/$HEAD_REF"

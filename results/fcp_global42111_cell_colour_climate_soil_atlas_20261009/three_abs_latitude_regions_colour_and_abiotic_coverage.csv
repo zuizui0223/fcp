@@ -1,0 +1,4 @@
+absolute_latitude_region,n_original_global_cells,n_occupied_cells,source_taxon_cell_photo_records,four_state_classifiable,classifiability_fraction,soil_complete_photo_records,full_environment_photo_records,count_white,fraction_white_given_classified,count_yellow_orange,fraction_yellow_orange_given_classified,count_red_pink,fraction_red_pink_given_classified,count_blue_purple,fraction_blue_purple_given_classified
+0_30,90,77,50776,21705,0.427465731841815,36418,36416,10069,0.463902326652845,7265,0.3347155033402442,2693,0.12407279428703064,1678,0.07730937571988021
+30_60,36,28,25264,12500,0.4947751741608613,17296,17296,5875,0.47,4185,0.3348,1268,0.10144,1172,0.09376
+60_90,36,23,9297,4870,0.5238248897493816,5510,5510,2430,0.4989733059548255,1568,0.3219712525667351,382,0.07843942505133471,490,0.10061601642710473

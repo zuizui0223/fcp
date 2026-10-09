@@ -1,0 +1,219 @@
+{
+  "coverage": {
+    "n_both_source_photo_locations_available": 13359,
+    "n_classified_pairs_all_geo_climate": 3182,
+    "n_classified_pairs_all_geo_climate_soil": 1653,
+    "n_classified_pairs_two_sites_climate_complete": 3182,
+    "n_classified_pairs_two_sites_soil_complete": 1653,
+    "n_classified_pairs_with_both_original_locations": 3185,
+    "n_complete_cases_source_photo_discordant": 419,
+    "n_original_pairs_both_four_state_classified": 3196,
+    "n_original_pairs_discordant": 797,
+    "n_original_pairs_missing_classified_response": 10220,
+    "n_original_species_unique_cross_cell_pairs": 13416,
+    "n_selected_original_pairs_discordant": 793,
+    "n_selected_original_pairs_for_current_test": 3182,
+    "no_measured_pair_or_missing_soil_imputed": true
+  },
+  "date_jst": "2026-10-09",
+  "fixed_photo_pair_denominator": 13416,
+  "hard_nonclaims": [
+    "Colour mismatch across two photographed places is not proved genetic polymorphism in the same breeding population",
+    "Original 13416 species-level fixed pair denominator differs from 85337 taxon-cell rows and 42111 species breadth",
+    "Photos without classified labels, public points or soil are not coded as matching colours",
+    "Geographic distance may correlate with environment even after covariate adjustment; this is not causal adaptation",
+    "Group-held-out cross-validation estimates prediction portability for one fixed source pair/species only",
+    "SoilGrids 5km represents modelled soil, not root-zone measurements or direct pollinator fitness"
+  ],
+  "models": [
+    {
+      "bootstrap_explanation": "Conditional group bootstrap of fixed out-of-fold prediction losses; no fold/model refitting, no confirmation or causal inference",
+      "climate_delta_outofgroup_logloss": -0.0007103502971160002,
+      "group": "genus",
+      "group_bootstrap_95CI_logloss_gain_climate": [
+        -0.002090475355387238,
+        0.0008367936323280236
+      ],
+      "group_bootstrap_95CI_logloss_gain_soil": null,
+      "models": {
+        "GEOGRAPHY": {
+          "fold_diagnostics": [
+            {
+              "fold": 0,
+              "heldout_log_loss": 0.5408736897658462,
+              "n_heldout_groups": 293,
+              "n_test": 637
+            },
+            {
+              "fold": 1,
+              "heldout_log_loss": 0.5828279219913184,
+              "n_heldout_groups": 293,
+              "n_test": 637
+            },
+            {
+              "fold": 2,
+              "heldout_log_loss": 0.5602890126535297,
+              "n_heldout_groups": 292,
+              "n_test": 636
+            },
+            {
+              "fold": 3,
+              "heldout_log_loss": 0.5434982251599154,
+              "n_heldout_groups": 292,
+              "n_test": 636
+            },
+            {
+              "fold": 4,
+              "heldout_log_loss": 0.5839531372930657,
+              "n_heldout_groups": 293,
+              "n_test": 636
+            }
+          ],
+          "heldout_AUC": 0.4916026956252306,
+          "heldout_log_loss": 0.562288122330941
+        },
+        "GEOGRAPHY_CLIMATE": {
+          "fold_diagnostics": [
+            {
+              "fold": 0,
+              "heldout_log_loss": 0.5418081760950476,
+              "n_heldout_groups": 293,
+              "n_test": 637
+            },
+            {
+              "fold": 1,
+              "heldout_log_loss": 0.5832715559354527,
+              "n_heldout_groups": 293,
+              "n_test": 637
+            },
+            {
+              "fold": 2,
+              "heldout_log_loss": 0.5590376552601867,
+              "n_heldout_groups": 292,
+              "n_test": 636
+            },
+            {
+              "fold": 3,
+              "heldout_log_loss": 0.5450583883078643,
+              "n_heldout_groups": 292,
+              "n_test": 636
+            },
+            {
+              "fold": 4,
+              "heldout_log_loss": 0.5858180297008942,
+              "n_heldout_groups": 293,
+              "n_test": 636
+            }
+          ],
+          "heldout_AUC": 0.4974264665129215,
+          "heldout_log_loss": 0.5629984726280571
+        }
+      },
+      "n_coincident_source_colour_pairs": 2389,
+      "n_discordant_source_photo_pairs": 793,
+      "n_heldout_groups": 1463,
+      "n_pairs": 3182,
+      "soil_increment_outofgroup_logloss": null,
+      "status": "FIXED_ORIGINAL_PAIRS_BLOCKED_OOF_DIAGNOSTIC"
+    },
+    {
+      "bootstrap_explanation": "Conditional group bootstrap of fixed out-of-fold prediction losses; no fold/model refitting, no confirmation or causal inference",
+      "climate_delta_outofgroup_logloss": -0.0005744855729245351,
+      "group": "pair_midpoint_cell_162",
+      "group_bootstrap_95CI_logloss_gain_climate": [
+        -0.0020579519570304533,
+        0.0009762359183748774
+      ],
+      "group_bootstrap_95CI_logloss_gain_soil": null,
+      "models": {
+        "GEOGRAPHY": {
+          "fold_diagnostics": [
+            {
+              "fold": 0,
+              "heldout_log_loss": 0.5312384234987769,
+              "n_heldout_groups": 29,
+              "n_test": 637
+            },
+            {
+              "fold": 1,
+              "heldout_log_loss": 0.5777334531362747,
+              "n_heldout_groups": 29,
+              "n_test": 637
+            },
+            {
+              "fold": 2,
+              "heldout_log_loss": 0.5433247485002706,
+              "n_heldout_groups": 28,
+              "n_test": 636
+            },
+            {
+              "fold": 3,
+              "heldout_log_loss": 0.5852031360824186,
+              "n_heldout_groups": 28,
+              "n_test": 636
+            },
+            {
+              "fold": 4,
+              "heldout_log_loss": 0.5767298175390877,
+              "n_heldout_groups": 28,
+              "n_test": 636
+            }
+          ],
+          "heldout_AUC": 0.4757223233641791,
+          "heldout_log_loss": 0.5628406612086668
+        },
+        "GEOGRAPHY_CLIMATE": {
+          "fold_diagnostics": [
+            {
+              "fold": 0,
+              "heldout_log_loss": 0.5313140110956803,
+              "n_heldout_groups": 29,
+              "n_test": 637
+            },
+            {
+              "fold": 1,
+              "heldout_log_loss": 0.5788517184105255,
+              "n_heldout_groups": 29,
+              "n_test": 637
+            },
+            {
+              "fold": 2,
+              "heldout_log_loss": 0.546185767919536,
+              "n_heldout_groups": 28,
+              "n_test": 636
+            },
+            {
+              "fold": 3,
+              "heldout_log_loss": 0.5846628391684341,
+              "n_heldout_groups": 28,
+              "n_test": 636
+            },
+            {
+              "fold": 4,
+              "heldout_log_loss": 0.5760875994585246,
+              "n_heldout_groups": 28,
+              "n_test": 636
+            }
+          ],
+          "heldout_AUC": 0.49442563831601016,
+          "heldout_log_loss": 0.5634151467815914
+        }
+      },
+      "n_coincident_source_colour_pairs": 2389,
+      "n_discordant_source_photo_pairs": 793,
+      "n_heldout_groups": 142,
+      "n_pairs": 3182,
+      "soil_increment_outofgroup_logloss": null,
+      "status": "FIXED_ORIGINAL_PAIRS_BLOCKED_OOF_DIAGNOSTIC"
+    }
+  ],
+  "no_new_colour_pixel_or_prospective_species_opened": true,
+  "no_species_cell_centroid_used_for_abiotic_location": true,
+  "original_classifiable_pairs": 3196,
+  "original_colour_discordant_pairs": 797,
+  "original_fcp_manuscript_decisions_changed": false,
+  "original_pairs_unclassifiable_preserved_in_denominator": true,
+  "same_species_photo_pairs_not_genetic_or_populational_morphs": true,
+  "schema": "fcp_42111_same_species_crosscell_colour_discordance_climate_only_v1",
+  "status": "SOURCE_PAIRS_GENUS_AND_SPATIAL_BLOCKED_CLIMATE_ONLY_DIAGNOSTIC"
+}

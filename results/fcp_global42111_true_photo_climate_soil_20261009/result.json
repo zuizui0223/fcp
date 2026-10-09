@@ -1,0 +1,48 @@
+{
+  "all_original_unclassified_photo_rows_preserved": true,
+  "breadth_classifiable_by_covariate": {
+    "environment_all_complete": 14136,
+    "environment_climate_complete": 18413,
+    "environment_soil_complete": 14136
+  },
+  "geographic_cell_centroid_imputation": false,
+  "inferential_boundary": "Associative, sampled-visible-phenotype and source-missingness limited; no causal flower-colour selection inferred",
+  "n_source_photo_positions_valid": 100348,
+  "n_unique_original_photo_IDs": 100543,
+  "new_colour_label_or_photo_pixel_opened": false,
+  "original_manuscript_or_prospective_2000_730_changed": false,
+  "original_species_count": 42111,
+  "original_taxon_cell_count": 85337,
+  "schema": "fcp_global42111_original_photo_climate_soil_attachment_v1",
+  "soil_0_to_30cm_thickness_weights": [
+    5,
+    10,
+    15
+  ],
+  "soil_pH_and_nitrogen_sublayer_unit_conversions_preserved": true,
+  "soil_property_5km_source": [
+    "phh2o",
+    "soc",
+    "nitrogen",
+    "clay",
+    "wv0033",
+    "wv1500"
+  ],
+  "source_photo_environment": {
+    "environment_all_complete": 70211,
+    "environment_climate_complete": 100255,
+    "environment_soil_complete": 70213
+  },
+  "source_worldclim_bio_features": [
+    "bio1",
+    "bio5",
+    "bio12",
+    "bio15"
+  ],
+  "status": "ENVIRONMENTAL_COVARIATES_ATTACHED_NO_CAUSAL_COLOUR_MODEL",
+  "taxon_cell_classifiable_by_covariate": {
+    "environment_all_complete": 27032,
+    "environment_climate_complete": 38968,
+    "environment_soil_complete": 27032
+  }
+}
