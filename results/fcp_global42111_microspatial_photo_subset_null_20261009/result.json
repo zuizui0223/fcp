@@ -1,0 +1,144 @@
+{
+  "colour_blind_microgroup_eval_eligibility_fixed_before_permutation": true,
+  "date_jst": "2026-10-09",
+  "nonclaims": [
+    "This is a new post-hoc photo subset estimand, not the original full-cohort p-value",
+    "A 50-100km genus-cell photo neighbourhood is not a common population or genetic family tree",
+    "The source photo group data are selected on geography, observed genus and original colour classifiability",
+    "A rare source conditional label shuffle does not establish climatic selection or evolutionary adaptation",
+    "The two cohort thresholds and microgroups overlap; none independently validates the other"
+  ],
+  "original_climate_complete_photo_species": 18413,
+  "original_colour_classifiable_source_species": 18457,
+  "original_distance_caps_km": [
+    250,
+    500
+  ],
+  "original_nearby_complete_link_caps_km": [
+    50,
+    100
+  ],
+  "original_source_species": 42111,
+  "same_observed_model_as_previously_frozen_250_500_cohort": true,
+  "schema": "fcp_global42111_original_nearby_exchangeable_photo_subset_null_v1",
+  "source_four_state_labels_are_original_and_never_remeasured": true,
+  "source_original_cohorts": {
+    "250": {
+      "full_cohort_original_moisture_gain": 0.008598034415982891,
+      "outcome_blind_microgroup_scoring": {
+        "100": {
+          "microgroup_four_colour_composition_preserved_per_null": true,
+          "microgroup_photo_diameter_km": 100,
+          "n_fixed_null_model_refits": 199,
+          "n_original_evaluation_photo_ids_in_multispecies_microgroups": 707,
+          "n_original_geographical_microgroups": 405,
+          "n_original_multispecies_microgroups": 240,
+          "no_photo_colour_class_used_to_select_scoring_subset": true,
+          "null_exceedances": 31,
+          "original_heldout_brier_gain_all_source_species": 0.008598034415982891,
+          "original_heldout_brier_gain_geographic_scoring_subset": 0.005410090516994184,
+          "original_photo_subset_null_mean": 0.0032833418810133417,
+          "original_photo_subset_null_quantiles_2p5_50_97p5": [
+            -0.0005151534377319126,
+            0.0029189279995341546,
+            0.008907428286592424
+          ],
+          "original_photo_subset_null_sd": 0.002374043205865251,
+          "permutation_p": 0.16,
+          "same_original_complete_cohort_fit_for_all_subset_evaluations": true,
+          "source_label_shuffles": 199,
+          "source_original_photo_species": 872,
+          "source_species_fraction_scored": 0.8107798165137615,
+          "status": "SOURCE_COLOR_BLIND_MICRONEIGHBORHOOD_SCORING_AND_NULL",
+          "test_species_selection_uses_only_original_photo_coordinates_and_species_ID": true
+        },
+        "50": {
+          "microgroup_four_colour_composition_preserved_per_null": true,
+          "microgroup_photo_diameter_km": 50,
+          "n_fixed_null_model_refits": 199,
+          "n_original_evaluation_photo_ids_in_multispecies_microgroups": 534,
+          "n_original_geographical_microgroups": 541,
+          "n_original_multispecies_microgroups": 203,
+          "no_photo_colour_class_used_to_select_scoring_subset": true,
+          "null_exceedances": 89,
+          "original_heldout_brier_gain_all_source_species": 0.008598034415982891,
+          "original_heldout_brier_gain_geographic_scoring_subset": 0.0021908415880486035,
+          "original_photo_subset_null_mean": 0.002090646892703284,
+          "original_photo_subset_null_quantiles_2p5_50_97p5": [
+            -0.0005390497486495851,
+            0.0018913856567552804,
+            0.005344857364066381
+          ],
+          "original_photo_subset_null_sd": 0.00164637475347143,
+          "permutation_p": 0.45,
+          "same_original_complete_cohort_fit_for_all_subset_evaluations": true,
+          "source_label_shuffles": 199,
+          "source_original_photo_species": 872,
+          "source_species_fraction_scored": 0.6123853211009175,
+          "status": "SOURCE_COLOR_BLIND_MICRONEIGHBORHOOD_SCORING_AND_NULL",
+          "test_species_selection_uses_only_original_photo_coordinates_and_species_ID": true
+        }
+      },
+      "source_species": 872
+    },
+    "500": {
+      "full_cohort_original_moisture_gain": 0.005115260801465296,
+      "outcome_blind_microgroup_scoring": {
+        "100": {
+          "microgroup_four_colour_composition_preserved_per_null": true,
+          "microgroup_photo_diameter_km": 100,
+          "n_fixed_null_model_refits": 199,
+          "n_original_evaluation_photo_ids_in_multispecies_microgroups": 1245,
+          "n_original_geographical_microgroups": 964,
+          "n_original_multispecies_microgroups": 448,
+          "no_photo_colour_class_used_to_select_scoring_subset": true,
+          "null_exceedances": 50,
+          "original_heldout_brier_gain_all_source_species": 0.005115260801465296,
+          "original_heldout_brier_gain_geographic_scoring_subset": 0.0033444852727616196,
+          "original_photo_subset_null_mean": 0.0025544707259307375,
+          "original_photo_subset_null_quantiles_2p5_50_97p5": [
+            0.0003402016505957017,
+            0.0024124106587228547,
+            0.005652047867889479
+          ],
+          "original_photo_subset_null_sd": 0.0013365135991522717,
+          "permutation_p": 0.255,
+          "same_original_complete_cohort_fit_for_all_subset_evaluations": true,
+          "source_label_shuffles": 199,
+          "source_original_photo_species": 1761,
+          "source_species_fraction_scored": 0.706984667802385,
+          "status": "SOURCE_COLOR_BLIND_MICRONEIGHBORHOOD_SCORING_AND_NULL",
+          "test_species_selection_uses_only_original_photo_coordinates_and_species_ID": true
+        },
+        "50": {
+          "microgroup_four_colour_composition_preserved_per_null": true,
+          "microgroup_photo_diameter_km": 50,
+          "n_fixed_null_model_refits": 199,
+          "n_original_evaluation_photo_ids_in_multispecies_microgroups": 906,
+          "n_original_geographical_microgroups": 1216,
+          "n_original_multispecies_microgroups": 361,
+          "no_photo_colour_class_used_to_select_scoring_subset": true,
+          "null_exceedances": 181,
+          "original_heldout_brier_gain_all_source_species": 0.005115260801465296,
+          "original_heldout_brier_gain_geographic_scoring_subset": 0.0014758932738724098,
+          "original_photo_subset_null_mean": 0.0027780711652090856,
+          "original_photo_subset_null_quantiles_2p5_50_97p5": [
+            0.0006764930938863936,
+            0.002729683496700826,
+            0.004612253301926728
+          ],
+          "original_photo_subset_null_sd": 0.0010075810234732216,
+          "permutation_p": 0.91,
+          "same_original_complete_cohort_fit_for_all_subset_evaluations": true,
+          "source_label_shuffles": 199,
+          "source_original_photo_species": 1761,
+          "source_species_fraction_scored": 0.514480408858603,
+          "status": "SOURCE_COLOR_BLIND_MICRONEIGHBORHOOD_SCORING_AND_NULL",
+          "test_species_selection_uses_only_original_photo_coordinates_and_species_ID": true
+        }
+      },
+      "source_species": 1761
+    }
+  },
+  "status": "POSTHOC_SOURCE_PHOTO_SPATIAL_EXCHANGEABLE_SUBSET_CALIBRATION"
+}
