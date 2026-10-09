@@ -167,6 +167,12 @@ def fivefold_within_genus_cv(source:pd.DataFrame,*,with_soil:bool)->dict:
     if int(eligible.sum())<100:raise RuntimeError("Within-genus geographical prediction lacks test support")
     if len({k for k in pred if np.isfinite(pred[k][eligible]).all()})!=len(features):
         raise RuntimeError("Missing predictions among fixed within-genus evaluation rows")
+    # Secondary equal-GENUS weight gives each test-supported lineage an equal
+    # contribution, rather than allowing speciose genera to dominate the score.
+    eval_genus=source.loc[eligible,"genus"].to_numpy(str)
+    distinct_genus,genus_index=np.unique(eval_genus,return_inverse=True)
+    genus_counts=np.bincount(genus_index)
+    genus_weights=1.0/genus_counts[genus_index]
     scores={}
     loss={}
     for name,prob in pred.items():
@@ -174,6 +180,7 @@ def fivefold_within_genus_cv(source:pd.DataFrame,*,with_soil:bool)->dict:
         scores[name]={
             "n_same_source_test_species":int(eligible.sum()),
             "heldout_multiclass_brier":float(np.mean(z)),
+            "heldout_genus_equal_multiclass_brier":float(np.average(z,weights=genus_weights)),
         }
         loss[name]=z
     keys=list(features)
@@ -192,10 +199,25 @@ def fivefold_within_genus_cv(source:pd.DataFrame,*,with_soil:bool)->dict:
         rng=np.random.default_rng(RNG_SEED+len(label))
         draw=rng.integers(0,len(unique),size=(BOOT,len(unique)))
         boot=sums[draw].sum(axis=1)/count[draw].sum(axis=1)
+        # Two distinct sensitivity estimands, always on exactly the same OOF
+        # species. Cell reweighting retains spatial grouping; genus resampling
+        # tests the sensitivity to unequal genus richness in the photo sample.
+        weighted_sums=np.bincount(gindex,weights=genus_weights*gain)
+        weighted_denoms=np.bincount(gindex,weights=genus_weights)
+        weighted_boot=weighted_sums[draw].sum(axis=1)/weighted_denoms[draw].sum(axis=1)
+        genus_means=np.bincount(genus_index,weights=gain)/genus_counts
+        genus_rng=np.random.default_rng(RNG_SEED+len(label)+100)
+        gdraw=genus_rng.integers(0,len(distinct_genus),size=(BOOT,len(distinct_genus)))
+        gboot=genus_means[gdraw].mean(axis=1)
         delta[label]={
             "mean_heldout_brier_reduction":v,
             "source_cell_block_bootstrap_95CI":[float(x) for x in np.quantile(boot,[.025,.975])],
             "positive_gain_supported_by_bootstrap":bool(np.quantile(boot,.025)>0),
+            "genus_equal_heldout_brier_reduction":float(np.average(gain,weights=genus_weights)),
+            "genus_equal_source_cell_bootstrap_95CI":[float(x) for x in np.quantile(weighted_boot,[.025,.975])],
+            "genus_equal_genus_cluster_bootstrap_95CI":[float(x) for x in np.quantile(gboot,[.025,.975])],
+            "fraction_evaluated_genera_with_positive_increment":float(np.mean(genus_means>0)),
+            "n_genera_in_genus_equal_sensitivity":int(len(distinct_genus)),
         }
     return {
         "schema":"fcp_global42111_train_genus_only_within_genus_cell_holdout_v1",
@@ -214,6 +236,8 @@ def fivefold_within_genus_cv(source:pd.DataFrame,*,with_soil:bool)->dict:
         "brier_score_models":scores,
         "fixed_fold_incremental_gains":delta,
         "block_bootstrap_conditional_on_one_realized_fivefold_cv":True,
+        "equal_genus_weight_secondary_sensitivity":True,
+        "genus_bootstrap_conditional_on_fixed_outofcell_predictions":True,
         "inference_boundary":"Between different species within the same nominal genus; does NOT estimate within-species evolution or a causal climate or soil selection effect",
     }
 
