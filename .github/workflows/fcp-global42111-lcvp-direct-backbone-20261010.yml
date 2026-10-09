@@ -1,0 +1,122 @@
+name: FCP global 42111 original local species exact dated LCVP backbone tip audit
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-microspatial-label-null-20261009
+    paths:
+      - scripts/analysis/audit_fcp_global42111_lcvp_direct_backbone_20261010.R
+      - docs/FCP_GLOBAL42111_NEW_LCVP_BACKBONE_20261010.md
+      - .github/workflows/fcp-global42111-lcvp-direct-backbone-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp42111-frozen-original-1761-LCVP-exact-direct-tree-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ORIGINAL_TAXONOMY_PATH: results/fcp_global42111_original_local_taxonomy_20261010
+
+jobs:
+  exact-original-dated-tree-tip-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::ape
+            any::jsonlite
+            any::remotes
+          cache-version: fcp-lcvp-source-20261010
+      - name: Check successful immutable original taxonomy source BEFORE loading any tree
+        run: |
+          set -euo pipefail
+          test -s "$ORIGINAL_TAXONOMY_PATH/result.json"
+          test -s "$ORIGINAL_TAXONOMY_PATH/original_local_species_family_genus.csv"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path("results/fcp_global42111_original_local_taxonomy_20261010/result.json").read_text())
+          assert r['schema']=='fcp_42111_local_source_taxonomy_family_1761_v1'
+          assert r['original_local_500km_species_denominator']==1761
+          assert r['original_local_250km_species_denominator']==872
+          assert r['n_500km_ready_exact_original_species_family_genus']+r['n_500km_taxonomy_unresolved']==1761
+          assert r['n_250km_ready_exact_original_species_family_genus']+r['n_250km_taxonomy_unresolved']==872
+          assert r['source_photo_colour_used_in_family_assignment'] is False
+          assert r['phylogenetic_tree_created'] is False
+          PY
+      - name: Parse locked backbone audit source without genotype / colour inputs
+        run: Rscript -e 'parse(file="scripts/analysis/audit_fcp_global42111_lcvp_direct_backbone_20261010.R")' > /dev/null
+      - name: Install historical source-pinned V.PhyloMaker2 0.1.0 and time-scaled LCVP taxonomic backbone
+        run: |
+          Rscript -e 'remotes::install_github("jinyizju/V.PhyloMaker2", ref="7af3fb5152f691af2e4ec9d5e2e467d1b50505e9", dependencies=FALSE, upgrade="never", quiet=TRUE)'
+          Rscript -e 'library(V.PhyloMaker2); stopifnot(as.character(packageVersion("V.PhyloMaker2"))=="0.1.0");stopifnot(length(GBOTB.extended.LCVP$tip.label)==73420)'
+      - name: Audit original photo species against ACTUAL LCVP direct tree tips and induce only direct-tip dated subtrees
+        run: |
+          Rscript scripts/analysis/audit_fcp_global42111_lcvp_direct_backbone_20261010.R \
+            "$ORIGINAL_TAXONOMY_PATH/original_local_species_family_genus.csv" \
+            /tmp/fcp_lcvp_direct_original_source
+      - name: Guard all 1761 original taxa, 872 nested taxa and direct-vs-synthetic distinction
+        run: |
+          python3 - <<'PY'
+          import json,csv
+          from pathlib import Path
+          folder=Path('/tmp/fcp_lcvp_direct_original_source')
+          d=json.loads((folder/'result.json').read_text())
+          rows=list(csv.DictReader(open(folder/'original_local_1761_LCVP_direct_tip_ledger.csv')))
+          assert d['schema']=='fcp_global42111_local_congener_LCVP_direct_backbone_coverage_v1'
+          assert d['original_source_1761_taxa']==1761
+          assert d['original_source_872_nested_taxa']==872
+          assert d['source_tree_n_tips']==73420
+          assert len(rows)==1761
+          assert len({r['inat_taxon_id'] for r in rows})==1761
+          assert d['source_taxon_colour_labels_read'] is False
+          assert d['source_photo_pixels_read'] is False
+          assert d['n_source_photo_labels_remeasured']==0
+          for cap,total in [('km500',1761),('km250',872)]:
+              x=d['cohorts'][cap]
+              assert x['n_original_species']==total
+              assert x['n_exact_direct_lcvp_tip_species']<=x['n_current_genus_family_taxonomy_verified']<=total
+              assert 0<=x['direct_tip_fraction']<=1
+          if d['decision']=='HOLD_DIRECT_LCVP_SUBGENUS_COVERAGE_FOR_FULL_250_500':
+              print('HOLD: source species direct backbone tips too sparse; synthetic grafts do not repair within-genus tree')
+          else:
+              assert d['decision']=='DIRECT_LCVP_PHYLOGENY_EXPLORATORY_COVERAGE_SUFFICIENT'
+          print(json.dumps(d,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-42111-original-local-direct-lcvp-dated-subtrees-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_lcvp_direct_original_source/
+      - name: Save source-exact original phylogenetic source coverage and direct dated-tree tips
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-phylogeny-coverage-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          path=results/fcp_global42111_original_local_LCVP_backbone_20261010
+          mkdir -p "$path"
+          cp /tmp/fcp_lcvp_direct_original_source/* "$path/"
+          git add "$path"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal direct original 1761 source photograph species matches to dated LCVP plant backbone'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
