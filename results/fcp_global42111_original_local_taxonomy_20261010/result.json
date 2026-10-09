@@ -1,0 +1,28 @@
+{
+  "date_jst": "2026-10-10",
+  "n_250km_ready_exact_original_species_family_genus": 872,
+  "n_250km_taxonomy_unresolved": 0,
+  "n_500km_ready_exact_original_species_family_genus": 1761,
+  "n_500km_taxonomy_unresolved": 0,
+  "n_API_error_batches": 0,
+  "n_current_taxonomy_api_batches": 59,
+  "nonclaims": [
+    "Current iNaturalist family/genus metadata is a taxonomic placement, not a measured molecular relationship",
+    "Synonyms and name mismatches are unresolved, never silently substituted into original source observations",
+    "A V.PhyloMaker2 family/genus graft is not evidence for resolved within-genus diversification",
+    "Incomplete taxonomy can induce selective phylogenetic coverage and must be explicitly reported"
+  ],
+  "original_global_photo_species_denominator": 42111,
+  "original_local_250km_species_denominator": 872,
+  "original_local_500km_species_denominator": 1761,
+  "original_species_not_replaced_with_current_taxon_synonyms": true,
+  "phylogenetic_environmental_effect_estimated": false,
+  "phylogenetic_tree_created": false,
+  "schema": "fcp_42111_local_source_taxonomy_family_1761_v1",
+  "source_photo_colour_used_in_family_assignment": false,
+  "source_species_selection_fixed_before_taxonomy_query": true,
+  "status": "CURRENT_PUBLIC_TAXONOMY_TIP_PLACEMENT_PREFLIGHT_ONLY",
+  "statuses": {
+    "EXACT_SPECIES_FAMILY_GENUS_READY": 1761
+  }
+}
