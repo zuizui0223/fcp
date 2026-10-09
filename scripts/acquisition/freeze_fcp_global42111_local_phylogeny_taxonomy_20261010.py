@@ -14,6 +14,7 @@ import hashlib
 import json
 import time
 import urllib.request
+import urllib.error
 from pathlib import Path
 
 import pandas as pd
