@@ -1,0 +1,158 @@
+{
+  "all_groups_selected_without_photo_colour_outcomes": true,
+  "cohorts": {
+    "250": {
+      "microgeographic_diagnostics": {
+        "100": {
+          "all_source_photos_covered_by_exactly_one_complete_link_group": true,
+          "fraction_source_species_in_informatively_shufflable_microgroups": 0.5068807339449541,
+          "group_membership_uses_only_original_species_ID_genus_and_public_photo_coordinates": true,
+          "microgeographic_photo_diameter_km": 100,
+          "microgroup_colour_counts_preserved_on_each_null": true,
+          "minimum_effective_photo_exchange_count": 100,
+          "minimum_effective_photo_exchange_fraction": 0.1,
+          "n_frozen_original_photo_species": 872,
+          "n_groups_with_multiple_distinct_photo_colours": 133,
+          "n_groups_with_multiple_original_species": 240,
+          "n_microgeographic_complete_link_groups": 405,
+          "n_refitted_null_models": 199,
+          "n_source_genus_cell_groups": 217,
+          "n_source_species_in_informatively_shufflable_microgroups": 442,
+          "null_count_ge_observed": 34,
+          "null_mean": 0.006149297048296872,
+          "null_q025_q500_q975": [
+            0.001838106332528637,
+            0.006057680166041551,
+            0.012173196999220377
+          ],
+          "null_std": 0.0026566220148904,
+          "observed_moisture_brier_gain": 0.008598034415982891,
+          "original_genus_cell_colour_counts_always_preserved": true,
+          "p_value": 0.175,
+          "source_test_fold_assignments_unchanged": true,
+          "status": "READY_FOR_CONDITIONAL_SPATIAL_NULL"
+        },
+        "50": {
+          "all_source_photos_covered_by_exactly_one_complete_link_group": true,
+          "fraction_source_species_in_informatively_shufflable_microgroups": 0.36009174311926606,
+          "group_membership_uses_only_original_species_ID_genus_and_public_photo_coordinates": true,
+          "microgeographic_photo_diameter_km": 50,
+          "microgroup_colour_counts_preserved_on_each_null": true,
+          "minimum_effective_photo_exchange_count": 100,
+          "minimum_effective_photo_exchange_fraction": 0.1,
+          "n_frozen_original_photo_species": 872,
+          "n_groups_with_multiple_distinct_photo_colours": 109,
+          "n_groups_with_multiple_original_species": 203,
+          "n_microgeographic_complete_link_groups": 541,
+          "n_refitted_null_models": 199,
+          "n_source_genus_cell_groups": 217,
+          "n_source_species_in_informatively_shufflable_microgroups": 314,
+          "null_count_ge_observed": 69,
+          "null_mean": 0.008012878117706906,
+          "null_q025_q500_q975": [
+            0.004855707025847517,
+            0.007828190185054927,
+            0.01151523914896565
+          ],
+          "null_std": 0.0016938589989590233,
+          "observed_moisture_brier_gain": 0.008598034415982891,
+          "original_genus_cell_colour_counts_always_preserved": true,
+          "p_value": 0.35,
+          "source_test_fold_assignments_unchanged": true,
+          "status": "READY_FOR_CONDITIONAL_SPATIAL_NULL"
+        }
+      },
+      "n_original_genus_cell_groups": 217,
+      "n_original_source_photos": 872,
+      "previously_frozen_observed_moisture_gain": 0.008598034415982891
+    },
+    "500": {
+      "microgeographic_diagnostics": {
+        "100": {
+          "all_source_photos_covered_by_exactly_one_complete_link_group": true,
+          "fraction_source_species_in_informatively_shufflable_microgroups": 0.4236229415105054,
+          "group_membership_uses_only_original_species_ID_genus_and_public_photo_coordinates": true,
+          "microgeographic_photo_diameter_km": 100,
+          "microgroup_colour_counts_preserved_on_each_null": true,
+          "minimum_effective_photo_exchange_count": 100,
+          "minimum_effective_photo_exchange_fraction": 0.1,
+          "n_frozen_original_photo_species": 1761,
+          "n_groups_with_multiple_distinct_photo_colours": 240,
+          "n_groups_with_multiple_original_species": 448,
+          "n_microgeographic_complete_link_groups": 964,
+          "n_refitted_null_models": 199,
+          "n_source_genus_cell_groups": 417,
+          "n_source_species_in_informatively_shufflable_microgroups": 746,
+          "null_count_ge_observed": 58,
+          "null_mean": 0.004208915037367758,
+          "null_q025_q500_q975": [
+            0.0011110939048548261,
+            0.003978807058809238,
+            0.007071785956944421
+          ],
+          "null_std": 0.0015107832314709153,
+          "observed_moisture_brier_gain": 0.005115260801465296,
+          "original_genus_cell_colour_counts_always_preserved": true,
+          "p_value": 0.295,
+          "source_test_fold_assignments_unchanged": true,
+          "status": "READY_FOR_CONDITIONAL_SPATIAL_NULL"
+        },
+        "50": {
+          "all_source_photos_covered_by_exactly_one_complete_link_group": true,
+          "fraction_source_species_in_informatively_shufflable_microgroups": 0.2867688813174333,
+          "group_membership_uses_only_original_species_ID_genus_and_public_photo_coordinates": true,
+          "microgeographic_photo_diameter_km": 50,
+          "microgroup_colour_counts_preserved_on_each_null": true,
+          "minimum_effective_photo_exchange_count": 100,
+          "minimum_effective_photo_exchange_fraction": 0.1,
+          "n_frozen_original_photo_species": 1761,
+          "n_groups_with_multiple_distinct_photo_colours": 184,
+          "n_groups_with_multiple_original_species": 361,
+          "n_microgeographic_complete_link_groups": 1216,
+          "n_refitted_null_models": 199,
+          "n_source_genus_cell_groups": 417,
+          "n_source_species_in_informatively_shufflable_microgroups": 505,
+          "null_count_ge_observed": 175,
+          "null_mean": 0.006285127712652474,
+          "null_q025_q500_q975": [
+            0.004208041653318711,
+            0.006242416196735852,
+            0.008702789771319315
+          ],
+          "null_std": 0.00109208329470396,
+          "observed_moisture_brier_gain": 0.005115260801465296,
+          "original_genus_cell_colour_counts_always_preserved": true,
+          "p_value": 0.88,
+          "source_test_fold_assignments_unchanged": true,
+          "status": "READY_FOR_CONDITIONAL_SPATIAL_NULL"
+        }
+      },
+      "n_original_genus_cell_groups": 417,
+      "n_original_source_photos": 1761,
+      "previously_frozen_observed_moisture_gain": 0.005115260801465296
+    }
+  },
+  "date_jst": "2026-10-09",
+  "microgeographic_complete_link_diameter_caps_km": [
+    50,
+    100
+  ],
+  "nonclaims": [
+    "Matched-null label shuffling conditional on photographer-provided locations cannot remove taxon phylogenetic subgenus effects",
+    "Limited exchangeable near-neighbor groups can make a microgeographic permutation test uninformative; HOLD is not a null phenotype result",
+    "The original photo color may be atypical for a species or taxonomically inaccurate",
+    "Even a rare photo-colour shuffle outcome is not causal evidence for climatic selection or fitness",
+    "The original 250km and 500km source cohorts overlap and do not constitute independent replication"
+  ],
+  "null_permutations_each_estimable_comparison": 199,
+  "original_climate_complete_photo_species": 18413,
+  "original_colour_classifiable_taxa": 18457,
+  "original_distance_caps_km": [
+    250,
+    500
+  ],
+  "original_global_source_taxa": 42111,
+  "original_photos_and_climate_sources_unchanged": true,
+  "schema": "fcp_global42111_local_congener_microspatial_shuffle_null_v1",
+  "status": "SOURCE_ORIGINAL_PHOTOGRAPH_MICROGEOGRAPHY_EXCHANGEABILITY_AUDIT"
+}
