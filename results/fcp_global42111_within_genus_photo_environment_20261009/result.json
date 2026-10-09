@@ -1,0 +1,400 @@
+{
+  "climate_only_population": {
+    "block_bootstrap_conditional_on_one_realized_fivefold_cv": true,
+    "brier_score_models": {
+      "GENUS_BASELINE": {
+        "heldout_genus_equal_multiclass_brier": 0.5714772418549392,
+        "heldout_multiclass_brier": 0.537749600318041,
+        "n_same_source_test_species": 13307
+      },
+      "GENUS_GEO": {
+        "heldout_genus_equal_multiclass_brier": 0.5668121803790112,
+        "heldout_multiclass_brier": 0.5352201206539798,
+        "n_same_source_test_species": 13307
+      },
+      "GENUS_GEO_CLIMATE": {
+        "heldout_genus_equal_multiclass_brier": 0.5635208772387093,
+        "heldout_multiclass_brier": 0.5337555575861908,
+        "n_same_source_test_species": 13307
+      },
+      "GENUS_GEO_MOISTURE": {
+        "heldout_genus_equal_multiclass_brier": 0.5642311365203443,
+        "heldout_multiclass_brier": 0.5339906661780423,
+        "n_same_source_test_species": 13307
+      },
+      "GENUS_GEO_TEMPERATURE": {
+        "heldout_genus_equal_multiclass_brier": 0.5665596338879626,
+        "heldout_multiclass_brier": 0.5351227551929246,
+        "n_same_source_test_species": 13307
+      }
+    },
+    "climate_block_ablation_inference_status": "RETROSPECTIVE_CORRELATED_COVARIATE_EXPLORATION_NOT_INDEPENDENT_CONFIRMATION",
+    "climate_block_ablation_moisture": [
+      "wc_bio12",
+      "wc_bio15"
+    ],
+    "climate_block_ablation_temperature": [
+      "wc_bio1",
+      "wc_bio5"
+    ],
+    "equal_genus_weight_secondary_sensitivity": true,
+    "fixed_fold_incremental_gains": {
+      "climate_beyond_genus_geography": {
+        "fraction_evaluated_genera_with_positive_increment": 0.49894142554693016,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.0023554347182481784,
+          0.004345896415917423
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0032913031403018775,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.002430710185102552,
+          0.004262899300554868
+        ],
+        "mean_heldout_brier_reduction": 0.0014645630677890627,
+        "n_genera_in_genus_equal_sensitivity": 1417,
+        "positive_gain_supported_by_bootstrap": true,
+        "source_cell_block_bootstrap_95CI": [
+          0.001004948280147335,
+          0.0019937332103662107
+        ]
+      },
+      "geo_beyond_genus": {
+        "fraction_evaluated_genera_with_positive_increment": 0.4940014114326041,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.0038292256532116817,
+          0.005467306847229083
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0046650614759280425,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.0038478323004251624,
+          0.005509043651498588
+        ],
+        "mean_heldout_brier_reduction": 0.002529479664061205,
+        "n_genera_in_genus_equal_sensitivity": 1417,
+        "positive_gain_supported_by_bootstrap": true,
+        "source_cell_block_bootstrap_95CI": [
+          0.0020226492965873116,
+          0.0031395368786989934
+        ]
+      },
+      "unique_moisture_block_beyond_geo_temperature": {
+        "fraction_evaluated_genera_with_positive_increment": 0.49329569513055754,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.0021448239869610495,
+          0.00400056868459632
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0030387566492531886,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.0021046716898761443,
+          0.00396782032473793
+        ],
+        "mean_heldout_brier_reduction": 0.0013671976067339568,
+        "n_genera_in_genus_equal_sensitivity": 1417,
+        "positive_gain_supported_by_bootstrap": true,
+        "source_cell_block_bootstrap_95CI": [
+          0.0008817231277767734,
+          0.001865481034778764
+        ]
+      },
+      "unique_temperature_block_beyond_geo_moisture": {
+        "fraction_evaluated_genera_with_positive_increment": 0.49964714184897674,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.00027270598015591144,
+          0.0011605468613136074
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0007102592816350246,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.0003204318779487065,
+          0.0011296959190685793
+        ],
+        "mean_heldout_brier_reduction": 0.00023510859185156178,
+        "n_genera_in_genus_equal_sensitivity": 1417,
+        "positive_gain_supported_by_bootstrap": false,
+        "source_cell_block_bootstrap_95CI": [
+          -2.9371381825141694e-07,
+          0.00046957025469667634
+        ]
+      }
+    },
+    "genus_bootstrap_conditional_on_fixed_outofcell_predictions": true,
+    "genus_means_estimated_only_from_training_source_species": true,
+    "heldout_5fold_original_cell_status": [
+      {
+        "fold": 0,
+        "n_genus_estimable_test_species": 2681,
+        "n_test_source_geographic_cells": 23,
+        "n_test_source_species": 3683,
+        "n_unseen_or_single_training_genus_test_species": 1002
+      },
+      {
+        "fold": 1,
+        "n_genus_estimable_test_species": 2606,
+        "n_test_source_geographic_cells": 24,
+        "n_test_source_species": 3683,
+        "n_unseen_or_single_training_genus_test_species": 1077
+      },
+      {
+        "fold": 2,
+        "n_genus_estimable_test_species": 2701,
+        "n_test_source_geographic_cells": 24,
+        "n_test_source_species": 3683,
+        "n_unseen_or_single_training_genus_test_species": 982
+      },
+      {
+        "fold": 3,
+        "n_genus_estimable_test_species": 2643,
+        "n_test_source_geographic_cells": 23,
+        "n_test_source_species": 3682,
+        "n_unseen_or_single_training_genus_test_species": 1039
+      },
+      {
+        "fold": 4,
+        "n_genus_estimable_test_species": 2676,
+        "n_test_source_geographic_cells": 23,
+        "n_test_source_species": 3682,
+        "n_unseen_or_single_training_genus_test_species": 1006
+      }
+    ],
+    "inference_boundary": "Between different species within the same nominal genus; does NOT estimate within-species evolution or a causal climate or soil selection effect",
+    "n_distinct_original_cells_in_evaluation": 116,
+    "n_distinct_source_genera_in_evaluation": 1417,
+    "n_original_source_162_geographic_cells": 117,
+    "n_original_source_genera": 4554,
+    "one_original_photo_per_taxon": true,
+    "same_exact_species_and_cell_folds_for_all_feature_families": true,
+    "schema": "fcp_global42111_train_genus_only_within_genus_cell_holdout_v1",
+    "source_colour_classes": [
+      "white",
+      "yellow_orange",
+      "red_pink",
+      "blue_purple"
+    ],
+    "source_species_in_pool": 18413,
+    "source_species_not_prediction_eligible_due_to_genus_support": 5106,
+    "source_species_with_train_observed_genus_and_min_two_training_species": 13307
+  },
+  "date_jst": "2026-10-09",
+  "hard_nonclaims": [
+    "This is BETWEEN different species of the same named genus, not within-species photo-colour evolution",
+    "Genus fixed effects do not control full evolutionary phylogeny, species turnover inside genera or photo misclassification",
+    "Cell-heldout evaluation restricts to genera with two or more TRAIN species, so the support population is conditional",
+    "Genus means always come from training species only; no test-label contamination",
+    "A source photograph is not a species modal flower colour or genetically measured morph",
+    "A small apparent predictive gain is not causation, selection or reproductive fitness",
+    "Unequal soil-mask/classifiability across the original 42111 named species limits generalization"
+  ],
+  "no_environment_soil_imputation_or_cell_centroid_as_site": true,
+  "no_photo_pixels_or_new_colour_labels_opened": true,
+  "old_fcp_highdepth_and_new_independent_species_unchanged": true,
+  "original_global_species_denominator": 42111,
+  "original_historic_colour_classifiable": 18457,
+  "original_source_photo_coverage": {
+    "climate_only_additional_species_not_available_in_soil_complete": 4277,
+    "original_photograph_colour_classifiable": 18457,
+    "source_classified_climate_complete": 18413,
+    "source_classified_climate_soil_complete": 14136,
+    "source_photo_geolocated_classified": 18424,
+    "source_single_photo_species": 42111,
+    "unclassified_photo_species_preserved_outside_model": 23654
+  },
+  "schema": "fcp_global42111_within_genus_compositional_vs_climate_soil_v1",
+  "soil_complete_population": {
+    "block_bootstrap_conditional_on_one_realized_fivefold_cv": true,
+    "brier_score_models": {
+      "GENUS_BASELINE": {
+        "heldout_genus_equal_multiclass_brier": 0.5713634661472387,
+        "heldout_multiclass_brier": 0.5496389819334001,
+        "n_same_source_test_species": 9498
+      },
+      "GENUS_GEO": {
+        "heldout_genus_equal_multiclass_brier": 0.5655241971504467,
+        "heldout_multiclass_brier": 0.5467102956472091,
+        "n_same_source_test_species": 9498
+      },
+      "GENUS_GEO_CLIMATE": {
+        "heldout_genus_equal_multiclass_brier": 0.5632741885129725,
+        "heldout_multiclass_brier": 0.5455090923224486,
+        "n_same_source_test_species": 9498
+      },
+      "GENUS_GEO_CLIMATE_SOIL": {
+        "heldout_genus_equal_multiclass_brier": 0.56246271574434,
+        "heldout_multiclass_brier": 0.5458495572050153,
+        "n_same_source_test_species": 9498
+      },
+      "GENUS_GEO_MOISTURE": {
+        "heldout_genus_equal_multiclass_brier": 0.5639532876792215,
+        "heldout_multiclass_brier": 0.5457089993936325,
+        "n_same_source_test_species": 9498
+      },
+      "GENUS_GEO_TEMPERATURE": {
+        "heldout_genus_equal_multiclass_brier": 0.5646913946829468,
+        "heldout_multiclass_brier": 0.5464445168764944,
+        "n_same_source_test_species": 9498
+      }
+    },
+    "climate_block_ablation_inference_status": "RETROSPECTIVE_CORRELATED_COVARIATE_EXPLORATION_NOT_INDEPENDENT_CONFIRMATION",
+    "climate_block_ablation_moisture": [
+      "wc_bio12",
+      "wc_bio15"
+    ],
+    "climate_block_ablation_temperature": [
+      "wc_bio1",
+      "wc_bio5"
+    ],
+    "equal_genus_weight_secondary_sensitivity": true,
+    "fixed_fold_incremental_gains": {
+      "climate_beyond_genus_geography": {
+        "fraction_evaluated_genera_with_positive_increment": 0.48663101604278075,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.0012486262606266414,
+          0.0033350833434646395
+        ],
+        "genus_equal_heldout_brier_reduction": 0.002250008637474255,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.0011057791141772181,
+          0.003604606714081208
+        ],
+        "mean_heldout_brier_reduction": 0.0012012033247605146,
+        "n_genera_in_genus_equal_sensitivity": 1122,
+        "positive_gain_supported_by_bootstrap": true,
+        "source_cell_block_bootstrap_95CI": [
+          0.0006231631051079814,
+          0.0018431140756580437
+        ]
+      },
+      "geo_beyond_genus": {
+        "fraction_evaluated_genera_with_positive_increment": 0.49910873440285203,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.004626328253051939,
+          0.00725780747135491
+        ],
+        "genus_equal_heldout_brier_reduction": 0.005839268996792019,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.004633019027080633,
+          0.007261951476209419
+        ],
+        "mean_heldout_brier_reduction": 0.0029286862861910624,
+        "n_genera_in_genus_equal_sensitivity": 1122,
+        "positive_gain_supported_by_bootstrap": true,
+        "source_cell_block_bootstrap_95CI": [
+          0.002349959836684689,
+          0.003535380667278107
+        ]
+      },
+      "soil_beyond_genus_geography_climate": {
+        "fraction_evaluated_genera_with_positive_increment": 0.4215686274509804,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.00012995678175394457,
+          0.0014470466213186725
+        ],
+        "genus_equal_heldout_brier_reduction": 0.00081147276863241,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          -8.229011563137864e-05,
+          0.0016774035019843853
+        ],
+        "mean_heldout_brier_reduction": -0.00034046488256666565,
+        "n_genera_in_genus_equal_sensitivity": 1122,
+        "positive_gain_supported_by_bootstrap": false,
+        "source_cell_block_bootstrap_95CI": [
+          -0.0009896331458752728,
+          0.00024194513943356748
+        ]
+      },
+      "unique_moisture_block_beyond_geo_temperature": {
+        "fraction_evaluated_genera_with_positive_increment": 0.4741532976827095,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.0005995910215332791,
+          0.002270451329849736
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0014172061699744358,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.0005458764166807649,
+          0.0023622840057198236
+        ],
+        "mean_heldout_brier_reduction": 0.0009354245540458,
+        "n_genera_in_genus_equal_sensitivity": 1122,
+        "positive_gain_supported_by_bootstrap": true,
+        "source_cell_block_bootstrap_95CI": [
+          0.0005033416077189658,
+          0.001403701966329121
+        ]
+      },
+      "unique_temperature_block_beyond_geo_moisture": {
+        "fraction_evaluated_genera_with_positive_increment": 0.4928698752228164,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.0001662081824785158,
+          0.0011721075764049482
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0006790991662490741,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.00018093022382541365,
+          0.0012078283109802225
+        ],
+        "mean_heldout_brier_reduction": 0.0001999070711839638,
+        "n_genera_in_genus_equal_sensitivity": 1122,
+        "positive_gain_supported_by_bootstrap": false,
+        "source_cell_block_bootstrap_95CI": [
+          -5.473534558524045e-05,
+          0.0004520355266724628
+        ]
+      }
+    },
+    "genus_bootstrap_conditional_on_fixed_outofcell_predictions": true,
+    "genus_means_estimated_only_from_training_source_species": true,
+    "heldout_5fold_original_cell_status": [
+      {
+        "fold": 0,
+        "n_genus_estimable_test_species": 1864,
+        "n_test_source_geographic_cells": 21,
+        "n_test_source_species": 2828,
+        "n_unseen_or_single_training_genus_test_species": 964
+      },
+      {
+        "fold": 1,
+        "n_genus_estimable_test_species": 1920,
+        "n_test_source_geographic_cells": 20,
+        "n_test_source_species": 2827,
+        "n_unseen_or_single_training_genus_test_species": 907
+      },
+      {
+        "fold": 2,
+        "n_genus_estimable_test_species": 1830,
+        "n_test_source_geographic_cells": 21,
+        "n_test_source_species": 2827,
+        "n_unseen_or_single_training_genus_test_species": 997
+      },
+      {
+        "fold": 3,
+        "n_genus_estimable_test_species": 1919,
+        "n_test_source_geographic_cells": 21,
+        "n_test_source_species": 2827,
+        "n_unseen_or_single_training_genus_test_species": 908
+      },
+      {
+        "fold": 4,
+        "n_genus_estimable_test_species": 1965,
+        "n_test_source_geographic_cells": 20,
+        "n_test_source_species": 2827,
+        "n_unseen_or_single_training_genus_test_species": 862
+      }
+    ],
+    "inference_boundary": "Between different species within the same nominal genus; does NOT estimate within-species evolution or a causal climate or soil selection effect",
+    "n_distinct_original_cells_in_evaluation": 103,
+    "n_distinct_source_genera_in_evaluation": 1122,
+    "n_original_source_162_geographic_cells": 103,
+    "n_original_source_genera": 3942,
+    "one_original_photo_per_taxon": true,
+    "same_exact_species_and_cell_folds_for_all_feature_families": true,
+    "schema": "fcp_global42111_train_genus_only_within_genus_cell_holdout_v1",
+    "source_colour_classes": [
+      "white",
+      "yellow_orange",
+      "red_pink",
+      "blue_purple"
+    ],
+    "source_species_in_pool": 14136,
+    "source_species_not_prediction_eligible_due_to_genus_support": 4638,
+    "source_species_with_train_observed_genus_and_min_two_training_species": 9498
+  },
+  "status": "RETROSPECTIVE_OBSERVATIONAL_BETWEEN_SPECIES_WITHIN_GENUS"
+}
