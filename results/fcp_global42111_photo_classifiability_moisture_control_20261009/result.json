@@ -1,0 +1,232 @@
+{
+  "climate_opportunity": {
+    "folds": [
+      {
+        "fold": 0,
+        "n_missing_genus_training_support": 1777,
+        "n_original_photos_heldout": 8403,
+        "n_train_supported_genus_original_photos": 6626
+      },
+      {
+        "fold": 1,
+        "n_missing_genus_training_support": 1477,
+        "n_original_photos_heldout": 8403,
+        "n_train_supported_genus_original_photos": 6926
+      },
+      {
+        "fold": 2,
+        "n_missing_genus_training_support": 1565,
+        "n_original_photos_heldout": 8403,
+        "n_train_supported_genus_original_photos": 6838
+      },
+      {
+        "fold": 3,
+        "n_missing_genus_training_support": 1728,
+        "n_original_photos_heldout": 8403,
+        "n_train_supported_genus_original_photos": 6675
+      },
+      {
+        "fold": 4,
+        "n_missing_genus_training_support": 1657,
+        "n_original_photos_heldout": 8402,
+        "n_train_supported_genus_original_photos": 6745
+      }
+    ],
+    "genus_means_estimated_on_training_photograph_opportunities_only": true,
+    "increments": {
+      "climate_beyond_genus_geography": {
+        "heldout_classifiability_brier_improvement": 0.00017556119676483947,
+        "original_geographic_cell_bootstrap_95CI": [
+          2.189337906338474e-05,
+          0.0003368569752268323
+        ],
+        "positive_gain_in_fixed_cell_resampling": true
+      },
+      "geo_beyond_genus": {
+        "heldout_classifiability_brier_improvement": 0.0002987904022759094,
+        "original_geographic_cell_bootstrap_95CI": [
+          0.0001449374454831611,
+          0.0004476103019377978
+        ],
+        "positive_gain_in_fixed_cell_resampling": true
+      },
+      "unique_moisture_beyond_genus_geography_temperature": {
+        "heldout_classifiability_brier_improvement": 3.629668894466387e-05,
+        "original_geographic_cell_bootstrap_95CI": [
+          -4.884643851812415e-05,
+          0.00012739165119538622
+        ],
+        "positive_gain_in_fixed_cell_resampling": false
+      },
+      "unique_temperature_beyond_genus_geography_moisture": {
+        "heldout_classifiability_brier_improvement": 0.0001728300470564044,
+        "original_geographic_cell_bootstrap_95CI": [
+          4.192892263636801e-05,
+          0.00029993927938486343
+        ],
+        "positive_gain_in_fixed_cell_resampling": true
+      }
+    },
+    "models": {
+      "GENUS_GEO": {
+        "mean_binary_classifiability_brier": 0.25492311387036276,
+        "n_heldout_original_photos": 33810
+      },
+      "GENUS_GEO_ALL_CLIMATE": {
+        "mean_binary_classifiability_brier": 0.25474755267359794,
+        "n_heldout_original_photos": 33810
+      },
+      "GENUS_GEO_MOISTURE": {
+        "mean_binary_classifiability_brier": 0.25492038272065426,
+        "n_heldout_original_photos": 33810
+      },
+      "GENUS_GEO_TEMP": {
+        "mean_binary_classifiability_brier": 0.25478384936254256,
+        "n_heldout_original_photos": 33810
+      },
+      "GENUS_ONLY": {
+        "mean_binary_classifiability_brier": 0.25522190427263863,
+        "n_heldout_original_photos": 33810
+      }
+    },
+    "n_classifiable_source_photos_in_candidate_pool": 18413,
+    "n_heldout_original_photos_genus_estimable": 33810,
+    "n_source_genera_estimated": 2636,
+    "n_source_heldout_equal_area_cells": 121,
+    "n_source_original_photo_candidates": 42014,
+    "outcome": "whether original photograph flower ROI can be classified, not colour of the flower",
+    "same_original_source_photos_in_every_compared_model": true
+  },
+  "date_jst": "2026-10-09",
+  "hard_nonclaims": [
+    "This predicts PHOTO classification success/failure, not whether an unknown natural plant lacks flower colour",
+    "A precipitation signal in classifiability can expose selective photographic missingness but cannot quantify the induced bias by itself",
+    "Genus and geographic blocking leave remaining phenology, photographer, flowering morphology and taxonomic confounding",
+    "Environmental source variables are long-term climate, not conditions when the image was taken",
+    "No genetic flower-colour variants, fitness, pigment biosynthesis or causal ecology is observed"
+  ],
+  "never_treat_unclassifiable_photographs_as_white_or_genetic_monomorphs": true,
+  "original_42111_taxa_and_23654_unclassifiable_denominators_preserved": true,
+  "original_source": {
+    "n_all_photos_with_original_climate": 42014,
+    "n_all_photos_with_original_climate_soil": 32231,
+    "n_classifiable_original_photos": 18457,
+    "n_original_unclassified_with_climate": 23601,
+    "n_original_unclassified_with_climate_soil": 18095,
+    "n_unclassifiable_original_photos": 23654,
+    "original_source_taxa": 42111
+  },
+  "schema": "fcp_global42111_colour_classifiability_moisture_negative_control_v1",
+  "soil_opportunity": {
+    "folds": [
+      {
+        "fold": 0,
+        "n_missing_genus_training_support": 1608,
+        "n_original_photos_heldout": 6447,
+        "n_train_supported_genus_original_photos": 4839
+      },
+      {
+        "fold": 1,
+        "n_missing_genus_training_support": 1334,
+        "n_original_photos_heldout": 6446,
+        "n_train_supported_genus_original_photos": 5112
+      },
+      {
+        "fold": 2,
+        "n_missing_genus_training_support": 1457,
+        "n_original_photos_heldout": 6446,
+        "n_train_supported_genus_original_photos": 4989
+      },
+      {
+        "fold": 3,
+        "n_missing_genus_training_support": 1249,
+        "n_original_photos_heldout": 6446,
+        "n_train_supported_genus_original_photos": 5197
+      },
+      {
+        "fold": 4,
+        "n_missing_genus_training_support": 1852,
+        "n_original_photos_heldout": 6446,
+        "n_train_supported_genus_original_photos": 4594
+      }
+    ],
+    "genus_means_estimated_on_training_photograph_opportunities_only": true,
+    "increments": {
+      "climate_beyond_genus_geography": {
+        "heldout_classifiability_brier_improvement": 9.414259261900172e-05,
+        "original_geographic_cell_bootstrap_95CI": [
+          -8.080061902028508e-05,
+          0.0002664744774357795
+        ],
+        "positive_gain_in_fixed_cell_resampling": false
+      },
+      "geo_beyond_genus": {
+        "heldout_classifiability_brier_improvement": 0.00036090203822020355,
+        "original_geographic_cell_bootstrap_95CI": [
+          0.00021193517716426772,
+          0.0005247053028090839
+        ],
+        "positive_gain_in_fixed_cell_resampling": true
+      },
+      "soil_beyond_genus_geography_climate": {
+        "heldout_classifiability_brier_improvement": 5.154376062883367e-05,
+        "original_geographic_cell_bootstrap_95CI": [
+          -4.5723824361140733e-05,
+          0.00015414604833875615
+        ],
+        "positive_gain_in_fixed_cell_resampling": false
+      },
+      "unique_moisture_beyond_genus_geography_temperature": {
+        "heldout_classifiability_brier_improvement": 5.434014033245953e-05,
+        "original_geographic_cell_bootstrap_95CI": [
+          -7.345386181493104e-05,
+          0.00017289363893105495
+        ],
+        "positive_gain_in_fixed_cell_resampling": false
+      },
+      "unique_temperature_beyond_genus_geography_moisture": {
+        "heldout_classifiability_brier_improvement": 7.342589864800636e-05,
+        "original_geographic_cell_bootstrap_95CI": [
+          -6.149775570954163e-05,
+          0.000194809587849536
+        ],
+        "positive_gain_in_fixed_cell_resampling": false
+      }
+    },
+    "models": {
+      "GENUS_GEO": {
+        "mean_binary_classifiability_brier": 0.25862573583622245,
+        "n_heldout_original_photos": 24731
+      },
+      "GENUS_GEO_ALL_CLIMATE": {
+        "mean_binary_classifiability_brier": 0.25853159324360353,
+        "n_heldout_original_photos": 24731
+      },
+      "GENUS_GEO_ALL_CLIMATE_SOIL": {
+        "mean_binary_classifiability_brier": 0.25848004948297465,
+        "n_heldout_original_photos": 24731
+      },
+      "GENUS_GEO_MOISTURE": {
+        "mean_binary_classifiability_brier": 0.2586050191422515,
+        "n_heldout_original_photos": 24731
+      },
+      "GENUS_GEO_TEMP": {
+        "mean_binary_classifiability_brier": 0.25858593338393593,
+        "n_heldout_original_photos": 24731
+      },
+      "GENUS_ONLY": {
+        "mean_binary_classifiability_brier": 0.2589866378744427,
+        "n_heldout_original_photos": 24731
+      }
+    },
+    "n_classifiable_source_photos_in_candidate_pool": 14136,
+    "n_heldout_original_photos_genus_estimable": 24731,
+    "n_source_genera_estimated": 2129,
+    "n_source_heldout_equal_area_cells": 109,
+    "n_source_original_photo_candidates": 32231,
+    "outcome": "whether original photograph flower ROI can be classified, not colour of the flower",
+    "same_original_source_photos_in_every_compared_model": true
+  },
+  "source_four_colour_labels_not_remeasured": true,
+  "status": "PHOTOGRAPHIC_CLASSIFICATION_SELECTION_DIAGNOSTIC_NOT_FLOWER_COLOUR_ASSOCIATION"
+}
