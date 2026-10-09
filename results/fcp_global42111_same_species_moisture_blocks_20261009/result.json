@@ -1,0 +1,161 @@
+{
+  "fixed_source_genus_and_midpoint_cell_fivefold": true,
+  "models": [
+    {
+      "climate_increments": {
+        "total_climate_beyond_geography": {
+          "heldout_log_loss_reduction": -0.0007103502971160002,
+          "original_genus_or_cell_block_bootstrap_95CI": [
+            -0.002166677628209993,
+            0.0008107999325752675
+          ],
+          "positive_increment_supported_by_conditional_bootstrap": false
+        },
+        "unique_moisture_beyond_geography_temperature": {
+          "heldout_log_loss_reduction": -0.000853921302451175,
+          "original_genus_or_cell_block_bootstrap_95CI": [
+            -0.001964924892969775,
+            0.0002530046572737166
+          ],
+          "positive_increment_supported_by_conditional_bootstrap": false
+        },
+        "unique_temperature_beyond_geography_moisture": {
+          "heldout_log_loss_reduction": 0.00018960134136919245,
+          "original_genus_or_cell_block_bootstrap_95CI": [
+            -0.0007801327824247551,
+            0.0011974806805335587
+          ],
+          "positive_increment_supported_by_conditional_bootstrap": false
+        }
+      },
+      "heldout_group": "genus",
+      "inference_boundary": "One observer-disjoint photographed pair per same species; no genotype/pigment/local selection measured",
+      "models": {
+        "GEOGRAPHY": {
+          "heldout_AUC": 0.4916026956252306,
+          "heldout_log_loss": 0.562288122330941,
+          "source_pairs_evaluated": 3182
+        },
+        "GEOGRAPHY_ALL_CLIMATE": {
+          "heldout_AUC": 0.4974264665129215,
+          "heldout_log_loss": 0.5629984726280571,
+          "source_pairs_evaluated": 3182
+        },
+        "GEOGRAPHY_MOISTURE": {
+          "heldout_AUC": 0.4823246732475507,
+          "heldout_log_loss": 0.5631880739694263,
+          "source_pairs_evaluated": 3182
+        },
+        "GEOGRAPHY_TEMPERATURE": {
+          "heldout_AUC": 0.5071594957341788,
+          "heldout_log_loss": 0.5621445513256059,
+          "source_pairs_evaluated": 3182
+        }
+      },
+      "n_heldout_original_groups": 1463,
+      "n_original_source_species_pairs": 3182,
+      "n_photo_colour_discordant": 793,
+      "same_species_pairs_and_split_in_all_models": true,
+      "status": "ORIGINAL_SAME_SPECIES_PHOTOGRAPHED_PAIR_CLIMATE_BLOCK_MODEL"
+    },
+    {
+      "climate_increments": {
+        "total_climate_beyond_geography": {
+          "heldout_log_loss_reduction": -0.0005744855729245351,
+          "original_genus_or_cell_block_bootstrap_95CI": [
+            -0.0021503998757777323,
+            0.0009289292823479955
+          ],
+          "positive_increment_supported_by_conditional_bootstrap": false
+        },
+        "unique_moisture_beyond_geography_temperature": {
+          "heldout_log_loss_reduction": -0.00015453933145990657,
+          "original_genus_or_cell_block_bootstrap_95CI": [
+            -0.0010379542324571887,
+            0.0007395702934210084
+          ],
+          "positive_increment_supported_by_conditional_bootstrap": false
+        },
+        "unique_temperature_beyond_geography_moisture": {
+          "heldout_log_loss_reduction": -0.0004478582132799721,
+          "original_genus_or_cell_block_bootstrap_95CI": [
+            -0.001620951964692297,
+            0.0007012334540924766
+          ],
+          "positive_increment_supported_by_conditional_bootstrap": false
+        }
+      },
+      "heldout_group": "pair_midpoint_cell_162",
+      "inference_boundary": "One observer-disjoint photographed pair per same species; no genotype/pigment/local selection measured",
+      "models": {
+        "GEOGRAPHY": {
+          "heldout_AUC": 0.4757223233641791,
+          "heldout_log_loss": 0.5628406612086668,
+          "source_pairs_evaluated": 3182
+        },
+        "GEOGRAPHY_ALL_CLIMATE": {
+          "heldout_AUC": 0.49442563831601016,
+          "heldout_log_loss": 0.5634151467815914,
+          "source_pairs_evaluated": 3182
+        },
+        "GEOGRAPHY_MOISTURE": {
+          "heldout_AUC": 0.4845073336862892,
+          "heldout_log_loss": 0.5629672885683115,
+          "source_pairs_evaluated": 3182
+        },
+        "GEOGRAPHY_TEMPERATURE": {
+          "heldout_AUC": 0.49820874045976804,
+          "heldout_log_loss": 0.5632606074501315,
+          "source_pairs_evaluated": 3182
+        }
+      },
+      "n_heldout_original_groups": 142,
+      "n_original_source_species_pairs": 3182,
+      "n_photo_colour_discordant": 793,
+      "same_species_pairs_and_split_in_all_models": true,
+      "status": "ORIGINAL_SAME_SPECIES_PHOTOGRAPHED_PAIR_CLIMATE_BLOCK_MODEL"
+    }
+  ],
+  "no_new_photo_classification_or_prospective_source_opened": true,
+  "no_source_photo_pixels_redownloaded": true,
+  "nonclaims": [
+    "This tests macroclimatic contrasts between photographs of different localities, not genetically identified same-population morphs",
+    "Climate-only original pair selection differs from genus-conditioned BETWEEN-SPECIES sampled taxa",
+    "Correlated BIO1/BIO5 and BIO12/BIO15 blocks do not provide independent causal contributions",
+    "The source 10220 undetermined photographic pairs are not counted as matching flower-colour outcomes",
+    "Blocked intervals condition on fixed folds and are retrospective, not external genetic or experimental confirmation"
+  ],
+  "original_highdepth_and_FCP_manuscript_not_reinterpreted": true,
+  "schema": "fcp_global42111_3182_same_species_photo_pairs_temperature_vs_moisture_v1",
+  "source_moisture_features": [
+    "delta_wc_bio12",
+    "delta_wc_bio15"
+  ],
+  "source_original_discordant_photo_pairs": 797,
+  "source_original_fixed_species_pairs": 13416,
+  "source_original_four_colour_classifiable_pairs": 3196,
+  "source_pair_environment_coverage": {
+    "n_both_source_photo_locations_available": 13359,
+    "n_classified_pairs_all_geo_climate": 3182,
+    "n_classified_pairs_all_geo_climate_soil": 1653,
+    "n_classified_pairs_two_sites_climate_complete": 3182,
+    "n_classified_pairs_two_sites_soil_complete": 1653,
+    "n_classified_pairs_with_both_original_locations": 3185,
+    "n_complete_cases_source_photo_discordant": 419,
+    "n_original_pairs_both_four_state_classified": 3196,
+    "n_original_pairs_discordant": 797,
+    "n_original_pairs_missing_classified_response": 10220,
+    "n_original_species_unique_cross_cell_pairs": 13416,
+    "n_selected_original_pairs_discordant": 793,
+    "n_selected_original_pairs_for_current_test": 3182,
+    "no_measured_pair_or_missing_soil_imputed": true
+  },
+  "source_pair_missing_photo_colour_preserved": 10220,
+  "source_temperature_features": [
+    "delta_wc_bio1",
+    "delta_wc_bio5"
+  ],
+  "source_two_site_climate_evaluable_discordant": 793,
+  "source_two_site_climate_evaluable_pairs": 3182,
+  "status": "SOURCE_CLIMATE_ONLY_ORIGINAL_PHOTO_PAIR_ABLATION_NOT_CAUSAL"
+}
