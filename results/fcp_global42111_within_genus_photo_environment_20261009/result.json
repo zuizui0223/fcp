@@ -16,8 +16,27 @@
         "heldout_genus_equal_multiclass_brier": 0.5635208772387093,
         "heldout_multiclass_brier": 0.5337555575861908,
         "n_same_source_test_species": 13307
+      },
+      "GENUS_GEO_MOISTURE": {
+        "heldout_genus_equal_multiclass_brier": 0.5642311365203443,
+        "heldout_multiclass_brier": 0.5339906661780423,
+        "n_same_source_test_species": 13307
+      },
+      "GENUS_GEO_TEMPERATURE": {
+        "heldout_genus_equal_multiclass_brier": 0.5665596338879626,
+        "heldout_multiclass_brier": 0.5351227551929246,
+        "n_same_source_test_species": 13307
       }
     },
+    "climate_block_ablation_inference_status": "RETROSPECTIVE_CORRELATED_COVARIATE_EXPLORATION_NOT_INDEPENDENT_CONFIRMATION",
+    "climate_block_ablation_moisture": [
+      "wc_bio12",
+      "wc_bio15"
+    ],
+    "climate_block_ablation_temperature": [
+      "wc_bio1",
+      "wc_bio5"
+    ],
     "equal_genus_weight_secondary_sensitivity": true,
     "fixed_fold_incremental_gains": {
       "climate_beyond_genus_geography": {
@@ -56,6 +75,44 @@
         "source_cell_block_bootstrap_95CI": [
           0.0020226492965873116,
           0.0031395368786989943
+        ]
+      },
+      "unique_moisture_block_beyond_geo_temperature": {
+        "fraction_evaluated_genera_with_positive_increment": 0.49329569513055754,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.002144823986961059,
+          0.004000568684596332
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0030387566492531956,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.0021046716898761556,
+          0.003967820324737938
+        ],
+        "mean_heldout_brier_reduction": 0.0013671976067339605,
+        "n_genera_in_genus_equal_sensitivity": 1417,
+        "positive_gain_supported_by_bootstrap": true,
+        "source_cell_block_bootstrap_95CI": [
+          0.000881723127776776,
+          0.0018654810347787684
+        ]
+      },
+      "unique_temperature_block_beyond_geo_moisture": {
+        "fraction_evaluated_genera_with_positive_increment": 0.49964714184897674,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.0002727059801559165,
+          0.001160546861313608
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0007102592816350295,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.00032043187794870997,
+          0.0011296959190685869
+        ],
+        "mean_heldout_brier_reduction": 0.00023510859185156565,
+        "n_genera_in_genus_equal_sensitivity": 1417,
+        "positive_gain_supported_by_bootstrap": false,
+        "source_cell_block_bootstrap_95CI": [
+          -2.937138182488792e-07,
+          0.0004695702546966803
         ]
       }
     },
@@ -163,8 +220,27 @@
         "heldout_genus_equal_multiclass_brier": 0.5624627157443399,
         "heldout_multiclass_brier": 0.5458495572050153,
         "n_same_source_test_species": 9498
+      },
+      "GENUS_GEO_MOISTURE": {
+        "heldout_genus_equal_multiclass_brier": 0.5639532876792215,
+        "heldout_multiclass_brier": 0.5457089993936325,
+        "n_same_source_test_species": 9498
+      },
+      "GENUS_GEO_TEMPERATURE": {
+        "heldout_genus_equal_multiclass_brier": 0.5646913946829468,
+        "heldout_multiclass_brier": 0.5464445168764944,
+        "n_same_source_test_species": 9498
       }
     },
+    "climate_block_ablation_inference_status": "RETROSPECTIVE_CORRELATED_COVARIATE_EXPLORATION_NOT_INDEPENDENT_CONFIRMATION",
+    "climate_block_ablation_moisture": [
+      "wc_bio12",
+      "wc_bio15"
+    ],
+    "climate_block_ablation_temperature": [
+      "wc_bio1",
+      "wc_bio5"
+    ],
     "equal_genus_weight_secondary_sensitivity": true,
     "fixed_fold_incremental_gains": {
       "climate_beyond_genus_geography": {
@@ -222,6 +298,44 @@
         "source_cell_block_bootstrap_95CI": [
           -0.000989633145875273,
           0.00024194513943356374
+        ]
+      },
+      "unique_moisture_block_beyond_geo_temperature": {
+        "fraction_evaluated_genera_with_positive_increment": 0.4741532976827095,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.0005995910215332816,
+          0.002270451329849737
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0014172061699744372,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.0005458764166807663,
+          0.002362284005719825
+        ],
+        "mean_heldout_brier_reduction": 0.0009354245540458024,
+        "n_genera_in_genus_equal_sensitivity": 1122,
+        "positive_gain_supported_by_bootstrap": true,
+        "source_cell_block_bootstrap_95CI": [
+          0.0005033416077189674,
+          0.0014037019663291253
+        ]
+      },
+      "unique_temperature_block_beyond_geo_moisture": {
+        "fraction_evaluated_genera_with_positive_increment": 0.4928698752228164,
+        "genus_equal_genus_cluster_bootstrap_95CI": [
+          0.00016620818247850902,
+          0.0011721075764049523
+        ],
+        "genus_equal_heldout_brier_reduction": 0.0006790991662490751,
+        "genus_equal_source_cell_bootstrap_95CI": [
+          0.00018093022382541357,
+          0.0012078283109802199
+        ],
+        "mean_heldout_brier_reduction": 0.00019990707118396666,
+        "n_genera_in_genus_equal_sensitivity": 1122,
+        "positive_gain_supported_by_bootstrap": false,
+        "source_cell_block_bootstrap_95CI": [
+          -5.473534558523852e-05,
+          0.0004520355266724657
         ]
       }
     },
