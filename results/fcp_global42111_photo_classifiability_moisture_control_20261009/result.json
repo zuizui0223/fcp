@@ -35,34 +35,34 @@
     "genus_means_estimated_on_training_photograph_opportunities_only": true,
     "increments": {
       "climate_beyond_genus_geography": {
-        "heldout_classifiability_brier_improvement": 0.00017556119676483947,
+        "heldout_classifiability_brier_improvement": 0.00017556119676483906,
         "original_geographic_cell_bootstrap_95CI": [
-          2.189337906338474e-05,
-          0.0003368569752268323
+          2.1893379063384938e-05,
+          0.0003368569752268313
         ],
         "positive_gain_in_fixed_cell_resampling": true
       },
       "geo_beyond_genus": {
-        "heldout_classifiability_brier_improvement": 0.0002987904022759094,
+        "heldout_classifiability_brier_improvement": 0.00029879040227590936,
         "original_geographic_cell_bootstrap_95CI": [
-          0.0001449374454831611,
-          0.0004476103019377978
+          0.00014493744548316106,
+          0.0004476103019377977
         ],
         "positive_gain_in_fixed_cell_resampling": true
       },
       "unique_moisture_beyond_genus_geography_temperature": {
-        "heldout_classifiability_brier_improvement": 3.629668894466387e-05,
+        "heldout_classifiability_brier_improvement": 3.629668894466356e-05,
         "original_geographic_cell_bootstrap_95CI": [
-          -4.884643851812415e-05,
-          0.00012739165119538622
+          -4.884643851812482e-05,
+          0.0001273916511953866
         ],
         "positive_gain_in_fixed_cell_resampling": false
       },
       "unique_temperature_beyond_genus_geography_moisture": {
-        "heldout_classifiability_brier_improvement": 0.0001728300470564044,
+        "heldout_classifiability_brier_improvement": 0.0001728300470564039,
         "original_geographic_cell_bootstrap_95CI": [
-          4.192892263636801e-05,
-          0.00029993927938486343
+          4.1928922636367184e-05,
+          0.0002999392793848627
         ],
         "positive_gain_in_fixed_cell_resampling": true
       }
@@ -153,42 +153,42 @@
     "genus_means_estimated_on_training_photograph_opportunities_only": true,
     "increments": {
       "climate_beyond_genus_geography": {
-        "heldout_classifiability_brier_improvement": 9.414259261900172e-05,
+        "heldout_classifiability_brier_improvement": 9.414259261900139e-05,
         "original_geographic_cell_bootstrap_95CI": [
           -8.080061902028508e-05,
-          0.0002664744774357795
+          0.0002664744774357789
         ],
         "positive_gain_in_fixed_cell_resampling": false
       },
       "geo_beyond_genus": {
         "heldout_classifiability_brier_improvement": 0.00036090203822020355,
         "original_geographic_cell_bootstrap_95CI": [
-          0.00021193517716426772,
-          0.0005247053028090839
+          0.00021193517716426767,
+          0.0005247053028090837
         ],
         "positive_gain_in_fixed_cell_resampling": true
       },
       "soil_beyond_genus_geography_climate": {
-        "heldout_classifiability_brier_improvement": 5.154376062883367e-05,
+        "heldout_classifiability_brier_improvement": 5.154376062883462e-05,
         "original_geographic_cell_bootstrap_95CI": [
-          -4.5723824361140733e-05,
-          0.00015414604833875615
+          -4.572382436113986e-05,
+          0.00015414604833875677
         ],
         "positive_gain_in_fixed_cell_resampling": false
       },
       "unique_moisture_beyond_genus_geography_temperature": {
-        "heldout_classifiability_brier_improvement": 5.434014033245953e-05,
+        "heldout_classifiability_brier_improvement": 5.434014033245919e-05,
         "original_geographic_cell_bootstrap_95CI": [
-          -7.345386181493104e-05,
-          0.00017289363893105495
+          -7.345386181493207e-05,
+          0.0001728936389310545
         ],
         "positive_gain_in_fixed_cell_resampling": false
       },
       "unique_temperature_beyond_genus_geography_moisture": {
-        "heldout_classifiability_brier_improvement": 7.342589864800636e-05,
+        "heldout_classifiability_brier_improvement": 7.3425898648006e-05,
         "original_geographic_cell_bootstrap_95CI": [
-          -6.149775570954163e-05,
-          0.000194809587849536
+          -6.149775570954137e-05,
+          0.00019480958784953543
         ],
         "positive_gain_in_fixed_cell_resampling": false
       }
