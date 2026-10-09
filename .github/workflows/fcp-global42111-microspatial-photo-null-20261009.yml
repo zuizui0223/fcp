@@ -1,0 +1,135 @@
+name: FCP 42111 within-local-genus microgeographic colour shuffle audit
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-local-congeners-20261009
+    paths:
+      - scripts/analysis/audit_fcp_global42111_microspatial_photo_shuffle_20261009.py
+      - tests/test_fcp_global42111_microspatial_photo_shuffle_20261009.py
+      - docs/FCP_GLOBAL42111_MICROSPATIAL_PHOTO_COLOUR_NULL_20261009.md
+      - .github/workflows/fcp-global42111-microspatial-photo-null-20261009.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-global42111-original-microgeographic-photo-colour-shuffle-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VERIFIED_ABIOTIC_RUN: '37861582446'
+  VERIFIED_ABIOTIC_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+
+jobs:
+  microgeographic-original-photo-null:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Check no source outcome or geographical identity leaks into microgeography
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp_global42111_microspatial_photo_shuffle_20261009.py
+          python -m pytest tests/test_fcp_global42111_microspatial_photo_shuffle_20261009.py -q
+      - name: Reuse original 42111 species photo / genuine WorldClim sites no new imagery or API
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$VERIFIED_ABIOTIC_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$VERIFIED_ABIOTIC_ARTIFACT" --dir /tmp/fcp_original_photo_microgeo_source
+          path="$(find /tmp/fcp_original_photo_microgeo_source -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$path"
+          cp "$path" /tmp/fcp_original_photo_microgeo_source.csv.gz
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          source=[]
+          for p in Path('/tmp/fcp_original_photo_microgeo_source').rglob('result.json'):
+              r=json.loads(p.read_text())
+              if r.get('schema')=='fcp_global42111_original_photo_climate_soil_attachment_v1':
+                  source.append(r)
+          assert len(source)==1
+          z=source[0]
+          assert z['original_species_count']==42111
+          assert z['original_taxon_cell_count']==85337
+          assert z['n_unique_original_photo_IDs']==100543
+          assert z['breadth_classifiable_by_covariate']['environment_climate_complete']==18413
+          assert z['new_colour_label_or_photo_pixel_opened'] is False
+          assert z['geographic_cell_centroid_imputation'] is False
+          PY
+      - name: Audit 50km and 100km maximal geographic exchange neighborhoods for fixed 250 and 500km cohorts
+        run: |
+          python scripts/analysis/audit_fcp_global42111_microspatial_photo_shuffle_20261009.py \
+            --original-breadth-abiotic /tmp/fcp_original_photo_microgeo_source.csv.gz \
+            --outdir /tmp/fcp_original_microgeo_photo_colour_null
+      - name: Lock four prespecified group nested sensitivities and fail-closed if no exchangeability
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          d=json.loads(Path('/tmp/fcp_original_microgeo_photo_colour_null/result.json').read_text())
+          assert d['schema']=='fcp_global42111_local_congener_microspatial_shuffle_null_v1'
+          assert d['original_global_source_taxa']==42111
+          assert d['original_colour_classifiable_taxa']==18457
+          assert d['original_climate_complete_photo_species']==18413
+          assert d['original_distance_caps_km']==[250,500]
+          assert d['microgeographic_complete_link_diameter_caps_km']==[50,100]
+          assert d['null_permutations_each_estimable_comparison']==199
+          assert d['original_photos_and_climate_sources_unchanged']
+          assert d['all_groups_selected_without_photo_colour_outcomes']
+          for cap,expected in [('250',872),('500',1761)]:
+              c=d['cohorts'][cap]
+              assert c['n_original_source_photos']==expected
+              assert set(c['microgeographic_diagnostics'])=={'50','100'}
+              for near in ('50','100'):
+                  r=c['microgeographic_diagnostics'][near]
+                  assert r['n_frozen_original_photo_species']==expected
+                  assert r['all_source_photos_covered_by_exactly_one_complete_link_group']
+                  assert r['original_genus_cell_colour_counts_always_preserved']
+                  assert r['microgroup_colour_counts_preserved_on_each_null']
+                  assert r['source_test_fold_assignments_unchanged']
+                  if r['status']=='READY_FOR_CONDITIONAL_SPATIAL_NULL':
+                      assert r['n_refitted_null_models']==199
+                      assert .005<=r['p_value']<=1
+                      assert r['n_source_species_in_informatively_shufflable_microgroups']>=100
+                      assert r['fraction_source_species_in_informatively_shufflable_microgroups']>=.1
+                  else:
+                      assert r['status']=='HOLD_INSUFFICIENT_MICROSPATIAL_EXCHANGEABILITY'
+                      assert r['n_refitted_null_models']==0
+                      assert r['p_value'] is None
+          print('FCP_SOURCE_PHOTO_MICROGEOGRAPHIC_NULL_EXCHANGEABILITY_OR_EXPLICIT_HOLD')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-source-photo-microgeography-shuffle-20261009
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp_original_microgeo_photo_colour_null/
+      - name: Commit only verified source-photographic null diagnosis, never image pixels
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-microspatial-label-null-20261009'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_microspatial_photo_label_null_20261009
+          mkdir -p "$folder"
+          cp /tmp/fcp_original_microgeo_photo_colour_null/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal 50/100km original source local congener photo shuffle exchangeability audit'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
