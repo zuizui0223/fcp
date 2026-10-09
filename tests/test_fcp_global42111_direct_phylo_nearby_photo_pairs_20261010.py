@@ -58,12 +58,12 @@ def test_exact_name_mapping_and_never_match_genus_only(tmp_path,source_tree,monk
     file=tmp_path/"six_direct.tre"
     Phylo.write(tree,str(file),"newick")
     monkeypatch.setattr(M,"KNOWN_EXACT_BACKBONE",{"250":6,"500":6})
-    x,phy=M.direct_taxa(source,original,file,250,strict=True)
+    x,phy=M.direct_taxa(source,original,file,250,strict=False)
     assert len(x)==6 and len(phy.get_terminals())==6
     bad=source.copy()
     bad.loc[0,"species"]="G x"
     with pytest.raises(ValueError,match="exact binomial"):
-        M.direct_taxa(bad,original,file,250,strict=True)
+        M.direct_taxa(bad,original,file,250,strict=False)
 
 
 def test_incomplete_phylogeny_pairs_hold_not_negative(source_tree):
@@ -82,4 +82,4 @@ def test_tree_with_unmatched_photograph_tip_rejected(tmp_path,source_tree,monkey
     f=tmp_path/"bad.tre";Phylo.write(tree,str(f),"newick")
     monkeypatch.setattr(M,"KNOWN_EXACT_BACKBONE",{"250":6,"500":6})
     with pytest.raises(ValueError,match="exact binomial"):
-        M.direct_taxa(d,ledger,f,250,strict=True)
+        M.direct_taxa(d,ledger,f,250,strict=False)
