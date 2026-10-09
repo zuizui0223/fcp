@@ -4,26 +4,26 @@
     {
       "climate_increments": {
         "total_climate_beyond_geography": {
-          "heldout_log_loss_reduction": -0.0007103502971160002,
+          "heldout_log_loss_reduction": -0.00031977144660880674,
           "original_genus_or_cell_block_bootstrap_95CI": [
-            -0.002166677628209993,
-            0.0008107999325752675
+            -0.001720222828669943,
+            0.0011071860663486332
           ],
           "positive_increment_supported_by_conditional_bootstrap": false
         },
         "unique_moisture_beyond_geography_temperature": {
-          "heldout_log_loss_reduction": -0.000853921302451175,
+          "heldout_log_loss_reduction": -0.0005142299663591246,
           "original_genus_or_cell_block_bootstrap_95CI": [
-            -0.001964924892969775,
-            0.0002530046572737166
+            -0.0015353008035497015,
+            0.0005200634750158224
           ],
           "positive_increment_supported_by_conditional_bootstrap": false
         },
         "unique_temperature_beyond_geography_moisture": {
-          "heldout_log_loss_reduction": 0.00018960134136919245,
+          "heldout_log_loss_reduction": 0.00012374377383798409,
           "original_genus_or_cell_block_bootstrap_95CI": [
-            -0.0007801327824247551,
-            0.0011974806805335587
+            -0.0008664999566538929,
+            0.001197685051222583
           ],
           "positive_increment_supported_by_conditional_bootstrap": false
         }
@@ -32,23 +32,23 @@
       "inference_boundary": "One observer-disjoint photographed pair per same species; no genotype/pigment/local selection measured",
       "models": {
         "GEOGRAPHY": {
-          "heldout_AUC": 0.4916026956252306,
-          "heldout_log_loss": 0.562288122330941,
+          "heldout_AUC": 0.48789190895429185,
+          "heldout_log_loss": 0.562302417675084,
           "source_pairs_evaluated": 3182
         },
         "GEOGRAPHY_ALL_CLIMATE": {
-          "heldout_AUC": 0.4974264665129215,
-          "heldout_log_loss": 0.5629984726280571,
+          "heldout_AUC": 0.5047730851311469,
+          "heldout_log_loss": 0.5626221891216928,
           "source_pairs_evaluated": 3182
         },
         "GEOGRAPHY_MOISTURE": {
-          "heldout_AUC": 0.4823246732475507,
-          "heldout_log_loss": 0.5631880739694263,
+          "heldout_AUC": 0.49284261566648735,
+          "heldout_log_loss": 0.5627459328955308,
           "source_pairs_evaluated": 3182
         },
         "GEOGRAPHY_TEMPERATURE": {
-          "heldout_AUC": 0.5071594957341788,
-          "heldout_log_loss": 0.5621445513256059,
+          "heldout_AUC": 0.509640919367192,
+          "heldout_log_loss": 0.5621079591553337,
           "source_pairs_evaluated": 3182
         }
       },
@@ -61,26 +61,26 @@
     {
       "climate_increments": {
         "total_climate_beyond_geography": {
-          "heldout_log_loss_reduction": -0.0005744855729245351,
+          "heldout_log_loss_reduction": -0.0005744855729245342,
           "original_genus_or_cell_block_bootstrap_95CI": [
-            -0.0021503998757777323,
-            0.0009289292823479955
+            -0.0021503998757777293,
+            0.0009289292823479973
           ],
           "positive_increment_supported_by_conditional_bootstrap": false
         },
         "unique_moisture_beyond_geography_temperature": {
-          "heldout_log_loss_reduction": -0.00015453933145990657,
+          "heldout_log_loss_reduction": -0.0001545393314599067,
           "original_genus_or_cell_block_bootstrap_95CI": [
-            -0.0010379542324571887,
-            0.0007395702934210084
+            -0.0010379542324571876,
+            0.0007395702934210061
           ],
           "positive_increment_supported_by_conditional_bootstrap": false
         },
         "unique_temperature_beyond_geography_moisture": {
-          "heldout_log_loss_reduction": -0.0004478582132799721,
+          "heldout_log_loss_reduction": -0.00044785821327997325,
           "original_genus_or_cell_block_bootstrap_95CI": [
             -0.001620951964692297,
-            0.0007012334540924766
+            0.0007012334540924734
           ],
           "positive_increment_supported_by_conditional_bootstrap": false
         }
