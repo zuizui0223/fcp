@@ -38,7 +38,7 @@ def canonical(s:str)->str:
 
 def direct_taxa(d:pd.DataFrame,ledger:pd.DataFrame,tree_path:Path,cap:int,
                *,strict:bool=True)->tuple[pd.DataFrame,object]:
-    if len(ledger)!=1761 or ledger.inat_taxon_id.duplicated().any():
+    if (strict and len(ledger)!=1761) or ledger.inat_taxon_id.duplicated().any():
         raise ValueError("Historical taxonomy and direct LCVP ledger changed")
     selected=ledger.loc[ledger.direct_lcvp_backbone_tip.astype(bool)].copy()
     selected=selected.loc[selected.in_fixed_250km_original_source.astype(bool)] if cap==250 else selected
