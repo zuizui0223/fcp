@@ -28,144 +28,144 @@
   "models": [
     {
       "bootstrap_explanation": "Conditional group bootstrap of fixed out-of-fold prediction losses; no fold/model refitting, no confirmation or causal inference",
-      "climate_delta_outofgroup_logloss": -0.0011776719409412073,
+      "climate_delta_outofgroup_logloss": -0.0023599415814756076,
       "group": "genus",
       "group_bootstrap_95CI_logloss_gain_climate": [
-        -0.0030844757019746314,
-        0.0007673329479205795
+        -0.004392133171911554,
+        -0.00017754176747666146
       ],
       "group_bootstrap_95CI_logloss_gain_soil": [
-        -0.002946172930939745,
-        0.004366270233636892
+        -0.0030579667271920623,
+        0.004294380223192371
       ],
       "models": {
         "GEOGRAPHY": {
           "fold_diagnostics": [
             {
               "fold": 0,
-              "heldout_log_loss": 0.5536823248177478,
+              "heldout_log_loss": 0.5834462495476717,
               "n_heldout_groups": 191,
               "n_test": 331
             },
             {
               "fold": 1,
-              "heldout_log_loss": 0.533220900043707,
+              "heldout_log_loss": 0.5838172729334724,
               "n_heldout_groups": 191,
               "n_test": 331
             },
             {
               "fold": 2,
-              "heldout_log_loss": 0.6143263857476325,
+              "heldout_log_loss": 0.576284879123448,
               "n_heldout_groups": 191,
               "n_test": 331
             },
             {
               "fold": 3,
-              "heldout_log_loss": 0.5909724993404329,
+              "heldout_log_loss": 0.5208905339958328,
               "n_heldout_groups": 191,
               "n_test": 330
             },
             {
               "fold": 4,
-              "heldout_log_loss": 0.5478631626087084,
+              "heldout_log_loss": 0.5750213833904175,
               "n_heldout_groups": 191,
               "n_test": 330
             }
           ],
-          "heldout_AUC": 0.4701554600557784,
-          "heldout_log_loss": 0.5680113548426041
+          "heldout_AUC": 0.4788993629193534,
+          "heldout_log_loss": 0.5679161849174728
         },
         "GEOGRAPHY_CLIMATE": {
           "fold_diagnostics": [
             {
               "fold": 0,
-              "heldout_log_loss": 0.5555098441846957,
+              "heldout_log_loss": 0.5881574725846442,
               "n_heldout_groups": 191,
               "n_test": 331
             },
             {
               "fold": 1,
-              "heldout_log_loss": 0.5322720468211302,
+              "heldout_log_loss": 0.5890776475665219,
               "n_heldout_groups": 191,
               "n_test": 331
             },
             {
               "fold": 2,
-              "heldout_log_loss": 0.6176887446209239,
+              "heldout_log_loss": 0.5750762095493515,
               "n_heldout_groups": 191,
               "n_test": 331
             },
             {
               "fold": 3,
-              "heldout_log_loss": 0.5936256177326842,
+              "heldout_log_loss": 0.5238121511806276,
               "n_heldout_groups": 191,
               "n_test": 330
             },
             {
               "fold": 4,
-              "heldout_log_loss": 0.5468552334210923,
+              "heldout_log_loss": 0.5751314457038889,
               "n_heldout_groups": 191,
               "n_test": 330
             }
           ],
-          "heldout_AUC": 0.4830788749937143,
-          "heldout_log_loss": 0.5691890267835453
+          "heldout_AUC": 0.4720953261411944,
+          "heldout_log_loss": 0.5702761264989484
         },
         "GEOGRAPHY_CLIMATE_SOIL": {
           "fold_diagnostics": [
             {
               "fold": 0,
-              "heldout_log_loss": 0.5539161412355579,
+              "heldout_log_loss": 0.5879581690271883,
               "n_heldout_groups": 191,
               "n_test": 331
             },
             {
               "fold": 1,
-              "heldout_log_loss": 0.5304283065533724,
+              "heldout_log_loss": 0.5854093970935763,
               "n_heldout_groups": 191,
               "n_test": 331
             },
             {
               "fold": 2,
-              "heldout_log_loss": 0.6130685323684086,
+              "heldout_log_loss": 0.5780623343993309,
               "n_heldout_groups": 191,
               "n_test": 331
             },
             {
               "fold": 3,
-              "heldout_log_loss": 0.5963927799823033,
+              "heldout_log_loss": 0.5223448337063299,
               "n_heldout_groups": 191,
               "n_test": 330
             },
             {
               "fold": 4,
-              "heldout_log_loss": 0.5486436843668564,
+              "heldout_log_loss": 0.5742036660842584,
               "n_heldout_groups": 191,
               "n_test": 330
             }
           ],
-          "heldout_AUC": 0.5191588369313368,
-          "heldout_log_loss": 0.5684850149227476
+          "heldout_AUC": 0.5086143205826947,
+          "heldout_log_loss": 0.5696214773158171
         }
       },
       "n_coincident_source_colour_pairs": 1234,
       "n_discordant_source_photo_pairs": 419,
       "n_heldout_groups": 955,
       "n_pairs": 1653,
-      "soil_increment_outofgroup_logloss": 0.0007040118607977085,
+      "soil_increment_outofgroup_logloss": 0.0006546491831312528,
       "status": "FIXED_ORIGINAL_PAIRS_BLOCKED_OOF_DIAGNOSTIC"
     },
     {
       "bootstrap_explanation": "Conditional group bootstrap of fixed out-of-fold prediction losses; no fold/model refitting, no confirmation or causal inference",
-      "climate_delta_outofgroup_logloss": -0.0007357885601637777,
+      "climate_delta_outofgroup_logloss": -0.0007357885601637793,
       "group": "pair_midpoint_cell_162",
       "group_bootstrap_95CI_logloss_gain_climate": [
-        -0.002468069255105048,
-        0.0011481604626049078
+        -0.0024680692551050476,
+        0.0011481604626049054
       ],
       "group_bootstrap_95CI_logloss_gain_soil": [
-        -0.005982229756106002,
-        0.0012020928105195502
+        -0.005982229756105997,
+        0.0012020928105195556
       ],
       "models": {
         "GEOGRAPHY": {
@@ -268,7 +268,7 @@
             },
             {
               "fold": 4,
-              "heldout_log_loss": 0.5415889056002522,
+              "heldout_log_loss": 0.5415889056002523,
               "n_heldout_groups": 24,
               "n_test": 330
             }
@@ -281,7 +281,7 @@
       "n_discordant_source_photo_pairs": 419,
       "n_heldout_groups": 123,
       "n_pairs": 1653,
-      "soil_increment_outofgroup_logloss": -0.0021552810161854126,
+      "soil_increment_outofgroup_logloss": -0.0021552810161854083,
       "status": "FIXED_ORIGINAL_PAIRS_BLOCKED_OOF_DIAGNOSTIC"
     }
   ],
