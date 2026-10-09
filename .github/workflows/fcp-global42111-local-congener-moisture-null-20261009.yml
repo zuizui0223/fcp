@@ -1,0 +1,121 @@
+name: FCP local congener photographed rainfall colour permutation null
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-withingenus-abiotic-20261009
+    paths:
+      - scripts/analysis/audit_fcp_global42111_local_congener_moisture_null_20261009.py
+      - tests/test_fcp_global42111_local_congener_moisture_null_20261009.py
+      - docs/FCP_GLOBAL42111_LOCAL_CONGENER_MOISTURE_NULL_20261009.md
+      - .github/workflows/fcp-global42111-local-congener-moisture-null-20261009.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp42111-local-congener-rain-photo-label-matched-null-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ORIGINAL_SOURCE_RUN: '37861582446'
+  ORIGINAL_SOURCE_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+
+jobs:
+  original-photographed-local-genus-colour-null:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Verify source-photograph group label-shuffle null matches prior heldout Brier
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp_global42111_local_congener_moisture_null_20261009.py
+          python -m pytest tests/test_fcp_global42111_local_congener_moisture_null_20261009.py -q
+      - name: Restore original historic 42111 species flower-photo environmental source, no new image/raster/API
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$ORIGINAL_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$ORIGINAL_SOURCE_ARTIFACT" --dir /tmp/fcp_local_congener_null_source
+          source="$(find /tmp/fcp_local_congener_null_source -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$source"
+          cp "$source" /tmp/fcp_original_42111_breadth_abiotic.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=[]
+          for p in Path('/tmp/fcp_local_congener_null_source').rglob('result.json'):
+              a=json.loads(p.read_text())
+              if a.get('schema')=='fcp_global42111_original_photo_climate_soil_attachment_v1':
+                  r.append(a)
+          assert len(r)==1
+          assert r[0]['original_species_count']==42111
+          assert r[0]['n_unique_original_photo_IDs']==100543
+          assert r[0]['breadth_classifiable_by_covariate']['environment_climate_complete']==18413
+          assert r[0]['new_colour_label_or_photo_pixel_opened'] is False
+          PY
+      - name: Retain original source cells, geography and colour counts; 199 within-group matched-null model refits per fixed distance cap
+        run: |
+          python scripts/analysis/audit_fcp_global42111_local_congener_moisture_null_20261009.py \
+            --original-breadth-abiotic /tmp/fcp_original_42111_breadth_abiotic.csv.gz \
+            --outdir /tmp/fcp42111_local_moisture_null
+      - name: Validate 250 and 500 km exact previous source Brier statistics and matched label-shuffle nulls
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/fcp42111_local_moisture_null/result.json').read_text())
+          assert r['schema']=='fcp_global42111_local_congener_moisture_permutation_null_v1'
+          assert r['original_global_source_taxa']==42111
+          assert r['original_photo_colour_classified_source_taxa']==18457
+          assert r['original_climate_complete_species']==18413
+          assert r['distance_caps_km_precommitted_all_tested']==[250.0,500.0]
+          assert r['permutations_precommitted']==199
+          assert r['source_groups_chosen_before_photo_colour_permutation']
+          assert r['source_covid_photo_pixels_or_new_labels_opened'] is False
+          for name,n in (('250',872),('500',1761)):
+              a=r['frozen_climate_photo_moisture_increment_results'][name]
+              assert a['n_original_photo_species']==n
+              assert a['null_label_shuffle_scope']=='EXACT_SAME_GENUS_AND_SAME_ORIGINAL_162_CELL_ONLY'
+              assert a['group_colour_composition_preserved_in_every_null']
+              assert a['test_fold_assignments_preserved_in_every_null']
+              assert a['same_fitted_method_refit_for_every_null']
+              assert a['n_null_permutations']==199
+              assert 1/200<=a['one_sided_permutation_p_source_conditional']<=1
+              assert len(a['null_2p5_50_97p5'])==3
+          print('FCP_ORIGINAL_LOCAL_CONGENERS_PREOUTCOME_RAIN_LABEL_SHUFFLE_NULL_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-global42111-original-congener-rain-250-500km-permutation-20261009
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp42111_local_moisture_null/
+      - name: Freeze verified matched-null original photograph result (not causality)
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-local-congeners-20261009'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_local_congener_rain_null_20261009
+          mkdir -p "$folder"
+          cp /tmp/fcp42111_local_moisture_null/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Freeze source-conditional local congeneric photographed moisture-label permutation diagnostics'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
