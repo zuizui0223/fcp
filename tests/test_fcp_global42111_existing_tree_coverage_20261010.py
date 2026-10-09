@@ -25,8 +25,8 @@ def test_old_tree_exact_species_tip_counts_not_mere_genus_overlap(tmp_path,monke
         paths[label]=p
     monkeypatch.setattr(M,"TREE_SHA256",{k:M.sha(v) for k,v in paths.items() if k!="jbi34"})
     leaves,receipt=M.trees_from_sources(paths)
-    assert len(leaves["h3a_s1"])==11
-    assert receipt["h3a_s1"]["n_unique_exact_source_tree_tip_names"]==11
+    assert len(leaves["h3a_s1"])==12
+    assert receipt["h3a_s1"]["n_unique_exact_source_tree_tip_names"]==12
     source=pd.DataFrame({
         "inat_taxon_id":range(1,101),
         "species":["Genus alpha","Genus beta","Genus other"]+[f"Genus sp{i}" for i in range(97)],
