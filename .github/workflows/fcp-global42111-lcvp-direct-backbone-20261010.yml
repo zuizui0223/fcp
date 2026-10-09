@@ -60,6 +60,8 @@ jobs:
       - name: Parse locked backbone audit source without genotype / colour inputs
         run: Rscript -e 'parse(file="scripts/analysis/audit_fcp_global42111_lcvp_direct_backbone_20261010.R")' > /dev/null
       - name: Install historical source-pinned V.PhyloMaker2 0.1.0 and time-scaled LCVP taxonomic backbone
+        env:
+          GITHUB_PAT: ${{ github.token }}
         run: |
           Rscript -e 'remotes::install_github("jinyizju/V.PhyloMaker2", ref="7af3fb5152f691af2e4ec9d5e2e467d1b50505e9", dependencies=FALSE, upgrade="never", quiet=TRUE)'
           Rscript -e 'library(V.PhyloMaker2); stopifnot(as.character(packageVersion("V.PhyloMaker2"))=="0.1.0");stopifnot(length(GBOTB.extended.LCVP$tip.label)==73420)'
