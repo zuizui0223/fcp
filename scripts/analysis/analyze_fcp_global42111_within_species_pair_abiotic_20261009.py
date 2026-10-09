@@ -71,7 +71,7 @@ def pair_distance_and_midpoint(lat1,lon1,lat2,lon2)->tuple[np.ndarray,np.ndarray
     return d,cell
 
 
-def join_origins(pairs:pd.DataFrame,env:pd.DataFrame)->tuple[pd.DataFrame,dict]:
+def join_origins(pairs:pd.DataFrame,env:pd.DataFrame, *, require_soil:bool=True)->tuple[pd.DataFrame,dict]:
     req={"inat_taxon_id","species","photo_id_1","photo_id_2",
          "observation_id_1","observation_id_2","observer_id_1","observer_id_2",
          "cell_id_1","cell_id_2","pair_state","both_endpoints_classifiable"}
@@ -127,7 +127,9 @@ def join_origins(pairs:pd.DataFrame,env:pd.DataFrame)->tuple[pd.DataFrame,dict]:
     current["log_geodesic_distance_km"]=np.log1p(current.geodesic_distance_km)
     current["genus"]=current.species.fillna("").astype(str).str.split().str[0]
     allfeatures=list(BASE+CLIM_FEATURES+SOIL_FEATURES)
-    keep=complete & current[allfeatures].notna().all(axis=1)&current.pair_midpoint_cell_162.ge(0)
+    soil_keep=complete & current[allfeatures].notna().all(axis=1)&current.pair_midpoint_cell_162.ge(0)
+    climate_keep=(both_classified & climate & current[list(BASE+CLIM_FEATURES)].notna().all(axis=1) & current.pair_midpoint_cell_162.ge(0))
+    keep=soil_keep if require_soil else climate_keep
     summary={
         "n_original_species_unique_cross_cell_pairs":len(current),
         "n_original_pairs_both_four_state_classified":int(both_classified.sum()),
@@ -136,15 +138,18 @@ def join_origins(pairs:pd.DataFrame,env:pd.DataFrame)->tuple[pd.DataFrame,dict]:
         "n_classified_pairs_with_both_original_locations":int((both_classified&pos).sum()),
         "n_classified_pairs_two_sites_climate_complete":int((both_classified&climate).sum()),
         "n_classified_pairs_two_sites_soil_complete":int((both_classified&soil).sum()),
-        "n_classified_pairs_all_geo_climate_soil":int(keep.sum()),
-        "n_complete_cases_source_photo_discordant":int((keep&current.pair_state.eq("discordant")).sum()),
+        "n_classified_pairs_all_geo_climate_soil":int(soil_keep.sum()),
+        "n_classified_pairs_all_geo_climate":int(climate_keep.sum()),
+        "n_selected_original_pairs_for_current_test":int(keep.sum()),
+        "n_complete_cases_source_photo_discordant":int((soil_keep&current.pair_state.eq("discordant")).sum()),
+        "n_selected_original_pairs_discordant":int((keep&current.pair_state.eq("discordant")).sum()),
         "n_original_pairs_missing_classified_response":int((~both_classified).sum()),
         "no_measured_pair_or_missing_soil_imputed":True,
     }
     return current.loc[keep].copy().reset_index(drop=True),summary
 
 
-def oof_compare(complete:pd.DataFrame,group_name:str)->dict:
+def oof_compare(complete:pd.DataFrame,group_name:str, *, climate_only:bool=False)->dict:
     from sklearn.model_selection import GroupKFold
     from sklearn.preprocessing import StandardScaler
     from sklearn.linear_model import LogisticRegression
@@ -161,7 +166,8 @@ def oof_compare(complete:pd.DataFrame,group_name:str)->dict:
         return {"group":group_name,"status":"INSUFFICIENT_OBSERVED_DISCORDANT_TRAIN_FOLDS"}
     prediction={}
     metrics={}
-    for name,features in FAMILIES.items():
+    families={k:v for k,v in FAMILIES.items() if k!="GEOGRAPHY_CLIMATE_SOIL"} if climate_only else FAMILIES
+    for name,features in families.items():
         x=complete[list(features)].to_numpy(float)
         if not np.isfinite(x).all():raise ValueError("Soil-complete source unexpectedly has missing gradients")
         pred=np.full(len(x),np.nan)
@@ -185,9 +191,12 @@ def oof_compare(complete:pd.DataFrame,group_name:str)->dict:
     unique,groupind=np.unique(group,return_inverse=True)
     count=np.bincount(groupind)
     gain_clim=individual["GEOGRAPHY"]-individual["GEOGRAPHY_CLIMATE"]
-    gain_soil=individual["GEOGRAPHY_CLIMATE"]-individual["GEOGRAPHY_CLIMATE_SOIL"]
+    gain_soil=None if climate_only else individual["GEOGRAPHY_CLIMATE"]-individual["GEOGRAPHY_CLIMATE_SOIL"]
     boot={}
     for key,arr in (("climate",gain_clim),("soil",gain_soil)):
+        if arr is None:
+            boot[key]=None
+            continue
         scores=np.bincount(groupind,weights=arr)
         draws=rng.integers(0,len(unique),size=(N_BOOT,len(unique)))
         vals=scores[draws].sum(axis=1)/count[draws].sum(axis=1)
@@ -199,17 +208,17 @@ def oof_compare(complete:pd.DataFrame,group_name:str)->dict:
         "n_coincident_source_colour_pairs":int((1-y).sum()),
         "models":metrics,
         "climate_delta_outofgroup_logloss":float(gain_clim.mean()),
-        "soil_increment_outofgroup_logloss":float(gain_soil.mean()),
+        "soil_increment_outofgroup_logloss":float(gain_soil.mean()) if gain_soil is not None else None,
         "group_bootstrap_95CI_logloss_gain_climate":boot["climate"],
         "group_bootstrap_95CI_logloss_gain_soil":boot["soil"],
         "bootstrap_explanation":"Conditional group bootstrap of fixed out-of-fold prediction losses; no fold/model refitting, no confirmation or causal inference",
     }
 
 
-def analyze(pairs:pd.DataFrame,env:pd.DataFrame)->dict:
-    complete,cover=join_origins(pairs,env)
+def analyze(pairs:pd.DataFrame,env:pd.DataFrame, *, climate_only:bool=False)->dict:
+    complete,cover=join_origins(pairs,env,require_soil=not climate_only)
     result={
-        "schema":"fcp_42111_same_species_crosscell_colour_discordance_abiotic_v1",
+        "schema":"fcp_42111_same_species_crosscell_colour_discordance_climate_only_v1" if climate_only else "fcp_42111_same_species_crosscell_colour_discordance_abiotic_v1",
         "date_jst":"2026-10-09",
         "status":"RETROSPECTIVE_SOURCE_PHOTO_PAIR_ENVIRONMENTAL_COVERAGE",
         "fixed_photo_pair_denominator":N_PAIRS,
@@ -224,10 +233,10 @@ def analyze(pairs:pd.DataFrame,env:pd.DataFrame)->dict:
         "models":[],
     }
     if len(complete)<MIN_COMPLETE_PAIRS or complete.pair_state.nunique()<2:
-        result["status"]="HOLD_SOURCE_PAIR_SOIL_COMPLETE_COVERAGE_OR_COLOUR_CLASS"
+        result["status"]="HOLD_SOURCE_PAIR_CLIMATE_COMPLETE_COVERAGE_OR_COLOUR_CLASS" if climate_only else "HOLD_SOURCE_PAIR_SOIL_COMPLETE_COVERAGE_OR_COLOUR_CLASS"
     else:
-        result["models"]=[oof_compare(complete,v) for v in ("genus","pair_midpoint_cell_162")]
-        result["status"]="SOURCE_PAIRS_GENUS_AND_SPATIAL_BLOCKED_ENVIRONMENT_DIAGNOSTIC"
+        result["models"]=[oof_compare(complete,v,climate_only=climate_only) for v in ("genus","pair_midpoint_cell_162")]
+        result["status"]="SOURCE_PAIRS_GENUS_AND_SPATIAL_BLOCKED_CLIMATE_ONLY_DIAGNOSTIC" if climate_only else "SOURCE_PAIRS_GENUS_AND_SPATIAL_BLOCKED_ENVIRONMENT_DIAGNOSTIC"
     result["hard_nonclaims"]=[
         "Colour mismatch across two photographed places is not proved genetic polymorphism in the same breeding population",
         "Original 13416 species-level fixed pair denominator differs from 85337 taxon-cell rows and 42111 species breadth",
@@ -244,10 +253,11 @@ def main():
     p.add_argument("--pairs",required=True,type=Path)
     p.add_argument("--photo-environment",required=True,type=Path)
     p.add_argument("--outdir",required=True,type=Path)
+    p.add_argument("--climate-only",action="store_true")
     a=p.parse_args()
     original=read_original_pairs(a.pairs)
     env=pd.read_csv(a.photo_environment,low_memory=False)
-    d=analyze(original,env)
+    d=analyze(original,env,climate_only=a.climate_only)
     a.outdir.mkdir(parents=True,exist_ok=True)
     (a.outdir/"result.json").write_text(json.dumps(d,indent=2,sort_keys=True)+"\n")
     print(json.dumps(d,indent=2,sort_keys=True),flush=True)
