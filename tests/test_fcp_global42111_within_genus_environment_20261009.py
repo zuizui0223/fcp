@@ -123,4 +123,4 @@ def test_end_to_end_heldout_estimand_not_within_species(source):
     assert result["climate_only_population"]["source_species_in_pool"]==1200
     assert result["soil_complete_population"]["source_species_in_pool"]<1200
     assert result["no_photo_pixels_or_new_colour_labels_opened"] is True
-    assert "BETWEEN" in result["climate_only_population"]["inference_boundary"]
+    assert "between different species" in result["climate_only_population"]["inference_boundary"].lower()
