@@ -92,6 +92,13 @@ def test_heldout_cell_and_genus_sample_is_identical_between_models(source):
     assert sum(f["n_genus_estimable_test_species"] for f in out["heldout_5fold_original_cell_status"])==n
     assert all(q["n_same_source_test_species"]==n for q in out["brier_score_models"].values())
     assert out["brier_score_models"]["GENUS_BASELINE"]["heldout_multiclass_brier"]>=0
+    assert set(("GENUS_GEO_TEMPERATURE","GENUS_GEO_MOISTURE","GENUS_GEO_CLIMATE")).issubset(out["brier_score_models"])
+    for term in ("unique_temperature_block_beyond_geo_moisture",
+                 "unique_moisture_block_beyond_geo_temperature"):
+        item=out["fixed_fold_incremental_gains"][term]
+        assert np.isfinite(item["mean_heldout_brier_reduction"])
+        assert len(item["genus_equal_genus_cluster_bootstrap_95CI"])==2
+
     assert len(out["fixed_fold_incremental_gains"]["climate_beyond_genus_geography"]["source_cell_block_bootstrap_95CI"])==2
     for k in out["fixed_fold_incremental_gains"]:
         row=out["fixed_fold_incremental_gains"][k]
