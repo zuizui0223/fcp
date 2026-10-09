@@ -87,7 +87,7 @@ def test_estimable_null_refits_same_method_without_new_flower_labels(local_photo
     assert result["n_refitted_null_models"]==2
     assert result["n_source_species_in_informatively_shufflable_microgroups"]==330
     assert result["group_membership_uses_only_original_species_ID_genus_and_public_photo_coordinates"]
-    assert result["group_colour_composition_preserved_in_every_null"]
+    assert result["original_genus_cell_colour_counts_always_preserved"] and result["microgroup_colour_counts_preserved_on_each_null"]
     assert 1/3<=result["p_value"]<=1
 
 
