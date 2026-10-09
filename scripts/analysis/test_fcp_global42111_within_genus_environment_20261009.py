@@ -19,10 +19,14 @@ import pandas as pd
 CLASSES=("white","yellow_orange","red_pink","blue_purple")
 GEO=("abs_latitude","lon_sin","lon_cos","wc_elevation_m")
 CLIMATE=("wc_bio1","wc_bio5","wc_bio12","wc_bio15")
+TEMPERATURE=("wc_bio1","wc_bio5")
+MOISTURE=("wc_bio12","wc_bio15")
 SOIL=("soil_pH","soil_SOC","soil_N","soil_clay","soil_available_water_proxy")
 FAMILIES={
     "GENUS_BASELINE":(),
     "GENUS_GEO":GEO,
+    "GENUS_GEO_TEMPERATURE":GEO+TEMPERATURE,
+    "GENUS_GEO_MOISTURE":GEO+MOISTURE,
     "GENUS_GEO_CLIMATE":GEO+CLIMATE,
     "GENUS_GEO_CLIMATE_SOIL":GEO+CLIMATE+SOIL,
 }
@@ -186,7 +190,9 @@ def fivefold_within_genus_cv(source:pd.DataFrame,*,with_soil:bool)->dict:
     keys=list(features)
     delta={}
     comparisons=[("GENUS_BASELINE","GENUS_GEO","geo_beyond_genus"),
-                 ("GENUS_GEO","GENUS_GEO_CLIMATE","climate_beyond_genus_geography")]
+                 ("GENUS_GEO","GENUS_GEO_CLIMATE","climate_beyond_genus_geography"),
+                 ("GENUS_GEO_MOISTURE","GENUS_GEO_CLIMATE","unique_temperature_block_beyond_geo_moisture"),
+                 ("GENUS_GEO_TEMPERATURE","GENUS_GEO_CLIMATE","unique_moisture_block_beyond_geo_temperature")]
     if with_soil:
         comparisons.append(("GENUS_GEO_CLIMATE","GENUS_GEO_CLIMATE_SOIL","soil_beyond_genus_geography_climate"))
     groups=source.loc[eligible,"photo_cell_162"].to_numpy(int)
@@ -237,6 +243,9 @@ def fivefold_within_genus_cv(source:pd.DataFrame,*,with_soil:bool)->dict:
         "fixed_fold_incremental_gains":delta,
         "block_bootstrap_conditional_on_one_realized_fivefold_cv":True,
         "equal_genus_weight_secondary_sensitivity":True,
+        "climate_block_ablation_temperature":list(TEMPERATURE),
+        "climate_block_ablation_moisture":list(MOISTURE),
+        "climate_block_ablation_inference_status":"RETROSPECTIVE_CORRELATED_COVARIATE_EXPLORATION_NOT_INDEPENDENT_CONFIRMATION",
         "genus_bootstrap_conditional_on_fixed_outofcell_predictions":True,
         "inference_boundary":"Between different species within the same nominal genus; does NOT estimate within-species evolution or a causal climate or soil selection effect",
     }
