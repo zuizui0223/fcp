@@ -53,7 +53,7 @@ def color_and_environment_atlas(source:pd.DataFrame)->tuple[dict,pd.DataFrame,pd
     if int(classified.sum())!=N_CLASSIFIED:
         raise ValueError("Original 39075 source-image classified states drifted")
     geolocated=source.site_geo_status.eq(VALID_SITE)
-    if source.loc[~geolocated,FEATURES].notna().any().any():
+    if source.loc[~geolocated,list(FEATURES)].notna().any().any():
         raise ValueError("Non-geolocated photo was assigned artificial climate or soil")
     climate=source.environment_climate_complete.astype(bool)
     soil=source.environment_soil_complete.astype(bool)
