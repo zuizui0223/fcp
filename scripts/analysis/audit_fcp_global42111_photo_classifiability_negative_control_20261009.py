@@ -57,8 +57,15 @@ def source_sets(original:pd.DataFrame,*,strict:bool=True)->tuple[dict[str,pd.Dat
     z["lon_sin"]=np.sin(np.deg2rad(longitude))
     z["lon_cos"]=np.cos(np.deg2rad(longitude))
     good=z.site_geo_status.eq("VALID_PUBLIC_ORIGINAL_PHOTO_POINT")&latitude.between(-90,90)&longitude.between(-180,180)
-    from test_fcp_global42111_within_genus_environment_20261009 import cell_index
-    z["photo_cell_162"]=cell_index(latitude.to_numpy(float),longitude.to_numpy(float))
+    # Standalone original photo geometry; no dependency on a pytest-named
+    # analysis module that could be confused with the test harness.
+    latv=latitude.to_numpy(float); lonv=longitude.to_numpy(float)
+    source_cells=np.full(len(z),-1,dtype=int)
+    finite=np.isfinite(latv)&np.isfinite(lonv)&(np.abs(latv)<=90)&(np.abs(lonv)<=180)
+    y=np.clip(np.floor((np.sin(np.deg2rad(latv[finite]))+1)*4.5).astype(int),0,8)
+    x=np.clip(np.floor((lonv[finite]+180)/20).astype(int),0,17)
+    source_cells[finite]=18*y+x
+    z["photo_cell_162"]=source_cells
     z["genus"]=z.species.astype(str).str.split().str[0]
     climate=(good&z.environment_climate_complete.fillna(False).astype(bool)&
              z[list(GEO+TEMPERATURE+MOISTURE)].notna().all(axis=1)&z.photo_cell_162.ge(0))
