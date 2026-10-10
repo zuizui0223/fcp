@@ -106,7 +106,12 @@ def residual_neighbour_autocorrelation(
     if n<12:
         raise ValueError("Too few original photo sites for 8-nearest residual audit")
     # BallTree haversine requires latitude then longitude, in RADIANS.
-    coordinates=np.deg2rad(eligible_source[["latitude","longitude"]].to_numpy(float))
+    original_sites=eligible_source[["latitude","longitude"]].to_numpy(float)
+    if not (np.isfinite(original_sites).all() and
+            np.all(np.abs(original_sites[:,0])<=90) and
+            np.all(np.abs(original_sites[:,1])<=180)):
+        raise ValueError("Original source photographed coordinates missing or impossible")
+    coordinates=np.deg2rad(original_sites)
     tree=BallTree(coordinates,metric="haversine")
     dist,other=tree.query(coordinates,k=min(n,9))
     dist=dist[:,1:]*EARTH_KM
