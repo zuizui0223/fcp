@@ -1,0 +1,1536 @@
+{
+  "schema": "fcp_50km_original_disjoint_photo_pair_reporting_receipt_v1",
+  "date_jst": "2026-10-10",
+  "status": "completed_source_sha_verified_posthoc",
+  "role": "Source-verified photographic pseudo-replication diagnostic, not independent biological sample",
+  "source": {
+    "success_workflow_run_id": 38036033533,
+    "job_id": 114166533861,
+    "artifact_id": 11663587388,
+    "artifact_zip_sha256": "51bb22cb0f04cb59f3822b494f74b3fb5533b6deab95c99e2362c4c5d7efbc32",
+    "original_high_depth_source_SHA256": {
+      "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+      "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+      "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+    }
+  },
+  "original_50km_all_edges": {
+    "discovery": {
+      "n_species": 166,
+      "mean_depletion": 0.020529254583812922
+    },
+    "validation": {
+      "n_species": 181,
+      "mean_depletion": 0.018672971642749295
+    },
+    "third": {
+      "n_species": 204,
+      "mean_depletion": 0.01468491968437185
+    }
+  },
+  "primary_disjoint_minimum_pairs": 10,
+  "source_photo_disjoint_matching": "Geometry/ID only; greedy maximal matching, not proven maximum cardinality",
+  "all_high_depth_photo_disjoint_ladder_as_printed_exactly_in_green_workflow": {
+    "discovery": {
+      "fixed_random__all_photos": {
+        "5": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.02118645632763948,
+          "mean_disjoint_local_discordance": 0.21796661267320183,
+          "mean_specieswide_discordance": 0.23915306900084124,
+          "mean_unique_photos_in_selected_pairs": 38.51141552511415,
+          "median_depletion": 0.0012578616352201255,
+          "median_disjoint_pair_count": 19,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 219,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.0002482313986422794,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5068493150684932,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.00888746558027816,
+            0.033612349463108995
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.021606685406878524,
+          "mean_disjoint_local_discordance": 0.21115583584395703,
+          "mean_specieswide_discordance": 0.23276252125083555,
+          "mean_unique_photos_in_selected_pairs": 42.14736842105263,
+          "median_depletion": 0.000282076079948429,
+          "median_disjoint_pair_count": 20,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 190,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.00004207751976444039,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.010269468146612127,
+            0.03295751100703036
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.020748825977175245,
+          "mean_disjoint_local_discordance": 0.18358841439877024,
+          "mean_specieswide_discordance": 0.20433724037594547,
+          "mean_unique_photos_in_selected_pairs": 47.16778523489933,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 23,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 149,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.0001984689019924023,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4899328859060403,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.010275141038288416,
+            0.03232609836405372
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.019755133322493026,
+          "mean_disjoint_local_discordance": 0.1591703759717123,
+          "mean_specieswide_discordance": 0.17892550929420534,
+          "mean_unique_photos_in_selected_pairs": 53.148514851485146,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 26,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 101,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.0000537268208913979,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.44554455445544555,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.00821781255674199,
+            0.03286482203549675
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.029375769124515422,
+          "mean_disjoint_local_discordance": 0.10806534908098708,
+          "mean_specieswide_discordance": 0.13744111820550253,
+          "mean_unique_photos_in_selected_pairs": 64.74074074074075,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 32,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 27,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.00013987011603901163,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.37037037037037035,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      },
+      "fixed_random__different_observer": {
+        "5": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.024254130116194088,
+          "mean_disjoint_local_discordance": 0.21447810401992123,
+          "mean_specieswide_discordance": 0.23873223413611533,
+          "mean_unique_photos_in_selected_pairs": 37.83561643835616,
+          "median_depletion": 0.011424057363351864,
+          "median_disjoint_pair_count": 18,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 219,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.000324971847602061,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5296803652968036,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.011613330652923833,
+            0.037260881992008034
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.018583493010189734,
+          "mean_disjoint_local_discordance": 0.2125755556527029,
+          "mean_specieswide_discordance": 0.2311590486628926,
+          "mean_unique_photos_in_selected_pairs": 41.43157894736842,
+          "median_depletion": 0.008953841284465774,
+          "median_disjoint_pair_count": 20,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 190,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00018602546317314815,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5210526315789473,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.00768469677467563,
+            0.02948001564013574
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.021048876678198852,
+          "mean_disjoint_local_discordance": 0.18476752801688445,
+          "mean_specieswide_discordance": 0.2058164046950833,
+          "mean_unique_photos_in_selected_pairs": 47.21678321678322,
+          "median_depletion": 0.008888256111947268,
+          "median_disjoint_pair_count": 23,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 143,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00004879088966434723,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5104895104895105,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.010758998642211637,
+            0.032695864365142206
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.02340574061227218,
+          "mean_disjoint_local_discordance": 0.1517196254396281,
+          "mean_specieswide_discordance": 0.17512536605190027,
+          "mean_unique_photos_in_selected_pairs": 52.86868686868687,
+          "median_depletion": 0.008888256111947268,
+          "median_disjoint_pair_count": 26,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 99,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.0003028833464398306,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5151515151515151,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.010709528689865104,
+            0.03667445242722386
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.02708190051907842,
+          "mean_disjoint_local_discordance": 0.09513753966746327,
+          "mean_specieswide_discordance": 0.12221944018654168,
+          "mean_unique_photos_in_selected_pairs": 64.15384615384616,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 31,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 26,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.00015597469677128828,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.46153846153846156,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      },
+      "nearest__all_photos": {
+        "5": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.020686769118812096,
+          "mean_disjoint_local_discordance": 0.21846629988202917,
+          "mean_specieswide_discordance": 0.23915306900084124,
+          "mean_unique_photos_in_selected_pairs": 38.61187214611872,
+          "median_depletion": 0.007176870748299313,
+          "median_disjoint_pair_count": 19,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 219,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.00046912335902628326,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5388127853881278,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.009161109142542086,
+            0.032686207629618706
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.021215362186899803,
+          "mean_disjoint_local_discordance": 0.20924074405579549,
+          "mean_specieswide_discordance": 0.23045610624269525,
+          "mean_unique_photos_in_selected_pairs": 42.35978835978836,
+          "median_depletion": 0.00569105691056912,
+          "median_disjoint_pair_count": 21,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 189,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.000053810946268556074,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5396825396825397,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.009843599300256207,
+            0.03231370210090809
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.02483785007062289,
+          "mean_disjoint_local_discordance": 0.17906711047680654,
+          "mean_specieswide_discordance": 0.20390496054742946,
+          "mean_unique_photos_in_selected_pairs": 47.18120805369127,
+          "median_depletion": 0.010582688464100876,
+          "median_disjoint_pair_count": 23,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 149,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.0001075437087788249,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5704697986577181,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.013816148010286553,
+            0.036726859622114166
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.029059500310951766,
+          "mean_disjoint_local_discordance": 0.15337325002399854,
+          "mean_specieswide_discordance": 0.18243275033495027,
+          "mean_unique_photos_in_selected_pairs": 52.90384615384615,
+          "median_depletion": 0.004996211517950645,
+          "median_disjoint_pair_count": 26,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 104,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.00034490997734829416,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5288461538461539,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.015986198525420502,
+            0.04348290372633165
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.04542171214557532,
+          "mean_disjoint_local_discordance": 0.1000713241256785,
+          "mean_specieswide_discordance": 0.1454930362712538,
+          "mean_unique_photos_in_selected_pairs": 65.14285714285714,
+          "median_depletion": 0.01096902817798566,
+          "median_disjoint_pair_count": 32,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 28,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.0011921227271850124,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.5357142857142857,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      },
+      "nearest__different_observer": {
+        "5": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.02318131478569706,
+          "mean_disjoint_local_discordance": 0.21426108490811763,
+          "mean_specieswide_discordance": 0.23744239969381467,
+          "mean_unique_photos_in_selected_pairs": 38.11926605504587,
+          "median_depletion": 0.012060227930105222,
+          "median_disjoint_pair_count": 19,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 218,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.0005551519918770396,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5458715596330275,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0110351812089239,
+            0.03475239335349044
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.021723659742873522,
+          "mean_disjoint_local_discordance": 0.2095817916352658,
+          "mean_specieswide_discordance": 0.2313054513781393,
+          "mean_unique_photos_in_selected_pairs": 41.840425531914896,
+          "median_depletion": 0.012060227930105222,
+          "median_disjoint_pair_count": 20,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 188,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00016057581770432774,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5531914893617021,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0108316004831898,
+            0.03296941010186281
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.02524504843996018,
+          "mean_disjoint_local_discordance": 0.1787575912650077,
+          "mean_specieswide_discordance": 0.20400263970496788,
+          "mean_unique_photos_in_selected_pairs": 47.50704225352113,
+          "median_depletion": 0.012060227930105222,
+          "median_disjoint_pair_count": 23,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 142,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00014177910764725135,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5704225352112676,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.013778954443713623,
+            0.03690623894448826
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.02957090767832113,
+          "mean_disjoint_local_discordance": 0.15427345152359917,
+          "mean_specieswide_discordance": 0.18384435920192035,
+          "mean_unique_photos_in_selected_pairs": 52.54368932038835,
+          "median_depletion": 0.007176870748299313,
+          "median_disjoint_pair_count": 26,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 103,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.00024173200836144216,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5436893203883495,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.015816380931475787,
+            0.04439338834350083
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.04534824740359931,
+          "mean_disjoint_local_discordance": 0.10557526568275097,
+          "mean_specieswide_discordance": 0.15092351308635027,
+          "mean_unique_photos_in_selected_pairs": 64.35714285714286,
+          "median_depletion": 0.005291344232050438,
+          "median_disjoint_pair_count": 31.5,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 28,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.0011010969978172505,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.5,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      }
+    },
+    "third": {
+      "fixed_random__all_photos": {
+        "5": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.01834139917557569,
+          "mean_disjoint_local_discordance": 0.22637882412080007,
+          "mean_specieswide_discordance": 0.24472022329637574,
+          "mean_unique_photos_in_selected_pairs": 36.48251748251748,
+          "median_depletion": 0.006341590075128252,
+          "median_disjoint_pair_count": 18,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 286,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.0005830859516863093,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5174825174825175,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.007233467205025115,
+            0.029424638090771026
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.019949349777057434,
+          "mean_disjoint_local_discordance": 0.2278719966134406,
+          "mean_specieswide_discordance": 0.24782134639049802,
+          "mean_unique_photos_in_selected_pairs": 40.92887029288703,
+          "median_depletion": 0.0073643410852712865,
+          "median_disjoint_pair_count": 20,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 239,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.0004986432838623243,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5230125523012552,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.009746744688196094,
+            0.030833694625484628
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.02104619441776092,
+          "mean_disjoint_local_discordance": 0.2109447372756541,
+          "mean_specieswide_discordance": 0.23199093169341506,
+          "mean_unique_photos_in_selected_pairs": 45.15183246073298,
+          "median_depletion": 0.008880471380471378,
+          "median_disjoint_pair_count": 22,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 191,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.00019395922871599534,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5340314136125655,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.011628942439809645,
+            0.0311698775293021
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.019526589301400478,
+          "mean_disjoint_local_discordance": 0.18482189499341092,
+          "mean_specieswide_discordance": 0.20434848429481134,
+          "mean_unique_photos_in_selected_pairs": 50.69291338582677,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 25,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 127,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.00018997587120483256,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4881889763779528,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.009557496968050697,
+            0.030765713031178372
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.018582129186701504,
+          "mean_disjoint_local_discordance": 0.10709965820512324,
+          "mean_specieswide_discordance": 0.12568178739182476,
+          "mean_unique_photos_in_selected_pairs": 65.21739130434783,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 31,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 23,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.00009531818064208579,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.391304347826087,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      },
+      "fixed_random__different_observer": {
+        "5": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.01644402094604355,
+          "mean_disjoint_local_discordance": 0.22966031604372822,
+          "mean_specieswide_discordance": 0.2461043369897718,
+          "mean_unique_photos_in_selected_pairs": 36.12676056338028,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 18,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 284,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.000053426771929037265,
+          "permutation_p_upper": 0.01,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4788732394366197,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.007292095475947409,
+            0.02595774360234796
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.018258373253832495,
+          "mean_disjoint_local_discordance": 0.22963965393155672,
+          "mean_specieswide_discordance": 0.24789802718538928,
+          "mean_unique_photos_in_selected_pairs": 40.67796610169491,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 20,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 236,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.000022295541593561085,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4830508474576271,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.008706934910187748,
+            0.0283451789293589
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.0171568548040703,
+          "mean_disjoint_local_discordance": 0.21503108568475093,
+          "mean_specieswide_discordance": 0.23218794048882127,
+          "mean_unique_photos_in_selected_pairs": 44.808510638297875,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 22,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 188,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.000017610476308476387,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4627659574468085,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.007999859825074689,
+            0.027583239201474288
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.012358107612041407,
+          "mean_disjoint_local_discordance": 0.18845313477724734,
+          "mean_specieswide_discordance": 0.20081124238928877,
+          "mean_unique_photos_in_selected_pairs": 50.58536585365854,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 25,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 123,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00015942663990140235,
+          "permutation_p_upper": 0.015,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.43902439024390244,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0032013299855104165,
+            0.021867361301298755
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.022655627131560174,
+          "mean_disjoint_local_discordance": 0.10046899939924425,
+          "mean_specieswide_discordance": 0.12312462653080442,
+          "mean_unique_photos_in_selected_pairs": 66.11111111111111,
+          "median_depletion": 0.006424193012652117,
+          "median_disjoint_pair_count": 32.5,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 18,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.0011687604885237486,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.5,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      },
+      "nearest__all_photos": {
+        "5": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.01696841320117239,
+          "mean_disjoint_local_discordance": 0.2278530788474101,
+          "mean_specieswide_discordance": 0.24482149204858247,
+          "mean_unique_photos_in_selected_pairs": 36.41811846689895,
+          "median_depletion": 0.0020925553319919438,
+          "median_disjoint_pair_count": 18,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 287,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.00019835688463848032,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5052264808362369,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.005994376952313406,
+            0.02724196370461381
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.019392793812881635,
+          "mean_disjoint_local_discordance": 0.22905867826526013,
+          "mean_specieswide_discordance": 0.24845147207814175,
+          "mean_unique_photos_in_selected_pairs": 41.02092050209205,
+          "median_depletion": 0.0020925553319919438,
+          "median_disjoint_pair_count": 20,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 239,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.0003283818383664758,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5062761506276151,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.008829222411814927,
+            0.03027385463782101
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.019959716153974613,
+          "mean_disjoint_local_discordance": 0.21362787800482105,
+          "mean_specieswide_discordance": 0.23358759415879563,
+          "mean_unique_photos_in_selected_pairs": 45.25,
+          "median_depletion": 0.0024970877898972746,
+          "median_disjoint_pair_count": 22,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 192,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.0001602704858554182,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5104166666666666,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.008445419577326366,
+            0.031701186652303495
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.01783846169993374,
+          "mean_disjoint_local_discordance": 0.17867215244298884,
+          "mean_specieswide_discordance": 0.1965106141429226,
+          "mean_unique_photos_in_selected_pairs": 50.95238095238095,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 25,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 126,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.0002486081041946766,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4603174603174603,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.006726993167934724,
+            0.02990963206363866
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.02405045701871406,
+          "mean_disjoint_local_discordance": 0.09762721574685874,
+          "mean_specieswide_discordance": 0.12167767276557277,
+          "mean_unique_photos_in_selected_pairs": 67.17647058823529,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 33,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 17,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.0004206386738472569,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.35294117647058826,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      },
+      "nearest__different_observer": {
+        "5": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.015120739366672081,
+          "mean_disjoint_local_discordance": 0.2309835976230997,
+          "mean_specieswide_discordance": 0.2461043369897718,
+          "mean_unique_photos_in_selected_pairs": 36.03521126760563,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 18,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 284,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00019553863736486175,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.49295774647887325,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0031978481238989125,
+            0.026575717997033687
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.019085761001860397,
+          "mean_disjoint_local_discordance": 0.22974728326055385,
+          "mean_specieswide_discordance": 0.2488330442624143,
+          "mean_unique_photos_in_selected_pairs": 40.706382978723404,
+          "median_depletion": 0.0013265306122449139,
+          "median_disjoint_pair_count": 20,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 235,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00040824070664754585,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.502127659574468,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.008051603987772746,
+            0.03021089862066427
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.019644867220567925,
+          "mean_disjoint_local_discordance": 0.21435001101107304,
+          "mean_specieswide_discordance": 0.23399487823164095,
+          "mean_unique_photos_in_selected_pairs": 44.94117647058823,
+          "median_depletion": 0.0013265306122449139,
+          "median_disjoint_pair_count": 22,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 187,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.0002103819352316862,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5026737967914439,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.008789517502430412,
+            0.03094490051188741
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.017221170425442734,
+          "mean_disjoint_local_discordance": 0.18141321181275008,
+          "mean_specieswide_discordance": 0.19863438223819282,
+          "mean_unique_photos_in_selected_pairs": 50.41935483870968,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 25,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 124,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00033997200492931804,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.45161290322580644,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.006298215776172089,
+            0.028894219208721237
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.014811917449087005,
+          "mean_disjoint_local_discordance": 0.06920569436061795,
+          "mean_specieswide_discordance": 0.08401761180970498,
+          "mean_unique_photos_in_selected_pairs": 67.73333333333333,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 33,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 15,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.0003508888713964939,
+          "permutation_p_upper": 0.01,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.3333333333333333,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      }
+    },
+    "validation": {
+      "fixed_random__all_photos": {
+        "5": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.012514770523408929,
+          "mean_disjoint_local_discordance": 0.22416654896532098,
+          "mean_specieswide_discordance": 0.23668131948872986,
+          "mean_unique_photos_in_selected_pairs": 36.46025104602511,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 18,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 239,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.00022423001345592213,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4769874476987448,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0006797078616317181,
+            0.024835643652501734
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.013915494828725847,
+          "mean_disjoint_local_discordance": 0.21157541437593144,
+          "mean_specieswide_discordance": 0.22549090920465728,
+          "mean_unique_photos_in_selected_pairs": 39.922330097087375,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 19,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 206,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.00011804940873175631,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.47572815533980584,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.002515933575816253,
+            0.025876910599388882
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.010481413632909695,
+          "mean_disjoint_local_discordance": 0.2040260749218463,
+          "mean_specieswide_discordance": 0.21450748855475604,
+          "mean_unique_photos_in_selected_pairs": 43.98780487804878,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 21,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 164,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.00014614119519742414,
+          "permutation_p_upper": 0.025,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.43902439024390244,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            -0.0013291748656103352,
+            0.02326279579872612
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.012097192583229948,
+          "mean_disjoint_local_discordance": 0.18783381130290852,
+          "mean_specieswide_discordance": 0.19993100388613846,
+          "mean_unique_photos_in_selected_pairs": 50.3469387755102,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 24,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 98,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.00011155994828595906,
+          "permutation_p_upper": 0.02,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.4387755102040816,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            -0.002208187345324532,
+            0.027299118273461126
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": -0.005513898272858151,
+          "mean_disjoint_local_discordance": 0.13565148147964526,
+          "mean_specieswide_discordance": 0.1301375832067871,
+          "mean_unique_photos_in_selected_pairs": 66.46153846153847,
+          "median_depletion": -0.004761904761904762,
+          "median_disjoint_pair_count": 32,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 13,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.00018606404470657823,
+          "permutation_p_upper": 0.77,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.07692307692307693,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      },
+      "fixed_random__different_observer": {
+        "5": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.010442946688877944,
+          "mean_disjoint_local_discordance": 0.22556588578713632,
+          "mean_specieswide_discordance": 0.23600883247601429,
+          "mean_unique_photos_in_selected_pairs": 36.17796610169491,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 18,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 236,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.00003976329347048336,
+          "permutation_p_upper": 0.04,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.4703389830508475,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            -0.0004303097722683417,
+            0.02140588730460819
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.013601984476404129,
+          "mean_disjoint_local_discordance": 0.21200747438291834,
+          "mean_specieswide_discordance": 0.2256094588593225,
+          "mean_unique_photos_in_selected_pairs": 39.6551724137931,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 19,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 203,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00016157356474410308,
+          "permutation_p_upper": 0.015,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4729064039408867,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0024463521180450552,
+            0.024437870853490785
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.012544005024095462,
+          "mean_disjoint_local_discordance": 0.19410842168476622,
+          "mean_specieswide_discordance": 0.20665242670886164,
+          "mean_unique_photos_in_selected_pairs": 43.775,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 21,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 160,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00009706393549770781,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.44375,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0026390852877215985,
+            0.02348135345363094
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.00834763612626818,
+          "mean_disjoint_local_discordance": 0.19888779024865014,
+          "mean_specieswide_discordance": 0.20723542637491835,
+          "mean_unique_photos_in_selected_pairs": 50.16842105263158,
+          "median_depletion": -0.001821740439626622,
+          "median_disjoint_pair_count": 24,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 95,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00004295482393317475,
+          "permutation_p_upper": 0.065,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.3894736842105263,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            -0.004498230992161177,
+            0.02156060982769341
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "fixed_random",
+          "mean_depletion": 0.003061541739757615,
+          "mean_disjoint_local_discordance": 0.1223139408335261,
+          "mean_specieswide_discordance": 0.1253754825732837,
+          "mean_unique_photos_in_selected_pairs": 65.42857142857143,
+          "median_depletion": -0.003575918155593308,
+          "median_disjoint_pair_count": 32,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 14,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.0005765239300988467,
+          "permutation_p_upper": 0.39,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.21428571428571427,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      },
+      "nearest__all_photos": {
+        "5": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.014678320245383408,
+          "mean_disjoint_local_discordance": 0.2220029992433465,
+          "mean_specieswide_discordance": 0.23668131948872986,
+          "mean_unique_photos_in_selected_pairs": 36.28451882845188,
+          "median_depletion": 0.006233442418575666,
+          "median_disjoint_pair_count": 18,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 239,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.000024663139672738867,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5146443514644351,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0021342054253236076,
+            0.027088173249273123
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.01680038860877726,
+          "mean_disjoint_local_discordance": 0.21197083408084877,
+          "mean_specieswide_discordance": 0.22877122268962602,
+          "mean_unique_photos_in_selected_pairs": 39.970588235294116,
+          "median_depletion": 0.0062665885832931326,
+          "median_disjoint_pair_count": 19,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 204,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.00008555306071605358,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5196078431372549,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0047815977934617115,
+            0.028485542965930633
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.014566371051654023,
+          "mean_disjoint_local_discordance": 0.19662434172026091,
+          "mean_specieswide_discordance": 0.21119071277191492,
+          "mean_unique_photos_in_selected_pairs": 44.161490683229815,
+          "median_depletion": 0.0007422402159244501,
+          "median_disjoint_pair_count": 21,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 161,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": -0.0002908549033921686,
+          "permutation_p_upper": 0.01,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5093167701863354,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.004551988142110709,
+            0.02524131200184534
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.014419826848954704,
+          "mean_disjoint_local_discordance": 0.1861554737063547,
+          "mean_specieswide_discordance": 0.20057530055530945,
+          "mean_unique_photos_in_selected_pairs": 50.244897959183675,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 24.5,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 98,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.00005668371599988205,
+          "permutation_p_upper": 0.01,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4897959183673469,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.003430074787994769,
+            0.026097969351205685
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.009582486938291328,
+          "mean_disjoint_local_discordance": 0.12055509626849578,
+          "mean_specieswide_discordance": 0.1301375832067871,
+          "mean_unique_photos_in_selected_pairs": 66.15384615384616,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 32,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 13,
+          "observer_policy": "all_photos",
+          "permutation_null_mean": 0.0010994634995182989,
+          "permutation_p_upper": 0.19,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.38461538461538464,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      },
+      "nearest__different_observer": {
+        "5": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.013488421321339953,
+          "mean_disjoint_local_discordance": 0.22252041115467427,
+          "mean_specieswide_discordance": 0.23600883247601429,
+          "mean_unique_photos_in_selected_pairs": 36.016949152542374,
+          "median_depletion": 0.0035209874819675246,
+          "median_disjoint_pair_count": 18,
+          "minimum_photo_disjoint_pairs": 5,
+          "n_species": 236,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00005863063272119163,
+          "permutation_p_upper": 0.01,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5084745762711864,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0019729227262567143,
+            0.025092598964830414
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "10": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.013765647090462291,
+          "mean_disjoint_local_discordance": 0.2139550375434681,
+          "mean_specieswide_discordance": 0.22772068463393036,
+          "mean_unique_photos_in_selected_pairs": 39.82,
+          "median_depletion": 0.0001572897761645542,
+          "median_disjoint_pair_count": 19,
+          "minimum_photo_disjoint_pairs": 10,
+          "n_species": 200,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.00017310265913619355,
+          "permutation_p_upper": 0.01,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0026111156041158604,
+            0.025967573089779438
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "15": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.013447489306977983,
+          "mean_disjoint_local_discordance": 0.19821802270356087,
+          "mean_specieswide_discordance": 0.2116655120105388,
+          "mean_unique_photos_in_selected_pairs": 43.6875,
+          "median_depletion": 0.0005284098841267793,
+          "median_disjoint_pair_count": 21,
+          "minimum_photo_disjoint_pairs": 15,
+          "n_species": 160,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.0003704725345950274,
+          "permutation_p_upper": 0.005,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.50625,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.0037155140398884906,
+            0.023752204281251327
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "20": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.013562489038522547,
+          "mean_disjoint_local_discordance": 0.19168867966570793,
+          "mean_specieswide_discordance": 0.2052511687042305,
+          "mean_unique_photos_in_selected_pairs": 50,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 24,
+          "minimum_photo_disjoint_pairs": 20,
+          "n_species": 95,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": -0.0000637573044252486,
+          "permutation_p_upper": 0.025,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.4842105263157895,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": [
+            0.002967648488219778,
+            0.025104848009581047
+          ],
+          "status": "EXPLORATORY_ESTIMABLE"
+        },
+        "30": {
+          "matching_scheme": "nearest",
+          "mean_depletion": 0.009208868621124624,
+          "mean_disjoint_local_discordance": 0.12092871458566248,
+          "mean_specieswide_discordance": 0.1301375832067871,
+          "mean_unique_photos_in_selected_pairs": 65.84615384615384,
+          "median_depletion": 0,
+          "median_disjoint_pair_count": 32,
+          "minimum_photo_disjoint_pairs": 30,
+          "n_species": 13,
+          "observer_policy": "different_observer",
+          "permutation_null_mean": 0.0004150609183801794,
+          "permutation_p_upper": 0.145,
+          "photo_reuse_across_selected_pairs": false,
+          "positive_bounded_evidence": false,
+          "positive_species_fraction": 0.38461538461538464,
+          "restricted_to_original_30_edge_species": false,
+          "species_bootstrap_ci95": null,
+          "status": "HOLD_INSUFFICIENT_SPECIES"
+        }
+      }
+    }
+  },
+  "exact_original_source_population_conditioned_10_disjoint_pair_summary_rounded_means": {
+    "discovery": {
+      "nearest__all_photos": {
+        "n_species": 165,
+        "mean_depletion": 0.02063,
+        "permutation_p_upper": 0.005,
+        "species_bootstrap_ci95": [
+          0.010015010295054095,
+          0.03201777546946328
+        ]
+      },
+      "nearest__different_observer": {
+        "n_species": 165,
+        "mean_depletion": 0.021523,
+        "permutation_p_upper": 0.005,
+        "species_bootstrap_ci95": [
+          0.010319833963985454,
+          0.03326951410626595
+        ]
+      },
+      "fixed_random__all_photos": {
+        "n_species": 165,
+        "mean_depletion": 0.019587,
+        "permutation_p_upper": 0.005,
+        "species_bootstrap_ci95": [
+          0.009383017509908638,
+          0.030445104389157467
+        ]
+      },
+      "fixed_random__different_observer": {
+        "n_species": 165,
+        "mean_depletion": 0.018643,
+        "permutation_p_upper": 0.005,
+        "species_bootstrap_ci95": [
+          0.008630739749973098,
+          0.030461345746273818
+        ]
+      }
+    },
+    "validation": {
+      "nearest__all_photos": {
+        "n_species": 181,
+        "mean_depletion": 0.01282,
+        "permutation_p_upper": 0.01,
+        "species_bootstrap_ci95": [
+          0.0015797943196498468,
+          0.025538308961683447
+        ]
+      },
+      "nearest__different_observer": {
+        "n_species": 181,
+        "mean_depletion": 0.01301,
+        "permutation_p_upper": 0.01,
+        "species_bootstrap_ci95": [
+          0.002048625537128507,
+          0.025378196627048703
+        ]
+      },
+      "fixed_random__all_photos": {
+        "n_species": 181,
+        "mean_depletion": 0.009009,
+        "permutation_p_upper": 0.025,
+        "species_bootstrap_ci95": [
+          -0.0034646994503947513,
+          0.020369264600757067
+        ]
+      },
+      "fixed_random__different_observer": {
+        "n_species": 181,
+        "mean_depletion": 0.011491,
+        "permutation_p_upper": 0.03,
+        "species_bootstrap_ci95": [
+          0.0001494882193104109,
+          0.023822464091727957
+        ]
+      }
+    },
+    "third": {
+      "nearest__all_photos": {
+        "n_species": 204,
+        "mean_depletion": 0.020011,
+        "permutation_p_upper": 0.005,
+        "species_bootstrap_ci95": [
+          0.00829451905863104,
+          0.03243922437324871
+        ]
+      },
+      "nearest__different_observer": {
+        "n_species": 203,
+        "mean_depletion": 0.019021,
+        "permutation_p_upper": 0.005,
+        "species_bootstrap_ci95": [
+          0.008269733201435208,
+          0.03016758334505342
+        ]
+      },
+      "fixed_random__all_photos": {
+        "n_species": 204,
+        "mean_depletion": 0.022988,
+        "permutation_p_upper": 0.005,
+        "species_bootstrap_ci95": [
+          0.011658818162938598,
+          0.03476607951076547
+        ]
+      },
+      "fixed_random__different_observer": {
+        "n_species": 203,
+        "mean_depletion": 0.017711,
+        "permutation_p_upper": 0.005,
+        "species_bootstrap_ci95": [
+          0.00829972205778395,
+          0.02773282953970848
+        ]
+      }
+    }
+  },
+  "fuller_original_source_population_conditioned_all_threshold_values_in_exact_artifact": true,
+  "supplementary_result_follows_source_exposure": true,
+  "salient_non_support": "At 10 disjoint pairs in the historically 30-edge eligible species, validation fixed_random__all_photos bootstrap CI includes zero, despite positive mean and p=0.025.",
+  "confirmatory_decisions_changed": false,
+  "limitations": [
+    "Photo endpoints cannot be shared in a selected matching, but observations need not be distinct genetic individuals, plants or field sites.",
+    "Post-outcome original-population restriction has its own retrospective status.",
+    "The fixed random matching is one reproducible geometry-only matching, not a distribution over every matching.",
+    "Permutation p values are not adjusted for multiple thresholds/schemes/policies.",
+    "No independent expert flower colour annotation or genotypic/fertility causal result exists."
+  ]
+}

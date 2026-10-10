@@ -1,0 +1,86 @@
+name: FCP 50km photo-disjoint geographic colour test
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/audit_polymorphism_photo_disjoint_50km_20261010.py
+      - tests/test_polymorphism_photo_disjoint_50km_20261010.py
+      - docs/POLYMORPHISM_50KM_DISJOINT_PHOTO_PAIRS_PROTOCOL_20261010.md
+      - .github/workflows/polymorphism-photo-disjoint-50km-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fcp-photo-disjoint-50km-analysis
+  cancel-in-progress: true
+
+env:
+  LEGACY_SHA: "5142f7951af0dde5364bb047a566d67e8c479e51"
+  THIRD_SHA: "7e538e5c51c05a7cc47b2fcf53eea92634c8a863"
+  DISC_SHA256: "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4"
+  VAL_SHA256: "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6"
+  THIRD_SHA256: "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+
+jobs:
+  photo-disjoint-geography:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install pinned frozen numerical runtime
+        run: python -m pip install numpy==2.4.6 pandas==3.0.6 scipy==1.17.1 pytest==8.4.2
+      - name: Synthetic label-blind graph tests
+        run: python -m pytest tests/test_polymorphism_photo_disjoint_50km_20261010.py -q
+      - name: Recover immutable source photo measurements and verify original bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin "$LEGACY_SHA" "$THIRD_SHA"
+          git show "$LEGACY_SHA:data/derived/global_monte_carlo_measured_photos_v1.csv" > /tmp/discovery.csv
+          git show "$LEGACY_SHA:data/derived/rgfca_reserve_replication_measured_photos_v1.csv" > /tmp/validation.csv
+          git show "$THIRD_SHA:data/derived/polymorphism_h2_third_cohort_measured_photos_v1.csv" > /tmp/third.csv
+          echo "$DISC_SHA256  /tmp/discovery.csv" | sha256sum -c -
+          echo "$VAL_SHA256  /tmp/validation.csv" | sha256sum -c -
+          echo "$THIRD_SHA256  /tmp/third.csv" | sha256sum -c -
+      - name: Execute exact source FCP photo-disjoint null tests
+        run: |
+          python scripts/analysis/audit_polymorphism_photo_disjoint_50km_20261010.py \
+            --discovery /tmp/discovery.csv \
+            --validation /tmp/validation.csv \
+            --third /tmp/third.csv \
+            --outdir /tmp/fcp_photo_disjoint
+      - name: Check original 50km baseline and noncausal reporting
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path("/tmp/fcp_photo_disjoint/result.json").read_text())
+          assert x["schema"]=="fcp_photo_disjoint_50km_geography_posthoc_20261010_v1"
+          assert x["confirmatory_decisions_changed"] is False
+          assert x["pair_selection"].startswith("outcome-blind")
+          check={"discovery":(369,166,.020529254583812922),
+                 "validation":(363,181,.018672971642749295),
+                 "third":(377,204,.01468491968437185)}
+          for c,(nh,n,dep) in check.items():
+              r=x[c]
+              assert r["high_depth_species"]==nh
+              assert r["original_50km_30edge_n_species"]==n
+              assert abs(r["original_50km_30edge_mean_depletion"]-dep)<1e-10
+              for scheme in x["matching_schemes"]:
+                  for policy in x["observer_policies"]:
+                      vals=r["ladder"][f"{scheme}__{policy}"]
+                      assert all(vals[str(a)]["n_species"]>=vals[str(b)]["n_species"] for a,b in zip([5,10,15,20],[10,15,20,30]))
+          print("PASS source SHA, frozen historic outcome and photo identity disjoint bounds")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original-photo-disjoint-50km-source-20261010
+          retention-days: 30
+          if-no-files-found: error
+          path: /tmp/fcp_photo_disjoint/
