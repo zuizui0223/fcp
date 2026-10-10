@@ -77,10 +77,10 @@ def nystrom_train_test(train:np.ndarray,test:np.ndarray,*,scale_km:float,
     }
 
 
-def families(*,soil:bool)->dict[str,tuple[str,...]]:
+def families(*,soil:bool,nlandmarks:int=N_LANDMARKS)->dict[str,tuple[str,...]]:
     included={k:v for k,v in BLOCKS.items() if soil or k!="soil"}
     env=tuple(v for block in included.values() for v in block)
-    basis=tuple("spatial_kernel_feature_"+str(i) for i in range(N_LANDMARKS))
+    basis=tuple("spatial_kernel_feature_"+str(i) for i in range(nlandmarks))
     controls=GEO+basis
     result={
         "SPECIES_GEOGRAPHY_ONLY":GEO,
@@ -99,12 +99,7 @@ def fit_source(d:pd.DataFrame,*,soil:bool,scale_km:float,nboot:int=BOOT,
         return {"status":"HOLD_SOURCE_SPECIES_REGION_SPATIAL_COVERAGE"}
     if not d.morph.isin(CLASSES).all() or d.inat_taxon_id.isna().any():
         raise ValueError("Original unclassifiable photo or source taxon disappeared")
-    # Set geometry-dependent source basis dimensionality on this run.
-    global N_LANDMARKS
-    previous=N_LANDMARKS
-    N_LANDMARKS=nlandmarks
-    methods=families(soil=soil)
-    N_LANDMARKS=previous
+    methods=families(soil=soil,nlandmarks=nlandmarks)
     source_labels=pd.Categorical(d.morph,categories=CLASSES).codes
     coords=xyz(d.latitude.to_numpy(float),d.longitude.to_numpy(float))
     predicted={k:np.full((len(d),4),np.nan,float) for k in methods}
