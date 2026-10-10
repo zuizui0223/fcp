@@ -1,0 +1,129 @@
+name: FCP direct LCVP real phylogenetic plus spatial covariance environmental increment
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-phylo-photo-env-20261010
+    paths:
+      - scripts/analysis/audit_fcp_global42111_real_spatial_phylo_covariance_20261010.py
+      - tests/test_fcp_global42111_real_spatial_phylo_covariance_20261010.py
+      - docs/FCP_GLOBAL42111_ENVIRONMENT_BEYOND_SPACE_PHYLOGENY_CONTRACT_20261010.md
+      - .github/workflows/fcp-global42111-real-phylo-spatial-environment-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-global42111-phylogenetic-and-spatial-covariance-abiotic-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  ORIGINAL_ENV_RUN: '37861582446'
+  ORIGINAL_ENV_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+  LCVP_DIR: 'results/fcp_global42111_original_local_LCVP_backbone_20261010'
+
+jobs:
+  real-spatial-plus-dated-phylo-baseline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Run source-only exact Brownian branch covariance and spatial photo distance kernel tests
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 biopython==1.85 scikit-learn==1.6.1 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp_global42111_real_spatial_phylo_covariance_20261010.py
+          python -m pytest tests/test_fcp_global42111_real_spatial_phylo_covariance_20261010.py -q
+          python scripts/analysis/audit_fcp_global42111_real_spatial_phylo_covariance_20261010.py --help > /dev/null
+      - name: Restore original 42111 photo-colour source without reclassifying pixels
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$ORIGINAL_ENV_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$ORIGINAL_ENV_ARTIFACT" --dir /tmp/fcp_direct_phylo_spatial_source
+          source="$(find /tmp/fcp_direct_phylo_spatial_source -name breadth_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$source"
+          cp "$source" /tmp/fcp_original_photo_42111_phylo_spatial.csv.gz
+          test -s "$LCVP_DIR/original_local_1761_LCVP_direct_tip_ledger.csv"
+          test -s "$LCVP_DIR/original_local_250km_direct_LCVP_tree.tre"
+          test -s "$LCVP_DIR/original_local_500km_direct_LCVP_tree.tre"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          receipt=json.loads(Path('results/fcp_global42111_original_local_LCVP_backbone_20261010/result.json').read_text())
+          assert receipt['cohorts']['km250']['n_exact_direct_lcvp_tip_species']==342
+          assert receipt['cohorts']['km500']['n_exact_direct_lcvp_tip_species']==649
+          assert receipt['decision']=='HOLD_DIRECT_LCVP_SUBGENUS_COVERAGE_FOR_FULL_250_500'
+          PY
+      - name: Check whether old source temperature rainfall elevation and five soil traits add prediction beyond BOTH phylo and spatial covariance
+        env:
+          OPENBLAS_NUM_THREADS: '2'
+          OMP_NUM_THREADS: '2'
+          MKL_NUM_THREADS: '2'
+        run: |
+          python scripts/analysis/audit_fcp_global42111_real_spatial_phylo_covariance_20261010.py \
+            --original-breadth-abiotic /tmp/fcp_original_photo_42111_phylo_spatial.csv.gz \
+            --original-LCVP-tip-ledger "$LCVP_DIR/original_local_1761_LCVP_direct_tip_ledger.csv" \
+            --tree-250 "$LCVP_DIR/original_local_250km_direct_LCVP_tree.tre" \
+            --tree-500 "$LCVP_DIR/original_local_500km_direct_LCVP_tree.tre" \
+            --outdir /tmp/fcp42111_direct_LCVP_spatial_kernel_receipt
+      - name: Require exact source direct-tip and geographic group heldout reporting for ALL environmental blocks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/fcp42111_direct_LCVP_spatial_kernel_receipt/result.json').read_text())
+          assert d['schema']=='fcp_42111_direct_LCVP_spatial_and_phylo_kernel_environment_v1'
+          assert d['original_42111_photo_species_denominator']==42111
+          assert d['original_one_photo_classifiable']==18457
+          assert d['full_872_1761_direct_tip_phylogenetic_coverage_HOLD'] is True
+          assert d['no_phenotype_reclassification_or_prospective_source_opened']
+          assert d['source_model'].startswith('kernel ridge')
+          assert d['spatial_scales_km']==[50,250]
+          assert set(d['cohorts'])=={'250km_climate','250km_soil','500km_climate','500km_soil'}
+          for key,q in d['cohorts'].items():
+              assert q['source']['n_direct_original_photo_taxa_pre_missingness'] in (342,649)
+              assert set(q['models'])=={'50km__genus','50km__true_photo_cell','250km__genus','250km__true_photo_cell'}
+              for k,m in q['models'].items():
+                  if m['status']=='EXPLORATORY_EXACT_PHYLO_BROWNIAN_KERNEL_PLUS_SPATIAL_KERNEL_ENVIRONMENT':
+                      assert m['same_original_species_and_fold_assignments']
+                      assert m['modelled_true_phylogeny_BM_shared_branch_covariance']
+                      assert m['modelled_original_photograph_spatial_exponential_covariance']
+                      assert 'all_abiotic_beyond_spatial_plus_real_phylogeny' in m['conditional_feature_gains']
+                      assert all(len(x['original_group_cluster_95CI'])==2 for x in m['conditional_feature_gains'].values())
+                  else:
+                      assert m['status']=='HOLD_DIRECT_LCVP_MODEL_COVERAGE'
+          print('TRUE_ORIGINAL_SOURCE_GEO_SPATIAL_COVARIANCE_PLUS_DATED_PHYLOGENY_ENVIRONMENTAL_PREDICTION_AUDITED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original42111-real-spatial-phylo-covariance-environment-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp42111_direct_LCVP_spatial_kernel_receipt/
+      - name: Commit exploratory source direct-tree joint kernel inference separately from global 42111 claims
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-multiabiotic-solar-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          folder=results/fcp_global42111_real_phylo_spatial_environment_20261010
+          mkdir -p "$folder"
+          cp /tmp/fcp42111_direct_LCVP_spatial_kernel_receipt/* "$folder/"
+          git add "$folder"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal genuine Brownian dated LCVP and photographed geodesic spatial covariance controls before abiotic prediction'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
