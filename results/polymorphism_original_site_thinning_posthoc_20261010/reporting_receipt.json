@@ -1,0 +1,440 @@
+{
+  "schema": "fcp_original_geographic_site_thinning_reporting_receipt_v1",
+  "date_jst": "2026-10-10",
+  "status": "VERIFIED_SUCCESS_SOURCE_FROZEN",
+  "role": "posthoc original photographic location clustering falsification",
+  "source": {
+    "gitHubActionsRun": 38040579438,
+    "jobID": 114179842964,
+    "artifactID": 11665791586,
+    "originalArtifactSHA256": "3f261f035aa693ab95a05b62b814092e8812810c878856f0ef507bf0a94d3b69",
+    "frozenOriginalMeasureSourceSHA256": {
+      "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+      "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+      "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+    },
+    "exactOriginalHighDepthSpecies": {
+      "discovery": 369,
+      "validation": 363,
+      "third": 377
+    },
+    "originalEligibleFor50km": {
+      "discovery": 166,
+      "validation": 181,
+      "third": 204
+    }
+  },
+  "design": {
+    "minimumPairwisePhotoPositionSpacingKm": [
+      1,
+      5,
+      10
+    ],
+    "photoSiteLabelSelection": "outcome-blind minimum-geodesic-separation",
+    "realizationsPerOriginalSpecies": 12,
+    "minimumValidRealizations": 8,
+    "minimumRetainedPhotos": 20,
+    "minimumRetainedNearPhotoPairs": 10,
+    "minimumOriginalSpeciesPerCohort": 30,
+    "permutations199PerEligibleRealization": true,
+    "bootstrapResamples1999AcrossSpecies": true,
+    "sitePairRadiusKm": 50,
+    "observerPolicies": [
+      "all_photos",
+      "different_observer"
+    ]
+  },
+  "exactWorkflowReportedCohorts": {
+    "discovery": {
+      "n_original_50km_local_30pair_species": 166,
+      "n_original_source_high_depth_species": 369,
+      "original_mean_depletion": 0.020529254583812922,
+      "thinning": {
+        "10km_all_photos": {
+          "fraction_of_original_species_testable": 0.9216867469879518,
+          "median_source_50km_pairs_of_selected_photos": 61.5,
+          "median_spaced_photos_per_species": 44,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 166,
+          "n_species": 153,
+          "null_mean": -0.00017186432293872807,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5359477124183006,
+          "radius_minimum_selected_site_separation_km": 10,
+          "source_observer_policy": "all_photos",
+          "species_bootstrap_ci95": [
+            0.009146779538633465,
+            0.03278278924951879
+          ],
+          "species_equal_mean_depletion": 0.020478381153889304,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "10km_different_observer": {
+          "fraction_of_original_species_testable": 0.9216867469879518,
+          "median_source_50km_pairs_of_selected_photos": 60,
+          "median_spaced_photos_per_species": 44,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 166,
+          "n_species": 153,
+          "null_mean": -0.0001553478179808266,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5424836601307189,
+          "radius_minimum_selected_site_separation_km": 10,
+          "source_observer_policy": "different_observer",
+          "species_bootstrap_ci95": [
+            0.008071244296413161,
+            0.031140766348110575
+          ],
+          "species_equal_mean_depletion": 0.01971938740511275,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "1km_all_photos": {
+          "fraction_of_original_species_testable": 0.9939759036144579,
+          "median_source_50km_pairs_of_selected_photos": 129,
+          "median_spaced_photos_per_species": 54,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 166,
+          "n_species": 165,
+          "null_mean": -0.000008190228893490517,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5454545454545454,
+          "radius_minimum_selected_site_separation_km": 1,
+          "source_observer_policy": "all_photos",
+          "species_bootstrap_ci95": [
+            0.01017405740381606,
+            0.031877254536656775
+          ],
+          "species_equal_mean_depletion": 0.020643700393650887,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "1km_different_observer": {
+          "fraction_of_original_species_testable": 0.9939759036144579,
+          "median_source_50km_pairs_of_selected_photos": 128,
+          "median_spaced_photos_per_species": 54,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 166,
+          "n_species": 165,
+          "null_mean": -4.88640155392219e-7,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5575757575757576,
+          "radius_minimum_selected_site_separation_km": 1,
+          "source_observer_policy": "different_observer",
+          "species_bootstrap_ci95": [
+            0.009889367963109585,
+            0.030401849574441475
+          ],
+          "species_equal_mean_depletion": 0.02011815366082123,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "5km_all_photos": {
+          "fraction_of_original_species_testable": 0.9879518072289156,
+          "median_source_50km_pairs_of_selected_photos": 93.5,
+          "median_spaced_photos_per_species": 49,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 166,
+          "n_species": 164,
+          "null_mean": 0.000034922966079356583,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5365853658536586,
+          "radius_minimum_selected_site_separation_km": 5,
+          "source_observer_policy": "all_photos",
+          "species_bootstrap_ci95": [
+            0.008367130605303202,
+            0.029024940918392413
+          ],
+          "species_equal_mean_depletion": 0.018476018645888444,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "5km_different_observer": {
+          "fraction_of_original_species_testable": 0.9879518072289156,
+          "median_source_50km_pairs_of_selected_photos": 92,
+          "median_spaced_photos_per_species": 49,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 166,
+          "n_species": 164,
+          "null_mean": 0.000031490586690227106,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5365853658536586,
+          "radius_minimum_selected_site_separation_km": 5,
+          "source_observer_policy": "different_observer",
+          "species_bootstrap_ci95": [
+            0.008014362232988195,
+            0.02863379829149246
+          ],
+          "species_equal_mean_depletion": 0.017920491989925673,
+          "status": "POSTHOC_ESTIMABLE"
+        }
+      }
+    },
+    "third": {
+      "n_original_50km_local_30pair_species": 204,
+      "n_original_source_high_depth_species": 377,
+      "original_mean_depletion": 0.01468491968437185,
+      "thinning": {
+        "10km_all_photos": {
+          "fraction_of_original_species_testable": 0.9166666666666666,
+          "median_source_50km_pairs_of_selected_photos": 57,
+          "median_spaced_photos_per_species": 47,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 204,
+          "n_species": 187,
+          "null_mean": -0.00006819566456584107,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5775401069518716,
+          "radius_minimum_selected_site_separation_km": 10,
+          "source_observer_policy": "all_photos",
+          "species_bootstrap_ci95": [
+            0.0059351759169964016,
+            0.024566008459224502
+          ],
+          "species_equal_mean_depletion": 0.015083425893398497,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "10km_different_observer": {
+          "fraction_of_original_species_testable": 0.9166666666666666,
+          "median_source_50km_pairs_of_selected_photos": 57,
+          "median_spaced_photos_per_species": 47,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 204,
+          "n_species": 187,
+          "null_mean": -0.00007040880252688393,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5828877005347594,
+          "radius_minimum_selected_site_separation_km": 10,
+          "source_observer_policy": "different_observer",
+          "species_bootstrap_ci95": [
+            0.005859578201261092,
+            0.023432799399415095
+          ],
+          "species_equal_mean_depletion": 0.014489812050482519,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "1km_all_photos": {
+          "fraction_of_original_species_testable": 0.9852941176470589,
+          "median_source_50km_pairs_of_selected_photos": 122,
+          "median_spaced_photos_per_species": 57,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 204,
+          "n_species": 201,
+          "null_mean": -0.000014217814894276547,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5472636815920398,
+          "radius_minimum_selected_site_separation_km": 1,
+          "source_observer_policy": "all_photos",
+          "species_bootstrap_ci95": [
+            0.005438132438447768,
+            0.021649723782864946
+          ],
+          "species_equal_mean_depletion": 0.013139584643536208,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "1km_different_observer": {
+          "fraction_of_original_species_testable": 0.9852941176470589,
+          "median_source_50km_pairs_of_selected_photos": 120,
+          "median_spaced_photos_per_species": 57,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 204,
+          "n_species": 201,
+          "null_mean": -0.000017125988008681236,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5472636815920398,
+          "radius_minimum_selected_site_separation_km": 1,
+          "source_observer_policy": "different_observer",
+          "species_bootstrap_ci95": [
+            0.0056966092467384865,
+            0.021278320116723638
+          ],
+          "species_equal_mean_depletion": 0.013151232114197184,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "5km_all_photos": {
+          "fraction_of_original_species_testable": 0.9509803921568627,
+          "median_source_50km_pairs_of_selected_photos": 84.5,
+          "median_spaced_photos_per_species": 51,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 204,
+          "n_species": 194,
+          "null_mean": -0.00006601390664000861,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5515463917525774,
+          "radius_minimum_selected_site_separation_km": 5,
+          "source_observer_policy": "all_photos",
+          "species_bootstrap_ci95": [
+            0.0030286814315962788,
+            0.02050006789065096
+          ],
+          "species_equal_mean_depletion": 0.011962072448682363,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "5km_different_observer": {
+          "fraction_of_original_species_testable": 0.9509803921568627,
+          "median_source_50km_pairs_of_selected_photos": 84.25,
+          "median_spaced_photos_per_species": 51,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 204,
+          "n_species": 194,
+          "null_mean": -0.00007315213202492339,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5515463917525774,
+          "radius_minimum_selected_site_separation_km": 5,
+          "source_observer_policy": "different_observer",
+          "species_bootstrap_ci95": [
+            0.0033413978889336223,
+            0.020193630964675108
+          ],
+          "species_equal_mean_depletion": 0.011533105810321515,
+          "status": "POSTHOC_ESTIMABLE"
+        }
+      }
+    },
+    "validation": {
+      "n_original_50km_local_30pair_species": 181,
+      "n_original_source_high_depth_species": 363,
+      "original_mean_depletion": 0.018672971642749295,
+      "thinning": {
+        "10km_all_photos": {
+          "fraction_of_original_species_testable": 0.9502762430939227,
+          "median_source_50km_pairs_of_selected_photos": 54.5,
+          "median_spaced_photos_per_species": 47,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 181,
+          "n_species": 172,
+          "null_mean": 0.00012454104791532295,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5813953488372093,
+          "radius_minimum_selected_site_separation_km": 10,
+          "source_observer_policy": "all_photos",
+          "species_bootstrap_ci95": [
+            0.009202296704301848,
+            0.03200394879663308
+          ],
+          "species_equal_mean_depletion": 0.02010365659616817,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "10km_different_observer": {
+          "fraction_of_original_species_testable": 0.9502762430939227,
+          "median_source_50km_pairs_of_selected_photos": 53.5,
+          "median_spaced_photos_per_species": 47,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 181,
+          "n_species": 172,
+          "null_mean": 0.00013156358832742542,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5755813953488372,
+          "radius_minimum_selected_site_separation_km": 10,
+          "source_observer_policy": "different_observer",
+          "species_bootstrap_ci95": [
+            0.009220483937633731,
+            0.03313336513166646
+          ],
+          "species_equal_mean_depletion": 0.020246103168606987,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "1km_all_photos": {
+          "fraction_of_original_species_testable": 0.994475138121547,
+          "median_source_50km_pairs_of_selected_photos": 103,
+          "median_spaced_photos_per_species": 56,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 181,
+          "n_species": 180,
+          "null_mean": 0.00012709100578698224,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5833333333333334,
+          "radius_minimum_selected_site_separation_km": 1,
+          "source_observer_policy": "all_photos",
+          "species_bootstrap_ci95": [
+            0.009274606153543839,
+            0.030543186955783633
+          ],
+          "species_equal_mean_depletion": 0.01961405214991401,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "1km_different_observer": {
+          "fraction_of_original_species_testable": 0.994475138121547,
+          "median_source_50km_pairs_of_selected_photos": 101.5,
+          "median_spaced_photos_per_species": 56,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 181,
+          "n_species": 180,
+          "null_mean": 0.00012581643863917997,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5777777777777777,
+          "radius_minimum_selected_site_separation_km": 1,
+          "source_observer_policy": "different_observer",
+          "species_bootstrap_ci95": [
+            0.008956412849498439,
+            0.030888708373072487
+          ],
+          "species_equal_mean_depletion": 0.01968027958195817,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "5km_all_photos": {
+          "fraction_of_original_species_testable": 0.988950276243094,
+          "median_source_50km_pairs_of_selected_photos": 78,
+          "median_spaced_photos_per_species": 51,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 181,
+          "n_species": 179,
+          "null_mean": -0.00003422783777309514,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5921787709497207,
+          "radius_minimum_selected_site_separation_km": 5,
+          "source_observer_policy": "all_photos",
+          "species_bootstrap_ci95": [
+            0.008471296010207524,
+            0.030163786736685926
+          ],
+          "species_equal_mean_depletion": 0.018836802861354817,
+          "status": "POSTHOC_ESTIMABLE"
+        },
+        "5km_different_observer": {
+          "fraction_of_original_species_testable": 0.988950276243094,
+          "median_source_50km_pairs_of_selected_photos": 77,
+          "median_spaced_photos_per_species": 51,
+          "minimum_valid_repeats": 8,
+          "n_original_50km_30edge_species": 181,
+          "n_species": 179,
+          "null_mean": -0.00004643740979824081,
+          "permutation_p_upper": 0.005,
+          "positive_bounded_evidence": true,
+          "positive_species_fraction": 0.5754189944134078,
+          "radius_minimum_selected_site_separation_km": 5,
+          "source_observer_policy": "different_observer",
+          "species_bootstrap_ci95": [
+            0.007909523097395529,
+            0.02986449820530255
+          ],
+          "species_equal_mean_depletion": 0.018946791992015852,
+          "status": "POSTHOC_ESTIMABLE"
+        }
+      }
+    }
+  },
+  "crossCohortReplicatedEverySpacingAndObserverPolicy": true,
+  "confirmatoryDecisionsChanged": false,
+  "hardNonclaims": [
+    "Photo coordinate spacing is not proof of independent individual plant, genotype, demographic population or fitness.",
+    "Original photo geoposition accuracy may limit true physical separation.",
+    "Repeated outcome-blind thinnings are not independent source species or cohorts.",
+    "Reported 199-permutation p values are unadjusted over three thinning spacings and two observer policies.",
+    "No human colour/relevant floral organ adjudication, genetic morph status, or local adaptation is established.",
+    "Historical main, frozen H1/H2 and future unused 2000+730 source taxa are untouched."
+  ]
+}
