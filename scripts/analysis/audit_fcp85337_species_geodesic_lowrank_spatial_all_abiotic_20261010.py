@@ -105,6 +105,92 @@ def candidate_models(*,soil:bool)->dict[str,tuple[str,...]]:
     return families
 
 
+def spatial_oof_residual_diagnostic(d:pd.DataFrame,y:int|np.ndarray,
+                                    predictions:dict[str,np.ndarray],eligible:np.ndarray,
+                                    *,max_nearest:int=10)->dict:
+    """Descriptive OOF four-colour residual Moran-like index on original source
+    nearest site pairs, excluding the SAME species identity from neighbor edges.
+
+    Each valid photo has at most 10 nearest original observed photos. Source
+    locations and outcome-exposed OOF residuals determine diagnostic weights
+    only after all comparative models/folds are frozen. No calibrated p-value.
+    """
+    from sklearn.neighbors import BallTree
+    sub=d.loc[eligible].reset_index(drop=True)
+    n=len(sub)
+    if n<2:
+        return {"status":"HOLD_NO_SPATIAL_RESIDUAL_PAIRS","n_photo_residuals":n}
+    lat=sub.latitude.to_numpy(float)
+    lon=sub.longitude.to_numpy(float)
+    coords=unit_sphere(lat,lon)
+    # Unit sphere validated above. True haversine is in radians; no original
+    # equal-area source-cell centre is ever substituted for photograph position.
+    hav=np.deg2rad(np.column_stack((lat,lon)))
+    tree=BallTree(hav,metric="haversine")
+    k=min(max_nearest+1,n)
+    distances,neighbors=tree.query(hav,k=k)
+    source_species=sub.inat_taxon_id.to_numpy(int)
+    i=np.repeat(np.arange(n),k)
+    j=neighbors.ravel()
+    rkm=distances.ravel()*EARTH_RADIUS
+    valid=(i!=j)&(source_species[i]!=source_species[j])
+    i=i[valid];j=j[valid];rkm=rkm[valid]
+    left=np.minimum(i,j)
+    right=np.maximum(i,j)
+    # The retained finite-rank graph is based solely on source photo locations,
+    # excluding same-species duplicate-photo links. Unique undirected pairs.
+    codes=left.astype(np.int64)*n+right
+    sort=np.argsort(codes,kind="stable")
+    unique,first=np.unique(codes[sort],return_index=True)
+    indices=sort[first]
+    dist=rkm[indices]
+    a=left[indices];b=right[indices]
+    labels=np.asarray(y)
+    # y is full source phenotype one-hot category index, NOT a spatial model
+    # predictor or new photo pixel classification.
+    if len(labels)!=len(d):
+        raise ValueError("Mismatched original source photographed outcome positions")
+    yy=np.eye(len(CLASSES))[labels[eligible]]
+    models=("SPECIES_NONGP_COORDINATES","SPECIES_GEODESIC_SPATIAL_FIELD",
+            "SPECIES_GEODESIC_SPATIAL_FIELD_ALL_ENV")
+    diag={
+        "schema":"fcp_original_species_oof_fourstate_residual_geodesic_knn_v1",
+        "status":"DESCRIPTIVE_ORIGINAL_PHOTO_SPATIAL_RESIDUAL_DIAGNOSTIC_UNCALIBRATED",
+        "n_original_heldout_photo_residuals":n,
+        "n_nearest_neighbors_requested":max_nearest,
+        "n_distinct_original_photo_site_cross_species_neighbor_pairs":int(len(a)),
+        "same_species_neighbor_pairs_excluded":True,
+        "original_public_photographic_coordinates_only":True,
+        "original_flower_labels_not_reclassified":True,
+        "residual_moran_method":"n * sum_undirected_edges centred_photo_probability_residual_dot_products / (n_edges * sum_photo residual_norm2)",
+        "spatial_radius_reports_km":{},
+        "not_a_calibrated_spatial_independence_p_value":True,
+    }
+    for radius in (50,100,250):
+        take=dist<=radius
+        t=int(take.sum())
+        measurements={}
+        for name in models:
+            pp=predictions[name][eligible]
+            if pp.shape!=yy.shape or not np.isfinite(pp).all():
+                raise RuntimeError("Original OOF source photo prediction incomplete for residual space diagnostic")
+            residual=yy-pp
+            centered=residual-residual.mean(axis=0,keepdims=True)
+            norm=float((centered**2).sum())
+            if t<30 or norm<=1e-15:
+                value=None
+            else:
+                numer=float((centered[a[take]]*centered[b[take]]).sum())
+                value=float(n*numer/(t*norm))
+            measurements[name]=value
+        diag["spatial_radius_reports_km"][str(radius)]={
+            "source_original_cross_species_nearest_photo_edges_within_radius":t,
+            "moran_like_centered_fourstate_residual_spatial_index_by_model":measurements,
+            "insufficient_neighbor_support":bool(t<30),
+        }
+    return diag
+
+
 def evaluate(d:pd.DataFrame,*,soil:bool,bandwidth:float,nboot:int=BOOT,
              n_knots:int=N_FIXED_TRAIN_KNOTS)->dict:
     from sklearn.model_selection import GroupKFold
@@ -183,6 +269,7 @@ def evaluate(d:pd.DataFrame,*,soil:bool,bandwidth:float,nboot:int=BOOT,
             "both_intervals_positive":bool(intervals["source_species"][0]>0 and
                                       intervals["original_geographic_cell"][0]>0),
         }
+    residual_diagnostics=spatial_oof_residual_diagnostic(input_frame,y,pred,eligible)
     return {
         "status":"SOURCE_SPECIES_INTERCEPT_AND_GEODESIC_LOW_RANK_SPATIAL_FIELD_EXPLORATION",
         "original_source_observed_photo_records":len(d),
@@ -200,6 +287,7 @@ def evaluate(d:pd.DataFrame,*,soil:bool,bandwidth:float,nboot:int=BOOT,
         "model_source_heldout_brier":{k:float(x.mean()) for k,x in loss.items()},
         "source_block_predictive_gains":gains,
         "group_cluster_bootstrap_conditional_on_fixed_spatial_knot_and_model_fits":True,
+        "descriptive_heldout_photo_geodesic_spatial_residual_diagnostics":residual_diagnostics,
     }
 
 
