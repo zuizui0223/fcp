@@ -24,7 +24,9 @@ def source_frame():
                   "wc_bio12":rain,"wc_bio15":40.,"wc_elevation_m":100.,
                   "source_panel":"cell","flower_effective_pixels":1000.,
                   "photo_id":len(rows),"rain_decile":0 if band==0 else 9})
-    return pd.DataFrame(rows)
+    out=pd.DataFrame(rows)
+    out["white"]=out.morph.eq("white").astype(int)
+    return out
 
 def test_source_checksum_fails_closed(tmp_path):
     p=tmp_path/"fake.zip";p.write_bytes(b"wrong archive")
