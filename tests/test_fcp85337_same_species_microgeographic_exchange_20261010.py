@@ -37,7 +37,7 @@ def test_haversine_photo_location_not_geographic_cell_center(originals):
 
 def test_complete_link_species_and_region_sample_no_photo_reuse(originals):
     micro=M.completed_source_microgroups(originals,50)
-    assert sorted(map(len,micro))==[1,1,2,3] or sorted(map(len,micro))==[1,1,3,2]
+    assert sorted(map(len,micro))==[1,1,1,1,3]
     allidx=np.concatenate(micro)
     assert len(allidx)==len(originals) and len(set(allidx))==len(originals)
     assert all(originals.iloc[x].inat_taxon_id.nunique()==1 for x in micro)
@@ -64,7 +64,7 @@ def test_four_thresholds_and_photo_colour_blind_group_selection(originals):
 def test_source_group_ignores_outcome_but_fails_if_same_species_cell_duplicated(originals):
     bad=originals.copy()
     bad.loc[1,"cell_id"]=1
-    with pytest.raises(ValueError,match="one original photograph"):
+    with pytest.raises(ValueError,match="One original photograph"):
         M.completed_source_microgroups(bad,100)
 
 
