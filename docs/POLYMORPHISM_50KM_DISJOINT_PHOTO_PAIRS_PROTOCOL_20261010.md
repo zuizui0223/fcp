@@ -24,3 +24,10 @@ The original New Phytologist flower-colour ITV geographic allocation claim uses 
 - Real photographic white/pigmented morph error and true botanical organ classification are unmeasured without independently blinded human annotation. This diagnostic is not a replacement for 405 expert review, biological genotypes or fitness.
 - Keep all original FCP H1/H2 frozen results and main manuscript unchanged; untouched prospective 2,000+730 future taxa stay unopened.
 - All negative or underpowered cases are reported with equal visibility. Do not collapse 'not estimable' into biological absence.
+
+
+## Post-exposure comparability refinement (separate source-population sensitivity)
+
+The first matched-disjoint source execution exposed an important denominator distinction: requiring >=10 nonoverlapping near-photograph pairs can include species **not present** in the original paper's >=30 total near-edge estimand. Preserve the original broader result unchanged, but explicitly add a separately labelled, *post-exposure* source-comparable result for only the exact original source >=30 total-50km-edge eligible species (166/181/204, before further matching). The two resulting species pools are reported side by side across ALL predeclared matching methods and thresholds; they are not interchangeable prospective confirmations.
+
+This refinement does not adjust any observed source labels or select a favourable matching method. Nevertheless it occurs after source outcome inspection and must be interpreted retrospectively. The new conditioned analysis may be underpowered and must be allowed to return null/HOLD.
