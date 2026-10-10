@@ -106,12 +106,17 @@ def species_test(g:pd.DataFrame,cohort:str)->tuple[dict,dict[tuple[str,str],np.n
     return detail,nulls
 
 def summarize(rows:pd.DataFrame,null_vectors:list[np.ndarray],scheme:str,policy:str,
-              cohort:str,min_pairs:int)->dict:
+              cohort:str,min_pairs:int,restrict_to_original_pair30:bool=False)->dict:
     name=f"{scheme}__{policy}"
     keep=rows[f"{name}__disjoint_local_pairs"].to_numpy(int)>=min_pairs
+    if restrict_to_original_pair30:
+        # Distinct supplementary estimand: preserve EXACT original >=30-edge
+        # species universe before applying the new disjoint-pair threshold.
+        keep &= rows["source_50km_local_pair_edges"].to_numpy(int)>=base.MIN_LOCAL_PAIRS
     n=int(keep.sum())
     result={"n_species":n,"minimum_photo_disjoint_pairs":min_pairs,
             "matching_scheme":scheme,"observer_policy":policy,
+            "restricted_to_original_30_edge_species":restrict_to_original_pair30,
             "status":"HOLD_INSUFFICIENT_SPECIES" if n<30 else "EXPLORATORY_ESTIMABLE"}
     if n==0:return result
     used=rows.loc[keep]
@@ -159,17 +164,27 @@ def run_cohort(path:Path,cohort:str):
     if len(df)!=n_total or int(valid.sum())!=n_orig or abs(
         float(df.loc[valid,"source_50km_local_depletion"].mean())-dep_orig)>1e-10:
         raise RuntimeError(f"Frozen original high-depth 50km source result mismatch: {cohort}")
-    ladder={}
+    ladder={};restricted={}
     for scheme in MATCH_SCHEMES:
         for policy in POLICIES:
-            ladder[f"{scheme}__{policy}"]={
+            name=f"{scheme}__{policy}"
+            ladder[name]={
                 str(t):summarize(df,nulls[(scheme,policy)],scheme,policy,cohort,t)
                 for t in MATCHING_THRESHOLDS
             }
+            restricted[name]={
+                str(t):summarize(df,nulls[(scheme,policy)],scheme,policy,cohort,t,True)
+                for t in MATCHING_THRESHOLDS
+            }
+    for name in restricted:
+        for t in MATCHING_THRESHOLDS:
+            if restricted[name][str(t)]["n_species"]>ladder[name][str(t)]["n_species"]:
+                raise RuntimeError("restricted original source subset has more species")
     return {"high_depth_species":len(df),
             "original_50km_30edge_n_species":n_orig,
             "original_50km_30edge_mean_depletion":dep_orig,
-            "ladder":ladder},df
+            "ladder":ladder,
+            "historical_original_30edge_species_conditioned_ladder":restricted},df
 
 def main():
     p=argparse.ArgumentParser()
@@ -186,6 +201,7 @@ def main():
          "thresholds_disjoint_pair_count":list(MATCHING_THRESHOLDS),
          "primary_min_disjoint_photo_pairs":PRIMARY_THRESHOLD,
          "minimum_species_to_estimate":30,
+         "secondary_source_populations":["all_high_depth","historical_original_30edge_species"],
          "permutations":base.PERMUTATIONS,
          "species_bootstraps":N_BOOT,
          "confirmatory_decisions_changed":False,
@@ -200,12 +216,14 @@ def main():
     for cohort in EXPECTED_SOURCE:
         res[cohort],df=run_cohort(getattr(a,cohort),cohort)
         allrows.append(df)
-    res["cross_cohort"]={
-        f"{s}__{p}__min{t}":all(
-            res[c]["ladder"][f"{s}__{p}"][str(t)]["positive_bounded_evidence"]
-            for c in EXPECTED_SOURCE)
-        for s in MATCH_SCHEMES for p in POLICIES for t in MATCHING_THRESHOLDS
-    }
+    res["cross_cohort"]={}
+    for cohort_population in ("ladder","historical_original_30edge_species_conditioned_ladder"):
+        res["cross_cohort"][cohort_population]={
+            f"{s}__{p}__min{t}":all(
+                res[c][cohort_population][f"{s}__{p}"][str(t)]["positive_bounded_evidence"]
+                for c in EXPECTED_SOURCE)
+            for s in MATCH_SCHEMES for p in POLICIES for t in MATCHING_THRESHOLDS
+        }
     out=a.outdir;out.mkdir(parents=True,exist_ok=True)
     pd.concat(allrows,ignore_index=True).to_csv(out/"photo_disjoint_species_support.csv",index=False)
     (out/"result.json").write_text(json.dumps(res,indent=2)+"\n",encoding="utf8")
