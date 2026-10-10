@@ -47,7 +47,7 @@ def test_all_radiation_thermal_precip_soil_elevation_blocks_are_declared():
     families=M.features()
     assert "FULL_ALL_BLOCKS" in families
     assert len(families)==2+len(M.BLOCKS)+sum(map(len,M.BLOCKS.values()))
-    assert tuple(M.BLOCKS)==("elevation","temperature","precipitation","solar_radiation","soil")
+    assert tuple(M.BLOCKS)==("elevation","temperature","precipitation","solar_radiation","wind","vapor_pressure","soil")
     for v in M.BLOCKS.values():
         for name in v:
             assert "FULL_MINUS_SINGLE_"+name.upper() in families
