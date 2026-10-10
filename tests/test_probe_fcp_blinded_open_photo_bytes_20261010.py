@@ -11,7 +11,8 @@ SPEC=importlib.util.spec_from_file_location("pilot",PATH)
 m=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(m)
 
 def jpeg():
-    i=Image.new("RGB",(96,96),(240,25,90));b=BytesIO()
+    import random
+    i=Image.frombytes("RGB",(96,96),random.Random(42).randbytes(96*96*3));b=BytesIO()
     i.save(b,"JPEG",quality=94)
     v=b.getvalue()
     assert len(v)>1024
