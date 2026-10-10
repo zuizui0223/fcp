@@ -1,0 +1,93 @@
+name: FCP same-photo within versus between-species precipitation
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-85337-spatial-kernel-sensitivity-20261010
+    paths:
+      - scripts/analysis/compare_fcp_matched_within_between_precip_20261010.py
+      - tests/test_compare_fcp_matched_within_between_precip_20261010.py
+      - docs/FCP_ALIGNED_WITHIN_BETWEEN_PRECIPITATION_PROTOCOL_20261010.md
+      - .github/workflows/fcp-matched-within-between-precip-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: fcp-match-within-between-original-photo
+  cancel-in-progress: true
+
+env:
+  SOURCE_ABIOTIC_RUN: '37861582446'
+  SOURCE_ABIOTIC_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+  EXTENDED_RUN: '38011108135'
+  EXTENDED_ARTIFACT: 'fcp-global42111-original-photo-complete-multiabiotic-20261010'
+  OPENBLAS_NUM_THREADS: '2'
+  OMP_NUM_THREADS: '2'
+  MKL_NUM_THREADS: '2'
+
+jobs:
+  aligned-source-fcp:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install original-source matched-model frozen runtime
+        run: python -m pip install numpy==2.1.3 pandas==2.2.3 scikit-learn==1.6.1 scipy==1.14.1 pytest==8.4.2
+      - name: Verify cross-scale training leakage and source-colour category guards
+        run: python -m pytest tests/test_compare_fcp_matched_within_between_precip_20261010.py -q
+      - name: Recover exactly original 85337 photo-cell rows and photo-site source climate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh run download "$SOURCE_ABIOTIC_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$SOURCE_ABIOTIC_ARTIFACT" --dir /tmp/fcp_original85337_pairsource
+          f="$(find /tmp/fcp_original85337_pairsource -name taxon_cell_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$f"
+          cp "$f" /tmp/fcp_original_taxon_cell.csv.gz
+          gh run download "$EXTENDED_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$EXTENDED_ARTIFACT" --dir /tmp/fcp_original100543_sites
+          f="$(find /tmp/fcp_original100543_sites -name all_original_100543_photo_sites_expanded_environment.csv.gz -print -quit)"
+          test -s "$f"
+          cp "$f" /tmp/fcp_original_all_sites.csv.gz
+      - name: Run aligned same-photo species and other-congeneric-source photo predictive stress
+        run: |
+          python scripts/analysis/compare_fcp_matched_within_between_precip_20261010.py \
+            --original-taxon-cell /tmp/fcp_original_taxon_cell.csv.gz \
+            --all-original-expanded-photo-sites /tmp/fcp_original_all_sites.csv.gz \
+            --outdir /tmp/fcp_matched_cross_scale
+      - name: Validate common photo evaluation population and no high-claim inference
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("/tmp/fcp_matched_cross_scale/result.json")
+          z=json.loads(p.read_text())
+          assert z["schema"]=="fcp_original85337_matched_within_between_precipitation_comparison_v1"
+          assert z["status"].startswith("POSTHOC_SOURCE_MATCHED")
+          assert z["n_source_cell_ledger"]==85337
+          assert z["n_original_fourstate_classifiable_cells"]==39075
+          assert z["n_original_climate_complete_colour_cells"]==38968
+          assert z["n_common_test_photos"]>=500 and z["n_common_species"]>=100
+          assert z["matched_test_photo_ids"] is True
+          assert z["source_train_test_key_guards"] is True
+          assert z["confirmatory_decisions_changed"] is False
+          assert z["common_temperature_features"]==["wc_bio1","wc_bio5"]
+          assert z["added_precipitation_features"]==["wc_bio12","wc_bio15"]
+          assert set(z["models"])=={"within_species","between_species"}
+          assert all(z["models"][x]["n_source_species"]==z["n_common_species"] for x in z["models"])
+          print("PASS same source photographed outcomes, matched predictor definitions and noncausal inference.")
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-matched-source-within-between-colour-precip-20261010
+          retention-days: 45
+          if-no-files-found: error
+          path: /tmp/fcp_matched_cross_scale/
