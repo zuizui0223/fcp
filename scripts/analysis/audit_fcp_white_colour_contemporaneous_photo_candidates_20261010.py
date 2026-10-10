@@ -113,17 +113,26 @@ def four_distinct_observer_anchor(g:pd.DataFrame,dist:np.ndarray,max_diameter:fl
         elif mode!="same_calendar_month":raise ValueError(mode)
         ix=np.flatnonzero(near)
         if len(ix)<4:continue
-        w=[int(i) for i in ix if white[i]]
-        c=[int(i) for i in ix if not white[i]]
+        # The witness is an existence predicate, not an exhaustive search
+        # for an optimally compact 4-photo tuple. Taking up to FOUR distinct
+        # observers per morph retains feasibility: if either side has >=4
+        # different observers, any two observers from the other side exclude
+        # at most 2 of those 4. Thus reduction never erases existence.
+        w_map={}
+        c_map={}
+        for i in ix:
+            group=w_map if white[i] else c_map
+            group.setdefault(obs[i],int(i))
+        w=list(w_map.values())[:4]
+        c=list(c_map.values())[:4]
         if len(w)<2 or len(c)<2:continue
-        # Source original same-observer multiple photos do not count as independent.
-        for i in w:
-            for j in w:
-                if j<=i or obs[i]==obs[j]:continue
-                for k in c:
+        for wi,i in enumerate(w):
+            for j in w[wi+1:]:
+                if obs[i]==obs[j]:continue
+                for ck,k in enumerate(c):
                     if obs[k] in (obs[i],obs[j]):continue
-                    for l in c:
-                        if l<=k or obs[l] in (obs[i],obs[j],obs[k]):continue
+                    for l in c[ck+1:]:
+                        if obs[l] in (obs[i],obs[j],obs[k]):continue
                         yspan=float(max(year[[i,j,k,l]])-min(year[[i,j,k,l]]))
                         maxsep=float(dist[np.ix_([i,j,k,l],[i,j,k,l])].max())
                         if maxsep>max_diameter+1e-6:
