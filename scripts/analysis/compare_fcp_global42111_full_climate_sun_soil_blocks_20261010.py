@@ -19,6 +19,7 @@ import pandas as pd
 
 N_ORIGINAL=42111
 N_CLASSIFIED=18457
+MIN_COMPLETE=1000
 CLASSES=("white","yellow_orange","red_pink","blue_purple")
 N_FOLDS=5
 BOOT=499
@@ -67,7 +68,7 @@ def make_source(d:pd.DataFrame,strict:bool=True)->tuple[pd.DataFrame,dict]:
     x["genus"]=x.species.fillna("").astype(str).str.split().str[0]
     complete=(labeled & loc & x[list(ALL)].notna().all(axis=1) & x.source_cell_162.ge(0))
     study=x.loc[complete].copy().reset_index(drop=True)
-    if len(study)<1000 or set(study.morph)!=set(CLASSES) or study.genus.eq("").any():
+    if len(study)<MIN_COMPLETE or set(study.morph)!=set(CLASSES) or study.genus.eq("").any():
         raise RuntimeError("Insufficient full solar temperature precip soil species-complete outcome sample")
     bycol=study.morph.value_counts().reindex(CLASSES,fill_value=0)
     coverage={
