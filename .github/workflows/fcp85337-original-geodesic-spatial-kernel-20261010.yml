@@ -113,6 +113,17 @@ jobs:
                       assert result['all_models_same_test_photo_ids_and_geocell_folds'] is True
                       assert 'all_abiotic_beyond_species_real_geodesic_spatial_covariance' in result['environment_increment']
                       assert len(result['spatial_landmark_receipts'])==5
+                      audit=result['fixed_prediction_nearby_residual_photo_spatial_Moran_diagnostic']
+                      assert set(audit)=={'100','500'}
+                      for radius,item in audit.items():
+                          if item['status']=='ORIGINAL_NEAREST_PHOTO_RESIDUAL_SPATIAL_AUTOCORRELATION_DIAGNOSTIC':
+                              assert item['descriptive_not_a_significance_test'] is True
+                              assert set(item['residual_methods'])=={
+                                  'SPECIES_GEOGRAPHY_ONLY',
+                                  'SPECIES_GEOGRAPHY_SPATIAL_KERNEL',
+                                  'SPECIES_GEOGRAPHY_SPATIAL_KERNEL_ALL_ENV'}
+                          else:
+                              assert item['status']=='HOLD_NO_GENUINELY_NEARBY_SOURCE_PHOTO_PAIRS'
                       assert all(v['landmark_selection_colour_outcome_blind'] for v in result['spatial_landmark_receipts'])
                       if kind=='soil':
                           assert 'unique_soil_beyond_species_spatial_kernel_and_other_abiotic' in result['environment_increment']
