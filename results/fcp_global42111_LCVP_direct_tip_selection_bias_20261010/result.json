@@ -1,0 +1,233 @@
+{
+  "cohorts": {
+    "250": {
+      "descriptive_imbalance_at_abs_standardized_difference_0p10": true,
+      "direct_backbone_tip_selection_did_not_use_original_photo_colour_results": true,
+      "direct_tip_strata": {
+        "DIRECT_LCVP": {
+          "n_original_photo_geographic_cells": 43,
+          "n_original_taxonomic_genera": 122,
+          "n_source_original_species": 342,
+          "n_source_photo_species_with_original_genus_present_in_both_direct_statuses": 260,
+          "real_photo_site_feature_medians": {
+            "abs_latitude": 33.6032008389,
+            "wc_bio1": 16.51323890686035,
+            "wc_bio12": 658.0,
+            "wc_bio15": 62.21377944946289,
+            "wc_bio5": 26.761374473571777,
+            "wc_elevation_m": 292.5
+          },
+          "source_photo_four_colour_counts": {
+            "blue_purple": 32,
+            "red_pink": 51,
+            "white": 160,
+            "yellow_orange": 99
+          },
+          "source_photo_four_colour_fractions": {
+            "blue_purple": 0.0935672514619883,
+            "red_pink": 0.14912280701754385,
+            "white": 0.4678362573099415,
+            "yellow_orange": 0.2894736842105263
+          }
+        },
+        "NOT_DIRECT_LCVP": {
+          "n_original_photo_geographic_cells": 49,
+          "n_original_taxonomic_genera": 165,
+          "n_source_original_species": 530,
+          "n_source_photo_species_with_original_genus_present_in_both_direct_statuses": 285,
+          "real_photo_site_feature_medians": {
+            "abs_latitude": 33.46558145995,
+            "wc_bio1": 16.988616943359375,
+            "wc_bio12": 734.0,
+            "wc_bio15": 57.11114501953125,
+            "wc_bio5": 27.47487449645996,
+            "wc_elevation_m": 240.0
+          },
+          "source_photo_four_colour_counts": {
+            "blue_purple": 33,
+            "red_pink": 57,
+            "white": 243,
+            "yellow_orange": 197
+          },
+          "source_photo_four_colour_fractions": {
+            "blue_purple": 0.062264150943396226,
+            "red_pink": 0.10754716981132076,
+            "white": 0.45849056603773586,
+            "yellow_orange": 0.37169811320754714
+          }
+        }
+      },
+      "max_abs_original_colour_fraction_difference": 0.08222442899702082,
+      "max_abs_std_difference_across_six_frozen_photo_geography_climate_features": 0.19499735560816842,
+      "n_direct_original_LCVP_tip_species": 342,
+      "n_not_direct_original_LCVP_tip_species": 530,
+      "n_orig_genera_with_both_direct_and_untipped_photo_species": 103,
+      "n_original_nominal_genera": 184,
+      "n_original_source_photo_species": 872,
+      "original_cohort_max_photo_group_distance_km": 250,
+      "original_direct_tree_tip_fraction": 0.3922018348623853,
+      "original_photo_site_environment_standardized_difference_direct_minus_untipped": {
+        "abs_latitude": {
+          "direct_minus_not_direct_mean": 1.64666916306577,
+          "median_direct": 33.6032008389,
+          "median_not_direct": 33.46558145995,
+          "standardized_mean_difference": 0.16198473471512806
+        },
+        "wc_bio1": {
+          "direct_minus_not_direct_mean": -1.020868500030673,
+          "median_direct": 16.51323890686035,
+          "median_not_direct": 16.988616943359375,
+          "standardized_mean_difference": -0.19499735560816842
+        },
+        "wc_bio12": {
+          "direct_minus_not_direct_mean": -102.99020191989405,
+          "median_direct": 658.0,
+          "median_not_direct": 734.0,
+          "standardized_mean_difference": -0.12193402613917045
+        },
+        "wc_bio15": {
+          "direct_minus_not_direct_mean": 2.2096341794891714,
+          "median_direct": 62.21377944946289,
+          "median_not_direct": 57.11114501953125,
+          "standardized_mean_difference": 0.07852134815939123
+        },
+        "wc_bio5": {
+          "direct_minus_not_direct_mean": -0.7156892388042948,
+          "median_direct": 26.761374473571777,
+          "median_not_direct": 27.47487449645996,
+          "standardized_mean_difference": -0.163866706758139
+        },
+        "wc_elevation_m": {
+          "direct_minus_not_direct_mean": 60.82891978373607,
+          "median_direct": 292.5,
+          "median_not_direct": 240.0,
+          "standardized_mean_difference": 0.08257739124757839
+        }
+      }
+    },
+    "500": {
+      "descriptive_imbalance_at_abs_standardized_difference_0p10": true,
+      "direct_backbone_tip_selection_did_not_use_original_photo_colour_results": true,
+      "direct_tip_strata": {
+        "DIRECT_LCVP": {
+          "n_original_photo_geographic_cells": 62,
+          "n_original_taxonomic_genera": 206,
+          "n_source_original_species": 649,
+          "n_source_photo_species_with_original_genus_present_in_both_direct_statuses": 521,
+          "real_photo_site_feature_medians": {
+            "abs_latitude": 33.6288033095,
+            "wc_bio1": 16.29955291748047,
+            "wc_bio12": 658.0,
+            "wc_bio15": 60.295318603515625,
+            "wc_bio5": 26.69025039672852,
+            "wc_elevation_m": 325.0
+          },
+          "source_photo_four_colour_counts": {
+            "blue_purple": 59,
+            "red_pink": 79,
+            "white": 286,
+            "yellow_orange": 225
+          },
+          "source_photo_four_colour_fractions": {
+            "blue_purple": 0.09090909090909091,
+            "red_pink": 0.12172573189522343,
+            "white": 0.4406779661016949,
+            "yellow_orange": 0.34668721109399075
+          }
+        },
+        "NOT_DIRECT_LCVP": {
+          "n_original_photo_geographic_cells": 65,
+          "n_original_taxonomic_genera": 275,
+          "n_source_original_species": 1112,
+          "n_source_photo_species_with_original_genus_present_in_both_direct_statuses": 649,
+          "real_photo_site_feature_medians": {
+            "abs_latitude": 33.445520453,
+            "wc_bio1": 16.670291900634766,
+            "wc_bio12": 756.5,
+            "wc_bio15": 55.68390274047852,
+            "wc_bio5": 27.22900009155273,
+            "wc_elevation_m": 270.0
+          },
+          "source_photo_four_colour_counts": {
+            "blue_purple": 85,
+            "red_pink": 145,
+            "white": 483,
+            "yellow_orange": 399
+          },
+          "source_photo_four_colour_fractions": {
+            "blue_purple": 0.0764388489208633,
+            "red_pink": 0.1303956834532374,
+            "white": 0.43435251798561153,
+            "yellow_orange": 0.35881294964028776
+          }
+        }
+      },
+      "max_abs_original_colour_fraction_difference": 0.014470241988227606,
+      "max_abs_std_difference_across_six_frozen_photo_geography_climate_features": 0.2200762226459428,
+      "n_direct_original_LCVP_tip_species": 649,
+      "n_not_direct_original_LCVP_tip_species": 1112,
+      "n_orig_genera_with_both_direct_and_untipped_photo_species": 175,
+      "n_original_nominal_genera": 306,
+      "n_original_source_photo_species": 1761,
+      "original_cohort_max_photo_group_distance_km": 500,
+      "original_direct_tree_tip_fraction": 0.3685406019307212,
+      "original_photo_site_environment_standardized_difference_direct_minus_untipped": {
+        "abs_latitude": {
+          "direct_minus_not_direct_mean": 2.232438205476175,
+          "median_direct": 33.6288033095,
+          "median_not_direct": 33.445520453,
+          "standardized_mean_difference": 0.20826449028882463
+        },
+        "wc_bio1": {
+          "direct_minus_not_direct_mean": -1.286102877178127,
+          "median_direct": 16.29955291748047,
+          "median_not_direct": 16.670291900634766,
+          "standardized_mean_difference": -0.2200762226459428
+        },
+        "wc_bio12": {
+          "direct_minus_not_direct_mean": -102.47879138907672,
+          "median_direct": 658.0,
+          "median_not_direct": 756.5,
+          "standardized_mean_difference": -0.13871133473719166
+        },
+        "wc_bio15": {
+          "direct_minus_not_direct_mean": 1.5654994287586632,
+          "median_direct": 60.295318603515625,
+          "median_not_direct": 55.68390274047852,
+          "standardized_mean_difference": 0.053082039889566904
+        },
+        "wc_bio5": {
+          "direct_minus_not_direct_mean": -0.7344852310768779,
+          "median_direct": 26.69025039672852,
+          "median_not_direct": 27.22900009155273,
+          "standardized_mean_difference": -0.15323153624030095
+        },
+        "wc_elevation_m": {
+          "direct_minus_not_direct_mean": 64.30778258748933,
+          "median_direct": 325.0,
+          "median_not_direct": 270.0,
+          "standardized_mean_difference": 0.07860578964119527
+        }
+      }
+    }
+  },
+  "date_jst": "2026-10-10",
+  "hard_nonclaims": [
+    "Photo classifiability selection occurs before direct phylogenetic tip matching and can bias both included/excluded strata",
+    "Descriptive standardized mean difference is not a test of true adaptation or species origin",
+    "Direct tip species are an incomplete, nonrandom subset of the 872 and 1761 original source taxa",
+    "LCVP backbone species inclusion may depend on taxonomic and literature sampling, not floral biology",
+    "Nested geographical source cohorts are not independently replicated validation datasets"
+  ],
+  "no_new_flower_photo_pixels_classifications_or_environment_lookups": true,
+  "original_local_source_caps_km": [
+    250,
+    500
+  ],
+  "original_tree_graft_species_not_treated_as_direct_tip": true,
+  "schema": "fcp_global42111_original_LCVP_tip_selection_covariate_bias_v1",
+  "source_full_original_250_and_500_cohort_phylo_control_HOLD": true,
+  "source_global_original_classified_photo_species": 18457,
+  "source_global_original_photo_species": 42111,
+  "status": "DIRECT_DATED_PHYLOGENY_TIP_SELECTION_BIAS_DIAGNOSTIC_ONLY"
+}
