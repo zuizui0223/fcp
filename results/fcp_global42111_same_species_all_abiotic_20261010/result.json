@@ -13,11 +13,11 @@
         "same_photo_site_species_holdout_n": 11136
       },
       "SPECIES_GEO_FULL_MINUS_PRECIPITATION": {
-        "heldout_multiclass_brier": 0.42084328148736977,
+        "heldout_multiclass_brier": 0.4208432814873698,
         "same_photo_site_species_holdout_n": 11136
       },
       "SPECIES_GEO_FULL_MINUS_SOIL": {
-        "heldout_multiclass_brier": 0.42078257738001357,
+        "heldout_multiclass_brier": 0.4207825773800137,
         "same_photo_site_species_holdout_n": 11136
       },
       "SPECIES_GEO_FULL_MINUS_SOLAR_RADIATION": {
@@ -91,105 +91,105 @@
     "n_original_photo_cells_evaluated": 107,
     "source_block_incremental_prediction": {
       "all_abiotic_beyond_species_geography": {
-        "heldout_same_species_photo_brier_improvement": 0.007987728810547432,
+        "heldout_same_species_photo_brier_improvement": 0.007987728810547424,
         "original_geo_cell_bootstrap_95CI": [
-          0.007038913912743713,
-          0.00901468295607464
+          0.007038913912743715,
+          0.009014682956074606
         ],
         "original_species_bootstrap_95CI": [
-          0.007244175764021397,
-          0.008922903272312575
+          0.007244175764021391,
+          0.008922903272312559
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_elevation": {
-        "heldout_same_species_photo_brier_improvement": 7.331232664446867e-05,
+        "heldout_same_species_photo_brier_improvement": 7.331232664447487e-05,
         "original_geo_cell_bootstrap_95CI": [
-          -2.589525619510076e-05,
-          0.00016925225100639283
+          -2.589525619509967e-05,
+          0.0001692522510063984
         ],
         "original_species_bootstrap_95CI": [
-          -2.168955637423847e-05,
-          0.00018887058833854506
+          -2.1689556374234612e-05,
+          0.0001888705883385508
         ],
         "positive_both_conditional_CIs": false,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_precipitation": {
-        "heldout_same_species_photo_brier_improvement": 0.001547683859944513,
+        "heldout_same_species_photo_brier_improvement": 0.001547683859944498,
         "original_geo_cell_bootstrap_95CI": [
-          0.001089536323492448,
-          0.0021032319664514554
+          0.0010895363234924486,
+          0.0021032319664514246
         ],
         "original_species_bootstrap_95CI": [
-          0.001076567663172891,
-          0.0021186900020306984
+          0.0010765676631728787,
+          0.0021186900020306676
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_soil": {
-        "heldout_same_species_photo_brier_improvement": 0.0014869797525882765,
+        "heldout_same_species_photo_brier_improvement": 0.0014869797525882804,
         "original_geo_cell_bootstrap_95CI": [
-          0.0012138948103267429,
-          0.0017979490459818328
+          0.001213894810326738,
+          0.0017979490459818276
         ],
         "original_species_bootstrap_95CI": [
-          0.001099965985785924,
-          0.00193228820263828
+          0.001099965985785935,
+          0.0019322882026382865
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_solar_radiation": {
-        "heldout_same_species_photo_brier_improvement": 0.00018853534660711447,
+        "heldout_same_species_photo_brier_improvement": 0.00018853534660711398,
         "original_geo_cell_bootstrap_95CI": [
-          2.8580857707510454e-05,
-          0.0003494697550534757
+          2.858085770751189e-05,
+          0.00034946975505347264
         ],
         "original_species_bootstrap_95CI": [
-          4.0706502688165026e-05,
-          0.0003288931278365922
+          4.070650268816548e-05,
+          0.00032889312783659436
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_temperature": {
-        "heldout_same_species_photo_brier_improvement": 0.0010095633708652803,
+        "heldout_same_species_photo_brier_improvement": 0.0010095633708652756,
         "original_geo_cell_bootstrap_95CI": [
-          0.0007734979830270275,
-          0.001258698119471876
+          0.0007734979830270187,
+          0.0012586981194718674
         ],
         "original_species_bootstrap_95CI": [
-          0.0006437456861518457,
-          0.0013628482651965343
+          0.0006437456861518286,
+          0.001362848265196535
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_vapor_pressure": {
-        "heldout_same_species_photo_brier_improvement": 0.00025315810894787645,
+        "heldout_same_species_photo_brier_improvement": 0.00025315810894787434,
         "original_geo_cell_bootstrap_95CI": [
-          8.459381851922375e-05,
-          0.0004737668103520958
+          8.459381851922725e-05,
+          0.0004737668103520989
         ],
         "original_species_bootstrap_95CI": [
-          0.0001063477028619522,
-          0.0004021048753071702
+          0.00010634770286195596,
+          0.0004021048753071695
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_wind": {
-        "heldout_same_species_photo_brier_improvement": 0.0002624588054996712,
+        "heldout_same_species_photo_brier_improvement": 0.0002624588054996732,
         "original_geo_cell_bootstrap_95CI": [
-          0.00012764252618625429,
-          0.0004077767770825413
+          0.0001276425261862753,
+          0.00040777677708254024
         ],
         "original_species_bootstrap_95CI": [
-          0.00011287000773757117,
-          0.00039992370334241637
+          0.00011287000773757136,
+          0.00039992370334241914
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
@@ -215,7 +215,7 @@
         "same_photo_site_species_holdout_n": 20546
       },
       "SPECIES_GEO_FULL_MINUS_SOLAR_RADIATION": {
-        "heldout_multiclass_brier": 0.3978755414391725,
+        "heldout_multiclass_brier": 0.39787554143917236,
         "same_photo_site_species_holdout_n": 20546
       },
       "SPECIES_GEO_FULL_MINUS_TEMPERATURE": {
@@ -285,92 +285,92 @@
     "n_original_photo_cells_evaluated": 125,
     "source_block_incremental_prediction": {
       "all_abiotic_beyond_species_geography": {
-        "heldout_same_species_photo_brier_improvement": 0.004615128568775365,
+        "heldout_same_species_photo_brier_improvement": 0.004615128568775382,
         "original_geo_cell_bootstrap_95CI": [
-          0.004156299064737414,
-          0.0051255040064599145
+          0.00415629906473744,
+          0.005125504006459932
         ],
         "original_species_bootstrap_95CI": [
-          0.004122034764620522,
-          0.005139068073621866
+          0.004122034764620527,
+          0.0051390680736218865
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_elevation": {
-        "heldout_same_species_photo_brier_improvement": 0.00012190194033951654,
+        "heldout_same_species_photo_brier_improvement": 0.00012190194033951407,
         "original_geo_cell_bootstrap_95CI": [
-          4.609122287905998e-05,
-          0.00020471067883514238
+          4.6091222879056604e-05,
+          0.00020471067883514208
         ],
         "original_species_bootstrap_95CI": [
-          4.973344702944964e-05,
-          0.00019980160650346295
+          4.973344702945193e-05,
+          0.00019980160650346008
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_precipitation": {
-        "heldout_same_species_photo_brier_improvement": 0.001041151728016983,
+        "heldout_same_species_photo_brier_improvement": 0.001041151728017003,
         "original_geo_cell_bootstrap_95CI": [
-          0.0007407393373401618,
-          0.0013609590566058302
+          0.000740739337340173,
+          0.0013609590566058486
         ],
         "original_species_bootstrap_95CI": [
-          0.0007686462342799138,
-          0.0013317377966133115
+          0.0007686462342799303,
+          0.0013317377966133403
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_solar_radiation": {
-        "heldout_same_species_photo_brier_improvement": 0.0001641167479799755,
+        "heldout_same_species_photo_brier_improvement": 0.0001641167479799663,
         "original_geo_cell_bootstrap_95CI": [
-          5.4218081937508565e-05,
-          0.000288659924916952
+          5.421808193750369e-05,
+          0.0002886599249169421
         ],
         "original_species_bootstrap_95CI": [
-          4.514049390898238e-05,
-          0.00028117913356200087
+          4.514049390897278e-05,
+          0.0002811791335619886
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_temperature": {
-        "heldout_same_species_photo_brier_improvement": 0.0006753418407164278,
+        "heldout_same_species_photo_brier_improvement": 0.000675341840716418,
         "original_geo_cell_bootstrap_95CI": [
-          0.0004629227579918126,
-          0.0008764508157202888
+          0.0004629227579918079,
+          0.0008764508157202788
         ],
         "original_species_bootstrap_95CI": [
-          0.00046955543332196834,
-          0.0008454893193327618
+          0.00046955543332195495,
+          0.0008454893193327523
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_vapor_pressure": {
-        "heldout_same_species_photo_brier_improvement": 0.000297001119497473,
+        "heldout_same_species_photo_brier_improvement": 0.00029700111949746994,
         "original_geo_cell_bootstrap_95CI": [
-          0.0001460950210444166,
-          0.00045401169837595303
+          0.0001460950210444148,
+          0.0004540116983759456
         ],
         "original_species_bootstrap_95CI": [
-          0.0001654781556338643,
-          0.0004290416892693713
+          0.0001654781556338629,
+          0.0004290416892693707
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
       },
       "conditional_wind": {
-        "heldout_same_species_photo_brier_improvement": 0.00025248478544611855,
+        "heldout_same_species_photo_brier_improvement": 0.0002524847854461187,
         "original_geo_cell_bootstrap_95CI": [
-          0.0001589879522634903,
-          0.0003345612432771451
+          0.00015898795226349205,
+          0.0003345612432771419
         ],
         "original_species_bootstrap_95CI": [
-          0.00017038672465875503,
-          0.00035500578082874745
+          0.00017038672465875004,
+          0.00035500578082874414
         ],
         "positive_both_conditional_CIs": true,
         "same_heldout_source_photos_all_models": true
