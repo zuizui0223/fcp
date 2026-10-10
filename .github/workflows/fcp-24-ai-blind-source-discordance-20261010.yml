@@ -9,6 +9,8 @@ on:
       - docs/POLYMORPHISM_ORIGINAL24_AI_VS_SOURCE_DISCORDANCE_FINDINGS_20261010.md
       - results/polymorphism_original24_ai_blind_source_discordance_20261010/aggregate_receipt.json
       - .github/workflows/fcp-24-ai-blind-source-discordance-20261010.yml
+      - scripts/analysis/build_fcp_stage2_taxon_only_review_20261010.py
+      - tests/test_build_fcp_stage2_taxon_only_review_20261010.py
   workflow_dispatch:
 
 permissions:
@@ -26,7 +28,8 @@ jobs:
       - name: Install deterministic unblinding schema tests
         run: python -m pip install pandas==3.0.6 numpy==2.4.6 pytest==8.4.2
       - name: Assert no AI-human role confusion or case-level source label leakage
-        run: python -m pytest tests/test_audit_fcp_source24_blinded_ai_vs_original_20261010.py -q
+        run: |
+          python -m pytest             tests/test_audit_fcp_source24_blinded_ai_vs_original_20261010.py             tests/test_build_fcp_stage2_taxon_only_review_20261010.py -q
       - name: Source aggregate result and inference ceiling validation
         run: |
           python - <<'PY'
