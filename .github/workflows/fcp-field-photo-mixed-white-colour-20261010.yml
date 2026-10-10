@@ -8,6 +8,8 @@ on:
       - tests/test_audit_fcp_white_colour_contemporaneous_photo_candidates_20261010.py
       - docs/FCP_SAME_YEAR_WHITE_COLOUR_PHOTO_FIELD_CANDIDATES_PROTOCOL_20261010.md
       - .github/workflows/fcp-field-photo-mixed-white-colour-20261010.yml
+      - docs/FCP_FIELD_MIXED_WHITE_COLOUR_BOTANICAL_TRIAGE_20261010.md
+      - results/fcp_photo_field_mixed_white_colour_candidates_20261010/result.json
   workflow_dispatch:
 
 permissions:
@@ -71,7 +73,18 @@ jobs:
                   assert checks["n_species_four_photo_two_each_four_observers_conservative_anchor"]<=checks["n_species_distinct_observer_mixed_source_photo_pair"]
                   assert sum(x["n_pair"] for x in checks["per_cohort"].values())==checks["n_species_distinct_observer_mixed_source_photo_pair"]
                   assert sum(x["n_four"] for x in checks["per_cohort"].values())==checks["n_species_four_photo_two_each_four_observers_conservative_anchor"]
-          print("PASS source 1109 botanical photograph candidate denominators and nonconfirmation gates")
+          primary=r["summary"]["10km"]["same_month_year"]
+          assert primary["n_species_distinct_observer_mixed_source_photo_pair"]==116
+          assert primary["n_species_four_photo_two_each_four_observers_conservative_anchor"]==4
+          assert primary["n_genera_four_photo"]==4
+          assert sum(r["cohorts"][c]["n_original_photo_rows"] for c in r["cohorts"])==64471
+          tracked=json.loads(Path("results/fcp_photo_field_mixed_white_colour_candidates_20261010/result.json").read_text())
+          assert tracked["n_source_species"]==r["n_source_species"]
+          assert tracked["source_sha256"]==r["source_sha256"]
+          assert tracked["summary"]==r["summary"]
+          assert tracked["cohorts"]==r["cohorts"]
+          assert tracked["no_actual_biological_morph_confirmed"] is True
+          print("PASS original field-photo opportunity replay reproduces permanently recorded 116/4 source results")
           PY
       - uses: actions/upload-artifact@v4
         with:
