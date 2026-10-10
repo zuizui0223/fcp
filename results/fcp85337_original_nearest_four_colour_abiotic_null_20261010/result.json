@@ -1,0 +1,2780 @@
+{
+  "all_environment_variables_reported_without_selecting_a_winner": true,
+  "date_jst": "2026-10-10",
+  "distance_caps_km_predefined_all_reported": [
+    50,
+    100,
+    250,
+    500
+  ],
+  "hard_nonclaims": [
+    "Nearest across-source-cell photographed species pairs are not replicate observations of the same plant genotype or breeding population",
+    "Linear signed lat/lon/elevation difference residualization and <=50/100/250/500km cap are not a full spatial random field",
+    "Conditional source label swap assumes exchangeability of photographed floral-colour orientation at two old sites and is not a causal randomization trial",
+    "Mismatched original four-state photograph categories do not prove an inherited pigment gradient or adaptive fitness effect",
+    "Any test is retrospective; nested distances and soil missingness cohorts are overlapping not independent confirmations",
+    "Multiple 35 environmental features are maxT-corrected within each radius and conservatively Bonferroni corrected across 8 nested comparisons"
+  ],
+  "no_independent_1499_or_2000_730_taxa_opened": true,
+  "original_abiotic_coverage": {
+    "n_original_classified_photo_cells_climate_complete": 38968,
+    "n_original_classified_photo_cells_climate_soil_complete": 27003,
+    "n_original_climate_complete_repeated_species": 5791,
+    "n_original_fourstate_classified_photo_cells": 39075,
+    "n_original_fourstate_unclassified_photo_cells": 46262,
+    "n_original_photo_taxa_any_cell": 42111,
+    "n_original_soil_complete_repeated_species": 3922,
+    "n_original_source_photo_cell_records": 85337,
+    "n_real_photo_site_coordinates": 85161,
+    "original_photo_colour_states_reclassified": false,
+    "original_unclassifiable_photos_never_white_or_monomorphic": true
+  },
+  "original_climate_complete_nearest_pair_species": 5791,
+  "original_photo_ledger": {
+    "all_original_photo_ID_triples_matched_exactly": true,
+    "n_original_source_taxa_in_cell_ledger": 42111,
+    "source_four_state_colour_classifiable": 39075,
+    "source_original_taxon_cell_photo_rows": 85337,
+    "source_unclassifiable_photo_cell_records": 46262
+  },
+  "schema": "fcp_original85337_nearest_same_species_four_colour_geo_adjusted_abiotic_sign_null_v1",
+  "source_4colour_phenotype_orientation_conditional_label_swap": true,
+  "source_nearest_pair_selection_only_by_photo_ID_and_real_coordinates": true,
+  "source_photo_colour_outcomes_unchanged": true,
+  "status": "SOURCE_ORIGINAL_SAME_SPECIES_NEAREST_SITE_FOUR_COLOUR_GEOGRAPHIC_PAIR_EXPLORATION",
+  "studies": {
+    "100": {
+      "climate_and_soil": {
+        "n_all_original_photo_climate_pairs_before_radius": 5791,
+        "n_distinct_nominal_source_genera": 137,
+        "n_original_source_photo_colour_mismatched_pairs": 37,
+        "n_original_source_photo_pairs_with_same_four_state": 126,
+        "n_original_source_species_pairs_at_radius": 163,
+        "null": {
+          "all_named_environmental_block_results": {
+            "precipitation": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.99,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.2494436784824425,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 8,
+              "within_block_label_swap_p": 0.627
+            },
+            "soil": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.976,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.301447774620232,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 10,
+              "within_block_label_swap_p": 0.777
+            },
+            "solar_radiation": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.8520305795711993,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.834
+            },
+            "temperature": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.9779491796734785,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 11,
+              "within_block_label_swap_p": 0.95
+            },
+            "vapor_pressure": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.779,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.572053473267867,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.16
+            },
+            "wind": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.987,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.2666342308745948,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.321
+            }
+          },
+          "environmental_feature_results": {
+            "soil_N": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.704,
+              "signed_photo_colour_components": {
+                "blue_purple": -5.156535733850667,
+                "red_pink": 7.451139455534482,
+                "white": 1.08850721497513,
+                "yellow_orange": -3.383110936658944
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8436283277874118,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_SOC": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.544,
+              "signed_photo_colour_components": {
+                "blue_purple": 7.727114344408708,
+                "red_pink": -4.607912734213066,
+                "white": -0.1059014466691921,
+                "yellow_orange": -3.0133001635264502
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8819578003244207,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_available_water_proxy": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.746,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.0196047392076717,
+                "red_pink": 3.238990458017568,
+                "white": -3.8973365435226226,
+                "yellow_orange": 1.6779508247127246
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6335791084114305,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_bdod_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.861,
+              "signed_photo_colour_components": {
+                "blue_purple": -0.4789485393212438,
+                "red_pink": 1.2262974073493358,
+                "white": 2.2698518766792293,
+                "yellow_orange": -3.01720074470732
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.41964994974260367,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_cec_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.512,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.24809051316170477,
+                "red_pink": 1.805578956332369,
+                "white": 3.3817186756811974,
+                "yellow_orange": -5.435388145175271
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8418503232843075,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_cfvo_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.986,
+              "signed_photo_colour_components": {
+                "blue_purple": -0.6568378721198744,
+                "red_pink": -0.09377067558524238,
+                "white": 0.9723442544051424,
+                "yellow_orange": -0.22173570670002518
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.1834728980348559,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_clay": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.722,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.638614691428168,
+                "red_pink": -2.464364585861172,
+                "white": 3.9063406686299524,
+                "yellow_orange": 0.19663860865938765
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6367256902997093,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_pH": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.155,
+              "signed_photo_colour_components": {
+                "blue_purple": -0.3007674450429043,
+                "red_pink": -10.028598670374793,
+                "white": 7.191353395148602,
+                "yellow_orange": 3.138012720269096
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.301447774620232,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.976,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_sand_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.703,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.0669596449586112,
+                "red_pink": 1.4383406248444894,
+                "white": 1.7050821232774678,
+                "yellow_orange": -4.210382393080569
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6640121445760496,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_silt_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.227,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.14902212513199456,
+                "red_pink": 0.5663792500107984,
+                "white": -6.4618330448753385,
+                "yellow_orange": 5.746431669732546
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.217770756923812,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.994,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio1": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.631,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.2074409821134766,
+                "red_pink": 3.1620570666628525,
+                "white": 2.822568493552386,
+                "yellow_orange": -4.777184578101761
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6838345326270239,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio10": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.612,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.312266993093056,
+                "red_pink": 1.213880133635896,
+                "white": 4.24012973963101,
+                "yellow_orange": -3.141742880173851
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7216920994485184,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio11": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.637,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.3955357085336282,
+                "red_pink": 4.854341787715606,
+                "white": -0.6160724175507898,
+                "yellow_orange": -4.633805078698443
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6218283453585678,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio12": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.935,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.0860004287666793,
+                "red_pink": -2.2636820597011087,
+                "white": 0.9026169888164436,
+                "yellow_orange": 3.4470654996513455
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.3890552285765331,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio13": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.393,
+              "signed_photo_colour_components": {
+                "blue_purple": -5.733321388744737,
+                "red_pink": -1.795843202630692,
+                "white": 10.317447515666718,
+                "yellow_orange": -2.7882829242912868
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9644359298974745,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio14": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.9,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.0956318397316165,
+                "red_pink": -1.0298522111518777,
+                "white": -1.895733284490801,
+                "yellow_orange": 4.021217335374294
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5446111999697738,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio15": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.21,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.4052655709481596,
+                "red_pink": -2.266289131484993,
+                "white": 7.247367252819375,
+                "yellow_orange": -6.3863436922825425
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.2494436784824425,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.99,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio16": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.67,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.9758557970450594,
+                "red_pink": -1.431529645553658,
+                "white": 6.796394338406666,
+                "yellow_orange": -2.3890088958079483
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7232269647801761,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio17": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.979,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.4357596821418814,
+                "red_pink": -0.6087778979865937,
+                "white": -0.42879034943072025,
+                "yellow_orange": 2.4733279295591952
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.3448847956493825,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio18": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.336,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.1688052975435728,
+                "red_pink": -1.3065140871391574,
+                "white": -6.42638129039671,
+                "yellow_orange": 6.564090079992293
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0381879866069428,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio19": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.988,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.7634878463816593,
+                "red_pink": -1.5878726276011585,
+                "white": -0.4740607847138345,
+                "yellow_orange": 1.298445565933334
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.20084465493567427,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio2": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.816,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.1992737600737644,
+                "red_pink": 0.8144257766591814,
+                "white": 2.835629700088556,
+                "yellow_orange": -2.4507817166739723
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.47561771255445967,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio3": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.418,
+              "signed_photo_colour_components": {
+                "blue_purple": 4.765230905765306,
+                "red_pink": 3.4603581465766524,
+                "white": -7.186335120621056,
+                "yellow_orange": -1.039253931720903
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9779491796734785,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio4": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.603,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.533975620254365,
+                "red_pink": -2.1113127324062844,
+                "white": 4.640022752932395,
+                "yellow_orange": 0.005265599728254244
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6759548268720572,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio5": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.489,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.4921330397189867,
+                "red_pink": 1.8180112647873605,
+                "white": 4.869721543888835,
+                "yellow_orange": -4.1955997689572095
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8612806492088803,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio6": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.647,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.3226978339872995,
+                "red_pink": 3.7586402491404964,
+                "white": -1.3052714621946542,
+                "yellow_orange": -3.7760666209331415
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.582611057706659,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio7": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.749,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.4707130962428945,
+                "red_pink": -0.5610452581459878,
+                "white": 4.1877513297023805,
+                "yellow_orange": -1.155992975313497
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5880514179593068,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio8": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.449,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.35690267273767345,
+                "red_pink": -3.369777051762251,
+                "white": 1.5218732752513136,
+                "yellow_orange": 1.4910011037732644
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9724807500263559,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio9": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.483,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.5564377735349293,
+                "red_pink": 8.04027515991931,
+                "white": -2.699012010594233,
+                "yellow_orange": -2.7848253757901498
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8639488489890959,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.635,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.9732084554150225,
+                "red_pink": -6.543471257404946,
+                "white": 7.644658297880233,
+                "yellow_orange": -2.0743954958903092
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8520305795711993,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.646,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.6826132858812444,
+                "red_pink": 4.231151931970951,
+                "white": -0.7070342247113302,
+                "yellow_orange": -5.206730993140866
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.691663316347416,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.679,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.189555860186332,
+                "red_pink": -0.9657300252331598,
+                "white": -4.690011602556282,
+                "yellow_orange": 3.466185767603111
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6701689604065566,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.076,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.1783532829753619,
+                "red_pink": -10.806041353557283,
+                "white": 3.787880120688249,
+                "yellow_orange": 6.839807949893671
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.572053473267867,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.779,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.643,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.8585339468848621,
+                "red_pink": 0.29067168824780976,
+                "white": -4.553122824738399,
+                "yellow_orange": 3.403917189605727
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7149891438886293,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.185,
+              "signed_photo_colour_components": {
+                "blue_purple": -4.891562360520148,
+                "red_pink": -2.393635141570036,
+                "white": 11.062480342044637,
+                "yellow_orange": -3.777282839954454
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.2666342308745948,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.987,
+              "zero_residualized_environmental_gradient": false
+            }
+          },
+          "geo_difference_residualization_without_photo_colour_outcomes": true,
+          "multiple_testing": "Within radius maxT over ALL individual variables, and conservative x8 over nested radii and climate/soil cohorts; posthoc exploratory",
+          "n_different_original_source_genera": 137,
+          "n_fixed_original_source_photo_pairs": 163,
+          "n_four_colour_photograph_mismatched_pairs": 37,
+          "n_source_photo_species": 163,
+          "n_within_pair_photo_colour_label_swap_nulls": 999,
+          "one_photo_pair_per_species_fixed_by_nearest_actual_photo_site_distance": true,
+          "preserves_exact_source_species_pair_and_two_photo_colour_counts": true
+        },
+        "status": "ORIGINAL_SOURCE_GEO_RESIDUALIZED_FOUR_COLOUR_PAIR_PERMUTATION"
+      },
+      "climate_without_soil": {
+        "n_all_original_photo_climate_pairs_before_radius": 5791,
+        "n_distinct_nominal_source_genera": 226,
+        "n_original_source_photo_colour_mismatched_pairs": 71,
+        "n_original_source_photo_pairs_with_same_four_state": 222,
+        "n_original_source_species_pairs_at_radius": 293,
+        "null": {
+          "all_named_environmental_block_results": {
+            "precipitation": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.998,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.0983047464006568,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 8,
+              "within_block_label_swap_p": 0.797
+            },
+            "solar_radiation": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.975484366095806,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.671
+            },
+            "temperature": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.0187122594138476,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 11,
+              "within_block_label_swap_p": 0.923
+            },
+            "vapor_pressure": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.8020434411989749,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.8
+            },
+            "wind": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.6978017555365071,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.873
+            }
+          },
+          "environmental_feature_results": {
+            "wc_bio1": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.807,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.17547863254736015,
+                "red_pink": -1.558813808485081,
+                "white": 5.200168720264155,
+                "yellow_orange": -3.8168335443264345
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.52078182252347,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio10": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.842,
+              "signed_photo_colour_components": {
+                "blue_purple": -0.7651707476033006,
+                "red_pink": -0.4156875546629206,
+                "white": 4.768939262673701,
+                "yellow_orange": -3.5880809604074795
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.48309140539604306,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio11": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.9,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.1042301329764925,
+                "red_pink": -0.08860384521599185,
+                "white": 2.747396524002107,
+                "yellow_orange": -3.7630228117626077
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.37542051114861025,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio12": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.514,
+              "signed_photo_colour_components": {
+                "blue_purple": -4.087377959644537,
+                "red_pink": -5.945433279404677,
+                "white": 0.89076005694673,
+                "yellow_orange": 9.142051182102481
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8370258429344393,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio13": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.788,
+              "signed_photo_colour_components": {
+                "blue_purple": -5.219593955025251,
+                "red_pink": -2.6112737201571505,
+                "white": 3.517974762411067,
+                "yellow_orange": 4.312892912771329
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5478448712269921,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio14": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.972,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.3485645286588683,
+                "red_pink": -1.1912772650342274,
+                "white": 1.2170671321680278,
+                "yellow_orange": 1.3227746615250686
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.30275114790840113,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio15": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.678,
+              "signed_photo_colour_components": {
+                "blue_purple": 3.6119021858498472,
+                "red_pink": -4.635293017483396,
+                "white": 4.16184585896623,
+                "yellow_orange": -3.1384550273326792
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6815782150494128,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio16": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.684,
+              "signed_photo_colour_components": {
+                "blue_purple": -3.5149877302570838,
+                "red_pink": -5.341148562190457,
+                "white": 1.755342249231369,
+                "yellow_orange": 7.100794043216174
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6715298684289788,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio17": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.903,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.59645764717721,
+                "red_pink": -0.6838212814229315,
+                "white": 2.84108654235299,
+                "yellow_orange": 0.439192386247153
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4378864242894599,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio18": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.29,
+              "signed_photo_colour_components": {
+                "blue_purple": -3.461306955939671,
+                "red_pink": -10.392612205507762,
+                "white": 4.415720485099472,
+                "yellow_orange": 9.438198676347959
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0983047464006568,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.998,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio19": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.924,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.8516904119014912,
+                "red_pink": -2.1748184179828307,
+                "white": -0.5987078179117454,
+                "yellow_orange": 4.6252166477960674
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.37158569437499905,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio2": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.919,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.7643060641460933,
+                "red_pink": -1.6772066739498595,
+                "white": -2.978369557361994,
+                "yellow_orange": 1.8912701671657586
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.3628030903895238,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio3": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.759,
+              "signed_photo_colour_components": {
+                "blue_purple": 6.162174720476954,
+                "red_pink": -4.669880764269437,
+                "white": -1.3636387754722008,
+                "yellow_orange": -0.128655180735316
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6013187358077754,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio4": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.949,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.7586151008435567,
+                "red_pink": 0.059860610981909756,
+                "white": 3.1838955855466935,
+                "yellow_orange": -1.4851410956850477
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.32119907570783923,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio5": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.992,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.1216862287854235,
+                "red_pink": 1.2203046171696452,
+                "white": -0.8656494119315585,
+                "yellow_orange": -1.4763414340235124
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.17686472112101442,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio6": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.7,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.2651711112975196,
+                "red_pink": 2.9124622962930986,
+                "white": 2.9031028794113305,
+                "yellow_orange": -6.0807362870019475
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6021591701696262,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio7": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.984,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.7106361002363525,
+                "red_pink": -0.46498531582728353,
+                "white": -2.0147878591578294,
+                "yellow_orange": 1.7691370747487607
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.21251869014909278,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio8": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.395,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.2001867971439597,
+                "red_pink": -4.72600858250084,
+                "white": 3.401805761376838,
+                "yellow_orange": 1.1240160239800427
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0187122594138476,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio9": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.597,
+              "signed_photo_colour_components": {
+                "blue_purple": -0.7784670002760011,
+                "red_pink": 9.156815354592863,
+                "white": -5.2220951725505875,
+                "yellow_orange": -3.156253181766275
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7583963717399462,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.924,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.829819761123792,
+                "red_pink": -5.9684869226845105,
+                "white": 2.902833200792835,
+                "yellow_orange": 0.23583396076788454
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4659114242718707,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.371,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.580507718956494,
+                "red_pink": 9.336557211636604,
+                "white": -10.126329775146305,
+                "yellow_orange": -1.7907351554467956
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.975484366095806,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.994,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.261824972904943,
+                "red_pink": -1.6057711678250026,
+                "white": 1.3887981469988158,
+                "yellow_orange": -0.04485195207875714
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.16138863825993477,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.559,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.6295529090583563,
+                "red_pink": -7.22641773001358,
+                "white": 2.888147344514853,
+                "yellow_orange": 3.708717476440367
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8020434411989749,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.869,
+              "signed_photo_colour_components": {
+                "blue_purple": -3.3297484024827533,
+                "red_pink": 1.5714843720887797,
+                "white": -1.1261361004934467,
+                "yellow_orange": 2.884400130887421
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4334114139743572,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.658,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.4798355222884036,
+                "red_pink": -2.398694644345849,
+                "white": 7.604946884070289,
+                "yellow_orange": -3.726416717436037
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6978017555365071,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            }
+          },
+          "geo_difference_residualization_without_photo_colour_outcomes": true,
+          "multiple_testing": "Within radius maxT over ALL individual variables, and conservative x8 over nested radii and climate/soil cohorts; posthoc exploratory",
+          "n_different_original_source_genera": 226,
+          "n_fixed_original_source_photo_pairs": 293,
+          "n_four_colour_photograph_mismatched_pairs": 71,
+          "n_source_photo_species": 293,
+          "n_within_pair_photo_colour_label_swap_nulls": 999,
+          "one_photo_pair_per_species_fixed_by_nearest_actual_photo_site_distance": true,
+          "preserves_exact_source_species_pair_and_two_photo_colour_counts": true
+        },
+        "status": "ORIGINAL_SOURCE_GEO_RESIDUALIZED_FOUR_COLOUR_PAIR_PERMUTATION"
+      }
+    },
+    "250": {
+      "climate_and_soil": {
+        "n_all_original_photo_climate_pairs_before_radius": 5791,
+        "n_distinct_nominal_source_genera": 326,
+        "n_original_source_photo_colour_mismatched_pairs": 102,
+        "n_original_source_photo_pairs_with_same_four_state": 336,
+        "n_original_source_species_pairs_at_radius": 438,
+        "null": {
+          "all_named_environmental_block_results": {
+            "precipitation": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.0363144273529663,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 8,
+              "within_block_label_swap_p": 0.887
+            },
+            "soil": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.505,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.828295824462477,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 10,
+              "within_block_label_swap_p": 0.243
+            },
+            "solar_radiation": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.9919057182540719,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.616
+            },
+            "temperature": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.9202539878053223,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 11,
+              "within_block_label_swap_p": 0.963
+            },
+            "vapor_pressure": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.7517380577596313,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.859
+            },
+            "wind": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.982,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.3709886123062138,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.255
+            }
+          },
+          "environmental_feature_results": {
+            "soil_N": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.616,
+              "signed_photo_colour_components": {
+                "blue_purple": -5.403819600337749,
+                "red_pink": 11.086498387678924,
+                "white": -1.1812161257798346,
+                "yellow_orange": -4.501462661561341
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8126200209839016,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_SOC": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.197,
+              "signed_photo_colour_components": {
+                "blue_purple": 12.887765369794897,
+                "red_pink": 0.16172266377398548,
+                "white": 1.3878914614027726,
+                "yellow_orange": -14.437379494971655
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.2568932283537368,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.998,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_available_water_proxy": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.028,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.3437355472179429,
+                "red_pink": 9.779237067617995,
+                "white": -19.628730845150308,
+                "yellow_orange": 11.193229324750261
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.828295824462477,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.505,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_bdod_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.738,
+              "signed_photo_colour_components": {
+                "blue_purple": -0.4217057395970052,
+                "red_pink": 3.1520873806018637,
+                "white": 4.081900506495055,
+                "yellow_orange": -6.812282147499912
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6005435154425167,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_cec_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.261,
+              "signed_photo_colour_components": {
+                "blue_purple": -5.7190303763053825,
+                "red_pink": 4.603268986300911,
+                "white": 10.617491114579853,
+                "yellow_orange": -9.501729724575382
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.1655462149846878,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_cfvo_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.421,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.2917058833226664,
+                "red_pink": -1.2085772022017887,
+                "white": 7.35841216168735,
+                "yellow_orange": -8.441540842808228
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.942563590837253,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_clay": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.945,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.313537563286836,
+                "red_pink": -2.5242581360584584,
+                "white": 3.644680746855758,
+                "yellow_orange": -1.4339601740841357
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.3301452077724044,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_pH": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.187,
+              "signed_photo_colour_components": {
+                "blue_purple": -4.254989412067626,
+                "red_pink": -12.832551883706344,
+                "white": 4.1220793109549225,
+                "yellow_orange": 12.965461984819052
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.2633628218129669,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.998,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_sand_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.871,
+              "signed_photo_colour_components": {
+                "blue_purple": -4.5099364361264715,
+                "red_pink": 3.7051680935479343,
+                "white": -0.5379858443357084,
+                "yellow_orange": 1.3427541869142439
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4435428374758886,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_silt_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.773,
+              "signed_photo_colour_components": {
+                "blue_purple": 6.176001760679119,
+                "red_pink": -3.008879731026574,
+                "white": -2.5828883161021015,
+                "yellow_orange": -0.5842337135504456
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5508335320257902,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio1": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.777,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.268812433968993,
+                "red_pink": 0.599622135060039,
+                "white": 6.3808188959058905,
+                "yellow_orange": -4.711628596996934
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5606653928576227,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio10": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.729,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.8352337512823929,
+                "red_pink": -3.7304346388082728,
+                "white": 6.791543891597985,
+                "yellow_orange": -1.2258755015073162
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5851976042929212,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio11": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.444,
+              "signed_photo_colour_components": {
+                "blue_purple": -5.189396553956899,
+                "red_pink": 7.365044207212009,
+                "white": 7.264188676683038,
+                "yellow_orange": -9.439836329938148
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9202539878053223,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio12": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.557,
+              "signed_photo_colour_components": {
+                "blue_purple": 8.499410897284417,
+                "red_pink": -2.090577421629272,
+                "white": -8.965746088684574,
+                "yellow_orange": 2.556912613029432
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8886552087025669,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio13": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.453,
+              "signed_photo_colour_components": {
+                "blue_purple": 8.211279178661329,
+                "red_pink": -2.7737530046089844,
+                "white": -7.215317084229907,
+                "yellow_orange": 1.777790910177564
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9608449219954193,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio14": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.605,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.0635908756304762,
+                "red_pink": 2.9417639794993984,
+                "white": 8.167651635403779,
+                "yellow_orange": -10.045824739272703
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8052316881865941,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio15": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.445,
+              "signed_photo_colour_components": {
+                "blue_purple": 6.718322780547246,
+                "red_pink": -0.7661002578727927,
+                "white": -10.81788360777034,
+                "yellow_orange": 4.865661085095888
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9361974774470502,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio16": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.368,
+              "signed_photo_colour_components": {
+                "blue_purple": 8.731854069347532,
+                "red_pink": -2.48648284363081,
+                "white": -8.696983674280986,
+                "yellow_orange": 2.4516124485642647
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0363144273529663,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio17": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.464,
+              "signed_photo_colour_components": {
+                "blue_purple": -0.8471803791460829,
+                "red_pink": 4.542123761416272,
+                "white": 8.650808360317718,
+                "yellow_orange": -12.345751742587906
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.956224057474566,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio18": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.578,
+              "signed_photo_colour_components": {
+                "blue_purple": 8.738696464525711,
+                "red_pink": -4.923793599466385,
+                "white": -7.412503421767413,
+                "yellow_orange": 3.5976005567080884
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8073852509747367,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio19": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.569,
+              "signed_photo_colour_components": {
+                "blue_purple": 5.125387285313032,
+                "red_pink": 2.5789770742966334,
+                "white": -10.836873795916599,
+                "yellow_orange": 3.1325094363069343
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8204013672563263,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio2": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.694,
+              "signed_photo_colour_components": {
+                "blue_purple": -7.466955411471518,
+                "red_pink": 2.644401347043433,
+                "white": 4.2831470925224,
+                "yellow_orange": 0.539406971905686
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6888574949072067,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio3": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.874,
+              "signed_photo_colour_components": {
+                "blue_purple": -5.4210342318305305,
+                "red_pink": 4.833054132894433,
+                "white": 0.6296977028412544,
+                "yellow_orange": -0.04171760390516172
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.48733993782998253,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio4": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.706,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.7570009905708972,
+                "red_pink": -7.582032271733158,
+                "white": 1.1856121643962236,
+                "yellow_orange": 4.6394191167660335
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6567012257012567,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio5": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.795,
+              "signed_photo_colour_components": {
+                "blue_purple": -3.8072409301823873,
+                "red_pink": -1.1324271274555753,
+                "white": 5.881816905449909,
+                "yellow_orange": -0.9421488478119473
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5175099989055432,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio6": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.868,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.8536374021857027,
+                "red_pink": 2.5342706949290643,
+                "white": 1.501425123264978,
+                "yellow_orange": -5.8893332203797435
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4545689276898544,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio7": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.877,
+              "signed_photo_colour_components": {
+                "blue_purple": -3.6718794505950982,
+                "red_pink": -2.0488079171216556,
+                "white": 3.566784346995465,
+                "yellow_orange": 2.1539030207212893
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.438637715925133,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio8": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.972,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.8598241372195847,
+                "red_pink": -0.8218174931394597,
+                "white": -0.37680579004755477,
+                "yellow_orange": 4.058447420406599
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.2983319330721848,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio9": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.751,
+              "signed_photo_colour_components": {
+                "blue_purple": -8.836352029531277,
+                "red_pink": 6.148734906270146,
+                "white": 1.7615248182183194,
+                "yellow_orange": 0.9260923050428099
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6264131799063851,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.383,
+              "signed_photo_colour_components": {
+                "blue_purple": 12.395205602714118,
+                "red_pink": -10.857789226806112,
+                "white": 0.39264480550134184,
+                "yellow_orange": -1.9300611814093438
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9919057182540719,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.529,
+              "signed_photo_colour_components": {
+                "blue_purple": 3.654180353828742,
+                "red_pink": 11.071914610956119,
+                "white": -10.236741027365412,
+                "yellow_orange": -4.489353937419451
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8863625813760507,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.618,
+              "signed_photo_colour_components": {
+                "blue_purple": 3.413481216428442,
+                "red_pink": 0.5984120074404502,
+                "white": 7.509152016984347,
+                "yellow_orange": -11.521045240853235
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7517380577596313,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.725,
+              "signed_photo_colour_components": {
+                "blue_purple": 3.241494123169184,
+                "red_pink": -5.973066360103483,
+                "white": -3.3113665831352153,
+                "yellow_orange": 6.042938820069514
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6460905668538942,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.145,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.9325197988009636,
+                "red_pink": 12.893395660255038,
+                "white": -12.727476628398312,
+                "yellow_orange": -1.0984388306576913
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.3709886123062138,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.982,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.684,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.2216290569664245,
+                "red_pink": 2.8700970115487783,
+                "white": 4.590623969157896,
+                "yellow_orange": -9.682350037673102
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7017494106890235,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            }
+          },
+          "geo_difference_residualization_without_photo_colour_outcomes": true,
+          "multiple_testing": "Within radius maxT over ALL individual variables, and conservative x8 over nested radii and climate/soil cohorts; posthoc exploratory",
+          "n_different_original_source_genera": 326,
+          "n_fixed_original_source_photo_pairs": 438,
+          "n_four_colour_photograph_mismatched_pairs": 102,
+          "n_source_photo_species": 438,
+          "n_within_pair_photo_colour_label_swap_nulls": 999,
+          "one_photo_pair_per_species_fixed_by_nearest_actual_photo_site_distance": true,
+          "preserves_exact_source_species_pair_and_two_photo_colour_counts": true
+        },
+        "status": "ORIGINAL_SOURCE_GEO_RESIDUALIZED_FOUR_COLOUR_PAIR_PERMUTATION"
+      },
+      "climate_without_soil": {
+        "n_all_original_photo_climate_pairs_before_radius": 5791,
+        "n_distinct_nominal_source_genera": 527,
+        "n_original_source_photo_colour_mismatched_pairs": 184,
+        "n_original_source_photo_pairs_with_same_four_state": 621,
+        "n_original_source_species_pairs_at_radius": 805,
+        "null": {
+          "all_named_environmental_block_results": {
+            "precipitation": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.89104803506866,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 8,
+              "within_block_label_swap_p": 0.944
+            },
+            "solar_radiation": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.8894521259686926,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.701
+            },
+            "temperature": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.699876336029611,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 11,
+              "within_block_label_swap_p": 0.995
+            },
+            "vapor_pressure": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.997,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.011069789351375,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.591
+            },
+            "wind": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.991,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.1122413128135642,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.474
+            }
+          },
+          "environmental_feature_results": {
+            "wc_bio1": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.797,
+              "signed_photo_colour_components": {
+                "blue_purple": 7.117793487823584,
+                "red_pink": -7.990342125943452,
+                "white": -0.08908014954892046,
+                "yellow_orange": 0.9616287876687873
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5340970895717349,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio10": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.608,
+              "signed_photo_colour_components": {
+                "blue_purple": 8.091931392490247,
+                "red_pink": -10.768450104388497,
+                "white": 2.5010087574053124,
+                "yellow_orange": 0.17550995449293685
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.699876336029611,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio11": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.998,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.9497704829004414,
+                "red_pink": 0.6282260780057877,
+                "white": 1.08942426075721,
+                "yellow_orange": 0.232120144137442
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.11573447760882136,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio12": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.862,
+              "signed_photo_colour_components": {
+                "blue_purple": 5.67097860128296,
+                "red_pink": -2.3828628882754708,
+                "white": -5.9916444754438,
+                "yellow_orange": 2.7035287624363185
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4907068855900141,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio13": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.878,
+              "signed_photo_colour_components": {
+                "blue_purple": 6.357316401164001,
+                "red_pink": -1.8345422852726911,
+                "white": -5.279282468019457,
+                "yellow_orange": 0.7565083521281466
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5374556452928149,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio14": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.88,
+              "signed_photo_colour_components": {
+                "blue_purple": -3.044518890718413,
+                "red_pink": 3.1369634261393635,
+                "white": 5.138003474487791,
+                "yellow_orange": -5.230448009908736
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4119801183635945,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio15": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.852,
+              "signed_photo_colour_components": {
+                "blue_purple": 8.14570182513456,
+                "red_pink": -5.027217273582764,
+                "white": -2.0362259968307885,
+                "yellow_orange": -1.0822585547210106
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5003273615333261,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio16": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.772,
+              "signed_photo_colour_components": {
+                "blue_purple": 7.682105125779624,
+                "red_pink": -2.8794709314520768,
+                "white": -6.316406175445558,
+                "yellow_orange": 1.5137719811180097
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6400123570799487,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio17": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.829,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.8823845580436758,
+                "red_pink": 4.848399421032449,
+                "white": 4.189255431522105,
+                "yellow_orange": -6.155270294510873
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.43320251007280663,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio18": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.475,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.744742422885136,
+                "red_pink": -12.11216784559857,
+                "white": 2.997295687302246,
+                "yellow_orange": 6.370129735411194
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.89104803506866,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio19": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.706,
+              "signed_photo_colour_components": {
+                "blue_purple": 6.152074864590478,
+                "red_pink": 6.794106694378597,
+                "white": -7.200126521094262,
+                "yellow_orange": -5.746055037874821
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6126356918313339,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio2": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.952,
+              "signed_photo_colour_components": {
+                "blue_purple": 4.061489012076931,
+                "red_pink": 0.5765367320265562,
+                "white": -0.6527410485435382,
+                "yellow_orange": -3.9852846955599426
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.3182382809850106,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio3": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.888,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.1006455963856117,
+                "red_pink": 6.078059296023341,
+                "white": -4.961946942312173,
+                "yellow_orange": 0.9845332426744456
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4350530915635448,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio4": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.692,
+              "signed_photo_colour_components": {
+                "blue_purple": 7.934812247601429,
+                "red_pink": -8.888563665185178,
+                "white": 1.7906974298749203,
+                "yellow_orange": -0.8369460122911678
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6291984366694743,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio5": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.793,
+              "signed_photo_colour_components": {
+                "blue_purple": 7.987795516442075,
+                "red_pink": -5.75923949692691,
+                "white": -0.9567534854348803,
+                "yellow_orange": -1.2718025340802852
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.508423463980713,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio6": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.941,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.4115685401616347,
+                "red_pink": 0.4426660666223136,
+                "white": -3.893535086598636,
+                "yellow_orange": 4.862437560137953
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.33078302157973116,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio7": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.837,
+              "signed_photo_colour_components": {
+                "blue_purple": 6.631675497602506,
+                "red_pink": -4.518702886076737,
+                "white": 1.0619539884838856,
+                "yellow_orange": -3.174926600009652
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.45846433031660944,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio8": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.741,
+              "signed_photo_colour_components": {
+                "blue_purple": -3.161069786199458,
+                "red_pink": -8.489495775463146,
+                "white": 6.784398726295288,
+                "yellow_orange": 4.86616683536732
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.605978580982063,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio9": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.704,
+              "signed_photo_colour_components": {
+                "blue_purple": -8.72613405664824,
+                "red_pink": 10.73938416154159,
+                "white": 1.0551878304374132,
+                "yellow_orange": -3.068437935330763
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.683689435551206,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.48,
+              "signed_photo_colour_components": {
+                "blue_purple": 15.800549467409622,
+                "red_pink": -3.754733910094752,
+                "white": -9.014861242397448,
+                "yellow_orange": -3.0309543149174245
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8894521259686926,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.649,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.0112547098693947,
+                "red_pink": 12.844408435420387,
+                "white": -3.4462455409902635,
+                "yellow_orange": -8.386908184560726
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.68212986538106,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.341,
+              "signed_photo_colour_components": {
+                "blue_purple": -4.838183455522765,
+                "red_pink": -2.067317220786398,
+                "white": 17.81697919011649,
+                "yellow_orange": -10.911478513807307
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.011069789351375,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.997,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.929,
+              "signed_photo_colour_components": {
+                "blue_purple": 6.229325312455704,
+                "red_pink": -5.223544167050827,
+                "white": -0.9193412573010974,
+                "yellow_orange": -0.08643988810378134
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.42219668884496925,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.268,
+              "signed_photo_colour_components": {
+                "blue_purple": -10.118277686286513,
+                "red_pink": 12.014301746196713,
+                "white": -8.702245672193026,
+                "yellow_orange": 6.806221612282827
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0903232929595406,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.992,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.288,
+              "signed_photo_colour_components": {
+                "blue_purple": 11.02003543965043,
+                "red_pink": 10.253454711178229,
+                "white": -5.141794466355984,
+                "yellow_orange": -16.131695684472664
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.1122413128135642,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.991,
+              "zero_residualized_environmental_gradient": false
+            }
+          },
+          "geo_difference_residualization_without_photo_colour_outcomes": true,
+          "multiple_testing": "Within radius maxT over ALL individual variables, and conservative x8 over nested radii and climate/soil cohorts; posthoc exploratory",
+          "n_different_original_source_genera": 527,
+          "n_fixed_original_source_photo_pairs": 805,
+          "n_four_colour_photograph_mismatched_pairs": 184,
+          "n_source_photo_species": 805,
+          "n_within_pair_photo_colour_label_swap_nulls": 999,
+          "one_photo_pair_per_species_fixed_by_nearest_actual_photo_site_distance": true,
+          "preserves_exact_source_species_pair_and_two_photo_colour_counts": true
+        },
+        "status": "ORIGINAL_SOURCE_GEO_RESIDUALIZED_FOUR_COLOUR_PAIR_PERMUTATION"
+      }
+    },
+    "50": {
+      "climate_and_soil": {
+        "n_all_original_photo_climate_pairs_before_radius": 5791,
+        "n_distinct_nominal_source_genera": 47,
+        "n_original_source_photo_colour_mismatched_pairs": 13,
+        "n_original_source_photo_pairs_with_same_four_state": 38,
+        "n_original_source_species_pairs_at_radius": 51,
+        "status": "HOLD_INSUFFICIENT_INTRASPECIFIC_NEARBY_FOUR_COLOUR_PAIR_SUPPORT"
+      },
+      "climate_without_soil": {
+        "n_all_original_photo_climate_pairs_before_radius": 5791,
+        "n_distinct_nominal_source_genera": 85,
+        "n_original_source_photo_colour_mismatched_pairs": 22,
+        "n_original_source_photo_pairs_with_same_four_state": 74,
+        "n_original_source_species_pairs_at_radius": 96,
+        "status": "HOLD_INSUFFICIENT_INTRASPECIFIC_NEARBY_FOUR_COLOUR_PAIR_SUPPORT"
+      }
+    },
+    "500": {
+      "climate_and_soil": {
+        "n_all_original_photo_climate_pairs_before_radius": 5791,
+        "n_distinct_nominal_source_genera": 601,
+        "n_original_source_photo_colour_mismatched_pairs": 220,
+        "n_original_source_photo_pairs_with_same_four_state": 725,
+        "n_original_source_species_pairs_at_radius": 945,
+        "null": {
+          "all_named_environmental_block_results": {
+            "precipitation": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.993,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.2417989644308756,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 8,
+              "within_block_label_swap_p": 0.623
+            },
+            "soil": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.878,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.50801123295666,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 10,
+              "within_block_label_swap_p": 0.544
+            },
+            "solar_radiation": {
+              "maxT_over_ALL_environment_features_FWER_p": 1.0,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.9959419162954861,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.576
+            },
+            "temperature": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.998,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.1018447007668617,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 11,
+              "within_block_label_swap_p": 0.876
+            },
+            "vapor_pressure": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.981,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.2974231888966965,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.316
+            },
+            "wind": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.997,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.1777657515798001,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.405
+            }
+          },
+          "environmental_feature_results": {
+            "soil_N": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.267,
+              "signed_photo_colour_components": {
+                "blue_purple": 11.54995396175186,
+                "red_pink": 4.195290407994973,
+                "white": -23.456463013027005,
+                "yellow_orange": 7.71121864328016
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.1464495675417634,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.998,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_SOC": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.072,
+              "signed_photo_colour_components": {
+                "blue_purple": 27.12837196850413,
+                "red_pink": -6.379834155250066,
+                "white": -10.901043579277461,
+                "yellow_orange": -9.847494233976601
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.50801123295666,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.878,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_available_water_proxy": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.731,
+              "signed_photo_colour_components": {
+                "blue_purple": -8.293537723610394,
+                "red_pink": 4.066309968456433,
+                "white": -3.682118743995831,
+                "yellow_orange": 7.909346499149791
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6046567258665453,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_bdod_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.238,
+              "signed_photo_colour_components": {
+                "blue_purple": -13.714528333320866,
+                "red_pink": 15.084789202336077,
+                "white": 9.412801535888656,
+                "yellow_orange": -10.783062404903875
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.1818605080156956,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.997,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_cec_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.92,
+              "signed_photo_colour_components": {
+                "blue_purple": 3.206355079460148,
+                "red_pink": 3.8585995217898015,
+                "white": -3.5893815670279228,
+                "yellow_orange": -3.4755730342220255
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.3635905082673941,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_cfvo_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.254,
+              "signed_photo_colour_components": {
+                "blue_purple": 5.700368419743359,
+                "red_pink": 4.543232525748871,
+                "white": 8.623540814627981,
+                "yellow_orange": -18.86714176012021
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.126333680974355,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.998,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_clay": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.791,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.5037400207051956,
+                "red_pink": -0.7840093347418157,
+                "white": 7.594468037812025,
+                "yellow_orange": -8.314198723775402
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.512104491464986,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_pH": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.822,
+              "signed_photo_colour_components": {
+                "blue_purple": -4.17492475059399,
+                "red_pink": -3.553227503888635,
+                "white": 9.388021049886301,
+                "yellow_orange": -1.6598687954036804
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5398739001233445,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_sand_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.822,
+              "signed_photo_colour_components": {
+                "blue_purple": -4.760658443452782,
+                "red_pink": 6.298629008627215,
+                "white": -4.471194133983335,
+                "yellow_orange": 2.9332235688088892
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.44919760697300093,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "soil_silt_0_30cm_source_raw": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.772,
+              "signed_photo_colour_components": {
+                "blue_purple": 5.540063638100324,
+                "red_pink": -8.407673161800757,
+                "white": 0.2986555193856697,
+                "yellow_orange": 2.568954004314761
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4882978428835958,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio1": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.762,
+              "signed_photo_colour_components": {
+                "blue_purple": -3.470636706298888,
+                "red_pink": 8.425033347476273,
+                "white": -7.392142604582934,
+                "yellow_orange": 2.437745963405552
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5521086534477694,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio10": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.606,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.5268754138488874,
+                "red_pink": 5.172333055831503,
+                "white": -11.134183283637112,
+                "yellow_orange": 7.488725641654499
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7169465530609266,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio11": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.766,
+              "signed_photo_colour_components": {
+                "blue_purple": -5.295026070493395,
+                "red_pink": 7.120537207936682,
+                "white": 4.064559168061314,
+                "yellow_orange": -5.8900703055046035
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5854838042239542,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio12": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.29,
+              "signed_photo_colour_components": {
+                "blue_purple": 17.77229626167271,
+                "red_pink": -13.642545299407189,
+                "white": -10.309938529028909,
+                "yellow_orange": 6.18018756676339
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.127568484534532,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.998,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio13": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.329,
+              "signed_photo_colour_components": {
+                "blue_purple": 12.146104743390119,
+                "red_pink": -10.414596859703732,
+                "white": -6.274397592481445,
+                "yellow_orange": 4.542889708795052
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0717199434835167,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio14": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.732,
+              "signed_photo_colour_components": {
+                "blue_purple": 11.052062387071496,
+                "red_pink": 0.05697090459943516,
+                "white": -3.4971567684505347,
+                "yellow_orange": -7.611876523220403
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6128505041241846,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio15": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.973,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.395665883998526,
+                "red_pink": -3.415410496247283,
+                "white": 3.447485393580412,
+                "yellow_orange": 2.3635909866654
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.2851999185460493,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio16": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.204,
+              "signed_photo_colour_components": {
+                "blue_purple": 14.531965122943284,
+                "red_pink": -12.954738313728981,
+                "white": -9.379021240811053,
+                "yellow_orange": 7.801794431596753
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.2417989644308756,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.993,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio17": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.604,
+              "signed_photo_colour_components": {
+                "blue_purple": 12.160265611017437,
+                "red_pink": 1.9253278072873847,
+                "white": -3.86649776925531,
+                "yellow_orange": -10.21909564904951
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7260271140225677,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio18": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.565,
+              "signed_photo_colour_components": {
+                "blue_purple": 17.042799073722374,
+                "red_pink": -6.541596489855282,
+                "white": -8.163601660876314,
+                "yellow_orange": -2.337600922990779
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8114750543247189,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio19": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.287,
+              "signed_photo_colour_components": {
+                "blue_purple": 15.270848329017674,
+                "red_pink": -17.094000846693294,
+                "white": -4.786260656141105,
+                "yellow_orange": 6.60941317381672
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.105737699447553,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.998,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio2": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.303,
+              "signed_photo_colour_components": {
+                "blue_purple": -7.926086993671521,
+                "red_pink": 15.195531065145076,
+                "white": -12.082508478914539,
+                "yellow_orange": 4.813064407440991
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.1018447007668617,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.998,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio3": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.593,
+              "signed_photo_colour_components": {
+                "blue_purple": -4.383000199515099,
+                "red_pink": 9.479573016516214,
+                "white": 5.744851372991505,
+                "yellow_orange": -10.841424189992612
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7472155789178693,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio4": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.556,
+              "signed_photo_colour_components": {
+                "blue_purple": 1.9681957788184414,
+                "red_pink": -0.30395526646355786,
+                "white": -11.068755269132108,
+                "yellow_orange": 9.404514756777228
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8015533086935019,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio5": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.383,
+              "signed_photo_colour_components": {
+                "blue_purple": -2.7309292519439827,
+                "red_pink": 9.3150229232346,
+                "white": -14.730654430589919,
+                "yellow_orange": 8.146560759299291
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9911827352591686,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio6": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.803,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.4516132458335176,
+                "red_pink": -2.4148392295337726,
+                "white": 7.308839232802367,
+                "yellow_orange": -7.345613249102108
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.5654846852274819,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio7": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.361,
+              "signed_photo_colour_components": {
+                "blue_purple": -3.242934795372874,
+                "red_pink": 7.868968581074492,
+                "white": -14.317257503570723,
+                "yellow_orange": 9.691223717869107
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0387015063959926,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio8": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.968,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.485477699785016,
+                "red_pink": 1.7431099075480425,
+                "white": -5.388074875923965,
+                "yellow_orange": 1.1594872685909112
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.26621792388607596,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio9": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.476,
+              "signed_photo_colour_components": {
+                "blue_purple": -8.362581418058562,
+                "red_pink": 14.593316414087258,
+                "white": -10.243922954718231,
+                "yellow_orange": 4.0131879586895325
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8594193874420688,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.968,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.277261068032774,
+                "red_pink": -4.741244520467095,
+                "white": -0.6079038190527919,
+                "yellow_orange": 3.0718872714871166
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.24741359927584872,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.352,
+              "signed_photo_colour_components": {
+                "blue_purple": 5.49425538723286,
+                "red_pink": 8.457494924687053,
+                "white": 6.759365926376015,
+                "yellow_orange": -20.71111623829593
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9959419162954861,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.176,
+              "signed_photo_colour_components": {
+                "blue_purple": 3.0361736008335702,
+                "red_pink": -10.834670131768979,
+                "white": 22.816829683126254,
+                "yellow_orange": -15.018333152190845
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.2974231888966965,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.981,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.662,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.0015252396692841397,
+                "red_pink": -2.5620297629039785,
+                "white": -9.984409504209097,
+                "yellow_orange": 12.544914027443788
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7147493855785375,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.228,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.8345770306560047,
+                "red_pink": 16.443867403514048,
+                "white": -16.156815914639687,
+                "yellow_orange": -1.121628519530371
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.1777657515798001,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.997,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.302,
+              "signed_photo_colour_components": {
+                "blue_purple": 2.732788131432244,
+                "red_pink": 4.2918162793581445,
+                "white": 11.722141526939122,
+                "yellow_orange": -18.746745937729525
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0791865570824641,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.999,
+              "zero_residualized_environmental_gradient": false
+            }
+          },
+          "geo_difference_residualization_without_photo_colour_outcomes": true,
+          "multiple_testing": "Within radius maxT over ALL individual variables, and conservative x8 over nested radii and climate/soil cohorts; posthoc exploratory",
+          "n_different_original_source_genera": 601,
+          "n_fixed_original_source_photo_pairs": 945,
+          "n_four_colour_photograph_mismatched_pairs": 220,
+          "n_source_photo_species": 945,
+          "n_within_pair_photo_colour_label_swap_nulls": 999,
+          "one_photo_pair_per_species_fixed_by_nearest_actual_photo_site_distance": true,
+          "preserves_exact_source_species_pair_and_two_photo_colour_counts": true
+        },
+        "status": "ORIGINAL_SOURCE_GEO_RESIDUALIZED_FOUR_COLOUR_PAIR_PERMUTATION"
+      },
+      "climate_without_soil": {
+        "n_all_original_photo_climate_pairs_before_radius": 5791,
+        "n_distinct_nominal_source_genera": 920,
+        "n_original_source_photo_colour_mismatched_pairs": 415,
+        "n_original_source_photo_pairs_with_same_four_state": 1310,
+        "n_original_source_species_pairs_at_radius": 1725,
+        "null": {
+          "all_named_environmental_block_results": {
+            "precipitation": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.999,
+              "max_multiclass_gradient_statistic_within_physical_block": 0.9801483909463705,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 8,
+              "within_block_label_swap_p": 0.886
+            },
+            "solar_radiation": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.993,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.0770582331355942,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.49
+            },
+            "temperature": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.708,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.5605940199217905,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 11,
+              "within_block_label_swap_p": 0.408
+            },
+            "vapor_pressure": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.178,
+              "max_multiclass_gradient_statistic_within_physical_block": 2.078058567680158,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.018
+            },
+            "wind": {
+              "maxT_over_ALL_environment_features_FWER_p": 0.996,
+              "max_multiclass_gradient_statistic_within_physical_block": 1.0188020299319591,
+              "min_distance_and_cohort_adjusted_p": 1.0,
+              "n_environmental_features": 2,
+              "within_block_label_swap_p": 0.557
+            }
+          },
+          "environmental_feature_results": {
+            "wc_bio1": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.55,
+              "signed_photo_colour_components": {
+                "blue_purple": 9.85511063509208,
+                "red_pink": -5.277415121255303,
+                "white": -17.003392526218228,
+                "yellow_orange": 12.425697012381454
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7730491571168521,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio10": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.194,
+              "signed_photo_colour_components": {
+                "blue_purple": 9.605321220661612,
+                "red_pink": -5.619511657423786,
+                "white": -25.18670363190188,
+                "yellow_orange": 21.200894068664063
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.1846433750798564,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.97,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio11": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.911,
+              "signed_photo_colour_components": {
+                "blue_purple": 3.5015546963263837,
+                "red_pink": -4.892845174399737,
+                "white": 6.257674354583069,
+                "yellow_orange": -4.866383876509716
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.36828498130814646,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio12": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.425,
+              "signed_photo_colour_components": {
+                "blue_purple": 22.147379402832584,
+                "red_pink": -20.04695920955406,
+                "white": -1.244162297368348,
+                "yellow_orange": -0.8562578959101685
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9801483909463705,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.999,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio13": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.712,
+              "signed_photo_colour_components": {
+                "blue_purple": 7.481234240525581,
+                "red_pink": -10.31627815545607,
+                "white": 8.363656721858534,
+                "yellow_orange": -5.528612806928044
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6901168812732785,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio14": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.64,
+              "signed_photo_colour_components": {
+                "blue_purple": 20.157858606878783,
+                "red_pink": -13.435397105702968,
+                "white": -1.0651702311354438,
+                "yellow_orange": -5.657291270040376
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7367110293565021,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio15": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.549,
+              "signed_photo_colour_components": {
+                "blue_purple": -12.68774973030355,
+                "red_pink": 3.850231126622966,
+                "white": 16.733253337261466,
+                "yellow_orange": -7.895734733580895
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8002629964043364,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio16": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.664,
+              "signed_photo_colour_components": {
+                "blue_purple": 12.598979303784025,
+                "red_pink": -13.38976975842248,
+                "white": 2.920867719310361,
+                "yellow_orange": -2.130077264671908
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7433325712924426,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio17": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.614,
+              "signed_photo_colour_components": {
+                "blue_purple": 22.550538676068264,
+                "red_pink": -13.18772774091525,
+                "white": -3.787475324952043,
+                "yellow_orange": -5.575335610200977
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.7777558302815831,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio18": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.496,
+              "signed_photo_colour_components": {
+                "blue_purple": 13.702411200965013,
+                "red_pink": -20.28060861278312,
+                "white": 8.520374341827054,
+                "yellow_orange": -1.9421769300089444
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9042182760398575,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio19": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.485,
+              "signed_photo_colour_components": {
+                "blue_purple": 20.887521042102048,
+                "red_pink": -13.979075065438062,
+                "white": -0.998627776721444,
+                "yellow_orange": -5.909818199942538
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.8580457611942183,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio2": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.099,
+              "signed_photo_colour_components": {
+                "blue_purple": 8.858582552049121,
+                "red_pink": 8.914755869340409,
+                "white": -34.88115215113222,
+                "yellow_orange": 17.107813729742674
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.480927737545409,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.786,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio3": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.712,
+              "signed_photo_colour_components": {
+                "blue_purple": 8.531044737712168,
+                "red_pink": 5.870275444044923,
+                "white": 1.2986266705673684,
+                "yellow_orange": -15.699946852324443
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6527262887151686,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio4": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.215,
+              "signed_photo_colour_components": {
+                "blue_purple": 4.217565596592999,
+                "red_pink": 0.421799374131391,
+                "white": -23.9831841198745,
+                "yellow_orange": 19.343819149150107
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.1820821366590435,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.971,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio5": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.103,
+              "signed_photo_colour_components": {
+                "blue_purple": 10.54892896331867,
+                "red_pink": 1.7101174970962376,
+                "white": -34.48975616194823,
+                "yellow_orange": 22.230709701533318
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.4787969079416627,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.79,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio6": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.426,
+              "signed_photo_colour_components": {
+                "blue_purple": 4.159791478253154,
+                "red_pink": -7.435274637836558,
+                "white": 17.464823802229542,
+                "yellow_orange": -14.189340642646133
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9187102056785924,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio7": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.071,
+              "signed_photo_colour_components": {
+                "blue_purple": 5.36631993346938,
+                "red_pink": 5.070167572906183,
+                "white": -33.63482803424994,
+                "yellow_orange": 23.1983405278744
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.5605940199217905,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.708,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio8": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.925,
+              "signed_photo_colour_components": {
+                "blue_purple": -6.765048298091681,
+                "red_pink": -0.8213073520306433,
+                "white": 9.060937813135013,
+                "yellow_orange": -1.4745821630126648
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.3859625305923704,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_bio9": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.869,
+              "signed_photo_colour_components": {
+                "blue_purple": -1.1652483161514877,
+                "red_pink": 7.751987401580163,
+                "white": -11.08893997531313,
+                "yellow_orange": 4.502200889884457
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.4564585012965844,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.401,
+              "signed_photo_colour_components": {
+                "blue_purple": 3.550712163069379,
+                "red_pink": 1.2394758160038504,
+                "white": -22.79176522007983,
+                "yellow_orange": 18.00157724100661
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.9204074099707562,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_srad_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.31,
+              "signed_photo_colour_components": {
+                "blue_purple": 6.1661940084214155,
+                "red_pink": 11.862702228461357,
+                "white": 9.55422637132946,
+                "yellow_orange": -27.583122608212246
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0770582331355942,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.993,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.012,
+              "signed_photo_colour_components": {
+                "blue_purple": 5.7270721379753695,
+                "red_pink": -24.30038816487664,
+                "white": 48.129336040434055,
+                "yellow_orange": -29.556020013532812
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 2.078058567680158,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.178,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_vapr_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.308,
+              "signed_photo_colour_components": {
+                "blue_purple": 0.7891089034320147,
+                "red_pink": -9.50408787962367,
+                "white": -17.340396484739514,
+                "yellow_orange": 26.05537546093118
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0660190540076095,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.993,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_annual_mean": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.717,
+              "signed_photo_colour_components": {
+                "blue_purple": -9.860195811437828,
+                "red_pink": 12.796635919429791,
+                "white": -4.29126997828902,
+                "yellow_orange": 1.3548298702970603
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 0.6111112171692873,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 1.0,
+              "zero_residualized_environmental_gradient": false
+            },
+            "wc_wind_monthly_cv": {
+              "conservative_8_nested_cohort_radius_tests_Bonferroni_maxT_p": 1.0,
+              "one_sided_label_swap_p_unadjusted": 0.317,
+              "signed_photo_colour_components": {
+                "blue_purple": 4.338960550496575,
+                "red_pink": 7.841141215723635,
+                "white": 13.382948522629887,
+                "yellow_orange": -25.563050288850082
+              },
+              "source_signed_gradient_multiclass_photo_statistic": 1.0188020299319591,
+              "within_radius_maxT_across_all_individual_features_FWER_p": 0.996,
+              "zero_residualized_environmental_gradient": false
+            }
+          },
+          "geo_difference_residualization_without_photo_colour_outcomes": true,
+          "multiple_testing": "Within radius maxT over ALL individual variables, and conservative x8 over nested radii and climate/soil cohorts; posthoc exploratory",
+          "n_different_original_source_genera": 920,
+          "n_fixed_original_source_photo_pairs": 1725,
+          "n_four_colour_photograph_mismatched_pairs": 415,
+          "n_source_photo_species": 1725,
+          "n_within_pair_photo_colour_label_swap_nulls": 999,
+          "one_photo_pair_per_species_fixed_by_nearest_actual_photo_site_distance": true,
+          "preserves_exact_source_species_pair_and_two_photo_colour_counts": true
+        },
+        "status": "ORIGINAL_SOURCE_GEO_RESIDUALIZED_FOUR_COLOUR_PAIR_PERMUTATION"
+      }
+    }
+  }
+}
