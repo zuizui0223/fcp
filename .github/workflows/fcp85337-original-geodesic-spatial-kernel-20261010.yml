@@ -1,0 +1,146 @@
+name: FCP original 85337 species colours versus geodesic spatial kernel and all weather
+
+on:
+  pull_request:
+    branches:
+      - analysis/fcp-global42111-multiabiotic-solar-20261010
+    paths:
+      - scripts/analysis/audit_fcp85337_true_spatial_kernel_allenv_20261010.py
+      - tests/test_fcp85337_true_spatial_kernel_allenv_20261010.py
+      - docs/FCP85337_ORIGINAL_GEODESIC_KERNEL_ALL_ENVIRONMENT_20261010.md
+      - .github/workflows/fcp85337-original-geodesic-spatial-kernel-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fcp-original85337-spatial-lowrank-abiotic-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  ORIGINAL_SOURCE_RUN: '37861582446'
+  ORIGINAL_SOURCE_ARTIFACT: 'fcp-global42111-original-photo-real-site-climate-soil-20261009'
+  EXPANDED_SOURCE_RUN: '38011108135'
+  EXPANDED_SOURCE_ARTIFACT: 'fcp-global42111-original-photo-complete-multiabiotic-20261010'
+
+jobs:
+  source-species-original-photos-true-spatial-kernel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.16'
+      - name: Fail closed on source site provenance, low-rank geodesic covariance and species intercept leakage
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.1.3 pandas==2.2.3 scipy==1.14.1 scikit-learn==1.6.1 pytest==8.4.2
+          python -m py_compile scripts/analysis/audit_fcp85337_true_spatial_kernel_allenv_20261010.py
+          python -m pytest tests/test_fcp85337_true_spatial_kernel_allenv_20261010.py -q
+          python scripts/analysis/audit_fcp85337_true_spatial_kernel_allenv_20261010.py --help > /dev/null
+      - name: Restore exact original classified or unclassified 85337 source taxon×cell photograph identities
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$ORIGINAL_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$ORIGINAL_SOURCE_ARTIFACT" --dir /tmp/fcp85337_original_spatial_source
+          csv="$(find /tmp/fcp85337_original_spatial_source -name taxon_cell_flower_colour_climate_soil.csv.gz -print -quit)"
+          test -s "$csv"
+          cp "$csv" /tmp/fcp85337_original_taxon_cell.csv.gz
+      - name: Restore same 100543 real photo sites expanded 19 BIO solar wind vapour pressure ten SoilGrids indicators
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh run download "$EXPANDED_SOURCE_RUN" --repo "$GITHUB_REPOSITORY" \
+            --name "$EXPANDED_SOURCE_ARTIFACT" --dir /tmp/fcp85337_original_allweather_source
+          csv="$(find /tmp/fcp85337_original_allweather_source -name all_original_100543_photo_sites_expanded_environment.csv.gz -print -quit)"
+          test -s "$csv"
+          cp "$csv" /tmp/fcp_original100543_full_weather_sites.csv.gz
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=[]
+          for p in Path('/tmp/fcp85337_original_allweather_source').rglob('result.json'):
+              d=json.loads(p.read_text())
+              if d.get('schema')=='fcp_42111_original_photo_expanded_worldclim_solar_v1':
+                  r.append(d)
+          assert len(r)==1
+          x=r[0]
+          assert x['original_source_species']==42111
+          assert x['original_source_photo_rows']==100543
+          assert x['original_classified_photo_colours']==18457
+          assert x['original_source_42111_breadth_and_85337_taxon_cell_photos_retained']
+          assert x['source_cell_centroid_never_used_as_photo_location']
+          PY
+      - name: Predict original within-species photographed colour with TRAIN-only 128-landmark 100/500km source geodesic kernel
+        env:
+          OPENBLAS_NUM_THREADS: '2'
+          OMP_NUM_THREADS: '2'
+          MKL_NUM_THREADS: '2'
+        run: |
+          python scripts/analysis/audit_fcp85337_true_spatial_kernel_allenv_20261010.py \
+            --original-taxon-cell /tmp/fcp85337_original_taxon_cell.csv.gz \
+            --expanded-all-original-photo-sites /tmp/fcp_original100543_full_weather_sites.csv.gz \
+            --outdir /tmp/fcp85337_geodesic_spatial_env_results
+      - name: Confirm environmental predictive improvement conditional on actual spatial photo covariance approximation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/fcp85337_geodesic_spatial_env_results/result.json').read_text())
+          assert r['schema']=='fcp_original_85337_species_fixed_geodesic_spatial_kernel_abiotic_v1'
+          assert r['original_source_repeated_photo_ledger']['source_original_taxon_cell_photo_rows']==85337
+          assert r['original_source_repeated_photo_ledger']['source_four_state_colour_classifiable']==39075
+          assert r['original_source_repeated_photo_ledger']['source_unclassifiable_photo_cell_records']==46262
+          assert r['source_time_invariant_phylogenetic_main_effect_absorbed_by_species_intercept'] is True
+          assert r['all_original_photo_outcomes_and_source_sites_unchanged'] is True
+          assert r['spatial_kernels_km']==[100,500]
+          assert set(r['results'])=={'climate','soil'}
+          for kind,data in r['results'].items():
+              assert set(data)=={'100','500'}
+              for radius,result in data.items():
+                  if result['status']=='SOURCE_SPECIES_INTERCEPT_GEODESIC_NYSTROM_SPATIAL_KERNEL_EXPLORATION':
+                      assert result['fixed_geodesic_covariance_scale_km']==int(radius)
+                      assert result['n_source_training_only_spatial_landmarks']==128
+                      assert result['source_colour_means_by_species_training_cells_only'] is True
+                      assert result['all_models_same_test_photo_ids_and_geocell_folds'] is True
+                      assert 'all_abiotic_beyond_species_real_geodesic_spatial_covariance' in result['environment_increment']
+                      assert len(result['spatial_landmark_receipts'])==5
+                      assert all(v['landmark_selection_colour_outcome_blind'] for v in result['spatial_landmark_receipts'])
+                      if kind=='soil':
+                          assert 'unique_soil_beyond_species_spatial_kernel_and_other_abiotic' in result['environment_increment']
+                  else:
+                      assert result['status'].startswith('HOLD_')
+          print('FCP_85337_SOURCE_REAL_GEODESIC_SPATIAL_COVARIANCE_ABIOTIC_PREDICTION_VERIFIED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fcp-original85337-lowrank-spatial-covariance-all-environment-20261010
+          retention-days: 90
+          if-no-files-found: error
+          path: /tmp/fcp85337_geodesic_spatial_env_results/
+      - name: Seal original species-space source result with explicit low-rank and causal limits
+        env:
+          HEAD_REF: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          test "$HEAD_REF" = 'analysis/fcp-global42111-species-spatial-kernel-20261010'
+          git fetch origin "refs/heads/$HEAD_REF:refs/remotes/origin/$HEAD_REF"
+          git reset --hard "origin/$HEAD_REF"
+          path=results/fcp_original85337_geodesic_kernel_abiotic_20261010
+          mkdir -p "$path"
+          cp /tmp/fcp85337_geodesic_spatial_env_results/* "$path/"
+          git add "$path"
+          if ! git diff --cached --quiet; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Seal 85337 original flower source within-species photo climate soil association after actual geodesic spatial kernel'
+            git push origin "HEAD:refs/heads/$HEAD_REF"
+          fi
