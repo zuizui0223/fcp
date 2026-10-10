@@ -1,0 +1,47 @@
+{
+  "schema": "fcp_blinded_photo_reannotation_queue_v1",
+  "date_jst": "2026-10-10",
+  "source": "frozen_same_SHA256_photo_measurements_plus_verified_constructed_swaps",
+  "n_high_leverage_photo_cases": 140,
+  "n_species_colour_matched_controls": 125,
+  "n_random_source_controls": 140,
+  "n_total_unique_review_photo_ids": 405,
+  "unmatched_high_leverage_cases": 15,
+  "by_cohort": {
+    "discovery": {
+      "high_leverage": 54,
+      "original_source_photo_random_reference": 54,
+      "same_species_same_original_colour_matched": 48
+    },
+    "validation": {
+      "high_leverage": 46,
+      "original_source_photo_random_reference": 46,
+      "same_species_same_original_colour_matched": 41
+    },
+    "third": {
+      "high_leverage": 40,
+      "original_source_photo_random_reference": 40,
+      "same_species_same_original_colour_matched": 36
+    }
+  },
+  "status": "UNREVIEWED_PHOTO_IDS_ONLY",
+  "raw_pixels_available_from_frozen_archive": false,
+  "nonclaims": [
+    "Matched control availability is not checked against current photo hosting.",
+    "These are photo ID reannotation targets, NOT independent human colour measurements.",
+    "The high-leverage sample is outcome-selected; random reference has photo-level, not species-level, opportunity.",
+    "Human audit requires blinded reviewers, retrieval status, full provenance, and independent adjudication."
+  ],
+  "verified": {
+    "workflow_run_id": 38027546572,
+    "workflow_status": "success",
+    "artifact_id": 11660917466,
+    "artifact_zip_sha256": "a47f82c80273daa4b727930ecb7c13f2957f45e750d30391d9d23f318eb66811",
+    "files": [
+      "photo_review/BLINDED_reannotation_photo_queue.csv",
+      "photo_review/UNBLINDING_KEY_do_not_show_reviewers.csv",
+      "photo_review/queue_result.json"
+    ],
+    "note": "Exact output counts recovered from successful source-verified job stdout; blinded/control photo IDs are kept in CI artifact, not regenerated here."
+  }
+}

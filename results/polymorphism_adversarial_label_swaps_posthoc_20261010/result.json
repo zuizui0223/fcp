@@ -1,0 +1,325 @@
+{
+  "schema": "fcp_adversarial_morph_labels_20261010_v1",
+  "date_jst": "2026-10-10",
+  "role": "posthoc_adversarial_colour_specific_error_sensitivity",
+  "primary_km": 50,
+  "budget_percentages": [
+    0,
+    0.1,
+    0.25,
+    0.5,
+    1,
+    2,
+    5,
+    10
+  ],
+  "source_sha256": {
+    "discovery": "ee854126eed2cfe23e333abe2c28d14df24895a5c52cbc389c060a5a4d6f91f4",
+    "validation": "0e2ed349122739eecfc725fb2d5e313d284cf30752da91f9a0429cff0eeaa5e6",
+    "third": "57630fc9f281bce94a0c40a70aaf7bce879dde93d6154175adcd021e8f5c1186"
+  },
+  "confirmatory_decisions_changed": false,
+  "hard_nonclaims": [
+    "Constructed swaps are not empirically observed photo-label errors.",
+    "Attack fraction is not an estimated error prevalence, confidence interval or optimal minimum.",
+    "A greedy worst-case attack does not estimate random or image-realistic error susceptibility.",
+    "No genetic FCP, fitness, selection, plasticity, or independently validated morphology."
+  ],
+  "discovery": {
+    "n_species": 166,
+    "n_classifiable_photos_in_50km_evaluable_species": 9900,
+    "original_depletion": 0.020529254583812922,
+    "first_constructive_nonpositive": {
+      "edited_photos": 54,
+      "fraction_edited_pct": 0.5454545454545454,
+      "mean_depletion": -0.0002754662705828216
+    },
+    "no_nonpositive_within_maximum_budget": false,
+    "last_evaluated": {
+      "edited_photos": 54,
+      "fraction_edited_pct": 0.5454545454545454,
+      "mean_depletion": -0.0002754662705828216
+    },
+    "fraction_edited_denominator": "original classifiable photos belonging to species with >=30 local 50km pairs",
+    "all_swaps_are_within_species_and_involve_two_distinct_previously_unedited_photos": true,
+    "species_wide_four_colour_frequencies_preserved_exactly": true,
+    "budget_curve": {
+      "0.0": {
+        "budget_pct": 0,
+        "attained": {
+          "edited_photos": 0,
+          "fraction_edited_pct": 0,
+          "mean_depletion": 0.020529254583812922
+        },
+        "n_swaps": 0
+      },
+      "0.1": {
+        "budget_pct": 0.1,
+        "attained": {
+          "edited_photos": 8,
+          "fraction_edited_pct": 0.08080808080808081,
+          "mean_depletion": 0.016313466701099278
+        },
+        "n_swaps": 4
+      },
+      "0.25": {
+        "budget_pct": 0.25,
+        "attained": {
+          "edited_photos": 24,
+          "fraction_edited_pct": 0.24242424242424243,
+          "mean_depletion": 0.00994614777366442
+        },
+        "n_swaps": 12
+      },
+      "0.5": {
+        "budget_pct": 0.5,
+        "attained": {
+          "edited_photos": 48,
+          "fraction_edited_pct": 0.48484848484848486,
+          "mean_depletion": 0.0016760193765549992
+        },
+        "n_swaps": 24
+      },
+      "1.0": {
+        "budget_pct": 1,
+        "attained": {
+          "edited_photos": 54,
+          "fraction_edited_pct": 0.5454545454545454,
+          "mean_depletion": -0.0002754662705828216
+        },
+        "n_swaps": 27
+      },
+      "2.0": {
+        "budget_pct": 2,
+        "attained": {
+          "edited_photos": 54,
+          "fraction_edited_pct": 0.5454545454545454,
+          "mean_depletion": -0.0002754662705828216
+        },
+        "n_swaps": 27
+      },
+      "5.0": {
+        "budget_pct": 5,
+        "attained": {
+          "edited_photos": 54,
+          "fraction_edited_pct": 0.5454545454545454,
+          "mean_depletion": -0.0002754662705828216
+        },
+        "n_swaps": 27
+      },
+      "10.0": {
+        "budget_pct": 10,
+        "attained": {
+          "edited_photos": 54,
+          "fraction_edited_pct": 0.5454545454545454,
+          "mean_depletion": -0.0002754662705828216
+        },
+        "n_swaps": 27
+      }
+    },
+    "number_of_accepted_swaps": 27,
+    "optimality": "Greedy constructive feasible attack, NOT mathematically minimal error rate.",
+    "inference": "This is an adversarial label-swap fragility bound, NOT calibrated image misclassification."
+  },
+  "validation": {
+    "n_species": 181,
+    "n_classifiable_photos_in_50km_evaluable_species": 10649,
+    "original_depletion": 0.018672971642749295,
+    "first_constructive_nonpositive": {
+      "edited_photos": 46,
+      "fraction_edited_pct": 0.4319654427645788,
+      "mean_depletion": -0.000006089868213481869
+    },
+    "no_nonpositive_within_maximum_budget": false,
+    "last_evaluated": {
+      "edited_photos": 46,
+      "fraction_edited_pct": 0.4319654427645788,
+      "mean_depletion": -0.000006089868213481869
+    },
+    "fraction_edited_denominator": "original classifiable photos belonging to species with >=30 local 50km pairs",
+    "all_swaps_are_within_species_and_involve_two_distinct_previously_unedited_photos": true,
+    "species_wide_four_colour_frequencies_preserved_exactly": true,
+    "budget_curve": {
+      "0.0": {
+        "budget_pct": 0,
+        "attained": {
+          "edited_photos": 0,
+          "fraction_edited_pct": 0,
+          "mean_depletion": 0.018672971642749295
+        },
+        "n_swaps": 0
+      },
+      "0.1": {
+        "budget_pct": 0.1,
+        "attained": {
+          "edited_photos": 10,
+          "fraction_edited_pct": 0.093905531035778,
+          "mean_depletion": 0.013624833393644195
+        },
+        "n_swaps": 5
+      },
+      "0.25": {
+        "budget_pct": 0.25,
+        "attained": {
+          "edited_photos": 26,
+          "fraction_edited_pct": 0.2441543806930228,
+          "mean_depletion": 0.007162424195997514
+        },
+        "n_swaps": 13
+      },
+      "0.5": {
+        "budget_pct": 0.5,
+        "attained": {
+          "edited_photos": 46,
+          "fraction_edited_pct": 0.4319654427645788,
+          "mean_depletion": -0.000006089868213481869
+        },
+        "n_swaps": 23
+      },
+      "1.0": {
+        "budget_pct": 1,
+        "attained": {
+          "edited_photos": 46,
+          "fraction_edited_pct": 0.4319654427645788,
+          "mean_depletion": -0.000006089868213481869
+        },
+        "n_swaps": 23
+      },
+      "2.0": {
+        "budget_pct": 2,
+        "attained": {
+          "edited_photos": 46,
+          "fraction_edited_pct": 0.4319654427645788,
+          "mean_depletion": -0.000006089868213481869
+        },
+        "n_swaps": 23
+      },
+      "5.0": {
+        "budget_pct": 5,
+        "attained": {
+          "edited_photos": 46,
+          "fraction_edited_pct": 0.4319654427645788,
+          "mean_depletion": -0.000006089868213481869
+        },
+        "n_swaps": 23
+      },
+      "10.0": {
+        "budget_pct": 10,
+        "attained": {
+          "edited_photos": 46,
+          "fraction_edited_pct": 0.4319654427645788,
+          "mean_depletion": -0.000006089868213481869
+        },
+        "n_swaps": 23
+      }
+    },
+    "number_of_accepted_swaps": 23,
+    "optimality": "Greedy constructive feasible attack, NOT mathematically minimal error rate.",
+    "inference": "This is an adversarial label-swap fragility bound, NOT calibrated image misclassification."
+  },
+  "third": {
+    "n_species": 204,
+    "n_classifiable_photos_in_50km_evaluable_species": 12294,
+    "original_depletion": 0.01468491968437185,
+    "first_constructive_nonpositive": {
+      "edited_photos": 40,
+      "fraction_edited_pct": 0.32536196518626975,
+      "mean_depletion": -0.0001416045089575335
+    },
+    "no_nonpositive_within_maximum_budget": false,
+    "last_evaluated": {
+      "edited_photos": 40,
+      "fraction_edited_pct": 0.32536196518626975,
+      "mean_depletion": -0.0001416045089575335
+    },
+    "fraction_edited_denominator": "original classifiable photos belonging to species with >=30 local 50km pairs",
+    "all_swaps_are_within_species_and_involve_two_distinct_previously_unedited_photos": true,
+    "species_wide_four_colour_frequencies_preserved_exactly": true,
+    "budget_curve": {
+      "0.0": {
+        "budget_pct": 0,
+        "attained": {
+          "edited_photos": 0,
+          "fraction_edited_pct": 0,
+          "mean_depletion": 0.01468491968437185
+        },
+        "n_swaps": 0
+      },
+      "0.1": {
+        "budget_pct": 0.1,
+        "attained": {
+          "edited_photos": 12,
+          "fraction_edited_pct": 0.09760858955588092,
+          "mean_depletion": 0.00960151348578566
+        },
+        "n_swaps": 6
+      },
+      "0.25": {
+        "budget_pct": 0.25,
+        "attained": {
+          "edited_photos": 30,
+          "fraction_edited_pct": 0.2440214738897023,
+          "mean_depletion": 0.0029871738238906147
+        },
+        "n_swaps": 15
+      },
+      "0.5": {
+        "budget_pct": 0.5,
+        "attained": {
+          "edited_photos": 40,
+          "fraction_edited_pct": 0.32536196518626975,
+          "mean_depletion": -0.0001416045089575335
+        },
+        "n_swaps": 20
+      },
+      "1.0": {
+        "budget_pct": 1,
+        "attained": {
+          "edited_photos": 40,
+          "fraction_edited_pct": 0.32536196518626975,
+          "mean_depletion": -0.0001416045089575335
+        },
+        "n_swaps": 20
+      },
+      "2.0": {
+        "budget_pct": 2,
+        "attained": {
+          "edited_photos": 40,
+          "fraction_edited_pct": 0.32536196518626975,
+          "mean_depletion": -0.0001416045089575335
+        },
+        "n_swaps": 20
+      },
+      "5.0": {
+        "budget_pct": 5,
+        "attained": {
+          "edited_photos": 40,
+          "fraction_edited_pct": 0.32536196518626975,
+          "mean_depletion": -0.0001416045089575335
+        },
+        "n_swaps": 20
+      },
+      "10.0": {
+        "budget_pct": 10,
+        "attained": {
+          "edited_photos": 40,
+          "fraction_edited_pct": 0.32536196518626975,
+          "mean_depletion": -0.0001416045089575335
+        },
+        "n_swaps": 20
+      }
+    },
+    "number_of_accepted_swaps": 20,
+    "optimality": "Greedy constructive feasible attack, NOT mathematically minimal error rate.",
+    "inference": "This is an adversarial label-swap fragility bound, NOT calibrated image misclassification."
+  },
+  "verification": {
+    "source": "exact_cleaned_stdout_from_completed_original_source_SHA256_verification_job",
+    "original_workflow_run_id": 38027358938,
+    "job_id": 114140933667,
+    "verified_workflow_conclusion": "success",
+    "artifact_id": 11660257589,
+    "artifact_zip_sha256": "ec2c60cbaf89675c9001d9e1860ba09dfc7606b4e6df621b4c19f61161179c27",
+    "note": "Full original analysis artifact contains original script's output result.json, constructed_label_swaps.csv, greedy_sensitivity_trajectory.csv. This tracked result replicates cohort stdout and adds verification metadata."
+  }
+}
