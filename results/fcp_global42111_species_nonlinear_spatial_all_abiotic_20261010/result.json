@@ -37,111 +37,111 @@
     ],
     "incremental_predictive_gains": {
       "all_environment_beyond_species_plus_nonlinear_space": {
-        "heldout_multiclass_brier_reduction": 0.005661725187825828,
+        "heldout_multiclass_brier_reduction": 0.005661725187825858,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.004889832474884507,
-          0.00673277915253675
+          0.004889832474884525,
+          0.006732779152536807
         ],
         "source_species_cluster_95CI": [
-          0.004703839222108699,
-          0.006518016940464449
+          0.004703839222108726,
+          0.006518016940464469
         ]
       },
       "nonlinear_space_over_linear_geography": {
-        "heldout_multiclass_brier_reduction": 0.003798034401556084,
+        "heldout_multiclass_brier_reduction": 0.003798034401556069,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.0032923719412400747,
-          0.004341042743001057
+          0.0032923719412400578,
+          0.004341042743001043
         ],
         "source_species_cluster_95CI": [
-          0.0033275244050638866,
-          0.004282252896533567
+          0.0033275244050638727,
+          0.0042822528965335465
         ]
       },
       "unique_elevation_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.00016950677200197484,
+        "heldout_multiclass_brier_reduction": 0.00016950677200196904,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          3.8407487969313245e-05,
-          0.00031133406558657564
+          3.8407487969304e-05,
+          0.0003113340655865702
         ],
         "source_species_cluster_95CI": [
-          1.2602985978108629e-07,
-          0.0003527177526024802
+          1.2602985977617032e-07,
+          0.00035271775260247855
         ]
       },
       "unique_precipitation_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.0012886642284218094,
+        "heldout_multiclass_brier_reduction": 0.0012886642284218371,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.0008200270838449994,
-          0.001928426115910102
+          0.0008200270838450027,
+          0.0019284261159101578
         ],
         "source_species_cluster_95CI": [
-          0.0008947548701308817,
-          0.001797846425452174
+          0.0008947548701309017,
+          0.0017978464254522286
         ]
       },
       "unique_soil_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.0011519091591989496,
+        "heldout_multiclass_brier_reduction": 0.0011519091591989416,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.0008149876413694663,
-          0.0014811504315376844
+          0.0008149876413694603,
+          0.0014811504315376748
         ],
         "source_species_cluster_95CI": [
-          0.0007843360598488967,
-          0.0015184290902616583
+          0.0007843360598488838,
+          0.001518429090261648
         ]
       },
       "unique_solar_radiation_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 4.6340157042639276e-05,
+        "heldout_multiclass_brier_reduction": 4.6340157042640096e-05,
         "positive_in_both_conditional_resamplings": false,
         "source_cell_cluster_95CI": [
-          -8.219150893647316e-05,
-          0.00014928762356962178
+          -8.219150893647501e-05,
+          0.0001492876235696312
         ],
         "source_species_cluster_95CI": [
-          -6.595070864858792e-05,
-          0.0002015719648185234
+          -6.595070864858833e-05,
+          0.00020157196481852504
         ]
       },
       "unique_temperature_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.0008049013762359951,
+        "heldout_multiclass_brier_reduction": 0.000804901376236003,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.0005211465753449551,
-          0.001082922648652055
+          0.0005211465753449581,
+          0.001082922648652057
         ],
         "source_species_cluster_95CI": [
-          0.00043955774980003985,
-          0.00116236584856862
+          0.0004395577498000581,
+          0.001162365848568639
         ]
       },
       "unique_vapor_pressure_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.0002608573149916984,
+        "heldout_multiclass_brier_reduction": 0.00026085731499170077,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.00010577091583896072,
-          0.0004241940056105452
+          0.00010577091583896062,
+          0.00042419400561054607
         ],
         "source_species_cluster_95CI": [
-          6.039508549158881e-05,
-          0.0004543832062429738
+          6.039508549158496e-05,
+          0.00045438320624297505
         ]
       },
       "unique_wind_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 9.808152487120945e-05,
+        "heldout_multiclass_brier_reduction": 9.808152487120684e-05,
         "positive_in_both_conditional_resamplings": false,
         "source_cell_cluster_95CI": [
-          -6.323368928247479e-05,
-          0.0002754685732193046
+          -6.323368928247949e-05,
+          0.0002754685732193023
         ],
         "source_species_cluster_95CI": [
-          -5.449035719049697e-05,
-          0.0002586044004477874
+          -5.449035719049912e-05,
+          0.00025860440044779337
         ]
       }
     },
@@ -152,7 +152,7 @@
       },
       "SPATIAL_FULL_MINUS_PRECIPITATION": {
         "n_same_test_photos": 11136,
-        "score": 0.4191122310770126
+        "score": 0.4191122310770127
       },
       "SPATIAL_FULL_MINUS_SOIL": {
         "n_same_test_photos": 11136,
@@ -164,7 +164,7 @@
       },
       "SPATIAL_FULL_MINUS_TEMPERATURE": {
         "n_same_test_photos": 11136,
-        "score": 0.41862846822482686
+        "score": 0.4186284682248268
       },
       "SPATIAL_FULL_MINUS_VAPOR_PRESSURE": {
         "n_same_test_photos": 11136,
@@ -184,7 +184,7 @@
       },
       "SPECIES_GEO_SPHERICAL_3_ALL_ENV": {
         "n_same_test_photos": 11136,
-        "score": 0.41782356684859084
+        "score": 0.41782356684859073
       }
     },
     "n_distinct_original_species_heldout": 3401,
@@ -234,99 +234,99 @@
     ],
     "incremental_predictive_gains": {
       "all_environment_beyond_species_plus_nonlinear_space": {
-        "heldout_multiclass_brier_reduction": 0.0029498458988921937,
+        "heldout_multiclass_brier_reduction": 0.0029498458988921773,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.002504398033599764,
-          0.003425696679110203
+          0.00250439803359974,
+          0.0034256966791101928
         ],
         "source_species_cluster_95CI": [
-          0.0025373989445573253,
-          0.0033756900217214517
+          0.002537398944557321,
+          0.003375690021721436
         ]
       },
       "nonlinear_space_over_linear_geography": {
         "heldout_multiclass_brier_reduction": 0.0027408919020165366,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.002424402612724583,
-          0.0031355336431292645
+          0.0024244026127245824,
+          0.0031355336431292727
         ],
         "source_species_cluster_95CI": [
-          0.00242695149311601,
-          0.0030808505922252393
+          0.002426951493116012,
+          0.00308085059222524
         ]
       },
       "unique_elevation_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.00013604527482736548,
+        "heldout_multiclass_brier_reduction": 0.00013604527482737248,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          3.886144085726001e-05,
-          0.0002522262298724259
+          3.8861440857259084e-05,
+          0.00025222622987243465
         ],
         "source_species_cluster_95CI": [
-          2.9408747132688606e-05,
-          0.00024468270360928637
+          2.9408747132698425e-05,
+          0.0002446827036092914
         ]
       },
       "unique_precipitation_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.0008675242865125066,
+        "heldout_multiclass_brier_reduction": 0.0008675242865124867,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.000564247556827575,
-          0.0012363341408087511
+          0.0005642475568275465,
+          0.0012363341408087433
         ],
         "source_species_cluster_95CI": [
-          0.0006280037451682727,
-          0.0011204723069409635
+          0.0006280037451682584,
+          0.0011204723069409438
         ]
       },
       "unique_solar_radiation_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 4.198519848599489e-05,
+        "heldout_multiclass_brier_reduction": 4.198519848600106e-05,
         "positive_in_both_conditional_resamplings": false,
         "source_cell_cluster_95CI": [
-          -7.057469125034744e-05,
-          0.00014711091118307655
+          -7.057469125034188e-05,
+          0.00014711091118307704
         ],
         "source_species_cluster_95CI": [
-          -6.921619834993166e-05,
-          0.00015225244020763065
+          -6.921619834992333e-05,
+          0.000152252440207637
         ]
       },
       "unique_temperature_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.0006099522002875228,
+        "heldout_multiclass_brier_reduction": 0.0006099522002875279,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          0.00045681969557373237,
-          0.000776134010567654
+          0.00045681969557373746,
+          0.0007761340105676651
         ],
         "source_species_cluster_95CI": [
-          0.0003475248654111909,
-          0.0008417001179416867
+          0.00034752486541118633,
+          0.0008417001179416924
         ]
       },
       "unique_vapor_pressure_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.0001974282771270353,
+        "heldout_multiclass_brier_reduction": 0.00019742827712704623,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          7.79101429166548e-05,
-          0.00034050086680000903
+          7.791014291666393e-05,
+          0.00034050086680001543
         ],
         "source_species_cluster_95CI": [
-          8.13858095249352e-05,
-          0.00030349572317590515
+          8.138580952494487e-05,
+          0.00030349572317592396
         ]
       },
       "unique_wind_beyond_species_nonlinear_space_other_environment": {
-        "heldout_multiclass_brier_reduction": 0.00014429350982207316,
+        "heldout_multiclass_brier_reduction": 0.00014429350982207874,
         "positive_in_both_conditional_resamplings": true,
         "source_cell_cluster_95CI": [
-          4.183500057397374e-05,
-          0.00026027819003478935
+          4.1835000573974606e-05,
+          0.0002602781900347947
         ],
         "source_species_cluster_95CI": [
-          1.902235024199454e-05,
-          0.00025618853524008665
+          1.902235024200029e-05,
+          0.00025618853524009017
         ]
       }
     },
@@ -337,15 +337,15 @@
       },
       "SPATIAL_FULL_MINUS_PRECIPITATION": {
         "n_same_test_photos": 20546,
-        "score": 0.39750333974557156
+        "score": 0.3975033397455716
       },
       "SPATIAL_FULL_MINUS_SOLAR_RADIATION": {
         "n_same_test_photos": 20546,
-        "score": 0.3966778006575451
+        "score": 0.39667780065754515
       },
       "SPATIAL_FULL_MINUS_TEMPERATURE": {
         "n_same_test_photos": 20546,
-        "score": 0.39724576765934655
+        "score": 0.39724576765934666
       },
       "SPATIAL_FULL_MINUS_VAPOR_PRESSURE": {
         "n_same_test_photos": 20546,
@@ -353,7 +353,7 @@
       },
       "SPATIAL_FULL_MINUS_WIND": {
         "n_same_test_photos": 20546,
-        "score": 0.3967801089688811
+        "score": 0.39678010896888116
       },
       "SPECIES_GEO": {
         "n_same_test_photos": 20546,
@@ -365,7 +365,7 @@
       },
       "SPECIES_GEO_SPHERICAL_3_ALL_ENV": {
         "n_same_test_photos": 20546,
-        "score": 0.39663581545905907
+        "score": 0.3966358154590591
       }
     },
     "n_distinct_original_species_heldout": 5127,
