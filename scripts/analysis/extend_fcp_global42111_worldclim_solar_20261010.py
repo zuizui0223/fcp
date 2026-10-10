@@ -1,0 +1,130 @@
+#!/usr/bin/env python3
+"""Source-exact WorldClim 2.1 solar radiation and expanded thermal/rain climate.
+
+Join ONLY original 42111 measured-photo species and real source photo coords.
+Read source WC2.1 historical 1970-2000 10-arc-minute BIO and srad rasters.
+Srad month 1-12 means seasonal long-term solar exposure, NOT local canopy light.
+Preserve every original species/photo colour state including 23654 unclassified.
+"""
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+from attach_fcp_global42111_true_site_climate_soil_20261009 import sample_grid
+
+ORIGINAL_N=42111
+CLASSIFIED_N=18457
+SOURCE_GEO="VALID_PUBLIC_ORIGINAL_PHOTO_POINT"
+ADDITIONAL_BIO=(2,4,6,7,14,18)
+S_RAD_MONTHS=tuple(range(1,13))
+NEW_FEATURES=tuple("wc_bio"+str(i) for i in ADDITIONAL_BIO)+("wc_srad_annual_kj_m2_day","wc_srad_monthly_cv")
+SCHEMA="fcp_42111_original_photo_expanded_worldclim_solar_v1"
+
+
+def sha256(path:Path)->str:
+    h=hashlib.sha256()
+    with path.open("rb") as f:
+        for b in iter(lambda:f.read(1<<20),b""):h.update(b)
+    return h.hexdigest()
+
+
+def extract(source:pd.DataFrame,biodir:Path,solardir:Path,*,sampler=sample_grid)->tuple[pd.DataFrame,dict]:
+    required={"inat_taxon_id","observation_id","photo_id","morph","measurement_status","latitude","longitude","site_geo_status",
+              "wc_bio1","wc_bio5","wc_bio12","wc_bio15","wc_elevation_m",
+              "soil_pH","soil_SOC","soil_N","soil_clay","soil_available_water_proxy"}
+    if not required.issubset(source):
+        raise ValueError("Original unchanged species/photo/abiotic column schema missing")
+    if len(source)!=ORIGINAL_N or source.inat_taxon_id.nunique()!=ORIGINAL_N or source.photo_id.duplicated().any():
+        raise ValueError("Original species-equal 42111 taxon-photo identity changed")
+    classified=(source.measurement_status.eq("classified_four_state_morph") &
+                source.morph.isin(("white","yellow_orange","red_pink","blue_purple")))
+    if classified.sum()!=CLASSIFIED_N:
+        raise ValueError("Original 18457 photo-colour classified source changed")
+    good=source.site_geo_status.eq(SOURCE_GEO)
+    lat=pd.to_numeric(source.latitude,errors="coerce").to_numpy(float)
+    lon=pd.to_numeric(source.longitude,errors="coerce").to_numpy(float)
+    if not (np.isfinite(lat[good]).all() and np.isfinite(lon[good]).all() and
+            (np.abs(lat[good])<=90).all() and (np.abs(lon[good])<=180).all()):
+        raise ValueError("The original valid photo coordinates are not genuine")
+    if np.isfinite(lat[~good]).any() or np.isfinite(lon[~good]).any():
+        raise ValueError("Unlocated original photograph carried a fabricated source site")
+    d=source.copy()
+    for i in ADDITIONAL_BIO:
+        key="wc_bio"+str(i)
+        if key in d: raise ValueError("Original measured environmental features cannot be overwritten")
+        vals=sampler(biodir/f"wc2.1_10m_bio_{i}.tif",lon,lat)
+        if len(vals)!=len(d):raise ValueError("Source historical BIO raster lost photo records")
+        d[key]=vals
+    solar=[]
+    for month in S_RAD_MONTHS:
+        vals=np.asarray(sampler(solardir/f"wc2.1_10m_srad_{month}.tif",lon,lat),float)
+        if len(vals)!=len(d):raise ValueError("Source monthly sunlight raster is not original photo length")
+        if np.isfinite(vals).any() and (vals[np.isfinite(vals)]<0).any():
+            raise ValueError("Negative physical incoming sunlight in original WorldClim cell")
+        solar.append(vals)
+    matrix=np.stack(solar,axis=1)
+    valid=np.isfinite(matrix).all(axis=1) & (matrix.mean(axis=1)>0)
+    mean=np.full(len(d),np.nan)
+    cv=np.full(len(d),np.nan)
+    mean[valid]=np.mean(matrix[valid],axis=1)
+    cv[valid]=np.std(matrix[valid],axis=1)/mean[valid]
+    d["wc_srad_annual_kj_m2_day"]=mean
+    d["wc_srad_monthly_cv"]=cv
+    if not d.loc[~good,list(NEW_FEATURES)].isna().all().all():
+        raise ValueError("Missing original source coordinate was assigned artificial solar/bioclim")
+    n_sun=int(np.isfinite(mean).sum())
+    n_sun_classified=int((classified&np.isfinite(mean)).sum())
+    n_new_complete=int((classified & d[list(NEW_FEATURES)].notna().all(axis=1)).sum())
+    report={
+        "schema":SCHEMA,"date_jst":"2026-10-10",
+        "original_source_species":len(d),
+        "original_classified_photo_colours":int(classified.sum()),
+        "original_photo_unclassified":int((~classified).sum()),
+        "new_bioclim_variable_numbers":list(ADDITIONAL_BIO),
+        "new_solar_monthly_rasters":list(S_RAD_MONTHS),
+        "annual_solar_mean_unit":"kJ m^-2 day^-1 (WorldClim v2.1 source)",
+        "solar_cv":"sample-location mean annual cycle, monthly population SD / annual monthly mean",
+        "n_original_public_photo_sites":int(good.sum()),
+        "n_solar_complete_source_taxa":n_sun,
+        "n_solar_complete_classified_original_taxa":n_sun_classified,
+        "n_additional_sun_bio_complete_classified":n_new_complete,
+        "solar_annual_mean_sample_median":float(np.median(mean[valid])) if np.any(valid) else None,
+        "solar_cv_sample_median":float(np.median(cv[valid])) if np.any(valid) else None,
+        "all_original_source_photo_rows_retained":True,
+        "original_photo_colours_untouched":True,
+        "source_cell_centroid_never_used_as_photo_location":True,
+        "no_claim_sunshine_at_photo_date_or_under_canopy":True,
+    }
+    return d,report
+
+
+def main():
+    p=argparse.ArgumentParser()
+    p.add_argument("--original-breadth-abiotic",required=True,type=Path)
+    p.add_argument("--bio-dir",required=True,type=Path)
+    p.add_argument("--solar-dir",required=True,type=Path)
+    p.add_argument("--bio-zip",required=True,type=Path)
+    p.add_argument("--solar-zip",required=True,type=Path)
+    p.add_argument("--outdir",required=True,type=Path)
+    a=p.parse_args()
+    orig=pd.read_csv(a.original_breadth_abiotic,low_memory=False)
+    result,report=extract(orig,a.bio_dir,a.solar_dir)
+    report["worldclim_bioclim_zip_sha256"]=sha256(a.bio_zip)
+    report["worldclim_srad_zip_sha256"]=sha256(a.solar_zip)
+    report["source_urls"]={
+        "bio":"https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_bio.zip",
+        "srad":"https://geodata.ucdavis.edu/climate/worldclim/2_1/base/wc2.1_10m_srad.zip"}
+    a.outdir.mkdir(parents=True,exist_ok=True)
+    result.to_csv(a.outdir/"source_original_42111_species_expanded_solar_bio_soil.csv.gz",index=False,
+                  compression={"method":"gzip","compresslevel":9,"mtime":0})
+    (a.outdir/"result.json").write_text(json.dumps(report,indent=2,sort_keys=True)+"\n")
+    print(json.dumps(report,sort_keys=True),flush=True)
+
+
+if __name__=="__main__":
+    main()
