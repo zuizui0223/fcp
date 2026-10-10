@@ -51,3 +51,16 @@ The 24 AI-source disagreements must **never** be inserted as true corrected labe
 [Source-scoped aggregate numerical receipt](../results/polymorphism_original24_ai_blind_source_discordance_20261010/aggregate_receipt.json)
 
 **Reproduction:** The companion standalone Python audit accepts the **previously sealed blind AI image-only source CSV**, original 24 manifest and immutable archival 405 sealed-key ZIP, requires their literal SHA256, verifies ID alignment and case order, and writes a public-eligible aggregate and a separately marked **INTERNAL UNBLINDED DO NOT SHOW REVIEWERS** rowwise verification file. The selected AI CSV and rowwise original label comparisons are intentionally not in this open PR, so the original full 405-blinded human review has not been compromised.
+
+
+## Completed stage-2 species identity supplement
+
+A separate, SHA-verified local generator, [target-taxon-only stage-2 code](../scripts/analysis/build_fcp_stage2_taxon_only_review_20261010.py), has also been executed against the original archived sealed key. It produced exactly **405 original source case/photo identities with 169 distinct target taxon names**. The derived reviewer-visible columns are strictly:
+
+- audit_case_id
+- photo_id
+- focal_taxon_name_no_prior_colour
+
+No original algorithm colour, AI preliminary colour, high-impact/matched/random source sampling group, collection location or cohort is included. **Keep this 405-case second-stage file inaccessible to either reviewer until both stage-1 image-only annotations have been completed and frozen.** Otherwise knowledge of the focal species' typical colour may contaminate the truly image-blind first stage. This is a species-aware verification of floral organ identity, not a colour-code adjudication and not a genuine matched plant individual identifier. The reviewed source 405 panel remains untouched and human reannotations remain zero.
+
+The original taxon-only row records have intentionally not been committed to the repository and are supplied in a separately marked internal ZIP for the researcher to release at the correct review stage.
