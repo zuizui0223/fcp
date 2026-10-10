@@ -1,0 +1,145 @@
+{
+  "schema": "fcp_original85337_matched_within_between_precipitation_comparison_v1",
+  "status": "POSTHOC_SOURCE_MATCHED_WITHIN_BETWEEN_PREDICTIVE_SCORE_COMPARISON",
+  "n_source_cell_ledger": 85337,
+  "n_original_fourstate_classifiable_cells": 39075,
+  "n_original_climate_complete_colour_cells": 38968,
+  "n_common_test_photos": 14776,
+  "n_common_species": 3802,
+  "n_common_genera": 927,
+  "n_source_cells_used_in_heldout_evaluation": 123,
+  "n_source_photo_geography_folds": 5,
+  "n_source_taxon_disjoint_between_training_folds": 5,
+  "source_train_test_key_guards": true,
+  "source_colour_response_categories": [
+    "white",
+    "yellow_orange",
+    "red_pink",
+    "blue_purple"
+  ],
+  "common_geographic_features": [
+    "abs_latitude",
+    "lon_sin",
+    "lon_cos",
+    "wc_elevation_m"
+  ],
+  "common_temperature_features": [
+    "wc_bio1",
+    "wc_bio5"
+  ],
+  "added_precipitation_features": [
+    "wc_bio12",
+    "wc_bio15"
+  ],
+  "matched_test_photo_ids": true,
+  "models": {
+    "within_species": {
+      "photo_equal_Brier_before": 0.3954774181968246,
+      "photo_equal_Brier_after": 0.39514991237199154,
+      "precipitation_unique_Brier_gain": 0.00032750582483302536,
+      "species_cluster_95CI": [
+        0.00021638545693548634,
+        0.0004464137182803052
+      ],
+      "genus_cluster_95CI": [
+        0.0002113115496242759,
+        0.0004560463051839268
+      ],
+      "original_geographical_cell_cluster_95CI": [
+        0.00019837915681299837,
+        0.0004615403118824646
+      ],
+      "n_source_species": 3802,
+      "n_source_genera": 927,
+      "n_original_geographical_cells": 123
+    },
+    "between_species": {
+      "photo_equal_Brier_before": 0.4993128926091331,
+      "photo_equal_Brier_after": 0.4993172597639243,
+      "precipitation_unique_Brier_gain": -0.0000043671547912386984,
+      "species_cluster_95CI": [
+        -0.00045950743233282596,
+        0.0004332640470506856
+      ],
+      "genus_cluster_95CI": [
+        -0.00040861050054806595,
+        0.0004377011433587932
+      ],
+      "original_geographical_cell_cluster_95CI": [
+        -0.00037654939507322967,
+        0.00044279518751755677
+      ],
+      "n_source_species": 3802,
+      "n_source_genera": 927,
+      "n_original_geographical_cells": 123
+    }
+  },
+  "within_minus_between_precipitation_gain": {
+    "paired_gain_difference": 0.00033187297962426407,
+    "species_cluster_95CI": [
+      -0.00008150291178230853,
+      0.0007269299431497442
+    ],
+    "genus_cluster_95CI": [
+      -0.00008259785716519903,
+      0.0007430386254129335
+    ],
+    "geographical_cell_cluster_95CI": [
+      -0.00010622825364818351,
+      0.0007062609553591247
+    ],
+    "claim": "difference in conditional predictive gains under unequal source-training-information sets; not a difference in causal ecological coefficients"
+  },
+  "fivefold_source_cell_support": [
+    {
+      "geographic_fold": 0,
+      "n_test_photos": 7794,
+      "n_common_supported_test_photos": 2989,
+      "n_geographic_cells_heldout": 25
+    },
+    {
+      "geographic_fold": 1,
+      "n_test_photos": 7794,
+      "n_common_supported_test_photos": 2704,
+      "n_geographic_cells_heldout": 25
+    },
+    {
+      "geographic_fold": 2,
+      "n_test_photos": 7793,
+      "n_common_supported_test_photos": 2875,
+      "n_geographic_cells_heldout": 25
+    },
+    {
+      "geographic_fold": 3,
+      "n_test_photos": 7793,
+      "n_common_supported_test_photos": 3060,
+      "n_geographic_cells_heldout": 26
+    },
+    {
+      "geographic_fold": 4,
+      "n_test_photos": 7794,
+      "n_common_supported_test_photos": 3148,
+      "n_geographic_cells_heldout": 25
+    }
+  ],
+  "date_jst": "2026-10-10",
+  "confirmatory_decisions_changed": false,
+  "hard_nonclaims": [
+    "Common photo scoring does NOT imply that separately estimated within- and between-species regressions share a causal estimator.",
+    "Between species excludes the focal source test species from ALL training photos; within species explicitly includes that species in other geographic cells.",
+    "Actual geography was entered as fixed lat/lon/elevation terms, NOT a full true-site stochastic spatial kernel or genetic model.",
+    "Species/genus definitions are nominal source taxonomy; related congeners have unresolved within-genus tree distance.",
+    "Colour outcomes are historical photograph classifications without human blinded expert verification.",
+    "All Brier intervals condition on this fixed spatial/species crossvalidation and are post hoc.",
+    "A positive rain predictor does not identify common ecological selection, inherited floral pigments or fitness."
+  ],
+  "provenance": {
+    "full_source_verified_CI": "https://github.com/zuizui0223/fcp/actions/runs/38048277195",
+    "artifact_id": 11668317965,
+    "artifact_zip_sha256": "759189bcaf8bcf5c2f4bc980da1a57022782939ed8e25f37d9d4a1a752a0119c",
+    "source_original85337_archive_run_id": 37861582446,
+    "source_original100543_site_environment_run_id": 38011108135,
+    "verified_6_synthetic_guard_tests": true,
+    "original_source_geographical_photo_colour_ledger_unchanged": true
+  }
+}
