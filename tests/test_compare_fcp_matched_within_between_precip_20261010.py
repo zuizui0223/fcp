@@ -1,5 +1,6 @@
 """Synthetic controls for source photo-aligned scale comparisons."""
 import importlib.util
+import sys
 from pathlib import Path
 import numpy as np
 import pandas as pd
