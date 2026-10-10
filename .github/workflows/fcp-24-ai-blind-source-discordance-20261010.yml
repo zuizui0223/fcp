@@ -1,0 +1,49 @@
+name: FCP sealed 24-photo AI vs source discrepancy schema
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - scripts/analysis/audit_fcp_source24_blinded_ai_vs_original_20261010.py
+      - tests/test_audit_fcp_source24_blinded_ai_vs_original_20261010.py
+      - docs/POLYMORPHISM_ORIGINAL24_AI_VS_SOURCE_DISCORDANCE_FINDINGS_20261010.md
+      - results/polymorphism_original24_ai_blind_source_discordance_20261010/aggregate_receipt.json
+      - .github/workflows/fcp-24-ai-blind-source-discordance-20261010.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  provenance-and-disagreement-schema:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11.16"
+      - name: Install deterministic unblinding schema tests
+        run: python -m pip install pandas==3.0.6 numpy==2.4.6 pytest==8.4.2
+      - name: Assert no AI-human role confusion or case-level source label leakage
+        run: python -m pytest tests/test_audit_fcp_source24_blinded_ai_vs_original_20261010.py -q
+      - name: Source aggregate result and inference ceiling validation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          p=Path("results/polymorphism_original24_ai_blind_source_discordance_20261010/aggregate_receipt.json")
+          d=json.loads(p.read_text())
+          assert d["n_original_pilot_photos"]==24
+          assert [d[k] for k in ["n_existing_blind_ai_fourstate_assignments",
+            "n_AI_original_colour_agreement","n_AI_original_colour_disagreement","n_AI_colour_abstention"]]==[22,16,6,2]
+          assert d["n_priority_original_photos_for_two_human_organ_colour_reviews"]==8
+          assert d["n_human_expert_reannotations"]==0
+          assert d["n_independent_AI_reviewers"]==0
+          assert d["original_algorithm_classes"]["white"]=={
+            "n_original_algorithm":10,"n_AI_agreed":4,"n_AI_disagreed":4,"n_AI_abstained":2,"n_review_trigger":6}
+          assert d["confirmatoryDecisionsChanged"] is False if "confirmatoryDecisionsChanged" in d else True
+          blob=p.read_text()
+          assert "FCQ-" not in blob
+          print("PASS aggregate counts, original source colour blinding, no human labels")
+          PY
